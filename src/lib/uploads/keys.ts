@@ -19,6 +19,8 @@ import { extensionOf, KEY_KIND, type UploadCategory } from "@/lib/validation/upl
 export function buildObjectKey(input: {
   /** Existing material id when editing; null/undefined while creating. */
   materialId?: string | null;
+  /** Existing Speaking attempt id, for a practice recording. */
+  speakingAttemptId?: string | null;
   /** Upload-intent id — always present, used for the pending namespace. */
   intentId: string;
   category: UploadCategory;
@@ -27,13 +29,20 @@ export function buildObjectKey(input: {
   const ext = extensionOf(input.filename).replace(/[^a-z0-9.]/g, "");
   const safeExt = ext && ext.length <= 12 ? ext : "";
   const id = randomUUID();
-  const scope = input.materialId
-    ? `resources/${sanitizeSegment(input.materialId)}`
-    : `pending/${sanitizeSegment(input.intentId)}`;
-  return `${scope}/${KEY_KIND[input.category]}/${id}${safeExt}`;
+  // `KEY_KIND` is a total map over UploadCategory, but a defensive fallback
+  // keeps a future category from writing a literal "undefined" path segment.
+  const kind = KEY_KIND[input.category] ?? "files";
+  const scope = input.speakingAttemptId
+    ? `speaking/attempts/${sanitizeSegment(input.speakingAttemptId)}`
+    : input.materialId
+      ? `resources/${sanitizeSegment(input.materialId)}`
+      : `pending/${sanitizeSegment(input.intentId)}`;
+  return `${scope}/${kind}/${id}${safeExt}`;
 }
 
 /** Strips anything that is not a plain identifier out of a path segment. */
-function sanitizeSegment(value: string): string {
-  return value.replace(/[^A-Za-z0-9-]/g, "").slice(0, 64);
+function sanitizeSegment(value: string | null | undefined): string {
+  return String(value ?? "")
+    .replace(/[^A-Za-z0-9-]/g, "")
+    .slice(0, 64);
 }

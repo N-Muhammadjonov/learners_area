@@ -1,0 +1,83 @@
+import { NextRequest, NextResponse } from "next/server";
+import { eq } from "drizzle-orm";
+import { db } from "@/db/client";
+import { speakingAttempts } from "@/db/schema";
+import { getSession } from "@/lib/auth/session";
+import { attachRecordingToAttempt } from "@/lib/data/uploads";
+import { getStorageService } from "@/lib/services/storage";
+
+/**
+ * GET    /api/speaking/attempts/:id  — one attempt (owner, or a reviewer)
+ * DELETE /api/speaking/attempts/:id  — discard an unsubmitted attempt and its
+ *                                      recording object
+ */
+export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
+  const session = await getSession();
+  if (!session) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+
+  const attempt = await db.query.speakingAttempts.findFirst({
+    where: eq(speakingAttempts.id, params.id),
+  });
+  if (!attempt) return NextResponse.json({ error: "not_found" }, { status: 404 });
+
+  const isReviewer = session.role === "teacher" || session.role === "admin";
+  if (!isReviewer && attempt.userId !== session.sub) {
+    return NextResponse.json({ error: "forbidden" }, { status: 403 });
+  }
+
+  return NextResponse.json({ ok: true, attempt });
+}
+
+/**
+ * DELETE only works while the attempt is still `recording`. Once submitted it
+ * is part of the student's history and removing it would silently rewrite
+ * their progress.
+ */
+export async function DELETE(_req: NextRequest, { params }: { params: { id: string } }) {
+  const session = await getSession();
+  if (!session) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+
+  const attempt = await db.query.speakingAttempts.findFirst({
+    where: eq(speakingAttempts.id, params.id),
+  });
+  if (!attempt) return NextResponse.json({ error: "not_found" }, { status: 404 });
+  if (attempt.userId !== session.sub) return NextResponse.json({ error: "forbidden" }, { status: 403 });
+  if (attempt.status !== "recording") {
+    return NextResponse.json({ error: "attempt_already_submitted" }, { status: 409 });
+  }
+
+  const key = attempt.recordingObjectKey;
+  await db.delete(speakingAttempts).where(eq(speakingAttempts.id, params.id));
+
+  if (key) {
+    const storage = getStorageService();
+    await storage.delete(key).catch((err) => console.warn(`Failed to delete recording ${key}:`, err));
+  }
+
+  return NextResponse.json({ ok: true });
+}
+
+/** PATCH attaches a finalized recording upload to this attempt. */
+export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+  const session = await getSession();
+  if (!session) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+
+  const body = await req.json().catch(() => null);
+  const uploadId = body?.uploadId;
+  const durationMs = body?.durationMs;
+  if (typeof uploadId !== "string") {
+    return NextResponse.json({ error: "invalid_upload_id" }, { status: 400 });
+  }
+
+  const result = await attachRecordingToAttempt({
+    userId: session.sub,
+    attemptId: params.id,
+    uploadId,
+    durationMs: typeof durationMs === "number" ? durationMs : undefined,
+  });
+  if (!result.ok) {
+    return NextResponse.json({ error: result.error }, { status: result.status });
+  }
+
+  return NextResponse.json({ ok: true, objectKey: result.objectKey });
+}

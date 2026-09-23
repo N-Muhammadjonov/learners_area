@@ -21,6 +21,7 @@ import {
   grammarExercises,
   liveClasses,
   speakingMaterials,
+  speakingPrompts,
   materialBlocks,
   listeningTests,
   listeningQuestions,
@@ -595,6 +596,64 @@ async function main() {
       title: "How Speaking is scored — the four criteria, honestly",
       primaryType: "video",
       primaryUrl: "https://www.youtube.com/watch?v=PLACEHOLDER3",
+    },
+  ]);
+
+  // --- Speaking practice prompts (original demo content) -------------------
+  await db.insert(speakingPrompts).values([
+    {
+      part: "part1",
+      category: "part1",
+      promptText: "Let's talk about your home town. Where do you live, and what do you like most about it?",
+      prepSeconds: 0,
+      answerSeconds: 60,
+      followUps: ["Has your town changed much since you were a child?", "Would you recommend living there? Why?"],
+    },
+    {
+      part: "part1",
+      category: "part1",
+      promptText: "Describe something you enjoyed doing as a child. What was it, and who did you do it with?",
+      prepSeconds: 0,
+      answerSeconds: 60,
+      followUps: ["Do children today do the same things?", "Why do you think those games were popular?"],
+    },
+    {
+      part: "part2",
+      category: "part2",
+      promptText:
+        "Describe a skill you would like to learn that you do not have yet. You should say what the skill is, how you would learn it, how long you think it would take, and explain why you want to learn it.",
+      cueCard:
+        "what the skill is\nhow you would learn it\nhow long it would take\nwhy you want to learn it",
+      prepSeconds: 60,
+      answerSeconds: 120,
+      followUps: ["Do you think schools teach the right skills?", "Is it harder to learn new skills as an adult?"],
+    },
+    {
+      part: "part2",
+      category: "part2",
+      promptText:
+        "Describe a public place you enjoy visiting in your city. You should say where it is, how often you go there, what you do there, and explain why you like it.",
+      cueCard: "where it is\nhow often you go\nwhat you do there\nwhy you like it",
+      prepSeconds: 60,
+      answerSeconds: 120,
+      followUps: ["Are public spaces in your city changing?", "Should cities invest more in parks?"],
+    },
+    {
+      part: "part3",
+      category: "part3",
+      promptText:
+        "Some people say technology has made people less sociable. To what extent do you agree, and what could communities do about it?",
+      prepSeconds: 30,
+      answerSeconds: 90,
+      followUps: ["Has this changed in your lifetime?", "Whose responsibility is it — families or governments?"],
+    },
+    {
+      part: "general",
+      category: "general",
+      promptText: "Free practice: talk for one minute about your plans for the coming week.",
+      prepSeconds: 15,
+      answerSeconds: 60,
+      followUps: [],
     },
   ]);
 

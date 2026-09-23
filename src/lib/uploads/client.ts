@@ -34,9 +34,11 @@ export type UploadState = "queued" | "uploading" | "finalizing" | "complete" | "
 export type UploadOutcome = { ok: true; uploadId: string; objectKey: string } | { ok: false; error: string };
 
 export type StartUploadOptions = {
-  purpose: "material_primary" | "material_block";
+  purpose: "material_primary" | "material_block" | "speaking_recording";
   blockKind?: "image" | "audio" | "file";
   materialId?: string;
+  /** Set for purpose="speaking_recording" — the attempt the recording belongs to. */
+  speakingAttemptId?: string;
   onState?: (state: UploadState) => void;
   onProgress?: (percent: number) => void;
 };
@@ -48,7 +50,10 @@ export type UploadHandle = {
 };
 
 /** Client-side pre-flight, so the user sees a problem before any bytes move. */
-export function preflight(file: File, category: UploadCategory): { ok: true } | { ok: false; error: string } {
+export function preflight(
+  file: { name: string; type: string; size: number },
+  category: UploadCategory
+): { ok: true } | { ok: false; error: string } {
   const result = validateUploadFile({
     filename: file.name,
     contentType: file.type,
@@ -62,7 +67,7 @@ export function preflight(file: File, category: UploadCategory): { ok: true } | 
   return { ok: false, error: "unsupported_type" };
 }
 
-export function startUpload(file: File, options: StartUploadOptions): UploadHandle {
+export function startUpload(file: Blob & { name: string }, options: StartUploadOptions): UploadHandle {
   let xhr: XMLHttpRequest | null = null;
   let cancelled = false;
   let uploadId: string | null = null;
@@ -90,6 +95,7 @@ export function startUpload(file: File, options: StartUploadOptions): UploadHand
           purpose: options.purpose,
           blockKind: options.blockKind,
           materialId: options.materialId,
+          speakingAttemptId: options.speakingAttemptId,
           filename: file.name,
           contentType: file.type || "application/octet-stream",
           size: file.size,
@@ -146,7 +152,7 @@ export function startUpload(file: File, options: StartUploadOptions): UploadHand
   };
 
   async function sendBytes(
-    file: File,
+    file: Blob & { name: string },
     intent: { mode: "direct" | "proxy"; uploadUrl: string | null; uploadId: string; contentType: string },
     onProgress?: (percent: number) => void
   ): Promise<{ ok: true } | { ok: false; error: string }> {

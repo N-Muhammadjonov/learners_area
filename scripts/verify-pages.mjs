@@ -91,6 +91,8 @@ const PAGES = {
     "/reading",
     "/reading/history",
     "/speaking",
+    "/speaking/practice",
+    "/speaking/history",
     "/grammar",
     "/vocabulary",
     "/vocabulary/review",
@@ -181,6 +183,35 @@ await check("teacher speaking page renders the composer in Uzbek", async () => {
   assert.match(html, /Asosiy fayl/);
   assert.match(html, /Tavsif bloki qo'shish/);
   assert.match(html, /Fayl tanlash/);
+});
+
+await check("the speaking practice studio renders with the recorder controls", async () => {
+  let cookie = await login("student");
+  cookie = await setLocale(cookie, "en");
+  const { html } = await get(cookie, "/speaking/practice");
+  assert.match(html, /Speaking practice/);
+  // The honest, load-bearing bit: the page must say there is no transcript,
+  // because no transcription provider exists.
+  assert.match(html, /no transcript|No transcript/);
+  assert.match(html, /<audio|<button/);
+});
+
+await check("speaking practice is translated and links to history", async () => {
+  let cookie = await login("student");
+  cookie = await setLocale(cookie, "uz");
+  const practice = await get(cookie, "/speaking/practice");
+  assert.match(practice.html, /Speaking mashqi/);
+
+  const history = await get(cookie, "/speaking/history");
+  assert.match(history.html, /Speaking tarixi/);
+});
+
+await check("the speaking sidebar entries point at the new pages", async () => {
+  let cookie = await login("student");
+  cookie = await setLocale(cookie, "en");
+  const { html } = await get(cookie, "/speaking/practice");
+  assert.match(html, /href="\/speaking\/practice"/);
+  assert.match(html, /href="\/speaking\/history"/);
 });
 
 await check("deactivate and delete are distinguishable in both languages", async () => {

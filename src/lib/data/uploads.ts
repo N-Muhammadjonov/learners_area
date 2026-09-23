@@ -1,6 +1,6 @@
 import { and, eq, inArray, lt, or } from "drizzle-orm";
 import { db } from "@/db/client";
-import { materialBlocks, speakingMaterials, uploadIntents, users } from "@/db/schema";
+import { materialBlocks, speakingAttempts, speakingMaterials, uploadIntents, users } from "@/db/schema";
 import type { SessionPayload } from "@/lib/auth/session";
 import { canManageContent } from "@/lib/auth/ownership";
 import { getStorageService, isSafeObjectKey } from "@/lib/services/storage";
@@ -32,7 +32,7 @@ export const UPLOAD_INTENT_TTL_SECONDS = 15 * 60;
 /** How long a signed read URL stays valid for private delivery. */
 export const READ_URL_TTL_SECONDS = 5 * 60;
 
-export type UploadPurpose = "material_primary" | "material_block";
+export type UploadPurpose = "material_primary" | "material_block" | "speaking_recording";
 export type BlockKind = "image" | "audio" | "file";
 
 export type CreateIntentInput = {
@@ -40,6 +40,8 @@ export type CreateIntentInput = {
   purpose: UploadPurpose;
   blockKind?: BlockKind;
   materialId?: string;
+  /** Set for purpose="speaking_recording" — the attempt the recording belongs to. */
+  speakingAttemptId?: string;
   filename: string;
   contentType: string;
   size: number;
@@ -60,6 +62,7 @@ export type CreateIntentResult =
 
 function categoryFor(purpose: UploadPurpose, blockKind?: BlockKind): UploadCategory {
   if (purpose === "material_primary") return "primary";
+  if (purpose === "speaking_recording") return "audio";
   return blockKind ?? "file";
 }
 
@@ -69,13 +72,24 @@ function categoryFor(purpose: UploadPurpose, blockKind?: BlockKind): UploadCateg
  * not issued.
  */
 export async function createUploadIntent(input: CreateIntentInput): Promise<CreateIntentResult> {
-  const { session, purpose, blockKind, materialId } = input;
+  const { session, purpose, blockKind, materialId, speakingAttemptId } = input;
 
-  if (session.role !== "teacher" && session.role !== "admin") {
-    return { ok: false, status: 403, error: "forbidden" };
-  }
   if (purpose === "material_block" && !blockKind) {
     return { ok: false, status: 400, error: "missing_block_kind" };
+  }
+  if (purpose === "speaking_recording") {
+    // A student's own practice recording. The attempt must exist, belong to
+    // this user, and still be open for recording — otherwise anyone could hang
+    // audio off someone else's attempt by guessing its id.
+    if (!speakingAttemptId) return { ok: false, status: 400, error: "missing_attempt_id" };
+    const attempt = await db.query.speakingAttempts.findFirst({
+      where: eq(speakingAttempts.id, speakingAttemptId),
+    });
+    if (!attempt) return { ok: false, status: 404, error: "attempt_not_found" };
+    if (attempt.userId !== session.sub) return { ok: false, status: 403, error: "forbidden" };
+    if (attempt.status !== "recording") return { ok: false, status: 409, error: "attempt_already_submitted" };
+  } else if (session.role !== "teacher" && session.role !== "admin") {
+    return { ok: false, status: 403, error: "forbidden" };
   }
 
   // Editing an existing material: the material must exist and the caller must
@@ -111,6 +125,7 @@ export async function createUploadIntent(input: CreateIntentInput): Promise<Crea
   const intentId = crypto.randomUUID();
   const objectKey = buildObjectKey({
     materialId: materialId ?? null,
+    speakingAttemptId: speakingAttemptId ?? null,
     intentId,
     category,
     filename: input.filename,
@@ -131,6 +146,7 @@ export async function createUploadIntent(input: CreateIntentInput): Promise<Crea
     id: intentId,
     userId: session.sub,
     materialId: materialId ?? null,
+    speakingAttemptId: speakingAttemptId ?? null,
     purpose,
     blockKind: blockKind ?? null,
     objectKey,
@@ -319,6 +335,60 @@ export async function claimAttachment(
 }
 
 /**
+ * Attaches a finalized recording upload to a Speaking attempt.
+ *
+ * The intent must be finalized, must belong to this user, and must have been
+ * issued for this exact attempt — the same rule that stops arbitrary keys
+ * being registered as resources applies here, so a recording cannot be pointed
+ * at someone else's attempt.
+ */
+export async function attachRecordingToAttempt(input: {
+  userId: string;
+  attemptId: string;
+  uploadId: string;
+  durationMs?: number;
+}): Promise<{ ok: true; objectKey: string } | { ok: false; status: number; error: string }> {
+  const attempt = await db.query.speakingAttempts.findFirst({
+    where: eq(speakingAttempts.id, input.attemptId),
+  });
+  if (!attempt || attempt.userId !== input.userId) {
+    return { ok: false, status: 404, error: "attempt_not_found" };
+  }
+  if (attempt.status !== "recording") {
+    return { ok: false, status: 409, error: "attempt_already_submitted" };
+  }
+
+  const intent = await db.query.uploadIntents.findFirst({ where: eq(uploadIntents.id, input.uploadId) });
+  if (!intent || intent.userId !== input.userId) {
+    return { ok: false, status: 404, error: "upload_not_found" };
+  }
+  if (intent.purpose !== "speaking_recording" || intent.speakingAttemptId !== input.attemptId) {
+    return { ok: false, status: 400, error: "upload_purpose_mismatch" };
+  }
+  if (intent.status !== "finalized" || intent.usedAt) {
+    return { ok: false, status: 409, error: "upload_not_finalized" };
+  }
+
+  await db
+    .update(uploadIntents)
+    .set({ status: "attached", usedAt: new Date() })
+    .where(eq(uploadIntents.id, intent.id));
+
+  await db
+    .update(speakingAttempts)
+    .set({
+      recordingObjectKey: intent.objectKey,
+      recordingOriginalName: intent.originalName,
+      recordingMimeType: intent.mimeType,
+      recordingSize: intent.size,
+      ...(input.durationMs !== undefined ? { recordingDurationMs: input.durationMs } : {}),
+    })
+    .where(eq(speakingAttempts.id, attempt.id));
+
+  return { ok: true, objectKey: intent.objectKey };
+}
+
+/**
  * Compensating action for a failed resource write: returns claimed intents to
  * `finalized` so the objects are not stranded as "attached" to nothing. They
  * then fall to abandoned-upload cleanup like any other unfinalized intent.
@@ -410,17 +480,29 @@ export async function authorizeResourceRead(
       });
 
   const materialId = block?.materialId ?? primary?.id;
-  if (!materialId) return { allowed: false, reason: "not_found" };
+  if (materialId) {
+    const material = await db.query.speakingMaterials.findFirst({
+      where: eq(speakingMaterials.id, materialId),
+    });
+    if (!material) return { allowed: false, reason: "not_found" };
+    const mayRead = material.isActive || canManageContent(session, material.createdByUserId);
+    if (!mayRead) return { allowed: false, reason: "forbidden" };
+    return { allowed: true, objectKey, ownerId: material.createdByUserId, materialId };
+  }
 
-  const material = await db.query.speakingMaterials.findFirst({
-    where: eq(speakingMaterials.id, materialId),
+  // A practice recording belongs to one student's attempt. Readable by that
+  // student and by any teacher/admin (so a teacher can review it) — never by
+  // another student.
+  const attempt = await db.query.speakingAttempts.findFirst({
+    where: eq(speakingAttempts.recordingObjectKey, objectKey),
   });
-  if (!material) return { allowed: false, reason: "not_found" };
+  if (!attempt) return { allowed: false, reason: "not_found" };
 
-  const mayRead = material.isActive || canManageContent(session, material.createdByUserId);
+  const mayRead =
+    attempt.userId === session.sub || session.role === "teacher" || session.role === "admin";
   if (!mayRead) return { allowed: false, reason: "forbidden" };
 
-  return { allowed: true, objectKey, ownerId: material.createdByUserId, materialId };
+  return { allowed: true, objectKey, ownerId: attempt.userId, materialId: attempt.id };
 }
 
 /** Resolves the stored content type for an object, for the local read path. */
@@ -432,7 +514,11 @@ export async function storedContentType(objectKey: string): Promise<string | nul
   const primary = await db.query.speakingMaterials.findFirst({
     where: eq(speakingMaterials.primaryObjectKey, objectKey),
   });
-  return primary?.primaryMimeType ?? null;
+  if (primary?.primaryMimeType) return primary.primaryMimeType;
+  const attempt = await db.query.speakingAttempts.findFirst({
+    where: eq(speakingAttempts.recordingObjectKey, objectKey),
+  });
+  return attempt?.recordingMimeType ?? null;
 }
 
 function contentTypesMatch(actual: string, declared: string): boolean {

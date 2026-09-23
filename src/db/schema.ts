@@ -86,7 +86,11 @@ export const contentBlockTypeEnum = pgEnum("content_block_type", ["text", "link"
 // one specific, unpredictable object key — which is what makes a direct
 // browser→R2 PUT safe to accept later, and what stops a client registering an
 // arbitrary bucket key as its own resource.
-export const uploadPurposeEnum = pgEnum("upload_purpose", ["material_primary", "material_block"]);
+export const uploadPurposeEnum = pgEnum("upload_purpose", [
+  "material_primary",
+  "material_block",
+  "speaking_recording",
+]);
 
 export const uploadBlockKindEnum = pgEnum("upload_block_kind", ["image", "audio", "file"]);
 
@@ -105,6 +109,9 @@ export const uploadIntents = pgTable("upload_intents", {
   // Set when the object belongs to an already-existing material (edit flows),
   // so its key can live under resources/<materialId>/. Null while creating.
   materialId: uuid("material_id").references(() => speakingMaterials.id, { onDelete: "cascade" }),
+  // Same idea for a Speaking attempt's recording, so its key can live under
+  // speaking/attempts/<attemptId>/. Null for everything else.
+  speakingAttemptId: uuid("speaking_attempt_id"),
   purpose: uploadPurposeEnum("purpose").notNull(),
   blockKind: uploadBlockKindEnum("block_kind"), // required when purpose = material_block
   objectKey: text("object_key").notNull().unique(),
@@ -439,6 +446,61 @@ export const materialBlocks = pgTable("material_blocks", {
   originalName: varchar("original_name", { length: 255 }),
   mimeType: varchar("mime_type", { length: 120 }),
   size: integer("size"), // bytes
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+// ---------------------------------------------------------------------------
+// Speaking practice — WIRED (prompt → record → upload to R2 → submit → history).
+// Recordings are ordinary stored objects, so they go through the same
+// upload-intent pipeline as every other file (see src/lib/data/uploads.ts) and
+// are delivered through the same private /api/resources route.
+//
+// There is deliberately NO transcript or band-score column being faked here.
+// `transcript` and `transcriptProvider` stay null unless a real
+// SpeechToTextService is configured; the UI says so plainly rather than
+// inventing analysis.
+// ---------------------------------------------------------------------------
+
+export const speakingPartEnum = pgEnum("speaking_part", ["part1", "part2", "part3", "general"]);
+
+export const speakingAttemptStatusEnum = pgEnum("speaking_attempt_status", [
+  "recording",
+  "submitted",
+  "reviewed",
+]);
+
+export const speakingPrompts = pgTable("speaking_prompts", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  part: speakingPartEnum("part").notNull(),
+  category: speakingCategoryEnum("category").notNull(),
+  promptText: text("prompt_text").notNull(),
+  cueCard: text("cue_card"), // Part 2 style notes shown during preparation
+  prepSeconds: integer("prep_seconds").notNull().default(30),
+  answerSeconds: integer("answer_seconds").notNull().default(90),
+  followUps: jsonb("follow_ups").$type<string[]>().notNull().default([]),
+  isActive: boolean("is_active").notNull().default(true),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const speakingAttempts = pgTable("speaking_attempts", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  promptId: uuid("prompt_id").references(() => speakingPrompts.id, { onDelete: "set null" }),
+  part: speakingPartEnum("part").notNull(),
+  status: speakingAttemptStatusEnum("status").notNull().default("recording"),
+  // The recording object itself. Same private-by-default rules as any file.
+  recordingObjectKey: text("recording_object_key"),
+  recordingOriginalName: varchar("recording_original_name", { length: 255 }),
+  recordingMimeType: varchar("recording_mime_type", { length: 120 }),
+  recordingSize: integer("recording_size"), // bytes
+  recordingDurationMs: integer("recording_duration_ms"),
+  // Null until a real SpeechToTextService is configured. Never a guess.
+  transcript: text("transcript"),
+  transcriptProvider: varchar("transcript_provider", { length: 60 }),
+  startedAt: timestamp("started_at", { withTimezone: true }).defaultNow().notNull(),
+  submittedAt: timestamp("submitted_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 

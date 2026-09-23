@@ -15,6 +15,7 @@ import { createUploadIntent, type BlockKind, type UploadPurpose } from "@/lib/da
  *     purpose: "material_primary" | "material_block",
  *     blockKind?: "image" | "audio" | "file",   // required for material_block
  *     materialId?: string,                       // set when editing a resource
+ *     speakingAttemptId?: string,                // set for a practice recording
  *     filename: string,
  *     contentType: string,
  *     size: number                               // bytes
@@ -42,7 +43,7 @@ export async function POST(req: NextRequest) {
   if (typeof purpose !== "string" || typeof filename !== "string" || typeof contentType !== "string") {
     return NextResponse.json({ error: "invalid_input" }, { status: 400 });
   }
-  if (purpose !== "material_primary" && purpose !== "material_block") {
+  if (purpose !== "material_primary" && purpose !== "material_block" && purpose !== "speaking_recording") {
     return NextResponse.json({ error: "invalid_purpose" }, { status: 400 });
   }
   if (typeof size !== "number" || !Number.isFinite(size) || size <= 0) {
@@ -57,6 +58,7 @@ export async function POST(req: NextRequest) {
     purpose: purpose as UploadPurpose,
     blockKind: blockKind as BlockKind | undefined,
     materialId: typeof body.materialId === "string" ? body.materialId : undefined,
+    speakingAttemptId: typeof body.speakingAttemptId === "string" ? body.speakingAttemptId : undefined,
     filename,
     contentType,
     size,

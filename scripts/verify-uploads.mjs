@@ -28,6 +28,7 @@ const ACCOUNTS = {
   teacher: { email: "teacher@learnersarea.uz", password: "Teacher12345!" },
   teacher2: { email: "teacher2@learnersarea.uz", password: "Teacher12345!" },
   student: { email: "demo.student@learnersarea.uz", password: "Student12345!" },
+  student2: { email: "new.student@learnersarea.uz", password: "Student12345!" },
 };
 
 const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
@@ -201,6 +202,7 @@ await check("finalize for an object that was never uploaded fails (409)", async 
 // --- Full resource lifecycle ----------------------------------------------
 
 let materialId;
+let recordingKey;
 const created = { primary: null, image: null, audio: null, file: null };
 
 await check("primary + image + audio + file + text + link blocks are created in order", async () => {
@@ -609,6 +611,179 @@ await check("deleting a resource removes every object it owned", async () => {
   assert.equal(rows.length, 0, "blocks were not cascaded away");
   const [material] = await dbRows("SELECT id FROM speaking_materials WHERE id = $1", [materialId]);
   assert.equal(material, undefined, "material row survived deletion");
+});
+
+// --- Speaking practice recordings ------------------------------------------
+
+let practiceAttemptId;
+
+await check("a student can start a Speaking attempt and scope an upload to it", async () => {
+  const prompts = await student.request("/api/speaking/prompts");
+  assert.equal(prompts.status, 200, JSON.stringify(prompts.data));
+  assert.ok(Array.isArray(prompts.data.prompts) && prompts.data.prompts.length >= 5, "seeded prompts missing");
+
+  const prompt = prompts.data.prompts.find((p) => p.part === "part2");
+  assert.ok(prompt, "no Part 2 prompt seeded");
+
+  const created = await student.request("/api/speaking/attempts", {
+    method: "POST",
+    body: { promptId: prompt.id, part: "part2" },
+  });
+  assert.equal(created.status, 200, JSON.stringify(created.data));
+  practiceAttemptId = created.data.attempt.id;
+  assert.equal(created.data.attempt.status, "recording");
+});
+
+await check("a recording upload intent is namespaced under the attempt", async () => {
+  const res = await student.request("/api/uploads/intent", {
+    method: "POST",
+    body: {
+      purpose: "speaking_recording",
+      speakingAttemptId: practiceAttemptId,
+      filename: "answer.webm",
+      contentType: "audio/webm",
+      size: 12,
+    },
+  });
+  assert.equal(res.status, 200, `expected 200, got ${res.status}: ${JSON.stringify(res.data)}`);
+  assert.match(res.data.objectKey, new RegExp(`^speaking/attempts/${practiceAttemptId}/audio/[0-9a-f-]{36}\\.webm$`));
+  recordingKey = res.data.objectKey;
+});
+
+await check("a student cannot scope a recording upload to someone else's attempt", async () => {
+  const stranger = new Client("stranger");
+  await stranger.login("student2");
+
+  const res = await stranger.request("/api/uploads/intent", {
+    method: "POST",
+    body: {
+      purpose: "speaking_recording",
+      speakingAttemptId: practiceAttemptId,
+      filename: "hijack.webm",
+      contentType: "audio/webm",
+      size: 12,
+    },
+  });
+  assert.equal(res.status, 403, `expected 403, got ${res.status}: ${JSON.stringify(res.data)}`);
+});
+
+await check("a stranger cannot read another student's attempt", async () => {
+  const stranger = new Client("stranger-read");
+  await stranger.login("student2");
+  const res = await stranger.request(`/api/speaking/attempts/${practiceAttemptId}`);
+  assert.equal(res.status, 403, `expected 403, got ${res.status}: ${JSON.stringify(res.data)}`);
+});
+
+await check("an unsubmitted attempt refuses a second recording upload intent", async () => {
+  // First one is fine, but once submitted the attempt is closed.
+  const submit = await student.request(`/api/speaking/attempts/${practiceAttemptId}/submit`, {
+    method: "POST",
+    body: {},
+  });
+  // No recording attached yet, so this must refuse rather than half-submit.
+  assert.equal(submit.status, 409, `expected 409 (no_recording), got ${submit.status}`);
+
+  const res = await student.request("/api/uploads/intent", {
+    method: "POST",
+    body: {
+      purpose: "speaking_recording",
+      speakingAttemptId: practiceAttemptId,
+      filename: "second.webm",
+      contentType: "audio/webm",
+      size: 12,
+    },
+  });
+  assert.equal(res.status, 200, "an open attempt should still accept a recording");
+});
+
+await check("a full recording round-trip: upload, attach, submit, playback, history", async () => {
+  const bytes = new Uint8Array([0x1a, 0x45, 0xdf, 0xa3, 1, 2, 3, 4, 5, 6, 7, 8]);
+  const intent = await student.request("/api/uploads/intent", {
+    method: "POST",
+    body: {
+      purpose: "speaking_recording",
+      speakingAttemptId: practiceAttemptId,
+      filename: "answer.webm",
+      contentType: "audio/webm",
+      size: bytes.byteLength,
+    },
+  });
+  assert.equal(intent.status, 200, JSON.stringify(intent.data));
+
+  const form = new FormData();
+  form.append("uploadId", intent.data.uploadId);
+  form.append("file", fileBlob("answer.webm", "audio/webm", bytes));
+  await student.request("/api/uploads", { method: "POST", form });
+
+  const final = await student.request("/api/uploads/finalize", {
+    method: "POST",
+    body: { uploadId: intent.data.uploadId },
+  });
+  assert.equal(final.status, 200, `finalize failed: ${JSON.stringify(final.data)}`);
+  assert.equal(final.data.objectKey, intent.data.objectKey, "finalize returned a different key");
+  assert.ok(existsSync(diskPath(final.data.objectKey)), "recording object missing on disk");
+
+  const attach = await student.request(`/api/speaking/attempts/${practiceAttemptId}`, {
+    method: "PATCH",
+    body: { uploadId: intent.data.uploadId, durationMs: 4200 },
+  });
+  assert.equal(attach.status, 200, `attach failed: ${JSON.stringify(attach.data)}`);
+
+  const submit = await student.request(`/api/speaking/attempts/${practiceAttemptId}/submit`, {
+    method: "POST",
+    body: { durationMs: 4200 },
+  });
+  assert.equal(submit.status, 200, `submit failed: ${JSON.stringify(submit.data)}`);
+  assert.equal(submit.data.attempt.status, "submitted");
+  assert.ok(submit.data.attempt.recordingObjectKey, "submitted attempt has no recording key");
+
+  // The owner can play their own recording back.
+  const asOwner = await student.request(`/api/resources/${final.data.objectKey}`);
+  assert.equal(asOwner.status, 200, `owner playback failed: ${asOwner.status}`);
+
+  // A submitted attempt is closed to further recording uploads.
+  const after = await student.request("/api/uploads/intent", {
+    method: "POST",
+    body: {
+      purpose: "speaking_recording",
+      speakingAttemptId: practiceAttemptId,
+      filename: "late.webm",
+      contentType: "audio/webm",
+      size: 12,
+    },
+  });
+  assert.equal(after.status, 409, `expected 409 after submit, got ${after.status}`);
+
+  // A second student must not be able to read someone else's recording.
+  const stranger = new Client("stranger-playback");
+  await stranger.login("student2");
+  const asStranger = await stranger.request(`/api/resources/${final.data.objectKey}`);
+  assert.equal(asStranger.status, 403, `a stranger read another student's recording: ${asStranger.status}`);
+
+  // History lists it, without inventing a transcript.
+  const history = await student.request("/api/speaking/attempts");
+  assert.equal(history.status, 200);
+  const mine = history.data.attempts.find((a) => a.id === practiceAttemptId);
+  assert.ok(mine, "submitted attempt is missing from history");
+  assert.equal(mine.transcript, null, "a transcript was invented without a provider");
+  assert.equal(mine.recordingObjectKey, final.data.objectKey);
+
+  // Discarding a submitted attempt is not allowed; only a recording one can be dropped.
+  const resubmit = await student.request(`/api/speaking/attempts/${practiceAttemptId}/submit`, {
+    method: "POST",
+    body: {},
+  });
+  assert.equal(resubmit.status, 409, `expected 409 on double submit, got ${resubmit.status}`);
+
+  await dbRows("DELETE FROM speaking_attempts WHERE id = $1", [practiceAttemptId]);
+});
+
+await check("the speaking practice and history pages render for a student", async () => {
+  const practice = await student.request("/speaking/practice");
+  assert.equal(practice.status, 200, `practice page: ${practice.status}`);
+  assert.match(String(practice.data), /Speaking practice|Speaking mashqi/);
+  const history = await student.request("/speaking/history");
+  assert.equal(history.status, 200, `history page: ${history.status}`);
 });
 
 // --- Page rendering --------------------------------------------------------

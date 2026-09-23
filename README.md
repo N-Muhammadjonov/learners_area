@@ -157,6 +157,7 @@ pending/<intentId>/primary/<uuid>.<ext>         resource not created yet
 resources/<materialId>/blocks/images/<uuid>.<ext>
 resources/<materialId>/blocks/audio/<uuid>.<ext>
 resources/<materialId>/blocks/files/<uuid>.<ext>
+speaking/attempts/<attemptId>/audio/<uuid>.<ext>   a practice recording
 ```
 
 The `pending/` namespace is what abandoned-upload cleanup sweeps: anything
@@ -170,7 +171,9 @@ as display metadata only. Every key is additionally rejected by
 `GET /api/resources/<objectKey>` is the only delivery path.
 
 - It requires a session.
-- It looks the key up in the database to find which material owns it.
+- It looks the key up in the database to find which material **or Speaking
+  attempt** owns it. A practice recording is readable only by the student who
+  made it and by a teacher/admin reviewing it — never by another student.
 - It allows the read when the material is active, or when the caller manages
   that material (its author, or the platform owner). A deactivated resource
   stops being readable by students immediately, not whenever a cache expires.
@@ -192,6 +195,42 @@ never an expiring signed URL.
 - The DB write commits first and storage cleanup follows. If storage cleanup
   fails it is logged, not fatal: the safer failure direction is a possibly
   orphaned object, never a resource pointing at bytes that no longer exist.
+
+---
+
+---
+
+## Speaking practice
+
+A student picks a prompt (`/speaking/practice`), gets a prep countdown, records
+with `MediaRecorder`, reviews the take, uploads it and submits. Submitted
+attempts are listed at `/speaking/history` with the recording playable inline.
+
+```
+GET  /api/speaking/prompts              active prompts
+POST /api/speaking/attempts             create (status: recording)
+GET  /api/speaking/attempts             own history; teacher/admin see all
+GET|PATCH|DELETE /api/speaking/attempts/[id]
+POST /api/speaking/attempts/[id]/submit
+```
+
+Authorization, all server-side:
+
+- An attempt belongs to exactly one user. A stranger reading or scoping an
+  upload to someone else's attempt gets 403; a submitted attempt rejects further
+  recording uploads with 409.
+- The recording goes through the same upload lifecycle as resource blocks
+  (intent → PUT → finalize → HEAD verify) and lands under
+  `speaking/attempts/<attemptId>/audio/<uuid>.<ext>`.
+- Submitting requires a finalized, attached recording; there is no half-submitted
+  state.
+- Discarding an attempt is only possible while it is still `recording`, and the
+  object is deleted with it.
+
+Codec negotiation lives in `src/lib/audio/recorder.ts` (webm/opus → ogg/opus →
+mp4/aac), the microphone stream is always released on stop or cancel, and the
+recorder surfaces a typed `RecorderError` so the UI can distinguish a denied
+permission from a missing API instead of showing a generic failure.
 
 ---
 
@@ -288,16 +327,15 @@ Nothing in `users`, `courses`, `course_modules`, `units`, `lessons`,
 `enrollments`, `assignments`, or auth is IELTS-specific. A new course is a new
 row in `courses` plus its own modules/units/lessons — no schema changes
 required for the shared systems. IELTS-specific tables (`writing_prompts`,
-`reading_passages`/`reading_questions`, `listening_tests`, and the
-not-yet-built `speaking_prompts`) are intentionally separate from the generic
-content tree.
+`reading_passages`/`reading_questions`, `listening_tests`, `speaking_prompts`)
+are intentionally separate from the generic content tree.
 
 ---
 
 ## Testing
 
 ```bash
-npm test                          # 38 unit tests (pure logic + storage rules)
+npm test                          # 48 unit tests (pure logic + storage rules)
 npm run typecheck && npm run lint
 npm run build
 ```
@@ -354,7 +392,11 @@ Not attempted from this environment. In outline:
 ## REMAINING (honest, not padded)
 
 - Mock tests: tables exist, no real vertical slice yet.
-- Speaking recording / speech-to-text / attempt history: not built.
+- Speaking practice: recording, submission and history work end to end. What is
+  deliberately absent is **speech-to-text and automated scoring** — there is no
+  transcription provider wired, so an attempt stores its audio and duration and
+  nothing else. The UI says so rather than showing a fake score, and the submit
+  endpoint rejects a `transcript` in the request body.
 - Progress charts: numbers derive from persisted activity where they exist, but
   several cards have no underlying data source yet.
 - Admin/CMS can create Reading passages/questions, Listening tests/questions,

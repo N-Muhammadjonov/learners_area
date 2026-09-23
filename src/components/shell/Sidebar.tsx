@@ -48,6 +48,8 @@ export function SidebarNav({ dict, role }: { dict: Dictionary; role: Role }) {
         <NavLink href="/reading">{dict.nav.reading}</NavLink>
         <NavLink href="/writing">{dict.nav.writing}</NavLink>
         <NavLink href="/speaking">{dict.nav.speaking}</NavLink>
+        <NavLink href="/speaking/practice">{dict.speakingPractice.title}</NavLink>
+        <NavLink href="/speaking/history">{dict.speakingPractice.historyTitle}</NavLink>
         <NavLink href="/grammar">{dict.nav.grammar}</NavLink>
         <NavLink href="/vocabulary">{dict.nav.vocabulary}</NavLink>
       </NavSection>

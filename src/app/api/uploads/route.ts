@@ -25,9 +25,6 @@ import { validateUploadFile, type UploadCategory } from "@/lib/validation/upload
 export async function POST(req: NextRequest) {
   const session = await getSession();
   if (!session) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
-  if (session.role !== "teacher" && session.role !== "admin") {
-    return NextResponse.json({ error: "forbidden" }, { status: 403 });
-  }
 
   const form = await req.formData().catch(() => null);
   const uploadId = form?.get("uploadId");
@@ -38,6 +35,10 @@ export async function POST(req: NextRequest) {
   }
 
   const intent = await db.query.uploadIntents.findFirst({ where: eq(uploadIntents.id, uploadId) });
+  // The intent row, not the role, is the authorization: creating an intent
+  // already required the caller to own the material or the Speaking attempt
+  // this upload belongs to. Students therefore proxy their own practice
+  // recordings, while never anyone else's upload.
   if (!intent || intent.userId !== session.sub) {
     return NextResponse.json({ error: "upload_not_found" }, { status: 404 });
   }
@@ -51,7 +52,9 @@ export async function POST(req: NextRequest) {
   }
 
   const category: UploadCategory =
-    intent.purpose === "material_primary"
+    intent.purpose === "speaking_recording"
+      ? "audio"
+      : intent.purpose === "material_primary"
       ? "primary"
       : intent.blockKind === "image"
         ? "image"
