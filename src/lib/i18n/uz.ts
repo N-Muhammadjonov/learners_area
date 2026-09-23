@@ -408,6 +408,7 @@ const uz: Dictionary = {
     dashboardSubtitle: "Faqat o'zingiz baholangan ishlardan yig'ilgan — o'ylab topilgan raqamlar yo'q.",
     repeated: "Doim takrorlanayotgan xatolar",
     improved: "Yaxshilangan tomonlar",
+    startPractising: "Mashqni boshlash",
     practiceNow: "Hozir mashq qiling",
     reviewToday: "Bugun takrorlang",
     seenTimes: "{count} marta uchradi",

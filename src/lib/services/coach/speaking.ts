@@ -1,4 +1,5 @@
 import "server-only";
+import { resolvePronunciationAssessment } from "./pronunciation";
 import { providerRegistry } from "./registry";
 import { evaluateAndPersist, type ServiceOutcome } from "./service";
 import type { SpeakingPart } from "./types";
@@ -37,10 +38,14 @@ export async function evaluateSpeakingAttempt(
     return { ok: false, error: "transcript_unavailable" };
   }
 
-  // Pronunciation can only be judged by a provider that really has audio
-  // analysis. RIWI does not, so it reports the criterion as limited instead of
-  // producing a number — see providers/riwi/speaking.ts.
-  const pronunciationAvailable = providerRegistry.hasCapabilityAnywhere("pronunciation");
+  // Pronunciation is decided in one place (PronunciationEvaluationService):
+  // only a provider that really declares audio analysis can judge it. With none
+  // registered, the criterion comes back explicitly limited and band-less
+  // rather than guessed — see providers/riwi/speaking.ts.
+  const pronunciation = resolvePronunciationAssessment(
+    providerRegistry.idsWithCapability("pronunciation")
+  );
+  const pronunciationAvailable = pronunciation.assessed;
 
   return evaluateAndPersist({
     userId: input.userId,

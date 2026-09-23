@@ -216,6 +216,29 @@ await check("the Coach dashboard renders the evaluated work and its evaluator", 
   assert.match(String(page.data), /data-checked-by="/);
 });
 
+await check("the Coach recommends the practice the weak signals point at", async () => {
+  const page = await student.request("/coach");
+  assert.match(String(page.data), /Start practising/, "an open weakness must produce a practice action");
+  const cards = String(page.data).split('data-study-recommendation="').slice(1);
+  const areas = cards.map((card) => card.slice(0, card.indexOf('"'))).map((area) => area.split("\\")[0]);
+  assert.ok(cards.length > 0, "an open weakness must render at least one recommendation card");
+  assert.ok(cards.length <= 3, "the recommendation list must stay short");
+  // One action per practice area: the dashboard must not repeat the same place.
+  assert.equal(new Set(areas).size, areas.length, "each practice area may be recommended once");
+  for (const card of cards) {
+    const body = card.slice(0, card.indexOf("</div></div>"));
+    assert.match(body, /href="\/(grammar|writing|speaking|vocabulary)/, "every recommendation must link at a practice page");
+  }
+
+  const resolvedOnly = await dbRows(
+    "select count(*)::int as n from coach_weaknesses where user_id = (select user_id from evaluations where id = $1) and status <> 'resolved'",
+    [createdEvaluationId]
+  );
+  if (resolvedOnly[0].n === 0) {
+    assert.ok(!String(page.data).includes("Start practising"), "resolved patterns must not be recommended");
+  }
+});
+
 // --- Assignment orchestration ----------------------------------------------
 
 await check("a writing-linked assignment delegates instead of re-evaluating", async () => {

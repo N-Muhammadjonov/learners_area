@@ -7,6 +7,7 @@ import type {
 } from "../../schema";
 import type { SpeakingEvaluationInput } from "../../types";
 import { analyseText, type DetectedIssue } from "./text";
+import { notAssessedPronunciationCriterion } from "../../pronunciation";
 
 /**
  * RIWI — Speaking.
@@ -193,13 +194,9 @@ export function evaluateSpeakingWithRiwi(input: SpeakingEvaluationInput): Provid
       band: toBand(grammarRaw),
       note: `${signals.issues.length} pattern-level issue(s) in the transcript.`,
     },
-    {
-      key: "pronunciation",
-      label: "Pronunciation",
-      band: null,
-      limited: true,
-      note: "Not assessed: RIWI evaluates the transcript only, and pronunciation cannot be judged from text. Connect a provider with audio analysis for this criterion.",
-    },
+    // One wording, one decision — shared with every other evaluator through
+    // PronunciationEvaluationService.
+    notAssessedPronunciationCriterion(),
   ];
 
   const measurable = criteria.filter((c) => c.band !== null);

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getSession } from "@/lib/auth/session";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { getDueVocabulary, getRecentEvaluations, getWeaknessSummary } from "@/lib/data/coach-dashboard";
+import { getStudyRecommendations } from "@/lib/services/coach/recommendations";
 import { Card, StatCard } from "@/components/ui/Card";
 import { EmptyState } from "@/components/ui/EmptyState";
 
@@ -21,10 +22,13 @@ export default async function CoachPage() {
   const dict = getDictionary(getLocale());
   const t = dict.coach;
 
-  const [weaknesses, recent, due] = await Promise.all([
+  const [weaknesses, recent, due, recommendations] = await Promise.all([
     getWeaknessSummary(session.sub),
     getRecentEvaluations(session.sub, 8),
     getDueVocabulary(session.sub, 10),
+    // "What should I practise now?" — ranked by the shared weakness history, one
+    // action per practice area, and empty when nothing has been evaluated yet.
+    getStudyRecommendations(session.sub, 3),
   ]);
 
   const open = weaknesses.filter((w) => w.status === "open");
@@ -35,6 +39,9 @@ export default async function CoachPage() {
 
   const evaluationLabel = (type: string, fallback: string): string =>
     (dict.nav as Record<string, string | undefined>)[type] ?? fallback;
+
+  const areaLabel = (area: string): string =>
+    (dict.nav as Record<string, string | undefined>)[area] ?? area;
 
   // Weakness labels are translated here rather than shipped from the data
   // layer, so the dashboard follows the reader's language.
@@ -84,11 +91,39 @@ export default async function CoachPage() {
                       </span>
                       <span className="text-xs text-ink-500">{weakness.action}</span>
                     </div>
-                    <Link href={weakness.href} className="btn-secondary">
-                      {t.practiceNow}
+                  </Card>
+                ))}
+            </section>
+          )}
+
+          {recommendations.length > 0 && (
+            <section className="flex flex-col gap-3">
+              <h2 className="font-display text-lg text-ink-900">{t.practiceNow}</h2>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {recommendations.map((recommendation) => (
+                  <Card
+                    key={recommendation.area}
+                    className="flex flex-col gap-2"
+                    data-study-recommendation={recommendation.area}
+                  >
+                    <span className="text-xs uppercase tracking-wide text-ink-300">
+                      {areaLabel(recommendation.area)}
+                    </span>
+                    <span className="text-sm font-medium text-ink-900">
+                      {recommendation.categories
+                        .map((category) => categoryLabel(category, category))
+                        .join(" · ")}
+                    </span>
+                    <span className="text-xs text-ink-500">{recommendation.reason}</span>
+                    <span className="text-xs text-ink-300">
+                      {t.seenTimes.replace("{count}", String(recommendation.occurrenceCount))}
+                    </span>
+                    <Link href={recommendation.href} className="btn-secondary self-start">
+                      {t.startPractising}
                     </Link>
                   </Card>
                 ))}
+              </div>
             </section>
           )}
 

@@ -42,6 +42,13 @@ export class ProviderRegistry {
     return [...this.providers.keys()];
   }
 
+  /** Ids of the registered providers that genuinely declare this capability. */
+  idsWithCapability(capability: ProviderCapability): string[] {
+    return [...this.providers.values()]
+      .filter((entry) => entry.provider.capabilities.includes(capability))
+      .map((entry) => entry.provider.id);
+  }
+
   /**
    * True when any registered provider genuinely declares this capability.
    *
@@ -50,9 +57,7 @@ export class ProviderRegistry {
    * pronunciation as `limited` instead of inventing a score.
    */
   hasCapabilityAnywhere(capability: ProviderCapability): boolean {
-    return [...this.providers.values()].some((entry) =>
-      entry.provider.capabilities.includes(capability)
-    );
+    return this.idsWithCapability(capability).length > 0;
   }
 
   clear(): void {

@@ -406,6 +406,7 @@ const en = {
     dashboardSubtitle: "Built from your own evaluated work only — no invented analytics.",
     repeated: "What you keep getting wrong",
     improved: "What improved",
+    startPractising: "Start practising",
     practiceNow: "Practise now",
     reviewToday: "Review today",
     seenTimes: "seen {count}×",

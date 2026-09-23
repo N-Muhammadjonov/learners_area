@@ -254,12 +254,22 @@ policy (`src/lib/services/coach/`):
 | `GrammarEvaluationService` | `grammar.ts` | a produced (written) grammar answer |
 | `VocabularyFeedbackService` | `vocabulary.ts` | a sentence using a target word |
 | `AssignmentEvaluationService` | `assignment.ts` | an assignment (orchestrator) |
+| `PronunciationEvaluationService` | `pronunciation.ts` | whether pronunciation can be judged at all |
+| `StudyRecommendationService` | `recommendations.ts` | the learner's weakness rows -> next actions |
 | `SpeechToTextService` | `stt/` | audio -> text, **separate on purpose** |
 
 Assignment evaluation is an orchestrator, not an evaluator: an assignment linked
 to a writing prompt is delegated to the writing service, a free-form response is
 resolved generically, and objective multiple-choice grading never reaches a
 provider at all.
+
+`PronunciationEvaluationService` owns one decision — can pronunciation be judged
+in this deployment? It asks the registry for providers that really declare audio
+analysis, and when there are none the speaking result carries a band-less,
+explicitly `limited` pronunciation criterion. `StudyRecommendationService` turns
+the learner's weakness rows into at most three ordered actions (one per practice
+area, strongest signal first) for the Coach dashboard; with no evaluated work it
+returns nothing rather than advice with no evidence behind it.
 
 ### Provider resolution
 
