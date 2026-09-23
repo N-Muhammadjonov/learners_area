@@ -80,6 +80,46 @@ export const materialTypeEnum = pgEnum("material_type", ["video", "audio", "file
 
 export const contentBlockTypeEnum = pgEnum("content_block_type", ["text", "link", "file", "image", "audio"]);
 
+// --- Upload intents ---------------------------------------------------------
+// Every object that reaches storage goes through one of these first. It is the
+// server's record that a specific authenticated user was authorized to write
+// one specific, unpredictable object key — which is what makes a direct
+// browser→R2 PUT safe to accept later, and what stops a client registering an
+// arbitrary bucket key as its own resource.
+export const uploadPurposeEnum = pgEnum("upload_purpose", ["material_primary", "material_block"]);
+
+export const uploadBlockKindEnum = pgEnum("upload_block_kind", ["image", "audio", "file"]);
+
+export const uploadStatusEnum = pgEnum("upload_status", [
+  "pending", // intent issued, bytes not yet confirmed in storage
+  "finalized", // HEAD-verified in storage, not yet attached to a resource
+  "attached", // referenced by a material primary or block
+  "aborted", // cancelled by the user, or expired before finalizing
+]);
+
+export const uploadIntents = pgTable("upload_intents", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  // Set when the object belongs to an already-existing material (edit flows),
+  // so its key can live under resources/<materialId>/. Null while creating.
+  materialId: uuid("material_id").references(() => speakingMaterials.id, { onDelete: "cascade" }),
+  purpose: uploadPurposeEnum("purpose").notNull(),
+  blockKind: uploadBlockKindEnum("block_kind"), // required when purpose = material_block
+  objectKey: text("object_key").notNull().unique(),
+  originalName: varchar("original_name", { length: 255 }).notNull(),
+  mimeType: varchar("mime_type", { length: 120 }).notNull(),
+  size: integer("size").notNull(), // bytes declared by the client, re-checked on finalize
+  status: uploadStatusEnum("status").notNull().default("pending"),
+  directToStorage: boolean("direct_to_storage").notNull().default(true),
+  error: text("error"),
+  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  finalizedAt: timestamp("finalized_at", { withTimezone: true }),
+  usedAt: timestamp("used_at", { withTimezone: true }), // set when claimed by a resource
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
 export const liveClassStatusEnum = pgEnum("live_class_status", [
   "upcoming",
   "live",

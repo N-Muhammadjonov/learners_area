@@ -1,44 +1,122 @@
-import { mkdir, writeFile, unlink } from "node:fs/promises";
+import { mkdir, readFile, stat, unlink, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { randomUUID } from "node:crypto";
-import type { StorageService, UploadInput, UploadResult } from "./types";
+import type { ObjectHead, ObjectKey, PresignedPut, PutInput, ReadResult, StorageService } from "./types";
+import { isSafeObjectKey } from "./types";
 
 /**
- * Writes into public/uploads/<folder>/ on disk and hands back a URL served
- * by /api/files/[...path] (a small Route Handler that reads the file fresh
- * on every request — see that route for why this doesn't just use Next's
- * built-in /public static serving).
+ * Local-disk storage. Objects live at `public/uploads/<key>` and are read back
+ * by `GET /api/resources/<key>` — a Route Handler that authenticates the
+ * caller and streams the file fresh on every request.
  *
- * This genuinely works for local dev and for a self-hosted Node server with
- * persistent disk (`next start` on a normal VM/container).
+ * Why a Route Handler instead of Next's built-in `/public` static serving:
+ * `next start` only recognises files that existed under `public/` when the
+ * server booted, so a file uploaded while the server is already running 404s
+ * until restart. That is exactly what a live upload feature does. Reading from
+ * disk per request fixes it (and `next dev` never had the problem — it watches
+ * the filesystem).
  *
- * It does NOT work on serverless hosts with an ephemeral/read-only
- * filesystem (Vercel's default deploy target, for one) — that's exactly
- * the case real object storage (S3Provider/CloudinaryProvider below) is
- * for. Pick local for cheap self-hosted deployments, S3/Cloudinary for
- * serverless ones. It also has no presignUpload — files are proxied
- * through this server, which is fine for local disk (no separate host to
- * upload directly to).
+ * Not for serverless hosts: an ephemeral/read-only filesystem loses every
+ * upload. Use `STORAGE_PROVIDER=r2` there.
+ *
+ * `supportsDirectUpload` is false on purpose — there is no second host for the
+ * browser to talk to, the bytes have to arrive here. The client therefore uses
+ * the proxy path (`POST /api/uploads`) for this provider, with the same
+ * intent → finalize bookkeeping as the direct path.
  */
 export class LocalDiskStorageProvider implements StorageService {
-  async upload({ buffer, filename, folder }: UploadInput): Promise<UploadResult> {
-    const ext = path.extname(filename) || "";
-    const key = `${folder}/${randomUUID()}${ext}`;
-    const dir = path.join(process.cwd(), "public", "uploads", folder);
-    await mkdir(dir, { recursive: true });
-    await writeFile(path.join(process.cwd(), "public", "uploads", key), buffer);
+  readonly kind = "local" as const;
+  readonly supportsDirectUpload = false;
 
-    const base = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
-    return { url: `${base}/api/files/${key}`, key };
+  private resolve(key: ObjectKey): string {
+    if (!isSafeObjectKey(key)) throw new Error(`Refusing unsafe storage key: ${key}`);
+    return path.join(process.cwd(), "public", "uploads", key);
   }
 
-  async delete(key: string): Promise<void> {
+  async put({ key, body }: PutInput): Promise<void> {
+    const filePath = this.resolve(key);
+    await mkdir(path.dirname(filePath), { recursive: true });
+    await writeFile(filePath, body);
+  }
+
+  async presignPut(_input: { key: ObjectKey; contentType: string; expiresInSeconds: number }): Promise<PresignedPut | null> {
+    // Nothing to presign against — the app server *is* the storage host. The
+    // client falls back to the proxy path (POST /api/uploads) for this
+    // provider, with identical intent → finalize bookkeeping.
+    return null;
+  }
+
+  async head(key: ObjectKey): Promise<ObjectHead | null> {
+    // resolve() sits outside the try on purpose: an unsafe key must surface as
+    // a thrown error, not be swallowed by the "file is simply missing" path.
+    const filePath = this.resolve(key);
     try {
-      await unlink(path.join(process.cwd(), "public", "uploads", key));
+      const stats = await stat(filePath);
+      if (!stats.isFile()) return null;
+      return { key, size: stats.size };
+    } catch {
+      return null;
+    }
+  }
+
+  async signedReadUrl(_key: ObjectKey, _expiresInSeconds: number): Promise<string | null> {
+    // No second host to sign a URL against — the resource route streams.
+    return null;
+  }
+
+  async read(key: ObjectKey): Promise<ReadResult | null> {
+    const filePath = this.resolve(key);
+    try {
+      const stats = await stat(filePath);
+      if (!stats.isFile()) return null;
+      return { body: await readFile(this.resolve(key)), contentType: inferContentType(key) };
+    } catch {
+      return null;
+    }
+  }
+
+  async delete(key: ObjectKey): Promise<void> {
+    // Same rule as head/read: an unsafe key must throw, not be logged and
+    // swallowed as if the file were merely absent.
+    const filePath = this.resolve(key);
+    try {
+      await unlink(filePath);
     } catch (err) {
-      // Already gone is fine; anything else is worth knowing about but
-      // shouldn't block the caller (e.g. deleting a DB row) from finishing.
+      // Already gone is fine; anything else is worth knowing about but must
+      // not block the caller (e.g. deleting a DB row) from finishing.
       console.warn(`LocalDiskStorageProvider.delete: could not remove ${key}:`, err);
     }
   }
+}
+
+const MIME_BY_EXT: Record<string, string> = {
+  ".mp4": "video/mp4",
+  ".webm": "video/webm",
+  ".mov": "video/quicktime",
+  ".m4v": "video/x-m4v",
+  ".mp3": "audio/mpeg",
+  ".wav": "audio/wav",
+  ".m4a": "audio/mp4",
+  ".aac": "audio/aac",
+  ".ogg": "audio/ogg",
+  ".opus": "audio/opus",
+  ".pdf": "application/pdf",
+  ".png": "image/png",
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
+  ".webp": "image/webp",
+  ".gif": "image/gif",
+  ".doc": "application/msword",
+  ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  ".ppt": "application/vnd.ms-powerpoint",
+  ".pptx": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  ".xls": "application/vnd.ms-excel",
+  ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  ".zip": "application/zip",
+  ".txt": "text/plain; charset=utf-8",
+  ".csv": "text/csv; charset=utf-8",
+};
+
+/** Exported so the resource route can serve a sensible type for local files. */
+export function inferContentType(key: string): string {
+  return MIME_BY_EXT[path.extname(key).toLowerCase()] ?? "application/octet-stream";
 }

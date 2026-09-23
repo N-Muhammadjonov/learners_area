@@ -1,55 +1,86 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSession } from "@/lib/auth/session";
+import { db } from "@/db/client";
+import { uploadIntents } from "@/db/schema";
+import { eq } from "drizzle-orm";
 import { getStorageService } from "@/lib/services/storage";
+import { validateUploadFile, type UploadCategory } from "@/lib/validation/uploads";
 
-const MAX_BYTES = (Number(process.env.MAX_UPLOAD_MB) || 50) * 1024 * 1024;
-const ALLOWED_PREFIXES = ["video/", "audio/", "image/"];
-const ALLOWED_EXACT = ["application/pdf"];
-
-function inferMaterialType(contentType: string): "video" | "audio" | "file" {
-  if (contentType.startsWith("video/")) return "video";
-  if (contentType.startsWith("audio/")) return "audio";
-  return "file";
-}
-
+/**
+ * POST /api/uploads — the proxy upload path.
+ *
+ * Used only when the configured provider cannot accept a direct browser PUT,
+ * i.e. `STORAGE_PROVIDER=local`. The bytes go browser → this server → disk.
+ * For `r2`/`s3` the browser uploads straight to the bucket via the presigned
+ * URL from /api/uploads/intent and this route is never called.
+ *
+ * The intent is still required and still authoritative: the object key, the
+ * declared size and the declared content type all come from the intent row,
+ * not from this request. A caller cannot use this route to write an arbitrary
+ * key or to oversize a file past the policy in
+ * src/lib/validation/uploads.ts.
+ *
+ * Body (multipart): uploadId, file
+ */
 export async function POST(req: NextRequest) {
   const session = await getSession();
-  if (!session || (session.role !== "teacher" && session.role !== "admin")) {
+  if (!session) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  if (session.role !== "teacher" && session.role !== "admin") {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
 
   const form = await req.formData().catch(() => null);
+  const uploadId = form?.get("uploadId");
   const file = form?.get("file");
-  const folder = (form?.get("folder") as string) || "speaking";
 
-  if (!file || !(file instanceof File)) {
-    return NextResponse.json({ error: "no_file" }, { status: 400 });
-  }
-
-  const isAllowed = ALLOWED_PREFIXES.some((p) => file.type.startsWith(p)) || ALLOWED_EXACT.includes(file.type);
-  if (!isAllowed) {
-    return NextResponse.json({ error: "unsupported_type" }, { status: 400 });
-  }
-  if (file.size > MAX_BYTES) {
-    return NextResponse.json({ error: "file_too_large" }, { status: 413 });
-  }
-  if (!/^[a-z0-9_-]+$/i.test(folder)) {
-    return NextResponse.json({ error: "invalid_folder" }, { status: 400 });
+  if (typeof uploadId !== "string" || !file || !(file instanceof File)) {
+    return NextResponse.json({ error: "invalid_input" }, { status: 400 });
   }
 
-  const buffer = Buffer.from(await file.arrayBuffer());
+  const intent = await db.query.uploadIntents.findFirst({ where: eq(uploadIntents.id, uploadId) });
+  if (!intent || intent.userId !== session.sub) {
+    return NextResponse.json({ error: "upload_not_found" }, { status: 404 });
+  }
+  if (intent.status !== "pending" && intent.status !== "finalized") {
+    return NextResponse.json({ error: "upload_not_active" }, { status: 409 });
+  }
+  if (intent.directToStorage) {
+    // The provider supports presigned PUTs — refuse to proxy bytes for an
+    // intent that was issued a direct URL. Keeps the two paths from blurring.
+    return NextResponse.json({ error: "use_direct_upload" }, { status: 409 });
+  }
+
+  const category: UploadCategory =
+    intent.purpose === "material_primary"
+      ? "primary"
+      : intent.blockKind === "image"
+        ? "image"
+        : intent.blockKind === "audio"
+          ? "audio"
+          : "file";
+
+  const validation = validateUploadFile({
+    filename: intent.originalName,
+    contentType: intent.mimeType,
+    size: file.size,
+    category,
+  });
+  if (!validation.ok) {
+    return NextResponse.json(
+      { error: validation.error },
+      { status: validation.error === "file_too_large" ? 413 : 400 }
+    );
+  }
+
+  const body = Buffer.from(await file.arrayBuffer());
+  const storage = getStorageService();
 
   try {
-    const storage = getStorageService();
-    const { url, key } = await storage.upload({
-      buffer,
-      filename: file.name,
-      contentType: file.type,
-      folder,
-    });
-    return NextResponse.json({ ok: true, url, key, type: inferMaterialType(file.type) });
+    await storage.put({ key: intent.objectKey, body, contentType: intent.mimeType });
   } catch (err) {
-    console.error("Upload failed:", err);
+    console.error("Proxy upload failed:", err);
     return NextResponse.json({ error: "upload_failed" }, { status: 500 });
   }
+
+  return NextResponse.json({ ok: true, uploadId: intent.id, objectKey: intent.objectKey });
 }

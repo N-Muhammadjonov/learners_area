@@ -1,0 +1,46 @@
+# dependencies
+node_modules/
+
+# next.js build output
+.next/
+out/
+build/
+dist/
+
+# typescript incremental build metadata
+*.tsbuildinfo
+next-env.d.ts
+
+# env / secrets — NEVER commit these
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# local file uploads (StorageService local provider writes here at runtime)
+public/uploads/
+
+# drizzle local artifacts
+drizzle/meta/_journal.json.bak
+
+# logs
+*.log
+npm-debug.log*
+yarn-error.log*
+
+# os metadata
+.DS_Store
+Thumbs.db
+
+# editor / ide
+.idea/
+.vscode/
+*.swp
+
+# test + tooling caches
+coverage/
+.eslintcache
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
