@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* This sandbox has no network access to a font CDN, so these ship as solid
+     system-font stacks. Swap in next/font/google (Source Serif 4 / Inter /
+     IBM Plex Mono, or your own picks) once deployed somewhere with normal
+     internet access — see README "Fonts". */
+  --font-display: Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+  --font-sans: -apple-system, "Segoe UI", system-ui, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-paper text-ink-900 antialiased;
+  }
+  ::selection {
+    @apply bg-signal-100 text-signal-700;
+  }
+}
+
+@layer components {
+  /* Exam / focus mode: dark, low-stimulus surface used during timed attempts */
+  .focus-surface {
+    @apply bg-ink-950 text-ink-100;
+  }
+
+  .card {
+    @apply bg-paper-raised border border-ink-100 rounded-md shadow-card;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-sm px-4 py-2 text-sm font-medium
+      transition-colors disabled:opacity-50 disabled:pointer-events-none;
+  }
+  .btn-primary {
+    @apply btn bg-signal-600 text-white hover:bg-signal-700;
+  }
+  .btn-secondary {
+    @apply btn bg-paper-sunken text-ink-900 hover:bg-ink-100;
+  }
+  .btn-ghost {
+    @apply btn text-ink-500 hover:bg-paper-sunken hover:text-ink-900;
+  }
+
+  .badge {
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
+  }
+  .badge-locked {
+    @apply badge bg-ink-100 text-ink-500;
+  }
+  .badge-live {
+    @apply badge bg-band-bad/10 text-band-bad;
+  }
+  .badge-done {
+    @apply badge bg-band-good/10 text-band-good;
+  }
+
+  .input {
+    @apply w-full rounded-sm border border-ink-100 bg-paper-raised px-3 py-2 text-sm text-ink-900
+      placeholder:text-ink-300 focus:outline-none focus:ring-2 focus:ring-signal-400;
+  }
+}

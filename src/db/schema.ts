@@ -1,0 +1,544 @@
+import {
+  pgTable,
+  pgEnum,
+  uuid,
+  varchar,
+  text,
+  timestamp,
+  integer,
+  boolean,
+  jsonb,
+  real,
+} from "drizzle-orm/pg-core";
+
+// ---------------------------------------------------------------------------
+// Enums
+// ---------------------------------------------------------------------------
+
+export const roleEnum = pgEnum("role", ["student", "teacher", "admin"]);
+
+export const contentStateEnum = pgEnum("content_state", [
+  "locked",
+  "available",
+  "assigned",
+  "in_progress",
+  "completed",
+]);
+
+export const writingTaskTypeEnum = pgEnum("writing_task_type", ["task1", "task2"]);
+
+export const writingStatusEnum = pgEnum("writing_status", [
+  "draft",
+  "submitted",
+  "evaluated",
+]);
+
+export const readingQuestionTypeEnum = pgEnum("reading_question_type", [
+  "true_false_not_given",
+  "yes_no_not_given",
+  "multiple_choice",
+  "short_answer",
+]);
+
+export const attemptStatusEnum = pgEnum("attempt_status", ["in_progress", "completed"]);
+
+export const feedbackSourceEnum = pgEnum("feedback_source", ["demo_ai", "teacher"]);
+
+export const vocabStateEnum = pgEnum("vocab_state", [
+  "new",
+  "learning",
+  "review",
+  "known",
+  "mastered",
+  "activated",
+]);
+
+export const assignmentStatusEnum = pgEnum("assignment_status", [
+  "not_started",
+  "in_progress",
+  "completed",
+  "overdue",
+]);
+
+export const grammarSkillAreaEnum = pgEnum("grammar_skill_area", ["writing", "speaking"]);
+
+export const speakingCategoryEnum = pgEnum("speaking_category", [
+  "part1",
+  "part2",
+  "part3",
+  "general",
+  "shadowing",
+  "top_structures",
+]);
+
+export const listeningQuestionTypeEnum = pgEnum("listening_question_type", [
+  "multiple_choice",
+  "short_answer",
+]);
+
+export const materialTypeEnum = pgEnum("material_type", ["video", "audio", "file", "link"]);
+
+export const contentBlockTypeEnum = pgEnum("content_block_type", ["text", "link", "file", "image", "audio"]);
+
+export const liveClassStatusEnum = pgEnum("live_class_status", [
+  "upcoming",
+  "live",
+  "completed",
+  "recorded",
+  "cancelled",
+]);
+
+// ---------------------------------------------------------------------------
+// Identity & onboarding — WIRED (real auth + onboarding flow in Phase 1)
+// ---------------------------------------------------------------------------
+
+export const users = pgTable("users", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  email: varchar("email", { length: 320 }).unique(),
+  passwordHash: text("password_hash"), // null for Telegram-only accounts
+  telegramId: varchar("telegram_id", { length: 64 }).unique(),
+  name: varchar("name", { length: 200 }).notNull(),
+  role: roleEnum("role").notNull().default("student"),
+  isOwner: boolean("is_owner").notNull().default(false),
+  locale: varchar("locale", { length: 5 }).notNull().default("uz"),
+  onboardingCompletedAt: timestamp("onboarding_completed_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const passwordResetTokens = pgTable("password_reset_tokens", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  tokenHash: text("token_hash").notNull(),
+  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  usedAt: timestamp("used_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const onboardingProfiles = pgTable("onboarding_profiles", {
+  userId: uuid("user_id")
+    .primaryKey()
+    .references(() => users.id, { onDelete: "cascade" }),
+  currentLevel: varchar("current_level", { length: 40 }),
+  currentBand: real("current_band"),
+  targetBand: real("target_band"),
+  examDate: timestamp("exam_date", { withTimezone: true }),
+  dailyStudyMinutes: integer("daily_study_minutes"),
+  strongestSkill: varchar("strongest_skill", { length: 40 }),
+  weakestSkill: varchar("weakest_skill", { length: 40 }),
+});
+
+// ---------------------------------------------------------------------------
+// Course structure — WIRED for read (roadmap) in Phase 1; content authoring
+// tools (full CMS) are NOT built yet, seed data populates these tables directly
+// ---------------------------------------------------------------------------
+
+export const courses = pgTable("courses", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  slug: varchar("slug", { length: 60 }).notNull().unique(),
+  title: varchar("title", { length: 200 }).notNull(),
+  description: text("description"),
+  isActive: boolean("is_active").notNull().default(true),
+});
+
+export const courseModules = pgTable("course_modules", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  courseId: uuid("course_id").notNull().references(() => courses.id, { onDelete: "cascade" }),
+  slug: varchar("slug", { length: 60 }).notNull(),
+  title: varchar("title", { length: 200 }).notNull(),
+  order: integer("order").notNull(),
+});
+
+export const units = pgTable("units", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  moduleId: uuid("module_id").notNull().references(() => courseModules.id, { onDelete: "cascade" }),
+  slug: varchar("slug", { length: 60 }).notNull(),
+  title: varchar("title", { length: 200 }).notNull(),
+  order: integer("order").notNull(),
+});
+
+export const lessons = pgTable("lessons", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  unitId: uuid("unit_id").notNull().references(() => units.id, { onDelete: "cascade" }),
+  slug: varchar("slug", { length: 60 }).notNull(),
+  title: varchar("title", { length: 200 }).notNull(),
+  summary: text("summary"),
+  defaultState: contentStateEnum("default_state").notNull().default("locked"),
+  order: integer("order").notNull(),
+});
+
+export const lessonProgress = pgTable("lesson_progress", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  lessonId: uuid("lesson_id").notNull().references(() => lessons.id, { onDelete: "cascade" }),
+  state: contentStateEnum("state").notNull().default("available"),
+  notes: text("notes"),
+  completedAt: timestamp("completed_at", { withTimezone: true }),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const enrollments = pgTable("enrollments", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  courseId: uuid("course_id").notNull().references(() => courses.id, { onDelete: "cascade" }),
+  enrolledAt: timestamp("enrolled_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+// ---------------------------------------------------------------------------
+// Writing — WIRED end-to-end (prompt -> draft -> autosave -> submit -> demo
+// evaluation -> feedback -> history), the deep vertical slice for Phase 1
+// ---------------------------------------------------------------------------
+
+export const writingPrompts = pgTable("writing_prompts", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  taskType: writingTaskTypeEnum("task_type").notNull(),
+  category: varchar("category", { length: 60 }).notNull(),
+  prompt: text("prompt").notNull(),
+  targetWordCount: integer("target_word_count").notNull(),
+  isActive: boolean("is_active").notNull().default(true),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const writingSubmissions = pgTable("writing_submissions", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  promptId: uuid("prompt_id").notNull().references(() => writingPrompts.id),
+  content: text("content").notNull().default(""),
+  wordCount: integer("word_count").notNull().default(0),
+  status: writingStatusEnum("status").notNull().default("draft"),
+  submittedAt: timestamp("submitted_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const writingFeedback = pgTable("writing_feedback", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  submissionId: uuid("submission_id").notNull().references(() => writingSubmissions.id, { onDelete: "cascade" }),
+  source: feedbackSourceEnum("source").notNull(),
+  taskResponseBand: real("task_response_band"),
+  coherenceBand: real("coherence_band"),
+  lexicalBand: real("lexical_band"),
+  grammarBand: real("grammar_band"),
+  overallBand: real("overall_band"),
+  strengths: jsonb("strengths").$type<string[]>().notNull().default([]),
+  weaknesses: jsonb("weaknesses").$type<string[]>().notNull().default([]),
+  suggestions: jsonb("suggestions").$type<string[]>().notNull().default([]),
+  comment: text("comment"),
+  teacherId: uuid("teacher_id").references(() => users.id),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+// ---------------------------------------------------------------------------
+// Reading — WIRED end-to-end (passage -> timed attempt -> auto-grading ->
+// analysis with evidence), second deep vertical slice.
+// ---------------------------------------------------------------------------
+
+export const readingPassages = pgTable("reading_passages", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  title: varchar("title", { length: 200 }).notNull(),
+  bodyText: text("body_text").notNull(),
+  difficultyLevel: varchar("difficulty_level", { length: 10 }).notNull().default("B2"),
+  suggestedMinutes: integer("suggested_minutes").notNull().default(20),
+  isActive: boolean("is_active").notNull().default(true),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const readingQuestions = pgTable("reading_questions", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  passageId: uuid("passage_id").notNull().references(() => readingPassages.id, { onDelete: "cascade" }),
+  order: integer("order").notNull(),
+  type: readingQuestionTypeEnum("type").notNull(),
+  questionText: text("question_text").notNull(),
+  options: jsonb("options").$type<string[]>(), // multiple_choice only
+  correctAnswer: text("correct_answer").notNull(),
+  evidenceQuote: text("evidence_quote"),
+  explanation: text("explanation").notNull(),
+});
+
+export const readingAttempts = pgTable("reading_attempts", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  passageId: uuid("passage_id").notNull().references(() => readingPassages.id),
+  status: attemptStatusEnum("status").notNull().default("in_progress"),
+  score: integer("score"),
+  totalQuestions: integer("total_questions"),
+  startedAt: timestamp("started_at", { withTimezone: true }).defaultNow().notNull(),
+  submittedAt: timestamp("submitted_at", { withTimezone: true }),
+});
+
+export const readingAnswers = pgTable("reading_answers", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  attemptId: uuid("attempt_id").notNull().references(() => readingAttempts.id, { onDelete: "cascade" }),
+  questionId: uuid("question_id").notNull().references(() => readingQuestions.id, { onDelete: "cascade" }),
+  userAnswer: text("user_answer").notNull().default(""),
+  isCorrect: boolean("is_correct"),
+});
+
+// ---------------------------------------------------------------------------
+// Listening — WIRED end-to-end, same exam -> auto-grade -> analysis pattern
+// as Reading, with audio in place of a passage (reuses the Speaking upload/
+// embed pipeline — see src/lib/embed.ts, /api/uploads).
+// ---------------------------------------------------------------------------
+
+export const listeningTests = pgTable("listening_tests", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  createdByUserId: uuid("created_by_user_id").notNull().references(() => users.id),
+  title: varchar("title", { length: 200 }).notNull(),
+  audioType: materialTypeEnum("audio_type").notNull(),
+  audioUrl: text("audio_url").notNull(),
+  transcript: text("transcript"), // optional, shown only in the post-attempt analysis
+  difficultyLevel: varchar("difficulty_level", { length: 10 }).notNull().default("B2"),
+  isActive: boolean("is_active").notNull().default(true),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const listeningQuestions = pgTable("listening_questions", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  testId: uuid("test_id").notNull().references(() => listeningTests.id, { onDelete: "cascade" }),
+  order: integer("order").notNull(),
+  type: listeningQuestionTypeEnum("type").notNull(),
+  questionText: text("question_text").notNull(),
+  options: jsonb("options").$type<string[]>(),
+  correctAnswer: text("correct_answer").notNull(),
+  explanation: text("explanation").notNull(),
+});
+
+export const listeningAttempts = pgTable("listening_attempts", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  testId: uuid("test_id").notNull().references(() => listeningTests.id),
+  status: attemptStatusEnum("status").notNull().default("in_progress"),
+  score: integer("score"),
+  totalQuestions: integer("total_questions"),
+  startedAt: timestamp("started_at", { withTimezone: true }).defaultNow().notNull(),
+  submittedAt: timestamp("submitted_at", { withTimezone: true }),
+});
+
+export const listeningAnswers = pgTable("listening_answers", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  attemptId: uuid("attempt_id").notNull().references(() => listeningAttempts.id, { onDelete: "cascade" }),
+  questionId: uuid("question_id").notNull().references(() => listeningQuestions.id, { onDelete: "cascade" }),
+  userAnswer: text("user_answer").notNull().default(""),
+  isCorrect: boolean("is_correct"),
+});
+
+// ---------------------------------------------------------------------------
+// Grammar — WIRED end-to-end. Error-correction, multiple-choice for
+// objective grading. Exercises can point back at one of the student's own
+// writing submissions for context ("from your essay"); the sentence pairs
+// themselves are authored content, not auto-extracted — a real
+// grammar-error-extraction pass needs real NLP/AI, out of scope for the
+// demo provider this phase uses (see REAL_AI_ENABLED).
+// ---------------------------------------------------------------------------
+
+export const grammarTopics = pgTable("grammar_topics", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  skillArea: grammarSkillAreaEnum("skill_area").notNull().default("writing"),
+  title: varchar("title", { length: 200 }).notNull(),
+  explanation: text("explanation").notNull(),
+  order: integer("order").notNull(),
+});
+
+export const grammarExercises = pgTable("grammar_exercises", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  topicId: uuid("topic_id").notNull().references(() => grammarTopics.id, { onDelete: "cascade" }),
+  order: integer("order").notNull(),
+  promptText: text("prompt_text").notNull(), // the sentence to correct, with an error
+  options: jsonb("options").$type<string[]>().notNull(),
+  correctOption: text("correct_option").notNull(),
+  explanation: text("explanation").notNull(),
+  sourceSubmissionId: uuid("source_submission_id").references(() => writingSubmissions.id, {
+    onDelete: "set null",
+  }),
+});
+
+export const grammarAttempts = pgTable("grammar_attempts", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  exerciseId: uuid("exercise_id").notNull().references(() => grammarExercises.id, { onDelete: "cascade" }),
+  selectedOption: text("selected_option").notNull(),
+  isCorrect: boolean("is_correct").notNull(),
+  attemptedAt: timestamp("attempted_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+// ---------------------------------------------------------------------------
+// Speaking materials — WIRED. Teacher/admin-posted content (Telegram-style:
+// caption + a primary link + an optional second link), ownership-gated:
+// any teacher/admin can post; only the poster or an isOwner=true account can
+// edit/deactivate someone else's post. See src/lib/auth/ownership.ts.
+// ---------------------------------------------------------------------------
+
+export const speakingMaterials = pgTable("speaking_materials", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  createdByUserId: uuid("created_by_user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  category: speakingCategoryEnum("category").notNull(),
+  title: varchar("title", { length: 200 }).notNull(),
+  primaryType: materialTypeEnum("primary_type").notNull(),
+  primaryUrl: text("primary_url").notNull(), // resolved, publicly reachable
+  primaryObjectKey: text("primary_object_key"), // storage key, for cleanup; null for link-type primaries
+  primaryOriginalName: varchar("primary_original_name", { length: 255 }),
+  primaryMimeType: varchar("primary_mime_type", { length: 120 }),
+  primarySize: integer("primary_size"), // bytes
+  isActive: boolean("is_active").notNull().default(true),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+// A resource's description is an ordered list of mixed content blocks —
+// not one textarea. See src/lib/services/storage for where block file/image/
+// audio objects actually live; this table holds the block's own text/link
+// data plus a reference to that object where relevant.
+export const materialBlocks = pgTable("material_blocks", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  materialId: uuid("material_id").notNull().references(() => speakingMaterials.id, { onDelete: "cascade" }),
+  type: contentBlockTypeEnum("type").notNull(),
+  position: integer("position").notNull(),
+  textContent: text("text_content"), // type=text
+  linkUrl: text("link_url"), // type=link
+  objectUrl: text("object_url"), // type=file|image|audio — resolved, publicly reachable
+  objectKey: text("object_key"), // type=file|image|audio — storage key, for cleanup
+  originalName: varchar("original_name", { length: 255 }),
+  mimeType: varchar("mime_type", { length: 120 }),
+  size: integer("size"), // bytes
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+// ---------------------------------------------------------------------------
+// Vocabulary engine — WIRED (add, review, mastery state) in Phase 1
+// ---------------------------------------------------------------------------
+
+export const lexemes = pgTable("lexemes", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  term: varchar("term", { length: 120 }).notNull().unique(),
+  partOfSpeech: varchar("part_of_speech", { length: 30 }),
+  definitionEn: text("definition_en").notNull(),
+  translationUz: text("translation_uz"),
+  exampleSentence: text("example_sentence"),
+});
+
+export const userVocabulary = pgTable("user_vocabulary", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  lexemeId: uuid("lexeme_id").notNull().references(() => lexemes.id, { onDelete: "cascade" }),
+  state: vocabStateEnum("state").notNull().default("new"),
+  sourceType: varchar("source_type", { length: 40 }), // e.g. "writing_feedback", "manual"
+  sourceId: uuid("source_id"),
+  correctCount: integer("correct_count").notNull().default(0),
+  incorrectCount: integer("incorrect_count").notNull().default(0),
+  activeUseCount: integer("active_use_count").notNull().default(0),
+  intervalDays: integer("interval_days").notNull().default(0),
+  nextReviewAt: timestamp("next_review_at", { withTimezone: true }).defaultNow().notNull(),
+  lastReviewedAt: timestamp("last_reviewed_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+// ---------------------------------------------------------------------------
+// Assignments & teacher feedback loop — WIRED (minimal) in Phase 1
+// ---------------------------------------------------------------------------
+
+export const assignments = pgTable("assignments", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  title: varchar("title", { length: 200 }).notNull(),
+  description: text("description"),
+  createdByUserId: uuid("created_by_user_id").notNull().references(() => users.id),
+  targetUserId: uuid("target_user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  relatedWritingPromptId: uuid("related_writing_prompt_id").references(() => writingPrompts.id),
+  status: assignmentStatusEnum("status").notNull().default("not_started"),
+  dueAt: timestamp("due_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const activityEvents = pgTable("activity_events", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  type: varchar("type", { length: 60 }).notNull(),
+  payload: jsonb("payload"),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+// ---------------------------------------------------------------------------
+// SCHEMA-ONLY / not wired to UI yet — modeled now so nothing needs a rewrite
+// when these phases start. Listed in the delivery report as REMAINING.
+// ---------------------------------------------------------------------------
+
+export const liveClasses = pgTable("live_classes", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  courseId: uuid("course_id").notNull().references(() => courses.id, { onDelete: "cascade" }),
+  teacherUserId: uuid("teacher_user_id").references(() => users.id),
+  title: varchar("title", { length: 200 }).notNull(),
+  topic: text("topic"),
+  scheduledAt: timestamp("scheduled_at", { withTimezone: true }).notNull(),
+  durationMinutes: integer("duration_minutes").notNull().default(60),
+  meetingUrl: text("meeting_url"),
+  recordingUrl: text("recording_url"),
+  status: liveClassStatusEnum("status").notNull().default("upcoming"),
+});
+
+export const liveClassAttendance = pgTable("live_class_attendance", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  liveClassId: uuid("live_class_id").notNull().references(() => liveClasses.id, { onDelete: "cascade" }),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  joinedAt: timestamp("joined_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const mockTests = pgTable("mock_tests", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  courseId: uuid("course_id").notNull().references(() => courses.id, { onDelete: "cascade" }),
+  title: varchar("title", { length: 200 }).notNull(),
+  skill: varchar("skill", { length: 20 }).notNull(), // listening | reading | writing | speaking | full
+});
+
+export const mockAttempts = pgTable("mock_attempts", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  mockTestId: uuid("mock_test_id").notNull().references(() => mockTests.id, { onDelete: "cascade" }),
+  startedAt: timestamp("started_at", { withTimezone: true }),
+  finishedAt: timestamp("finished_at", { withTimezone: true }),
+  rawScore: real("raw_score"),
+  estimatedBand: real("estimated_band"),
+  skillBreakdown: jsonb("skill_breakdown"),
+});
+
+// Future billing — schema exists, BILLING_ENABLED flag keeps it dark
+export const products = pgTable("products", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  name: varchar("name", { length: 120 }).notNull(),
+});
+
+export const plans = pgTable("plans", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  productId: uuid("product_id").notNull().references(() => products.id, { onDelete: "cascade" }),
+  name: varchar("name", { length: 120 }).notNull(),
+});
+
+export const prices = pgTable("prices", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  planId: uuid("plan_id").notNull().references(() => plans.id, { onDelete: "cascade" }),
+  amountCents: integer("amount_cents").notNull(),
+  currency: varchar("currency", { length: 3 }).notNull().default("UZS"),
+});
+
+export const subscriptions = pgTable("subscriptions", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  planId: uuid("plan_id").notNull().references(() => plans.id),
+  status: varchar("status", { length: 30 }).notNull().default("inactive"),
+  currentPeriodEnd: timestamp("current_period_end", { withTimezone: true }),
+});
+
+export const payments = pgTable("payments", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  subscriptionId: uuid("subscription_id").references(() => subscriptions.id, { onDelete: "set null" }),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  provider: varchar("provider", { length: 40 }), // click | payme | stripe | ...
+  amountCents: integer("amount_cents").notNull(),
+  status: varchar("status", { length: 30 }).notNull().default("pending"),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const accessEntitlements = pgTable("access_entitlements", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  courseId: uuid("course_id").notNull().references(() => courses.id, { onDelete: "cascade" }),
+  grantedVia: varchar("granted_via", { length: 40 }).notNull().default("demo"), // demo | purchase | teacher_grant
+  expiresAt: timestamp("expires_at", { withTimezone: true }),
+});
