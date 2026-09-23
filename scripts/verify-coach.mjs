@@ -235,7 +235,10 @@ await check("the Coach recommends the practice the weak signals point at", async
     [createdEvaluationId]
   );
   if (resolvedOnly[0].n === 0) {
-    assert.ok(!String(page.data).includes("Start practising"), "resolved patterns must not be recommended");
+    assert.ok(
+      !String(page.data).includes("data-study-recommendation="),
+      "resolved patterns must not be recommended"
+    );
   }
 });
 
