@@ -535,7 +535,15 @@ Not attempted from this environment. In outline:
    production — you probably don't.
 6. Schedule `POST /api/admin/uploads/cleanup` (hourly is plenty) to sweep
    abandoned uploads.
-7. Do not run the seed on a production database you care about; the demo
+7. Coach: set `AI_PRIMARY_PROVIDER` (default `riwi`). Nothing else is required —
+   RIWI needs no credentials and evaluates everything on a machine with no API
+   keys. To use an external model, install its adapter first (see "Adding an
+   external provider"); pointing `AI_PRIMARY_PROVIDER` at an id that is not
+   installed is safe but reported as a fallback in every result row.
+8. Leave `STT_PRIMARY_PROVIDER=none` until a transcription vendor is configured;
+   the app then states that no transcript provider exists instead of inventing
+   one. Students can still type a transcript, which is labelled as theirs.
+9. Do not run the seed on a production database you care about; the demo
    passwords are public.
 
 ## REMAINING (honest, not padded)

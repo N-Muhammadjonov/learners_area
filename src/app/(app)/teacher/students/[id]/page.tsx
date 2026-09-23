@@ -6,6 +6,10 @@ import { findEvaluationsForSources } from "@/lib/data/evaluations";
 import { Card } from "@/components/ui/Card";
 import { BandBadge } from "@/components/ui/Badge";
 import { TeacherFeedbackForm } from "@/components/teacher/TeacherFeedbackForm";
+import { NewAssignmentForm } from "@/components/teacher/NewAssignmentForm";
+import { db } from "@/db/client";
+import { writingPrompts } from "@/db/schema";
+import { eq } from "drizzle-orm";
 
 export default async function StudentDetailPage({ params }: { params: { id: string } }) {
   const session = await getSession();
@@ -22,11 +26,27 @@ export default async function StudentDetailPage({ params }: { params: { id: stri
     sourceIds: detail.submissions.map(({ submission }) => submission.id),
   });
 
+  const prompts = await db
+    .select({ id: writingPrompts.id, category: writingPrompts.category, taskType: writingPrompts.taskType })
+    .from(writingPrompts)
+    .where(eq(writingPrompts.isActive, true));
+
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-6">
-      <div>
-        <h1 className="font-display text-2xl text-ink-900">{detail.student.name}</h1>
-        <p className="text-sm text-ink-500">{detail.student.email ?? "Telegram account"}</p>
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h1 className="font-display text-2xl text-ink-900">{detail.student.name}</h1>
+          <p className="text-sm text-ink-500">{detail.student.email ?? "Telegram account"}</p>
+        </div>
+        {/* Follow-up work assigned after reviewing the Coach's and the teacher's feedback. */}
+        <NewAssignmentForm
+          dict={dict}
+          studentId={detail.student.id}
+          prompts={prompts.map((prompt) => ({
+            id: prompt.id,
+            label: `${prompt.taskType === "task1" ? dict.writing.task1 : dict.writing.task2} · ${prompt.category}`,
+          }))}
+        />
       </div>
 
       <div>

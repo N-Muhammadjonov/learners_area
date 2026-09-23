@@ -271,6 +271,17 @@ await check("a grammar item offers a produced answer instead of only multiple ch
   assert.match(html, /Check my sentence/);
 });
 
+await check("a teacher can assign follow-up work from the student page", async () => {
+  let cookie = await login("teacher");
+  cookie = await setLocale(cookie, "en");
+  const list = await get(cookie, "/teacher/students");
+  const studentId = list.html.match(/href="\/teacher\/students\/([0-9a-f-]{36})"/)?.[1];
+  assert.ok(studentId, "the teacher must see at least one student");
+  const { html } = await get(cookie, `/teacher/students/${studentId}`);
+  assert.match(html, /Assign follow-up work/);
+  assert.match(html, /Teacher feedback|Checked by/);
+});
+
 await check("deactivate and delete are distinguishable in both languages", async () => {
   // They used to render as the same Uzbek word, which made a destructive and a
   // reversible action look identical on the same card.

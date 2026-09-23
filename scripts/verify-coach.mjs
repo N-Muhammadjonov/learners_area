@@ -244,6 +244,37 @@ await check("another student cannot evaluate someone else's assignment", async (
   assert.ok([403, 400].includes(res.status), `expected a refusal, got ${res.status}`);
 });
 
+await check("a teacher can assign follow-up work and a student cannot", async () => {
+  const rows = await dbRows("select id from users where email = $1", [ACCOUNTS.student.email]);
+  const studentId = rows[0].id;
+
+  const forbidden = await student.request("/api/assignments", {
+    method: "POST",
+    body: { title: "Student assigning their own work", targetUserId: studentId },
+  });
+  assert.equal(forbidden.status, 403, "a student must not be able to assign work");
+
+  const created = await teacher.request("/api/assignments", {
+    method: "POST",
+    body: {
+      title: "Rewrite your introduction with a clear position",
+      description: "Focus on the first two sentences only.",
+      targetUserId: studentId,
+    },
+  });
+  assert.equal(created.status, 200, `assignment creation failed: ${JSON.stringify(created.data)}`);
+  assert.ok(created.data.assignment?.id, "the created assignment must be returned");
+
+  const listed = await student.request("/api/assignments");
+  assert.equal(listed.status, 200);
+  assert.ok(
+    listed.data.assignments.some((a) => a.id === created.data.assignment.id),
+    "the assigned work must appear for the student"
+  );
+
+  await pool.query("delete from assignments where id = $1", [created.data.assignment.id]);
+});
+
 // --- Grammar production -----------------------------------------------------
 
 await check("a produced grammar answer is graded by verdict, not by string equality", async () => {
