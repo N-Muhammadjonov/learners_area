@@ -2,20 +2,26 @@ import type { Dictionary } from "@/lib/i18n/en";
 import type { Locale } from "@/lib/i18n";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { LogoutButton } from "./LogoutButton";
+import { MobileNav } from "./MobileNav";
+import type { Role } from "@/lib/auth/session";
 
 export function Topbar({
   dict,
   locale,
   userName,
+  role,
 }: {
   dict: Dictionary;
   locale: Locale;
   userName: string;
+  role: Role;
 }) {
   return (
-    <header className="flex items-center justify-between border-b border-ink-100 bg-paper-raised px-4 py-3 md:px-6">
-      <div className="md:hidden font-display text-lg text-ink-900">{dict.marketing.title}</div>
-      <div className="hidden md:block" />
+    <header className="flex items-center justify-between gap-3 border-b border-ink-100 bg-paper-raised px-4 py-3 md:px-6">
+      <div className="flex items-center gap-3">
+        <MobileNav dict={dict} role={role} />
+        <div className="font-display text-lg text-ink-900 md:hidden">{dict.marketing.title}</div>
+      </div>
       <div className="flex items-center gap-3">
         <LocaleSwitcher locale={locale} />
         <div className="group relative">
