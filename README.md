@@ -234,6 +234,145 @@ permission from a missing API instead of showing a generic failure.
 
 ---
 
+## AI Coach (RIWI + any future provider)
+
+The Coach evaluates student work. It is **provider-independent**: RIWI, the
+internal evaluator, runs with no API key at all, and any external AI can be
+connected later as a drop-in adapter without touching a service, route, page or
+database column.
+
+### Services
+
+Each domain has its own service, and they share one resolver, one registry, one
+result schema, one persistence layer, one weakness history and one fallback
+policy (`src/lib/services/coach/`):
+
+| Service | File | Source of the work |
+| --- | --- | --- |
+| `WritingEvaluationService` | `writing.ts` | a writing submission |
+| `SpeakingEvaluationService` | `speaking.ts` | a speaking attempt transcript |
+| `GrammarEvaluationService` | `grammar.ts` | a produced (written) grammar answer |
+| `VocabularyFeedbackService` | `vocabulary.ts` | a sentence using a target word |
+| `AssignmentEvaluationService` | `assignment.ts` | an assignment (orchestrator) |
+| `SpeechToTextService` | `stt/` | audio -> text, **separate on purpose** |
+
+Assignment evaluation is an orchestrator, not an evaluator: an assignment linked
+to a writing prompt is delegated to the writing service, a free-form response is
+resolved generically, and objective multiple-choice grading never reaches a
+provider at all.
+
+### Provider resolution
+
+```
+Evaluation request
+      |
+      v
+ AIProviderResolver                 (src/lib/services/coach/resolver.ts)
+      |
+ AI_PRIMARY_PROVIDER  -- "riwi" --> RIWI evaluates, nothing external is called
+      |
+      +-- "<external id>"
+             | capability check (the provider must declare the capability)
+             | bounded retries (transient failures only)
+             | validate the response against the evaluation contract
+             | success -> that provider's result is the only result
+             +-> any failure -> RIWI evaluates instead
+```
+
+* Timeout, network error, provider 5xx, rate limit, quota, bad credentials,
+  malformed response, schema mismatch, missing capability, an unregistered
+  provider id and `AI_EXTERNAL_ENABLED=false` all end in the same place: RIWI.
+* There is no recursive fallback. RIWI is a plain provider; it never calls the
+  resolver. A RIWI failure returns a truthful error instead of looping.
+* A submission that already has an evaluation is never evaluated again (a unique
+  index on `(source_type, source_id)` plus a read-back makes it race-safe), so a
+  provider is never paid twice for the same work.
+
+### "Checked by ..."
+
+Every result stores **who produced it** - provider id, display name, type,
+version, model, prompt version, rubric version, and `fallback_used` /
+`fallback_from`. The label shown to the student is read from that stored row,
+never from configuration, so changing `AI_PRIMARY_PROVIDER` tomorrow cannot
+relabel yesterday's feedback.
+
+```
+Checked by RIWI                      <- every evaluation produced internally
+Checked by <display name>            <- a configured external provider that answered
+```
+
+If the configured provider fails, the UI says **Checked by RIWI** and the row
+records `fallback_used = true`, `fallback_from = <that provider>`.
+
+### What RIWI can and cannot do
+
+| Capability | Real | Notes |
+| --- | --- | --- |
+| Writing: task response, coherence, lexical resource, grammatical range | yes | Word count vs target, paragraphing, sentence-length profile and variation, type-token variety, repetition, cohesive-device usage and overuse, overview/position detection, pattern-level grammar checks |
+| Speaking: fluency, lexical resource, grammatical range | yes | From the transcript plus the recording duration: words per minute, hesitation sounds, vague phrases, discourse markers, answer length against part expectations |
+| Speaking: pronunciation | no | Returned as `limited` with a **null** band. Judging pronunciation from text is not possible, and RIWI refuses to guess |
+| Grammar production | verdict | Target structure present, sentence completeness, pattern detection. Correct / mostly correct / needs correction - never a band |
+| Vocabulary active use | verdict | The word is genuinely used in a complete sentence, in a plausible form, without a known-wrong pattern. Recognising a word and producing it stay separate signals |
+| Free-form assignments | verdict | Measured facts only (length, structure, cohesion, repetition). No band, because there is no rubric to band against |
+| Any semantic judgement (argument quality, relevance, register) | no | Never claimed. Confidence stays below 1.0, and criteria that cannot be verified say so |
+
+### Adding an external provider
+
+```
+1. src/lib/services/coach/providers/<vendor>/index.ts   -> implement EvaluationProvider
+2. src/lib/services/coach/providers/index.ts            -> add it to bundledProviders
+3. environment                                          -> its credentials (server-side only)
+4. AI_PRIMARY_PROVIDER=<provider-id>                    -> deploy
+```
+
+`EvaluationProvider` (`src/lib/services/coach/types.ts`) is five optional
+methods; an adapter declares the capabilities it really has and the
+environment-variable **names** it reads. Every vendor-specific request and
+response shape stays inside the adapter folder. `tests/support/test-provider.ts`
+is a working example of an adapter that lives entirely outside the application.
+
+### Coach data
+
+* `evaluations` - one authoritative row per submission, with evaluator identity,
+  criteria, strengths, weaknesses, issues, next actions and recommended practice.
+* `coach_weaknesses` - the learner's shared weakness history, fed by RIWI and by
+  any external evaluator through the same function. A category a later evaluation
+  checks and does *not* flag moves open -> improving -> resolved. One clean pass
+  never erases a pattern.
+* `vocabulary_usages`, `assignment_responses` - the work an evaluation refers to,
+  so feedback can never be displayed without the submission it judged.
+* Teacher feedback lives in `writing_feedback` and is a separate track: an
+  automated evaluation never writes there and never overwrites a teacher's
+  judgement. Teachers see both, side by side, on the student page.
+
+The Coach dashboard (`/coach`) answers "what do I keep getting wrong", "what
+improved", "what should I practise now" and "what should I review today" from
+those rows only. There is no synthetic trend line and no placeholder number: an
+empty section says it is empty.
+
+---
+
+## Privacy and boundaries
+
+* `resolver.ts`, `registry.ts`, `config.ts`, every adapter and the STT subsystem
+  import `server-only`, so a client component that reaches them fails the build.
+* External adapters never receive local identity: the resolver replaces the user
+  id with `external-anonymous` and forwards only the text (or transcript) and the
+  language the task needs. `tests/coach-providers.test.ts` asserts this.
+* Provider credentials are read from the server environment by the adapter that
+  needs them. Nothing is exposed through `NEXT_PUBLIC_*`, and `.env.example`
+  contains names only.
+* Speech-to-text is a separate subsystem with its own provider switch
+  (`STT_PRIMARY_PROVIDER`): a transcription vendor is never reported as the
+  evaluator, and an attempt's transcript records whether it came from STT or was
+  typed by the student.
+* An evaluation never stores a file URL or a signed URL; recordings stay private
+  objects behind `GET /api/resources/<objectKey>`.
+* `tests/coach-privacy.test.ts` asserts all of the above as source-level
+  invariants, and `scripts/verify-coach.mjs` asserts it over HTTP.
+
+---
+
 ## Resources (Telegram-shaped content)
 
 A resource is a **primary file or link** plus an **ordered list of description
@@ -335,7 +474,7 @@ are intentionally separate from the generic content tree.
 ## Testing
 
 ```bash
-npm test                          # 48 unit tests (pure logic + storage rules)
+npm test                          # 80 unit tests (storage rules, RIWI signals, provider fallback, privacy)
 npm run typecheck && npm run lint
 npm run build
 ```
@@ -344,8 +483,11 @@ Against a running app with a real database:
 
 ```bash
 # with `npm run dev` up and DATABASE_URL pointed at a seeded DB:
-node scripts/verify-uploads.mjs   # 35 HTTP-level checks of the upload lifecycle
-node scripts/verify-pages.mjs     # 53 render checks across roles and locales
+# verify-uploads and verify-coach need DATABASE_URL so they can assert against
+# the real rows, not just the HTTP responses.
+node scripts/verify-uploads.mjs   # 42 HTTP-level checks of the upload lifecycle
+node scripts/verify-pages.mjs     # 69 render checks across roles and locales
+DATABASE_URL=... node scripts/verify-coach.mjs   # 19 checks of the Coach subsystem
 ```
 
 `scripts/verify-uploads.mjs` is the acceptance test for the resource system:
@@ -356,6 +498,13 @@ deactivation, path traversal, retained-vs-removed objects on edit, primary and
 attachment replacement, cancel, abandoned-upload cleanup, and full deletion.
 It asserts against the real server response, the real database and the real
 filesystem — nothing is mocked.
+
+`scripts/verify-coach.mjs` is the acceptance test for the Coach: an essay is
+submitted, evaluated, persisted and labelled; submitting it twice does not
+produce a second evaluation; a writing-linked assignment delegates instead of
+re-evaluating; grammar and vocabulary production answers are graded by verdict;
+and one student cannot read, write to or evaluate another student's work. It
+also asserts that no credential or provider switch appears in any rendered page.
 
 ### What is NOT verified against a real bucket
 
@@ -392,11 +541,17 @@ Not attempted from this environment. In outline:
 ## REMAINING (honest, not padded)
 
 - Mock tests: tables exist, no real vertical slice yet.
-- Speaking practice: recording, submission and history work end to end. What is
-  deliberately absent is **speech-to-text and automated scoring** — there is no
-  transcription provider wired, so an attempt stores its audio and duration and
-  nothing else. The UI says so rather than showing a fake score, and the submit
-  endpoint rejects a `transcript` in the request body.
+- Speaking practice: recording, submission, transcript-optional evaluation and
+  history work end to end. What is deliberately absent is a **speech-to-text
+  vendor**: `STT_PRIMARY_PROVIDER=none`, so an attempt has no transcript unless
+  the student types one, and the UI says so instead of showing a fake score. The
+  submit endpoint rejects a client-supplied `transcript` for the same reason, and
+  RIWI reports pronunciation as not assessed rather than inventing a number.
+- Coach: no external AI provider is installed, because one was deliberately not
+  chosen. RIWI evaluates everything today; the adapters, registry, fallback,
+  normalized result, persistence and UI are already vendor-agnostic.
+- RIWI's estimates are heuristic and pattern-based. They are labelled as
+  estimates everywhere, and criteria it cannot judge are reported as limited.
 - Progress charts: numbers derive from persisted activity where they exist, but
   several cards have no underlying data source yet.
 - Admin/CMS can create Reading passages/questions, Listening tests/questions,
@@ -407,7 +562,8 @@ Not attempted from this environment. In outline:
   infrastructure behind it.
 - Reading Short Answer grading is strict exact-match.
 - Billing has schema, flag off, no UI.
-- No real AI provider is wired for writing/speaking evaluation.
+- No real AI provider is wired *by default*; that is a configuration choice rather than a
+  missing subsystem (see "Adding an external provider").
 - Telegram auth is real but was never exercised against a live bot here.
 - No browser-level (Playwright/Cypress) end-to-end tests — the verification
   scripts are HTTP-level. No CI configured.

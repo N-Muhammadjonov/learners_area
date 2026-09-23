@@ -3,6 +3,7 @@ import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { speakingAttempts } from "@/db/schema";
 import { getSession } from "@/lib/auth/session";
+import { deleteEvaluationsForSource } from "@/lib/data/evaluations";
 import { attachRecordingToAttempt } from "@/lib/data/uploads";
 import { getStorageService } from "@/lib/services/storage";
 
@@ -47,6 +48,9 @@ export async function DELETE(_req: NextRequest, { params }: { params: { id: stri
   }
 
   const key = attempt.recordingObjectKey;
+  // An evaluation's sourceId is polymorphic and therefore has no cascade, so the
+  // evaluation of a discarded attempt is removed explicitly.
+  await deleteEvaluationsForSource({ sourceType: "speaking_attempt", sourceId: params.id });
   await db.delete(speakingAttempts).where(eq(speakingAttempts.id, params.id));
 
   if (key) {

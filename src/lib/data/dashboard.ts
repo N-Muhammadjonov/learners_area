@@ -3,9 +3,9 @@ import { db } from "@/db/client";
 import {
   onboardingProfiles,
   writingSubmissions,
-  writingFeedback,
   userVocabulary,
   activityEvents,
+  evaluations,
 } from "@/db/schema";
 
 async function computeStreak(userId: string): Promise<number> {
@@ -31,14 +31,16 @@ async function computeStreak(userId: string): Promise<number> {
 }
 
 export async function getDashboardData(userId: string) {
-  const [profile, latestFeedbackRow, vocabDueCount, streak, submissionCount] = await Promise.all([
+  const [profile, latestEvaluationRow, vocabDueCount, streak, submissionCount] = await Promise.all([
     db.query.onboardingProfiles.findFirst({ where: eq(onboardingProfiles.userId, userId) }),
+    // The dashboard shows the latest *evaluation*, together with the name of the
+    // evaluator that produced it. Teacher feedback is a separate track and is
+    // not mixed into this card.
     db
-      .select({ feedback: writingFeedback, submission: writingSubmissions })
-      .from(writingFeedback)
-      .innerJoin(writingSubmissions, eq(writingFeedback.submissionId, writingSubmissions.id))
-      .where(eq(writingSubmissions.userId, userId))
-      .orderBy(desc(writingFeedback.createdAt))
+      .select()
+      .from(evaluations)
+      .where(eq(evaluations.userId, userId))
+      .orderBy(desc(evaluations.createdAt))
       .limit(1),
     db
       .select({ id: userVocabulary.id })
@@ -53,7 +55,7 @@ export async function getDashboardData(userId: string) {
 
   return {
     profile: profile ?? null,
-    latestFeedback: latestFeedbackRow[0] ?? null,
+    latestEvaluation: latestEvaluationRow[0] ?? null,
     vocabDueCount: vocabDueCount.length,
     streak,
     writingAttempts: submissionCount.length,

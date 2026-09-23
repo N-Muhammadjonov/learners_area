@@ -1,5 +1,6 @@
 import { eq } from "drizzle-orm";
 import { db } from "./client";
+import { evaluateWritingSubmission } from "@/lib/services/coach";
 import {
   users,
   courses,
@@ -11,7 +12,7 @@ import {
   onboardingProfiles,
   writingPrompts,
   writingSubmissions,
-  writingFeedback,
+  assignments,
   lexemes,
   userVocabulary,
   activityEvents,
@@ -322,18 +323,20 @@ async function main() {
     .returning();
 
   if (demoSubmission) {
-    await db.insert(writingFeedback).values({
+    // The demo evaluation is produced by the real evaluator, not hand-written
+    // numbers: the seed runs the same WritingEvaluationService the app does, so
+    // the bands, the criteria notes and the "Checked by …" label in the demo
+    // data are genuine output of the code path students will exercise.
+    await evaluateWritingSubmission({
+      userId: demoStudent.id,
       submissionId: demoSubmission.id,
-      source: "demo_ai",
-      taskResponseBand: 7,
-      coherenceBand: 7,
-      lexicalBand: 6.5,
-      grammarBand: 6.5,
-      overallBand: 7,
-      strengths: ["Clear position maintained throughout.", "Uses cohesive devices to connect ideas."],
-      weaknesses: ["Under the target length (168/250 words)."],
-      suggestions: ["Develop your ideas further to comfortably clear the word target."],
+      taskType: opinionPrompt.taskType,
+      prompt: opinionPrompt.prompt,
+      content: demoSubmission.content,
+      targetWordCount: opinionPrompt.targetWordCount,
+      language: "uz",
     });
+
     await db.insert(activityEvents).values([
       { userId: demoStudent.id, type: "WRITING_SUBMITTED", payload: { submissionId: demoSubmission.id }, createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 2) },
       { userId: demoStudent.id, type: "LESSON_COMPLETED", payload: { lessonId: completedLessonId }, createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 1) },
@@ -360,6 +363,28 @@ async function main() {
     { userId: demoStudent.id, lexemeId: lexemeRows[1]!.id, state: "review", intervalDays: 4, correctCount: 2, nextReviewAt: inPast(0), lastReviewedAt: inPast(4) },
     { userId: demoStudent.id, lexemeId: lexemeRows[2]!.id, state: "new", intervalDays: 0, nextReviewAt: inPast(0) },
     { userId: demoStudent.id, lexemeId: lexemeRows[3]!.id, state: "learning", intervalDays: 1, incorrectCount: 1, nextReviewAt: inPast(0), lastReviewedAt: inPast(1) },
+  ]);
+
+  // --- Assignments (targeted at the demo student) --------------------------
+  // Two shapes so the AssignmentEvaluationService orchestrator can be seen
+  // dispatching: one linked to a writing prompt (delegated to the writing
+  // rubric), one free-form.
+  await db.insert(assignments).values([
+    {
+      title: "Write a Task 2 answer on the opinion prompt",
+      description: "Use the prompt you already started. Aim for 250 words.",
+      createdByUserId: teacher.id,
+      targetUserId: demoStudent.id,
+      relatedWritingPromptId: opinionPrompt.id,
+      dueAt: new Date(now.getTime() + 5 * 86400000),
+    },
+    {
+      title: "Summarise your study routine in one paragraph",
+      description: "Describe when, where and how you study, and what you would change.",
+      createdByUserId: teacher.id,
+      targetUserId: demoStudent.id,
+      dueAt: new Date(now.getTime() + 7 * 86400000),
+    },
   ]);
 
   // --- Reading (original passage + questions) --------------------------------

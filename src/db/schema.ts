@@ -9,6 +9,7 @@ import {
   boolean,
   jsonb,
   real,
+  uniqueIndex,
 } from "drizzle-orm/pg-core";
 
 // ---------------------------------------------------------------------------
@@ -496,9 +497,17 @@ export const speakingAttempts = pgTable("speaking_attempts", {
   recordingMimeType: varchar("recording_mime_type", { length: 120 }),
   recordingSize: integer("recording_size"), // bytes
   recordingDurationMs: integer("recording_duration_ms"),
-  // Null until a real SpeechToTextService is configured. Never a guess.
+  // Null until a transcript exists. Never a guess.
   transcript: text("transcript"),
   transcriptProvider: varchar("transcript_provider", { length: 60 }),
+  /**
+   * "stt"    — produced by the configured SpeechToTextService
+   * "manual" — typed by the student, and labelled as such everywhere it shows
+   *
+   * Recording this is what keeps the UI honest: a typed transcript is never
+   * presented as machine transcription, and an evaluation of it says so.
+   */
+  transcriptOrigin: varchar("transcript_origin", { length: 10 }),
   startedAt: timestamp("started_at", { withTimezone: true }).defaultNow().notNull(),
   submittedAt: timestamp("submitted_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
@@ -643,4 +652,151 @@ export const accessEntitlements = pgTable("access_entitlements", {
   courseId: uuid("course_id").notNull().references(() => courses.id, { onDelete: "cascade" }),
   grantedVia: varchar("granted_via", { length: 40 }).notNull().default("demo"), // demo | purchase | teacher_grant
   expiresAt: timestamp("expires_at", { withTimezone: true }),
+});
+
+// ---------------------------------------------------------------------------
+// Coach evaluations — the persistent record of WHO evaluated WHAT, and the
+// shared learner weakness memory every evaluator feeds.
+//
+// Provider identity is stored per row, not read from configuration at display
+// time: if AI_PRIMARY_PROVIDER changes tomorrow, yesterday's evaluation must
+// still say which evaluator produced it, and `fallback_used` /
+// `fallback_from` must still say that RIWI took over after a failure.
+// ---------------------------------------------------------------------------
+
+export const evaluationTypeEnum = pgEnum("evaluation_type", [
+  "writing",
+  "speaking",
+  "grammar",
+  "vocabulary",
+  "assignment",
+]);
+
+export const providerTypeEnum = pgEnum("provider_type", ["internal", "external"]);
+
+export const weaknessStatusEnum = pgEnum("weakness_status", ["open", "improving", "resolved"]);
+
+export const verdictEnum = pgEnum("evaluation_verdict", [
+  "correct",
+  "mostly_correct",
+  "needs_correction",
+]);
+
+export const evaluations = pgTable(
+  "evaluations",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    evaluationType: evaluationTypeEnum("evaluation_type").notNull(),
+    // "writing_submission" | "speaking_attempt" | "grammar_exercise" | ...
+    sourceType: varchar("source_type", { length: 40 }).notNull(),
+    sourceId: uuid("source_id").notNull(),
+
+    providerId: varchar("provider_id", { length: 60 }).notNull(),
+    providerDisplayName: varchar("provider_display_name", { length: 80 }).notNull(),
+    providerType: providerTypeEnum("provider_type").notNull(),
+    providerVersion: varchar("provider_version", { length: 40 }).notNull(),
+    model: varchar("model", { length: 120 }),
+    promptVersion: varchar("prompt_version", { length: 40 }).notNull(),
+    rubricVersion: varchar("rubric_version", { length: 40 }).notNull(),
+    fallbackUsed: boolean("fallback_used").notNull().default(false),
+    fallbackFrom: varchar("fallback_from", { length: 60 }),
+    /**
+     * Denormalised display label of the evaluator that produced this row, so the
+     * "Checked by …" label keeps working even if that provider is later removed
+     * from the registry.
+     */
+    checkedByName: varchar("checked_by_name", { length: 80 }).notNull(),
+
+    overallEstimate: real("overall_estimate"),
+    confidence: real("confidence").notNull().default(0),
+    verdict: verdictEnum("verdict"),
+    criteria: jsonb("criteria").$type<
+      {
+        key: string;
+        label: string;
+        band: number | null;
+        limited?: boolean;
+        note?: string | null;
+      }[]
+    >()
+      .notNull()
+      .default([]),
+    strengths: jsonb("strengths").$type<string[]>().notNull().default([]),
+    weaknesses: jsonb("weaknesses").$type<string[]>().notNull().default([]),
+    issues: jsonb("issues").$type<
+      {
+        category: string;
+        message: string;
+        excerpt?: string | null;
+        suggestion?: string | null;
+        severity: string;
+      }[]
+    >()
+      .notNull()
+      .default([]),
+    nextActions: jsonb("next_actions").$type<string[]>().notNull().default([]),
+    recommendedExercises: jsonb("recommended_exercises").$type<
+      { kind: string; label: string; href?: string | null; reason?: string | null }[]
+    >()
+      .notNull()
+      .default([]),
+    processedInMs: integer("processed_in_ms").notNull().default(0),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => ({
+    // Exactly one authoritative evaluation per submission. A retry, a double
+    // click or a second request for the same submission reuses this row instead
+    // of paying a provider twice or producing two competing verdicts.
+    oneEvaluationPerSource: uniqueIndex("evaluations_source_unique").on(
+      table.sourceType,
+      table.sourceId
+    ),
+  })
+);
+
+export const coachWeaknesses = pgTable(
+  "coach_weaknesses",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    /** Canonical category from src/lib/services/coach/schema.ts — one vocabulary for every provider. */
+    category: varchar("category", { length: 40 }).notNull(),
+    firstSeenAt: timestamp("first_seen_at", { withTimezone: true }).defaultNow().notNull(),
+    lastSeenAt: timestamp("last_seen_at", { withTimezone: true }).defaultNow().notNull(),
+    occurrenceCount: integer("occurrence_count").notNull().default(0),
+    /** low | medium | high — recency-weighted, so old noise cannot dominate. */
+    recentSeverity: varchar("recent_severity", { length: 10 }).notNull().default("low"),
+    status: weaknessStatusEnum("status").notNull().default("open"),
+  },
+  (table) => ({
+    oneRowPerCategory: uniqueIndex("coach_weaknesses_unique").on(table.userId, table.category),
+  })
+);
+
+// ---------------------------------------------------------------------------
+// Coach input artifacts: the work a student produced that gets evaluated.
+// An evaluation points at one of these rows, and the row keeps the original
+// text so feedback can never be shown without the work it refers to.
+// ---------------------------------------------------------------------------
+
+export const vocabularyUsages = pgTable("vocabulary_usages", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  userVocabularyId: uuid("user_vocabulary_id")
+    .notNull()
+    .references(() => userVocabulary.id, { onDelete: "cascade" }),
+  sentence: text("sentence").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const assignmentResponses = pgTable("assignment_responses", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  assignmentId: uuid("assignment_id")
+    .notNull()
+    .references(() => assignments.id, { onDelete: "cascade" }),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  content: text("content").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });

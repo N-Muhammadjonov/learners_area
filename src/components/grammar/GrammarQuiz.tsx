@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
+import { ProductionAnswer } from "./ProductionAnswer";
 import type { Dictionary } from "@/lib/i18n/en";
 
 type Exercise = {
@@ -84,6 +85,7 @@ export function GrammarQuiz({
                 {result.explanation}
               </p>
             )}
+            <ProductionAnswer dict={dict} exerciseId={ex.id} />
           </Card>
         );
       })}

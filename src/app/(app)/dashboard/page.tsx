@@ -43,20 +43,20 @@ export default async function DashboardPage() {
         </div>
       </Card>
 
-      {data.latestFeedback && (
+      {data.latestEvaluation && (
         <Card>
           <div className="flex items-center justify-between">
             <h2 className="font-display text-lg text-ink-900">{dict.dashboard.recentFeedback}</h2>
-            <BandBadge band={data.latestFeedback.feedback.overallBand} />
+            <BandBadge band={data.latestEvaluation.overallEstimate} />
           </div>
-          {data.latestFeedback.feedback.weaknesses[0] && (
-            <p className="mt-2 text-sm text-ink-500">{data.latestFeedback.feedback.weaknesses[0]}</p>
+          {data.latestEvaluation.weaknesses[0] && (
+            <p className="mt-2 text-sm text-ink-500">{data.latestEvaluation.weaknesses[0]}</p>
           )}
-          <Link
-            href={`/writing/submissions/${data.latestFeedback.submission.id}`}
-            className="mt-3 inline-block text-sm text-signal-600 hover:underline"
-          >
-            {dict.writing.feedbackTitle} →
+          <p className="mt-2 text-xs text-ink-300" data-checked-by={data.latestEvaluation.checkedByName}>
+            {dict.coach.checkedBy} {data.latestEvaluation.checkedByName}
+          </p>
+          <Link href="/coach" className="mt-3 inline-block text-sm text-signal-600 hover:underline">
+            {dict.coach.title} →
           </Link>
         </Card>
       )}
@@ -67,8 +67,8 @@ export default async function DashboardPage() {
           {SKILLS.map((skill) => (
             <Card key={skill} className="flex flex-col gap-1">
               <span className="text-sm font-medium text-ink-900">{dict.nav[skill]}</span>
-              {skill === "writing" && data.latestFeedback ? (
-                <BandBadge band={data.latestFeedback.feedback.overallBand} />
+              {skill === "writing" && data.latestEvaluation ? (
+                <BandBadge band={data.latestEvaluation.overallEstimate} />
               ) : (
                 <span className="text-xs text-ink-300">{dict.dashboard.noAttemptsYet}</span>
               )}

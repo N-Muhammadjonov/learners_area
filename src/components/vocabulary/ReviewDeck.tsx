@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { UseInSentence } from "./UseInSentence";
 import type { Dictionary } from "@/lib/i18n/en";
 
 type DueItem = {
@@ -76,6 +77,7 @@ export function ReviewDeck({ dict, initialItems }: { dict: Dictionary; initialIt
           </Button>
         )}
       </Card>
+      {revealed && <UseInSentence dict={dict} entryId={current.entryId} term={current.term} />}
       {revealed && (
         <div className="grid grid-cols-4 gap-2">
           <Button variant="secondary" disabled={grading} onClick={() => grade("again")}>{dict.vocabulary.grade.again}</Button>

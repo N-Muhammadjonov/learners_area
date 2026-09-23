@@ -40,6 +40,8 @@ export function SidebarNav({ dict, role }: { dict: Dictionary; role: Role }) {
     <>
       <NavSection label={dict.nav.main}>
         <NavLink href="/dashboard">{dict.nav.dashboard}</NavLink>
+        <NavLink href="/coach">{dict.nav.coach}</NavLink>
+        <NavLink href="/assignments">{dict.nav.assignments}</NavLink>
         <NavLink href="/live-classes">{dict.nav.liveClasses}</NavLink>
       </NavSection>
 

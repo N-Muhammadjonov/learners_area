@@ -28,8 +28,13 @@ async function check(name, fn) {
     passed += 1;
     console.log(`  ok   ${name}`);
   } catch (err) {
-    failures.push({ name, err });
-    console.log(`  FAIL ${name}\n         ${err.message}`);
+    // Assertions compare whole pages; keep the report readable by cutting the
+    // echoed HTML out of the message.
+    const raw = String(err.message);
+    const message = raw.length > 400 ? `${raw.slice(0, 400)}… [truncated]` : raw;
+    const trimmed = new Error(message);
+    failures.push({ name, err: trimmed });
+    console.log(`  FAIL ${name}\n         ${message}`);
   }
 }
 
@@ -92,6 +97,8 @@ const PAGES = {
     "/reading/history",
     "/speaking",
     "/speaking/practice",
+    "/coach",
+    "/assignments",
     "/speaking/history",
     "/grammar",
     "/vocabulary",
@@ -212,6 +219,56 @@ await check("the speaking sidebar entries point at the new pages", async () => {
   const { html } = await get(cookie, "/speaking/practice");
   assert.match(html, /href="\/speaking\/practice"/);
   assert.match(html, /href="\/speaking\/history"/);
+});
+
+await check("the Coach dashboard names the evaluator that produced each result", async () => {
+  let cookie = await login("student");
+  cookie = await setLocale(cookie, "en");
+  const { html } = await get(cookie, "/coach");
+  assert.match(html, /Coach dashboard/);
+  // The label is written from provider metadata at evaluation time, so the
+  // seeded evaluation must name RIWI as its evaluator.
+  assert.match(html, /data-checked-by="RIWI"/);
+  assert.match(html, /Checked by/);
+  // Next's flight payload legitimately contains "$undefined"; only a rendered
+  // text node would be a real bug.
+  assert.ok(!/>\s*(undefined|NaN)\s*</.test(html), "the Coach page must not render an undefined value");
+});
+
+await check("the Coach dashboard is translated and keeps the same evaluator label", async () => {
+  let cookie = await login("student");
+  cookie = await setLocale(cookie, "uz");
+  const { html } = await get(cookie, "/coach");
+  assert.match(html, /Coach paneli/);
+  // React separates text nodes with comment markers in the streamed HTML.
+  assert.match(html, /Tekshirgan[\s\S]{0,80}RIWI/);
+});
+
+await check("a writing submission reports who checked it, not just a band", async () => {
+  let cookie = await login("student");
+  cookie = await setLocale(cookie, "en");
+  const history = await get(cookie, "/writing/history");
+  assert.match(history.html, /Checked by[\s\S]{0,80}RIWI/);
+});
+
+await check("the assignments page renders for a student with assignments", async () => {
+  let cookie = await login("student");
+  cookie = await setLocale(cookie, "en");
+  const { html } = await get(cookie, "/assignments");
+  assert.match(html, /Assignments/);
+  assert.match(html, /Your response|Checked by/);
+});
+
+await check("a grammar item offers a produced answer instead of only multiple choice", async () => {
+  let cookie = await login("student");
+  cookie = await setLocale(cookie, "en");
+  // Find a topic through the API-independent list page, then open it.
+  const list = await get(cookie, "/grammar");
+  const topicId = list.html.match(/href="\/grammar\/([0-9a-f-]{36})"/)?.[1];
+  assert.ok(topicId, "the grammar list must link to at least one topic");
+  const { html } = await get(cookie, `/grammar/${topicId}`);
+  assert.match(html, /Write your own correction/);
+  assert.match(html, /Check my sentence/);
 });
 
 await check("deactivate and delete are distinguishable in both languages", async () => {

@@ -1,0 +1,100 @@
+import "server-only";
+import { RIWI_PROMPT_VERSION, RIWI_RUBRIC_VERSION } from "../../rubric";
+import type { ProviderCapability, ProviderEvaluationOutput } from "../../schema";
+import {
+  providerFail,
+  providerOk,
+  type AssignmentEvaluationInput,
+  type EvaluationContext,
+  type EvaluationProvider,
+  type GrammarEvaluationInput,
+  type SpeakingEvaluationInput,
+  type VocabularyEvaluationInput,
+  type WritingEvaluationInput,
+} from "../../types";
+import { evaluateAssignmentWithRiwi } from "./assignment";
+import { evaluateGrammarWithRiwi } from "./grammar";
+import { evaluateSpeakingWithRiwi } from "./speaking";
+import { evaluateVocabularyWithRiwi } from "./vocabulary";
+import { evaluateWritingWithRiwi } from "./writing";
+
+export const RIWI_DISPLAY_NAME = "RIWI";
+
+/**
+ * RIWI — the internal Learners Area evaluator.
+ *
+ * Two properties matter more than anything else about this class:
+ *
+ * 1. It is self-contained. It calls no external service, reads no API key and
+ *    never reaches back into the provider resolver, so it can never be part of
+ *    a fallback loop.
+ * 2. It does not overclaim. Every band it produces comes from a signal it can
+ *    actually compute from the text, and criteria it cannot judge (speaking
+ *    pronunciation, for instance) are returned as `limited` with a null band
+ *    rather than a number.
+ */
+export class RiwiProvider implements EvaluationProvider {
+  readonly id = "riwi";
+  readonly displayName = RIWI_DISPLAY_NAME;
+  readonly type = "internal" as const;
+  readonly version = "1.0.0";
+  readonly model = null;
+  readonly capabilities: readonly ProviderCapability[] = [
+    "text-evaluation",
+    "writing-evaluation",
+    "speaking-evaluation",
+    "grammar-evaluation",
+    "vocabulary-evaluation",
+    "assignment-evaluation",
+  ];
+  readonly requiredSecrets: readonly string[] = [];
+  readonly promptVersion = RIWI_PROMPT_VERSION;
+  readonly rubricVersion = RIWI_RUBRIC_VERSION;
+
+  async evaluateWriting(_ctx: EvaluationContext, input: WritingEvaluationInput) {
+    try {
+      return providerOk(evaluateWritingWithRiwi(input));
+    } catch {
+      return providerFail("provider_error", "riwi_writing_failed");
+    }
+  }
+
+  async evaluateSpeaking(_ctx: EvaluationContext, input: SpeakingEvaluationInput) {
+    if (!input.transcript || input.transcript.trim().length === 0) {
+      // Refusing here is the point: there is nothing to evaluate without a
+      // transcript, and inventing one would be fabrication.
+      return providerFail("not_configured", "transcript_unavailable");
+    }
+    try {
+      return providerOk(evaluateSpeakingWithRiwi(input));
+    } catch {
+      return providerFail("provider_error", "riwi_speaking_failed");
+    }
+  }
+
+  async evaluateGrammar(_ctx: EvaluationContext, input: GrammarEvaluationInput) {
+    try {
+      return providerOk(evaluateGrammarWithRiwi(input));
+    } catch {
+      return providerFail("provider_error", "riwi_grammar_failed");
+    }
+  }
+
+  async evaluateVocabulary(_ctx: EvaluationContext, input: VocabularyEvaluationInput) {
+    try {
+      return providerOk(evaluateVocabularyWithRiwi(input));
+    } catch {
+      return providerFail("provider_error", "riwi_vocabulary_failed");
+    }
+  }
+
+  async evaluateAssignment(_ctx: EvaluationContext, input: AssignmentEvaluationInput) {
+    try {
+      return providerOk(evaluateAssignmentWithRiwi(input));
+    } catch {
+      return providerFail("provider_error", "riwi_assignment_failed");
+    }
+  }
+}
+
+export type { ProviderEvaluationOutput };
