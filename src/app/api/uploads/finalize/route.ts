@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSession } from "@/lib/auth/session";
+import { requireActiveUser } from "@/lib/auth/current-user";
 import { finalizeUploadIntent } from "@/lib/data/uploads";
 
 /**
@@ -14,8 +14,8 @@ import { finalizeUploadIntent } from "@/lib/data/uploads";
  * Body: { uploadId: string }
  */
 export async function POST(req: NextRequest) {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  const user = await requireActiveUser();
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
   const body = await req.json().catch(() => null);
   const uploadId = body?.uploadId;
@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "invalid_upload_id" }, { status: 400 });
   }
 
-  const result = await finalizeUploadIntent(session.sub, uploadId);
+  const result = await finalizeUploadIntent(user.id, uploadId);
   if (!result.ok) {
     return NextResponse.json({ error: result.error }, { status: result.status });
   }

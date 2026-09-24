@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db/client";
 import { grammarTopics } from "@/db/schema";
-import { getSession } from "@/lib/auth/session";
+import { isAdministrator, requireActiveUser } from "@/lib/auth/current-user";
 import { createGrammarTopicSchema } from "@/lib/validation/admin";
 
 export async function POST(req: NextRequest) {
-  const session = await getSession();
-  if (!session || session.role !== "admin") return NextResponse.json({ error: "forbidden" }, { status: 403 });
+  const user = await requireActiveUser();
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  if (!isAdministrator(user.role)) return NextResponse.json({ error: "forbidden" }, { status: 403 });
 
   const body = await req.json().catch(() => null);
   const parsed = createGrammarTopicSchema.safeParse(body);

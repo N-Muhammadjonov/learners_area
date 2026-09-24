@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db/client";
 import { speakingMaterials, materialBlocks, activityEvents } from "@/db/schema";
-import { getSession } from "@/lib/auth/session";
+import { isStaff, requireActiveUser } from "@/lib/auth/current-user";
 import { createMaterialSchema, resourceHref, type BlockInput } from "@/lib/validation/speaking";
 import { claimAttachment, releaseAttachments } from "@/lib/data/uploads";
 import { inferMaterialType } from "@/lib/uploads/material-type";
@@ -19,10 +19,11 @@ import { inferMaterialType } from "@/lib/uploads/material-type";
  * authorized to upload.
  */
 export async function POST(req: NextRequest) {
-  const session = await getSession();
-  if (!session || (session.role !== "teacher" && session.role !== "admin")) {
-    return NextResponse.json({ error: "forbidden" }, { status: 403 });
-  }
+  const user = await requireActiveUser();
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+    if (!isStaff(user.role)) {
+      return NextResponse.json({ error: "forbidden" }, { status: 403 });
+    }
 
   const body = await req.json().catch(() => null);
   const parsed = createMaterialSchema.safeParse(body);
@@ -44,7 +45,7 @@ export async function POST(req: NextRequest) {
     primaryType = "link";
   } else {
     const claimed = await claimAttachment(data.primary.ref, {
-      userId: session.sub,
+      userId: user.id,
       purpose: "material_primary",
     });
     if (!claimed.ok) return NextResponse.json({ error: claimed.error }, { status: 400 });
@@ -81,7 +82,7 @@ export async function POST(req: NextRequest) {
       continue;
     }
     const claimed = await claimAttachment(block.ref, {
-      userId: session.sub,
+      userId: user.id,
       purpose: "material_block",
       blockKind: block.type,
     });
@@ -100,7 +101,7 @@ export async function POST(req: NextRequest) {
       const [created] = await tx
         .insert(speakingMaterials)
         .values({
-          createdByUserId: session.sub,
+          createdByUserId: user.id,
           category: data.category,
           title: data.title,
           primaryType,
@@ -139,7 +140,7 @@ export async function POST(req: NextRequest) {
   }
 
   await db.insert(activityEvents).values({
-    userId: session.sub,
+    userId: user.id,
     type: "SPEAKING_MATERIAL_POSTED",
     payload: { materialId },
   });

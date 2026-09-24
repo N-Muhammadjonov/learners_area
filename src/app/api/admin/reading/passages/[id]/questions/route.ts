@@ -2,12 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { readingQuestions } from "@/db/schema";
-import { getSession } from "@/lib/auth/session";
+import { isAdministrator, requireActiveUser } from "@/lib/auth/current-user";
 import { createReadingQuestionSchema } from "@/lib/validation/admin";
 
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
-  const session = await getSession();
-  if (!session || session.role !== "admin") return NextResponse.json({ error: "forbidden" }, { status: 403 });
+  const user = await requireActiveUser();
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  if (!isAdministrator(user.role)) return NextResponse.json({ error: "forbidden" }, { status: 403 });
 
   const body = await req.json().catch(() => null);
   const parsed = createReadingQuestionSchema.safeParse(body);

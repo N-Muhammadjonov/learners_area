@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSession } from "@/lib/auth/session";
+import { actorOf, requireActiveUser } from "@/lib/auth/current-user";
 import { authorizeResourceRead, READ_URL_TTL_SECONDS, storedContentType } from "@/lib/data/uploads";
 import { getStorageService } from "@/lib/services/storage";
 import { isSafeObjectKey } from "@/lib/services/storage/types";
@@ -21,15 +21,15 @@ import { inferContentType } from "@/lib/services/storage/local-provider";
  * objects exist in the bucket.
  */
 export async function GET(req: NextRequest, { params }: { params: { key: string[] } }) {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  const user = await requireActiveUser();
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
   const objectKey = params.key.join("/");
   if (!isSafeObjectKey(objectKey)) {
     return NextResponse.json({ error: "invalid_key" }, { status: 400 });
   }
 
-  const access = await authorizeResourceRead(session, objectKey);
+  const access = await authorizeResourceRead(actorOf(user), objectKey);
   if (!access.allowed) {
     return access.reason === "forbidden"
       ? NextResponse.json({ error: "forbidden" }, { status: 403 })

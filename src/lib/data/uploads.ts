@@ -1,7 +1,8 @@
 import { and, eq, inArray, lt, or } from "drizzle-orm";
 import { db } from "@/db/client";
 import { materialBlocks, speakingAttempts, speakingMaterials, uploadIntents, users } from "@/db/schema";
-import type { SessionPayload } from "@/lib/auth/session";
+import type { Actor } from "@/lib/auth/ownership";
+import { isStaff } from "@/lib/auth/roles";
 import { canManageContent } from "@/lib/auth/ownership";
 import { getStorageService, isSafeObjectKey } from "@/lib/services/storage";
 import { validateUploadFile, type UploadCategory } from "@/lib/validation/uploads";
@@ -12,7 +13,7 @@ import { buildObjectKey } from "@/lib/uploads/keys";
  *
  *   intent → presigned PUT → browser uploads direct to R2 → finalize → claim
  *
- * Every step is authorized against the session and every step writes a row, so
+ * Every step is authorized against the caller and every step writes a row, so
  * there is always a server-side record of who was allowed to write which
  * object key. That record is what makes it safe to accept a direct browser PUT
  * and what stops a client registering an arbitrary bucket key as its own
@@ -36,7 +37,7 @@ export type UploadPurpose = "material_primary" | "material_block" | "speaking_re
 export type BlockKind = "image" | "audio" | "file";
 
 export type CreateIntentInput = {
-  session: SessionPayload;
+  caller: Actor;
   purpose: UploadPurpose;
   blockKind?: BlockKind;
   materialId?: string;
@@ -72,7 +73,7 @@ function categoryFor(purpose: UploadPurpose, blockKind?: BlockKind): UploadCateg
  * not issued.
  */
 export async function createUploadIntent(input: CreateIntentInput): Promise<CreateIntentResult> {
-  const { session, purpose, blockKind, materialId, speakingAttemptId } = input;
+  const { caller, purpose, blockKind, materialId, speakingAttemptId } = input;
 
   if (purpose === "material_block" && !blockKind) {
     return { ok: false, status: 400, error: "missing_block_kind" };
@@ -86,9 +87,9 @@ export async function createUploadIntent(input: CreateIntentInput): Promise<Crea
       where: eq(speakingAttempts.id, speakingAttemptId),
     });
     if (!attempt) return { ok: false, status: 404, error: "attempt_not_found" };
-    if (attempt.userId !== session.sub) return { ok: false, status: 403, error: "forbidden" };
+    if (attempt.userId !== caller.id) return { ok: false, status: 403, error: "forbidden" };
     if (attempt.status !== "recording") return { ok: false, status: 409, error: "attempt_already_submitted" };
-  } else if (session.role !== "teacher" && session.role !== "admin") {
+  } else if (!isStaff(caller.role)) {
     return { ok: false, status: 403, error: "forbidden" };
   }
 
@@ -100,7 +101,7 @@ export async function createUploadIntent(input: CreateIntentInput): Promise<Crea
       where: eq(speakingMaterials.id, materialId),
     });
     if (!material) return { ok: false, status: 404, error: "material_not_found" };
-    if (!canManageContent(session, material.createdByUserId)) {
+    if (!canManageContent(caller, material.createdByUserId)) {
       return { ok: false, status: 403, error: "forbidden" };
     }
   }
@@ -144,7 +145,7 @@ export async function createUploadIntent(input: CreateIntentInput): Promise<Crea
 
   await db.insert(uploadIntents).values({
     id: intentId,
-    userId: session.sub,
+    userId: caller.id!,
     materialId: materialId ?? null,
     speakingAttemptId: speakingAttemptId ?? null,
     purpose,
@@ -452,7 +453,7 @@ export type ResourceAccess =
   | { allowed: false; reason: "not_found" | "forbidden" };
 
 /**
- * Decides whether `session` may read `objectKey`.
+ * Decides whether `caller` may read `objectKey`.
  *
  * Course content is private by default: an object is readable when it belongs
  * to an ACTIVE material, or when the caller manages that material (its author,
@@ -464,10 +465,7 @@ export type ResourceAccess =
  * Unknown keys are reported as not-found rather than forbidden, so the route
  * cannot be used to enumerate which objects exist.
  */
-export async function authorizeResourceRead(
-  session: SessionPayload,
-  objectKey: string
-): Promise<ResourceAccess> {
+export async function authorizeResourceRead(caller: Actor, objectKey: string): Promise<ResourceAccess> {
   if (!isSafeObjectKey(objectKey)) return { allowed: false, reason: "not_found" };
 
   const block = await db.query.materialBlocks.findFirst({
@@ -485,7 +483,7 @@ export async function authorizeResourceRead(
       where: eq(speakingMaterials.id, materialId),
     });
     if (!material) return { allowed: false, reason: "not_found" };
-    const mayRead = material.isActive || canManageContent(session, material.createdByUserId);
+    const mayRead = material.isActive || canManageContent(caller, material.createdByUserId);
     if (!mayRead) return { allowed: false, reason: "forbidden" };
     return { allowed: true, objectKey, ownerId: material.createdByUserId, materialId };
   }
@@ -499,7 +497,7 @@ export async function authorizeResourceRead(
   if (!attempt) return { allowed: false, reason: "not_found" };
 
   const mayRead =
-    attempt.userId === session.sub || session.role === "teacher" || session.role === "admin";
+    attempt.userId === caller.id || isStaff(caller.role);
   if (!mayRead) return { allowed: false, reason: "forbidden" };
 
   return { allowed: true, objectKey, ownerId: attempt.userId, materialId: attempt.id };

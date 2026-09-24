@@ -2,8 +2,23 @@ import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 import { SESSION_COOKIE } from "@/lib/auth/session";
 
-const TEACHER_PREFIX = "/teacher";
-const ADMIN_PREFIX = "/admin";
+/**
+ * Coarse routing guard.
+ *
+ * Middleware runs on the Edge runtime and cannot reach PostgreSQL, so it only
+ * answers "is anybody signed in, and what does the signed cookie claim?" That is
+ * enough to redirect a visitor to the login page before a page renders — it is
+ * deliberately *not* the authorization layer.
+ *
+ * Real authorization happens in the Node runtime on every request:
+ *   src/lib/auth/current-user.ts   (role + account status, straight from the DB)
+ *   src/app/(app)/layout.tsx       (the private-area gate)
+ *   every /api route               (requireActiveUser / requireAdministrator …)
+ */
+
+const STAFF_PREFIXES = ["/teacher"];
+const ADMIN_PREFIXES = ["/admin"];
+const OWNER_PREFIXES = ["/owner"];
 
 const PROTECTED_PREFIXES = [
   "/dashboard",
@@ -16,8 +31,14 @@ const PROTECTED_PREFIXES = [
   "/speaking",
   "/grammar",
   "/mocks",
-  TEACHER_PREFIX,
-  ADMIN_PREFIX,
+  "/coach",
+  "/assignments",
+  "/progress",
+  "/live-classes",
+  "/pending",
+  ...STAFF_PREFIXES,
+  ...ADMIN_PREFIXES,
+  ...OWNER_PREFIXES,
 ];
 
 async function readSession(token: string | undefined) {
@@ -32,33 +53,32 @@ async function readSession(token: string | undefined) {
   }
 }
 
+function matches(pathname: string, prefixes: string[]) {
+  return prefixes.some((p) => pathname === p || pathname.startsWith(`${p}/`));
+}
+
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  const isProtected = PROTECTED_PREFIXES.some(
-    (p) => pathname === p || pathname.startsWith(`${p}/`)
-  );
-  if (!isProtected) return NextResponse.next();
+  if (!matches(pathname, PROTECTED_PREFIXES)) return NextResponse.next();
 
   const session = await readSession(req.cookies.get(SESSION_COOKIE)?.value);
 
   if (!session) {
+    if (pathname === "/pending") return NextResponse.redirect(new URL("/login", req.url));
     const loginUrl = new URL("/login", req.url);
     loginUrl.searchParams.set("next", pathname);
     return NextResponse.redirect(loginUrl);
   }
 
-  if (!session.onboarded && pathname !== "/onboarding" && session.role === "student") {
-    return NextResponse.redirect(new URL("/onboarding", req.url));
-  }
-
-  if (pathname.startsWith(ADMIN_PREFIX) && session.role !== "admin") {
+  // A role in the cookie can be one request out of date; this only decides which
+  // shell the visitor lands in. The page and the API re-check against the DB.
+  if (matches(pathname, STAFF_PREFIXES) && session.role === "student") {
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
-  if (
-    pathname.startsWith(TEACHER_PREFIX) &&
-    session.role !== "teacher" &&
-    session.role !== "admin"
-  ) {
+  if (matches(pathname, ADMIN_PREFIXES) && session.role !== "admin" && session.role !== "owner") {
+    return NextResponse.redirect(new URL("/dashboard", req.url));
+  }
+  if (matches(pathname, OWNER_PREFIXES) && session.role !== "owner") {
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
@@ -77,7 +97,13 @@ export const config = {
     "/speaking/:path*",
     "/grammar/:path*",
     "/mocks/:path*",
+    "/coach/:path*",
+    "/assignments/:path*",
+    "/progress/:path*",
+    "/live-classes/:path*",
+    "/pending/:path*",
     "/teacher/:path*",
     "/admin/:path*",
+    "/owner/:path*",
   ],
 };

@@ -3,7 +3,7 @@ import { and, desc, eq } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/db/client";
 import { assignments, writingPrompts, writingSubmissions } from "@/db/schema";
-import { getSession } from "@/lib/auth/session";
+import { isAdministrator, requireActiveUser } from "@/lib/auth/current-user";
 import { canManageContent } from "@/lib/auth/ownership";
 import { getLocale } from "@/lib/i18n";
 import { saveAssignmentResponse } from "@/lib/data/coach-artifacts";
@@ -25,17 +25,17 @@ import { classifyAssignment, evaluateAssignment, evaluateWritingSubmission } fro
 const schema = z.object({ response: z.string().min(20).max(20000).optional() });
 
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  const user = await requireActiveUser();
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
   const assignment = await db.query.assignments.findFirst({
     where: eq(assignments.id, params.id),
   });
   if (!assignment) return NextResponse.json({ error: "not_found" }, { status: 404 });
 
-  const isTargetStudent = assignment.targetUserId === session.sub;
+  const isTargetStudent = assignment.targetUserId === user.id;
   const isManager =
-    session.role === "admin" || canManageContent(session, assignment.createdByUserId);
+    isAdministrator(user.role) || canManageContent(user, assignment.createdByUserId);
   if (!isTargetStudent && !isManager) {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
@@ -47,7 +47,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   if (isTargetStudent && parsed.data.response) {
     await saveAssignmentResponse({
       assignmentId: assignment.id,
-      userId: session.sub,
+      userId: user.id,
       content: parsed.data.response,
     });
   }
@@ -113,7 +113,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   }
 
   const outcome = await evaluateAssignment({
-    userId: session.sub,
+    userId: user.id,
     assignmentId: assignment.id,
     title: assignment.title,
     description: assignment.description,

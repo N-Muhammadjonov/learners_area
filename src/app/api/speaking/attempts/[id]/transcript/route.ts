@@ -3,7 +3,7 @@ import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/db/client";
 import { speakingAttempts, speakingPrompts } from "@/db/schema";
-import { getSession } from "@/lib/auth/session";
+import { requireActiveUser } from "@/lib/auth/current-user";
 import { getLocale } from "@/lib/i18n";
 import { evaluateSpeakingAttempt } from "@/lib/services/coach";
 
@@ -22,14 +22,14 @@ import { evaluateSpeakingAttempt } from "@/lib/services/coach";
 const schema = z.object({ manualTranscript: z.string().min(10).max(8000) });
 
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  const user = await requireActiveUser();
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
   const attempt = await db.query.speakingAttempts.findFirst({
     where: eq(speakingAttempts.id, params.id),
   });
   if (!attempt) return NextResponse.json({ error: "not_found" }, { status: 404 });
-  if (attempt.userId !== session.sub) return NextResponse.json({ error: "forbidden" }, { status: 403 });
+  if (attempt.userId !== user.id) return NextResponse.json({ error: "forbidden" }, { status: 403 });
 
   const body = await req.json().catch(() => null);
   const parsed = schema.safeParse(body);
@@ -40,7 +40,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     : null;
 
   const outcome = await evaluateSpeakingAttempt({
-    userId: session.sub,
+    userId: user.id,
     attemptId: attempt.id,
     part: attempt.part,
     promptText: prompt?.promptText ?? null,

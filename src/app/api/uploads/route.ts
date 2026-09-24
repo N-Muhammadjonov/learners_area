@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSession } from "@/lib/auth/session";
+import { requireActiveUser } from "@/lib/auth/current-user";
 import { db } from "@/db/client";
 import { uploadIntents } from "@/db/schema";
 import { eq } from "drizzle-orm";
@@ -23,8 +23,8 @@ import { validateUploadFile, type UploadCategory } from "@/lib/validation/upload
  * Body (multipart): uploadId, file
  */
 export async function POST(req: NextRequest) {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  const user = await requireActiveUser();
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
   const form = await req.formData().catch(() => null);
   const uploadId = form?.get("uploadId");
@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
   // already required the caller to own the material or the Speaking attempt
   // this upload belongs to. Students therefore proxy their own practice
   // recordings, while never anyone else's upload.
-  if (!intent || intent.userId !== session.sub) {
+  if (!intent || intent.userId !== user.id) {
     return NextResponse.json({ error: "upload_not_found" }, { status: 404 });
   }
   if (intent.status !== "pending" && intent.status !== "finalized") {

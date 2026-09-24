@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { and, eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { activityEvents, writingPrompts, writingSubmissions } from "@/db/schema";
-import { getSession } from "@/lib/auth/session";
+import { requireActiveUser } from "@/lib/auth/current-user";
 import { getLocale } from "@/lib/i18n";
 import { countWords } from "@/lib/services/writing-evaluation/heuristics";
 import { evaluateWritingSubmission } from "@/lib/services/coach";
@@ -21,11 +21,11 @@ import { evaluateWritingSubmission } from "@/lib/services/coach";
  * of locking the student out of their own work.
  */
 export async function POST(_req: NextRequest, { params }: { params: { id: string } }) {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  const user = await requireActiveUser();
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
   const submission = await db.query.writingSubmissions.findFirst({
-    where: and(eq(writingSubmissions.id, params.id), eq(writingSubmissions.userId, session.sub)),
+    where: and(eq(writingSubmissions.id, params.id), eq(writingSubmissions.userId, user.id)),
   });
   if (!submission) return NextResponse.json({ error: "not_found" }, { status: 404 });
   if (submission.status !== "draft") {
@@ -41,7 +41,7 @@ export async function POST(_req: NextRequest, { params }: { params: { id: string
   if (!prompt) return NextResponse.json({ error: "prompt_missing" }, { status: 500 });
 
   const outcome = await evaluateWritingSubmission({
-    userId: session.sub,
+    userId: user.id,
     submissionId: submission.id,
     taskType: prompt.taskType,
     prompt: prompt.prompt,
@@ -63,7 +63,7 @@ export async function POST(_req: NextRequest, { params }: { params: { id: string
       .where(eq(writingSubmissions.id, submission.id));
 
     await tx.insert(activityEvents).values({
-      userId: session.sub,
+      userId: user.id,
       type: "WRITING_SUBMITTED",
       payload: {
         submissionId: submission.id,

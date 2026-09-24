@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { speakingAttempts } from "@/db/schema";
-import { getSession } from "@/lib/auth/session";
+import { isStaff, requireActiveUser } from "@/lib/auth/current-user";
 import { deleteEvaluationsForSource } from "@/lib/data/evaluations";
 import { attachRecordingToAttempt } from "@/lib/data/uploads";
 import { getStorageService } from "@/lib/services/storage";
@@ -13,16 +13,16 @@ import { getStorageService } from "@/lib/services/storage";
  *                                      recording object
  */
 export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  const user = await requireActiveUser();
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
   const attempt = await db.query.speakingAttempts.findFirst({
     where: eq(speakingAttempts.id, params.id),
   });
   if (!attempt) return NextResponse.json({ error: "not_found" }, { status: 404 });
 
-  const isReviewer = session.role === "teacher" || session.role === "admin";
-  if (!isReviewer && attempt.userId !== session.sub) {
+  const isReviewer = isStaff(user.role);
+  if (!isReviewer && attempt.userId !== user.id) {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
 
@@ -35,14 +35,14 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
  * their progress.
  */
 export async function DELETE(_req: NextRequest, { params }: { params: { id: string } }) {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  const user = await requireActiveUser();
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
   const attempt = await db.query.speakingAttempts.findFirst({
     where: eq(speakingAttempts.id, params.id),
   });
   if (!attempt) return NextResponse.json({ error: "not_found" }, { status: 404 });
-  if (attempt.userId !== session.sub) return NextResponse.json({ error: "forbidden" }, { status: 403 });
+  if (attempt.userId !== user.id) return NextResponse.json({ error: "forbidden" }, { status: 403 });
   if (attempt.status !== "recording") {
     return NextResponse.json({ error: "attempt_already_submitted" }, { status: 409 });
   }
@@ -63,8 +63,8 @@ export async function DELETE(_req: NextRequest, { params }: { params: { id: stri
 
 /** PATCH attaches a finalized recording upload to this attempt. */
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  const user = await requireActiveUser();
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
   const body = await req.json().catch(() => null);
   const uploadId = body?.uploadId;
@@ -74,7 +74,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   }
 
   const result = await attachRecordingToAttempt({
-    userId: session.sub,
+    userId: user.id,
     attemptId: params.id,
     uploadId,
     durationMs: typeof durationMs === "number" ? durationMs : undefined,

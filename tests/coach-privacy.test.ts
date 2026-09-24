@@ -190,9 +190,12 @@ test("evaluation routes require a session before anything else", () => {
   ];
   for (const route of routes) {
     const source = read(route);
-    assert.match(source, /getSession\(\)/, `${route} must call getSession`);
+    // Authorization must come from the database-backed guard: a signed cookie
+    // alone is not enough, because an account can be suspended or still be
+    // waiting for admission while its cookie stays valid.
+    assert.match(source, /requireActiveUser\(\)/, `${route} must gate on requireActiveUser`);
     assert.ok(
-      source.indexOf("getSession") < source.indexOf("evaluate"),
+      source.indexOf("requireActiveUser") < source.indexOf("evaluate"),
       `${route} must authorize before it evaluates`
     );
     assert.match(source, /status: 401/, `${route} must answer 401 without a session`);

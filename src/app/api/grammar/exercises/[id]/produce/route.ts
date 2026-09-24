@@ -3,7 +3,7 @@ import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/db/client";
 import { activityEvents, grammarAttempts, grammarExercises, grammarTopics } from "@/db/schema";
-import { getSession } from "@/lib/auth/session";
+import { requireActiveUser } from "@/lib/auth/current-user";
 import { getLocale } from "@/lib/i18n";
 import { evaluateGrammarProduction } from "@/lib/services/coach";
 
@@ -23,8 +23,8 @@ import { evaluateGrammarProduction } from "@/lib/services/coach";
 const schema = z.object({ answer: z.string().min(1).max(2000) });
 
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  const user = await requireActiveUser();
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
   const exercise = await db.query.grammarExercises.findFirst({
     where: eq(grammarExercises.id, params.id),
@@ -42,7 +42,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   const [attempt] = await db
     .insert(grammarAttempts)
     .values({
-      userId: session.sub,
+      userId: user.id,
       exerciseId: exercise.id,
       selectedOption: parsed.data.answer,
       isCorrect: false,
@@ -51,7 +51,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   if (!attempt) return NextResponse.json({ error: "attempt_write_failed" }, { status: 500 });
 
   const outcome = await evaluateGrammarProduction({
-    userId: session.sub,
+    userId: user.id,
     attemptId: attempt.id,
     promptText: exercise.promptText,
     studentAnswer: parsed.data.answer,
@@ -73,7 +73,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     .where(eq(grammarAttempts.id, attempt.id));
 
   await db.insert(activityEvents).values({
-    userId: session.sub,
+    userId: user.id,
     type: "GRAMMAR_PRODUCTION_SUBMITTED",
     payload: { exerciseId: exercise.id, verdict: outcome.evaluation.verdict },
   });

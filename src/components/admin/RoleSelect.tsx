@@ -3,9 +3,18 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-const ROLES = ["student", "teacher", "admin"] as const;
+import type { Role } from "@/lib/auth/roles";
 
-export function RoleSelect({ userId, currentRole }: { userId: string; currentRole: (typeof ROLES)[number] }) {
+export function RoleSelect({
+  userId,
+  currentRole,
+  options,
+}: {
+  userId: string;
+  currentRole: Role;
+  /** Roles the current actor may actually grant (server decides again). */
+  options: Role[];
+}) {
   const router = useRouter();
   const [pending, setPending] = useState(false);
 
@@ -25,8 +34,10 @@ export function RoleSelect({ userId, currentRole }: { userId: string; currentRol
         router.refresh();
       }}
     >
-      {ROLES.map((r) => (
-        <option key={r} value={r}>{r}</option>
+      {options.map((r) => (
+        <option key={r} value={r}>
+          {r}
+        </option>
       ))}
     </select>
   );

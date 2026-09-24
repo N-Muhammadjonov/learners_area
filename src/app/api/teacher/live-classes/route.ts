@@ -2,14 +2,15 @@ import { NextRequest, NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { liveClasses, courses } from "@/db/schema";
-import { getSession } from "@/lib/auth/session";
+import { isStaff, requireActiveUser } from "@/lib/auth/current-user";
 import { createLiveClassSchema } from "@/lib/validation/live-classes";
 
 export async function POST(req: NextRequest) {
-  const session = await getSession();
-  if (!session || (session.role !== "teacher" && session.role !== "admin")) {
-    return NextResponse.json({ error: "forbidden" }, { status: 403 });
-  }
+  const user = await requireActiveUser();
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+    if (!isStaff(user.role)) {
+      return NextResponse.json({ error: "forbidden" }, { status: 403 });
+    }
 
   const body = await req.json().catch(() => null);
   const parsed = createLiveClassSchema.safeParse(body);
@@ -22,7 +23,7 @@ export async function POST(req: NextRequest) {
     .insert(liveClasses)
     .values({
       courseId: ielts.id,
-      teacherUserId: session.sub,
+      teacherUserId: user.id,
       title: parsed.data.title,
       topic: parsed.data.topic,
       scheduledAt: new Date(parsed.data.scheduledAt),

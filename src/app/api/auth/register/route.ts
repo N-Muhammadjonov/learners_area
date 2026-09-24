@@ -39,7 +39,6 @@ export async function POST(req: NextRequest) {
     name: user.name,
     locale: user.locale,
     onboarded: false,
-    isOwner: user.isOwner,
   });
   cookies().set(SESSION_COOKIE, token, sessionCookieOptions);
 

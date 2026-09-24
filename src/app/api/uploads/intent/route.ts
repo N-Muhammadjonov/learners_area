@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSession } from "@/lib/auth/session";
+import { actorOf, requireActiveUser } from "@/lib/auth/current-user";
 import { createUploadIntent, type BlockKind, type UploadPurpose } from "@/lib/data/uploads";
 
 /**
@@ -30,8 +30,8 @@ import { createUploadIntent, type BlockKind, type UploadPurpose } from "@/lib/da
  * converge on /api/uploads/finalize, so the rest of the flow is identical.
  */
 export async function POST(req: NextRequest) {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  const user = await requireActiveUser();
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
   const body = await req.json().catch(() => null);
   const purpose = body?.purpose;
@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
   }
 
   const result = await createUploadIntent({
-    session,
+    caller: actorOf(user),
     purpose: purpose as UploadPurpose,
     blockKind: blockKind as BlockKind | undefined,
     materialId: typeof body.materialId === "string" ? body.materialId : undefined,

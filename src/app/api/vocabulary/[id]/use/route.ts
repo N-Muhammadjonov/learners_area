@@ -3,7 +3,7 @@ import { and, eq } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/db/client";
 import { activityEvents, lexemes, userVocabulary } from "@/db/schema";
-import { getSession } from "@/lib/auth/session";
+import { requireActiveUser } from "@/lib/auth/current-user";
 import { getLocale } from "@/lib/i18n";
 import { createVocabularyUsage } from "@/lib/data/coach-artifacts";
 import { evaluateVocabularyUsage } from "@/lib/services/coach";
@@ -19,11 +19,11 @@ import { evaluateVocabularyUsage } from "@/lib/services/coach";
 const schema = z.object({ sentence: z.string().min(3).max(1000) });
 
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  const user = await requireActiveUser();
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
   const entry = await db.query.userVocabulary.findFirst({
-    where: and(eq(userVocabulary.id, params.id), eq(userVocabulary.userId, session.sub)),
+    where: and(eq(userVocabulary.id, params.id), eq(userVocabulary.userId, user.id)),
   });
   if (!entry) return NextResponse.json({ error: "not_found" }, { status: 404 });
 
@@ -35,13 +35,13 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   if (!lexeme) return NextResponse.json({ error: "lexeme_missing" }, { status: 500 });
 
   const usage = await createVocabularyUsage({
-    userId: session.sub,
+    userId: user.id,
     userVocabularyId: entry.id,
     sentence: parsed.data.sentence,
   });
 
   const outcome = await evaluateVocabularyUsage({
-    userId: session.sub,
+    userId: user.id,
     usageId: usage.id,
     targetWord: lexeme.term,
     definition: lexeme.definitionEn,
@@ -52,7 +52,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   if (!outcome.ok) return NextResponse.json({ error: outcome.error }, { status: 502 });
 
   await db.insert(activityEvents).values({
-    userId: session.sub,
+    userId: user.id,
     type: "VOCABULARY_USED",
     payload: { lexemeId: lexeme.id, verdict: outcome.evaluation.verdict },
   });

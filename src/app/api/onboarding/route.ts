@@ -4,12 +4,13 @@ import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { users, onboardingProfiles, courses, enrollments } from "@/db/schema";
 import { onboardingSchema } from "@/lib/validation/onboarding";
-import { getSession, createSessionToken, SESSION_COOKIE, sessionCookieOptions } from "@/lib/auth/session";
+import { createSessionToken, SESSION_COOKIE, sessionCookieOptions } from "@/lib/auth/session";
+import { requireActiveUser } from "@/lib/auth/current-user";
 import { localeCookieOptions, LOCALE_COOKIE } from "@/lib/i18n";
 
 export async function POST(req: NextRequest) {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  const user = await requireActiveUser();
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
   const body = await req.json().catch(() => null);
   const parsed = onboardingSchema.safeParse(body);
@@ -21,7 +22,7 @@ export async function POST(req: NextRequest) {
   await db
     .insert(onboardingProfiles)
     .values({
-      userId: session.sub,
+      userId: user.id,
       currentLevel: data.currentLevel,
       currentBand: data.currentBand ?? null,
       targetBand: data.targetBand,
@@ -46,26 +47,25 @@ export async function POST(req: NextRequest) {
   await db
     .update(users)
     .set({ onboardingCompletedAt: new Date(), locale: data.preferredLanguage })
-    .where(eq(users.id, session.sub));
+    .where(eq(users.id, user.id));
 
   // Auto-enroll in the (only, for now) IELTS course.
   const ieltsCourse = await db.query.courses.findFirst({ where: eq(courses.slug, "ielts") });
   if (ieltsCourse) {
     const existing = await db.query.enrollments.findFirst({
-      where: eq(enrollments.userId, session.sub),
+      where: eq(enrollments.userId, user.id),
     });
     if (!existing) {
-      await db.insert(enrollments).values({ userId: session.sub, courseId: ieltsCourse.id });
+      await db.insert(enrollments).values({ userId: user.id, courseId: ieltsCourse.id });
     }
   }
 
   const token = await createSessionToken({
-    sub: session.sub,
-    role: session.role,
-    name: session.name,
+    sub: user.id,
+    role: user.role,
+    name: user.name,
     locale: data.preferredLanguage,
     onboarded: true,
-    isOwner: session.isOwner,
   });
   cookies().set(SESSION_COOKIE, token, sessionCookieOptions);
   cookies().set(LOCALE_COOKIE, data.preferredLanguage, localeCookieOptions);

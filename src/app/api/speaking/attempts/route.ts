@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { desc, eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { speakingAttempts, speakingPrompts } from "@/db/schema";
-import { getSession } from "@/lib/auth/session";
+import { isStaff, requireActiveUser } from "@/lib/auth/current-user";
 import { createAttemptSchema } from "@/lib/validation/speaking-practice";
 
 /**
@@ -17,8 +17,8 @@ import { createAttemptSchema } from "@/lib/validation/speaking-practice";
  * only ever sees their own; teachers and admins see everything (for review).
  */
 export async function POST(req: NextRequest) {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  const user = await requireActiveUser();
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
   const body = await req.json().catch(() => null);
   const parsed = createAttemptSchema.safeParse(body);
@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
   const [created] = await db
     .insert(speakingAttempts)
     .values({
-      userId: session.sub,
+      userId: user.id,
       promptId: data.promptId ?? null,
       part: data.part,
       status: "recording",
@@ -51,12 +51,12 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(_req: NextRequest) {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  const user = await requireActiveUser();
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
-  const isReviewer = session.role === "teacher" || session.role === "admin";
+  const isReviewer = isStaff(user.role);
   const rows = await db.query.speakingAttempts.findMany({
-    where: isReviewer ? undefined : eq(speakingAttempts.userId, session.sub),
+    where: isReviewer ? undefined : eq(speakingAttempts.userId, user.id),
     orderBy: [desc(speakingAttempts.startedAt)],
   });
 

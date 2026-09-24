@@ -40,7 +40,6 @@ export async function GET(req: NextRequest) {
     name: user.name,
     locale: user.locale,
     onboarded: Boolean(user.onboardingCompletedAt),
-    isOwner: user.isOwner,
   });
   const res = NextResponse.redirect(
     new URL(user.onboardingCompletedAt ? "/dashboard" : "/onboarding", req.url)

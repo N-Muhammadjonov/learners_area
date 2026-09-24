@@ -22,6 +22,13 @@
       "when": 1790191131151,
       "tag": "0002_coach_evaluations",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1790275357849,
+      "tag": "0003_phase1_access_control",
+      "breakpoints": true
     }
   ]
 }

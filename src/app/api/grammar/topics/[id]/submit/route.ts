@@ -3,15 +3,15 @@ import { z } from "zod";
 import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { grammarExercises, grammarAttempts, activityEvents } from "@/db/schema";
-import { getSession } from "@/lib/auth/session";
+import { requireActiveUser } from "@/lib/auth/current-user";
 
 const schema = z.object({
   answers: z.array(z.object({ exerciseId: z.string().uuid(), selectedOption: z.string().min(1) })),
 });
 
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  const user = await requireActiveUser();
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
   const body = await req.json().catch(() => null);
   const parsed = schema.safeParse(body);
@@ -29,7 +29,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     const isCorrect = a.selectedOption === ex.correctOption;
     results.push({ exerciseId: ex.id, isCorrect, correctOption: ex.correctOption, explanation: ex.explanation });
     rows.push({
-      userId: session.sub,
+      userId: user.id,
       exerciseId: ex.id,
       selectedOption: a.selectedOption,
       isCorrect,
@@ -39,7 +39,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   if (rows.length > 0) {
     await db.insert(grammarAttempts).values(rows);
     await db.insert(activityEvents).values({
-      userId: session.sub,
+      userId: user.id,
       type: "GRAMMAR_TOPIC_ATTEMPTED",
       payload: { topicId: params.id, correct: results.filter((r) => r.isCorrect).length, total: results.length },
     });

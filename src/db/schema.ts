@@ -9,6 +9,7 @@ import {
   boolean,
   jsonb,
   real,
+  index,
   uniqueIndex,
 } from "drizzle-orm/pg-core";
 
@@ -16,7 +17,33 @@ import {
 // Enums
 // ---------------------------------------------------------------------------
 
-export const roleEnum = pgEnum("role", ["student", "teacher", "admin"]);
+/**
+ * Application roles, highest first: owner > admin > teacher > student.
+ *
+ * OWNER is a real role, not a boolean flag next to "admin": it is the only role
+ * that may transfer ownership, and it is the only one that may grant the admin
+ * role. `users.isOwner` is kept only as a historical column — authorization
+ * never reads it.
+ */
+export const roleEnum = pgEnum("role", ["student", "teacher", "admin", "owner"]);
+
+/**
+ * Private learning centre admission state. Every private page, API route and
+ * object download is gated on this server-side value: hiding a menu item is not
+ * authorization (see src/lib/auth/session.ts).
+ */
+export const accountStatusEnum = pgEnum("account_status", [
+  "pending",
+  "active",
+  "rejected",
+  "suspended",
+]);
+
+export const accessRequestStatusEnum = pgEnum("access_request_status", [
+  "pending",
+  "approved",
+  "rejected",
+]);
 
 export const contentStateEnum = pgEnum("content_state", [
   "locked",
@@ -147,10 +174,80 @@ export const users = pgTable("users", {
   telegramId: varchar("telegram_id", { length: 64 }).unique(),
   name: varchar("name", { length: 200 }).notNull(),
   role: roleEnum("role").notNull().default("student"),
+  /** Historical column. Authorization reads `role`, never this flag. */
   isOwner: boolean("is_owner").notNull().default(false),
+  /** Server-side admission gate for every private page, route and object. */
+  accountStatus: accountStatusEnum("account_status").notNull().default("pending"),
+  statusUpdatedAt: timestamp("status_updated_at", { withTimezone: true }).defaultNow().notNull(),
+  statusReason: text("status_reason"),
+  /** Drives the inactivity half of the retention policy (see retention.ts). */
+  lastActiveAt: timestamp("last_active_at", { withTimezone: true }).defaultNow().notNull(),
   locale: varchar("locale", { length: 5 }).notNull().default("uz"),
   onboardingCompletedAt: timestamp("onboarding_completed_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => ({
+  statusIdx: index("users_account_status_idx").on(table.accountStatus),
+}));
+
+// ---------------------------------------------------------------------------
+// Private-centre admission: a visitor asks to join, the centre decides.
+// Every decision is a row here, so the history of who was approved, by whom and
+// when survives even if the applicant re-applies after a rejection.
+// ---------------------------------------------------------------------------
+
+export const accessRequests = pgTable("access_requests", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  status: accessRequestStatusEnum("status").notNull().default("pending"),
+  /** Optional note the applicant writes when asking for access. */
+  message: text("message"),
+  decidedByUserId: uuid("decided_by_user_id").references(() => users.id),
+  decidedAt: timestamp("decided_at", { withTimezone: true }),
+  decisionNote: text("decision_note"),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => ({
+  userIdx: index("access_requests_user_idx").on(table.userId),
+  statusIdx: index("access_requests_status_idx").on(table.status),
+}));
+
+// ---------------------------------------------------------------------------
+// In-app notifications + audit trail
+// ---------------------------------------------------------------------------
+
+export const notifications = pgTable("notifications", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  type: varchar("type", { length: 60 }).notNull(),
+  title: varchar("title", { length: 200 }).notNull(),
+  body: text("body"),
+  href: varchar("href", { length: 300 }),
+  payload: jsonb("payload"),
+  readAt: timestamp("read_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => ({
+  userIdx: index("notifications_user_idx").on(table.userId, table.createdAt),
+}));
+
+export const auditLog = pgTable("audit_log", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  actorUserId: uuid("actor_user_id").references(() => users.id, { onDelete: "set null" }),
+  action: varchar("action", { length: 80 }).notNull(),
+  targetType: varchar("target_type", { length: 40 }),
+  targetId: varchar("target_id", { length: 80 }),
+  /** Never contains a secret: only ids, roles, counts and reasons. */
+  metadata: jsonb("metadata"),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => ({
+  actionIdx: index("audit_log_action_idx").on(table.action, table.createdAt),
+}));
+
+export const ownershipTransfers = pgTable("ownership_transfers", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  fromUserId: uuid("from_user_id").notNull().references(() => users.id),
+  toUserId: uuid("to_user_id").notNull().references(() => users.id),
+  /** Role the previous owner keeps after the transfer. */
+  previousOwnerRole: roleEnum("previous_owner_role").notNull(),
+  confirmedAt: timestamp("confirmed_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
 export const passwordResetTokens = pgTable("password_reset_tokens", {

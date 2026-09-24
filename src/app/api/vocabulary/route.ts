@@ -3,7 +3,7 @@ import { z } from "zod";
 import { eq, and } from "drizzle-orm";
 import { db } from "@/db/client";
 import { lexemes, userVocabulary } from "@/db/schema";
-import { getSession } from "@/lib/auth/session";
+import { requireActiveUser } from "@/lib/auth/current-user";
 
 const addSchema = z.object({
   term: z.string().trim().min(1).max(120),
@@ -15,8 +15,8 @@ const addSchema = z.object({
 });
 
 export async function POST(req: NextRequest) {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  const user = await requireActiveUser();
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
   const body = await req.json().catch(() => null);
   const parsed = addSchema.safeParse(body);
@@ -39,14 +39,14 @@ export async function POST(req: NextRequest) {
   if (!lexeme) return NextResponse.json({ error: "server_error" }, { status: 500 });
 
   const existing = await db.query.userVocabulary.findFirst({
-    where: and(eq(userVocabulary.userId, session.sub), eq(userVocabulary.lexemeId, lexeme.id)),
+    where: and(eq(userVocabulary.userId, user.id), eq(userVocabulary.lexemeId, lexeme.id)),
   });
   if (existing) return NextResponse.json({ ok: true, id: existing.id, alreadyExisted: true });
 
   const [entry] = await db
     .insert(userVocabulary)
     .values({
-      userId: session.sub,
+      userId: user.id,
       lexemeId: lexeme.id,
       sourceType: data.sourceType ?? "manual",
       sourceId: data.sourceId,

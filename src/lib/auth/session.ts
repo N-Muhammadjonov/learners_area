@@ -1,18 +1,28 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
+import { isRole, type Role } from "./roles";
 
 export const SESSION_COOKIE = "la_session";
 const SESSION_TTL_SECONDS = 60 * 60 * 24 * 30; // 30 days
 
-export type Role = "student" | "teacher" | "admin";
+export type { Role };
 
+/**
+ * What the signed cookie carries: **identity and presentation only**.
+ *
+ * `role` is here so the UI can render the right navigation without an extra
+ * query, but it is never trusted for authorization — every sensitive server
+ * path re-reads role and account status from the database via
+ * `getCurrentUser()` (src/lib/auth/current-user.ts). Likewise there is no
+ * "isOwner" flag: ownership is the OWNER role, and a stale cookie cannot
+ * preserve a permission that was revoked.
+ */
 export type SessionPayload = {
   sub: string; // user id
   role: Role;
   name: string;
   locale: string;
   onboarded: boolean;
-  isOwner: boolean;
 };
 
 function secretKey() {
@@ -38,13 +48,18 @@ export async function verifySessionToken(token: string): Promise<SessionPayload 
     const { payload } = await jwtVerify(token, secretKey());
     if (
       typeof payload.sub === "string" &&
-      typeof payload.role === "string" &&
+      isRole(payload.role) &&
       typeof payload.name === "string" &&
       typeof payload.locale === "string" &&
-      typeof payload.onboarded === "boolean" &&
-      typeof payload.isOwner === "boolean"
+      typeof payload.onboarded === "boolean"
     ) {
-      return payload as unknown as SessionPayload;
+      return {
+        sub: payload.sub,
+        role: payload.role,
+        name: payload.name,
+        locale: payload.locale,
+        onboarded: payload.onboarded,
+      };
     }
     return null;
   } catch {

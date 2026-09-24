@@ -2,14 +2,85 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  /* This sandbox has no network access to a font CDN, so these ship as solid
-     system-font stacks. Swap in next/font/google (Source Serif 4 / Inter /
-     IBM Plex Mono, or your own picks) once deployed somewhere with normal
-     internet access — see README "Fonts". */
+/* ==========================================================================
+   Design tokens — the ONLY place a colour is written down
+   ==========================================================================
+   Both palettes are defined here as space-separated RGB channels so Tailwind's
+   opacity modifiers keep working (`bg-band-bad/10`). The theme is chosen by
+   `data-theme` on <html>, set on the server from a cookie, which is why the
+   page never flashes the wrong theme.
+
+   The night palette is the Learners Area Work & Career visual language:
+   dark-navy surfaces (#0B0D18 page, #111421 card, #151827 secondary), warm
+   off-white text (#F3EEE5), muted grey (#A8A7AF) and a restrained gold accent
+   (#E6B94F). Gold is an accent, not a background: it marks the primary action,
+   the active navigation item and the current card state, nothing else.
+   ========================================================================== */
+
+:root,
+[data-theme="day"] {
+  color-scheme: light;
+
+  --ink-950: 22 20 34; /* #161422 */
+  --ink-900: 30 27 46; /* #1E1B2E */
+  --ink-700: 58 53 85; /* #3A3555 */
+  --ink-500: 99 92 130; /* #635C82 */
+  --ink-300: 166 160 194; /* #A6A0C2 */
+  --ink-100: 232 230 242; /* #E8E6F2 */
+
+  --paper: 251 250 254; /* #FBFAFE */
+  --paper-raised: 255 255 255; /* #FFFFFF */
+  --paper-sunken: 242 240 249; /* #F2F0F9 */
+
+  --accent: 92 70 201; /* #5C46C9 */
+  --accent-strong: 68 51 166; /* #4433A6 */
+  --accent-soft: 238 234 251; /* #EEEAFB */
+  --accent-contrast: 255 255 255;
+
+  --gold: 230 185 79; /* #E6B94F */
+  --gold-light: 242 210 127; /* #F2D27F */
+
+  --band-good: 30 127 92; /* #1E7F5C */
+  --band-warn: 180 117 14; /* #B4750E */
+  --band-bad: 194 73 45; /* #C2492D */
+
+  --shadow-card: 0 1px 2px rgba(30, 27, 46, 0.06), 0 1px 1px rgba(30, 27, 46, 0.04);
+  --shadow-raised: 0 4px 16px rgba(30, 27, 46, 0.1);
+
   --font-display: Georgia, "Iowan Old Style", "Palatino Linotype", serif;
   --font-sans: -apple-system, "Segoe UI", system-ui, sans-serif;
   --font-mono: ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+
+[data-theme="night"] {
+  color-scheme: dark;
+
+  /* Text: warm off-white for content, muted grey for metadata. */
+  --ink-950: 10 12 23; /* #0A0C17 — deepest surface */
+  --ink-900: 243 238 229; /* #F3EEE5 — primary text */
+  --ink-700: 226 220 209; /* #E2DCD1 */
+  --ink-500: 168 167 175; /* #A8A7AF — muted text */
+  --ink-300: 124 123 133; /* #7C7B85 — quiet text */
+  --ink-100: 41 45 60; /* #292D3C — primary border */
+
+  --paper: 11 13 24; /* #0B0D18 — page background */
+  --paper-raised: 17 20 33; /* #111421 — cards */
+  --paper-sunken: 21 24 39; /* #151827 — secondary surface / inputs */
+
+  --accent: 230 185 79; /* #E6B94F — gold */
+  --accent-strong: 240 204 116; /* #F0CC74 — light gold */
+  --accent-soft: 38 33 20; /* gold at ~10% over night surface */
+  --accent-contrast: 15 17 28; /* text that stays readable on gold */
+
+  --gold: 230 185 79;
+  --gold-light: 240 204 116;
+
+  --band-good: 119 213 154; /* #77D59A */
+  --band-warn: 240 204 116; /* #F0CC74 */
+  --band-bad: 255 133 122; /* #FF857A */
+
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4), 0 1px 1px rgba(0, 0, 0, 0.3);
+  --shadow-raised: 0 6px 20px rgba(0, 0, 0, 0.45);
 }
 
 @layer base {
@@ -20,7 +91,21 @@
     @apply bg-paper text-ink-900 antialiased;
   }
   ::selection {
-    @apply bg-signal-100 text-signal-700;
+    @apply bg-signal-600 text-signal-contrast;
+  }
+  /* Visible focus everywhere: Night Mode's gold ring must never disappear. */
+  :focus-visible {
+    outline: 2px solid rgb(var(--accent));
+    outline-offset: 2px;
+  }
+  /* Respect a reduced-motion preference rather than animating regardless. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+    }
   }
 }
 
@@ -39,13 +124,17 @@
       transition-colors disabled:opacity-50 disabled:pointer-events-none;
   }
   .btn-primary {
-    @apply btn bg-signal-600 text-white hover:bg-signal-700;
+    @apply btn bg-signal-600 text-signal-contrast hover:bg-signal-700;
   }
   .btn-secondary {
     @apply btn bg-paper-sunken text-ink-900 hover:bg-ink-100;
   }
   .btn-ghost {
     @apply btn text-ink-500 hover:bg-paper-sunken hover:text-ink-900;
+  }
+  /* Gold outline action — the night-time secondary emphasis. */
+  .btn-gold {
+    @apply btn border border-gold/60 bg-transparent text-ink-900 hover:bg-gold/15;
   }
 
   .badge {
@@ -60,9 +149,29 @@
   .badge-done {
     @apply badge bg-band-good/10 text-band-good;
   }
+  .badge-gold {
+    @apply badge bg-gold/15 text-ink-900;
+  }
 
   .input {
     @apply w-full rounded-sm border border-ink-100 bg-paper-raised px-3 py-2 text-sm text-ink-900
-      placeholder:text-ink-300 focus:outline-none focus:ring-2 focus:ring-signal-400;
+      placeholder:text-ink-300 focus:outline-none focus:ring-2 focus:ring-signal-600;
   }
+}
+
+/* ---------------------------------------------------------------------------
+   Focus Mode
+   Hides the shell chrome while keeping every exam control (timer, submit,
+   section navigation) visible. See src/components/shell/FocusToggle.tsx.
+   --------------------------------------------------------------------------- */
+[data-focus="on"] .focus-hide {
+  display: none;
+}
+[data-focus="on"] main {
+  padding: 0;
+}
+[data-focus="on"] .focus-main-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem;
 }

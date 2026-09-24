@@ -15,6 +15,7 @@ import {
   assignments,
   lexemes,
   userVocabulary,
+  accessRequests,
   activityEvents,
   readingPassages,
   readingQuestions,
@@ -39,6 +40,21 @@ async function main() {
   console.log("Seeding Learners Area demo data...");
 
   // --- Users --------------------------------------------------------------
+  // The centre owner. OWNER is the highest application role (above admin) and is
+  // what actually grants full control — `is_owner` is only a historical column.
+  const [owner] = await db
+    .insert(users)
+    .values({
+      name: "Aziza Yusupova",
+      email: "owner@learnersarea.uz",
+      passwordHash: await hashPassword("Owner12345!"),
+      role: "owner",
+      accountStatus: "active",
+      locale: "uz",
+      onboardingCompletedAt: new Date(),
+    })
+    .returning();
+
   const [admin] = await db
     .insert(users)
     .values({
@@ -46,9 +62,23 @@ async function main() {
       email: "admin@learnersarea.uz",
       passwordHash: await hashPassword("Admin12345!"),
       role: "admin",
-      isOwner: true, // the platform owner — full control over everyone's content
+      accountStatus: "active",
       locale: "uz",
       onboardingCompletedAt: new Date(),
+    })
+    .returning();
+
+  // An applicant who registered and is waiting for review: the admission queue
+  // must show something real, and it must never contain a fabricated approval.
+  const [pendingApplicant] = await db
+    .insert(users)
+    .values({
+      name: "Kamola Ergasheva",
+      email: "pending.student@learnersarea.uz",
+      passwordHash: await hashPassword("Student12345!"),
+      role: "student",
+      accountStatus: "pending",
+      locale: "uz",
     })
     .returning();
 
@@ -59,6 +89,7 @@ async function main() {
       email: "teacher@learnersarea.uz",
       passwordHash: await hashPassword("Teacher12345!"),
       role: "teacher",
+      accountStatus: "active",
       locale: "uz",
       onboardingCompletedAt: new Date(),
     })
@@ -71,6 +102,7 @@ async function main() {
       email: "teacher2@learnersarea.uz",
       passwordHash: await hashPassword("Teacher12345!"),
       role: "teacher",
+      accountStatus: "active",
       locale: "uz",
       onboardingCompletedAt: new Date(),
     })
@@ -83,6 +115,7 @@ async function main() {
       email: "demo.student@learnersarea.uz",
       passwordHash: await hashPassword("Student12345!"),
       role: "student",
+      accountStatus: "active",
       locale: "uz",
       onboardingCompletedAt: new Date(),
     })
@@ -95,11 +128,22 @@ async function main() {
       email: "new.student@learnersarea.uz",
       passwordHash: await hashPassword("Student12345!"),
       role: "student",
+      accountStatus: "active",
       locale: "uz",
     })
     .returning();
 
-  if (!admin || !teacher || !teacher2 || !demoStudent || !newStudent) throw new Error("User seeding failed");
+  if (!owner || !admin || !teacher || !teacher2 || !demoStudent || !newStudent || !pendingApplicant) {
+    throw new Error("User seeding failed");
+  }
+
+  // The waiting applicant's request, so the admission queue is exercised with a
+  // real row instead of an empty screen.
+  await db.insert(accessRequests).values({
+    userId: pendingApplicant.id,
+    status: "pending",
+    message: "I am preparing for IELTS Academic and would like to join the centre.",
+  });
 
   await db.insert(onboardingProfiles).values({
     userId: demoStudent.id,
@@ -731,7 +775,9 @@ async function main() {
   console.log("Seed complete.");
   console.log("");
   console.log("Demo accounts (password shown once, dev only):");
-  console.log("  admin@learnersarea.uz        / Admin12345!  (isOwner: full control over everyone's content)");
+  console.log("  owner@learnersarea.uz        / Owner12345!  (OWNER — highest role, full centre control)");
+  console.log("  admin@learnersarea.uz        / Admin12345!  (admin — no ownership powers)");
+  console.log("  pending.student@learnersarea.uz / Student12345! (PENDING — waiting for approval)");
   console.log("  teacher@learnersarea.uz      / Teacher12345!");
   console.log("  teacher2@learnersarea.uz     / Teacher12345!  (second teacher — for testing the ownership boundary)");
   console.log("  demo.student@learnersarea.uz / Student12345!  (onboarded, has history)");

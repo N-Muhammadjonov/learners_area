@@ -3,13 +3,13 @@ import { z } from "zod";
 import { and, eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { readingAttempts } from "@/db/schema";
-import { getSession } from "@/lib/auth/session";
+import { requireActiveUser } from "@/lib/auth/current-user";
 
 const schema = z.object({ passageId: z.string().uuid() });
 
 export async function POST(req: NextRequest) {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  const user = await requireActiveUser();
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
   const body = await req.json().catch(() => null);
   const parsed = schema.safeParse(body);
@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
 
   const existing = await db.query.readingAttempts.findFirst({
     where: and(
-      eq(readingAttempts.userId, session.sub),
+      eq(readingAttempts.userId, user.id),
       eq(readingAttempts.passageId, parsed.data.passageId),
       eq(readingAttempts.status, "in_progress")
     ),
@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
 
   const [created] = await db
     .insert(readingAttempts)
-    .values({ userId: session.sub, passageId: parsed.data.passageId })
+    .values({ userId: user.id, passageId: parsed.data.passageId })
     .returning();
 
   return NextResponse.json({ id: created!.id });

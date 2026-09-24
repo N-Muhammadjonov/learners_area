@@ -3,7 +3,7 @@ import { desc, eq } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/db/client";
 import { activityEvents, assignments } from "@/db/schema";
-import { getSession } from "@/lib/auth/session";
+import { isStaff, requireActiveUser } from "@/lib/auth/current-user";
 
 /**
  * GET  /api/assignments  — the caller's own assignments (students), or the ones
@@ -23,29 +23,29 @@ const createSchema = z.object({
 });
 
 export async function GET() {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  const user = await requireActiveUser();
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
-  const isStaff = session.role === "teacher" || session.role === "admin";
-  const rows = isStaff
+  const staffView = isStaff(user.role);
+  const rows = staffView
     ? await db
         .select()
         .from(assignments)
-        .where(eq(assignments.createdByUserId, session.sub))
+        .where(eq(assignments.createdByUserId, user.id))
         .orderBy(desc(assignments.createdAt))
     : await db
         .select()
         .from(assignments)
-        .where(eq(assignments.targetUserId, session.sub))
+        .where(eq(assignments.targetUserId, user.id))
         .orderBy(desc(assignments.createdAt));
 
   return NextResponse.json({ ok: true, assignments: rows });
 }
 
 export async function POST(req: NextRequest) {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
-  if (session.role !== "teacher" && session.role !== "admin") {
+  const user = await requireActiveUser();
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  if (!isStaff(user.role)) {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
 
@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
     .values({
       title: parsed.data.title,
       description: parsed.data.description ?? null,
-      createdByUserId: session.sub,
+      createdByUserId: user.id,
       targetUserId: parsed.data.targetUserId,
       relatedWritingPromptId: parsed.data.relatedWritingPromptId ?? null,
       dueAt: parsed.data.dueAt ? new Date(parsed.data.dueAt) : null,
@@ -68,7 +68,7 @@ export async function POST(req: NextRequest) {
   await db.insert(activityEvents).values({
     userId: parsed.data.targetUserId,
     type: "ASSIGNMENT_CREATED",
-    payload: { assignmentId: created?.id, teacherId: session.sub },
+    payload: { assignmentId: created?.id, teacherId: user.id },
   });
 
   return NextResponse.json({ ok: true, assignment: created });

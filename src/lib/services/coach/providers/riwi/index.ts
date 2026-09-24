@@ -1,4 +1,5 @@
 import "server-only";
+import { getBrand } from "@/lib/config/brand";
 import { RIWI_PROMPT_VERSION, RIWI_RUBRIC_VERSION } from "../../rubric";
 import type { ProviderCapability, ProviderEvaluationOutput } from "../../schema";
 import {
@@ -18,7 +19,15 @@ import { evaluateSpeakingWithRiwi } from "./speaking";
 import { evaluateVocabularyWithRiwi } from "./vocabulary";
 import { evaluateWritingWithRiwi } from "./writing";
 
-export const RIWI_DISPLAY_NAME = "RIWI";
+/**
+ * The visible name of the internal evaluator.
+ *
+ * The provider *id* is the stable contract (`riwi` is what the database, the
+ * fallback logic and every historical row store); the display name is branding
+ * and may change. Because each evaluation persists the name it was produced
+ * under, renaming the brand never rewrites past feedback.
+ */
+export const RIWI_DISPLAY_NAME = getBrand().aiDisplayName;
 
 /**
  * RIWI — the internal Learners Area evaluator.

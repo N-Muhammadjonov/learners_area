@@ -3,7 +3,7 @@ import { z } from "zod";
 import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { writingFeedback, writingSubmissions, activityEvents } from "@/db/schema";
-import { getSession } from "@/lib/auth/session";
+import { isStaff, requireActiveUser } from "@/lib/auth/current-user";
 
 const schema = z.object({
   submissionId: z.string().uuid(),
@@ -12,10 +12,11 @@ const schema = z.object({
 });
 
 export async function POST(req: NextRequest) {
-  const session = await getSession();
-  if (!session || (session.role !== "teacher" && session.role !== "admin")) {
-    return NextResponse.json({ error: "forbidden" }, { status: 403 });
-  }
+  const user = await requireActiveUser();
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+    if (!isStaff(user.role)) {
+      return NextResponse.json({ error: "forbidden" }, { status: 403 });
+    }
 
   const body = await req.json().catch(() => null);
   const parsed = schema.safeParse(body);
@@ -31,13 +32,13 @@ export async function POST(req: NextRequest) {
     source: "teacher",
     overallBand: parsed.data.overallBand,
     comment: parsed.data.comment,
-    teacherId: session.sub,
+    teacherId: user.id,
   });
 
   await db.insert(activityEvents).values({
     userId: submission.userId,
     type: "TEACHER_FEEDBACK_RECEIVED",
-    payload: { submissionId: submission.id, teacherId: session.sub },
+    payload: { submissionId: submission.id, teacherId: user.id },
   });
 
   return NextResponse.json({ ok: true });

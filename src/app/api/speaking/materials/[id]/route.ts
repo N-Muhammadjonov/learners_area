@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { speakingMaterials, materialBlocks } from "@/db/schema";
-import { getSession } from "@/lib/auth/session";
+import { requireActiveUser } from "@/lib/auth/current-user";
 import { canManageContent } from "@/lib/auth/ownership";
 import { updateMaterialSchema, resourceHref, type BlockInput } from "@/lib/validation/speaking";
 import {
@@ -32,12 +32,12 @@ import { inferMaterialType } from "@/lib/uploads/material-type";
  * deleted bytes.
  */
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  const user = await requireActiveUser();
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
   const material = await db.query.speakingMaterials.findFirst({ where: eq(speakingMaterials.id, params.id) });
   if (!material) return NextResponse.json({ error: "not_found" }, { status: 404 });
-  if (!canManageContent(session, material.createdByUserId)) {
+  if (!canManageContent(user, material.createdByUserId)) {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
 
@@ -84,7 +84,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
       };
     } else {
       const claimed = await claimAttachment(data.primary.ref, {
-        userId: session.sub,
+        userId: user.id,
         purpose: "material_primary",
         materialId: params.id,
         retainedBlocks,
@@ -139,7 +139,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
       }
 
       const claimed = await claimAttachment(block.ref, {
-        userId: session.sub,
+        userId: user.id,
         purpose: "material_block",
         blockKind: block.type,
         materialId: params.id,
@@ -231,12 +231,12 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
  * no longer exist.
  */
 export async function DELETE(_req: NextRequest, { params }: { params: { id: string } }) {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  const user = await requireActiveUser();
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
   const material = await db.query.speakingMaterials.findFirst({ where: eq(speakingMaterials.id, params.id) });
   if (!material) return NextResponse.json({ error: "not_found" }, { status: 404 });
-  if (!canManageContent(session, material.createdByUserId)) {
+  if (!canManageContent(user, material.createdByUserId)) {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
 

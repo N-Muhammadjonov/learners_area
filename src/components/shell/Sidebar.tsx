@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n/en";
-import type { Role } from "@/lib/auth/session";
+import { BRAND } from "@/lib/config/brand";
+import { isAdministrator, isStaff, type Role } from "@/lib/auth/roles";
 
 function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
   const pathname = usePathname();
@@ -61,21 +62,33 @@ export function SidebarNav({ dict, role }: { dict: Dictionary; role: Role }) {
         <NavLink href="/progress">{dict.nav.progress}</NavLink>
       </NavSection>
 
-      {(role === "teacher" || role === "admin") && (
+      {isStaff(role) && (
         <NavSection label={dict.nav.teacher}>
           <NavLink href="/teacher/students">{dict.nav.teacherStudents}</NavLink>
           <NavLink href="/teacher/live-classes">{dict.liveClasses.manageTitle}</NavLink>
           <NavLink href="/teacher/speaking">{dict.speaking.manageTitle}</NavLink>
+          <NavLink href="/teacher/support">{dict.support.inbox}</NavLink>
         </NavSection>
       )}
 
-      {role === "admin" && (
+      {isAdministrator(role) && (
         <NavSection label={dict.nav.admin}>
-          <NavLink href="/admin/users">{dict.nav.adminUsers}</NavLink>
+          <NavLink href="/admin/admissions">{dict.admission.title}</NavLink>
+          <NavLink href="/admin/people">{dict.nav.adminUsers}</NavLink>
           <NavLink href="/admin/writing-prompts">{dict.nav.adminPrompts}</NavLink>
           <NavLink href="/admin/reading">{dict.admin.readingTitle}</NavLink>
           <NavLink href="/admin/listening">{dict.admin.listeningTitle}</NavLink>
           <NavLink href="/admin/grammar">{dict.admin.grammarTitle}</NavLink>
+        </NavSection>
+      )}
+
+      {role === "owner" && (
+        <NavSection label={dict.nav.owner}>
+          <NavLink href="/owner">{dict.owner.title}</NavLink>
+          <NavLink href="/owner/integrations">{dict.owner.integrations}</NavLink>
+          <NavLink href="/owner/retention">{dict.owner.retention}</NavLink>
+          <NavLink href="/owner/audit">{dict.owner.audit}</NavLink>
+          <NavLink href="/owner/transfer">{dict.owner.transfer}</NavLink>
         </NavSection>
       )}
     </>
@@ -88,9 +101,9 @@ export function Sidebar({ dict, role }: { dict: Dictionary; role: Role }) {
     <aside className="hidden w-64 shrink-0 flex-col overflow-y-auto border-r border-ink-100 bg-paper-raised p-4 md:flex">
       <Link href="/dashboard" className="mb-6 flex items-center gap-2 px-2">
         <span className="flex h-7 w-7 items-center justify-center rounded-sm bg-signal-600 font-display text-sm text-white">
-          L
+          {BRAND.initial}
         </span>
-        <span className="font-display text-lg text-ink-900">{dict.marketing.title}</span>
+        <span className="font-display text-lg text-ink-900">{BRAND.siteName}</span>
       </Link>
       <SidebarNav dict={dict} role={role} />
     </aside>

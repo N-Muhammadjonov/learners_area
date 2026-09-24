@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSession } from "@/lib/auth/session";
+import { isAdministrator, requireActiveUser } from "@/lib/auth/current-user";
 import { cleanupAbandonedUploads } from "@/lib/data/uploads";
 
 /**
@@ -13,9 +13,9 @@ import { cleanupAbandonedUploads } from "@/lib/data/uploads";
  * already passed. Wire it to a scheduler in production — see README.
  */
 export async function POST(_req: NextRequest) {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
-  if (session.role !== "admin") return NextResponse.json({ error: "forbidden" }, { status: 403 });
+  const user = await requireActiveUser();
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  if (!isAdministrator(user.role)) return NextResponse.json({ error: "forbidden" }, { status: 403 });
 
   try {
     const result = await cleanupAbandonedUploads();

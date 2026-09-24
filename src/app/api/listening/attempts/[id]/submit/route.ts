@@ -3,7 +3,7 @@ import { z } from "zod";
 import { and, eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { listeningAttempts, listeningQuestions, listeningAnswers, activityEvents } from "@/db/schema";
-import { getSession } from "@/lib/auth/session";
+import { requireActiveUser } from "@/lib/auth/current-user";
 import { gradeAnswer } from "@/lib/services/listening/grading";
 
 const schema = z.object({
@@ -11,15 +11,15 @@ const schema = z.object({
 });
 
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  const user = await requireActiveUser();
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
   const body = await req.json().catch(() => null);
   const parsed = schema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: "invalid_input" }, { status: 400 });
 
   const attempt = await db.query.listeningAttempts.findFirst({
-    where: and(eq(listeningAttempts.id, params.id), eq(listeningAttempts.userId, session.sub)),
+    where: and(eq(listeningAttempts.id, params.id), eq(listeningAttempts.userId, user.id)),
   });
   if (!attempt) return NextResponse.json({ error: "not_found" }, { status: 404 });
   if (attempt.status !== "in_progress") {
@@ -46,7 +46,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
       .set({ status: "completed", score, totalQuestions: questions.length, submittedAt: new Date() })
       .where(eq(listeningAttempts.id, attempt.id));
     await tx.insert(activityEvents).values({
-      userId: session.sub,
+      userId: user.id,
       type: "LISTENING_ATTEMPT_COMPLETED",
       payload: { attemptId: attempt.id, score, totalQuestions: questions.length },
     });
