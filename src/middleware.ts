@@ -5,10 +5,10 @@ import { SESSION_COOKIE } from "@/lib/auth/session";
 /**
  * Coarse routing guard.
  *
- * Middleware runs on the Edge runtime and cannot reach PostgreSQL, so it only
- * answers "is anybody signed in, and what does the signed cookie claim?" That is
- * enough to redirect a visitor to the login page before a page renders — it is
- * deliberately *not* the authorization layer.
+ * Middleware runs on the Edge runtime and cannot reach PostgreSQL, so it answers
+ * exactly one question: "is anybody signed in?" That is enough to send a visitor
+ * to the login page before a page renders, and it is deliberately *not* the
+ * authorization layer — the signed-in check is all it claims.
  *
  * Real authorization happens in the Node runtime on every request:
  *   src/lib/auth/current-user.ts   (role + account status, straight from the DB)
@@ -16,10 +16,7 @@ import { SESSION_COOKIE } from "@/lib/auth/session";
  *   every /api route               (requireActiveUser / requireAdministrator …)
  */
 
-const STAFF_PREFIXES = ["/teacher"];
-const ADMIN_PREFIXES = ["/admin"];
-const OWNER_PREFIXES = ["/owner"];
-
+/** Areas that require an account at all — the coarse, cookie-level check. */
 const PROTECTED_PREFIXES = [
   "/dashboard",
   "/onboarding",
@@ -36,9 +33,9 @@ const PROTECTED_PREFIXES = [
   "/progress",
   "/live-classes",
   "/pending",
-  ...STAFF_PREFIXES,
-  ...ADMIN_PREFIXES,
-  ...OWNER_PREFIXES,
+  "/teacher",
+  "/admin",
+  "/owner",
 ];
 
 async function readSession(token: string | undefined) {
@@ -70,18 +67,11 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  // A role in the cookie can be one request out of date; this only decides which
-  // shell the visitor lands in. The page and the API re-check against the DB.
-  if (matches(pathname, STAFF_PREFIXES) && session.role === "student") {
-    return NextResponse.redirect(new URL("/dashboard", req.url));
-  }
-  if (matches(pathname, ADMIN_PREFIXES) && session.role !== "admin" && session.role !== "owner") {
-    return NextResponse.redirect(new URL("/dashboard", req.url));
-  }
-  if (matches(pathname, OWNER_PREFIXES) && session.role !== "owner") {
-    return NextResponse.redirect(new URL("/dashboard", req.url));
-  }
-
+  // NOTE: this guard deliberately does not compare the cookie's role against the
+  // path. A cookie is a snapshot from the last sign-in, so a freshly promoted
+  // teacher would be bounced out of /teacher until they signed in again, and a
+  // freshly demoted admin would keep the address. Role decisions belong to the
+  // page and the API, which read the database row on every request.
   return NextResponse.next();
 }
 

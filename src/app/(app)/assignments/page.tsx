@@ -1,5 +1,5 @@
 import { desc, eq } from "drizzle-orm";
-import { getSession } from "@/lib/auth/session";
+import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { db } from "@/db/client";
 import { assignments } from "@/db/schema";
@@ -19,14 +19,14 @@ export const dynamic = "force-dynamic";
  * never calls a provider itself.
  */
 export default async function AssignmentsPage() {
-  const session = await getSession();
-  if (!session) return null;
+  const user = await requireActiveUser();
+  if (!user) return null;
   const dict = getDictionary(getLocale());
 
   const rows = await db
     .select()
     .from(assignments)
-    .where(eq(assignments.targetUserId, session.sub))
+    .where(eq(assignments.targetUserId, user.id))
     .orderBy(desc(assignments.createdAt));
 
   const evaluations = await findEvaluationsForSources({
@@ -35,7 +35,7 @@ export default async function AssignmentsPage() {
   });
 
   const responses = await Promise.all(
-    rows.map(async (row) => [row.id, await getAssignmentResponse(row.id, session.sub)] as const)
+    rows.map(async (row) => [row.id, await getAssignmentResponse(row.id, user.id)] as const)
   );
   const responseByAssignment = new Map(responses);
 

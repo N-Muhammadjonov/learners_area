@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getSession } from "@/lib/auth/session";
+import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { listUserSubmissions } from "@/lib/data/writing";
 import { findEvaluationsForSources } from "@/lib/data/evaluations";
@@ -9,10 +9,10 @@ import { EmptyState } from "@/components/ui/EmptyState";
 export const dynamic = "force-dynamic";
 
 export default async function WritingHistoryPage() {
-  const session = await getSession();
-  if (!session) return null;
+  const user = await requireActiveUser();
+  if (!user) return null;
   const dict = getDictionary(getLocale());
-  const rows = await listUserSubmissions(session.sub);
+  const rows = await listUserSubmissions(user.id);
 
   const evaluations = await findEvaluationsForSources({
     sourceType: "writing_submission",

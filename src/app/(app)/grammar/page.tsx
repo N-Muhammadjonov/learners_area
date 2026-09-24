@@ -1,15 +1,15 @@
 import Link from "next/link";
-import { getSession } from "@/lib/auth/session";
+import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { getTopicMastery } from "@/lib/data/grammar";
 import { Card } from "@/components/ui/Card";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 
 export default async function GrammarPage() {
-  const session = await getSession();
-  if (!session) return null;
+  const user = await requireActiveUser();
+  if (!user) return null;
   const dict = getDictionary(getLocale());
-  const rows = await getTopicMastery(session.sub);
+  const rows = await getTopicMastery(user.id);
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-4">

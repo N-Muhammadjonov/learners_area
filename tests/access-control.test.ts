@@ -185,6 +185,39 @@ test("every private API route rejects anonymous callers with 401", () => {
   }
 });
 
+test("every staff, administrator and owner page guards itself from the database", () => {
+  const pages = walk(join(ROOT, "src/app/(app)"))
+    .map((f) => relative(ROOT, f))
+    .filter((f) => f.endsWith("page.tsx"));
+
+  const rules: Array<[RegExp, RegExp, string]> = [
+    [/\/teacher\//, /requireStaff\(\)/, "teacher pages require staff"],
+    [/\/admin\//, /requireAdministrator\(\)/, "admin pages require an administrator"],
+    [/\/owner\//, /requireOwner\(\)/, "owner pages require the owner"],
+  ];
+
+  for (const page of pages) {
+    for (const [path, guard, label] of rules) {
+      if (!path.test(page)) continue;
+      const source = stripComments(read(page));
+      assert.match(source, guard, `${page}: ${label}`);
+      assert.match(source, /redirect\("/, `${page} must redirect an unauthorised visitor`);
+    }
+  }
+});
+
+test("page-level authorization reads the database, not the session cookie", () => {
+  const pages = walk(join(ROOT, "src/app/(app)"))
+    .map((f) => relative(ROOT, f))
+    .filter((f) => f.endsWith("page.tsx"));
+  const offenders = pages.filter((page) => /getSession\(\)/.test(stripComments(read(page))));
+  assert.deepEqual(
+    offenders,
+    [],
+    `these pages authorize from the stale cookie: ${offenders.join(", ")}`
+  );
+});
+
 test("role checks in API routes are rank-aware, not equality against \"admin\"", () => {
   for (const route of API_ROUTES) {
     const source = stripComments(read(route));

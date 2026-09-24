@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { eq } from "drizzle-orm";
-import { getSession } from "@/lib/auth/session";
+import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { getTopicWithExercises } from "@/lib/data/grammar";
 import { db } from "@/db/client";
@@ -9,8 +9,8 @@ import { writingSubmissions } from "@/db/schema";
 import { GrammarQuiz } from "@/components/grammar/GrammarQuiz";
 
 export default async function GrammarTopicPage({ params }: { params: { topicId: string } }) {
-  const session = await getSession();
-  if (!session) return null;
+  const user = await requireActiveUser();
+  if (!user) return null;
   const dict = getDictionary(getLocale());
 
   const detail = await getTopicWithExercises(params.topicId);
@@ -22,7 +22,7 @@ export default async function GrammarTopicPage({ params }: { params: { topicId: 
     sourceIds.length
       ? (
           await db.query.writingSubmissions.findMany({
-            where: eq(writingSubmissions.userId, session.sub),
+            where: eq(writingSubmissions.userId, user.id),
           })
         )
           .map((s) => s.id)

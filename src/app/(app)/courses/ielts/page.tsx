@@ -1,15 +1,15 @@
 import { notFound } from "next/navigation";
-import { getSession } from "@/lib/auth/session";
+import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { getCourseRoadmap } from "@/lib/data/roadmap";
 import { Card } from "@/components/ui/Card";
 import { StateBadge } from "@/components/ui/Badge";
 
 export default async function IeltsRoadmapPage() {
-  const session = await getSession();
-  if (!session) return null;
+  const user = await requireActiveUser();
+  if (!user) return null;
   const dict = getDictionary(getLocale());
-  const roadmap = await getCourseRoadmap("ielts", session.sub);
+  const roadmap = await getCourseRoadmap("ielts", user.id);
   if (!roadmap) notFound();
 
   return (

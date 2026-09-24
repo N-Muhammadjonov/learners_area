@@ -1,4 +1,6 @@
 import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
+import { requireAdministrator } from "@/lib/auth/current-user";
 import { asc, eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { grammarTopics, grammarExercises } from "@/db/schema";
@@ -7,6 +9,10 @@ import { Card } from "@/components/ui/Card";
 import { NewExerciseForm } from "@/components/admin/NewExerciseForm";
 
 export default async function AdminTopicDetailPage({ params }: { params: { id: string } }) {
+  // Authorization is a database read, not a menu decision: this page used to
+  // rely on the edge guard's cookie, which goes stale the moment a role changes.
+  const administrator = await requireAdministrator();
+  if (!administrator) redirect("/dashboard");
   const dict = getDictionary(getLocale());
   const topic = await db.query.grammarTopics.findFirst({ where: eq(grammarTopics.id, params.id) });
   if (!topic) notFound();

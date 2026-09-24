@@ -1,6 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { THEME_COOKIE, type Theme } from "@/lib/theme";
+
+export { THEME_COOKIE };
+export type { Theme };
 
 /**
  * Day / Night switch.
@@ -10,9 +14,6 @@ import { useEffect, useState } from "react";
  * the `data-theme` attribute, the cookie that survives a reload on another
  * device-less visit, and its own accessible label.
  */
-export const THEME_COOKIE = "la_theme";
-export type Theme = "day" | "night";
-
 export function applyTheme(theme: Theme) {
   document.documentElement.dataset.theme = theme;
 }

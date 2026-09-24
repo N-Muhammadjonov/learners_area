@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { requireAdministrator } from "@/lib/auth/current-user";
 import { desc } from "drizzle-orm";
 import { db } from "@/db/client";
 import { listeningTests } from "@/db/schema";
@@ -7,6 +9,10 @@ import { Card } from "@/components/ui/Card";
 import { NewTestForm } from "@/components/admin/NewTestForm";
 
 export default async function AdminListeningPage() {
+  // Authorization is a database read, not a menu decision: this page used to
+  // rely on the edge guard's cookie, which goes stale the moment a role changes.
+  const administrator = await requireAdministrator();
+  if (!administrator) redirect("/dashboard");
   const dict = getDictionary(getLocale());
   const tests = await db.query.listeningTests.findMany({ orderBy: desc(listeningTests.createdAt) });
 

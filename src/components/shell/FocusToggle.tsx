@@ -1,6 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { FOCUS_STORAGE_KEY } from "@/lib/theme";
+
+export { FOCUS_STORAGE_KEY };
 
 /**
  * Focus Mode.
@@ -11,8 +14,6 @@ import { useEffect, useState } from "react";
  * The preference is a harmless UI choice, so localStorage is the right store
  * (never points, progress or mastery).
  */
-export const FOCUS_STORAGE_KEY = "la_focus";
-
 export function FocusToggle({
   enterLabel,
   exitLabel,

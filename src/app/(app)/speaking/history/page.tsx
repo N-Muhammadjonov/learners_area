@@ -1,5 +1,5 @@
 import { getDictionary, getLocale } from "@/lib/i18n";
-import { getSession } from "@/lib/auth/session";
+import { requireActiveUser } from "@/lib/auth/current-user";
 import { listAttempts } from "@/lib/data/speaking-practice";
 import { findEvaluationsForSources } from "@/lib/data/evaluations";
 import { formatBytes } from "@/lib/uploads/format";
@@ -13,12 +13,12 @@ import { ManualTranscriptForm } from "@/components/coach/ManualTranscriptForm";
 export const dynamic = "force-dynamic";
 
 export default async function SpeakingHistoryPage() {
-  const session = await getSession();
-  if (!session) return null;
+  const user = await requireActiveUser();
+  if (!user) return null;
 
   const dict = getDictionary(getLocale());
   const t = dict.speakingPractice;
-  const attempts = await listAttempts({ userId: session.sub });
+  const attempts = await listAttempts({ userId: user.id });
 
   const evaluations = await findEvaluationsForSources({
     sourceType: "speaking_attempt",

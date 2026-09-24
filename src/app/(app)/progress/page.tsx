@@ -1,13 +1,13 @@
-import { getSession } from "@/lib/auth/session";
+import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { getDashboardData } from "@/lib/data/dashboard";
 import { StatCard } from "@/components/ui/Card";
 
 export default async function ProgressPage() {
-  const session = await getSession();
-  if (!session) return null;
+  const user = await requireActiveUser();
+  if (!user) return null;
   const dict = getDictionary(getLocale());
-  const data = await getDashboardData(session.sub);
+  const data = await getDashboardData(user.id);
 
   return (
     <div className="mx-auto max-w-3xl">

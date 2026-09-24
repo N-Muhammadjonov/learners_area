@@ -1,16 +1,16 @@
 import { notFound } from "next/navigation";
-import { getSession } from "@/lib/auth/session";
+import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { getAttemptDetail } from "@/lib/data/reading";
 import { ReadingExam } from "@/components/reading/ReadingExam";
 import { ReadingAnalysis } from "@/components/reading/ReadingAnalysis";
 
 export default async function ReadingAttemptPage({ params }: { params: { id: string } }) {
-  const session = await getSession();
-  if (!session) return null;
+  const user = await requireActiveUser();
+  if (!user) return null;
   const dict = getDictionary(getLocale());
 
-  const detail = await getAttemptDetail(params.id, session.sub);
+  const detail = await getAttemptDetail(params.id, user.id);
   if (!detail) notFound();
   const { attempt, passage, questions, answers } = detail;
 

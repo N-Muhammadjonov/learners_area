@@ -1,4 +1,6 @@
 import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
+import { requireAdministrator } from "@/lib/auth/current-user";
 import { asc, eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { readingPassages, readingQuestions } from "@/db/schema";
@@ -7,6 +9,10 @@ import { Card } from "@/components/ui/Card";
 import { NewQuestionForm } from "@/components/admin/NewQuestionForm";
 
 export default async function AdminPassageDetailPage({ params }: { params: { id: string } }) {
+  // Authorization is a database read, not a menu decision: this page used to
+  // rely on the edge guard's cookie, which goes stale the moment a role changes.
+  const administrator = await requireAdministrator();
+  if (!administrator) redirect("/dashboard");
   const dict = getDictionary(getLocale());
   const passage = await db.query.readingPassages.findFirst({ where: eq(readingPassages.id, params.id) });
   if (!passage) notFound();

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getSession } from "@/lib/auth/session";
+import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { getDueVocabulary, getRecentEvaluations, getWeaknessSummary } from "@/lib/data/coach-dashboard";
 import { getStudyRecommendations } from "@/lib/services/coach/recommendations";
@@ -17,18 +17,18 @@ export const dynamic = "force-dynamic";
  * says it is empty rather than showing a placeholder percentage.
  */
 export default async function CoachPage() {
-  const session = await getSession();
-  if (!session) return null;
+  const user = await requireActiveUser();
+  if (!user) return null;
   const dict = getDictionary(getLocale());
   const t = dict.coach;
 
   const [weaknesses, recent, due, recommendations] = await Promise.all([
-    getWeaknessSummary(session.sub),
-    getRecentEvaluations(session.sub, 8),
-    getDueVocabulary(session.sub, 10),
+    getWeaknessSummary(user.id),
+    getRecentEvaluations(user.id, 8),
+    getDueVocabulary(user.id, 10),
     // "What should I practise now?" — ranked by the shared weakness history, one
     // action per practice area, and empty when nothing has been evaluated yet.
-    getStudyRecommendations(session.sub, 3),
+    getStudyRecommendations(user.id, 3),
   ]);
 
   const open = weaknesses.filter((w) => w.status === "open");

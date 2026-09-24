@@ -1,10 +1,16 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { requireStaff } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { listStudents } from "@/lib/data/teacher";
 import { Card } from "@/components/ui/Card";
 import { EmptyState } from "@/components/ui/EmptyState";
 
 export default async function TeacherStudentsPage() {
+  // Authorization is a database read, not a menu decision: this page used to
+  // rely on the edge guard's cookie, which goes stale the moment a role changes.
+  const staff = await requireStaff();
+  if (!staff) redirect("/dashboard");
   const dict = getDictionary(getLocale());
   const students = await listStudents();
 

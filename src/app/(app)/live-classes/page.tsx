@@ -1,5 +1,5 @@
 import { and, eq, inArray } from "drizzle-orm";
-import { getSession } from "@/lib/auth/session";
+import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { db } from "@/db/client";
 import { courses, liveClassAttendance } from "@/db/schema";
@@ -9,8 +9,8 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { JoinButton } from "@/components/live-classes/JoinButton";
 
 export default async function LiveClassesPage() {
-  const session = await getSession();
-  if (!session) return null;
+  const user = await requireActiveUser();
+  if (!user) return null;
   const dict = getDictionary(getLocale());
 
   const ielts = await db.query.courses.findFirst({ where: eq(courses.slug, "ielts") });
@@ -22,7 +22,7 @@ export default async function LiveClassesPage() {
   const allIds = [...upcoming, ...past].map((c) => c.id);
   const attendedRows = allIds.length
     ? await db.query.liveClassAttendance.findMany({
-        where: and(eq(liveClassAttendance.userId, session.sub), inArray(liveClassAttendance.liveClassId, allIds)),
+        where: and(eq(liveClassAttendance.userId, user.id), inArray(liveClassAttendance.liveClassId, allIds)),
       })
     : [];
   const attendedSet = new Set(attendedRows.map((a) => a.liveClassId));

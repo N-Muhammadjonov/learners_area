@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import "./globals.css";
 import { BRAND } from "@/lib/config/brand";
-import { THEME_COOKIE, type Theme } from "@/components/shell/ThemeToggle";
+import { THEME_COOKIE, themeFromCookie } from "@/lib/theme";
 import { getLocale } from "@/lib/i18n";
 
 export const metadata: Metadata = {
@@ -10,9 +10,8 @@ export const metadata: Metadata = {
   description: BRAND.tagline,
 };
 
-function readTheme(): Theme {
-  const raw = cookies().get(THEME_COOKIE)?.value;
-  return raw === "night" ? "night" : "day";
+function readTheme() {
+  return themeFromCookie(cookies().get(THEME_COOKIE)?.value);
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

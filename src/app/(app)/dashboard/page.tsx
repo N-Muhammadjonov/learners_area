@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getSession } from "@/lib/auth/session";
+import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { getDashboardData } from "@/lib/data/dashboard";
 import { StatCard, Card } from "@/components/ui/Card";
@@ -9,16 +9,16 @@ import { Button } from "@/components/ui/Button";
 const SKILLS = ["listening", "reading", "writing", "speaking"] as const;
 
 export default async function DashboardPage() {
-  const session = await getSession();
-  if (!session) return null; // middleware + layout already guard this
+  const user = await requireActiveUser();
+  if (!user) return null; // middleware + layout already guard this
   const dict = getDictionary(getLocale());
-  const data = await getDashboardData(session.sub);
+  const data = await getDashboardData(user.id);
 
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-6">
       <div>
         <h1 className="font-display text-2xl text-ink-900">
-          {dict.dashboard.greeting}, {session.name.split(" ")[0]}
+          {dict.dashboard.greeting}, {user.name.split(" ")[0]}
         </h1>
         <p className="text-sm text-ink-500">{dict.nav.course} · IELTS</p>
       </div>

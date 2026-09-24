@@ -92,7 +92,13 @@ export function PeopleTable({
           </thead>
           <tbody>
             {people.map((person) => (
-              <tr key={person.id} className="border-b border-ink-100/70 last:border-0">
+              <tr
+                key={person.id}
+                className="border-b border-ink-100/70 last:border-0"
+                data-person-id={person.id}
+                data-person-role={person.role}
+                data-person-status={person.accountStatus}
+              >
                 <td className="py-2 pr-3">
                   <span className="font-medium text-ink-900">{person.name}</span>
                   {person.id === actorId && (
@@ -143,7 +149,13 @@ export function PeopleTable({
 
       <div className="flex flex-col gap-3 md:hidden">
         {people.map((person) => (
-          <div key={person.id} className="card flex flex-col gap-2 p-4">
+          <div
+            key={person.id}
+            className="card flex flex-col gap-2 p-4"
+            data-person-id={person.id}
+            data-person-role={person.role}
+            data-person-status={person.accountStatus}
+          >
             <div>
               <p className="text-sm font-medium text-ink-900">
                 {person.name}

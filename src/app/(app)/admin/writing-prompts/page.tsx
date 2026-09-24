@@ -1,9 +1,15 @@
 import { getDictionary, getLocale } from "@/lib/i18n";
+import { redirect } from "next/navigation";
+import { requireAdministrator } from "@/lib/auth/current-user";
 import { listActivePrompts } from "@/lib/data/writing";
 import { Card } from "@/components/ui/Card";
 import { NewPromptForm } from "@/components/admin/NewPromptForm";
 
 export default async function AdminWritingPromptsPage() {
+  // Authorization is a database read, not a menu decision: this page used to
+  // rely on the edge guard's cookie, which goes stale the moment a role changes.
+  const administrator = await requireAdministrator();
+  if (!administrator) redirect("/dashboard");
   const dict = getDictionary(getLocale());
   const prompts = await listActivePrompts();
 

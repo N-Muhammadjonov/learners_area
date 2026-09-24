@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { THEME_COOKIE, type Theme } from "@/components/shell/ThemeToggle";
+import { THEME_COOKIE, isTheme, type Theme } from "@/lib/theme";
 
 /**
  * Persist the Day / Night preference server-side so the next page is rendered
@@ -8,8 +8,7 @@ import { THEME_COOKIE, type Theme } from "@/components/shell/ThemeToggle";
  */
 export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null);
-  const theme: Theme | null =
-    body?.theme === "night" ? "night" : body?.theme === "day" ? "day" : null;
+  const theme: Theme | null = isTheme(body?.theme) ? body.theme : null;
   if (!theme) return NextResponse.json({ error: "invalid_theme" }, { status: 400 });
 
   cookies().set(THEME_COOKIE, theme, {

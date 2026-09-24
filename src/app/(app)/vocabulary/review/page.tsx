@@ -1,13 +1,13 @@
-import { getSession } from "@/lib/auth/session";
+import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { listDueVocabulary } from "@/lib/data/vocabulary";
 import { ReviewDeck } from "@/components/vocabulary/ReviewDeck";
 
 export default async function VocabularyReviewPage() {
-  const session = await getSession();
-  if (!session) return null;
+  const user = await requireActiveUser();
+  if (!user) return null;
   const dict = getDictionary(getLocale());
-  const due = await listDueVocabulary(session.sub);
+  const due = await listDueVocabulary(user.id);
 
   const items = due.map(({ entry, lexeme }) => ({
     entryId: entry.id,

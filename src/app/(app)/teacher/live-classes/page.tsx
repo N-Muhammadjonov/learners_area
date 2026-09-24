@@ -1,4 +1,6 @@
 import { db } from "@/db/client";
+import { redirect } from "next/navigation";
+import { requireStaff } from "@/lib/auth/current-user";
 import { eq } from "drizzle-orm";
 import { liveClassAttendance } from "@/db/schema";
 import { getDictionary, getLocale } from "@/lib/i18n";
@@ -8,6 +10,10 @@ import { NewLiveClassForm } from "@/components/live-classes/NewLiveClassForm";
 import { ClassStatusControls } from "@/components/live-classes/ClassStatusControls";
 
 export default async function TeacherLiveClassesPage() {
+  // Authorization is a database read, not a menu decision: this page used to
+  // rely on the edge guard's cookie, which goes stale the moment a role changes.
+  const staff = await requireStaff();
+  if (!staff) redirect("/dashboard");
   const dict = getDictionary(getLocale());
   const classes = await listAllForTeacher();
 

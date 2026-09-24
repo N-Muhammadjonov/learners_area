@@ -35,5 +35,5 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     return NextResponse.json({ error: result.error }, { status: result.error === "not_found" ? 404 : 409 });
   }
 
-  return NextResponse.json({ ok: true, status: result.status });
+  return NextResponse.json({ ok: true, status: result.status, userId: result.userId });
 }

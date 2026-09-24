@@ -1,4 +1,5 @@
-import { getSession } from "@/lib/auth/session";
+import { redirect } from "next/navigation";
+import { requireStaff } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { listAllForManagement } from "@/lib/data/speaking";
 import { canManageContent } from "@/lib/auth/ownership";
@@ -6,8 +7,8 @@ import { NewMaterialForm } from "@/components/speaking/NewMaterialForm";
 import { ManagedMaterialCard } from "@/components/speaking/ManagedMaterialCard";
 
 export default async function TeacherSpeakingPage() {
-  const session = await getSession();
-  if (!session) return null;
+  const user = await requireStaff();
+  if (!user) redirect("/dashboard");
   const dict = getDictionary(getLocale());
   const rows = await listAllForManagement();
 
@@ -25,7 +26,7 @@ export default async function TeacherSpeakingPage() {
             material={material}
             blocks={blocks}
             authorName={authorName}
-            canManage={canManageContent(session, material.createdByUserId)}
+            canManage={canManageContent(user, material.createdByUserId)}
           />
         ))}
       </div>

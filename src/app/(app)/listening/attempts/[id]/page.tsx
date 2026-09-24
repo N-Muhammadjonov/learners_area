@@ -1,16 +1,16 @@
 import { notFound } from "next/navigation";
-import { getSession } from "@/lib/auth/session";
+import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { getAttemptDetail } from "@/lib/data/listening";
 import { ListeningExam } from "@/components/listening/ListeningExam";
 import { ListeningAnalysis } from "@/components/listening/ListeningAnalysis";
 
 export default async function ListeningAttemptPage({ params }: { params: { id: string } }) {
-  const session = await getSession();
-  if (!session) return null;
+  const user = await requireActiveUser();
+  if (!user) return null;
   const dict = getDictionary(getLocale());
 
-  const detail = await getAttemptDetail(params.id, session.sub);
+  const detail = await getAttemptDetail(params.id, user.id);
   if (!detail) notFound();
   const { attempt, test, questions, answers } = detail;
 

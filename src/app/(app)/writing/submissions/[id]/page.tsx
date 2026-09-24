@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getSession } from "@/lib/auth/session";
+import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { getSubmissionDetail } from "@/lib/data/writing";
 import { findEvaluation } from "@/lib/data/evaluations";
@@ -18,11 +18,11 @@ export const dynamic = "force-dynamic";
  *     overwritten by an automated evaluation
  */
 export default async function SubmissionPage({ params }: { params: { id: string } }) {
-  const session = await getSession();
-  if (!session) return null;
+  const user = await requireActiveUser();
+  if (!user) return null;
   const dict = getDictionary(getLocale());
 
-  const detail = await getSubmissionDetail(params.id, session.sub);
+  const detail = await getSubmissionDetail(params.id, user.id);
   if (!detail) notFound();
   const { submission, prompt, feedback } = detail;
 

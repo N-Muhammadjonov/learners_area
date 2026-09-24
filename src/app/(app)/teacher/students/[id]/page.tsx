@@ -1,5 +1,5 @@
-import { notFound } from "next/navigation";
-import { getSession } from "@/lib/auth/session";
+import { notFound, redirect } from "next/navigation";
+import { requireStaff } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { getStudentDetail } from "@/lib/data/teacher";
 import { findEvaluationsForSources } from "@/lib/data/evaluations";
@@ -12,8 +12,8 @@ import { writingPrompts } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 export default async function StudentDetailPage({ params }: { params: { id: string } }) {
-  const session = await getSession();
-  if (!session) return null;
+  const user = await requireStaff();
+  if (!user) redirect("/dashboard");
   const dict = getDictionary(getLocale());
   const detail = await getStudentDetail(params.id);
   if (!detail) notFound();

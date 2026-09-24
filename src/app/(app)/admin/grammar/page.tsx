@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { requireAdministrator } from "@/lib/auth/current-user";
 import { asc } from "drizzle-orm";
 import { db } from "@/db/client";
 import { grammarTopics } from "@/db/schema";
@@ -7,6 +9,10 @@ import { Card } from "@/components/ui/Card";
 import { NewTopicForm } from "@/components/admin/NewTopicForm";
 
 export default async function AdminGrammarPage() {
+  // Authorization is a database read, not a menu decision: this page used to
+  // rely on the edge guard's cookie, which goes stale the moment a role changes.
+  const administrator = await requireAdministrator();
+  if (!administrator) redirect("/dashboard");
   const dict = getDictionary(getLocale());
   const topics = await db.query.grammarTopics.findMany({ orderBy: asc(grammarTopics.order) });
 

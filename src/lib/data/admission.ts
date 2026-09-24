@@ -170,7 +170,7 @@ export async function decideAccessRequest(input: DecisionInput) {
     href: approved ? "/dashboard" : "/pending",
   });
 
-  return { ok: true as const, status: approved ? "active" : "rejected" };
+  return { ok: true as const, status: approved ? "active" : "rejected", userId: request.userId };
 }
 
 export async function setAccountStatus(input: {

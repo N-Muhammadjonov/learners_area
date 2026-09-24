@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getSession } from "@/lib/auth/session";
+import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { listUserVocabulary, listDueVocabulary } from "@/lib/data/vocabulary";
 import { Card } from "@/components/ui/Card";
@@ -9,12 +9,12 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { Button } from "@/components/ui/Button";
 
 export default async function VocabularyPage() {
-  const session = await getSession();
-  if (!session) return null;
+  const user = await requireActiveUser();
+  if (!user) return null;
   const dict = getDictionary(getLocale());
   const [all, due] = await Promise.all([
-    listUserVocabulary(session.sub),
-    listDueVocabulary(session.sub),
+    listUserVocabulary(user.id),
+    listDueVocabulary(user.id),
   ]);
 
   return (

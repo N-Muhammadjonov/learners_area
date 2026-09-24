@@ -1,4 +1,6 @@
 import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
+import { requireAdministrator } from "@/lib/auth/current-user";
 import { asc, eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { listeningTests, listeningQuestions } from "@/db/schema";
@@ -8,6 +10,10 @@ import { MaterialPlayer } from "@/components/speaking/MaterialPlayer";
 import { NewListeningQuestionForm } from "@/components/admin/NewListeningQuestionForm";
 
 export default async function AdminTestDetailPage({ params }: { params: { id: string } }) {
+  // Authorization is a database read, not a menu decision: this page used to
+  // rely on the edge guard's cookie, which goes stale the moment a role changes.
+  const administrator = await requireAdministrator();
+  if (!administrator) redirect("/dashboard");
   const dict = getDictionary(getLocale());
   const test = await db.query.listeningTests.findFirst({ where: eq(listeningTests.id, params.id) });
   if (!test) notFound();

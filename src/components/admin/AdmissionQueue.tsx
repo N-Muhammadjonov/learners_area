@@ -49,7 +49,12 @@ export function AdmissionQueue({
     <div className="flex flex-col gap-3">
       {error && <p className="text-xs text-band-bad">{error}</p>}
       {requests.map((request) => (
-        <div key={request.id} className="card flex flex-col gap-3 p-4">
+        <div
+          key={request.id}
+          className="card flex flex-col gap-3 p-4"
+          data-access-request={request.id}
+          data-applicant={request.applicantEmail ?? request.applicantName}
+        >
           <div className="flex flex-wrap items-start justify-between gap-2">
             <div>
               <p className="text-sm font-medium text-ink-900">{request.applicantName}</p>
