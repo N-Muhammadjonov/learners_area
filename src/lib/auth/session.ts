@@ -1,5 +1,6 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
+import { cookiePolicyForRequest, serializeCookieClear, type RequestLike } from "./cookie-policy";
 import { isRole, type Role } from "./roles";
 
 export const SESSION_COOKIE = "la_session";
@@ -74,10 +75,35 @@ export async function getSession(): Promise<SessionPayload | null> {
   return verifySessionToken(token);
 }
 
-export const sessionCookieOptions = {
-  httpOnly: true,
-  secure: process.env.NODE_ENV === "production",
-  sameSite: "lax" as const,
-  path: "/",
-  maxAge: SESSION_TTL_SECONDS,
-};
+/**
+ * The session cookie, described for the request that is writing it.
+ *
+ * The attributes depend on the transport (see ./cookie-policy): the same app is
+ * served as a top-level site and, in the Arena preview, inside a frame on another
+ * site — and only `SameSite=None; Secure; Partitioned` survives the second one.
+ */
+export function sessionCookieOptions(req: RequestLike) {
+  return {
+    httpOnly: true,
+    path: "/",
+    maxAge: SESSION_TTL_SECONDS,
+    ...cookiePolicyForRequest(req),
+  };
+}
+
+/**
+ * Expire the session cookie — in both shapes it can have.
+ *
+ * A cookie written before the partition-aware policy, or in a top-level context,
+ * sits in the same jar under the same name. Leaving it behind would mean "sign
+ * out" only ended half a session, and a stale cookie can shadow the fresh one
+ * because the request parser returns the first match.
+ */
+export function clearSessionCookies(res: { headers: { append(name: string, value: string): void } }, req: RequestLike) {
+  const policy = cookiePolicyForRequest(req);
+  res.headers.append("Set-Cookie", serializeCookieClear(SESSION_COOKIE, policy));
+  if (policy.partitioned) {
+    // The pre-partition shape of the same cookie.
+    res.headers.append("Set-Cookie", serializeCookieClear(SESSION_COOKIE, { sameSite: "lax", secure: false, partitioned: false }));
+  }
+}

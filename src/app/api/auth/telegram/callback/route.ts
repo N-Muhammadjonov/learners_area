@@ -3,7 +3,7 @@ import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { users } from "@/db/schema";
 import { verifyTelegramPayload, type TelegramAuthPayload } from "@/lib/auth/providers/telegram";
-import { createSessionToken, SESSION_COOKIE, sessionCookieOptions } from "@/lib/auth/session";
+import { createSessionToken, SESSION_COOKIE, clearSessionCookies, sessionCookieOptions } from "@/lib/auth/session";
 import { getLocale } from "@/lib/i18n";
 
 export async function GET(req: NextRequest) {
@@ -44,6 +44,7 @@ export async function GET(req: NextRequest) {
   const res = NextResponse.redirect(
     new URL(user.onboardingCompletedAt ? "/dashboard" : "/onboarding", req.url)
   );
-  res.cookies.set(SESSION_COOKIE, token, sessionCookieOptions);
+  clearSessionCookies(res, req);
+  res.cookies.set(SESSION_COOKIE, token, sessionCookieOptions(req));
   return res;
 }

@@ -38,7 +38,9 @@ export function RegisterForm({
       setError(data.error === "email_taken" ? dict.auth.errorEmailTaken : data.error);
       return;
     }
-    router.push("/onboarding");
+    // A new account is PENDING until an administrator approves it, so the honest
+    // destination is the waiting room, where the applicant can ask for access.
+    router.push("/pending");
     router.refresh();
   }
 

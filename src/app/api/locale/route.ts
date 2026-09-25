@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import { LOCALE_COOKIE, isLocale, localeCookieOptions } from "@/lib/i18n";
 
 export async function POST(req: NextRequest) {
@@ -7,6 +6,7 @@ export async function POST(req: NextRequest) {
   if (!isLocale(body?.locale)) {
     return NextResponse.json({ error: "invalid_locale" }, { status: 400 });
   }
-  cookies().set(LOCALE_COOKIE, body.locale, localeCookieOptions);
-  return NextResponse.json({ ok: true });
+  const res = NextResponse.json({ ok: true });
+  res.cookies.set(LOCALE_COOKIE, body.locale, localeCookieOptions(req));
+  return res;
 }

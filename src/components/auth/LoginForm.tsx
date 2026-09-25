@@ -40,6 +40,17 @@ export function LoginForm({
       setError(dict.auth.errorInvalidCredentials);
       return;
     }
+    // Where to go next is decided by the account's state, not by a guess:
+    // anything that is not ACTIVE belongs in the waiting room (the middleware would
+    // send it there anyway, but landing on the right screen immediately is the
+    // difference between "waiting for approval" and "the button did nothing").
+    const pending = data.accountStatus && data.accountStatus !== "active";
+    if (pending) {
+      router.push("/pending");
+      router.refresh();
+      return;
+    }
+
     // `next` comes from the address bar, so only a path inside this app is honoured
     // — a crafted `?next=https://…` must not turn sign-in into an open redirect.
     const next = safeNextPath(searchParams.get("next"));

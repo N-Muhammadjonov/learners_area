@@ -4,7 +4,8 @@ import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { users, onboardingProfiles, courses, enrollments } from "@/db/schema";
 import { onboardingSchema } from "@/lib/validation/onboarding";
-import { createSessionToken, SESSION_COOKIE, sessionCookieOptions } from "@/lib/auth/session";
+import { createSessionToken, SESSION_COOKIE, clearSessionCookies, sessionCookieOptions } from "@/lib/auth/session";
+import { cookiePolicyForRequest } from "@/lib/auth/cookie-policy";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { localeCookieOptions, LOCALE_COOKIE } from "@/lib/i18n";
 
@@ -67,8 +68,9 @@ export async function POST(req: NextRequest) {
     locale: data.preferredLanguage,
     onboarded: true,
   });
-  cookies().set(SESSION_COOKIE, token, sessionCookieOptions);
-  cookies().set(LOCALE_COOKIE, data.preferredLanguage, localeCookieOptions);
-
-  return NextResponse.json({ ok: true });
+  const res = NextResponse.json({ ok: true });
+  clearSessionCookies(res, req);
+  res.cookies.set(SESSION_COOKIE, token, sessionCookieOptions(req));
+  res.cookies.set(LOCALE_COOKIE, data.preferredLanguage, localeCookieOptions(req));
+  return res;
 }

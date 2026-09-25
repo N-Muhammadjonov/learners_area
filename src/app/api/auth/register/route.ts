@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { users } from "@/db/schema";
 import { registerSchema } from "@/lib/validation/auth";
 import { hashPassword } from "@/lib/auth/password";
-import { createSessionToken, SESSION_COOKIE, sessionCookieOptions } from "@/lib/auth/session";
+import { createSessionToken, SESSION_COOKIE, clearSessionCookies, sessionCookieOptions } from "@/lib/auth/session";
 import { getLocale } from "@/lib/i18n";
 
 export async function POST(req: NextRequest) {
@@ -40,7 +39,10 @@ export async function POST(req: NextRequest) {
     locale: user.locale,
     onboarded: false,
   });
-  cookies().set(SESSION_COOKIE, token, sessionCookieOptions);
-
-  return NextResponse.json({ ok: true });
+  // A brand-new account is PENDING by design: the client sends it to the waiting
+  // room, where it can ask for access — never into a private area.
+  const res = NextResponse.json({ ok: true, onboarded: false, accountStatus: user.accountStatus });
+  clearSessionCookies(res, req);
+  res.cookies.set(SESSION_COOKIE, token, sessionCookieOptions(req));
+  return res;
 }

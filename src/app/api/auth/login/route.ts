@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { users } from "@/db/schema";
 import { loginSchema } from "@/lib/validation/auth";
 import { verifyPassword } from "@/lib/auth/password";
-import { createSessionToken, SESSION_COOKIE, sessionCookieOptions } from "@/lib/auth/session";
+import { createSessionToken, SESSION_COOKIE, clearSessionCookies, sessionCookieOptions } from "@/lib/auth/session";
 
 export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null);
@@ -32,7 +31,18 @@ export async function POST(req: NextRequest) {
     locale: user.locale,
     onboarded: Boolean(user.onboardingCompletedAt),
   });
-  cookies().set(SESSION_COOKIE, token, sessionCookieOptions);
-
-  return NextResponse.json({ ok: true, onboarded: Boolean(user.onboardingCompletedAt) });
+  // `accountStatus` is the caller's own admission state — the client uses it to
+  // route to the right place (the waiting room for anything that is not ACTIVE)
+  // instead of guessing from the onboarding flag and landing a pending applicant
+  // on a form they are not allowed to submit.
+  const res = NextResponse.json({
+    ok: true,
+    onboarded: Boolean(user.onboardingCompletedAt),
+    accountStatus: user.accountStatus,
+  });
+  // Retire any cookie written in another context first, then issue this session's
+  // cookie with the attributes this transport needs.
+  clearSessionCookies(res, req);
+  res.cookies.set(SESSION_COOKIE, token, sessionCookieOptions(req));
+  return res;
 }

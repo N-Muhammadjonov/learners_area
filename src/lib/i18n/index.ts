@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { cookiePolicyForRequest, type RequestLike } from "@/lib/auth/cookie-policy";
 import en from "./en";
 import uz from "./uz";
 import type { Dictionary } from "./en";
@@ -23,8 +24,16 @@ export function getDictionary(locale: Locale): Dictionary {
   return dictionaries[locale];
 }
 
-export const localeCookieOptions = {
-  path: "/",
-  maxAge: 60 * 60 * 24 * 365,
-  sameSite: "lax" as const,
-};
+/**
+ * The language preference, with the same transport rules as the session cookie
+ * (see src/lib/auth/cookie-policy.ts) — a `Lax` cookie is not stored inside the
+ * preview's cross-site frame, and then the interface would silently forget the
+ * language the student chose.
+ */
+export function localeCookieOptions(req: RequestLike) {
+  return {
+    path: "/",
+    maxAge: 60 * 60 * 24 * 365,
+    ...cookiePolicyForRequest(req),
+  };
+}

@@ -38,9 +38,9 @@ export function ThemeToggle({
     const next: Theme = theme === "night" ? "day" : "night";
     setTheme(next);
     applyTheme(next);
-    document.cookie = `${THEME_COOKIE}=${next}; path=/; max-age=31536000; samesite=lax`;
-    // Best-effort server sync so the next server-rendered page agrees with the
-    // screen the reader is looking at right now.
+    // The server writes the cookie, because only it knows the transport: inside the
+    // preview's cross-site frame a client-written `SameSite=Lax` cookie is dropped
+    // and Night Mode would forget itself on the next reload.
     await fetch("/api/theme", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -56,6 +56,7 @@ export function ThemeToggle({
       onClick={() => void toggle()}
       aria-label={`${currentLabel}: ${label}`}
       title={label}
+      data-theme-toggle={theme}
       className="flex h-9 w-9 items-center justify-center rounded-sm border border-ink-100 text-ink-500 hover:bg-paper-sunken hover:text-ink-900"
     >
       <span aria-hidden>{theme === "night" ? "☾" : "☀"}</span>
