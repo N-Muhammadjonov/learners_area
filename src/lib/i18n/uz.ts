@@ -151,6 +151,25 @@ const uz: Dictionary = {
     noTasks: "Hozircha ochiq topshiriq yo\u2018q.",
     attempts: "urinish",
     nextClass: "Keyingi jonli dars",
+    openNow: "Hozir nima ochiq",
+    fullRoadmap: "To\u2018liq yo\u2018l xaritasi",
+    nothingOpenYet: "Hozircha hech narsa ochilmagan — markaz darslarni o\u2018z jadvali bo\u2018yicha ochadi.",
+  },
+  mocks: {
+    subtitle: "Mock testlar katalogi va sizning urinishlaringiz — barchasi yozuvdan olinadi.",
+    runnerNote:
+      "Vaqt bilan boshqariladigan to\u2018liq mock hali yoqilmagan. Ungacha har bir modul ichida mashq qilinadi — Reading, Listening va Writing bir xil baholanadi va bu sahifada hisoblanmagan baho ko\u2018rinmaydi.",
+    catalogue: "Sozlangan mock testlar",
+    noTests: "Markaz hali mock test e\u2018lon qilmagan.",
+    myAttempts: "Mening urinishlarim",
+    finished: "tugatilgan",
+    noAttempts: "Siz hali mock testni boshlamadingiz.",
+    untitled: "Mock test",
+    band: "Baho",
+    raw: "xom ball",
+    unfinished: "tugatilmagan",
+    unfinishedNote:
+      "Tugatilmagan urinish \u201ctugatilmagan\u201d deb ko\u2018rsatiladi — bu nol emas va natija sifatida hisoblanmaydi.",
   },
   progress: {
     subtitle: "Quyidagi barcha raqamlar siz yaratgan yozuvlardan olinadi — o\u2018ylab topilgani yo\u2018q.",

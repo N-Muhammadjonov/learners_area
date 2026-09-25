@@ -1,4 +1,6 @@
 import { and, asc, desc, eq, gt, lte, ne } from "drizzle-orm";
+import { getCourseRoadmap } from "@/lib/data/roadmap";
+import { isOpen, resolveState, type LessonState } from "@/lib/services/lessons/state";
 import { db } from "@/db/client";
 import {
   onboardingProfiles,
@@ -146,7 +148,23 @@ export async function getDashboardData(userId: string) {
     lastActivity(userId),
   ]);
 
+  // "What's open now": the lessons the student can actually open today, taken from
+  // the same roadmap the course page renders.
+  const roadmap = await getCourseRoadmap("ielts", userId);
+  const openLessons = (roadmap?.modules ?? [])
+    .flatMap((module) => module.units.flatMap((unit) => unit.lessons.map((lesson) => ({ module, unit, lesson }))))
+    .filter(({ lesson }) => isOpen(lesson.state as LessonState))
+    .slice(0, 4)
+    .map(({ module, unit, lesson }) => ({
+      id: lesson.id,
+      title: lesson.title,
+      moduleTitle: module.title,
+      unitTitle: unit.title,
+      state: resolveState(lesson.state as LessonState, "locked"),
+    }));
+
   return {
+    openLessons,
     profile: profile ?? null,
     latestEvaluation: latestEvaluationRow[0] ?? null,
     vocabDueCount: vocabDueCount.length,

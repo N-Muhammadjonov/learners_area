@@ -149,6 +149,25 @@ const en = {
     noTasks: "No open tasks right now.",
     attempts: "attempts",
     nextClass: "Next live class",
+    openNow: "What's open now",
+    fullRoadmap: "Full roadmap",
+    nothingOpenYet: "Nothing is open yet — the centre releases lessons on its own schedule.",
+  },
+  mocks: {
+    subtitle: "The mock catalogue and your own attempts, taken straight from the record.",
+    runnerNote:
+      "The timed full-test runner is not enabled yet. Until it is, practice runs inside each module — Reading, Listening and Writing all score the same way, and nothing on this page will show a band that was not actually calculated.",
+    catalogue: "Configured mock tests",
+    noTests: "The centre has not published a mock test yet.",
+    myAttempts: "My attempts",
+    finished: "finished",
+    noAttempts: "You have not started a mock test yet.",
+    untitled: "Mock test",
+    band: "Band",
+    raw: "raw",
+    unfinished: "not finished",
+    unfinishedNote:
+      "An attempt that was never finished is shown as unfinished — it is not a zero and it does not count as a result.",
   },
   progress: {
     subtitle: "Every figure below comes from rows you actually created — no placeholders.",

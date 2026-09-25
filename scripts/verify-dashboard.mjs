@@ -74,6 +74,27 @@ if (link) {
   check("the continue link opens a real page", target.status === 200, `${link} → ${target.status}`);
 }
 
+// "What's open now" must list exactly the lessons the roadmap says are open.
+const openLessons = await db.query(
+  `select id::text from lessons where id in (
+     select lesson_id from lesson_progress where user_id = $1 and state in ('available','assigned','in_progress')
+   ) or (default_state in ('available','assigned','in_progress')
+     and id not in (select lesson_id from lesson_progress where user_id = $1))`,
+  [userId]
+);
+const shownOpen = [...dashboard.text.matchAll(/data-open-lesson="([0-9a-f-]+)"/g)].map((m) => m[1]);
+check(
+  `the open lessons match the roadmap (${openLessons.rows.length} open in db)`,
+  openLessons.rows.length === 0
+    ? dashboard.text.includes("data-open-lessons-empty")
+    : shownOpen.length > 0 && shownOpen.every((id) => openLessons.rows.some((r) => r.id === id)),
+  `shown ${shownOpen.length}`
+);
+check(
+  "a locked lesson is never offered as open",
+  !shownOpen.some((id) => !openLessons.rows.some((r) => r.id === id))
+);
+
 const openTasks = await db.query(
   "select id::text from assignments where target_user_id = $1 and status <> 'completed' order by due_at",
   [userId]

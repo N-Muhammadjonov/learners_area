@@ -3,7 +3,7 @@ import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { getDashboardData } from "@/lib/data/dashboard";
 import { StatCard, Card } from "@/components/ui/Card";
-import { BandBadge } from "@/components/ui/Badge";
+import { BandBadge, StateBadge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 
 const SKILLS = ["listening", "reading", "writing", "speaking"] as const;
@@ -85,6 +85,39 @@ export default async function DashboardPage() {
         <Link href="/assignments" className="mt-3 inline-block text-sm text-signal-600 hover:underline">
           {dict.assignments.title} →
         </Link>
+      </Card>
+
+      {/* What is open now — the lessons the centre has actually released. */}
+      <Card data-open-lessons>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h2 className="font-display text-lg text-ink-900">{dict.dashboard.openNow}</h2>
+          <Link href="/courses/ielts" className="text-xs text-signal-600 hover:underline">
+            {dict.dashboard.fullRoadmap} →
+          </Link>
+        </div>
+        {data.openLessons.length === 0 ? (
+          <p className="mt-1 text-sm text-ink-500" data-open-lessons-empty>
+            {dict.dashboard.nothingOpenYet}
+          </p>
+        ) : (
+          <ul className="mt-2 flex flex-col divide-y divide-ink-100">
+            {data.openLessons.map((lesson) => (
+              <li key={lesson.id} className="py-2" data-open-lesson={lesson.id}>
+                <Link href={`/courses/ielts/lessons/${lesson.id}`} className="flex items-center justify-between gap-3">
+                  <span className="min-w-0">
+                    <span className="block text-sm text-ink-900">{lesson.title}</span>
+                    <span className="block text-xs text-ink-300">
+                      {lesson.moduleTitle} · {lesson.unitTitle}
+                    </span>
+                  </span>
+                  <span className="shrink-0" data-open-lesson-state={lesson.state}>
+                    <StateBadge state={lesson.state as "available"} />
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
       </Card>
 
       {data.nextLiveClass && (
