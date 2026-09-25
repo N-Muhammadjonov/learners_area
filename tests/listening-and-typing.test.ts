@@ -20,6 +20,11 @@ import {
   computeTypingMetrics,
   levenshtein,
 } from "../src/lib/services/writing/typing";
+import {
+  checkStructures,
+  structureVerdict,
+  summarizeTopicMastery,
+} from "../src/lib/services/grammar/mastery";
 
 // ---------------------------------------------------------------------------
 // MCQ Mastery — the drill's order is the feature

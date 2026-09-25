@@ -552,6 +552,9 @@ async function main() {
         correctOption: "Traffic",
         explanation: "\"Traffic\" is uncountable here and refers to the general concept, so it takes no article.",
         sourceSubmissionId: demoSubmission?.id,
+        translatePromptUz: "Tirbandlik ko'plab shaharlarda katta muammo bo'lib bormoqda.",
+        targetStructures: ["traffic", "problem"],
+        activationPrompt: "Write one sentence about a problem in your city, naming the problem itself (no article).",
       },
       {
         topicId: articlesTopic.id,
@@ -560,6 +563,9 @@ async function main() {
         options: ["a", "an", "the", "(no article)"],
         correctOption: "a",
         explanation: "\"Subject\" is singular and countable and not yet specified, so it needs the indefinite article \"a\".",
+        translatePromptUz: "Ba'zi odamlar talabalar o'zlari yoqtirgan fanni o'rganishi kerak deb hisoblaydi.",
+        targetStructures: ["students", "subject"],
+        activationPrompt: "Write one sentence recommending a choice to a friend, using \"a/an\" with a singular countable noun.",
       },
       {
         topicId: articlesTopic.id,
@@ -568,6 +574,9 @@ async function main() {
         options: ["A", "An", "The", "(no article)"],
         correctOption: "The",
         explanation: "\"Advantages\" is specified by \"of remote work\", so it needs the definite article \"the\".",
+        translatePromptUz: "Masofadan ishlashning afzalliklari kamchiliklaridan ustun.",
+        targetStructures: ["advantages", "outweigh"],
+        activationPrompt: "Write one sentence weighing two options with \"the advantages of ... outweigh ...\".",
       },
     ]);
   }
@@ -587,6 +596,9 @@ async function main() {
         correctOption: "Traffic congestion is worse than ever, so governments must act quickly.",
         explanation:
           "A comma alone can't join two full sentences (that's a comma splice) — either a conjunction like \"so\" after the comma, or a semicolon alone, is needed.",
+        translatePromptUz: "Tirbandlik avvalgidan ham yomonroq, shuning uchun hukumatlar tezda chora ko'rishi kerak.",
+        targetStructures: ["so"],
+        activationPrompt: "Write two full sentences and join them with a comma plus a conjunction.",
       },
       {
         topicId: sentenceTopic.id,
@@ -600,6 +612,9 @@ async function main() {
         ],
         correctOption: "Although public transport is cheaper, many people still prefer to drive.",
         explanation: "\"Although\" introduces the subordinate clause, which needs a comma before the main clause that follows.",
+        translatePromptUz: "Jamoat transporti arzonroq bo'lsa-da, ko'p odamlar hali ham mashina boshqarishni afzal ko'radi.",
+        targetStructures: ["although", "prefer"],
+        activationPrompt: "Write one sentence with \"Although ...\" contrasting two real facts from your own city.",
       },
     ]);
   }

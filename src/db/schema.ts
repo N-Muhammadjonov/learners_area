@@ -571,13 +571,38 @@ export const grammarExercises = pgTable("grammar_exercises", {
   sourceSubmissionId: uuid("source_submission_id").references(() => writingSubmissions.id, {
     onDelete: "set null",
   }),
+  /**
+   * "Translate With It": a sentence in the student's own language that can only
+   * be rendered correctly with the target structure. Authored content — the
+   * engine never machine-translates anything.
+   */
+  translatePromptUz: text("translate_prompt_uz"),
+  /**
+   * The structures the translation must actually use. These are what the answer
+   * is checked against — never the whole sentence, because two different correct
+   * translations can share almost no words.
+   */
+  targetStructures: jsonb("target_structures").$type<string[]>(),
+  /** "Activate It": a short task that forces the structure into free writing. */
+  activationPrompt: text("activation_prompt"),
 });
+
+export const grammarActivityEnum = pgEnum("grammar_activity", [
+  "correct_it",
+  "translate_it",
+  "activate_it",
+]);
 
 export const grammarAttempts = pgTable("grammar_attempts", {
   id: uuid("id").defaultRandom().primaryKey(),
   userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   exerciseId: uuid("exercise_id").notNull().references(() => grammarExercises.id, { onDelete: "cascade" }),
-  selectedOption: text("selected_option").notNull(),
+  /** Which of the three activities produced this attempt. */
+  activity: grammarActivityEnum("activity").notNull().default("correct_it"),
+  /** Empty for the written activities; their text lives in `responseText`. */
+  selectedOption: text("selected_option").notNull().default(""),
+  /** The student's own sentence, for translate/activate. Null for multiple choice. */
+  responseText: text("response_text"),
   isCorrect: boolean("is_correct").notNull(),
   attemptedAt: timestamp("attempted_at", { withTimezone: true }).defaultNow().notNull(),
 });
