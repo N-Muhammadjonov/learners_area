@@ -310,6 +310,12 @@ export const lessons = pgTable("lessons", {
   summary: text("summary"),
   defaultState: contentStateEnum("default_state").notNull().default("locked"),
   order: integer("order").notNull(),
+  /**
+   * Recorded-lesson shell: the recording of the session this lesson covers, when
+   * the centre has one. Nullable — a lesson without a recording shows its notes
+   * and materials instead of an empty player.
+   */
+  recordingUrl: text("recording_url"),
 });
 
 export const lessonProgress = pgTable("lesson_progress", {

@@ -152,6 +152,18 @@ const uz: Dictionary = {
     attempts: "urinish",
     nextClass: "Keyingi jonli dars",
   },
+  courseRoadmap: {
+    open: "Ochish",
+    back: "Yo\u2018l xaritasiga qaytish",
+    recording: "Dars yozuvi",
+    notOpenYet: "Bu dars hali ochilmagan — markaz uni o\u2018z jadvali bo\u2018yicha ochadi.",
+    alreadyDone: "Bu dars allaqachon tugatilgan.",
+    startLesson: "Darsni boshlash",
+    completeLesson: "Tugatildi deb belgilash",
+    completedOn: "Tugatilgan",
+    myNotes: "Mening eslatmalarim",
+    notesPrivate: "Faqat sizga ko\u2018rinadi — o\u2018qituvchi bu eslatmalarni ko\u2018rmaydi.",
+  },
   writing: {
     practiceTitle: "Writing mashqi",
     pickPrompt: "Mavzu tanlang",

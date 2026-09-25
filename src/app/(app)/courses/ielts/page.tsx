@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
@@ -28,12 +29,23 @@ export default async function IeltsRoadmapPage() {
                 <p className="mb-2 text-sm font-medium text-ink-700">{u.title}</p>
                 <div className="flex flex-col divide-y divide-ink-100">
                   {u.lessons.map((l) => (
-                    <div key={l.id} className="flex items-center justify-between py-2">
+                    <div key={l.id} className="flex items-center justify-between py-2" data-lesson={l.id}>
                       <div>
                         <p className="text-sm text-ink-900">{l.title}</p>
                         {l.summary && <p className="text-xs text-ink-300">{l.summary}</p>}
                       </div>
-                      <StateBadge state={l.state} />
+                      <div className="flex items-center gap-2">
+                        <StateBadge state={l.state} />
+                        {l.state !== "locked" && (
+                          <Link
+                            href={`/courses/ielts/lessons/${l.id}`}
+                            className="text-xs text-signal-600 hover:underline"
+                            data-lesson-open={l.id}
+                          >
+                            {dict.courseRoadmap.open}
+                          </Link>
+                        )}
+                      </div>
                     </div>
                   ))}
                 </div>

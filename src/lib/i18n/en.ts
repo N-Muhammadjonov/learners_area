@@ -150,6 +150,18 @@ const en = {
     attempts: "attempts",
     nextClass: "Next live class",
   },
+  courseRoadmap: {
+    open: "Open",
+    back: "Back to the roadmap",
+    recording: "Session recording",
+    notOpenYet: "This lesson is not open yet — the centre releases it on its own schedule.",
+    alreadyDone: "This lesson is already completed.",
+    startLesson: "Start this lesson",
+    completeLesson: "Mark as completed",
+    completedOn: "Completed",
+    myNotes: "My notes",
+    notesPrivate: "Private to you — your teacher does not see these notes.",
+  },
   writing: {
     practiceTitle: "Writing practice",
     pickPrompt: "Choose a prompt",

@@ -173,7 +173,14 @@ async function main() {
     { userId: newStudent.id, courseId: ielts.id },
   ]);
 
-  type LessonSeed = { slug: string; title: string; summary: string; defaultState?: "locked" | "available" };
+  type LessonSeed = {
+    slug: string;
+    title: string;
+    summary: string;
+    defaultState?: "locked" | "available";
+    /** The recorded-lesson shell: a session recording for this lesson, if one exists. */
+    recordingUrl?: string;
+  };
   type UnitSeed = { slug: string; title: string; lessons: LessonSeed[] };
   type ModuleSeed = { slug: string; title: string; units: UnitSeed[] };
 
@@ -214,7 +221,14 @@ async function main() {
           slug: "task2-foundations",
           title: "Task 2 foundations",
           lessons: [
-            { slug: "four-paragraph-structure", title: "Structuring a four-paragraph essay", summary: "Introduction, two body paragraphs, conclusion — and why that shape works.", defaultState: "available" },
+            {
+              slug: "four-paragraph-structure",
+              title: "Structuring a four-paragraph essay",
+              summary: "Introduction, two body paragraphs, conclusion — and why that shape works.",
+              defaultState: "available",
+              // Placeholder recording, same convention as the listening audio.
+              recordingUrl: "https://cdn.example.com/recordings/four-paragraph-structure.mp4",
+            },
             { slug: "idea-to-thesis", title: "Turning a rough idea into a thesis statement", summary: "The sentence that tells the examiner exactly what you're arguing.", defaultState: "available" },
           ],
         },
@@ -298,6 +312,7 @@ async function main() {
             title: l.title,
             summary: l.summary,
             defaultState: l.defaultState ?? "locked",
+            recordingUrl: l.recordingUrl ?? null,
             order: li + 1,
           })
           .returning();

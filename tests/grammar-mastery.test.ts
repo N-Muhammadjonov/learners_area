@@ -6,6 +6,7 @@ import {
   structureVerdict,
   summarizeTopicMastery,
 } from "../src/lib/services/grammar/mastery";
+import { isOpen, resolveState, transition } from "../src/lib/services/lessons/state";
 
 // ---------------------------------------------------------------------------
 // Grammar — three activities, ~80% over three sessions, structure checking
@@ -95,4 +96,33 @@ test("this structure checker never claims success over an empty structure list",
   assert.equal(nothing.complete, false);
   assert.equal(structureVerdict(nothing, false), "undetermined");
   assert.equal(structureVerdict(nothing, true), "incorrect");
+});
+
+// ---------------------------------------------------------------------------
+// Lesson state — the rules live on the server
+// ---------------------------------------------------------------------------
+
+test("a locked or scheduled lesson cannot be started from the client", () => {
+  assert.equal(transition("locked", "in_progress").ok, false);
+  assert.equal(transition("locked", "completed").ok, false);
+  assert.equal(transition("scheduled", "completed").ok, false);
+});
+
+test("progress moves forward and completion is not a stamp you can repeat", () => {
+  assert.deepEqual(transition("available", "in_progress"), { ok: true, state: "in_progress" });
+  assert.deepEqual(transition("assigned", "completed"), { ok: true, state: "completed" });
+  assert.deepEqual(transition("in_progress", "completed"), { ok: true, state: "completed" });
+  assert.equal(transition("completed", "completed").ok, false);
+  assert.equal(transition("completed", "in_progress").ok, false);
+});
+
+test("a lesson with no progress row shows the centre's default state", () => {
+  assert.equal(resolveState(undefined, "locked"), "locked");
+  assert.equal(resolveState(undefined, "available"), "available");
+  assert.equal(resolveState("completed", "available"), "completed");
+  assert.equal(isOpen("locked"), false);
+  assert.equal(isOpen("scheduled"), false);
+  assert.equal(isOpen("available"), true);
+  assert.equal(isOpen("assigned"), true);
+  assert.equal(isOpen("in_progress"), true);
 });
