@@ -421,6 +421,7 @@ const uz: Dictionary = {
       again: "Yana takrorlash",
       back: "So'zlarimga qaytish",
     },
+    keyboardHint: "Bo\u2018sh joy kartani aylantiradi · ← → to\u2018plam bo\u2018ylab yuradi",
     games: {
       title: "O'yinlar",
       hint: "O'yinlar — mashq, taraqqiyot emas: ular takrorlash sanalarini surmaydi. Buni faqat rejadagi takrorlash qiladi.",

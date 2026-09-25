@@ -329,6 +329,38 @@ function Flashcards({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
   const current = deck[index];
   const remaining = deck.slice(index);
 
+  /**
+   * The keyboard is part of the deck, not an afterthought: space turns the card
+   * over, the arrows move through it. The arrows only *navigate* — a card that is
+   * skipped keeps no mark and never touches the SRS, because a keystroke is not a
+   * judgement. Enter is deliberately not bound: a card should not be judged by
+   * the same key that means "activate" everywhere else.
+   */
+  useEffect(() => {
+    function onKey(event: KeyboardEvent) {
+      const target = event.target as HTMLElement | null;
+      const typing =
+        target &&
+        (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable);
+      if (typing || timer.current) return;
+
+      if (event.key === " ") {
+        event.preventDefault();
+        setFlipped((value) => !value);
+      } else if (event.key === "ArrowRight") {
+        event.preventDefault();
+        setFlipped(false);
+        setIndex((value) => Math.min(value + 1, deck.length));
+      } else if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        setFlipped(false);
+        setIndex((value) => Math.max(value - 1, 0));
+      }
+    }
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [deck.length]);
+
   function restart() {
     setDeck(shuffle(words).slice(0, 20));
     setIndex(0);
@@ -407,6 +439,9 @@ function Flashcards({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
               <p className="text-lg text-ink-900">{current.definitionEn}</p>
               <p className="text-xs text-ink-500">
                 {t.games.flip} · {t.games.known} / {t.games.notYet}
+              </p>
+              <p className="text-[11px] text-ink-300" data-flashcard-keys>
+                {t.keyboardHint}
               </p>
             </>
           )}

@@ -419,6 +419,7 @@ const en = {
       again: "Revise again",
       back: "Back to my words",
     },
+    keyboardHint: "Space flips the card · ← → move through the deck",
     games: {
       title: "Games",
       hint: "Games are practice, not progress: they never move your revision dates. Only scheduled revision does that.",
