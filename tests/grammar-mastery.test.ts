@@ -7,6 +7,7 @@ import {
   summarizeTopicMastery,
 } from "../src/lib/services/grammar/mastery";
 import { isOpen, resolveState, transition } from "../src/lib/services/lessons/state";
+import { joinState, opensAt } from "../src/lib/services/live-classes/window";
 
 // ---------------------------------------------------------------------------
 // Grammar — three activities, ~80% over three sessions, structure checking
@@ -125,4 +126,37 @@ test("a lesson with no progress row shows the centre's default state", () => {
   assert.equal(isOpen("available"), true);
   assert.equal(isOpen("assigned"), true);
   assert.equal(isOpen("in_progress"), true);
+});
+
+// ---------------------------------------------------------------------------
+// Live class join window
+// ---------------------------------------------------------------------------
+
+const CLASS = { status: "upcoming" as const, scheduledAt: new Date("2026-03-02T10:00:00Z"), durationMinutes: 60 };
+
+test("the room opens a quarter of an hour early and closes half an hour after the end", () => {
+  const before = new Date(CLASS.scheduledAt.getTime() - 16 * 60 * 1000);
+  const opens = new Date(CLASS.scheduledAt.getTime() - 14 * 60 * 1000);
+  const during = new Date(CLASS.scheduledAt.getTime() + 30 * 60 * 1000);
+  const after = new Date(CLASS.scheduledAt.getTime() + 91 * 60 * 1000);
+
+  assert.equal(joinState(CLASS, before), "too_early");
+  assert.equal(joinState(CLASS, opens), "open");
+  assert.equal(joinState(CLASS, during), "open");
+  assert.equal(joinState(CLASS, after), "closed");
+});
+
+test("a live class is always joinable, a cancelled one never is", () => {
+  const now = new Date("2026-03-02T10:00:00Z");
+  assert.equal(joinState({ ...CLASS, status: "live" }, now), "open");
+  assert.equal(joinState({ ...CLASS, status: "cancelled" }, now), "cancelled");
+  // A cancelled class stays closed even inside what would have been its window.
+  assert.equal(joinState({ ...CLASS, status: "cancelled", scheduledAt: now }, now), "cancelled");
+});
+
+test("a completed class cannot be joined again", () => {
+  const now = new Date("2026-03-05T10:00:00Z");
+  assert.equal(joinState({ ...CLASS, status: "completed" }, now), "closed");
+  assert.equal(joinState({ ...CLASS, status: "recorded" }, now), "closed");
+  assert.equal(opensAt(CLASS).toISOString(), "2026-03-02T09:45:00.000Z");
 });

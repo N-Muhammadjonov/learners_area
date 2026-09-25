@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { db } from "@/db/client";
 import { redirect } from "next/navigation";
 import { requireStaff } from "@/lib/auth/current-user";
@@ -41,7 +42,16 @@ export default async function TeacherLiveClassesPage() {
               {new Date(c.scheduledAt).toLocaleString()} · {c.durationMinutes} {dict.common.minutes} ·{" "}
               {counts.get(c.id) ?? 0} {dict.liveClasses.attendees}
             </p>
-            <ClassStatusControls dict={dict} liveClassId={c.id} status={c.status} />
+            <div className="flex items-center justify-between gap-2">
+              <ClassStatusControls dict={dict} liveClassId={c.id} status={c.status} />
+              <Link
+                href={`/teacher/live-classes/${c.id}`}
+                className="text-xs text-signal-600 hover:underline"
+                data-class-roster-link={c.id}
+              >
+                {dict.liveClasses.attendance} →
+              </Link>
+            </div>
           </Card>
         ))}
       </div>
