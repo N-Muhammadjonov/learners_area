@@ -424,6 +424,22 @@ export const readingAnswers = pgTable("reading_answers", {
 // embed pipeline — see src/lib/embed.ts, /api/uploads).
 // ---------------------------------------------------------------------------
 
+/**
+ * MCQ Mastery is a *staged* drill: the options must not exist on the student's
+ * screen (or in their network tab) before they have committed to their own
+ * answer. The stage is therefore persisted server-side and the API withholds
+ * `options` until `revealed` — hiding them with CSS would be decoration, not
+ * discipline.
+ */
+export const mcqMasteryStageEnum = pgEnum("mcq_mastery_stage", [
+  "listen",
+  "notes",
+  "committed",
+  "revealed",
+  "chosen",
+  "reasoned",
+]);
+
 export const listeningTests = pgTable("listening_tests", {
   id: uuid("id").defaultRandom().primaryKey(),
   createdByUserId: uuid("created_by_user_id").notNull().references(() => users.id),
@@ -445,6 +461,19 @@ export const listeningQuestions = pgTable("listening_questions", {
   options: jsonb("options").$type<string[]>(),
   correctAnswer: text("correct_answer").notNull(),
   explanation: text("explanation").notNull(),
+  /**
+   * Authored keywords, separated by "·". These are what the listener has to
+   * catch to answer — they belong to the question, not to the audio, so they
+   * are written by whoever writes the question. Empty means "not authored
+   * yet", and is shown as nothing rather than guessed.
+   */
+  keywords: text("keywords"),
+  /**
+   * Audio → question paraphrase pairs. The gap between what is *said* and what
+   * is *asked* is where most listening marks are lost, so the pair is stored
+   * explicitly instead of being described in prose.
+   */
+  paraphrases: jsonb("paraphrases").$type<{ heard: string; asked: string }[]>(),
 });
 
 export const listeningAttempts = pgTable("listening_attempts", {
@@ -465,6 +494,35 @@ export const listeningAnswers = pgTable("listening_answers", {
   userAnswer: text("user_answer").notNull().default(""),
   isCorrect: boolean("is_correct"),
 });
+
+/**
+ * One student's staged run at one multiple-choice question.
+ *
+ * A practice drill, not an exam: nothing here feeds reading/listening scores or
+ * the vocabulary SRS. It exists so a student can hear a question, write what
+ * they understood, commit to an answer, and only then see the options.
+ */
+export const listeningMcqSessions = pgTable(
+  "listening_mcq_sessions",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    testId: uuid("test_id").notNull().references(() => listeningTests.id, { onDelete: "cascade" }),
+    questionId: uuid("question_id")
+      .notNull()
+      .references(() => listeningQuestions.id, { onDelete: "cascade" }),
+    stage: mcqMasteryStageEnum("stage").notNull().default("listen"),
+    notes: text("notes"),
+    ownAnswer: text("own_answer"),
+    chosenAnswer: text("chosen_answer"),
+    reasoning: text("reasoning"),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (t) => ({
+    userQuestion: uniqueIndex("listening_mcq_sessions_user_question_key").on(t.userId, t.questionId),
+  })
+);
 
 // ---------------------------------------------------------------------------
 // Grammar — WIRED end-to-end. Error-correction, multiple-choice for

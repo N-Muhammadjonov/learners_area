@@ -768,6 +768,11 @@ async function main() {
         options: ["Room 2A", "Room 4B", "Room 4A", "Room 2B"],
         correctAnswer: "Room 4B",
         explanation: "The student says \"I'll take Room 4B, please.\"",
+        keywords: "Room 4B · booked · Thursday",
+        paraphrases: [
+          { heard: "we have Room 4B free from two until four", asked: "Which room does the student book?" },
+          { heard: "I'll take Room 4B, please", asked: "Which room is *taken*?" },
+        ],
       },
       {
         testId: listeningTest.id,
@@ -776,6 +781,8 @@ async function main() {
         questionText: "How many people is the room booked for? (number only)",
         correctAnswer: "3",
         explanation: "The student specifies \"for three people.\"",
+        keywords: "three people · for three",
+        paraphrases: [{ heard: "for three people", asked: "How many people is the room booked for?" }],
       },
       {
         testId: listeningTest.id,
@@ -784,6 +791,10 @@ async function main() {
         questionText: "What does the student need to bring to check in?",
         correctAnswer: "student id",
         explanation: "The librarian says \"You'll need your student ID to check in at the desk.\"",
+        keywords: "student ID · check in · desk",
+        paraphrases: [
+          { heard: "You'll need your student ID to check in at the desk", asked: "What must the student *bring*?" },
+        ],
       },
     ]);
   }

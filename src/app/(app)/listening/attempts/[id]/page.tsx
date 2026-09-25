@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
@@ -34,6 +35,15 @@ export default async function ListeningAttemptPage({ params }: { params: { id: s
         />
       ) : (
         <>
+          <div className="mb-3 flex justify-end">
+            <Link
+              href={`/listening/attempts/${attempt.id}/revision`}
+              className="text-sm text-signal-600 hover:underline"
+              data-revision-link
+            >
+              {dict.listening.revisionStudio} →
+            </Link>
+          </div>
           <ListeningAnalysis dict={dict} score={attempt.score} total={attempt.totalQuestions} questions={questions} answers={answers} />
           {test.transcript && (
             <div className="card mt-4" data-interactive-transcript>
