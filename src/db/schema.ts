@@ -6,6 +6,7 @@ import {
   text,
   timestamp,
   integer,
+  numeric,
   boolean,
   jsonb,
   real,
@@ -340,6 +341,24 @@ export const writingPrompts = pgTable("writing_prompts", {
   prompt: text("prompt").notNull(),
   targetWordCount: integer("target_word_count").notNull(),
   isActive: boolean("is_active").notNull().default(true),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+/**
+ * One timed typing run.
+ *
+ * Only aggregates are stored: the trainer's value is the number, and keeping a
+ * student's raw mistyped text around would be a privacy cost with no teaching
+ * benefit. `wpm` and `accuracy` are recomputed server-side on submit.
+ */
+export const typingRuns = pgTable("typing_runs", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  targetChars: integer("target_chars").notNull(),
+  typedChars: integer("typed_chars").notNull(),
+  durationMs: integer("duration_ms").notNull(),
+  wpm: numeric("wpm", { precision: 6, scale: 1 }).notNull(),
+  accuracy: numeric("accuracy", { precision: 5, scale: 1 }).notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 

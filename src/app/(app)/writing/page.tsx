@@ -4,13 +4,15 @@ import { getDictionary, getLocale } from "@/lib/i18n";
 import { listActivePrompts } from "@/lib/data/writing";
 import { Card } from "@/components/ui/Card";
 import { StartPromptButton } from "@/components/writing/StartPromptButton";
+import { TypingTrainer } from "@/components/writing/TypingTrainer";
+import { typingSummary } from "@/lib/data/writing";
 
 export default async function WritingPage() {
   const user = await requireActiveUser();
   if (!user) return null;
 
   const dict = getDictionary(getLocale());
-  const prompts = await listActivePrompts();
+  const [prompts, typing] = await Promise.all([listActivePrompts(), typingSummary(user.id)]);
 
   return (
     <div className="mx-auto flex max-w-4xl flex-col gap-6">
@@ -38,6 +40,12 @@ export default async function WritingPage() {
           </Card>
         ))}
       </div>
+
+      <TypingTrainer
+        dict={dict}
+        targets={prompts.map((p) => ({ id: p.id, label: p.category, text: p.prompt }))}
+        initialSummary={{ count: typing.count, bestWpm: typing.bestWpm, bestAccuracy: typing.bestAccuracy }}
+      />
     </div>
   );
 }
