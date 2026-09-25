@@ -142,6 +142,13 @@ const en = {
     noAttemptsYet: "No attempts yet — this module opens soon.",
     startWriting: "Practise Writing",
     reviewVocab: "Review vocabulary",
+    lastModule: "Last worked on",
+    pickUp: "Pick it up",
+    nothingYet: "Nothing here yet — your first attempt will start the trail.",
+    myTasks: "My tasks",
+    noTasks: "No open tasks right now.",
+    attempts: "attempts",
+    nextClass: "Next live class",
   },
   writing: {
     practiceTitle: "Writing practice",

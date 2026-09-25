@@ -144,6 +144,13 @@ const uz: Dictionary = {
     noAttemptsYet: "Hali urinish yo'q — bu modul tez orada ochiladi.",
     startWriting: "Writing mashq qilish",
     reviewVocab: "Lug'atni takrorlash",
+    lastModule: "Oxirgi ishlangan",
+    pickUp: "Davom ettirish",
+    nothingYet: "Hozircha bo\u2018sh — birinchi urinishingiz shu yerdan boshlanadi.",
+    myTasks: "Mening topshiriqlarim",
+    noTasks: "Hozircha ochiq topshiriq yo\u2018q.",
+    attempts: "urinish",
+    nextClass: "Keyingi jonli dars",
   },
   writing: {
     practiceTitle: "Writing mashqi",

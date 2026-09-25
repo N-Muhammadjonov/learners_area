@@ -30,18 +30,77 @@ export default async function DashboardPage() {
         <StatCard label={dict.dashboard.vocabDue} value={String(data.vocabDueCount)} />
       </div>
 
-      <Card>
+      {/* Continue where you left off — the newest row the student actually owns. */}
+      <Card data-continue>
         <h2 className="font-display text-lg text-ink-900">{dict.dashboard.continueLearning}</h2>
-        <p className="mt-1 text-sm text-ink-500">
-          {data.writingAttempts > 0
-            ? "Pick up another Writing prompt or clear your vocabulary queue."
-            : "Start with a Writing Task 2 prompt — it's the fastest way to see the full feedback loop."}
-        </p>
-        <div className="mt-4 flex flex-wrap gap-2">
-          <Link href="/writing"><Button>{dict.dashboard.startWriting}</Button></Link>
-          <Link href="/vocabulary"><Button variant="secondary">{dict.dashboard.reviewVocab}</Button></Link>
-        </div>
+        {data.lastActivity ? (
+          <>
+            <p className="mt-1 text-sm text-ink-500" data-last-module={data.lastActivity.module}>
+              {dict.dashboard.lastModule}: {dict.nav[data.lastActivity.module as "reading"]} ·{" "}
+              {new Date(data.lastActivity.at).toLocaleString()}
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <Link href={data.lastActivity.href} data-continue-link={data.lastActivity.href}>
+                <Button>{dict.dashboard.pickUp}</Button>
+              </Link>
+              <Link href="/vocabulary">
+                <Button variant="secondary">{dict.dashboard.reviewVocab}</Button>
+              </Link>
+            </div>
+          </>
+        ) : (
+          <div className="mt-2" data-continue-empty>
+            <p className="text-sm text-ink-500">{dict.dashboard.nothingYet}</p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <Link href="/writing">
+                <Button>{dict.dashboard.startWriting}</Button>
+              </Link>
+              <Link href="/vocabulary">
+                <Button variant="secondary">{dict.dashboard.reviewVocab}</Button>
+              </Link>
+            </div>
+          </div>
+        )}
       </Card>
+
+      {/* My Tasks — the student's own open assignments, with their real due dates. */}
+      <Card data-my-tasks>
+        <h2 className="font-display text-lg text-ink-900">{dict.dashboard.myTasks}</h2>
+        {data.openAssignments.length === 0 ? (
+          <p className="mt-1 text-sm text-ink-500" data-tasks-empty>
+            {dict.dashboard.noTasks}
+          </p>
+        ) : (
+          <ul className="mt-2 flex flex-col divide-y divide-ink-100">
+            {data.openAssignments.map((task) => (
+              <li key={task.id} className="flex items-center justify-between py-2" data-task={task.id}>
+                <span className="text-sm text-ink-900">{task.title}</span>
+                <span className="text-xs text-ink-300">
+                  {task.dueAt ? `${dict.assignments.due}: ${new Date(task.dueAt).toLocaleDateString()}` : ""}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
+        <Link href="/assignments" className="mt-3 inline-block text-sm text-signal-600 hover:underline">
+          {dict.assignments.title} →
+        </Link>
+      </Card>
+
+      {data.nextLiveClass && (
+        <Card data-next-live-class={data.nextLiveClass.id}>
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <h2 className="font-display text-lg text-ink-900">{dict.dashboard.nextClass}</h2>
+            <span className="text-xs text-ink-300">
+              {new Date(data.nextLiveClass.scheduledAt).toLocaleString()}
+            </span>
+          </div>
+          <p className="mt-1 text-sm text-ink-700">{data.nextLiveClass.title}</p>
+          <Link href="/live-classes" className="mt-3 inline-block text-sm text-signal-600 hover:underline">
+            {dict.liveClasses.title} →
+          </Link>
+        </Card>
+      )}
 
       {data.latestEvaluation && (
         <Card>
@@ -64,16 +123,24 @@ export default async function DashboardPage() {
       <div>
         <h2 className="mb-3 font-display text-lg text-ink-900">{dict.dashboard.skillSummary}</h2>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          {SKILLS.map((skill) => (
-            <Card key={skill} className="flex flex-col gap-1">
-              <span className="text-sm font-medium text-ink-900">{dict.nav[skill]}</span>
-              {skill === "writing" && data.latestEvaluation ? (
-                <BandBadge band={data.latestEvaluation.overallEstimate} />
-              ) : (
-                <span className="text-xs text-ink-300">{dict.dashboard.noAttemptsYet}</span>
-              )}
-            </Card>
-          ))}
+          {SKILLS.map((skill) => {
+            const attempts = data.skillCounts[skill];
+            return (
+              <Card key={skill} className="flex flex-col gap-1" data-skill={skill}>
+                <span className="text-sm font-medium text-ink-900">{dict.nav[skill]}</span>
+                {attempts === 0 ? (
+                  <span className="text-xs text-ink-300">{dict.dashboard.noAttemptsYet}</span>
+                ) : (
+                  <span className="text-xs text-ink-500" data-skill-count={attempts}>
+                    {attempts} {dict.dashboard.attempts}
+                  </span>
+                )}
+                {skill === "writing" && data.latestEvaluation && (
+                  <BandBadge band={data.latestEvaluation.overallEstimate} />
+                )}
+              </Card>
+            );
+          })}
         </div>
       </div>
     </div>
