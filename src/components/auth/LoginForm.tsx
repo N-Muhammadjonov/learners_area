@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Input, Label, FieldError } from "@/components/ui/Input";
 import { TelegramButton } from "./TelegramButton";
+import { safeNextPath } from "@/lib/auth/safe-redirect";
 import type { Dictionary } from "@/lib/i18n/en";
 
 export function LoginForm({
@@ -39,8 +40,10 @@ export function LoginForm({
       setError(dict.auth.errorInvalidCredentials);
       return;
     }
-    const next = searchParams.get("next");
-    router.push(next || (data.onboarded ? "/dashboard" : "/onboarding"));
+    // `next` comes from the address bar, so only a path inside this app is honoured
+    // — a crafted `?next=https://…` must not turn sign-in into an open redirect.
+    const next = safeNextPath(searchParams.get("next"));
+    router.push(next ?? (data.onboarded ? "/dashboard" : "/onboarding"));
     router.refresh();
   }
 
