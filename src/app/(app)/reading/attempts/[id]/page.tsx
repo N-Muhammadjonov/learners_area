@@ -8,7 +8,8 @@ import { ReadingAnalysis } from "@/components/reading/ReadingAnalysis";
 export default async function ReadingAttemptPage({ params }: { params: { id: string } }) {
   const user = await requireActiveUser();
   if (!user) return null;
-  const dict = getDictionary(getLocale());
+  const locale = getLocale();
+  const dict = getDictionary(locale);
 
   const detail = await getAttemptDetail(params.id, user.id);
   if (!detail) notFound();
@@ -41,6 +42,7 @@ export default async function ReadingAttemptPage({ params }: { params: { id: str
           passageTitle={passage.title}
           passageLevel={passage.difficultyLevel}
           attemptId={attempt.id}
+          locale={locale}
         />
       )}
     </div>

@@ -41,6 +41,7 @@ export function ReadingAnalysis({
   passageTitle,
   attemptId,
   passageLevel,
+  locale,
 }: {
   dict: Dictionary;
   score: number | null;
@@ -52,6 +53,8 @@ export function ReadingAnalysis({
   attemptId?: string;
   /** The passage's own level (A2…C2) — the recall drill adapts its target to it. */
   passageLevel?: string | null;
+  /** The reader's language, decided by the request (cookie), never guessed. */
+  locale: "en" | "uz";
 }) {
   const answerByQuestion = useMemo(
     () => new Map(answers.map((a) => [a.questionId, a])),
@@ -94,7 +97,9 @@ export function ReadingAnalysis({
     ? byType.reduce((worst, row) => (row.ratio < worst.ratio ? row : worst), byType[0]!)
     : null;
 
-  const locale = dict.vocabulary.tab.words === "Mening so'zlarim" ? "uz" : "en";
+  // `locale` is a property of the request, passed down by the server page. It used
+  // to be inferred by comparing a translated string against a literal, which fell
+  // back to English the moment that translation was reworded.
 
   return (
     <div className="flex flex-col gap-4">
