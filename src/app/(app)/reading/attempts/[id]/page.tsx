@@ -31,7 +31,16 @@ export default async function ReadingAttemptPage({ params }: { params: { id: str
           }))}
         />
       ) : (
-        <ReadingAnalysis dict={dict} score={attempt.score} total={attempt.totalQuestions} questions={questions} answers={answers} />
+        <ReadingAnalysis
+          dict={dict}
+          score={attempt.score}
+          total={attempt.totalQuestions}
+          questions={questions}
+          answers={answers}
+          passageBody={passage.bodyText}
+          passageTitle={passage.title}
+          attemptId={attempt.id}
+        />
       )}
     </div>
   );

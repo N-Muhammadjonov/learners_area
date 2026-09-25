@@ -1,3 +1,4 @@
+import { requireActiveUser } from "@/lib/auth/current-user";
 import Link from "next/link";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { listActivePrompts } from "@/lib/data/writing";
@@ -5,6 +6,9 @@ import { Card } from "@/components/ui/Card";
 import { StartPromptButton } from "@/components/writing/StartPromptButton";
 
 export default async function WritingPage() {
+  const user = await requireActiveUser();
+  if (!user) return null;
+
   const dict = getDictionary(getLocale());
   const prompts = await listActivePrompts();
 

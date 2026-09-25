@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { choiceSetFor } from "@/lib/reading-choices";
+import { ClickableText } from "@/components/vocabulary/ClickableText";
 import type { Dictionary } from "@/lib/i18n/en";
 
 type ExamQuestion = {
@@ -53,8 +54,18 @@ export function ReadingExam({
   return (
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
       <div className="card max-h-[70vh] overflow-y-auto">
-        <h2 className="mb-2 font-display text-lg text-ink-900">{passageTitle}</h2>
-        <div className="whitespace-pre-line text-sm leading-relaxed text-ink-700">{passageBody}</div>
+        <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+          <h2 className="font-display text-lg text-ink-900">{passageTitle}</h2>
+          <ReadAloud dict={dict} text={`${passageTitle}. ${passageBody}`} />
+        </div>
+        {/* Every word is a button: look it up, or save it to your own words. */}
+        <ClickableText
+          dict={dict}
+          text={passageBody}
+          sourceType="reading"
+          sourceId={attemptId}
+          className="text-sm leading-relaxed text-ink-700"
+        />
       </div>
 
       <div className="flex max-h-[70vh] flex-col gap-4 overflow-y-auto">
@@ -115,5 +126,47 @@ export function ReadingExam({
         </Button>
       </div>
     </div>
+  );
+}
+
+/**
+ * Read the passage aloud with the browser's own voice.
+ *
+ * This is a reading aid, not an assessment: it uses the local speech synthesiser,
+ * so there is no pronunciation score attached to it and it works offline. If the
+ * browser has no voice, the control says so instead of pretending.
+ */
+function ReadAloud({ dict, text }: { dict: Dictionary; text: string }) {
+  const [state, setState] = useState<"idle" | "speaking" | "unsupported">("idle");
+
+  if (state === "unsupported") {
+    return <span className="text-xs text-ink-300">{dict.reading.readAloudUnsupported}</span>;
+  }
+
+  return (
+    <button
+      type="button"
+      className="btn-ghost text-xs"
+      data-read-aloud
+      onClick={() => {
+        if (typeof window === "undefined" || !("speechSynthesis" in window)) {
+          setState("unsupported");
+          return;
+        }
+        if (state === "speaking") {
+          window.speechSynthesis.cancel();
+          setState("idle");
+          return;
+        }
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = "en-GB";
+        utterance.onend = () => setState("idle");
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(utterance);
+        setState("speaking");
+      }}
+    >
+      {state === "speaking" ? dict.reading.readAloudStop : dict.reading.readAloud}
+    </button>
   );
 }

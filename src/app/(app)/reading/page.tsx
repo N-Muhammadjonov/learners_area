@@ -1,3 +1,4 @@
+import { requireActiveUser } from "@/lib/auth/current-user";
 import Link from "next/link";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { listActivePassages } from "@/lib/data/reading";
@@ -5,6 +6,9 @@ import { Card } from "@/components/ui/Card";
 import { StartPassageButton } from "@/components/reading/StartPassageButton";
 
 export default async function ReadingPage() {
+  const user = await requireActiveUser();
+  if (!user) return null;
+
   const dict = getDictionary(getLocale());
   const passages = await listActivePassages();
 
@@ -19,7 +23,7 @@ export default async function ReadingPage() {
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {passages.map((p) => (
-          <Card key={p.id} className="flex flex-col gap-3">
+          <Card key={p.id} data-passage={p.id} className="flex flex-col gap-3">
             <div className="flex items-center justify-between">
               <span className="badge bg-signal-100 text-signal-700">{p.difficultyLevel}</span>
               <span className="text-xs text-ink-300">

@@ -1,3 +1,4 @@
+import { requireActiveUser } from "@/lib/auth/current-user";
 import Link from "next/link";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { listActiveTests } from "@/lib/data/listening";
@@ -5,6 +6,9 @@ import { Card } from "@/components/ui/Card";
 import { StartTestButton } from "@/components/listening/StartTestButton";
 
 export default async function ListeningPage() {
+  const user = await requireActiveUser();
+  if (!user) return null;
+
   const dict = getDictionary(getLocale());
   const tests = await listActiveTests();
 

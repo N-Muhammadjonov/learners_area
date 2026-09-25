@@ -1,3 +1,4 @@
+import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { listActiveMaterials } from "@/lib/data/speaking";
 import { Card } from "@/components/ui/Card";
@@ -8,6 +9,9 @@ import { BlockRenderer } from "@/components/speaking/BlockRenderer";
 const ORDER = ["part1", "part2", "part3", "general", "top_structures", "shadowing"] as const;
 
 export default async function SpeakingPage() {
+  const user = await requireActiveUser();
+  if (!user) return null;
+
   const dict = getDictionary(getLocale());
   const rows = await listActiveMaterials();
 

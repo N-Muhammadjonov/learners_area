@@ -4,6 +4,7 @@ import { getDictionary, getLocale } from "@/lib/i18n";
 import { getAttemptDetail } from "@/lib/data/listening";
 import { ListeningExam } from "@/components/listening/ListeningExam";
 import { ListeningAnalysis } from "@/components/listening/ListeningAnalysis";
+import { ClickableText } from "@/components/vocabulary/ClickableText";
 
 export default async function ListeningAttemptPage({ params }: { params: { id: string } }) {
   const user = await requireActiveUser();
@@ -35,9 +36,17 @@ export default async function ListeningAttemptPage({ params }: { params: { id: s
         <>
           <ListeningAnalysis dict={dict} score={attempt.score} total={attempt.totalQuestions} questions={questions} answers={answers} />
           {test.transcript && (
-            <div className="card mt-4">
+            <div className="card mt-4" data-interactive-transcript>
               <h3 className="mb-2 font-display text-base text-ink-900">{dict.listening.transcript}</h3>
-              <p className="whitespace-pre-line text-sm text-ink-500">{test.transcript}</p>
+              <p className="mb-2 text-xs text-ink-300">{dict.listening.transcriptHint}</p>
+              {/* The transcript is interactive: every word can be looked up or saved. */}
+              <ClickableText
+                dict={dict}
+                text={test.transcript}
+                sourceType="listening"
+                sourceId={test.id}
+                className="text-sm leading-relaxed text-ink-700"
+              />
             </div>
           )}
         </>

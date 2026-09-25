@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { requireUser } from "@/lib/auth/current-user";
+import { requireActiveUser } from "@/lib/auth/current-user";
 import { listNotifications } from "@/lib/data/notifications";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { Card } from "@/components/ui/Card";
@@ -15,7 +15,7 @@ export const dynamic = "force-dynamic";
  * centre works with no Telegram bot or email provider configured.
  */
 export default async function NotificationsPage() {
-  const user = await requireUser();
+  const user = await requireActiveUser();
   if (!user) redirect("/login");
 
   const dict = getDictionary(getLocale());

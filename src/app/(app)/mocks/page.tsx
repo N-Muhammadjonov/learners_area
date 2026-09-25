@@ -1,7 +1,11 @@
+import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { ModuleComingSoon } from "@/components/shell/ModuleComingSoon";
 
-export default function MocksPage() {
+export default async function MocksPage() {
+  const user = await requireActiveUser();
+  if (!user) return null;
+
   const dict = getDictionary(getLocale());
   return (
     <ModuleComingSoon

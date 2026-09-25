@@ -1,3 +1,4 @@
+import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { listActivePrompts } from "@/lib/data/speaking-practice";
 import { PracticeStudio } from "@/components/speaking/PracticeStudio";
@@ -6,6 +7,9 @@ import { EmptyState } from "@/components/ui/EmptyState";
 export const dynamic = "force-dynamic";
 
 export default async function SpeakingPracticePage() {
+  const user = await requireActiveUser();
+  if (!user) return null;
+
   const dict = getDictionary(getLocale());
   const prompts = await listActivePrompts();
 
