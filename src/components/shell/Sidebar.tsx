@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n/en";
 import { BRAND } from "@/lib/config/brand";
 import { isAdministrator, isStaff, type Role } from "@/lib/auth/roles";
+import { ReportProblem } from "@/components/support/ReportProblem";
 
 function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
   const pathname = usePathname();
@@ -105,7 +106,11 @@ export function Sidebar({ dict, role }: { dict: Dictionary; role: Role }) {
         </span>
         <span className="font-display text-lg text-ink-900">{BRAND.siteName}</span>
       </Link>
-      <SidebarNav dict={dict} role={role} />
+      <div className="flex min-h-0 flex-1 flex-col justify-between">
+        <SidebarNav dict={dict} role={role} />
+        {/* Contextual: the report carries the page it was opened on. */}
+        <ReportProblem dict={dict} />
+      </div>
     </aside>
   );
 }

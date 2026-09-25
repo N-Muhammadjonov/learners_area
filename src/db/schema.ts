@@ -890,6 +890,29 @@ export const liveClassAttendance = pgTable("live_class_attendance", {
   joinedAt: timestamp("joined_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
+/**
+ * "Report a problem" — what the student saw, attached to the page they were on.
+ *
+ * The context column holds only values the server will accept back (route,
+ * module, viewport, build, last error code). It deliberately has no field for
+ * anything a browser might volunteer, so a report can never smuggle a token, a
+ * password or a private text into the support inbox.
+ */
+export const problemReports = pgTable("problem_reports", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  route: varchar("route", { length: 200 }).notNull(),
+  module: varchar("module", { length: 60 }).notNull(),
+  message: text("message").notNull(),
+  viewport: varchar("viewport", { length: 20 }),
+  build: varchar("build", { length: 60 }),
+  lastErrorCode: varchar("last_error_code", { length: 120 }),
+  status: varchar("status", { length: 20 }).notNull().default("open"),
+  resolvedByUserId: uuid("resolved_by_user_id").references(() => users.id, { onDelete: "set null" }),
+  resolvedAt: timestamp("resolved_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
 export const mockTests = pgTable("mock_tests", {
   id: uuid("id").defaultRandom().primaryKey(),
   courseId: uuid("course_id").notNull().references(() => courses.id, { onDelete: "cascade" }),

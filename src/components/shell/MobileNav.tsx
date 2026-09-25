@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SidebarNav } from "./Sidebar";
+import { ReportProblem } from "@/components/support/ReportProblem";
 import type { Dictionary } from "@/lib/i18n/en";
 import type { Role } from "@/lib/auth/session";
 
@@ -82,6 +83,8 @@ export function MobileNav({ dict, role }: { dict: Dictionary; role: Role }) {
               </button>
             </div>
             <SidebarNav dict={dict} role={role} />
+            {/* The same contextual report form, reachable on a phone too. */}
+            <ReportProblem dict={dict} />
           </div>
         </div>
       )}
