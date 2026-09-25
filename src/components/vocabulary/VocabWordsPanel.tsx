@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import type { Dictionary } from "@/lib/i18n/en";
 import { collocationChips, toDate } from "./types";
-import type { VocabFolder, VocabPack, VocabWord } from "./types";
+import type { Mastery, VocabFolder, VocabPack, VocabWord } from "./types";
 
 type Summary = {
   total: number;
@@ -49,6 +49,8 @@ export function VocabWordsPanel({
   const [total, setTotal] = useState(summary.total);
   const [folderFilter, setFolderFilter] = useState<string | "all">("all");
   const [masteryFilter, setMasteryFilter] = useState<"all" | "due" | "weak">("all");
+  const [stateFilter, setStateFilter] = useState<Mastery | "all">("all");
+  const [sourceFilter, setSourceFilter] = useState<string | "all">("all");
   const [openId, setOpenId] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
 
@@ -64,8 +66,37 @@ export function VocabWordsPanel({
         (word) => word.correctCount + word.incorrectCount > 0 && word.incorrectCount >= word.correctCount
       );
     }
+    if (stateFilter !== "all") list = list.filter((word) => word.mastery === stateFilter);
+    if (sourceFilter !== "all") {
+      list = list.filter((word) => (sourceFilter === "manual" ? !word.sourceType : word.sourceType === sourceFilter));
+    }
     return list;
-  }, [rows, folderFilter, masteryFilter]);
+  }, [rows, folderFilter, masteryFilter, stateFilter, sourceFilter]);
+
+  /**
+   * The word map: where the library actually came from and how far along it is.
+   * Both halves are counted from the student's own rows and both act as filters,
+   * so the map is how you navigate the library rather than a picture of it.
+   */
+  const bySource = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const word of rows) {
+      const key = word.sourceType ?? "manual";
+      counts.set(key, (counts.get(key) ?? 0) + 1);
+    }
+    return [...counts.entries()].sort((a, b) => b[1] - a[1]);
+  }, [rows]);
+
+  const byState: { state: Mastery; count: number }[] = useMemo(
+    () =>
+      (["new", "learning", "known", "active", "mastered"] as const).map((state) => ({
+        state,
+        count: rows.filter((word) => word.mastery === state).length,
+      })),
+    [rows]
+  );
+
+  const mapFiltered = stateFilter !== "all" || sourceFilter !== "all";
 
   async function reload() {
     const res = await fetch("/api/vocabulary?limit=200");
@@ -88,6 +119,80 @@ export function VocabWordsPanel({
         <Stat label={t.summary.active} value={active} />
         <Stat label={t.summary.mastered} value={mastered} />
         <Stat label={t.summary.dueToday} value={summary.due} tone={summary.due > 0 ? "warn" : undefined} />
+      </div>
+
+      <div className="card flex flex-col gap-3 p-4" data-word-map>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h2 className="text-sm font-medium text-ink-900">{t.map.title}</h2>
+          {mapFiltered && (
+            <button
+              type="button"
+              className="text-xs text-signal-600 hover:underline"
+              data-word-map-clear
+              onClick={() => {
+                setStateFilter("all");
+                setSourceFilter("all");
+              }}
+            >
+              {t.map.clear}
+            </button>
+          )}
+        </div>
+
+        <div>
+          <p className="mb-1 text-xs uppercase tracking-wide text-ink-300">{t.map.byState}</p>
+          <div className="flex flex-wrap gap-2">
+            {byState.map((row) => (
+              <button
+                key={row.state}
+                type="button"
+                data-word-map-state={row.state}
+                data-word-map-count={row.count}
+                aria-pressed={stateFilter === row.state}
+                onClick={() => setStateFilter((current) => (current === row.state ? "all" : row.state))}
+                className={`flex items-center gap-2 rounded-sm border px-2 py-1 text-xs ${
+                  stateFilter === row.state
+                    ? "border-signal-600 bg-signal-50 text-ink-900"
+                    : "border-ink-100 text-ink-700 hover:bg-paper-sunken"
+                }`}
+              >
+                <span>{t.mastery[row.state]}</span>
+                <span className="font-mono text-ink-500">{row.count}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <p className="mb-1 text-xs uppercase tracking-wide text-ink-300">{t.map.bySource}</p>
+          <div className="flex flex-wrap gap-2">
+            {bySource.length === 0 ? (
+              <span className="text-xs text-ink-300" data-word-map-empty>
+                {t.map.empty}
+              </span>
+            ) : (
+              bySource.map(([source, count]) => (
+                <button
+                  key={source}
+                  type="button"
+                  data-word-map-source={source}
+                  data-word-map-count={count}
+                  aria-pressed={sourceFilter === source}
+                  onClick={() => setSourceFilter((current) => (current === source ? "all" : source))}
+                  className={`flex items-center gap-2 rounded-sm border px-2 py-1 text-xs ${
+                    sourceFilter === source
+                      ? "border-signal-600 bg-signal-50 text-ink-900"
+                      : "border-ink-100 text-ink-700 hover:bg-paper-sunken"
+                  }`}
+                >
+                  <span>{t.sources[source as keyof typeof t.sources] ?? source}</span>
+                  <span className="font-mono text-ink-500">{count}</span>
+                </button>
+              ))
+            )}
+          </div>
+        </div>
+        <p className="text-xs text-ink-300">{t.map.hint}</p>
       </div>
 
       <AddWords

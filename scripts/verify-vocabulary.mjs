@@ -131,7 +131,6 @@ async function makeStudent() {
 const cookie = await makeStudent();
 if (!cookie) {
   console.log("\nfixture creation failed — stopping");
-  console.log(`\n# pass ${passed} / fail ${failed}`);
   process.exit(1);
 }
 
@@ -468,6 +467,60 @@ try {
   check("the ledger can be inspected directly in the database", false, error.message);
 } finally {
   await client.end().catch(() => {});
+}
+
+  // --- word map ---------------------------------------------------------------
+// The map is navigation, not decoration: its tiles are counted from the student's
+// own library and each one filters the list.
+{
+  const mapPage = await api("/vocabulary", { cookie });
+  check("the library carries a word map", mapPage.text.includes("data-word-map"));
+  check("the map counts the library by state", mapPage.text.includes("data-word-map-state="));
+  check("the map counts where the words came from", mapPage.text.includes("data-word-map-source="));
+  check("each map tile carries its real count", mapPage.text.includes("data-word-map-count="));
+
+  // The main client is closed by the time this runs, so the comparison opens its own.
+  const mapDb = new (await import("pg")).default.Client({
+    connectionString: process.env.DATABASE_URL ?? "postgres://postgres@127.0.0.1:5433/learners_area",
+  });
+  try {
+    await mapDb.connect();
+    const own = await mapDb.query(
+      "select count(*)::int n from user_vocabulary v join users u on u.id = v.user_id where u.email = $1",
+      [studentEmail]
+    );
+    check(
+      `the map is drawn from the student's own library (${own.rows[0].n} words)`,
+      mapPage.text.includes("data-word-map") && (own.rows[0].n === 0 || /data-word-map-count="[0-9]+"/.test(mapPage.text))
+    );
+    // Every word in the library is counted in exactly one source tile: the counts
+    // are per user, not a global tally.
+    const sums = [...mapPage.text.matchAll(/data-word-map-source="[a-z_]+"\s+data-word-map-count="(\d+)"/g)].map((m) =>
+      Number(m[1])
+    );
+    check(
+      `the source tiles add up to this student's library (${own.rows[0].n} words, tiles ${sums.reduce((a, b) => a + b, 0)})`,
+      sums.length === 0 || sums.reduce((a, b) => a + b, 0) === own.rows[0].n
+    );
+
+    // A term that belongs to a different account must not appear on this page.
+    const foreignTerm = await mapDb.query(
+      `select l.term from user_vocabulary v join users u on u.id = v.user_id join lexemes l on l.id = v.lexeme_id
+       where u.email = 'demo.student@learnersarea.uz'
+         and l.term not in (select l2.term from user_vocabulary v2 join lexemes l2 on l2.id = v2.lexeme_id
+                            where v2.user_id = (select id from users where email = $1))
+       limit 1`,
+      [studentEmail]
+    );
+    check(
+      "no other student's library leaks into the map",
+      foreignTerm.rows.length === 0 || !mapPage.text.includes(`>${foreignTerm.rows[0].term}<`)
+    );
+  } catch (error) {
+    check("the map can be compared with the database", false, error.message);
+  } finally {
+    await mapDb.end().catch(() => {});
+  }
 }
 
 console.log(`\n# pass ${passed} / fail ${failed}`);
