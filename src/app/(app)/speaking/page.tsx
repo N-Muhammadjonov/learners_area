@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { listActiveMaterials } from "@/lib/data/speaking";
@@ -24,7 +25,13 @@ export default async function SpeakingPage() {
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-8">
-      <h1 className="font-display text-2xl text-ink-900">{dict.speaking.title}</h1>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h1 className="font-display text-2xl text-ink-900">{dict.speaking.title}</h1>
+        {/* Shadowing lives next to the materials, since it uses them. */}
+        <Link href="/speaking/shadowing" className="text-sm text-signal-600 hover:underline" data-shadowing-link>
+          {dict.speakingShadowing.title} →
+        </Link>
+      </div>
 
       {rows.length === 0 && <EmptyState icon="🎙" title={dict.speaking.noMaterials} />}
 

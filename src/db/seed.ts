@@ -619,6 +619,52 @@ async function main() {
     ]);
   }
 
+  // --- Shadowing recordings (placeholder audio links, same convention as the
+  // listening test: the drill is wired end-to-end, the file is swap-in) -----
+  const [shadowingMaterial] = await db
+    .insert(speakingMaterials)
+    .values({
+      createdByUserId: teacher.id,
+      category: "shadowing",
+      title: "Shadowing: a model Part 1 answer, sentence by sentence",
+      primaryType: "audio",
+      primaryUrl: "https://cdn.example.com/speaking/shadowing-model-answer.mp3",
+    })
+    .returning();
+
+  if (shadowingMaterial) {
+    await db.insert(materialBlocks).values([
+      {
+        materialId: shadowingMaterial.id,
+        position: 1,
+        type: "text",
+        textContent: "Play one sentence, pause, repeat it out loud with the same rhythm, then play the next. Do not read the transcript while you shadow — listen first, speak second.",
+      },
+    ]);
+  }
+
+  const [part1Audio] = await db
+    .insert(speakingMaterials)
+    .values({
+      createdByUserId: teacher.id,
+      category: "part1",
+      title: "Part 1: hometown — a recorded model answer",
+      primaryType: "audio",
+      primaryUrl: "https://cdn.example.com/speaking/part1-hometown-model.mp3",
+    })
+    .returning();
+
+  if (part1Audio) {
+    await db.insert(materialBlocks).values([
+      {
+        materialId: part1Audio.id,
+        position: 1,
+        type: "text",
+        textContent: "Note the length: about four sentences per answer. Long enough to show range, short enough to stay natural.",
+      },
+    ]);
+  }
+
   // --- Live classes (original, tied to the seeded teacher) -----------------
   const inFuture = (days: number, hour: number) => {
     const d = new Date(now.getTime() + days * 24 * 60 * 60 * 1000);
