@@ -365,7 +365,33 @@ for (const body of bodies) {
 check(`no response body contains a secret or the session token (${bodies.length} responses checked)`, leaked.length === 0, leaked.join(", "));
 
 // ---------------------------------------------------------------------------
-// 8. The sign-in form cannot be turned into an open redirect
+// 8. The page a browser actually boots: every script it asks for is served
+// ---------------------------------------------------------------------------
+// A page that renders but whose client bundle 404s looks fine over HTML and then
+// does nothing when you press the button, so the bundles are fetched for real.
+{
+  const served = await fetch(new URL("/login", BASE), { headers: HOST_HEADER ? { host: HOST_HEADER } : {} });
+  const html = await served.text();
+  const scripts = [...new Set([...html.matchAll(/src="(\/_next\/[^"]+)"/g)].map((m) => m[1]))];
+  check(`the sign-in page asks the browser for its scripts (${scripts.length} bundles)`, scripts.length > 0);
+
+  const missing = [];
+  let formBundle = "";
+  for (const src of scripts) {
+    const res = await fetch(new URL(src, BASE), { headers: HOST_HEADER ? { host: HOST_HEADER } : {} });
+    if (res.status !== 200) missing.push(`${src} (${res.status})`);
+    else if (src.includes("/login/")) formBundle = await res.text();
+  }
+  check("every script the sign-in page needs is served", missing.length === 0, missing.join(", "));
+  check(
+    "the served login bundle contains the sign-in request (so the button is wired)",
+    formBundle.includes("/api/auth/login"),
+    "the login chunk did not mention the endpoint"
+  );
+}
+
+// ---------------------------------------------------------------------------
+// 9. The sign-in form cannot be turned into an open redirect
 // ---------------------------------------------------------------------------
 // `?next=` comes from the address bar. The form must send the visitor to a path
 // inside this app (safeNextPath) rather than to whatever the link said, so a
