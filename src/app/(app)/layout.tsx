@@ -25,7 +25,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const unread = await countUnread(user.id);
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-dvh">
       <Sidebar dict={dict} role={user.role} />
       <div className="flex min-w-0 flex-1 flex-col">
         <Topbar
@@ -35,7 +35,11 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           role={user.role}
           unread={unread}
         />
-        <main className="flex-1 bg-paper p-4 md:p-8">{children}</main>
+        <main
+          className="flex-1 bg-paper p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] pl-[calc(1rem+env(safe-area-inset-left))] pr-[calc(1rem+env(safe-area-inset-right))] md:p-8"
+        >
+          {children}
+        </main>
       </div>
     </div>
   );

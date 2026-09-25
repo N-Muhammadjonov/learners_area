@@ -59,7 +59,7 @@ export function NewLiveClassForm({ dict }: { dict: Dictionary }) {
         <Label htmlFor="topic">Topic (optional)</Label>
         <Textarea id="topic" value={topic} onChange={(e) => setTopic(e.target.value)} className="min-h-[60px]" />
       </div>
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <div>
           <Label htmlFor="scheduledAt">Date & time</Label>
           <Input id="scheduledAt" type="datetime-local" required value={scheduledAt} onChange={(e) => setScheduledAt(e.target.value)} />

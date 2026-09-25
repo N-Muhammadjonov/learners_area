@@ -12,7 +12,7 @@ export function AuthShell({
   footer?: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-paper-sunken p-4">
+    <div className="flex min-h-dvh items-center justify-center bg-paper-sunken p-4">
       <div className="w-full max-w-sm">
         <Link href="/" className="mb-8 flex items-center justify-center gap-2">
           <span className="flex h-7 w-7 items-center justify-center rounded-sm bg-signal-600 font-display text-sm text-white">

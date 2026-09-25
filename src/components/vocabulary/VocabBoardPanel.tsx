@@ -63,7 +63,7 @@ export function VocabBoardPanel({
         )}
       </div>
 
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
         <Metric label={t.board.points} value={live.points} />
         <Metric label={t.board.streak} value={live.streak} />
         <Metric label={t.summary.rank} value={live.rank || "—"} />

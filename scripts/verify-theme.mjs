@@ -113,6 +113,77 @@ const files = [];
 const hexed = files.filter((file) => /#[0-9a-fA-F]{6}\b/.test(readFileSync(file, "utf8")));
 check("no component hard-codes a colour", hexed.length === 0, hexed.join(", "));
 
+// ---------------------------------------------------------------------------
+// What Night Mode actually has to cover
+// ---------------------------------------------------------------------------
+const read = (f) => readFileSync(f, "utf8");
+const sources = [];
+(function walkAll(dir) {
+  for (const entry of readdirSync(dir)) {
+    const full = join(dir, entry);
+    if (statSync(full).isDirectory()) walkAll(full);
+    else sources.push(full);
+  }
+})("src");
+const tsx = sources.filter((f) => /\.(tsx?|css)$/.test(f));
+
+const globals = read("src/app/globals.css");
+const themeBlock = (selector) => {
+  const start = globals.indexOf(selector);
+  const open = globals.indexOf("{", start);
+  const close = globals.indexOf("\n}", open);
+  return globals.slice(open, close);
+};
+const dayBlock = themeBlock(':root,');
+const nightBlock = themeBlock('[data-theme="night"]');
+
+// Every colour token a component can reach must exist in both palettes. A token
+// that is defined for Day Mode only is exactly how a surface ends up with dark
+// text on a dark card.
+// Strip the file's comments first: the token pattern appears in prose there.
+const config = read("tailwind.config.ts")
+  .replace(/\/\*[\s\S]*?\*\//g, "")
+  .replace(/\/\/[^\n]*/g, "");
+const tokens = [...new Set([...config.matchAll(/rgb\(var\((--[a-z0-9-]+)\)/g)].map((m) => m[1]))];
+const dayMissing = tokens.filter((t) => !dayBlock.includes(t));
+const nightMissing = tokens.filter((t) => !nightBlock.includes(t));
+check(`every palette token exists in Day Mode (${tokens.length} tokens)`, dayMissing.length === 0, dayMissing.join(", "));
+check(`every palette token exists in Night Mode (${tokens.length} tokens)`, nightMissing.length === 0, nightMissing.join(", "));
+
+// Components must never reach for Tailwind's default palette, whose colours are
+// fixed and cannot follow the theme.
+const defaultPalette = [];
+for (const file of tsx) {
+  const text = read(file);
+  for (const m of text.matchAll(/\b(?:bg|border|ring|divide|from|via|to)-(?:white|black|gray|slate|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)(?:-[0-9]{2,3})?\b/g)) {
+    defaultPalette.push(`${file}: ${m[0]}`);
+  }
+}
+check(
+  "nothing reaches for Tailwind's fixed default palette",
+  defaultPalette.length === 0,
+  [...new Set(defaultPalette)].slice(0, 5).join(", ")
+);
+
+// The states a theme most often forgets: an empty list, a loading surface and a
+// crash boundary all have to be themed too, or Night Mode flashes a white page.
+check("the error boundary is themed by tokens", read("src/app/(app)/error.tsx").includes("text-ink-900"));
+const emptyStates = tsx.filter((f) => /data-[a-z-]*empty/.test(read(f)));
+check(`empty states are rendered with tokens (${emptyStates.length} surfaces)`, emptyStates.length > 0);
+const loadingFiles = sources.filter((f) => f.endsWith("loading.tsx"));
+check(
+  "loading surfaces are themed too",
+  loadingFiles.length === 0 || loadingFiles.every((f) => /text-ink-|bg-paper/.test(read(f)))
+);
+
+// A dialog inherits whatever it is mounted inside, so the surfaces that contain
+// one must be token-based as well.
+const dialogs = tsx.filter((f) => /<dialog|role="dialog"/.test(read(f)));
+check(
+  `dialogs sit on token surfaces (${dialogs.length} files)`,
+  dialogs.length === 0 || dialogs.every((f) => /bg-paper-raised|bg-paper\b/.test(read(f)))
+);
+
 console.log(`\n# pass ${pass} / fail ${failures.length}`);
 if (failures.length) {
   console.log("# failures:");

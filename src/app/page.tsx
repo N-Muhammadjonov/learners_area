@@ -5,7 +5,7 @@ export default function Home() {
   const dict = getDictionary(getLocale());
 
   return (
-    <div className="min-h-screen bg-paper">
+    <div className="min-h-dvh bg-paper">
       <header className="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
         <div className="flex items-center gap-2">
           <span className="flex h-7 w-7 items-center justify-center rounded-sm bg-signal-600 font-display text-sm text-white">

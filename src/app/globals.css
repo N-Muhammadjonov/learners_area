@@ -137,6 +137,14 @@
     @apply btn border border-gold/60 bg-transparent text-ink-900 hover:bg-gold/15;
   }
 
+  /* Touch targets: a 36px button is comfortable with a mouse and cramped with a
+     thumb, so coarse pointers get a 44px minimum. Desktop spacing is unchanged. */
+  @media (pointer: coarse) {
+    .btn {
+      min-height: 2.75rem;
+    }
+  }
+
   .badge {
     @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
   }
@@ -154,8 +162,12 @@
   }
 
   .input {
-    @apply w-full rounded-sm border border-ink-100 bg-paper-raised px-3 py-2 text-sm text-ink-900
-      placeholder:text-ink-300 focus:outline-none focus:ring-2 focus:ring-signal-600;
+    /* 16px on phones: a smaller field makes iOS Safari zoom the page on focus,
+       which pushes the input under the keyboard. Desktop keeps the smaller size. */
+    @apply w-full rounded-sm border border-ink-100 bg-paper-raised px-3 py-2 text-base text-ink-900
+      placeholder:text-ink-300 focus:outline-none focus:ring-2 focus:ring-signal-600 sm:text-sm;
+    /* Room below a focused field so the keyboard never lands on top of the caret. */
+    scroll-margin-block: 5rem;
   }
 }
 

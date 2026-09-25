@@ -43,7 +43,7 @@ export function NewPassageForm({ dict }: { dict: Dictionary }) {
         <Label htmlFor="bodyText">Passage text</Label>
         <Textarea id="bodyText" required value={bodyText} onChange={(e) => setBodyText(e.target.value)} className="min-h-[200px]" />
       </div>
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <div>
           <Label htmlFor="difficultyLevel">Level</Label>
           <select id="difficultyLevel" className="input" value={difficultyLevel} onChange={(e) => setDifficultyLevel(e.target.value)}>

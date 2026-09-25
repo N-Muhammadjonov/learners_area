@@ -37,7 +37,7 @@ export function NewPromptForm({ dict }: { dict: Dictionary }) {
         router.refresh();
       }}
     >
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <div>
           <Label htmlFor="taskType">Task type</Label>
           <select id="taskType" className="input" value={taskType} onChange={(e) => setTaskType(e.target.value as "task1" | "task2")}>

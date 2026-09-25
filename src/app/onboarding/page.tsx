@@ -11,7 +11,7 @@ export default async function OnboardingPage() {
   const dict = getDictionary(locale);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-paper-sunken p-4">
+    <div className="flex min-h-dvh items-center justify-center bg-paper-sunken p-4">
       <div className="w-full max-w-xl">
         <div className="card p-6">
           <h1 className="font-display text-xl text-ink-900">{dict.onboarding.title}</h1>
