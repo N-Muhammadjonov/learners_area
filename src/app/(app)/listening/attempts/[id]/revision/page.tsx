@@ -171,7 +171,9 @@ export default async function ListeningRevisionPage({ params }: { params: { id: 
                   </div>
                 )}
                 {entry.paraphrases.length > 0 && (
-                  <table className="mt-2 w-full text-left text-xs">
+                  /* A phone is narrower than a two-column table: scroll, never clip. */
+                  <div className="mt-2 overflow-x-auto">
+                  <table className="w-full min-w-[280px] text-left text-xs">
                     <thead>
                       <tr className="text-ink-300">
                         <th className="font-medium">{dict.listening.heardLabel}</th>
@@ -187,6 +189,7 @@ export default async function ListeningRevisionPage({ params }: { params: { id: 
                       ))}
                     </tbody>
                   </table>
+                  </div>
                 )}
               </div>
             ))}
