@@ -161,6 +161,19 @@ check("the analysis shows the evidence the author quoted", /data-evidence="/.tes
 check("the analysis offers the retention check", analysis.text.includes("data-retention-toggle"));
 check("the retention check never posts a score", !analysis.text.includes("retentionScore") && analysis.text.includes("data-retention-input"));
 check("the analysis shows the author's explanation", analysis.text.includes("Izoh") || analysis.text.includes("Explanation"));
+
+// The recall drill adapts to the passage's own level, and its self-check is a
+// checklist the student fills in — never a score the server invents.
+const level = (analysis.text.match(/data-retention-level="([A-Z0-9]+)"/) ?? [])[1];
+const target = Number((analysis.text.match(/data-retention-target="(\d+)"/) ?? [])[1]);
+check("the recall drill states the passage level", Boolean(level), "no level marker");
+check(
+  `the recall target matches the level (${level} → ${target} key ideas)`,
+  level !== undefined && target === (level >= "C1" ? 5 : level === "B2" ? 4 : 3),
+  `level ${level}, target ${target}`
+);
+check("the self-check is a checklist of what was kept", analysis.text.includes("data-retention-checklist"));
+check("the checklist records what the student kept, without a score", analysis.text.includes("data-retention-kept") && !analysis.text.includes("retentionScore"));
 check("the clickable word layer is present on the analysis page", analysis.text.includes("data-clickable-text"));
 
 // --- 5. privacy -------------------------------------------------------------

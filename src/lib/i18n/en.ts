@@ -264,6 +264,12 @@ const en = {
     retentionShow: "Reveal the passage",
     retentionPlaceholder: "What do you remember? Write the key ideas in your own words…",
     retentionSelfCheck: "Now compare with the passage above. Anything you missed is the part worth re-reading.",
+    retentionGoal: "Aim for {count} key ideas — the level of this passage is {level}.",
+    retentionCheckMain: "The main idea",
+    retentionCheckDetails: "Supporting details",
+    retentionCheckEvidence: "The evidence or example used",
+    retentionCheckConclusion: "The conclusion",
+    retentionKept: "You kept {kept} of {count} — the rest is worth re-reading.",
   },
   listening: {
     practiceTitle: "Listening practice",

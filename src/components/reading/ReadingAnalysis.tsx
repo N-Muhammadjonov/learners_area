@@ -40,6 +40,7 @@ export function ReadingAnalysis({
   passageBody,
   passageTitle,
   attemptId,
+  passageLevel,
 }: {
   dict: Dictionary;
   score: number | null;
@@ -49,12 +50,28 @@ export function ReadingAnalysis({
   passageBody?: string;
   passageTitle?: string;
   attemptId?: string;
+  /** The passage's own level (A2…C2) — the recall drill adapts its target to it. */
+  passageLevel?: string | null;
 }) {
   const answerByQuestion = useMemo(
     () => new Map(answers.map((a) => [a.questionId, a])),
     [answers]
   );
   const [retentionOpen, setRetentionOpen] = useState(false);
+  const [kept, setKept] = useState<Record<string, boolean>>({});
+
+  // How much a reader at this level should be able to reproduce from memory. The
+  // target rises with the level; nothing here is scored — the student compares
+  // their own recall with the passage, which is the whole point of the drill.
+  const level = (passageLevel ?? "B2").toUpperCase();
+  const retentionTarget = level >= "C1" ? 5 : level === "B2" ? 4 : 3;
+  const retentionChecks: { key: string; label: string }[] = [
+    { key: "main", label: dict.reading.retentionCheckMain },
+    { key: "details", label: `${dict.reading.retentionCheckDetails} (${retentionTarget - 1})` },
+    ...(level >= "B2" ? [{ key: "evidence", label: dict.reading.retentionCheckEvidence }] : []),
+    ...(level >= "C1" ? [{ key: "conclusion", label: dict.reading.retentionCheckConclusion }] : []),
+  ];
+  const keptCount = retentionChecks.filter((c) => kept[c.key]).length;
 
   const byType = useMemo(() => {
     const rows = new Map<Question["type"], { correct: number; total: number }>();
@@ -134,11 +151,35 @@ export function ReadingAnalysis({
             </button>
           </div>
           <p className="text-xs text-ink-500">{dict.reading.retentionHint}</p>
+          <p className="text-xs text-ink-300" data-retention-target={retentionTarget} data-retention-level={level}>
+            {dict.reading.retentionGoal.replace("{count}", String(retentionTarget)).replace("{level}", level)}
+          </p>
           <textarea
             className="input min-h-[110px]"
             data-retention-input
             placeholder={dict.reading.retentionPlaceholder}
           />
+          {/* The self-check is a checklist, not a score: the student marks what they
+              actually reproduced before revealing the passage. */}
+          <ul className="flex flex-wrap gap-3" data-retention-checklist>
+            {retentionChecks.map((item) => (
+              <li key={item.key}>
+                <label className="flex items-center gap-2 text-xs text-ink-700">
+                  <input
+                    type="checkbox"
+                    className="h-4 w-4"
+                    data-retention-check={item.key}
+                    checked={Boolean(kept[item.key])}
+                    onChange={(e) => setKept((prev) => ({ ...prev, [item.key]: e.target.checked }))}
+                  />
+                  {item.label}
+                </label>
+              </li>
+            ))}
+          </ul>
+          <p className="text-xs text-ink-300" data-retention-kept={keptCount}>
+            {dict.reading.retentionKept.replace("{kept}", String(keptCount)).replace("{count}", String(retentionChecks.length))}
+          </p>
           {/*
             The passage is rendered once and hidden with CSS while the student
             recalls it. This is a recall aid, not an exam: nothing here is scored,

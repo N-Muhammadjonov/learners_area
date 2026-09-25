@@ -39,6 +39,7 @@ export default async function ReadingAttemptPage({ params }: { params: { id: str
           answers={answers}
           passageBody={passage.bodyText}
           passageTitle={passage.title}
+          passageLevel={passage.difficultyLevel}
           attemptId={attempt.id}
         />
       )}

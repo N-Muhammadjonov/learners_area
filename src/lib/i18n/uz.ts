@@ -266,6 +266,12 @@ const uz: Dictionary = {
     retentionShow: "Matnni ochish",
     retentionPlaceholder: "Nima esda qoldi? Asosiy fikrlarni o'z so'zingiz bilan yozing…",
     retentionSelfCheck: "Endi yuqoridagi matn bilan solishtiring. Eslab qololmagan joyingiz — qayta o'qishga arziydigan qismi.",
+    retentionGoal: "Maqsad — {count} ta asosiy fikr; matn darajasi {level}.",
+    retentionCheckMain: "Asosiy fikr",
+    retentionCheckDetails: "Qo\u2018shimcha tafsilotlar",
+    retentionCheckEvidence: "Keltirilgan dalil yoki misol",
+    retentionCheckConclusion: "Xulosa",
+    retentionKept: "{count} tadan {kept} tasini eslab qoldingiz — qolganini qayta o\u2018qish foydali.",
   },
   listening: {
     practiceTitle: "Listening mashqi",
