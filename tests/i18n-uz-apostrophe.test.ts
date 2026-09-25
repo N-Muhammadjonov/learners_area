@@ -1,0 +1,113 @@
+import assert from "node:assert/strict";
+import test from "node:test";
+import { readFileSync, readdirSync, statSync } from "node:fs";
+import { join } from "node:path";
+
+/**
+ * The canonical Learners Area convention for Uzbek user-facing text is the ASCII
+ * apostrophe `'` (U+0027): "O'quv rejangizni", "yo'q", "so'z", "to'g'ri".
+ *
+ * Typographic variants — U+2018, U+2019, U+02BB, U+02BC — are NOT used in
+ * Learners Area-controlled text, because the same word then renders differently
+ * depending on which keyboard or copy/paste produced it.
+ *
+ * Input that learners or teachers type (vocabulary notes, chat text, imported
+ * quotations) is normalised to ASCII on the way in — see INPUT_NORMALISERS below —
+ * so the app accepts those marks without ever emitting them itself.
+ */
+
+/** U+2018, U+2019, U+02BB, U+02BC, U+02B9, U+2032 */
+const TYPOGRAPHIC_MARKS = /[\u2018\u2019\u02bb\u02bc\u02b9\u2032]/;
+
+/**
+ * Files that legitimately mention the typographic marks: they are normaliser
+ * regexes that convert what a keyboard produced into the ASCII form. They are
+ * inputs, not UI copy, and must stay permissive.
+ */
+const INPUT_NORMALISERS = new Set([
+  "src/components/vocabulary/VocabGamesPanel.tsx",
+  "src/lib/services/grammar/mastery.ts",
+  "src/lib/services/vocabulary/dedupe.ts",
+]);
+
+const stripComments = (source: string) =>
+  source.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/[^\n]*/g, "");
+
+function walk(dir: string, out: string[] = []): string[] {
+  for (const entry of readdirSync(dir)) {
+    const full = join(dir, entry);
+    if (statSync(full).isDirectory()) walk(full, out);
+    else out.push(full);
+  }
+  return out;
+}
+
+test("no Learners Area-controlled source file emits a typographic apostrophe", () => {
+  const offenders: string[] = [];
+  for (const file of walk("src")) {
+    if (!/\.(ts|tsx|mjs|js|json|css)$/.test(file)) continue;
+    if (INPUT_NORMALISERS.has(file)) continue;
+    const source = readFileSync(file, "utf8");
+    source.split("\n").forEach((line, index) => {
+      if (TYPOGRAPHIC_MARKS.test(line)) {
+        offenders.push(`${file}:${index + 1}: ${line.trim().slice(0, 90)}`);
+      }
+    });
+  }
+  assert.deepEqual(offenders, []);
+});
+
+test("the Uzbek dictionary spells the tutuq belgisi with the ASCII apostrophe", () => {
+  const uz = readFileSync("src/lib/i18n/uz.ts", "utf8");
+  for (const word of ["yo'q", "so'z", "to'g'ri", "bo'lishi", "ko'rish", "O'quv"]) {
+    assert.ok(uz.includes(word), `expected the ASCII spelling ${word} in uz.ts`);
+  }
+  assert.ok(
+    !TYPOGRAPHIC_MARKS.test(uz),
+    "uz.ts must not contain U+2018/U+2019/U+02BB/U+02BC"
+  );
+});
+
+test("Uzbek strings outside the dictionary use the ASCII apostrophe too", () => {
+  const expectations: [string, string][] = [
+    ["src/lib/auth/account-status.ts", "Ko'rib chiqilmoqda"],
+    ["src/lib/auth/account-status.ts", "To'xtatilgan"],
+    ["src/lib/auth/roles.ts", "O'qituvchi"],
+    ["src/components/reading/ReadingAnalysis.tsx", "Ko'p tanlovli"],
+    ["src/lib/services/vocabulary/packs.ts", "nojo'ya ta'sir"],
+    ["src/db/seed.ts", "o'zlari"],
+  ];
+  for (const [file, expected] of expectations) {
+    const source = readFileSync(file, "utf8");
+    assert.ok(source.includes(expected), `${file} should contain ${expected}`);
+  }
+});
+
+test("the login screen greets the reader with the ASCII apostrophe", () => {
+  const uz = readFileSync("src/lib/i18n/uz.ts", "utf8");
+  const subtitle = uz.match(/loginSubtitle: "([^"]+)"/)?.[1] ?? "";
+  assert.match(subtitle, /^O'quv rejangizni/, `loginSubtitle was ${JSON.stringify(subtitle)}`);
+  assert.ok(!TYPOGRAPHIC_MARKS.test(subtitle), "the typographic mark must not appear here");
+});
+
+test("the English dictionary keeps its own apostrophes", () => {
+  const en = readFileSync("src/lib/i18n/en.ts", "utf8");
+  // Contractions are correct in English; this only proves the rule above is
+  // scoped to Uzbek and does not silently rewrite the other locale.
+  assert.ok(en.includes("isn't") || en.includes("it's"));
+});
+
+test("the marks accepted from keyboards are still normalised to ASCII", () => {
+  // The rule above must not be "solved" by refusing the marks a learner's
+  // keyboard produces; they are folded into the ASCII form on the way in.
+  for (const file of INPUT_NORMALISERS) {
+    const source = readFileSync(file, "utf8");
+    assert.ok(
+      /\.replace\(\/\[[^\]]*[\u2018\u2019][^\]]*\]\/g/.test(source),
+      `${file} should still fold typographic marks to the ASCII apostrophe`
+    );
+  }
+});
+// Key parity between the two dictionaries is enforced by the type system:
+// `src/lib/i18n/index.ts` declares `Record<Locale, Dictionary>`, so a key missing
+// from either file fails `tsc`. No runtime duplicate of that rule is needed here.
