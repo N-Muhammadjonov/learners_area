@@ -1,26 +1,15 @@
+import { redirect } from "next/navigation";
 import { requireActiveUser } from "@/lib/auth/current-user";
-import { getDictionary, getLocale } from "@/lib/i18n";
-import { listDueVocabulary } from "@/lib/data/vocabulary";
-import { ReviewDeck } from "@/components/vocabulary/ReviewDeck";
 
+/**
+ * The revision deck lives inside the Vocabulary section now.
+ *
+ * This route is kept so an old bookmark still works: it sends the student to the
+ * REVISION view of /vocabulary, which is the same engine and the same schedule as
+ * everywhere else. Nothing was reimplemented here.
+ */
 export default async function VocabularyReviewPage() {
   const user = await requireActiveUser();
   if (!user) return null;
-  const dict = getDictionary(getLocale());
-  const due = await listDueVocabulary(user.id);
-
-  const items = due.map(({ entry, lexeme }) => ({
-    entryId: entry.id,
-    term: lexeme.term,
-    definitionEn: lexeme.definitionEn,
-    translationUz: lexeme.translationUz,
-    exampleSentence: lexeme.exampleSentence,
-  }));
-
-  return (
-    <div className="mx-auto max-w-3xl">
-      <h1 className="mb-6 text-center font-display text-2xl text-ink-900">{dict.vocabulary.review}</h1>
-      <ReviewDeck dict={dict} initialItems={items} />
-    </div>
-  );
+  redirect("/vocabulary?tab=revision");
 }

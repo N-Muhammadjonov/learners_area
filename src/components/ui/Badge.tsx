@@ -28,15 +28,19 @@ export function BandBadge({ band }: { band: number | null | undefined }) {
   return <span className={`badge bg-paper-sunken font-mono ${tone}`}>{band.toFixed(1)}</span>;
 }
 
-export type VocabStateValue = "new" | "learning" | "review" | "known" | "mastered" | "activated";
+/**
+ * The vocabulary mastery ladder, exactly as the engine defines it
+ * (NEW → LEARNING → KNOWN → ACTIVE → MASTERED). There is no second, older set of
+ * states: one ladder means the badge can never disagree with the schedule.
+ */
+export type VocabStateValue = "new" | "learning" | "known" | "active" | "mastered";
 
 const vocabStateClass: Record<VocabStateValue, string> = {
   new: "badge bg-ink-100 text-ink-500",
   learning: "badge bg-band-warn/10 text-band-warn",
-  review: "badge bg-signal-100 text-signal-700",
   known: "badge bg-band-good/10 text-band-good",
-  mastered: "badge bg-band-good/20 text-band-good",
-  activated: "badge bg-signal-600 text-white",
+  active: "badge bg-signal-100 text-signal-700",
+  mastered: "badge bg-gold/20 text-ink-900",
 };
 
 export function VocabBadge({ state, label }: { state: VocabStateValue; label: string }) {

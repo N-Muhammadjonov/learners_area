@@ -29,6 +29,20 @@
       "when": 1790275357849,
       "tag": "0003_phase1_access_control",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1790276380642,
+      "tag": "0004_vocabulary_engine",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1790299753865,
+      "tag": "0005_lexeme_sense_key",
+      "breakpoints": true
     }
   ]
 }

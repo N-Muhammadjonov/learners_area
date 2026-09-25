@@ -614,30 +614,123 @@ export const speakingAttempts = pgTable("speaking_attempts", {
 // Vocabulary engine — WIRED (add, review, mastery state) in Phase 1
 // ---------------------------------------------------------------------------
 
-export const lexemes = pgTable("lexemes", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  term: varchar("term", { length: 120 }).notNull().unique(),
-  partOfSpeech: varchar("part_of_speech", { length: 30 }),
-  definitionEn: text("definition_en").notNull(),
-  translationUz: text("translation_uz"),
-  exampleSentence: text("example_sentence"),
-});
+export const lexemes = pgTable(
+  "lexemes",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    term: varchar("term", { length: 120 }).notNull(),
+    partOfSpeech: varchar("part_of_speech", { length: 30 }),
+    definitionEn: text("definition_en").notNull(),
+    translationUz: text("translation_uz"),
+    exampleSentence: text("example_sentence"),
+    /**
+     * Spelling + part of speech + English meaning — the identity of a *sense*.
+     *
+     * The spelling alone is not an identity: "resilient (able to recover)" and
+     * "resilient (springing back into shape)" are two different words, and a
+     * catalogue unique on the spelling alone would force one of them to borrow
+     * the other's definition. This index is what lets both exist with their own
+     * meaning, while the same sense added twice still resolves to one row.
+     */
+    senseKey: varchar("sense_key", { length: 200 }).notNull().default(""),
+  },
+  (table) => ({
+    termIdx: index("lexemes_term_idx").on(table.term),
+    senseKeyIdx: uniqueIndex("lexemes_sense_key_idx").on(table.senseKey),
+  })
+);
 
-export const userVocabulary = pgTable("user_vocabulary", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
-  lexemeId: uuid("lexeme_id").notNull().references(() => lexemes.id, { onDelete: "cascade" }),
-  state: vocabStateEnum("state").notNull().default("new"),
-  sourceType: varchar("source_type", { length: 40 }), // e.g. "writing_feedback", "manual"
-  sourceId: uuid("source_id"),
-  correctCount: integer("correct_count").notNull().default(0),
-  incorrectCount: integer("incorrect_count").notNull().default(0),
-  activeUseCount: integer("active_use_count").notNull().default(0),
-  intervalDays: integer("interval_days").notNull().default(0),
-  nextReviewAt: timestamp("next_review_at", { withTimezone: true }).defaultNow().notNull(),
-  lastReviewedAt: timestamp("last_reviewed_at", { withTimezone: true }),
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-});
+/**
+ * A student's word library entry — the ONE shared vocabulary engine.
+ *
+ * Every module (reading, listening, writing, speaking, grammar, the Coach) adds
+ * words here; nothing keeps its own private word list. Two columns carry the
+ * scheduling:
+ *
+ *   srs_stage  index into SRS_INTERVALS (1 / 3 / 7 / 16 / 35 days); -1 means
+ *              "new, never scheduled", which is what a freshly added word is.
+ *   mastery    the human-visible ladder NEW -> LEARNING -> KNOWN -> ACTIVE ->
+ *              MASTERED. It is derived from real recall plus real use, never
+ *              from a game score.
+ *
+ * `sense_key` is the deduplication identity: the same spelling can legitimately
+ * exist twice with different meanings ("bank" of a river / "bank" of money), so
+ * a word is a duplicate only when spelling AND sense agree.
+ */
+export const userVocabulary = pgTable(
+  "user_vocabulary",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    lexemeId: uuid("lexeme_id").notNull().references(() => lexemes.id, { onDelete: "cascade" }),
+    state: vocabStateEnum("state").notNull().default("new"),
+    sourceType: varchar("source_type", { length: 40 }), // e.g. "reading", "writing_feedback", "manual"
+    sourceId: uuid("source_id"),
+    /** Folder in the personal library; null means "unfiled". */
+    folderId: uuid("folder_id").references(() => vocabFolders.id, { onDelete: "set null" }),
+    /** Topic pack a word arrived from ("health_medicine", "work_career", …). */
+    topicPack: varchar("topic_pack", { length: 60 }),
+    /** Spelling + sense, lowercased — the dedup identity within one library. */
+    senseKey: varchar("sense_key", { length: 200 }),
+    /** Index into SRS_INTERVALS; -1 = not scheduled yet. */
+    srsStage: integer("srs_stage").notNull().default(-1),
+    /** NEW | LEARNING | KNOWN | ACTIVE | MASTERED (see lib/services/vocabulary). */
+    mastery: varchar("mastery", { length: 20 }).notNull().default("new"),
+    correctCount: integer("correct_count").notNull().default(0),
+    incorrectCount: integer("incorrect_count").notNull().default(0),
+    activeUseCount: integer("active_use_count").notNull().default(0),
+    intervalDays: integer("interval_days").notNull().default(0),
+    nextReviewAt: timestamp("next_review_at", { withTimezone: true }).defaultNow().notNull(),
+    lastReviewedAt: timestamp("last_reviewed_at", { withTimezone: true }),
+    masteredAt: timestamp("mastered_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => ({
+    libraryIdx: index("user_vocabulary_user_idx").on(table.userId, table.nextReviewAt),
+    senseIdx: index("user_vocabulary_sense_idx").on(table.userId, table.senseKey),
+  })
+);
+
+/** A folder in the personal library ("IELTS Writing", "Medicine", …). */
+export const vocabFolders = pgTable(
+  "vocab_folders",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    name: varchar("name", { length: 80 }).notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => ({
+    ownerNameIdx: uniqueIndex("vocab_folders_owner_name_idx").on(table.userId, table.name),
+  })
+);
+
+/**
+ * The points ledger behind the private leaderboard and the streak.
+ *
+ * Scoring is server-side and idempotent: every award carries a `dedupe_key`
+ * built from the thing that earned it (a word id, a review event, a game
+ * answer, a sentence). Replaying a request therefore adds nothing, which is what
+ * makes "points = 999999" from a client impossible rather than merely rude.
+ */
+export const vocabPointEvents = pgTable(
+  "vocab_point_events",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    /** new_word | revision | game_answer | sentence */
+    kind: varchar("kind", { length: 30 }).notNull(),
+    refType: varchar("ref_type", { length: 40 }),
+    refId: varchar("ref_id", { length: 80 }),
+    points: integer("points").notNull(),
+    dedupeKey: varchar("dedupe_key", { length: 200 }).notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => ({
+    dedupeIdx: uniqueIndex("vocab_point_events_dedupe_idx").on(table.dedupeKey),
+    userIdx: index("vocab_point_events_user_idx").on(table.userId, table.createdAt),
+  })
+);
 
 // ---------------------------------------------------------------------------
 // Assignments & teacher feedback loop — WIRED (minimal) in Phase 1
@@ -877,6 +970,14 @@ export const coachWeaknesses = pgTable(
 // text so feedback can never be shown without the work it refers to.
 // ---------------------------------------------------------------------------
 
+/**
+ * Sentence Bank: a student's own sentences using their own words.
+ *
+ * A sentence that the RIWI evaluator accepted earns the highest vocabulary
+ * award (5 points); a sentence the student wrote but that was not evaluated
+ * stays visible with its honest origin and earns nothing. The bank never claims
+ * an evaluation that did not happen.
+ */
 export const vocabularyUsages = pgTable("vocabulary_usages", {
   id: uuid("id").defaultRandom().primaryKey(),
   userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
@@ -884,6 +985,11 @@ export const vocabularyUsages = pgTable("vocabulary_usages", {
     .notNull()
     .references(() => userVocabulary.id, { onDelete: "cascade" }),
   sentence: text("sentence").notNull(),
+  /** manual | riwi — who judged the sentence, if anybody did. */
+  origin: varchar("origin", { length: 20 }).notNull().default("manual"),
+  riwiAccepted: boolean("riwi_accepted").notNull().default(false),
+  evaluationId: uuid("evaluation_id"),
+  pointsAwarded: integer("points_awarded").notNull().default(0),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 

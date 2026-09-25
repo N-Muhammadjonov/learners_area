@@ -29,6 +29,7 @@ import {
   listeningQuestions,
 } from "./schema";
 import { hashPassword } from "../lib/auth/password";
+import { senseKeyOf } from "../lib/services/vocabulary/dedupe";
 
 async function main() {
   const already = await db.query.courses.findFirst({ where: eq(courses.slug, "ielts") });
@@ -396,17 +397,32 @@ async function main() {
       { term: "outweigh", partOfSpeech: "verb", definitionEn: "To be greater or more significant than something else.", translationUz: "ustun kelmoq", exampleSentence: "The benefits of remote work outweigh the drawbacks for many employees." },
       { term: "vocational", partOfSpeech: "adjective", definitionEn: "Relating to skills needed for a particular job.", translationUz: "kasbiy", exampleSentence: "Vocational training prepares students directly for the workplace." },
       { term: "transferable skills", partOfSpeech: "noun phrase", definitionEn: "Abilities useful across many different jobs or situations.", translationUz: "universal ko'nikmalar", exampleSentence: "Critical thinking is a transferable skill valued in almost every career." },
-    ])
+    ].map((row) => ({
+      ...row,
+      // The catalogue is keyed by sense, and the seed must use the same identity
+      // the engine computes — otherwise the first real add would collide.
+      senseKey: senseKeyOf({
+        term: row.term,
+        partOfSpeech: row.partOfSpeech,
+        meaning: row.definitionEn,
+      }),
+    })))
     .returning();
 
   const now = new Date();
   const inPast = (days: number) => new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
 
+  /**
+   * The demo library is written in the vocabulary engine's own terms — the
+   * 1/3/7/16/35 ladder and the NEW→LEARNING→KNOWN→ACTIVE→MASTERED ladder — so a
+   * seeded word behaves exactly like a word the student added themselves. There
+   * are no sample points: the ledger stays empty until real study happens.
+   */
   await db.insert(userVocabulary).values([
-    { userId: demoStudent.id, lexemeId: lexemeRows[0]!.id, state: "mastered", intervalDays: 30, correctCount: 5, nextReviewAt: new Date(now.getTime() + 20 * 86400000), lastReviewedAt: inPast(2) },
-    { userId: demoStudent.id, lexemeId: lexemeRows[1]!.id, state: "review", intervalDays: 4, correctCount: 2, nextReviewAt: inPast(0), lastReviewedAt: inPast(4) },
-    { userId: demoStudent.id, lexemeId: lexemeRows[2]!.id, state: "new", intervalDays: 0, nextReviewAt: inPast(0) },
-    { userId: demoStudent.id, lexemeId: lexemeRows[3]!.id, state: "learning", intervalDays: 1, incorrectCount: 1, nextReviewAt: inPast(0), lastReviewedAt: inPast(1) },
+    { userId: demoStudent.id, lexemeId: lexemeRows[0]!.id, state: "mastered", senseKey: lexemeRows[0]!.senseKey, srsStage: 4, mastery: "mastered", intervalDays: 35, correctCount: 5, activeUseCount: 1, nextReviewAt: new Date(now.getTime() - 1 * 86400000), lastReviewedAt: inPast(2) },
+    { userId: demoStudent.id, lexemeId: lexemeRows[1]!.id, state: "known", senseKey: lexemeRows[1]!.senseKey, srsStage: 2, mastery: "known", intervalDays: 7, correctCount: 3, nextReviewAt: inPast(0), lastReviewedAt: inPast(7) },
+    { userId: demoStudent.id, lexemeId: lexemeRows[2]!.id, state: "new", senseKey: lexemeRows[2]!.senseKey, srsStage: -1, mastery: "new", intervalDays: 0, nextReviewAt: inPast(0) },
+    { userId: demoStudent.id, lexemeId: lexemeRows[3]!.id, state: "learning", senseKey: lexemeRows[3]!.senseKey, srsStage: 0, mastery: "learning", intervalDays: 1, correctCount: 1, incorrectCount: 1, nextReviewAt: inPast(0), lastReviewedAt: inPast(1) },
   ]);
 
   // --- Assignments (targeted at the demo student) --------------------------
