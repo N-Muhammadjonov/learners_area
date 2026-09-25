@@ -43,6 +43,13 @@
       "when": 1790299753865,
       "tag": "0005_lexeme_sense_key",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1790300320283,
+      "tag": "0006_lexeme_collocations",
+      "breakpoints": true
     }
   ]
 }

@@ -16,6 +16,7 @@ export type VocabWord = {
   definitionEn: string;
   translationUz: string | null;
   exampleSentence: string | null;
+  collocations: string | null;
   mastery: Mastery;
   srsStage: number;
   intervalDays: number;
@@ -83,6 +84,7 @@ export type GameWord = {
   definitionEn: string;
   translationUz: string | null;
   exampleSentence: string | null;
+  collocations: string | null;
   partOfSpeech: string | null;
   mastery: Mastery;
   intervalDays: number;
@@ -110,6 +112,15 @@ export type GameSetResponse = {
 };
 
 export type GameAnswerResponse = { awarded: number; srsUntouched: true };
+
+/** Collocations arrive as one "·"-separated string; render them as chips. */
+export function collocationChips(value: string | null | undefined): string[] {
+  if (!value) return [];
+  return value
+    .split(/\s*[·•|]\s*|\s*;\s*/)
+    .map((part) => part.trim())
+    .filter(Boolean);
+}
 
 export function toDate(value: string | Date): Date {
   return value instanceof Date ? value : new Date(value);

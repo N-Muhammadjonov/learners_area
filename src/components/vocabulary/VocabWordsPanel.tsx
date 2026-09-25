@@ -2,7 +2,8 @@
 
 import { useMemo, useState } from "react";
 import type { Dictionary } from "@/lib/i18n/en";
-import { toDate, type VocabFolder, type VocabPack, type VocabWord } from "./types";
+import { collocationChips, toDate } from "./types";
+import type { VocabFolder, VocabPack, VocabWord } from "./types";
 
 type Summary = {
   total: number;
@@ -193,6 +194,15 @@ export function VocabWordsPanel({
                       />
                       {word.exampleSentence && (
                         <p className="sm:col-span-3 italic text-ink-500">{word.exampleSentence}</p>
+                      )}
+                      {collocationChips(word.collocations).length > 0 && (
+                        <p className="flex flex-wrap gap-1.5 sm:col-span-3" data-collocations>
+                          {collocationChips(word.collocations).map((phrase) => (
+                            <span key={phrase} className="rounded-full bg-paper-raised px-2 py-0.5 text-xs text-ink-700">
+                              {phrase}
+                            </span>
+                          ))}
+                        </p>
                       )}
                     </div>
                   )}

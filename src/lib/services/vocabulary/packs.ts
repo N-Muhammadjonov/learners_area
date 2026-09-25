@@ -16,6 +16,8 @@ export type PackWord = {
   definitionEn: string;
   translationUz: string;
   example: string;
+  /** Phrases the word keeps company with, separated by "·". */
+  collocations?: string;
 };
 
 export type TopicPack = {
@@ -34,6 +36,7 @@ export const TOPIC_PACKS: TopicPack[] = [
         partOfSpeech: "noun",
         definitionEn: "a sign of illness that a patient notices",
         translationUz: "alomat, kasallik belgisi",
+        collocations: "a common symptom · mild symptoms · develop symptoms",
         example: "The first symptom was a dry cough that would not stop.",
       },
       {
@@ -41,6 +44,7 @@ export const TOPIC_PACKS: TopicPack[] = [
         partOfSpeech: "noun",
         definitionEn: "medical care given to cure or manage an illness",
         translationUz: "davolash, muolaja",
+        collocations: "receive treatment · effective treatment · treatment for",
         example: "Early treatment makes the recovery much shorter.",
       },
       {
@@ -48,6 +52,7 @@ export const TOPIC_PACKS: TopicPack[] = [
         partOfSpeech: "noun",
         definitionEn: "stopping a problem before it happens",
         translationUz: "oldini olish",
+        collocations: "prevention is better than cure · disease prevention",
         example: "Vaccination is the cheapest form of prevention.",
       },
       {
@@ -55,6 +60,7 @@ export const TOPIC_PACKS: TopicPack[] = [
         partOfSpeech: "adjective",
         definitionEn: "lasting a long time and hard to cure",
         translationUz: "surunkali",
+        collocations: "chronic illness · chronic pain · chronic shortage",
         example: "Chronic illness costs families more than acute illness.",
       },
       {
@@ -62,6 +68,7 @@ export const TOPIC_PACKS: TopicPack[] = [
         partOfSpeech: "noun",
         definitionEn: "the measured amount of a medicine taken at one time",
         translationUz: "doza, miqdor",
+        collocations: "a daily dose · increase the dose",
         example: "Taking a double dose does not make the medicine work faster.",
       },
       {
@@ -69,6 +76,7 @@ export const TOPIC_PACKS: TopicPack[] = [
         partOfSpeech: "noun",
         definitionEn: "the body's ability to resist an infection",
         translationUz: "immunitet",
+        collocations: "build immunity · immunity to",
         example: "Immunity after an infection does not always last forever.",
       },
       {
@@ -76,6 +84,7 @@ export const TOPIC_PACKS: TopicPack[] = [
         partOfSpeech: "noun",
         definitionEn: "the food a person needs to stay healthy",
         translationUz: "ovqatlanish, oziqlanish",
+        collocations: "good nutrition · poor nutrition",
         example: "Good nutrition supports recovery as much as medicine does.",
       },
       {
@@ -83,6 +92,7 @@ export const TOPIC_PACKS: TopicPack[] = [
         partOfSpeech: "noun",
         definitionEn: "a disease spreading quickly through a population",
         translationUz: "epidemiya",
+        collocations: "an epidemic of · tackle an epidemic",
         example: "The epidemic forced schools to close for a month.",
       },
       {
@@ -90,6 +100,7 @@ export const TOPIC_PACKS: TopicPack[] = [
         partOfSpeech: "phrase",
         definitionEn: "an unwanted result caused by a medicine",
         translationUz: "nojo'ya ta'sir",
+        collocations: "a common side effect · suffer side effects",
         example: "Drowsiness is a common side effect of that drug.",
       },
       {
@@ -97,6 +108,7 @@ export const TOPIC_PACKS: TopicPack[] = [
         partOfSpeech: "noun",
         definitionEn: "the identification of an illness by a doctor",
         translationUz: "tashxis",
+        collocations: "make a diagnosis · an early diagnosis",
         example: "A late diagnosis makes treatment harder and more expensive.",
       },
     ],
@@ -110,6 +122,7 @@ export const TOPIC_PACKS: TopicPack[] = [
         partOfSpeech: "noun",
         definitionEn: "a move to a more important job in the same organisation",
         translationUz: "lavozim ko'tarilishi",
+        collocations: "earn a promotion · a promotion to",
         example: "She earned the promotion after leading two projects.",
       },
       {
@@ -117,6 +130,7 @@ export const TOPIC_PACKS: TopicPack[] = [
         partOfSpeech: "noun",
         definitionEn: "the time by which work must be finished",
         translationUz: "muddat, oxirgi muddat",
+        collocations: "meet a deadline · miss a deadline",
         example: "The deadline was moved forward, so the team worked late.",
       },
       {
@@ -124,6 +138,7 @@ export const TOPIC_PACKS: TopicPack[] = [
         partOfSpeech: "noun",
         definitionEn: "the amount of work one person has to do",
         translationUz: "ish yuki",
+        collocations: "a heavy workload · manage the workload",
         example: "A heavy workload is not the same as a productive one.",
       },
       {
@@ -131,6 +146,7 @@ export const TOPIC_PACKS: TopicPack[] = [
         partOfSpeech: "noun",
         definitionEn: "a person you work with",
         translationUz: "hamkasb",
+        collocations: "a close colleague · work with colleagues",
         example: "A supportive colleague can make a difficult job bearable.",
       },
       {
@@ -138,6 +154,7 @@ export const TOPIC_PACKS: TopicPack[] = [
         partOfSpeech: "noun",
         definitionEn: "a period of training work, often for students",
         translationUz: "amaliyot, stajirovka",
+        collocations: "a paid internship · do an internship",
         example: "The internship turned into her first permanent role.",
       },
       {
@@ -145,6 +162,7 @@ export const TOPIC_PACKS: TopicPack[] = [
         partOfSpeech: "noun",
         definitionEn: "payment for work done",
         translationUz: "haq, ish haqi",
+        collocations: "fair remuneration · remuneration package",
         example: "Remuneration matters, but it is rarely the only reason people stay.",
       },
       {
@@ -152,6 +170,7 @@ export const TOPIC_PACKS: TopicPack[] = [
         partOfSpeech: "phrase",
         definitionEn: "a schedule the employee can partly choose",
         translationUz: "moslashuvchan ish vaqti",
+        collocations: "offer flexible hours · work flexible hours",
         example: "Flexible hours help parents stay in skilled work.",
       },
       {
@@ -159,6 +178,7 @@ export const TOPIC_PACKS: TopicPack[] = [
         partOfSpeech: "noun",
         definitionEn: "the rate at which staff leave and are replaced",
         translationUz: "kadrlar almashinuvi",
+        collocations: "high staff turnover · reduce turnover",
         example: "High turnover usually signals a problem in management.",
       },
       {
@@ -166,6 +186,7 @@ export const TOPIC_PACKS: TopicPack[] = [
         partOfSpeech: "noun",
         definitionEn: "losing a job because the role is no longer needed",
         translationUz: "ishdan qisqartirilish",
+        collocations: "face redundancy · voluntary redundancy",
         example: "Redundancy is rarely the employee's fault.",
       },
       {
@@ -173,6 +194,7 @@ export const TOPIC_PACKS: TopicPack[] = [
         partOfSpeech: "noun",
         definitionEn: "a formal review of an employee's performance",
         translationUz: "xodim faoliyatini baholash",
+        collocations: "an annual appraisal · a performance appraisal",
         example: "An annual appraisal is more useful when it happens twice a year.",
       },
     ],

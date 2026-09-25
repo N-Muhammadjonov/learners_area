@@ -393,10 +393,10 @@ async function main() {
   const lexemeRows = await db
     .insert(lexemes)
     .values([
-      { term: "congestion", partOfSpeech: "noun", definitionEn: "A situation where a place is overly crowded, causing delay.", translationUz: "tirbandlik", exampleSentence: "Traffic congestion is worst on the ring road at 6pm." },
-      { term: "outweigh", partOfSpeech: "verb", definitionEn: "To be greater or more significant than something else.", translationUz: "ustun kelmoq", exampleSentence: "The benefits of remote work outweigh the drawbacks for many employees." },
-      { term: "vocational", partOfSpeech: "adjective", definitionEn: "Relating to skills needed for a particular job.", translationUz: "kasbiy", exampleSentence: "Vocational training prepares students directly for the workplace." },
-      { term: "transferable skills", partOfSpeech: "noun phrase", definitionEn: "Abilities useful across many different jobs or situations.", translationUz: "universal ko'nikmalar", exampleSentence: "Critical thinking is a transferable skill valued in almost every career." },
+      { term: "congestion", partOfSpeech: "noun", definitionEn: "A situation where a place is overly crowded, causing delay.", collocations: "traffic congestion · ease congestion · severe congestion", translationUz: "tirbandlik", exampleSentence: "Traffic congestion is worst on the ring road at 6pm." },
+      { term: "outweigh", partOfSpeech: "verb", definitionEn: "To be greater or more significant than something else.", collocations: "outweigh the benefits · clearly outweigh", translationUz: "ustun kelmoq", exampleSentence: "The benefits of remote work outweigh the drawbacks for many employees." },
+      { term: "vocational", partOfSpeech: "adjective", definitionEn: "Relating to skills needed for a particular job.", collocations: "vocational training · vocational course", translationUz: "kasbiy", exampleSentence: "Vocational training prepares students directly for the workplace." },
+      { term: "transferable skills", partOfSpeech: "noun phrase", definitionEn: "Abilities useful across many different jobs or situations.", collocations: "transferable skills · develop transferable skills", translationUz: "universal ko'nikmalar", exampleSentence: "Critical thinking is a transferable skill valued in almost every career." },
     ].map((row) => ({
       ...row,
       // The catalogue is keyed by sense, and the seed must use the same identity

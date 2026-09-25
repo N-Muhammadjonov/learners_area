@@ -624,6 +624,13 @@ export const lexemes = pgTable(
     translationUz: text("translation_uz"),
     exampleSentence: text("example_sentence"),
     /**
+     * Collocations ("ease congestion · traffic congestion"), separated by "·".
+     * A word is only really learned with the words it keeps company with, so the
+     * flashcard shows them next to the example — but they are optional, and an
+     * empty value is shown as nothing rather than as an invented phrase.
+     */
+    collocations: text("collocations"),
+    /**
      * Spelling + part of speech + English meaning — the identity of a *sense*.
      *
      * The spelling alone is not an identity: "resilient (able to recover)" and

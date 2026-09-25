@@ -54,6 +54,7 @@ export type LibraryItem = {
   definitionEn: string;
   translationUz: string | null;
   exampleSentence: string | null;
+  collocations: string | null;
   mastery: Mastery;
   srsStage: number;
   intervalDays: number;
@@ -105,6 +106,7 @@ export async function listLibrary(
     definitionEn: lexeme.definitionEn,
     translationUz: lexeme.translationUz,
     exampleSentence: lexeme.exampleSentence,
+    collocations: lexeme.collocations,
     mastery: entry.mastery as Mastery,
     srsStage: entry.srsStage,
     intervalDays: entry.intervalDays,
@@ -140,6 +142,7 @@ export async function listDue(
     definitionEn: lexeme.definitionEn,
     translationUz: lexeme.translationUz,
     exampleSentence: lexeme.exampleSentence,
+    collocations: lexeme.collocations,
     mastery: entry.mastery as Mastery,
     srsStage: entry.srsStage,
     intervalDays: entry.intervalDays,
@@ -223,6 +226,7 @@ export type NewWordInput = {
   definitionEn: string;
   translationUz?: string | null;
   exampleSentence?: string | null;
+  collocations?: string | null;
   partOfSpeech?: string | null;
 };
 
@@ -293,6 +297,7 @@ export async function addVocabularyBatch(input: {
           definitionEn: item.definitionEn,
           translationUz: item.translationUz ?? null,
           exampleSentence: item.exampleSentence ?? null,
+          collocations: item.collocations ?? null,
           senseKey,
         })
         .onConflictDoNothing({ target: lexemes.senseKey })
@@ -369,6 +374,7 @@ export async function addTopicPack(userId: string, packId: string) {
       definitionEn: word.definitionEn,
       translationUz: word.translationUz,
       exampleSentence: word.example,
+      collocations: word.collocations ?? null,
       partOfSpeech: word.partOfSpeech,
     })),
     topicPack: pack.id,
