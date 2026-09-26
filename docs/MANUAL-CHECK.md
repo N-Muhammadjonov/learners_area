@@ -5,10 +5,17 @@ It is written to be executed by hand, in a browser, in the user's own
 environment. It is **not** a QA 2 result: full QA 2 has not been run and is not
 claimed, and RIWI V2 has not started.
 
-Everything below marked **VERIFIED LOCALLY** was measured in this sandbox against
-a production build (`next start`) and the local PostgreSQL. Nothing marked
-EXTERNALLY UNVERIFIED has been checked against production from here — the sandbox
-cannot reach the deployment.
+Evidence is labelled, never assumed:
+
+- **VERIFIED IN PRODUCTION** — measured against `https://learners-area.vercel.app`
+  by the owner (see §6 for the two runs and their numbers).
+- **VERIFIED LOCALLY** — measured in this sandbox against a production build
+  (`next start`) and a local PostgreSQL.
+- **MANUAL ONLY** — only your own eyes in the browser can settle it; listed
+  explicitly in §5 so nothing is presented as checked when it is not.
+
+Deployments are immutable and the alias moves on its own schedule, so every
+result names the commit it was measured on.
 
 ## 1. How to run it
 
@@ -31,6 +38,13 @@ PROD_BASE_URL="https://learners-area.vercel.app" \
 PROD_OWNER_EMAIL="…" PROD_OWNER_PASSWORD="…" \
 PROD_STUDENT_EMAIL="…" PROD_STUDENT_PASSWORD="…" \
 node scripts/verify-production-reading.mjs
+```
+
+The navigation check (no credentials beyond the local seed accounts; against
+production it needs your session, so run it locally or skip it):
+
+```bash
+BASE_URL="http://127.0.0.1:3000" node scripts/verify-navigation.mjs
 ```
 
 It prints the deployed commit and region first (`/api/version`), then signs in
@@ -107,34 +121,84 @@ reproducible today is:
 
 ## 4. The manual-check items, and what is already automated
 
-**VERIFIED LOCALLY** means measured in this sandbox on the final commit; the
-right-hand column is what still needs a signed-in production session (the owner,
-or `verify-production-reading.mjs` where it applies).
+What is left in the right-hand column is genuinely left: either a production
+action that needs your session, or an item in §6 that only your eyes can settle.
 
-| Item | Automated evidence (local, final commit) | Production |
+| Item | Automated evidence | Production |
 | --- | --- | --- |
-| Reading hub / library | rig 32/32 — 5 hub tabs, count from the database, 24 cards per page; `verify-reading` 33 | the acceptance run, then your own walk |
-| A passage opens | rig — a real passage opens with 13 questions and 8 paragraphs; `verify-reading` 33 | acceptance run |
-| Filters and search | rig 32/32 — search 11, topic 13, Passage-1 35 total (< 105), "Sahifa 2 / 5", `page=99` clamped to 5/5 | acceptance run |
-| Reading → Vocabulary save | `verify-vocabulary` 103 — the canonical lexeme is not duplicated and the occurrence keeps its Reading context | your walk |
-| Vocabulary | `verify-vocabulary` 103 (words / revision / games / use / board tabs, 401 for an anonymous caller) | your walk |
-| Flashcards / revision | `verify-vocabulary` 103, `verify-retention` 10 (1/3/7/16/35 ladder, DB-backed) | your walk |
-| Games must not advance SRS | `verify-vocabulary` 103 explicitly: a game answer never moves the ladder and is graded by the server | your walk |
-| Admission: pending → OWNER approval → ACTIVE | `admission-flow` 11/11 (register → pending row → queue → approve → ACTIVE → learning; second decision 409), `verify-admission-race` 6 | your walk (the flow was fixed and confirmed locally; the production confirmation is still yours) |
-| Role boundaries (OWNER / ADMIN / STUDENT) | `verify-access` 33, `verify-owner` 10, `verify-browser-flow` 54 | your walk |
-| Logo and branding | `verify-brand` 33 — the six approved PNGs, HTML wordmark in the shell, brand-derived files served | seen anonymously on production; confirm signed in |
-| Day/Night, two icon-only controls | `verify-theme` 32 — 44×44 `[☀] [☾]`, visible selected state, persistence, no wrong-theme flash | your walk |
-| Mobile 390 / 320 | `verify-responsive` 23 | your walk (a real device cannot be simulated here) |
-| Hard reload, leave and return | rig 32/32 — no blank page, no error boundary | acceptance run |
-| No 404 / 500 | `verify-pages` 71, `verify-a11y` 41, rig 32/32 (0 non-200) | acceptance run |
-| Navigation performance | rig p50 per role; the acceptance script prints first byte **and** total time per request | acceptance run |
-| Production routing and TTFB | `/api/version` read from outside: canonical alias serves this branch's commit in region `sin1` | — |
-| R2 signed delivery in production | not automatable here | upload through the composer and open it |
-| Telegram sign-in | not automatable here | the sign-in page must state plainly that Telegram is not configured |
-| A real phone (touch, keyboard) | not automatable here | iOS Safari / Android Chrome |
+| Reading hub / library | `verify-reading` 33; reading rig 32/32 (5 hub tabs, count from the database, 24 cards per page) | acceptance run PASSED (48/48); spot-check in your walk |
+| A passage opens | rig — a real passage opens with 13 questions and 8 paragraphs; `verify-reading` 33 | acceptance run PASSED |
+| Filters and search | rig 32/32 — search 11, topic 13, Passage-1 35 total (< 105), "Sahifa 2 / 5", `page=99` clamped | acceptance run PASSED (filter / page-2 / query shapes included) |
+| Reading → Vocabulary save | `verify-vocabulary` 103 — the canonical lexeme is not duplicated, the occurrence keeps its Reading context | your walk (one save) |
+| Vocabulary | `verify-vocabulary` 103 — words / revision / games / use / board tabs; 401 for an anonymous caller | your walk |
+| Revision / flashcards | `verify-vocabulary` 103, `verify-retention` 10 (1/3/7/16/35 ladder, DB-backed, Asia/Tashkent display) | your walk |
+| Games must not advance SRS | `verify-vocabulary` 103: a game answer never moves the ladder and is graded by the server | your walk |
+| Admission pending → OWNER → ACTIVE | `verify-admission-race` 6; rig 11/11 before the sandbox restart | VERIFIED IN PRODUCTION (real new student: register → PENDING → queue → approval → ACTIVE) |
+| Role boundaries OWNER / ADMIN / STUDENT | `verify-access` 33, `verify-owner` 10, `verify-browser-flow` 54, `verify-navigation` 21/21 | acceptance run used OWNER + student; students are refused every management route |
+| Management navigation (mode from the route) | `scripts/verify-navigation.mjs` 21/21 + `tests/navigation-mode.test.ts` (all four modes rendered; student refused) | direct loads per mode verified through the script; the click itself is manual (§6) |
+| Logo and branding | `verify-brand` 33 — the six approved PNGs, HTML wordmark in the shell, derived files served | seen anonymously; confirm signed in (favicon is §6) |
+| Icon-only [☀] [☾] topbar controls | `verify-theme` 32 — 44×44, visible selected state, persistence, no wrong-theme flash | your walk |
+| UZ / EN | `verify-pages` 71, `verify-a11y` 41, `verify-navigation` 21/21 (EN labels + mode kept) | your walk |
+| Mobile 390 / 320 | `verify-responsive` 23 (320 / 430 / 768 / 1024 / 1440 tiers, nothing exceeds 320) | a real device is §6 |
+| Hard reload / re-entry, no blank page | reading rig 32/32 (hard reload, leave and return, 0 boundaries, 0 blank) | acceptance run PASSED |
+| No 404 / 500 | `verify-pages` 71, `verify-a11y` 41, rig (0 non-200) | acceptance run PASSED (0 boundaries, 0 non-200) |
+| Navigation performance | first byte **and** total time per request in `verify-production-reading.mjs` | PASSED: TTFB p50 284 ms, full response p50 343 ms, slowest 830 ms |
+| Material composer (server-issued keys, type/size rules) | `verify-uploads` 44, `verify-pages` 71 (composer renders per type) | R2 upload + open a file is §6 |
+| Production routing and region | `/api/version` read from outside: canonical alias serves this branch's commit, region `sin1` | VERIFIED IN PRODUCTION |
 | Migrations in production | — | already confirmed by you: 19/19 migrations, 62 tables, 42/42 checks |
 
-## 5. After your manual result
+Note on the rigs: the browser rigs live outside the repository (they were built
+during this work and the sandbox was restarted afterwards), so their results are
+recorded here rather than re-runnable from the repo. The reading path has not
+changed since they passed, and the same flows are covered by the committed
+`verify-*` scripts, which do run from a clean checkout.
+
+## 5. Production results (VERIFIED IN PRODUCTION)
+
+**Reading acceptance — 48/48, `READING PRODUCTION STABLE`** (owner + a real ACTIVE
+student, `PROD_READING_COUNT=10`, on `cff3ec6`, region `sin1`):
+
+```
+Birinchi bayt (TTFB):  p50 = 284 ms   p90 = 350 ms   p95 = 476 ms
+To'liq javob:          p50 = 343 ms   p90 = 458 ms   p95 = 521 ms   slowest = 830 ms
+Error boundaries: 0 · 404/500: 0
+```
+
+That build was `cff3ec6`; the navigation guard and the navigation check described
+below were added afterwards and touch neither the reading path nor the database
+layer. The alias moves on its own schedule, so always read the live commit
+rather than trusting a document: `curl -s https://learners-area.vercel.app/api/version`.
+
+**Admission — walked end to end in production:** a real new student registered,
+landed in `PENDING`, the request appeared in the owner's Admissions queue, the
+owner approved it, and the account gained `ACTIVE` access to the learning area.
+
+**Navigation modes — automated, 21/21** (`scripts/verify-navigation.mjs`):
+learning pages carry the learning navigation and no management shell; management
+pages carry the management shell and the back link when reached directly (the
+bookmark/refresh case); a teacher sees the staff tools without the owner's; a
+student is refused every management route (307 → `/dashboard`) instead of being
+shown an empty management shell. A gap was found and fixed while checking this:
+`/management` itself had no staff guard, so a student who typed that URL got a
+management shell with an empty tool list. It now uses the same
+`requireStaff()` guard as every other page in that mode, `tests/access-control.test.ts`
+requires that guard, and `tests/navigation-mode.test.ts` proves the
+route→mode mapping covers every management route in the app.
+
+## 6. Manual only — what still needs your eyes
+
+These cannot be settled from here, and are **not** claimed:
+
+| # | Item | Why it is manual |
+| --- | --- | --- |
+| 1 | Clicking the management entry in the sidebar and coming back with the back link | The sidebar is a client component reading the URL, so the switch happens in the browser; its route→mode mapping and both rendered modes are covered automatically, the click itself is not |
+| 2 | The **favicon** and brand artwork in a real tab/window | Binary and XML responses are outside what this sandbox can fetch from the deployment; both are 200 with correct content types locally (`verify-brand` 33) |
+| 3 | A **real phone** (390 / 320): touch targets, keyboard, scroll | `verify-responsive` 23 covers the CSS tiers, but a real device cannot be simulated here |
+| 4 | **R2 upload and delivery** in production (composer → open the file) | Needs your bucket and session; the server-side rules are covered by `verify-uploads` 44 |
+| 5 | **Telegram sign-in** statement | The button must say plainly that Telegram is not configured; it cannot be exercised without the bot |
+| 6 | The **feel** of navigation in production (feedback on click, no freeze) | The measured numbers are above; perceived responsiveness is yours to judge |
+
+## 7. After your manual result
 
 - If you find a defect, report it and it will be fixed **before** anything else.
 - Only after you confirm this checklist does full QA 2 start (`docs/QA-2-FINAL-REPORT.md`).

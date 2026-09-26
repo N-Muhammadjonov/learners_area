@@ -261,36 +261,46 @@ The endpoint must stay uncached for this to mean anything: with a cached answer
 the alias reported the previous commit for several minutes after a successful
 deploy, which reads exactly like a deploy that did not happen.
 
-**Production stability run (EXTERNALLY UNVERIFIED here)** — the sandbox has no
-route to the deployment and holds no production credentials, so the repeated
-test and its verdict must come from the owner's own run:
+**Production stability run — VERIFIED IN PRODUCTION by the owner (2026-09-26)**
 
-```bash
-cd <repo>
-git fetch origin arena/01a0cf7b-learners-area && git switch arena/01a0cf7b-learners-area
-git pull --ff-only origin arena/01a0cf7b-learners-area      # expect this branch at its newest commit
-curl -s https://learners-area.vercel.app/api/version        # commit must match, region must be sin1
+The acceptance run was executed against `https://learners-area.vercel.app` with
+the owner's own account and a real ACTIVE student (two accounts, `PROD_READING_COUNT=10`):
 
-PROD_BASE_URL="https://learners-area.vercel.app" \
-PROD_OWNER_EMAIL="…" PROD_OWNER_PASSWORD="…" \
-PROD_STUDENT_EMAIL="…" PROD_STUDENT_PASSWORD="…" \
-node scripts/verify-production-reading.mjs
+```
+48/48 successful
+Birinchi bayt (TTFB):  p50 = 284 ms   p90 = 350 ms   p95 = 476 ms
+To'liq javob:          p50 = 343 ms   p90 = 458 ms   p95 = 521 ms   slowest = 830 ms
+Xato chegarasi: 0 · 404/500: 0
+READING PRODUCTION STABLE
 ```
 
-It signs in (two sessions are created — ordinary product behaviour), makes 10
-direct + 10 client-side requests per account plus return/filter/page-2/query,
-creates no attempt and writes nothing, prints the deployed commit and region,
-TTFB percentiles and any digest, and prints `READING PRODUCTION STABLE` only
-when every request rendered.
+The deployed build that answered was `cff3ec6` in region `sin1`
+(`GET /api/version`), i.e. the hardened pool and the 7-query reading path, with
+the function running next to the database. This is the repeated test the P0
+asked for: 10 direct loads + 10 client-side navigations per account, plus the
+return/filter/page-2/query shapes, with zero error boundaries and no request
+over 5 s. The number the run prints is first byte and total time both, because a
+streamed client-navigation payload sends its shell immediately and its data a
+moment later (`observed earlier through the 120 ms proxy: shell at 9 ms, payload
+complete at ~1.16 s`).
 
-A push does not move the alias by itself: read that printed commit/region line
-and compare it with the commit you pushed and with Vercel → Deployments.
+The same script, run again by the owner, is what to repeat after any future
+change to the reading path or the database configuration.
+
+**Production admission — VERIFIED IN PRODUCTION by the owner (2026-09-26)**
+
+A real new student was walked through the whole admission flow in production:
+registration → `PENDING` → the request visible in the owner's Admissions queue →
+owner approval → `ACTIVE` access to the learning area. This is the flow the
+admission work repaired; it is no longer only a local result.
+
 
 ## 6. Remaining risk
 
 - The crash's *specific* backends-limit cause is inferred from a reproduction of
   the same failure mode, not from the deployment's own logs (no log line existed
-  for `1594744578`). The next occurrence, if any, will name itself.
+  for `1594744578`). The next occurrence, if any, will name itself — production
+  has now run clean under the repeated test (48/48, no request above 830 ms).
 - The region change depends on the Vercel plan; §4 shows how to confirm it.
 - Until the runtime `DATABASE_URL` is reviewed (§4), a session pooler at 5432 with
   a 15-client limit is the tightest part of the system; the app now asks for 5 per
