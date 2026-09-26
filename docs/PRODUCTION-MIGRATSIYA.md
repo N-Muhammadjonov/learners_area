@@ -144,15 +144,60 @@ Keyin `verify-production-schema.mjs` ni qayta ishga tushirsangiz, o'sha satr
 ## 6. Vercel'dagi haqiqiy oqim
 
 Baza migratsiya qilingach Vercel'da hech narsani o'zgartirish shart emas
-(`DATABASE_URL` o'z joyida). Faqat:
+(`DATABASE_URL` o'z joyida).
 
-1. `https://<domen>/` → **Let's Get Started →**
-2. `/register` → haqiqiy hisob yaratish → **PENDING** kutish xonasiga o'tishi kerak
-3. o'sha email bilan yana urinish → `409 email_taken` (xavfsiz, ekranda xato)
-4. o'sha hisob bilan kirish → kutish xonasi (faol bo'lmagan hisob ichkariga kirmaydi)
+**Nega buni siz bajarasiz:** agent ishlaydigan sandbox'dan tashqi tarmoqqa
+ma'lumot uzatish yopiq — `learners-area.vercel.app:443` va Supabase pooler'iga TLS
+handshake o'tadi, keyin ulanish uziladi (faqat npm registry va GitHub ochiq).
+Shuning uchun production'ga na brauzer bilan kirib, na `curl` yubora olaman; shu
+sabab **migratsiyani ham sandbox'dan ishga tushirib bo'lmaydi** — uni siz
+bajarishingiz shart, bu to'g'ri qaror bo'ldi.
 
-Buni men ham tekshira olaman — menga **domen URL** ni yuboring (URL sir emas) va
-men haqiqiy oqimni brauzer bilan bosib chiqib, natijani hisobot qilaman.
+Quyidagi blokni nusxalab, o'z mashinangizda bajaring va **chiqishini yuboring**
+(parol yo'q, sir yo'q):
+
+```bash
+B=https://learners-area.vercel.app
+
+# (a) Deploy qaysi versiyada? 1 => tuzatilgan build, 0 => eski build
+curl -s "$B/register" | grep -c "Xizmat vaqtincha ishlamayapti"
+
+# (b) Ro'yxatdan o'tish — PENDING bo'lishi kerak (200 + accountStatus: pending)
+curl -s -i -X POST "$B/api/auth/register" \
+  -H "Content-Type: application/json" -H "Origin: $B" \
+  --data '{"name":"Test Hisob","email":"test.hisob@example.uz","password":"TestHisob-2026!"}' | head -20
+
+# (c) Xuddi shu email bilan takroriy urinish — 409 email_taken bo'lishi kerak
+curl -s -i -X POST "$B/api/auth/register" \
+  -H "Content-Type: application/json" -H "Origin: $B" \
+  --data '{"name":"Test Hisob","email":"test.hisob@example.uz","password":"TestHisob-2026!"}' | head -12
+
+# (d) O'sha hisob bilan kirish
+curl -s -i -X POST "$B/api/auth/login" \
+  -H "Content-Type: application/json" -H "Origin: $B" \
+  --data '{"email":"test.hisob@example.uz","password":"TestHisob-2026!"}' | head -12
+```
+
+Kutiladigan natijalar:
+
+| So'rov | Migratsiyadan oldin | Migratsiyadan keyin |
+| --- | --- | --- |
+| (b) register | `500` + HTML xato sahifasi (42P01) | `200 {"ok":true,"accountStatus":"pending"}` |
+| (c) takroriy | `500` | `409 {"error":"email_taken"}` |
+| (d) login | `500` | `200 {"ok":true,"accountStatus":"pending"}` |
+
+Brauzerda ko'z bilan tekshirish (ixtiyoriy, lekin foydali): `/register` da formani
+to'ldirib yuboring — hisob yaratilsa kutish xonasiga (`/pending`) o'tishi va tugma
+qayta bosiladigan holatda qolishi kerak.
+
+> **Diqqat:** (b) qadami haqiqiy hisob yaratadi va u bazada PENDING bo'lib qoladi.
+> Emailni o'zingiz tanlang; keyin uni `/admin` (owner tasdiqlagandan keyin) yoki
+> bevosita bazadan o'chirib tashlash mumkin. Demo/seed ma'lumot EMAS — bu sizning
+> sinov hisobingiz, shuning uchun uni o'zingiz boshqarasiz.
+
+Agar (b) hali ham 500 bersa va HTML qaytarsa, demak baza hali migratsiya
+qilinmagan yoki Vercel eski build'ni ishlatyapti — 2-qadam chiqishini va Vercel
+deployment commit'ini yuboring.
 
 ---
 
@@ -162,10 +207,18 @@ men haqiqiy oqimni brauzer bilan bosib chiqib, natijani hisobot qilaman.
 2. mening tasdiqimdan keyin 3-qadam chiqishi (`--apply`)
 3. 4-qadam chiqishi (`verify-production-schema.mjs`)
 4. 5-qadam chiqishi (`bootstrap-owner.mjs`)
-5. Vercel domen URL
+5. 6-qadam chiqishi, ya'ni (a) build belgisi va (b)/(c)/(d) javoblari
+6. Vercel deployment commit'i (Vercel → Deployments → eng yuqoridagi commit xeshi)
 
 Har bir chiqishda parol bo'lmasligi kerak — skriptlar o'zi maskalaydi, lekin
 nusxalashdan oldin bir qarab qo'ying.
+
+**6-band nima uchun muhim:** Vercel deploy qilinayotgan commit `main` bo'lsa
+(`f679c65`), u holda bu vazifada qilingan tuzatishlar — ro'yxatdan o'tish
+tugmasining qotib qolmasligi, 42P01 o'rniga tushunarli 503, brend sarlavhasi —
+production'da umuman yo'q. Baza migratsiya qilinsa ham, eski build eski xatolarni
+ko'rsatishda davom etadi. Bu holda arena branch'ini deploy qilish (yoki uni `main`
+ga qo'shish) kerak — bu sizning qaroringiz, men `main` ga hech narsa qo'shmayman.
 
 ## Nima uchun bu xavfsiz
 
