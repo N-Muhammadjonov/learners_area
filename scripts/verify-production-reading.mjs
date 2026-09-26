@@ -122,6 +122,24 @@ async function signIn(account) {
 console.log(`Production tekshiruvi: ${BASE}`);
 console.log(`Har bir hisob uchun ${COUNT} to'g'ridan-to'g'ri yuklash + ${COUNT} ichki o'tish\n`);
 
+// Which build is actually serving the alias. A push does not update the alias
+// by itself, so this is printed before anything else is measured.
+try {
+  const info = await get(`${BASE}/api/version`);
+  if (info.status === 200) {
+    const parsed = JSON.parse(info.body ?? "{}");
+    console.log(
+      `Deploy: commit=${parsed.shortCommit ?? parsed.commit ?? "noma'lum"} region=${parsed.region ?? "noma'lum"} env=${
+        parsed.environment ?? "noma'lum"
+      }\n`
+    );
+  } else {
+    console.log(`Deploy: /api/version javob bermadi (http=${info.status})\n`);
+  }
+} catch (error) {
+  console.log(`Deploy: /api/version o'qilmadi (${error instanceof Error ? error.message : String(error)})\n`);
+}
+
 for (const account of ACCOUNTS) {
   const cookie = await signIn(account);
   if (!cookie) {

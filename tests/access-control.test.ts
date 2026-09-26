@@ -171,6 +171,11 @@ test("every private API route rejects anonymous callers with 401", () => {
     "src/app/api/locale/",
     "src/app/api/notifications/",
     "src/app/api/onboarding/",
+    // Build identity of the running deployment (commit, region, environment).
+    // It reads no database row, no session and no user input: it is the one
+    // public answer to "which commit is this alias serving?", which has to be
+    // checkable from outside without a session.
+    "src/app/api/version/",
   ];
   for (const route of API_ROUTES) {
     if (exceptions.some((prefix) => route.startsWith(prefix))) continue;
