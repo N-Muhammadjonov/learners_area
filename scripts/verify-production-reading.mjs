@@ -168,12 +168,26 @@ for (const account of ACCOUNTS) {
 }
 
 const okCount = results.filter((row) => row.status === 200 && !row.boundary && !row.blank).length;
+const pct = (values, q) => values[Math.min(values.length - 1, Math.floor(values.length * q))] ?? 0;
 const ttfb = results.map((row) => row.ttfb).sort((a, b) => a - b);
-const p = (q) => ttfb[Math.min(ttfb.length - 1, Math.floor(ttfb.length * q))] ?? 0;
+// Total time, not first byte: a streamed response (the client-navigation
+// payload) sends its shell immediately and its data a moment later, so
+// first-byte timing alone would flatter the navigation path.
+const total = results.map((row) => row.total).sort((a, b) => a - b);
+const p = (q) => pct(ttfb, q);
 const digests = [...new Set(results.map((row) => row.digest).filter(Boolean))];
 
 console.log(`\nNatija: ${okCount}/${results.length} muvaffaqiyatli`);
-console.log(`TTFB: p50=${p(0.5)}ms p90=${p(0.9)}ms p95=${p(0.95)}ms · eng sekin=${ttfb[ttfb.length - 1] ?? 0}ms`);
+console.log(`Birinchi bayt (TTFB): p50=${p(0.5)}ms p90=${p(0.9)}ms p95=${p(0.95)}ms`);
+console.log(
+  `To'liq javob (foydalanuvchi kutadigan vaqt): p50=${pct(total, 0.5)}ms p90=${pct(total, 0.9)}ms p95=${pct(
+    total,
+    0.95
+  )}ms · eng sekin=${total[total.length - 1] ?? 0}ms`
+);
+if ((total[total.length - 1] ?? 0) > 5000) {
+  console.log("Ogohlantirish: kamida bitta so'rov 5 soniyadan ko'p ochiq turdi (muzlash belgisi).");
+}
 console.log(`Xato chegarasi: ${results.filter((row) => row.boundary).length} · 404/500: ${results.filter((row) => row.status !== 200).length}`);
 
 if (digests.length) {

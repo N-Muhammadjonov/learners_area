@@ -57,13 +57,16 @@ declare global {
  *   connectionTimeoutMillis    Gives up on a connection that never becomes
  *     (8 s)                    usable. This is the failure the owner saw: after
  *                              it, the request fails *now* instead of freezing.
- *   statement_timeout (15 s)   Sent to PostgreSQL at connection time, so the
- *                              server itself cancels a runaway statement and the
- *                              connection goes back to the pool.
+ *   statement_timeout (15 s)   Applied to PostgreSQL right after the connection
+ *                              is established (see SESSION_SETUP), so the server
+ *                              itself cancels a runaway statement and the
+ *                              connection goes back to the pool free.
  *   query_timeout (20 s)       The client-side ceiling, deliberately above the
  *                              server one: the server should always be the one
  *                              that cancels, and this only catches a server that
- *                              cannot answer at all (dead socket).
+ *                              cannot answer at all (dead socket). This one is
+ *                              enforced inside this process, so no pooler or
+ *                              hosting detail can take it away.
  *   idleTimeoutMillis (10 s)   Long enough to be reused between clicks, short
  *                              enough that a pooler's own idle cull does not
  *                              hand the next request a corpse.
@@ -73,7 +76,8 @@ declare global {
  *                              quietly instead of discovering it on the next
  *                              query.
  *   application_name           The pool shows up in the database's own activity
- *                              view as `learners-area`, which is how the
+ *                              view as `learners-area` (also applied right after
+ *                              connecting, see SESSION_SETUP), which is how the
  *                              connection count can be verified by hand.
  *   allowExitOnIdle            A Serverless instance with nothing in flight may
  *                              exit instead of holding sockets open.
@@ -84,22 +88,81 @@ declare global {
  */
 const DEFAULT_POOL_MAX = 5;
 const configuredMax = Number(process.env.DATABASE_POOL_MAX ?? "");
-const max = Number.isFinite(configuredMax) && configuredMax >= 1 ? Math.min(Math.floor(configuredMax), 20) : DEFAULT_POOL_MAX;
+const max =
+  Number.isFinite(configuredMax) && configuredMax >= 1
+    ? Math.min(Math.floor(configuredMax), 20)
+    : DEFAULT_POOL_MAX;
 
-const pool =
-  global.__learnersAreaPool ??
-  new PoolCtor({
-    connectionString: process.env.DATABASE_URL,
-    application_name: "learners-area",
-    max,
-    connectionTimeoutMillis: 8_000,
-    statement_timeout: 15_000,
-    query_timeout: 20_000,
-    idleTimeoutMillis: 10_000,
-    maxUses: 500,
-    keepAlive: true,
-    allowExitOnIdle: true,
-  });
+/**
+ * Session settings, applied with an ordinary statement directly after the
+ * connection is established - deliberately *not* in the connection's startup
+ * packet.
+ *
+ * `pg` sends `application_name`, `statement_timeout` and friends inside that
+ * packet, and a connection pooler sitting in front of PostgreSQL is allowed to
+ * reject any parameter it does not recognise with a fatal
+ * `08P01 unsupported startup parameter`. On such a pooler every single
+ * connection would fail and the whole application would be down - a fix for a
+ * crash that causes a bigger crash. Running them as statements works through
+ * session pooling, transaction pooling and a direct connection alike.
+ *
+ * A failure here is not fatal: the connection is still usable, and the
+ * client-side `query_timeout` above is what guarantees that no request can wait
+ * forever. It is logged once per connection attempt, without the connection
+ * string, so a misconfigured pooler stays visible instead of silent.
+ */
+const STATEMENT_TIMEOUT_MS = 15_000;
+
+const SESSION_SETUP = [
+  "SET application_name = 'learners-area'",
+  `SET statement_timeout = ${STATEMENT_TIMEOUT_MS}`,
+].join("; ");
+
+/**
+ * `pg` honours `verify` at runtime (pg-pool calls it as soon as a connection is
+ * established, before the waiting query gets it), but `@types/pg` does not
+ * declare it yet, so the option is typed here instead of cast away.
+ */
+type VerifyConnection = (
+  client: import("pg").PoolClient,
+  done: (error?: Error | null) => void,
+) => void;
+type PoolOptions = ConstructorParameters<typeof PoolCtor>[0] & {
+  verify?: VerifyConnection;
+};
+
+const poolOptions: PoolOptions = {
+  connectionString: process.env.DATABASE_URL,
+  max,
+  connectionTimeoutMillis: 8_000,
+  query_timeout: 20_000,
+  idleTimeoutMillis: 10_000,
+  maxUses: 500,
+  keepAlive: true,
+  allowExitOnIdle: true,
+  // `pg` calls this once per newly opened connection, before the connection is
+  // handed to the waiting query. Errors are swallowed on purpose (see above):
+  // the session settings are an improvement, never a precondition.
+  verify: (client, done) => {
+    client.query(SESSION_SETUP, (error) => {
+      if (!error) return done(null);
+      console.error(`[db] session setup failed: ${error.message}`);
+      // A refused statement is survivable (the pooler may not allow session
+      // settings at all). A connection that is already gone is not: hand it
+      // back broken so the pool throws it away instead of handing it to a
+      // query later.
+      const { code } = error as Error & { code?: string };
+      const gone =
+        code === "ECONNRESET" ||
+        code === "EPIPE" ||
+        code === "57P01" ||
+        /terminat|not connected|hang ?up|socket/i.test(error.message);
+      done(gone ? error : null);
+    });
+  },
+};
+
+const pool = global.__learnersAreaPool ?? new PoolCtor(poolOptions);
 
 /**
  * A pooled connection dying is not a reason for the whole process to die.

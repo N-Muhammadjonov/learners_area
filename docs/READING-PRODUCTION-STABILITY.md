@@ -106,20 +106,60 @@ Against a local database that is 130 ms; against a database 250 ms away it is
 connection taken from the limited pool. Measured through the 120 ms proxy:
 
 - before: TTFB p50 **1701 ms** (10/10 rendered)
-- after: TTFB p50 **1165 ms** (10/10 rendered), and 7 queries in 3 waves
+- after: TTFB p50 **1160 ms** (10/10 rendered), and 7 queries in 3 waves
+
+The same proxy was then restarted with limits that mimic a pooler at its client
+ceiling, and the *final* code was measured through it (app started with
+`DATABASE_URL` pointing at the proxy):
+
+| Scenario | Result |
+| --- | --- |
+| cap 6 backends, overflow `destroy`, 12 renders 4-in-parallel | **12/12 rendered**, p50 1754 ms / p95 2324 ms, 0 server errors |
+| cap 4 backends, overflow `hold`, 4 renders in parallel | **4/4 rendered**, p50 1689 ms / p95 1985 ms |
+| 120 ms per hop, no cap, 10 sequential renders | p50 **1160 ms**, p95 1171 ms |
+| 120 ms per hop, client-navigation payload | shell in 9 ms, full payload at ~1.16 s (streamed) |
+
+While saturated, only genuinely slow operations were logged
+(`[perf] reading.hubCounts 579ms`, `reading.facets 1084ms`, `reading.list 822ms`)
+and the process logged **zero** `[request-error]` lines.
 
 ## 3. What changed
 
 | File | Change |
 | --- | --- |
-| `src/db/client.ts` | pool bounded: `max` 5 (env `DATABASE_POOL_MAX`), `connectionTimeoutMillis` 8 s, `statement_timeout` 15 s (sent as a startup parameter, so it survives a pooler), `query_timeout` 20 s, `idleTimeoutMillis` 10 s, `maxUses` 500, `keepAlive`, `application_name=learners-area` (how the connection count can be checked), `allowExitOnIdle` |
+| `src/db/client.ts` | pool bounded: `max` 5 (env `DATABASE_POOL_MAX`), `connectionTimeoutMillis` 8 s, `query_timeout` 20 s, `idleTimeoutMillis` 10 s, `maxUses` 500, `keepAlive`, `allowExitOnIdle`; `statement_timeout` 15 s and `application_name=learners-area` are applied as statements on each fresh connection, never in the startup packet (see below) |
 | `src/lib/data/reading-library.ts` | the page's total comes from `count(*) over ()` on the same statement as the rows; each card's question count is a correlated subquery on its own row (no full-table grouping); hub counts are three filtered counts in one statement; facets no longer re-count the library; an out-of-range page is clamped with a single extra count query |
 | `src/app/(app)/reading/page.tsx` | the duplicated filtered count is gone; the number under the filters is the number the query used |
 | `src/lib/auth/current-user.ts` | the identity lookup is timed (it is the first query of every private render) |
 | `src/lib/observability/{timing,errors}.ts` | `timed()` logs only operations over `SLOW_OPERATION_LOG_MS` (default 400 ms) or failures, with a correlation id (`x-vercel-id` when present) and an error **class**, never a message, query or credential |
 | `src/instrumentation.ts` | `onRequestError` writes the digest plus the cause chain for every failed request |
 | `vercel.json` | `regions: ["sin1"]` — the database is in Singapore; see below |
-| `scripts/verify-production-reading.mjs` | the production test: 10 direct loads + 10 client-side navigations + return/filter/page-2/query, per account, printing status/TTFB/boundary/digest |
+| `scripts/verify-production-reading.mjs` | the production test: 10 direct loads + 10 client-side navigations + return/filter/page-2/query, per account, printing status/first-byte/total-time/boundary/digest and the deployed commit and region |
+
+### Why `statement_timeout` is set with a statement, not in the startup packet
+
+`pg` sends `statement_timeout` and `application_name` **inside the connection's
+startup packet**. A connection pooler in front of PostgreSQL is allowed to
+reject any parameter it does not recognise, with a fatal
+`08P01 unsupported startup parameter` — and that kills the connection itself,
+so a pooler that does not pass the parameter through would take the whole
+application down. It is exactly the failure mode this work is meant to prevent,
+so both settings now run as an ordinary statement on each fresh connection,
+through `pg`'s `verify` hook (called before the connection is handed to a
+query). A refusal is logged and survived; the client-side `query_timeout` is
+what guarantees that no statement can wait forever regardless.
+
+Verified locally through the delay proxy, on the same code path:
+
+```
+statement_timeout seen by the server = 15s
+application_name = learners-area
+pg_sleep(16) cancelled after 15003ms · code=57014 · server_side=true
+                        · canceling statement due to statement timeout
+```
+
+The cancel came from PostgreSQL (code `57014`, at 15 s), not from the 20 s
+client-side timeout — so the server-side bound really is in force.
 
 No retry was added anywhere: a database that is genuinely unreachable still
 surfaces as an error. No authorization, admission check or query filter was
