@@ -137,6 +137,11 @@ const uz: Dictionary = {
     errorInvalidCredentials: "Email yoki parol noto'g'ri.",
     errorEmailTaken: "Bu email bilan hisob allaqachon mavjud.",
     errorRateLimited: "Urinishlar juda ko'p bo'ldi. Bir necha daqiqadan so'ng qayta urinib ko'ring.",
+    // Transport xatolari o'z so'zi bilan aytiladi: "ulanishni tekshiring" bilan
+    // "xizmatda muammo bor" — bu ikki xil ko'rsatma, eski kod ikkalasini ham
+    // ko'rsatmasdi: tugma shunchaki qaytib kelmasdi.
+    errorNetwork: "Serverga ulanib bo'lmadi. Internetni tekshirib, qayta urinib ko'ring.",
+    errorServer: "Xizmat vaqtincha ishlamayapti. Birozdan so'ng qayta urinib ko'ring.",
   },
   // O'quvchi uchun video darslar ro'yxati (bitta sahifa, barcha kurslar).
   videoLessons: {

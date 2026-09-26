@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Input, Label, FieldError } from "@/components/ui/Input";
 import { TelegramButton } from "./TelegramButton";
+import { failureMessage, requestJson } from "@/lib/http/client-request";
 import type { Dictionary } from "@/lib/i18n/en";
 
 export function RegisterForm({
@@ -27,27 +28,30 @@ export function RegisterForm({
     e.preventDefault();
     setPending(true);
     setError("");
-    const res = await fetch("/api/auth/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, password }),
-    });
-    const data = await res.json();
-    setPending(false);
-    if (!res.ok) {
-      setError(
-        res.status === 429
-          ? dict.auth.errorRateLimited
-          : data.error === "email_taken"
-            ? dict.auth.errorEmailTaken
-            : data.error
-      );
-      return;
+    try {
+      // `requestJson` never throws: a dropped connection and a non-JSON error page
+      // both come back as a value, so the button always leaves its loading state.
+      const result = await requestJson<{ accountStatus?: string }>("/api/auth/register", {
+        body: { name, email, password },
+      });
+      if (!result.ok) {
+        setError(
+          failureMessage(result, dict.auth, {
+            email_taken: dict.auth.errorEmailTaken,
+            invalid_input: dict.errors.unknown,
+          })
+        );
+        return;
+      }
+      // A new account is PENDING until an administrator approves it, so the honest
+      // destination is the waiting room, where the applicant can ask for access.
+      router.push("/pending");
+      router.refresh();
+    } finally {
+      // The only guarantee that matters: whatever happened above, the user is
+      // looking at a button they can press again.
+      setPending(false);
     }
-    // A new account is PENDING until an administrator approves it, so the honest
-    // destination is the waiting room, where the applicant can ask for access.
-    router.push("/pending");
-    router.refresh();
   }
 
   return (

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { Input, Label, FieldError } from "@/components/ui/Input";
 import { TelegramButton } from "./TelegramButton";
 import { safeNextPath } from "@/lib/auth/safe-redirect";
+import { failureMessage, requestJson } from "@/lib/http/client-request";
 import type { Dictionary } from "@/lib/i18n/en";
 
 export function LoginForm({
@@ -29,33 +30,35 @@ export function LoginForm({
     e.preventDefault();
     setPending(true);
     setError("");
-    const res = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-    const data = await res.json();
-    setPending(false);
-    if (!res.ok) {
-      setError(res.status === 429 ? dict.auth.errorRateLimited : dict.auth.errorInvalidCredentials);
-      return;
-    }
-    // Where to go next is decided by the account's state, not by a guess:
-    // anything that is not ACTIVE belongs in the waiting room (the middleware would
-    // send it there anyway, but landing on the right screen immediately is the
-    // difference between "waiting for approval" and "the button did nothing").
-    const pending = data.accountStatus && data.accountStatus !== "active";
-    if (pending) {
-      router.push("/pending");
-      router.refresh();
-      return;
-    }
+    try {
+      const result = await requestJson<{ accountStatus?: string; onboarded?: boolean; role?: string }>(
+        "/api/auth/login",
+        { body: { email, password } }
+      );
+      if (!result.ok) {
+        setError(failureMessage(result, dict.auth, { invalid_credentials: dict.auth.errorInvalidCredentials }));
+        return;
+      }
+      const data = result.data;
+      // Where to go next is decided by the account's state, not by a guess:
+      // anything that is not ACTIVE belongs in the waiting room (the middleware
+      // would send it there anyway, but landing on the right screen immediately
+      // is the difference between "waiting for approval" and "the button did
+      // nothing").
+      if (data.accountStatus && data.accountStatus !== "active") {
+        router.push("/pending");
+        router.refresh();
+        return;
+      }
 
-    // `next` comes from the address bar, so only a path inside this app is honoured
-    // — a crafted `?next=https://…` must not turn sign-in into an open redirect.
-    const next = safeNextPath(searchParams.get("next"));
-    router.push(next ?? (data.onboarded ? "/dashboard" : "/onboarding"));
-    router.refresh();
+      // `next` comes from the address bar, so only a path inside this app is honoured
+      // — a crafted `?next=https://…` must not turn sign-in into an open redirect.
+      const next = safeNextPath(searchParams.get("next"));
+      router.push(next ?? (data.onboarded ? "/dashboard" : "/onboarding"));
+      router.refresh();
+    } finally {
+      setPending(false);
+    }
   }
 
   return (

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Input, Label } from "@/components/ui/Input";
+import { failureMessage, requestJson } from "@/lib/http/client-request";
 import type { Dictionary } from "@/lib/i18n/en";
 
 export function ResetRequestForm({ dict }: { dict: Dictionary }) {
@@ -15,15 +16,20 @@ export function ResetRequestForm({ dict }: { dict: Dictionary }) {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setPending(true);
-    const res = await fetch("/api/auth/reset/request", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email }),
-    });
-    const data = await res.json();
-    setPending(false);
-    setDone(true);
-    if (data.devResetUrl) setDevUrl(data.devResetUrl);
+    try {
+      const result = await requestJson<{ devResetUrl?: string }>("/api/auth/reset/request", { body: { email } });
+      // The screen answers the same way whether or not the address exists — that
+      // is deliberate, so this form must not turn a transport failure into a
+      // "check your email" message it cannot back up.
+      if (!result.ok) {
+        setDevUrl(null);
+      } else if (result.data?.devResetUrl) {
+        setDevUrl(result.data.devResetUrl);
+      }
+      setDone(true);
+    } finally {
+      setPending(false);
+    }
   }
 
   if (done) {

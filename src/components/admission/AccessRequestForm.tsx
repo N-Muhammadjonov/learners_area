@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Label, Textarea } from "@/components/ui/Input";
+import { failureMessage, requestJson } from "@/lib/http/client-request";
 import type { Dictionary } from "@/lib/i18n/en";
 
 /**
@@ -35,19 +36,19 @@ export function AccessRequestForm({
   async function submit() {
     setBusy(true);
     setError(null);
-    const res = await fetch("/api/admission/request", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: message.trim() || undefined }),
-    });
-    setBusy(false);
-    if (!res.ok) {
-      const data = await res.json().catch(() => ({}));
-      setError(String(data.error ?? dict.errors.unknown));
-      return;
+    try {
+      const result = await requestJson("/api/admission/request", {
+        body: { message: message.trim() || undefined },
+      });
+      if (!result.ok) {
+        setError(failureMessage(result, { ...dict.auth, errorUnknown: dict.errors.unknown }));
+        return;
+      }
+      setSent(true);
+      router.refresh();
+    } finally {
+      setBusy(false);
     }
-    setSent(true);
-    router.refresh();
   }
 
   if (sent || alreadyRequested) {

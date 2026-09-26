@@ -135,6 +135,11 @@ const en = {
     errorInvalidCredentials: "That email or password doesn't match our records.",
     errorEmailTaken: "An account with this email already exists.",
     errorRateLimited: "Too many attempts. Please wait a few minutes and try again.",
+    // Transport failures get their own wording: "check your connection" and
+    // "the service is having a problem" are different instructions, and the
+    // old code showed neither — the button simply never came back.
+    errorNetwork: "We could not reach the server. Check your connection and try again.",
+    errorServer: "The service is temporarily unavailable. Please try again in a moment.",
   },
   // The student-facing index of public video lessons (one page, every course).
   videoLessons: {

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Input, Label, FieldError } from "@/components/ui/Input";
+import { failureMessage, requestJson } from "@/lib/http/client-request";
 import type { Dictionary } from "@/lib/i18n/en";
 
 export function ResetConfirmForm({ dict }: { dict: Dictionary }) {
@@ -17,18 +18,16 @@ export function ResetConfirmForm({ dict }: { dict: Dictionary }) {
     e.preventDefault();
     setPending(true);
     setError("");
-    const res = await fetch("/api/auth/reset/confirm", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token, password }),
-    });
-    setPending(false);
-    if (!res.ok) {
-      const data = await res.json();
-      setError(data.error ?? "Something went wrong");
-      return;
+    try {
+      const result = await requestJson("/api/auth/reset/confirm", { body: { token, password } });
+      if (!result.ok) {
+        setError(failureMessage(result, dict.auth, { invalid_token: dict.errors.unknown }));
+        return;
+      }
+      router.push("/login");
+    } finally {
+      setPending(false);
     }
-    router.push("/login");
   }
 
   return (
