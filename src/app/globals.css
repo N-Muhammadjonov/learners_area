@@ -83,6 +83,74 @@
   --shadow-raised: 0 6px 20px rgba(0, 0, 0, 0.45);
 }
 
+/* ---------------------------------------------------------------------------
+   Shell geometry — the one place these numbers live.
+
+   The sidebar and the main column used to scroll together because the shell was
+   `min-h-dvh` with no height of its own: the sidebar stretched the document, so
+   its own scrollbar moved the whole page. These tokens are what the shell
+   layers use to lock the viewport instead, and what every page uses to keep its
+   padding and control heights consistent.
+   --------------------------------------------------------------------------- */
+:root {
+  --shell-sidebar-w: 288px;
+  --shell-topbar-h: 68px;
+  --shell-pad-x: 32px;
+  --shell-pad-y: 28px;
+  --shell-content-max: 1440px;
+
+  --gap-content: 24px;
+  --gap-section: 32px;
+  --gap-card: 20px;
+  --card-pad: 22px;
+  --radius-card: 16px;
+  --radius-control: 10px;
+
+  --control-h: 46px;
+  --control-h-sm: 40px;
+  --icon-btn: 44px;
+
+  /* Layering, defined once. Nothing in the product uses an arbitrary z-index. */
+  --z-content: 1;
+  --z-sticky: 20;
+  --z-shell: 30;
+  --z-dropdown: 40;
+  --z-popover: 45;
+  --z-backdrop: 50;
+  --z-modal: 60;
+  --z-toast: 70;
+}
+
+@media (max-width: 1439px) {
+  :root {
+    --shell-sidebar-w: 264px;
+    --shell-pad-x: 24px;
+  }
+}
+
+@media (max-width: 1023px) {
+  :root {
+    --shell-pad-x: 20px;
+    --shell-pad-y: 20px;
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --shell-pad-x: 16px;
+    --shell-pad-y: 16px;
+    --shell-topbar-h: 60px;
+    --gap-section: 24px;
+  }
+}
+
+@media (max-width: 429px) {
+  :root {
+    --shell-pad-x: 13px;
+    --shell-pad-y: 14px;
+  }
+}
+
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
@@ -115,13 +183,57 @@
     @apply bg-ink-950 text-ink-100;
   }
 
+  /* ---------------------------------------------------------------------
+     Type scale for the authenticated product.
+
+     The interface read as undersized: 14px body text and 12px metadata on a
+     desktop with room for much more. These classes are the single definition of
+     each step, so a page cannot drift to its own sizes.
+     --------------------------------------------------------------------- */
+  .page-title {
+    @apply font-display text-[1.75rem] leading-tight tracking-tight text-ink-900 sm:text-[2rem] lg:text-[2.25rem];
+  }
+  .page-subtitle {
+    @apply text-[1.0625rem] leading-relaxed text-ink-500;
+  }
+  .section-title {
+    @apply font-display text-[1.375rem] leading-snug text-ink-900 sm:text-[1.5rem];
+  }
+  .card-title {
+    @apply text-[1.125rem] font-medium leading-snug text-ink-900 sm:text-[1.1875rem];
+  }
+  .body-text {
+    @apply text-[1rem] leading-relaxed text-ink-700;
+  }
+  .meta-text {
+    @apply text-[0.8125rem] leading-normal text-ink-300;
+  }
+
+  /* Panel: the standard content surface. Radius and padding come from tokens so
+     Day and Night and every breakpoint stay in step. */
+  .panel {
+    @apply border border-ink-100 bg-paper-raised;
+    border-radius: var(--radius-card);
+    padding: var(--card-pad);
+  }
   .card {
-    @apply bg-paper-raised border border-ink-100 rounded-md shadow-card;
+    @apply bg-paper-raised border border-ink-100 shadow-card;
+    border-radius: var(--radius-card);
   }
 
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-sm px-4 py-2 text-sm font-medium
+    @apply inline-flex items-center justify-center gap-2 px-4 text-[0.9375rem] font-medium
       transition-colors disabled:opacity-50 disabled:pointer-events-none;
+    min-height: var(--control-h);
+    border-radius: var(--radius-control);
+  }
+  .btn-sm {
+    @apply px-3 text-[0.875rem];
+    min-height: var(--control-h-sm);
+  }
+  .btn-lg {
+    @apply px-5 text-[1rem];
+    min-height: 3rem;
   }
   .btn-primary {
     @apply btn bg-signal-600 text-signal-contrast hover:bg-signal-700;
@@ -135,6 +247,11 @@
   /* Gold outline action — the night-time secondary emphasis. */
   .btn-gold {
     @apply btn border border-gold/60 bg-transparent text-ink-900 hover:bg-gold/15;
+  }
+  /* The primary action in the centre's own colours: gold on navy, or navy text
+     on gold — never a borrowed accent. */
+  .btn-gold-solid {
+    @apply btn bg-gold font-medium text-ink-950 hover:bg-gold-light;
   }
 
   /* Touch targets: a 36px button is comfortable with a mouse and cramped with a
@@ -186,6 +303,16 @@
   max-width: 1100px;
   margin: 0 auto;
   padding: 1.5rem;
+}
+/* The sidebar takes real space in the shell grid, so hiding its contents is not
+   enough — the column itself has to go, or the workspace stays off-centre. */
+[data-focus="on"] [data-shell-sidebar] {
+  display: none;
+}
+[data-focus="on"] [data-shell-main] {
+  max-width: 1180px;
+  margin-inline: auto;
+  width: 100%;
 }
 
 /* ---------------------------------------------------------------------------

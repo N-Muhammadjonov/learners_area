@@ -1,6 +1,70 @@
 import type { Dictionary } from "./en";
 
 const uz: Dictionary = {
+  roles: {
+    student: "O'quvchi",
+    teacher: "O'qituvchi",
+    admin: "Administrator",
+    owner: "Egasi",
+  },
+
+  shell: {
+    back: "Orqaga",
+    search: "Qidirish",
+    searchPlaceholder: "Learners Area bo'ylab qidirish…",
+    searchHint: "Qidirish uchun yozing yoki Ctrl+K bosing",
+    searching: "Qidiruv…",
+    noResults: "Hech narsa topilmadi",
+    noResultsHint: "Boshqa so'z bilan urinib ko'ring yoki filtrlarni tozalang.",
+    clear: "Tozalash",
+    resultsCountOne: "{n} ta natija",
+    resultsCountMany: "{n} ta natija",
+    openSearch: "Qidiruvni ochish",
+    closeSearch: "Qidiruvni yopish",
+    switchToManagement: "Boshqaruvga o'tish",
+    profile: "Profil",
+    keyboardHint: "↑↓ tanlash · Enter ochish · Esc yopish",
+  },
+  errorPage: {
+    title: "Sahifani yuklashda xatolik yuz berdi.",
+    body: "Xatolik kodi yozib olindi — uni «Muammo haqida xabar» formasiga qo'shsangiz, tezroq hal qilamiz.",
+    retry: "Qayta urinish",
+    back: "Orqaga",
+    dashboard: "Boshqaruv paneli",
+    code: "Xatolik kodi",
+  },
+  notFoundPage: {
+    title: "Bu sahifa topilmadi.",
+    body: "Havola eskirgan bo'lishi yoki manzil xato yozilgan bo'lishi mumkin.",
+    dashboard: "Boshqaruv paneli",
+    back: "Orqaga",
+  },
+  loadingPage: {
+    label: "Yuklanmoqda…",
+  },
+  management: {
+    title: "Boshqaruv",
+    subtitle: "Markazni boshqarish: odamlar, kontent, darslar va hisobotlar.",
+    backToLearning: "O'qishga qaytish",
+    emptyForRole: "Sizning rolingiz uchun boshqaruv bo'limlari hozircha yo'q.",
+    peopleBody: "Foydalanuvchilar, rollar va hisob holatlari.",
+    admissionsBody: "Kirish so'rovlarini ko'rib chiqish va tasdiqlash.",
+    studentsBody: "O'z talabalaringiz va ularning ishi.",
+    supportBody: "Talabalardan kelgan muammo xabarlari.",
+    liveBody: "Jonli darslarni yaratish va boshqarish.",
+    speakingBody: "Speaking materiallarini joylash va tahrirlash.",
+    readingBody: "Reading passage va savollarini yaratish.",
+    listeningBody: "Listening testlari va savollari.",
+    grammarBody: "Grammatika mavzulari va mashqlari.",
+    writingBody: "Writing mavzulari (Task 1 / Task 2).",
+    videoBody: "Video darslarni joylash va nashr qilish.",
+    contentBody: "Barcha kontentni bir joydan ko'rish va nashr holatini boshqarish.",
+    ownerBody: "Markaz sozlamalari va umumiy ko'rsatkichlar.",
+    integrationsBody: "Telegram, AI va boshqa tashqi xizmatlar holati.",
+    retentionBody: "Ma'lumotlarni saqlash siyosatini ko'rish va qo'llash.",
+    auditBody: "Xavfsizlik va boshqaruv jurnali.",
+  },
+
   common: {
     error: "Xatolik yuz berdi.",
     save: "Saqlash",
@@ -30,6 +94,7 @@ const uz: Dictionary = {
     enter: "Diqqat rejimi",
     exit: "Diqqat rejimidan chiqish",
     hint: "navigatsiyani yashiradi, barcha imtihon tugmalari qoladi — Esc ham chiqaradi",
+    onLabel: "Diqqat rejimi YONIQ",
   },
   notifications: {
     title: "Bildirishnomalar",
@@ -88,6 +153,14 @@ const uz: Dictionary = {
     adminPrompts: "Writing mavzulari",
     profile: "Profil",
     logout: "Chiqish",
+    bottom: "Yordam",
+    management: "Boshqaruv",
+    backToLearning: "O'qishga qaytish",
+    people: "Odamlar",
+    teaching: "Darslar",
+    content: "Kontent",
+    contentLibrary: "Kontent kutubxonasi",
+    support: "Yordam / Muammo",
   },
   // The public front door. This copy is fixed by brand decision and is identical
   // in both locales on purpose: it is the approved wording, not a translation.
