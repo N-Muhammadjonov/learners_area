@@ -134,6 +134,13 @@
       "when": 1790429326290,
       "tag": "0018_resource_blocks",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1790440977869,
+      "tag": "0019_fixed_ma_gnuci",
+      "breakpoints": true
     }
   ]
 }

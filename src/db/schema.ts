@@ -1566,3 +1566,139 @@ export const videoLessonProgress = pgTable(
     userLessonIdx: uniqueIndex("video_lesson_progress_user_idx").on(table.userId, table.videoLessonId),
   })
 );
+
+// ---------------------------------------------------------------------------
+// Telegram Bot Infrastructure
+// ---------------------------------------------------------------------------
+
+export const telegramLoginIntentStatusEnum = pgEnum("telegram_login_intent_status", [
+  "pending",
+  "confirmed",
+  "consumed",
+  "expired",
+  "cancelled",
+]);
+
+export const telegramSupportThreadStatusEnum = pgEnum("telegram_support_thread_status", [
+  "open",
+  "waiting_for_user",
+  "waiting_for_staff",
+  "closed",
+]);
+
+export const telegramMessageSenderTypeEnum = pgEnum("telegram_message_sender_type", [
+  "user",
+  "admin",
+  "owner",
+  "bot",
+]);
+
+export const telegramMessageTypeEnum = pgEnum("telegram_message_type", [
+  "text",
+  "photo",
+  "document",
+  "voice",
+  "audio",
+  "link",
+]);
+
+export const telegramBroadcastStatusEnum = pgEnum("telegram_broadcast_status", [
+  "queued",
+  "sending",
+  "sent",
+  "failed",
+  "cancelled",
+]);
+
+export const telegramBroadcastDeliveryStatusEnum = pgEnum("telegram_broadcast_delivery_status", [
+  "success",
+  "blocked",
+  "failed",
+]);
+
+export const telegramContacts = pgTable("telegram_contacts", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  telegramUserId: varchar("telegram_user_id", { length: 64 }).notNull().unique(),
+  chatId: varchar("chat_id", { length: 64 }).notNull(),
+  username: varchar("username", { length: 120 }),
+  firstName: varchar("first_name", { length: 120 }),
+  lastName: varchar("last_name", { length: 120 }),
+  languageCode: varchar("language_code", { length: 10 }),
+  linkedUserId: uuid("linked_user_id").references(() => users.id, { onDelete: "set null" }),
+  botBlockedAt: timestamp("bot_blocked_at", { withTimezone: true }),
+  firstSeenAt: timestamp("first_seen_at", { withTimezone: true }).defaultNow().notNull(),
+  lastSeenAt: timestamp("last_seen_at", { withTimezone: true }).defaultNow().notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const telegramLoginIntents = pgTable("telegram_login_intents", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  tokenHash: text("token_hash").notNull(),
+  browserNonceHash: text("browser_nonce_hash").notNull(),
+  telegramUserId: varchar("telegram_user_id", { length: 64 }),
+  userId: uuid("user_id").references(() => users.id, { onDelete: "cascade" }),
+  status: telegramLoginIntentStatusEnum("status").notNull().default("pending"),
+  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  confirmedAt: timestamp("confirmed_at", { withTimezone: true }),
+  consumedAt: timestamp("consumed_at", { withTimezone: true }),
+  cancelledAt: timestamp("cancelled_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const telegramBotAdmins = pgTable("telegram_bot_admins", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  telegramUserId: varchar("telegram_user_id", { length: 64 }).notNull().unique(),
+  linkedUserId: uuid("linked_user_id").references(() => users.id, { onDelete: "set null" }),
+  permissions: jsonb("permissions").notNull().default('[]'),
+  isActive: boolean("is_active").notNull().default(true),
+  createdBy: uuid("created_by").references(() => users.id, { onDelete: "set null" }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const telegramSupportThreads = pgTable("telegram_support_threads", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  telegramUserId: varchar("telegram_user_id", { length: 64 }).notNull(),
+  linkedUserId: uuid("linked_user_id").references(() => users.id, { onDelete: "set null" }),
+  assignedAdminId: uuid("assigned_admin_id").references(() => users.id, { onDelete: "set null" }),
+  status: telegramSupportThreadStatusEnum("status").notNull().default("open"),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  closedAt: timestamp("closed_at", { withTimezone: true }),
+});
+
+export const telegramSupportMessages = pgTable("telegram_support_messages", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  threadId: uuid("thread_id").notNull().references(() => telegramSupportThreads.id, { onDelete: "cascade" }),
+  senderType: telegramMessageSenderTypeEnum("sender_type").notNull(),
+  senderUserId: uuid("sender_user_id").references(() => users.id, { onDelete: "set null" }),
+  senderTelegramId: varchar("sender_telegram_id", { length: 64 }),
+  messageType: telegramMessageTypeEnum("message_type").notNull().default("text"),
+  text: text("text"),
+  telegramFileId: text("telegram_file_id"),
+  resourceId: uuid("resource_id"),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const telegramBroadcasts = pgTable("telegram_broadcasts", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  createdBy: uuid("created_by").references(() => users.id, { onDelete: "set null" }),
+  audience: varchar("audience", { length: 64 }).notNull(),
+  messageType: telegramMessageTypeEnum("message_type").notNull().default("text"),
+  content: text("content"),
+  status: telegramBroadcastStatusEnum("status").notNull().default("queued"),
+  recipientCount: integer("recipient_count").notNull().default(0),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  completedAt: timestamp("completed_at", { withTimezone: true }),
+});
+
+export const telegramBroadcastDeliveries = pgTable("telegram_broadcast_deliveries", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  broadcastId: uuid("broadcast_id").notNull().references(() => telegramBroadcasts.id, { onDelete: "cascade" }),
+  telegramUserId: varchar("telegram_user_id", { length: 64 }).notNull(),
+  status: telegramBroadcastDeliveryStatusEnum("status").notNull(),
+  errorMessage: text("error_message"),
+  deliveredAt: timestamp("delivered_at", { withTimezone: true }).defaultNow().notNull(),
+});
