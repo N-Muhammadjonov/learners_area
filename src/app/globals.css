@@ -336,3 +336,166 @@
 [data-theme="night"] .brand-asset-dark {
   display: inline-block;
 }
+
+/* ---------------------------------------------------------------------------
+ * Chips, tabs and field labels
+ *
+ * Three controls that appeared as the modules were rebuilt, defined once here
+ * rather than as a scatter of utility classes in each page. They share the same
+ * rules the rest of the shell follows: a 44px touch target for anything a thumb
+ * has to hit, a visible selected state (not a colour on hover), and a focus ring
+ * that is never removed.
+ * ------------------------------------------------------------------------- */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-height: var(--control-h-sm);
+  padding: 0 0.875rem;
+  border: 1px solid rgb(var(--ink-100));
+  border-radius: 999px;
+  background: rgb(var(--paper-raised));
+  color: rgb(var(--ink-500));
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1;
+  transition: border-color 120ms ease, color 120ms ease, background-color 120ms ease;
+}
+@media (pointer: coarse) {
+  .chip {
+    min-height: var(--icon-btn);
+  }
+}
+.chip:hover {
+  border-color: rgb(var(--gold));
+  color: rgb(var(--ink-900));
+}
+.chip-active {
+  border-color: rgb(var(--gold));
+  background: color-mix(in srgb, rgb(var(--gold)) 14%, transparent);
+  color: rgb(var(--ink-900));
+}
+.chip-done {
+  border-color: color-mix(in srgb, rgb(var(--accent)) 45%, transparent);
+  background: color-mix(in srgb, rgb(var(--accent)) 12%, transparent);
+  color: rgb(var(--ink-900));
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: var(--control-h);
+  padding: 0 1rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  color: rgb(var(--ink-500));
+  font-size: 0.9375rem;
+  font-weight: 500;
+  transition: background-color 120ms ease, color 120ms ease, border-color 120ms ease;
+}
+.tab:hover {
+  background: color-mix(in srgb, rgb(var(--gold)) 10%, transparent);
+  color: rgb(var(--ink-900));
+}
+.tab-active {
+  border-color: color-mix(in srgb, rgb(var(--gold)) 45%, transparent);
+  background: color-mix(in srgb, rgb(var(--gold)) 16%, transparent);
+  color: rgb(var(--ink-900));
+  font-weight: 600;
+}
+.tab-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5rem;
+  height: 1.375rem;
+  padding: 0 0.4rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, rgb(var(--ink-900)) 8%, transparent);
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.field-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: rgb(var(--ink-500));
+  letter-spacing: 0.01em;
+}
+
+.link-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--color-signal-600, rgb(var(--ink-900)));
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+.link-inline:hover {
+  text-decoration: underline;
+}
+
+/* ---------------------------------------------------------------------------
+ * Dropdown (details/summary)
+ *
+ * Used by the library filters. A native `<details>` is reachable by keyboard and
+ * announces its own open/closed state, so no script is needed to make the menu
+ * work — and because the options inside it are links, choosing one is a normal
+ * navigation that also happens to update the URL.
+ * ------------------------------------------------------------------------- */
+.dropdown {
+  position: relative;
+}
+.dropdown > summary {
+  list-style: none;
+  min-width: 200px;
+}
+.dropdown > summary::-webkit-details-marker {
+  display: none;
+}
+.dropdown-menu {
+  position: absolute;
+  z-index: var(--z-dropdown);
+  top: calc(100% + 4px);
+  left: 0;
+  max-height: 320px;
+  min-width: 100%;
+  overflow-y: auto;
+  padding: 0.375rem;
+  border: 1px solid rgb(var(--ink-100));
+  border-radius: var(--radius-control);
+  background: rgb(var(--paper-raised));
+  box-shadow: var(--shadow-raised);
+}
+.dropdown-menu-wide {
+  min-width: 260px;
+}
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-height: var(--control-h-sm);
+  padding: 0 0.625rem;
+  border-radius: 8px;
+  color: rgb(var(--ink-700));
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+.dropdown-item:hover {
+  background: rgb(var(--paper-sunken));
+  color: rgb(var(--ink-900));
+}
+.dropdown-item-active {
+  background: color-mix(in srgb, rgb(var(--gold)) 14%, transparent);
+  color: rgb(var(--ink-900));
+  font-weight: 600;
+}
+.dropdown-count {
+  color: rgb(var(--ink-300));
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
