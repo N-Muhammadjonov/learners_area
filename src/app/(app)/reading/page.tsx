@@ -6,7 +6,6 @@ import {
   listLibrary,
   listLibraryFacets,
   readingHubCounts,
-  READING_PAGE_SIZE,
 } from "@/lib/data/reading-library";
 import { questionTypeLabel, topicLabel } from "@/lib/reading-labels";
 import { ReadingFilters } from "@/components/reading/ReadingFilters";
@@ -77,7 +76,15 @@ export default async function ReadingPage({
     <div className="flex flex-col gap-8" data-reading-hub>
       <header className="flex flex-col gap-2">
         <h1 className="page-title">{dict.readingHub.title}</h1>
-        <p className="page-subtitle">{dict.readingHub.subtitle}</p>
+        {/*
+          The count is the database's, never a number typed into the copy: if a
+          passage is withdrawn or added, the sentence changes with it.
+        */}
+        <p className="page-subtitle">
+          {counts.total > 0
+            ? dict.readingHub.subtitleWithCount.replace("{n}", String(counts.total))
+            : dict.readingHub.subtitle}
+        </p>
       </header>
 
       <nav aria-label={dict.readingHub.tabsLabel} className="flex flex-wrap gap-2" data-reading-tabs>
@@ -270,8 +277,6 @@ async function AcademicLibrary({
           </div>
         </nav>
       )}
-
-      <p className="sr-only">{READING_PAGE_SIZE}</p>
     </section>
   );
 }

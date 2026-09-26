@@ -33,7 +33,8 @@ const uz: Dictionary = {
   },
   readingHub: {
     title: "Reading",
-    subtitle: "105 ta Academic passa, savol turlari bo'yicha mashq va Retention rejimi.",
+    subtitle: "Academic passalar, savol turi bo'yicha mashq va Retention rejimi.",
+    subtitleWithCount: "{n} ta Academic passa, savol turi bo'yicha mashq va Retention rejimi.",
     tabsLabel: "Reading bo'limlari",
     tabAcademic: "Academic Reading",
     tabVideos: "Muhim videolar",

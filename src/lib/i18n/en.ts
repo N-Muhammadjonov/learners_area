@@ -31,7 +31,8 @@ const en = {
   },
   readingHub: {
     title: "Reading",
-    subtitle: "105 Academic passages, practice by question type, and the Retention mode.",
+    subtitle: "Academic reading passages, practice by question type, and the Retention mode.",
+    subtitleWithCount: "{n} Academic passages, practice by question type, and the Retention mode.",
     tabsLabel: "Reading sections",
     tabAcademic: "Academic Reading",
     tabVideos: "Essential Videos",
