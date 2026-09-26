@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BrandLogo } from "@/components/brand/BrandLogo";
+import { BrandBlock } from "@/components/shell/BrandBlock";
 
 /**
  * The shell shared by every authentication and waiting screen.
@@ -24,12 +24,18 @@ export function AuthShell({
   return (
     <div className="flex min-h-dvh items-center justify-center bg-paper-sunken p-4">
       <div className="w-full max-w-sm">
+        {/*
+          Mark plus the name as real text — not the horizontal wordmark file.
+          The artwork belongs here as the mark; the name is a heading a screen
+          reader can read, the browser can select and the translation layer could
+          reach, and it stays sharp at every zoom level.
+        */}
         <Link
           href="/"
-          className="mx-auto mb-8 flex w-fit max-w-full items-center justify-center rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-600"
+          className="mx-auto mb-6 flex w-fit max-w-full items-center justify-center rounded-sm px-2 py-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-600"
           data-auth-brand
         >
-          <BrandLogo kind="horizontal" className="h-12 max-w-[min(20rem,80vw)]" eager />
+          <BrandBlock size={44} className="justify-center" />
         </Link>
         <div className="card p-6">
           <h1 className="font-display text-xl text-ink-900">{title}</h1>

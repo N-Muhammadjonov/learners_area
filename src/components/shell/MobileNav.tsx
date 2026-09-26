@@ -2,20 +2,25 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { SidebarBrand, SidebarNav } from "./Sidebar";
+import { BrandBlock } from "./BrandBlock";
+import { SidebarNav } from "./SidebarNav";
 import { ReportProblem } from "@/components/support/ReportProblem";
 import type { Dictionary } from "@/lib/i18n/en";
-import type { Role } from "@/lib/auth/session";
+import type { Role } from "@/lib/auth/roles";
 
 /**
  * Small-screen navigation.
  *
- * The desktop sidebar is `hidden` below `md`, so without this there is
- * literally no way to move around the app on a phone. This is a real drawer:
- * an overlay that closes on Escape, on navigation, and on backdrop click, with
- * background scroll locked while it is open, and a 44px-class hit target.
+ * The desktop sidebar is `hidden` below `lg`, so without this there is literally
+ * no way to move around the product on a phone. This is a real drawer: it closes
+ * on Escape, on navigation and on a backdrop click, it locks background scroll
+ * while open, and both the opening control and the close control are 44px-class
+ * hit targets.
+ *
+ * It renders the *same* brand block and the *same* navigation list as the
+ * desktop sidebar, so the two can never drift into showing different menus.
  */
-export function MobileNav({ dict, role }: { dict: Dictionary; role: Role }) {
+export function MobileNav({ dict, role, email }: { dict: Dictionary; role: Role; email?: string }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -23,8 +28,8 @@ export function MobileNav({ dict, role }: { dict: Dictionary; role: Role }) {
 
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
     };
     document.addEventListener("keydown", onKey);
     const previous = document.body.style.overflow;
@@ -39,51 +44,44 @@ export function MobileNav({ dict, role }: { dict: Dictionary; role: Role }) {
     <>
       <button
         type="button"
-        // The one control that opens the drawer. The hook is how the browser test
-        // finds it without depending on the current locale's label.
         data-mobile-nav-toggle
         aria-label={dict.nav.menu}
         aria-expanded={open}
         aria-controls="mobile-nav-drawer"
         onClick={() => setOpen(true)}
-        className="flex h-10 w-10 items-center justify-center rounded-sm border border-ink-100 text-ink-600 hover:bg-paper-sunken hover:text-ink-900 md:hidden"
+        className="shell-icon-btn lg:hidden"
       >
-        <span aria-hidden className="text-lg leading-none">
-          ☰
-        </span>
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" aria-hidden>
+          <path d="M4 7h16M4 12h16M4 17h16" />
+        </svg>
       </button>
 
       {open && (
-        <div className="fixed inset-0 z-50 md:hidden" role="dialog" aria-modal="true" aria-label={dict.nav.menu}>
+        <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true" aria-label={dict.nav.menu}>
           <button
             type="button"
             tabIndex={-1}
             aria-hidden
             onClick={() => setOpen(false)}
-            className="absolute inset-0 h-full w-full cursor-default bg-ink-950/40"
+            className="absolute inset-0 h-full w-full cursor-default bg-ink-950/50"
           />
           <div
             id="mobile-nav-drawer"
-            className="absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col overflow-y-auto border-r border-ink-100 bg-paper-raised p-4"
+            className="absolute inset-y-0 left-0 flex w-[min(20rem,88vw)] flex-col overflow-y-auto border-r border-ink-100 bg-paper-raised px-4 py-5"
           >
-            <div className="flex items-start justify-between">
-              {/* The same brand block as the desktop sidebar, so the mark, the
-                  name and the line under it are never two different things. */}
-              <SidebarBrand className="mb-6 min-w-0" />
-              <button
-                type="button"
-                aria-label={dict.common.cancel}
-                onClick={() => setOpen(false)}
-                className="mb-6 -mr-1 flex h-10 w-10 items-center justify-center rounded-sm text-ink-400 hover:bg-paper-sunken hover:text-ink-900"
-              >
-                <span aria-hidden className="text-lg leading-none">
-                  ✕
-                </span>
+            <div className="mb-6 flex items-start justify-between gap-3">
+              <BrandBlock size={40} />
+              <button type="button" aria-label={dict.common.cancel} onClick={() => setOpen(false)} className="shell-icon-btn -mr-1 -mt-1">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" aria-hidden>
+                  <path d="M6 6l12 12M18 6 6 18" />
+                </svg>
               </button>
             </div>
-            <SidebarNav dict={dict} role={role} />
+            <SidebarNav dict={dict} role={role} email={email} />
             {/* The same contextual report form, reachable on a phone too. */}
-            <ReportProblem dict={dict} />
+            <div className="mt-6">
+              <ReportProblem dict={dict} />
+            </div>
           </div>
         </div>
       )}

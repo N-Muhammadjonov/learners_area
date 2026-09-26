@@ -75,6 +75,67 @@ export type BrandAssets = {
 /** One canonical directory for approved brand artwork. */
 export const BRAND_ASSET_DIR = "/brand";
 
+/**
+ * Runtime derivatives of the approved artwork.
+ *
+ * The masters above are exactly what the centre approved, and they are kept
+ * untouched — but the mark master is 1254×1254 and about 1.3 MB, which is a print
+ * and storage size. Drawing a 40px sidebar icon from it means shipping a
+ * megabyte for a thirty-pixel-tall image on every cold visit.
+ *
+ * `scripts/build-brand-derivatives.mjs` resamples the masters into
+ * `public/brand/derived/` and writes down the pixel sizes, so a component can
+ * declare the intrinsic width and height and the browser reserves the space
+ * before the image arrives. Nothing is recoloured, cropped or re-traced: the
+ * pixels come from the approved file, only smaller. `--check` proves the
+ * derivatives still match the masters.
+ *
+ * The masters remain in use where the brand is the subject rather than a
+ * navigation row (the owner's brand preview), because there the detail is the
+ * point.
+ */
+export type BrandDerivative = {
+  /** Display width in CSS pixels the 1× file is intended for. */
+  width: number;
+  /** Height in CSS pixels (from the master's own aspect ratio). */
+  height: number;
+  /** 1× file. */
+  src: string;
+  /** 2× file, for high-density screens. */
+  src2x: string;
+};
+
+const DERIVED_DIR = `${BRAND_ASSET_DIR}/derived`;
+
+/** The mark, per theme, sized for a ~40–48px slot. */
+export const BRAND_MARK: Record<BrandTheme, BrandDerivative> = {
+  day: { width: 48, height: 48, src: `${DERIVED_DIR}/mark-light-96.png`, src2x: `${DERIVED_DIR}/mark-light-192.png` },
+  night: { width: 48, height: 48, src: `${DERIVED_DIR}/mark-dark-96.png`, src2x: `${DERIVED_DIR}/mark-dark-192.png` },
+};
+
+/** The horizontal lock-up, sized for the ~300px slot the auth screens use. */
+export const BRAND_HORIZONTAL: Record<BrandTheme, BrandDerivative> = {
+  day: {
+    width: 320,
+    height: 128,
+    src: `${DERIVED_DIR}/horizontal-light-640.png`,
+    src2x: `${DERIVED_DIR}/horizontal-light-640.png`,
+  },
+  night: {
+    width: 320,
+    height: 128,
+    src: `${DERIVED_DIR}/horizontal-dark-640.png`,
+    src2x: `${DERIVED_DIR}/horizontal-dark-640.png`,
+  },
+};
+
+/** Browser identity: the tab icon and the home-screen icon, both small. */
+export const BRAND_FAVICON = {
+  icon32: `${DERIVED_DIR}/favicon-32.png`,
+  icon180: `${DERIVED_DIR}/favicon-180.png`,
+  ico: `${DERIVED_DIR}/favicon.ico`,
+};
+
 export const BRAND_ASSETS: BrandAssets = {
   logoMasterDark: `${BRAND_ASSET_DIR}/learners-area-logo-master-dark.png`,
   logoMarkDark: `${BRAND_ASSET_DIR}/learners-area-logo-mark-dark.png`,

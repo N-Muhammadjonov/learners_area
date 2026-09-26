@@ -1,4 +1,4 @@
-import { BRAND, brandLogoFor, type BrandLogoKind } from "@/lib/config/brand";
+import { BRAND, BRAND_HORIZONTAL, BRAND_MARK, brandLogoFor, type BrandLogoKind } from "@/lib/config/brand";
 
 /**
  * The one component that renders approved Learners Area artwork.
@@ -41,8 +41,20 @@ export function BrandLogo({
   decorative?: boolean;
 }) {
   const label = decorative ? "" : (alt ?? BRAND.siteName);
-  const dayAsset = brandLogoFor(kind, "day");
-  const nightAsset = brandLogoFor(kind, "night");
+  /*
+   * Screen sizes come from the derivative table, not from the master. The mark
+   * master is 1254px and about 1.3 MB; the file actually served is a 96px
+   * derivative of it (see scripts/build-brand-derivatives.mjs). Declared width
+   * and height mean the browser reserves the box before the image arrives, so
+   * nothing on the page shifts when it loads.
+   */
+  const sized =
+    kind === "mark" ? BRAND_MARK : kind === "horizontal" ? BRAND_HORIZONTAL : null;
+  const dayAsset = sized ? sized.day.src : brandLogoFor(kind, "day");
+  const nightAsset = sized ? sized.night.src : brandLogoFor(kind, "night");
+  const dayAsset2x = sized ? sized.day.src2x : undefined;
+  const nightAsset2x = sized ? sized.night.src2x : undefined;
+  const intrinsic = sized ? { width: sized.day.width, height: sized.day.height } : {};
   const hidden = decorative ? (true as const) : undefined;
   const loading = eager ? ("eager" as const) : ("lazy" as const);
   /*
@@ -62,10 +74,12 @@ export function BrandLogo({
       <span className={`inline-flex items-center ${className}`} data-brand-logo={kind}>
         <img
           src={dayAsset}
+          srcSet={dayAsset2x ? `${dayAsset} 1x, ${dayAsset2x} 2x` : undefined}
           alt={label}
           aria-hidden={hidden}
           loading={loading}
           decoding="async"
+          {...intrinsic}
           className={`h-full w-auto object-contain ${imgClassName}`}
         />
       </span>
@@ -76,18 +90,22 @@ export function BrandLogo({
     <span className={`inline-flex items-center ${className}`} data-brand-logo={kind}>
       <img
         src={dayAsset}
+        srcSet={dayAsset2x ? `${dayAsset} 1x, ${dayAsset2x} 2x` : undefined}
         alt={label}
         aria-hidden={hidden}
         loading={loading}
         decoding="async"
+        {...intrinsic}
         className={`brand-asset-light h-full w-auto object-contain ${imgClassName}`}
       />
       <img
         src={nightAsset}
+        srcSet={nightAsset2x ? `${nightAsset} 1x, ${nightAsset2x} 2x` : undefined}
         alt={label}
         aria-hidden={hidden}
         loading={loading}
         decoding="async"
+        {...intrinsic}
         className={`brand-asset-dark h-full w-auto object-contain ${imgClassName}`}
       />
     </span>

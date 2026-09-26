@@ -1,307 +1,359 @@
 /**
- * The icon set.
+ * Icons.
  *
- * Small, hand-drawn stroke icons on a 24×24 grid, inheriting `currentColor` and
- * the text size around them. There is deliberately no icon dependency: the
- * centre needs about twenty shapes, and a package would add weight and a second
- * visual language for no benefit.
+ * One original stroke set, drawn on the same 24×24 grid with the same 1.6px
+ * stroke, currentColor for the stroke and no fills — so an icon looks right in
+ * both themes and next to text of any size. They are geometric shapes, not
+ * copies of anybody's artwork.
  *
- * Rules these follow, from the interface contract:
- *   * an icon never replaces an important label — icon-only buttons carry an
- *     `aria-label`, and every navigation row shows its text;
- *   * `stroke-width` is 1.7 so a 20px icon stays legible without going bold;
- *   * `aria-hidden` by default, because the meaning is in the adjacent text.
+ * An icon never carries meaning on its own: every place these are used also has
+ * a word next to it. That rule exists because the product's own Day/Night
+ * control once shipped as a bare moon, and "what does this button do?" was a
+ * real question students asked.
  */
-import type { SVGProps } from "react";
 
-type IconProps = SVGProps<SVGSVGElement>;
+type IconProps = { className?: string; title?: string };
 
-function Svg({ children, ...props }: IconProps) {
+function Icon({ className = "", title, children }: IconProps & { children: React.ReactNode }) {
   return (
     <svg
       viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.7}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      focusable="false"
       width="1em"
       height="1em"
-      {...props}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.6}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden={title ? undefined : true}
+      role={title ? "img" : undefined}
+      focusable="false"
     >
+      {title && <title>{title}</title>}
       {children}
     </svg>
   );
 }
 
-export const IconDashboard = (p: IconProps) => (
-  <Svg {...p}>
-    <rect x="3" y="3" width="7.5" height="7.5" rx="2" />
-    <rect x="13.5" y="3" width="7.5" height="7.5" rx="2" />
-    <rect x="3" y="13.5" width="7.5" height="7.5" rx="2" />
-    <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2" />
-  </Svg>
-);
+export function IconDashboard({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <rect x="3.5" y="3.5" width="7" height="7" rx="2" />
+      <rect x="13.5" y="3.5" width="7" height="7" rx="2" />
+      <rect x="3.5" y="13.5" width="7" height="7" rx="2" />
+      <rect x="13.5" y="13.5" width="7" height="7" rx="2" />
+    </Icon>
+  );
+}
 
-export const IconLive = (p: IconProps) => (
-  <Svg {...p}>
-    <circle cx="12" cy="12" r="3" />
-    <path d="M6.4 6.4a8 8 0 0 0 0 11.2M17.6 6.4a8 8 0 0 1 0 11.2" />
-    <path d="M3.5 3.5a12 12 0 0 0 0 17M20.5 3.5a12 12 0 0 1 0 17" opacity="0.45" />
-  </Svg>
-);
+export function IconLive({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <rect x="3" y="5" width="13" height="14" rx="2.5" />
+      <path d="M16 10.5 21 8v8l-5-2.5z" />
+    </Icon>
+  );
+}
 
-export const IconTasks = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M9 6h11M9 12h11M9 18h11" />
-    <path d="m3 5.5 1.6 1.6L7.4 4.3" />
-    <path d="m3 17.5 1.6 1.6 2.8-2.8" />
-  </Svg>
-);
+export function IconAssignments({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <path d="M7 3.5h7l4.5 4.5v12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-15a1 1 0 0 1 1-1z" />
+      <path d="M14 3.5V8h4.5" />
+      <path d="M9 13h6M9 16.5h4" />
+    </Icon>
+  );
+}
 
-export const IconListening = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M4 14v-2a8 8 0 0 1 16 0v2" />
-    <rect x="2.5" y="13.5" width="4" height="7" rx="1.6" />
-    <rect x="17.5" y="13.5" width="4" height="7" rx="1.6" />
-  </Svg>
-);
+export function IconListening({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <path d="M4.5 13a7.5 7.5 0 0 1 15 0" />
+      <rect x="3" y="13" width="4" height="6" rx="2" />
+      <rect x="17" y="13" width="4" height="6" rx="2" />
+      <path d="M19 19v1.5" />
+    </Icon>
+  );
+}
 
-export const IconPlay = (p: IconProps) => (
-  <Svg {...p}>
-    <rect x="2.5" y="4.5" width="19" height="15" rx="3" />
-    <path d="M10.2 9.2v5.6l4.6-2.8z" fill="currentColor" stroke="none" />
-  </Svg>
-);
+export function IconReading({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <path d="M12 6.5C10.5 5.2 8.4 4.5 5.5 4.5H4v14h1.5c2.9 0 5 .7 6.5 2 1.5-1.3 3.6-2 6.5-2H20v-14h-1.5c-2.9 0-5 .7-6.5 2z" />
+      <path d="M12 6.5v14" />
+    </Icon>
+  );
+}
 
-export const IconReading = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M12 6.5C10.4 5.2 8.3 4.5 5.5 4.5H3v14h2.5c2.8 0 4.9.7 6.5 2 1.6-1.3 3.7-2 6.5-2H21v-14h-2.5c-2.8 0-4.9.7-6.5 2z" />
-    <path d="M12 6.5v14" />
-  </Svg>
-);
+export function IconWriting({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <path d="M4 19.5h16" />
+      <path d="M6.5 16.5 16.8 6.2a2 2 0 0 1 2.8 2.8L9.3 19.3l-3.6.8z" />
+      <path d="M14.8 8.2l1.9 1.9" />
+    </Icon>
+  );
+}
 
-export const IconWriting = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M4 20h16" />
-    <path d="M6.5 16.5 16 7a2.5 2.5 0 0 1 3.5 3.5L10 20H6.5z" />
-    <path d="M5.5 12.5 3 15l2 2 2.5-2.5" />
-  </Svg>
-);
+export function IconSpeaking({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <rect x="9" y="3" width="6" height="10" rx="3" />
+      <path d="M5.5 11.5a6.5 6.5 0 0 0 13 0" />
+      <path d="M12 18v3" />
+    </Icon>
+  );
+}
 
-export const IconSpeaking = (p: IconProps) => (
-  <Svg {...p}>
-    <rect x="9" y="2.5" width="6" height="11" rx="3" />
-    <path d="M5.5 11.5a6.5 6.5 0 0 0 13 0" />
-    <path d="M12 18v3.5M8.5 21.5h7" />
-  </Svg>
-);
+export function IconGrammar({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <path d="M4 6.5h9M4 12h16M4 17.5h6" />
+      <circle cx="17.5" cy="6.5" r="2.2" />
+    </Icon>
+  );
+}
 
-export const IconGrammar = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M4 6.5h9M8.5 6.5V18" />
-    <path d="M14.5 18 19 8l4.5 10" opacity="0.9" />
-    <path d="M16.2 14.5h5.6" />
-  </Svg>
-);
+export function IconVocabulary({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <path d="M5 4.5h9.5a2 2 0 0 1 2 2v13H7a2 2 0 0 1-2-2z" />
+      <path d="M16.5 6.5H19a1 1 0 0 1 1 1v10.5a1.5 1.5 0 0 1-1.5 1.5H16.5" />
+      <path d="M8 9h6M8 12.5h4" />
+    </Icon>
+  );
+}
 
-export const IconVocabulary = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M3 5.5A2.5 2.5 0 0 1 5.5 3H11v16H5.5A2.5 2.5 0 0 0 3 21.5z" />
-    <path d="M21 5.5A2.5 2.5 0 0 0 18.5 3H13v16h5.5A2.5 2.5 0 0 1 21 21.5z" />
-  </Svg>
-);
+export function IconVideo({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <rect x="2.5" y="5" width="19" height="14" rx="2.5" />
+      <path d="M10 9.5l5 2.5-5 2.5z" />
+    </Icon>
+  );
+}
 
-export const IconProgress = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M4 20V4" />
-    <path d="M4 20h16" />
-    <path d="M8 16.5v-4M12.5 16.5V8M17 16.5v-6.5" />
-  </Svg>
-);
+export function IconProgress({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <path d="M4 19.5V10M10 19.5V5M16 19.5v-6M22 19.5H2" />
+    </Icon>
+  );
+}
 
-export const IconMocks = (p: IconProps) => (
-  <Svg {...p}>
-    <circle cx="12" cy="12" r="8.5" />
-    <path d="M12 7v5.2l3.4 2" />
-  </Svg>
-);
+export function IconMock({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M12 7.5V12l3 2" />
+    </Icon>
+  );
+}
 
-export const IconSupport = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M12 3a8.5 8.5 0 0 0-7.5 12.6L3 21l5.6-1.4A8.5 8.5 0 1 0 12 3z" />
-    <path d="M9.5 9.6a2.6 2.6 0 0 1 5.1.8c0 1.7-2.6 2.1-2.6 3.6" />
-    <path d="M12 17.2h.01" />
-  </Svg>
-);
+export function IconSupport({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <path d="M4 5.5h16v10H9l-5 4z" />
+      <path d="M9 9.5h6M9 12.5h4" />
+    </Icon>
+  );
+}
 
-export const IconSettings = (p: IconProps) => (
-  <Svg {...p}>
-    <circle cx="12" cy="12" r="3" />
-    <path d="M12 2.8l1.3 2.4 2.7-.5 1 2.6 2.7.6-.6 2.7 1.9 2-1.9 2 .6 2.7-2.7.6-1 2.6-2.7-.5L12 21.2l-1.3-2.4-2.7.5-1-2.6-2.7-.6.6-2.7-1.9-2 1.9-2-.6-2.7 2.7-.6 1-2.6 2.7.5z" />
-  </Svg>
-);
+export function IconSettings({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <circle cx="12" cy="12" r="3" />
+      <path d="M12 3.5v2.2M12 18.3v2.2M4.9 7.7l1.9 1.1M17.2 15.2l1.9 1.1M4.9 16.3l1.9-1.1M17.2 8.8l1.9-1.1" />
+    </Icon>
+  );
+}
 
-export const IconPeople = (p: IconProps) => (
-  <Svg {...p}>
-    <circle cx="9" cy="8" r="3.4" />
-    <path d="M2.8 20a6.2 6.2 0 0 1 12.4 0" />
-    <path d="M16.5 5.2a3.2 3.2 0 0 1 0 6.2M17.4 14.4A5.6 5.6 0 0 1 21.2 20" />
-  </Svg>
-);
+export function IconSearch({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <circle cx="11" cy="11" r="6.5" />
+      <path d="m16 16 4 4" />
+    </Icon>
+  );
+}
 
-export const IconAdmissions = (p: IconProps) => (
-  <Svg {...p}>
-    <rect x="3" y="4.5" width="18" height="15" rx="2.5" />
-    <path d="M3 9.5h18" />
-    <path d="m8.5 14.5 1.6 1.6 3.2-3.2" />
-  </Svg>
-);
+export function IconSun({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4" />
+    </Icon>
+  );
+}
 
-export const IconContent = (p: IconProps) => (
-  <Svg {...p}>
-    <rect x="3" y="3.5" width="18" height="17" rx="2.5" />
-    <path d="M7 8h10M7 12h10M7 16h6" />
-  </Svg>
-);
+export function IconMoon({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z" />
+    </Icon>
+  );
+}
 
-export const IconAudit = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M6 3h9l4.5 4.5V21H6z" />
-    <path d="M14.5 3v5h5" />
-    <path d="M9.5 13h6M9.5 16.5h4" />
-  </Svg>
-);
+export function IconTarget({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <circle cx="12" cy="12" r="8" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="12" cy="12" r="1" />
+    </Icon>
+  );
+}
 
-export const IconRetention = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M4 6.5c0-1.4 3.6-2.5 8-2.5s8 1.1 8 2.5S16.4 9 12 9 4 7.9 4 6.5z" />
-    <path d="M4 6.5v11C4 18.9 7.6 20 12 20s8-1.1 8-2.5v-11" />
-    <path d="M4 12c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5" />
-  </Svg>
-);
+export function IconChevronRight({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <path d="m9.5 5.5 6.5 6.5-6.5 6.5" />
+    </Icon>
+  );
+}
 
-export const IconSearch = (p: IconProps) => (
-  <Svg {...p}>
-    <circle cx="10.8" cy="10.8" r="6.3" />
-    <path d="m15.6 15.6 4.4 4.4" />
-  </Svg>
-);
+export function IconChevronLeft({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <path d="M14.5 5.5 8 12l6.5 6.5" />
+    </Icon>
+  );
+}
 
-export const IconBack = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M19 12H5" />
-    <path d="m11 6-6 6 6 6" />
-  </Svg>
-);
+export function IconArrowLeft({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <path d="M20 12H4" />
+      <path d="m10 6-6 6 6 6" />
+    </Icon>
+  );
+}
 
-export const IconSun = (p: IconProps) => (
-  <Svg {...p}>
-    <circle cx="12" cy="12" r="4" />
-    <path d="M12 2.5v2.2M12 19.3v2.2M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6" />
-  </Svg>
-);
+export function IconChevronDown({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <path d="m5.5 9.5 6.5 6.5 6.5-6.5" />
+    </Icon>
+  );
+}
 
-export const IconMoon = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.6 8.6 0 1 0 11.1 11.1z" />
-  </Svg>
-);
+/** Back navigation: the arrow that means "the page you came from". */
+export function IconBack({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <path d="M20 12H4" />
+      <path d="m10 6-6 6 6 6" />
+    </Icon>
+  );
+}
 
-export const IconClose = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M6 6l12 12M18 6 6 18" />
-  </Svg>
-);
+export function IconClose({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <path d="M6 6l12 12M18 6 6 18" />
+    </Icon>
+  );
+}
 
-export const IconMenu = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M3.5 7h17M3.5 12h17M3.5 17h17" />
-  </Svg>
-);
+export function IconMenu({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <path d="M4 7h16M4 12h16M4 17h16" />
+    </Icon>
+  );
+}
 
-export const IconTarget = (p: IconProps) => (
-  <Svg {...p}>
-    <circle cx="12" cy="12" r="8.5" />
-    <circle cx="12" cy="12" r="4.6" />
-    <circle cx="12" cy="12" r="1.1" fill="currentColor" />
-  </Svg>
-);
+export function IconBell({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <path d="M6.5 9.5a5.5 5.5 0 0 1 11 0v4l1.5 3h-14l1.5-3z" />
+      <path d="M10 19.5a2 2 0 0 0 4 0" />
+    </Icon>
+  );
+}
 
-export const IconChevronRight = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="m9.5 5.5 6.5 6.5-6.5 6.5" />
-  </Svg>
-);
+export function IconUser({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <circle cx="12" cy="8.5" r="3.8" />
+      <path d="M4.5 20.5a7.5 7.5 0 0 1 15 0" />
+    </Icon>
+  );
+}
 
-export const IconChevronDown = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="m5.5 9 6.5 6.5L18.5 9" />
-  </Svg>
-);
+export function IconLogout({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <path d="M14 4.5H6.5a1.5 1.5 0 0 0-1.5 1.5v12a1.5 1.5 0 0 0 1.5 1.5H14" />
+      <path d="M17 8.5 20.5 12 17 15.5" />
+      <path d="M10.5 12h10" />
+    </Icon>
+  );
+}
 
-export const IconUpload = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M12 16V4" />
-    <path d="m7 9 5-5 5 5" />
-    <path d="M4 15v3.5A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5V15" />
-  </Svg>
-);
+export function IconRetention({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <path d="M12 4.5c4.5 0 7.5 3 9 7.5-1.5 4.5-4.5 7.5-9 7.5S4.5 16.5 3 12c1.5-4.5 4.5-7.5 9-7.5z" />
+      <circle cx="12" cy="12" r="2.5" />
+    </Icon>
+  );
+}
 
-export const IconFile = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M6 3h8l4 4v14H6z" />
-    <path d="M14 3v4h4" />
-  </Svg>
-);
+export function IconAlert({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <path d="M12 4.5 21 19.5H3z" />
+      <path d="M12 10v4M12 16.8v.4" />
+    </Icon>
+  );
+}
 
-export const IconLink = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M9.5 14.5 14.5 9.5" />
-    <path d="M11 6.8l1.6-1.6a3.8 3.8 0 0 1 5.4 5.4L16.4 12" />
-    <path d="M13 17.2l-1.6 1.6a3.8 3.8 0 0 1-5.4-5.4L7.6 12" />
-  </Svg>
-);
+export function IconPlay({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M10 8.8 16 12l-6 3.2z" />
+    </Icon>
+  );
+}
 
-export const IconImage = (p: IconProps) => (
-  <Svg {...p}>
-    <rect x="3" y="4.5" width="18" height="15" rx="2.5" />
-    <circle cx="8.6" cy="9.8" r="1.6" />
-    <path d="m4 17 4.8-4.8 3.4 3.4 2.6-2.4L20 17" />
-  </Svg>
-);
+export function IconPeople({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <circle cx="9" cy="9" r="3.2" />
+      <path d="M3.5 19.5a5.5 5.5 0 0 1 11 0" />
+      <path d="M16 6.2a3 3 0 0 1 0 5.6M17.5 19.5a5.4 5.4 0 0 0-1.6-3.8" />
+    </Icon>
+  );
+}
 
-export const IconAudio = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M4 10v4M8 7v10M12 4.5v15M16 7v10M20 10v4" />
-  </Svg>
-);
+export function IconAdmissions({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <path d="M7 3.5h10a1.5 1.5 0 0 1 1.5 1.5v14a1.5 1.5 0 0 1-1.5 1.5H7A1.5 1.5 0 0 1 5.5 19V5A1.5 1.5 0 0 1 7 3.5z" />
+      <path d="m9 12 2 2 4-4" />
+    </Icon>
+  );
+}
 
-export const IconCheck = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="m4.5 12.5 5 5 10-11" />
-  </Svg>
-);
+export function IconContent({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <rect x="3.5" y="4.5" width="17" height="5" rx="1.5" />
+      <rect x="3.5" y="14.5" width="7.5" height="5" rx="1.5" />
+      <rect x="13.5" y="14.5" width="7" height="5" rx="1.5" />
+    </Icon>
+  );
+}
 
-export const IconLock = (p: IconProps) => (
-  <Svg {...p}>
-    <rect x="4.5" y="10.5" width="15" height="10" rx="2.5" />
-    <path d="M8 10.5V7.8a4 4 0 0 1 8 0v2.7" />
-  </Svg>
-);
-
-export const IconBook = (p: IconProps) => (
-  <Svg {...p}>
-    <rect x="3.5" y="3.5" width="17" height="17" rx="2.5" />
-    <path d="M8 3.5v17M11.5 8.5h6M11.5 12h6" />
-  </Svg>
-);
-
-export const IconAlert = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M12 4 2.8 20h18.4z" />
-    <path d="M12 10v4.5M12 17.4h.01" />
-  </Svg>
-);
+export function IconAudit({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <path d="M6 3.5h9l4 4V19a1.5 1.5 0 0 1-1.5 1.5H6A1.5 1.5 0 0 1 4.5 19V5A1.5 1.5 0 0 1 6 3.5z" />
+      <path d="M15 3.5V8h4" />
+      <path d="M8.5 13h7M8.5 16h4" />
+    </Icon>
+  );
+}

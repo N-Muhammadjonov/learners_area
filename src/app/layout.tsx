@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { cookies } from "next/headers";
 import "./globals.css";
-import { BRAND, BRAND_ASSETS } from "@/lib/config/brand";
+import { BRAND, BRAND_FAVICON } from "@/lib/config/brand";
 import { THEME_COOKIE, themeFromCookie } from "@/lib/theme";
 import { getLocale } from "@/lib/i18n";
 
@@ -15,9 +15,14 @@ export const metadata: Metadata = {
    * which is not the centre's mark.
    */
   icons: {
-    icon: [{ url: BRAND_ASSETS.favicon, type: "image/png" }],
-    apple: [{ url: BRAND_ASSETS.favicon, type: "image/png" }],
-    shortcut: [{ url: BRAND_ASSETS.favicon, type: "image/png" }],
+    // Small derivatives of the approved favicon artwork: a 32px tab icon and a
+    // 180px home-screen icon instead of the 1254px master.
+    icon: [
+      { url: BRAND_FAVICON.icon32, sizes: "32x32", type: "image/png" },
+      { url: BRAND_FAVICON.icon180, sizes: "180x180", type: "image/png" },
+    ],
+    apple: [{ url: BRAND_FAVICON.icon180, sizes: "180x180", type: "image/png" }],
+    shortcut: [{ url: BRAND_FAVICON.icon32, type: "image/png" }],
   },
 };
 

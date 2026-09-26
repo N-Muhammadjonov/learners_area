@@ -1,6 +1,13 @@
 import { and, asc, desc, eq } from "drizzle-orm";
 import { db } from "@/db/client";
-import { readingPassages, readingQuestions, readingAttempts, readingAnswers } from "@/db/schema";
+import {
+  readingAnswers,
+  readingAttempts,
+  readingPassageParagraphs,
+  readingPassages,
+  readingQuestionGroups,
+  readingQuestions,
+} from "@/db/schema";
 import { isLive, liveWhere } from "@/lib/services/cms/publication";
 
 export function listActivePassages() {
@@ -33,11 +40,33 @@ export async function getStartablePassage(passageId: string) {
 export async function getPassageWithQuestions(passageId: string) {
   const passage = await db.query.readingPassages.findFirst({ where: eq(readingPassages.id, passageId) });
   if (!passage) return null;
-  const questions = await db.query.readingQuestions.findMany({
-    where: eq(readingQuestions.passageId, passageId),
-    orderBy: asc(readingQuestions.order),
-  });
-  return { passage, questions };
+
+  /*
+   * A passage is read with three things attached, and all three are needed to
+   * answer the questions honestly:
+   *
+   *   questions  the rows themselves;
+   *   groups     the instruction block each question belongs to — "Choose TWO
+   *              letters, A–E" is the question, and without it some questions are
+   *              literally a blank line;
+   *   paragraphs the paragraph letters the matching questions refer to.
+   */
+  const [questions, groups, paragraphs] = await Promise.all([
+    db.query.readingQuestions.findMany({
+      where: eq(readingQuestions.passageId, passageId),
+      orderBy: asc(readingQuestions.order),
+    }),
+    db.query.readingQuestionGroups.findMany({
+      where: eq(readingQuestionGroups.passageId, passageId),
+      orderBy: asc(readingQuestionGroups.position),
+    }),
+    db.query.readingPassageParagraphs.findMany({
+      where: eq(readingPassageParagraphs.passageId, passageId),
+      orderBy: asc(readingPassageParagraphs.position),
+    }),
+  ]);
+
+  return { passage, questions, groups, paragraphs };
 }
 
 export async function getAttemptDetail(attemptId: string, userId: string) {
@@ -52,7 +81,14 @@ export async function getAttemptDetail(attemptId: string, userId: string) {
   ]);
   if (!passageData) return null;
 
-  return { attempt, passage: passageData.passage, questions: passageData.questions, answers };
+  return {
+    attempt,
+    passage: passageData.passage,
+    questions: passageData.questions,
+    groups: passageData.groups,
+    paragraphs: passageData.paragraphs,
+    answers,
+  };
 }
 
 export function listUserAttempts(userId: string) {
@@ -62,4 +98,52 @@ export function listUserAttempts(userId: string) {
     .innerJoin(readingPassages, eq(readingAttempts.passageId, readingPassages.id))
     .where(eq(readingAttempts.userId, userId))
     .orderBy(desc(readingAttempts.startedAt));
+}
+
+/**
+ * Save the answers a student has entered so far.
+ *
+ * Without this, a 20-minute reading task lives only in a browser tab: close it,
+ * lose the laptop, or simply reload and every answer is gone — which is what
+ * "Davom etish" on the library card used to mean in practice: resume an attempt
+ * that had nothing in it.
+ *
+ * Only an attempt that belongs to the student and is still open can be written
+ * to, and the write replaces that attempt's own draft rows — no other attempt,
+ * and no completed score, is ever touched.
+ */
+export async function saveDraftAnswers(
+  attemptId: string,
+  userId: string,
+  entries: { questionId: string; answer: string }[]
+) {
+  const attempt = await db.query.readingAttempts.findFirst({
+    where: and(eq(readingAttempts.id, attemptId), eq(readingAttempts.userId, userId)),
+  });
+  if (!attempt) return { saved: 0, reason: "not_found" as const };
+  if (attempt.status !== "in_progress") return { saved: 0, reason: "already_submitted" as const };
+
+  // Only questions that really belong to this attempt's passage are accepted:
+  // a client that sends somebody else's question id changes nothing.
+  const questions = await db.query.readingQuestions.findMany({
+    where: eq(readingQuestions.passageId, attempt.passageId),
+  });
+  const allowed = new Set(questions.map((question) => question.id));
+
+  await db.transaction(async (tx) => {
+    await tx.delete(readingAnswers).where(eq(readingAnswers.attemptId, attemptId));
+    const rows = entries.filter((entry) => allowed.has(entry.questionId));
+    if (rows.length > 0) {
+      await tx.insert(readingAnswers).values(
+        rows.map((entry) => ({
+          attemptId,
+          questionId: entry.questionId,
+          userAnswer: entry.answer.slice(0, 4000),
+          isCorrect: null,
+        }))
+      );
+    }
+  });
+
+  return { saved: entries.filter((entry) => allowed.has(entry.questionId)).length, reason: "ok" as const };
 }

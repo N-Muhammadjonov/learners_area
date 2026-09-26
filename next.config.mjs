@@ -24,6 +24,19 @@ const nextConfig = {
    * This affects `next dev` only — a production build never reads it.
    */
   allowedDevOrigins: ["*.e2b.app", "localhost:3000", "127.0.0.1:3000"],
+  /**
+   * `/favicon.ico` is answered explicitly.
+   *
+   * Browsers still request `/favicon.ico` by convention, before they have parsed
+   * a single `<link rel="icon">` — and a 404 there shows up as a blank tab icon
+   * even when the metadata is correct. The file is a 16/32/48px ICO built from
+   * the approved favicon artwork by `scripts/build-brand-derivatives.mjs`, and
+   * this rewrite serves it from the same canonical place as the PNGs instead of
+   * duplicating bytes into the app directory.
+   */
+  async rewrites() {
+    return [{ source: "/favicon.ico", destination: "/brand/derived/favicon.ico" }];
+  },
 };
 
 export default nextConfig;

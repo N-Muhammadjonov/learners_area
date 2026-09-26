@@ -499,3 +499,185 @@
   font-size: 0.75rem;
   font-variant-numeric: tabular-nums;
 }
+
+/* ---------------------------------------------------------------------------
+ * Shell: sidebar, brand block, theme control, icon buttons
+ *
+ * These are the classes the shell components use. They live here rather than as
+ * utility strings inside the components for one reason: the shell has to look
+ * the same in the sidebar, the mobile drawer, the topbar and the error surface,
+ * and four copies of "text-[0.9375rem] font-medium" is four chances for them to
+ * drift apart.
+ * ------------------------------------------------------------------------- */
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: var(--control-h);
+  padding: 0 0.75rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  color: rgb(var(--ink-700));
+  font-size: 0.9375rem;
+  font-weight: 500;
+  transition: background-color 120ms ease, color 120ms ease, border-color 120ms ease;
+}
+.sidebar-link:hover {
+  background: rgb(var(--paper-sunken));
+  color: rgb(var(--ink-900));
+}
+.sidebar-link-active {
+  border-color: color-mix(in srgb, rgb(var(--gold)) 45%, transparent);
+  background: color-mix(in srgb, rgb(var(--gold)) 15%, transparent);
+  color: rgb(var(--ink-900));
+  font-weight: 600;
+}
+.sidebar-link-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  font-size: 20px;
+  color: rgb(var(--ink-300));
+}
+.sidebar-link:hover .sidebar-link-icon,
+.sidebar-link-active .sidebar-link-icon {
+  color: rgb(var(--gold));
+}
+.sidebar-link-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sidebar-link-management {
+  border-color: color-mix(in srgb, rgb(var(--gold)) 35%, transparent);
+  background: color-mix(in srgb, rgb(var(--gold)) 8%, transparent);
+}
+
+.sidebar-group {
+  padding: 0 0.75rem 0.25rem;
+  color: rgb(var(--ink-300));
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sidebar-mode {
+  padding: 0 0.75rem;
+  color: rgb(var(--gold));
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.sidebar-back {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: var(--control-h);
+  padding: 0 0.75rem;
+  border: 1px solid color-mix(in srgb, rgb(var(--gold)) 45%, transparent);
+  border-radius: var(--radius-control);
+  background: color-mix(in srgb, rgb(var(--gold)) 12%, transparent);
+  color: rgb(var(--ink-900));
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+.sidebar-back:hover {
+  background: color-mix(in srgb, rgb(var(--gold)) 22%, transparent);
+}
+
+.sidebar-account {
+  padding: 0 0.75rem;
+  color: rgb(var(--ink-300));
+  font-size: 0.75rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The mark: a fixed box with both supplied theme variants stacked inside it.
+   No CSS filter ever touches the artwork — the theme picks the supplied file. */
+.brand-mark {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+}
+.brand-mark img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.brand-asset-dark {
+  display: none;
+}
+[data-theme="night"] .brand-asset-light {
+  display: none;
+}
+[data-theme="night"] .brand-asset-dark {
+  display: block;
+}
+
+.brand-name {
+  font-family: var(--font-display, inherit);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: rgb(var(--ink-900));
+  line-height: 1.2;
+}
+.brand-tagline {
+  color: rgb(var(--ink-300));
+  font-size: 0.75rem;
+  line-height: 1.3;
+}
+
+/* Two separate theme buttons. 44px target, clear selected state, gold accent. */
+.theme-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--icon-btn);
+  height: var(--icon-btn);
+  border: 1px solid rgb(var(--ink-100));
+  border-radius: var(--radius-control);
+  background: rgb(var(--paper-raised));
+  color: rgb(var(--ink-300));
+  transition: color 120ms ease, border-color 120ms ease, background-color 120ms ease;
+}
+.theme-btn:hover {
+  color: rgb(var(--ink-900));
+  border-color: color-mix(in srgb, rgb(var(--gold)) 40%, transparent);
+}
+.theme-btn-active {
+  border-color: color-mix(in srgb, rgb(var(--gold)) 60%, transparent);
+  background: color-mix(in srgb, rgb(var(--gold)) 16%, transparent);
+  color: rgb(var(--gold));
+}
+
+.shell-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--icon-btn);
+  height: var(--icon-btn);
+  flex-shrink: 0;
+  border: 1px solid rgb(var(--ink-100));
+  border-radius: var(--radius-control);
+  color: rgb(var(--ink-500));
+  transition: background-color 120ms ease, color 120ms ease;
+}
+.shell-icon-btn:hover {
+  background: rgb(var(--paper-sunken));
+  color: rgb(var(--ink-900));
+}

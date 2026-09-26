@@ -56,7 +56,14 @@ export default async function AppLayout({ children }: { children: React.ReactNod
 
   return (
     <div className="flex h-dvh overflow-hidden bg-paper" data-shell>
-      <Sidebar dict={dict} role={user.role} />
+      <aside
+        className="flex h-full shrink-0 flex-col overflow-y-auto border-r border-ink-100 bg-paper-raised px-3 py-5"
+        style={{ width: "var(--shell-sidebar-w)" }}
+        data-shell-sidebar
+        data-sidebar-scroll
+      >
+        <Sidebar dict={dict} role={user.role} email={user.email ?? ""} />
+      </aside>
       <div className="flex min-h-0 min-w-0 flex-1 flex-col">
         <Topbar
           dict={dict}
