@@ -56,8 +56,15 @@ export default async function AppLayout({ children }: { children: React.ReactNod
 
   return (
     <div className="flex h-dvh overflow-hidden bg-paper" data-shell>
+      {/*
+        The desktop sidebar is hidden below `lg` — on a phone the same navigation
+        lives in the drawer (see MobileNav). Without this the 288px rail stays in
+        the flex row and squeezes the whole application into a ~126px column at
+        390px, which is exactly what happened: every page still "worked", every
+        card was 100px wide, and only a width measurement caught it.
+      */}
       <aside
-        className="flex h-full shrink-0 flex-col overflow-y-auto border-r border-ink-100 bg-paper-raised px-3 py-5"
+        className="hidden h-full shrink-0 flex-col overflow-y-auto border-r border-ink-100 bg-paper-raised px-3 py-5 lg:flex"
         style={{ width: "var(--shell-sidebar-w)" }}
         data-shell-sidebar
         data-sidebar-scroll
