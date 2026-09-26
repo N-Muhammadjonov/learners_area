@@ -1,5 +1,5 @@
 import "server-only";
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, isNull } from "drizzle-orm";
 import { db } from "@/db/client";
 import { accessRequests, users } from "@/db/schema";
 import { recordAudit } from "./audit";
@@ -18,6 +18,7 @@ import type { Role } from "@/lib/auth/roles";
  */
 
 export type AccessRequestRow = {
+  /** The request id, or — for an account waiting with no request row — its user id. */
   id: string;
   userId: string;
   status: "pending" | "approved" | "rejected";
@@ -31,11 +32,31 @@ export type AccessRequestRow = {
   applicantStatus: AccountStatus;
 };
 
-/** Open requests, oldest first so the queue is worked in arrival order. */
+/**
+ * Everyone waiting for a decision, oldest first.
+ *
+ * This used to list `access_requests` rows only, and that is exactly how the
+ * owner ended up with an empty queue while an applicant was staring at "waiting
+ * for approval": registering created the account but no request row, so the
+ * applicant was waiting *without* a request — visible to themselves and to
+ * nobody else. A waiting account is the thing being queued, so the query starts
+ * from the account and left-joins its open request:
+ *
+ *   - with a request row  → decide on the request (the normal case);
+ *   - without one         → still queued; `id` is the user id and the decision
+ *                           endpoint materialises the request row when the
+ *                           administrator actually decides. The applicant is
+ *                           never hidden behind a missing row.
+ *
+ * The extra `accountStatus = pending` condition keeps this a queue of *waiting*
+ * people: an approved or rejected account with an old row cannot come back here.
+ */
 export async function listPendingAccessRequests(): Promise<AccessRequestRow[]> {
   const rows = await db
     .select({
       id: accessRequests.id,
+      accountId: users.id,
+      accountCreatedAt: users.createdAt,
       userId: accessRequests.userId,
       status: accessRequests.status,
       message: accessRequests.message,
@@ -47,11 +68,46 @@ export async function listPendingAccessRequests(): Promise<AccessRequestRow[]> {
       applicantRole: users.role,
       applicantStatus: users.accountStatus,
     })
-    .from(accessRequests)
-    .innerJoin(users, eq(accessRequests.userId, users.id))
-    .where(eq(accessRequests.status, "pending"))
-    .orderBy(accessRequests.createdAt);
-  return rows;
+    .from(users)
+    .leftJoin(
+      accessRequests,
+      and(eq(accessRequests.userId, users.id), eq(accessRequests.status, "pending"))
+    )
+    .where(and(eq(users.accountStatus, "pending"), isNull(accessRequests.decidedAt)))
+    .orderBy(users.createdAt);
+
+  return rows.map((row) => ({
+    ...row,
+    // An account waiting without a request row is queued under its user id; the
+    // decision endpoint recognises which kind of id it was handed.
+    id: row.id ?? row.accountId,
+    userId: row.accountId,
+    status: "pending" as const,
+    decidedAt: null,
+    decisionNote: null,
+    createdAt: row.createdAt ?? row.accountCreatedAt ?? new Date(),
+  }));
+}
+
+/**
+ * Materialise the missing request row for an account that is waiting without one.
+ *
+ * Called when an administrator actually decides, never during a page render: a
+ * GET must not write. Returns the request id to decide on, or null when the
+ * account is not in a state where a request may be created.
+ */
+export async function ensurePendingRequestForAccount(userId: string): Promise<string | null> {
+  const user = await db.query.users.findFirst({ where: eq(users.id, userId) });
+  // Only an account that is genuinely waiting may be turned into a request;
+  // this is not a way to approve, and it cannot approve anybody.
+  if (!user || user.accountStatus !== "pending") {
+    const open = await findOpenRequestForUser(userId);
+    return open?.id ?? null;
+  }
+  const open = await findOpenRequestForUser(userId);
+  if (open) return open.id;
+  const created = await createAccessRequest({ userId });
+  return created?.id ?? null;
 }
 
 export async function listRecentDecisions(limit = 20): Promise<AccessRequestRow[]> {
@@ -74,6 +130,11 @@ export async function listRecentDecisions(limit = 20): Promise<AccessRequestRow[
     .where(and(eq(accessRequests.status, "approved")))
     .orderBy(desc(accessRequests.decidedAt))
     .limit(limit);
+}
+
+/** One request row by its own id — used when an administrator decides. */
+export async function findAccessRequestById(id: string) {
+  return db.query.accessRequests.findFirst({ where: eq(accessRequests.id, id) });
 }
 
 export async function findOpenRequestForUser(userId: string) {

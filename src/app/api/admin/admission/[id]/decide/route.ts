@@ -2,7 +2,11 @@ import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { requireAdministrator } from "@/lib/auth/current-user";
-import { decideAccessRequest } from "@/lib/data/admission";
+import {
+  decideAccessRequest,
+  ensurePendingRequestForAccount,
+  findAccessRequestById,
+} from "@/lib/data/admission";
 
 /**
  * POST /api/admin/admission/:id/decide — approve or reject one request.
@@ -27,8 +31,22 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   const parsed = schema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: "invalid_input" }, { status: 400 });
 
+  /*
+   * The id may be a request id, or the id of a waiting account that has no
+   * request row (see ensurePendingRequestForAccount). Materialising the row at
+   * decision time — never during a page render — keeps the audit trail complete
+   * and keeps the decision itself unchanged: it still claims a pending request
+   * atomically and still cannot approve anybody twice.
+   */
+  const requestId = (await findAccessRequestById(id))
+    ? // An existing row — pending or already decided. Handing it to the decision
+      // unchanged is what keeps "decide twice" a 409 instead of a second approval.
+      id
+    : await ensurePendingRequestForAccount(id);
+  if (!requestId) return NextResponse.json({ error: "not_found" }, { status: 404 });
+
   const result = await decideAccessRequest({
-    requestId: id,
+    requestId,
     actorUserId: actor.id,
     decision: parsed.data.decision,
     note: parsed.data.note ?? null,

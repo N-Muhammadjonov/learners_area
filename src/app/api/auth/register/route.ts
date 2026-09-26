@@ -8,6 +8,7 @@ import { createSessionToken, SESSION_COOKIE, clearSessionCookies, sessionCookieO
 import { getLocale } from "@/lib/i18n";
 import { RULES, clientKey, enforce } from "@/lib/http/rate-limit";
 import { classifyDatabaseError, databaseUnavailableResponse } from "@/lib/http/database-errors";
+import { createAccessRequest } from "@/lib/data/admission";
 
 export async function POST(req: NextRequest) {
   // Mass registration is the cheapest abuse there is; a private centre admits a
@@ -41,6 +42,23 @@ export async function POST(req: NextRequest) {
 
     if (!user) {
       return NextResponse.json({ error: "Could not create account" }, { status: 500 });
+    }
+
+    /*
+     * Registering is asking to join: the account is PENDING either way, and the
+     * centre's admission queue is where a pending account is meant to appear.
+     * Without this row the applicant waited in a room that said "your request is
+     * with the centre" while the owner's queue — which lists requests — showed
+     * nothing at all. The row is created here; nobody is approved here.
+     *
+     * A failure to enqueue must not lose the account: the queue also lists
+     * pending accounts whose request row is missing, so the applicant stays
+     * visible and an administrator can still decide.
+     */
+    try {
+      await createAccessRequest({ userId: user.id });
+    } catch (cause) {
+      console.error("[register] could not enqueue the access request", cause);
     }
 
     return issueSession(user, req);

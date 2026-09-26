@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth/current-user";
-import { hasPrivateAccess } from "@/lib/auth/account-status";
+import { canRequestAccess, hasPrivateAccess } from "@/lib/auth/account-status";
 import { findOpenRequestForUser } from "@/lib/data/admission";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { AuthShell } from "@/components/auth/AuthShell";
@@ -75,15 +75,23 @@ export default async function PendingPage() {
           </span>
         </div>
 
-        {user.accountStatus === "pending" ? (
-          <p className="text-sm text-ink-500">{openRequest ? t.requestOpen : t.requestSent}</p>
-        ) : (
-          <AccessRequestForm
-            dict={dict}
-            alreadyRequested={Boolean(openRequest)}
-            canRequest={user.accountStatus === "rejected"}
-          />
-        )}
+        {/*
+          This branch used to tell a PENDING account that its request was
+          already with the centre — while no request row existed, because
+          registering created the account and nothing else. The waiting room
+          must describe the row that is really there:
+
+            a request row exists      → "your request is waiting for review";
+            waiting, no request row   → the form, so the applicant can ask
+                                        (this is the state the report was in);
+            suspended                 → nothing to ask for; the heading and the
+                                        status badge already say why.
+        */}
+        {openRequest ? (
+          <p className="text-sm text-ink-500">{t.requestOpen}</p>
+        ) : canRequestAccess(user.accountStatus) ? (
+          <AccessRequestForm dict={dict} alreadyRequested={false} canRequest />
+        ) : null}
 
         <Link href="/" className="text-center text-xs text-signal-600 hover:underline">
           {dict.common.backToSite}
