@@ -6,6 +6,17 @@ Holat jadvali belgilari: ✅ VERIFIED/DONE · 🔧 FIXED · ⚠️ EXTERNALLY UN
 
 ---
 
+> **Yangilangan holat (2026-09-26, keyingi commitlar).** Bu hujjat QA 2
+> boshlanishidan oldingi tayyorgarlik hisoboti; QA 2 **hali boshlanmagan** va
+> bu yerdagi hech bir raqam QA 2 natijasi emas. Oxirgi mahalliy darvozalar:
+> `tsc` 0 xato, ESLint 0 ogohlantirish, `npm test` **261 test / 258 o'tdi / 0
+> xato / 3 skip**, `npm run build` muvaffaqiyatli, brauzer matritsasi
+> **157/157**, Reading mashq maydoni **33/33**, material kompozitori **21/21**,
+> admission oqimi **9/9**, `scripts/verify-*.mjs` to'plami yashil
+> (`verify-production-schema` mahalliy bazada ataylab 41/42 — seed qilingan 7 demo hisob; productionda 42/42 kutiladi).
+> Productionni tekshirish hali bajarilmagan: `docs/MANUAL-CHECK.md` va
+> `docs/PRODUCTION-MIGRATSIYA.md` ga qarang.
+
 ## 0. Qisqa xulosa
 
 Barcha o'lchanadigan darvozalar yashil:

@@ -287,6 +287,21 @@ node --import tsx --env-file=.env scripts/import-reading-105.mjs --source <papka
 node --import tsx --env-file=.env scripts/import-reading-105.mjs --verify
 ```
 
+**Import qilishdan oldin (muhim):** importer shu branchdagi versiyada bo'lishi
+kerak — 144 ta ko'p tanlovli savolda variant matni yo'qolib qolgan xato
+tuzatilgan (`optionListFor` endi savolning o'z option qatorlarini o'qiydi).
+Productionga hali import qilinmagan bo'lsa, shu branchdagi kod bilan import
+qilinsa xato umuman paydo bo'lmaydi. Import allaqachon bo'lgan bo'lsa, eski
+qatorlar **o'zgartirilmaydi** (importer mavjud passani qayta yozmaydi) — buni
+faqat hisobotda aytib o'ting, o'zingizcha qayta import qilmang.
+
+**Importdan keyingi tekshiruv (read-only):** `--verify` hisoboti
+`questions 1406`, `groups 299`, `paragraphs 857`, `occurrences 3921`,
+`lexiconRows 2589` ko'rsatishi kerak va bitta DRAFT
+(`t29-p2-the-importance-of-law`) qolishi kerak. Brauzerda istalgan
+"Choose TWO letters"/MCQ passa ochilsa variantlar "A — …" ko'rinishida matn
+bilan chiqishi kerak.
+
 **Xavfsizlik:** bu buyruqlar foydalanuvchilarga, rollarga, urinishlarga yoki
 tarixga tegmangmaydi; ular faqat sxema va kontent bilan ishlaydi. `db:push`,
 `db:seed` va `reset-db.mjs` ishlatilmaydi.

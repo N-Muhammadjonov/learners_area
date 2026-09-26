@@ -51,10 +51,18 @@ reload × client navigation). Current result: **157/157**.
 | 14 | Reading looked empty | 105 passages imported, 104 published and one held back as a draft **because its source metadata does not match its extracted text** | open `/reading` | VERIFIED LOCALLY (importer `--verify`; see `READING-105-IMPORT-REPORT.md`) |
 | 15 | no Reading search/filter | status + topic + question-type filters, AND semantics, reset, state in the URL, pagination | filter by topic, reload the page, press reset | VERIFIED LOCALLY (`reading.mjs` 28/28) |
 | 16 | weak global search | grouped results by category (only categories with matches), 300 ms debounce, minimum two characters, `Cmd/Ctrl + K`, results filtered by role on the server | search for a passage title and for a word | VERIFIED LOCALLY |
-| 17 | blank on hard reload | pages render server state; the correct theme is on the page before the first byte; an open Reading attempt restores the saved answers | open an attempt, answer two questions, reload | VERIFIED LOCALLY (`practice.mjs` 27/27) |
+| 17 | blank on hard reload | pages render server state; the correct theme is on the page before the first byte; an open Reading attempt restores the saved answers | open an attempt, answer two questions, reload | VERIFIED LOCALLY (`practice.mjs` 33/33) |
 | 18 | empty states looked broken | one empty-state component, honest wording, a way out of the state | open a module with no content for a student | VERIFIED LOCALLY |
 | 19 | English-only errors under UZ | error/loading/not-found and every new string exist in UZ and EN | switch to UZ and visit a page that cannot be loaded (e.g. a malformed id) | VERIFIED LOCALLY; source passages stay in English because the material itself is English |
 | 20 | unclear controls | every control in `UI-ACTION-MATRIX.md` has a label, states, permission and an evidence line | spot-check a few rows from that document | VERIFIED LOCALLY |
+
+### Fixed after the first revision of this checklist
+
+| What was wrong | What it was | What changed | Evidence |
+| --- | --- | --- | --- |
+| Admissions showed nothing while an applicant waited | registering created the account but no request row, so the queue — which lists requests — said "nothing is waiting" while the applicant's own screen said "your request is with the centre" | registering now creates the request; the queue starts from waiting *accounts* and joins their open request, so an older account that never had a row is queued too; the decision endpoint accepts either id and still cannot approve twice | admission flow 9/9 (register → waiting room → queue → approve → audit → ACTIVE → learning) and the race check 6/6 (second decision is 409) |
+| Notes / summaries / flow-charts were unanswerable | 191 questions arrive as overlapping windows cut around their own blank, so the screen showed raw window text — a printed "2" with no input | `src/lib/reading/stimulus.ts` rebuilds one stimulus per group from the windows; every blank becomes an input, nothing is shown twice and nothing is dropped (41/41 groups complete, checked by `tests/reading-stimulus.test.ts`) | `practice.mjs` 33/33 — stimulus rendered, one input per blank, answers restored after a reload |
+| 144 multiple-choice questions had no options to choose from | the importer took a choice question's wording only from its group, but MCQ keeps the wording on the question's own option rows, so the screen showed "A, B, C, D" with nothing behind them | the importer reads the question's own option text (group wording still wins where it exists); it is source text, never an invention. This landed **before** the production import, so production gets the fixed data | importer `--verify` clean; 0 MCQ rows with a bare-letter option list |
 
 ## 3. Known exceptions (deliberate, reported)
 
@@ -74,7 +82,7 @@ reload × client navigation). Current result: **157/157**.
 | R2 signed delivery in production | upload a file through the composer and open it |
 | Telegram sign-in | the sign-in page — it must state plainly that Telegram is not configured if it is not |
 | A real phone (touch feel, keyboard behaviour) | iOS Safari / Android Chrome |
-| Migration 0017 + 0018 applied to production | `migrate-production.mjs --apply`, then `verify-production-schema.mjs` (expect 19/19 migrations, 62 tables, 42/42 checks; locally 41/42 because the demo accounts exist there by design) |
+| Migration 0017 + 0018 applied to production | `migrate-production.mjs --apply`, then `verify-production-schema.mjs` (expect 19/19 migrations, 62 tables, 42/42 checks; locally 41/42 because the seven seed accounts exist there by design) |
 
 ## 5. After your manual result
 
