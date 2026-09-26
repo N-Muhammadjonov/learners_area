@@ -1,3 +1,4 @@
+import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
 import { and, eq } from "drizzle-orm";
 import { db } from "@/db/client";
@@ -20,12 +21,14 @@ import { evaluateWritingSubmission } from "@/lib/services/coach";
  * exists, so a provider failure leaves the draft intact and retryable instead
  * of locking the student out of their own work.
  */
-export async function POST(_req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  if (!isUuid(id)) return NextResponse.json({ error: "not_found" }, { status: 404 });
   const user = await requireActiveUser();
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
   const submission = await db.query.writingSubmissions.findFirst({
-    where: and(eq(writingSubmissions.id, params.id), eq(writingSubmissions.userId, user.id)),
+    where: and(eq(writingSubmissions.id, id), eq(writingSubmissions.userId, user.id)),
   });
   if (!submission) return NextResponse.json({ error: "not_found" }, { status: 404 });
   if (submission.status !== "draft") {
@@ -47,7 +50,7 @@ export async function POST(_req: NextRequest, { params }: { params: { id: string
     prompt: prompt.prompt,
     content: submission.content,
     targetWordCount: prompt.targetWordCount,
-    language: getLocale(),
+    language: await getLocale(),
   });
 
   if (!outcome.ok) {

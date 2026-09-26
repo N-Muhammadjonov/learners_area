@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import type { Dictionary } from "@/lib/i18n/en";
+import { formatDate } from "@/lib/time";
 
 /**
  * Notes and progress for one lesson.
@@ -92,7 +93,7 @@ export function LessonWorkspace({
         {current === "completed" && (
           <span className="text-sm text-band-good" data-lesson-done>
             {t.completedOn}
-            {completedAt ? ` ${new Date(completedAt).toLocaleDateString()}` : ""}
+            {completedAt ? ` ${formatDate(completedAt)}` : ""}
           </span>
         )}
       </div>

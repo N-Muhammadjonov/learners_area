@@ -7,12 +7,23 @@ import {
   listeningAnswers,
   listeningMcqSessions,
 } from "@/db/schema";
+import { isLive, liveWhere } from "@/lib/services/cms/publication";
 
 export function listActiveTests() {
   return db.query.listeningTests.findMany({
-    where: eq(listeningTests.isActive, true),
+    where: liveWhere({
+      publicationState: listeningTests.publicationState,
+      publishAt: listeningTests.publishAt,
+    }),
     orderBy: asc(listeningTests.createdAt),
   });
+}
+
+/** As with Reading: a test a student may begin, and only that. */
+export async function getStartableTest(testId: string) {
+  const test = await db.query.listeningTests.findFirst({ where: eq(listeningTests.id, testId) });
+  if (!test || !isLive(test)) return null;
+  return test;
 }
 
 export async function getTestWithQuestions(testId: string) {

@@ -6,8 +6,14 @@ import { registerSchema } from "@/lib/validation/auth";
 import { hashPassword } from "@/lib/auth/password";
 import { createSessionToken, SESSION_COOKIE, clearSessionCookies, sessionCookieOptions } from "@/lib/auth/session";
 import { getLocale } from "@/lib/i18n";
+import { RULES, clientKey, enforce } from "@/lib/http/rate-limit";
 
 export async function POST(req: NextRequest) {
+  // Mass registration is the cheapest abuse there is; a private centre admits a
+  // handful of people a month, never a burst from one address.
+  const limited = enforce(RULES.register, clientKey(req));
+  if (limited) return limited;
+
   const body = await req.json().catch(() => null);
   const parsed = registerSchema.safeParse(body);
   if (!parsed.success) {
@@ -21,7 +27,7 @@ export async function POST(req: NextRequest) {
   }
 
   const passwordHash = await hashPassword(password);
-  const locale = getLocale();
+  const locale = await getLocale();
 
   const [user] = await db
     .insert(users)

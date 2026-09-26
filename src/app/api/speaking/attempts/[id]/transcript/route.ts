@@ -1,3 +1,4 @@
+import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
@@ -21,12 +22,14 @@ import { evaluateSpeakingAttempt } from "@/lib/services/coach";
  */
 const schema = z.object({ manualTranscript: z.string().min(10).max(8000) });
 
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  if (!isUuid(id)) return NextResponse.json({ error: "not_found" }, { status: 404 });
   const user = await requireActiveUser();
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
   const attempt = await db.query.speakingAttempts.findFirst({
-    where: eq(speakingAttempts.id, params.id),
+    where: eq(speakingAttempts.id, id),
   });
   if (!attempt) return NextResponse.json({ error: "not_found" }, { status: 404 });
   if (attempt.userId !== user.id) return NextResponse.json({ error: "forbidden" }, { status: 403 });
@@ -47,7 +50,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     transcript: parsed.data.manualTranscript,
     transcriptOrigin: "manual",
     durationMs: attempt.recordingDurationMs,
-    language: getLocale(),
+    language: await getLocale(),
   });
 
   if (!outcome.ok) return NextResponse.json({ error: outcome.error }, { status: 502 });

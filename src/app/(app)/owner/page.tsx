@@ -6,6 +6,8 @@ import { listPendingAccessRequests } from "@/lib/data/admission";
 import { integrationReport } from "@/lib/services/integrations";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { Card, StatCard } from "@/components/ui/Card";
+import { BrandLogo } from "@/components/brand/BrandLogo";
+import { BRAND, BRAND_ASSETS, allBrandAssets } from "@/lib/config/brand";
 
 export const dynamic = "force-dynamic";
 
@@ -21,7 +23,7 @@ export default async function OwnerPage() {
   const owner = await requireOwner();
   if (!owner) redirect("/dashboard");
 
-  const dict = getDictionary(getLocale());
+  const dict = getDictionary(await getLocale());
   const [counts, pending, integrations] = await Promise.all([
     countPeople(),
     listPendingAccessRequests(),
@@ -56,6 +58,38 @@ export default async function OwnerPage() {
         <OwnerLink href="/owner/audit" title={dict.owner.audit} body={dict.people.subtitle} />
         <OwnerLink href="/owner/transfer" title={dict.owner.transfer} body={dict.owner.transferWarning} />
       </div>
+
+      {/*
+        The brand preview.
+        This is where the master artwork belongs: the brand is the subject here,
+        not a row in a navigation list. The preview also lists the six approved
+        files with their configured paths, so a rename or a replacement is
+        visible in one place instead of being discovered in a broken layout.
+      */}
+      <Card data-brand-preview>
+        <h2 className="font-display text-lg text-ink-900">{dict.owner.brandTitle}</h2>
+        <p className="mt-1 text-xs text-ink-500">{dict.owner.brandHint}</p>
+        <div className="mt-4 flex flex-wrap items-center gap-6">
+          <BrandLogo kind="master" className="h-32 max-w-full" />
+          <div className="flex flex-col gap-2">
+            <BrandLogo kind="horizontal" className="h-10 max-w-[min(22rem,70vw)]" />
+            <BrandLogo kind="mark" className="h-10" />
+          </div>
+        </div>
+        <dl className="mt-5 grid gap-1 text-xs text-ink-500 sm:grid-cols-2" data-brand-asset-list>
+          {allBrandAssets().map((asset) => (
+            <div key={asset.key} className="flex min-w-0 items-center justify-between gap-3 border-b border-ink-100 py-1">
+              <dt className="shrink-0 font-medium text-ink-700">{dict.owner.brandAssets[asset.key]}</dt>
+              <dd className="truncate font-mono" data-brand-asset={asset.key}>
+                {asset.path}
+              </dd>
+            </div>
+          ))}
+        </dl>
+        <p className="mt-3 text-xs text-ink-300">
+          {BRAND.siteName} · {BRAND_ASSETS.favicon}
+        </p>
+      </Card>
     </div>
   );
 }

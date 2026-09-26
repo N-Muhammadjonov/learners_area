@@ -103,6 +103,7 @@ function WordPopover({
   const [meaning, setMeaning] = useState("");
   const [uzbek, setUzbek] = useState("");
   const [saved, setSaved] = useState(false);
+  const [needsMeaning, setNeedsMeaning] = useState(false);
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
@@ -134,7 +135,11 @@ function WordPopover({
         items: [
           {
             term: word,
-            definitionEn: meaning.trim() || word,
+            // Only what the student actually typed. An empty meaning is left
+            // empty on purpose: the server asks the centre's lexical sources,
+            // and if nothing knows the word it says so instead of storing the
+            // word as its own definition.
+            ...(meaning.trim() ? { definitionEn: meaning.trim() } : {}),
             translationUz: uzbek.trim() || null,
           },
         ],
@@ -143,10 +148,17 @@ function WordPopover({
       }),
     });
     setBusy(false);
+    const body = await res.json().catch(() => ({}));
     if (res.ok) {
       setSaved(true);
       setMeaning("");
       setUzbek("");
+      return;
+    }
+    // The word is real but its meaning is not known to us. Asking the student is
+    // the honest move; inventing a definition would teach the wrong thing.
+    if (body?.error === "needs_definition") {
+      setNeedsMeaning(true);
     }
   }
 
@@ -200,6 +212,12 @@ function WordPopover({
       {saved && (
         <p className="mt-2 text-xs text-band-good" data-word-saved>
           {t.add.added} · {t.tab.words}
+        </p>
+      )}
+
+      {needsMeaning && (
+        <p className="mt-2 text-xs text-band-warn" data-word-needs-meaning>
+          {t.add.needsMeaning}
         </p>
       )}
     </div>

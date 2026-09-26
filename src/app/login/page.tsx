@@ -5,8 +5,8 @@ import { LoginForm } from "@/components/auth/LoginForm";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { isTelegramConfigured } from "@/lib/auth/providers/telegram";
 
-export default function LoginPage() {
-  const dict = getDictionary(getLocale());
+export default async function LoginPage() {
+  const dict = getDictionary(await getLocale());
   return (
     <AuthShell
       title={dict.auth.loginTitle}

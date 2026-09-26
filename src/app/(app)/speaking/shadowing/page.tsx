@@ -17,19 +17,19 @@ export const dynamic = "force-dynamic";
 export default async function ShadowingPage() {
   const user = await requireActiveUser();
   if (!user) return null;
-  const dict = getDictionary(getLocale());
+  const dict = getDictionary(await getLocale());
 
   const materials = await listActiveMaterials();
   const tracks = materials
     .map((row) => {
-      const source = resolveEmbedSource(row.material.primaryUrl, row.material.primaryType);
+      const source = resolveEmbedSource(row.material.primaryUrl ?? "", row.material.primaryType);
       return { material: row.material, source };
     })
     .filter((row) => row.source.kind === "audio")
     .map((row) => ({
       id: row.material.id,
       title: row.material.title,
-      url: row.source.kind === "audio" ? row.source.src : row.material.primaryUrl,
+      url: row.source.kind === "audio" ? row.source.src : (row.material.primaryUrl ?? ""),
       category: row.material.category,
     }));
 

@@ -1,3 +1,5 @@
+import { isUuid } from "@/lib/validation/ids";
+import { touchMeaningfulActivity } from "@/lib/services/activity";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { and, eq } from "drizzle-orm";
@@ -10,7 +12,9 @@ const schema = z.object({
   answers: z.array(z.object({ questionId: z.string().uuid(), answer: z.string().max(500) })),
 });
 
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  if (!isUuid(id)) return NextResponse.json({ error: "not_found" }, { status: 404 });
   const user = await requireActiveUser();
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
@@ -19,7 +23,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   if (!parsed.success) return NextResponse.json({ error: "invalid_input" }, { status: 400 });
 
   const attempt = await db.query.readingAttempts.findFirst({
-    where: and(eq(readingAttempts.id, params.id), eq(readingAttempts.userId, user.id)),
+    where: and(eq(readingAttempts.id, id), eq(readingAttempts.userId, user.id)),
   });
   if (!attempt) return NextResponse.json({ error: "not_found" }, { status: 404 });
   if (attempt.status !== "in_progress") {
@@ -51,6 +55,8 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
       payload: { attemptId: attempt.id, score, totalQuestions: questions.length },
     });
   });
+
+  await touchMeaningfulActivity(user.id);
 
   return NextResponse.json({ ok: true, score, totalQuestions: questions.length });
 }

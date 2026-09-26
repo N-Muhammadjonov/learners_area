@@ -10,12 +10,17 @@ import { NewAssignmentForm } from "@/components/teacher/NewAssignmentForm";
 import { db } from "@/db/client";
 import { writingPrompts } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { isUuid } from "@/lib/validation/ids";
+import { liveWhere } from "@/lib/services/cms/publication";
 
-export default async function StudentDetailPage({ params }: { params: { id: string } }) {
+export default async function StudentDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const user = await requireStaff();
   if (!user) redirect("/dashboard");
-  const dict = getDictionary(getLocale());
-  const detail = await getStudentDetail(params.id);
+  const dict = getDictionary(await getLocale());
+  // Shakli noto'g'ri id hech qachon bazaga yetib bormaydi: javob 500 emas, 404.
+  if (!isUuid(id)) notFound();
+  const detail = await getStudentDetail(id);
   if (!detail) notFound();
 
   // The Coach's evaluation is shown to the teacher as a separate, read-only
@@ -29,7 +34,13 @@ export default async function StudentDetailPage({ params }: { params: { id: stri
   const prompts = await db
     .select({ id: writingPrompts.id, category: writingPrompts.category, taskType: writingPrompts.taskType })
     .from(writingPrompts)
-    .where(eq(writingPrompts.isActive, true));
+    // A teacher may only set work on a prompt that is live for students.
+    .where(
+      liveWhere({
+        publicationState: writingPrompts.publicationState,
+        publishAt: writingPrompts.publishAt,
+      }),
+    );
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-6">

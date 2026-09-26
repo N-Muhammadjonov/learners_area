@@ -13,7 +13,7 @@ export default async function AdminGrammarPage() {
   // rely on the edge guard's cookie, which goes stale the moment a role changes.
   const administrator = await requireAdministrator();
   if (!administrator) redirect("/dashboard");
-  const dict = getDictionary(getLocale());
+  const dict = getDictionary(await getLocale());
   const topics = await db.query.grammarTopics.findMany({ orderBy: asc(grammarTopics.order) });
 
   return (

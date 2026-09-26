@@ -6,11 +6,16 @@ import { gameSet, recordGameAnswer } from "@/lib/services/vocabulary/engine";
 /**
  * The casual games API.
  *
- * GET  ?set=weak&folderId=…   the words a set offers (same library, a filter)
- * POST {entryId, correct, set} one answer, scored server-side
+ * GET  ?set=weak&folderId=…  the words a set offers (same library, a filter)
+ * POST {entryId, set, submission}  one answer, graded by the server
+ *
+ * The request carries WHAT the student answered, never whether it was right. The
+ * server looks the word up and decides, so a hand-made request that claims
+ * success earns nothing. A submission the server cannot check (a flashcard
+ * self-assessment) is recorded as practice only.
  *
  * The answer endpoint deliberately cannot move the spaced-repetition ladder: it
- * awards a small casual point when the word was one the student was due to
+ * awards a small casual point when the word is one the student was due to
  * practise, and nothing otherwise. Official progress happens only in scheduled
  * revision.
  */
@@ -29,13 +34,30 @@ export async function GET(req: NextRequest) {
   return NextResponse.json({ ok: true, ...set });
 }
 
-const answerSchema = z.object({
-  entryId: z.string().uuid(),
-  correct: z.boolean(),
-  set: z.enum(SETS),
-  /** The server decides eligibility; this is only a hint and is re-checked. */
-  eligible: z.boolean().optional(),
-});
+/**
+ * A submission, not a verdict. `strict()` matters: a body that still carries the
+ * retired `correct` field is rejected outright rather than being silently
+ * accepted, so a client that has not been updated cannot keep asserting its own
+ * score.
+ */
+const submissionSchema = z.discriminatedUnion("kind", [
+  // An empty answer is allowed and simply graded wrong: a student who presses
+  // "check" on an empty box should see the same verdict the browser shows, not
+  // an error.
+  z.object({ kind: z.literal("spelling"), text: z.string().max(300) }).strict(),
+  z.object({ kind: z.literal("sentence"), text: z.string().max(600) }).strict(),
+  z.object({ kind: z.literal("self"), known: z.boolean() }).strict(),
+]);
+
+const answerSchema = z
+  .object({
+    entryId: z.string().uuid(),
+    set: z.enum(SETS),
+    submission: submissionSchema,
+    /** Eligibility is derived server-side; a hint from the body is ignored. */
+    eligible: z.boolean().optional(),
+  })
+  .strict();
 
 export async function POST(req: NextRequest) {
   const user = await requireActiveUser();
@@ -54,10 +76,11 @@ export async function POST(req: NextRequest) {
   const result = await recordGameAnswer({
     userId: user.id,
     entryId: parsed.data.entryId,
-    correct: parsed.data.correct,
+    submission: parsed.data.submission,
     setKey: parsed.data.set,
     eligible,
   });
+  if (!result.ok) return NextResponse.json({ error: result.error }, { status: 404 });
 
-  return NextResponse.json({ ok: true, ...result });
+  return NextResponse.json(result);
 }

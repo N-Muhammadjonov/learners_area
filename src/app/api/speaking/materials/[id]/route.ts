@@ -1,3 +1,4 @@
+import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
@@ -31,11 +32,13 @@ import { inferMaterialType } from "@/lib/uploads/material-type";
  * direction is a possibly-orphaned object, never a resource pointing at
  * deleted bytes.
  */
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  if (!isUuid(id)) return NextResponse.json({ error: "not_found" }, { status: 404 });
   const user = await requireActiveUser();
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
-  const material = await db.query.speakingMaterials.findFirst({ where: eq(speakingMaterials.id, params.id) });
+  const material = await db.query.speakingMaterials.findFirst({ where: eq(speakingMaterials.id, id) });
   if (!material) return NextResponse.json({ error: "not_found" }, { status: 404 });
   if (!canManageContent(user, material.createdByUserId)) {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
@@ -49,7 +52,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   const data = parsed.data;
 
   const existingBlocks = await db.query.materialBlocks.findMany({
-    where: eq(materialBlocks.materialId, params.id),
+    where: eq(materialBlocks.materialId, id),
   });
 
   // Keys the client may retain without re-uploading: what is stored right now.
@@ -86,7 +89,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
       const claimed = await claimAttachment(data.primary.ref, {
         userId: user.id,
         purpose: "material_primary",
-        materialId: params.id,
+        materialId: id,
         retainedBlocks,
       });
       if (!claimed.ok) return NextResponse.json({ error: claimed.error }, { status: 400 });
@@ -124,7 +127,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     for (const [index, block] of data.blocks.entries()) {
       if (block.type === "text" || block.type === "link") {
         blockRows.push({
-          materialId: params.id,
+          materialId: id,
           type: block.type,
           position: index,
           textContent: block.type === "text" ? block.textContent : null,
@@ -142,7 +145,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
         userId: user.id,
         purpose: "material_block",
         blockKind: block.type,
-        materialId: params.id,
+        materialId: id,
         retainedBlocks,
       });
       if (!claimed.ok) {
@@ -151,7 +154,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
       }
       claimedUploadIds.push(block.ref.uploadId ?? "");
       blockRows.push({
-        materialId: params.id,
+        materialId: id,
         type: block.type,
         position: index,
         textContent: null,
@@ -192,11 +195,11 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
             ...(primaryUpdate ?? {}),
             updatedAt: new Date(),
           })
-          .where(eq(speakingMaterials.id, params.id));
+          .where(eq(speakingMaterials.id, id));
       }
 
       if (blockRows) {
-        await tx.delete(materialBlocks).where(eq(materialBlocks.materialId, params.id));
+        await tx.delete(materialBlocks).where(eq(materialBlocks.materialId, id));
         if (blockRows.length > 0) {
           await tx.insert(materialBlocks).values(blockRows);
         }
@@ -230,22 +233,24 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
  * by the abandoned-upload sweep — not with a resource pointing at bytes that
  * no longer exist.
  */
-export async function DELETE(_req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  if (!isUuid(id)) return NextResponse.json({ error: "not_found" }, { status: 404 });
   const user = await requireActiveUser();
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
-  const material = await db.query.speakingMaterials.findFirst({ where: eq(speakingMaterials.id, params.id) });
+  const material = await db.query.speakingMaterials.findFirst({ where: eq(speakingMaterials.id, id) });
   if (!material) return NextResponse.json({ error: "not_found" }, { status: 404 });
   if (!canManageContent(user, material.createdByUserId)) {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
 
-  const blocks = await db.query.materialBlocks.findMany({ where: eq(materialBlocks.materialId, params.id) });
+  const blocks = await db.query.materialBlocks.findMany({ where: eq(materialBlocks.materialId, id) });
   const keysToDelete = [material.primaryObjectKey, ...blocks.map((b) => b.objectKey)].filter(
     (k): k is string => Boolean(k)
   );
 
-  await db.delete(speakingMaterials).where(eq(speakingMaterials.id, params.id));
+  await db.delete(speakingMaterials).where(eq(speakingMaterials.id, id));
 
   const storage = getStorageService();
   await Promise.all(

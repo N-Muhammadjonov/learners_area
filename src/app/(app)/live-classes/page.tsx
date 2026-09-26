@@ -8,11 +8,13 @@ import { Card } from "@/components/ui/Card";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { JoinButton } from "@/components/live-classes/JoinButton";
 import { joinState, opensAt } from "@/lib/services/live-classes/window";
+import { formatDate, formatDateTime } from "@/lib/time";
 
 export default async function LiveClassesPage() {
   const user = await requireActiveUser();
   if (!user) return null;
-  const dict = getDictionary(getLocale());
+  const locale = await getLocale();
+  const dict = getDictionary(locale);
 
   const ielts = await db.query.courses.findFirst({ where: eq(courses.slug, "ielts") });
   if (!ielts) {
@@ -58,7 +60,7 @@ export default async function LiveClassesPage() {
                     <p className="text-sm font-medium text-ink-900">{c.title}</p>
                     {c.topic && <p className="text-xs text-ink-500">{c.topic}</p>}
                     <p className="text-xs text-ink-300">
-                      {new Date(c.scheduledAt).toLocaleString()} · {c.durationMinutes} {dict.common.minutes} ·{" "}
+                      {formatDateTime(c.scheduledAt, locale)} · {c.durationMinutes} {dict.common.minutes} ·{" "}
                       {(c.teacherUserId ? teacherName.get(c.teacherUserId) : null) ?? dict.liveClasses.teacher}{" "}
                       {c.status === "live" && (
                         <span className="text-band-bad">· {dict.liveClasses.liveNow}</span>
@@ -73,7 +75,7 @@ export default async function LiveClassesPage() {
                       joinedLabel={dict.liveClasses.joined}
                       alreadyJoined={attendedSet.has(c.id)}
                       state={state}
-                      opensAtLabel={`${dict.liveClasses.opensAt} ${opensAt(c).toLocaleString()}`}
+                      opensAtLabel={`${dict.liveClasses.opensAt} ${formatDateTime(opensAt(c), locale)}`}
                       watchedLabel={dict.liveClasses.closedWatchRecording}
                       cancelledLabel={dict.liveClasses.status.cancelled}
                     />
@@ -94,7 +96,7 @@ export default async function LiveClassesPage() {
                 <div className="min-w-0">
                   <p className="text-sm font-medium text-ink-900">{c.title}</p>
                   <p className="text-xs text-ink-300">
-                    {new Date(c.scheduledAt).toLocaleDateString()} · {dict.liveClasses.status[c.status]}
+                    {formatDate(c.scheduledAt, locale)} · {dict.liveClasses.status[c.status]}
                     {attendedSet.has(c.id) && (
                       <span className="text-band-good"> · {dict.liveClasses.youAttended}</span>
                     )}

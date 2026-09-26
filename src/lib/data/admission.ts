@@ -129,12 +129,15 @@ export async function decideAccessRequest(input: DecisionInput) {
     where: eq(accessRequests.id, input.requestId),
   });
   if (!request) return { ok: false as const, error: "not_found" };
-  if (request.status !== "pending") return { ok: false as const, error: "already_decided" };
 
   const approved = input.decision === "approve";
   const now = new Date();
 
-  await db
+  // The decision is claimed atomically: the update only matches while the row is
+  // still pending, so two administrators clicking at the same moment cannot both
+  // approve the same applicant and send two conflicting notifications. The loser
+  // of the race sees `already_decided`, which is the truth.
+  const claimed = await db
     .update(accessRequests)
     .set({
       status: approved ? "approved" : "rejected",
@@ -142,7 +145,10 @@ export async function decideAccessRequest(input: DecisionInput) {
       decidedAt: now,
       decisionNote: input.note ?? null,
     })
-    .where(eq(accessRequests.id, input.requestId));
+    .where(and(eq(accessRequests.id, input.requestId), eq(accessRequests.status, "pending")))
+    .returning({ id: accessRequests.id });
+
+  if (claimed.length === 0) return { ok: false as const, error: "already_decided" };
 
   await db
     .update(users)

@@ -1,3 +1,4 @@
+import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
@@ -5,7 +6,9 @@ import { grammarExercises } from "@/db/schema";
 import { isAdministrator, requireActiveUser } from "@/lib/auth/current-user";
 import { createGrammarExerciseSchema } from "@/lib/validation/admin";
 
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  if (!isUuid(id)) return NextResponse.json({ error: "not_found" }, { status: 404 });
   const user = await requireActiveUser();
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
   if (!isAdministrator(user.role)) return NextResponse.json({ error: "forbidden" }, { status: 403 });
@@ -18,12 +21,12 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     return NextResponse.json({ error: "correct_option_must_be_one_of_options" }, { status: 400 });
   }
 
-  const existing = await db.query.grammarExercises.findMany({ where: eq(grammarExercises.topicId, params.id) });
+  const existing = await db.query.grammarExercises.findMany({ where: eq(grammarExercises.topicId, id) });
 
   const [created] = await db
     .insert(grammarExercises)
     .values({
-      topicId: params.id,
+      topicId: id,
       order: existing.length + 1,
       promptText: parsed.data.promptText,
       options: parsed.data.options,

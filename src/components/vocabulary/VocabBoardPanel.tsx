@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import type { Dictionary } from "@/lib/i18n/en";
 import { toDate, type VocabAward, type VocabStanding } from "./types";
+import { formatDate } from "@/lib/time";
 
 /**
  * LEADERBOARD — private, and scored on the server.
@@ -111,7 +112,7 @@ export function VocabBoardPanel({
               <li key={award.id} className="flex items-center justify-between gap-2">
                 <span>{awardLabel[award.kind]}</span>
                 <span className="text-ink-300">
-                  +{award.points} · {toDate(award.createdAt).toLocaleDateString()}
+                  +{award.points} · {formatDate(award.createdAt)}
                 </span>
               </li>
             ))}

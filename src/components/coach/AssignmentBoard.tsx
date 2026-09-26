@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import type { Dictionary } from "@/lib/i18n/en";
+import { formatDate } from "@/lib/time";
 
 export type AssignmentCard = {
   id: string;
@@ -75,7 +76,7 @@ export function AssignmentBoard({
           )}
           {assignment.dueAt && (
             <p className="text-xs text-ink-300">
-              {t.due} {new Date(assignment.dueAt).toLocaleDateString()}
+              {t.due} {formatDate(assignment.dueAt)}
             </p>
           )}
 

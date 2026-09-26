@@ -1,6 +1,7 @@
 import { and, asc, desc, eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { speakingMaterials, materialBlocks, users } from "@/db/schema";
+import { isLive, liveWhere } from "@/lib/services/cms/publication";
 
 async function withBlocks<T extends { material: typeof speakingMaterials.$inferSelect }>(
   rows: T[]
@@ -25,7 +26,12 @@ export async function listActiveMaterials() {
     .select({ material: speakingMaterials, authorName: users.name })
     .from(speakingMaterials)
     .innerJoin(users, eq(speakingMaterials.createdByUserId, users.id))
-    .where(eq(speakingMaterials.isActive, true))
+    .where(
+      liveWhere({
+        publicationState: speakingMaterials.publicationState,
+        publishAt: speakingMaterials.publishAt,
+      }),
+    )
     .orderBy(asc(speakingMaterials.category), desc(speakingMaterials.createdAt));
   return withBlocks(rows);
 }

@@ -14,9 +14,14 @@ export function isLocale(value: string | undefined): value is Locale {
   return !!value && (LOCALES as readonly string[]).includes(value);
 }
 
-/** Server-side: read the visitor's locale cookie (defaults to Uzbek). */
-export function getLocale(): Locale {
-  const raw = cookies().get(LOCALE_COOKIE)?.value;
+/**
+ * Server-side: read the visitor's locale cookie (defaults to Uzbek).
+ *
+ * Async because `cookies()` is async in Next 15 (it used to be sync). Every
+ * caller awaits it; there is exactly one place that reads this cookie.
+ */
+export async function getLocale(): Promise<Locale> {
+  const raw = (await cookies()).get(LOCALE_COOKIE)?.value;
   return isLocale(raw) ? raw : "uz";
 }
 

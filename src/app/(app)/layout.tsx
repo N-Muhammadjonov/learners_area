@@ -9,6 +9,16 @@ import { Topbar } from "@/components/shell/Topbar";
 export const dynamic = "force-dynamic";
 
 /**
+ * Nothing inside the centre belongs in a search engine. The sitemap never lists
+ * these routes, `robots.txt` disallows them, and this makes the intent explicit
+ * on the page itself — a private URL that leaked into a chat is still not
+ * published by a crawler that follows it.
+ */
+export const metadata = {
+  robots: { index: false, follow: false, nocache: true },
+};
+
+/**
  * The private area of the centre.
  *
  * The gate is a database read, not a cookie read: `getCurrentUser()` re-loads
@@ -20,7 +30,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   if (!user) redirect("/login");
   if (!hasPrivateAccess(user.accountStatus)) redirect("/pending");
 
-  const locale = getLocale();
+  const locale = await getLocale();
   const dict = getDictionary(locale);
   const unread = await countUnread(user.id);
 

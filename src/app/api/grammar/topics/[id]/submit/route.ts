@@ -1,3 +1,4 @@
+import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { eq } from "drizzle-orm";
@@ -9,7 +10,9 @@ const schema = z.object({
   answers: z.array(z.object({ exerciseId: z.string().uuid(), selectedOption: z.string().min(1) })),
 });
 
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  if (!isUuid(id)) return NextResponse.json({ error: "not_found" }, { status: 404 });
   const user = await requireActiveUser();
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
@@ -17,7 +20,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   const parsed = schema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: "invalid_input" }, { status: 400 });
 
-  const exercises = await db.query.grammarExercises.findMany({ where: eq(grammarExercises.topicId, params.id) });
+  const exercises = await db.query.grammarExercises.findMany({ where: eq(grammarExercises.topicId, id) });
   const exerciseById = new Map(exercises.map((e) => [e.id, e]));
 
   const results: { exerciseId: string; isCorrect: boolean; correctOption: string; explanation: string }[] = [];
@@ -41,7 +44,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     await db.insert(activityEvents).values({
       userId: user.id,
       type: "GRAMMAR_TOPIC_ATTEMPTED",
-      payload: { topicId: params.id, correct: results.filter((r) => r.isCorrect).length, total: results.length },
+      payload: { topicId: id, correct: results.filter((r) => r.isCorrect).length, total: results.length },
     });
   }
 

@@ -1,3 +1,4 @@
+import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
@@ -21,12 +22,14 @@ import { evaluateSpeakingAttempt, transcribePrivateRecording } from "@/lib/servi
  * A `transcript` field is deliberately NOT accepted: it would let a client
  * fabricate machine transcription.
  */
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  if (!isUuid(id)) return NextResponse.json({ error: "not_found" }, { status: 404 });
   const user = await requireActiveUser();
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
   const attempt = await db.query.speakingAttempts.findFirst({
-    where: eq(speakingAttempts.id, params.id),
+    where: eq(speakingAttempts.id, id),
   });
   if (!attempt) return NextResponse.json({ error: "not_found" }, { status: 404 });
   if (attempt.userId !== user.id) return NextResponse.json({ error: "forbidden" }, { status: 403 });
@@ -60,7 +63,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
       objectKey: attempt.recordingObjectKey,
       contentType: attempt.recordingMimeType,
       durationMs: parsed.data.durationMs ?? attempt.recordingDurationMs,
-      language: getLocale(),
+      language: await getLocale(),
     });
     if (speech.ok) {
       transcript = speech.transcript;
@@ -77,7 +80,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
       ...(parsed.data.durationMs !== undefined ? { recordingDurationMs: parsed.data.durationMs } : {}),
       ...(transcript ? { transcript, transcriptOrigin, transcriptProvider } : {}),
     })
-    .where(eq(speakingAttempts.id, params.id))
+    .where(eq(speakingAttempts.id, id))
     .returning();
 
   let evaluation:
@@ -97,7 +100,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
       transcript,
       transcriptOrigin,
       durationMs: parsed.data.durationMs ?? attempt.recordingDurationMs ?? null,
-      language: getLocale(),
+      language: await getLocale(),
     });
 
     // An evaluation failure after a successful submit is not an error the

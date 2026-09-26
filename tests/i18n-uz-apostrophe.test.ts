@@ -25,9 +25,14 @@ const TYPOGRAPHIC_MARKS = /[\u2018\u2019\u02bb\u02bc\u02b9\u2032]/;
  * inputs, not UI copy, and must stay permissive.
  */
 const INPUT_NORMALISERS = new Set([
-  "src/components/vocabulary/VocabGamesPanel.tsx",
   "src/lib/services/grammar/mastery.ts",
   "src/lib/services/vocabulary/dedupe.ts",
+  // Grades typed answers (games and the translation challenge): folds whichever
+  // apostrophe a keyboard produced into the ASCII form before comparing, and
+  // runs in the browser and on the server from one shared rule. An input, not UI
+  // copy. The games screen no longer carries its own copy of this rule.
+  "src/lib/services/vocabulary/grading.ts",
+  "src/lib/data/video-lessons.ts",
 ]);
 
 const stripComments = (source: string) =>

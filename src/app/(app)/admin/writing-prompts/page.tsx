@@ -1,17 +1,19 @@
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { redirect } from "next/navigation";
 import { requireAdministrator } from "@/lib/auth/current-user";
-import { listActivePrompts } from "@/lib/data/writing";
+import { listAllPrompts } from "@/lib/data/writing";
 import { Card } from "@/components/ui/Card";
 import { NewPromptForm } from "@/components/admin/NewPromptForm";
+import { PublicationControl } from "@/components/admin/PublicationControl";
 
 export default async function AdminWritingPromptsPage() {
   // Authorization is a database read, not a menu decision: this page used to
   // rely on the edge guard's cookie, which goes stale the moment a role changes.
   const administrator = await requireAdministrator();
   if (!administrator) redirect("/dashboard");
-  const dict = getDictionary(getLocale());
-  const prompts = await listActivePrompts();
+  const dict = getDictionary(await getLocale());
+  // Staff see drafts and the archive as well; the student page uses the live list.
+  const prompts = await listAllPrompts();
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-4">
@@ -27,6 +29,13 @@ export default async function AdminWritingPromptsPage() {
                 {p.taskType === "task1" ? dict.writing.task1 : dict.writing.task2}
               </span>
               <span className="text-xs text-ink-300">{p.category}</span>
+              <PublicationControl
+                type="writing"
+                id={p.id}
+                state={p.publicationState}
+                publishAt={p.publishAt ? p.publishAt.toISOString() : null}
+                dict={dict}
+              />
             </div>
             <p className="mt-2 text-sm text-ink-700">{p.prompt}</p>
           </Card>

@@ -8,7 +8,7 @@ import { EmptyState } from "@/components/ui/EmptyState";
 export default async function ReadingHistoryPage() {
   const user = await requireActiveUser();
   if (!user) return null;
-  const dict = getDictionary(getLocale());
+  const dict = getDictionary(await getLocale());
   const rows = await listUserAttempts(user.id);
 
   return (

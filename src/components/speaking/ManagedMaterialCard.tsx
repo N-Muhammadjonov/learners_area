@@ -110,7 +110,7 @@ export function ManagedMaterialCard({
       {expanded && !editingContent && (
         <div className="flex flex-col gap-2 rounded-sm bg-paper-sunken p-2">
           {blocks.map((b) => (
-            <BlockRenderer key={b.id} block={b} openLabel={dict.speaking.openMaterial} />
+            <BlockRenderer key={b.id} block={b} openLabel={dict.speaking.openMaterial} emptyLabel={dict.speaking.noFileYet} />
           ))}
         </div>
       )}

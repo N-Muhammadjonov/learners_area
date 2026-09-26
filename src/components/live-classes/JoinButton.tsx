@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
+import { formatTime } from "@/lib/time";
 
 type JoinState = "open" | "too_early" | "closed" | "cancelled";
 
@@ -54,7 +55,7 @@ export function JoinButton({
     ) : (
       <span className="text-xs text-band-good" data-live-attended>
         {joinedLabel}
-        {joinedAt ? ` · ${new Date(joinedAt).toLocaleTimeString()}` : ""} ✓
+        {joinedAt ? ` · ${formatTime(joinedAt)}` : ""} ✓
       </span>
     );
   }

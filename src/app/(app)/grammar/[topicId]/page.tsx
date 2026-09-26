@@ -9,16 +9,20 @@ import { writingSubmissions } from "@/db/schema";
 import { GrammarQuiz } from "@/components/grammar/GrammarQuiz";
 import { PracticeActivities } from "@/components/grammar/PracticeActivities";
 import { TopicMasteryCard } from "@/components/grammar/TopicMasteryCard";
+import { isUuid } from "@/lib/validation/ids";
 
-export default async function GrammarTopicPage({ params }: { params: { topicId: string } }) {
+export default async function GrammarTopicPage({ params }: { params: Promise<{ topicId: string }> }) {
+  const { topicId } = await params;
   const user = await requireActiveUser();
   if (!user) return null;
-  const dict = getDictionary(getLocale());
+  const dict = getDictionary(await getLocale());
 
-  const detail = await getTopicWithExercises(params.topicId);
+  // Shakli noto'g'ri id hech qachon bazaga yetib bormaydi: javob 500 emas, 404.
+  if (!isUuid(topicId)) notFound();
+  const detail = await getTopicWithExercises(topicId);
   if (!detail) notFound();
   const { topic, exercises } = detail;
-  const { mastery } = await getTopicMasteryFor(user.id, params.topicId);
+  const { mastery } = await getTopicMasteryFor(user.id, topicId);
 
   const sourceIds = exercises.map((e) => e.sourceSubmissionId).filter((id): id is string => !!id);
   const ownedSourceIds = new Set(

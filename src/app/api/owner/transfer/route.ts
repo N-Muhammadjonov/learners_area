@@ -3,6 +3,7 @@ import { z } from "zod";
 import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { ownershipTransfers, users } from "@/db/schema";
+import { countActiveOwnersIn } from "@/lib/auth/owner-invariant";
 import { requireOwner } from "@/lib/auth/current-user";
 import { verifyPassword } from "@/lib/auth/password";
 import { recordAudit } from "@/lib/data/audit";
@@ -16,7 +17,11 @@ import { notifyUsers } from "@/lib/data/notifications";
  *   - the owner's own password is required again, so an unattended browser
  *     cannot transfer the business;
  *   - the target must be an existing, active, non-suspended account;
- *   - the owner role is never granted through the generic role endpoint.
+ *   - the owner role is never granted through the generic role endpoint;
+ *   - the whole swap happens in ONE transaction, so nobody ever observes a
+ *     moment with two owners or with none;
+ *   - the outgoing owner's own choice (keepRole) is what they become, and the
+ *     centre still has exactly one live owner when the transaction commits.
  *
  * The transfer is written to `ownership_transfers` *and* the audit log, so the
  * history of the business survives the people in it.
@@ -50,13 +55,32 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "target_not_active" }, { status: 409 });
   }
 
-  await db.update(users).set({ role: "owner" }).where(eq(users.id, target.id));
-  await db.update(users).set({ role: parsed.data.keepRole }).where(eq(users.id, owner.id));
-  await db.insert(ownershipTransfers).values({
-    fromUserId: owner.id,
-    toUserId: target.id,
-    previousOwnerRole: parsed.data.keepRole,
-  });
+  // One transaction, or two owners, or none.
+  //
+  // The invariant is checked *inside* the same transaction, after the swap: a
+  // pre-check would ask "would removing this owner's role leave nobody?" — the
+  // wrong question here, because the target becomes the owner in the same
+  // breath. Counting the live owners at commit time is what actually protects
+  // the centre, and it also covers a concurrent second transfer.
+  const transferred = await db
+    .transaction(async (tx) => {
+      await tx.update(users).set({ role: "owner" }).where(eq(users.id, target.id));
+      await tx.update(users).set({ role: parsed.data.keepRole }).where(eq(users.id, owner.id));
+      await tx.insert(ownershipTransfers).values({
+        fromUserId: owner.id,
+        toUserId: target.id,
+        previousOwnerRole: parsed.data.keepRole,
+      });
+
+      const liveOwners = await countActiveOwnersIn(tx);
+      if (liveOwners < 1) throw new Error("owner_invariant");
+      return liveOwners;
+    })
+    .catch(() => null);
+
+  if (transferred === null) {
+    return NextResponse.json({ error: "transfer_would_leave_no_owner" }, { status: 409 });
+  }
 
   await recordAudit({
     actorUserId: owner.id,

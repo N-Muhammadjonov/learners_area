@@ -7,13 +7,14 @@ import { listeningTests } from "@/db/schema";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { Card } from "@/components/ui/Card";
 import { NewTestForm } from "@/components/admin/NewTestForm";
+import { PublicationControl } from "@/components/admin/PublicationControl";
 
 export default async function AdminListeningPage() {
   // Authorization is a database read, not a menu decision: this page used to
   // rely on the edge guard's cookie, which goes stale the moment a role changes.
   const administrator = await requireAdministrator();
   if (!administrator) redirect("/dashboard");
-  const dict = getDictionary(getLocale());
+  const dict = getDictionary(await getLocale());
   const tests = await db.query.listeningTests.findMany({ orderBy: desc(listeningTests.createdAt) });
 
   return (
@@ -27,7 +28,16 @@ export default async function AdminListeningPage() {
           <Link key={t.id} href={`/admin/listening/${t.id}`}>
             <Card className="flex items-center justify-between hover:border-signal-400">
               <span className="text-sm font-medium text-ink-900">{t.title}</span>
-              <span className="text-xs text-ink-300">{t.difficultyLevel}</span>
+              <div className="flex flex-col items-end gap-1">
+                <span className="text-xs text-ink-300">{t.difficultyLevel}</span>
+                <PublicationControl
+                  type="listening"
+                  id={t.id}
+                  state={t.publicationState}
+                  publishAt={t.publishAt ? t.publishAt.toISOString() : null}
+                  dict={dict}
+                />
+              </div>
             </Card>
           </Link>
         ))}

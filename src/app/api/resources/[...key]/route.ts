@@ -20,11 +20,12 @@ import { inferContentType } from "@/lib/services/storage/local-provider";
  * Unknown keys answer 404, not 403 — otherwise this route would confirm which
  * objects exist in the bucket.
  */
-export async function GET(req: NextRequest, { params }: { params: { key: string[] } }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ key: string[] }> }) {
+  const { key } = await params;
   const user = await requireActiveUser();
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
-  const objectKey = params.key.join("/");
+  const objectKey = key.join("/");
   if (!isSafeObjectKey(objectKey)) {
     return NextResponse.json({ error: "invalid_key" }, { status: 400 });
   }
@@ -86,7 +87,8 @@ export async function GET(req: NextRequest, { params }: { params: { key: string[
   });
 }
 
-export async function HEAD(req: NextRequest, { params }: { params: { key: string[] } }) {
+export async function HEAD(req: NextRequest, { params }: { params: Promise<{ key: string[] }> }) {
+  // GET awaits the promise itself — hand the same promise straight through.
   return GET(req, { params });
 }
 

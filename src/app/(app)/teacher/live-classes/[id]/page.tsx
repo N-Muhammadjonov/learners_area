@@ -8,6 +8,8 @@ import { getDictionary, getLocale } from "@/lib/i18n";
 import { getLiveClassDetail } from "@/lib/data/live-classes";
 import { joinState, opensAt } from "@/lib/services/live-classes/window";
 import { Card } from "@/components/ui/Card";
+import { formatDateTime } from "@/lib/time";
+import { isUuid } from "@/lib/validation/ids";
 
 export const dynamic = "force-dynamic";
 
@@ -18,12 +20,16 @@ export const dynamic = "force-dynamic";
  * student joined, because "who attended" is a question the centre has to answer
  * from data rather than from memory. Staff only, checked against the database.
  */
-export default async function TeacherLiveClassPage({ params }: { params: { id: string } }) {
+export default async function TeacherLiveClassPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const staff = await requireStaff();
   if (!staff) redirect("/dashboard");
-  const dict = getDictionary(getLocale());
+  const locale = await getLocale();
+  const dict = getDictionary(locale);
 
-  const detail = await getLiveClassDetail(params.id);
+  // Shakli noto'g'ri id hech qachon bazaga yetib bormaydi: javob 500 emas, 404.
+  if (!isUuid(id)) notFound();
+  const detail = await getLiveClassDetail(id);
   if (!detail) notFound();
   const { liveClass } = detail;
 
@@ -56,7 +62,7 @@ export default async function TeacherLiveClassPage({ params }: { params: { id: s
           </div>
           <div className="flex justify-between gap-3">
             <dt className="text-ink-500">{dict.liveClasses.scheduled}</dt>
-            <dd className="text-ink-900">{new Date(liveClass.scheduledAt).toLocaleString()}</dd>
+            <dd className="text-ink-900">{formatDateTime(liveClass.scheduledAt, locale)}</dd>
           </div>
           <div className="flex justify-between gap-3">
             <dt className="text-ink-500">{dict.liveClasses.duration}</dt>
@@ -67,7 +73,7 @@ export default async function TeacherLiveClassPage({ params }: { params: { id: s
           <div className="flex justify-between gap-3">
             <dt className="text-ink-500">{dict.liveClasses.joinWindow}</dt>
             <dd className="text-ink-900" data-class-window={state}>
-              {opensAt(liveClass).toLocaleString()}
+              {formatDateTime(opensAt(liveClass), locale)}
             </dd>
           </div>
           <div className="flex justify-between gap-3">
@@ -102,7 +108,7 @@ export default async function TeacherLiveClassPage({ params }: { params: { id: s
               <li key={`${row.email}-${row.joinedAt.toISOString()}`} className="flex items-center justify-between py-2" data-attendee={row.email}>
                 <span className="text-sm text-ink-900">{row.name}</span>
                 <span className="text-xs text-ink-300" data-attended-at>
-                  {new Date(row.joinedAt).toLocaleString()}
+                  {formatDateTime(row.joinedAt, locale)}
                 </span>
               </li>
             ))}

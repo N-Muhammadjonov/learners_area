@@ -5,13 +5,15 @@ import { getDashboardData } from "@/lib/data/dashboard";
 import { StatCard, Card } from "@/components/ui/Card";
 import { BandBadge, StateBadge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
+import { formatDate, formatDateTime } from "@/lib/time";
 
 const SKILLS = ["listening", "reading", "writing", "speaking"] as const;
 
 export default async function DashboardPage() {
   const user = await requireActiveUser();
   if (!user) return null; // middleware + layout already guard this
-  const dict = getDictionary(getLocale());
+  const locale = await getLocale();
+  const dict = getDictionary(locale);
   const data = await getDashboardData(user.id);
 
   return (
@@ -37,7 +39,7 @@ export default async function DashboardPage() {
           <>
             <p className="mt-1 text-sm text-ink-500" data-last-module={data.lastActivity.module}>
               {dict.dashboard.lastModule}: {dict.nav[data.lastActivity.module as "reading"]} ·{" "}
-              {new Date(data.lastActivity.at).toLocaleString()}
+              {formatDateTime(data.lastActivity.at, locale)}
             </p>
             <div className="mt-4 flex flex-wrap gap-2">
               <Link href={data.lastActivity.href} data-continue-link={data.lastActivity.href}>
@@ -63,6 +65,20 @@ export default async function DashboardPage() {
         )}
       </Card>
 
+      {/* A four-minute drill that needs no test in front of it: read a passage
+          once, cover it, write what you kept. It is a reading mode, not a score. */}
+      <Card data-retention-drill>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="min-w-0">
+            <h2 className="font-display text-lg text-ink-900">{dict.reading.retentionModeTitle}</h2>
+            <p className="mt-1 text-sm text-ink-500">{dict.dashboard.retentionDrillHint}</p>
+          </div>
+          <Link href="/reading/retention">
+            <Button variant="secondary">{dict.dashboard.retentionDrillAction}</Button>
+          </Link>
+        </div>
+      </Card>
+
       {/* My Tasks — the student's own open assignments, with their real due dates. */}
       <Card data-my-tasks>
         <h2 className="font-display text-lg text-ink-900">{dict.dashboard.myTasks}</h2>
@@ -76,7 +92,7 @@ export default async function DashboardPage() {
               <li key={task.id} className="flex items-center justify-between py-2" data-task={task.id}>
                 <span className="text-sm text-ink-900">{task.title}</span>
                 <span className="text-xs text-ink-300">
-                  {task.dueAt ? `${dict.assignments.due}: ${new Date(task.dueAt).toLocaleDateString()}` : ""}
+                  {task.dueAt ? `${dict.assignments.due}: ${formatDate(task.dueAt, locale)}` : ""}
                 </span>
               </li>
             ))}
@@ -125,7 +141,7 @@ export default async function DashboardPage() {
           <div className="flex flex-wrap items-center justify-between gap-2">
             <h2 className="font-display text-lg text-ink-900">{dict.dashboard.nextClass}</h2>
             <span className="text-xs text-ink-300">
-              {new Date(data.nextLiveClass.scheduledAt).toLocaleString()}
+              {formatDateTime(data.nextLiveClass.scheduledAt, locale)}
             </span>
           </div>
           <p className="mt-1 text-sm text-ink-700">{data.nextLiveClass.title}</p>

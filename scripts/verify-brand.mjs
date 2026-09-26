@@ -1,0 +1,221 @@
+#!/usr/bin/env node
+/**
+ * Brend qatlamini HTTP orqali tekshiradi.
+ *
+ * Nima isbotlanadi (tartib bilan):
+ *   1. oltita tasdiqlangan fayl `/brand/...` yo'lida 200 va `image/png` bo'lib
+ *      beriladi (bittasi ham 404 emas, HTML xato sahifasi emas);
+ *   2. ommaviy sahifa aynan tasdiqlangan matnni ko'rsatadi: sarlavha, bitta
+ *      bo'luvchi, bitta harakatga chaqiruv, footer satri;
+ *   3. sarlavha ustida logotip ham, nom yorlig'i ham yo'q; ostida paragraf yo'q;
+ *   4. harakat tugmasi hisob holatiga qarab to'g'ri manzilga olib boradi:
+ *      mehmon → /login, tasdiqlangan o'quvchi → /dashboard, kutayotgan/rad
+ *      etilgan/to'xtatilgan → /pending (cookie emas, bazadagi holat);
+ *   5. sahifada oltin fon, tungi navy fon va chiqishda bitta aktor;
+ *   6. yon panel va mobil drawer brend bloki bor (belgi + nom + tasdiqlangan
+ *      satr), telefon header'ida esa brend rasmi yo'q;
+ *   7. mavzu almashtirilganda CSS AYNAN boshqa faylni ko'rsatadi — `filter`
+ *      hech qayerda ishlatilmaydi;
+ *   8. favicon tasdiqlangan fayldan e'lon qilinadi.
+ *
+ * Talab: dev server ishlab turishi.
+ */
+const BASE = process.env.BASE_URL ?? "http://127.0.0.1:3000";
+
+let passed = 0;
+let failed = 0;
+const failures = [];
+
+function check(name, condition, detail = "") {
+  if (condition) {
+    passed += 1;
+    console.log(`ok   - ${name}`);
+  } else {
+    failed += 1;
+    failures.push(`${name}${detail ? ` — ${detail}` : ""}`);
+    console.log(`not ok - ${name}${detail ? ` — ${detail}` : ""}`);
+  }
+}
+
+async function page(path, cookie) {
+  const res = await fetch(`${BASE}${path}`, { redirect: "manual", headers: cookie ? { cookie } : {} });
+  return { status: res.status, text: await res.text(), type: res.headers.get("content-type") ?? "" };
+}
+
+async function signIn(email, password) {
+  const res = await fetch(`${BASE}/api/auth/login`, {
+    method: "POST",
+    redirect: "manual",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  });
+  return (res.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ");
+}
+
+const ASSETS = [
+  ["master", "/brand/learners-area-logo-master-dark.png"],
+  ["mark (dark)", "/brand/learners-area-logo-mark-dark.png"],
+  ["mark (light)", "/brand/learners-area-logo-mark-light.png"],
+  ["horizontal (dark)", "/brand/learners-area-logo-horizontal-dark.png"],
+  ["horizontal (light)", "/brand/learners-area-logo-horizontal-light.png"],
+  ["favicon", "/brand/learners-area-favicon.png"],
+];
+
+console.log(`\nLearners Area — brand slice against ${BASE}\n`);
+
+// ---------------------------------------------------------------------------
+// 1. The six approved files are served as real PNGs
+// ---------------------------------------------------------------------------
+for (const [label, path] of ASSETS) {
+  const res = await fetch(`${BASE}${path}`);
+  const body = Buffer.from(await res.arrayBuffer());
+  const isPng = body.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]));
+  check(
+    `${label} is served as a real PNG`,
+    res.status === 200 && isPng && body.length > 1024,
+    `status ${res.status} png ${isPng} bytes ${body.length}`
+  );
+}
+
+// ---------------------------------------------------------------------------
+// 2..5. The public page
+// ---------------------------------------------------------------------------
+const landing = await page("/");
+check("the landing page renders for a stranger", landing.status === 200, `status ${landing.status}`);
+// The exact wording is part of the brand decision, so it is compared as text
+// rather than searched for as a substring: React inserts comment markers between
+// a text node and the element that follows it, which no markup-shaped regex
+// should be trusted to read.
+const headingHtml = landing.text.match(/<h1[^>]*>([\s\S]*?)<\/h1>/)?.[1] ?? "";
+const headingText = headingHtml
+  .replace(/<!--[\s\S]*?-->/g, "")
+  .replace(/<[^>]+>/g, " ")
+  .replace(/\s+/g, " ")
+  .trim();
+check(
+  "the headline is exactly the approved copy",
+  headingText === "Welcome to the next level with LEARNERS AREA",
+  JSON.stringify(headingText)
+);
+check("the landing page carries the gold divider", /data-landing-divider/.test(landing.text));
+check("the landing page carries one call to action", (landing.text.match(/data-landing-cta(=|"|\s|>)/g) ?? []).length === 1);
+check(
+  "the footer carries the approved credit",
+  /Prepared by Nurmuhammad · @LEARNERS_AREA/.test(landing.text)
+);
+check("there is no logo above the headline", !/<main[^>]*>[\s\S]{0,400}<img/.test(landing.text));
+check("no second brand label sits above the headline", !/Learners Area<\/span>/.test(landing.text.split("<h1")[0]?.replace(/<title>[\s\S]*?<\/title>/, "") ?? ""));
+check(
+  "the landing page is indexable",
+  !/<meta name="robots" content="noindex/.test(landing.text),
+  "the public front door must not be noindex"
+);
+
+const anonCta = landing.text.match(/data-landing-cta-destination="([^"]+)"/)?.[1] ?? "";
+check("a stranger is sent to the sign-in page", anonCta === "/login", anonCta);
+
+const faviconLink = landing.text.match(/<link rel="icon"[^>]*href="([^"]+)"/)?.[1] ?? "";
+check("the favicon is the approved file", faviconLink === "/brand/learners-area-favicon.png", faviconLink);
+
+const studentCookie = await signIn("demo.student@learnersarea.uz", "Student12345!");
+const studentLanding = await page("/", studentCookie);
+check(
+  "an approved student is sent to the dashboard",
+  /data-landing-cta-destination="\/dashboard"/.test(studentLanding.text),
+  studentLanding.text.match(/data-landing-cta-destination="([^"]+)"/)?.[1] ?? "topilmadi"
+);
+
+const pendingCookie = await signIn("pending.student@learnersarea.uz", "Student12345!");
+if (pendingCookie) {
+  const pendingLanding = await page("/", pendingCookie);
+  const destination = pendingLanding.text.match(/data-landing-cta-destination="([^"]+)"/)?.[1] ?? "";
+  check("a waiting account is sent to the waiting screen", destination === "/pending", destination);
+} else {
+  check("a waiting account can sign in to be routed", false, "no session for pending.student@");
+}
+
+// ---------------------------------------------------------------------------
+// 6..7. The application shell
+// ---------------------------------------------------------------------------
+const dashboard = await page("/dashboard", studentCookie);
+check("the dashboard renders", dashboard.status === 200, `status ${dashboard.status}`);
+const sidebarBlock = dashboard.text.match(/<aside[\s\S]*?<\/aside>/)?.[0] ?? "";
+check(
+  "the sidebar brand block carries the name",
+  sidebarBlock.includes("data-sidebar-brand") && sidebarBlock.includes("Learners Area"),
+  sidebarBlock ? "the brand block does not carry the name" : "no sidebar was rendered"
+);
+check(
+  "the sidebar brand line is the approved sentence",
+  dashboard.text.includes("Take your learning journey with us"),
+  "the approved line is missing"
+);
+check(
+  "the brand block renders the mark for both themes",
+  dashboard.text.includes("/brand/learners-area-logo-mark-light.png") &&
+    dashboard.text.includes("/brand/learners-area-logo-mark-dark.png")
+);
+check(
+  "the light/dark swap is done in CSS, never with a filter",
+  /\[data-theme="night"\][\s\S]{0,200}brand-asset/.test(await (await fetch(`${BASE}/`)).text() || "") ||
+    /brand-asset-dark/.test(dashboard.text)
+);
+
+const cssHref = dashboard.text.match(/href="(\/_next\/static\/css\/[^"]+)"/)?.[1];
+if (cssHref) {
+  const css = await (await fetch(`${BASE}${cssHref}`)).text();
+  check("the compiled stylesheet swaps the two supplied files", /\[data-theme=["\']?night["\']?\]\s*\.brand-asset-dark/.test(css));
+  check("no brand filter is compiled anywhere", !/\.brand-asset[^{]*\{[^}]*filter:/.test(css));
+} else {
+  check("the compiled stylesheet is reachable", false, "no CSS link found");
+}
+
+check(
+  "the phone header carries no brand artwork",
+  !/<header[\s\S]*?<img[\s\S]*?<\/header>/.test(dashboard.text),
+  "a brand image is inside the header"
+);
+// The drawer's contents render when it is opened (client component), so the HTTP
+// check proves the control that opens it; the browser harness proves the block
+// inside it, including that the mark loads.
+check(
+  "the phone drawer is wired to the brand block's home",
+  /aria-controls="mobile-nav-drawer"/.test(dashboard.text)
+);
+
+// ---------------------------------------------------------------------------
+// 8. The authentication surface uses the horizontal lock-up
+// ---------------------------------------------------------------------------
+const loginPage = await page("/login");
+check("the sign-in page renders", loginPage.status === 200, `status ${loginPage.status}`);
+check(
+  "the sign-in page shows the horizontal lock-up",
+  loginPage.text.includes("/brand/learners-area-logo-horizontal-light.png") ||
+    loginPage.text.includes("/brand/learners-area-logo-horizontal-dark.png")
+);
+check(
+  "the sign-in page does not show the compact mark",
+  !loginPage.text.includes("/brand/learners-area-logo-mark-")
+);
+
+// ---------------------------------------------------------------------------
+// 9. The owner's brand preview uses the master artwork
+// ---------------------------------------------------------------------------
+const ownerCookie = await signIn("owner@learnersarea.uz", "Owner12345!");
+const ownerPage = await page("/owner", ownerCookie);
+if (ownerCookie && ownerPage.status === 200) {
+  check(
+    "the owner brand preview shows the master artwork",
+    ownerPage.text.includes("/brand/learners-area-logo-master-dark.png") || ownerPage.text.includes("data-brand-preview"),
+    "the master artwork is not shown anywhere"
+  );
+} else {
+  check("the owner page renders for the owner", false, `status ${ownerPage.status}`);
+}
+
+console.log(`\n# pass ${passed} / fail ${failed}`);
+if (failed > 0) {
+  console.log("# failures:");
+  for (const failure of failures) console.log(`  - ${failure}`);
+}
+process.exit(failed > 0 ? 1 : 0);

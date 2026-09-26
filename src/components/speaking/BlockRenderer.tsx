@@ -9,7 +9,16 @@ function formatSize(bytes: number | null): string {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
-export function BlockRenderer({ block, openLabel }: { block: Block; openLabel: string }) {
+export function BlockRenderer({
+  block,
+  openLabel,
+  emptyLabel,
+}: {
+  block: Block;
+  openLabel: string;
+  /** Shown when a block references a file that has not been uploaded yet. */
+  emptyLabel: string;
+}) {
   switch (block.type) {
     case "text":
       return <p className="whitespace-pre-line text-sm text-ink-700">{block.textContent}</p>;
@@ -25,13 +34,13 @@ export function BlockRenderer({ block, openLabel }: { block: Block; openLabel: s
       );
 
     case "audio":
-      return <MaterialPlayer url={block.objectUrl ?? ""} type="audio" openLabel={openLabel} />;
+      return <MaterialPlayer url={block.objectUrl} type="audio" openLabel={openLabel} emptyLabel={emptyLabel} />;
 
     case "link":
       // Reuse the same embed-or-clean-card logic as materials' primary
       // link, so a YouTube/Vimeo link dropped into a description plays
       // inline too; anything else falls back to an honest "open" action.
-      return <MaterialPlayer url={block.linkUrl ?? ""} type="link" openLabel={openLabel} />;
+      return <MaterialPlayer url={block.linkUrl} type="link" openLabel={openLabel} emptyLabel={emptyLabel} />;
 
     case "file":
       return (

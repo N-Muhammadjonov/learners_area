@@ -1,16 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 import { SESSION_COOKIE } from "@/lib/auth/session";
+import { checkRequestOrigin } from "@/lib/http/request-origin";
+import { applySecurityHeaders, buildCsp } from "@/lib/http/security-headers";
 
 /**
- * Coarse routing guard.
+ * Edge middleware: transport-level concerns only.
  *
- * Middleware runs on the Edge runtime and cannot reach PostgreSQL, so it answers
- * exactly one question: "is anybody signed in?" That is enough to send a visitor
- * to the login page before a page renders, and it is deliberately *not* the
- * authorization layer — the signed-in check is all it claims.
+ * Three jobs, in order:
+ *   1. refuse a cross-site state-changing request before it reaches an API
+ *      (origin verification — see src/lib/http/request-origin.ts);
+ *   2. answer one coarse question for private paths: "is anybody signed in?";
+ *   3. attach the security headers, including a per-request CSP nonce.
  *
- * Real authorization happens in the Node runtime on every request:
+ * Middleware runs on the Edge runtime and cannot reach PostgreSQL, so it is
+ * deliberately *not* the authorization layer. Real authorization happens in the
+ * Node runtime on every request:
  *   src/lib/auth/current-user.ts   (role + account status, straight from the DB)
  *   src/app/(app)/layout.tsx       (the private-area gate)
  *   every /api route               (requireActiveUser / requireAdministrator …)
@@ -56,44 +61,58 @@ function matches(pathname: string, prefixes: string[]) {
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  if (!matches(pathname, PROTECTED_PREFIXES)) return NextResponse.next();
+  const secure = req.nextUrl.protocol === "https:" || req.headers.get("x-forwarded-proto") === "https";
+  const dev = process.env.NODE_ENV !== "production";
+  const nonce = crypto.randomUUID().replace(/-/g, "");
+  const host = req.headers.get("x-forwarded-host")?.split(",")[0]?.trim() ?? req.nextUrl.host;
+  const headerOptions = { nonce, secure, dev, hsts: secure && !dev, host };
 
-  const session = await readSession(req.cookies.get(SESSION_COOKIE)?.value);
-
-  if (!session) {
-    if (pathname === "/pending") return NextResponse.redirect(new URL("/login", req.url));
-    const loginUrl = new URL("/login", req.url);
-    loginUrl.searchParams.set("next", pathname);
-    return NextResponse.redirect(loginUrl);
+  // 1. State-changing API calls must come from this deployment.
+  if (pathname.startsWith("/api/")) {
+    const origin = checkRequestOrigin(req);
+    if (!origin.allowed) {
+      return applySecurityHeaders(
+        NextResponse.json({ error: "invalid_origin", reason: origin.reason }, { status: 403 }),
+        headerOptions
+      );
+    }
   }
 
-  // NOTE: this guard deliberately does not compare the cookie's role against the
-  // path. A cookie is a snapshot from the last sign-in, so a freshly promoted
-  // teacher would be bounced out of /teacher until they signed in again, and a
-  // freshly demoted admin would keep the address. Role decisions belong to the
-  // page and the API, which read the database row on every request.
-  return NextResponse.next();
+  // 2. Coarse session check for private pages.
+  const session = matches(pathname, PROTECTED_PREFIXES)
+    ? await readSession(req.cookies.get(SESSION_COOKIE)?.value)
+    : null;
+
+  if (matches(pathname, PROTECTED_PREFIXES) && !session) {
+    const target = pathname === "/pending" ? new URL("/login", req.url) : (() => {
+      const loginUrl = new URL("/login", req.url);
+      loginUrl.searchParams.set("next", pathname);
+      return loginUrl;
+    })();
+    return applySecurityHeaders(NextResponse.redirect(target), headerOptions);
+  }
+
+  // 3. Security headers, on every response shape (page, API, 404).
+  //
+  // The policy travels on the *request* headers too: that is how Next.js learns
+  // the nonce and stamps it onto the inline scripts it injects during render.
+  const csp = buildCsp(headerOptions);
+  const requestHeaders = new Headers(req.headers);
+  requestHeaders.set("x-nonce", nonce);
+  requestHeaders.set("Content-Security-Policy", csp);
+
+  const response = NextResponse.next({ request: { headers: requestHeaders } });
+  response.headers.set("Content-Security-Policy", csp);
+  return applySecurityHeaders(response, headerOptions);
 }
 
 export const config = {
   matcher: [
-    "/dashboard/:path*",
-    "/onboarding/:path*",
-    "/courses/:path*",
-    "/writing/:path*",
-    "/vocabulary/:path*",
-    "/listening/:path*",
-    "/reading/:path*",
-    "/speaking/:path*",
-    "/grammar/:path*",
-    "/mocks/:path*",
-    "/coach/:path*",
-    "/assignments/:path*",
-    "/progress/:path*",
-    "/live-classes/:path*",
-    "/pending/:path*",
-    "/teacher/:path*",
-    "/admin/:path*",
-    "/owner/:path*",
+    /*
+     * Every route except Next.js build output and static files, so the security
+     * headers and the origin check cover APIs and public pages too — not only
+     * the private pages the original matcher listed.
+     */
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:png|jpg|jpeg|svg|ico|webp|txt|xml|woff2?)$).*)",
   ],
 };

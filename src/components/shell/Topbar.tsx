@@ -1,7 +1,6 @@
 import Link from "next/link";
 import type { Dictionary } from "@/lib/i18n/en";
 import type { Locale } from "@/lib/i18n";
-import { BRAND } from "@/lib/config/brand";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { LogoutButton } from "./LogoutButton";
 import { MobileNav } from "./MobileNav";
@@ -23,12 +22,19 @@ export function Topbar({
   unread?: number;
 }) {
   return (
-    <header className="flex items-center justify-between gap-3 border-b border-ink-100 bg-paper-raised px-4 py-3 md:px-6">
-      <div className="flex items-center gap-3">
+    <header className="flex flex-wrap items-center justify-between gap-x-2 gap-y-2 border-b border-ink-100 bg-paper-raised px-3 py-3 md:px-6">
+      {/*
+        Small screens carry no brand artwork in the header. The row has five
+        functional controls in it, and a phone 320px wide has room for those OR
+        for a logo — not both. The mark is not lost: it is the first thing in the
+        navigation drawer, which is where a phone user looks for the product
+        identity anyway. This is also what keeps the shell free of horizontal
+        scrolling at the smallest supported width.
+      */}
+      <div className="flex min-w-0 items-center gap-2">
         <MobileNav dict={dict} role={role} />
-        <div className="font-display text-lg text-ink-900 md:hidden">{BRAND.siteName}</div>
       </div>
-      <div className="flex items-center gap-2 sm:gap-3">
+      <div className="flex flex-wrap items-center justify-end gap-1.5 sm:gap-2 md:gap-3">
         <FocusToggle
           enterLabel={dict.focus.enter}
           exitLabel={dict.focus.exit}
@@ -51,7 +57,7 @@ export function Topbar({
             </span>
           )}
         </Link>
-        <LocaleSwitcher locale={locale} />
+        <LocaleSwitcher locale={locale} dict={dict} />
         <div className="group relative">
           <button
             type="button"

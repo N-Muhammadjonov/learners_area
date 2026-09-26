@@ -1,3 +1,5 @@
+import { tashkentDayKey } from "@/lib/time";
+
 /**
  * Vocabulary points, the private leaderboard and the streak.
  *
@@ -37,12 +39,18 @@ export const POINT_VALUES: Record<PointKind, number> = {
   sentence: VOCAB_POINTS.sentence,
 };
 
-export const TIMEZONE = "Asia/Tashkent";
-const TIMEZONE_OFFSET_MS = 5 * 60 * 60 * 1000;
+/**
+ * The ledger does not carry its own timezone arithmetic. There used to be a
+ * second constant and a hand-written +05:00 offset here, which meant "today" was
+ * defined twice — and a fix to one would silently not reach the other. Both the
+ * formatter and this day key now come from `@/lib/time`, the single place that
+ * knows the centre is in Asia/Tashkent.
+ */
+export { TIMEZONE } from "@/lib/time";
 
 /** The calendar day (Asia/Tashkent) a moment belongs to, as `YYYY-MM-DD`. */
 export function dayKey(instant: Date): string {
-  return new Date(instant.getTime() + TIMEZONE_OFFSET_MS).toISOString().slice(0, 10);
+  return tashkentDayKey(instant);
 }
 
 /**

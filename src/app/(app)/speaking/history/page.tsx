@@ -16,7 +16,7 @@ export default async function SpeakingHistoryPage() {
   const user = await requireActiveUser();
   if (!user) return null;
 
-  const dict = getDictionary(getLocale());
+  const dict = getDictionary(await getLocale());
   const t = dict.speakingPractice;
   const attempts = await listAttempts({ userId: user.id });
 

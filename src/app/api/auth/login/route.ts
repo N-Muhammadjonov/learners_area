@@ -5,6 +5,7 @@ import { users } from "@/db/schema";
 import { loginSchema } from "@/lib/validation/auth";
 import { verifyPassword } from "@/lib/auth/password";
 import { createSessionToken, SESSION_COOKIE, clearSessionCookies, sessionCookieOptions } from "@/lib/auth/session";
+import { RULES, accountKey, blockIfOver, clientKey, consume, reset } from "@/lib/http/rate-limit";
 
 export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null);
@@ -14,15 +15,25 @@ export async function POST(req: NextRequest) {
   }
   const { email, password } = parsed.data;
 
+  // A guessing loop is stopped before any hashing work happens. A correct
+  // password never touches these counters, so a student who simply types it
+  // right is never locked out by their own earlier typos… and the failed
+  // attempts are counted below, where we know they failed.
+  const blocked =
+    blockIfOver(RULES.loginByAccount, accountKey(email)) ?? blockIfOver(RULES.loginByIp, clientKey(req));
+  if (blocked) return blocked;
+
   const user = await db.query.users.findFirst({ where: eq(users.email, email) });
-  if (!user || !user.passwordHash) {
+  const valid = user?.passwordHash ? await verifyPassword(password, user.passwordHash) : false;
+
+  if (!valid || !user) {
+    consume(RULES.loginByAccount, accountKey(email));
+    consume(RULES.loginByIp, clientKey(req));
     return NextResponse.json({ error: "invalid_credentials" }, { status: 401 });
   }
 
-  const valid = await verifyPassword(password, user.passwordHash);
-  if (!valid) {
-    return NextResponse.json({ error: "invalid_credentials" }, { status: 401 });
-  }
+  // The password was right: forgive this account's earlier failed attempts.
+  reset(RULES.loginByAccount, accountKey(email));
 
   const token = await createSessionToken({
     sub: user.id,

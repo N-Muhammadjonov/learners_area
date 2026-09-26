@@ -9,7 +9,7 @@ import { MASTERY_SESSIONS } from "@/lib/services/grammar/mastery";
 export default async function GrammarPage() {
   const user = await requireActiveUser();
   if (!user) return null;
-  const dict = getDictionary(getLocale());
+  const dict = getDictionary(await getLocale());
   const rows = await getTopicMastery(user.id);
 
   return (

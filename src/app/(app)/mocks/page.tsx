@@ -17,7 +17,7 @@ export const dynamic = "force-dynamic";
 export default async function MocksPage() {
   const user = await requireActiveUser();
   if (!user) return null;
-  const dict = getDictionary(getLocale());
+  const dict = getDictionary(await getLocale());
   const t = dict.mocks;
 
   const data = await getMockOverview(user.id);

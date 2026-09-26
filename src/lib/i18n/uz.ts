@@ -69,6 +69,8 @@ const uz: Dictionary = {
     main: "Asosiy",
     track: "Natijani kuzatish",
     course: "IELTS",
+    courseModules: "Kurs va modullar",
+    videoLessons: "TED / Video darslar",
     listening: "Listening",
     reading: "Reading",
     writing: "Writing",
@@ -86,6 +88,22 @@ const uz: Dictionary = {
     adminPrompts: "Writing mavzulari",
     profile: "Profil",
     logout: "Chiqish",
+  },
+  // The public front door. This copy is fixed by brand decision and is identical
+  // in both locales on purpose: it is the approved wording, not a translation.
+  // Shell'dagi til almashtirgich. Ko'rinadigan matn ikki harfli kod (asboblar
+  // paneliga shu sig'adi), ekran o'quvchi uchun nom esa to'liq til nomi.
+  locale: {
+    switchLabel: "Til",
+    uz: "O'zbekcha",
+    en: "English",
+  },
+  landing: {
+    headlineLead: "Welcome to the next level",
+    headlineWith: "with",
+    headlineAccent: "LEARNERS AREA",
+    cta: "Let's Get Started",
+    footer: "Prepared by Nurmuhammad · @LEARNERS_AREA",
   },
   marketing: {
     title: "Learners Area",
@@ -118,6 +136,80 @@ const uz: Dictionary = {
     resetConfirmCta: "Parolni yangilash",
     errorInvalidCredentials: "Email yoki parol noto'g'ri.",
     errorEmailTaken: "Bu email bilan hisob allaqachon mavjud.",
+    errorRateLimited: "Urinishlar juda ko'p bo'ldi. Bir necha daqiqadan so'ng qayta urinib ko'ring.",
+  },
+  // O'quvchi uchun video darslar ro'yxati (bitta sahifa, barcha kurslar).
+  videoLessons: {
+    title: "TED / Video darslar",
+    intro:
+      "Qisqa nutq, so'ng uning atrofidagi dars: ko'rishdan oldin taxmin qiling, markazning o'z savollariga javob bering va undan nima olganingizni yozing. Video dars faqat yo'l xaritasidagi darsi ochiq bo'lganda ochiladi.",
+    none: "Hozircha ochiq video dars yo'q.",
+    open: "Darsni ochish",
+  },
+  videoLesson: {
+    stagesLabel: "Dars bosqichlari",
+    tabs: {
+      before: "Ko'rishdan oldin",
+      transcript: "Transkript",
+      comprehension: "Tushunish",
+      gap: "Matndagi bo'shliqlar",
+      opinion: "Sizning fikringiz",
+      summary: "Xulosa",
+    },
+    playbackNote:
+      "Video Learners Area ichida ijro etiladi. Manba brauzerga baribir ko'rinadi, shuning uchun bu qulaylik — maxfiylik emas.",
+    blocked: "Bu videoni hozir shu yerda ijro etib bo'lmayapti.",
+    openOnProvider: "Uni provayderda ochish",
+    liveTrackingOn: "Pleer o'z o'rnini yubormoqda, shuning uchun matn kuzatuvi ishlaydi.",
+    liveTrackingOff: "Pleer o'z o'rnini hali yubormadi, shuning uchun matn kuzatuvi o'chirilgan.",
+    scriptFollow: "Matnni kuzatish",
+    stateNotStarted: "Boshlanmagan",
+    stateInProgress: "Davom etmoqda",
+    stateCompleted: "Tugallangan",
+    transcriptProvenance: "Transkript manbasi",
+    transcriptUnspecified: "ko'rsatilmagan",
+    answerCorrect: "To'g'ri",
+    answerWrong: "Hali emas",
+    answerPlaceholder: "Javobingiz",
+    checking: "Tekshirilmoqda…",
+    checkAnswers: "Javoblarimni tekshirish",
+    opinionHint: "Ko'rganlaringiz haqida nima deb o'ylaysiz? Bir necha gap yozing.",
+    opinionPlaceholder: "Men ma'ruzachi bilan qo'shilaman, chunki…",
+    summaryHint: "Videoga qayta qaramay, eslab qolganingizni yozing.",
+    summaryPlaceholder: "Videoda tushuntirilgan edi…",
+    saving: "Saqlanmoqda…",
+    save: "Saqlash",
+    saved: "Saqlandi",
+    feedbackNote: "Buni o'qituvchingiz o'qib javob beradi. Avtomatik baholanmaydi.",
+  },
+  videoLessonAdmin: {
+    title: "Ommaviy video darslar",
+    intro:
+      "Oddiy YouTube havolasini joylang. Server uni tekshiradi va provayder hamda video id ni saqlaydi — hech qachon tayyor embed kod emas. Learners Area ichida faqat YouTube videolari ijro etiladi.",
+    lesson: "Yo'l xaritasi darsi",
+    videoTitle: "Dars sarlavhasi",
+    videoUrl: "Video havolasi",
+    beforeYouWatch: "Ko'rishdan oldin",
+    durationSeconds: "Davomiyligi (sekundda, ixtiyoriy)",
+    transcriptSource: "Transkript manbasi",
+    transcriptSourceNone: "Transkript yo'q",
+    transcriptAttribution: "Manba ko'rsatmasi (ixtiyoriy)",
+    transcriptLines: "Transkript qatorlari",
+    transcriptHelp: "Har qatorda bittasi: `0:12 gap matni`. Matn mualliflik, litsenziyalangan yoki ruxsat etilgan bo'lishi kerak — ommaviy videodan ko'chirilmaydi.",
+    questions: "Muallif savollari",
+    questionsHelp:
+      "Har qatorda bittasi: `savol || birinchi javob | ikkinchi javob`. Bo'shliq topshirig'i uchun qator boshiga `gap_fill` yozing.",
+    save: "Video darsni saqlash",
+    saving: "Saqlanmoqda…",
+    saved: "Saqlandi",
+    existing: "Mavjud video darslar",
+    none: "Hali video dars yaratilmagan.",
+    rejection: {
+      unsupported_host: "Learners Area ichida faqat YouTube havolalari ijro etiladi.",
+      no_video_id: "Bu havolada video id yo'q — uni video sahifasidan nusxalang.",
+      invalid_id: "Video id noto'g'ri ko'rinadi (11 belgi bo'lishi kerak).",
+      invalid_url: "Bu havolani o'qib bo'lmadi.",
+    },
   },
   onboarding: {
     title: "Qisqa sozlash",
@@ -139,6 +231,8 @@ const uz: Dictionary = {
     streak: "Kunlik seriya",
     continueLearning: "To'xtagan joyingizdan davom eting",
     recentFeedback: "So'nggi writing fikr-mulohazasi",
+    retentionDrillHint: "Matnni bir marta o'qing, yopib qo'ying va eslab qolganingizni yozing — to'rt daqiqa, test yo'q.",
+    retentionDrillAction: "Mashqni boshlash",
     vocabDue: "Takrorlash vaqti kelgan so'zlar",
     skillSummary: "Ko'nikmalar xulosasi",
     noAttemptsYet: "Hali urinish yo'q — bu modul tez orada ochiladi.",
@@ -279,6 +373,11 @@ const uz: Dictionary = {
     typeMasteryHint: "Faqat siz yuborgan javoblardan hisoblanadi — har savolga bitta urinish.",
     noTypeData: "Hozircha javob berilgan savol yo'q.",
     weakTypeNote: "Hozir eng zaif turningiz",
+    retentionModeTitle: "Eslab qolish mashqi",
+    retentionModeHint:
+      "Matnni bir marta o'qing, yopib qo'ying va eslab qolganingizni yozing. Bu yerda ball qo'yilmaydi — o'zingiz yozganingizni matn bilan solishtirasiz. To'rt daqiqa yetarli.",
+    retentionModeAnother: "Boshqa matn",
+    retentionModeEmpty: "Hozircha matnlar ochilmagan.",
     retentionTitle: "Esda saqlash tekshiruvi",
     retentionHint: "Matnni yashiring va eslab qolganingizni yozing. Ball qo'yilmaydi — eslab qolganingizni matn bilan o'zingiz solishtirasiz.",
     retentionHide: "Matnni yashirish",
@@ -293,6 +392,7 @@ const uz: Dictionary = {
     retentionKept: "{count} tadan {kept} tasini eslab qoldingiz — qolganini qayta o'qish foydali.",
   },
   listening: {
+    noAudioYet: "Bu test uchun audio hali yuklanmagan.",
     practiceTitle: "Listening mashqi",
     pickTest: "Test tanlang",
     minutes: "daq",
@@ -450,6 +550,7 @@ const uz: Dictionary = {
       term: "So'z",
       button: "Lug'atimga qo'shish",
       added: "Qo'shildi",
+      needsMeaning: "Bu so'z uchun bizda ma'no yo'q — yuqorida o'zingiz yozib saqlang. Biz ta'rifni o'ylab topmaymiz.",
       duplicates: "lug'atingizda allaqachon bor",
       nothing: "Kamida bitta so'z yozing.",
       manual: "Qo'lda",
@@ -533,6 +634,10 @@ const uz: Dictionary = {
       choiceHint: "Ta'rifga mos so'zni tanlang.",
       match: "Juftlarni topish",
       matchHint: "Olti so'z, olti ma'no — hammasini juftlashtiring.",
+      // Kartochka va juftlash — server tekshira olmaydigan ikki rejim; shuning
+      // uchun interfeys buni ochiq aytadi, har bir javob baholanadi degan
+      // taassurot qoldirmaydi.
+      selfAssessed: "O'z-o'zini tekshirish: bu rejim faqat mashq, ball yozilmaydi.",
       gap: "Bo'sh joyni to'ldirish",
       gapHint: "Misol gapni to'ldiring.",
       race: "Tez yozish",
@@ -549,6 +654,7 @@ const uz: Dictionary = {
       seconds: "s",
       wpm: "so'z/daq",
       accuracy: "Aniqlik",
+      tryAgain: "Hozircha emas — yana urinib ko'ring",
       typeAnswer: "So'zni yozing…",
       check: "Tekshirish",
       next: "Keyingi",
@@ -608,6 +714,7 @@ const uz: Dictionary = {
     },
   },
   speaking: {
+    noFileYet: "Bu material uchun hali fayl yuklanmagan.",
     title: "Speaking",
     category: {
       part1: "Part 1",
@@ -969,6 +1076,17 @@ const uz: Dictionary = {
     integrations: "Integratsiyalar",
     retention: "Ma'lumotlarni saqlash",
     audit: "Audit tarixi",
+    brandTitle: "Brend fayllari",
+    brandHint:
+      "Tasdiqlangan brend fayllari — qanday berilgan bo'lsa shundayligicha. Kunduzgi va tungi rejim alohida fayllarni ko'rsatadi: rejim bitta rasmni qayta bo'yamaydi.",
+    brandAssets: {
+      logoMasterDark: "Asosiy (master)",
+      logoMarkDark: "Belgi (tungi)",
+      logoMarkLight: "Belgi (kunduzgi)",
+      logoHorizontalDark: "Yozuvli logotip (tungi)",
+      logoHorizontalLight: "Yozuvli logotip (kunduzgi)",
+      favicon: "Favicon",
+    },
     transfer: "Egalikni o'tkazish",
     transferWarning:
       "Egalikni o'tkazsangiz, boshqa hisob markazdagi eng yuqori vakolatga ega bo'ladi. Parolingizni qayta kiritishingiz so'raladi.",
@@ -1060,7 +1178,23 @@ const uz: Dictionary = {
     changeRole: "Rolni o'zgartirish",
     promptsTitle: "Writing mavzulari",
     newPrompt: "Yangi mavzu",
-    readingTitle: "Reading passage'lari",
+    // Nashr holati: xodim kontentni o'tkazadigan to'rt bosqich. So'zlar ikki tilda
+  // bir xil — bu interfeysda ular atama sifatida ishlatiladi.
+  publication: {
+    states: {
+      draft: "Qoralama",
+      scheduled: "Rejalashtirilgan",
+      published: "Nashr etilgan",
+      archived: "Arxivlangan",
+    },
+    changeState: "Nashr holatini o'zgartirish",
+    publishAt: "Ochilish vaqti",
+    save: "Saqlash",
+    saving: "Saqlanmoqda…",
+    saved: "Saqlandi",
+    failed: "Ruxsat berilmadi",
+  },
+  readingTitle: "Reading passage'lari",
     listeningTitle: "Listening testlari",
     newPassage: "Yangi passage",
     grammarTitle: "Grammar mavzulari",

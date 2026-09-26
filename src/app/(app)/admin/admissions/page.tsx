@@ -18,7 +18,7 @@ export default async function AdminAdmissionsPage() {
   const actor = await requireAdministrator();
   if (!actor) redirect("/dashboard");
 
-  const dict = getDictionary(getLocale());
+  const dict = getDictionary(await getLocale());
   const [pending, recent] = await Promise.all([
     listPendingAccessRequests(),
     listRecentDecisions(10),

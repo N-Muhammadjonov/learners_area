@@ -26,7 +26,7 @@ export default async function OwnerIntegrationsPage() {
   const owner = await requireOwner();
   if (!owner) redirect("/dashboard");
 
-  const dict = getDictionary(getLocale());
+  const dict = getDictionary(await getLocale());
   const report = await integrationReport();
 
   return (

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { RULES, clientKey, enforce } from "@/lib/http/rate-limit";
 import { z } from "zod";
 import { getCurrentUser } from "@/lib/auth/current-user";
 import { canRequestAccess } from "@/lib/auth/account-status";
@@ -14,7 +15,11 @@ import { createAccessRequest, findOpenRequestForUser } from "@/lib/data/admissio
  */
 const schema = z.object({ message: z.string().trim().max(1000).optional() });
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest): Promise<NextResponse> {
+  // An applicant may correct a note, but not flood the review queue.
+  const limited = enforce(RULES.admissionRequest, clientKey(req));
+  if (limited) return limited;
+
   const user = await getCurrentUser();
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 

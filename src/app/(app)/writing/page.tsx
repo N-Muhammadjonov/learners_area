@@ -11,7 +11,7 @@ export default async function WritingPage() {
   const user = await requireActiveUser();
   if (!user) return null;
 
-  const dict = getDictionary(getLocale());
+  const dict = getDictionary(await getLocale());
   const [prompts, typing] = await Promise.all([listActivePrompts(), typingSummary(user.id)]);
 
   return (

@@ -11,7 +11,7 @@ export default async function TeacherStudentsPage() {
   // rely on the edge guard's cookie, which goes stale the moment a role changes.
   const staff = await requireStaff();
   if (!staff) redirect("/dashboard");
-  const dict = getDictionary(getLocale());
+  const dict = getDictionary(await getLocale());
   const students = await listStudents();
 
   return (

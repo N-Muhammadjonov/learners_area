@@ -299,6 +299,21 @@ await check("deactivate and delete are distinguishable in both languages", async
   assert.ok(en.html.includes("Delete"), "English delete label missing");
 });
 
+await check("a malformed id in the URL is a 404, never an internal error", async () => {
+  // A hand-typed id used to reach Postgres and come back as a 500 with a stack
+  // trace. These are exactly the pages a user can reach by editing the address.
+  const student = await login("student");
+  for (const path of ["/reading/attempts/zzz", "/listening/attempts/zzz", "/writing/submissions/zzz", "/grammar/zzz"]) {
+    const res = await fetch(`${BASE}${path}`, { headers: { cookie: student }, redirect: "manual" });
+    assert.equal(res.status, 404, `${path} must answer 404 for a malformed id (got ${res.status})`);
+  }
+  const teacher = await login("teacher");
+  for (const path of ["/teacher/live-classes/zzz", "/teacher/students/zzz"]) {
+    const res = await fetch(`${BASE}${path}`, { headers: { cookie: teacher }, redirect: "manual" });
+    assert.equal(res.status, 404, `${path} must answer 404 for a malformed id (got ${res.status})`);
+  }
+});
+
 console.log(`\n${passed} passed, ${failures.length} failed\n`);
 if (failures.length > 0) {
   for (const f of failures) console.log(`  - ${f.name}: ${f.err.message}`);

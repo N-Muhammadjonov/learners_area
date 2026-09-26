@@ -23,7 +23,7 @@ export default async function PendingPage() {
   if (!user) redirect("/login");
   if (hasPrivateAccess(user.accountStatus)) redirect("/dashboard");
 
-  const dict = getDictionary(getLocale());
+  const dict = getDictionary(await getLocale());
   const t = dict.admission;
   const openRequest = await findOpenRequestForUser(user.id);
 

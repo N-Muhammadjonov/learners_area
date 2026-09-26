@@ -8,16 +8,17 @@ import { getDictionary, getLocale } from "@/lib/i18n";
 import { Card } from "@/components/ui/Card";
 import { NewQuestionForm } from "@/components/admin/NewQuestionForm";
 
-export default async function AdminPassageDetailPage({ params }: { params: { id: string } }) {
+export default async function AdminPassageDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   // Authorization is a database read, not a menu decision: this page used to
   // rely on the edge guard's cookie, which goes stale the moment a role changes.
   const administrator = await requireAdministrator();
   if (!administrator) redirect("/dashboard");
-  const dict = getDictionary(getLocale());
-  const passage = await db.query.readingPassages.findFirst({ where: eq(readingPassages.id, params.id) });
+  const dict = getDictionary(await getLocale());
+  const passage = await db.query.readingPassages.findFirst({ where: eq(readingPassages.id, id) });
   if (!passage) notFound();
   const questions = await db.query.readingQuestions.findMany({
-    where: eq(readingQuestions.passageId, params.id),
+    where: eq(readingQuestions.passageId, id),
     orderBy: asc(readingQuestions.order),
   });
 

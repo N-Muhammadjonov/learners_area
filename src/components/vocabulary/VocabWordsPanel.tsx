@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import type { Dictionary } from "@/lib/i18n/en";
 import { collocationChips, toDate } from "./types";
 import type { Mastery, VocabFolder, VocabPack, VocabWord } from "./types";
+import { formatDate } from "@/lib/time";
 
 type Summary = {
   total: number;
@@ -295,7 +296,7 @@ export function VocabWordsPanel({
                       <Detail label={t.add.interval} value={`${word.intervalDays} ${t.add.days}`} />
                       <Detail
                         label={t.add.nextReview}
-                        value={toDate(word.nextReviewAt).toLocaleDateString()}
+                        value={formatDate(word.nextReviewAt)}
                       />
                       {word.exampleSentence && (
                         <p className="sm:col-span-3 italic text-ink-500">{word.exampleSentence}</p>

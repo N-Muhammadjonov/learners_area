@@ -1,3 +1,4 @@
+import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
@@ -29,7 +30,9 @@ const schema = z.object({
   answer: z.string().min(2).max(2000),
 });
 
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  if (!isUuid(id)) return NextResponse.json({ error: "not_found" }, { status: 404 });
   const user = await requireActiveUser();
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
@@ -37,7 +40,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   if (!parsed.success) return NextResponse.json({ error: "invalid_input" }, { status: 400 });
 
   const exercise = await db.query.grammarExercises.findFirst({
-    where: eq(grammarExercises.id, params.id),
+    where: eq(grammarExercises.id, id),
   });
   if (!exercise) return NextResponse.json({ error: "not_found" }, { status: 404 });
 
@@ -100,7 +103,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     studentAnswer: parsed.data.answer,
     targetStructure: topic?.title ?? null,
     sampleAnswer: exercise.correctOption,
-    language: getLocale(),
+    language: await getLocale(),
   });
 
   if (!outcome.ok) {

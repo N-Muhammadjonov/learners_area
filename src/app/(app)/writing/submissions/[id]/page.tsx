@@ -7,6 +7,7 @@ import { Editor } from "@/components/writing/Editor";
 import { FeedbackView } from "@/components/writing/FeedbackView";
 import { EvaluationView } from "@/components/coach/EvaluationView";
 import { Card } from "@/components/ui/Card";
+import { isUuid } from "@/lib/validation/ids";
 
 export const dynamic = "force-dynamic";
 
@@ -17,12 +18,15 @@ export const dynamic = "force-dynamic";
  *   - the teacher's own feedback, which lives in its own table and is never
  *     overwritten by an automated evaluation
  */
-export default async function SubmissionPage({ params }: { params: { id: string } }) {
+export default async function SubmissionPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const user = await requireActiveUser();
   if (!user) return null;
-  const dict = getDictionary(getLocale());
+  const dict = getDictionary(await getLocale());
 
-  const detail = await getSubmissionDetail(params.id, user.id);
+  // Shakli noto'g'ri id hech qachon bazaga yetib bormaydi: javob 500 emas, 404.
+  if (!isUuid(id)) notFound();
+  const detail = await getSubmissionDetail(id, user.id);
   if (!detail) notFound();
   const { submission, prompt, feedback } = detail;
 

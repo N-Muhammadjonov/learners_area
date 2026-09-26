@@ -1,3 +1,4 @@
+import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
@@ -5,7 +6,9 @@ import { listeningQuestions } from "@/db/schema";
 import { isStaff, requireActiveUser } from "@/lib/auth/current-user";
 import { createListeningQuestionSchema } from "@/lib/validation/admin";
 
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  if (!isUuid(id)) return NextResponse.json({ error: "not_found" }, { status: 404 });
   const user = await requireActiveUser();
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
     if (!isStaff(user.role)) {
@@ -16,12 +19,12 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   const parsed = createListeningQuestionSchema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: parsed.error.issues[0]?.message ?? "invalid_input" }, { status: 400 });
 
-  const existing = await db.query.listeningQuestions.findMany({ where: eq(listeningQuestions.testId, params.id) });
+  const existing = await db.query.listeningQuestions.findMany({ where: eq(listeningQuestions.testId, id) });
 
   const [created] = await db
     .insert(listeningQuestions)
     .values({
-      testId: params.id,
+      testId: id,
       order: existing.length + 1,
       type: parsed.data.type,
       questionText: parsed.data.questionText,

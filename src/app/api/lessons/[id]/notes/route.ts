@@ -1,3 +1,4 @@
+import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { and, eq } from "drizzle-orm";
@@ -15,14 +16,16 @@ const schema = z.object({ notes: z.string().max(4000) });
  * lesson that is not locked — taking notes on something you cannot open makes no
  * sense — and they never change the lesson state.
  */
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  if (!isUuid(id)) return NextResponse.json({ error: "not_found" }, { status: 404 });
   const user = await requireActiveUser();
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
   const parsed = schema.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({ error: "invalid_input" }, { status: 400 });
 
-  const lesson = await db.query.lessons.findFirst({ where: eq(lessons.id, params.id) });
+  const lesson = await db.query.lessons.findFirst({ where: eq(lessons.id, id) });
   if (!lesson) return NextResponse.json({ error: "not_found" }, { status: 404 });
 
   const row = await db.query.lessonProgress.findFirst({

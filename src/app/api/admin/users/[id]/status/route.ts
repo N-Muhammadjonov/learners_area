@@ -1,3 +1,4 @@
+import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { eq } from "drizzle-orm";
@@ -21,7 +22,9 @@ const schema = z.object({
   reason: z.string().trim().max(500).nullish(),
 });
 
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  if (!isUuid(id)) return NextResponse.json({ error: "not_found" }, { status: 404 });
   const actor = await requireAdministrator();
   if (!actor) return NextResponse.json({ error: "forbidden" }, { status: 403 });
 
@@ -29,18 +32,18 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   const parsed = schema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: "invalid_input" }, { status: 400 });
 
-  if (params.id === actor.id) {
+  if (id === actor.id) {
     return NextResponse.json({ error: "cannot_change_own_status" }, { status: 409 });
   }
 
-  const target = await db.query.users.findFirst({ where: eq(users.id, params.id) });
+  const target = await db.query.users.findFirst({ where: eq(users.id, id) });
   if (!target) return NextResponse.json({ error: "not_found" }, { status: 404 });
   if (target.role === "owner" || !outranks(actor.role, target.role)) {
     return NextResponse.json({ error: "outranked" }, { status: 403 });
   }
 
   const result = await setAccountStatus({
-    userId: params.id,
+    userId: id,
     status: parsed.data.status,
     actorUserId: actor.id,
     reason: parsed.data.reason ?? null,

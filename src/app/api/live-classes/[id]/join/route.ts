@@ -1,3 +1,4 @@
+import { isUuid } from "@/lib/validation/ids";
 import { NextResponse } from "next/server";
 import { and, eq } from "drizzle-orm";
 import { db } from "@/db/client";
@@ -13,11 +14,13 @@ import { joinState, opensAt } from "@/lib/services/live-classes/window";
  * inside its join window (or already live). Attendance is the centre's record of
  * who was in the room, so it is written while the room is actually open.
  */
-export async function POST(_req: Request, { params }: { params: { id: string } }) {
+export async function POST(_req: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  if (!isUuid(id)) return NextResponse.json({ error: "not_found" }, { status: 404 });
   const user = await requireActiveUser();
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
-  const liveClass = await db.query.liveClasses.findFirst({ where: eq(liveClasses.id, params.id) });
+  const liveClass = await db.query.liveClasses.findFirst({ where: eq(liveClasses.id, id) });
   if (!liveClass) return NextResponse.json({ error: "not_found" }, { status: 404 });
 
   const state = joinState(liveClass, new Date());
@@ -33,14 +36,14 @@ export async function POST(_req: Request, { params }: { params: { id: string } }
   }
 
   const existing = await db.query.liveClassAttendance.findFirst({
-    where: and(eq(liveClassAttendance.liveClassId, params.id), eq(liveClassAttendance.userId, user.id)),
+    where: and(eq(liveClassAttendance.liveClassId, id), eq(liveClassAttendance.userId, user.id)),
   });
   if (!existing) {
-    await db.insert(liveClassAttendance).values({ liveClassId: params.id, userId: user.id });
+    await db.insert(liveClassAttendance).values({ liveClassId: id, userId: user.id });
     await db.insert(activityEvents).values({
       userId: user.id,
       type: "LIVE_CLASS_ATTENDED",
-      payload: { liveClassId: params.id },
+      payload: { liveClassId: id },
     });
   }
 

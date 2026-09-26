@@ -46,6 +46,20 @@ export const accessRequestStatusEnum = pgEnum("access_request_status", [
   "rejected",
 ]);
 
+/**
+ * How authored content reaches students.
+ *
+ * `draft` and `archived` are invisible to students, `scheduled` becomes visible
+ * at `publish_at`, `published` is visible now. The rule itself lives in
+ * `src/lib/services/cms/publication.ts` — this enum only stores it.
+ */
+export const publicationStateEnum = pgEnum("publication_state", [
+  "draft",
+  "scheduled",
+  "published",
+  "archived",
+]);
+
 export const contentStateEnum = pgEnum("content_state", [
   "locked",
   "available",
@@ -183,6 +197,14 @@ export const users = pgTable("users", {
   statusReason: text("status_reason"),
   /** Drives the inactivity half of the retention policy (see retention.ts). */
   lastActiveAt: timestamp("last_active_at", { withTimezone: true }).defaultNow().notNull(),
+  /**
+   * Last time the student did real learning work — submitted an attempt, had an
+   * evaluation recorded, finished a lesson. Signing in and browsing does not
+   * touch it, because "has not studied for six months" is a study question, not
+   * a login question. Nullable: rows that predate the column have no answer, and
+   * the retention rule falls back to the registration date rather than guessing.
+   */
+  lastMeaningfulActivityAt: timestamp("last_meaningful_activity_at", { withTimezone: true }),
   locale: varchar("locale", { length: 5 }).notNull().default("uz"),
   onboardingCompletedAt: timestamp("onboarding_completed_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
@@ -284,6 +306,14 @@ export const courses = pgTable("courses", {
   title: varchar("title", { length: 200 }).notNull(),
   description: text("description"),
   isActive: boolean("is_active").notNull().default(true),
+  /**
+   * Publication state and the moment a scheduled item opens. Visibility is
+   * decided by `isLive()` in `src/lib/services/cms/publication.ts`; the older
+   * `is_active` flag stays as a hint but is no longer what a student-facing
+   * query trusts.
+   */
+  publicationState: publicationStateEnum("publication_state").notNull().default("published"),
+  publishAt: timestamp("publish_at", { withTimezone: true }),
 });
 
 export const courseModules = pgTable("course_modules", {
@@ -347,6 +377,14 @@ export const writingPrompts = pgTable("writing_prompts", {
   prompt: text("prompt").notNull(),
   targetWordCount: integer("target_word_count").notNull(),
   isActive: boolean("is_active").notNull().default(true),
+  /**
+   * Publication state and the moment a scheduled item opens. Visibility is
+   * decided by `isLive()` in `src/lib/services/cms/publication.ts`; the older
+   * `is_active` flag stays as a hint but is no longer what a student-facing
+   * query trusts.
+   */
+  publicationState: publicationStateEnum("publication_state").notNull().default("published"),
+  publishAt: timestamp("publish_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
@@ -409,6 +447,14 @@ export const readingPassages = pgTable("reading_passages", {
   difficultyLevel: varchar("difficulty_level", { length: 10 }).notNull().default("B2"),
   suggestedMinutes: integer("suggested_minutes").notNull().default(20),
   isActive: boolean("is_active").notNull().default(true),
+  /**
+   * Publication state and the moment a scheduled item opens. Visibility is
+   * decided by `isLive()` in `src/lib/services/cms/publication.ts`; the older
+   * `is_active` flag stays as a hint but is no longer what a student-facing
+   * query trusts.
+   */
+  publicationState: publicationStateEnum("publication_state").notNull().default("published"),
+  publishAt: timestamp("publish_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
@@ -470,10 +516,19 @@ export const listeningTests = pgTable("listening_tests", {
   createdByUserId: uuid("created_by_user_id").notNull().references(() => users.id),
   title: varchar("title", { length: 200 }).notNull(),
   audioType: materialTypeEnum("audio_type").notNull(),
-  audioUrl: text("audio_url").notNull(),
+  /** Nullable for the same reason as speaking_materials.primaryUrl. */
+  audioUrl: text("audio_url"),
   transcript: text("transcript"), // optional, shown only in the post-attempt analysis
   difficultyLevel: varchar("difficulty_level", { length: 10 }).notNull().default("B2"),
   isActive: boolean("is_active").notNull().default(true),
+  /**
+   * Publication state and the moment a scheduled item opens. Visibility is
+   * decided by `isLive()` in `src/lib/services/cms/publication.ts`; the older
+   * `is_active` flag stays as a hint but is no longer what a student-facing
+   * query trusts.
+   */
+  publicationState: publicationStateEnum("publication_state").notNull().default("published"),
+  publishAt: timestamp("publish_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
@@ -626,12 +681,26 @@ export const speakingMaterials = pgTable("speaking_materials", {
   category: speakingCategoryEnum("category").notNull(),
   title: varchar("title", { length: 200 }).notNull(),
   primaryType: materialTypeEnum("primary_type").notNull(),
-  primaryUrl: text("primary_url").notNull(), // resolved, publicly reachable
+  /**
+   * Where the primary file is served from. Nullable on purpose: a resource can
+   * be created in the CMS before its file is uploaded, and a demo/QA row can
+   * honestly have no file at all. The UI shows an empty state instead of a
+   * player pointing at a host that does not exist.
+   */
+  primaryUrl: text("primary_url"),
   primaryObjectKey: text("primary_object_key"), // storage key, for cleanup; null for link-type primaries
   primaryOriginalName: varchar("primary_original_name", { length: 255 }),
   primaryMimeType: varchar("primary_mime_type", { length: 120 }),
   primarySize: integer("primary_size"), // bytes
   isActive: boolean("is_active").notNull().default(true),
+  /**
+   * Publication state and the moment a scheduled item opens. Visibility is
+   * decided by `isLive()` in `src/lib/services/cms/publication.ts`; the older
+   * `is_active` flag stays as a hint but is no longer what a student-facing
+   * query trusts.
+   */
+  publicationState: publicationStateEnum("publication_state").notNull().default("published"),
+  publishAt: timestamp("publish_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });
@@ -685,6 +754,14 @@ export const speakingPrompts = pgTable("speaking_prompts", {
   answerSeconds: integer("answer_seconds").notNull().default(90),
   followUps: jsonb("follow_ups").$type<string[]>().notNull().default([]),
   isActive: boolean("is_active").notNull().default(true),
+  /**
+   * Publication state and the moment a scheduled item opens. Visibility is
+   * decided by `isLive()` in `src/lib/services/cms/publication.ts`; the older
+   * `is_active` flag stays as a hint but is no longer what a student-facing
+   * query trusts.
+   */
+  publicationState: publicationStateEnum("publication_state").notNull().default("published"),
+  publishAt: timestamp("publish_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
@@ -748,6 +825,12 @@ export const lexemes = pgTable(
      * meaning, while the same sense added twice still resolves to one row.
      */
     senseKey: varchar("sense_key", { length: 200 }).notNull().default(""),
+    /**
+     * Every answer the centre accepts for this word's translation challenge
+     * (`["congestion", "traffic congestion"]`). Authored, never generated — an
+     * empty list simply means the term itself is the only accepted answer.
+     */
+    acceptedTranslations: jsonb("accepted_translations").$type<string[]>().notNull().default([]),
   },
   (table) => ({
     termIdx: index("lexemes_term_idx").on(table.term),
@@ -1141,3 +1224,119 @@ export const assignmentResponses = pgTable("assignment_responses", {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });
+
+// ---------------------------------------------------------------------------
+// Public video lessons — YouTube/TED-scale video as a LESSON, not an iframe.
+//
+// The centre stores a structured reference (provider + video id) rather than an
+// arbitrary embed snippet: the id is validated server-side and the only origin
+// the Content-Security-Policy allows to be framed is the video provider (see
+// src/lib/services/video/provider.ts and src/lib/http/security-headers.ts).
+//
+// The transcript is authored/licensed/attributed data — never scraped from a
+// third party just because the video is publicly embeddable (see
+// `transcriptSource` and `transcriptAttribution`).
+// ---------------------------------------------------------------------------
+
+export const videoLessonStageEnum = pgEnum("video_lesson_stage", ["comprehension", "gap_fill"]);
+
+export const videoLessonStateEnum = pgEnum("video_lesson_state", [
+  "not_started",
+  "in_progress",
+  "completed",
+]);
+
+export const videoLessons = pgTable(
+  "video_lessons",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    /** The roadmap lesson this video belongs to; one video per lesson. */
+    lessonId: uuid("lesson_id")
+      .notNull()
+      .references(() => lessons.id, { onDelete: "cascade" }),
+    /** Provider id, e.g. "youtube". Kept generic so another host can be added. */
+    provider: varchar("provider", { length: 30 }).notNull().default("youtube"),
+    /** The provider's own video id — validated, never a raw URL or embed HTML. */
+    videoId: varchar("video_id", { length: 40 }).notNull(),
+    title: varchar("title", { length: 200 }).notNull(),
+    /** "Before you watch": a prediction prompt and the focus of the video. */
+    beforeYouWatch: text("before_you_watch"),
+    /** Duration in seconds when known; drives the honest completion rule. */
+    durationSeconds: integer("duration_seconds"),
+    /**
+     * Authored transcript lines: `[{ startSeconds, text }]`. Empty when the
+     * centre has no legitimate transcript — the video still works, the
+     * transcript-dependent tabs simply do not exist.
+     */
+    transcript: jsonb("transcript").$type<{ startSeconds: number; text: string }[]>(),
+    /** authored | licensed | permitted — where the transcript came from. */
+    transcriptSource: varchar("transcript_source", { length: 20 }),
+    transcriptAttribution: varchar("transcript_attribution", { length: 200 }),
+    createdByUserId: uuid("created_by_user_id").references(() => users.id, { onDelete: "set null" }),
+    isActive: boolean("is_active").notNull().default(true),
+    /**
+     * Publication state and the moment a scheduled item opens. Visibility is
+     * decided by `isLive()` in `src/lib/services/cms/publication.ts`; the older
+     * `is_active` flag stays as a hint but is no longer what a student-facing
+     * query trusts.
+     */
+    publicationState: publicationStateEnum("publication_state").notNull().default("published"),
+    publishAt: timestamp("publish_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => ({
+    lessonIdx: uniqueIndex("video_lessons_lesson_idx").on(table.lessonId),
+    videoIdx: uniqueIndex("video_lessons_video_idx").on(table.provider, table.videoId),
+  })
+);
+
+export const videoLessonQuestions = pgTable(
+  "video_lesson_questions",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    videoLessonId: uuid("video_lesson_id")
+      .notNull()
+      .references(() => videoLessons.id, { onDelete: "cascade" }),
+    stage: videoLessonStageEnum("stage").notNull(),
+    position: integer("position").notNull(),
+    prompt: text("prompt").notNull(),
+    /** Every answer the centre accepts; deterministic, authored, never invented. */
+    acceptedAnswers: jsonb("accepted_answers").$type<string[]>().notNull(),
+    /** Seconds into the video this question refers to, when authored. */
+    atSeconds: integer("at_seconds"),
+  },
+  (table) => ({
+    lessonStageIdx: index("video_lesson_questions_lesson_idx").on(table.videoLessonId, table.stage, table.position),
+  })
+);
+
+export const videoLessonProgress = pgTable(
+  "video_lesson_progress",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    videoLessonId: uuid("video_lesson_id")
+      .notNull()
+      .references(() => videoLessons.id, { onDelete: "cascade" }),
+    state: videoLessonStateEnum("state").notNull().default("not_started"),
+    /**
+     * Furthest point the player reported, in seconds. Monotonic: a reload or a
+     * seek backwards never lowers it, and the server clamps it to the authored
+     * duration so a client cannot claim more than the video has.
+     */
+    watchedSeconds: integer("watched_seconds").notNull().default(0),
+    /** Graded authored answers: `{ [questionId]: { answer, correct } }`. */
+    answers: jsonb("answers").$type<Record<string, { answer: string; correct: boolean }>>(),
+    /** "Your opinion" — the student's own response, kept for teacher feedback. */
+    responseText: text("response_text"),
+    /** "Summary" — written recall of the video. */
+    summaryText: text("summary_text"),
+    completedAt: timestamp("completed_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => ({
+    userLessonIdx: uniqueIndex("video_lesson_progress_user_idx").on(table.userId, table.videoLessonId),
+  })
+);

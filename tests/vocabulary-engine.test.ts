@@ -33,6 +33,13 @@ import {
   SEARCH_LIMIT,
 } from "../src/lib/services/vocabulary/search";
 import {
+  acceptedSpellings,
+  gradeSentence,
+  gradeSpelling,
+  isVerifiableKind,
+  normalizeAnswer,
+} from "../src/lib/services/vocabulary/grading";
+import {
   TOPIC_PACKS,
   findPack,
   isPackId,
@@ -425,4 +432,46 @@ test("the engine is the single path: modules must not insert words directly", ()
       `${file} must go through the vocabulary engine, not insert words itself`,
     );
   }
+});
+
+// ---------------------------------------------------------------------------
+// Game answers are graded by the server, never asserted by the browser
+// ---------------------------------------------------------------------------
+
+test("an answer is folded the way the browser folds it, so both agree", () => {
+  assert.equal(normalizeAnswer("  Traffic   Congestion. "), "traffic congestion");
+  assert.equal(normalizeAnswer("o\u2019clock"), "o'clock");
+  assert.equal(normalizeAnswer("DON'T"), "don't");
+  // The retired client rule used a locale-aware lower-casing, which turns "I"
+  // into a dotless letter on a Turkish machine. The shared rule is locale-free.
+  assert.equal(normalizeAnswer("I"), "i");
+});
+
+test("the accepted set is the word plus its authored alternatives, deduplicated", () => {
+  const set = acceptedSpellings({ term: "Commence", acceptedTranslations: ["commence", "start", "begin"] });
+  assert.deepEqual(set.sort(), ["begin", "commence", "start"]);
+  assert.deepEqual(acceptedSpellings({ term: "solo", acceptedTranslations: [] }), ["solo"]);
+  assert.deepEqual(acceptedSpellings({ term: "solo", acceptedTranslations: null }), ["solo"]);
+});
+
+test("a typed answer is graded against the stored word, punctuation and case aside", () => {
+  const word = { term: "resilient", acceptedTranslations: ["tough"] };
+  assert.equal(gradeSpelling(word, " Resilient! "), true);
+  assert.equal(gradeSpelling(word, "tough"), true);
+  assert.equal(gradeSpelling(word, "resilience"), false);
+  assert.equal(gradeSpelling(word, ""), false);
+  // A word authored without alternatives has exactly one correct answer.
+  assert.equal(gradeSpelling({ term: "resilient", acceptedTranslations: [] }, "tough"), false);
+});
+
+test("an assembled sentence is compared with the sentence it was built from", () => {
+  assert.equal(gradeSentence("Cities ease congestion.", "cities  ease congestion."), true);
+  assert.equal(gradeSentence("Cities ease congestion.", "cities ease"), false);
+  assert.equal(gradeSentence("Cities ease congestion.", "   "), false);
+});
+
+test("only the two checkable kinds count as verified, so a claim cannot earn a point", () => {
+  assert.equal(isVerifiableKind("spelling"), true);
+  assert.equal(isVerifiableKind("sentence"), true);
+  assert.equal(isVerifiableKind("self"), false);
 });

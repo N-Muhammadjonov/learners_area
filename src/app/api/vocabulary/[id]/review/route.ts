@@ -1,3 +1,4 @@
+import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { requireActiveUser } from "@/lib/auth/current-user";
@@ -13,7 +14,9 @@ import { applyScheduledReview } from "@/lib/services/vocabulary/engine";
  */
 const schema = z.object({ outcome: z.enum(["correct", "incorrect"]) });
 
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  if (!isUuid(id)) return NextResponse.json({ error: "not_found" }, { status: 404 });
   const user = await requireActiveUser();
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
@@ -23,7 +26,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
 
   const result = await applyScheduledReview({
     userId: user.id,
-    entryId: params.id,
+    entryId: id,
     outcome: parsed.data.outcome,
   });
   if (!result.ok) {

@@ -17,7 +17,7 @@ export default async function OwnerRetentionPage() {
   const owner = await requireOwner();
   if (!owner) redirect("/dashboard");
 
-  const dict = getDictionary(getLocale());
+  const dict = getDictionary(await getLocale());
   const config = readRetentionConfig();
 
   const rows = [

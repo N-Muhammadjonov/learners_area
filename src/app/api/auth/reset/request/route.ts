@@ -4,6 +4,7 @@ import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { users, passwordResetTokens } from "@/db/schema";
 import { requestResetSchema } from "@/lib/validation/auth";
+import { RULES, accountKey, clientKey, enforce } from "@/lib/http/rate-limit";
 
 /**
  * No email service is wired up in this environment (see EmailService note in
@@ -18,6 +19,11 @@ export async function POST(req: NextRequest) {
   if (!parsed.success) {
     return NextResponse.json({ error: parsed.error.issues[0]?.message ?? "Invalid input" }, { status: 400 });
   }
+
+  const byIp = enforce(RULES.passwordReset, clientKey(req));
+  if (byIp) return byIp;
+  const byAccount = enforce(RULES.passwordReset, `acct:${accountKey(parsed.data.email)}`);
+  if (byAccount) return byAccount;
 
   const user = await db.query.users.findFirst({ where: eq(users.email, parsed.data.email) });
   if (!user) {

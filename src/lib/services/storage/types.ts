@@ -3,7 +3,8 @@
  *
  * Two implementations, chosen by `STORAGE_PROVIDER`:
  *
- *  - `local`  (default) — writes to `./public/uploads/<key>` on disk. Genuine
+ *  - `local`  (default) — writes to `./.data/uploads/<key>` on disk, outside the web
+ *               root, so the authenticated resource route is the only reader. Genuine
  *    for development and single-node self-hosting; unusable on hosts with an
  *    ephemeral/read-only filesystem (Vercel and most serverless targets).
  *    `supportsDirectUpload` is false: the bytes have to reach this server to

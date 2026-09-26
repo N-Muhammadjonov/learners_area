@@ -67,6 +67,8 @@ const en = {
     main: "Main",
     track: "Progress tracking",
     course: "IELTS",
+    courseModules: "Course & modules",
+    videoLessons: "TED / Video lessons",
     listening: "Listening",
     reading: "Reading",
     writing: "Writing",
@@ -84,6 +86,22 @@ const en = {
     adminPrompts: "Writing prompts",
     profile: "Profile",
     logout: "Log out",
+  },
+  // The public front door. This copy is fixed by brand decision and is identical
+  // in both locales on purpose: it is the approved wording, not a translation.
+  // The language switch in the shell. The visible text stays the two-letter code
+  // because that is what fits a toolbar; the accessible name is the full language.
+  locale: {
+    switchLabel: "Language",
+    uz: "O'zbekcha",
+    en: "English",
+  },
+  landing: {
+    headlineLead: "Welcome to the next level",
+    headlineWith: "with",
+    headlineAccent: "LEARNERS AREA",
+    cta: "Let's Get Started",
+    footer: "Prepared by Nurmuhammad · @LEARNERS_AREA",
   },
   marketing: {
     title: "Learners Area",
@@ -116,6 +134,80 @@ const en = {
     resetConfirmCta: "Update password",
     errorInvalidCredentials: "That email or password doesn't match our records.",
     errorEmailTaken: "An account with this email already exists.",
+    errorRateLimited: "Too many attempts. Please wait a few minutes and try again.",
+  },
+  // The student-facing index of public video lessons (one page, every course).
+  videoLessons: {
+    title: "TED / Video lessons",
+    intro:
+      "A short talk, then the lesson around it: predict before you watch, answer the centre's own questions, and write what you took from it. A video lesson only opens when its lesson in the roadmap is open.",
+    none: "No video lesson is open right now.",
+    open: "Open the lesson",
+  },
+  videoLesson: {
+    stagesLabel: "Lesson stages",
+    tabs: {
+      before: "Before you watch",
+      transcript: "Transcript",
+      comprehension: "Comprehension",
+      gap: "Script gap fill",
+      opinion: "Your opinion",
+      summary: "Summary",
+    },
+    playbackNote:
+      "The video plays inside Learners Area. Its source is still visible to the browser, so this is convenience, not secrecy.",
+    blocked: "This video cannot be played here right now.",
+    openOnProvider: "Open it on the provider instead",
+    liveTrackingOn: "The player is reporting its position, so script follow can track it.",
+    liveTrackingOff: "The player has not reported its position yet, so script follow stays off.",
+    scriptFollow: "Follow the script",
+    stateNotStarted: "Not started",
+    stateInProgress: "In progress",
+    stateCompleted: "Completed",
+    transcriptProvenance: "Transcript source",
+    transcriptUnspecified: "not stated",
+    answerCorrect: "Correct",
+    answerWrong: "Not yet",
+    answerPlaceholder: "Your answer",
+    checking: "Checking…",
+    checkAnswers: "Check my answers",
+    opinionHint: "What do you think about what you watched? Write a few sentences.",
+    opinionPlaceholder: "I agree with the speaker because…",
+    summaryHint: "Write what you remember, without looking back at the video.",
+    summaryPlaceholder: "The video explained…",
+    saving: "Saving…",
+    save: "Save",
+    saved: "Saved",
+    feedbackNote: "Your teacher reads this and replies. It is not scored automatically.",
+  },
+  videoLessonAdmin: {
+    title: "Public video lessons",
+    intro:
+      "Paste a normal YouTube link. The server validates it and stores the provider and video id — never an embed snippet. Only YouTube videos play inside Learners Area.",
+    lesson: "Roadmap lesson",
+    videoTitle: "Lesson title",
+    videoUrl: "Video link",
+    beforeYouWatch: "Before you watch",
+    durationSeconds: "Duration in seconds (optional)",
+    transcriptSource: "Transcript source",
+    transcriptSourceNone: "No transcript",
+    transcriptAttribution: "Attribution (optional)",
+    transcriptLines: "Transcript lines",
+    transcriptHelp: "One line per row: `0:12 the sentence`. The text must be authored, licensed or permitted — never copied from a public video.",
+    questions: "Authored questions",
+    questionsHelp:
+      "One per row: `question || answer one | answer two`. Add `gap_fill` at the start of the row for a gap-fill item.",
+    save: "Save video lesson",
+    saving: "Saving…",
+    saved: "Saved",
+    existing: "Existing video lessons",
+    none: "No video lesson has been authored yet.",
+    rejection: {
+      unsupported_host: "Only YouTube links can play inside Learners Area.",
+      no_video_id: "That link has no video id — copy it from the video page.",
+      invalid_id: "That video id looks wrong (11 characters expected).",
+      invalid_url: "That link cannot be read.",
+    },
   },
   onboarding: {
     title: "A quick setup",
@@ -137,6 +229,8 @@ const en = {
     streak: "Day streak",
     continueLearning: "Continue where you left off",
     recentFeedback: "Latest writing feedback",
+    retentionDrillHint: "Read a text once, cover it, then write down what you kept — four minutes, no test.",
+    retentionDrillAction: "Start the drill",
     vocabDue: "Vocabulary due for review",
     skillSummary: "Skill summary",
     noAttemptsYet: "No attempts yet — this module opens soon.",
@@ -277,6 +371,11 @@ const en = {
     typeMasteryHint: "Counted from your own submitted answers — one attempt per question.",
     noTypeData: "No answered questions yet.",
     weakTypeNote: "Your weakest type right now",
+    retentionModeTitle: "Retention drill",
+    retentionModeHint:
+      "Read the passage once, cover it, then write down what you kept. Nothing is scored — you compare your recall with the text yourself. Four minutes is enough.",
+    retentionModeAnother: "Another passage",
+    retentionModeEmpty: "No passages are open right now.",
     retentionTitle: "Retention check",
     retentionHint: "Cover the passage and write down what you remember. Nothing is scored — you compare your recall with the text yourself.",
     retentionHide: "Hide the passage",
@@ -291,6 +390,7 @@ const en = {
     retentionKept: "You kept {kept} of {count} — the rest is worth re-reading.",
   },
   listening: {
+    noAudioYet: "The audio for this test has not been uploaded yet.",
     practiceTitle: "Listening practice",
     pickTest: "Choose a test",
     minutes: "min",
@@ -448,6 +548,7 @@ const en = {
       term: "Word",
       button: "Add to my words",
       added: "Added",
+      needsMeaning: "We do not have a meaning for this word yet — write one above and save it. We will not invent a definition.",
       duplicates: "already in your library",
       nothing: "Write at least one word.",
       manual: "Manual",
@@ -531,6 +632,9 @@ const en = {
       choiceHint: "Pick the word that matches the definition.",
       match: "Matching pairs",
       matchHint: "Six words, six meanings — match them all.",
+      // Cards and matching are the two modes the server cannot check, so the
+      // interface says so instead of quietly implying that every answer is scored.
+      selfAssessed: "Self-check: this mode is practice only and adds no points.",
       gap: "Fill the gap",
       gapHint: "Complete the example sentence.",
       race: "Typing race",
@@ -547,6 +651,7 @@ const en = {
       seconds: "s",
       wpm: "words/min",
       accuracy: "Accuracy",
+      tryAgain: "Not quite — try again",
       typeAnswer: "Type the word…",
       check: "Check",
       next: "Next",
@@ -606,6 +711,7 @@ const en = {
     },
   },
   speaking: {
+    noFileYet: "No file has been uploaded for this material yet.",
     title: "Speaking",
     category: {
       part1: "Part 1",
@@ -968,6 +1074,17 @@ const en = {
     integrations: "Integrations",
     retention: "Data retention",
     audit: "Audit trail",
+    brandTitle: "Brand assets",
+    brandHint:
+      "The approved artwork, exactly as supplied. Day and Night show different files — the theme never recolours one.",
+    brandAssets: {
+      logoMasterDark: "Master",
+      logoMarkDark: "Mark (night)",
+      logoMarkLight: "Mark (day)",
+      logoHorizontalDark: "Wordmark (night)",
+      logoHorizontalLight: "Wordmark (day)",
+      favicon: "Favicon",
+    },
     transfer: "Ownership transfer",
     transferWarning:
       "Transferring ownership makes another account the highest authority in the centre. You will be asked to re-enter your password.",
@@ -1060,7 +1177,23 @@ const en = {
     changeRole: "Change role",
     promptsTitle: "Writing prompts",
     newPrompt: "New prompt",
-    readingTitle: "Reading passages",
+    // Publication: the four states staff move content through. The words are the
+  // same in both locales on purpose — they are terms of art in this interface.
+  publication: {
+    states: {
+      draft: "Draft",
+      scheduled: "Scheduled",
+      published: "Published",
+      archived: "Archived",
+    },
+    changeState: "Change publication state",
+    publishAt: "Opens at",
+    save: "Save",
+    saving: "Saving…",
+    saved: "Saved",
+    failed: "Not allowed",
+  },
+  readingTitle: "Reading passages",
     listeningTitle: "Listening tests",
     newPassage: "New passage",
     grammarTitle: "Grammar topics",

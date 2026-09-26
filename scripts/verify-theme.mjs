@@ -51,11 +51,23 @@ check("the night theme is rendered on the server", night.text.includes('data-the
 check("the server render already carries the night theme (no flash path)", night.status === 200);
 
 // The palette is one block of tokens, applied to every surface.
-const css = await fetch(`${BASE}/_next/static/css/${(night.text.match(/_next\/static\/css\/([^"]+\.css)/) ?? [])[1] ?? ""}`);
-const cssText = css.ok ? await css.text() : "";
+// A production stylesheet is minified, and the minifier drops the quotes around
+// an attribute selector: `[data-theme=night]`. Read every stylesheet the page
+// links, and accept both spellings, so the check proves the palette in dev and
+// in a production build alike instead of failing on punctuation.
+const cssHrefs = [...new Set([...night.text.matchAll(/_next\/static\/css\/[^"]+\.css/g)].map((m) => m[0]))];
+const cssText = (
+  await Promise.all(
+    cssHrefs.map(async (href) => {
+      const res = await fetch(`${BASE}/${href.replace(/\\+$/, "")}`);
+      return res.ok ? await res.text() : "";
+    })
+  )
+).join("\n");
+const nightSelector = /\[data-theme=["']?night["']?\]/;
 check(
   "night mode sets the navy page and card tokens",
-  cssText.includes('data-theme="night"') && /--paper:\s*11 13 24/.test(cssText),
+  nightSelector.test(cssText) && /--paper:\s*11 13 24/.test(cssText),
   "night palette not found in the stylesheet"
 );
 check(

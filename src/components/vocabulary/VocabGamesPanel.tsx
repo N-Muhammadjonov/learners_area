@@ -4,6 +4,12 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Dictionary } from "@/lib/i18n/en";
 import { collocationChips } from "./types";
 import type { GameSetKey, GameSetResponse, GameWord, VocabFolder, VocabPack } from "./types";
+import {
+  acceptedSpellings,
+  gradeSpelling,
+  normalizeAnswer,
+  type GameSubmission,
+} from "@/lib/services/vocabulary/grading";
 
 type GameId = "cards" | "choice" | "match" | "gap" | "race" | "translation" | "builder";
 
@@ -212,23 +218,26 @@ function shuffle<T>(items: T[]): T[] {
   return copy;
 }
 
-function normalise(value: string): string {
-  return value
-    .toLocaleLowerCase()
-    .replace(/[’‘`]/g, "'")
-    .replace(/[^a-z0-9' ]+/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-/** One answered word, reported to the ledger. */
+/**
+ * One answered word, sent to the ledger.
+ *
+ * The browser no longer reports whether the answer was right: it sends what the
+ * student actually did, and the server grades it against the stored word using
+ * `normalizeAnswer` — the very same function this file uses for the instant
+ * on-screen verdict. Because both sides fold the answer the same way, the
+ * feedback a student sees and the verdict that earns a point cannot disagree.
+ *
+ * Modes the server cannot check (turning a card over and judging your own
+ * recall, pairing two cards the browser compared) send `kind: "self"`: honest
+ * practice, no points, because a claim is not evidence.
+ */
 function useAnswer(setKey: GameSetKey) {
   return useCallback(
-    async (entryId: string, correct: boolean) => {
+    async (entryId: string, submission: GameSubmission) => {
       await fetch("/api/vocabulary/games", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ entryId, correct, set: setKey }),
+        body: JSON.stringify({ entryId, set: setKey, submission }),
       }).catch(() => null);
     },
     [setKey]
@@ -373,7 +382,7 @@ function Flashcards({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
     if (!current || timer.current) return;
     setMarks((current) => ({ ...current, [deck[index]!.id]: known ? "known" : "notYet" }));
     if (known) setCorrect((value) => value + 1);
-    void answer(current.id, known);
+    void answer(current.id, { kind: "self", known });
     // The card turns back over first, then the deck advances by itself.
     timer.current = setTimeout(() => {
       setFlipped(false);
@@ -442,6 +451,9 @@ function Flashcards({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
               </p>
               <p className="text-[11px] text-ink-300" data-flashcard-keys>
                 {t.keyboardHint}
+              </p>
+              <p className="text-[11px] text-ink-300" data-self-assessed>
+                {t.games.selfAssessed}
               </p>
             </>
           )}
@@ -518,9 +530,9 @@ function MultipleChoice({ dict, words }: { dict: Dictionary; words: GameWord[] }
   function choose(option: string) {
     if (picked || !current) return;
     setPicked(option);
-    const isRight = normalise(option) === normalise(current.term);
+    const isRight = normalizeAnswer(option) === normalizeAnswer(current.term);
     if (isRight) setCorrect((value) => value + 1);
-    void answer(current.id, isRight);
+    void answer(current.id, { kind: "spelling", text: option });
   }
 
   if (!current) {
@@ -552,7 +564,7 @@ function MultipleChoice({ dict, words }: { dict: Dictionary; words: GameWord[] }
       </p>
       <div className="grid gap-2 sm:grid-cols-2">
         {options.map((option) => {
-          const isRight = normalise(option) === normalise(current.term);
+          const isRight = normalizeAnswer(option) === normalizeAnswer(current.term);
           const state = picked ? (isRight ? "right" : option === picked ? "wrong" : "idle") : "idle";
           return (
             <button
@@ -578,7 +590,7 @@ function MultipleChoice({ dict, words }: { dict: Dictionary; words: GameWord[] }
       {picked && (
         <div className="flex flex-wrap items-center justify-between gap-2">
           <span className="text-xs text-ink-500">
-            {normalise(picked) === normalise(current.term) ? t.games.score : t.games.wrongAnswer}: {current.term}
+            {normalizeAnswer(picked) === normalizeAnswer(current.term) ? t.games.score : t.games.wrongAnswer}: {current.term}
           </span>
           <button
             type="button"
@@ -616,7 +628,9 @@ function MatchingPairs({ dict, words }: { dict: Dictionary; words: GameWord[] })
   function pickRight(word: GameWord) {
     if (!picked || matched.includes(word.id)) return;
     const right = picked.id === word.id;
-    void answer(picked.id, right);
+    // The pairing is checked here, between two cards the browser holds; the
+    // server has nothing to compare it with, so it is sent as a self-check.
+    void answer(picked.id, { kind: "self", known: right });
     if (right) {
       setMatched((rows) => [...rows, word.id]);
       setPicked(null);
@@ -687,6 +701,9 @@ function MatchingPairs({ dict, words }: { dict: Dictionary; words: GameWord[] })
           })}
         </ul>
       </div>
+      <p className="text-[11px] text-ink-300" data-self-assessed>
+        {t.games.selfAssessed}
+      </p>
       {matched.length === pool.length && (
         <ResultBanner
           dict={dict}
@@ -730,10 +747,10 @@ function FillTheGap({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
 
   function check() {
     if (!current || checked !== null) return;
-    const isRight = normalise(value) === normalise(current.term);
+    const isRight = normalizeAnswer(value) === normalizeAnswer(current.term);
     setChecked(isRight);
     if (isRight) setCorrect((row) => row + 1);
-    void answer(current.id, isRight);
+    void answer(current.id, { kind: "spelling", text: value });
   }
 
   if (!current) {
@@ -831,11 +848,11 @@ function TypingRace({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
 
   function submit() {
     if (!current || finished) return;
-    const isRight = normalise(value) === normalise(current.term);
+    const isRight = normalizeAnswer(value) === normalizeAnswer(current.term);
     setAttempts((row) => row + 1);
     setTypedChars((row) => row + Math.min(value.length, current.term.length));
     if (isRight) setCorrect((row) => row + 1);
-    void answer(current.id, isRight);
+    void answer(current.id, { kind: "spelling", text: value });
     setValue("");
     if (index + 1 >= deck.length) setFinished(true);
     else setIndex((row) => row + 1);
@@ -916,12 +933,25 @@ function TranslationChallenge({ dict, words }: { dict: Dictionary; words: GameWo
 
   const current = deck[index];
 
+  /**
+   * Every answer the centre accepts, plus the term itself. A wrong answer shows
+   * ONE example sentence — enough to think with — and never the answer list; the
+   * rest is revealed only after the student actually gets it right.
+   */
+  /**
+   * The accepted set comes from the shared grading module, so the browser and
+   * the server agree by construction on what counts as a correct translation.
+   */
+  function acceptedAnswers(word: GameWord): string[] {
+    return acceptedSpellings(word);
+  }
+
   function check() {
     if (!current || checked !== null) return;
-    const isRight = normalise(value) === normalise(current.term);
+    const isRight = gradeSpelling(current, value);
     setChecked(isRight);
     if (isRight) setCorrect((row) => row + 1);
-    void answer(current.id, isRight);
+    void answer(current.id, { kind: "spelling", text: value });
   }
 
   if (!current) {
@@ -958,21 +988,54 @@ function TranslationChallenge({ dict, words }: { dict: Dictionary; words: GameWo
         </button>
       </div>
       {checked !== null && (
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <span className={checked ? "text-sm text-band-good" : "text-sm text-band-bad"}>
-            {checked ? t.games.score : `${t.games.wrongAnswer}: ${current.term}`}
-          </span>
-          <button
-            type="button"
-            className="btn-secondary"
-            onClick={() => {
-              setValue("");
-              setChecked(null);
-              setIndex((row) => row + 1);
-            }}
-          >
-            {t.games.next}
-          </button>
+        <div className="flex flex-col gap-2">
+          {checked ? (
+            <div className="rounded-md border border-band-good/40 bg-band-good/10 px-3 py-2" data-translation-reveal>
+              <p className="text-sm text-band-good">{t.games.score}</p>
+              <p className="mt-1 text-sm text-ink-800" data-translation-answer>
+                {current.term}
+                {current.acceptedTranslations.length > 0
+                  ? ` · ${current.acceptedTranslations.join(" · ")}`
+                  : ""}
+              </p>
+              {current.collocations && (
+                <p className="mt-1 text-xs text-ink-500">{current.collocations}</p>
+              )}
+            </div>
+          ) : (
+            <div className="rounded-md border border-warn-500/40 bg-warn-50 px-3 py-2" data-translation-example>
+              <p className="text-sm text-warn-800">{t.games.tryAgain}</p>
+              {current.exampleSentence && (
+                <p className="mt-1 text-sm text-ink-700">{current.exampleSentence}</p>
+              )}
+            </div>
+          )}
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            {!checked && (
+              <button
+                type="button"
+                className="btn-secondary"
+                data-translation-retry
+                onClick={() => {
+                  setValue("");
+                  setChecked(null);
+                }}
+              >
+                {t.games.tryAgain}
+              </button>
+            )}
+            <button
+              type="button"
+              className="btn-secondary"
+              onClick={() => {
+                setValue("");
+                setChecked(null);
+                setIndex((row) => row + 1);
+              }}
+            >
+              {t.games.next}
+            </button>
+          </div>
         </div>
       )}
     </GameFrame>
@@ -1005,9 +1068,10 @@ function SentenceBuilder({ dict, words }: { dict: Dictionary; words: GameWord[] 
 
   function check() {
     if (!current || checked !== null) return;
-    const isRight = built.map((tile) => tile.word).join(" ") === targetWords.join(" ");
+    const assembled = built.map((tile) => tile.word).join(" ");
+    const isRight = assembled === targetWords.join(" ");
     setChecked(isRight);
-    void answer(current.id, isRight);
+    void answer(current.id, { kind: "sentence", text: assembled });
   }
 
   if (!current) {

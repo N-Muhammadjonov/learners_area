@@ -1,3 +1,4 @@
+import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { requireAdministrator } from "@/lib/auth/current-user";
@@ -16,7 +17,9 @@ const schema = z.object({
   note: z.string().trim().max(500).nullish(),
 });
 
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  if (!isUuid(id)) return NextResponse.json({ error: "not_found" }, { status: 404 });
   const actor = await requireAdministrator();
   if (!actor) return NextResponse.json({ error: "forbidden" }, { status: 403 });
 
@@ -25,7 +28,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   if (!parsed.success) return NextResponse.json({ error: "invalid_input" }, { status: 400 });
 
   const result = await decideAccessRequest({
-    requestId: params.id,
+    requestId: id,
     actorUserId: actor.id,
     decision: parsed.data.decision,
     note: parsed.data.note ?? null,

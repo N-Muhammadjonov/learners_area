@@ -16,7 +16,7 @@ export default async function OwnerAuditPage() {
   const owner = await requireOwner();
   if (!owner) redirect("/dashboard");
 
-  const dict = getDictionary(getLocale());
+  const dict = getDictionary(await getLocale());
   const rows = await listAudit(80);
 
   return (

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { RULES, clientKey, enforce } from "@/lib/http/rate-limit";
 import { actorOf, requireActiveUser } from "@/lib/auth/current-user";
 import { createUploadIntent, type BlockKind, type UploadPurpose } from "@/lib/data/uploads";
 
@@ -32,6 +33,9 @@ import { createUploadIntent, type BlockKind, type UploadPurpose } from "@/lib/da
 export async function POST(req: NextRequest) {
   const user = await requireActiveUser();
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+
+  const limited = enforce(RULES.uploadIntent, clientKey(req));
+  if (limited) return limited;
 
   const body = await req.json().catch(() => null);
   const purpose = body?.purpose;

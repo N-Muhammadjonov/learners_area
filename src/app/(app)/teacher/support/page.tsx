@@ -5,6 +5,7 @@ import { listReports } from "@/lib/data/support";
 import { Card } from "@/components/ui/Card";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { ResolveReportButton } from "@/components/support/ResolveReportButton";
+import { formatDateTime } from "@/lib/time";
 
 export const dynamic = "force-dynamic";
 
@@ -19,7 +20,8 @@ export default async function SupportInboxPage() {
   // blank page: a student who lands here goes back to their own dashboard.
   const user = await requireStaff();
   if (!user) redirect("/dashboard");
-  const dict = getDictionary(getLocale());
+  const locale = await getLocale();
+  const dict = getDictionary(locale);
 
   const reports = await listReports();
 
@@ -49,7 +51,7 @@ export default async function SupportInboxPage() {
               </div>
               <p className="mt-2 text-sm text-ink-700">{report.message}</p>
               <p className="mt-2 text-xs text-ink-300">
-                {report.reporterName} · {new Date(report.createdAt).toLocaleString()}
+                {report.reporterName} · {formatDateTime(report.createdAt, locale)}
                 {report.viewport ? ` · ${dict.support.viewport}: ${report.viewport}` : ""}
                 {report.lastErrorCode ? ` · ${dict.support.lastError}: ${report.lastErrorCode}` : ""}
               </p>

@@ -9,16 +9,25 @@ export default async function ReadingPage() {
   const user = await requireActiveUser();
   if (!user) return null;
 
-  const dict = getDictionary(getLocale());
+  const dict = getDictionary(await getLocale());
   const passages = await listActivePassages();
 
   return (
     <div className="mx-auto flex max-w-4xl flex-col gap-6">
       <div className="flex items-center justify-between">
         <h1 className="font-display text-2xl text-ink-900">{dict.reading.practiceTitle}</h1>
-        <Link href="/reading/history" className="text-sm text-signal-600 hover:underline">
-          {dict.reading.historyTitle} →
-        </Link>
+        <div className="flex items-center gap-4">
+          <Link
+            href="/reading/retention"
+            className="text-sm text-signal-600 hover:underline"
+            data-retention-mode-link
+          >
+            {dict.reading.retentionModeTitle} →
+          </Link>
+          <Link href="/reading/history" className="text-sm text-signal-600 hover:underline">
+            {dict.reading.historyTitle} →
+          </Link>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">

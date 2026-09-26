@@ -1,3 +1,4 @@
+import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
 import { and, desc, eq } from "drizzle-orm";
 import { z } from "zod";
@@ -24,12 +25,14 @@ import { classifyAssignment, evaluateAssignment, evaluateWritingSubmission } fro
  */
 const schema = z.object({ response: z.string().min(20).max(20000).optional() });
 
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  if (!isUuid(id)) return NextResponse.json({ error: "not_found" }, { status: 404 });
   const user = await requireActiveUser();
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
   const assignment = await db.query.assignments.findFirst({
-    where: eq(assignments.id, params.id),
+    where: eq(assignments.id, id),
   });
   if (!assignment) return NextResponse.json({ error: "not_found" }, { status: 404 });
 
@@ -85,7 +88,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
       prompt: prompt.prompt,
       content: submission.content,
       targetWordCount: prompt.targetWordCount,
-      language: getLocale(),
+      language: await getLocale(),
     });
     if (!outcome.ok) return NextResponse.json({ error: outcome.error }, { status: 502 });
 
@@ -118,7 +121,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     title: assignment.title,
     description: assignment.description,
     studentResponse: responseText,
-    language: getLocale(),
+    language: await getLocale(),
   });
   if (!outcome.ok) return NextResponse.json({ error: outcome.error }, { status: 502 });
 

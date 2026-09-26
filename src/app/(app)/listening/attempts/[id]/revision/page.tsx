@@ -27,12 +27,13 @@ import { SpeedTrainer } from "@/components/listening/SpeedTrainer";
  * number on this page comes from the student's own graded answers: there is no
  * predicted band, no invented accuracy and no "resume" that cannot be resumed.
  */
-export default async function ListeningRevisionPage({ params }: { params: { id: string } }) {
+export default async function ListeningRevisionPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const user = await requireActiveUser();
   if (!user) return null;
-  const dict = getDictionary(getLocale());
+  const dict = getDictionary(await getLocale());
 
-  const detail = await getAttemptDetail(params.id, user.id);
+  const detail = await getAttemptDetail(id, user.id);
   if (!detail) notFound();
   const { attempt, test, questions } = detail;
   if (attempt.status === "in_progress") notFound();

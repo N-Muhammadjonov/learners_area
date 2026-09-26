@@ -1,3 +1,4 @@
+import { touchMeaningfulActivity } from "@/lib/services/activity";
 import "server-only";
 import { findEvaluation, recordEvaluationEvent, recordFallbackEvent, recordWeaknessesFromEvaluation, saveEvaluation, type EvaluationRecord } from "@/lib/data/evaluations";
 import { getStorageService } from "@/lib/services/storage";
@@ -116,6 +117,9 @@ export async function evaluateAndPersist(params: {
   });
 
   if (created) {
+    // Real work was produced and recorded: the retention clock cares about this,
+    // not about how often the student signed in.
+    await touchMeaningfulActivity(params.userId);
     await recordWeaknessesFromEvaluation({
       userId: params.userId,
       evaluationType: params.evaluationType,

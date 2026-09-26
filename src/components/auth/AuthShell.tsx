@@ -1,5 +1,15 @@
 import Link from "next/link";
+import { BrandLogo } from "@/components/brand/BrandLogo";
 
+/**
+ * The shell shared by every authentication and waiting screen.
+ *
+ * The wordmark lock-up is used here because these pages have the width for it,
+ * and the theme decides which supplied file is shown (dark artwork at night,
+ * light artwork by day) — never a filter over one file. It is deliberately the
+ * only branding on the page: no second logo, no repeated name beside the
+ * wordmark, and the form stays the first thing a reader interacts with.
+ */
 export function AuthShell({
   title,
   subtitle,
@@ -14,11 +24,12 @@ export function AuthShell({
   return (
     <div className="flex min-h-dvh items-center justify-center bg-paper-sunken p-4">
       <div className="w-full max-w-sm">
-        <Link href="/" className="mb-8 flex items-center justify-center gap-2">
-          <span className="flex h-7 w-7 items-center justify-center rounded-sm bg-signal-600 font-display text-sm text-white">
-            L
-          </span>
-          <span className="font-display text-lg text-ink-900">Learners Area</span>
+        <Link
+          href="/"
+          className="mx-auto mb-8 flex w-fit max-w-full items-center justify-center rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-600"
+          data-auth-brand
+        >
+          <BrandLogo kind="horizontal" className="h-12 max-w-[min(20rem,80vw)]" eager />
         </Link>
         <div className="card p-6">
           <h1 className="font-display text-xl text-ink-900">{title}</h1>

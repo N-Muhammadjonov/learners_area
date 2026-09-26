@@ -18,7 +18,7 @@ export default async function NotificationsPage() {
   const user = await requireActiveUser();
   if (!user) redirect("/login");
 
-  const dict = getDictionary(getLocale());
+  const dict = getDictionary(await getLocale());
   const rows = await listNotifications(user.id, 30);
 
   return (

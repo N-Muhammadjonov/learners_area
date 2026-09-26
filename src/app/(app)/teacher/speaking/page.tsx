@@ -9,7 +9,7 @@ import { ManagedMaterialCard } from "@/components/speaking/ManagedMaterialCard";
 export default async function TeacherSpeakingPage() {
   const user = await requireStaff();
   if (!user) redirect("/dashboard");
-  const dict = getDictionary(getLocale());
+  const dict = getDictionary(await getLocale());
   const rows = await listAllForManagement();
 
   return (

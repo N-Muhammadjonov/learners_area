@@ -9,7 +9,7 @@ export default async function ListeningPage() {
   const user = await requireActiveUser();
   if (!user) return null;
 
-  const dict = getDictionary(getLocale());
+  const dict = getDictionary(await getLocale());
   const tests = await listActiveTests();
 
   return (

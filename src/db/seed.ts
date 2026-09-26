@@ -227,8 +227,7 @@ async function main() {
               summary: "Introduction, two body paragraphs, conclusion — and why that shape works.",
               defaultState: "available",
               // Placeholder recording, same convention as the listening audio.
-              recordingUrl: "https://cdn.example.com/recordings/four-paragraph-structure.mp4",
-            },
+                          },
             { slug: "idea-to-thesis", title: "Turning a rough idea into a thesis statement", summary: "The sentence that tells the examiner exactly what you're arguing.", defaultState: "available" },
           ],
         },
@@ -643,7 +642,6 @@ async function main() {
       category: "shadowing",
       title: "Shadowing: a model Part 1 answer, sentence by sentence",
       primaryType: "audio",
-      primaryUrl: "https://cdn.example.com/speaking/shadowing-model-answer.mp3",
     })
     .returning();
 
@@ -665,7 +663,6 @@ async function main() {
       category: "part1",
       title: "Part 1: hometown — a recorded model answer",
       primaryType: "audio",
-      primaryUrl: "https://cdn.example.com/speaking/part1-hometown-model.mp3",
     })
     .returning();
 
@@ -695,7 +692,9 @@ async function main() {
       topic: "Live walkthrough with Q&A — bring a draft thesis sentence if you have one.",
       scheduledAt: inFuture(3, 18),
       durationMinutes: 60,
-      meetingUrl: "https://meet.example.com/learners-area/writing-clinic",
+      // No meeting URL: the centre has not created the room yet, and a link to a
+      // reserved placeholder domain would send a student nowhere. The class still
+      // records attendance, and the teacher page says the link is not set.
       status: "upcoming",
     },
     {
@@ -706,8 +705,7 @@ async function main() {
       scheduledAt: inFuture(-4, 18),
       durationMinutes: 45,
       status: "recorded",
-      recordingUrl: "https://cdn.example.com/recordings/tfng-traps.mp4",
-    },
+          },
   ]);
 
   // --- Speaking materials (posted by different teachers + the owner, to
@@ -720,9 +718,9 @@ async function main() {
       category: "part1",
       title: "Part 1: talking about your hometown naturally",
       primaryType: "video",
-      // Placeholder link — demonstrates the embed wiring (YouTube ID parsing
-      // -> youtube-nocookie.com iframe); swap for a real hosted video.
-      primaryUrl: "https://www.youtube.com/watch?v=PLACEHOLDER1",
+      // No file in the demo: the centre uploads the real video. A placeholder
+      // link that never resolved would be a broken player pretending to be
+      // content, so the material opens on its empty state instead.
     })
     .returning();
 
@@ -738,7 +736,6 @@ async function main() {
         materialId: material1.id,
         type: "link",
         position: 1,
-        linkUrl: "https://cdn.example.com/speaking/part1-hometown-transcript.pdf",
       },
     ]);
   }
@@ -749,14 +746,12 @@ async function main() {
       category: "part2",
       title: "Part 2: the one-minute cue-card plan",
       primaryType: "video",
-      primaryUrl: "https://vimeo.com/000000002",
     },
     {
       createdByUserId: admin.id,
       category: "general",
       title: "How Speaking is scored — the four criteria, honestly",
       primaryType: "video",
-      primaryUrl: "https://www.youtube.com/watch?v=PLACEHOLDER3",
     },
   ]);
 
@@ -827,7 +822,6 @@ async function main() {
       audioType: "audio",
       // Placeholder — demonstrates the embed/grading wiring; swap for a
       // real uploaded or hosted audio file.
-      audioUrl: "https://cdn.example.com/listening/library-booking.mp3",
       transcript:
         "Student: Hi, I'd like to book a study room for Thursday afternoon.\nLibrarian: Sure — we have Room 4B free from two until four, or Room 2A from three until five.\nStudent: I'll take Room 4B, please, for three people.\nLibrarian: Great, that's booked. You'll need your student ID to check in at the desk.",
       difficultyLevel: "B2",

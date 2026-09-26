@@ -37,7 +37,7 @@ export function LoginForm({
     const data = await res.json();
     setPending(false);
     if (!res.ok) {
-      setError(dict.auth.errorInvalidCredentials);
+      setError(res.status === 429 ? dict.auth.errorRateLimited : dict.auth.errorInvalidCredentials);
       return;
     }
     // Where to go next is decided by the account's state, not by a guess:

@@ -16,7 +16,7 @@ export default async function OwnerTransferPage() {
   const owner = await requireOwner();
   if (!owner) redirect("/dashboard");
 
-  const dict = getDictionary(getLocale());
+  const dict = getDictionary(await getLocale());
 
   return (
     <div className="mx-auto flex max-w-xl flex-col gap-4">

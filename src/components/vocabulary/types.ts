@@ -81,6 +81,8 @@ export type TabKey = "words" | "revision" | "games" | "use" | "board";
 export type GameWord = {
   id: string;
   term: string;
+  /** Every answer the centre accepts for the translation challenge. */
+  acceptedTranslations: string[];
   definitionEn: string;
   translationUz: string | null;
   exampleSentence: string | null;

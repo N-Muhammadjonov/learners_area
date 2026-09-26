@@ -21,7 +21,7 @@ export const dynamic = "force-dynamic";
 export default async function AssignmentsPage() {
   const user = await requireActiveUser();
   if (!user) return null;
-  const dict = getDictionary(getLocale());
+  const dict = getDictionary(await getLocale());
 
   const rows = await db
     .select()

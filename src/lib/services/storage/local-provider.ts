@@ -4,16 +4,23 @@ import type { ObjectHead, ObjectKey, PresignedPut, PutInput, ReadResult, Storage
 import { isSafeObjectKey } from "./types";
 
 /**
- * Local-disk storage. Objects live at `public/uploads/<key>` and are read back
- * by `GET /api/resources/<key>` — a Route Handler that authenticates the
- * caller and streams the file fresh on every request.
+ * Local-disk storage. Objects live outside the web root, under
+ * `STORAGE_LOCAL_DIR` (default `.data/uploads/<key>`), and are read back by
+ * `GET /api/resources/<key>` — a Route Handler that authenticates the caller
+ * and streams the file fresh on every request.
  *
- * Why a Route Handler instead of Next's built-in `/public` static serving:
- * `next start` only recognises files that existed under `public/` when the
- * server booted, so a file uploaded while the server is already running 404s
- * until restart. That is exactly what a live upload feature does. Reading from
- * disk per request fixes it (and `next dev` never had the problem — it watches
- * the filesystem).
+ * The root used to be `public/uploads/<key>`, and that was a privacy defect
+ * rather than a shortcut: everything under `public/` is served by Next as a
+ * static file, so `GET /uploads/<key>` returned a private recording or an
+ * applicant's document to anyone who knew the key, with no session and no
+ * database read. Keeping bytes out of the web root makes the authenticated
+ * route the *only* delivery path, which is what the rest of this system claims.
+ *
+ * Why a Route Handler instead of Next's built-in static serving: `next start`
+ * only recognises files that existed under `public/` when the server booted, so
+ * a file uploaded while the server is already running 404s until restart. That
+ * is exactly what a live upload feature does. Reading from disk per request
+ * fixes it (and `next dev` never had the problem — it watches the filesystem).
  *
  * Not for serverless hosts: an ephemeral/read-only filesystem loses every
  * upload. Use `STORAGE_PROVIDER=r2` there.
@@ -23,13 +30,23 @@ import { isSafeObjectKey } from "./types";
  * the proxy path (`POST /api/uploads`) for this provider, with the same
  * intent → finalize bookkeeping as the direct path.
  */
+/**
+ * Where local objects are written.
+ *
+ * `STORAGE_LOCAL_DIR` lets a self-hoster put them on a mounted volume. The
+ * default is deliberately outside `public/` — see the class comment.
+ */
+export const LOCAL_UPLOAD_ROOT = process.env.STORAGE_LOCAL_DIR
+  ? path.resolve(process.env.STORAGE_LOCAL_DIR)
+  : path.join(process.cwd(), ".data", "uploads");
+
 export class LocalDiskStorageProvider implements StorageService {
   readonly kind = "local" as const;
   readonly supportsDirectUpload = false;
 
   private resolve(key: ObjectKey): string {
     if (!isSafeObjectKey(key)) throw new Error(`Refusing unsafe storage key: ${key}`);
-    return path.join(process.cwd(), "public", "uploads", key);
+    return path.join(LOCAL_UPLOAD_ROOT, key);
   }
 
   async put({ key, body }: PutInput): Promise<void> {

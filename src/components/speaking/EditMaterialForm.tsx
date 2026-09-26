@@ -169,7 +169,7 @@ export function EditMaterialForm({
 /** Seeds the primary field from the stored material without re-uploading. */
 function initialPrimary(material: Material): PrimaryDraft {
   if (material.primaryType === "link" || !material.primaryObjectKey) {
-    return { mode: "link", primaryUrl: material.primaryUrl };
+    return { mode: "link", primaryUrl: material.primaryUrl ?? "" };
   }
   return {
     mode: "upload",

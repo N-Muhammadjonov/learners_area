@@ -26,7 +26,8 @@ export function ListeningExam({
   dict: Dictionary;
   attemptId: string;
   testTitle: string;
-  audioUrl: string;
+  /** Null when the centre has not uploaded the audio yet. */
+  audioUrl: string | null;
   audioType: "video" | "audio" | "file" | "link";
   questions: ExamQuestion[];
 }) {
@@ -56,7 +57,12 @@ export function ListeningExam({
     <div className="flex flex-col gap-4">
       <div className="card">
         <h2 className="mb-3 font-display text-lg text-ink-900">{testTitle}</h2>
-        <MaterialPlayer url={audioUrl} type={audioType} openLabel="Open audio" />
+        <MaterialPlayer
+          url={audioUrl}
+          type={audioType}
+          openLabel="Open audio"
+          emptyLabel={dict.listening.noAudioYet}
+        />
       </div>
 
       <div className="flex flex-col gap-4">

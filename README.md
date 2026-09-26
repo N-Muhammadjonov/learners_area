@@ -10,7 +10,7 @@ without ever routing them through the app server. It is not a finished product
 
 ## Stack
 
-Next.js 14 (App Router) · React 18 · TypeScript · PostgreSQL · Drizzle ORM ·
+Next.js 15 (App Router) · React 19 · TypeScript · PostgreSQL · Drizzle ORM ·
 Tailwind CSS · Zod · bcrypt · jose · AWS S3 SDK (used against Cloudflare R2)
 
 Drizzle was used instead of Prisma because Prisma's engine binaries are
@@ -18,12 +18,22 @@ fetched from a CDN at `generate`/`migrate` time; Drizzle needs no binary
 download and talks to Postgres directly through `pg`. Both were acceptable
 choices going in — this was an environment-driven decision, not a quality one.
 
+The toolchain is held at the current patched line on purpose: `next` 15.5.26,
+`react`/`react-dom` 19.3.0, `drizzle-orm` 0.45.3 and `drizzle-kit` 0.31.11 were
+chosen to clear the advisories `npm audit --omit=dev` reported against the
+previous versions (Next 14 cache poisoning, SSRF and an unauthenticated RCE in
+its internal paths; a drizzle-orm identifier-escaping SQL injection). `npm audit`
+is part of the release check, and one finding is knowingly left: the `postcss`
+copy that ships *inside* next, which is exercised by Tailwind at build time and
+cannot be reached from request input. The only fix npm offers for it is a Next 16
+major, so it is recorded here rather than forced.
+
 ## Run locally
 
 ```bash
 cp .env.example .env        # fill in DATABASE_URL and a real AUTH_SECRET
 npm install
-npm run db:push             # create tables from src/db/schema.ts
+npm run db:migrate          # apply the SQL migrations in src/db/migrations
 npm run db:seed             # demo data — safe to run once on a fresh DB
 npm run dev                 # http://localhost:3000
 ```
@@ -37,11 +47,20 @@ Created by `npm run db:seed`, passwords are dev-only:
 
 | Role    | Email                          | Password        | Notes                      |
 |---------|--------------------------------|------------------|-----------------------------|
-| Admin (owner) | admin@learnersarea.uz    | Admin12345!      | `isOwner`=true — full control |
+| Owner   | owner@learnersarea.uz          | Owner12345!      | `role`='owner' — the only role that may manage ownership |
+| Admin   | admin@learnersarea.uz          | Admin12345!      | `role`='admin' — admission, content, users |
 | Teacher | teacher@learnersarea.uz        | Teacher12345!    |                              |
-| Teacher | teacher2@learnersarea.uz       | Teacher12345!    | second teacher, for testing ownership |
+| Teacher | teacher2@learnersarea.uz       | Teacher12345!    | second teacher, used when testing an ownership transfer |
 | Student | demo.student@learnersarea.uz   | Student12345!    | onboarded, has real history |
 | Student | new.student@learnersarea.uz    | Student12345!    | fresh account, empty states |
+| Student | pending.student@learnersarea.uz| Student12345!    | status `pending` — the admission screen has something to decide |
+
+Authorization reads `users.role` (`owner` > `admin` > `teacher` > `student`).
+`users.is_owner` is a historical column kept for the migration only: it is never
+the authority, and no account above relies on it. The first owner of a real
+deployment is created with `node scripts/bootstrap-owner.mjs --email <addr>`
+(refuses to run while an active owner exists), and ownership moves only through
+the audited, re-authenticated transfer in the owner area.
 
 ## Environment variables
 
@@ -58,11 +77,29 @@ Feature flags: `BILLING_ENABLED`, `PUBLIC_PAYMENT_ENABLED`, `REAL_AI_ENABLED`,
 
 ## File storage: Cloudflare R2, private by default
 
-Learners Area keeps its bucket **private**. Course content is authenticated
-educational material, so there is no public bucket URL anywhere in this
-project, and no `*` origin, and no `S3_PUBLIC_URL_BASE` variable to set. Files
-are delivered through one authenticated route that authorizes the caller per
-object and then issues a short-lived signed URL.
+Learners Area keeps its storage **private**, and that has to be true for every
+provider, not only for R2. Course content is authenticated educational material,
+so there is no public bucket URL anywhere in this project, and no `*` origin,
+and no `S3_PUBLIC_URL_BASE` variable to set. Files are delivered through one
+authenticated route that authorizes the caller per object and then issues a
+short-lived signed URL.
+
+The `local` provider writes to `.data/uploads` (`STORAGE_LOCAL_DIR` overrides
+it) — **outside** `public/`, and this is not a cosmetic choice. Next serves
+everything under `public/` as a static file, so `GET /uploads/<key>` used to
+return an applicant's document or a student's recording to anyone holding the
+key, with no session and no authorization. The web root is not an object store:
+the object key is not a secret, it travels in the URL the signed-in student is
+given, so a second delivery path would make the authenticated one decorative.
+
+Upgrading an existing deployment from the old layout is a one-time move:
+
+```bash
+mkdir -p .data && mv public/uploads .data/uploads
+```
+
+`scripts/verify-uploads.mjs` fails if an object is ever written under `public/`
+or served from a static path again.
 
 ### Choosing a provider
 
@@ -70,7 +107,7 @@ object and then issues a short-lived signed URL.
 
 | value    | provider                     | browser uploads directly? |
 |----------|------------------------------|---------------------------|
-| `local`  | `./public/uploads` on disk   | no — bytes proxied through the app server |
+| `local`  | `./.data/uploads` on disk    | no — bytes proxied through the app server |
 | `r2`     | Cloudflare R2                | **yes** — presigned PUT straight to R2 |
 | `s3`     | AWS S3 / MinIO / Spaces / B2 | **yes** — presigned PUT straight to the bucket |
 
@@ -481,23 +518,128 @@ are intentionally separate from the generic content tree.
 
 ---
 
+## Brand and the public front door
+
+Six approved artwork files live in **one** directory, `public/brand/`:
+
+| File | Purpose |
+|------|---------|
+| `learners-area-logo-master-dark.png` | full master artwork — brand presentation only |
+| `learners-area-logo-mark-dark.png` | compact mark on dark/night surfaces (sidebar, drawer) |
+| `learners-area-logo-mark-light.png` | compact mark on light/day surfaces |
+| `learners-area-logo-horizontal-dark.png` | wordmark lock-up on wide dark/night surfaces (auth screens) |
+| `learners-area-logo-horizontal-light.png` | wordmark lock-up on wide light/day surfaces |
+| `learners-area-favicon.png` | browser tab / home-screen identity |
+
+The six files are owner-supplied artwork. The repository never draws, traces,
+recolours or regenerates them, so a checkout that does not have them is missing
+assets rather than broken: `tests/brand-assets.test.ts` and
+`scripts/verify-brand.mjs` fail on the six 404s and pass the moment the files are
+copied into `public/brand/`. That is the honest state of a fresh clone.
+
+Their paths are written down **once**, in `src/lib/config/brand.ts`
+(`BRAND_ASSETS`, `brandLogoFor()`), and every placement renders through
+`src/components/brand/BrandLogo.tsx`. Swapping an asset is editing that one map;
+no component builds a logo path, and `tests/brand-assets.test.ts` fails if one
+starts to.
+
+Day and Night show **different supplied files**. Both variants are rendered and
+`[data-theme="night"]` on `<html>` selects one in CSS, so the correct artwork is
+already painted on the server-rendered first frame and a theme switch swaps it
+instantly. The artwork is never inverted, recoloured, traced or regenerated —
+there is no `filter: invert()` anywhere, and the test suite checks that.
+
+`/` is the public landing page: the headline, one divider and one action, in the
+brand's night palette. The action's destination is decided on the server from the
+account's real status (`/login`, `/dashboard`, or the waiting screen at
+`/pending`), never from the cookie. `scripts/verify-brand.mjs` checks the whole
+slice over HTTP, including that the six files are served as real PNGs.
+
+### Who may see content: the four publication states
+
+Authored content is not "on" or "off". Every publishable row (courses, Reading
+passages, Listening tests, Writing prompts, Speaking materials and prompts, video
+lessons) carries `publication_state` and `publish_at`, and exactly one function
+decides what that means — `isLive()` in `src/lib/services/cms/publication.ts`:
+
+| State | Students | Meaning |
+| --- | --- | --- |
+| `draft` | not visible | written, deliberately not shown yet |
+| `scheduled` | visible once `publish_at` has passed | opens on a stated moment |
+| `published` | visible | live now |
+| `archived` | not visible | withdrawn, kept forever |
+
+Three consequences are worth stating plainly.
+
+1. **A list filter is not a gate.** A withdrawn passage used to be hidden from the
+   list but still startable by anyone holding its id. Creation points now check
+   `isLive()` and answer 404 — the same answer an unknown id gets, so a
+   withdrawn title cannot be probed for.
+2. **Archiving is not deleting.** A student's finished attempt, its score, its
+   evidence quotes and its analysis stay readable after the content is archived.
+   Only *starting* something new is refused. Nothing in the publication path
+   removes a row.
+3. **One endpoint, one rule.** `POST /api/admin/content/:type/:id/publication`
+   serves every content type and is restricted to ADMIN and OWNER — a teacher
+   authors questions but does not decide what students may see. Transitions the
+   rule forbids (for example archiving and then scheduling without restoring
+   first), a schedule with no moment, and a moment attached to a published row
+   are all refused, and every accepted change writes an audit row with the
+   previous and the new state.
+
+`scripts/verify-publication.mjs` proves all of it against a real database,
+including that an archived passage's history survives the archive.
+
+---
+
 ## Testing
 
 ```bash
-npm test                          # 80 unit tests (storage rules, RIWI signals, provider fallback, privacy)
+npm test                          # 231 unit tests (no database, no network; one of
+                                  # them fails until the six brand PNGs are in place)
 npm run typecheck && npm run lint
 npm run build
 ```
 
 Against a running app with a real database:
 
+One check needs a browser rather than HTTP, because `MediaRecorder` only exists
+there — it proves a recording is not truncated and that the upload chain finishes:
+
+```bash
+npm i --no-save puppeteer-core            # not a project dependency
+node scripts/browser/verify-mic-browser.mjs   # 12 checks, real Chromium, fake audio device
+```
+
 ```bash
 # with `npm run dev` up and DATABASE_URL pointed at a seeded DB:
 # verify-uploads and verify-coach need DATABASE_URL so they can assert against
 # the real rows, not just the HTTP responses.
-node scripts/verify-uploads.mjs   # 42 HTTP-level checks of the upload lifecycle
-node scripts/verify-pages.mjs     # 69 render checks across roles and locales
-DATABASE_URL=... node scripts/verify-coach.mjs   # 19 checks of the Coach subsystem
+DATABASE_URL=... node scripts/verify-access.mjs        # 33 authorization checks across roles
+DATABASE_URL=... node scripts/verify-pages.mjs         # 71 render checks across roles and locales
+DATABASE_URL=... node scripts/verify-browser-flow.mjs  # 54 checks of the admission/login flow
+DATABASE_URL=... node scripts/verify-theme.mjs         # 32 day/night checks
+DATABASE_URL=... node scripts/verify-responsive.mjs    # 23 responsive-tier checks
+DATABASE_URL=... node scripts/verify-vocabulary.mjs    # 103 vocabulary/SRS/points checks
+DATABASE_URL=... node scripts/verify-owner.mjs         # 10 owner bootstrap/transfer checks
+DATABASE_URL=... node scripts/verify-retention.mjs     # 9 retention checks with controlled timestamps
+DATABASE_URL=... node scripts/verify-publication.mjs   # 34 publication-state checks (drafts, schedule, archive)
+DATABASE_URL=... node scripts/verify-brand.mjs         # 31 brand checks (6 fail until the PNGs are placed)
+node scripts/verify-a11y.mjs                           # 40 accessibility, locale-formatting and rendered-Uzbek checks
+DATABASE_URL=... node scripts/verify-video-lessons.mjs # 17 video-lesson checks
+node scripts/verify-uploads.mjs                        # 44 HTTP-level checks of the upload lifecycle
+DATABASE_URL=... node scripts/verify-coach.mjs         # 21 checks of the Coach subsystem
+DATABASE_URL=... node scripts/verify-shadowing.mjs     # 15 speech-shadowing checks
+DATABASE_URL=... node scripts/verify-writing.mjs       # 18 writing checks
+DATABASE_URL=... node scripts/verify-listening.mjs     # 45 listening checks
+DATABASE_URL=... node scripts/verify-reading.mjs       # 32 reading checks
+DATABASE_URL=... node scripts/verify-grammar.mjs       # 32 grammar checks
+DATABASE_URL=... node scripts/verify-lessons.mjs       # 27 lesson/course checks
+DATABASE_URL=... node scripts/verify-progress.mjs      # 19 progress checks
+DATABASE_URL=... node scripts/verify-dashboard.mjs     # 21 dashboard checks
+DATABASE_URL=... node scripts/verify-live-classes.mjs  # 24 live-class checks
+DATABASE_URL=... node scripts/verify-support.mjs       # 26 support checks
+DATABASE_URL=... node scripts/verify-admission-race.mjs # 6 admission-race checks
 ```
 
 `scripts/verify-uploads.mjs` is the acceptance test for the resource system:
@@ -538,27 +680,171 @@ Not attempted from this environment. In outline:
 2. Set a real `AUTH_SECRET` (`openssl rand -base64 48`). Set
    `STORAGE_PROVIDER=r2` and the `R2_*` variables. **Leave the bucket
    private** and set the CORS policy to the real production origin.
-3. `npm run db:push`, or generate proper migrations with `drizzle-kit
-   generate` for a production workflow instead of `push`.
+3. `npm run db:migrate` — the repository ships ordered SQL migrations
+   (`src/db/migrations/0000…0016`) applied through `drizzle-kit migrate`, which
+   is the production path. `npm run db:push` still exists for a throwaway
+   database, but it is not how a real deployment is brought up.
 4. Register a Telegram bot and set its login-widget domain to the real domain.
 5. `npm run db:seed` only if you actually want the demo accounts in
    production — you probably don't.
-6. Schedule `POST /api/admin/uploads/cleanup` (hourly is plenty) to sweep
-   abandoned uploads.
-7. Coach: set `AI_PRIMARY_PROVIDER` (default `riwi`). Nothing else is required —
+6. Create the first owner once, from the machine that has the database:
+   `DATABASE_URL=... OWNER_EMAIL=you@example.com OWNER_PASSWORD='...' node scripts/bootstrap-owner.mjs --email you@example.com`.
+   It refuses to run when an active owner already exists, so it cannot be used to
+   hijack a live deployment. Afterwards, unset `OWNER_PASSWORD` from the
+   environment; there is no owner email or password in the code.
+7. Set `PUBLIC_BASE_URL` to the real origin. That is what the sitemap, the
+   canonical URLs and the CSRF origin check use, and it is what locks framing to
+   `'self'` on the production host. Add `ALLOWED_FRAME_ANCESTORS` only if an
+   embedding shell genuinely needs to frame the centre.
+8. Schedule two sweeps:
+   - `POST /api/admin/uploads/cleanup` (hourly is plenty) for abandoned uploads;
+   - `POST /api/owner/retention` with `{"dryRun": false}` (daily or weekly) for
+     the retention policy. Preview it first with `{"dryRun": true}` — the owner
+     page at `/owner/retention` does the same thing with a button. Any scheduler
+     works: the service is a plain function, takes an advisory lock so two runs
+     cannot race, and deletes in batches of `RETENTION_BATCH_SIZE`.
+9. Coach: set `AI_PRIMARY_PROVIDER` (default `riwi`). Nothing else is required —
    RIWI needs no credentials and evaluates everything on a machine with no API
    keys. To use an external model, install its adapter first (see "Adding an
    external provider"); pointing `AI_PRIMARY_PROVIDER` at an id that is not
    installed is safe but reported as a fallback in every result row.
-8. Leave `STT_PRIMARY_PROVIDER=none` until a transcription vendor is configured;
+10. Leave `STT_PRIMARY_PROVIDER=none` until a transcription vendor is configured;
    the app then states that no transcript provider exists instead of inventing
    one. Students can still type a transcript, which is labelled as theirs.
-9. Do not run the seed on a production database you care about; the demo
-   passwords are public.
+11. Do not run the seed on a production database you care about; the demo
+    passwords are public.
+
+## Security model (what a deployment actually gets)
+
+The server is the only authority; nothing below relies on hiding a menu item.
+
+| Concern | Where it lives | What it does |
+| --- | --- | --- |
+| Security headers + CSP | `src/lib/http/security-headers.ts`, `src/middleware.ts` | Nonce-based `script-src` with `strict-dynamic`, `object-src 'none'`, `base-uri 'self'`, `frame-ancestors` decided per request (`src/lib/config/site.ts`), HSTS, `X-Content-Type-Options`, `Referrer-Policy`. `'unsafe-eval'` only in development. |
+| CSRF | `src/lib/http/request-origin.ts` | Cookie-authenticated state-changing requests must come from a trusted origin (`TRUSTED_ORIGINS` + `PUBLIC_BASE_URL`). A request from elsewhere is refused before it reaches a route. |
+| Abuse limits | `src/lib/http/rate-limit.ts` | Sliding window per action: failed sign-ins (per account and per IP), registration, password reset, admission applications, Telegram auth, evaluations, upload intents, vocabulary search. Only failures count against a login limit. |
+| Indexing | `src/app/robots.ts`, `src/app/sitemap.ts`, private layout metadata | Only the public pages are in the sitemap; every private route is disallowed in `robots.txt` **and** rendered with `noindex, nofollow`. |
+| Uploads | `src/lib/validation/uploads.ts`, `src/lib/uploads/keys.ts` | Allowlisted MIME types with size ceilings, server-generated collision-resistant keys, no browser-supplied keys, no server proxying of large bodies. |
+| Audit trail | `src/lib/data/audit.ts` | Privileged events (admission decisions, role changes, ownership transfer, retention runs, content authoring, suspension) are recorded with actor, target and metadata. |
+
+Private pages, routes and objects are guarded by database reads on every request
+(`requireActiveUser`, `requireStaff`, `requireAdministrator`, `requireOwner`), so
+a stale session cookie or a changed role takes effect on the next request rather
+than whenever a cache expires.
+
+## Public video lessons
+
+A roadmap lesson can carry one public video lesson, authored in
+`/admin/video-lessons` (administrators and owners) or seeded with
+`node scripts/seed-video-lesson.mjs`.
+
+- **What is stored** is a provider id and the validated video id — never embed
+  HTML, never a raw URL, never a `dangerouslySetInnerHTML` blob. `video_lessons`
+  has no column for markup, which is what makes arbitrary iframe injection
+  impossible rather than merely discouraged.
+- **Which hosts are accepted** is decided by one parser
+  (`src/lib/services/video/provider.ts`): YouTube in its usual shapes
+  (`watch?v=`, `youtu.be/`, `/embed/`, `/shorts/`, `m.`). A link that does not
+  carry a real 11-character id is refused with a reason the author can act on,
+  and the refusal is shown in the form.
+- **The player** is a `youtube-nocookie.com` embed with `rel=0`,
+  `playsinline=1` and a YouTube-only `frame-src` in the CSP. The video plays
+  inside Learners Area, but the page says plainly that its source is still
+  visible to the browser: this is convenience, not secrecy.
+- **Stages exist only when they were authored**: before-you-watch, transcript,
+  comprehension, script gap fill, opinion, summary. A lesson with no transcript
+  shows no transcript tab instead of an invented one.
+- **Transcript provenance is recorded** (`authored` / `licensed` / `permitted`)
+  and displayed, and script-follow stays unavailable until the player really
+  reports a position — no timestamp is ever guessed.
+- **Answers are graded on the server** and the accepted answers never travel to
+  the client, so the exercise still works after a refresh. The opinion and
+  summary are written work for the teacher to read; they are not auto-scored and
+  no model comment is invented.
+
+## Data retention
+
+`src/lib/services/retention.ts` is the single place where "how long do we keep
+this" is decided; every window is an environment variable (see
+`.env.example` → Retention) and every rule can be previewed:
+
+```bash
+# Preview (writes nothing) — also a button on /owner/retention
+curl -sX POST http://localhost:3000/api/owner/retention -b "$COOKIE" \
+  -H 'content-type: application/json' -d '{"dryRun": true}'
+# Apply
+curl -sX POST http://localhost:3000/api/owner/retention -b "$COOKIE" \
+  -H 'content-type: application/json' -d '{"dryRun": false}'
+```
+
+- Inactivity is measured on **real work** (`users.last_meaningful_activity_at`,
+  touched when an attempt is submitted, an evaluation is recorded or a lesson or
+  video lesson is finished), never on sign-ins. A student with no recorded work
+  falls back to their registration date.
+- Teacher, administrator and owner accounts are outside the inactivity rule
+  entirely; course and business content is never swept.
+- Recordings leave the object store after their window, and only after a
+  reference check; old submitted work is removed only when no evaluation refers
+  to it.
+- A run takes an advisory lock, deletes in batches and is idempotent: a second
+  run in a row removes nothing.
+
+`scripts/verify-retention.mjs` proves all of that against the real database with
+three-year-old throwaway rows, including the "sign-in is not studying"
+distinction.
+
+## Backup and recovery
+
+Nothing here has been executed against a production deployment; it is the
+procedure this schema and storage layout were designed for.
+
+1. **Database.** Take a nightly logical backup and keep at least 14 days:
+   `pg_dump --format=custom --no-owner "$DATABASE_URL" > learners-area-$(date +%F).dump`.
+   Restore with `pg_restore --clean --if-exists --no-owner -d "$DATABASE_URL" <file>`.
+   Migrations are numbered files in `drizzle/` and are applied with
+   `npm run db:migrate`, so a restored older dump can be brought forward.
+2. **Object storage.** Enable versioning (or a lifecycle rule) on the bucket. R2
+   is the object store of record; the database only stores keys. A restore that
+   brings back rows pointing at deleted objects is reported by the app as a
+   missing object, never as fake content — the UI shows its empty state.
+3. **Secrets.** `AUTH_SECRET` and the storage credentials live only in the host's
+   environment. Losing `AUTH_SECRET` logs everybody out (it does not lose data).
+4. **Recovery check.** After any restore, run the verification scripts
+   (`verify-access`, `verify-pages`, `verify-owner`, `verify-retention`) against
+   the restored database before announcing it is back.
+5. **What is not automated here:** no scheduled backup job is shipped, because it
+   belongs to the hosting provider (managed Postgres backups, R2 versioning).
+   Turn it on there.
+
+## Handover: what to do when the centre changes hands
+
+Ownership is a role in the database, never an email address in the code.
+
+1. The current owner opens `/owner/transfer` and signs in **again** (re-auth is
+   required), then names the next owner. The change is one transaction: the new
+   owner is promoted, the previous one is demoted, and a transfer that would
+   leave the centre with zero live owners is rolled back. Every transfer is
+   recorded in the audit log.
+2. If the current owner is unavailable, transfer is not possible through the UI
+   by design. Use the bootstrap path on the server console with the new owner's
+   address and the `--promote` flag, which still refuses while an active owner
+   exists — an operator has to demote the old one explicitly. This is the
+   deliberate trade: a bootstrap that could always re-create an owner would be a
+   back door.
+3. Accounts outside the platform (the centre's Telegram bot, its Cloudflare
+   account, its email sender) are **not** automated. Hand them over with this
+   checklist: rotate the Telegram bot token, rotate the R2 access keys and the
+   bucket CORS origins, hand over the domain and DNS, rotate `AUTH_SECRET`
+   (logs everyone out), confirm the new owner's session, then remove the old
+   operator's access to the host and the database.
+4. Run `node scripts/verify-owner.mjs` after any ownership change: it proves
+   exactly one live owner, that the previous owner lost the powers, and that the
+   new one can hand back.
 
 ## REMAINING (honest, not padded)
 
-- Mock tests: tables exist, no real vertical slice yet.
+- Mock tests: the page lists configured tests and the student's own finished
+  attempts with real scores. There is no timed full-exam runner yet.
 - Speaking practice: recording, submission, transcript-optional evaluation and
   history work end to end. What is deliberately absent is a **speech-to-text
   vendor**: `STT_PRIMARY_PROVIDER=none`, so an attempt has no transcript unless
@@ -573,9 +859,12 @@ Not attempted from this environment. In outline:
 - Progress charts: numbers derive from persisted activity where they exist, but
   several cards have no underlying data source yet.
 - Admin/CMS can create Reading passages/questions, Listening tests/questions,
-  Grammar topics/exercises and Writing prompts. Courses/Modules/Units/Lessons
-  still need direct DB access.
-- Assignments exist but are not surfaced in the student UI.
+  Grammar topics/exercises, Writing prompts and public video lessons, and can
+  move any of them through the four publication states (draft / scheduled /
+  published / archived) from the list it appears in.
+  Courses/Modules/Units/Lessons still need direct DB access.
+- Assignments have a student page and an evaluation path; they are not yet part
+  of the roadmap's lesson flow.
 - Live Classes' "join" is self-reported attendance with no real video
   infrastructure behind it.
 - Reading Short Answer grading is strict exact-match.
@@ -583,6 +872,8 @@ Not attempted from this environment. In outline:
 - No real AI provider is wired *by default*; that is a configuration choice rather than a
   missing subsystem (see "Adding an external provider").
 - Telegram auth is real but was never exercised against a live bot here.
-- No browser-level (Playwright/Cypress) end-to-end tests — the verification
-  scripts are HTTP-level. No CI configured.
-- `isOwner` has no UI; it is a direct database flag.
+- No browser-level test suite lives in the repository (the verification scripts
+  are HTTP-level and a headless-Chromium harness was used during development).
+  No CI configured.
+- `users.is_owner` is a historical column; authorization reads `role`, and the
+  OWNER role is managed through `/owner/transfer`.

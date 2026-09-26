@@ -35,7 +35,13 @@ export function RegisterForm({
     const data = await res.json();
     setPending(false);
     if (!res.ok) {
-      setError(data.error === "email_taken" ? dict.auth.errorEmailTaken : data.error);
+      setError(
+        res.status === 429
+          ? dict.auth.errorRateLimited
+          : data.error === "email_taken"
+            ? dict.auth.errorEmailTaken
+            : data.error
+      );
       return;
     }
     // A new account is PENDING until an administrator approves it, so the honest

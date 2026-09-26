@@ -146,6 +146,12 @@ check("an anonymous visitor is sent to the login page", (await page("/dashboard"
 
 await db.end();
 
+// The four-minute drill is offered from the dashboard, and its call to action
+// goes to the reading mode rather than to a test.
+const drill = await page("/dashboard", cookie);
+check("the dashboard offers the retention drill", /data-retention-drill/.test(drill.text));
+check("the drill card links to the reading mode", /href="\/reading\/retention"/.test(drill.text));
+
 console.log(`\n# pass ${pass} / fail ${failures.length}`);
 if (failures.length) {
   console.log("# failures:");

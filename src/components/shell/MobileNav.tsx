@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { SidebarNav } from "./Sidebar";
+import { SidebarBrand, SidebarNav } from "./Sidebar";
 import { ReportProblem } from "@/components/support/ReportProblem";
 import type { Dictionary } from "@/lib/i18n/en";
 import type { Role } from "@/lib/auth/session";
@@ -65,12 +64,9 @@ export function MobileNav({ dict, role }: { dict: Dictionary; role: Role }) {
             className="absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col overflow-y-auto border-r border-ink-100 bg-paper-raised p-4"
           >
             <div className="flex items-start justify-between">
-              <Link href="/dashboard" className="mb-6 flex items-center gap-2 px-2">
-                <span className="flex h-7 w-7 items-center justify-center rounded-sm bg-signal-600 font-display text-sm text-white">
-                  L
-                </span>
-                <span className="font-display text-lg text-ink-900">{dict.marketing.title}</span>
-              </Link>
+              {/* The same brand block as the desktop sidebar, so the mark, the
+                  name and the line under it are never two different things. */}
+              <SidebarBrand className="mb-6 min-w-0" />
               <button
                 type="button"
                 aria-label={dict.common.cancel}

@@ -20,7 +20,8 @@ export function SpeedTrainer({
   transcript,
 }: {
   dict: Dictionary;
-  audioUrl: string;
+  /** Null when the test has no uploaded audio yet. */
+  audioUrl: string | null;
   rateControlSupported: boolean;
   status: SpeedTrainingStatus;
   transcript: string | null;
@@ -70,7 +71,7 @@ export function SpeedTrainer({
         ref={audioRef}
         controls
         preload="none"
-        src={audioUrl}
+        src={audioUrl ?? undefined}
         className="mt-3 w-full"
         onError={() => setFailed(true)}
         data-speed-audio

@@ -22,13 +22,14 @@ import { VocabStudio, type VocabStudioData } from "@/components/vocabulary/Vocab
 export default async function VocabularyPage({
   searchParams,
 }: {
-  searchParams?: { tab?: string };
+  searchParams: Promise<{ tab?: string }>;
 }) {
+  const { tab } = await searchParams;
   const user = await requireActiveUser();
   if (!user) return null;
 
-  const dict = getDictionary(getLocale());
-  const locale = getLocale();
+  const dict = getDictionary(await getLocale());
+  const locale = await getLocale();
 
   const [words, due, folders, summary, standing, sentences] = await Promise.all([
     listLibrary(user.id, { limit: 200 }),
@@ -52,11 +53,11 @@ export default async function VocabularyPage({
       wordCount: pack.words.length,
     })),
     initialTab:
-      searchParams?.tab === "games" ||
-      searchParams?.tab === "use" ||
-      searchParams?.tab === "board" ||
-      searchParams?.tab === "revision"
-        ? searchParams.tab
+      tab === "games" ||
+      tab === "use" ||
+      tab === "board" ||
+      tab === "revision"
+        ? tab
         : "words",
   };
 

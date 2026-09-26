@@ -4,8 +4,8 @@ import { RegisterForm } from "@/components/auth/RegisterForm";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { isTelegramConfigured } from "@/lib/auth/providers/telegram";
 
-export default function RegisterPage() {
-  const dict = getDictionary(getLocale());
+export default async function RegisterPage() {
+  const dict = getDictionary(await getLocale());
   return (
     <AuthShell
       title={dict.auth.registerTitle}

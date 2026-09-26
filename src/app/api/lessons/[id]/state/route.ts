@@ -1,3 +1,4 @@
+import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { and, eq } from "drizzle-orm";
@@ -5,6 +6,7 @@ import { db } from "@/db/client";
 import { lessons, lessonProgress, activityEvents } from "@/db/schema";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { resolveState, transition, type LessonState } from "@/lib/services/lessons/state";
+import { touchMeaningfulActivity } from "@/lib/services/activity";
 
 const schema = z.object({
   state: z.enum(["in_progress", "completed"]),
@@ -19,14 +21,16 @@ const schema = z.object({
  * lesson cannot be completed twice — so `completedAt` always means the moment the
  * work was actually finished.
  */
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  if (!isUuid(id)) return NextResponse.json({ error: "not_found" }, { status: 404 });
   const user = await requireActiveUser();
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
   const parsed = schema.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({ error: "invalid_input" }, { status: 400 });
 
-  const lesson = await db.query.lessons.findFirst({ where: eq(lessons.id, params.id) });
+  const lesson = await db.query.lessons.findFirst({ where: eq(lessons.id, id) });
   if (!lesson) return NextResponse.json({ error: "not_found" }, { status: 404 });
 
   const row = await db.query.lessonProgress.findFirst({
@@ -53,6 +57,9 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   } else {
     await db.insert(lessonProgress).values({ userId: user.id, lessonId: lesson.id, ...values });
   }
+
+  // Finishing a lesson is real work; merely opening it is not.
+  if (result.state === "completed") await touchMeaningfulActivity(user.id);
 
   await db.insert(activityEvents).values({
     userId: user.id,

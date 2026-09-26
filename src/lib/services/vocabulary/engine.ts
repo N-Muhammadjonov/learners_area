@@ -30,6 +30,7 @@ import {
   type PointKind,
 } from "./points";
 import { dedupeBulk, senseKeyOf } from "./dedupe";
+import { gradeSentence, gradeSpelling, type GameSubmission } from "./grading";
 import { searchRows } from "./search";
 import { findPack } from "./packs";
 
@@ -50,6 +51,8 @@ import { findPack } from "./packs";
 export type LibraryItem = {
   id: string;
   term: string;
+  /** Authored alternative answers for the translation challenge. */
+  acceptedTranslations: string[];
   partOfSpeech: string | null;
   definitionEn: string;
   translationUz: string | null;
@@ -102,6 +105,7 @@ export async function listLibrary(
   return rows.map(({ entry, lexeme }) => ({
     id: entry.id,
     term: lexeme.term,
+    acceptedTranslations: lexeme.acceptedTranslations ?? [],
     partOfSpeech: lexeme.partOfSpeech,
     definitionEn: lexeme.definitionEn,
     translationUz: lexeme.translationUz,
@@ -138,6 +142,7 @@ export async function listDue(
   return rows.map(({ entry, lexeme }) => ({
     id: entry.id,
     term: lexeme.term,
+    acceptedTranslations: lexeme.acceptedTranslations ?? [],
     partOfSpeech: lexeme.partOfSpeech,
     definitionEn: lexeme.definitionEn,
     translationUz: lexeme.translationUz,
@@ -228,6 +233,8 @@ export type NewWordInput = {
   exampleSentence?: string | null;
   collocations?: string | null;
   partOfSpeech?: string | null;
+  /** Extra accepted answers for the translation challenge, authored by staff. */
+  acceptedTranslations?: string[] | null;
 };
 
 export async function addVocabularyBatch(input: {
@@ -237,12 +244,24 @@ export async function addVocabularyBatch(input: {
   topicPack?: string | null;
   sourceType?: string;
   sourceId?: string | null;
-}): Promise<{
-  added: number;
-  duplicates: number;
-  ids: string[];
-  points: number;
-}> {
+}): Promise<
+  | { ok: true; added: number; duplicates: number; ids: string[]; points: number }
+  | { ok: false; error: "folder_not_found" }
+> {
+  // A folder id that belongs to somebody else must never be usable, so it is
+  // verified once, before anything is written — the same rule the move endpoint
+  // applies. Without this a caller could file their own word into another
+  // student's folder and distort that folder's word count.
+  if (input.folderId) {
+    const folder = await db.query.vocabFolders.findFirst({
+      where: and(
+        eq(vocabFolders.id, input.folderId),
+        eq(vocabFolders.userId, input.userId),
+      ),
+    });
+    if (!folder) return { ok: false as const, error: "folder_not_found" };
+  }
+
   // The identity of a word is its spelling, its part of speech and its ENGLISH
   // MEANING. Both the within-batch collapse and the "is it already in the
   // library" check use this one key, so two senses of one spelling stay apart
@@ -298,6 +317,10 @@ export async function addVocabularyBatch(input: {
           translationUz: item.translationUz ?? null,
           exampleSentence: item.exampleSentence ?? null,
           collocations: item.collocations ?? null,
+          acceptedTranslations: (item.acceptedTranslations ?? [])
+            .map((entry) => entry.trim())
+            .filter(Boolean)
+            .slice(0, 4),
           senseKey,
         })
         .onConflictDoNothing({ target: lexemes.senseKey })
@@ -354,6 +377,7 @@ export async function addVocabularyBatch(input: {
   });
 
   return {
+    ok: true as const,
     added,
     duplicates:
       duplicates.length +
@@ -380,7 +404,15 @@ export async function addTopicPack(userId: string, packId: string) {
     topicPack: pack.id,
     sourceType: "topic_pack",
   });
-  return { ok: true as const, ...result, packId: pack.id };
+  if (!result.ok) return result;
+  return {
+    ok: true as const,
+    added: result.added,
+    duplicates: result.duplicates,
+    ids: result.ids,
+    points: result.points,
+    packId: pack.id,
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -537,17 +569,68 @@ export async function gameSet(
  * same set five times therefore earns nothing beyond the first pass. The SRS
  * ladder is untouched: games are casual by design.
  */
+/**
+ * Record one game answer.
+ *
+ * The caller sends WHAT was answered, never whether it was right: the verdict is
+ * produced here, from the stored word. Two consequences worth stating plainly:
+ *
+ *   - a submission that the server cannot check (a flashcard self-assessment, a
+ *     pairing the browser compared between its own cards) is recorded as
+ *     practice but never earns a point — a claim is not evidence;
+ *   - the casual point still cannot touch the spaced-repetition ladder, and it
+ *     is still deduplicated per word per day per set, so replaying a set cannot
+ *     farm the leaderboard.
+ */
 export async function recordGameAnswer(input: {
   userId: string;
   entryId: string;
-  correct: boolean;
   setKey: string;
   eligible: boolean;
+  submission: GameSubmission;
   now?: Date;
-}) {
+}): Promise<
+  | { ok: false; error: "not_found" }
+  | { ok: true; correct: boolean; verified: boolean; awarded: number; srsUntouched: true }
+> {
   const now = input.now ?? new Date();
+
+  // Ownership first: another student's word is not a word this student can play.
+  const entry = await db.query.userVocabulary.findFirst({
+    where: and(
+      eq(userVocabulary.id, input.entryId),
+      eq(userVocabulary.userId, input.userId),
+    ),
+  });
+  if (!entry) return { ok: false as const, error: "not_found" };
+
+  const lexeme = await db.query.lexemes.findFirst({
+    where: eq(lexemes.id, entry.lexemeId),
+  });
+  if (!lexeme) return { ok: false as const, error: "not_found" };
+
+  let correct = false;
+  let verified = false;
+  if (input.submission.kind === "spelling") {
+    correct = gradeSpelling(
+      { term: lexeme.term, acceptedTranslations: lexeme.acceptedTranslations },
+      input.submission.text,
+    );
+    verified = true;
+  } else if (input.submission.kind === "sentence") {
+    // The sentence builder assembles the example sentence; a word without an
+    // example is practised against its definition, exactly as the browser shows.
+    correct = gradeSentence(
+      lexeme.exampleSentence ?? lexeme.definitionEn,
+      input.submission.text,
+    );
+    verified = true;
+  } else {
+    correct = input.submission.known;
+  }
+
   const awarded =
-    input.correct && input.eligible
+    verified && correct && input.eligible
       ? await awardPoints({
           userId: input.userId,
           kind: "game_answer",
@@ -562,6 +645,9 @@ export async function recordGameAnswer(input: {
       : false;
 
   return {
+    ok: true as const,
+    correct,
+    verified,
     awarded: awarded ? VOCAB_POINTS.gameAnswer : 0,
     srsUntouched: true as const,
   };
@@ -758,7 +844,16 @@ export async function listFolders(userId: string) {
       count: sql<number>`count(${userVocabulary.id})::int`,
     })
     .from(vocabFolders)
-    .leftJoin(userVocabulary, eq(userVocabulary.folderId, vocabFolders.id))
+    // The join is scoped to the caller's own library as well as to the folder:
+    // a count must never include a word that happens to point at this folder but
+    // belongs to somebody else.
+    .leftJoin(
+      userVocabulary,
+      and(
+        eq(userVocabulary.folderId, vocabFolders.id),
+        eq(userVocabulary.userId, userId),
+      ),
+    )
     .where(eq(vocabFolders.userId, userId))
     .groupBy(vocabFolders.id, vocabFolders.name, vocabFolders.createdAt)
     .orderBy(asc(vocabFolders.name));

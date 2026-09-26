@@ -1,3 +1,4 @@
+import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { eq } from "drizzle-orm";
@@ -13,11 +14,13 @@ const schema = z.object({
   text: z.string().max(2000).optional(),
 });
 
-export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  if (!isUuid(id)) return NextResponse.json({ error: "not_found" }, { status: 404 });
   const user = await requireActiveUser();
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
-  const session = await getOwnedMcqSession(user.id, params.id);
+  const session = await getOwnedMcqSession(user.id, id);
   if (!session) return NextResponse.json({ error: "not_found" }, { status: 404 });
 
   const question = await db.query.listeningQuestions.findFirst({
@@ -29,11 +32,13 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
 }
 
 /** One legal step of the drill. Skipping ahead is refused with 409. */
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  if (!isUuid(id)) return NextResponse.json({ error: "not_found" }, { status: 404 });
   const user = await requireActiveUser();
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
-  const session = await getOwnedMcqSession(user.id, params.id);
+  const session = await getOwnedMcqSession(user.id, id);
   if (!session) return NextResponse.json({ error: "not_found" }, { status: 404 });
 
   const parsed = schema.safeParse(await req.json().catch(() => null));

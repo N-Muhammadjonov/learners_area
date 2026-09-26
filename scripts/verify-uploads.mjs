@@ -21,7 +21,7 @@ import path from "node:path";
 import pg from "pg";
 
 const BASE = process.argv[2] ?? "http://127.0.0.1:3000";
-const UPLOAD_ROOT = path.join(process.cwd(), "public", "uploads");
+const UPLOAD_ROOT = path.join(process.cwd(), ".data", "uploads");
 
 const ACCOUNTS = {
   admin: { email: "admin@learnersarea.uz", password: "Admin12345!" },
@@ -401,6 +401,30 @@ await check("deactivating a material immediately stops student reads (403)", asy
   assert.equal(asStudent.status, 403, `expected 403, got ${asStudent.status}`);
   const asTeacher = await teacher.request(`/api/resources/${created.primary.objectKey}`);
   assert.equal(asTeacher.status, 200, "the owner must still be able to read it");
+});
+
+// A stored object must not be reachable any other way. The key is not a secret
+// — it travels in the URL a student is given — so if a static path served the
+// bytes, the authenticated route above would be decorative. The local provider
+// used to write into `public/uploads/`, which Next serves straight from disk to
+// anyone who asks; the object root now sits outside the web root, and this is
+// the check that keeps it there.
+await check("a stored object is not served from a static path (no bypass)", async () => {
+  const res = await anonymous.request(`/uploads/${created.primary.objectKey}`);
+  assert.ok(
+    res.status === 404 || res.status === 403,
+    `a static path served a private object: ${res.status}`
+  );
+});
+
+await check("the local object on disk lives outside the web root", async () => {
+  const onDisk = diskPath(created.primary.objectKey);
+  assert.ok(existsSync(onDisk), `object is not on disk at ${onDisk}`);
+  const publicRoot = path.resolve(process.cwd(), "public");
+  assert.ok(
+    !path.resolve(onDisk).startsWith(`${publicRoot}${path.sep}`),
+    `object was written inside public/: ${onDisk}`
+  );
 });
 
 await check("an unknown object key answers 404, not 403 (no enumeration)", async () => {

@@ -18,7 +18,7 @@ export default async function AdminPeoplePage() {
   const actor = await requireAdministrator();
   if (!actor) redirect("/dashboard");
 
-  const dict = getDictionary(getLocale());
+  const dict = getDictionary(await getLocale());
   const people = await listPeople();
 
   return (
@@ -29,7 +29,7 @@ export default async function AdminPeoplePage() {
       </div>
       <PeopleTable
         dict={dict}
-        locale={getLocale()}
+        locale={await getLocale()}
         people={people}
         actorId={actor.id}
         actorRole={actor.role}

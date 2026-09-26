@@ -18,7 +18,7 @@ export const dynamic = "force-dynamic";
 export default async function ProgressPage() {
   const user = await requireActiveUser();
   if (!user) return null;
-  const dict = getDictionary(getLocale());
+  const dict = getDictionary(await getLocale());
   const t = dict.progress;
 
   const [data, dashboard] = await Promise.all([getProgressData(user.id), getDashboardData(user.id)]);

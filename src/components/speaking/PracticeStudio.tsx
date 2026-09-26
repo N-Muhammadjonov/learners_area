@@ -95,7 +95,8 @@ export function PracticeStudio({
       setError(String(data.error ?? "could_not_start"));
       return;
     }
-    setAttemptId(data.attempt.id);
+    const createdAttemptId: string = data.attempt.id;
+    setAttemptId(createdAttemptId);
 
     const prepMs = (prompt?.prepSeconds ?? 0) * 1000;
     if (prepMs > 0) {
@@ -104,16 +105,25 @@ export function PracticeStudio({
       timerRef.current = setInterval(() => {
         if (Date.now() >= endsAt) {
           stopTimer();
-          void startRecording();
+          void startRecording(createdAttemptId);
         }
       }, 200);
     } else {
-      await startRecording();
+      await startRecording(createdAttemptId);
     }
   }
 
-  async function startRecording() {
-    if (!attemptId) return;
+  /**
+   * `id` arrives as an argument rather than being read from state.
+   *
+   * A component that has just called `setState` still sees the *previous* value
+   * inside the same handler, so a prompt with no preparation time — every Part 1
+   * question — used to create an attempt on the server and then return here on a
+   * null id: the student pressed "start" and the screen never changed. The
+   * argument makes the recording path independent of React's render timing.
+   */
+  async function startRecording(id: string | null = attemptId) {
+    if (!id) return;
     setError("");
     try {
       const recorder = await createRecorder();
@@ -290,7 +300,7 @@ export function PracticeStudio({
       {/* Controls */}
       <div className="flex flex-wrap items-center gap-2">
         {phase.kind === "idle" && (
-          <Button onClick={() => void beginAttempt()}>{t.start}</Button>
+          <Button data-speak-start onClick={() => void beginAttempt()}>{t.start}</Button>
         )}
 
         {phase.kind === "prepping" && (
@@ -306,11 +316,11 @@ export function PracticeStudio({
 
         {phase.kind === "recording" && (
           <div className="flex flex-wrap items-center gap-3">
-            <span className="flex items-center gap-2 text-sm font-medium text-band-bad">
+            <span data-speak-recording className="flex items-center gap-2 text-sm font-medium text-band-bad">
               <span aria-hidden className="inline-block h-2 w-2 rounded-full bg-band-bad" />
               {t.recording} {formatDuration(elapsed)} / {formatDuration(phase.limitSeconds * 1000)}
             </span>
-            <Button variant="secondary" onClick={() => void finishRecording()}>
+            <Button data-speak-stop variant="secondary" onClick={() => void finishRecording()}>
               {t.stop}
             </Button>
             <Button variant="ghost" onClick={discard}>
@@ -322,12 +332,17 @@ export function PracticeStudio({
         {phase.kind === "reviewing" && recording && (
           <>
             {playbackUrl && <audio controls src={playbackUrl} className="w-full" preload="metadata" />}
-            <div className="flex flex-wrap items-center gap-3 text-xs text-ink-300">
+            <div
+              data-speak-review
+              data-speak-size={recording.size}
+              data-speak-duration-ms={recording.durationMs}
+              className="flex flex-wrap items-center gap-3 text-xs text-ink-300"
+            >
               <span>{formatBytes(recording.size)}</span>
               <span>{formatDuration(recording.durationMs)}</span>
             </div>
             <div className="flex flex-wrap gap-2">
-              <Button onClick={() => void submit()}>{t.submit}</Button>
+              <Button data-speak-submit onClick={() => void submit()}>{t.submit}</Button>
               <Button variant="ghost" onClick={discard}>
                 {t.recordAgain}
               </Button>
@@ -359,7 +374,7 @@ export function PracticeStudio({
       {error && <p className="text-sm text-band-bad">{error}</p>}
 
       {phase.kind === "done" && (
-        <Card className="flex flex-col gap-2">
+        <Card data-speak-done className="flex flex-col gap-2">
           <p className="text-sm font-medium text-band-good">{t.saved}</p>
           <p className="text-sm text-ink-500">{t.savedBody}</p>
           <div className="flex gap-2">

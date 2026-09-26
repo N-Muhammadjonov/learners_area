@@ -80,7 +80,8 @@ const passage = await db.query("select id, title, body_text from reading_passage
 await db.end();
 check("the seed contains a reading passage", passage.rows.length > 0);
 if (passage.rows.length === 0) {
-  console.log(`\n# pass ${passed} / fail ${failed}`);
+
+console.log(`\n# pass ${passed} / fail ${failed}`);
   process.exit(1);
 }
 const passageId = passage.rows[0].id;
@@ -186,6 +187,18 @@ check(
 
 const anonymous = await api(`/api/vocabulary/games?set=reading`);
 check("an anonymous caller gets no reading word set", anonymous.status === 401, `status ${anonymous.status}`);
+
+
+// 7. The retention drill is a reading mode of its own: a student can practise
+//    recall without sitting a test first, and it still claims no score.
+const retentionPage = await api("/reading/retention", { cookie });
+check("the retention mode opens for a student", retentionPage.status === 200, `status ${retentionPage.status}`);
+const retentionHtml = retentionPage.text ?? "";
+check("the drill renders its own controls", /data-retention-input/.test(retentionHtml) && /data-retention-passage/.test(retentionHtml));
+check("the passage is open to read first", /data-retention-passage/.test(retentionHtml) && !/data-retention-passage[^>]*hidden/.test(retentionHtml));
+check("the drill states it is not scored", /Nothing is scored|ball qo'yilmaydi/i.test(retentionHtml));
+const readingList = await api("/reading", { cookie });
+check("the reading list links to the drill", /data-retention-mode-link/.test(readingList.text ?? ""));
 
 console.log(`\n# pass ${passed} / fail ${failed}`);
 if (failed > 0) {

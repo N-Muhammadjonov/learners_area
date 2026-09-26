@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
     const name = [payload.first_name, payload.last_name].filter(Boolean).join(" ") || "Telegram user";
     const [created] = await db
       .insert(users)
-      .values({ name, telegramId, role: "student", locale: getLocale() })
+      .values({ name, telegramId, role: "student", locale: await getLocale() })
       .returning();
     user = created;
   }

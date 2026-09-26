@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { Dictionary } from "@/lib/i18n/en";
 import { toDate, type VocabWord } from "./types";
+import { formatDate } from "@/lib/time";
 
 type ReviewResult = {
   mastery: string;
@@ -186,7 +187,7 @@ export function VocabRevisionPanel({
       )}
 
       <p className="text-center text-xs text-ink-300">
-        {t.revision.nextTomorrow} · {toDate(current.nextReviewAt).toLocaleDateString()}
+        {t.revision.nextTomorrow} · {formatDate(current.nextReviewAt)}
       </p>
     </div>
   );

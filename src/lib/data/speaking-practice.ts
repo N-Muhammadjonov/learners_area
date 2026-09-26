@@ -1,11 +1,15 @@
 import { and, asc, desc, eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { speakingAttempts, speakingPrompts } from "@/db/schema";
+import { isLive, liveWhere } from "@/lib/services/cms/publication";
 
 /** Prompts a student may practise against, in a stable order. */
 export async function listActivePrompts() {
   return db.query.speakingPrompts.findMany({
-    where: eq(speakingPrompts.isActive, true),
+    where: liveWhere({
+      publicationState: speakingPrompts.publicationState,
+      publishAt: speakingPrompts.publishAt,
+    }),
     orderBy: [asc(speakingPrompts.part), asc(speakingPrompts.createdAt)],
   });
 }

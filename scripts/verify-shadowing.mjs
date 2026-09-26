@@ -53,10 +53,20 @@ const shadowing = await page("/speaking/shadowing", cookie);
 check("the shadowing page renders for a student", shadowing.status === 200, `status ${shadowing.status}`);
 check("the studio or its honest empty state is shown", shadowing.text.includes("data-shadowing-studio") || shadowing.text.includes("data-shadowing-empty"));
 check("the page states that no pronunciation score is produced", shadowing.text.includes("data-shadowing-note"));
-check("the picker is present when recordings exist", shadowing.text.includes("data-shadowing-picker") || shadowing.text.includes("data-shadowing-empty"));
-check("the original is playable", shadowing.text.includes("data-shadowing-original") || shadowing.text.includes("data-shadowing-empty"));
-check("the record control is offered", shadowing.text.includes("data-shadowing-start") || shadowing.text.includes("data-shadowing-unsupported"));
-check("the privacy of a take is stated", shadowing.text.includes("data-shadowing-privacy"));
+// Two honest states, and the checks follow the one the page is in. The seed ships
+// no audio material (a demo file nobody recorded would be fake content), so the
+// empty state is the expected state here — and it must say what is missing.
+if (shadowing.text.includes("data-shadowing-studio")) {
+  check("the picker is present when recordings exist", shadowing.text.includes("data-shadowing-picker"));
+  check("the original is playable", shadowing.text.includes("data-shadowing-original"));
+  check("the record control is offered", shadowing.text.includes("data-shadowing-start") || shadowing.text.includes("data-shadowing-unsupported"));
+  check("the privacy of a take is stated", shadowing.text.includes("data-shadowing-privacy"));
+} else {
+  check("with no audio material the page says so instead of offering a dead recorder", shadowing.text.includes("data-shadowing-empty"));
+  check("the empty state explains where a recording comes from", /Speaking material/i.test(shadowing.text));
+  check("no recorder is offered without something to shadow", !shadowing.text.includes("data-shadowing-start"));
+  check("no pronunciation score is offered in the empty state", !shadowing.text.includes("data-shadowing-score"));
+}
 
 // Honesty: no fabricated judgement anywhere on the surface.
 const body = shadowing.text;

@@ -1,3 +1,4 @@
+import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
 import { and, eq } from "drizzle-orm";
 import { z } from "zod";
@@ -23,12 +24,14 @@ import { confirmSentenceUse, recordSentenceUse } from "@/lib/services/vocabulary
  */
 const schema = z.object({ sentence: z.string().min(3).max(1000) });
 
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  if (!isUuid(id)) return NextResponse.json({ error: "not_found" }, { status: 404 });
   const user = await requireActiveUser();
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
   const entry = await db.query.userVocabulary.findFirst({
-    where: and(eq(userVocabulary.id, params.id), eq(userVocabulary.userId, user.id)),
+    where: and(eq(userVocabulary.id, id), eq(userVocabulary.userId, user.id)),
   });
   if (!entry) return NextResponse.json({ error: "not_found" }, { status: 404 });
 
@@ -54,7 +57,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     targetWord: lexeme.term,
     definition: lexeme.definitionEn,
     studentSentence: parsed.data.sentence,
-    language: getLocale(),
+    language: await getLocale(),
   });
 
   if (!outcome.ok) {

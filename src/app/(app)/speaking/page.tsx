@@ -13,7 +13,7 @@ export default async function SpeakingPage() {
   const user = await requireActiveUser();
   if (!user) return null;
 
-  const dict = getDictionary(getLocale());
+  const dict = getDictionary(await getLocale());
   const rows = await listActiveMaterials();
 
   const byCategory = new Map<string, typeof rows>();
@@ -42,11 +42,16 @@ export default async function SpeakingPage() {
             {byCategory.get(cat)!.map(({ material, blocks }) => (
               <Card key={material.id} className="flex flex-col gap-3">
                 <p className="text-sm font-medium text-ink-900">{material.title}</p>
-                <MaterialPlayer url={material.primaryUrl} type={material.primaryType} openLabel={dict.speaking.openMaterial} />
+                <MaterialPlayer
+                  url={material.primaryUrl}
+                  type={material.primaryType}
+                  openLabel={dict.speaking.openMaterial}
+                  emptyLabel={dict.speaking.noFileYet}
+                />
                 {blocks.length > 0 && (
                   <div className="flex flex-col gap-3 border-t border-ink-100 pt-3">
                     {blocks.map((block) => (
-                      <BlockRenderer key={block.id} block={block} openLabel={dict.speaking.openMaterial} />
+                      <BlockRenderer key={block.id} block={block} openLabel={dict.speaking.openMaterial} emptyLabel={dict.speaking.noFileYet} />
                     ))}
                   </div>
                 )}

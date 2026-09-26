@@ -9,7 +9,7 @@ import { StateBadge } from "@/components/ui/Badge";
 export default async function IeltsRoadmapPage() {
   const user = await requireActiveUser();
   if (!user) return null;
-  const dict = getDictionary(getLocale());
+  const dict = getDictionary(await getLocale());
   const roadmap = await getCourseRoadmap("ielts", user.id);
   if (!roadmap) notFound();
 

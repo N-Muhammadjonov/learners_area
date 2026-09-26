@@ -21,7 +21,12 @@ export type AuditAction =
   | "account.reactivated"
   | "ownership.transferred"
   | "retention.cleanup"
-  | "support.reported";
+  | "support.reported"
+  | "video_lesson.saved"
+  | "content.created"
+  | "content.updated"
+  | "retention.preview"
+  | "upload.deleted";
 
 export async function recordAudit(input: {
   actorUserId: string | null;

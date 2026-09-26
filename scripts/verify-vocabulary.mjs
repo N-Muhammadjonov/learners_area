@@ -9,12 +9,14 @@
  *      deduplication and one point award per genuinely new word;
  *   4. a replay of the same batch adds no word and no point (anti-farming);
  *   5. the official 1/3/7/16/35 ladder is advanced ONLY by scheduled revision;
- *   6. a game answer never moves the ladder, and pays at most once per day;
+ *   6. a game answer never moves the ladder, is graded by the server (a client
+ *      that merely claims success is refused), and pays at most once per day;
  *   7. search is scoped to the caller, exact-before-prefix, and searches Uzbek;
  *   8. a sentence is stored truthfully and only an accepted one earns the full
  *      award (the local evaluator is deterministic and offline);
  *   9. the leaderboard numbers come from the ledger and cannot be posted;
- *  10. folders are private, and one student cannot touch another's words.
+ *  10. folders are private, one student cannot touch another's words, and the
+ *      authored alternative answers of a word are stored and capped;
  *
  * Requires the dev server and DATABASE_URL (the direct SQL checks in step 10).
  */
@@ -237,16 +239,57 @@ check("a word reviewed today is not in the due set", !dueTerms.includes("resilie
 const allSet = await api("/api/vocabulary/games?set=all", { cookie });
 check("the all-words set returns the whole library", allSet.json?.count === 3, `count ${allSet.json?.count}`);
 
-const gameAnswer = await api("/api/vocabulary/games", {
+// The server grades the answer itself. A request that only CLAIMS success must
+// not be accepted at all — this is the shape the old client used to send.
+const claimedVerdict = await api("/api/vocabulary/games", {
   method: "POST",
   cookie,
   body: { entryId: firstWord.id, correct: true, set: "all", eligible: true },
 });
-check("a game answer reports that the ladder was untouched", gameAnswer.json?.srsUntouched === true);
+check(
+  "a client cannot assert its own verdict any more",
+  claimedVerdict.status === 400,
+  `status ${claimedVerdict.status}`
+);
+
+const wrongAnswer = await api("/api/vocabulary/games", {
+  method: "POST",
+  cookie,
+  body: { entryId: firstWord.id, set: "all", submission: { kind: "spelling", text: "definitely-not-the-word" } },
+});
+check(
+  "a wrong answer is marked wrong by the server even on a due word",
+  wrongAnswer.json?.correct === false && wrongAnswer.json?.awarded === 0,
+  `correct ${wrongAnswer.json?.correct} awarded ${wrongAnswer.json?.awarded}`
+);
+
+const rightAnswer = await api("/api/vocabulary/games", {
+  method: "POST",
+  cookie,
+  body: {
+    entryId: firstWord.id,
+    set: "all",
+    eligible: true,
+    submission: { kind: "spelling", text: `  ${firstWord.term.toUpperCase()}.  ` },
+  },
+});
+check("the server grades a correct typed answer as correct", rightAnswer.json?.correct === true && rightAnswer.json?.verified === true);
+check("a graded answer reports that the ladder was untouched", rightAnswer.json?.srsUntouched === true);
 check(
   "a game answer on a word that is not due earns no point",
-  gameAnswer.json?.awarded === 0,
-  `awarded ${gameAnswer.json?.awarded}`
+  rightAnswer.json?.awarded === 0,
+  `awarded ${rightAnswer.json?.awarded}`
+);
+
+const selfClaim = await api("/api/vocabulary/games", {
+  method: "POST",
+  cookie,
+  body: { entryId: firstWord.id, set: "all", submission: { kind: "self", known: true } },
+});
+check(
+  "a self-assessment is recorded as practice and never earns a point",
+  selfClaim.json?.verified === false && selfClaim.json?.awarded === 0,
+  `verified ${selfClaim.json?.verified} awarded ${selfClaim.json?.awarded}`
 );
 
 const afterGame = await api(`/api/vocabulary/search?q=resilient`, { cookie });
@@ -256,7 +299,11 @@ check("the stage is unchanged after the game", stageAfterGame === 0, `stage ${st
 const foreignGame = await api("/api/vocabulary/games", {
   method: "POST",
   cookie,
-  body: { entryId: "00000000-0000-4000-8000-000000000000", correct: true, set: "all" },
+  body: {
+    entryId: "00000000-0000-4000-8000-000000000000",
+    set: "all",
+    submission: { kind: "spelling", text: "resilient" },
+  },
 });
 check("an answer for a word outside the set is rejected", foreignGame.status === 404, `status ${foreignGame.status}`);
 
@@ -347,6 +394,81 @@ check("another student's folder cannot be written to", crossMove.status === 404,
 
 const otherFolders = await api("/api/vocabulary/folders", { cookie: other.cookie });
 check("folders are not shared between students", (otherFolders.json?.folders ?? []).length === 0);
+
+// Filing a word into somebody else's folder is the same hole as moving one
+// there: the batch endpoint must refuse it as well, and the owner's count must
+// come out of the refused attempt unchanged.
+const crossFile = await api("/api/vocabulary", {
+  method: "POST",
+  cookie: other.cookie,
+  body: {
+    folderId: folder.json.folder.id,
+    items: [{ term: "intruder", definitionEn: "someone who enters without permission" }],
+  },
+});
+check("a word cannot be filed into another student's folder", crossFile.status === 404, `status ${crossFile.status}`);
+
+const otherWordsAfter = await api("/api/vocabulary?limit=200", { cookie: other.cookie });
+check(
+  "the refused filing wrote nothing into the caller's own library",
+  !(otherWordsAfter.json?.words ?? []).some((word) => word.term === "intruder")
+);
+
+const ownerFolderAfter = await api("/api/vocabulary/folders", { cookie });
+check(
+  "the owner's folder count is untouched by the refused filing",
+  ownerFolderAfter.json?.folders?.[0]?.count === 1,
+  `count ${ownerFolderAfter.json?.folders?.[0]?.count}`
+);
+
+// --- authored alternative answers -----------------------------------------
+const withAlternatives = await api("/api/vocabulary", {
+  method: "POST",
+  cookie,
+  body: {
+    items: [
+      {
+        term: "commence",
+        definitionEn: "to begin something",
+        acceptedTranslations: ["start", "begin", "kick off"],
+      },
+    ],
+  },
+});
+check("a word may carry authored alternative answers", withAlternatives.json?.ok === true, `status ${withAlternatives.status}`);
+
+// The game set is the path the Translation challenge actually reads, so the
+// authored answers are checked where they are used, not in a side channel.
+const alternativesInPlay = await api("/api/vocabulary/games?set=all", { cookie });
+const commenceWord = (alternativesInPlay.json?.words ?? []).find((word) => word.term === "commence");
+check(
+  "the authored answers reach the challenge that accepts them",
+  (commenceWord?.acceptedTranslations ?? []).length === 3,
+  `n=${(commenceWord?.acceptedTranslations ?? []).length}`
+);
+check(
+  "the term itself is accepted as well",
+  commenceWord?.term === "commence"
+);
+
+const tooManyAlternatives = await api("/api/vocabulary", {
+  method: "POST",
+  cookie,
+  body: {
+    items: [
+      {
+        term: "commence",
+        definitionEn: "to begin something",
+        acceptedTranslations: ["a", "b", "c", "d", "e", "f"],
+      },
+    ],
+  },
+});
+check(
+  "a caller cannot bloat a shared lexical row with unlimited alternatives",
+  tooManyAlternatives.status === 400,
+  `status ${tooManyAlternatives.status}`
+);
 
 // --- topic packs -----------------------------------------------------------
 const packs = await api("/api/vocabulary/packs", { cookie });
@@ -520,6 +642,60 @@ try {
     check("the map can be compared with the database", false, error.message);
   } finally {
     await mapDb.end().catch(() => {});
+  }
+}
+
+// 11. The lexical boundary: a meaning is never invented, and the centre's own
+//     catalogue answers first. A word nobody has authored yet is refused with a
+//     message a human can act on, instead of being stored as its own definition.
+{
+  const lexical = await login(studentEmail, password);
+  const invented = await api("/api/vocabulary", {
+    method: "POST",
+    cookie: lexical.cookie,
+    body: { items: [{ term: "zzqx-unheard-of-term-9f2" }], sourceType: "manual" },
+  });
+  check("a word with no meaning and no source is refused", invented.status === 422, `status ${invented.status}`);
+  check(
+    "the refusal names the word instead of inventing a definition",
+    invented.json?.error === "needs_definition" &&
+      (invented.json?.needsDefinition ?? []).includes("zzqx-unheard-of-term-9f2"),
+    JSON.stringify(invented.json)
+  );
+
+  const lexiconDb = new (await import("pg")).default.Client({
+    connectionString: process.env.DATABASE_URL ?? "postgres://postgres@127.0.0.1:5433/learners_area",
+  });
+  try {
+    await lexiconDb.connect();
+    const catalogue = await lexiconDb.query("select term, definition_en from lexemes order by term limit 1");
+    const row = catalogue.rows[0];
+    if (row) {
+      const filled = await api("/api/vocabulary", {
+        method: "POST",
+        cookie: lexical.cookie,
+        body: { items: [{ term: row.term }], sourceType: "manual" },
+      });
+      check(
+        `a catalogue word arrives with the catalogue's meaning (${row.term})`,
+        filled.status === 200 &&
+          (filled.json?.needsDefinition ?? []).length === 0 &&
+          (filled.json?.ids ?? []).length > 0,
+        JSON.stringify(filled.json)
+      );
+      const stored = await lexiconDb.query(
+        "select definition_en from lexemes where term = $1",
+        [row.term]
+      );
+      check(
+        "the stored definition is a real definition, not the word itself",
+        stored.rows[0].definition_en.trim().toLowerCase() !== row.term.trim().toLowerCase()
+      );
+    } else {
+      check("the catalogue has at least one authored word", false, "lexemes is empty");
+    }
+  } finally {
+    await lexiconDb.end().catch(() => {});
   }
 }
 

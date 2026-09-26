@@ -10,7 +10,7 @@ export default async function SpeakingPracticePage() {
   const user = await requireActiveUser();
   if (!user) return null;
 
-  const dict = getDictionary(getLocale());
+  const dict = getDictionary(await getLocale());
   const prompts = await listActivePrompts();
 
   return (

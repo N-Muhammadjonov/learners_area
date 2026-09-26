@@ -6,13 +6,17 @@ import { getAttemptDetail } from "@/lib/data/listening";
 import { ListeningExam } from "@/components/listening/ListeningExam";
 import { ListeningAnalysis } from "@/components/listening/ListeningAnalysis";
 import { ClickableText } from "@/components/vocabulary/ClickableText";
+import { isUuid } from "@/lib/validation/ids";
 
-export default async function ListeningAttemptPage({ params }: { params: { id: string } }) {
+export default async function ListeningAttemptPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const user = await requireActiveUser();
   if (!user) return null;
-  const dict = getDictionary(getLocale());
+  const dict = getDictionary(await getLocale());
 
-  const detail = await getAttemptDetail(params.id, user.id);
+  // Shakli noto'g'ri id hech qachon bazaga yetib bormaydi: javob 500 emas, 404.
+  if (!isUuid(id)) notFound();
+  const detail = await getAttemptDetail(id, user.id);
   if (!detail) notFound();
   const { attempt, test, questions, answers } = detail;
 

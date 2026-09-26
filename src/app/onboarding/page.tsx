@@ -14,7 +14,7 @@ export default async function OnboardingPage() {
   const user = await getCurrentUser();
   if (!user || !hasPrivateAccess(user.accountStatus)) redirect("/pending");
 
-  const locale = getLocale();
+  const locale = await getLocale();
   const dict = getDictionary(locale);
 
   return (

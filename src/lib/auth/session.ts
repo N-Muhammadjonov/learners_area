@@ -70,7 +70,7 @@ export async function verifySessionToken(token: string): Promise<SessionPayload 
 
 /** Read + verify the session cookie. Safe to call from Server Components. */
 export async function getSession(): Promise<SessionPayload | null> {
-  const token = cookies().get(SESSION_COOKIE)?.value;
+  const token = (await cookies()).get(SESSION_COOKIE)?.value;
   if (!token) return null;
   return verifySessionToken(token);
 }

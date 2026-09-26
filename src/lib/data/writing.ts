@@ -1,5 +1,6 @@
 import { and, desc, eq } from "drizzle-orm";
 import { db } from "@/db/client";
+import { isLive, liveWhere } from "@/lib/services/cms/publication";
 import {
   writingPrompts,
   writingSubmissions,
@@ -7,9 +8,21 @@ import {
   typingRuns,
 } from "@/db/schema";
 
+/**
+ * Every prompt, whatever its publication state — for the admin list, where a
+ * draft has to be visible so that it can be published.
+ */
+export function listAllPrompts() {
+  return db.query.writingPrompts.findMany({ orderBy: desc(writingPrompts.createdAt) });
+}
+
 export function listActivePrompts() {
   return db.query.writingPrompts.findMany({
-    where: eq(writingPrompts.isActive, true),
+    // Only prompts that are live right now: drafts wait, schedules open on time.
+    where: liveWhere({
+      publicationState: writingPrompts.publicationState,
+      publishAt: writingPrompts.publishAt,
+    }),
     orderBy: (p, { asc }) => [asc(p.taskType), asc(p.category)],
   });
 }

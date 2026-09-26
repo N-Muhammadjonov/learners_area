@@ -7,6 +7,9 @@ import { isOpen, type LessonState } from "@/lib/services/lessons/state";
 import { Card } from "@/components/ui/Card";
 import { StateBadge } from "@/components/ui/Badge";
 import { LessonWorkspace } from "@/components/courses/LessonWorkspace";
+import { VideoLessonStudio } from "@/components/courses/VideoLessonStudio";
+import { getVideoLessonForLesson } from "@/lib/data/video-lessons";
+import { isUuid } from "@/lib/validation/ids";
 
 export const dynamic = "force-dynamic";
 
@@ -17,15 +20,23 @@ export const dynamic = "force-dynamic";
  * exists, and a private notes pad. A locked lesson shows why it cannot be opened
  * instead of offering controls that would fail.
  */
-export default async function LessonPage({ params }: { params: { lessonId: string } }) {
+export default async function LessonPage({ params }: { params: Promise<{ lessonId: string }> }) {
+  const { lessonId } = await params;
   const user = await requireActiveUser();
   if (!user) return null;
-  const dict = getDictionary(getLocale());
+  const dict = getDictionary(await getLocale());
 
-  const detail = await getLessonDetail(params.lessonId, user.id);
+  // A route segment is user input: a non-uuid value is "no such lesson", not an
+  // internal error from the database cast.
+  if (!isUuid(lessonId)) notFound();
+  const detail = await getLessonDetail(lessonId, user.id);
   if (!detail) notFound();
   const { lesson, unitTitle, state, notes, completedAt } = detail;
   const openable = isOpen(state as LessonState);
+
+  // A lesson may carry a public video lesson. It is only shown when the lesson
+  // itself is open, so the roadmap still decides what a student can reach.
+  const video = openable ? await getVideoLessonForLesson(lesson.id, user.id) : null;
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-4">
@@ -49,6 +60,41 @@ export default async function LessonPage({ params }: { params: { lessonId: strin
           <video controls src={lesson.recordingUrl} className="w-full rounded-md bg-ink-950" />
         </Card>
       )}
+
+      {video ? (
+        <VideoLessonStudio
+          dict={dict}
+          lessonId={lesson.id}
+          videoLesson={{
+            id: video.videoLesson.id,
+            provider: video.videoLesson.provider,
+            videoId: video.videoLesson.videoId,
+            title: video.videoLesson.title,
+            beforeYouWatch: video.videoLesson.beforeYouWatch,
+            durationSeconds: video.videoLesson.durationSeconds,
+            transcript: video.videoLesson.transcript ?? null,
+            transcriptSource: video.videoLesson.transcriptSource,
+            transcriptAttribution: video.videoLesson.transcriptAttribution,
+          }}
+          questions={video.questions.map((question) => ({
+            id: question.id,
+            stage: question.stage,
+            prompt: question.prompt,
+            atSeconds: question.atSeconds,
+          }))}
+          initialProgress={
+            video.progress
+              ? {
+                  state: video.progress.state,
+                  watchedSeconds: video.progress.watchedSeconds,
+                  answers: video.progress.answers ?? {},
+                  responseText: video.progress.responseText,
+                  summaryText: video.progress.summaryText,
+                }
+              : null
+          }
+        />
+      ) : null}
 
       {!openable ? (
         <Card data-lesson-closed>

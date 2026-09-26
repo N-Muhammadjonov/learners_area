@@ -187,3 +187,25 @@
   margin: 0 auto;
   padding: 1.5rem;
 }
+
+/* ---------------------------------------------------------------------------
+   Brand artwork
+   The six approved files are supplied per theme, so the theme selects a real
+   file instead of the code recolouring one. Both variants are rendered by
+   BrandLogo and CSS shows the one that matches `data-theme` on <html>: the
+   correct artwork is therefore already painted on the server-rendered first
+   frame, and a Night/Day switch swaps it instantly. No filters, no recolouring,
+   no generated variant, and no state that can be out of sync with the theme.
+   --------------------------------------------------------------------------- */
+.brand-asset-light {
+  display: inline-block;
+}
+.brand-asset-dark {
+  display: none;
+}
+[data-theme="night"] .brand-asset-light {
+  display: none;
+}
+[data-theme="night"] .brand-asset-dark {
+  display: inline-block;
+}

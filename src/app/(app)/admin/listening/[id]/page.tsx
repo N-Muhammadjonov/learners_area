@@ -9,16 +9,17 @@ import { Card } from "@/components/ui/Card";
 import { MaterialPlayer } from "@/components/speaking/MaterialPlayer";
 import { NewListeningQuestionForm } from "@/components/admin/NewListeningQuestionForm";
 
-export default async function AdminTestDetailPage({ params }: { params: { id: string } }) {
+export default async function AdminTestDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   // Authorization is a database read, not a menu decision: this page used to
   // rely on the edge guard's cookie, which goes stale the moment a role changes.
   const administrator = await requireAdministrator();
   if (!administrator) redirect("/dashboard");
-  const dict = getDictionary(getLocale());
-  const test = await db.query.listeningTests.findFirst({ where: eq(listeningTests.id, params.id) });
+  const dict = getDictionary(await getLocale());
+  const test = await db.query.listeningTests.findFirst({ where: eq(listeningTests.id, id) });
   if (!test) notFound();
   const questions = await db.query.listeningQuestions.findMany({
-    where: eq(listeningQuestions.testId, params.id),
+    where: eq(listeningQuestions.testId, id),
     orderBy: asc(listeningQuestions.order),
   });
 
@@ -27,7 +28,7 @@ export default async function AdminTestDetailPage({ params }: { params: { id: st
       <div>
         <h1 className="font-display text-2xl text-ink-900">{test.title}</h1>
         <div className="mt-2">
-          <MaterialPlayer url={test.audioUrl} type={test.audioType} openLabel="Open audio" />
+          <MaterialPlayer url={test.audioUrl} type={test.audioType} openLabel="Open audio" emptyLabel="No audio file uploaded yet." />
         </div>
       </div>
 

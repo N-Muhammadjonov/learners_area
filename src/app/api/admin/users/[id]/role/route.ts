@@ -1,3 +1,4 @@
+import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { and, eq } from "drizzle-orm";
@@ -23,7 +24,9 @@ import { notifyUsers } from "@/lib/data/notifications";
  */
 const schema = z.object({ role: z.enum(ROLES) });
 
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  if (!isUuid(id)) return NextResponse.json({ error: "not_found" }, { status: 404 });
   const actor = await requireAdministrator();
   if (!actor) return NextResponse.json({ error: "forbidden" }, { status: 403 });
 
@@ -39,13 +42,13 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   if (!canGrantRole(actor.role, nextRole)) {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
-  if (params.id === actor.id) {
+  if (id === actor.id) {
     // Self-service role changes would let an admin escalate without a second
     // pair of eyes; administrators keep their own role.
     return NextResponse.json({ error: "cannot_change_own_role" }, { status: 409 });
   }
 
-  const target = await db.query.users.findFirst({ where: eq(users.id, params.id) });
+  const target = await db.query.users.findFirst({ where: eq(users.id, id) });
   if (!target) return NextResponse.json({ error: "not_found" }, { status: 404 });
   if (target.role === "owner" || !outranks(actor.role, target.role)) {
     return NextResponse.json({ error: "outranked" }, { status: 403 });
@@ -54,16 +57,16 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   await db
     .update(users)
     .set({ role: nextRole })
-    .where(and(eq(users.id, params.id)));
+    .where(and(eq(users.id, id)));
 
   await recordAudit({
     actorUserId: actor.id,
     action: "role.changed",
     targetType: "user",
-    targetId: params.id,
+    targetId: id,
     metadata: { from: target.role, to: nextRole },
   });
-  await notifyUsers([params.id], {
+  await notifyUsers([id], {
     type: "ROLE_CHANGED",
     title: `Your role is now ${nextRole}`,
     href: "/dashboard",

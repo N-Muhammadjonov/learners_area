@@ -9,13 +9,15 @@ import { listAllForTeacher } from "@/lib/data/live-classes";
 import { Card } from "@/components/ui/Card";
 import { NewLiveClassForm } from "@/components/live-classes/NewLiveClassForm";
 import { ClassStatusControls } from "@/components/live-classes/ClassStatusControls";
+import { formatDateTime } from "@/lib/time";
 
 export default async function TeacherLiveClassesPage() {
   // Authorization is a database read, not a menu decision: this page used to
   // rely on the edge guard's cookie, which goes stale the moment a role changes.
   const staff = await requireStaff();
   if (!staff) redirect("/dashboard");
-  const dict = getDictionary(getLocale());
+  const locale = await getLocale();
+  const dict = getDictionary(locale);
   const classes = await listAllForTeacher();
 
   const counts = new Map<string, number>();
@@ -39,7 +41,7 @@ export default async function TeacherLiveClassesPage() {
               <span className="badge bg-signal-100 text-signal-700">{dict.liveClasses.status[c.status]}</span>
             </div>
             <p className="text-xs text-ink-300">
-              {new Date(c.scheduledAt).toLocaleString()} · {c.durationMinutes} {dict.common.minutes} ·{" "}
+              {formatDateTime(c.scheduledAt, locale)} · {c.durationMinutes} {dict.common.minutes} ·{" "}
               {counts.get(c.id) ?? 0} {dict.liveClasses.attendees}
             </p>
             <div className="flex items-center justify-between gap-2">
