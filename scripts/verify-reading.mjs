@@ -12,7 +12,7 @@
  *   5. the retention check exists and never claims a score;
  *   6. another student cannot read this attempt.
  */
-const BASE = process.env.BASE_URL ?? "http://127.0.0.1:3000";
+const BASE = (process.env.BASE_URL || "http://127.0.0.1:3000");
 
 let passed = 0;
 let failed = 0;
@@ -73,7 +73,7 @@ check("the passage list marks each passage", /data-passage="/.test(list.text), "
 
 const { default: pg } = await import("pg");
 const db = new pg.Client({
-  connectionString: process.env.DATABASE_URL ?? "postgres://postgres@127.0.0.1:5433/learners_area",
+  connectionString: (process.env.DATABASE_URL || "postgres://postgres@127.0.0.1:5433/learners_area",
 });
 await db.connect();
 const passage = await db.query("select id, title, body_text from reading_passages order by created_at limit 1");
@@ -130,7 +130,7 @@ const questions = await api(`/api/reading/attempts/${attemptId}`, { cookie });
 const payload = await (async () => {
   // The exam page is server-rendered; read the answer key straight from the DB.
   const client = new pg.Client({
-    connectionString: process.env.DATABASE_URL ?? "postgres://postgres@127.0.0.1:5433/learners_area",
+    connectionString: (process.env.DATABASE_URL || "postgres://postgres@127.0.0.1:5433/learners_area",
   });
   await client.connect();
   const rows = await client.query(

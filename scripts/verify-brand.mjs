@@ -20,7 +20,7 @@
  *
  * Talab: dev server ishlab turishi.
  */
-const BASE = process.env.BASE_URL ?? "http://127.0.0.1:3000";
+const BASE = (process.env.BASE_URL || "http://127.0.0.1:3000");
 
 let passed = 0;
 let failed = 0;

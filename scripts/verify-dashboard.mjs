@@ -5,7 +5,7 @@
  * Every figure on this page has to be traceable to a row the student owns, so
  * the checks compare the page against the database rather than trusting it.
  */
-const BASE = process.env.BASE_URL ?? "http://127.0.0.1:3000";
+const BASE = (process.env.BASE_URL || "http://127.0.0.1:3000");
 
 let pass = 0;
 const failures = [];
@@ -38,7 +38,7 @@ console.log(`\nLearners Area — Dashboard continuity against ${BASE}\n`);
 
 const { default: pg } = await import("pg");
 const db = new pg.Client({
-  connectionString: process.env.DATABASE_URL ?? "postgres://postgres@127.0.0.1:5433/learners_area",
+  connectionString: (process.env.DATABASE_URL || "postgres://postgres@127.0.0.1:5433/learners_area",
 });
 await db.connect();
 

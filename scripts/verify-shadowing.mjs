@@ -5,7 +5,7 @@
  * The checks below are as much about what the feature does *not* claim: no band,
  * no percentage, no pronunciation verdict, and nothing recorded is uploaded.
  */
-const BASE = process.env.BASE_URL ?? "http://127.0.0.1:3000";
+const BASE = (process.env.BASE_URL || "http://127.0.0.1:3000");
 
 let pass = 0;
 const failures = [];

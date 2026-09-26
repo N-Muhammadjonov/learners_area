@@ -45,8 +45,8 @@ async function login(email, password) {
   return (res.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ");
 }
 
-const OWNER_EMAIL = process.env.OWNER_EMAIL ?? "owner@learnersarea.uz";
-const OWNER_PASSWORD = process.env.OWNER_PASSWORD ?? "Owner12345!";
+const OWNER_EMAIL = (process.env.OWNER_EMAIL || "owner@learnersarea.uz");
+const OWNER_PASSWORD = (process.env.OWNER_PASSWORD || "Owner12345!");
 const ownerCookie = await login(OWNER_EMAIL, OWNER_PASSWORD);
 
 async function run(dryRun) {

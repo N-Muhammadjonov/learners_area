@@ -8,7 +8,7 @@
  * can prove about small screens: tables scroll instead of overflowing, controls
  * wrap, and the shell offers a report control at every width.
  */
-const BASE = process.env.BASE_URL ?? "http://127.0.0.1:3000";
+const BASE = (process.env.BASE_URL || "http://127.0.0.1:3000");
 
 let pass = 0;
 const failures = [];

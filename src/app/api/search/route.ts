@@ -169,7 +169,10 @@ export async function GET(req: NextRequest) {
         .from(speakingMaterials)
         .where(
           and(
-            eq(speakingMaterials.isActive, true),
+            // `liveSpeaking` is the same rule the Speaking page uses. A second
+            // `is_active` filter here made search disagree with the list it is
+            // supposed to point at: a material published but flagged inactive
+            // appeared on the page and was missing from search results.
             staff ? undefined : liveSpeaking,
             ilike(speakingMaterials.title, like)
           )

@@ -6,7 +6,7 @@
  * attach anything the server did not ask for, the inbox is staff-only, and a
  * resolution is recorded once by the person who made it.
  */
-const BASE = process.env.BASE_URL ?? "http://127.0.0.1:3000";
+const BASE = (process.env.BASE_URL || "http://127.0.0.1:3000");
 
 let pass = 0;
 const failures = [];
@@ -54,7 +54,7 @@ console.log(`\nLearners Area — Report a problem against ${BASE}\n`);
 
 const { default: pg } = await import("pg");
 const db = new pg.Client({
-  connectionString: process.env.DATABASE_URL ?? "postgres://postgres@127.0.0.1:5433/learners_area",
+  connectionString: (process.env.DATABASE_URL || "postgres://postgres@127.0.0.1:5433/learners_area",
 });
 await db.connect();
 

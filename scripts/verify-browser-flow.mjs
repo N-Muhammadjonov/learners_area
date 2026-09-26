@@ -31,7 +31,7 @@ import { randomUUID } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { SignJWT } from "jose";
 
-const BASE = process.env.BASE_URL ?? "http://127.0.0.1:3000";
+const BASE = (process.env.BASE_URL || "http://127.0.0.1:3000");
 /** The host a browser uses for this app (the Arena preview host, or localhost). */
 const HOST_HEADER = process.env.PREVIEW_HOST ?? null;
 

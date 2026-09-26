@@ -6,7 +6,7 @@
  * with: the MCQ drill must not receive the options before the student has
  * committed, and the drill must never be able to skip a stage.
  */
-const BASE = process.env.BASE_URL ?? "http://127.0.0.1:3000";
+const BASE = (process.env.BASE_URL || "http://127.0.0.1:3000");
 
 let pass = 0;
 const failures = [];
@@ -70,7 +70,7 @@ check("the listening page renders", list.status === 200, `status ${list.status}`
 // not contain `correctAnswer` at all.
 const { default: pg } = await import("pg");
 const db = new pg.Client({
-  connectionString: process.env.DATABASE_URL ?? "postgres://postgres@127.0.0.1:5433/learners_area",
+  connectionString: (process.env.DATABASE_URL || "postgres://postgres@127.0.0.1:5433/learners_area",
 });
 await db.connect();
 

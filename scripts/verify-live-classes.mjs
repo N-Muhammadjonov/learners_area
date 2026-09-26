@@ -2,7 +2,7 @@
 /**
  * Live classes — the join window, the attendance record, and the staff roster.
  */
-const BASE = process.env.BASE_URL ?? "http://127.0.0.1:3000";
+const BASE = (process.env.BASE_URL || "http://127.0.0.1:3000");
 
 let pass = 0;
 const failures = [];
@@ -43,7 +43,7 @@ console.log(`\nLearners Area — Live classes against ${BASE}\n`);
 
 const { default: pg } = await import("pg");
 const db = new pg.Client({
-  connectionString: process.env.DATABASE_URL ?? "postgres://postgres@127.0.0.1:5433/learners_area",
+  connectionString: (process.env.DATABASE_URL || "postgres://postgres@127.0.0.1:5433/learners_area",
 });
 await db.connect();
 

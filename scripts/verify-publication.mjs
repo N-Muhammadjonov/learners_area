@@ -17,7 +17,7 @@
  *
  * Requires the dev server and DATABASE_URL (for the audit check).
  */
-const BASE = process.env.BASE_URL ?? "http://127.0.0.1:3000";
+const BASE = (process.env.BASE_URL || "http://127.0.0.1:3000");
 
 let passed = 0;
 let failed = 0;
