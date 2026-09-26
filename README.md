@@ -33,7 +33,7 @@ major, so it is recorded here rather than forced.
 ```bash
 cp .env.example .env        # fill in DATABASE_URL and a real AUTH_SECRET
 npm install
-npm run db:migrate          # apply the SQL migrations in src/db/migrations
+npm run db:migrate          # apply the SQL migrations in drizzle/ (0000…0016)
 npm run db:seed             # demo data — safe to run once on a fresh DB
 npm run dev                 # http://localhost:3000
 ```
@@ -608,6 +608,21 @@ there — it proves a recording is not truncated and that the upload chain finis
 ```bash
 npm i --no-save puppeteer-core            # not a project dependency
 node scripts/browser/verify-mic-browser.mjs   # 12 checks, real Chromium, fake audio device
+node scripts/browser/verify-register-ux.mjs   # 14 checks: the register button always recovers
+```
+
+The second browser script answers one question the unit tests cannot: when the API
+fails, does the button return from "Loading…"? It intercepts the register call and
+serves an HTML 500, then aborts the request outright, then lets a real registration
+through to the waiting room, and finally performs one registration against an app
+instance pointed at an unmigrated database. In all four cases the button must become
+pressable again and an error must be visible. (That instance is started with
+`DATABASE_URL` set to an empty database and `PORT=3001`.)
+
+```bash
+# the production migration tooling, tested against throwaway local databases
+MIGRATION_TEST_ADMIN_URL="postgres://postgres@127.0.0.1:5433/postgres" \
+  node scripts/verify-migration-tooling.mjs   # 24 checks: all five database states
 ```
 
 ```bash
@@ -639,6 +654,7 @@ DATABASE_URL=... node scripts/verify-dashboard.mjs     # 21 dashboard checks
 DATABASE_URL=... node scripts/verify-live-classes.mjs  # 24 live-class checks
 DATABASE_URL=... node scripts/verify-support.mjs       # 26 support checks
 DATABASE_URL=... node scripts/verify-admission-race.mjs # 6 admission-race checks
+DATABASE_URL=... node scripts/verify-production-schema.mjs # 42 checks against a real (production) database
 ```
 
 `scripts/verify-uploads.mjs` is the acceptance test for the resource system:
@@ -679,10 +695,12 @@ Not attempted from this environment. In outline:
 2. Set a real `AUTH_SECRET` (`openssl rand -base64 48`). Set
    `STORAGE_PROVIDER=r2` and the `R2_*` variables. **Leave the bucket
    private** and set the CORS policy to the real production origin.
-3. `npm run db:migrate` — the repository ships ordered SQL migrations
-   (`src/db/migrations/0000…0016`) applied through `drizzle-kit migrate`, which
-   is the production path. `npm run db:push` still exists for a throwaway
-   database, but it is not how a real deployment is brought up.
+3. Migrate the cloud database — see [Migrating the production
+   database](#migrating-the-production-database) below. The repository ships
+   ordered SQL migrations (`drizzle/0000…0016`) applied through
+   `drizzle-kit migrate`, which is the production path. `npm run db:push` still
+   exists for a throwaway database, but it is not how a real deployment is
+   brought up.
 4. Register a Telegram bot and set its login-widget domain to the real domain.
 5. `npm run db:seed` only if you actually want the demo accounts in
    production — you probably don't.
@@ -712,6 +730,47 @@ Not attempted from this environment. In outline:
    one. Students can still type a transcript, which is labelled as theirs.
 11. Do not run the seed on a production database you care about; the demo
     passwords are public.
+
+### Migrating the production database
+
+`npm run db:migrate` is the migration command; `scripts/migrate-production.mjs`
+is the wrapper that makes running it against a *cloud* database safe, by looking
+before it writes. Three commands, in order:
+
+```bash
+# 1. Inspect — read-only. Prints the chain, the current schema, and a verdict.
+DATABASE_URL="postgres://…" node scripts/migrate-production.mjs
+
+# 2. Apply — only for an "empty" or "resume" verdict. Asks you to type the
+#    database name unless you pass --yes.
+DATABASE_URL="postgres://…" node scripts/migrate-production.mjs --apply
+
+# 3. Verify — read-only. 42 checks against the real database.
+DATABASE_URL="postgres://…" node scripts/verify-production-schema.mjs
+```
+
+What the inspector decides, and why it is not simply "run the migrations":
+
+| State found | Verdict | What happens |
+| --- | --- | --- |
+| no tables, no history | `empty` | the 17 migrations are applied from `0000` |
+| history matches this journal, fewer than 17 rows | `resume` | the remaining migrations run |
+| all 17 recorded | `up-to-date` | nothing to do, exit 0 (safe in a deploy script) |
+| tables exist but no history | `partial` | **refused** — re-running would record migrations as applied without executing them |
+| history does not match this journal | `divergent` | **refused** — the schema came from somewhere else |
+
+Nothing in the tooling drops, truncates or resets anything. It refuses to run
+against `localhost` unless `ALLOW_LOCAL_MIGRATION=1` is set (that switch exists so
+the tooling itself can be tested), it never prints the connection string, and it
+passes `DATABASE_URL` to `drizzle-kit` through the environment rather than through
+`argv`. `scripts/verify-migration-tooling.mjs` exercises all five states above
+against throwaway databases on a local server.
+
+Afterwards, if the database has no owner yet, create exactly one with
+`node scripts/bootstrap-owner.mjs --email <real address>` — the verify step says
+so explicitly. Never run `npm run db:seed` against production (the demo passwords
+are public) and never run `reset-db.mjs` there at all; it drops the schema and is
+for a local refresh only.
 
 ## Security model (what a deployment actually gets)
 
@@ -880,8 +939,16 @@ Ownership is a role in the database, never an email address in the code.
 - No real AI provider is wired *by default*; that is a configuration choice rather than a
   missing subsystem (see "Adding an external provider").
 - Telegram auth is real but was never exercised against a live bot here.
-- No browser-level test suite lives in the repository (the verification scripts
-  are HTTP-level and a headless-Chromium harness was used during development).
-  No CI configured.
+- No browser-level test suite *runner* is configured: two headless-Chromium
+  scripts live under `scripts/browser/` and need `npm i --no-save puppeteer-core`
+  plus a Chromium binary, but they are not part of `npm test`. No CI configured.
+- The production database migration has never been executed against the real
+  cloud database from this environment: no production `DATABASE_URL` is available
+  here. The tooling, the refusal paths and the verification checklist are all
+  tested against throwaway local databases, and the exact commands to run are in
+  "Migrating the production database". Until it runs against Supabase, a
+  deployment pointing at an unmigrated database answers `503` with
+  `{"error":"service_unavailable","reason":"schema_missing"}` instead of an
+  opaque 500 — the app says what is wrong instead of pretending.
 - `users.is_owner` is a historical column; authorization reads `role`, and the
   OWNER role is managed through `/owner/transfer`.
