@@ -5,10 +5,11 @@ import { Card } from "@/components/ui/Card";
 import { RetentionCheck } from "@/components/reading/RetentionCheck";
 import { ternaryLabel } from "@/lib/reading-choices";
 import type { Dictionary } from "@/lib/i18n/en";
-import type { readingQuestions, readingAnswers } from "@/db/schema";
+import type { readingQuestions, readingAnswers, readingQuestionGroups } from "@/db/schema";
 
 type Question = typeof readingQuestions.$inferSelect;
 type Answer = typeof readingAnswers.$inferSelect;
+type Group = typeof readingQuestionGroups.$inferSelect;
 
 const answerLabel = (type: Question["type"], raw: string): string => {
   if (type !== "true_false_not_given" && type !== "yes_no_not_given") return raw;
@@ -36,6 +37,7 @@ export function ReadingAnalysis({
   score,
   total,
   questions,
+  groups = [],
   answers,
   passageBody,
   passageTitle,
@@ -47,6 +49,8 @@ export function ReadingAnalysis({
   score: number | null;
   total: number | null;
   questions: Question[];
+  /** The instruction blocks the questions belong to (empty for older attempts). */
+  groups?: Group[];
   answers: Answer[];
   passageBody?: string;
   passageTitle?: string;
@@ -82,6 +86,22 @@ export function ReadingAnalysis({
     ? byType.reduce((worst, row) => (row.ratio < worst.ratio ? row : worst), byType[0]!)
     : null;
 
+  /**
+   * Review order follows the paper: questions under the instructions they were
+   * answered under, in their group's order. A question with no group keeps the
+   * order it was stored in.
+   */
+  const ordered = useMemo(() => {
+    const position = new Map(groups.map((group) => [group.id, group.position]));
+    return [...questions].sort((a, b) => {
+      const aPos = a.groupId ? (position.get(a.groupId) ?? Number.MAX_SAFE_INTEGER) : Number.MAX_SAFE_INTEGER;
+      const bPos = b.groupId ? (position.get(b.groupId) ?? Number.MAX_SAFE_INTEGER) : Number.MAX_SAFE_INTEGER;
+      return aPos === bPos ? a.order - b.order : aPos - bPos;
+    });
+  }, [questions, groups]);
+
+  const groupById = useMemo(() => new Map(groups.map((group) => [group.id, group])), [groups]);
+
   // `locale` is a property of the request, passed down by the server page. It used
   // to be inferred by comparing a translated string against a literal, which fell
   // back to English the moment that translation was reworded.
@@ -93,6 +113,8 @@ export function ReadingAnalysis({
         <span className="font-display text-4xl text-ink-900">
           {score}/{total}
         </span>
+        {/* The raw count is what the database really stores; no band is invented. */}
+        <span className="text-xs text-ink-300">{dict.readingPractice.rawScoreNote}</span>
       </Card>
 
       <Card className="flex flex-col gap-2">
@@ -136,13 +158,32 @@ export function ReadingAnalysis({
         />
       )}
 
-      {questions.map((q) => {
+      {ordered.map((q, index) => {
         const a = answerByQuestion.get(q.id);
+        const group = q.groupId ? groupById.get(q.groupId) : undefined;
+        const isNewGroup = !!group && ordered[index - 1]?.groupId !== group.id;
+        const alternatives = (q.acceptedAnswers ?? []).filter(
+          (value) => value.trim().toLowerCase() !== q.correctAnswer.trim().toLowerCase()
+        );
         return (
-          <Card key={q.id} className={a?.isCorrect ? "border-band-good/40" : "border-band-bad/40"}>
+          <div key={q.id} className="flex flex-col gap-3">
+            {isNewGroup && group && (
+              <div className="rounded-[16px] border border-ink-100 bg-paper-sunken p-4" data-group-instructions={group.typeCode}>
+                <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-ink-500">
+                  {group.displayTitle ??
+                    dict.readingPractice.groupQuestions
+                      .replace("{from}", String(group.fromQuestionNo ?? q.questionNo ?? q.order))
+                      .replace("{to}", String(group.toQuestionNo ?? q.questionNo ?? q.order))}
+                </p>
+                {group.instructionsText && (
+                  <p className="whitespace-pre-line text-sm text-ink-700">{group.instructionsText}</p>
+                )}
+              </div>
+            )}
+            <Card className={a?.isCorrect ? "border-band-good/40" : "border-band-bad/40"}>
             <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
               <p className="text-sm font-medium text-ink-900">
-                {q.order}. {q.questionText}
+                {q.questionNo ?? q.order}. {q.questionText.trim() || dict.readingPractice.chooseLetter}
               </p>
               <span className={`badge ${a?.isCorrect ? "bg-band-good/10 text-band-good" : "bg-band-bad/10 text-band-bad"}`}>
                 {a?.isCorrect ? dict.reading.correct : dict.reading.incorrect}
@@ -161,9 +202,20 @@ export function ReadingAnalysis({
                 <span className="text-ink-900">{answerLabel(q.type, q.correctAnswer)}</span>
               </p>
             )}
+            {/* The source's own accepted alternatives, shown only when they differ. */}
+            {alternatives.length > 0 && (
+              <p className="text-xs text-ink-300">
+                {dict.readingPractice.acceptedAnswers}: {alternatives.slice(0, 4).join(", ")}
+              </p>
+            )}
             {q.evidenceQuote && (
               <p className="mt-1 text-xs italic text-ink-300" data-evidence={q.id}>
                 {dict.reading.evidence}: &ldquo;{q.evidenceQuote}&rdquo;
+                {/* 82 of the source's questions have no locatable evidence line; saying
+                    so is honest, inventing one would not be. */}
+                {q.evidenceType === "missing_source" && (
+                  <span className="ml-1 not-italic">({dict.readingPractice.evidenceMissing})</span>
+                )}
               </p>
             )}
             {q.explanation && (
@@ -172,7 +224,8 @@ export function ReadingAnalysis({
                 {q.explanation}
               </p>
             )}
-          </Card>
+            </Card>
+          </div>
         );
       })}
     </div>

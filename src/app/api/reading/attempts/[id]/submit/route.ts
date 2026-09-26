@@ -38,7 +38,8 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   let score = 0;
   const rows = questions.map((q) => {
     const userAnswer = answerByQuestion.get(q.id) ?? "";
-    const isCorrect = gradeAnswer(q.type, userAnswer, q.correctAnswer);
+    // The answer key, plus every alternative the source itself accepts.
+    const isCorrect = gradeAnswer(userAnswer, q.correctAnswer, q.acceptedAnswers);
     if (isCorrect) score += 1;
     return { attemptId: attempt.id, questionId: q.id, userAnswer, isCorrect };
   });

@@ -301,6 +301,15 @@ export function IconRetention({ className, title }: IconProps) {
   );
 }
 
+/** A tick — used where a save really succeeded and the screen must say so. */
+export function IconCheck({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <path d="m5 12.5 4.5 4.5L19 7.5" />
+    </Icon>
+  );
+}
+
 export function IconAlert({ className, title }: IconProps) {
   return (
     <Icon className={className} title={title}>

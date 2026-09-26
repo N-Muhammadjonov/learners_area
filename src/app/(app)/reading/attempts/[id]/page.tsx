@@ -17,22 +17,60 @@ export default async function ReadingAttemptPage({ params }: { params: Promise<{
   if (!isUuid(id)) notFound();
   const detail = await getAttemptDetail(id, user.id);
   if (!detail) notFound();
-  const { attempt, passage, questions, answers } = detail;
+  const { attempt, passage, questions, groups, paragraphs, answers } = detail;
+
+  // "Test 2, Passage 3" is only claimed when the passage really came from a
+  // numbered test; a hand-written passage shows its title alone.
+  const passageMeta =
+    passage.testNo !== null && passage.passageNo !== null
+      ? dict.readingPractice.passageMeta
+          .replace("{test}", String(passage.testNo))
+          .replace("{passage}", String(passage.passageNo))
+      : null;
 
   return (
-    <div className="mx-auto max-w-5xl">
+    <div className="mx-auto max-w-[1440px]">
       {attempt.status === "in_progress" ? (
         <ReadingExam
           dict={dict}
           attemptId={attempt.id}
           passageTitle={passage.title}
           passageBody={passage.bodyText}
+          passageMeta={passageMeta}
+          startedAt={attempt.startedAt.toISOString()}
+          groups={groups.map((group) => ({
+            id: group.id,
+            position: group.position,
+            typeCode: group.typeCode,
+            displayTitle: group.displayTitle,
+            instructionsText: group.instructionsText,
+            fromQuestionNo: group.fromQuestionNo,
+            toQuestionNo: group.toQuestionNo,
+            sharedChoices: group.sharedChoices,
+          }))}
+          paragraphs={paragraphs.map((paragraph) => ({
+            id: paragraph.id,
+            position: paragraph.position,
+            label: paragraph.label,
+            text: paragraph.text,
+            isFootnote: paragraph.isFootnote,
+          }))}
+          // Draft answers are restored by question id, so a reload continues the
+          // attempt exactly where the student left it.
+          savedAnswers={Object.fromEntries(
+            answers.filter((answer) => answer.isCorrect === null).map((answer) => [answer.questionId, answer.userAnswer])
+          )}
           questions={questions.map((q) => ({
             id: q.id,
             order: q.order,
+            questionNo: q.questionNo,
             type: q.type,
+            typeCode: q.typeCode,
+            groupId: q.groupId,
             questionText: q.questionText,
             options: q.options ?? null,
+            acceptedAnswers: q.acceptedAnswers,
+            answerConstraint: (q.answerConstraint ?? null) as Record<string, unknown> | null,
           }))}
         />
       ) : (
@@ -41,6 +79,7 @@ export default async function ReadingAttemptPage({ params }: { params: Promise<{
           score={attempt.score}
           total={attempt.totalQuestions}
           questions={questions}
+          groups={groups}
           answers={answers}
           passageBody={passage.bodyText}
           passageTitle={passage.title}
