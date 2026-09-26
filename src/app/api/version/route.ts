@@ -24,6 +24,9 @@ export function GET() {
       region: process.env.VERCEL_REGION?.trim() || null,
       environment: process.env.VERCEL_ENV?.trim() || null,
     },
-    { headers: { "cache-control": "public, max-age=0, s-maxage=300" } },
+    // Never cached: a cached answer would keep reporting the deployment that
+    // was live a few minutes ago, which is exactly the confusion this endpoint
+    // exists to remove.
+    { headers: { "cache-control": "no-store" } },
   );
 }
