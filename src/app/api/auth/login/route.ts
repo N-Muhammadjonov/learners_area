@@ -6,6 +6,7 @@ import { loginSchema } from "@/lib/validation/auth";
 import { verifyPassword } from "@/lib/auth/password";
 import { createSessionToken, SESSION_COOKIE, clearSessionCookies, sessionCookieOptions } from "@/lib/auth/session";
 import { RULES, accountKey, blockIfOver, clientKey, consume, reset } from "@/lib/http/rate-limit";
+import { classifyDatabaseError, databaseUnavailableResponse } from "@/lib/http/database-errors";
 
 export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null);
@@ -23,7 +24,19 @@ export async function POST(req: NextRequest) {
     blockIfOver(RULES.loginByAccount, accountKey(email)) ?? blockIfOver(RULES.loginByIp, clientKey(req));
   if (blocked) return blocked;
 
-  const user = await db.query.users.findFirst({ where: eq(users.email, email) });
+  // A database that is not there yet must not look like a wrong password: 503
+  // with a fixed code, and the driver's message stays in the server log.
+  let user;
+  try {
+    user = await db.query.users.findFirst({ where: eq(users.email, email) });
+  } catch (cause) {
+    const reason = classifyDatabaseError(cause);
+    if (!reason) throw cause;
+    console.error(`[login] database unavailable (${reason})`);
+    const unavailable = databaseUnavailableResponse(reason);
+    return NextResponse.json(unavailable.body, { status: unavailable.status });
+  }
+
   const valid = user?.passwordHash ? await verifyPassword(password, user.passwordHash) : false;
 
   if (!valid || !user) {

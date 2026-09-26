@@ -7,6 +7,7 @@ import { hashPassword } from "@/lib/auth/password";
 import { createSessionToken, SESSION_COOKIE, clearSessionCookies, sessionCookieOptions } from "@/lib/auth/session";
 import { getLocale } from "@/lib/i18n";
 import { RULES, clientKey, enforce } from "@/lib/http/rate-limit";
+import { classifyDatabaseError, databaseUnavailableResponse } from "@/lib/http/database-errors";
 
 export async function POST(req: NextRequest) {
   // Mass registration is the cheapest abuse there is; a private centre admits a
@@ -21,22 +22,42 @@ export async function POST(req: NextRequest) {
   }
   const { name, email, password } = parsed.data;
 
-  const existing = await db.query.users.findFirst({ where: eq(users.email, email) });
-  if (existing) {
-    return NextResponse.json({ error: "email_taken" }, { status: 409 });
+  // A deployment whose database has not been migrated answers 503 with a fixed
+  // code instead of an opaque 500. The driver's own message is logged, never
+  // returned: it carries the host and the user.
+  try {
+    const existing = await db.query.users.findFirst({ where: eq(users.email, email) });
+    if (existing) {
+      return NextResponse.json({ error: "email_taken" }, { status: 409 });
+    }
+
+    const passwordHash = await hashPassword(password);
+    const locale = await getLocale();
+
+    const [user] = await db
+      .insert(users)
+      .values({ name, email, passwordHash, role: "student", locale })
+      .returning();
+
+    if (!user) {
+      return NextResponse.json({ error: "Could not create account" }, { status: 500 });
+    }
+
+    return issueSession(user, req);
+  } catch (cause) {
+    const reason = classifyDatabaseError(cause);
+    if (!reason) throw cause;
+    console.error(`[register] database unavailable (${reason})`);
+    const unavailable = databaseUnavailableResponse(reason);
+    return NextResponse.json(unavailable.body, { status: unavailable.status });
   }
+}
 
-  const passwordHash = await hashPassword(password);
-  const locale = await getLocale();
-
-  const [user] = await db
-    .insert(users)
-    .values({ name, email, passwordHash, role: "student", locale })
-    .returning();
-
-  if (!user) {
-    return NextResponse.json({ error: "Could not create account" }, { status: 500 });
-  }
+/** The session half of registration, kept separate so the try block above stays readable. */
+async function issueSession(
+  user: Pick<typeof users.$inferSelect, "id" | "role" | "name" | "locale" | "accountStatus">,
+  req: NextRequest
+) {
 
   const token = await createSessionToken({
     sub: user.id,
