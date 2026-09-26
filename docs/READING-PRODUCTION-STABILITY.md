@@ -234,14 +234,37 @@ owner; it needs no redeploy of code and does not affect migrations.
   tooling 24, production-schema 41/42 (the one expected local failure is the
   seeded demo accounts)
 - saturation and latency tables in §2
+- `verify-production-reading.mjs` against the local production build, both roles,
+  `PROD_READING_COUNT=10`: **48/48** (10 direct + 10 client-navigations + return
+  + filter + page-2 + query, per account), 0 error boundaries, 0 non-200
+  responses, total-time p50 37 ms
 
-**Production (EXTERNALLY UNVERIFIED from here)** — the sandbox has no route to
-the deployment, so the final verdict must come from the owner's own run:
+**Deployment identity (VERIFIED against the running deployment)**
+
+```
+GET https://learners-area.vercel.app/api/version
+{"commit":"…","shortCommit":"…","region":"sin1","environment":"production"}
+```
+
+Read from outside the sandbox on 2026-09-26: the canonical alias serves this
+branch's newest commit, and the function that answered ran in **sin1**
+(Singapore, next to the database) — the region setting did take effect. An
+unauthenticated `GET /reading` answers with a redirect to
+`/login?next=%2Freading`, i.e. the authorization gate, not an error page.
+
+The endpoint must stay uncached for this to mean anything: with a cached answer
+the alias reported the previous commit for several minutes after a successful
+deploy, which reads exactly like a deploy that did not happen.
+
+**Production stability run (EXTERNALLY UNVERIFIED here)** — the sandbox has no
+route to the deployment and holds no production credentials, so the repeated
+test and its verdict must come from the owner's own run:
 
 ```bash
 cd <repo>
 git fetch origin arena/01a0cf7b-learners-area && git switch arena/01a0cf7b-learners-area
-git pull --ff-only origin arena/01a0cf7b-learners-area      # expect 9a49f17 + this commit
+git pull --ff-only origin arena/01a0cf7b-learners-area      # expect this branch at its newest commit
+curl -s https://learners-area.vercel.app/api/version        # commit must match, region must be sin1
 
 PROD_BASE_URL="https://learners-area.vercel.app" \
 PROD_OWNER_EMAIL="…" PROD_OWNER_PASSWORD="…" \
