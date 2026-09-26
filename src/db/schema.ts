@@ -456,7 +456,89 @@ export const readingPassages = pgTable("reading_passages", {
   publicationState: publicationStateEnum("publication_state").notNull().default("published"),
   publishAt: timestamp("publish_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+
+  /*
+   * Import identity and provenance (migration 0017, the 105-passage library).
+   *
+   * These columns exist so the importer can be run twice without creating a
+   * second copy of a passage, and so an imported passage can always be traced
+   * back to the source package it came from. They are internal: nothing here is
+   * shown to a student, and the learner-facing brand stays "Learners Area".
+   */
+  externalId: varchar("external_id", { length: 160 }),
+  /** Test number in the source (1–33); null for a standalone passage. */
+  testNo: integer("test_no"),
+  /** Passage position inside its test (1–3); null when the source has none. */
+  passageNo: integer("passage_no"),
+  /** Source topic code (health, nature, tech, …) — used for library filters. */
+  topicCode: varchar("topic_code", { length: 40 }),
+  /** The "You should spend about 20 minutes…" instruction, kept verbatim. */
+  instructions: text("instructions"),
+  sourceWordCount: integer("source_word_count"),
+  sourceQuestionCount: integer("source_question_count"),
+  /** sha256 of the source document — the one thing that proves which text this is. */
+  sourceChecksum: varchar("source_checksum", { length: 64 }),
+  /** Source package identifier (internal only). */
+  sourceRef: varchar("source_ref", { length: 80 }),
 });
+
+/**
+ * A labelled paragraph of a passage.
+ *
+ * Paragraph letters are not decoration: "Which paragraph contains…" and
+ * "Choose the correct heading for paragraph C" questions are unanswerable
+ * without them, and a student reading the review needs to see the same letters
+ * the question refers to. The passage's flat `body_text` is still written (older
+ * code reads it, and Retention quotes from it); these rows are the structured
+ * copy.
+ */
+export const readingPassageParagraphs = pgTable("reading_passage_paragraphs", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  passageId: uuid("passage_id")
+    .notNull()
+    .references(() => readingPassages.id, { onDelete: "cascade" }),
+  position: integer("position").notNull(),
+  /** "A" … "G" where the source labels paragraphs, otherwise null. */
+  label: varchar("label", { length: 8 }),
+  text: text("text").notNull(),
+  isFootnote: boolean("is_footnote").notNull().default(false),
+});
+
+/**
+ * A group of questions that share one instruction block ("Questions 1 – 8",
+ * numbered headings, shared option lists).
+ *
+ * IELTS question groups are not a presentation detail: the instructions differ
+ * per group ("Choose ONE WORD ONLY", "Choose TWO letters", "NB You may use any
+ * letter more than once"), and a student practising by question type needs the
+ * group to make sense of the question. `reading_questions.type_code` keeps the
+ * source's own code (TFNG, NOTE, MH …) for that filtering.
+ */
+export const readingQuestionGroups = pgTable(
+  "reading_question_groups",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    passageId: uuid("passage_id")
+      .notNull()
+      .references(() => readingPassages.id, { onDelete: "cascade" }),
+    position: integer("position").notNull(),
+    /** Source type code: TFNG, YNNG, MCQ, NOTE, MH, MI, SC, SAQ, FLOW, … */
+    typeCode: varchar("type_code", { length: 16 }).notNull(),
+    /** "Questions 1 – 8" */
+    displayTitle: varchar("display_title", { length: 120 }),
+    instructionsText: text("instructions_text"),
+    fromQuestionNo: integer("from_question_no"),
+    toQuestionNo: integer("to_question_no"),
+    /** Shared options for heading/matching groups, as text. */
+    sharedChoices: jsonb("shared_choices").$type<string[]>().notNull().default([]),
+  },
+  (table) => ({
+    passagePositionIdx: uniqueIndex("reading_question_groups_passage_position_idx").on(
+      table.passageId,
+      table.position
+    ),
+  })
+);
 
 export const readingQuestions = pgTable("reading_questions", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -468,6 +550,38 @@ export const readingQuestions = pgTable("reading_questions", {
   correctAnswer: text("correct_answer").notNull(),
   evidenceQuote: text("evidence_quote"),
   explanation: text("explanation").notNull(),
+
+  /*
+   * Imported detail (migration 0017).
+   *
+   * `type_code` keeps the source's own question type next to the four-value
+   * enum the rest of the app grades with, so "practise Matching Headings" is
+   * answerable without a second table. `accepted_answers` holds the alternatives
+   * the source itself lists — real IELTS answers accept "12,000 francs" and
+   * "12000 francs" alike, and marking one of those wrong because the string
+   * differs would teach the student something false.
+   */
+  groupId: uuid("group_id").references(() => readingQuestionGroups.id, { onDelete: "cascade" }),
+  /** Question number as printed in the paper (1–40 within a test). */
+  questionNo: integer("question_no"),
+  typeCode: varchar("type_code", { length: 16 }),
+  /** Where the blank/selection sits in the prompt: {{q1}} → an input box. */
+  answerSlots: jsonb("answer_slots")
+    .$type<{ slotKey: string; token: string; control: string }[]>()
+    .notNull()
+    .default([]),
+  /** Every string the source accepts, canonical answer first. */
+  acceptedAnswers: jsonb("accepted_answers").$type<string[]>().notNull().default([]),
+  /** {"maxWords": 1} — the source's own constraint, shown to the student. */
+  answerConstraint: jsonb("answer_constraint").$type<Record<string, unknown>>(),
+  renderMode: varchar("render_mode", { length: 32 }),
+  /** Character offsets of the evidence inside the passage text (may be null). */
+  evidenceStartChar: integer("evidence_start_char"),
+  evidenceEndChar: integer("evidence_end_char"),
+  /** source_marker | missing_source — where the evidence came from. */
+  evidenceType: varchar("evidence_type", { length: 24 }),
+  /** Source key ("q1"), kept for traceability. */
+  sourceKey: varchar("source_key", { length: 40 }),
 });
 
 export const readingAttempts = pgTable("reading_attempts", {
@@ -831,10 +945,68 @@ export const lexemes = pgTable(
      * empty list simply means the term itself is the only accepted answer.
      */
     acceptedTranslations: jsonb("accepted_translations").$type<string[]>().notNull().default([]),
+
+    /*
+     * Where this entry came from and how far it can be trusted (0017).
+     *
+     * The shared lexicon is fed from more than one place now, and the two are
+     * not equally certain: a word typed in by a teacher is authored, while a
+     * definition that was derived mechanically during the reading import is a
+     * proposal. Recording which is which keeps the honesty of the word card
+     * possible — an unverified meaning is marked as one instead of being
+     * presented as centre-approved.
+     */
+    provenance: varchar("provenance", { length: 20 }),
+    verificationStatus: varchar("verification_status", { length: 24 }),
+    importBatch: varchar("import_batch", { length: 80 }),
   },
   (table) => ({
     termIdx: index("lexemes_term_idx").on(table.term),
     senseKeyIdx: uniqueIndex("lexemes_sense_key_idx").on(table.senseKey),
+  })
+);
+
+/**
+ * One place a word actually appears in a reading passage.
+ *
+ * This is what makes "Save to Vocabulary" honest: the student keeps the word
+ * *and the sentence it was met in*, and the flashcard can show that sentence
+ * instead of an invented example. The lexeme row is the shared global lexicon —
+ * the same word met in a second passage reuses it and simply gains another
+ * occurrence.
+ *
+ * Offsets are character positions inside the passage's paragraph text, which is
+ * how the reader knows which word was tapped without sending the whole passage
+ * back to the server.
+ */
+export const lexicalOccurrences = pgTable(
+  "lexical_occurrences",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    lexemeId: uuid("lexeme_id")
+      .notNull()
+      .references(() => lexemes.id, { onDelete: "cascade" }),
+    passageId: uuid("passage_id")
+      .notNull()
+      .references(() => readingPassages.id, { onDelete: "cascade" }),
+    /** Segment key inside the source package ("p1") — internal traceability. */
+    segmentKey: varchar("segment_key", { length: 40 }),
+    surfaceForm: varchar("surface_form", { length: 120 }).notNull(),
+    startChar: integer("start_char").notNull(),
+    endChar: integer("end_char").notNull(),
+    /** The whole sentence, verbatim — the context the student met the word in. */
+    sentenceText: text("sentence_text"),
+    occurrenceType: varchar("occurrence_type", { length: 24 }),
+    /** The import marked this as worth learning; false = incidental match. */
+    isTargetVocabulary: boolean("is_target_vocabulary").notNull().default(false),
+  },
+  (table) => ({
+    passageOffsetIdx: uniqueIndex("lexical_occurrences_passage_offset_idx").on(
+      table.passageId,
+      table.startChar,
+      table.endChar
+    ),
+    lexemeIdx: index("lexical_occurrences_lexeme_idx").on(table.lexemeId),
   })
 );
 

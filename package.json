@@ -13,7 +13,8 @@
     "db:push": "drizzle-kit push",
     "db:seed": "node --conditions=react-server --env-file=.env --import tsx src/db/seed.ts",
     "test": "node --conditions=react-server --import tsx --test tests/*.test.ts",
-    "db:migrate": "drizzle-kit migrate"
+    "db:migrate": "drizzle-kit migrate",
+    "reading:import": "node --import tsx --env-file=.env scripts/import-reading-105.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1136.0",

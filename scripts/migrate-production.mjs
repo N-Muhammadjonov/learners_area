@@ -35,7 +35,12 @@ import { dirname, join } from "node:path";
 const require = createRequire(import.meta.url);
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const DRIZZLE_DIR = join(ROOT, "drizzle");
-const EXPECTED_MIGRATIONS = 17;
+/*
+ * The chain length is read from the journal, never hard-coded: a constant here
+ * meant every new migration had to remember to update this file, and forgetting
+ * turned a safety check into a false alarm. What matters is that the journal and
+ * the files on disk agree — that is verified below.
+ */
 
 const args = new Set(process.argv.slice(2));
 const APPLY = args.has("--apply");
@@ -59,11 +64,14 @@ function verifyChain() {
   const journal = JSON.parse(readFileSync(join(DRIZZLE_DIR, "meta", "_journal.json"), "utf8"));
   const files = readdirSync(DRIZZLE_DIR).filter((f) => f.endsWith(".sql")).sort();
 
-  if (files.length !== EXPECTED_MIGRATIONS) {
-    fail(`expected ${EXPECTED_MIGRATIONS} migration files, found ${files.length}: ${files.join(", ")}`);
+  if (files.length === 0) {
+    fail(`no migration files found in ${DRIZZLE_DIR}`);
   }
   if (journal.entries.length !== files.length) {
-    fail(`journal has ${journal.entries.length} entries but ${files.length} .sql files exist`);
+    fail(
+      `journal has ${journal.entries.length} entries but ${files.length} .sql files exist ` +
+        `(a migration was edited or generated without its journal entry): ${files.join(", ")}`
+    );
   }
 
   const entries = [];
@@ -114,7 +122,16 @@ const DESTRUCTIVE = [
 function tablesCreatedBy(entries) {
   const names = new Set();
   for (const entry of entries) {
-    for (const match of entry.sql.matchAll(/CREATE TABLE IF NOT EXISTS "([^"]+)"/gi)) names.add(match[1]);
+    /*
+     * Both spellings occur in this chain: the hand-written early migrations say
+     * `CREATE TABLE IF NOT EXISTS`, and everything drizzle-kit generates says
+     * `CREATE TABLE`. Matching only the first made every table of the newer
+     * migrations look like somebody else's — a false "unknown table" alarm on a
+     * script whose whole job is to notice real surprises.
+     */
+    for (const match of entry.sql.matchAll(/CREATE TABLE\s+(?:IF NOT EXISTS\s+)?"([^"]+)"/gi)) {
+      names.add(match[1]);
+    }
   }
   return names;
 }
@@ -242,17 +259,17 @@ function decide(info, entries) {
       };
     }
     if (recorded.length === expectedTimestamps.length) {
-      return { verdict: "up-to-date", reason: "all 17 migrations are already recorded as applied." };
+      return { verdict: "up-to-date", reason: `all ${expectedTimestamps.length} migrations are already recorded as applied.` };
     }
     if (info.unknown.length > 0) {
       return {
         verdict: "divergent",
-        reason: `history resumes at ${recorded.length}/17 but the database also holds ${info.unknown.length} table(s) this chain does not create: ${info.unknown.join(", ")}`,
+        reason: `history resumes at ${recorded.length}/${expectedTimestamps.length} but the database also holds ${info.unknown.length} table(s) this chain does not create: ${info.unknown.join(", ")}`,
       };
     }
     return {
       verdict: "resume",
-      reason: `${recorded.length}/17 migrations are recorded; the remaining ${expectedTimestamps.length - recorded.length} would run next.`,
+      reason: `${recorded.length}/${expectedTimestamps.length} migrations are recorded; the remaining ${expectedTimestamps.length - recorded.length} would run next.`,
       from: recorded.length,
     };
   }
@@ -414,7 +431,7 @@ async function main() {
   switch (decision.verdict) {
     case "empty":
       console.log(green(`  empty       ${decision.reason}`));
-      console.log("              The 17 migrations can be applied from 0000.");
+      console.log(`              The ${entries.length} migrations can be applied from 0000.`);
       break;
     case "up-to-date":
       console.log(green(`  up-to-date  ${decision.reason}`));
@@ -469,7 +486,7 @@ async function main() {
 
   if (!ASSUME_YES) {
     const confirmation = await prompt(
-      `About to run ${decision.verdict === "empty" ? "all 17" : `the remaining ${17 - (decision.from ?? 0)}`} migration(s) against ${info.db} on ${info.host}.\nType the database name to continue: `
+      `About to run ${decision.verdict === "empty" ? `all ${entries.length}` : `the remaining ${entries.length - (decision.from ?? 0)}`} migration(s) against ${info.db} on ${info.host}.\nType the database name to continue: `
     );
     if (confirmation.trim() !== info.db) {
       await pool.end();
