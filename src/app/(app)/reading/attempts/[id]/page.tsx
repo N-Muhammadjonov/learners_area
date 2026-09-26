@@ -5,6 +5,7 @@ import { getAttemptDetail } from "@/lib/data/reading";
 import { ReadingExam } from "@/components/reading/ReadingExam";
 import { ReadingAnalysis } from "@/components/reading/ReadingAnalysis";
 import { isUuid } from "@/lib/validation/ids";
+import { listResourceBlocks, toResourceBlockView } from "@/lib/data/resources";
 
 export default async function ReadingAttemptPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -18,6 +19,11 @@ export default async function ReadingAttemptPage({ params }: { params: Promise<{
   const detail = await getAttemptDetail(id, user.id);
   if (!detail) notFound();
   const { attempt, passage, questions, groups, paragraphs, answers } = detail;
+
+  // Anything an administrator attached to this passage — via the universal
+  // composer — is shown inside the workspace, so a summary or an audio version
+  // sits next to the text it belongs to.
+  const materials = toResourceBlockView(await listResourceBlocks("reading", passage.id));
 
   // "Test 2, Passage 3" is only claimed when the passage really came from a
   // numbered test; a hand-written passage shows its title alone.
@@ -37,6 +43,7 @@ export default async function ReadingAttemptPage({ params }: { params: Promise<{
           passageTitle={passage.title}
           passageBody={passage.bodyText}
           passageMeta={passageMeta}
+          materials={materials}
           startedAt={attempt.startedAt.toISOString()}
           groups={groups.map((group) => ({
             id: group.id,

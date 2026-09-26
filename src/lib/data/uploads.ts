@@ -1,10 +1,22 @@
 import { and, eq, inArray, lt, or } from "drizzle-orm";
 import { db } from "@/db/client";
-import { materialBlocks, speakingAttempts, speakingMaterials, uploadIntents, users } from "@/db/schema";
+import {
+  materialBlocks,
+  resourceBlocks,
+  speakingAttempts,
+  speakingMaterials,
+  uploadIntents,
+  users,
+} from "@/db/schema";
 import type { Actor } from "@/lib/auth/ownership";
 import { isStaff } from "@/lib/auth/roles";
 import { canManageContent } from "@/lib/auth/ownership";
 import { getStorageService, isSafeObjectKey } from "@/lib/services/storage";
+import {
+  isResourceOwnerType,
+  loadResourceOwner,
+  mayReadResources,
+} from "@/lib/services/resources/owners";
 import { validateUploadFile, type UploadCategory } from "@/lib/validation/uploads";
 import { buildObjectKey } from "@/lib/uploads/keys";
 
@@ -486,6 +498,21 @@ export async function authorizeResourceRead(caller: Actor, objectKey: string): P
     const mayRead = material.isActive || canManageContent(caller, material.createdByUserId);
     if (!mayRead) return { allowed: false, reason: "forbidden" };
     return { allowed: true, objectKey, ownerId: material.createdByUserId, materialId };
+  }
+
+  // A material attached by the universal composer belongs to a content owner
+  // (a passage, a lesson, a live class …). It is readable exactly when that owner
+  // is readable: staff always, a student only while the content is live. The
+  // registry is asked, rather than trusting the key's path, so withdrawing the
+  // content withdraws its files in the same breath.
+  const resourceBlock = await db.query.resourceBlocks.findFirst({
+    where: eq(resourceBlocks.objectKey, objectKey),
+  });
+  if (resourceBlock && isResourceOwnerType(resourceBlock.ownerType)) {
+    const owner = await loadResourceOwner(resourceBlock.ownerType, resourceBlock.ownerId);
+    if (!owner) return { allowed: false, reason: "not_found" };
+    if (!mayReadResources(caller.role, owner)) return { allowed: false, reason: "forbidden" };
+    return { allowed: true, objectKey, ownerId: resourceBlock.createdByUserId, materialId: owner.id };
   }
 
   // A practice recording belongs to one student's attempt. Readable by that

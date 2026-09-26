@@ -7,6 +7,8 @@ import { readingPassages, readingQuestions } from "@/db/schema";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { Card } from "@/components/ui/Card";
 import { NewQuestionForm } from "@/components/admin/NewQuestionForm";
+import { ResourceComposer } from "@/components/resources/ResourceComposer";
+import { listResourceBlocks, toResourceBlockView } from "@/lib/data/resources";
 
 export default async function AdminPassageDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -17,10 +19,15 @@ export default async function AdminPassageDetailPage({ params }: { params: Promi
   const dict = getDictionary(await getLocale());
   const passage = await db.query.readingPassages.findFirst({ where: eq(readingPassages.id, id) });
   if (!passage) notFound();
-  const questions = await db.query.readingQuestions.findMany({
-    where: eq(readingQuestions.passageId, id),
-    orderBy: asc(readingQuestions.order),
-  });
+  const [questions, materials] = await Promise.all([
+    db.query.readingQuestions.findMany({
+      where: eq(readingQuestions.passageId, id),
+      orderBy: asc(readingQuestions.order),
+    }),
+    // Materials are ordinary attached blocks; the admin page is where they are
+    // written, and the same list is what a student sees while practising.
+    listResourceBlocks("reading", id),
+  ]);
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-4">
@@ -40,6 +47,14 @@ export default async function AdminPassageDetailPage({ params }: { params: Promi
           </Card>
         ))}
       </div>
+
+      <ResourceComposer
+        dict={dict}
+        ownerType="reading"
+        ownerId={passage.id}
+        initial={toResourceBlockView(materials)}
+        title={dict.resources.title}
+      />
 
       <NewQuestionForm dict={dict} passageId={passage.id} />
     </div>

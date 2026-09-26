@@ -823,6 +823,60 @@ export const speakingMaterials = pgTable("speaking_materials", {
 // not one textarea. See src/lib/services/storage for where block file/image/
 // audio objects actually live; this table holds the block's own text/link
 // data plus a reference to that object where relevant.
+// ---------------------------------------------------------------------------
+// Attached materials — WIRED (migration 0018)
+//
+// One description composer for every kind of content, instead of an uploader
+// per module. A block belongs to an owner by (owner_type, owner_id); the owner
+// is any of the eight content kinds the product has (see
+// src/lib/services/resources/owners.ts, which is the only place that decides
+// what an owner is and whether it may be read).
+//
+// There is deliberately no foreign key on owner_id: it points at eight different
+// tables. The registry validates it on every write, and `authorizeResourceRead`
+// validates it on every read, so an orphan row cannot be delivered to anyone.
+// ---------------------------------------------------------------------------
+
+export const resourceOwnerTypeEnum = pgEnum("resource_owner_type", [
+  "lesson",
+  "reading",
+  "listening",
+  "writing",
+  "speaking",
+  "grammar",
+  "assignment",
+  "live_class",
+]);
+
+export const resourceBlocks = pgTable(
+  "resource_blocks",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    ownerType: resourceOwnerTypeEnum("owner_type").notNull(),
+    ownerId: uuid("owner_id").notNull(),
+    position: integer("position").notNull(),
+    type: contentBlockTypeEnum("type").notNull(),
+    textContent: text("text_content"), // type=text
+    linkUrl: text("link_url"), // type=link
+    objectKey: text("object_key"), // type=file|image|audio — private storage key
+    originalName: varchar("original_name", { length: 255 }),
+    mimeType: varchar("mime_type", { length: 120 }),
+    size: integer("size"), // bytes, from the finalized upload intent
+    createdByUserId: uuid("created_by_user_id")
+      .notNull()
+      .references(() => users.id),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => ({
+    ownerPositionIdx: uniqueIndex("resource_blocks_owner_position_idx").on(
+      table.ownerType,
+      table.ownerId,
+      table.position
+    ),
+    ownerIdx: index("resource_blocks_owner_idx").on(table.ownerType, table.ownerId),
+  })
+);
+
 export const materialBlocks = pgTable("material_blocks", {
   id: uuid("id").defaultRandom().primaryKey(),
   materialId: uuid("material_id").notNull().references(() => speakingMaterials.id, { onDelete: "cascade" }),

@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/Button";
 import { choiceSetFor } from "@/lib/reading-choices";
 import { ClickableText } from "@/components/vocabulary/ClickableText";
 import { IconBack, IconCheck, IconTarget } from "@/components/ui/icons";
+import { ResourceBlocks } from "@/components/resources/ResourceBlocks";
+import type { ResourceBlockView } from "@/lib/data/resources";
 import type { Dictionary } from "@/lib/i18n/en";
 
 /**
@@ -142,6 +144,7 @@ export function ReadingExam({
   paragraphs,
   savedAnswers,
   startedAt,
+  materials = [],
 }: {
   dict: Dictionary;
   attemptId: string;
@@ -156,6 +159,8 @@ export function ReadingExam({
   savedAnswers: Record<string, string>;
   /** ISO timestamp of when the attempt started (UTC from the database). */
   startedAt: string;
+  /** Blocks an administrator attached to this passage; empty means no section. */
+  materials?: ResourceBlockView[];
 }) {
   const t = dict.readingPractice;
   const router = useRouter();
@@ -439,6 +444,8 @@ export function ReadingExam({
               />
             )}
           </div>
+
+          <ResourceBlocks dict={dict} blocks={materials} />
         </section>
 
         <section
