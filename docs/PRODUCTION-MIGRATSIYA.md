@@ -231,3 +231,62 @@ ga qo'shish) kerak — bu sizning qaroringiz, men `main` ga hech narsa qo'shmaym
   Supabase'dagi Postgres 15 da mavjud funksiyalardan foydalanadi
   (`gen_random_uuid`, `now`, `regexp_replace`, `hashtext`, advisory lock).
 - `--apply` dan keyin ham hamma narsa qayta o'qib tekshiriladi.
+
+---
+
+# P0: productionda Reading sahifalari ishlamayapti — sabab va aniq qadamlar
+
+**Belgi:** productionda Reading bo'limi (ro'yxat, passa mashqi) xato beradi yoki
+bo'sh chiqadi, boshqa modullar ishlaydi.
+
+**Sabab (aniq):** hozir productionda **17/17 migratsiya** qo'llangan, ya'ni
+`drizzle/0000…0016`. Bu branchdagi kod esa **19 migratsiyani** kutadi: Reading
+kutubxonasi uchun `0017_reading_105_library.sql` va material kompozitori uchun
+`0018_resource_blocks.sql` hali productionda yo'q. Kod `reading_question_groups`,
+`reading_passage_paragraphs` va `reading_passages.test_no` kabi yangi ustunlarni
+so'raydi — ular bo'lmasa so'rov xato qaytaradi. Ya'ni muammo ma'lumotda emas,
+**sxemada**.
+
+> Diqqat: shu sababli Reading ilgari ishlagan bo'lsa ham hozir xato berishi mumkin —
+> Vercel deployment shu branchga ergashadi, ya'ni yangi kod eski sxema bilan
+> ishlashga urinadi.
+
+**Tuzatish — o'zingizning kompyuteringizda (3 qadam):**
+
+```bash
+# 1) Ko'rish. Read-only: hech narsa yozmaydi, nima qo'llanishini ko'rsatadi.
+#    Connection string sifatida 5432 (direct) yoki session pooler ishlatiladi —
+#    transaction pooler (6543) migratsiya uchun yaramaydi.
+cd <repo>
+DATABASE_URL="postgres://…" node scripts/migrate-production.mjs
+
+# 2) Qo'llash. Faqat xulosa 'empty' yoki 'resume' bo'lganda.
+DATABASE_URL="postgres://…" node scripts/migrate-production.mjs --apply --yes
+
+# 3) Tekshirish. Kutilgan natija: 19/19 migratsiya, 62 jadval, 42/42 tekshiruv.
+DATABASE_URL="postgres://…" node scripts/verify-production-schema.mjs
+```
+
+**Kutilgan natija:** `0017` va `0018` qo'llanadi (yangi 4 jadval:
+`lexical_occurrences`, `reading_passage_paragraphs`, `reading_question_groups`,
+`resource_blocks` va mavjud jadvallarga yangi ustunlar). Eski qatorlarga
+tegilmaydi, hech narsa o'chirilmaydi, demo kontent qo'shilmaydi.
+
+**Keyin:** Reading kutubxonasi 105 ta passa bilan ochilishi kerak. Agar 105 ta
+passa bazada hali yo'q bo'lsa (ya'ni kontent importi hali qilinmagan bo'lsa),
+import ham alohida qadam — u ham faqat kontent va lug'atga tegadi:
+
+```bash
+# Avval quruq yurish (hech narsa yozmaydi), hisobotni ko'ring:
+node --import tsx --env-file=.env scripts/import-reading-105.mjs --source <papka>
+
+# Keyin qo'llash:
+node --import tsx --env-file=.env scripts/import-reading-105.mjs --source <papka> --apply
+
+# Va tekshirish (read-only):
+node --import tsx --env-file=.env scripts/import-reading-105.mjs --verify
+```
+
+**Xavfsizlik:** bu buyruqlar foydalanuvchilarga, rollarga, urinishlarga yoki
+tarixga tegmangmaydi; ular faqat sxema va kontent bilan ishlaydi. `db:push`,
+`db:seed` va `reset-db.mjs` ishlatilmaydi.
