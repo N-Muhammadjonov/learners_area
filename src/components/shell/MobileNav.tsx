@@ -39,6 +39,9 @@ export function MobileNav({ dict, role }: { dict: Dictionary; role: Role }) {
     <>
       <button
         type="button"
+        // The one control that opens the drawer. The hook is how the browser test
+        // finds it without depending on the current locale's label.
+        data-mobile-nav-toggle
         aria-label={dict.nav.menu}
         aria-expanded={open}
         aria-controls="mobile-nav-drawer"

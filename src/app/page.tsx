@@ -49,6 +49,13 @@ export default async function Home() {
       <main className="flex flex-1 flex-col items-center justify-center px-6 py-16 text-center">
         <h1 className="max-w-4xl font-display text-4xl leading-tight tracking-tight text-ink-900 sm:text-5xl md:text-6xl">
           <span className="block">{t.headlineLead}</span>
+          {/*
+            The two lines are block elements, so without a space between them the
+            heading reads as "…next levelwith LEARNERS AREA" to a screen reader —
+            and to anything else that takes the text rather than the picture. The
+            explicit space is invisible on screen and keeps the sentence whole.
+          */}
+          {" "}
           <span className="mt-1 block">
             {t.headlineWith} <span className="text-gold">{t.headlineAccent}</span>
           </span>

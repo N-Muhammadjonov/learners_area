@@ -213,7 +213,30 @@ for (const path of ["/", "/login", "/register", "/dashboard", "/vocabulary"]) {
 }
 
 // ---------------------------------------------------------------------------
-// 11. A response does not hand over the stack or the source
+// 11. The public headline reads as one sentence
+// ---------------------------------------------------------------------------
+// The headline is painted as two block lines (the name carries the accent). Two
+// block elements with nothing between them concatenate in the text content, so a
+// screen reader announces "…next levelwith LEARNERS AREA". The rendered text is
+// what accessibility depends on, so the rendered text is what is checked.
+{
+  const landing = await page("/", null);
+  const heading = (landing.text.match(/<h1[^>]*>([\s\S]*?)<\/h1>/) ?? [])[1] ?? "";
+  const asText = heading
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&#x27;|&#39;/g, "'")
+    .replace(/&amp;/g, "&")
+    .replace(/\s+/g, " ")
+    .trim();
+  check(
+    "the public headline reads as one sentence, not two stuck together",
+    asText === "Welcome to the next level with LEARNERS AREA",
+    JSON.stringify(asText)
+  );
+}
+
+// ---------------------------------------------------------------------------
+// 12. A response does not hand over the stack or the source
 // ---------------------------------------------------------------------------
 const rawLogin = await fetch(`${BASE}/login`, { redirect: "manual" });
 check(
