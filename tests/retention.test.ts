@@ -65,6 +65,20 @@ test("recordings leave the object store after a reference check", () => {
   assert.match(block, /recordingObjectKey: null/, "the row keeps its academic record");
 });
 
+test("the words an applicant wrote expire, the decision about them does not", () => {
+  const block = retentionSource.slice(
+    retentionSource.indexOf("8b. Applicant free text"),
+    retentionSource.indexOf("applicant_free_text")
+  );
+  assert.match(block, /isNotNull\(accessRequests\.decidedAt\)/, "only decided applications are touched");
+  assert.match(block, /message: null, decisionNote: null/, "the free text is what is cleared");
+  assert.match(block, /inArray\(/, "cleared in batches, not row by row in a loop over the whole table");
+  // The decision record must survive: nothing in this rule deletes a row.
+  const push = retentionSource.slice(retentionSource.indexOf('rule: "applicant_free_text"') - 200);
+  assert.ok(!/db\.delete\(accessRequests\)/.test(retentionSource), "a decision is never deleted by retention");
+  assert.match(push, /affected: staleApplicationNotes\.length/);
+});
+
 test("old work is protected while an evaluation still refers to it", () => {
   assert.match(retentionSource, /not exists \(select 1 from evaluations e where e\.source_type in/, "reference check");
   assert.match(retentionSource, /writing_submission/, "writing evaluations protect their submission");

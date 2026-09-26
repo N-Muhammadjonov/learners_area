@@ -12,7 +12,9 @@
  *   - a real run removes only rows past their window;
  *   - recent data, a recently active student, and exercise/content rows survive;
  *   - a second run removes nothing (idempotent);
- *   - the inactivity rule reads real work, not sign-ins.
+ *   - the inactivity rule reads real work, not sign-ins;
+ *   - what an applicant wrote expires with the same window, while the decision
+ *     about them stays.
  */
 import assert from "node:assert/strict";
 import pg from "pg";
@@ -102,6 +104,22 @@ await pool.query(
   `insert into audit_log (actor_user_id, action, metadata, created_at) values ($1, 'retention.fixture_new', '{}'::jsonb, $2)`,
   [dormantId, recent]
 );
+// Two decided applications: one decided long ago (its free text must be gone
+// after a real run) and one decided yesterday (whose note must survive). The
+// decision rows themselves must survive both.
+const { rows: oldApplication } = await pool.query(
+  `insert into access_requests (user_id, status, message, decision_note, decided_at, created_at)
+   values ($1, 'rejected', 'Men shu kursga juda qiziqaman', 'Guruhda joy yo''q edi', $2, $2) returning id`,
+  [dormantId, old]
+);
+const { rows: freshApplication } = await pool.query(
+  `insert into access_requests (user_id, status, message, decision_note, decided_at, created_at)
+   values ($1, 'approved', 'Kechqurun o''qiy olaman', 'Guruhga qo''shildi', $2, $2) returning id`,
+  [activeId, recent]
+);
+const oldApplicationId = oldApplication[0].id;
+const freshApplicationId = freshApplication[0].id;
+
 const { rows: passage } = await pool.query("select id from reading_passages limit 1");
 const { rows: oldAttempt } = await pool.query(
   `insert into reading_attempts (user_id, passage_id, status, started_at, submitted_at)
@@ -152,6 +170,8 @@ try {
     assert.ok(byRule.raw_events.affected >= 1, `raw_events=${byRule.raw_events.affected}`);
     assert.ok(byRule.audit_history.affected >= 1);
     assert.ok(byRule.inactive_student_accounts.affected >= 1);
+    assert.ok(byRule.applicant_free_text, "applicant_free_text qoidasi yo'q");
+    assert.ok(byRule.applicant_free_text.affected >= 1, `applicant_free_text=${byRule.applicant_free_text.affected}`);
   });
 
   const applied = await run(false);
@@ -188,6 +208,31 @@ try {
     assert.deepEqual(after.rows[0], countsBefore.rows[0]);
   });
 
+  await check("ariza matni tozalanadi, qaror yozuvi qoladi", async () => {
+    const stale = await pool.query(
+      "select status, message, decision_note, decided_at from access_requests where id = $1",
+      [oldApplicationId]
+    );
+    assert.equal(stale.rows[0].message, null, "eski ariza matni qoldi");
+    assert.equal(stale.rows[0].decision_note, null, "eski qaror izohi qoldi");
+    assert.equal(stale.rows[0].status, "rejected", "qaror natijasi o'chib ketdi");
+    assert.ok(stale.rows[0].decided_at, "qaror sanasi o'chib ketdi");
+
+    const fresh = await pool.query(
+      "select status, message, decision_note from access_requests where id = $1",
+      [freshApplicationId]
+    );
+    assert.equal(fresh.rows[0].message, "Kechqurun o'qiy olaman", "yaqindagi ariza matni o'chib ketdi");
+    assert.equal(fresh.rows[0].decision_note, "Guruhga qo'shildi");
+
+    // Ikkala qaror qatori ham joyida: retention qarorni o'chirmaydi.
+    const rows = await pool.query(
+      "select count(*)::int as c from access_requests where id in ($1, $2)",
+      [oldApplicationId, freshApplicationId]
+    );
+    assert.equal(rows.rows[0].c, 2, "retention qaror qatorini o'chirib yubordi");
+  });
+
   await check("faollik o'lchovi haqiqiy ish: login emas", async () => {
     const dormantRow = await pool.query("select email, account_status, status_reason from users where id = $1", [dormantId]);
     assert.equal(dormantRow.rows[0].account_status, "suspended", "3 yil ishlamagan student anonimlashtirilmadi");
@@ -207,6 +252,7 @@ try {
     assert.equal(secondByRule.audit_history.affected, 0);
     assert.equal(secondByRule.inactive_student_accounts.affected, 0);
     assert.equal(secondByRule.evaluated_work_past_window.affected, 0);
+    assert.equal(secondByRule.applicant_free_text.affected, 0, "ikkinchi run matnni yana tozalayapti");
   });
 
   await check("retention runi audit jurnaliga yoziladi", async () => {
@@ -220,6 +266,7 @@ try {
   await pool.query("delete from activity_events where user_id in ($1, $2)", [dormantId, activeId]);
   await pool.query("delete from audit_log where action like 'retention.%' and actor_user_id in ($1, $2)", [dormantId, activeId]);
   await pool.query("delete from notifications where user_id in ($1, $2)", [dormantId, activeId]);
+  await pool.query("delete from access_requests where id in ($1, $2)", [oldApplicationId, freshApplicationId]);
   await pool.query("delete from reading_attempts where user_id = $1", [activeId]);
   await pool.query("delete from users where id in ($1, $2)", [dormantId, activeId]);
   await pool.end();

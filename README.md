@@ -595,8 +595,7 @@ including that an archived passage's history survives the archive.
 ## Testing
 
 ```bash
-npm test                          # 231 unit tests (no database, no network; one of
-                                  # them fails until the six brand PNGs are in place)
+npm test                          # 232 unit tests (no database, no network)
 npm run typecheck && npm run lint
 npm run build
 ```
@@ -622,7 +621,7 @@ DATABASE_URL=... node scripts/verify-theme.mjs         # 32 day/night checks
 DATABASE_URL=... node scripts/verify-responsive.mjs    # 23 responsive-tier checks
 DATABASE_URL=... node scripts/verify-vocabulary.mjs    # 103 vocabulary/SRS/points checks
 DATABASE_URL=... node scripts/verify-owner.mjs         # 10 owner bootstrap/transfer checks
-DATABASE_URL=... node scripts/verify-retention.mjs     # 9 retention checks with controlled timestamps
+DATABASE_URL=... node scripts/verify-retention.mjs     # 10 retention checks with controlled timestamps
 DATABASE_URL=... node scripts/verify-publication.mjs   # 34 publication-state checks (drafts, schedule, archive)
 DATABASE_URL=... node scripts/verify-brand.mjs         # 31 brand checks (6 fail until the PNGs are placed)
 node scripts/verify-a11y.mjs                           # 40 accessibility, locale-formatting and rendered-Uzbek checks
@@ -786,12 +785,21 @@ curl -sX POST http://localhost:3000/api/owner/retention -b "$COOKIE" \
 - Recordings leave the object store after their window, and only after a
   reference check; old submitted work is removed only when no evaluation refers
   to it.
+- What an applicant **wrote** expires with the same six-month window as an
+  inactive account: the note they sent with an application, the decision note and
+  the rejection reason are cleared once the decision itself is that old. The
+  decision is not erased — who applied, who decided, when and with what outcome
+  stays, because that is the centre's own record. The admission form asks for the
+  minimum in the first place (a name, an email, an optional note), and a rejected
+  application leaves nothing behind but that record.
 - A run takes an advisory lock, deletes in batches and is idempotent: a second
   run in a row removes nothing.
 
 `scripts/verify-retention.mjs` proves all of that against the real database with
 three-year-old throwaway rows, including the "sign-in is not studying"
-distinction.
+distinction and the applicant-text rule (a three-year-old decision has its words
+cleared while a decision from yesterday keeps its note, and neither decision row
+is deleted) — 10 checks.
 
 ## Backup and recovery
 

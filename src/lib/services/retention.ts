@@ -2,6 +2,7 @@ import "server-only";
 import { and, eq, inArray, isNotNull, lt, or, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import {
+  accessRequests,
   activityEvents,
   auditLog,
   evaluations,
@@ -34,6 +35,7 @@ import { getStorageService } from "@/lib/services/storage";
  *   speaking recordings (object store) ... RETENTION_STRUCTURED_MONTHS  (18)
  *   audit trail .......................... RETENTION_AUDIT_MONTHS       (18)
  *   generated exports .................... RETENTION_EXPORT_DAYS        (7)
+ *   applicant free text after a decision . RETENTION_INACTIVE_STUDENT_MONTHS (6)
  *   inactive student accounts ............ RETENTION_INACTIVE_STUDENT_MONTHS (6)
  *
  * Rules this service deliberately does NOT follow blindly:
@@ -50,6 +52,13 @@ import { getStorageService } from "@/lib/services/storage";
  *    retention run. Only student-produced rows are.
  *  - A recording object is only removed after a reference check, and only for
  *    the attempt that owns it.
+ *  - What an applicant *wrote* is kept only as long as it is useful. The
+ *    application form asks for the minimum (a name, an email, an optional note),
+ *    and once the centre has decided, the applicant's own words — their note, the
+ *    decision note and the rejection reason — are cleared after the same
+ *    six-month window. The decision itself is not erased: who applied, who
+ *    decided, when and with what outcome stays, because that is the centre's own
+ *    record. Only the words people wrote about each other go.
  *  - Old submitted work is only removed when no evaluation still refers to it:
  *    a report is the record of record, and deleting its source while the report
  *    survives would leave a report nobody can check.
@@ -370,6 +379,47 @@ export async function runRetention(options?: {
       note: "no export generation is enabled in this phase",
     });
 
+    // 8b. Applicant free text, once the decision about it is old enough.
+    //
+    // The admission form asks for almost nothing — a name, an email and an
+    // optional note — but that note, the decision note and the rejection reason
+    // are still personal text written by and about a person. They are cleared
+    // after the same window as an inactive account, counted from the decision
+    // rather than from the application: while a request is open, that note is
+    // precisely what the centre has to read.
+    const decisionCutoff = monthsAgo(config.inactiveStudentMonths, now);
+    const staleApplicationNotes = await db
+      .select({ id: accessRequests.id })
+      .from(accessRequests)
+      .where(
+        and(
+          isNotNull(accessRequests.decidedAt),
+          lt(accessRequests.decidedAt, decisionCutoff),
+          or(isNotNull(accessRequests.message), isNotNull(accessRequests.decisionNote))!
+        )
+      )
+      .limit(config.batchSize);
+
+    if (!dryRun && staleApplicationNotes.length > 0) {
+      for (const row of chunk(staleApplicationNotes, 100)) {
+        await db
+          .update(accessRequests)
+          .set({ message: null, decisionNote: null })
+          .where(
+            inArray(
+              accessRequests.id,
+              row.map((entry) => entry.id)
+            )
+          );
+      }
+    }
+    results.push({
+      rule: "applicant_free_text",
+      affected: staleApplicationNotes.length,
+      applied: !dryRun,
+      note: "clears the applicant's note and the decision note; the decision record (who, when, outcome) is kept",
+    });
+
     // 9. Inactive STUDENT accounts → anonymise personal data, keep the academic
     //    record. Staff accounts are excluded by role; the activity measure is
     //    real work, not sign-ins.
@@ -396,6 +446,9 @@ export async function runRetention(options?: {
             telegramId: null,
             passwordHash: null,
             accountStatus: "suspended",
+            // A rejection reason is free text written about a person. Once the
+            // account is anonymised there is nobody left for it to describe, so
+            // the field carries the reason for the anonymisation itself.
             statusReason: "anonymised_by_retention",
             statusUpdatedAt: now,
           })
