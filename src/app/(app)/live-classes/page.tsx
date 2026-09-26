@@ -8,6 +8,8 @@ import { Card } from "@/components/ui/Card";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { JoinButton } from "@/components/live-classes/JoinButton";
 import { joinState, opensAt } from "@/lib/services/live-classes/window";
+import { ResourceBlocks } from "@/components/resources/ResourceBlocks";
+import { listResourceBlocksForOwners } from "@/lib/data/resources";
 import { formatDate, formatDateTime } from "@/lib/time";
 
 export default async function LiveClassesPage() {
@@ -42,6 +44,10 @@ export default async function LiveClassesPage() {
 
   const now = new Date();
 
+  // One query for all classes on the page (see listResourceBlocksForOwners):
+  // a live class may carry a worksheet or a recording link.
+  const materials = await listResourceBlocksForOwners("live_class", allIds);
+
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-6">
       <h1 className="font-display text-2xl text-ink-900">{dict.liveClasses.title}</h1>
@@ -55,7 +61,8 @@ export default async function LiveClassesPage() {
             {upcoming.map((c) => {
               const state = joinState(c, now);
               return (
-                <Card key={c.id} className="flex items-center justify-between gap-3" data-live-class={c.id}>
+                <Card key={c.id} className="flex flex-col gap-2" data-live-class={c.id}>
+                  <div className="flex items-center justify-between gap-3">
                   <div className="min-w-0">
                     <p className="text-sm font-medium text-ink-900">{c.title}</p>
                     {c.topic && <p className="text-xs text-ink-500">{c.topic}</p>}
@@ -80,6 +87,8 @@ export default async function LiveClassesPage() {
                       cancelledLabel={dict.liveClasses.status.cancelled}
                     />
                   </div>
+                  </div>
+                  <ResourceBlocks dict={dict} blocks={materials.get(c.id) ?? []} />
                 </Card>
               );
             })}
@@ -92,7 +101,8 @@ export default async function LiveClassesPage() {
           <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-ink-300">{dict.liveClasses.past}</h2>
           <div className="flex flex-col gap-2">
             {past.map((c) => (
-              <Card key={c.id} className="flex items-center justify-between gap-3" data-live-class={c.id}>
+              <Card key={c.id} className="flex flex-col gap-2" data-live-class={c.id}>
+                <div className="flex items-center justify-between gap-3">
                 <div className="min-w-0">
                   <p className="text-sm font-medium text-ink-900">{c.title}</p>
                   <p className="text-xs text-ink-300">
@@ -107,6 +117,8 @@ export default async function LiveClassesPage() {
                     {dict.liveClasses.recording}
                   </a>
                 )}
+                </div>
+                <ResourceBlocks dict={dict} blocks={materials.get(c.id) ?? []} />
               </Card>
             ))}
           </div>

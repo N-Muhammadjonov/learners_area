@@ -1,4 +1,4 @@
-import { and, asc, eq } from "drizzle-orm";
+import { and, asc, eq, inArray } from "drizzle-orm";
 import { db } from "@/db/client";
 import { resourceBlocks } from "@/db/schema";
 import { claimAttachment, releaseAttachments } from "@/lib/data/uploads";
@@ -50,6 +50,33 @@ export function listResourceBlocks(ownerType: ResourceOwnerType, ownerId: string
     where: and(eq(resourceBlocks.ownerType, ownerType), eq(resourceBlocks.ownerId, ownerId)),
     orderBy: asc(resourceBlocks.position),
   });
+}
+
+/**
+ * Materials for many owners of one kind, in one query, keyed by owner id.
+ *
+ * A list page — writing prompts, assignments, live classes — shows materials
+ * inside each card. Asking for them one card at a time would be a query per row,
+ * which is exactly the page-by-page slowness this reconstruction is meant to
+ * remove. The map is empty-safe: an id with no materials simply has no entry, so
+ * the caller renders nothing rather than an empty section.
+ */
+export async function listResourceBlocksForOwners(
+  ownerType: ResourceOwnerType,
+  ownerIds: string[]
+): Promise<Map<string, ResourceBlockView[]>> {
+  const map = new Map<string, ResourceBlockView[]>();
+  if (ownerIds.length === 0) return map;
+  const rows = await db.query.resourceBlocks.findMany({
+    where: and(eq(resourceBlocks.ownerType, ownerType), inArray(resourceBlocks.ownerId, ownerIds)),
+    orderBy: asc(resourceBlocks.position),
+  });
+  for (const row of rows) {
+    const list = map.get(row.ownerId) ?? [];
+    list.push(...toResourceBlockView([row]));
+    map.set(row.ownerId, list);
+  }
+  return map;
 }
 
 export type SaveResult =

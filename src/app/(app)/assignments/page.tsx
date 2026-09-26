@@ -6,6 +6,7 @@ import { assignments } from "@/db/schema";
 import { findEvaluationsForSources } from "@/lib/data/evaluations";
 import { getAssignmentResponse } from "@/lib/data/coach-artifacts";
 import { AssignmentBoard } from "@/components/coach/AssignmentBoard";
+import { listResourceBlocksForOwners } from "@/lib/data/resources";
 
 export const dynamic = "force-dynamic";
 
@@ -39,6 +40,9 @@ export default async function AssignmentsPage() {
   );
   const responseByAssignment = new Map(responses);
 
+  // One query for every assignment on the page.
+  const materialMap = await listResourceBlocksForOwners("assignment", rows.map((row) => row.id));
+
   const cards = rows.map((row) => {
     const evaluation = evaluations.get(row.id);
     return {
@@ -60,7 +64,11 @@ export default async function AssignmentsPage() {
         <h1 className="font-display text-2xl text-ink-900">{dict.assignments.title}</h1>
         <p className="text-sm text-ink-500">{dict.assignments.subtitle}</p>
       </div>
-      <AssignmentBoard dict={dict} assignments={cards} />
+      <AssignmentBoard
+        dict={dict}
+        assignments={cards}
+        materials={Object.fromEntries(materialMap)}
+      />
     </div>
   );
 }

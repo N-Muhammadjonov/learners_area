@@ -10,6 +10,7 @@ import { GrammarQuiz } from "@/components/grammar/GrammarQuiz";
 import { PracticeActivities } from "@/components/grammar/PracticeActivities";
 import { TopicMasteryCard } from "@/components/grammar/TopicMasteryCard";
 import { isUuid } from "@/lib/validation/ids";
+import { OwnerMaterialBlocks } from "@/components/resources/OwnerMaterialBlocks";
 
 export default async function GrammarTopicPage({ params }: { params: Promise<{ topicId: string }> }) {
   const { topicId } = await params;
@@ -46,6 +47,8 @@ export default async function GrammarTopicPage({ params }: { params: Promise<{ t
         <h1 className="mt-2 font-display text-2xl text-ink-900">{topic.title}</h1>
         <p className="text-sm text-ink-500">{topic.explanation}</p>
       </div>
+      <OwnerMaterialBlocks ownerType="grammar" ownerId={topic.id} ownerVisible />
+
       <TopicMasteryCard dict={dict} mastery={mastery} />
 
       <GrammarQuiz

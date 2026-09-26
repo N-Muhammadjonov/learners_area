@@ -10,6 +10,7 @@ import { LessonWorkspace } from "@/components/courses/LessonWorkspace";
 import { VideoLessonStudio } from "@/components/courses/VideoLessonStudio";
 import { getVideoLessonForLesson } from "@/lib/data/video-lessons";
 import { isUuid } from "@/lib/validation/ids";
+import { OwnerMaterialBlocks } from "@/components/resources/OwnerMaterialBlocks";
 
 export const dynamic = "force-dynamic";
 
@@ -95,6 +96,11 @@ export default async function LessonPage({ params }: { params: Promise<{ lessonI
           }
         />
       ) : null}
+
+      {/* Material an administrator attached to this lesson. A locked lesson shows
+          none of it: the roadmap decides what is reachable, and a draft's files
+          must not leak through a URL the student cannot otherwise open. */}
+      <OwnerMaterialBlocks ownerType="lesson" ownerId={lesson.id} ownerVisible={openable} />
 
       {!openable ? (
         <Card data-lesson-closed>

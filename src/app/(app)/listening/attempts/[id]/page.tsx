@@ -7,6 +7,7 @@ import { ListeningExam } from "@/components/listening/ListeningExam";
 import { ListeningAnalysis } from "@/components/listening/ListeningAnalysis";
 import { ClickableText } from "@/components/vocabulary/ClickableText";
 import { isUuid } from "@/lib/validation/ids";
+import { OwnerMaterialBlocks } from "@/components/resources/OwnerMaterialBlocks";
 
 export default async function ListeningAttemptPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -65,6 +66,13 @@ export default async function ListeningAttemptPage({ params }: { params: Promise
           )}
         </>
       )}
+
+      {/* Notes, a transcript file or a link the administrator attached to this
+          test. Shown for an open attempt as well as after submitting, because
+          material that only appears after the test would be useless. */}
+      <div className="mt-4">
+        <OwnerMaterialBlocks ownerType="listening" ownerId={test.id} ownerVisible />
+      </div>
     </div>
   );
 }

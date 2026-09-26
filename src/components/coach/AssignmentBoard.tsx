@@ -6,6 +6,8 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import type { Dictionary } from "@/lib/i18n/en";
 import { formatDate } from "@/lib/time";
+import { ResourceBlocks } from "@/components/resources/ResourceBlocks";
+import type { ResourceBlockView } from "@/lib/data/resources";
 
 export type AssignmentCard = {
   id: string;
@@ -25,9 +27,16 @@ export type AssignmentCard = {
 export function AssignmentBoard({
   dict,
   assignments,
+  materials,
 }: {
   dict: Dictionary;
   assignments: AssignmentCard[];
+  /**
+   * Material attached to each assignment by an administrator, keyed by id.
+   * Injected rather than fetched here: the page already has every assignment in
+   * one query, and a client component has no business reading the database.
+   */
+  materials: Record<string, ResourceBlockView[]>;
 }) {
   const t = dict.assignments;
   const router = useRouter();
@@ -79,6 +88,8 @@ export function AssignmentBoard({
               {t.due} {formatDate(assignment.dueAt)}
             </p>
           )}
+
+          <ResourceBlocks dict={dict} blocks={materials[assignment.id] ?? []} />
 
           {assignment.evaluation ? (
             <p className="text-xs text-ink-500" data-checked-by={assignment.evaluation.checkedByName}>

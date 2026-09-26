@@ -6,6 +6,8 @@ import { Card } from "@/components/ui/Card";
 import { StartPromptButton } from "@/components/writing/StartPromptButton";
 import { TypingTrainer } from "@/components/writing/TypingTrainer";
 import { typingSummary } from "@/lib/data/writing";
+import { ResourceBlocks } from "@/components/resources/ResourceBlocks";
+import { listResourceBlocksForOwners } from "@/lib/data/resources";
 
 export default async function WritingPage() {
   const user = await requireActiveUser();
@@ -13,6 +15,8 @@ export default async function WritingPage() {
 
   const dict = getDictionary(await getLocale());
   const [prompts, typing] = await Promise.all([listActivePrompts(), typingSummary(user.id)]);
+  // One query for every prompt on the page, not one per card.
+  const materials = await listResourceBlocksForOwners("writing", prompts.map((p) => p.id));
 
   return (
     <div className="mx-auto flex max-w-4xl flex-col gap-6">
@@ -37,6 +41,8 @@ export default async function WritingPage() {
               <span>{dict.writing.target}: {p.targetWordCount} {dict.common.words}</span>
               <StartPromptButton promptId={p.id} label={dict.common.continue} />
             </div>
+            {/* Anything an administrator attached to this prompt. */}
+            <ResourceBlocks dict={dict} blocks={materials.get(p.id) ?? []} />
           </Card>
         ))}
       </div>

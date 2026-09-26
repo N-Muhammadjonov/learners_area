@@ -56,6 +56,7 @@ export default async function AdminContentPage() {
       key: "reading",
       title: dict.admin.readingTitle,
       href: "/admin/reading",
+      materialsType: "reading" as const,
       total: readingRows.length,
       live: published(readingRows),
     },
@@ -63,6 +64,7 @@ export default async function AdminContentPage() {
       key: "listening",
       title: dict.admin.listeningTitle,
       href: "/admin/listening",
+      materialsType: "listening" as const,
       total: listeningRows.length,
       live: published(listeningRows),
     },
@@ -70,6 +72,7 @@ export default async function AdminContentPage() {
       key: "writing",
       title: dict.admin.promptsTitle,
       href: "/admin/writing-prompts",
+      materialsType: "writing" as const,
       total: writingRows.length,
       live: published(writingRows),
     },
@@ -77,6 +80,7 @@ export default async function AdminContentPage() {
       key: "grammar",
       title: dict.admin.grammarTitle,
       href: "/admin/grammar",
+      materialsType: "grammar" as const,
       // Grammar topics carry no publication state, so "live" and "total" are the
       // same number here rather than a second workflow invented for the count.
       total: grammarRows[0]?.value ?? 0,
@@ -105,9 +109,23 @@ export default async function AdminContentPage() {
               {" · "}
               {dict.admin.contentLibraryDraft.replace("{n}", String(section.total - section.live))}
             </p>
-            <Link href={section.href} className="btn-secondary self-start" data-content-section={section.key}>
-              {dict.admin.contentLibraryOpen}
-            </Link>
+            <div className="flex flex-wrap items-center gap-2">
+              <Link href={section.href} className="btn-secondary" data-content-section={section.key}>
+                {dict.admin.contentLibraryOpen}
+              </Link>
+              {/* The universal composer lives on its own surface, one entry per
+                  content kind, so a lesson or a live class can be given material
+                  without a bespoke editor on eight different pages. */}
+              {section.materialsType && (
+                <Link
+                  href={`/admin/materials/${section.materialsType}`}
+                  className="btn-secondary"
+                  data-content-materials={section.materialsType}
+                >
+                  {dict.admin.materialsTitle}
+                </Link>
+              )}
+            </div>
           </Card>
         ))}
       </div>
