@@ -603,7 +603,7 @@ try {
 
   // The main client is closed by the time this runs, so the comparison opens its own.
   const mapDb = new (await import("pg")).default.Client({
-    connectionString: (process.env.DATABASE_URL || "postgres://postgres@127.0.0.1:5433/learners_area",
+    connectionString: (process.env.DATABASE_URL || "postgres://postgres@127.0.0.1:5433/learners_area"),
   });
   try {
     await mapDb.connect();
@@ -664,7 +664,7 @@ try {
   );
 
   const lexiconDb = new (await import("pg")).default.Client({
-    connectionString: (process.env.DATABASE_URL || "postgres://postgres@127.0.0.1:5433/learners_area",
+    connectionString: (process.env.DATABASE_URL || "postgres://postgres@127.0.0.1:5433/learners_area"),
   });
   try {
     await lexiconDb.connect();

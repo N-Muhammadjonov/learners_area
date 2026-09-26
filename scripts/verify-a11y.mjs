@@ -147,7 +147,15 @@ check(
   /aria-hidden/.test(brandLogoSource) && /decorative/.test(brandLogoSource)
 );
 const sidebarSource = readFile("src/components/shell/Sidebar.tsx", "utf8");
-check("the sidebar mark is decorative because the name is text beside it", /<BrandLogo kind="mark"[^>]*decorative/.test(sidebarSource));
+const brandBlockSource = readFile("src/components/shell/BrandBlock.tsx", "utf8");
+check(
+  "the sidebar mark is decorative because the name is text beside it",
+  // The artwork repeats the product name, which is rendered as real text next to
+  // it — so the image must not be announced a second time.
+  /<BrandBlock/.test(sidebarSource) &&
+    /aria-hidden/.test(brandBlockSource) &&
+    /brand-name/.test(brandBlockSource)
+);
 
 // ---------------------------------------------------------------------------
 // 7..8. Stylesheet rules and keyboard order

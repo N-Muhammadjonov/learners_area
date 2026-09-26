@@ -126,9 +126,12 @@ check(
   crowdedForms.join(", ")
 );
 
-const sidebar = read("src/components/shell/Sidebar.tsx");
+const shell = read("src/app/(app)/layout.tsx");
 const mobileNav = read("src/components/shell/MobileNav.tsx");
-check("the desktop rail is hidden below 768px", sidebar.includes("hidden") && sidebar.includes("md:flex"));
+// The rail element is the shell's aside; below 768px it must not take part in the
+// flex row at all, or the application is squeezed into a ~126px column on a phone.
+const rail = shell.slice(shell.indexOf("data-shell-sidebar") - 500, shell.indexOf("data-shell-sidebar"));
+check("the desktop rail is hidden below 768px", /hidden[^"]*md:flex/.test(rail), rail.split("className=").pop()?.slice(0, 60));
 check("a drawer replaces it below 768px", mobileNav.includes("md:hidden"));
 
 // Every three-or-more-column grid must be gated behind a breakpoint, so the base

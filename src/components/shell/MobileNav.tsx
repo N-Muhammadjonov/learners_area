@@ -49,7 +49,7 @@ export function MobileNav({ dict, role, email }: { dict: Dictionary; role: Role;
         aria-expanded={open}
         aria-controls="mobile-nav-drawer"
         onClick={() => setOpen(true)}
-        className="shell-icon-btn lg:hidden"
+        className="shell-icon-btn md:hidden"
       >
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" aria-hidden>
           <path d="M4 7h16M4 12h16M4 17h16" />
@@ -57,7 +57,7 @@ export function MobileNav({ dict, role, email }: { dict: Dictionary; role: Role;
       </button>
 
       {open && (
-        <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true" aria-label={dict.nav.menu}>
+        <div className="fixed inset-0 z-50 md:hidden" role="dialog" aria-modal="true" aria-label={dict.nav.menu}>
           <button
             type="button"
             tabIndex={-1}

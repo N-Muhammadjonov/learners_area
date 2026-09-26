@@ -27,10 +27,17 @@ export default async function SpeakingPage() {
     <div className="mx-auto flex max-w-3xl flex-col gap-8">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h1 className="font-display text-2xl text-ink-900">{dict.speaking.title}</h1>
-        {/* Shadowing lives next to the materials, since it uses them. */}
-        <Link href="/speaking/shadowing" className="text-sm text-signal-600 hover:underline" data-shadowing-link>
-          {dict.speakingShadowing.title} →
-        </Link>
+        {/* Both speaking modes live next to the materials, because they use
+            them: the recording studio and the shadowing drill. Without this the
+            practice studio existed but nothing on the module page led to it. */}
+        <div className="flex flex-wrap items-center gap-3">
+          <Link href="/speaking/practice" className="text-sm text-signal-600 hover:underline" data-speaking-practice-link>
+            {dict.speakingPractice.title} →
+          </Link>
+          <Link href="/speaking/shadowing" className="text-sm text-signal-600 hover:underline" data-shadowing-link>
+            {dict.speakingShadowing.title} →
+          </Link>
+        </div>
       </div>
 
       {rows.length === 0 && <EmptyState icon="🎙" title={dict.speaking.noMaterials} />}

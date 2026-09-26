@@ -10,6 +10,12 @@
  * produced `relation "users" does not exist` in production.
  *
  * Exit code 0 only when every check passes.
+ *
+ * Where to run it: against the production database (`DATABASE_URL="postgres://…"`).
+ * Against a local development database exactly one check is expected to fail —
+ * "no demo/test fixtures in users" — because the local database is seeded with
+ * demo accounts on purpose. That is a fact about the environment, not about the
+ * schema; the other 41 checks must be green in both places.
  */
 
 import { readFileSync, readdirSync } from "node:fs";
@@ -19,7 +25,12 @@ import { dirname, join } from "node:path";
 
 const require = createRequire(import.meta.url);
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const EXPECTED_MIGRATIONS = 17;
+/**
+ * Migrations this release ships. Production was at 17 when the Reading library
+ * and the material blocks were added, so this is 19 — the checklist is meant to
+ * be run *after* `scripts/migrate-production.mjs` reports 19/19 there.
+ */
+const EXPECTED_MIGRATIONS = 19;
 
 const pass = (s) => `\u001b[32m${s}\u001b[0m`;
 const failText = (s) => `\u001b[31m${s}\u001b[0m`;

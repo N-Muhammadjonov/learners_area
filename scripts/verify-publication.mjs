@@ -109,8 +109,20 @@ const question = await api(`/api/admin/reading/passages/${passageId}/questions`,
 });
 check("a question can be authored for it", question.status === 200, `status ${question.status}`);
 
-/** Is the passage offered to the student on the Reading page right now? */
-const listForStudent = async () => (await api("/reading", { cookie: student })).text.includes(title);
+/**
+ * Is the passage live for the student right now?
+ *
+ * Two honest ways to answer, because the library is a paginated list ordered
+ * oldest-first while this fixture is the newest passage in the database: the
+ * passage is on the first page of the library, OR the student can actually start
+ * it. Both go through the same `liveWhere` rule, so this stays a single rule with
+ * one observable answer — it is the fixture's position on page one that is not
+ * meaningful, not the publication state.
+ */
+const listedForStudent = async () => (await api("/reading", { cookie: student })).text.includes(title);
+const startableForStudent = async () =>
+  (await api("/api/reading/attempts", { method: "POST", cookie: student, body: { passageId } })).status === 200;
+const listForStudent = async () => (await listedForStudent()) || (await startableForStudent());
 const studentStart = async () =>
   api("/api/reading/attempts", { method: "POST", cookie: student, body: { passageId } });
 

@@ -1,5 +1,5 @@
 import "server-only";
-import { eq } from "drizzle-orm";
+import { asc, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { lexemes } from "@/db/schema";
 
@@ -121,11 +121,27 @@ export async function resolveFromSources(term: string, sources: LexicalSource[])
   return null;
 }
 
-/** The centre's own catalogue row for a spelling, or null. */
+/**
+ * The centre's own catalogue row for a spelling, or null.
+ *
+ * The comparison is case-insensitive on purpose. A student clicking "ct scan" in
+ * a text and a catalogue row stored as "CT scan" (or "London" against "london")
+ * are the same word; matching them case-sensitively meant the catalogue's own
+ * meaning was reported as unknown, and the word could then be re-created as a
+ * second canonical row — the one thing the shared lexicon must never do.
+ *
+ * Ordering is fixed so the same spelling with two senses always resolves to the
+ * same row rather than to whichever row the planner happened to return.
+ */
 async function lookupCatalogue(term: string): Promise<LexicalEntry | null> {
   const wanted = normalise(term);
   if (!wanted) return null;
-  const row = await db.query.lexemes.findFirst({ where: eq(lexemes.term, wanted) });
+  const [row] = await db
+    .select()
+    .from(lexemes)
+    .where(sql`lower(${lexemes.term}) = ${wanted}`)
+    .orderBy(asc(lexemes.term))
+    .limit(1);
   if (!row) return null;
   return {
     term: row.term,

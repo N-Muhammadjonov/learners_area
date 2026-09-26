@@ -109,7 +109,16 @@ check("the dashboard keeps its navigation on small screens", dashboard.text.incl
 const sidebar = (await import("node:fs")).readFileSync("src/components/shell/Sidebar.tsx", "utf8");
 const mobile = (await import("node:fs")).readFileSync("src/components/shell/MobileNav.tsx", "utf8");
 check("both navigation surfaces share one tree", sidebar.includes("SidebarNav") && mobile.includes("SidebarNav"));
-check("the report control is on both surfaces", sidebar.includes("ReportProblem") && mobile.includes("ReportProblem"));
+const shellUtilities = (await import("node:fs")).readFileSync("src/components/shell/ShellUtilities.tsx", "utf8");
+check(
+  "the report control is reachable from both navigation surfaces",
+  // One floating control in the shell, and a /support row that both surfaces
+  // share because the drawer renders the same navigation tree.
+  /ReportProblem/.test(shellUtilities) &&
+    /floating/.test(shellUtilities) &&
+    sidebar.includes("SidebarNav") &&
+    mobile.includes("SidebarNav")
+);
 
 // No page may hard-code a colour: everything goes through the token palette.
 const { readdirSync, readFileSync, statSync } = await import("node:fs");

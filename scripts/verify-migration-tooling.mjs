@@ -105,12 +105,14 @@ try {
   const applied = run("migrate-production.mjs", empty, ["--apply", "--yes"]);
   check("qo'llash 2 bilan chiqadi (bajarildi)", applied.code === 2, `exit ${applied.code}`);
   const afterApply = await tableCount(empty);
-  check(`58 jadval yaratildi`, afterApply.tables === 58, `${afterApply.tables} jadval`);
+  // This number is the size of the release, not a magic constant: 19 migrations
+  // create 62 tables in a fresh database.
+  check(`62 jadval yaratildi`, afterApply.tables === 62, `${afterApply.tables} jadval`);
   check("users jadvali bor", afterApply.userRows === 0 && afterApply.tables > 0);
   check("migratsiya HECH QANDAY foydalanuvchi qo'shmadi", afterApply.userRows === 0, `${afterApply.userRows} qator`);
 
   const verify = run("verify-production-schema.mjs", empty);
-  check("sxema tekshiruvi o'tadi (42/42)", verify.code === 0 && /ALL CHECKS PASSED/.test(verify.output));
+  check("sxema tekshiruvi to'liq o'tadi", verify.code === 0 && /ALL CHECKS PASSED/.test(verify.output));
   check("egasi haqida ogohlantiradi, lekin yiqilmaydi", /an active OWNER account exists/.test(verify.output) && verify.code === 0);
 
   const again = run("migrate-production.mjs", empty, ["--apply", "--yes"]);
@@ -155,7 +157,7 @@ export default { schema: ${JSON.stringify(join(ROOT, "src", "db", "schema.ts"))}
   check("3 ta migratsiya qo'lda qo'llandi (tayyorgarlik)", partialMigrate.status === 0);
   const resumeRun = run("migrate-production.mjs", resume, ["--apply", "--yes"]);
   check("davom ettirish bajarildi (exit 2)", resumeRun.code === 2, `exit ${resumeRun.code}`);
-  check("xulosa: resume", /resume\s+3\/17 migrations are recorded/.test(resumeRun.output));
+  check("xulosa: resume", /resume\s+3\/19 migrations are recorded/.test(resumeRun.output));
   const resumeVerify = run("verify-production-schema.mjs", resume);
   check("natija to'liq sxema", resumeVerify.code === 0 && /ALL CHECKS PASSED/.test(resumeVerify.output));
   check("davom ettirish ham foydalanuvchi qo'shmadi", (await tableCount(resume)).userRows === 0);

@@ -73,7 +73,7 @@ check("the passage list marks each passage", /data-passage="/.test(list.text), "
 
 const { default: pg } = await import("pg");
 const db = new pg.Client({
-  connectionString: (process.env.DATABASE_URL || "postgres://postgres@127.0.0.1:5433/learners_area",
+  connectionString: (process.env.DATABASE_URL || "postgres://postgres@127.0.0.1:5433/learners_area"),
 });
 await db.connect();
 const passage = await db.query("select id, title, body_text from reading_passages order by created_at limit 1");
@@ -130,7 +130,7 @@ const questions = await api(`/api/reading/attempts/${attemptId}`, { cookie });
 const payload = await (async () => {
   // The exam page is server-rendered; read the answer key straight from the DB.
   const client = new pg.Client({
-    connectionString: (process.env.DATABASE_URL || "postgres://postgres@127.0.0.1:5433/learners_area",
+    connectionString: (process.env.DATABASE_URL || "postgres://postgres@127.0.0.1:5433/learners_area"),
   });
   await client.connect();
   const rows = await client.query(
@@ -197,8 +197,12 @@ const retentionHtml = retentionPage.text ?? "";
 check("the drill renders its own controls", /data-retention-input/.test(retentionHtml) && /data-retention-passage/.test(retentionHtml));
 check("the passage is open to read first", /data-retention-passage/.test(retentionHtml) && !/data-retention-passage[^>]*hidden/.test(retentionHtml));
 check("the drill states it is not scored", /Nothing is scored|ball qo'yilmaydi/i.test(retentionHtml));
-const readingList = await api("/reading", { cookie });
-check("the reading list links to the drill", /data-retention-mode-link/.test(readingList.text ?? ""));
+// The drill is offered by the Reading hub's own Retention tab (the hub is tabbed,
+// so the link is on that tab, not on the default academic listing).
+const retentionTab = await api("/reading?tab=retention", { cookie });
+check("the reading hub offers the drill on its Retention tab", /data-retention-mode-link/.test(retentionTab.text ?? ""));
+const defaultTab = await api("/reading", { cookie });
+check("the hub's default tab is the academic listing", /data-reading-tab="academic"/.test(defaultTab.text ?? ""));
 
 console.log(`\n# pass ${passed} / fail ${failed}`);
 if (failed > 0) {

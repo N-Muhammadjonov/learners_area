@@ -114,8 +114,11 @@ check(
 const anonCta = landing.text.match(/data-landing-cta-destination="([^"]+)"/)?.[1] ?? "";
 check("a stranger is sent to the sign-in page", anonCta === "/login", anonCta);
 
+// The tab icon is a derivative of the approved favicon artwork (32px), never the
+// 1254px master: a 1.3 MB master as a favicon is a defect, not branding.
 const faviconLink = landing.text.match(/<link rel="icon"[^>]*href="([^"]+)"/)?.[1] ?? "";
-check("the favicon is the approved file", faviconLink === "/brand/learners-area-favicon.png", faviconLink);
+check("the favicon is the approved derivative", faviconLink === "/brand/derived/favicon-32.png", faviconLink);
+check("the favicon is not the master artwork", !/learners-area-favicon\.png$/.test(faviconLink), faviconLink);
 
 const studentCookie = await signIn("demo.student@learnersarea.uz", "Student12345!");
 const studentLanding = await page("/", studentCookie);
@@ -152,8 +155,10 @@ check(
 );
 check(
   "the brand block renders the mark for both themes",
-  dashboard.text.includes("/brand/learners-area-logo-mark-light.png") &&
-    dashboard.text.includes("/brand/learners-area-logo-mark-dark.png")
+  // Both supplied variants are rendered and the theme picks one in CSS; both are
+  // the approved 96px derivatives, not the masters.
+  dashboard.text.includes("/brand/derived/mark-light-96.png") &&
+    dashboard.text.includes("/brand/derived/mark-dark-96.png")
 );
 check(
   "the light/dark swap is done in CSS, never with a filter",
@@ -184,18 +189,27 @@ check(
 );
 
 // ---------------------------------------------------------------------------
-// 8. The authentication surface uses the horizontal lock-up
+// 8. The authentication surface: the approved mark plus the name as real text
 // ---------------------------------------------------------------------------
+// The horizontal wordmark file was the earlier choice here. The decision that
+// replaced it: the name is text everywhere it is *also* a label, so it stays
+// selectable, translatable, screen-readable and sharp at any zoom — and the
+// approved artwork is used as the mark beside it.
 const loginPage = await page("/login");
 check("the sign-in page renders", loginPage.status === 200, `status ${loginPage.status}`);
 check(
-  "the sign-in page shows the horizontal lock-up",
-  loginPage.text.includes("/brand/learners-area-logo-horizontal-light.png") ||
-    loginPage.text.includes("/brand/learners-area-logo-horizontal-dark.png")
+  "the sign-in page shows the approved mark",
+  loginPage.text.includes("/brand/derived/mark-light-96.png") ||
+    loginPage.text.includes("/brand/derived/mark-dark-96.png")
 );
 check(
-  "the sign-in page does not show the compact mark",
-  !loginPage.text.includes("/brand/learners-area-logo-mark-")
+  "the sign-in page shows the product name as text",
+  /data-auth-brand/.test(loginPage.text) && loginPage.text.includes("Learners Area"),
+  "the auth brand block is missing its text name"
+);
+check(
+  "no brand master file is served to the browser",
+  !/learners-area-logo-(horizontal|mark|favicon)[^"]*\.png/.test(loginPage.text)
 );
 
 // ---------------------------------------------------------------------------

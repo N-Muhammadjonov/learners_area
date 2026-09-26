@@ -43,7 +43,7 @@ console.log(`\nLearners Area — Live classes against ${BASE}\n`);
 
 const { default: pg } = await import("pg");
 const db = new pg.Client({
-  connectionString: (process.env.DATABASE_URL || "postgres://postgres@127.0.0.1:5433/learners_area",
+  connectionString: (process.env.DATABASE_URL || "postgres://postgres@127.0.0.1:5433/learners_area"),
 });
 await db.connect();
 

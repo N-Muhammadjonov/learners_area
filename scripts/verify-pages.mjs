@@ -163,11 +163,16 @@ await check("no hard-coded English section labels survive in the sidebar", async
   let cookie = await login("teacher");
   cookie = await setLocale(cookie, "uz");
   const { html } = await get(cookie, "/dashboard");
-  for (const label of ["Main", "Track", "Teacher"]) {
+  // The sidebar groups are Main / Modules / Progress (there is no separate
+  // "Track" group any more — progress lives in its own group), so the check
+  // asserts exactly those three group labels are translated, and that no English
+  // group label leaks into an Uzbek render.
+  for (const label of ["Main", "Modules", "Progress", "Teacher"]) {
     assert.ok(!html.includes(`>${label}</p>`), `sidebar section "${label}" is not translated`);
   }
-  assert.match(html, />Asosiy</, "Uzbek sidebar is missing the translated Main section");
-  assert.match(html, />Natijani kuzatish</, "Uzbek sidebar is missing the translated Track section");
+  for (const label of ["Asosiy", "Modullar", "Natija"]) {
+    assert.ok(html.includes(`>${label}</p>`), `Uzbek sidebar is missing the translated "${label}" group`);
+  }
 });
 
 await check("teacher speaking page renders the resource composer", async () => {
@@ -213,12 +218,18 @@ await check("speaking practice is translated and links to history", async () => 
   assert.match(history.html, /Speaking tarixi/);
 });
 
-await check("the speaking sidebar entries point at the new pages", async () => {
+await check("the speaking module leads to both speaking modes and they are reachable", async () => {
   let cookie = await login("student");
   cookie = await setLocale(cookie, "en");
-  const { html } = await get(cookie, "/speaking/practice");
-  assert.match(html, /href="\/speaking\/practice"/);
-  assert.match(html, /href="\/speaking\/history"/);
+  // The sidebar carries one Speaking row (the module), so the modes are reached
+  // from the module page — and both must actually answer, not merely be linked.
+  const hub = await get(cookie, "/speaking");
+  assert.match(hub.html, /href="\/speaking\/practice"/);
+  assert.match(hub.html, /href="\/speaking\/shadowing"/);
+  for (const path of ["/speaking/practice", "/speaking/history", "/speaking/shadowing"]) {
+    const page = await get(cookie, path);
+    assert.equal(page.status, 200, `${path} is not reachable`);
+  }
 });
 
 await check("the Coach dashboard names the evaluator that produced each result", async () => {
