@@ -23,13 +23,44 @@ DATABASE_URL="postgres://…" node scripts/migrate-production.mjs --apply --yes
 DATABASE_URL="postgres://…" node scripts/verify-production-schema.mjs
 ```
 
+**The production Reading acceptance run** (the P0 in the report of 2026-09-26).
+Parols are typed into the command, never into a chat:
+
+```bash
+PROD_BASE_URL="https://learners-area.vercel.app" \
+PROD_OWNER_EMAIL="…" PROD_OWNER_PASSWORD="…" \
+PROD_STUDENT_EMAIL="…" PROD_STUDENT_PASSWORD="…" \
+node scripts/verify-production-reading.mjs
+```
+
+It prints the deployed commit and region first (`/api/version`), then signs in
+and makes 10 direct loads + 10 client-side navigations + return / filter /
+page-2 / query per account, printing status, first byte, total time, error
+boundaries and digests. It writes nothing and creates no attempt. It prints
+`READING PRODUCTION STABLE` only when every request rendered; that line is the
+acceptance signal for this run.
+
 Accounts used for the walk (local seed, see `src/db/seed.ts` for the seeded
 credentials — one OWNER, one ADMIN, two TEACHERs, two ACTIVE students, one
 PENDING student). In production the OWNER account is the centre's own.
 
-The automated equivalent of this document is `/tmp/bt/matrix.mjs` (5 accounts ×
-every visible destination × 1512 / 820 / 390 / 320px × Day/Night × UZ/EN × hard
-reload × client navigation). Current result: **157/157**.
+The automated equivalent of this document is the rig set plus the `verify-*`
+battery. In this sandbox `/tmp/bt/matrix.mjs` no longer exists, so the older
+"157/157" figure cannot be re-derived and is not claimed any more; what is
+reproducible today is:
+
+- `/tmp/bt/reading-stability.mjs` — **32/32** (both roles: 10 direct loads + 10
+  client-side navigations each, hard reload, leave and return, Day/Night, UZ/EN,
+  search, topic filter, Passage-1 filter, pagination, `page=99`, a real passage)
+- `/tmp/bt/admission-flow.mjs` — **11/11** (register → pending row → queue →
+  approve → ACTIVE → learning, second decision 409, student refused)
+- `scripts/verify-*.mjs` — access 33, pages 71, browser-flow 54, owner 10,
+  reading 33, vocabulary 103, retention 10, dashboard 21, theme 32,
+  responsive 23, publication 34, a11y 41, brand 33, shadowing 15, support 26,
+  progress 19, grammar 32, lessons 27, listening 45, live-classes 24, writing 18,
+  coach 21, uploads 44, admission-race 6, migration tooling 24, production
+  schema 41/42 (locally only: the seven seed accounts; 42/42 is the production
+  expectation)
 
 ## 2. The twenty reported blockers
 
@@ -74,15 +105,34 @@ reload × client navigation). Current result: **157/157**.
 | Mock tests have no runner | the page says what a mock is here instead of pretending to run one |
 | No AI provider is active | `REAL_AI_ENABLED=false`; no acoustic or AI-examiner claim is made anywhere |
 
-## 4. What the sandbox could not check (please check these yourself)
+## 4. The manual-check items, and what is already automated
 
-| Item | Where |
-| --- | --- |
-| Production routing, real TTFB, p95 latency | Vercel deployment |
-| R2 signed delivery in production | upload a file through the composer and open it |
-| Telegram sign-in | the sign-in page — it must state plainly that Telegram is not configured if it is not |
-| A real phone (touch feel, keyboard behaviour) | iOS Safari / Android Chrome |
-| Migration 0017 + 0018 applied to production | `migrate-production.mjs --apply`, then `verify-production-schema.mjs` (expect 19/19 migrations, 62 tables, 42/42 checks; locally 41/42 because the seven seed accounts exist there by design) |
+**VERIFIED LOCALLY** means measured in this sandbox on the final commit; the
+right-hand column is what still needs a signed-in production session (the owner,
+or `verify-production-reading.mjs` where it applies).
+
+| Item | Automated evidence (local, final commit) | Production |
+| --- | --- | --- |
+| Reading hub / library | rig 32/32 — 5 hub tabs, count from the database, 24 cards per page; `verify-reading` 33 | the acceptance run, then your own walk |
+| A passage opens | rig — a real passage opens with 13 questions and 8 paragraphs; `verify-reading` 33 | acceptance run |
+| Filters and search | rig 32/32 — search 11, topic 13, Passage-1 35 total (< 105), "Sahifa 2 / 5", `page=99` clamped to 5/5 | acceptance run |
+| Reading → Vocabulary save | `verify-vocabulary` 103 — the canonical lexeme is not duplicated and the occurrence keeps its Reading context | your walk |
+| Vocabulary | `verify-vocabulary` 103 (words / revision / games / use / board tabs, 401 for an anonymous caller) | your walk |
+| Flashcards / revision | `verify-vocabulary` 103, `verify-retention` 10 (1/3/7/16/35 ladder, DB-backed) | your walk |
+| Games must not advance SRS | `verify-vocabulary` 103 explicitly: a game answer never moves the ladder and is graded by the server | your walk |
+| Admission: pending → OWNER approval → ACTIVE | `admission-flow` 11/11 (register → pending row → queue → approve → ACTIVE → learning; second decision 409), `verify-admission-race` 6 | your walk (the flow was fixed and confirmed locally; the production confirmation is still yours) |
+| Role boundaries (OWNER / ADMIN / STUDENT) | `verify-access` 33, `verify-owner` 10, `verify-browser-flow` 54 | your walk |
+| Logo and branding | `verify-brand` 33 — the six approved PNGs, HTML wordmark in the shell, brand-derived files served | seen anonymously on production; confirm signed in |
+| Day/Night, two icon-only controls | `verify-theme` 32 — 44×44 `[☀] [☾]`, visible selected state, persistence, no wrong-theme flash | your walk |
+| Mobile 390 / 320 | `verify-responsive` 23 | your walk (a real device cannot be simulated here) |
+| Hard reload, leave and return | rig 32/32 — no blank page, no error boundary | acceptance run |
+| No 404 / 500 | `verify-pages` 71, `verify-a11y` 41, rig 32/32 (0 non-200) | acceptance run |
+| Navigation performance | rig p50 per role; the acceptance script prints first byte **and** total time per request | acceptance run |
+| Production routing and TTFB | `/api/version` read from outside: canonical alias serves this branch's commit in region `sin1` | — |
+| R2 signed delivery in production | not automatable here | upload through the composer and open it |
+| Telegram sign-in | not automatable here | the sign-in page must state plainly that Telegram is not configured |
+| A real phone (touch, keyboard) | not automatable here | iOS Safari / Android Chrome |
+| Migrations in production | — | already confirmed by you: 19/19 migrations, 62 tables, 42/42 checks |
 
 ## 5. After your manual result
 

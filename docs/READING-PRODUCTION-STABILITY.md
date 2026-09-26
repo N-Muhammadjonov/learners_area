@@ -229,10 +229,15 @@ owner; it needs no redeploy of code and does not affect migrations.
 - `admission-flow.mjs` **11/11** (register → queue → approve → audit → ACTIVE →
   learning, legacy account without a request row, second decision 409, student
   cannot approve)
-- `verify-*.mjs` scripts: access 33, pages 71, browser-flow 54, owner 10,
-  reading 33, dashboard 21, theme 32, responsive 23, publication 34, migration
-  tooling 24, production-schema 41/42 (the one expected local failure is the
-  seeded demo accounts)
+- the full `verify-*.mjs` battery on the final commit: access 33, pages 71,
+  browser-flow 54, owner 10, reading 33, vocabulary 103, retention 10,
+  dashboard 21, theme 32, responsive 23, publication 34, a11y 41, brand 33,
+  shadowing 15, support 26, progress 19, grammar 32, lessons 27, listening 45,
+  live-classes 24, writing 18, coach 21, uploads 44, admission-race 6, migration
+  tooling 24/24, production-schema 41/42 (the one local failure is the seven
+  seed accounts — 42/42 is the production expectation and has been confirmed
+  there by the owner)
+- `docs/MANUAL-CHECK.md` maps every manual-check item to this evidence
 - saturation and latency tables in §2
 - `verify-production-reading.mjs` against the local production build, both roles,
   `PROD_READING_COUNT=10`: **48/48** (10 direct + 10 client-navigations + return
