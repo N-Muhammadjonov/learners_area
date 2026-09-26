@@ -320,6 +320,36 @@ async function main() {
     fail("DATABASE_URL points at localhost. This script is for the cloud database; set ALLOW_LOCAL_MIGRATION=1 to test it against a scratch database.");
   }
 
+  /**
+   * A transaction pooler is not a place to run migrations.
+   *
+   * Supabase exposes three ways in, and they are not interchangeable for DDL:
+   *
+   *   db.<ref>.supabase.co:5432          direct (IPv6-only on newer projects)
+   *   <region>.pooler.supabase.com:5432  session pooler   — migrations work
+   *   <region>.pooler.supabase.com:6543  transaction pooler — migrations do NOT
+   *
+   * Port 6543 multiplexes statements across backends, so statements do not share
+   * a session. Migration SQL that needs one (advisory locks, session settings)
+   * behaves unpredictably, and a failure part-way through leaves a half-applied
+   * migration. The application may well use the transaction pooler at runtime —
+   * that is where it belongs — but not this command.
+   */
+  try {
+    const parsed = new URL(url);
+    const port = parsed.port || "5432";
+    const isSupabasePooler = /pooler\.supabase\.com$/i.test(parsed.hostname);
+    if (port === "6543" || (isSupabasePooler && port === "6543")) {
+      fail(
+        `DATABASE_URL uses port ${port}, which is the transaction pooler. Migrations need a session: ` +
+          "use the session pooler (same host, port 5432) or the direct host (db.<ref>.supabase.co:5432) for this command only. " +
+          "The application itself can keep using the transaction pooler."
+      );
+    }
+  } catch {
+    fail("DATABASE_URL could not be parsed as a URL.");
+  }
+
   console.log(bold("\nMigration chain"));
   const entries = verifyChain();
   console.log(green(`  ok  ${entries.length} migrations, in order: ${entries[0].tag} … ${entries[entries.length - 1].tag}`));
@@ -334,7 +364,15 @@ async function main() {
     await client.query("select 1");
   } catch (error) {
     console.error(red(`\nConnection failed: ${error.message}`));
-    console.error("Nothing was written. Check the host, the password and whether the project is paused.\n");
+    console.error("Nothing was written. Check the host, the password and whether the project is paused.");
+    if (/supabase/i.test(url) || error.code === "ENETUNREACH" || error.code === "ENOTFOUND") {
+      console.error(
+        "  Supabase note: the direct host (db.<ref>.supabase.co) is IPv6-only on newer projects.\n" +
+          "  From an IPv4-only machine, use the session pooler instead — <region>.pooler.supabase.com:5432.\n"
+      );
+    } else {
+      console.error("");
+    }
     await pool.end();
     process.exit(1);
   }

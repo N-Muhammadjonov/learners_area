@@ -759,6 +759,18 @@ What the inspector decides, and why it is not simply "run the migrations":
 | tables exist but no history | `partial` | **refused** — re-running would record migrations as applied without executing them |
 | history does not match this journal | `divergent` | **refused** — the schema came from somewhere else |
 
+Which connection string to use matters, on Supabase specifically:
+
+| Endpoint | Port | For migrations |
+| --- | --- | --- |
+| `db.<ref>.supabase.co` (direct) | 5432 | works, but IPv6-only on newer projects |
+| `<region>.pooler.supabase.com` (session pooler) | 5432 | **this is the one to use** |
+| `<region>.pooler.supabase.com` (transaction pooler) | 6543 | refused — statements do not share a session |
+
+The application can keep using whatever the deployment already uses; this is about
+the migration command only. If the direct host fails with `ENETUNREACH`, that is
+the IPv6 situation, not a wrong password — switch to the session pooler.
+
 Nothing in the tooling drops, truncates or resets anything. It refuses to run
 against `localhost` unless `ALLOW_LOCAL_MIGRATION=1` is set (that switch exists so
 the tooling itself can be tested), it never prints the connection string, and it
