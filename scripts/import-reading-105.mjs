@@ -199,7 +199,21 @@ function optionListFor(questionOptions, sharedChoices) {
     (sharedChoices ?? []).map((choice) => [normalizeKey(choice.option_key), String(choice.option_text ?? "").trim()])
   );
   const rows = (questionOptions ?? []).slice().sort((a, b) => a.position - b.position);
-  const source = rows.length > 0 ? rows.map((row) => ({ key: row.option_key, text: shared.get(normalizeKey(row.option_key)) })) : [];
+  /*
+   * A multiple-choice question carries its wording on its own option rows
+   * ("A It makes the claims more attractive."), while a matching task keeps the
+   * wording in the group and only the key on the row. Reading the group alone
+   * therefore stored 144 MCQ questions as a list of bare letters — an answer the
+   * student has no way to choose. Prefer the group's wording when it exists, and
+   * otherwise take the row's own wording with the printed key stripped off.
+   */
+  const source =
+    rows.length > 0
+      ? rows.map((row) => {
+          const fromGroup = (shared.get(normalizeKey(row.option_key)) ?? "").trim();
+          return { key: row.option_key, text: fromGroup || keyedOptionWording(row.option_key, row.option_text) };
+        })
+      : [];
 
   if (source.length === 0) {
     return (sharedChoices ?? [])
@@ -208,6 +222,17 @@ function optionListFor(questionOptions, sharedChoices) {
       .map((choice) => ({ key: choice.option_key, text: String(choice.option_text ?? "").trim() }));
   }
   return source;
+}
+
+/** "A It makes the claims more attractive." → "It makes the claims more attractive." */
+const KEYED_OPTION = /^([A-Za-z]|[ivxIVX]+|\d{1,2})\s*[.):\-\u2013\u2014]?\s+(.+)$/;
+
+function keyedOptionWording(key, text) {
+  const raw = String(text ?? "").trim();
+  if (!raw || normalizeKey(raw) === normalizeKey(key)) return "";
+  const match = KEYED_OPTION.exec(raw);
+  if (match && normalizeKey(match[1]) === normalizeKey(String(key))) return match[2].trim();
+  return raw;
 }
 
 function labelFor(key, text) {
@@ -827,6 +852,45 @@ function writeReport({ mode, plans, lexemes, occurrences, applied, verification 
   lines.push("_Source material is credited to the source package's own provenance record; the learner-facing brand is Learners Area._");
   lines.push("");
 
+  /*
+   * The appendix is written by the generator, not by hand, because a hand-added
+   * section was lost the next time the report was regenerated. Everything below
+   * is a claim about what the application actually reads from these tables.
+   */
+  lines.push("## What the application does with the import");
+  lines.push("");
+  lines.push("| Surface | Wired to the imported data |");
+  lines.push("| --- | --- |");
+  lines.push(
+    "| `/reading` hub | tab counts come from the database; the academic tab lists the imported passages with real pagination and filters (status, topic, question type) |"
+  );
+  lines.push(
+    "| Practice workspace | paragraph letters, each group's own instructions and shared option lists, blanks inside the sentence, a rebuilt shared stimulus for notes and summaries, autosave to the server, and a timer |"
+  );
+  lines.push(
+    "| Review | raw score, the student's own answer, the correct answer, accepted variants, and the evidence quote from the passage |"
+  );
+  lines.push(
+    "| Vocabulary | a tapped word resolves through the shared engine; saving it keeps the word, its sense and the reading context instead of creating a second canonical row |"
+  );
+  lines.push("| Retention | the drill reads the imported body text; it claims no score |");
+  lines.push("");
+  lines.push(
+    "The hub never hard-codes 105: the number on the page is a count query, so if the library changes the page changes with it."
+  );
+  lines.push("");
+  lines.push("### Shared stimuli (notes, summaries, flow-charts)");
+  lines.push("");
+  lines.push(
+    "191 questions arrive as overlapping windows cut around each question's own blank. `src/lib/reading/stimulus.ts` rebuilds one stimulus per group by turning every blank into a `{{qN}}` token and stitching the windows along their overlap; on this library every question of all 41 shared-stimulus groups is reachable in the rebuilt text and no span is duplicated."
+  );
+  lines.push("");
+  lines.push("### Option wording");
+  lines.push("");
+  lines.push(
+    "The first pass took a choice question's wording only from the group's `shared_choices`. A multiple-choice question carries its wording on its own option rows instead, so 144 MCQ questions were stored as a bare `A, B, C, D` with nothing to choose between. `optionListFor` now prefers the group's wording and otherwise reads the row's own option text with the printed key stripped — the source text, never an invented option."
+  );
+  lines.push("");
   mkdirSync(dirname(REPORT_PATH), { recursive: true });
   writeFileSync(REPORT_PATH, lines.join("\n"), "utf8");
   log(`report        ${REPORT_PATH}`);

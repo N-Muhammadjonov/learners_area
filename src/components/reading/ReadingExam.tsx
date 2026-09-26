@@ -7,6 +7,12 @@ import { choiceSetFor } from "@/lib/reading-choices";
 import { ClickableText } from "@/components/vocabulary/ClickableText";
 import { IconBack, IconCheck, IconTarget } from "@/components/ui/icons";
 import { ResourceBlocks } from "@/components/resources/ResourceBlocks";
+import {
+  buildSharedStimulus,
+  isSharedStimulusRow,
+  parseStimulus,
+  type SharedStimulus,
+} from "@/lib/reading/stimulus";
 import type { ResourceBlockView } from "@/lib/data/resources";
 import type { Dictionary } from "@/lib/i18n/en";
 
@@ -44,6 +50,8 @@ export type ExamQuestion = {
   type: QuestionType;
   typeCode: string | null;
   groupId: string | null;
+  /** "question_row" or "shared_stimulus_slot" — decides how the prompt is drawn. */
+  renderMode: string | null;
   questionText: string;
   options: string[] | null;
   acceptedAnswers: string[];
@@ -471,17 +479,13 @@ export function ReadingExam({
             {orderedGroups.blocks.map(({ group, questions: groupQuestions }) => (
               <div key={group.id} className="flex flex-col gap-3" data-question-group={group.position}>
                 <GroupHeading dict={dict} group={group} />
-                {groupQuestions.map((question) => (
-                  <QuestionCard
-                    key={question.id}
-                    dict={dict}
-                    question={question}
-                    group={group}
-                    value={answers[question.id] ?? ""}
-                    onChange={(value) => setAnswer(question.id, value)}
-                    inputId={`answer-${question.id}`}
-                  />
-                ))}
+                <GroupQuestions
+                  dict={dict}
+                  group={group}
+                  questions={groupQuestions}
+                  answers={answers}
+                  onChange={setAnswer}
+                />
               </div>
             ))}
 
@@ -601,6 +605,142 @@ function GroupHeading({ dict, group }: { dict: Dictionary; group: ExamGroup }) {
           })}
         </ul>
       )}
+    </div>
+  );
+}
+
+/**
+ * One group's questions.
+ *
+ * Notes, summaries and flow-charts ask several questions inside one piece of
+ * text, which arrives as overlapping windows around each blank (see
+ * `@/lib/reading/stimulus`). Those rows are rebuilt into a single stimulus with
+ * an input on every blank; the rows that are questions in their own right — and
+ * any shared row whose blank the reconstruction could not find — stay as normal
+ * cards, so nothing is ever shown twice and nothing is dropped.
+ */
+function GroupQuestions({
+  dict,
+  group,
+  questions,
+  answers,
+  onChange,
+}: {
+  dict: Dictionary;
+  group: ExamGroup;
+  questions: ExamQuestion[];
+  answers: Record<string, string>;
+  onChange: (questionId: string, value: string) => void;
+}) {
+  const shared = useMemo(() => questions.filter((question) => isSharedStimulusRow(question)), [questions]);
+  const stimulus = useMemo(() => (shared.length > 0 ? buildSharedStimulus(shared) : null), [shared]);
+  const byNumber = useMemo(() => {
+    const map = new Map<number, ExamQuestion>();
+    for (const question of questions) if (question.questionNo !== null) map.set(question.questionNo, question);
+    return map;
+  }, [questions]);
+
+  const covered = new Set(stimulus?.numbers ?? []);
+  const cards = questions.filter(
+    (question) => !isSharedStimulusRow(question) || question.questionNo === null || !covered.has(question.questionNo)
+  );
+
+  return (
+    <>
+      {stimulus && stimulus.numbers.length > 0 && (
+        <StimulusCard
+          dict={dict}
+          group={group}
+          stimulus={stimulus}
+          byNumber={byNumber}
+          answers={answers}
+          onChange={onChange}
+        />
+      )}
+      {cards.map((question) => (
+        <QuestionCard
+          key={question.id}
+          dict={dict}
+          question={question}
+          group={group}
+          value={answers[question.id] ?? ""}
+          onChange={(value) => onChange(question.id, value)}
+          inputId={`answer-${question.id}`}
+        />
+      ))}
+    </>
+  );
+}
+
+/** The rebuilt notes / summary / flow-chart, with an input on every blank. */
+function StimulusCard({
+  dict,
+  group,
+  stimulus,
+  byNumber,
+  answers,
+  onChange,
+}: {
+  dict: Dictionary;
+  group: ExamGroup;
+  stimulus: SharedStimulus;
+  byNumber: Map<number, ExamQuestion>;
+  answers: Record<string, string>;
+  onChange: (questionId: string, value: string) => void;
+}) {
+  const paragraphs = stimulus.text.split(/\n{2,}/);
+  return (
+    <div className="card flex flex-col p-4" data-stimulus={group.position} data-stimulus-type={group.typeCode}>
+      {paragraphs.map((paragraph, paragraphIndex) => (
+        <p
+          key={paragraphIndex}
+          className={`whitespace-pre-line text-sm leading-relaxed text-ink-900 ${paragraphIndex > 0 ? "mt-3" : ""}`}
+        >
+          {parseStimulus(paragraph).map((segment, index) => {
+            if (segment.kind === "text") return <span key={index}>{segment.text}</span>;
+            const question = byNumber.get(segment.questionNo);
+            if (!question) {
+              // The number belongs to a question this group does not contain:
+              // show the printed number, never an input that writes nowhere.
+              return (
+                <span key={index} className="mx-1 rounded-sm bg-paper-sunken px-1.5 text-xs text-ink-500">
+                  {segment.questionNo}
+                </span>
+              );
+            }
+            const value = answers[question.id] ?? "";
+            return (
+              <span
+                key={index}
+                className="whitespace-nowrap"
+                data-answer-slot={segment.questionNo}
+                data-answered={value.trim() ? "true" : "false"}
+              >
+                <span
+                  className="mr-1 align-baseline text-xs font-semibold text-ink-500"
+                  data-stimulus-number={segment.questionNo}
+                >
+                  {segment.questionNo}
+                </span>
+                <input
+                  id={`answer-${question.id}`}
+                  value={value}
+                  onChange={(event) => onChange(question.id, event.target.value.slice(0, 200))}
+                  placeholder={dict.reading.yourAnswer}
+                  aria-label={`${dict.reading.yourAnswer} ${segment.questionNo}`}
+                  autoComplete="off"
+                  spellCheck={false}
+                  data-answer-input={question.id}
+                  className={`input mx-1 inline-block w-auto min-w-[7ch] max-w-[16rem] px-2 py-1 align-baseline ${
+                    value.trim() ? "border-signal-600/40" : ""
+                  }`}
+                  style={{ width: `${Math.min(24, Math.max(8, value.length + 3))}ch` }}
+                />
+              </span>
+            );
+          })}
+        </p>
+      ))}
     </div>
   );
 }

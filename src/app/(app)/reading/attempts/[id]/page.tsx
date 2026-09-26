@@ -74,6 +74,7 @@ export default async function ReadingAttemptPage({ params }: { params: Promise<{
             type: q.type,
             typeCode: q.typeCode,
             groupId: q.groupId,
+            renderMode: q.renderMode,
             questionText: q.questionText,
             options: q.options ?? null,
             acceptedAnswers: q.acceptedAnswers,
