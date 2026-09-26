@@ -141,6 +141,20 @@ or look for `[boot] … region=sin1 …` in the runtime logs. If it stays `iad1`
 choose the region in the Vercel project settings (Settings → Functions →
 Function Region).
 
+The same two facts are readable without inspecting response headers, because
+the deployment can be asked directly (no session needed, no user data
+involved):
+
+```bash
+curl -s https://learners-area.vercel.app/api/version
+# {"commit":"…","shortCommit":"…","region":"sin1","environment":"production"}
+```
+
+`GET /api/version` returns only the built commit, the region the function ran
+in and the Vercel environment name — never an environment value, a connection
+string or a session. The production test script prints this line first, so a
+run always says which build it measured.
+
 **Runtime connection mode.** Migrations from the owner's Mac correctly use the
 Session Pooler on 5432; the *application* runtime should be checked separately,
 because it is what opens many connections:
@@ -197,8 +211,12 @@ node scripts/verify-production-reading.mjs
 
 It signs in (two sessions are created — ordinary product behaviour), makes 10
 direct + 10 client-side requests per account plus return/filter/page-2/query,
-creates no attempt and writes nothing, prints TTFB percentiles and any digest,
-and prints `READING PRODUCTION STABLE` only when every request rendered.
+creates no attempt and writes nothing, prints the deployed commit and region,
+TTFB percentiles and any digest, and prints `READING PRODUCTION STABLE` only
+when every request rendered.
+
+A push does not move the alias by itself: read that printed commit/region line
+and compare it with the commit you pushed and with Vercel → Deployments.
 
 ## 6. Remaining risk
 
