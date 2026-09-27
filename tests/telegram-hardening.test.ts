@@ -74,3 +74,12 @@ test("sensitive dedup fails closed", () => {
 });
 
 void root;
+
+
+test("directory search includes Telegram-only contacts and normalizes @usernames", () => {
+  const directory = source("../src/lib/telegram/directory.ts");
+  assert.match(directory, /replace\(\/\^@\+\/, ""\)/);
+  assert.match(directory, /isNull\(telegramContacts\.linkedUserId\)/);
+  assert.match(directory, /entryType: "telegram_contact"/);
+  assert.match(directory, /telegramContacts\.username/);
+});

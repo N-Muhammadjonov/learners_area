@@ -22,7 +22,10 @@ class PanelFlow(StatesGroup):
     admin_add = State()
 
 
-def _lang(event, db_user) -> str:
+def _lang(event, db_user, contact=None) -> str:
+    override = (contact or {}).get("localeOverride")
+    if override in {"uz", "en"}:
+        return override
     if db_user and db_user.get("locale") in {"uz", "en"}:
         return db_user["locale"]
     code = getattr(getattr(event, "from_user", None), "language_code", None) or "uz"
@@ -33,9 +36,27 @@ def _back(lang: str, target: str = "m:owner") -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=t(lang, "back"), callback_data=target)]])
 
 
+def _directory_button(item: dict) -> InlineKeyboardButton:
+    if item.get("entryType") == "telegram_contact":
+        telegram_id = str(item.get("telegramUserId") or "")
+        name = str(item.get("name") or item.get("username") or telegram_id)
+        label = f"🤖 {name} · Telegram"
+        return InlineKeyboardButton(
+            text=label[:40],
+            callback_data=f"tgc:{telegram_id}",
+        )
+
+    name = str(item.get("name") or "—")
+    status = str(item.get("accountStatus") or "—")
+    return InlineKeyboardButton(
+        text=f"👤 {name} · {status}"[:40],
+        callback_data=f"usr:{item['id']}",
+    )
+
+
 @panel_router.callback_query(F.data == "o:users")
-async def users_home(callback: CallbackQuery, state: FSMContext, db_user: dict | None = None, bot_access: dict | None = None):
-    lang = _lang(callback, db_user)
+async def users_home(callback: CallbackQuery, state: FSMContext, db_user: dict | None = None, bot_access: dict | None = None, contact: dict | None = None):
+    lang = _lang(callback, db_user, contact)
     if not allows(bot_access, "VIEW_USERS"):
         await callback.answer(t(lang, "no_permission"), show_alert=True)
         return
@@ -45,8 +66,8 @@ async def users_home(callback: CallbackQuery, state: FSMContext, db_user: dict |
 
 
 @panel_router.message(PanelFlow.search)
-async def users_search(message: Message, state: FSMContext, db_user: dict | None = None, bot_access: dict | None = None):
-    lang = _lang(message, db_user)
+async def users_search(message: Message, state: FSMContext, db_user: dict | None = None, bot_access: dict | None = None, contact: dict | None = None):
+    lang = _lang(message, db_user, contact)
     if not allows(bot_access, "VIEW_USERS"):
         await state.clear()
         await message.answer(t(lang, "no_permission"))
@@ -62,7 +83,7 @@ async def users_search(message: Message, state: FSMContext, db_user: dict | None
         await message.answer(t(lang, "empty"))
         return
     draft_status, draft = await api_client.save_draft(str(message.from_user.id), "search", {"q": query})
-    rows = [[InlineKeyboardButton(text=f"{item.get('name')} · {item.get('accountStatus')}"[:40], callback_data=f"usr:{item['id']}")] for item in items]
+    rows = [[_directory_button(item)] for item in items]
     if draft_status == 200 and draft.get("id") and (data.get("total") or 0) > (data.get("pageSize") or 8):
         rows.append([InlineKeyboardButton(text=t(lang, "next"), callback_data=f"usq:{draft['id']}:2")])
     rows.append([InlineKeyboardButton(text=t(lang, "home"), callback_data="m:owner")])
@@ -70,8 +91,8 @@ async def users_search(message: Message, state: FSMContext, db_user: dict | None
 
 
 @panel_router.callback_query(F.data.startswith("usq:"))
-async def users_page(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False):
-    lang = _lang(callback, db_user)
+async def users_page(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False, contact: dict | None = None):
+    lang = _lang(callback, db_user, contact)
     denied = denial_key(bot_access, backend_error, "VIEW_USERS")
     if denied:
         await callback.answer(t(lang, denied), show_alert=True)
@@ -88,7 +109,7 @@ async def users_page(callback: CallbackQuery, db_user: dict | None = None, bot_a
         await callback.answer(t(lang, "temporary_error" if status >= 500 else "no_permission"), show_alert=True)
         return
     items = data.get("items") or []
-    rows = [[InlineKeyboardButton(text=f"{item.get('name')} · {item.get('accountStatus')}"[:40], callback_data=f"usr:{item['id']}")] for item in items]
+    rows = [[_directory_button(item)] for item in items]
     nav = []
     if page > 1:
         nav.append(InlineKeyboardButton(text=t(lang, "prev"), callback_data=f"usq:{draft_id}:{page - 1}"))
@@ -126,8 +147,8 @@ def _user_actions(user_id: str, bot_access: dict | None, lang: str) -> list[list
 
 
 @panel_router.callback_query(F.data.startswith("usr:"))
-async def user_card(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None):
-    lang = _lang(callback, db_user)
+async def user_card(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, contact: dict | None = None):
+    lang = _lang(callback, db_user, contact)
     if not allows(bot_access, "VIEW_USERS"):
         await callback.answer(t(lang, "no_permission"), show_alert=True)
         return
@@ -147,9 +168,83 @@ async def user_card(callback: CallbackQuery, db_user: dict | None = None, bot_ac
     await callback.answer()
 
 
+
+@panel_router.callback_query(F.data.startswith("tgc:"))
+async def telegram_contact_card(
+    callback: CallbackQuery,
+    db_user: dict | None = None,
+    bot_access: dict | None = None,
+    contact: dict | None = None,
+):
+    lang = _lang(callback, db_user, contact)
+
+    if not allows(bot_access, "VIEW_USERS"):
+        await callback.answer(t(lang, "no_permission"), show_alert=True)
+        return
+
+    telegram_id = (callback.data or "").split(":", 1)[1]
+
+    try:
+        data = await api_client.get_user(telegram_id)
+    except Exception:
+        data = None
+
+    if not data or not data.get("contact"):
+        await callback.answer(t(lang, "error"), show_alert=True)
+        return
+
+    target_contact = data.get("contact") or {}
+    linked_user = data.get("user")
+
+    full_name = " ".join(
+        part
+        for part in [
+            target_contact.get("firstName"),
+            target_contact.get("lastName"),
+        ]
+        if part
+    ).strip()
+
+    username = target_contact.get("username")
+
+    display_name = (
+        full_name
+        or (f"@{username}" if username else None)
+        or telegram_id
+    )
+
+    if target_contact.get("removed"):
+        bot_state = "🚫 Botdan chiqarilgan" if lang == "uz" else "🚫 Removed from bot"
+    elif target_contact.get("blocked"):
+        bot_state = "⛔ Bot bloklangan" if lang == "uz" else "⛔ Bot blocked"
+    else:
+        bot_state = "✅ Bot faol" if lang == "uz" else "✅ Bot active"
+
+    lines = [
+        f"👤 {esc(display_name)}",
+        f"📱 @{esc(username)}" if username else "📱 —",
+        f"🆔 Telegram ID: {esc(telegram_id)}",
+        bot_state,
+    ]
+
+    if linked_user:
+        lines.append(
+            f"🌐 {esc(linked_user.get('name') or '—')} · "
+            f"{esc(linked_user.get('accountStatus') or '—')}"
+        )
+    else:
+        lines.append(f"🌐 {t(lang, 'status_none')}")
+
+    await callback.message.edit_text(
+        "\n".join(lines),
+        reply_markup=_back(lang, "o:users"),
+    )
+    await callback.answer()
+
+
 @panel_router.callback_query(F.data.startswith("ust:"))
-async def user_status_action(callback: CallbackQuery, state: FSMContext, db_user: dict | None = None, bot_access: dict | None = None):
-    lang = _lang(callback, db_user)
+async def user_status_action(callback: CallbackQuery, state: FSMContext, db_user: dict | None = None, bot_access: dict | None = None, contact: dict | None = None):
+    lang = _lang(callback, db_user, contact)
     _prefix, action, user_id = callback.data.split(":", 2)
     actor = str(callback.from_user.id)
     if action in {"approve", "reject"}:
@@ -187,8 +282,8 @@ async def user_status_action(callback: CallbackQuery, state: FSMContext, db_user
 
 
 @panel_router.message(PanelFlow.delete_code)
-async def confirm_delete(message: Message, state: FSMContext, bot_access: dict | None = None, db_user: dict | None = None):
-    lang = _lang(message, db_user)
+async def confirm_delete(message: Message, state: FSMContext, bot_access: dict | None = None, db_user: dict | None = None, contact: dict | None = None):
+    lang = _lang(message, db_user, contact)
     data = await state.get_data()
     await state.clear()
     if not allows(bot_access, "DANGEROUS_USER_DELETE"):
@@ -203,8 +298,8 @@ async def confirm_delete(message: Message, state: FSMContext, bot_access: dict |
 
 
 @panel_router.callback_query(F.data.startswith("dm:"))
-async def begin_dm(callback: CallbackQuery, state: FSMContext, db_user: dict | None = None, bot_access: dict | None = None):
-    lang = _lang(callback, db_user)
+async def begin_dm(callback: CallbackQuery, state: FSMContext, db_user: dict | None = None, bot_access: dict | None = None, contact: dict | None = None):
+    lang = _lang(callback, db_user, contact)
     if not allows(bot_access, "DIRECT_MESSAGE"):
         await callback.answer(t(lang, "no_permission"), show_alert=True)
         return
@@ -219,8 +314,8 @@ async def begin_dm(callback: CallbackQuery, state: FSMContext, db_user: dict | N
 
 
 @panel_router.message(PanelFlow.dm_compose)
-async def preview_dm(message: Message, state: FSMContext, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False):
-    lang = _lang(message, db_user)
+async def preview_dm(message: Message, state: FSMContext, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False, contact: dict | None = None):
+    lang = _lang(message, db_user, contact)
     data = await state.get_data()
     denied = denial_key(bot_access, backend_error, "DIRECT_MESSAGE")
     if denied or not data.get("user_id"):
@@ -246,13 +341,13 @@ async def preview_dm(message: Message, state: FSMContext, db_user: dict | None =
 
 
 @panel_router.callback_query(F.data == "dmok")
-async def stale_dm(callback: CallbackQuery, db_user: dict | None = None):
-    await callback.answer(t(_lang(callback, db_user), "stale_confirm"), show_alert=True)
+async def stale_dm(callback: CallbackQuery, db_user: dict | None = None, contact: dict | None = None):
+    await callback.answer(t(_lang(callback, db_user, contact), "stale_confirm"), show_alert=True)
 
 
 @panel_router.callback_query(F.data.startswith("dmc:"))
-async def send_dm(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False):
-    lang = _lang(callback, db_user)
+async def send_dm(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False, contact: dict | None = None):
+    lang = _lang(callback, db_user, contact)
     denied = denial_key(bot_access, backend_error, "DIRECT_MESSAGE")
     if denied:
         await callback.answer(t(lang, denied), show_alert=True)
@@ -292,8 +387,8 @@ async def send_dm(callback: CallbackQuery, db_user: dict | None = None, bot_acce
 
 
 @panel_router.callback_query(F.data == "o:adm")
-async def admissions(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None):
-    lang = _lang(callback, db_user)
+async def admissions(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, contact: dict | None = None):
+    lang = _lang(callback, db_user, contact)
     if not allows(bot_access, "ADMISSIONS"):
         await callback.answer(t(lang, "no_permission"), show_alert=True)
         return
@@ -322,8 +417,8 @@ async def admissions(callback: CallbackQuery, db_user: dict | None = None, bot_a
 
 
 @panel_router.callback_query(F.data.startswith("apg:"))
-async def admissions_page(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False):
-    lang = _lang(callback, db_user)
+async def admissions_page(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False, contact: dict | None = None):
+    lang = _lang(callback, db_user, contact)
     denied = denial_key(bot_access, backend_error, "ADMISSIONS")
     if denied:
         await callback.answer(t(lang, denied), show_alert=True)
@@ -359,8 +454,8 @@ async def admissions_page(callback: CallbackQuery, db_user: dict | None = None, 
 
 
 @panel_router.callback_query(F.data == "o:bc")
-async def broadcast_start(callback: CallbackQuery, state: FSMContext, db_user: dict | None = None, bot_access: dict | None = None):
-    lang = _lang(callback, db_user)
+async def broadcast_start(callback: CallbackQuery, state: FSMContext, db_user: dict | None = None, bot_access: dict | None = None, contact: dict | None = None):
+    lang = _lang(callback, db_user, contact)
     if not allows(bot_access, "BROADCAST"):
         await callback.answer(t(lang, "no_permission"), show_alert=True)
         return
@@ -380,8 +475,8 @@ async def broadcast_start(callback: CallbackQuery, state: FSMContext, db_user: d
 
 
 @panel_router.callback_query(F.data.startswith("bc:"))
-async def broadcast_audience(callback: CallbackQuery, state: FSMContext, db_user: dict | None = None, bot_access: dict | None = None):
-    lang = _lang(callback, db_user)
+async def broadcast_audience(callback: CallbackQuery, state: FSMContext, db_user: dict | None = None, bot_access: dict | None = None, contact: dict | None = None):
+    lang = _lang(callback, db_user, contact)
     if not allows(bot_access, "BROADCAST"):
         await callback.answer(t(lang, "no_permission"), show_alert=True)
         return
@@ -397,8 +492,8 @@ async def broadcast_audience(callback: CallbackQuery, state: FSMContext, db_user
 
 
 @panel_router.message(PanelFlow.broadcast_compose)
-async def broadcast_preview(message: Message, state: FSMContext, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False):
-    lang = _lang(message, db_user)
+async def broadcast_preview(message: Message, state: FSMContext, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False, contact: dict | None = None):
+    lang = _lang(message, db_user, contact)
     data = await state.get_data()
     denied = denial_key(bot_access, backend_error, "BROADCAST")
     if denied or not data.get("audience"):
@@ -425,13 +520,13 @@ async def broadcast_preview(message: Message, state: FSMContext, db_user: dict |
 
 
 @panel_router.callback_query(F.data.in_({"bctest", "bcok"}))
-async def stale_broadcast(callback: CallbackQuery, db_user: dict | None = None):
-    await callback.answer(t(_lang(callback, db_user), "stale_confirm"), show_alert=True)
+async def stale_broadcast(callback: CallbackQuery, db_user: dict | None = None, contact: dict | None = None):
+    await callback.answer(t(_lang(callback, db_user, contact), "stale_confirm"), show_alert=True)
 
 
 @panel_router.callback_query(F.data.startswith("bct:"))
-async def broadcast_test(callback: CallbackQuery, bot_access: dict | None = None, db_user: dict | None = None, backend_error: bool = False):
-    lang = _lang(callback, db_user)
+async def broadcast_test(callback: CallbackQuery, bot_access: dict | None = None, db_user: dict | None = None, backend_error: bool = False, contact: dict | None = None):
+    lang = _lang(callback, db_user, contact)
     denied = denial_key(bot_access, backend_error, "BROADCAST")
     if denied:
         await callback.answer(t(lang, denied), show_alert=True)
@@ -446,8 +541,8 @@ async def broadcast_test(callback: CallbackQuery, bot_access: dict | None = None
 
 
 @panel_router.callback_query(F.data.startswith("bcc:"))
-async def broadcast_confirm(callback: CallbackQuery, bot_access: dict | None = None, db_user: dict | None = None, backend_error: bool = False):
-    lang = _lang(callback, db_user)
+async def broadcast_confirm(callback: CallbackQuery, bot_access: dict | None = None, db_user: dict | None = None, backend_error: bool = False, contact: dict | None = None):
+    lang = _lang(callback, db_user, contact)
     denied = denial_key(bot_access, backend_error, "BROADCAST")
     if denied:
         await callback.answer(t(lang, denied), show_alert=True)
@@ -470,8 +565,8 @@ async def broadcast_confirm(callback: CallbackQuery, bot_access: dict | None = N
 
 
 @panel_router.callback_query(F.data == "o:admins")
-async def admins(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None):
-    lang = _lang(callback, db_user)
+async def admins(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, contact: dict | None = None):
+    lang = _lang(callback, db_user, contact)
     if not (bot_access or {}).get("isPrimaryOwner"):
         await callback.answer(t(lang, "no_permission"), show_alert=True)
         return
@@ -492,12 +587,12 @@ async def admins(callback: CallbackQuery, db_user: dict | None = None, bot_acces
 
 
 @panel_router.callback_query(F.data == "admadd")
-async def admin_add_prompt(callback: CallbackQuery, state: FSMContext, bot_access: dict | None = None, db_user: dict | None = None):
+async def admin_add_prompt(callback: CallbackQuery, state: FSMContext, bot_access: dict | None = None, db_user: dict | None = None, contact: dict | None = None):
     if not (bot_access or {}).get("isPrimaryOwner"):
-        await callback.answer(t(_lang(callback, db_user), "no_permission"), show_alert=True)
+        await callback.answer(t(_lang(callback, db_user, contact), "no_permission"), show_alert=True)
         return
     await state.set_state(PanelFlow.admin_add)
-    await callback.message.edit_text(t(_lang(callback, db_user), "admin_id_prompt"))
+    await callback.message.edit_text(t(_lang(callback, db_user, contact), "admin_id_prompt"))
     await callback.answer()
 
 
@@ -525,8 +620,8 @@ def _admin_keyboard(lang: str, draft_id: str, selected: list[str]) -> InlineKeyb
 
 
 @panel_router.message(PanelFlow.admin_add)
-async def admin_add(message: Message, state: FSMContext, bot_access: dict | None = None, db_user: dict | None = None, backend_error: bool = False):
-    lang = _lang(message, db_user)
+async def admin_add(message: Message, state: FSMContext, bot_access: dict | None = None, db_user: dict | None = None, backend_error: bool = False, contact: dict | None = None):
+    lang = _lang(message, db_user, contact)
     await state.clear()
     if backend_error:
         await message.answer(t(lang, "temporary_error"))
@@ -549,9 +644,9 @@ async def admin_add(message: Message, state: FSMContext, bot_access: dict | None
 
 
 @panel_router.callback_query(F.data.startswith("admrm:"))
-async def admin_remove(callback: CallbackQuery, bot_access: dict | None = None, db_user: dict | None = None):
+async def admin_remove(callback: CallbackQuery, bot_access: dict | None = None, db_user: dict | None = None, contact: dict | None = None):
     if not (bot_access or {}).get("isPrimaryOwner"):
-        await callback.answer(t(_lang(callback, db_user), "no_permission"), show_alert=True)
+        await callback.answer(t(_lang(callback, db_user, contact), "no_permission"), show_alert=True)
         return
     telegram_id = callback.data.split(":", 1)[1]
     status, _data = await api_client.patch_admin(telegram_id, {"actorTelegramId": str(callback.from_user.id), "active": False})
@@ -559,8 +654,8 @@ async def admin_remove(callback: CallbackQuery, bot_access: dict | None = None, 
 
 
 @panel_router.callback_query(F.data.in_({"o:stats", "o:audit", "o:set"}))
-async def ops_view(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None):
-    lang = _lang(callback, db_user)
+async def ops_view(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, contact: dict | None = None):
+    lang = _lang(callback, db_user, contact)
     view = {"o:stats": "stats", "o:audit": "audit", "o:set": "settings"}[callback.data]
     permission = {"stats": "VIEW_STATS", "audit": "VIEW_AUDIT", "settings": "BOT_SETTINGS"}[view]
     if not allows(bot_access, permission):
@@ -593,8 +688,8 @@ async def ops_view(callback: CallbackQuery, db_user: dict | None = None, bot_acc
 
 
 @panel_router.callback_query(F.data.startswith("aug:"))
-async def audit_page(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False):
-    lang = _lang(callback, db_user)
+async def audit_page(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False, contact: dict | None = None):
+    lang = _lang(callback, db_user, contact)
     denied = denial_key(bot_access, backend_error, "VIEW_AUDIT")
     if denied:
         await callback.answer(t(lang, denied), show_alert=True)
@@ -616,8 +711,8 @@ async def audit_page(callback: CallbackQuery, db_user: dict | None = None, bot_a
 
 
 @panel_router.callback_query(F.data.startswith("set:"))
-async def toggle_setting(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False):
-    lang = _lang(callback, db_user)
+async def toggle_setting(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False, contact: dict | None = None):
+    lang = _lang(callback, db_user, contact)
     denied = denial_key(bot_access, backend_error, "BOT_SETTINGS")
     if denied:
         await callback.answer(t(lang, denied), show_alert=True)
@@ -644,8 +739,8 @@ async def toggle_setting(callback: CallbackQuery, db_user: dict | None = None, b
 
 
 @panel_router.callback_query(F.data.startswith("apt:"))
-async def toggle_admin_perm(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False):
-    lang = _lang(callback, db_user)
+async def toggle_admin_perm(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False, contact: dict | None = None):
+    lang = _lang(callback, db_user, contact)
     if backend_error:
         await callback.answer(t(lang, "temporary_error"), show_alert=True)
         return
@@ -677,8 +772,8 @@ async def toggle_admin_perm(callback: CallbackQuery, db_user: dict | None = None
 
 
 @panel_router.callback_query(F.data.startswith("aps:"))
-async def save_admin(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False):
-    lang = _lang(callback, db_user)
+async def save_admin(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False, contact: dict | None = None):
+    lang = _lang(callback, db_user, contact)
     if backend_error:
         await callback.answer(t(lang, "temporary_error"), show_alert=True)
         return

@@ -1,5 +1,5 @@
 import "server-only";
-import { and, desc, eq, ilike, or, sql } from "drizzle-orm";
+import { and, desc, eq, ilike, isNull, or, sql } from "drizzle-orm";
 import { createHash, randomInt } from "node:crypto";
 import { db } from "@/db/client";
 import { telegramContacts, telegramDeletionIntents, users } from "@/db/schema";
@@ -28,27 +28,44 @@ export async function searchDirectory(input: {
 }) {
   const pageSize = Math.min(Math.max(input.pageSize || 10, 1), 20);
   const page = Math.max(input.page || 1, 1);
-  const filters = [];
-  if (input.status && isAccountStatus(input.status)) filters.push(eq(users.accountStatus, input.status));
-  if (input.role && isRole(input.role)) filters.push(eq(users.role, input.role));
-  const q = input.q?.trim();
-  if (q) {
-    const pattern = like(q.slice(0, 80));
-    filters.push(
+  const offset = (page - 1) * pageSize;
+  const fetchLimit = page * pageSize;
+
+  const rawQuery = input.q?.trim() ?? "";
+  const telegramQuery = rawQuery.replace(/^@+/, "");
+
+  const userFilters = [];
+
+  if (input.status && isAccountStatus(input.status)) {
+    userFilters.push(eq(users.accountStatus, input.status));
+  }
+
+  if (input.role && isRole(input.role)) {
+    userFilters.push(eq(users.role, input.role));
+  }
+
+  if (rawQuery) {
+    const textPattern = like(rawQuery.slice(0, 80));
+    const usernamePattern = like(telegramQuery.slice(0, 80));
+
+    userFilters.push(
       or(
-        ilike(users.name, pattern),
-        ilike(users.email, pattern),
-        eq(users.telegramId, q),
+        ilike(users.name, textPattern),
+        ilike(users.email, textPattern),
+        eq(users.telegramId, telegramQuery),
         sql`exists (
-          select 1 from telegram_contacts c
+          select 1
+          from telegram_contacts c
           where c.linked_user_id = ${users.id}
-            and c.username ilike ${pattern}
+            and c.username ilike ${usernamePattern}
         )`
-      )
+      )!
     );
   }
-  const where = filters.length ? and(...filters) : undefined;
-  const rows = await db
+
+  const userWhere = userFilters.length ? and(...userFilters) : undefined;
+
+  const userRows = await db
     .select({
       id: users.id,
       name: users.name,
@@ -59,16 +76,111 @@ export async function searchDirectory(input: {
       createdAt: users.createdAt,
     })
     .from(users)
-    .where(where)
+    .where(userWhere)
     .orderBy(desc(users.createdAt))
-    .limit(pageSize)
-    .offset((page - 1) * pageSize);
-  const [countRow] = await db.select({ count: sql<number>`count(*)::int` }).from(users).where(where);
+    .limit(fetchLimit);
+
+  const [userCountRow] = await db
+    .select({ count: sql<number>`count(*)::int` })
+    .from(users)
+    .where(userWhere);
+
+  // Telegram-only contacts have no website account, so status/role filters
+  // intentionally exclude them. Normal directory/search includes them.
+  const contactResult =
+    input.status || input.role
+      ? { rows: [], count: 0 }
+      : await (async () => {
+          const contactFilters = [isNull(telegramContacts.linkedUserId)];
+
+          if (rawQuery) {
+            const textPattern = like(rawQuery.slice(0, 80));
+            const usernamePattern = like(telegramQuery.slice(0, 80));
+
+            contactFilters.push(
+              or(
+                ilike(telegramContacts.firstName, textPattern),
+                ilike(telegramContacts.lastName, textPattern),
+                ilike(telegramContacts.username, usernamePattern),
+                eq(telegramContacts.telegramUserId, telegramQuery)
+              )!
+            );
+          }
+
+          const contactWhere = and(...contactFilters);
+
+          const rows = await db
+            .select({
+              id: telegramContacts.id,
+              telegramUserId: telegramContacts.telegramUserId,
+              username: telegramContacts.username,
+              firstName: telegramContacts.firstName,
+              lastName: telegramContacts.lastName,
+              botBlockedAt: telegramContacts.botBlockedAt,
+              removedAt: telegramContacts.removedAt,
+              lastSeenAt: telegramContacts.lastSeenAt,
+            })
+            .from(telegramContacts)
+            .where(contactWhere)
+            .orderBy(desc(telegramContacts.lastSeenAt))
+            .limit(fetchLimit);
+
+          const [countRow] = await db
+            .select({ count: sql<number>`count(*)::int` })
+            .from(telegramContacts)
+            .where(contactWhere);
+
+          return {
+            rows,
+            count: countRow?.count ?? 0,
+          };
+        })();
+
+  const websiteItems = userRows.map((row) => ({
+    ...row,
+    entryType: "website_user" as const,
+    telegramLinked: Boolean(row.telegramId),
+  }));
+
+  const telegramItems = contactResult.rows.map((row) => {
+    const fullName = [row.firstName, row.lastName]
+      .filter(Boolean)
+      .join(" ")
+      .trim();
+
+    return {
+      id: row.id,
+      entryType: "telegram_contact" as const,
+      telegramUserId: row.telegramUserId,
+      username: row.username,
+      name:
+        fullName ||
+        (row.username ? `@${row.username}` : row.telegramUserId),
+      email: null,
+      role: null,
+      accountStatus: null,
+      telegramLinked: true,
+      botBlocked: Boolean(row.botBlockedAt),
+      botRemoved: Boolean(row.removedAt),
+      createdAt: row.lastSeenAt,
+    };
+  });
+
+  const timestamp = (value: unknown) => {
+    if (value instanceof Date) return value.getTime();
+    if (typeof value === "string") return Date.parse(value) || 0;
+    return 0;
+  };
+
+  const merged = [...websiteItems, ...telegramItems]
+    .sort((a, b) => timestamp(b.createdAt) - timestamp(a.createdAt))
+    .slice(offset, offset + pageSize);
+
   return {
-    items: rows.map((row) => ({ ...row, telegramLinked: Boolean(row.telegramId) })),
+    items: merged,
     page,
     pageSize,
-    total: countRow?.count ?? 0,
+    total: (userCountRow?.count ?? 0) + contactResult.count,
   };
 }
 

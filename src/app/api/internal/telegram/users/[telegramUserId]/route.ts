@@ -41,6 +41,8 @@ export async function GET(req: NextRequest, context: { params: Promise<{ telegra
         ? {
             chatId: contact.chatId,
             username: contact.username,
+            firstName: contact.firstName,
+            lastName: contact.lastName,
             languageCode: contact.languageCode,
             localeOverride: contact.localeOverride,
             blocked: Boolean(contact.botBlockedAt),
