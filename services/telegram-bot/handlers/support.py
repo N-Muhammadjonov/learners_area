@@ -17,7 +17,10 @@ class SupportFlow(StatesGroup):
     staff_reply = State()
 
 
-def _lang(event, db_user) -> str:
+def _lang(event, db_user, contact=None) -> str:
+    override = (contact or {}).get("localeOverride")
+    if override in {"uz", "en"}:
+        return override
     if db_user and db_user.get("locale") in {"uz", "en"}:
         return db_user["locale"]
     code = getattr(getattr(event, "from_user", None), "language_code", None) or "uz"
@@ -29,15 +32,15 @@ def _home(lang: str) -> InlineKeyboardMarkup:
 
 
 @support_router.message(Command("support"))
-async def cmd_support(message: Message, state: FSMContext, db_user: dict | None = None):
-    lang = _lang(message, db_user)
+async def cmd_support(message: Message, state: FSMContext, db_user: dict | None = None, contact: dict | None = None):
+    lang = _lang(message, db_user, contact)
     await state.set_state(SupportFlow.user_message)
     await message.answer(t(lang, "support_prompt"), reply_markup=_home(lang))
 
 
 @support_router.callback_query(F.data == "m:support")
-async def start_support(callback: CallbackQuery, state: FSMContext, db_user: dict | None = None):
-    lang = _lang(callback, db_user)
+async def start_support(callback: CallbackQuery, state: FSMContext, db_user: dict | None = None, contact: dict | None = None):
+    lang = _lang(callback, db_user, contact)
     await state.set_state(SupportFlow.user_message)
     await state.update_data(mode="user")
     await callback.message.edit_text(t(lang, "support_prompt"), reply_markup=_home(lang))
@@ -45,8 +48,8 @@ async def start_support(callback: CallbackQuery, state: FSMContext, db_user: dic
 
 
 @support_router.message(SupportFlow.user_message)
-async def user_support_message(message: Message, state: FSMContext, db_user: dict | None = None):
-    lang = _lang(message, db_user)
+async def user_support_message(message: Message, state: FSMContext, db_user: dict | None = None, contact: dict | None = None):
+    lang = _lang(message, db_user, contact)
     payload = {
         "telegramUserId": str(message.from_user.id),
         "text": message.text or message.caption,
@@ -87,8 +90,8 @@ async def user_support_message(message: Message, state: FSMContext, db_user: dic
 
 
 @support_router.callback_query(F.data == "o:sup")
-async def list_support(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None):
-    lang = _lang(callback, db_user)
+async def list_support(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, contact: dict | None = None):
+    lang = _lang(callback, db_user, contact)
     if not allows(bot_access, "SUPPORT"):
         await callback.answer(t(lang, "no_permission"), show_alert=True)
         return
@@ -119,8 +122,8 @@ async def list_support(callback: CallbackQuery, db_user: dict | None = None, bot
 
 
 @support_router.callback_query(F.data.startswith("spg:"))
-async def page_support(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False):
-    lang = _lang(callback, db_user)
+async def page_support(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False, contact: dict | None = None):
+    lang = _lang(callback, db_user, contact)
     denied = denial_key(bot_access, backend_error, "SUPPORT")
     if denied:
         await callback.answer(t(lang, denied), show_alert=True)
@@ -146,8 +149,8 @@ async def page_support(callback: CallbackQuery, db_user: dict | None = None, bot
 
 
 @support_router.callback_query(F.data.startswith("sf:"))
-async def filter_support(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None):
-    lang = _lang(callback, db_user)
+async def filter_support(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, contact: dict | None = None):
+    lang = _lang(callback, db_user, contact)
     if not allows(bot_access, "SUPPORT"):
         await callback.answer(t(lang, "no_permission"), show_alert=True)
         return
@@ -165,8 +168,8 @@ async def filter_support(callback: CallbackQuery, db_user: dict | None = None, b
 
 
 @support_router.callback_query(F.data.startswith("sth:"))
-async def thread_detail(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None):
-    lang = _lang(callback, db_user)
+async def thread_detail(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, contact: dict | None = None):
+    lang = _lang(callback, db_user, contact)
     if not allows(bot_access, "SUPPORT"):
         await callback.answer(t(lang, "no_permission"), show_alert=True)
         return
@@ -199,8 +202,8 @@ async def thread_detail(callback: CallbackQuery, db_user: dict | None = None, bo
 
 
 @support_router.callback_query(F.data.startswith("srep:"))
-async def begin_reply(callback: CallbackQuery, state: FSMContext, db_user: dict | None = None, bot_access: dict | None = None):
-    lang = _lang(callback, db_user)
+async def begin_reply(callback: CallbackQuery, state: FSMContext, db_user: dict | None = None, bot_access: dict | None = None, contact: dict | None = None):
+    lang = _lang(callback, db_user, contact)
     if not allows(bot_access, "SUPPORT"):
         await callback.answer(t(lang, "no_permission"), show_alert=True)
         return
@@ -217,8 +220,8 @@ async def begin_reply(callback: CallbackQuery, state: FSMContext, db_user: dict 
 
 
 @support_router.message(SupportFlow.staff_reply)
-async def preview_staff_reply(message: Message, state: FSMContext, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False):
-    lang = _lang(message, db_user)
+async def preview_staff_reply(message: Message, state: FSMContext, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False, contact: dict | None = None):
+    lang = _lang(message, db_user, contact)
     data = await state.get_data()
     thread_id = data.get("thread_id")
     denied = denial_key(bot_access, backend_error, "SUPPORT")
@@ -270,8 +273,8 @@ async def _send_once(bot, chat_id: int, message_type: str, file_id: str | None, 
 
 
 @support_router.callback_query(F.data.startswith("src:"))
-async def send_staff_reply(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False):
-    lang = _lang(callback, db_user)
+async def send_staff_reply(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False, contact: dict | None = None):
+    lang = _lang(callback, db_user, contact)
     denied = denial_key(bot_access, backend_error, "SUPPORT")
     if denied:
         await callback.answer(t(lang, denied), show_alert=True)
@@ -310,8 +313,8 @@ async def send_staff_reply(callback: CallbackQuery, db_user: dict | None = None,
 
 
 @support_router.callback_query(F.data.startswith("sact:"))
-async def support_action(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None):
-    lang = _lang(callback, db_user)
+async def support_action(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, contact: dict | None = None):
+    lang = _lang(callback, db_user, contact)
     if not allows(bot_access, "SUPPORT"):
         await callback.answer(t(lang, "no_permission"), show_alert=True)
         return
