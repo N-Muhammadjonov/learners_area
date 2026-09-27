@@ -2,6 +2,7 @@ import { and, asc, count, desc, eq, ilike, inArray, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { readingAttempts, readingPassages, readingQuestions } from "@/db/schema";
 import { liveWhere } from "@/lib/services/cms/publication";
+import { timed } from "@/lib/observability/timing";
 
 /**
  * The reading library: 105 passages, filtered the way a student actually looks
@@ -20,6 +21,28 @@ import { liveWhere } from "@/lib/services/cms/publication";
  *
  * `liveWhere` gates everything: a draft or a not-yet-due schedule is invisible
  * here, exactly as it is everywhere else in the product.
+ *
+ * ---------------------------------------------------------------------------
+ * Round trips
+ * ---------------------------------------------------------------------------
+ * The hub used to open `/reading` with twelve queries in five sequential waves,
+ * one of them a full scan of `reading_questions` grouped by passage just to
+ * place a number on twenty-four cards. Against a database next door that is
+ * invisible; against one 250 ms away it is a page the owner experiences as a
+ * freeze, and every extra query in flight is another connection held from a
+ * limited pool. The same page is now seven queries in three waves:
+ *
+ *   identity + unread badge           2 queries, sequential with the layout
+ *   hub counts + facet lists          3 queries, one wave
+ *   page of cards + that page's       2 queries, one wave
+ *     attempt states
+ *
+ * The two numbers that used to cost a query each are now read from the rows
+ * already being returned: the total comes from `count(*) over ()` on the same
+ * statement as the page, and each card's question count is a correlated
+ * subquery on the same row — no full-table grouping, and the filter count the
+ * page displays is the very count the query itself used, so the two can no
+ * longer disagree.
  */
 
 export const READING_PAGE_SIZE = 24;
@@ -54,6 +77,14 @@ function text(value: string | undefined): string | undefined {
   return trimmed ? trimmed : undefined;
 }
 
+/** The publication window: a draft, an archive or a not-yet-due schedule is invisible. */
+function liveClause() {
+  return liveWhere({
+    publicationState: readingPassages.publicationState,
+    publishAt: readingPassages.publishAt,
+  });
+}
+
 /**
  * The WHERE clause for the library filters, shared by the page, the count and
  * the filter options so the three can never disagree about what a filter means.
@@ -64,12 +95,7 @@ function text(value: string | undefined): string | undefined {
  * the type twice and quietly break the count.
  */
 function libraryWhere(userId: string, filter: ReadingLibraryFilter) {
-  const clauses = [
-    liveWhere({
-      publicationState: readingPassages.publicationState,
-      publishAt: readingPassages.publishAt,
-    }),
-  ];
+  const clauses = [liveClause()];
 
   if (filter.status === "passage1") clauses.push(eq(readingPassages.passageNo, 1));
   if (filter.status === "passage2") clauses.push(eq(readingPassages.passageNo, 2));
@@ -110,13 +136,15 @@ function libraryWhere(userId: string, filter: ReadingLibraryFilter) {
   return and(...clauses);
 }
 
-/** How many passages each filter state would show — the counts on the tabs. */
+/** How many passages each filter state would show. */
 export async function countLibrary(userId: string, filter: ReadingLibraryFilter = {}) {
-  const rows = await db
-    .select({ value: count() })
-    .from(readingPassages)
-    .where(libraryWhere(userId, filter));
-  return Number(rows[0]?.value ?? 0);
+  return timed("reading.count", async () => {
+    const rows = await db
+      .select({ value: count() })
+      .from(readingPassages)
+      .where(libraryWhere(userId, filter));
+    return Number(rows[0]?.value ?? 0);
+  });
 }
 
 /**
@@ -132,52 +160,69 @@ export async function listLibrary(
   filter: ReadingLibraryFilter = {}
 ): Promise<{ items: ReadingPassageCard[]; total: number; page: number; pageCount: number }> {
   const where = libraryWhere(userId, filter);
-  const page = Math.max(1, Math.floor(filter.page ?? 1));
+  const requestedPage = Math.max(1, Math.floor(filter.page ?? 1));
 
-  const [totalRows, questionCounts] = await Promise.all([
-    db.select({ value: count() }).from(readingPassages).where(where),
+  const fetchPage = (page: number) =>
     db
-      .select({ passageId: readingQuestions.passageId, value: count() })
-      .from(readingQuestions)
-      .groupBy(readingQuestions.passageId),
-  ]);
+      .select({
+        id: readingPassages.id,
+        title: readingPassages.title,
+        testNo: readingPassages.testNo,
+        passageNo: readingPassages.passageNo,
+        topicCode: readingPassages.topicCode,
+        suggestedMinutes: readingPassages.suggestedMinutes,
+        // One number per card, read on the row it belongs to.
+        questionCount: sql<number>`(select count(*) from ${readingQuestions} q where q.passage_id = ${readingPassages.id})`,
+        // The total before LIMIT, on the same statement as the rows.
+        total: sql<number>`count(*) over ()`,
+      })
+      .from(readingPassages)
+      .where(where)
+      .orderBy(asc(readingPassages.testNo), asc(readingPassages.passageNo), asc(readingPassages.title))
+      .limit(READING_PAGE_SIZE)
+      .offset((page - 1) * READING_PAGE_SIZE);
 
-  const total = Number(totalRows[0]?.value ?? 0);
-  const pageCount = Math.max(1, Math.ceil(total / READING_PAGE_SIZE));
-  const safePage = Math.min(page, pageCount);
+  const { passages, total, page } = await timed("reading.list", async () => {
+    let currentPage = requestedPage;
+    let rows = await fetchPage(currentPage);
+    let totalRows = Number(rows[0]?.total ?? 0);
 
-  const passages = await db
-    .select({
-      id: readingPassages.id,
-      title: readingPassages.title,
-      testNo: readingPassages.testNo,
-      passageNo: readingPassages.passageNo,
-      topicCode: readingPassages.topicCode,
-      suggestedMinutes: readingPassages.suggestedMinutes,
-    })
-    .from(readingPassages)
-    .where(where)
-    .orderBy(asc(readingPassages.testNo), asc(readingPassages.passageNo), asc(readingPassages.title))
-    .limit(READING_PAGE_SIZE)
-    .offset((safePage - 1) * READING_PAGE_SIZE);
+    /*
+     * A page past the end — a stale bookmark, or a filter that shrank the list
+     * while the URL still said `page=5`. The row window carries no total when it
+     * is empty, so this is the one case that pays for a count query; the page
+     * then lands on the last real page, exactly as it did before.
+     */
+    if (rows.length === 0 && currentPage > 1) {
+      totalRows = await countLibrary(userId, filter);
+      const lastPage = Math.max(1, Math.ceil(totalRows / READING_PAGE_SIZE));
+      if (lastPage !== currentPage) {
+        currentPage = Math.min(currentPage, lastPage);
+        rows = await fetchPage(currentPage);
+      }
+    }
+
+    return { passages: rows, total: totalRows, page: currentPage };
+  });
 
   const ids = passages.map((passage) => passage.id);
-  const attempts = ids.length
-    ? await db
-        .select({
-          id: readingAttempts.id,
-          passageId: readingAttempts.passageId,
-          status: readingAttempts.status,
-          score: readingAttempts.score,
-          startedAt: readingAttempts.startedAt,
-          submittedAt: readingAttempts.submittedAt,
-        })
-        .from(readingAttempts)
-        .where(and(eq(readingAttempts.userId, userId), inArray(readingAttempts.passageId, ids)))
-        .orderBy(desc(readingAttempts.startedAt))
-    : [];
+  const attempts = await timed("reading.attempts", async () =>
+    ids.length
+      ? db
+          .select({
+            id: readingAttempts.id,
+            passageId: readingAttempts.passageId,
+            status: readingAttempts.status,
+            score: readingAttempts.score,
+            startedAt: readingAttempts.startedAt,
+            submittedAt: readingAttempts.submittedAt,
+          })
+          .from(readingAttempts)
+          .where(and(eq(readingAttempts.userId, userId), inArray(readingAttempts.passageId, ids)))
+          .orderBy(desc(readingAttempts.startedAt))
+      : []
+  );
 
-  const questionCountByPassage = new Map(questionCounts.map((row) => [row.passageId, Number(row.value)]));
   const latestByPassage = new Map<string, (typeof attempts)[number]>();
   for (const attempt of attempts) {
     if (!latestByPassage.has(attempt.passageId)) latestByPassage.set(attempt.passageId, attempt);
@@ -196,7 +241,7 @@ export async function listLibrary(
       testNo: passage.testNo,
       passageNo: passage.passageNo,
       topicCode: passage.topicCode,
-      questionCount: questionCountByPassage.get(passage.id) ?? 0,
+      questionCount: Number(passage.questionCount ?? 0),
       suggestedMinutes: passage.suggestedMinutes,
       status,
       lastScore: latest?.status === "completed" ? latest.score : null,
@@ -204,7 +249,7 @@ export async function listLibrary(
     };
   });
 
-  return { items, total, page: safePage, pageCount };
+  return { items, total, page, pageCount: Math.max(1, Math.ceil(total / READING_PAGE_SIZE)) };
 }
 
 /**
@@ -212,48 +257,65 @@ export async function listLibrary(
  *
  * Nothing is hard-coded: if a topic or question type is not present in the
  * published library it does not appear in the dropdown, so a filter can never
- * lead to an empty screen.
+ * lead to an empty screen. The library total is *not* counted here — the hub
+ * already knows it, and asking twice was one of the round trips that made the
+ * page slow.
  */
 export async function listLibraryFacets() {
-  const live = liveWhere({
-    publicationState: readingPassages.publicationState,
-    publishAt: readingPassages.publishAt,
+  return timed("reading.facets", async () => {
+    const live = liveClause();
+
+    const [topics, types] = await Promise.all([
+      db
+        .select({ topicCode: readingPassages.topicCode, value: count() })
+        .from(readingPassages)
+        .where(and(live, sql`${readingPassages.topicCode} is not null`))
+        .groupBy(readingPassages.topicCode)
+        .orderBy(desc(count())),
+      db
+        .select({ typeCode: readingQuestions.typeCode, value: count() })
+        .from(readingQuestions)
+        .innerJoin(readingPassages, eq(readingPassages.id, readingQuestions.passageId))
+        .where(and(live, sql`${readingQuestions.typeCode} is not null`))
+        .groupBy(readingQuestions.typeCode)
+        .orderBy(desc(count())),
+    ]);
+
+    return {
+      topics: topics
+        .filter((row) => row.topicCode)
+        .map((row) => ({ code: row.topicCode as string, count: Number(row.value) })),
+      types: types
+        .filter((row) => row.typeCode)
+        .map((row) => ({ code: row.typeCode as string, count: Number(row.value) })),
+    };
   });
-
-  const [topics, types, totals] = await Promise.all([
-    db
-      .select({ topicCode: readingPassages.topicCode, value: count() })
-      .from(readingPassages)
-      .where(and(live, sql`${readingPassages.topicCode} is not null`))
-      .groupBy(readingPassages.topicCode)
-      .orderBy(desc(count())),
-    db
-      .select({ typeCode: readingQuestions.typeCode, value: count() })
-      .from(readingQuestions)
-      .innerJoin(readingPassages, eq(readingPassages.id, readingQuestions.passageId))
-      .where(and(live, sql`${readingQuestions.typeCode} is not null`))
-      .groupBy(readingQuestions.typeCode)
-      .orderBy(desc(count())),
-    db.select({ value: count() }).from(readingPassages).where(live),
-  ]);
-
-  return {
-    total: Number(totals[0]?.value ?? 0),
-    topics: topics
-      .filter((row) => row.topicCode)
-      .map((row) => ({ code: row.topicCode as string, count: Number(row.value) })),
-    types: types
-      .filter((row) => row.typeCode)
-      .map((row) => ({ code: row.typeCode as string, count: Number(row.value) })),
-  };
 }
 
-/** What the reading hub's own numbers are built from. */
+/**
+ * What the reading hub's own numbers are built from.
+ *
+ * Total, finished and in-progress are three answers to the same question — "how
+ * many published passages match this student's state?" — so they are asked once,
+ * as three filtered counts over one scan, instead of three separate statements
+ * competing for connections.
+ */
 export async function readingHubCounts(userId: string) {
-  const [total, completed, inProgress] = await Promise.all([
-    countLibrary(userId, {}),
-    countLibrary(userId, { status: "completed" }),
-    countLibrary(userId, { status: "in_progress" }),
-  ]);
-  return { total, completed, inProgress, notStarted: Math.max(0, total - completed - inProgress) };
+  return timed("reading.hubCounts", async () => {
+    const rows = await db
+      .select({
+        total: count(),
+        completed: sql<number>`count(*) filter (where exists (select 1 from ${readingAttempts} a
+                                 where a.passage_id = ${readingPassages.id} and a.user_id = ${userId} and a.status = 'completed'))`,
+        inProgress: sql<number>`count(*) filter (where exists (select 1 from ${readingAttempts} a
+                                   where a.passage_id = ${readingPassages.id} and a.user_id = ${userId} and a.status = 'in_progress'))`,
+      })
+      .from(readingPassages)
+      .where(liveClause());
+
+    const total = Number(rows[0]?.total ?? 0);
+    const completed = Number(rows[0]?.completed ?? 0);
+    const inProgress = Number(rows[0]?.inProgress ?? 0);
+    return { total, completed, inProgress, notStarted: Math.max(0, total - completed - inProgress) };
+  });
 }

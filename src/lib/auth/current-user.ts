@@ -4,6 +4,7 @@ import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { users } from "@/db/schema";
 import { getSession } from "./session";
+import { timed } from "@/lib/observability/timing";
 import { hasPrivateAccess, type AccountStatus } from "./account-status";
 import { isAdministrator, isStaff, roleAtLeast, type Role } from "./roles";
 import type { Actor } from "./ownership";
@@ -36,19 +37,26 @@ export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
   const session = await getSession();
   if (!session) return null;
 
-  const row = await db.query.users.findFirst({
-    where: eq(users.id, session.sub),
-    columns: {
-      id: true,
-      name: true,
-      email: true,
-      role: true,
-      accountStatus: true,
-      locale: true,
-      onboardingCompletedAt: true,
-      statusReason: true,
-    },
-  });
+  /*
+   * The first query of every private page, and therefore the first thing a
+   * database problem breaks. It is timed so a slow or failing identity lookup is
+   * visible in the log *before* it shows up as an error boundary.
+   */
+  const row = await timed("auth.currentUser", () =>
+    db.query.users.findFirst({
+      where: eq(users.id, session.sub),
+      columns: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        accountStatus: true,
+        locale: true,
+        onboardingCompletedAt: true,
+        statusReason: true,
+      },
+    })
+  );
   if (!row) return null;
 
   return {

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
-import { getCurrentUser } from "@/lib/auth/current-user";
+import { requireStaff } from "@/lib/auth/current-user";
 import { isAdministrator, isStaff } from "@/lib/auth/roles";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { EmptyState } from "@/components/ui/EmptyState";
@@ -44,8 +44,16 @@ export const metadata: Metadata = { title: "Management" };
  * one; both are backed by the guards in the routes themselves.
  */
 export default async function ManagementPage() {
-  const user = await getCurrentUser();
-  if (!user) redirect("/login");
+  // Staff only, with the same guard every other page in this mode uses: a
+  // student or a pending applicant who types this URL (or follows an old
+  // bookmark) is sent back to their own half of the product instead of being
+  // shown a management shell with nothing in it. The mode is derived from the
+  // route, so this page must refuse the learner role for the same reason
+  // /admin/* and /teacher/* do.
+  const staff = await requireStaff();
+  if (!staff) redirect("/dashboard");
+
+  const user = staff;
 
   const locale = await getLocale();
   const dict = getDictionary(locale);

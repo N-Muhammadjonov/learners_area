@@ -171,6 +171,11 @@ test("every private API route rejects anonymous callers with 401", () => {
     "src/app/api/locale/",
     "src/app/api/notifications/",
     "src/app/api/onboarding/",
+    // Build identity of the running deployment (commit, region, environment).
+    // It reads no database row, no session and no user input: it is the one
+    // public answer to "which commit is this alias serving?", which has to be
+    // checkable from outside without a session.
+    "src/app/api/version/",
   ];
   for (const route of API_ROUTES) {
     if (exceptions.some((prefix) => route.startsWith(prefix))) continue;
@@ -194,6 +199,10 @@ test("every staff, administrator and owner page guards itself from the database"
     [/\/teacher\//, /requireStaff\(\)/, "teacher pages require staff"],
     [/\/admin\//, /requireAdministrator\(\)/, "admin pages require an administrator"],
     [/\/owner\//, /requireOwner\(\)/, "owner pages require the owner"],
+    // The management mode hub is the front door of the staff half of the
+    // product: without its own guard a student who types the URL sees a
+    // management shell with an empty tool list.
+    [/\/management\//, /requireStaff\(\)/, "management pages require staff"],
   ];
 
   for (const page of pages) {

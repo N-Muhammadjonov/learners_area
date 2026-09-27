@@ -1,12 +1,7 @@
 import Link from "next/link";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
-import {
-  countLibrary,
-  listLibrary,
-  listLibraryFacets,
-  readingHubCounts,
-} from "@/lib/data/reading-library";
+import { listLibrary, listLibraryFacets, readingHubCounts } from "@/lib/data/reading-library";
 import { questionTypeLabel, topicLabel } from "@/lib/reading-labels";
 import { ReadingFilters } from "@/components/reading/ReadingFilters";
 import { ReadingPassageCard } from "@/components/reading/ReadingPassageCard";
@@ -195,8 +190,14 @@ async function AcademicLibrary({
   lang: "uz" | "en";
   facets: Awaited<ReturnType<typeof listLibraryFacets>>;
 }) {
+  /*
+   * One call. The page used to ask the database three separate times for the
+   * same page of cards — the rows, the total, and again the filtered total —
+   * while the hub above it asked three more for the tab counts. The total now
+   * arrives with the rows (`count(*) over ()`), so "104 Academic passages" and
+   * the count under the filters are the same number from the same statement.
+   */
   const library = await listLibrary(user, filter);
-  const filtered = await countLibrary(user, filter);
 
   const buildPageHref = (page: number) => {
     const search = new URLSearchParams();
@@ -236,7 +237,7 @@ async function AcademicLibrary({
       />
 
       <p className="meta-text" data-reading-count>
-        {dict.readingHub.resultsCount.replace("{n}", String(filtered))}
+        {dict.readingHub.resultsCount.replace("{n}", String(library.total))}
       </p>
 
       {library.items.length === 0 ? (
