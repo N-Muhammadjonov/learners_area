@@ -1,5 +1,7 @@
 import asyncio
 import logging
+import signal
+from contextlib import suppress
 
 from aiohttp import web
 from aiogram import Bot, Dispatcher
@@ -8,6 +10,7 @@ from aiogram.enums import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_application
 
+from commands import install_commands
 from config import config
 from html_text import esc as _esc
 from handlers.admission import admission_router
@@ -27,6 +30,8 @@ ALLOWED_UPDATES = ["message", "callback_query", "my_chat_member"]
 
 
 def build_dispatcher() -> Dispatcher:
+    # Chat compose state may live in memory. Outbound confirms do not: they are
+    # server drafts bound to the actor, target and expiry.
     dp = Dispatcher(storage=MemoryStorage())
     dp.update.outer_middleware(DedupMiddleware())
     dp.message.outer_middleware(AuthMiddleware())
@@ -39,8 +44,8 @@ def build_dispatcher() -> Dispatcher:
     return dp
 
 
-async def _delivery_loop(bot: Bot) -> None:
-    while True:
+async def _delivery_loop(bot: Bot, stop: asyncio.Event) -> None:
+    while not stop.is_set():
         try:
             deliveries = await api_client.claim_broadcasts()
             results = []
@@ -77,52 +82,77 @@ async def _delivery_loop(bot: Bot) -> None:
                 await api_client.report_notices(notice_results)
         except Exception:
             log.warning("delivery loop failed")
-        await asyncio.sleep(3)
-
-
-async def on_shutdown(bot: Bot) -> None:
-    await api_client.close()
-    await bot.session.close()
+        try:
+            await asyncio.wait_for(stop.wait(), timeout=3)
+        except TimeoutError:
+            continue
 
 
 def health(_request: web.Request) -> web.Response:
     return web.json_response({"ok": True, "service": "learners-area-telegram-bot"})
 
 
+async def ready(_request: web.Request) -> web.Response:
+    try:
+        ok = await api_client.ready()
+    except Exception:
+        ok = False
+    if not ok:
+        return web.json_response({"ok": False}, status=503)
+    return web.json_response({"ok": True})
+
+
+async def _install_webhook(bot: Bot) -> None:
+    secret = config.WEBHOOK_SECRET.get_secret_value() if config.WEBHOOK_SECRET else None
+    await bot.set_webhook(
+        url=f"{config.WEBHOOK_BASE_URL.rstrip('/')}{config.WEBHOOK_PATH}",
+        secret_token=secret,
+        allowed_updates=ALLOWED_UPDATES,
+        drop_pending_updates=False,
+    )
+
+
 async def main() -> None:
-    config.require_webhook()
+    config.validate_startup()
     bot = Bot(token=config.TELEGRAM_BOT_TOKEN.get_secret_value(), default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     dp = build_dispatcher()
-    dp.shutdown.register(on_shutdown)
-    asyncio.create_task(_delivery_loop(bot))
-
-    if config.BOT_MODE == "webhook":
-        secret = config.WEBHOOK_SECRET.get_secret_value() if config.WEBHOOK_SECRET else None
+    stop = asyncio.Event()
+    worker: asyncio.Task | None = None
+    runner: web.AppRunner | None = None
+    loop = asyncio.get_running_loop()
+    for sig in (signal.SIGTERM, signal.SIGINT):
+        with suppress(NotImplementedError):
+            loop.add_signal_handler(sig, stop.set)
+    try:
+        if config.BOT_MODE == "webhook":
+            await _install_webhook(bot)
+        await install_commands(bot)
+        worker = asyncio.create_task(_delivery_loop(bot, stop))
         app = web.Application()
         app.router.add_get("/health", health)
-        SimpleRequestHandler(dispatcher=dp, bot=bot, secret_token=secret).register(app, path=config.WEBHOOK_PATH)
-        setup_application(app, dp, bot=bot)
-        await bot.set_webhook(
-            url=f"{config.WEBHOOK_BASE_URL.rstrip('/')}{config.WEBHOOK_PATH}",
-            secret_token=secret,
-            allowed_updates=ALLOWED_UPDATES,
-            drop_pending_updates=False,
-        )
-        log.info("webhook mode listening")
+        app.router.add_get("/ready", ready)
+        if config.BOT_MODE == "webhook":
+            secret = config.WEBHOOK_SECRET.get_secret_value() if config.WEBHOOK_SECRET else None
+            SimpleRequestHandler(dispatcher=dp, bot=bot, secret_token=secret).register(app, path=config.WEBHOOK_PATH)
+            setup_application(app, dp, bot=bot)
         runner = web.AppRunner(app)
         await runner.setup()
-        site = web.TCPSite(runner, config.HOST, config.PORT)
-        await site.start()
-        await asyncio.Event().wait()
-    else:
-        app = web.Application()
-        app.router.add_get("/health", health)
-        runner = web.AppRunner(app)
-        await runner.setup()
-        site = web.TCPSite(runner, config.HOST, config.PORT)
-        await site.start()
-        log.info("polling mode")
-        await dp.start_polling(bot, allowed_updates=ALLOWED_UPDATES)
+        await web.TCPSite(runner, config.HOST, config.PORT).start()
+        log.info("listening")
+        if config.BOT_MODE == "webhook":
+            await stop.wait()
+        else:
+            await dp.start_polling(bot, allowed_updates=ALLOWED_UPDATES)
+    finally:
+        stop.set()
+        if worker:
+            worker.cancel()
+            with suppress(asyncio.CancelledError):
+                await worker
+        if runner:
+            await runner.cleanup()
+        await api_client.close()
+        await bot.session.close()
 
 
 if __name__ == "__main__":

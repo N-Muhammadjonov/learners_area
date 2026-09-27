@@ -1,17 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import { eq } from "drizzle-orm";
-import { db } from "@/db/client";
-import { users } from "@/db/schema";
-import { consumeIntent } from "@/lib/auth/telegram-intent";
+import { prepareIntentExchange } from "@/lib/auth/telegram-exchange";
+import { consumeConfirmedIntent } from "@/lib/auth/telegram-intent";
 import { createSessionToken, SESSION_COOKIE, clearSessionCookies, sessionCookieOptions } from "@/lib/auth/session";
 import { clientKey, enforce, RULES } from "@/lib/http/rate-limit";
-import { linkTelegramToUser } from "@/lib/telegram/identity";
 import { isUuid } from "@/lib/validation/ids";
 
 /**
  * Exchange a confirmed one-time intent for the same session cookie email login
- * issues. Account status is returned so the client can send PENDING / REJECTED /
- * SUSPENDED to the waiting room. This route never marks an account ACTIVE.
+ * issues. The intent is consumed only after the purpose succeeds and the
+ * session can be issued. A login intent never creates an account.
  */
 export async function POST(req: NextRequest) {
   const limited = enforce(RULES.telegramAuth, clientKey(req));
@@ -25,48 +22,30 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "invalid_input" }, { status: 400 });
     }
 
-    const intent = await consumeIntent(intentId, browserNonce);
-    if (!intent?.telegramUserId) {
-      return NextResponse.json({ error: "intent_not_confirmed" }, { status: 400 });
-    }
-
-    let user = await db.query.users.findFirst({ where: eq(users.telegramId, intent.telegramUserId) });
-
-    if (intent.userId && user && user.id !== intent.userId) {
-      return NextResponse.json({ error: "telegram_already_linked" }, { status: 409 });
-    }
-
-    if (intent.userId && !user) {
-      const linked = await linkTelegramToUser({
-        userId: intent.userId,
-        telegramUserId: intent.telegramUserId,
-        actorUserId: intent.userId,
-      });
-      if (!linked.ok) {
-        return NextResponse.json({ error: "telegram_already_linked" }, { status: 409 });
-      }
-      user = await db.query.users.findFirst({ where: eq(users.id, intent.userId) });
-    }
-
-    if (!user) {
-      return NextResponse.json(
-        { error: "no_linked_account" },
-        { status: 404 }
-      );
+    const prepared = await prepareIntentExchange(intentId, browserNonce);
+    if (!prepared.ok) {
+      const status = prepared.error === "no_linked_account" ? 404 : prepared.error === "conflict" ? 409 : prepared.error === "already_consumed" ? 409 : 400;
+      const error = prepared.error === "conflict" ? "telegram_already_linked" : prepared.error;
+      return NextResponse.json({ error }, { status });
     }
 
     const token = await createSessionToken({
-      sub: user.id,
-      role: user.role,
-      name: user.name,
-      locale: user.locale,
-      onboarded: Boolean(user.onboardingCompletedAt),
+      sub: prepared.user.id,
+      role: prepared.user.role,
+      name: prepared.user.name,
+      locale: prepared.user.locale,
+      onboarded: Boolean(prepared.user.onboardingCompletedAt),
     });
+    const consumed = await consumeConfirmedIntent(intentId, browserNonce);
+    if (!consumed) {
+      return NextResponse.json({ error: "already_consumed" }, { status: 409 });
+    }
 
     const res = NextResponse.json({
       success: true,
-      onboarded: Boolean(user.onboardingCompletedAt),
-      accountStatus: user.accountStatus,
+      onboarded: Boolean(prepared.user.onboardingCompletedAt),
+      accountStatus: prepared.user.accountStatus,
+      outcome: prepared.outcome,
     });
     clearSessionCookies(res, req);
     res.cookies.set(SESSION_COOKIE, token, sessionCookieOptions(req));

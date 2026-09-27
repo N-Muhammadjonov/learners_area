@@ -36,7 +36,9 @@ Mavjud Learners Area loyihasiga qo'shing:
 - `BOT_SERVICE_SECRET`
 - `TELEGRAM_OWNER_ID`
 
-Saytni qayta deploy qiling. Migratsiya 0019 va 0020 ni bu bosqichda ishga tushirmang.
+Saytni qayta deploy qilishdan oldin migratsiya `0021_telegram_intent_purpose.sql` ni qo'llang. 0019 va 0020 allaqachon qo'llangan — ularni o'zgartirmang va qayta ishga tushirmang.
+
+`0021` login niyatiga `purpose` ustunini va qayta ishga tushirishga chidamli tasdiq qoralamalarini qo'shadi. Agent bu migratsiyani productionga qo'llamaydi. Qo'llash uchun alohida tasdiq kerak.
 
 ## 5. Railway
 
@@ -59,7 +61,11 @@ Env:
 
 Nusxa soni: 1. Ikkinchi jarayon webhookni tortib oladi.
 
-Health: `GET /health`. Javobda sir yoki foydalanuvchi yo'q. `{"ok":true,"service":"learners-area-telegram-bot"}` bo'lishi kerak.
+Health: `GET /health`. Javobda sir yoki foydalanuvchi yo'q. `{"ok":true,"service":"learners-area-telegram-bot"}` bo'lishi kerak. Railway healthcheck shu yo'lda qoladi.
+
+`GET /ready` ichki API va bazani tekshiradi. U liveness emas. API yiqilsa `/ready` 503, `/health` esa 200 qoladi.
+
+`WEBHOOK_SECRET` faqat `A-Z a-z 0-9 _ -` va 1–256 belgi. Bot yaroqsiz qiymatda `setWebhook` chaqirmaydi va secretni chop etmaydi.
 
 ## 6. Mahalliy polling
 

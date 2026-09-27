@@ -2,9 +2,10 @@ from aiogram import F, Router
 from aiogram.filters import Command
 from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
 
+from copy_format import admission_text
 from html_text import esc
 from i18n import t
-from middlewares.auth import allows
+from middlewares.auth import allows, denial_key
 from services.api_client import api_client
 
 admission_router = Router()
@@ -32,7 +33,7 @@ async def cmd_apply(message: Message, db_user: dict | None = None):
             await message.answer(t(lang, "apply_suspended"))
             return
     try:
-        await api_client.create_access_request(
+        raw = await api_client.create_access_request(
             str(message.from_user.id),
             message.from_user.full_name,
             "Telegram orqali ariza",
@@ -40,16 +41,17 @@ async def cmd_apply(message: Message, db_user: dict | None = None):
             chatId=str(message.chat.id),
             languageCode=message.from_user.language_code,
         )
-        await message.answer(t(lang, "apply_ok"))
+        await message.answer(admission_text(lang, raw))
     except Exception:
         await message.answer(t(lang, "error"))
 
 
 @admission_router.message(Command("pending"))
-async def cmd_pending(message: Message, db_user: dict | None = None, bot_access: dict | None = None):
+async def cmd_pending(message: Message, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False):
     lang = _lang(message, db_user)
-    if not allows(bot_access, "ADMISSIONS"):
-        await message.answer(t(lang, "no_permission"))
+    denied = denial_key(bot_access, backend_error, "ADMISSIONS")
+    if denied:
+        await message.answer(t(lang, denied))
         return
     try:
         requests = await api_client.list_pending_requests(str(message.from_user.id))
@@ -76,10 +78,11 @@ async def cmd_pending(message: Message, db_user: dict | None = None, bot_access:
 
 
 @admission_router.callback_query(F.data.startswith("decide_"))
-async def handle_decision(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None):
+async def handle_decision(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False):
     lang = _lang(callback, db_user)
-    if not allows(bot_access, "ADMISSIONS"):
-        await callback.answer(t(lang, "no_permission"), show_alert=True)
+    denied = denial_key(bot_access, backend_error, "ADMISSIONS")
+    if denied:
+        await callback.answer(t(lang, denied), show_alert=True)
         return
     parts = (callback.data or "").split("_", 2)
     if len(parts) < 3 or parts[1] not in {"approve", "reject"} or not parts[2]:
@@ -93,9 +96,9 @@ async def handle_decision(callback: CallbackQuery, db_user: dict | None = None, 
         await callback.answer(t(lang, "error"), show_alert=True)
         return
     if not success:
-        await callback.answer("Ariza allaqachon ko'rib chiqilgan yoki topilmadi.", show_alert=True)
+        await callback.answer(t(lang, "decide_conflict"), show_alert=True)
         return
-    label = "✅ Tasdiqlandi" if decision == "approve" else "❌ Rad etildi"
+    label = f"✅ {t(lang, 'approved')}" if decision == "approve" else f"❌ {t(lang, 'rejected')}"
     original = callback.message.text or ""
     await callback.message.edit_text(f"{original}\n\n{label}", reply_markup=None)
     await callback.answer(label)

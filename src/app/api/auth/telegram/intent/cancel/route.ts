@@ -15,6 +15,9 @@ export async function POST(req: NextRequest) {
   }
 
   const cancelled = await cancelIntent(intentId, browserNonce);
-  if (!cancelled) return NextResponse.json({ error: "not_cancellable" }, { status: 409 });
+  if (!cancelled.ok) {
+    const status = cancelled.reason === "not_found" ? 404 : 409;
+    return NextResponse.json({ error: cancelled.reason }, { status });
+  }
   return NextResponse.json({ ok: true });
 }

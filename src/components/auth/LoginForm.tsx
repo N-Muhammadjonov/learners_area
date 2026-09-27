@@ -88,6 +88,7 @@ export function LoginForm({
         dict={dict}
         configured={telegramConfigured}
         botUsername={telegramBotUsername}
+        purpose="login"
       />
     </form>
   );

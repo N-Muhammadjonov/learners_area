@@ -4,9 +4,10 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from config import config
+from copy_format import admission_text
 from html_text import esc
 from i18n import t
-from middlewares.auth import allows
+from middlewares.auth import allows, denial_key
 from services.api_client import api_client
 
 menu_router = Router()
@@ -65,9 +66,12 @@ def owner_keyboard(lang: str, bot_access: dict | None) -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(inline_keyboard=rows)
 
 
-async def show_home(event: Message | CallbackQuery, lang: str, bot_access: dict | None, db_user: dict | None):
-    name = (db_user or {}).get("name") or (event.from_user.full_name if event.from_user else "")
-    text = t(lang, "welcome_linked", name=esc(name)) if db_user else t(lang, "welcome_new")
+async def show_home(event: Message | CallbackQuery, lang: str, bot_access: dict | None, db_user: dict | None, backend_error: bool = False):
+    if backend_error and not db_user:
+        text = t(lang, "temporary_error")
+    else:
+        name = (db_user or {}).get("name") or (event.from_user.full_name if event.from_user else "")
+        text = t(lang, "welcome_linked", name=esc(name)) if db_user else t(lang, "welcome_new")
     markup = main_keyboard(lang, bot_access)
     if isinstance(event, CallbackQuery) and event.message:
         await event.message.edit_text(text, reply_markup=markup)
@@ -88,9 +92,26 @@ async def cb_home(callback: CallbackQuery, db_user: dict | None = None, bot_acce
     await show_home(callback, _lang(callback, db_user, contact), bot_access, db_user)
 
 
+@menu_router.message(Command("status"))
+async def cmd_status(message: Message, db_user: dict | None = None, contact: dict | None = None, backend_error: bool = False):
+    if backend_error:
+        await message.answer(t(_lang(message, db_user, contact), "temporary_error"))
+        return
+    await cb_status(message, db_user, contact)
+
+
+@menu_router.message(Command("settings"))
+async def cmd_settings(message: Message, db_user: dict | None = None, contact: dict | None = None):
+    await cb_settings(message, db_user, contact)
+
+
 @menu_router.callback_query(F.data == "m:owner")
-async def cb_owner(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, contact: dict | None = None):
+async def cb_owner(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, contact: dict | None = None, backend_error: bool = False):
     lang = _lang(callback, db_user, contact)
+    denied = denial_key(bot_access, backend_error) if backend_error else None
+    if denied:
+        await callback.answer(t(lang, denied), show_alert=True)
+        return
     if not (bot_access and (bot_access.get("isPrimaryOwner") or bot_access.get("permissions"))):
         await callback.answer(t(lang, "no_permission"), show_alert=True)
         return
@@ -110,7 +131,7 @@ async def cb_login(callback: CallbackQuery, db_user: dict | None = None, contact
 
 
 @menu_router.callback_query(F.data == "m:status")
-async def cb_status(callback: CallbackQuery, db_user: dict | None = None, contact: dict | None = None):
+async def cb_status(callback: CallbackQuery | Message, db_user: dict | None = None, contact: dict | None = None):
     lang = _lang(callback, db_user, contact)
     status = (db_user or {}).get("accountStatus")
     key = {
@@ -122,15 +143,19 @@ async def cb_status(callback: CallbackQuery, db_user: dict | None = None, contac
     rows = [[InlineKeyboardButton(text=t(lang, "home"), callback_data="m:home")]]
     if status in {None, "rejected"}:
         rows.insert(0, [InlineKeyboardButton(text=t(lang, "apply"), callback_data="m:apply")])
-    await callback.message.edit_text(t(lang, key), reply_markup=InlineKeyboardMarkup(inline_keyboard=rows))
-    await callback.answer()
+    markup = InlineKeyboardMarkup(inline_keyboard=rows)
+    if isinstance(callback, CallbackQuery) and callback.message:
+        await callback.message.edit_text(t(lang, key), reply_markup=markup)
+        await callback.answer()
+    else:
+        await callback.answer(t(lang, key), reply_markup=markup)
 
 
 @menu_router.callback_query(F.data == "m:apply")
 async def cb_apply(callback: CallbackQuery, db_user: dict | None = None, contact: dict | None = None):
     lang = _lang(callback, db_user, contact)
     try:
-        await api_client.create_access_request(
+        raw = await api_client.create_access_request(
             str(callback.from_user.id),
             callback.from_user.full_name,
             "Telegram orqali ariza",
@@ -138,7 +163,7 @@ async def cb_apply(callback: CallbackQuery, db_user: dict | None = None, contact
             chatId=str(callback.message.chat.id),
             languageCode=callback.from_user.language_code,
         )
-        text = t(lang, "apply_ok")
+        text = admission_text(lang, raw)
     except Exception:
         text = t(lang, "error")
     await callback.message.edit_text(text, reply_markup=InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=t(lang, "home"), callback_data="m:home")]]))
@@ -168,17 +193,20 @@ async def cb_notes(callback: CallbackQuery, db_user: dict | None = None, contact
     lang = _lang(callback, db_user, contact)
     status, data = await api_client.notification_prefs(str(callback.from_user.id))
     if status != 200:
+        if status >= 500:
+            await callback.answer(t(lang, "temporary_error"), show_alert=True)
+            return
         data = {}
     text = (
         f"{t(lang, 'menu_notes')}\n"
-        f"account: on\n"
-        f"announcements: {'on' if data.get('announcements') else 'off'}\n"
-        f"reminders: {'on' if data.get('reminders') else 'off'}"
+        f"{t(lang, 'account_notices')}\n"
+        f"{t(lang, 'announcements')}: {'on' if data.get('announcements') else 'off'}\n"
+        f"{t(lang, 'reminders')}: {'on' if data.get('reminders') else 'off'}"
     )
     markup = InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text="Announcements", callback_data="n:ann")],
-            [InlineKeyboardButton(text="Reminders", callback_data="n:rem")],
+            [InlineKeyboardButton(text=t(lang, "announcements"), callback_data="n:ann")],
+            [InlineKeyboardButton(text=t(lang, "reminders"), callback_data="n:rem")],
             [InlineKeyboardButton(text=t(lang, "home"), callback_data="m:home")],
         ]
     )
@@ -200,7 +228,7 @@ async def cb_toggle_note(callback: CallbackQuery, db_user: dict | None = None, c
 
 
 @menu_router.callback_query(F.data == "m:settings")
-async def cb_settings(callback: CallbackQuery, db_user: dict | None = None, contact: dict | None = None):
+async def cb_settings(callback: CallbackQuery | Message, db_user: dict | None = None, contact: dict | None = None):
     lang = _lang(callback, db_user, contact)
     markup = InlineKeyboardMarkup(
         inline_keyboard=[
@@ -211,8 +239,11 @@ async def cb_settings(callback: CallbackQuery, db_user: dict | None = None, cont
             [InlineKeyboardButton(text=t(lang, "home"), callback_data="m:home")],
         ]
     )
-    await callback.message.edit_text(t(lang, "language"), reply_markup=markup)
-    await callback.answer()
+    if isinstance(callback, CallbackQuery) and callback.message:
+        await callback.message.edit_text(t(lang, "language"), reply_markup=markup)
+        await callback.answer()
+    else:
+        await callback.answer(t(lang, "language"), reply_markup=markup)
 
 
 @menu_router.callback_query(F.data.startswith("lang:"))

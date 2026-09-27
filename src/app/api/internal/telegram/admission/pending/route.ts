@@ -13,8 +13,14 @@ export async function GET(req: NextRequest) {
 
   try {
     const requests = await listPendingAccessRequests();
+    const page = Math.max(1, Number(req.nextUrl.searchParams.get("page") ?? "1") || 1);
+    const pageSize = 8;
+    const slice = requests.slice((page - 1) * pageSize, page * pageSize);
     return NextResponse.json({
-      requests: requests.map((row) => ({
+      page,
+      pageSize,
+      total: requests.length,
+      requests: slice.map((row) => ({
         id: row.id,
         userId: row.userId,
         applicantName: row.applicantName,

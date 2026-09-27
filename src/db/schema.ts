@@ -1648,6 +1648,10 @@ export const telegramLoginIntents = pgTable("telegram_login_intents", {
   browserNonceHash: text("browser_nonce_hash").notNull(),
   telegramUserId: varchar("telegram_user_id", { length: 64 }),
   userId: uuid("user_id").references(() => users.id, { onDelete: "cascade" }),
+  /** Server-owned. login never creates an account; register may; link binds the signed-in user. */
+  purpose: varchar("purpose", { length: 16 }).notNull().default("login"),
+  displayName: varchar("display_name", { length: 200 }),
+  languageCode: varchar("language_code", { length: 10 }),
   status: telegramLoginIntentStatusEnum("status").notNull().default("pending"),
   expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
   confirmedAt: timestamp("confirmed_at", { withTimezone: true }),
@@ -1805,6 +1809,22 @@ export const telegramDeletionIntents = pgTable("telegram_deletion_intents", {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 }, (table) => ({
   tokenIdx: uniqueIndex("telegram_deletion_intents_token_idx").on(table.tokenHash),
+}));
+
+/**
+ * Restart-safe compose/confirm drafts. The callback carries only this id.
+ * A Railway restart cannot replay a later message against a forgotten target.
+ */
+export const telegramFlowDrafts = pgTable("telegram_flow_drafts", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  actorTelegramId: varchar("actor_telegram_id", { length: 64 }).notNull(),
+  kind: varchar("kind", { length: 32 }).notNull(),
+  payload: jsonb("payload").$type<Record<string, unknown>>().notNull(),
+  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  consumedAt: timestamp("consumed_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => ({
+  actorIdx: index("telegram_flow_drafts_actor_idx").on(table.actorTelegramId, table.kind),
 }));
 
 export const telegramBotSettings = pgTable("telegram_bot_settings", {

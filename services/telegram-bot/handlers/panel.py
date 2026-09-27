@@ -3,9 +3,10 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
 
+from copy_format import format_audit, format_settings, format_stats
 from html_text import esc
 from i18n import t
-from middlewares.auth import allows
+from middlewares.auth import allows, denial_key
 from services.api_client import api_client
 
 panel_router = Router()
@@ -50,41 +51,77 @@ async def users_search(message: Message, state: FSMContext, db_user: dict | None
         await state.clear()
         await message.answer(t(lang, "no_permission"))
         return
-    status, data = await api_client.search_users(str(message.from_user.id), message.text or "")
+    query = message.text or ""
+    status, data = await api_client.search_users(str(message.from_user.id), query)
     await state.clear()
     if status != 200:
-        await message.answer(t(lang, "no_permission"))
+        await message.answer(t(lang, "temporary_error" if status >= 500 else "no_permission"))
         return
     items = data.get("items") or []
     if not items:
         await message.answer(t(lang, "empty"))
         return
-    rows = [[InlineKeyboardButton(text=f"{item.get('name')} · {item.get('accountStatus')}"[:40], callback_data=f"usr:{item['id']}")] for item in items[:8]]
+    draft_status, draft = await api_client.save_draft(str(message.from_user.id), "search", {"q": query})
+    rows = [[InlineKeyboardButton(text=f"{item.get('name')} · {item.get('accountStatus')}"[:40], callback_data=f"usr:{item['id']}")] for item in items]
+    if draft_status == 200 and draft.get("id") and (data.get("total") or 0) > (data.get("pageSize") or 8):
+        rows.append([InlineKeyboardButton(text=t(lang, "next"), callback_data=f"usq:{draft['id']}:2")])
     rows.append([InlineKeyboardButton(text=t(lang, "home"), callback_data="m:owner")])
     await message.answer(t(lang, "users"), reply_markup=InlineKeyboardMarkup(inline_keyboard=rows))
 
 
-def _user_actions(user_id: str, bot_access: dict | None) -> list[list[InlineKeyboardButton]]:
+@panel_router.callback_query(F.data.startswith("usq:"))
+async def users_page(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False):
+    lang = _lang(callback, db_user)
+    denied = denial_key(bot_access, backend_error, "VIEW_USERS")
+    if denied:
+        await callback.answer(t(lang, denied), show_alert=True)
+        return
+    _prefix, draft_id, page_text = callback.data.split(":", 2)
+    page = max(1, int(page_text or "1"))
+    draft_status, draft = await api_client.read_draft(str(callback.from_user.id), draft_id)
+    if draft_status != 200:
+        await callback.answer(t(lang, "stale_confirm"), show_alert=True)
+        return
+    query = ((draft.get("payload") or {}).get("q")) or ""
+    status, data = await api_client.search_users(str(callback.from_user.id), query, page)
+    if status != 200:
+        await callback.answer(t(lang, "temporary_error" if status >= 500 else "no_permission"), show_alert=True)
+        return
+    items = data.get("items") or []
+    rows = [[InlineKeyboardButton(text=f"{item.get('name')} · {item.get('accountStatus')}"[:40], callback_data=f"usr:{item['id']}")] for item in items]
+    nav = []
+    if page > 1:
+        nav.append(InlineKeyboardButton(text=t(lang, "prev"), callback_data=f"usq:{draft_id}:{page - 1}"))
+    if page * (data.get("pageSize") or 10) < (data.get("total") or 0):
+        nav.append(InlineKeyboardButton(text=t(lang, "next"), callback_data=f"usq:{draft_id}:{page + 1}"))
+    if nav:
+        rows.append(nav)
+    rows.append([InlineKeyboardButton(text=t(lang, "home"), callback_data="m:owner")])
+    await callback.message.edit_text(f"{t(lang, 'users')}\n{t(lang, 'page', page=page)}", reply_markup=InlineKeyboardMarkup(inline_keyboard=rows))
+    await callback.answer()
+
+
+def _user_actions(user_id: str, bot_access: dict | None, lang: str) -> list[list[InlineKeyboardButton]]:
     rows = []
     if allows(bot_access, "DIRECT_MESSAGE"):
-        rows.append([InlineKeyboardButton(text="Message", callback_data=f"dm:{user_id}")])
+        rows.append([InlineKeyboardButton(text=t(lang, "message"), callback_data=f"dm:{user_id}")])
     if allows(bot_access, "ADMISSIONS"):
         rows.append([
-            InlineKeyboardButton(text="Approve", callback_data=f"ust:approve:{user_id}"),
-            InlineKeyboardButton(text="Reject", callback_data=f"ust:reject:{user_id}"),
+            InlineKeyboardButton(text=t(lang, "approve"), callback_data=f"ust:approve:{user_id}"),
+            InlineKeyboardButton(text=t(lang, "reject"), callback_data=f"ust:reject:{user_id}"),
         ])
     if allows(bot_access, "MANAGE_USERS"):
         rows.append([
-            InlineKeyboardButton(text="Suspend", callback_data=f"ust:suspend:{user_id}"),
-            InlineKeyboardButton(text="Unsuspend", callback_data=f"ust:unsuspend:{user_id}"),
+            InlineKeyboardButton(text=t(lang, "suspend"), callback_data=f"ust:suspend:{user_id}"),
+            InlineKeyboardButton(text=t(lang, "unsuspend"), callback_data=f"ust:unsuspend:{user_id}"),
         ])
         rows.append([
-            InlineKeyboardButton(text="Unlink", callback_data=f"ust:unlink:{user_id}"),
-            InlineKeyboardButton(text="Remove bot", callback_data=f"ust:remove:{user_id}"),
+            InlineKeyboardButton(text=t(lang, "unlink"), callback_data=f"ust:unlink:{user_id}"),
+            InlineKeyboardButton(text=t(lang, "remove_bot"), callback_data=f"ust:remove:{user_id}"),
         ])
     if allows(bot_access, "DANGEROUS_USER_DELETE"):
-        rows.append([InlineKeyboardButton(text="Delete account", callback_data=f"ust:delete:{user_id}")])
-    rows.append([InlineKeyboardButton(text="Back", callback_data="o:users")])
+        rows.append([InlineKeyboardButton(text=t(lang, "delete_account"), callback_data=f"ust:delete:{user_id}")])
+    rows.append([InlineKeyboardButton(text=t(lang, "back"), callback_data="o:users")])
     return rows
 
 
@@ -106,7 +143,7 @@ async def user_card(callback: CallbackQuery, db_user: dict | None = None, bot_ac
         f"{esc(user.get('role'))} · {esc(user.get('accountStatus'))}",
         f"telegram: {esc(user.get('telegramId') or '—')}",
     ])
-    await callback.message.edit_text(text, reply_markup=InlineKeyboardMarkup(inline_keyboard=_user_actions(user_id, bot_access)))
+    await callback.message.edit_text(text, reply_markup=InlineKeyboardMarkup(inline_keyboard=_user_actions(user_id, bot_access, lang)))
     await callback.answer()
 
 
@@ -162,7 +199,7 @@ async def confirm_delete(message: Message, state: FSMContext, bot_access: dict |
         "delete",
         {"actorTelegramId": str(message.from_user.id), "confirm": True, "code": (message.text or "").strip()},
     )
-    await message.answer("Hisob anonimlashtirildi." if status == 200 else t(lang, "error"))
+    await message.answer(t(lang, "anonymized") if status == 200 else t(lang, "error"))
 
 
 @panel_router.callback_query(F.data.startswith("dm:"))
@@ -176,60 +213,81 @@ async def begin_dm(callback: CallbackQuery, state: FSMContext, db_user: dict | N
     name = ((data or {}).get("user") or {}).get("name") or user_id
     await state.set_state(PanelFlow.dm_compose)
     await state.update_data(user_id=user_id, target_name=name)
-    await callback.message.edit_text(f"Message: {esc(name)}\n/cancel", reply_markup=_back(lang))
+    await callback.message.edit_text(t(lang, "compose_for", name=esc(name)), reply_markup=_back(lang))
     await callback.answer()
     del status
 
 
 @panel_router.message(PanelFlow.dm_compose)
-async def preview_dm(message: Message, state: FSMContext, db_user: dict | None = None):
+async def preview_dm(message: Message, state: FSMContext, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False):
     lang = _lang(message, db_user)
     data = await state.get_data()
-    await state.set_state(PanelFlow.dm_preview)
-    await state.update_data(text=message.text or "")
+    denied = denial_key(bot_access, backend_error, "DIRECT_MESSAGE")
+    if denied or not data.get("user_id"):
+        await state.clear()
+        await message.answer(t(lang, denied or "error"))
+        return
+    status, draft = await api_client.save_draft(str(message.from_user.id), "dm", {
+        "userId": data.get("user_id"),
+        "text": message.text or "",
+        "targetName": data.get("target_name"),
+    })
+    await state.clear()
+    if status != 200 or not draft.get("id"):
+        await message.answer(t(lang, "temporary_error" if status >= 500 else "error"))
+        return
     await message.answer(
-        f"Preview → {esc(data.get('target_name'))}\n{esc(message.text)}",
+        f"{t(lang, 'preview')} → {esc(data.get('target_name'))}\n{esc(message.text)}",
         reply_markup=InlineKeyboardMarkup(inline_keyboard=[[
-            InlineKeyboardButton(text="Send", callback_data="dmok"),
-            InlineKeyboardButton(text="Cancel", callback_data="m:home"),
+            InlineKeyboardButton(text=t(lang, "send"), callback_data=f"dmc:{draft['id']}"),
+            InlineKeyboardButton(text=t(lang, "back"), callback_data="m:home"),
         ]]),
     )
 
 
 @panel_router.callback_query(F.data == "dmok")
-async def send_dm(callback: CallbackQuery, state: FSMContext, db_user: dict | None = None, bot_access: dict | None = None):
+async def stale_dm(callback: CallbackQuery, db_user: dict | None = None):
+    await callback.answer(t(_lang(callback, db_user), "stale_confirm"), show_alert=True)
+
+
+@panel_router.callback_query(F.data.startswith("dmc:"))
+async def send_dm(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False):
     lang = _lang(callback, db_user)
-    data = await state.get_data()
-    await state.clear()
-    if not allows(bot_access, "DIRECT_MESSAGE"):
-        await callback.answer(t(lang, "no_permission"), show_alert=True)
+    denied = denial_key(bot_access, backend_error, "DIRECT_MESSAGE")
+    if denied:
+        await callback.answer(t(lang, denied), show_alert=True)
         return
+    status, claimed = await api_client.claim_draft(str(callback.from_user.id), callback.data.split(":", 1)[1], "dm")
+    if status != 200:
+        await callback.answer(t(lang, "stale_confirm"), show_alert=True)
+        return
+    data = claimed.get("payload") or {}
     status, result = await api_client.user_action(
-        data.get("user_id"),
+        data.get("userId"),
         "message",
         {"actorTelegramId": str(callback.from_user.id), "text": data.get("text")},
     )
     if status != 200 or not result.get("chatId"):
         reason = (result or {}).get("reason") or (result or {}).get("error") or "unavailable"
-        await callback.message.edit_text(f"Yuborilmadi: {esc(reason)}")
+        await callback.message.edit_text(t(lang, "not_sent_reason", reason=esc(reason)))
         await callback.answer()
         return
     try:
         sent = await callback.bot.send_message(int(result["chatId"]), esc(result.get("text")))
         await api_client.user_action(
-            data.get("user_id"),
+            data.get("userId"),
             "message",
             {"report": True, "messageId": result.get("messageId"), "status": "sent", "telegramMessageId": str(sent.message_id)},
         )
-        await callback.message.edit_text("Yuborildi.")
+        await callback.message.edit_text(t(lang, "sent"))
     except Exception as exc:
         blocked = "blocked" in str(exc).lower() or "chat not found" in str(exc).lower()
         await api_client.user_action(
-            data.get("user_id"),
+            data.get("userId"),
             "message",
             {"report": True, "messageId": result.get("messageId"), "status": "blocked" if blocked else "failed", "error": "delivery_failed"},
         )
-        await callback.message.edit_text("Yuborilmadi: chat mavjud emas yoki bloklangan." if blocked else t(lang, "error"))
+        await callback.message.edit_text(t(lang, "not_sent_blocked") if blocked else t(lang, "error"))
     await callback.answer()
 
 
@@ -256,6 +314,45 @@ async def admissions(callback: CallbackQuery, db_user: dict | None = None, bot_a
             InlineKeyboardButton(text=f"✅ {req.get('applicantName')}"[:32], callback_data=f"decide_approve_{req.get('id')}"),
             InlineKeyboardButton(text="❌", callback_data=f"decide_reject_{req.get('id')}"),
         ])
+    if len(requests) == 8:
+        rows.append([InlineKeyboardButton(text=t(lang, "next"), callback_data="apg:2")])
+    rows.append([InlineKeyboardButton(text=t(lang, "back"), callback_data="m:owner")])
+    await callback.message.edit_text("\n".join(lines), reply_markup=InlineKeyboardMarkup(inline_keyboard=rows))
+    await callback.answer()
+
+
+@panel_router.callback_query(F.data.startswith("apg:"))
+async def admissions_page(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False):
+    lang = _lang(callback, db_user)
+    denied = denial_key(bot_access, backend_error, "ADMISSIONS")
+    if denied:
+        await callback.answer(t(lang, denied), show_alert=True)
+        return
+    page = max(1, int(callback.data.split(":", 1)[1] or "1"))
+    try:
+        requests = await api_client.list_pending_requests(str(callback.from_user.id), page)
+    except Exception:
+        await callback.answer(t(lang, "temporary_error"), show_alert=True)
+        return
+    if not requests:
+        await callback.message.edit_text(t(lang, "empty"), reply_markup=_back(lang))
+        await callback.answer()
+        return
+    lines = [t(lang, "admissions"), t(lang, "page", page=page)]
+    rows = []
+    for req in requests[:8]:
+        lines.append(f"• {esc(req.get('applicantName'))}")
+        rows.append([
+            InlineKeyboardButton(text=f"✅ {req.get('applicantName')}"[:32], callback_data=f"decide_approve_{req.get('id')}"),
+            InlineKeyboardButton(text="❌", callback_data=f"decide_reject_{req.get('id')}"),
+        ])
+    nav = []
+    if page > 1:
+        nav.append(InlineKeyboardButton(text=t(lang, "prev"), callback_data=f"apg:{page - 1}"))
+    if len(requests) == 8:
+        nav.append(InlineKeyboardButton(text=t(lang, "next"), callback_data=f"apg:{page + 1}"))
+    if nav:
+        rows.append(nav)
     rows.append([InlineKeyboardButton(text=t(lang, "back"), callback_data="m:owner")])
     await callback.message.edit_text("\n".join(lines), reply_markup=InlineKeyboardMarkup(inline_keyboard=rows))
     await callback.answer()
@@ -270,11 +367,11 @@ async def broadcast_start(callback: CallbackQuery, state: FSMContext, db_user: d
     rows = [
         [InlineKeyboardButton(text=label, callback_data=f"bc:{key}")]
         for key, label in [
-            ("all_bot_users", "All bot users"),
-            ("active_students", "Active students"),
-            ("pending_applicants", "Pending"),
-            ("teachers", "Teachers"),
-            ("admins", "Admins"),
+            ("all_bot_users", t(lang, "audience_all")),
+            ("active_students", t(lang, "audience_active")),
+            ("pending_applicants", t(lang, "audience_pending")),
+            ("teachers", t(lang, "audience_teachers")),
+            ("admins", t(lang, "audience_admins")),
         ]
     ]
     rows.append([InlineKeyboardButton(text=t(lang, "back"), callback_data="m:owner")])
@@ -300,48 +397,75 @@ async def broadcast_audience(callback: CallbackQuery, state: FSMContext, db_user
 
 
 @panel_router.message(PanelFlow.broadcast_compose)
-async def broadcast_preview(message: Message, state: FSMContext, db_user: dict | None = None):
+async def broadcast_preview(message: Message, state: FSMContext, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False):
+    lang = _lang(message, db_user)
     data = await state.get_data()
-    await state.set_state(PanelFlow.broadcast_preview)
-    await state.update_data(content=message.text or "")
+    denied = denial_key(bot_access, backend_error, "BROADCAST")
+    if denied or not data.get("audience"):
+        await state.clear()
+        await message.answer(t(lang, denied or "error"))
+        return
+    status, draft = await api_client.save_draft(str(message.from_user.id), "broadcast", {
+        "audience": data.get("audience"),
+        "content": message.text or "",
+        "count": data.get("count"),
+    })
+    await state.clear()
+    if status != 200 or not draft.get("id"):
+        await message.answer(t(lang, "temporary_error" if status >= 500 else "error"))
+        return
     await message.answer(
-        f"Preview ({data.get('count')}): {esc(message.text)}",
+        f"{t(lang, 'preview')} ({data.get('count')}): {esc(message.text)}",
         reply_markup=InlineKeyboardMarkup(inline_keyboard=[[
-            InlineKeyboardButton(text="Test to me", callback_data="bctest"),
-            InlineKeyboardButton(text="Confirm", callback_data="bcok"),
-            InlineKeyboardButton(text="Cancel", callback_data="m:home"),
+            InlineKeyboardButton(text=t(lang, "test_to_me"), callback_data=f"bct:{draft['id']}"),
+            InlineKeyboardButton(text=t(lang, "confirm"), callback_data=f"bcc:{draft['id']}"),
+            InlineKeyboardButton(text=t(lang, "back"), callback_data="m:home"),
         ]]),
     )
 
 
-@panel_router.callback_query(F.data == "bctest")
-async def broadcast_test(callback: CallbackQuery, state: FSMContext, bot_access: dict | None = None, db_user: dict | None = None):
-    lang = _lang(callback, db_user)
-    if not allows(bot_access, "BROADCAST"):
-        await callback.answer(t(lang, "no_permission"), show_alert=True)
-        return
-    data = await state.get_data()
-    await callback.bot.send_message(callback.from_user.id, f"TEST\n{esc(data.get('content'))}")
-    await callback.answer("Test yuborildi")
+@panel_router.callback_query(F.data.in_({"bctest", "bcok"}))
+async def stale_broadcast(callback: CallbackQuery, db_user: dict | None = None):
+    await callback.answer(t(_lang(callback, db_user), "stale_confirm"), show_alert=True)
 
 
-@panel_router.callback_query(F.data == "bcok")
-async def broadcast_confirm(callback: CallbackQuery, state: FSMContext, bot_access: dict | None = None, db_user: dict | None = None):
+@panel_router.callback_query(F.data.startswith("bct:"))
+async def broadcast_test(callback: CallbackQuery, bot_access: dict | None = None, db_user: dict | None = None, backend_error: bool = False):
     lang = _lang(callback, db_user)
-    data = await state.get_data()
-    await state.clear()
-    if not allows(bot_access, "BROADCAST"):
-        await callback.answer(t(lang, "no_permission"), show_alert=True)
+    denied = denial_key(bot_access, backend_error, "BROADCAST")
+    if denied:
+        await callback.answer(t(lang, denied), show_alert=True)
         return
+    status, draft = await api_client.read_draft(str(callback.from_user.id), callback.data.split(":", 1)[1])
+    if status != 200:
+        await callback.answer(t(lang, "stale_confirm"), show_alert=True)
+        return
+    content = ((draft.get("payload") or {}).get("content")) or ""
+    await callback.bot.send_message(callback.from_user.id, f"{t(lang, 'test_to_me')}\n{esc(content)}")
+    await callback.answer(t(lang, "sent"))
+
+
+@panel_router.callback_query(F.data.startswith("bcc:"))
+async def broadcast_confirm(callback: CallbackQuery, bot_access: dict | None = None, db_user: dict | None = None, backend_error: bool = False):
+    lang = _lang(callback, db_user)
+    denied = denial_key(bot_access, backend_error, "BROADCAST")
+    if denied:
+        await callback.answer(t(lang, denied), show_alert=True)
+        return
+    status, claimed = await api_client.claim_draft(str(callback.from_user.id), callback.data.split(":", 1)[1], "broadcast")
+    if status != 200:
+        await callback.answer(t(lang, "stale_confirm"), show_alert=True)
+        return
+    data = claimed.get("payload") or {}
     status, result = await api_client.broadcast({
         "actorTelegramId": str(callback.from_user.id),
         "audience": data.get("audience"),
         "content": data.get("content"),
     })
     if status != 200:
-        await callback.message.edit_text(t(lang, "error"))
+        await callback.message.edit_text(t(lang, "not_sent"))
     else:
-        await callback.message.edit_text(f"Queued: {result.get('recipientCount')} · {esc(result.get('status'))}")
+        await callback.message.edit_text(f"{t(lang, 'queued')} {result.get('recipientCount')}")
     await callback.answer()
 
 
@@ -361,7 +485,7 @@ async def admins(callback: CallbackQuery, db_user: dict | None = None, bot_acces
         lines.append(f"• {admin.get('telegramUserId')} {'on' if admin.get('isActive') else 'off'} {','.join(admin.get('permissions') or [])}")
         if admin.get("isActive"):
             rows.append([InlineKeyboardButton(text=f"Remove {admin.get('telegramUserId')}"[:40], callback_data=f"admrm:{admin.get('telegramUserId')}")])
-    rows.append([InlineKeyboardButton(text="Add", callback_data="admadd")])
+    rows.append([InlineKeyboardButton(text=t(lang, "add_admin"), callback_data="admadd")])
     rows.append([InlineKeyboardButton(text=t(lang, "back"), callback_data="m:owner")])
     await callback.message.edit_text("\n".join(lines)[:3500], reply_markup=InlineKeyboardMarkup(inline_keyboard=rows))
     await callback.answer()
@@ -373,27 +497,55 @@ async def admin_add_prompt(callback: CallbackQuery, state: FSMContext, bot_acces
         await callback.answer(t(_lang(callback, db_user), "no_permission"), show_alert=True)
         return
     await state.set_state(PanelFlow.admin_add)
-    await callback.message.edit_text("Telegram ID va ruxsatlar: 12345 SUPPORT,VIEW_USERS")
+    await callback.message.edit_text(t(_lang(callback, db_user), "admin_id_prompt"))
     await callback.answer()
 
 
+ADMIN_PERMS = [
+    ("SUPPORT", "sup"),
+    ("VIEW_USERS", "vu"),
+    ("ADMISSIONS", "ad"),
+    ("DIRECT_MESSAGE", "dm"),
+    ("BROADCAST", "bc"),
+    ("VIEW_STATS", "st"),
+    ("VIEW_AUDIT", "au"),
+    ("MANAGE_USERS", "mu"),
+]
+_PERM_BY_CODE = {code: name for name, code in ADMIN_PERMS}
+
+
+def _admin_keyboard(lang: str, draft_id: str, selected: list[str]) -> InlineKeyboardMarkup:
+    rows = []
+    for name, code in ADMIN_PERMS:
+        mark = "✓ " if name in selected else ""
+        rows.append([InlineKeyboardButton(text=f"{mark}{name}", callback_data=f"apt:{draft_id}:{code}")])
+    rows.append([InlineKeyboardButton(text=t(lang, "save"), callback_data=f"aps:{draft_id}")])
+    rows.append([InlineKeyboardButton(text=t(lang, "back"), callback_data="o:admins")])
+    return InlineKeyboardMarkup(inline_keyboard=rows)
+
+
 @panel_router.message(PanelFlow.admin_add)
-async def admin_add(message: Message, state: FSMContext, bot_access: dict | None = None):
+async def admin_add(message: Message, state: FSMContext, bot_access: dict | None = None, db_user: dict | None = None, backend_error: bool = False):
+    lang = _lang(message, db_user)
     await state.clear()
+    if backend_error:
+        await message.answer(t(lang, "temporary_error"))
+        return
     if not (bot_access or {}).get("isPrimaryOwner"):
-        await message.answer(t("uz", "no_permission"))
+        await message.answer(t(lang, "no_permission"))
         return
-    parts = (message.text or "").split()
-    if len(parts) < 1 or not parts[0].isdigit():
-        await message.answer(t("uz", "error"))
+    telegram_id = (message.text or "").strip()
+    if not telegram_id.isdigit():
+        await message.answer(t(lang, "admin_id_prompt"))
         return
-    permissions = parts[1].split(",") if len(parts) > 1 else ["SUPPORT"]
-    status, _data = await api_client.add_admin({
-        "actorTelegramId": str(message.from_user.id),
-        "telegramUserId": parts[0],
-        "permissions": permissions,
+    status, draft = await api_client.save_draft(str(message.from_user.id), "admin", {
+        "telegramUserId": telegram_id,
+        "permissions": ["SUPPORT"],
     })
-    await message.answer("Qo'shildi." if status == 200 else t("uz", "error"))
+    if status != 200 or not draft.get("id"):
+        await message.answer(t(lang, "temporary_error" if status >= 500 else "error"))
+        return
+    await message.answer(telegram_id, reply_markup=_admin_keyboard(lang, draft["id"], ["SUPPORT"]))
 
 
 @panel_router.callback_query(F.data.startswith("admrm:"))
@@ -416,7 +568,132 @@ async def ops_view(callback: CallbackQuery, db_user: dict | None = None, bot_acc
         return
     status, data = await api_client.ops(str(callback.from_user.id), view)
     if status != 200:
+        await callback.answer(t(lang, "temporary_error" if status >= 500 else "no_permission"), show_alert=True)
+        return
+    if view == "stats":
+        text = format_stats(data, lang)
+    elif view == "audit":
+        text = format_audit(data, lang)
+    else:
+        text = format_settings(data, lang)
+    rows = []
+    if view == "audit":
+        page = int(data.get("page") or 1)
+        nav = []
+        if page > 1:
+            nav.append(InlineKeyboardButton(text=t(lang, "prev"), callback_data=f"aug:{page - 1}"))
+        nav.append(InlineKeyboardButton(text=t(lang, "next"), callback_data=f"aug:{page + 1}"))
+        rows.append(nav)
+    if view == "settings":
+        rows.append([InlineKeyboardButton(text=t(lang, "menu_support"), callback_data="set:support_enabled")])
+        rows.append([InlineKeyboardButton(text=t(lang, "broadcast"), callback_data="set:broadcasts_enabled")])
+    rows.append([InlineKeyboardButton(text=t(lang, "back"), callback_data="m:owner")])
+    await callback.message.edit_text(esc(text)[:3500], reply_markup=InlineKeyboardMarkup(inline_keyboard=rows))
+    await callback.answer()
+
+
+@panel_router.callback_query(F.data.startswith("aug:"))
+async def audit_page(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False):
+    lang = _lang(callback, db_user)
+    denied = denial_key(bot_access, backend_error, "VIEW_AUDIT")
+    if denied:
+        await callback.answer(t(lang, denied), show_alert=True)
+        return
+    page = int(callback.data.split(":", 1)[1] or "1")
+    status, data = await api_client.ops(str(callback.from_user.id), "audit", page)
+    if status != 200:
+        await callback.answer(t(lang, "temporary_error" if status >= 500 else "no_permission"), show_alert=True)
+        return
+    nav = []
+    if page > 1:
+        nav.append(InlineKeyboardButton(text=t(lang, "prev"), callback_data=f"aug:{page - 1}"))
+    if data.get("entries"):
+        nav.append(InlineKeyboardButton(text=t(lang, "next"), callback_data=f"aug:{page + 1}"))
+    rows = [nav] if nav else []
+    rows.append([InlineKeyboardButton(text=t(lang, "back"), callback_data="m:owner")])
+    await callback.message.edit_text(esc(format_audit(data, lang)), reply_markup=InlineKeyboardMarkup(inline_keyboard=rows))
+    await callback.answer()
+
+
+@panel_router.callback_query(F.data.startswith("set:"))
+async def toggle_setting(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False):
+    lang = _lang(callback, db_user)
+    denied = denial_key(bot_access, backend_error, "BOT_SETTINGS")
+    if denied:
+        await callback.answer(t(lang, denied), show_alert=True)
+        return
+    key = callback.data.split(":", 1)[1]
+    status, current = await api_client.ops(str(callback.from_user.id), "settings")
+    if status != 200:
+        await callback.answer(t(lang, "temporary_error"), show_alert=True)
+        return
+    value = not bool(current.get(key, True))
+    saved, _data = await api_client.save_setting({"actorTelegramId": str(callback.from_user.id), "key": key, "value": value})
+    if saved != 200:
+        await callback.answer(t(lang, "error"), show_alert=True)
+        return
+    status, fresh = await api_client.ops(str(callback.from_user.id), "settings")
+    text = format_settings(fresh if status == 200 else current, lang)
+    rows = [
+        [InlineKeyboardButton(text=t(lang, "menu_support"), callback_data="set:support_enabled")],
+        [InlineKeyboardButton(text=t(lang, "broadcast"), callback_data="set:broadcasts_enabled")],
+        [InlineKeyboardButton(text=t(lang, "back"), callback_data="m:owner")],
+    ]
+    await callback.message.edit_text(esc(text), reply_markup=InlineKeyboardMarkup(inline_keyboard=rows))
+    await callback.answer(t(lang, "language_set"))
+
+
+@panel_router.callback_query(F.data.startswith("apt:"))
+async def toggle_admin_perm(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False):
+    lang = _lang(callback, db_user)
+    if backend_error:
+        await callback.answer(t(lang, "temporary_error"), show_alert=True)
+        return
+    if not (bot_access or {}).get("isPrimaryOwner"):
         await callback.answer(t(lang, "no_permission"), show_alert=True)
         return
-    await callback.message.edit_text(esc(str(data))[:3500], reply_markup=_back(lang))
+    _prefix, draft_id, code = callback.data.split(":", 2)
+    name = _PERM_BY_CODE.get(code)
+    if not name:
+        await callback.answer(t(lang, "error"), show_alert=True)
+        return
+    status, draft = await api_client.read_draft(str(callback.from_user.id), draft_id)
+    if status != 200:
+        await callback.answer(t(lang, "stale_confirm"), show_alert=True)
+        return
+    payload = dict(draft.get("payload") or {})
+    selected = set(payload.get("permissions") or [])
+    if name in selected:
+        selected.remove(name)
+    else:
+        selected.add(name)
+    payload["permissions"] = sorted(selected)
+    updated, _row = await api_client.update_draft(str(callback.from_user.id), draft_id, payload)
+    if updated != 200:
+        await callback.answer(t(lang, "error"), show_alert=True)
+        return
+    await callback.message.edit_reply_markup(reply_markup=_admin_keyboard(lang, draft_id, payload["permissions"]))
+    await callback.answer()
+
+
+@panel_router.callback_query(F.data.startswith("aps:"))
+async def save_admin(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False):
+    lang = _lang(callback, db_user)
+    if backend_error:
+        await callback.answer(t(lang, "temporary_error"), show_alert=True)
+        return
+    if not (bot_access or {}).get("isPrimaryOwner"):
+        await callback.answer(t(lang, "no_permission"), show_alert=True)
+        return
+    status, claimed = await api_client.claim_draft(str(callback.from_user.id), callback.data.split(":", 1)[1], "admin")
+    if status != 200:
+        await callback.answer(t(lang, "stale_confirm"), show_alert=True)
+        return
+    payload = claimed.get("payload") or {}
+    saved, _data = await api_client.add_admin({
+        "actorTelegramId": str(callback.from_user.id),
+        "telegramUserId": payload.get("telegramUserId"),
+        "permissions": payload.get("permissions") or [],
+    })
+    await callback.message.edit_text(t(lang, "language_set" if saved == 200 else "error"))
     await callback.answer()

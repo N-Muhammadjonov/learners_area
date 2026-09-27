@@ -4,6 +4,7 @@ import { db } from "@/db/client";
 import {
   telegramBroadcastDeliveries,
   telegramDeletionIntents,
+  telegramFlowDrafts,
   telegramLoginIntents,
   telegramNotifications,
   telegramProcessedUpdates,
@@ -77,8 +78,11 @@ export async function cleanupTelegramRetention(input: { now: Date; rawEventCutof
       }
     }
 
+    const drafts = await cleanupFlowDrafts(input);
+
     return [
       { rule: "telegram_login_intents", affected: staleIntents.length, applied: !input.dryRun, note: "expired and consumed login intents older than one day" },
+      drafts,
       { rule: "telegram_processed_updates", affected: staleUpdates.length, applied: !input.dryRun, note: "webhook dedup rows inside the raw-event window" },
       { rule: "telegram_notification_log", affected: staleNotices.length, applied: !input.dryRun, note: "finished notification deliveries inside the raw-event window" },
       { rule: "telegram_broadcast_deliveries", affected: staleDeliveries.length, applied: !input.dryRun, note: "finished broadcast deliveries inside the raw-event window" },
@@ -87,6 +91,26 @@ export async function cleanupTelegramRetention(input: { now: Date; rawEventCutof
   } catch (error) {
     if (missingRelation(error)) {
       return [{ rule: "telegram_retention", affected: 0, applied: false, note: "telegram tables are not migrated; skipped" }];
+    }
+    throw error;
+  }
+}
+
+async function cleanupFlowDrafts(input: { now: Date; dryRun: boolean; batchSize: number }) {
+  try {
+    const cutoff = new Date(input.now.getTime() - 24 * 60 * 60 * 1000);
+    const stale = await db
+      .select({ id: telegramFlowDrafts.id })
+      .from(telegramFlowDrafts)
+      .where(lt(telegramFlowDrafts.expiresAt, cutoff))
+      .limit(input.batchSize);
+    if (!input.dryRun && stale.length) {
+      await db.delete(telegramFlowDrafts).where(inArray(telegramFlowDrafts.id, stale.map((row) => row.id)));
+    }
+    return { rule: "telegram_flow_drafts", affected: stale.length, applied: !input.dryRun, note: "expired compose drafts older than one day" };
+  } catch (error) {
+    if (missingRelation(error)) {
+      return { rule: "telegram_flow_drafts", affected: 0, applied: false, note: "0021 is not applied; drafts skipped" };
     }
     throw error;
   }

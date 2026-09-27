@@ -15,6 +15,8 @@ export async function POST(req: Request) {
     const body = asRecord(await readJson(req));
     const token = typeof body?.token === "string" ? body.token : "";
     const telegramUserId = typeof body?.telegramUserId === "string" ? body.telegramUserId : "";
+    const displayName = typeof body?.displayName === "string" ? body.displayName.trim().slice(0, 200) : "";
+    const languageCode = body?.languageCode === "en" || body?.languageCode === "uz" ? body.languageCode : null;
     if (!token || token.length > 200 || !isTelegramUserId(telegramUserId)) {
       return NextResponse.json({ error: "invalid_input" }, { status: 400 });
     }
@@ -52,7 +54,13 @@ export async function POST(req: Request) {
 
     const [updated] = await db
       .update(telegramLoginIntents)
-      .set({ status: "confirmed", telegramUserId, confirmedAt: now })
+      .set({
+        status: "confirmed",
+        telegramUserId,
+        displayName: displayName || null,
+        languageCode,
+        confirmedAt: now,
+      })
       .where(
         and(
           eq(telegramLoginIntents.id, pending.id),

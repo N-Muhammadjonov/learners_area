@@ -29,12 +29,25 @@ class ApiClient:
 
     async def _request(self, method: str, path: str, *, json: Any = None, params: dict | None = None) -> tuple[int, Any]:
         session = await self.session()
-        async with session.request(method, f"{self.base_url}{path}", json=json, params=params) as response:
-            if response.content_type == "application/json":
-                data = await response.json()
-            else:
-                data = {"error": await response.text()}
-            return response.status, data
+        attempts = 2 if method == "GET" else 1
+        last_error: Exception | None = None
+        for attempt in range(attempts):
+            try:
+                async with session.request(method, f"{self.base_url}{path}", json=json, params=params) as response:
+                    if response.content_type == "application/json":
+                        data = await response.json()
+                    else:
+                        data = {"error": await response.text()}
+                    if method == "GET" and response.status in {502, 503, 504} and attempt + 1 < attempts:
+                        continue
+                    return response.status, data
+            except Exception as exc:
+                last_error = exc
+                if attempt + 1 >= attempts:
+                    raise
+        if last_error:
+            raise last_error
+        raise RuntimeError("request failed")
 
     async def get_user(self, telegram_user_id: str) -> Optional[dict[str, Any]]:
         status, data = await self._request("GET", f"/users/{telegram_user_id}")
@@ -47,23 +60,42 @@ class ApiClient:
     async def sync_contact(self, payload: dict[str, Any]) -> None:
         await self._request("POST", "/contacts", json=payload)
 
-    async def confirm_intent(self, token: str, telegram_user_id: str) -> bool:
+    async def confirm_intent(self, token: str, telegram_user_id: str, **extra: Any) -> bool:
         status, _data = await self._request(
             "POST",
             "/auth/confirm",
-            json={"token": token, "telegramUserId": telegram_user_id},
+            json={"token": token, "telegramUserId": telegram_user_id, **extra},
         )
         return status == 200
 
-    async def create_access_request(self, telegram_user_id: str, name: str, message: str | None = None, **extra: Any) -> Optional[str]:
+    async def create_access_request(self, telegram_user_id: str, name: str, message: str | None = None, **extra: Any) -> Any:
         payload = {"telegramUserId": telegram_user_id, "name": name, "message": message, **extra}
         status, data = await self._request("POST", "/admission/request", json=payload)
         if status == 200:
-            return data.get("requestId") or data.get("status")
+            return data
         raise RuntimeError(f"admission request failed: {status}")
 
-    async def list_pending_requests(self, actor_telegram_id: str) -> list:
-        status, data = await self._request("GET", "/admission/pending", params={"actorTelegramId": actor_telegram_id})
+    async def ready(self) -> bool:
+        status, data = await self._request("GET", "/ready")
+        return status == 200 and bool(data.get("ok"))
+
+    async def save_draft(self, actor: str, kind: str, payload: dict[str, Any]) -> tuple[int, Any]:
+        return await self._request("POST", "/drafts", json={"action": "create", "actorTelegramId": actor, "kind": kind, "payload": payload})
+
+    async def update_draft(self, actor: str, draft_id: str, payload: dict[str, Any]) -> tuple[int, Any]:
+        return await self._request("POST", "/drafts", json={"action": "update", "actorTelegramId": actor, "id": draft_id, "payload": payload})
+
+    async def read_draft(self, actor: str, draft_id: str) -> tuple[int, Any]:
+        return await self._request("POST", "/drafts", json={"action": "read", "actorTelegramId": actor, "id": draft_id})
+
+    async def claim_draft(self, actor: str, draft_id: str, kind: str | None = None) -> tuple[int, Any]:
+        body: dict[str, Any] = {"action": "claim", "actorTelegramId": actor, "id": draft_id}
+        if kind:
+            body["kind"] = kind
+        return await self._request("POST", "/drafts", json=body)
+
+    async def list_pending_requests(self, actor_telegram_id: str, page: int = 1) -> list:
+        status, data = await self._request("GET", "/admission/pending", params={"actorTelegramId": actor_telegram_id, "page": page})
         if status == 200:
             return data.get("requests", [])
         if status in {401, 403}:
@@ -161,8 +193,8 @@ class ApiClient:
     async def report_notices(self, results: list[dict[str, Any]]) -> None:
         await self._request("POST", "/notifications", json={"results": results})
 
-    async def ops(self, actor: str, view: str) -> tuple[int, Any]:
-        return await self._request("GET", "/ops", params={"actorTelegramId": actor, "view": view})
+    async def ops(self, actor: str, view: str, page: int = 1) -> tuple[int, Any]:
+        return await self._request("GET", "/ops", params={"actorTelegramId": actor, "view": view, "page": page})
 
     async def save_setting(self, payload: dict[str, Any]) -> tuple[int, Any]:
         return await self._request("PATCH", "/ops", json=payload)

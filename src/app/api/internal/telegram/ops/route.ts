@@ -11,7 +11,10 @@ export async function GET(req: NextRequest) {
   const permission = view === "audit" ? "VIEW_AUDIT" : view === "settings" ? "BOT_SETTINGS" : "VIEW_STATS";
   const actor = await requireBotPermission(req.nextUrl.searchParams.get("actorTelegramId"), permission);
   if (!actor.ok) return actorError(actor.error);
-  if (view === "audit") return NextResponse.json({ entries: await botAudit() });
+  if (view === "audit") {
+    const page = Number(req.nextUrl.searchParams.get("page") ?? "1");
+    return NextResponse.json({ entries: await botAudit(8, Number.isFinite(page) ? page : 1), page: Number.isFinite(page) ? page : 1 });
+  }
   if (view === "settings") return NextResponse.json(await readBotSettings());
   return NextResponse.json(await botStats());
 }

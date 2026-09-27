@@ -36,9 +36,10 @@ export async function botStats() {
   return { accounts, contacts, support };
 }
 
-export async function botAudit(limit = 20) {
+export async function botAudit(limit = 20, page = 1) {
   const size = Math.min(Math.max(limit, 1), 30);
-  const rows = await db.select().from(auditLog).orderBy(sql`${auditLog.createdAt} desc`).limit(size);
+  const safePage = Math.max(page || 1, 1);
+  const rows = await db.select().from(auditLog).orderBy(sql`${auditLog.createdAt} desc`).limit(size).offset((safePage - 1) * size);
   return rows.map((row) => ({
     action: row.action,
     targetType: row.targetType,

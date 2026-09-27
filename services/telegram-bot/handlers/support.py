@@ -5,7 +5,7 @@ from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMar
 
 from html_text import esc
 from i18n import t
-from middlewares.auth import allows
+from middlewares.auth import allows, denial_key
 from services.api_client import api_client
 
 support_router = Router()
@@ -25,6 +25,13 @@ def _lang(event, db_user) -> str:
 
 def _home(lang: str) -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=t(lang, "home"), callback_data="m:home")]])
+
+
+@support_router.message(Command("support"))
+async def cmd_support(message: Message, state: FSMContext, db_user: dict | None = None):
+    lang = _lang(message, db_user)
+    await state.set_state(SupportFlow.user_message)
+    await message.answer(t(lang, "support_prompt"), reply_markup=_home(lang))
 
 
 @support_router.callback_query(F.data == "m:support")
@@ -69,9 +76,9 @@ async def user_support_message(message: Message, state: FSMContext, db_user: dic
         try:
             await message.bot.send_message(
                 int(telegram_id),
-                f"Yordam: {esc(preview.get('name'))}\n{esc(preview.get('accountStatus') or '—')}\n{esc(preview.get('text') or preview.get('messageType'))}",
+                f"{t(lang, 'menu_support')}: {esc(preview.get('name'))}\n{esc(preview.get('accountStatus') or '—')}\n{esc(preview.get('text') or preview.get('messageType'))}",
                 reply_markup=InlineKeyboardMarkup(
-                    inline_keyboard=[[InlineKeyboardButton(text="Javob", callback_data=f"srep:{data.get('threadId')}")]]
+                    inline_keyboard=[[InlineKeyboardButton(text=t(lang, "message"), callback_data=f"srep:{data.get('threadId')}")]]
                 ),
             )
         except Exception:
@@ -84,9 +91,9 @@ async def list_support(callback: CallbackQuery, db_user: dict | None = None, bot
     if not allows(bot_access, "SUPPORT"):
         await callback.answer(t(lang, "no_permission"), show_alert=True)
         return
-    status, data = await api_client.list_support(str(callback.from_user.id), "open")
+    status, data = await api_client.list_support(str(callback.from_user.id), "open", 1)
     if status != 200:
-        await callback.answer(t(lang, "no_permission"), show_alert=True)
+        await callback.answer(t(lang, "temporary_error" if status >= 500 else "no_permission"), show_alert=True)
         return
     items = data.get("items") or []
     if not items:
@@ -98,13 +105,42 @@ async def list_support(callback: CallbackQuery, db_user: dict | None = None, bot
     for item in items[:8]:
         lines.append(f"• {esc(item.get('name') or item.get('telegramUserId'))} · {esc(item.get('status'))}")
         rows.append([InlineKeyboardButton(text=str(item.get("name") or item.get("telegramUserId"))[:32], callback_data=f"sth:{item['id']}")])
+    if (data.get("total") or 0) > (data.get("pageSize") or 8):
+        rows.append([InlineKeyboardButton(text=t(lang, "next"), callback_data="spg:open:2")])
     rows.append([
-        InlineKeyboardButton(text="Open", callback_data="sf:open"),
-        InlineKeyboardButton(text="Mine", callback_data="sf:mine"),
-        InlineKeyboardButton(text="Closed", callback_data="sf:closed"),
+        InlineKeyboardButton(text=t(lang, "support_open"), callback_data="sf:open"),
+        InlineKeyboardButton(text=t(lang, "support_mine"), callback_data="sf:mine"),
+        InlineKeyboardButton(text=t(lang, "support_closed"), callback_data="sf:closed"),
     ])
     rows.append([InlineKeyboardButton(text=t(lang, "back"), callback_data="m:owner")])
     await callback.message.edit_text("\n".join(lines), reply_markup=InlineKeyboardMarkup(inline_keyboard=rows))
+    await callback.answer()
+
+
+@support_router.callback_query(F.data.startswith("spg:"))
+async def page_support(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False):
+    lang = _lang(callback, db_user)
+    denied = denial_key(bot_access, backend_error, "SUPPORT")
+    if denied:
+        await callback.answer(t(lang, denied), show_alert=True)
+        return
+    _prefix, filt, page_text = callback.data.split(":", 2)
+    page = max(1, int(page_text or "1"))
+    status, data = await api_client.list_support(str(callback.from_user.id), filt, page)
+    if status != 200:
+        await callback.answer(t(lang, "temporary_error" if status >= 500 else "no_permission"), show_alert=True)
+        return
+    items = (data or {}).get("items") or []
+    rows = [[InlineKeyboardButton(text=str(item.get("name") or item.get("telegramUserId"))[:32], callback_data=f"sth:{item['id']}")] for item in items]
+    nav = []
+    if page > 1:
+        nav.append(InlineKeyboardButton(text=t(lang, "prev"), callback_data=f"spg:{filt}:{page - 1}"))
+    if page * (data.get("pageSize") or 10) < (data.get("total") or 0):
+        nav.append(InlineKeyboardButton(text=t(lang, "next"), callback_data=f"spg:{filt}:{page + 1}"))
+    if nav:
+        rows.append(nav)
+    rows.append([InlineKeyboardButton(text=t(lang, "back"), callback_data="o:sup")])
+    await callback.message.edit_text(f"{t(lang, 'support_admin')}\n{t(lang, 'page', page=page)}", reply_markup=InlineKeyboardMarkup(inline_keyboard=rows or [[InlineKeyboardButton(text=t(lang, "back"), callback_data="o:sup")]]))
     await callback.answer()
 
 
@@ -149,10 +185,10 @@ async def thread_detail(callback: CallbackQuery, db_user: dict | None = None, bo
         lines.append(f"{esc(message.get('senderType'))}: {esc(message.get('text') or message.get('messageType'))}")
     markup = InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text="Reply", callback_data=f"srep:{thread_id}")],
+            [InlineKeyboardButton(text=t(lang, "message"), callback_data=f"srep:{thread_id}")],
             [
-                InlineKeyboardButton(text="Close", callback_data=f"sact:close:{thread_id}"),
-                InlineKeyboardButton(text="Reopen", callback_data=f"sact:reopen:{thread_id}"),
+                InlineKeyboardButton(text=t(lang, "close"), callback_data=f"sact:close:{thread_id}"),
+                InlineKeyboardButton(text=t(lang, "reopen"), callback_data=f"sact:reopen:{thread_id}"),
             ],
             [InlineKeyboardButton(text=t(lang, "back"), callback_data="o:sup")],
         ]
@@ -180,64 +216,96 @@ async def begin_reply(callback: CallbackQuery, state: FSMContext, db_user: dict 
 
 
 @support_router.message(SupportFlow.staff_reply)
-async def send_reply(message: Message, state: FSMContext, db_user: dict | None = None, bot_access: dict | None = None):
+async def preview_staff_reply(message: Message, state: FSMContext, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False):
     lang = _lang(message, db_user)
     data = await state.get_data()
     thread_id = data.get("thread_id")
-    target = data.get("target_name") or thread_id
-    if not thread_id or not allows(bot_access, "SUPPORT"):
+    denied = denial_key(bot_access, backend_error, "SUPPORT")
+    if not thread_id or denied:
         await state.clear()
-        await message.answer(t(lang, "no_permission"))
+        await message.answer(t(lang, denied or "no_permission"))
         return
-    await message.answer(t(lang, "reply_banner", name=esc(target)))
     payload = {
-        "actorTelegramId": str(message.from_user.id),
+        "threadId": thread_id,
         "text": message.text or message.caption,
         "messageType": "text",
     }
-    file_id = None
     if message.photo:
         payload["messageType"] = "photo"
-        file_id = message.photo[-1].file_id
+        payload["fileId"] = message.photo[-1].file_id
     elif message.document:
         payload["messageType"] = "document"
-        file_id = message.document.file_id
+        payload["fileId"] = message.document.file_id
     elif message.voice:
         payload["messageType"] = "voice"
-        file_id = message.voice.file_id
+        payload["fileId"] = message.voice.file_id
     elif message.audio:
         payload["messageType"] = "audio"
-        file_id = message.audio.file_id
-    if file_id:
-        payload["fileId"] = file_id
-    status, result = await api_client.support_reply(thread_id, payload)
+        payload["fileId"] = message.audio.file_id
+    status, draft = await api_client.save_draft(str(message.from_user.id), "support_reply", payload)
     await state.clear()
-    if status != 200:
-        await message.answer(t(lang, "reply_failed"))
+    if status != 200 or not draft.get("id"):
+        await message.answer(t(lang, "temporary_error" if status >= 500 else "error"))
         return
-    if result.get("delivery") != "queued" or not result.get("chatId"):
-        await message.answer(t(lang, "reply_blocked"))
+    await message.answer(
+        t(lang, "reply_banner", name=esc(data.get("target_name") or thread_id)),
+        reply_markup=InlineKeyboardMarkup(inline_keyboard=[[
+            InlineKeyboardButton(text=t(lang, "send"), callback_data=f"src:{draft['id']}"),
+            InlineKeyboardButton(text=t(lang, "back"), callback_data="o:sup"),
+        ]]),
+    )
+
+
+async def _send_once(bot, chat_id: int, message_type: str, file_id: str | None, text: str):
+    if file_id and message_type in {"photo", "document", "voice", "audio"}:
+        sender = {
+            "photo": bot.send_photo,
+            "document": bot.send_document,
+            "voice": bot.send_voice,
+            "audio": bot.send_audio,
+        }[message_type]
+        return await sender(chat_id, file_id, caption=esc(text) or None)
+    return await bot.send_message(chat_id, esc(text))
+
+
+@support_router.callback_query(F.data.startswith("src:"))
+async def send_staff_reply(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False):
+    lang = _lang(callback, db_user)
+    denied = denial_key(bot_access, backend_error, "SUPPORT")
+    if denied:
+        await callback.answer(t(lang, denied), show_alert=True)
+        return
+    draft_id = callback.data.split(":", 1)[1]
+    status, claimed = await api_client.claim_draft(str(callback.from_user.id), draft_id, "support_reply")
+    if status != 200:
+        await callback.answer(t(lang, "stale_confirm"), show_alert=True)
+        return
+    payload = claimed.get("payload") or {}
+    thread_id = payload.get("threadId")
+    reply_status, result = await api_client.support_reply(thread_id, {
+        "actorTelegramId": str(callback.from_user.id),
+        "text": payload.get("text"),
+        "messageType": payload.get("messageType") or "text",
+        "fileId": payload.get("fileId"),
+    })
+    if reply_status != 200 or result.get("delivery") != "queued" or not result.get("chatId"):
+        await callback.message.edit_text(t(lang, "reply_blocked" if reply_status == 200 else "reply_failed"))
+        await callback.answer()
         return
     try:
-        sent = await message.bot.send_message(int(result["chatId"]), esc(result.get("text") or ""))
-        if file_id and payload["messageType"] != "text":
-            sender = {
-                "photo": message.bot.send_photo,
-                "document": message.bot.send_document,
-                "voice": message.bot.send_voice,
-                "audio": message.bot.send_audio,
-            }[payload["messageType"]]
-            sent = await sender(int(result["chatId"]), file_id)
+        await _send_once(callback.bot, int(result["chatId"]), payload.get("messageType") or "text", payload.get("fileId"), result.get("text") or "")
         await api_client.support_action(thread_id, {"action": "delivery", "messageId": result.get("messageId"), "status": "sent"})
-        await message.answer(t(lang, "reply_sent"))
-        del sent
+        await callback.message.edit_text(t(lang, "reply_sent"))
     except Exception as exc:
         blocked = "blocked" in str(exc).lower() or "chat not found" in str(exc).lower()
-        await api_client.support_action(
-            thread_id,
-            {"action": "delivery", "messageId": result.get("messageId"), "status": "blocked" if blocked else "failed", "error": "delivery_failed"},
-        )
-        await message.answer(t(lang, "reply_blocked" if blocked else "reply_failed"))
+        await api_client.support_action(thread_id, {
+            "action": "delivery",
+            "messageId": result.get("messageId"),
+            "status": "blocked" if blocked else "failed",
+            "error": "delivery_failed",
+        })
+        await callback.message.edit_text(t(lang, "reply_blocked" if blocked else "reply_failed"))
+    await callback.answer()
 
 
 @support_router.callback_query(F.data.startswith("sact:"))

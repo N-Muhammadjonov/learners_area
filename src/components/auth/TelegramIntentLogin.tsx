@@ -7,29 +7,40 @@ import { safeNextPath } from "@/lib/auth/safe-redirect";
 import { failureMessage, requestJson } from "@/lib/http/client-request";
 import type { Dictionary } from "@/lib/i18n/en";
 
+type IntentPurpose = "login" | "register";
+
 type IntentResponse = {
   intentId: string;
   token: string;
   browserNonce: string;
   expiresAt: string;
   botUsername?: string;
+  purpose?: IntentPurpose;
+};
+
+type ExchangeResponse = {
+  accountStatus?: string;
+  onboarded?: boolean;
+  outcome?: string;
 };
 
 /**
- * Website Telegram sign-in.
+ * Website Telegram sign-in or registration.
  *
- * The browser creates a short-lived intent and opens the bot with that intent
- * token only. The session cookie is issued later, by the exchange route, after
- * the bot confirms. The deep link never carries a session.
+ * The browser asks for one purpose. The server stores that purpose and will
+ * not let a later request change it. Cancel calls the server so a confirmed
+ * intent cannot still be exchanged.
  */
 export function TelegramIntentLogin({
   dict,
   configured,
   botUsername,
+  purpose,
 }: {
   dict: Dictionary;
   configured: boolean;
   botUsername?: string;
+  purpose: IntentPurpose;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -37,6 +48,15 @@ export function TelegramIntentLogin({
   const [waiting, setWaiting] = useState(false);
   const [link, setLink] = useState<string | null>(null);
   const stop = useRef<AbortController | null>(null);
+  const pending = useRef<{ intentId: string; browserNonce: string } | null>(null);
+  const known = {
+    telegram_already_linked: dict.auth.telegramConflict,
+    no_linked_account: dict.auth.telegramNoAccount,
+    already_signed_in: dict.auth.telegramAlreadySignedIn,
+    already_consumed: dict.auth.telegramExpired,
+    expired: dict.auth.telegramExpired,
+    intent_not_confirmed: dict.auth.telegramExpired,
+  };
 
   useEffect(() => () => stop.current?.abort(), []);
 
@@ -44,7 +64,7 @@ export function TelegramIntentLogin({
     return (
       <div>
         <button type="button" disabled className="btn-secondary w-full opacity-50">
-          {dict.auth.continueWithTelegram}
+          {purpose === "register" ? dict.auth.continueWithTelegramRegister : dict.auth.continueWithTelegram}
         </button>
         <p className="mt-1.5 text-xs text-ink-300">{dict.auth.telegramUnavailable}</p>
       </div>
@@ -57,12 +77,16 @@ export function TelegramIntentLogin({
     stop.current?.abort();
     const controller = new AbortController();
     stop.current = controller;
-    const created = await requestJson<IntentResponse>("/api/auth/telegram/intent", { signal: controller.signal });
-    if (!created.ok || !created.data.token || !created.data.botUsername) {
+    const created = await requestJson<IntentResponse>("/api/auth/telegram/intent", {
+      body: { purpose },
+      signal: controller.signal,
+    });
+    if (!created.ok || !created.data.token || !created.data.botUsername || created.data.purpose !== purpose) {
       setWaiting(false);
-      setError(failureMessage(created.ok ? { ok: false, status: 400, kind: "http", error: "telegram_not_configured" } : created, dict.auth));
+      setError(failureMessage(created.ok ? { ok: false, status: 400, kind: "http", error: created.ok ? "telegram_not_configured" : null } : created, dict.auth, known));
       return;
     }
+    pending.current = { intentId: created.data.intentId, browserNonce: created.data.browserNonce };
     const deepLink = `https://t.me/${created.data.botUsername}?start=${encodeURIComponent(created.data.token)}`;
     setLink(deepLink);
     window.open(deepLink, "_blank", "noopener,noreferrer");
@@ -87,21 +111,31 @@ export function TelegramIntentLogin({
       }
       if (status.data.status !== "confirmed") continue;
 
-      const exchanged = await requestJson<{ accountStatus?: string; onboarded?: boolean }>(
-        "/api/auth/telegram/intent/exchange",
-        { body: { intentId: created.data.intentId, browserNonce: created.data.browserNonce }, signal: controller.signal }
-      );
+      const exchanged = await requestJson<ExchangeResponse>("/api/auth/telegram/intent/exchange", {
+        body: { intentId: created.data.intentId, browserNonce: created.data.browserNonce },
+        signal: controller.signal,
+      });
       if (!exchanged.ok) {
         setWaiting(false);
-        if (exchanged.error === "telegram_already_linked") setError(dict.auth.telegramConflict);
-        else if (exchanged.error === "no_linked_account") setError(dict.auth.telegramNoAccount);
-        else setError(failureMessage(exchanged, dict.auth));
+        setError(failureMessage(exchanged, dict.auth, known));
         return;
       }
-      if (exchanged.data.accountStatus && exchanged.data.accountStatus !== "active") {
+      const outcome = exchanged.data.outcome;
+      const accountStatus = exchanged.data.accountStatus;
+      if (outcome === "suspended" || accountStatus === "suspended") {
+        setError(dict.auth.telegramSuspended);
         router.push("/pending");
         router.refresh();
         return;
+      }
+      if (purpose === "register" && (outcome === "pending" || outcome === "reopened" || outcome === "already_pending" || accountStatus !== "active")) {
+        setError(outcome === "already_pending" ? dict.auth.telegramAlreadyPending : dict.auth.telegramRegisterPending);
+        router.push("/pending");
+        router.refresh();
+        return;
+      }
+      if (purpose === "register" && outcome === "already_active") {
+        setError(dict.auth.telegramAlreadyActive);
       }
       const next = safeNextPath(searchParams.get("next"));
       router.push(next ?? (exchanged.data.onboarded ? "/dashboard" : "/onboarding"));
@@ -115,15 +149,22 @@ export function TelegramIntentLogin({
   }
 
   async function cancel() {
+    const current = pending.current;
     stop.current?.abort();
     setWaiting(false);
     setLink(null);
+    if (!current) return;
+    await requestJson("/api/auth/telegram/intent/cancel", { body: current });
+    pending.current = null;
   }
+
+  const label = purpose === "register" ? dict.auth.continueWithTelegramRegister : dict.auth.continueWithTelegram;
+  const waitingLabel = purpose === "register" ? dict.auth.telegramRegisterWaiting : dict.auth.telegramWaiting;
 
   return (
     <div className="flex flex-col gap-2">
       <Button type="button" variant="secondary" onClick={start} disabled={waiting}>
-        {waiting ? dict.auth.telegramWaiting : dict.auth.continueWithTelegram}
+        {waiting ? waitingLabel : label}
       </Button>
       {link ? (
         <a className="text-center text-sm text-signal-600 hover:underline" href={link} target="_blank" rel="noreferrer">

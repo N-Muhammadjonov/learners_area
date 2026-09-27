@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
   });
 
   if (!result.ok) {
-    const status = result.error === "invalid_actor" || result.error === "invalid_input" ? 400 : 500;
+    const status = result.error === "invalid_actor" || result.error === "invalid_input" ? 400 : result.error === "not_requestable" ? 409 : 500;
     return NextResponse.json({ error: result.error }, { status });
   }
   return NextResponse.json({

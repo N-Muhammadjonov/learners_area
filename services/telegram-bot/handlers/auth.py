@@ -3,7 +3,7 @@ from aiogram.filters import Command, CommandObject, CommandStart
 from aiogram.fsm.context import FSMContext
 from aiogram.types import ChatMemberUpdated, Message
 
-from html_text import esc
+from handlers.menu import show_home
 from i18n import t
 from services.api_client import api_client
 
@@ -18,24 +18,34 @@ def lang_of(message: Message, db_user: dict | None = None) -> str:
 
 
 @auth_router.message(CommandStart())
-async def cmd_start(message: Message, command: CommandObject, db_user: dict | None = None, state: FSMContext | None = None):
+async def cmd_start(
+    message: Message,
+    command: CommandObject,
+    db_user: dict | None = None,
+    bot_access: dict | None = None,
+    state: FSMContext | None = None,
+    backend_error: bool = False,
+):
     if state:
         await state.clear()
     lang = lang_of(message, db_user)
     args = (command.args or "").strip()
-    telegram_id = str(message.from_user.id)
+    if backend_error and not args:
+        await message.answer(t(lang, "temporary_error"))
+        return
     if args:
-        # The start payload is a one-time login intent, never a session token.
         if len(args) > 200 or " " in args:
             await message.answer(t(lang, "confirm_failed"))
             return
-        success = await api_client.confirm_intent(token=args, telegram_user_id=telegram_id)
+        user = message.from_user
+        success = await api_client.confirm_intent(
+            token=args,
+            telegram_user_id=str(user.id),
+            displayName=user.full_name,
+            languageCode="en" if (user.language_code or "").startswith("en") else "uz",
+        )
         await message.answer(t(lang, "confirmed" if success else "confirm_failed"))
-        return
-    if db_user:
-        await message.answer(t(lang, "welcome_linked", name=esc(db_user.get("name") or "—")))
-    else:
-        await message.answer(t(lang, "welcome_new"))
+    await show_home(message, lang, bot_access, db_user, backend_error=backend_error)
 
 
 @auth_router.my_chat_member()
@@ -54,3 +64,10 @@ async def membership(event: ChatMemberUpdated):
 async def cmd_cancel(message: Message, state: FSMContext, db_user: dict | None = None):
     await state.clear()
     await message.answer(t(lang_of(message, db_user), "cancelled"))
+
+
+@auth_router.message(Command("help"))
+async def cmd_help(message: Message, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False):
+    lang = lang_of(message, db_user)
+    await message.answer(t(lang, "help"))
+    await show_home(message, lang, bot_access, db_user, backend_error=backend_error)

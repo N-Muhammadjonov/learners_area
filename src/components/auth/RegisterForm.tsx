@@ -87,6 +87,7 @@ export function RegisterForm({
         dict={dict}
         configured={telegramConfigured}
         botUsername={telegramBotUsername}
+        purpose="register"
       />
     </form>
   );
