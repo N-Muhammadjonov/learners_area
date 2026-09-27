@@ -42,6 +42,34 @@ export async function createLoginIntent(userId?: string) {
   };
 }
 
+export async function readIntentStatus(intentId: string, browserNonce: string) {
+  const nonceHash = hashToken(browserNonce);
+  const intent = await db.query.telegramLoginIntents.findFirst({
+    where: and(eq(telegramLoginIntents.id, intentId), eq(telegramLoginIntents.browserNonceHash, nonceHash)),
+    columns: { status: true, expiresAt: true },
+  });
+  if (!intent) return null;
+  const expired = intent.expiresAt.getTime() <= Date.now();
+  return { status: expired && intent.status === "pending" ? "expired" : intent.status, expired };
+}
+
+export async function cancelIntent(intentId: string, browserNonce: string) {
+  const nonceHash = hashToken(browserNonce);
+  const [updated] = await db
+    .update(telegramLoginIntents)
+    .set({ status: "cancelled", cancelledAt: new Date() })
+    .where(
+      and(
+        eq(telegramLoginIntents.id, intentId),
+        eq(telegramLoginIntents.browserNonceHash, nonceHash),
+        eq(telegramLoginIntents.status, "pending"),
+        gt(telegramLoginIntents.expiresAt, new Date())
+      )
+    )
+    .returning({ id: telegramLoginIntents.id });
+  return Boolean(updated);
+}
+
 export async function consumeIntent(intentId: string, browserNonce: string) {
   const nonceHash = hashToken(browserNonce);
   

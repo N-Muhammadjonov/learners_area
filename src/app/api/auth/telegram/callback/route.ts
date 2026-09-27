@@ -4,8 +4,14 @@ import { db } from "@/db/client";
 import { users } from "@/db/schema";
 import { verifyTelegramPayload, type TelegramAuthPayload } from "@/lib/auth/providers/telegram";
 import { createSessionToken, SESSION_COOKIE, clearSessionCookies, sessionCookieOptions } from "@/lib/auth/session";
-import { getLocale } from "@/lib/i18n";
 
+/**
+ * Legacy Login Widget callback.
+ *
+ * It no longer creates accounts. An unknown Telegram identity is sent back to
+ * the bot flow. A known identity receives the same session cookie as email
+ * login; admission status is not upgraded here.
+ */
 export async function GET(req: NextRequest) {
   const params = Object.fromEntries(req.nextUrl.searchParams.entries());
   const payload = {
@@ -18,18 +24,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.redirect(new URL("/login?error=telegram", req.url));
   }
 
-  const telegramId = String(payload.id);
-  let user = await db.query.users.findFirst({ where: eq(users.telegramId, telegramId) });
-
-  if (!user) {
-    const name = [payload.first_name, payload.last_name].filter(Boolean).join(" ") || "Telegram user";
-    const [created] = await db
-      .insert(users)
-      .values({ name, telegramId, role: "student", locale: await getLocale() })
-      .returning();
-    user = created;
-  }
-
+  const user = await db.query.users.findFirst({ where: eq(users.telegramId, String(payload.id)) });
   if (!user) {
     return NextResponse.redirect(new URL("/login?error=telegram", req.url));
   }
@@ -41,9 +36,10 @@ export async function GET(req: NextRequest) {
     locale: user.locale,
     onboarded: Boolean(user.onboardingCompletedAt),
   });
-  const res = NextResponse.redirect(
-    new URL(user.onboardingCompletedAt ? "/dashboard" : "/onboarding", req.url)
-  );
+  const destination = user.accountStatus === "active"
+    ? user.onboardingCompletedAt ? "/dashboard" : "/onboarding"
+    : "/pending";
+  const res = NextResponse.redirect(new URL(destination, req.url));
   clearSessionCookies(res, req);
   res.cookies.set(SESSION_COOKIE, token, sessionCookieOptions(req));
   return res;

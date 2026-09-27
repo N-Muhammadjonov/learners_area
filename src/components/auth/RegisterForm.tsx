@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Input, Label, FieldError } from "@/components/ui/Input";
-import { TelegramButton } from "./TelegramButton";
+import { TelegramIntentLogin } from "./TelegramIntentLogin";
 import { failureMessage, requestJson } from "@/lib/http/client-request";
 import type { Dictionary } from "@/lib/i18n/en";
 
@@ -83,9 +83,8 @@ export function RegisterForm({
         <span className="relative bg-paper-raised px-2">or</span>
         <div className="absolute inset-x-0 top-1/2 -z-10 h-px bg-ink-100" />
       </div>
-      <TelegramButton
-        label={dict.auth.continueWithTelegram}
-        unavailableLabel={dict.auth.telegramUnavailable}
+      <TelegramIntentLogin
+        dict={dict}
         configured={telegramConfigured}
         botUsername={telegramBotUsername}
       />

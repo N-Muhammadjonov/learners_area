@@ -8,6 +8,9 @@ from unittest.mock import AsyncMock, patch, MagicMock
 from aiogram.types import Message, User, Chat, CallbackQuery, InlineKeyboardMarkup
 from handlers.admission import admission_router, cmd_apply, cmd_pending, handle_decision
 
+OWNER_ACCESS = {"isPrimaryOwner": True, "permissions": ["ADMISSIONS"], "active": True}
+ADMISSIONS_ACCESS = {"isPrimaryOwner": False, "permissions": ["ADMISSIONS"], "active": True}
+
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -128,14 +131,14 @@ class TestPending:
     async def test_pending_owner_sees_list(self):
         """OWNER sees pending requests."""
         msg = make_message()
-        db_user = {"role": "owner", "accountStatus": "active"}
+        db_user = {"role": "student", "accountStatus": "active"}
         pending = [
             {"id": "r1", "applicantName": "Ali", "applicantEmail": None,
              "message": "Kirgim keladi", "createdAt": "2025-01-01T00:00:00Z"}
         ]
         with patch("handlers.admission.api_client") as mock_api:
             mock_api.list_pending_requests = AsyncMock(return_value=pending)
-            await cmd_pending(msg, db_user=db_user)
+            await cmd_pending(msg, db_user=db_user, bot_access=OWNER_ACCESS)
         assert msg.answer.call_count == 1
         text = msg.answer.call_args[0][0]
         assert "Ali" in text
@@ -144,10 +147,10 @@ class TestPending:
     async def test_pending_empty(self):
         """OWNER sees empty message when no pending."""
         msg = make_message()
-        db_user = {"role": "owner", "accountStatus": "active"}
+        db_user = {"role": "student", "accountStatus": "active"}
         with patch("handlers.admission.api_client") as mock_api:
             mock_api.list_pending_requests = AsyncMock(return_value=[])
-            await cmd_pending(msg, db_user=db_user)
+            await cmd_pending(msg, db_user=db_user, bot_access=OWNER_ACCESS)
         text = msg.answer.call_args[0][0]
         assert "yo'q" in text.lower()
 
@@ -161,22 +164,31 @@ class TestDecision:
     async def test_approve_by_owner(self):
         """OWNER approves successfully."""
         cb = make_callback(data="decide_approve_req123")
-        db_user = {"role": "owner", "accountStatus": "active"}
+        db_user = {"role": "student", "accountStatus": "active"}
         with patch("handlers.admission.api_client") as mock_api:
             mock_api.decide_access_request = AsyncMock(return_value=True)
-            await handle_decision(cb, db_user=db_user)
+            await handle_decision(cb, db_user=db_user, bot_access=OWNER_ACCESS)
         cb.message.edit_text.assert_called_once()
         text = cb.message.edit_text.call_args[0][0]
         assert "Tasdiqlandi" in text
 
     @pytest.mark.asyncio
-    async def test_reject_by_admin(self):
-        """Admin rejects successfully."""
+    async def test_website_admin_is_not_bot_admin(self):
+        """Website ADMIN role alone cannot decide. Bot permission is separate."""
         cb = make_callback(data="decide_reject_req456")
         db_user = {"role": "admin", "accountStatus": "active"}
+        await handle_decision(cb, db_user=db_user, bot_access={"isPrimaryOwner": False, "permissions": [], "active": False})
+        text = cb.answer.call_args[0][0]
+        assert "ruxsat" in text.lower() or "permission" in text.lower()
+
+    @pytest.mark.asyncio
+    async def test_reject_by_admissions_admin(self):
+        """A bot admin with ADMISSIONS can reject."""
+        cb = make_callback(data="decide_reject_req456")
+        db_user = {"role": "student", "accountStatus": "active"}
         with patch("handlers.admission.api_client") as mock_api:
             mock_api.decide_access_request = AsyncMock(return_value=True)
-            await handle_decision(cb, db_user=db_user)
+            await handle_decision(cb, db_user=db_user, bot_access=ADMISSIONS_ACCESS)
         text = cb.message.edit_text.call_args[0][0]
         assert "Rad etildi" in text
 
@@ -213,10 +225,10 @@ class TestDecision:
     async def test_double_approve_returns_conflict(self):
         """Double approve is handled safely — server returns false."""
         cb = make_callback(data="decide_approve_req123")
-        db_user = {"role": "owner", "accountStatus": "active"}
+        db_user = {"role": "student", "accountStatus": "active"}
         with patch("handlers.admission.api_client") as mock_api:
             mock_api.decide_access_request = AsyncMock(return_value=False)
-            await handle_decision(cb, db_user=db_user)
+            await handle_decision(cb, db_user=db_user, bot_access=OWNER_ACCESS)
         cb.answer.assert_called_once()
         text = cb.answer.call_args[0][0]
         assert "allaqachon" in text.lower() or "topilmadi" in text.lower()
@@ -237,16 +249,16 @@ class TestDecision:
         await handle_decision(cb, db_user=db_user)
         cb.answer.assert_called_once()
         text = cb.answer.call_args[0][0]
-        assert "noto'g'ri" in text.lower().replace("ʻ", "'")
+        assert "xatolik" in text.lower() or "ruxsat" in text.lower()
 
     @pytest.mark.asyncio
     async def test_decide_uses_numeric_telegram_id(self):
         """Decision passes numeric Telegram ID to server."""
         cb = make_callback(user_id=55443322, data="decide_approve_req789")
-        db_user = {"role": "owner", "accountStatus": "active"}
+        db_user = {"role": "student", "accountStatus": "active"}
         with patch("handlers.admission.api_client") as mock_api:
             mock_api.decide_access_request = AsyncMock(return_value=True)
-            await handle_decision(cb, db_user=db_user)
+            await handle_decision(cb, db_user=db_user, bot_access=OWNER_ACCESS)
         call_args = mock_api.decide_access_request.call_args
         assert call_args[0][0] == "55443322"
 
@@ -254,13 +266,13 @@ class TestDecision:
     async def test_server_error_during_decide(self):
         """Server exception is handled gracefully."""
         cb = make_callback(data="decide_approve_req123")
-        db_user = {"role": "owner", "accountStatus": "active"}
+        db_user = {"role": "student", "accountStatus": "active"}
         with patch("handlers.admission.api_client") as mock_api:
             mock_api.decide_access_request = AsyncMock(side_effect=Exception("500"))
-            await handle_decision(cb, db_user=db_user)
+            await handle_decision(cb, db_user=db_user, bot_access=OWNER_ACCESS)
         cb.answer.assert_called_once()
         text = cb.answer.call_args[0][0]
-        assert "xatoligi" in text.lower() or "server" in text.lower()
+        assert "xatolik" in text.lower() or "wrong" in text.lower() or "error" in text.lower()
 
 
 # ---------------------------------------------------------------------------

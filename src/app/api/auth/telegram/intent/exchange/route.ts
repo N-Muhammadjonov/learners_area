@@ -1,44 +1,58 @@
-import { NextResponse, NextRequest } from "next/server";
-import { consumeIntent } from "@/lib/auth/telegram-intent";
-import { createSessionToken, SESSION_COOKIE, clearSessionCookies, sessionCookieOptions } from "@/lib/auth/session";
+import { NextRequest, NextResponse } from "next/server";
+import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { users } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { consumeIntent } from "@/lib/auth/telegram-intent";
+import { createSessionToken, SESSION_COOKIE, clearSessionCookies, sessionCookieOptions } from "@/lib/auth/session";
+import { clientKey, enforce, RULES } from "@/lib/http/rate-limit";
+import { linkTelegramToUser } from "@/lib/telegram/identity";
+import { isUuid } from "@/lib/validation/ids";
 
+/**
+ * Exchange a confirmed one-time intent for the same session cookie email login
+ * issues. Account status is returned so the client can send PENDING / REJECTED /
+ * SUSPENDED to the waiting room. This route never marks an account ACTIVE.
+ */
 export async function POST(req: NextRequest) {
+  const limited = enforce(RULES.telegramAuth, clientKey(req));
+  if (limited) return limited;
+
   try {
-    const { intentId, browserNonce } = await req.json();
-    if (!intentId || !browserNonce) {
-      return NextResponse.json({ error: "Missing parameters" }, { status: 400 });
+    const body = await req.json().catch(() => null);
+    const intentId = body && typeof body === "object" ? (body as { intentId?: unknown }).intentId : null;
+    const browserNonce = body && typeof body === "object" ? (body as { browserNonce?: unknown }).browserNonce : null;
+    if (typeof intentId !== "string" || typeof browserNonce !== "string" || !isUuid(intentId)) {
+      return NextResponse.json({ error: "invalid_input" }, { status: 400 });
     }
 
     const intent = await consumeIntent(intentId, browserNonce);
-    if (!intent || !intent.telegramUserId) {
-      return NextResponse.json({ error: "Intent not found, expired, or not confirmed" }, { status: 400 });
+    if (!intent?.telegramUserId) {
+      return NextResponse.json({ error: "intent_not_confirmed" }, { status: 400 });
     }
 
-    let user = await db.query.users.findFirst({
-      where: eq(users.telegramId, intent.telegramUserId),
-    });
+    let user = await db.query.users.findFirst({ where: eq(users.telegramId, intent.telegramUserId) });
+
+    if (intent.userId && user && user.id !== intent.userId) {
+      return NextResponse.json({ error: "telegram_already_linked" }, { status: 409 });
+    }
+
+    if (intent.userId && !user) {
+      const linked = await linkTelegramToUser({
+        userId: intent.userId,
+        telegramUserId: intent.telegramUserId,
+        actorUserId: intent.userId,
+      });
+      if (!linked.ok) {
+        return NextResponse.json({ error: "telegram_already_linked" }, { status: 409 });
+      }
+      user = await db.query.users.findFirst({ where: eq(users.id, intent.userId) });
+    }
 
     if (!user) {
-      if (intent.userId) {
-        const [updatedUser] = await db.update(users)
-          .set({ telegramId: intent.telegramUserId })
-          .where(eq(users.id, intent.userId))
-          .returning();
-        
-        if (!updatedUser) {
-           return NextResponse.json({ error: "Failed to link user" }, { status: 400 });
-        }
-        user = updatedUser;
-      } else {
-        return NextResponse.json({ error: "No Learners Area account linked to this Telegram identity. Please use the bot to request access first." }, { status: 404 });
-      }
-    } else {
-      if (intent.userId && intent.userId !== user.id) {
-         return NextResponse.json({ error: "This Telegram identity is already linked to a different account." }, { status: 409 });
-      }
+      return NextResponse.json(
+        { error: "no_linked_account" },
+        { status: 404 }
+      );
     }
 
     const token = await createSessionToken({
@@ -54,12 +68,11 @@ export async function POST(req: NextRequest) {
       onboarded: Boolean(user.onboardingCompletedAt),
       accountStatus: user.accountStatus,
     });
-    
     clearSessionCookies(res, req);
     res.cookies.set(SESSION_COOKIE, token, sessionCookieOptions(req));
     return res;
   } catch (error) {
-    console.error("Exchange intent error:", error);
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    console.error("[telegram] intent exchange failed");
+    return NextResponse.json({ error: "internal_error" }, { status: 500 });
   }
 }

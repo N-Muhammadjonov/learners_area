@@ -14,6 +14,7 @@ import {
   writingSubmissions,
 } from "@/db/schema";
 import { recordAudit } from "@/lib/data/audit";
+import { cleanupTelegramRetention } from "@/lib/telegram/retention";
 import { cleanupAbandonedUploads } from "@/lib/data/uploads";
 import { getStorageService } from "@/lib/services/storage";
 
@@ -466,6 +467,14 @@ export async function runRetention(options?: {
       applied: !dryRun,
       note: "measured on last meaningful activity (real work), falling back to registration; personal fields are scrubbed, structured work stays until its own window closes",
     });
+
+    const telegramResults = await cleanupTelegramRetention({
+      now,
+      rawEventCutoff: monthsAgo(config.rawEventMonths, now),
+      dryRun,
+      batchSize: config.batchSize,
+    });
+    results.push(...telegramResults);
 
     if (!dryRun) {
       await recordAudit({

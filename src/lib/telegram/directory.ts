@@ -1,0 +1,296 @@
+import "server-only";
+import { and, desc, eq, ilike, or, sql } from "drizzle-orm";
+import { createHash, randomInt } from "node:crypto";
+import { db } from "@/db/client";
+import { telegramContacts, telegramDeletionIntents, users } from "@/db/schema";
+import { isAccountStatus, type AccountStatus } from "@/lib/auth/account-status";
+import { isRole, type Role } from "@/lib/auth/roles";
+import { canDeleteUser, canRemoveOwnerAccess } from "@/lib/auth/owner-invariant";
+import { setAccountStatus } from "@/lib/data/admission";
+import { recordAudit } from "@/lib/data/audit";
+import { listAuditForTarget } from "@/lib/data/audit";
+import type { BotActor } from "./actor";
+import { isPrimaryOwnerTelegramId, isTelegramUserId } from "./ids";
+import { removeContactFromBot } from "./contacts";
+import { unlinkTelegramFromUser } from "./identity";
+
+function like(value: string) {
+  return `%${value.replace(/[\\%_]/g, (char) => `\\${char}`)}%`;
+}
+
+export async function searchDirectory(input: {
+  q?: string | null;
+  status?: string | null;
+  role?: string | null;
+  page: number;
+  pageSize: number;
+}) {
+  const pageSize = Math.min(Math.max(input.pageSize || 10, 1), 20);
+  const page = Math.max(input.page || 1, 1);
+  const filters = [];
+  if (input.status && isAccountStatus(input.status)) filters.push(eq(users.accountStatus, input.status));
+  if (input.role && isRole(input.role)) filters.push(eq(users.role, input.role));
+  const q = input.q?.trim();
+  if (q) {
+    const pattern = like(q.slice(0, 80));
+    filters.push(
+      or(
+        ilike(users.name, pattern),
+        ilike(users.email, pattern),
+        eq(users.telegramId, q),
+        sql`exists (
+          select 1 from telegram_contacts c
+          where c.linked_user_id = ${users.id}
+            and c.username ilike ${pattern}
+        )`
+      )
+    );
+  }
+  const where = filters.length ? and(...filters) : undefined;
+  const rows = await db
+    .select({
+      id: users.id,
+      name: users.name,
+      email: users.email,
+      role: users.role,
+      accountStatus: users.accountStatus,
+      telegramId: users.telegramId,
+      createdAt: users.createdAt,
+    })
+    .from(users)
+    .where(where)
+    .orderBy(desc(users.createdAt))
+    .limit(pageSize)
+    .offset((page - 1) * pageSize);
+  const [countRow] = await db.select({ count: sql<number>`count(*)::int` }).from(users).where(where);
+  return {
+    items: rows.map((row) => ({ ...row, telegramLinked: Boolean(row.telegramId) })),
+    page,
+    pageSize,
+    total: countRow?.count ?? 0,
+  };
+}
+
+export async function userDetail(userId: string) {
+  const user = await db.query.users.findFirst({
+    where: eq(users.id, userId),
+    columns: {
+      id: true,
+      name: true,
+      email: true,
+      role: true,
+      accountStatus: true,
+      statusReason: true,
+      locale: true,
+      telegramId: true,
+      createdAt: true,
+      lastActiveAt: true,
+    },
+  });
+  if (!user) return null;
+  const contact = user.telegramId
+    ? await db.query.telegramContacts.findFirst({ where: eq(telegramContacts.telegramUserId, user.telegramId) })
+    : await db.query.telegramContacts.findFirst({ where: eq(telegramContacts.linkedUserId, user.id) });
+  const audit = await listAuditForTarget(user.id, 8);
+  return {
+    user: {
+      ...user,
+      telegramLinked: Boolean(user.telegramId),
+      primaryOwner: Boolean(user.telegramId && isPrimaryOwnerTelegramId(user.telegramId)),
+    },
+    contact: contact
+      ? {
+          username: contact.username,
+          blocked: Boolean(contact.botBlockedAt),
+          removed: Boolean(contact.removedAt),
+          chatId: contact.chatId,
+        }
+      : null,
+    audit: audit.map((row) => ({
+      action: row.action,
+      createdAt: row.createdAt,
+      metadata: row.metadata,
+    })),
+  };
+}
+
+async function protectOwnerTarget(userId: string) {
+  const user = await db.query.users.findFirst({
+    where: eq(users.id, userId),
+    columns: { id: true, telegramId: true, role: true },
+  });
+  if (!user) return { ok: false as const, error: "not_found" };
+  if (user.telegramId && isPrimaryOwnerTelegramId(user.telegramId)) {
+    return { ok: false as const, error: "primary_owner_protected" };
+  }
+  return { ok: true as const, user };
+}
+
+export async function changeAccountFromBot(input: {
+  actor: BotActor;
+  userId: string;
+  status: Extract<AccountStatus, "suspended" | "active">;
+  reason?: string | null;
+}) {
+  const protectedTarget = await protectOwnerTarget(input.userId);
+  if (!protectedTarget.ok) return protectedTarget;
+  if (input.status === "suspended") {
+    const guard = await canRemoveOwnerAccess(input.userId);
+    if (!guard.ok) return { ok: false as const, error: guard.reason };
+  }
+  const current = await db.query.users.findFirst({
+    where: eq(users.id, input.userId),
+    columns: { accountStatus: true },
+  });
+  if (!current) return { ok: false as const, error: "not_found" };
+  if (input.status === "active" && current.accountStatus !== "suspended") {
+    return { ok: false as const, error: "not_suspended" };
+  }
+  if (!input.actor.auditUserId) return { ok: false as const, error: "actor_not_linked" };
+  const result = await setAccountStatus({
+    userId: input.userId,
+    status: input.status,
+    actorUserId: input.actor.auditUserId,
+    reason: input.reason ?? null,
+  });
+  return result.ok ? { ok: true as const, status: input.status } : result;
+}
+
+export async function unlinkFromBot(actor: BotActor, userId: string) {
+  const protectedTarget = await protectOwnerTarget(userId);
+  if (!protectedTarget.ok) return protectedTarget;
+  return unlinkTelegramFromUser({
+    userId,
+    actorUserId: actor.auditUserId,
+    actorTelegramId: actor.telegramUserId,
+  });
+}
+
+export async function removeBotContact(actor: BotActor, userId: string) {
+  const user = await db.query.users.findFirst({
+    where: eq(users.id, userId),
+    columns: { id: true, telegramId: true },
+  });
+  if (!user) return { ok: false as const, error: "not_found" };
+  if (user.telegramId && isPrimaryOwnerTelegramId(user.telegramId)) {
+    return { ok: false as const, error: "primary_owner_protected" };
+  }
+  const telegramUserId = user.telegramId;
+  if (!telegramUserId) {
+    const contact = await db.query.telegramContacts.findFirst({ where: eq(telegramContacts.linkedUserId, userId) });
+    if (!contact) return { ok: true as const, already: true };
+    await removeContactFromBot(contact.telegramUserId);
+  } else {
+    await removeContactFromBot(telegramUserId);
+  }
+  await recordAudit({
+    actorUserId: actor.auditUserId,
+    action: "telegram.bot_contact_removed",
+    targetType: "user",
+    targetId: userId,
+    metadata: { source: "telegram_bot", actorTelegramId: actor.telegramUserId },
+  });
+  return { ok: true as const, already: false };
+}
+
+function hashCode(code: string) {
+  return createHash("sha256").update(code).digest("hex");
+}
+
+export async function startDeletion(actor: BotActor, userId: string) {
+  const protectedTarget = await protectOwnerTarget(userId);
+  if (!protectedTarget.ok) return protectedTarget;
+  if (protectedTarget.user.role === "owner") return { ok: false as const, error: "primary_owner_protected" };
+  const guard = await canDeleteUser(userId);
+  if (!guard.ok) return { ok: false as const, error: guard.reason };
+  const code = String(randomInt(0, 1_000_000)).padStart(6, "0");
+  const expiresAt = new Date(Date.now() + 10 * 60_000);
+  const [row] = await db
+    .insert(telegramDeletionIntents)
+    .values({
+      tokenHash: hashCode(`${actor.telegramUserId}:${userId}:${code}`),
+      targetUserId: userId,
+      actorTelegramId: actor.telegramUserId,
+      expiresAt,
+    })
+    .returning({ id: telegramDeletionIntents.id });
+  await recordAudit({
+    actorUserId: actor.auditUserId,
+    action: "account.deletion_started",
+    targetType: "user",
+    targetId: userId,
+    metadata: { source: "telegram_bot", actorTelegramId: actor.telegramUserId },
+  });
+  return { ok: true as const, challengeId: row?.id, code, expiresAt };
+}
+
+export async function confirmDeletion(actor: BotActor, userId: string, code: string) {
+  if (!/^[0-9]{6}$/.test(code)) return { ok: false as const, error: "invalid_code" };
+  const protectedTarget = await protectOwnerTarget(userId);
+  if (!protectedTarget.ok) return protectedTarget;
+  if (protectedTarget.user.role === "owner") return { ok: false as const, error: "primary_owner_protected" };
+  const guard = await canDeleteUser(userId);
+  if (!guard.ok) return { ok: false as const, error: guard.reason };
+
+  const now = new Date();
+  const claimed = await db
+    .update(telegramDeletionIntents)
+    .set({ consumedAt: now })
+    .where(
+      and(
+        eq(telegramDeletionIntents.targetUserId, userId),
+        eq(telegramDeletionIntents.actorTelegramId, actor.telegramUserId),
+        eq(telegramDeletionIntents.tokenHash, hashCode(`${actor.telegramUserId}:${userId}:${code}`)),
+        sql`${telegramDeletionIntents.consumedAt} is null`,
+        sql`${telegramDeletionIntents.expiresAt} > ${now}`
+      )
+    )
+    .returning({ id: telegramDeletionIntents.id });
+  if (claimed.length === 0) return { ok: false as const, error: "challenge_invalid" };
+
+  const user = await db.query.users.findFirst({
+    where: eq(users.id, userId),
+    columns: { telegramId: true, role: true },
+  });
+  await db
+    .update(users)
+    .set({
+      name: "Former student",
+      email: null,
+      telegramId: null,
+      passwordHash: null,
+      accountStatus: "suspended",
+      statusReason: "anonymised_by_owner",
+      statusUpdatedAt: now,
+    })
+    .where(eq(users.id, userId));
+
+  if (user?.telegramId) {
+    await db
+      .update(telegramContacts)
+      .set({
+        linkedUserId: null,
+        username: null,
+        firstName: null,
+        lastName: null,
+        removedAt: now,
+        updatedAt: now,
+      })
+      .where(eq(telegramContacts.telegramUserId, user.telegramId));
+  }
+
+  await recordAudit({
+    actorUserId: actor.auditUserId,
+    action: "account.anonymised",
+    targetType: "user",
+    targetId: userId,
+    metadata: { source: "telegram_bot", actorTelegramId: actor.telegramUserId, mode: "retention_anonymise" },
+  });
+  return { ok: true as const };
+}
+
+export function canSearchRole(value: string | null): value is Role | null {
+  return value === null || isRole(value);
+}
+
+export { isTelegramUserId };

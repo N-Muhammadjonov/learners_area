@@ -176,6 +176,10 @@ test("every private API route rejects anonymous callers with 401", () => {
     // public answer to "which commit is this alias serving?", which has to be
     // checkable from outside without a session.
     "src/app/api/version/",
+    // Bot service routes authenticate with the service secret and then an
+    // actor permission. They must not use the website session guards — a
+    // student session is not a bot admin, and a service secret is not an owner.
+    "src/app/api/internal/telegram/",
   ];
   for (const route of API_ROUTES) {
     if (exceptions.some((prefix) => route.startsWith(prefix))) continue;

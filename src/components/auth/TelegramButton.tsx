@@ -1,8 +1,10 @@
 /**
- * Purely presentational — deliberately has NO import from
- * lib/auth/providers/telegram (that module pulls in node:crypto, which
- * cannot be bundled for the browser). `configured`/`botUsername` are
- * computed server-side and passed down as props instead.
+ * Deprecated Login Widget button.
+ *
+ * Do not mount this. The website now uses TelegramIntentLogin: the browser
+ * holds a one-time intent, the bot confirms it, and the existing session
+ * cookie is issued only after that confirmation. This file remains so the old
+ * widget can be compared until a real Telegram check retires the callback.
  */
 export function TelegramButton({
   label,

@@ -26,7 +26,21 @@ export type AuditAction =
   | "content.created"
   | "content.updated"
   | "retention.preview"
-  | "upload.deleted";
+  | "upload.deleted"
+  | "telegram.linked"
+  | "telegram.unlinked"
+  | "telegram.bot_contact_removed"
+  | "bot_admin.added"
+  | "bot_admin.removed"
+  | "bot_admin.permissions_changed"
+  | "broadcast.created"
+  | "broadcast.cancelled"
+  | "account.deletion_started"
+  | "account.anonymised"
+  | "support.assigned"
+  | "support.closed"
+  | "support.reopened"
+  | "bot_settings.changed";
 
 export async function recordAudit(input: {
   actorUserId: string | null;

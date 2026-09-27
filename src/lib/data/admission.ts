@@ -3,6 +3,7 @@ import { and, desc, eq, isNull } from "drizzle-orm";
 import { db } from "@/db/client";
 import { accessRequests, users } from "@/db/schema";
 import { recordAudit } from "./audit";
+import { enqueueTelegramNotice } from "@/lib/telegram/notifications";
 import { notifyUsers, staffAdminUserIds } from "./notifications";
 import { isAccountStatus, type AccountStatus } from "@/lib/auth/account-status";
 import type { Role } from "@/lib/auth/roles";
@@ -137,6 +138,15 @@ export async function findAccessRequestById(id: string) {
   return db.query.accessRequests.findFirst({ where: eq(accessRequests.id, id) });
 }
 
+/**
+ * The id from the queue may be a request id, or the id of a waiting account that
+ * has no request row. Materialise the row only when somebody is actually deciding.
+ */
+export async function resolveRequestIdForDecision(id: string): Promise<string | null> {
+  if (await findAccessRequestById(id)) return id;
+  return ensurePendingRequestForAccount(id);
+}
+
 export async function findOpenRequestForUser(userId: string) {
   return db.query.accessRequests.findFirst({
     where: and(eq(accessRequests.userId, userId), eq(accessRequests.status, "pending")),
@@ -144,7 +154,11 @@ export async function findOpenRequestForUser(userId: string) {
   });
 }
 
-export async function createAccessRequest(input: { userId: string; message?: string | null }) {
+export async function createAccessRequest(input: {
+  userId: string;
+  message?: string | null;
+  metadata?: Record<string, unknown>;
+}) {
   const [row] = await db
     .insert(accessRequests)
     .values({ userId: input.userId, message: input.message ?? null, status: "pending" })
@@ -160,6 +174,7 @@ export async function createAccessRequest(input: { userId: string; message?: str
     action: "access.requested",
     targetType: "access_request",
     targetId: row?.id,
+    metadata: input.metadata,
   });
 
   // Owner and admins hear about it in-app immediately. A future Telegram
@@ -183,6 +198,8 @@ export type DecisionInput = {
   actorUserId: string;
   decision: "approve" | "reject";
   note?: string | null;
+  /** Extra audit metadata. Must never contain a secret or a password. */
+  metadata?: Record<string, unknown>;
 };
 
 export async function decideAccessRequest(input: DecisionInput) {
@@ -225,7 +242,7 @@ export async function decideAccessRequest(input: DecisionInput) {
     action: approved ? "access.approved" : "access.rejected",
     targetType: "user",
     targetId: request.userId,
-    metadata: { requestId: request.id },
+    metadata: { requestId: request.id, ...(input.metadata ?? {}) },
   });
 
   await notifyUsers([request.userId], {
@@ -235,6 +252,16 @@ export async function decideAccessRequest(input: DecisionInput) {
       ? "Your Learners Area access has been approved. Welcome in."
       : (input.note ?? "Your access request was not approved."),
     href: approved ? "/dashboard" : "/pending",
+  });
+
+  await enqueueTelegramNotice({
+    userId: request.userId,
+    type: approved ? "account.approved" : "account.rejected",
+    title: approved ? "Access approved" : "Access rejected",
+    body: approved
+      ? "Your Learners Area access has been approved."
+      : (input.note ?? "Your access request was not approved."),
+    category: "critical",
   });
 
   return { ok: true as const, status: approved ? "active" : "rejected", userId: request.userId };
@@ -267,6 +294,16 @@ export async function setAccountStatus(input: {
     body: input.reason ?? null,
     href: input.status === "active" ? "/dashboard" : "/pending",
   });
+
+  if (input.status === "suspended" || input.status === "active") {
+    await enqueueTelegramNotice({
+      userId: input.userId,
+      type: input.status === "suspended" ? "account.suspended" : "account.unsuspended",
+      title: input.status === "suspended" ? "Account suspended" : "Account restored",
+      body: input.reason ?? null,
+      category: "critical",
+    });
+  }
 
   return { ok: true as const };
 }

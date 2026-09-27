@@ -1,137 +1,101 @@
-from aiogram import Router, F
+from aiogram import F, Router
 from aiogram.filters import Command
-from aiogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
-from typing import Optional, Dict, Any
+from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
+
+from html_text import esc
+from i18n import t
+from middlewares.auth import allows
 from services.api_client import api_client
 
 admission_router = Router()
 
 
+def _lang(event: Message | CallbackQuery, db_user: dict | None) -> str:
+    if db_user and db_user.get("locale") in {"uz", "en"}:
+        return db_user["locale"]
+    code = event.from_user.language_code if event.from_user else "uz"
+    return "en" if (code or "").startswith("en") else "uz"
+
+
 @admission_router.message(Command("apply"))
-async def cmd_apply(message: Message, db_user: Optional[Dict[str, Any]] = None):
-    """User requests access to the platform via Telegram."""
+async def cmd_apply(message: Message, db_user: dict | None = None):
+    lang = _lang(message, db_user)
     if db_user:
         status = db_user.get("accountStatus")
         if status == "active":
-            await message.answer("Siz allaqachon platformaga kirishingiz tasdiqlangan.")
+            await message.answer(t(lang, "apply_active"))
             return
         if status == "pending":
-            await message.answer("Sizning arizangiz allaqachon ko'rib chiqilmoqda. Iltimos, kuting.")
+            await message.answer(t(lang, "apply_pending"))
             return
         if status == "suspended":
-            await message.answer("Sizning hisobingiz to'xtatilgan. Iltimos, admin bilan bog'laning.")
+            await message.answer(t(lang, "apply_suspended"))
             return
-
-    name = message.from_user.full_name
-    telegram_id = str(message.from_user.id)
-
     try:
-        req_id = await api_client.create_access_request(
-            telegram_id, name, "Telegram orqali ariza"
+        await api_client.create_access_request(
+            str(message.from_user.id),
+            message.from_user.full_name,
+            "Telegram orqali ariza",
+            username=message.from_user.username,
+            chatId=str(message.chat.id),
+            languageCode=message.from_user.language_code,
         )
-        await message.answer(
-            "✅ Arizangiz muvaffaqiyatli qabul qilindi.\n"
-            "Administratorlar ko'rib chiqishini kuting."
-        )
+        await message.answer(t(lang, "apply_ok"))
     except Exception:
-        await message.answer(
-            "❌ Xatolik yuz berdi. Iltimos, keyinroq qayta urinib ko'ring."
-        )
+        await message.answer(t(lang, "error"))
 
 
 @admission_router.message(Command("pending"))
-async def cmd_pending(message: Message, db_user: Optional[Dict[str, Any]] = None):
-    """OWNER/admin views pending access requests."""
-    if not db_user or db_user.get("role") not in ("admin", "owner"):
-        await message.answer("Sizda bu buyruqdan foydalanish uchun ruxsat yo'q.")
+async def cmd_pending(message: Message, db_user: dict | None = None, bot_access: dict | None = None):
+    lang = _lang(message, db_user)
+    if not allows(bot_access, "ADMISSIONS"):
+        await message.answer(t(lang, "no_permission"))
         return
-
     try:
-        requests = await api_client.list_pending_requests()
+        requests = await api_client.list_pending_requests(str(message.from_user.id))
     except Exception:
-        await message.answer("❌ Arizalarni yuklashda xatolik yuz berdi.")
+        await message.answer(t(lang, "error"))
         return
-
     if not requests:
-        await message.answer("Hozircha kutilayotgan arizalar yo'q.")
+        await message.answer(t(lang, "empty"))
         return
-
-    for req in requests[:20]:  # limit to 20 in one batch
-        name = req.get("applicantName", "Noma'lum")
-        email = req.get("applicantEmail", "—")
-        msg = req.get("message") or "—"
+    for req in requests[:10]:
         rid = req.get("id", "")
-        created = req.get("createdAt", "")[:10]
-
         text = (
-            f"👤 Ism: {name}\n"
-            f"📧 Email: {email}\n"
-            f"💬 Xabar: {msg}\n"
-            f"📅 Sana: {created}"
+            f"👤 {esc(req.get('applicantName') or '—')}\n"
+            f"📧 {esc(req.get('applicantEmail') or '—')}\n"
+            f"💬 {esc(req.get('message') or '—')}"
         )
-
         keyboard = InlineKeyboardMarkup(
-            inline_keyboard=[
-                [
-                    InlineKeyboardButton(
-                        text="✅ Tasdiqlash",
-                        callback_data=f"decide_approve_{rid}",
-                    ),
-                    InlineKeyboardButton(
-                        text="❌ Rad etish",
-                        callback_data=f"decide_reject_{rid}",
-                    ),
-                ]
-            ]
+            inline_keyboard=[[
+                InlineKeyboardButton(text="✅", callback_data=f"decide_approve_{rid}"),
+                InlineKeyboardButton(text="❌", callback_data=f"decide_reject_{rid}"),
+            ]]
         )
-
         await message.answer(text, reply_markup=keyboard)
 
 
 @admission_router.callback_query(F.data.startswith("decide_"))
-async def handle_decision(
-    callback: CallbackQuery, db_user: Optional[Dict[str, Any]] = None
-):
-    """Handle approve/reject inline button press from OWNER/admin."""
-    if not db_user or db_user.get("role") not in ("admin", "owner"):
-        await callback.answer(
-            "Sizda bu amalni bajarish uchun ruxsat yo'q.", show_alert=True
-        )
+async def handle_decision(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None):
+    lang = _lang(callback, db_user)
+    if not allows(bot_access, "ADMISSIONS"):
+        await callback.answer(t(lang, "no_permission"), show_alert=True)
         return
-
-    parts = callback.data.split("_", 2)
-    if len(parts) < 3:
-        await callback.answer("Noto'g'ri buyruq formati.", show_alert=True)
+    parts = (callback.data or "").split("_", 2)
+    if len(parts) < 3 or parts[1] not in {"approve", "reject"} or not parts[2]:
+        await callback.answer(t(lang, "error"), show_alert=True)
         return
-
-    decision = parts[1]  # "approve" or "reject"
-    request_id = parts[2]
-    actor_telegram_id = str(callback.from_user.id)
-
-    if decision not in ("approve", "reject"):
-        await callback.answer("Noto'g'ri qaror turi.", show_alert=True)
-        return
-
+    decision, request_id = parts[1], parts[2]
+    actor_id = str(callback.from_user.id)
     try:
-        success = await api_client.decide_access_request(
-            actor_telegram_id, request_id, decision
-        )
+        success = await api_client.decide_access_request(actor_id, request_id, decision)
     except Exception:
-        await callback.answer(
-            "Server xatoligi yuz berdi.", show_alert=True
-        )
+        await callback.answer(t(lang, "error"), show_alert=True)
         return
-
-    if success:
-        label = "✅ Tasdiqlandi" if decision == "approve" else "❌ Rad etildi"
-        original = callback.message.text or ""
-        await callback.message.edit_text(
-            f"{original}\n\n{label}",
-            reply_markup=None,
-        )
-        await callback.answer(label)
-    else:
-        await callback.answer(
-            "Ariza allaqachon ko'rib chiqilgan yoki topilmadi.",
-            show_alert=True,
-        )
+    if not success:
+        await callback.answer("Ariza allaqachon ko'rib chiqilgan yoki topilmadi.", show_alert=True)
+        return
+    label = "✅ Tasdiqlandi" if decision == "approve" else "❌ Rad etildi"
+    original = callback.message.text or ""
+    await callback.message.edit_text(f"{original}\n\n{label}", reply_markup=None)
+    await callback.answer(label)

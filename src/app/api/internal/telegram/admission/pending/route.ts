@@ -1,16 +1,32 @@
-import { NextResponse, NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { verifyInternalBotRequest } from "@/lib/auth/internal-service";
+import { requireBotPermission } from "@/lib/telegram/actor";
+import { actorError } from "@/lib/telegram/http";
 import { listPendingAccessRequests } from "@/lib/data/admission";
 
 export async function GET(req: NextRequest) {
   const authError = verifyInternalBotRequest(req);
   if (authError) return authError;
 
+  const actor = await requireBotPermission(req.nextUrl.searchParams.get("actorTelegramId"), "ADMISSIONS");
+  if (!actor.ok) return actorError(actor.error);
+
   try {
     const requests = await listPendingAccessRequests();
-    return NextResponse.json({ requests });
+    return NextResponse.json({
+      requests: requests.map((row) => ({
+        id: row.id,
+        userId: row.userId,
+        applicantName: row.applicantName,
+        applicantEmail: row.applicantEmail,
+        applicantRole: row.applicantRole,
+        applicantStatus: row.applicantStatus,
+        message: row.message,
+        createdAt: row.createdAt,
+      })),
+    });
   } catch (error) {
-    console.error("Internal telegram admission pending error:", error);
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    console.error("[telegram] pending list failed");
+    return NextResponse.json({ error: "internal_error" }, { status: 500 });
   }
 }

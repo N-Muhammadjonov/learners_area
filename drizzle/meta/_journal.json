@@ -141,6 +141,13 @@
       "when": 1790440977869,
       "tag": "0019_fixed_ma_gnuci",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1790472594244,
+      "tag": "0020_telegram_bot_integrity",
+      "breakpoints": true
     }
   ]
 }

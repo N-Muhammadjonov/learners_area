@@ -1,32 +1,20 @@
-import { NextResponse, NextRequest } from "next/server";
-import { db } from "@/db/client";
-import { telegramLoginIntents } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { NextRequest, NextResponse } from "next/server";
+import { readIntentStatus } from "@/lib/auth/telegram-intent";
+import { isUuid } from "@/lib/validation/ids";
 
 export async function GET(req: NextRequest) {
   const id = req.nextUrl.searchParams.get("id");
-  if (!id) {
-    return NextResponse.json({ error: "Missing id" }, { status: 400 });
+  const nonce = req.nextUrl.searchParams.get("nonce");
+  if (!id || !nonce || !isUuid(id)) {
+    return NextResponse.json({ error: "invalid_input" }, { status: 400 });
   }
 
   try {
-    const intent = await db.query.telegramLoginIntents.findFirst({
-      where: eq(telegramLoginIntents.id, id),
-      columns: {
-        status: true,
-        expiresAt: true,
-      }
-    });
-
-    if (!intent) {
-      return NextResponse.json({ error: "Not found" }, { status: 404 });
-    }
-
-    return NextResponse.json({
-      status: intent.status,
-      expired: new Date() > intent.expiresAt
-    });
+    const intent = await readIntentStatus(id, nonce);
+    if (!intent) return NextResponse.json({ error: "not_found" }, { status: 404 });
+    return NextResponse.json({ status: intent.status, expired: intent.expired });
   } catch (error) {
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    console.error("[telegram] intent status failed");
+    return NextResponse.json({ error: "internal_error" }, { status: 500 });
   }
 }
