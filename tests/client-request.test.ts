@@ -182,3 +182,65 @@ test("a form body is passed through with no content-type of our own", async () =
   const headers = (seen.headers ?? {}) as Record<string, string>;
   assert.equal(headers["Content-Type"], undefined, "the browser must set the multipart boundary");
 });
+
+test("stalled headers time out without retrying a potentially committed write", async () => {
+  let calls = 0;
+  const result = await withFetch(async (_url, init) => {
+    calls++;
+    return new Promise<Response>((_resolve, reject) => {
+      init?.signal?.addEventListener("abort", () => reject(init.signal?.reason), { once: true });
+    });
+  }, () => requestJson("/api/anything", { body: { write: true }, timeoutMs: 15 }));
+  assert.deepEqual(result, { ok: false, status: 0, kind: "network", error: "timeout" });
+  assert.equal(calls, 1);
+});
+
+test("deadline includes a stalled response body after successful headers", async () => {
+  const result = await withFetch(async (_url, init) => new Response(new ReadableStream({
+    start(controller) {
+      controller.enqueue(new TextEncoder().encode('{"partial":'));
+      init?.signal?.addEventListener("abort", () => controller.error(init.signal?.reason), { once: true });
+    },
+  })), () => requestJson("/api/anything", { timeoutMs: 15 }));
+  assert.deepEqual(result, { ok: false, status: 200, kind: "network", error: "timeout" });
+});
+
+test("a truncated successful response is never reported as an empty success", async () => {
+  const result = await withFetch(async () => new Response(new ReadableStream({
+    start(controller) { controller.error(new TypeError("connection lost")); },
+  })), () => requestJson("/api/anything"));
+  assert.deepEqual(result, { ok: false, status: 200, kind: "network", error: "body_interrupted" });
+});
+
+test("caller cancellation interrupts body reading and is distinguished from timeout", async () => {
+  const caller = new AbortController();
+  const result = await withFetch(async (_url, init) => new Response(new ReadableStream({
+    start(controller) {
+      init?.signal?.addEventListener("abort", () => controller.error(init.signal?.reason), { once: true });
+      queueMicrotask(() => caller.abort(new Error("navigation")));
+    },
+  })), () => requestJson("/api/anything", { signal: caller.signal }));
+  assert.deepEqual(result, { ok: false, status: 200, kind: "network", error: "aborted" });
+});
+
+test("already cancelled callers remain cancelled", async () => {
+  const result = await withFetch(async (_url, init) => {
+    init?.signal?.throwIfAborted();
+    assert.fail("cancelled request must not continue");
+  }, () => requestJson("/api/anything", { signal: AbortSignal.abort() }));
+  assert.deepEqual(result, { ok: false, status: 0, kind: "network", error: "aborted" });
+});
+
+test("settled requests detach caller listener and cancel deadline", async (t) => {
+  const caller = new AbortController();
+  const remove = t.mock.method(caller.signal, "removeEventListener");
+  let transportSignal: AbortSignal | null | undefined;
+  await withFetch(async (_url, init) => {
+    transportSignal = init?.signal;
+    return jsonResponse("{}");
+  }, () => requestJson("/api/anything", { signal: caller.signal, timeoutMs: 15 }));
+  caller.abort();
+  await new Promise((resolve) => setTimeout(resolve, 30));
+  assert.equal(remove.mock.callCount(), 1);
+  assert.equal(transportSignal?.aborted, false);
+});

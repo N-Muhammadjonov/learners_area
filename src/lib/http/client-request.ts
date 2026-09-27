@@ -25,7 +25,7 @@
  */
 
 export type ApiFailureKind =
-  /** The request never completed — no status code was received. */
+  /** The request or response body did not complete; status is 0 before headers. */
   | "network"
   /** 5xx: the server (or the platform in front of it) failed. */
   | "server"
@@ -56,71 +56,101 @@ type RequestOptions = {
   /** FormData is passed through untouched — the browser sets its own boundary. */
   form?: FormData;
   signal?: AbortSignal;
+  /** Includes headers AND body. No automatic retry of a possibly committed write. */
+  timeoutMs?: number;
 };
 
 export async function requestJson<T = unknown>(
   url: string,
   options: RequestOptions = {}
 ): Promise<ApiResult<T>> {
-  const { method = "POST", body, form, signal } = options;
-
-  let response: Response;
-  try {
-    response = await fetch(url, {
-      method,
-      signal,
-      // Same-origin API calls need no credentials flag: the session cookie is
-      // first-party. Sending `include` would only widen what the browser allows.
-      headers: form ? undefined : body === undefined ? undefined : { "Content-Type": "application/json" },
-      body: form ?? (body === undefined ? undefined : JSON.stringify(body)),
-    });
-  } catch (cause) {
-    // An aborted request is not a failure the user should see: the component that
-    // aborted it knows why, and reporting "connection problem" would be a lie.
-    if (cause instanceof DOMException && cause.name === "AbortError") {
-      return { ok: false, status: 0, kind: "network", error: "aborted" };
+  const { method = "POST", body, form, signal, timeoutMs = 25_000 } = options;
+  const deadlineMs = Number.isFinite(timeoutMs) && timeoutMs > 0
+    ? Math.min(timeoutMs, 2_147_483_647)
+    : 25_000;
+  const controller = new AbortController();
+  let timedOut = false;
+  const abort = () => controller.abort(signal?.reason);
+  if (signal?.aborted) abort();
+  else signal?.addEventListener("abort", abort, { once: true });
+  const timer = setTimeout(() => {
+    if (!controller.signal.aborted) {
+      timedOut = true;
+      controller.abort();
     }
-    return { ok: false, status: 0, kind: "network", error: null };
-  }
-
-  // Read the body as text first, so a non-JSON response is a value we can inspect
-  // rather than an exception we have to catch twice.
-  let raw = "";
+  }, deadlineMs);
   try {
-    raw = await response.text();
-  } catch {
-    raw = "";
+    return await readResponse();
+  } finally {
+    clearTimeout(timer);
+    signal?.removeEventListener("abort", abort);
   }
 
-  let parsed: unknown = null;
-  let parsedOk = false;
-  if (raw.length > 0) {
+  async function readResponse(): Promise<ApiResult<T>> {
+    let response: Response;
     try {
-      parsed = JSON.parse(raw);
-      parsedOk = true;
-    } catch {
-      parsedOk = false;
+      response = await fetch(url, {
+        method,
+        signal: controller.signal,
+        // Same-origin API calls need no credentials flag: the session cookie is
+        // first-party. Sending `include` would only widen what the browser allows.
+        headers: form ? undefined : body === undefined ? undefined : { "Content-Type": "application/json" },
+        body: form ?? (body === undefined ? undefined : JSON.stringify(body)),
+      });
+    } catch (cause) {
+      // An aborted request is not a failure the user should see: the component that
+      // aborted it knows why, and reporting "connection problem" would be a lie.
+      if (timedOut) return { ok: false, status: 0, kind: "network", error: "timeout" };
+      if (controller.signal.aborted || (cause instanceof DOMException && cause.name === "AbortError")) {
+        return { ok: false, status: 0, kind: "network", error: "aborted" };
+      }
+      return { ok: false, status: 0, kind: "network", error: null };
     }
+
+    // Read the body as text first, so a non-JSON response is a value we can inspect
+    // rather than an exception we have to catch twice.
+    let raw = "";
+    try {
+      raw = await response.text();
+    } catch {
+      return {
+        ok: false,
+        status: response.status,
+        kind: "network",
+        error: timedOut ? "timeout" : controller.signal.aborted ? "aborted" : "body_interrupted",
+      };
+    }
+
+    let parsed: unknown = null;
+    let parsedOk = false;
+    if (raw.length > 0) {
+      try {
+        parsed = JSON.parse(raw);
+        parsedOk = true;
+      } catch {
+        parsedOk = false;
+      }
+    }
+
+    const errorCode =
+      parsedOk && parsed && typeof parsed === "object" && typeof (parsed as { error?: unknown }).error === "string"
+        ? ((parsed as { error: string }).error)
+        : null;
+
+    if (!response.ok) {
+      const kind: ApiFailureKind = response.status >= 500 ? "server" : "http";
+      return { ok: false, status: response.status, kind, error: errorCode };
+    }
+
+    if (!parsedOk) {
+      // 2xx that is not JSON: an empty body is legitimate for some callers, so an
+      // empty response is treated as `null` data rather than a parse failure.
+      if (raw.length === 0) return { ok: true, status: response.status, data: null as T };
+      return { ok: false, status: response.status, kind: "parse", error: null };
+    }
+
+    return { ok: true, status: response.status, data: parsed as T };
   }
-
-  const errorCode =
-    parsedOk && parsed && typeof parsed === "object" && typeof (parsed as { error?: unknown }).error === "string"
-      ? ((parsed as { error: string }).error)
-      : null;
-
-  if (!response.ok) {
-    const kind: ApiFailureKind = response.status >= 500 ? "server" : "http";
-    return { ok: false, status: response.status, kind, error: errorCode };
-  }
-
-  if (!parsedOk) {
-    // 2xx that is not JSON: an empty body is legitimate for some callers, so an
-    // empty response is treated as `null` data rather than a parse failure.
-    if (raw.length === 0) return { ok: true, status: response.status, data: null as T };
-    return { ok: false, status: response.status, kind: "parse", error: null };
-  }
-
-  return { ok: true, status: response.status, data: parsed as T };
 }
 
 /**
