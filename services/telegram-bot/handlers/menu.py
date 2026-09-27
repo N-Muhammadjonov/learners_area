@@ -234,8 +234,8 @@ async def cb_settings(callback: CallbackQuery | Message, db_user: dict | None = 
     markup = InlineKeyboardMarkup(
         inline_keyboard=[
             [
-                InlineKeyboardButton(text="O'zbek", callback_data="lang:uz"),
-                InlineKeyboardButton(text="English", callback_data="lang:en"),
+                InlineKeyboardButton(text="🇺🇿 O'zbek", callback_data="lang:uz"),
+                InlineKeyboardButton(text="🇬🇧 English", callback_data="lang:en"),
             ],
             [InlineKeyboardButton(text=t(lang, "home"), callback_data="m:home")],
         ]

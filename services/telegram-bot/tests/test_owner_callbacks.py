@@ -24,7 +24,7 @@ def test_owner_callbacks_are_opaque_and_sensitive():
 
 def test_notice_buttons_use_only_the_correlation_id():
     specs = notice_button_specs("website.owner_transfer", UUID)
-    assert specs == [("Approve", f"wta:{UUID}"), ("Reject", f"wtr:{UUID}")]
+    assert specs == [("✅ Approve", f"wta:{UUID}"), ("❌ Reject", f"wtr:{UUID}")]
     assert notice_button_specs("telegram.owner_handover_current", UUID)[0][1].startswith("bhc:")
     assert notice_button_specs("telegram.owner_handover_target", "not-a-uuid") == []
     assert notice_button_specs("telegram.owner_transferred", UUID) == []

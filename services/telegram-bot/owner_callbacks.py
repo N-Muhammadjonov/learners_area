@@ -5,9 +5,9 @@ import re
 UUID_RE = re.compile(r"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
 PREFIXES = {"wta", "wtr", "bhc", "bha", "bhr"}
 NOTICE_BUTTONS = {
-    "website.owner_transfer": (("Approve", "wta"), ("Reject", "wtr")),
-    "telegram.owner_handover_current": (("Confirm", "bhc"), ("Reject", "bhr")),
-    "telegram.owner_handover_target": (("Accept", "bha"), ("Reject", "bhr")),
+    "website.owner_transfer": (("✅ Approve", "wta"), ("❌ Reject", "wtr")),
+    "telegram.owner_handover_current": (("✅ Confirm", "bhc"), ("❌ Reject", "bhr")),
+    "telegram.owner_handover_target": (("✅ Accept", "bha"), ("❌ Reject", "bhr")),
 }
 
 
