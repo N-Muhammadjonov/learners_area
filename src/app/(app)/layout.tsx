@@ -1,3 +1,5 @@
+import { performanceDiagnosticsEnabled } from "@/lib/config/site";
+import { PerformanceDiagnostics } from "@/components/diagnostics/PerformanceDiagnostics";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth/current-user";
 import { hasPrivateAccess } from "@/lib/auth/account-status";
@@ -56,6 +58,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
 
   return (
     <div className="flex h-dvh overflow-hidden bg-paper" data-shell>
+      {performanceDiagnosticsEnabled() && <PerformanceDiagnostics />}
       {/*
         The rail is visible from 768px up and replaced by the drawer below that
         (see MobileNav, which is `md:hidden`).

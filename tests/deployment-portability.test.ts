@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { NextRequest } from "next/server";
-import { configuredPublicOrigin, deploymentEnvironment, normalizeOrigin } from "../src/lib/config/site";
+import { configuredPublicOrigin, deploymentEnvironment, normalizeOrigin, performanceDiagnosticsEnabled } from "../src/lib/config/site";
 import { checkRequestOrigin, requestOrigin } from "../src/lib/http/request-origin";
 import { sessionCookieOptions } from "../src/lib/auth/session";
 import { getStorageService, resetStorageServiceForTests } from "../src/lib/services/storage";
@@ -57,4 +57,12 @@ test("unknown storage configuration never silently falls back to disk", () => {
     else process.env.STORAGE_PROVIDER = previous;
     resetStorageServiceForTests();
   }
+});
+
+test("browser diagnostics require opt-in and cannot run on production", () => {
+  assert.equal(performanceDiagnosticsEnabled({ APP_ENV: "preview" }), false);
+  assert.equal(performanceDiagnosticsEnabled({ APP_ENV: "preview", NODE_ENV: "production", PERFORMANCE_DIAGNOSTICS: "1" }), true);
+  assert.equal(performanceDiagnosticsEnabled({ APP_ENV: "production", PERFORMANCE_DIAGNOSTICS: "1" }), false);
+  assert.equal(performanceDiagnosticsEnabled({ NODE_ENV: "production", PERFORMANCE_DIAGNOSTICS: "1" }), false);
+  assert.equal(performanceDiagnosticsEnabled({ APP_ENV: "preview", VERCEL_ENV: "production", PERFORMANCE_DIAGNOSTICS: "1" }), false);
 });

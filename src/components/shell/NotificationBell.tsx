@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { LinkPending } from "./LinkPending";
 import { useEffect, useState } from "react";
 import { IconBell } from "@/components/ui/icons";
 import { requestJson } from "@/lib/http/client-request";
@@ -16,7 +17,7 @@ export function publishNotificationCount(unread: number) {
   }
 }
 
-export function NotificationBell({ initialCount, label }: { initialCount: number; label: string }) {
+export function NotificationBell({ initialCount, label, loadingLabel }: { initialCount: number; label: string; loadingLabel: string }) {
   const [count, setCount] = useState(initialCount);
   useEffect(() => setCount(initialCount), [initialCount]);
   useEffect(() => {
@@ -50,6 +51,7 @@ export function NotificationBell({ initialCount, label }: { initialCount: number
   return (
     <Link href="/notifications" aria-label={`${label} (${count})`} className="relative flex shrink-0 items-center justify-center rounded-[10px] border border-ink-100 text-ink-500 hover:bg-paper-sunken hover:text-ink-900" style={{ width: "var(--icon-btn)", height: "var(--icon-btn)" }}>
       <IconBell />
+      <span className="absolute bottom-0 right-0 rounded-full bg-paper-raised"><LinkPending label={loadingLabel} /></span>
       {count > 0 && <span data-unread-count={count} className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-signal-600 px-1 text-[0.6875rem] font-medium text-signal-contrast">{count > 99 ? "99+" : count}</span>}
     </Link>
   );

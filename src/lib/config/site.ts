@@ -95,3 +95,8 @@ export function isCanonicalHost(host: string | null): boolean {
     return false;
   }
 }
+
+/** Explicit opt-in is still ignored on a production deployment. */
+export function performanceDiagnosticsEnabled(env: Record<string, string | undefined> = process.env): boolean {
+  return env.PERFORMANCE_DIAGNOSTICS === "1" && env.VERCEL_ENV !== "production" && deploymentEnvironment(env) !== "production";
+}

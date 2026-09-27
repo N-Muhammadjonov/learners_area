@@ -126,3 +126,28 @@ branch, RIWI V2 or Dictionary implementation was changed.
 - Fresh validation of this workspace: typecheck and lint passed; production build passed; **279/279 tests, zero skipped**, including isolated PostgreSQL integration tests. The strengthened Reading test first revealed a fixture cleanup FK ordering error; cleanup was fixed and only those fixture rows were removed, then the suite passed.
 - Support HTTP acceptance: **26 passed, zero failed**. The guard assertion now accepts an actual Next streaming redirect while also asserting that neither the report id nor its message was disclosed. No authorization rule was weakened.
 - No new migration in this checkpoint. No production deployment, production data mutation, DNS or hosting change. Overall user-perceived production performance, full lexical/retention architecture and the full product matrix remain open. FINAL QA 2 has not passed.
+
+## 2026-09-28 resume: diagnostics and measured regression fix
+
+Recovered HEAD `67c74038a2f23132c6adbebc03543449cadf292e`, no newer commits.
+Preserved the unfinished diagnostic and retention/storage changes; no patch
+reapplied and no reset/stash/clean/checkout used.
+
+Performance diagnostic now measures T0/T1/T2, reports their differences and is
+explicitly blocked on production deployments. Real repeated browser evidence
+identified an approximately 300 ms fallback delay caused by the newly added
+blanket app loading boundary. Removed that boundary, preserved Link pending
+feedback and added it to the notification bell. Same five-route browser sequence:
+15 samples before median 338.1 ms, 15 after median 43.0 ms. Full methodology and
+per-route values are in PERFORMANCE-AUDIT.md; production remains EXTERNALLY
+UNVERIFIED. Search and local support-send timings also recorded.
+
+All eight requested shell widths fit with no overlap/overflow (320, 360, 375,
+390, 393, 768, 1024, 1440). At 320, search and profile panel interactions and
+keyboard containment passed. This is not all-screen mobile acceptance.
+
+Production build, typecheck and lint passed on the current working tree.
+284 automated tests passed with real local DB (zero failures, zero skipped),
+including two new real retention/lock/object-failure tests. Retention source
+changes are a separate unfinished checkpoint; those results do not mean the
+entire data-lifecycle audit is complete. No migration or production action taken.

@@ -214,6 +214,7 @@ export function GlobalSearch({ dict }: { dict: Dictionary }) {
           aria-modal="true"
           aria-label={dict.shell.search}
           data-global-search-dialog
+          data-search-state={state}
         >
           <button
             type="button"

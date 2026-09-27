@@ -103,3 +103,65 @@ node shell.mjs && node matrix.mjs    # shell scroll + the full walk
 | Local production build on the sandbox machine | VERIFIED LOCALLY (numbers above) |
 | Sidebar/main independent scrolling | VERIFIED LOCALLY (`shell.mjs` 36/36) |
 | 390px and 320px layout, no squeezing | VERIFIED LOCALLY (`matrix.mjs` 157/157) |
+
+## Work QA2 continuation — 2026-09-28: browser click-to-content
+
+Environment: production build on generic Node, `APP_ENV=preview`, loopback HTTP,
+isolated seeded PostgreSQL, in-app Chromium browser at desktop width. One real
+seeded Reading passage, not the production 105-passage library. No network/CPU
+throttling. Three observations per route per condition; small diagnostic sample,
+not a production percentile claim.
+
+Diagnostic is explicitly enabled with `PERFORMANCE_DIAGNOSTICS=1`; production
+APP_ENV or VERCEL_ENV disables it even if the flag is set. Default is off. It
+writes only console events, with no external request, UI, query text, user ids,
+object ids, report body, cookies or credentials. Module names are allowlisted.
+
+T0 is the captured click (input event for search). T1 is a loading/pending DOM
+state followed by a double requestAnimationFrame paint opportunity. T2 is the
+requested route and meaningful main content with no pending/fallback marker,
+again followed by a paint opportunity. These are browser timestamps, not tool
+wall-clock duration or a compositor trace/INP score. Missing loading state is
+reported as null rather than fabricated zero. Cancelled samples are superseded.
+Resources report RSC/API/JS/CSS duration and TTFB; document, hydration-effect,
+LCP and long-task entries help separate transport from client delay.
+
+Reproduction: Dashboard -> Reading -> Notifications -> Support -> Vocabulary,
+repeat three times. Before: common app `loading.tsx` replaced every screen with
+a Suspense fallback. Repeated RSC responses finished in 17–40 ms but content
+usually waited about 300 ms longer. The installed Next React DOM runtime has
+`globalMostRecentFallbackTime + 300 - now()` in its retry path. Removing the
+blanket app fallback while retaining actual Link pending feedback eliminates
+this measured delay. The previous page stays visible until the authorized new
+content is ready. The bell now also exposes Link pending feedback. No auth or
+content guard changed. Framework internals were not patched.
+
+| Route | n before/after | Median click-to-content before (ms) | After (ms) | After loading feedback (ms) |
+| --- | --- | ---: | ---: | ---: |
+| Dashboard | 3/3 | 322.7 | 60.9 | 26.4 |
+| Reading | 3/3 | 339.7 | 43.2 | 27.0 |
+| Notifications | 3/3 | 340.7 | 42.3 | 25.7 |
+| Support | 3/3 | 340.5 | 41.1 | 24.0 |
+| Vocabulary | 3/3 | 331.0 | 40.0 | 28.3 |
+
+Across 15 navigations the observed median was 338.1 -> 43.0 ms. The first
+post-build Dashboard visit took 150.2 ms; it is retained in the sample. One
+pre-change notification visit was 53.0 ms; it is also retained. Raw console logs
+are kept outside Git in `work/qa2-performance-before.json` and
+`work/qa2-performance-after.json`.
+
+Global search sample: dialog opening 31.4 ms; `study` input to results 411.4 ms,
+including its existing 280 ms debounce. Loading feedback 28.5 ms. Two real
+results, clear returned zero results. No debounce reduction was made without
+an observed need. Local support submission to visible success: 91.7 ms, loading
+feedback 25.6 ms. These are individual samples, not distributions.
+
+Responsive shell/Vocabulary checks at 320, 360, 375, 390, 393, 768, 1024 and 1440:
+all visible header controls inside viewport, no overlapping control rectangles,
+profile visible, no document horizontal overflow. At 320 the search dialog and
+profile panel fit; search produced results, clear worked, Shift+Tab wrapped to
+Close and Escape restored the control. Broader per-module responsive QA remains.
+
+Production network/DB/browser performance: **EXTERNALLY UNVERIFIED** for this
+Work build. It has not been promoted. This local causal fix does not by itself
+close the user's production-performance complaint or FINAL QA 2.
