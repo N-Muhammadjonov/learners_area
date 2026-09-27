@@ -284,6 +284,7 @@ const en = {
     // Transport failures get their own wording: "check your connection" and
     // "the service is having a problem" are different instructions, and the
     // old code showed neither — the button simply never came back.
+    resetUnavailable: "Password reset delivery is not available yet. Please contact the centre for help.",
     errorNetwork: "We could not reach the server. Check your connection and try again.",
     errorServer: "The service is temporarily unavailable. Please try again in a moment.",
   },

@@ -23,21 +23,19 @@ const SUPPORTED = ["local", "r2", "s3"] as const;
  * variable is read anywhere in the app, the bucket-private delivery model it
  * needs does not exist, and its browser-direct model (unsigned upload
  * presets) cannot be scoped per request the way this app authorizes uploads.
- * Setting `STORAGE_PROVIDER=cloudinary` now falls back to `local` with a
- * warning rather than silently running an unsupported provider.
+ * Unsupported configuration fails closed rather than writing private files
+ * to an unintended local disk after a hosting move.
  */
 export function getStorageService(): StorageService {
   if (cached) return cached;
 
-  const requested = (process.env.STORAGE_PROVIDER || "local").toLowerCase().trim();
+  const requested = (process.env.STORAGE_PROVIDER || (process.env.NODE_ENV === "production" ? "" : "local")).toLowerCase().trim();
 
   if (requested === "r2" || requested === "s3") {
     cached = new S3StorageProvider();
   } else {
     if (requested !== "local") {
-      console.warn(
-        `[storage] Unknown STORAGE_PROVIDER="${requested}". Supported values: ${SUPPORTED.join(", ")}. Falling back to local disk.`
-      );
+      throw new Error(`STORAGE_PROVIDER must be explicitly configured as ${SUPPORTED.join(", ")}`);
     }
     cached = new LocalDiskStorageProvider();
   }

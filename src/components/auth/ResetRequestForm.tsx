@@ -12,10 +12,12 @@ export function ResetRequestForm({ dict }: { dict: Dictionary }) {
   const [pending, setPending] = useState(false);
   const [devUrl, setDevUrl] = useState<string | null>(null);
   const [done, setDone] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setPending(true);
+    setError(null);
     try {
       const result = await requestJson<{ devResetUrl?: string }>("/api/auth/reset/request", { body: { email } });
       // The screen answers the same way whether or not the address exists — that
@@ -23,6 +25,8 @@ export function ResetRequestForm({ dict }: { dict: Dictionary }) {
       // "check your email" message it cannot back up.
       if (!result.ok) {
         setDevUrl(null);
+        setError(failureMessage(result, dict.auth, { reset_unavailable: dict.auth.resetUnavailable }));
+        return;
       } else if (result.data?.devResetUrl) {
         setDevUrl(result.data.devResetUrl);
       }
@@ -56,6 +60,7 @@ export function ResetRequestForm({ dict }: { dict: Dictionary }) {
       <Button type="submit" disabled={pending}>
         {pending ? dict.common.loading : dict.auth.resetSend}
       </Button>
+      {error && <p role="alert" className="text-sm text-band-bad">{error}</p>}
     </form>
   );
 }

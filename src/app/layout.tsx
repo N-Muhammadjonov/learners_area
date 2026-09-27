@@ -4,8 +4,11 @@ import "./globals.css";
 import { BRAND, BRAND_FAVICON } from "@/lib/config/brand";
 import { THEME_COOKIE, themeFromCookie } from "@/lib/theme";
 import { getLocale } from "@/lib/i18n";
+import { isPreviewDeployment, publicBaseUrl } from "@/lib/config/site";
 
 export const metadata: Metadata = {
+  ...(publicBaseUrl ? { metadataBase: new URL(publicBaseUrl) } : {}),
+  ...(isPreviewDeployment ? { robots: { index: false, follow: false } } : {}),
   title: BRAND.siteName,
   description: BRAND.tagline,
   /**

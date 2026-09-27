@@ -1,5 +1,7 @@
 import type { MetadataRoute } from "next";
-import { publicBaseUrl } from "@/lib/config/site";
+import { isPreviewDeployment, publicBaseUrl } from "@/lib/config/site";
+
+export const dynamic = "force-dynamic";
 
 /**
  * The public sitemap.
@@ -10,7 +12,7 @@ import { publicBaseUrl } from "@/lib/config/site";
  * centre's content is not public.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
-  if (!publicBaseUrl) return [];
+  if (!publicBaseUrl || isPreviewDeployment) return [];
   const now = new Date();
   return [
     { url: `${publicBaseUrl}/`, lastModified: now, changeFrequency: "monthly", priority: 1 },

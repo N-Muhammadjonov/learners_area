@@ -4,10 +4,15 @@ import { getDictionary, getLocale } from "@/lib/i18n";
 import { BRAND } from "@/lib/config/brand";
 import { getCurrentUser } from "@/lib/auth/current-user";
 import { hasPrivateAccess } from "@/lib/auth/account-status";
+import { publicBaseUrl } from "@/lib/config/site";
 
 export const metadata: Metadata = {
   title: `${BRAND.siteName} — IELTS inside a private centre`,
   description: BRAND.tagline,
+  ...(publicBaseUrl ? {
+    alternates: { canonical: `${publicBaseUrl}/` },
+    openGraph: { url: `${publicBaseUrl}/`, title: BRAND.siteName, description: BRAND.tagline, type: "website" },
+  } : {}),
 };
 
 /**

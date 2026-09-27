@@ -114,11 +114,9 @@ test("the CSP names what the app needs and opens nothing to *", () => {
   assert.ok(!devCsp.includes("upgrade-insecure-requests"), "plain http must not be upgraded");
 });
 
-test("framing is locked on the canonical origin and possible on a preview host", () => {
-  // A preview/dev host that is not the canonical origin still renders inside its
-  // embedding shell…
+test("a preview hostname does not automatically allow arbitrary embedding", () => {
   const preview = buildCsp({ nonce: "n", secure: true, dev: false, host: "3000-abc.e2b.app" });
-  assert.match(preview, /frame-ancestors 'self' https:/);
+  assert.match(preview, /frame-ancestors 'self';/);
   // …and nothing is ever framed by everybody.
   assert.ok(!preview.includes("frame-ancestors *"));
 });

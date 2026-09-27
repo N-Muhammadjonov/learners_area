@@ -1,5 +1,7 @@
 import type { MetadataRoute } from "next";
-import { publicBaseUrl } from "@/lib/config/site";
+import { isPreviewDeployment, publicBaseUrl } from "@/lib/config/site";
+
+export const dynamic = "force-dynamic";
 
 /**
  * Search engines may index the public front door and nothing else.
@@ -10,6 +12,7 @@ import { publicBaseUrl } from "@/lib/config/site";
  * crawler that reaches one through a shared link still does not publish it.
  */
 export default function robots(): MetadataRoute.Robots {
+  if (isPreviewDeployment) return { rules: { userAgent: "*", disallow: "/" } };
   const base = publicBaseUrl ?? undefined;
   return {
     rules: [
@@ -32,6 +35,9 @@ export default function robots(): MetadataRoute.Robots {
           "/progress",
           "/live-classes",
           "/notifications",
+          "/support",
+          "/video-lessons",
+          "/management",
           "/onboarding",
           "/pending",
           "/teacher",

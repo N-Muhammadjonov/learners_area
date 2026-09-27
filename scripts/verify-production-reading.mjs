@@ -27,7 +27,13 @@
  * the codes to search for in the platform log view.
  */
 
-const BASE = (process.env.PROD_BASE_URL ?? "https://learners-area.vercel.app").replace(/\/$/, "");
+const configuredBase = process.env.PROD_BASE_URL?.trim() || process.env.PUBLIC_BASE_URL?.trim();
+if (!configuredBase) throw new Error("Set PROD_BASE_URL or PUBLIC_BASE_URL explicitly before running production checks");
+const target = new URL(configuredBase);
+if (target.protocol !== "https:" || target.username || target.password || target.pathname !== "/" || target.search || target.hash) {
+  throw new Error("Production checks require an HTTPS origin without a path or credentials");
+}
+const BASE = target.origin;
 const COUNT = Number(process.env.PROD_READING_COUNT ?? "10");
 const TIMEOUT = Number(process.env.PROD_READING_TIMEOUT_MS ?? "30000");
 

@@ -10,8 +10,8 @@ import { RULES, accountKey, clientKey, enforce } from "@/lib/http/rate-limit";
  * No email service is wired up in this environment (see EmailService note in
  * README). In production this route would send the link by email and always
  * return {ok:true} either way, to avoid leaking which emails are registered.
- * Here — dev/demo only — we additionally return the raw link so the reset
- * flow is actually testable end to end without an inbox.
+ * A raw link may only be returned by an explicitly opted-in local development
+ * server. Preview and production never expose password-reset credentials.
  */
 export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null);
@@ -24,6 +24,12 @@ export async function POST(req: NextRequest) {
   if (byIp) return byIp;
   const byAccount = enforce(RULES.passwordReset, `acct:${accountKey(parsed.data.email)}`);
   if (byAccount) return byAccount;
+
+  // Email delivery is not implemented yet. Never turn the demo shortcut into
+  // an unauthenticated password takeover endpoint on any deployed host.
+  if (process.env.NODE_ENV !== "development" || process.env.ALLOW_DEV_RESET_LINKS !== "true") {
+    return NextResponse.json({ error: "reset_unavailable" }, { status: 503 });
+  }
 
   const user = await db.query.users.findFirst({ where: eq(users.email, parsed.data.email) });
   if (!user) {

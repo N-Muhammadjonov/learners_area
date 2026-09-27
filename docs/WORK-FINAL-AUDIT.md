@@ -57,3 +57,60 @@ Fresh post-edit evidence: `npm test` 271 total / 268 passed / 3 skipped / 0 fail
 regressions cover stalled headers, stalled body, interrupted body, caller abort,
 pre-aborted signal and resource cleanup. This does not establish browser speed
 or DB integration correctness. Production and local DB remain unchanged.
+
+## Portability phase and resumed product work (2026-09-27)
+
+Remote re-fetched: Arena still ad21acc29491ec64a7254d24f6cfdfa1dc25cb5f;
+Work remote 6d6db862f7dc2f3f85a0c2745985b73662a44855 before this phase. The first
+transport checkpoint was pushed and verified. Existing WIP was preserved.
+
+Portability changes and operational boundaries are in DEPLOYMENT-PORTABILITY.md.
+No application runtime links hard-code the Vercel production domain. Origins are
+validated centrally, CSRF compares scheme/host/port, framing requires an explicit
+allowlist, preview metadata/robots/sitemap avoid indexing, storage misconfiguration
+fails closed, and generic build identity is configurable. A discovered P0 raw
+password-reset-token response was closed in Work. Email reset delivery is not yet
+implemented and remains an open product requirement; this code is not promoted.
+
+Fresh verification at this checkpoint:
+
+- TypeScript and ESLint passed; production build passed after the final proxy
+  origin change. Node 24.21.0 / Next 15.5.26.
+- Real isolated PostgreSQL on loopback 55432, database learners_qa2: base
+  migrations and demo seed applied locally only. Full current suite: 279 passed,
+  0 failed, 0 skipped. Earlier DB-unavailable failures were ECONNREFUSED; after
+  the user's restart the suite was rerun successfully, not relabelled as passed.
+- `scripts/verify-portability.mjs` passed against `next start` on port 3101,
+  PUBLIC_BASE_URL=https://portable-qa.example, APP_ENV=preview, no Vercel runtime.
+  It checked canonical/noindex, robots/empty sitemap, reset-token protection,
+  scheme mismatch rejection, real login, host-only cookies, direct/repeated
+  dashboard/reading/notifications rendering, staff-page denial with no report
+  content leaked, and generic version metadata. APP_COMMIT_SHA in that server
+  was a synthetic test label, not a claim of a deployed Git commit.
+- Real in-app browser: local seeded student signed in and dashboard survived
+  hard refresh. Screenshot saved outside Git: outputs/qa2-node-hard-refresh.png.
+- Browser before portability: Reading live search changed URL and results without
+  submit; Clear restored the original list. Notification badge 3→0 after reading
+  visible inbox entries; persisted state was reflected on reload. Cross-tab and
+  full viewport coverage remain open.
+
+Product WIP preserved outside the portability commit: actual router pending
+indicator, route loading boundary, outer layout error boundary/storage-safe error
+recovery, notification read flow/badge, Reading live search/clear, deterministic
+ordering and question count correction. PostgreSQL exposed a separate real bug:
+Drizzle removed the outer-table qualifier inside the SELECT subquery, comparing
+q.passage_id to q.id and returning 0. Explicit outer reference now produces the
+correct count; a DB regression tests two independent passage counts (2 and 1).
+
+`scripts/verify-support.mjs` previously reported 25 pass / 1 fail. The failing
+check expected a 30x HTTP code on a student request to a staff page. With a loading
+boundary Next may stream a 200 followed by its redirect; the independent Node
+portability check confirmed redirect and no report leakage. Update that older
+verification to assert actual denial semantics before counting it as passed.
+Support replies/composer improvements themselves remain unimplemented.
+
+Performance is NOT accepted from these local results. No full remote browser
+click-to-content distribution has been collected. Full product hardening,
+retention/lexical/data lifecycle fixes and final three-gate QA remain unfinished.
+No production DNS, credentials, database, storage, promotion, main merge, Telegram
+branch, RIWI V2 or Dictionary implementation was changed.

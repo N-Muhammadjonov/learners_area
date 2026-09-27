@@ -286,6 +286,7 @@ const uz: Dictionary = {
     // Transport xatolari o'z so'zi bilan aytiladi: "ulanishni tekshiring" bilan
     // "xizmatda muammo bor" — bu ikki xil ko'rsatma, eski kod ikkalasini ham
     // ko'rsatmasdi: tugma shunchaki qaytib kelmasdi.
+    resetUnavailable: "Parolni tiklash xabarini yuborish hali mavjud emas. Yordam uchun markazga murojaat qiling.",
     errorNetwork: "Serverga ulanib bo'lmadi. Internetni tekshirib, qayta urinib ko'ring.",
     errorServer: "Xizmat vaqtincha ishlamayapti. Birozdan so'ng qayta urinib ko'ring.",
   },

@@ -10,12 +10,19 @@
  * visible in the browser anyway.
  */
 
-/** Normalises a configured origin: trims, drops a trailing slash. */
-function normalizeOrigin(value: string | undefined): string | null {
+/** Accept only HTTP(S) origins, never credentials, paths or CSP directives. */
+export function normalizeOrigin(value: string | undefined): string | null {
   if (!value) return null;
-  const trimmed = value.trim().replace(/\/+$/, "");
+  const trimmed = value.trim();
   if (!trimmed) return null;
-  return trimmed;
+  try {
+    const url = new URL(trimmed);
+    if (!["http:", "https:"].includes(url.protocol) || url.username || url.password ||
+      url.pathname !== "/" || url.search || url.hash) return null;
+    return url.origin;
+  } catch {
+    return null;
+  }
 }
 
 function listFromEnv(name: string): string[] {
@@ -33,8 +40,23 @@ function listFromEnv(name: string): string[] {
  * served from whatever host the request arrives on, which is what development
  * and the hosted preview rely on.
  */
-export const publicBaseUrl =
-  normalizeOrigin(process.env.PUBLIC_BASE_URL) ?? normalizeOrigin(process.env.NEXT_PUBLIC_APP_URL);
+export function configuredPublicOrigin(env: Record<string, string | undefined>): string | null {
+  const value = env.PUBLIC_BASE_URL?.trim() || env.NEXT_PUBLIC_APP_URL?.trim();
+  const origin = normalizeOrigin(value);
+  if (value && !origin) throw new Error("PUBLIC_BASE_URL must be an HTTP(S) origin without a path or credentials");
+  return origin;
+}
+
+export const publicBaseUrl = configuredPublicOrigin(process.env);
+
+/** APP_ENV is portable; VERCEL_ENV is only a deployment-adapter fallback. */
+export function deploymentEnvironment(env: Record<string, string | undefined> = process.env) {
+  const value = env.APP_ENV || env.VERCEL_ENV;
+  if (value === "production" || value === "preview" || value === "development") return value;
+  return env.NODE_ENV === "production" ? "production" : "development";
+}
+
+export const isPreviewDeployment = deploymentEnvironment() === "preview";
 
 /**
  * Extra origins allowed to send state-changing requests (CSRF origin check) and
@@ -46,37 +68,9 @@ export const trustedOrigins = [
   ...(publicBaseUrl ? [publicBaseUrl] : []),
 ];
 
-/**
- * Origins allowed to embed the app in an iframe.
- *
- * `'self'` is always allowed. A deployment that is embedded anywhere else (the
- * hosted preview, an LMS shell) adds that origin to `ALLOWED_FRAME_ANCESTORS`.
- * When nothing is configured we keep the historical `https:` fallback so a
- * preview of an unconfigured deployment still renders, and the value is
- * written into the CSP so the choice is visible rather than implicit.
- */
-/** Explicitly configured embedders, if the deployment names any. */
-const configuredFrameAncestors = (process.env.ALLOWED_FRAME_ANCESTORS ?? "")
-  .split(",")
-  .map((entry) => entry.trim())
-  .filter(Boolean);
-
-/**
- * Who may embed the app in a frame — decided per request.
- *
- * Two deployments have to coexist:
- *   - a real deployment on its own domain, where nobody should be able to frame
- *     the centre (clickjacking protection), and
- *   - a development / hosted-preview deployment served on a host that is not the
- *     canonical origin and legitimately rendered inside an embedding shell.
- *
- * So: an explicit configuration wins; otherwise framing is locked to `'self'`
- * when the request arrives on the canonical host, and stays possible for other
- * hosts (which is what makes the preview render). Nothing is ever opened to `*`.
- */
-export function frameAncestorsFor(host: string | null): string[] {
-  if (configuredFrameAncestors.length > 0) return ["'self'", ...configuredFrameAncestors];
-  return isCanonicalHost(host) ? ["'self'"] : ["'self'", "https:"];
+/** Embedding permission is explicit; an alternate domain grants no privilege. */
+export function frameAncestorsFor(_host: string | null): string[] {
+  return ["'self'", ...listFromEnv("ALLOWED_FRAME_ANCESTORS")];
 }
 
 /**
@@ -85,10 +79,9 @@ export function frameAncestorsFor(host: string | null): string[] {
  * Direct-to-R2 uploads and private media reads use the storage endpoint, which
  * lives on a different origin than the app, so it has to be allowed here.
  */
-export const connectSrcOrigins: string[] = [
-  ...listFromEnv("CSP_CONNECT_SRC"),
-  ...(process.env.R2_ENDPOINT ? [normalizeOrigin(process.env.R2_ENDPOINT)].filter(Boolean) as string[] : []),
-];
+export const storageOrigins = [process.env.R2_ENDPOINT, process.env.S3_ENDPOINT]
+  .map(normalizeOrigin).filter((origin): origin is string => Boolean(origin));
+export const connectSrcOrigins = [...new Set([...listFromEnv("CSP_CONNECT_SRC"), ...storageOrigins])];
 
 /** Public video providers the app is willing to embed. */
 export const allowedVideoHosts = ["www.youtube-nocookie.com", "www.youtube.com", "youtube.com", "youtu.be"];

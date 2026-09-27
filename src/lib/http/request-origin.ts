@@ -1,96 +1,62 @@
 import type { NextRequest } from "next/server";
-import { publicBaseUrl, trustedOrigins } from "@/lib/config/site";
-
-/**
- * Origin verification for state-changing requests.
- *
- * The session cookie already carries `SameSite` (see src/lib/auth/cookie-policy.ts),
- * which is the first line of defence. This is the second: a browser labels who
- * initiated a request with `Origin` (and `Referer` as a fallback), and a
- * cross-site attacker cannot forge either header.
- *
- * Rules:
- *   - safe methods (GET/HEAD/OPTIONS) are never blocked here;
- *   - a request whose `Origin` matches the host it was sent to passes;
- *   - an origin listed in TRUSTED_ORIGINS / PUBLIC_BASE_URL passes (the hosted
- *     preview and any deliberate embedder);
- *   - a request with no `Origin` and no `Referer` passes: it did not come from a
- *     browser page, so there is no ambient cookie to abuse (curl, server-to-server,
- *     the project's own verification scripts);
- *   - anything else is refused.
- *
- * This module is pure so it can be unit-tested without a server.
- */
+import { normalizeOrigin, publicBaseUrl, trustedOrigins } from "@/lib/config/site";
 
 const SAFE_METHODS = new Set(["GET", "HEAD", "OPTIONS"]);
-
 export function isSafeMethod(method: string): boolean {
   return SAFE_METHODS.has(method.toUpperCase());
 }
 
-/** Hosts that may legitimately call this deployment. */
-export function allowedHosts(req: NextRequest): string[] {
-  const hosts = new Set<string>();
-  const forwardedHost = req.headers.get("x-forwarded-host");
-  if (forwardedHost) hosts.add(forwardedHost.split(",")[0]!.trim());
-  const host = req.headers.get("host");
-  if (host) hosts.add(host);
-  // The URL the request was actually sent to. A `Host` header is not guaranteed
-  // to be present (a proxy may rewrite it, a test may omit it), but the request
-  // URL always names the host the browser talked to.
-  hosts.add(req.nextUrl.host);
-  try {
-    hosts.add(new URL(req.url).host);
-  } catch {
-    /* a malformed url cannot widen the allowlist */
-  }
-  for (const origin of trustedOrigins) {
-    try {
-      hosts.add(new URL(origin).host);
-    } catch {
-      /* a malformed configured origin is ignored here, never trusted */
+/**
+ * Compare the complete origin (scheme, hostname AND port). The reverse proxy
+ * must overwrite forwarded headers; a direct Node host ignores them by default.
+ * Vercel's managed proxy supplies these headers. Other hosts opt in explicitly.
+ */
+export function requestOrigin(req: NextRequest, env: Record<string, string | undefined> = process.env): string {
+  const trustProxy = env.TRUST_PROXY_HEADERS === "true" ||
+    (env.TRUST_PROXY_HEADERS !== "false" && env.VERCEL === "1");
+  if (trustProxy) {
+    const host = req.headers.get("x-forwarded-host")?.split(",")[0]?.trim() || req.headers.get("host");
+    const protocol = req.headers.get("x-forwarded-proto")?.split(",")[0]?.trim();
+    if (host && (protocol === "http" || protocol === "https")) {
+      const origin = normalizeOrigin(`${protocol}://${host}`);
+      if (origin) return origin;
     }
   }
-  return [...hosts];
-}
-
-function hostOf(value: string | null): string | null {
-  if (!value) return null;
-  try {
-    return new URL(value).host;
-  } catch {
-    return null;
-  }
+  // Next may normalize loopback URL names internally. Host is the actual HTTP
+  // authority the browser addressed; unlike X-Forwarded-Host it is not optional
+  // proxy metadata. Browsers cannot supply a different Host through fetch.
+  const host = req.headers.get("host");
+  return (host ? normalizeOrigin(`${req.nextUrl.protocol}//${host}`) : null) ?? req.nextUrl.origin;
 }
 
 export type OriginCheck = { allowed: true } | { allowed: false; reason: string };
 
 export function checkRequestOrigin(req: NextRequest): OriginCheck {
   if (isSafeMethod(req.method)) return { allowed: true };
-
+  const allowed = new Set([requestOrigin(req), ...trustedOrigins]);
   const origin = req.headers.get("origin");
-  const hosts = allowedHosts(req);
-
   if (origin) {
-    // `Origin: null` means an opaque context (sandboxed frame, file://). It is
-    // never a legitimate caller of this API.
     if (origin === "null") return { allowed: false, reason: "opaque_origin" };
-    const host = hostOf(origin);
-    if (host && hosts.includes(host)) return { allowed: true };
-    return { allowed: false, reason: "cross_origin" };
+    const parsed = normalizeOrigin(origin);
+    return parsed && allowed.has(parsed)
+      ? { allowed: true }
+      : { allowed: false, reason: "cross_origin" };
   }
-
   const referer = req.headers.get("referer");
   if (referer) {
-    const host = hostOf(referer);
-    if (host && hosts.includes(host)) return { allowed: true };
+    try {
+      if (allowed.has(new URL(referer).origin)) return { allowed: true };
+    } catch { /* Invalid input never widens the allowlist. */ }
     return { allowed: false, reason: "cross_origin_referer" };
   }
-
+  // A browser must not become a trusted script merely by omitting Origin.
+  if (req.headers.get("sec-fetch-site") === "cross-site") {
+    return { allowed: false, reason: "cross_site_without_origin" };
+  }
+  // Non-browser clients still need the route's normal authentication.
   return { allowed: true };
 }
 
-/** Convenience for tests and docs: does this deployment know its own origin? */
 export function hasCanonicalOrigin(): boolean {
   return Boolean(publicBaseUrl);
 }
