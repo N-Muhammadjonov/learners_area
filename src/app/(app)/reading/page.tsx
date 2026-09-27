@@ -51,7 +51,11 @@ export default async function ReadingPage({
     page,
   };
 
-  const [counts, facets] = await Promise.all([readingHubCounts(user.id), listLibraryFacets()]);
+  const [counts, facets, library] = await Promise.all([
+    readingHubCounts(user.id),
+    listLibraryFacets(),
+    tab === "academic" ? listLibrary(user.id, filter) : Promise.resolve(null),
+  ]);
 
   const tabHref = (next: Tab) => {
     const search = new URLSearchParams();
@@ -97,7 +101,7 @@ export default async function ReadingPage({
         ))}
       </nav>
 
-      {tab === "academic" && <AcademicLibrary user={user.id} filter={filter} dict={dict} lang={lang} facets={facets} />}
+      {tab === "academic" && library && <AcademicLibrary library={library} filter={filter} dict={dict} lang={lang} facets={facets} />}
 
       {tab === "videos" && (
         <section className="flex flex-col gap-4" data-reading-videos>
@@ -177,14 +181,14 @@ export default async function ReadingPage({
   );
 }
 
-async function AcademicLibrary({
-  user,
+function AcademicLibrary({
+  library,
   filter,
   dict,
   lang,
   facets,
 }: {
-  user: string;
+  library: Awaited<ReturnType<typeof listLibrary>>;
   filter: { status?: string; topic?: string; type?: string; query?: string; page?: number };
   dict: ReturnType<typeof getDictionary>;
   lang: "uz" | "en";
@@ -197,12 +201,11 @@ async function AcademicLibrary({
    * arrives with the rows (`count(*) over ()`), so "104 Academic passages" and
    * the count under the filters are the same number from the same statement.
    */
-  const library = await listLibrary(user, filter);
 
   const buildPageHref = (page: number) => {
     const search = new URLSearchParams();
     for (const [key, value] of Object.entries({ ...filter, page })) {
-      if (value && key !== "page") search.set(key, String(value));
+      if (value && key !== "page") search.set(key === "query" ? "q" : key, String(value));
     }
     if (page > 1) search.set("page", String(page));
     return search.toString() ? `/reading?${search.toString()}` : "/reading";

@@ -1,5 +1,5 @@
 import "server-only";
-import { and, desc, eq, inArray, isNull, or, sql } from "drizzle-orm";
+import { and, desc, eq, inArray, isNull, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { notifications, users } from "@/db/schema";
 
@@ -62,9 +62,12 @@ export async function countUnread(userId: string): Promise<number> {
 }
 
 export async function markNotificationsRead(userId: string, ids?: string[]) {
-  const where = ids?.length
-    ? and(eq(notifications.userId, userId), inArray(notifications.id, ids))
-    : and(eq(notifications.userId, userId), isNull(notifications.readAt));
+  if (ids && ids.length === 0) return;
+  const where = and(
+    eq(notifications.userId, userId),
+    isNull(notifications.readAt),
+    ids ? inArray(notifications.id, ids) : undefined,
+  );
   await db.update(notifications).set({ readAt: new Date() }).where(where);
 }
 
@@ -73,7 +76,7 @@ export async function listUnread(userId: string, limit = 8) {
   return db
     .select()
     .from(notifications)
-    .where(and(eq(notifications.userId, userId), or(isNull(notifications.readAt), isNull(notifications.readAt))))
+    .where(and(eq(notifications.userId, userId), isNull(notifications.readAt)))
     .orderBy(desc(notifications.createdAt))
     .limit(limit);
 }

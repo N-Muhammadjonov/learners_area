@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { LinkPending } from "./LinkPending";
 import { usePathname } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n/en";
 import type { Role } from "@/lib/auth/roles";
@@ -36,7 +37,7 @@ import {
 
 type NavItem = { href: string; label: string; icon: React.ReactNode };
 
-function Group({ title, items, pathname }: { title: string; items: NavItem[]; pathname: string }) {
+function Group({ title, items, pathname, loading }: { title: string; items: NavItem[]; pathname: string; loading: string }) {
   if (items.length === 0) return null;
   return (
     <div className="flex flex-col gap-1">
@@ -56,6 +57,7 @@ function Group({ title, items, pathname }: { title: string; items: NavItem[]; pa
                   {item.icon}
                 </span>
                 <span className="sidebar-link-label">{item.label}</span>
+                <LinkPending label={loading} />
               </Link>
             </li>
           );
@@ -135,18 +137,18 @@ export function SidebarNav({ dict, role, email }: { dict: Dictionary; role: Role
             {nav.backToLearning}
           </Link>
           <p className="sidebar-mode">{dict.shell.managementMode}</p>
-          <Group title={dict.shell.management} items={managementItems} pathname={pathname} />
+          <Group title={dict.shell.management} items={managementItems} pathname={pathname} loading={dict.common.loading} />
         </div>
       ) : (
         <div className="flex flex-col gap-6 pb-4">
-          <Group title={nav.groupMain} items={learning} pathname={pathname} />
-          <Group title={nav.groupModules} items={modules} pathname={pathname} />
-          <Group title={nav.groupProgress} items={progress} pathname={pathname} />
+          <Group title={nav.groupMain} items={learning} pathname={pathname} loading={dict.common.loading} />
+          <Group title={nav.groupModules} items={modules} pathname={pathname} loading={dict.common.loading} />
+          <Group title={nav.groupProgress} items={progress} pathname={pathname} loading={dict.common.loading} />
         </div>
       )}
 
       <div className="mt-auto flex flex-col gap-3 border-t border-ink-100 pt-4">
-        <Group title={dict.shell.support} items={[{ href: "/support", label: nav.support, icon: <IconSupport /> }]} pathname={pathname} />
+        <Group title={dict.shell.support} items={[{ href: "/support", label: nav.support, icon: <IconSupport /> }]} pathname={pathname} loading={dict.common.loading} />
         {staff && !management && (
           <Link href="/management" className="sidebar-link sidebar-link-management" data-sidebar-management-entry>
             <span aria-hidden className="sidebar-link-icon">

@@ -132,7 +132,9 @@ check("a student cannot list reports", (await api("/api/support/reports", { cook
 const studentInbox = await page("/teacher/support", studentCookie);
 check(
   "a student cannot open the support inbox page",
-  studentInbox.status === 307 || studentInbox.status === 302 || studentInbox.status === 404,
+  ([307, 302, 404].includes(studentInbox.status) ||
+    (studentInbox.status === 200 && studentInbox.text.includes("NEXT_REDIRECT"))) &&
+    !studentInbox.text.includes(String(created.json?.id)) && !studentInbox.text.includes(marker),
   `status ${studentInbox.status}`
 );
 

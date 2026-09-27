@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { NotificationRead } from "@/components/shell/NotificationRead";
 import { redirect } from "next/navigation";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { listNotifications } from "@/lib/data/notifications";
@@ -24,12 +25,13 @@ export default async function NotificationsPage() {
   return (
     <div className="mx-auto flex max-w-2xl flex-col gap-4">
       <h1 className="font-display text-2xl text-ink-900">{dict.notifications.title}</h1>
+      {rows.length > 0 && <NotificationRead ids={rows.filter((row) => !row.readAt).map((row) => row.id)} label={dict.notifications.markRead} errorLabel={dict.common.error} />}
       {rows.length === 0 ? (
         <EmptyState icon="◔" title={dict.notifications.empty} />
       ) : (
         <div className="flex flex-col gap-2">
           {rows.map((row) => (
-            <Card key={row.id} className="flex flex-col gap-1">
+            <Card data-notification-id={row.id} key={row.id} className="flex flex-col gap-1">
               <div className="flex items-center justify-between gap-2">
                 <span className="text-sm font-medium text-ink-900">{row.title}</span>
                 <span className="text-xs text-ink-300">

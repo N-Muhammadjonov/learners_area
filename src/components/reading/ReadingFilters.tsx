@@ -1,33 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n/en";
 
-/**
- * The library filter bar.
- *
- * The filters live in the URL, not in component state, and that is the point: a
- * student can narrow the library to "Passage 2, technology, Matching Headings",
- * send that link to a classmate or open it again tomorrow and get the same
- * screen. State that only exists inside React is state that disappears on the
- * first refresh — which is exactly how a filtered list ends up looking empty and
- * broken after a hard reload.
- *
- * Every control here is a link, deliberately. `router.push`/`replace` was tried
- * first and did not move the URL when only the query string changed on the same
- * route (the RSC request answered 200 and the address bar stayed put), while a
- * link to the same target navigates correctly. Links also mean the filters work
- * before React hydrates, can be opened in a new tab, and are readable by a
- * screen reader as navigation — none of which is true of a click handler.
- *
- * One trap is worth writing down because it cost an afternoon: `scroll={false}`
- * on these links stops the same-route navigation from committing at all on
- * Next 15.5 — the click lands, the RSC request is made and answers 200, and the
- * URL never changes. The filters therefore use plain links, and keeping the page
- * from jumping is the browser's job (the grid re-renders in place).
- */
+/** URL-backed filters; typing is debounced, clear/submit commit immediately. */
 export function ReadingFilters({
   dict,
   topics,
@@ -41,13 +19,43 @@ export function ReadingFilters({
   current: { status: string; topic: string; type: string; query: string };
 }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const [pending, startTransition] = useTransition();
   const [query, setQuery] = useState(current.query);
+  const draft = useRef(current.query);
+  const dirty = useRef(false);
+  const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   // The search box follows the URL when it changes underneath (the back button,
   // "clear filters", a topic link) but never fights the person typing.
   useEffect(() => {
-    setQuery(current.query);
+    if (!dirty.current || current.query === draft.current.trim()) {
+      dirty.current = false;
+      draft.current = current.query;
+      setQuery(current.query);
+    }
   }, [current.query]);
+
+  useEffect(() => {
+    const followHistory = () => {
+      clearTimeout(timer.current);
+      dirty.current = false;
+      draft.current = new URLSearchParams(window.location.search).get("q") ?? "";
+      setQuery(draft.current);
+    };
+    window.addEventListener("popstate", followHistory);
+    return () => { clearTimeout(timer.current); window.removeEventListener("popstate", followHistory); };
+  }, []);
+
+  function search(value: string, immediate = false) {
+    draft.current = value;
+    dirty.current = true;
+    setQuery(value);
+    clearTimeout(timer.current);
+    const commit = () => startTransition(() => router.replace(hrefWith({ query: value.trim() })));
+    if (immediate || !value.trim()) commit();
+    else timer.current = setTimeout(commit, 300);
+  }
 
   function hrefWith(next: Partial<{ status: string; topic: string; type: string; query: string }>) {
     const search = new URLSearchParams();
@@ -75,11 +83,19 @@ export function ReadingFilters({
     hrefWith(key === "topic" ? { topic: value } : { type: value });
 
   return (
-    <div className="panel flex flex-col gap-4" data-reading-filters>
+    <div className="panel flex flex-col gap-4" data-reading-filters aria-busy={pending} onClickCapture={(event) => {
+      const link = (event.target as HTMLElement).closest("a");
+      if (link && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey) {
+        clearTimeout(timer.current);
+        dirty.current = false;
+        draft.current = new URL(link.href).searchParams.get("q") ?? "";
+        setQuery(draft.current);
+      }
+    }}>
       <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
         <form
           className="flex w-full flex-col gap-1.5 lg:max-w-sm"
-          onSubmit={(event) => event.preventDefault()}
+          onSubmit={(event) => { event.preventDefault(); search(query, true); }}
           role="search"
         >
           <label className="flex flex-col gap-1.5">
@@ -91,7 +107,7 @@ export function ReadingFilters({
               value={query}
               data-reading-search
               placeholder={dict.readingHub.searchPlaceholder}
-              onChange={(event) => setQuery(event.target.value)}
+              onChange={(event) => search(event.target.value)}
             />
           </label>
           <div className="flex items-center gap-2">
@@ -104,13 +120,14 @@ export function ReadingFilters({
               {dict.shell.search}
             </Link>
             {query.trim() !== "" && (
-              <button type="button" className="btn-ghost h-[var(--control-h-sm)]" onClick={() => setQuery("")} data-reading-search-clear>
+              <button type="button" className="btn-ghost h-[var(--control-h-sm)]" onClick={() => search("", true)} data-reading-search-clear>
                 {dict.shell.clear}
               </button>
             )}
           </div>
         </form>
 
+        <span role="status" className="sr-only">{pending ? dict.common.loading : ""}</span>
         <div className="flex flex-wrap items-start gap-3">
           <div className="flex flex-col gap-1.5">
             <span className="field-label">{dict.readingHub.filterTopic}</span>

@@ -26,7 +26,11 @@ export default function AppError({ error, reset }: { error: Error & { digest?: s
   const parent = parentFor(pathname, dict);
 
   useEffect(() => {
-    window.sessionStorage.setItem("learners-area:last-error", error.digest ?? "render_error");
+    try {
+      window.sessionStorage.setItem("learners-area:last-error", error.digest ?? "render_error");
+    } catch {
+      // Recovery must still work when browser storage is unavailable.
+    }
   }, [error]);
 
   return (

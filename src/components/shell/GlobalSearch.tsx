@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n/en";
 import { requestJson } from "@/lib/http/client-request";
@@ -28,13 +28,7 @@ import { IconClose, IconSearch } from "@/components/ui/icons";
 type Hit = { type: string; title: string; context: string | null; href: string };
 type State = "idle" | "loading" | "ready" | "error";
 
-export function GlobalSearch({
-  dict,
-  variant = "field",
-}: {
-  dict: Dictionary;
-  variant?: "field" | "button";
-}) {
+export function GlobalSearch({ dict }: { dict: Dictionary }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -42,6 +36,8 @@ export function GlobalSearch({
   const [state, setState] = useState<State>("idle");
   const [active, setActive] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const resultsId = useId();
   const openerRef = useRef<HTMLElement | null>(null);
 
   const close = useCallback(() => {
@@ -59,13 +55,13 @@ export function GlobalSearch({
     function onKey(event: KeyboardEvent) {
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
         event.preventDefault();
-        openerRef.current = (document.activeElement as HTMLElement) ?? null;
+        if (!open) openerRef.current = document.activeElement as HTMLElement | null;
         setOpen(true);
       }
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  }, [open]);
 
   useEffect(() => {
     if (open) {
@@ -81,6 +77,19 @@ export function GlobalSearch({
       if (event.key === "Escape") {
         event.preventDefault();
         close();
+      } else if (event.key === "Tab") {
+        const controls = dialogRef.current?.querySelectorAll<HTMLElement>(
+          'input, button:not([tabindex="-1"]):not(:disabled)'
+        );
+        const first = controls?.[0];
+        const last = controls?.[controls.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last?.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first?.focus();
+        }
       }
     }
     document.addEventListener("keydown", onKey);
@@ -105,13 +114,19 @@ export function GlobalSearch({
       setState("idle");
       return;
     }
+    setHits([]);
+    setActive(0);
     setState("loading");
+    const controller = new AbortController();
     const id = window.setTimeout(() => {
       void (async () => {
         const result = await requestJson<{ results: Hit[] }>(`/api/search?q=${encodeURIComponent(trimmed)}`, {
           method: "GET",
+          signal: controller.signal,
         });
-        // The response may belong to an older query; the newest one wins.
+        // A cancelled response must never restore results after clear/close or
+        // overwrite a newer query, even if the transport already completed.
+        if (controller.signal.aborted) return;
         if (result.ok) {
           setHits(result.data.results ?? []);
           setActive(0);
@@ -122,7 +137,10 @@ export function GlobalSearch({
         }
       })();
     }, 280);
-    return () => window.clearTimeout(id);
+    return () => {
+      window.clearTimeout(id);
+      controller.abort();
+    };
   }, [query, open]);
 
   function go(hit: Hit) {
@@ -158,7 +176,6 @@ export function GlobalSearch({
 
   return (
     <>
-      {variant === "field" ? (
         <button
           type="button"
           data-global-search-trigger
@@ -174,9 +191,6 @@ export function GlobalSearch({
             Ctrl K
           </kbd>
         </button>
-      ) : null}
-
-      {variant === "button" ? (
         <button
           type="button"
           data-global-search-trigger
@@ -190,12 +204,12 @@ export function GlobalSearch({
         >
           <IconSearch className="text-[20px]" />
         </button>
-      ) : null}
 
       {open && (
         <div
           className="fixed inset-0 flex items-start justify-center p-3 sm:p-6"
           style={{ zIndex: "var(--z-modal)" }}
+          ref={dialogRef}
           role="dialog"
           aria-modal="true"
           aria-label={dict.shell.search}
@@ -221,8 +235,24 @@ export function GlobalSearch({
                 onKeyDown={onInputKeyDown}
                 placeholder={dict.shell.searchPlaceholder}
                 aria-label={dict.shell.search}
+                role="combobox"
+                aria-autocomplete="list"
+                aria-expanded={state === "ready" && hits.length > 0}
+                aria-controls={state === "ready" && hits.length > 0 ? resultsId : undefined}
+                aria-activedescendant={state === "ready" && hits[active] ? `${resultsId}-${active}` : undefined}
                 className="min-w-0 flex-1 bg-transparent text-[1.0625rem] text-ink-900 outline-none placeholder:text-ink-300"
               />
+              {query && (
+                <button type="button" className="btn-ghost shrink-0" onClick={() => {
+                  setQuery("");
+                  setHits([]);
+                  setActive(0);
+                  setState("idle");
+                  inputRef.current?.focus();
+                }} aria-label={dict.shell.clear}>
+                  {dict.shell.clear}
+                </button>
+              )}
               <button
                 type="button"
                 onClick={close}
@@ -259,12 +289,14 @@ export function GlobalSearch({
                 </div>
               )}
               {state === "ready" && hits.length > 0 && (
-                <ul className="flex flex-col gap-0.5" role="listbox" aria-label={dict.shell.search}>
+                <ul id={resultsId} className="flex flex-col gap-0.5" role="listbox" aria-label={dict.shell.search}>
                   {hits.map((hit, index) => (
                     <li key={`${hit.type}-${hit.href}-${index}`}>
                       <button
                         type="button"
                         role="option"
+                        id={`${resultsId}-${index}`}
+                        tabIndex={-1}
                         aria-selected={index === active}
                         onMouseEnter={() => setActive(index)}
                         onClick={() => go(hit)}

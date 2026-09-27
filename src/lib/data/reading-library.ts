@@ -30,12 +30,9 @@ import { timed } from "@/lib/observability/timing";
  * place a number on twenty-four cards. Against a database next door that is
  * invisible; against one 250 ms away it is a page the owner experiences as a
  * freeze, and every extra query in flight is another connection held from a
- * limited pool. The same page is now seven queries in three waves:
- *
- *   identity + unread badge           2 queries, sequential with the layout
- *   hub counts + facet lists          3 queries, one wave
- *   page of cards + that page's       2 queries, one wave
- *     attempt states
+ * limited pool. After identity, hub counts, facets and the page of cards now
+ * start concurrently; only the attempt states depend on the returned card ids.
+ * The shell's unread count runs independently of the page's content queries.
  *
  * The two numbers that used to cost a query each are now read from the rows
  * already being returned: the total comes from `count(*) over ()` on the same
@@ -172,13 +169,15 @@ export async function listLibrary(
         topicCode: readingPassages.topicCode,
         suggestedMinutes: readingPassages.suggestedMinutes,
         // One number per card, read on the row it belongs to.
-        questionCount: sql<number>`(select count(*) from ${readingQuestions} q where q.passage_id = ${readingPassages.id})`,
+        // Drizzle strips Column qualifiers in a single-table SELECT projection.
+        // Keep this correlated outer reference explicit, or it becomes q.id.
+        questionCount: sql<number>`(select count(*) from ${readingQuestions} q where q.passage_id = "reading_passages"."id")`,
         // The total before LIMIT, on the same statement as the rows.
         total: sql<number>`count(*) over ()`,
       })
       .from(readingPassages)
       .where(where)
-      .orderBy(asc(readingPassages.testNo), asc(readingPassages.passageNo), asc(readingPassages.title))
+      .orderBy(asc(readingPassages.testNo), asc(readingPassages.passageNo), asc(readingPassages.title), asc(readingPassages.id))
       .limit(READING_PAGE_SIZE)
       .offset((page - 1) * READING_PAGE_SIZE);
 
@@ -306,9 +305,9 @@ export async function readingHubCounts(userId: string) {
       .select({
         total: count(),
         completed: sql<number>`count(*) filter (where exists (select 1 from ${readingAttempts} a
-                                 where a.passage_id = ${readingPassages.id} and a.user_id = ${userId} and a.status = 'completed'))`,
+                                 where a.passage_id = "reading_passages"."id" and a.user_id = ${userId} and a.status = 'completed'))`,
         inProgress: sql<number>`count(*) filter (where exists (select 1 from ${readingAttempts} a
-                                   where a.passage_id = ${readingPassages.id} and a.user_id = ${userId} and a.status = 'in_progress'))`,
+                                   where a.passage_id = "reading_passages"."id" and a.user_id = ${userId} and a.status = 'in_progress'))`,
       })
       .from(readingPassages)
       .where(liveClause());
