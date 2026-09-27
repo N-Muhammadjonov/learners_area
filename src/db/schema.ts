@@ -1833,3 +1833,64 @@ export const telegramBotSettings = pgTable("telegram_bot_settings", {
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
   updatedByTelegramId: varchar("updated_by_telegram_id", { length: 64 }),
 });
+
+export const ownershipTransferChallengeStatusEnum = pgEnum("ownership_transfer_challenge_status", [
+  "pending",
+  "approved",
+  "rejected",
+  "expired",
+  "consumed",
+  "cancelled",
+]);
+
+/**
+ * Second factor for handing the centre to another account.
+ * The password is never stored. The Telegram callback carries only this id.
+ */
+export const ownershipTransferChallenges = pgTable("ownership_transfer_challenges", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  fromUserId: uuid("from_user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  toUserId: uuid("to_user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  requestedKeepRole: varchar("requested_keep_role", { length: 16 }).notNull(),
+  purpose: varchar("purpose", { length: 40 }).notNull().default("website_owner_transfer"),
+  telegramUserId: varchar("telegram_user_id", { length: 64 }).notNull(),
+  browserNonceHash: text("browser_nonce_hash").notNull(),
+  includeBotHandover: boolean("include_bot_handover").notNull().default(false),
+  targetTelegramId: varchar("target_telegram_id", { length: 64 }),
+  status: ownershipTransferChallengeStatusEnum("status").notNull().default("pending"),
+  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  approvedAt: timestamp("approved_at", { withTimezone: true }),
+  rejectedAt: timestamp("rejected_at", { withTimezone: true }),
+  consumedAt: timestamp("consumed_at", { withTimezone: true }),
+  cancelledAt: timestamp("cancelled_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => ({
+  fromStatusIdx: index("ownership_transfer_challenges_from_status_idx").on(table.fromUserId, table.status),
+}));
+
+export const telegramOwnerHandoverStatusEnum = pgEnum("telegram_owner_handover_status", [
+  "pending",
+  "current_confirmed",
+  "rejected",
+  "expired",
+  "consumed",
+  "cancelled",
+]);
+
+/** Dual consent for Learners Area bot control. Not BotFather ownership. */
+export const telegramOwnerHandovers = pgTable("telegram_owner_handovers", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  fromTelegramId: varchar("from_telegram_id", { length: 64 }).notNull(),
+  toTelegramId: varchar("to_telegram_id", { length: 64 }).notNull(),
+  initiatedByUserId: uuid("initiated_by_user_id").references(() => users.id, { onDelete: "set null" }),
+  status: telegramOwnerHandoverStatusEnum("status").notNull().default("pending"),
+  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  currentConfirmedAt: timestamp("current_confirmed_at", { withTimezone: true }),
+  targetConfirmedAt: timestamp("target_confirmed_at", { withTimezone: true }),
+  rejectedAt: timestamp("rejected_at", { withTimezone: true }),
+  consumedAt: timestamp("consumed_at", { withTimezone: true }),
+  cancelledAt: timestamp("cancelled_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => ({
+  fromIdx: index("telegram_owner_handovers_from_idx").on(table.fromTelegramId, table.status),
+}));

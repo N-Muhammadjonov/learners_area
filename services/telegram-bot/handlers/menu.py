@@ -57,6 +57,7 @@ def owner_keyboard(lang: str, bot_access: dict | None) -> InlineKeyboardMarkup:
         rows.append([InlineKeyboardButton(text=t(lang, "broadcast"), callback_data="o:bc")])
     if owner:
         rows.append([InlineKeyboardButton(text=t(lang, "admins"), callback_data="o:admins")])
+        rows.append([InlineKeyboardButton(text=t(lang, "bot_owner_transfer"), callback_data="o:bown")])
         rows.append([InlineKeyboardButton(text=t(lang, "settings"), callback_data="o:set")])
     if owner or "VIEW_STATS" in perms:
         rows.append([InlineKeyboardButton(text=t(lang, "stats"), callback_data="o:stats")])

@@ -4,7 +4,8 @@ import { db } from "@/db/client";
 import { telegramBotAdmins, telegramContacts, telegramSupportMessages, telegramSupportThreads, users } from "@/db/schema";
 import { recordAudit } from "@/lib/data/audit";
 import type { BotActor } from "./actor";
-import { primaryOwnerTelegramId, isTelegramUserId } from "./ids";
+import { isTelegramUserId } from "./ids";
+import { readEffectivePrimaryOwner } from "./owner-store";
 
 const MESSAGE_TYPES = ["text", "photo", "document", "voice", "audio"] as const;
 type MessageType = (typeof MESSAGE_TYPES)[number];
@@ -22,7 +23,7 @@ function pageArgs(page: number, pageSize: number) {
 
 async function notifyTargets(thread: { assignedTelegramId: string | null }) {
   const ids = new Set<string>();
-  const owner = primaryOwnerTelegramId();
+  const owner = (await readEffectivePrimaryOwner()).id;
   if (owner) ids.add(owner);
   if (thread.assignedTelegramId) ids.add(thread.assignedTelegramId);
   const admins = await db

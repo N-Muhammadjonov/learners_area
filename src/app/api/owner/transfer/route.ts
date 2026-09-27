@@ -2,40 +2,52 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
-import { ownershipTransfers, users } from "@/db/schema";
-import { countActiveOwnersIn } from "@/lib/auth/owner-invariant";
-import { requireOwner } from "@/lib/auth/current-user";
+import { users } from "@/db/schema";
+import { requireActiveUser, requireOwner } from "@/lib/auth/current-user";
 import { verifyPassword } from "@/lib/auth/password";
-import { recordAudit } from "@/lib/data/audit";
-import { notifyUsers } from "@/lib/data/notifications";
+import {
+  cancelWebsiteChallenge,
+  initiateWebsiteTransfer,
+  readWebsiteChallenge,
+} from "@/lib/auth/owner-transfer";
+import { RULES, accountKey, enforce } from "@/lib/http/rate-limit";
+import { isUuid } from "@/lib/validation/ids";
 
 /**
- * POST /api/owner/transfer — hand the centre to another account.
+ * POST /api/owner/transfer — start a handover. It does not change roles.
  *
- * Deliberately hard to do by accident:
- *   - only the current OWNER may call it (role read from the database);
- *   - the owner's own password is required again, so an unattended browser
- *     cannot transfer the business;
- *   - the target must be an existing, active, non-suspended account;
- *   - the owner role is never granted through the generic role endpoint;
- *   - the whole swap happens in ONE transaction, so nobody ever observes a
- *     moment with two owners or with none;
- *   - the outgoing owner's own choice (keepRole) is what they become, and the
- *     centre still has exactly one live owner when the transaction commits.
- *
- * The transfer is written to `ownership_transfers` *and* the audit log, so the
- * history of the business survives the people in it.
+ * The password is checked here and is not forwarded. Telegram approval, in
+ * src/lib/auth/owner-transfer.ts, is what commits the one-transaction swap.
+ * If the current owner has no linked numeric Telegram id, this stops.
  */
+
 const schema = z.object({
   email: z.string().trim().toLowerCase().email(),
   password: z.string().min(1),
-  /** What the outgoing owner becomes. Never "owner": that would be two owners. */
   keepRole: z.enum(["admin", "teacher", "student"]),
+  includeBotHandover: z.boolean().optional().default(false),
 });
+
+function statusFor(error: string) {
+  if (error === "forbidden") return 403;
+  if (error === "invalid_credentials") return 401;
+  if (error === "target_not_found") return 404;
+  return 409;
+}
+
+function challengeArgs(req: NextRequest, actorId: string) {
+  const challengeId = req.nextUrl.searchParams.get("challengeId") ?? "";
+  const browserNonce = req.headers.get("x-owner-challenge-nonce") ?? "";
+  if (!isUuid(challengeId) || browserNonce.length < 32 || browserNonce.length > 128) return null;
+  return { actorId, challengeId, browserNonce };
+}
 
 export async function POST(req: NextRequest) {
   const owner = await requireOwner();
   if (!owner) return NextResponse.json({ error: "forbidden" }, { status: 403 });
+
+  const limited = enforce(RULES.ownerTransfer, accountKey(owner.id));
+  if (limited) return limited;
 
   const body = await req.json().catch(() => null);
   const parsed = schema.safeParse(body);
@@ -48,53 +60,45 @@ export async function POST(req: NextRequest) {
   const passwordOk = await verifyPassword(parsed.data.password, actorRow.passwordHash);
   if (!passwordOk) return NextResponse.json({ error: "invalid_credentials" }, { status: 401 });
 
-  const target = await db.query.users.findFirst({ where: eq(users.email, parsed.data.email) });
-  if (!target) return NextResponse.json({ error: "target_not_found" }, { status: 404 });
-  if (target.id === owner.id) return NextResponse.json({ error: "already_owner" }, { status: 409 });
-  if (target.accountStatus !== "active") {
-    return NextResponse.json({ error: "target_not_active" }, { status: 409 });
-  }
-
-  // One transaction, or two owners, or none.
-  //
-  // The invariant is checked *inside* the same transaction, after the swap: a
-  // pre-check would ask "would removing this owner's role leave nobody?" — the
-  // wrong question here, because the target becomes the owner in the same
-  // breath. Counting the live owners at commit time is what actually protects
-  // the centre, and it also covers a concurrent second transfer.
-  const transferred = await db
-    .transaction(async (tx) => {
-      await tx.update(users).set({ role: "owner" }).where(eq(users.id, target.id));
-      await tx.update(users).set({ role: parsed.data.keepRole }).where(eq(users.id, owner.id));
-      await tx.insert(ownershipTransfers).values({
-        fromUserId: owner.id,
-        toUserId: target.id,
-        previousOwnerRole: parsed.data.keepRole,
-      });
-
-      const liveOwners = await countActiveOwnersIn(tx);
-      if (liveOwners < 1) throw new Error("owner_invariant");
-      return liveOwners;
-    })
-    .catch(() => null);
-
-  if (transferred === null) {
-    return NextResponse.json({ error: "transfer_would_leave_no_owner" }, { status: 409 });
-  }
-
-  await recordAudit({
-    actorUserId: owner.id,
-    action: "ownership.transferred",
-    targetType: "user",
-    targetId: target.id,
-    metadata: { previousOwnerRole: parsed.data.keepRole },
+  const started = await initiateWebsiteTransfer({
+    actorId: owner.id,
+    email: parsed.data.email,
+    passwordOk,
+    hasPassword: true,
+    keepRole: parsed.data.keepRole,
+    includeBotHandover: parsed.data.includeBotHandover,
   });
-  await notifyUsers([target.id, owner.id], {
-    type: "OWNERSHIP_TRANSFERRED",
-    title: "Ownership transferred",
-    body: `The centre is now owned by ${target.name}.`,
-    href: "/owner",
-  });
+  if (!started.ok) return NextResponse.json({ error: started.error }, { status: statusFor(started.error) });
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json(
+    {
+      ok: true,
+      status: "pending",
+      challengeId: started.challengeId,
+      browserNonce: started.browserNonce,
+      expiresAt: started.expiresAt,
+      includeBotHandover: started.includeBotHandover,
+    },
+    { status: 202, headers: { "cache-control": "no-store" } }
+  );
+}
+
+export async function GET(req: NextRequest) {
+  const actor = await requireActiveUser();
+  if (!actor) return NextResponse.json({ error: "forbidden" }, { status: 403 });
+  const args = challengeArgs(req, actor.id);
+  if (!args) return NextResponse.json({ error: "invalid_input" }, { status: 400 });
+  const row = await readWebsiteChallenge(args);
+  if (!row) return NextResponse.json({ error: "not_found" }, { status: 404 });
+  return NextResponse.json(row, { headers: { "cache-control": "no-store" } });
+}
+
+export async function DELETE(req: NextRequest) {
+  const actor = await requireActiveUser();
+  if (!actor) return NextResponse.json({ error: "forbidden" }, { status: 403 });
+  const args = challengeArgs(req, actor.id);
+  if (!args) return NextResponse.json({ error: "invalid_input" }, { status: 400 });
+  const cancelled = await cancelWebsiteChallenge(args);
+  if (!cancelled) return NextResponse.json({ error: "not_pending" }, { status: 409 });
+  return NextResponse.json({ ok: true, status: "cancelled" }, { headers: { "cache-control": "no-store" } });
 }

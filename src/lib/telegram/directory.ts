@@ -10,7 +10,8 @@ import { setAccountStatus } from "@/lib/data/admission";
 import { recordAudit } from "@/lib/data/audit";
 import { listAuditForTarget } from "@/lib/data/audit";
 import type { BotActor } from "./actor";
-import { isPrimaryOwnerTelegramId, isTelegramUserId } from "./ids";
+import { isTelegramUserId } from "./ids";
+import { isEffectivePrimaryOwner } from "./owner-store";
 import { removeContactFromBot } from "./contacts";
 import { unlinkTelegramFromUser } from "./identity";
 
@@ -96,7 +97,7 @@ export async function userDetail(userId: string) {
     user: {
       ...user,
       telegramLinked: Boolean(user.telegramId),
-      primaryOwner: Boolean(user.telegramId && isPrimaryOwnerTelegramId(user.telegramId)),
+      primaryOwner: Boolean(user.telegramId && (await isEffectivePrimaryOwner(user.telegramId))),
     },
     contact: contact
       ? {
@@ -120,7 +121,7 @@ async function protectOwnerTarget(userId: string) {
     columns: { id: true, telegramId: true, role: true },
   });
   if (!user) return { ok: false as const, error: "not_found" };
-  if (user.telegramId && isPrimaryOwnerTelegramId(user.telegramId)) {
+  if (user.telegramId && (await isEffectivePrimaryOwner(user.telegramId))) {
     return { ok: false as const, error: "primary_owner_protected" };
   }
   return { ok: true as const, user };
@@ -172,7 +173,7 @@ export async function removeBotContact(actor: BotActor, userId: string) {
     columns: { id: true, telegramId: true },
   });
   if (!user) return { ok: false as const, error: "not_found" };
-  if (user.telegramId && isPrimaryOwnerTelegramId(user.telegramId)) {
+  if (user.telegramId && (await isEffectivePrimaryOwner(user.telegramId))) {
     return { ok: false as const, error: "primary_owner_protected" };
   }
   const telegramUserId = user.telegramId;

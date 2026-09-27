@@ -70,7 +70,11 @@ test("the transfer workflow is the only door to the owner role", async () => {
   );
 
   const transferRoute = readFileSync("src/app/api/owner/transfer/route.ts", "utf8");
-  assert.match(transferRoute, /db\s*\.\s*transaction/, "the swap must be one transaction");
-  assert.match(transferRoute, /countActiveOwnersIn/, "the swap must count the owners after the writes");
+  const transferCommit = readFileSync("src/lib/auth/owner-transfer.ts", "utf8");
   assert.match(transferRoute, /verifyPassword/, "the owner must re-authenticate");
+  assert.match(transferRoute, /requireOwner\(\)/, "only the current owner may start a transfer");
+  assert.doesNotMatch(transferRoute, /set\(\{\s*role:\s*"owner"\s*\}\)/, "the password route must not swap roles");
+  assert.match(transferCommit, /db\s*\.\s*transaction/, "the swap must be one transaction");
+  assert.match(transferCommit, /countActiveOwnersIn/, "the swap must count the owners after the writes");
+  assert.match(transferCommit, /liveOwnerCommitAllowed/, "the swap must refuse anything other than one live owner");
 });

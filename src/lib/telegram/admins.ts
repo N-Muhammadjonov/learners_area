@@ -4,7 +4,8 @@ import { db } from "@/db/client";
 import { telegramBotAdmins, users } from "@/db/schema";
 import { recordAudit } from "@/lib/data/audit";
 import type { BotActor } from "./actor";
-import { isPrimaryOwnerTelegramId, isTelegramUserId } from "./ids";
+import { isTelegramUserId } from "./ids";
+import { isEffectivePrimaryOwner } from "./owner-store";
 import { permissionsEqual, sanitizeGrantablePermissions, type BotPermission } from "./permissions";
 
 export async function listBotAdmins() {
@@ -21,7 +22,7 @@ export async function listBotAdmins() {
 
 export async function addBotAdmin(input: { actor: BotActor; telegramUserId: string; permissions: unknown }) {
   if (!isTelegramUserId(input.telegramUserId)) return { ok: false as const, error: "invalid_actor" };
-  if (isPrimaryOwnerTelegramId(input.telegramUserId)) return { ok: false as const, error: "primary_owner_protected" };
+  if (await isEffectivePrimaryOwner(input.telegramUserId)) return { ok: false as const, error: "primary_owner_protected" };
   const permissions = sanitizeGrantablePermissions(input.permissions);
   const linked = await db.query.users.findFirst({
     where: eq(users.telegramId, input.telegramUserId),
@@ -60,7 +61,7 @@ export async function addBotAdmin(input: { actor: BotActor; telegramUserId: stri
 
 export async function updateBotAdmin(input: { actor: BotActor; telegramUserId: string; permissions?: unknown; active?: boolean }) {
   if (!isTelegramUserId(input.telegramUserId)) return { ok: false as const, error: "invalid_actor" };
-  if (isPrimaryOwnerTelegramId(input.telegramUserId)) return { ok: false as const, error: "primary_owner_protected" };
+  if (await isEffectivePrimaryOwner(input.telegramUserId)) return { ok: false as const, error: "primary_owner_protected" };
   const existing = await db.query.telegramBotAdmins.findFirst({
     where: eq(telegramBotAdmins.telegramUserId, input.telegramUserId),
   });

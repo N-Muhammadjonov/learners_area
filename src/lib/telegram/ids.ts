@@ -20,7 +20,10 @@ export function normalizeTelegramUserId(value: unknown): string | null {
   return null;
 }
 
-/** Primary owner id from the server environment. Unset or malformed → no owner. */
+/**
+ * Bootstrap id from the server environment. Unset or malformed → no bootstrap.
+ * Authorization must not stop here: a stored handover wins. See owner-authority.ts.
+ */
 export function primaryOwnerTelegramId(env: NodeJS.ProcessEnv = process.env): string | null {
   return normalizeTelegramUserId(env.TELEGRAM_OWNER_ID);
 }

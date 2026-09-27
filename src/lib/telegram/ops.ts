@@ -5,6 +5,7 @@ import { auditLog, telegramBotSettings, telegramContacts, telegramSupportThreads
 import { recordAudit } from "@/lib/data/audit";
 import type { BotActor } from "./actor";
 
+/** Bot settings are a whitelist. Owner identity is not one of them; handover is the only writer. */
 const SETTING_KEYS = ["default_locale", "support_enabled", "broadcasts_enabled"] as const;
 type SettingKey = (typeof SETTING_KEYS)[number];
 

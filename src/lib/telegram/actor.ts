@@ -9,7 +9,8 @@ import {
   type BotAccess,
   type BotPermission,
 } from "./permissions";
-import { isPrimaryOwnerTelegramId, isTelegramUserId } from "./ids";
+import { isTelegramUserId } from "./ids";
+import { isEffectivePrimaryOwner } from "./owner-store";
 
 export type BotActor = BotAccess & {
   telegramUserId: string;
@@ -32,7 +33,7 @@ export async function resolveBotActor(telegramUserId: string): Promise<BotActor 
     columns: { id: true, role: true, accountStatus: true },
   });
 
-  if (isPrimaryOwnerTelegramId(telegramUserId)) {
+  if (await isEffectivePrimaryOwner(telegramUserId)) {
     let auditUserId = linked?.id ?? null;
     if (!auditUserId) {
       const owner = await db.query.users.findFirst({

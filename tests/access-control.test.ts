@@ -331,8 +331,10 @@ test("the integration report never returns a secret value", () => {
 
 test("ownership transfer requires the owner's password again", () => {
   const source = stripComments(read("src/app/api/owner/transfer/route.ts"));
+  const commit = stripComments(read("src/lib/auth/owner-transfer.ts"));
   assert.match(source, /requireOwner\(\)/);
   assert.match(source, /verifyPassword\(/);
-  assert.match(source, /ownershipTransfers/);
-  assert.match(source, /recordAudit\(/);
+  assert.match(commit, /ownershipTransfers/);
+  assert.match(commit, /recordAudit\(/);
+  assert.match(commit, /for\("update"\)/);
 });

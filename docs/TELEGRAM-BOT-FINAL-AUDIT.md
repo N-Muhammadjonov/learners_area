@@ -46,17 +46,31 @@ Bu hujjat kod tomonidagi qattiqlashtirishni yozadi. U REAL TELEGRAM VERIFIED yok
 
 Shu kod ustida, productionga tegmasdan:
 
-- `npm test`: 279 o'tdi, 0 yiqildi, 3 o'tkazib yuborildi (282 test).
-- `services/telegram-bot` pytest: 28 o'tdi.
+- `npm test`: 290 o'tdi, 0 yiqildi, 3 o'tkazib yuborildi (293 test).
+- `services/telegram-bot` pytest: 31 o'tdi.
 - `npm run typecheck`: toza.
 - `npm run lint`: toza.
 - `npm run build`: muvaffaqiyatli.
 
+Egalik xavfsizligi qo'shilgandan keyin shu to'rt tekshiruv qayta ishga tushirildi. Natija shu.
+
 Bu real Telegram E2E emas.
+
+## Egalik xavfsizligi (kod tomoni)
+
+Sayt egaligini o'tkazish endi parol bilan yakunlanmaydi. Joriy OWNER sessiyasi va parol so'rovni boshlaydi. Tasdiq joriy egaga ulangan raqamli Telegram ID ga boradi. Username vakolat emas. Telegram ulanmagan yoki bot yozolmasa, parolga qaytish yo'q.
+
+Challenge `website_owner_transfer`, 5 daqiqa, bir martalik, brauzer nonce xeshi. Callback faqat `wta:` yoki `wtr:` va uuid. Noto'g'ri Telegram foydalanuvchisi, muddat, rad, bekor, qayta bosish, parallel chaqiruv va to'xtatilgan nishon yozuvni commit qilmaydi. Rol almashtirishdan oldin qatorlar qayta o'qiladi. Jonli OWNER soni 1 bo'lmasa, tranzaksiya yiqiladi. Umumiy admin rol yo'li OWNER bera olmaydi.
+
+`TELEGRAM_OWNER_ID` faqat bazada egasi yo'q paytdagi bootstrap. Birinchi topshirish `telegram_bot_settings.primary_owner_telegram_id` ni yozadi. Keyin env o'zgarishi vakolatni ololmaydi. Bu `telegram_bot_admin` qatori emas. Ikki tomonlama rozilik: joriy egasi tasdiqlaydi, botni boshlagan raqamli nishon qabul qiladi. Eski egasi keyingi tekshiruvda vakolatni yo'qotadi. Qisqa kesh yo'q, chunki boshqa jarayonni bekor qilib bo'lmaydi.
+
+Sayt OWNER, bot egasi va @BotFather egasi alohida. BotFather aniqlanmaydi. Saytdagi belgi ixtiyoriy va yashirin emas: nishon hali ham qabul qilishi kerak. Nishon Telegram ID si commit paytida yo'qolsa yoki o'zgarsa, butun sayt o'tkazuvi bekor bo'ladi.
+
+`0021` va `0022` qo'llanmagan. `0023` yo'q. Qo'llash tartibi: 0021, keyin 0022. Bu real Telegram E2E emas va umumiy 100% emas.
 
 ## Qo'llash
 
-1. Tasdiqdan keyin faqat `drizzle/0021_telegram_intent_purpose.sql` ni qo'llang.
-2. Vercel va Railway ni yangi kod bilan deploy qiling. Secretlarni aylantirmang.
-3. BotFather qadamlari: `docs/TELEGRAM-BOT-BOTFATHER.md`.
+1. Ko'rib chiqilgan bitta oynada avval `drizzle/0021_telegram_intent_purpose.sql`, keyin `drizzle/0022_telegram_owner_authority.sql`. Agent qo'llamaydi.
+2. Vercel va Railway ni yangi kod bilan deploy qiling. Secretlarni, `TELEGRAM_OWNER_ID` ni va Railway healthcheck ni aylantirmang.
+3. BotFather qadamlari: `docs/TELEGRAM-BOT-BOTFATHER.md`. BotFather egaligi qo'lda qoladi.
 4. Keyin production E2E matritsasini bajaring. Undan oldin umumiy 100% deyilmaydi.

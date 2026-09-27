@@ -21,6 +21,11 @@ SENSITIVE_CALLBACK_PREFIXES = (
     "aps:",
     "set:",
     "df:",
+    "wta:",
+    "wtr:",
+    "bhc:",
+    "bha:",
+    "bhr:",
 )
 
 

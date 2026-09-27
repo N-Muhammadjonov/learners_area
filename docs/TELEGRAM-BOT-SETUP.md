@@ -16,7 +16,7 @@ Bu hujjatda haqiqiy token yo'q. Tokenlarni Arena chatiga yopishtirmang. Ularni R
 
 1. `@userinfobot` ga `/start` yuboring.
 2. `Id` qatoridagi sonni oling. Username emas.
-3. Shu son `TELEGRAM_OWNER_ID` bo'ladi.
+3. Shu son `TELEGRAM_OWNER_ID` bo'ladi. Bu faqat bootstrap. Bazada topshirish yozilgach, env vakolatni tortib ololmaydi.
 
 ## 3. Umumiy sir
 
@@ -36,9 +36,9 @@ Mavjud Learners Area loyihasiga qo'shing:
 - `BOT_SERVICE_SECRET`
 - `TELEGRAM_OWNER_ID`
 
-Saytni qayta deploy qilishdan oldin migratsiya `0021_telegram_intent_purpose.sql` ni qo'llang. 0019 va 0020 allaqachon qo'llangan — ularni o'zgartirmang va qayta ishga tushirmang.
+Saytni qayta deploy qilishdan oldin migratsiyalarni bitta ko'rib chiqilgan oynada, shu tartibda qo'llang: avval `0021_telegram_intent_purpose.sql`, keyin `0022_telegram_owner_authority.sql`. 0019 va 0020 allaqachon qo'llangan — ularni o'zgartirmang va qayta ishga tushirmang. `0023` yo'q. Agent bu migratsiyalarni productionga qo'llamaydi.
 
-`0021` login niyatiga `purpose` ustunini va qayta ishga tushirishga chidamli tasdiq qoralamalarini qo'shadi. Agent bu migratsiyani productionga qo'llamaydi. Qo'llash uchun alohida tasdiq kerak.
+`0021` login niyatiga `purpose` ustunini qo'shadi. `0022` sayt egaligini o'tkazish uchun Telegram tasdig'i va bot boshqaruvini ikki tomonlama topshirish jadvallarini qo'shadi. Ikkalasi ham hali qo'llanmagan.
 
 ## 5. Railway
 
@@ -87,3 +87,11 @@ BOT_MODE=polling
 2. Owner hisobidan botga `/start`.
 3. Boshqa hisobdan `/start`. U boshqaruv tugmasini ko'rmaydi.
 4. Saytda email/parol bilan kirish hali ishlaydi.
+
+## 8. Egalik va bot boshqaruvi
+
+`TELEGRAM_OWNER_ID` faqat birinchi ishga tushirish. Bazada `primary_owner_telegram_id` yozilgach, keyingi env o'zgarishi vakolatni tortib ololmaydi. Topshirish kod, env yoki qayta deploy talab qilmaydi.
+
+Sayt OWNER, Learners Area bot egasi va @BotFather egasi uch xil narsa. BotFather egaligi avtomatik aniqlanmaydi. Username ruxsat emas.
+
+Sayt egaligini o'tkazish parol bilan boshlanadi, lekin Telegram tasdig'isiz yozilmaydi. Telegram ulanmagan bo'lsa, parolning o'zi yetarli emas. Batafsil: `docs/OWNER-SECURITY.md`.

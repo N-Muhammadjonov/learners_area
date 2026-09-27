@@ -10,7 +10,8 @@ export const dynamic = "force-dynamic";
  *
  * The business must not be tied to one person's account forever, and it must not
  * be transferable by a stray click either: the form requires the owner's own
- * password again, and the API re-checks the role, the password and the target.
+ * password again, then the linked Telegram account must approve. Password alone
+ * does not change roles.
  */
 export default async function OwnerTransferPage() {
   const owner = await requireOwner();

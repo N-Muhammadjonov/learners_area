@@ -199,5 +199,29 @@ class ApiClient:
     async def save_setting(self, payload: dict[str, Any]) -> tuple[int, Any]:
         return await self._request("PATCH", "/ops", json=payload)
 
+    async def owner_summary(self, actor: str) -> tuple[int, Any]:
+        return await self._request("GET", "/owner", params={"actorTelegramId": actor})
+
+    async def start_owner_handover(self, actor: str, target_telegram_id: str) -> tuple[int, Any]:
+        return await self._request(
+            "POST",
+            "/owner/handover",
+            json={"action": "start", "actorTelegramId": actor, "targetTelegramId": target_telegram_id},
+        )
+
+    async def decide_owner_handover(self, actor: str, handover_id: str, step: str) -> tuple[int, Any]:
+        return await self._request(
+            "POST",
+            "/owner/handover",
+            json={"action": step, "actorTelegramId": actor, "handoverId": handover_id},
+        )
+
+    async def decide_website_transfer(self, actor: str, challenge_id: str, decision: str) -> tuple[int, Any]:
+        return await self._request(
+            "POST",
+            "/owner/transfer",
+            json={"actorTelegramId": actor, "challengeId": challenge_id, "decision": decision},
+        )
+
 
 api_client = ApiClient()

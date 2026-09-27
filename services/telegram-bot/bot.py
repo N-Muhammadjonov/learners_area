@@ -8,6 +8,7 @@ from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_application
 
 from commands import install_commands
@@ -16,9 +17,11 @@ from html_text import esc as _esc
 from handlers.admission import admission_router
 from handlers.auth import auth_router
 from handlers.menu import menu_router
+from handlers.owner import owner_router
 from handlers.panel import panel_router
 from handlers.support import support_router
 from middlewares.auth import AuthMiddleware, DedupMiddleware
+from owner_callbacks import notice_button_specs
 from services.api_client import api_client
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s %(message)s")
@@ -29,6 +32,15 @@ log = logging.getLogger("learners-bot")
 ALLOWED_UPDATES = ["message", "callback_query", "my_chat_member"]
 
 
+def _notice_markup(notice: dict) -> InlineKeyboardMarkup | None:
+    specs = notice_button_specs(notice.get("type"), notice.get("correlationId"))
+    if not specs:
+        return None
+    return InlineKeyboardMarkup(
+        inline_keyboard=[[InlineKeyboardButton(text=label, callback_data=data) for label, data in specs]]
+    )
+
+
 def build_dispatcher() -> Dispatcher:
     # Chat compose state may live in memory. Outbound confirms do not: they are
     # server drafts bound to the actor, target and expiry.
@@ -37,6 +49,7 @@ def build_dispatcher() -> Dispatcher:
     dp.message.outer_middleware(AuthMiddleware())
     dp.callback_query.outer_middleware(AuthMiddleware())
     dp.include_router(auth_router)
+    dp.include_router(owner_router)
     dp.include_router(menu_router)
     dp.include_router(admission_router)
     dp.include_router(support_router)
@@ -73,7 +86,12 @@ async def _delivery_loop(bot: Bot, stop: asyncio.Event) -> None:
                     continue
                 try:
                     body = notice.get("body") or ""
-                    await bot.send_message(int(notice["chatId"]), f"{_esc(notice.get('title'))}\n{_esc(body)}".strip())
+                    markup = _notice_markup(notice)
+                    await bot.send_message(
+                        int(notice["chatId"]),
+                        f"{_esc(notice.get('title'))}\n{_esc(body)}".strip(),
+                        reply_markup=markup,
+                    )
                     notice_results.append({"id": notice["id"], "status": "sent"})
                 except Exception as exc:
                     blocked = "blocked" in str(exc).lower()

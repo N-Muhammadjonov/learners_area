@@ -58,7 +58,13 @@ Webhookni qo'lda `setWebhook` qilmang. Bot `BOT_MODE=webhook` bilan ishga tushga
 
 `WEBHOOK_SECRET` 1–256 belgi, faqat `A-Z`, `a-z`, `0-9`, `_` va `-`. Qiymatni chatga yubormang. Bot yaroqsiz formatda ishga tushmaydi va secretni logga yozmaydi.
 
-## 6. Tekshirish
+## 6. BotFather egasi alohida
+
+Learners Area bot boshqaruvini topshirish @BotFather egaligini aniqlamaydi va o'zgartirmaydi. Agent userbot, MTProto, shaxsiy sessiya, Telegram 2FA paroli yoki API hash saqlamaydi.
+
+BotFather egasini o'zgartirish faqat @BotFather ichidagi qo'lda qadam. Buni kod "kim da'vo qilsa shu egasi" qilib tekshirmaydi. Sayt OWNER i ham, `TELEGRAM_OWNER_ID` ham BotFather egasi emas.
+
+## 7. Tekshirish
 
 1. Botda `/` bosing. Yetti buyruq ko'rinishi kerak.
 2. `/start` ichki menyuni ochishi kerak.

@@ -6,7 +6,16 @@ import { isTelegramUserId } from "./ids";
 
 export type NoticeCategory = "critical" | "optional";
 
-const CRITICAL_TYPES = new Set(["account.approved", "account.rejected", "account.suspended", "account.unsuspended"]);
+const CRITICAL_TYPES = new Set([
+  "account.approved",
+  "account.rejected",
+  "account.suspended",
+  "account.unsuspended",
+  "website.owner_transfer",
+  "telegram.owner_handover_current",
+  "telegram.owner_handover_target",
+  "telegram.owner_transferred",
+]);
 
 function missingRelation(error: unknown) {
   const text = error instanceof Error ? `${error.message} ${String(error.cause ?? "")}` : String(error);
@@ -126,6 +135,7 @@ export async function claimNotificationBatch(limit = 20) {
       body: telegramNotifications.body,
       category: telegramNotifications.category,
       type: telegramNotifications.type,
+      correlationId: telegramNotifications.correlationId,
     });
   const contacts = claimed.length
     ? await db
@@ -144,6 +154,7 @@ export async function claimNotificationBatch(limit = 20) {
       body: row.body,
       category: row.category,
       type: row.type,
+      correlationId: row.correlationId,
       unavailable,
     };
   });

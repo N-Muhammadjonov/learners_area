@@ -53,6 +53,7 @@ export const RULES = {
   telegramIntent: { name: "telegram_intent", limit: 10, windowMs: 15 * 60_000 },
   telegramSupport: { name: "telegram_support", limit: 40, windowMs: 15 * 60_000 },
   telegramBroadcast: { name: "telegram_broadcast", limit: 6, windowMs: 60 * 60_000 },
+  ownerTransfer: { name: "owner_transfer", limit: 5, windowMs: 15 * 60_000 },
   evaluation: { name: "evaluation", limit: 60, windowMs: 15 * 60_000 },
   uploadIntent: { name: "upload_intent", limit: 120, windowMs: 15 * 60_000 },
   vocabularySearch: { name: "vocabulary_search", limit: 300, windowMs: 60_000 },

@@ -8,9 +8,7 @@
  *   - the bootstrap command refuses to add a second owner to a centre that has one;
  *   - the generic role endpoint can never mint an owner;
  *   - the owner must re-authenticate to transfer, and the target must be active;
- *   - a transfer swaps both rows and is audited;
- *   - after the transfer the previous owner no longer holds ownership powers, and
- *     the new owner can hand it back;
+ *   - a correct password does not swap roles. Telegram approval is required;
  *   - the last live owner cannot be demoted or suspended, by anyone.
  *
  * It creates one throwaway account and removes it again.
@@ -138,45 +136,38 @@ try {
     await pool.query("update users set account_status = 'active' where id = $1", [tempId]);
   });
 
-  await check("a real transfer swaps both rows, is recorded and is audited", async () => {
+  await check("a correct password does not swap roles without Telegram approval", async () => {
     const res = await owner.request("/api/owner/transfer", {
       method: "POST",
       body: { email: tempEmail, password: "Owner12345!", keepRole: "admin" },
     });
-    assert.equal(res.status, 200, `transfer failed: ${res.status}`);
-
-    assert.equal((await roleOf(tempEmail)).role, "owner");
-    assert.equal((await roleOf("owner@learnersarea.uz")).role, "admin");
+    assert.ok(res.status === 202 || res.status === 409, `expected pending or blocked, got ${res.status}`);
+    if (res.status === 202) {
+      assert.equal(res.data.status, "pending");
+      assert.equal(typeof res.data.browserNonce, "string");
+    }
+    assert.equal((await roleOf(tempEmail)).role, "admin");
+    assert.equal((await roleOf("owner@learnersarea.uz")).role, "owner");
 
     const { rows: transfers } = await pool.query(
-      "select from_user_id, to_user_id, previous_owner_role from ownership_transfers where to_user_id = $1",
+      "select from_user_id from ownership_transfers where to_user_id = $1",
       [tempId]
     );
-    assert.equal(transfers.length, 1, "the transfer must be recorded");
-    assert.equal(transfers[0].previous_owner_role, "admin");
+    assert.equal(transfers.length, 0, "password alone must not record a completed transfer");
 
     const { rows: audit } = await pool.query(
       "select action from audit_log where action = 'ownership.transferred' and target_id = $1",
       [tempId]
     );
-    assert.ok(audit.length >= 1, "the transfer must be audited");
+    assert.equal(audit.length, 0, "password alone must not audit a completed transfer");
   });
 
-  await check("the previous owner has no ownership powers afterwards", async () => {
+  await check("the current owner still holds ownership after an unconfirmed request", async () => {
     const res = await owner.request("/api/owner/transfer", {
       method: "POST",
-      body: { email: "owner@learnersarea.uz", password: "Owner12345!", keepRole: "admin" },
+      body: { email: tempEmail, password: "Owner12345!", keepRole: "admin" },
     });
-    assert.equal(res.status, 403, `expected 403, got ${res.status}`);
-  });
-
-  await check("the new owner can hand ownership back", async () => {
-    const next = await new Client().login(tempEmail, "Owner12345!");
-    const res = await next.request("/api/owner/transfer", {
-      method: "POST",
-      body: { email: "owner@learnersarea.uz", password: "Owner12345!", keepRole: "admin" },
-    });
-    assert.equal(res.status, 200, `hand-back failed: ${res.status}`);
+    assert.notEqual(res.status, 403, "the owner must not have been demoted");
     assert.equal((await roleOf("owner@learnersarea.uz")).role, "owner");
     assert.equal((await roleOf(tempEmail)).role, "admin");
   });
@@ -188,6 +179,10 @@ try {
     assert.equal(rows[0].n, 1, "one live owner after the round trip");
   });
 } finally {
+  const challengeTable = await pool.query("select to_regclass('public.ownership_transfer_challenges') as rel");
+  if (challengeTable.rows[0]?.rel) {
+    await pool.query("delete from ownership_transfer_challenges where to_user_id = $1 or from_user_id = $1", [tempId]);
+  }
   await pool.query("delete from ownership_transfers where to_user_id = $1 or from_user_id = $1", [tempId]);
   await pool.query("delete from audit_log where target_id = $1 and action like 'owner.%'", [tempId]);
   await pool.query("delete from users where id = $1", [tempId]);
