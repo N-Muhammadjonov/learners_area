@@ -238,3 +238,17 @@ last production build at 4ccd053 remains the build evidence, not a new build.
 Browser tabs from the previous run are no longer present. Lexical investigation
 has no implementation edits yet; Reading ClickableText ignores imported
 occurrences and searches only the personal library. That path remains open.
+
+## Lexical save transaction checkpoint — 2026-09-28
+
+Reproduced three concurrent saves creating three learner entries for one sense,
+and partial batch failure retaining the first item and points. The shared engine
+now serializes each learner's save transaction and commits lexical rows, personal
+rows, points and activity together. Existing sense IDs/keys retained; no migration.
+Existing-entry duplicate totals corrected. Real DB regressions passed, including
+source deletion preserving shared senses and other learners' entries. Full suite
+291/291 passed before the additional source-deletion test; that test then passed
+in the 3/3 targeted suite. Typecheck, lint and production build passed. Vocabulary
+HTTP acceptance on a freshly started local build: 103/103. No new browser result
+is claimed for this server-side checkpoint. Current lexical trace and unresolved
+issues are in LEXICAL-ARCHITECTURE.md. Final QA remains IN PROGRESS.

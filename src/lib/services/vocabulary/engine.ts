@@ -205,8 +205,8 @@ export async function awardPoints(input: {
   dedupeKey: string;
   refType?: string;
   refId?: string;
-}): Promise<boolean> {
-  const inserted = await db
+}, connection: Pick<typeof db, "insert"> = db): Promise<boolean> {
+  const inserted = await connection
     .insert(vocabPointEvents)
     .values({
       userId: input.userId,
@@ -249,144 +249,150 @@ export async function addVocabularyBatch(input: {
   | { ok: true; added: number; duplicates: number; ids: string[]; points: number }
   | { ok: false; error: "folder_not_found" }
 > {
-  // A folder id that belongs to somebody else must never be usable, so it is
-  // verified once, before anything is written — the same rule the move endpoint
-  // applies. Without this a caller could file their own word into another
-  // student's folder and distort that folder's word count.
-  if (input.folderId) {
-    const folder = await db.query.vocabFolders.findFirst({
-      where: and(
-        eq(vocabFolders.id, input.folderId),
-        eq(vocabFolders.userId, input.userId),
-      ),
-    });
-    if (!folder) return { ok: false as const, error: "folder_not_found" };
-  }
-
-  // The identity of a word is its spelling, its part of speech and its ENGLISH
-  // MEANING. Both the within-batch collapse and the "is it already in the
-  // library" check use this one key, so two senses of one spelling stay apart
-  // while the same sense pasted twice collapses — no matter how it was typed.
-  const { unique, duplicates } = dedupeBulk(
-    input.items.map((item) => ({ ...item, meaning: item.definitionEn })),
-  );
-  const ids: string[] = [];
-  let added = 0;
-  let points = 0;
-
-  // Existing sense keys in this library: dedup must consider what is already
-  // there, not only what arrived in this batch.
-  const existingRows = await db
-    .select({
-      id: userVocabulary.id,
-      senseKey: userVocabulary.senseKey,
-      lexemeId: userVocabulary.lexemeId,
-    })
-    .from(userVocabulary)
-    .where(eq(userVocabulary.userId, input.userId));
-  const existingSense = new Map(
-    existingRows.map((row) => [row.senseKey ?? "", row.id]),
-  );
-
-  for (const item of unique) {
-    const senseKey = senseKeyOf({
-      term: item.term,
-      partOfSpeech: item.partOfSpeech,
-      meaning: item.meaning ?? item.definitionEn,
-    });
-
-    const known = existingSense.get(senseKey);
-    if (known) {
-      ids.push(known);
-      continue;
+  return db.transaction(async (tx) => {
+    // Serialize saves for this learner before reading their existing senses.
+    // Canonical rows, personal entries, awards and activity commit together;
+    // a replay cannot read an empty library while another save is in flight.
+    await tx.select({ id: users.id }).from(users).where(eq(users.id, input.userId)).for("update");
+    // A folder id that belongs to somebody else must never be usable, so it is
+    // verified once, before anything is written — the same rule the move endpoint
+    // applies. Without this a caller could file their own word into another
+    // student's folder and distort that folder's word count.
+    if (input.folderId) {
+      const folder = await tx.query.vocabFolders.findFirst({
+        where: and(
+          eq(vocabFolders.id, input.folderId),
+          eq(vocabFolders.userId, input.userId),
+        ),
+      });
+      if (!folder) return { ok: false as const, error: "folder_not_found" };
     }
 
-    const normalizedTerm = item.term.trim().toLowerCase();
-    // One catalogue row per SENSE, not per spelling: the same word with a
-    // different meaning keeps its own definition, and two students who learn the
-    // same sense share one row.
-    let lexeme = await db.query.lexemes.findFirst({
-      where: eq(lexemes.senseKey, senseKey),
-    });
-    if (!lexeme) {
-      const [created] = await db
-        .insert(lexemes)
+    // The identity of a word is its spelling, its part of speech and its ENGLISH
+    // MEANING. Both the within-batch collapse and the "is it already in the
+    // library" check use this one key, so two senses of one spelling stay apart
+    // while the same sense pasted twice collapses — no matter how it was typed.
+    const { unique, duplicates } = dedupeBulk(
+      input.items.map((item) => ({ ...item, meaning: item.definitionEn })),
+    );
+    const ids: string[] = [];
+    let added = 0;
+    let points = 0;
+
+    // Existing sense keys in this library: dedup must consider what is already
+    // there, not only what arrived in this batch.
+    const existingRows = await tx
+      .select({
+        id: userVocabulary.id,
+        senseKey: userVocabulary.senseKey,
+        lexemeId: userVocabulary.lexemeId,
+      })
+      .from(userVocabulary)
+      .where(eq(userVocabulary.userId, input.userId));
+    const existingSense = new Map(
+      existingRows.map((row) => [row.senseKey ?? "", row.id]),
+    );
+
+    for (const item of unique) {
+      const senseKey = senseKeyOf({
+        term: item.term,
+        partOfSpeech: item.partOfSpeech,
+        meaning: item.meaning ?? item.definitionEn,
+      });
+
+      const known = existingSense.get(senseKey);
+      if (known) {
+        ids.push(known);
+        continue;
+      }
+
+      const normalizedTerm = item.term.trim().toLowerCase();
+      // One catalogue row per SENSE, not per spelling: the same word with a
+      // different meaning keeps its own definition, and two students who learn the
+      // same sense share one row.
+      let lexeme = await tx.query.lexemes.findFirst({
+        where: eq(lexemes.senseKey, senseKey),
+      });
+      if (!lexeme) {
+        const [created] = await tx
+          .insert(lexemes)
+          .values({
+            term: normalizedTerm,
+            partOfSpeech: item.partOfSpeech ?? null,
+            definitionEn: item.definitionEn,
+            translationUz: item.translationUz ?? null,
+            exampleSentence: item.exampleSentence ?? null,
+            collocations: item.collocations ?? null,
+            acceptedTranslations: (item.acceptedTranslations ?? [])
+              .map((entry) => entry.trim())
+              .filter(Boolean)
+              .slice(0, 4),
+            senseKey,
+          })
+          .onConflictDoNothing({ target: lexemes.senseKey })
+          .returning();
+        lexeme =
+          created ??
+          (await tx.query.lexemes.findFirst({ where: eq(lexemes.senseKey, senseKey) }));
+      }
+      if (!lexeme) continue;
+
+      const [entry] = await tx
+        .insert(userVocabulary)
         .values({
-          term: normalizedTerm,
-          partOfSpeech: item.partOfSpeech ?? null,
-          definitionEn: item.definitionEn,
-          translationUz: item.translationUz ?? null,
-          exampleSentence: item.exampleSentence ?? null,
-          collocations: item.collocations ?? null,
-          acceptedTranslations: (item.acceptedTranslations ?? [])
-            .map((entry) => entry.trim())
-            .filter(Boolean)
-            .slice(0, 4),
+          userId: input.userId,
+          lexemeId: lexeme.id,
           senseKey,
+          folderId: input.folderId ?? null,
+          topicPack: input.topicPack ?? null,
+          sourceType: input.sourceType ?? "manual",
+          sourceId: input.sourceId ?? null,
+          srsStage: NEW_STAGE,
+          mastery: "new",
+          nextReviewAt: new Date(),
         })
-        .onConflictDoNothing({ target: lexemes.senseKey })
         .returning();
-      lexeme =
-        created ??
-        (await db.query.lexemes.findFirst({ where: eq(lexemes.senseKey, senseKey) }));
-    }
-    if (!lexeme) continue;
 
-    const [entry] = await db
-      .insert(userVocabulary)
-      .values({
-        userId: input.userId,
-        lexemeId: lexeme.id,
-        senseKey,
-        folderId: input.folderId ?? null,
-        topicPack: input.topicPack ?? null,
+      if (!entry) continue;
+      ids.push(entry.id);
+      existingSense.set(senseKey, entry.id);
+      added += 1;
+
+      if (
+        await awardPoints({
+          userId: input.userId,
+          kind: "new_word",
+          dedupeKey: dedupeKeys.newWord(input.userId, entry.id),
+          refType: "user_vocabulary",
+          refId: entry.id,
+        }, tx)
+      ) {
+        points += VOCAB_POINTS.newWord;
+      }
+    }
+
+    if (added > 0) await tx.update(users).set({
+      lastMeaningfulActivityAt: sql`greatest(${users.lastMeaningfulActivityAt}, ${new Date()})`,
+    }).where(eq(users.id, input.userId));
+    await tx.insert(activityEvents).values({
+      userId: input.userId,
+      type: "VOCABULARY_ADDED",
+      payload: {
+        added,
+        duplicates: duplicates.length,
         sourceType: input.sourceType ?? "manual",
-        sourceId: input.sourceId ?? null,
-        srsStage: NEW_STAGE,
-        mastery: "new",
-        nextReviewAt: new Date(),
-      })
-      .returning();
+        topicPack: input.topicPack ?? null,
+      },
+    });
 
-    if (!entry) continue;
-    ids.push(entry.id);
-    existingSense.set(senseKey, entry.id);
-    added += 1;
-
-    if (
-      await awardPoints({
-        userId: input.userId,
-        kind: "new_word",
-        dedupeKey: dedupeKeys.newWord(input.userId, entry.id),
-        refType: "user_vocabulary",
-        refId: entry.id,
-      })
-    ) {
-      points += VOCAB_POINTS.newWord;
-    }
-  }
-
-  if (added > 0) await touchMeaningfulActivity(input.userId);
-  await db.insert(activityEvents).values({
-    userId: input.userId,
-    type: "VOCABULARY_ADDED",
-    payload: {
+    return {
+      ok: true as const,
       added,
-      duplicates: duplicates.length,
-      sourceType: input.sourceType ?? "manual",
-      topicPack: input.topicPack ?? null,
-    },
+      duplicates: input.items.length - added,
+      ids,
+      points,
+    };
   });
-
-  return {
-    ok: true as const,
-    added,
-    duplicates:
-      duplicates.length +
-      (input.items.length - unique.length - duplicates.length),
-    ids,
-    points,
-  };
 }
 
 /** Add a whole topic pack in one action. */
