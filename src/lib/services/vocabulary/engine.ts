@@ -1,4 +1,5 @@
 import "server-only";
+import { touchMeaningfulActivity } from "@/lib/services/activity";
 import { and, asc, desc, eq, gte, inArray, lte, or, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import {
@@ -365,6 +366,7 @@ export async function addVocabularyBatch(input: {
     }
   }
 
+  if (added > 0) await touchMeaningfulActivity(input.userId);
   await db.insert(activityEvents).values({
     userId: input.userId,
     type: "VOCABULARY_ADDED",
@@ -476,6 +478,7 @@ export async function applyScheduledReview(input: {
     })
     .where(eq(userVocabulary.id, entry.id));
 
+  await touchMeaningfulActivity(input.userId);
   await db.insert(activityEvents).values({
     userId: input.userId,
     type: "VOCAB_REVIEWED",
@@ -629,6 +632,13 @@ export async function recordGameAnswer(input: {
     correct = input.submission.known;
   }
 
+  // Practice counts as activity, including an incorrect answer; never as SRS.
+  await db.insert(activityEvents).values({
+    userId: input.userId,
+    type: "VOCAB_GAME_PRACTICED",
+    payload: { entryId: entry.id, kind: input.submission.kind, correct, verified },
+  });
+  await touchMeaningfulActivity(input.userId);
   const awarded =
     verified && correct && input.eligible
       ? await awardPoints({

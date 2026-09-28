@@ -1,6 +1,6 @@
 import "server-only";
 import { and, eq, inArray, isNotNull, lt, or, sql } from "drizzle-orm";
-import { db } from "@/db/client";
+import { db as database } from "@/db/client";
 import {
   accessRequests,
   activityEvents,
@@ -11,10 +11,12 @@ import {
   readingAttempts,
   speakingAttempts,
   users,
+  uploadIntents,
   writingSubmissions,
 } from "@/db/schema";
 import { recordAudit } from "@/lib/data/audit";
 import { cleanupAbandonedUploads } from "@/lib/data/uploads";
+import { hasRecentLearningActivity } from "@/lib/services/activity";
 import { getStorageService } from "@/lib/services/storage";
 
 /**
@@ -30,8 +32,8 @@ import { getStorageService } from "@/lib/services/storage";
  *
  * The windows (all configurable):
  *
- *   raw events / read notifications ...... RETENTION_RAW_EVENT_MONTHS   (2)
- *   structured evaluations + old work .... RETENTION_STRUCTURED_MONTHS  (18)
+ *   read notifications ................... RETENTION_RAW_EVENT_MONTHS   (2)
+ *   learning history + evaluations + work RETENTION_STRUCTURED_MONTHS  (18)
  *   speaking recordings (object store) ... RETENTION_STRUCTURED_MONTHS  (18)
  *   audit trail .......................... RETENTION_AUDIT_MONTHS       (18)
  *   generated exports .................... RETENTION_EXPORT_DAYS        (7)
@@ -41,8 +43,8 @@ import { getStorageService } from "@/lib/services/storage";
  * Rules this service deliberately does NOT follow blindly:
  *
  *  - A student account is only anonymised after genuine inactivity, and
- *    inactivity is measured on `last_meaningful_activity_at` — the last time the
- *    student actually produced work (see services/activity.ts). Signing in daily
+ *    inactivity checks `last_meaningful_activity_at` AND persisted learner
+ *    work (see services/activity.ts). Signing in daily
  *    to look at the dashboard is not studying. An account with no recorded work
  *    falls back to its registration date rather than to a guess.
  *  - Teacher, admin and owner accounts are outside the student inactivity rule
@@ -111,15 +113,21 @@ export type RetentionRuleResult = {
   note?: string;
 };
 
-function monthsAgo(months: number, now: Date): Date {
+export function monthsAgo(months: number, now: Date): Date {
+  // UTC calendar months, clamped to the last day of the target month. setMonth
+  // alone overflows February into March and can expire accounts too early.
   const date = new Date(now);
-  date.setMonth(date.getMonth() - months);
+  const day = date.getUTCDate();
+  date.setUTCDate(1);
+  date.setUTCMonth(date.getUTCMonth() - months);
+  const lastDay = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1, 0)).getUTCDate();
+  date.setUTCDate(Math.min(day, lastDay));
   return date;
 }
 
 function daysAgo(days: number, now: Date): Date {
   const date = new Date(now);
-  date.setDate(date.getDate() - days);
+  date.setUTCDate(date.getUTCDate() - days);
   return date;
 }
 
@@ -157,11 +165,18 @@ async function deleteBatched(options: {
 
 const RETENTION_LOCK_KEY = "learners_area.retention";
 
-export async function runRetention(options?: {
-  dryRun?: boolean;
-  now?: Date;
-  actorUserId?: string | null;
-}): Promise<{
+type RetentionOptions = { dryRun?: boolean; now?: Date; actorUserId?: string | null };
+type RetentionDatabase = Pick<typeof database, "select" | "insert" | "update" | "delete" | "execute">;
+
+export async function runRetention(options?: RetentionOptions) {
+  if (options?.dryRun !== false) return runRetentionOn(options, database);
+  // One transaction owns both the lock and the writes. A pooled db.execute
+  // session lock could be acquired/unlocked on different backend connections.
+  // Transaction-scoped advisory locks also work through transaction poolers.
+  return database.transaction((tx) => runRetentionOn(options, tx));
+}
+
+async function runRetentionOn(options: RetentionOptions | undefined, db: RetentionDatabase): Promise<{
   config: RetentionConfig;
   dryRun: boolean;
   locked: boolean;
@@ -178,7 +193,7 @@ export async function runRetention(options?: {
   let locked = true;
   if (!dryRun) {
     const lockedRows = await db.execute<{ got: boolean }>(
-      sql`select pg_try_advisory_lock(hashtext(${RETENTION_LOCK_KEY})) as got`
+      sql`select pg_try_advisory_xact_lock(hashtext(${RETENTION_LOCK_KEY})) as got`
     );
     locked = Boolean(lockedRows.rows[0]?.got);
     if (!locked) {
@@ -191,19 +206,20 @@ export async function runRetention(options?: {
     }
   }
 
-  try {
-    // 1. Raw operational events (per-request traces, not academic results).
+    // 1. These rows are learning history (vocabulary reviews, evaluated work),
+    // not raw RIWI messages. The latter has no persisted table in this phase.
     const rawCutoff = monthsAgo(config.rawEventMonths, now);
-    const rawEvents = await deleteBatched({
+    const structuredCutoff = monthsAgo(config.structuredResultMonths, now);
+    const learningHistory = await deleteBatched({
       dryRun,
       batchSize: config.batchSize,
       selectIds: (limit) =>
-        db.select({ id: activityEvents.id }).from(activityEvents).where(lt(activityEvents.createdAt, rawCutoff)).limit(limit),
+        db.select({ id: activityEvents.id }).from(activityEvents).where(lt(activityEvents.createdAt, structuredCutoff)).limit(limit),
       deleteIds: async (ids) => {
         await db.delete(activityEvents).where(inArray(activityEvents.id, ids));
       },
     });
-    results.push({ rule: "raw_events", affected: rawEvents, applied: !dryRun });
+    results.push({ rule: "learning_history", affected: learningHistory, applied: !dryRun });
 
     // 2. Read notifications older than the raw-event window. Unread ones stay:
     //    a student may not have seen the message yet.
@@ -235,7 +251,7 @@ export async function runRetention(options?: {
         note: "counted for the preview; the upload module performs the sweep",
       });
     } else {
-      const swept = await cleanupAbandonedUploads();
+      const swept = await cleanupAbandonedUploads(db);
       results.push({
         rule: "abandoned_uploads",
         affected: swept.removedIntents,
@@ -246,7 +262,6 @@ export async function runRetention(options?: {
 
     // 4. Structured evaluations past their window. A deleted raw event never
     //    takes an evaluation with it; this is the evaluation's own window.
-    const structuredCutoff = monthsAgo(config.structuredResultMonths, now);
     const staleEvaluations = await deleteBatched({
       dryRun,
       batchSize: config.batchSize,
@@ -262,11 +277,12 @@ export async function runRetention(options?: {
     //    The attempt row and its transcript stay — they are the academic record,
     //    and the transcript is already text. The object is removed only when it
     //    still belongs to this attempt (reference check), never blind-guessed.
-    const recordings = await db
+    const recordingsQuery = db
       .select({ id: speakingAttempts.id, objectKey: speakingAttempts.recordingObjectKey })
       .from(speakingAttempts)
-      .where(and(lt(speakingAttempts.createdAt, structuredCutoff), isNotNull(speakingAttempts.recordingObjectKey)))
+      .where(and(sql`greatest(${speakingAttempts.createdAt}, ${speakingAttempts.submittedAt}) < ${structuredCutoff}`, isNotNull(speakingAttempts.recordingObjectKey)))
       .limit(config.batchSize);
+    const recordings = await (dryRun ? recordingsQuery : recordingsQuery.for("update", { skipLocked: true }));
 
     let objectsRemoved = 0;
     if (!dryRun && recordings.length > 0) {
@@ -274,15 +290,32 @@ export async function runRetention(options?: {
       for (const attempt of recordings) {
         if (!attempt.objectKey) continue;
         const stillReferenced = await db.execute<{ count: number }>(
-          sql`select count(*)::int as count from upload_intents where object_key = ${attempt.objectKey} and status = 'attached'`
+          sql`select count(*)::int as count from (
+            select id from upload_intents where object_key = ${attempt.objectKey} and status = 'attached'
+              and (purpose <> 'speaking_recording' or speaking_attempt_id is distinct from ${attempt.id}::uuid)
+            union all select id from speaking_attempts where recording_object_key = ${attempt.objectKey} and id <> ${attempt.id}::uuid
+            union all select id from speaking_materials where primary_object_key = ${attempt.objectKey}
+            union all select id from material_blocks where object_key = ${attempt.objectKey}
+            union all select id from resource_blocks where object_key = ${attempt.objectKey}
+          ) refs`
         );
         // A key still attached to a live resource is not this rule's to delete.
         if (Number(stillReferenced.rows[0]?.count ?? 0) > 0) continue;
-        await storage.delete(attempt.objectKey).catch((error) => {
-          console.warn(`retention: could not delete recording ${attempt.objectKey}:`, error);
-        });
+        try {
+          await storage.delete(attempt.objectKey);
+        } catch {
+          console.warn("retention: recording deletion failed; reference retained for retry");
+          continue;
+        }
         objectsRemoved += 1;
-        await db.update(speakingAttempts).set({ recordingObjectKey: null }).where(eq(speakingAttempts.id, attempt.id));
+        await db.update(speakingAttempts).set({ recordingObjectKey: null }).where(
+          and(eq(speakingAttempts.id, attempt.id), eq(speakingAttempts.recordingObjectKey, attempt.objectKey))
+        );
+        await db.delete(uploadIntents).where(and(
+          eq(uploadIntents.objectKey, attempt.objectKey),
+          eq(uploadIntents.purpose, "speaking_recording"),
+          eq(uploadIntents.speakingAttemptId, attempt.id),
+        ));
       }
     }
     results.push({
@@ -302,15 +335,15 @@ export async function runRetention(options?: {
     //    touch rows a student produced. Course and business content has no entry
     //    here and the tests pin that.
     const OLD_WORK: { table: string; column: string; protects: string[]; label: string }[] = [
-      { table: "writing_submissions", column: "created_at", protects: ["writing_submission"], label: "writing" },
-      { table: "reading_attempts", column: "started_at", protects: ["reading_attempt"], label: "reading" },
-      { table: "listening_attempts", column: "started_at", protects: ["listening_attempt"], label: "listening" },
+      { table: "writing_submissions", column: "greatest(t.created_at, t.updated_at, t.submitted_at)", protects: ["writing_submission"], label: "writing" },
+      { table: "reading_attempts", column: "greatest(t.started_at, t.submitted_at)", protects: ["reading_attempt"], label: "reading" },
+      { table: "listening_attempts", column: "greatest(t.started_at, t.submitted_at)", protects: ["listening_attempt"], label: "listening" },
       { table: "grammar_attempts", column: "attempted_at", protects: ["grammar_attempt"], label: "grammar" },
       { table: "vocabulary_usages", column: "created_at", protects: ["vocabulary_usage"], label: "vocabulary" },
-      { table: "assignment_responses", column: "created_at", protects: ["assignment"], label: "assignments" },
+      { table: "assignment_responses", column: "greatest(t.created_at, t.updated_at)", protects: ["assignment"], label: "assignments" },
       { table: "typing_runs", column: "created_at", protects: [], label: "typing" },
-      { table: "mock_attempts", column: "started_at", protects: ["mock_attempt"], label: "mocks" },
-      { table: "speaking_attempts", column: "created_at", protects: ["speaking_attempt"], label: "speaking" },
+      { table: "mock_attempts", column: "greatest(t.started_at, t.finished_at)", protects: ["mock_attempt"], label: "mocks" },
+      { table: "speaking_attempts", column: "greatest(t.created_at, t.submitted_at)", protects: ["speaking_attempt"], label: "speaking" },
     ];
 
     let oldWorkTotal = 0;
@@ -323,12 +356,15 @@ export async function runRetention(options?: {
               sql`, `
             )}) and e.source_id = t.id)`
           : sql``;
+      // Never lose the last retryable object reference if deletion failed or
+      // this run only processed the first recording batch.
+      const recordingProtection = entry.table === "speaking_attempts" ? sql`and t.recording_object_key is null` : sql``;
       const count = await deleteBatched({
         dryRun,
         batchSize: config.batchSize,
         selectIds: async (limit) => {
           const rows = await db.execute<{ id: string }>(
-            sql`select t.id from ${sql.raw(entry.table)} t where ${sql.raw(entry.column)} < ${structuredCutoff} ${protect} limit ${limit}`
+            sql`select t.id from ${sql.raw(entry.table)} t where ${sql.raw(entry.column)} < ${structuredCutoff} ${protect} ${recordingProtection} limit ${limit}`
           );
           return rows.rows;
         },
@@ -337,7 +373,7 @@ export async function runRetention(options?: {
           // a Postgres array literal, which is a needless dependency on how the
           // driver serialises it.
           await db.execute(
-            sql`delete from ${sql.raw(entry.table)} where id in (${sql.join(
+            sql`delete from ${sql.raw(entry.table)} t where ${sql.raw(entry.column)} < ${structuredCutoff} ${protect} ${recordingProtection} and t.id in (${sql.join(
               ids.map((id) => sql`${id}::uuid`),
               sql`, `
             )})`
@@ -424,21 +460,24 @@ export async function runRetention(options?: {
     //    record. Staff accounts are excluded by role; the activity measure is
     //    real work, not sign-ins.
     const inactivityCutoff = monthsAgo(config.inactiveStudentMonths, now);
+    const inactivityRule = and(
+      eq(users.role, "student"),
+      or(lt(users.lastMeaningfulActivityAt, inactivityCutoff), and(sql`${users.lastMeaningfulActivityAt} is null`, lt(users.createdAt, inactivityCutoff)))!,
+      inArray(users.accountStatus, ["active", "pending", "rejected"]),
+      sql`not ${hasRecentLearningActivity(sql`${users.id}`, inactivityCutoff)}`
+    );
     const dormant = await db
       .select({ id: users.id })
       .from(users)
       .where(
-        and(
-          eq(users.role, "student"),
-          or(lt(users.lastMeaningfulActivityAt, inactivityCutoff), and(sql`${users.lastMeaningfulActivityAt} is null`, lt(users.createdAt, inactivityCutoff)))!,
-          inArray(users.accountStatus, ["active", "pending", "rejected"])
-        )
+        inactivityRule
       )
       .limit(config.batchSize);
 
+    let anonymised = 0;
     if (!dryRun && dormant.length > 0) {
       for (const row of chunk(dormant, 100)) {
-        await db
+        const changed = await db
           .update(users)
           .set({
             name: "Former student",
@@ -453,18 +492,16 @@ export async function runRetention(options?: {
             statusUpdatedAt: now,
           })
           .where(
-            inArray(
-              users.id,
-              row.map((entry) => entry.id)
-            )
-          );
+            and(inactivityRule, inArray(users.id, row.map((entry) => entry.id)))
+          ).returning({ id: users.id });
+        anonymised += changed.length;
       }
     }
     results.push({
       rule: "inactive_student_accounts",
-      affected: dormant.length,
+      affected: dryRun ? dormant.length : anonymised,
       applied: !dryRun,
-      note: "measured on last meaningful activity (real work), falling back to registration; personal fields are scrubbed, structured work stays until its own window closes",
+      note: "measured on meaningful activity and persisted learner work, falling back to registration; personal fields are scrubbed, structured work stays until its own window closes",
     });
 
     if (!dryRun) {
@@ -472,13 +509,9 @@ export async function runRetention(options?: {
         actorUserId: options?.actorUserId ?? null,
         action: "retention.cleanup",
         metadata: { rules: results.map((result) => ({ rule: result.rule, affected: result.affected })) },
-      });
+      }, db);
     }
 
     return { config, dryRun, locked, results };
-  } finally {
-    if (!dryRun) {
-      await db.execute(sql`select pg_advisory_unlock(hashtext(${RETENTION_LOCK_KEY}))`);
-    }
-  }
+  // PostgreSQL releases the transaction lock on commit AND rollback.
 }

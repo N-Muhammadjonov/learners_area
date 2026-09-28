@@ -1,4 +1,4 @@
-import { and, eq, inArray, lt, or } from "drizzle-orm";
+import { and, eq, gt, inArray, lt, or } from "drizzle-orm";
 import { db } from "@/db/client";
 import {
   materialBlocks,
@@ -226,10 +226,12 @@ export async function finalizeUploadIntent(userId: string, uploadId: string): Pr
     return { ok: false, status: 409, error: "upload_size_mismatch" };
   }
 
-  await db
+  const finalized = await db
     .update(uploadIntents)
     .set({ status: "finalized", finalizedAt: new Date(), error: null })
-    .where(eq(uploadIntents.id, intent.id));
+    .where(and(eq(uploadIntents.id, intent.id), eq(uploadIntents.status, "pending"), gt(uploadIntents.expiresAt, new Date())))
+    .returning({ id: uploadIntents.id });
+  if (!finalized.length) return { ok: false, status: 409, error: "upload_not_active" };
 
   return {
     ok: true,
@@ -251,7 +253,10 @@ export async function abortUploadIntent(userId: string, uploadId: string): Promi
   if (!intent || intent.userId !== userId) return { ok: false };
   if (intent.status === "attached") return { ok: false }; // still referenced by content
 
-  await db.update(uploadIntents).set({ status: "aborted" }).where(eq(uploadIntents.id, intent.id));
+  const aborted = await db.update(uploadIntents).set({ status: "aborted" }).where(
+    and(eq(uploadIntents.id, intent.id), inArray(uploadIntents.status, ["pending", "finalized", "aborted"]))
+  ).returning({ id: uploadIntents.id });
+  if (!aborted.length) return { ok: false };
 
   const storage = getStorageService();
   await storage.delete(intent.objectKey).catch((err) => {
@@ -314,10 +319,12 @@ export async function claimAttachment(
       return { ok: false, error: "upload_not_finalized" };
     }
 
-    await db
+    const claimed = await db
       .update(uploadIntents)
       .set({ status: "attached", usedAt: new Date() })
-      .where(eq(uploadIntents.id, intent.id));
+      .where(and(eq(uploadIntents.id, intent.id), eq(uploadIntents.status, "finalized")))
+      .returning({ id: uploadIntents.id });
+    if (!claimed.length) return { ok: false, error: "upload_not_finalized" };
 
     return {
       ok: true,
@@ -404,7 +411,7 @@ export async function attachRecordingToAttempt(input: {
 /**
  * Compensating action for a failed resource write: returns claimed intents to
  * `finalized` so the objects are not stranded as "attached" to nothing. They
- * then fall to abandoned-upload cleanup like any other unfinalized intent.
+ * remain retryable. Finalized orphan reconciliation is a separate open audit item.
  */
 export async function releaseAttachments(uploadIds: string[]): Promise<void> {
   const ids = uploadIds.filter(Boolean);
@@ -418,42 +425,40 @@ export async function releaseAttachments(uploadIds: string[]): Promise<void> {
 /**
  * Abandoned-upload cleanup. Anything still `pending` past its expiry is an
  * orphan — the browser went away mid-upload, or the tab was closed — so its
- * object is deleted and the row is closed out. Also sweeps `pending/` objects
- * whose intent row is gone entirely (crash between PUT and insert is not
- * possible in this codebase, but a deleted user cascades their intents away
- * while the object would otherwise survive).
+ * object is deleted and the row is closed out only after storage succeeds.
+ * This bounded sweep covers pending/aborted intents. It does not list storage
+ * to find objects without intents, or remove finalized/attached intents.
  *
  * Returns how many objects it removed, so a caller can log/verify it.
  */
-export async function cleanupAbandonedUploads(): Promise<{ removedIntents: number; removedObjects: number }> {
+export async function cleanupAbandonedUploads(connection: Pick<typeof db, "select" | "update" | "delete"> = db): Promise<{ removedIntents: number; removedObjects: number }> {
   const now = new Date();
-  const stale = await db
-    .select()
-    .from(uploadIntents)
-    .where(
-      and(
-        or(eq(uploadIntents.status, "pending"), eq(uploadIntents.status, "aborted")),
-        lt(uploadIntents.expiresAt, now)
-      )
-    );
-
+  const stale = await connection.select().from(uploadIntents).where(and(
+    inArray(uploadIntents.status, ["pending", "aborted"]), lt(uploadIntents.expiresAt, now)
+  )).orderBy(uploadIntents.expiresAt).limit(500);
   const storage = getStorageService();
   let removedObjects = 0;
-
+  let removedIntents = 0;
   for (const intent of stale) {
-    await storage.delete(intent.objectKey).catch((err) => {
-      console.warn(`cleanupAbandonedUploads: could not delete ${intent.objectKey}:`, err);
-    });
-    removedObjects += 1;
+    // Competes atomically with finalization/claim. No stale read can delete an
+    // object after its intent has become finalized/attached.
+    const claimed = await connection.update(uploadIntents).set({ status: "aborted" }).where(and(
+      eq(uploadIntents.id, intent.id), inArray(uploadIntents.status, ["pending", "aborted"]), lt(uploadIntents.expiresAt, now)
+    )).returning({ id: uploadIntents.id });
+    if (!claimed.length) continue;
+    try {
+      await storage.delete(intent.objectKey);
+    } catch {
+      console.warn("upload cleanup: object deletion failed; intent retained for retry");
+      continue;
+    }
+    removedObjects++;
+    const removed = await connection.delete(uploadIntents).where(and(
+      eq(uploadIntents.id, intent.id), eq(uploadIntents.status, "aborted")
+    )).returning({ id: uploadIntents.id });
+    removedIntents += removed.length;
   }
-
-  if (stale.length > 0) {
-    await db
-      .delete(uploadIntents)
-      .where(inArray(uploadIntents.id, stale.map((i) => i.id)));
-  }
-
-  return { removedIntents: stale.length, removedObjects };
+  return { removedIntents, removedObjects };
 }
 
 // ---------------------------------------------------------------------------

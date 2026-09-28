@@ -151,3 +151,28 @@ Production build, typecheck and lint passed on the current working tree.
 including two new real retention/lock/object-failure tests. Retention source
 changes are a separate unfinished checkpoint; those results do not mean the
 entire data-lifecycle audit is complete. No migration or production action taken.
+
+## 2026-09-28 activity/retention continuation
+
+Recovered branch work/final-qa2-hardening at 9a8210a; GitHub still reports that
+Work HEAD and Arena ad21acc. Preserved all seven unfinished retention files;
+no reset, clean, stash or patch replay. Latest attached continuation request read.
+
+Reproduced active Vocabulary learner being anonymised when its summary activity
+clock was null. Fixed destructive eligibility to consult real stored work, updated
+Vocabulary/Listening clocks, persisted game practice separately from SRS, protected
+recent submissions with old start dates, and preserved storage failure retries.
+See RETENTION-AUDIT.md for precise coverage and remaining risks.
+
+286 tests passed (0 failures/0 skipped), typecheck/lint/build passed. New actual
+HTTP activity suite: 13/13. Real browser Listening submission displayed 0/3;
+DB confirmed three answers, completed status and activity clock updated. Browser
+console had no warnings/errors. A tool click timeout was resolved by observing
+the successful result, not by submitting again.
+
+Production: Reading/Vocabulary/Listening navigation rendered, but exact in-page
+T0/T1/T2 measurements are still unavailable and deployed SHA is null. Existing
+production Reading still displays 0-question cards. No promotion/migration/
+production cleanup performed. FINAL QA 2 remains IN PROGRESS. Remaining master
+product matrix, full lexical/data governance audit and production performance
+acceptance are not complete.

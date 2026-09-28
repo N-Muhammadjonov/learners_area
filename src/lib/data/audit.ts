@@ -34,8 +34,8 @@ export async function recordAudit(input: {
   targetType?: string;
   targetId?: string;
   metadata?: Record<string, unknown>;
-}): Promise<void> {
-  await db.insert(auditLog).values({
+}, connection: Pick<typeof db, "insert"> = db): Promise<void> {
+  await connection.insert(auditLog).values({
     actorUserId: input.actorUserId,
     action: input.action,
     targetType: input.targetType ?? null,

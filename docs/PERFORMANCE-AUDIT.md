@@ -165,3 +165,25 @@ Close and Escape restored the control. Broader per-module responsive QA remains.
 Production network/DB/browser performance: **EXTERNALLY UNVERIFIED** for this
 Work build. It has not been promoted. This local causal fix does not by itself
 close the user's production-performance complaint or FINAL QA 2.
+
+## Production follow-up — 2026-09-28
+
+An existing authenticated production QA session opened Reading, Vocabulary and
+Listening through actual navigation links. All three rendered and the captured
+warning/error console list was empty. Reading showed 104 passages and zero
+question counts on the visible cards: the already-fixed local count defect is
+still observable there. `/api/version` returned commit=null, region=sin1,
+environment=production; the deployed source revision cannot be confirmed.
+
+Automation command-to-visible-heading elapsed times were Reading 1142 ms,
+Vocabulary 1051 ms, Listening 943 ms (one sample each). These include automation
+transport/locator overhead. They are **not** precise click-to-paint or INP values,
+are not comparable to the local in-page diagnostic, and do not prove a production
+speed improvement. `click_to_loading_ms`, `loading_to_content_ms` and precise
+`total_interaction_ms` remain unmeasured. No production diagnostic was injected,
+no private data was exported, and no deployment was promoted.
+
+An earlier visible-tab attempt had coordinate/viewport mismatch and was excluded;
+a separate background tab produced correct link destinations. Production release
+performance acceptance remains **EXTERNALLY UNVERIFIED** pending an identifiable
+deployment and a permitted browser timing trace. This does not block local fixes.

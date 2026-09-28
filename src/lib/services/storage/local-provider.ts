@@ -98,9 +98,9 @@ export class LocalDiskStorageProvider implements StorageService {
     try {
       await unlink(filePath);
     } catch (err) {
-      // Already gone is fine; anything else is worth knowing about but must
-      // not block the caller (e.g. deleting a DB row) from finishing.
-      console.warn(`LocalDiskStorageProvider.delete: could not remove ${key}:`, err);
+      // Only an already absent object is success. Callers must retain their
+      // retryable DB reference on permission, disk or filesystem errors.
+      if ((err as NodeJS.ErrnoException).code !== "ENOENT") throw err;
     }
   }
 }

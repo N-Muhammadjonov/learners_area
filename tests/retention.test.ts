@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import path from "node:path";
-import { chunk } from "../src/lib/services/retention";
+import { chunk, monthsAgo } from "../src/lib/services/retention";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const retentionSource = readFileSync(path.join(ROOT, "src/lib/services/retention.ts"), "utf8");
@@ -18,8 +18,9 @@ test("batching never loads a table in one go", () => {
 });
 
 test("the retention lock is taken per run, and released afterwards", () => {
-  assert.match(retentionSource, /pg_try_advisory_lock/, "a run must take a lock");
-  assert.match(retentionSource, /pg_advisory_unlock/, "the lock must be released");
+  assert.match(retentionSource, /pg_try_advisory_xact_lock/, "the lock must be transaction-scoped through poolers");
+  assert.match(retentionSource, /database.transaction/, "lock and writes must use one transaction");
+  assert.doesNotMatch(retentionSource, /pg_advisory_unlock/, "never unlock a session on an arbitrary pooled connection");
   assert.match(retentionSource, /another retention run holds the lock/, "a blocked run must say so");
 });
 
@@ -104,4 +105,13 @@ test("a scheduler is not assumed: the run is a plain function", () => {
   assert.match(retentionSource, /export async function runRetention/, "callable from cron, a job or a request");
   const code = retentionSource.replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "");
   assert.ok(!/setInterval|node-cron|cron\.schedule/.test(code), "no scheduler is embedded in the service");
+});
+
+test("calendar retention cutoffs clamp month ends and preserve UTC time", () => {
+  assert.equal(monthsAgo(6, new Date("2026-08-31T23:30:12.123Z")).toISOString(), "2026-02-28T23:30:12.123Z");
+  assert.equal(monthsAgo(6, new Date("2024-08-31T23:30:12.123Z")).toISOString(), "2024-02-29T23:30:12.123Z");
+  assert.equal(monthsAgo(18, new Date("2026-09-28T08:00:00Z")).toISOString(), "2025-03-28T08:00:00.000Z");
+  const original = new Date("2026-03-31T00:01:00Z");
+  monthsAgo(1, original);
+  assert.equal(original.toISOString(), "2026-03-31T00:01:00.000Z");
 });

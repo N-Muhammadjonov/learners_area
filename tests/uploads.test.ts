@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import path from "node:path";
-import { mkdtemp, rm } from "node:fs/promises";
+import { mkdtemp, mkdir, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import {
   UPLOAD_RULES,
@@ -14,6 +14,7 @@ import {
 import { buildObjectKey } from "../src/lib/uploads/keys";
 import {
   LocalDiskStorageProvider,
+  LOCAL_UPLOAD_ROOT,
   inferContentType,
 } from "../src/lib/services/storage/local-provider";
 import { isSafeObjectKey } from "../src/lib/services/storage/types";
@@ -263,4 +264,19 @@ test("inferContentType maps the documented extensions", () => {
   assert.equal(inferContentType("a/b/c.mp3"), "audio/mpeg");
   assert.equal(inferContentType("a/b/c.pdf"), "application/pdf");
   assert.equal(inferContentType("a/b/c.unknown"), "application/octet-stream");
+});
+
+test("local deletion is idempotent for missing files but propagates filesystem failure", async () => {
+  const root = await mkdtemp(path.join(tmpdir(), "qa2-storage-"));
+  const key = `qa2-delete-${path.basename(root)}`;
+  const directory = path.join(LOCAL_UPLOAD_ROOT, key);
+  await mkdir(directory, { recursive: true });
+  const storage = new LocalDiskStorageProvider();
+  try {
+    await assert.rejects(storage.delete(key), "a directory must not be reported as a deleted object");
+    await storage.delete(`${key}/missing.webm`);
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+    await rm(root, { recursive: true, force: true });
+  }
 });

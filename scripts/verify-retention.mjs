@@ -166,8 +166,8 @@ try {
   });
 
   await check("preview oynadan oshgan qatorlarni ko'rsatadi", async () => {
-    assert.ok(byRule.raw_events, "raw_events qoidasi yo'q");
-    assert.ok(byRule.raw_events.affected >= 1, `raw_events=${byRule.raw_events.affected}`);
+    assert.ok(byRule.learning_history, "learning_history qoidasi yo'q");
+    assert.ok(byRule.learning_history.affected >= 1, `learning_history=${byRule.learning_history.affected}`);
     assert.ok(byRule.audit_history.affected >= 1);
     assert.ok(byRule.inactive_student_accounts.affected >= 1);
     assert.ok(byRule.applicant_free_text, "applicant_free_text qoidasi yo'q");
@@ -248,7 +248,7 @@ try {
   await check("ikkinchi run hech narsani o'chirmaydi (idempotent)", async () => {
     const second = await run(false);
     const secondByRule = Object.fromEntries(second.results.map((r) => [r.rule, r]));
-    assert.equal(secondByRule.raw_events.affected, 0, `ikkinchi run raw_events=${secondByRule.raw_events.affected}`);
+    assert.equal(secondByRule.learning_history.affected, 0, `ikkinchi run learning_history=${secondByRule.learning_history.affected}`);
     assert.equal(secondByRule.audit_history.affected, 0);
     assert.equal(secondByRule.inactive_student_accounts.affected, 0);
     assert.equal(secondByRule.evaluated_work_past_window.affected, 0);

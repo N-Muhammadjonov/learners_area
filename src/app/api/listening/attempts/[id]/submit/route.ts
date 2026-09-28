@@ -1,3 +1,4 @@
+import { touchMeaningfulActivity } from "@/lib/services/activity";
 import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
@@ -55,5 +56,6 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     });
   });
 
+  await touchMeaningfulActivity(user.id);
   return NextResponse.json({ ok: true, score, totalQuestions: questions.length });
 }
