@@ -3,8 +3,8 @@ import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import { and, eq, inArray, sql } from "drizzle-orm";
 import { db } from "../src/db/client";
-import { lexemes, lexicalOccurrences, readingPassages, users, userVocabulary, vocabPointEvents } from "../src/db/schema";
-import { addVocabularyBatch } from "../src/lib/services/vocabulary/engine";
+import { lexemes, lexicalOccurrences, readingPassages, users, userVocabulary, vocabPointEvents, vocabFolders } from "../src/db/schema";
+import { addVocabularyBatch, listFolders } from "../src/lib/services/vocabulary/engine";
 
 const enabled = process.env.QA2_DATABASE_TESTS === "1";
 function isolated() {
@@ -101,5 +101,40 @@ test("source deletion removes only its occurrences, preserving shared senses and
     await db.delete(readingPassages).where(inArray(readingPassages.id, passageIds));
     await db.delete(users).where(inArray(users.id, learnerIds));
     await db.delete(lexemes).where(eq(lexemes.term, term));
+  }
+});
+
+
+test("foreign or deleted folder fails before any lexical write or award; own and unfiled saves stay idempotent", { skip: !enabled }, async () => {
+  isolated();
+  const userIds = [randomUUID(), randomUUID()];
+  const folderIds = [randomUUID(), randomUUID()];
+  const terms = [`qa2-${randomUUID()}`, `qa2-${randomUUID()}`];
+  await db.insert(users).values(userIds.map((id) => ({ id, name: "QA2 folder ownership", role: "student" as const, accountStatus: "active" as const })));
+  try {
+    await db.insert(vocabFolders).values(folderIds.map((id, index) => ({ id, userId: userIds[index]!, name: "QA2 private folder" })));
+    assert.deepEqual((await listFolders(userIds[0]!)).map((f) => f.id), [folderIds[0]]);
+    for (const folderId of [folderIds[1]!, randomUUID()]) {
+      const refused = await addVocabularyBatch({ userId: userIds[0]!, folderId, items: [{ term: terms[0]!, definitionEn: "Only an owned folder is allowed" }] });
+      assert.deepEqual(refused, { ok: false, error: "folder_not_found" });
+      assert.equal((await db.select().from(lexemes).where(eq(lexemes.term, terms[0]!))).length, 0);
+      assert.equal((await db.select().from(vocabPointEvents).where(eq(vocabPointEvents.userId, userIds[0]!))).length, 0);
+    }
+    const input = { userId: userIds[0]!, folderId: folderIds[0]!, items: [{ term: terms[0]!, definitionEn: "Only an owned folder is allowed" }] };
+    const saved = await addVocabularyBatch(input);
+    assert.ok(saved.ok);
+    const replay = await addVocabularyBatch(input);
+    assert.ok(replay.ok);
+    assert.equal(replay.added, 0);
+    assert.equal(replay.points, 0);
+    assert.deepEqual(replay.ids, saved.ids);
+    await addVocabularyBatch({ userId: userIds[0]!, items: [{ term: terms[1]!, definitionEn: "An unfiled word" }] });
+    const rows = await db.select().from(userVocabulary).where(eq(userVocabulary.userId, userIds[0]!));
+    assert.equal(rows.length, 2);
+    assert.equal(rows.find((row) => row.id === saved.ids[0])?.folderId, folderIds[0]);
+    assert.equal(rows.filter((row) => row.folderId === null).length, 1);
+  } finally {
+    await db.delete(users).where(inArray(users.id, userIds));
+    await db.delete(lexemes).where(inArray(lexemes.term, terms));
   }
 });

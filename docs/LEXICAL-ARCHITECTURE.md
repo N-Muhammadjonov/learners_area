@@ -19,8 +19,8 @@ No Dictionary implementation or new lexical architecture has been introduced.
   `ClickableText` calls the personal `/api/vocabulary/search` endpoint and then
   POSTs text definitions to `/api/vocabulary`. It never reads lexical occurrences,
   offsets or their relevant sense. Imported contextual definitions are not wired
-  to the reader. The popup is positioned at the enclosing text's bottom, not the
-  clicked word. Folder selection and retained occurrence context are missing.
+  to the reader. The popup now anchors to the clicked word and offers owned-folder selection.
+  Retained occurrence context is still missing.
 - `enrichment.ts` reads the shared catalogue, then optional adapters. It does not
   itself insert rows. No adapter is registered. Its same-spelling lookup selects
   one row ordered only by the spelling, which cannot disambiguate contextual
@@ -78,3 +78,23 @@ The earlier 103-check Vocabulary HTTP script verifies ordinary saving, ownership
 SRS, games, search and catalogue enrichment. It contains no occurrence-context
 assertion. Therefore its PASS must not be used as proof of Reading contextual
 sense selection or future Dictionary readiness.
+
+## Interrupted popup checkpoint recovered (2026-09-28)
+
+Word changes remount transient state; cancelled and late old lookups cannot
+overwrite a new selection. Shared bounded requests end loading on network, body,
+JSON and server failures, with explicit retry. Save retains input on failure and
+uses the existing atomic writer with an owned folder or null. A body portal
+anchors to the word, clamps to viewport/text column, tracks scroll/resize, and
+focuses only after becoming visible. Escape restores focus; outside click closes.
+
+Evidence saved before the interruption: 294/294 full regression, 10/10 real React
+DOM cases, typecheck/lint/build PASS; 4/4 real DB integrity cases including folder
+ownership, nonexistent folder no-write/no-award, owned and unfiled idempotency.
+Real browser verified desktop positioning and 320px fit, state reset, Escape,
+outside close, and save/reload of decades and growing. The decades DB row matched
+the selected QA Reading-context folder. Vocabulary-list/growing-row confirmation
+was interrupted, so remains pending. Resume lint passed without changing code.
+
+This checkpoint still uses word buttons; the newly requested selectable text
+contract and global surface inventory are the next phase, not claimed complete.
