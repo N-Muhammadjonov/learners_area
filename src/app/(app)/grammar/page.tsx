@@ -1,3 +1,5 @@
+import { EmptyState } from "@/components/ui/EmptyState";
+import { isAdministrator } from "@/lib/auth/roles";
 import Link from "next/link";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
@@ -18,6 +20,10 @@ export default async function GrammarPage() {
         <h1 className="font-display text-2xl text-ink-900">{dict.grammar.title}</h1>
         <p className="text-sm text-ink-500">{dict.grammar.subtitle}</p>
       </div>
+      {rows.length === 0 && <EmptyState title={dict.grammar.emptyTitle} body={dict.grammar.emptyHint}
+        action={<Link className="text-sm text-signal-600 underline" href={isAdministrator(user.role) ? "/admin/grammar" : "/dashboard"}>
+          {isAdministrator(user.role) ? dict.grammar.manageContent : dict.nav.dashboard}
+        </Link>} />}
       <div className="flex flex-col gap-3">
         {rows.map(({ topic, totalExercises, mastery }) => (
           <Link key={topic.id} href={`/grammar/${topic.id}`}>

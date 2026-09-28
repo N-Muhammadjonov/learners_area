@@ -611,6 +611,10 @@ const uz: Dictionary = {
     openLink: "Havolani ochish",
   },
   listening: {
+    emptyTitle: "Hozircha Listening testlari yo'q.",
+    emptyHint: "Markaz hali test e'lon qilmagan. Oldingi urinishlaringizni ko'rishingiz mumkin.",
+    manageContent: "Listening testlarini boshqarish",
+
     noAudioYet: "Bu test uchun audio hali yuklanmagan.",
     practiceTitle: "Listening mashqi",
     pickTest: "Test tanlang",
@@ -1123,6 +1127,11 @@ const uz: Dictionary = {
     noAttendees: "Bu darsga hech kim qo'shilmagan.",
   },
   grammar: {
+    emptyTitle: "Hozircha grammatika mavzulari yo'q.",
+    emptyHint: "Markaz hali mavzu qo'shmagan. Hozircha boshqa modulda mashq qilishingiz mumkin.",
+    manageContent: "Grammatika kontentini boshqarish",
+    noExercises: "Bu mavzuda siz uchun hozircha mashq mavjud emas.",
+
     title: "Grammatika",
     subtitle: "Xato tuzatish mashqlari — ba'zilari sizning Writing urinishlaringizdan olingan.",
     mastery: "O'zlashtirish",

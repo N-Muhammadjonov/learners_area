@@ -1,3 +1,4 @@
+import { EmptyState } from "@/components/ui/EmptyState";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { eq } from "drizzle-orm";
@@ -20,7 +21,7 @@ export default async function GrammarTopicPage({ params }: { params: Promise<{ t
 
   // Shakli noto'g'ri id hech qachon bazaga yetib bormaydi: javob 500 emas, 404.
   if (!isUuid(topicId)) notFound();
-  const detail = await getTopicWithExercises(topicId);
+  const detail = await getTopicWithExercises(topicId, user.id);
   if (!detail) notFound();
   const { topic, exercises } = detail;
   const { mastery } = await getTopicMasteryFor(user.id, topicId);
@@ -49,6 +50,8 @@ export default async function GrammarTopicPage({ params }: { params: Promise<{ t
       </div>
       <OwnerMaterialBlocks ownerType="grammar" ownerId={topic.id} ownerVisible />
 
+      {exercises.length === 0 ? <EmptyState title={dict.grammar.noExercises}
+        action={<Link href="/grammar" className="text-sm text-signal-600 underline">{dict.grammar.backToTopics}</Link>} /> : <>
       <TopicMasteryCard dict={dict} mastery={mastery} />
 
       <GrammarQuiz
@@ -74,6 +77,7 @@ export default async function GrammarTopicPage({ params }: { params: Promise<{ t
           activationPrompt: e.activationPrompt,
         }))}
       />
+      </>}
     </div>
   );
 }

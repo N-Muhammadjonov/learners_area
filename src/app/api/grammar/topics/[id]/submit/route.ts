@@ -1,7 +1,8 @@
+import { grammarVisibleTo } from "@/lib/data/grammar";
 import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { grammarExercises, grammarAttempts, activityEvents } from "@/db/schema";
 import { requireActiveUser } from "@/lib/auth/current-user";
@@ -20,8 +21,12 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   const parsed = schema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: "invalid_input" }, { status: 400 });
 
-  const exercises = await db.query.grammarExercises.findMany({ where: eq(grammarExercises.topicId, id) });
+  const exercises = await db.query.grammarExercises.findMany({ where: and(eq(grammarExercises.topicId, id), grammarVisibleTo(user.id)) });
   const exerciseById = new Map(exercises.map((e) => [e.id, e]));
+
+  if (parsed.data.answers.some((answer) => !exerciseById.has(answer.exerciseId))) {
+    return NextResponse.json({ error: "not_found" }, { status: 404 });
+  }
 
   const results: { exerciseId: string; isCorrect: boolean; correctOption: string; explanation: string }[] = [];
   const rows = [];

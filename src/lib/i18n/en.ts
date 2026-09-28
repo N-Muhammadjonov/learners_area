@@ -609,6 +609,10 @@ const en = {
     openLink: "Open link",
   },
   listening: {
+    emptyTitle: "No listening tests are available yet.",
+    emptyHint: "The centre has not published a test yet. You can return to your earlier attempts.",
+    manageContent: "Manage listening tests",
+
     noAudioYet: "The audio for this test has not been uploaded yet.",
     practiceTitle: "Listening practice",
     pickTest: "Choose a test",
@@ -1120,6 +1124,11 @@ const en = {
     noAttendees: "Nobody joined this class.",
   },
   grammar: {
+    emptyTitle: "No grammar topics are available yet.",
+    emptyHint: "The centre has not added any topics yet. You can continue with another module.",
+    manageContent: "Manage grammar content",
+    noExercises: "This topic has no exercises available for you yet.",
+
     title: "Grammar",
     subtitle: "Error-correction drills, some pulled from your own Writing attempts.",
     mastery: "Mastery",

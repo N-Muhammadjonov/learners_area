@@ -746,6 +746,8 @@ export const grammarExercises = pgTable("grammar_exercises", {
   sourceSubmissionId: uuid("source_submission_id").references(() => writingSubmissions.id, {
     onDelete: "set null",
   }),
+  /** Private essay-derived work stays owned after the source expires. Set by DB trigger. */
+  sourceOwnerUserId: uuid("source_owner_user_id").references(() => users.id, { onDelete: "cascade" }),
   /**
    * "Translate With It": a sentence in the student's own language that can only
    * be rendered correctly with the target structure. Authored content — the
@@ -760,7 +762,9 @@ export const grammarExercises = pgTable("grammar_exercises", {
   targetStructures: jsonb("target_structures").$type<string[]>(),
   /** "Activate It": a short task that forces the structure into free writing. */
   activationPrompt: text("activation_prompt"),
-});
+}, (table) => ({
+  sourceOwnerIdx: index("grammar_exercises_source_owner_idx").on(table.sourceOwnerUserId, table.topicId),
+}));
 
 export const grammarActivityEnum = pgEnum("grammar_activity", [
   "correct_it",

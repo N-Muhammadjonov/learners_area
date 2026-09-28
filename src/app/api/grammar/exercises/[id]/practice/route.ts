@@ -1,9 +1,10 @@
+import { getGrammarExerciseForUser } from "@/lib/data/grammar";
 import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/db/client";
-import { activityEvents, grammarAttempts, grammarExercises, grammarTopics } from "@/db/schema";
+import { activityEvents, grammarAttempts, grammarTopics } from "@/db/schema";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getLocale } from "@/lib/i18n";
 import { checkStructures, structureVerdict } from "@/lib/services/grammar/mastery";
@@ -39,9 +40,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   const parsed = schema.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({ error: "invalid_input" }, { status: 400 });
 
-  const exercise = await db.query.grammarExercises.findFirst({
-    where: eq(grammarExercises.id, id),
-  });
+  const exercise = await getGrammarExerciseForUser(id, user.id);
   if (!exercise) return NextResponse.json({ error: "not_found" }, { status: 404 });
 
   const topic = await db.query.grammarTopics.findFirst({

@@ -176,3 +176,39 @@ production Reading still displays 0-question cards. No promotion/migration/
 production cleanup performed. FINAL QA 2 remains IN PROGRESS. Remaining master
 product matrix, full lexical/data governance audit and production performance
 acceptance are not complete.
+
+## Grammar privacy and empty-state continuation — 2026-09-28
+
+The Grammar content trace found a cross-student exposure: essay-derived exercises
+were fetched without source ownership checks in both pages and all three learner
+submission APIs. DB reproduction: another student saw two exercises instead of
+only the one shared exercise. Also, source deletion used ON DELETE SET NULL,
+which cannot by itself preserve the private/public distinction.
+
+Added durable `grammar_exercises.source_owner_user_id`, backfilled from real
+writing sources and maintained by a DB trigger. Source deletion keeps that owner.
+Learner queries and all three submission routes enforce shared-or-owned access;
+other-user exercise requests return 404 without creating attempts. Administrator
+content authoring remains separately authorized. Missing source/topic authoring
+returns 404 instead of a foreign-key 500. Migration 0019 applied ONLY to isolated
+local QA PostgreSQL. Production requires a reviewed migration before this app
+version is promoted; no production migration or promotion was performed.
+
+Grammar and Listening lists now have localized, actionable empty states. A topic
+with no accessible exercises shows an explanation and a back link instead of an
+empty quiz. Staff author links are shown only to roles already permitted by their
+existing destination guards; no role permission was widened.
+
+Fresh validation: 287/287 automated tests, zero failed/skipped; typecheck, lint and
+production build passed. Grammar privacy HTTP suite: 21/21, covering real admin
+creation, cross-student HTML/RSC and API denial, source deletion, owner/shared
+practice, invalid source and a real empty topic. Browser: populated Grammar list,
+empty topic, UZ->EN, direct hard reload, and zero captured warnings/errors.
+Current browser viewport override did not apply to the background tab (measured
+1280, not requested 320), so these new screenshots are labelled desktop and no
+new mobile pass is claimed. Earlier shell matrix remains historical evidence.
+
+Limit: rows whose source had already disappeared before this migration cannot
+be classified from the lost link alone. No fictional ownership backfill was made.
+Full personal-derived-content retention and all remaining original QA items are
+still open. FINAL QA 2 — IN PROGRESS.

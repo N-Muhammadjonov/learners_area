@@ -1,4 +1,4 @@
-import { and, asc, eq, inArray } from "drizzle-orm";
+import { and, asc, eq, inArray, isNull, or } from "drizzle-orm";
 import { db } from "@/db/client";
 import { grammarTopics, grammarExercises, grammarAttempts } from "@/db/schema";
 import {
@@ -7,15 +7,28 @@ import {
   type GrammarActivity,
 } from "@/lib/services/grammar/mastery";
 
+/** Learner surfaces expose shared content and only the caller's essay-derived work.
+ * Requiring both nulls for shared rows fails closed for an incomplete backfill.
+ * Staff authoring has its own administrator-guarded paths.
+ */
+export function grammarVisibleTo(userId: string) {
+  return or(eq(grammarExercises.sourceOwnerUserId, userId),
+    and(isNull(grammarExercises.sourceOwnerUserId), isNull(grammarExercises.sourceSubmissionId)))!;
+}
+
+export function getGrammarExerciseForUser(id: string, userId: string) {
+  return db.query.grammarExercises.findFirst({ where: and(eq(grammarExercises.id, id), grammarVisibleTo(userId)) });
+}
+
 export function listTopics() {
   return db.query.grammarTopics.findMany({ orderBy: asc(grammarTopics.order) });
 }
 
-export async function getTopicWithExercises(topicId: string) {
+export async function getTopicWithExercises(topicId: string, userId: string) {
   const topic = await db.query.grammarTopics.findFirst({ where: eq(grammarTopics.id, topicId) });
   if (!topic) return null;
   const exercises = await db.query.grammarExercises.findMany({
-    where: eq(grammarExercises.topicId, topicId),
+    where: and(eq(grammarExercises.topicId, topicId), grammarVisibleTo(userId)),
     orderBy: asc(grammarExercises.order),
   });
   return { topic, exercises };
@@ -31,7 +44,7 @@ export async function getTopicWithExercises(topicId: string) {
  */
 export async function getTopicMastery(userId: string) {
   const topics = await listTopics();
-  const exercises = await db.query.grammarExercises.findMany();
+  const exercises = await db.query.grammarExercises.findMany({ where: grammarVisibleTo(userId) });
   const exerciseIds = exercises.map((e) => e.id);
 
   const attempts = exerciseIds.length
@@ -69,7 +82,7 @@ export async function getTopicMastery(userId: string) {
 /** The same summary for one topic, for the topic page's mastery card. */
 export async function getTopicMasteryFor(userId: string, topicId: string) {
   const exercises = await db.query.grammarExercises.findMany({
-    where: eq(grammarExercises.topicId, topicId),
+    where: and(eq(grammarExercises.topicId, topicId), grammarVisibleTo(userId)),
   });
   if (exercises.length === 0) {
     return {

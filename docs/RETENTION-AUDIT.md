@@ -88,3 +88,15 @@ R2 lifecycle configuration. No migration was created for this checkpoint.
   -> 0/3 analysis. DB confirmed three persisted answers, completed status and an
   activity timestamp at/after submission. Console warning/error list was empty.
 - Private/local raw logs live outside Git under `work/qa2-activity-*.log`.
+
+## Derived Grammar privacy
+
+Migration `0019_grammar_source_privacy.sql` adds a durable source owner, backfills
+existing linked exercises and installs a trigger so source deletion cannot make
+private exercise text public. Local actual DB and 21 HTTP checks pass before and
+after source deletion. Source-linked rows created by older application code are
+also covered by the database trigger. Already-null legacy source links cannot be
+reconstructed without historical evidence. Do not guess their former owner.
+This migration is local-only so far; production rollout must migrate before the
+new Grammar queries. Retention of the derived private exercise text itself remains
+part of the outstanding exhaustive lifecycle coverage audit.

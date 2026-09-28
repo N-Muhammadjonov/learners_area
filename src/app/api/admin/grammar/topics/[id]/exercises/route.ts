@@ -2,7 +2,7 @@ import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
-import { grammarExercises } from "@/db/schema";
+import { grammarExercises, grammarTopics, writingSubmissions } from "@/db/schema";
 import { isAdministrator, requireActiveUser } from "@/lib/auth/current-user";
 import { createGrammarExerciseSchema } from "@/lib/validation/admin";
 
@@ -19,6 +19,15 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
 
   if (!parsed.data.options.includes(parsed.data.correctOption)) {
     return NextResponse.json({ error: "correct_option_must_be_one_of_options" }, { status: 400 });
+  }
+
+  if (!await db.query.grammarTopics.findFirst({ where: eq(grammarTopics.id, id), columns: { id: true } })) {
+    return NextResponse.json({ error: "not_found" }, { status: 404 });
+  }
+  if (parsed.data.sourceSubmissionId && !await db.query.writingSubmissions.findFirst({
+    where: eq(writingSubmissions.id, parsed.data.sourceSubmissionId), columns: { id: true },
+  })) {
+    return NextResponse.json({ error: "source_not_found" }, { status: 404 });
   }
 
   const existing = await db.query.grammarExercises.findMany({ where: eq(grammarExercises.topicId, id) });
