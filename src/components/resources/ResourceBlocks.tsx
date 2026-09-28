@@ -1,3 +1,4 @@
+import { ClickableText } from "@/components/vocabulary/ClickableText";
 import { IconChevronDown, IconChevronRight } from "@/components/ui/icons";
 import type { Dictionary } from "@/lib/i18n/en";
 import type { ResourceBlockView } from "@/lib/data/resources";
@@ -33,7 +34,7 @@ export function ResourceBlocks({
         {blocks.map((block) => (
           <li key={block.id} className="flex flex-col gap-1.5" data-resource-block={block.type}>
             {block.type === "text" && (
-              <p className="whitespace-pre-line text-sm leading-relaxed text-ink-700">{block.textContent}</p>
+              <ClickableText dict={dict} text={block.textContent ?? ""} sourceType="material" sourceId={block.id} className="text-sm leading-relaxed text-ink-700" />
             )}
 
             {block.type === "link" && block.linkUrl && (

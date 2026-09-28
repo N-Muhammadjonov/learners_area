@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { ClickableText } from "@/components/vocabulary/ClickableText";
 import { Card } from "@/components/ui/Card";
 import { RetentionCheck } from "@/components/reading/RetentionCheck";
 import { ternaryLabel } from "@/lib/reading-choices";
@@ -209,20 +210,21 @@ export function ReadingAnalysis({
               </p>
             )}
             {q.evidenceQuote && (
-              <p className="mt-1 text-xs italic text-ink-300" data-evidence={q.id}>
-                {dict.reading.evidence}: &ldquo;{q.evidenceQuote}&rdquo;
+              <div className="mt-1 text-xs italic text-ink-300" data-evidence={q.id}>
+                {dict.reading.evidence}:
+                {attemptId ? <ClickableText dict={dict} text={q.evidenceQuote} sourceType="reading" sourceId={attemptId} /> : q.evidenceQuote}
                 {/* 82 of the source's questions have no locatable evidence line; saying
                     so is honest, inventing one would not be. */}
                 {q.evidenceType === "missing_source" && (
                   <span className="ml-1 not-italic">({dict.readingPractice.evidenceMissing})</span>
                 )}
-              </p>
+              </div>
             )}
             {q.explanation && (
-              <p className="mt-1 text-xs text-ink-500">
+              <div className="mt-1 text-xs text-ink-500">
                 <span className="text-ink-300">{dict.reading.explanation}: </span>
-                {q.explanation}
-              </p>
+                {attemptId ? <ClickableText dict={dict} text={q.explanation} sourceType="reading" sourceId={attemptId} /> : q.explanation}
+              </div>
             )}
             </Card>
           </div>

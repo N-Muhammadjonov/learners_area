@@ -689,6 +689,8 @@ const uz: Dictionary = {
     wordsFromTestHint: "Taxmin qilgan so'zlaringizni saqlang — ular takrorlash navbatiga qaytadi.",
   },
   vocabulary: {
+    textLookup: "Matndagi so'z ma'nosini ko'rish",
+    textLookupHint: "So'z ma'nosini ko'rish uchun uni bosing; nusxalash uchun matnni belgilang. Klaviatura: chap va o'ng strelka bilan so'z tanlang, Home yoki End bilan boshiga yoki oxiriga o'ting, Enter bilan ma'nosini oching. Escape oynani yopadi.",
     title: "Lug'at",
     addWord: "So'z qo'shish",
     review: "Takrorlash",

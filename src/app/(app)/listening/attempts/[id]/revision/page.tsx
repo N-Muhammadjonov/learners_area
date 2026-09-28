@@ -199,6 +199,7 @@ export default async function ListeningRevisionPage({ params }: { params: Promis
       </Card>
 
       <SpeedTrainer
+        sourceId={attempt.id}
         dict={dict}
         audioUrl={test.audioUrl}
         rateControlSupported={supportsRateControl(test.audioType)}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { ClickableText } from "@/components/vocabulary/ClickableText";
 import { Card } from "@/components/ui/Card";
 import type { Dictionary } from "@/lib/i18n/en";
 import { SPEED_RATES, type SpeedTrainingStatus } from "@/lib/services/listening/speed-training";
@@ -18,6 +19,7 @@ export function SpeedTrainer({
   rateControlSupported,
   status,
   transcript,
+  sourceId,
 }: {
   dict: Dictionary;
   /** Null when the test has no uploaded audio yet. */
@@ -25,6 +27,7 @@ export function SpeedTrainer({
   rateControlSupported: boolean;
   status: SpeedTrainingStatus;
   transcript: string | null;
+  sourceId: string;
 }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [rate, setRate] = useState<number>(1);
@@ -112,9 +115,7 @@ export function SpeedTrainer({
       )}
 
       {transcript && showTranscript && (
-        <p className="mt-3 whitespace-pre-line rounded-sm bg-paper-sunken p-3 text-sm text-ink-700">
-          {transcript}
-        </p>
+        <ClickableText dict={dict} text={transcript} sourceType="listening" sourceId={sourceId} className="mt-3 rounded-sm bg-paper-sunken p-3 text-sm text-ink-700" />
       )}
     </Card>
   );

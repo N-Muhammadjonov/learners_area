@@ -1,89 +1,119 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { failureMessage, requestJson } from "@/lib/http/client-request";
 import type { Dictionary } from "@/lib/i18n/en";
 
-/**
- * The clickable-word layer, shared by every reading surface.
- *
- * Every word of a text is a real button, so a student can look a word up without
- * leaving the passage. The popover:
- *
- *   - shows the meaning if the word is already in the student's own library;
- *   - offers to save it (with the meaning) if it is not — through the same
- *     vocabulary engine every other module uses, tagged with where it came from;
- *   - can pronounce the word with the browser's own voice.
- *
- * Two deliberate limits. It only wraps plain text, never an input or a textarea,
- * so the popover can never cover a field being edited; and it never invents a
- * definition — the meaning field starts empty and the student writes it.
- */
-export function ClickableText({
-  dict,
-  text,
-  sourceType,
-  sourceId,
-  className = "",
-}: {
+/** Shared, selectable learning text with one keyboard stop per text region. */
+export function ClickableText(props: {
   dict: Dictionary;
   text: string;
   sourceType: string;
   sourceId: string;
   className?: string;
 }) {
-  const [anchor, setAnchor] = useState<HTMLButtonElement | null>(null);
-  const [active, setActive] = useState<string | null>(null);
-  const wrapperRef = useRef<HTMLDivElement | null>(null);
+  // A changed source/text cannot keep an anchor or an async form from the old text.
+  return <LexicalText key={JSON.stringify([props.sourceType, props.sourceId, props.text])} {...props} />;
+}
 
+function LexicalText({ dict, text, sourceType, sourceId, className = "" }: Parameters<typeof ClickableText>[0]) {
+  const [anchor, setAnchor] = useState<HTMLElement | null>(null);
+  const [active, setActive] = useState<number | null>(null);
+  const [cursor, setCursor] = useState<number | null>(null);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
+  const gesture = useRef<{ x: number; y: number; started: number; cancelled: boolean } | null>(null);
   const tokens = useMemo(() => tokenise(text), [text]);
+  const words = useMemo(() => tokens.flatMap((token, index) => token.isWord ? [index] : []), [tokens]);
+  const hintId = useId();
+  const cursorId = useId();
+  const close = (restoreFocus = false) => {
+    setActive(null);
+    if (restoreFocus) wrapperRef.current?.focus({ preventScroll: true });
+  };
 
   useEffect(() => {
+    if (active === null) return;
     function onKey(event: KeyboardEvent) {
-      if (event.key === "Escape" && active) { setActive(null); anchor?.focus(); }
+      if (event.key === "Escape") { setActive(null); wrapperRef.current?.focus({ preventScroll: true }); }
     }
-    function onClickAway(event: MouseEvent) {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node) && !(event.target as Element).closest("[data-word-popover]")) setActive(null);
+    function onClickAway(event: PointerEvent) {
+      const target = event.target;
+      if (target instanceof Element && !wrapperRef.current?.contains(target) && !target.closest("[data-word-popover]")) setActive(null);
     }
     document.addEventListener("keydown", onKey);
-    document.addEventListener("mousedown", onClickAway);
+    document.addEventListener("pointerdown", onClickAway);
     return () => {
       document.removeEventListener("keydown", onKey);
-      document.removeEventListener("mousedown", onClickAway);
+      document.removeEventListener("pointerdown", onClickAway);
     };
-  }, [anchor, active]);
+  }, [active]);
+
+  function open(index: number) {
+    const word = wrapperRef.current?.querySelector<HTMLElement>(`[data-token="${index}"]`);
+    if (!word) return;
+    setAnchor(word);
+    setActive((previous) => previous === index ? null : index);
+  }
 
   return (
-    <div ref={wrapperRef} className={`relative whitespace-pre-line ${className}`} data-clickable-text>
-      {tokens.map((token, index) =>
-        token.isWord ? (
-          <button
-            key={`${token.value}-${index}`}
-            type="button"
-            data-word={token.clean}
-            aria-expanded={active === `${token.clean}-${index}`}
-            onClick={(event) => { setAnchor(event.currentTarget); setActive(active === `${token.clean}-${index}` ? null : `${token.clean}-${index}`); }}
-            className="rounded-sm px-0.5 text-left underline decoration-dotted decoration-ink-300 underline-offset-4 hover:bg-signal-50 hover:text-ink-900"
-          >
+    <div className={className}>
+      <p id={hintId} className="sr-only">{dict.vocabulary.textLookupHint}</p>
+      <div
+        ref={wrapperRef}
+        className="relative whitespace-pre-line outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal-600"
+        data-clickable-text
+        role="group"
+        tabIndex={words.length ? 0 : undefined}
+        aria-label={dict.vocabulary.textLookup}
+        aria-describedby={hintId}
+        onPointerDown={(event) => {
+          gesture.current = { x: event.clientX, y: event.clientY, started: Date.now(), cancelled: event.button !== 0 };
+        }}
+        onPointerMove={(event) => {
+          const start = gesture.current;
+          if (start && Math.hypot(event.clientX - start.x, event.clientY - start.y) > 8) start.cancelled = true;
+        }}
+        onPointerCancel={() => { if (gesture.current) gesture.current.cancelled = true; }}
+        onContextMenu={() => { if (gesture.current) gesture.current.cancelled = true; }}
+        onClick={(event) => {
+          const start = gesture.current;
+          gesture.current = null;
+          if (event.detail > 1 || (start && (start.cancelled || Date.now() - start.started >= 500))) return;
+          // Native selection/copy/highlighting owns this gesture, even for one word.
+          if (!window.getSelection()?.isCollapsed) return;
+          const target = event.target instanceof Element ? event.target.closest<HTMLElement>("[data-token]") : null;
+          if (target && wrapperRef.current?.contains(target)) open(Number(target.dataset.token));
+        }}
+        onKeyDown={(event) => {
+          if (event.target !== event.currentTarget || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+          if (["ArrowRight", "ArrowLeft", "Home", "End"].includes(event.key)) {
+            event.preventDefault();
+            const previous = cursor === null ? -1 : words.indexOf(cursor);
+            const next = event.key === "Home" ? 0 : event.key === "End" ? words.length - 1
+              : event.key === "ArrowRight" ? Math.min(words.length - 1, previous + 1) : Math.max(0, previous - 1);
+            const index = words[next];
+            if (index !== undefined) {
+              setCursor(index);
+              wrapperRef.current?.querySelector<HTMLElement>(`[data-token="${index}"]`)?.scrollIntoView({ block: "nearest", inline: "nearest" });
+            }
+          } else if (event.key === "Enter" && words.length) {
+            event.preventDefault();
+            open(cursor ?? words[0]!);
+          }
+        }}
+      >
+        {tokens.map((token, index) => token.isWord ? (
+          <span key={index} data-word={token.clean} data-token={index}
+            className={active === index || cursor === index ? "rounded-sm bg-signal-50 text-ink-900" : undefined}>
             {token.value}
-          </button>
-        ) : (
-          <span key={`sep-${index}`}>{token.value}</span>
-        )
-      )}
-
-      {active && anchor && (
-        <WordPopover
-          key={`${sourceType}:${sourceId}:${active}`}
-          anchor={anchor}
-          dict={dict}
-          word={active.slice(0, active.lastIndexOf("-"))}
-          sourceType={sourceType}
-          sourceId={sourceId}
-          onClose={() => { setActive(null); anchor.focus(); }}
-        />
-      )}
+          </span>
+        ) : token.value)}
+      </div>
+      <span id={cursorId} role="status" className="sr-only">{cursor === null ? "" : tokens[cursor]?.value}</span>
+      {active !== null && anchor && <WordPopover key={`${sourceType}:${sourceId}:${active}`}
+        anchor={anchor} dict={dict} word={tokens[active]!.clean} sourceType={sourceType} sourceId={sourceId}
+        onClose={() => close(true)} />}
     </div>
   );
 }
@@ -101,7 +131,7 @@ function WordPopover({
   sourceType: string;
   sourceId: string;
   onClose: () => void;
-  anchor: HTMLButtonElement;
+  anchor: HTMLElement;
 }) {
   const t = dict.vocabulary;
   const [known, setKnown] = useState<{ id: string; definitionEn: string; translationUz: string | null; mastery: string } | null>(null);

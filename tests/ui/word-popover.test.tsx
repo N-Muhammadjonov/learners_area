@@ -35,6 +35,7 @@ async function page(fetcher: Fetcher, run: () => Promise<void>) {
     await act(async () => root.render(<ClickableText dict={en} text="decades growing" sourceType="reading" sourceId="qa-attempt" />));
     await run();
   } finally {
+    window.getSelection()?.removeAllRanges();
     await act(async () => root.unmount());
     globalThis.fetch = original;
   }
@@ -156,15 +157,70 @@ test("failed save retains input, retry sends selected folder, success never carr
   });
 });
 
-test("Escape closes and restores the clicked word's focus; outside click closes", async () => {
+test("Escape closes and restores the text region focus; outside click closes", async () => {
   await page(normal, async () => {
     await click('[data-word="decades"]');
     assert.equal(document.activeElement, query("[data-word-popover]"));
     await act(async () => document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true })));
     assert.equal(document.querySelector('[data-word-popover]'), null);
-    assert.equal(document.activeElement, query('[data-word="decades"]'));
+    assert.equal(document.activeElement, query('[data-clickable-text]'));
     await click('[data-word="growing"]');
-    await act(async () => document.body.dispatchEvent(new MouseEvent("mousedown", { bubbles: true })));
+    await act(async () => document.body.dispatchEvent(new MouseEvent("pointerdown", { bubbles: true })));
     assert.equal(document.querySelector('[data-word-popover]'), null);
   });
+});
+
+
+test("plain text is preserved and native selection never opens lookup", async () => {
+  await page(normal, async () => {
+    const region = query('[data-clickable-text]');
+    assert.equal(region.textContent, "decades growing");
+    assert.equal(region.querySelectorAll('button, [tabindex]').length, 0);
+    const range = document.createRange();
+    range.selectNodeContents(region);
+    window.getSelection()!.addRange(range);
+    await click('[data-word="growing"]');
+    assert.equal(document.querySelector('[role="dialog"]'), null);
+    assert.equal(window.getSelection()!.toString(), "decades growing");
+    window.getSelection()!.removeAllRanges();
+    await click('[data-word="growing"]');
+    assert.ok(document.querySelector('[role="dialog"]'));
+  });
+});
+
+test("drag, long press and cancelled touch do not open a lookup", async (t) => {
+  await page(normal, async () => {
+    const word = query('[data-word="decades"]');
+    const pointer = async (name: string, x: number) => act(async () => word.dispatchEvent(new MouseEvent(name, { bubbles: true, clientX: x, clientY: 0 })));
+    await pointer('pointerdown', 0);
+    await pointer('pointermove', 12);
+    await click('[data-word="decades"]');
+    assert.equal(document.querySelector('[role="dialog"]'), null);
+    const now = t.mock.method(Date, 'now', () => 1000);
+    await pointer('pointerdown', 0);
+    now.mock.mockImplementation(() => 1600);
+    await click('[data-word="decades"]');
+    assert.equal(document.querySelector('[role="dialog"]'), null);
+    await pointer('pointerdown', 0);
+    await pointer('pointercancel', 0);
+    await click('[data-word="decades"]');
+    assert.equal(document.querySelector('[role="dialog"]'), null);
+    now.mock.restore();
+  });
+});
+
+test("one keyboard stop navigates words and opens the selected word with Enter", async () => {
+  const original = HTMLElement.prototype.scrollIntoView;
+  HTMLElement.prototype.scrollIntoView = () => {};
+  try {
+    await page(normal, async () => {
+      const region = query<HTMLElement>('[data-clickable-text]');
+      region.focus();
+      for (const key of ['ArrowRight', 'ArrowRight', 'Enter']) await act(async () => region.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true })));
+      assert.equal(query('[role="dialog"]').getAttribute('aria-label'), 'growing');
+      assert.equal(document.activeElement, query('[role="dialog"]'));
+      await act(async () => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })));
+      assert.equal(document.activeElement, region);
+    });
+  } finally { HTMLElement.prototype.scrollIntoView = original; }
 });
