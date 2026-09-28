@@ -95,6 +95,62 @@ test("a freshly attached recording on an old draft survives cleanup and duplicat
   }
 });
 
+test("cleanup during a blocked audio attachment preserves the fresh object and commits one intact relationship", { skip: !enabled, timeout: 15_000 }, async () => {
+  isolated();
+  const userId = randomUUID();
+  const attemptId = randomUUID();
+  const uploadId = randomUUID();
+  const key = `qa2-retention/${randomUUID()}.webm`;
+  const old = monthsAgo(20, new Date());
+  const storage = getStorageService();
+  let attachment: ReturnType<typeof attachRecordingToAttempt> | undefined;
+  await db.insert(users).values({ id: userId, name: "QA2 concurrent recording", role: "student", accountStatus: "active", createdAt: old });
+  try {
+    await db.insert(speakingAttempts).values({ id: attemptId, userId, part: "part1", createdAt: old });
+    await storage.put({ key, body: Buffer.from("new"), contentType: "audio/webm" });
+    await db.insert(uploadIntents).values({ id: uploadId, userId, speakingAttemptId: attemptId, purpose: "speaking_recording", objectKey: key, originalName: "new.webm", mimeType: "audio/webm", size: 3, status: "finalized", finalizedAt: new Date(), expiresAt: new Date(Date.now() + 900_000) });
+    const startedAt = new Date();
+    await db.transaction(async (lock) => {
+      const owner = await lock.execute<{ pid: number }>(sql`select pg_backend_pid() as pid`);
+      await lock.select().from(users).where(eq(users.id, userId)).for("update");
+      attachment = attachRecordingToAttempt({ userId, attemptId, uploadId });
+      // Observe an actual blocked PostgreSQL transaction, rather than assuming
+      // a timer happened to overlap two requests. The attachment has already
+      // locked the intent and attempt when it waits for this account row.
+      let blocked = false;
+      for (let tries = 0; tries < 100; tries++) {
+        const waiting = await db.execute<{ waiting: boolean }>(sql`select exists (
+          select 1 from pg_stat_activity where ${owner.rows[0]!.pid} = any(pg_blocking_pids(pid))
+        ) as waiting`);
+        if (waiting.rows[0]?.waiting) { blocked = true; break; }
+        await new Promise((resolve) => setTimeout(resolve, 10));
+      }
+      assert.ok(blocked, "attachment must be in flight at the database lock");
+      const cleanup = await runRetention({ dryRun: false });
+      assert.equal(cleanup.locked, true, "cleanup actually ran while attachment was paused");
+      assert.ok(await storage.head(key));
+      assert.equal((await db.query.uploadIntents.findFirst({ where: eq(uploadIntents.id, uploadId) }))?.status, "finalized", "cleanup must preserve the not-yet-committed intent");
+    });
+    assert.equal((await attachment)?.ok, true);
+    await runRetention({ dryRun: false });
+    const account = await db.query.users.findFirst({ where: eq(users.id, userId) });
+    const intents = await db.select().from(uploadIntents).where(eq(uploadIntents.speakingAttemptId, attemptId));
+    const attempts = await db.select().from(speakingAttempts).where(eq(speakingAttempts.id, attemptId));
+    assert.equal(account?.accountStatus, "active");
+    assert.ok(account?.lastMeaningfulActivityAt && account.lastMeaningfulActivityAt >= startedAt);
+    assert.equal(intents.length, 1);
+    assert.equal(intents[0]?.status, "attached");
+    assert.ok(intents[0]?.usedAt);
+    assert.equal(attempts.length, 1);
+    assert.equal(attempts[0]?.recordingObjectKey, intents[0]?.objectKey);
+    assert.ok(await storage.head(key));
+  } finally {
+    await attachment?.catch(() => undefined);
+    await db.delete(users).where(eq(users.id, userId));
+    await storage.delete(key);
+  }
+});
+
 test("real SRS and wrong game answers count as activity; games cannot advance SRS or preserve stale accounts forever", { skip: !enabled }, async () => {
   isolated();
   const now = new Date();

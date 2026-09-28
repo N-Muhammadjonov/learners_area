@@ -223,3 +223,18 @@ uploads. Actual DB test: one winner for four concurrent attachments, active
 account, surviving attempt and object. Fresh 288-test suite, typecheck/lint and
 production build passed. This is a further local data-integrity checkpoint, not
 full R2 or all-concurrency acceptance. No new migration beyond Grammar 0019.
+
+## Speaking concurrent cleanup acceptance — 2026-09-28
+
+Recovered clean HEAD 4ccd053 (the audio fix was already committed and remote
+verified). Added the missing real interleaving test: lock the account row, start
+attachment, observe its blocked backend with pg_blocking_pids, run retention
+while the attachment transaction is still open, release the lock, then run
+retention again. The fresh object, single intent/attempt relationship and activity
+clock survive. No mocked DB or cleanup bypass. Existing four-request same-file
+one-winner test remains. Targeted 6/6 and fresh whole suite 289/289, zero skipped
+or failed; typecheck and affected-file lint passed. Runtime code unchanged; its
+last production build at 4ccd053 remains the build evidence, not a new build.
+Browser tabs from the previous run are no longer present. Lexical investigation
+has no implementation edits yet; Reading ClickableText ignores imported
+occurrences and searches only the personal library. That path remains open.
