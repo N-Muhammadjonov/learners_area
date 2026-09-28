@@ -39,6 +39,7 @@ export function hasRecentLearningActivity(userId: SQL, since: Date): SQL {
     ["listening_mcq_sessions", "a.updated_at", "a.stage <> 'listen'"],
     ["writing_submissions", "greatest(a.submitted_at, a.updated_at)", "length(trim(a.content)) > 0"],
     ["typing_runs", "a.created_at", "a.typed_chars > 0"],
+    ["upload_intents", "greatest(a.finalized_at, a.used_at)", "a.purpose = 'speaking_recording' and a.status in ('finalized', 'attached')"],
     ["speaking_attempts", "a.submitted_at", "a.submitted_at is not null"],
     ["grammar_attempts", "a.attempted_at", "true"],
     ["assignment_responses", "a.updated_at", "length(trim(a.content)) > 0"],

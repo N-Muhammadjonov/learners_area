@@ -280,7 +280,14 @@ async function runRetentionOn(options: RetentionOptions | undefined, db: Retenti
     const recordingsQuery = db
       .select({ id: speakingAttempts.id, objectKey: speakingAttempts.recordingObjectKey })
       .from(speakingAttempts)
-      .where(and(sql`greatest(${speakingAttempts.createdAt}, ${speakingAttempts.submittedAt}) < ${structuredCutoff}`, isNotNull(speakingAttempts.recordingObjectKey)))
+      .where(and(
+        sql`greatest(${speakingAttempts.createdAt}, ${speakingAttempts.submittedAt}) < ${structuredCutoff}`,
+        isNotNull(speakingAttempts.recordingObjectKey),
+        // A fresh upload can replace a recording on a much older draft.
+        sql`not exists (select 1 from upload_intents u where u.speaking_attempt_id = speaking_attempts.id
+          and u.object_key = speaking_attempts.recording_object_key and u.purpose = 'speaking_recording'
+          and greatest(u.created_at, u.finalized_at, u.used_at) >= ${structuredCutoff})`
+      ))
       .limit(config.batchSize);
     const recordings = await (dryRun ? recordingsQuery : recordingsQuery.for("update", { skipLocked: true }));
 
@@ -292,7 +299,8 @@ async function runRetentionOn(options: RetentionOptions | undefined, db: Retenti
         const stillReferenced = await db.execute<{ count: number }>(
           sql`select count(*)::int as count from (
             select id from upload_intents where object_key = ${attempt.objectKey} and status = 'attached'
-              and (purpose <> 'speaking_recording' or speaking_attempt_id is distinct from ${attempt.id}::uuid)
+              and (purpose <> 'speaking_recording' or speaking_attempt_id is distinct from ${attempt.id}::uuid
+                or greatest(created_at, finalized_at, used_at) >= ${structuredCutoff})
             union all select id from speaking_attempts where recording_object_key = ${attempt.objectKey} and id <> ${attempt.id}::uuid
             union all select id from speaking_materials where primary_object_key = ${attempt.objectKey}
             union all select id from material_blocks where object_key = ${attempt.objectKey}
@@ -358,7 +366,10 @@ async function runRetentionOn(options: RetentionOptions | undefined, db: Retenti
           : sql``;
       // Never lose the last retryable object reference if deletion failed or
       // this run only processed the first recording batch.
-      const recordingProtection = entry.table === "speaking_attempts" ? sql`and t.recording_object_key is null` : sql``;
+      const recordingProtection = entry.table === "speaking_attempts" ? sql`and t.recording_object_key is null
+        and not exists (select 1 from upload_intents u where u.speaking_attempt_id = t.id and u.purpose = 'speaking_recording'
+          and ((u.status in ('finalized', 'attached') and greatest(u.created_at, u.finalized_at, u.used_at) >= ${structuredCutoff})
+            or (u.status = 'pending' and u.expires_at >= ${now})))` : sql``;
       const count = await deleteBatched({
         dryRun,
         batchSize: config.batchSize,

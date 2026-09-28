@@ -212,3 +212,14 @@ Limit: rows whose source had already disappeared before this migration cannot
 be classified from the lost link alone. No fictional ownership backfill was made.
 Full personal-derived-content retention and all remaining original QA items are
 still open. FINAL QA 2 — IN PROGRESS.
+
+## Speaking recording lifecycle continuation — 2026-09-28
+
+Reproduced fresh audio attachment on an old draft failing the inactivity guard.
+Atomic attachment now includes the account activity clock and rejects inactive
+accounts before consuming the intent. Cleanup considers actual recording upload
+age, not just draft creation age, and retains unfinished drafts with current
+uploads. Actual DB test: one winner for four concurrent attachments, active
+account, surviving attempt and object. Fresh 288-test suite, typecheck/lint and
+production build passed. This is a further local data-integrity checkpoint, not
+full R2 or all-concurrency acceptance. No new migration beyond Grammar 0019.

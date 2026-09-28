@@ -100,3 +100,22 @@ reconstructed without historical evidence. Do not guess their former owner.
 This migration is local-only so far; production rollout must migrate before the
 new Grammar queries. Retention of the derived private exercise text itself remains
 part of the outstanding exhaustive lifecycle coverage audit.
+
+## Fresh recording on an old draft
+
+A further actual DB regression reproduced an old student account becoming
+suspended immediately after a new Speaking recording was attached to an old draft.
+Attachment now locks/validates the intent lifecycle, attempt and active account in
+one transaction and commits the recording plus activity clock together. Persisted
+finalized/attached Speaking upload timestamps also protect a missed summary.
+Recording expiry consults the current object's actual upload/finalize/attach dates,
+including a second reference check after the attempt lock. Unattached old drafts
+with a recent finalized recording or an unexpired pending upload are protected
+from the old-work sweep. No retention window was disabled or extended forever.
+
+Five actual retention DB tests now pass, including four simultaneous attachment
+calls with one winner, account protection, retained attempt and object existence.
+Broader automated suite: 288 passed, zero failed/skipped; typecheck/lint/build pass.
+No additional migration in this recording checkpoint. Cloud R2 remains EXTERNALLY
+UNVERIFIED; the tested storage provider is local. Recording replacement orphan
+reconciliation and the separate submit/evaluation race remain open audit work.

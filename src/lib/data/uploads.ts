@@ -1,4 +1,4 @@
-import { and, eq, gt, inArray, lt, or } from "drizzle-orm";
+import { and, eq, gt, inArray, lt, or, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import {
   materialBlocks,
@@ -368,44 +368,47 @@ export async function attachRecordingToAttempt(input: {
   uploadId: string;
   durationMs?: number;
 }): Promise<{ ok: true; objectKey: string } | { ok: false; status: number; error: string }> {
-  const attempt = await db.query.speakingAttempts.findFirst({
-    where: eq(speakingAttempts.id, input.attemptId),
-  });
-  if (!attempt || attempt.userId !== input.userId) {
-    return { ok: false, status: 404, error: "attempt_not_found" };
-  }
-  if (attempt.status !== "recording") {
-    return { ok: false, status: 409, error: "attempt_already_submitted" };
-  }
+  return db.transaction(async (tx) => {
+    // Resolve the lifecycle lock before locking the attempt. Pending/aborted
+    // cleanup must not wait on an attempt held by a caller waiting on its intent.
+    // Already attached intents return immediately, without waiting on an old
+    // attempt currently being expired by retention.
+    const [intent] = await tx.select().from(uploadIntents)
+      .where(eq(uploadIntents.id, input.uploadId)).for("update");
+    if (!intent || intent.userId !== input.userId) {
+      return { ok: false as const, status: 404, error: "upload_not_found" };
+    }
+    if (intent.purpose !== "speaking_recording" || intent.speakingAttemptId !== input.attemptId) {
+      return { ok: false as const, status: 400, error: "upload_purpose_mismatch" };
+    }
+    if (intent.status !== "finalized" || intent.usedAt) {
+      return { ok: false as const, status: 409, error: "upload_not_finalized" };
+    }
+    const [attempt] = await tx.select().from(speakingAttempts)
+      .where(eq(speakingAttempts.id, input.attemptId)).for("update");
+    if (!attempt || attempt.userId !== input.userId) {
+      return { ok: false as const, status: 404, error: "attempt_not_found" };
+    }
+    if (attempt.status !== "recording") {
+      return { ok: false as const, status: 409, error: "attempt_already_submitted" };
+    }
+    const [account] = await tx.select({ status: users.accountStatus }).from(users)
+      .where(eq(users.id, input.userId)).for("update");
+    if (account?.status !== "active") return { ok: false as const, status: 403, error: "forbidden" };
 
-  const intent = await db.query.uploadIntents.findFirst({ where: eq(uploadIntents.id, input.uploadId) });
-  if (!intent || intent.userId !== input.userId) {
-    return { ok: false, status: 404, error: "upload_not_found" };
-  }
-  if (intent.purpose !== "speaking_recording" || intent.speakingAttemptId !== input.attemptId) {
-    return { ok: false, status: 400, error: "upload_purpose_mismatch" };
-  }
-  if (intent.status !== "finalized" || intent.usedAt) {
-    return { ok: false, status: 409, error: "upload_not_finalized" };
-  }
-
-  await db
-    .update(uploadIntents)
-    .set({ status: "attached", usedAt: new Date() })
-    .where(eq(uploadIntents.id, intent.id));
-
-  await db
-    .update(speakingAttempts)
-    .set({
+    const now = new Date();
+    await tx.update(uploadIntents).set({ status: "attached", usedAt: now }).where(eq(uploadIntents.id, intent.id));
+    await tx.update(speakingAttempts).set({
       recordingObjectKey: intent.objectKey,
       recordingOriginalName: intent.originalName,
       recordingMimeType: intent.mimeType,
       recordingSize: intent.size,
       ...(input.durationMs !== undefined ? { recordingDurationMs: input.durationMs } : {}),
-    })
-    .where(eq(speakingAttempts.id, attempt.id));
-
-  return { ok: true, objectKey: intent.objectKey };
+    }).where(eq(speakingAttempts.id, attempt.id));
+    await tx.update(users).set({ lastMeaningfulActivityAt: sql`greatest(${users.lastMeaningfulActivityAt}, ${now})` })
+      .where(eq(users.id, input.userId));
+    return { ok: true as const, objectKey: intent.objectKey };
+  });
 }
 
 /**

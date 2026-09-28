@@ -5,7 +5,7 @@ import { eq, inArray, sql } from "drizzle-orm";
 import { db } from "../src/db/client";
 import { activityEvents, auditLog, lexemes, listeningAttempts, listeningTests, speakingAttempts, uploadIntents, userVocabulary, users } from "../src/db/schema";
 import { monthsAgo, runRetention } from "../src/lib/services/retention";
-import { cleanupAbandonedUploads } from "../src/lib/data/uploads";
+import { attachRecordingToAttempt, cleanupAbandonedUploads } from "../src/lib/data/uploads";
 import { getStorageService } from "../src/lib/services/storage";
 import { applyScheduledReview, recordGameAnswer } from "../src/lib/services/vocabulary/engine";
 
@@ -67,6 +67,32 @@ test("retention owns a transaction lock; a concurrent runner does no work", { sk
     const result = await tx.execute<{ got: boolean }>(sql`select pg_try_advisory_xact_lock(hashtext('learners_area.retention')) as got`);
     assert.equal(result.rows[0]?.got, true, "the lock was released by commit");
   });
+});
+
+test("a freshly attached recording on an old draft survives cleanup and duplicate attachment has one winner", { skip: !enabled }, async () => {
+  isolated();
+  const userId = randomUUID();
+  const attemptId = randomUUID();
+  const uploadId = randomUUID();
+  const key = `qa2-retention/${randomUUID()}.webm`;
+  const old = monthsAgo(20, new Date());
+  const storage = getStorageService();
+  await db.insert(users).values({ id: userId, name: "QA2 recording activity", role: "student", accountStatus: "active", createdAt: old });
+  try {
+    await db.insert(speakingAttempts).values({ id: attemptId, userId, part: "part1", createdAt: old });
+    await storage.put({ key, body: Buffer.from("new"), contentType: "audio/webm" });
+    await db.insert(uploadIntents).values({ id: uploadId, userId, speakingAttemptId: attemptId, purpose: "speaking_recording", objectKey: key, originalName: "new.webm", mimeType: "audio/webm", size: 3, status: "finalized", finalizedAt: new Date(), expiresAt: new Date(Date.now() + 900_000) });
+    const results = await Promise.all(Array.from({ length: 4 }, () => attachRecordingToAttempt({ userId, attemptId, uploadId })));
+    assert.equal(results.filter((r) => r.ok).length, 1, "only one request may consume an upload intent");
+    await runRetention({ dryRun: false, actorUserId: userId });
+    assert.equal((await db.query.users.findFirst({ where: eq(users.id, userId) }))?.accountStatus, "active", "real recording work counts before final submission");
+    assert.equal((await db.query.speakingAttempts.findFirst({ where: eq(speakingAttempts.id, attemptId) }))?.recordingObjectKey, key);
+    assert.ok(await storage.head(key), "new recording cannot expire with its old draft");
+  } finally {
+    await db.delete(auditLog).where(eq(auditLog.actorUserId, userId));
+    await db.delete(users).where(eq(users.id, userId));
+    await storage.delete(key);
+  }
 });
 
 test("real SRS and wrong game answers count as activity; games cannot advance SRS or preserve stale accounts forever", { skip: !enabled }, async () => {
