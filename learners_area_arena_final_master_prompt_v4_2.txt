@@ -1,0 +1,2848 @@
+<LEARNERS_AREA_V4_2_FINAL_ARENA_MASTER_PROMPT>
+
+ROLE AND MISSION
+
+You are the senior product engineer, frontend architect, backend engineer, database engineer, realtime/WebRTC engineer, QA lead, accessibility reviewer, performance engineer, and UX systems designer for the EXISTING Learners Area application.
+
+This is NOT a greenfield project.
+
+You are NOT allowed to guess what the owner meant from vague product assumptions. This prompt contains the decisions already made by the owner. Treat them as product requirements.
+
+Your job is to take the exact hardened Learners Area baseline, reproduce the remaining problems found during real Preview testing, fix those problems first, and then implement the integrated Reading, Listening, Retention, Vocabulary, Grammar, Progress, Profile/Management, Authentication, TED/PODCAST, Speaking Practice, and Live Partner upgrades described below.
+
+The end product must feel like a premium, modern IELTS learning platform: the Reading and Listening workspaces should feel familiar to users of computer-delivered IELTS, but Learners Area is a LEARNING platform, not a locked exam simulator. Learners Area learning advantages such as Vocabulary lookup, RIWI assistance, notes, review, evidence, and learning analytics remain available according to the rules in this specification.
+
+============================================================
+0. ABSOLUTE SOURCE OF TRUTH
+============================================================
+
+When sources disagree, use this priority:
+
+1. THIS V4.2 FINAL PROMPT.
+2. The exact hardened repository state defined below.
+3. The owner-provided screenshot/reference PDF uploaded with this task.
+4. The owner-provided current Learners Area screenshots uploaded with this task.
+5. The owner-provided Speaking master-bank files.
+6. The owner-provided ieltsmaterials.uz frontend ZIP/reference code, if supplied.
+7. The publicly accessible current websites you inspect yourself.
+8. Older V3/V4/V4.1 prompts.
+9. Your assumptions.
+
+This V4.2 prompt supersedes every previous Arena/Work prompt wherever there is a conflict.
+
+Do NOT revive an older rule because it is easier to implement.
+
+Do NOT assume you have access to the owner's previous ChatGPT conversations. You do not. Everything important is restated here.
+
+============================================================
+1. MANDATORY REFERENCE INSPECTION BEFORE CODING
+============================================================
+
+Before changing code, inspect ALL supplied reference material.
+
+A. Inspect the screenshot/reference PDF carefully, page by page.
+
+The PDF may contain screenshots of:
+- Learners Area current Preview defects,
+- IELTS Booster Retention,
+- Listening note-taking and training flows,
+- Reading/Listening test UI,
+- Progress/analytics UI,
+- Speaking Practice,
+- Live Partner,
+- post-call feedback,
+- mobile layouts,
+- logo/theme behaviour,
+- filters/dropdowns,
+- profile/management screens.
+
+Do not glance at the PDF and then code from memory. Create an internal requirement matrix mapping each relevant screenshot to the exact product requirement it demonstrates.
+
+B. Inspect the current Learners Area repository at the exact hardened baseline.
+
+C. Inspect the current Learners Area Preview deployment with a browser when a usable Preview URL/session is available. If authenticated browsing is not available, run the app locally against the approved QA/staging environment. Do not ask the owner to paste secrets into chat.
+
+D. Inspect these public reference sites yourself:
+
+- https://ieltsbooster.uz
+- https://www.ieltsmaterials.uz
+
+Focus on publicly accessible behaviour relevant to:
+- Reading,
+- Listening,
+- Retention,
+- training stages,
+- question-type practice,
+- MCQ practice,
+- Progress,
+- Speaking,
+- Live Partner / partner-style UX if exposed.
+
+If an internal page is gated, paid, or requires credentials you do not have, DO NOT bypass access controls. Use the owner-provided screenshots/ZIP as the reference instead.
+
+If a URL visible in an owner screenshot is publicly accessible without bypassing authentication, you may inspect it. Otherwise do not attempt to circumvent access.
+
+E. If the owner supplies ieltsmaterials.uz frontend code, inspect it for interaction ideas only.
+
+REFERENCE RULE:
+Use external sites to understand product patterns and interaction quality. Do NOT copy proprietary source code wholesale, third-party branding, copyrighted assets, exact visual identity, or patch-heavy architecture. Rebuild useful patterns cleanly as Learners Area components.
+
+Create/update a documentation file such as:
+
+docs/V4_2_REFERENCE_MATRIX.md
+
+It should map:
+reference/screenshot -> observed behaviour -> Learners Area requirement -> implementation location -> verification status.
+
+============================================================
+2. FROZEN FINAL QA 2 BASELINE
+============================================================
+
+FINAL QA 2 is COMPLETE.
+
+Required baseline branch:
+work/final-qa2-hardening
+
+Required exact baseline commit:
+300970040bc6a56ec55db50c9a1f551377e8ae66
+
+Short SHA:
+3009700
+
+Important previous commits include:
+- f86457d — shared/selectable lexical text hardening
+- dddfcce — contextual sense/integrity hardening
+- 3009700 — Final QA 2 documentation/closure
+
+Verified baseline evidence:
+- full QA: 300/300 PASS, 0 fail, 0 skip
+- ordinary npm test: 281 PASS, 19 DB tests skipped there
+- real PostgreSQL suite: 19/19 PASS
+- Vocabulary/SRS/Games: 103/103 PASS
+- Activity clock: 13/13 PASS
+- Retention HTTP: 10/10 PASS
+- Grammar privacy: 21/21 HTTP PASS plus DB regression PASS
+- Auth/admission/roles: 33/33 PASS
+- Support: 26/26 PASS
+- typecheck PASS
+- lint PASS
+- production build PASS
+- git diff --check PASS
+
+Do NOT restart Final QA 2 from scratch.
+
+The new work must preserve the behaviours protected by that baseline.
+
+============================================================
+3. IMPORTANT BASELINE FACTS
+============================================================
+
+The hardened baseline contains, among other things:
+- contextual lexical-sense protection,
+- Reading canonical occurrence support,
+- shared selectable lexical text,
+- Vocabulary data integrity,
+- private source authorization fixes,
+- saved context/source-deletion protection,
+- canonical-sense delete protection,
+- retention-related backend hardening,
+- Grammar privacy hardening,
+- Speaking recording lifecycle/race fixes,
+- existing auth/admission/roles,
+- existing Telegram-related auth/linking where currently implemented,
+- support/notification/search hardening,
+- responsive fixes,
+- production build viability.
+
+The hardened baseline does NOT mean these features are already complete:
+- Google authentication,
+- email ownership verification,
+- the requested Retention V2 learner experience,
+- the requested Listening learning system,
+- final Progress graphs,
+- Live Partner,
+- the new Speaking Practice experience.
+
+Do not call unfinished features complete merely because lower-level tests exist.
+
+============================================================
+4. MIGRATION 0020 — EXISTING, QA-TESTED, NOT PRODUCTION-APPLIED
+============================================================
+
+Migration 0020 already exists:
+0020_lexical_source_snapshot.sql
+
+It includes the source_snapshot work and changes lexical deletion protection.
+
+It was QA-tested on fresh and populated upgrade paths.
+
+It has NOT been applied to production.
+
+DO NOT:
+- recreate 0020,
+- renumber 0020,
+- replace 0020,
+- apply 0020 to production automatically.
+
+Any new migrations created by this task must follow the actual migration sequence after 0020.
+
+Production migration remains an explicit owner-approved operation at the end.
+
+============================================================
+5. KNOWN FINAL QA 2 EXTERNAL LIMITATIONS
+============================================================
+
+These were intentionally NOT falsely marked PASS:
+- native desktop pointer drag/copy/double-click selection,
+- mobile native long-press selection,
+- production navigation performance,
+- external video playback,
+- real production Cloudflare R2 behaviour.
+
+Treat them as:
+EXTERNALLY / TOOLING UNVERIFIED
+
+not as confirmed defects.
+
+Retest them where relevant.
+
+============================================================
+6. STARTING GIT SAFETY
+============================================================
+
+Before editing, run:
+
+pwd
+git status --short
+git status
+git branch --show-current
+git rev-parse HEAD
+git log --oneline -30
+git reflog -20
+git remote -v
+git fetch --all --prune
+
+Verify that:
+300970040bc6a56ec55db50c9a1f551377e8ae66
+exists locally and remotely.
+
+Do NOT start from an older commit.
+
+Do NOT assume main already contains the hardened baseline.
+
+Preferred approach:
+create a dedicated feature branch directly from the exact hardened SHA, for example:
+feature/learners-area-v4-2
+
+If uncommitted local work already exists, inspect and preserve it before branch operations.
+
+Never use destructive commands such as git reset --hard, git clean, or git restore on unknown work.
+
+============================================================
+7. PRODUCTION SAFETY
+============================================================
+
+During this task:
+- do NOT merge main automatically,
+- do NOT deploy production automatically,
+- do NOT mutate the production database automatically,
+- do NOT apply production migrations automatically,
+- do NOT expose secrets,
+- do NOT ask the owner to paste secrets into chat.
+
+QA/staging migrations and feature-branch Preview deployments are allowed when the environment is clearly non-production.
+
+============================================================
+8. EXECUTION ORDER — STABILIZE FIRST, THEN EXPAND
+============================================================
+
+Do not add dozens of new features on top of a broken Preview environment.
+
+Use this order:
+
+PHASE 0 — Reference and repository audit
+PHASE 1 — Preview environment/schema/runtime stabilization
+PHASE 2 — Navigation/performance + shell/UI defects
+PHASE 3 — Account/Profile/Management + Progress
+PHASE 4 — Authentication additions
+PHASE 5 — Retention V2
+PHASE 6 — Reading final learning workspace
+PHASE 7 — Listening final learning workspace
+PHASE 8 — TED / PODCAST
+PHASE 9 — Vocabulary/Grammar final regression
+PHASE 10 — Speaking Practice
+PHASE 11 — Live Partner
+PHASE 12 — full visual/security/performance/regression QA
+
+After every stable major phase:
+- run focused tests,
+- run git diff --check,
+- inspect git diff,
+- commit logically,
+- push the feature branch.
+
+Do not keep the whole project as one giant uncommitted WIP.
+
+============================================================
+9. PHASE 1 — PREVIEW DB / RUNTIME STABILIZATION
+============================================================
+
+The owner manually tested a Vercel Preview of the hardened code and observed runtime failures.
+
+Observed Vocabulary Preview failure clue:
+error digest approximately 552090209
+
+Observed Grammar Preview failure clue:
+error digest approximately 836745403
+
+These digest values are clues only and may change between deployments.
+
+DO NOT immediately rewrite Vocabulary or Grammar.
+
+First determine the root cause with evidence.
+
+Required investigation:
+1. verify which database the Preview deployment is using,
+2. verify Preview migration history,
+3. verify whether migration 0020 is present in that QA/staging database,
+4. inspect Vercel/runtime stack traces,
+5. compare the running schema with the code's expected schema,
+6. reproduce locally against the same schema if possible.
+
+Important clue:
+the hardened Vocabulary service reads user_vocabulary.source_snapshot, which is added by migration 0020. A Preview running new code against an older DB schema can therefore fail. Confirm this rather than assuming it.
+
+If Preview DB is old:
+- migrate ONLY the approved QA/staging/Preview DB,
+- do not touch production,
+- re-test Vocabulary and Grammar.
+
+If the crash remains:
+fix the exact reproduced code/query/schema issue.
+
+Acceptance:
+- Vocabulary page loads normally,
+- Grammar page loads normally,
+- no silent schema mismatch,
+- no production mutation,
+- the fix is covered by regression tests.
+
+============================================================
+10. NAVIGATION LATENCY — FIX THE CAUSE, NOT JUST THE SPINNER
+============================================================
+
+The owner observes this behaviour:
+click navigation -> circular spinner appears -> page opens later
+
+The spinner itself is not necessarily the cause. The current LinkPending component visibly renders an animated spinner while a router transition is pending.
+
+Measure the actual transition path before changing visuals:
+- click time,
+- Next.js router start,
+- auth/session work,
+- database queries,
+- server component render,
+- first meaningful visible content.
+
+Inspect:
+- Vercel cold starts,
+- DB region/latency,
+- repeated auth reads,
+- duplicate queries,
+- force-dynamic usage,
+- missing caching of public/static library data,
+- unnecessary serial awaits,
+- missing prefetch.
+
+Requirements:
+- remove any artificial delay,
+- parallelize independent data requests,
+- deduplicate repeated per-request work,
+- cache data that is safe to cache,
+- keep user-private data uncached across users,
+- prefetch predictable primary navigation where safe.
+
+Loading indicator UX:
+- do not flash a spinner for very fast transitions,
+- delay the visible pending indicator roughly 250–300ms,
+- use a restrained premium progress indicator/skeleton for genuinely slow transitions,
+- never hide a real latency problem by simply removing feedback.
+
+Run at least 15 representative navigations before/after and report median/p95 separately for local/Preview. Do not label Preview numbers as production numbers.
+
+============================================================
+11. SHELL SCROLL BOUNDARY DEFECT
+============================================================
+
+The owner can scroll far below the final visible content into a large blank area.
+
+Audit the app shell and page layouts.
+
+Goal:
+there should be one intentional primary vertical scroll owner for normal app pages.
+
+Nested exam panes may have their own controlled scroll where necessary, but the overall document must not contain a huge phantom tail.
+
+Fix:
+- phantom min-height,
+- duplicated viewport heights,
+- oversized bottom spacer/padding,
+- shell/content height mismatch,
+- Safari dynamic viewport issues,
+- safe-area padding mistakes.
+
+Acceptance:
+- after the last real component, only normal spacing + safe-area space remains,
+- no hundreds of pixels of meaningless blank scroll,
+- test Chrome/Safari-equivalent behaviour where possible,
+- verify 320, 390, 768, 1024, 1440 widths.
+
+============================================================
+12. GLOBAL TYPOGRAPHY — REPLACE THE GENERIC FEEL
+============================================================
+
+The current system font + Georgia combination feels too generic to the owner.
+
+Adopt a coherent, accessible, premium typography system.
+
+Preferred final typography:
+- Inter for UI, body text, forms, tables, reading/listening content,
+- Manrope for major headings/display titles,
+- existing mono font only for timers/numeric technical readouts.
+
+Use next/font or another optimized self-hosted framework mechanism.
+
+Do not load fonts from fragile runtime third-party CSS.
+
+Requirements:
+- no tiny low-contrast text,
+- comfortable long-passage line height,
+- readable letter spacing,
+- mobile text remains comfortable,
+- no layout shift from font loading,
+- UZ/EN characters render correctly.
+
+If the existing application already has a stronger suitable font package, you may reuse it, but the final UI must follow one coherent system and explain the choice.
+
+============================================================
+13. PREMIUM ICONOGRAPHY / EMOJI SYSTEM
+============================================================
+
+Current interface symbols feel inconsistent and too basic.
+
+Do not scatter platform-dependent Unicode emoji across major navigation/actions.
+
+Create one coherent premium icon language using a high-quality open-source vector set or the existing Learners Area icon library if it can be upgraded consistently.
+
+Requirements:
+- consistent stroke/duotone language,
+- consistent sizing,
+- consistent optical weight,
+- meaningful accessible labels,
+- no random mismatched emoji styles,
+- decorative icons aria-hidden,
+- icon-only actions have accessible labels/tooltips.
+
+For RIWI specifically, use a polished robot/AI mark or vector illustration rather than relying on the OS-specific 🤖 glyph.
+
+The goal is premium and friendly, not cartoon chaos.
+
+============================================================
+14. BRAND LOGO — FIX DAY/NIGHT MAPPING AND CROP
+============================================================
+
+The owner observed that the day/night logo variants appear reversed and the sidebar logo still looks like a rectangular image with unwanted surrounding area.
+
+Do not trust filenames such as "light" or "dark" blindly.
+
+Visually inspect the actual assets.
+
+Map by SURFACE rather than filename:
+- logo for light/day surface,
+- logo for dark/night surface.
+
+Generate/use a tightly cropped transparent derivative that contains only the intended Learners Area mark/symbol for compact sidebar/mobile use.
+
+Do not destructively modify the approved source artwork.
+
+Requirements:
+- no white/transparent rectangle visually surrounding the mark,
+- no unexpected padding,
+- correct day mark on day surface,
+- correct night mark on night surface,
+- crisp at 1x/2x,
+- first server paint uses the correct theme,
+- theme switching swaps immediately without flash.
+
+Capture browser screenshots of both themes as QA evidence.
+
+============================================================
+15. FLOATING RIWI ASSISTANT BUTTON
+============================================================
+
+Add a premium RIWI assistant button to the floating utility stack.
+
+Position:
+RIWI button must be ABOVE the Focus Mode button.
+
+Recommended vertical order:
+1. RIWI
+2. Focus Mode
+3. Report a problem
+
+Use the polished RIWI robot mark.
+
+Clicking RIWI opens a context-aware assistant drawer/panel.
+
+During an active, unsubmitted Reading/Listening attempt, RIWI may help with:
+- vocabulary,
+- grammar,
+- understanding instructions,
+- question-type strategy,
+- general explanation of the current material.
+
+However, RIWI must NOT leak hidden answer keys/evidence from unsubmitted sections/questions.
+
+After submission, RIWI may use canonical correct answer + canonical evidence to explain mistakes.
+
+The floating button remains usable in Focus Mode.
+
+============================================================
+16. AUTO FOCUS MODE FOR READING/LISTENING TEST ATTEMPTS
+============================================================
+
+When the learner enters an ACTIVE Reading or Listening test attempt:
+Focus Mode should turn ON automatically.
+
+This is an IELTS-style learning workspace decision.
+
+Important:
+Focus Mode does NOT disable Learners Area learning tools.
+
+Vocabulary remains available.
+RIWI remains available.
+Notes remain available where specified.
+
+The learner may manually exit Focus Mode if desired.
+
+When leaving the active attempt, restore the user's previous shell preference rather than permanently forcing Focus on the whole app.
+
+Do not auto-Focus ordinary hub/library pages.
+
+============================================================
+17. PROFILE — EVERY USER CAN EDIT THEIR DISPLAY NAME
+============================================================
+
+Current profile menu shows identity/role but does not let the user change their own name.
+
+Add:
+Edit profile
+
+from the account/profile UI.
+
+Every user, including the owner, can edit their own display name/nickname.
+
+Requirements:
+- safe server-authorized self-update endpoint,
+- trim/normalize whitespace,
+- sensible length, e.g. 2–60 visible characters,
+- reject empty/abusive technical payloads/XSS attempts,
+- update all relevant UI after save,
+- preserve email/role/accountStatus,
+- do not allow changing another user's name through the self endpoint.
+
+Important provider rule:
+if a user has explicitly set a Learners Area display name, later Google/Telegram login must not silently overwrite it with provider profile data.
+
+============================================================
+18. MANAGEMENT / PEOPLE — REAL SEARCH + PAGINATION
+============================================================
+
+Current People table loads a limited recent set and has no useful search.
+
+This will fail as the user base grows.
+
+Implement server-side People search.
+
+Search fields where available:
+- display name,
+- email,
+- Telegram username/identity label if safely stored for directory use.
+
+Also support:
+- role filter,
+- account-status filter,
+- pagination,
+- clear filters.
+
+Do NOT fetch only the newest 200 users and filter in memory.
+
+Filtering and pagination must happen in SQL/server data access.
+
+Requirements:
+- case-insensitive search,
+- debounced search-as-you-type or explicit search with good UX,
+- URL-backed filters where useful,
+- correct empty state,
+- mobile cards remain usable,
+- existing role/status authorization remains intact.
+
+============================================================
+19. MY PROGRESS — REDESIGN AS REAL ANALYTICS
+============================================================
+
+Current My Progress is mostly text/cards. The owner supplied screenshots of the richer visual style expected.
+
+Build a real analytics page using REAL user data only.
+
+No fabricated demo numbers in production.
+
+Required visual sections:
+
+A. Overall activity summary
+- streak,
+- total attempts,
+- recent activity,
+- vocabulary due.
+
+B. Reading trend
+- accuracy/score trend over time,
+- attempts/submissions.
+
+C. Listening trend
+- accuracy/score trend over time.
+
+D. Writing trend
+- evaluation/band-estimate trend from legitimate evaluation rows.
+
+E. Speaking trend
+- use legitimate Speaking evaluations/overallEstimate,
+- do NOT use self-reported currentBand/targetBand,
+- show no fake score when no evaluation exists.
+
+F. Vocabulary mastery distribution
+- new,
+- learning,
+- review,
+- known,
+- mastered,
+- activated.
+
+G. Weekly learning activity
+- simple bars/heatmap/trend based on real meaningful activity events.
+
+H. Retention trend once Retention V2 exists
+- best score by level,
+- recent average,
+- texts completed.
+
+Charts must have accessible text/table summaries.
+
+Use a lightweight chart approach; do not load an enormous visualization dependency for a few basic charts if native SVG/Canvas or an existing dependency is sufficient.
+
+============================================================
+20. RETENTION V2 — REPLACE THE CURRENT WRONG UX
+============================================================
+
+The current Retention learner experience is NOT the desired product.
+
+Do not simply patch the current passage-recall widget.
+
+Build a dedicated Retention flow matching the owner's screenshots and decisions.
+
+ENTRY SCREEN
+
+When the learner enters Retention, do NOT immediately show a Reading passage.
+
+First show level selection:
+A2
+B1
+B2
+C1
+C2
+
+Each level should show an approximate target text length.
+Use these screenshot-inspired targets as approximate guidance, not exact hard limits:
+- A2 ~110 words
+- B1 ~175 words
+- B2 ~260 words
+- C1 ~300 words
+- C2 ~415 words
+
+The level controls show:
+- level,
+- approximate word count,
+- learner status/history for that level where available.
+
+The owner's FINAL timing rule overrides any different timing visible in reference screenshots:
+
+READING TIME = exactly 2:00 for every level.
+RECALL WRITING TIME = exactly 3:00 for every level.
+
+Level changes text complexity and approximate length, NOT the two fixed timers.
+
+============================================================
+21. RETENTION V2 — READING PHASE
+============================================================
+
+After level selection:
+- choose/generate an unseen level-appropriate text,
+- show title/category,
+- show only the source text,
+- show a visible 2:00 countdown/progress,
+- show "I've finished" for early completion.
+
+CRITICAL:
+During the 2-minute reading phase, the recall textarea must NOT be visible.
+
+The learner reads once.
+
+At timeout or "I've finished":
+- the source text disappears completely,
+- do not leave it visible behind the textarea,
+- do not allow simple toggling back to cheat,
+- transition to Recall phase.
+
+============================================================
+22. RETENTION V2 — RECALL PHASE
+============================================================
+
+Recall phase:
+- source text remains hidden,
+- show a large writing area,
+- show exactly 3:00 countdown,
+- prompt the learner to write everything remembered in English,
+- show live word count,
+- provide "Check what I kept" for early finish.
+
+Autosave the draft during the 3-minute window so an accidental render/navigation issue does not erase the current answer.
+
+If the user intentionally exits, follow a clear abandon/confirm rule.
+
+============================================================
+23. RETENTION V2 — SCORING MODEL
+============================================================
+
+Retention scoring must be reproducible and explainable.
+
+Each source text needs canonical memory units, for example:
+- main ideas,
+- supporting facts/details,
+- names,
+- numbers/dates,
+- important relationships.
+
+Suggested weighting from the reference pattern:
+- main idea = 2 points,
+- detail = 1 point.
+
+Names/numbers may belong to either category based on importance.
+
+Do not let a generative AI model be the only source of truth.
+
+Preferred evaluation:
+1. canonical fact-unit scoring,
+2. normalized lexical/semantic matching,
+3. RIWI only for ambiguous semantic-equivalence cases,
+4. final stored per-fact result.
+
+If RIWI is unavailable, deterministic scoring must still produce a usable result.
+
+============================================================
+24. RETENTION V2 — RESULTS
+============================================================
+
+After scoring, show a premium result similar in structure to the reference screenshot:
+- 0–100 score,
+- descriptive label such as "Sharp reader" based on defined thresholds,
+- percentage kept,
+- words per minute,
+- optional small speed bonus if implemented,
+- personal best for that level,
+- strongest/weakest takeaway,
+- "You kept X of Y".
+
+Then show every canonical fact unit:
+- retained fact -> success styling,
+- missed fact -> missed styling,
+- main ideas visually distinguished from details.
+
+Do not make speed more important than actual memory retention.
+
+Store history per user and level:
+- date,
+- level,
+- text ID,
+- score,
+- kept percentage,
+- WPM,
+- duration used.
+
+ENTRY SCREEN should later show:
+- best score,
+- number of texts read,
+- recent/last-10 average.
+
+============================================================
+25. RETENTION CONTENT QUALITY
+============================================================
+
+Retention texts must be CEFR-appropriate.
+
+Do not reuse the exact same Reading test passage as the default Retention experience.
+
+Use a dedicated content source/bank.
+
+If RIWI generates text dynamically:
+- cache/store the generated source with provenance,
+- generate canonical fact units at creation time,
+- validate approximate level/length,
+- never claim AI-generated text is official IELTS content.
+
+Avoid showing the same text repeatedly to the same learner until the available bank requires reuse.
+
+============================================================
+26. READING — PRODUCT PRINCIPLE
+============================================================
+
+Reading is IELTS-style but Learners Area-enhanced.
+
+Preserve/strengthen the existing split-screen computer-delivered IELTS-style experience.
+
+Do NOT remove Learners Area advantages to create a strict exam lockdown.
+
+During active Reading:
+- Vocabulary popup remains active,
+- RIWI remains available under the answer-leak rules,
+- highlighting is available,
+- Focus Mode is auto-enabled,
+- answers autosave.
+
+============================================================
+27. READING — HIGHLIGHT TOOL
+============================================================
+
+The current Reading experience lacks the expected text highlight interaction.
+
+Implement native-selection-compatible highlighting.
+
+Flow:
+- learner drags/selects passage text,
+- a small unobtrusive selection toolbar offers Highlight / Remove highlight,
+- saved highlight appears in a pale accessible color,
+- highlight survives ordinary navigation/reload for the active attempt where practical.
+
+Do not break:
+- native copy,
+- double-click word selection,
+- mobile long-press selection,
+- Vocabulary click lookup.
+
+Do not turn every word into a button.
+
+============================================================
+28. READING — VOCABULARY STATE DOTTED UNDERLINES
+============================================================
+
+The owner expects words in eligible shared learning text to show a subtle dotted state indicator under the word.
+
+There are TWO visual states:
+
+A. Word/sense already saved in the user's Vocabulary.
+Use a very light pastel mint/green dotted underline.
+
+B. Word/sense not yet saved.
+Use a very light pastel lavender/blue dotted underline.
+
+The colors must be intentionally soft so the passage remains easy to read.
+
+Suggested visual characteristics:
+- 1px dotted underline,
+- 2–3px text-underline offset,
+- no heavy filled background,
+- no strong saturated neon color.
+
+Important performance rule:
+Do NOT send one network request per word.
+
+Use a bulk passage/text status lookup or server-provided state map keyed by canonical occurrence/normalized term.
+
+When the learner saves a word from the popup, update its state visually without a full page reload.
+
+Use the shared ClickableText/lexical architecture so the same state indicator can later work in:
+- Reading,
+- Listening transcripts,
+- TED/PODCAST transcripts,
+- materials/analysis text.
+
+============================================================
+29. READING — VOCABULARY POPUP
+============================================================
+
+Vocabulary popup is NON-NEGOTIABLE during active Reading/Listening learning.
+
+When data exists, show:
+- headword,
+- part of speech,
+- contextual English definition,
+- contextual Uzbek meaning,
+- IPA/pronunciation,
+- Save to Vocabulary,
+- folder selection.
+
+Use exact contextual canonical sense when an occurrence identifies one.
+
+river bank must not silently become financial bank.
+
+Do not build a second Reading-only dictionary.
+
+The 60k+ canonical Dictionary project is a separate data-enrichment effort. Keep this UI compatible with it.
+
+If no trusted dictionary meaning exists yet, keep an honest fallback rather than fabricating meaning.
+
+============================================================
+30. READING — ANSWER CONTROLS
+============================================================
+
+The owner reports current answer fields feel too small.
+
+Fix answer controls according to question type.
+
+Requirements:
+- minimum comfortable control height around 44–48px,
+- sufficient width for short-answer/gap-fill responses,
+- full usable width on mobile,
+- multiline only when question type genuinely needs it,
+- no tiny cramped input beside large empty space,
+- accessible labels,
+- no horizontal overflow.
+
+============================================================
+31. READING — TIMER BUG
+============================================================
+
+The owner observed an absurd multi-hour Reading timer in Preview.
+
+Do not show an unbounded "elapsed since stale startedAt" value such as ~59 hours.
+
+Use explicit test duration metadata.
+
+For a full IELTS-style Reading test, normally use a 60-minute countdown where the material defines that duration.
+
+Store/derive:
+- startedAt,
+- durationSeconds,
+- expiresAt or equivalent.
+
+On refresh/resume, calculate remaining time correctly.
+
+When time reaches zero, follow the test attempt's defined timeout rule consistently; do not restart the timer.
+
+Non-test learning modules do not automatically inherit a 60-minute timer.
+
+============================================================
+32. READING FILTERS — CLOSE, ALIGN, COUNTS
+============================================================
+
+Current Topic / Question Type dropdown behaviour is not acceptable.
+
+Problems observed:
+- choosing an item does not close the menu immediately,
+- the Question Type dropdown can shift too far to the right,
+- item counts become difficult to scan.
+
+Fix with an accessible controlled popover/listbox or equivalent.
+
+Required behaviour:
+- selection updates the URL/filter,
+- menu closes immediately after selection,
+- Escape closes,
+- outside click closes,
+- keyboard navigation works,
+- right-side dropdown clamps to viewport/container,
+- counts are aligned in a fixed right-side column,
+- long list gets internal scroll with sane max height,
+- mobile uses a usable full-width popover/sheet when necessary.
+
+============================================================
+33. READING — DRAG AND DROP
+============================================================
+
+For question types that require drag-and-drop:
+Desktop supports real drag/drop with visible valid targets.
+
+Mobile/touch cannot depend only on desktop drag events.
+Provide tap-to-select/tap-to-place fallback.
+
+Support:
+- replacement,
+- clearing,
+- keyboard-accessible alternative,
+- autosave.
+
+Do not conflict with text selection/Vocabulary.
+
+============================================================
+34. READING — PARTIAL SUBMISSION AND EVIDENCE SCOPE
+============================================================
+
+A learner may open a full test but submit only part of it.
+
+Evidence/review permissions must follow EXPLICIT submitted scope.
+
+Conceptually persist:
+submittedSectionIds
+submittedQuestionIds
+
+Opening/scrolling a question does not make it reviewable.
+
+If only Part/Passage 1 is submitted:
+- show score only for that submitted scope,
+- show evidence only for those submitted questions,
+- DO NOT reveal correct answers/evidence for remaining questions.
+
+Later submission expands review scope.
+
+This must be enforced server-side, not merely hidden with CSS.
+
+Direct API requests for unsubmitted correct answers/evidence/RIWI grounded payload must be rejected.
+
+============================================================
+35. READING — CANONICAL EVIDENCE IN PASSAGE
+============================================================
+
+Current analysis may show evidence as text in an answer card. The desired UX is stronger.
+
+After submission, clicking View evidence / explanation for a question should:
+- move/scroll the passage to the exact supporting span,
+- highlight the exact evidence span,
+- show a small question marker such as Q27/Q32 near the highlight,
+- preserve the question context.
+
+Evidence model should use stable identifiers where possible:
+questionId
+passageId
+paragraph/block ID
+startOffset
+endOffset
+
+Support multiple spans where necessary.
+
+If exact evidence is missing, say:
+Evidence not available yet.
+
+Never fabricate a passage location.
+
+============================================================
+36. RIWI READING ANALYSIS
+============================================================
+
+After submitted scope is reviewable, RIWI may receive:
+- question,
+- question type,
+- learner answer,
+- correct answer,
+- canonical evidence,
+- surrounding passage context.
+
+RIWI explains:
+- why correct answer is correct,
+- why learner answer was wrong where relevant,
+- which clue mattered,
+- what technique to use next time.
+
+Canonical evidence is source truth.
+RIWI must not invent evidence.
+
+============================================================
+37. LISTENING — FINAL LEARNING HUB
+============================================================
+
+The current learner-facing Listening page is too thin.
+
+Before rebuilding from scratch, audit the repository because some trainer/revision components may already exist and should be reused.
+
+The final Listening hub should expose a coherent learning system inspired by the useful pedagogical structure seen in the reference site, but implemented as Learners Area.
+
+Required major areas:
+
+1. Academic Tests
+2. Revision
+3. Keyword Table
+4. Speed Trainer
+5. Vocabulary
+6. Question Types
+7. MCQ Mastery
+8. General Listening
+9. History
+
+Do not copy third-party branding.
+
+If existing components already implement MCQ Mastery, Speed Trainer, Revision, etc., connect/refactor them instead of duplicating them.
+
+============================================================
+38. LISTENING — ACADEMIC TEST STAGES
+============================================================
+
+For a completed Academic Listening test, support a learning progression such as:
+
+Exam
+→ Revision
+→ Keyword Table
+→ Speed Trainer
+→ Vocabulary
+
+This does not mean the learner is forced through a rigid wizard every time.
+It means these learning tools are available as connected stages around the same canonical test/audio/transcript data.
+
+Use one source of truth for:
+- audio,
+- transcript,
+- questions,
+- answers,
+- evidence,
+- vocabulary occurrences.
+
+Do not duplicate the same test content into five unrelated stores.
+
+============================================================
+39. LISTENING — NOTE TAKING / QORALAMA
+============================================================
+
+Listening needs a note-taking scratchpad.
+
+Use the owner screenshot as interaction reference.
+
+For relevant Listening question/training views, show:
+
+Qoralama / Notes
+"Write what you hear..."
+
+separately from:
+
+Your answer
+
+Important:
+Notes are NOT the graded answer.
+
+Requirements:
+- autosave/debounce,
+- restore on reload,
+- pagehide/visibility flush where practical,
+- per attempt/question or logical section association,
+- learner ownership only,
+- note content remains visible in later Revision/History where useful,
+- notes must not be accidentally submitted as answers.
+
+If note-taking is provided at section level rather than question level, make the relationship obvious.
+
+============================================================
+40. LISTENING — PLAYER UX
+============================================================
+
+For training modes where repetition is allowed, support a clean player with:
+- Play/Pause,
+- replay,
+- -5 seconds,
+- +5 seconds,
+- play count/listen count where pedagogically useful.
+
+For strict test-like Exam mode, obey the intended test playback policy rather than automatically enabling unlimited seeking.
+
+Do not mix training controls with test restrictions accidentally.
+
+============================================================
+41. LISTENING — REVISION / TRANSCRIPT EVIDENCE
+============================================================
+
+After submitted scope:
+- show transcript,
+- highlight exact answer evidence segment,
+- attach question marker,
+- show timestamp where real data exists,
+- allow jump/play from relevant point in training/revision mode.
+
+Evidence model may contain:
+questionId
+transcriptSegmentId
+startTimestamp
+endTimestamp
+textStartOffset
+textEndOffset
+
+Do not invent timestamps.
+
+============================================================
+42. LISTENING — PARTIAL SUBMISSION SCOPE
+============================================================
+
+Same security rule as Reading.
+
+If a 40-question full test is open but the learner submits only Part 1:
+View evidence / explanation shows ONLY the questions belonging to submitted Part 1.
+
+Do not reveal Parts 2–4 correct answers/evidence.
+
+Do not hardcode Part 1 as 10 or 13 questions.
+Use actual question IDs in the submitted section.
+
+Server-side APIs must enforce this scope.
+
+Partial submission produces a partial score, not a fake full IELTS band.
+
+============================================================
+43. LISTENING — VOCABULARY AND DOTTED WORD STATES
+============================================================
+
+Listening transcript/revision text uses the same shared lexical system as Reading.
+
+Vocabulary popup remains available in learning/revision contexts.
+
+Use the same subtle two-color dotted-underlining state system:
+- saved -> pale mint,
+- not saved -> pale lavender/blue.
+
+Use bulk status lookup.
+
+============================================================
+44. LISTENING — QUESTION TYPE / MCQ / SPEED TRAINERS
+============================================================
+
+Question Types:
+provide organized practice by Listening question type with clear explanations and material sets.
+
+MCQ Mastery:
+provide focused MCQ practice/trap analysis where existing architecture/content supports it.
+
+Speed Trainer:
+use existing safe logic/components where possible; provide bounded playback-speed training for learning, not for active strict test attempts.
+
+Keyword Table:
+connect key paraphrase/synonym relationships to the exact audio/transcript/question set.
+
+Vocabulary:
+connect words to the shared canonical Vocabulary system rather than a separate duplicate vocabulary store.
+
+============================================================
+45. TED / VIDEO LESSONS -> TED / PODCAST
+============================================================
+
+Rename the learner-facing section currently known as TED / Video Lessons or Video Lessons to:
+
+TED / PODCAST
+
+Use this wording consistently in navigation and page titles.
+
+Preferred canonical route:
+/ted-podcast
+
+Keep the old /video-lessons route as a compatibility redirect if changing the route will not break historical links.
+
+Support at least two content kinds:
+- TED/video-style lesson,
+- Podcast/audio lesson.
+
+Each content item may contain:
+- media,
+- transcript,
+- description,
+- questions/tasks,
+- learner notes,
+- Vocabulary occurrences,
+- RIWI assistance where appropriate.
+
+Do not falsely brand arbitrary videos as TED content.
+Preserve truthful provenance/source metadata internally.
+
+============================================================
+46. VOCABULARY SECTION — MUST ACTUALLY WORK
+============================================================
+
+After Phase 1 schema/runtime stabilization, test the full Vocabulary section, not only page load.
+
+Verify:
+- My Words,
+- Revision,
+- Games,
+- Use It,
+- Leaderboard if still part of the product,
+- folders,
+- save from Reading,
+- save from Listening/transcripts,
+- reload persistence,
+- SRS,
+- concurrent/idempotent save protections,
+- source snapshot behaviour.
+
+Do not mask DB errors with a generic empty state.
+
+If Dictionary enrichment is not yet loaded, Vocabulary still needs to work with existing legitimate lexical rows/fallbacks.
+
+Do not expand this task into the entire 60k+ Dictionary enrichment project.
+
+============================================================
+47. GRAMMAR SECTION — FIX RUNTIME, THEN VERIFY FLOWS
+============================================================
+
+Grammar currently fails in Preview.
+
+First diagnose exact runtime cause from logs/schema.
+
+Then verify the actual learner Grammar flows, not only route rendering.
+
+Preserve the Final QA 2 privacy protections.
+
+Test:
+- list/load,
+- exercise submission,
+- history/progress if implemented,
+- privacy/ownership,
+- responsive layout,
+- translation strings.
+
+Do not copy Booster grammar content verbatim.
+
+============================================================
+48. AUTHENTICATION — CURRENT REALITY
+============================================================
+
+Existing auth/admission/roles are hardened.
+
+Google authentication and email ownership verification were NOT completed in Final QA 2.
+
+Implement them without rewriting stable auth unnecessarily.
+
+============================================================
+49. EMAIL/PASSWORD REGISTRATION
+============================================================
+
+New email/password registration collects:
+- Name,
+- Gender,
+- Email,
+- Password.
+
+Email ownership must be verified before normal learner access according to the existing admission model.
+
+Keep these concepts separate:
+- email verified,
+- account approved/admitted,
+- account active/suspended,
+- role.
+
+Verification does not automatically mean approval.
+Approval does not automatically prove mailbox ownership.
+
+============================================================
+50. EMAIL VERIFICATION SECURITY
+============================================================
+
+Verification tokens must be:
+- cryptographically random,
+- safely stored, preferably hashed,
+- purpose-specific,
+- single-use,
+- expiring.
+
+Protect against:
+- replay,
+- guessing,
+- resend abuse,
+- enumeration,
+- brute force.
+
+Resend must be rate-limited.
+
+Expired verification has a clear recovery flow.
+
+Password reset must NOT silently mark email verified.
+
+Do not let abandoned unverified signups squat an email forever without a safe recovery/reclaim policy.
+
+============================================================
+51. GOOGLE SIGN-IN / ACCOUNT LINKING
+============================================================
+
+Implement secure Google OAuth 2.0 / OIDC within the existing auth architecture.
+
+Validate:
+- state,
+- provider identity,
+- issuer/audience where applicable,
+- email,
+- email_verified,
+- nonce/PKCE where supported,
+- safe redirect destination.
+
+Prevent open redirects.
+
+Durable provider identity uses provider subject ID, not email string alone.
+
+SAFE LINKING RULE:
+Do NOT silently merge an incoming Google identity with an existing Learners Area account only because the email strings match.
+
+If provider subject already linked -> use linked account.
+
+If no Learners Area account exists -> create proper onboarding account state.
+
+If existing account uses same email but provider is not linked -> require strong proof such as authenticated existing session, password re-authentication, or another verified account-link challenge.
+
+Google verified email can satisfy mailbox ownership for that Google identity, but must NOT bypass admission/accountStatus/roles/suspension/profile requirements.
+
+============================================================
+52. TELEGRAM + GENDER
+============================================================
+
+Preserve current Telegram auth/linking.
+
+Do not replace it with Google.
+
+Gender values for this product:
+- male
+- female
+
+The user chooses explicitly.
+
+Never infer gender from:
+- name,
+- email,
+- Google,
+- Telegram,
+- username,
+- profile image,
+- AI,
+- language.
+
+Historical users may keep gender=null until a relevant flow requires completion.
+
+============================================================
+53. SPEAKING — FINAL INFORMATION ARCHITECTURE
+============================================================
+
+Speaking has exactly THREE main learner paths:
+
+1. AI Speaking / AI Examiner
+2. Practice on Your Own
+3. Live Partner
+
+SHADOWING is removed from the learner-facing Speaking product.
+
+Do not replace Shadowing with another huge influencer/video library.
+
+Historical data may remain if deleting it is risky.
+
+============================================================
+54. ONE CANONICAL SPEAKING QUESTION BANK
+============================================================
+
+Practice on Your Own and Live Partner use ONE canonical question source.
+
+Do not create separate duplicated question banks.
+
+Reuse/upgrade speaking_prompts or the actual current canonical model after repository audit.
+
+If the owner supplies learners_area_speaking_master_2026_v2.zip:
+- inspect machine-readable JSON/JSONL/import files,
+- verify real counts,
+- import idempotently,
+- repeated import must not create duplicates.
+
+Known expected V2 bank snapshot from the owner's previous preparation work:
+- Part 1 questions: 285
+- Part 2 cue cards: 85
+- Part 3 questions: 510
+- total canonical prompts/items: 880
+- unique: 880
+- Part 1 topic families: 57
+- Part 2 canonical families: 85
+
+These numbers are an expected integrity checkpoint, NOT permission to fabricate rows. Verify them against the supplied archive. If the supplied archive differs, stop and report the exact mismatch before destructive import.
+
+Do not claim this bank is an official exhaustive IELTS live-question pool. IELTS does not publish a complete live pool. Present it as Learners Area's current curated canonical Speaking bank.
+
+Use exact labels:
+- Part 1 — Interview
+- Part 2 — Cue Card
+- Part 3 — Discussion
+
+============================================================
+55. PRACTICE ON YOUR OWN — NAVIGATION
+============================================================
+
+Flow:
+
+STEP 1
+choose Part 1 / Part 2 / Part 3.
+
+STEP 2
+show all topics for that Part.
+
+STEP 3
+choose one topic.
+
+STEP 4
+show ALL questions/cue content belonging to that topic.
+
+Do not show only one random question.
+
+============================================================
+56. EVERY SPEAKING QUESTION HAS ITS OWN RECORD BUTTON
+============================================================
+
+This is NON-NEGOTIABLE.
+
+Do not use one global recorder for the whole topic.
+
+Every individual Part 1/Part 3 question has its own:
+Record answer
+
+Every Cue Card has its own recorder.
+
+Recording state must be isolated per question.
+
+One question's recording must never overwrite another question's draft.
+
+============================================================
+57. PRACTICE RECORDING — LOCAL FIRST
+============================================================
+
+Record with browser MediaRecorder.
+
+While recording / after Stop before persistence:
+- audio stays in browser memory as Blob/object URL,
+- learner can play,
+- record again,
+- discard,
+- save,
+- Analyze with RIWI.
+
+DO NOT upload audio simply because Record/Stop was pressed.
+
+Upload to Cloudflare R2 only after an explicit persistence action such as:
+- Save answer,
+- Analyze with RIWI.
+
+PostgreSQL stores metadata/object key, not raw audio bytes.
+
+Clean up tracks/Blob URLs/AudioContexts/timers.
+
+Unsaved recording may be lost on refresh; warn before intentional navigation if meaningful unsaved audio exists.
+
+============================================================
+58. SPEAKING SUPPORT PANEL
+============================================================
+
+For the currently selected Practice question show a right-side support panel on desktop.
+
+Tabs/sections:
+- Vocabulary
+- Ideas
+- Model Answer
+
+Vocabulary:
+useful words/phrases/collocations linked to shared lexical architecture where practical.
+
+Ideas:
+angles/examples/outline prompts, not one forced script.
+
+Model Answer:
+clearly labelled Learners Area model/sample answer, never "official IELTS answer".
+
+If RIWI-generated, preserve provenance.
+
+============================================================
+59. RIWI SPEAKING ANALYSIS + AUTHORITATIVE S SCORE
+============================================================
+
+Analyze with RIWI may use:
+- exact question,
+- Part/topic,
+- saved recording/transcript,
+- rubric,
+- duration/context.
+
+Feedback may include:
+- Fluency,
+- Lexical Resource,
+- Grammar,
+- Pronunciation,
+- strengths,
+- weaknesses,
+- next actions.
+
+The `S 7.0` style score shown in Live Partner is authoritative Learners Area Speaking assessment only.
+
+Valid sources:
+- RIWI evaluated Speaking attempt,
+- verified teacher/examiner assessment.
+
+Do NOT use:
+- target band,
+- self-reported currentBand,
+- peer feedback,
+- demo/random values.
+
+If none exists:
+S —
+
+============================================================
+60. LIVE PARTNER — DEFAULT OFFLINE / GO ONLINE GATE
+============================================================
+
+Opening Speaking does NOT make the user available.
+
+Opening Practice on Your Own does NOT make the user available.
+
+Opening Live Partner does NOT make the user available.
+
+Default Live Partner state:
+OFFLINE
+
+Only explicit:
+Go Online
+
+may make the learner AVAILABLE.
+
+Go Online flow:
+1. validate account eligibility,
+2. ensure required profile fields/gender,
+3. show first-use rules if needed,
+4. run microphone preflight,
+5. authenticate realtime connection,
+6. mark AVAILABLE.
+
+Only then does the user appear in Online Users.
+
+============================================================
+61. PRACTICE USERS MUST NOT APPEAR ONLINE
+============================================================
+
+If a learner is AVAILABLE and starts Practice on Your Own:
+- Live Partner presence becomes OFFLINE immediately,
+- pending invites are cancelled safely,
+- other learners stop seeing the account.
+
+This is account-level across tabs.
+
+If user is IN_CALL and another tab tries to START local Practice recording:
+block the local recording start and explain that the Live Partner call must end first.
+
+Do not silently terminate a live call from a background Practice tab.
+
+============================================================
+62. LIVE PARTNER PRESENCE STATE MACHINE
+============================================================
+
+Use server-authoritative account-level states, conceptually:
+OFFLINE
+AVAILABLE
+OUTGOING_INVITE
+INCOMING_INVITE
+CONNECTING
+IN_CALL
+RECONNECTING
+
+Only AVAILABLE users appear in Online Users.
+
+Do not show:
+- all logged-in users,
+- Practice users,
+- stale heartbeats,
+- blocked users relative to viewer,
+- IN_CALL users.
+
+One account appears once even with multiple tabs.
+
+============================================================
+63. LIVE PARTNER FIRST-USE RULES + MIC PREFLIGHT
+============================================================
+
+First Go Online per rules version shows concise guidelines:
+- be respectful,
+- no abusive/sexual behaviour,
+- do not pressure for private contact details,
+- no invite spam,
+- either learner can leave,
+- Block/Report available,
+- Learners Area does not record Live Partner calls by default.
+
+Store rulesVersion/acceptedAt.
+
+Mic preflight runs only when going online, not merely opening Speaking.
+
+Detect:
+- support,
+- permission,
+- denied,
+- no mic,
+- getUserMedia error,
+- ended track.
+
+Show simple live level meter.
+Do not upload preflight audio.
+
+============================================================
+64. LIVE PARTNER DESKTOP LAYOUT
+============================================================
+
+Before call:
+
+YOU | SPEAKING QUESTIONS | ONLINE USERS
+
+YOU:
+- system avatar,
+- display name,
+- authoritative S score,
+- mic status,
+- Go Online / Go Offline.
+
+SPEAKING QUESTIONS:
+- search,
+- Part 1,
+- Part 2,
+- Part 3.
+
+ONLINE USERS:
+- avatar,
+- name,
+- S score,
+- Invite.
+
+After connection:
+
+YOU | SPEAKING QUESTIONS | PARTNER
+
+PARTNER:
+- avatar,
+- name,
+- S score,
+- Connected/Reconnecting,
+- Mute partner,
+- Choose another partner.
+
+============================================================
+65. PART 1 / PART 2 / PART 3 ROWS
+============================================================
+
+The whole row is the button.
+
+PART 1 ▼
+PART 2 ▼
+PART 3 ▼
+
+Clicking the text, blank row area, or chevron toggles the accordion.
+
+Keyboard activation works.
+
+Question search is search-as-you-type and searches topics/questions/cue text/cue points/keywords.
+
+Questions are OPTIONAL conversation aids.
+
+Do NOT add:
+- examiner/candidate roles,
+- Switch roles,
+- forced turn-taking,
+- mandatory Live Partner Part 2 timers,
+- automatic progression,
+- random matchmaking.
+
+============================================================
+66. INVITE FLOW + RACE SAFETY
+============================================================
+
+No random matchmaking.
+
+A chooses B -> Invite.
+
+B receives:
+- avatar,
+- display name,
+- authoritative S score,
+- Accept,
+- Decline.
+
+On Accept:
+- validate invite,
+- validate both still AVAILABLE,
+- atomically reserve both,
+- create exactly one room,
+- mark CONNECTING/IN_CALL,
+- remove both from Online Users,
+- start WebRTC negotiation.
+
+Handle safely:
+- A invites B while B invites A,
+- A and C invite B,
+- duplicate Invite,
+- duplicate Accept,
+- expired invite,
+- recipient became busy,
+- recipient offline.
+
+Exactly one valid call can win.
+
+============================================================
+67. WEBRTC / SIGNALLING / AUTH
+============================================================
+
+Live Partner is AUDIO ONLY.
+
+No video/camera/screen share.
+
+Use real WebRTC:
+RTCPeerConnection
+MediaStream
+audio tracks
+
+Use a proper long-running realtime signalling service.
+Do not use a module-level Map in a stateless Vercel function for production presence.
+
+Realtime handles:
+- auth,
+- presence,
+- invite,
+- accept/decline,
+- room,
+- offer,
+- answer,
+- ICE,
+- heartbeat,
+- reconnect/rejoin,
+- hangup.
+
+Use short-lived authenticated realtime tokens.
+Never trust browser-supplied userId.
+
+Reject:
+- tampering,
+- expiry,
+- wrong audience,
+- suspended/inactive accounts.
+
+============================================================
+68. TURN / IP PRIVACY
+============================================================
+
+Because strangers may speak to strangers, prefer TURN relay behaviour that avoids exposing direct peer IPs.
+
+Use relay-only/equivalent privacy-preserving behaviour where production infrastructure supports it.
+
+Do not hardcode permanent TURN secrets.
+
+If production TURN cannot be verified:
+TURN RELAY — EXTERNALLY UNVERIFIED
+
+Do not fake verification.
+
+============================================================
+69. LIVE CALL STORAGE = ZERO AUDIO STORAGE BY DEFAULT
+============================================================
+
+Live Partner audio is transient WebRTC media.
+
+Do NOT:
+- upload live-call audio to R2,
+- store live-call audio in PostgreSQL,
+- record it automatically,
+- transcribe it automatically,
+- run RIWI on it automatically.
+
+Persist only minimal session metadata such as:
+sessionId
+participants
+startedAt
+endedAt
+duration
+endReason
+connectionOutcome
+
+Do not store giant signalling histories/raw ICE logs permanently.
+
+============================================================
+70. CALL RESILIENCE
+============================================================
+
+Support bounded reconnect/rejoin.
+
+Temporary loss:
+Connected -> Reconnecting -> retry -> re-authenticate -> rejoin valid room.
+
+Use heartbeat/TTL/grace/backoff.
+
+If recovery fails after bounded timeout:
+- end cleanly,
+- release users,
+- restore valid presence.
+
+Use getStats() for health where helpful.
+
+Handle browser autoplay block:
+show "Tap to hear your partner" and retry after gesture.
+
+Use subtle active-speaker indicator.
+Respect reduced motion.
+
+Use Screen Wake Lock during active call where supported; failure is non-fatal.
+
+============================================================
+71. MUTE / CHOOSE ANOTHER PARTNER / END CALL
+============================================================
+
+Own Mute:
+disable current user's outgoing mic track.
+
+Partner Mute:
+mute remote playback locally only.
+
+Exact button text:
+Choose another partner
+Uzbek:
+Boshqa sherik tanlash
+
+Choose another partner:
+- end current call cleanly,
+- notify partner,
+- close peer resources,
+- finalize session,
+- if Go Online remains active, return to AVAILABLE,
+- show Online Users,
+- let learner choose manually.
+
+No random replacement.
+
+End the call:
+end current conversation and clean up.
+If intentional Go Online remains active -> AVAILABLE; otherwise -> OFFLINE.
+
+============================================================
+72. MOBILE ACTIVE CALL — EXACT STRUCTURE
+============================================================
+
+On mobile during active call:
+
+TOP:
+compact rectangular PARTNER card containing:
+- avatar,
+- name,
+- S score,
+- connection status,
+- Mute partner,
+- Choose another partner.
+
+BELOW:
+SPEAKING QUESTIONS:
+- Search,
+- Part 1,
+- Part 2,
+- Part 3.
+
+BOTTOM FIXED:
+two small circular controls:
+LEFT -> own microphone Mute/Unmute
+RIGHT -> End call
+
+Respect safe-area inset.
+Do not require scrolling to mute/end.
+
+Do not waste mobile space on a giant YOU profile card.
+
+============================================================
+73. POST-CALL PEER FEEDBACK
+============================================================
+
+After an eligible completed call, offer OPTIONAL peer feedback.
+
+Criteria:
+- Fluency,
+- Lexical Resource,
+- Grammar,
+- Pronunciation.
+
+Use a simple whole-number 1–9 scale if consistent with the supplied screenshot.
+
+Label clearly:
+Peer feedback / Partner feedback
+
+Do NOT call it an official IELTS band.
+
+Include Skip.
+
+Peer feedback must NEVER change authoritative S score.
+
+Store separately.
+
+Rules:
+- no self-rating,
+- one rating per rater/session,
+- only real completed connected sessions,
+- server verifies relationship,
+- use a centralized minimum connected duration; default starting value 60 seconds.
+
+============================================================
+74. BLOCK / REPORT
+============================================================
+
+Provide Block user and Report.
+
+Blocking is server enforced.
+Blocked pair cannot:
+- see each other as available,
+- invite each other,
+- accept stale mutual invites.
+
+Report reasons may include:
+- abusive/insulting,
+- sexual/inappropriate,
+- spam/advertising,
+- pressure for private contact details,
+- room-rule violation,
+- other.
+
+Do not store call audio as evidence.
+
+============================================================
+75. SYSTEM AVATARS
+============================================================
+
+Exactly two system avatar styles for Live Partner:
+- male,
+- female.
+
+Use one reusable component.
+Prefer local vector/SVG assets.
+
+Do not add Live Partner profile-photo upload.
+
+Do not infer avatar/gender from name/email/provider profile.
+
+============================================================
+76. INTERNATIONALIZATION
+============================================================
+
+All new production UI supports UZ and EN.
+
+No mixed-language hardcoded production strings.
+
+Translate all new states for:
+- auth,
+- verification,
+- Google,
+- gender,
+- profile editing,
+- Management search,
+- Retention,
+- Reading evidence,
+- Listening notes/revision/trainers,
+- RIWI,
+- TED/PODCAST,
+- Speaking Practice,
+- Live Partner,
+- peer feedback,
+- block/report,
+- reconnect/errors.
+
+============================================================
+77. ACCESSIBILITY
+============================================================
+
+Target WCAG 2.2 AA where practical.
+
+Verify:
+- keyboard navigation,
+- visible focus,
+- semantic buttons,
+- accessible popovers/listboxes,
+- Part accordion semantics,
+- drag/drop keyboard alternative,
+- dialog focus management,
+- aria-pressed mute,
+- no color-only status,
+- reduced motion,
+- adequate contrast,
+- touch targets,
+- native Reading text selection,
+- accessible charts with text equivalents,
+- accessible auth forms,
+- status/error announcements.
+
+Dotted Vocabulary underlines must not be the only way saved state is conveyed inside the popup itself.
+
+============================================================
+78. RESPONSIVE ACCEPTANCE
+============================================================
+
+Test at least:
+320
+360
+375
+390
+393
+768
+1024
+1440
+
+Representative screens:
+- shell/day/night,
+- profile menu/edit profile,
+- Management People search,
+- My Progress charts,
+- Retention level selection,
+- Retention reading,
+- Retention recall,
+- Retention result,
+- Reading library/filters,
+- Reading active attempt,
+- Reading evidence review,
+- Listening hub,
+- Listening note-taking,
+- Listening Revision,
+- TED/PODCAST,
+- Vocabulary,
+- Grammar,
+- email verification,
+- Google/profile completion,
+- Speaking landing,
+- Practice topic/questions,
+- support panel,
+- Live Partner OFFLINE,
+- AVAILABLE,
+- incoming invite,
+- active call,
+- post-call feedback.
+
+No horizontal document overflow.
+
+============================================================
+79. SECURITY REVIEW
+============================================================
+
+Explicitly review/test:
+- email verification replay,
+- expired token,
+- resend abuse,
+- account enumeration,
+- Google OAuth state forgery,
+- unsafe same-email linking,
+- open redirect,
+- accountStatus bypass,
+- role bypass,
+- Telegram regression,
+- profile-name XSS,
+- unauthorized profile editing,
+- Management search authorization,
+- private Vocabulary/source leakage,
+- unsubmitted Reading/Listening answer leakage,
+- evidence API leakage,
+- unauthorized note access,
+- unauthorized R2 recording access,
+- realtime identity impersonation,
+- forged invite,
+- room guessing/hijacking,
+- stale invite replay,
+- expired realtime token,
+- multiple-call races,
+- blocked-user bypass,
+- Speaking score forgery,
+- report/admin authorization.
+
+Fix all reproduced P0/P1 before completion.
+
+============================================================
+80. PERFORMANCE REQUIREMENTS
+============================================================
+
+Do not optimize by deleting useful UX.
+
+Required performance principles:
+- no one-request-per-word Vocabulary status pattern,
+- no 1-second HTTP presence polling,
+- avoid repeated full Speaking-bank downloads,
+- do not upload Practice audio before Save/Analyze,
+- parallelize safe independent server reads,
+- paginate Management People,
+- paginate/virtualize long data where needed,
+- prefetch predictable routes,
+- avoid giant chart/media bundles,
+- preserve responsive interaction on low-power phones.
+
+Measure and report representative before/after timings where possible.
+
+============================================================
+81. MIGRATION SAFETY
+============================================================
+
+Migration 0020 is baseline history.
+
+For every new migration:
+- inspect SQL,
+- run fresh QA path,
+- run populated historical-data upgrade path,
+- verify constraints,
+- verify indexes,
+- verify rollback/recovery considerations,
+- verify compatibility with existing users,
+- never apply production automatically.
+
+Potential new schema areas may include:
+- email verification,
+- OAuth identities/linking,
+- gender,
+- self-profile metadata,
+- Retention texts/fact units/attempts,
+- Reading highlights,
+- submitted evidence scope,
+- evidence anchors,
+- Listening notes,
+- TED/PODCAST content typing,
+- Speaking support data,
+- Live Partner rules/sessions,
+- blocks/reports,
+- peer feedback.
+
+Use existing tables where safe rather than creating duplicates.
+
+============================================================
+82. PRODUCTION MIGRATION ORDER
+============================================================
+
+Production is still behind migration 0020 unless independently proven otherwise at deployment time.
+
+Final handoff must provide the exact safe order, conceptually:
+1. backup production,
+2. inspect migration history,
+3. dry-check migration plan,
+4. apply 0020,
+5. verify,
+6. apply new V4.2 migrations sequentially,
+7. verify schema/data,
+8. deploy exact approved app SHA,
+9. run smoke tests,
+10. verify rollback path.
+
+Do not execute production steps without explicit owner approval.
+
+============================================================
+83. EXTERNAL INFRASTRUCTURE REPORT
+============================================================
+
+Report the exact environment-variable NAMES/configuration required for:
+- Google OAuth client ID,
+- Google OAuth secret,
+- Google callback/base URL,
+- email delivery provider,
+- sender,
+- public base URL,
+- RIWI/OpenAI integration if relevant,
+- R2,
+- realtime signalling URL,
+- realtime auth secret/key,
+- allowed origins,
+- TURN URLs/credential mechanism,
+- Live Partner rules version.
+
+Never print secret values.
+
+Report exact Google redirect URI after implementation.
+
+============================================================
+84. REQUIRED TEST MATRIX — STABILIZATION
+============================================================
+
+At minimum test:
+- Preview/staging schema matches code,
+- Vocabulary route renders,
+- Grammar route renders,
+- Vocabulary full flows,
+- Grammar functional flow,
+- no production DB touched,
+- navigation pending indicator delay,
+- route performance measurement,
+- no giant blank scroll tail,
+- day/night logo mapping,
+- cropped mark,
+- new fonts load without layout break.
+
+============================================================
+85. REQUIRED TEST MATRIX — RETENTION
+============================================================
+
+Test:
+- A2/B1/B2/C1/C2 selection,
+- correct level text assignment,
+- 2:00 reading fixed for every level,
+- no recall textarea during reading,
+- source disappears after time/finish,
+- 3:00 recall fixed for every level,
+- draft autosave,
+- source cannot be trivially revealed during recall,
+- canonical fact scoring,
+- semantic-equivalence fallback,
+- result score,
+- WPM,
+- best score,
+- history,
+- no cross-user history leakage.
+
+============================================================
+86. REQUIRED TEST MATRIX — READING
+============================================================
+
+Test:
+- Focus auto-on only for active attempts,
+- RIWI button available,
+- Vocabulary popup active,
+- two-color dotted state map,
+- save changes dotted state,
+- bulk status lookup,
+- native select/copy/double-click as tooling allows,
+- mobile long-press as tooling allows,
+- highlight add/remove/persistence,
+- answer input sizing,
+- drag/drop,
+- touch fallback,
+- autosave,
+- timer countdown/resume/expiry,
+- Topic dropdown closes,
+- Question Type dropdown alignment/counts,
+- partial submit scope,
+- direct API cannot fetch unsubmitted answer/evidence,
+- passage evidence scroll/highlight,
+- RIWI grounded analysis,
+- missing evidence honest state.
+
+============================================================
+87. REQUIRED TEST MATRIX — LISTENING
+============================================================
+
+Test:
+- Academic Tests hub,
+- Revision,
+- Keyword Table,
+- Speed Trainer,
+- Vocabulary,
+- Question Types,
+- MCQ Mastery,
+- General Listening,
+- History,
+- notes autosave/restore,
+- notes are not graded answers,
+- player behaviour by mode,
+- transcript evidence/timestamp,
+- partial submission scope,
+- unsubmitted answer/evidence rejection,
+- RIWI grounded analysis,
+- dotted Vocabulary states,
+- Focus auto-on active test,
+- responsive behaviour.
+
+============================================================
+88. REQUIRED TEST MATRIX — PROFILE / PEOPLE / PROGRESS
+============================================================
+
+Test:
+- ordinary user edits own name,
+- owner edits own name,
+- user cannot edit another user's name,
+- provider login does not overwrite custom name,
+- People search by name/email,
+- role/status filters,
+- pagination beyond first 200 users,
+- unauthorized user cannot access Management search,
+- Progress charts use real data,
+- empty-user state does not invent data,
+- Speaking trend uses legitimate evaluation source,
+- chart accessibility fallback.
+
+============================================================
+89. REQUIRED TEST MATRIX — AUTH
+============================================================
+
+Test:
+- signup requires gender,
+- email starts unverified,
+- valid verification,
+- invalid token,
+- expired token,
+- single-use token,
+- resend rate limit,
+- replay rejected,
+- password reset does not verify email,
+- Google valid callback,
+- invalid/tampered state,
+- provider-subject reuse,
+- unsafe same-email auto-link rejected,
+- safe link flow,
+- Google verified email avoids redundant verification,
+- pending admission not bypassed,
+- suspended Google user remains suspended,
+- Telegram regression,
+- roles/admission regression.
+
+============================================================
+90. REQUIRED TEST MATRIX — SPEAKING PRACTICE
+============================================================
+
+Test:
+- Part 1 topics,
+- Part 2 topics,
+- Part 3 topics,
+- selected topic shows all questions,
+- every question has separate recorder,
+- recording states isolated,
+- record/stop/play/re-record/discard,
+- zero R2 upload before Save/Analyze,
+- Save -> R2,
+- Analyze -> persistence + RIWI,
+- cleanup,
+- retention/cleanup policy,
+- Vocabulary/Ideas/Model Answer follows selected question,
+- authoritative S score remains separate from peer feedback.
+
+============================================================
+91. REQUIRED TEST MATRIX — PRESENCE / REALTIME / WEBRTC
+============================================================
+
+Presence:
+Speaking opened -> OFFLINE
+Practice opened -> OFFLINE
+Live Partner opened -> OFFLINE
+Go Online -> AVAILABLE
+Go Offline -> OFFLINE
+AVAILABLE then Practice starts -> OFFLINE
+IN_CALL -> not in Online Users
+stale heartbeat -> removed
+multiple tabs -> one account state
+IN_CALL then other tab starts Practice recorder -> blocked
+
+Realtime:
+invite
+decline
+accept
+expiry
+duplicate send
+duplicate accept
+cross-invite
+two senders/one recipient
+one winner
+in-call second invite rejected
+blocked pair
+inactive/suspended account
+disconnect
+reconnect
+rejoin
+cleanup
+
+WebRTC:
+offer
+answer
+ICE
+TURN config
+connected
+own mute
+partner local mute
+hangup
+Choose another partner
+autoplay recovery
+getStats
+resource cleanup
+
+============================================================
+92. REAL TWO-BROWSER ACCEPTANCE
+============================================================
+
+Use two authenticated learner accounts where tooling allows.
+
+Before Go Online:
+neither appears AVAILABLE.
+
+A goes online.
+B goes online.
+They see each other.
+A invites B.
+B accepts.
+
+Verify:
+- exactly one room,
+- audio connection state,
+- both removed from Online Users,
+- question panel usable,
+- whole Part rows clickable,
+- own mute,
+- partner mute,
+- End call,
+- Choose another partner.
+
+If possible, third user C must not see A/B AVAILABLE while A/B are IN_CALL.
+
+If real mic/TURN cannot be tested, label that limitation honestly.
+
+============================================================
+93. RESPONSIVE / VISUAL QA WITH SCREENSHOTS
+============================================================
+
+Because this task includes important visual requirements, browser QA must produce screenshots for representative final states.
+
+Capture at least:
+- day shell/logo,
+- night shell/logo,
+- Retention level selection,
+- Retention reading,
+- Retention recall,
+- Retention result,
+- Reading active test with Vocabulary/dots/highlight,
+- Reading dropdowns,
+- Listening note-taking,
+- Listening Revision,
+- Progress charts,
+- Profile edit,
+- People search,
+- TED/PODCAST,
+- Speaking Practice desktop,
+- Live Partner desktop,
+- Live Partner mobile,
+- post-call feedback.
+
+Compare these against the owner screenshots where they are references.
+
+Do not claim visual parity without actual browser evidence.
+
+============================================================
+94. FINAL QUALITY GATES
+============================================================
+
+Before completion run:
+- all targeted tests,
+- real PostgreSQL integration tests,
+- migration tests,
+- auth tests,
+- Retention tests,
+- Reading tests,
+- Listening tests,
+- Vocabulary/Grammar regression,
+- Profile/Management/Progress tests,
+- Speaking tests,
+- realtime/race tests,
+- browser acceptance,
+- responsive acceptance,
+- security review,
+- full regression,
+- typecheck,
+- lint,
+- production build,
+- git diff --check.
+
+The old baseline was 300/300.
+The final total should normally be larger because new tests are added.
+
+Report actual totals.
+
+Do not delete hard regression tests just to obtain green output.
+
+============================================================
+95. VERIFICATION LABELS
+============================================================
+
+Use these labels honestly:
+CODE VERIFIED
+LOCAL VERIFIED
+QA DB VERIFIED
+BROWSER VERIFIED
+TWO-BROWSER VERIFIED
+EXTERNALLY UNVERIFIED
+PRODUCTION VERIFIED
+
+Never blur one into another.
+
+============================================================
+96. GIT DISCIPLINE
+============================================================
+
+Use logical commits based on real diff.
+
+Possible boundaries include:
+- fix(preview): align QA schema and runtime expectations
+- perf(shell): remove navigation bottlenecks and delayed pending UI
+- feat(retention): implement timed CEFR recall workflow
+- feat(reading): add highlight, lexical states, evidence scope
+- feat(listening): add notes, revision and training hub
+- feat(profile): add self display-name editing
+- feat(admin): add scalable People search/pagination
+- feat(progress): add real analytics charts
+- feat(auth): add email verification
+- feat(auth): add safe Google account linking
+- feat(media): rename and structure TED/PODCAST
+- feat(speaking): add per-question Practice workflow
+- feat(speaking): add Go Online presence/realtime/WebRTC
+- feat(speaking): add peer feedback/block/report
+- test: cover V4.2 regressions
+- docs: update deployment/reference architecture
+
+Do not mechanically use these names.
+
+Push stable checkpoints.
+
+Do NOT merge main.
+
+============================================================
+97. FINAL REPORT — MUST BE IN UZBEK
+============================================================
+
+When genuinely complete, return an evidence-dense Uzbek report including at least:
+
+BASELINE / GIT
+1. starting branch
+2. starting SHA
+3. final feature branch
+4. final local SHA
+5. final remote SHA
+6. commits created
+
+STABILIZATION
+7. Preview DB/schema diagnosis
+8. migration 0020 QA/production status
+9. Vocabulary crash root cause/result
+10. Grammar crash root cause/result
+11. navigation latency before/after
+12. pending indicator behaviour
+13. blank-scroll result
+
+DESIGN/SHELL
+14. font system
+15. icon system
+16. RIWI floating button
+17. auto Focus behaviour
+18. day/night logo mapping
+19. cropped mark result
+
+PROFILE / MANAGEMENT / PROGRESS
+20. name editing
+21. provider-name overwrite protection
+22. People search/pagination
+23. Progress chart sections/data sources
+24. Speaking progress score source
+
+RETENTION
+25. level selection
+26. target word counts
+27. exact 2:00 reading
+28. exact 3:00 recall
+29. source-hide rule
+30. scoring architecture
+31. result/history
+
+READING
+32. highlight
+33. answer input sizing
+34. Vocabulary popup
+35. dotted word states
+36. drag/drop + touch fallback
+37. timer fix
+38. dropdown close/alignment/counts
+39. partial submit scope
+40. unsubmitted answer/evidence leakage test
+41. passage evidence highlighting
+42. RIWI grounding
+
+LISTENING
+43. final hub sections
+44. note-taking
+45. Revision
+46. Keyword Table
+47. Speed Trainer
+48. Vocabulary
+49. Question Types
+50. MCQ Mastery
+51. General Listening
+52. transcript evidence/timestamp
+53. partial evidence scope
+
+TED/PODCAST
+54. rename/route compatibility
+55. content kinds/transcript/notes/vocab
+
+AUTH
+56. email verification
+57. Google OAuth
+58. safe account linking
+59. gender/profile completion
+60. Telegram regression
+
+SPEAKING PRACTICE
+61. Shadowing removal
+62. canonical bank count
+63. import idempotency
+64. Practice/Live shared bank proof
+65. Part 1/2/3 UX
+66. per-question recorder
+67. local-first audio
+68. R2 persistence trigger
+69. support panel
+70. RIWI Speaking
+71. authoritative S score
+
+LIVE PARTNER
+72. Go Online gate
+73. Practice offline-presence proof
+74. multiple-tab state
+75. invite/race result
+76. realtime auth
+77. WebRTC
+78. TURN/IP privacy
+79. reconnect/rejoin
+80. autoplay recovery
+81. active speaker
+82. Wake Lock
+83. desktop layout
+84. mobile layout
+85. whole Part-row click behaviour
+86. peer feedback
+87. proof peer feedback cannot change S score
+88. block/report
+
+QUALITY
+89. responsive widths
+90. accessibility
+91. security review
+92. targeted test totals
+93. full regression total
+94. PostgreSQL totals
+95. typecheck
+96. lint
+97. production build
+98. git diff --check
+99. production DB status
+100. main merge status
+101. production deployment status
+102. EXTERNALLY UNVERIFIED items
+103. NON-BLOCKING FOLLOW-UP items
+104. exact manual production migration/deployment steps
+
+============================================================
+98. STOP CONDITIONS
+============================================================
+
+Work autonomously.
+Do not stop after planning.
+
+Only ask the owner if:
+- exact hardened baseline cannot be found safely,
+- supplied reference/question-bank file is missing or corrupt,
+- a real secret/credential is required for external verification,
+- a new paid provider/service decision is unavoidable,
+- an irreversible production operation requires approval,
+- the repository proves a specified product rule requires a major trade-off not resolved here.
+
+Do NOT ask questions about decisions explicitly specified in this prompt.
+
+============================================================
+99. SUCCESS DEFINITION
+============================================================
+
+V4.2 is complete only when ALL applicable requirements below are true.
+
+STABILIZATION
+- Vocabulary no longer crashes in the verified QA/Preview environment.
+- Grammar no longer crashes.
+- code/schema mismatch is resolved correctly.
+- navigation latency root cause is addressed rather than merely hiding spinner.
+- giant blank bottom scrolling is fixed.
+- day/night logo mapping/crop is correct.
+
+RETENTION
+- Retention opens with A2–C2 level selection.
+- each level provides appropriate unseen text.
+- reading phase is exactly 2:00.
+- textarea is hidden during reading.
+- source disappears before recall.
+- recall phase is exactly 3:00.
+- scoring/result/history work.
+
+READING
+- IELTS-style layout remains strong.
+- Vocabulary remains active.
+- subtle saved/not-saved dotted lexical states work.
+- highlight works without breaking selection.
+- inputs are comfortable.
+- timer is sane.
+- dropdowns close/alignment/counts work.
+- Focus auto-enables for active attempt.
+- partial submission/evidence is server-scoped.
+- exact passage evidence review works.
+- RIWI is evidence-grounded after submission.
+
+LISTENING
+- final learning hub exists.
+- note-taking works and is separate from answer.
+- Academic Exam/Revision/Keyword/Speed/Vocabulary are connected.
+- Question Types/MCQ/General/History are accessible.
+- partial evidence scope is secure.
+- transcript evidence is grounded.
+- Vocabulary/RIWI learning tools remain available according to rules.
+
+GLOBAL PRODUCT
+- RIWI floating button sits above Focus.
+- typography is premium/readable.
+- iconography is coherent/premium.
+- user can edit own display name.
+- People search scales beyond the newest 200 users.
+- My Progress uses real visual analytics.
+- TED / PODCAST replaces old learner-facing Video Lessons naming.
+
+AUTH
+- Google sign-in is secure.
+- unsafe email-only account linking is prevented.
+- email/password mailbox ownership verification exists.
+- admission/accountStatus cannot be bypassed.
+- Telegram remains healthy.
+- gender is explicit where required.
+
+SPEAKING PRACTICE
+- AI Speaking remains healthy.
+- Shadowing is not learner-facing.
+- one canonical bank serves Practice + Live Partner.
+- Part 1 Interview / Part 2 Cue Card / Part 3 Discussion work.
+- selected topic shows all questions.
+- every question has its own recorder.
+- unsaved audio remains local.
+- Save/Analyze triggers persistence.
+- Vocabulary/Ideas/Model Answer works.
+- authoritative S score remains trustworthy.
+
+LIVE PARTNER
+- default is OFFLINE.
+- explicit Go Online is required.
+- Practice users are not shown AVAILABLE.
+- IN_CALL users are not shown AVAILABLE.
+- multi-tab account state is consistent.
+- invitations are race-safe.
+- WebRTC audio works.
+- live calls are not recorded/stored by default.
+- own mute and partner local mute work.
+- whole Part rows are clickable.
+- Choose another partner works.
+- End call works.
+- reconnect/rejoin works.
+- mobile active-call layout matches specification.
+- peer feedback works but never changes S score.
+- block/report works.
+
+QUALITY
+- no unresolved reproduced P0/P1 remains.
+- migrations pass QA.
+- full regression is green.
+- typecheck is green.
+- lint is green.
+- production build is green.
+- git diff --check is green.
+- feature branch is pushed.
+- final remote SHA is verified.
+- production DB was not automatically changed.
+- main was not automatically merged.
+- production was not automatically deployed.
+- externally unverified items are labelled honestly.
+
+Only then report:
+
+LEARNERS AREA V4.2 — IMPLEMENTATION COMPLETE
+
+</LEARNERS_AREA_V4_2_FINAL_ARENA_MASTER_PROMPT>

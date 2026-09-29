@@ -1,0 +1,504 @@
+<ARENA_PART_01_PREVIEW_STABILIZATION>
+
+ROLE
+
+You are executing PART 1 of the Learners Area V4.2 program.
+
+You have NOT read the owner's prior ChatGPT conversations. Do not assume any missing context.
+Everything required for this phase is stated here and in the supplied V4.2 MASTER prompt.
+
+The V4.2 MASTER prompt is the immutable product contract.
+This PART 1 prompt is the execution contract for this phase only.
+If the two conflict, follow the V4.2 MASTER prompt unless this PART 1 text explicitly clarifies a newly discovered manual-QA defect.
+
+DO NOT execute later V4.2 phases in this session.
+
+============================================================
+1. REQUIRED STARTING POINT
+============================================================
+
+Repository:
+N-Muhammadjonov/learners_area
+
+Required baseline branch:
+work/final-qa2-hardening
+
+Required exact baseline SHA:
+300970040bc6a56ec55db50c9a1f551377e8ae66
+
+This baseline completed Final QA 2 with:
+- full suite 300/300 PASS
+- real PostgreSQL 19/19 PASS
+- Vocabulary/SRS/Games 103/103 PASS
+- Activity clock 13/13 PASS
+- Retention HTTP 10/10 PASS
+- typecheck PASS
+- lint PASS
+- production build PASS
+- git diff --check PASS
+
+Migration 0020 already exists:
+drizzle/0020_lexical_source_snapshot.sql
+
+It was QA-tested but has NOT been applied to production.
+
+Do not recreate, renumber, replace, or silently production-apply migration 0020.
+
+============================================================
+2. FIRST ACTIONS - RECOVER AND VERIFY THE BASE
+============================================================
+
+Before editing anything run:
+
+pwd
+git status --short
+git branch --show-current
+git rev-parse HEAD
+git log --oneline -30
+git remote -v
+git fetch --all --prune
+git rev-parse origin/work/final-qa2-hardening
+
+The remote hardened SHA must resolve to:
+300970040bc6a56ec55db50c9a1f551377e8ae66
+
+Inspect for uncommitted work before branch creation.
+Do NOT reset, clean, restore, or discard unknown work.
+
+Create a dedicated Arena/result branch from the exact hardened SHA.
+Do not work from an older Arena branch.
+Do not assume main contains this exact state unless Git proves it.
+
+============================================================
+3. FILES AND REFERENCES YOU MUST INSPECT
+============================================================
+
+Read these supplied files before coding:
+
+A. Learners Area V4.2 MASTER prompt
+   - global product contract
+
+B. 02_arena_visual_reference_screenshots.pdf
+   - owner-supplied Preview/manual-QA screenshots
+   - reference-site screenshots
+   - Speaking visual references
+
+C. 03_ieltsmaterials_frontend_reference_extract.txt
+   - interaction/architecture reference extracted from owner-supplied reference code
+   - DO NOT copy branding, copyrighted assets, or source wholesale
+
+D. 05_ARENA_REFERENCE_README.txt
+   - file map, source priority, public reference websites
+
+You may inspect these public reference sites yourself with the browser:
+
+https://ieltsbooster.uz/
+https://ieltsbooster.uz/info8/
+https://ieltsmaterials.uz/
+
+Use public pages only.
+Do not bypass authentication, paywalls, or access controls.
+Use them to understand interaction patterns, not to clone branding/code.
+
+============================================================
+4. PURPOSE OF PART 1
+============================================================
+
+PART 1 is a STABILIZATION sprint.
+
+The owner manually tested the Vercel Preview built from the hardened code and found runtime/product defects that must be resolved BEFORE large new V4.2 features are added.
+
+Your job is to make the current Preview-ready application stable, diagnose the actual causes, fix verified defects, and leave a clean pushed checkpoint for PART 2.
+
+DO NOT implement Retention V2, Google OAuth, new Listening training modules, Speaking V4, Live Partner, TED/PODCAST redesign, Progress charts, premium typography/icon redesign, or other later-phase features now.
+
+============================================================
+5. BLOCKER A - PREVIEW DATABASE / MIGRATION STATE
+============================================================
+
+The manual Preview showed Vocabulary and Grammar runtime failures.
+
+Strong known risk:
+The hardened application code reads fields introduced by migration 0020, including user_vocabulary.source_snapshot.
+Migration 0020 is NOT applied to production.
+The Preview may therefore be running new code against an older database schema.
+
+Do not guess.
+
+Determine:
+
+1. Which database the Vercel Preview environment is actually configured to use.
+2. Its migration history/schema version.
+3. Whether migration 0020 has been applied there.
+4. Whether the Preview is accidentally connected to production.
+
+NEVER print secret values.
+Report only safe metadata such as environment category, host/provider class if safe, and migration/schema state.
+
+If Preview is connected to production:
+- do NOT mutate production
+- report the unsafe environment coupling
+- use an isolated QA/staging PostgreSQL database for destructive/migration verification where possible
+
+If QA/staging is behind migration 0020:
+- back it up/snapshot where appropriate
+- dry inspect the migration
+- apply 0020 only to QA/staging
+- verify migration history/schema
+- rerun affected tests
+
+Production migration remains NOT APPLIED.
+
+============================================================
+6. BLOCKER B - VOCABULARY PAGE RUNTIME FAILURE
+============================================================
+
+The owner observed the Vocabulary section failing in Preview.
+
+Do not treat the visible error digest as the root cause.
+Retrieve the actual Vercel/server stack trace or reproduce locally/against QA DB.
+
+Audit at minimum:
+- src/app/(app)/vocabulary/page.tsx
+- src/components/vocabulary/VocabStudio.tsx
+- src/lib/services/vocabulary/engine.ts
+- DB schema/migrations
+- user_vocabulary.source_snapshot usage
+- lexeme joins
+- folder/library queries
+
+Confirm whether the problem is:
+- schema mismatch
+- missing migration
+- invalid historical data
+- SQL/runtime error
+- environment/configuration issue
+- something else
+
+Fix only the reproduced cause.
+
+Acceptance:
+- /vocabulary renders for a real QA user
+- My Words loads
+- Revision loads
+- Games loads
+- Use It loads
+- folders load
+- a saved word can be opened
+- no 5xx/runtime digest
+- existing Vocabulary/SRS/Games regression suite remains green
+
+============================================================
+7. BLOCKER C - GRAMMAR PAGE RUNTIME FAILURE
+============================================================
+
+The owner also observed Grammar failing in Preview.
+
+Retrieve the actual stack trace/reproduce the failure.
+Do not assume it has the same cause as Vocabulary.
+
+Audit the current Grammar page/data/API/privacy implementation.
+
+Preserve the Final QA 2 privacy hardening.
+
+Acceptance:
+- Grammar page loads for a normal active learner
+- existing Grammar content/state loads
+- privacy/ownership rules remain intact
+- no runtime digest/5xx
+- Grammar HTTP and DB regression tests remain green
+
+============================================================
+8. NAVIGATION LATENCY - SPINNER IS A SYMPTOM, NOT THE CAUSE
+============================================================
+
+The owner reports:
+button click -> circular spinner -> noticeable wait -> page opens.
+
+Current LinkPending displays an animated spinner whenever Next.js navigation remains pending.
+
+Do NOT simply remove the spinner and claim the site is fast.
+
+Instrument actual latency:
+
+click timestamp
+-> router/navigation start
+-> auth/session DB work
+-> page DB work
+-> secondary data fetches
+-> server render/response
+-> visible route completion
+
+Check:
+- Vercel cold starts
+- Preview deployment region
+- PostgreSQL region/round-trip latency
+- duplicate server queries
+- unnecessary force-dynamic rendering
+- uncached public/reference data
+- serial requests that can safely run in parallel
+- repeated locale/session/user lookups
+- oversized page payloads
+
+Fix verified bottlenecks without weakening freshness/security.
+
+UX rule after performance work:
+- instant navigation should not flash a spinner
+- if transition remains pending beyond roughly 250-300 ms, show a restrained progress indicator
+- prefer subtle progress over a visually dominant indefinite spinner
+- reduced-motion must be respected
+
+Measure BEFORE and AFTER with the same repeatable scenario.
+Report medians and sample count.
+Do not report local timing as production timing.
+
+============================================================
+9. READING TIMER DEFECT
+============================================================
+
+Manual Preview evidence showed an absurd long timer such as ~59 hours.
+
+Current code derives elapsed time directly from attempt startedAt and can therefore show stale historical elapsed time.
+
+Diagnose the intended attempt lifecycle.
+
+Fix so that:
+- Reading attempts do not display multi-day elapsed timers
+- resumed valid attempts behave predictably
+- stale/expired attempts are handled explicitly
+- timer semantics match actual test/practice duration data
+- reload does not reset a legitimate active attempt incorrectly
+
+Do not implement the later full Reading V4 evidence/highlight redesign in PART 1.
+Only stabilize the timer/lifecycle defect now.
+
+============================================================
+10. READING FILTER DROPDOWN DEFECTS
+============================================================
+
+Owner-reported defects:
+- Topic/Question Type dropdown does not close automatically after selection
+- Question Type dropdown is shifted too far to the right / difficult to read
+- topic/count visibility is poor
+
+Audit ReadingFilters and global dropdown CSS.
+
+Fix with accessible controlled behaviour:
+- selection commits URL filter
+- menu closes immediately after selection
+- Escape closes
+- outside click closes where appropriate
+- viewport-clamped positioning
+- right-edge dropdowns must not overflow the screen
+- item label and count remain easy to scan
+- keyboard navigation remains usable
+
+Do not break URL-backed filtering/search regression tests.
+
+============================================================
+11. EXCESSIVE EMPTY BOTTOM SCROLL
+============================================================
+
+The owner can scroll far below the meaningful page content into empty space.
+
+Find the actual scroll owner and root cause.
+
+Audit:
+- app shell height/overflow
+- main content container
+- viewport/dvh rules
+- sticky/fixed utilities
+- accidental min-height/spacer/padding
+- mobile safe-area padding
+- nested scroll regions
+- Safari overscroll behaviour
+
+Do not hide the issue using an arbitrary negative margin.
+
+Acceptance:
+At normal completed page content, the document ends naturally after a small intentional bottom breathing/safe-area space, not a large blank viewport.
+
+Test representative widths:
+320, 390, 768, 1440.
+
+============================================================
+12. MANUAL QA ITEMS TO VERIFY BUT NOT EXPAND YET
+============================================================
+
+During this stabilization pass, verify these existing behaviours did not regress:
+
+- Reading Vocabulary word popup opens
+- Escape closes and restores focus
+- 320px popup stays inside viewport
+- text remains selectable
+- word save/folder/reload works on migrated QA DB
+- Listening page can load its current content state
+- profile menu works
+- Management People page loads
+- Focus mode can still be entered/exited
+
+Do not implement the later feature expansions in this PART.
+
+============================================================
+13. THINGS YOU MUST NOT IMPLEMENT IN PART 1
+============================================================
+
+Do NOT start:
+
+- Retention V2 A2-C2 flow
+- Listening Note Taking feature
+- new Listening Revision/Keyword/Speed/Vocabulary hub redesign
+- Reading persistent highlight feature
+- partial evidence/review architecture
+- RIWI floating assistant
+- Vocabulary dotted word-state indicators
+- automatic Focus mode for attempts
+- premium icon redesign
+- new global typography system
+- logo redesign/crop/theme remapping
+- People search/pagination feature
+- user display-name editing
+- Progress charts
+- TED / PODCAST redesign
+- Google OAuth
+- email ownership verification
+- Speaking canonical-bank import
+- Practice on Your Own redesign
+- Live Partner/WebRTC
+- peer feedback/block/report
+
+Those belong to later execution parts.
+
+If you notice a future issue while stabilizing:
+document it as FOLLOW-UP instead of expanding scope.
+
+============================================================
+14. TESTING REQUIRED BEFORE PART 1 CAN CLOSE
+============================================================
+
+Run affected targeted tests after each fix.
+
+Before closure run at minimum:
+
+- Vocabulary focused tests
+- Grammar focused tests
+- Reading filter/timer focused tests
+- shell/navigation focused tests
+- real PostgreSQL integration tests against QA/staging
+- migration 0020 verification on QA/staging if applicable
+- npm test
+- npm run typecheck
+- npm run lint
+- npm run build
+- git diff --check
+
+Browser acceptance:
+- Vocabulary
+- Grammar
+- Reading library filters
+- one Reading attempt timer
+- navigation transitions
+- bottom scroll at representative widths
+
+Do not claim a browser PASS for something only covered by unit tests.
+
+============================================================
+15. REGRESSION FLOOR
+============================================================
+
+The Final QA 2 baseline was 300/300.
+
+Do not delete or weaken regression tests to make the branch green.
+
+New tests may increase the total.
+Report the actual final number.
+
+Any unresolved reproduced P0/P1 blocks PART 1 completion.
+
+============================================================
+16. PRODUCTION SAFETY
+============================================================
+
+During PART 1:
+
+- production DB: DO NOT MIGRATE
+- production data: DO NOT MUTATE
+- production deploy: DO NOT PERFORM
+- main merge: DO NOT PERFORM
+- secrets: DO NOT PRINT
+
+QA/staging migration/testing is allowed where safe.
+
+============================================================
+17. COMMIT AND PUSH DISCIPLINE
+============================================================
+
+When a coherent fix is stable:
+- inspect diff
+- git diff --check
+- commit logically
+- push the Arena/result branch
+
+Do not leave the completed PART 1 only as local WIP.
+
+Before final report verify:
+
+git status --short
+git diff --check
+git log --oneline -15
+git rev-parse HEAD
+git rev-parse origin/<your-result-branch>
+
+Local and remote final SHA must match.
+
+============================================================
+18. PART 1 FINAL REPORT - UZBEK
+============================================================
+
+Return a concise evidence-based Uzbek report containing:
+
+PART 1 - PREVIEW STABILIZATION: PASS or BLOCKED
+
+1. starting branch
+2. starting SHA
+3. result branch
+4. final local SHA
+5. final remote SHA
+6. Preview DB target classification (QA/staging/production) WITHOUT secret values
+7. migration 0020 state before and after QA work
+8. production DB migration status
+9. Vocabulary root cause
+10. Vocabulary fix + browser result
+11. Grammar root cause
+12. Grammar fix + browser result
+13. navigation latency before/after measurements
+14. spinner/progress UX result
+15. Reading timer root cause/fix
+16. Reading filter dropdown result
+17. blank-bottom-scroll root cause/fix
+18. responsive widths checked
+19. targeted test totals
+20. PostgreSQL test totals
+21. npm test total
+22. typecheck
+23. lint
+24. production build
+25. git diff --check
+26. unresolved P0/P1
+27. EXTERNALLY UNVERIFIED items
+28. FOLLOW-UP items for later parts
+29. production deploy status
+30. main merge status
+
+============================================================
+19. STOP CONDITION
+============================================================
+
+When PART 1 is complete and pushed:
+STOP.
+
+Do NOT start PART 2 automatically.
+
+The owner will review the result and provide the next execution prompt using your exact final remote SHA.
+
+</ARENA_PART_01_PREVIEW_STABILIZATION>
