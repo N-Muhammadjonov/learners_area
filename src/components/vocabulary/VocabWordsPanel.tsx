@@ -298,6 +298,10 @@ export function VocabWordsPanel({
                         label={t.add.nextReview}
                         value={formatDate(word.nextReviewAt)}
                       />
+                      {word.sourceSnapshot && <div className="sm:col-span-3 text-xs text-ink-500" data-source-context>
+                        <p>{word.sourceSnapshot.sourceTitle} · {word.sourceSnapshot.surfaceForm}</p>
+                        <p className="italic">{word.sourceSnapshot.sentenceText}</p>
+                      </div>}
                       {word.exampleSentence && (
                         <p className="sm:col-span-3 italic text-ink-500">{word.exampleSentence}</p>
                       )}

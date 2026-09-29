@@ -1,5 +1,5 @@
 import "server-only";
-import { asc, sql } from "drizzle-orm";
+import { and, asc, or, isNull, ne, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { lexemes } from "@/db/schema";
 
@@ -38,6 +38,8 @@ import { lexemes } from "@/db/schema";
  */
 
 export type LexicalEntry = {
+  /** Present only for an actual catalogue row. Preserve its existing sense identity. */
+  canonicalLexemeId?: string;
   term: string;
   partOfSpeech: string | null;
   definitionEn: string;
@@ -52,7 +54,7 @@ export type LexicalEntry = {
 };
 
 /** What an adapter returns — the same shape, minus the provenance the service sets. */
-export type LexicalEntryDraft = Omit<LexicalEntry, "source" | "sourceLabel">;
+export type LexicalEntryDraft = Omit<LexicalEntry, "source" | "sourceLabel" | "canonicalLexemeId">;
 
 export type LexicalSource = {
   id: string;
@@ -113,6 +115,7 @@ export async function resolveFromSources(term: string, sources: LexicalSource[])
     if (!found.definitionEn || found.definitionEn.trim().length === 0) continue;
     return {
       ...found,
+      canonicalLexemeId: undefined,
       definitionEn: found.definitionEn.trim(),
       source: source.id,
       sourceLabel: source.label,
@@ -130,20 +133,22 @@ export async function resolveFromSources(term: string, sources: LexicalSource[])
  * meaning was reported as unknown, and the word could then be re-created as a
  * second canonical row — the one thing the shared lexicon must never do.
  *
- * Ordering is fixed so the same spelling with two senses always resolves to the
- * same row rather than to whichever row the planner happened to return.
+ * Multiple senses are ambiguous without a source occurrence and return null.
+ * Learner-provided entries are not automatic definitions for other learners.
  */
-async function lookupCatalogue(term: string): Promise<LexicalEntry | null> {
+export async function lookupCatalogue(term: string): Promise<LexicalEntry | null> {
   const wanted = normalise(term);
   if (!wanted) return null;
-  const [row] = await db
+  const rows = await db
     .select()
     .from(lexemes)
-    .where(sql`lower(${lexemes.term}) = ${wanted}`)
+    .where(and(sql`lower(${lexemes.term}) = ${wanted}`, or(isNull(lexemes.provenance), ne(lexemes.provenance, "user_provided"))))
     .orderBy(asc(lexemes.term))
-    .limit(1);
-  if (!row) return null;
+    .limit(2);
+  if (rows.length !== 1) return null;
+  const row = rows[0]!;
   return {
+    canonicalLexemeId: row.id,
     term: row.term,
     partOfSpeech: row.partOfSpeech,
     definitionEn: row.definitionEn,
@@ -152,7 +157,7 @@ async function lookupCatalogue(term: string): Promise<LexicalEntry | null> {
     collocations: row.collocations,
     acceptedTranslations: row.acceptedTranslations ?? [],
     source: "catalogue",
-    sourceLabel: "Learners Area catalogue",
+    sourceLabel: row.verificationStatus === "verified" ? "Learners Area catalogue" : "Learners Area catalogue (unverified)",
   };
 }
 

@@ -3,6 +3,7 @@
 import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { failureMessage, requestJson } from "@/lib/http/client-request";
+import type { OccurrenceSpan } from "@/lib/services/lexical/occurrence-spans";
 import type { Dictionary } from "@/lib/i18n/en";
 
 /** Shared, selectable learning text with one keyboard stop per text region. */
@@ -12,12 +13,13 @@ export function ClickableText(props: {
   sourceType: string;
   sourceId: string;
   className?: string;
+  occurrences?: OccurrenceSpan[];
 }) {
   // A changed source/text cannot keep an anchor or an async form from the old text.
   return <LexicalText key={JSON.stringify([props.sourceType, props.sourceId, props.text])} {...props} />;
 }
 
-function LexicalText({ dict, text, sourceType, sourceId, className = "" }: Parameters<typeof ClickableText>[0]) {
+function LexicalText({ dict, text, sourceType, sourceId, className = "", occurrences = [] }: Parameters<typeof ClickableText>[0]) {
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
   const [active, setActive] = useState<number | null>(null);
   const [cursor, setCursor] = useState<number | null>(null);
@@ -25,6 +27,8 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "" }: Param
   const gesture = useRef<{ x: number; y: number; started: number; cancelled: boolean } | null>(null);
   const tokens = useMemo(() => tokenise(text), [text]);
   const words = useMemo(() => tokens.flatMap((token, index) => token.isWord ? [index] : []), [tokens]);
+  const pendingClick = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => () => { if (pendingClick.current) clearTimeout(pendingClick.current); }, []);
   const hintId = useId();
   const cursorId = useId();
   const close = (restoreFocus = false) => {
@@ -56,6 +60,10 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "" }: Param
     setActive((previous) => previous === index ? null : index);
   }
 
+  const selected = active === null ? null : tokens[active]!;
+  const contextualHits = selected ? occurrences.filter((row) => row.startChar <= selected.start && row.endChar >= selected.end) : [];
+  const occurrence = contextualHits.length === 1 ? contextualHits[0] : undefined;
+
   return (
     <div className={className}>
       <p id={hintId} className="sr-only">{dict.vocabulary.textLookupHint}</p>
@@ -68,6 +76,8 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "" }: Param
         aria-label={dict.vocabulary.textLookup}
         aria-describedby={hintId}
         onPointerDown={(event) => {
+          if (pendingClick.current) clearTimeout(pendingClick.current);
+          setActive(null);
           gesture.current = { x: event.clientX, y: event.clientY, started: Date.now(), cancelled: event.button !== 0 };
         }}
         onPointerMove={(event) => {
@@ -83,7 +93,15 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "" }: Param
           // Native selection/copy/highlighting owns this gesture, even for one word.
           if (!window.getSelection()?.isCollapsed) return;
           const target = event.target instanceof Element ? event.target.closest<HTMLElement>("[data-token]") : null;
-          if (target && wrapperRef.current?.contains(target)) open(Number(target.dataset.token));
+          if (target && wrapperRef.current?.contains(target)) {
+            const index = Number(target.dataset.token);
+            // Let a second click become native word selection before moving
+            // focus into a dialog. Keyboard/assistive activation is immediate.
+            if (event.detail === 0) open(index);
+            else pendingClick.current = setTimeout(() => {
+              if (window.getSelection()?.isCollapsed) open(index);
+            }, 240);
+          }
         }}
         onKeyDown={(event) => {
           if (event.target !== event.currentTarget || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
@@ -111,14 +129,15 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "" }: Param
         ) : token.value)}
       </div>
       <span id={cursorId} role="status" className="sr-only">{cursor === null ? "" : tokens[cursor]?.value}</span>
-      {active !== null && anchor && <WordPopover key={`${sourceType}:${sourceId}:${active}`}
-        anchor={anchor} dict={dict} word={tokens[active]!.clean} sourceType={sourceType} sourceId={sourceId}
+      {active !== null && anchor && <WordPopover key={`${sourceType}:${sourceId}:${active}:${occurrence?.id ?? ""}`}
+        anchor={anchor} dict={dict} word={occurrence?.surfaceForm ?? tokens[active]!.clean} sourceType={sourceType} sourceId={sourceId} occurrenceId={occurrence?.id}
         onClose={() => close(true)} />}
     </div>
   );
 }
 
 function WordPopover({
+  occurrenceId,
   anchor,
   dict,
   word,
@@ -132,8 +151,10 @@ function WordPopover({
   sourceId: string;
   onClose: () => void;
   anchor: HTMLElement;
+  occurrenceId?: string;
 }) {
   const t = dict.vocabulary;
+  const [contextual, setContextual] = useState<{ definitionEn: string; translationUz: string | null; verificationStatus: string | null } | null>(null);
   const [known, setKnown] = useState<{ id: string; definitionEn: string; translationUz: string | null; mastery: string } | null>(null);
   const [loading, setLoading] = useState(true);
   const [meaning, setMeaning] = useState("");
@@ -191,11 +212,14 @@ function WordPopover({
     setError(null);
     void (async () => {
       const [lookup, folderResult] = await Promise.all([
-        requestJson<{ results: { id: string; term: string; definitionEn: string; translationUz: string | null; mastery: string }[] }>(`/api/vocabulary/search?q=${encodeURIComponent(word)}`, { method: "GET", signal: controller.signal }),
+        requestJson<{ contextual?: { definitionEn: string; translationUz: string | null; verificationStatus: string | null }; known?: { id: string; mastery: string } | null; results?: { id: string; term: string; definitionEn: string; translationUz: string | null; mastery: string }[] }>(occurrenceId ? `/api/vocabulary/lookup?sourceId=${encodeURIComponent(sourceId)}&occurrenceId=${encodeURIComponent(occurrenceId)}` : `/api/vocabulary/search?q=${encodeURIComponent(word)}`, { method: "GET", signal: controller.signal }),
         requestJson<{ folders: { id: string; name: string }[] }>("/api/vocabulary/folders", { method: "GET", signal: controller.signal }),
       ]);
       if (controller.signal.aborted) return;
-      if (lookup.ok && Array.isArray(lookup.data?.results)) {
+      if (occurrenceId && lookup.ok && typeof lookup.data?.contextual?.definitionEn === "string") {
+        setContextual(lookup.data.contextual);
+        if (lookup.data.known) setKnown({ ...lookup.data.known, ...lookup.data.contextual });
+      } else if (!occurrenceId && lookup.ok && Array.isArray(lookup.data?.results)) {
         const exact = lookup.data.results.filter((hit) => typeof hit?.term === "string" && typeof hit.definitionEn === "string" && hit.term.toLowerCase() === word.toLowerCase());
         // Multiple saved senses are not enough evidence to pick one for this text.
         setKnown(exact.length === 1 ? exact[0]! : null);
@@ -205,7 +229,7 @@ function WordPopover({
       setLoading(false);
     })();
     return () => controller.abort();
-  }, [word, dict.auth, lookupVersion]);
+  }, [word, dict.auth, lookupVersion, occurrenceId, sourceId]);
 
   async function save() {
     setBusy(true);
@@ -214,7 +238,7 @@ function WordPopover({
     const result = await requestJson<{ ok: boolean }>("/api/vocabulary", {
       body: {
         items: [{ term: word, ...(meaning.trim() ? { definitionEn: meaning.trim() } : {}), translationUz: uzbek.trim() || null }],
-        sourceType, sourceId, folderId: folderId || null,
+        sourceType, sourceId, occurrenceId, folderId: folderId || null,
       },
     });
     setBusy(false);
@@ -262,6 +286,11 @@ function WordPopover({
 
       {!loading && !known && !saved && (
         <div className="mt-2 flex flex-col gap-2">
+          {contextual ? <div className="text-sm text-ink-700">
+            <p>{contextual.definitionEn}</p>
+            {contextual.translationUz && <p>{contextual.translationUz}</p>}
+            <p className="mt-1 text-xs text-ink-500">{contextual.verificationStatus === "verified" ? t.contextVerified : t.contextUnverified}</p>
+          </div> : <>
           <label className="text-xs text-ink-500">
             {t.add.definition}
             <input className="input mt-1" value={meaning} onChange={(event) => setMeaning(event.target.value)} />
@@ -270,6 +299,7 @@ function WordPopover({
             {t.add.translation}
             <input className="input mt-1" value={uzbek} onChange={(event) => setUzbek(event.target.value)} />
           </label>
+          </>}
           <label className="text-xs text-ink-500">
             {t.games.set.folder}
             <select className="input mt-1" value={folderId} onChange={(event) => setFolderId(event.target.value)}>
@@ -309,7 +339,7 @@ function speak(word: string) {
   window.speechSynthesis.speak(utterance);
 }
 
-type Token = { value: string; clean: string; isWord: boolean };
+type Token = { value: string; clean: string; isWord: boolean; start: number; end: number };
 
 /** Split text into words and separators, keeping the original characters. */
 function tokenise(text: string): Token[] {
@@ -319,15 +349,15 @@ function tokenise(text: string): Token[] {
   let match: RegExpExecArray | null;
   while ((match = pattern.exec(text)) !== null) {
     if (match.index > lastIndex) {
-      tokens.push({ value: text.slice(lastIndex, match.index), clean: "", isWord: false });
+      tokens.push({ value: text.slice(lastIndex, match.index), clean: "", isWord: false, start: lastIndex, end: match.index });
     }
     const value = match[0];
     // Single letters are not worth a popover.
-    tokens.push({ value, clean: value, isWord: value.length > 1 });
+    tokens.push({ value, clean: value, isWord: value.length > 1, start: match.index, end: match.index + value.length });
     lastIndex = match.index + value.length;
   }
   if (lastIndex < text.length) {
-    tokens.push({ value: text.slice(lastIndex), clean: "", isWord: false });
+    tokens.push({ value: text.slice(lastIndex), clean: "", isWord: false, start: lastIndex, end: text.length });
   }
   return tokens;
 }

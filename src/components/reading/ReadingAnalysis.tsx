@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { occurrenceSpans, type OccurrenceSpan } from "@/lib/services/lexical/occurrence-spans";
 import { ClickableText } from "@/components/vocabulary/ClickableText";
 import { Card } from "@/components/ui/Card";
 import { RetentionCheck } from "@/components/reading/RetentionCheck";
@@ -45,6 +46,7 @@ export function ReadingAnalysis({
   attemptId,
   passageLevel,
   locale,
+  occurrences = [],
 }: {
   dict: Dictionary;
   score: number | null;
@@ -60,6 +62,7 @@ export function ReadingAnalysis({
   passageLevel?: string | null;
   /** The reader's language, decided by the request (cookie), never guessed. */
   locale: "en" | "uz";
+  occurrences?: OccurrenceSpan[];
 }) {
   const answerByQuestion = useMemo(
     () => new Map(answers.map((a) => [a.questionId, a])),
@@ -156,6 +159,7 @@ export function ReadingAnalysis({
           passageBody={passageBody}
           passageLevel={passageLevel}
           sourceId={attemptId}
+          occurrences={occurrences}
         />
       )}
 
@@ -212,7 +216,7 @@ export function ReadingAnalysis({
             {q.evidenceQuote && (
               <div className="mt-1 text-xs italic text-ink-300" data-evidence={q.id}>
                 {dict.reading.evidence}:
-                {attemptId ? <ClickableText dict={dict} text={q.evidenceQuote} sourceType="reading" sourceId={attemptId} /> : q.evidenceQuote}
+                {attemptId ? <ClickableText dict={dict} text={q.evidenceQuote} occurrences={occurrenceSpans(passageBody ?? "", q.evidenceQuote, occurrences)} sourceType="reading" sourceId={attemptId} /> : q.evidenceQuote}
                 {/* 82 of the source's questions have no locatable evidence line; saying
                     so is honest, inventing one would not be. */}
                 {q.evidenceType === "missing_source" && (

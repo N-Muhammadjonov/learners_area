@@ -30,7 +30,7 @@ import {
   streakFromDays,
   type PointKind,
 } from "./points";
-import { dedupeBulk, senseKeyOf } from "./dedupe";
+import { legacySenseKeyOf, senseKeyOf } from "./dedupe";
 import { gradeSentence, gradeSpelling, type GameSubmission } from "./grading";
 import { searchRows } from "./search";
 import { findPack } from "./packs";
@@ -69,6 +69,7 @@ export type LibraryItem = {
   folderId: string | null;
   topicPack: string | null;
   sourceType: string | null;
+  sourceSnapshot?: import("@/lib/services/lexical/context").VocabularySourceSnapshot | null;
   createdAt: Date;
 };
 
@@ -122,6 +123,7 @@ export async function listLibrary(
     folderId: entry.folderId,
     topicPack: entry.topicPack,
     sourceType: entry.sourceType,
+    sourceSnapshot: entry.sourceSnapshot,
     createdAt: entry.createdAt,
   }));
 }
@@ -159,6 +161,7 @@ export async function listDue(
     folderId: entry.folderId,
     topicPack: entry.topicPack,
     sourceType: entry.sourceType,
+    sourceSnapshot: entry.sourceSnapshot,
     createdAt: entry.createdAt,
   }));
 }
@@ -230,6 +233,10 @@ export async function awardPoints(input: {
 export type NewWordInput = {
   term: string;
   definitionEn: string;
+  /** Server-resolved canonical identity, never copied from an unvalidated HTTP body. */
+  canonicalLexemeId?: string;
+  authored?: boolean;
+  sourceSnapshot?: import("@/lib/services/lexical/context").VocabularySourceSnapshot;
   translationUz?: string | null;
   exampleSentence?: string | null;
   collocations?: string | null;
@@ -247,7 +254,7 @@ export async function addVocabularyBatch(input: {
   sourceId?: string | null;
 }): Promise<
   | { ok: true; added: number; duplicates: number; ids: string[]; points: number }
-  | { ok: false; error: "folder_not_found" }
+  | { ok: false; error: "folder_not_found" | "lexeme_not_found" }
 > {
   return db.transaction(async (tx) => {
     // Serialize saves for this learner before reading their existing senses.
@@ -272,9 +279,16 @@ export async function addVocabularyBatch(input: {
     // MEANING. Both the within-batch collapse and the "is it already in the
     // library" check use this one key, so two senses of one spelling stay apart
     // while the same sense pasted twice collapses — no matter how it was typed.
-    const { unique, duplicates } = dedupeBulk(
-      input.items.map((item) => ({ ...item, meaning: item.definitionEn })),
-    );
+    const canonicalIds = input.items.flatMap((item) => item.canonicalLexemeId ? [item.canonicalLexemeId] : []);
+    const canonicalRows = canonicalIds.length ? await tx.select().from(lexemes).where(inArray(lexemes.id, canonicalIds)) : [];
+    const canonical = new Map(canonicalRows.map((row) => [row.id, row]));
+    if (canonicalIds.some((id) => !canonical.has(id))) return { ok: false as const, error: "lexeme_not_found" };
+    const uniqueByKey = new Map<string, NewWordInput>();
+    for (const item of input.items) {
+      const key = item.canonicalLexemeId ?? senseKeyOf({ ...item, meaning: item.definitionEn });
+      if (!uniqueByKey.has(key)) uniqueByKey.set(key, item);
+    }
+    const unique = [...uniqueByKey.values()];
     const ids: string[] = [];
     let added = 0;
     let points = 0;
@@ -294,25 +308,27 @@ export async function addVocabularyBatch(input: {
     );
 
     for (const item of unique) {
-      const senseKey = senseKeyOf({
+      const resolved = item.canonicalLexemeId ? canonical.get(item.canonicalLexemeId) : undefined;
+      let senseKey = resolved?.senseKey ?? senseKeyOf({
         term: item.term,
         partOfSpeech: item.partOfSpeech,
-        meaning: item.meaning ?? item.definitionEn,
+        meaning: item.definitionEn,
       });
 
-      const known = existingSense.get(senseKey);
+      const normalizedTerm = item.term.trim().toLowerCase();
+      // Old keys are retained only after full meaning/POS equality, never by a
+      // truncated legacy key alone. A new differing sense receives its v2 key.
+      const legacyKey = legacySenseKeyOf({ ...item, meaning: item.definitionEn });
+      const candidates = resolved ? [resolved] : await tx.select().from(lexemes).where(or(
+        eq(lexemes.senseKey, senseKey), eq(lexemes.senseKey, legacyKey), eq(lexemes.term, normalizedTerm),
+      ));
+      let lexeme = resolved ?? candidates.find((row) => senseKeyOf({ term: row.term, partOfSpeech: row.partOfSpeech, meaning: row.definitionEn }) === senseKey);
+      if (lexeme) senseKey = lexeme.senseKey;
+      const known = existingRows.find((row) => lexeme && row.lexemeId === lexeme.id)?.id ?? existingSense.get(senseKey);
       if (known) {
         ids.push(known);
         continue;
       }
-
-      const normalizedTerm = item.term.trim().toLowerCase();
-      // One catalogue row per SENSE, not per spelling: the same word with a
-      // different meaning keeps its own definition, and two students who learn the
-      // same sense share one row.
-      let lexeme = await tx.query.lexemes.findFirst({
-        where: eq(lexemes.senseKey, senseKey),
-      });
       if (!lexeme) {
         const [created] = await tx
           .insert(lexemes)
@@ -328,6 +344,8 @@ export async function addVocabularyBatch(input: {
               .filter(Boolean)
               .slice(0, 4),
             senseKey,
+            provenance: item.authored ? "authored" : "user_provided",
+            verificationStatus: item.authored ? "verified" : "unverified",
           })
           .onConflictDoNothing({ target: lexemes.senseKey })
           .returning();
@@ -347,6 +365,7 @@ export async function addVocabularyBatch(input: {
           topicPack: input.topicPack ?? null,
           sourceType: input.sourceType ?? "manual",
           sourceId: input.sourceId ?? null,
+          sourceSnapshot: item.sourceSnapshot ?? null,
           srsStage: NEW_STAGE,
           mastery: "new",
           nextReviewAt: new Date(),
@@ -379,7 +398,7 @@ export async function addVocabularyBatch(input: {
       type: "VOCABULARY_ADDED",
       payload: {
         added,
-        duplicates: duplicates.length,
+        duplicates: input.items.length - unique.length,
         sourceType: input.sourceType ?? "manual",
         topicPack: input.topicPack ?? null,
       },
@@ -402,6 +421,7 @@ export async function addTopicPack(userId: string, packId: string) {
   const result = await addVocabularyBatch({
     userId,
     items: pack.words.map((word) => ({
+      authored: true,
       term: word.term,
       definitionEn: word.definitionEn,
       translationUz: word.translationUz,

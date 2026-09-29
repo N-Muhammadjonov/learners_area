@@ -1090,10 +1090,12 @@ export const userVocabulary = pgTable(
   {
     id: uuid("id").defaultRandom().primaryKey(),
     userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
-    lexemeId: uuid("lexeme_id").notNull().references(() => lexemes.id, { onDelete: "cascade" }),
+    lexemeId: uuid("lexeme_id").notNull().references(() => lexemes.id, { onDelete: "restrict" }),
     state: vocabStateEnum("state").notNull().default("new"),
     sourceType: varchar("source_type", { length: 40 }), // e.g. "reading", "writing_feedback", "manual"
     sourceId: uuid("source_id"),
+    /** Small immutable encounter snapshot; survives source deletion, follows user retention. */
+    sourceSnapshot: jsonb("source_snapshot").$type<import("@/lib/services/lexical/context").VocabularySourceSnapshot>(),
     /** Folder in the personal library; null means "unfiled". */
     folderId: uuid("folder_id").references(() => vocabFolders.id, { onDelete: "set null" }),
     /** Topic pack a word arrived from ("health_medicine", "work_career", …). */

@@ -27,6 +27,7 @@ export type VocabWord = {
   folderId: string | null;
   topicPack: string | null;
   sourceType: string | null;
+  sourceSnapshot?: import("@/lib/services/lexical/context").VocabularySourceSnapshot | null;
   createdAt: string | Date;
 };
 

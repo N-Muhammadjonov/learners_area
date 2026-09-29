@@ -687,6 +687,8 @@ const en = {
     wordsFromTestHint: "Save the words you had to guess — they come back in your revision queue.",
   },
   vocabulary: {
+    contextVerified: "Verified source meaning",
+    contextUnverified: "Source meaning - not editorially verified",
     textLookup: 'Look up words in this text',
     textLookupHint: 'Click a word to look it up, or select text to copy it. Keyboard: use Left and Right to choose a word, Home or End to move to the first or last word, and Enter to look it up. Escape closes the popup.',
     title: "Vocabulary",

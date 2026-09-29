@@ -1,6 +1,7 @@
 import { and, asc, desc, eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import {
+  lexicalOccurrences,
   readingAnswers,
   readingAttempts,
   readingPassageParagraphs,
@@ -51,7 +52,7 @@ export async function getPassageWithQuestions(passageId: string) {
    *              literally a blank line;
    *   paragraphs the paragraph letters the matching questions refer to.
    */
-  const [questions, groups, paragraphs] = await Promise.all([
+  const [questions, groups, paragraphs, occurrences] = await Promise.all([
     db.query.readingQuestions.findMany({
       where: eq(readingQuestions.passageId, passageId),
       orderBy: asc(readingQuestions.order),
@@ -64,9 +65,10 @@ export async function getPassageWithQuestions(passageId: string) {
       where: eq(readingPassageParagraphs.passageId, passageId),
       orderBy: asc(readingPassageParagraphs.position),
     }),
+    db.select({ id: lexicalOccurrences.id, startChar: lexicalOccurrences.startChar, endChar: lexicalOccurrences.endChar, surfaceForm: lexicalOccurrences.surfaceForm }).from(lexicalOccurrences).where(eq(lexicalOccurrences.passageId, passageId)),
   ]);
 
-  return { passage, questions, groups, paragraphs };
+  return { passage, questions, groups, paragraphs, occurrences };
 }
 
 export async function getAttemptDetail(attemptId: string, userId: string) {
@@ -87,6 +89,7 @@ export async function getAttemptDetail(attemptId: string, userId: string) {
     questions: passageData.questions,
     groups: passageData.groups,
     paragraphs: passageData.paragraphs,
+    occurrences: passageData.occurrences,
     answers,
   };
 }

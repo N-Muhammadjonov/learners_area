@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { addVocabularyBatch, librarySummary, listLibrary } from "@/lib/services/vocabulary/engine";
+import { resolveReadingOccurrence } from "@/lib/services/lexical/context";
 import { enrichTerms } from "@/lib/services/lexical/enrichment";
 
 /**
@@ -27,6 +28,7 @@ const itemSchema = z.object({
 
 const addSchema = z.object({
   items: z.array(itemSchema).min(1).max(100),
+  occurrenceId: z.string().uuid().optional(),
   folderId: z.string().uuid().nullish(),
   topicPack: z.string().max(60).nullish(),
   sourceType: z.string().max(40).optional(),
@@ -56,12 +58,25 @@ export async function POST(req: NextRequest) {
   const parsed = addSchema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: "invalid_input" }, { status: 400 });
 
+  if (parsed.data.occurrenceId) {
+    if (parsed.data.sourceType !== "reading" || !parsed.data.sourceId || parsed.data.items.length !== 1) {
+      return NextResponse.json({ error: "invalid_input" }, { status: 400 });
+    }
+    const contextual = await resolveReadingOccurrence(user.id, parsed.data.sourceId, parsed.data.occurrenceId);
+    if (!contextual) return NextResponse.json({ error: "source_not_found" }, { status: 404 });
+    const result = await addVocabularyBatch({ userId: user.id, folderId: parsed.data.folderId,
+      sourceType: "reading", sourceId: parsed.data.sourceId,
+      items: [{ ...contextual.lexeme, canonicalLexemeId: contextual.lexeme.id, sourceSnapshot: contextual.snapshot }],
+    });
+    return NextResponse.json(result, { status: result.ok ? 200 : 404 });
+  }
+
   // Words that arrived without a meaning are completed from the configured
   // lexical sources. Anything no source knows is NOT stored with a made-up
   // definition: it is reported back so a human can write the meaning.
   const missing = parsed.data.items.filter((item) => !item.definitionEn).map((item) => item.term);
 
-  const items = [...parsed.data.items];
+  const items: (z.infer<typeof itemSchema> & { canonicalLexemeId?: string })[] = [...parsed.data.items];
   const unresolved: string[] = [];
   if (missing.length > 0) {
     const { entries, unresolved: unknown } = await enrichTerms(missing);
@@ -70,6 +85,7 @@ export async function POST(req: NextRequest) {
       if (item.definitionEn) continue;
       const entry = entries.get(item.term);
       if (!entry) continue;
+      item.canonicalLexemeId = entry.canonicalLexemeId;
       item.definitionEn = entry.definitionEn;
       item.translationUz = item.translationUz ?? entry.translationUz;
       item.exampleSentence = item.exampleSentence ?? entry.exampleSentence;

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { choiceSetFor } from "@/lib/reading-choices";
+import { occurrenceSpans, type OccurrenceSpan } from "@/lib/services/lexical/occurrence-spans";
 import { ClickableText } from "@/components/vocabulary/ClickableText";
 import { IconBack, IconCheck, IconTarget } from "@/components/ui/icons";
 import { ResourceBlocks } from "@/components/resources/ResourceBlocks";
@@ -153,6 +154,7 @@ export function ReadingExam({
   savedAnswers,
   startedAt,
   materials = [],
+  occurrences = [],
 }: {
   dict: Dictionary;
   attemptId: string;
@@ -169,6 +171,7 @@ export function ReadingExam({
   startedAt: string;
   /** Blocks an administrator attached to this passage; empty means no section. */
   materials?: ResourceBlockView[];
+  occurrences?: OccurrenceSpan[];
 }) {
   const t = dict.readingPractice;
   const router = useRouter();
@@ -435,6 +438,7 @@ export function ReadingExam({
                   <ClickableText
                     dict={dict}
                     text={paragraph.text}
+                    occurrences={occurrenceSpans(passageBody, paragraph.text, occurrences)}
                     sourceType="reading"
                     sourceId={attemptId}
                     className={`text-sm leading-relaxed text-ink-700 ${paragraph.isFootnote ? "italic" : ""}`}
@@ -446,6 +450,7 @@ export function ReadingExam({
               <ClickableText
                 dict={dict}
                 text={passageBody}
+                occurrences={occurrenceSpans(passageBody, passageBody, occurrences)}
                 sourceType="reading"
                 sourceId={attemptId}
                 className="text-sm leading-relaxed text-ink-700"

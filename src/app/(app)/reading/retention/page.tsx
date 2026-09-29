@@ -1,3 +1,6 @@
+import { db } from "@/db/client";
+import { lexicalOccurrences } from "@/db/schema";
+import { eq } from "drizzle-orm";
 import Link from "next/link";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
@@ -33,6 +36,8 @@ export default async function ReadingRetentionPage({
   // the centre has taken down.
   const chosen = (wanted && isUuid(wanted) ? passages.find((p) => p.id === wanted) : undefined) ?? passages[0];
 
+  const occurrences = chosen ? await db.query.lexicalOccurrences.findMany({ where: eq(lexicalOccurrences.passageId, chosen.id), columns: { id: true, startChar: true, endChar: true, surfaceForm: true } }) : [];
+
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-6">
       <div className="flex items-center justify-between">
@@ -57,6 +62,7 @@ export default async function ReadingRetentionPage({
           passageBody={chosen.bodyText}
           passageLevel={chosen.difficultyLevel}
           sourceId={chosen.id}
+          occurrences={occurrences}
           startOpen
         />
       )}

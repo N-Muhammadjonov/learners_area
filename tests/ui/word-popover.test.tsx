@@ -27,12 +27,12 @@ async function fill(selector: string, value: string) {
     element.dispatchEvent(new Event(element.tagName === "SELECT" ? "change" : "input", { bubbles: true }));
   });
 }
-async function page(fetcher: Fetcher, run: () => Promise<void>) {
+async function page(fetcher: Fetcher, run: () => Promise<void>, props: Partial<Parameters<typeof ClickableText>[0]> = {}) {
   const original = globalThis.fetch;
   globalThis.fetch = ((url: string, options: RequestInit) => fetcher(String(url), options)) as typeof fetch;
   const root = createRoot(query("#root"));
   try {
-    await act(async () => root.render(<ClickableText dict={en} text="decades growing" sourceType="reading" sourceId="qa-attempt" />));
+    await act(async () => root.render(<ClickableText dict={en} text="decades growing" sourceType="reading" sourceId="qa-attempt" {...props} />));
     await run();
   } finally {
     window.getSelection()?.removeAllRanges();
@@ -223,4 +223,47 @@ test("one keyboard stop navigates words and opens the selected word with Enter",
       assert.equal(document.activeElement, region);
     });
   } finally { HTMLElement.prototype.scrollIntoView = original; }
+});
+
+
+test("contextual same-spelling words fetch and save their own occurrence identity", async () => {
+  const posted: { occurrenceId: string }[] = [];
+  await page(async (url, options) => {
+    if (options.method === 'POST') { posted.push(JSON.parse(String(options.body))); return json({ ok: true }); }
+    if (url.includes('folders')) return folderReply();
+    assert.ok(url.includes('/lookup?'), 'known source must not use spelling search');
+    const river = url.includes('occurrenceId=river');
+    return json({ contextual: { definitionEn: river ? 'The edge of a river' : 'A financial institution', translationUz: river ? "qirg'oq" : 'bank', verificationStatus: 'unverified' }, known: null });
+  }, async () => {
+    await click('[data-token="0"]');
+    assert.ok(popupText().includes('A financial institution'));
+    await click('[data-token="2"]');
+    assert.ok(popupText().includes('The edge of a river'));
+    assert.equal(popupText().includes('A financial institution'), false);
+    assert.ok(popupText().includes(en.vocabulary.contextUnverified));
+    assert.equal(document.querySelectorAll('[data-word-popover] input').length, 0);
+    await fill('[data-word-popover] select', 'own-folder');
+    await click('[data-word-save]');
+    assert.equal(posted[0]?.occurrenceId, 'river');
+  }, { text: 'bank bank', occurrences: [{ id: 'money', startChar: 0, endChar: 4, surfaceForm: 'bank' }, { id: 'river', startChar: 5, endChar: 9, surfaceForm: 'bank' }] });
+});
+
+
+test("double-click does not focus a popup before native word selection", async (t) => {
+  t.mock.timers.enable({ apis: ['setTimeout'] });
+  try {
+    await page(normal, async () => {
+      const word = query('[data-word="decades"]');
+      await act(async () => word.dispatchEvent(new MouseEvent('click', { bubbles: true, detail: 1 })));
+      assert.equal(document.querySelector('[role="dialog"]'), null);
+      await act(async () => word.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true })));
+      await act(async () => word.dispatchEvent(new MouseEvent('click', { bubbles: true, detail: 2 })));
+      await act(async () => t.mock.timers.tick(300));
+      assert.equal(document.querySelector('[role="dialog"]'), null);
+      await act(async () => word.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true })));
+      await act(async () => word.dispatchEvent(new MouseEvent('click', { bubbles: true, detail: 1 })));
+      await act(async () => t.mock.timers.tick(300));
+      assert.ok(document.querySelector('[role="dialog"]'), 'single click still opens after the selection window');
+    });
+  } finally { t.mock.timers.reset(); }
 });

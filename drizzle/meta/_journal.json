@@ -141,6 +141,13 @@
       "when": 1790559351334,
       "tag": "0019_grammar_source_privacy",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1790620308660,
+      "tag": "0020_lexical_source_snapshot",
+      "breakpoints": true
     }
   ]
 }

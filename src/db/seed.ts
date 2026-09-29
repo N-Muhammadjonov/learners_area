@@ -29,7 +29,7 @@ import {
   listeningQuestions,
 } from "./schema";
 import { hashPassword } from "../lib/auth/password";
-import { senseKeyOf } from "../lib/services/vocabulary/dedupe";
+import { legacySenseKeyOf as senseKeyOf } from "../lib/services/vocabulary/dedupe";
 
 async function main() {
   const already = await db.query.courses.findFirst({ where: eq(courses.slug, "ielts") });

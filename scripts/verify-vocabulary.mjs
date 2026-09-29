@@ -668,7 +668,12 @@ try {
   });
   try {
     await lexiconDb.connect();
-    const catalogue = await lexiconDb.query("select term, definition_en from lexemes order by term limit 1");
+    // Unscoped spelling is safe only when the eligible catalogue has one sense.
+    // Learner-provided rows and ambiguous words intentionally require a definition.
+    const catalogue = await lexiconDb.query(`
+      select min(term) as term, min(definition_en) as definition_en
+      from lexemes where provenance is distinct from 'user_provided'
+      group by lower(term) having count(*) = 1 order by min(term) limit 1`);
     const row = catalogue.rows[0];
     if (row) {
       const filled = await api("/api/vocabulary", {

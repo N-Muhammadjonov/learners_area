@@ -18,7 +18,7 @@ export default async function ReadingAttemptPage({ params }: { params: Promise<{
   if (!isUuid(id)) notFound();
   const detail = await getAttemptDetail(id, user.id);
   if (!detail) notFound();
-  const { attempt, passage, questions, groups, paragraphs, answers } = detail;
+  const { attempt, passage, questions, groups, paragraphs, answers, occurrences } = detail;
 
   // Anything an administrator attached to this passage — via the universal
   // composer — is shown inside the workspace, so a summary or an audio version
@@ -39,6 +39,7 @@ export default async function ReadingAttemptPage({ params }: { params: Promise<{
       {attempt.status === "in_progress" ? (
         <ReadingExam
           dict={dict}
+          occurrences={occurrences}
           attemptId={attempt.id}
           passageTitle={passage.title}
           passageBody={passage.bodyText}
@@ -84,6 +85,7 @@ export default async function ReadingAttemptPage({ params }: { params: Promise<{
       ) : (
         <ReadingAnalysis
           dict={dict}
+          occurrences={occurrences}
           score={attempt.score}
           total={attempt.totalQuestions}
           questions={questions}

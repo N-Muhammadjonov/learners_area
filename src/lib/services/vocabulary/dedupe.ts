@@ -1,3 +1,5 @@
+import { createHash } from "node:crypto";
+
 /**
  * Sense-aware deduplication for the word library.
  *
@@ -26,8 +28,31 @@ export function normalizeTerm(term: string): string {
     .trim();
 }
 
-/** A coarse part-of-speech bucket, so "(noun)" and "n." are the same sense. */
+/** Exact aliases only; noun phrase and verb phrase are not plain nouns/verbs. */
 export function normalizePartOfSpeech(part: string | null | undefined): string {
+  const raw = (part ?? "").normalize("NFKC").toLowerCase().trim().replace(/^\((.*)\)$/, "$1").replace(/\.$/, "");
+  const aliases: Record<string, string> = { n: "noun", v: "verb", adj: "adjective", adv: "adverb", phr: "phrase", prep: "preposition", "n.phrase": "noun phrase", "v.phrase": "verb phrase" };
+  return aliases[raw] ?? raw.replace(/\s+/g, " ");
+}
+
+/** Preserve the full sense; only typography, whitespace and final full stop differ. */
+export function normalizeMeaning(meaning: string | null | undefined): string {
+  return (meaning ?? "").normalize("NFKC").toLowerCase().replace(/\s+/g, " ").trim().replace(/\.$/, "").trim();
+}
+
+/** New identities are bounded without truncating semantic information. Existing
+ * rows keep their keys; the engine resolves equivalent legacy rows before insert.
+ */
+export function senseKeyOf(input: { term: string; partOfSpeech?: string | null; meaning?: string | null }): string {
+  const identity = [normalizeTerm(input.term), normalizePartOfSpeech(input.partOfSpeech), normalizeMeaning(input.meaning)];
+  return `v2:${createHash("sha256").update(JSON.stringify(identity)).digest("hex")}`;
+}
+
+/** Frozen import/seed compatibility only. Never use this coarse key alone to
+ * accept an existing sense: compare the full normalized definition and POS.
+ */
+/** A coarse part-of-speech bucket, so "(noun)" and "n." are the same sense. */
+function legacyPartOfSpeech(part: string | null | undefined): string {
   if (!part) return "";
   const raw = part.toLowerCase().trim();
   if (/^(n|noun)/.test(raw)) return "noun";
@@ -40,7 +65,7 @@ export function normalizePartOfSpeech(part: string | null | undefined): string {
 }
 
 /** The first meaning, normalized — enough to separate two senses of one word. */
-export function normalizeMeaning(meaning: string | null | undefined): string {
+function legacyMeaning(meaning: string | null | undefined): string {
   if (!meaning) return "";
   return meaning
     .toLowerCase()
@@ -51,20 +76,13 @@ export function normalizeMeaning(meaning: string | null | undefined): string {
     .slice(0, 60);
 }
 
-/**
- * Build the dedup identity.
- *
- * Meaning is optional: a word added without a definition still deduplicates on
- * spelling + part of speech, which is the best available answer rather than no
- * deduplication at all.
- */
-export function senseKeyOf(input: {
+export function legacySenseKeyOf(input: {
   term: string;
   partOfSpeech?: string | null;
   meaning?: string | null;
 }): string {
-  const parts = [normalizeTerm(input.term), normalizePartOfSpeech(input.partOfSpeech)];
-  const meaning = normalizeMeaning(input.meaning);
+  const parts = [normalizeTerm(input.term), legacyPartOfSpeech(input.partOfSpeech)];
+  const meaning = legacyMeaning(input.meaning);
   if (meaning) parts.push(meaning);
   return parts.filter(Boolean).join("|").slice(0, 200);
 }

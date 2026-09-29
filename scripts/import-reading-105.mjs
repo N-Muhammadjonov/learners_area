@@ -38,7 +38,7 @@ import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "no
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import pg from "pg";
-import { senseKeyOf } from "../src/lib/services/vocabulary/dedupe.ts";
+import { legacySenseKeyOf as senseKeyOf, senseKeyOf as semanticKeyOf } from "../src/lib/services/vocabulary/dedupe.ts";
 
 // `pg` is CommonJS: with an ESM entry point the named exports are not
 // guaranteed, so the default export is destructured instead.
@@ -515,6 +515,13 @@ function buildPlan(bundle) {
     });
   }
 
+  const meaningByLegacyKey = new Map();
+  for (const row of lexemes) {
+    const identity = semanticKeyOf({ term: row.term, partOfSpeech: row.partOfSpeech, meaning: row.definitionEn });
+    const previous = meaningByLegacyKey.get(row.senseKey);
+    if (previous && previous !== identity) stop("Source contains colliding legacy sense keys; reconcile explicitly before import. Nothing was written.");
+    meaningByLegacyKey.set(row.senseKey, identity);
+  }
   const lexemeIdBySenseKey = new Map(lexemes.map((row) => [row.senseKey, row]));
   const occurrences = [];
   for (const occurrence of bundle.lexical_occurrences) {
@@ -555,6 +562,17 @@ function createPool() {
 
 async function insertLexicon(client, lexemes, occurrencesBySenseKey, plans) {
   const created = { lexemes: 0, occurrences: 0 };
+  // A rerun may reuse a historic key, but never an unrelated definition hidden
+  // by that key's old punctuation/truncation rules. Throw rolls back the import.
+  const existing = await client.query("select term, part_of_speech, definition_en, sense_key from lexemes where sense_key = any($1::text[])", [lexemes.map((row) => row.senseKey)]);
+  const planned = new Map(lexemes.map((row) => [row.senseKey, row]));
+  for (const row of existing.rows) {
+    const wanted = planned.get(row.sense_key);
+    if (semanticKeyOf({ term: row.term, partOfSpeech: row.part_of_speech, meaning: row.definition_en }) !== semanticKeyOf({ term: wanted.term, partOfSpeech: wanted.partOfSpeech, meaning: wanted.definitionEn })) {
+      throw new Error("Existing lexical identity conflicts with the import; explicit reconciliation is required.");
+    }
+  }
+
 
   for (let i = 0; i < lexemes.length; i += 200) {
     const batch = lexemes.slice(i, i + 200);

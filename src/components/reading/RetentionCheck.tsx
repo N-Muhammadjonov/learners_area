@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Card } from "@/components/ui/Card";
+import { occurrenceSpans, type OccurrenceSpan } from "@/lib/services/lexical/occurrence-spans";
 import { ClickableText } from "@/components/vocabulary/ClickableText";
 import type { Dictionary } from "@/lib/i18n/en";
 
@@ -24,6 +25,7 @@ export function RetentionCheck({
   passageLevel,
   sourceId,
   startOpen = false,
+  occurrences = [],
 }: {
   dict: Dictionary;
   passageTitle: string;
@@ -33,6 +35,7 @@ export function RetentionCheck({
   sourceId: string;
   /** A student who has just arrived to read wants the passage open, not hidden. */
   startOpen?: boolean;
+  occurrences?: OccurrenceSpan[];
 }) {
   const [revealed, setRevealed] = useState(startOpen);
   const [kept, setKept] = useState<Record<string, boolean>>({});
@@ -103,6 +106,7 @@ export function RetentionCheck({
         <ClickableText
           dict={dict}
           text={passageBody}
+          occurrences={occurrenceSpans(passageBody, passageBody, occurrences)}
           sourceType="reading"
           sourceId={sourceId}
           className="text-sm leading-relaxed text-ink-700"
