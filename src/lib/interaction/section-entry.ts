@@ -28,6 +28,9 @@ export type EntryFrames = Record<string, EntryFrameModel>;
 export function sectionEntryFrames(dict: Dictionary): EntryFrames {
   return {
     dashboard: { title: dict.nav.dashboard, subtitle: dict.nav.course, shape: "dashboard" },
+    "course-roadmap": { title: dict.nav.course, subtitle: dict.dashboard.fullRoadmap, shape: "simple" },
+    coach: { title: dict.coach.dashboardTitle, subtitle: dict.coach.dashboardSubtitle, shape: "simple" },
+    notifications: { title: dict.notifications.title, shape: "simple" },
     "live-classes": { title: dict.liveClasses.title, subtitle: dict.liveClasses.upcoming, shape: "classes" },
     assignments: { title: dict.assignments.title, subtitle: dict.assignments.subtitle, shape: "assignments" },
     listening: { title: dict.listening.practiceTitle, shape: "list" },

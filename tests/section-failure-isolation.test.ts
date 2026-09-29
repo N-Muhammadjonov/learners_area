@@ -82,15 +82,18 @@ test("Live Classes exposes core classes while optional teacher and resource quer
   assert.doesNotMatch(page, /select\(\{ liveClass: liveClasses \}/);
 });
 
-test("Reading treats facets as secondary and preserves selected-view library failures as section-core errors", () => {
+test("Reading streams counts, facets, and selected library independently with local failure notices", () => {
   const page = read("src/app/(app)/reading/page.tsx");
-  assert.match(page, /Promise\.allSettled\(\[[\s\S]*readingHubCounts\(userId\)[\s\S]*listLibraryFacets\(\)[\s\S]*listLibrary\(userId, filter\)/);
-  assert.match(page, /countsUnavailable = countsResult\.status === "rejected"/);
-  assert.match(page, /if \(libraryResult\.status === "rejected"\) throw/);
+  assert.match(page, /const countsPromise = captureRegion\(readingHubCounts\(userId\)\)/);
+  assert.match(page, /tab === "academic" \|\| tab === "types"[\s\S]*captureRegion\(listLibraryFacets\(\)\)/);
+  assert.match(page, /tab === "academic"[\s\S]*captureRegion\(listLibrary\(userId, filter\)\)/);
+  assert.match(page, /<Suspense fallback=\{<ReadingCountsSkeleton dict=\{dict\} \/>\}>[\s\S]*ReadingCountsRegion countsPromise=\{countsPromise\}/);
+  assert.match(page, /<Suspense fallback=\{<ReadingFiltersSkeleton dict=\{dict\} \/>\}>[\s\S]*ReadingFiltersRegion[\s\S]*facetsPromise=\{facetsPromise\}/);
+  assert.match(page, /<Suspense fallback=\{<ReadingLibrarySkeleton \/>\}>[\s\S]*ReadingLibraryRegion[\s\S]*libraryPromise=\{libraryPromise\}/);
   assert.match(page, /RegionFailureNotice[\s\S]*reading-hub-counts/);
-  assert.match(page, /facetsUnavailable/);
   assert.match(page, /RegionFailureNotice[\s\S]*reading-library-facets/);
-  assert.match(page, /tab === "academic" \? listLibrary/);
+  assert.match(page, /RegionFailureNotice[\s\S]*reading-library/);
+  assert.doesNotMatch(page, /Promise\.allSettled/);
 });
 
 test("Writing prompt entry does not wait for typing stats; the typing region catches and retries locally", () => {

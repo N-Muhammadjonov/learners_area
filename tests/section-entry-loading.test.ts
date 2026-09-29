@@ -38,6 +38,15 @@ test("all required destinations have localized, route-shaped entry frames", () =
   assert.equal(english.vocabulary?.tabs?.length, 5);
   assert.equal(workspaceKey("/reading/attempts/private-id"), "reading");
   assert.equal(workspaceKey("/vocabulary/games/translation"), "vocabulary");
+  assert.equal(workspaceKey("/courses/ielts/lessons/private-id"), "course-roadmap");
+  assert.equal(workspaceKey("/coach"), "coach");
+  assert.equal(workspaceKey("/notifications"), "notifications");
+  assert.ok(english["course-roadmap"]?.title);
+  assert.ok(english.coach?.title);
+  assert.ok(english.notifications?.title);
+  assert.ok(uzbek["course-roadmap"]?.title);
+  assert.ok(uzbek.coach?.title);
+  assert.ok(uzbek.notifications?.title);
   assert.equal(workspaceKey("/admin/users/private-id"), "management");
 });
 

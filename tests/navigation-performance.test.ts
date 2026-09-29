@@ -94,12 +94,17 @@ test("Progress streams the module destination before learner-owned summary queri
   assert.match(page, /<ProgressContent userId=\{user\.id\}/);
 });
 
-test("Reading streams a route header before counts, filters, and library queries settle", () => {
+test("Reading streams counts, facets, and the selected library through independent loading regions", () => {
   const page = read("src/app/(app)/reading/page.tsx");
   assert.match(page, /data-route-usable="reading"/);
-  assert.match(page, /data-async-loading="reading"/);
   assert.match(page, /<ReadingWorkspace userId=\{user\.id\}/);
-  assert.match(page, /Promise\.allSettled\(\[\s*readingHubCounts\(userId\)/);
+  assert.match(page, /const countsPromise = captureRegion\(readingHubCounts\(userId\)\)/);
+  assert.match(page, /captureRegion\(listLibraryFacets\(\)\)/);
+  assert.match(page, /captureRegion\(listLibrary\(userId, filter\)\)/);
+  assert.match(page, /data-async-loading="reading-hub-counts"/);
+  assert.match(page, /data-async-loading="reading-library-facets"/);
+  assert.match(page, /data-async-loading="reading-library"/);
+  assert.doesNotMatch(page, /Promise\.allSettled/);
 });
 
 test("Vocabulary streams its destination frame before authenticated, selected-view panel data resolves", () => {

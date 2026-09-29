@@ -4,6 +4,9 @@ export type NavigationTarget = { href: string; routeKey: string };
 
 const ROUTE_PREFIXES: Array<[string, string]> = [
   ["/dashboard", "dashboard"],
+  ["/courses/ielts", "course-roadmap"],
+  ["/coach", "coach"],
+  ["/notifications", "notifications"],
   ["/live-classes", "live-classes"],
   ["/assignments", "assignments"],
   ["/listening", "listening"],

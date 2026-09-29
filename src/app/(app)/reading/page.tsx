@@ -16,26 +16,35 @@ const TABS = ["academic", "videos", "general", "types", "retention"] as const;
 type Tab = (typeof TABS)[number];
 type ReadingFilter = { status?: string; topic?: string; type?: string; query?: string; page: number };
 
-async function ReadingWorkspace({ userId, lang, dict, tab, filter }: {
+type ReadingFacets = Awaited<ReturnType<typeof listLibraryFacets>>;
+type ReadingLibrary = Awaited<ReturnType<typeof listLibrary>>;
+type ReadingRegionResult<T> = { value: T; unavailable: false } | { value: null; unavailable: true };
+
+const EMPTY_READING_FACETS: ReadingFacets = { topics: [], types: [] };
+
+function captureRegion<T>(promise: Promise<T>): Promise<ReadingRegionResult<T>> {
+  return promise.then(
+    (value) => ({ value, unavailable: false }),
+    () => ({ value: null, unavailable: true }),
+  );
+}
+
+function ReadingWorkspace({ userId, lang, dict, tab, filter }: {
   userId: string;
   lang: "uz" | "en";
   dict: ReturnType<typeof getDictionary>;
   tab: Tab;
   filter: ReadingFilter;
 }) {
-  const [countsResult, facetsResult, libraryResult] = await Promise.allSettled([
-    readingHubCounts(userId),
-    tab === "academic" || tab === "types" ? listLibraryFacets() : Promise.resolve({ topics: [], types: [] }),
-    tab === "academic" ? listLibrary(userId, filter) : Promise.resolve(null),
-  ]);
-  // The selected view's library is core. Counts and filters/facets are
-  // secondary metadata: their failures stay local and do not hide passages.
-  if (libraryResult.status === "rejected") throw libraryResult.reason;
-  const countsUnavailable = countsResult.status === "rejected";
-  const counts = countsUnavailable ? null : countsResult.value;
-  const facetsUnavailable = facetsResult.status === "rejected";
-  const facets = facetsUnavailable ? { topics: [], types: [] } : facetsResult.value;
-  const library = libraryResult.value;
+  // Start independent reads together, then let each region stream on its own.
+  // A slow count or facet query must not hold the selected passage library.
+  const countsPromise = captureRegion(readingHubCounts(userId));
+  const facetsPromise: Promise<ReadingRegionResult<ReadingFacets>> = tab === "academic" || tab === "types"
+    ? captureRegion(listLibraryFacets())
+    : Promise.resolve({ value: EMPTY_READING_FACETS, unavailable: false });
+  const libraryPromise: Promise<ReadingRegionResult<ReadingLibrary>> | null = tab === "academic"
+    ? captureRegion(listLibrary(userId, filter))
+    : null;
 
   const tabHref = (next: Tab) => {
     const search = new URLSearchParams();
@@ -43,33 +52,20 @@ async function ReadingWorkspace({ userId, lang, dict, tab, filter }: {
     return search.toString() ? `/reading?${search.toString()}` : "/reading";
   };
 
-  const tabItems: { key: Tab; label: string; count?: number }[] = [
-    { key: "academic", label: dict.readingHub.tabAcademic, count: counts?.total },
+  const tabItems: { key: Tab; label: string }[] = [
+    { key: "academic", label: dict.readingHub.tabAcademic },
     { key: "videos", label: dict.readingHub.tabVideos },
     { key: "general", label: dict.readingHub.tabGeneral },
-    { key: "types", label: dict.readingHub.tabTypes, count: facets.types.length },
+    { key: "types", label: dict.readingHub.tabTypes },
     { key: "retention", label: dict.readingHub.tabRetention },
   ];
 
   return (
     <div className="flex flex-col gap-8" data-reading-content data-async-content="reading">
-      {countsUnavailable && (
-        <RegionFailureNotice region="reading-hub-counts" message={dict.errors.unknown} retryLabel={dict.errorPage.retry} />
-      )}
-      {facetsUnavailable && (tab === "academic" || tab === "types") && (
-        <RegionFailureNotice
-          region="reading-library-facets"
-          message={dict.errors.unknown}
-          retryLabel={dict.errorPage.retry}
-        />
-      )}
       <header className="flex flex-col gap-2">
-        {/* The passage count is from the DB, never a number typed into copy. */}
-        <p className="page-subtitle">
-          {counts && counts.total > 0
-            ? dict.readingHub.subtitleWithCount.replace("{n}", String(counts.total))
-            : dict.readingHub.subtitle}
-        </p>
+        <Suspense fallback={<ReadingCountsSkeleton dict={dict} />}>
+          <ReadingCountsRegion countsPromise={countsPromise} dict={dict} />
+        </Suspense>
       </header>
 
       <nav aria-label={dict.readingHub.tabsLabel} className="flex flex-wrap gap-2" data-reading-tabs>
@@ -82,12 +78,26 @@ async function ReadingWorkspace({ userId, lang, dict, tab, filter }: {
             aria-current={item.key === tab ? "page" : undefined}
           >
             {item.label}
-            {typeof item.count === "number" && item.count > 0 && <span className="tab-count">{item.count}</span>}
+            {item.key === "academic" && <Suspense fallback={null}><ReadingTabCount kind="academic" countsPromise={countsPromise} facetsPromise={facetsPromise} /></Suspense>}
+            {item.key === "types" && <Suspense fallback={null}><ReadingTabCount kind="types" countsPromise={countsPromise} facetsPromise={facetsPromise} /></Suspense>}
           </Link>
         ))}
       </nav>
 
-      {tab === "academic" && library && <AcademicLibrary library={library} filter={filter} dict={dict} lang={lang} facets={facets} />}
+      {tab === "academic" && libraryPromise && (
+        <section className="flex flex-col gap-5" data-reading-library>
+          <div className="flex flex-col gap-1">
+            <h2 className="section-title">{dict.readingHub.library}</h2>
+            <p className="body-text">{dict.readingHub.libraryHint}</p>
+          </div>
+          <Suspense fallback={<ReadingFiltersSkeleton dict={dict} />}>
+            <ReadingFiltersRegion dict={dict} lang={lang} filter={filter} facetsPromise={facetsPromise} />
+          </Suspense>
+          <Suspense fallback={<ReadingLibrarySkeleton />}>
+            <ReadingLibraryRegion dict={dict} lang={lang} filter={filter} libraryPromise={libraryPromise} />
+          </Suspense>
+        </section>
+      )}
 
       {tab === "videos" && (
         <section className="flex flex-col gap-4" data-reading-videos>
@@ -105,25 +115,9 @@ async function ReadingWorkspace({ userId, lang, dict, tab, filter }: {
       )}
 
       {tab === "types" && (
-        <section className="flex flex-col gap-4" data-reading-types>
-          <div className="flex flex-col gap-1">
-            <h2 className="section-title">{dict.readingHub.typesTitle}</h2>
-            <p className="body-text">{dict.readingHub.typesHint}</p>
-          </div>
-          {facetsUnavailable ? null : facets.types.length === 0 ? <EmptyState icon="◆" title={dict.readingHub.typesEmpty} /> : (
-            <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
-              {facets.types.map((type) => (
-                <li key={type.code} className="panel flex flex-col gap-2">
-                  <span className="card-title">{questionTypeLabel(type.code, lang)}</span>
-                  <span className="meta-text">{dict.readingHub.typesCount.replace("{n}", String(type.count))}</span>
-                  <Link href={`/reading?type=${encodeURIComponent(type.code)}`} className="mt-1 inline-flex items-center gap-1 text-[0.875rem] font-medium text-signal-600 hover:underline" data-reading-type-link={type.code}>
-                    {dict.readingHub.typesPractice}<IconChevronRight className="text-[15px]" />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
+        <Suspense fallback={<ReadingTypesSkeleton />}>
+          <ReadingTypesRegion dict={dict} lang={lang} facetsPromise={facetsPromise} />
+        </Suspense>
       )}
 
       {tab === "retention" && (
@@ -145,12 +139,135 @@ async function ReadingWorkspace({ userId, lang, dict, tab, filter }: {
   );
 }
 
-function ReadingWorkspaceSkeleton() {
+async function ReadingCountsRegion({ countsPromise, dict }: {
+  countsPromise: Promise<ReadingRegionResult<Awaited<ReturnType<typeof readingHubCounts>>>>;
+  dict: ReturnType<typeof getDictionary>;
+}) {
+  const result = await countsPromise;
+  const counts = result.unavailable ? null : result.value;
   return (
-    <div aria-hidden="true" className="flex flex-col gap-5" data-async-loading="reading">
-      <div className="flex gap-2"><span className="h-10 w-28 animate-pulse rounded bg-ink-50" /><span className="h-10 w-28 animate-pulse rounded bg-ink-50" /></div>
+    <>
+      {result.unavailable && <RegionFailureNotice region="reading-hub-counts" message={dict.errors.unknown} retryLabel={dict.errorPage.retry} />}
+      <p className="page-subtitle">
+        {counts && counts.total > 0
+          ? dict.readingHub.subtitleWithCount.replace("{n}", String(counts.total))
+          : dict.readingHub.subtitle}
+      </p>
+    </>
+  );
+}
+
+async function ReadingTabCount({ kind, countsPromise, facetsPromise }: {
+  kind: "academic" | "types";
+  countsPromise: Promise<ReadingRegionResult<Awaited<ReturnType<typeof readingHubCounts>>>>;
+  facetsPromise: Promise<ReadingRegionResult<ReadingFacets>>;
+}) {
+  if (kind === "academic") {
+    const result = await countsPromise;
+    if (result.unavailable || result.value.total <= 0) return null;
+    return <span className="tab-count">{result.value.total}</span>;
+  }
+  const result = await facetsPromise;
+  if (result.unavailable || result.value.types.length === 0) return null;
+  return <span className="tab-count">{result.value.types.length}</span>;
+}
+
+function ReadingCountsSkeleton({ dict }: { dict: ReturnType<typeof getDictionary> }) {
+  return <p aria-busy="true" data-async-loading="reading-hub-counts" className="h-5 w-56 animate-pulse rounded bg-ink-50">{dict.common.loading}</p>;
+}
+
+function ReadingFiltersSkeleton({ dict }: { dict: ReturnType<typeof getDictionary> }) {
+  return (
+    <div aria-busy="true" data-async-loading="reading-library-facets" aria-label={dict.common.loading} className="panel flex flex-wrap gap-3">
+      <span className="h-10 w-48 animate-pulse rounded bg-ink-50" />
+      <span className="h-10 w-32 animate-pulse rounded bg-ink-50" />
+      <span className="h-10 w-32 animate-pulse rounded bg-ink-50" />
+    </div>
+  );
+}
+
+function ReadingLibrarySkeleton() {
+  return (
+    <div aria-busy="true" data-async-loading="reading-library" className="flex flex-col gap-4">
+      <div className="h-5 w-40 animate-pulse rounded bg-ink-50" />
       {[0, 1, 2].map((row) => <div key={row} className="h-36 animate-pulse rounded-xl bg-ink-50" />)}
     </div>
+  );
+}
+
+function ReadingTypesSkeleton() {
+  return (
+    <div aria-busy="true" data-async-loading="reading-library-facets" className="flex flex-col gap-4">
+      <div className="h-6 w-48 animate-pulse rounded bg-ink-50" />
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">{[0, 1, 2].map((row) => <div key={row} className="h-28 animate-pulse rounded-xl bg-ink-50" />)}</div>
+    </div>
+  );
+}
+
+async function ReadingFiltersRegion({ dict, lang, filter, facetsPromise }: {
+  dict: ReturnType<typeof getDictionary>;
+  lang: "uz" | "en";
+  filter: ReadingFilter;
+  facetsPromise: Promise<ReadingRegionResult<ReadingFacets>>;
+}) {
+  const result = await facetsPromise;
+  const facets = result.unavailable ? EMPTY_READING_FACETS : result.value;
+  const topicOptions = facets.topics.map((topic) => ({ ...topic, label: topicLabel(topic.code, lang) ?? topic.code }));
+  const typeOptions = facets.types.map((type) => ({ ...type, label: questionTypeLabel(type.code, lang) ?? type.code }));
+  return (
+    <>
+      {result.unavailable && <RegionFailureNotice region="reading-library-facets" message={dict.errors.unknown} retryLabel={dict.errorPage.retry} />}
+      <ReadingFilters dict={dict} topics={topicOptions} types={typeOptions} current={{
+        status: filter.status ?? "",
+        topic: filter.topic ?? "",
+        type: filter.type ?? "",
+        query: filter.query ?? "",
+      }} />
+    </>
+  );
+}
+
+async function ReadingLibraryRegion({ dict, lang, filter, libraryPromise }: {
+  dict: ReturnType<typeof getDictionary>;
+  lang: "uz" | "en";
+  filter: ReadingFilter;
+  libraryPromise: Promise<ReadingRegionResult<ReadingLibrary>>;
+}) {
+  const result = await libraryPromise;
+  if (result.unavailable) {
+    return <RegionFailureNotice region="reading-library" message={dict.errors.unknown} retryLabel={dict.errorPage.retry} />;
+  }
+  return <AcademicLibrary library={result.value} filter={filter} dict={dict} lang={lang} />;
+}
+
+async function ReadingTypesRegion({ dict, lang, facetsPromise }: {
+  dict: ReturnType<typeof getDictionary>;
+  lang: "uz" | "en";
+  facetsPromise: Promise<ReadingRegionResult<ReadingFacets>>;
+}) {
+  const result = await facetsPromise;
+  const types = result.unavailable ? [] : result.value.types;
+  return (
+    <section className="flex flex-col gap-4" data-reading-types>
+      <div className="flex flex-col gap-1">
+        <h2 className="section-title">{dict.readingHub.typesTitle}</h2>
+        <p className="body-text">{dict.readingHub.typesHint}</p>
+      </div>
+      {result.unavailable && <RegionFailureNotice region="reading-library-facets" message={dict.errors.unknown} retryLabel={dict.errorPage.retry} />}
+      {result.unavailable ? null : types.length === 0 ? <EmptyState icon="◆" title={dict.readingHub.typesEmpty} /> : (
+        <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          {types.map((type) => (
+            <li key={type.code} className="panel flex flex-col gap-2">
+              <span className="card-title">{questionTypeLabel(type.code, lang)}</span>
+              <span className="meta-text">{dict.readingHub.typesCount.replace("{n}", String(type.count))}</span>
+              <Link href={`/reading?type=${encodeURIComponent(type.code)}`} className="mt-1 inline-flex items-center gap-1 text-[0.875rem] font-medium text-signal-600 hover:underline" data-reading-type-link={type.code}>
+                {dict.readingHub.typesPractice}<IconChevronRight className="text-[15px]" />
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
   );
 }
 
@@ -171,9 +288,7 @@ export default async function ReadingPage({ searchParams }: {
   return (
     <div className="flex flex-col gap-8" data-reading-hub data-route-usable="reading">
       <header><h1 className="page-title">{dict.readingHub.title}</h1></header>
-      <Suspense fallback={<ReadingWorkspaceSkeleton />}>
-        <ReadingWorkspace userId={user.id} lang={lang} dict={dict} tab={tab} filter={filter} />
-      </Suspense>
+      <ReadingWorkspace userId={user.id} lang={lang} dict={dict} tab={tab} filter={filter} />
     </div>
   );
 }
@@ -183,22 +298,13 @@ function AcademicLibrary({
   filter,
   dict,
   lang,
-  facets,
 }: {
-  library: Awaited<ReturnType<typeof listLibrary>>;
-  filter: { status?: string; topic?: string; type?: string; query?: string; page?: number };
+  library: ReadingLibrary;
+  filter: ReadingFilter;
   dict: ReturnType<typeof getDictionary>;
   lang: "uz" | "en";
-  facets: Awaited<ReturnType<typeof listLibraryFacets>>;
 }) {
-  /*
-   * One call. The page used to ask the database three separate times for the
-   * same page of cards — the rows, the total, and again the filtered total —
-   * while the hub above it asked three more for the tab counts. The total now
-   * arrives with the rows (`count(*) over ()`), so the library and its filters
-   * draw from that same statement.
-   */
-
+  /* The total arrives with the page rows (`count(*) over ()`), avoiding extra count reads. */
   const buildPageHref = (page: number) => {
     const search = new URLSearchParams();
     for (const [key, value] of Object.entries({ ...filter, page })) {
@@ -208,34 +314,8 @@ function AcademicLibrary({
     return search.toString() ? `/reading?${search.toString()}` : "/reading";
   };
 
-  const topicOptions = facets.topics.map((topic) => ({
-    ...topic,
-    label: topicLabel(topic.code, lang) ?? topic.code,
-  }));
-  const typeOptions = facets.types.map((type) => ({
-    ...type,
-    label: questionTypeLabel(type.code, lang) ?? type.code,
-  }));
-
   return (
-    <section className="flex flex-col gap-5" data-reading-library>
-      <div className="flex flex-col gap-1">
-        <h2 className="section-title">{dict.readingHub.library}</h2>
-        <p className="body-text">{dict.readingHub.libraryHint}</p>
-      </div>
-
-      <ReadingFilters
-        dict={dict}
-        topics={topicOptions}
-        types={typeOptions}
-        current={{
-          status: filter.status ?? "",
-          topic: filter.topic ?? "",
-          type: filter.type ?? "",
-          query: filter.query ?? "",
-        }}
-      />
-
+    <>
       <p className="meta-text" data-reading-count>
         {dict.readingHub.resultsCount.replace("{n}", String(library.total))}
       </p>
@@ -270,6 +350,6 @@ function AcademicLibrary({
           </div>
         </nav>
       )}
-    </section>
+    </>
   );
 }
