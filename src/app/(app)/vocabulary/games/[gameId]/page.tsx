@@ -2,9 +2,9 @@ import { notFound } from "next/navigation";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { listFolders } from "@/lib/services/vocabulary/engine";
-import { findPack } from "@/lib/services/vocabulary/packs";
+import { TOPIC_PACKS, findPack } from "@/lib/services/vocabulary/packs";
 import { isUuid } from "@/lib/validation/ids";
-import type { GameSetKey } from "@/components/vocabulary/types";
+import type { GameSetKey, VocabFolder, VocabPack } from "@/components/vocabulary/types";
 import { VocabGameView } from "@/components/vocabulary/VocabGamesPanel";
 import { isGameId, isGameSetKey } from "@/lib/services/vocabulary/game-routes";
 
@@ -18,9 +18,10 @@ export default async function VocabularyGamePage({
   const [{ gameId }, query, user] = await Promise.all([params, searchParams, requireActiveUser()]);
   if (!user) return null;
   if (!isGameId(gameId)) notFound();
-  const locale = await getLocale();
+  const [locale, folders] = await Promise.all([getLocale(), listFolders(user.id)]);
   const dict = getDictionary(locale);
-  const requestedSet = query.set ?? "due";
+  const packs: VocabPack[] = TOPIC_PACKS.map((pack) => ({ id: pack.id, label: pack.label[locale], wordCount: pack.words.length }));
+  const requestedSet = query.set ?? "";
   let setKey: GameSetKey = isGameSetKey(requestedSet) ? requestedSet : "due";
   let folderId = query.folderId && isUuid(query.folderId) ? query.folderId : undefined;
   let topicPack = query.topicPack;
@@ -29,7 +30,6 @@ export default async function VocabularyGamePage({
   if (setKey === "folder") {
     if (!folderId) setKey = "due";
     else {
-      const folders = await listFolders(user.id);
       sourceDetail = folders.find((folder) => folder.id === folderId)?.name;
       if (!sourceDetail) { folderId = undefined; setKey = "due"; }
     }
@@ -40,5 +40,14 @@ export default async function VocabularyGamePage({
     else { topicPack = undefined; setKey = "due"; }
   }
 
-  return <VocabGameView dict={dict} gameId={gameId} setKey={setKey} folderId={folderId} topicPack={topicPack} sourceDetail={sourceDetail} />;
+  return <VocabGameView
+    dict={dict}
+    gameId={gameId}
+    setKey={setKey}
+    folderId={folderId}
+    topicPack={topicPack}
+    sourceDetail={sourceDetail}
+    folders={folders as VocabFolder[]}
+    packs={packs}
+  />;
 }

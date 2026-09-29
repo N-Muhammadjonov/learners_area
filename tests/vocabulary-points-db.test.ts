@@ -13,6 +13,7 @@ import {
   getStanding,
   recordGameAnswer,
   recordSentenceUse,
+  recentAwards,
 } from "../src/lib/services/vocabulary/engine";
 
 const enabled = process.env.QA2_DATABASE_TESTS === "1";
@@ -54,7 +55,11 @@ test("new saves earn zero; verified game answers award once; wrong/self/forged m
     assert.ok(matchedPair.ok);
     assert.equal(matchedPair.correct, true);
     assert.equal(matchedPair.verified, true);
-    assert.equal(matchedPair.awarded, 1);
+    assert.equal(matchedPair.awarded, 0, "a second game mode cannot award the same saved word twice that day");
+    const matchedOtherWord = await recordGameAnswer({ userId, entryId: second, setKey: "all", gameId: "match", submission: { kind: "pair", pairEntryId: second } });
+    assert.ok(matchedOtherWord.ok);
+    assert.equal(matchedOtherWord.correct, true);
+    assert.equal(matchedOtherWord.awarded, 1);
     const mismatchedPair = await recordGameAnswer({ userId, entryId: first, setKey: "all", gameId: "match", submission: { kind: "pair", pairEntryId: second } });
     assert.ok(mismatchedPair.ok);
     assert.equal(mismatchedPair.correct, false);
@@ -78,13 +83,50 @@ test("new saves earn zero; verified game answers award once; wrong/self/forged m
     assert.deepEqual(outsideSet, { ok: false, error: "not_in_set" });
 
     const standings = await getStanding(userId);
-    assert.equal(standings.points, 2, "leaderboard points are summed from the race and server-verified pair ledger awards");
+    assert.equal(standings.points, 2, "leaderboard has one race point for the first word and one verified pair point for the second word");
     const events = await db.select().from(vocabPointEvents).where(and(eq(vocabPointEvents.userId, userId), eq(vocabPointEvents.kind, "game_answer")));
     assert.equal(events.length, 2);
     assert.deepEqual(events.map((row) => row.points), [1, 1]);
   } finally {
     await db.delete(users).where(eq(users.id, userId));
     await db.delete(lexemes).where(inArray(lexemes.term, terms));
+  }
+});
+
+test("effective leaderboard remaps legacy values and collapses historical game modes per word/day", { skip: !enabled }, async () => {
+  isolated();
+  const userId = randomUUID();
+  const zeroPointUserId = randomUUID();
+  const entryId = randomUUID();
+  const firstAt = new Date("2026-03-10T20:00:00.000Z");
+  await db.insert(users).values([
+    { id: userId, name: "QA2 effective legacy ledger", role: "student", accountStatus: "active" },
+    { id: zeroPointUserId, name: "QA2 zero-point legacy ledger", role: "student", accountStatus: "active" },
+  ]);
+  try {
+    await db.insert(vocabPointEvents).values([
+      { userId: zeroPointUserId, kind: "new_word", points: 99, dedupeKey: `legacy-zero-${randomUUID()}`, createdAt: firstAt },
+      { userId, kind: "new_word", points: 2, dedupeKey: `legacy-new-${randomUUID()}`, createdAt: firstAt },
+      { userId, kind: "revision", points: 99, dedupeKey: `legacy-revision-${randomUUID()}`, createdAt: firstAt },
+      { userId, kind: "game_answer", points: 70, dedupeKey: `legacy-game-race-${randomUUID()}`, refType: "user_vocabulary", refId: entryId, createdAt: firstAt },
+      { userId, kind: "game_answer", points: 80, dedupeKey: `legacy-game-choice-${randomUUID()}`, refType: "user_vocabulary", refId: entryId, createdAt: new Date(firstAt.getTime() + 60_000) },
+      { userId, kind: "sentence", points: 5, dedupeKey: `legacy-sentence-${randomUUID()}`, createdAt: firstAt },
+    ]);
+
+    const standing = await getStanding(userId);
+    assert.equal(standing.points, 4, "new_word=0, revision=1, game_answer=1 across old modes, sentence=2");
+    const awards = await recentAwards(userId);
+    const byKind = new Map(awards.map((award) => [award.kind, award.points]));
+    assert.equal(awards.length, 3, "zero-value saves and duplicate same-day game provenance do not appear as current awards");
+    assert.equal(byKind.get("revision"), 1);
+    assert.equal(byKind.get("game_answer"), 1);
+    assert.equal(byKind.get("sentence"), 2);
+    assert.equal(byKind.has("new_word"), false);
+    const zeroPointStanding = await getStanding(zeroPointUserId);
+    assert.equal(zeroPointStanding.points, 0);
+    assert.equal(zeroPointStanding.rank, 0, "legacy word-save-only users must not appear in the ranked nonzero leaderboard");
+  } finally {
+    await db.delete(users).where(inArray(users.id, [userId, zeroPointUserId]));
   }
 });
 

@@ -18,7 +18,7 @@ export const VOCAB_POINTS = {
   newWord: 0,
   /** A word recalled in a scheduled revision — the only official progress. */
   revision: 1,
-  /** A correct server-verifiable answer, deduplicated per game/set/day/word. */
+  /** A correct server-verifiable answer, globally deduplicated per saved word/day. */
   gameAnswer: 1,
   /** A sentence the RIWI evaluator accepted as real active use. */
   sentence: 2,
@@ -87,9 +87,9 @@ export const dedupeKeys = {
   /** One scheduled occurrence, identified by its due timestamp rather than outcome/stage. */
   revision: (userId: string, vocabularyId: string, scheduledAt: Date | string) =>
     `revision:${userId}:${vocabularyId}:${scheduledAt instanceof Date ? scheduledAt.toISOString() : scheduledAt}`,
-  /** One word in one game and set per Tashkent day; retries of that attempt collide. */
-  gameAnswer: (userId: string, gameId: string, setKey: string, vocabularyId: string) =>
-    `game:${userId}:${gameId}:${setKey}:${vocabularyId}`,
+  /** One game point per saved word per Tashkent day, across all game modes and sets. */
+  gameAnswer: (userId: string, vocabularyId: string, tashkentDay: string) =>
+    `game:${userId}:${vocabularyId}:${tashkentDay}`,
   /** Same normalized sentence for the same saved word cannot earn twice, even under a new usage id. */
   sentence: (userId: string, entryId: string, normalizedSentenceHash: string) =>
     `sentence:${userId}:${entryId}:${normalizedSentenceHash}`,

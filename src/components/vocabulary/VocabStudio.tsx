@@ -113,13 +113,16 @@ export function VocabStudio({ dict, data }: { dict: Dictionary; data: VocabStudi
             <VocabRevisionPanel
               dict={dict}
               initialDue={data.due}
-              onFinished={(remaining) => {
+              onFinished={(remaining, pointsAwarded) => {
                 setDueCount(remaining);
-                router.refresh();
+                if (pointsAwarded > 0) window.dispatchEvent(new Event("vocab:ledger-changed"));
+                if (remaining === 0) router.refresh();
               }}
             />
           )}
-          {tab === "use" && <VocabUsePanel dict={dict} initial={data.sentences} onSaved={() => router.refresh()} />}
+          {tab === "use" && <VocabUsePanel dict={dict} initial={data.sentences} onSaved={(awarded) => {
+            if (awarded) window.dispatchEvent(new Event("vocab:ledger-changed"));
+          }} />}
           {tab === "board" && (
             <VocabBoardPanel dict={dict} standing={data.standing} compact />
           )}

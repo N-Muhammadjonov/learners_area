@@ -28,9 +28,13 @@ export function VocabBoardPanel({
   const [live, setLive] = useState<VocabStanding>(standing);
 
   useEffect(() => {
+    setLive(standing);
+  }, [standing]);
+
+  useEffect(() => {
     let cancelled = false;
-    void (async () => {
-      const res = await fetch("/api/vocabulary/leaderboard");
+    const refreshLedger = async () => {
+      const res = await fetch("/api/vocabulary/leaderboard", { cache: "no-store" });
       const payload = await res.json().catch(() => null);
       if (cancelled || !payload?.ok) return;
       setLive({
@@ -40,9 +44,12 @@ export function VocabBoardPanel({
         top: payload.top ?? [],
       });
       setAwards(payload.awards ?? []);
-    })();
+    };
+    void refreshLedger();
+    window.addEventListener("vocab:ledger-changed", refreshLedger);
     return () => {
       cancelled = true;
+      window.removeEventListener("vocab:ledger-changed", refreshLedger);
     };
   }, []);
 

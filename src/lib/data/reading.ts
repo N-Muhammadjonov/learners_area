@@ -1,4 +1,4 @@
-import { and, asc, desc, eq } from "drizzle-orm";
+import { and, asc, desc, eq, isNull } from "drizzle-orm";
 import { db } from "@/db/client";
 import {
   lexicalOccurrences,
@@ -121,43 +121,49 @@ export async function saveDraftAnswers(
   userId: string,
   entries: { questionId: string; answer: string }[]
 ) {
-  const [attempt] = await db
-    .select({
-      id: readingAttempts.id,
-      passageId: readingAttempts.passageId,
-      startedAt: readingAttempts.startedAt,
-      status: readingAttempts.status,
-      suggestedMinutes: readingPassages.suggestedMinutes,
-    })
-    .from(readingAttempts)
-    .innerJoin(readingPassages, eq(readingAttempts.passageId, readingPassages.id))
-    .where(and(eq(readingAttempts.id, attemptId), eq(readingAttempts.userId, userId)))
-    .limit(1);
-  if (!attempt) return { saved: 0, reason: "not_found" as const };
-  if (attempt.status !== "in_progress") return { saved: 0, reason: "already_submitted" as const };
-  if (readingAttemptExpired(attempt.startedAt, attempt.suggestedMinutes)) return { saved: 0, reason: "expired" as const };
+  return db.transaction(async (tx) => {
+    // Autosave and final submission serialize on the attempt row. Without the
+    // lock, a last in-flight PATCH could replace the saved draft after submit.
+    const [attempt] = await tx
+      .select({
+        id: readingAttempts.id,
+        passageId: readingAttempts.passageId,
+        startedAt: readingAttempts.startedAt,
+        status: readingAttempts.status,
+        suggestedMinutes: readingPassages.suggestedMinutes,
+      })
+      .from(readingAttempts)
+      .innerJoin(readingPassages, eq(readingAttempts.passageId, readingPassages.id))
+      .where(and(eq(readingAttempts.id, attemptId), eq(readingAttempts.userId, userId)))
+      .limit(1)
+      .for("update", { of: readingAttempts });
+    if (!attempt) return { saved: 0, reason: "not_found" as const };
+    if (attempt.status !== "in_progress") return { saved: 0, reason: "already_submitted" as const };
+    if (readingAttemptExpired(attempt.startedAt, attempt.suggestedMinutes)) return { saved: 0, reason: "expired" as const };
 
-  // Only questions that really belong to this attempt's passage are accepted:
-  // a client that sends somebody else's question id changes nothing.
-  const questions = await db.query.readingQuestions.findMany({
-    where: eq(readingQuestions.passageId, attempt.passageId),
-  });
-  const allowed = new Set(questions.map((question) => question.id));
-
-  await db.transaction(async (tx) => {
-    await tx.delete(readingAnswers).where(eq(readingAnswers.attemptId, attemptId));
-    const rows = entries.filter((entry) => allowed.has(entry.questionId));
-    if (rows.length > 0) {
-      await tx.insert(readingAnswers).values(
-        rows.map((entry) => ({
-          attemptId,
-          questionId: entry.questionId,
-          userAnswer: entry.answer.slice(0, 4000),
-          isCorrect: null,
-        }))
-      );
+    // Only questions that really belong to this attempt's passage are accepted:
+    // a client that sends somebody else's question id changes nothing. Collapse
+    // forged duplicate ids too, since the table deliberately stores no score key.
+    const questions = await tx.query.readingQuestions.findMany({
+      where: eq(readingQuestions.passageId, attempt.passageId),
+    });
+    const allowed = new Set(questions.map((question) => question.id));
+    const rowsByQuestion = new Map<string, string>();
+    for (const entry of entries) {
+      if (allowed.has(entry.questionId)) rowsByQuestion.set(entry.questionId, entry.answer.slice(0, 4000));
     }
-  });
 
-  return { saved: entries.filter((entry) => allowed.has(entry.questionId)).length, reason: "ok" as const };
+    // Recheck the deadline immediately before the write in case question lookup
+    // itself crossed the attempt's deadline.
+    if (readingAttemptExpired(attempt.startedAt, attempt.suggestedMinutes)) return { saved: 0, reason: "expired" as const };
+    await tx.delete(readingAnswers).where(and(eq(readingAnswers.attemptId, attemptId), isNull(readingAnswers.isCorrect)));
+    const rows = [...rowsByQuestion].map(([questionId, userAnswer]) => ({
+      attemptId,
+      questionId,
+      userAnswer,
+      isCorrect: null,
+    }));
+    if (rows.length > 0) await tx.insert(readingAnswers).values(rows);
+    return { saved: rows.length, reason: "ok" as const };
+  });
 }

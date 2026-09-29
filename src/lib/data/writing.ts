@@ -1,4 +1,4 @@
-import { and, asc, count, desc, eq, max, sql } from "drizzle-orm";
+import { and, asc, count, desc, eq, max } from "drizzle-orm";
 import { db } from "@/db/client";
 import { liveWhere } from "@/lib/services/cms/publication";
 import {
@@ -41,7 +41,7 @@ export async function listActivePromptsWithResources(): Promise<{
       resourceBlocks,
       and(
         eq(resourceBlocks.ownerType, "writing"),
-        sql`${resourceBlocks.ownerId} = ${writingPrompts.id}::text`,
+        eq(resourceBlocks.ownerId, writingPrompts.id),
       ),
     )
     .where(liveWhere({

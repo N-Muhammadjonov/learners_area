@@ -1,6 +1,6 @@
 import "server-only";
 import { touchMeaningfulActivity } from "@/lib/services/activity";
-import { and, asc, desc, eq, gte, inArray, lte, or, sql } from "drizzle-orm";
+import { and, asc, desc, eq, gt, inArray, lte, or, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import {
   activityEvents,
@@ -24,6 +24,7 @@ import {
 } from "./srs";
 import {
   POINT_VALUES,
+  TIMEZONE,
   VOCAB_POINTS,
   dayKey,
   dedupeKeys,
@@ -621,7 +622,7 @@ async function isEntryInGameSet(input: {
  *     point; Matching Pairs instead sends both entry identities, which the
  *     server checks for ownership, set membership, and equality;
  *   - the casual point still cannot touch the spaced-repetition ladder, and it
- *     is deduplicated per word/game/set/day, so replaying the same game attempt
+ *     is deduplicated per learner/word/Tashkent-day across every game mode, so replaying
  *     cannot farm the leaderboard.
  */
 export async function recordGameAnswer(input: {
@@ -716,12 +717,7 @@ export async function recordGameAnswer(input: {
       ? await awardPoints({
           userId: input.userId,
           kind: "game_answer",
-          dedupeKey: dedupeKeys.gameAnswer(
-            input.userId,
-            input.gameId,
-            `${input.setKey}:${input.setKey === "folder" ? input.folderId ?? "" : input.setKey === "topic" ? input.topicPack ?? "any" : ""}:${dayKey(now)}`,
-            input.entryId,
-          ),
+          dedupeKey: dedupeKeys.gameAnswer(input.userId, input.entryId, dayKey(now)),
           refType: "user_vocabulary",
           refId: input.entryId,
         })
@@ -972,24 +968,52 @@ export async function moveToFolder(
 // Private leaderboard + streak (Asia/Tashkent)
 // ---------------------------------------------------------------------------
 
+function effectivePointRows() {
+  return db.$with("effective_vocab_point_rows").as(
+    db.select({
+      id: vocabPointEvents.id,
+      userId: vocabPointEvents.userId,
+      kind: vocabPointEvents.kind,
+      createdAt: vocabPointEvents.createdAt,
+      effectivePoints: sql<number>`CASE
+        WHEN ${vocabPointEvents.kind} = 'new_word' THEN ${POINT_VALUES.new_word}
+        WHEN ${vocabPointEvents.kind} = 'revision' THEN ${POINT_VALUES.revision}
+        WHEN ${vocabPointEvents.kind} = 'game_answer' THEN CASE
+          WHEN row_number() OVER (
+            PARTITION BY ${vocabPointEvents.kind}, ${vocabPointEvents.userId},
+              coalesce(${vocabPointEvents.refId}, ${vocabPointEvents.id}::text),
+              ((${vocabPointEvents.createdAt} AT TIME ZONE ${TIMEZONE}::text)::date)
+            ORDER BY ${vocabPointEvents.createdAt} ASC, ${vocabPointEvents.id} ASC
+          ) = 1 THEN ${POINT_VALUES.game_answer}
+          ELSE 0
+        END
+        WHEN ${vocabPointEvents.kind} = 'sentence' THEN ${POINT_VALUES.sentence}
+        ELSE 0
+      END::int`,
+    }).from(vocabPointEvents),
+  );
+}
+
 export async function getStanding(userId: string) {
-  // Totals and recent activity are independent reads. Names join in the aggregate
-  // so ranking does not require a third serial round trip.
+  // Effective score is derived from the current contract, not historical stored
+  // amounts. Legacy game-answer duplicates are collapsed per learner/entry/day.
+  const effectiveRows = effectivePointRows();
   const [totals, days] = await Promise.all([
-    db
+    db.with(effectiveRows)
       .select({
-        userId: vocabPointEvents.userId,
+        userId: effectiveRows.userId,
         name: users.name,
-        points: sql<number>`coalesce(sum(${vocabPointEvents.points}), 0)::int`,
+        points: sql<number>`coalesce(sum(${effectiveRows.effectivePoints}), 0)::int`,
       })
-      .from(vocabPointEvents)
-      .innerJoin(users, eq(users.id, vocabPointEvents.userId))
-      .groupBy(vocabPointEvents.userId, users.name)
-      .orderBy(desc(sql`coalesce(sum(${vocabPointEvents.points}), 0)`)),
-    db
-      .select({ createdAt: vocabPointEvents.createdAt })
-      .from(vocabPointEvents)
-      .where(eq(vocabPointEvents.userId, userId)),
+      .from(effectiveRows)
+      .innerJoin(users, eq(users.id, effectiveRows.userId))
+      .groupBy(effectiveRows.userId, users.name)
+      .having(sql`sum(${effectiveRows.effectivePoints}) > 0`)
+      .orderBy(desc(sql`sum(${effectiveRows.effectivePoints})`)),
+    db.with(effectiveRows)
+      .select({ createdAt: effectiveRows.createdAt })
+      .from(effectiveRows)
+      .where(and(eq(effectiveRows.userId, userId), gt(effectiveRows.effectivePoints, 0))),
   ]);
 
   const ranked = totals.map((row, index) => ({ ...row, rank: index + 1 }));
@@ -1011,18 +1035,19 @@ export async function getStanding(userId: string) {
   return { points: mine.points, rank: mine.rank, streak, top };
 }
 
-/** Recent awards, so the student can see where their points came from. */
+/** Recent provenance with current effective values, not obsolete stored amounts. */
 export async function recentAwards(userId: string, limit = 10) {
-  return db
+  const effectiveRows = effectivePointRows();
+  return db.with(effectiveRows)
     .select({
-      id: vocabPointEvents.id,
-      kind: vocabPointEvents.kind,
-      points: vocabPointEvents.points,
-      createdAt: vocabPointEvents.createdAt,
+      id: effectiveRows.id,
+      kind: effectiveRows.kind,
+      points: effectiveRows.effectivePoints,
+      createdAt: effectiveRows.createdAt,
     })
-    .from(vocabPointEvents)
-    .where(and(eq(vocabPointEvents.userId, userId), gte(vocabPointEvents.points, 1), sql`${vocabPointEvents.kind} <> 'new_word'`))
-    .orderBy(desc(vocabPointEvents.createdAt))
+    .from(effectiveRows)
+    .where(and(eq(effectiveRows.userId, userId), gt(effectiveRows.effectivePoints, 0)))
+    .orderBy(desc(effectiveRows.createdAt))
     .limit(limit);
 }
 

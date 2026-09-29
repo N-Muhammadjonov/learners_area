@@ -28,15 +28,21 @@ export function VocabGamesPanel({
   dict,
   folders,
   packs,
+  initialSetKey = "due",
+  initialFolderId,
+  initialTopicPack,
 }: {
   dict: Dictionary;
   folders: VocabFolder[];
   packs: VocabPack[];
+  initialSetKey?: GameSetKey;
+  initialFolderId?: string;
+  initialTopicPack?: string;
 }) {
   const t = dict.vocabulary;
-  const [setKey, setSetKey] = useState<GameSetKey>("due");
-  const [topicPack, setTopicPack] = useState<string>(packs[0]?.id ?? "");
-  const [folderId, setFolderId] = useState<string>(folders[0]?.id ?? "");
+  const [setKey, setSetKey] = useState<GameSetKey>(initialSetKey);
+  const [topicPack, setTopicPack] = useState<string>(initialTopicPack ?? packs[0]?.id ?? "");
+  const [folderId, setFolderId] = useState<string>(initialFolderId ?? folders[0]?.id ?? "");
   const [set, setSet] = useState<GameSetResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [loadFailed, setLoadFailed] = useState(false);
@@ -74,14 +80,26 @@ export function VocabGamesPanel({
     if (setKey === "folder" && folderId) return `${base} · ${folders.find((item) => item.id === folderId)?.name ?? ""}`;
     return base;
   }, [setKey, topicPack, folderId, packs, folders, t]);
-  const hrefFor = (game: GameId) => {
-    const params = new URLSearchParams(query);
-    params.delete("limit");
-    return `/vocabulary/games/${game}?${params.toString()}`;
+  const queryString = () => {
+    const params = new URLSearchParams({ set: setKey });
+    if (setKey === "topic" && topicPack) params.set("topicPack", topicPack);
+    if (setKey === "folder" && folderId) params.set("folderId", folderId);
+    return params.toString();
+  };
+  const hrefFor = (game: GameId) => `/vocabulary/games/${game}?${queryString()}`;
+  const updateQuery = (next: { set?: GameSetKey; folderId?: string; topicPack?: string } = {}) => {
+    const params = new URLSearchParams({ set: next.set ?? setKey });
+    const nextSet = next.set ?? setKey;
+    const nextFolder = next.folderId ?? folderId;
+    const nextTopic = next.topicPack ?? topicPack;
+    if (nextSet === "topic" && nextTopic) params.set("topicPack", nextTopic);
+    if (nextSet === "folder" && nextFolder) params.set("folderId", nextFolder);
+    if (typeof window !== "undefined") window.history.replaceState(null, "", `/vocabulary/games?${params.toString()}`);
   };
 
   return (
     <div className="flex flex-col gap-4" data-games-library>
+      <Link href="/vocabulary" prefetch={false} className="btn-ghost w-fit" data-games-back-to-vocabulary>← {dict.nav.vocabulary}</Link>
       <header>
         <h1 className="font-display text-2xl text-ink-900">{t.games.title}</h1>
         <p className="mt-1 text-sm text-ink-500">{t.games.hint}</p>
@@ -90,20 +108,20 @@ export function VocabGamesPanel({
         <div className="grid gap-2 sm:grid-cols-2">
           <label className="flex flex-col gap-1 text-xs text-ink-500">
             {t.games.set.label}
-            <select className="input" aria-label={t.games.set.label} data-game-set value={setKey} onChange={(event) => setSetKey(event.target.value as GameSetKey)}>
+            <select className="input" aria-label={t.games.set.label} data-game-set value={setKey} onChange={(event) => { const value = event.target.value as GameSetKey; setSetKey(value); updateQuery({ set: value }); }}>
               {(["all", "due", "weak", "reading", "listening", "topic", "folder", "assigned"] as GameSetKey[]).map((key) => <option key={key} value={key}>{t.games.set[key]}</option>)}
             </select>
           </label>
           {setKey === "topic" && packs.length > 0 && (
             <label className="flex flex-col gap-1 text-xs text-ink-500">
-              {t.packs.title}<select className="input" aria-label={t.packs.title} value={topicPack} onChange={(event) => setTopicPack(event.target.value)}>
+              {t.packs.title}<select className="input" aria-label={t.packs.title} value={topicPack} onChange={(event) => { setTopicPack(event.target.value); updateQuery({ topicPack: event.target.value }); }}>
                 {packs.map((pack) => <option key={pack.id} value={pack.id}>{pack.label} · {pack.wordCount}</option>)}
               </select>
             </label>
           )}
           {setKey === "folder" && folders.length > 0 && (
             <label className="flex flex-col gap-1 text-xs text-ink-500">
-              {t.folders.title}<select className="input" aria-label={t.folders.title} value={folderId} onChange={(event) => setFolderId(event.target.value)}>
+              {t.folders.title}<select className="input" aria-label={t.folders.title} value={folderId} onChange={(event) => { setFolderId(event.target.value); updateQuery({ folderId: event.target.value }); }}>
                 {folders.map((folder) => <option key={folder.id} value={folder.id}>{folder.name} · {folder.count}</option>)}
               </select>
             </label>
@@ -115,11 +133,11 @@ export function VocabGamesPanel({
       </section>
       <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
         {GAMES.map((game) => (
-          <Link key={game} href={hrefFor(game)} prefetch={false} data-game={game} aria-disabled={available === 0 || loading} tabIndex={available === 0 || loading ? -1 : 0}
-            onClick={(event) => { if (available === 0 || loading) event.preventDefault(); }}
-            className={`card flex min-h-28 flex-col gap-1 p-4 text-left transition-colors hover:border-signal-600 ${available === 0 || loading ? "pointer-events-none opacity-50" : ""}`}>
+          <Link key={game} href={hrefFor(game)} prefetch={false} data-game={game} data-available={available > 0 ? "true" : "false"}
+            className="card flex min-h-28 flex-col gap-1 p-4 text-left transition-colors hover:border-signal-600">
             <span className="text-sm font-medium text-ink-900">{GAME_META[game].title(dict)}</span>
             <span className="text-xs text-ink-500">{GAME_META[game].hint(dict)}</span>
+            {available === 0 && !loading && <span className="text-xs text-ink-300">{t.games.noWordsInSet}</span>}
           </Link>
         ))}
       </div>
@@ -131,7 +149,7 @@ export function VocabGamesPanel({
 
 /** Dedicated route content; the per-game dataset is fetched independently from the Vocabulary Studio. */
 export function VocabGameView({
-  dict, gameId, setKey, folderId, topicPack, sourceDetail,
+  dict, gameId, setKey, folderId, topicPack, sourceDetail, folders, packs,
 }: {
   dict: Dictionary;
   gameId: GameId;
@@ -139,54 +157,131 @@ export function VocabGameView({
   folderId?: string;
   topicPack?: string;
   sourceDetail?: string;
+  folders: VocabFolder[];
+  packs: VocabPack[];
 }) {
   const t = dict.vocabulary;
+  const [selectedSet, setSelectedSet] = useState<GameSetKey>(setKey);
+  const [selectedFolder, setSelectedFolder] = useState(folderId ?? folders[0]?.id ?? "");
+  const [selectedPack, setSelectedPack] = useState(topicPack ?? packs[0]?.id ?? "");
   const [set, setSet] = useState<GameSetResponse | null>(null);
+  const [loadedKey, setLoadedKey] = useState("");
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
-  const context = useMemo(() => ({ gameId, setKey, folderId, topicPack }), [gameId, setKey, folderId, topicPack]);
+  const requestKey = [gameId, selectedSet, selectedSet === "folder" ? selectedFolder : "", selectedSet === "topic" ? selectedPack : ""].join("|");
+  const currentSet = loadedKey === requestKey ? set : null;
+  const isLoading = loading || loadedKey !== requestKey;
+  const currentFailed = loadedKey === requestKey && failed;
+  const gameViewKey = requestKey;
+  const activeFolder = folders.find((item) => item.id === selectedFolder);
+  const activePack = packs.find((item) => item.id === selectedPack);
+  const activeSourceDetail = selectedSet === "folder" ? activeFolder?.name
+    : selectedSet === "topic" ? activePack?.label
+      : selectedSet === setKey ? sourceDetail : undefined;
+  const source = [t.games.set[selectedSet], activeSourceDetail].filter(Boolean).join(" · ");
+  const context = useMemo(() => ({
+    gameId,
+    setKey: selectedSet,
+    folderId: selectedSet === "folder" ? selectedFolder : undefined,
+    topicPack: selectedSet === "topic" ? selectedPack : undefined,
+  }), [gameId, selectedSet, selectedFolder, selectedPack]);
 
   useEffect(() => {
     const controller = new AbortController();
-    const params = new URLSearchParams({ set: setKey, limit: "24", random: "1", game: gameId });
-    if (folderId) params.set("folderId", folderId);
-    if (topicPack) params.set("topicPack", topicPack);
+    const params = new URLSearchParams({ set: selectedSet, limit: "24", random: "1", game: gameId });
+    if (selectedSet === "folder" && selectedFolder) params.set("folderId", selectedFolder);
+    if (selectedSet === "topic" && selectedPack) params.set("topicPack", selectedPack);
     setLoading(true);
     setFailed(false);
+    setSet(null);
     void fetch(`/api/vocabulary/games?${params}`, { signal: controller.signal })
       .then(async (res) => {
         const payload = await res.json().catch(() => null);
         if (!res.ok || !payload?.ok) throw new Error("game_set_unavailable");
         setSet(payload as GameSetResponse);
+        setLoadedKey(requestKey);
       })
       .catch((error: unknown) => {
         if (error instanceof Error && error.name === "AbortError") return;
         setFailed(true);
+        setLoadedKey(requestKey);
       })
       .finally(() => { if (!controller.signal.aborted) setLoading(false); });
     return () => controller.abort();
-  }, [gameId, setKey, folderId, topicPack]);
+  }, [gameId, selectedSet, selectedFolder, selectedPack, requestKey]);
 
-  const source = [t.games.set[setKey], sourceDetail].filter(Boolean).join(" · ");
+  const queryForBack = () => {
+    const params = new URLSearchParams({ set: selectedSet });
+    if (selectedSet === "folder" && selectedFolder) params.set("folderId", selectedFolder);
+    if (selectedSet === "topic" && selectedPack) params.set("topicPack", selectedPack);
+    return params.toString();
+  };
+  const updateAddress = (next: { set?: GameSetKey; folderId?: string; topicPack?: string } = {}) => {
+    const nextSet = next.set ?? selectedSet;
+    const params = new URLSearchParams({ set: nextSet });
+    const folder = next.folderId ?? selectedFolder;
+    const pack = next.topicPack ?? selectedPack;
+    if (nextSet === "folder" && folder) params.set("folderId", folder);
+    if (nextSet === "topic" && pack) params.set("topicPack", pack);
+    if (typeof window !== "undefined") window.history.replaceState(null, "", `${window.location.pathname}?${params.toString()}`);
+  };
+
   return (
     <div className="mx-auto flex w-full max-w-4xl flex-col gap-4" data-dedicated-game={gameId}>
-      <Link href="/vocabulary/games" prefetch={false} className="btn-ghost w-fit" data-game-back>← {t.games.backToGames}</Link>
+      <Link href={`/vocabulary/games?${queryForBack()}`} prefetch={false} className="btn-ghost w-fit" data-game-back>← {t.games.backToGames}</Link>
       <header className="flex flex-wrap items-end justify-between gap-3">
-        <div><h1 className="font-display text-2xl text-ink-900">{GAME_META[gameId].title(dict)}</h1><p className="mt-1 text-sm text-ink-500">{t.games.source}: {source}</p></div>
-        {set && <span className="text-xs text-ink-500">{set.total} {t.packs.words}</span>}
+        <div><h1 className="font-display text-2xl text-ink-900">{GAME_META[gameId].title(dict)}</h1><p className="mt-1 text-sm text-ink-500" data-game-source>{t.games.source}: {source}</p></div>
+        {currentSet && <span className="text-xs text-ink-500">{currentSet.total} {t.packs.words}</span>}
       </header>
-      {loading && <p className="card p-4 text-sm text-ink-500" role="status">{dict.common.loading}</p>}
-      {failed && <p className="card p-4 text-sm text-band-bad" role="alert">{t.games.loadError}</p>}
-      {!loading && !failed && set?.words.length === 0 && <p className="card p-4 text-sm text-ink-500">{set?.total ? t.games.noEligible : t.games.noWords}</p>}
-      {!loading && !failed && set && set.words.length > 0 && (
+      <section className="card grid gap-2 p-4 sm:grid-cols-2" aria-label={t.games.set.label} data-game-set-controls>
+        <label className="flex flex-col gap-1 text-xs text-ink-500">
+          {t.games.set.label}
+          <select className="input" aria-label={t.games.set.label} data-game-set value={selectedSet} onChange={(event) => {
+            const value = event.target.value as GameSetKey;
+            setSelectedSet(value);
+            updateAddress({ set: value });
+          }}>
+            {(["all", "due", "weak", "reading", "listening", "topic", "folder", "assigned"] as GameSetKey[]).map((key) => <option key={key} value={key}>{t.games.set[key]}</option>)}
+          </select>
+        </label>
+        {selectedSet === "topic" && packs.length > 0 && (
+          <label className="flex flex-col gap-1 text-xs text-ink-500">
+            {t.packs.title}
+            <select className="input" aria-label={t.packs.title} value={selectedPack} onChange={(event) => {
+              setSelectedPack(event.target.value);
+              updateAddress({ topicPack: event.target.value });
+            }}>
+              {packs.map((pack) => <option key={pack.id} value={pack.id}>{pack.label} · {pack.wordCount}</option>)}
+            </select>
+          </label>
+        )}
+        {selectedSet === "folder" && folders.length > 0 && (
+          <label className="flex flex-col gap-1 text-xs text-ink-500">
+            {t.folders.title}
+            <select className="input" aria-label={t.folders.title} value={selectedFolder} onChange={(event) => {
+              setSelectedFolder(event.target.value);
+              updateAddress({ folderId: event.target.value });
+            }}>
+              {folders.map((folder) => <option key={folder.id} value={folder.id}>{folder.name} · {folder.count}</option>)}
+            </select>
+          </label>
+        )}
+        <p className="text-xs text-ink-500 sm:col-span-2" aria-live="polite" data-game-set-status>
+          {isLoading ? dict.common.loading : currentFailed ? t.games.loadError : `${source} · ${currentSet?.total ?? 0} ${t.packs.words}`}
+        </p>
+      </section>
+      {isLoading && <p className="card p-4 text-sm text-ink-500" role="status">{dict.common.loading}</p>}
+      {currentFailed && <p className="card p-4 text-sm text-band-bad" role="alert">{t.games.loadError}</p>}
+      {!isLoading && !currentFailed && currentSet?.words.length === 0 && <p className="card p-4 text-sm text-ink-500" role="status" data-game-empty>{currentSet?.total ? t.games.noEligible : t.games.noWordsInSet}</p>}
+      {!isLoading && !currentFailed && currentSet && currentSet.words.length > 0 && (
         <GameRequestContext.Provider value={context}>
-          {gameId === "cards" && <Flashcards key={gameId} dict={dict} words={set.words} />}
-          {gameId === "choice" && <MultipleChoice key={gameId} dict={dict} words={set.words} />}
-          {gameId === "match" && <MatchingPairs key={gameId} dict={dict} words={set.words} />}
-          {gameId === "gap" && <FillTheGap key={gameId} dict={dict} words={set.words} />}
-          {gameId === "race" && <TypingRace key={gameId} dict={dict} words={set.words} />}
-          {gameId === "translation" && <TranslationChallenge key={gameId} dict={dict} words={set.words} />}
-          {gameId === "builder" && <SentenceBuilder key={gameId} dict={dict} words={set.words} />}
+          {gameId === "cards" && <Flashcards key={gameViewKey} dict={dict} words={currentSet.words} sourceHeading={source} />}
+          {gameId === "choice" && <MultipleChoice key={gameViewKey} dict={dict} words={currentSet.words} />}
+          {gameId === "match" && <MatchingPairs key={gameViewKey} dict={dict} words={currentSet.words} />}
+          {gameId === "gap" && <FillTheGap key={gameViewKey} dict={dict} words={currentSet.words} />}
+          {gameId === "race" && <TypingRace key={gameViewKey} dict={dict} words={currentSet.words} />}
+          {gameId === "translation" && <TranslationChallenge key={gameViewKey} dict={dict} words={currentSet.words} />}
+          {gameId === "builder" && <SentenceBuilder key={gameViewKey} dict={dict} words={currentSet.words} />}
         </GameRequestContext.Provider>
       )}
     </div>
@@ -236,7 +331,11 @@ function useAnswer() {
         }),
       }).catch(() => null);
       if (!res?.ok) return null;
-      return res.json().catch(() => null) as Promise<{ awarded?: number; correct?: boolean; verified?: boolean } | null>;
+      const result = await res.json().catch(() => null) as { awarded?: number; correct?: boolean; verified?: boolean } | null;
+      if (result && typeof result.awarded === "number" && result.awarded > 0) {
+        window.dispatchEvent(new Event("vocab:ledger-changed"));
+      }
+      return result;
     },
     [request],
   );
@@ -275,7 +374,8 @@ function Speaker({ word, label }: { word: string; label: string }) {
       type="button"
       className="btn-ghost text-xs"
       aria-label={`${label}: ${word}`}
-      onClick={() => {
+      onClick={(event) => {
+        event.stopPropagation();
         if (typeof window === "undefined" || !("speechSynthesis" in window)) {
           setState("unsupported");
           return;
@@ -319,170 +419,158 @@ function ResultBanner({
 // 1. Flashcards — definition first, side queue, separate assessment and navigation
 // ---------------------------------------------------------------------------
 
-function Flashcards({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
+function Flashcards({ dict, words, sourceHeading }: { dict: Dictionary; words: GameWord[]; sourceHeading: string }) {
   const t = dict.vocabulary;
   const [deck, setDeck] = useState(() => shuffle(words).slice(0, 10));
   const [index, setIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [marks, setMarks] = useState<Record<string, "known" | "notYet">>({});
+  const [marking, setMarking] = useState<"known" | "notYet" | null>(null);
+  const [pass, setPass] = useState(1);
+  const timers = useRef<number[]>([]);
   const answer = useAnswer();
 
   const current = deck[index];
-  const correct = Object.values(marks).filter((mark) => mark === "known").length;
   const remaining = deck.slice(index);
+  const learnedCount = deck.filter((word) => marks[word.id] === "known").length;
+  const notYetCount = deck.filter((word) => marks[word.id] === "notYet").length;
 
-  /**
-   * The keyboard is part of the deck, not an afterthought: space turns the card
-   * over, the arrows move through it. The arrows only *navigate* — a card that is
-   * skipped keeps no mark and never touches the SRS, because a keystroke is not a
-   * judgement. Enter is deliberately not bound: a card should not be judged by
-   * the same key that means "activate" everywhere else.
-   */
-  useEffect(() => {
-    function onKey(event: KeyboardEvent) {
-      const target = event.target as HTMLElement | null;
-      const typing = target && (
-        target.tagName === "INPUT" || target.tagName === "TEXTAREA" ||
-        target.tagName === "BUTTON" || target.tagName === "A" ||
-        target.tagName === "SELECT" || target.isContentEditable
-      );
-      if (typing) return;
-
-      if (event.key === " ") {
-        event.preventDefault();
-        setFlipped((value) => !value);
-      } else if (event.key === "ArrowRight") {
-        event.preventDefault();
-        setFlipped(false);
-        setIndex((value) => Math.min(value + 1, deck.length));
-      } else if (event.key === "ArrowLeft") {
-        event.preventDefault();
-        setFlipped(false);
-        setIndex((value) => Math.max(value - 1, 0));
-      }
-    }
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [deck.length]);
-
-  function restart() {
-    setDeck(shuffle(words).slice(0, 10));
-    setIndex(0);
-    setFlipped(false);
-    setMarks({});
-  }
+  useEffect(() => () => timers.current.forEach((timer) => window.clearTimeout(timer)), []);
 
   function decide(known: boolean) {
-    if (!current) return;
-    setMarks((row) => ({ ...row, [current.id]: known ? "known" : "notYet" }));
+    if (!current || marking) return;
+    const status = known ? "known" : "notYet";
+    setMarks((row) => ({ ...row, [current.id]: status }));
+    setMarking(status);
+    // Self-assessment is useful practice but is deliberately not point-bearing.
     void answer(current.id, { kind: "self", known });
+    const settle = window.setTimeout(() => {
+      setFlipped(false);
+      // Match the 0.52s CSS flip duration so the next definition never swaps
+      // underneath an in-progress 3D turn.
+      const advance = window.setTimeout(() => {
+        setIndex((value) => value + 1);
+        setMarking(null);
+      }, 560);
+      timers.current.push(advance);
+    }, 520);
+    timers.current.push(settle);
+  }
+
+  function startPass(mode: "all" | "notYet") {
+    const nextDeck = mode === "notYet"
+      ? deck.filter((word) => marks[word.id] === "notYet")
+      : shuffle(words).slice(0, 10);
+    setDeck(nextDeck);
+    setIndex(0);
+    setFlipped(false);
+    setMarking(null);
+    setPass((value) => value + 1);
   }
 
   if (!current) {
+    const reviewCount = deck.filter((word) => marks[word.id] === "notYet").length;
     return (
-      <GameFrame dict={dict} title={t.games.cards} hint={t.games.cardsHint} counter={`${correct}/${deck.length}`}>
-        <ResultBanner dict={dict} correct={correct} total={deck.length} onAgain={restart} />
+      <GameFrame dict={dict} title={t.games.cards} hint={t.games.cardsHint} counter={`${learnedCount}/${deck.length}`}>
+        <section className="flex flex-col items-center gap-4 py-6 text-center" data-flashcard-complete role="status" aria-live="polite">
+          <h2 className="font-display text-xl text-ink-900">{t.games.passDone}</h2>
+          <p className="text-sm text-ink-500">{sourceHeading} · {learnedCount} {t.games.learned} · {reviewCount} {t.games.notYetLabel}</p>
+          <div className="flex flex-wrap justify-center gap-2">
+            {reviewCount > 0 && <button type="button" className="btn-secondary" onClick={() => startPass("notYet")}>{t.games.reviewNotYet.replace("{count}", String(reviewCount))}</button>}
+            <button type="button" className="btn-primary" onClick={() => startPass("all")}>{t.games.reviewAll}</button>
+          </div>
+        </section>
       </GameFrame>
     );
   }
 
-  return (
-    <GameFrame
-      dict={dict}
-      title={t.games.cards}
-      hint={t.games.cardsHint}
-      counter={`${t.games.progress} ${index + 1} / ${deck.length}`}
-    >
-      <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_220px]">
-        <article
-          aria-label={flipped ? current.term : current.definitionEn}
-          data-flashcard={flipped ? "answer" : "definition"}
-          className="flex min-h-[230px] flex-col items-center justify-center gap-3 rounded-md border border-ink-100 bg-paper-sunken p-6 text-center"
-        >
-          {flipped ? (
-            <>
-              <p className="font-display text-2xl text-ink-900">{current.term}</p>
-              {current.partOfSpeech && <p className="text-xs uppercase tracking-wide text-ink-300">{current.partOfSpeech}</p>}
-              {current.translationUz && <p className="text-sm text-signal-700">{current.translationUz}</p>}
-              {collocationChips(current.collocations).length > 0 && (
-                <div className="flex flex-wrap justify-center gap-1.5" data-collocations>
-                  {collocationChips(current.collocations).map((phrase) => (
-                    <span key={phrase} className="rounded-full bg-paper-raised px-2 py-0.5 text-xs text-ink-700">
-                      {phrase}
-                    </span>
-                  ))}
-                </div>
-              )}
-              {current.exampleSentence && (
-                <p className="text-xs italic text-ink-500">“{current.exampleSentence}”</p>
-              )}
-              <Speaker word={current.term} label={t.games.pronounce} />
-            </>
-          ) : (
-            <>
-              <p className="text-xs uppercase tracking-wide text-ink-300">{t.add.definition}</p>
-              <p className="text-lg text-ink-900">{current.definitionEn}</p>
-              <p className="text-xs text-ink-500">
-                {t.games.flip} · {t.games.known} / {t.games.notYet}
-              </p>
-              <p className="text-[11px] text-ink-300" data-flashcard-keys>
-                {t.keyboardHint}
-              </p>
-              <p className="text-[11px] text-ink-300" data-self-assessed>
-                {t.games.selfAssessed}
-              </p>
-            </>
-          )}
-        </article>
+  const answerParts = collocationChips(current.collocations);
+  const cardSideLabel = flipped ? t.games.vocabularyAnswer : t.games.definition;
 
-        <div className="flex flex-col gap-2">
-          <button type="button" className="btn-secondary" onClick={() => setFlipped((value) => !value)}>
-            {flipped ? t.games.showDefinition : t.games.flip}
-          </button>
-          {flipped && (
-            <div className="grid grid-cols-2 gap-2 lg:grid-cols-1">
-              <button type="button" className="btn-primary" data-mark="known" aria-pressed={marks[current.id] === "known"} onClick={() => decide(true)}>
-                {t.games.known}
-              </button>
-              <button type="button" className="btn-gold" data-mark="notYet" aria-pressed={marks[current.id] === "notYet"} onClick={() => decide(false)}>
-                {t.games.notYet}
-              </button>
-            </div>
-          )}
-          <div className="grid grid-cols-2 gap-2">
-            <button type="button" className="btn-secondary" disabled={index === 0} onClick={() => { setFlipped(false); setIndex((value) => Math.max(0, value - 1)); }}>{t.games.previous}</button>
-            <button type="button" className="btn-secondary" onClick={() => { setFlipped(false); setIndex((value) => value + 1); }}>{t.games.next}</button>
-          </div>
-          <div className="rounded-sm border border-ink-100 p-2">
-            <p className="text-xs font-medium text-ink-500">{t.games.queue}</p>
-            <ul className="mt-1 max-h-56 space-y-1 overflow-y-auto text-xs">
-              {remaining.map((word, offset) => {
-                const mark = marks[word.id];
-                return (
-                  <li
-                    key={word.id}
-                    className={`flex items-center justify-between gap-2 rounded-sm px-1.5 py-1 ${
-                      offset === 0 ? "bg-signal-50 text-ink-900" : "text-ink-500"
-                    }`}
-                  >
-                    <span className="line-clamp-2">{word.definitionEn}</span>
-                    <span className="shrink-0">
-                      {mark === "known"
-                        ? t.games.learned
-                        : mark === "notYet"
-                          ? t.games.notYetLabel
-                          : offset === 0
-                            ? t.games.current
-                            : t.games.remaining}
-                    </span>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
+  return (
+    <div className="flex flex-col gap-3" data-flashcard-workspace>
+      <header className="flex flex-wrap items-end justify-between gap-3">
+        <div className="min-w-0">
+          <h2 className="font-display text-xl text-ink-900" data-flashcard-source>{sourceHeading}</h2>
+          <p className="text-xs text-ink-500" data-flashcard-progress>
+            {t.games.studyPass} · {t.games.passLabel} {pass} · {t.games.progress} {index + 1} {t.games.of} {deck.length} · {learnedCount} {t.games.learned} · {notYetCount} {t.games.notYetLabel}
+          </p>
         </div>
+      </header>
+
+      <div className="grid min-w-0 items-start gap-4 md:grid-cols-[minmax(220px,280px)_minmax(0,1fr)]" data-flashcard-layout>
+        <aside className="flashcard-queue" aria-label={t.games.queue} data-flashcard-queue>
+          <div className="flashcard-queue-heading">
+            <strong>{t.games.queue}</strong>
+            <span>{t.games.queueHint}</span>
+          </div>
+          <ol className="flashcard-queue-list">
+            {remaining.map((word, offset) => (
+              <li key={word.id} className={`flashcard-queue-item ${offset === 0 ? "is-current" : ""}`} data-card-queue-item={word.id}>
+                <div className="flashcard-queue-meta"><span>{t.games.progress} {index + offset + 1} {t.games.of} {deck.length}</span><span>{marks[word.id] === "known" ? t.games.learned : marks[word.id] === "notYet" ? t.games.notYetLabel : offset === 0 ? t.games.current : t.games.remaining}</span></div>
+                <p>{word.definitionEn}</p>
+              </li>
+            ))}
+          </ol>
+        </aside>
+
+        <section className="min-w-0" aria-label={t.games.cards}>
+          <div className="flashcard-scene" data-flashcard-scene>
+            <article
+              className="flashcard-3d-card"
+              data-flashcard={flipped ? "answer" : "definition"}
+              data-flipped={flipped ? "true" : "false"}
+              data-marking={marking ?? undefined}
+              aria-label={`${t.games.progress} ${index + 1} ${t.games.of} ${deck.length}. ${cardSideLabel}. ${flipped ? current.term : current.definitionEn}`}
+              aria-roledescription={t.games.flashcardRole}
+              tabIndex={0}
+              onClick={(event) => {
+                if ((event.target as HTMLElement).closest("button") || marking) return;
+                setFlipped((value) => !value);
+              }}
+              onKeyDown={(event) => {
+                if (event.target !== event.currentTarget || marking) return;
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  setFlipped((value) => !value);
+                }
+              }}
+            >
+              <div className="flashcard-3d-inner" data-flashcard-inner>
+                <div className="flashcard-face flashcard-face-front" aria-hidden={flipped} inert={flipped}>
+                  <span className="flashcard-kicker">{t.games.definition}</span>
+                  <p className="flashcard-definition">{current.definitionEn}</p>
+                  <p className="flashcard-instruction">{t.games.flashcardInstruction}</p>
+                </div>
+                <div className="flashcard-face flashcard-face-back" aria-hidden={!flipped} inert={!flipped}>
+                  <div className="flashcard-answer-body">
+                    <span className="flashcard-kicker">{t.games.vocabularyAnswer}</span>
+                    <h3 className="flashcard-word">{current.term}</h3>
+                    {current.partOfSpeech && <p className="flashcard-pos">{current.partOfSpeech}</p>}
+                    {current.translationUz && <p className="flashcard-translation">{current.translationUz}</p>}
+                    {answerParts.length > 0 && <div className="flashcard-extra-block"><span>{t.games.collocations}</span><div className="flashcard-chips">{answerParts.map((item) => <span key={item}>{item}</span>)}</div></div>}
+                    {current.exampleSentence && <div className="flashcard-extra-block"><span>{t.games.example}</span><p className="flashcard-example">“{current.exampleSentence}”</p></div>}
+                  </div>
+                  <div className="flashcard-back-actions">
+                    <Speaker word={current.term} label={t.games.pronounce} />
+                    <div className="flex flex-wrap justify-center gap-2">
+                      <button type="button" className="btn-primary" data-mark="known" aria-pressed={marks[current.id] === "known"} disabled={marking !== null} onClick={() => decide(true)}>{t.games.known}</button>
+                      <button type="button" className="btn-gold" data-mark="notYet" aria-pressed={marks[current.id] === "notYet"} disabled={marking !== null} onClick={() => decide(false)}>{t.games.notYet}</button>
+                    </div>
+                    {marking && <p className="flashcard-mark-feedback" role="status" aria-live="polite">{marking === "known" ? t.games.learned : t.games.notYetLabel}</p>}
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+          <div className="flashcard-flip-row">
+            <button type="button" className="flashcard-flip-button" data-flashcard-flip aria-pressed={flipped} disabled={marking !== null} onClick={() => setFlipped((value) => !value)}>
+              {flipped ? t.games.showDefinition : t.games.flip}
+            </button>
+          </div>
+        </section>
       </div>
-    </GameFrame>
+    </div>
   );
 }
 
@@ -817,6 +905,7 @@ function TypingRace({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
   const [records, setRecords] = useState<{ term: string; seconds: number; outcome: string }[]>([]);
   const answer = useAnswer();
   const submitting = useRef(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const current = deck[index];
   const running = startedAt !== null && status === null && !finished;
@@ -835,7 +924,7 @@ function TypingRace({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
 
   function startIfRealCharacter(next: string) {
     setValue(next);
-    if (startedAt === null && next.trim().length > 0) {
+    if (startedAt === null && /\S/.test(next)) {
       const now = Date.now();
       setStartedAt(now);
       setTicker(now);
@@ -880,7 +969,7 @@ function TypingRace({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
     setRecords((row) => [...row, { term: current.term, seconds: duration, outcome: "skipped" }]);
   }
 
-  function advance() {
+  const advance = useCallback(() => {
     if (status === null || status === "checking") return;
     if (index + 1 >= deck.length) {
       setFinished(true);
@@ -893,7 +982,7 @@ function TypingRace({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
     setElapsed(0);
     setStatus(null);
     submitting.current = false;
-  }
+  }, [status, index, deck.length]);
 
   function restart() {
     setDeck(uniqueGameRound(eligible, 10));
@@ -908,6 +997,18 @@ function TypingRace({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
     setRecords([]);
     submitting.current = false;
   }
+
+  useEffect(() => {
+    if (!finished && status === null && current) inputRef.current?.focus();
+  }, [index, status, finished, current]);
+
+  const resolved = status !== null && status !== "checking";
+  useEffect(() => {
+    if (!resolved || finished) return;
+    const delay = status === "incorrect" || status === "skipped" || status === "unverified" ? 1450 : 950;
+    const timeout = window.setTimeout(advance, delay);
+    return () => window.clearTimeout(timeout);
+  }, [resolved, status, index, finished, deck.length, advance]);
 
   if (deck.length === 0) {
     return <GameFrame dict={dict} title={t.games.race} hint={t.games.raceHint} counter="0 / 0"><p className="text-sm text-ink-500">{t.games.noEligible}</p></GameFrame>;
@@ -938,8 +1039,11 @@ function TypingRace({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
 
   if (!current) return null;
   const groups = current.term.split(/\s+/).filter(Boolean);
+  const expectedCharacters = [...current.term.replace(/\s/g, "")];
+  const animationCharacterCount = Math.max(expectedCharacters.length, typedLetters.length, 1);
+  const characterDelayMs = Math.min(35, 600 / animationCharacterCount);
   let offset = 0;
-  const resolved = status !== null && status !== "checking";
+
   const sourceTypeLabel = current.sourceType
     ? t.games.sourceTypes[current.sourceType as keyof typeof t.games.sourceTypes]
     : undefined;
@@ -962,16 +1066,26 @@ function TypingRace({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
           const thisOffset = offset;
           offset += [...word].length;
           return <span key={`${groupIndex}-${word.length}`} className="flex flex-wrap justify-center gap-1">
-            {[...word].map((_, charIndex) => <span key={charIndex} className="flex h-9 w-7 items-center justify-center rounded-sm border border-ink-100 bg-paper-raised font-mono text-sm text-ink-900">{typedLetters[thisOffset + charIndex] ?? ""}</span>)}
+            {[...word].map((_, charIndex) => {
+              const charIndexInAnswer = thisOffset + charIndex;
+              const entered = typedLetters[charIndexInAnswer];
+              const expected = expectedCharacters[charIndexInAnswer];
+              const verdictClass = status === "correct" ? "race-answer-box--correct"
+                : status === "incorrect" ? "race-answer-box--incorrect" : "";
+              const shown = entered ?? (status === "skipped" || status === "unverified" ? expected : "");
+              return <span key={charIndex} className={`race-answer-box ${verdictClass}`} style={{ transitionDelay: resolved ? `${Math.round(charIndexInAnswer * characterDelayMs)}ms` : "0ms" }}>{shown ?? ""}</span>;
+            })}
           </span>;
         })}
+        {typedLetters.slice(expectedCharacters.length).map((character, extraIndex) => (
+          <span key={`extra-${extraIndex}`} className={`race-answer-box ${status === "incorrect" ? "race-answer-box--incorrect" : ""}`} style={{ transitionDelay: resolved ? `${Math.round((expectedCharacters.length + extraIndex) * characterDelayMs)}ms` : "0ms" }}>{character}</span>
+        ))}
       </div>
       <label className="sr-only" htmlFor="typing-race-answer">{t.games.raceInputLabel}</label>
-      <input id="typing-race-answer" className="input" data-race-input placeholder={t.games.typeAnswer} aria-describedby="race-answer-help" aria-invalid={status === "incorrect"} value={value} readOnly={status !== null} maxLength={300} autoComplete="off" autoCapitalize="off" spellCheck={false} onChange={(event) => startIfRealCharacter(event.target.value)} onKeyDown={(event) => {
+      <input ref={inputRef} id="typing-race-answer" className="input" data-race-input placeholder={t.games.typeAnswer} aria-describedby="race-answer-help" aria-invalid={status === "incorrect"} value={value} readOnly={status !== null} maxLength={300} autoComplete="off" autoCapitalize="off" spellCheck={false} onChange={(event) => startIfRealCharacter(event.target.value)} onKeyDown={(event) => {
         if (event.key === "Enter") {
           event.preventDefault();
           if (status === null) void submit();
-          else if (resolved) advance();
         }
       }} />
       <p id="race-answer-help" className="text-xs text-ink-500">{t.games.raceKeyboardHint}</p>
@@ -985,13 +1099,10 @@ function TypingRace({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
           <p className="mt-1 text-xs text-ink-500">{t.games.itemTime}: {formatRaceTime(elapsed)}</p>
         </div>
       )}
-      <div className="flex flex-wrap gap-2">
-        {status === null && <>
-          <button type="button" className="btn-primary" data-race-submit disabled={value.trim().length === 0} onClick={() => void submit()}>{t.games.submitAnswer}</button>
-          <button type="button" className="btn-secondary" data-race-skip onClick={skip}>{t.games.skip}</button>
-        </>}
-        {resolved && <button type="button" className="btn-secondary" data-race-next onClick={advance}>{index + 1 === deck.length ? t.games.finish : t.games.next}</button>}
-      </div>
+      {status === null && <div className="flex flex-wrap gap-2">
+        <button type="button" className="btn-primary" data-race-submit disabled={value.trim().length === 0} onClick={() => void submit()}>{t.games.submitAnswer}</button>
+        <button type="button" className="btn-secondary" data-race-skip onClick={skip}>{t.games.skip}</button>
+      </div>}
     </GameFrame>
   );
 }

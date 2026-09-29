@@ -247,11 +247,11 @@ test("revision, game, and sentence ledger keys deduplicate the intended replay s
   const scheduledAt = new Date("2026-03-10T12:00:00.000Z");
   assert.equal(dedupeKeys.revision("u1", "v1", scheduledAt), dedupeKeys.revision("u1", "v1", scheduledAt));
   assert.notEqual(dedupeKeys.revision("u1", "v1", scheduledAt), dedupeKeys.revision("u1", "v1", new Date("2026-03-11T12:00:00.000Z")));
-  const a = dedupeKeys.gameAnswer("u1", "race", "due:2026-03-10", "v1");
-  const replay = dedupeKeys.gameAnswer("u1", "race", "due:2026-03-10", "v1");
-  assert.equal(a, replay, "same game/set/day/word replay has one key");
-  assert.notEqual(a, dedupeKeys.gameAnswer("u1", "choice", "due:2026-03-10", "v1"));
-  assert.notEqual(a, dedupeKeys.gameAnswer("u1", "race", "due:2026-03-11", "v1"));
+  const a = dedupeKeys.gameAnswer("u1", "v1", "2026-03-10");
+  const replayAcrossGameModes = dedupeKeys.gameAnswer("u1", "v1", "2026-03-10");
+  assert.equal(a, replayAcrossGameModes, "same learner/word/day shares one key across every game and set");
+  assert.notEqual(a, dedupeKeys.gameAnswer("u1", "v2", "2026-03-10"));
+  assert.notEqual(a, dedupeKeys.gameAnswer("u1", "v1", "2026-03-11"));
   assert.equal(dedupeKeys.sentence("u1", "v1", "hash"), dedupeKeys.sentence("u1", "v1", "hash"));
   assert.notEqual(dedupeKeys.sentence("u1", "v1", "hash"), dedupeKeys.sentence("u1", "v2", "hash"));
   assert.equal(sentenceDedupeHash("  I like apples! "), sentenceDedupeHash("i like apples"));
