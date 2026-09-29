@@ -550,7 +550,8 @@ const uz: Dictionary = {
   readingPractice: {
     passageTab: "Matn",
     questionsTab: "Savollar",
-    timerLabel: "Vaqt",
+    timerLabel: "Qolgan vaqt",
+    timeExpired: "Vaqt tugadi. Saqlangan javoblar qulflandi; tahlilni ko'rish uchun yuboring.",
     saveIdle: "Javoblar avtomatik saqlanadi",
     saveSaving: "Saqlanmoqda…",
     saveSaved: "{time} da saqlandi",

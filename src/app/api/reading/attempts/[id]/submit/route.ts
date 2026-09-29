@@ -2,9 +2,11 @@ import { isUuid } from "@/lib/validation/ids";
 import { touchMeaningfulActivity } from "@/lib/services/activity";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { and, eq } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 import { db } from "@/db/client";
-import { readingAttempts, readingQuestions, readingAnswers, activityEvents } from "@/db/schema";
+import { readingAttempts, readingPassages, readingQuestions, readingAnswers, activityEvents } from "@/db/schema";
+import { readingAttemptExpired } from "@/lib/reading/timer";
+import { readingAnswersForSubmission } from "@/lib/reading/submission";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { gradeAnswer } from "@/lib/services/reading/grading";
 
@@ -22,9 +24,18 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   const parsed = schema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: "invalid_input" }, { status: 400 });
 
-  const attempt = await db.query.readingAttempts.findFirst({
-    where: and(eq(readingAttempts.id, id), eq(readingAttempts.userId, user.id)),
-  });
+  const [attempt] = await db
+    .select({
+      id: readingAttempts.id,
+      passageId: readingAttempts.passageId,
+      startedAt: readingAttempts.startedAt,
+      status: readingAttempts.status,
+      suggestedMinutes: readingPassages.suggestedMinutes,
+    })
+    .from(readingAttempts)
+    .innerJoin(readingPassages, eq(readingAttempts.passageId, readingPassages.id))
+    .where(and(eq(readingAttempts.id, id), eq(readingAttempts.userId, user.id)))
+    .limit(1);
   if (!attempt) return NextResponse.json({ error: "not_found" }, { status: 404 });
   if (attempt.status !== "in_progress") {
     return NextResponse.json({ error: "already_submitted" }, { status: 409 });
@@ -33,7 +44,16 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   const questions = await db.query.readingQuestions.findMany({
     where: eq(readingQuestions.passageId, attempt.passageId),
   });
-  const answerByQuestion = new Map(parsed.data.answers.map((a) => [a.questionId, a.answer]));
+  const timedOut = readingAttemptExpired(attempt.startedAt, attempt.suggestedMinutes);
+  // Once the deadline has passed, the browser payload is untrusted and ignored.
+  // Grade only the latest server-saved draft so a clock change cannot extend a test.
+  const savedDrafts = timedOut
+    ? await db
+        .select({ questionId: readingAnswers.questionId, answer: readingAnswers.userAnswer })
+        .from(readingAnswers)
+        .where(and(eq(readingAnswers.attemptId, attempt.id), isNull(readingAnswers.isCorrect)))
+    : [];
+  const answerByQuestion = readingAnswersForSubmission(timedOut, parsed.data.answers, savedDrafts);
 
   let score = 0;
   const rows = questions.map((q) => {
@@ -45,6 +65,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   });
 
   await db.transaction(async (tx) => {
+    await tx.delete(readingAnswers).where(and(eq(readingAnswers.attemptId, attempt.id), isNull(readingAnswers.isCorrect)));
     if (rows.length > 0) await tx.insert(readingAnswers).values(rows);
     await tx
       .update(readingAttempts)

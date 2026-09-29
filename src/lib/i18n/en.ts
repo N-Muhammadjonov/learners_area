@@ -548,7 +548,8 @@ const en = {
   readingPractice: {
     passageTab: "Passage",
     questionsTab: "Questions",
-    timerLabel: "Time",
+    timerLabel: "Time left",
+    timeExpired: "Time is up. Your saved answers are locked; submit to see your analysis.",
     saveIdle: "Answers are saved automatically",
     saveSaving: "Saving…",
     saveSaved: "Saved at {time}",

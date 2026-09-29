@@ -10,6 +10,7 @@ import {
   readingQuestions,
 } from "@/db/schema";
 import { isLive, liveWhere } from "@/lib/services/cms/publication";
+import { readingAttemptExpired } from "@/lib/reading/timer";
 
 export function listActivePassages() {
   // A draft, a not-yet-due schedule and an archive are all invisible here; the
@@ -120,11 +121,21 @@ export async function saveDraftAnswers(
   userId: string,
   entries: { questionId: string; answer: string }[]
 ) {
-  const attempt = await db.query.readingAttempts.findFirst({
-    where: and(eq(readingAttempts.id, attemptId), eq(readingAttempts.userId, userId)),
-  });
+  const [attempt] = await db
+    .select({
+      id: readingAttempts.id,
+      passageId: readingAttempts.passageId,
+      startedAt: readingAttempts.startedAt,
+      status: readingAttempts.status,
+      suggestedMinutes: readingPassages.suggestedMinutes,
+    })
+    .from(readingAttempts)
+    .innerJoin(readingPassages, eq(readingAttempts.passageId, readingPassages.id))
+    .where(and(eq(readingAttempts.id, attemptId), eq(readingAttempts.userId, userId)))
+    .limit(1);
   if (!attempt) return { saved: 0, reason: "not_found" as const };
   if (attempt.status !== "in_progress") return { saved: 0, reason: "already_submitted" as const };
+  if (readingAttemptExpired(attempt.startedAt, attempt.suggestedMinutes)) return { saved: 0, reason: "expired" as const };
 
   // Only questions that really belong to this attempt's passage are accepted:
   // a client that sends somebody else's question id changes nothing.
