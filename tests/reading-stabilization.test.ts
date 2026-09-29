@@ -18,8 +18,8 @@ import {
 
 const startedAt = Date.parse("2026-09-29T10:00:00.000Z");
 
-test("navigation feedback waits 280ms and cleans up its pending timer", () => {
-  assert.equal(NAVIGATION_FEEDBACK_DELAY_MS, 280);
+test("navigation feedback appears after 60ms and cleans up its pending timer", () => {
+  assert.equal(NAVIGATION_FEEDBACK_DELAY_MS, 60);
   const component = readFileSync(new URL("../src/components/shell/LinkPending.tsx", import.meta.url), "utf8");
   assert.match(component, /setTimeout\(\(\) => setVisible\(true\), NAVIGATION_FEEDBACK_DELAY_MS\)/);
   assert.match(component, /return \(\) => clearTimeout\(timeout\)/);

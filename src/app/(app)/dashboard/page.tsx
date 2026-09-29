@@ -10,9 +10,8 @@ import { formatDate, formatDateTime } from "@/lib/time";
 const SKILLS = ["listening", "reading", "writing", "speaking"] as const;
 
 export default async function DashboardPage() {
-  const user = await requireActiveUser();
+  const [user, locale] = await Promise.all([requireActiveUser(), getLocale()]);
   if (!user) return null; // middleware + layout already guard this
-  const locale = await getLocale();
   const dict = getDictionary(locale);
   const data = await getDashboardData(user.id);
 

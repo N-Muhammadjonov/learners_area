@@ -49,6 +49,7 @@ function Group({ title, items, pathname, loading }: { title: string; items: NavI
             <li key={item.href}>
               <Link
                 href={item.href}
+                prefetch={false}
                 data-sidebar-link={item.href}
                 aria-current={active ? "page" : undefined}
                 className={active ? "sidebar-link sidebar-link-active" : "sidebar-link"}
@@ -132,7 +133,7 @@ export function SidebarNav({ dict, role, email }: { dict: Dictionary; role: Role
     <nav className="flex h-full flex-col" aria-label={management ? dict.shell.managementNav : dict.shell.learningNav}>
       {management ? (
         <div className="flex flex-col gap-3 pb-4">
-          <Link href="/dashboard" className="sidebar-back" data-sidebar-back-to-learning>
+          <Link href="/dashboard" prefetch={false} className="sidebar-back" data-sidebar-back-to-learning>
             <span aria-hidden>←</span>
             {nav.backToLearning}
           </Link>
@@ -150,7 +151,7 @@ export function SidebarNav({ dict, role, email }: { dict: Dictionary; role: Role
       <div className="mt-auto flex flex-col gap-3 border-t border-ink-100 pt-4">
         <Group title={dict.shell.support} items={[{ href: "/support", label: nav.support, icon: <IconSupport /> }]} pathname={pathname} loading={dict.common.loading} />
         {staff && !management && (
-          <Link href="/management" className="sidebar-link sidebar-link-management" data-sidebar-management-entry>
+          <Link href="/management" prefetch={false} className="sidebar-link sidebar-link-management" data-sidebar-management-entry>
             <span aria-hidden className="sidebar-link-icon">
               <IconSettings />
             </span>

@@ -17,10 +17,12 @@ import {
 } from "../src/lib/services/vocabulary/srs";
 import {
   VOCAB_POINTS,
+  POINT_VALUES,
   TIMEZONE,
   dayKey,
   dedupeKeys,
   streakFromDays,
+  sentenceDedupeHash,
 } from "../src/lib/services/vocabulary/points";
 import {
   dedupeBulk,
@@ -38,7 +40,10 @@ import {
   gradeSpelling,
   isVerifiableKind,
   normalizeAnswer,
+  shouldAwardGamePoint,
+  submissionMatchesGame,
 } from "../src/lib/services/vocabulary/grading";
+import { elapsedTenths, formatRaceTime, honestWordsPerMinute, typingRaceAccuracy, uniqueGameRound } from "../src/lib/services/vocabulary/game-round";
 import {
   TOPIC_PACKS,
   findPack,
@@ -208,11 +213,12 @@ test("weak words are the ones remembered less than 60% of the time", () => {
 // Points, leaderboard and streak
 // ---------------------------------------------------------------------------
 
-test("the point values are the documented ones and are server-side only", () => {
-  assert.equal(VOCAB_POINTS.newWord, 2);
+test("the point contract is save 0, scheduled revision 1, verified game answer 1, accepted RIWI sentence 2", () => {
+  assert.equal(VOCAB_POINTS.newWord, 0);
   assert.equal(VOCAB_POINTS.revision, 1);
   assert.equal(VOCAB_POINTS.gameAnswer, 1);
-  assert.equal(VOCAB_POINTS.sentence, 5);
+  assert.equal(VOCAB_POINTS.sentence, 2);
+  assert.deepEqual(POINT_VALUES, { new_word: 0, revision: 1, game_answer: 1, sentence: 2 });
 });
 
 test("the timezone is Asia/Tashkent and day keys use it", () => {
@@ -237,15 +243,54 @@ test("a streak survives until the day after the last study day", () => {
   assert.equal(streakFromDays(["2026-02-01"], today), 0);
 });
 
-test("point dedupe keys are stable and scoped to the earner", () => {
-  assert.equal(dedupeKeys.newWord("u1", "v1"), "new_word:u1:v1");
-  assert.equal(dedupeKeys.revision("u1", "v1", 2), "revision:u1:v1:2");
-  // The same word answered twice in one set on one day is one award.
-  const a = dedupeKeys.gameAnswer("u1", "weak:2026-03-10", "v1");
-  const b = dedupeKeys.gameAnswer("u1", "weak:2026-03-10", "v1");
-  assert.equal(a, b);
-  const otherDay = dedupeKeys.gameAnswer("u1", "weak:2026-03-11", "v1");
-  assert.notEqual(a, otherDay);
+test("revision, game, and sentence ledger keys deduplicate the intended replay scopes", () => {
+  const scheduledAt = new Date("2026-03-10T12:00:00.000Z");
+  assert.equal(dedupeKeys.revision("u1", "v1", scheduledAt), dedupeKeys.revision("u1", "v1", scheduledAt));
+  assert.notEqual(dedupeKeys.revision("u1", "v1", scheduledAt), dedupeKeys.revision("u1", "v1", new Date("2026-03-11T12:00:00.000Z")));
+  const a = dedupeKeys.gameAnswer("u1", "race", "due:2026-03-10", "v1");
+  const replay = dedupeKeys.gameAnswer("u1", "race", "due:2026-03-10", "v1");
+  assert.equal(a, replay, "same game/set/day/word replay has one key");
+  assert.notEqual(a, dedupeKeys.gameAnswer("u1", "choice", "due:2026-03-10", "v1"));
+  assert.notEqual(a, dedupeKeys.gameAnswer("u1", "race", "due:2026-03-11", "v1"));
+  assert.equal(dedupeKeys.sentence("u1", "v1", "hash"), dedupeKeys.sentence("u1", "v1", "hash"));
+  assert.notEqual(dedupeKeys.sentence("u1", "v1", "hash"), dedupeKeys.sentence("u1", "v2", "hash"));
+  assert.equal(sentenceDedupeHash("  I like apples! "), sentenceDedupeHash("i like apples"));
+});
+
+test("verified answer point gate rejects wrong, skipped, self-assessed, and mismatched game submissions", () => {
+  assert.equal(submissionMatchesGame("race", "spelling"), true);
+  assert.equal(submissionMatchesGame("builder", "sentence"), true);
+  assert.equal(submissionMatchesGame("cards", "self"), true);
+  assert.equal(submissionMatchesGame("match", "pair"), true);
+  assert.equal(submissionMatchesGame("cards", "spelling"), false);
+  assert.equal(submissionMatchesGame("match", "spelling"), false);
+  assert.equal(shouldAwardGamePoint({ gameId: "race", kind: "spelling", verified: true, correct: true }), true);
+  assert.equal(shouldAwardGamePoint({ gameId: "race", kind: "spelling", verified: true, correct: false }), false);
+  assert.equal(shouldAwardGamePoint({ gameId: "cards", kind: "self", verified: false, correct: true }), false);
+  assert.equal(shouldAwardGamePoint({ gameId: "match", kind: "pair", verified: true, correct: true }), true);
+  assert.equal(shouldAwardGamePoint({ gameId: "match", kind: "pair", verified: true, correct: false }), false);
+  assert.equal(shouldAwardGamePoint({ gameId: "race", kind: "spelling", verified: false, correct: true }), false);
+  assert.equal(shouldAwardGamePoint({ gameId: "cards", kind: "spelling", verified: true, correct: true }), false);
+});
+
+test("Typing Race clock rounds tenths; zero input starts at zero; WPM is withheld on tiny samples", () => {
+  assert.equal(elapsedTenths(1000, 1049), 0);
+  assert.equal(elapsedTenths(1000, 1050), 0.1);
+  assert.equal(elapsedTenths(1000, 1999), 1);
+  assert.equal(elapsedTenths(1000, 900), 0);
+  assert.equal(formatRaceTime(3.26), "3.3 s");
+  assert.equal(typingRaceAccuracy(2, 1), 67);
+  assert.equal(typingRaceAccuracy(0, 0), null);
+  assert.equal(honestWordsPerMinute(4, 1), null);
+  assert.equal(honestWordsPerMinute(25, 5), 60);
+});
+
+test("Typing Race round has at most ten distinct usable items and never repeats ids", () => {
+  const source = Array.from({ length: 12 }, (_, index) => ({ id: `v${index}` }));
+  const round = uniqueGameRound([...source, source[0]!], 10, () => 0.5);
+  assert.equal(round.length, 10);
+  assert.equal(new Set(round.map((item) => item.id)).size, 10);
+  assert.equal(uniqueGameRound(source.slice(0, 3), 10).length, 3);
 });
 
 test("the ledger makes replaying a request a no-op", () => {
@@ -254,14 +299,16 @@ test("the ledger makes replaying a request a no-op", () => {
     engine,
     /onConflictDoNothing\(\{ target: vocabPointEvents\.dedupeKey \}\)/,
   );
-  // Every documented award is written from the shared constant, never a payload.
-  for (const kind of ["newWord", "revision", "gameAnswer", "sentence"]) {
+  // Paid actions are looked up from constants; saving a word has no write path.
+  for (const kind of ["revision", "gameAnswer", "sentence"]) {
     assert.match(
       engine,
       new RegExp(`VOCAB_POINTS\\.${kind}`),
       `${kind} must be awarded from VOCAB_POINTS`,
     );
   }
+  const addBatch = engine.slice(engine.indexOf("export async function addVocabularyBatch"), engine.indexOf("// ---------------------------------------------------------------------------\n// Scheduled revision"));
+  assert.doesNotMatch(addBatch, /kind:\s*"new_word"/, "a saved word must not create a zero-point ledger event");
   assert.ok(
     !/points:\s*input\.points/.test(engine),
     "a caller-supplied point value must never be written",

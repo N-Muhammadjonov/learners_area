@@ -27,11 +27,12 @@ import {
   VOCAB_POINTS,
   dayKey,
   dedupeKeys,
+  sentenceDedupeHash,
   streakFromDays,
   type PointKind,
 } from "./points";
 import { legacySenseKeyOf, senseKeyOf } from "./dedupe";
-import { gradeSentence, gradeSpelling, type GameSubmission } from "./grading";
+import { gradeSentence, gradeSpelling, shouldAwardGamePoint, submissionMatchesGame, type GameSubmission } from "./grading";
 import { searchRows } from "./search";
 import { findPack } from "./packs";
 
@@ -377,17 +378,6 @@ export async function addVocabularyBatch(input: {
       existingSense.set(senseKey, entry.id);
       added += 1;
 
-      if (
-        await awardPoints({
-          userId: input.userId,
-          kind: "new_word",
-          dedupeKey: dedupeKeys.newWord(input.userId, entry.id),
-          refType: "user_vocabulary",
-          refId: entry.id,
-        }, tx)
-      ) {
-        points += VOCAB_POINTS.newWord;
-      }
     }
 
     if (added > 0) await tx.update(users).set({
@@ -517,7 +507,7 @@ export async function applyScheduledReview(input: {
   const awarded = await awardPoints({
     userId: input.userId,
     kind: "revision",
-    dedupeKey: dedupeKeys.revision(input.userId, entry.id, result.srsStage),
+    dedupeKey: dedupeKeys.revision(input.userId, entry.id, entry.nextReviewAt),
     refType: "user_vocabulary",
     refId: entry.id,
   });
@@ -578,7 +568,7 @@ export async function gameSet(
   else if (key === "folder")
     words = options?.folderId
       ? all.filter((item) => item.folderId === options.folderId)
-      : all;
+      : [];
   else if (key === "assigned")
     words = all.filter((item) => item.sourceType === "assignment");
 
@@ -590,36 +580,61 @@ export async function gameSet(
   return { key, words: playable, count: playable.length, due, total: words.length };
 }
 
-/**
- * Record one game answer.
- *
- * A point is only awarded for an eligible answer — a word in a set the student
- * was due to practise — and only once per word per set per day. Replaying the
- * same set five times therefore earns nothing beyond the first pass. The SRS
- * ladder is untouched: games are casual by design.
- */
+/** Server-side membership check for every entry cited by a game answer. */
+async function isEntryInGameSet(input: {
+  userId: string;
+  entry: typeof userVocabulary.$inferSelect;
+  setKey: GameSetKey;
+  folderId?: string;
+  topicPack?: string;
+  now: Date;
+}): Promise<boolean> {
+  const { entry, setKey, now } = input;
+  if (setKey === "all") return true;
+  if (setKey === "due") return entry.nextReviewAt.getTime() <= now.getTime();
+  if (setKey === "weak") return isWeak({ ...entry, mastery: entry.mastery as Mastery });
+  if (setKey === "reading") return entry.sourceType === "reading";
+  if (setKey === "listening") return entry.sourceType === "listening";
+  if (setKey === "assigned") return entry.sourceType === "assignment";
+  if (setKey === "folder" && input.folderId) {
+    const folder = await db.query.vocabFolders.findFirst({
+      where: and(eq(vocabFolders.id, input.folderId), eq(vocabFolders.userId, input.userId)),
+      columns: { id: true },
+    });
+    return Boolean(folder && entry.folderId === folder.id);
+  }
+  if (setKey === "topic") {
+    return input.topicPack
+      ? Boolean(findPack(input.topicPack) && entry.topicPack === input.topicPack)
+      : Boolean(entry.topicPack && findPack(entry.topicPack));
+  }
+  return false;
+}
+
 /**
  * Record one game answer.
  *
  * The caller sends WHAT was answered, never whether it was right: the verdict is
  * produced here, from the stored word. Two consequences worth stating plainly:
  *
- *   - a submission that the server cannot check (a flashcard self-assessment, a
- *     pairing the browser compared between its own cards) is recorded as
- *     practice but never earns a point — a claim is not evidence;
+ *   - a flashcard self-assessment is recorded as practice but never earns a
+ *     point; Matching Pairs instead sends both entry identities, which the
+ *     server checks for ownership, set membership, and equality;
  *   - the casual point still cannot touch the spaced-repetition ladder, and it
- *     is still deduplicated per word per day per set, so replaying a set cannot
- *     farm the leaderboard.
+ *     is deduplicated per word/game/set/day, so replaying the same game attempt
+ *     cannot farm the leaderboard.
  */
 export async function recordGameAnswer(input: {
   userId: string;
   entryId: string;
-  setKey: string;
-  eligible: boolean;
+  setKey: GameSetKey;
+  gameId: string;
+  folderId?: string;
+  topicPack?: string;
   submission: GameSubmission;
   now?: Date;
 }): Promise<
-  | { ok: false; error: "not_found" }
+  | { ok: false; error: "not_found" | "not_in_set" }
   | { ok: true; correct: boolean; verified: boolean; awarded: number; srsUntouched: true }
 > {
   const now = input.now ?? new Date();
@@ -633,6 +648,16 @@ export async function recordGameAnswer(input: {
   });
   if (!entry) return { ok: false as const, error: "not_found" };
 
+  const inSet = await isEntryInGameSet({
+    userId: input.userId,
+    entry,
+    setKey: input.setKey,
+    folderId: input.folderId,
+    topicPack: input.topicPack,
+    now,
+  });
+  if (!inSet) return { ok: false as const, error: "not_in_set" };
+
   const lexeme = await db.query.lexemes.findFirst({
     where: eq(lexemes.id, entry.lexemeId),
   });
@@ -640,7 +665,11 @@ export async function recordGameAnswer(input: {
 
   let correct = false;
   let verified = false;
-  if (input.submission.kind === "spelling") {
+  const compatibleMode = submissionMatchesGame(input.gameId, input.submission.kind);
+  if (!compatibleMode) {
+    correct = false;
+    verified = false;
+  } else if (input.submission.kind === "spelling") {
     correct = gradeSpelling(
       { term: lexeme.term, acceptedTranslations: lexeme.acceptedTranslations },
       input.submission.text,
@@ -654,6 +683,23 @@ export async function recordGameAnswer(input: {
       input.submission.text,
     );
     verified = true;
+  } else if (input.submission.kind === "pair") {
+    const pairedEntry = await db.query.userVocabulary.findFirst({
+      where: and(
+        eq(userVocabulary.id, input.submission.pairEntryId),
+        eq(userVocabulary.userId, input.userId),
+      ),
+    });
+    if (!pairedEntry || !(await isEntryInGameSet({
+      userId: input.userId,
+      entry: pairedEntry,
+      setKey: input.setKey,
+      folderId: input.folderId,
+      topicPack: input.topicPack,
+      now,
+    }))) return { ok: false as const, error: "not_in_set" };
+    correct = entry.id === pairedEntry.id;
+    verified = true;
   } else {
     correct = input.submission.known;
   }
@@ -666,13 +712,14 @@ export async function recordGameAnswer(input: {
   });
   await touchMeaningfulActivity(input.userId);
   const awarded =
-    verified && correct && input.eligible
+    shouldAwardGamePoint({ gameId: input.gameId, kind: input.submission.kind, verified, correct })
       ? await awardPoints({
           userId: input.userId,
           kind: "game_answer",
           dedupeKey: dedupeKeys.gameAnswer(
             input.userId,
-            `${input.setKey}:${dayKey(now)}`,
+            input.gameId,
+            `${input.setKey}:${input.setKey === "folder" ? input.folderId ?? "" : input.setKey === "topic" ? input.topicPack ?? "any" : ""}:${dayKey(now)}`,
             input.entryId,
           ),
           refType: "user_vocabulary",
@@ -699,19 +746,14 @@ export async function recordGameAnswer(input: {
  * `accepted` comes from the RIWI text evaluation, never from the client. An
  * accepted sentence is real evidence of active use, so it promotes mastery to
  * ACTIVE (and to MASTERED when the word is already at the last SRS stage) and
- * earns the largest award; a sentence that was not evaluated stays in the bank
- * with its honest origin and earns nothing.
+ * earns two points once per learner/word/normalized sentence; an unevaluated
+ * sentence stays in the bank with its honest origin and earns nothing.
  */
 export async function recordSentenceUse(input: {
   userId: string;
   entryId: string;
   sentence: string;
-  origin: "manual" | "riwi";
-  accepted: boolean;
-  evaluationId?: string | null;
-  now?: Date;
 }) {
-  const now = input.now ?? new Date();
   const entry = await db.query.userVocabulary.findFirst({
     where: and(
       eq(userVocabulary.id, input.entryId),
@@ -720,15 +762,9 @@ export async function recordSentenceUse(input: {
   });
   if (!entry) return { ok: false as const, error: "not_found" };
 
-  const activeUseCount = entry.activeUseCount + (input.accepted ? 1 : 0);
-  const mastery = masteryAfterUse({
-    srsStage: entry.srsStage,
-    correctCount: entry.correctCount,
-    incorrectCount: entry.incorrectCount,
-    activeUseCount,
-  });
-
-  const pointsAwarded = input.accepted ? VOCAB_POINTS.sentence : 0;
+  // This first write is always manual and unevaluated. Only confirmSentenceUse,
+  // called after the RIWI evaluator returns, may mark it accepted or award points.
+  const pointsAwarded = 0;
 
   const [usage] = await db
     .insert(vocabularyUsages)
@@ -736,36 +772,19 @@ export async function recordSentenceUse(input: {
       userId: input.userId,
       userVocabularyId: entry.id,
       sentence: input.sentence,
-      origin: input.origin,
-      riwiAccepted: input.accepted,
-      evaluationId: input.evaluationId ?? null,
+      origin: "manual",
+      riwiAccepted: false,
+      evaluationId: null,
       pointsAwarded,
     })
     .returning();
 
-  if (input.accepted) {
-    await db
-      .update(userVocabulary)
-      .set({
-        activeUseCount,
-        mastery,
-        masteredAt: mastery === "mastered" ? now : entry.masteredAt,
-      })
-      .where(eq(userVocabulary.id, entry.id));
 
-    await awardPoints({
-      userId: input.userId,
-      kind: "sentence",
-      dedupeKey: dedupeKeys.sentence(input.userId, usage!.id),
-      refType: "vocabulary_usage",
-      refId: usage!.id,
-    });
-  }
 
   return {
     ok: true as const,
     usageId: usage!.id,
-    mastery,
+    mastery: entry.mastery,
     points: pointsAwarded,
   };
 }
@@ -776,7 +795,8 @@ export async function recordSentenceUse(input: {
  * The sentence is written to the bank immediately (honest origin: "manual"), and
  * this call is what turns it into evaluated, accepted work — awarding the largest
  * vocabulary points and moving mastery. A second call for the same sentence is
- * harmless: the point award is keyed by the usage id, so it can only land once.
+ * harmless: the ledger key is based on the learner, word, and normalized text,
+ * so replaying the same accepted sentence under a new usage id cannot pay again.
  */
 export async function confirmSentenceUse(input: {
   userId: string;
@@ -801,8 +821,21 @@ export async function confirmSentenceUse(input: {
   });
   if (!entry) return { ok: false as const, error: "not_found" };
 
-  const pointsAwarded = input.accepted ? VOCAB_POINTS.sentence : 0;
-  const activeUseCount = entry.activeUseCount + (input.accepted ? 1 : 0);
+  // The evaluator result is authoritative, but the point identity is derived
+  // from the learner's exact normalized sentence and word, not a fresh usage id.
+  // Re-posting the same sentence therefore cannot create a second award.
+  const sentenceHash = sentenceDedupeHash(usage.sentence);
+  const inserted = input.accepted
+    ? await awardPoints({
+        userId: input.userId,
+        kind: "sentence",
+        dedupeKey: dedupeKeys.sentence(input.userId, entry.id, sentenceHash),
+        refType: "vocabulary_usage",
+        refId: usage.id,
+      })
+    : false;
+  const pointsAwarded = inserted ? VOCAB_POINTS.sentence : 0;
+  const activeUseCount = entry.activeUseCount + (inserted ? 1 : 0);
   const mastery = masteryAfterUse({
     srsStage: entry.srsStage,
     correctCount: entry.correctCount,
@@ -820,7 +853,7 @@ export async function confirmSentenceUse(input: {
     })
     .where(eq(vocabularyUsages.id, usage.id));
 
-  if (input.accepted) {
+  if (inserted) {
     await db
       .update(userVocabulary)
       .set({
@@ -829,16 +862,6 @@ export async function confirmSentenceUse(input: {
         masteredAt: mastery === "mastered" ? now : entry.masteredAt,
       })
       .where(eq(userVocabulary.id, entry.id));
-  }
-
-  if (input.accepted) {
-    await awardPoints({
-      userId: input.userId,
-      kind: "sentence",
-      dedupeKey: dedupeKeys.sentence(input.userId, usage.id),
-      refType: "vocabulary_usage",
-      refId: usage.id,
-    });
   }
 
   return { ok: true as const, mastery, points: pointsAwarded };
@@ -950,49 +973,37 @@ export async function moveToFolder(
 // ---------------------------------------------------------------------------
 
 export async function getStanding(userId: string) {
-  const totals = await db
-    .select({
-      userId: vocabPointEvents.userId,
-      points: sql<number>`coalesce(sum(${vocabPointEvents.points}), 0)::int`,
-    })
-    .from(vocabPointEvents)
-    .groupBy(vocabPointEvents.userId)
-    .orderBy(desc(sql`coalesce(sum(${vocabPointEvents.points}), 0)`));
+  // Totals and recent activity are independent reads. Names join in the aggregate
+  // so ranking does not require a third serial round trip.
+  const [totals, days] = await Promise.all([
+    db
+      .select({
+        userId: vocabPointEvents.userId,
+        name: users.name,
+        points: sql<number>`coalesce(sum(${vocabPointEvents.points}), 0)::int`,
+      })
+      .from(vocabPointEvents)
+      .innerJoin(users, eq(users.id, vocabPointEvents.userId))
+      .groupBy(vocabPointEvents.userId, users.name)
+      .orderBy(desc(sql`coalesce(sum(${vocabPointEvents.points}), 0)`)),
+    db
+      .select({ createdAt: vocabPointEvents.createdAt })
+      .from(vocabPointEvents)
+      .where(eq(vocabPointEvents.userId, userId)),
+  ]);
 
   const ranked = totals.map((row, index) => ({ ...row, rank: index + 1 }));
   const mine = ranked.find((row) => row.userId === userId) ?? {
     userId,
+    name: "—",
     points: 0,
     rank: 0,
   };
-
-  const days = await db
-    .select({ createdAt: vocabPointEvents.createdAt })
-    .from(vocabPointEvents)
-    .where(eq(vocabPointEvents.userId, userId));
-  const streak = streakFromDays(
-    days.map((row) => dayKey(row.createdAt)),
-    new Date(),
-  );
-
-  const names = await db
-    .select({ id: users.id, name: users.name })
-    .from(users)
-    .where(
-      inArray(
-        users.id,
-        ranked
-          .slice(0, 10)
-          .map((row) => row.userId)
-          .concat(ranked.length ? [ranked[0]!.userId] : []),
-      ),
-    );
-  const nameById = new Map(names.map((row) => [row.id, row.name]));
-
+  const streak = streakFromDays(days.map((row) => dayKey(row.createdAt)), new Date());
   const top = ranked.slice(0, 10).map((row) => ({
     rank: row.rank,
     userId: row.userId,
-    name: nameById.get(row.userId) ?? "—",
+    name: row.name ?? "—",
     points: row.points,
     isMe: row.userId === userId,
   }));
@@ -1010,7 +1021,7 @@ export async function recentAwards(userId: string, limit = 10) {
       createdAt: vocabPointEvents.createdAt,
     })
     .from(vocabPointEvents)
-    .where(eq(vocabPointEvents.userId, userId))
+    .where(and(eq(vocabPointEvents.userId, userId), gte(vocabPointEvents.points, 1), sql`${vocabPointEvents.kind} <> 'new_word'`))
     .orderBy(desc(vocabPointEvents.createdAt))
     .limit(limit);
 }

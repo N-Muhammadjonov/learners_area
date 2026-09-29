@@ -10,8 +10,8 @@ import { formatDate } from "@/lib/time";
  *
  * There is nothing to post here: the numbers are aggregated from the point
  * ledger, which is written by the server when it observes real study events
- * (a new word, a scheduled revision, an eligible practice answer, an accepted
- * sentence). Replaying a request cannot inflate a score — every award carries a
+ * (a scheduled revision, a verified correct game answer, an RIWI-accepted
+ * sentence). Word saves and self-assessments earn nothing. Replaying cannot inflate a score — each award carries a
  * dedupe key and the unique index drops the duplicate.
  */
 export function VocabBoardPanel({
@@ -47,10 +47,10 @@ export function VocabBoardPanel({
   }, []);
 
   const awardLabel: Record<VocabAward["kind"], string> = {
-    new_word: t.summary.words,
-    revision: t.summary.dueToday,
-    game_answer: t.games.title,
-    sentence: t.use.bank,
+    new_word: t.board.legacyAward,
+    revision: t.board.revisionAward,
+    game_answer: t.board.gameAward,
+    sentence: t.board.sentenceAward,
   };
 
   return (

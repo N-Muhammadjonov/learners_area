@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { tashkentDayKey } from "@/lib/time";
 
 /**
@@ -13,14 +14,14 @@ import { tashkentDayKey } from "@/lib/time";
  */
 
 export const VOCAB_POINTS = {
-  /** A genuinely new word enters the library (dedup applies). */
-  newWord: 2,
+  /** Legacy ledger kind retained for history only; new saves do not emit it. */
+  newWord: 0,
   /** A word recalled in a scheduled revision — the only official progress. */
   revision: 1,
-  /** An eligible correct answer in a game set the student was due to practise. */
+  /** A correct server-verifiable answer, deduplicated per game/set/day/word. */
   gameAnswer: 1,
   /** A sentence the RIWI evaluator accepted as real active use. */
-  sentence: 5,
+  sentence: 2,
 } as const;
 
 export type PointKind = "new_word" | "revision" | "game_answer" | "sentence";
@@ -83,9 +84,25 @@ export function streakFromDays(days: string[], today: Date): number {
 /** The dedupe keys — one place, so a caller cannot invent its own. */
 export const dedupeKeys = {
   newWord: (userId: string, vocabularyId: string) => `new_word:${userId}:${vocabularyId}`,
-  revision: (userId: string, vocabularyId: string, stage: number) =>
-    `revision:${userId}:${vocabularyId}:${stage}`,
-  gameAnswer: (userId: string, setKey: string, vocabularyId: string) =>
-    `game:${userId}:${setKey}:${vocabularyId}`,
-  sentence: (userId: string, usageId: string) => `sentence:${userId}:${usageId}`,
+  /** One scheduled occurrence, identified by its due timestamp rather than outcome/stage. */
+  revision: (userId: string, vocabularyId: string, scheduledAt: Date | string) =>
+    `revision:${userId}:${vocabularyId}:${scheduledAt instanceof Date ? scheduledAt.toISOString() : scheduledAt}`,
+  /** One word in one game and set per Tashkent day; retries of that attempt collide. */
+  gameAnswer: (userId: string, gameId: string, setKey: string, vocabularyId: string) =>
+    `game:${userId}:${gameId}:${setKey}:${vocabularyId}`,
+  /** Same normalized sentence for the same saved word cannot earn twice, even under a new usage id. */
+  sentence: (userId: string, entryId: string, normalizedSentenceHash: string) =>
+    `sentence:${userId}:${entryId}:${normalizedSentenceHash}`,
 } as const;
+
+
+/** Canonical fingerprint used to make sentence replays idempotent across new usage ids. */
+export function sentenceDedupeHash(sentence: string): string {
+  const normalized = sentence
+    .toLowerCase()
+    .replace(/[\u2018\u2019\u02bb`]/g, "'")
+    .replace(/[^a-z0-9' ]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  return createHash("sha256").update(normalized).digest("hex").slice(0, 32);
+}

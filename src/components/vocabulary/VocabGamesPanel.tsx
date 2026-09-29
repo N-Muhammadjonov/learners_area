@@ -1,29 +1,29 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import type { Dictionary } from "@/lib/i18n/en";
 import { collocationChips } from "./types";
 import type { GameSetKey, GameSetResponse, GameWord, VocabFolder, VocabPack } from "./types";
-import {
-  acceptedSpellings,
-  gradeSpelling,
-  normalizeAnswer,
-  type GameSubmission,
-} from "@/lib/services/vocabulary/grading";
+import { acceptedSpellings, gradeSpelling, normalizeAnswer, type GameSubmission } from "@/lib/services/vocabulary/grading";
+import { elapsedTenths, formatRaceTime, honestWordsPerMinute, typingRaceAccuracy, uniqueGameRound } from "@/lib/services/vocabulary/game-round";
+import { GAME_IDS, type GameId } from "@/lib/services/vocabulary/game-routes";
 
-type GameId = "cards" | "choice" | "match" | "gap" | "race" | "translation" | "builder";
+const GAMES: readonly GameId[] = GAME_IDS;
+const GAME_META: Record<GameId, { title: (dict: Dictionary) => string; hint: (dict: Dictionary) => string }> = {
+  cards: { title: (d) => d.vocabulary.games.cards, hint: (d) => d.vocabulary.games.cardsHint },
+  choice: { title: (d) => d.vocabulary.games.choice, hint: (d) => d.vocabulary.games.choiceHint },
+  match: { title: (d) => d.vocabulary.games.match, hint: (d) => d.vocabulary.games.matchHint },
+  gap: { title: (d) => d.vocabulary.games.gap, hint: (d) => d.vocabulary.games.gapHint },
+  race: { title: (d) => d.vocabulary.games.race, hint: (d) => d.vocabulary.games.raceHint },
+  translation: { title: (d) => d.vocabulary.games.translation, hint: (d) => d.vocabulary.games.translationHint },
+  builder: { title: (d) => d.vocabulary.games.builder, hint: (d) => d.vocabulary.games.builderHint },
+};
 
-const GAMES: GameId[] = ["cards", "choice", "match", "gap", "race", "translation", "builder"];
+type GameRequest = { gameId: GameId; setKey: GameSetKey; folderId?: string; topicPack?: string };
+const GameRequestContext = createContext<GameRequest>({ gameId: "cards", setKey: "all" });
 
-/**
- * GAMES — casual practice over the same library.
- *
- * The set selector chooses which words are in play (all / due / weak / from
- * Reading / from Listening / topic pack / folder / teacher-assigned). Answers are
- * scored by the server, which re-derives eligibility itself: a correct answer on
- * a word that was genuinely due earns one practice point, and replaying the same
- * set on the same day earns nothing. No game can move the revision schedule.
- */
+/** Lightweight Games library: it loads only the selected game set, never the full Vocabulary Studio payload. */
 export function VocabGamesPanel({
   dict,
   folders,
@@ -37,169 +37,157 @@ export function VocabGamesPanel({
   const [setKey, setSetKey] = useState<GameSetKey>("due");
   const [topicPack, setTopicPack] = useState<string>(packs[0]?.id ?? "");
   const [folderId, setFolderId] = useState<string>(folders[0]?.id ?? "");
-  const [active, setActive] = useState<GameId | null>(null);
   const [set, setSet] = useState<GameSetResponse | null>(null);
   const [loading, setLoading] = useState(false);
+  const [loadFailed, setLoadFailed] = useState(false);
 
-  const load = useCallback(async () => {
-    setLoading(true);
-    const params = new URLSearchParams({ set: setKey });
+  const query = useMemo(() => {
+    const params = new URLSearchParams({ set: setKey, limit: "1" });
     if (setKey === "topic" && topicPack) params.set("topicPack", topicPack);
     if (setKey === "folder" && folderId) params.set("folderId", folderId);
-    const res = await fetch(`/api/vocabulary/games?${params.toString()}`);
-    const payload = await res.json().catch(() => null);
-    setLoading(false);
-    if (payload?.ok) setSet(payload as GameSetResponse);
+    return params;
   }, [setKey, topicPack, folderId]);
 
   useEffect(() => {
-    void load();
-  }, [load]);
+    const controller = new AbortController();
+    setLoading(true);
+    setLoadFailed(false);
+    void fetch(`/api/vocabulary/games?${query}`, { signal: controller.signal })
+      .then(async (res) => {
+        const payload = await res.json().catch(() => null);
+        if (!res.ok || !payload?.ok) throw new Error("game_set_unavailable");
+        setSet(payload as GameSetResponse);
+      })
+      .catch((error: unknown) => {
+        if (error instanceof Error && error.name === "AbortError") return;
+        setSet(null);
+        setLoadFailed(true);
+      })
+      .finally(() => { if (!controller.signal.aborted) setLoading(false); });
+    return () => controller.abort();
+  }, [query]);
 
-  const words = set?.words ?? [];
+  const available = set?.total ?? 0;
   const setLabel = useMemo(() => {
     const base = t.games.set[setKey];
-    if (setKey === "topic" && topicPack) {
-      const pack = packs.find((item) => item.id === topicPack);
-      return pack ? `${base} · ${pack.label}` : base;
-    }
-    if (setKey === "folder" && folderId) {
-      const folder = folders.find((item) => item.id === folderId);
-      return folder ? `${base} · ${folder.name}` : base;
-    }
+    if (setKey === "topic" && topicPack) return `${base} · ${packs.find((item) => item.id === topicPack)?.label ?? ""}`;
+    if (setKey === "folder" && folderId) return `${base} · ${folders.find((item) => item.id === folderId)?.name ?? ""}`;
     return base;
   }, [setKey, topicPack, folderId, packs, folders, t]);
+  const hrefFor = (game: GameId) => {
+    const params = new URLSearchParams(query);
+    params.delete("limit");
+    return `/vocabulary/games/${game}?${params.toString()}`;
+  };
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="card p-4">
-        <h2 className="text-sm font-medium text-ink-900">{t.games.title}</h2>
-        <p className="mt-1 text-xs text-ink-500">{t.games.hint}</p>
-
-        <div className="mt-3 grid gap-2 sm:grid-cols-2">
+    <div className="flex flex-col gap-4" data-games-library>
+      <header>
+        <h1 className="font-display text-2xl text-ink-900">{t.games.title}</h1>
+        <p className="mt-1 text-sm text-ink-500">{t.games.hint}</p>
+      </header>
+      <section className="card p-4" aria-label={t.games.set.label}>
+        <div className="grid gap-2 sm:grid-cols-2">
           <label className="flex flex-col gap-1 text-xs text-ink-500">
             {t.games.set.label}
-            <select
-              className="input"
-              aria-label={t.games.set.label}
-              data-game-set
-              value={setKey}
-              onChange={(event) => setSetKey(event.target.value as GameSetKey)}
-            >
-              {(
-                ["all", "due", "weak", "reading", "listening", "topic", "folder", "assigned"] as GameSetKey[]
-              ).map((key) => (
-                <option key={key} value={key}>
-                  {t.games.set[key]}
-                </option>
-              ))}
+            <select className="input" aria-label={t.games.set.label} data-game-set value={setKey} onChange={(event) => setSetKey(event.target.value as GameSetKey)}>
+              {(["all", "due", "weak", "reading", "listening", "topic", "folder", "assigned"] as GameSetKey[]).map((key) => <option key={key} value={key}>{t.games.set[key]}</option>)}
             </select>
           </label>
-
           {setKey === "topic" && packs.length > 0 && (
             <label className="flex flex-col gap-1 text-xs text-ink-500">
-              {t.packs.title}
-              <select
-                className="input"
-                aria-label={t.packs.title}
-                value={topicPack}
-                onChange={(event) => setTopicPack(event.target.value)}
-              >
-                {packs.map((pack) => (
-                  <option key={pack.id} value={pack.id}>
-                    {pack.label} · {pack.wordCount}
-                  </option>
-                ))}
+              {t.packs.title}<select className="input" aria-label={t.packs.title} value={topicPack} onChange={(event) => setTopicPack(event.target.value)}>
+                {packs.map((pack) => <option key={pack.id} value={pack.id}>{pack.label} · {pack.wordCount}</option>)}
               </select>
             </label>
           )}
-
           {setKey === "folder" && folders.length > 0 && (
             <label className="flex flex-col gap-1 text-xs text-ink-500">
-              {t.folders.title}
-              <select
-                className="input"
-                aria-label={t.folders.title}
-                value={folderId}
-                onChange={(event) => setFolderId(event.target.value)}
-              >
-                {folders.map((folder) => (
-                  <option key={folder.id} value={folder.id}>
-                    {folder.name} · {folder.count}
-                  </option>
-                ))}
+              {t.folders.title}<select className="input" aria-label={t.folders.title} value={folderId} onChange={(event) => setFolderId(event.target.value)}>
+                {folders.map((folder) => <option key={folder.id} value={folder.id}>{folder.name} · {folder.count}</option>)}
               </select>
             </label>
           )}
         </div>
-
-        <p className="mt-3 text-xs text-ink-500" data-game-set-status>
-          {loading
-            ? dict.common.loading
-            : `${setLabel} · ${words.length} ${t.packs.words}${set ? ` · ${set.due} ${t.summary.dueToday}` : ""}`}
+        <p className="mt-3 text-xs text-ink-500" data-game-set-status aria-live="polite">
+          {loading ? dict.common.loading : loadFailed ? t.games.loadError : `${setLabel} · ${available} ${t.packs.words}${set ? ` · ${set.due} ${t.summary.dueToday}` : ""}`}
         </p>
-      </div>
-
+      </section>
       <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
         {GAMES.map((game) => (
-          <button
-            key={game}
-            type="button"
-            data-game={game}
-            disabled={words.length === 0}
-            onClick={() => setActive(game)}
-            className={`card flex flex-col gap-1 p-4 text-left transition-colors disabled:opacity-50 ${
-              active === game ? "border-signal-600 bg-signal-50" : "hover:border-signal-600"
-            }`}
-          >
-            <span className="text-sm font-medium text-ink-900">
-              {game === "cards"
-                ? t.games.cards
-                : game === "choice"
-                  ? t.games.choice
-                  : game === "match"
-                    ? t.games.match
-                    : game === "gap"
-                      ? t.games.gap
-                      : game === "race"
-                        ? t.games.race
-                        : game === "translation"
-                          ? t.games.translation
-                          : t.games.builder}
-            </span>
-            <span className="text-xs text-ink-500">
-              {game === "cards"
-                ? t.games.cardsHint
-                : game === "choice"
-                  ? t.games.choiceHint
-                  : game === "match"
-                    ? t.games.matchHint
-                    : game === "gap"
-                      ? t.games.gapHint
-                      : game === "race"
-                        ? t.games.raceHint
-                        : game === "translation"
-                          ? t.games.translationHint
-                          : t.games.builderHint}
-            </span>
-          </button>
+          <Link key={game} href={hrefFor(game)} prefetch={false} data-game={game} aria-disabled={available === 0 || loading} tabIndex={available === 0 || loading ? -1 : 0}
+            onClick={(event) => { if (available === 0 || loading) event.preventDefault(); }}
+            className={`card flex min-h-28 flex-col gap-1 p-4 text-left transition-colors hover:border-signal-600 ${available === 0 || loading ? "pointer-events-none opacity-50" : ""}`}>
+            <span className="text-sm font-medium text-ink-900">{GAME_META[game].title(dict)}</span>
+            <span className="text-xs text-ink-500">{GAME_META[game].hint(dict)}</span>
+          </Link>
         ))}
       </div>
+      {available === 0 && !loading && !loadFailed && <p className="text-sm text-ink-500">{t.games.noWords}</p>}
+      {loadFailed && <p role="alert" className="text-sm text-band-bad">{t.games.loadError}</p>}
+    </div>
+  );
+}
 
-      {words.length === 0 && !loading && (
-        <p className="text-sm text-ink-500">{t.games.noWords}</p>
-      )}
+/** Dedicated route content; the per-game dataset is fetched independently from the Vocabulary Studio. */
+export function VocabGameView({
+  dict, gameId, setKey, folderId, topicPack, sourceDetail,
+}: {
+  dict: Dictionary;
+  gameId: GameId;
+  setKey: GameSetKey;
+  folderId?: string;
+  topicPack?: string;
+  sourceDetail?: string;
+}) {
+  const t = dict.vocabulary;
+  const [set, setSet] = useState<GameSetResponse | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [failed, setFailed] = useState(false);
+  const context = useMemo(() => ({ gameId, setKey, folderId, topicPack }), [gameId, setKey, folderId, topicPack]);
 
-      {active && words.length > 0 && (
-        <div data-active-game={active}>
-          {active === "cards" && <Flashcards dict={dict} words={words} />}
-          {active === "choice" && <MultipleChoice dict={dict} words={words} />}
-          {active === "match" && <MatchingPairs dict={dict} words={words} />}
-          {active === "gap" && <FillTheGap dict={dict} words={words} />}
-          {active === "race" && <TypingRace dict={dict} words={words} />}
-          {active === "translation" && <TranslationChallenge dict={dict} words={words} />}
-          {active === "builder" && <SentenceBuilder dict={dict} words={words} />}
-        </div>
+  useEffect(() => {
+    const controller = new AbortController();
+    const params = new URLSearchParams({ set: setKey, limit: "24", random: "1", game: gameId });
+    if (folderId) params.set("folderId", folderId);
+    if (topicPack) params.set("topicPack", topicPack);
+    setLoading(true);
+    setFailed(false);
+    void fetch(`/api/vocabulary/games?${params}`, { signal: controller.signal })
+      .then(async (res) => {
+        const payload = await res.json().catch(() => null);
+        if (!res.ok || !payload?.ok) throw new Error("game_set_unavailable");
+        setSet(payload as GameSetResponse);
+      })
+      .catch((error: unknown) => {
+        if (error instanceof Error && error.name === "AbortError") return;
+        setFailed(true);
+      })
+      .finally(() => { if (!controller.signal.aborted) setLoading(false); });
+    return () => controller.abort();
+  }, [gameId, setKey, folderId, topicPack]);
+
+  const source = [t.games.set[setKey], sourceDetail].filter(Boolean).join(" · ");
+  return (
+    <div className="mx-auto flex w-full max-w-4xl flex-col gap-4" data-dedicated-game={gameId}>
+      <Link href="/vocabulary/games" prefetch={false} className="btn-ghost w-fit" data-game-back>← {t.games.backToGames}</Link>
+      <header className="flex flex-wrap items-end justify-between gap-3">
+        <div><h1 className="font-display text-2xl text-ink-900">{GAME_META[gameId].title(dict)}</h1><p className="mt-1 text-sm text-ink-500">{t.games.source}: {source}</p></div>
+        {set && <span className="text-xs text-ink-500">{set.total} {t.packs.words}</span>}
+      </header>
+      {loading && <p className="card p-4 text-sm text-ink-500" role="status">{dict.common.loading}</p>}
+      {failed && <p className="card p-4 text-sm text-band-bad" role="alert">{t.games.loadError}</p>}
+      {!loading && !failed && set?.words.length === 0 && <p className="card p-4 text-sm text-ink-500">{set?.total ? t.games.noEligible : t.games.noWords}</p>}
+      {!loading && !failed && set && set.words.length > 0 && (
+        <GameRequestContext.Provider value={context}>
+          {gameId === "cards" && <Flashcards key={gameId} dict={dict} words={set.words} />}
+          {gameId === "choice" && <MultipleChoice key={gameId} dict={dict} words={set.words} />}
+          {gameId === "match" && <MatchingPairs key={gameId} dict={dict} words={set.words} />}
+          {gameId === "gap" && <FillTheGap key={gameId} dict={dict} words={set.words} />}
+          {gameId === "race" && <TypingRace key={gameId} dict={dict} words={set.words} />}
+          {gameId === "translation" && <TranslationChallenge key={gameId} dict={dict} words={set.words} />}
+          {gameId === "builder" && <SentenceBuilder key={gameId} dict={dict} words={set.words} />}
+        </GameRequestContext.Provider>
       )}
     </div>
   );
@@ -227,20 +215,30 @@ function shuffle<T>(items: T[]): T[] {
  * on-screen verdict. Because both sides fold the answer the same way, the
  * feedback a student sees and the verdict that earns a point cannot disagree.
  *
- * Modes the server cannot check (turning a card over and judging your own
- * recall, pairing two cards the browser compared) send `kind: "self"`: honest
- * practice, no points, because a claim is not evidence.
+ * Flashcard self-assessment sends `kind: "self"` and earns no points. Matching
+ * pairs send both selected entry identities; the server verifies ownership,
+ * selected-set membership, and whether the pair refers to the same saved entry.
  */
-function useAnswer(setKey: GameSetKey) {
+function useAnswer() {
+  const request = useContext(GameRequestContext);
   return useCallback(
     async (entryId: string, submission: GameSubmission) => {
-      await fetch("/api/vocabulary/games", {
+      const res = await fetch("/api/vocabulary/games", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ entryId, set: setKey, submission }),
+        body: JSON.stringify({
+          entryId,
+          set: request.setKey,
+          gameId: request.gameId,
+          folderId: request.folderId,
+          topicPack: request.topicPack,
+          submission,
+        }),
       }).catch(() => null);
+      if (!res?.ok) return null;
+      return res.json().catch(() => null) as Promise<{ awarded?: number; correct?: boolean; verified?: boolean } | null>;
     },
-    [setKey]
+    [request],
   );
 }
 
@@ -318,24 +316,19 @@ function ResultBanner({
 }
 
 // ---------------------------------------------------------------------------
-// 1. Flashcards — definition first, side queue, 0.5 s flip-back and auto-advance
+// 1. Flashcards — definition first, side queue, separate assessment and navigation
 // ---------------------------------------------------------------------------
 
 function Flashcards({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
   const t = dict.vocabulary;
-  const [deck, setDeck] = useState(() => shuffle(words).slice(0, 20));
+  const [deck, setDeck] = useState(() => shuffle(words).slice(0, 10));
   const [index, setIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [marks, setMarks] = useState<Record<string, "known" | "notYet">>({});
-  const [correct, setCorrect] = useState(0);
-  const answer = useAnswer("all");
-  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => () => {
-    if (timer.current) clearTimeout(timer.current);
-  }, []);
+  const answer = useAnswer();
 
   const current = deck[index];
+  const correct = Object.values(marks).filter((mark) => mark === "known").length;
   const remaining = deck.slice(index);
 
   /**
@@ -348,10 +341,12 @@ function Flashcards({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
   useEffect(() => {
     function onKey(event: KeyboardEvent) {
       const target = event.target as HTMLElement | null;
-      const typing =
-        target &&
-        (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable);
-      if (typing || timer.current) return;
+      const typing = target && (
+        target.tagName === "INPUT" || target.tagName === "TEXTAREA" ||
+        target.tagName === "BUTTON" || target.tagName === "A" ||
+        target.tagName === "SELECT" || target.isContentEditable
+      );
+      if (typing) return;
 
       if (event.key === " ") {
         event.preventDefault();
@@ -371,26 +366,16 @@ function Flashcards({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
   }, [deck.length]);
 
   function restart() {
-    setDeck(shuffle(words).slice(0, 20));
+    setDeck(shuffle(words).slice(0, 10));
     setIndex(0);
     setFlipped(false);
     setMarks({});
-    setCorrect(0);
   }
 
   function decide(known: boolean) {
-    if (!current || timer.current) return;
-    setMarks((current) => ({ ...current, [deck[index]!.id]: known ? "known" : "notYet" }));
-    if (known) setCorrect((value) => value + 1);
+    if (!current) return;
+    setMarks((row) => ({ ...row, [current.id]: known ? "known" : "notYet" }));
     void answer(current.id, { kind: "self", known });
-    // The card turns back over first, then the deck advances by itself.
-    timer.current = setTimeout(() => {
-      setFlipped(false);
-      timer.current = setTimeout(() => {
-        setIndex((value) => value + 1);
-        timer.current = null;
-      }, 500);
-    }, 500);
   }
 
   if (!current) {
@@ -409,19 +394,10 @@ function Flashcards({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
       counter={`${t.games.progress} ${index + 1} / ${deck.length}`}
     >
       <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_220px]">
-        <div
-          role="button"
-          tabIndex={0}
+        <article
           aria-label={flipped ? current.term : current.definitionEn}
           data-flashcard={flipped ? "answer" : "definition"}
-          onClick={() => setFlipped((value) => !value)}
-          onKeyDown={(event) => {
-            if (event.key === "Enter" || event.key === " ") {
-              event.preventDefault();
-              setFlipped((value) => !value);
-            }
-          }}
-          className="flex min-h-[230px] cursor-pointer flex-col items-center justify-center gap-3 rounded-md border border-ink-100 bg-paper-sunken p-6 text-center"
+          className="flex min-h-[230px] flex-col items-center justify-center gap-3 rounded-md border border-ink-100 bg-paper-sunken p-6 text-center"
         >
           {flipped ? (
             <>
@@ -457,7 +433,7 @@ function Flashcards({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
               </p>
             </>
           )}
-        </div>
+        </article>
 
         <div className="flex flex-col gap-2">
           <button type="button" className="btn-secondary" onClick={() => setFlipped((value) => !value)}>
@@ -465,14 +441,18 @@ function Flashcards({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
           </button>
           {flipped && (
             <div className="grid grid-cols-2 gap-2 lg:grid-cols-1">
-              <button type="button" className="btn-primary" data-mark="known" onClick={() => decide(true)}>
+              <button type="button" className="btn-primary" data-mark="known" aria-pressed={marks[current.id] === "known"} onClick={() => decide(true)}>
                 {t.games.known}
               </button>
-              <button type="button" className="btn-gold" data-mark="notYet" onClick={() => decide(false)}>
+              <button type="button" className="btn-gold" data-mark="notYet" aria-pressed={marks[current.id] === "notYet"} onClick={() => decide(false)}>
                 {t.games.notYet}
               </button>
             </div>
           )}
+          <div className="grid grid-cols-2 gap-2">
+            <button type="button" className="btn-secondary" disabled={index === 0} onClick={() => { setFlipped(false); setIndex((value) => Math.max(0, value - 1)); }}>{t.games.previous}</button>
+            <button type="button" className="btn-secondary" onClick={() => { setFlipped(false); setIndex((value) => value + 1); }}>{t.games.next}</button>
+          </div>
           <div className="rounded-sm border border-ink-100 p-2">
             <p className="text-xs font-medium text-ink-500">{t.games.queue}</p>
             <ul className="mt-1 max-h-56 space-y-1 overflow-y-auto text-xs">
@@ -512,11 +492,11 @@ function Flashcards({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
 
 function MultipleChoice({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
   const t = dict.vocabulary;
-  const [deck] = useState(() => shuffle(words).slice(0, 12));
+  const [deck] = useState(() => shuffle(words).slice(0, 10));
   const [index, setIndex] = useState(0);
   const [picked, setPicked] = useState<string | null>(null);
   const [correct, setCorrect] = useState(0);
-  const answer = useAnswer("all");
+  const answer = useAnswer();
 
   const current = deck[index];
   const options = useMemo(() => {
@@ -623,14 +603,14 @@ function MatchingPairs({ dict, words }: { dict: Dictionary; words: GameWord[] })
   const [picked, setPicked] = useState<GameWord | null>(null);
   const [matched, setMatched] = useState<string[]>([]);
   const [wrongPair, setWrongPair] = useState<string | null>(null);
-  const answer = useAnswer("all");
+  const answer = useAnswer();
 
   function pickRight(word: GameWord) {
     if (!picked || matched.includes(word.id)) return;
     const right = picked.id === word.id;
-    // The pairing is checked here, between two cards the browser holds; the
-    // server has nothing to compare it with, so it is sent as a self-check.
-    void answer(picked.id, { kind: "self", known: right });
+    // The server checks that both entries belong to this learner and selected
+    // set, then decides whether both sides refer to the same saved entry.
+    void answer(picked.id, { kind: "pair", pairEntryId: word.id });
     if (right) {
       setMatched((rows) => [...rows, word.id]);
       setPicked(null);
@@ -733,7 +713,7 @@ function FillTheGap({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
   const [checked, setChecked] = useState<null | boolean>(null);
   const [correct, setCorrect] = useState(0);
   const [hint, setHint] = useState(false);
-  const answer = useAnswer("all");
+  const answer = useAnswer();
 
   const current = deck[index];
   const gapText = useMemo(() => {
@@ -747,7 +727,7 @@ function FillTheGap({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
 
   function check() {
     if (!current || checked !== null) return;
-    const isRight = normalizeAnswer(value) === normalizeAnswer(current.term);
+    const isRight = gradeSpelling(current, value);
     setChecked(isRight);
     if (isRight) setCorrect((row) => row + 1);
     void answer(current.id, { kind: "spelling", text: value });
@@ -816,102 +796,208 @@ function FillTheGap({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
 }
 
 // ---------------------------------------------------------------------------
-// 5. Typing race — the clock starts on the first keystroke
+// 5. Typing Race — meaning first, one focused input, item clock at tenths
 // ---------------------------------------------------------------------------
 
 function TypingRace({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
   const t = dict.vocabulary;
-  const [deck] = useState(() => shuffle(words).slice(0, 15));
+  const eligible = useMemo(
+    () => words.filter((word) => word.term.trim().length > 0 && word.definitionEn.trim().length > 0),
+    [words],
+  );
+  const [deck, setDeck] = useState(() => uniqueGameRound(eligible, 10));
   const [index, setIndex] = useState(0);
   const [value, setValue] = useState("");
   const [startedAt, setStartedAt] = useState<number | null>(null);
+  const [ticker, setTicker] = useState(Date.now());
   const [elapsed, setElapsed] = useState(0);
+  const [status, setStatus] = useState<null | "checking" | "correct" | "incorrect" | "skipped" | "unverified">(null);
   const [finished, setFinished] = useState(false);
-  const [typedChars, setTypedChars] = useState(0);
-  const [correct, setCorrect] = useState(0);
-  const [attempts, setAttempts] = useState(0);
-  const answer = useAnswer("all");
-
-  useEffect(() => {
-    if (startedAt === null || finished) return;
-    const id = setInterval(() => {
-      const seconds = (Date.now() - startedAt) / 1000;
-      setElapsed(seconds);
-      if (seconds >= 60) setFinished(true);
-    }, 100);
-    return () => clearInterval(id);
-  }, [startedAt, finished]);
+  const [stats, setStats] = useState({ correct: 0, incorrect: 0, skipped: 0, unverified: 0, typedCharacters: 0, totalSeconds: 0 });
+  const [records, setRecords] = useState<{ term: string; seconds: number; outcome: string }[]>([]);
+  const answer = useAnswer();
+  const submitting = useRef(false);
 
   const current = deck[index];
-  const wpm = elapsed > 0 ? Math.round(typedChars / 5 / (elapsed / 60)) : 0;
-  const accuracy = attempts > 0 ? Math.round((correct / attempts) * 100) : 100;
+  const running = startedAt !== null && status === null && !finished;
+  useEffect(() => {
+    if (!running) return;
+    const id = window.setInterval(() => setTicker(Date.now()), 100);
+    return () => window.clearInterval(id);
+  }, [running, startedAt]);
 
-  function submit() {
-    if (!current || finished) return;
-    const isRight = normalizeAnswer(value) === normalizeAnswer(current.term);
-    setAttempts((row) => row + 1);
-    setTypedChars((row) => row + Math.min(value.length, current.term.length));
-    if (isRight) setCorrect((row) => row + 1);
-    void answer(current.id, { kind: "spelling", text: value });
-    setValue("");
-    if (index + 1 >= deck.length) setFinished(true);
-    else setIndex((row) => row + 1);
+  const liveElapsed = running && startedAt !== null ? elapsedTenths(startedAt, ticker) : elapsed;
+  const accuracy = typingRaceAccuracy(stats.correct, stats.incorrect);
+  const wpm = records.length === deck.length && stats.correct === deck.length && stats.incorrect === 0 && stats.skipped === 0 && stats.unverified === 0
+    ? honestWordsPerMinute(stats.typedCharacters, stats.totalSeconds)
+    : null;
+  const typedLetters = [...value.replace(/\s/g, "")];
+
+  function startIfRealCharacter(next: string) {
+    setValue(next);
+    if (startedAt === null && next.trim().length > 0) {
+      const now = Date.now();
+      setStartedAt(now);
+      setTicker(now);
+    }
   }
 
+  function stopClock(): number {
+    const stoppedAt = Date.now();
+    const duration = startedAt === null ? 0 : elapsedTenths(startedAt, stoppedAt);
+    setElapsed(duration);
+    setTicker(stoppedAt);
+    return duration;
+  }
+
+  async function submit() {
+    if (!current || status !== null || submitting.current || value.trim().length === 0) return;
+    submitting.current = true;
+    const duration = stopClock();
+    setStatus("checking");
+    const result = await answer(current.id, { kind: "spelling", text: value });
+    const verdict = result?.verified === true
+      ? result.correct === true ? "correct" : "incorrect"
+      : "unverified";
+    setStatus(verdict);
+    setStats((row) => ({
+      ...row,
+      correct: row.correct + (verdict === "correct" ? 1 : 0),
+      incorrect: row.incorrect + (verdict === "incorrect" ? 1 : 0),
+      unverified: row.unverified + (verdict === "unverified" ? 1 : 0),
+      typedCharacters: row.typedCharacters + value.length,
+      totalSeconds: row.totalSeconds + duration,
+    }));
+    setRecords((row) => [...row, { term: current.term, seconds: duration, outcome: verdict }]);
+    submitting.current = false;
+  }
+
+  function skip() {
+    if (!current || status !== null) return;
+    const duration = stopClock();
+    setStatus("skipped");
+    setStats((row) => ({ ...row, skipped: row.skipped + 1, typedCharacters: row.typedCharacters + value.length, totalSeconds: row.totalSeconds + duration }));
+    setRecords((row) => [...row, { term: current.term, seconds: duration, outcome: "skipped" }]);
+  }
+
+  function advance() {
+    if (status === null || status === "checking") return;
+    if (index + 1 >= deck.length) {
+      setFinished(true);
+      return;
+    }
+    setIndex((row) => row + 1);
+    setValue("");
+    setStartedAt(null);
+    setTicker(Date.now());
+    setElapsed(0);
+    setStatus(null);
+    submitting.current = false;
+  }
+
+  function restart() {
+    setDeck(uniqueGameRound(eligible, 10));
+    setIndex(0);
+    setValue("");
+    setStartedAt(null);
+    setTicker(Date.now());
+    setElapsed(0);
+    setStatus(null);
+    setFinished(false);
+    setStats({ correct: 0, incorrect: 0, skipped: 0, unverified: 0, typedCharacters: 0, totalSeconds: 0 });
+    setRecords([]);
+    submitting.current = false;
+  }
+
+  if (deck.length === 0) {
+    return <GameFrame dict={dict} title={t.games.race} hint={t.games.raceHint} counter="0 / 0"><p className="text-sm text-ink-500">{t.games.noEligible}</p></GameFrame>;
+  }
+
+  if (finished) {
+    return (
+      <GameFrame dict={dict} title={t.games.race} hint={t.games.raceHint} counter={`${stats.correct} / ${deck.length}`}>
+        <section data-race-results aria-labelledby="race-results-title" className="flex flex-col gap-3">
+          <h3 id="race-results-title" className="text-base font-medium text-ink-900">{t.games.result}</h3>
+          <dl className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+            <RaceMetric label={t.games.correctCount} value={`${stats.correct} / ${deck.length}`} />
+            <RaceMetric label={t.games.accuracy} value={accuracy === null ? "—" : `${accuracy}%`} />
+            <RaceMetric label={t.games.totalTime} value={formatRaceTime(stats.totalSeconds)} />
+            <RaceMetric label={t.games.incorrectCount} value={stats.incorrect} />
+            <RaceMetric label={t.games.skippedCount} value={stats.skipped} />
+            {wpm !== null && <RaceMetric label={t.games.wpm} value={wpm} />}
+          </dl>
+          <ul className="max-h-48 divide-y divide-ink-100 overflow-y-auto rounded-sm border border-ink-100 px-3" aria-label={t.games.itemTimes}>
+            {records.map((record, row) => <li key={`${record.term}-${row}`} className="flex flex-wrap justify-between gap-2 py-2 text-xs"><span>{record.term}</span><span className="text-ink-500">{formatRaceTime(record.seconds)} · {record.outcome === "correct" ? t.games.raceCorrect : record.outcome === "incorrect" ? t.games.raceIncorrect : record.outcome === "skipped" ? t.games.raceSkipped : t.games.raceUnverified}</span></li>)}
+          </ul>
+          {stats.unverified > 0 && <p className="text-xs text-warn-800" role="status">{t.games.raceUnverified}: {stats.unverified}</p>}
+          <button type="button" className="btn-primary w-fit" onClick={restart}>{t.games.again}</button>
+        </section>
+      </GameFrame>
+    );
+  }
+
+  if (!current) return null;
+  const groups = current.term.split(/\s+/).filter(Boolean);
+  let offset = 0;
+  const resolved = status !== null && status !== "checking";
+  const sourceTypeLabel = current.sourceType
+    ? t.games.sourceTypes[current.sourceType as keyof typeof t.games.sourceTypes]
+    : undefined;
+
   return (
-    <GameFrame
-      dict={dict}
-      title={t.games.race}
-      hint={t.games.raceHint}
-      counter={`${t.games.seconds}: ${Math.min(60, Math.floor(elapsed))} · ${wpm} ${t.games.wpm}`}
-    >
-      {finished ? (
-        <ResultBanner
-          dict={dict}
-          correct={correct}
-          total={Math.max(attempts, 1)}
-          onAgain={() => {
-            setIndex(0);
-            setValue("");
-            setStartedAt(null);
-            setElapsed(0);
-            setFinished(false);
-            setTypedChars(0);
-            setCorrect(0);
-            setAttempts(0);
-          }}
-        />
-      ) : (
-        <>
-          <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-ink-500">
-            <span>
-              {t.games.progress} {index + 1} / {deck.length} · {t.games.score} {correct}
-            </span>
-            <span>
-              {t.games.accuracy}: {accuracy}%
-            </span>
-          </div>
-          <p className="rounded-md bg-paper-sunken p-4 text-center text-lg text-ink-900" data-race-prompt>
-            {current?.definitionEn}
-          </p>
-          <input
-            className="input"
-            placeholder={t.games.typeAnswer}
-            aria-label={t.games.race}
-            value={value}
-            autoComplete="off"
-            autoCapitalize="off"
-            spellCheck={false}
-            onChange={(event) => {
-              if (startedAt === null) setStartedAt(Date.now());
-              setValue(event.target.value);
-            }}
-            onKeyDown={(event) => event.key === "Enter" && submit()}
-          />
-        </>
+    <GameFrame dict={dict} title={t.games.race} hint={t.games.raceHint} counter={`${t.games.raceProgress} ${index + 1} / ${deck.length} · ${t.games.itemTime}: ${formatRaceTime(liveElapsed)}`}>
+      <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-ink-500">
+        <span>{t.games.score}: {stats.correct}</span>
+        <span>{t.games.accuracy}: {accuracy === null ? "—" : `${accuracy}%`}</span>
+        <span>{t.games.elapsedThisItem}: {formatRaceTime(liveElapsed)}</span>
+      </div>
+      <section className="rounded-md bg-paper-sunken p-4 text-center" aria-labelledby="race-meaning-label" data-race-prompt>
+        <p id="race-meaning-label" className="text-xs uppercase tracking-wide text-ink-300">{t.games.meaning}</p>
+        {current.translationUz && <p className="mt-2 text-lg text-ink-900">{current.translationUz}</p>}
+        <p className="mt-1 text-sm text-ink-700">{current.definitionEn}</p>
+        {sourceTypeLabel && <p className="mt-2 text-xs text-ink-300">{t.games.source}: {sourceTypeLabel}</p>}
+      </section>
+      <div className="flex min-h-10 flex-wrap items-center justify-center gap-3" aria-hidden="true" data-race-answer-boxes>
+        {groups.map((word, groupIndex) => {
+          const thisOffset = offset;
+          offset += [...word].length;
+          return <span key={`${groupIndex}-${word.length}`} className="flex flex-wrap justify-center gap-1">
+            {[...word].map((_, charIndex) => <span key={charIndex} className="flex h-9 w-7 items-center justify-center rounded-sm border border-ink-100 bg-paper-raised font-mono text-sm text-ink-900">{typedLetters[thisOffset + charIndex] ?? ""}</span>)}
+          </span>;
+        })}
+      </div>
+      <label className="sr-only" htmlFor="typing-race-answer">{t.games.raceInputLabel}</label>
+      <input id="typing-race-answer" className="input" data-race-input placeholder={t.games.typeAnswer} aria-describedby="race-answer-help" aria-invalid={status === "incorrect"} value={value} readOnly={status !== null} maxLength={300} autoComplete="off" autoCapitalize="off" spellCheck={false} onChange={(event) => startIfRealCharacter(event.target.value)} onKeyDown={(event) => {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          if (status === null) void submit();
+          else if (resolved) advance();
+        }
+      }} />
+      <p id="race-answer-help" className="text-xs text-ink-500">{t.games.raceKeyboardHint}</p>
+      {status === "checking" && <p role="status" aria-live="polite" className="text-sm text-ink-500">{dict.common.loading}</p>}
+      {resolved && (
+        <div role="status" aria-live="polite" data-race-feedback className={`rounded-sm border p-3 ${status === "correct" ? "border-band-good/40 bg-band-good/10" : status === "incorrect" ? "border-band-bad/40 bg-band-bad/10" : "border-ink-100 bg-paper-sunken"}`}>
+          <p className="text-sm font-medium text-ink-900">{status === "correct" ? t.games.raceCorrect : status === "incorrect" ? t.games.raceIncorrect : status === "skipped" ? t.games.raceSkipped : t.games.raceUnverified}</p>
+          {status === "incorrect" && <p className="mt-1 text-sm text-ink-700">{t.games.yourAnswer}: {value}</p>}
+          {status === "unverified" && <p className="mt-1 text-sm text-ink-700">{t.games.answerUnverified}</p>}
+          <p className="mt-1 text-sm text-ink-900">{t.games.revealedAnswer}: <strong>{current.term}</strong></p>
+          <p className="mt-1 text-xs text-ink-500">{t.games.itemTime}: {formatRaceTime(elapsed)}</p>
+        </div>
       )}
+      <div className="flex flex-wrap gap-2">
+        {status === null && <>
+          <button type="button" className="btn-primary" data-race-submit disabled={value.trim().length === 0} onClick={() => void submit()}>{t.games.submitAnswer}</button>
+          <button type="button" className="btn-secondary" data-race-skip onClick={skip}>{t.games.skip}</button>
+        </>}
+        {resolved && <button type="button" className="btn-secondary" data-race-next onClick={advance}>{index + 1 === deck.length ? t.games.finish : t.games.next}</button>}
+      </div>
     </GameFrame>
   );
+}
+
+function RaceMetric({ label, value }: { label: string; value: string | number }) {
+  return <div className="rounded-sm bg-paper-sunken p-3 text-center"><dt className="text-[11px] uppercase tracking-wide text-ink-300">{label}</dt><dd className="mt-1 text-sm font-medium text-ink-900">{value}</dd></div>;
 }
 
 // ---------------------------------------------------------------------------
@@ -924,12 +1010,12 @@ function TranslationChallenge({ dict, words }: { dict: Dictionary; words: GameWo
     () => words.filter((word) => word.translationUz && word.translationUz.trim().length > 0),
     [words]
   );
-  const [deck] = useState(() => shuffle(translatable.length > 0 ? translatable : words).slice(0, 10));
+  const [deck] = useState(() => shuffle(translatable).slice(0, 10));
   const [index, setIndex] = useState(0);
   const [value, setValue] = useState("");
   const [checked, setChecked] = useState<null | boolean>(null);
   const [correct, setCorrect] = useState(0);
-  const answer = useAnswer("all");
+  const answer = useAnswer();
 
   const current = deck[index];
 
@@ -954,6 +1040,9 @@ function TranslationChallenge({ dict, words }: { dict: Dictionary; words: GameWo
     void answer(current.id, { kind: "spelling", text: value });
   }
 
+  if (deck.length === 0) {
+    return <GameFrame dict={dict} title={t.games.translation} hint={t.games.translationHint} counter="0 / 0"><p className="text-sm text-ink-500">{t.games.noEligible}</p></GameFrame>;
+  }
   if (!current) {
     return (
       <GameFrame dict={dict} title={t.games.translation} hint={t.games.translationHint} counter={`${correct}`}>
@@ -994,8 +1083,8 @@ function TranslationChallenge({ dict, words }: { dict: Dictionary; words: GameWo
               <p className="text-sm text-band-good">{t.games.score}</p>
               <p className="mt-1 text-sm text-ink-800" data-translation-answer>
                 {current.term}
-                {current.acceptedTranslations.length > 0
-                  ? ` · ${current.acceptedTranslations.join(" · ")}`
+                {(current.acceptedTranslations?.length ?? 0) > 0
+                  ? ` · ${current.acceptedTranslations?.join(" · ")}`
                   : ""}
               </p>
               {current.collocations && (
@@ -1058,7 +1147,7 @@ function SentenceBuilder({ dict, words }: { dict: Dictionary; words: GameWord[] 
   const [tiles, setTiles] = useState<{ id: number; word: string }[]>([]);
   const [built, setBuilt] = useState<{ id: number; word: string }[]>([]);
   const [checked, setChecked] = useState<null | boolean>(null);
-  const answer = useAnswer("all");
+  const answer = useAnswer();
 
   useEffect(() => {
     setTiles(shuffle(targetWords.map((word, id) => ({ id, word }))));

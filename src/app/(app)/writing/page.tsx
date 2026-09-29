@@ -1,22 +1,22 @@
 import { requireActiveUser } from "@/lib/auth/current-user";
 import Link from "next/link";
 import { getDictionary, getLocale } from "@/lib/i18n";
-import { listActivePrompts } from "@/lib/data/writing";
+import { listActivePromptsWithResources, typingSummary } from "@/lib/data/writing";
+import { timed } from "@/lib/observability/timing";
 import { Card } from "@/components/ui/Card";
 import { StartPromptButton } from "@/components/writing/StartPromptButton";
 import { TypingTrainer } from "@/components/writing/TypingTrainer";
-import { typingSummary } from "@/lib/data/writing";
 import { ResourceBlocks } from "@/components/resources/ResourceBlocks";
-import { listResourceBlocksForOwners } from "@/lib/data/resources";
 
 export default async function WritingPage() {
-  const user = await requireActiveUser();
+  const [user, locale] = await Promise.all([requireActiveUser(), getLocale()]);
   if (!user) return null;
 
-  const dict = getDictionary(await getLocale());
-  const [prompts, typing] = await Promise.all([listActivePrompts(), typingSummary(user.id)]);
-  // One query for every prompt on the page, not one per card.
-  const materials = await listResourceBlocksForOwners("writing", prompts.map((p) => p.id));
+  const dict = getDictionary(locale);
+  const [{ prompts, materials }, typing] = await Promise.all([
+    timed("writing.promptsAndResources", listActivePromptsWithResources),
+    timed("writing.typingSummary", () => typingSummary(user.id)),
+  ]);
 
   return (
     <div className="mx-auto flex max-w-4xl flex-col gap-6">

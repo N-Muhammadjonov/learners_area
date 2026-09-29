@@ -9,9 +9,9 @@ import { ProgressBar } from "@/components/ui/ProgressBar";
 import { MASTERY_SESSIONS } from "@/lib/services/grammar/mastery";
 
 export default async function GrammarPage() {
-  const user = await requireActiveUser();
+  const [user, locale] = await Promise.all([requireActiveUser(), getLocale()]);
   if (!user) return null;
-  const dict = getDictionary(await getLocale());
+  const dict = getDictionary(locale);
   const rows = await getTopicMastery(user.id);
 
   return (

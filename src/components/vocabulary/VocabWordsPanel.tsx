@@ -202,7 +202,7 @@ export function VocabWordsPanel({
         packs={packs}
         onAdded={async (result) => {
           setNotice(
-            `${t.add.added}: ${result.added} · ${result.duplicates} ${t.add.duplicates} · +${result.points} ${t.board.points}`
+            `${t.add.added}: ${result.added} · ${result.duplicates} ${t.add.duplicates}`
           );
           await reload();
           onRefresh();

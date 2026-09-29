@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n/en";
 import { VocabWordsPanel } from "./VocabWordsPanel";
 import { VocabRevisionPanel } from "./VocabRevisionPanel";
-import { VocabGamesPanel } from "./VocabGamesPanel";
 import { VocabUsePanel } from "./VocabUsePanel";
 import { VocabBoardPanel } from "./VocabBoardPanel";
 import type { TabKey, VocabStudioData, VocabWord } from "./types";
@@ -47,10 +46,14 @@ export function VocabStudio({ dict, data }: { dict: Dictionary; data: VocabStudi
   );
 
   const openTab = useCallback((next: TabKey) => {
+    if (next === "games") {
+      router.push("/vocabulary/games");
+      return;
+    }
     setTab(next);
     const url = next === "words" ? "/vocabulary" : `/vocabulary?tab=${next}`;
     window.history.replaceState(null, "", url);
-  }, []);
+  }, [router]);
 
   return (
     <div className="mx-auto flex w-full max-w-6xl flex-col gap-4">
@@ -116,7 +119,6 @@ export function VocabStudio({ dict, data }: { dict: Dictionary; data: VocabStudi
               }}
             />
           )}
-          {tab === "games" && <VocabGamesPanel dict={dict} folders={data.folders} packs={data.packs} />}
           {tab === "use" && <VocabUsePanel dict={dict} initial={data.sentences} onSaved={() => router.refresh()} />}
           {tab === "board" && (
             <VocabBoardPanel dict={dict} standing={data.standing} compact />

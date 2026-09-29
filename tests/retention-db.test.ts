@@ -166,7 +166,7 @@ test("real SRS and wrong game answers count as activity; games cannot advance SR
     const account = await db.query.users.findFirst({ where: eq(users.id, id) });
     assert.ok(account?.lastMeaningfulActivityAt && account.lastMeaningfulActivityAt >= now);
     const afterReview = await db.query.userVocabulary.findFirst({ where: eq(userVocabulary.id, entryId) });
-    const game = await recordGameAnswer({ userId: id, entryId, setKey: "all", eligible: true, submission: { kind: "spelling", text: "wrong" } });
+    const game = await recordGameAnswer({ userId: id, entryId, setKey: "all", gameId: "race", submission: { kind: "spelling", text: "wrong" } });
     assert.equal(game.ok && game.correct, false);
     assert.equal(game.ok && game.awarded, 0);
     assert.deepEqual(await db.query.userVocabulary.findFirst({ where: eq(userVocabulary.id, entryId) }), afterReview, "practice never changes SRS");

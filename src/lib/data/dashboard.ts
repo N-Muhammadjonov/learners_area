@@ -1,4 +1,4 @@
-import { and, asc, desc, eq, gt, lte, ne } from "drizzle-orm";
+import { and, asc, count, desc, eq, gt, lte, ne } from "drizzle-orm";
 import { getCourseRoadmap } from "@/lib/data/roadmap";
 import { isOpen, resolveState, type LessonState } from "@/lib/services/lessons/state";
 import { db } from "@/db/client";
@@ -109,6 +109,7 @@ export async function getDashboardData(userId: string) {
     openAssignments,
     upcoming,
     last,
+    roadmap,
   ] = await Promise.all([
     db.query.onboardingProfiles.findFirst({ where: eq(onboardingProfiles.userId, userId) }),
     // The dashboard shows the latest *evaluation*, together with the name of the
@@ -121,17 +122,17 @@ export async function getDashboardData(userId: string) {
       .orderBy(desc(evaluations.createdAt))
       .limit(1),
     db
-      .select({ id: userVocabulary.id })
+      .select({ value: count() })
       .from(userVocabulary)
       .where(and(eq(userVocabulary.userId, userId), lte(userVocabulary.nextReviewAt, new Date()))),
     computeStreak(userId),
     db
-      .select({ id: writingSubmissions.id })
+      .select({ value: count() })
       .from(writingSubmissions)
       .where(and(eq(writingSubmissions.userId, userId), gt(writingSubmissions.wordCount, 0))),
-    db.select({ id: readingAttempts.id }).from(readingAttempts).where(eq(readingAttempts.userId, userId)),
-    db.select({ id: listeningAttempts.id }).from(listeningAttempts).where(eq(listeningAttempts.userId, userId)),
-    db.select({ id: speakingAttempts.id }).from(speakingAttempts).where(eq(speakingAttempts.userId, userId)),
+    db.select({ value: count() }).from(readingAttempts).where(eq(readingAttempts.userId, userId)),
+    db.select({ value: count() }).from(listeningAttempts).where(eq(listeningAttempts.userId, userId)),
+    db.select({ value: count() }).from(speakingAttempts).where(eq(speakingAttempts.userId, userId)),
     // "My Tasks" is the student's own open assignments, with their real due dates.
     db
       .select()
@@ -146,11 +147,14 @@ export async function getDashboardData(userId: string) {
       .orderBy(asc(liveClasses.scheduledAt))
       .limit(1),
     lastActivity(userId),
+    // The roadmap call used to wait for the dashboard queries above even though
+    // it is independent; overlap it so it does not add another DB round trip to
+    // the navigation's critical path.
+    getCourseRoadmap("ielts", userId),
   ]);
 
   // "What's open now": the lessons the student can actually open today, taken from
   // the same roadmap the course page renders.
-  const roadmap = await getCourseRoadmap("ielts", userId);
   const openLessons = (roadmap?.modules ?? [])
     .flatMap((module) => module.units.flatMap((unit) => unit.lessons.map((lesson) => ({ module, unit, lesson }))))
     .filter(({ lesson }) => isOpen(lesson.state as LessonState))
@@ -167,14 +171,14 @@ export async function getDashboardData(userId: string) {
     openLessons,
     profile: profile ?? null,
     latestEvaluation: latestEvaluationRow[0] ?? null,
-    vocabDueCount: vocabDueCount.length,
+    vocabDueCount: Number(vocabDueCount[0]?.value ?? 0),
     streak,
-    writingAttempts: submissionCount.length,
+    writingAttempts: Number(submissionCount[0]?.value ?? 0),
     skillCounts: {
-      reading: readingCount.length,
-      listening: listeningCount.length,
-      speaking: speakingCount.length,
-      writing: submissionCount.length,
+      reading: Number(readingCount[0]?.value ?? 0),
+      listening: Number(listeningCount[0]?.value ?? 0),
+      speaking: Number(speakingCount[0]?.value ?? 0),
+      writing: Number(submissionCount[0]?.value ?? 0),
     },
     openAssignments: openAssignments.map((row) => ({
       id: row.id,

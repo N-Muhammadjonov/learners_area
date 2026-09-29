@@ -71,17 +71,40 @@ export function gradeSentence(expected: string, submitted: string): boolean {
  *
  *   "spelling"  a typed answer — the server grades it itself
  *   "sentence"  an assembled sentence — the server grades it itself
- *   "self"      the student's own recall judgement ("I knew it"), or a pairing
- *               the browser checked between two of its own cards. The server has
- *               nothing to compare these against, so they are recorded as
- *               practice and earn no points: a claim is not evidence.
+ *   "pair"      the two selected matching-pair entry identities; the server
+ *               checks ownership, selected-set membership, and identity equality
+ *   "self"      the student's own flashcard recall judgement; it earns no points
  */
 export type GameSubmission =
   | { kind: "spelling"; text: string }
   | { kind: "sentence"; text: string }
+  | { kind: "pair"; pairEntryId: string }
   | { kind: "self"; known: boolean };
 
 /** Kinds the server can verify on its own. */
 export function isVerifiableKind(kind: GameSubmission["kind"]): boolean {
-  return kind === "spelling" || kind === "sentence";
+  return kind !== "self";
+}
+
+
+/** A game only accepts submissions its UI can genuinely produce. This prevents
+ * relabelling a flashcard self-assessment as a typed, point-bearing answer. */
+export type VerifiableGameId = "cards" | "choice" | "match" | "gap" | "race" | "translation" | "builder";
+
+export function submissionMatchesGame(gameId: string, kind: GameSubmission["kind"]): boolean {
+  if (gameId === "cards") return kind === "self";
+  if (gameId === "match") return kind === "pair";
+  if (gameId === "builder") return kind === "sentence";
+  if (["choice", "gap", "race", "translation"].includes(gameId)) return kind === "spelling";
+  return false;
+}
+
+/** The server's complete game-point gate; client verdicts are not arguments. */
+export function shouldAwardGamePoint(input: {
+  gameId: string;
+  kind: GameSubmission["kind"];
+  verified: boolean;
+  correct: boolean;
+}): boolean {
+  return input.verified && input.correct && submissionMatchesGame(input.gameId, input.kind);
 }

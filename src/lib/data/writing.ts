@@ -1,12 +1,14 @@
-import { and, desc, eq } from "drizzle-orm";
+import { and, asc, count, desc, eq, max, sql } from "drizzle-orm";
 import { db } from "@/db/client";
-import { isLive, liveWhere } from "@/lib/services/cms/publication";
+import { liveWhere } from "@/lib/services/cms/publication";
 import {
   writingPrompts,
   writingSubmissions,
   writingFeedback,
   typingRuns,
+  resourceBlocks,
 } from "@/db/schema";
+import { toResourceBlockView, type ResourceBlockView } from "@/lib/data/resources";
 
 /**
  * Every prompt, whatever its publication state — for the admin list, where a
@@ -25,6 +27,45 @@ export function listActivePrompts() {
     }),
     orderBy: (p, { asc }) => [asc(p.taskType), asc(p.category)],
   });
+}
+
+/** One query for the live prompts and their attached material map. */
+export async function listActivePromptsWithResources(): Promise<{
+  prompts: (typeof writingPrompts.$inferSelect)[];
+  materials: Map<string, ResourceBlockView[]>;
+}> {
+  const rows = await db
+    .select({ prompt: writingPrompts, resource: resourceBlocks })
+    .from(writingPrompts)
+    .leftJoin(
+      resourceBlocks,
+      and(
+        eq(resourceBlocks.ownerType, "writing"),
+        sql`${resourceBlocks.ownerId} = ${writingPrompts.id}::text`,
+      ),
+    )
+    .where(liveWhere({
+      publicationState: writingPrompts.publicationState,
+      publishAt: writingPrompts.publishAt,
+    }))
+    .orderBy(asc(writingPrompts.taskType), asc(writingPrompts.category), asc(resourceBlocks.position));
+
+  const prompts: (typeof writingPrompts.$inferSelect)[] = [];
+  const materials = new Map<string, ResourceBlockView[]>();
+  const seen = new Set<string>();
+  for (const row of rows) {
+    const prompt = row.prompt;
+    if (!seen.has(prompt.id)) {
+      prompts.push(prompt);
+      seen.add(prompt.id);
+    }
+    if (row.resource) {
+      const existing = materials.get(prompt.id) ?? [];
+      existing.push(toResourceBlockView([row.resource])[0]!);
+      materials.set(prompt.id, existing);
+    }
+  }
+  return { prompts, materials };
 }
 
 export async function getSubmissionDetail(submissionId: string, userId: string) {
@@ -68,23 +109,18 @@ export function listTypingRuns(userId: string, limit = 10) {
  * call site.
  */
 export async function typingSummary(userId: string) {
-  const rows = await db.query.typingRuns.findMany({ where: eq(typingRuns.userId, userId) });
-  const runs = rows.map((row) => ({
-    id: row.id,
-    wpm: Number(row.wpm),
-    accuracy: Number(row.accuracy),
-    durationMs: row.durationMs,
-    createdAt: row.createdAt,
-  }));
-
-  if (runs.length === 0) {
-    return { count: 0, bestWpm: null as number | null, bestAccuracy: null as number | null, runs };
-  }
-
+  const [summary] = await db
+    .select({
+      count: count(),
+      bestWpm: max(typingRuns.wpm),
+      bestAccuracy: max(typingRuns.accuracy),
+    })
+    .from(typingRuns)
+    .where(eq(typingRuns.userId, userId));
+  const total = Number(summary?.count ?? 0);
   return {
-    count: runs.length,
-    bestWpm: Math.max(...runs.map((r) => r.wpm)),
-    bestAccuracy: Math.max(...runs.map((r) => r.accuracy)),
-    runs,
+    count: total,
+    bestWpm: total > 0 && summary?.bestWpm != null ? Number(summary.bestWpm) : null,
+    bestAccuracy: total > 0 && summary?.bestAccuracy != null ? Number(summary.bestAccuracy) : null,
   };
 }

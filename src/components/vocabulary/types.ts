@@ -82,16 +82,15 @@ export type TabKey = "words" | "revision" | "games" | "use" | "board";
 export type GameWord = {
   id: string;
   term: string;
-  /** Every answer the centre accepts for the translation challenge. */
-  acceptedTranslations: string[];
+  /** Only fields needed by the selected game are returned. */
+  acceptedTranslations?: string[];
   definitionEn: string;
-  translationUz: string | null;
-  exampleSentence: string | null;
-  collocations: string | null;
-  partOfSpeech: string | null;
-  mastery: Mastery;
-  intervalDays: number;
-  nextReviewAt: string | Date;
+  translationUz?: string | null;
+  exampleSentence?: string | null;
+  collocations?: string | null;
+  partOfSpeech?: string | null;
+  /** Present only when the saved word has a recorded module source. */
+  sourceType?: string | null;
 };
 
 export type GameSetKey =
@@ -106,9 +105,10 @@ export type GameSetKey =
 
 export type GameSetResponse = {
   key: GameSetKey;
-  label: string;
+  label?: string;
   words: GameWord[];
   count: number;
+  total: number;
   due: number;
   topicPack?: string | null;
   folderId?: string | null;
