@@ -1,90 +1,104 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n/en";
 import type { VocabSentence } from "./types";
 
 type PickerWord = { id: string; term: string; definitionEn: string; translationUz: string | null; mastery: string };
+type LoadStatus = "loading" | "ready" | "error";
 
 /**
  * USE IT — active production, checked by RIWI.
  *
  * The student writes a sentence with a word; the sentence is stored in the bank
- * first and labelled truthfully ("manual"), then evaluated. An accepted sentence
- * is the largest award in the section and moves mastery to ACTIVE, because using
- * a word in your own writing is real evidence. If the evaluator is unavailable
- * the sentence is kept and marked as not evaluated — the bank never claims a
- * judgement that did not happen.
+ * first and labelled truthfully ("manual"), then evaluated. The word picker and
+ * sentence history load and retry independently, so one optional history query
+ * cannot take the authoring control down.
  */
 export function VocabUsePanel({
   dict,
-  initial,
+  initial = [],
+  initialWords = [],
   onSaved,
 }: {
   dict: Dictionary;
-  initial: VocabSentence[];
+  initial?: VocabSentence[];
+  initialWords?: PickerWord[];
   onSaved: (awarded: boolean) => void;
 }) {
   const t = dict.vocabulary;
+  const router = useRouter();
   const [sentences, setSentences] = useState<VocabSentence[]>(initial);
-  const [words, setWords] = useState<PickerWord[]>([]);
-  const [entryId, setEntryId] = useState<string>("");
+  const [words, setWords] = useState<PickerWord[]>(initialWords);
+  const [sentencesStatus, setSentencesStatus] = useState<LoadStatus>("loading");
+  const [wordsStatus, setWordsStatus] = useState<LoadStatus>("loading");
+  const [entryId, setEntryId] = useState<string>(initialWords[0]?.id ?? "");
   const [text, setText] = useState("");
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<{ tone: "good" | "bad" | "info"; text: string } | null>(null);
 
-  useEffect(() => {
-    let cancelled = false;
-    void (async () => {
-      const res = await fetch("/api/vocabulary/sentences");
+  const loadSentences = useCallback(async () => {
+    setSentencesStatus("loading");
+    try {
+      const res = await fetch("/api/vocabulary/sentences?view=history", { cache: "no-store" });
+      if (res.status === 401) router.refresh();
       const payload = await res.json().catch(() => null);
-      if (cancelled || !payload?.ok) return;
-      setWords(payload.words ?? []);
+      if (!res.ok || !payload?.ok) throw new Error("sentence history unavailable");
       setSentences(payload.sentences ?? []);
-      if (!entryId && payload.words?.length) setEntryId(payload.words[0].id);
-    })();
-    return () => {
-      cancelled = true;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+      setSentencesStatus("ready");
+    } catch {
+      setSentencesStatus("error");
+    }
+  }, [router]);
+
+  const loadWords = useCallback(async () => {
+    setWordsStatus("loading");
+    try {
+      const res = await fetch("/api/vocabulary/sentences?view=words&limit=100", { cache: "no-store" });
+      if (res.status === 401) router.refresh();
+      const payload = await res.json().catch(() => null);
+      if (!res.ok || !payload?.ok) throw new Error("Use It word picker unavailable");
+      const nextWords: PickerWord[] = payload.words ?? [];
+      setWords(nextWords);
+      setEntryId((current) => current && nextWords.some((word) => word.id === current) ? current : nextWords[0]?.id ?? "");
+      setWordsStatus("ready");
+    } catch {
+      setWordsStatus("error");
+    }
+  }, [router]);
+
+  useEffect(() => {
+    void loadSentences();
+    void loadWords();
+  }, [loadSentences, loadWords]);
 
   async function submit() {
     if (!entryId || text.trim().length < 3) return;
     setBusy(true);
     setMessage(null);
-    const res = await fetch(`/api/vocabulary/${entryId}/use`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ sentence: text.trim() }),
-    });
-    const payload = await res.json().catch(() => ({}));
-    setBusy(false);
-
-    if (!res.ok) {
+    try {
+      const res = await fetch(`/api/vocabulary/${entryId}/use`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sentence: text.trim() }),
+      });
+      const payload = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setMessage({ tone: "bad", text: t.use.unavailable });
+      } else if (payload.accepted) {
+        setMessage({ tone: "good", text: `${t.use.accepted} · ${t.board.points}: +${payload.points ?? 0} · ${t.use.checkedBy}: ${payload.checkedBy ?? "RIWI"}` });
+        setText("");
+      } else {
+        setMessage({ tone: "info", text: `${t.use.rejected} · ${t.use.checkedBy}: ${payload.checkedBy ?? "RIWI"}` });
+      }
+      onSaved(res.ok && payload.accepted === true && Number(payload.points) > 0);
+      void loadSentences();
+    } catch {
       setMessage({ tone: "bad", text: t.use.unavailable });
-    } else if (payload.accepted) {
-      setMessage({
-        tone: "good",
-        text: `${t.use.accepted} · ${t.board.points}: +${payload.points ?? 0} · ${t.use.checkedBy}: ${payload.checkedBy ?? "RIWI"}`,
-      });
-      setText("");
-    } else {
-      setMessage({
-        tone: "info",
-        text: `${t.use.rejected} · ${t.use.checkedBy}: ${payload.checkedBy ?? "RIWI"}`,
-      });
-    }
-
-    // Refresh score/history as soon as the authoritative award is known; the
-    // independent sentence-list refresh must not delay the ledger update.
-    onSaved(res.ok && payload.accepted === true && Number(payload.points) > 0);
-
-    const refreshed = await fetch("/api/vocabulary/sentences");
-    const latest = await refreshed.json().catch(() => null);
-    if (latest?.ok) {
-      setSentences(latest.sentences ?? []);
-      setWords(latest.words ?? []);
+      onSaved(false);
+    } finally {
+      setBusy(false);
     }
   }
 
@@ -96,9 +110,10 @@ export function VocabUsePanel({
         <h2 className="text-sm font-medium text-ink-900">{t.use.title}</h2>
         <p className="mt-1 text-xs text-ink-500">{t.use.hint}</p>
 
-        {words.length === 0 ? (
-          <p className="mt-3 text-sm text-ink-500">{t.use.noWords}</p>
-        ) : (
+        {wordsStatus === "loading" && <div className="mt-3 h-12 animate-pulse rounded-md bg-ink-50" aria-busy="true" data-async-loading="vocabulary-use-picker" />}
+        {wordsStatus === "error" && <RegionFailure dict={dict} name="use-words" retry={() => void loadWords()} />}
+        {wordsStatus === "ready" && words.length === 0 && <p className="mt-3 text-sm text-ink-500">{t.use.noWords}</p>}
+        {wordsStatus === "ready" && words.length > 0 && (
           <>
             <div className="mt-3 grid gap-2 sm:grid-cols-2">
               <label className="flex flex-col gap-1 text-xs text-ink-500">
@@ -168,9 +183,12 @@ export function VocabUsePanel({
 
       <div className="card p-4">
         <h2 className="text-sm font-medium text-ink-900">{t.use.bank}</h2>
-        {sentences.length === 0 ? (
-          <p className="mt-2 text-sm text-ink-500">{t.use.empty}</p>
-        ) : (
+        {sentencesStatus === "loading" && <div className="mt-2 flex flex-col gap-2" aria-busy="true" data-async-loading="vocabulary-sentence-history">
+          {[0, 1].map((item) => <div key={item} className="h-10 animate-pulse rounded-md bg-ink-50" />)}
+        </div>}
+        {sentencesStatus === "error" && <RegionFailure dict={dict} name="sentence-history" retry={() => void loadSentences()} />}
+        {sentencesStatus === "ready" && sentences.length === 0 && <p className="mt-2 text-sm text-ink-500">{t.use.empty}</p>}
+        {sentencesStatus === "ready" && sentences.length > 0 && (
           <ul className="mt-2 divide-y divide-ink-100" data-sentence-bank>
             {sentences.map((row) => (
               <li key={row.id} className="flex flex-wrap items-start justify-between gap-2 py-3">
@@ -202,6 +220,15 @@ export function VocabUsePanel({
           </ul>
         )}
       </div>
+    </div>
+  );
+}
+
+function RegionFailure({ dict, name, retry }: { dict: Dictionary; name: string; retry: () => void }) {
+  return (
+    <div className="mt-2 flex flex-wrap items-center justify-between gap-2 rounded-md border border-band-bad/30 bg-band-bad/5 px-3 py-2 text-sm" role="alert" data-vocabulary-region-error={name}>
+      <span className="text-ink-700">{dict.errors.unknown}</span>
+      <button type="button" className="btn-secondary" onClick={retry} data-region-retry={name}>{dict.errorPage.retry}</button>
     </div>
   );
 }

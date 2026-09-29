@@ -46,10 +46,14 @@ async function computeStreak(userId: string): Promise<number> {
  * that exact place — and when there is no history at all it says so instead of
  * inventing a suggestion.
  */
+export function getActivityStreak(userId: string): Promise<number> {
+  return computeStreak(userId);
+}
+
 async function lastActivity(userId: string) {
   const [writing, reading, listening, speaking, vocabulary] = await Promise.all([
     db
-      .select({ at: writingSubmissions.updatedAt, id: writingSubmissions.id, promptId: writingSubmissions.promptId })
+      .select({ at: writingSubmissions.updatedAt, id: writingSubmissions.id })
       .from(writingSubmissions)
       .where(eq(writingSubmissions.userId, userId))
       .orderBy(desc(writingSubmissions.updatedAt))
@@ -96,27 +100,34 @@ async function lastActivity(userId: string) {
   return candidates.sort((a, b) => b.at.getTime() - a.at.getTime())[0]!;
 }
 
+/** Dashboard summary regions are independent; one failed widget must not erase the others. */
 export async function getDashboardData(userId: string) {
   const [
-    profile,
-    latestEvaluationRow,
-    vocabDueCount,
-    streak,
-    submissionCount,
-    readingCount,
-    listeningCount,
-    speakingCount,
-    openAssignments,
-    upcoming,
-    last,
-    roadmap,
-  ] = await Promise.all([
-    db.query.onboardingProfiles.findFirst({ where: eq(onboardingProfiles.userId, userId) }),
+    profileResult,
+    latestEvaluationResult,
+    vocabDueResult,
+    streakResult,
+    submissionCountResult,
+    readingCountResult,
+    listeningCountResult,
+    speakingCountResult,
+    assignmentsResult,
+    upcomingResult,
+    lastActivityResult,
+  ] = await Promise.allSettled([
+    db.select({ targetBand: onboardingProfiles.targetBand })
+      .from(onboardingProfiles)
+      .where(eq(onboardingProfiles.userId, userId))
+      .limit(1),
     // The dashboard shows the latest *evaluation*, together with the name of the
     // evaluator that produced it. Teacher feedback is a separate track and is
     // not mixed into this card.
     db
-      .select()
+      .select({
+        overallEstimate: evaluations.overallEstimate,
+        weaknesses: evaluations.weaknesses,
+        checkedByName: evaluations.checkedByName,
+      })
       .from(evaluations)
       .where(eq(evaluations.userId, userId))
       .orderBy(desc(evaluations.createdAt))
@@ -135,27 +146,77 @@ export async function getDashboardData(userId: string) {
     db.select({ value: count() }).from(speakingAttempts).where(eq(speakingAttempts.userId, userId)),
     // "My Tasks" is the student's own open assignments, with their real due dates.
     db
-      .select()
+      .select({
+        id: assignments.id,
+        title: assignments.title,
+        status: assignments.status,
+        dueAt: assignments.dueAt,
+      })
       .from(assignments)
       .where(and(eq(assignments.targetUserId, userId), ne(assignments.status, "completed")))
       .orderBy(asc(assignments.dueAt)),
     db
-      .select({ liveClass: liveClasses })
+      .select({ id: liveClasses.id, title: liveClasses.title, scheduledAt: liveClasses.scheduledAt })
       .from(liveClasses)
       .innerJoin(courses, eq(liveClasses.courseId, courses.id))
       .where(and(eq(courses.slug, "ielts"), eq(liveClasses.status, "upcoming")))
       .orderBy(asc(liveClasses.scheduledAt))
       .limit(1),
     lastActivity(userId),
-    // The roadmap call used to wait for the dashboard queries above even though
-    // it is independent; overlap it so it does not add another DB round trip to
-    // the navigation's critical path.
-    getCourseRoadmap("ielts", userId),
   ]);
 
-  // "What's open now": the lessons the student can actually open today, taken from
-  // the same roadmap the course page renders.
-  const openLessons = (roadmap?.modules ?? [])
+  const countValue = (result: typeof vocabDueResult) =>
+    result.status === "fulfilled" ? Number(result.value[0]?.value ?? 0) : null;
+  const upcomingClass = upcomingResult.status === "fulfilled" ? upcomingResult.value[0] : null;
+
+  return {
+    profile: profileResult.status === "fulfilled" ? profileResult.value[0] ?? null : null,
+    latestEvaluation: latestEvaluationResult.status === "fulfilled" ? latestEvaluationResult.value[0] ?? null : null,
+    vocabDueCount: countValue(vocabDueResult),
+    streak: streakResult.status === "fulfilled" ? streakResult.value : null,
+    writingAttempts: countValue(submissionCountResult),
+    skillCounts: {
+      reading: countValue(readingCountResult),
+      listening: countValue(listeningCountResult),
+      speaking: countValue(speakingCountResult),
+      writing: countValue(submissionCountResult),
+    },
+    openAssignments: assignmentsResult.status === "fulfilled"
+      ? assignmentsResult.value.map((row) => ({
+          id: row.id,
+          title: row.title,
+          status: row.status,
+          dueAt: row.dueAt ? row.dueAt.toISOString() : null,
+        }))
+      : null,
+    nextLiveClass: upcomingClass
+      ? {
+          id: upcomingClass.id,
+          title: upcomingClass.title,
+          scheduledAt: upcomingClass.scheduledAt.toISOString(),
+        }
+      : null,
+    lastActivity: lastActivityResult.status === "fulfilled" ? lastActivityResult.value : null,
+    unavailable: {
+      profile: profileResult.status === "rejected",
+      latestEvaluation: latestEvaluationResult.status === "rejected",
+      vocabDue: vocabDueResult.status === "rejected",
+      streak: streakResult.status === "rejected",
+      writingAttempts: submissionCountResult.status === "rejected",
+      readingAttempts: readingCountResult.status === "rejected",
+      listeningAttempts: listeningCountResult.status === "rejected",
+      speakingAttempts: speakingCountResult.status === "rejected",
+      assignments: assignmentsResult.status === "rejected",
+      nextLiveClass: upcomingResult.status === "rejected",
+      lastActivity: lastActivityResult.status === "rejected",
+    },
+  };
+}
+
+/** The independently streamed "What's open now" roadmap region on Dashboard. */
+export async function getDashboardOpenLessons(userId: string) {
+  const roadmap = await getCourseRoadmap("ielts", userId);
+  return (roadmap?.modules ?? [])
     .flatMap((module) => module.units.flatMap((unit) => unit.lessons.map((lesson) => ({ module, unit, lesson }))))
     .filter(({ lesson }) => isOpen(lesson.state as LessonState))
     .slice(0, 4)
@@ -166,33 +227,4 @@ export async function getDashboardData(userId: string) {
       unitTitle: unit.title,
       state: resolveState(lesson.state as LessonState, "locked"),
     }));
-
-  return {
-    openLessons,
-    profile: profile ?? null,
-    latestEvaluation: latestEvaluationRow[0] ?? null,
-    vocabDueCount: Number(vocabDueCount[0]?.value ?? 0),
-    streak,
-    writingAttempts: Number(submissionCount[0]?.value ?? 0),
-    skillCounts: {
-      reading: Number(readingCount[0]?.value ?? 0),
-      listening: Number(listeningCount[0]?.value ?? 0),
-      speaking: Number(speakingCount[0]?.value ?? 0),
-      writing: Number(submissionCount[0]?.value ?? 0),
-    },
-    openAssignments: openAssignments.map((row) => ({
-      id: row.id,
-      title: row.title,
-      status: row.status,
-      dueAt: row.dueAt ? row.dueAt.toISOString() : null,
-    })),
-    nextLiveClass: upcoming[0]?.liveClass
-      ? {
-          id: upcoming[0].liveClass.id,
-          title: upcoming[0].liveClass.title,
-          scheduledAt: upcoming[0].liveClass.scheduledAt.toISOString(),
-        }
-      : null,
-    lastActivity: last,
-  };
 }

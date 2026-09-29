@@ -75,6 +75,34 @@ export type LibraryItem = {
   createdAt: Date;
 };
 
+/** Entry/card fields only; do not hydrate auth, identity, or unused SRS columns. */
+const librarySelection = {
+  entry: {
+    id: userVocabulary.id,
+    mastery: userVocabulary.mastery,
+    srsStage: userVocabulary.srsStage,
+    intervalDays: userVocabulary.intervalDays,
+    nextReviewAt: userVocabulary.nextReviewAt,
+    correctCount: userVocabulary.correctCount,
+    incorrectCount: userVocabulary.incorrectCount,
+    activeUseCount: userVocabulary.activeUseCount,
+    folderId: userVocabulary.folderId,
+    topicPack: userVocabulary.topicPack,
+    sourceType: userVocabulary.sourceType,
+    sourceSnapshot: userVocabulary.sourceSnapshot,
+    createdAt: userVocabulary.createdAt,
+  },
+  lexeme: {
+    term: lexemes.term,
+    acceptedTranslations: lexemes.acceptedTranslations,
+    partOfSpeech: lexemes.partOfSpeech,
+    definitionEn: lexemes.definitionEn,
+    translationUz: lexemes.translationUz,
+    exampleSentence: lexemes.exampleSentence,
+    collocations: lexemes.collocations,
+  },
+};
+
 export async function listLibrary(
   userId: string,
   filter?: {
@@ -98,7 +126,7 @@ export async function listLibrary(
     conditions.push(eq(userVocabulary.sourceType, filter.sourceType));
 
   const rows = await db
-    .select({ entry: userVocabulary, lexeme: lexemes })
+    .select(librarySelection)
     .from(userVocabulary)
     .innerJoin(lexemes, eq(userVocabulary.lexemeId, lexemes.id))
     .where(and(...conditions))
@@ -135,7 +163,7 @@ export async function listDue(
   limit = 20,
 ): Promise<LibraryItem[]> {
   const rows = await db
-    .select({ entry: userVocabulary, lexeme: lexemes })
+    .select(librarySelection)
     .from(userVocabulary)
     .innerJoin(lexemes, eq(userVocabulary.lexemeId, lexemes.id))
     .where(
@@ -1081,16 +1109,34 @@ export async function wordsFromSource(
 
 /** Counters for the dashboard, all computed from real rows. */
 export async function librarySummary(userId: string) {
-  const all = await listLibrary(userId);
-  const due = all.filter((item) => item.nextReviewAt.getTime() <= Date.now());
-  const byMastery = all.reduce<Record<string, number>>((acc, item) => {
-    acc[item.mastery] = (acc[item.mastery] ?? 0) + 1;
-    return acc;
-  }, {});
-  return {
-    total: all.length,
-    due: due.length,
-    byMastery,
-    nextDueAt: due.length ? due[0]!.nextReviewAt : null,
-  };
+  // One bounded aggregate returns the global counters plus complete source
+  // counts. Never fetch complete word rows just to fill summary/map widgets.
+  const rows = await db
+    .select({
+      mastery: userVocabulary.mastery,
+      sourceType: userVocabulary.sourceType,
+      total: sql<number>`count(*)::int`,
+      due: sql<number>`count(*) filter (where ${userVocabulary.nextReviewAt} <= now())::int`,
+      nextDueAt: sql<Date | null>`min(${userVocabulary.nextReviewAt}) filter (where ${userVocabulary.nextReviewAt} <= now())`,
+    })
+    .from(userVocabulary)
+    .where(eq(userVocabulary.userId, userId))
+    .groupBy(userVocabulary.mastery, userVocabulary.sourceType);
+
+  const byMastery: Record<string, number> = { new: 0, learning: 0, known: 0, active: 0, mastered: 0 };
+  const bySource: Record<string, number> = {};
+  let total = 0;
+  let due = 0;
+  let nextDueAt: Date | null = null;
+  for (const row of rows) {
+    const rowTotal = Number(row.total);
+    total += rowTotal;
+    due += Number(row.due);
+    if (row.mastery in byMastery) byMastery[row.mastery] = (byMastery[row.mastery] ?? 0) + rowTotal;
+    const source = row.sourceType ?? "manual";
+    bySource[source] = (bySource[source] ?? 0) + rowTotal;
+    if (row.nextDueAt && (!nextDueAt || row.nextDueAt < nextDueAt)) nextDueAt = row.nextDueAt;
+  }
+
+  return { total, due, byMastery, bySource, nextDueAt };
 }

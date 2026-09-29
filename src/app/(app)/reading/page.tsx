@@ -8,6 +8,7 @@ import { ReadingFilters } from "@/components/reading/ReadingFilters";
 import { ReadingPassageCard } from "@/components/reading/ReadingPassageCard";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { IconChevronRight, IconReading, IconRetention } from "@/components/ui/icons";
+import { RegionFailureNotice } from "@/components/interaction/RegionFailureNotice";
 
 export const metadata = { title: "Reading" };
 
@@ -22,11 +23,19 @@ async function ReadingWorkspace({ userId, lang, dict, tab, filter }: {
   tab: Tab;
   filter: ReadingFilter;
 }) {
-  const [counts, facets, library] = await Promise.all([
+  const [countsResult, facetsResult, libraryResult] = await Promise.allSettled([
     readingHubCounts(userId),
     tab === "academic" || tab === "types" ? listLibraryFacets() : Promise.resolve({ topics: [], types: [] }),
     tab === "academic" ? listLibrary(userId, filter) : Promise.resolve(null),
   ]);
+  // The selected view's library is core. Counts and filters/facets are
+  // secondary metadata: their failures stay local and do not hide passages.
+  if (libraryResult.status === "rejected") throw libraryResult.reason;
+  const countsUnavailable = countsResult.status === "rejected";
+  const counts = countsUnavailable ? null : countsResult.value;
+  const facetsUnavailable = facetsResult.status === "rejected";
+  const facets = facetsUnavailable ? { topics: [], types: [] } : facetsResult.value;
+  const library = libraryResult.value;
 
   const tabHref = (next: Tab) => {
     const search = new URLSearchParams();
@@ -35,7 +44,7 @@ async function ReadingWorkspace({ userId, lang, dict, tab, filter }: {
   };
 
   const tabItems: { key: Tab; label: string; count?: number }[] = [
-    { key: "academic", label: dict.readingHub.tabAcademic, count: counts.total },
+    { key: "academic", label: dict.readingHub.tabAcademic, count: counts?.total },
     { key: "videos", label: dict.readingHub.tabVideos },
     { key: "general", label: dict.readingHub.tabGeneral },
     { key: "types", label: dict.readingHub.tabTypes, count: facets.types.length },
@@ -44,10 +53,20 @@ async function ReadingWorkspace({ userId, lang, dict, tab, filter }: {
 
   return (
     <div className="flex flex-col gap-8" data-reading-content data-async-content="reading">
+      {countsUnavailable && (
+        <RegionFailureNotice region="reading-hub-counts" message={dict.errors.unknown} retryLabel={dict.errorPage.retry} />
+      )}
+      {facetsUnavailable && (tab === "academic" || tab === "types") && (
+        <RegionFailureNotice
+          region="reading-library-facets"
+          message={dict.errors.unknown}
+          retryLabel={dict.errorPage.retry}
+        />
+      )}
       <header className="flex flex-col gap-2">
         {/* The passage count is from the DB, never a number typed into copy. */}
         <p className="page-subtitle">
-          {counts.total > 0
+          {counts && counts.total > 0
             ? dict.readingHub.subtitleWithCount.replace("{n}", String(counts.total))
             : dict.readingHub.subtitle}
         </p>
@@ -91,7 +110,7 @@ async function ReadingWorkspace({ userId, lang, dict, tab, filter }: {
             <h2 className="section-title">{dict.readingHub.typesTitle}</h2>
             <p className="body-text">{dict.readingHub.typesHint}</p>
           </div>
-          {facets.types.length === 0 ? <EmptyState icon="◆" title={dict.readingHub.typesEmpty} /> : (
+          {facetsUnavailable ? null : facets.types.length === 0 ? <EmptyState icon="◆" title={dict.readingHub.typesEmpty} /> : (
             <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
               {facets.types.map((type) => (
                 <li key={type.code} className="panel flex flex-col gap-2">

@@ -6,6 +6,7 @@ import {
   summarizeTopicMastery,
   type AttemptRow,
   type GrammarActivity,
+  type TopicMastery,
 } from "@/lib/services/grammar/mastery";
 
 /** Learner surfaces expose shared content and only the caller's essay-derived work.
@@ -22,7 +23,9 @@ export function getGrammarExerciseForUser(id: string, userId: string) {
 }
 
 export function listTopics() {
-  return db.query.grammarTopics.findMany({ orderBy: asc(grammarTopics.order) });
+  return db.select({ id: grammarTopics.id, title: grammarTopics.title, order: grammarTopics.order })
+    .from(grammarTopics)
+    .orderBy(asc(grammarTopics.order));
 }
 
 export async function getTopicWithExercises(topicId: string, userId: string) {
@@ -40,18 +43,16 @@ export async function getTopicWithExercises(topicId: string, userId: string) {
 /**
  * Mastery per topic, computed from the attempt rows themselves.
  *
- * "Mastery" is not a stored flag: it is re-derived every time from the attempts
- * (latest per exercise and activity, three separate Asia/Tashkent days, ~80%
- * accuracy across all three activities). A stored counter would eventually
- * disagree with the history that produced it.
+ * Topics and visible exercises are the section core. Learner attempts are a
+ * secondary mastery panel: an unavailable history must not hide the topics or
+ * practice links, and is represented as unavailable rather than a false zero.
  */
 export async function getTopicMastery(userId: string) {
-  // Topics, visible exercises, and this caller's attempts can be read together.
-  // The join preserves the prior authorized exercise-id constraint without
-  // waiting for a potentially large exercise list before starting the history read.
-  const [topics, exercises, attempts] = await Promise.all([
+  const [topicsResult, exercisesResult, attemptsResult] = await Promise.allSettled([
     timed("grammar.topics", () => listTopics()),
-    timed("grammar.exercises", () => db.query.grammarExercises.findMany({ where: grammarVisibleTo(userId) })),
+    timed("grammar.exercises", () => db.select({ id: grammarExercises.id, topicId: grammarExercises.topicId })
+      .from(grammarExercises)
+      .where(grammarVisibleTo(userId))),
     timed("grammar.attempts", () => db
       .select({
         exerciseId: grammarAttempts.exerciseId,
@@ -64,39 +65,48 @@ export async function getTopicMastery(userId: string) {
       .where(and(eq(grammarAttempts.userId, userId), grammarVisibleTo(userId)))),
   ]);
 
+  // Topic/exercise data defines the usable Grammar catalogue; preserve a local
+  // section error for those failures while treating only mastery as optional.
+  if (topicsResult.status === "rejected") throw topicsResult.reason;
+  if (exercisesResult.status === "rejected") throw exercisesResult.reason;
+
+  const topics = topicsResult.value;
+  const exercises = exercisesResult.value;
+  const attempts = attemptsResult.status === "fulfilled" ? attemptsResult.value : [];
   const exercisesByTopic = new Map<string, string[]>();
-  for (const e of exercises) {
-    const list = exercisesByTopic.get(e.topicId) ?? [];
-    list.push(e.id);
-    exercisesByTopic.set(e.topicId, list);
+  for (const exercise of exercises) {
+    const list = exercisesByTopic.get(exercise.topicId) ?? [];
+    list.push(exercise.id);
+    exercisesByTopic.set(exercise.topicId, list);
   }
 
   return topics.map((topic) => {
     const ids = new Set(exercisesByTopic.get(topic.id) ?? []);
     const rows: AttemptRow[] = attempts
-      .filter((a) => ids.has(a.exerciseId))
-      .map((a) => ({
-        exerciseId: a.exerciseId,
-        activity: a.activity as GrammarActivity,
-        isCorrect: a.isCorrect,
-        attemptedAt: a.attemptedAt,
+      .filter((attempt) => ids.has(attempt.exerciseId))
+      .map((attempt) => ({
+        exerciseId: attempt.exerciseId,
+        activity: attempt.activity as GrammarActivity,
+        isCorrect: attempt.isCorrect,
+        attemptedAt: attempt.attemptedAt,
       }));
 
     return {
       topic,
       totalExercises: ids.size,
-      mastery: summarizeTopicMastery(rows),
+      mastery: attemptsResult.status === "fulfilled" ? summarizeTopicMastery(rows) : null as TopicMastery | null,
+      masteryUnavailable: attemptsResult.status === "rejected",
     };
   });
 }
 
 /** The same summary for one topic, for the topic page's mastery card. */
 export async function getTopicMasteryFor(userId: string, topicId: string) {
-  const [exercises, attempts] = await Promise.all([
-    db.query.grammarExercises.findMany({
-      where: and(eq(grammarExercises.topicId, topicId), grammarVisibleTo(userId)),
-    }),
-    db.select({
+  try {
+    // Topic detail already loads its visible exercise rows. The joined predicate
+    // keeps the attempt read within the same ownership boundary without reading
+    // that exercise catalogue a second time.
+    const attempts = await db.select({
       exerciseId: grammarAttempts.exerciseId,
       activity: grammarAttempts.activity,
       isCorrect: grammarAttempts.isCorrect,
@@ -108,15 +118,17 @@ export async function getTopicMasteryFor(userId: string, topicId: string) {
         eq(grammarAttempts.userId, userId),
         eq(grammarExercises.topicId, topicId),
         grammarVisibleTo(userId),
-      )),
-  ]);
+      ));
 
-  const rows: AttemptRow[] = attempts.map((a) => ({
-    exerciseId: a.exerciseId,
-    activity: a.activity as GrammarActivity,
-    isCorrect: a.isCorrect,
-    attemptedAt: a.attemptedAt,
-  }));
+    const rows: AttemptRow[] = attempts.map((attempt) => ({
+      exerciseId: attempt.exerciseId,
+      activity: attempt.activity as GrammarActivity,
+      isCorrect: attempt.isCorrect,
+      attemptedAt: attempt.attemptedAt,
+    }));
 
-  return { topicId, totalExercises: exercises.length, mastery: summarizeTopicMastery(rows) };
+    return { topicId, mastery: summarizeTopicMastery(rows), unavailable: false as const };
+  } catch {
+    return { topicId, mastery: null, unavailable: true as const };
+  }
 }

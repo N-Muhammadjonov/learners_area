@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Dictionary } from "@/lib/i18n/en";
 import { collocationChips, toDate } from "./types";
 import type { Mastery, VocabFolder, VocabPack, VocabWord } from "./types";
@@ -10,8 +10,10 @@ type Summary = {
   total: number;
   due: number;
   byMastery: Record<string, number>;
+  bySource: Record<string, number>;
   nextDueAt: string | Date | null;
 };
+type LoadStatus = "idle" | "loading" | "ready" | "error";
 
 const MASTERY_TONE: Record<string, string> = {
   new: "badge bg-ink-100 text-ink-500",
@@ -34,26 +36,43 @@ export function VocabWordsPanel({
   dict,
   words,
   folders,
+  foldersStatus,
+  onRetryFolders,
   packs,
   summary,
+  summaryStatus,
+  onRetrySummary,
+  hasMore,
+  loadingMore,
+  loadMoreError,
+  onLoadMore,
   onRefresh,
 }: {
   dict: Dictionary;
   words: VocabWord[];
   folders: VocabFolder[];
+  foldersStatus: LoadStatus;
+  onRetryFolders: () => void;
   packs: VocabPack[];
-  summary: Summary;
-  onRefresh: () => void;
+  summary: Summary | null;
+  summaryStatus: LoadStatus;
+  onRetrySummary: () => void;
+  hasMore: boolean;
+  loadingMore: boolean;
+  loadMoreError: boolean;
+  onLoadMore: () => void;
+  onRefresh: () => Promise<void>;
 }) {
   const t = dict.vocabulary;
   const [rows, setRows] = useState<VocabWord[]>(words);
-  const [total, setTotal] = useState(summary.total);
   const [folderFilter, setFolderFilter] = useState<string | "all">("all");
   const [masteryFilter, setMasteryFilter] = useState<"all" | "due" | "weak">("all");
   const [stateFilter, setStateFilter] = useState<Mastery | "all">("all");
   const [sourceFilter, setSourceFilter] = useState<string | "all">("all");
   const [openId, setOpenId] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
+
+  useEffect(() => setRows(words), [words]);
 
   const visible = useMemo(() => {
     let list = rows;
@@ -80,47 +99,48 @@ export function VocabWordsPanel({
    * so the map is how you navigate the library rather than a picture of it.
    */
   const bySource = useMemo(() => {
+    if (summary) return Object.entries(summary.bySource).sort((a, b) => b[1] - a[1]);
     const counts = new Map<string, number>();
     for (const word of rows) {
       const key = word.sourceType ?? "manual";
       counts.set(key, (counts.get(key) ?? 0) + 1);
     }
     return [...counts.entries()].sort((a, b) => b[1] - a[1]);
-  }, [rows]);
+  }, [rows, summary]);
 
   const byState: { state: Mastery; count: number }[] = useMemo(
     () =>
       (["new", "learning", "known", "active", "mastered"] as const).map((state) => ({
         state,
-        count: rows.filter((word) => word.mastery === state).length,
+        count: summary?.byMastery[state] ?? rows.filter((word) => word.mastery === state).length,
       })),
-    [rows]
+    [rows, summary]
   );
 
   const mapFiltered = stateFilter !== "all" || sourceFilter !== "all";
+  const completeMap = Boolean(summary) || !hasMore;
 
-  async function reload() {
-    const res = await fetch("/api/vocabulary?limit=200");
-    const payload = await res.json().catch(() => null);
-    if (payload?.words) {
-      setRows(payload.words);
-      setTotal(payload.total ?? payload.words.length);
-    }
-  }
-
-  const known = summary.byMastery.known ?? 0;
-  const mastered = summary.byMastery.mastered ?? 0;
-  const active = summary.byMastery.active ?? 0;
+  const known = summary?.byMastery.known ?? 0;
+  const mastered = summary?.byMastery.mastered ?? 0;
+  const active = summary?.byMastery.active ?? 0;
+  const displayTotal = summary?.total ?? "—";
+  const displayDue = summary?.due ?? "—";
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
-        <Stat label={t.summary.words} value={total} />
-        <Stat label={t.summary.known} value={known} />
-        <Stat label={t.summary.active} value={active} />
-        <Stat label={t.summary.mastered} value={mastered} />
-        <Stat label={t.summary.dueToday} value={summary.due} tone={summary.due > 0 ? "warn" : undefined} />
-      </div>
+      <section data-vocabulary-secondary="summary" aria-label={t.summary.words}>
+        {summary && <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
+          <Stat label={t.summary.words} value={displayTotal} />
+          <Stat label={t.summary.known} value={known} />
+          <Stat label={t.summary.active} value={active} />
+          <Stat label={t.summary.mastered} value={mastered} />
+          <Stat label={t.summary.dueToday} value={displayDue} tone={summary.due > 0 ? "warn" : undefined} />
+        </div>}
+        {!summary && summaryStatus === "loading" && <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5" aria-busy="true" data-async-loading="vocabulary-summary">
+          {[0, 1, 2, 3, 4].map((item) => <div key={item} className="h-[68px] animate-pulse rounded-xl bg-ink-50" />)}
+        </div>}
+        {summaryStatus === "error" && <InlineRegionFailure dict={dict} name="summary" retry={onRetrySummary} />}
+      </section>
 
       <div className="card flex flex-col gap-3 p-4" data-word-map>
         <div className="flex flex-wrap items-center justify-between gap-2">
@@ -140,60 +160,66 @@ export function VocabWordsPanel({
           )}
         </div>
 
-        <div>
-          <p className="mb-1 text-xs uppercase tracking-wide text-ink-300">{t.map.byState}</p>
-          <div className="flex flex-wrap gap-2">
-            {byState.map((row) => (
-              <button
-                key={row.state}
-                type="button"
-                data-word-map-state={row.state}
-                data-word-map-count={row.count}
-                aria-pressed={stateFilter === row.state}
-                onClick={() => setStateFilter((current) => (current === row.state ? "all" : row.state))}
-                className={`flex items-center gap-2 rounded-sm border px-2 py-1 text-xs ${
-                  stateFilter === row.state
-                    ? "border-signal-600 bg-signal-50 text-ink-900"
-                    : "border-ink-100 text-ink-700 hover:bg-paper-sunken"
-                }`}
-              >
-                <span>{t.mastery[row.state]}</span>
-                <span className="font-mono text-ink-500">{row.count}</span>
-              </button>
-            ))}
-          </div>
-        </div>
+        {completeMap ? (
+          <>
+            <div>
+              <p className="mb-1 text-xs uppercase tracking-wide text-ink-300">{t.map.byState}</p>
+              <div className="flex flex-wrap gap-2">
+                {byState.map((row) => (
+                  <button
+                    key={row.state}
+                    type="button"
+                    data-word-map-state={row.state}
+                    data-word-map-count={row.count}
+                    aria-pressed={stateFilter === row.state}
+                    onClick={() => setStateFilter((current) => (current === row.state ? "all" : row.state))}
+                    className={`flex items-center gap-2 rounded-sm border px-2 py-1 text-xs ${
+                      stateFilter === row.state
+                        ? "border-signal-600 bg-signal-50 text-ink-900"
+                        : "border-ink-100 text-ink-700 hover:bg-paper-sunken"
+                    }`}
+                  >
+                    <span>{t.mastery[row.state]}</span>
+                    <span className="font-mono text-ink-500">{row.count}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
 
-        <div>
-          <p className="mb-1 text-xs uppercase tracking-wide text-ink-300">{t.map.bySource}</p>
-          <div className="flex flex-wrap gap-2">
-            {bySource.length === 0 ? (
-              <span className="text-xs text-ink-300" data-word-map-empty>
-                {t.map.empty}
-              </span>
-            ) : (
-              bySource.map(([source, count]) => (
-                <button
-                  key={source}
-                  type="button"
-                  data-word-map-source={source}
-                  data-word-map-count={count}
-                  aria-pressed={sourceFilter === source}
-                  onClick={() => setSourceFilter((current) => (current === source ? "all" : source))}
-                  className={`flex items-center gap-2 rounded-sm border px-2 py-1 text-xs ${
-                    sourceFilter === source
-                      ? "border-signal-600 bg-signal-50 text-ink-900"
-                      : "border-ink-100 text-ink-700 hover:bg-paper-sunken"
-                  }`}
-                >
-                  <span>{t.sources[source as keyof typeof t.sources] ?? source}</span>
-                  <span className="font-mono text-ink-500">{count}</span>
-                </button>
-              ))
-            )}
-          </div>
-        </div>
-        <p className="text-xs text-ink-300">{t.map.hint}</p>
+            <div>
+              <p className="mb-1 text-xs uppercase tracking-wide text-ink-300">{t.map.bySource}</p>
+              <div className="flex flex-wrap gap-2">
+                {bySource.length === 0 ? (
+                  <span className="text-xs text-ink-300" data-word-map-empty>{t.map.empty}</span>
+                ) : (
+                  bySource.map(([source, count]) => (
+                    <button
+                      key={source}
+                      type="button"
+                      data-word-map-source={source}
+                      data-word-map-count={count}
+                      aria-pressed={sourceFilter === source}
+                      onClick={() => setSourceFilter((current) => (current === source ? "all" : source))}
+                      className={`flex items-center gap-2 rounded-sm border px-2 py-1 text-xs ${
+                        sourceFilter === source
+                          ? "border-signal-600 bg-signal-50 text-ink-900"
+                          : "border-ink-100 text-ink-700 hover:bg-paper-sunken"
+                      }`}
+                    >
+                      <span>{t.sources[source as keyof typeof t.sources] ?? source}</span>
+                      <span className="font-mono text-ink-500">{count}</span>
+                    </button>
+                  ))
+                )}
+              </div>
+            </div>
+            <p className="text-xs text-ink-300">{t.map.hint}</p>
+          </>
+        ) : (
+          <p className="text-xs text-ink-500" data-word-map-incomplete>
+            {summaryStatus === "error" ? dict.errors.unknown : dict.common.loading}
+          </p>
+        )}
       </div>
 
       <AddWords
@@ -204,8 +230,7 @@ export function VocabWordsPanel({
           setNotice(
             `${t.add.added}: ${result.added} · ${result.duplicates} ${t.add.duplicates}`
           );
-          await reload();
-          onRefresh();
+          await onRefresh();
         }}
       />
 
@@ -215,21 +240,19 @@ export function VocabWordsPanel({
         </p>
       )}
 
-      <Folders
-        dict={dict}
-        folders={folders}
-        active={folderFilter}
-        onPick={setFolderFilter}
-        onCreated={async () => {
-          await reload();
-          onRefresh();
-        }}
-        onMoved={async () => {
-          await reload();
-          onRefresh();
-        }}
-        words={visible}
-      />
+      <section data-vocabulary-secondary="folders" aria-label={t.folders.title}>
+        {(foldersStatus === "idle" || foldersStatus === "loading") && <div aria-busy="true" data-async-loading="vocabulary-folders" className="h-16 animate-pulse rounded-xl bg-ink-50" />}
+        {foldersStatus === "error" && <InlineRegionFailure dict={dict} name="folders" retry={onRetryFolders} />}
+        {foldersStatus === "ready" && <Folders
+          dict={dict}
+          folders={folders}
+          active={folderFilter}
+          onPick={setFolderFilter}
+          onCreated={onRefresh}
+          onMoved={onRefresh}
+          words={visible}
+        />}
+      </section>
 
       <div className="card p-4">
         <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
@@ -321,17 +344,10 @@ export function VocabWordsPanel({
             })}
           </ul>
         )}
-        {total > rows.length && (
-          <button
-            type="button"
-            className="btn-secondary mt-3"
-            onClick={async () => {
-              const res = await fetch(`/api/vocabulary?limit=200&offset=${rows.length}`);
-              const payload = await res.json().catch(() => null);
-              if (payload?.words) setRows((current) => [...current, ...payload.words]);
-            }}
-          >
-            {t.add.more}
+        {loadMoreError && <InlineRegionFailure dict={dict} name="library-page" retry={onLoadMore} />}
+        {hasMore && (
+          <button type="button" className="btn-secondary mt-3" disabled={loadingMore} onClick={onLoadMore} data-library-load-more>
+            {loadingMore ? dict.common.loading : t.add.more}
           </button>
         )}
       </div>
@@ -339,13 +355,22 @@ export function VocabWordsPanel({
   );
 }
 
-function Stat({ label, value, tone }: { label: string; value: number; tone?: "warn" }) {
+function Stat({ label, value, tone }: { label: string; value: number | string; tone?: "warn" }) {
   return (
     <div className="card p-3">
       <p className="text-xs uppercase tracking-wide text-ink-300">{label}</p>
       <p className={`mt-1 font-display text-xl ${tone === "warn" ? "text-band-warn" : "text-ink-900"}`}>
         {value}
       </p>
+    </div>
+  );
+}
+
+function InlineRegionFailure({ dict, name, retry }: { dict: Dictionary; name: string; retry: () => void }) {
+  return (
+    <div className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-band-bad/30 bg-band-bad/5 px-3 py-2 text-sm" role="alert" data-vocabulary-region-error={name}>
+      <span className="text-ink-700">{dict.errors.unknown}</span>
+      <button type="button" className="btn-secondary" onClick={retry} data-region-retry={name}>{dict.errorPage.retry}</button>
     </div>
   );
 }

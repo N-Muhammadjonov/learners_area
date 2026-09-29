@@ -10,13 +10,17 @@ import {
 import { isLive, liveWhere } from "@/lib/services/cms/publication";
 
 export function listActiveTests() {
-  return db.query.listeningTests.findMany({
-    where: liveWhere({
+  return db.select({
+    id: listeningTests.id,
+    title: listeningTests.title,
+    difficultyLevel: listeningTests.difficultyLevel,
+  })
+    .from(listeningTests)
+    .where(liveWhere({
       publicationState: listeningTests.publicationState,
       publishAt: listeningTests.publishAt,
-    }),
-    orderBy: asc(listeningTests.createdAt),
-  });
+    }))
+    .orderBy(asc(listeningTests.createdAt));
 }
 
 /** As with Reading: a test a student may begin, and only that. */

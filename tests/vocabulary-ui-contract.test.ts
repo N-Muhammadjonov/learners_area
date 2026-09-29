@@ -21,7 +21,7 @@ test("Games is a lightweight library with history-aware dedicated routes for all
   assert.match(studio, /setTab\(next\)/);
   assert.doesNotMatch(studio, /<VocabGamesPanel/);
   const route = vocabPage.slice(vocabPage.indexOf("export default async function VocabularyPage"));
-  assert.ok(route.indexOf('if (params.tab === "games") redirect') < route.indexOf("<VocabularyWorkspace"), "the legacy Games query redirects before Studio data is rendered");
+  assert.ok(route.indexOf('if (value === "games") redirect') < route.indexOf("<VocabStudio"), "the legacy Games query redirects before Studio data is rendered");
   for (const gameId of ["cards", "choice", "match", "gap", "race", "translation", "builder"]) {
     assert.ok(panel.includes(`gameId === "${gameId}"`), `${gameId} has a dedicated view branch`);
   }
@@ -79,7 +79,8 @@ test("Vocabulary points refresh only after an authoritative positive award", () 
   const revision = read("src/components/vocabulary/VocabRevisionPanel.tsx");
   const board = read("src/components/vocabulary/VocabBoardPanel.tsx");
   assert.match(usePanel, /onSaved\(res\.ok && payload\.accepted === true && Number\(payload\.points\) > 0\)/);
-  assert.ok(usePanel.indexOf("onSaved(res.ok") < usePanel.indexOf('fetch("\/api\/vocabulary\/sentences")', usePanel.indexOf("onSaved(res.ok")), "the ledger refresh is not blocked on a separate sentence-list request");
+  const savedAt = usePanel.indexOf("onSaved(res.ok");
+  assert.ok(savedAt >= 0 && savedAt < usePanel.indexOf("void loadSentences()", savedAt), "the ledger refresh is not blocked on a separate sentence-list request");
   assert.match(studio, /onSaved=\{\(awarded\) => \{\s*if \(awarded\) window\.dispatchEvent/);
   assert.match(revision, /onFinished: \(remaining: number, pointsAwarded: number\)/);
   assert.match(studio, /if \(pointsAwarded > 0\) window\.dispatchEvent/);
@@ -126,12 +127,15 @@ test("navigation acknowledges immediately, and automatic prefetch stops at the s
   assert.match(link, /NAVIGATION_FEEDBACK_DELAY_MS/);
   const provider = read("src/components/interaction/InstantInteractionProvider.tsx");
   const outlet = read("src/components/interaction/InstantWorkspaceOutlet.tsx");
+  const frame = read("src/components/interaction/SectionEntryFrame.tsx");
   const sidebar = read("src/components/shell/SidebarNav.tsx");
   assert.match(provider, /setNavigation\(intent\)/);
-  assert.match(outlet, /data-workspace-loading/);
+  assert.match(outlet, /SectionEntryFrame/);
+  assert.match(frame, /data-entry-frame/);
   assert.match(read("src/components/interaction/InstantLink.tsx"), /prefetch=\{prefetch \?\? null\}/);
   assert.doesNotMatch(sidebar, /prefetch=\{false\}/);
-  assert.match(read("src/app/(app)/loading.tsx"), /data-private-loading-boundary/);
+  assert.match(read("src/app/(app)/loading.tsx"), /<RouteEntryLoading \/>/);
+  assert.match(frame, /data-private-loading-boundary=\{privateBoundary \? "true"/);
   assert.match(read("src/app/(app)/layout.tsx"), /getCurrentUser\(\)/);
   assert.match(read("src/app/(app)/layout.tsx"), /hasPrivateAccess\(user\.accountStatus\)/);
 });

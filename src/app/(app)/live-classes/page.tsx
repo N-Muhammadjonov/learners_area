@@ -1,56 +1,101 @@
-import { and, eq, inArray } from "drizzle-orm";
+import { Suspense } from "react";
+import { and, asc, desc, eq, inArray } from "drizzle-orm";
+import type { CurrentUser } from "@/lib/auth/current-user";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { db } from "@/db/client";
-import { courses, liveClassAttendance, users } from "@/db/schema";
-import { listUpcoming, listPast } from "@/lib/data/live-classes";
+import { courses, liveClasses, liveClassAttendance, users } from "@/db/schema";
 import { Card } from "@/components/ui/Card";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { JoinButton } from "@/components/live-classes/JoinButton";
 import { joinState, opensAt } from "@/lib/services/live-classes/window";
 import { ResourceBlocks } from "@/components/resources/ResourceBlocks";
 import { listResourceBlocksForOwners } from "@/lib/data/resources";
+import { RegionFailureNotice } from "@/components/interaction/RegionFailureNotice";
+import { timed } from "@/lib/observability/timing";
 import { formatDate, formatDateTime } from "@/lib/time";
 
-export default async function LiveClassesPage() {
-  const user = await requireActiveUser();
-  if (!user) return null;
-  const locale = await getLocale();
-  const dict = getDictionary(locale);
+async function LiveClassesContent({ user, locale, dict }: {
+  user: CurrentUser;
+  locale: Awaited<ReturnType<typeof getLocale>>;
+  dict: ReturnType<typeof getDictionary>;
+}) {
+  // Course existence and both class windows resolve concurrently by the stable
+  // slug, removing the old course-id -> class-list request waterfall.
+  const [ielts, upcomingRows, pastRows] = await Promise.all([
+    timed("liveClasses.entry.course", () => db.select({ id: courses.id }).from(courses).where(eq(courses.slug, "ielts")).limit(1)),
+    timed("liveClasses.entry.upcoming", () => db.select({ liveClass: {
+      id: liveClasses.id,
+      teacherUserId: liveClasses.teacherUserId,
+      title: liveClasses.title,
+      topic: liveClasses.topic,
+      scheduledAt: liveClasses.scheduledAt,
+      durationMinutes: liveClasses.durationMinutes,
+      meetingUrl: liveClasses.meetingUrl,
+      recordingUrl: liveClasses.recordingUrl,
+      status: liveClasses.status,
+    } })
+      .from(liveClasses)
+      .innerJoin(courses, eq(liveClasses.courseId, courses.id))
+      .where(and(eq(courses.slug, "ielts"), inArray(liveClasses.status, ["upcoming", "live"])))
+      .orderBy(asc(liveClasses.scheduledAt))),
+    timed("liveClasses.entry.past", () => db.select({ liveClass: {
+      id: liveClasses.id,
+      teacherUserId: liveClasses.teacherUserId,
+      title: liveClasses.title,
+      topic: liveClasses.topic,
+      scheduledAt: liveClasses.scheduledAt,
+      durationMinutes: liveClasses.durationMinutes,
+      meetingUrl: liveClasses.meetingUrl,
+      recordingUrl: liveClasses.recordingUrl,
+      status: liveClasses.status,
+    } })
+      .from(liveClasses)
+      .innerJoin(courses, eq(liveClasses.courseId, courses.id))
+      .where(and(eq(courses.slug, "ielts"), inArray(liveClasses.status, ["completed", "recorded", "cancelled"])))
+      .orderBy(desc(liveClasses.scheduledAt))
+      .limit(10)),
+  ]);
+  if (ielts.length === 0) return <p className="text-sm text-ink-500">No course configured yet.</p>;
+  const upcoming = upcomingRows.map((row) => row.liveClass);
+  const past = pastRows.map((row) => row.liveClass);
+  const allIds = [...upcoming, ...past].map((liveClass) => liveClass.id);
+  const teacherIds = [...new Set([...upcoming, ...past].map((liveClass) => liveClass.teacherUserId).filter((id): id is string => Boolean(id)))];
 
-  const ielts = await db.query.courses.findFirst({ where: eq(courses.slug, "ielts") });
-  if (!ielts) {
-    return <p className="text-sm text-ink-500">No course configured yet.</p>;
-  }
-
-  const [upcoming, past] = await Promise.all([listUpcoming(ielts.id), listPast(ielts.id)]);
-  const allIds = [...upcoming, ...past].map((c) => c.id);
-  const attendedRows = allIds.length
-    ? await db.query.liveClassAttendance.findMany({
-        where: and(eq(liveClassAttendance.userId, user.id), inArray(liveClassAttendance.liveClassId, allIds)),
-      })
-    : [];
-  const attendedSet = new Map(attendedRows.map((a) => [a.liveClassId, a.joinedAt]));
-
-  // The teacher's name is shown because "who is running this class" is part of
-  // deciding whether to be there.
-  const teacherIds = [
-    ...new Set([...upcoming, ...past].map((c) => c.teacherUserId).filter((id): id is string => Boolean(id))),
-  ];
-  const teachers = teacherIds.length
-    ? await db.select({ id: users.id, name: users.name }).from(users).where(inArray(users.id, teacherIds))
-    : [];
-  const teacherName = new Map(teachers.map((t) => [t.id, t.name]));
-
+  // Attendance controls the learner's join state and remains core. Teacher names
+  // and attached materials are secondary; start all dependent reads together.
+  const [attendanceResult, teachersResult, materialsResult] = await Promise.allSettled([
+    allIds.length
+      ? timed("liveClasses.entry.attendance", () => db.select({
+          liveClassId: liveClassAttendance.liveClassId,
+          joinedAt: liveClassAttendance.joinedAt,
+        })
+          .from(liveClassAttendance)
+          .where(and(eq(liveClassAttendance.userId, user.id), inArray(liveClassAttendance.liveClassId, allIds))))
+      : Promise.resolve([]),
+    teacherIds.length
+      ? timed("liveClasses.entry.teachers", () => db.select({ id: users.id, name: users.name }).from(users).where(inArray(users.id, teacherIds)))
+      : Promise.resolve([]),
+    timed("liveClasses.entry.materials", () => listResourceBlocksForOwners("live_class", allIds)),
+  ]);
+  if (attendanceResult.status === "rejected") throw attendanceResult.reason;
+  const attendedRows = attendanceResult.value;
+  const attendedSet = new Map(attendedRows.map((attendance) => [attendance.liveClassId, attendance.joinedAt]));
+  const teachers = teachersResult.status === "fulfilled" ? teachersResult.value : [];
+  const materials = materialsResult.status === "fulfilled" ? materialsResult.value : new Map();
+  const secondaryUnavailable = teachersResult.status === "rejected" || materialsResult.status === "rejected";
+  const teacherName = new Map(teachers.map((teacher) => [teacher.id, teacher.name]));
   const now = new Date();
 
-  // One query for all classes on the page (see listResourceBlocksForOwners):
-  // a live class may carry a worksheet or a recording link.
-  const materials = await listResourceBlocksForOwners("live_class", allIds);
-
   return (
-    <div className="mx-auto flex max-w-3xl flex-col gap-6">
-      <h1 className="font-display text-2xl text-ink-900">{dict.liveClasses.title}</h1>
+    <div className="flex flex-col gap-6" data-live-classes-content data-async-content="live-classes">
+      {secondaryUnavailable && (
+        <RegionFailureNotice
+          region="live-class-metadata"
+          message={dict.errors.unknown}
+          retryLabel={dict.errorPage.retry}
+        />
+      )}
 
       <div>
         <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-ink-300">{dict.liveClasses.upcoming}</h2>
@@ -124,6 +169,29 @@ export default async function LiveClassesPage() {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+function LiveClassesSkeleton() {
+  return (
+    <div aria-hidden="true" className="flex flex-col gap-3" data-async-loading="live-classes">
+      {[0, 1, 2].map((row) => <div key={row} className="h-20 animate-pulse rounded-xl bg-ink-50" />)}
+    </div>
+  );
+}
+
+export default async function LiveClassesPage() {
+  const [user, locale] = await Promise.all([requireActiveUser(), getLocale()]);
+  if (!user) return null;
+  const dict = getDictionary(locale);
+
+  return (
+    <div className="mx-auto flex max-w-3xl flex-col gap-6" data-route-usable="live-classes">
+      <h1 className="font-display text-2xl text-ink-900">{dict.liveClasses.title}</h1>
+      <Suspense fallback={<LiveClassesSkeleton />}>
+        <LiveClassesContent user={user} locale={locale} dict={dict} />
+      </Suspense>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, inArray } from "drizzle-orm";
 import { db } from "@/db/client";
 import { assignmentResponses, vocabularyUsages } from "@/db/schema";
 
@@ -55,6 +55,17 @@ export async function getAssignmentResponse(assignmentId: string, userId: string
       ),
     })) ?? null
   );
+}
+
+/** Batch the learner's responses for a page of assignments (no per-card reads). */
+export function listAssignmentResponses(assignmentIds: string[], userId: string) {
+  if (assignmentIds.length === 0) return Promise.resolve([]);
+  return db.query.assignmentResponses.findMany({
+    where: and(
+      inArray(assignmentResponses.assignmentId, assignmentIds),
+      eq(assignmentResponses.userId, userId),
+    ),
+  });
 }
 
 /** One response per assignment per student — a second save updates it in place. */

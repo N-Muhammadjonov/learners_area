@@ -1,4 +1,4 @@
-import { and, asc, eq } from "drizzle-orm";
+import { and, asc, eq, inArray } from "drizzle-orm";
 import { db } from "@/db/client";
 import { courses, courseModules, units, lessons, lessonProgress } from "@/db/schema";
 
@@ -11,21 +11,21 @@ export async function getCourseRoadmap(slug: string, userId: string) {
     orderBy: asc(courseModules.order),
   });
 
-  const moduleIds = modules.map((m) => m.id);
-  const allUnits = moduleIds.length
-    ? await db.query.units.findMany({ orderBy: asc(units.order) })
+  const moduleIds = modules.map((module) => module.id);
+  const relevantUnits = moduleIds.length
+    ? await db.query.units.findMany({ where: inArray(units.moduleId, moduleIds), orderBy: asc(units.order) })
     : [];
-  const relevantUnits = allUnits.filter((u) => moduleIds.includes(u.moduleId));
 
-  const unitIds = relevantUnits.map((u) => u.id);
-  const allLessons = unitIds.length
-    ? await db.query.lessons.findMany({ orderBy: asc(lessons.order) })
-    : [];
-  const relevantLessons = allLessons.filter((l) => unitIds.includes(l.unitId));
-
-  const progressRows = await db.query.lessonProgress.findMany({
-    where: eq(lessonProgress.userId, userId),
-  });
+  const unitIds = relevantUnits.map((unit) => unit.id);
+  const [relevantLessons, progressRows] = unitIds.length
+    ? await Promise.all([
+        db.query.lessons.findMany({ where: inArray(lessons.unitId, unitIds), orderBy: asc(lessons.order) }),
+        db.select({ lessonId: lessonProgress.lessonId, state: lessonProgress.state })
+          .from(lessonProgress)
+          .innerJoin(lessons, eq(lessonProgress.lessonId, lessons.id))
+          .where(and(eq(lessonProgress.userId, userId), inArray(lessons.unitId, unitIds))),
+      ])
+    : [[], []];
   const progressByLesson = new Map(progressRows.map((p) => [p.lessonId, p.state]));
 
   return {

@@ -9,6 +9,7 @@ import { Topbar } from "@/components/shell/Topbar";
 import { ShellUtilities } from "@/components/shell/ShellUtilities";
 import { InstantInteractionProvider } from "@/components/interaction/InstantInteractionProvider";
 import { InstantWorkspaceOutlet } from "@/components/interaction/InstantWorkspaceOutlet";
+import { sectionEntryFrames } from "@/lib/interaction/section-entry";
 
 /**
  * This segment is request-dynamic through `getCurrentUser()` and `getLocale()`
@@ -61,8 +62,14 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const dict = getDictionary(locale);
 
   const diagnostics = performanceDiagnosticsEnabled();
+  const entryFrames = sectionEntryFrames(dict);
   return (
-    <InstantInteractionProvider diagnostics={diagnostics}>
+    <InstantInteractionProvider
+      diagnostics={diagnostics}
+      entryFrames={entryFrames}
+      slowMessage={dict.errors.unknown}
+      retryLabel={dict.errorPage.retry}
+    >
       <div className="flex h-dvh overflow-hidden bg-paper" data-shell>
         {diagnostics && <PerformanceDiagnostics />}
         {/*
@@ -104,30 +111,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
                 paddingBottom: "calc(var(--shell-pad-y) + env(safe-area-inset-bottom))",
               }}
             >
-              <InstantWorkspaceOutlet
-                labels={{
-                  opening: dict.loadingPage.label,
-                  slow: dict.errors.unknown,
-                  retry: dict.errorPage.retry,
-                  destinations: {
-                    dashboard: dict.nav.dashboard,
-                    listening: dict.nav.listening,
-                    "video-lessons": dict.nav.videoLessons,
-                    reading: dict.nav.reading,
-                    writing: dict.nav.writing,
-                    speaking: dict.nav.speaking,
-                    grammar: dict.nav.grammar,
-                    vocabulary: dict.nav.vocabulary,
-                    progress: dict.nav.progress,
-                    mocks: dict.nav.mockTests,
-                    support: dict.nav.support,
-                    management: dict.shell.management,
-                    other: dict.loadingPage.label,
-                  },
-                }}
-              >
-                {children}
-              </InstantWorkspaceOutlet>
+              <InstantWorkspaceOutlet>{children}</InstantWorkspaceOutlet>
             </div>
           </main>
           {/* Focus mode and report controls belong to the learning surface only. */}

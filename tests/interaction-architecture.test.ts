@@ -41,25 +41,29 @@ test("persistent private layout keeps server authorization and wraps only its wo
 test("automatic sidebar prefetch has a data-free private loading boundary", () => {
   const links = read("src/components/interaction/InstantLink.tsx");
   const boundary = read("src/app/(app)/loading.tsx");
+  const frame = read("src/components/interaction/SectionEntryFrame.tsx");
   const sidebar = read("src/components/shell/SidebarNav.tsx");
   assert.match(links, /prefetch=\{prefetch \?\? null\}/);
   assert.doesNotMatch(sidebar, /prefetch=\{false\}/);
-  assert.match(boundary, /data-private-loading-boundary/);
+  assert.match(boundary, /<RouteEntryLoading \/>/);
   assert.doesNotMatch(boundary, /getCurrentUser|db\.|fetch\(/);
-  assert.match(boundary, /aria-busy="true"/);
+  assert.match(frame, /data-private-loading-boundary=\{privateBoundary \? "true"/);
+  assert.match(frame, /aria-busy="true"/);
 });
 
 test("route outlet preserves a live shell and exposes a localized, retryable destination state", () => {
   const provider = read("src/components/interaction/InstantInteractionProvider.tsx");
   const outlet = read("src/components/interaction/InstantWorkspaceOutlet.tsx");
+  const frame = read("src/components/interaction/SectionEntryFrame.tsx");
   assert.match(provider, /usePathname\(\)/);
   assert.match(provider, /useSearchParams\(\)/);
   assert.match(provider, /onPopState/);
   assert.match(provider, /router\.push\(href\)/);
   assert.doesNotMatch(provider, /history\.pushState|history\.replaceState/);
-  assert.match(outlet, /role="status"/);
-  assert.match(outlet, /aria-live="polite"/);
-  assert.match(outlet, /onClick=\{retryNavigation\}/);
+  assert.match(outlet, /<SectionEntryFrame/);
+  assert.match(frame, /role="status"/);
+  assert.match(frame, /aria-live="polite"/);
+  assert.match(frame, /onClick=\{onRetry\}/);
 });
 
 test("shared async and destructive controls expose pending, duplicate-submit and confirmation contracts", () => {

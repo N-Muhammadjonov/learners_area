@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { requireActiveUser } from "@/lib/auth/current-user";
-import { addVocabularyBatch, librarySummary, listLibrary } from "@/lib/services/vocabulary/engine";
+import { addVocabularyBatch, listLibrary } from "@/lib/services/vocabulary/engine";
+import { timed } from "@/lib/observability/timing";
 import { resolveReadingOccurrence } from "@/lib/services/lexical/context";
 import { enrichTerms } from "@/lib/services/lexical/enrichment";
 
@@ -12,6 +13,8 @@ import { enrichTerms } from "@/lib/services/lexical/enrichment";
  * deduplication, the SRS ladder and the points ledger behave identically however
  * the words arrived. Nothing about the award comes from the request.
  */
+const PRIVATE_NO_STORE = { "Cache-Control": "private, no-store" };
+
 const itemSchema = z.object({
   term: z.string().trim().min(1).max(120),
   // Optional on purpose: when the caller has no meaning for the word, the server
@@ -37,22 +40,42 @@ const addSchema = z.object({
 
 export async function GET(req: NextRequest) {
   const user = await requireActiveUser();
-  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401, headers: PRIVATE_NO_STORE });
 
-  const offset = Math.max(0, Number(req.nextUrl.searchParams.get("offset") ?? 0) || 0);
-  const limit = Math.min(200, Math.max(1, Number(req.nextUrl.searchParams.get("limit") ?? 200) || 200));
+  const requestedOffset = Number(req.nextUrl.searchParams.get("offset") ?? 0);
+  const requestedLimit = Number(req.nextUrl.searchParams.get("limit") ?? 50);
+  const offset = Number.isFinite(requestedOffset) ? Math.max(0, Math.floor(requestedOffset)) : 0;
+  const limit = Number.isFinite(requestedLimit) ? Math.min(100, Math.max(1, Math.floor(requestedLimit))) : 50;
 
-  const [words, summary] = await Promise.all([
-    listLibrary(user.id, { limit, offset }),
-    librarySummary(user.id),
-  ]);
-
-  return NextResponse.json({ ok: true, words, total: summary.total, offset, limit });
+  try {
+    // Fetch one extra row to determine whether the next page exists. Summary,
+    // folders, standing and sentence history have independent endpoints and can
+    // neither block this core word page nor make it fail.
+    const rows = await timed("vocabulary.entry.libraryPage", () =>
+      listLibrary(user.id, { limit: limit + 1, offset })
+    );
+    const hasMore = rows.length > limit;
+    return NextResponse.json(
+      {
+        ok: true,
+        words: rows.slice(0, limit),
+        hasMore,
+        nextOffset: hasMore ? offset + limit : null,
+        offset,
+        limit,
+      },
+      { headers: PRIVATE_NO_STORE },
+    );
+  } catch {
+    // A core library failure is visible inside the Vocabulary workspace, not a
+    // thrown RSC error that replaces the authenticated app shell with a digest.
+    return NextResponse.json({ ok: false, error: "temporarily_unavailable" }, { status: 503, headers: PRIVATE_NO_STORE });
+  }
 }
 
 export async function POST(req: NextRequest) {
   const user = await requireActiveUser();
-  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401, headers: PRIVATE_NO_STORE });
 
   const body = await req.json().catch(() => null);
   const parsed = addSchema.safeParse(body);

@@ -57,7 +57,7 @@ export function PerformanceDiagnostics() {
     const state = (current: Sample) => {
       if (current.kind === "navigation") {
         const locationMatches = location.pathname + location.search === current.target;
-        const routePending = Boolean(document.querySelector("[data-route-loading]"));
+        const routePending = Boolean(document.querySelector("[data-entry-frame], [data-route-loading]"));
         const workspacePending = Boolean(document.querySelector("[data-workspace-loading]"));
         const navigationPending = Boolean(document.querySelector("[data-navigation-pending]"));
         const asyncPending = Boolean(document.querySelector("[data-async-loading]"));
@@ -206,7 +206,7 @@ export function PerformanceDiagnostics() {
       else if (sample?.kind === "search") { sample = null; clearTimeout(timer); }
     };
     const mutations = new MutationObserver(inspect);
-    mutations.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ["data-navigation-pending", "data-route-loading", "data-search-state", "disabled"] });
+    mutations.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ["data-navigation-pending", "data-entry-frame", "data-route-loading", "data-async-loading", "data-search-state", "disabled"] });
     document.addEventListener("click", click, true);
     document.addEventListener("input", input, true);
     return () => {

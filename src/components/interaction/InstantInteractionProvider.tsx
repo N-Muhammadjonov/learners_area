@@ -15,6 +15,7 @@ import {
 } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { controlFamily, internalNavigationTarget, routeLocation, type InteractionCategory } from "@/lib/interaction/navigation";
+import type { EntryFrames } from "@/lib/interaction/section-entry";
 
 type NavigationIntent = {
   id: string;
@@ -28,6 +29,9 @@ type NavigationIntent = {
 type InteractionContextValue = {
   navigation: NavigationIntent | null;
   currentLocation: string;
+  entryFrames: EntryFrames;
+  slowMessage: string;
+  retryLabel: string;
   stalled: boolean;
   beginNavigation: (href: string) => void;
   navigate: (href: string, replace?: boolean) => void;
@@ -75,9 +79,15 @@ export function useOptionalInstantInteraction() {
 export function InstantInteractionProvider({
   children,
   diagnostics = false,
+  entryFrames = {},
+  slowMessage = "",
+  retryLabel = "",
 }: {
   children: ReactNode;
   diagnostics?: boolean;
+  entryFrames?: EntryFrames;
+  slowMessage?: string;
+  retryLabel?: string;
 }) {
   const pathname = usePathname() || "/";
   const searchParams = useSearchParams();
@@ -269,13 +279,16 @@ export function InstantInteractionProvider({
   const value = useMemo<InteractionContextValue>(() => ({
     navigation,
     currentLocation,
+    entryFrames,
+    slowMessage,
+    retryLabel,
     stalled: Boolean(navigation && stalledId === navigation.id),
     beginNavigation,
     navigate,
     beginMeasurement,
     finishMeasurement,
     retryNavigation,
-  }), [beginMeasurement, beginNavigation, currentLocation, finishMeasurement, navigate, navigation, retryNavigation, stalledId]);
+  }), [beginMeasurement, beginNavigation, currentLocation, entryFrames, finishMeasurement, navigate, navigation, retryLabel, retryNavigation, slowMessage, stalledId]);
 
   return (
     <InteractionContext.Provider value={value}>

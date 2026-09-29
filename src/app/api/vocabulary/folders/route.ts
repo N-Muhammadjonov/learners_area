@@ -2,11 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { createFolder, listFolders, moveToFolder } from "@/lib/services/vocabulary/engine";
+import { timed } from "@/lib/observability/timing";
 
 /**
  * GET  /api/vocabulary/folders — the caller's own folders
  * POST /api/vocabulary/folders — create one, or move words into one
  */
+const PRIVATE_NO_STORE = { "Cache-Control": "private, no-store" };
+
 const createSchema = z.object({ name: z.string().trim().min(1).max(80) });
 const moveSchema = z.object({
   entryIds: z.array(z.string().uuid()).min(1).max(200),
@@ -15,13 +18,18 @@ const moveSchema = z.object({
 
 export async function GET() {
   const user = await requireActiveUser();
-  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
-  return NextResponse.json({ ok: true, folders: await listFolders(user.id) });
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401, headers: PRIVATE_NO_STORE });
+  try {
+    const folders = await timed("vocabulary.entry.folders", () => listFolders(user.id));
+    return NextResponse.json({ ok: true, folders }, { headers: PRIVATE_NO_STORE });
+  } catch {
+    return NextResponse.json({ ok: false, error: "temporarily_unavailable" }, { status: 503, headers: PRIVATE_NO_STORE });
+  }
 }
 
 export async function POST(req: NextRequest) {
   const user = await requireActiveUser();
-  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401, headers: PRIVATE_NO_STORE });
 
   const body = await req.json().catch(() => null);
 

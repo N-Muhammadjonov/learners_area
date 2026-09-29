@@ -29,7 +29,8 @@ test("navigation acknowledges the destination immediately without replacing Next
   assert.doesNotMatch(provider, /history\.(pushState|replaceState)/);
   assert.match(nav, /activePath = pendingPath \?\? pathname/);
   assert.match(nav, /aria-current=\{active \? "page"/);
-  assert.match(outlet, /data-workspace-loading/);
+  assert.match(outlet, /SectionEntryFrame/);
+  assert.match(outlet, /navigation\.routeKey/);
   assert.match(link, /prefetch=\{prefetch \?\? null\}/);
 });
 
@@ -46,7 +47,7 @@ test("back and forward restore main scroll while ordinary links start at the top
 test("route feedback is distinct from a usable view; browser diagnostics wait for loading regions", () => {
   const provider = read("src/components/interaction/InstantInteractionProvider.tsx");
   const diagnostics = read("src/components/diagnostics/PerformanceDiagnostics.tsx");
-  const loading = read("src/app/(app)/loading.tsx");
+  const loading = read("src/components/interaction/SectionEntryFrame.tsx");
   assert.match(provider, /destinationRouteCommit/);
   assert.doesNotMatch(provider, /metric\("viewUsable"/);
   assert.match(diagnostics, /\[data-route-loading\]/);
@@ -66,7 +67,7 @@ test("Grammar streams its destination heading before its authorized mastery data
   assert.match(page, /data-route-usable="grammar"/);
   assert.match(page, /<Suspense fallback=\{<GrammarTopicsSkeleton \/>\}>/);
   assert.match(page, /<GrammarTopics userId=\{user\.id\}/);
-  assert.match(data, /Promise\.all\(\[\s*timed\("grammar\.topics"/);
+  assert.match(data, /Promise\.allSettled\(\[\s*timed\("grammar\.topics"/);
   assert.match(data, /timed\("grammar\.exercises"/);
   assert.match(data, /timed\("grammar\.attempts"/);
   assert.match(data, /innerJoin\(grammarExercises/);
@@ -87,7 +88,9 @@ test("Progress streams the module destination before learner-owned summary queri
   const page = read("src/app/(app)/progress/page.tsx");
   assert.match(page, /data-route-usable="progress"/);
   assert.match(page, /data-async-loading="progress"/);
-  assert.match(page, /getProgressData\(userId\), getDashboardData\(userId\)/);
+  assert.match(page, /getProgressData\(userId\)/);
+  assert.match(page, /getActivityStreak\(userId\)/);
+  assert.doesNotMatch(page, /getDashboardData/);
   assert.match(page, /<ProgressContent userId=\{user\.id\}/);
 });
 
@@ -96,16 +99,18 @@ test("Reading streams a route header before counts, filters, and library queries
   assert.match(page, /data-route-usable="reading"/);
   assert.match(page, /data-async-loading="reading"/);
   assert.match(page, /<ReadingWorkspace userId=\{user\.id\}/);
-  assert.match(page, /Promise\.all\(\[\s*readingHubCounts\(userId\)/);
+  assert.match(page, /Promise\.allSettled\(\[\s*readingHubCounts\(userId\)/);
 });
 
-test("Vocabulary streams a localized destination skeleton before private data reads", () => {
+test("Vocabulary streams its destination frame before authenticated, selected-view panel data resolves", () => {
   const page = read("src/app/(app)/vocabulary/page.tsx");
+  const studio = read("src/components/vocabulary/VocabStudio.tsx");
   assert.match(page, /data-route-usable="vocabulary"/);
-  assert.match(page, /data-async-loading="vocabulary"/);
-  assert.match(page, /timed\("vocabulary\.library"/);
+  assert.match(page, /<VocabStudio/);
+  assert.match(studio, /RegionSkeleton name="vocabulary-library"/);
+  assert.match(studio, /readPrivateJson<[\s\S]*`\/api\/vocabulary\?limit=\$\{LIBRARY_PAGE_SIZE\}&offset=0`/);
   assert.match(page, /requireActiveUser\(\), getLocale\(\), searchParams/);
-  assert.match(page, /if \(params\.tab === "games"\) redirect/);
+  assert.match(page, /if \(value === "games"\) redirect/);
 });
 
 test("Writing streams the entry header before its independent prompt and learner-summary reads", () => {

@@ -30,12 +30,23 @@ export function listActivePrompts() {
 }
 
 /** One query for the live prompts and their attached material map. */
+type ActiveWritingPrompt = Pick<
+  typeof writingPrompts.$inferSelect,
+  "id" | "category" | "taskType" | "prompt" | "targetWordCount"
+>;
+
 export async function listActivePromptsWithResources(): Promise<{
-  prompts: (typeof writingPrompts.$inferSelect)[];
+  prompts: ActiveWritingPrompt[];
   materials: Map<string, ResourceBlockView[]>;
 }> {
   const rows = await db
-    .select({ prompt: writingPrompts, resource: resourceBlocks })
+    .select({ prompt: {
+      id: writingPrompts.id,
+      category: writingPrompts.category,
+      taskType: writingPrompts.taskType,
+      prompt: writingPrompts.prompt,
+      targetWordCount: writingPrompts.targetWordCount,
+    }, resource: resourceBlocks })
     .from(writingPrompts)
     .leftJoin(
       resourceBlocks,
@@ -50,7 +61,7 @@ export async function listActivePromptsWithResources(): Promise<{
     }))
     .orderBy(asc(writingPrompts.taskType), asc(writingPrompts.category), asc(resourceBlocks.position));
 
-  const prompts: (typeof writingPrompts.$inferSelect)[] = [];
+  const prompts: ActiveWritingPrompt[] = [];
   const materials = new Map<string, ResourceBlockView[]>();
   const seen = new Set<string>();
   for (const row of rows) {

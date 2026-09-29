@@ -8,6 +8,7 @@ import { getTopicMastery } from "@/lib/data/grammar";
 import { Card } from "@/components/ui/Card";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { MASTERY_SESSIONS } from "@/lib/services/grammar/mastery";
+import { RegionFailureNotice } from "@/components/interaction/RegionFailureNotice";
 
 async function GrammarTopics({ userId, isAdmin, dict }: {
   userId: string;
@@ -15,8 +16,12 @@ async function GrammarTopics({ userId, isAdmin, dict }: {
   dict: ReturnType<typeof getDictionary>;
 }) {
   const rows = await getTopicMastery(userId);
+  const masteryUnavailable = rows.some((row) => row.masteryUnavailable);
   return (
     <>
+      {masteryUnavailable && (
+        <RegionFailureNotice region="grammar-mastery" message={dict.errors.unknown} retryLabel={dict.errorPage.retry} />
+      )}
       {rows.length === 0 && <EmptyState title={dict.grammar.emptyTitle} body={dict.grammar.emptyHint}
         action={<Link className="text-sm text-signal-600 underline" href={isAdmin ? "/admin/grammar" : "/dashboard"}>
           {isAdmin ? dict.grammar.manageContent : dict.nav.dashboard}
@@ -28,18 +33,20 @@ async function GrammarTopics({ userId, isAdmin, dict }: {
               <div className="mb-2 flex items-center justify-between">
                 <p className="text-sm font-medium text-ink-900">{topic.title}</p>
                 <span className="flex items-center gap-2 text-xs text-ink-300">
-                  {mastery.mastered && (
+                  {mastery?.mastered && (
                     <span className="badge bg-band-good/10 text-band-good" data-topic-mastered={topic.id}>
                       {dict.grammar.masteryMastered}
                     </span>
                   )}
-                  <span data-topic-score={topic.id}>
-                    {dict.grammar.masteryScore}: {mastery.scorePercent}% · {mastery.sessions}/
-                    {MASTERY_SESSIONS} {dict.grammar.masterySessions.toLowerCase()}
-                  </span>
+                  {mastery ? (
+                    <span data-topic-score={topic.id}>
+                      {dict.grammar.masteryScore}: {mastery.scorePercent}% · {mastery.sessions}/
+                      {MASTERY_SESSIONS} {dict.grammar.masterySessions.toLowerCase()}
+                    </span>
+                  ) : <span data-topic-mastery-unavailable={topic.id}>—</span>}
                 </span>
               </div>
-              <ProgressBar value={mastery.scorePercent} />
+              {mastery && <ProgressBar value={mastery.scorePercent} />}
               <p className="mt-1 text-xs text-ink-300">
                 {dict.grammar.masteryActivities}: {totalExercises} {dict.grammar.exercises}
               </p>

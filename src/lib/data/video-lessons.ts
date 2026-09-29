@@ -127,8 +127,15 @@ export async function getVideoLessonForLesson(lessonId: string, userId: string) 
 export async function listVideoLessonsForStudent(userId: string) {
   const rows = await db
     .select({
-      videoLesson: videoLessons,
-      lesson: lessons,
+      videoLesson: {
+        id: videoLessons.id,
+        title: videoLessons.title,
+        beforeYouWatch: videoLessons.beforeYouWatch,
+      },
+      lesson: {
+        id: lessons.id,
+        defaultState: lessons.defaultState,
+      },
       unitTitle: units.title,
       moduleTitle: courseModules.title,
       courseTitle: courses.title,

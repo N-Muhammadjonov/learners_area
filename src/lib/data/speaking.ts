@@ -1,28 +1,41 @@
-import { and, asc, desc, eq } from "drizzle-orm";
+import { and, asc, desc, eq, inArray } from "drizzle-orm";
 import { db } from "@/db/client";
+import { timed } from "@/lib/observability/timing";
 import { speakingMaterials, materialBlocks, users } from "@/db/schema";
 import { isLive, liveWhere } from "@/lib/services/cms/publication";
 
 async function withBlocks<T extends { material: typeof speakingMaterials.$inferSelect }>(
   rows: T[]
-): Promise<(T & { blocks: (typeof materialBlocks.$inferSelect)[] })[]> {
+): Promise<(T & { blocks: (typeof materialBlocks.$inferSelect)[]; blocksUnavailable: boolean })[]> {
   if (rows.length === 0) return [];
   const ids = rows.map((r) => r.material.id);
-  const allBlocks = await db.query.materialBlocks.findMany({
-    orderBy: asc(materialBlocks.position),
-  });
-  const byMaterial = new Map<string, (typeof materialBlocks.$inferSelect)[]>();
-  for (const b of allBlocks) {
-    if (!ids.includes(b.materialId)) continue;
-    const list = byMaterial.get(b.materialId) ?? [];
-    list.push(b);
-    byMaterial.set(b.materialId, list);
+  let allBlocks: (typeof materialBlocks.$inferSelect)[];
+  try {
+    allBlocks = await timed("speaking.materialBlocks", () => db.query.materialBlocks.findMany({
+      where: inArray(materialBlocks.materialId, ids),
+      orderBy: asc(materialBlocks.position),
+    }));
+  } catch {
+    // The published materials remain useful without optional attached blocks.
+    // Expose the failure so the page can render a local alert and retry action.
+    return rows.map((r) => ({ ...r, blocks: [], blocksUnavailable: true }));
   }
-  return rows.map((r) => ({ ...r, blocks: byMaterial.get(r.material.id) ?? [] }));
+
+  const byMaterial = new Map<string, (typeof materialBlocks.$inferSelect)[]>();
+  for (const block of allBlocks) {
+    const list = byMaterial.get(block.materialId) ?? [];
+    list.push(block);
+    byMaterial.set(block.materialId, list);
+  }
+  return rows.map((r) => ({
+    ...r,
+    blocks: byMaterial.get(r.material.id) ?? [],
+    blocksUnavailable: false,
+  }));
 }
 
-export async function listActiveMaterials() {
-  const rows = await db
+async function listLiveMaterialRows() {
+  return timed("speaking.materials", () => db
     .select({ material: speakingMaterials, authorName: users.name })
     .from(speakingMaterials)
     .innerJoin(users, eq(speakingMaterials.createdByUserId, users.id))
@@ -32,8 +45,18 @@ export async function listActiveMaterials() {
         publishAt: speakingMaterials.publishAt,
       }),
     )
-    .orderBy(asc(speakingMaterials.category), desc(speakingMaterials.createdAt));
-  return withBlocks(rows);
+    .orderBy(asc(speakingMaterials.category), desc(speakingMaterials.createdAt)));
+}
+
+/** Start the optional block read as soon as the material ids are known, but let the entry page stream cards before it resolves. */
+export async function listActiveMaterialsForEntry() {
+  const rows = await listLiveMaterialRows();
+  return { rows, blocksPromise: withBlocks(rows) };
+}
+
+export async function listActiveMaterials() {
+  const { blocksPromise } = await listActiveMaterialsForEntry();
+  return blocksPromise;
 }
 
 export async function listAllForManagement() {

@@ -68,6 +68,7 @@ export type VocabStudioData = {
     total: number;
     due: number;
     byMastery: Record<string, number>;
+    bySource: Record<string, number>;
     nextDueAt: string | Date | null;
   };
   standing: VocabStanding;

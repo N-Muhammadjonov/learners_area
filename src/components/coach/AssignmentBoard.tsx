@@ -28,9 +28,11 @@ export function AssignmentBoard({
   dict,
   assignments,
   materials,
+  metadataUnavailable = false,
 }: {
   dict: Dictionary;
   assignments: AssignmentCard[];
+  metadataUnavailable?: boolean;
   /**
    * Material attached to each assignment by an administrator, keyed by id.
    * Injected rather than fetched here: the page already has every assignment in
@@ -91,7 +93,11 @@ export function AssignmentBoard({
 
           <ResourceBlocks dict={dict} blocks={materials[assignment.id] ?? []} />
 
-          {assignment.evaluation ? (
+          {metadataUnavailable ? (
+            <p className="text-xs text-band-warn" role="status" data-assignment-metadata-unavailable>
+              {dict.errors.unknown}
+            </p>
+          ) : assignment.evaluation ? (
             <p className="text-xs text-ink-500" data-checked-by={assignment.evaluation.checkedByName}>
               {dict.coach.checkedBy} {assignment.evaluation.checkedByName}
               {assignment.evaluation.verdict
