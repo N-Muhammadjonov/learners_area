@@ -96,7 +96,11 @@ export function isCanonicalHost(host: string | null): boolean {
   }
 }
 
-/** Explicit opt-in is still ignored on a production deployment. */
+/** Preview diagnostics are automatic; an explicit local opt-in is ignored in production. */
 export function performanceDiagnosticsEnabled(env: Record<string, string | undefined> = process.env): boolean {
-  return env.PERFORMANCE_DIAGNOSTICS === "1" && env.VERCEL_ENV !== "production" && deploymentEnvironment(env) !== "production";
+  const environment = deploymentEnvironment(env);
+  if (env.VERCEL_ENV === "production" || environment === "production") return false;
+  // Preview-only by default so QA captures click → RSC → visible content without
+  // needing a console flag. Local development still requires explicit opt-in.
+  return environment === "preview" || env.PERFORMANCE_DIAGNOSTICS === "1";
 }

@@ -1,5 +1,6 @@
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
+import { timed } from "@/lib/observability/timing";
 import { TOPIC_PACKS } from "@/lib/services/vocabulary/packs";
 import {
   getStanding,
@@ -28,16 +29,16 @@ export default async function VocabularyPage({
   const user = await requireActiveUser();
   if (!user) return null;
 
-  const dict = getDictionary(await getLocale());
   const locale = await getLocale();
+  const dict = getDictionary(locale);
 
   const [words, due, folders, summary, standing, sentences] = await Promise.all([
-    listLibrary(user.id, { limit: 200 }),
-    listDue(user.id, 40),
-    listFolders(user.id),
-    librarySummary(user.id),
-    getStanding(user.id),
-    listSentenceBank(user.id, 30),
+    timed("vocabulary.words", () => listLibrary(user.id, { limit: 200 })),
+    timed("vocabulary.due", () => listDue(user.id, 40)),
+    timed("vocabulary.folders", () => listFolders(user.id)),
+    timed("vocabulary.summary", () => librarySummary(user.id)),
+    timed("vocabulary.standing", () => getStanding(user.id)),
+    timed("vocabulary.sentences", () => listSentenceBank(user.id, 30)),
   ]);
 
   const data: VocabStudioData = {

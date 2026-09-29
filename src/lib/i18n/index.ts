@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { cookies } from "next/headers";
 import { cookiePolicyForRequest, type RequestLike } from "@/lib/auth/cookie-policy";
 import en from "./en";
@@ -20,10 +21,10 @@ export function isLocale(value: string | undefined): value is Locale {
  * Async because `cookies()` is async in Next 15 (it used to be sync). Every
  * caller awaits it; there is exactly one place that reads this cookie.
  */
-export async function getLocale(): Promise<Locale> {
+export const getLocale = cache(async (): Promise<Locale> => {
   const raw = (await cookies()).get(LOCALE_COOKIE)?.value;
   return isLocale(raw) ? raw : "uz";
-}
+});
 
 export function getDictionary(locale: Locale): Dictionary {
   return dictionaries[locale];

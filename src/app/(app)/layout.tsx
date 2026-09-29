@@ -4,12 +4,15 @@ import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth/current-user";
 import { hasPrivateAccess } from "@/lib/auth/account-status";
 import { getLocale, getDictionary } from "@/lib/i18n";
-import { countUnread } from "@/lib/data/notifications";
 import { Sidebar } from "@/components/shell/Sidebar";
 import { Topbar } from "@/components/shell/Topbar";
 import { ShellUtilities } from "@/components/shell/ShellUtilities";
 
-export const dynamic = "force-dynamic";
+/**
+ * This segment is request-dynamic through `getCurrentUser()` and `getLocale()`
+ * reading request cookies; do not force the entire tree dynamic redundantly.
+ * The database-backed account/admission gate still runs before every response.
+ */
 
 /**
  * Nothing inside the centre belongs in a search engine. The sitemap never lists
@@ -47,14 +50,13 @@ export const metadata = {
  * `overflow-y: auto` does nothing at all.
  */
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
-  const user = await getCurrentUser();
+  // Locale is request-cookie data, so read it alongside (not after) the
+  // authoritative user lookup. The DB-backed gate remains mandatory.
+  const [user, locale] = await Promise.all([getCurrentUser(), getLocale()]);
   if (!user) redirect("/login");
   if (!hasPrivateAccess(user.accountStatus)) redirect("/pending");
 
-  const locale = await getLocale();
   const dict = getDictionary(locale);
-  // One cheap count, and only for the badge that displays it.
-  const unread = await countUnread(user.id);
 
   return (
     <div className="flex h-dvh overflow-hidden bg-paper" data-shell>
@@ -83,7 +85,6 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           userName={user.name}
           userEmail={user.email}
           role={user.role}
-          unread={unread}
         />
         <main
           id="main-content"
