@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Link from "next/link";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
@@ -9,13 +10,8 @@ import { BlockRenderer } from "@/components/speaking/BlockRenderer";
 
 const ORDER = ["part1", "part2", "part3", "general", "top_structures", "shadowing"] as const;
 
-export default async function SpeakingPage() {
-  const user = await requireActiveUser();
-  if (!user) return null;
-
-  const dict = getDictionary(await getLocale());
+async function SpeakingMaterials({ dict }: { dict: ReturnType<typeof getDictionary> }) {
   const rows = await listActiveMaterials();
-
   const byCategory = new Map<string, typeof rows>();
   for (const row of rows) {
     const list = byCategory.get(row.material.category) ?? [];
@@ -24,26 +20,10 @@ export default async function SpeakingPage() {
   }
 
   return (
-    <div className="mx-auto flex max-w-3xl flex-col gap-8">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <h1 className="font-display text-2xl text-ink-900">{dict.speaking.title}</h1>
-        {/* Both speaking modes live next to the materials, because they use
-            them: the recording studio and the shadowing drill. Without this the
-            practice studio existed but nothing on the module page led to it. */}
-        <div className="flex flex-wrap items-center gap-3">
-          <Link href="/speaking/practice" className="text-sm text-signal-600 hover:underline" data-speaking-practice-link>
-            {dict.speakingPractice.title} →
-          </Link>
-          <Link href="/speaking/shadowing" className="text-sm text-signal-600 hover:underline" data-shadowing-link>
-            {dict.speakingShadowing.title} →
-          </Link>
-        </div>
-      </div>
-
+    <div data-speaking-materials data-async-content="speaking-materials">
       {rows.length === 0 && <EmptyState icon="🎙" title={dict.speaking.noMaterials} />}
-
       {ORDER.filter((cat) => byCategory.has(cat)).map((cat) => (
-        <div key={cat}>
+        <div key={cat} className="mb-8">
           <h2 className="mb-3 font-display text-lg text-ink-900">{dict.speaking.category[cat]}</h2>
           <div className="flex flex-col gap-4">
             {byCategory.get(cat)!.map(({ material, blocks }) => (
@@ -67,6 +47,40 @@ export default async function SpeakingPage() {
           </div>
         </div>
       ))}
+    </div>
+  );
+}
+
+function SpeakingMaterialsSkeleton() {
+  return (
+    <div aria-hidden="true" className="flex flex-col gap-4" data-speaking-materials-skeleton data-async-loading="speaking-materials">
+      {[0, 1, 2].map((row) => <div key={row} className="h-36 animate-pulse rounded-xl bg-ink-50" />)}
+    </div>
+  );
+}
+
+export default async function SpeakingPage() {
+  const [user, locale] = await Promise.all([requireActiveUser(), getLocale()]);
+  if (!user) return null;
+  const dict = getDictionary(locale);
+
+  return (
+    <div className="mx-auto flex max-w-3xl flex-col gap-8" data-route-usable="speaking">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h1 className="font-display text-2xl text-ink-900">{dict.speaking.title}</h1>
+        {/* Both speaking modes live next to the materials, because they use them. */}
+        <div className="flex flex-wrap items-center gap-3">
+          <Link href="/speaking/practice" className="text-sm text-signal-600 hover:underline" data-speaking-practice-link>
+            {dict.speakingPractice.title} →
+          </Link>
+          <Link href="/speaking/shadowing" className="text-sm text-signal-600 hover:underline" data-shadowing-link>
+            {dict.speakingShadowing.title} →
+          </Link>
+        </div>
+      </div>
+      <Suspense fallback={<SpeakingMaterialsSkeleton />}>
+        <SpeakingMaterials dict={dict} />
+      </Suspense>
     </div>
   );
 }

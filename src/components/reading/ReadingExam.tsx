@@ -16,6 +16,7 @@ import {
 } from "@/lib/reading/stimulus";
 import type { ResourceBlockView } from "@/lib/data/resources";
 import type { Dictionary } from "@/lib/i18n/en";
+import { readingDurationSeconds, readingRemainingSeconds } from "@/lib/reading/timer";
 
 /**
  * The reading practice workspace.
@@ -153,6 +154,7 @@ export function ReadingExam({
   paragraphs,
   savedAnswers,
   startedAt,
+  suggestedMinutes,
   materials = [],
   occurrences = [],
 }: {
@@ -169,6 +171,8 @@ export function ReadingExam({
   savedAnswers: Record<string, string>;
   /** ISO timestamp of when the attempt started (UTC from the database). */
   startedAt: string;
+  /** Authored test duration, also used by the server when enforcing the deadline. */
+  suggestedMinutes: number;
   /** Blocks an administrator attached to this passage; empty means no section. */
   materials?: ResourceBlockView[];
   occurrences?: OccurrenceSpan[];
@@ -185,6 +189,12 @@ export function ReadingExam({
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [now, setNow] = useState<number | null>(null);
+  const [expiredByServer, setExpiredByServer] = useState(false);
+  const durationSeconds = readingDurationSeconds(suggestedMinutes);
+  const remainingSeconds = now === null
+    ? durationSeconds
+    : readingRemainingSeconds(startedAt, durationSeconds, now);
+  const timeExpired = expiredByServer || (now !== null && remainingSeconds === 0);
 
   // The two refs that make autosave honest: one request at a time, and never a
   // lost keystroke — a change made while a save is in flight is saved right after.
@@ -220,6 +230,13 @@ export function ReadingExam({
         // Submitted elsewhere: stop pretending this is still a draft.
         locked.current = true;
         setSaveState("locked");
+        return;
+      }
+      if (res.status === 410) {
+        // The server's clock is authoritative; freeze answers and leave submit available.
+        dirty.current = false;
+        setExpiredByServer(true);
+        setSaveState("idle");
         return;
       }
       if (!res.ok) throw new Error(`save failed: ${res.status}`);
@@ -287,7 +304,6 @@ export function ReadingExam({
   // The timer is derived from the attempt's own start time, so a reload does not
   // restart it. Rendered only after mount to keep the server and client HTML equal.
   useEffect(() => {
-    const started = new Date(startedAt).getTime();
     setNow(Date.now());
     const interval = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(interval);
@@ -371,7 +387,9 @@ export function ReadingExam({
         </div>
         <span className="flex items-center gap-2 text-sm text-ink-700" data-practice-timer>
           <span className="text-ink-300">{t.timerLabel}</span>
-          <span className="font-mono tabular-nums">{now === null ? "--:--" : formatDuration(now - new Date(startedAt).getTime())}</span>
+          <span className="font-mono tabular-nums" data-time-remaining={remainingSeconds}>
+            {now === null ? "--:--" : formatDuration(remainingSeconds * 1000)}
+          </span>
         </span>
         <SaveBadge dict={dict} state={saveState} savedAt={savedAt} onRetry={() => void save()} />
         <a href="/reading" className="flex min-h-[44px] items-center gap-1.5 rounded-sm px-2 text-sm text-ink-500 hover:text-ink-900" data-practice-exit>
@@ -480,7 +498,13 @@ export function ReadingExam({
             </button>
           </div>
 
+          {timeExpired && (
+            <p className="rounded-[12px] border border-band-warn/40 bg-band-warn/10 px-3 py-2 text-sm text-ink-700" role="status" data-attempt-expired>
+              {t.timeExpired}
+            </p>
+          )}
           <div className="flex flex-col gap-3 lg:max-h-[70vh] lg:overflow-y-auto lg:pr-2">
+            <fieldset disabled={timeExpired} className="flex min-w-0 flex-col gap-3 border-0 p-0">
             {orderedGroups.blocks.map(({ group, questions: groupQuestions }) => (
               <div key={group.id} className="flex flex-col gap-3" data-question-group={group.position}>
                 <GroupHeading dict={dict} group={group} />
@@ -509,6 +533,7 @@ export function ReadingExam({
                 ))}
               </div>
             )}
+            </fieldset>
           </div>
 
           <div className="flex flex-col gap-2 rounded-[16px] border border-ink-100 bg-paper-raised p-4">

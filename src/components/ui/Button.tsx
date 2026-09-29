@@ -13,9 +13,9 @@ type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 export const Button = forwardRef<HTMLButtonElement, Props>(
-  ({ variant = "primary", className = "", ...props }, ref) => {
+  ({ variant = "primary", type = "button", className = "", ...props }, ref) => {
     return (
-      <button ref={ref} className={`${variantClass[variant]} ${className}`} {...props} />
+      <button ref={ref} type={type} className={`${variantClass[variant]} ${className}`} {...props} />
     );
   }
 );

@@ -7,6 +7,7 @@ import type { Dictionary } from "@/lib/i18n/en";
 import type { Role } from "@/lib/auth/roles";
 import { isStaff } from "@/lib/auth/roles";
 import { IconChevronDown, IconSettings } from "@/components/ui/icons";
+import { ConfirmAction } from "@/components/interaction/InteractionPrimitives";
 
 /**
  * The profile menu.
@@ -102,19 +103,24 @@ export function ProfileMenu({
                 {dict.shell.switchToManagement}
               </Link>
             )}
-            <button
-              type="button"
-              role="menuitem"
-              onClick={async () => {
+            <ConfirmAction
+              trigger={dict.nav.logout}
+              triggerRole="menuitem"
+              triggerClassName="flex min-h-[44px] w-full items-center gap-2.5 rounded-[10px] px-2.5 text-left text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900"
+              title={dict.auth.signOutConfirmTitle}
+              description={dict.auth.signOutConfirmBody}
+              confirmLabel={dict.auth.signOut}
+              cancelLabel={dict.common.cancel}
+              pendingLabel={dict.loadingPage.label}
+              failureMessage={dict.auth.errorServer}
+              onConfirm={async () => {
+                const response = await fetch("/api/auth/logout", { method: "POST" });
+                if (!response.ok) throw new Error("Logout was not confirmed by the server");
                 setOpen(false);
-                await fetch("/api/auth/logout", { method: "POST" }).catch(() => undefined);
-                router.push("/login");
+                router.replace("/login");
                 router.refresh();
               }}
-              className="flex min-h-[44px] w-full items-center gap-2.5 rounded-[10px] px-2.5 text-left text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900"
-            >
-              {dict.nav.logout}
-            </button>
+            />
           </div>
         </div>
       )}

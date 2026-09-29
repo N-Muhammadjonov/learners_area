@@ -1,5 +1,6 @@
 import { and, asc, eq, inArray, isNull, or } from "drizzle-orm";
 import { db } from "@/db/client";
+import { timed } from "@/lib/observability/timing";
 import { grammarTopics, grammarExercises, grammarAttempts } from "@/db/schema";
 import {
   summarizeTopicMastery,
@@ -43,15 +44,23 @@ export async function getTopicWithExercises(topicId: string, userId: string) {
  * disagree with the history that produced it.
  */
 export async function getTopicMastery(userId: string) {
-  const topics = await listTopics();
-  const exercises = await db.query.grammarExercises.findMany({ where: grammarVisibleTo(userId) });
-  const exerciseIds = exercises.map((e) => e.id);
-
-  const attempts = exerciseIds.length
-    ? await db.query.grammarAttempts.findMany({
-        where: and(inArray(grammarAttempts.exerciseId, exerciseIds), eq(grammarAttempts.userId, userId)),
+  // Topics, visible exercises, and this caller's attempts can be read together.
+  // The join preserves the prior authorized exercise-id constraint without
+  // waiting for a potentially large exercise list before starting the history read.
+  const [topics, exercises, attempts] = await Promise.all([
+    timed("grammar.topics", () => listTopics()),
+    timed("grammar.exercises", () => db.query.grammarExercises.findMany({ where: grammarVisibleTo(userId) })),
+    timed("grammar.attempts", () => db
+      .select({
+        exerciseId: grammarAttempts.exerciseId,
+        activity: grammarAttempts.activity,
+        isCorrect: grammarAttempts.isCorrect,
+        attemptedAt: grammarAttempts.attemptedAt,
       })
-    : [];
+      .from(grammarAttempts)
+      .innerJoin(grammarExercises, eq(grammarExercises.id, grammarAttempts.exerciseId))
+      .where(and(eq(grammarAttempts.userId, userId), grammarVisibleTo(userId)))),
+  ]);
 
   const exercisesByTopic = new Map<string, string[]>();
   for (const e of exercises) {

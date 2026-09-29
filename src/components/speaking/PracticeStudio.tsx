@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useInstantInteraction } from "@/components/interaction/InstantInteractionProvider";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import {
@@ -47,6 +48,7 @@ export function PracticeStudio({
   prompts: Prompt[];
 }) {
   const router = useRouter();
+  const { navigate } = useInstantInteraction();
   const t = dict.speakingPractice;
 
   const [prompt, setPrompt] = useState<Prompt | null>(prompts[0] ?? null);
@@ -381,7 +383,7 @@ export function PracticeStudio({
             <Button variant="secondary" onClick={() => { setPhase({ kind: "idle" }); setAttemptId(null); }}>
               {t.practiceAgain}
             </Button>
-            <Button variant="ghost" onClick={() => router.push("/speaking/history")}>
+            <Button variant="ghost" onClick={() => navigate("/speaking/history")}>
               {t.viewHistory}
             </Button>
           </div>

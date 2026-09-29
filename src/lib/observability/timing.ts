@@ -18,15 +18,15 @@ export { safeErrorLabel };
  * script, a unit test — it falls back to a random id.
  */
 
-const DEFAULT_SLOW_MS = 400;
-
 function slowThreshold(): number {
+  const deployment = process.env.APP_ENV || process.env.VERCEL_ENV;
+  const defaultThreshold = deployment === "preview" ? 120 : 400;
   const raw = process.env.SLOW_OPERATION_LOG_MS?.trim();
   // `Number("")` is 0, and a threshold of 0 would log every single operation —
   // an unset or empty variable has to mean "use the default".
-  if (!raw) return DEFAULT_SLOW_MS;
+  if (!raw) return defaultThreshold;
   const configured = Number(raw);
-  return Number.isFinite(configured) && configured >= 0 ? configured : DEFAULT_SLOW_MS;
+  return Number.isFinite(configured) && configured >= 0 ? configured : defaultThreshold;
 }
 
 let fallbackId: string | null = null;

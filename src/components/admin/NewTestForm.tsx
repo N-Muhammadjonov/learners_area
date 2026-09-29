@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useInstantInteraction } from "@/components/interaction/InstantInteractionProvider";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea, Label } from "@/components/ui/Input";
 import type { Dictionary } from "@/lib/i18n/en";
@@ -9,7 +9,7 @@ import type { Dictionary } from "@/lib/i18n/en";
 type SourceMode = "link" | "upload";
 
 export function NewTestForm({ dict }: { dict: Dictionary }) {
-  const router = useRouter();
+  const { navigate } = useInstantInteraction();
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [difficultyLevel, setDifficultyLevel] = useState("B2");
@@ -58,7 +58,7 @@ export function NewTestForm({ dict }: { dict: Dictionary }) {
         setPending(false);
         if (res.ok) {
           const data = await res.json();
-          router.push(`/admin/listening/${data.id}`);
+          navigate(`/admin/listening/${data.id}`);
         } else {
           const data = await res.json();
           setError(data.error ?? "Could not save");

@@ -1,6 +1,8 @@
+import { Suspense } from "react";
 import Link from "next/link";
+import type { CurrentUser } from "@/lib/auth/current-user";
 import { requireActiveUser } from "@/lib/auth/current-user";
-import { getDictionary, getLocale } from "@/lib/i18n";
+import { getDictionary, getLocale, type Locale } from "@/lib/i18n";
 import { getDashboardData } from "@/lib/data/dashboard";
 import { StatCard, Card } from "@/components/ui/Card";
 import { BandBadge, StateBadge } from "@/components/ui/Badge";
@@ -9,22 +11,14 @@ import { formatDate, formatDateTime } from "@/lib/time";
 
 const SKILLS = ["listening", "reading", "writing", "speaking"] as const;
 
-export default async function DashboardPage() {
-  const user = await requireActiveUser();
-  if (!user) return null; // middleware + layout already guard this
-  const locale = await getLocale();
-  const dict = getDictionary(locale);
+async function DashboardContent({ user, locale, dict }: {
+  user: CurrentUser;
+  locale: Locale;
+  dict: ReturnType<typeof getDictionary>;
+}) {
   const data = await getDashboardData(user.id);
-
   return (
-    <div className="mx-auto flex max-w-5xl flex-col gap-6">
-      <div>
-        <h1 className="font-display text-2xl text-ink-900">
-          {dict.dashboard.greeting}, {user.name.split(" ")[0]}
-        </h1>
-        <p className="text-sm text-ink-500">{dict.nav.course} · IELTS</p>
-      </div>
-
+    <div className="flex flex-col gap-6" data-dashboard-content data-async-content="dashboard">
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         <StatCard label={dict.dashboard.targetBand} value={data.profile?.targetBand?.toFixed(1) ?? "—"} />
         <StatCard label={dict.dashboard.streak} value={String(data.streak)} />
@@ -65,8 +59,7 @@ export default async function DashboardPage() {
         )}
       </Card>
 
-      {/* A four-minute drill that needs no test in front of it: read a passage
-          once, cover it, write what you kept. It is a reading mode, not a score. */}
+      {/* A four-minute drill that needs no test in front of it: read a passage once, cover it, write what you kept. */}
       <Card data-retention-drill>
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="min-w-0">
@@ -140,9 +133,7 @@ export default async function DashboardPage() {
         <Card data-next-live-class={data.nextLiveClass.id}>
           <div className="flex flex-wrap items-center justify-between gap-2">
             <h2 className="font-display text-lg text-ink-900">{dict.dashboard.nextClass}</h2>
-            <span className="text-xs text-ink-300">
-              {formatDateTime(data.nextLiveClass.scheduledAt, locale)}
-            </span>
+            <span className="text-xs text-ink-300">{formatDateTime(data.nextLiveClass.scheduledAt, locale)}</span>
           </div>
           <p className="mt-1 text-sm text-ink-700">{data.nextLiveClass.title}</p>
           <Link href="/live-classes" className="mt-3 inline-block text-sm text-signal-600 hover:underline">
@@ -184,14 +175,43 @@ export default async function DashboardPage() {
                     {attempts} {dict.dashboard.attempts}
                   </span>
                 )}
-                {skill === "writing" && data.latestEvaluation && (
-                  <BandBadge band={data.latestEvaluation.overallEstimate} />
-                )}
+                {skill === "writing" && data.latestEvaluation && <BandBadge band={data.latestEvaluation.overallEstimate} />}
               </Card>
             );
           })}
         </div>
       </div>
+    </div>
+  );
+}
+
+function DashboardSkeleton() {
+  return (
+    <div aria-hidden="true" className="flex flex-col gap-6" data-async-loading="dashboard">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        {[0, 1, 2, 3].map((row) => <div key={row} className="h-24 animate-pulse rounded-xl bg-ink-50" />)}
+      </div>
+      {[0, 1, 2].map((row) => <div key={row} className="h-36 animate-pulse rounded-xl bg-ink-50" />)}
+    </div>
+  );
+}
+
+export default async function DashboardPage() {
+  const [user, locale] = await Promise.all([requireActiveUser(), getLocale()]);
+  if (!user) return null;
+  const dict = getDictionary(locale);
+
+  return (
+    <div className="mx-auto flex max-w-5xl flex-col gap-6" data-route-usable="dashboard">
+      <div>
+        <h1 className="font-display text-2xl text-ink-900">
+          {dict.dashboard.greeting}, {user.name.split(" ")[0]}
+        </h1>
+        <p className="text-sm text-ink-500">{dict.nav.course} · IELTS</p>
+      </div>
+      <Suspense fallback={<DashboardSkeleton />}>
+        <DashboardContent user={user} locale={locale} dict={dict} />
+      </Suspense>
     </div>
   );
 }

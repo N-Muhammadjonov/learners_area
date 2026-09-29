@@ -2,10 +2,10 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useInstantInteraction } from "@/components/interaction/InstantInteractionProvider";
 import type { Dictionary } from "@/lib/i18n/en";
 import { VocabWordsPanel } from "./VocabWordsPanel";
 import { VocabRevisionPanel } from "./VocabRevisionPanel";
-import { VocabGamesPanel } from "./VocabGamesPanel";
 import { VocabUsePanel } from "./VocabUsePanel";
 import { VocabBoardPanel } from "./VocabBoardPanel";
 import type { TabKey, VocabStudioData, VocabWord } from "./types";
@@ -32,6 +32,7 @@ type SearchHit = {
 export function VocabStudio({ dict, data }: { dict: Dictionary; data: VocabStudioData }) {
   const t = dict.vocabulary;
   const router = useRouter();
+  const { navigate } = useInstantInteraction();
   const [tab, setTab] = useState<TabKey>(data.initialTab);
   const [dueCount, setDueCount] = useState(data.summary.due);
 
@@ -47,10 +48,14 @@ export function VocabStudio({ dict, data }: { dict: Dictionary; data: VocabStudi
   );
 
   const openTab = useCallback((next: TabKey) => {
+    if (next === "games") {
+      navigate("/vocabulary/games");
+      return;
+    }
     setTab(next);
     const url = next === "words" ? "/vocabulary" : `/vocabulary?tab=${next}`;
     window.history.replaceState(null, "", url);
-  }, []);
+  }, [navigate]);
 
   return (
     <div className="mx-auto flex w-full max-w-6xl flex-col gap-4">
@@ -110,14 +115,16 @@ export function VocabStudio({ dict, data }: { dict: Dictionary; data: VocabStudi
             <VocabRevisionPanel
               dict={dict}
               initialDue={data.due}
-              onFinished={(remaining) => {
+              onFinished={(remaining, pointsAwarded) => {
                 setDueCount(remaining);
-                router.refresh();
+                if (pointsAwarded > 0) window.dispatchEvent(new Event("vocab:ledger-changed"));
+                if (remaining === 0) router.refresh();
               }}
             />
           )}
-          {tab === "games" && <VocabGamesPanel dict={dict} folders={data.folders} packs={data.packs} />}
-          {tab === "use" && <VocabUsePanel dict={dict} initial={data.sentences} onSaved={() => router.refresh()} />}
+          {tab === "use" && <VocabUsePanel dict={dict} initial={data.sentences} onSaved={(awarded) => {
+            if (awarded) window.dispatchEvent(new Event("vocab:ledger-changed"));
+          }} />}
           {tab === "board" && (
             <VocabBoardPanel dict={dict} standing={data.standing} compact />
           )}

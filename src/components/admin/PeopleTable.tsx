@@ -7,6 +7,7 @@ import { ACCOUNT_STATUS_LABELS, type AccountStatus } from "@/lib/auth/account-st
 import { ROLE_LABELS, type Role } from "@/lib/auth/roles";
 import type { PersonRow } from "@/lib/data/people";
 import type { Locale } from "@/lib/i18n";
+import { ConfirmAction, ConfirmSelect } from "@/components/interaction/InteractionPrimitives";
 
 /**
  * Role and status controls for one person.
@@ -37,40 +38,52 @@ export function PeopleTable({
   const [pendingStatusId, setPendingStatusId] = useState<string | null>(null);
   const [reason, setReason] = useState("");
 
-  async function changeRole(person: PersonRow, role: Role) {
+  async function changeRole(person: PersonRow, role: Role): Promise<void> {
     setBusyId(person.id);
     setError(null);
-    const res = await fetch(`/api/admin/users/${person.id}/role`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ role }),
-    });
-    setBusyId(null);
-    if (!res.ok) {
-      const data = await res.json().catch(() => ({}));
-      setError(`${t.failed} (${data.error ?? res.status})`);
-      return;
+    try {
+      const res = await fetch(`/api/admin/users/${person.id}/role`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ role }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setError(`${t.failed} (${data.error ?? res.status})`);
+        throw new Error("role_change_failed");
+      }
+      router.refresh();
+    } catch (error) {
+      if (!(error instanceof Error && error.message === "role_change_failed")) setError(t.failed);
+      throw error;
+    } finally {
+      setBusyId(null);
     }
-    router.refresh();
   }
 
-  async function changeStatus(person: PersonRow, status: AccountStatus) {
+  async function changeStatus(person: PersonRow, status: AccountStatus): Promise<void> {
     setBusyId(person.id);
     setError(null);
-    const res = await fetch(`/api/admin/users/${person.id}/status`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status, reason: reason.trim() || null }),
-    });
-    setBusyId(null);
-    setReason("");
-    setPendingStatusId(null);
-    if (!res.ok) {
-      const data = await res.json().catch(() => ({}));
-      setError(`${t.failed} (${data.error ?? res.status})`);
-      return;
+    try {
+      const res = await fetch(`/api/admin/users/${person.id}/status`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status, reason: reason.trim() || null }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setError(`${t.failed} (${data.error ?? res.status})`);
+        throw new Error("status_change_failed");
+      }
+      setReason("");
+      setPendingStatusId(null);
+      router.refresh();
+    } catch (error) {
+      if (!(error instanceof Error && error.message === "status_change_failed")) setError(t.failed);
+      throw error;
+    } finally {
+      setBusyId(null);
     }
-    router.refresh();
   }
 
   return (
@@ -116,6 +129,7 @@ export function PeopleTable({
                     grantableRoles={grantableRoles}
                     busy={busyId === person.id}
                     locale={locale}
+                    dict={dict}
                     onChange={changeRole}
                   />
                 </td>
@@ -175,6 +189,7 @@ export function PeopleTable({
                 grantableRoles={grantableRoles}
                 busy={busyId === person.id}
                 locale={locale}
+                dict={dict}
                 onChange={changeRole}
               />
               <StatusBadge status={person.accountStatus} locale={locale} />
@@ -204,6 +219,7 @@ function RoleControl({
   grantableRoles,
   busy,
   locale,
+  dict,
   onChange,
 }: {
   person: PersonRow;
@@ -212,27 +228,30 @@ function RoleControl({
   grantableRoles: Role[];
   busy: boolean;
   locale: Locale;
-  onChange: (person: PersonRow, role: Role) => void;
+  dict: Dictionary;
+  onChange: (person: PersonRow, role: Role) => Promise<void>;
 }) {
   const locked = person.id === actorId || person.role === "owner" || !grantableRoles.length;
   if (locked) {
     return <span className="text-xs text-ink-500">{ROLE_LABELS[person.role][locale]}</span>;
   }
   void actorRole;
+  const roles = [...new Set([person.role, ...grantableRoles])];
   return (
-    <select
+    <ConfirmSelect
       className="input w-32 text-xs"
       value={person.role}
       disabled={busy}
-      aria-label={`role for ${person.name}`}
-      onChange={(event) => onChange(person, event.target.value as Role)}
-    >
-      {[...new Set([person.role, ...grantableRoles])].map((role) => (
-        <option key={role} value={role}>
-          {ROLE_LABELS[role][locale]}
-        </option>
-      ))}
-    </select>
+      ariaLabel={`${dict.people.role} for ${person.name}`}
+      options={roles.map((role) => ({ value: role, label: ROLE_LABELS[role][locale] }))}
+      title={dict.people.confirmRoleTitle}
+      description={dict.people.confirmRoleBody}
+      confirmLabel={dict.common.confirm}
+      cancelLabel={dict.common.cancel}
+      pendingLabel={dict.loadingPage.label}
+      failureMessage={dict.people.failed}
+      onConfirm={(value) => onChange(person, value as Role)}
+    />
   );
 }
 
@@ -268,7 +287,7 @@ function StatusControl({
   actorId: string;
   busy: boolean;
   onAsk: (id: string | null) => void;
-  onConfirm: (person: PersonRow, status: AccountStatus) => void;
+  onConfirm: (person: PersonRow, status: AccountStatus) => Promise<void>;
   pendingStatusId: string | null;
   reason: string;
   setReason: (value: string) => void;
@@ -292,7 +311,9 @@ function StatusControl({
           type="button"
           className="btn-primary text-xs"
           disabled={busy}
-          onClick={() => onConfirm(person, "suspended")}
+          aria-busy={busy || undefined}
+          data-interaction-type="destructive"
+          onClick={() => { void onConfirm(person, "suspended").catch(() => undefined); }}
         >
           {t.suspend}
         </button>
@@ -305,14 +326,18 @@ function StatusControl({
 
   if (person.accountStatus === "suspended" || person.accountStatus === "rejected") {
     return (
-      <button
-        type="button"
-        className="btn-secondary text-xs"
-        disabled={busy}
-        onClick={() => onConfirm(person, "active")}
-      >
-        {t.reactivate}
-      </button>
+      <ConfirmAction
+        trigger={t.reactivate}
+        triggerClassName="btn-secondary text-xs"
+        triggerDisabled={busy}
+        title={dict.people.confirmStatusTitle}
+        description={dict.people.confirmStatusBody}
+        confirmLabel={dict.common.confirm}
+        cancelLabel={dict.common.cancel}
+        pendingLabel={dict.loadingPage.label}
+        failureMessage={dict.people.failed}
+        onConfirm={() => onConfirm(person, "active")}
+      />
     );
   }
 

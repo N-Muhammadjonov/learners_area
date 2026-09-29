@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import type { Dictionary } from "@/lib/i18n/en";
 import type { Locale } from "@/lib/i18n";
 
@@ -23,43 +23,59 @@ import type { Locale } from "@/lib/i18n";
 export function LocaleSwitcher({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const [requestPending, setRequestPending] = useState(false);
+  const [error, setError] = useState(false);
   const t = dict.locale;
+  const pending = isPending || requestPending;
 
   async function setLocale(next: Locale) {
-    if (next === locale) return;
-    await fetch("/api/locale", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ locale: next }),
-    });
-    startTransition(() => router.refresh());
+    if (next === locale || pending) return;
+    setRequestPending(true);
+    setError(false);
+    try {
+      const response = await fetch("/api/locale", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ locale: next }),
+      });
+      if (!response.ok) throw new Error("Locale update failed");
+      startTransition(() => router.refresh());
+    } catch {
+      setError(true);
+    } finally {
+      setRequestPending(false);
+    }
   }
 
   return (
-    <div
-      role="group"
-      aria-label={t.switchLabel}
-      className="flex overflow-hidden rounded-sm border border-ink-100 text-xs font-medium"
-      data-locale-switcher
-    >
-      {(["uz", "en"] as const).map((code) => (
-        <button
-          key={code}
-          type="button"
-          lang={code}
-          onClick={() => setLocale(code)}
-          disabled={isPending}
-          aria-pressed={code === locale}
-          aria-label={t[code]}
-          className={`px-2.5 py-1 uppercase ${
-            code === locale
-              ? "bg-signal-600 text-signal-contrast"
-              : "bg-paper-raised text-ink-500 hover:bg-paper-sunken"
-          }`}
-        >
-          {code}
-        </button>
-      ))}
+    <div className="flex flex-col items-start gap-1" data-locale-switcher>
+      <div
+        role="group"
+        aria-label={t.switchLabel}
+        aria-busy={pending || undefined}
+        className="flex overflow-hidden rounded-sm border border-ink-100 text-xs font-medium"
+      >
+        {(["uz", "en"] as const).map((code) => (
+          <button
+            key={code}
+            type="button"
+            lang={code}
+            onClick={() => { void setLocale(code); }}
+            disabled={pending}
+            aria-pressed={code === locale}
+            aria-label={t[code]}
+            className={`px-2.5 py-1 uppercase ${
+              code === locale
+                ? "bg-signal-600 text-signal-contrast"
+                : "bg-paper-raised text-ink-500 hover:bg-paper-sunken"
+            }`}
+          >
+            {code}
+          </button>
+        ))}
+      </div>
+      {pending && <span role="status" className="sr-only">{dict.loadingPage.label}</span>}
+      {error && <span role="alert" className="text-xs text-band-bad">{dict.auth.errorNetwork}</span>}
     </div>
   );
 }

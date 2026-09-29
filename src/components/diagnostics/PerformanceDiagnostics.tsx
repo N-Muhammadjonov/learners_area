@@ -4,7 +4,8 @@ import { useEffect } from "react";
 
 type Sample = {
   id: number; kind: "navigation" | "search" | "search-open" | "support-send";
-  module: string; started: number; target?: string; feedbackAt?: number; feedbackQueued: boolean; contentQueued: boolean;
+  module: string; started: number; target?: string; feedbackAt?: number; usableAt?: number;
+  feedbackQueued: boolean; contentQueued: boolean; usableReported: boolean; dataQueued: boolean; dataReported: boolean;
 };
 
 /** QA-only, console-only measurements. No text, object ids, queries or credentials. */
@@ -55,8 +56,18 @@ export function PerformanceDiagnostics() {
     }
     const state = (current: Sample) => {
       if (current.kind === "navigation") {
-        const loading = Boolean(document.querySelector("[data-route-loading], [data-navigation-pending]"));
-        return { loading, ready: !loading && location.pathname + location.search === current.target && Boolean(document.querySelector("[data-shell-main]")?.textContent?.trim()), failed: Boolean(document.querySelector("[data-app-error]")) };
+        const locationMatches = location.pathname + location.search === current.target;
+        const routePending = Boolean(document.querySelector("[data-route-loading]"));
+        const workspacePending = Boolean(document.querySelector("[data-workspace-loading]"));
+        const navigationPending = Boolean(document.querySelector("[data-navigation-pending]"));
+        const asyncPending = Boolean(document.querySelector("[data-async-loading]"));
+        const ready = locationMatches && !routePending && !workspacePending && !navigationPending && Boolean(document.querySelector("[data-shell-main]")?.textContent?.trim());
+        return {
+          loading: routePending || workspacePending || navigationPending || asyncPending,
+          ready,
+          dataReady: ready && !asyncPending,
+          failed: Boolean(document.querySelector("[data-app-error]")),
+        };
       }
       if (current.kind === "search-open") return { loading: false, ready: Boolean(document.querySelector("[data-global-search-dialog]")), failed: false };
       if (current.kind === "search") {
@@ -65,6 +76,19 @@ export function PerformanceDiagnostics() {
       }
       return { loading: Boolean(document.querySelector("[data-report-send]:disabled")), ready: Boolean(document.querySelector("[data-report-sent], [data-report-failed]")), failed: Boolean(document.querySelector("[data-report-failed]")) };
     };
+    const finishNavigation = (current: Sample, failed: boolean) => {
+      if (!current.usableReported || !current.dataReported) return;
+      report("interaction", {
+        id: current.id,
+        kind: current.kind,
+        module: current.module,
+        failed,
+        total_interaction_ms: round(performance.now() - current.started),
+      });
+      sample = null;
+      clearTimeout(timer);
+    };
+
     function inspect() {
       const current = sample;
       if (!current) return;
@@ -74,20 +98,81 @@ export function PerformanceDiagnostics() {
         afterPaint(() => {
           if (sample !== current) return;
           current.feedbackAt = performance.now();
-          report("feedback", { id: current.id, kind: current.kind, click_to_loading_ms: round(current.feedbackAt - current.started) });
+          report("firstVisibleResponse", {
+            id: current.id,
+            kind: current.kind,
+            module: current.module,
+            clickToFirstResponseMs: round(current.feedbackAt - current.started),
+            responseSignal: "double-animation-frame-paint-opportunity",
+          });
         });
       }
+
+      if (current.kind === "navigation") {
+        if (status.ready && !current.contentQueued && !current.usableReported) {
+          current.contentQueued = true;
+          afterPaint(() => {
+            current.contentQueued = false;
+            if (sample !== current || !state(current).ready || current.usableReported) return;
+            const usableAt = performance.now();
+            current.usableAt = usableAt;
+            current.usableReported = true;
+            if (current.feedbackAt === undefined) {
+              current.feedbackAt = usableAt;
+              report("firstVisibleResponse", {
+                id: current.id,
+                kind: current.kind,
+                module: current.module,
+                clickToFirstResponseMs: round(usableAt - current.started),
+                responseSignal: "destination-paint-opportunity",
+              });
+            }
+            report("usableView", {
+              id: current.id,
+              module: current.module,
+              failed: state(current).failed,
+              clickToUsableViewMs: round(usableAt - current.started),
+              clickToFirstResponseMs: current.feedbackAt === undefined ? null : round(current.feedbackAt - current.started),
+            });
+            finishNavigation(current, state(current).failed);
+            if (sample === current) inspect();
+          });
+        }
+        const navStatus = status as typeof status & { dataReady?: boolean };
+        if (navStatus.dataReady && !current.dataQueued && !current.dataReported) {
+          current.dataQueued = true;
+          afterPaint(() => {
+            current.dataQueued = false;
+            const settled = state(current) as typeof status & { dataReady?: boolean };
+            if (sample !== current || !settled.ready || !settled.dataReady || current.dataReported) return;
+            const completedAt = performance.now();
+            current.dataReported = true;
+            report("asyncDataCompletion", {
+              id: current.id,
+              module: current.module,
+              completionSource: "route-content-and-async-regions-settled",
+              clickToDataCompletionMs: round(completedAt - current.started),
+              usableToDataCompletionMs: current.usableAt === undefined ? null : round(completedAt - current.usableAt),
+            });
+            finishNavigation(current, settled.failed);
+          });
+        }
+        return;
+      }
+
       if (!status.ready || current.contentQueued) return;
       current.contentQueued = true;
       afterPaint(() => {
         current.contentQueued = false;
         if (sample !== current || !state(current).ready) return;
         const end = performance.now();
-        report("interaction", {
-          id: current.id, kind: current.kind, module: current.module, failed: state(current).failed,
-          click_to_loading_ms: current.feedbackAt === undefined ? null : round(current.feedbackAt - current.started),
-          loading_to_content_ms: current.feedbackAt === undefined ? null : round(end - current.feedbackAt),
-          total_interaction_ms: round(end - current.started),
+        report("usableView", {
+          id: current.id,
+          kind: current.kind,
+          module: current.module,
+          failed: state(current).failed,
+          clickToUsableViewMs: round(end - current.started),
+          clickToFirstResponseMs: current.feedbackAt === undefined ? null : round(current.feedbackAt - current.started),
         });
         sample = null;
         clearTimeout(timer);
@@ -96,7 +181,10 @@ export function PerformanceDiagnostics() {
     const begin = (kind: Sample["kind"], module: string, target?: string) => {
       if (sample) report("superseded", { id: sample.id, kind: sample.kind });
       frames.forEach(cancelAnimationFrame); frames.clear(); clearTimeout(timer);
-      sample = { id: ++sequence, kind, module, target, started: performance.now(), feedbackQueued: false, contentQueued: false };
+      sample = {
+        id: ++sequence, kind, module, target, started: performance.now(),
+        feedbackQueued: false, contentQueued: false, usableReported: false, dataQueued: false, dataReported: false,
+      };
       report("start", { id: sequence, kind, module, startMs: round(sample.started) });
       timer = setTimeout(() => {
         if (sample) report("incomplete", { id: sample.id, kind: sample.kind, total_interaction_ms: round(performance.now() - sample.started) });

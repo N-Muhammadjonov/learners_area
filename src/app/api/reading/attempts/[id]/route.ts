@@ -42,6 +42,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   const result = await saveDraftAnswers(id, user.id, parsed.data.answers);
   if (result.reason === "not_found") return NextResponse.json({ error: "not_found" }, { status: 404 });
   if (result.reason === "already_submitted") return NextResponse.json({ error: "already_submitted" }, { status: 409 });
+  if (result.reason === "expired") return NextResponse.json({ error: "expired" }, { status: 410 });
 
   return NextResponse.json({ saved: result.saved, at: new Date().toISOString() });
 }

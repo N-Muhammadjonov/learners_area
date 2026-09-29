@@ -2,22 +2,23 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { gameSet, recordGameAnswer } from "@/lib/services/vocabulary/engine";
+import { uniqueGameRound } from "@/lib/services/vocabulary/game-round";
+import { isGameId } from "@/lib/services/vocabulary/game-routes";
 
 /**
  * The casual games API.
  *
  * GET  ?set=weak&folderId=…  the words a set offers (same library, a filter)
- * POST {entryId, set, submission}  one answer, graded by the server
+ * POST {entryId, set, gameId, submission} one answer, graded by the server
  *
  * The request carries WHAT the student answered, never whether it was right. The
  * server looks the word up and decides, so a hand-made request that claims
  * success earns nothing. A submission the server cannot check (a flashcard
  * self-assessment) is recorded as practice only.
  *
- * The answer endpoint deliberately cannot move the spaced-repetition ladder: it
- * awards a small casual point when the word is one the student was due to
- * practise, and nothing otherwise. Official progress happens only in scheduled
- * revision.
+ * A verified correct answer earns one point without changing SRS. The selected
+ * set and word membership are re-derived on the server; client score flags and
+ * point values are never accepted.
  */
 const SETS = ["all", "due", "weak", "reading", "listening", "topic", "folder", "assigned"] as const;
 
@@ -29,9 +30,37 @@ export async function GET(req: NextRequest) {
   const key = (SETS as readonly string[]).includes(raw) ? (raw as (typeof SETS)[number]) : "due";
   const folderId = req.nextUrl.searchParams.get("folderId") ?? undefined;
   const topicPack = req.nextUrl.searchParams.get("topicPack") ?? undefined;
+  const parsedLimit = Number(req.nextUrl.searchParams.get("limit") ?? 24);
+  const limit = Number.isFinite(parsedLimit) ? Math.min(500, Math.max(1, Math.floor(parsedLimit))) : 24;
+  const rawGameId = req.nextUrl.searchParams.get("game");
+  if (rawGameId && !isGameId(rawGameId)) return NextResponse.json({ error: "invalid_game" }, { status: 400 });
+  const gameId = rawGameId && isGameId(rawGameId) ? rawGameId : null;
 
-  const set = await gameSet(user.id, key, { folderId, topicPack });
-  return NextResponse.json({ ok: true, ...set });
+  const requestedSet = await gameSet(user.id, key, { folderId, topicPack, limit: 500 });
+  const random = req.nextUrl.searchParams.get("random") === "1";
+  const eligible = gameId === "translation"
+    ? requestedSet.words.filter((word) => Boolean(word.translationUz?.trim()))
+    : gameId === "race"
+      ? requestedSet.words.filter((word) => Boolean(word.term.trim() && word.definitionEn.trim()))
+      : requestedSet.words;
+  const selected = gameId
+    ? random ? uniqueGameRound(eligible, limit) : eligible.slice(0, limit)
+    : [];
+  const words = selected.map((word) => ({
+    id: word.id,
+    term: word.term,
+    definitionEn: word.definitionEn,
+    ...(gameId === "cards" ? { partOfSpeech: word.partOfSpeech, translationUz: word.translationUz, collocations: word.collocations, exampleSentence: word.exampleSentence } : {}),
+    ...(gameId === "race" ? { translationUz: word.translationUz, sourceType: word.sourceType } : {}),
+    ...(gameId === "gap" || gameId === "builder" ? { exampleSentence: word.exampleSentence } : {}),
+    ...(gameId === "translation" ? { translationUz: word.translationUz, acceptedTranslations: word.acceptedTranslations, collocations: word.collocations, exampleSentence: word.exampleSentence } : {}),
+  }));
+  return NextResponse.json({
+    ok: true,
+    ...requestedSet,
+    words,
+    count: words.length,
+  });
 }
 
 /**
@@ -46,6 +75,7 @@ const submissionSchema = z.discriminatedUnion("kind", [
   // an error.
   z.object({ kind: z.literal("spelling"), text: z.string().max(300) }).strict(),
   z.object({ kind: z.literal("sentence"), text: z.string().max(600) }).strict(),
+  z.object({ kind: z.literal("pair"), pairEntryId: z.string().uuid() }).strict(),
   z.object({ kind: z.literal("self"), known: z.boolean() }).strict(),
 ]);
 
@@ -53,9 +83,10 @@ const answerSchema = z
   .object({
     entryId: z.string().uuid(),
     set: z.enum(SETS),
+    gameId: z.enum(["cards", "choice", "match", "gap", "race", "translation", "builder"]),
+    folderId: z.string().uuid().optional(),
+    topicPack: z.string().max(100).optional(),
     submission: submissionSchema,
-    /** Eligibility is derived server-side; a hint from the body is ignored. */
-    eligible: z.boolean().optional(),
   })
   .strict();
 
@@ -67,18 +98,14 @@ export async function POST(req: NextRequest) {
   const parsed = answerSchema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: "invalid_input" }, { status: 400 });
 
-  // Eligibility is derived here from the real schedule, not trusted from the body.
-  const set = await gameSet(user.id, parsed.data.set, { limit: 500 });
-  const inSet = set.words.find((word) => word.id === parsed.data.entryId);
-  if (!inSet) return NextResponse.json({ error: "not_in_set" }, { status: 404 });
-  const eligible = inSet.nextReviewAt.getTime() <= Date.now() || parsed.data.set === "weak";
-
   const result = await recordGameAnswer({
     userId: user.id,
     entryId: parsed.data.entryId,
     submission: parsed.data.submission,
     setKey: parsed.data.set,
-    eligible,
+    gameId: parsed.data.gameId,
+    folderId: parsed.data.folderId,
+    topicPack: parsed.data.topicPack,
   });
   if (!result.ok) return NextResponse.json({ error: result.error }, { status: 404 });
 

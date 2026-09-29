@@ -1,32 +1,25 @@
+import { Suspense } from "react";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import Link from "next/link";
 import { getDictionary, getLocale } from "@/lib/i18n";
-import { listActivePrompts } from "@/lib/data/writing";
+import { listActivePromptsWithResources, typingSummary } from "@/lib/data/writing";
+import { timed } from "@/lib/observability/timing";
 import { Card } from "@/components/ui/Card";
 import { StartPromptButton } from "@/components/writing/StartPromptButton";
 import { TypingTrainer } from "@/components/writing/TypingTrainer";
-import { typingSummary } from "@/lib/data/writing";
 import { ResourceBlocks } from "@/components/resources/ResourceBlocks";
-import { listResourceBlocksForOwners } from "@/lib/data/resources";
 
-export default async function WritingPage() {
-  const user = await requireActiveUser();
-  if (!user) return null;
-
-  const dict = getDictionary(await getLocale());
-  const [prompts, typing] = await Promise.all([listActivePrompts(), typingSummary(user.id)]);
-  // One query for every prompt on the page, not one per card.
-  const materials = await listResourceBlocksForOwners("writing", prompts.map((p) => p.id));
+async function WritingActivities({ userId, dict }: {
+  userId: string;
+  dict: ReturnType<typeof getDictionary>;
+}) {
+  const [{ prompts, materials }, typing] = await Promise.all([
+    timed("writing.promptsAndResources", listActivePromptsWithResources),
+    timed("writing.typingSummary", () => typingSummary(userId)),
+  ]);
 
   return (
-    <div className="mx-auto flex max-w-4xl flex-col gap-6">
-      <div className="flex items-center justify-between">
-        <h1 className="font-display text-2xl text-ink-900">{dict.writing.practiceTitle}</h1>
-        <Link href="/writing/history" className="text-sm text-signal-600 hover:underline">
-          {dict.writing.historyTitle} →
-        </Link>
-      </div>
-
+    <div className="flex flex-col gap-6" data-writing-activities data-async-content="writing">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {prompts.map((p) => (
           <Card key={p.id} className="flex flex-col gap-3">
@@ -41,17 +34,43 @@ export default async function WritingPage() {
               <span>{dict.writing.target}: {p.targetWordCount} {dict.common.words}</span>
               <StartPromptButton promptId={p.id} label={dict.common.continue} />
             </div>
-            {/* Anything an administrator attached to this prompt. */}
             <ResourceBlocks dict={dict} blocks={materials.get(p.id) ?? []} />
           </Card>
         ))}
       </div>
-
       <TypingTrainer
         dict={dict}
         targets={prompts.map((p) => ({ id: p.id, label: p.category, text: p.prompt }))}
         initialSummary={{ count: typing.count, bestWpm: typing.bestWpm, bestAccuracy: typing.bestAccuracy }}
       />
+    </div>
+  );
+}
+
+function WritingActivitiesSkeleton() {
+  return (
+    <div aria-hidden="true" className="flex flex-col gap-6" data-async-loading="writing">
+      {[0, 1, 2].map((row) => <div key={row} className="h-40 animate-pulse rounded-xl bg-ink-50" />)}
+    </div>
+  );
+}
+
+export default async function WritingPage() {
+  const [user, locale] = await Promise.all([requireActiveUser(), getLocale()]);
+  if (!user) return null;
+  const dict = getDictionary(locale);
+
+  return (
+    <div className="mx-auto flex max-w-4xl flex-col gap-6" data-route-usable="writing">
+      <div className="flex items-center justify-between">
+        <h1 className="font-display text-2xl text-ink-900">{dict.writing.practiceTitle}</h1>
+        <Link href="/writing/history" className="text-sm text-signal-600 hover:underline">
+          {dict.writing.historyTitle} →
+        </Link>
+      </div>
+      <Suspense fallback={<WritingActivitiesSkeleton />}>
+        <WritingActivities userId={user.id} dict={dict} />
+      </Suspense>
     </div>
   );
 }

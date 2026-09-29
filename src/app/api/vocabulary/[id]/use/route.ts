@@ -46,8 +46,6 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     userId: user.id,
     entryId: entry.id,
     sentence: parsed.data.sentence,
-    origin: "manual",
-    accepted: false,
   });
   if (!stored.ok) return NextResponse.json({ error: stored.error }, { status: 404 });
 

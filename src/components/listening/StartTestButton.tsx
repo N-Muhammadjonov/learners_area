@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useInstantInteraction } from "@/components/interaction/InstantInteractionProvider";
 import { Button } from "@/components/ui/Button";
 
 export function StartTestButton({ testId, label }: { testId: string; label: string }) {
-  const router = useRouter();
+  const { navigate } = useInstantInteraction();
   const [pending, setPending] = useState(false);
 
   return (
@@ -20,7 +20,7 @@ export function StartTestButton({ testId, label }: { testId: string; label: stri
           body: JSON.stringify({ testId }),
         });
         const data = await res.json();
-        if (res.ok) router.push(`/listening/attempts/${data.id}`);
+        if (res.ok) navigate(`/listening/attempts/${data.id}`);
         setPending(false);
       }}
     >

@@ -4,6 +4,11 @@ import { useEffect, useRef, useState, useTransition } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n/en";
+import {
+  closeDropdownAfterSelection,
+  closeReadingDropdownsOnEscape,
+  closeReadingDropdownsOutside,
+} from "@/lib/reading/dropdowns";
 
 /** URL-backed filters; typing is debounced, clear/submit commit immediately. */
 export function ReadingFilters({
@@ -25,6 +30,18 @@ export function ReadingFilters({
   const draft = useRef(current.query);
   const dirty = useRef(false);
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const dropdowns = useRef<(HTMLDetailsElement | null)[]>([]);
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => closeReadingDropdownsOnEscape(event, dropdowns.current);
+    const onPointerDown = (event: PointerEvent) => closeReadingDropdownsOutside(dropdowns.current, event.target);
+    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("pointerdown", onPointerDown);
+    };
+  }, []);
 
   // The search box follows the URL when it changes underneath (the back button,
   // "clear filters", a topic link) but never fights the person typing.
@@ -131,7 +148,12 @@ export function ReadingFilters({
         <div className="flex flex-wrap items-start gap-3">
           <div className="flex flex-col gap-1.5">
             <span className="field-label">{dict.readingHub.filterTopic}</span>
-            <details className="dropdown" data-reading-filter="topic">
+            <details
+              ref={(element) => { dropdowns.current[0] = element; }}
+              className="dropdown"
+              data-reading-filter="topic"
+              onClick={(event) => closeDropdownAfterSelection(event.currentTarget, event.target)}
+            >
               <summary className="input flex h-[var(--control-h)] cursor-pointer items-center justify-between gap-2">
                 <span>{topics.find((item) => item.code === current.topic)?.label ?? dict.readingHub.filterTopicAll}</span>
                 <span aria-hidden className="text-ink-300">▾</span>
@@ -162,7 +184,12 @@ export function ReadingFilters({
 
           <div className="flex flex-col gap-1.5">
             <span className="field-label">{dict.readingHub.filterType}</span>
-            <details className="dropdown" data-reading-filter="type">
+            <details
+              ref={(element) => { dropdowns.current[1] = element; }}
+              className="dropdown"
+              data-reading-filter="type"
+              onClick={(event) => closeDropdownAfterSelection(event.currentTarget, event.target)}
+            >
               <summary className="input flex h-[var(--control-h)] cursor-pointer items-center justify-between gap-2">
                 <span>{types.find((item) => item.code === current.type)?.label ?? dict.readingHub.filterTypeAll}</span>
                 <span aria-hidden className="text-ink-300">▾</span>

@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useInstantInteraction } from "@/components/interaction/InstantInteractionProvider";
 import { Button } from "@/components/ui/Button";
 
 export function StartPromptButton({ promptId, label }: { promptId: string; label: string }) {
-  const router = useRouter();
+  const { navigate } = useInstantInteraction();
   const [pending, setPending] = useState(false);
 
   return (
@@ -20,7 +20,7 @@ export function StartPromptButton({ promptId, label }: { promptId: string; label
           body: JSON.stringify({ promptId }),
         });
         const data = await res.json();
-        if (res.ok) router.push(`/writing/submissions/${data.id}`);
+        if (res.ok) navigate(`/writing/submissions/${data.id}`);
         setPending(false);
       }}
     >

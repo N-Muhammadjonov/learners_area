@@ -37,14 +37,12 @@ export function Topbar({
   userName,
   userEmail,
   role,
-  unread = 0,
 }: {
   dict: Dictionary;
   locale: Locale;
   userName: string;
   userEmail?: string | null;
   role: Role;
-  unread?: number;
 }) {
   return (
     <header
@@ -68,7 +66,7 @@ export function Topbar({
         <LocaleSwitcher locale={locale} dict={dict} />
       </div>
       <div className="col-start-3 row-start-1 flex shrink-0 items-center gap-1.5 md:gap-2">
-        <NotificationBell initialCount={unread} label={dict.notifications.title} loadingLabel={dict.common.loading} />
+        <NotificationBell label={dict.notifications.title} loadingLabel={dict.common.loading} />
         <ProfileMenu dict={dict} userName={userName} userEmail={userEmail ?? null} role={role} />
       </div>
     </header>

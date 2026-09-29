@@ -59,8 +59,10 @@ test("unknown storage configuration never silently falls back to disk", () => {
   }
 });
 
-test("browser diagnostics require opt-in and cannot run on production", () => {
-  assert.equal(performanceDiagnosticsEnabled({ APP_ENV: "preview" }), false);
+test("browser diagnostics are automatic on Preview and can never run on production", () => {
+  assert.equal(performanceDiagnosticsEnabled({ APP_ENV: "preview" }), true);
+  assert.equal(performanceDiagnosticsEnabled({ VERCEL_ENV: "preview", NODE_ENV: "production" }), true);
+  assert.equal(performanceDiagnosticsEnabled({ NODE_ENV: "development" }), false);
   assert.equal(performanceDiagnosticsEnabled({ APP_ENV: "preview", NODE_ENV: "production", PERFORMANCE_DIAGNOSTICS: "1" }), true);
   assert.equal(performanceDiagnosticsEnabled({ APP_ENV: "production", PERFORMANCE_DIAGNOSTICS: "1" }), false);
   assert.equal(performanceDiagnosticsEnabled({ NODE_ENV: "production", PERFORMANCE_DIAGNOSTICS: "1" }), false);

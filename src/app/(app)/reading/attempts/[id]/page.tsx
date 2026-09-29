@@ -46,6 +46,7 @@ export default async function ReadingAttemptPage({ params }: { params: Promise<{
           passageMeta={passageMeta}
           materials={materials}
           startedAt={attempt.startedAt.toISOString()}
+          suggestedMinutes={passage.suggestedMinutes}
           groups={groups.map((group) => ({
             id: group.id,
             position: group.position,

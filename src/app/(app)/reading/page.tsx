@@ -31,12 +31,10 @@ export default async function ReadingPage({
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const user = await requireActiveUser();
+  const [user, lang, params] = await Promise.all([requireActiveUser(), getLocale(), searchParams]);
   if (!user) return null;
 
-  const lang = await getLocale();
   const dict = getDictionary(lang);
-  const params = await searchParams;
 
   const first = (value: string | string[] | undefined) => (Array.isArray(value) ? value[0] : value);
   const requestedTab = first(params.tab);
@@ -53,7 +51,7 @@ export default async function ReadingPage({
 
   const [counts, facets, library] = await Promise.all([
     readingHubCounts(user.id),
-    listLibraryFacets(),
+    tab === "academic" || tab === "types" ? listLibraryFacets() : Promise.resolve({ topics: [], types: [] }),
     tab === "academic" ? listLibrary(user.id, filter) : Promise.resolve(null),
   ]);
 

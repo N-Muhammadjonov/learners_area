@@ -50,12 +50,10 @@ export default async function ManagementPage() {
   // shown a management shell with nothing in it. The mode is derived from the
   // route, so this page must refuse the learner role for the same reason
   // /admin/* and /teacher/* do.
-  const staff = await requireStaff();
+  const [staff, locale] = await Promise.all([requireStaff(), getLocale()]);
   if (!staff) redirect("/dashboard");
 
   const user = staff;
-
-  const locale = await getLocale();
   const dict = getDictionary(locale);
 
   type Area = { href: string; title: string; body: string; icon: React.ReactNode };

@@ -1,8 +1,9 @@
 "use client";
 
-import Link from "next/link";
+import { InstantLink } from "@/components/interaction/InstantLink";
 import { LinkPending } from "./LinkPending";
 import { usePathname } from "next/navigation";
+import { useInstantInteraction } from "@/components/interaction/InstantInteractionProvider";
 import type { Dictionary } from "@/lib/i18n/en";
 import type { Role } from "@/lib/auth/roles";
 import { isManagementRoute } from "@/lib/nav/mode";
@@ -29,10 +30,10 @@ import {
 /**
  * The navigation list, in one of two modes.
  *
- * It is a client component for one reason: it needs the current path to mark
- * the active row and to choose the mode, and `usePathname()` is the honest
- * source for both. Everything it renders is a real link — navigation works
- * before hydration, in a new tab, and to a screen reader.
+ * It is a client component because it needs the current path and pending
+ * navigation intent to mark the active row and choose the mode immediately.
+ * Everything it renders is a real link — navigation works before hydration,
+ * in a new tab, and to a screen reader.
  */
 
 type NavItem = { href: string; label: string; icon: React.ReactNode };
@@ -47,7 +48,7 @@ function Group({ title, items, pathname, loading }: { title: string; items: NavI
           const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
           return (
             <li key={item.href}>
-              <Link
+              <InstantLink
                 href={item.href}
                 data-sidebar-link={item.href}
                 aria-current={active ? "page" : undefined}
@@ -58,7 +59,7 @@ function Group({ title, items, pathname, loading }: { title: string; items: NavI
                 </span>
                 <span className="sidebar-link-label">{item.label}</span>
                 <LinkPending label={loading} />
-              </Link>
+              </InstantLink>
             </li>
           );
         })}
@@ -69,9 +70,12 @@ function Group({ title, items, pathname, loading }: { title: string; items: NavI
 
 export function SidebarNav({ dict, role, email }: { dict: Dictionary; role: Role; email?: string }) {
   const pathname = usePathname() ?? "/";
+  const { navigation, currentLocation } = useInstantInteraction();
+  const pendingPath = navigation && currentLocation === navigation.from ? navigation.to.split("?")[0] : null;
+  const activePath = pendingPath ?? pathname;
   const nav = dict.nav;
   const staff = role === "teacher" || role === "admin" || role === "owner";
-  const management = isManagementRoute(pathname);
+  const management = isManagementRoute(activePath);
 
   const learning: NavItem[] = [
     { href: "/dashboard", label: nav.dashboard, icon: <IconDashboard /> },
@@ -129,33 +133,33 @@ export function SidebarNav({ dict, role, email }: { dict: Dictionary; role: Role
   }
 
   return (
-    <nav className="flex h-full flex-col" aria-label={management ? dict.shell.managementNav : dict.shell.learningNav}>
+    <nav className="flex h-full flex-col" aria-label={management ? dict.shell.managementNav : dict.shell.learningNav} data-pending-route={pendingPath ?? undefined}>
       {management ? (
         <div className="flex flex-col gap-3 pb-4">
-          <Link href="/dashboard" className="sidebar-back" data-sidebar-back-to-learning>
+          <InstantLink href="/dashboard" className="sidebar-back" data-sidebar-back-to-learning>
             <span aria-hidden>←</span>
             {nav.backToLearning}
-          </Link>
+          </InstantLink>
           <p className="sidebar-mode">{dict.shell.managementMode}</p>
-          <Group title={dict.shell.management} items={managementItems} pathname={pathname} loading={dict.common.loading} />
+          <Group title={dict.shell.management} items={managementItems} pathname={activePath} loading={dict.common.loading} />
         </div>
       ) : (
         <div className="flex flex-col gap-6 pb-4">
-          <Group title={nav.groupMain} items={learning} pathname={pathname} loading={dict.common.loading} />
-          <Group title={nav.groupModules} items={modules} pathname={pathname} loading={dict.common.loading} />
-          <Group title={nav.groupProgress} items={progress} pathname={pathname} loading={dict.common.loading} />
+          <Group title={nav.groupMain} items={learning} pathname={activePath} loading={dict.common.loading} />
+          <Group title={nav.groupModules} items={modules} pathname={activePath} loading={dict.common.loading} />
+          <Group title={nav.groupProgress} items={progress} pathname={activePath} loading={dict.common.loading} />
         </div>
       )}
 
       <div className="mt-auto flex flex-col gap-3 border-t border-ink-100 pt-4">
-        <Group title={dict.shell.support} items={[{ href: "/support", label: nav.support, icon: <IconSupport /> }]} pathname={pathname} loading={dict.common.loading} />
+        <Group title={dict.shell.support} items={[{ href: "/support", label: nav.support, icon: <IconSupport /> }]} pathname={activePath} loading={dict.common.loading} />
         {staff && !management && (
-          <Link href="/management" className="sidebar-link sidebar-link-management" data-sidebar-management-entry>
+          <InstantLink href="/management" className="sidebar-link sidebar-link-management" data-sidebar-management-entry>
             <span aria-hidden className="sidebar-link-icon">
               <IconSettings />
             </span>
             <span className="sidebar-link-label">{dict.shell.switchToManagement}</span>
-          </Link>
+          </InstantLink>
         )}
         {email && (
           <p className="sidebar-account" title={email}>

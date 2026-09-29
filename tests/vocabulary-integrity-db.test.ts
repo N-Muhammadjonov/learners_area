@@ -43,7 +43,8 @@ test("concurrent saves share one canonical sense and one learner entry with one 
     assert.equal(results.reduce((n, result) => n + (result.ok ? result.added : 0), 0), 1);
     assert.equal((await db.select().from(lexemes).where(eq(lexemes.term, term))).length, 1);
     assert.equal((await db.select().from(userVocabulary).where(eq(userVocabulary.userId, userId))).length, 1);
-    assert.equal((await db.select().from(vocabPointEvents).where(and(eq(vocabPointEvents.userId, userId), eq(vocabPointEvents.kind, "new_word")))).length, 1);
+    assert.equal((await db.select().from(vocabPointEvents).where(eq(vocabPointEvents.userId, userId))).length, 0, "saving words is worth zero and creates no misleading award row");
+    assert.equal(results.reduce((n, result) => n + (result.ok ? result.points : 0), 0), 0);
     const replay = await addVocabularyBatch({ userId, items: [{ term, partOfSpeech: "noun", definitionEn: "An isolated canonical sense" }] });
     assert.ok(replay.ok);
     assert.equal(replay.added, 0);

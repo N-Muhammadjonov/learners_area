@@ -23,7 +23,7 @@ export function VocabUsePanel({
 }: {
   dict: Dictionary;
   initial: VocabSentence[];
-  onSaved: () => void;
+  onSaved: (awarded: boolean) => void;
 }) {
   const t = dict.vocabulary;
   const [sentences, setSentences] = useState<VocabSentence[]>(initial);
@@ -76,13 +76,16 @@ export function VocabUsePanel({
       });
     }
 
+    // Refresh score/history as soon as the authoritative award is known; the
+    // independent sentence-list refresh must not delay the ledger update.
+    onSaved(res.ok && payload.accepted === true && Number(payload.points) > 0);
+
     const refreshed = await fetch("/api/vocabulary/sentences");
     const latest = await refreshed.json().catch(() => null);
     if (latest?.ok) {
       setSentences(latest.sentences ?? []);
       setWords(latest.words ?? []);
     }
-    onSaved();
   }
 
   const selected = words.find((word) => word.id === entryId);

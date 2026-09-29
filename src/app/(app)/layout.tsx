@@ -4,12 +4,17 @@ import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth/current-user";
 import { hasPrivateAccess } from "@/lib/auth/account-status";
 import { getLocale, getDictionary } from "@/lib/i18n";
-import { countUnread } from "@/lib/data/notifications";
 import { Sidebar } from "@/components/shell/Sidebar";
 import { Topbar } from "@/components/shell/Topbar";
 import { ShellUtilities } from "@/components/shell/ShellUtilities";
+import { InstantInteractionProvider } from "@/components/interaction/InstantInteractionProvider";
+import { InstantWorkspaceOutlet } from "@/components/interaction/InstantWorkspaceOutlet";
 
-export const dynamic = "force-dynamic";
+/**
+ * This segment is request-dynamic through `getCurrentUser()` and `getLocale()`
+ * reading request cookies; do not force the entire tree dynamic redundantly.
+ * The database-backed account/admission gate still runs before every response.
+ */
 
 /**
  * Nothing inside the centre belongs in a search engine. The sitemap never lists
@@ -47,66 +52,88 @@ export const metadata = {
  * `overflow-y: auto` does nothing at all.
  */
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
-  const user = await getCurrentUser();
+  // Locale is request-cookie data, so read it alongside (not after) the
+  // authoritative user lookup. The DB-backed gate remains mandatory.
+  const [user, locale] = await Promise.all([getCurrentUser(), getLocale()]);
   if (!user) redirect("/login");
   if (!hasPrivateAccess(user.accountStatus)) redirect("/pending");
 
-  const locale = await getLocale();
   const dict = getDictionary(locale);
-  // One cheap count, and only for the badge that displays it.
-  const unread = await countUnread(user.id);
 
+  const diagnostics = performanceDiagnosticsEnabled();
   return (
-    <div className="flex h-dvh overflow-hidden bg-paper" data-shell>
-      {performanceDiagnosticsEnabled() && <PerformanceDiagnostics />}
-      {/*
-        The rail is visible from 768px up and replaced by the drawer below that
-        (see MobileNav, which is `md:hidden`).
-        
-        This `hidden md:flex` is load-bearing: without it the 288px rail stays in
-        the flex row on a phone and squeezes the whole application into a ~126px
-        column at 390px. Every page still "worked", every card was 100px wide, and
-        only a width measurement caught it.
-      */}
-      <aside
-        className="hidden h-full shrink-0 flex-col overflow-y-auto border-r border-ink-100 bg-paper-raised px-3 py-5 md:flex"
-        style={{ width: "var(--shell-sidebar-w)" }}
-        data-shell-sidebar
-        data-sidebar-scroll
-      >
-        <Sidebar dict={dict} role={user.role} email={user.email ?? ""} />
-      </aside>
-      <div className="flex min-h-0 min-w-0 flex-1 flex-col">
-        <Topbar
-          dict={dict}
-          locale={locale}
-          userName={user.name}
-          userEmail={user.email}
-          role={user.role}
-          unread={unread}
-        />
-        <main
-          id="main-content"
-          data-shell-main
-          className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden bg-paper"
+    <InstantInteractionProvider diagnostics={diagnostics}>
+      <div className="flex h-dvh overflow-hidden bg-paper" data-shell>
+        {diagnostics && <PerformanceDiagnostics />}
+        {/*
+          The rail is visible from 768px up and replaced by the drawer below that
+          (see MobileNav, which is `md:hidden`).
+          This `hidden md:flex` is load-bearing: without it the 288px rail stays
+          in the flex row on a phone and squeezes the whole application into a
+          narrow column at 390px.
+        */}
+        <aside
+          className="hidden h-full shrink-0 flex-col overflow-y-auto border-r border-ink-100 bg-paper-raised px-3 py-5 md:flex"
+          style={{ width: "var(--shell-sidebar-w)" }}
+          data-shell-sidebar
+          data-sidebar-scroll
         >
-          <div
-            className="mx-auto w-full"
-            style={{
-              maxWidth: "var(--shell-content-max)",
-              paddingInline:
-                "calc(var(--shell-pad-x) + env(safe-area-inset-left)) calc(var(--shell-pad-x) + env(safe-area-inset-right))",
-              paddingBlock: "var(--shell-pad-y)",
-              paddingBottom: "calc(var(--shell-pad-y) + env(safe-area-inset-bottom))",
-            }}
+          <Sidebar dict={dict} role={user.role} email={user.email ?? ""} />
+        </aside>
+        <div className="flex min-h-0 min-w-0 flex-1 flex-col">
+          <Topbar
+            dict={dict}
+            locale={locale}
+            userName={user.name}
+            userEmail={user.email}
+            role={user.role}
+          />
+          <main
+            id="main-content"
+            tabIndex={-1}
+            data-shell-main
+            className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden bg-paper"
           >
-            {children}
-          </div>
-        </main>
-        {/* Focus mode and "report a problem" live on the learning surface only.
-            See ShellUtilities: management pages never show focus mode. */}
-        <ShellUtilities dict={dict} />
+            <div
+              className="mx-auto w-full"
+              style={{
+                maxWidth: "var(--shell-content-max)",
+                paddingInline:
+                  "calc(var(--shell-pad-x) + env(safe-area-inset-left)) calc(var(--shell-pad-x) + env(safe-area-inset-right))",
+                paddingBlock: "var(--shell-pad-y)",
+                paddingBottom: "calc(var(--shell-pad-y) + env(safe-area-inset-bottom))",
+              }}
+            >
+              <InstantWorkspaceOutlet
+                labels={{
+                  opening: dict.loadingPage.label,
+                  slow: dict.errors.unknown,
+                  retry: dict.errorPage.retry,
+                  destinations: {
+                    dashboard: dict.nav.dashboard,
+                    listening: dict.nav.listening,
+                    "video-lessons": dict.nav.videoLessons,
+                    reading: dict.nav.reading,
+                    writing: dict.nav.writing,
+                    speaking: dict.nav.speaking,
+                    grammar: dict.nav.grammar,
+                    vocabulary: dict.nav.vocabulary,
+                    progress: dict.nav.progress,
+                    mocks: dict.nav.mockTests,
+                    support: dict.nav.support,
+                    management: dict.shell.management,
+                    other: dict.loadingPage.label,
+                  },
+                }}
+              >
+                {children}
+              </InstantWorkspaceOutlet>
+            </div>
+          </main>
+          {/* Focus mode and report controls belong to the learning surface only. */}
+          <ShellUtilities dict={dict} />
+        </div>
       </div>
-    </div>
+    </InstantInteractionProvider>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useId, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useInstantInteraction } from "@/components/interaction/InstantInteractionProvider";
 import type { Dictionary } from "@/lib/i18n/en";
 import { requestJson } from "@/lib/http/client-request";
 import { IconClose, IconSearch } from "@/components/ui/icons";
@@ -29,7 +29,7 @@ type Hit = { type: string; title: string; context: string | null; href: string }
 type State = "idle" | "loading" | "ready" | "error";
 
 export function GlobalSearch({ dict }: { dict: Dictionary }) {
-  const router = useRouter();
+  const { navigate } = useInstantInteraction();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [hits, setHits] = useState<Hit[]>([]);
@@ -145,7 +145,7 @@ export function GlobalSearch({ dict }: { dict: Dictionary }) {
 
   function go(hit: Hit) {
     close();
-    router.push(hit.href);
+    navigate(hit.href);
   }
 
   function onInputKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {

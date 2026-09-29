@@ -10,8 +10,8 @@ import { formatDate } from "@/lib/time";
  *
  * There is nothing to post here: the numbers are aggregated from the point
  * ledger, which is written by the server when it observes real study events
- * (a new word, a scheduled revision, an eligible practice answer, an accepted
- * sentence). Replaying a request cannot inflate a score — every award carries a
+ * (a scheduled revision, a verified correct game answer, an RIWI-accepted
+ * sentence). Word saves and self-assessments earn nothing. Replaying cannot inflate a score — each award carries a
  * dedupe key and the unique index drops the duplicate.
  */
 export function VocabBoardPanel({
@@ -28,9 +28,13 @@ export function VocabBoardPanel({
   const [live, setLive] = useState<VocabStanding>(standing);
 
   useEffect(() => {
+    setLive(standing);
+  }, [standing]);
+
+  useEffect(() => {
     let cancelled = false;
-    void (async () => {
-      const res = await fetch("/api/vocabulary/leaderboard");
+    const refreshLedger = async () => {
+      const res = await fetch("/api/vocabulary/leaderboard", { cache: "no-store" });
       const payload = await res.json().catch(() => null);
       if (cancelled || !payload?.ok) return;
       setLive({
@@ -40,17 +44,20 @@ export function VocabBoardPanel({
         top: payload.top ?? [],
       });
       setAwards(payload.awards ?? []);
-    })();
+    };
+    void refreshLedger();
+    window.addEventListener("vocab:ledger-changed", refreshLedger);
     return () => {
       cancelled = true;
+      window.removeEventListener("vocab:ledger-changed", refreshLedger);
     };
   }, []);
 
   const awardLabel: Record<VocabAward["kind"], string> = {
-    new_word: t.summary.words,
-    revision: t.summary.dueToday,
-    game_answer: t.games.title,
-    sentence: t.use.bank,
+    new_word: t.board.legacyAward,
+    revision: t.board.revisionAward,
+    game_answer: t.board.gameAward,
+    sentence: t.board.sentenceAward,
   };
 
   return (

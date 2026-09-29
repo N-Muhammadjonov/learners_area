@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useInstantInteraction } from "@/components/interaction/InstantInteractionProvider";
 import { Button } from "@/components/ui/Button";
 import { requestJson, failureMessage } from "@/lib/http/client-request";
 import { dictionaryForDocument } from "@/lib/i18n/client";
@@ -23,7 +23,7 @@ export function StartPassageButton({
   label: string;
   variant?: "primary" | "secondary";
 }) {
-  const router = useRouter();
+  const { navigate } = useInstantInteraction();
   const dict = dictionaryForDocument();
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -43,7 +43,7 @@ export function StartPassageButton({
               body: { passageId },
             });
             if (result.ok && result.data?.id) {
-              router.push(`/reading/attempts/${result.data.id}`);
+              navigate(`/reading/attempts/${result.data.id}`);
               return;
             }
             setError(

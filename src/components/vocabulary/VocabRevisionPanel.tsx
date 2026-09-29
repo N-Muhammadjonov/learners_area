@@ -28,7 +28,7 @@ export function VocabRevisionPanel({
 }: {
   dict: Dictionary;
   initialDue: VocabWord[];
-  onFinished: (remaining: number) => void;
+  onFinished: (remaining: number, pointsAwarded: number) => void;
 }) {
   const t = dict.vocabulary;
   const [queue, setQueue] = useState<VocabWord[]>(initialDue);
@@ -64,10 +64,10 @@ export function VocabRevisionPanel({
     setRevealed(false);
     if (index + 1 >= queue.length) {
       setIndex(queue.length);
-      onFinished(0);
+      onFinished(0, payload.points);
     } else {
       setIndex(index + 1);
-      onFinished(queue.length - index - 1);
+      onFinished(queue.length - index - 1, payload.points);
     }
   }
 

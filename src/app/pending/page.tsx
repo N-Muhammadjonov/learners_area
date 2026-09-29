@@ -48,7 +48,7 @@ export default async function PendingPage() {
       footer={
         <div className="flex items-center justify-center gap-3">
           <span>{user.name}</span>
-          <LogoutButton label={t.signOut} />
+          <LogoutButton label={t.signOut} dict={dict} />
         </div>
       }
     >

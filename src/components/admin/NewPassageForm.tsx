@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useInstantInteraction } from "@/components/interaction/InstantInteractionProvider";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea, Label } from "@/components/ui/Input";
 import type { Dictionary } from "@/lib/i18n/en";
 
 export function NewPassageForm({ dict }: { dict: Dictionary }) {
-  const router = useRouter();
+  const { navigate } = useInstantInteraction();
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [bodyText, setBodyText] = useState("");
@@ -31,7 +31,7 @@ export function NewPassageForm({ dict }: { dict: Dictionary }) {
         setPending(false);
         if (res.ok) {
           const data = await res.json();
-          router.push(`/admin/reading/${data.id}`);
+          navigate(`/admin/reading/${data.id}`);
         }
       }}
     >

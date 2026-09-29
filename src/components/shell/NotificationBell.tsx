@@ -17,9 +17,8 @@ export function publishNotificationCount(unread: number) {
   }
 }
 
-export function NotificationBell({ initialCount, label, loadingLabel }: { initialCount: number; label: string; loadingLabel: string }) {
-  const [count, setCount] = useState(initialCount);
-  useEffect(() => setCount(initialCount), [initialCount]);
+export function NotificationBell({ label, loadingLabel }: { label: string; loadingLabel: string }) {
+  const [count, setCount] = useState(0);
   useEffect(() => {
     let controller: AbortController | undefined;
     let revision = 0;
@@ -40,6 +39,8 @@ export function NotificationBell({ initialCount, label, loadingLabel }: { initia
     if (channel) channel.onmessage = refresh;
     window.addEventListener(NOTIFICATIONS_CHANGED, changed);
     document.addEventListener("visibilitychange", refresh);
+    // The badge is useful but not a page gate: load it after the shell paints.
+    void refresh();
     return () => {
       revision++;
       controller?.abort();

@@ -4,7 +4,8 @@ import "./globals.css";
 import { BRAND, BRAND_FAVICON } from "@/lib/config/brand";
 import { THEME_COOKIE, themeFromCookie } from "@/lib/theme";
 import { getLocale } from "@/lib/i18n";
-import { isPreviewDeployment, publicBaseUrl } from "@/lib/config/site";
+import { isPreviewDeployment, performanceDiagnosticsEnabled, publicBaseUrl } from "@/lib/config/site";
+import { GlobalControlDiagnostics } from "@/components/interaction/GlobalControlDiagnostics";
 
 export const metadata: Metadata = {
   ...(publicBaseUrl ? { metadataBase: new URL(publicBaseUrl) } : {}),
@@ -57,7 +58,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const theme = await readTheme();
   return (
     <html lang={await getLocale()} data-theme={theme} data-focus="off">
-      <body>{children}</body>
+      <body>
+        {performanceDiagnosticsEnabled() && <GlobalControlDiagnostics />}
+        {children}
+      </body>
     </html>
   );
 }

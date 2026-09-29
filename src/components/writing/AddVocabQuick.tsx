@@ -17,7 +17,7 @@ export function AddVocabQuick({ dict, sourceId }: { dict: Dictionary; sourceId: 
 
   if (!open) {
     return (
-      <button onClick={() => setOpen(true)} className="text-sm text-signal-600 hover:underline">
+      <button type="button" onClick={() => setOpen(true)} className="text-sm text-signal-600 hover:underline">
         + {dict.writing.addToVocab}
       </button>
     );

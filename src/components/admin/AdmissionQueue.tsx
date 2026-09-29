@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n/en";
 import type { AccessRequestRow } from "@/lib/data/admission";
+import { ConfirmAction } from "@/components/interaction/InteractionPrimitives";
 
 /**
  * Approve / reject one access request.
@@ -24,21 +25,27 @@ export function AdmissionQueue({
   const [error, setError] = useState<string | null>(null);
   const [note, setNote] = useState<Record<string, string>>({});
 
-  async function decide(id: string, decision: "approve" | "reject") {
+  async function decide(id: string, decision: "approve" | "reject"): Promise<void> {
     setBusy(id);
     setError(null);
-    const res = await fetch(`/api/admin/admission/${id}/decide`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ decision, note: note[id]?.trim() || null }),
-    });
-    setBusy(null);
-    if (!res.ok) {
-      const data = await res.json().catch(() => ({}));
-      setError(`${dict.people.failed} (${data.error ?? res.status})`);
-      return;
+    try {
+      const res = await fetch(`/api/admin/admission/${id}/decide`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ decision, note: note[id]?.trim() || null }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setError(`${dict.people.failed} (${data.error ?? res.status})`);
+        throw new Error("admission_decision_failed");
+      }
+      router.refresh();
+    } catch (error) {
+      if (!(error instanceof Error && error.message === "admission_decision_failed")) setError(dict.people.failed);
+      throw error;
+    } finally {
+      setBusy(null);
     }
-    router.refresh();
   }
 
   if (requests.length === 0) {
@@ -78,22 +85,30 @@ export function AdmissionQueue({
               onChange={(event) => setNote({ ...note, [request.id]: event.target.value })}
             />
             <div className="flex gap-2">
-              <button
-                type="button"
-                className="btn-primary text-xs"
-                disabled={busy === request.id}
-                onClick={() => void decide(request.id, "approve")}
-              >
-                {dict.admission.approve}
-              </button>
-              <button
-                type="button"
-                className="btn-secondary text-xs"
-                disabled={busy === request.id}
-                onClick={() => void decide(request.id, "reject")}
-              >
-                {dict.admission.reject}
-              </button>
+              <ConfirmAction
+                trigger={dict.admission.approve}
+                triggerClassName="btn-primary text-xs"
+                triggerDisabled={busy !== null}
+                title={dict.admission.confirmDecisionTitle}
+                description={dict.admission.confirmDecisionBody}
+                confirmLabel={dict.common.confirm}
+                cancelLabel={dict.common.cancel}
+                pendingLabel={dict.loadingPage.label}
+                failureMessage={dict.people.failed}
+                onConfirm={() => decide(request.id, "approve")}
+              />
+              <ConfirmAction
+                trigger={dict.admission.reject}
+                triggerClassName="btn-secondary text-xs"
+                triggerDisabled={busy !== null}
+                title={dict.admission.confirmDecisionTitle}
+                description={dict.admission.confirmDecisionBody}
+                confirmLabel={dict.common.confirm}
+                cancelLabel={dict.common.cancel}
+                pendingLabel={dict.loadingPage.label}
+                failureMessage={dict.people.failed}
+                onConfirm={() => decide(request.id, "reject")}
+              />
             </div>
           </div>
         </div>
