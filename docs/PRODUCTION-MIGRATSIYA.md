@@ -1,3 +1,10 @@
+# Historical deployment guide — superseded for Work QA 2
+
+For the current Work release and 21-entry 0000–0020 migration chain, follow
+[WORK-FINAL-AUDIT.md — Manual promotion steps](WORK-FINAL-AUDIT.md#manual-promotion-steps--later-owner-approval-only).
+The empty-database state, branch and counts below describe an earlier Arena
+incident; do not treat them as the current production state.
+
 # Production bazani migratsiya qilish — qadam-baqadam qo'llanma
 
 Bu hujjat **siz o'zingiz** (men emas) production Supabase bazasiga migratsiya qilishingiz uchun.

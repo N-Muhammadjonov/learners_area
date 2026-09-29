@@ -1,8 +1,11 @@
 # Retention audit — Work QA 2
 
-Status: **FINAL QA 2 — IN PROGRESS**. This is implementation evidence for the
-activity/cleanup checkpoint, not full lifecycle acceptance. Production cleanup
-has not been run, and cloud R2 behavior is **EXTERNALLY UNVERIFIED**.
+Status: **PASS for the final closure regression scope** (2026-09-29). Final
+full suite 300/300 includes all six actual retention DB cases; activity HTTP
+13/13 and retention HTTP 10/10. Production cleanup has not been run. Cloud
+R2 and exhaustive lifecycle/restore coverage remain EXTERNALLY UNVERIFIED or
+non-blocking operational follow-up as classified in WORK-FINAL-AUDIT.md.
+The checkpoint counts below are historical, not current totals.
 
 ## Reproduced defects and fixes (2026-09-28)
 

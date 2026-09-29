@@ -1,38 +1,16 @@
-# Shared lexical interaction — QA 2
+# Shared lexical interaction — closure
 
-## Actual inventory
+Current evidence and classification: [WORK-FINAL-AUDIT.md](WORK-FINAL-AUDIT.md).
+Actual cross-surface inventory and authority model: [LEXICAL-ARCHITECTURE.md](LEXICAL-ARCHITECTURE.md).
 
-The shared `ClickableText` owns selection, keyboard interaction, popup placement,
-lookup cancellation and saving. Existing users: ReadingExam passage/paragraphs,
-RetentionCheck (Reading analysis and standalone retention), Listening completed
-attempt transcript and revision explanations, VideoLessonStudio timed transcript.
-This phase also wires ReadingAnalysis evidence/explanations, SpeedTrainer transcript,
-and ResourceBlocks text (the shared composer reader across lessons/material owners).
-No separate podcast-transcript product exists in this checkout. Audio/video embeds,
-images, PDFs and editable answer/transcript fields are not wrapped or claimed as
-text lookup surfaces. No new dictionary or premium redesign was introduced.
+Final full suite: **300/300** with real DB enabled. Shared React DOM cases: **15/15**, nested inside one suite wrapper. Typecheck/lint/build passed after the final runtime edits; closure repeats those gates without new runtime changes.
 
-## Contract and evidence
+Words are plain spans with original separators, no per-word buttons or tab stops, no hover pill and no per-word padding. Each text region has one labelled keyboard entry. Left/Right/Home/End select; Enter opens; Escape returns region focus. Native gestures are not prevented. Drag >8px, noncollapsed selection, hold >=500ms, cancellation, context menu and multiple clicks suppress lookup. Intentional pointer lookup waits 240ms so a second click can become native selection before dialog focus.
 
-Words are plain inline spans with original separators, no padding/underline/hover
-style and no per-word tab stops. Each text region is one labelled keyboard stop:
-Left/Right, Home/End choose a word; Enter opens; Escape restores the region focus.
-A live status announces keyboard selection. Pointer selection uses native browser
-behavior, never preventDefault: noncollapsed selection, movement >8px, hold >=500ms,
-context menu, cancelled pointer and multi-click do not open a word. Popup body portal,
-viewport/column clamp, scroll/resize tracking and prior async protections remain.
+Reading popup measured within viewport at 320/360/375/390/393/768/1024/1440; 320px bounds x=8..312. Reading, Vocabulary, Listening transcript and synthetic video/material representative pages showed no horizontal overflow at those widths. Keyboard lookup observed in Reading, Listening, video and material text. Escape focus restoration observed in Reading. Existing outside-close/scroll/async-state behavior is DOM regression evidence, not a new physical-pointer certification.
 
-Fresh full regression: 294/294, zero skipped; nested React DOM cases 13/13, including
-native Selection ranges, drag/hold/cancel and keyboard navigation. An initial run
-caught two ASCII-apostrophe localization regressions; corrected, then full suite
-passed. Typecheck/lint passed; production build passed before the apostrophe-only
-correction (the next build must include that text correction).
+**POINTER/DRAG NATIVE SELECTION — TOOLING-LIMITED / EXTERNALLY UNVERIFIED.** Native automation did not reliably select prose at desktop or 320px; screenshot/DOM coordinates diverged. Double-click selected a newline. No assertion of successful native drag, copy or physical mobile long press is made. No product defect was established by these tooling attempts.
 
-Real browser: 320px viewport popup x=8..312, no overflow, keyboard End/Enter opened
-permission and focused the dialog; Escape returned text focus. 1440px reading has
-zero word buttons. Native automation drag did not create any selection in two
-attempts, and locator click did not open a popup; screenshot and DOM coordinates
-differ. Do not count those as pointer PASS or assume application failure. Actual
-pointer/selection verification remains pending reliable browser input. DOM tests
-prove handlers, not physical interaction. Prior save/reload and current Vocabulary
-folder/DB agree for decades and growing. No console errors in the folder check.
+Manual retest on the deployed approved build: drag both directions across word boundaries; copy selected phrase; outside click clears; double-click selects a word without conflicting popup; then ordinary word click opens; Escape restores focus. On a real phone, long-press and selection handles must remain usable. Repeat near first/middle/bottom lines at 320px, during scroll and resize.
+
+Synthetic video/material fixture proves text UI only, not external provider playback. Screenshots/raw measurements are outside Git under outputs/work. No private reference archives are committed.
