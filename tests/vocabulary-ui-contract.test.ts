@@ -20,7 +20,8 @@ test("Games is a lightweight library with history-aware dedicated routes for all
   assert.match(studio, /navigate\("\/vocabulary\/games"\)/);
   assert.match(studio, /setTab\(next\)/);
   assert.doesNotMatch(studio, /<VocabGamesPanel/);
-  assert.ok(vocabPage.indexOf('if (tab === "games") redirect') < vocabPage.indexOf('timed("vocabulary.library"'), "legacy Games query redirects before full Studio data is read");
+  const route = vocabPage.slice(vocabPage.indexOf("export default async function VocabularyPage"));
+  assert.ok(route.indexOf('if (params.tab === "games") redirect') < route.indexOf("<VocabularyWorkspace"), "the legacy Games query redirects before Studio data is rendered");
   for (const gameId of ["cards", "choice", "match", "gap", "race", "translation", "builder"]) {
     assert.ok(panel.includes(`gameId === "${gameId}"`), `${gameId} has a dedicated view branch`);
   }

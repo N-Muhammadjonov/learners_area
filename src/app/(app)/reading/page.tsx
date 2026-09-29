@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Link from "next/link";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
@@ -6,53 +7,25 @@ import { questionTypeLabel, topicLabel } from "@/lib/reading-labels";
 import { ReadingFilters } from "@/components/reading/ReadingFilters";
 import { ReadingPassageCard } from "@/components/reading/ReadingPassageCard";
 import { EmptyState } from "@/components/ui/EmptyState";
-import { IconChevronRight, IconPlay, IconReading, IconRetention } from "@/components/ui/icons";
+import { IconChevronRight, IconReading, IconRetention } from "@/components/ui/icons";
 
 export const metadata = { title: "Reading" };
 
 const TABS = ["academic", "videos", "general", "types", "retention"] as const;
 type Tab = (typeof TABS)[number];
+type ReadingFilter = { status?: string; topic?: string; type?: string; query?: string; page: number };
 
-/**
- * The Reading hub.
- *
- * Before this page the module was one flat list of every passage that existed,
- * which is how a library of 105 items ends up looking like an empty page with a
- * scrollbar: nothing tells the student where to start, and nothing tells them
- * what they have already done.
- *
- * The tabs are the five ways into reading, and the counts are real — they are
- * counted in the database, not written into the copy. The one thing this page
- * will not do is pretend: General Training has no material yet, so it says so
- * and explains where it will appear, rather than showing an empty grid.
- */
-export default async function ReadingPage({
-  searchParams,
-}: {
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
+async function ReadingWorkspace({ userId, lang, dict, tab, filter }: {
+  userId: string;
+  lang: "uz" | "en";
+  dict: ReturnType<typeof getDictionary>;
+  tab: Tab;
+  filter: ReadingFilter;
 }) {
-  const [user, lang, params] = await Promise.all([requireActiveUser(), getLocale(), searchParams]);
-  if (!user) return null;
-
-  const dict = getDictionary(lang);
-
-  const first = (value: string | string[] | undefined) => (Array.isArray(value) ? value[0] : value);
-  const requestedTab = first(params.tab);
-  const tab: Tab = (TABS as readonly string[]).includes(requestedTab ?? "") ? (requestedTab as Tab) : "academic";
-  const page = Number(first(params.page) ?? "1") || 1;
-
-  const filter = {
-    status: first(params.status),
-    topic: first(params.topic),
-    type: first(params.type),
-    query: first(params.q),
-    page,
-  };
-
   const [counts, facets, library] = await Promise.all([
-    readingHubCounts(user.id),
+    readingHubCounts(userId),
     tab === "academic" || tab === "types" ? listLibraryFacets() : Promise.resolve({ topics: [], types: [] }),
-    tab === "academic" ? listLibrary(user.id, filter) : Promise.resolve(null),
+    tab === "academic" ? listLibrary(userId, filter) : Promise.resolve(null),
   ]);
 
   const tabHref = (next: Tab) => {
@@ -70,13 +43,9 @@ export default async function ReadingPage({
   ];
 
   return (
-    <div className="flex flex-col gap-8" data-reading-hub>
+    <div className="flex flex-col gap-8" data-reading-content data-async-content="reading">
       <header className="flex flex-col gap-2">
-        <h1 className="page-title">{dict.readingHub.title}</h1>
-        {/*
-          The count is the database's, never a number typed into the copy: if a
-          passage is withdrawn or added, the sentence changes with it.
-        */}
+        {/* The passage count is from the DB, never a number typed into copy. */}
         <p className="page-subtitle">
           {counts.total > 0
             ? dict.readingHub.subtitleWithCount.replace("{n}", String(counts.total))
@@ -104,16 +73,8 @@ export default async function ReadingPage({
       {tab === "videos" && (
         <section className="flex flex-col gap-4" data-reading-videos>
           <h2 className="section-title">{dict.readingHub.videosTitle}</h2>
-          <EmptyState
-            icon="▶"
-            title={dict.readingHub.videosEmpty}
-            body={dict.readingHub.videosEmptyHint}
-            action={
-              <Link href="/video-lessons" className="btn-secondary">
-                {dict.readingHub.videosGoToLibrary}
-              </Link>
-            }
-          />
+          <EmptyState icon="▶" title={dict.readingHub.videosEmpty} body={dict.readingHub.videosEmptyHint}
+            action={<Link href="/video-lessons" className="btn-secondary">{dict.readingHub.videosGoToLibrary}</Link>} />
         </section>
       )}
 
@@ -130,21 +91,14 @@ export default async function ReadingPage({
             <h2 className="section-title">{dict.readingHub.typesTitle}</h2>
             <p className="body-text">{dict.readingHub.typesHint}</p>
           </div>
-          {facets.types.length === 0 ? (
-            <EmptyState icon="◆" title={dict.readingHub.typesEmpty} />
-          ) : (
+          {facets.types.length === 0 ? <EmptyState icon="◆" title={dict.readingHub.typesEmpty} /> : (
             <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
               {facets.types.map((type) => (
                 <li key={type.code} className="panel flex flex-col gap-2">
                   <span className="card-title">{questionTypeLabel(type.code, lang)}</span>
                   <span className="meta-text">{dict.readingHub.typesCount.replace("{n}", String(type.count))}</span>
-                  <Link
-                    href={`/reading?type=${encodeURIComponent(type.code)}`}
-                    className="mt-1 inline-flex items-center gap-1 text-[0.875rem] font-medium text-signal-600 hover:underline"
-                    data-reading-type-link={type.code}
-                  >
-                    {dict.readingHub.typesPractice}
-                    <IconChevronRight className="text-[15px]" />
+                  <Link href={`/reading?type=${encodeURIComponent(type.code)}`} className="mt-1 inline-flex items-center gap-1 text-[0.875rem] font-medium text-signal-600 hover:underline" data-reading-type-link={type.code}>
+                    {dict.readingHub.typesPractice}<IconChevronRight className="text-[15px]" />
                   </Link>
                 </li>
               ))}
@@ -156,25 +110,51 @@ export default async function ReadingPage({
       {tab === "retention" && (
         <section className="flex flex-col gap-4" data-reading-retention>
           <div className="panel flex flex-col gap-3">
-            <span aria-hidden className="flex h-11 w-11 items-center justify-center rounded-xl border border-gold/45 bg-gold/10 text-[22px] text-gold">
-              <IconRetention />
-            </span>
+            <span aria-hidden className="flex h-11 w-11 items-center justify-center rounded-xl border border-gold/45 bg-gold/10 text-[22px] text-gold"><IconRetention /></span>
             <h2 className="section-title">{dict.readingHub.retentionTitle}</h2>
             <p className="body-text">{dict.readingHub.retentionBody}</p>
-            <Link href="/reading/retention" className="btn-primary w-fit" data-retention-mode-link>
-              {dict.readingHub.retentionAction}
-            </Link>
+            <Link href="/reading/retention" className="btn-primary w-fit" data-retention-mode-link>{dict.readingHub.retentionAction}</Link>
           </div>
         </section>
       )}
 
       <section className="flex flex-col gap-3">
         <h2 className="section-title">{dict.reading.historyTitle}</h2>
-        <Link href="/reading/history" className="link-inline w-fit">
-          {dict.reading.historyTitle}
-          <IconChevronRight className="text-[15px]" />
-        </Link>
+        <Link href="/reading/history" className="link-inline w-fit">{dict.reading.historyTitle}<IconChevronRight className="text-[15px]" /></Link>
       </section>
+    </div>
+  );
+}
+
+function ReadingWorkspaceSkeleton() {
+  return (
+    <div aria-hidden="true" className="flex flex-col gap-5" data-async-loading="reading">
+      <div className="flex gap-2"><span className="h-10 w-28 animate-pulse rounded bg-ink-50" /><span className="h-10 w-28 animate-pulse rounded bg-ink-50" /></div>
+      {[0, 1, 2].map((row) => <div key={row} className="h-36 animate-pulse rounded-xl bg-ink-50" />)}
+    </div>
+  );
+}
+
+export default async function ReadingPage({ searchParams }: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const [user, lang, params] = await Promise.all([requireActiveUser(), getLocale(), searchParams]);
+  if (!user) return null;
+  const dict = getDictionary(lang);
+  const first = (value: string | string[] | undefined) => (Array.isArray(value) ? value[0] : value);
+  const requestedTab = first(params.tab);
+  const tab: Tab = (TABS as readonly string[]).includes(requestedTab ?? "") ? requestedTab as Tab : "academic";
+  const filter: ReadingFilter = {
+    status: first(params.status), topic: first(params.topic), type: first(params.type), query: first(params.q),
+    page: Number(first(params.page) ?? "1") || 1,
+  };
+
+  return (
+    <div className="flex flex-col gap-8" data-reading-hub data-route-usable="reading">
+      <header><h1 className="page-title">{dict.readingHub.title}</h1></header>
+      <Suspense fallback={<ReadingWorkspaceSkeleton />}>
+        <ReadingWorkspace userId={user.id} lang={lang} dict={dict} tab={tab} filter={filter} />
+      </Suspense>
     </div>
   );
 }
@@ -196,8 +176,8 @@ function AcademicLibrary({
    * One call. The page used to ask the database three separate times for the
    * same page of cards — the rows, the total, and again the filtered total —
    * while the hub above it asked three more for the tab counts. The total now
-   * arrives with the rows (`count(*) over ()`), so "104 Academic passages" and
-   * the count under the filters are the same number from the same statement.
+   * arrives with the rows (`count(*) over ()`), so the library and its filters
+   * draw from that same statement.
    */
 
   const buildPageHref = (page: number) => {
@@ -266,16 +246,8 @@ function AcademicLibrary({
             {dict.readingHub.page} {library.page} / {library.pageCount}
           </span>
           <div className="flex items-center gap-2">
-            {library.page > 1 && (
-              <Link href={buildPageHref(library.page - 1)} className="btn-secondary" data-reading-page-prev>
-                {dict.readingHub.prevPage}
-              </Link>
-            )}
-            {library.page < library.pageCount && (
-              <Link href={buildPageHref(library.page + 1)} className="btn-secondary" data-reading-page-next>
-                {dict.readingHub.nextPage}
-              </Link>
-            )}
+            {library.page > 1 && <Link href={buildPageHref(library.page - 1)} className="btn-secondary" data-reading-page-prev>{dict.readingHub.prevPage}</Link>}
+            {library.page < library.pageCount && <Link href={buildPageHref(library.page + 1)} className="btn-secondary" data-reading-page-next>{dict.readingHub.nextPage}</Link>}
           </div>
         </nav>
       )}

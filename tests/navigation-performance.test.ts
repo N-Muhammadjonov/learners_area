@@ -71,6 +71,8 @@ test("Grammar streams its destination heading before its authorized mastery data
   assert.match(data, /timed\("grammar\.attempts"/);
   assert.match(data, /innerJoin\(grammarExercises/);
   assert.match(data, /eq\(grammarAttempts\.userId, userId\), grammarVisibleTo\(userId\)/);
+  assert.match(data, /eq\(grammarExercises\.topicId, topicId\),\s*grammarVisibleTo\(userId\)/);
+  assert.match(read("src/app/(app)/grammar/[topicId]/page.tsx"), /Promise\.all\(\[\s*getTopicWithExercises\(topicId, user\.id\)/);
 });
 
 test("Dashboard streams its authenticated destination heading before account summary reads", () => {
@@ -79,6 +81,31 @@ test("Dashboard streams its authenticated destination heading before account sum
   assert.match(page, /data-route-usable="dashboard"/);
   assert.match(page, /data-async-loading="dashboard"/);
   assert.match(page, /<DashboardContent user=\{user\}/);
+});
+
+test("Progress streams the module destination before learner-owned summary queries finish", () => {
+  const page = read("src/app/(app)/progress/page.tsx");
+  assert.match(page, /data-route-usable="progress"/);
+  assert.match(page, /data-async-loading="progress"/);
+  assert.match(page, /getProgressData\(userId\), getDashboardData\(userId\)/);
+  assert.match(page, /<ProgressContent userId=\{user\.id\}/);
+});
+
+test("Reading streams a route header before counts, filters, and library queries settle", () => {
+  const page = read("src/app/(app)/reading/page.tsx");
+  assert.match(page, /data-route-usable="reading"/);
+  assert.match(page, /data-async-loading="reading"/);
+  assert.match(page, /<ReadingWorkspace userId=\{user\.id\}/);
+  assert.match(page, /Promise\.all\(\[\s*readingHubCounts\(userId\)/);
+});
+
+test("Vocabulary streams a localized destination skeleton before private data reads", () => {
+  const page = read("src/app/(app)/vocabulary/page.tsx");
+  assert.match(page, /data-route-usable="vocabulary"/);
+  assert.match(page, /data-async-loading="vocabulary"/);
+  assert.match(page, /timed\("vocabulary\.library"/);
+  assert.match(page, /requireActiveUser\(\), getLocale\(\), searchParams/);
+  assert.match(page, /if \(params\.tab === "games"\) redirect/);
 });
 
 test("Writing streams the entry header before its independent prompt and learner-summary reads", () => {

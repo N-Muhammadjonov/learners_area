@@ -21,10 +21,13 @@ export default async function GrammarTopicPage({ params }: { params: Promise<{ t
 
   // Shakli noto'g'ri id hech qachon bazaga yetib bormaydi: javob 500 emas, 404.
   if (!isUuid(topicId)) notFound();
-  const detail = await getTopicWithExercises(topicId, user.id);
+  const [detail, topicMastery] = await Promise.all([
+    getTopicWithExercises(topicId, user.id),
+    getTopicMasteryFor(user.id, topicId),
+  ]);
   if (!detail) notFound();
   const { topic, exercises } = detail;
-  const { mastery } = await getTopicMasteryFor(user.id, topicId);
+  const { mastery } = topicMastery;
 
   const sourceIds = exercises.map((e) => e.sourceSubmissionId).filter((id): id is string => !!id);
   const ownedSourceIds = new Set(

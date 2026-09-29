@@ -1,4 +1,4 @@
-import { and, asc, eq, inArray, isNull, or } from "drizzle-orm";
+import { and, asc, eq, isNull, or } from "drizzle-orm";
 import { db } from "@/db/client";
 import { timed } from "@/lib/observability/timing";
 import { grammarTopics, grammarExercises, grammarAttempts } from "@/db/schema";
@@ -26,12 +26,14 @@ export function listTopics() {
 }
 
 export async function getTopicWithExercises(topicId: string, userId: string) {
-  const topic = await db.query.grammarTopics.findFirst({ where: eq(grammarTopics.id, topicId) });
+  const [topic, exercises] = await Promise.all([
+    db.query.grammarTopics.findFirst({ where: eq(grammarTopics.id, topicId) }),
+    db.query.grammarExercises.findMany({
+      where: and(eq(grammarExercises.topicId, topicId), grammarVisibleTo(userId)),
+      orderBy: asc(grammarExercises.order),
+    }),
+  ]);
   if (!topic) return null;
-  const exercises = await db.query.grammarExercises.findMany({
-    where: and(eq(grammarExercises.topicId, topicId), grammarVisibleTo(userId)),
-    orderBy: asc(grammarExercises.order),
-  });
   return { topic, exercises };
 }
 
@@ -90,26 +92,24 @@ export async function getTopicMastery(userId: string) {
 
 /** The same summary for one topic, for the topic page's mastery card. */
 export async function getTopicMasteryFor(userId: string, topicId: string) {
-  const exercises = await db.query.grammarExercises.findMany({
-    where: and(eq(grammarExercises.topicId, topicId), grammarVisibleTo(userId)),
-  });
-  if (exercises.length === 0) {
-    return {
-      topicId,
-      totalExercises: 0,
-      mastery: summarizeTopicMastery([]),
-    };
-  }
-
-  const attempts = await db.query.grammarAttempts.findMany({
-    where: and(
-      inArray(
-        grammarAttempts.exerciseId,
-        exercises.map((e) => e.id)
-      ),
-      eq(grammarAttempts.userId, userId)
-    ),
-  });
+  const [exercises, attempts] = await Promise.all([
+    db.query.grammarExercises.findMany({
+      where: and(eq(grammarExercises.topicId, topicId), grammarVisibleTo(userId)),
+    }),
+    db.select({
+      exerciseId: grammarAttempts.exerciseId,
+      activity: grammarAttempts.activity,
+      isCorrect: grammarAttempts.isCorrect,
+      attemptedAt: grammarAttempts.attemptedAt,
+    })
+      .from(grammarAttempts)
+      .innerJoin(grammarExercises, eq(grammarExercises.id, grammarAttempts.exerciseId))
+      .where(and(
+        eq(grammarAttempts.userId, userId),
+        eq(grammarExercises.topicId, topicId),
+        grammarVisibleTo(userId),
+      )),
+  ]);
 
   const rows: AttemptRow[] = attempts.map((a) => ({
     exerciseId: a.exerciseId,
