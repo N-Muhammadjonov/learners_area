@@ -1,5 +1,6 @@
 "use client";
 
+import { privateResources } from "@/lib/client/private-resource";
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import type { Dictionary } from "@/lib/i18n/en";
@@ -331,6 +332,8 @@ function useAnswer() {
         }),
       }).catch(() => null);
       if (!res?.ok) return null;
+      // A verified answer can change mastery; drop only vocabulary snapshots.
+      privateResources.invalidate("vocabulary:");
       const result = await res.json().catch(() => null) as { awarded?: number; correct?: boolean; verified?: boolean } | null;
       if (result && typeof result.awarded === "number" && result.awarded > 0) {
         window.dispatchEvent(new Event("vocab:ledger-changed"));

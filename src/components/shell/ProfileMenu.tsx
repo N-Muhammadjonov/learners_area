@@ -8,6 +8,7 @@ import type { Role } from "@/lib/auth/roles";
 import { isStaff } from "@/lib/auth/roles";
 import { IconChevronDown, IconSettings, IconUser } from "@/components/ui/icons";
 import { ConfirmAction } from "@/components/interaction/InteractionPrimitives";
+import { privateResources } from "@/lib/client/private-resource";
 
 /**
  * The profile menu.
@@ -134,6 +135,8 @@ export function ProfileMenu({
               onConfirm={async () => {
                 const response = await fetch("/api/auth/logout", { method: "POST" });
                 if (!response.ok) throw new Error("Logout was not confirmed by the server");
+                // Private learner data must not survive the session in browser memory.
+                privateResources.setScope(null);
                 setOpen(false);
                 router.replace("/login");
                 router.refresh();

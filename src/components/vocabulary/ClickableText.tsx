@@ -1,5 +1,6 @@
 "use client";
 
+import { privateResources } from "@/lib/client/private-resource";
 import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { failureMessage, requestJson } from "@/lib/http/client-request";
@@ -243,6 +244,8 @@ function WordPopover({
     });
     setBusy(false);
     if (result.ok && result.data?.ok === true) {
+      // Saving a word changes only the vocabulary library/summary resources.
+      privateResources.invalidate("vocabulary:");
       setSaved(true);
       return;
     }
