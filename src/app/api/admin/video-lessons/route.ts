@@ -29,6 +29,9 @@ const schema = z.object({
   transcriptSource: z.enum(["authored", "licensed", "permitted"]).optional().nullable(),
   transcriptAttribution: z.string().max(200).optional().nullable(),
   transcript: z.array(transcriptLine).max(2000).optional().nullable(),
+  // Optional study notes: absent means the learner surface shows no notes
+  // control at all, never an empty one.
+  notes: z.string().max(4000).optional().nullable(),
   questions: z
     .array(
       z.object({
@@ -89,7 +92,11 @@ export async function POST(req: NextRequest) {
     action: "video_lesson.saved",
     targetType: "video_lesson",
     targetId: result.videoLessonId,
-    metadata: { lessonId: parsed.data.lessonId, hasTranscript: Boolean(parsed.data.transcript?.length) },
+    metadata: {
+      lessonId: parsed.data.lessonId,
+      hasTranscript: Boolean(parsed.data.transcript?.length),
+      hasNotes: Boolean(parsed.data.notes?.trim()),
+    },
   });
 
   return NextResponse.json({ ok: true, id: result.videoLessonId });

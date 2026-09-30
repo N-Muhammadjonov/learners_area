@@ -41,6 +41,8 @@ export type VideoLessonInput = {
   transcriptSource?: string | null;
   transcriptAttribution?: string | null;
   transcript?: { startSeconds: number; text: string }[] | null;
+  /** Centre-authored study notes; optional, like the transcript. */
+  notes?: string | null;
   questions?: { stage: "comprehension" | "gap_fill"; prompt: string; acceptedAnswers: string[]; atSeconds?: number | null }[];
 };
 
@@ -185,6 +187,7 @@ export async function createVideoLesson(input: VideoLessonInput, createdByUserId
     transcriptSource: input.transcriptSource ?? null,
     transcriptAttribution: input.transcriptAttribution ?? null,
     transcript: input.transcript && input.transcript.length > 0 ? input.transcript : null,
+    notes: input.notes && input.notes.trim().length > 0 ? input.notes : null,
     updatedAt: new Date(),
   };
 

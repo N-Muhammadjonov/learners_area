@@ -43,6 +43,10 @@ export default async function AdminVideoLessonsPage() {
                 <div className="flex flex-col items-end gap-1">
                   <span className="text-xs text-ink-500">
                     {lesson.title} · {videoLesson.provider} · {videoLesson.transcriptSource ?? dict.videoLessonAdmin.transcriptSourceNone}
+                    {" · "}
+                    <span data-video-admin-notes={videoLesson.notes ? "yes" : "no"}>
+                      {dict.videoLessonAdmin.notes}: {videoLesson.notes ? dict.videoLessonAdmin.notesPresent : dict.videoLessonAdmin.notesAbsent}
+                    </span>
                   </span>
                   <PublicationControl
                     type="video"

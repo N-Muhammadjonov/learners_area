@@ -76,6 +76,7 @@ export default async function LessonPage({ params }: { params: Promise<{ lessonI
             transcript: video.videoLesson.transcript ?? null,
             transcriptSource: video.videoLesson.transcriptSource,
             transcriptAttribution: video.videoLesson.transcriptAttribution,
+            notes: video.videoLesson.notes ?? null,
           }}
           questions={video.questions.map((question) => ({
             id: question.id,

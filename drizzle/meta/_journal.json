@@ -162,6 +162,13 @@
       "when": 1790756280556,
       "tag": "0022_retention_bank",
       "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1790759035406,
+      "tag": "0023_video_lesson_notes",
+      "breakpoints": true
     }
   ]
 }

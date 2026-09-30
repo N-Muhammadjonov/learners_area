@@ -1508,6 +1508,13 @@ export const videoLessons = pgTable(
     /** authored | licensed | permitted — where the transcript came from. */
     transcriptSource: varchar("transcript_source", { length: 20 }),
     transcriptAttribution: varchar("transcript_attribution", { length: 200 }),
+    /**
+     * Centre-authored study notes for the video (PART 1: TED / PODCAST is a
+     * standalone module managed from Management). Optional like the transcript:
+     * null means there is nothing to reveal, and the learner surface then shows
+     * no notes control at all rather than an empty one.
+     */
+    notes: text("notes"),
     createdByUserId: uuid("created_by_user_id").references(() => users.id, { onDelete: "set null" }),
     isActive: boolean("is_active").notNull().default(true),
     /**

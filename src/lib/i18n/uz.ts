@@ -304,6 +304,10 @@ const uz: Dictionary = {
     open: "Darsni ochish",
   },
   videoLesson: {
+    revealTranscript: "Transkriptni ko'rsatish",
+    hideTranscript: "Transkriptni yashirish",
+    revealNotes: "Eslatmalarni ko'rsatish",
+    hideNotes: "Eslatmalarni yashirish",
     stagesLabel: "Dars bosqichlari",
     tabs: {
       before: "Ko'rishdan oldin",
@@ -312,6 +316,7 @@ const uz: Dictionary = {
       gap: "Matndagi bo'shliqlar",
       opinion: "Sizning fikringiz",
       summary: "Xulosa",
+      notes: "Eslatmalar",
     },
     playbackNote:
       "Video Learners Area ichida ijro etiladi. Manba brauzerga baribir ko'rinadi, shuning uchun bu qulaylik — maxfiylik emas.",
@@ -340,6 +345,10 @@ const uz: Dictionary = {
     feedbackNote: "Buni o'qituvchingiz o'qib javob beradi. Avtomatik baholanmaydi.",
   },
   videoLessonAdmin: {
+    notes: "Eslatmalar (majburiy emas)",
+    notesHelp: "O'quvchi dars sahifasida ko'rsatishi mumkin bo'lgan eslatmalar. Bo'sh qoldirilsa, eslatma tugmasi umuman chiqmaydi.",
+    notesPresent: "qo'shilgan",
+    notesAbsent: "yo'q",
     title: "Ommaviy video darslar",
     intro:
       "Oddiy YouTube havolasini joylang. Server uni tekshiradi va provayder hamda video id ni saqlaydi — hech qachon tayyor embed kod emas. Learners Area ichida faqat YouTube videolari ijro etiladi.",
