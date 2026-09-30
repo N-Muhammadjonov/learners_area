@@ -43,27 +43,34 @@ const BY_CODE: Record<string, DatabaseFailureReason> = {
   "08006": "unreachable",
   "53300": "capacity",
   "57P03": "capacity",
+  "ECONNREFUSED": "unreachable",
+  "ECONNRESET": "unreachable",
+  "ETIMEDOUT": "unreachable",
+  "ENOTFOUND": "unreachable",
+  "EAI_AGAIN": "unreachable",
+  "EHOSTUNREACH": "unreachable",
+  "ENETUNREACH": "unreachable",
+  "EPIPE": "unreachable",
 };
 
 /** Postgres error codes that also travel as `cause.code` through Drizzle. */
 export function classifyDatabaseError(error: unknown): DatabaseFailureReason | null {
   const seen = new Set<unknown>();
-  let current: unknown = error;
+  const pending: unknown[] = [error];
   // Drizzle wraps driver errors, and the code can sit on `cause` one or two
   // levels down; walk the chain instead of guessing the depth.
-  while (current && typeof current === "object" && !seen.has(current)) {
+  while (pending.length) {
+    const current = pending.pop();
+    if (!current || typeof current !== "object" || seen.has(current)) continue;
     seen.add(current);
     const code = (current as { code?: unknown }).code;
     if (typeof code === "string" && BY_CODE[code]) return BY_CODE[code];
     // A connection that never opened surfaces as an AggregateError of attempts.
     const nested = (current as { errors?: unknown[] }).errors;
     if (Array.isArray(nested)) {
-      for (const entry of nested) {
-        const found = classifyDatabaseError(entry);
-        if (found) return found;
-      }
+      pending.push(...nested);
     }
-    current = (current as { cause?: unknown }).cause;
+    pending.push((current as { cause?: unknown }).cause);
   }
   return null;
 }

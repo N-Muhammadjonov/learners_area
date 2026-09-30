@@ -6,9 +6,9 @@
  */
 import pg from "pg";
 const required = {
-  users: ["id", "role", "account_status"],
+  users: ["id", "email", "password_hash", "telegram_id", "name", "gender", "role", "is_owner", "account_status", "status_updated_at", "status_reason", "last_active_at", "last_meaningful_activity_at", "locale", "onboarding_completed_at", "created_at"],
   lessons: ["id", "title"],
-  video_lessons: ["id", "lesson_id", "provider", "video_id", "notes", "publication_state", "publish_at"],
+  video_lessons: ["id", "lesson_id", "provider", "video_id", "notes", "transcript_text", "publication_state", "publish_at"],
   video_lesson_questions: ["id", "video_lesson_id"],
   video_lesson_progress: ["id", "video_lesson_id", "user_id"],
   retention_texts: ["id", "level", "current_version_id", "active"],
@@ -33,9 +33,14 @@ try {
     else console.log(`OK ${table}`);
   }
   if (missing) {
-    console.log("Inspect drizzle/0022_retention_bank.sql and drizzle/0023_video_lesson_notes.sql and the migration journal. Do not use db:push or reset the database.");
+    console.log("Compare the complete migration journal (0000 through 0024), including users identity/admission/activity columns; apply only confirmed missing migrations to the affected Preview. Do not use db:push or reset the database.");
     process.exitCode = 1;
   } else {
+    const { rows: standalone } = await pool.query("select is_nullable from information_schema.columns where table_schema = 'public' and table_name = 'video_lessons' and column_name = 'lesson_id'");
+    if (standalone[0]?.is_nullable !== "YES") {
+      console.log("MISSING standalone video contract: lesson_id must be nullable (0024). No migration was run.");
+      process.exitCode = 1;
+    } else console.log("OK standalone video contract (0024)");
     const { rows: bank } = await pool.query("select level, count(*)::int as active from retention_texts where active = true and current_version_id is not null group by level order by level");
     for (const row of bank) console.log(`BANK ${row.level}: ${row.active} active texts`);
     if (!bank.length) console.log("BANK empty: author valid owned/licensed texts in Management; no fake attempts or scores.");

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { performanceDiagnosticsEnabled } from "@/lib/config/site";
 import { Suspense } from "react";
 import { AuthShell } from "@/components/auth/AuthShell";
 import { LoginForm } from "@/components/auth/LoginForm";
@@ -23,6 +24,7 @@ export default async function LoginPage() {
       <Suspense>
         <LoginForm
           dict={dict}
+          diagnostics={performanceDiagnosticsEnabled()}
           telegramConfigured={isTelegramConfigured()}
           telegramBotUsername={process.env.TELEGRAM_BOT_USERNAME}
         />

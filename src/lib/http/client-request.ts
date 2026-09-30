@@ -36,7 +36,7 @@ export type ApiFailureKind =
 
 export type ApiResult<T> =
   | { ok: true; status: number; data: T }
-  | { ok: false; status: number; kind: ApiFailureKind; error: string | null };
+  | { ok: false; status: number; kind: ApiFailureKind; error: string | null; reason?: string };
 
 /**
  * The dictionary entries this helper reads. Every one is optional except the two
@@ -139,7 +139,11 @@ export async function requestJson<T = unknown>(
 
     if (!response.ok) {
       const kind: ApiFailureKind = response.status >= 500 ? "server" : "http";
-      return { ok: false, status: response.status, kind, error: errorCode };
+      const candidate = parsedOk && parsed && typeof parsed === "object" ? (parsed as { reason?: unknown }).reason : null;
+      const reason = errorCode === "service_unavailable" && typeof candidate === "string" &&
+        ["schema_missing", "column_missing", "database_missing", "auth_failed", "unreachable", "capacity"].includes(candidate)
+        ? candidate : undefined;
+      return { ok: false, status: response.status, kind, error: errorCode, ...(reason ? { reason } : {}) };
     }
 
     if (!parsedOk) {

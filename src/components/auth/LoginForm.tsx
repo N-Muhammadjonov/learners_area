@@ -14,10 +14,12 @@ export function LoginForm({
   dict,
   telegramConfigured,
   telegramBotUsername,
+  diagnostics = false,
 }: {
   dict: Dictionary;
   telegramConfigured: boolean;
   telegramBotUsername?: string;
+  diagnostics?: boolean;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -36,6 +38,12 @@ export function LoginForm({
         { body: { email, password } }
       );
       if (!result.ok) {
+        if (diagnostics) {
+          // Fixed categories only: never credentials, response bodies or driver messages.
+          const code = ["service_unavailable", "invalid_credentials", "timeout", "aborted"].includes(result.error ?? "")
+            ? result.error : null;
+          console.info(`[qa-auth] ${JSON.stringify({ event: "loginFailure", status: result.status, kind: result.kind, code, reason: result.reason ?? null })}`);
+        }
         setError(failureMessage(result, dict.auth, { invalid_credentials: dict.auth.errorInvalidCredentials }));
         return;
       }
