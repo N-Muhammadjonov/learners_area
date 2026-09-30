@@ -1054,3 +1054,29 @@
 @media (prefers-reduced-motion: reduce) {
   :where(button, [role="button"], [role="tab"], [role="menuitem"], summary, a[href], select) { transition-duration: .01ms; }
 }
+
+/* Navigation continuity: current workspace stays mounted while the next route resolves. */
+.workspace-transition { position: relative; }
+.workspace-transition [data-workspace-content][inert] { opacity: .72; transition: opacity .15s ease; }
+.workspace-transition__notice { position: sticky; bottom: 1rem; margin-top: .75rem; display: flex; align-items: center; gap: .5rem; width: fit-content; border-radius: .5rem; border: 1px solid rgb(var(--ink-100)); background: rgb(var(--paper-raised)); padding: .5rem .75rem; font-size: .8125rem; color: rgb(var(--ink-700)); }
+.workspace-transition__pulse { width: .5rem; height: .5rem; border-radius: 9999px; background: rgb(var(--signal-600)); animation: workspace-pulse 1.2s ease-in-out infinite; }
+@keyframes workspace-pulse { 50% { opacity: .35; } }
+@media (prefers-reduced-motion: reduce) { .workspace-transition__pulse { animation: none; } }
+
+/* Retention hub */
+.retention-hub-grid { display: grid; gap: 1rem; }
+@media (min-width: 1024px) { .retention-hub-grid { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); } }
+.retention-summary-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .5rem; }
+.retention-summary-grid > div { display: flex; flex-direction: column-reverse; border-radius: .375rem; background: rgb(var(--paper-sunken)); padding: .625rem; text-align: center; }
+.retention-summary-grid dd { font-size: 1.125rem; font-weight: 600; color: rgb(var(--ink-900)); }
+.retention-summary-grid dt { font-size: .75rem; color: rgb(var(--ink-500)); }
+.retention-level-options { display: grid; gap: .5rem; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); }
+.retention-level-option { display: flex; flex-direction: column; gap: .125rem; border: 1px solid rgb(var(--ink-100)); border-radius: .375rem; background: rgb(var(--paper-raised)); padding: .625rem .75rem; text-align: left; cursor: pointer; }
+.retention-level-option:has(input:checked), .retention-level-option[aria-pressed="true"], .retention-level-option[data-selected="true"] { border-color: rgb(var(--signal-600)); background: rgb(var(--signal-100)); }
+.retention-level-option:focus-within { outline: 2px solid rgb(var(--signal-600)); outline-offset: 2px; }
+
+/* Games: compact race frame and stepwise lit answer boxes. */
+.game-frame--compact { gap: .5rem; }
+.race-feedback-slot { min-height: 6.5rem; }
+.race-answer-box[data-race-lit="true"] { transition-delay: 0ms; }
+.flashcard-3d-card[data-card-motion="full"] .flashcard-3d-inner { transition-duration: .52s !important; }

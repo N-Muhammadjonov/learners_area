@@ -93,8 +93,9 @@ test("Typing Race animates the complete verified verdict from left to right", ()
   const race = panel.slice(panel.indexOf("function TypingRace"), panel.indexOf("function RaceMetric"));
   assert.match(race, /status === "correct" \? "race-answer-box--correct"/);
   assert.match(race, /status === "incorrect" \? "race-answer-box--incorrect"/);
-  assert.match(race, /transitionDelay: resolved \? `\$\{Math\.round\(charIndexInAnswer \* characterDelayMs\)\}ms`/);
-  assert.match(race, /characterDelayMs = Math\.min\(35, 600 \/ animationCharacterCount\)/);
+  assert.match(race, /charIndexInAnswer >= litCount \? ""/);
+  assert.match(race, /data-race-lit=\{charIndexInAnswer < litCount/);
+  assert.match(race, /prefers-reduced-motion: reduce/);
   assert.match(race, /status === "skipped" \|\| status === "unverified" \? expected/);
   assert.match(read("src/app/globals.css"), /\.race-answer-box--correct/);
   assert.match(read("src/app/globals.css"), /\.race-answer-box--incorrect/);
@@ -130,7 +131,9 @@ test("navigation acknowledges immediately, and automatic prefetch stops at the s
   const frame = read("src/components/interaction/SectionEntryFrame.tsx");
   const sidebar = read("src/components/shell/SidebarNav.tsx");
   assert.match(provider, /setNavigation\(intent\)/);
-  assert.match(outlet, /SectionEntryFrame/);
+  assert.match(outlet, /data-workspace-content inert=\{pending \|\| undefined\}>\{children\}/);
+  assert.match(outlet, /role="status" aria-live="polite"/);
+  assert.match(outlet, /onClick=\{retryNavigation\}/);
   assert.match(frame, /data-entry-frame/);
   assert.match(read("src/components/interaction/InstantLink.tsx"), /prefetch=\{prefetch \?\? null\}/);
   assert.doesNotMatch(sidebar, /prefetch=\{false\}/);

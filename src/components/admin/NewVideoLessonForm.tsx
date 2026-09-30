@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n/en";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -20,6 +21,8 @@ type LessonOption = { id: string; title: string };
 
 export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lessons: LessonOption[] }) {
   const t = dict.videoLessonAdmin;
+  const router = useRouter();
+  const submitting = useRef(false);
   const [lessonId, setLessonId] = useState(lessons[0]?.id ?? "");
   const [title, setTitle] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
@@ -35,11 +38,17 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
 
   async function submit(event: React.FormEvent) {
     event.preventDefault();
+    if (submitting.current) return;
+    submitting.current = true;
     setBusy(true);
     setMessage(null);
 
+    const controller = new AbortController();
+    const deadline = window.setTimeout(() => controller.abort(), 12_000);
+    try {
     const res = await fetch("/api/admin/video-lessons", {
       method: "POST",
+      signal: controller.signal,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         lessonId,
@@ -64,6 +73,7 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
       setBefore("");
       setTranscriptText("");
       setQuestionsText("");
+      router.refresh();
       return;
     }
     const reason = body.reason as keyof typeof t.rejection | undefined;
@@ -71,6 +81,13 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
       tone: "bad",
       text: (reason && t.rejection[reason]) ?? body.error ?? dict.common.error,
     });
+    } catch {
+      setMessage({ tone: "bad", text: dict.errors.unknown });
+    } finally {
+      window.clearTimeout(deadline);
+      submitting.current = false;
+      setBusy(false);
+    }
   }
 
   if (lessons.length === 0) {

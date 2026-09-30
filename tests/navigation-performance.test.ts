@@ -29,7 +29,9 @@ test("navigation acknowledges the destination immediately without replacing Next
   assert.doesNotMatch(provider, /history\.(pushState|replaceState)/);
   assert.match(nav, /activePath = pendingPath \?\? pathname/);
   assert.match(nav, /aria-current=\{active \? "page"/);
-  assert.match(outlet, /SectionEntryFrame/);
+  assert.match(outlet, /data-workspace-content inert=\{pending \|\| undefined\}>\{children\}/);
+  assert.match(outlet, /role="status" aria-live="polite"/);
+  assert.match(outlet, /onClick=\{retryNavigation\}/);
   assert.match(outlet, /navigation\.routeKey/);
   assert.match(link, /prefetch=\{prefetch \?\? null\}/);
 });

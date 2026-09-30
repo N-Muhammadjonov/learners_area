@@ -1,3 +1,6 @@
+import { Suspense } from "react";
+import type { Dictionary } from "@/lib/i18n/en";
+import { timed } from "@/lib/observability/timing";
 import { redirect } from "next/navigation";
 import { requireAdministrator } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
@@ -17,20 +20,31 @@ export const dynamic = "force-dynamic";
  */
 export default async function AdminVideoLessonsPage() {
   // Authorization is a database read, not a menu decision.
-  const administrator = await requireAdministrator();
+  const [administrator, locale] = await Promise.all([requireAdministrator(), getLocale()]);
   if (!administrator) redirect("/dashboard");
-  const dict = getDictionary(await getLocale());
+  const dict = getDictionary(locale);
 
-  const [lessons, authored] = await Promise.all([listLessonsWithoutVideo(), listAllVideoLessons()]);
+
 
   return (
-    <div className="mx-auto flex max-w-3xl flex-col gap-4">
+    <div className="mx-auto flex max-w-3xl flex-col gap-4" data-route-usable="video-admin">
       <h1 className="font-display text-2xl text-ink-900">{dict.videoLessonAdmin.title}</h1>
 
-      <Card>
-        <NewVideoLessonForm dict={dict} lessons={lessons.map((l) => ({ id: l.id, title: l.title }))} />
-      </Card>
+      <Suspense fallback={<p className="panel" role="status" data-async-loading="video-admin">{dict.common.loading}</p>}>
+        <VideoAdminContent dict={dict} />
+      </Suspense>
+    </div>
+  );
+}
 
+async function VideoAdminContent({ dict }: { dict: Dictionary }) {
+  const [lessons, authored] = await Promise.all([
+    timed("video.admin.lessons", () => listLessonsWithoutVideo()),
+    timed("video.admin.authored", () => listAllVideoLessons()),
+  ]);
+  return (
+    <div className="flex flex-col gap-4" data-async-content="video-admin">
+      <Card><NewVideoLessonForm dict={dict} lessons={lessons.map((l) => ({ id: l.id, title: l.title }))} /></Card>
       <Card data-video-admin-list>
         <h2 className="mb-2 font-display text-lg text-ink-900">{dict.videoLessonAdmin.existing}</h2>
         {authored.length === 0 ? (

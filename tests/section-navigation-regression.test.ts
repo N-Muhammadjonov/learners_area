@@ -50,7 +50,10 @@ test("destination frame appears on the click path, then yields to route content 
   const layout = read("src/app/(app)/layout.tsx");
   assert.match(provider, /setNavigation\(intent\)/);
   assert.match(outlet, /currentLocation === navigation\.from/);
-  assert.match(outlet, /if \(!pending \|\| !navigation\) return children/);
+  assert.match(outlet, /data-workspace-content inert=\{pending \|\| undefined\}>\{children\}/);
+  assert.match(outlet, /role="status" aria-live="polite"/);
+  assert.match(outlet, /onClick=\{retryNavigation\}/);
+  assert.doesNotMatch(outlet, /\{pending \?/);
   assert.match(outlet, /entryFrames\[navigation\.routeKey\]/);
   assert.match(frame, /data-section-entry-frame=\{routeKey\}/);
   assert.match(layout, /<Sidebar/);

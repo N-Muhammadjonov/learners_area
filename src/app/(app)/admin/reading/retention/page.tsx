@@ -1,3 +1,6 @@
+import { Suspense } from "react";
+import type { Dictionary } from "@/lib/i18n/en";
+import { timed } from "@/lib/observability/timing";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { db } from "@/db/client";
@@ -18,15 +21,25 @@ export const metadata = { title: "Retention" };
  * counts. Back-navigation goes to Reading, one step up, through the same crumb
  * table the topbar uses.
  */
-export default async function AdminRetentionPage({
-  searchParams,
-}: {
+export default async function AdminRetentionPage({ searchParams }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const administrator = await requireAdministrator();
+  const [administrator, locale, params] = await Promise.all([requireAdministrator(), getLocale(), searchParams]);
   if (!administrator) redirect("/dashboard");
-  const dict = getDictionary(await getLocale());
-  const params = await searchParams;
+  const dict = getDictionary(locale);
+  return (
+    <div className="flex flex-col gap-4" data-route-usable="retention-admin">
+      <h1 className="page-title">{dict.retentionMemory.admin.title}</h1>
+      <Suspense fallback={<p className="panel" role="status" data-async-loading="retention-admin">{dict.common.loading}</p>}>
+        <RetentionBankContent dict={dict} params={params} />
+      </Suspense>
+    </div>
+  );
+}
+
+async function RetentionBankContent({ dict, params }: {
+  dict: Dictionary; params: Record<string, string | string[] | undefined>;
+}) {
   const first = (value: string | string[] | undefined) => (Array.isArray(value) ? value[0] : value);
   const requestedLevel = first(params.level);
   const level: RetentionLevel = isRetentionLevel(requestedLevel) ? requestedLevel : "A2";
@@ -39,14 +52,15 @@ export default async function AdminRetentionPage({
     return value === "uses" || value === "newest" ? value : "label";
   })();
 
-  const inventory = await listRetentionInventory(db);
-  const rows = await sortRetentionRows(await listRetentionLevelTexts(level, filter, db), sort);
+  const [inventory, rows] = await Promise.all([
+    timed("retention.admin.inventory", () => listRetentionInventory(db)),
+    timed("retention.admin.rows", async () => sortRetentionRows(await listRetentionLevelTexts(level, filter, db), sort)),
+  ]);
 
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-6" data-retention-admin data-route-usable="retention-admin">
       <header className="flex flex-col gap-2">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <h1 className="page-title">{dict.retentionMemory.admin.title}</h1>
           <Link href="/admin/reading" className="link-inline" data-retention-back>
             {dict.retentionMemory.admin.backToReading}
           </Link>

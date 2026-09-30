@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n/en";
-import { RETENTION_LEVELS, RETENTION_LEVEL_CONFIG } from "@/lib/retention/levels";
+import { RETENTION_LEVELS, RETENTION_LEVEL_CONFIG, RETENTION_READ_SECONDS, type RetentionLevel } from "@/lib/retention/levels";
 import type { RetentionAttemptPayload, RetentionClaimResult } from "@/lib/retention/types";
 
 /**
@@ -58,6 +58,7 @@ export function RetentionSession({ dict, initial }: { dict: Dictionary; initial:
   const router = useRouter();
   const [payload, setPayload] = useState<RetentionAttemptPayload | null>(initial);
   const [busy, setBusy] = useState(false);
+  const [selectedLevel, setSelectedLevel] = useState<RetentionLevel>("A2");
   const [error, setError] = useState<string | null>(null);
 
   const skewMs = useMemo(
@@ -90,14 +91,21 @@ export function RetentionSession({ dict, initial }: { dict: Dictionary; initial:
     [dict]
   );
 
+  const refreshing = useRef(false);
   const refresh = useCallback(async () => {
-    if (!payload) return;
+    if (!payload || refreshing.current) return;
+    refreshing.current = true;
+    const controller = new AbortController();
+    const timer = window.setTimeout(() => controller.abort(), 8_000);
     try {
-      const response = await fetch(`/api/retention/attempts/${payload.attemptId}`, { cache: "no-store" });
+      const response = await fetch(`/api/retention/attempts/${payload.attemptId}`, { cache: "no-store", signal: controller.signal });
       const body = (await response.json()) as RetentionAttemptPayload & { error?: string };
       if (response.ok) setPayload(body);
     } catch {
-      /* the countdown keeps running; the next tick retries */
+      /* The expired reading surface stays hidden; a bounded GET retries. */
+    } finally {
+      window.clearTimeout(timer);
+      refreshing.current = false;
     }
   }, [payload]);
 
@@ -114,25 +122,18 @@ export function RetentionSession({ dict, initial }: { dict: Dictionary; initial:
           <p className="body-text">{dict.retentionMemory.levelHint}</p>
         </div>
         {error && <ErrorBanner message={error} />}
-        <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3" data-retention-level-list>
+        <div className="retention-level-options" role="group" aria-label={dict.retentionMemory.levelsTitle} data-retention-level-list>
           {RETENTION_LEVELS.map((level) => (
-            <li key={level} className="panel flex flex-col gap-2" data-retention-level={level}>
-              <span className="card-title">{level}</span>
-              <span className="meta-text">
-                {dict.retentionMemory.words.replace("{n}", String(RETENTION_LEVEL_CONFIG[level].targetWords))}
-              </span>
-              <button
-                type="button"
-                className="btn-primary w-fit"
-                onClick={() => start(level)}
-                disabled={busy}
-                data-retention-start={level}
-              >
-                {dict.retentionMemory.start}
-              </button>
-            </li>
+            <button key={level} type="button" className="retention-level-option" aria-pressed={selectedLevel === level} disabled={busy} onClick={() => setSelectedLevel(level)} data-retention-level={level}>
+              <strong>{level}</strong>
+              <span className="meta-text">{dict.retentionMemory.words.replace("{n}", String(RETENTION_LEVEL_CONFIG[level].targetWords))}</span>
+              <span className="meta-text">{formatClock(RETENTION_READ_SECONDS)}</span>
+            </button>
           ))}
-        </ul>
+        </div>
+        <button type="button" className="btn-primary w-fit" onClick={() => void start(selectedLevel)} disabled={busy} data-retention-start={selectedLevel}>
+          {busy ? dict.common.loading : dict.retentionMemory.start} →
+        </button>
       </div>
     );
   }
@@ -150,7 +151,7 @@ export function RetentionSession({ dict, initial }: { dict: Dictionary; initial:
   }
 
   if (payload.phase === "recall") {
-    return <RecallPhase dict={dict} payload={payload} skewMs={skewMs} onFinished={onFinished} />;
+    return <RecallPhase key={payload.attemptId} dict={dict} payload={payload} skewMs={skewMs} onResult={setPayload} />;
   }
 
   return <ResultView dict={dict} payload={payload} onAnother={onFinished} />;
@@ -178,15 +179,14 @@ function ReadingPhase({
   onFinished: () => void;
 }) {
   const seconds = useCountdown(payload.readEndsAt, skewMs);
-  const fired = useRef(false);
 
   useEffect(() => {
     // When the reading window closes the component asks the SERVER for the next
     // phase instead of assuming it locally.
-    if (seconds <= 0 && !fired.current) {
-      fired.current = true;
-      onPhaseOver();
-    }
+    if (seconds > 0) return;
+    onPhaseOver();
+    const timer = window.setInterval(onPhaseOver, 2_000);
+    return () => window.clearInterval(timer);
   }, [seconds, onPhaseOver]);
 
   return (
@@ -198,9 +198,11 @@ function ReadingPhase({
         </span>
       </div>
       <p className="body-text">{dict.retentionMemory.readingHint}</p>
-      <article className="panel whitespace-pre-line text-[1.05rem] leading-8 text-ink-800" data-retention-source>
-        {payload.bodyText}
-      </article>
+      {seconds > 0 ? (
+        <article className="panel whitespace-pre-line text-[1.05rem] leading-8 text-ink-800" data-retention-source>{payload.bodyText}</article>
+      ) : (
+        <p className="panel" role="status" data-retention-phase-pending>{dict.common.loading}</p>
+      )}
       <div className="flex items-center justify-between gap-3">
         <span className="meta-text">{dict.retentionMemory.readingWords.replace("{n}", String(payload.wordCount))}</span>
         <button type="button" className="btn-secondary" onClick={onFinished} data-retention-leave>
@@ -215,17 +217,18 @@ function RecallPhase({
   dict,
   payload,
   skewMs,
-  onFinished,
+  onResult,
 }: {
   dict: Dictionary;
   payload: Extract<RetentionAttemptPayload, { phase: "recall" }>;
   skewMs: number;
-  onFinished: () => void;
+  onResult: (payload: RetentionAttemptPayload) => void;
 }) {
   const [text, setText] = useState(payload.recallDraft);
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const [submitting, setSubmitting] = useState(false);
   const seconds = useCountdown(payload.writeEndsAt, skewMs);
+  const expired = seconds <= 0;
   const lastSaved = useRef(payload.recallDraft);
   const submitRef = useRef<() => void>(() => {});
 
@@ -252,12 +255,15 @@ function RecallPhase({
   );
 
   useEffect(() => {
-    if (text === lastSaved.current) return;
+    if (submitting || expired || text === lastSaved.current) return;
     const timer = window.setTimeout(() => void save(text), AUTOSAVE_DELAY_MS);
     return () => window.clearTimeout(timer);
-  }, [text, save]);
+  }, [text, save, submitting, expired]);
 
+  const submittingRef = useRef(false);
   const submit = useCallback(async () => {
+    if (submittingRef.current) return;
+    submittingRef.current = true;
     setSubmitting(true);
     try {
       const response = await fetch(`/api/retention/attempts/${payload.attemptId}/submit`, {
@@ -270,12 +276,18 @@ function RecallPhase({
         setSubmitting(false);
         return;
       }
-      onFinished();
+      const result = await response.json() as RetentionAttemptPayload;
+      if (result.phase !== "completed" && result.phase !== "timed_out") {
+        setSaveState("failed"); setSubmitting(false); return;
+      }
+      onResult(result);
     } catch {
       setSaveState("failed");
       setSubmitting(false);
+    } finally {
+      submittingRef.current = false;
     }
-  }, [onFinished, payload.attemptId, text]);
+  }, [onResult, payload.attemptId, text]);
 
   submitRef.current = () => void submit();
 
@@ -303,6 +315,7 @@ function RecallPhase({
       <textarea
         className="input min-h-[14rem] w-full"
         value={text}
+        readOnly={submitting || seconds <= 0}
         onChange={(event) => setText(event.target.value)}
         placeholder={dict.retentionMemory.recallPlaceholder}
         aria-label={dict.retentionMemory.recallTitle}

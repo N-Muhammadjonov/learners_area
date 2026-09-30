@@ -57,21 +57,24 @@ export function VocabGamesPanel({
 
   useEffect(() => {
     const controller = new AbortController();
+    let active = true;
+    const deadline = window.setTimeout(() => controller.abort(), 12_000);
     setLoading(true);
     setLoadFailed(false);
     void fetch(`/api/vocabulary/games?${query}`, { signal: controller.signal })
       .then(async (res) => {
         const payload = await res.json().catch(() => null);
         if (!res.ok || !payload?.ok) throw new Error("game_set_unavailable");
+        if (!active) return;
         setSet(payload as GameSetResponse);
       })
-      .catch((error: unknown) => {
-        if (error instanceof Error && error.name === "AbortError") return;
+      .catch(() => {
+        if (!active) return;
         setSet(null);
         setLoadFailed(true);
       })
-      .finally(() => { if (!controller.signal.aborted) setLoading(false); });
-    return () => controller.abort();
+      .finally(() => { window.clearTimeout(deadline); if (active) setLoading(false); });
+    return () => { active = false; window.clearTimeout(deadline); controller.abort(); };
   }, [query]);
 
   const available = set?.total ?? 0;
@@ -169,6 +172,7 @@ export function VocabGameView({
   const [loadedKey, setLoadedKey] = useState("");
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
+  const [retryToken, setRetryToken] = useState(0);
   const requestKey = [gameId, selectedSet, selectedSet === "folder" ? selectedFolder : "", selectedSet === "topic" ? selectedPack : ""].join("|");
   const currentSet = loadedKey === requestKey ? set : null;
   const isLoading = loading || loadedKey !== requestKey;
@@ -189,6 +193,8 @@ export function VocabGameView({
 
   useEffect(() => {
     const controller = new AbortController();
+    let active = true;
+    const deadline = window.setTimeout(() => controller.abort(), 12_000);
     const params = new URLSearchParams({ set: selectedSet, limit: "24", random: "1", game: gameId });
     if (selectedSet === "folder" && selectedFolder) params.set("folderId", selectedFolder);
     if (selectedSet === "topic" && selectedPack) params.set("topicPack", selectedPack);
@@ -199,17 +205,18 @@ export function VocabGameView({
       .then(async (res) => {
         const payload = await res.json().catch(() => null);
         if (!res.ok || !payload?.ok) throw new Error("game_set_unavailable");
+        if (!active) return;
         setSet(payload as GameSetResponse);
         setLoadedKey(requestKey);
       })
-      .catch((error: unknown) => {
-        if (error instanceof Error && error.name === "AbortError") return;
+      .catch(() => {
+        if (!active) return;
         setFailed(true);
         setLoadedKey(requestKey);
       })
-      .finally(() => { if (!controller.signal.aborted) setLoading(false); });
-    return () => controller.abort();
-  }, [gameId, selectedSet, selectedFolder, selectedPack, requestKey]);
+      .finally(() => { window.clearTimeout(deadline); if (active) setLoading(false); });
+    return () => { active = false; window.clearTimeout(deadline); controller.abort(); };
+  }, [gameId, selectedSet, selectedFolder, selectedPack, requestKey, retryToken]);
 
   const queryForBack = () => {
     const params = new URLSearchParams({ set: selectedSet });
@@ -272,7 +279,7 @@ export function VocabGameView({
         </p>
       </section>
       {isLoading && <p className="card p-4 text-sm text-ink-500" role="status">{dict.common.loading}</p>}
-      {currentFailed && <p className="card p-4 text-sm text-band-bad" role="alert">{t.games.loadError}</p>}
+      {currentFailed && <div className="card flex items-center gap-3 p-4 text-sm text-band-bad" role="alert"><p>{t.games.loadError}</p><button type="button" className="btn-secondary" onClick={() => setRetryToken((value) => value + 1)} data-game-load-retry>{dict.errorPage.retry}</button></div>}
       {!isLoading && !currentFailed && currentSet?.words.length === 0 && <p className="card p-4 text-sm text-ink-500" role="status" data-game-empty>{currentSet?.total ? t.games.noEligible : t.games.noWordsInSet}</p>}
       {!isLoading && !currentFailed && currentSet && currentSet.words.length > 0 && (
         <GameRequestContext.Provider value={context}>
@@ -317,9 +324,22 @@ function shuffle<T>(items: T[]): T[] {
  */
 function useAnswer() {
   const request = useContext(GameRequestContext);
+  const requests = useRef(new Set<AbortController>());
+  useEffect(() => () => {
+    for (const controller of requests.current) controller.abort();
+    requests.current.clear();
+  }, []);
   return useCallback(
     async (entryId: string, submission: GameSubmission) => {
+      const controller = new AbortController();
+      requests.current.add(controller);
+      // A timeout signal (not a page timer) bounds the write without sharing the game's feedback clock.
+      const deadline = AbortSignal.timeout(12_000);
+      const onDeadline = () => controller.abort();
+      deadline.addEventListener("abort", onDeadline, { once: true });
+      try {
       const res = await fetch("/api/vocabulary/games", {
+        signal: controller.signal,
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -338,10 +358,25 @@ function useAnswer() {
       if (result && typeof result.awarded === "number" && result.awarded > 0) {
         window.dispatchEvent(new Event("vocab:ledger-changed"));
       }
-      return result;
+      return controller.signal.aborted ? null : result;
+      } finally {
+        deadline.removeEventListener("abort", onDeadline);
+        requests.current.delete(controller);
+      }
     },
     [request],
   );
+}
+
+/** Feedback hold belongs to the current item, never a detached global timer. */
+function useGameAutoAdvance(checked: boolean | null, item: number, advance: () => void) {
+  const latest = useRef(advance);
+  latest.current = advance;
+  useEffect(() => {
+    if (checked === null) return;
+    const timer = window.setTimeout(() => latest.current(), checked ? 950 : 1700);
+    return () => window.clearTimeout(timer);
+  }, [checked, item]);
 }
 
 function GameFrame({
@@ -350,7 +385,9 @@ function GameFrame({
   hint,
   counter,
   children,
+  compact = false,
 }: {
+  compact?: boolean;
   dict: Dictionary;
   title: string;
   hint: string;
@@ -358,7 +395,7 @@ function GameFrame({
   children: React.ReactNode;
 }) {
   return (
-    <div className="card flex flex-col gap-3 p-4">
+    <div className={`card flex flex-col gap-3 p-4 ${compact ? "game-frame--compact" : ""}`} data-game-frame>
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h2 className="text-sm font-medium text-ink-900">{title}</h2>
         <span className="text-xs text-ink-500">{counter}</span>
@@ -442,6 +479,7 @@ function Flashcards({ dict, words, sourceHeading, selfAssessments }: {
   const [deck, setDeck] = useState(() => shuffle(words).slice(0, 10));
   const [index, setIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
+  const [fullMotion, setFullMotion] = useState(false);
   // Seeded from the server's read-back of the recorded self-assessments: the
   // marks are durable practice state, so a reload keeps Learned / Not yet.
   const [marks, setMarks] = useState<Record<string, "known" | "notYet">>(() => ({ ...(selfAssessments ?? {}) }));
@@ -544,6 +582,7 @@ function Flashcards({ dict, words, sourceHeading, selfAssessments }: {
                 className="flashcard-3d-card"
                 data-flashcard={flipped ? "answer" : "definition"}
                 data-flipped={flipped ? "true" : "false"}
+                data-card-motion={fullMotion ? "full" : "system"}
                 data-marking={marking ?? undefined}
                 aria-label={`${t.games.progress} ${index + 1} ${t.games.of} ${deck.length}. ${cardSideLabel}. ${flipped ? current.term : current.definitionEn}`}
                 aria-roledescription={t.games.flashcardRole}
@@ -589,6 +628,9 @@ function Flashcards({ dict, words, sourceHeading, selfAssessments }: {
                 </div>
               </article>
             </div>
+            <button type="button" className="btn-secondary mt-2" aria-pressed={fullMotion} onClick={() => setFullMotion((value) => !value)} data-flashcard-motion>
+              {t.games.cardMotion}
+            </button>
             <div className="flashcard-flip-row">
               <button type="button" className="flashcard-flip-button" data-flashcard-flip aria-pressed={flipped} disabled={marking !== null} onClick={() => setFlipped((value) => !value)}>
                 {flipped ? t.games.showDefinition : t.games.flip}
@@ -851,6 +893,10 @@ function FillTheGap({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
   const answer = useAnswer();
 
   const current = deck[index];
+  const advance = useCallback(() => {
+    setValue(""); setChecked(null); setHint(false); setIndex((row) => row + 1);
+  }, []);
+  useGameAutoAdvance(checked, index, advance);
   const gapText = useMemo(() => {
     if (!current) return "";
     if (!current.exampleSentence) return current.definitionEn;
@@ -861,7 +907,7 @@ function FillTheGap({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
   }, [current]);
 
   function check() {
-    if (!current || checked !== null) return;
+    if (!current || checked !== null || !value.trim()) return;
     const isRight = gradeSpelling(current, value);
     setChecked(isRight);
     if (isRight) setCorrect((row) => row + 1);
@@ -871,7 +917,7 @@ function FillTheGap({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
   if (!current) {
     return (
       <GameFrame dict={dict} title={t.games.gap} hint={t.games.gapHint} counter={`${correct}`}>
-        <ResultBanner dict={dict} correct={correct} total={deck.length} onAgain={() => { setIndex(0); setValue(""); setChecked(null); setCorrect(0); }} />
+        <ResultBanner dict={dict} correct={correct} total={deck.length} onAgain={() => { setIndex(0); setValue(""); setChecked(null); setCorrect(0); setHint(false); }} />
       </GameFrame>
     );
   }
@@ -892,10 +938,11 @@ function FillTheGap({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
           placeholder={t.games.typeAnswer}
           aria-label={t.games.gap}
           value={value}
+          readOnly={checked !== null}
           onChange={(event) => setValue(event.target.value)}
           onKeyDown={(event) => event.key === "Enter" && check()}
         />
-        <button type="button" className="btn-primary" disabled={checked !== null} onClick={check}>
+        <button type="button" className="btn-primary" disabled={checked !== null || !value.trim()} onClick={check}>
           {t.games.check}
         </button>
         <button type="button" className="btn-ghost text-xs" onClick={() => setHint(true)}>
@@ -915,12 +962,7 @@ function FillTheGap({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
           <button
             type="button"
             className="btn-secondary"
-            onClick={() => {
-              setValue("");
-              setChecked(null);
-              setHint(false);
-              setIndex((row) => row + 1);
-            }}
+            onClick={advance}
           >
             {t.games.next}
           </button>
@@ -948,6 +990,7 @@ function TypingRace({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
   const [elapsed, setElapsed] = useState(0);
   const [status, setStatus] = useState<null | "checking" | "correct" | "incorrect" | "skipped" | "unverified">(null);
   const [finished, setFinished] = useState(false);
+  const [litCount, setLitCount] = useState(0);
   const [stats, setStats] = useState({ correct: 0, incorrect: 0, skipped: 0, unverified: 0, typedCharacters: 0, totalSeconds: 0 });
   const [records, setRecords] = useState<{ term: string; seconds: number; outcome: string }[]>([]);
   const answer = useAnswer();
@@ -1028,6 +1071,7 @@ function TypingRace({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
     setTicker(Date.now());
     setElapsed(0);
     setStatus(null);
+    setLitCount(0);
     submitting.current = false;
   }, [status, index, deck.length]);
 
@@ -1039,6 +1083,7 @@ function TypingRace({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
     setTicker(Date.now());
     setElapsed(0);
     setStatus(null);
+    setLitCount(0);
     setFinished(false);
     setStats({ correct: 0, incorrect: 0, skipped: 0, unverified: 0, typedCharacters: 0, totalSeconds: 0 });
     setRecords([]);
@@ -1050,20 +1095,36 @@ function TypingRace({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
   }, [index, status, finished, current]);
 
   const resolved = status !== null && status !== "checking";
+  const boxCount = Math.max([...(current?.term.replace(/\s/g, "") ?? "")].length, typedLetters.length, 1);
+  const stepMs = Math.max(16, Math.min(65, Math.floor(650 / boxCount)));
+  useEffect(() => {
+    if (!resolved || finished) { setLitCount(0); return; }
+    // Reduced motion remains the default when requested by the operating system.
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
+      setLitCount(boxCount); return;
+    }
+    setLitCount(0);
+    let count = 0;
+    const timer = window.setInterval(() => {
+      count += 1; setLitCount(count);
+      if (count >= boxCount) window.clearInterval(timer);
+    }, stepMs);
+    return () => window.clearInterval(timer);
+  }, [resolved, index, finished, boxCount, stepMs]);
   useEffect(() => {
     if (!resolved || finished) return;
-    const delay = status === "incorrect" || status === "skipped" || status === "unverified" ? 1450 : 950;
+    const delay = boxCount * stepMs + (status === "correct" ? 750 : 1400);
     const timeout = window.setTimeout(advance, delay);
     return () => window.clearTimeout(timeout);
-  }, [resolved, status, index, finished, deck.length, advance]);
+  }, [resolved, status, index, finished, deck.length, advance, boxCount, stepMs]);
 
   if (deck.length === 0) {
-    return <GameFrame dict={dict} title={t.games.race} hint={t.games.raceHint} counter="0 / 0"><p className="text-sm text-ink-500">{t.games.noEligible}</p></GameFrame>;
+    return <GameFrame compact dict={dict} title={t.games.race} hint={t.games.raceHint} counter="0 / 0"><p className="text-sm text-ink-500">{t.games.noEligible}</p></GameFrame>;
   }
 
   if (finished) {
     return (
-      <GameFrame dict={dict} title={t.games.race} hint={t.games.raceHint} counter={`${stats.correct} / ${deck.length}`}>
+      <GameFrame compact dict={dict} title={t.games.race} hint={t.games.raceHint} counter={`${stats.correct} / ${deck.length}`}>
         <section data-race-results aria-labelledby="race-results-title" className="flex flex-col gap-3">
           <h3 id="race-results-title" className="text-base font-medium text-ink-900">{t.games.result}</h3>
           <dl className="grid grid-cols-2 gap-2 sm:grid-cols-3">
@@ -1087,8 +1148,6 @@ function TypingRace({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
   if (!current) return null;
   const groups = current.term.split(/\s+/).filter(Boolean);
   const expectedCharacters = [...current.term.replace(/\s/g, "")];
-  const animationCharacterCount = Math.max(expectedCharacters.length, typedLetters.length, 1);
-  const characterDelayMs = Math.min(35, 600 / animationCharacterCount);
   let offset = 0;
 
   const sourceTypeLabel = current.sourceType
@@ -1096,7 +1155,7 @@ function TypingRace({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
     : undefined;
 
   return (
-    <GameFrame dict={dict} title={t.games.race} hint={t.games.raceHint} counter={`${t.games.raceProgress} ${index + 1} / ${deck.length} · ${t.games.itemTime}: ${formatRaceTime(liveElapsed)}`}>
+    <GameFrame compact dict={dict} title={t.games.race} hint={t.games.raceHint} counter={`${t.games.raceProgress} ${index + 1} / ${deck.length} · ${t.games.itemTime}: ${formatRaceTime(liveElapsed)}`}>
       <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-ink-500">
         <span>{t.games.score}: {stats.correct}</span>
         <span>{t.games.accuracy}: {accuracy === null ? "—" : `${accuracy}%`}</span>
@@ -1117,17 +1176,18 @@ function TypingRace({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
               const charIndexInAnswer = thisOffset + charIndex;
               const entered = typedLetters[charIndexInAnswer];
               const expected = expectedCharacters[charIndexInAnswer];
-              const verdictClass = status === "correct" ? "race-answer-box--correct"
+              const verdictClass = charIndexInAnswer >= litCount ? "" : status === "correct" ? "race-answer-box--correct"
                 : status === "incorrect" ? "race-answer-box--incorrect" : "";
               const shown = entered ?? (status === "skipped" || status === "unverified" ? expected : "");
-              return <span key={charIndex} className={`race-answer-box ${verdictClass}`} style={{ transitionDelay: resolved ? `${Math.round(charIndexInAnswer * characterDelayMs)}ms` : "0ms" }}>{shown ?? ""}</span>;
+              return <span key={charIndex} className={`race-answer-box ${verdictClass}`} data-race-lit={charIndexInAnswer < litCount ? "true" : "false"}>{shown ?? ""}</span>;
             })}
           </span>;
         })}
         {typedLetters.slice(expectedCharacters.length).map((character, extraIndex) => (
-          <span key={`extra-${extraIndex}`} className={`race-answer-box ${status === "incorrect" ? "race-answer-box--incorrect" : ""}`} style={{ transitionDelay: resolved ? `${Math.round((expectedCharacters.length + extraIndex) * characterDelayMs)}ms` : "0ms" }}>{character}</span>
+          <span key={`extra-${extraIndex}`} className={`race-answer-box ${status === "incorrect" && expectedCharacters.length + extraIndex < litCount ? "race-answer-box--incorrect" : ""}`} data-race-lit={expectedCharacters.length + extraIndex < litCount ? "true" : "false"}>{character}</span>
         ))}
       </div>
+      <div className="race-feedback-slot">
       {status === "checking" && <p role="status" aria-live="polite" className="text-sm text-ink-500" data-race-checking>{dict.common.loading}</p>}
       {resolved && (
         <div
@@ -1148,6 +1208,7 @@ function TypingRace({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
           <p className="mt-1 text-xs text-ink-500">{t.games.itemTime}: {formatRaceTime(elapsed)}</p>
         </div>
       )}
+      </div>
       <label className="sr-only" htmlFor="typing-race-answer">{t.games.raceInputLabel}</label>
       <input ref={inputRef} id="typing-race-answer" className="input" data-race-input placeholder={t.games.typeAnswer} aria-describedby="race-answer-help" aria-invalid={status === "incorrect"} value={value} readOnly={status !== null} maxLength={300} autoComplete="off" autoCapitalize="off" spellCheck={false} onChange={(event) => startIfRealCharacter(event.target.value)} onKeyDown={(event) => {
         if (event.key === "Enter") {
@@ -1186,6 +1247,10 @@ function TranslationChallenge({ dict, words }: { dict: Dictionary; words: GameWo
   const answer = useAnswer();
 
   const current = deck[index];
+  const advance = useCallback(() => {
+    setValue(""); setChecked(null); setIndex((row) => row + 1);
+  }, []);
+  useGameAutoAdvance(checked, index, advance);
 
   /**
    * Every answer the centre accepts, plus the term itself. A wrong answer shows
@@ -1201,7 +1266,7 @@ function TranslationChallenge({ dict, words }: { dict: Dictionary; words: GameWo
   }
 
   function check() {
-    if (!current || checked !== null) return;
+    if (!current || checked !== null || !value.trim()) return;
     const isRight = gradeSpelling(current, value);
     setChecked(isRight);
     if (isRight) setCorrect((row) => row + 1);
@@ -1237,10 +1302,11 @@ function TranslationChallenge({ dict, words }: { dict: Dictionary; words: GameWo
           value={value}
           autoCapitalize="off"
           spellCheck={false}
+          readOnly={checked !== null}
           onChange={(event) => setValue(event.target.value)}
           onKeyDown={(event) => event.key === "Enter" && check()}
         />
-        <button type="button" className="btn-primary" disabled={checked !== null} onClick={check}>
+        <button type="button" className="btn-primary" disabled={checked !== null || !value.trim()} onClick={check}>
           {t.games.check}
         </button>
       </div>
@@ -1284,11 +1350,7 @@ function TranslationChallenge({ dict, words }: { dict: Dictionary; words: GameWo
             <button
               type="button"
               className="btn-secondary"
-              onClick={() => {
-                setValue("");
-                setChecked(null);
-                setIndex((row) => row + 1);
-              }}
+              onClick={advance}
             >
               {t.games.next}
             </button>
@@ -1316,6 +1378,12 @@ function SentenceBuilder({ dict, words }: { dict: Dictionary; words: GameWord[] 
   const [built, setBuilt] = useState<{ id: number; word: string }[]>([]);
   const [checked, setChecked] = useState<null | boolean>(null);
   const answer = useAnswer();
+  const [correct, setCorrect] = useState(0);
+  const advance = useCallback(() => {
+    setChecked(null); setBuilt([]); setTiles([]);
+    setIndex((row) => row + 1); setRound((row) => row + 1);
+  }, []);
+  useGameAutoAdvance(checked, index, advance);
 
   useEffect(() => {
     setTiles(shuffle(targetWords.map((word, id) => ({ id, word }))));
@@ -1324,17 +1392,18 @@ function SentenceBuilder({ dict, words }: { dict: Dictionary; words: GameWord[] 
   }, [targetWords, round]);
 
   function check() {
-    if (!current || checked !== null) return;
+    if (!current || checked !== null || built.length === 0 || tiles.length > 0) return;
     const assembled = built.map((tile) => tile.word).join(" ");
     const isRight = assembled === targetWords.join(" ");
     setChecked(isRight);
+    if (isRight) setCorrect((row) => row + 1);
     void answer(current.id, { kind: "sentence", text: assembled });
   }
 
   if (!current) {
     return (
       <GameFrame dict={dict} title={t.games.builder} hint={t.games.builderHint} counter={`${deck.length}`}>
-        <ResultBanner dict={dict} correct={deck.length} total={deck.length} onAgain={() => { setRound((row) => row + 1); setIndex(0); }} />
+        <ResultBanner dict={dict} correct={correct} total={deck.length} onAgain={() => { setChecked(null); setCorrect(0); setRound((row) => row + 1); setIndex(0); }} />
       </GameFrame>
     );
   }
@@ -1386,7 +1455,7 @@ function SentenceBuilder({ dict, words }: { dict: Dictionary; words: GameWord[] 
         ))}
       </div>
       <div className="flex flex-wrap items-center gap-2">
-        <button type="button" className="btn-primary" disabled={checked !== null || tiles.length > 0} onClick={check}>
+        <button type="button" className="btn-primary" disabled={checked !== null || built.length === 0 || tiles.length > 0} onClick={check}>
           {t.games.check}
         </button>
         <button
@@ -1409,10 +1478,7 @@ function SentenceBuilder({ dict, words }: { dict: Dictionary; words: GameWord[] 
           <button
             type="button"
             className="btn-secondary"
-            onClick={() => {
-              setIndex((row) => row + 1);
-              setRound((row) => row + 1);
-            }}
+            onClick={advance}
           >
             {t.games.next}
           </button>

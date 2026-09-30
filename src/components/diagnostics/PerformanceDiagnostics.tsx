@@ -2,6 +2,8 @@
 
 import { useEffect } from "react";
 
+let diagnosticDocumentId: string | null = null;
+
 type Sample = {
   id: number; kind: "navigation" | "search" | "search-open" | "support-send";
   module: string; started: number; target?: string; feedbackAt?: number; usableAt?: number;
@@ -11,13 +13,17 @@ type Sample = {
 /** QA-only, console-only measurements. No text, object ids, queries or credentials. */
 export function PerformanceDiagnostics() {
   useEffect(() => {
+    diagnosticDocumentId ??= typeof crypto.randomUUID === "function" ? crypto.randomUUID() : String(performance.timeOrigin);
+    const documentId = diagnosticDocumentId;
+    const documentEntry = performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming | undefined;
+    console.info(`[qa-perf] ${JSON.stringify({ event: "documentLifecycle", documentId, type: documentEntry?.type ?? "unknown" })}`);
     let sequence = 0;
     let sample: Sample | null = null;
     const frames = new Set<number>();
     let timer: ReturnType<typeof setTimeout> | undefined;
     const round = (value: number) => Math.round(value * 10) / 10;
     const report = (event: string, data: Record<string, string | number | boolean | null>) => {
-      console.info(`[qa-perf] ${JSON.stringify({ event, ...data })}`);
+      console.info(`[qa-perf] ${JSON.stringify({ event, documentId, ...data })}`);
     };
     const modules = new Set(["dashboard", "reading", "vocabulary", "notifications", "support", "listening", "writing", "speaking", "grammar", "assignments", "video-lessons", "live-classes", "progress", "mocks", "management", "teacher", "admin", "owner"]);
     const moduleFor = (url: URL) => {

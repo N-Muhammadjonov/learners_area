@@ -60,7 +60,9 @@ test("route outlet preserves a live shell and exposes a localized, retryable des
   assert.match(provider, /onPopState/);
   assert.match(provider, /router\.push\(href\)/);
   assert.doesNotMatch(provider, /history\.pushState|history\.replaceState/);
-  assert.match(outlet, /<SectionEntryFrame/);
+  assert.match(outlet, /data-workspace-content inert=\{pending \|\| undefined\}>\{children\}/);
+  assert.match(outlet, /role="status" aria-live="polite"/);
+  assert.match(outlet, /onClick=\{retryNavigation\}/);
   assert.match(frame, /role="status"/);
   assert.match(frame, /aria-live="polite"/);
   assert.match(frame, /onClick=\{onRetry\}/);
