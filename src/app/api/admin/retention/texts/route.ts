@@ -3,8 +3,7 @@ import { db } from "@/db/client";
 import {
   createRetentionText,
   listRetentionInventory,
-  listRetentionLevelTexts,
-  sortRetentionRows,
+  listRetentionLevelPage,
 } from "@/lib/data/retention-bank";
 import { isRetentionLevel } from "@/lib/retention/levels";
 import { requireRetentionAdmin } from "@/lib/retention/admin";
@@ -12,7 +11,7 @@ import { invalidJson, retentionJson } from "@/lib/retention/http";
 import { createRetentionTextSchema, retentionListQuerySchema } from "@/lib/validation/retention";
 
 /**
- * GET /api/admin/retention/texts?level=A2&filter=active&sort=label
+ * GET /api/admin/retention/texts?level=A2&filter=active&sort=label&page=1
  *
  * The Management screen asks for one level at a time: the inventory ("A2 4/15")
  * and that level's rows with both usage numbers. Two aggregate queries plus one
@@ -34,11 +33,21 @@ export async function GET(request: NextRequest) {
     if (!isRetentionLevel(parsed.data.level)) {
       return { inventory, level: null, rows: [] };
     }
-    const rows = await listRetentionLevelTexts(parsed.data.level, parsed.data.filter ?? "active", db);
+    const page = await listRetentionLevelPage({
+      level: parsed.data.level,
+      filter: parsed.data.filter ?? "active",
+      sort: parsed.data.sort ?? "label",
+      page: parsed.data.page,
+      pageSize: parsed.data.pageSize,
+    }, db);
     return {
       inventory,
       level: parsed.data.level,
-      rows: sortRetentionRows(rows, parsed.data.sort ?? "label"),
+      rows: page.rows,
+      total: page.total,
+      page: page.page,
+      pageSize: page.pageSize,
+      pageCount: page.pageCount,
     };
   });
 }

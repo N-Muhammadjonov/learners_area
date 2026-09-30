@@ -163,3 +163,45 @@ test("W05: a learner with no results gets empty metrics", async () => {
   assert.equal(summary.bestScore, null);
   assert.equal(summary.lastTenAverage, null);
 });
+
+test("W06: 100+ texts are all reachable through pages, and sorts are global before paging", async () => {
+  const { listRetentionLevelPage } = await import("../src/lib/data/retention-bank");
+  const { RETENTION_LEVEL_CONFIG } = await import("../src/lib/retention/levels");
+  const ids: string[] = [];
+  for (let i = 0; i < 105; i++) {
+    const created = await createRetentionText({ level: "A2", bodyText: bodyOfWords(RETENTION_LEVEL_CONFIG.A2.minWords), scoringStructure: simpleStructure(`pg${i}`), actorUserId: ownerId }, database.db);
+    ids.push((created as { textId: string }).textId);
+  }
+  const seen = new Set<string>();
+  const first = await listRetentionLevelPage({ level: "A2", filter: "active", sort: "label", page: 1 }, database.db);
+  assert.equal(first.total, 105);
+  assert.equal(first.pageCount, 3);
+  assert.equal(first.rows.length, 50);
+  for (let page = 1; page <= first.pageCount; page++) {
+    const result = await listRetentionLevelPage({ level: "A2", sort: "label", page }, database.db);
+    for (const row of result.rows) seen.add(row.textId);
+  }
+  assert.equal(seen.size, 105, "every text reachable");
+
+  // Newest (created last, beyond the original first 50) leads the newest sort.
+  const newest = await listRetentionLevelPage({ level: "A2", sort: "newest", page: 1 }, database.db);
+  assert.equal(newest.rows[0]!.textId, ids[104]);
+
+  // Give the 90th text lifetime uses: it must lead "most used" on page 1.
+  const heavy = ids[89]!;
+  const [version] = await database.query<{ v: string }>("select current_version_id as v from retention_texts where id = $1", [heavy]);
+  const userId = await learner();
+  await database.query(`insert into retention_attempts(user_id,retention_text_id,retention_text_version_id,level,rotation_cycle,status,read_started_at,read_ends_at,write_started_at,write_ends_at,score,created_at)
+    select $1,$2,$3,'A2',n,'completed',now(),now(),now(),now(),50,now() - n*interval '1 day' from generate_series(1,3) n`, [userId, heavy, version!.v]);
+  const used = await listRetentionLevelPage({ level: "A2", sort: "uses", page: 1 }, database.db);
+  assert.equal(used.rows[0]!.textId, heavy);
+  assert.equal(used.rows[0]!.lifetimeUses, 3);
+  assert.equal(used.rows[0]!.currentVersionUses, 3);
+
+  // Out-of-range pages clamp; page size is bounded.
+  const clamped = await listRetentionLevelPage({ level: "A2", page: 999 }, database.db);
+  assert.equal(clamped.page, 3);
+  assert.equal(clamped.rows.length, 5);
+  const bounded = await listRetentionLevelPage({ level: "A2", pageSize: 10_000 }, database.db);
+  assert.equal(bounded.pageSize, 100);
+});

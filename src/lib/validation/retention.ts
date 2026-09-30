@@ -32,6 +32,8 @@ export const retentionListQuerySchema = z.object({
   level: z.string().min(1).max(4),
   filter: z.enum(["all", "active", "archived"]).optional(),
   sort: z.enum(["label", "uses", "newest"]).optional(),
+  page: z.coerce.number().int().min(1).max(100_000).optional(),
+  pageSize: z.coerce.number().int().min(1).max(100).optional(),
 });
 
 export type CreateRetentionTextInput = z.infer<typeof createRetentionTextSchema>;

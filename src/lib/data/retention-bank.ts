@@ -1,5 +1,5 @@
 import "server-only";
-import { and, asc, count, eq, inArray, isNotNull, sql } from "drizzle-orm";
+import { and, asc, count, desc, eq, inArray, isNotNull, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { retentionAttempts, retentionTexts, retentionTextVersions } from "@/db/schema";
 import {
@@ -177,23 +177,54 @@ export async function listRetentionInventory(connection: RetentionBankDatabase =
 // ---------------------------------------------------------------------------
 
 export type RetentionTextFilter = "all" | "active" | "archived";
-const LEVEL_PAGE_SIZE = 50;
+export type RetentionTextSort = "label" | "uses" | "newest";
+export const RETENTION_PAGE_SIZE = 50;
+export const RETENTION_MAX_PAGE_SIZE = 100;
+
+export type RetentionTextPage = {
+  rows: RetentionTextRow[];
+  total: number;
+  page: number;
+  pageSize: number;
+  pageCount: number;
+};
 
 /**
- * One level's texts with both usage numbers.
+ * One page of a level's texts with both usage numbers.
  *
- * Two statements, whatever the bank size: the rows (bounded by page size) and one
- * grouped aggregate over the attempts of that level. No per-row counting (§147).
+ * Sorting happens IN SQL before LIMIT/OFFSET with stable tie-breaks (sequence,
+ * id), so "most used" and "newest" are global across the whole bank, never a
+ * re-sort of a truncated first page. Three statements per page whatever the
+ * bank size: a count, the page rows (usage via one correlated aggregate each,
+ * executed inside the same statement) and nothing per row from the client.
+ * An out-of-range page is clamped to the last page.
  */
-export async function listRetentionLevelTexts(
-  level: RetentionLevel,
-  filter: RetentionTextFilter = "active",
+export async function listRetentionLevelPage(
+  input: { level: RetentionLevel; filter?: RetentionTextFilter; sort?: RetentionTextSort; page?: number; pageSize?: number },
   connection: RetentionBankDatabase = db
-): Promise<RetentionTextRow[]> {
+): Promise<RetentionTextPage> {
+  const filter = input.filter ?? "active";
+  const sort = input.sort ?? "label";
+  const pageSize = Math.max(1, Math.min(Math.trunc(input.pageSize ?? RETENTION_PAGE_SIZE), RETENTION_MAX_PAGE_SIZE));
   const where =
     filter === "all"
-      ? eq(retentionTexts.level, level)
-      : and(eq(retentionTexts.level, level), eq(retentionTexts.active, filter === "active"));
+      ? eq(retentionTexts.level, input.level)
+      : and(eq(retentionTexts.level, input.level), eq(retentionTexts.active, filter === "active"));
+
+  const [counted] = await connection.select({ total: sql<number>`count(*)::int` }).from(retentionTexts).where(where);
+  const total = Number(counted?.total ?? 0);
+  const pageCount = Math.max(1, Math.ceil(Number(total) / pageSize));
+  const page = Math.max(1, Math.min(Math.trunc(input.page ?? 1) || 1, pageCount));
+  if (Number(total) === 0) return { rows: [], total: 0, page: 1, pageSize, pageCount: 1 };
+
+  const lifetimeUses = sql<number>`(select count(*)::int from ${retentionAttempts} a where a.retention_text_id = ${retentionTexts.id} and a.status in ('completed', 'timed_out'))`;
+  const currentVersionUses = sql<number>`(select count(*)::int from ${retentionAttempts} a where a.retention_text_id = ${retentionTexts.id} and a.retention_text_version_id = ${retentionTexts.currentVersionId} and a.status in ('completed', 'timed_out'))`;
+  const order =
+    sort === "uses"
+      ? [sql`${lifetimeUses} desc`, asc(retentionTexts.sequence), asc(retentionTexts.id)]
+      : sort === "newest"
+        ? [desc(retentionTexts.sequence), asc(retentionTexts.id)]
+        : [asc(retentionTexts.sequence), asc(retentionTexts.id)];
 
   const rows = await connection
     .select({
@@ -207,39 +238,18 @@ export async function listRetentionLevelTexts(
       versionNumber: retentionTextVersions.versionNumber,
       wordCount: retentionTextVersions.wordCount,
       bodyText: retentionTextVersions.bodyText,
-      versionCount: sql<number>`(select count(*)::int from ${retentionTextVersions} v where v.retention_text_id = ${retentionTexts.id})`,
+      lifetimeUses,
+      currentVersionUses,
     })
     .from(retentionTexts)
     .leftJoin(retentionTextVersions, eq(retentionTextVersions.id, retentionTexts.currentVersionId))
     .where(where)
-    .orderBy(asc(retentionTexts.sequence))
-    .limit(LEVEL_PAGE_SIZE);
+    .orderBy(...order)
+    .limit(pageSize)
+    .offset((page - 1) * pageSize);
 
-  if (rows.length === 0) return [];
-
-  const usage = await connection
-    .select({
-      textId: retentionAttempts.retentionTextId,
-      lifetimeUses: sql<number>`count(*)::int`,
-      currentVersionUses: sql<number>`count(*) filter (where ${retentionAttempts.retentionTextVersionId} = ${retentionTexts.currentVersionId})::int`,
-    })
-    .from(retentionAttempts)
-    .innerJoin(retentionTexts, eq(retentionTexts.id, retentionAttempts.retentionTextId))
-    .where(
-      and(
-        eq(retentionTexts.level, level),
-        inArray(retentionAttempts.status, ["completed", "timed_out"]),
-        inArray(
-          retentionAttempts.retentionTextId,
-          rows.map((row) => row.textId)
-        )
-      )
-    )
-    .groupBy(retentionAttempts.retentionTextId);
-
-  return rows.map((row) => {
-    const counts = usage.find((entry) => entry.textId === row.textId);
-    return {
+  return {
+    rows: rows.map((row) => ({
       textId: row.textId,
       internalLabel: row.internalLabel,
       level: row.level,
@@ -249,11 +259,24 @@ export async function listRetentionLevelTexts(
       wordCount: row.wordCount ?? 0,
       versionNumber: row.versionNumber ?? 0,
       currentVersionId: row.currentVersionId ?? "",
-      currentVersionUses: counts?.currentVersionUses ?? 0,
-      lifetimeUses: counts?.lifetimeUses ?? 0,
+      currentVersionUses: Number(row.currentVersionUses ?? 0),
+      lifetimeUses: Number(row.lifetimeUses ?? 0),
       updatedAt: row.updatedAt.toISOString(),
-    };
-  });
+    })),
+    total: Number(total),
+    page,
+    pageSize,
+    pageCount,
+  };
+}
+
+/** First page in label order — kept for callers that need one bounded page. */
+export async function listRetentionLevelTexts(
+  level: RetentionLevel,
+  filter: RetentionTextFilter = "active",
+  connection: RetentionBankDatabase = db
+): Promise<RetentionTextRow[]> {
+  return (await listRetentionLevelPage({ level, filter }, connection)).rows;
 }
 
 function previewOf(body: string, length = 140): string {
@@ -585,18 +608,3 @@ export async function labelsForTexts(
   return new Map(rows.map((row) => [row.id, { label: row.internalLabel, level: row.level }]));
 }
 
-/** Newest texts first, for the "Newest" sort option in Management (§114). */
-export async function listRetentionLevelTextsNewest(
-  level: RetentionLevel,
-  filter: RetentionTextFilter = "active",
-  connection: RetentionBankDatabase = db
-): Promise<RetentionTextRow[]> {
-  const rows = await listRetentionLevelTexts(level, filter, connection);
-  return [...rows].sort((a, b) => b.sequence - a.sequence);
-}
-
-export function sortRetentionRows(rows: RetentionTextRow[], sort: "label" | "uses" | "newest"): RetentionTextRow[] {
-  if (sort === "uses") return [...rows].sort((a, b) => b.lifetimeUses - a.lifetimeUses || a.sequence - b.sequence);
-  if (sort === "newest") return [...rows].sort((a, b) => b.sequence - a.sequence);
-  return [...rows].sort((a, b) => a.sequence - b.sequence);
-}

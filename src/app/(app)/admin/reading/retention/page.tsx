@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import { db } from "@/db/client";
 import { requireAdministrator } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
-import { listRetentionInventory, listRetentionLevelTexts, sortRetentionRows } from "@/lib/data/retention-bank";
+import { listRetentionInventory, listRetentionLevelPage } from "@/lib/data/retention-bank";
 import { RETENTION_LEVELS, isRetentionLevel, type RetentionLevel } from "@/lib/retention/levels";
 import { RetentionBankPanel } from "@/components/admin/RetentionBankPanel";
 
@@ -52,10 +52,13 @@ async function RetentionBankContent({ dict, params }: {
     return value === "uses" || value === "newest" ? value : "label";
   })();
 
-  const [inventory, rows] = await Promise.all([
+  const requestedPage = Number.parseInt(first(params.page) ?? "1", 10);
+  const [inventory, bank] = await Promise.all([
     timed("retention.admin.inventory", () => listRetentionInventory(db)),
-    timed("retention.admin.rows", async () => sortRetentionRows(await listRetentionLevelTexts(level, filter, db), sort)),
+    timed("retention.admin.rows", () =>
+      listRetentionLevelPage({ level, filter, sort, page: Number.isFinite(requestedPage) ? requestedPage : 1 }, db)),
   ]);
+  const rows = bank.rows;
 
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-6" data-retention-admin data-route-usable="retention-admin">
@@ -103,11 +106,15 @@ async function RetentionBankContent({ dict, params }: {
         level={level}
         filter={filter}
         sort={sort}
+        page={bank.page}
+        pageCount={bank.pageCount}
+        total={bank.total}
         rows={rows.map((row) => ({
           textId: row.textId,
           internalLabel: row.internalLabel,
           level: row.level,
           active: row.active,
+          preview: row.preview,
           wordCount: row.wordCount,
           versionNumber: row.versionNumber,
           currentVersionUses: row.currentVersionUses,
