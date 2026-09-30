@@ -119,7 +119,7 @@ function ReadingWorkspace({ userId, lang, dict, tab, filter }: {
             <span aria-hidden className="flex h-11 w-11 items-center justify-center rounded-xl border border-gold/45 bg-gold/10 text-[22px] text-gold"><IconRetention /></span>
             <h2 className="section-title">{dict.readingHub.retentionTitle}</h2>
             <p className="body-text">{dict.readingHub.retentionBody}</p>
-            <Link href="/reading/retention" className="btn-primary w-fit" data-retention-mode-link>{dict.readingHub.retentionAction}</Link>
+            <Link href="/reading/retention" prefetch={false} className="btn-primary w-fit" data-retention-mode-link>{dict.readingHub.retentionAction}</Link>
           </div>
         </section>
       )}

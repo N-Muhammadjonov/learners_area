@@ -10,6 +10,7 @@ import { ShellUtilities } from "@/components/shell/ShellUtilities";
 import { InstantInteractionProvider } from "@/components/interaction/InstantInteractionProvider";
 import { InstantWorkspaceOutlet } from "@/components/interaction/InstantWorkspaceOutlet";
 import { sectionEntryFrames } from "@/lib/interaction/section-entry";
+import { PrivateResourceScope } from "@/components/interaction/PrivateResourceScope";
 
 /**
  * This segment is request-dynamic through `getCurrentUser()` and `getLocale()`
@@ -70,6 +71,8 @@ export default async function AppLayout({ children }: { children: React.ReactNod
       slowMessage={dict.errors.unknown}
       retryLabel={dict.errorPage.retry}
     >
+      {/* Private client read cache is bound to the DB-verified user id only. */}
+      <PrivateResourceScope scope={user.id} />
       <div className="flex h-dvh overflow-hidden bg-paper" data-shell>
         {diagnostics && <PerformanceDiagnostics />}
         {/*

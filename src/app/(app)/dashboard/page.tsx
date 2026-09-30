@@ -82,7 +82,7 @@ async function DashboardContent({ user, locale, dict, openLessonsPromise }: {
             <h2 className="font-display text-lg text-ink-900">{dict.reading.retentionModeTitle}</h2>
             <p className="mt-1 text-sm text-ink-500">{dict.dashboard.retentionDrillHint}</p>
           </div>
-          <Link href="/reading/retention">
+          <Link href="/reading/retention" prefetch={false}>
             <Button variant="secondary">{dict.dashboard.retentionDrillAction}</Button>
           </Link>
         </div>

@@ -1,5 +1,7 @@
 "use client";
 
+import { fetchPrivateJson } from "@/lib/client/private-resource";
+import { privateResources } from "@/lib/client/private-resource";
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n/en";
@@ -41,10 +43,8 @@ export function VocabUsePanel({
   const loadSentences = useCallback(async () => {
     setSentencesStatus("loading");
     try {
-      const res = await fetch("/api/vocabulary/sentences?view=history", { cache: "no-store" });
-      if (res.status === 401) router.refresh();
-      const payload = await res.json().catch(() => null);
-      if (!res.ok || !payload?.ok) throw new Error("sentence history unavailable");
+      // Bounded read: deadline + one transient retry; 401 returns to the server gate.
+      const payload = await fetchPrivateJson<Record<string, any>>("/api/vocabulary/sentences?view=history", { onAuthFailure: () => router.refresh(), retries: 1 });
       setSentences(payload.sentences ?? []);
       setSentencesStatus("ready");
     } catch {
@@ -55,10 +55,8 @@ export function VocabUsePanel({
   const loadWords = useCallback(async () => {
     setWordsStatus("loading");
     try {
-      const res = await fetch("/api/vocabulary/sentences?view=words&limit=100", { cache: "no-store" });
-      if (res.status === 401) router.refresh();
-      const payload = await res.json().catch(() => null);
-      if (!res.ok || !payload?.ok) throw new Error("Use It word picker unavailable");
+      // Bounded read: deadline + one transient retry; 401 returns to the server gate.
+      const payload = await fetchPrivateJson<Record<string, any>>("/api/vocabulary/sentences?view=words&limit=100", { onAuthFailure: () => router.refresh(), retries: 1 });
       const nextWords: PickerWord[] = payload.words ?? [];
       setWords(nextWords);
       setEntryId((current) => current && nextWords.some((word) => word.id === current) ? current : nextWords[0]?.id ?? "");
@@ -92,6 +90,7 @@ export function VocabUsePanel({
       } else {
         setMessage({ tone: "info", text: `${t.use.rejected} · ${t.use.checkedBy}: ${payload.checkedBy ?? "RIWI"}` });
       }
+      if (res.ok) privateResources.invalidate("vocabulary:");
       onSaved(res.ok && payload.accepted === true && Number(payload.points) > 0);
       void loadSentences();
     } catch {

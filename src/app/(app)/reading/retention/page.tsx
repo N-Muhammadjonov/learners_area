@@ -35,10 +35,17 @@ export default async function ReadingRetentionPage() {
   const locale = await getLocale();
   const dict = getDictionary(locale);
 
-  const live = await findAnyLiveAttempt({ userId: user.id }).catch(() => null);
-  const initial = live ? await buildAttemptPayload(live, new Date(), db).catch(() => null) : null;
-  const summary = await getRetentionSummary(user.id).catch(() => null);
-  const history = await listRetentionHistory({ userId: user.id, page: 1 }).catch(() => null);
+  // Runtime Stability: the three reads are independent and owner-scoped, so
+  // they run concurrently; each keeps its own failure scope (`.catch`), and the
+  // payload is still built from fresh server state with server time — never
+  // from any cache. Nothing here allocates an attempt (Start is a POST).
+  const [initial, summary, history] = await Promise.all([
+    findAnyLiveAttempt({ userId: user.id })
+      .then((live) => (live ? buildAttemptPayload(live, new Date(), db) : null))
+      .catch(() => null),
+    getRetentionSummary(user.id).catch(() => null),
+    listRetentionHistory({ userId: user.id, page: 1 }).catch(() => null),
+  ]);
 
   return (
     <div className="mx-auto flex max-w-4xl flex-col gap-8" data-retention-page>

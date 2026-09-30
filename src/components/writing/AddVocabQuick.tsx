@@ -1,5 +1,6 @@
 "use client";
 
+import { privateResources } from "@/lib/client/private-resource";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -33,7 +34,10 @@ export function AddVocabQuick({ dict, sourceId }: { dict: Dictionary; sourceId: 
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ term, definitionEn: definition, sourceType: "writing_feedback", sourceId }),
         });
-        if (res.ok) setDone(true);
+        if (res.ok) {
+          privateResources.invalidate("vocabulary:");
+          setDone(true);
+        }
       }}
     >
       <Input placeholder="word / phrase" required value={term} onChange={(e) => setTerm(e.target.value)} className="w-40" />
