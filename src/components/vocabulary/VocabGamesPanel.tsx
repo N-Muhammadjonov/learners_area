@@ -275,7 +275,7 @@ export function VocabGameView({
       {!isLoading && !currentFailed && currentSet?.words.length === 0 && <p className="card p-4 text-sm text-ink-500" role="status" data-game-empty>{currentSet?.total ? t.games.noEligible : t.games.noWordsInSet}</p>}
       {!isLoading && !currentFailed && currentSet && currentSet.words.length > 0 && (
         <GameRequestContext.Provider value={context}>
-          {gameId === "cards" && <Flashcards key={gameViewKey} dict={dict} words={currentSet.words} sourceHeading={source} />}
+          {gameId === "cards" && <Flashcards key={gameViewKey} dict={dict} words={currentSet.words} sourceHeading={source} selfAssessments={currentSet.selfAssessments} />}
           {gameId === "choice" && <MultipleChoice key={gameViewKey} dict={dict} words={currentSet.words} />}
           {gameId === "match" && <MatchingPairs key={gameViewKey} dict={dict} words={currentSet.words} />}
           {gameId === "gap" && <FillTheGap key={gameViewKey} dict={dict} words={currentSet.words} />}
@@ -429,12 +429,19 @@ function ResultBanner({
 // 1. Flashcards — definition first, side queue, separate assessment and navigation
 // ---------------------------------------------------------------------------
 
-function Flashcards({ dict, words, sourceHeading }: { dict: Dictionary; words: GameWord[]; sourceHeading: string }) {
+function Flashcards({ dict, words, sourceHeading, selfAssessments }: {
+  dict: Dictionary;
+  words: GameWord[];
+  sourceHeading: string;
+  selfAssessments?: Record<string, "known" | "notYet">;
+}) {
   const t = dict.vocabulary;
   const [deck, setDeck] = useState(() => shuffle(words).slice(0, 10));
   const [index, setIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
-  const [marks, setMarks] = useState<Record<string, "known" | "notYet">>({});
+  // Seeded from the server's read-back of the recorded self-assessments: the
+  // marks are durable practice state, so a reload keeps Learned / Not yet.
+  const [marks, setMarks] = useState<Record<string, "known" | "notYet">>(() => ({ ...(selfAssessments ?? {}) }));
   const [marking, setMarking] = useState<"known" | "notYet" | null>(null);
   const [pass, setPass] = useState(1);
   const timers = useRef<number[]>([]);

@@ -113,6 +113,12 @@ export type GameSetResponse = {
   due: number;
   topicPack?: string | null;
   folderId?: string | null;
+  /**
+   * Present for the flashcard game only: the learner's newest self-assessment
+   * per entry, read back from the recorded practice rows so the marks survive a
+   * reload. It carries no score and never earns a point.
+   */
+  selfAssessments?: Record<string, "known" | "notYet">;
 };
 
 export type GameAnswerResponse = { awarded: number; srsUntouched: true };

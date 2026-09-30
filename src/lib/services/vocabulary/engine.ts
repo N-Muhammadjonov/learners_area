@@ -760,6 +760,51 @@ export async function recordGameAnswer(input: {
   };
 }
 
+/**
+ * The learner's most recent flashcard self-assessment, per saved word.
+ *
+ * A flashcard judgement is practice, never SRS: it is written as a
+ * `VOCAB_GAME_PRACTICED` activity with `kind: "self"` and it earns no point (see
+ * `recordGameAnswer` above). Reading those rows back is what makes the marks
+ * durable — a reloaded pass shows the same Learned / Not yet state the learner
+ * left behind instead of pretending the deck is untouched. The body of the
+ * activity row is the source of truth; this deliberately adds no second store.
+ *
+ * Only the caller's own rows are read, the newest judgement per entry wins, and
+ * `connection` defaults to the application pool so tests can exercise the real
+ * query against a real PostgreSQL.
+ */
+export async function loadSelfAssessments(
+  userId: string,
+  entryIds: string[],
+  connection: typeof db = db,
+): Promise<Record<string, "known" | "notYet">> {
+  if (entryIds.length === 0) return {};
+  const rows = await connection
+    .select({
+      entryId: sql<string | null>`${activityEvents.payload} ->> 'entryId'`,
+      known: sql<boolean | null>`(${activityEvents.payload} ->> 'correct')::boolean`,
+      createdAt: activityEvents.createdAt,
+    })
+    .from(activityEvents)
+    .where(
+      and(
+        eq(activityEvents.userId, userId),
+        eq(activityEvents.type, "VOCAB_GAME_PRACTICED"),
+        sql`${activityEvents.payload} ->> 'kind' = 'self'`,
+        inArray(sql<string>`${activityEvents.payload} ->> 'entryId'`, entryIds),
+      ),
+    )
+    .orderBy(desc(activityEvents.createdAt));
+
+  const latest: Record<string, "known" | "notYet"> = {};
+  for (const row of rows) {
+    if (!row.entryId || row.entryId in latest) continue;
+    latest[row.entryId] = row.known === true ? "known" : "notYet";
+  }
+  return latest;
+}
+
 // ---------------------------------------------------------------------------
 // Sentence Bank / active use
 // ---------------------------------------------------------------------------
