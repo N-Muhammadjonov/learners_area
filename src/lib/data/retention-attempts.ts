@@ -1,4 +1,5 @@
 import "server-only";
+import { countWords } from "@/lib/retention/word-count";
 import { and, desc, eq, inArray, isNotNull, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import {
@@ -598,7 +599,7 @@ export async function listRetentionHistory(
       label: row.label,
       status: row.status,
       score: row.score,
-      recallWordCount: (row.recallText ?? "").trim().split(/\s+/u).filter(Boolean).length,
+      recallWordCount: countWords(row.recallText ?? ""),
       completedAt: row.completedAt ? row.completedAt.toISOString() : null,
       createdAt: row.createdAt.toISOString(),
       rotationCycle: row.rotationCycle,
@@ -628,7 +629,7 @@ export async function getRetentionHistoryRow(
     label: label?.label ?? "",
     status: record.status,
     score: record.score,
-    recallWordCount: (record.recallText ?? "").trim().split(/\s+/u).filter(Boolean).length,
+    recallWordCount: countWords(record.recallText ?? ""),
     completedAt: record.completedAt ? record.completedAt.toISOString() : null,
     createdAt: record.readStartedAt.toISOString(),
     rotationCycle: record.rotationCycle,

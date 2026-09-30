@@ -57,6 +57,7 @@ async function HistoryRegion({ userId, dict }: { userId: string; dict: Dictionar
       attemptId: row.attemptId, level: row.level, score: row.score,
       status: row.status === "timed_out" ? "timed_out" as const : "completed" as const,
       completedAt: row.completedAt, createdAt: row.createdAt,
+      label: row.label, recallWordCount: row.recallWordCount,
     })) }} />;
   } catch { return <Failure dict={dict} region="retention-history" />; }
 }

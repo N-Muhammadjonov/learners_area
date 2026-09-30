@@ -1547,6 +1547,7 @@ const uz: Dictionary = {
    * Retention memory (Part 1 override) — Uzbek.
    */
   retentionMemory: {
+    dateLocale: "uz",
     title: "Xotira mashqi",
     subtitle: "Qisqa matnni bir marta o'qib, eslab qolganingizni yozing.",
     intro: "Beshta daraja. Muallif tuzgan o'lchov tuzilmasi eslab qolganingizni baholaydi — 100 ball, serverda tekshiriladi, AI taxminisiz.",
@@ -1602,6 +1603,20 @@ const uz: Dictionary = {
     historyCompleted: "Yakunlandi",
     historyLoadMore: "Yana yuklash",
     historyPage: "{page} / {pages} sahifa",
+    resultMetaLevel: "Daraja",
+    resultMetaText: "Matn",
+    resultMetaFinished: "Yakunlangan vaqt",
+    resultMetaReadAllocated: "O'qish vaqti (ajratilgan)",
+    resultMetaWriteUsed: "Yozishga sarflangan vaqt",
+    resultMetaWriteUnknown: "Yozishga sarflangan vaqt: qayd etilmagan",
+    resultMetaRecallWords: "Eslab yozganingiz",
+    resultMetaWords: "{n} so'z",
+    resultHistory: "Tarix",
+    resultBackToReading: "Readingga qaytish",
+    resultPermalink: "Bu natijaga havola",
+    historyOpen: "Natijani ochish",
+    historyWords: "{n} so'z",
+    resultUnavailable: "Bu natija mavjud emas. U boshqa hisobga tegishli yoki hali yakunlanmagan bo'lishi mumkin.",
     summaryTitle: "Mening xotiram",
     summaryCompleted: "{n} ta yakunlangan",
     summaryBest: "Eng yaxshisi {n}",

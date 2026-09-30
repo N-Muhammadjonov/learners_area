@@ -1,4 +1,5 @@
 import "server-only";
+import { countWords } from "@/lib/retention/word-count";
 import { RetentionError } from "@/lib/retention/errors";
 import { resolvePhase } from "@/lib/retention/phase";
 import type {
@@ -129,8 +130,9 @@ export async function buildAttemptPayload(
   return payload;
 }
 
+/** The shared canonical counter, so result, history and editor agree. */
 function countRecallWords(text: string): number {
-  return text.trim().split(/\s+/u).filter(Boolean).length;
+  return countWords(text);
 }
 
 function emptyBreakdown(score: number): RetentionBreakdown {

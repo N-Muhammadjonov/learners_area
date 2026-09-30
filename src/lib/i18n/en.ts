@@ -1552,6 +1552,7 @@ const en = {
    * `retentionMemory.admin` further down.
    */
   retentionMemory: {
+    dateLocale: "en",
     title: "Retention memory",
     subtitle: "Read a short text once, then write down what you actually kept.",
     intro: "Five levels. An author-written measurement structure scores what you remember — 100 points, checked on the server, no AI guesswork.",
@@ -1607,6 +1608,20 @@ const en = {
     historyCompleted: "Finished",
     historyLoadMore: "Load more",
     historyPage: "Page {page} of {pages}",
+    resultMetaLevel: "Level",
+    resultMetaText: "Text",
+    resultMetaFinished: "Finished at",
+    resultMetaReadAllocated: "Reading time (allocated)",
+    resultMetaWriteUsed: "Writing time used",
+    resultMetaWriteUnknown: "Writing time used: not recorded",
+    resultMetaRecallWords: "Your recall",
+    resultMetaWords: "{n} words",
+    resultHistory: "History",
+    resultBackToReading: "Back to Reading",
+    resultPermalink: "Link to this result",
+    historyOpen: "Open result",
+    historyWords: "{n} words",
+    resultUnavailable: "This result is not available. It may belong to another account or not be finished yet.",
     summaryTitle: "My memory",
     summaryCompleted: "{n} finished",
     summaryBest: "Best {n}",

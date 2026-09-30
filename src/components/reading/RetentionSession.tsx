@@ -1,10 +1,14 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n/en";
 import { RETENTION_LEVELS, RETENTION_LEVEL_CONFIG, RETENTION_READ_SECONDS, type RetentionLevel } from "@/lib/retention/levels";
-import type { RetentionAttemptPayload, RetentionClaimResult } from "@/lib/retention/types";
+import type { RetentionAttemptMeta, RetentionAttemptPayload, RetentionClaimResult } from "@/lib/retention/types";
+import { countWords } from "@/lib/retention/word-count";
+import { formatDateTime } from "@/lib/time";
+import type { Locale } from "@/lib/i18n";
 
 /**
  * The learner's Retention session: reading → recall → result.
@@ -23,6 +27,30 @@ import type { RetentionAttemptPayload, RetentionClaimResult } from "@/lib/retent
  */
 
 type SaveState = "idle" | "saving" | "saved" | "failed";
+
+/**
+ * Source-free transition state (W10). When the reading deadline passes, the
+ * app-managed state drops `bodyText` immediately — before the server has
+ * confirmed the recall phase — so a failed or stalled phase refresh cannot keep
+ * the source alive in React state. Only the attempt id and the persisted
+ * deadlines survive; the phase itself still comes from the server.
+ */
+type AwaitingRecallState = RetentionAttemptMeta & { phase: "awaiting_recall" };
+type SessionState = RetentionAttemptPayload | AwaitingRecallState;
+
+export function toSourceFree(payload: RetentionAttemptPayload | AwaitingRecallState): AwaitingRecallState {
+  return {
+    attemptId: payload.attemptId,
+    level: payload.level,
+    label: payload.label,
+    readStartedAt: payload.readStartedAt,
+    readEndsAt: payload.readEndsAt,
+    writeStartedAt: payload.writeStartedAt,
+    writeEndsAt: payload.writeEndsAt,
+    serverNow: payload.serverNow,
+    phase: "awaiting_recall",
+  };
+}
 
 const AUTOSAVE_DELAY_MS = 1_200;
 
@@ -56,7 +84,8 @@ function errorText(dict: Dictionary, code: string | undefined): string {
 
 export function RetentionSession({ dict, initial }: { dict: Dictionary; initial: RetentionAttemptPayload | null }) {
   const router = useRouter();
-  const [payload, setPayload] = useState<RetentionAttemptPayload | null>(initial);
+  const [payload, setPayload] = useState<SessionState | null>(initial);
+  const [refreshFailed, setRefreshFailed] = useState(false);
   const [busy, setBusy] = useState(false);
   const [selectedLevel, setSelectedLevel] = useState<RetentionLevel>("A2");
   const [error, setError] = useState<string | null>(null);
@@ -95,19 +124,40 @@ export function RetentionSession({ dict, initial }: { dict: Dictionary; initial:
   const refresh = useCallback(async () => {
     if (!payload || refreshing.current) return;
     refreshing.current = true;
+    const attemptId = payload.attemptId;
     const controller = new AbortController();
     const timer = window.setTimeout(() => controller.abort(), 8_000);
     try {
-      const response = await fetch(`/api/retention/attempts/${payload.attemptId}`, { cache: "no-store", signal: controller.signal });
+      const response = await fetch(`/api/retention/attempts/${attemptId}`, { cache: "no-store", signal: controller.signal });
       const body = (await response.json()) as RetentionAttemptPayload & { error?: string };
-      if (response.ok) setPayload(body);
+      if (!response.ok) throw new Error("phase refresh failed");
+      // A reading payload that arrives after the deadline (clock skew) is never
+      // re-admitted: only the server's recall/terminal state replaces the gate.
+      setPayload((current) => {
+        if (!current || current.attemptId !== attemptId) return current;
+        if (body.phase === "reading" && current.phase === "awaiting_recall") return current;
+        return body;
+      });
+      setRefreshFailed(false);
+      if (body.phase === "completed" || body.phase === "timed_out") router.refresh();
     } catch {
-      /* The expired reading surface stays hidden; a bounded GET retries. */
+      setRefreshFailed(true);
     } finally {
       window.clearTimeout(timer);
       refreshing.current = false;
     }
-  }, [payload]);
+  }, [payload, router]);
+
+  /** Reading deadline reached: drop the source from app state, then ask the server. */
+  const onReadingExpired = useCallback(() => {
+    setPayload((current) => (current && current.phase === "reading" ? toSourceFree(current) : current));
+  }, []);
+
+  /** Terminal success: keep the detailed result, refresh summary/history from the server. */
+  const onResult = useCallback((result: RetentionAttemptPayload) => {
+    setPayload(result);
+    router.refresh();
+  }, [router]);
 
   const onFinished = useCallback(() => {
     setPayload(null);
@@ -144,14 +194,18 @@ export function RetentionSession({ dict, initial }: { dict: Dictionary; initial:
         dict={dict}
         payload={payload}
         skewMs={skewMs}
-        onPhaseOver={refresh}
+        onExpired={onReadingExpired}
         onFinished={onFinished}
       />
     );
   }
 
+  if (payload.phase === "awaiting_recall") {
+    return <AwaitingRecall dict={dict} state={payload} failed={refreshFailed} onRefresh={refresh} onFinished={onFinished} />;
+  }
+
   if (payload.phase === "recall") {
-    return <RecallPhase key={payload.attemptId} dict={dict} payload={payload} skewMs={skewMs} onResult={setPayload} />;
+    return <RecallPhase key={payload.attemptId} dict={dict} payload={payload} skewMs={skewMs} onResult={onResult} />;
   }
 
   return <ResultView dict={dict} payload={payload} onAnother={onFinished} />;
@@ -169,25 +223,22 @@ function ReadingPhase({
   dict,
   payload,
   skewMs,
-  onPhaseOver,
+  onExpired,
   onFinished,
 }: {
   dict: Dictionary;
   payload: Extract<RetentionAttemptPayload, { phase: "reading" }>;
   skewMs: number;
-  onPhaseOver: () => void;
+  onExpired: () => void;
   onFinished: () => void;
 }) {
   const seconds = useCountdown(payload.readEndsAt, skewMs);
 
   useEffect(() => {
-    // When the reading window closes the component asks the SERVER for the next
-    // phase instead of assuming it locally.
-    if (seconds > 0) return;
-    onPhaseOver();
-    const timer = window.setInterval(onPhaseOver, 2_000);
-    return () => window.clearInterval(timer);
-  }, [seconds, onPhaseOver]);
+    // When the reading window closes the source leaves app state at once; the
+    // parent then asks the SERVER for the next phase instead of assuming it.
+    if (seconds <= 0) onExpired();
+  }, [seconds, onExpired]);
 
   return (
     <div className="flex flex-col gap-4" data-retention-phase="reading" data-retention-attempt={payload.attemptId}>
@@ -209,6 +260,43 @@ function ReadingPhase({
           {dict.retentionMemory.resultBack}
         </button>
       </div>
+    </div>
+  );
+}
+
+function AwaitingRecall({
+  dict,
+  state,
+  failed,
+  onRefresh,
+  onFinished,
+}: {
+  dict: Dictionary;
+  state: AwaitingRecallState;
+  failed: boolean;
+  onRefresh: () => void;
+  onFinished: () => void;
+}) {
+  useEffect(() => {
+    onRefresh();
+    const timer = window.setInterval(onRefresh, 2_000);
+    return () => window.clearInterval(timer);
+  }, [onRefresh]);
+  return (
+    <div className="flex flex-col gap-4" data-retention-phase="awaiting_recall" data-retention-attempt={state.attemptId}>
+      <h2 className="section-title">{dict.retentionMemory.readingTitle}</h2>
+      <p className="panel" role="status" data-retention-phase-pending>{dict.common.loading}</p>
+      {failed && (
+        <div className="flex flex-wrap items-center gap-3" role="alert" data-retention-phase-refresh-failed>
+          <p className="body-text">{dict.retentionMemory.errors.retention_unavailable}</p>
+          <button type="button" className="btn-secondary" onClick={onRefresh} data-retention-phase-retry>
+            {dict.errorPage.retry}
+          </button>
+        </div>
+      )}
+      <button type="button" className="btn-secondary w-fit" onClick={onFinished} data-retention-leave>
+        {dict.retentionMemory.resultBack}
+      </button>
     </div>
   );
 }
@@ -301,7 +389,7 @@ function RecallPhase({
     }
   }, [seconds]);
 
-  const wordCount = text.trim() ? text.trim().split(/\s+/u).length : 0;
+  const wordCount = countWords(text);
 
   return (
     <div className="flex flex-col gap-4" data-retention-phase="recall" data-retention-attempt={payload.attemptId}>
@@ -353,7 +441,11 @@ const STATUS_LABEL = {
   contradicted: "resultClaimContradicted",
 } as const;
 
-function ResultView({
+function formatDuration(ms: number): string {
+  return formatClock(Math.round(ms / 1000));
+}
+
+export function ResultView({
   dict,
   payload,
   onAnother,
@@ -364,6 +456,18 @@ function ResultView({
 }) {
   const t = dict.retentionMemory;
   const totals = payload.breakdown.totals;
+  const readAllocatedMs = Date.parse(payload.readEndsAt) - Date.parse(payload.readStartedAt);
+  const writeStart = Date.parse(payload.writeStartedAt);
+  const writeEnd = Date.parse(payload.writeEndsAt);
+  // Writing time used is measured from persisted timestamps only: the submit
+  // time, bounded by the write window. A timeout used the whole window.
+  const writeUsedMs =
+    payload.phase === "timed_out"
+      ? writeEnd - writeStart
+      : payload.submittedAt
+        ? Math.min(Math.max(0, Date.parse(payload.submittedAt) - writeStart), writeEnd - writeStart)
+        : null;
+  const finished = payload.completedAt ?? payload.submittedAt;
   return (
     <div className="flex flex-col gap-5" data-retention-phase={payload.phase} data-retention-result>
       <div className="panel flex flex-col gap-2">
@@ -376,6 +480,25 @@ function ResultView({
         </p>
         <p className="meta-text">{t.resultHint}</p>
       </div>
+
+      <dl className="panel grid grid-cols-1 gap-2 sm:grid-cols-2" data-retention-result-meta>
+        <div><dt className="meta-text">{t.resultMetaLevel}</dt><dd className="body-text" data-retention-result-level>{payload.level}</dd></div>
+        {payload.label && <div><dt className="meta-text">{t.resultMetaText}</dt><dd className="body-text" data-retention-result-label>{payload.label}</dd></div>}
+        {finished && (
+          <div>
+            <dt className="meta-text">{t.resultMetaFinished}</dt>
+            <dd className="body-text" data-retention-result-finished={finished}>
+              <time dateTime={finished}>{formatDateTime(finished, t.dateLocale as Locale)}</time>
+            </dd>
+          </div>
+        )}
+        <div><dt className="meta-text">{t.resultMetaReadAllocated}</dt><dd className="body-text">{formatDuration(readAllocatedMs)}</dd></div>
+        <div>
+          <dt className="meta-text">{writeUsedMs === null ? t.resultMetaWriteUnknown : t.resultMetaWriteUsed}</dt>
+          {writeUsedMs !== null && <dd className="body-text" data-retention-result-write-used={Math.round(writeUsedMs / 1000)}>{formatDuration(writeUsedMs)}</dd>}
+        </div>
+        <div><dt className="meta-text">{t.resultMetaRecallWords}</dt><dd className="body-text" data-retention-result-words={payload.recallWordCount}>{t.resultMetaWords.replace("{n}", String(payload.recallWordCount))}</dd></div>
+      </dl>
 
       <ul className="panel flex flex-col gap-2" data-retention-totals>
         <li className="body-text">
@@ -413,6 +536,15 @@ function ResultView({
         <button type="button" className="btn-secondary w-fit" onClick={onAnother} data-retention-levels-back>
           {t.resultBack}
         </button>
+        <Link href="/reading/retention#retention-history" prefetch={false} className="btn-secondary w-fit" data-retention-result-history>
+          {t.resultHistory}
+        </Link>
+        <Link href="/reading" className="btn-secondary w-fit" data-retention-result-reading>
+          {t.resultBackToReading}
+        </Link>
+        <Link href={`/reading/retention/results/${payload.attemptId}`} prefetch={false} className="link-inline self-center" data-retention-result-permalink>
+          {t.resultPermalink}
+        </Link>
       </div>
     </div>
   );
