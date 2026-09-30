@@ -900,10 +900,38 @@
   font-size: .9rem;
   transition: background-color .22s ease, border-color .22s ease, color .22s ease, transform .22s ease;
 }
-.race-answer-box--correct { border-color: rgb(var(--band-good)); background: color-mix(in srgb, rgb(var(--band-good)) 20%, rgb(var(--paper-raised))); color: rgb(var(--band-good)); transform: translateY(-2px); }
-.race-answer-box--incorrect { border-color: rgb(var(--band-bad)); background: color-mix(in srgb, rgb(var(--band-bad)) 20%, rgb(var(--paper-raised))); color: rgb(var(--band-bad)); transform: translateY(-2px); }
+.race-answer-box--correct { border-color: rgb(var(--band-good)); background: color-mix(in srgb, rgb(var(--band-good)) 28%, rgb(var(--paper-raised))); color: rgb(var(--band-good)); font-weight: 800; transform: translateY(-2px); }
+.race-answer-box--incorrect { border-color: rgb(var(--band-bad)); background: color-mix(in srgb, rgb(var(--band-bad)) 28%, rgb(var(--paper-raised))); color: rgb(var(--band-bad)); font-weight: 800; transform: translateY(-2px); }
+.race-feedback {
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+  border: 2px solid rgb(var(--ink-100));
+  border-radius: .6rem;
+  padding: .75rem 1rem;
+}
+.race-feedback--correct { border-color: rgb(var(--band-good)); background: color-mix(in srgb, rgb(var(--band-good)) 14%, rgb(var(--paper-raised))); }
+.race-feedback--incorrect { border-color: rgb(var(--band-bad)); background: color-mix(in srgb, rgb(var(--band-bad)) 14%, rgb(var(--paper-raised))); }
+.race-feedback--neutral { background: rgb(var(--paper-sunken)); }
+.race-feedback__title { display: flex; align-items: flex-start; gap: .55rem; font-size: .95rem; font-weight: 800; line-height: 1.4; }
+.race-feedback--correct .race-feedback__title { color: rgb(var(--band-good)); }
+.race-feedback--incorrect .race-feedback__title { color: rgb(var(--band-bad)); }
+.race-feedback--neutral .race-feedback__title { color: rgb(var(--ink-900)); }
+.race-feedback__icon {
+  display: inline-flex;
+  width: 1.35rem;
+  height: 1.35rem;
+  flex: 0 0 1.35rem;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  font-size: .8rem;
+  line-height: 1;
+}
 @media (prefers-reduced-motion: reduce) {
-  .race-answer-box { transition-duration: .01ms; }
+  .race-answer-box { transition-duration: .01ms; transition-delay: 0ms !important; }
+  .race-answer-box--correct, .race-answer-box--incorrect { transform: none; }
 }
 
 /* Global interaction contract: active feedback is local and precedes transport. */

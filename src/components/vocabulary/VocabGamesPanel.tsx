@@ -1094,6 +1094,26 @@ function TypingRace({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
           <span key={`extra-${extraIndex}`} className={`race-answer-box ${status === "incorrect" ? "race-answer-box--incorrect" : ""}`} style={{ transitionDelay: resolved ? `${Math.round((expectedCharacters.length + extraIndex) * characterDelayMs)}ms` : "0ms" }}>{character}</span>
         ))}
       </div>
+      {status === "checking" && <p role="status" aria-live="polite" className="text-sm text-ink-500" data-race-checking>{dict.common.loading}</p>}
+      {resolved && (
+        <div
+          role="status"
+          aria-live="polite"
+          data-race-feedback
+          data-race-outcome={status}
+          className={`race-feedback ${status === "correct" ? "race-feedback--correct" : status === "incorrect" ? "race-feedback--incorrect" : "race-feedback--neutral"}`}
+        >
+          <p className="race-feedback__title">
+            {status === "correct" && <span className="race-feedback__icon" aria-hidden="true">✓</span>}
+            {status === "incorrect" && <span className="race-feedback__icon" aria-hidden="true">×</span>}
+            {status === "correct" ? t.games.raceCorrect : status === "incorrect" ? t.games.raceIncorrect : status === "skipped" ? t.games.raceSkipped : t.games.raceUnverified}
+          </p>
+          {status === "incorrect" && <p className="mt-1 text-sm text-ink-700">{t.games.yourAnswer}: {value}</p>}
+          {status === "unverified" && <p className="mt-1 text-sm text-ink-700">{t.games.answerUnverified}</p>}
+          <p className="mt-1 text-sm text-ink-900">{t.games.revealedAnswer}: <strong>{current.term}</strong></p>
+          <p className="mt-1 text-xs text-ink-500">{t.games.itemTime}: {formatRaceTime(elapsed)}</p>
+        </div>
+      )}
       <label className="sr-only" htmlFor="typing-race-answer">{t.games.raceInputLabel}</label>
       <input ref={inputRef} id="typing-race-answer" className="input" data-race-input placeholder={t.games.typeAnswer} aria-describedby="race-answer-help" aria-invalid={status === "incorrect"} value={value} readOnly={status !== null} maxLength={300} autoComplete="off" autoCapitalize="off" spellCheck={false} onChange={(event) => startIfRealCharacter(event.target.value)} onKeyDown={(event) => {
         if (event.key === "Enter") {
@@ -1102,16 +1122,6 @@ function TypingRace({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
         }
       }} />
       <p id="race-answer-help" className="text-xs text-ink-500">{t.games.raceKeyboardHint}</p>
-      {status === "checking" && <p role="status" aria-live="polite" className="text-sm text-ink-500">{dict.common.loading}</p>}
-      {resolved && (
-        <div role="status" aria-live="polite" data-race-feedback className={`rounded-sm border p-3 ${status === "correct" ? "border-band-good/40 bg-band-good/10" : status === "incorrect" ? "border-band-bad/40 bg-band-bad/10" : "border-ink-100 bg-paper-sunken"}`}>
-          <p className="text-sm font-medium text-ink-900">{status === "correct" ? t.games.raceCorrect : status === "incorrect" ? t.games.raceIncorrect : status === "skipped" ? t.games.raceSkipped : t.games.raceUnverified}</p>
-          {status === "incorrect" && <p className="mt-1 text-sm text-ink-700">{t.games.yourAnswer}: {value}</p>}
-          {status === "unverified" && <p className="mt-1 text-sm text-ink-700">{t.games.answerUnverified}</p>}
-          <p className="mt-1 text-sm text-ink-900">{t.games.revealedAnswer}: <strong>{current.term}</strong></p>
-          <p className="mt-1 text-xs text-ink-500">{t.games.itemTime}: {formatRaceTime(elapsed)}</p>
-        </div>
-      )}
       {status === null && <div className="flex flex-wrap gap-2">
         <button type="button" className="btn-primary" data-race-submit disabled={value.trim().length === 0} onClick={() => void submit()}>{t.games.submitAnswer}</button>
         <button type="button" className="btn-secondary" data-race-skip onClick={skip}>{t.games.skip}</button>
