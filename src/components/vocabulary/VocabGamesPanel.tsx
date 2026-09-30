@@ -372,8 +372,10 @@ function Speaker({ word, label }: { word: string; label: string }) {
   return (
     <button
       type="button"
-      className="btn-ghost text-xs"
+      className="flashcard-pronounce"
+      data-flashcard-pronounce
       aria-label={`${label}: ${word}`}
+      title={`${label}: ${word}`}
       onClick={(event) => {
         event.stopPropagation();
         if (typeof window === "undefined" || !("speechSynthesis" in window)) {
@@ -386,7 +388,15 @@ function Speaker({ word, label }: { word: string; label: string }) {
         window.speechSynthesis.speak(utterance);
       }}
     >
-      <span aria-hidden="true">🔊</span> {state === "unsupported" ? "—" : label}
+      {state === "unsupported" ? (
+        <span aria-hidden="true">—</span>
+      ) : (
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M11 5 6 9H3v6h3l5 4V5Z" />
+          <path d="M15.5 8.5a5 5 0 0 1 0 7" />
+          <path d="M19 5a10 10 0 0 1 0 14" />
+        </svg>
+      )}
     </button>
   );
 }
@@ -498,7 +508,7 @@ function Flashcards({ dict, words, sourceHeading }: { dict: Dictionary; words: G
         </div>
       </header>
 
-      <div className="grid min-w-0 items-start gap-4 md:grid-cols-[minmax(220px,280px)_minmax(0,1fr)]" data-flashcard-layout>
+      <div className="flashcard-layout grid min-w-0 items-start gap-4 md:grid-cols-[minmax(200px,220px)_minmax(0,1fr)]" data-flashcard-layout>
         <aside className="flashcard-queue" aria-label={t.games.queue} data-flashcard-queue>
           <div className="flashcard-queue-heading">
             <strong>{t.games.queue}</strong>
@@ -515,58 +525,61 @@ function Flashcards({ dict, words, sourceHeading }: { dict: Dictionary; words: G
         </aside>
 
         <section className="min-w-0" aria-label={t.games.cards}>
-          <div className="flashcard-scene" data-flashcard-scene>
-            <article
-              className="flashcard-3d-card"
-              data-flashcard={flipped ? "answer" : "definition"}
-              data-flipped={flipped ? "true" : "false"}
-              data-marking={marking ?? undefined}
-              aria-label={`${t.games.progress} ${index + 1} ${t.games.of} ${deck.length}. ${cardSideLabel}. ${flipped ? current.term : current.definitionEn}`}
-              aria-roledescription={t.games.flashcardRole}
-              tabIndex={0}
-              onClick={(event) => {
-                if ((event.target as HTMLElement).closest("button") || marking) return;
-                setFlipped((value) => !value);
-              }}
-              onKeyDown={(event) => {
-                if (event.target !== event.currentTarget || marking) return;
-                if (event.key === "Enter" || event.key === " ") {
-                  event.preventDefault();
+          <div className="flashcard-stage" data-flashcard-stage>
+            <div className="flashcard-scene" data-flashcard-scene>
+              <article
+                className="flashcard-3d-card"
+                data-flashcard={flipped ? "answer" : "definition"}
+                data-flipped={flipped ? "true" : "false"}
+                data-marking={marking ?? undefined}
+                aria-label={`${t.games.progress} ${index + 1} ${t.games.of} ${deck.length}. ${cardSideLabel}. ${flipped ? current.term : current.definitionEn}`}
+                aria-roledescription={t.games.flashcardRole}
+                aria-keyshortcuts="Enter Space"
+                tabIndex={0}
+                onClick={(event) => {
+                  if ((event.target as HTMLElement).closest("button") || marking) return;
                   setFlipped((value) => !value);
-                }
-              }}
-            >
-              <div className="flashcard-3d-inner" data-flashcard-inner>
-                <div className="flashcard-face flashcard-face-front" aria-hidden={flipped} inert={flipped}>
-                  <span className="flashcard-kicker">{t.games.definition}</span>
-                  <p className="flashcard-definition">{current.definitionEn}</p>
-                  <p className="flashcard-instruction">{t.games.flashcardInstruction}</p>
-                </div>
-                <div className="flashcard-face flashcard-face-back" aria-hidden={!flipped} inert={!flipped}>
-                  <div className="flashcard-answer-body">
-                    <span className="flashcard-kicker">{t.games.vocabularyAnswer}</span>
-                    <h3 className="flashcard-word">{current.term}</h3>
-                    {current.partOfSpeech && <p className="flashcard-pos">{current.partOfSpeech}</p>}
-                    {current.translationUz && <p className="flashcard-translation">{current.translationUz}</p>}
-                    {answerParts.length > 0 && <div className="flashcard-extra-block"><span>{t.games.collocations}</span><div className="flashcard-chips">{answerParts.map((item) => <span key={item}>{item}</span>)}</div></div>}
-                    {current.exampleSentence && <div className="flashcard-extra-block"><span>{t.games.example}</span><p className="flashcard-example">“{current.exampleSentence}”</p></div>}
+                }}
+                onKeyDown={(event) => {
+                  if (event.target !== event.currentTarget || marking) return;
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    setFlipped((value) => !value);
+                  }
+                }}
+              >
+                <div className="flashcard-3d-inner" data-flashcard-inner>
+                  <div className="flashcard-face flashcard-face-front" aria-hidden={flipped} inert={flipped}>
+                    <span className="flashcard-kicker">{t.games.definition}</span>
+                    <p className="flashcard-definition">{current.definitionEn}</p>
+                    <p className="flashcard-instruction">{t.games.flashcardInstruction}</p>
                   </div>
-                  <div className="flashcard-back-actions">
+                  <div className="flashcard-face flashcard-face-back" aria-hidden={!flipped} inert={!flipped}>
                     <Speaker word={current.term} label={t.games.pronounce} />
-                    <div className="flex flex-wrap justify-center gap-2">
-                      <button type="button" className="btn-primary" data-mark="known" aria-pressed={marks[current.id] === "known"} disabled={marking !== null} onClick={() => decide(true)}>{t.games.known}</button>
-                      <button type="button" className="btn-gold" data-mark="notYet" aria-pressed={marks[current.id] === "notYet"} disabled={marking !== null} onClick={() => decide(false)}>{t.games.notYet}</button>
+                    <div className="flashcard-answer-body">
+                      <span className="flashcard-kicker">{t.games.vocabularyAnswer}</span>
+                      <h3 className="flashcard-word">{current.term}</h3>
+                      {current.partOfSpeech && <p className="flashcard-pos">{current.partOfSpeech}</p>}
+                      {current.translationUz && <p className="flashcard-translation">{current.translationUz}</p>}
+                      {answerParts.length > 0 && <div className="flashcard-extra-block"><span>{t.games.collocations}</span><div className="flashcard-chips">{answerParts.map((item) => <span key={item}>{item}</span>)}</div></div>}
+                      {current.exampleSentence && <div className="flashcard-extra-block"><span>{t.games.example}</span><p className="flashcard-example">“{current.exampleSentence}”</p></div>}
                     </div>
-                    {marking && <p className="flashcard-mark-feedback" role="status" aria-live="polite">{marking === "known" ? t.games.learned : t.games.notYetLabel}</p>}
+                    <div className="flashcard-back-actions">
+                      <div className="flex flex-wrap justify-center gap-2">
+                        <button type="button" className="btn-primary flashcard-mark-button" data-mark="known" aria-pressed={marks[current.id] === "known"} disabled={marking !== null} onClick={() => decide(true)}>{t.games.known}</button>
+                        <button type="button" className="btn-gold flashcard-mark-button" data-mark="notYet" aria-pressed={marks[current.id] === "notYet"} disabled={marking !== null} onClick={() => decide(false)}>{t.games.notYet}</button>
+                      </div>
+                      {marking && <p className={`flashcard-mark-feedback ${marking === "notYet" ? "is-not-yet" : "is-learned"}`} role="status" aria-live="polite">{marking === "known" ? t.games.learned : t.games.notYetLabel}</p>}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </article>
-          </div>
-          <div className="flashcard-flip-row">
-            <button type="button" className="flashcard-flip-button" data-flashcard-flip aria-pressed={flipped} disabled={marking !== null} onClick={() => setFlipped((value) => !value)}>
-              {flipped ? t.games.showDefinition : t.games.flip}
-            </button>
+              </article>
+            </div>
+            <div className="flashcard-flip-row">
+              <button type="button" className="flashcard-flip-button" data-flashcard-flip aria-pressed={flipped} disabled={marking !== null} onClick={() => setFlipped((value) => !value)}>
+                {flipped ? t.games.showDefinition : t.games.flip}
+              </button>
+            </div>
           </div>
         </section>
       </div>
