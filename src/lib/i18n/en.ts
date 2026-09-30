@@ -296,6 +296,8 @@ const en = {
   },
   // The student-facing index of public video lessons (one page, every course).
   videoLessons: {
+    standaloneHeading: "Talks and podcasts",
+    courseHeading: "From your roadmap",
     title: "TED / PODCAST",
     intro:
       "A short talk, then the lesson around it: predict before you watch, answer the centre's own questions, and write what you took from it. A video lesson only opens when its lesson in the roadmap is open.",
@@ -344,6 +346,15 @@ const en = {
     feedbackNote: "Your teacher reads this and replies. It is not scored automatically.",
   },
   videoLessonAdmin: {
+    standaloneOption: "Standalone TED / Podcast (no roadmap lesson)",
+    standaloneBadge: "Standalone",
+    lessonOptional: "Roadmap lesson (optional)",
+    transcriptText: "Transcript (optional)",
+    transcriptTextHelp: "Paste ordinary paragraphs, or timed lines like `0:12 the sentence`. Do not mix the two. The text must be authored, licensed or permitted — never copied from a public video.",
+    transcriptMixed: "Some transcript lines have timestamps and some do not. Use either plain paragraphs or timed lines for every line.",
+    transcriptDetectedPlain: "Plain transcript: {n} paragraph(s).",
+    transcriptDetectedTimed: "Timed transcript: {n} line(s).",
+    openStandalone: "Open",
     notes: "Notes (optional)",
     notesHelp: "Study notes the learner can reveal on the lesson page. Leave empty and no notes control appears.",
     notesPresent: "added",
@@ -374,6 +385,7 @@ const en = {
       no_video_id: "That link has no video id — copy it from the video page.",
       invalid_id: "That video id looks wrong (11 characters expected).",
       invalid_url: "That link cannot be read.",
+      video_exists: "This video already has an item. Open the existing one instead.",
     },
   },
   onboarding: {

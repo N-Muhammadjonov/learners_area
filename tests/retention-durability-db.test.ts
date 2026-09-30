@@ -205,3 +205,19 @@ test("W06: 100+ texts are all reachable through pages, and sorts are global befo
   const bounded = await listRetentionLevelPage({ level: "A2", pageSize: 10_000 }, database.db);
   assert.equal(bounded.pageSize, 100);
 });
+
+test("W11: after 0024, standalone rows (NULL lesson) coexist with legacy lesson-linked rows", async () => {
+  const [course] = await database.query<{ id: string }>("select id from courses limit 1");
+  const [lesson] = await database.query<{ id: string }>("select id from lessons limit 1");
+  if (lesson) {
+    await database.query("insert into video_lessons (lesson_id, provider, video_id, title) values ($1, 'youtube', 'legacyAAAAA', 'Legacy linked')", [lesson.id]);
+  }
+  await database.query("insert into video_lessons (lesson_id, provider, video_id, title, transcript_text) values (null, 'youtube', 'standaloneA', 'Standalone one', 'Plain para one.\n\nPara two.')");
+  await database.query("insert into video_lessons (lesson_id, provider, video_id, title) values (null, 'youtube', 'standaloneB', 'Standalone two')");
+  const rows = await database.query<{ n: number }>("select count(*)::int as n from video_lessons where lesson_id is null");
+  assert.equal(rows[0]!.n, 2, "multiple standalone items allowed (NULLs are distinct in the unique lesson index)");
+  const [plain] = await database.query<{ transcript_text: string }>("select transcript_text from video_lessons where video_id = 'standaloneA'");
+  assert.equal(plain!.transcript_text, "Plain para one.\n\nPara two.");
+  await assert.rejects(database.query("insert into video_lessons (lesson_id, provider, video_id, title) values (null, 'youtube', 'standaloneA', 'Dup')"), "one item per provider video");
+  void course;
+});

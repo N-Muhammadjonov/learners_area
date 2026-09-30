@@ -298,6 +298,8 @@ const uz: Dictionary = {
   },
   // O'quvchi uchun video darslar ro'yxati (bitta sahifa, barcha kurslar).
   videoLessons: {
+    standaloneHeading: "Nutqlar va podkastlar",
+    courseHeading: "Yo'l xaritangizdan",
     title: "TED / PODCAST",
     intro:
       "Qisqa nutq, so'ng uning atrofidagi dars: ko'rishdan oldin taxmin qiling, markazning o'z savollariga javob bering va undan nima olganingizni yozing. Video dars faqat yo'l xaritasidagi darsi ochiq bo'lganda ochiladi.",
@@ -346,6 +348,15 @@ const uz: Dictionary = {
     feedbackNote: "Buni o'qituvchingiz o'qib javob beradi. Avtomatik baholanmaydi.",
   },
   videoLessonAdmin: {
+    standaloneOption: "Mustaqil TED / Podcast (yo'l xaritasi darsisiz)",
+    standaloneBadge: "Mustaqil",
+    lessonOptional: "Yo'l xaritasi darsi (ixtiyoriy)",
+    transcriptText: "Transkript (ixtiyoriy)",
+    transcriptTextHelp: "Oddiy paragraflarni yoki `0:12 gap` ko'rinishidagi vaqtli qatorlarni kiriting. Ikkalasini aralashtirmang. Matn muallif tomonidan yozilgan, litsenziyalangan yoki ruxsat etilgan bo'lishi kerak — ochiq videodan ko'chirilmasin.",
+    transcriptMixed: "Ba'zi transkript qatorlarida vaqt belgisi bor, ba'zilarida yo'q. Hamma qator uchun yo oddiy paragraf, yo vaqtli qator ishlating.",
+    transcriptDetectedPlain: "Oddiy transkript: {n} ta paragraf.",
+    transcriptDetectedTimed: "Vaqtli transkript: {n} ta qator.",
+    openStandalone: "Ochish",
     notes: "Eslatmalar (majburiy emas)",
     notesHelp: "O'quvchi dars sahifasida ko'rsatishi mumkin bo'lgan eslatmalar. Bo'sh qoldirilsa, eslatma tugmasi umuman chiqmaydi.",
     notesPresent: "qo'shilgan",
@@ -376,6 +387,7 @@ const uz: Dictionary = {
       no_video_id: "Bu havolada video id yo'q — uni video sahifasidan nusxalang.",
       invalid_id: "Video id noto'g'ri ko'rinadi (11 belgi bo'lishi kerak).",
       invalid_url: "Bu havolani o'qib bo'lmadi.",
+      video_exists: "Bu video uchun element allaqachon mavjud. Mavjudini oching.",
     },
   },
   onboarding: {

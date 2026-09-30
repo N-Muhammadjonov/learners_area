@@ -1486,10 +1486,12 @@ export const videoLessons = pgTable(
   "video_lessons",
   {
     id: uuid("id").defaultRandom().primaryKey(),
-    /** The roadmap lesson this video belongs to; one video per lesson. */
-    lessonId: uuid("lesson_id")
-      .notNull()
-      .references(() => lessons.id, { onDelete: "cascade" }),
+    /**
+     * The roadmap lesson this video belongs to (legacy, one video per lesson),
+     * or NULL for a standalone TED / Podcast item authored in Management with
+     * its own native URL (/video-lessons/:id). Nullable since 0024.
+     */
+    lessonId: uuid("lesson_id").references(() => lessons.id, { onDelete: "cascade" }),
     /** Provider id, e.g. "youtube". Kept generic so another host can be added. */
     provider: varchar("provider", { length: 30 }).notNull().default("youtube"),
     /** The provider's own video id — validated, never a raw URL or embed HTML. */
@@ -1508,6 +1510,11 @@ export const videoLessons = pgTable(
     /** authored | licensed | permitted — where the transcript came from. */
     transcriptSource: varchar("transcript_source", { length: 20 }),
     transcriptAttribution: varchar("transcript_attribution", { length: 200 }),
+    /**
+     * Optional owner-authored PLAIN transcript (paragraphs, no timestamps). Used
+     * when no timed `transcript` lines exist; provenance fields apply to both.
+     */
+    transcriptText: text("transcript_text"),
     /**
      * Centre-authored study notes for the video (PART 1: TED / PODCAST is a
      * standalone module managed from Management). Optional like the transcript:

@@ -3,7 +3,7 @@ import Link from "next/link";
 import type { CurrentUser } from "@/lib/auth/current-user";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
-import { listVideoLessonsForStudent } from "@/lib/data/video-lessons";
+import { listStandaloneVideoLessonsForStudent, listVideoLessonsForStudent } from "@/lib/data/video-lessons";
 import { isOpen, type LessonState } from "@/lib/services/lessons/state";
 import { Card } from "@/components/ui/Card";
 import { StateBadge } from "@/components/ui/Badge";
@@ -16,10 +16,39 @@ async function VideoLessonsContent({ user, dict }: {
   dict: ReturnType<typeof getDictionary>;
 }) {
   const t = dict.videoLessons;
-  const all = await timed("videoLessons.entry.catalogue", () => listVideoLessonsForStudent(user.id));
+  const [all, standalone] = await Promise.all([
+    timed("videoLessons.entry.catalogue", () => listVideoLessonsForStudent(user.id)),
+    timed("videoLessons.entry.standalone", () => listStandaloneVideoLessonsForStudent(user.id)),
+  ]);
   const openable = all.filter((row) => isOpen(row.state as LessonState));
 
-  return openable.length === 0 ? (
+  const standaloneList = standalone.length > 0 ? (
+    <section className="flex flex-col gap-3" data-video-standalone-list>
+      <h2 className="font-display text-lg text-ink-900">{t.standaloneHeading}</h2>
+      <ul className="flex flex-col gap-3">
+        {standalone.map((row) => (
+          <li key={row.id}>
+            <Card data-video-lesson-entry={row.id}>
+              <div className="flex flex-wrap items-start justify-between gap-2">
+                <p className="min-w-0 text-sm font-medium text-ink-900">{row.title}</p>
+                <StateBadge state={row.progressState === "completed" ? "completed" : row.progressState === "in_progress" ? "in_progress" : "available"} />
+              </div>
+              {row.beforeYouWatch && <p className="mt-2 text-xs leading-relaxed text-ink-500">{row.beforeYouWatch}</p>}
+              <div className="mt-3">
+                <Link href={`/video-lessons/${row.id}`} className="btn-secondary" data-video-lesson-open data-video-standalone-open={row.id}>
+                  {t.open} →
+                </Link>
+              </div>
+            </Card>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ) : null;
+
+  if (openable.length === 0 && standaloneList) return <div className="flex flex-col gap-4" data-async-content="video-lessons">{standaloneList}</div>;
+
+  const courseList = openable.length === 0 ? (
     <Card>
       <p className="text-sm text-ink-500" data-video-lessons-empty>{t.none}</p>
     </Card>
@@ -54,6 +83,16 @@ async function VideoLessonsContent({ user, dict }: {
       ))}
     </ul>
   );
+
+  return standaloneList ? (
+    <div className="flex flex-col gap-4">
+      {standaloneList}
+      <section className="flex flex-col gap-3">
+        <h2 className="font-display text-lg text-ink-900">{t.courseHeading}</h2>
+        {courseList}
+      </section>
+    </div>
+  ) : courseList;
 }
 
 function VideoLessonsSkeleton() {

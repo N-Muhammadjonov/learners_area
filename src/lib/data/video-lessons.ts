@@ -1,5 +1,5 @@
 import { touchMeaningfulActivity } from "@/lib/services/activity";
-import { and, asc, desc, eq } from "drizzle-orm";
+import { and, asc, desc, eq, isNull } from "drizzle-orm";
 import { db } from "@/db/client";
 import {
   courseModules,
@@ -33,7 +33,12 @@ import { isLive, liveWhere } from "@/lib/services/cms/publication";
  */
 
 export type VideoLessonInput = {
-  lessonId: string;
+  /** A roadmap lesson (legacy course-linked video) or null/absent for a standalone item. */
+  lessonId?: string | null;
+  /** Update an existing standalone item in place. */
+  videoLessonId?: string | null;
+  /** Optional owner-authored plain transcript (no timestamps). */
+  transcriptText?: string | null;
   title: string;
   videoUrl: string;
   beforeYouWatch?: string | null;
@@ -70,7 +75,7 @@ export async function listVideoLessons() {
   return db
     .select({ videoLesson: videoLessons, lesson: lessons })
     .from(videoLessons)
-    .innerJoin(lessons, eq(lessons.id, videoLessons.lessonId))
+    .leftJoin(lessons, eq(lessons.id, videoLessons.lessonId))
     .orderBy(asc(videoLessons.createdAt));
 }
 
@@ -82,7 +87,7 @@ export async function listAllVideoLessons() {
   return db
     .select({ videoLesson: videoLessons, lesson: lessons })
     .from(videoLessons)
-    .innerJoin(lessons, eq(lessons.id, videoLessons.lessonId))
+    .leftJoin(lessons, eq(lessons.id, videoLessons.lessonId))
     .orderBy(desc(videoLessons.createdAt));
 }
 
@@ -114,6 +119,50 @@ export async function getVideoLessonForLesson(lessonId: string, userId: string) 
   ]);
 
   return { videoLesson, questions, progress: progress ?? null };
+}
+
+/**
+ * A standalone TED / Podcast item by its own id — live only, with questions and
+ * this student's own progress. Course-linked videos are NOT served here: they
+ * stay behind their lesson's access rules on the course route.
+ */
+export async function getStandaloneVideoLesson(videoLessonId: string, userId: string) {
+  const videoLesson = await db.query.videoLessons.findFirst({
+    where: and(eq(videoLessons.id, videoLessonId), isNull(videoLessons.lessonId), liveWhere({
+      publicationState: videoLessons.publicationState,
+      publishAt: videoLessons.publishAt,
+    })),
+  });
+  if (!videoLesson) return null;
+  const [questions, progress] = await Promise.all([
+    db.query.videoLessonQuestions.findMany({
+      where: eq(videoLessonQuestions.videoLessonId, videoLesson.id),
+      orderBy: asc(videoLessonQuestions.position),
+    }),
+    db.query.videoLessonProgress.findFirst({
+      where: and(eq(videoLessonProgress.videoLessonId, videoLesson.id), eq(videoLessonProgress.userId, userId)),
+    }),
+  ]);
+  return { videoLesson, questions, progress: progress ?? null };
+}
+
+/** Live standalone items for the learner index, newest first, bounded. */
+export async function listStandaloneVideoLessonsForStudent(userId: string, limit = 100) {
+  return db
+    .select({
+      id: videoLessons.id,
+      title: videoLessons.title,
+      beforeYouWatch: videoLessons.beforeYouWatch,
+      progressState: videoLessonProgress.state,
+    })
+    .from(videoLessons)
+    .leftJoin(videoLessonProgress, and(eq(videoLessonProgress.videoLessonId, videoLessons.id), eq(videoLessonProgress.userId, userId)))
+    .where(and(isNull(videoLessons.lessonId), liveWhere({
+      publicationState: videoLessons.publicationState,
+      publishAt: videoLessons.publishAt,
+    })))
+    .orderBy(desc(videoLessons.createdAt))
+    .limit(Math.max(1, Math.min(limit, 200)));
 }
 
 /**
@@ -172,13 +221,27 @@ export async function createVideoLesson(input: VideoLessonInput, createdByUserId
   const parsed = parseVideoInput(input.videoUrl);
   if (!parsed.ok) return { ok: false as const, reason: parsed.reason };
 
-  const lesson = await db.query.lessons.findFirst({ where: eq(lessons.id, input.lessonId) });
-  if (!lesson) return { ok: false as const, reason: "lesson_not_found" as const };
-
-  const existing = await db.query.videoLessons.findFirst({ where: eq(videoLessons.lessonId, input.lessonId) });
+  const lessonId = input.lessonId ?? null;
+  let existing: typeof videoLessons.$inferSelect | undefined;
+  if (lessonId) {
+    const lesson = await db.query.lessons.findFirst({ where: eq(lessons.id, lessonId) });
+    if (!lesson) return { ok: false as const, reason: "lesson_not_found" as const };
+    existing = await db.query.videoLessons.findFirst({ where: eq(videoLessons.lessonId, lessonId) });
+  } else if (input.videoLessonId) {
+    existing = await db.query.videoLessons.findFirst({
+      where: and(eq(videoLessons.id, input.videoLessonId), isNull(videoLessons.lessonId)),
+    });
+    if (!existing) return { ok: false as const, reason: "video_lesson_not_found" as const };
+  }
+  // One item per provider video: a second standalone item for the same video
+  // would violate the unique index, so it is refused with a clear reason.
+  const duplicate = await db.query.videoLessons.findFirst({
+    where: and(eq(videoLessons.provider, parsed.provider), eq(videoLessons.videoId, parsed.videoId)),
+  });
+  if (duplicate && duplicate.id !== existing?.id) return { ok: false as const, reason: "video_exists" as const };
 
   const values = {
-    lessonId: input.lessonId,
+    lessonId,
     provider: parsed.provider as VideoProvider,
     videoId: parsed.videoId,
     title: input.title,
@@ -187,6 +250,7 @@ export async function createVideoLesson(input: VideoLessonInput, createdByUserId
     transcriptSource: input.transcriptSource ?? null,
     transcriptAttribution: input.transcriptAttribution ?? null,
     transcript: input.transcript && input.transcript.length > 0 ? input.transcript : null,
+    transcriptText: input.transcriptText && input.transcriptText.trim().length > 0 ? input.transcriptText.trim() : null,
     notes: input.notes && input.notes.trim().length > 0 ? input.notes : null,
     updatedAt: new Date(),
   };

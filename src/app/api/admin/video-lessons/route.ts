@@ -21,7 +21,9 @@ import { describeParseFailure } from "@/lib/services/video/provider";
 const transcriptLine = z.object({ startSeconds: z.number().min(0).max(60 * 60 * 12), text: z.string().max(600) });
 
 const schema = z.object({
-  lessonId: z.string().uuid(),
+  // Absent/null = a standalone TED / Podcast item (no roadmap lesson needed).
+  lessonId: z.string().uuid().optional().nullable(),
+  videoLessonId: z.string().uuid().optional().nullable(),
   title: z.string().trim().min(3).max(200),
   videoUrl: z.string().trim().min(3).max(500),
   beforeYouWatch: z.string().max(2000).optional().nullable(),
@@ -29,6 +31,8 @@ const schema = z.object({
   transcriptSource: z.enum(["authored", "licensed", "permitted"]).optional().nullable(),
   transcriptAttribution: z.string().max(200).optional().nullable(),
   transcript: z.array(transcriptLine).max(2000).optional().nullable(),
+  // Optional plain transcript (owner-authored paragraphs, no timestamps).
+  transcriptText: z.string().max(20000).optional().nullable(),
   // Optional study notes: absent means the learner surface shows no notes
   // control at all, never an empty one.
   notes: z.string().max(4000).optional().nullable(),
@@ -52,8 +56,9 @@ export async function GET() {
   return NextResponse.json({
     videoLessons: rows.map(({ videoLesson, lesson }) => ({
       id: videoLesson.id,
-      lessonId: lesson.id,
-      lessonTitle: lesson.title,
+      lessonId: lesson?.id ?? null,
+      lessonTitle: lesson?.title ?? null,
+      standalone: !lesson,
       provider: videoLesson.provider,
       videoId: videoLesson.videoId,
       title: videoLesson.title,
@@ -72,14 +77,23 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "invalid_input", detail: parsed.error.issues[0]?.message }, { status: 400 });
   }
 
-  if (!isUuid(parsed.data.lessonId)) {
+  if (parsed.data.lessonId && !isUuid(parsed.data.lessonId)) {
     return NextResponse.json({ error: "invalid_input", detail: "lessonId" }, { status: 400 });
+  }
+  if (parsed.data.lessonId && parsed.data.videoLessonId) {
+    return NextResponse.json({ error: "invalid_input", detail: "lessonId_or_videoLessonId" }, { status: 400 });
+  }
+  if (parsed.data.transcript?.length && parsed.data.transcriptText?.trim()) {
+    return NextResponse.json({ error: "invalid_input", detail: "transcript_ambiguous" }, { status: 400 });
   }
 
   const result = await createVideoLesson(parsed.data, staff.id);
   if (!result.ok) {
-    if (result.reason === "lesson_not_found") {
-      return NextResponse.json({ error: "lesson_not_found" }, { status: 404 });
+    if (result.reason === "lesson_not_found" || result.reason === "video_lesson_not_found") {
+      return NextResponse.json({ error: result.reason }, { status: 404 });
+    }
+    if (result.reason === "video_exists") {
+      return NextResponse.json({ error: "video_exists" }, { status: 409 });
     }
     return NextResponse.json(
       { error: "video_rejected", reason: result.reason, detail: describeParseFailure(result.reason) },
@@ -93,8 +107,9 @@ export async function POST(req: NextRequest) {
     targetType: "video_lesson",
     targetId: result.videoLessonId,
     metadata: {
-      lessonId: parsed.data.lessonId,
-      hasTranscript: Boolean(parsed.data.transcript?.length),
+      lessonId: parsed.data.lessonId ?? null,
+      standalone: !parsed.data.lessonId,
+      hasTranscript: Boolean(parsed.data.transcript?.length || parsed.data.transcriptText?.trim()),
       hasNotes: Boolean(parsed.data.notes?.trim()),
     },
   });

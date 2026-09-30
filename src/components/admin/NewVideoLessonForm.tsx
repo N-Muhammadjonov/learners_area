@@ -5,6 +5,9 @@ import { useRouter } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n/en";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
+import { parseTranscriptInput } from "@/lib/services/video/transcript";
+
+export { parseTranscript, parseTranscriptInput, type TranscriptInput } from "@/lib/services/video/transcript";
 
 /**
  * Authoring form for a public video lesson.
@@ -23,7 +26,8 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
   const t = dict.videoLessonAdmin;
   const router = useRouter();
   const submitting = useRef(false);
-  const [lessonId, setLessonId] = useState(lessons[0]?.id ?? "");
+  // Standalone by default: a TED / Podcast item never needs a roadmap lesson.
+  const [lessonId, setLessonId] = useState("");
   const [title, setTitle] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
   const [before, setBefore] = useState("");
@@ -39,6 +43,11 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
   async function submit(event: React.FormEvent) {
     event.preventDefault();
     if (submitting.current) return;
+    const transcriptInput = parseTranscriptInput(transcriptText);
+    if (transcriptInput.kind === "mixed") {
+      setMessage({ tone: "bad", text: t.transcriptMixed });
+      return;
+    }
     submitting.current = true;
     setBusy(true);
     setMessage(null);
@@ -51,14 +60,15 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
       signal: controller.signal,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        lessonId,
+        lessonId: lessonId || null,
         title,
         videoUrl,
         beforeYouWatch: before || null,
         durationSeconds: duration ? Number(duration) : null,
         transcriptSource: transcriptSource || null,
         transcriptAttribution: attribution || null,
-        transcript: parseTranscript(transcriptText),
+        transcript: transcriptInput.kind === "timed" ? transcriptInput.lines : null,
+        transcriptText: transcriptInput.kind === "plain" ? transcriptInput.text : null,
         notes: notes.trim() || null,
         questions: parseQuestions(questionsText),
       }),
@@ -72,6 +82,7 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
       setVideoUrl("");
       setBefore("");
       setTranscriptText("");
+      setNotes("");
       setQuestionsText("");
       router.refresh();
       return;
@@ -90,17 +101,16 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
     }
   }
 
-  if (lessons.length === 0) {
-    return <p className="text-sm text-ink-500">{t.none}</p>;
-  }
+  const transcriptPreview = parseTranscriptInput(transcriptText);
 
   return (
     <form onSubmit={submit} className="flex flex-col gap-3" data-video-admin-form>
       <p className="text-sm text-ink-600">{t.intro}</p>
 
       <label className="flex flex-col gap-1 text-sm">
-        {t.lesson}
-        <select className="input" value={lessonId} onChange={(e) => setLessonId(e.target.value)} required>
+        {t.lessonOptional}
+        <select className="input" value={lessonId} onChange={(e) => setLessonId(e.target.value)} data-video-lesson-select>
+          <option value="">{t.standaloneOption}</option>
           {lessons.map((lesson) => (
             <option key={lesson.id} value={lesson.id}>
               {lesson.title}
@@ -166,15 +176,27 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
           data-video-notes-input
         />
         <span className="text-xs text-ink-500">{t.notesHelp}</span>
-        {t.transcriptLines}
+      </label>
+
+      <label className="flex flex-col gap-1 text-sm">
+        {t.transcriptText}
         <textarea
-          className="input min-h-28 font-mono text-xs"
+          className="input min-h-28 text-sm"
           value={transcriptText}
           onChange={(e) => setTranscriptText(e.target.value)}
-          placeholder={"0:12 Welcome to this talk.\n0:18 Today we look at two ideas."}
+          maxLength={20000}
           data-video-transcript-input
         />
-        <span className="text-xs text-ink-500">{t.transcriptHelp}</span>
+        <span className="text-xs text-ink-500">{t.transcriptTextHelp}</span>
+        <span
+          className={`text-xs ${transcriptPreview.kind === "mixed" ? "text-warn-700" : "text-ink-500"}`}
+          aria-live="polite"
+          data-video-transcript-kind={transcriptPreview.kind}
+        >
+          {transcriptPreview.kind === "mixed" && t.transcriptMixed}
+          {transcriptPreview.kind === "plain" && t.transcriptDetectedPlain.replace("{n}", String(transcriptPreview.paragraphs))}
+          {transcriptPreview.kind === "timed" && t.transcriptDetectedTimed.replace("{n}", String(transcriptPreview.lines.length))}
+        </span>
       </label>
 
       <label className="flex flex-col gap-1 text-sm">
@@ -204,20 +226,6 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
       </div>
     </form>
   );
-}
-
-export function parseTranscript(text: string): { startSeconds: number; text: string }[] {
-  const lines: { startSeconds: number; text: string }[] = [];
-  for (const raw of text.split("\n")) {
-    const line = raw.trim();
-    if (!line) continue;
-    const match = line.match(/^(\d{1,2}):(\d{2})(?::(\d{2}))?\s+(.+)$/);
-    if (!match) continue;
-    const [, a, b, c, body] = match;
-    const seconds = c ? Number(a) * 3600 + Number(b) * 60 + Number(c) : Number(a) * 60 + Number(b);
-    lines.push({ startSeconds: seconds, text: body!.trim() });
-  }
-  return lines;
 }
 
 export function parseQuestions(

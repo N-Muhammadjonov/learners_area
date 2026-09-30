@@ -56,6 +56,8 @@ export function VideoLessonStudio({
     transcript: { startSeconds: number; text: string }[] | null;
     transcriptSource: string | null;
     transcriptAttribution: string | null;
+    /** Optional owner-authored plain transcript (used when no timed lines exist). */
+    transcriptText?: string | null;
     /** Optional centre-authored study notes; null means no notes control. */
     notes: string | null;
   };
@@ -91,6 +93,11 @@ export function VideoLessonStudio({
   const transcript = useMemo(() => videoLesson.transcript ?? [], [videoLesson.transcript]);
   /** Centre-authored notes are optional, like the transcript. */
   const notes = useMemo(() => (videoLesson.notes ?? "").trim(), [videoLesson.notes]);
+  /** Plain paragraphs, only when there are no timed lines (timed wins). */
+  const plainParagraphs = useMemo(
+    () => (transcript.length > 0 ? [] : (videoLesson.transcriptText ?? "").split(/\n\s*\n/).map((part) => part.trim()).filter(Boolean)),
+    [transcript.length, videoLesson.transcriptText]
+  );
   const comprehension = useMemo(() => questions.filter((q) => q.stage === "comprehension"), [questions]);
   const gapFill = useMemo(() => questions.filter((q) => q.stage === "gap_fill"), [questions]);
 
@@ -98,6 +105,7 @@ export function VideoLessonStudio({
     const list: Tab[] = [];
     if (videoLesson.beforeYouWatch) list.push("before");
     if (transcript.length > 0) list.push("transcript");
+    else if (plainParagraphs.length > 0) list.push("transcript");
     if (notes.length > 0) list.push("notes");
     if (comprehension.length > 0) list.push("comprehension");
     if (gapFill.length > 0) list.push("gap");
@@ -106,7 +114,7 @@ export function VideoLessonStudio({
     // remember from the video itself.
     list.push("summary");
     return list;
-  }, [videoLesson.beforeYouWatch, transcript.length, notes.length, comprehension.length, gapFill.length]);
+  }, [videoLesson.beforeYouWatch, transcript.length, plainParagraphs.length, notes.length, comprehension.length, gapFill.length]);
 
   const [tab, setTab] = useState<Tab>(tabs[0] ?? "opinion");
   /**
@@ -375,6 +383,25 @@ export function VideoLessonStudio({
             >
               {transcriptShown ? t.hideTranscript : t.revealTranscript}
             </button>
+            {plainParagraphs.length > 0 ? (
+              <div
+                id="video-transcript-lines"
+                className={`flex max-h-80 flex-col gap-3 overflow-y-auto pr-1 ${transcriptShown ? "" : "hidden"}`}
+                data-video-transcript={transcriptShown ? "shown" : "hidden"}
+                data-video-transcript-kind="plain"
+              >
+                {plainParagraphs.map((paragraph, index) => (
+                  <ClickableText
+                    key={index}
+                    dict={dict}
+                    text={paragraph}
+                    sourceType="video_lesson"
+                    sourceId={lessonId}
+                    className="whitespace-pre-line text-sm text-ink-800"
+                  />
+                ))}
+              </div>
+            ) : (
             <ol
               id="video-transcript-lines"
               className={`max-h-80 overflow-y-auto pr-1 ${transcriptShown ? "" : "hidden"}`}
@@ -407,6 +434,7 @@ export function VideoLessonStudio({
                 </li>
               ))}
             </ol>
+            )}
           </div>
         ) : null}
 

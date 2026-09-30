@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { isLive } from "@/lib/services/cms/publication";
-import { getVideoLessonForLesson, recordWatched } from "@/lib/data/video-lessons";
+import { getStandaloneVideoLesson, getVideoLessonForLesson, recordWatched } from "@/lib/data/video-lessons";
 import { db } from "@/db/client";
 import { videoLessons } from "@/db/schema";
 import { eq } from "drizzle-orm";
@@ -58,7 +58,9 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
     return NextResponse.json({ error: "not_found" }, { status: 404 });
   }
 
-  const data = await getVideoLessonForLesson(videoLesson.lessonId, user.id);
+  const data = videoLesson.lessonId
+    ? await getVideoLessonForLesson(videoLesson.lessonId, user.id)
+    : await getStandaloneVideoLesson(videoLesson.id, user.id);
   if (!data) return NextResponse.json({ error: "not_found" }, { status: 404 });
 
   return NextResponse.json({

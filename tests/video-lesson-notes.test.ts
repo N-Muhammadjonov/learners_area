@@ -25,7 +25,11 @@ test("the notes column ships as migration 0023 and is journaled", () => {
   const journal = JSON.parse(read("drizzle/meta/_journal.json")) as {
     entries: { idx: number; tag: string }[];
   };
-  assert.equal(journal.entries.at(-1)?.tag, "0023_video_lesson_notes");
+  // 0023 stays journaled in order; later migrations (0024 standalone video)
+  // append after it and must never rewrite it.
+  const index = journal.entries.findIndex((entry) => entry.tag === "0023_video_lesson_notes");
+  assert.equal(index, 23);
+  assert.equal(journal.entries[index]?.idx, 23);
   assert.match(read("src/db/schema.ts"), /notes: text\("notes"\)/);
 });
 
