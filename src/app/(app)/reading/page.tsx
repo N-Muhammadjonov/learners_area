@@ -12,7 +12,9 @@ import { RegionFailureNotice } from "@/components/interaction/RegionFailureNotic
 
 export const metadata = { title: "Reading" };
 
-const TABS = ["academic", "videos", "general", "types", "retention"] as const;
+// TED / PODCAST is its own section in the navigation (Part 1 override), so the
+// Reading hub no longer carries a videos tab or a placeholder that pointed at it.
+const TABS = ["academic", "general", "types", "retention"] as const;
 type Tab = (typeof TABS)[number];
 type ReadingFilter = { status?: string; topic?: string; type?: string; query?: string; page: number };
 
@@ -54,7 +56,6 @@ function ReadingWorkspace({ userId, lang, dict, tab, filter }: {
 
   const tabItems: { key: Tab; label: string }[] = [
     { key: "academic", label: dict.readingHub.tabAcademic },
-    { key: "videos", label: dict.readingHub.tabVideos },
     { key: "general", label: dict.readingHub.tabGeneral },
     { key: "types", label: dict.readingHub.tabTypes },
     { key: "retention", label: dict.readingHub.tabRetention },
@@ -96,14 +97,6 @@ function ReadingWorkspace({ userId, lang, dict, tab, filter }: {
           <Suspense fallback={<ReadingLibrarySkeleton />}>
             <ReadingLibraryRegion dict={dict} lang={lang} filter={filter} libraryPromise={libraryPromise} />
           </Suspense>
-        </section>
-      )}
-
-      {tab === "videos" && (
-        <section className="flex flex-col gap-4" data-reading-videos>
-          <h2 className="section-title">{dict.readingHub.videosTitle}</h2>
-          <EmptyState icon="▶" title={dict.readingHub.videosEmpty} body={dict.readingHub.videosEmptyHint}
-            action={<Link href="/video-lessons" className="btn-secondary">{dict.readingHub.videosGoToLibrary}</Link>} />
         </section>
       )}
 

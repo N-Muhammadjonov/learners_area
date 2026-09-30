@@ -155,6 +155,13 @@
       "when": 1790734416580,
       "tag": "0021_registration_gender",
       "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1790756280556,
+      "tag": "0022_retention_bank",
+      "breakpoints": true
     }
   ]
 }

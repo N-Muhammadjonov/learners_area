@@ -1,91 +1,116 @@
-import { db } from "@/db/client";
-import { lexicalOccurrences } from "@/db/schema";
-import { eq } from "drizzle-orm";
 import Link from "next/link";
+import { db } from "@/db/client";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
-import { listActivePassages } from "@/lib/data/reading";
-import { Card } from "@/components/ui/Card";
-import { RetentionCheck } from "@/components/reading/RetentionCheck";
-import { isUuid } from "@/lib/validation/ids";
+import { buildAttemptPayload } from "@/lib/retention/payload";
+import {
+  findAnyLiveAttempt,
+  getRetentionSummary,
+  listRetentionHistory,
+} from "@/lib/data/retention-attempts";
+import { RetentionSession } from "@/components/reading/RetentionSession";
+import { RetentionHistory } from "@/components/reading/RetentionHistory";
+import { RegionFailureNotice } from "@/components/interaction/RegionFailureNotice";
+
+export const metadata = { title: "Retention memory" };
 
 /**
- * Retention as its own reading mode.
+ * Retention memory — the learner's side of the dedicated bank.
  *
- * The drill itself has always existed, but only as the last step of a completed
- * attempt — so a student who wanted to practise recall had to sit a full test
- * first. Reading a text once and writing down what you kept is a four-minute
- * exercise; it should not cost an exam. The mode needs no attempt and no
- * scoring, and it writes no progress of its own.
+ * This route used to be an unscored drill over a Reading passage chosen by a
+ * `?passage=` parameter. The override replaces that completely: the text is
+ * allocated by the server from the Retention bank, the score is deterministic and
+ * stored, and the source leaves the payload when the reading phase ends. The
+ * route is kept because learners and the Reading hub already link to it, and the
+ * old query parameter is deliberately NOT read — a hand-typed passage id must not
+ * be able to put arbitrary content in front of the memory exercise.
+ *
+ * Resilience: this page is a hub, not a scoring path. If the analytics read
+ * fails, the session itself still works; if the live-attempt read fails, the
+ * learner sees the level cards rather than an error page.
  */
-export default async function ReadingRetentionPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ passage?: string }>;
-}) {
-  const { passage: wanted } = await searchParams;
+export default async function ReadingRetentionPage() {
   const user = await requireActiveUser();
   if (!user) return null;
-
   const locale = await getLocale();
   const dict = getDictionary(locale);
-  const passages = await listActivePassages();
 
-  // Only a passage that is actually open may be chosen. A hand-typed id for an
-  // archived passage falls back to the first open one instead of rendering text
-  // the centre has taken down.
-  const chosen = (wanted && isUuid(wanted) ? passages.find((p) => p.id === wanted) : undefined) ?? passages[0];
-
-  const occurrences = chosen ? await db.query.lexicalOccurrences.findMany({ where: eq(lexicalOccurrences.passageId, chosen.id), columns: { id: true, startChar: true, endChar: true, surfaceForm: true } }) : [];
+  const live = await findAnyLiveAttempt({ userId: user.id }).catch(() => null);
+  const initial = live ? await buildAttemptPayload(live, new Date(), db).catch(() => null) : null;
+  const summary = await getRetentionSummary(user.id).catch(() => null);
+  const history = await listRetentionHistory({ userId: user.id, page: 1 }).catch(() => null);
 
   return (
-    <div className="mx-auto flex max-w-3xl flex-col gap-6">
-      <div className="flex items-center justify-between">
-        <h1 className="font-display text-2xl text-ink-900">{dict.reading.retentionModeTitle}</h1>
-        <Link href="/reading" className="text-sm text-signal-600 hover:underline">
-          {dict.reading.practiceTitle} →
-        </Link>
-      </div>
+    <div className="mx-auto flex max-w-4xl flex-col gap-8" data-retention-page>
+      <header className="flex flex-col gap-2">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h1 className="page-title">{dict.retentionMemory.title}</h1>
+          <Link href="/reading" className="link-inline">
+            {dict.readingHub.title}
+          </Link>
+        </div>
+        <p className="page-subtitle">{dict.retentionMemory.subtitle}</p>
+        <p className="body-text">{dict.retentionMemory.intro}</p>
+      </header>
 
-      <p className="text-sm text-ink-500">{dict.reading.retentionModeHint}</p>
+      <RetentionSession dict={dict} initial={initial} />
 
-      {!chosen ? (
-        <Card>
-          <p className="text-sm text-ink-500" data-retention-empty>
-            {dict.reading.retentionModeEmpty}
-          </p>
-        </Card>
-      ) : (
-        <RetentionCheck
-          dict={dict}
-          passageTitle={chosen.title}
-          passageBody={chosen.bodyText}
-          passageLevel={chosen.difficultyLevel}
-          sourceId={chosen.id}
-          occurrences={occurrences}
-          startOpen
-        />
-      )}
+      <section className="flex flex-col gap-3" data-retention-summary>
+        <h2 className="section-title">{dict.retentionMemory.summaryTitle}</h2>
+        {summary ? (
+          <div className="panel flex flex-wrap gap-x-6 gap-y-2">
+            <span className="body-text" data-retention-summary-completed>
+              {dict.retentionMemory.summaryCompleted.replace("{n}", String(summary.completedCount))}
+            </span>
+            <span className="body-text" data-retention-summary-best>
+              {summary.bestScore === null
+                ? dict.retentionMemory.summaryNoResults
+                : dict.retentionMemory.summaryBest.replace("{n}", String(summary.bestScore))}
+            </span>
+            <span className="body-text" data-retention-summary-average>
+              {summary.lastTenAverage === null || summary.lastTenCount === 0
+                ? dict.retentionMemory.summaryNoResults
+                : dict.retentionMemory.summaryLastTen
+                    .replace("{n}", String(summary.lastTenCount))
+                    .replace("{average}", String(summary.lastTenAverage))}
+            </span>
+          </div>
+        ) : (
+          <RegionFailureNotice
+            region="retention-summary"
+            message={dict.errors.unknown}
+            retryLabel={dict.errorPage.retry}
+          />
+        )}
+      </section>
 
-      {passages.length > 1 && (
-        <Card className="flex flex-col gap-2">
-          <h2 className="text-sm font-medium text-ink-900">{dict.reading.retentionModeAnother}</h2>
-          <ul className="flex flex-wrap gap-3" data-retention-choices>
-            {passages
-              .filter((passage) => passage.id !== chosen?.id)
-              .map((passage) => (
-                <li key={passage.id}>
-                  <Link
-                    href={`/reading/retention?passage=${passage.id}`}
-                    className="text-sm text-signal-600 hover:underline"
-                  >
-                    {passage.title}
-                  </Link>
-                </li>
-              ))}
-          </ul>
-        </Card>
-      )}
+      <section className="flex flex-col gap-3" data-retention-history-section>
+        <h2 className="section-title">{dict.retentionMemory.historyTitle}</h2>
+        {history ? (
+          <RetentionHistory
+            dict={dict}
+            initial={{
+              rows: history.rows.map((row) => ({
+                attemptId: row.attemptId,
+                level: row.level,
+                score: row.score,
+                status: row.status === "timed_out" ? ("timed_out" as const) : ("completed" as const),
+                completedAt: row.completedAt,
+                createdAt: row.createdAt,
+              })),
+              page: history.page,
+              pageCount: history.pageCount,
+              total: history.total,
+            }}
+          />
+        ) : (
+          <RegionFailureNotice
+            region="retention-history"
+            message={dict.errors.unknown}
+            retryLabel={dict.errorPage.retry}
+          />
+        )}
+      </section>
     </div>
   );
 }

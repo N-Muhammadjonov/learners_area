@@ -95,14 +95,27 @@ test("floating AI Coach action opens the existing Coach dashboard without an inv
 });
 
 test("TED / PODCAST is the complete learner-facing section identity in both locales", () => {
+  // PART 1 FINAL RETENTION ARCHITECTURE OVERRIDE V2 supersedes the old Reading-hub
+  // videos tab: TED / PODCAST is a standalone section in the shell navigation and
+  // must NOT appear as a tab inside Reading. The identity assertions below stay
+  // exactly as they were for the section itself; the Reading-tab assertions are
+  // replaced by the assertion that the tab is gone, rather than deleted.
   assert.equal(en.nav.videoLessons, "TED / PODCAST");
   assert.equal(uz.nav.videoLessons, "TED / PODCAST");
   assert.equal(en.videoLessons.title, "TED / PODCAST");
   assert.equal(uz.videoLessons.title, "TED / PODCAST");
-  assert.equal(en.readingHub.tabVideos, "TED / PODCAST");
-  assert.equal(uz.readingHub.tabVideos, "TED / PODCAST");
-  assert.equal(en.readingHub.videosGoToLibrary, "Go to TED / PODCAST");
-  assert.equal(uz.readingHub.videosGoToLibrary, "TED / PODCAST bo'limiga o'tish");
-  assert.match(en.readingHub.videosEmptyHint, /TED \/ PODCAST/);
-  assert.match(uz.readingHub.videosEmptyHint, /TED \/ PODCAST/);
+
+  const hub = read("src/app/(app)/reading/page.tsx");
+  assert.doesNotMatch(hub, /data-reading-videos/);
+  assert.doesNotMatch(hub, /tabVideos|videosGoToLibrary|videosEmptyHint/);
+  assert.equal(
+    Object.keys(en.readingHub).some((key) => key.toLowerCase().includes("video")),
+    false,
+    "the Reading hub dictionary must not ship a videos tab identity any more"
+  );
+  assert.equal(
+    Object.keys(uz.readingHub).some((key) => key.toLowerCase().includes("video")),
+    false,
+    "the Reading hub dictionary must not ship a videos tab identity any more"
+  );
 });

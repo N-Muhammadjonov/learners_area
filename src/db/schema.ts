@@ -1576,3 +1576,192 @@ export const videoLessonProgress = pgTable(
     userLessonIdx: uniqueIndex("video_lesson_progress_user_idx").on(table.userId, table.videoLessonId),
   })
 );
+
+// ---------------------------------------------------------------------------
+// Retention — the memory system (learner) and its content bank (owner)
+// ---------------------------------------------------------------------------
+//
+// Deliberately NOT reading passages. The old learner "Retention" drill borrowed
+// a Reading passage, hid it with CSS and scored nothing; it is replaced by a
+// dedicated bank of versioned memory texts whose meaning is graded against an
+// author-supplied Measurement Structure.
+//
+// Four tables, and the reason each exists:
+//
+//   retention_texts            the LOGICAL text ("B1-007"). Stable identity:
+//                              rotation is by this id, so re-versioning a text can
+//                              never make a learner see it twice in one cycle.
+//   retention_text_versions    the IMMUTABLE content of that text: body, word
+//                              count, Measurement Structure. An attempt points at
+//                              one of these, so editing the bank never rewrites
+//                              a historical result.
+//   retention_attempts         one learner's run: deadlines, draft, score,
+//                              breakdown, evaluator version.
+//   retention_rotation_state   the learner's cycle per level, plus which texts
+//                              that cycle has already used.
+//
+// Deleting a logical text is an ARCHIVE (`active = false`): nothing that a
+// learner's history points at is ever removed, and the archive/restore actions
+// never create or destroy a version.
+
+export const retentionLevelEnum = pgEnum("retention_level", ["A2", "B1", "B2", "C1", "C2"]);
+
+/**
+ * `reading` and `recall` are the two live states; `completed` and `timed_out` are
+ * terminal. The phase a learner is in is derived from the persisted deadlines,
+ * never stored twice — but the terminal outcome IS stored, so a finished attempt
+ * can never be re-scored or re-timed.
+ */
+export const retentionAttemptStatusEnum = pgEnum("retention_attempt_status", [
+  "reading",
+  "recall",
+  "completed",
+  "timed_out",
+]);
+
+export const retentionTexts = pgTable(
+  "retention_texts",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    level: retentionLevelEnum("level").notNull(),
+    /** Auto-generated stable label: `B1-007`. Never derived from row position. */
+    internalLabel: varchar("internal_label", { length: 20 }).notNull(),
+    /** Monotonic per level; the label's numeric half, allocated under a lock. */
+    sequence: integer("sequence").notNull(),
+    /** FALSE = archived: out of future rotation, history untouched. */
+    active: boolean("active").notNull().default(true),
+    /**
+     * The version new attempts receive. The composite foreign key added in
+     * migration 0022 makes it impossible for this column to point at a version
+     * belonging to a different text.
+     */
+    currentVersionId: uuid("current_version_id"),
+    createdByUserId: uuid("created_by_user_id").references(() => users.id, { onDelete: "set null" }),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => ({
+    labelIdx: uniqueIndex("retention_texts_label_idx").on(table.internalLabel),
+    levelSequenceIdx: uniqueIndex("retention_texts_level_sequence_idx").on(table.level, table.sequence),
+    levelActiveIdx: index("retention_texts_level_active_idx").on(table.level, table.active),
+  })
+);
+
+export const retentionTextVersions = pgTable(
+  "retention_text_versions",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    retentionTextId: uuid("retention_text_id")
+      .notNull()
+      .references(() => retentionTexts.id, { onDelete: "cascade" }),
+    versionNumber: integer("version_number").notNull(),
+    bodyText: text("body_text").notNull(),
+    wordCount: integer("word_count").notNull(),
+    /** Validated Measurement Structure V1. Data, never code. */
+    scoringStructure: jsonb("scoring_structure").notNull(),
+    createdByUserId: uuid("created_by_user_id").references(() => users.id, { onDelete: "set null" }),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => ({
+    versionIdx: uniqueIndex("retention_text_versions_text_version_idx").on(table.retentionTextId, table.versionNumber),
+    /** Target of the composite FK from `retention_texts.current_version_id`. */
+    identityIdx: uniqueIndex("retention_text_versions_identity_idx").on(table.id, table.retentionTextId),
+  })
+);
+
+export const retentionAttempts = pgTable(
+  "retention_attempts",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    /**
+     * RESTRICT, not CASCADE: archiving a text must never delete the attempts
+     * that reference it, and a version a learner was graded against must stay
+     * exactly where it is. Content is archived, history is kept.
+     */
+    retentionTextId: uuid("retention_text_id")
+      .notNull()
+      .references(() => retentionTexts.id, { onDelete: "restrict" }),
+    retentionTextVersionId: uuid("retention_text_version_id")
+      .notNull()
+      .references(() => retentionTextVersions.id, { onDelete: "restrict" }),
+    level: retentionLevelEnum("level").notNull(),
+    /** Which rotation cycle this attempt belongs to. */
+    rotationCycle: integer("rotation_cycle").notNull().default(1),
+    status: retentionAttemptStatusEnum("status").notNull().default("reading"),
+    readStartedAt: timestamp("read_started_at", { withTimezone: true }).notNull(),
+    readEndsAt: timestamp("read_ends_at", { withTimezone: true }).notNull(),
+    writeStartedAt: timestamp("write_started_at", { withTimezone: true }).notNull(),
+    writeEndsAt: timestamp("write_ends_at", { withTimezone: true }).notNull(),
+    /** The latest persisted draft. Survives refresh, remount and connection loss. */
+    recallText: text("recall_text").notNull().default(""),
+    submittedAt: timestamp("submitted_at", { withTimezone: true }),
+    completedAt: timestamp("completed_at", { withTimezone: true }),
+    score: integer("score"),
+    scoreBreakdown: jsonb("score_breakdown"),
+    evaluatorVersion: varchar("evaluator_version", { length: 60 }),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => ({
+    userHistoryIdx: index("retention_attempts_user_history_idx").on(table.userId, table.createdAt),
+    userLevelIdx: index("retention_attempts_user_level_idx").on(table.userId, table.level, table.status),
+    versionUsageIdx: index("retention_attempts_version_usage_idx").on(table.retentionTextVersionId),
+    textUsageIdx: index("retention_attempts_text_usage_idx").on(table.retentionTextId),
+    cycleIdx: index("retention_attempts_cycle_idx").on(table.userId, table.level, table.rotationCycle),
+  })
+);
+
+export const retentionRotationState = pgTable(
+  "retention_rotation_state",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    level: retentionLevelEnum("level").notNull(),
+    cycleNumber: integer("cycle_number").notNull().default(1),
+    /** The last text this learner finished, so a new cycle cannot repeat it. */
+    lastCompletedTextId: uuid("last_completed_text_id").references(() => retentionTexts.id, { onDelete: "set null" }),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => ({
+    userLevelIdx: uniqueIndex("retention_rotation_state_user_level_idx").on(table.userId, table.level),
+  })
+);
+
+/**
+ * What the learner has already been given in the current cycle.
+ *
+ * Terminal outcomes only — a completed attempt and a legitimately timed-out one
+ * both count as "used" (rotation is about exposure, not success), while an
+ * abandoned-but-live attempt is still the learner's active attempt and is not a
+ * repeat at all. Version changes are not recorded here: rotation identity is the
+ * logical text.
+ */
+export const retentionRotationCompletions = pgTable(
+  "retention_rotation_completions",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    level: retentionLevelEnum("level").notNull(),
+    cycleNumber: integer("cycle_number").notNull(),
+    retentionTextId: uuid("retention_text_id")
+      .notNull()
+      .references(() => retentionTexts.id, { onDelete: "cascade" }),
+    completedAt: timestamp("completed_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => ({
+    uniqueCompletion: uniqueIndex("retention_rotation_completions_unique_idx").on(
+      table.userId,
+      table.level,
+      table.cycleNumber,
+      table.retentionTextId
+    ),
+  })
+);
