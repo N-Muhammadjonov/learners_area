@@ -102,7 +102,7 @@ export function ManagedMaterialCard({
         <button
           type="button"
           onClick={() => setExpanded((v) => !v)}
-          className="w-fit text-xs text-signal-600 hover:underline"
+          className="btn-secondary w-fit"
         >
           {expanded ? "Hide" : "Show"} {blocks.length} attachment{blocks.length > 1 ? "s" : ""}
         </button>

@@ -106,10 +106,10 @@ export default async function SpeakingPage() {
         <h1 className="font-display text-2xl text-ink-900">{dict.speaking.title}</h1>
         {/* Both speaking modes live next to the materials, because they use them. */}
         <div className="flex flex-wrap items-center gap-3">
-          <Link href="/speaking/practice" className="text-sm text-signal-600 hover:underline" data-speaking-practice-link>
+          <Link href="/speaking/practice" className="btn-secondary " data-speaking-practice-link>
             {dict.speakingPractice.title} →
           </Link>
-          <Link href="/speaking/shadowing" className="text-sm text-signal-600 hover:underline" data-shadowing-link>
+          <Link href="/speaking/shadowing" className="btn-secondary " data-shadowing-link>
             {dict.speakingShadowing.title} →
           </Link>
         </div>

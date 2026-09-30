@@ -93,7 +93,7 @@ export default async function PendingPage() {
           <AccessRequestForm dict={dict} alreadyRequested={false} canRequest />
         ) : null}
 
-        <Link href="/" className="text-center text-xs text-signal-600 hover:underline">
+        <Link href="/" className="btn-secondary ">
           {dict.common.backToSite}
         </Link>
       </div>

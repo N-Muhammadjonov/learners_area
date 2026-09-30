@@ -305,7 +305,7 @@ export function VideoLessonStudio({
             href={watchUrlFor(provider, videoLesson.videoId)}
             target="_blank"
             rel="noreferrer noopener"
-            className="underline"
+            className="btn-secondary "
           >
             {t.openOnProvider}
           </a>

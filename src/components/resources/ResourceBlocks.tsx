@@ -42,7 +42,7 @@ export function ResourceBlocks({
                 href={block.linkUrl}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-signal-600 hover:underline"
+                className="btn-secondary "
               >
                 <IconChevronRight className="text-[16px]" />
                 {block.originalName ?? t.openLink}
@@ -73,7 +73,7 @@ export function ResourceBlocks({
             {block.type === "file" && block.objectKey && (
               <a
                 href={`/api/resources/${block.objectKey}`}
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-signal-600 hover:underline"
+                className="btn-secondary "
               >
                 <IconChevronDown className="text-[16px]" />
                 {block.originalName} — {t.download}

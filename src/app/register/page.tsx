@@ -13,7 +13,7 @@ export default async function RegisterPage() {
       footer={
         <>
           {dict.auth.haveAccount}{" "}
-          <Link href="/login" className="text-signal-600 hover:underline">
+          <Link href="/login" className="btn-secondary ">
             {dict.auth.loginCta}
           </Link>
         </>

@@ -42,7 +42,7 @@ export default async function LessonPage({ params }: { params: Promise<{ lessonI
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-4">
       <div>
-        <Link href="/courses/ielts" className="text-sm text-signal-600 hover:underline" data-lesson-back>
+        <Link href="/courses/ielts" className="btn-secondary " data-lesson-back>
           ← {dict.courseRoadmap.back}
         </Link>
         <div className="mt-2 flex flex-wrap items-center justify-between gap-2">

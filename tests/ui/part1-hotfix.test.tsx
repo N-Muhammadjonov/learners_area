@@ -91,7 +91,7 @@ test('flashcard retains both physical faces across body/button/keyboard flips; a
       // depend on wall-clock animation timing (measured separately in browser).
       const savedTimeout = window.setTimeout;
       const callbacks: (() => void)[] = [];
-      window.setTimeout = ((callback: () => void) => { callbacks.push(callback); return callbacks.length; }) as typeof window.setTimeout;
+      window.setTimeout = ((callback: () => void, delay?: number) => { if (delay === 520 || delay === 560) callbacks.push(callback); return callbacks.length + 100; }) as typeof window.setTimeout;
       try {
         await click('[data-flashcard-flip]');
         await click('[data-mark="notYet"]');

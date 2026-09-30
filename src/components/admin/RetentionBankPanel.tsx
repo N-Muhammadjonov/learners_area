@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n/en";
@@ -97,14 +98,14 @@ export function RetentionBankPanel({
           { key: "active", label: t.filterActive },
           { key: "archived", label: t.filterArchived },
         ].map((option) => (
-          <a
+          <Link
             key={option.key}
             href={levelHref(option.key)}
             className={filter === option.key ? "tab tab-active" : "tab"}
             data-retention-filter={option.key}
           >
             {option.label}
-          </a>
+          </Link>
         ))}
         <span className="mx-1 h-6 w-px self-center bg-ink-100" aria-hidden />
         {[
@@ -112,14 +113,14 @@ export function RetentionBankPanel({
           { key: "uses", label: t.sortUses },
           { key: "newest", label: t.sortNewest },
         ].map((option) => (
-          <a
+          <Link
             key={option.key}
             href={levelHref(filter, option.key)}
             className={sort === option.key ? "tab tab-active" : "tab"}
             data-retention-sort={option.key}
           >
             {option.label}
-          </a>
+          </Link>
         ))}
       </nav>
 

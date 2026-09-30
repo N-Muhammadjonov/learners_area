@@ -253,7 +253,7 @@ async function ReadingTypesRegion({ dict, lang, facetsPromise }: {
             <li key={type.code} className="panel flex flex-col gap-2">
               <span className="card-title">{questionTypeLabel(type.code, lang)}</span>
               <span className="meta-text">{dict.readingHub.typesCount.replace("{n}", String(type.count))}</span>
-              <Link href={`/reading?type=${encodeURIComponent(type.code)}`} className="mt-1 inline-flex items-center gap-1 text-[0.875rem] font-medium text-signal-600 hover:underline" data-reading-type-link={type.code}>
+              <Link href={`/reading?type=${encodeURIComponent(type.code)}`} className="btn-secondary mt-1" data-reading-type-link={type.code}>
                 {dict.readingHub.typesPractice}<IconChevronRight className="text-[15px]" />
               </Link>
             </li>

@@ -68,7 +68,7 @@ export default async function GrammarTopicPage({ params }: { params: Promise<{ t
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-4">
       <div>
-        <Link href="/grammar" className="text-sm text-signal-600 hover:underline">
+        <Link href="/grammar" className="btn-secondary ">
           ← {dict.grammar.backToTopics}
         </Link>
         <h1 className="mt-2 font-display text-2xl text-ink-900">{topic.title}</h1>

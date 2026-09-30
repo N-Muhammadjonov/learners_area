@@ -85,12 +85,12 @@ for (const file of migrationFiles) {
 }
 console.log(`ok   - ${migrationFiles.length} migrations applied in order, none failed`);
 
-await check("0022 is the last migration and the journal names it", async () => {
+await check("Retention migration and every later migration are journalled in order", async () => {
   const last = migrationFiles.at(-1);
-  assert(last === "0022_retention_bank.sql", `last migration is ${last}`);
+  assert(migrationFiles.includes("0022_retention_bank.sql"), "Retention migration missing");
   const journal = JSON.parse(readFileSync(join(MIGRATIONS_DIR, "meta", "_journal.json"), "utf8"));
   const tags = journal.entries.map((entry) => entry.tag);
-  assert(tags.at(-1) === "0022_retention_bank", `journal ends at ${tags.at(-1)}`);
+  assert(`${tags.at(-1)}.sql` === last, `journal ends at ${tags.at(-1)}, files end at ${last}`);
   assert(new Set(tags).size === tags.length, "duplicate migration tag in the journal");
   assert(journal.entries.at(-1).idx === journal.entries.length - 1, "journal idx is not sequential");
 });

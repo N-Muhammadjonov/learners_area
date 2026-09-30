@@ -48,7 +48,7 @@ export default async function TeacherLiveClassesPage() {
               <ClassStatusControls dict={dict} liveClassId={c.id} status={c.status} />
               <Link
                 href={`/teacher/live-classes/${c.id}`}
-                className="text-xs text-signal-600 hover:underline"
+                className="btn-secondary "
                 data-class-roster-link={c.id}
               >
                 {dict.liveClasses.attendance} →

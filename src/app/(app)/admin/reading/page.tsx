@@ -22,7 +22,7 @@ export default async function AdminReadingPage() {
       <div className="flex items-center justify-between">
         <h1 className="font-display text-2xl text-ink-900">{dict.admin.readingTitle}</h1>
         <div className="flex items-center gap-2">
-          <Link href="/admin/reading/retention" className="text-sm text-signal-600 hover:underline" data-reading-retention-link>
+          <Link href="/admin/reading/retention" className="btn-secondary " data-reading-retention-link>
             {dict.retentionMemory.admin.title}
           </Link>
           <NewPassageForm dict={dict} />

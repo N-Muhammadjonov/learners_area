@@ -43,7 +43,7 @@ async function VideoLessonsContent({ user, dict }: {
             <div className="mt-3">
               <Link
                 href={`/courses/${row.courseSlug}/lessons/${row.lesson.id}`}
-                className="text-sm text-signal-600 hover:underline"
+                className="btn-secondary "
                 data-video-lesson-open
               >
                 {t.open} →

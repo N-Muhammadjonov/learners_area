@@ -218,13 +218,13 @@ export function PrimaryFileField({
                   </span>
                   <span className="text-xs text-band-good">{t.uploadState.complete}</span>
                   {value.retained && <span className="text-xs text-ink-300">{t.keepAttachment}</span>}
-                  <button type="button" onClick={choose} className="ml-auto text-xs text-signal-600 hover:underline">
+                  <button type="button" onClick={choose} className="btn-secondary ml-auto">
                     {t.replaceFile}
                   </button>
                   <button
                     type="button"
                     onClick={() => onChange({ mode: "empty" })}
-                    className="text-xs text-band-bad hover:underline"
+                    className="btn-secondary text-band-bad"
                   >
                     {t.removeFile}
                   </button>
@@ -238,7 +238,7 @@ export function PrimaryFileField({
                     {value.error ? ` — ${value.error}` : ""}
                   </span>
                   {value.file && (
-                    <button type="button" onClick={() => startUploadOf(value.file!)} className="text-xs text-signal-600 hover:underline">
+                    <button type="button" onClick={() => startUploadOf(value.file!)} className="btn-secondary ">
                       {t.retryUpload}
                     </button>
                   )}

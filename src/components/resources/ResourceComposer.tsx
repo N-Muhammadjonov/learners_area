@@ -423,7 +423,7 @@ export function ResourceComposer({
                       {t.uploadFailed}
                       <button
                         type="button"
-                        className="underline"
+                        className="btn-secondary "
                         data-composer-retry
                         onClick={() => void retry(block.localId)}
                       >
@@ -431,7 +431,7 @@ export function ResourceComposer({
                       </button>
                       <button
                         type="button"
-                        className="underline"
+                        className="btn-secondary "
                         onClick={() => remove(block.localId)}
                       >
                         {t.remove}

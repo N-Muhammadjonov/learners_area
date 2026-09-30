@@ -14,7 +14,7 @@ export default async function LoginPage() {
       footer={
         <>
           {dict.auth.noAccount}{" "}
-          <Link href="/register" className="text-signal-600 hover:underline">
+          <Link href="/register" className="btn-secondary ">
             {dict.auth.registerCta}
           </Link>
         </>

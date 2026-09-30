@@ -76,7 +76,7 @@ export function LoginForm({
         {pending ? dict.common.loading : dict.auth.loginCta}
       </Button>
       <div className="text-right text-sm">
-        <Link href="/reset-password" className="text-signal-600 hover:underline">
+        <Link href="/reset-password" className="btn-secondary ">
           {dict.auth.forgotPassword}
         </Link>
       </div>

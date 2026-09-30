@@ -333,10 +333,7 @@ function useAnswer() {
     async (entryId: string, submission: GameSubmission) => {
       const controller = new AbortController();
       requests.current.add(controller);
-      // A timeout signal (not a page timer) bounds the write without sharing the game's feedback clock.
-      const deadline = AbortSignal.timeout(12_000);
-      const onDeadline = () => controller.abort();
-      deadline.addEventListener("abort", onDeadline, { once: true });
+      const deadline = window.setTimeout(() => controller.abort(), 12_000);
       try {
       const res = await fetch("/api/vocabulary/games", {
         signal: controller.signal,
@@ -360,7 +357,7 @@ function useAnswer() {
       }
       return controller.signal.aborted ? null : result;
       } finally {
-        deadline.removeEventListener("abort", onDeadline);
+        window.clearTimeout(deadline);
         requests.current.delete(controller);
       }
     },

@@ -81,7 +81,7 @@ async function ProgressContent({ userId, dict }: {
           <div className="flex justify-between"><dt className="text-ink-500">{t.assignmentsOpen}</dt><dd className="text-ink-900" data-assignments-open={data.assignments?.open ?? undefined}>{data.assignments ? `${data.assignments.open} / ${data.assignments.total}` : "—"}</dd></div>
           <div className="flex justify-between"><dt className="text-ink-500">{t.mocksTaken}</dt><dd className="text-ink-900">{data.mocks ? `${data.mocks.finished}${data.mocks.bestBand === null ? "" : ` · ${t.bestBand} ${data.mocks.bestBand}`}` : "—"}</dd></div>
         </dl>
-        <Link href="/courses/ielts" className="mt-3 inline-block text-sm text-signal-600 hover:underline">{dict.courseRoadmap.open} →</Link>
+        <Link href="/dashboard" className="btn-secondary mt-3 w-fit">{dict.courseRoadmap.open} →</Link>
       </Card>
     </div>
   );

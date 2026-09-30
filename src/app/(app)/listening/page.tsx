@@ -53,7 +53,7 @@ export default async function ListeningPage() {
     <div className="mx-auto flex max-w-4xl flex-col gap-6" data-route-usable="listening">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="font-display text-2xl text-ink-900">{dict.listening.practiceTitle}</h1>
-        <Link href="/listening/history" className="text-sm text-signal-600 hover:underline">
+        <Link href="/listening/history" className="btn-secondary ">
           {dict.listening.historyTitle} →
         </Link>
       </div>

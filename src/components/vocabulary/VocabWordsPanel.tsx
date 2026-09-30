@@ -148,7 +148,7 @@ export function VocabWordsPanel({
           {mapFiltered && (
             <button
               type="button"
-              className="text-xs text-signal-600 hover:underline"
+              className="btn-secondary "
               data-word-map-clear
               onClick={() => {
                 setStateFilter("all");

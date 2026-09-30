@@ -109,7 +109,7 @@ async function DashboardContent({ user, locale, dict, openLessonsPromise }: {
             ))}
           </ul>
         )}
-        <Link href="/assignments" className="mt-3 inline-block text-sm text-signal-600 hover:underline">
+        <Link href="/assignments" className="btn-secondary mt-3">
           {dict.assignments.title} →
         </Link>
       </Card>
@@ -125,7 +125,7 @@ async function DashboardContent({ user, locale, dict, openLessonsPromise }: {
             <span className="text-xs text-ink-300">{formatDateTime(data.nextLiveClass.scheduledAt, locale)}</span>
           </div>
           <p className="mt-1 text-sm text-ink-700">{data.nextLiveClass.title}</p>
-          <Link href="/live-classes" className="mt-3 inline-block text-sm text-signal-600 hover:underline">
+          <Link href="/live-classes" className="btn-secondary mt-3">
             {dict.liveClasses.title} →
           </Link>
         </Card>
@@ -143,7 +143,7 @@ async function DashboardContent({ user, locale, dict, openLessonsPromise }: {
           <p className="mt-2 text-xs text-ink-300" data-checked-by={data.latestEvaluation.checkedByName}>
             {dict.coach.checkedBy} {data.latestEvaluation.checkedByName}
           </p>
-          <Link href="/coach" className="mt-3 inline-block text-sm text-signal-600 hover:underline">
+          <Link href="/coach" className="btn-secondary mt-3">
             {dict.coach.title} →
           </Link>
         </Card>
@@ -198,7 +198,7 @@ async function DashboardOpenLessons({ openLessonsPromise, dict }: {
     <Card data-open-lessons>
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h2 className="font-display text-lg text-ink-900">{dict.dashboard.openNow}</h2>
-        <Link href="/courses/ielts" className="text-xs text-signal-600 hover:underline">
+        <Link href="/courses/ielts" className="btn-secondary ">
           {dict.dashboard.fullRoadmap} →
         </Link>
       </div>

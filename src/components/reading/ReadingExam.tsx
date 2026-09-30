@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
@@ -396,10 +397,10 @@ export function ReadingExam({
           </span>
         </span>
         <SaveBadge dict={dict} state={saveState} savedAt={savedAt} onRetry={() => void save()} />
-        <a href="/reading" className="flex min-h-[44px] items-center gap-1.5 rounded-sm px-2 text-sm text-ink-500 hover:text-ink-900" data-practice-exit>
+        <Link href="/reading" className="btn-secondary" data-practice-exit>
           <IconBack className="text-[18px]" />
           {t.exit}
-        </a>
+        </Link>
       </div>
 
       {/* Mobile keeps one pane at a time; the tabs are real buttons, 44px tall. */}
@@ -578,7 +579,7 @@ function SaveBadge({
     return (
       <span className="flex items-center gap-2 text-sm text-band-bad" data-save-state="error">
         {t.saveError}
-        <button type="button" onClick={onRetry} className="underline" data-save-retry>
+        <button type="button" onClick={onRetry} className="btn-secondary " data-save-retry>
           {t.saveRetry}
         </button>
       </span>

@@ -66,7 +66,7 @@ export default async function ListeningRevisionPage({ params }: { params: Promis
         </div>
         <Link
           href={`/listening/attempts/${attempt.id}`}
-          className="text-sm text-signal-600 hover:underline"
+          className="btn-secondary "
           data-back-to-analysis
         >
           {dict.listening.backToAnalysis}
@@ -217,7 +217,7 @@ export default async function ListeningRevisionPage({ params }: { params: Promis
           <h2 className="font-display text-lg text-ink-900">{dict.listening.wordsFromTest}</h2>
           <Link
             href="/vocabulary?panel=my-words"
-            className="text-sm text-signal-600 hover:underline"
+            className="btn-secondary "
             data-vocabulary-link
           >
             {dict.nav.vocabulary} →

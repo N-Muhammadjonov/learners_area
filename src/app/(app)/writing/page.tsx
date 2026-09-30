@@ -91,7 +91,7 @@ export default async function WritingPage() {
     <div className="mx-auto flex max-w-4xl flex-col gap-6" data-route-usable="writing">
       <div className="flex items-center justify-between">
         <h1 className="font-display text-2xl text-ink-900">{dict.writing.practiceTitle}</h1>
-        <Link href="/writing/history" className="text-sm text-signal-600 hover:underline">
+        <Link href="/writing/history" className="btn-secondary ">
           {dict.writing.historyTitle} →
         </Link>
       </div>

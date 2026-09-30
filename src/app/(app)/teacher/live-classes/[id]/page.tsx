@@ -45,7 +45,7 @@ export default async function TeacherLiveClassPage({ params }: { params: Promise
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-4">
       <div>
-        <Link href="/teacher/live-classes" className="text-sm text-signal-600 hover:underline" data-class-back>
+        <Link href="/teacher/live-classes" className="btn-secondary " data-class-back>
           ← {dict.liveClasses.manageTitle}
         </Link>
         <h1 className="mt-2 font-display text-2xl text-ink-900">{liveClass.title}</h1>

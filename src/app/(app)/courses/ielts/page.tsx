@@ -39,7 +39,7 @@ export default async function IeltsRoadmapPage() {
                         {l.state !== "locked" && (
                           <Link
                             href={`/courses/ielts/lessons/${l.id}`}
-                            className="text-xs text-signal-600 hover:underline"
+                            className="btn-secondary "
                             data-lesson-open={l.id}
                           >
                             {dict.courseRoadmap.open}

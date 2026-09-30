@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Card } from "@/components/ui/Card";
 import { BandBadge } from "@/components/ui/Badge";
 import type { Dictionary } from "@/lib/i18n/en";
@@ -143,9 +144,9 @@ export function EvaluationView({
             {evaluation.recommendedExercises.map((exercise, index) => (
               <div key={`${exercise.label}-${index}`} className="flex flex-col">
                 {exercise.href ? (
-                  <a className="text-sm font-medium text-signal-700 underline" href={exercise.href}>
+                  <Link className="btn-secondary" href={exercise.href}>
                     {exercise.label}
-                  </a>
+                  </Link>
                 ) : (
                   <span className="text-sm font-medium text-ink-900">{exercise.label}</span>
                 )}

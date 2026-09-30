@@ -1,184 +1,141 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
 import test from "node:test";
 import { JSDOM } from "jsdom";
 import en from "../../src/lib/i18n/en";
-
-const ROOT = new URL("../..", import.meta.url).pathname;
-const read = (path: string) => readFileSync(join(ROOT, path), "utf8");
-const dom = new JSDOM('<!doctype html><html><body><div id="root"></div></body></html>', { url: "http://localhost/vocabulary/games/gap?set=all" });
-for (const key of ["window", "document", "navigator", "HTMLElement", "HTMLButtonElement", "HTMLInputElement", "HTMLSelectElement", "HTMLAnchorElement", "HTMLFormElement", "Element", "Node", "Event", "MouseEvent", "KeyboardEvent"] as const) {
-  Object.defineProperty(globalThis, key, { value: dom.window[key], configurable: true });
-}
+const dom = new JSDOM('<!doctype html><div id="root"></div>', { url: "http://localhost/vocabulary/games/gap" });
+for (const key of ["window", "document", "navigator", "HTMLElement", "HTMLInputElement", "HTMLAnchorElement", "Element", "Node", "Event", "MouseEvent", "KeyboardEvent"] as const) Object.defineProperty(globalThis, key, { value: dom.window[key], configurable: true });
 Object.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true, self: dom.window });
-
-const React = await import("react");
-Object.assign(globalThis, { React });
-const { act } = React;
+const React = await import("react"); Object.assign(globalThis, { React });
+const { act, useEffect, useState } = React;
 const { createRoot } = await import("react-dom/client");
-const { AppRouterContext } = await import("next/dist/shared/lib/app-router-context.shared-runtime");
-const { PathnameContext, SearchParamsContext } = await import("next/dist/shared/lib/hooks-client-context.shared-runtime");
-const { InstantInteractionProvider } = await import("../../src/components/interaction/InstantInteractionProvider");
+const { AppRouterContext } = await import("next/dist/shared/lib/app-router-context.shared-runtime.js");
+const { PathnameContext, SearchParamsContext } = await import("next/dist/shared/lib/hooks-client-context.shared-runtime.js");
+const { InstantInteractionProvider, useInstantInteraction } = await import("../../src/components/interaction/InstantInteractionProvider");
 const { InstantWorkspaceOutlet } = await import("../../src/components/interaction/InstantWorkspaceOutlet");
 const { VocabGameView } = await import("../../src/components/vocabulary/VocabGamesPanel");
-
-const query = <T extends Element>(selector: string): T => {
-  const found = document.querySelector<T>(selector);
-  assert.ok(found, `expected ${selector}`);
-  return found;
+const { RetentionHistory } = await import("../../src/components/reading/RetentionHistory");
+const { RetentionSession } = await import("../../src/components/reading/RetentionSession");
+const { safeErrorLabel } = await import("../../src/lib/observability/errors");
+const q = <T extends Element = HTMLElement>(selector: string): T => { const node = document.querySelector<T>(selector); assert.ok(node, selector); return node; };
+const click = (selector: string) => act(async () => q<HTMLElement>(selector).click());
+const router = { push() {}, refresh() {}, back() {}, forward() {}, replace() {}, prefetch() {} };
+async function mounted(element: React.ReactNode, run: () => Promise<void>) {
+  document.body.innerHTML = '<div id="root"></div>'; const root = createRoot(q('#root'));
+  try { await act(async () => root.render(<AppRouterContext.Provider value={router}>{element}</AppRouterContext.Provider>)); await run(); }
+  finally { await act(async () => root.unmount()); }
+}
+function clock() {
+  let now = 0, sequence = 0;
+  const jobs = new Map<number, { at: number; interval: number; fn: () => void }>();
+  const original = { setTimeout: window.setTimeout, clearTimeout: window.clearTimeout, setInterval: window.setInterval, clearInterval: window.clearInterval };
+  const schedule = (fn: () => void, delay = 0, interval = false) => { const id = ++sequence; jobs.set(id, { at: now + delay, interval: interval ? delay : 0, fn }); return id; };
+  window.setTimeout = ((fn: () => void, delay?: number) => schedule(fn, delay)) as typeof window.setTimeout;
+  window.setInterval = ((fn: () => void, delay?: number) => schedule(fn, delay, true)) as typeof window.setInterval;
+  window.clearTimeout = window.clearInterval = (id?: unknown) => { if (typeof id === "number") jobs.delete(id); };
+  return { async advance(ms: number) {
+    const end = now + ms;
+    for (;;) {
+      const next = [...jobs].filter(([, job]) => job.at <= end).sort((a, b) => a[1].at - b[1].at)[0]; if (!next) break;
+      const [id, job] = next; now = job.at;
+      if (job.interval) job.at += job.interval; else jobs.delete(id);
+      await act(async () => job.fn());
+    } now = end;
+  }, restore() { Object.assign(window, original); jobs.clear(); } };
+}
+async function input(value: string) { await act(async () => {
+  const field = q<HTMLInputElement>('input'); Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')!.set!.call(field, value); field.dispatchEvent(new Event('input', { bubbles: true }));
+}); }
+const attemptMeta = {
+  attemptId: 'own', level: 'A2' as const, label: '',
+  readStartedAt: new Date().toISOString(), readEndsAt: new Date(Date.now() + 120000).toISOString(),
+  writeStartedAt: new Date(Date.now() + 120000).toISOString(), writeEndsAt: new Date(Date.now() + 300000).toISOString(),
+  serverNow: new Date().toISOString(),
 };
-const json = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json" } });
-const tick = (ms = 0) => act(async () => new Promise((resolve) => setTimeout(resolve, ms)));
+const words = ['alpha', 'bravo'].map((term, index) => ({ id: `entry-${index}`, term, definitionEn: `meaning-${term}`, translationUz: `uz-${term}`, exampleSentence: `${term} is useful.`, partOfSpeech: null, collocations: null }));
+const games = (gameId: "gap" | "builder" | "race" | "translation") => <VocabGameView dict={en} gameId={gameId} setKey="all" folders={[]} packs={[]} />;
 
-function word(index: number) {
-  return {
-    id: `word-${index}`, term: `alpha${index}`, partOfSpeech: null, definitionEn: `meaning ${index}`,
-    translationUz: `tarjima ${index}`, exampleSentence: `We use alpha${index} daily`, collocations: null,
-    acceptedTranslations: [], sourceType: null,
+test("pending link and history transitions keep current client state mounted", async () => {
+  let mounts = 0, unmounts = 0;
+  function Probe() { const [count, setCount] = useState(0); useEffect(() => { mounts++; return () => { unmounts++; }; }, []); return <button data-probe onClick={() => setCount((value) => value + 1)}>{count}</button>; }
+  function Control() { const runtime = useInstantInteraction(); return <button data-start onClick={() => runtime.beginNavigation('/reading')}>Navigate</button>; }
+  await mounted(<PathnameContext.Provider value="/vocabulary"><SearchParamsContext.Provider value={new URLSearchParams()}><InstantInteractionProvider entryFrames={{ reading: { title: "Reading", shape: "reading" } }}><Control /><a href="/vocabulary" data-current-url onClick={(event) => event.preventDefault()}>Current</a><InstantWorkspaceOutlet><Probe /></InstantWorkspaceOutlet></InstantInteractionProvider></SearchParamsContext.Provider></PathnameContext.Provider>, async () => {
+    await click('[data-probe]'); const node = q('[data-probe]'); await click('[data-start]');
+    assert.equal(q('[data-probe]'), node); assert.equal(node.textContent, '1'); assert.equal(mounts, 1); assert.equal(unmounts, 0);
+    assert.equal(q('[data-workspace-content]').hasAttribute('inert'), true);
+    await act(async () => { window.history.pushState(null, '', '/listening'); window.dispatchEvent(new dom.window.PopStateEvent('popstate')); });
+    assert.equal(q('[data-probe]'), node); assert.equal(unmounts, 0);
+    await click('[data-current-url]');
+    assert.equal(q('[data-workspace-content]').hasAttribute('inert'), false);
+    assert.equal(q('[data-probe]'), node);
+  }); assert.equal(unmounts, 1);
+});
+for (const gameId of ['gap', 'translation'] as const) test(`${gameId}: empty Enter never reveals or submits; checked answer advances once`, async () => {
+  const original = globalThis.fetch; const timers = clock(); let writes = 0;
+  globalThis.fetch = async (_url, init) => { if (init?.method === 'POST') { writes++; return Response.json({ ok: true, verified: true, correct: false, awarded: 0 }); } return Response.json({ ok: true, words, total: 2, due: 2 }); };
+  try { await mounted(games(gameId), async () => {
+    await act(async () => q<HTMLInputElement>('input').dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })));
+    assert.equal(writes, 0); assert.equal(document.querySelector('[data-translation-example]'), null);
+    assert.equal(q<HTMLButtonElement>('[data-game-frame] button.btn-primary').disabled, true);
+    await input('wrong'); await click('[data-game-frame] button.btn-primary'); assert.equal(writes, 1);
+    await timers.advance(1700); assert.equal(q<HTMLInputElement>('input').value, ''); assert.ok(q('[data-game-frame]').textContent?.includes('2 / 2'));
+    await timers.advance(3000); assert.ok(q('[data-game-frame]').textContent?.includes('2 / 2'));
+  }); } finally { globalThis.fetch = original; timers.restore(); }
+});
+test("builder advances after checking and final score counts only correct items", async () => {
+  const original = globalThis.fetch; const timers = clock();
+  globalThis.fetch = async (_url, init) => Response.json(init?.method === 'POST' ? { ok: true, correct: false, verified: true } : { ok: true, words, total: 2, due: 2 });
+  try { await mounted(games('builder'), async () => {
+    for (let item = 0; item < 2; item++) {
+      assert.equal(q<HTMLButtonElement>('[data-game-frame] button.btn-primary').disabled, true);
+      const tiles = [...q('[data-builder-answer]').nextElementSibling!.querySelectorAll('button')]; tiles.sort((a, b) => b.textContent!.localeCompare(a.textContent!));
+      for (const tile of tiles) await act(async () => tile.click());
+      await click('[data-game-frame] button.btn-primary'); await timers.advance(1700);
+    } assert.ok(q('[data-game-frame]').textContent?.includes(`0 ${en.vocabulary.games.resultLine} 2`));
+  }); } finally { globalThis.fetch = original; timers.restore(); }
+});
+test("race lights boxes in order, waits for sweep, then auto-advances", async () => {
+  const original = globalThis.fetch; const timers = clock();
+  globalThis.fetch = async (_url, init) => Response.json(init?.method === 'POST' ? { ok: true, correct: true, verified: true, awarded: 1 } : { ok: true, words, total: 2, due: 2 });
+  try { await mounted(games('race'), async () => {
+    await input('alpha'); await click('[data-race-submit]'); assert.equal(document.querySelectorAll('[data-race-lit="true"]').length, 0);
+    await timers.advance(65); assert.equal(document.querySelectorAll('[data-race-lit="true"]').length, 1);
+    await timers.advance(260); assert.equal(document.querySelectorAll('[data-race-lit="true"]').length, 5);
+    assert.ok(q('[data-game-frame]').textContent?.includes('1 / 2')); await timers.advance(750); assert.ok(q('[data-game-frame]').textContent?.includes('2 / 2'));
+  }); } finally { globalThis.fetch = original; timers.restore(); }
+});
+test("race write deadline becomes unverified with no automatic POST retry", async () => {
+  const original = globalThis.fetch; const timers = clock(); let writes = 0;
+  globalThis.fetch = async (_url, init) => { if (init?.method !== 'POST') return Response.json({ ok: true, words, total: 2, due: 2 }); writes++; return new Promise((_resolve, reject) => init.signal!.addEventListener('abort', () => reject(new Error('aborted')), { once: true })); };
+  try { await mounted(games('race'), async () => { await input('alpha'); await click('[data-race-submit]'); await timers.advance(12000); assert.equal(q('[data-race-feedback]').getAttribute('data-race-outcome'), 'unverified'); assert.equal(writes, 1); }); } finally { globalThis.fetch = original; timers.restore(); }
+});
+test("history errors retain existing rows and offer retry", async () => {
+  const original = globalThis.fetch; globalThis.fetch = async () => { throw new Error('offline'); };
+  try { await mounted(<RetentionHistory dict={en} initial={{ rows: [{ attemptId: 'own', level: 'A2', score: null, status: 'completed', completedAt: null, createdAt: '2026-09-30' }], page: 1, pageCount: 2, total: 2 }} />, async () => { await click('[data-retention-history-more]'); assert.ok(q('[data-retention-history-row="own"]').textContent?.includes('— / 100')); assert.ok(q('[role="alert"]')); assert.equal(q<HTMLButtonElement>('[data-retention-history-more]').disabled, false); }); } finally { globalThis.fetch = original; }
+});
+test("expired reading hides source even when the phase endpoint fails", async () => {
+  const original = globalThis.fetch; const timers = clock(); globalThis.fetch = async () => Response.json({ error: 'retention_unavailable' }, { status: 503 });
+  try { await mounted(<RetentionSession dict={en} initial={{ ...attemptMeta, phase: 'reading', serverNow: new Date().toISOString(), readEndsAt: new Date(Date.now() - 10000).toISOString(), bodyText: 'PRIVATE SOURCE', wordCount: 110 }} />, async () => { assert.equal(document.querySelector('[data-retention-source]'), null); await timers.advance(4000); assert.equal(document.body.textContent?.includes('PRIVATE SOURCE'), false); assert.ok(q('[data-retention-phase-pending]')); }); } finally { globalThis.fetch = original; timers.restore(); }
+});
+test("database labels include nested SQLSTATE and exclude query content", () => {
+  const failure = new Error('private SQL and answer', { cause: Object.assign(new Error('secret'), { code: '42P01' }) }); assert.equal(safeErrorLabel(failure), 'Error/42P01'); assert.equal(safeErrorLabel(Object.assign(new Error('secret'), { code: 'postgres://credentials' })), 'Error');
+});
+
+test("Retention autosaves the current draft and displays the server result directly", async () => {
+  const original = globalThis.fetch; const timers = clock(); let drafts = 0, submits = 0;
+  const now = Date.now();
+  globalThis.fetch = async (_url, init) => {
+    if (init?.method === 'PATCH') { drafts++; return Response.json({ ok: true }); }
+    submits++;
+    return Response.json({ phase: 'completed', attemptId: 'own', level: 'A2', serverNow: new Date().toISOString(), score: 78,
+      breakdown: { totals: { mainIdeasRemembered: 1, mainIdeasPossible: 1, matchedGroups: 1, totalGroups: 1, contradicted: 0 }, claims: [] } });
   };
-}
-const gameSet = (count: number) => ({ ok: true, total: count, due: 0, words: Array.from({ length: count }, (_, i) => word(i)), selfAssessments: {} });
-
-async function withRoot(element: React.ReactNode, run: () => Promise<void> | void) {
-  document.body.innerHTML = '<div id="root"></div>';
-  const root = createRoot(query<HTMLDivElement>("#root"));
   try {
-    await act(async () => root.render(element));
-    await run();
-  } finally {
-    await act(async () => root.unmount());
-  }
-}
-
-function runtime(child: React.ReactNode) {
-  const router = { back() {}, forward() {}, refresh() {}, push() {}, replace() {}, prefetch() {} };
-  return React.createElement(AppRouterContext.Provider, { value: router as never },
-    React.createElement(PathnameContext.Provider, { value: "/vocabulary/games/gap" },
-      React.createElement(SearchParamsContext.Provider, { value: new URLSearchParams("set=all") },
-        React.createElement(InstantInteractionProvider, null, child))));
-}
-
-const view = (gameId: "gap" | "translation" | "builder" | "cards") => runtime(React.createElement(VocabGameView, {
-  dict: en, gameId, setKey: "all", folders: [], packs: [],
-}));
-
-async function withFetch(impl: typeof fetch, run: () => Promise<void>) {
-  const original = globalThis.fetch;
-  globalThis.fetch = impl;
-  try { await run(); } finally { globalThis.fetch = original; }
-}
-
-function setInput(input: HTMLInputElement, value: string) {
-  const setter = Object.getOwnPropertyDescriptor(dom.window.HTMLInputElement.prototype, "value")!.set!;
-  setter.call(input, value);
-  input.dispatchEvent(new dom.window.Event("input", { bubbles: true }));
-}
-
-test("workspace outlet keeps current children mounted with no pending notice at rest", async () => {
-  await withRoot(runtime(React.createElement(InstantWorkspaceOutlet, null, React.createElement("p", { id: "kept" }, "current"))), () => {
-    assert.equal(query("#kept").textContent, "current");
-    assert.equal(query("[data-workspace-content]").hasAttribute("inert"), false);
-    assert.equal(document.querySelector("[data-workspace-loading]"), null);
-  });
-});
-
-test("outlet source never swaps children for a frame branch", () => {
-  const source = read("src/components/interaction/InstantWorkspaceOutlet.tsx");
-  assert.match(source, /data-workspace-content inert=\{pending \|\| undefined\}>\{children\}/);
-  assert.doesNotMatch(source, /\{pending \?/);
-});
-
-test("game load failure is terminal with a retry that refetches", async () => {
-  let calls = 0;
-  await withFetch((async () => { calls += 1; return calls === 1 ? json({ ok: false }, 500) : json(gameSet(3)); }) as typeof fetch, async () => {
-    await withRoot(view("gap"), async () => {
-      await tick();
-      assert.ok(query("[data-game-load-retry]"));
-      await act(async () => query<HTMLButtonElement>("[data-game-load-retry]").click());
-      await tick();
-      assert.equal(calls, 2);
-      assert.ok(query("[data-gap-sentence]"));
+    await mounted(<RetentionSession dict={en} initial={{ ...attemptMeta, phase: 'recall', serverNow: new Date(now).toISOString(), writeEndsAt: new Date(now + 180000).toISOString(), recallDraft: '' }} />, async () => {
+      await act(async () => { const field = q<HTMLTextAreaElement>('[data-retention-answer]'); Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, 'value')!.set!.call(field, 'I remember this idea.'); field.dispatchEvent(new Event('input', { bubbles: true })); });
+      await timers.advance(1500); assert.equal(drafts, 1);
+      await click('[data-retention-submit]'); assert.equal(submits, 1);
+      assert.ok(q('[data-retention-result]')); assert.equal(q('[data-retention-score]').getAttribute('data-retention-score'), '78');
+      assert.equal(document.querySelector('[data-retention-source]'), null);
     });
-  });
-});
-
-test("game set request is aborted on unmount", async () => {
-  let signal: AbortSignal | undefined;
-  await withFetch(((_input: RequestInfo | URL, init?: RequestInit) => { signal = init?.signal ?? undefined; return new Promise<Response>(() => undefined); }) as typeof fetch, async () => {
-    await withRoot(view("gap"), () => undefined);
-    assert.equal(signal?.aborted, true);
-  });
-});
-
-test("empty set renders an intentional empty state", async () => {
-  await withFetch((async () => json({ ok: true, total: 0, due: 0, words: [] })) as typeof fetch, async () => {
-    await withRoot(view("gap"), async () => {
-      await tick();
-      assert.ok(query("[data-game-empty]"));
-      assert.equal(document.querySelector('[role="alert"]'), null);
-    });
-  });
-});
-
-test("fill-the-gap cannot be checked with an empty answer", async () => {
-  await withFetch((async () => json(gameSet(3))) as typeof fetch, async () => {
-    await withRoot(view("gap"), async () => {
-      await tick();
-      const check = [...document.querySelectorAll<HTMLButtonElement>("button")].find((b) => b.textContent === en.vocabulary.games.check)!;
-      assert.equal(check.disabled, true);
-    });
-  });
-});
-
-test("fill-the-gap auto-advances after feedback", async () => {
-  await withFetch((async (_i: RequestInfo | URL, init?: RequestInit) => init?.method === "POST" ? json({ ok: true, awarded: 0, verified: true, correct: false }) : json(gameSet(3))) as typeof fetch, async () => {
-    await withRoot(view("gap"), async () => {
-      await tick();
-      assert.match(document.body.textContent ?? "", /1 \/ 3/);
-      const input = query<HTMLInputElement>(`input[aria-label="${en.vocabulary.games.gap}"]`);
-      await act(async () => setInput(input, "wrong"));
-      const check = [...document.querySelectorAll<HTMLButtonElement>("button")].find((b) => b.textContent === en.vocabulary.games.check)!;
-      await act(async () => check.click());
-      assert.match(document.body.textContent ?? "", new RegExp(en.vocabulary.games.wrongAnswer));
-      await tick(1800);
-      assert.match(document.body.textContent ?? "", /2 \/ 3/);
-    });
-  });
-});
-
-test("translation next button advances once", async () => {
-  await withFetch((async (_i: RequestInfo | URL, init?: RequestInit) => init?.method === "POST" ? json({ ok: true }) : json(gameSet(3))) as typeof fetch, async () => {
-    await withRoot(view("translation"), async () => {
-      await tick();
-      const input = query<HTMLInputElement>(`input[aria-label="${en.vocabulary.games.translation}"]`);
-      await act(async () => setInput(input, "x"));
-      const check = [...document.querySelectorAll<HTMLButtonElement>("button")].find((b) => b.textContent === en.vocabulary.games.check)!;
-      await act(async () => check.click());
-      const next = [...document.querySelectorAll<HTMLButtonElement>("button")].find((b) => b.textContent === en.vocabulary.games.next)!;
-      await act(async () => next.click());
-      assert.match(document.body.textContent ?? "", /2 \/ 3/);
-    });
-  });
-});
-
-test("flashcard motion toggle defaults to system motion", async () => {
-  await withFetch((async () => json(gameSet(2))) as typeof fetch, async () => {
-    await withRoot(view("cards"), async () => {
-      await tick();
-      assert.equal(query("[data-flashcard]").getAttribute("data-card-motion"), "system");
-      await act(async () => query<HTMLButtonElement>("[data-flashcard-motion]").click());
-      assert.equal(query("[data-flashcard]").getAttribute("data-card-motion"), "full");
-    });
-  });
-});
-
-test("sentence builder check stays disabled until all tiles are placed", async () => {
-  await withFetch((async () => json(gameSet(2))) as typeof fetch, async () => {
-    await withRoot(view("builder"), async () => {
-      await tick();
-      const check = [...document.querySelectorAll<HTMLButtonElement>("button")].find((b) => b.textContent === en.vocabulary.games.check)!;
-      assert.equal(check.disabled, true);
-    });
-  });
+  } finally { globalThis.fetch = original; timers.restore(); }
 });

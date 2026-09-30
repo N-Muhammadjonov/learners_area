@@ -147,7 +147,7 @@ export function VocabBoardPanel({
         {!compact && awardsUnavailable && (
           <div className="flex flex-wrap items-center justify-between gap-2 border-t border-ink-100 pt-3 text-xs" role="alert" data-vocabulary-region-error="award-history">
             <span className="text-ink-500">{dict.errors.unknown}</span>
-            <button type="button" className="underline" disabled={awardsRetrying} aria-busy={awardsRetrying || undefined} onClick={() => void refreshAwards()} data-region-retry="award-history">{dict.errorPage.retry}</button>
+            <button type="button" className="btn-secondary " disabled={awardsRetrying} aria-busy={awardsRetrying || undefined} onClick={() => void refreshAwards()} data-region-retry="award-history">{dict.errorPage.retry}</button>
           </div>
         )}
         {!compact && awards.length > 0 && (
@@ -164,7 +164,7 @@ export function VocabBoardPanel({
           </div>
         )}
         {!compact && awards.length === 0 && !awardsUnavailable && status === "ready" && <p className="text-xs text-ink-300">{t.board.noRecent}</p>}
-        {status === "error" && <p className="text-xs text-band-bad" role="status">{dict.errors.unknown} <button type="button" className="underline" onClick={() => void refreshStanding()}>{dict.errorPage.retry}</button></p>}
+        {status === "error" && <p className="text-xs text-band-bad" role="status">{dict.errors.unknown} <button type="button" className="btn-secondary " onClick={() => void refreshStanding()}>{dict.errorPage.retry}</button></p>}
       </>}
     </div>
   );

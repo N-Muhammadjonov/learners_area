@@ -43,7 +43,7 @@ export default async function ListeningAttemptPage({ params }: { params: Promise
           <div className="mb-3 flex justify-end">
             <Link
               href={`/listening/attempts/${attempt.id}/revision`}
-              className="text-sm text-signal-600 hover:underline"
+              className="btn-secondary "
               data-revision-link
             >
               {dict.listening.revisionStudio} →

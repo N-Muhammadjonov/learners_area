@@ -44,7 +44,7 @@ export default async function ShadowingPage() {
             {dict.speakingShadowing.noScore} · {dict.speakingShadowing.privacy}
           </p>
         </div>
-        <Link href="/speaking" className="text-sm text-signal-600 hover:underline" data-shadowing-back>
+        <Link href="/speaking" className="btn-secondary " data-shadowing-back>
           {dict.speaking.title} →
         </Link>
       </div>
