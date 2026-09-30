@@ -302,7 +302,7 @@ const uz: Dictionary = {
     courseHeading: "Yo'l xaritangizdan",
     title: "TED / PODCAST",
     intro:
-      "Qisqa nutq, so'ng uning atrofidagi dars: ko'rishdan oldin taxmin qiling, markazning o'z savollariga javob bering va undan nima olganingizni yozing. Video dars faqat yo'l xaritasidagi darsi ochiq bo'lganda ochiladi.",
+      "Qisqa nutq, so'ng uning atrofidagi dars: ko'rishdan oldin taxmin qiling, markazning o'z savollariga javob bering va undan nima olganingizni yozing. Nashr etilgan mustaqil video darslar shu yerda ochiladi. Yo'l xaritasiga bog'langan videolar tegishli dars ochilganda ochiladi.",
     none: "Hozircha ochiq video dars yo'q.",
     open: "Darsni ochish",
   },
