@@ -60,6 +60,8 @@ export function ShellUtilities({ dict }: { dict: Dictionary }) {
   const [on, setOn] = useState(false);
   /** The utility stack starts collapsed: one launcher, not three floating controls. */
   const [open, setOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const launcherRef = useRef<HTMLButtonElement>(null);
   /**
    * Focus auto-entry bookkeeping, per attempt:
    *   - `announcedAttempt` is the attempt the learner is currently inside;
@@ -111,6 +113,22 @@ export function ShellUtilities({ dict }: { dict: Dictionary }) {
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
+
+  // A pointer press outside the utility stack collapses it. Presses inside
+  // (Focus, Coach, the report form) keep it open; focus returns to the launcher
+  // only if it was inside the stack, so typing elsewhere is never interrupted.
+  useEffect(() => {
+    if (!open) return;
+    function onPointerDown(event: PointerEvent) {
+      const container = containerRef.current;
+      if (!container || container.contains(event.target as Node)) return;
+      const hadFocus = container.contains(document.activeElement);
+      setOpen(false);
+      if (hadFocus) launcherRef.current?.focus();
+    }
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => document.removeEventListener("pointerdown", onPointerDown);
+  }, [open]);
 
   // Escape closes the stack as well as leaving Focus, and it must work even on a
   // route where Focus is not offered.
@@ -165,6 +183,7 @@ export function ShellUtilities({ dict }: { dict: Dictionary }) {
 
   return (
     <div
+      ref={containerRef}
       className="pointer-events-none fixed bottom-4 right-4 flex flex-col items-end gap-2"
       style={{ zIndex: "var(--z-sticky)" }}
       data-shell-utilities
@@ -216,6 +235,7 @@ export function ShellUtilities({ dict }: { dict: Dictionary }) {
       )}
       <button
         type="button"
+        ref={launcherRef}
         data-utilities-launcher
         aria-expanded={open}
         aria-controls="shell-utilities-panel"

@@ -498,3 +498,81 @@ test("FALSE POSITIVE: an entity or number alternative never fuzz-matches", () =>
   assert.equal(score("The flight carried 25 passengers.", rubric), 0);
   assert.equal(score("The flight carried 2500 passengers.", rubric), 0);
 });
+
+// --- v2 regressions: critical facts are never credited through an accepted phrase ---
+function oneClaim(groups: unknown[], acceptedPhrases: string[] = [], rejectPhrases: string[] = []): MeasurementStructureV1 {
+  return structure({ schemaVersion: 1, maxScore: 100, claims: [{ id: "fact", label: "Company founded in 1998 by two students", points: 100, scope: "sentence", groups, acceptedPhrases, rejectPhrases }] });
+}
+const numericPair = oneClaim([
+  { id: "subject", kind: "concept", points: 10, anyOf: ["company"] },
+  { id: "action", kind: "concept", points: 20, anyOf: ["started"] },
+  { id: "date", kind: "date", critical: true, points: 40, anyOf: ["1998"] },
+  { id: "people", kind: "number", critical: true, points: 30, anyOf: ["2"] },
+], ["two students started the company"]);
+
+test("v2: accepted phrase + wrong date + correct people number loses the date points", () => {
+  const claim = evaluateRecall("Two students started the company in 1989.", numericPair).breakdown.claims[0]!;
+  assert.equal(claim.awardedPoints, 60);
+  assert.deepEqual(claim.missingCriticalGroupIds, ["date"]);
+  assert.equal(claim.status, "partial");
+});
+
+test("v2: accepted phrase + correct date + wrong people number loses the people points", () => {
+  const claim = evaluateRecall("Three students started the company in 1998.", numericPair).breakdown.claims[0]!;
+  assert.ok(!claim.matchedGroupIds.includes("people"));
+  assert.equal(claim.awardedPoints, 70);
+});
+
+test("v2: legitimate accepted phrase with full critical evidence still scores 100", () => {
+  const result = evaluateRecall("Two students started the company in 1998.", numericPair);
+  assert.equal(result.score, 100);
+  assert.equal(result.breakdown.claims[0]!.status, "captured");
+});
+
+test("v2: accepted phrase cannot credit a wrong or missing critical entity", () => {
+  const entity = oneClaim([
+    { id: "subject", kind: "entity", critical: true, points: 40, anyOf: ["Acme"] },
+    { id: "action", kind: "concept", points: 60, anyOf: ["started"] },
+  ], ["company started"]);
+  const wrong = evaluateRecall("The Beta company started.", entity).breakdown.claims[0]!;
+  assert.equal(wrong.awardedPoints, 60);
+  assert.deepEqual(wrong.missingCriticalGroupIds, ["subject"]);
+  assert.equal(evaluateRecall("The Acme company started.", entity).score, 100);
+});
+
+test("v2: matched groups and awarded points stay consistent", () => {
+  const claim = evaluateRecall("Two students started the company in 1989.", numericPair).breakdown.claims[0]!;
+  const points: Record<string, number> = { subject: 10, action: 20, date: 40, people: 30 };
+  assert.equal(claim.matchedGroupIds.reduce((sum, id) => sum + points[id]!, 0), claim.awardedPoints);
+});
+
+const basicFact = oneClaim([
+  { id: "subject", kind: "concept", points: 40, anyOf: ["company"] },
+  { id: "date", kind: "date", critical: true, points: 60, anyOf: ["1998"] },
+]);
+
+test("v2: an unrelated denial does not negate a correctly remembered fact", () => {
+  const result = evaluateRecall("The company was founded in 1998. The weather report was not true.", basicFact);
+  assert.equal(result.score, 100);
+  assert.equal(result.breakdown.claims[0]!.status, "captured");
+});
+
+test("v2: a same-fact denial, in the sentence or referring back to it, still zeroes the claim", () => {
+  assert.equal(evaluateRecall("The company was founded in 1998, but that is not true.", basicFact).score, 0);
+  const referring = evaluateRecall("The company was founded in 1998. But this was not what happened.", basicFact);
+  assert.equal(referring.score, 0);
+  assert.equal(referring.breakdown.claims[0]!.status, "contradicted");
+});
+
+test("v2: answer-scoped claims apply denials per sentence too", () => {
+  const answerScoped = structure({ schemaVersion: 1, maxScore: 100, claims: [{ id: "fact", label: "The company was founded in 1998", points: 100, scope: "answer", groups: [
+    { id: "subject", kind: "concept", points: 40, anyOf: ["company"] },
+    { id: "date", kind: "date", critical: true, points: 60, anyOf: ["1998"] },
+  ], acceptedPhrases: [], rejectPhrases: [] }] });
+  assert.equal(evaluateRecall("The company was founded in 1998. The weather report was not true.", answerScoped).score, 100);
+  assert.equal(evaluateRecall("The company was founded in 1998. It was not true.", answerScoped).score, 0);
+});
+
+test("v2: evaluator version is bumped for newly graded attempts", () => {
+  assert.equal(RETENTION_EVALUATOR_VERSION, "retention-deterministic-v2");
+});

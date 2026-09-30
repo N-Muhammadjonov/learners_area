@@ -1,5 +1,5 @@
 import "server-only";
-import { and, desc, eq, inArray, sql } from "drizzle-orm";
+import { and, desc, eq, inArray, isNotNull, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import {
   retentionAttempts,
@@ -194,7 +194,17 @@ async function ensureRotationRow(
   await database
     .insert(retentionRotationState)
     .values({ userId, level, cycleNumber, updatedAt: new Date() })
-    .onConflictDoNothing({ target: [retentionRotationState.userId, retentionRotationState.level] });
+    // The allocation that opens a new cycle must PERSIST it; otherwise later
+    // starts keep reading cycle-1 completions and repeat texts early. Runs under
+    // the user+level advisory lock; GREATEST keeps the cycle monotonic and
+    // leaves lastCompletedTextId untouched.
+    .onConflictDoUpdate({
+      target: [retentionRotationState.userId, retentionRotationState.level],
+      set: {
+        cycleNumber: sql`greatest(${retentionRotationState.cycleNumber}, excluded.cycle_number)`,
+        updatedAt: new Date(),
+      },
+    });
 }
 
 async function loadRotationState(
@@ -464,8 +474,8 @@ export async function submitAttempt(
     throw new RetentionError("retention_invalid_input", "recall text too long");
   }
 
-  return timed("retention.submit", () =>
-    connection.transaction(async (tx) => {
+  const outcome = await timed("retention.submit", () =>
+    connection.transaction(async (tx): Promise<{ attempt: RetentionAttemptRecord; idempotent: boolean } | { scoringFailure: RetentionError }> => {
       const database = tx as unknown as RetentionBankDatabase;
       const [row] = await database
         .select(ATTEMPT_COLUMNS)
@@ -494,8 +504,12 @@ export async function submitAttempt(
         return { attempt: finalized, idempotent: false };
       }
 
-      // Inside the recall window the submitted text is the text of record; it is
-      // stored before scoring so a scoring failure can never lose it.
+      // Inside the recall window the submitted text is the text of record. It is
+      // written first, and finalization runs in a SAVEPOINT: if evaluation fails,
+      // only the finalization rolls back — the on-time recall is committed, the
+      // attempt stays non-terminal (no score 0 is invented, no rotation usage is
+      // consumed) and the honest error is raised after commit. A later retry, or
+      // the timeout path, grades exactly this persisted draft once.
       const recallText = typeof input.recallText === "string" ? input.recallText : record.recallText;
       if (recallText !== record.recallText) {
         await database
@@ -504,10 +518,18 @@ export async function submitAttempt(
           .where(eq(retentionAttempts.id, record.id));
       }
 
-      const finalized = await finalizeOn(database, { ...record, recallText }, now, "completed");
-      return { attempt: finalized, idempotent: false };
+      try {
+        const finalized = await database.transaction(async (savepoint) =>
+          finalizeOn(savepoint as unknown as RetentionBankDatabase, { ...record, recallText }, now, "completed"));
+        return { attempt: finalized, idempotent: false };
+      } catch (error) {
+        if (error instanceof RetentionError && error.code === "retention_scoring_failed") return { scoringFailure: error };
+        throw error;
+      }
     })
   );
+  if ("scoringFailure" in outcome) throw outcome.scoringFailure;
+  return outcome;
 }
 
 /** Explicit timeout sweep for one attempt; the resume path does this lazily. */
@@ -664,13 +686,51 @@ export async function getRetentionSummary(
   userId: string,
   connection: RetentionBankDatabase = db
 ): Promise<RetentionSummary> {
-  const rows = await connection
-    .select({ level: retentionAttempts.level, score: retentionAttempts.score })
+  // All-time metrics are SQL aggregates over every terminal scored attempt
+  // (bounded transfer: five grouped rows), never a newest-N window.
+  const scoredTerminal = and(
+    eq(retentionAttempts.userId, userId),
+    inArray(retentionAttempts.status, ["completed", "timed_out"]),
+    isNotNull(retentionAttempts.score)
+  );
+  const grouped = await connection
+    .select({
+      level: retentionAttempts.level,
+      attempts: sql<number>`count(*)::int`,
+      best: sql<number | null>`max(${retentionAttempts.score})::int`,
+      average: sql<number | null>`round(avg(${retentionAttempts.score}))::int`,
+    })
     .from(retentionAttempts)
-    .where(and(eq(retentionAttempts.userId, userId), inArray(retentionAttempts.status, ["completed", "timed_out"])))
+    .where(scoredTerminal)
+    .groupBy(retentionAttempts.level);
+  // The rolling average uses only the latest ten scored attempts.
+  const recent = await connection
+    .select({ score: retentionAttempts.score })
+    .from(retentionAttempts)
+    .where(scoredTerminal)
     .orderBy(desc(retentionAttempts.createdAt), desc(retentionAttempts.id))
-    .limit(500);
-  return summarizeScores(rows.map((row) => ({ level: row.level, score: row.score })));
+    .limit(10);
+
+  const levels: RetentionLevel[] = ["A2", "B1", "B2", "C1", "C2"];
+  const byLevel = new Map(grouped.map((row) => [row.level, row]));
+  const perLevel = levels.map((level) => {
+    const row = byLevel.get(level);
+    return {
+      level,
+      attempts: row ? Number(row.attempts) : 0,
+      bestScore: row?.best ?? null,
+      averageScore: row?.average ?? null,
+    };
+  });
+  const scores = recent.map((row) => row.score).filter((score): score is number => typeof score === "number");
+  const bests = perLevel.map((row) => row.bestScore).filter((score): score is number => typeof score === "number");
+  return {
+    completedCount: perLevel.reduce((sum, row) => sum + row.attempts, 0),
+    bestScore: bests.length > 0 ? Math.max(...bests) : null,
+    lastTenAverage: scores.length > 0 ? Math.round(scores.reduce((sum, score) => sum + score, 0) / scores.length) : null,
+    lastTenCount: scores.length,
+    perLevel,
+  };
 }
 
 export function phaseOf(record: RetentionAttemptRecord, now: Date): RetentionPhase {

@@ -12,8 +12,8 @@
  *   2. per claim, choose the evidence units its `scope` allows — one sentence at
  *      a time for `sentence`, the whole answer for `answer`;
  *   3. a reject phrase anywhere in those units contradicts the claim: 0 points;
- *   4. an accepted phrase inside one unit grants the claim in full, unless that
- *      unit carries a conflicting critical number/date;
+ *   4. an accepted phrase inside one unit grants every NON-critical group;
+ *      each critical group still needs its own authored value in that unit;
  *   5. otherwise every group is tested inside ONE unit, and the best single unit
  *      wins — unrelated sentences are never stitched together;
  *   6. a group counts once, however many of its alternatives appear;
@@ -80,23 +80,42 @@ type UnitVerdict = { score: number; matched: string[] };
 
 function scoreUnit(claim: MeasurementClaim, unit: string[]): UnitVerdict {
   const accepted = claim.acceptedPhrases.some((phrase) => phraseMatches(unit, phrase));
-  if (accepted && !hasCriticalNumericConflict(claim, unit)) {
-    // The author has declared this wording expresses the whole claim, so every
-    // group is credited — and the breakdown says exactly that.
-    return { score: claim.points, matched: claim.groups.map((group) => group.id) };
-  }
-
   const matched: string[] = [];
   let score = 0;
   for (const group of claim.groups) {
+    // An accepted phrase vouches for the ordinary wording of the claim, never
+    // for its critical facts: a critical number, date or entity is credited only
+    // when THIS unit actually carries one of its authored values (v2). One
+    // correct number can no longer neutralise a wrong date, and a wrong or
+    // missing entity cannot ride in on a broad phrase.
+    const viaPhrase = accepted && !group.critical && !hasCriticalNumericConflict(claim, unit);
     // A group is worth its configured points ONCE, however many of its
     // alternatives the learner used.
-    if (groupMatches(group, unit)) {
+    if (viaPhrase || groupMatches(group, unit)) {
       matched.push(group.id);
       score += group.points;
     }
   }
   return { score: Math.min(score, claim.points), matched };
+}
+
+/** Does this unit carry any evidence about the claim at all? */
+function unitRelevantTo(claim: MeasurementClaim, unit: string[]): boolean {
+  return claim.groups.some((group) => groupMatches(group, unit)) ||
+    claim.acceptedPhrases.some((phrase) => phraseMatches(unit, phrase));
+}
+
+const DENIAL_FILLER = new Set(["not", "never", "no", "but", "and", "so", "however", "what", "all", ",", "actually", "really", "at"]);
+
+/**
+ * A denial with no subject of its own ("But this was not what happened", "It
+ * was not true") refers back to the preceding sentence. Stopwords (this/it/that)
+ * are already removed by normalisation, so the test is: after removing the
+ * negation, the disclaimer word and connective filler, nothing is left. "The
+ * weather report was not true" keeps "weather report" and is about something else.
+ */
+function denialIsAnaphoric(unit: string[]): boolean {
+  return unit.every((token) => DENIAL_FILLER.has(token) || DISCLAIMER_PREFIXES.some((prefix) => token.startsWith(prefix)));
 }
 
 /**
@@ -130,11 +149,19 @@ function statusFor(awarded: number, possible: number): RetentionClaimStatus {
   return "missed";
 }
 
-export function evaluateClaim(claim: MeasurementClaim, units: string[][]): RetentionClaimResult {
-  const contradicted = units.some(
-    (unit) =>
-      unitDisclaimsMeaning(unit) || claim.rejectPhrases.some((phrase) => phraseMatches(unit, phrase))
-  );
+export function evaluateClaim(claim: MeasurementClaim, units: string[][], sentenceUnits: string[][] = units): RetentionClaimResult {
+  // Denials are claim-local (v2): a disclaimer contradicts this claim only when
+  // it sits in a sentence that carries evidence for the claim, or refers back
+  // ("this/that/it was not true") to the immediately preceding relevant
+  // sentence. An unrelated "the weather report was not true" no longer zeroes
+  // a correctly remembered fact.
+  const disclaimed = sentenceUnits.some((unit, index) =>
+    unitDisclaimsMeaning(unit) && (
+      unitRelevantTo(claim, unit) ||
+      (index > 0 && denialIsAnaphoric(unit) && unitRelevantTo(claim, sentenceUnits[index - 1]!))
+    ));
+  const contradicted = disclaimed ||
+    units.some((unit) => claim.rejectPhrases.some((phrase) => phraseMatches(unit, phrase)));
 
   if (contradicted) {
     return {
@@ -180,7 +207,7 @@ export function evaluateRecall(recallText: string, structure: MeasurementStructu
   const wholeAnswer = unitTokens(recallText);
 
   const claims = structure.claims.map((claim) =>
-    evaluateClaim(claim, claim.scope === "sentence" ? sentenceUnits : [wholeAnswer])
+    evaluateClaim(claim, claim.scope === "sentence" ? sentenceUnits : [wholeAnswer], sentenceUnits)
   );
 
   const score = claims.reduce((sum, claim) => sum + claim.awardedPoints, 0);

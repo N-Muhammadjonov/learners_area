@@ -78,7 +78,7 @@ const uz: Dictionary = {
     typesPractice: "Shu turdagi passa'larni ko'rish",
     typesEmpty: "Hozircha savol turlari bo'yicha ma'lumot yo'q.",
     retentionTitle: "Retention — o'qib eslab qolish",
-    retentionBody: "Bir matnni 4 daqiqada o'qing, keyin uni eslab qolganingizni tekshiring.",
+    retentionBody: "Bir matnni 2 daqiqa o'qing, keyin eslab qolganingizni 3 daqiqada yozing va 100 ballik xotira natijasini oling.",
     retentionAction: "Retention rejimini boshlash",
   },
 
@@ -398,7 +398,7 @@ const uz: Dictionary = {
     streak: "Kunlik seriya",
     continueLearning: "To'xtagan joyingizdan davom eting",
     recentFeedback: "So'nggi writing fikr-mulohazasi",
-    retentionDrillHint: "Matnni bir marta o'qing, yopib qo'ying va eslab qolganingizni yozing — to'rt daqiqa, test yo'q.",
+    retentionDrillHint: "Matnni 2 daqiqa o'qing, u yopiladi, so'ng eslab qolganingizni 3 daqiqada yozing — grammatika emas, eslab qolingan fikrlar 100 ballik tizimda baholanadi.",
     retentionDrillAction: "Mashqni boshlash",
     vocabDue: "Takrorlash vaqti kelgan so'zlar",
     skillSummary: "Ko'nikmalar xulosasi",

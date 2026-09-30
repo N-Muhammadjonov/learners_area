@@ -76,7 +76,7 @@ const en = {
     typesPractice: "Show passages with this type",
     typesEmpty: "No question-type data yet.",
     retentionTitle: "Retention — read and remember",
-    retentionBody: "Read one text in four minutes, then check what you actually remember.",
+    retentionBody: "Read one text for 2 minutes, then write what you remember in 3 minutes and get a memory score out of 100.",
     retentionAction: "Start Retention mode",
   },
 
@@ -396,7 +396,7 @@ const en = {
     streak: "Day streak",
     continueLearning: "Continue where you left off",
     recentFeedback: "Latest writing feedback",
-    retentionDrillHint: "Read a text once, cover it, then write down what you kept — four minutes, no test.",
+    retentionDrillHint: "Read a text for 2 minutes, it disappears, then write what you kept in 3 minutes — scored out of 100 on remembered ideas, not grammar.",
     retentionDrillAction: "Start the drill",
     vocabDue: "Vocabulary due for review",
     skillSummary: "Skill summary",
