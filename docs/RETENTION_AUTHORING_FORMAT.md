@@ -146,12 +146,167 @@ regular expressions, no formulas and no callbacks. It is data the scorer reads.
 | `scope` | `sentence` (credit inside ONE sentence) or `answer` (credit may come from different sentences) |
 | `kind` | `concept`, `entity`, `number` or `date` |
 | `critical` | optional; a missing or contradicted critical group marks the claim as not fully remembered |
-| `acceptedPhrases` | optional; if one of these appears, the claim receives its full points unless a critical number/entity conflicts |
+| `acceptedPhrases` | optional; if one of these appears in a unit, that unit earns every **non-critical** group. Each `critical` group still needs one of its own authored values in the same unit (since evaluator v2), so a broad phrase can never stand in for a date, number or name |
 | `rejectPhrases` | optional; if one of these appears in the claim's evidence, the claim scores **0** and is shown as contradicted |
 
 A single outer Markdown code fence around the JSON is tolerated when pasting.
 Anything else — prose, comments, trailing commas — is refused by the validator
 with the exact reason.
+
+---
+
+### More complete pairs (lower and higher level)
+
+These are documentation fixtures, not bank content: they show the format at the
+bottom and near the top of the level range. Every pair in this document is
+executed by the production word counter, validator and scorer in
+`tests/retention-authoring-docs.test.ts`.
+
+#### A2 pair (121 words, range 100–125)
+
+<!-- retention-pair:A2:start -->
+```text
+Mira lives in a small town near the sea. Every Saturday morning she walks to the market with her grandfather. The walk takes twenty minutes, and they always stop at the old bridge to watch the boats. At the market, her grandfather buys fish, bread and green apples. Mira carries the apples in a blue bag. Last Saturday it started to rain, so they waited in a café for one hour. The owner gave Mira a cup of hot chocolate and did not ask for money. When the rain stopped, they walked home along the beach. Mira found a white shell and put it in her pocket. At home, she gave the shell to her little brother, who was very happy.
+```
+
+```json
+{
+  "schemaVersion": 1,
+  "maxScore": 100,
+  "claims": [
+    {
+      "id": "market-walk",
+      "label": "Every Saturday Mira walks to the market with her grandfather.",
+      "points": 25,
+      "scope": "sentence",
+      "groups": [
+        { "id": "grandfather", "points": 10, "kind": "entity", "anyOf": ["grandfather", "grandpa", "granddad"], "critical": true },
+        { "id": "market", "points": 10, "kind": "concept", "anyOf": ["market", "shop", "shopping"] },
+        { "id": "saturday", "points": 5, "kind": "date", "anyOf": ["saturday", "saturdays", "weekend"] }
+      ],
+      "acceptedPhrases": ["goes shopping with her grandfather"],
+      "rejectPhrases": ["walks with her grandmother"]
+    },
+    {
+      "id": "shopping",
+      "label": "Her grandfather buys fish, bread and green apples.",
+      "points": 20,
+      "scope": "sentence",
+      "groups": [
+        { "id": "fish", "points": 7, "kind": "concept", "anyOf": ["fish"] },
+        { "id": "bread", "points": 6, "kind": "concept", "anyOf": ["bread"] },
+        { "id": "apples", "points": 7, "kind": "concept", "anyOf": ["apples", "apple", "green apples"] }
+      ],
+      "rejectPhrases": ["red apples"]
+    },
+    {
+      "id": "rain-cafe",
+      "label": "When it rained they waited in a café for one hour and Mira got free hot chocolate.",
+      "points": 35,
+      "scope": "answer",
+      "groups": [
+        { "id": "rain", "points": 10, "kind": "concept", "anyOf": ["rain", "rained", "raining"], "critical": true },
+        { "id": "cafe", "points": 10, "kind": "concept", "anyOf": ["cafe", "café", "coffee shop"] },
+        { "id": "hour", "points": 5, "kind": "number", "anyOf": ["one hour", "an hour", "1 hour"] },
+        { "id": "chocolate", "points": 10, "kind": "concept", "anyOf": ["hot chocolate", "chocolate", "cocoa"] }
+      ],
+      "rejectPhrases": ["paid for the hot chocolate"]
+    },
+    {
+      "id": "shell",
+      "label": "On the beach Mira found a white shell and gave it to her little brother.",
+      "points": 20,
+      "scope": "sentence",
+      "groups": [
+        { "id": "shell", "points": 10, "kind": "concept", "anyOf": ["shell", "seashell"], "critical": true },
+        { "id": "brother", "points": 10, "kind": "entity", "anyOf": ["brother", "little brother"] }
+      ],
+      "rejectPhrases": ["gave the shell to her sister"]
+    }
+  ]
+}
+```
+<!-- retention-pair:A2:end -->
+
+#### C1 pair (291 words, range 280–330)
+
+<!-- retention-pair:C1:start -->
+```text
+In 1854, a cholera outbreak struck the Soho district of London, killing more than five hundred people in ten days. At the time, most doctors believed that the disease spread through bad air, a theory known as miasma. John Snow, a physician who had studied earlier outbreaks, doubted this explanation. He suspected that cholera was carried by contaminated water rather than by smells rising from rubbish and sewers.
+
+To test his idea, Snow did not rely on laboratory experiments, which could not yet identify the cause. Instead, he interviewed families and recorded where each victim had lived. When he marked the deaths on a street map, a clear pattern appeared: the cases were concentrated around a single public water pump on Broad Street. Several details strengthened his argument. Workers at a nearby brewery, who drank beer supplied by the brewery's own well, largely escaped the illness. In contrast, a woman who lived far away but preferred the taste of Broad Street water had it delivered to her home, and she died. Snow also compared households supplied by two water companies, one of which took its water from a part of the Thames polluted by sewage, and found far higher death rates among that company's customers.
+
+Snow presented his evidence to the local authorities, who agreed to remove the handle of the pump. New cases were already declining by then, so the action alone did not end the outbreak, and critics used this fact against him. Nevertheless, his map became one of the most famous examples of using data to explain a public health problem. Decades later, after scientists identified the bacterium responsible, his conclusion about water was widely accepted, and he is now often described as a founder of modern epidemiology.
+```
+
+```json
+{
+  "schemaVersion": 1,
+  "maxScore": 100,
+  "claims": [
+    {
+      "id": "outbreak",
+      "label": "In 1854 a cholera outbreak in Soho, London killed more than 500 people in ten days.",
+      "points": 20,
+      "scope": "sentence",
+      "groups": [
+        { "id": "cholera", "points": 6, "kind": "concept", "anyOf": ["cholera"], "critical": true },
+        { "id": "year", "points": 6, "kind": "date", "anyOf": ["1854"], "critical": true },
+        { "id": "place", "points": 4, "kind": "entity", "anyOf": ["soho", "london"] },
+        { "id": "deaths", "points": 4, "kind": "number", "anyOf": ["500", "five hundred"] }
+      ],
+      "rejectPhrases": ["cholera outbreak in paris"]
+    },
+    {
+      "id": "miasma",
+      "label": "Most doctors believed the disease spread through bad air (miasma).",
+      "points": 15,
+      "scope": "sentence",
+      "groups": [
+        { "id": "doctors", "points": 5, "kind": "concept", "anyOf": ["doctors", "physicians", "experts"] },
+        { "id": "air", "points": 10, "kind": "concept", "anyOf": ["bad air", "miasma", "smells", "polluted air"], "critical": true }
+      ],
+      "acceptedPhrases": ["miasma theory"],
+      "rejectPhrases": ["doctors already knew it was the water"]
+    },
+    {
+      "id": "water-hypothesis",
+      "label": "John Snow suspected cholera was carried by contaminated water.",
+      "points": 20,
+      "scope": "sentence",
+      "groups": [
+        { "id": "snow", "points": 8, "kind": "entity", "anyOf": ["john snow", "snow"], "critical": true },
+        { "id": "water", "points": 12, "kind": "concept", "anyOf": ["water", "contaminated water", "dirty water"], "critical": true }
+      ],
+      "rejectPhrases": ["snow blamed the air"]
+    },
+    {
+      "id": "map-pump",
+      "label": "Snow mapped the deaths and found them clustered around the Broad Street pump.",
+      "points": 25,
+      "scope": "answer",
+      "groups": [
+        { "id": "map", "points": 8, "kind": "concept", "anyOf": ["map", "mapped", "marked on a map"] },
+        { "id": "pump", "points": 10, "kind": "concept", "anyOf": ["pump", "water pump"], "critical": true },
+        { "id": "broad-street", "points": 7, "kind": "entity", "anyOf": ["broad street"] }
+      ],
+      "rejectPhrases": ["the deaths were spread evenly"]
+    },
+    {
+      "id": "handle-legacy",
+      "label": "The pump handle was removed; the map became a famous example and Snow a founder of epidemiology.",
+      "points": 20,
+      "scope": "answer",
+      "groups": [
+        { "id": "handle", "points": 10, "kind": "concept", "anyOf": ["handle", "removed the pump", "closed the pump"] },
+        { "id": "epidemiology", "points": 10, "kind": "concept", "anyOf": ["epidemiology", "public health", "founder"] }
+      ],
+      "rejectPhrases": ["removing the handle ended the outbreak immediately"]
+    }
+  ]
+}
+```
+<!-- retention-pair:C1:end -->
 
 ---
 
@@ -168,10 +323,23 @@ with the exact reason.
    credit for a negated fact, for a fact that appears only inside a denial
    ("this was not what happened"), for the wrong number, and for the wrong date.
    A missing point is recoverable; a wrong point teaches the wrong thing.
+   A denial only removes a claim when it is **about that claim**: either it
+   carries the claim's own wording (a concept/entity group or accepted phrase),
+   or it has no subject of its own and follows the claim ("It was not true").
+   Sharing a single date or number is not enough — "The weather report for 1998
+   was not true" does not cancel "The company was founded in 1998" (evaluator
+   v3, `retention-deterministic-v3`).
 4. **Safe typo tolerance** applies only to `concept` groups that are not
    `critical`: a word of 1–4 letters must match exactly; 5–8 letters allow one
    edit; 9 or more allow two. Names, numbers and dates are never fuzzy-matched.
-5. **Score = the sum of the awarded claim points**, an integer from 0 to 100. It
+5. **Grammar is not scored.** Spelling of ordinary words (within the typo
+   tolerance), articles, word order and tense carry no Retention points; the
+   score measures remembered ideas only.
+6. **Limits of a deterministic scorer.** The server matches authored evidence;
+   it cannot prove in general that a learner's sentence is semantically true.
+   Good structures therefore list real paraphrases, mark the facts that must
+   be exact as `critical`, and add `rejectPhrases` for the likely wrong versions.
+7. **Score = the sum of the awarded claim points**, an integer from 0 to 100. It
    is stored with the claim-by-claim breakdown, so the result screen can show the
    learner which ideas they kept without ever exposing the rubric.
 
@@ -180,6 +348,16 @@ the save calls and reports the word count, the point total and any structural
 problem. When the panel says **Ready to save**, the server will accept the text.
 
 ---
+
+### Evaluator versions
+
+Every scored attempt stores the evaluator version that graded it. Fixes to the
+scorer ship as a new version for **newly graded** attempts only; existing
+terminal results and breakdowns are never re-graded or rewritten. History:
+`retention-deterministic-v1` (launch), `-v2` (critical groups need their own
+evidence; accepted phrases credit only non-critical groups; disclaimers must be
+about the claim), `-v3` (a shared date/number alone does not make an unrelated
+denial about the claim).
 
 ## Editing and deleting
 

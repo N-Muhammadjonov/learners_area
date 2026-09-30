@@ -60,3 +60,21 @@ the owner tests the exact Preview SHA. Nothing here is `OWNER-VERIFIED`.
 | Admin/Management screens could be dead ends | Every `/management`, `/admin`, `/teacher` and `/owner` screen resolves to a crumb, nested screens resolve to a non-self parent, and the materials editor is now linked from Management | `management-back-navigation` 5/5 | ARENA-VERIFIED (route table + filesystem walk) |
 | TED / PODCAST appeared as a Reading tab | Reading tabs are academic / general / types / retention; the Reading dictionary ships no video identity and the hub renders no videos placeholder | `part1-ux-closure`, `part1-interaction-closure` | ARENA-VERIFIED (source) |
 | Retention learner and Management flows were not verified end to end | Authoring (add/change/archive/restore, version immutability), allocation/rotation, resume-after-refresh, recall-only draft autosave, owner-scoped history, assigned-version scoring, lazy timeout, usage counters and learner metrics are covered against a real PostgreSQL | `retention-data-db` 17, `retention-api-contract` 11, `retention-*` suites | ARENA-VERIFIED at data/route-contract level; the REAL browser walkthrough (Management → Reading → Retention → level → Add text → validation → Save; learner level → Start → 2:00 reading → transition → source disappears → 3:00 recall → autosave → submit → result → history → next rotation; refresh mid-phase; draft restore; early/late submit) EXTERNALLY UNVERIFIED |
+
+## 2026-09-30 audit corrections (supersede the rows above where they conflict)
+
+The rows above are kept as dated history. Where they overstated the state at
+the time, the corrected current position is:
+
+| Earlier claim | What was actually true | Current change | Status |
+|---|---|---|---|
+| "Standalone `/video-lessons` module" | Every video still needed a roadmap lesson (`lesson_id NOT NULL`), the form showed nothing with zero lessons, and Open went to `/courses/.../lessons/...` | Migration 0024 makes `lesson_id` nullable and adds `transcript_text`; standalone items are authored without a lesson and open at `/video-lessons/:id`; legacy course-linked videos are unchanged | Source + migration + PGlite ARENA-VERIFIED; browser authoring/publish/open UNVERIFIED |
+| "Transcript optional" | A plain paragraph transcript was silently dropped (only `0:12 …` lines parsed) | Plain paragraphs are saved and revealed; timed lines stay timed; mixed input is refused with the line numbers | Source + unit tests; browser reveal UNVERIFIED |
+| Rotation "covered" | Cycle number did not persist beyond cycle 2 (1,1,1,2,2,2,2) | Rotation state advances with the assigned cycle; three-cycle, one-text and archive tests | PGlite ARENA-VERIFIED; real concurrent DB UNVERIFIED |
+| Learner metrics "covered" | Totals were computed from the newest 500 attempts | SQL aggregates over all terminal scored attempts | PGlite ARENA-VERIFIED |
+| Durable result | Scoring failure rolled back the recall; a finished result could not be reopened after refresh | Recall persists on scoring failure; owner-scoped `/reading/retention/results/:id`; history links; summary refresh on terminal success | Local tests; browser UNVERIFIED |
+| Bank management | Only 50 texts listed; sorting happened after truncation | SQL-sorted paging with total/page links, row preview/status, accessible row menu | PGlite + JSDOM; browser UNVERIFIED |
+
+PGlite runs on a single connection, so sequential PGlite checks are not
+evidence of multi-connection concurrency safety; the 24 external-DB gates stay
+open until an isolated QA PostgreSQL is available.
