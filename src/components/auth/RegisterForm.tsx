@@ -19,6 +19,7 @@ export function RegisterForm({
 }) {
   const router = useRouter();
   const [name, setName] = useState("");
+  const [gender, setGender] = useState<"" | "male" | "female">("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -32,7 +33,7 @@ export function RegisterForm({
       // `requestJson` never throws: a dropped connection and a non-JSON error page
       // both come back as a value, so the button always leaves its loading state.
       const result = await requestJson<{ accountStatus?: string }>("/api/auth/register", {
-        body: { name, email, password },
+        body: { name, email, password, gender },
       });
       if (!result.ok) {
         setError(
@@ -59,6 +60,21 @@ export function RegisterForm({
       <div>
         <Label htmlFor="name">{dict.auth.name}</Label>
         <Input id="name" required value={name} onChange={(e) => setName(e.target.value)} />
+      </div>
+      <div>
+        <Label htmlFor="gender">{dict.auth.gender}</Label>
+        <select
+          id="gender"
+          name="gender"
+          className="input w-full"
+          required
+          value={gender}
+          onChange={(event) => setGender(event.target.value as "" | "male" | "female")}
+        >
+          <option value="" disabled>{dict.auth.chooseGender}</option>
+          <option value="male">{dict.auth.genderMale}</option>
+          <option value="female">{dict.auth.genderFemale}</option>
+        </select>
       </div>
       <div>
         <Label htmlFor="email">{dict.auth.email}</Label>

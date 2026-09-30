@@ -1,13 +1,28 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n/en";
-import { ACCOUNT_STATUS_LABELS, type AccountStatus } from "@/lib/auth/account-status";
-import { ROLE_LABELS, type Role } from "@/lib/auth/roles";
+import { ACCOUNT_STATUSES, ACCOUNT_STATUS_LABELS, type AccountStatus } from "@/lib/auth/account-status";
+import { ROLES, ROLE_LABELS, type Role } from "@/lib/auth/roles";
 import type { PersonRow } from "@/lib/data/people";
 import type { Locale } from "@/lib/i18n";
+import { Label } from "@/components/ui/Input";
 import { ConfirmAction, ConfirmSelect } from "@/components/interaction/InteractionPrimitives";
+
+function peoplePageHref(
+  filters: { q: string; role?: Role; status?: AccountStatus },
+  page: number,
+): string {
+  const params = new URLSearchParams();
+  if (filters.q) params.set("q", filters.q);
+  if (filters.role) params.set("role", filters.role);
+  if (filters.status) params.set("status", filters.status);
+  if (page > 1) params.set("page", String(page));
+  const query = params.toString();
+  return query ? `/admin/people?${query}` : "/admin/people";
+}
 
 /**
  * Role and status controls for one person.
@@ -20,13 +35,23 @@ export function PeopleTable({
   dict,
   locale,
   people,
+  filters,
+  page,
+  pageSize,
+  total,
+  totalPages,
   actorId,
   actorRole,
   grantableRoles,
 }: {
   dict: Dictionary;
-  locale: "uz" | "en";
+  locale: Locale;
   people: PersonRow[];
+  filters: { q: string; role?: Role; status?: AccountStatus };
+  page: number;
+  pageSize: number;
+  total: number;
+  totalPages: number;
   actorId: string;
   actorRole: Role;
   grantableRoles: Role[];
@@ -37,6 +62,10 @@ export function PeopleTable({
   const [error, setError] = useState<string | null>(null);
   const [pendingStatusId, setPendingStatusId] = useState<string | null>(null);
   const [reason, setReason] = useState("");
+  const rangeLabel = t.showingRange
+    .replace("{start}", String(total === 0 ? 0 : (page - 1) * pageSize + 1))
+    .replace("{end}", String(Math.min(page * pageSize, total)))
+    .replace("{total}", String(total));
 
   async function changeRole(person: PersonRow, role: Role): Promise<void> {
     setBusyId(person.id);
@@ -90,6 +119,44 @@ export function PeopleTable({
     <div className="flex flex-col gap-3">
       {error && <p className="text-xs text-band-bad">{error}</p>}
 
+      <form action="/admin/people" method="get" className="panel flex flex-wrap items-end gap-3" data-people-search-form>
+        <div className="min-w-[min(100%,16rem)] flex-1">
+          <Label htmlFor="people-search">{t.searchLabel}</Label>
+          <input
+            id="people-search"
+            name="q"
+            type="search"
+            autoComplete="off"
+            maxLength={100}
+            defaultValue={filters.q}
+            placeholder={t.searchPlaceholder}
+            className="input w-full"
+          />
+        </div>
+        <div className="min-w-[9rem] flex-1 sm:flex-none">
+          <Label htmlFor="people-role">{t.role}</Label>
+          <select id="people-role" name="role" className="input w-full" defaultValue={filters.role ?? ""}>
+            <option value="">{t.allRoles}</option>
+            {ROLES.map((role) => <option key={role} value={role}>{ROLE_LABELS[role][locale]}</option>)}
+          </select>
+        </div>
+        <div className="min-w-[9rem] flex-1 sm:flex-none">
+          <Label htmlFor="people-status">{t.status}</Label>
+          <select id="people-status" name="status" className="input w-full" defaultValue={filters.status ?? ""}>
+            <option value="">{t.allStatuses}</option>
+            {ACCOUNT_STATUSES.map((status) => (
+              <option key={status} value={status}>{ACCOUNT_STATUS_LABELS[status][locale]}</option>
+            ))}
+          </select>
+        </div>
+        <button type="submit" className="btn-primary">{t.searchAction}</button>
+        <Link href="/admin/people" className="btn-secondary">{t.clearFilters}</Link>
+      </form>
+
+      <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-ink-500" aria-live="polite">
+        <span>{t.resultsCount.replace("{count}", String(total))}</span>
+        <span>{rangeLabel}</span>
+      </div>
       {/* Desktop: a real table. Below md it becomes one card per person, so no
           column is ever clipped or scrolled sideways. */}
       <div className="hidden overflow-x-auto md:block">
@@ -104,7 +171,13 @@ export function PeopleTable({
             </tr>
           </thead>
           <tbody>
-            {people.map((person) => (
+            {people.length === 0 ? (
+              <tr>
+                <td colSpan={5} className="py-8 text-center text-sm text-ink-500" data-people-empty>
+                  {t.noResults}
+                </td>
+              </tr>
+            ) : people.map((person) => (
               <tr
                 key={person.id}
                 className="border-b border-ink-100/70 last:border-0"
@@ -162,7 +235,9 @@ export function PeopleTable({
       </div>
 
       <div className="flex flex-col gap-3 md:hidden">
-        {people.map((person) => (
+        {people.length === 0 ? (
+          <p className="card text-sm text-ink-500" data-people-empty>{t.noResults}</p>
+        ) : people.map((person) => (
           <div
             key={person.id}
             className="card flex flex-col gap-2 p-4"
@@ -208,6 +283,25 @@ export function PeopleTable({
           </div>
         ))}
       </div>
+      {totalPages > 1 && (
+        <nav className="flex flex-wrap items-center justify-between gap-3" aria-label={t.title} data-people-pagination>
+          <span className="text-sm text-ink-500">
+            {t.pageOf.replace("{page}", String(page)).replace("{total}", String(totalPages))}
+          </span>
+          <div className="flex gap-2">
+            {page > 1 && (
+              <Link href={peoplePageHref(filters, page - 1)} className="btn-secondary">
+                {t.previousPage}
+              </Link>
+            )}
+            {page < totalPages && (
+              <Link href={peoplePageHref(filters, page + 1)} className="btn-secondary">
+                {t.nextPage}
+              </Link>
+            )}
+          </div>
+        </nav>
+      )}
     </div>
   );
 }

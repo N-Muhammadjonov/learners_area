@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Input, Label, FieldError } from "@/components/ui/Input";
@@ -47,6 +48,9 @@ export function ResetConfirmForm({ dict }: { dict: Dictionary }) {
       <Button type="submit" disabled={pending || !token}>
         {pending ? dict.common.loading : dict.auth.resetConfirmCta}
       </Button>
+      <Link href="/login" className="text-center text-sm font-medium text-signal-700 underline underline-offset-2">
+        {dict.auth.loginCta}
+      </Link>
     </form>
   );
 }

@@ -92,6 +92,14 @@ export function ProfileMenu({
             </p>
           </div>
           <div className="p-1.5">
+            <Link
+              href="/profile"
+              role="menuitem"
+              onClick={() => setOpen(false)}
+              className="flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900"
+            >
+              {dict.nav.profile}
+            </Link>
             {isStaff(role) && (
               <Link
                 href="/management"

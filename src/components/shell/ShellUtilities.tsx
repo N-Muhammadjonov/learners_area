@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n/en";
 import { FOCUS_STORAGE_KEY } from "@/lib/theme";
 import { isManagementRoute } from "./Sidebar";
 import { ReportProblem } from "@/components/support/ReportProblem";
-import { IconClose, IconTarget } from "@/components/ui/icons";
+import { IconClose, IconSparkles, IconTarget } from "@/components/ui/icons";
 
 export { FOCUS_STORAGE_KEY };
 
@@ -120,6 +121,16 @@ export function ShellUtilities({ dict }: { dict: Dictionary }) {
           {on ? <IconClose className="text-[18px]" /> : <IconTarget className="text-[18px]" />}
           <span className="hidden sm:inline">{on ? dict.focus.exit : dict.focus.enter}</span>
         </button>
+      )}
+      {pathname !== "/coach" && (
+        <Link
+          href="/coach"
+          data-coach-fab
+          className="pointer-events-auto flex min-h-[46px] items-center gap-2 rounded-full border border-gold/45 bg-paper-raised px-4 text-[0.9375rem] font-medium text-ink-700 shadow-card transition-colors hover:bg-paper-sunken hover:text-ink-900"
+        >
+          <IconSparkles className="text-[18px] text-gold" />
+          <span>{dict.nav.coach}</span>
+        </Link>
       )}
       <div className="pointer-events-auto max-w-[min(22rem,calc(100vw-2rem))]">
         <ReportProblem dict={dict} floating />

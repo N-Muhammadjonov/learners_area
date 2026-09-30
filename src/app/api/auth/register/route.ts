@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
   if (!parsed.success) {
     return NextResponse.json({ error: parsed.error.issues[0]?.message ?? "Invalid input" }, { status: 400 });
   }
-  const { name, email, password } = parsed.data;
+  const { name, email, password, gender } = parsed.data;
 
   // A deployment whose database has not been migrated answers 503 with a fixed
   // code instead of an opaque 500. The driver's own message is logged, never
@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
 
     const [user] = await db
       .insert(users)
-      .values({ name, email, passwordHash, role: "student", locale })
+      .values({ name, gender, email, passwordHash, role: "student", locale })
       .returning();
 
     if (!user) {

@@ -1,8 +1,9 @@
 import "server-only";
-import { desc, eq, sql } from "drizzle-orm";
+import { and, desc, eq, ilike, or, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { users } from "@/db/schema";
 import type { Role } from "@/lib/auth/roles";
+import type { AccountStatus } from "@/lib/auth/account-status";
 
 /**
  * The people directory used by the administrator and owner consoles.
@@ -17,12 +18,22 @@ export type PersonRow = {
   name: string;
   email: string | null;
   role: Role;
-  accountStatus: "pending" | "active" | "rejected" | "suspended";
+  accountStatus: AccountStatus;
   statusReason: string | null;
   createdAt: Date;
   lastActiveAt: Date;
   telegramLinked: boolean;
 };
+
+export type PeopleFilters = {
+  q?: string;
+  role?: Role;
+  status?: AccountStatus;
+  page?: number;
+};
+
+export const PEOPLE_PAGE_SIZE = 25;
+const MAX_PEOPLE_PAGE = 100_000;
 
 const columns = {
   id: users.id,
@@ -41,7 +52,7 @@ function shape(row: {
   name: string;
   email: string | null;
   role: Role;
-  accountStatus: PersonRow["accountStatus"];
+  accountStatus: AccountStatus;
   statusReason: string | null;
   createdAt: Date;
   lastActiveAt: Date;
@@ -51,16 +62,67 @@ function shape(row: {
   return { ...rest, telegramLinked: Boolean(telegramId) };
 }
 
-export async function listPeople(filter?: { role?: Role; status?: PersonRow["accountStatus"] }) {
-  const rows = await db
+function safeQuery(value: string | undefined): string {
+  return (value ?? "").trim().slice(0, 100);
+}
+
+function escapedContainsPattern(query: string): string {
+  const escaped = query.replace(/[%_\\]/g, (character) => `\\${character}`);
+  return `%${escaped}%`;
+}
+
+/** Shared parameterized predicate for both the count and bounded page queries. */
+export function buildPeopleWhere(filters: PeopleFilters = {}) {
+  const query = safeQuery(filters.q);
+  return and(
+    filters.role ? eq(users.role, filters.role) : undefined,
+    filters.status ? eq(users.accountStatus, filters.status) : undefined,
+    query
+      ? or(
+          ilike(users.name, escapedContainsPattern(query)),
+          ilike(users.email, escapedContainsPattern(query)),
+        )
+      : undefined,
+  );
+}
+
+/** Exposed as a query-contract seam so tests compile SQL without a database. */
+export function buildPeopleListQuery(filters: PeopleFilters = {}, page = 1) {
+  const safePage = Math.min(MAX_PEOPLE_PAGE, Math.max(1, Math.floor(page) || 1));
+  return db
     .select(columns)
     .from(users)
-    .orderBy(desc(users.createdAt))
-    .limit(200);
-  return rows
-    .map(shape)
-    .filter((row) => (filter?.role ? row.role === filter.role : true))
-    .filter((row) => (filter?.status ? row.accountStatus === filter.status : true));
+    .where(buildPeopleWhere(filters))
+    .orderBy(desc(users.createdAt), desc(users.id))
+    .limit(PEOPLE_PAGE_SIZE)
+    .offset((safePage - 1) * PEOPLE_PAGE_SIZE);
+}
+
+export function buildPeopleCountQuery(filters: PeopleFilters = {}) {
+  return db
+    .select({ total: sql<number>`count(*)::int` })
+    .from(users)
+    .where(buildPeopleWhere(filters));
+}
+
+export async function listPeople(filters: PeopleFilters = {}) {
+  const query = safeQuery(filters.q);
+  const normalizedFilters = { q: query, role: filters.role, status: filters.status };
+  const [countRow] = await buildPeopleCountQuery(normalizedFilters);
+  const total = countRow?.total ?? 0;
+  const totalPages = Math.max(1, Math.ceil(total / PEOPLE_PAGE_SIZE));
+  const requestedPage = Number.isFinite(filters.page) ? Math.floor(filters.page as number) : 1;
+  const page = Math.min(totalPages, Math.max(1, requestedPage));
+  const people = (await buildPeopleListQuery(normalizedFilters, page)).map(shape);
+
+  return {
+    people,
+    filters: normalizedFilters,
+    page,
+    pageSize: PEOPLE_PAGE_SIZE,
+    total,
+    totalPages,
+  };
 }
 
 export async function countPeople() {

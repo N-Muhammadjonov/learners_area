@@ -40,6 +40,9 @@ export const accountStatusEnum = pgEnum("account_status", [
   "suspended",
 ]);
 
+/** Explicit registration choice; nullable for legacy and provider-created users. */
+export const genderEnum = pgEnum("gender", ["male", "female"]);
+
 export const accessRequestStatusEnum = pgEnum("access_request_status", [
   "pending",
   "approved",
@@ -188,6 +191,7 @@ export const users = pgTable("users", {
   passwordHash: text("password_hash"), // null for Telegram-only accounts
   telegramId: varchar("telegram_id", { length: 64 }).unique(),
   name: varchar("name", { length: 200 }).notNull(),
+  gender: genderEnum("gender"),
   role: roleEnum("role").notNull().default("student"),
   /** Historical column. Authorization reads `role`, never this flag. */
   isOwner: boolean("is_owner").notNull().default(false),

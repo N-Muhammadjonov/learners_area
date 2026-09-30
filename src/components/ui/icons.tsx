@@ -205,6 +205,15 @@ export function IconTarget({ className, title }: IconProps) {
   );
 }
 
+export function IconSparkles({ className, title }: IconProps) {
+  return (
+    <Icon className={className} title={title}>
+      <path d="m11 3 1.8 6.2L19 11l-6.2 1.8L11 19l-1.8-6.2L3 11l6.2-1.8L11 3z" />
+      <path d="m19 14.5.8 2.7 2.7.8-2.7.8L19 21.5l-.8-2.7-2.7-.8 2.7-.8.8-2.7z" />
+    </Icon>
+  );
+}
+
 export function IconChevronRight({ className, title }: IconProps) {
   return (
     <Icon className={className} title={title}>
