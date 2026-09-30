@@ -30,7 +30,7 @@ type Entry = {
  * reader, and a machine-generated label would be.
  */
 const ENTRIES: Entry[] = [
-  { prefix: "/reading/retention", build: (d) => [{ label: d.nav.reading, href: "/reading" }, { label: d.reading.retentionTitle, href: "/reading/retention" }] },
+  { prefix: "/reading/retention", build: (d) => [{ label: d.nav.reading, href: "/reading" }, { label: d.retentionMemory.title, href: "/reading/retention" }] },
   { prefix: "/reading/history", build: (d) => [{ label: d.nav.reading, href: "/reading" }, { label: d.reading.historyTitle, href: "/reading/history" }] },
   { prefix: "/reading/passages", build: (d) => [{ label: d.nav.reading, href: "/reading" }, { label: d.reading.pickPassage, href: "/reading" }] },
   { prefix: "/reading/attempts", build: (d) => [{ label: d.nav.reading, href: "/reading" }, { label: d.reading.analysisTitle, href: "/reading" }] },
@@ -82,6 +82,7 @@ const ENTRIES: Entry[] = [
   { prefix: "/admin/people", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.nav.adminUsers, href: "/admin/people" }] },
   { prefix: "/admin/admissions", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.admission.title, href: "/admin/admissions" }] },
   { prefix: "/admin/content", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.nav.contentLibrary, href: "/admin/content" }] },
+  { prefix: "/admin/reading/retention", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.admin.readingTitle, href: "/admin/reading" }, { label: d.retentionMemory.admin.title, href: "/admin/reading/retention" }] },
   { prefix: "/admin/reading", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.admin.readingTitle, href: "/admin/reading" }] },
   { prefix: "/admin/listening", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.admin.listeningTitle, href: "/admin/listening" }] },
   { prefix: "/admin/grammar", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.admin.grammarTitle, href: "/admin/grammar" }] },

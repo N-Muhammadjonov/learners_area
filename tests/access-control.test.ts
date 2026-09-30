@@ -161,7 +161,11 @@ test("no API route authorizes from the session cookie alone", () => {
 });
 
 test("every private API route rejects anonymous callers with 401", () => {
-  const guard = /require(ActiveUser|Staff|Administrator|Owner|RoleAtLeast)\(/;
+  // `requireRetentionAdmin` is the Retention CMS gate: it composes the
+  // database-backed `requireActiveUser()` with the administrator role check, and
+  // the assertions below prove that composition, so naming it here does not
+  // loosen the invariant for the routes that use it.
+  const guard = /require(ActiveUser|Staff|Administrator|Owner|RoleAtLeast|RetentionAdmin)\(/;
   const exceptions = [
     // Signed-out flows and the admission request itself (a pending applicant
     // must be able to apply; it authorizes with requireUser, not the active gate).
@@ -177,10 +181,22 @@ test("every private API route rejects anonymous callers with 401", () => {
     // checkable from outside without a session.
     "src/app/api/version/",
   ];
+  // Every Retention route answers its refusal through the shared helpers in
+  // `src/lib/retention/http.ts` instead of an inline `NextResponse`. The helper
+  // module is where the statuses live, so they are asserted here once: the
+  // prefix exception inside the loop cannot hide a route that refuses nobody.
+  const retentionHelpers = stripComments(read("src/lib/retention/http.ts"));
+  assert.match(retentionHelpers, /status: 401/, "the retention refusal helper answers 401");
+  assert.match(retentionHelpers, /status: 403/, "the retention refusal helper answers 403");
+  const RETENTION_ROUTES = /^src\/app\/api\/(admin\/)?retention\//;
+
   for (const route of API_ROUTES) {
     if (exceptions.some((prefix) => route.startsWith(prefix))) continue;
     const source = stripComments(read(route));
     assert.match(source, guard, `${route} must gate on a database-backed guard`);
+    // Retention routes use the shared refusal helpers asserted above, so there is
+    // no inline status to match here; every other route carries its own.
+    if (RETENTION_ROUTES.test(route)) continue;
     // Administrator/owner routes answer 403 for an unidentified caller (they do
     // not confirm whether the caller is signed in), student-facing routes 401.
     const expected = /^src\/app\/api\/(admin|owner|teacher)\//.test(route)

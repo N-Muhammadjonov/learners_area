@@ -21,7 +21,12 @@ export default async function AdminReadingPage() {
     <div className="mx-auto flex max-w-3xl flex-col gap-4">
       <div className="flex items-center justify-between">
         <h1 className="font-display text-2xl text-ink-900">{dict.admin.readingTitle}</h1>
-        <NewPassageForm dict={dict} />
+        <div className="flex items-center gap-2">
+          <Link href="/admin/reading/retention" className="text-sm text-signal-600 hover:underline" data-reading-retention-link>
+            {dict.retentionMemory.admin.title}
+          </Link>
+          <NewPassageForm dict={dict} />
+        </div>
       </div>
       <div className="flex flex-col gap-2">
         {passages.map((p) => (
