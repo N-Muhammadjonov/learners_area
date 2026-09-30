@@ -221,3 +221,19 @@ test("W11: after 0024, standalone rows (NULL lesson) coexist with legacy lesson-
   await assert.rejects(database.query("insert into video_lessons (lesson_id, provider, video_id, title) values (null, 'youtube', 'standaloneA', 'Dup')"), "one item per provider video");
   void course;
 });
+
+test("W15: a text archived before allocation is never assigned (post-selection recheck)", async () => {
+  const { RETENTION_LEVEL_CONFIG } = await import("../src/lib/retention/levels");
+  const texts = [] as string[];
+  for (let i = 0; i < 2; i++) {
+    const created = await createRetentionText({ level: "B2", bodyText: bodyOfWords(RETENTION_LEVEL_CONFIG.B2.minWords), scoringStructure: simpleStructure(`lin${i}`), actorUserId: ownerId }, database.db);
+    texts.push((created as { textId: string }).textId);
+  }
+  await setRetentionTextActive({ textId: texts[0]!, active: false, actorUserId: ownerId }, database.db);
+  for (let n = 0; n < 5; n++) {
+    const userId = await learner();
+    // random() = 0 would pick the first candidate if the snapshot were stale.
+    const started = await startOrResumeAttempt({ userId, level: "B2", now: nextNow(), random: () => 0 }, database.db);
+    assert.equal(started.attempt.retentionTextId, texts[1], "archived text never assigned");
+  }
+});

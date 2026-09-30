@@ -6,6 +6,7 @@ import {
   retentionAttempts,
   retentionRotationCompletions,
   retentionRotationState,
+  retentionTexts,
 } from "@/db/schema";
 import { isRetentionLevel, type RetentionLevel } from "@/lib/retention/levels";
 import { RetentionError } from "@/lib/retention/errors";
@@ -143,16 +144,33 @@ export async function startOrResumeAttempt(
         return { attempt: record, outcome: "resumed" as const };
       }
 
-      const candidates = await listActiveCandidates(level, database);
       const rotation = await loadRotationState(database, input.userId, level);
 
-      const decision = selectNextText({
-        candidates,
-        completedTextIds: rotation.completedTextIds,
-        cycleNumber: rotation.cycleNumber,
-        lastCompletedTextId: rotation.lastCompletedTextId,
-        random,
-      });
+      // Linearize against a concurrent archive / new version: the chosen text row
+      // is re-read under FOR SHARE (which waits for an in-flight archive or
+      // version UPDATE to commit and then sees its result). If it is no longer
+      // active or its current version moved, the candidate snapshot is stale and
+      // selection runs again. Archive-first → never assigned; allocation-first →
+      // the archive waits, and the assigned immutable version stays finishable.
+      let decision: ReturnType<typeof selectNextText> = null;
+      for (let round = 0; round < 3 && !decision; round += 1) {
+        const candidates = await listActiveCandidates(level, database);
+        const proposed = selectNextText({
+          candidates,
+          completedTextIds: rotation.completedTextIds,
+          cycleNumber: rotation.cycleNumber,
+          lastCompletedTextId: rotation.lastCompletedTextId,
+          random,
+        });
+        if (!proposed) break;
+        const [locked] = await database
+          .select({ active: retentionTexts.active, currentVersionId: retentionTexts.currentVersionId })
+          .from(retentionTexts)
+          .where(eq(retentionTexts.id, proposed.textId))
+          .for("share")
+          .limit(1);
+        if (locked?.active && locked.currentVersionId === proposed.versionId) decision = proposed;
+      }
 
       if (!decision) throw new RetentionError("retention_no_content", "no active retention text for this level");
 
