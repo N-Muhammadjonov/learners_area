@@ -508,7 +508,7 @@ function Flashcards({ dict, words, sourceHeading }: { dict: Dictionary; words: G
         </div>
       </header>
 
-      <div className="flashcard-layout grid min-w-0 items-start gap-4 md:grid-cols-[minmax(200px,220px)_minmax(0,1fr)]" data-flashcard-layout>
+      <div className="flashcard-layout grid min-w-0 items-start gap-4" data-flashcard-layout>
         <aside className="flashcard-queue" aria-label={t.games.queue} data-flashcard-queue>
           <div className="flashcard-queue-heading">
             <strong>{t.games.queue}</strong>
