@@ -264,6 +264,11 @@
 
   .badge {
     @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
+    /* A badge is a label, not a promise of one line: the Uzbek mastery label
+       ("O'zlashtirilgan") is longer than a narrow card at 320–390px, so the
+       badge may wrap rather than push the row past the viewport. */
+    max-width: 100%;
+    overflow-wrap: anywhere;
   }
   .badge-locked {
     @apply badge bg-ink-100 text-ink-500;

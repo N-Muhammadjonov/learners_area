@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { choiceSetFor } from "@/lib/reading-choices";
 import { occurrenceSpans, type OccurrenceSpan } from "@/lib/services/lexical/occurrence-spans";
 import { ClickableText } from "@/components/vocabulary/ClickableText";
+import { useFocusEntry } from "@/lib/interaction/focus-entry";
 import { IconBack, IconCheck, IconTarget } from "@/components/ui/icons";
 import { ResourceBlocks } from "@/components/resources/ResourceBlocks";
 import {
@@ -179,6 +180,9 @@ export function ReadingExam({
 }) {
   const t = dict.readingPractice;
   const router = useRouter();
+  // A real Reading attempt is exactly the place Focus mode is for: entering one
+  // turns it on once, and the shell still honours a manual exit.
+  useFocusEntry(attemptId);
 
   const [answers, setAnswers] = useState<Record<string, string>>(savedAnswers);
   const [pane, setPane] = useState<"passage" | "questions">("passage");

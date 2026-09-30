@@ -9,6 +9,7 @@ const en = {
   shell: {
     learningNav: "Learning sections",
     managementNav: "Management sections",
+    utilities: "Study tools",
     managementMode: "Management mode",
     management: "Management",
     support: "Support",
@@ -113,6 +114,7 @@ const en = {
     writingBody: "Writing prompts (Task 1 / Task 2).",
     videoBody: "Publish and manage video lessons.",
     contentBody: "See all content in one place and manage publication state.",
+    materialsBody: "Attach summaries, links and audio to any content kind.",
     ownerBody: "Centre settings and overall figures.",
     integrationsBody: "Telegram, AI and other external services.",
     retentionBody: "Inspect and apply the data retention policy.",
@@ -301,6 +303,10 @@ const en = {
     open: "Open the lesson",
   },
   videoLesson: {
+    revealTranscript: "Show transcript",
+    hideTranscript: "Hide transcript",
+    revealNotes: "Show notes",
+    hideNotes: "Hide notes",
     stagesLabel: "Lesson stages",
     tabs: {
       before: "Before you watch",
@@ -309,6 +315,7 @@ const en = {
       gap: "Script gap fill",
       opinion: "Your opinion",
       summary: "Summary",
+      notes: "Notes",
     },
     playbackNote:
       "The video plays inside Learners Area. Its source is still visible to the browser, so this is convenience, not secrecy.",
@@ -337,6 +344,10 @@ const en = {
     feedbackNote: "Your teacher reads this and replies. It is not scored automatically.",
   },
   videoLessonAdmin: {
+    notes: "Notes (optional)",
+    notesHelp: "Study notes the learner can reveal on the lesson page. Leave empty and no notes control appears.",
+    notesPresent: "added",
+    notesAbsent: "none",
     title: "Public video lessons",
     intro:
       "Paste a normal YouTube link. The server validates it and stores the provider and video id — never an embed snippet. Only YouTube videos play inside Learners Area.",
@@ -1417,6 +1428,7 @@ const en = {
     subtitle: "Change only the name shown across your Learners Area account.",
     displayName: "Display name",
     saveName: "Save name",
+    editName: "Edit name",
     saving: "Saving…",
     saved: "Your name was updated.",
     failed: "Your name could not be updated. Please try again.",

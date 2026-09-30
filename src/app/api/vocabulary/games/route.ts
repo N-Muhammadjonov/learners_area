@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { requireActiveUser } from "@/lib/auth/current-user";
-import { gameSet, recordGameAnswer } from "@/lib/services/vocabulary/engine";
+import { gameSet, loadSelfAssessments, recordGameAnswer } from "@/lib/services/vocabulary/engine";
 import { uniqueGameRound } from "@/lib/services/vocabulary/game-round";
 import { isGameId } from "@/lib/services/vocabulary/game-routes";
 
@@ -55,11 +55,18 @@ export async function GET(req: NextRequest) {
     ...(gameId === "gap" || gameId === "builder" ? { exampleSentence: word.exampleSentence } : {}),
     ...(gameId === "translation" ? { translationUz: word.translationUz, acceptedTranslations: word.acceptedTranslations, collocations: word.collocations, exampleSentence: word.exampleSentence } : {}),
   }));
+  // The flashcard deck is the one game with a self-assessment: its previous
+  // verdicts are read back from the recorded practice rows so the marks a
+  // learner left behind survive a reload. Other games get no such field.
+  const selfAssessments = gameId === "cards"
+    ? await loadSelfAssessments(user.id, words.map((word) => word.id))
+    : null;
   return NextResponse.json({
     ok: true,
     ...requestedSet,
     words,
     count: words.length,
+    ...(selfAssessments ? { selfAssessments } : {}),
   });
 }
 

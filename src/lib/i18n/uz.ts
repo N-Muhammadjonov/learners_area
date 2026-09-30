@@ -11,6 +11,7 @@ const uz: Dictionary = {
   shell: {
     learningNav: "O'qish bo'limlari",
     managementNav: "Boshqaruv bo'limlari",
+    utilities: "O'quv vositalari",
     managementMode: "Boshqaruv rejimi",
     management: "Boshqaruv",
     support: "Yordam",
@@ -115,6 +116,7 @@ const uz: Dictionary = {
     writingBody: "Writing mavzulari (Task 1 / Task 2).",
     videoBody: "Video darslarni joylash va nashr qilish.",
     contentBody: "Barcha kontentni bir joydan ko'rish va nashr holatini boshqarish.",
+    materialsBody: "Istalgan kontent turiga xulosa, havola va audio biriktirish.",
     ownerBody: "Markaz sozlamalari va umumiy ko'rsatkichlar.",
     integrationsBody: "Telegram, AI va boshqa tashqi xizmatlar holati.",
     retentionBody: "Ma'lumotlarni saqlash siyosatini ko'rish va qo'llash.",
@@ -303,6 +305,10 @@ const uz: Dictionary = {
     open: "Darsni ochish",
   },
   videoLesson: {
+    revealTranscript: "Transkriptni ko'rsatish",
+    hideTranscript: "Transkriptni yashirish",
+    revealNotes: "Eslatmalarni ko'rsatish",
+    hideNotes: "Eslatmalarni yashirish",
     stagesLabel: "Dars bosqichlari",
     tabs: {
       before: "Ko'rishdan oldin",
@@ -311,6 +317,7 @@ const uz: Dictionary = {
       gap: "Matndagi bo'shliqlar",
       opinion: "Sizning fikringiz",
       summary: "Xulosa",
+      notes: "Eslatmalar",
     },
     playbackNote:
       "Video Learners Area ichida ijro etiladi. Manba brauzerga baribir ko'rinadi, shuning uchun bu qulaylik — maxfiylik emas.",
@@ -339,6 +346,10 @@ const uz: Dictionary = {
     feedbackNote: "Buni o'qituvchingiz o'qib javob beradi. Avtomatik baholanmaydi.",
   },
   videoLessonAdmin: {
+    notes: "Eslatmalar (majburiy emas)",
+    notesHelp: "O'quvchi dars sahifasida ko'rsatishi mumkin bo'lgan eslatmalar. Bo'sh qoldirilsa, eslatma tugmasi umuman chiqmaydi.",
+    notesPresent: "qo'shilgan",
+    notesAbsent: "yo'q",
     title: "Ommaviy video darslar",
     intro:
       "Oddiy YouTube havolasini joylang. Server uni tekshiradi va provayder hamda video id ni saqlaydi — hech qachon tayyor embed kod emas. Learners Area ichida faqat YouTube videolari ijro etiladi.",
@@ -1419,6 +1430,7 @@ const uz: Dictionary = {
     subtitle: "Learners Area hisobingizda ko'rinadigan ismni o'zgartiring.",
     displayName: "Ko'rinadigan ism",
     saveName: "Ismni saqlash",
+    editName: "Ismni tahrirlash",
     saving: "Saqlanmoqda…",
     saved: "Ismingiz yangilandi.",
     failed: "Ismni yangilab bo'lmadi. Qayta urinib ko'ring.",

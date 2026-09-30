@@ -28,6 +28,7 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
   const [transcriptSource, setTranscriptSource] = useState("");
   const [attribution, setAttribution] = useState("");
   const [transcriptText, setTranscriptText] = useState("");
+  const [notes, setNotes] = useState("");
   const [questionsText, setQuestionsText] = useState("");
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<{ tone: "ok" | "bad"; text: string } | null>(null);
@@ -49,6 +50,7 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
         transcriptSource: transcriptSource || null,
         transcriptAttribution: attribution || null,
         transcript: parseTranscript(transcriptText),
+        notes: notes.trim() || null,
         questions: parseQuestions(questionsText),
       }),
     });
@@ -138,6 +140,15 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
       </label>
 
       <label className="flex flex-col gap-1 text-sm">
+        {t.notes}
+        <textarea
+          className="input min-h-24"
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+          maxLength={4000}
+          data-video-notes-input
+        />
+        <span className="text-xs text-ink-500">{t.notesHelp}</span>
         {t.transcriptLines}
         <textarea
           className="input min-h-28 font-mono text-xs"

@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n/en";
 import type { Role } from "@/lib/auth/roles";
 import { isStaff } from "@/lib/auth/roles";
-import { IconChevronDown, IconSettings } from "@/components/ui/icons";
+import { IconChevronDown, IconSettings, IconUser } from "@/components/ui/icons";
 import { ConfirmAction } from "@/components/interaction/InteractionPrimitives";
 
 /**
@@ -99,6 +99,16 @@ export function ProfileMenu({
               className="flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900"
             >
               {dict.nav.profile}
+            </Link>
+            <Link
+              href="/profile?edit=name"
+              role="menuitem"
+              data-profile-menu-edit-name
+              onClick={() => setOpen(false)}
+              className="flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900"
+            >
+              <IconUser className="text-[18px] text-ink-300" />
+              {dict.profile.editName}
             </Link>
             {isStaff(role) && (
               <Link

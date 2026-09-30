@@ -79,6 +79,10 @@ const ENTRIES: Entry[] = [
   { prefix: "/teacher/live-classes", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.liveClasses.manageTitle, href: "/teacher/live-classes" }] },
   { prefix: "/teacher/speaking", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.speaking.manageTitle, href: "/teacher/speaking" }] },
 
+  // The materials editor is nested under Management like every other admin
+  // screen: without this entry the topbar renders neither a crumb nor a Back
+  // button, and a reader who opens it from a link has no way up.
+  { prefix: "/admin/materials", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.admin.materialsTitle, href: "/admin/materials" }] },
   { prefix: "/admin/people", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.nav.adminUsers, href: "/admin/people" }] },
   { prefix: "/admin/admissions", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.admission.title, href: "/admin/admissions" }] },
   { prefix: "/admin/content", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.nav.contentLibrary, href: "/admin/content" }] },

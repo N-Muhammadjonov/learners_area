@@ -275,7 +275,7 @@ export function VocabGameView({
       {!isLoading && !currentFailed && currentSet?.words.length === 0 && <p className="card p-4 text-sm text-ink-500" role="status" data-game-empty>{currentSet?.total ? t.games.noEligible : t.games.noWordsInSet}</p>}
       {!isLoading && !currentFailed && currentSet && currentSet.words.length > 0 && (
         <GameRequestContext.Provider value={context}>
-          {gameId === "cards" && <Flashcards key={gameViewKey} dict={dict} words={currentSet.words} sourceHeading={source} />}
+          {gameId === "cards" && <Flashcards key={gameViewKey} dict={dict} words={currentSet.words} sourceHeading={source} selfAssessments={currentSet.selfAssessments} />}
           {gameId === "choice" && <MultipleChoice key={gameViewKey} dict={dict} words={currentSet.words} />}
           {gameId === "match" && <MatchingPairs key={gameViewKey} dict={dict} words={currentSet.words} />}
           {gameId === "gap" && <FillTheGap key={gameViewKey} dict={dict} words={currentSet.words} />}
@@ -429,12 +429,19 @@ function ResultBanner({
 // 1. Flashcards — definition first, side queue, separate assessment and navigation
 // ---------------------------------------------------------------------------
 
-function Flashcards({ dict, words, sourceHeading }: { dict: Dictionary; words: GameWord[]; sourceHeading: string }) {
+function Flashcards({ dict, words, sourceHeading, selfAssessments }: {
+  dict: Dictionary;
+  words: GameWord[];
+  sourceHeading: string;
+  selfAssessments?: Record<string, "known" | "notYet">;
+}) {
   const t = dict.vocabulary;
   const [deck, setDeck] = useState(() => shuffle(words).slice(0, 10));
   const [index, setIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
-  const [marks, setMarks] = useState<Record<string, "known" | "notYet">>({});
+  // Seeded from the server's read-back of the recorded self-assessments: the
+  // marks are durable practice state, so a reload keeps Learned / Not yet.
+  const [marks, setMarks] = useState<Record<string, "known" | "notYet">>(() => ({ ...(selfAssessments ?? {}) }));
   const [marking, setMarking] = useState<"known" | "notYet" | null>(null);
   const [pass, setPass] = useState(1);
   const timers = useRef<number[]>([]);
@@ -595,6 +602,10 @@ function Flashcards({ dict, words, sourceHeading }: { dict: Dictionary; words: G
 // 2. Multiple choice — the definition is the prompt, four words are the options
 // ---------------------------------------------------------------------------
 
+/** How long the verdict stays on screen before the next prompt, per outcome. */
+const MCQ_CORRECT_HOLD_MS = 900;
+const MCQ_WRONG_HOLD_MS = 1800;
+
 function MultipleChoice({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
   const t = dict.vocabulary;
   const [deck] = useState(() => shuffle(words).slice(0, 10));
@@ -602,6 +613,7 @@ function MultipleChoice({ dict, words }: { dict: Dictionary; words: GameWord[] }
   const [picked, setPicked] = useState<string | null>(null);
   const [correct, setCorrect] = useState(0);
   const answer = useAnswer();
+  const advanceTimer = useRef<number | null>(null);
 
   const current = deck[index];
   const options = useMemo(() => {
@@ -612,12 +624,34 @@ function MultipleChoice({ dict, words }: { dict: Dictionary; words: GameWord[] }
     return shuffle([current.term, ...others]);
   }, [current, words]);
 
+  useEffect(() => () => {
+    if (advanceTimer.current !== null) window.clearTimeout(advanceTimer.current);
+  }, []);
+
+  /**
+   * Move on. Called automatically after the verdict has been readable for long
+   * enough, and by the Next button — whichever comes first cancels the other, so
+   * a question can never advance twice or be scored twice.
+   */
+  function advance() {
+    if (advanceTimer.current !== null) {
+      window.clearTimeout(advanceTimer.current);
+      advanceTimer.current = null;
+    }
+    setPicked(null);
+    setIndex((value) => value + 1);
+  }
+
   function choose(option: string) {
     if (picked || !current) return;
     setPicked(option);
     const isRight = normalizeAnswer(option) === normalizeAnswer(current.term);
     if (isRight) setCorrect((value) => value + 1);
+    // One submission per question: the options are disabled and the timer only
+    // schedules the next prompt, never another answer.
     void answer(current.id, { kind: "spelling", text: option });
+    // A miss holds longer, because the learner has to read the right answer.
+    advanceTimer.current = window.setTimeout(advance, isRight ? MCQ_CORRECT_HOLD_MS : MCQ_WRONG_HOLD_MS);
   }
 
   if (!current) {
@@ -673,18 +707,11 @@ function MultipleChoice({ dict, words }: { dict: Dictionary; words: GameWord[] }
         })}
       </div>
       {picked && (
-        <div className="flex flex-wrap items-center justify-between gap-2">
+        <div className="flex flex-wrap items-center justify-between gap-2" data-mcq-feedback role="status" aria-live="polite">
           <span className="text-xs text-ink-500">
             {normalizeAnswer(picked) === normalizeAnswer(current.term) ? t.games.score : t.games.wrongAnswer}: {current.term}
           </span>
-          <button
-            type="button"
-            className="btn-secondary"
-            onClick={() => {
-              setPicked(null);
-              setIndex((value) => value + 1);
-            }}
-          >
+          <button type="button" className="btn-secondary" data-mcq-next onClick={advance}>
             {t.games.next}
           </button>
         </div>

@@ -28,7 +28,7 @@ import { embedUrlFor, watchUrlFor, type VideoProvider } from "@/lib/services/vid
  *   data-video-save-response    = the write button; data-video-response-state is
  *                                 "saved" only after the server accepted it
  */
-type Tab = "before" | "transcript" | "comprehension" | "gap" | "opinion" | "summary";
+type Tab = "before" | "transcript" | "notes" | "comprehension" | "gap" | "opinion" | "summary";
 
 type Question = {
   id: string;
@@ -56,6 +56,8 @@ export function VideoLessonStudio({
     transcript: { startSeconds: number; text: string }[] | null;
     transcriptSource: string | null;
     transcriptAttribution: string | null;
+    /** Optional centre-authored study notes; null means no notes control. */
+    notes: string | null;
   };
   questions: Question[];
   initialProgress: {
@@ -87,6 +89,8 @@ export function VideoLessonStudio({
   // Memoised so the value is stable across renders: the cue list below depends
   // on it, and a fresh array on every render would recompute it needlessly.
   const transcript = useMemo(() => videoLesson.transcript ?? [], [videoLesson.transcript]);
+  /** Centre-authored notes are optional, like the transcript. */
+  const notes = useMemo(() => (videoLesson.notes ?? "").trim(), [videoLesson.notes]);
   const comprehension = useMemo(() => questions.filter((q) => q.stage === "comprehension"), [questions]);
   const gapFill = useMemo(() => questions.filter((q) => q.stage === "gap_fill"), [questions]);
 
@@ -94,6 +98,7 @@ export function VideoLessonStudio({
     const list: Tab[] = [];
     if (videoLesson.beforeYouWatch) list.push("before");
     if (transcript.length > 0) list.push("transcript");
+    if (notes.length > 0) list.push("notes");
     if (comprehension.length > 0) list.push("comprehension");
     if (gapFill.length > 0) list.push("gap");
     list.push("opinion");
@@ -101,9 +106,16 @@ export function VideoLessonStudio({
     // remember from the video itself.
     list.push("summary");
     return list;
-  }, [videoLesson.beforeYouWatch, transcript.length, comprehension.length, gapFill.length]);
+  }, [videoLesson.beforeYouWatch, transcript.length, notes.length, comprehension.length, gapFill.length]);
 
   const [tab, setTab] = useState<Tab>(tabs[0] ?? "opinion");
+  /**
+   * Both the transcript and the notes are revealed on purpose rather than
+   * pushed at the learner: reading the script before watching gives the
+   * listening away, and notes are a study aid the student asks for.
+   */
+  const [transcriptShown, setTranscriptShown] = useState(false);
+  const [notesShown, setNotesShown] = useState(false);
 
   // Built without the browser origin so the player is part of the server-rendered
   // page: the video starts loading with the lesson instead of after hydration.
@@ -345,7 +357,7 @@ export function VideoLessonStudio({
         ) : null}
 
         {tab === "transcript" ? (
-          <div className="flex flex-col gap-1" data-video-transcript>
+          <div className="flex flex-col gap-1" data-video-transcript-panel>
             <p className="mb-2 text-xs text-ink-500">
               {t.transcriptProvenance}:{" "}
               <span data-video-transcript-source={videoLesson.transcriptSource ?? "unspecified"}>
@@ -353,7 +365,21 @@ export function VideoLessonStudio({
               </span>
               {videoLesson.transcriptAttribution ? ` — ${videoLesson.transcriptAttribution}` : ""}
             </p>
-            <ol className="max-h-80 overflow-y-auto pr-1">
+            <button
+              type="button"
+              className="btn-secondary w-fit"
+              data-video-transcript-reveal
+              aria-expanded={transcriptShown}
+              aria-controls="video-transcript-lines"
+              onClick={() => setTranscriptShown((value) => !value)}
+            >
+              {transcriptShown ? t.hideTranscript : t.revealTranscript}
+            </button>
+            <ol
+              id="video-transcript-lines"
+              className={`max-h-80 overflow-y-auto pr-1 ${transcriptShown ? "" : "hidden"}`}
+              data-video-transcript={transcriptShown ? "shown" : "hidden"}
+            >
               {transcript.map((line, index) => (
                 <li
                   key={`${line.startSeconds}-${index}`}
@@ -381,6 +407,28 @@ export function VideoLessonStudio({
                 </li>
               ))}
             </ol>
+          </div>
+        ) : null}
+
+        {tab === "notes" ? (
+          <div className="flex flex-col gap-2" data-video-notes-panel>
+            <button
+              type="button"
+              className="btn-secondary w-fit"
+              data-video-notes-reveal
+              aria-expanded={notesShown}
+              aria-controls="video-notes"
+              onClick={() => setNotesShown((value) => !value)}
+            >
+              {notesShown ? t.hideNotes : t.revealNotes}
+            </button>
+            <p
+              id="video-notes"
+              className={`whitespace-pre-line text-sm text-ink-700 ${notesShown ? "" : "hidden"}`}
+              data-video-notes={notesShown ? "shown" : "hidden"}
+            >
+              {notes}
+            </p>
           </div>
         ) : null}
 

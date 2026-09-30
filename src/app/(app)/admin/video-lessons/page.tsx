@@ -41,8 +41,12 @@ export default async function AdminVideoLessonsPage() {
               <li key={videoLesson.id} className="flex flex-wrap items-center justify-between gap-2 border-b border-ink-200/60 pb-2 last:border-0">
                 <span className="text-ink-800">{videoLesson.title}</span>
                 <div className="flex flex-col items-end gap-1">
-                  <span className="text-xs text-ink-500">
+                  <span className="max-w-full break-words text-right text-xs text-ink-500">
                     {lesson.title} · {videoLesson.provider} · {videoLesson.transcriptSource ?? dict.videoLessonAdmin.transcriptSourceNone}
+                    {" · "}
+                    <span data-video-admin-notes={videoLesson.notes ? "yes" : "no"}>
+                      {dict.videoLessonAdmin.notes}: {videoLesson.notes ? dict.videoLessonAdmin.notesPresent : dict.videoLessonAdmin.notesAbsent}
+                    </span>
                   </span>
                   <PublicationControl
                     type="video"
