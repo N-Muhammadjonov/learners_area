@@ -9,6 +9,7 @@ const en = {
   shell: {
     learningNav: "Learning sections",
     managementNav: "Management sections",
+    utilities: "Study tools",
     managementMode: "Management mode",
     management: "Management",
     support: "Support",
@@ -1417,6 +1418,7 @@ const en = {
     subtitle: "Change only the name shown across your Learners Area account.",
     displayName: "Display name",
     saveName: "Save name",
+    editName: "Edit name",
     saving: "Saving…",
     saved: "Your name was updated.",
     failed: "Your name could not be updated. Please try again.",

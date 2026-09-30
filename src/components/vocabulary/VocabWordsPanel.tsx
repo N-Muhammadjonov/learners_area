@@ -179,7 +179,7 @@ export function VocabWordsPanel({
                         : "border-ink-100 text-ink-700 hover:bg-paper-sunken"
                     }`}
                   >
-                    <span>{t.mastery[row.state]}</span>
+                    <span className="break-words">{t.mastery[row.state]}</span>
                     <span className="font-mono text-ink-500">{row.count}</span>
                   </button>
                 ))}
@@ -300,7 +300,7 @@ export function VocabWordsPanel({
                         <span className="mt-0.5 block text-xs text-ink-700">{word.translationUz}</span>
                       )}
                     </span>
-                    <span className="flex shrink-0 flex-wrap items-center gap-2">
+                    <span className="flex min-w-0 max-w-full shrink-0 flex-wrap items-center gap-2">
                       {word.sourceType && word.sourceType !== "manual" && (
                         <span className="badge bg-paper-sunken text-ink-500">{word.sourceType}</span>
                       )}
@@ -357,8 +357,8 @@ export function VocabWordsPanel({
 
 function Stat({ label, value, tone }: { label: string; value: number | string; tone?: "warn" }) {
   return (
-    <div className="card p-3">
-      <p className="text-xs uppercase tracking-wide text-ink-300">{label}</p>
+    <div className="card min-w-0 p-3">
+      <p className="break-words text-xs uppercase tracking-wide text-ink-300">{label}</p>
       <p className={`mt-1 font-display text-xl ${tone === "warn" ? "text-band-warn" : "text-ink-900"}`}>
         {value}
       </p>

@@ -11,6 +11,7 @@ const uz: Dictionary = {
   shell: {
     learningNav: "O'qish bo'limlari",
     managementNav: "Boshqaruv bo'limlari",
+    utilities: "O'quv vositalari",
     managementMode: "Boshqaruv rejimi",
     management: "Boshqaruv",
     support: "Yordam",
@@ -1419,6 +1420,7 @@ const uz: Dictionary = {
     subtitle: "Learners Area hisobingizda ko'rinadigan ismni o'zgartiring.",
     displayName: "Ko'rinadigan ism",
     saveName: "Ismni saqlash",
+    editName: "Ismni tahrirlash",
     saving: "Saqlanmoqda…",
     saved: "Ismingiz yangilandi.",
     failed: "Ismni yangilab bo'lmadi. Qayta urinib ko'ring.",
