@@ -65,7 +65,7 @@ test("the learner surface only builds transcript and notes controls from content
   assert.match(studio, /aria-expanded=\{transcriptShown\}/);
   assert.match(studio, /aria-expanded=\{notesShown\}/);
   assert.match(studio, /transcriptShown \? "" : "hidden"/);
-  assert.match(studio, /\{notesShown \? \(/);
+  assert.match(studio, /notesShown \? "" : "hidden"/);
   // The lesson page must pass the stored notes through, never invent them.
   const page = read("src/app/(app)/courses/ielts/lessons/[lessonId]/page.tsx");
   assert.match(page, /notes: video\.videoLesson\.notes \?\? null,/);

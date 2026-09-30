@@ -422,11 +422,13 @@ export function VideoLessonStudio({
             >
               {notesShown ? t.hideNotes : t.revealNotes}
             </button>
-            {notesShown ? (
-              <p id="video-notes" className="whitespace-pre-line text-sm text-ink-700" data-video-notes>
-                {notes}
-              </p>
-            ) : null}
+            <p
+              id="video-notes"
+              className={`whitespace-pre-line text-sm text-ink-700 ${notesShown ? "" : "hidden"}`}
+              data-video-notes={notesShown ? "shown" : "hidden"}
+            >
+              {notes}
+            </p>
           </div>
         ) : null}
 
