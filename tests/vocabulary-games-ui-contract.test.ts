@@ -27,8 +27,13 @@ test("Flashcards use the reference stage proportions and responsive queue layout
   assert.match(css, /@media \(max-width:\s*820px\)[\s\S]*?\.flashcard-layout\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)/);
   assert.match(css, /@media \(max-width:\s*820px\)[\s\S]*?\.flashcard-stage\s*\{\s*min-height:\s*555px/);
   assert.match(css, /@media \(max-width:\s*820px\)[\s\S]*?\.flashcard-scene\s*\{\s*width:\s*100%;\s*height:\s*470px/);
-  assert.match(css, /@media \(max-width:\s*520px\)[\s\S]*?\.flashcard-stage\s*\{\s*min-height:\s*565px/);
-  assert.match(css, /@media \(max-width:\s*520px\)[\s\S]*?\.flashcard-scene\s*\{\s*height:\s*475px/);
+  const mobile = css.slice(css.indexOf("@media (max-width: 520px)"), css.indexOf("/* Reduced motion keeps"));
+  assert.match(mobile, /\.flashcard-queue\s*\{\s*display:\s*none/);
+  assert.doesNotMatch(css.slice(0, css.indexOf("@media (max-width: 520px)")), /\.flashcard-queue\s*\{[^}]*display:\s*none/);
+  assert.match(mobile, /\.flashcard-stage\s*\{\s*min-height:\s*0/);
+  assert.match(mobile, /\.flashcard-scene\s*\{\s*height:\s*435px/);
+  assert.match(mobile, /\.flashcard-answer-body\s*\{[^}]*justify-content:\s*safe center/);
+  assert.match(mobile, /\.flashcard-back-actions\s*\{\s*flex-shrink:\s*0/);
   assert.match(css, /@media \(max-width:\s*520px\)[\s\S]*?\.flashcard-flip-button\s*\{[^}]*width:\s*100%;\s*min-width:\s*0/);
 });
 

@@ -62,7 +62,8 @@ test("registration declares and persists a canonical gender while keeping legacy
   const telegram = read("src/app/api/auth/telegram/callback/route.ts");
   const migration = read("drizzle/0021_registration_gender.sql");
   assert.match(schema, /gender: genderEnum\("gender"\),/);
-  assert.match(registerForm, /name="gender"[\s\S]*required[\s\S]*value=\{gender\}/);
+  assert.doesNotMatch(registerForm, /<select/);
+  assert.match(registerForm, /type="radio"[\s\S]*name="gender"[\s\S]*required/);
   assert.match(registerForm, /body: \{ name, email, password, gender \}/);
   assert.match(register, /\.values\(\{ name, gender, email, passwordHash/);
   assert.equal(en.auth.gender, "Gender");

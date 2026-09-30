@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Input, Label, FieldError } from "@/components/ui/Input";
@@ -20,6 +20,8 @@ export function RegisterForm({
   const router = useRouter();
   const [name, setName] = useState("");
   const [gender, setGender] = useState<"" | "male" | "female">("");
+  const [genderError, setGenderError] = useState(false);
+  const firstGender = useRef<HTMLInputElement>(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -27,6 +29,11 @@ export function RegisterForm({
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!gender) {
+      setGenderError(true);
+      firstGender.current?.focus();
+      return;
+    }
     setPending(true);
     setError("");
     try {
@@ -61,21 +68,33 @@ export function RegisterForm({
         <Label htmlFor="name">{dict.auth.name}</Label>
         <Input id="name" required value={name} onChange={(e) => setName(e.target.value)} />
       </div>
-      <div>
-        <Label htmlFor="gender">{dict.auth.gender}</Label>
-        <select
-          id="gender"
-          name="gender"
-          className="input w-full"
-          required
-          value={gender}
-          onChange={(event) => setGender(event.target.value as "" | "male" | "female")}
-        >
-          <option value="" disabled>{dict.auth.chooseGender}</option>
-          <option value="male">{dict.auth.genderMale}</option>
-          <option value="female">{dict.auth.genderFemale}</option>
-        </select>
-      </div>
+      <fieldset>
+        <legend id="gender-label" className="mb-1.5 text-sm font-medium text-ink-700">{dict.auth.chooseGender}</legend>
+        <div className="gender-segments" role="radiogroup" aria-labelledby="gender-label" aria-required="true" aria-invalid={genderError} aria-describedby={genderError ? "gender-error" : undefined}>
+          {(["male", "female"] as const).map((value) => (
+            <label key={value}>
+              <input
+                ref={value === "male" ? firstGender : undefined}
+                type="radio"
+                name="gender"
+                value={value}
+                required
+                checked={gender === value}
+                aria-describedby={genderError ? "gender-error" : undefined}
+                onInvalid={(event) => {
+                  event.preventDefault();
+                  setGenderError(true);
+                  firstGender.current?.focus();
+                }}
+                onChange={() => { setGender(value); setGenderError(false); }}
+                className="sr-only"
+              />
+              <span>{value === "male" ? dict.auth.genderMale : dict.auth.genderFemale}</span>
+            </label>
+          ))}
+        </div>
+        {genderError && <p id="gender-error" role="alert" className="mt-1 text-xs text-band-bad">{dict.auth.errorGenderRequired}</p>}
+      </fieldset>
       <div>
         <Label htmlFor="email">{dict.auth.email}</Label>
         <Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
