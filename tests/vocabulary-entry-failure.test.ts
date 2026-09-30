@@ -104,7 +104,7 @@ test("historical nullable vocabulary fields and legacy ledger entries remain exp
   assert.match(words, /word\.sourceSnapshot &&/);
   assert.match(words, /word\.translationUz &&/);
   assert.match(engine, /evaluationId: vocabularyUsages\.evaluationId/);
-  assert.match(engine, /function effectivePointRows\(\)/);
+  assert.match(engine, /function buildEffectivePointRows\(\)/);
   assert.match(engine, /row_number\(\) OVER/);
   assert.match(engine, /PARTITION BY[\s\S]*?vocabPointEvents\.userId[\s\S]*?vocabPointEvents\.createdAt/);
 });

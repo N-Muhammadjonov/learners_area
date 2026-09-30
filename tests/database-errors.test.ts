@@ -4,6 +4,7 @@ import {
   classifyDatabaseError,
   databaseUnavailableResponse,
 } from "../src/lib/http/database-errors";
+import { safeDatabaseDiagnostic } from "../src/lib/observability/errors";
 
 /**
  * "The database is not there" must be a distinguishable state.
@@ -68,6 +69,16 @@ test("the response body never leaks the driver message, host or user", () => {
   assert.match(text, /"error":"service_unavailable"/);
   assert.match(text, /"reason":"schema_missing"/);
   assert.doesNotMatch(text, /postgres|password|@|relation "users"/i);
+});
+
+test("safe SQL diagnostics walk wrapped driver errors without carrying messages or credentials", () => {
+  const driver = Object.assign(new Error("host=db.internal password=not-for-logs"), { name: "PostgresError", code: "42703" });
+  const wrapper = Object.assign(new Error("SELECT private data"), { cause: driver, query: "SELECT secret" });
+  const diagnostic = safeDatabaseDiagnostic(wrapper);
+  assert.deepEqual(diagnostic, { errorClass: "PostgresError", sqlState: "42703" });
+  const alphanumericState = Object.assign(new Error("sensitive text"), { name: "PostgresError", code: "22P02" });
+  assert.deepEqual(safeDatabaseDiagnostic(alphanumericState), { errorClass: "PostgresError", sqlState: "22P02" });
+  assert.doesNotMatch(JSON.stringify(diagnostic), /db\.internal|password|private data|secret|SELECT/i);
 });
 
 test("an unreachable database gets the connection wording, not the migration one", () => {

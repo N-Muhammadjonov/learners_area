@@ -10,6 +10,28 @@
  * place a message is allowed is the single truncated line
  * `instrumentation.ts` writes per failed request, where it is the whole point.
  */
+export function safeDatabaseDiagnostic(error: unknown): { errorClass: string; sqlState: string | null } {
+  const seen = new Set<unknown>();
+  const pending: unknown[] = [error];
+  let errorClass = "DatabaseError";
+  let sqlState: string | null = null;
+
+  while (pending.length > 0) {
+    const current = pending.shift();
+    if (typeof current !== "object" || current === null || seen.has(current)) continue;
+    seen.add(current);
+    const record = current as { name?: unknown; code?: unknown; cause?: unknown; errors?: unknown };
+    if (typeof record.name === "string" && /^[A-Za-z][A-Za-z0-9_]{0,63}$/.test(record.name) && record.name !== "Error") {
+      errorClass = record.name;
+    }
+    if (typeof record.code === "string" && /^[0-9A-Z]{5}$/.test(record.code)) sqlState = record.code;
+    if (record.cause) pending.push(record.cause);
+    if (Array.isArray(record.errors)) pending.push(...record.errors);
+  }
+
+  return { errorClass, sqlState };
+}
+
 export function safeErrorLabel(error: unknown): string {
   if (typeof error !== "object" || error === null) return typeof error;
   const name = (error as { name?: string }).name ?? "Error";

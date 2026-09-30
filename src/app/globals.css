@@ -742,17 +742,36 @@
 .flashcard-stage {
   display: flex;
   min-width: 0;
-  min-height: 470px;
+  min-height: 500px;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   padding: 4px 0 2px;
 }
-.flashcard-scene { width: min(100%, 840px); min-width: 0; height: 400px; perspective: 1200px; }
+.flashcard-scene {
+  width: min(100%, 780px);
+  min-width: 0;
+  height: 460px;
+  -webkit-perspective: 1200px;
+  perspective: 1200px;
+}
 .flashcard-3d-card { width: 100%; height: 100%; cursor: pointer; outline: none; }
 .flashcard-3d-card:focus-visible { border-radius: 1.5rem; box-shadow: 0 0 0 4px color-mix(in srgb, rgb(var(--gold)) 45%, transparent); }
-.flashcard-3d-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .52s cubic-bezier(.2,.7,.2,1); }
-.flashcard-3d-card[data-flipped="true"] .flashcard-3d-inner { transform: rotateY(180deg); }
+.flashcard-3d-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  -webkit-transform: rotateY(0deg);
+  -webkit-transform-style: preserve-3d;
+  -webkit-transition: -webkit-transform .52s cubic-bezier(.2,.7,.2,1);
+  transform: rotateY(0deg);
+  transform-style: preserve-3d;
+  transition: transform .52s cubic-bezier(.2,.7,.2,1);
+}
+.flashcard-3d-card[data-flipped="true"] .flashcard-3d-inner {
+  -webkit-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
 .flashcard-face {
   position: absolute;
   inset: 0;
@@ -773,6 +792,7 @@
 .flashcard-face-front { background: linear-gradient(145deg, rgb(var(--paper-raised)), rgb(var(--paper-sunken))); }
 .flashcard-face-back {
   justify-content: flex-start;
+  -webkit-transform: rotateY(180deg);
   transform: rotateY(180deg);
   overflow: hidden;
   padding: 48px 44px 24px;
@@ -881,8 +901,27 @@
   .flashcard-back-actions { padding-top: .875rem; }
   .flashcard-flip-button { width: 100%; min-width: 0; min-height: 58px; padding: 16px 22px; }
 }
+/* Reduced motion keeps both faces in the same plane and changes opacity in place;
+   the shared reduced-motion rule makes that side change effectively immediate. */
 @media (prefers-reduced-motion: reduce) {
-  .flashcard-3d-inner, .flashcard-flip-button, .flashcard-pronounce { transition-duration: .01ms; }
+  .flashcard-3d-inner {
+    -webkit-transform: none !important;
+    -webkit-transform-style: flat;
+    -webkit-transition: none;
+    transform: none !important;
+    transform-style: flat;
+    transition: none;
+  }
+  .flashcard-face {
+    -webkit-backface-visibility: visible;
+    backface-visibility: visible;
+    transition: opacity 120ms linear;
+  }
+  .flashcard-face-front { -webkit-transform: none; transform: none; opacity: 1; }
+  .flashcard-face-back { -webkit-transform: none; transform: none; opacity: 0; pointer-events: none; }
+  .flashcard-3d-card[data-flipped="true"] .flashcard-face-front { opacity: 0; pointer-events: none; }
+  .flashcard-3d-card[data-flipped="true"] .flashcard-face-back { opacity: 1; pointer-events: auto; }
+  .flashcard-flip-button, .flashcard-pronounce { transition-duration: .01ms; }
   .flashcard-pronounce:hover, .flashcard-flip-button:hover:not(:disabled) { transform: none; }
 }
 

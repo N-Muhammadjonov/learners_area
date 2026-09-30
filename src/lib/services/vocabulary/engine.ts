@@ -996,7 +996,19 @@ export async function moveToFolder(
 // Private leaderboard + streak (Asia/Tashkent)
 // ---------------------------------------------------------------------------
 
-function effectivePointRows() {
+/** Preserve the exact failed leaderboard query stage without leaking SQL or data. */
+async function leaderboardQuery<T>(stage: string, run: () => PromiseLike<T>): Promise<T> {
+  try {
+    return await run();
+  } catch (cause) {
+    const failure = new Error("vocabulary_leaderboard_query_failed") as Error & { leaderboardStage: string; cause?: unknown };
+    failure.leaderboardStage = stage;
+    failure.cause = cause;
+    throw failure;
+  }
+}
+
+export function buildEffectivePointRows() {
   return db.$with("effective_vocab_point_rows").as(
     db.select({
       id: vocabPointEvents.id,
@@ -1017,17 +1029,15 @@ function effectivePointRows() {
         END
         WHEN ${vocabPointEvents.kind} = 'sentence' THEN ${POINT_VALUES.sentence}
         ELSE 0
-      END::int`,
+      END::int`.as("effective_points"),
     }).from(vocabPointEvents),
   );
 }
 
-export async function getStanding(userId: string) {
-  // Effective score is derived from the current contract, not historical stored
-  // amounts. Legacy game-answer duplicates are collapsed per learner/entry/day.
-  const effectiveRows = effectivePointRows();
-  const [totals, days] = await Promise.all([
-    db.with(effectiveRows)
+export function buildStandingQueries(userId: string) {
+  const effectiveRows = buildEffectivePointRows();
+  return {
+    totals: () => db.with(effectiveRows)
       .select({
         userId: effectiveRows.userId,
         name: users.name,
@@ -1035,13 +1045,24 @@ export async function getStanding(userId: string) {
       })
       .from(effectiveRows)
       .innerJoin(users, eq(users.id, effectiveRows.userId))
+      .where(eq(users.role, "student"))
       .groupBy(effectiveRows.userId, users.name)
       .having(sql`sum(${effectiveRows.effectivePoints}) > 0`)
-      .orderBy(desc(sql`sum(${effectiveRows.effectivePoints})`)),
-    db.with(effectiveRows)
+      .orderBy(desc(sql`sum(${effectiveRows.effectivePoints})`), asc(users.name), asc(effectiveRows.userId)),
+    streakDays: () => db.with(effectiveRows)
       .select({ createdAt: effectiveRows.createdAt })
       .from(effectiveRows)
       .where(and(eq(effectiveRows.userId, userId), gt(effectiveRows.effectivePoints, 0))),
+  };
+}
+
+export async function getStanding(userId: string) {
+  // Effective score is derived from the current contract, not historical stored
+  // amounts. Legacy game-answer duplicates are collapsed per learner/entry/day.
+  const queries = buildStandingQueries(userId);
+  const [totals, days] = await Promise.all([
+    leaderboardQuery("standing_totals", queries.totals),
+    leaderboardQuery("standing_streak_days", queries.streakDays),
   ]);
 
   const ranked = totals.map((row, index) => ({ ...row, rank: index + 1 }));
@@ -1064,8 +1085,8 @@ export async function getStanding(userId: string) {
 }
 
 /** Recent provenance with current effective values, not obsolete stored amounts. */
-export async function recentAwards(userId: string, limit = 10) {
-  const effectiveRows = effectivePointRows();
+export function buildRecentAwardsQuery(userId: string, limit = 10) {
+  const effectiveRows = buildEffectivePointRows();
   return db.with(effectiveRows)
     .select({
       id: effectiveRows.id,
@@ -1077,6 +1098,10 @@ export async function recentAwards(userId: string, limit = 10) {
     .where(and(eq(effectiveRows.userId, userId), gt(effectiveRows.effectivePoints, 0)))
     .orderBy(desc(effectiveRows.createdAt))
     .limit(limit);
+}
+
+export async function recentAwards(userId: string, limit = 10) {
+  return leaderboardQuery("awards_recent", () => buildRecentAwardsQuery(userId, limit));
 }
 
 // ---------------------------------------------------------------------------

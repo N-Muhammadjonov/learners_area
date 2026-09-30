@@ -8,7 +8,9 @@ for (const key of ["window", "document", "navigator", "HTMLElement", "HTMLInputE
   Object.defineProperty(globalThis, key, { value: dom.window[key], configurable: true });
 }
 Object.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true, ResizeObserver: class { observe() {} disconnect() {} } });
-const { act } = await import("react");
+const React = await import("react");
+Object.assign(globalThis, { React });
+const { act } = React;
 const { createRoot } = await import("react-dom/client");
 const { ClickableText } = await import("../../src/components/vocabulary/ClickableText");
 const json = (body: unknown) => new Response(JSON.stringify(body), { headers: { "Content-Type": "application/json" } });

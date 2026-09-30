@@ -397,7 +397,7 @@ test("Vocabulary APIs re-authorize, no-store, and isolate secondary query failur
   }
   const engine = read("src/lib/services/vocabulary/engine.ts");
   assert.match(engine, /groupBy\(userVocabulary\.mastery, userVocabulary\.sourceType\)/);
-  assert.match(engine, /function effectivePointRows\(\)/);
+  assert.match(engine, /function buildEffectivePointRows\(\)/);
   assert.match(engine, /row_number\(\) OVER/);
   assert.match(read("src/components/vocabulary/types.ts"), /evaluationId: string \| null/);
 });

@@ -525,6 +525,9 @@ function Flashcards({ dict, words, sourceHeading }: { dict: Dictionary; words: G
         </aside>
 
         <section className="min-w-0" aria-label={t.games.cards}>
+          <p className="sr-only" role="status" aria-live="polite" data-flashcard-side-announcement>
+            {cardSideLabel}
+          </p>
           <div className="flashcard-stage" data-flashcard-stage>
             <div className="flashcard-scene" data-flashcard-scene>
               <article
@@ -549,12 +552,13 @@ function Flashcards({ dict, words, sourceHeading }: { dict: Dictionary; words: G
                 }}
               >
                 <div className="flashcard-3d-inner" data-flashcard-inner>
-                  <div className="flashcard-face flashcard-face-front" aria-hidden={flipped} inert={flipped}>
+                  {/* aria-hidden/inert only change accessibility and interaction; neither removes a painted face during the turn. */}
+                  <div className="flashcard-face flashcard-face-front" data-flashcard-face="definition" aria-hidden={flipped} inert={flipped}>
                     <span className="flashcard-kicker">{t.games.definition}</span>
                     <p className="flashcard-definition">{current.definitionEn}</p>
                     <p className="flashcard-instruction">{t.games.flashcardInstruction}</p>
                   </div>
-                  <div className="flashcard-face flashcard-face-back" aria-hidden={!flipped} inert={!flipped}>
+                  <div className="flashcard-face flashcard-face-back" data-flashcard-face="answer" aria-hidden={!flipped} inert={!flipped}>
                     <Speaker word={current.term} label={t.games.pronounce} />
                     <div className="flashcard-answer-body">
                       <span className="flashcard-kicker">{t.games.vocabularyAnswer}</span>

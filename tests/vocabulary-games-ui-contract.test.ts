@@ -22,8 +22,8 @@ test("Flashcards use a truthful source heading and a definition-only remaining q
 test("Flashcards use the reference stage proportions and responsive queue layout", () => {
   assert.match(css, /\.flashcard-layout\s*\{\s*grid-template-columns:\s*minmax\(200px,\s*220px\)\s+minmax\(0,\s*1fr\);\s*gap:\s*1\.25rem/);
   assert.match(css, /\.flashcard-queue\s*\{[\s\S]*?max-height:\s*640px/);
-  assert.match(css, /\.flashcard-stage\s*\{[\s\S]*?min-height:\s*470px/);
-  assert.match(css, /\.flashcard-scene\s*\{\s*width:\s*min\(100%,\s*840px\);\s*min-width:\s*0;\s*height:\s*400px/);
+  assert.match(css, /\.flashcard-stage\s*\{[\s\S]*?min-height:\s*500px/);
+  assert.match(css, /\.flashcard-scene\s*\{[\s\S]*?width:\s*min\(100%,\s*780px\);[\s\S]*?height:\s*460px/);
   assert.match(css, /@media \(max-width:\s*820px\)[\s\S]*?\.flashcard-layout\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)/);
   assert.match(css, /@media \(max-width:\s*820px\)[\s\S]*?\.flashcard-stage\s*\{\s*min-height:\s*555px/);
   assert.match(css, /@media \(max-width:\s*820px\)[\s\S]*?\.flashcard-scene\s*\{\s*width:\s*100%;\s*height:\s*470px/);
@@ -44,9 +44,19 @@ test("Flashcards expose the real 3D flip, keyboard controls, and isolated pronun
   assert.match(speaker, /data-flashcard-pronounce/);
   assert.match(speaker, /event\.stopPropagation\(\)/);
   assert.doesNotMatch(speaker, /setFlipped|setMarks|setIndex|answer\(/);
-  assert.match(css, /\.flashcard-3d-card\[data-flipped="true"\] \.flashcard-3d-inner \{[^}]*rotateY\(180deg\)/);
-  assert.match(css, /\.flashcard-3d-inner\s*\{[^}]*transform-style:\s*preserve-3d;[^}]*transition:\s*transform \.52s cubic-bezier\(\.2,\.7,\.2,1\)/);
-  assert.match(css, /@media \(prefers-reduced-motion:\s*reduce\)[\s\S]*?\.flashcard-3d-inner[^}]*transition-duration:\s*\.01ms/);
+  assert.match(flashcards, /data-flipped=\{flipped \? "true" : "false"\}/);
+  assert.match(flashcards, /setFlipped\(\(value\) => !value\)/);
+  assert.match(flashcards, /data-flashcard-face="definition"[\s\S]*?data-flashcard-face="answer"/);
+  assert.match(flashcards, /data-flashcard-side-announcement[\s\S]*?cardSideLabel/);
+  assert.match(css, /\.flashcard-3d-card\[data-flipped="true"\] \.flashcard-3d-inner[\s\S]*?transform: rotateY\(180deg\)/);
+  assert.match(css, /-webkit-perspective:\s*1200px;[\s\S]*?perspective:\s*1200px/);
+  assert.match(css, /-webkit-transform-style:\s*preserve-3d;[\s\S]*?transform-style:\s*preserve-3d/);
+  assert.match(css, /transition:\s*transform \.52s cubic-bezier\(\.2,\.7,\.2,1\)/);
+  const reducedMotion = css.slice(css.indexOf("@media (prefers-reduced-motion: reduce)", css.indexOf("Definition-first Vocabulary Flashcards")), css.indexOf(".race-answer-box"));
+  assert.match(reducedMotion, /transform:\s*none !important/);
+  assert.match(reducedMotion, /transition:\s*opacity 120ms linear/);
+  assert.match(reducedMotion, /\.flashcard-3d-card\[data-flipped="true"\] \.flashcard-face-back \{ opacity: 1/);
+  assert.doesNotMatch(reducedMotion, /rotateY\(180deg\)/);
 });
 
 test("Flashcard choices get unmistakable day/night feedback without awarding mastery", () => {
