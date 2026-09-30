@@ -116,6 +116,7 @@ const uz: Dictionary = {
     writingBody: "Writing mavzulari (Task 1 / Task 2).",
     videoBody: "Video darslarni joylash va nashr qilish.",
     contentBody: "Barcha kontentni bir joydan ko'rish va nashr holatini boshqarish.",
+    materialsBody: "Istalgan kontent turiga xulosa, havola va audio biriktirish.",
     ownerBody: "Markaz sozlamalari va umumiy ko'rsatkichlar.",
     integrationsBody: "Telegram, AI va boshqa tashqi xizmatlar holati.",
     retentionBody: "Ma'lumotlarni saqlash siyosatini ko'rish va qo'llash.",

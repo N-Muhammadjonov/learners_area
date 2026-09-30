@@ -140,6 +140,12 @@ export default async function ManagementPage() {
         icon: <IconPlay />,
       },
       {
+        href: "/admin/materials",
+        title: dict.admin.materialsTitle,
+        body: dict.management.materialsBody,
+        icon: <IconContent />,
+      },
+      {
         href: "/admin/content",
         title: dict.nav.contentLibrary,
         body: dict.management.contentBody,

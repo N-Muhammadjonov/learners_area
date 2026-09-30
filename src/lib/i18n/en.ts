@@ -114,6 +114,7 @@ const en = {
     writingBody: "Writing prompts (Task 1 / Task 2).",
     videoBody: "Publish and manage video lessons.",
     contentBody: "See all content in one place and manage publication state.",
+    materialsBody: "Attach summaries, links and audio to any content kind.",
     ownerBody: "Centre settings and overall figures.",
     integrationsBody: "Telegram, AI and other external services.",
     retentionBody: "Inspect and apply the data retention policy.",
