@@ -44,7 +44,7 @@ export function VocabUsePanel({
     setSentencesStatus("loading");
     try {
       // Bounded read: deadline + one transient retry; 401 returns to the server gate.
-      const payload = await fetchPrivateJson<Record<string, any>>("/api/vocabulary/sentences?view=history", { onAuthFailure: () => router.refresh(), retries: 1 });
+      const payload = await fetchPrivateJson<Record<string, any>>("/api/vocabulary/sentences?view=history", { onAuthFailure: () => router.refresh(), retries: 0 });
       setSentences(payload.sentences ?? []);
       setSentencesStatus("ready");
     } catch {
@@ -56,7 +56,7 @@ export function VocabUsePanel({
     setWordsStatus("loading");
     try {
       // Bounded read: deadline + one transient retry; 401 returns to the server gate.
-      const payload = await fetchPrivateJson<Record<string, any>>("/api/vocabulary/sentences?view=words&limit=100", { onAuthFailure: () => router.refresh(), retries: 1 });
+      const payload = await fetchPrivateJson<Record<string, any>>("/api/vocabulary/sentences?view=words&limit=100", { onAuthFailure: () => router.refresh(), retries: 0 });
       const nextWords: PickerWord[] = payload.words ?? [];
       setWords(nextWords);
       setEntryId((current) => current && nextWords.some((word) => word.id === current) ? current : nextWords[0]?.id ?? "");

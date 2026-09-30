@@ -574,5 +574,38 @@ test("v2: answer-scoped claims apply denials per sentence too", () => {
 });
 
 test("v2: evaluator version is bumped for newly graded attempts", () => {
-  assert.equal(RETENTION_EVALUATOR_VERSION, "retention-deterministic-v2");
+  assert.equal(RETENTION_EVALUATOR_VERSION, "retention-deterministic-v3");
+});
+
+test("unrelated disclaimer sharing a critical date cannot negate the company claim", () => {
+  const structure = validateMeasurementStructure({
+    schemaVersion: 1,
+    maxScore: 100,
+    claims: [{
+      id: "company-founded",
+      label: "The company was founded in 1998",
+      points: 100,
+      scope: "sentence",
+      groups: [
+        { id: "subject", kind: "concept", points: 40, anyOf: ["company"] },
+        { id: "date", kind: "date", critical: true, points: 60, anyOf: ["1998"] },
+      ],
+      acceptedPhrases: [],
+      rejectPhrases: [],
+    }],
+  });
+  const unrelated = evaluateRecall(
+    "The company was founded in 1998. The weather report for 1998 was not true.",
+    structure,
+  );
+  assert.equal(unrelated.score, 100);
+  assert.equal(unrelated.breakdown.claims[0]?.status, "captured");
+  const actualDenial = evaluateRecall(
+    "The company was founded in 1998. It was not true.",
+    structure,
+  );
+  assert.equal(actualDenial.score, 0);
+  assert.equal(actualDenial.breakdown.claims[0]?.status, "contradicted");
+  const bareDateDenial = evaluateRecall("The company was founded in 1998. 1998 was not true.", structure);
+  assert.equal(bareDateDenial.score, 0);
 });

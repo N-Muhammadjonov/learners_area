@@ -99,10 +99,26 @@ function scoreUnit(claim: MeasurementClaim, unit: string[]): UnitVerdict {
   return { score: Math.min(score, claim.points), matched };
 }
 
-/** Does this unit carry any evidence about the claim at all? */
+/**
+ * Is this denial about THE claim? (v2)
+ *
+ * Token overlap alone is not enough: a shared year does not make "The weather
+ * report for 1998 was not true" a statement about the company founded in 1998.
+ * A unit is the claim's subject when it carries the claim's ordinary wording (an
+ * accepted phrase or a concept/entity group). When it overlaps only through a
+ * number or date, it is the claim's subject only if it carries no foreign content
+ * of its own — "1998 was not true" still denies the claim.
+ */
 function unitRelevantTo(claim: MeasurementClaim, unit: string[]): boolean {
-  return claim.groups.some((group) => groupMatches(group, unit)) ||
-    claim.acceptedPhrases.some((phrase) => phraseMatches(unit, phrase));
+  if (claim.acceptedPhrases.some((phrase) => phraseMatches(unit, phrase))) return true;
+  const matched = claim.groups.filter((group) => groupMatches(group, unit));
+  if (matched.length === 0) return false;
+  if (matched.some((group) => group.kind !== "number" && group.kind !== "date")) return true;
+  const claimTokens = new Set<string>();
+  for (const group of claim.groups) for (const alternative of group.anyOf) for (const token of tokens(alternative)) claimTokens.add(token);
+  return unit.every((token) =>
+    claimTokens.has(token) || /^\d+$/u.test(token) || DENIAL_FILLER.has(token) ||
+    DISCLAIMER_PREFIXES.some((prefix) => token.startsWith(prefix)));
 }
 
 const DENIAL_FILLER = new Set(["not", "never", "no", "but", "and", "so", "however", "what", "all", ",", "actually", "really", "at"]);

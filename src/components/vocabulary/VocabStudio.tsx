@@ -32,11 +32,12 @@ type SearchHit = {
 };
 
 /**
- * Bounded private GET (deadline + at most one transient retry). A 401 sends the
- * route back through the server gate; nothing here is authority.
+ * Bounded private GET (deadline, no automatic retry). Part 1 contract: a failed
+ * region makes exactly one request and shows its own Retry control, which is the
+ * only re-request. A 401 sends the route back through the server gate.
  */
 function readPrivateJson<T>(url: string, onAuthFailure: () => void): Promise<T> {
-  return fetchPrivateJson<T>(url, { onAuthFailure, retries: 1 });
+  return fetchPrivateJson<T>(url, { onAuthFailure, retries: 0 });
 }
 
 /**
