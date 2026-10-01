@@ -84,3 +84,23 @@ test("account resolution: sub wins, no email merge, unverified refused, new user
   assert.equal(created.user.role, "student");
   assert.equal(created.user.passwordHash, null);
 });
+
+test("account resolution: e-mail case variants never bypass link_required; new e-mail stored lower-cased", async () => {
+  await database.query(`insert into users (name, role, account_status, email, password_hash) values ('Case user', 'student', 'active', 'case@example.test', 'x')`);
+  const conn = database.db as never;
+  const variant = await resolveGoogleAccount({ sub: "g-case", email: "  CASE@Example.TEST ", emailVerified: true, name: "C" }, { locale: "uz" }, conn);
+  assert.equal(variant.kind, "link_required");
+  const count = await database.query<{ n: number }>(`select count(*)::int n from users where lower(email) = 'case@example.test'`);
+  assert.equal(count[0]!.n, 1, "no duplicate account");
+  const fresh = await resolveGoogleAccount({ sub: "g-upper", email: "New.Person@Example.TEST", emailVerified: true, name: null }, { locale: "en" }, conn);
+  assert.ok(fresh.kind === "signed_in" && fresh.created && fresh.user.email === "new.person@example.test");
+});
+
+test("account resolution: a concurrent duplicate callback resolves to the winner instead of a 500", async () => {
+  const conn = database.db as never;
+  const claims = { sub: "g-race", email: "race@example.test", emailVerified: true, name: "R" };
+  const [a, b] = await Promise.all([resolveGoogleAccount(claims, { locale: "en" }, conn), resolveGoogleAccount(claims, { locale: "en" }, conn)]);
+  assert.equal(a.kind, "signed_in"); assert.equal(b.kind, "signed_in");
+  const rows = await database.query<{ n: number }>(`select count(*)::int n from users where google_sub = 'g-race'`);
+  assert.equal(rows[0]!.n, 1);
+});
