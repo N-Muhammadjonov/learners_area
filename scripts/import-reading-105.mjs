@@ -112,6 +112,7 @@ function log(message = "") {
 // ---------------------------------------------------------------------------
 
 function readBundleFromDisk(source) {
+  if (!existsSync(source)) stop(`source ${source} does not exist — expected a zip containing ${FILE_INSIDE_ZIP} or a directory with ${BUNDLE_RELATIVE_PATH}`);
   const stat = statSync(source);
   if (stat.isDirectory()) {
     const direct = join(source, BUNDLE_RELATIVE_PATH);
@@ -972,6 +973,20 @@ async function verify(client) {
 // ---------------------------------------------------------------------------
 
 async function main() {
+  // A dry run only parses and validates the source package: it must not need a
+  // database URL or open a connection (N16). Writes and --verify still do.
+  if (SOURCE && !APPLY && !VERIFY) {
+    const bundle = loadBundle(SOURCE);
+    const { plans, lexemes, occurrences } = buildPlan(bundle);
+    log("");
+    log(`source batch  ${bundle.batch?.name ?? "(unnamed)"} — passages ${bundle.batch?.passage_count ?? "?"}`);
+    log(`source check  ${bundle.validation?.status ?? "unknown"}`);
+    printPlanSummary(plans, lexemes, occurrences);
+    log("");
+    log("Dry run — no database connection was opened and nothing was written. Re-run with --apply to import.");
+    writeReport({ mode: "dry-run", plans, lexemes, occurrences });
+    return;
+  }
   const pool = createPool();
   const client = await pool.connect();
 
