@@ -3,7 +3,7 @@
  * N11 — idempotent importer for the canonical speaking master bank (880 rows).
  *
  *   node scripts/import-speaking-bank.mjs --source <bank.jsonl>            # dry run, no DB
- *   node scripts/import-speaking-bank.mjs --source <bank.jsonl> --apply    # write
+ *   node scripts/import-speaking-bank.mjs --source <bank.jsonl> --apply [--receipt <file>]   # write + receipt
  *   node scripts/import-speaking-bank.mjs --verify                         # read-only counts
  *
  * Rules:
@@ -15,7 +15,8 @@
  *     SPEAKING_IMPORT_CONFIRM_DATABASE=<exact database name>; never run it against
  *     Production without the owner's written approval.
  */
-import { readFileSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import pg from "pg";
 import { planSpeakingBank } from "./speaking-bank-dry-run.mjs";
 
@@ -69,6 +70,25 @@ export async function importRows(pool, rows) {
   } finally { client.release(); }
 }
 
+/** Publication boundary counts for imported rows: drafts vs anything a learner could see. */
+export async function publicationCounts(pool) {
+  const { rows: [r] } = await pool.query(
+    `select count(*) filter (where publication_state = 'draft')::int as draft,
+            count(*) filter (where publication_state <> 'draft')::int as not_draft
+       from speaking_prompts where external_id is not null`);
+  return { draft: r.draft, notDraft: r.not_draft };
+}
+
+/** Receipt for an apply run: source hash, database NAME (never the URL), counts. */
+export function importReceipt({ text, database, result, byPart, publication, at = new Date().toISOString() }) {
+  return {
+    at, mode: "apply", database,
+    source: { sha256: createHash("sha256").update(text).digest("hex"), rows: text.split("\n").filter((l) => l.trim()).length },
+    ...result, byPart, publication,
+    boundary: "insert-only (ON CONFLICT DO NOTHING); rows land as draft; publishing is an owner action in Management",
+  };
+}
+
 export async function verify(pool) {
   const { rows } = await pool.query(
     `select part, count(*)::int as n, count(distinct external_id)::int as ids from speaking_prompts where external_id is not null group by part order by part`
@@ -94,7 +114,12 @@ async function main() {
   const pool = new Pool({ connectionString: process.env.DATABASE_URL, max: 2 });
   try {
     const result = await importRows(pool, rowsFromBank(text));
-    console.log(JSON.stringify({ mode: "apply", database, ...result, byPart: await verify(pool) }, null, 2));
+    const receipt = importReceipt({ text, database, result, byPart: await verify(pool), publication: await publicationCounts(pool) });
+    const file = value("--receipt") ?? `docs/receipts/N11-speaking-bank-import-${database}-${receipt.at.replace(/[:.]/g, "-")}.json`;
+    mkdirSync(file.replace(/\/[^/]*$/, ""), { recursive: true });
+    writeFileSync(file, JSON.stringify(receipt, null, 2) + "\n");
+    console.log(JSON.stringify(receipt, null, 2));
+    console.log(`receipt: ${file}`);
   } finally { await pool.end(); }
 }
 
