@@ -116,3 +116,15 @@ test("signal token: audience/issuer/expiry bound; tamper and wrong secret reject
   await assert.rejects(verifySignalToken(token.slice(0, -2) + "aa", secret, at(10)));
   assert.equal(await issueSignalToken({ userId: "u", sessionId: "s" }, undefined), null);
 });
+
+test("questions: one filter over the canonical bank, grouped by part, diacritic-insensitive", async () => {
+  const { filterQuestions } = await import("../src/lib/live-partner/questions");
+  const rows = [
+    { id: "1", part: "part1", topic: "Hometown", promptText: "Where is your hometown?", cueCard: null },
+    { id: "2", part: "part2", topic: "Café", promptText: "Describe a café", cueCard: "You should say where it is" },
+    { id: "3", part: "part3", topic: "Cities", promptText: "Why do people move to cities?", cueCard: null },
+  ];
+  assert.deepEqual(Object.values(filterQuestions(rows, "")).map((g) => g.length), [1, 1, 1]);
+  assert.deepEqual(filterQuestions(rows, "cafe").part2.map((r) => r.id), ["2"]);
+  assert.deepEqual(filterQuestions(rows, "move cities").part3.map((r) => r.id), ["3"]);
+});

@@ -248,7 +248,7 @@ async function speakingScores(tx: Tx | Database, ids: string[]) {
      where user_id = any(${`{${ids.join(",")}}`}::uuid[])
        and source_type = 'speaking_attempt' and overall_estimate is not null
      order by user_id, created_at desc`);
-  return new Map((rows.rows as { user_id: string; overall_estimate: number }[]).map((r) => [r.user_id, r.overall_estimate]));
+  return new Map((rows.rows as { user_id: string; overall_estimate: number }[]).map((r) => [r.user_id, Number(r.overall_estimate)]));
 }
 
 export type OnlineUser = { userId: string; name: string; avatar: "a" | "b"; speakingScore: number | null };
@@ -300,3 +300,10 @@ export async function getState(userId: string, now = new Date(), connection: Dat
   return connection.transaction(async (tx) => { await sweep(tx, now); return getStateTx(tx, userId, now); });
 }
 export type LivePartnerStatePayload = Awaited<ReturnType<typeof getState>>;
+
+/** The "YOU" card: system avatar from gender and the authoritative S score (or null → "S —"). */
+export async function getLivePartnerProfile(userId: string, connection: Database = db) {
+  const [u] = await connection.select({ gender: users.gender }).from(users).where(eq(users.id, userId));
+  const scores = await speakingScores(connection, [userId]);
+  return { avatar: u?.gender === "female" ? ("b" as const) : ("a" as const), hasGender: Boolean(u?.gender), speakingScore: scores.get(userId) ?? null };
+}

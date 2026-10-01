@@ -127,6 +127,13 @@ export function PracticeStudio({
   async function startRecording(id: string | null = attemptId) {
     if (!id) return;
     setError("");
+    // Account-level rule: starting Practice takes Live Partner presence OFFLINE
+    // (all tabs) and cancels invites; it never ends a live call — the server
+    // refuses with 409 in_call and the recording does not start.
+    try {
+      const presence = await fetch("/api/live-partner", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ action: "practice_started" }), signal: AbortSignal.timeout(5_000) });
+      if (presence.status === 409) { setError(t.errors.liveCallActive); return; }
+    } catch { /* presence is best-effort; the server sweep removes stale AVAILABLE rows */ }
     try {
       const recorder = await createRecorder();
       recorderRef.current = recorder;

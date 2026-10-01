@@ -34,3 +34,19 @@ the Preview over TLS. Local tests are not live PASS. Nothing here is OWNER-VERIF
 - `npm test`: 607 tests, 583 passed, 0 failed, 24 skipped (PostgreSQL gates)
 - UI suite: 83/83 pass · `verify-retention-schema`: 11 passed, 0 failed · `git diff --check` clean
 - `npm run build`: fails locally only because `next/font/google` cannot reach Google Fonts from the sandbox; Vercel built aa94e85 successfully.
+
+## N10 — Speaking / Live Partner (2026-10-01)
+
+| gate | evidence | status |
+|---|---|---|
+| model + migration | `src/db/schema.ts` live_partner_* tables; `drizzle/0027_live_partner.sql` (additive). Applied to isolated learners_qa2 only | PASS (local) |
+| state machine | `src/lib/data/live-partner.ts`: per-user row locks in uuid order; explicit Go Online (rules v1 + active + gender); 45 s heartbeat freshness; 30 s invite TTL; 60 s reconnect grace; practice-start → OFFLINE, refused (409) during a call | PASS (local) |
+| races (PGlite, logic only) | `tests/live-partner-db.test.ts` 9/9: mutual invite, second inviter, duplicate accept → same room, expiry, decline, blocking both directions, vanished participant, no media columns | PASS (not concurrency proof) |
+| races (real PostgreSQL 18.4, separate pool connections) | `tests/qa2-live-partner.test.ts` 1/1: 6 concurrent invites → 1 wins; simultaneous A↔B → 1 wins; 5 concurrent accepts → 1 session | PASS (local isolated DB) |
+| canonical bank | Practice and Live Partner read the same `speaking_prompts` rows, filtered by `available_in`; QA2: 880/880 imported rows carry both channels (still draft, unpublished) | PASS (local) |
+| API | `src/app/api/live-partner/route.ts`: GET state+online (private, no-store); POST actions; the user id always comes from the session, never the request body; no auto-retry on the client | code + typecheck |
+| signalling token | `src/lib/live-partner/signal-token.ts`: HS256, aud `learners-area-live-signal`, 120 s lifetime, issued only to the session's participants | PASS (tests) |
+| UI | `/speaking/live-partner`: YOU (system avatar, S score or "S —"), QUESTIONS (search + Part 1/2/3 accordions), ONLINE USERS; rules modal → local mic level meter (no upload) → Go Online | build PASS; browser UNVERIFIED |
+| realtime audio (WebRTC media) | needs an external signalling service (`LIVE_PARTNER_SIGNAL_URL` wss + `LIVE_PARTNER_SIGNAL_SECRET`) and TURN relay credentials. Not provisioned; the UI says audio is not configured and offers End call. No fake call | BLOCKED — external dependency |
+
+Changed test: `tests/video-standalone.test.ts` W11 — old: `journal.entries.at(-1).tag === "0024_video_lessons_standalone"` and `idx === 24`; new: the entry with that tag has `idx === 24` and the journal indexes are contiguous 0..n. This was failing since 0025 was added.

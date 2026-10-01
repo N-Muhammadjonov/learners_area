@@ -1,4 +1,4 @@
-import { and, asc, desc, eq } from "drizzle-orm";
+import { and, asc, desc, eq, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { speakingAttempts, speakingPrompts } from "@/db/schema";
 import { isLive, liveWhere } from "@/lib/services/cms/publication";
@@ -6,13 +6,30 @@ import { isLive, liveWhere } from "@/lib/services/cms/publication";
 /** Prompts a student may practise against, in a stable order. */
 export async function listActivePrompts() {
   return db.query.speakingPrompts.findMany({
-    where: liveWhere({
-      publicationState: speakingPrompts.publicationState,
-      publishAt: speakingPrompts.publishAt,
-    }),
+    where: and(
+      liveWhere({ publicationState: speakingPrompts.publicationState, publishAt: speakingPrompts.publishAt }),
+      sql`${speakingPrompts.availableIn} @> '["practice_alone"]'::jsonb`,
+    ),
     orderBy: [asc(speakingPrompts.part), asc(speakingPrompts.createdAt)],
   });
 }
+
+/**
+ * Live Partner questions come from the SAME canonical `speaking_prompts` rows as
+ * Practice (one bank, one publication rule); only the channel flag differs.
+ * Minimal columns, bounded — optional conversation aids, not an exam script.
+ */
+export async function listLivePartnerQuestions() {
+  return db.select({ id: speakingPrompts.id, part: speakingPrompts.part, topic: speakingPrompts.topic, promptText: speakingPrompts.promptText, cueCard: speakingPrompts.cueCard })
+    .from(speakingPrompts)
+    .where(and(
+      liveWhere({ publicationState: speakingPrompts.publicationState, publishAt: speakingPrompts.publishAt }),
+      sql`${speakingPrompts.availableIn} @> '["live_partner"]'::jsonb`,
+    ))
+    .orderBy(asc(speakingPrompts.part), asc(speakingPrompts.externalId), asc(speakingPrompts.createdAt))
+    .limit(1500);
+}
+export type LivePartnerQuestion = Awaited<ReturnType<typeof listLivePartnerQuestions>>[number];
 
 export type AttemptWithPrompt = typeof speakingAttempts.$inferSelect & {
   prompt: typeof speakingPrompts.$inferSelect | null;

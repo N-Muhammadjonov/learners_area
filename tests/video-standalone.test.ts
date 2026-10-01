@@ -5,14 +5,16 @@ import { parseTranscriptInput } from "../src/lib/services/video/transcript";
 
 const read = (path: string) => readFileSync(new URL(`../${path}`, import.meta.url), "utf8");
 
-test("W11: migration 0024 is non-destructive, journaled last and matches the schema", () => {
+test("W11: migration 0024 is non-destructive, journaled at idx 24 (in order) and matches the schema", () => {
   const sql = read("drizzle/0024_video_lessons_standalone.sql");
   assert.match(sql, /ALTER TABLE "video_lessons" ALTER COLUMN "lesson_id" DROP NOT NULL;/);
   assert.match(sql, /ALTER TABLE "video_lessons" ADD COLUMN "transcript_text" text;/);
   assert.doesNotMatch(sql, /DROP TABLE|DROP COLUMN|DELETE FROM|TRUNCATE/i);
   const journal = JSON.parse(read("drizzle/meta/_journal.json")) as { entries: { idx: number; tag: string }[] };
-  assert.equal(journal.entries.at(-1)?.tag, "0024_video_lessons_standalone");
-  assert.equal(journal.entries.at(-1)?.idx, 24);
+  // 0024 was last when written; later additive migrations (0025+) follow it in order.
+  const entry = journal.entries.find((e: { tag: string }) => e.tag === "0024_video_lessons_standalone");
+  assert.equal(entry?.idx, 24);
+  assert.deepEqual(journal.entries.map((e: { idx: number }) => e.idx), journal.entries.map((_: unknown, i: number) => i), "journal contiguous and ordered");
   const schema = read("src/db/schema.ts");
   assert.match(schema, /lessonId: uuid\("lesson_id"\)\.references\(\(\) => lessons\.id/);
   assert.match(schema, /transcriptText: text\("transcript_text"\)/);

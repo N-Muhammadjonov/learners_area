@@ -1119,6 +1119,29 @@ const en = {
     blocksPending: "Wait for the uploads to finish.",
     titleRequired: "A title is required.",
   },
+  livePartner: {
+    title: "Live Partner",
+    intro: "Practise speaking with another learner in a live voice call. You stay offline until you choose Go Online.",
+    you: "You", questions: "Questions", onlineUsers: "Online users", avatar: "Avatar",
+    search: "Search questions", noQuestions: "No questions match.", loading: "Loading…", nobodyOnline: "Nobody is available right now.",
+    parts: { part1: "Part 1", part2: "Part 2", part3: "Part 3" },
+    goOnline: "Go Online", goOffline: "Go Offline", invite: "Invite", cancelInvite: "Cancel invite", accept: "Accept", decline: "Decline",
+    endCall: "End call", block: "Block this user", close: "Close", agree: "I agree",
+    incomingTitle: "Incoming invitation", incomingBody: "wants to practise with you.",
+    states: { offline: "You are offline.", available: "You are online and visible to others.", outgoing_invite: "Waiting for your partner to answer…", incoming_invite: "You have an invitation.", connecting: "Connecting…", in_call: "In call", reconnecting: "Reconnecting…" },
+    rulesTitle: "Live Partner rules",
+    rules: ["Be respectful; speak English and stay on topic.", "No recording of your partner. Calls are not recorded by Learners Area.", "Do not share personal contact details.", "You can end the call or block a user at any time."],
+    micTitle: "Microphone check", micBody: "Speak a few words. The level is measured on this device only; nothing is recorded or uploaded.", micLevel: "Microphone level", micReady: "Microphone works — go online",
+    realtimeMissing: "The realtime audio service is not configured in this environment, so this call cannot carry audio. End the call to return.",
+    errors: {
+      unavailable: "Live Partner is unavailable right now. Try again.", unknownResult: "We could not confirm the result. The status will refresh.",
+      mic: "Microphone access failed. Allow the microphone and try again.",
+      rules_outdated: "The rules changed. Please read them again.", rules_required: "Please accept the rules first.", not_eligible: "Your account cannot use Live Partner.",
+      profile_incomplete: "Complete your profile (gender) to get a system avatar first.", in_call: "End your current call first.", not_available: "You are not available for a new invite.",
+      partner_busy: "This user is no longer available.", invalid_target: "Invalid user.", invite_not_found: "This invitation no longer exists.", invite_closed: "This invitation has ended.",
+      session_not_found: "This call no longer exists.", session_ended: "This call has ended.", invalid_input: "Invalid request.", realtime_not_configured: "Realtime audio is not configured.",
+    },
+  },
   speakingPractice: {
     title: "Speaking practice",
     intro: "Pick a prompt, prepare, record, and submit. Your recording is stored privately and shows up in your history.",
@@ -1152,6 +1175,7 @@ const en = {
     noTranscriptBody:
       "Transcription and scoring need a configured speech-to-text and evaluation provider. Nothing is estimated or invented here — the recording itself is what is saved and reviewed.",
     errors: {
+      liveCallActive: "A Live Partner call is active in another tab. End that call before recording Practice.",
       unsupported: "This browser cannot record audio.",
       permission_denied: "Microphone permission was denied. Allow it in your browser settings and try again.",
       no_microphone: "No microphone was found.",

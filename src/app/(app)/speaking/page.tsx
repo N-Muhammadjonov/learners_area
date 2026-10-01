@@ -109,6 +109,9 @@ export default async function SpeakingPage() {
           <Link href="/speaking/practice" className="btn-secondary " data-speaking-practice-link>
             {dict.speakingPractice.title} →
           </Link>
+          <Link href="/speaking/live-partner" className="btn-secondary " data-live-partner-link>
+            {dict.livePartner.title} →
+          </Link>
           <Link href="/speaking/shadowing" className="btn-secondary " data-shadowing-link>
             {dict.speakingShadowing.title} →
           </Link>

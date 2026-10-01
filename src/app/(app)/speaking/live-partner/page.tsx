@@ -1,0 +1,24 @@
+import { requireActiveUser } from "@/lib/auth/current-user";
+import { getDictionary, getLocale } from "@/lib/i18n";
+import { listLivePartnerQuestions } from "@/lib/data/speaking-practice";
+import { getLivePartnerProfile } from "@/lib/data/live-partner";
+import { LivePartnerClient } from "@/components/speaking/LivePartnerClient";
+
+export const dynamic = "force-dynamic";
+
+/** Opening this page never changes presence: the learner stays OFFLINE until Go Online. */
+export default async function LivePartnerPage() {
+  const user = await requireActiveUser();
+  if (!user) return null;
+  const dict = getDictionary(await getLocale());
+  const [questions, profile] = await Promise.all([listLivePartnerQuestions(), getLivePartnerProfile(user.id)]);
+  return (
+    <div className="mx-auto flex max-w-6xl flex-col gap-4" data-route-usable="live-partner">
+      <div>
+        <h1 className="font-display text-2xl text-ink-900">{dict.livePartner.title}</h1>
+        <p className="text-sm text-ink-500">{dict.livePartner.intro}</p>
+      </div>
+      <LivePartnerClient dict={dict} me={{ name: user.name, ...profile }} questions={questions} />
+    </div>
+  );
+}

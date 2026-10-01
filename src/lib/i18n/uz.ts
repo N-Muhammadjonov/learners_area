@@ -1122,6 +1122,29 @@ const uz: Dictionary = {
     blocksPending: "Yuklashlar tugashini kuting.",
     titleRequired: "Sarlavha kiritilishi shart.",
   },
+  livePartner: {
+    title: "Live Partner",
+    intro: "Boshqa o'quvchi bilan jonli ovozli qo'ng'iroqda gapirishni mashq qiling. Go Online'ni bosmaguningizcha oflayn qolasiz.",
+    you: "Siz", questions: "Savollar", onlineUsers: "Onlayn foydalanuvchilar", avatar: "Avatar",
+    search: "Savollarni qidirish", noQuestions: "Mos savol yo'q.", loading: "Yuklanmoqda…", nobodyOnline: "Hozir hech kim bo'sh emas.",
+    parts: { part1: "Part 1", part2: "Part 2", part3: "Part 3" },
+    goOnline: "Go Online", goOffline: "Oflayn bo'lish", invite: "Taklif qilish", cancelInvite: "Taklifni bekor qilish", accept: "Qabul qilish", decline: "Rad etish",
+    endCall: "Qo'ng'iroqni tugatish", block: "Bu foydalanuvchini bloklash", close: "Yopish", agree: "Roziman",
+    incomingTitle: "Kiruvchi taklif", incomingBody: "siz bilan mashq qilmoqchi.",
+    states: { offline: "Siz oflaynsiz.", available: "Siz onlaynsiz va boshqalarga ko'rinasiz.", outgoing_invite: "Hamkoringiz javobini kutmoqdamiz…", incoming_invite: "Sizga taklif bor.", connecting: "Ulanmoqda…", in_call: "Qo'ng'iroqda", reconnecting: "Qayta ulanmoqda…" },
+    rulesTitle: "Live Partner qoidalari",
+    rules: ["Hurmatli bo'ling; ingliz tilida va mavzu doirasida gapiring.", "Hamkoringizni yozib olmang. Learners Area qo'ng'iroqlarni yozmaydi.", "Shaxsiy kontakt ma'lumotlarini ulashmang.", "Istalgan vaqtda qo'ng'iroqni tugatishingiz yoki bloklashingiz mumkin."],
+    micTitle: "Mikrofon tekshiruvi", micBody: "Bir necha so'z ayting. Daraja faqat shu qurilmada o'lchanadi; hech narsa yozilmaydi yoki yuklanmaydi.", micLevel: "Mikrofon darajasi", micReady: "Mikrofon ishlaydi — onlayn bo'lish",
+    realtimeMissing: "Bu muhitda realtime audio xizmati sozlanmagan, shuning uchun qo'ng'iroq ovoz uzata olmaydi. Qaytish uchun qo'ng'iroqni tugating.",
+    errors: {
+      unavailable: "Live Partner hozir mavjud emas. Qayta urinib ko'ring.", unknownResult: "Natijani tasdiqlay olmadik. Holat yangilanadi.",
+      mic: "Mikrofonga ruxsat olinmadi. Ruxsat bering va qayta urining.",
+      rules_outdated: "Qoidalar o'zgardi. Qayta o'qing.", rules_required: "Avval qoidalarni qabul qiling.", not_eligible: "Hisobingiz Live Partner'dan foydalana olmaydi.",
+      profile_incomplete: "Tizim avatari uchun profilingizda jinsni belgilang.", in_call: "Avval joriy qo'ng'iroqni tugating.", not_available: "Siz yangi taklif uchun bo'sh emassiz.",
+      partner_busy: "Bu foydalanuvchi endi bo'sh emas.", invalid_target: "Noto'g'ri foydalanuvchi.", invite_not_found: "Bu taklif endi mavjud emas.", invite_closed: "Bu taklif tugagan.",
+      session_not_found: "Bu qo'ng'iroq endi mavjud emas.", session_ended: "Bu qo'ng'iroq tugagan.", invalid_input: "Noto'g'ri so'rov.", realtime_not_configured: "Realtime audio sozlanmagan.",
+    },
+  },
   speakingPractice: {
     title: "Speaking mashqi",
     intro: "Mavzuni tanlang, tayyorlaning, yozib oling va yuboring. Yozuvingiz maxfiy saqlanadi va tarixingizda ko'rinadi.",
@@ -1155,6 +1178,7 @@ const uz: Dictionary = {
     noTranscriptBody:
       "Transkripsiya va baholash uchun sozlangan speech-to-text va baholash provayderi kerak. Bu yerda hech narsa taxmin qilinmaydi yoki o'ylab topilmaydi — saqlanadigan va ko'rib chiqiladigan narsa aynan yozuvning o'zi.",
     errors: {
+      liveCallActive: "Boshqa oynada Live Partner qo'ng'irog'i davom etmoqda. Practice yozishdan oldin uni yakunlang.",
       unsupported: "Bu brauzer audio yozib ololmaydi.",
       permission_denied: "Mikrofonga ruxsat berilmadi. Brauzer sozlamalarida ruxsat bering va qayta urinib ko'ring.",
       no_microphone: "Mikrofon topilmadi.",
