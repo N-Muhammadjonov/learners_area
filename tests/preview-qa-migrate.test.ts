@@ -121,7 +121,7 @@ test("CLI run: receipts and logs never contain the password or full URL", async 
 
 test("CLI process: a refused run exits non-zero without connecting", async () => {
   const { spawnSync } = await import("node:child_process");
-  const r = spawnSync(process.execPath, ["scripts/preview-qa-migrate.mjs", "--plan"], { env: { PATH: process.env.PATH, DATABASE_URL: OTHER_NEUTRAL, PREVIEW_QA_DB_FINGERPRINT: mig.fingerprint(QA) }, encoding: "utf8", timeout: 20000 });
+  const r = spawnSync(process.execPath, ["scripts/preview-qa-migrate.mjs", "--plan"], { env: { PATH: process.env.PATH ?? "", DATABASE_URL: OTHER_NEUTRAL, PREVIEW_QA_DB_FINGERPRINT: String(mig.fingerprint(QA)) } as NodeJS.ProcessEnv, encoding: "utf8", timeout: 20000 });
   assert.equal(r.status, 1);
   assert.ok(!(r.stdout + r.stderr).includes("fake"));
 });
