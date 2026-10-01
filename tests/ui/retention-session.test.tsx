@@ -182,3 +182,46 @@ test("I've finished with a failed POST: no auto retry, source stays hidden, hone
     window.confirm = originalConfirm;
   }
 });
+
+test("N07 start with unknown outcome: no POST retry; one authoritative GET resumes the server's attempt", async () => {
+  const originalFetch = globalThis.fetch;
+  const seen: string[] = [];
+  globalThis.fetch = (async (_url: string, init?: RequestInit) => {
+    const method = init?.method ?? "GET";
+    seen.push(method);
+    if (method === "POST") throw new TypeError("network lost after send");
+    return json({ active: { ...meta(60_000), phase: "reading", wordCount: 9, bodyText: SOURCE } });
+  }) as typeof fetch;
+  try {
+    await render(React.createElement(RetentionSession, { dict: en, initial: null }), async () => {
+      await act(async () => { query<HTMLButtonElement>("[data-retention-start]").click(); });
+      await wait(50);
+      assert.deepEqual(seen, ["POST", "GET"], "exactly one POST, then one GET recheck — never a second POST");
+      assert.ok(query("[data-retention-source]"), "the attempt the server created is resumed");
+    });
+  } finally { globalThis.fetch = originalFetch; }
+});
+
+test("N07 start unknown and the server has no attempt: start becomes available again; back/forward restore rechecks", async () => {
+  const originalFetch = globalThis.fetch;
+  const seen: string[] = [];
+  globalThis.fetch = (async (_url: string, init?: RequestInit) => {
+    const method = init?.method ?? "GET";
+    seen.push(method);
+    if (method === "POST") throw new TypeError("timeout");
+    return json({ active: null });
+  }) as typeof fetch;
+  try {
+    await render(React.createElement(RetentionSession, { dict: en, initial: null }), async () => {
+      await act(async () => { query<HTMLButtonElement>("[data-retention-start]").click(); });
+      await wait(50);
+      assert.equal(query<HTMLButtonElement>("[data-retention-start]").disabled, false);
+      assert.equal(document.querySelector("[data-retention-recover-start]"), null);
+      const ev = new dom.window.Event("pageshow") as Event & { persisted?: boolean };
+      Object.defineProperty(ev, "persisted", { value: true });
+      await act(async () => { window.dispatchEvent(ev); });
+      await wait(20);
+      assert.deepEqual(seen, ["POST", "GET", "GET"]);
+    });
+  } finally { globalThis.fetch = originalFetch; }
+});

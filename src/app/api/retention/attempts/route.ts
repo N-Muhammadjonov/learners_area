@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { requireActiveUser } from "@/lib/auth/current-user";
-import { startOrResumeAttempt } from "@/lib/data/retention-attempts";
+import { findAnyLiveAttempt, startOrResumeAttempt } from "@/lib/data/retention-attempts";
 import { buildAttemptPayload } from "@/lib/retention/payload";
 import { retentionJson, unauthenticated } from "@/lib/retention/http";
 import { db } from "@/db/client";
@@ -25,5 +25,24 @@ export async function POST(request: NextRequest) {
     const result = await startOrResumeAttempt({ userId: user.id, level: body.level });
     const payload = await buildAttemptPayload(result.attempt, new Date(), db);
     return { outcome: result.outcome, ...payload };
+  });
+}
+
+/**
+ * GET /api/retention/attempts — the caller's own live attempt, or `{ active: null }`.
+ *
+ * Read-only authoritative recheck used after a start POST whose outcome is
+ * unknown (timeout/network) and when the page is restored from the back/forward
+ * cache. It never creates or changes an attempt (an expired one is finalized as
+ * timed out, exactly as on page load).
+ */
+export async function GET() {
+  const user = await requireActiveUser();
+  if (!user) return unauthenticated();
+  return retentionJson(async () => {
+    const now = new Date();
+    const attempt = await findAnyLiveAttempt({ userId: user.id, now });
+    if (!attempt || (attempt.status !== "reading" && attempt.status !== "recall")) return { active: null };
+    return { active: await buildAttemptPayload(attempt, now, db) };
   });
 }

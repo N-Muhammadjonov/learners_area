@@ -131,6 +131,8 @@ export function RetentionSession({ dict, initial }: { dict: Dictionary; initial:
         // via page navigation before allowing another POST; no fake success.
         setStartOutcomeUnknown(true);
         setError(dict.retentionMemory.startUnknownOutcome);
+        // One automatic authoritative GET (never a POST retry).
+        window.setTimeout(() => void recheckRef.current?.(), 0);
       }
     } finally {
       window.clearTimeout(timer);
@@ -138,6 +140,37 @@ export function RetentionSession({ dict, initial }: { dict: Dictionary; initial:
       if (sessionMounted.current) setBusy(false);
     }
   }, [dict, startOutcomeUnknown]);
+  const recheckRef = useRef<(() => Promise<void>) | null>(null);
+
+  /**
+   * Authoritative recheck after an unknown start outcome (and on back/forward
+   * restore): a single GET, never a POST. An active attempt is resumed; none
+   * means the POST did not land, so starting is allowed again.
+   */
+  const [rechecking, setRechecking] = useState(false);
+  const recheckController = useRef<AbortController | null>(null);
+  const recheckActive = useCallback(async () => {
+    if (recheckController.current) return;
+    const controller = new AbortController();
+    recheckController.current = controller;
+    const timer = window.setTimeout(() => controller.abort(), 8_000);
+    setRechecking(true);
+    try {
+      const response = await fetch("/api/retention/attempts", { cache: "no-store", signal: controller.signal });
+      const body = (await response.json()) as { active?: RetentionAttemptPayload | null; error?: string };
+      if (!sessionMounted.current || controller.signal.aborted) return;
+      if (!response.ok) throw new Error("recheck failed");
+      setStartOutcomeUnknown(false);
+      setError(null);
+      if (body.active) setPayload(body.active);
+    } catch {
+      if (sessionMounted.current) setError(dict.retentionMemory.startUnknownOutcome);
+    } finally {
+      window.clearTimeout(timer);
+      if (recheckController.current === controller) recheckController.current = null;
+      if (sessionMounted.current) setRechecking(false);
+    }
+  }, [dict]);
 
   const refreshing = useRef(false);
   const refresh = useCallback(async () => {
@@ -220,6 +253,19 @@ export function RetentionSession({ dict, initial }: { dict: Dictionary; initial:
     router.refresh();
   }, [router]);
 
+  useEffect(() => { recheckRef.current = recheckActive; }, [recheckActive]);
+
+  // Back/forward cache restore shows a frozen snapshot: re-read the server state.
+  useEffect(() => {
+    const onShow = (event: PageTransitionEvent) => {
+      if (!event.persisted) return;
+      if (payload && payload.phase !== "completed" && payload.phase !== "timed_out") void refresh();
+      else if (!payload) void recheckActive();
+    };
+    window.addEventListener("pageshow", onShow);
+    return () => window.removeEventListener("pageshow", onShow);
+  }, [payload, refresh, recheckActive]);
+
   if (!payload) {
     return (
       <div className="flex flex-col gap-4" data-retention-levels>
@@ -228,7 +274,7 @@ export function RetentionSession({ dict, initial }: { dict: Dictionary; initial:
           <p className="body-text">{dict.retentionMemory.levelHint}</p>
         </div>
         {error && <ErrorBanner message={error} />}
-        {startOutcomeUnknown && <button type="button" onClick={() => window.location.reload()} className="btn-secondary" data-retention-recover-start>{dict.retentionMemory.checkActiveAttempt}</button>}
+        {startOutcomeUnknown && <button type="button" onClick={() => void recheckActive()} disabled={rechecking} className="btn-secondary" data-retention-recover-start>{dict.retentionMemory.checkActiveAttempt}</button>}
         <div className="retention-level-options" role="group" aria-label={dict.retentionMemory.levelsTitle} data-retention-level-list>
           {RETENTION_LEVELS.map((level) => (
             <button key={level} type="button" className="retention-level-option" aria-pressed={selectedLevel === level} disabled={busy} onClick={() => setSelectedLevel(level)} data-retention-level={level}>

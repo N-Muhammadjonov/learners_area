@@ -1,0 +1,66 @@
+{
+  "at": "2026-10-01T10:18:14.613Z",
+  "dbFingerprint": "31fd02bc194e49168b041ec6c216104bda34a116a66e17cf23838b4800ad557c",
+  "mode": "--apply",
+  "before": {
+    "applied": [
+      "0000_upload_intents",
+      "0001_speaking_practice",
+      "0002_coach_evaluations",
+      "0003_phase1_access_control",
+      "0004_vocabulary_engine",
+      "0005_lexeme_sense_key",
+      "0006_lexeme_collocations",
+      "0007_listening_mcq_mastery",
+      "0008_typing_runs",
+      "0009_grammar_activities",
+      "0010_problem_reports",
+      "0011_lesson_recording",
+      "0012_goofy_beast",
+      "0013_gifted_shotgun",
+      "0014_mighty_sway",
+      "0015_polite_archangel",
+      "0016_publication_state",
+      "0017_reading_105_library",
+      "0018_resource_blocks",
+      "0019_grammar_source_privacy",
+      "0020_lexical_source_snapshot",
+      "0021_registration_gender",
+      "0022_retention_bank",
+      "0023_video_lesson_notes",
+      "0024_video_lessons_standalone",
+      "0025_speaking_bank_identity",
+      "0026_google_identity",
+      "0027_live_partner"
+    ],
+    "pending": [],
+    "problems": []
+  },
+  "verify": [
+    {
+      "name": "speaking_prompts.available_in",
+      "pass": true,
+      "value": 4
+    },
+    {
+      "name": "users.google_sub (unique)",
+      "pass": true,
+      "value": 1
+    },
+    {
+      "name": "live_partner tables",
+      "pass": true,
+      "value": 4
+    },
+    {
+      "name": "practice query runs",
+      "pass": true,
+      "value": 0
+    },
+    {
+      "name": "live partner query runs",
+      "pass": true,
+      "value": 0
+    }
+  ]
+}
