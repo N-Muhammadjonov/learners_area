@@ -14,18 +14,28 @@ export function LoginForm({
   dict,
   telegramConfigured,
   telegramBotUsername,
+  googleConfigured = false,
   diagnostics = false,
 }: {
   dict: Dictionary;
   telegramConfigured: boolean;
   telegramBotUsername?: string;
+  googleConfigured?: boolean;
   diagnostics?: boolean;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const googleError = searchParams.get("error");
+  const googleMessages: Record<string, string> = {
+    google_unavailable: dict.auth.googleUnavailable,
+    google_state: dict.auth.googleFailed,
+    google_failed: dict.auth.googleFailed,
+    google_unverified: dict.auth.googleUnverified,
+    google_link_required: dict.auth.googleLinkRequired,
+  };
+  const [error, setError] = useState(googleError && googleMessages[googleError] ? googleMessages[googleError] : "");
   const [pending, setPending] = useState(false);
 
   async function onSubmit(e: React.FormEvent) {
@@ -92,6 +102,12 @@ export function LoginForm({
         <span className="relative bg-paper-raised px-2">or</span>
         <div className="absolute inset-x-0 top-1/2 -z-10 h-px bg-ink-100" />
       </div>
+      {googleConfigured && (
+        // A plain top-level navigation: the OIDC redirect chain must not be prefetched or fetched.
+        <a href="/api/auth/google/start" className="btn-secondary w-full justify-center" data-google-login>
+          {dict.auth.continueWithGoogle}
+        </a>
+      )}
       <TelegramButton
         label={dict.auth.continueWithTelegram}
         unavailableLabel={dict.auth.telegramUnavailable}

@@ -5,6 +5,7 @@ import { AuthShell } from "@/components/auth/AuthShell";
 import { LoginForm } from "@/components/auth/LoginForm";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { isTelegramConfigured } from "@/lib/auth/providers/telegram";
+import { googleConfigFrom } from "@/lib/auth/providers/google-config";
 
 export default async function LoginPage() {
   const dict = getDictionary(await getLocale());
@@ -27,6 +28,7 @@ export default async function LoginPage() {
           diagnostics={performanceDiagnosticsEnabled()}
           telegramConfigured={isTelegramConfigured()}
           telegramBotUsername={process.env.TELEGRAM_BOT_USERNAME}
+          googleConfigured={googleConfigFrom(process.env).config !== null}
         />
       </Suspense>
     </AuthShell>

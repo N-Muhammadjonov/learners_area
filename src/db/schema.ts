@@ -191,6 +191,8 @@ export const users = pgTable("users", {
   email: varchar("email", { length: 320 }).unique(),
   passwordHash: text("password_hash"), // null for Telegram-only accounts
   telegramId: varchar("telegram_id", { length: 64 }).unique(),
+  /** Google OIDC `sub` (stable account id). Never matched by email; see providers/google.ts. */
+  googleSub: varchar("google_sub", { length: 255 }).unique(),
   name: varchar("name", { length: 200 }).notNull(),
   gender: genderEnum("gender"),
   role: roleEnum("role").notNull().default("student"),
