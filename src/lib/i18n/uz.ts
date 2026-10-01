@@ -325,7 +325,7 @@ const uz: Dictionary = {
       "Video Learners Area ichida ijro etiladi. Manba brauzerga baribir ko'rinadi, shuning uchun bu qulaylik — maxfiylik emas.",
     blocked: "Bu videoni hozir shu yerda ijro etib bo'lmayapti.",
     openOnProvider: "Uni provayderda ochish",
-    liveTrackingOn: "Ko‘rish jarayoni saqlanmoqda.",
+    liveTrackingOn: "Ko'rish jarayoni saqlanmoqda.",
     liveTrackingOff: "Video boshlanishi kutilmoqda.",
     scriptFollow: "Matnni kuzatish",
     stateNotStarted: "Boshlanmagan",

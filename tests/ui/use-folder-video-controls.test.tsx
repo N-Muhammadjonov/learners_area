@@ -120,3 +120,17 @@ test('Video network failure releases save and keeps the learner draft for a manu
     });
   } finally { globalThis.fetch=original; }
 });
+test('Slow video progress survives subsequent player ticks and aborts only when leaving', async () => {
+  const original=globalThis.fetch;
+  let signal: AbortSignal | undefined;
+  let calls=0;
+  globalThis.fetch=(async (_input,init)=>{calls++;signal=init?.signal ?? undefined;return new Promise<Response>((_resolve,reject)=>signal?.addEventListener('abort',()=>reject(new Error('aborted')),{once:true}));}) as typeof fetch;
+  try {
+    await mounted(<VideoLessonStudio dict={en} lessonId="local" videoLesson={{id:'local',provider:'youtube',videoId:'iG9CE55wbtY',title:'QA video',beforeYouWatch:null,durationSeconds:null,transcript:null,transcriptSource:null,transcriptAttribution:null,notes:null}} questions={[]} initialProgress={null} />,async()=>{
+      const frame=q<HTMLIFrameElement>('[data-video-frame]');
+      for(const currentTime of [6,7,12]) await act(async()=>window.dispatchEvent(new window.MessageEvent('message',{source:frame.contentWindow,origin:'https://www.youtube-nocookie.com',data:{info:{currentTime}}})));
+      assert.equal(calls,1);assert.equal(signal?.aborted,false);
+    });
+    assert.equal(signal?.aborted,true);
+  }finally{globalThis.fetch=original;}
+});

@@ -55,6 +55,7 @@ export function VideoLessonStudio({
   const provider = videoLesson.provider as VideoProvider;
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const reportedRef = useRef(initialProgress?.watchedSeconds ?? 0);
+  const progressRequest = useRef<AbortController | null>(null);
 
   const [state, setState] = useState(initialProgress?.state ?? "not_started");
   const [liveTime, setLiveTime] = useState<number | null>(null);
@@ -145,12 +146,12 @@ export function VideoLessonStudio({
     };
   }, [send, src]);
 
-  // Report real progress, throttled. The server clamps and keeps it monotonic.
+  // Keep a slow progress write alive across player ticks. Never overlap writes,
+  // and advance the acknowledged position only after the server accepts it.
   useEffect(() => {
-    if (liveTime === null) return;
-    if (liveTime - reportedRef.current < 5 && liveTime >= reportedRef.current) return;
-    if (liveTime > reportedRef.current) reportedRef.current = liveTime;
+    if (liveTime === null || liveTime - reportedRef.current < 5 || progressRequest.current) return;
     const controller = new AbortController();
+    progressRequest.current = controller;
     const deadline = window.setTimeout(() => controller.abort(), 12000);
     fetch(`/api/video-lessons/${videoLesson.id}/progress`, {
       method: "POST",
@@ -160,18 +161,25 @@ export function VideoLessonStudio({
     })
       .then((res) => (res.ok ? res.json() : null))
       .then((body) => {
-        if (body?.state) setState(body.state);
+        if (progressRequest.current !== controller || controller.signal.aborted || !body) return;
+        if (Number.isFinite(body.watchedSeconds)) reportedRef.current = Math.max(reportedRef.current, body.watchedSeconds);
+        if (body.state) setState(body.state);
       })
       .catch(() => {})
-      .finally(() => window.clearTimeout(deadline));
-    return () => { window.clearTimeout(deadline); controller.abort(); };
+      .finally(() => {
+        window.clearTimeout(deadline);
+        if (progressRequest.current === controller) progressRequest.current = null;
+      });
   }, [liveTime, videoLesson.id]);
 
   useEffect(() => () => {
-    const active = mutationRef.current;
+    const mutation = mutationRef.current;
+    const progress = progressRequest.current;
     mutationRef.current = null;
-    active?.abort();
-  }, []);
+    progressRequest.current = null;
+    mutation?.abort();
+    progress?.abort();
+  }, [videoLesson.id]);
 
   async function writeLesson(kind: "answers" | "response", payload: Record<string, unknown>) {
     if (mutationRef.current) return;
