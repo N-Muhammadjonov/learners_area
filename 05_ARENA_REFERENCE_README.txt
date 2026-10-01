@@ -1,3 +1,10 @@
+CURRENT UPDATE2026-10-01
+========================
+The latest persistent package is arena-package/2026-10-01/. Read its ARENA_RESUME_2026-10-01.md first.
+It contains the exact23-file patch, v2full requirements,63-page screenshot PDF and SHA256manifest.
+Current owner request supersedes historical font/branch/Part1STOP rules below. Product baseline is dd23e0a.
+No application code was changed by this artifact upload.
+
 LEARNERS AREA - ARENA REFERENCE PACK
 ====================================
 
