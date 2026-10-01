@@ -7,6 +7,8 @@ import { getActivityStreak } from "@/lib/data/dashboard";
 import { timed } from "@/lib/observability/timing";
 import { Card, StatCard } from "@/components/ui/Card";
 import { RegionFailureNotice } from "@/components/interaction/RegionFailureNotice";
+import { getProgressTrends } from "@/lib/data/progress-trends";
+import { ProgressTrends } from "@/components/progress/ProgressTrends";
 
 export const dynamic = "force-dynamic";
 
@@ -14,13 +16,15 @@ async function ProgressContent({ userId, dict }: {
   userId: string;
   dict: ReturnType<typeof getDictionary>;
 }) {
-  const [dataResult, streakResult] = await Promise.allSettled([
+  const [dataResult, streakResult, trendsResult] = await Promise.allSettled([
     getProgressData(userId),
     timed("progress.streak", () => getActivityStreak(userId)),
+    timed("progress.trends", () => getProgressTrends(userId)),
   ]);
   if (dataResult.status === "rejected") throw dataResult.reason;
   const data = dataResult.value;
   const streak = streakResult.status === "fulfilled" ? streakResult.value : null;
+  const trends = trendsResult.status === "fulfilled" ? trendsResult.value : null;
   const t = dict.progress;
   const modules = [
     { key: "reading", href: "/reading", attempts: data.reading?.attempts ?? null, value: data.reading?.accuracy == null ? null : `${data.reading.accuracy}%`, extra: data.reading ? `${data.reading.submitted} ${t.submitted}` : dict.errors.unknown, unavailable: data.reading === null },
@@ -50,6 +54,8 @@ async function ProgressContent({ userId, dict }: {
         </div>
         <p className="mt-3 text-xs text-ink-300" data-progress-note>{t.speakingNote}</p>
       </Card>
+
+      {trends ? <ProgressTrends dict={dict} trends={trends} /> : <RegionFailureNotice region="progress-trends" message={dict.errors.unknown} retryLabel={dict.errorPage.retry} />}
 
       {streak === null && (
         <RegionFailureNotice region="progress-streak" message={dict.errors.unknown} retryLabel={dict.errorPage.retry} />

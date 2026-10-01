@@ -8,7 +8,7 @@ import {
   retentionRotationState,
   retentionTexts,
 } from "@/db/schema";
-import { isRetentionLevel, type RetentionLevel } from "@/lib/retention/levels";
+import { RETENTION_WRITE_SECONDS, isRetentionLevel, type RetentionLevel } from "@/lib/retention/levels";
 import { RetentionError } from "@/lib/retention/errors";
 import { buildDeadlines, resolvePhase, type RetentionPhase } from "@/lib/retention/phase";
 import { defaultRandom, selectNextText } from "@/lib/retention/rotation";
@@ -351,6 +351,56 @@ export async function loadReadingBody(
   const version = await loadAssignedVersion(attempt.retentionTextVersionId, connection);
   if (!version) throw new RetentionError("retention_attempt_not_found", "assigned version is missing");
   return { bodyText: version.bodyText, wordCount: version.wordCount };
+}
+
+// ---------------------------------------------------------------------------
+// Early finish of reading ("I've finished")
+// ---------------------------------------------------------------------------
+
+/**
+ * Move an owned attempt from READING to RECALL before the 2:00 reading clock
+ * runs out. The server, not the browser, rewrites the persisted deadlines:
+ *
+ *   read_ends_at = write_started_at = now
+ *   write_ends_at = now + RETENTION_WRITE_SECONDS   (the fixed 3:00 recall)
+ *
+ * Idempotent: a repeat (double click, retry after a lost response) on an attempt
+ * already in recall returns it unchanged — the recall clock is never extended or
+ * restarted. A terminal attempt is refused. The source text is never returned;
+ * callers build the payload through the phase-aware payload builder, which only
+ * includes the body during reading.
+ */
+export async function finishReadingEarly(
+  input: { attemptId: string; userId: string; now?: Date },
+  connection: RetentionBankDatabase = db
+): Promise<{ attempt: RetentionAttemptRecord; idempotent: boolean }> {
+  const now = input.now ?? new Date();
+  return connection.transaction(async (tx) => {
+    const database = tx as unknown as RetentionBankDatabase;
+    const [row] = await database
+      .select(ATTEMPT_COLUMNS)
+      .from(retentionAttempts)
+      .where(and(eq(retentionAttempts.id, input.attemptId), eq(retentionAttempts.userId, input.userId)))
+      .for("update")
+      .limit(1);
+    if (!row) throw new RetentionError("retention_attempt_not_found", "attempt not found");
+    const record = toRecord(row);
+    if (isTerminalStatus(record.status)) throw new RetentionError("retention_expired", "attempt is already finished");
+    const phase = resolvePhase(record, now);
+    if (phase.phase === "recall") return { attempt: record, idempotent: true };
+    if (phase.phase !== "reading") {
+      // Write deadline already passed: finalize from the saved draft instead.
+      const finalized = await finalizeOn(database, record, now, "timed_out");
+      return { attempt: finalized, idempotent: true };
+    }
+    const writeEndsAt = new Date(now.getTime() + RETENTION_WRITE_SECONDS * 1000);
+    const [updated] = await database
+      .update(retentionAttempts)
+      .set({ readEndsAt: now, writeStartedAt: now, writeEndsAt, updatedAt: now })
+      .where(and(eq(retentionAttempts.id, record.id), eq(retentionAttempts.userId, input.userId)))
+      .returning(ATTEMPT_COLUMNS);
+    return { attempt: toRecord(updated), idempotent: false };
+  });
 }
 
 // ---------------------------------------------------------------------------

@@ -170,6 +170,40 @@ export function RetentionSession({ dict, initial }: { dict: Dictionary; initial:
     }
   }, [payload, router]);
 
+  /**
+   * "I've finished": the source leaves app state immediately and for good, then
+   * the SERVER moves the attempt to recall and returns its persisted deadlines.
+   * The POST is never retried automatically; if its outcome is unknown the
+   * awaiting screen asks the server (GET) which phase the attempt is in.
+   */
+  const finishing = useRef(false);
+  const finishReading = useCallback(async () => {
+    if (!payload || payload.phase !== "reading" || finishing.current) return;
+    if (!window.confirm(dict.retentionMemory.finishReadingConfirm)) return;
+    finishing.current = true;
+    const attemptId = payload.attemptId;
+    setPayload((current) => (current && current.phase === "reading" ? toSourceFree(current) : current));
+    const controller = new AbortController();
+    const timer = window.setTimeout(() => controller.abort(), 10_000);
+    try {
+      const response = await fetch(`/api/retention/attempts/${attemptId}/finish-reading`, { method: "POST", cache: "no-store", signal: controller.signal });
+      const body = (await response.json()) as RetentionAttemptPayload & { error?: string };
+      if (!sessionMounted.current) return;
+      if (!response.ok) throw new Error("finish failed");
+      setPayload((current) => {
+        if (!current || current.attemptId !== attemptId || body.phase === "reading") return current;
+        return body;
+      });
+      setRefreshFailed(false);
+      if (body.phase === "completed" || body.phase === "timed_out") router.refresh();
+    } catch {
+      if (sessionMounted.current) setRefreshFailed(true);
+    } finally {
+      window.clearTimeout(timer);
+      finishing.current = false;
+    }
+  }, [payload, dict, router]);
+
   /** Reading deadline reached: drop the source from app state, then ask the server. */
   const onReadingExpired = useCallback(() => {
     setPayload((current) => (current && current.phase === "reading" ? toSourceFree(current) : current));
@@ -219,6 +253,7 @@ export function RetentionSession({ dict, initial }: { dict: Dictionary; initial:
         skewMs={skewMs}
         onExpired={onReadingExpired}
         onFinished={onFinished}
+        onFinishReading={() => void finishReading()}
       />
     );
   }
@@ -248,12 +283,14 @@ function ReadingPhase({
   skewMs,
   onExpired,
   onFinished,
+  onFinishReading,
 }: {
   dict: Dictionary;
   payload: Extract<RetentionAttemptPayload, { phase: "reading" }>;
   skewMs: number;
   onExpired: () => void;
   onFinished: () => void;
+  onFinishReading: () => void;
 }) {
   const seconds = useCountdown(payload.readEndsAt, skewMs);
 
@@ -279,9 +316,14 @@ function ReadingPhase({
       )}
       <div className="flex items-center justify-between gap-3">
         <span className="meta-text">{dict.retentionMemory.readingWords.replace("{n}", String(payload.wordCount))}</span>
-        <button type="button" className="btn-secondary" onClick={onFinished} data-retention-leave>
-          {dict.retentionMemory.resultBack}
-        </button>
+        <div className="flex flex-wrap gap-2">
+          <button type="button" className="btn-secondary" onClick={onFinished} data-retention-leave>
+            {dict.retentionMemory.resultBack}
+          </button>
+          <button type="button" className="btn-primary" onClick={onFinishReading} disabled={seconds <= 0} data-retention-finish-reading>
+            {dict.retentionMemory.finishReading}
+          </button>
+        </div>
       </div>
     </div>
   );

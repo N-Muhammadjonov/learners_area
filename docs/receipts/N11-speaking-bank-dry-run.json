@@ -1,0 +1,15 @@
+{
+  "total": 880,
+  "uniqueIds": 880,
+  "byPart": {
+    "1": 285,
+    "2": 85,
+    "3": 510
+  },
+  "errors": [],
+  "sourceClasses": [
+    "public-current-topic-rewrite",
+    "public-current-theme-rewrite",
+    "current-theme-derived-practice"
+  ]
+}

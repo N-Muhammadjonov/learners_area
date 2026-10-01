@@ -125,3 +125,60 @@ test("terminal result shows level, label, finish time, allocated/used time, reca
     assert.ok(query("[data-retention-another]"));
   });
 });
+
+test("I've finished: confirm, source leaves the DOM at once, one POST, server recall replaces the gate", async () => {
+  const originalFetch = globalThis.fetch;
+  const originalConfirm = window.confirm;
+  const posts: string[] = [];
+  let answer = false;
+  window.confirm = () => answer;
+  globalThis.fetch = (async (url: RequestInfo | URL, init?: RequestInit) => {
+    if (init?.method === "POST") posts.push(String(url));
+    return json({ ...meta(-10), phase: "recall", recallDraft: "" });
+  }) as typeof fetch;
+  try {
+    const initial = { ...meta(90_000), phase: "reading" as const, wordCount: 9, bodyText: SOURCE };
+    await render(React.createElement(RetentionSession, { dict: en, initial }), async () => {
+      await act(async () => query<HTMLButtonElement>("[data-retention-finish-reading]").click());
+      assert.ok(query("[data-retention-source]"), "declining the confirm keeps reading");
+      assert.equal(posts.length, 0);
+      answer = true;
+      await act(async () => {
+        query<HTMLButtonElement>("[data-retention-finish-reading]").click();
+        document.querySelector<HTMLButtonElement>("[data-retention-finish-reading]")?.click();
+      });
+      await wait(0);
+      assert.deepEqual(posts, ["/api/retention/attempts/11111111-1111-4111-8111-111111111111/finish-reading"]);
+      assert.ok(query('[data-retention-phase="recall"]'));
+      assert.ok(!document.body.innerHTML.includes("SECRET-SOURCE"));
+    });
+  } finally {
+    globalThis.fetch = originalFetch;
+    window.confirm = originalConfirm;
+  }
+});
+
+test("I've finished with a failed POST: no auto retry, source stays hidden, honest refresh state", async () => {
+  const originalFetch = globalThis.fetch;
+  const originalConfirm = window.confirm;
+  let posts = 0;
+  window.confirm = () => true;
+  globalThis.fetch = (async (_url: RequestInfo | URL, init?: RequestInit) => {
+    if (init?.method === "POST") { posts += 1; throw new TypeError("offline"); }
+    throw new TypeError("offline");
+  }) as typeof fetch;
+  try {
+    const initial = { ...meta(90_000), phase: "reading" as const, wordCount: 9, bodyText: SOURCE };
+    await render(React.createElement(RetentionSession, { dict: en, initial }), async () => {
+      await act(async () => query<HTMLButtonElement>("[data-retention-finish-reading]").click());
+      await wait(50);
+      assert.equal(posts, 1);
+      assert.ok(query('[data-retention-phase="awaiting_recall"]'));
+      assert.ok(query("[data-retention-phase-refresh-failed]"));
+      assert.ok(!document.body.innerHTML.includes("SECRET-SOURCE"));
+    });
+  } finally {
+    globalThis.fetch = originalFetch;
+    window.confirm = originalConfirm;
+  }
+});
