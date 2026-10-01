@@ -1,3 +1,5 @@
+> SUPERSEDED: 56cda51 independent re-run succeeded without opening a database. See OWNER-INDEPENDENT-QA-2026-10-01.md and READING-105-IMPORT-REPORT.md. Historic failure below is preserved; definitions were not edited to evade the collision.
+
 # N16 — reading-105 no-database dry run (real source)
 
 * **Source:** `learnersarea_reading_105.zip` on branch `assets/learners-area-brand`. Last changed in

@@ -45,3 +45,8 @@ Nothing here is OWNER-VERIFIED and no completion percentage is claimed.
 | realtime audio (WebRTC media) | needs an external signalling service (`LIVE_PARTNER_SIGNAL_URL` wss + `LIVE_PARTNER_SIGNAL_SECRET`) and TURN relay credentials. Not provisioned; the UI says audio is not configured and offers End call. No fake call | BLOCKED — external dependency |
 
 Changed test: `tests/video-standalone.test.ts` W11 — old: `journal.entries.at(-1).tag === "0024_video_lessons_standalone"` and `idx === 24`; new: the entry with that tag has `idx === 24` and the journal indexes are contiguous 0..n. This was failing since 0025 was added.
+
+
+## Independent owner QA supersession — 2026-10-01
+
+Do not interpret the earlier Arena rows as end-to-end completion. See [OWNER-INDEPENDENT-QA-2026-10-01.md](OWNER-INDEPENDENT-QA-2026-10-01.md). Functional commits 12eaa93 and 56cda51 fix independently reproduced defects. Final automated rounds: 656 passed / 30 skipped and 98 UI passed, twice. Preview login, 15 settled navigation transitions, Retention recovery, Progress Dashboard destination, Retention bank/builder and TED notes have bounded browser evidence. Speaking Practice still failed; the QA journal has a missing 0021 entry and backups are unavailable on the observed Free plan. Broader Listening/Progress/source-scoping code work, live service activation, real PostgreSQL gates, all-device acceptance and human content review remain open. No complete status or invented completion percentage is assigned.
