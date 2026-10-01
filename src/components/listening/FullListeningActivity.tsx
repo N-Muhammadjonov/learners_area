@@ -1,0 +1,515 @@
+"use client";
+import Link from "next/link";
+import { ListeningSpeedPractice } from "./ListeningSpeedPractice";
+import { McqMastery } from "./McqMastery";
+import type { McqStage } from "@/lib/services/listening/mcq-mastery";
+import { useEffect, useRef, useState } from "react";
+import { ACTIVITY_NAMES, type ListeningPackage } from "@/lib/listening/package";
+import { ClickableText } from "@/components/vocabulary/ClickableText";
+import type { Dictionary } from "@/lib/i18n/en";
+type Data = Partial<
+  Pick<
+    ListeningPackage,
+    "questions" | "sections" | "keyword1" | "keyword2" | "vocabulary"
+  >
+> & {
+  report?: {
+    score: number | null;
+    total: number | null;
+    answers: {
+      number: number;
+      userAnswer?: string;
+      isCorrect?: boolean | null;
+    }[];
+  } | null;
+  speeds?: number[];
+  mcq?: { id: string; order: number; questionText: string; stage: McqStage }[];
+};
+export function FullListeningActivity({
+  id,
+  userId,
+  title,
+  activity,
+  data,
+  audioUrl,
+  initial,
+  dict,
+}: {
+  id: string;
+  userId: string;
+  title: string;
+  activity: number;
+  data: Data;
+  audioUrl: string | null;
+  initial: Record<string, string>;
+  dict: Dictionary;
+}) {
+  const [answers, setAnswers] = useState(initial);
+  const [error, setError] = useState("");
+  const [result, setResult] = useState<{ score: number; total: number } | null>(
+    null,
+  );
+  const [busy, setBusy] = useState(false);
+  const [quiz, setQuiz] = useState(false);
+  const [revealed, setRevealed] = useState<Record<number, boolean>>({});
+  const [selected, setSelected] = useState(1);
+  const audio = useRef<HTMLAudioElement>(null);
+  const end = useRef<number | null>(null);
+  const flight = useRef(false);
+  const controller = useRef<AbortController | null>(null);
+  useEffect(
+    () => () => {
+      controller.current?.abort();
+      audio.current?.pause();
+    },
+    [],
+  );
+  const draftKey = `la-listening-activity:${userId}:${id}:${activity}`;
+  useEffect(() => {
+    try {
+      const saved = sessionStorage.getItem(draftKey);
+      if (saved) {
+        const parsed: unknown = JSON.parse(saved);
+        if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+          const values = Object.entries(parsed).filter(
+            ([key, value]) =>
+              /^\d+$/.test(key) &&
+              typeof value === "string" &&
+              value.length <= 4000,
+          );
+          setAnswers((old) => ({ ...old, ...Object.fromEntries(values) }));
+        }
+      }
+    } catch {
+      /* Storage unavailable: server saves still work. */
+    }
+  }, [draftKey]);
+  function answer(key: string, value: string) {
+    setAnswers((old) => {
+      const next = { ...old, [key]: value };
+      try {
+        sessionStorage.setItem(draftKey, JSON.stringify(next));
+      } catch {}
+      return next;
+    });
+    setResult(null);
+  }
+  async function save(complete: boolean) {
+    if (flight.current) return;
+    flight.current = true;
+    setBusy(true);
+    setError("");
+    const abort = new AbortController();
+    controller.current = abort;
+    const timer = setTimeout(() => abort.abort(), 12000);
+    try {
+      const res = await fetch(`/api/listening/full/${id}/activity`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        signal: abort.signal,
+        body: JSON.stringify({ activity, answers, complete }),
+      });
+      const body = await res.json();
+      if (!res.ok) throw new Error(body.error);
+      try {
+        sessionStorage.removeItem(draftKey);
+      } catch {}
+      if (complete) setResult({ score: body.score, total: body.total });
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Save failed; answers kept.");
+    } finally {
+      clearTimeout(timer);
+      flight.current = false;
+      setBusy(false);
+    }
+  }
+  async function clip(start: number, stop: number) {
+    if (!audio.current) return;
+    setError("");
+    end.current = stop;
+    audio.current.currentTime = start;
+    try {
+      await audio.current.play();
+    } catch {
+      setError("Audio moment unavailable. Retry playback.");
+    }
+  }
+  async function vocabulary(index: number) {
+    const x = data.vocabulary?.[index];
+    if (!x) return;
+    try {
+      const res = await fetch("/api/vocabulary", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        signal: AbortSignal.timeout(12000),
+        body: JSON.stringify({
+          sourceType: "listening",
+          sourceId: id,
+          items: [
+            {
+              term: x.word,
+              definitionEn: x.def,
+              translationUz: x.uz,
+              exampleSentence: x.ex,
+              partOfSpeech: x.pos,
+            },
+          ],
+        }),
+      });
+      if (!res.ok) throw new Error();
+      setError("");
+    } catch {
+      setError("Vocabulary save failed. Try again.");
+    }
+  }
+  const q = data.questions?.find((x) => x.number === selected);
+  return (
+    <div className="mx-auto max-w-[1600px] space-y-6">
+      <Link className="btn-secondary" href={`/listening/tests/${id}`}>
+        ← Test hub
+      </Link>
+      <h1 className="font-display text-3xl">
+        {title} · {ACTIVITY_NAMES[activity - 1]}
+      </h1>
+      {activity !== 5 && audioUrl && (
+        <audio
+          ref={audio}
+          src={audioUrl}
+          preload="none"
+          controls={activity === 2}
+          className="w-full"
+          onTimeUpdate={() => {
+            if (
+              end.current !== null &&
+              audio.current &&
+              audio.current.currentTime >= end.current
+            ) {
+              audio.current.pause();
+              end.current = null;
+            }
+          }}
+          onError={() => setError("Recording unavailable")}
+        />
+      )}
+      {activity === 2 && (
+        <>
+          {data.report && (
+            <p className="card">
+              Full Exam: {data.report.score} / {data.report.total}
+            </p>
+          )}
+          <nav className="flex flex-wrap gap-2">
+            {data.questions?.map((x) => (
+              <button
+                type="button"
+                key={x.number}
+                className={
+                  selected === x.number ? "btn-primary" : "btn-secondary"
+                }
+                onClick={() => {
+                  setSelected(x.number);
+                  answer(String(x.number), "reviewed");
+                }}
+              >
+                Q{x.number}
+                {answers[x.number] ? " ✓" : ""}
+              </button>
+            ))}
+          </nav>
+          <div className="listening-review-grid">
+            <section className="card space-y-4">
+              {q && (
+                <>
+                  <h2>
+                    Q{q.number}. {q.text}
+                  </h2>
+                  <p>
+                    Answer: {q.key}
+                    {q.alternatives.length
+                      ? ` · Also accepted: ${q.alternatives.join(" / ")}`
+                      : ""}
+                  </p>
+                  <p>
+                    Your answer:{" "}
+                    {data.report?.answers.find((a) => a.number === q.number)
+                      ?.userAnswer || "—"}
+                  </p>
+                  <p>{q.evidence.why}</p>
+                  <button
+                    type="button"
+                    className="btn-primary"
+                    onClick={() =>
+                      void clip(
+                        Math.max(0, q.evidence.at - 4),
+                        q.evidence.at + 22,
+                      )
+                    }
+                  >
+                    Play evidence moment
+                  </button>
+                  <button
+                    type="button"
+                    className="btn-secondary"
+                    onClick={() => answer(String(q.number), "reviewed")}
+                  >
+                    Mark reviewed
+                  </button>
+                </>
+              )}
+            </section>
+            <aside className="card space-y-5">
+              <h2>Transcript</h2>
+              {data.sections?.map((s) => (
+                <section key={s.number}>
+                  <h3>
+                    Section {s.number} · {s.title}
+                  </h3>
+                  {s.transcript ? (
+                    <ClickableText
+                      dict={dict}
+                      sourceType="listening"
+                      sourceId={id}
+                      text={s.transcript}
+                    />
+                  ) : (
+                    <p role="status">
+                      Full transcript missing from this QA draft. Evidence
+                      extracts are not a full transcript.
+                    </p>
+                  )}
+                </section>
+              ))}
+            </aside>
+          </div>
+        </>
+      )}
+      {activity === 2 && data.questions && (
+        <ListeningSpeedPractice
+          id={id}
+          audioUrl={audioUrl}
+          questions={data.questions}
+          allowed={data.speeds ?? [1]}
+        />
+      )}
+      {activity === 2 && data.mcq && (
+        <McqMastery dict={dict} questions={data.mcq} />
+      )}
+      {activity === 3 && (
+        <>
+          <p>
+            Write the matching relationship. Exact authored model is used for
+            checking; free paraphrases need teacher review.
+          </p>
+          {data.keyword1?.map((x) => (
+            <article className="card listening-review-grid" key={x.q}>
+              <div>
+                <h2>
+                  Q{x.q} · Section {Math.ceil(x.q / 10)}
+                </h2>
+                <p>{x.text}</p>
+                <button
+                  type="button"
+                  className="btn-secondary"
+                  onClick={() => void clip(x.at, x.end)}
+                >
+                  ▶ Play moment
+                </button>
+              </div>
+              <div>
+                <p>The speaker said:</p>
+                <blockquote>{x.heard}</blockquote>
+                <label>
+                  Your matches
+                  <textarea
+                    className="input mt-2"
+                    value={answers[x.q] ?? ""}
+                    onChange={(e) => answer(String(x.q), e.target.value)}
+                  />
+                </label>
+                {result && <p>Model: {x.link}</p>}
+              </div>
+            </article>
+          ))}
+        </>
+      )}
+      {activity === 4 && (
+        <>
+          <p>
+            Hear → Meaning. Listen first, choose the meaning, then reveal the
+            source relationship.
+          </p>
+          {data.keyword2?.map((x) => (
+            <article className="card space-y-3" key={x.q}>
+              <h2>
+                Q{x.q} · Section {Math.ceil(x.q / 10)}
+              </h2>
+              <button
+                type="button"
+                className="btn-primary"
+                onClick={() => void clip(x.at, x.end)}
+              >
+                ▶ Hear moment
+              </button>
+              <label>
+                Meaning
+                <select
+                  className="input"
+                  value={answers[x.q] ?? ""}
+                  disabled={!!revealed[x.q]}
+                  onChange={(e) => answer(String(x.q), e.target.value)}
+                >
+                  <option value="">Choose the meaning</option>
+                  {x.options.map((o, i) => (
+                    <option key={o} value={i}>
+                      {o}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <button
+                type="button"
+                className="btn-secondary"
+                disabled={!answers[x.q]}
+                onClick={() => setRevealed((old) => ({ ...old, [x.q]: true }))}
+              >
+                Commit and reveal
+              </button>
+              {revealed[x.q] && (
+                <>
+                  <blockquote>{x.heard}</blockquote>
+                  <p>{x.link}</p>
+                </>
+              )}
+            </article>
+          ))}
+        </>
+      )}
+      {activity === 5 && (
+        <>
+          <nav className="flex gap-3">
+            <button
+              type="button"
+              className={!quiz ? "btn-primary" : "btn-secondary"}
+              onClick={() => setQuiz(false)}
+            >
+              Study
+            </button>
+            <button
+              type="button"
+              className={quiz ? "btn-primary" : "btn-secondary"}
+              onClick={() => setQuiz(true)}
+            >
+              Quiz
+            </button>
+          </nav>
+          {data.vocabulary?.map((x, i) => (
+            <article key={x.word} className="card space-y-3">
+              {!quiz ? (
+                <>
+                  <h2 className="font-display text-xl">
+                    {x.word} <span className="text-sm">{x.pos}</span>
+                  </h2>
+                  <p>{x.uz}</p>
+                  <p>{x.def}</p>
+                  <ClickableText
+                    dict={dict}
+                    text={x.ex}
+                    sourceType="listening"
+                    sourceId={id}
+                  />
+                  <p>Also said as: {x.also.join(" · ")}</p>
+                  <button
+                    type="button"
+                    className="btn-secondary"
+                    onClick={() => {
+                      if (typeof speechSynthesis === "undefined") {
+                        setError("Pronunciation unavailable on this device");
+                        return;
+                      }
+                      speechSynthesis.cancel();
+                      const utterance = new SpeechSynthesisUtterance(x.word);
+                      utterance.lang = "en-GB";
+                      speechSynthesis.speak(utterance);
+                    }}
+                  >
+                    Say it
+                  </button>
+                  <button
+                    type="button"
+                    className="btn-primary"
+                    onClick={() => void vocabulary(i)}
+                  >
+                    + Vocabulary
+                  </button>
+                </>
+              ) : (
+                <>
+                  <h2>{x.quiz.q}</h2>
+                  <label>
+                    Answer
+                    <select
+                      className="input"
+                      value={answers[i] ?? ""}
+                      onChange={(e) => answer(String(i), e.target.value)}
+                    >
+                      <option value="">Choose</option>
+                      {x.quiz.options.map((o, n) => (
+                        <option key={o} value={n}>
+                          {o}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  {result && (
+                    <p>
+                      {Number(answers[i]) === x.quiz.correct
+                        ? "Correct"
+                        : "Incorrect"}{" "}
+                      · {x.quiz.options[x.quiz.correct]}
+                    </p>
+                  )}
+                </>
+              )}
+            </article>
+          ))}
+        </>
+      )}
+      <div className="flex flex-wrap gap-3">
+        <button
+          type="button"
+          className="btn-secondary"
+          disabled={busy}
+          onClick={() => void save(false)}
+        >
+          Save progress
+        </button>
+        <button
+          type="button"
+          className="btn-primary"
+          disabled={busy}
+          onClick={() => void save(true)}
+        >
+          {activity === 2 ? "Complete reviewed questions" : "Check all answers"}
+        </button>
+        <button
+          type="button"
+          className="btn-secondary"
+          disabled={busy}
+          onClick={() => {
+            setAnswers({});
+            setResult(null);
+            setRevealed({});
+          }}
+        >
+          Try again
+        </button>
+      </div>
+      {error && <p role="alert">{error}</p>}
+      {result && (
+        <p role="status" className="card">
+          {result.score} / {result.total} · Activity completed.
+        </p>
+      )}
+    </div>
+  );
+}

@@ -1,4 +1,4 @@
-import { and, asc, desc, eq } from "drizzle-orm";
+import { and, asc, desc, eq, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import {
   listeningTests,
@@ -9,17 +9,19 @@ import {
 } from "@/db/schema";
 import { isLive, liveWhere } from "@/lib/services/cms/publication";
 
-export function listActiveTests() {
+export async function listActiveTests() {
+  const { listeningSchemaReady } = await import("./listening-schema-ready");
+  const ready = await listeningSchemaReady();
   return db.select({
     id: listeningTests.id,
     title: listeningTests.title,
     difficultyLevel: listeningTests.difficultyLevel,
   })
     .from(listeningTests)
-    .where(liveWhere({
+    .where(and(liveWhere({
       publicationState: listeningTests.publicationState,
       publishAt: listeningTests.publishAt,
-    }))
+    }), ready ? sql`not exists(select 1 from listening_packages p where p.test_id=${listeningTests.id})` : undefined))
     .orderBy(asc(listeningTests.createdAt));
 }
 

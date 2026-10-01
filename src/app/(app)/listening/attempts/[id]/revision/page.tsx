@@ -44,7 +44,7 @@ export default async function ListeningRevisionPage({ params }: { params: Promis
     listMcqQuestions(test.id),
     listMcqSessions(user.id, test.id),
     listSubmittedAttempts(user.id, test.id),
-    wordsFromSource(user.id, "listening"),
+    wordsFromSource(user.id, "listening", 50, test.id),
   ]);
 
   const speed = speedTrainingStatus(attempts);

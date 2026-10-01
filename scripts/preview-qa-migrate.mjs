@@ -28,7 +28,7 @@
 import { createHash } from "node:crypto";
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 
-export const ALLOWED_PENDING = ["0025_speaking_bank_identity", "0026_google_identity", "0027_live_partner"];
+export const ALLOWED_PENDING = ["0025_speaking_bank_identity", "0026_google_identity", "0027_live_partner", "0028_full_listening"];
 const DESTRUCTIVE = /\b(drop\s+(table|column|schema|database|type)|truncate|delete\s+from|alter\s+column\s+\S+\s+type)\b/i;
 const sha = (s) => createHash("sha256").update(s).digest("hex");
 
@@ -98,6 +98,8 @@ export function plan(journal, appliedHashes, readSql) {
 
 /** Every verification is scoped to the application schema `public`. */
 export const VERIFY = [
+  ["full Listening tables", "select count(*)::int n from information_schema.tables where table_schema='public' and table_name in ('listening_packages','listening_activity_runs','listening_drafts')", (r) => r.n === 3],
+  ["full Listening speed column", "select count(*)::int n from information_schema.columns where table_schema='public' and table_name='listening_activity_runs' and column_name='speed_rate'", (r) => r.n === 1],
   ["speaking_prompts identity columns", "select count(*)::int n from information_schema.columns where table_schema='public' and table_name='speaking_prompts' and column_name in ('external_id','topic','source_class','available_in')", (r) => r.n === 4],
   ["users.google_sub unique index", "select count(*)::int n from pg_indexes where schemaname='public' and tablename='users' and indexdef ilike '%(google_sub)%' and indexdef ilike '%unique%'", (r) => r.n >= 1],
   ["live_partner tables", "select count(*)::int n from information_schema.tables where table_schema='public' and table_name in ('live_partner_presence','live_partner_invites','live_partner_sessions','live_partner_blocks')", (r) => r.n === 4],

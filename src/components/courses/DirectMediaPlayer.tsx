@@ -17,11 +17,12 @@ export function DirectMediaPlayer({ src, captions, title, labels, onTime, contro
   src: string;
   captions: string | null;
   title: string;
-  labels: { play: string; pause: string; captionsOn: string; captionsOff: string; speed: string; seek: string; error: string };
+  labels: { play: string; pause: string; captionsOn: string; captionsOff: string; speed: string; seek: string; fullscreen: string; error: string };
   onTime?: (seconds: number) => void;
   controlsRef?: MutableRefObject<DirectMediaControls | null>;
 }) {
   const video = useRef<HTMLVideoElement | null>(null);
+  const container = useRef<HTMLDivElement | null>(null);
   const [playing, setPlaying] = useState(false);
   const [time, setTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -41,6 +42,18 @@ export function DirectMediaPlayer({ src, captions, title, labels, onTime, contro
   }, [cc]);
   useEffect(() => { if (video.current) video.current.playbackRate = speed; }, [speed]);
 
+  async function fullscreen() {
+    try {
+      if (document.fullscreenElement) await document.exitFullscreen();
+      else if (container.current?.requestFullscreen) await container.current.requestFullscreen();
+      else {
+        const native = video.current as (HTMLVideoElement & { webkitEnterFullscreen?: () => void }) | null;
+        if (native?.webkitEnterFullscreen) native.webkitEnterFullscreen();
+        else setFailed(true);
+      }
+    } catch { setFailed(true); }
+  }
+
   function toggle() {
     const v = video.current; if (!v) return;
     if (v.paused) void v.play().catch(() => setFailed(true)); else v.pause();
@@ -54,7 +67,7 @@ export function DirectMediaPlayer({ src, captions, title, labels, onTime, contro
   }
 
   return (
-    <div className="flex flex-col bg-ink-950 text-white" data-direct-player onKeyDown={onKey}>
+    <div ref={container} className="flex flex-col bg-ink-950 text-white" data-direct-player onKeyDown={onKey}>
       <div className="relative aspect-video w-full">
         <video
           ref={video}
@@ -87,6 +100,7 @@ export function DirectMediaPlayer({ src, captions, title, labels, onTime, contro
             {SPEEDS.map((s) => <option key={s} value={s}>{s}×</option>)}
           </select>
         </label>
+        <button type="button" className="btn-ghost btn-sm" aria-label={labels.fullscreen} onClick={() => void fullscreen()}>⛶</button>
       </div>
     </div>
   );

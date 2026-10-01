@@ -1,3 +1,6 @@
+import { listeningSchemaReady } from "@/lib/data/listening-schema-ready";
+import { listeningPackages } from "@/db/schema";
+import { publicationIssues } from "@/lib/listening/package";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { eq } from "drizzle-orm";
@@ -125,6 +128,13 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ typ
   const problem = publicationProblem(state, publishAt);
   if (problem) return NextResponse.json({ error: problem }, { status: 400 });
 
+  if (type === "listening" && (state === "published" || state === "scheduled") && await listeningSchemaReady()) {
+    const pkg = await db.query.listeningPackages.findFirst({ where: eq(listeningPackages.testId, id) });
+    if (pkg) {
+      const issues = publicationIssues(pkg.payload);
+      if (issues.length) return NextResponse.json({ error: "incomplete_listening_package", issues }, { status: 409 });
+    }
+  }
   const row = await contentType.load(id);
   if (!row) return NextResponse.json({ error: "not_found" }, { status: 404 });
 

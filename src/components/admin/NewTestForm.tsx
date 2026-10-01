@@ -1,6 +1,8 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { startUpload } from "@/lib/uploads/client";
+import { requestJson } from "@/lib/http/client-request";
+import { useEffect, useRef, useState } from "react";
 import { useInstantInteraction } from "@/components/interaction/InstantInteractionProvider";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea, Label } from "@/components/ui/Input";
@@ -17,6 +19,10 @@ export function NewTestForm({ dict }: { dict: Dictionary }) {
   const [sourceMode, setSourceMode] = useState<SourceMode>("upload");
   const [audioType, setAudioType] = useState<"video" | "audio" | "file" | "link">("audio");
   const [audioUrl, setAudioUrl] = useState("");
+  const [audioUploadId, setAudioUploadId] = useState<string | null>(null);
+  const uploadRef = useRef<ReturnType<typeof startUpload> | null>(null);
+  const submitRef = useRef(false);
+  useEffect(() => () => uploadRef.current?.cancel(), []);
   const [uploadedName, setUploadedName] = useState("");
   const [uploading, setUploading] = useState(false);
   const [pending, setPending] = useState(false);
@@ -28,18 +34,13 @@ export function NewTestForm({ dict }: { dict: Dictionary }) {
   async function onFileSelected(file: File) {
     setUploading(true);
     setError("");
-    const body = new FormData();
-    body.append("file", file);
-    body.append("folder", "listening");
-    const res = await fetch("/api/uploads", { method: "POST", body });
+    const upload = startUpload(file, { purpose: "material_primary" });
+    uploadRef.current = upload;
+    const result = await upload.promise;
     setUploading(false);
-    if (!res.ok) {
-      setError("Upload failed.");
-      return;
-    }
-    const data = await res.json();
-    setAudioUrl(data.url);
-    setAudioType(data.type);
+    if (!result.ok) { setError(result.error); return; }
+    setAudioUploadId(result.uploadId);
+    setAudioType("audio");
     setUploadedName(file.name);
   }
 
@@ -48,21 +49,15 @@ export function NewTestForm({ dict }: { dict: Dictionary }) {
       className="card flex flex-col gap-3 p-4"
       onSubmit={async (e) => {
         e.preventDefault();
-        setPending(true);
-        setError("");
-        const res = await fetch("/api/admin/listening/tests", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ title, audioType, audioUrl, transcript: transcript || undefined, difficultyLevel }),
+        if (submitRef.current) return;
+        submitRef.current = true;
+        setPending(true); setError("");
+        const result = await requestJson<{id:string}>("/api/admin/listening/tests", {
+          body: { title, audioType, ...(sourceMode === "upload" ? { audioUploadId } : { audioUrl }), transcript: transcript || undefined, difficultyLevel }, timeoutMs: 12000,
         });
-        setPending(false);
-        if (res.ok) {
-          const data = await res.json();
-          navigate(`/admin/listening/${data.id}`);
-        } else {
-          const data = await res.json();
-          setError(data.error ?? "Could not save");
-        }
+        setPending(false); submitRef.current = false;
+        if (result.ok) navigate(`/admin/listening/${result.data.id}`);
+        else setError(result.error ?? "Could not save. Your input has been kept.");
       }}
     >
       <div>
@@ -81,14 +76,14 @@ export function NewTestForm({ dict }: { dict: Dictionary }) {
         <div className="mb-1.5 flex overflow-hidden rounded-sm border border-ink-100 text-xs font-medium">
           <button
             type="button"
-            onClick={() => { setSourceMode("upload"); setAudioUrl(""); setUploadedName(""); }}
+            onClick={() => { setSourceMode("upload"); setAudioUrl(""); setAudioUploadId(null); setUploadedName(""); }}
             className={`flex-1 px-3 py-1.5 ${sourceMode === "upload" ? "bg-signal-600 text-white" : "bg-paper-raised text-ink-500"}`}
           >
             Upload audio
           </button>
           <button
             type="button"
-            onClick={() => { setSourceMode("link"); setAudioUrl(""); setUploadedName(""); }}
+            onClick={() => { setSourceMode("link"); setAudioUrl(""); setAudioUploadId(null); setUploadedName(""); }}
             className={`flex-1 px-3 py-1.5 ${sourceMode === "link" ? "bg-signal-600 text-white" : "bg-paper-raised text-ink-500"}`}
           >
             Link
@@ -120,7 +115,7 @@ export function NewTestForm({ dict }: { dict: Dictionary }) {
 
       {error && <p className="text-sm text-band-bad">{error}</p>}
       <div className="flex gap-2">
-        <Button type="submit" disabled={pending || !audioUrl}>{pending ? dict.common.saving : dict.common.save}</Button>
+        <Button type="submit" disabled={pending || uploading || (sourceMode === "upload" ? !audioUploadId : !audioUrl)}>{pending ? dict.common.saving : dict.common.save}</Button>
         <Button type="button" variant="ghost" onClick={() => setOpen(false)}>{dict.common.cancel}</Button>
       </div>
     </form>

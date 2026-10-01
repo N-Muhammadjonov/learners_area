@@ -309,9 +309,6 @@ export function VideoLessonStudio({
 
       {/* No autoplay anywhere, and a blocked embed says so instead of showing a
           black rectangle. */}
-      <p className="text-xs text-ink-500" data-video-note>
-        {provider === "youtube" ? t.providerNote : t.playbackNote}
-      </p>
       {blocked ? (
         <p className="rounded-md border border-warn-500/40 bg-warn-50 px-3 py-2 text-sm text-warn-800" data-video-blocked>
           {t.blocked}{" "}

@@ -1847,3 +1847,31 @@ export const livePartnerBlocks = pgTable("live_partner_blocks", {
 }, (table) => ({
   pk: uniqueIndex("live_partner_blocks_pair_idx").on(table.blockerId, table.blockedId),
 }));
+
+/** Native full-listening source; never serialized into an active exam. */
+export const listeningPackages = pgTable("listening_packages", {
+  testId: uuid("test_id").primaryKey().references(() => listeningTests.id, { onDelete: "cascade" }),
+  sourceId: varchar("source_id", { length: 80 }).notNull().unique(),
+  payload: jsonb("payload").$type<import("../lib/listening/package").ListeningPackage>().notNull(),
+  audioObjectKey: text("audio_object_key").notNull(),
+  imageObjectKey: text("image_object_key"),
+  sourceHash: varchar("source_hash", { length: 64 }).notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+export const listeningActivityRuns = pgTable("listening_activity_runs", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  testId: uuid("test_id").notNull().references(() => listeningPackages.testId, { onDelete: "cascade" }),
+  activity: integer("activity").notNull(),
+  speedRate: real("speed_rate"),
+  answers: jsonb("answers").$type<Record<string, string>>().notNull().default({}),
+  score: integer("score"), total: integer("total"), completed: boolean("completed").notNull().default(false),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, table => ({ ownerTest: index("listening_activity_owner_test_idx").on(table.userId, table.testId) }));
+export const listeningDrafts = pgTable("listening_drafts", {
+  attemptId: uuid("attempt_id").primaryKey().references(() => listeningAttempts.id, { onDelete: "cascade" }),
+  answers: jsonb("answers").$type<Record<string, string>>().notNull().default({}),
+  audioPosition: real("audio_position").notNull().default(0),
+  audioStartedAt: timestamp("audio_started_at", { withTimezone: true }),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+});

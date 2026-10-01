@@ -1,3 +1,9 @@
+import { listeningSchemaReady } from "@/lib/data/listening-schema-ready";
+import { db } from "@/db/client";
+import { eq } from "drizzle-orm";
+import { listeningPackages, listeningDrafts } from "@/db/schema";
+import { NativeListeningExam } from "@/components/listening/NativeListeningExam";
+import { redirect } from "next/navigation";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireActiveUser } from "@/lib/auth/current-user";
@@ -20,6 +26,17 @@ export default async function ListeningAttemptPage({ params }: { params: Promise
   const detail = await getAttemptDetail(id, user.id);
   if (!detail) notFound();
   const { attempt, test, questions, answers } = detail;
+
+  const pkg = await listeningSchemaReady() ? await db.query.listeningPackages.findFirst({ where: eq(listeningPackages.testId, test.id) }) : null;
+  if (pkg) {
+    if (attempt.status === "completed") redirect(`/listening/tests/${test.id}/2`);
+    const draft = await db.query.listeningDrafts.findFirst({ where: eq(listeningDrafts.attemptId, id) });
+    return <NativeListeningExam attemptId={id} testId={test.id} title={test.title} audioUrl={test.audioUrl!}
+      imageUrl={pkg.imageObjectKey ? `/api/resources/${pkg.imageObjectKey}` : null}
+      duration={pkg.payload.audio.durationSec} initial={draft?.answers ?? {}} audioPosition={draft?.audioPosition ?? 0}
+      audioStartedAt={draft?.audioStartedAt?.toISOString() ?? null}
+      questions={pkg.payload.questions.map(q => ({ id: questions.find(row => row.order === q.number)!.id, number: q.number, section: q.section, text: q.text, instruction: q.instruction, options: q.options }))} />;
+  }
 
   return (
     <div className="mx-auto max-w-3xl">

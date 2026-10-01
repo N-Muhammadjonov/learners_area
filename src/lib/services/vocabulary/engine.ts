@@ -108,6 +108,7 @@ type LibraryFilter = {
   topicPack?: string;
   masteries?: Mastery[];
   sourceType?: string;
+  sourceId?: string;
   limit?: number;
   offset?: number;
   random?: boolean;
@@ -122,6 +123,7 @@ function libraryConditions(userId: string, filter?: LibraryFilter) {
   if (filter?.topicPack) conditions.push(eq(userVocabulary.topicPack, filter.topicPack));
   if (filter?.masteries?.length) conditions.push(inArray(userVocabulary.mastery, filter.masteries));
   if (filter?.sourceType) conditions.push(eq(userVocabulary.sourceType, filter.sourceType));
+  if (filter?.sourceId) conditions.push(eq(userVocabulary.sourceId, filter.sourceId));
   if (filter?.dueOnly) conditions.push(lte(userVocabulary.nextReviewAt, new Date()));
   if (filter?.hasTopic) conditions.push(sql`${userVocabulary.topicPack} IS NOT NULL`);
   if (filter?.weakOnly) conditions.push(sql`${userVocabulary.mastery} NOT IN ('mastered', 'active') AND
@@ -1173,9 +1175,9 @@ export async function wordsFromSource(
   userId: string,
   sourceType: string,
   limit = 50,
+  sourceId?: string,
 ) {
-  const all = await listLibrary(userId);
-  return all.filter((item) => item.sourceType === sourceType).slice(0, limit);
+  return listLibrary(userId, { sourceType, sourceId, limit });
 }
 
 /** Counters for the dashboard, all computed from real rows. */

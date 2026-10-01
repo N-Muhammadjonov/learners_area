@@ -1,4 +1,5 @@
 import test from "node:test";
+import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
 // @ts-expect-error plain ESM script
 import { plan, fingerprint, refuseProduction } from "../scripts/preview-qa-migrate.mjs";
@@ -68,7 +69,7 @@ function fakeClient(opts: { db?: string; verifyN?: (q: string) => number; applie
 const serverId = mig.serverIdentityHash({ system_identifier: "7300000000000000001", db: "postgres", session_user: "postgres", port: 6543 });
 const goodEnv = { DATABASE_URL: QA, PREVIEW_QA_DB_FINGERPRINT: mig.fingerprint(QA), PREVIEW_QA_PROJECT_REF: "qa", PREVIEW_QA_SERVER_IDENTITY: serverId };
 const allApplied = Object.keys(sql).map(h);
-const healthy = (q: string) => (q.includes("speaking_prompts") && q.includes("column_name") ? 4 : q.includes("live_partner_presence','") ? 4 : 1);
+const healthy = (q: string) => (q.includes("listening_packages',") ? 3 : q.includes("speaking_prompts") && q.includes("column_name") ? 4 : q.includes("live_partner_presence','") ? 4 : 1);
 const base = { readJournal: () => journal, readSql: (t: string) => sql[t]!, runMigrations: async () => {} };
 
 test("CLI run: a failed verification exits non-zero (receipt pass:false is no longer silent)", async () => {
@@ -131,4 +132,14 @@ test("CLI run: --plan with pending migrations reports them and skips (not fakes)
   assert.equal(r.code, 0);
   assert.match(r.receipt.verifySkipped, /pending migrations not applied yet: 0025/);
   assert.equal(r.receipt.verify, undefined);
+});
+
+test("Full Listening migration is additive and requires the same identity, journal and backup gates", () => {
+ const tag = "0028_full_listening";
+ const sql28 = readFileSync("drizzle/0028_full_listening.sql", "utf8");
+ const joined = {entries:[...journal.entries,{tag,when:999}]};
+ const result = plan(joined, allApplied, (t: string) => t === tag ? sql28 : sql[t]!);
+ assert.deepEqual(result.pending,[tag]);
+ assert.deepEqual(result.problems,[]);
+ assert.match(plan(joined,allApplied,(t:string)=>t===tag?"drop table users;":sql[t]!).problems.join(),/destructive/);
 });

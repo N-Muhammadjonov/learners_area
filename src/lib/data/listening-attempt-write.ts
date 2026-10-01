@@ -1,7 +1,9 @@
+import { sql } from "drizzle-orm";
 import "server-only";
 import { and, eq } from "drizzle-orm";
 import { db } from "@/db/client";
-import { activityEvents, listeningAnswers, listeningAttempts, listeningQuestions, users } from "@/db/schema";
+import { listeningPackages, activityEvents, listeningAnswers, listeningAttempts, listeningQuestions, users } from "@/db/schema";
+import { gradePackage } from "@/lib/listening/package";
 import { gradeAnswer } from "@/lib/services/listening/grading";
 
 /** Serialize starts for one authenticated account; retries resume an existing attempt. */
@@ -26,10 +28,13 @@ export async function submitListeningAttempt(userId: string, id: string, answers
     const allowed = new Set(questions.map((q) => q.id));
     const answerByQuestion = new Map(answers.map((a) => [a.questionId, a.answer]));
     if (answerByQuestion.size !== answers.length || answers.some((a) => !allowed.has(a.questionId))) return { error: "invalid_input" as const };
+    const ready = await tx.execute(sql`select to_regclass('public.listening_packages') is not null as ready`);
+    const pkg = ready.rows[0]?.ready ? await tx.query.listeningPackages.findFirst({ where: eq(listeningPackages.testId, attempt.testId) }) : null;
+    const fullResults = pkg ? gradePackage(pkg.payload, Object.fromEntries(questions.map(q => [q.order, answerByQuestion.get(q.id) ?? ""]))) : null;
     let score = 0;
     const rows = questions.map((q) => {
       const userAnswer = answerByQuestion.get(q.id) ?? "";
-      const isCorrect = gradeAnswer(q.type, userAnswer, q.correctAnswer);
+      const isCorrect = fullResults ? fullResults.find(r => r.number === q.order)!.correct : gradeAnswer(q.type, userAnswer, q.correctAnswer);
       if (isCorrect) score++;
       return { attemptId: id, questionId: q.id, userAnswer, isCorrect };
     });

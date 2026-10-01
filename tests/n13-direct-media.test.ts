@@ -18,10 +18,10 @@ test("direct media: only the authorised https origin and /media/<id>.(mp4|webm);
   assert.throws(() => embedUrlFor("direct", "a.mp4"), "a direct item is never framed");
 });
 
-test("YouTube keeps its native player: no overlays, no origin='*', honest provider note", () => {
+test("YouTube keeps its native player: no overlays, no origin='*', no app advertising or provider note", () => {
   const studio = readFileSync("src/components/courses/VideoLessonStudio.tsx", "utf8");
   assert.doesNotMatch(studio, /postMessage\([^)]*["']\*["']/);
-  assert.match(studio, /provider === "youtube" \? t\.providerNote/);
+  assert.doesNotMatch(studio, /data-video-note(?:[\s=>])|t\.providerNote|t\.playbackNote/);
   const player = readFileSync("src/components/courses/DirectMediaPlayer.tsx", "utf8");
   assert.match(player, /<track kind="captions"/);
   assert.doesNotMatch(player, /youtube\.com|<iframe/);
