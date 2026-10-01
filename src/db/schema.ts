@@ -1793,3 +1793,57 @@ export const retentionRotationCompletions = pgTable(
     ),
   })
 );
+
+// ---------------------------------------------------------------------------
+// Live Partner (N10). Server-authoritative presence/invite/session metadata.
+// No audio, transcript or signalling history is ever stored here.
+// ---------------------------------------------------------------------------
+export const livePartnerStateEnum = pgEnum("live_partner_state", [
+  "offline", "available", "outgoing_invite", "incoming_invite", "connecting", "in_call", "reconnecting",
+]);
+export const livePartnerInviteStatusEnum = pgEnum("live_partner_invite_status", ["pending", "accepted", "declined", "cancelled", "expired"]);
+
+export const livePartnerPresence = pgTable("live_partner_presence", {
+  userId: uuid("user_id").primaryKey().references(() => users.id, { onDelete: "cascade" }),
+  state: livePartnerStateEnum("state").notNull().default("offline"),
+  heartbeatAt: timestamp("heartbeat_at", { withTimezone: true }),
+  sessionId: uuid("session_id"),
+  rulesVersion: integer("rules_version"),
+  rulesAcceptedAt: timestamp("rules_accepted_at", { withTimezone: true }),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => ({
+  stateIdx: index("live_partner_presence_state_idx").on(table.state, table.heartbeatAt),
+}));
+
+export const livePartnerInvites = pgTable("live_partner_invites", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  fromUserId: uuid("from_user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  toUserId: uuid("to_user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  status: livePartnerInviteStatusEnum("status").notNull().default("pending"),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  respondedAt: timestamp("responded_at", { withTimezone: true }),
+}, (table) => ({
+  onePendingFrom: uniqueIndex("live_partner_invites_one_pending_from_idx").on(table.fromUserId).where(sql`${table.status} = 'pending'`),
+  toIdx: index("live_partner_invites_to_idx").on(table.toUserId, table.status),
+}));
+
+export const livePartnerSessions = pgTable("live_partner_sessions", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  inviteId: uuid("invite_id").notNull().unique().references(() => livePartnerInvites.id, { onDelete: "cascade" }),
+  userA: uuid("user_a").notNull().references(() => users.id, { onDelete: "cascade" }),
+  userB: uuid("user_b").notNull().references(() => users.id, { onDelete: "cascade" }),
+  startedAt: timestamp("started_at", { withTimezone: true }).defaultNow().notNull(),
+  connectedAt: timestamp("connected_at", { withTimezone: true }),
+  endedAt: timestamp("ended_at", { withTimezone: true }),
+  endReason: varchar("end_reason", { length: 40 }),
+  connectionOutcome: varchar("connection_outcome", { length: 40 }),
+});
+
+export const livePartnerBlocks = pgTable("live_partner_blocks", {
+  blockerId: uuid("blocker_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  blockedId: uuid("blocked_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => ({
+  pk: uniqueIndex("live_partner_blocks_pair_idx").on(table.blockerId, table.blockedId),
+}));

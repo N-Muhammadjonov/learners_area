@@ -190,6 +190,13 @@
       "when": 1790845470436,
       "tag": "0026_google_identity",
       "breakpoints": true
+    },
+    {
+      "idx": 27,
+      "version": "7",
+      "when": 1790845656316,
+      "tag": "0027_live_partner",
+      "breakpoints": true
     }
   ]
 }

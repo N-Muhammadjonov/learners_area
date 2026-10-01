@@ -8,7 +8,7 @@ import { resolveGoogleAccount } from "../src/lib/auth/google-account";
 import { createTestDatabase, type TestDatabase } from "./support/pglite";
 
 const ID = "123-abc.apps.googleusercontent.com";
-const env = { GOOGLE_CLIENT_ID: ID, GOOGLE_CLIENT_SECRET: "secret-value-123", PUBLIC_BASE_URL: "https://learn.example.uz" } as NodeJS.ProcessEnv;
+const env = { GOOGLE_CLIENT_ID: ID, GOOGLE_CLIENT_SECRET: "secret-value-123", PUBLIC_BASE_URL: "https://learn.example.uz" } as unknown as NodeJS.ProcessEnv;
 
 test("config check: missing/invalid values hide the provider and are named without exposing secrets", () => {
   assert.deepEqual(googleConfigFrom({} as NodeJS.ProcessEnv).missing, ["GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET", "GOOGLE_REDIRECT_URI"]);
