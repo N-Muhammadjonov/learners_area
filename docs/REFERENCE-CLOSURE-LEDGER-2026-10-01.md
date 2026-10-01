@@ -1,39 +1,34 @@
-# Reference package closure ledger — 2026-10-01
+# Reference package closure ledger — 2026-10-01 (rewritten; current state)
 
-Baseline: `dd23e0a3e1d31bb1ac3e68ca7ca016b063905621`. Package artifacts persisted in
-`docs/arena-package/2026-10-01/` (from reference commit `056212c4`; patch SHA256
-`6e3fc305…b303e0` verified before `git apply --check` + `git apply`).
+Branch `arena/01a0f1a0-learners-area`. Integrated baseline `0f4a6ea` (ARENA-VERIFIED, not owner-verified).
+This table REPLACES the earlier rows (which still said N09/N10/N14/N16 "not started"/"no source").
+Sections below the table are historical appendices; where they disagree, this table wins.
 
-Evidence classes: **code** (file in repo) · **test** (local node:test / jsdom / PGlite) ·
-**browser** (real browser on Preview) · **deploy** (Vercel commit status).
-No item below has browser evidence: the sandbox has no usable browser and cannot reach
-the Preview over TLS. Local tests are not live PASS. Nothing here is OWNER-VERIFIED.
+Columns are separate evidence classes — one never stands in for another:
+**Code** (in repo, commit) · **Local test** (node:test / jsdom / PGlite) · **QA DB** (real PostgreSQL 16,
+isolated `learners_qa2` on localhost, never Preview/Production) · **Browser** (real browser on the Preview) ·
+**Deploy** (Vercel commit status). The sandbox has no usable browser, so no row has browser evidence.
+Nothing here is OWNER-VERIFIED and no completion percentage is claimed.
 
-| ID | Change + path | Test | Browser | Deploy | Status | Dependency |
-|---|---|---|---|---|---|---|
-| PATCH 23 files | applied as-is, commit aa94e85 | full suites green (see below); one source-contract test updated because the structure textarea moved into `RetentionMeasurementEditor` (assertion kept, retargeted) | none | aa94e85: Vercel "Deployment has completed" | PARTIAL | browser proof |
-| N03 measurement builder | `src/components/admin/RetentionMeasurementEditor.tsx`, `src/lib/retention/measurement-draft.ts` | `tests/reference-package-policy.test.ts`, `tests/ui/reference-package-dom.test.tsx` (form add-claim, raw-mode preservation) | none | aa94e85 | PARTIAL | browser |
-| N04 fonts/welcome | `src/lib/ui/fonts.ts`, `src/app/layout.tsx`, `src/app/page.tsx`, `globals.css` | `tests/ui/reference-package-dom.test.tsx` (font roles, single CTA, reduced motion) | none | aa94e85 (local `next build` cannot fetch Google Fonts: sandbox TLS block) | PARTIAL | browser |
-| N05 utility launcher | `ShellUtilities.tsx` | existing shell UI tests pass | none | aa94e85 | PARTIAL | browser |
-| N06 intent prefetch | `src/lib/interaction/intent-prefetch.ts`, `InstantLink.tsx`, `SidebarNav.tsx` | policy test + DOM test (90 ms dispatch, early-leave cancel, admin/explicit-false/non-opted rejected) | none | aa94e85 | PARTIAL | browser |
-| N07 early reading finish | `finishReadingEarly` in `src/lib/data/retention-attempts.ts`; `POST /api/retention/attempts/[id]/finish-reading`; "I've finished" button + confirm in `RetentionSession.tsx`; en/uz strings | `tests/retention-finish-reading-db.test.ts` (owned, server-moved deadlines, fixed 3:00 recall, no source/rubric in payload, idempotent repeat never extends, persisted on resume, late submit → timed_out, terminal refused, two concurrent calls → one transition); `tests/ui/retention-session.test.tsx` (confirm, source leaves DOM, single POST, no auto-retry on failure) | none | this commit | PARTIAL | browser; concurrency proven on single-connection PGlite only (real PG = N15) |
-| N08 progress trends | `src/lib/progress/trends.ts`, `src/lib/data/progress-trends.ts`, `src/components/progress/ProgressTrends.tsx`, progress page | `tests/progress-trends.test.ts` (Tashkent week edges, null-not-zero weeks, heatmap 12×7, Retention last-5 per level, source guard: user-scoped, bounded, no self-estimates/source/rubric, uncached); DOM render test with tables | none | this commit | PARTIAL | browser; no DB-level test of the SQL against PostgreSQL |
-| N09 Google OAuth | — | — | — | — | BLOCKED | provider secrets + owner config |
-| N10 Live Partner | — | — | — | — | BLOCKED (not started) | schema/presence design approval; large scope |
-| N11 speaking bank | `scripts/speaking-bank-dry-run.mjs` (dry run only, no DB, no --apply) | `tests/speaking-bank-dry-run.test.ts`; receipt `docs/receipts/N11-speaking-bank-dry-run.json`: 880 rows, 880 unique IDs, parts 285/85/510, 0 errors | n/a | n/a | PARTIAL | import needs a migration adding a stable external key to `speaking_prompts` (owner approval) |
-| N12 remainings.zip | screenshots in PDF pp. 57–63 (persisted) | — | — | — | RESOLVED INPUT | digests 149493362 / 2721559850 need Vercel log access |
-| N13 TED native embed | unchanged | — | — | — | BLOCKED (documented exception) | authorized direct media |
-| N14 retention texts | — | — | — | — | BLOCKED | 75 genuine texts |
-| N15 PostgreSQL gates | — | 24 skipped (guarded) | — | — | BLOCKED | isolated PostgreSQL |
-| N16 reading-105 dry run | script inspected; run stops: `DATABASE_URL is not set`; source zip not present in sandbox or reference branch | — | — | — | BLOCKED | source package + DB URL |
-| N17 / N18 browser | — | — | — | — | UNVERIFIED | Safari/isolated browser on Preview |
-| N19 present sources | preserved | existing tests pass | — | — | PARTIAL | browser |
+| ID | Code | Local test | QA DB | Browser | Deploy | Status | Remaining dependency |
+|---|---|---|---|---|---|---|---|
+| Migrations 0025–0027 → Preview QA DB | `scripts/preview-qa-migrate.mjs` (fingerprint: host/port/db/role/project ref + post-connect server identity; schema-scoped verify; non-zero exit on any verify/after-plan failure) — 53151ba, 872952a | migrator tests incl. same-pooler/different-project mismatch | 9-step simulation on `learners_preview_sim` (receipts in `docs/receipts/preview-qa-migrate-LOCAL-SIMULATION/`) | — | — | **BLOCKED — NOT RUN on Preview** | Preview DB URL is only in Vercel env; sandbox has no Vercel token. Owner runs the documented `--fingerprint` → `--plan` → `--apply` procedure |
+| N07 early finish | one POST + one authoritative GET; 0db001e | matrix: GET failure, existing attempt, empty, refresh/back/bfcache, leave — no auto-write; privacy after recall | `qa2-postgres-n07-n08` pass | — | success | CODE+TEST DONE · browser UNVERIFIED | Safari/isolated browser on Preview |
+| N09 Google sign-in | OIDC code+PKCE+state+nonce; no e-mail merge; d475d74 (0026) + d9d684c (case-insensitive link check, concurrent-callback safety) | `google-auth` 8/8 | `qa2-google-race` 8 parallel callbacks → 1 pending account | — | d9d684c success | CODE+TEST DONE · **live sign-in UNVERIFIED** (no PASS) | owner sets Google client id/secret in Vercel and signs in once with a real account |
+| N10 Live Partner | client, WebRTC engine, `services/live-signal`, TURN creds, readiness gate; 0efacef, a7bd16b | engine + signalling + UI tests (mock/socket — not a microphone test) | 0027 schema on QA2 | — | success | CODE DONE · **audio UNVERIFIED** | signalling host with TLS + WSS origin allowlist, TURN provider (paid), two-browser real-mic test |
+| N11 speaking bank | importer with `--receipt` (sha256, db name, counts, draft/notDraft); never auto-publishes; be6fcbf | receipt unit test | 880 inserted (run1), 0 inserted/880 skipped (run2); drafts invisible until published | — | success | QA DB DONE · Preview NOT imported | owner content approval + Preview import after migrations |
+| N13 TED/licensed media | direct-media player for licensed files only; YouTube never shown as direct media; CSP media origins | player tests | — | — | success | CODE DONE · Safari UNVERIFIED | licensed media file + Safari check |
+| N14 retention texts | 75 AI drafts, evaluator v4 (no regrade of history) — d5efd82 | canonical recall 100 on 75/75; 1444 wrong/missing-value mutations all enforced; source text 100 on 67/75, 90 on 8 (sentence-scope split) | not imported | — | success | DRAFTS — **not human-approved, not published** | owner/teacher review; known limit: exact rubric-term salad scores 100 on 65/75 |
+| N16 reading-105 | importer unchanged; real source `learnersarea_reading_105.zip` (branch assets/learners-area-brand, sha256 d736cd4b…) | dry run without DB: 105 passages, 2591 senses → 2589 keys | — | — | — | **BLOCKED (content)** | one collision: "literacy" (noun), senses 8244161a… vs 0de2a7de…; owner makes the definitions identical or rewords one. Receipt `docs/receipts/N16-reading-105-dry-run.md` |
+| N12 error digests 2721559850 / 149493362 | — | — | — | — | — | **BLOCKED** | PDF pp. 60/62 show only the error page (no route, no SHA); cause needs Vercel runtime logs for that deployment — not guessed |
+| PDF visual evidence | all 63 pages rendered with pymupdf and viewed (7 contact sheets) | — | — | — | — | VIEWED | screenshots are reference/historical, not acceptance |
+| Performance (3 nav/back rounds) | existing instant-navigation code | DOM tests | — | — | — | **UNVERIFIED** — no ms claims | Safari/isolated browser run with recorded evidence |
+| PostgreSQL gates | — | without env: 30 skipped (a skip is not a PASS) | with QA2 env: 674/674, 0 skipped (one earlier run had 1 cross-file flake in `owner-invariant` from shared DB; passed alone and on rerun) | — | — | DONE on isolated DB | — |
 
-## Local validation at this commit
-- `npm run typecheck` pass · `npm run lint` pass
-- `npm test`: 607 tests, 583 passed, 0 failed, 24 skipped (PostgreSQL gates)
-- UI suite: 83/83 pass · `verify-retention-schema`: 11 passed, 0 failed · `git diff --check` clean
-- `npm run build`: fails locally only because `next/font/google` cannot reach Google Fonts from the sandbox; Vercel built aa94e85 successfully.
+## Final local validation (HEAD after d9d684c; ledger-only change on top)
+- `npm run typecheck` 0 · `npm run lint` 0 · `git diff --check` clean · `verify-retention-schema` 11/0
+- `npm test`: 674 tests, 644 pass, 0 fail, 30 skipped (QA2 gates) · with QA2 env: 674/674, 0 skipped
+- UI suite: 96/96 · `npm run build`: success
 
 ## N10 — Speaking / Live Partner (2026-10-01)
 
