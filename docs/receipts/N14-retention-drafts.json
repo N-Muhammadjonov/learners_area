@@ -1,0 +1,38 @@
+{
+  "builtFrom": "content/retention-drafts/src/*.txt",
+  "provenance": "AI draft — not human-approved, not official IELTS material",
+  "humanApproved": false,
+  "published": false,
+  "total": 75,
+  "perLevel": {
+    "A2": 15,
+    "B1": 15,
+    "B2": 15,
+    "C1": 15,
+    "C2": 15
+  },
+  "wordCounts": {
+    "A2": {
+      "min": 101,
+      "max": 112
+    },
+    "B1": {
+      "min": 162,
+      "max": 169
+    },
+    "B2": {
+      "min": 242,
+      "max": 263
+    },
+    "C1": {
+      "min": 280,
+      "max": 302
+    },
+    "C2": {
+      "min": 391,
+      "max": 421
+    }
+  },
+  "problems": [],
+  "sha256": "1b4e5e37cd682144565f74c7ded476e889e268dc7641207ab162351fcdc6b69d"
+}
