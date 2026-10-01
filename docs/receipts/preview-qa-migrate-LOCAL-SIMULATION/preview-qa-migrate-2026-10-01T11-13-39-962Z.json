@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-01T11:13:39.962Z",
+  "mode": "--plan",
+  "dbFingerprint": "8eeaa76ded2d2bfb9caf8d125fdb716c761e6e2ae583a8e056a1e05d5f106a5b",
+  "target": {
+    "host": "localhost",
+    "port": "5432",
+    "database": "learners_preview_sim",
+    "role": "postgres",
+    "projectRef": null,
+    "sharedPooler": false
+  },
+  "serverIdentity": "adc6861662a454a15ee0f617ee3a7d87f6586acc9efb7aa05e00600c9ca3f8f1",
+  "server": {
+    "database": "learners_preview_sim",
+    "sessionUser": "postgres",
+    "port": 5432,
+    "systemIdentifier": "present"
+  },
+  "refused": "refused: server identity does not match PREVIEW_QA_SERVER_IDENTITY",
+  "result": {
+    "pass": false,
+    "failures": [
+      "refused: server identity does not match PREVIEW_QA_SERVER_IDENTITY"
+    ]
+  }
+}

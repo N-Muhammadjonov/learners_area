@@ -1,7 +1,22 @@
 {
-  "at": "2026-10-01T10:18:14.613Z",
-  "dbFingerprint": "31fd02bc194e49168b041ec6c216104bda34a116a66e17cf23838b4800ad557c",
-  "mode": "--apply",
+  "at": "2026-10-01T11:13:40.443Z",
+  "mode": "--plan",
+  "dbFingerprint": "8eeaa76ded2d2bfb9caf8d125fdb716c761e6e2ae583a8e056a1e05d5f106a5b",
+  "target": {
+    "host": "localhost",
+    "port": "5432",
+    "database": "learners_preview_sim",
+    "role": "postgres",
+    "projectRef": null,
+    "sharedPooler": false
+  },
+  "serverIdentity": "adc6861662a454a15ee0f617ee3a7d87f6586acc9efb7aa05e00600c9ca3f8f1",
+  "server": {
+    "database": "learners_preview_sim",
+    "sessionUser": "postgres",
+    "port": 5432,
+    "systemIdentifier": "present"
+  },
   "before": {
     "applied": [
       "0000_upload_intents",
@@ -28,39 +43,17 @@
       "0021_registration_gender",
       "0022_retention_bank",
       "0023_video_lesson_notes",
-      "0024_video_lessons_standalone",
+      "0024_video_lessons_standalone"
+    ],
+    "pending": [
       "0025_speaking_bank_identity",
       "0026_google_identity",
       "0027_live_partner"
     ],
-    "pending": [],
     "problems": []
   },
-  "verify": [
-    {
-      "name": "speaking_prompts.available_in",
-      "pass": true,
-      "value": 4
-    },
-    {
-      "name": "users.google_sub (unique)",
-      "pass": true,
-      "value": 1
-    },
-    {
-      "name": "live_partner tables",
-      "pass": true,
-      "value": 4
-    },
-    {
-      "name": "practice query runs",
-      "pass": true,
-      "value": 0
-    },
-    {
-      "name": "live partner query runs",
-      "pass": true,
-      "value": 0
-    }
-  ]
+  "verifySkipped": "pending migrations not applied yet: 0025_speaking_bank_identity,0026_google_identity,0027_live_partner",
+  "result": {
+    "pass": true
+  }
 }

@@ -25,3 +25,110 @@ test("identity guard: fingerprint hides the host; production refused", () => {
   assert.ok(refuseProduction("postgres://x@db.example/app", { VERCEL_ENV: "production" } as unknown as NodeJS.ProcessEnv));
   assert.equal(refuseProduction("postgres://x@db.example/qa", {} as NodeJS.ProcessEnv), null);
 });
+
+// ---- identity hardening (audit of fd73eed) ----
+// @ts-expect-error plain ESM script
+const mig = await import("../scripts/preview-qa-migrate.mjs");
+const QA = "postgres://postgres.qa:fake@pooler.example:6543/postgres";
+const OTHER = "postgres://postgres.production:fake@pooler.example:6543/postgres";
+const OTHER_NEUTRAL = "postgres://postgres.abcd1234:fake@pooler.example:6543/postgres";
+
+test("identity: same shared pooler host/db with different project usernames never share a fingerprint", () => {
+  assert.notEqual(mig.fingerprint(QA), mig.fingerprint(OTHER));
+  assert.notEqual(mig.fingerprint(QA), mig.fingerprint(OTHER_NEUTRAL));
+  assert.notEqual(mig.fingerprint(QA), mig.fingerprint(QA.replace(":6543", ":5432")), "port is part of the identity");
+  assert.notEqual(mig.fingerprint(QA), mig.fingerprint(QA.replace("/postgres", "/other")), "database is part of the identity");
+  assert.equal(mig.fingerprint(QA), mig.fingerprint(QA.replace(":fake@", ":rotated@")), "password is never part of the identity");
+  const env = { PREVIEW_QA_DB_FINGERPRINT: mig.fingerprint(QA), PREVIEW_QA_PROJECT_REF: "qa", PREVIEW_QA_SERVER_IDENTITY: "x" };
+  assert.deepEqual(mig.identityProblems(QA, env), []);
+  const other = mig.identityProblems(OTHER_NEUTRAL, env).join("; ");
+  assert.match(other, /fingerprint mismatch/);
+  assert.match(other, /project ref .* does not match/);
+  assert.match(mig.identityProblems(QA, { ...env, PREVIEW_QA_PROJECT_REF: "" }).join(), /shared pooler host: PREVIEW_QA_PROJECT_REF/);
+  assert.match(mig.identityProblems(QA, { ...env, PREVIEW_QA_SERVER_IDENTITY: "" }).join(), /PREVIEW_QA_SERVER_IDENTITY is not set/);
+  assert.ok(mig.refuseProduction(OTHER, {}), "a production username is refused outright");
+});
+
+type Row = Record<string, unknown>;
+function fakeClient(opts: { db?: string; verifyN?: (q: string) => number; applied?: string[]; failQuery?: RegExp }) {
+  const queries: string[] = [];
+  return { queries, client: {
+    async connect() {}, async end() {},
+    async query(q: string): Promise<{ rows: Row[] }> {
+      queries.push(q);
+      if (opts.failQuery?.test(q)) throw Object.assign(new Error("boom"), { code: "42P01" });
+      if (q.includes("current_database()")) return { rows: [{ db: opts.db ?? "postgres", session_user: "postgres", port: 6543 }] };
+      if (q.includes("pg_control_system")) return { rows: [{ system_identifier: "7300000000000000001" }] };
+      if (q.includes("to_regclass")) return { rows: [{ t: "drizzle.__drizzle_migrations" }] };
+      if (q.includes("__drizzle_migrations")) return { rows: (opts.applied ?? []).map((hash) => ({ hash })) };
+      return { rows: [{ n: opts.verifyN ? opts.verifyN(q) : 0 }] };
+    },
+  } };
+}
+const serverId = mig.serverIdentityHash({ system_identifier: "7300000000000000001", db: "postgres", session_user: "postgres", port: 6543 });
+const goodEnv = { DATABASE_URL: QA, PREVIEW_QA_DB_FINGERPRINT: mig.fingerprint(QA), PREVIEW_QA_PROJECT_REF: "qa", PREVIEW_QA_SERVER_IDENTITY: serverId };
+const allApplied = Object.keys(sql).map(h);
+const healthy = (q: string) => (q.includes("speaking_prompts") && q.includes("column_name") ? 4 : q.includes("live_partner_presence','") ? 4 : 1);
+const base = { readJournal: () => journal, readSql: (t: string) => sql[t]!, runMigrations: async () => {} };
+
+test("CLI run: a failed verification exits non-zero (receipt pass:false is no longer silent)", async () => {
+  const { client } = fakeClient({ applied: allApplied, verifyN: () => 0 });
+  const r = await mig.run({ ...base, mode: "--plan", env: goodEnv, connect: () => client });
+  assert.equal(r.code, 1);
+  assert.equal(r.receipt.result.pass, false);
+  assert.match(r.receipt.result.failures.join(), /verification failed: live_partner tables/);
+});
+
+test("CLI run: a query error during verification exits non-zero", async () => {
+  const { client } = fakeClient({ applied: allApplied, verifyN: healthy, failQuery: /live_partner_presence p join/ });
+  const r = await mig.run({ ...base, env: goodEnv, connect: () => client });
+  assert.equal(r.code, 1);
+});
+
+test("CLI run: healthy plan passes; every verification query is scoped to schema public", async () => {
+  const { client, queries } = fakeClient({ applied: allApplied, verifyN: healthy });
+  const r = await mig.run({ ...base, env: goodEnv, connect: () => client });
+  assert.equal(r.code, 0, JSON.stringify(r.receipt.result));
+  for (const [, q] of mig.VERIFY) assert.match(q as string, /table_schema='public'|schemaname='public'|public\./);
+  assert.ok(queries.some((q) => q.includes("pg_control_system")), "server identity is read after connecting");
+});
+
+test("CLI run: server identity mismatch refuses before any plan or migration", async () => {
+  let migrated = false;
+  const { client, queries } = fakeClient({ applied: allApplied, verifyN: healthy });
+  const r = await mig.run({ ...base, mode: "--apply", env: { ...goodEnv, PREVIEW_QA_SERVER_IDENTITY: "0".repeat(64), PREVIEW_QA_BACKUP_REF: "snap-1" }, connect: () => client, runMigrations: async () => { migrated = true; } });
+  assert.equal(r.code, 1);
+  assert.match(r.receipt.refused, /server identity does not match/);
+  assert.equal(migrated, false);
+  assert.ok(!queries.some((q) => q.includes("__drizzle_migrations order by")));
+});
+
+test("CLI run: apply that leaves pending migrations is a failure; apply needs a backup ref", async () => {
+  const two = [h("0023_a"), h("0024_b")];
+  const noBackup = await mig.run({ ...base, mode: "--apply", env: goodEnv, connect: () => fakeClient({ applied: two, verifyN: healthy }).client });
+  assert.equal(noBackup.code, 1); assert.match(noBackup.receipt.refused, /PREVIEW_QA_BACKUP_REF/);
+  const stuck = await mig.run({ ...base, mode: "--apply", env: { ...goodEnv, PREVIEW_QA_BACKUP_REF: "snap-1" }, connect: () => fakeClient({ applied: two, verifyN: healthy }).client });
+  assert.equal(stuck.code, 1);
+  assert.match(stuck.receipt.result.failures.join(), /still pending 0025_speaking_bank_identity/);
+});
+
+test("CLI run: receipts and logs never contain the password or full URL", async () => {
+  const lines: string[] = []; let written = "";
+  const { client } = fakeClient({ applied: allApplied, verifyN: healthy });
+  await mig.run({ ...base, env: goodEnv, connect: () => client, log: (l: string) => lines.push(l), writeReceipt: (rc: unknown) => { written = JSON.stringify(rc); return null; } });
+  for (const s of [written, lines.join("\n")]) { assert.ok(!s.includes("fake"), "password leaked"); assert.ok(!s.includes("postgres://"), "url leaked"); }
+});
+
+test("CLI process: a refused run exits non-zero without connecting", async () => {
+  const { spawnSync } = await import("node:child_process");
+  const r = spawnSync(process.execPath, ["scripts/preview-qa-migrate.mjs", "--plan"], { env: { PATH: process.env.PATH, DATABASE_URL: OTHER_NEUTRAL, PREVIEW_QA_DB_FINGERPRINT: mig.fingerprint(QA) }, encoding: "utf8", timeout: 20000 });
+  assert.equal(r.status, 1);
+  assert.ok(!(r.stdout + r.stderr).includes("fake"));
+});
+
+test("CLI run: --plan with pending migrations reports them and skips (not fakes) verification", async () => {
+  const r = await mig.run({ ...base, mode: "--plan", env: goodEnv, connect: () => fakeClient({ applied: [h("0023_a"), h("0024_b")], verifyN: () => 0 }).client });
+  assert.equal(r.code, 0);
+  assert.match(r.receipt.verifySkipped, /pending migrations not applied yet: 0025/);
+  assert.equal(r.receipt.verify, undefined);
+});

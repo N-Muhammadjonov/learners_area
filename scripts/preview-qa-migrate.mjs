@@ -2,37 +2,85 @@
 /**
  * Guarded additive migration for the APPROVED Preview QA database only.
  *
- *   DATABASE_URL=<preview QA url>                       (never printed)
- *   PREVIEW_QA_DB_FINGERPRINT=<sha256(host/dbname)>     owner-approved identity; run with --fingerprint to compute it
- *   PREVIEW_QA_BACKUP_REF=<snapshot/branch/PITR id>     required for --apply (recovery point taken first)
- *   node scripts/preview-qa-migrate.mjs [--fingerprint | --plan | --apply]
+ *   DATABASE_URL=<preview QA url>                 never printed, never written to a receipt
+ *   PREVIEW_QA_DB_FINGERPRINT=<hex>               owner-approved URL identity (host, port, database, USERNAME)
+ *   PREVIEW_QA_PROJECT_REF=<ref>                  required when the host is a shared pooler (e.g. Supabase
+ *                                                 "postgres.<ref>" usernames); must equal the ref in the username
+ *   PREVIEW_QA_SERVER_IDENTITY=<hex>              owner-approved identity reported BY THE SERVER after connecting
+ *                                                 (system_identifier, current_database, session_user, server port)
+ *   PREVIEW_QA_BACKUP_REF=<snapshot/branch/PITR>  required for --apply: the recovery point taken first
  *
- * Refuses: Production (VERCEL_ENV/NODE_ENV markers or a URL containing "prod"),
- * fingerprint mismatch, a migration history that diverges from the journal,
- * pending migrations outside the allowlist, and destructive SQL. Applies only
- * pending migrations through drizzle's own migrator (it skips applied ones), then
- * verifies the schema and writes a receipt without secrets.
+ *   node scripts/preview-qa-migrate.mjs --fingerprint   connect read-only, print both identities (no secrets)
+ *   node scripts/preview-qa-migrate.mjs --plan          verify identities, show applied/pending, verify schema
+ *   node scripts/preview-qa-migrate.mjs --apply         additionally apply the allowlisted pending migrations
+ *
+ * Why the username is part of the identity: on a shared pooler (one hostname,
+ * database "postgres" for every tenant) host+database alone are identical for
+ * the QA and the Production project; only the tenant/project part of the
+ * username tells them apart. The post-connect server identity then proves which
+ * cluster actually answered.
+ *
+ * Refuses: Production markers, URL or server identity mismatch, a missing
+ * project ref on a shared pooler, migration history that diverges from the
+ * journal, pending migrations outside the allowlist, destructive SQL.
+ * Exits non-zero when ANY verification fails or the after-apply plan is not clean.
  */
 import { createHash } from "node:crypto";
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
-import pg from "pg";
-import { drizzle } from "drizzle-orm/node-postgres";
-import { migrate } from "drizzle-orm/node-postgres/migrator";
 
 export const ALLOWED_PENDING = ["0025_speaking_bank_identity", "0026_google_identity", "0027_live_partner"];
 const DESTRUCTIVE = /\b(drop\s+(table|column|schema|database|type)|truncate|delete\s+from|alter\s+column\s+\S+\s+type)\b/i;
+const sha = (s) => createHash("sha256").update(s).digest("hex");
 
-export function fingerprint(url) {
+/** Parse the identity-relevant parts of a connection URL. The password is never read. */
+export function urlIdentity(url) {
   const u = new URL(url);
-  return createHash("sha256").update(`${u.hostname}/${u.pathname.replace(/^\//, "")}`).digest("hex");
+  const username = decodeURIComponent(u.username || "");
+  const database = decodeURIComponent(u.pathname.replace(/^\//, "")) || "postgres";
+  const port = u.port || "5432";
+  const host = u.hostname.toLowerCase();
+  // Supabase/Supavisor-style tenant routing: "<role>.<projectRef>".
+  const dotted = username.match(/^([^.]+)\.([a-z0-9-]+)$/i);
+  const projectRef = dotted ? dotted[2].toLowerCase() : null;
+  const role = dotted ? dotted[1] : username;
+  const sharedPooler = /pooler|pgbouncer|supavisor/i.test(host) || Boolean(dotted);
+  return { host, port, database, role, projectRef, sharedPooler };
 }
+
+/** URL fingerprint: host, port, database and the full username (role + project). Never the password. */
+export function fingerprint(url) {
+  const id = urlIdentity(url);
+  return sha(`v2|${id.host}|${id.port}|${id.database}|${id.role}|${id.projectRef ?? "-"}`);
+}
+
+/** Identity reported by the server itself after connecting. */
+export function serverIdentityHash(row) {
+  return sha(`v1|${row.system_identifier ?? "unavailable"}|${row.db}|${row.session_user}|${row.port ?? "-"}`);
+}
+
 export function refuseProduction(url, env = process.env) {
   if (env.VERCEL_ENV === "production") return "VERCEL_ENV=production";
-  if (/prod/i.test(new URL(url).hostname + new URL(url).pathname)) return "URL looks like production";
+  const u = new URL(url);
+  if (/prod/i.test(u.hostname + u.pathname + decodeURIComponent(u.username))) return "URL looks like production";
   return null;
 }
+
+/** Static identity checks that need no connection. Returns a list of refusal reasons. */
+export function identityProblems(url, env = process.env) {
+  const problems = [];
+  const id = urlIdentity(url);
+  if (!env.PREVIEW_QA_DB_FINGERPRINT) problems.push("PREVIEW_QA_DB_FINGERPRINT is not set");
+  else if (env.PREVIEW_QA_DB_FINGERPRINT !== fingerprint(url)) problems.push("DATABASE_URL is not the approved Preview QA database (fingerprint mismatch)");
+  if (id.sharedPooler) {
+    if (!env.PREVIEW_QA_PROJECT_REF) problems.push("shared pooler host: PREVIEW_QA_PROJECT_REF must name the approved QA project");
+    else if (!id.projectRef || id.projectRef !== env.PREVIEW_QA_PROJECT_REF.toLowerCase()) problems.push("project ref in DATABASE_URL username does not match PREVIEW_QA_PROJECT_REF");
+  }
+  if (!env.PREVIEW_QA_SERVER_IDENTITY) problems.push("PREVIEW_QA_SERVER_IDENTITY is not set (run --fingerprint and have the owner approve it)");
+  return problems;
+}
+
 export function plan(journal, appliedHashes, readSql) {
-  const entries = journal.entries.map((e) => ({ tag: e.tag, when: e.when, hash: createHash("sha256").update(readSql(e.tag)).digest("hex") }));
+  const entries = journal.entries.map((e) => ({ tag: e.tag, when: e.when, hash: sha(readSql(e.tag)) }));
   const applied = new Set(appliedHashes);
   // History must be a prefix of the journal: every applied hash is a journal entry, and no gaps.
   const firstPending = entries.findIndex((e) => !applied.has(e.hash));
@@ -48,40 +96,79 @@ export function plan(journal, appliedHashes, readSql) {
   return { applied: entries.filter((e) => applied.has(e.hash)).map((e) => e.tag), pending: pending.map((e) => e.tag), problems };
 }
 
-const VERIFY = [
-  ["speaking_prompts.available_in", "select count(*)::int n from information_schema.columns where table_name='speaking_prompts' and column_name in ('external_id','topic','source_class','available_in')", (r) => r.n === 4],
-  ["users.google_sub (unique)", "select count(*)::int n from pg_indexes where tablename='users' and indexdef ilike '%(google_sub)%' and indexdef ilike '%unique%'", (r) => r.n >= 1],
-  ["live_partner tables", "select count(*)::int n from information_schema.tables where table_name in ('live_partner_presence','live_partner_invites','live_partner_sessions','live_partner_blocks')", (r) => r.n === 4],
-  ["practice query runs", `select count(*)::int n from speaking_prompts where available_in @> '["practice_alone"]'::jsonb`, () => true],
-  ["live partner query runs", `select count(*)::int n from live_partner_presence p join users u on u.id = p.user_id where p.state = 'available'`, () => true],
+/** Every verification is scoped to the application schema `public`. */
+export const VERIFY = [
+  ["speaking_prompts identity columns", "select count(*)::int n from information_schema.columns where table_schema='public' and table_name='speaking_prompts' and column_name in ('external_id','topic','source_class','available_in')", (r) => r.n === 4],
+  ["users.google_sub unique index", "select count(*)::int n from pg_indexes where schemaname='public' and tablename='users' and indexdef ilike '%(google_sub)%' and indexdef ilike '%unique%'", (r) => r.n >= 1],
+  ["live_partner tables", "select count(*)::int n from information_schema.tables where table_schema='public' and table_name in ('live_partner_presence','live_partner_invites','live_partner_sessions','live_partner_blocks')", (r) => r.n === 4],
+  ["practice query runs", `select count(*)::int n from public.speaking_prompts where available_in @> '["practice_alone"]'::jsonb`, () => true],
+  ["live partner query runs", `select count(*)::int n from public.live_partner_presence p join public.users u on u.id = p.user_id where p.state = 'available'`, () => true],
 ];
 
-async function main() {
-  const mode = process.argv[2] ?? "--plan";
-  const url = process.env.DATABASE_URL;
-  if (!url) throw new Error("DATABASE_URL is required");
-  const fp = fingerprint(url);
-  if (mode === "--fingerprint") { console.log(fp); return; }
-  const prod = refuseProduction(url);
-  if (prod) throw new Error(`refused: ${prod}`);
-  if (!process.env.PREVIEW_QA_DB_FINGERPRINT || process.env.PREVIEW_QA_DB_FINGERPRINT !== fp) throw new Error("refused: DATABASE_URL is not the approved Preview QA database (fingerprint mismatch)");
-  const journal = JSON.parse(readFileSync("drizzle/meta/_journal.json", "utf8"));
-  const readSql = (tag) => readFileSync(`drizzle/${tag}.sql`, "utf8");
-  const client = new pg.Client({ connectionString: url, ssl: /localhost|127\.0\.0\.1/.test(url) ? false : { rejectUnauthorized: true } });
-  await client.connect();
-  const receipt = { at: new Date().toISOString(), dbFingerprint: fp, mode };
+/** Decide the exit code from a finished receipt: anything not clean is a failure. */
+export function receiptFailures(receipt) {
+  const failures = [];
+  if (receipt.refused) failures.push(receipt.refused);
+  for (const v of receipt.verify ?? []) if (!v.pass) failures.push(`verification failed: ${v.name}`);
+  if (receipt.after) {
+    for (const p of receipt.after.problems) failures.push(`after apply: ${p}`);
+    if (receipt.after.pending.length) failures.push(`after apply: still pending ${receipt.after.pending.join(",")}`);
+  }
+  if (receipt.mode !== "--fingerprint" && !receipt.verify && !receipt.verifySkipped && !receipt.refused) failures.push("verification did not run");
+  return failures;
+}
+
+async function readServerIdentity(client) {
+  const base = (await client.query("select current_database() db, session_user, inet_server_port() port")).rows[0];
+  let system_identifier = null;
+  try { system_identifier = String((await client.query("select system_identifier from pg_control_system()")).rows[0].system_identifier); } catch { /* not permitted for this role: recorded as unavailable */ }
+  return { ...base, system_identifier };
+}
+
+/**
+ * The whole CLI as a function. `connect(url)` returns a pg-compatible client
+ * (connect/query/end); `runMigrations(client)` applies pending migrations.
+ * Returns { code, receipt } and never prints the URL or password.
+ */
+export async function run({ mode = "--plan", env = process.env, connect, runMigrations, readJournal, readSql, writeReceipt = () => null, log = () => {} }) {
+  const url = env.DATABASE_URL;
+  const receipt = { at: new Date().toISOString(), mode };
+  if (!url) { receipt.refused = "DATABASE_URL is required"; return { code: 1, receipt }; }
+  receipt.dbFingerprint = fingerprint(url);
+  const id = urlIdentity(url);
+  receipt.target = { host: id.host, port: id.port, database: id.database, role: id.role, projectRef: id.projectRef, sharedPooler: id.sharedPooler };
+  const prod = refuseProduction(url, env);
+  if (prod) { receipt.refused = `refused: ${prod}`; return { code: 1, receipt }; }
+  if (mode !== "--fingerprint") {
+    const problems = identityProblems(url, env);
+    if (problems.length) { receipt.refused = `refused: ${problems.join("; ")}`; return { code: 1, receipt }; }
+  }
+  const client = await connect(url);
   try {
+    await client.connect();
+    const server = await readServerIdentity(client);
+    receipt.serverIdentity = serverIdentityHash(server);
+    receipt.server = { database: server.db, sessionUser: server.session_user, port: server.port, systemIdentifier: server.system_identifier ? "present" : "unavailable" };
+    if (mode === "--fingerprint") return { code: 0, receipt };
+    if (server.db !== id.database) { receipt.refused = "refused: server reports a different database than DATABASE_URL"; return { code: 1, receipt }; }
+    if (receipt.serverIdentity !== env.PREVIEW_QA_SERVER_IDENTITY) { receipt.refused = "refused: server identity does not match PREVIEW_QA_SERVER_IDENTITY"; return { code: 1, receipt }; }
+    const journal = readJournal();
     const hasTable = (await client.query("select to_regclass('drizzle.__drizzle_migrations') t")).rows[0].t;
     const appliedHashes = hasTable ? (await client.query("select hash from drizzle.__drizzle_migrations order by id")).rows.map((r) => r.hash) : [];
-    const p = plan(journal, appliedHashes, readSql);
-    Object.assign(receipt, { before: p });
-    if (p.problems.length) throw Object.assign(new Error(`refused: ${p.problems.join("; ")}`), { receipt });
-    if (mode === "--apply" && p.pending.length) {
-      if (!process.env.PREVIEW_QA_BACKUP_REF) throw new Error("refused: set PREVIEW_QA_BACKUP_REF to the recovery point taken before applying");
-      receipt.backupRef = process.env.PREVIEW_QA_BACKUP_REF;
-      await migrate(drizzle(client), { migrationsFolder: "drizzle" });
+    const before = plan(journal, appliedHashes, readSql);
+    receipt.before = before;
+    if (before.problems.length) { receipt.refused = `refused: ${before.problems.join("; ")}`; return { code: 1, receipt }; }
+    if (mode === "--apply" && before.pending.length) {
+      if (!env.PREVIEW_QA_BACKUP_REF) { receipt.refused = "refused: set PREVIEW_QA_BACKUP_REF to the recovery point taken before applying"; return { code: 1, receipt }; }
+      receipt.backupRef = env.PREVIEW_QA_BACKUP_REF;
+      await runMigrations(client);
       const after = (await client.query("select hash from drizzle.__drizzle_migrations order by id")).rows.map((r) => r.hash);
       receipt.after = plan(journal, after, readSql);
+    }
+    if (mode === "--plan" && before.pending.length) {
+      // The schema cannot pass before the pending migrations exist; say so instead of failing.
+      receipt.verifySkipped = `pending migrations not applied yet: ${before.pending.join(",")}`;
+      return { code: 0, receipt };
     }
     receipt.verify = [];
     for (const [name, q, ok] of VERIFY) {
@@ -89,12 +176,34 @@ async function main() {
       catch (e) { receipt.verify.push({ name, pass: false, error: String(e.code ?? e.message).slice(0, 80) }); }
     }
   } finally {
-    await client.end();
-    mkdirSync("docs/receipts", { recursive: true });
-    const file = `docs/receipts/preview-qa-migrate-${receipt.at.replace(/[:.]/g, "-")}.json`;
-    writeFileSync(file, JSON.stringify(receipt, null, 2) + "\n");
-    console.log(JSON.stringify(receipt, null, 2));
-    console.log(`receipt: ${file}`);
+    await client.end().catch(() => {});
+    const failures = receiptFailures(receipt);
+    receipt.result = failures.length ? { pass: false, failures } : { pass: true };
+    const file = writeReceipt(receipt);
+    log(JSON.stringify(receipt, null, 2));
+    if (file) log(`receipt: ${file}`);
   }
+  return { code: receipt.result.pass ? 0 : 1, receipt };
 }
-if (import.meta.url === `file://${process.argv[1]}`) main().catch((e) => { console.error(e.message); process.exit(1); });
+
+async function cli() {
+  const pg = (await import("pg")).default;
+  const { drizzle } = await import("drizzle-orm/node-postgres");
+  const { migrate } = await import("drizzle-orm/node-postgres/migrator");
+  const { code } = await run({
+    mode: process.argv[2] ?? "--plan",
+    connect: (url) => new pg.Client({ connectionString: url, ssl: /@(localhost|127\.0\.0\.1)[:/]/.test(url) ? false : { rejectUnauthorized: true } }),
+    runMigrations: (client) => migrate(drizzle(client), { migrationsFolder: "drizzle" }),
+    readJournal: () => JSON.parse(readFileSync("drizzle/meta/_journal.json", "utf8")),
+    readSql: (tag) => readFileSync(`drizzle/${tag}.sql`, "utf8"),
+    writeReceipt: (receipt) => {
+      mkdirSync("docs/receipts", { recursive: true });
+      const file = `docs/receipts/preview-qa-migrate-${receipt.at.replace(/[:.]/g, "-")}.json`;
+      writeFileSync(file, JSON.stringify(receipt, null, 2) + "\n");
+      return file;
+    },
+    log: (line) => console.log(line),
+  });
+  process.exit(code);
+}
+if (import.meta.url === `file://${process.argv[1]}`) cli().catch((e) => { console.error(String(e?.message ?? e).replace(/postgres(ql)?:\/\/[^\s]+/g, "<redacted-url>")); process.exit(1); });
