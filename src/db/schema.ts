@@ -13,6 +13,7 @@ import {
   index,
   uniqueIndex,
 } from "drizzle-orm/pg-core";
+import { sql } from "drizzle-orm";
 
 // ---------------------------------------------------------------------------
 // Enums
@@ -929,6 +930,15 @@ export const speakingPrompts = pgTable("speaking_prompts", {
   prepSeconds: integer("prep_seconds").notNull().default(30),
   answerSeconds: integer("answer_seconds").notNull().default(90),
   followUps: jsonb("follow_ups").$type<string[]>().notNull().default([]),
+  /**
+   * Stable identity of a row imported from the canonical speaking master bank
+   * (e.g. "P3-001-2"). NULL for hand-authored prompts. Partial unique index
+   * makes the importer idempotent without touching the uuid primary key.
+   */
+  externalId: varchar("external_id", { length: 40 }),
+  topic: varchar("topic", { length: 200 }),
+  sourceClass: varchar("source_class", { length: 60 }),
+  availableIn: jsonb("available_in").$type<string[]>().notNull().default(["practice_alone"]),
   isActive: boolean("is_active").notNull().default(true),
   /**
    * Publication state and the moment a scheduled item opens. Visibility is
@@ -939,7 +949,9 @@ export const speakingPrompts = pgTable("speaking_prompts", {
   publicationState: publicationStateEnum("publication_state").notNull().default("published"),
   publishAt: timestamp("publish_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-});
+}, (table) => ({
+  externalIdIdx: uniqueIndex("speaking_prompts_external_id_idx").on(table.externalId).where(sql`${table.externalId} is not null`),
+}));
 
 export const speakingAttempts = pgTable("speaking_attempts", {
   id: uuid("id").defaultRandom().primaryKey(),

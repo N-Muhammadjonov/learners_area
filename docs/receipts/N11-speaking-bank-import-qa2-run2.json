@@ -1,0 +1,20 @@
+{
+  "mode": "apply",
+  "database": "learners_qa2",
+  "inserted": 0,
+  "skippedExisting": 880,
+  "byPart": {
+    "part1": {
+      "rows": 285,
+      "uniqueIds": 285
+    },
+    "part2": {
+      "rows": 85,
+      "uniqueIds": 85
+    },
+    "part3": {
+      "rows": 510,
+      "uniqueIds": 510
+    }
+  }
+}
