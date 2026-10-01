@@ -1,5 +1,5 @@
 import type { NextResponse } from "next/server";
-import { connectSrcOrigins, frameAncestorsFor, storageOrigins } from "@/lib/config/site";
+import { connectSrcOrigins, frameAncestorsFor, mediaSrcOrigins } from "@/lib/config/site";
 
 /**
  * Response security headers, built in one place.
@@ -53,7 +53,7 @@ export function buildCsp({ nonce, secure, dev, host = null }: CspOptions): strin
     // plumbed through the framework today. Recorded honestly rather than hidden.
     `style-src 'self' 'unsafe-inline'`,
     `img-src 'self' data: blob: https:`,
-    `media-src 'self' blob: data: ${storageOrigins.join(" ")}`.trim(),
+    `media-src 'self' blob: data: ${mediaSrcOrigins.join(" ")}`.trim(),
     `font-src 'self' data:`,
     `connect-src ${connectSrc.join(" ")}`,
     `frame-src 'self' https://www.youtube-nocookie.com https://www.youtube.com`,

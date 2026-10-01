@@ -20,7 +20,19 @@
  * Pure module — unit tested without a server.
  */
 
-export type VideoProvider = "youtube";
+export type VideoProvider = "youtube" | "direct";
+
+/**
+ * "direct" = a media file on the owner-authorised origin (AUTHORIZED_MEDIA_ORIGIN),
+ * stored as `/media/<id>.(mp4|webm)` with an optional `/media/<id>.vtt` caption
+ * file. Only media the centre is licensed to host goes there; this module never
+ * copies or proxies third-party video. YouTube stays on its native player.
+ */
+export const DIRECT_MEDIA_ID = /^[A-Za-z0-9_-]{1,32}\.(mp4|webm)$/;
+export function directMediaUrls(videoId: string, origin: string) {
+  if (!DIRECT_MEDIA_ID.test(videoId)) throw new Error("invalid media id");
+  return { src: `${origin}/media/${videoId}`, captions: `${origin}/media/${videoId.replace(/\.(mp4|webm)$/, ".vtt")}` };
+}
 
 export type ParsedVideo =
   | { ok: true; provider: VideoProvider; videoId: string }
@@ -59,7 +71,7 @@ function idFromYouTube(url: URL): string | null {
 }
 
 /** Parses a pasted URL or a bare id into a validated provider reference. */
-export function parseVideoInput(raw: string): ParsedVideo {
+export function parseVideoInput(raw: string, options: { mediaOrigin?: string | null } = {}): ParsedVideo {
   const trimmed = raw.trim();
   if (!trimmed) return { ok: false, reason: "no_video_id" };
 
@@ -78,6 +90,10 @@ export function parseVideoInput(raw: string): ParsedVideo {
   }
 
   if (url.protocol !== "https:" && url.protocol !== "http:") return { ok: false, reason: "invalid_url" };
+  if (options.mediaOrigin && url.protocol === "https:" && url.origin === options.mediaOrigin) {
+    const id = url.pathname.startsWith("/media/") ? url.pathname.slice("/media/".length) : "";
+    return DIRECT_MEDIA_ID.test(id) && !url.search && !url.hash ? { ok: true, provider: "direct", videoId: id } : { ok: false, reason: "invalid_id" };
+  }
   if (!YOUTUBE_HOSTS.has(url.hostname)) return { ok: false, reason: "unsupported_host" };
 
   const id = idFromYouTube(url);

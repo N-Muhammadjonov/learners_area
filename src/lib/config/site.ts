@@ -81,7 +81,18 @@ export function frameAncestorsFor(_host: string | null): string[] {
  */
 export const storageOrigins = [process.env.R2_ENDPOINT, process.env.S3_ENDPOINT]
   .map(normalizeOrigin).filter((origin): origin is string => Boolean(origin));
-export const connectSrcOrigins = [...new Set([...listFromEnv("CSP_CONNECT_SRC"), ...storageOrigins])];
+/** Live Partner signalling WebSocket origin (wss only), from LIVE_PARTNER_SIGNAL_URL. */
+export function signalOrigin(value = process.env.LIVE_PARTNER_SIGNAL_URL): string | null {
+  try {
+    const url = new URL(value ?? "");
+    return url.protocol === "wss:" && !url.username && !url.password ? `wss://${url.host}` : null;
+  } catch { return null; }
+}
+/** Owner-authorised direct media host for the custom TED / PODCAST player (https origin only). */
+export const authorizedMediaOrigin = normalizeOrigin(process.env.AUTHORIZED_MEDIA_ORIGIN);
+const signal = signalOrigin();
+export const connectSrcOrigins = [...new Set([...listFromEnv("CSP_CONNECT_SRC"), ...storageOrigins, ...(signal ? [signal] : [])])];
+export const mediaSrcOrigins = [...new Set([...storageOrigins, ...(authorizedMediaOrigin ? [authorizedMediaOrigin] : [])])];
 
 /** Public video providers the app is willing to embed. */
 export const allowedVideoHosts = ["www.youtube-nocookie.com", "www.youtube.com", "youtube.com", "youtu.be"];

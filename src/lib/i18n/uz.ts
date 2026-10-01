@@ -326,6 +326,9 @@ const uz: Dictionary = {
       summary: "Xulosa",
       notes: "Eslatmalar",
     },
+    providerNote:
+      "Bu video YouTube'ning o'z pleyerida ijro etiladi. YouTube boshqaruvlari, brendi va subtitr menyusi YouTube taqdim etganidek ko'rsatiladi; Learners Area ularni yopmaydi yoki o'zgartirmaydi.",
+    directPlayer: { play: "Ijro", pause: "Pauza", captionsOn: "CC yoqilgan", captionsOff: "CC o'chirilgan", speed: "Tezlik", seek: "O'tkazish", error: "Media faylni yuklab bo'lmadi." },
     playbackNote:
       "Video Learners Area ichida ijro etiladi. Manba brauzerga baribir ko'rinadi, shuning uchun bu qulaylik — maxfiylik emas.",
     blocked: "Bu videoni hozir shu yerda ijro etib bo'lmayapti.",

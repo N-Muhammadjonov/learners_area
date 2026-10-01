@@ -10,6 +10,7 @@ import { LessonWorkspace } from "@/components/courses/LessonWorkspace";
 import { VideoLessonStudio } from "@/components/courses/VideoLessonStudio";
 import { getVideoLessonForLesson } from "@/lib/data/video-lessons";
 import { isUuid } from "@/lib/validation/ids";
+import { resolveDirectMedia } from "@/lib/services/video/direct";
 import { OwnerMaterialBlocks } from "@/components/resources/OwnerMaterialBlocks";
 
 export const dynamic = "force-dynamic";
@@ -64,6 +65,7 @@ export default async function LessonPage({ params }: { params: Promise<{ lessonI
 
       {video ? (
         <VideoLessonStudio
+          directMedia={resolveDirectMedia(video.videoLesson.provider, video.videoLesson.videoId)}
           dict={dict}
           lessonId={lesson.id}
           videoLesson={{

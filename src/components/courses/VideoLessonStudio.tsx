@@ -5,6 +5,7 @@ import type { Dictionary } from "@/lib/i18n/en";
 import { ClickableText } from "@/components/vocabulary/ClickableText";
 import { Button } from "@/components/ui/Button";
 import { embedUrlFor, type VideoProvider } from "@/lib/services/video/provider";
+import { DirectMediaPlayer, type DirectMediaControls } from "@/components/courses/DirectMediaPlayer";
 
 /** Validated provider embeds with native captions and server-authoritative progress.
  * Legacy transcript data stays compatible; it is not rendered as a lesson tab.
@@ -24,7 +25,10 @@ export function VideoLessonStudio({
   videoLesson,
   questions,
   initialProgress,
+  directMedia,
 }: {
+  /** Server-resolved URLs for an owner-authorised direct media item (provider "direct"). */
+  directMedia?: { src: string; captions: string | null } | null;
   dict: Dictionary;
   lessonId: string;
   videoLesson: {
@@ -94,7 +98,9 @@ export function VideoLessonStudio({
 
   // Built without the browser origin so the player is part of the server-rendered
   // page: the video starts loading with the lesson instead of after hydration.
-  const src = useMemo(() => embedUrlFor(provider, videoLesson.videoId), [provider, videoLesson.videoId]);
+  const src = useMemo(() => (provider === "youtube" ? embedUrlFor(provider, videoLesson.videoId) : "about:blank"), [provider, videoLesson.videoId]);
+  const direct = provider === "direct" ? directMedia ?? null : null;
+  const directControls = useRef<DirectMediaControls | null>(null);
 
   const send = useCallback(
     (payload: Record<string, unknown>) => {
@@ -106,6 +112,7 @@ export function VideoLessonStudio({
 
   const seekTo = useCallback(
     (seconds: number) => {
+      if (directControls.current) { directControls.current.seekTo(seconds); return; }
       send({ event: "command", func: "seekTo", args: [seconds, true] });
       send({ event: "command", func: "playVideo", args: [] });
     },
@@ -274,6 +281,13 @@ export function VideoLessonStudio({
   return (
     <section className="flex flex-col gap-4" data-video-lesson={videoLesson.id} data-video-state={state}>
       <div className="overflow-hidden rounded-lg border border-ink-200 bg-ink-950">
+        {provider === "direct" ? (
+          direct ? (
+            <DirectMediaPlayer src={direct.src} captions={direct.captions} title={videoLesson.title} labels={t.directPlayer} onTime={setLiveTime} controlsRef={directControls} />
+          ) : (
+            <p className="p-4 text-sm text-white" data-video-blocked>{t.blocked}</p>
+          )
+        ) : (
         <div className="relative aspect-video w-full">
             <iframe
               ref={iframeRef}
@@ -290,12 +304,13 @@ export function VideoLessonStudio({
               data-video-frame
             />
         </div>
+        )}
       </div>
 
       {/* No autoplay anywhere, and a blocked embed says so instead of showing a
           black rectangle. */}
       <p className="text-xs text-ink-500" data-video-note>
-        {t.playbackNote}
+        {provider === "youtube" ? t.providerNote : t.playbackNote}
       </p>
       {blocked ? (
         <p className="rounded-md border border-warn-500/40 bg-warn-50 px-3 py-2 text-sm text-warn-800" data-video-blocked>

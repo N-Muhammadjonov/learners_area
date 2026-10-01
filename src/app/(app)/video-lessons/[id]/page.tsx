@@ -4,6 +4,7 @@ import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { getStandaloneVideoLesson } from "@/lib/data/video-lessons";
 import { isUuid } from "@/lib/validation/ids";
+import { resolveDirectMedia } from "@/lib/services/video/direct";
 import { VideoLessonStudio } from "@/components/courses/VideoLessonStudio";
 
 export const dynamic = "force-dynamic";
@@ -31,6 +32,7 @@ export default async function StandaloneVideoLessonPage({ params }: { params: Pr
         <Link href="/video-lessons" className="btn-secondary">{dict.videoLessons.title}</Link>
       </div>
       <VideoLessonStudio
+          directMedia={resolveDirectMedia(videoLesson.provider, videoLesson.videoId)}
         dict={dict}
         lessonId={videoLesson.id}
         videoLesson={{

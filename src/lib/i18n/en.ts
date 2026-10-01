@@ -324,6 +324,9 @@ const en = {
       summary: "Summary",
       notes: "Notes",
     },
+    providerNote:
+      "This video plays in YouTube's own embedded player. YouTube's controls, branding and captions menu are shown as YouTube provides them; Learners Area does not cover or alter them.",
+    directPlayer: { play: "Play", pause: "Pause", captionsOn: "CC on", captionsOff: "CC off", speed: "Speed", seek: "Seek", error: "This media file could not be loaded." },
     playbackNote:
       "The video plays inside Learners Area. Its source is still visible to the browser, so this is convenience, not secrecy.",
     blocked: "This video cannot be played here right now.",

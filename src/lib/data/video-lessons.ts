@@ -12,6 +12,7 @@ import {
   videoLessons,
 } from "@/db/schema";
 import { parseVideoInput, type VideoProvider } from "@/lib/services/video/provider";
+import { authorizedMediaOrigin } from "@/lib/config/site";
 import { isLive, liveWhere } from "@/lib/services/cms/publication";
 
 /**
@@ -219,7 +220,7 @@ export async function listVideoLessonsForStudent(userId: string) {
 }
 
 export async function createVideoLesson(input: VideoLessonInput, createdByUserId: string) {
-  const parsed = parseVideoInput(input.videoUrl);
+  const parsed = parseVideoInput(input.videoUrl, { mediaOrigin: authorizedMediaOrigin });
   if (!parsed.ok) return { ok: false as const, reason: parsed.reason };
 
   const lessonId = input.lessonId ?? null;
