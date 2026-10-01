@@ -149,7 +149,9 @@ const SCALE_WORDS: Record<string, number> = {
 
 const NEGATION_TOKENS = new Set(["not", "never", "no", "without", "none", "neither", "nor"]);
 /** Tokens that end a clause: a negation on the other side of one is not local. */
-const CLAUSE_BOUNDARIES = new Set([",", ";", "but", "however", "though", "although", "yet", "whereas"]);
+/** v4: the sentence boundary the evaluator inserts between sentences of an answer-scoped unit. Never skipped inside a phrase. */
+export const SENTENCE_BOUNDARY = ".";
+const CLAUSE_BOUNDARIES = new Set([SENTENCE_BOUNDARY, ",", ";", "but", "however", "though", "although", "yet", "whereas"]);
 
 export function normalizeText(raw: string): string {
   // Collapse digit-grouping separators on the RAW text: NFKC folds U+00A0 and
@@ -221,7 +223,8 @@ function applyNumberWords(input: string[]): string[] {
 export function splitEvidenceUnits(raw: string): string[] {
   const text = (raw ?? "").normalize("NFKC");
   const units = text
-    .split(/[.!?\n\r]+|;/u)
+    // v4: a decimal point ("1.27 million") is not a sentence end.
+    .split(/(?:(?<!\d)\.|\.(?!\d)|[!?\n\r])+|;/u)
     .map((unit) => unit.trim())
     .filter((unit) => unit.length > 0);
   return units.length > 0 ? units : [];
@@ -330,6 +333,27 @@ export function findPhrase(haystack: string[], needle: string[], fuzzy = false):
     if (fuzzyAt(haystack, needle, start)) return start;
   }
   return -1;
+}
+
+/**
+ * Every start index of `needle` in `haystack` (v4). Exact matches first, then —
+ * only when `fuzzy` — the conservative typo matches. The evaluator uses this so a
+ * negated EARLY mention ("there was no garden… later they bought a garden") can
+ * no longer hide a later, affirmative one.
+ */
+export function findPhraseAll(haystack: string[], needle: string[], fuzzy = false): number[] {
+  const out: number[] = [];
+  if (needle.length === 0 || haystack.length === 0) return out;
+  for (let start = 0; start < haystack.length; start += 1) {
+    if (BOUNDARY_TOKENS.has(haystack[start]!)) continue;
+    if (exactAt(haystack, needle, start)) out.push(start);
+  }
+  if (!fuzzy) return out;
+  for (let start = 0; start < haystack.length; start += 1) {
+    if (BOUNDARY_TOKENS.has(haystack[start]!)) continue;
+    if (!out.includes(start) && fuzzyAt(haystack, needle, start)) out.push(start);
+  }
+  return out;
 }
 
 /**

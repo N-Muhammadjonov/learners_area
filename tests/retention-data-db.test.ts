@@ -276,7 +276,7 @@ test("submit scores against the ASSIGNED version even after the owner publishes 
   assert.equal(submitted.attempt.retentionTextVersionId, assigned, "the attempt still points at the version it was given");
   assert.equal(submitted.attempt.status, "completed");
   assert.equal(submitted.attempt.score, 100);
-  assert.equal(submitted.attempt.evaluatorVersion, "retention-deterministic-v3");
+  assert.equal(submitted.attempt.evaluatorVersion, "retention-deterministic-v4");
   assert.ok(submitted.attempt.scoreBreakdown?.claims.length);
 
   // Submitting twice returns the stored result and never re-scores.

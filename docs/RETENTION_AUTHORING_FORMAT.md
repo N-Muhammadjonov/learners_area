@@ -357,7 +357,22 @@ terminal results and breakdowns are never re-graded or rewritten. History:
 `retention-deterministic-v1` (launch), `-v2` (critical groups need their own
 evidence; accepted phrases credit only non-critical groups; disclaimers must be
 about the claim), `-v3` (a shared date/number alone does not make an unrelated
-denial about the claim).
+denial about the claim), `-v4` (found by the N14 draft audit: every occurrence
+of an alternative is considered, so a negated first mention no longer hides a
+later affirmative one; answer scope keeps sentence boundaries, so a negation never
+crosses a full stop and no phrase is matched across two sentences; a decimal
+point such as `1.27` no longer splits a sentence).
+
+**Authoring rule for negative facts (v4):** if the fact is itself negative
+("the flat had no garden", "procrastination is not laziness"), the group must be
+the negative phrase (`no garden`, `not laziness`). A bare `garden` group is
+correctly refused whenever the learner writes the true negative sentence.
+
+**Known limitation:** the scorer matches authored evidence and ignores grammar
+on purpose, so a bare list of the exact rubric terms can still reach a high
+score. Learners never see the rubric (it is never sent to the client), which
+limits this in practice, but it is a property of the deterministic design, not
+a solved problem.
 
 ## Editing and deleting
 

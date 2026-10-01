@@ -15,7 +15,7 @@ Last month a new family moved into the flat next to Sara. There is a mother, a f
 ### A2-03 | The School Garden
 At Hill Street School, the children have a small garden behind the library. Every class looks after one part of it. Class four grows tomatoes, and class five grows potatoes and carrots. In spring, the children plant seeds and give them water every day. Their teacher, Mr Brown, shows them how to remove weeds. In summer, the school is closed, so some parents come on Saturdays to water the plants. In September, the children pick the vegetables. The school cook uses them to make soup for lunch. Last year the soup was so popular that the cook wrote the recipe on a big poster in the dining room.
 @ 25 s | The school has a small garden behind the library. | 15 c! garden ; 10 c library
-@ 25 s | Class four grows tomatoes and class five grows potatoes and carrots. | 10 c! tomatoes/tomato ; 15 c potatoes/carrots/potato
+@ 25 s | The pupils grow tomatoes, potatoes and carrots. | 10 c! tomatoes/tomato ; 15 c potatoes/carrots/potato
 @ 25 a | In summer some parents come on Saturdays to water the plants. | 15 e! parents ; 10 c water/watering
 @ 25 a | The cook uses the vegetables to make soup and put the recipe on a poster. | 15 c! soup ; 10 c recipe/poster
 
@@ -34,9 +34,9 @@ On Saturday, Amir visited the city zoo with his class. The bus left school at ni
 @ 25 a | Amir liked the penguins most and bought a penguin postcard for his mother. | 15 e! penguins/penguin ; 10 c postcard
 
 ### A2-06 | Learning to Swim
-Lina is twenty-five, but she could not swim until this year. When she was a child, she lived far from the sea and there was no pool in her village. In January, she moved to a city with a big sports centre. She was a little afraid, but she started lessons on Wednesday evenings. Her teacher, Paul, was very patient. In the first lesson, she only put her face in the water. After six weeks, she could swim across the pool. Now she goes swimming three times a week before work. In the summer, she wants to swim in the sea for the first time.
-@ 25 s | Lina is twenty-five and could not swim until this year. | 10 n twenty-five/25 ; 15 c! swim
-@ 25 s | There was no pool in her village when she was a child. | 15 c! pool ; 10 c village
+Lina is twenty-five, but she could not swim until this year. When she was a child, she lived far from the sea, and her village had no pool. In January, she moved to a city with a big sports centre. She was a little afraid, but she started lessons on Wednesday evenings. Her teacher, Paul, was very patient. In the first lesson, she only put her face in the water. After six weeks, she could swim across the pool. Now she goes swimming three times a week before work. In the summer, she wants to swim in the sea for the first time.
+@ 25 s | Lina is twenty-five and could not swim until this year. | 10 n twenty-five/25 ; 15 c! could not swim
+@ 25 s | When she was a child, her village had no pool. | 15 c! no pool ; 10 c village
 @ 25 a | Her lessons were on Wednesday evenings and after six weeks she could swim across the pool. | 10 d wednesday ; 15 n! six weeks/6 weeks
 @ 25 a | She now swims three times a week and wants to swim in the sea in summer. | 10 n! three times/3 times ; 15 c sea
 
@@ -52,12 +52,12 @@ In August, Ben and his parents went camping in the mountains for a week. They wa
 @ 25 s | Ben and his parents went camping in the mountains in August. | 15 c! camping/camp ; 10 c mountains
 @ 25 s | It rained for five days and the tent was wet. | 15 n! five days/5 days ; 10 c tent
 @ 25 a | They visited a small museum about farm tools and the history of cheese. | 10 c! museum ; 15 c cheese
-@ 25 a | On the last two days the sun came out and they swam in the lake. | 15 c! lake ; 10 c sun
+@ 25 a | At the end of the trip the sun came out and they swam in the lake. | 15 c! lake ; 10 c sun
 
 ### A2-09 | My First Job
 When I was sixteen, I got my first job at a bakery near my school. I worked there every Saturday from six in the morning until one o'clock. My job was to put the bread and cakes in the window and help the customers. At first, I was very slow with the money, and once I gave a man too much change. He came back and returned it, which I thought was very kind. The owner, Mrs Klein, taught me to make simple bread rolls. I still remember the warm smell of the shop. With my first money, I bought a red bicycle.
 @ 25 s | At sixteen I got my first job at a bakery near my school. | 10 n sixteen/16 ; 15 c! bakery
-@ 25 s | I worked every Saturday from six until one o'clock. | 15 d! saturday ; 10 n six/6
+@ 25 s | I worked every Saturday, starting at six in the morning. | 15 d! saturday ; 10 n six/6
 @ 25 a | A man returned the extra change I gave him by mistake. | 15 c! change/money ; 10 c returned/gave it back
 @ 25 a | The owner taught me to make bread rolls and I bought a red bicycle. | 10 c bread rolls/bread ; 15 c! bicycle/bike
 
@@ -65,7 +65,7 @@ When I was sixteen, I got my first job at a bakery near my school. I worked ther
 Yuki moved to a new town in the winter. She did not know anyone, and the evenings were long and dark. One day she saw the public library near the station. Inside it was warm and quiet. The librarian helped her get a free library card. Yuki borrowed three books and a film. She also saw a poster for a reading club on Thursday evenings. She was nervous, but she went. There were eight people, and they talked about a short novel while they drank tea. Now Yuki goes to the club every week, and two of the members are her good friends.
 @ 25 s | Yuki moved to a new town in winter and did not know anyone. | 15 c! new town/town ; 10 d winter
 @ 25 s | The librarian helped her get a free library card. | 15 c! library card/card ; 10 e librarian
-@ 25 a | She went to a reading club on Thursday evenings with eight people. | 15 c! reading club/club ; 10 d thursday
+@ 25 a | She went to a reading club on Thursday evenings. | 15 c! reading club/club ; 10 d thursday
 @ 25 a | Two of the club members are now her good friends. | 15 c! friends ; 10 n two/2
 
 ### A2-11 | Breakfast in Different Countries
@@ -80,7 +80,7 @@ On Monday morning, Carlos dropped his phone in the kitchen and the screen broke.
 @ 25 s | On Monday Carlos dropped his phone and the screen broke. | 15 c! screen ; 10 d monday
 @ 25 s | The repair shop said it would take four days. | 15 n! four days/4 days ; 10 c repair
 @ 25 a | Without his phone he read a book and talked to colleagues at lunch. | 15 c! book ; 10 e colleagues
-@ 25 a | He decided to switch the phone off every evening after nine. | 15 c! switch it off/switch off/turn off ; 10 n nine/9
+@ 25 a | He decided to switch off the phone every evening after nine. | 15 c! switch it off/switch off/turn off ; 10 n nine/9
 
 ### A2-13 | The Night Market
 Every Friday night, the main square in our town becomes a market. When the sun goes down, people bring tables, lights and small kitchens. You can buy noodles, grilled corn, fresh juice and sweet pancakes. There are also stalls with clothes, old books and handmade jewellery. A man with a guitar plays music next to the fountain, and children dance. My favourite stall belongs to an old woman who sells hot dumplings. She has worked there for twenty years and she remembers everyone's name. The market closes at midnight, and volunteers clean the square, so it is ready for the morning.
@@ -92,13 +92,13 @@ Every Friday night, the main square in our town becomes a market. When the sun g
 ### A2-14 | Moving House
 Last year, Anna and her husband moved from a small flat in the city centre to a house in the countryside. The flat was close to shops and their work, but it was noisy and had no garden. The new house is old and needs a lot of work. The kitchen is very small and the windows let in cold air. But there is a big garden with two cherry trees, and they can see hills from the bedroom. Anna now works from home three days a week. On the other days she takes the train. She says she misses the cafés but sleeps much better.
 @ 25 s | Anna and her husband moved from a city flat to a house in the countryside. | 15 c! countryside/country ; 10 c house
-@ 25 a | The flat was noisy and had no garden. | 15 c! noisy/noise ; 10 c garden
+@ 25 a | The flat was noisy and had no garden. | 15 c! noisy/noise ; 10 c no garden
 @ 25 s | The new house has a big garden with two cherry trees. | 15 c! cherry trees/cherry ; 10 n two/2
-@ 25 a | She works from home three days a week and sleeps much better. | 10 n three days/3 days ; 15 c! sleeps better/sleep
+@ 25 a | She works from home three days a week and sleeps much better. | 10 n three days/3 days ; 15 c! sleeps much better/sleeps better
 
 ### A2-15 | The Football Match
 Our school football team played in the final of the town cup last Saturday. The other team was bigger and had won the cup for three years. After twenty minutes, they scored a goal, and our players looked tired. At half-time, our coach, Miss Rossi, told us to pass the ball more and not to give up. In the second half, Omar scored with his head. The score was one-one until the last minute. Then our goalkeeper, Jake, kicked the ball very far, and Lucy ran and scored. We won two-one, and the whole school celebrated with ice cream on Monday.
-@ 25 s | Our school team played in the final of the town cup. | 15 c! final/cup ; 10 c football
+@ 25 s | Our school football team played in the final of the town cup. | 15 c! final/cup ; 10 c football
 @ 25 a | The coach Miss Rossi told us to pass more and not give up. | 15 e! coach/miss rossi ; 10 c pass
 @ 25 a | Omar scored with his head and then Lucy scored in the last minute. | 10 e! omar ; 15 e lucy
 @ 25 a | We won two-one and celebrated with ice cream. | 10 n! two-one/2-1 ; 15 c ice cream

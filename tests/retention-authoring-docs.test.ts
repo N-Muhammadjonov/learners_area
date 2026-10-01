@@ -93,6 +93,7 @@ for (const level of ["A2", "C1"] as RetentionLevel[]) {
 
 test("the document states the current evaluator version and the grammar/semantic limits", () => {
   assert.match(doc, /retention-deterministic-v3/);
+  assert.match(doc, /-v4/);
   assert.match(doc, /Grammar is not scored/);
   assert.match(doc, /cannot prove in general that a learner's sentence is semantically true/);
 });

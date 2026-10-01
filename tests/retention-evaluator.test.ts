@@ -574,7 +574,30 @@ test("v2: answer-scoped claims apply denials per sentence too", () => {
 });
 
 test("v2: evaluator version is bumped for newly graded attempts", () => {
-  assert.equal(RETENTION_EVALUATOR_VERSION, "retention-deterministic-v3");
+  // v4: occurrence-complete matching + sentence boundaries in answer scope (N14 audit).
+  assert.equal(RETENTION_EVALUATOR_VERSION, "retention-deterministic-v4");
+});
+
+const v4 = (scope: "answer" | "sentence") => structure({ schemaVersion: 1, maxScore: 100, claims: [{ id: "cheap", label: "Cheap flights replaced night trains", points: 100, scope, groups: [
+  { id: "flights", kind: "concept", points: 50, anyOf: ["cheap flights"] },
+  { id: "trains", kind: "concept", points: 50, anyOf: ["night trains"] },
+], acceptedPhrases: [], rejectPhrases: [] }] });
+
+test("v4: a negation does not cross a full stop in answer scope", () => {
+  assert.equal(evaluateRecall("Some people saw no future. Cheap flights replaced night trains.", v4("answer")).score, 100);
+});
+
+test("v4: negation inside the same sentence still removes the group", () => {
+  assert.equal(evaluateRecall("There were no cheap flights, but night trains ran.", v4("answer")).score, 50);
+  assert.equal(evaluateRecall("There were no cheap flights, but night trains ran.", v4("sentence")).score, 50);
+});
+
+test("v4: a negated first mention does not hide a later affirmative mention", () => {
+  assert.equal(evaluateRecall("At first there were no cheap flights, later cheap flights replaced night trains.", v4("sentence")).score, 100);
+});
+
+test("v4: an authored phrase is never matched across two sentences", () => {
+  assert.equal(evaluateRecall("They were cheap. Flights replaced night trains.", v4("answer")).score, 50);
 });
 
 test("unrelated disclaimer sharing a critical date cannot negate the company claim", () => {
@@ -608,4 +631,14 @@ test("unrelated disclaimer sharing a critical date cannot negate the company cla
   assert.equal(actualDenial.breakdown.claims[0]?.status, "contradicted");
   const bareDateDenial = evaluateRecall("The company was founded in 1998. 1998 was not true.", structure);
   assert.equal(bareDateDenial.score, 0);
+});
+
+test("v4: a decimal number is not split into two sentences", () => {
+  const decimal = structure({ schemaVersion: 1, maxScore: 100, claims: [{ id: "deaths", label: "About 1.27 million deaths in 2019", points: 100, scope: "sentence", groups: [
+    { id: "n", kind: "number", critical: true, points: 60, anyOf: ["1.27 million"] },
+    { id: "d", kind: "date", critical: true, points: 40, anyOf: ["2019"] },
+  ], acceptedPhrases: [], rejectPhrases: [] }] });
+  assert.equal(evaluateRecall("About 1.27 million people died in 2019.", decimal).score, 100);
+  assert.equal(evaluateRecall("About 1.28 million people died in 2019.", decimal).score, 40);
+  assert.equal(evaluateRecall("It was 2019. 27 million died.", decimal).score, 40);
 });

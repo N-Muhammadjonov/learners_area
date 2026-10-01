@@ -33,6 +33,102 @@
       "max": 421
     }
   },
+  "evaluatorVersion": "retention-deterministic-v4",
+  "checks": {
+    "canonicalRecallScores100": 75,
+    "wrongAndMissingValueMutationsChecked": 1444,
+    "sourceTextScores100": 67,
+    "sourceTextBelow100": [
+      {
+        "id": "A2-02",
+        "score": 90,
+        "deficits": [
+          {
+            "claimId": "c1",
+            "groupId": "family",
+            "cause": "sentence-scope-split"
+          }
+        ]
+      },
+      {
+        "id": "A2-05",
+        "score": 90,
+        "deficits": [
+          {
+            "claimId": "c2",
+            "groupId": "shower",
+            "cause": "sentence-scope-split"
+          }
+        ]
+      },
+      {
+        "id": "A2-08",
+        "score": 90,
+        "deficits": [
+          {
+            "claimId": "c2",
+            "groupId": "tent",
+            "cause": "sentence-scope-split"
+          }
+        ]
+      },
+      {
+        "id": "B1-02",
+        "score": 90,
+        "deficits": [
+          {
+            "claimId": "c1",
+            "groupId": "sixty-two",
+            "cause": "sentence-scope-split"
+          }
+        ]
+      },
+      {
+        "id": "B1-03",
+        "score": 90,
+        "deficits": [
+          {
+            "claimId": "c1",
+            "groupId": "nests",
+            "cause": "sentence-scope-split"
+          }
+        ]
+      },
+      {
+        "id": "B1-12",
+        "score": 90,
+        "deficits": [
+          {
+            "claimId": "c1",
+            "groupId": "stockholm",
+            "cause": "sentence-scope-split"
+          }
+        ]
+      },
+      {
+        "id": "B1-14",
+        "score": 90,
+        "deficits": [
+          {
+            "claimId": "c1",
+            "groupId": "116",
+            "cause": "sentence-scope-split"
+          }
+        ]
+      },
+      {
+        "id": "B2-02",
+        "score": 90,
+        "deficits": [
+          {
+            "claimId": "c1",
+            "groupId": "million",
+            "cause": "sentence-scope-split"
+          }
+        ]
+      }
+    ]
+  },
   "problems": [],
-  "sha256": "1b4e5e37cd682144565f74c7ded476e889e268dc7641207ab162351fcdc6b69d"
+  "sha256": "eabd94280a23d3c3e50c8e4f16b11db869757b0b5e64fd642190f8df5cc271d8"
 }

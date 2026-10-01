@@ -32,7 +32,7 @@ export function isTerminalStatus(status: RetentionAttemptStatus): boolean {
 }
 
 /** The evaluator identity persisted on every scored attempt. */
-export const RETENTION_EVALUATOR_VERSION = "retention-deterministic-v3";
+export const RETENTION_EVALUATOR_VERSION = "retention-deterministic-v4";
 
 // ---------------------------------------------------------------------------
 // Measurement Structure V1

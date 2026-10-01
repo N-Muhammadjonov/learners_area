@@ -19,6 +19,10 @@
  *   6. a group counts once, however many of its alternatives appear;
  *   7. the score is the sum of the claim scores, an integer from 0 to 100.
  *
+ * v4 (retention-deterministic-v4): every occurrence of an alternative is
+ * considered (a negated first mention no longer hides a later affirmative one),
+ * and answer scope keeps sentence boundaries so negation never crosses a full stop.
+ *
  * Deliberate non-goals: grammar, spelling, article usage, word order and
  * sentence structure carry no points. A learner who remembers "Company founded
  * 1998" has remembered the fact, and the score says so.
@@ -26,15 +30,14 @@
 
 import type { MeasurementClaim, MeasurementGroup, RetentionBreakdown, RetentionClaimResult, RetentionClaimStatus, RetentionEvaluation, MeasurementStructureV1 } from "./types";
 import { RETENTION_EVALUATOR_VERSION } from "./types";
-import { findPhrase, isNegated, numericTokens, splitEvidenceUnits, tokens, unitTokens } from "./normalize";
+import { SENTENCE_BOUNDARY, findPhraseAll, isNegated, numericTokens, splitEvidenceUnits, tokens, unitTokens } from "./normalize";
 
 function phraseMatches(unit: string[], phrase: string): boolean {
   const phraseTokens = tokens(phrase);
   if (phraseTokens.length === 0) return false;
-  const index = findPhrase(unit, phraseTokens, false);
-  if (index < 0) return false;
-  // "the company did not close" must not satisfy the reject phrase "closed".
-  return !isNegated(unit, index);
+  // "the company did not close" must not satisfy the reject phrase "closed";
+  // any affirmative occurrence does (v4: every occurrence is considered).
+  return findPhraseAll(unit, phraseTokens, false).some((index) => !isNegated(unit, index));
 }
 
 function groupMatches(group: MeasurementGroup, unit: string[]): boolean {
@@ -45,10 +48,8 @@ function groupMatches(group: MeasurementGroup, unit: string[]): boolean {
   for (const alternative of group.anyOf) {
     const expected = tokens(alternative);
     if (expected.length === 0) continue;
-    const index = findPhrase(unit, expected, fuzzy);
-    if (index < 0) continue;
-    if (isNegated(unit, index)) continue;
-    return true;
+    // v4: the FIRST occurrence being negated no longer hides a later affirmative one.
+    if (findPhraseAll(unit, expected, fuzzy).some((index) => !isNegated(unit, index))) return true;
   }
   return false;
 }
@@ -220,7 +221,10 @@ export function evaluateClaim(claim: MeasurementClaim, units: string[][], senten
 
 export function evaluateRecall(recallText: string, structure: MeasurementStructureV1): RetentionEvaluation {
   const sentenceUnits = splitEvidenceUnits(recallText).map(unitTokens);
-  const wholeAnswer = unitTokens(recallText);
+  // v4: the whole answer keeps its sentence boundaries as clause-boundary tokens,
+  // so "…had no future. Cheap flights…" no longer negates "cheap" across the full
+  // stop, and no authored phrase can be matched across two sentences.
+  const wholeAnswer = sentenceUnits.flatMap((unit, index) => (index === 0 ? unit : [SENTENCE_BOUNDARY, ...unit]));
 
   const claims = structure.claims.map((claim) =>
     evaluateClaim(claim, claim.scope === "sentence" ? sentenceUnits : [wholeAnswer], sentenceUnits)
