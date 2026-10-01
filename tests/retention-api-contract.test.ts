@@ -133,3 +133,13 @@ test("the Retention bank panel offers Add, Change, Delete-as-archive and Restore
   assert.match(panel, /response\.status === 409/);
   assert.match(panel, /window\.confirm/);
 });
+
+test("N07: GET /api/retention/attempts is read-only and builds the learner payload through buildAttemptPayload", async () => {
+  const { readFileSync } = await import("node:fs");
+  const src = readFileSync("src/app/api/retention/attempts/route.ts", "utf8");
+  const get = src.slice(src.indexOf("export async function GET"));
+  assert.match(get, /requireActiveUser\(\)/);
+  assert.match(get, /findAnyLiveAttempt\(\{ userId: user\.id/);
+  assert.match(get, /buildAttemptPayload\(attempt, now, db\)/, "recall payloads drop the source (tested in retention-payload-db)");
+  assert.doesNotMatch(get, /startAttempt|createAttempt|insert\(/, "the recheck never creates an attempt");
+});
