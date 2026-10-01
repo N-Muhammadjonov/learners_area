@@ -15,6 +15,8 @@ export function ListeningImport() {
     audio: File;
     image: File | null;
   } | null>(null);
+  const [collection, setCollection] =
+    useState<NonNullable<ListeningPackage["collection"]>>("academic");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -89,6 +91,7 @@ export function ListeningImport() {
             { type: mime },
           )
         : null;
+      setCollection(payload.collection ?? "academic");
       setBundle({ payload, audio, image });
     } catch (e) {
       setError(e instanceof Error ? e.message : "Invalid package");
@@ -127,7 +130,7 @@ export function ListeningImport() {
           headers: { "Content-Type": "application/json" },
           signal: controller.signal,
           body: JSON.stringify({
-            payload: bundle.payload,
+            payload: { ...bundle.payload, collection },
             audioUploadId: a.uploadId,
             imageUploadId,
           }),
@@ -152,6 +155,25 @@ export function ListeningImport() {
         To&#39;rtta bo&#39;lim, 40 savol, beshta mashq. HTML skriptlari ishga
         tushirilmaydi. Import avval draft sifatida saqlanadi.
       </p>
+      <label className="block">
+        Collection
+        <select
+          className="input"
+          value={collection}
+          disabled={busy}
+          onChange={(e) =>
+            setCollection(
+              e.target.value as NonNullable<ListeningPackage["collection"]>,
+            )
+          }
+        >
+          <option value="essential">Essential Recordings</option>
+          <option value="academic">Academic Listening</option>
+          <option value="general">General Listening</option>
+          <option value="question_types">Question types</option>
+          <option value="mcq">MCQ Mastery</option>
+        </select>
+      </label>
       <label className="block">
         Listening ZIP
         <input

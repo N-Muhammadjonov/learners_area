@@ -1,66 +1,79 @@
 "use client";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useState } from "react";
+const collections = [
+  ["essential", "▶ Essential Recordings"],
+  ["academic", "🎧 Academic Listening"],
+  ["general", "🎙️ General Listening"],
+  ["question_types", "📚 Question types"],
+  ["mcq", "🔑 MCQ Mastery"],
+] as const;
 type Card = {
   id: string;
   title: string;
   duration: number;
   completed: number;
   started: boolean;
+  collection?: string;
 };
 export function FullListeningLibrary({ cards }: { cards: Card[] }) {
   const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState("All");
-  const visible = useMemo(
-    () =>
-      cards.filter(
-        (t) =>
-          ["All", "Full Listening"].includes(filter) &&
-          t.title.toLowerCase().includes(search.toLowerCase()),
-      ),
-    [cards, search, filter],
+  const [collection, setCollection] = useState("academic");
+  const [section, setSection] = useState(0);
+  const categoryCards = cards.filter(
+    (t) => (t.collection ?? "academic") === collection,
   );
-  const completed = cards.reduce((n, t) => n + Number(t.completed), 0);
+  const visible = categoryCards.filter((t) =>
+    t.title.toLowerCase().includes(search.toLowerCase()),
+  );
+  const completed = categoryCards.reduce((n, t) => n + Number(t.completed), 0);
   return (
     <section
       className="listening-library space-y-6"
       data-async-content="listening-tests"
     >
-      <div className="card flex items-center justify-between">
-        <span>Learning progress on this page</span>
-        <span>
-          {completed} / {cards.length * 5} activities
-        </span>
-      </div>
-      <div className="flex flex-wrap items-center gap-2">
-        {[
-          "All",
-          "Full Listening",
-          "Section 1",
-          "Section 2",
-          "Section 3",
-          "Section 4",
-        ].map((name) => (
+      <nav
+        className="listening-collection-tabs"
+        aria-label="Listening collections"
+      >
+        {collections.map(([key, label]) => (
           <button
+            key={key}
             type="button"
-            className={filter === name ? "btn-primary" : "btn-secondary"}
-            aria-pressed={filter === name}
-            key={
-              name === "All"
-                ? "✨ All"
-                : name === "Full Listening"
-                  ? "🎧 Full Listening"
-                  : `🎙️ ${name}`
-            }
-            onClick={() => setFilter(name)}
+            aria-pressed={collection === key}
+            onClick={() => {
+              setCollection(key);
+              setSection(0);
+            }}
           >
-            {name === "All"
-              ? "✨ All"
-              : name === "Full Listening"
-                ? "🎧 Full Listening"
-                : `🎙️ ${name}`}
+            {label} (
+            {cards.filter((t) => (t.collection ?? "academic") === key).length})
           </button>
         ))}
+      </nav>
+      <div className="listening-summary card flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <p className="text-3xl font-bold">{categoryCards.length}</p>
+          <p>Published tests on this page</p>
+        </div>
+        <p>Exam → Review → Keyword Match → Vocabulary</p>
+        <p>
+          {completed} / {categoryCards.length * 5} activities completed
+        </p>
+      </div>
+      <div className="flex flex-wrap items-center gap-2">
+        {collection === "general" &&
+          [0, 1, 2, 3, 4].map((n) => (
+            <button
+              type="button"
+              key={n}
+              aria-pressed={section === n}
+              className={section === n ? "btn-primary" : "btn-secondary"}
+              onClick={() => setSection(n)}
+            >
+              {n ? `🎙️ Section ${n}` : "🎧 Full Listening"}
+            </button>
+          ))}
         <label className="ml-auto">
           Search listening tests
           <input
@@ -74,50 +87,45 @@ export function FullListeningLibrary({ cards }: { cards: Card[] }) {
         {visible.map((t) => (
           <article
             key={t.id}
-            className="listening-library-card card flex min-h-72 flex-col gap-4"
+            className="listening-library-card card flex flex-col gap-3"
           >
-            <div className="flex items-center justify-between gap-3">
-              <span className="listening-library-badge badge">
-                40 QUESTIONS
-              </span>
-              <span className="text-sm">
-                {Number(t.completed) === 5
-                  ? "✓ Completed"
-                  : t.started
-                    ? "In progress"
-                    : "Not started"}
-              </span>
-            </div>
+            <span className="listening-library-badge badge">
+              {section ? "10 questions · controlled review" : "40 questions"}
+            </span>
             <h2 className="font-display text-xl font-bold">{t.title}</h2>
-            <p>4 Sections · 40 Questions · {Math.round(t.duration / 60)} min</p>
-            <p>5 Activities</p>
-            <div>
-              <progress
-                className="w-full"
-                max={5}
-                value={Number(t.completed)}
-              />
-              <p>{t.completed} / 5 completed</p>
-            </div>
+            <p>
+              {section
+                ? `Section ${section} of the full recording`
+                : `4 Sections · ${Math.round(t.duration / 60)} min`}
+            </p>
+            <progress
+              className="w-full"
+              max={5}
+              value={Number(t.completed)}
+              aria-label={`${t.title}: completed activities`}
+            />
+            <p>{t.completed} / 5 completed</p>
             <Link
               className="btn-primary mt-auto"
-              href={`/listening/tests/${t.id}`}
+              href={
+                section
+                  ? `/listening/tests/${t.id}/study?section=${section}`
+                  : `/listening/tests/${t.id}`
+              }
             >
-              {Number(t.completed) === 5
-                ? "📖 Review"
-                : t.started
-                  ? "▶ Continue"
-                  : "▶ Start"}
+              {section
+                ? "▶ Open section"
+                : Number(t.completed) === 5
+                  ? "📖 Review"
+                  : t.started
+                    ? "▶ Continue"
+                    : "▶ Start"}
             </Link>
           </article>
         ))}
       </div>
       {!visible.length && (
-        <p className="card">
-          {filter.startsWith("Section")
-            ? "No independently published section materials in this category."
-            : "No matching published Full Listening tests."}
-        </p>
+        <p className="card">No matching published tests in this collection.</p>
       )}
     </section>
   );

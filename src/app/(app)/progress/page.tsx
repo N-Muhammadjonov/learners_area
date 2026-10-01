@@ -1,3 +1,4 @@
+import { MockProgressOverview } from "@/components/progress/MockProgressOverview";
 import { Suspense } from "react";
 import Link from "next/link";
 import { requireActiveUser } from "@/lib/auth/current-user";
@@ -102,8 +103,9 @@ export default async function ProgressPage() {
   if (!user) return null;
   const dict = getDictionary(locale);
   return (
-    <div className="mx-auto flex max-w-3xl flex-col gap-4" data-route-usable="progress">
+    <div className="mx-auto flex max-w-6xl flex-col gap-4" data-route-usable="progress">
       <div><h1 className="font-display text-2xl text-ink-900">{dict.nav.progress}</h1><p className="text-sm text-ink-500">{dict.progress.subtitle}</p></div>
+      <Suspense fallback={<ProgressSkeleton />}><MockProgressOverview userId={user.id} locale={locale} /></Suspense>
       <Suspense fallback={<ProgressSkeleton />}><ProgressContent userId={user.id} dict={dict} /></Suspense>
     </div>
   );

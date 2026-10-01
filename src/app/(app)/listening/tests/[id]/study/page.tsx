@@ -6,8 +6,10 @@ import { getDictionary, getLocale } from "@/lib/i18n";
 import { FullListeningStudy } from "@/components/listening/FullListeningStudy";
 export default async function Study({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ section?: string }>;
 }) {
   const user = await requireActiveUser();
   if (!user) return null;
@@ -18,6 +20,7 @@ export default async function Study({
   const p = detail.pkg.payload;
   return (
     <FullListeningStudy
+      initialSection={Number((await searchParams).section ?? 1)}
       id={id}
       userId={user.id}
       title={detail.test.title}

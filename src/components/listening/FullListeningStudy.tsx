@@ -21,6 +21,7 @@ export function FullListeningStudy({
   questions,
   sections,
   dict,
+  initialSection = 1,
 }: {
   id: string;
   userId: string;
@@ -30,8 +31,11 @@ export function FullListeningStudy({
   questions: Question[];
   sections: { number: number; title: string; transcript: string }[];
   dict: Dictionary;
+  initialSection?: number;
 }) {
-  const [section, setSection] = useState(1),
+  const [section, setSection] = useState(
+      initialSection >= 1 && initialSection <= 4 ? initialSection : 1,
+    ),
     [answers, setAnswers] = useState<Record<string, string>>({}),
     [result, setResult] = useState<{
       score: number;
@@ -104,7 +108,12 @@ export function FullListeningStudy({
       }
     }
   }
-  const textProps = { dict, sourceType: "listening" as const, sourceId: id, catalogueLookup: true };
+  const textProps = {
+    dict,
+    sourceType: "listening" as const,
+    sourceId: id,
+    catalogueLookup: true,
+  };
   return (
     <main className="mx-auto max-w-[1600px] space-y-6" data-listening-study>
       <Link className="btn-secondary" href={`/listening/tests/${id}`}>

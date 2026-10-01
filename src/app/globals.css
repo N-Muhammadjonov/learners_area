@@ -1139,3 +1139,15 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 700; }
 .listening-library-card:hover { border-color: rgb(var(--gold) / .6); transform: translateY(-2px); }
 .listening-library-badge { width: 100%; border-radius: 999px; padding: .45rem .8rem; font-weight: 700; background: rgb(var(--gold) / .12); }
 @media (prefers-reduced-motion: reduce) { .la-welcome-ring, .la-welcome-aurora { animation: none; } .la-welcome-cta:hover, .listening-library-card:hover { transform: none; } }
+
+/* Collection navigation and real mock overview, using the existing theme. */
+.listening-collection-tabs { display:flex; gap:1rem; overflow-x:auto; border-bottom:1px solid rgb(var(--ink-100)); }
+.listening-collection-tabs button { flex-shrink:0; padding:1rem .5rem; font-weight:800; border-bottom:3px solid transparent; }
+.listening-collection-tabs button[aria-pressed="true"] { color:rgb(var(--gold)); border-bottom-color:currentColor; }
+.listening-collection-tabs button:focus-visible { outline:2px solid currentColor; outline-offset:-3px; }
+.listening-summary { padding:1.5rem; border-radius:1.4rem; }
+.mock-progress-track { display:block; width:100%; height:.7rem; margin-top:.5rem; accent-color:rgb(var(--gold)); }
+.la-welcome-text { animation:la-text-rise 2.4s ease-in-out infinite; }
+.la-welcome-text-second { animation-delay:.16s; }
+@keyframes la-text-rise { 0%,100% { transform:translateY(0); } 45% { transform:translateY(-5px); } }
+@media (prefers-reduced-motion:reduce) { .la-welcome-text { animation:none; } }

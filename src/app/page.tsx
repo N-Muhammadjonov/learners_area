@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BrandBlock } from "@/components/shell/BrandBlock";
 import type { Metadata } from "next";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { BRAND } from "@/lib/config/brand";
@@ -53,6 +54,7 @@ export default async function Home() {
         <span className="la-welcome-ring la-welcome-ring-two" />
         <span className="la-welcome-aurora" />
       </div>
+      <div className="px-6 pt-6"><BrandBlock size={44} /></div>
       <main className="la-welcome-main flex flex-1 flex-col items-center justify-center px-6 py-16 text-center">
         <div className="la-welcome-orbit" aria-hidden="true">
           {ornaments.map((kind, index) => (
@@ -65,8 +67,8 @@ export default async function Home() {
           ))}
         </div>
         <h1 className="la-welcome-heading max-w-4xl font-display text-4xl font-bold leading-tight tracking-tight text-ink-900 sm:text-5xl md:text-6xl">
-          <span className="block">{t.headlineLead}</span>{" "}
-          <span className="mt-1 block">
+          <span className="la-welcome-text block">{t.headlineLead}</span>{" "}
+          <span className="la-welcome-text la-welcome-text-second mt-1 block">
             {t.headlineWith}{" "}
             <span className="text-gold">{t.headlineAccent}</span>
           </span>

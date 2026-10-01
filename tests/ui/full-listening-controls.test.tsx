@@ -192,14 +192,16 @@ test("Library search and category filters operate locally without reloading or f
     }),
     async () => {
       assert.equal(document.querySelector("audio"), null);
+      assert.equal(Array.from(document.querySelectorAll("button")).some(b => b.textContent?.includes("Section 1")), false);
       assert.ok(document.body.textContent?.includes("2 / 5 completed"));
       await act(async () =>
         Array.from(document.querySelectorAll("button"))
-          .find((b) => b.textContent?.includes("Section 1"))!
+          .find((b) => b.textContent?.includes("General Listening"))!
           .click(),
       );
       assert.equal(document.querySelectorAll("article").length, 0);
-      assert.ok(document.body.textContent?.includes("independently published"));
+      assert.ok(document.body.textContent?.includes("Section 1"));
+      assert.ok(document.body.textContent?.includes("No matching published"));
     },
   );
 });

@@ -1,3 +1,4 @@
+import { MockProgressOverview } from "@/components/progress/MockProgressOverview";
 import { Suspense } from "react";
 import Link from "next/link";
 import type { CurrentUser } from "@/lib/auth/current-user";
@@ -263,6 +264,7 @@ export default async function DashboardPage() {
         </h1>
         <p className="text-sm text-ink-500">{dict.nav.course} · IELTS</p>
       </div>
+      <Suspense fallback={<DashboardSkeleton />}><MockProgressOverview userId={user.id} locale={locale} dashboard /></Suspense>
       <Suspense fallback={<DashboardSkeleton />}>
         <DashboardContent user={user} locale={locale} dict={dict} openLessonsPromise={openLessonsPromise} />
       </Suspense>

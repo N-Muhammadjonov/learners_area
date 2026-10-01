@@ -21,7 +21,7 @@
  *
  * Original supplied masters are retained. At the owner's request, runtime marks
  * use transparent image-edited cutouts with the original dark variant assigned
- * to day and the original light variant assigned to night. No CSS colour filters.
+ * to night and the original light variant assigned to day. No CSS colour filters.
  *
  * The two families exist for a reason:
  *
@@ -109,8 +109,8 @@ const DERIVED_DIR = `${BRAND_ASSET_DIR}/derived`;
 
 /** The mark, per theme, sized for a ~40–48px slot. */
 export const BRAND_MARK: Record<BrandTheme, BrandDerivative> = {
-  day: { width: 48, height: 48, src: `${DERIVED_DIR}/mark-day-cutout-96.png`, src2x: `${DERIVED_DIR}/mark-day-cutout-192.png` },
-  night: { width: 48, height: 48, src: `${DERIVED_DIR}/mark-night-cutout-96.png`, src2x: `${DERIVED_DIR}/mark-night-cutout-192.png` },
+  day: { width: 48, height: 48, src: `${DERIVED_DIR}/mark-night-cutout-96.png`, src2x: `${DERIVED_DIR}/mark-night-cutout-192.png` },
+  night: { width: 48, height: 48, src: `${DERIVED_DIR}/mark-day-cutout-96.png`, src2x: `${DERIVED_DIR}/mark-day-cutout-192.png` },
 };
 
 /** The horizontal lock-up, sized for the ~300px slot the auth screens use. */
@@ -160,7 +160,7 @@ export type BrandTheme = "day" | "night";
 export function brandLogoFor(kind: BrandLogoKind, theme: BrandTheme): string {
   switch (kind) {
     case "mark":
-      return theme === "night" ? BRAND_ASSETS.logoMarkLight : BRAND_ASSETS.logoMarkDark;
+      return theme === "night" ? BRAND_ASSETS.logoMarkDark : BRAND_ASSETS.logoMarkLight;
     case "horizontal":
       return theme === "night" ? BRAND_ASSETS.logoHorizontalLight : BRAND_ASSETS.logoHorizontalDark;
     case "master":

@@ -56,6 +56,8 @@ export async function getMockOverview(userId: string, courseSlug = "ielts") {
     tests,
     attempts: attempts.map((attempt) => ({
       id: attempt.id,
+      mockTestId: attempt.mockTestId,
+      skill: titleById.get(attempt.mockTestId)?.skill ?? null,
       title: titleById.get(attempt.mockTestId)?.title ?? null,
       startedAt: attempt.startedAt,
       finishedAt: attempt.finishedAt,

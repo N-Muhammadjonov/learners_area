@@ -18,6 +18,7 @@ const quiz = z
 export const listeningPackageSchema = z
   .object({
     schemaVersion: z.literal(1),
+    collection: z.enum(["essential", "academic", "general", "question_types", "mcq"]).optional(),
     testId: z.string().regex(/^[a-z0-9-]{1,80}$/),
     title: z.string().trim().min(1).max(200),
     category: z.literal("full"),

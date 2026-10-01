@@ -81,12 +81,13 @@ export async function fullListeningProgress(userId: string, testId: string) {
 }
 /** Only small card metadata and SQL aggregate progress are loaded. No MP3 or full source payload. */
 export async function fullListeningCards(userId: string, page = 1) {
-  if (!(await listeningSchemaReady())) return { rows: [], hasMore: false };
+  if (!(await listeningSchemaReady())) return { rows: [], hasMore: false, unavailable: true };
   const rows = await db
     .select({
       id: listeningTests.id,
       title: listeningTests.title,
       sourceId: listeningPackages.sourceId,
+      collection: sql<string>`coalesce(${listeningPackages.payload}->>'collection', 'academic')`,
       duration: sql<number>`(${listeningPackages.payload}->'audio'->>'durationSec')::real`,
       createdAt: listeningTests.createdAt,
       completed: sql<number>`(case when exists(select 1 from listening_attempts a where a.test_id=${listeningTests.id} and a.user_id=${userId} and a.status='completed') then 1 else 0 end) + (select count(distinct r.activity)::integer from listening_activity_runs r where r.test_id=${listeningTests.id} and r.user_id=${userId} and r.completed=true and r.speed_rate is null)`,
@@ -98,7 +99,7 @@ export async function fullListeningCards(userId: string, page = 1) {
     .orderBy(desc(listeningTests.createdAt))
     .limit(101)
     .offset((page - 1) * 100);
-  return { rows: rows.slice(0, 100), hasMore: rows.length > 100 };
+  return { rows: rows.slice(0, 100), hasMore: rows.length > 100, unavailable: false };
 }
 export async function hasFullExam(userId: string, testId: string) {
   const rows = await db

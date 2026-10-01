@@ -1,9 +1,8 @@
+import { RegionFailureNotice } from "@/components/interaction/RegionFailureNotice";
 import { FullListeningLibrary } from "@/components/listening/FullListeningLibrary";
 import { fullListeningCards } from "@/lib/data/full-listening";
 import { isStaff } from "@/lib/auth/roles";
 import { Suspense } from "react";
-import { EmptyState } from "@/components/ui/EmptyState";
-import { isAdministrator } from "@/lib/auth/roles";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import Link from "next/link";
 import { getDictionary, getLocale } from "@/lib/i18n";
@@ -12,12 +11,10 @@ import { Card } from "@/components/ui/Card";
 import { StartTestButton } from "@/components/listening/StartTestButton";
 
 async function ActiveListeningTests({
-  isAdmin,
-  dict,
   userId,
   page,
+  dict,
 }: {
-  isAdmin: boolean;
   userId: string;
   page: number;
   dict: ReturnType<typeof getDictionary>;
@@ -29,6 +26,13 @@ async function ActiveListeningTests({
   const fullIds = new Set(full.rows.map((t) => t.id));
   return (
     <>
+      {full.unavailable && (
+        <RegionFailureNotice
+          region="full-listening-schema"
+          message="Full Listening is unavailable until the QA database schema is updated."
+          retryLabel={dict.errorPage.retry}
+        />
+      )}
       <FullListeningLibrary cards={full.rows} />
       {page > 1 && (
         <Link className="btn-secondary" href={`/listening?page=${page - 1}`}>
@@ -39,22 +43,6 @@ async function ActiveListeningTests({
         <Link className="btn-secondary" href={`/listening?page=${page + 1}`}>
           More tests →
         </Link>
-      )}
-      {tests.length === 0 && full.rows.length === 0 && (
-        <EmptyState
-          title={dict.listening.emptyTitle}
-          body={dict.listening.emptyHint}
-          action={
-            <Link
-              className="btn-secondary"
-              href={isAdmin ? "/admin/listening" : "/listening/history"}
-            >
-              {isAdmin
-                ? dict.listening.manageContent
-                : dict.listening.historyTitle}
-            </Link>
-          }
-        />
       )}
       <div
         className="grid grid-cols-1 gap-4 sm:grid-cols-2"
@@ -120,9 +108,7 @@ export default async function ListeningPage({
       data-route-usable="listening"
     >
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="font-display text-2xl text-ink-900">
-          {dict.listening.practiceTitle}
-        </h1>
+        <h1 className="font-display text-2xl text-ink-900">🎧 Listening</h1>
         {isStaff(user.role) && (
           <Link className="btn-primary" href="/listening/import">
             + Add Listening
@@ -133,12 +119,7 @@ export default async function ListeningPage({
         </Link>
       </div>
       <Suspense fallback={<ListeningTestsSkeleton />}>
-        <ActiveListeningTests
-          page={page}
-          userId={user.id}
-          isAdmin={isAdministrator(user.role)}
-          dict={dict}
-        />
+        <ActiveListeningTests page={page} dict={dict} userId={user.id} />
       </Suspense>
     </div>
   );
