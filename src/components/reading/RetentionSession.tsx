@@ -303,7 +303,6 @@ export function RetentionSession({ dict, initial }: { dict: Dictionary; initial:
         payload={payload}
         skewMs={skewMs}
         onExpired={onReadingExpired}
-        onFinished={onFinished}
         onFinishReading={() => void finishReading()}
       />
     );
@@ -333,14 +332,12 @@ function ReadingPhase({
   payload,
   skewMs,
   onExpired,
-  onFinished,
   onFinishReading,
 }: {
   dict: Dictionary;
   payload: Extract<RetentionAttemptPayload, { phase: "reading" }>;
   skewMs: number;
   onExpired: () => void;
-  onFinished: () => void;
   onFinishReading: () => void;
 }) {
   const seconds = useCountdown(payload.readEndsAt, skewMs);
@@ -368,9 +365,6 @@ function ReadingPhase({
       <div className="flex items-center justify-between gap-3">
         <span className="meta-text">{dict.retentionMemory.readingWords.replace("{n}", String(payload.wordCount))}</span>
         <div className="flex flex-wrap gap-2">
-          <button type="button" className="btn-secondary" onClick={onFinished} data-retention-leave>
-            {dict.retentionMemory.resultBack}
-          </button>
           <button type="button" className="btn-primary" onClick={onFinishReading} disabled={seconds <= 0} data-retention-finish-reading>
             {dict.retentionMemory.finishReading}
           </button>

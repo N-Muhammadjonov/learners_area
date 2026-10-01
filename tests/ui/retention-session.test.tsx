@@ -139,6 +139,8 @@ test("I've finished: confirm, source leaves the DOM at once, one POST, server re
   try {
     const initial = { ...meta(90_000), phase: "reading" as const, wordCount: 9, bodyText: SOURCE };
     await render(React.createElement(RetentionSession, { dict: en, initial }), async () => {
+      assert.equal(document.querySelector("[data-retention-leave]"), null, "no level-switch control during an assigned reading window");
+      assert.equal(document.querySelector("[data-retention-level-list]"), null);
       await act(async () => query<HTMLButtonElement>("[data-retention-finish-reading]").click());
       assert.ok(query("[data-retention-source]"), "declining the confirm keeps reading");
       assert.equal(posts.length, 0);

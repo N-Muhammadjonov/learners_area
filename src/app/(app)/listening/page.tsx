@@ -16,7 +16,7 @@ async function ActiveListeningTests({ isAdmin, dict }: {
   return (
     <>
       {tests.length === 0 && <EmptyState title={dict.listening.emptyTitle} body={dict.listening.emptyHint}
-        action={<Link className="text-sm text-signal-600 underline" href={isAdmin ? "/admin/listening" : "/listening/history"}>
+        action={<Link className="btn-secondary" href={isAdmin ? "/admin/listening" : "/listening/history"}>
           {isAdmin ? dict.listening.manageContent : dict.listening.historyTitle}
         </Link>} />}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2" data-listening-tests data-async-content="listening-tests">
@@ -27,7 +27,7 @@ async function ActiveListeningTests({ isAdmin, dict }: {
             </div>
             <p className="text-sm font-medium text-ink-900">{t.title}</p>
             <div className="flex justify-end">
-              <StartTestButton testId={t.id} label={dict.listening.startAttempt} />
+              <StartTestButton testId={t.id} label={dict.listening.startAttempt} messages={dict.auth} />
             </div>
           </Card>
         ))}
