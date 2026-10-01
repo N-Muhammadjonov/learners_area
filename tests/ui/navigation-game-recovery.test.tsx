@@ -93,7 +93,8 @@ test("builder advances after checking and final score counts only correct items"
     } assert.ok(q('[data-game-frame]').textContent?.includes(`0 ${en.vocabulary.games.resultLine} 2`));
   }); } finally { globalThis.fetch = original; timers.restore(); }
 });
-test("race lights boxes in order, waits for sweep, then auto-advances", async () => {
+for (const reducedMotion of [false, true]) test(`race lights boxes in order, then advances (reduced motion: ${reducedMotion})`, async () => {
+  window.matchMedia = (media: string) => ({ matches: reducedMotion, media, onchange: null, addListener() {}, removeListener() {}, addEventListener() {}, removeEventListener() {}, dispatchEvent() { return true; } });
   const original = globalThis.fetch; const timers = clock();
   globalThis.fetch = async (_url, init) => Response.json(init?.method === 'POST' ? { ok: true, correct: true, verified: true, awarded: 1 } : { ok: true, words, total: 2, due: 2 });
   try { await mounted(games('race'), async () => {

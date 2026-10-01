@@ -83,11 +83,12 @@ export async function listVideoLessons() {
  * Every video lesson with its course lesson, for the admin list — including
  * drafts and the archive, which the student list never shows.
  */
-export async function listAllVideoLessons() {
+export async function listAllVideoLessons(creatorId?: string) {
   return db
     .select({ videoLesson: videoLessons, lesson: lessons })
     .from(videoLessons)
     .leftJoin(lessons, eq(lessons.id, videoLessons.lessonId))
+    .where(creatorId ? eq(videoLessons.createdByUserId, creatorId) : undefined)
     .orderBy(desc(videoLessons.createdAt));
 }
 

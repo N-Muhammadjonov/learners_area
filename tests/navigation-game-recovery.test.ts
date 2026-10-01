@@ -16,5 +16,5 @@ test("Navigation and game recovery DOM regressions", (t) => {
   });
   t.diagnostic(result.stdout.trim());
   assert.equal(result.status, 0, result.stderr || result.stdout || result.error?.message);
-  assert.match(result.stdout, /tests 20/, "the component cases must actually execute");
+  assert.match(result.stdout, /tests 21/, "the component cases must actually execute");
 });

@@ -162,12 +162,11 @@ test("translation next button advances once", async () => {
   });
 });
 
-test("flashcard motion toggle defaults to system motion", async () => {
+test("flashcards flip in full 3D without a motion toggle", async () => {
   await withFetch((async () => json(gameSet(2))) as typeof fetch, async () => {
     await withRoot(view("cards"), async () => {
       await tick();
-      assert.equal(query("[data-flashcard]").getAttribute("data-card-motion"), "system");
-      await act(async () => query<HTMLButtonElement>("[data-flashcard-motion]").click());
+      assert.equal(document.querySelector("[data-flashcard-motion]"), null);
       assert.equal(query("[data-flashcard]").getAttribute("data-card-motion"), "full");
     });
   });

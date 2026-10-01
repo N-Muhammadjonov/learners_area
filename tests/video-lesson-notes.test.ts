@@ -56,20 +56,15 @@ test("the admin form authors notes and Management reports whether they exist", (
   assert.match(page, /data-video-admin-notes=\{videoLesson\.notes \? "yes" : "no"\}/);
 });
 
-test("the learner surface only builds transcript and notes controls from content", () => {
+test("captions stay inside the player; optional notes retain their reveal control", () => {
   const studio = read("src/components/courses/VideoLessonStudio.tsx");
-  // The tabs come from the data that exists — never from a static list.
-  assert.match(studio, /if \(transcript\.length > 0\) list\.push\("transcript"\);/);
+  assert.doesNotMatch(studio, /list\.push\("transcript"\)|data-video-transcript-reveal/);
   assert.match(studio, /if \(notes\.length > 0\) list\.push\("notes"\);/);
-  // Both empty -> neither tab is selectable, so no panel and no reveal button.
-  assert.ok(!studio.includes('data-video-tab="notes"'), "tabs are keyed by the built list, not hard-coded");
-  // Reveal is explicit and labelled, and the hidden transcript is genuinely hidden.
-  assert.match(studio, /data-video-transcript-reveal/);
   assert.match(studio, /data-video-notes-reveal/);
-  assert.match(studio, /aria-expanded=\{transcriptShown\}/);
   assert.match(studio, /aria-expanded=\{notesShown\}/);
-  assert.match(studio, /transcriptShown \? "" : "hidden"/);
   assert.match(studio, /notesShown \? "" : "hidden"/);
+  assert.match(studio, /sandbox="allow-scripts allow-same-origin allow-presentation"/);
+  assert.doesNotMatch(studio, /watchUrlFor|allow-popups|allow-top-navigation/);
   // The lesson page must pass the stored notes through, never invent them.
   const page = read("src/app/(app)/courses/ielts/lessons/[lessonId]/page.tsx");
   assert.match(page, /notes: video\.videoLesson\.notes \?\? null,/);

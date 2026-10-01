@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isUuid } from "@/lib/validation/ids";
 import { z } from "zod";
-import { requireStaff } from "@/lib/auth/current-user";
+import { db } from "@/db/client";
+import { videoLessons } from "@/db/schema";
+import { eq } from "drizzle-orm";
+import { canManageContent } from "@/lib/auth/ownership";
+import { actorOf, requireStaff } from "@/lib/auth/current-user";
 import { createVideoLesson, listVideoLessons } from "@/lib/data/video-lessons";
 import { recordAudit } from "@/lib/data/audit";
 import { describeParseFailure } from "@/lib/services/video/provider";
@@ -85,6 +89,15 @@ export async function POST(req: NextRequest) {
   }
   if (parsed.data.transcript?.length && parsed.data.transcriptText?.trim()) {
     return NextResponse.json({ error: "invalid_input", detail: "transcript_ambiguous" }, { status: 400 });
+  }
+
+  const existing = parsed.data.videoLessonId
+    ? await db.query.videoLessons.findFirst({ where: eq(videoLessons.id, parsed.data.videoLessonId) })
+    : parsed.data.lessonId
+      ? await db.query.videoLessons.findFirst({ where: eq(videoLessons.lessonId, parsed.data.lessonId) })
+      : null;
+  if (existing && !canManageContent(actorOf(staff), existing.createdByUserId ?? "")) {
+    return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
 
   const result = await createVideoLesson(parsed.data, staff.id);

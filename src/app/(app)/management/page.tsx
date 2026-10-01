@@ -107,6 +107,13 @@ export default async function ManagementPage() {
     );
   }
 
+  if (staff && !admin) {
+    areas.push(
+      { href: "/admin/video-lessons", title: dict.videoLessonAdmin.title, body: dict.management.videoBody, icon: <IconPlay /> },
+      { href: "/admin/materials", title: dict.admin.materialsTitle, body: dict.management.materialsBody, icon: <IconContent /> }
+    );
+  }
+
   if (admin) {
     areas.push(
       {
@@ -206,6 +213,7 @@ export default async function ManagementPage() {
             <Link
               key={area.href}
               href={area.href}
+              prefetch={false}
               data-management-area={area.href}
               className="panel group flex min-h-[150px] flex-col gap-3 transition-colors hover:border-gold/45 hover:bg-paper-sunken"
             >

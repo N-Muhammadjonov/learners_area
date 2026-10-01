@@ -10,6 +10,7 @@ import {
   speakingMaterials,
   writingPrompts,
 } from "@/db/schema";
+import { canManageContent, type Actor } from "@/lib/auth/ownership";
 import { isLive } from "@/lib/services/cms/publication";
 import { isStaff, type Role } from "@/lib/auth/roles";
 
@@ -47,6 +48,7 @@ export function isResourceOwnerType(value: string): value is ResourceOwnerType {
 
 export type OwnerFacts = {
   id: string;
+  creatorId?: string | null;
   /** Whether a student who is not staff may see this row at all. */
   studentVisible: boolean;
   /** Label used in audit/report copy, never in student-facing text. */
@@ -78,7 +80,7 @@ export async function loadResourceOwner(
     case "listening": {
       const row = await db.query.listeningTests.findFirst({ where: eq(listeningTests.id, id) });
       return row
-        ? { id, studentVisible: isLive(row), label: "listening_test", title: titleOf(row.title, "Listening") }
+        ? { id, studentVisible: isLive(row), creatorId: row.createdByUserId, label: "listening_test", title: titleOf(row.title, "Listening") }
         : null;
     }
     case "writing": {
@@ -93,7 +95,7 @@ export async function loadResourceOwner(
         ? {
             id,
             studentVisible: row.isActive && isLive(row),
-            label: "speaking_material",
+            creatorId: row.createdByUserId, label: "speaking_material",
             title: titleOf(row.title, "Speaking"),
           }
         : null;
@@ -113,13 +115,13 @@ export async function loadResourceOwner(
     case "assignment": {
       const row = await db.query.assignments.findFirst({ where: eq(assignments.id, id) });
       return row
-        ? { id, studentVisible: true, label: "assignment", title: titleOf(row.title, "Assignment") }
+        ? { id, studentVisible: true, creatorId: row.createdByUserId, label: "assignment", title: titleOf(row.title, "Assignment") }
         : null;
     }
     case "live_class": {
       const row = await db.query.liveClasses.findFirst({ where: eq(liveClasses.id, id) });
       return row
-        ? { id, studentVisible: true, label: "live_class", title: titleOf(row.title, "Live class") }
+        ? { id, studentVisible: true, creatorId: row.teacherUserId, label: "live_class", title: titleOf(row.title, "Live class") }
         : null;
     }
   }
@@ -134,16 +136,16 @@ export function mayReadResources(callerRole: Role, owner: OwnerFacts): boolean {
   return isStaff(callerRole) || owner.studentVisible;
 }
 
-/**
- * Who may change the materials: ADMIN and OWNER only.
- *
- * This is the same separation as publication — a teacher authors questions, an
- * administrator decides what students see. Attaching a file to a passage is a
- * student-visible change, so it follows the stricter rule rather than the looser
- * one.
- */
+/** Staff may author materials. Creator-specific content keeps ownership checks. */
 export function mayWriteResources(callerRole: Role): boolean {
-  return callerRole === "admin" || callerRole === "owner";
+  return isStaff(callerRole);
+}
+
+/** A teacher cannot overwrite another teacher's owned content. Shared centre
+ * content without a creator field remains staff-authorable, as requested. */
+export function mayManageResourceOwner(actor: Actor, owner: OwnerFacts): boolean {
+  if (!isStaff(actor.role)) return false;
+  return owner.creatorId ? canManageContent(actor, owner.creatorId) : true;
 }
 
 /**

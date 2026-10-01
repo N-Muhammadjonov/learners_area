@@ -1,3 +1,6 @@
+import { Suspense } from "react";
+import type { Dictionary } from "@/lib/i18n/en";
+import type { Locale } from "@/lib/i18n";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { TOPIC_PACKS } from "@/lib/services/vocabulary/packs";
@@ -8,8 +11,20 @@ import { isGameSetKey } from "@/lib/services/vocabulary/game-routes";
 export default async function VocabularyGamesPage({ searchParams }: { searchParams: Promise<{ set?: string; folderId?: string; topicPack?: string }> }) {
   const [user, query] = await Promise.all([requireActiveUser(), searchParams]);
   if (!user) return null;
-  const [locale, folders] = await Promise.all([getLocale(), listFolders(user.id)]);
+  const locale = await getLocale();
   const dict = getDictionary(locale);
+  return <div data-route-usable="vocabulary-games">
+    <Suspense fallback={<div role="status" data-async-loading="vocabulary-games"><h1 className="page-title">{dict.vocabulary.tab.games}</h1><p>{dict.common.loading}</p></div>}>
+      <GamesContent query={query} userId={user.id} locale={locale} dict={dict} />
+    </Suspense>
+  </div>;
+}
+
+async function GamesContent({ query, userId, locale, dict }: {
+  query: { set?: string; folderId?: string; topicPack?: string };
+  userId: string; locale: Locale; dict: Dictionary;
+}) {
+  const folders = await listFolders(userId);
   const packs = TOPIC_PACKS.map((pack) => ({ id: pack.id, label: pack.label[locale], wordCount: pack.words.length }));
   const requestedSet = query.set ?? "";
   let initialSetKey = isGameSetKey(requestedSet) ? requestedSet : "due";

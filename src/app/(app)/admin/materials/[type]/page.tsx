@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { requireAdministrator } from "@/lib/auth/current-user";
+import { requireStaff } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { isResourceOwnerType, listResourceOwners } from "@/lib/services/resources/owners";
@@ -17,7 +17,7 @@ export const metadata = { title: "Materials" };
  * anything should not pretend to be a real screen.
  */
 export default async function AdminMaterialsKindPage({ params }: { params: Promise<{ type: string }> }) {
-  const administrator = await requireAdministrator();
+  const administrator = await requireStaff();
   if (!administrator) redirect("/dashboard");
   const { type } = await params;
   if (!isResourceOwnerType(type)) notFound();

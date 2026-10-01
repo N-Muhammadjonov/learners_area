@@ -1,3 +1,6 @@
+import { Suspense } from "react";
+import type { Dictionary } from "@/lib/i18n/en";
+import type { Locale } from "@/lib/i18n";
 import { notFound } from "next/navigation";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
@@ -18,8 +21,21 @@ export default async function VocabularyGamePage({
   const [{ gameId }, query, user] = await Promise.all([params, searchParams, requireActiveUser()]);
   if (!user) return null;
   if (!isGameId(gameId)) notFound();
-  const [locale, folders] = await Promise.all([getLocale(), listFolders(user.id)]);
+  const locale = await getLocale();
   const dict = getDictionary(locale);
+  return <div data-route-usable="vocabulary-game">
+    <Suspense fallback={<div role="status" data-async-loading="vocabulary-game"><h1 className="page-title">{dict.vocabulary.games[gameId === "cards" ? "cards" : gameId === "choice" ? "choice" : gameId === "match" ? "match" : gameId === "gap" ? "gap" : gameId === "race" ? "race" : gameId === "translation" ? "translation" : "builder"]}</h1><p>{dict.common.loading}</p></div>}>
+      <GameContent gameId={gameId} query={query} userId={user.id} locale={locale} dict={dict} />
+    </Suspense>
+  </div>;
+}
+
+async function GameContent({ gameId, query, userId, locale, dict }: {
+  gameId: import("@/lib/services/vocabulary/game-routes").GameId;
+  query: { set?: string; folderId?: string; topicPack?: string };
+  userId: string; locale: Locale; dict: Dictionary;
+}) {
+  const folders = await listFolders(userId);
   const packs: VocabPack[] = TOPIC_PACKS.map((pack) => ({ id: pack.id, label: pack.label[locale], wordCount: pack.words.length }));
   const requestedSet = query.set ?? "";
   let setKey: GameSetKey = isGameSetKey(requestedSet) ? requestedSet : "due";

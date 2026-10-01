@@ -103,34 +103,41 @@ const librarySelection = {
   },
 };
 
-export async function listLibrary(
-  userId: string,
-  filter?: {
-    folderId?: string;
-    topicPack?: string;
-    masteries?: Mastery[];
-    sourceType?: string;
-    /** Paging keeps a 1000-word library from becoming a 1000-row page payload. */
-    limit?: number;
-    offset?: number;
-  },
-): Promise<LibraryItem[]> {
-  const conditions = [eq(userVocabulary.userId, userId)];
-  if (filter?.folderId)
-    conditions.push(eq(userVocabulary.folderId, filter.folderId));
-  if (filter?.topicPack)
-    conditions.push(eq(userVocabulary.topicPack, filter.topicPack));
-  if (filter?.masteries?.length)
-    conditions.push(inArray(userVocabulary.mastery, filter.masteries));
-  if (filter?.sourceType)
-    conditions.push(eq(userVocabulary.sourceType, filter.sourceType));
+type LibraryFilter = {
+  folderId?: string;
+  topicPack?: string;
+  masteries?: Mastery[];
+  sourceType?: string;
+  limit?: number;
+  offset?: number;
+  random?: boolean;
+  dueOnly?: boolean;
+  weakOnly?: boolean;
+  hasTopic?: boolean;
+};
 
-  const rows = await db
+function libraryConditions(userId: string, filter?: LibraryFilter) {
+  const conditions = [eq(userVocabulary.userId, userId)];
+  if (filter?.folderId) conditions.push(eq(userVocabulary.folderId, filter.folderId));
+  if (filter?.topicPack) conditions.push(eq(userVocabulary.topicPack, filter.topicPack));
+  if (filter?.masteries?.length) conditions.push(inArray(userVocabulary.mastery, filter.masteries));
+  if (filter?.sourceType) conditions.push(eq(userVocabulary.sourceType, filter.sourceType));
+  if (filter?.dueOnly) conditions.push(lte(userVocabulary.nextReviewAt, new Date()));
+  if (filter?.hasTopic) conditions.push(sql`${userVocabulary.topicPack} IS NOT NULL`);
+  if (filter?.weakOnly) conditions.push(sql`${userVocabulary.mastery} NOT IN ('mastered', 'active') AND
+    (${userVocabulary.correctCount} + ${userVocabulary.incorrectCount} = 0 OR
+     ${userVocabulary.correctCount}::numeric / NULLIF(${userVocabulary.correctCount} + ${userVocabulary.incorrectCount}, 0) < 0.6)`);
+  return conditions;
+}
+
+export async function listLibrary(userId: string, filter?: LibraryFilter, database: typeof db = db): Promise<LibraryItem[]> {
+  const conditions = libraryConditions(userId, filter);
+  const rows = await database
     .select(librarySelection)
     .from(userVocabulary)
     .innerJoin(lexemes, eq(userVocabulary.lexemeId, lexemes.id))
     .where(and(...conditions))
-    .orderBy(asc(userVocabulary.nextReviewAt), asc(lexemes.term))
+    .orderBy(...(filter?.random ? [sql`random()`] : [asc(userVocabulary.nextReviewAt), asc(lexemes.term)]))
     .limit(filter?.limit ?? 500)
     .offset(filter?.offset ?? 0);
 
@@ -577,36 +584,30 @@ export async function gameSet(
   userId: string,
   key: GameSetKey,
   options?: { folderId?: string; topicPack?: string; limit?: number },
+  database: typeof db = db,
 ) {
-  const all = await listLibrary(userId);
-  const limit = options?.limit ?? 24;
-  const now = Date.now();
-
-  let words = all;
-  if (key === "due")
-    words = all.filter((item) => item.nextReviewAt.getTime() <= now);
-  else if (key === "weak") words = all.filter((item) => isWeak(item));
-  else if (key === "reading")
-    words = all.filter((item) => item.sourceType === "reading");
-  else if (key === "listening")
-    words = all.filter((item) => item.sourceType === "listening");
-  else if (key === "topic")
-    words = options?.topicPack
-      ? all.filter((item) => item.topicPack === options.topicPack)
-      : all.filter((item) => Boolean(item.topicPack));
-  else if (key === "folder")
-    words = options?.folderId
-      ? all.filter((item) => item.folderId === options.folderId)
-      : [];
-  else if (key === "assigned")
-    words = all.filter((item) => item.sourceType === "assignment");
-
-  const playable = words.slice(0, limit);
-  const due = words.filter((item) => item.nextReviewAt.getTime() <= now).length;
-
-  // `count` is what the games panel shows as playable, `due` says how many of
-  // them can actually earn a practice point, and `total` is the whole filter.
-  return { key, words: playable, count: playable.length, due, total: words.length };
+  if (key === "folder" && !options?.folderId) return { key, words: [], count: 0, due: 0, total: 0 };
+  const limit = Math.min(500, Math.max(1, options?.limit ?? 24));
+  // Filter BEFORE sampling. Even a folder beyond the first 500 library rows is
+  // playable, and each new round samples from the entire owned folder.
+  const filter: LibraryFilter = {
+    folderId: key === "folder" ? options?.folderId : undefined,
+    topicPack: key === "topic" ? options?.topicPack : undefined,
+    hasTopic: key === "topic" && !options?.topicPack,
+    sourceType: key === "reading" || key === "listening" ? key : key === "assigned" ? "assignment" : undefined,
+    dueOnly: key === "due",
+    weakOnly: key === "weak",
+    random: true,
+    limit,
+  };
+  const [words, totals] = await Promise.all([
+    listLibrary(userId, filter, database),
+    database.select({
+      total: sql<number>`count(*)::int`,
+      due: sql<number>`count(*) FILTER (WHERE ${userVocabulary.nextReviewAt} <= now())::int`,
+    }).from(userVocabulary).where(and(...libraryConditions(userId, filter))),
+  ]);
+  return { key, words, count: words.length, due: totals[0]?.due ?? 0, total: totals[0]?.total ?? 0 };
 }
 
 /** Server-side membership check for every entry cited by a game answer. */

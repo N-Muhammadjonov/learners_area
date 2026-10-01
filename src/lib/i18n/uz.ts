@@ -989,6 +989,8 @@ const uz: Dictionary = {
       points: "Ball",
       checkedBy: "Tekshirdi",
       pick: "So'z tanlang",
+      pickFile: "Fayl / papka tanlang",
+      autoWords: "Shu fayldagi barcha so'zlar (avtomatik)",
       noWords: "Gap yozishdan oldin so'z qo'shing.",
     },
     board: {

@@ -986,6 +986,8 @@ const en = {
       points: "Points",
       checkedBy: "Checked by",
       pick: "Choose a word",
+      pickFile: "Choose a file / folder",
+      autoWords: "All words in this file (automatic)",
       noWords: "Add words before writing sentences.",
     },
     board: {

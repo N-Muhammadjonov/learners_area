@@ -98,7 +98,7 @@ export function embedUrlFor(provider: VideoProvider, videoId: string, options: {
   if (provider !== "youtube") throw new Error(`unsupported provider: ${provider}`);
   if (!VIDEO_ID.test(videoId)) throw new Error("invalid video id");
   const base = `https://www.youtube-nocookie.com/embed/${videoId}`;
-  const params = new URLSearchParams({ rel: "0", playsinline: "1", enablejsapi: "1", modestbranding: "1" });
+  const params = new URLSearchParams({ rel: "0", playsinline: "1", enablejsapi: "1", controls: "1", cc_load_policy: "1" });
   if (options.origin) params.set("origin", options.origin);
   return `${base}?${params.toString()}`;
 }

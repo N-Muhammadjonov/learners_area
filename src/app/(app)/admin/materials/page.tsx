@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { requireAdministrator } from "@/lib/auth/current-user";
+import { requireStaff } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { Card } from "@/components/ui/Card";
 import { listResourceOwners, RESOURCE_OWNER_TYPES } from "@/lib/services/resources/owners";
@@ -19,11 +19,11 @@ export const metadata = { title: "Materials" };
  * pages, every kind is listed here and every item leads to the same editor.
  *
  * Permission is not decided by this page: the editor calls
- * `requireAdministrator()` and the write endpoint re-checks the role, so a
+ * `requireStaff()` and the write endpoint re-checks the role, so a
  * teacher who somehow reaches the URL still cannot write a block.
  */
 export default async function AdminMaterialsPage() {
-  const administrator = await requireAdministrator();
+  const administrator = await requireStaff();
   if (!administrator) redirect("/dashboard");
   const dict = getDictionary(await getLocale());
 

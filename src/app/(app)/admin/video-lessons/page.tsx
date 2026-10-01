@@ -2,7 +2,9 @@ import { Suspense } from "react";
 import type { Dictionary } from "@/lib/i18n/en";
 import { timed } from "@/lib/observability/timing";
 import { redirect } from "next/navigation";
-import { requireAdministrator } from "@/lib/auth/current-user";
+import { isAdministrator } from "@/lib/auth/roles";
+import type { CurrentUser } from "@/lib/auth/current-user";
+import { requireStaff } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { listAllVideoLessons, listLessonsWithoutVideo } from "@/lib/data/video-lessons";
 import { NewVideoLessonForm } from "@/components/admin/NewVideoLessonForm";
@@ -20,7 +22,7 @@ export const dynamic = "force-dynamic";
  */
 export default async function AdminVideoLessonsPage() {
   // Authorization is a database read, not a menu decision.
-  const [administrator, locale] = await Promise.all([requireAdministrator(), getLocale()]);
+  const [administrator, locale] = await Promise.all([requireStaff(), getLocale()]);
   if (!administrator) redirect("/dashboard");
   const dict = getDictionary(locale);
 
@@ -31,16 +33,16 @@ export default async function AdminVideoLessonsPage() {
       <h1 className="font-display text-2xl text-ink-900">{dict.videoLessonAdmin.title}</h1>
 
       <Suspense fallback={<p className="panel" role="status" data-async-loading="video-admin">{dict.common.loading}</p>}>
-        <VideoAdminContent dict={dict} />
+        <VideoAdminContent dict={dict} user={administrator} />
       </Suspense>
     </div>
   );
 }
 
-async function VideoAdminContent({ dict }: { dict: Dictionary }) {
+async function VideoAdminContent({ dict, user }: { dict: Dictionary; user: CurrentUser }) {
   const [lessons, authored] = await Promise.all([
     timed("video.admin.lessons", () => listLessonsWithoutVideo()),
-    timed("video.admin.authored", () => listAllVideoLessons()),
+    timed("video.admin.authored", () => listAllVideoLessons(isAdministrator(user.role) ? undefined : user.id)),
   ]);
   return (
     <div className="flex flex-col gap-4" data-async-content="video-admin">
@@ -62,13 +64,13 @@ async function VideoAdminContent({ dict }: { dict: Dictionary }) {
                       {dict.videoLessonAdmin.notes}: {videoLesson.notes ? dict.videoLessonAdmin.notesPresent : dict.videoLessonAdmin.notesAbsent}
                     </span>
                   </span>
-                  <PublicationControl
+                  {isAdministrator(user.role) && <PublicationControl
                     type="video"
                     id={videoLesson.id}
                     state={videoLesson.publicationState}
                     publishAt={videoLesson.publishAt ? videoLesson.publishAt.toISOString() : null}
                     dict={dict}
-                  />
+                  />}
                 </div>
               </li>
             ))}

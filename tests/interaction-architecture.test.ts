@@ -38,12 +38,12 @@ test("persistent private layout keeps server authorization and wraps only its wo
   assert.match(layout, /<Topbar[\s\S]*?\/\>/);
 });
 
-test("automatic sidebar prefetch has a data-free private loading boundary", () => {
+test("sidebar does not launch eager database-backed prefetch; loading boundary stays data-free", () => {
   const links = read("src/components/interaction/InstantLink.tsx");
   const boundary = read("src/app/(app)/loading.tsx");
   const frame = read("src/components/interaction/SectionEntryFrame.tsx");
   const sidebar = read("src/components/shell/SidebarNav.tsx");
-  assert.match(links, /prefetch=\{prefetch \?\? null\}/);
+  assert.match(links, /prefetch=\{prefetch \?\? false\}/);
   assert.doesNotMatch(sidebar, /prefetch=\{false\}/);
   assert.match(boundary, /<RouteEntryLoading \/>/);
   assert.doesNotMatch(boundary, /getCurrentUser|db\.|fetch\(/);

@@ -4,31 +4,12 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Dictionary } from "@/lib/i18n/en";
 import { ClickableText } from "@/components/vocabulary/ClickableText";
 import { Button } from "@/components/ui/Button";
-import { embedUrlFor, watchUrlFor, type VideoProvider } from "@/lib/services/video/provider";
+import { embedUrlFor, type VideoProvider } from "@/lib/services/video/provider";
 
-/**
- * A public video lesson: the player AND the learning around it.
- *
- * What this deliberately is not:
- *   - it is not a raw iframe dropped on a page. The video id is parsed and
- *     validated on the server, and the iframe src is built here from that
- *     reference — user text never becomes markup;
- *   - it does not claim the video source is hidden. A player that runs in the
- *     browser is visible in devtools; what we do is keep the raw link out of the
- *     interface and wrap the video in the lesson;
- *   - it does not invent a transcript. Timestamped lines exist only when the
- *     centre authored, licensed or was permitted the text, and the provenance is
- *     shown next to them.
- *
- * Honest limits are reflected in `data-*` attributes so a verification script can
- * check them rather than trusting the copy:
- *   data-video-live-transcript  = "yes" only once the player is really reporting
- *                                 its position (script follow otherwise stays off)
- *   data-video-completed        = the server's own verdict, never the client's
- *   data-video-save-response    = the write button; data-video-response-state is
- *                                 "saved" only after the server accepted it
+/** Validated provider embeds with native captions and server-authoritative progress.
+ * Legacy transcript data stays compatible; it is not rendered as a lesson tab.
  */
-type Tab = "before" | "transcript" | "notes" | "comprehension" | "gap" | "opinion" | "summary";
+type Tab = "before" | "notes" | "comprehension" | "gap" | "opinion" | "summary";
 
 type Question = {
   id: string;
@@ -77,7 +58,6 @@ export function VideoLessonStudio({
 
   const [state, setState] = useState(initialProgress?.state ?? "not_started");
   const [liveTime, setLiveTime] = useState<number | null>(null);
-  const [follow, setFollow] = useState(false);
   const [blocked, setBlocked] = useState(false);
   const [graded, setGraded] = useState<Record<string, { answer: string; correct: boolean }>>(
     initialProgress?.answers ?? {}
@@ -86,26 +66,17 @@ export function VideoLessonStudio({
   const [opinion, setOpinion] = useState(initialProgress?.responseText ?? "");
   const [summary, setSummary] = useState(initialProgress?.summaryText ?? "");
   const [saving, setSaving] = useState(false);
+  const mutationRef = useRef<AbortController | null>(null);
+  const [requestError, setRequestError] = useState(false);
   const [savedResponse, setSavedResponse] = useState<boolean | null>(null);
 
-  // Memoised so the value is stable across renders: the cue list below depends
-  // on it, and a fresh array on every render would recompute it needlessly.
-  const transcript = useMemo(() => videoLesson.transcript ?? [], [videoLesson.transcript]);
-  /** Centre-authored notes are optional, like the transcript. */
   const notes = useMemo(() => (videoLesson.notes ?? "").trim(), [videoLesson.notes]);
-  /** Plain paragraphs, only when there are no timed lines (timed wins). */
-  const plainParagraphs = useMemo(
-    () => (transcript.length > 0 ? [] : (videoLesson.transcriptText ?? "").split(/\n\s*\n/).map((part) => part.trim()).filter(Boolean)),
-    [transcript.length, videoLesson.transcriptText]
-  );
   const comprehension = useMemo(() => questions.filter((q) => q.stage === "comprehension"), [questions]);
   const gapFill = useMemo(() => questions.filter((q) => q.stage === "gap_fill"), [questions]);
 
   const tabs = useMemo(() => {
     const list: Tab[] = [];
     if (videoLesson.beforeYouWatch) list.push("before");
-    if (transcript.length > 0) list.push("transcript");
-    else if (plainParagraphs.length > 0) list.push("transcript");
     if (notes.length > 0) list.push("notes");
     if (comprehension.length > 0) list.push("comprehension");
     if (gapFill.length > 0) list.push("gap");
@@ -114,15 +85,10 @@ export function VideoLessonStudio({
     // remember from the video itself.
     list.push("summary");
     return list;
-  }, [videoLesson.beforeYouWatch, transcript.length, plainParagraphs.length, notes.length, comprehension.length, gapFill.length]);
+  }, [videoLesson.beforeYouWatch, notes.length, comprehension.length, gapFill.length]);
 
   const [tab, setTab] = useState<Tab>(tabs[0] ?? "opinion");
-  /**
-   * Both the transcript and the notes are revealed on purpose rather than
-   * pushed at the learner: reading the script before watching gives the
-   * listening away, and notes are a study aid the student asks for.
-   */
-  const [transcriptShown, setTranscriptShown] = useState(false);
+  // Study notes are revealed only when requested.
   const [notesShown, setNotesShown] = useState(false);
 
   // Built without the browser origin so the player is part of the server-rendered
@@ -132,9 +98,9 @@ export function VideoLessonStudio({
   const send = useCallback(
     (payload: Record<string, unknown>) => {
       // The player only accepts messages from the frame it owns.
-      iframeRef.current?.contentWindow?.postMessage(JSON.stringify(payload), "*");
+      iframeRef.current?.contentWindow?.postMessage(JSON.stringify(payload), new URL(src).origin);
     },
-    []
+    [src]
   );
 
   const seekTo = useCallback(
@@ -145,21 +111,22 @@ export function VideoLessonStudio({
     [send]
   );
 
-  // Ask the player to start reporting its position. If it never answers, script
-  // follow stays unavailable rather than pretending to track anything.
+  // Report position only when the validated player actually supplies it.
   useEffect(() => {
     const el = iframeRef.current;
     if (!el) return;
     const ask = () => send({ event: "listening", id: 1, channel: "widget" });
+    let loadTimer: number | undefined;
     const onLoad = () => {
       ask();
-      window.setTimeout(ask, 600);
+      window.clearTimeout(loadTimer);
+      loadTimer = window.setTimeout(ask, 600);
     };
     el.addEventListener("load", onLoad);
     const interval = window.setInterval(ask, 5000);
 
     function onMessage(event: MessageEvent) {
-      if (event.source !== el?.contentWindow) return;
+      if (event.source !== el?.contentWindow || event.origin !== new URL(src).origin) return;
       let data: unknown;
       try {
         data = typeof event.data === "string" ? JSON.parse(event.data) : event.data;
@@ -167,15 +134,16 @@ export function VideoLessonStudio({
         return;
       }
       const info = (data as { info?: { currentTime?: number } }).info;
-      if (typeof info?.currentTime === "number") setLiveTime(info.currentTime);
+      if (typeof info?.currentTime === "number" && Number.isFinite(info.currentTime) && info.currentTime >= 0) setLiveTime(info.currentTime);
     }
     window.addEventListener("message", onMessage);
     return () => {
       el.removeEventListener("load", onLoad);
       window.clearInterval(interval);
+      window.clearTimeout(loadTimer);
       window.removeEventListener("message", onMessage);
     };
-  }, [send]);
+  }, [send, src]);
 
   // Report real progress, throttled. The server clamps and keeps it monotonic.
   useEffect(() => {
@@ -183,6 +151,7 @@ export function VideoLessonStudio({
     if (liveTime - reportedRef.current < 5 && liveTime >= reportedRef.current) return;
     if (liveTime > reportedRef.current) reportedRef.current = liveTime;
     const controller = new AbortController();
+    const deadline = window.setTimeout(() => controller.abort(), 12000);
     fetch(`/api/video-lessons/${videoLesson.id}/progress`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -193,54 +162,65 @@ export function VideoLessonStudio({
       .then((body) => {
         if (body?.state) setState(body.state);
       })
-      .catch(() => {});
-    return () => controller.abort();
+      .catch(() => {})
+      .finally(() => window.clearTimeout(deadline));
+    return () => { window.clearTimeout(deadline); controller.abort(); };
   }, [liveTime, videoLesson.id]);
 
-  const activeLineIndex = useMemo(() => {
-    if (liveTime === null) return -1;
-    let index = -1;
-    for (let i = 0; i < transcript.length; i += 1) {
-      if (transcript[i]!.startSeconds <= liveTime) index = i;
-      else break;
+  useEffect(() => () => {
+    const active = mutationRef.current;
+    mutationRef.current = null;
+    active?.abort();
+  }, []);
+
+  async function writeLesson(kind: "answers" | "response", payload: Record<string, unknown>) {
+    if (mutationRef.current) return;
+    const controller = new AbortController();
+    mutationRef.current = controller;
+    const deadline = window.setTimeout(() => controller.abort(), 12000);
+    setSaving(true);
+    setRequestError(false);
+    if (kind === "response") setSavedResponse(null);
+    try {
+      const res = await fetch(`/api/video-lessons/${videoLesson.id}/${kind}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+        signal: controller.signal,
+      });
+      if (!res.ok) throw new Error("Video lesson write failed");
+      const body = await res.json();
+      if (mutationRef.current !== controller || controller.signal.aborted) return;
+      if (kind === "answers" && body.graded) setGraded((prev) => ({ ...prev, ...body.graded }));
+      if (body.state) setState(body.state);
+      if (kind === "response") setSavedResponse(true);
+    } catch {
+      if (mutationRef.current === controller) {
+        setRequestError(true);
+        if (kind === "response") setSavedResponse(false);
+      }
+    } finally {
+      window.clearTimeout(deadline);
+      if (mutationRef.current === controller) {
+        mutationRef.current = null;
+        setSaving(false);
+      }
     }
-    return index;
-  }, [liveTime, transcript]);
+  }
 
   async function checkAnswers(stage: "comprehension" | "gap_fill") {
     const list = stage === "comprehension" ? comprehension : gapFill;
     const payload: Record<string, string> = {};
     for (const question of list) {
-      const value = drafts[question.id];
-      if (value !== undefined && value !== "") payload[question.id] = value;
+      const value = drafts[question.id]?.trim();
+      if (value) payload[question.id] = value;
     }
     if (Object.keys(payload).length === 0) return;
-    setSaving(true);
-    const res = await fetch(`/api/video-lessons/${videoLesson.id}/answers`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ answers: payload }),
-    });
-    setSaving(false);
-    if (!res.ok) return;
-    const body = await res.json();
-    setGraded((prev) => ({ ...prev, ...body.graded }));
-    if (body.state) setState(body.state);
+    await writeLesson("answers", { answers: payload });
   }
 
   async function saveResponse() {
-    setSaving(true);
-    const res = await fetch(`/api/video-lessons/${videoLesson.id}/response`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ responseText: opinion, summaryText: summary }),
-    });
-    setSaving(false);
-    setSavedResponse(res.ok);
-    if (res.ok) {
-      const body = await res.json();
-      if (body.state) setState(body.state);
-    }
+    await writeLesson("response", { responseText: opinion, summaryText: summary });
   }
 
   function renderQuestion(question: Question) {
@@ -292,7 +272,10 @@ export function VideoLessonStudio({
               src={src}
               title={videoLesson.title}
               className="absolute inset-0 h-full w-full"
-              allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              // No popups or top navigation: provider links cannot take the
+              // learner out of this site. Playback and native CC remain enabled.
+              sandbox="allow-scripts allow-same-origin allow-presentation"
+              allow="encrypted-media; picture-in-picture; fullscreen"
               allowFullScreen
               referrerPolicy="strict-origin-when-cross-origin"
               onError={() => setBlocked(true)}
@@ -309,14 +292,7 @@ export function VideoLessonStudio({
       {blocked ? (
         <p className="rounded-md border border-warn-500/40 bg-warn-50 px-3 py-2 text-sm text-warn-800" data-video-blocked>
           {t.blocked}{" "}
-          <a
-            href={watchUrlFor(provider, videoLesson.videoId)}
-            target="_blank"
-            rel="noreferrer noopener"
-            className="btn-secondary "
-          >
-            {t.openOnProvider}
-          </a>
+
         </p>
       ) : null}
 
@@ -324,17 +300,6 @@ export function VideoLessonStudio({
         <span className="text-xs text-ink-500" data-video-live-transcript={liveTime !== null ? "yes" : "no"}>
           {liveTime !== null ? t.liveTrackingOn : t.liveTrackingOff}
         </span>
-        {transcript.length > 0 ? (
-          <label className="flex items-center gap-2 text-xs text-ink-600">
-            <input
-              type="checkbox"
-              checked={follow}
-              onChange={(event) => setFollow(event.target.checked)}
-              data-video-follow-toggle
-            />
-            {t.scriptFollow}
-          </label>
-        ) : null}
         <span className="text-xs font-medium text-ink-700" data-video-progress-state>
           {state === "completed" ? t.stateCompleted : state === "in_progress" ? t.stateInProgress : t.stateNotStarted}
         </span>
@@ -357,85 +322,12 @@ export function VideoLessonStudio({
         ))}
       </nav>
 
+      {requestError ? <p role="alert" data-video-request-error>{dict.common.error}</p> : null}
       <div className="rounded-lg border border-ink-200 bg-paper-50 p-4">
         {tab === "before" && videoLesson.beforeYouWatch ? (
           <p className="whitespace-pre-line text-sm text-ink-700" data-video-before>
             {videoLesson.beforeYouWatch}
           </p>
-        ) : null}
-
-        {tab === "transcript" ? (
-          <div className="flex flex-col gap-1" data-video-transcript-panel>
-            <p className="mb-2 text-xs text-ink-500">
-              {t.transcriptProvenance}:{" "}
-              <span data-video-transcript-source={videoLesson.transcriptSource ?? "unspecified"}>
-                {videoLesson.transcriptSource ?? t.transcriptUnspecified}
-              </span>
-              {videoLesson.transcriptAttribution ? ` — ${videoLesson.transcriptAttribution}` : ""}
-            </p>
-            <button
-              type="button"
-              className="btn-secondary w-fit"
-              data-video-transcript-reveal
-              aria-expanded={transcriptShown}
-              aria-controls="video-transcript-lines"
-              onClick={() => setTranscriptShown((value) => !value)}
-            >
-              {transcriptShown ? t.hideTranscript : t.revealTranscript}
-            </button>
-            {plainParagraphs.length > 0 ? (
-              <div
-                id="video-transcript-lines"
-                className={`flex max-h-80 flex-col gap-3 overflow-y-auto pr-1 ${transcriptShown ? "" : "hidden"}`}
-                data-video-transcript={transcriptShown ? "shown" : "hidden"}
-                data-video-transcript-kind="plain"
-              >
-                {plainParagraphs.map((paragraph, index) => (
-                  <ClickableText
-                    key={index}
-                    dict={dict}
-                    text={paragraph}
-                    sourceType="video_lesson"
-                    sourceId={lessonId}
-                    className="whitespace-pre-line text-sm text-ink-800"
-                  />
-                ))}
-              </div>
-            ) : (
-            <ol
-              id="video-transcript-lines"
-              className={`max-h-80 overflow-y-auto pr-1 ${transcriptShown ? "" : "hidden"}`}
-              data-video-transcript={transcriptShown ? "shown" : "hidden"}
-            >
-              {transcript.map((line, index) => (
-                <li
-                  key={`${line.startSeconds}-${index}`}
-                  className={`flex gap-3 rounded-sm px-2 py-1 ${
-                    follow && index === activeLineIndex ? "bg-signal-50" : ""
-                  }`}
-                  data-video-line={index}
-                  data-video-line-active={follow && index === activeLineIndex ? "yes" : "no"}
-                >
-                  <button
-                    type="button"
-                    onClick={() => seekTo(line.startSeconds)}
-                    className="shrink-0 font-mono text-xs text-signal-700 underline decoration-dotted"
-                    data-video-timestamp={line.startSeconds}
-                  >
-                    {formatClock(line.startSeconds)}
-                  </button>
-                  <ClickableText
-                    dict={dict}
-                    text={line.text}
-                    sourceType="video_lesson"
-                    sourceId={lessonId}
-                    className="text-sm text-ink-800"
-                  />
-                </li>
-              ))}
-            </ol>
-            )}
-          </div>
         ) : null}
 
         {tab === "notes" ? (

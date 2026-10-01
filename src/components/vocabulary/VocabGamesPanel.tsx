@@ -476,7 +476,6 @@ function Flashcards({ dict, words, sourceHeading, selfAssessments }: {
   const [deck, setDeck] = useState(() => shuffle(words).slice(0, 10));
   const [index, setIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
-  const [fullMotion, setFullMotion] = useState(false);
   // Seeded from the server's read-back of the recorded self-assessments: the
   // marks are durable practice state, so a reload keeps Learned / Not yet.
   const [marks, setMarks] = useState<Record<string, "known" | "notYet">>(() => ({ ...(selfAssessments ?? {}) }));
@@ -579,7 +578,7 @@ function Flashcards({ dict, words, sourceHeading, selfAssessments }: {
                 className="flashcard-3d-card"
                 data-flashcard={flipped ? "answer" : "definition"}
                 data-flipped={flipped ? "true" : "false"}
-                data-card-motion={fullMotion ? "full" : "system"}
+                data-card-motion="full"
                 data-marking={marking ?? undefined}
                 aria-label={`${t.games.progress} ${index + 1} ${t.games.of} ${deck.length}. ${cardSideLabel}. ${flipped ? current.term : current.definitionEn}`}
                 aria-roledescription={t.games.flashcardRole}
@@ -625,9 +624,6 @@ function Flashcards({ dict, words, sourceHeading, selfAssessments }: {
                 </div>
               </article>
             </div>
-            <button type="button" className="btn-secondary mt-2" aria-pressed={fullMotion} onClick={() => setFullMotion((value) => !value)} data-flashcard-motion>
-              {t.games.cardMotion}
-            </button>
             <div className="flashcard-flip-row">
               <button type="button" className="flashcard-flip-button" data-flashcard-flip aria-pressed={flipped} disabled={marking !== null} onClick={() => setFlipped((value) => !value)}>
                 {flipped ? t.games.showDefinition : t.games.flip}
@@ -1096,10 +1092,8 @@ function TypingRace({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
   const stepMs = Math.max(16, Math.min(65, Math.floor(650 / boxCount)));
   useEffect(() => {
     if (!resolved || finished) { setLitCount(0); return; }
-    // Reduced motion remains the default when requested by the operating system.
-    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
-      setLitCount(boxCount); return;
-    }
+    // Colour verdicts are delivered one character at a time. This is sequencing,
+    // not spatial motion: reduced-motion CSS still removes colour transitions.
     setLitCount(0);
     let count = 0;
     const timer = window.setInterval(() => {

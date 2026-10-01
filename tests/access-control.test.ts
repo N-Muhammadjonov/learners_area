@@ -225,7 +225,8 @@ test("every staff, administrator and owner page guards itself from the database"
     for (const [path, guard, label] of rules) {
       if (!path.test(page)) continue;
       const source = stripComments(read(page));
-      assert.match(source, guard, `${page}: ${label}`);
+      const staffAuthoring = /\/admin\/(video-lessons|materials)(\/|$)/.test(page);
+      assert.match(source, staffAuthoring ? /requireStaff\(\)/ : guard, `${page}: ${staffAuthoring ? "explicit staff authoring route" : label}`);
       assert.match(source, /redirect\("/, `${page} must redirect an unauthorised visitor`);
     }
   }

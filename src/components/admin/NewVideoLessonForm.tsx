@@ -1,11 +1,10 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n/en";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
-import { parseTranscriptInput } from "@/lib/services/video/transcript";
 
 export { parseTranscript, parseTranscriptInput, type TranscriptInput } from "@/lib/services/video/transcript";
 
@@ -16,9 +15,8 @@ export { parseTranscript, parseTranscriptInput, type TranscriptInput } from "@/l
  * link explains itself (unsupported host, missing id, wrong shape) instead of
  * silently creating a lesson whose video will never play.
  *
- * Transcript and questions are pasted as plain text on purpose: the point is that
- * the text is AUTHORED here, not scraped. Each row is parsed on the client into
- * the structured shape the server expects, and the server validates it again.
+ * URL, title and notes are the primary workflow. Optional authored questions
+ * retain server validation. Captions come from the provider player itself.
  */
 type LessonOption = { id: string; title: string };
 
@@ -26,15 +24,18 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
   const t = dict.videoLessonAdmin;
   const router = useRouter();
   const submitting = useRef(false);
+  const activeRequest = useRef<AbortController | null>(null);
+  useEffect(() => () => {
+    const active = activeRequest.current;
+    activeRequest.current = null;
+    active?.abort();
+  }, []);
   // Standalone by default: a TED / Podcast item never needs a roadmap lesson.
   const [lessonId, setLessonId] = useState("");
   const [title, setTitle] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
   const [before, setBefore] = useState("");
   const [duration, setDuration] = useState("");
-  const [transcriptSource, setTranscriptSource] = useState("");
-  const [attribution, setAttribution] = useState("");
-  const [transcriptText, setTranscriptText] = useState("");
   const [notes, setNotes] = useState("");
   const [questionsText, setQuestionsText] = useState("");
   const [busy, setBusy] = useState(false);
@@ -43,16 +44,12 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
   async function submit(event: React.FormEvent) {
     event.preventDefault();
     if (submitting.current) return;
-    const transcriptInput = parseTranscriptInput(transcriptText);
-    if (transcriptInput.kind === "mixed") {
-      setMessage({ tone: "bad", text: t.transcriptMixed });
-      return;
-    }
     submitting.current = true;
     setBusy(true);
     setMessage(null);
 
     const controller = new AbortController();
+    activeRequest.current = controller;
     const deadline = window.setTimeout(() => controller.abort(), 12_000);
     try {
     const res = await fetch("/api/admin/video-lessons", {
@@ -65,23 +62,23 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
         videoUrl,
         beforeYouWatch: before || null,
         durationSeconds: duration ? Number(duration) : null,
-        transcriptSource: transcriptSource || null,
-        transcriptAttribution: attribution || null,
-        transcript: transcriptInput.kind === "timed" ? transcriptInput.lines : null,
-        transcriptText: transcriptInput.kind === "plain" ? transcriptInput.text : null,
+        // Captions are supplied by the player; no transcript is scraped or invented.
+        transcriptSource: null,
+        transcriptAttribution: null,
+        transcript: null,
+        transcriptText: null,
         notes: notes.trim() || null,
         questions: parseQuestions(questionsText),
       }),
     });
     const body = await res.json().catch(() => ({}));
-    setBusy(false);
+    if (activeRequest.current !== controller || controller.signal.aborted) return;
 
     if (res.ok) {
       setMessage({ tone: "ok", text: t.saved });
       setTitle("");
       setVideoUrl("");
       setBefore("");
-      setTranscriptText("");
       setNotes("");
       setQuestionsText("");
       router.refresh();
@@ -93,19 +90,50 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
       text: (reason && t.rejection[reason]) ?? body.error ?? dict.common.error,
     });
     } catch {
-      setMessage({ tone: "bad", text: dict.errors.unknown });
+      if (activeRequest.current === controller) setMessage({ tone: "bad", text: dict.errors.unknown });
     } finally {
       window.clearTimeout(deadline);
-      submitting.current = false;
-      setBusy(false);
+      if (activeRequest.current === controller) {
+        activeRequest.current = null;
+        submitting.current = false;
+        setBusy(false);
+      }
     }
   }
 
-  const transcriptPreview = parseTranscriptInput(transcriptText);
 
   return (
     <form onSubmit={submit} className="flex flex-col gap-3" data-video-admin-form>
       <p className="text-sm text-ink-600">{t.intro}</p>
+
+      <label className="flex flex-col gap-1 text-sm">
+        {t.videoUrl}
+        <Input
+          value={videoUrl}
+          onChange={(e) => setVideoUrl(e.target.value)}
+          placeholder="https://www.youtube.com/watch?v=…"
+          required
+          data-video-url-input
+        />
+      </label>
+
+      <label className="flex flex-col gap-1 text-sm">
+        {t.videoTitle}
+        <Input value={title} onChange={(e) => setTitle(e.target.value)} required minLength={3} maxLength={200} />
+      </label>
+
+      <label className="flex flex-col gap-1 text-sm">
+        {t.notes}
+        <textarea
+          className="input min-h-24"
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+          maxLength={4000}
+          data-video-notes-input
+        />
+        <span className="text-xs text-ink-500">{t.notesHelp}</span>
+      </label>
+
 
       <label className="flex flex-col gap-1 text-sm">
         {t.lessonOptional}
@@ -117,22 +145,6 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
             </option>
           ))}
         </select>
-      </label>
-
-      <label className="flex flex-col gap-1 text-sm">
-        {t.videoTitle}
-        <Input value={title} onChange={(e) => setTitle(e.target.value)} required minLength={3} maxLength={200} />
-      </label>
-
-      <label className="flex flex-col gap-1 text-sm">
-        {t.videoUrl}
-        <Input
-          value={videoUrl}
-          onChange={(e) => setVideoUrl(e.target.value)}
-          placeholder="https://www.youtube.com/watch?v=…"
-          required
-          data-video-url-input
-        />
       </label>
 
       <label className="flex flex-col gap-1 text-sm">
@@ -151,53 +163,7 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
         />
       </label>
 
-      <label className="flex flex-col gap-1 text-sm">
-        {t.transcriptSource}
-        <select className="input max-w-64" value={transcriptSource} onChange={(e) => setTranscriptSource(e.target.value)}>
-          <option value="">{t.transcriptSourceNone}</option>
-          <option value="authored">authored</option>
-          <option value="licensed">licensed</option>
-          <option value="permitted">permitted</option>
-        </select>
-      </label>
 
-      <label className="flex flex-col gap-1 text-sm">
-        {t.transcriptAttribution}
-        <Input value={attribution} onChange={(e) => setAttribution(e.target.value)} maxLength={200} />
-      </label>
-
-      <label className="flex flex-col gap-1 text-sm">
-        {t.notes}
-        <textarea
-          className="input min-h-24"
-          value={notes}
-          onChange={(e) => setNotes(e.target.value)}
-          maxLength={4000}
-          data-video-notes-input
-        />
-        <span className="text-xs text-ink-500">{t.notesHelp}</span>
-      </label>
-
-      <label className="flex flex-col gap-1 text-sm">
-        {t.transcriptText}
-        <textarea
-          className="input min-h-28 text-sm"
-          value={transcriptText}
-          onChange={(e) => setTranscriptText(e.target.value)}
-          maxLength={20000}
-          data-video-transcript-input
-        />
-        <span className="text-xs text-ink-500">{t.transcriptTextHelp}</span>
-        <span
-          className={`text-xs ${transcriptPreview.kind === "mixed" ? "text-warn-700" : "text-ink-500"}`}
-          aria-live="polite"
-          data-video-transcript-kind={transcriptPreview.kind}
-        >
-          {transcriptPreview.kind === "mixed" && t.transcriptMixed}
-          {transcriptPreview.kind === "plain" && t.transcriptDetectedPlain.replace("{n}", String(transcriptPreview.paragraphs))}
-          {transcriptPreview.kind === "timed" && t.transcriptDetectedTimed.replace("{n}", String(transcriptPreview.lines.length))}
-        </span>
-      </label>
 
       <label className="flex flex-col gap-1 text-sm">
         {t.questions}

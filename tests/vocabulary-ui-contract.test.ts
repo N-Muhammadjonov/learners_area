@@ -95,7 +95,7 @@ test("Typing Race animates the complete verified verdict from left to right", ()
   assert.match(race, /status === "incorrect" \? "race-answer-box--incorrect"/);
   assert.match(race, /charIndexInAnswer >= litCount \? ""/);
   assert.match(race, /data-race-lit=\{charIndexInAnswer < litCount/);
-  assert.match(race, /prefers-reduced-motion: reduce/);
+  assert.doesNotMatch(race, /setLitCount\(boxCount\)/, "reduced motion must not light all boxes simultaneously");
   assert.match(race, /status === "skipped" \|\| status === "unverified" \? expected/);
   assert.match(read("src/app/globals.css"), /\.race-answer-box--correct/);
   assert.match(read("src/app/globals.css"), /\.race-answer-box--incorrect/);
@@ -122,7 +122,7 @@ test("Pronounce is isolated; self-assessment alone marks and then advances", () 
   assert.doesNotMatch(speaker, /setFlipped|setMarks|setIndex|answer\(/);
 });
 
-test("navigation acknowledges immediately, and automatic prefetch stops at the safe private boundary", () => {
+test("navigation acknowledges immediately, and eager prefetch is opt-in and the private boundary remains safe", () => {
   assert.equal(read("src/lib/nav/progress.ts").match(/NAVIGATION_FEEDBACK_DELAY_MS = (\d+)/)?.[1], "60");
   const link = read("src/components/shell/LinkPending.tsx");
   assert.match(link, /NAVIGATION_FEEDBACK_DELAY_MS/);
@@ -135,7 +135,7 @@ test("navigation acknowledges immediately, and automatic prefetch stops at the s
   assert.match(outlet, /role="status" aria-live="polite"/);
   assert.match(outlet, /onClick=\{retryNavigation\}/);
   assert.match(frame, /data-entry-frame/);
-  assert.match(read("src/components/interaction/InstantLink.tsx"), /prefetch=\{prefetch \?\? null\}/);
+  assert.match(read("src/components/interaction/InstantLink.tsx"), /prefetch=\{prefetch \?\? false\}/);
   assert.doesNotMatch(sidebar, /prefetch=\{false\}/);
   assert.match(read("src/app/(app)/loading.tsx"), /<RouteEntryLoading \/>/);
   assert.match(frame, /data-private-loading-boundary=\{privateBoundary \? "true"/);

@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { requireAdministrator } from "@/lib/auth/current-user";
+import { actorOf, requireStaff } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { isUuid } from "@/lib/validation/ids";
 import { ResourceComposer } from "@/components/resources/ResourceComposer";
 import { listResourceBlocks, toResourceBlockView } from "@/lib/data/resources";
-import { isResourceOwnerType, loadResourceOwner } from "@/lib/services/resources/owners";
+import { isResourceOwnerType, loadResourceOwner, mayManageResourceOwner } from "@/lib/services/resources/owners";
 import { kindLabel } from "@/lib/services/resources/labels";
 
 export const metadata = { title: "Materials" };
@@ -27,13 +27,13 @@ export default async function AdminMaterialsEditorPage({
 }: {
   params: Promise<{ type: string; id: string }>;
 }) {
-  const administrator = await requireAdministrator();
+  const administrator = await requireStaff();
   if (!administrator) redirect("/dashboard");
   const { type, id } = await params;
   if (!isResourceOwnerType(type) || !isUuid(id)) notFound();
 
   const owner = await loadResourceOwner(type, id);
-  if (!owner) notFound();
+  if (!owner || !mayManageResourceOwner(actorOf(administrator), owner)) notFound();
 
   const dict = getDictionary(await getLocale());
   const blocks = toResourceBlockView(await listResourceBlocks(type, id));

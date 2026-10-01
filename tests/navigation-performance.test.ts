@@ -33,7 +33,7 @@ test("navigation acknowledges the destination immediately without replacing Next
   assert.match(outlet, /role="status" aria-live="polite"/);
   assert.match(outlet, /onClick=\{retryNavigation\}/);
   assert.match(outlet, /navigation\.routeKey/);
-  assert.match(link, /prefetch=\{prefetch \?\? null\}/);
+  assert.match(link, /prefetch=\{prefetch \?\? false\}/);
 });
 
 test("back and forward restore main scroll while ordinary links start at the top", () => {

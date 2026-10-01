@@ -56,10 +56,10 @@ test("W12: plain transcript is kept, timed lines stay timed, mixed input is refu
   assert.deepEqual(parseTranscriptInput("0:12 Welcome.\nno timestamp here"), { kind: "mixed", untimedLines: [2] });
 });
 
-test("W12: the studio renders a plain transcript behind the same explicit reveal", () => {
+test("W12 superseded UI: native captions replace the reveal; legacy transcript storage remains compatible", () => {
   const studio = read("src/components/courses/VideoLessonStudio.tsx");
-  assert.match(studio, /else if \(plainParagraphs\.length > 0\) list\.push\("transcript"\);/);
-  assert.match(studio, /data-video-transcript-kind="plain"/);
+  assert.doesNotMatch(studio, /data-video-transcript-reveal|list\.push\("transcript"\)/);
+  assert.match(read("src/lib/services/video/provider.ts"), /cc_load_policy: "1"/);
   for (const page of ["src/app/(app)/video-lessons/[id]/page.tsx", "src/app/(app)/courses/ielts/lessons/[lessonId]/page.tsx"]) {
     assert.match(read(page), /transcriptText: (video\.)?videoLesson\.transcriptText \?\? null/);
   }
