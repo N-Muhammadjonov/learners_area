@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
-import { buildAll, PROVENANCE } from "../scripts/build-retention-drafts.ts";
+import { buildAll, PROVENANCE } from "../scripts/build-retention-drafts";
 
 test("N14: 75 retention drafts build with zero structural problems", () => {
   const { pairs, problems } = buildAll();
