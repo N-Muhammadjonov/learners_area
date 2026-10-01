@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { requireActiveUser } from "@/lib/auth/current-user";
+import { enforce, RULES } from "@/lib/http/rate-limit";
 import {
+  sessionForParticipant,
   acceptInvite, acceptRules, blockUser, closeInvite, getState, goOffline, goOnline, hangup, heartbeat, invite, listOnline, practiceStarted, reportConnection,
 } from "@/lib/data/live-partner";
 import { LIVE_PARTNER_ERROR_STATUS, LivePartnerError } from "@/lib/live-partner/rules";
-import { issueSignalToken, signalConfigured } from "@/lib/live-partner/signal-token";
+import { issueSignalToken, realtimeReadiness, turnCredentials } from "@/lib/live-partner/signal-token";
 
 const uuid = z.string().uuid();
 const action = z.discriminatedUnion("action", [
@@ -30,9 +32,12 @@ const noStore = { headers: { "Cache-Control": "private, no-store" } };
 export async function GET() {
   const user = await requireActiveUser();
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
-  const [state, online] = await Promise.all([getState(user.id), listOnline(user.id)]);
-  return NextResponse.json({ ...state, online, realtimeConfigured: signalConfigured() }, noStore);
+  const [state, online, realtime] = await Promise.all([getState(user.id), listOnline(user.id), realtimeReadiness()]);
+  return NextResponse.json({ ...state, online, realtime }, noStore);
 }
+
+/** Entering a call requires a transport that can carry it right now. */
+const NEEDS_TRANSPORT = new Set(["go_online", "invite", "accept"]);
 
 /** POST — one action; the user id is ALWAYS the session's, never the body's. */
 export async function POST(req: NextRequest) {
@@ -41,6 +46,14 @@ export async function POST(req: NextRequest) {
   const parsed = action.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({ error: "invalid_input" }, { status: 400 });
   const body = parsed.data;
+  const limited = enforce(RULES.livePartnerAction, user.id)
+    ?? (body.action === "invite" ? enforce(RULES.livePartnerInvite, user.id) : null)
+    ?? (body.action === "signal_token" ? enforce(RULES.livePartnerToken, user.id) : null);
+  if (limited) return limited;
+  if (NEEDS_TRANSPORT.has(body.action)) {
+    const realtime = await realtimeReadiness();
+    if (!realtime.ready) return NextResponse.json({ error: "realtime_not_configured", reason: realtime.reason }, { status: 503, ...noStore });
+  }
   try {
     switch (body.action) {
       case "accept_rules": await acceptRules(user.id, body.version); break;
@@ -56,15 +69,16 @@ export async function POST(req: NextRequest) {
       case "hangup": await hangup(user.id, body.sessionId); break;
       case "block": await blockUser(user.id, body.userId); break;
       case "signal_token": {
-        const state = await getState(user.id);
-        if (state.sessionId !== body.sessionId) throw new LivePartnerError("session_not_found");
-        const token = await issueSignalToken({ userId: user.id, sessionId: body.sessionId });
-        if (!token) return NextResponse.json({ error: "realtime_not_configured" }, { status: 503, ...noStore });
-        return NextResponse.json({ token, url: process.env.LIVE_PARTNER_SIGNAL_URL, relayOnly: true }, noStore);
+        // Only a participant of a live (not ended) session; the shared secret never leaves the server.
+        const session = await sessionForParticipant(user.id, body.sessionId);
+        const token = await issueSignalToken({ userId: user.id, ...session });
+        const turn = turnCredentials(user.id);
+        if (!token || !turn) return NextResponse.json({ error: "realtime_not_configured" }, { status: 503, ...noStore });
+        return NextResponse.json({ token, url: process.env.LIVE_PARTNER_SIGNAL_URL, role: session.role, ...turn }, noStore);
       }
     }
-    const [state, online] = await Promise.all([getState(user.id), listOnline(user.id)]);
-    return NextResponse.json({ ok: true, ...state, online, realtimeConfigured: signalConfigured() }, noStore);
+    const [state, online, realtime] = await Promise.all([getState(user.id), listOnline(user.id), realtimeReadiness()]);
+    return NextResponse.json({ ok: true, ...state, online, realtime }, noStore);
   } catch (error) {
     if (error instanceof LivePartnerError) return NextResponse.json({ error: error.code }, { status: LIVE_PARTNER_ERROR_STATUS[error.code], ...noStore });
     throw error;

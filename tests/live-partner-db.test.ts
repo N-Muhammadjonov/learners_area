@@ -99,6 +99,7 @@ test("vanished participant past grace ends the call and releases the other", asy
   await heartbeat(ids.b!, at(152), conn); await heartbeat(ids.a!, at(152), conn);
   const inv = await invite(ids.a!, ids.b!, at(153), conn);
   const s = await acceptInvite(ids.b!, inv.id, at(154), conn);
+  await reportConnection(ids.a!, s.id, "connected", at(155), conn); // media up; then A vanishes
   await heartbeat(ids.b!, at(200), conn);
   await heartbeat(ids.b!, at(220), conn);
   const st = await getState(ids.b!, at(220), conn);
@@ -109,12 +110,12 @@ test("vanished participant past grace ends the call and releases the other", asy
 
 test("signal token: audience/issuer/expiry bound; tamper and wrong secret rejected; none without secret", async () => {
   const secret = "x".repeat(40);
-  const token = (await issueSignalToken({ userId: ids.a!, sessionId: "00000000-0000-4000-8000-000000000001" }, secret, T0))!;
-  assert.deepEqual(await verifySignalToken(token, secret, at(60)), { userId: ids.a!, sessionId: "00000000-0000-4000-8000-000000000001" });
+  const token = (await issueSignalToken({ userId: ids.a!, peerId: ids.b!, role: "offerer", sessionId: "00000000-0000-4000-8000-000000000001" }, secret, T0))!;
+  assert.deepEqual(await verifySignalToken(token, secret, at(60)), { userId: ids.a!, peerId: ids.b!, role: "offerer", sessionId: "00000000-0000-4000-8000-000000000001" });
   await assert.rejects(verifySignalToken(token, secret, at(200)));
   await assert.rejects(verifySignalToken(token, "y".repeat(40), at(10)));
   await assert.rejects(verifySignalToken(token.slice(0, -2) + "aa", secret, at(10)));
-  assert.equal(await issueSignalToken({ userId: "u", sessionId: "s" }, undefined), null);
+  assert.equal(await issueSignalToken({ userId: "u", peerId: "p", role: "answerer", sessionId: "s" }, undefined), null);
 });
 
 test("questions: one filter over the canonical bank, grouped by part, diacritic-insensitive", async () => {
@@ -127,4 +128,29 @@ test("questions: one filter over the canonical bank, grouped by part, diacritic-
   assert.deepEqual(Object.values(filterQuestions(rows, "")).map((g) => g.length), [1, 1, 1]);
   assert.deepEqual(filterQuestions(rows, "cafe").part2.map((r) => r.id), ["2"]);
   assert.deepEqual(filterQuestions(rows, "move cities").part3.map((r) => r.id), ["3"]);
+});
+
+test("CONNECTING cannot hang forever even while both heartbeats continue; repeated reconnecting reports do not extend grace", async () => {
+  const { sessionForParticipant } = await import("../src/lib/data/live-partner");
+  for (const k of ["a", "b"]) await heartbeat(ids[k]!, at(300), conn);
+  await goOnline(ids.a!, at(300), conn); await goOnline(ids.b!, at(300), conn);
+  await database.query(`delete from live_partner_blocks`);
+  const inv = await invite(ids.a!, ids.b!, at(301), conn);
+  const s = await acceptInvite(ids.b!, inv.id, at(302), conn);
+  assert.deepEqual(await sessionForParticipant(ids.b!, s.id, conn), { sessionId: s.id, peerId: ids.a!, role: "answerer" });
+  await assert.rejects(sessionForParticipant(ids.c!, s.id, conn), code("session_not_found"));
+  for (const t of [320, 340]) { await heartbeat(ids.a!, at(t), conn); await heartbeat(ids.b!, at(t), conn); }
+  assert.equal((await getState(ids.a!, at(340), conn)).state, "connecting");
+  await heartbeat(ids.a!, at(348), conn); await heartbeat(ids.b!, at(348), conn);
+  assert.equal((await getState(ids.a!, at(348), conn)).state, "available");
+  await assert.rejects(sessionForParticipant(ids.a!, s.id, conn), code("session_ended"));
+  const [row] = await database.query<{ end_reason: string; connection_outcome: string }>(`select end_reason, connection_outcome from live_partner_sessions where id = $1`, [s.id]);
+  assert.deepEqual(row, { end_reason: "connect_timeout", connection_outcome: "never_connected" });
+
+  const inv2 = await invite(ids.a!, ids.b!, at(349), conn);
+  const s2 = await acceptInvite(ids.b!, inv2.id, at(350), conn);
+  await reportConnection(ids.a!, s2.id, "connected", at(351), conn);
+  await reportConnection(ids.a!, s2.id, "reconnecting", at(352), conn);
+  for (const t of [370, 390, 410]) { await heartbeat(ids.b!, at(t), conn); await heartbeat(ids.a!, at(t), conn); await reportConnection(ids.a!, s2.id, "reconnecting", at(t), conn).catch(() => {}); }
+  assert.equal((await getState(ids.a!, at(413), conn)).sessionId, null, "ended after 60 s of reconnecting");
 });

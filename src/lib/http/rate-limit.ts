@@ -53,6 +53,10 @@ export const RULES = {
   evaluation: { name: "evaluation", limit: 60, windowMs: 15 * 60_000 },
   uploadIntent: { name: "upload_intent", limit: 120, windowMs: 15 * 60_000 },
   vocabularySearch: { name: "vocabulary_search", limit: 300, windowMs: 60_000 },
+  /** Live Partner actions per user (heartbeats included); invites are a subset. */
+  livePartnerAction: { name: "live_partner_action", limit: 120, windowMs: 60_000 },
+  livePartnerInvite: { name: "live_partner_invite", limit: 20, windowMs: 10 * 60_000 },
+  livePartnerToken: { name: "live_partner_token", limit: 30, windowMs: 10 * 60_000 },
 } as const satisfies Record<string, RateLimitRule>;
 
 function limitFor(rule: RateLimitRule): number {

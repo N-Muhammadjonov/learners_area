@@ -18,6 +18,8 @@ type Tx = Parameters<Parameters<Database["transaction"]>[0]>[0];
 export const HEARTBEAT_FRESH_MS = 45_000;
 export const INVITE_TTL_MS = 30_000;
 export const RECONNECT_GRACE_MS = 60_000;
+/** A call that never reaches media within this window ends instead of hanging in CONNECTING. */
+export const CONNECT_TIMEOUT_MS = 45_000;
 
 async function lockPresence(tx: Tx, ids: string[], now: Date) {
   const ordered = [...new Set(ids)].sort();
@@ -57,6 +59,16 @@ async function sweep(tx: Tx, now: Date) {
   for (const row of stale.rows as { id: string; user_a: string; user_b: string }[]) {
     await endSessionTx(tx, row.id, now, "reconnect_timeout");
   }
+  // Heartbeats alone must not keep a call alive: no media within the connect
+  // window, or a participant stuck RECONNECTING past the grace window, ends it.
+  const connectCutoff = new Date(now.getTime() - CONNECT_TIMEOUT_MS);
+  const stuck = await tx.execute(sql`
+    select s.id, case when s.connected_at is null then 'connect_timeout' else 'reconnect_timeout' end as reason
+      from live_partner_sessions s
+     where s.ended_at is null and (
+       (s.connected_at is null and s.started_at < ${connectCutoff})
+       or exists (select 1 from live_partner_presence p where p.session_id = s.id and p.state = 'reconnecting' and p.updated_at < ${cutoff}))`);
+  for (const row of stuck.rows as { id: string; reason: string }[]) await endSessionTx(tx, row.id, now, row.reason);
 }
 
 async function endSessionTx(tx: Tx, sessionId: string, now: Date, reason: string) {
@@ -219,9 +231,11 @@ export async function reportConnection(userId: string, sessionId: string, status
   return connection.transaction(async (tx) => {
     const s = await ownSession(tx, userId, sessionId);
     if (s.endedAt) throw new LivePartnerError("session_ended");
-    await lockPresence(tx, [s.userA, s.userB], now);
+    const rows = await lockPresence(tx, [s.userA, s.userB], now);
+    const target = status === "connected" ? "in_call" : "reconnecting";
+    if (rows.get(userId)!.state === target) return; // repeated reports must not extend the grace window
     if (status === "connected" && !s.connectedAt) await tx.update(livePartnerSessions).set({ connectedAt: now }).where(eq(livePartnerSessions.id, s.id));
-    await setState(tx, userId, status === "connected" ? "in_call" : "reconnecting", now, s.id);
+    await setState(tx, userId, target, now, s.id);
   });
 }
 
@@ -306,4 +320,12 @@ export async function getLivePartnerProfile(userId: string, connection: Database
   const [u] = await connection.select({ gender: users.gender }).from(users).where(eq(users.id, userId));
   const scores = await speakingScores(connection, [userId]);
   return { avatar: u?.gender === "female" ? ("b" as const) : ("a" as const), hasGender: Boolean(u?.gender), speakingScore: scores.get(userId) ?? null };
+}
+
+/** Participant view of a LIVE session for the realtime token; throws for others/ended. */
+export async function sessionForParticipant(userId: string, sessionId: string, connection: Database = db) {
+  const [s] = await connection.select().from(livePartnerSessions).where(eq(livePartnerSessions.id, sessionId));
+  if (!s || (s.userA !== userId && s.userB !== userId)) throw new LivePartnerError("session_not_found");
+  if (s.endedAt) throw new LivePartnerError("session_ended");
+  return { sessionId: s.id, peerId: s.userA === userId ? s.userB : s.userA, role: s.userA === userId ? ("offerer" as const) : ("answerer" as const) };
 }
