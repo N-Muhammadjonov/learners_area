@@ -41,8 +41,18 @@ test("readiness: env alone is not ready — the service must answer /healthz; fa
   assert.deepEqual(await realtimeReadiness(env, down, 1_000), { ready: false, reason: "service_unreachable" });
   assert.deepEqual(calls, ["https://signal.example.test/healthz"]);
   resetReadinessCache(); calls = [];
-  const up = (async (u: string) => { calls.push(u); return new Response("{}", { status: 200 }); }) as unknown as typeof fetch;
+  const up = (async (u: string) => { calls.push(u); return Response.json({ ok: true, service: "learners-area-live-signal" }); }) as unknown as typeof fetch;
   assert.deepEqual(await realtimeReadiness(env, up, 2_000), { ready: true });
   await realtimeReadiness(env, up, 3_000);
   assert.equal(calls.length, 1, "cached 30 s");
+});
+
+
+test("readiness rejects arbitrary HTTP 200 and does not reuse another host health result", async () => {
+  resetReadinessCache();
+  const up = (async () => Response.json({ ok: true, service: "learners-area-live-signal" })) as typeof fetch;
+  assert.equal((await realtimeReadiness(env, up, 1000)).ready, true);
+  const another = { ...env, LIVE_PARTNER_SIGNAL_URL: "wss://other.example.test/signal" };
+  const wrong = (async () => Response.json({ ok: true })) as typeof fetch;
+  assert.equal((await realtimeReadiness(another, wrong, 1001)).ready, false);
 });

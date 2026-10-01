@@ -39,6 +39,7 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import pg from "pg";
 import { legacySenseKeyOf as senseKeyOf, senseKeyOf as semanticKeyOf } from "../src/lib/services/vocabulary/dedupe.ts";
+import { planImportSenseKeys } from "../src/lib/services/vocabulary/import-keys.ts";
 
 // `pg` is CommonJS: with an ESM entry point the named exports are not
 // guaranteed, so the default export is destructured instead.
@@ -505,6 +506,7 @@ function buildPlan(bundle) {
     const senseKey = senseKeyOf({ term: lexeme.lemma, partOfSpeech: lexeme.part_of_speech, meaning: definition });
     senseKeyBySenseRef.set(sense.id, senseKey);
     lexemes.push({
+      sourceSenseId: sense.id,
       senseKey,
       term: lexeme.lemma,
       partOfSpeech: lexeme.part_of_speech ?? null,
@@ -516,13 +518,13 @@ function buildPlan(bundle) {
     });
   }
 
-  const meaningByLegacyKey = new Map();
-  for (const row of lexemes) {
-    const identity = semanticKeyOf({ term: row.term, partOfSpeech: row.partOfSpeech, meaning: row.definitionEn });
-    const previous = meaningByLegacyKey.get(row.senseKey);
-    if (previous && previous !== identity) stop("Source contains colliding legacy sense keys; reconcile explicitly before import. Nothing was written.");
-    meaningByLegacyKey.set(row.senseKey, identity);
+  const identities = planImportSenseKeys(lexemes);
+  for (let i = 0; i < lexemes.length; i++) {
+    Object.assign(lexemes[i], identities[i]);
+    senseKeyBySenseRef.set(lexemes[i].sourceSenseId, lexemes[i].senseKey);
   }
+  const resolved = identities.filter((row) => row.collisionResolved);
+  if (resolved.length) log(`Lexical identity: ${resolved.length} source senses use full v2 keys; definitions and references preserved.`);
   const lexemeIdBySenseKey = new Map(lexemes.map((row) => [row.senseKey, row]));
   const occurrences = [];
   for (const occurrence of bundle.lexical_occurrences) {
@@ -565,18 +567,29 @@ async function insertLexicon(client, lexemes, occurrencesBySenseKey, plans) {
   const created = { lexemes: 0, occurrences: 0 };
   // A rerun may reuse a historic key, but never an unrelated definition hidden
   // by that key's old punctuation/truncation rules. Throw rolls back the import.
-  const existing = await client.query("select term, part_of_speech, definition_en, sense_key from lexemes where sense_key = any($1::text[])", [lexemes.map((row) => row.senseKey)]);
+  const existing = await client.query("select term, part_of_speech, definition_en, sense_key from lexemes where sense_key = any($1::text[])", [lexemes.flatMap((row) => [row.senseKey, row.legacyKey])]);
   const planned = new Map(lexemes.map((row) => [row.senseKey, row]));
   for (const row of existing.rows) {
     const wanted = planned.get(row.sense_key);
+    if (!wanted) continue; // historic collision key is checked by full identity below
     if (semanticKeyOf({ term: row.term, partOfSpeech: row.part_of_speech, meaning: row.definition_en }) !== semanticKeyOf({ term: wanted.term, partOfSpeech: wanted.partOfSpeech, meaning: wanted.definitionEn })) {
       throw new Error("Existing lexical identity conflicts with the import; explicit reconciliation is required.");
     }
   }
 
+  // Reuse a historic row only when its complete definition and POS agree.
+  // Keep the plan's keys for source references, mapping them to the reused ID.
+  const aliases = new Map();
+  const inserts = lexemes.filter((wanted) => {
+    const identity = semanticKeyOf({ term: wanted.term, partOfSpeech: wanted.partOfSpeech, meaning: wanted.definitionEn });
+    const historic = existing.rows.find((row) => row.sense_key === wanted.legacyKey && semanticKeyOf({ term: row.term, partOfSpeech: row.part_of_speech, meaning: row.definition_en }) === identity);
+    if (historic && historic.sense_key !== wanted.senseKey && !existing.rows.some((row) => row.sense_key === wanted.senseKey)) { aliases.set(wanted.senseKey, historic.sense_key); return false; }
+    return true;
+  });
 
-  for (let i = 0; i < lexemes.length; i += 200) {
-    const batch = lexemes.slice(i, i + 200);
+
+  for (let i = 0; i < inserts.length; i += 200) {
+    const batch = inserts.slice(i, i + 200);
     const values = [];
     const params = [];
     batch.forEach((row, index) => {
@@ -608,16 +621,17 @@ async function insertLexicon(client, lexemes, occurrencesBySenseKey, plans) {
   await client.query(
     `update lexemes set import_batch = coalesce(import_batch, $1)
       where sense_key = any($2::text[])`,
-    [BATCH_NAME, lexemes.map((row) => row.senseKey)]
+    [BATCH_NAME, lexemes.map((row) => aliases.get(row.senseKey) ?? row.senseKey)]
   );
 
   const idBySenseKey = new Map();
-  const keys = lexemes.map((row) => row.senseKey);
+  const keys = lexemes.flatMap((row) => [row.senseKey, aliases.get(row.senseKey)].filter(Boolean));
   for (let i = 0; i < keys.length; i += 500) {
     const slice = keys.slice(i, i + 500);
     const result = await client.query(`select id, sense_key from lexemes where sense_key = any($1::text[])`, [slice]);
     for (const row of result.rows) idBySenseKey.set(row.sense_key, row.id);
   }
+  for (const [key, historic] of aliases) idBySenseKey.set(key, idBySenseKey.get(historic));
 
   const passageIdByExternalId = new Map();
   const externalIds = plans.map((plan) => plan.externalId);

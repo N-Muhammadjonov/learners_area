@@ -150,7 +150,7 @@ export function createSignalServer({ secret, allowedOrigins = [], now = () => Da
   }
 
   const server = http.createServer((req, res) => {
-    if (req.url === "/healthz") { res.writeHead(200, { "content-type": "application/json", "cache-control": "no-store" }); return res.end(JSON.stringify({ ok: true, rooms: rooms.size })); }
+    if (req.url === "/healthz") { res.writeHead(200, { "content-type": "application/json", "cache-control": "no-store" }); return res.end(JSON.stringify({ ok: true, service: "learners-area-live-signal", rooms: rooms.size })); }
     res.writeHead(404); res.end();
   });
   server.on("upgrade", (req, socket) => {
@@ -170,6 +170,7 @@ export function createSignalServer({ secret, allowedOrigins = [], now = () => Da
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
+  if (!process.env.ALLOWED_ORIGINS?.trim()) throw new Error("ALLOWED_ORIGINS must explicitly name the app origins");
   const { server } = createSignalServer({
     secret: process.env.LIVE_PARTNER_SIGNAL_SECRET,
     allowedOrigins: (process.env.ALLOWED_ORIGINS ?? "").split(",").map((s) => s.trim()).filter(Boolean),

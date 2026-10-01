@@ -53,6 +53,9 @@ export const SpeechToTextService = {
         },
       };
     }
+    if (provider.type === "external" && !readCoachConfig().externalEnabled) {
+      return { ok: false, failure: { reason: "not_configured", detail: "External AI services are disabled", retryable: false } };
+    }
     if (!provider.capabilities.includes("speech-to-text")) {
       return {
         ok: false,

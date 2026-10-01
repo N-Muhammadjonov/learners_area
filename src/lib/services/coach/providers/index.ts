@@ -1,5 +1,6 @@
 import "server-only";
 import type { EvaluationProvider } from "../types";
+import { openAiProvider } from "./openai";
 
 /**
  * Bundled provider adapters.
@@ -24,4 +25,4 @@ import type { EvaluationProvider } from "../types";
  * RIWI itself is not listed here — it is registered directly by the registry so
  * that it can never be un-registered or overridden by configuration.
  */
-export const bundledProviders: readonly EvaluationProvider[] = [];
+export const bundledProviders: readonly EvaluationProvider[] = [openAiProvider];

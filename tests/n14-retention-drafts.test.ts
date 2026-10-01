@@ -82,6 +82,10 @@ test("N14: keyword lists do not score like a full meaningful recall", () => {
     const oneTermPerClaim = s.claims.map((c) => c.groups[0]!.anyOf[0]).join(", ");
     assert.ok(evaluateRecall(oneTermPerClaim, s).score < 100, `${p.id} one term per claim`);
     assert.ok(evaluateRecall(`${p.title}, reading, memory, important, people, years`, s).score < 50, `${p.id} unrelated list`);
+    for (const separator of [", ", "; ", "\n"]) {
+      const everyTerm = s.claims.flatMap((c) => c.groups.map((g) => g.anyOf[0]!)).join(separator);
+      assert.ok(evaluateRecall(everyTerm, s).score < 100, `${p.id} all isolated rubric terms (${JSON.stringify(separator)})`);
+    }
   }
 });
 

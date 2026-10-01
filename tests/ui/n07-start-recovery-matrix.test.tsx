@@ -123,11 +123,15 @@ test("N07 matrix: reload (fresh mount) with or without a server attempt performs
 
 test("N07 matrix: leaving during the recheck aborts it and nothing is written afterwards", async () => {
   let recheckSignal: AbortSignal | null | undefined;
-  const m = install(async (_u, signal) => { recheckSignal = signal; return await new Promise<Response>(() => {}); });
+  let started!: () => void;
+  const recheckStarted = new Promise<void>((resolve) => { started = resolve; });
+  const m = install(async (_u, signal) => { recheckSignal = signal; started(); return await new Promise<Response>(() => {}); });
   try { await mount(null, async (root) => {
-    await act(async () => must<HTMLButtonElement>("[data-retention-start]").click()); await wait(40);
+    await act(async () => must<HTMLButtonElement>("[data-retention-start]").click());
+    await act(async () => { await recheckStarted; });
     assert.ok(recheckSignal, "recheck started");
     await act(async () => root.unmount());
+    assert.equal(recheckSignal.aborted, true, "leave cancels the in-flight authoritative read");
     await wait(60);
     assert.equal(m.writes().length, 1);
   }); } finally { m.restore(); }

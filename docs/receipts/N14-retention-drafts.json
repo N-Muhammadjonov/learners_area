@@ -18,11 +18,11 @@
     },
     "B1": {
       "min": 162,
-      "max": 169
+      "max": 170
     },
     "B2": {
       "min": 242,
-      "max": 263
+      "max": 261
     },
     "C1": {
       "min": 280,
@@ -33,11 +33,11 @@
       "max": 421
     }
   },
-  "evaluatorVersion": "retention-deterministic-v4",
+  "evaluatorVersion": "retention-deterministic-v5",
   "checks": {
     "canonicalRecallScores100": 75,
     "wrongAndMissingValueMutationsChecked": 1444,
-    "sourceTextScores100": 67,
+    "sourceTextScores100": 70,
     "sourceTextBelow100": [
       {
         "id": "A2-02",
@@ -46,17 +46,6 @@
           {
             "claimId": "c1",
             "groupId": "family",
-            "cause": "sentence-scope-split"
-          }
-        ]
-      },
-      {
-        "id": "A2-05",
-        "score": 90,
-        "deficits": [
-          {
-            "claimId": "c2",
-            "groupId": "shower",
             "cause": "sentence-scope-split"
           }
         ]
@@ -104,31 +93,9 @@
             "cause": "sentence-scope-split"
           }
         ]
-      },
-      {
-        "id": "B1-14",
-        "score": 90,
-        "deficits": [
-          {
-            "claimId": "c1",
-            "groupId": "116",
-            "cause": "sentence-scope-split"
-          }
-        ]
-      },
-      {
-        "id": "B2-02",
-        "score": 90,
-        "deficits": [
-          {
-            "claimId": "c1",
-            "groupId": "million",
-            "cause": "sentence-scope-split"
-          }
-        ]
       }
     ]
   },
   "problems": [],
-  "sha256": "eabd94280a23d3c3e50c8e4f16b11db869757b0b5e64fd642190f8df5cc271d8"
+  "sha256": "94a3927a375b58fddea1744617343e24abd9ba6265f0d95a51e5882268fa4f39"
 }

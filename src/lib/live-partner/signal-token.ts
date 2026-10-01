@@ -31,18 +31,24 @@ export function signalConfigured(env: NodeJS.ProcessEnv = process.env) {
   );
 }
 
-let healthCache: { at: number; ok: boolean } | null = null;
+let healthCache: { at: number; url: string; ok: boolean } | null = null;
 /**
  * Ready only when configured AND the signalling service answers /healthz now
  * (cached 30 s). Users are never put into a call the transport cannot carry.
  */
 export async function realtimeReadiness(env: NodeJS.ProcessEnv = process.env, fetcher: typeof fetch = fetch, nowMs = Date.now()) {
   if (!signalConfigured(env)) return { ready: false as const, reason: "not_configured" as const };
-  if (healthCache && nowMs - healthCache.at < 30_000) return healthCache.ok ? { ready: true as const } : { ready: false as const, reason: "service_unreachable" as const };
-  const health = env.LIVE_PARTNER_SIGNAL_URL!.replace(/^wss:/, "https:").replace(/\/signal$/, "") + "/healthz";
+  const healthUrl = new URL(env.LIVE_PARTNER_SIGNAL_URL!);
+  healthUrl.protocol = "https:"; healthUrl.pathname = "/healthz"; healthUrl.search = ""; healthUrl.hash = "";
+  const health = healthUrl.toString();
+  if (healthCache && healthCache.url === health && nowMs >= healthCache.at && nowMs - healthCache.at < 30_000) return healthCache.ok ? { ready: true as const } : { ready: false as const, reason: "service_unreachable" as const };
   let ok = false;
-  try { ok = (await fetcher(health, { cache: "no-store", signal: AbortSignal.timeout(2_000) })).ok; } catch { ok = false; }
-  healthCache = { at: nowMs, ok };
+  try {
+    const response = await fetcher(health, { cache: "no-store", signal: AbortSignal.timeout(2_000) });
+    const body = response.ok ? await response.json() as { ok?: unknown; service?: unknown } : null;
+    ok = body?.ok === true && body.service === SIGNAL_AUDIENCE;
+  } catch { ok = false; }
+  healthCache = { at: nowMs, url: health, ok };
   return ok ? { ready: true as const } : { ready: false as const, reason: "service_unreachable" as const };
 }
 export function resetReadinessCache() { healthCache = null; }

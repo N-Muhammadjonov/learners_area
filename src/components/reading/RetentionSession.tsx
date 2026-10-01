@@ -93,6 +93,8 @@ export function RetentionSession({ dict, initial }: { dict: Dictionary; initial:
   const sessionMounted = useRef(false);
   const startController = useRef<AbortController | null>(null);
   const refreshController = useRef<AbortController | null>(null);
+  const recheckController = useRef<AbortController | null>(null);
+  const recheckTimer = useRef<number | null>(null);
   const [startOutcomeUnknown, setStartOutcomeUnknown] = useState(false);
   useEffect(() => {
     sessionMounted.current = true;
@@ -100,6 +102,8 @@ export function RetentionSession({ dict, initial }: { dict: Dictionary; initial:
       sessionMounted.current = false;
       startController.current?.abort();
       refreshController.current?.abort();
+      recheckController.current?.abort();
+      if (recheckTimer.current !== null) window.clearTimeout(recheckTimer.current);
     };
   }, []);
 
@@ -148,12 +152,12 @@ export function RetentionSession({ dict, initial }: { dict: Dictionary; initial:
    * means the POST did not land, so starting is allowed again.
    */
   const [rechecking, setRechecking] = useState(false);
-  const recheckController = useRef<AbortController | null>(null);
   const recheckActive = useCallback(async () => {
-    if (recheckController.current) return;
+    if (!sessionMounted.current || recheckController.current) return;
     const controller = new AbortController();
     recheckController.current = controller;
     const timer = window.setTimeout(() => controller.abort(), 8_000);
+    recheckTimer.current = timer;
     setRechecking(true);
     try {
       const response = await fetch("/api/retention/attempts", { cache: "no-store", signal: controller.signal });
@@ -167,6 +171,7 @@ export function RetentionSession({ dict, initial }: { dict: Dictionary; initial:
       if (sessionMounted.current) setError(dict.retentionMemory.startUnknownOutcome);
     } finally {
       window.clearTimeout(timer);
+      if (recheckTimer.current === timer) recheckTimer.current = null;
       if (recheckController.current === controller) recheckController.current = null;
       if (sessionMounted.current) setRechecking(false);
     }

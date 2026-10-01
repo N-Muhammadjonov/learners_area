@@ -6,7 +6,7 @@ Tom takes the number 12 bus to work every morning. Last Tuesday it was raining, 
 @ 25 s | Now he always checks his seat before leaving the bus. | 10 c! checks/check ; 15 c seat
 
 ### A2-02 | A New Neighbour
-Last month a new family moved into the flat next to Sara. There is a mother, a father and a small boy called Leo. Leo is six years old and he loves football. On the first weekend, Sara saw him alone in the garden with a ball. She asked if she could play too. They played for an hour and laughed a lot. Later, Leo's mother came out with two glasses of orange juice. She said thank you to Sara and invited her family for dinner on Friday. Sara's family brought a chocolate cake. Now the two families eat together every month, and Leo calls Sara his big sister.
+Last month a new family moved into the flat next to Sara; there is a mother, a father and a small boy called Leo. Leo is six years old and he loves football. On the first weekend, Sara saw him alone in the garden with a ball. She asked if she could play too. They played for an hour and laughed a lot. Later, Leo's mother came out with two glasses of orange juice. She said thank you to Sara and invited her family for dinner on Friday. Sara's family brought a chocolate cake. Now the two families eat together every month, and Leo calls Sara his big sister.
 @ 25 s | A new family with a small boy called Leo moved next to Sara. | 15 e! leo ; 10 c family
 @ 25 s | Leo is six years old and loves football. | 10 n six/6 ; 15 c! football
 @ 25 a | Leo's mother invited Sara's family for dinner on Friday. | 15 c! dinner ; 10 d friday
@@ -27,7 +27,7 @@ Next Sunday is my grandmother's seventieth birthday. My family wants to give her
 @ 25 a | The children are secretly learning an old song she used to sing. | 15 c! song ; 10 c secret/secretly
 
 ### A2-05 | A Day at the Zoo
-On Saturday, Amir visited the city zoo with his class. The bus left school at nine o'clock. First, they saw the elephants. The biggest one was taking a shower under a pipe of water, and the children laughed. Then they went to the monkey house. One small monkey took a boy's hat and ran away with it. A zookeeper got the hat back with a banana. At lunch, they ate sandwiches next to the lake. In the afternoon, Amir's favourite part was the penguins, because they swam very fast. He bought a penguin postcard for his mother before the bus went back to school.
+On Saturday, Amir visited the city zoo with his class. The bus left school at nine o'clock. First, they saw the elephants. The biggest elephant was taking a shower under a pipe of water, and the children laughed. Then they went to the monkey house. One small monkey took a boy's hat and ran away with it. A zookeeper got the hat back with a banana. At lunch, they ate sandwiches next to the lake. In the afternoon, Amir's favourite part was the penguins, because they swam very fast. He bought a penguin postcard for his mother before the bus went back to school.
 @ 25 s | Amir visited the city zoo with his class on Saturday. | 15 c! zoo ; 10 c class
 @ 25 s | The biggest elephant was taking a shower. | 15 e! elephant/elephants ; 10 c shower
 @ 25 a | A monkey took a boy's hat and a zookeeper got it back with a banana. | 10 e! monkey ; 8 c hat ; 7 c banana
@@ -48,7 +48,7 @@ One windy afternoon, Mrs Patel heard a strange sound from her garden. She looked
 @ 25 a | Coco now waits on David's wall every morning. | 15 c! wall ; 10 c every morning/morning
 
 ### A2-08 | A Rainy Holiday
-In August, Ben and his parents went camping in the mountains for a week. They wanted to walk, swim in the lake and cook outside. But it rained for five days. Their tent was small and everything inside it was wet. On the third day, they found a little museum in the next village. It had old farm tools and a room about the history of cheese. Ben thought it would be boring, but he loved it. They also played cards for hours in a café. On the last two days, the sun came out and they finally swam in the lake. Ben says it was his best holiday.
+In August, Ben and his parents went camping in the mountains for a week. They wanted to walk, swim in the lake and cook outside. But it rained for five days; their tent was small and everything inside it was wet. On the third day, they found a little museum in the next village. It had old farm tools and a room about the history of cheese. Ben thought it would be boring, but he loved it. They also played cards for hours in a café. On the last two days, the sun came out and they finally swam in the lake. Ben says it was his best holiday.
 @ 25 s | Ben and his parents went camping in the mountains in August. | 15 c! camping/camp ; 10 c mountains
 @ 25 s | It rained for five days and the tent was wet. | 15 n! five days/5 days ; 10 c tent
 @ 25 a | They visited a small museum about farm tools and the history of cheese. | 10 c! museum ; 15 c cheese

@@ -363,7 +363,7 @@ later affirmative one; answer scope keeps sentence boundaries, so a negation nev
 crosses a full stop and no phrase is matched across two sentences; a decimal
 point such as `1.27` no longer splits a sentence).
 
-**Authoring rule for negative facts (v4):** if the fact is itself negative
+**Authoring rule for negative facts (v4 and v5):** if the fact is itself negative
 ("the flat had no garden", "procrastination is not laziness"), the group must be
 the negative phrase (`no garden`, `not laziness`). A bare `garden` group is
 correctly refused whenever the learner writes the true negative sentence.
@@ -395,3 +395,6 @@ a solved problem.
 3. Add `rejectPhrases` for the most likely *wrong* version of the claim — the
    opposite of the fact, or a plausible confusion.
 4. Paste, check, save. Then take the exercise yourself before the learners do.
+
+### Evaluator v5
+New attempts use `retention-deterministic-v5`. Exact comma-, semicolon- or newline-separated rubric term lists are evaluated as separate evidence units, not combined into complete claims. This is a deterministic guard, not semantic understanding; human review is still required. Stored attempts are not regraded.

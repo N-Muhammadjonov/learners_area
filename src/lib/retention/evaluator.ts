@@ -220,14 +220,22 @@ export function evaluateClaim(claim: MeasurementClaim, units: string[][], senten
 }
 
 export function evaluateRecall(recallText: string, structure: MeasurementStructureV1): RetentionEvaluation {
-  const sentenceUnits = splitEvidenceUnits(recallText).map(unitTokens);
+  // An explicit list of isolated rubric terms contains separate fragments,
+  // not evidence that those terms describe the same fact. Do not stitch it
+  // together even for answer scope. Normal prose and terse factual sentences
+  // ("Company founded 1998") retain the ordinary, grammar-neutral matcher.
+  // Numeric separators such as 50,000 stay inside their term.
+  const listParts = recallText.split(/,(?!\d)|[;\n]/u).map((part) => part.trim()).filter(Boolean);
+  const rubricTerms = new Set(structure.claims.flatMap((claim) => claim.groups.flatMap((group) => group.anyOf.map((term) => tokens(term).join(" ")))));
+  const isolatedTermList = listParts.length >= 2 && listParts.every((part) => rubricTerms.has(tokens(part).join(" ")));
+  const sentenceUnits = (isolatedTermList ? listParts : splitEvidenceUnits(recallText)).map(unitTokens);
   // v4: the whole answer keeps its sentence boundaries as clause-boundary tokens,
   // so "…had no future. Cheap flights…" no longer negates "cheap" across the full
   // stop, and no authored phrase can be matched across two sentences.
   const wholeAnswer = sentenceUnits.flatMap((unit, index) => (index === 0 ? unit : [SENTENCE_BOUNDARY, ...unit]));
 
   const claims = structure.claims.map((claim) =>
-    evaluateClaim(claim, claim.scope === "sentence" ? sentenceUnits : [wholeAnswer], sentenceUnits)
+    evaluateClaim(claim, claim.scope === "sentence" || isolatedTermList ? sentenceUnits : [wholeAnswer], sentenceUnits)
   );
 
   const score = claims.reduce((sum, claim) => sum + claim.awardedPoints, 0);

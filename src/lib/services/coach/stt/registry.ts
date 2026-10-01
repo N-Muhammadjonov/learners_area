@@ -1,6 +1,7 @@
 import "server-only";
 import { NO_STT_PROVIDER_ID, readCoachConfig } from "../config";
 import type { SpeechToTextProvider } from "./types";
+import { openAiSttProvider } from "./openai";
 
 /**
  * Speech-to-text registry — the same shape as the evaluation registry, kept
@@ -35,10 +36,10 @@ export const sttRegistry = new SpeechToTextRegistry();
 
 /**
  * Extension point: add bundled STT adapters here exactly like evaluators.
- * Nothing is bundled today — no transcription vendor is chosen, and the service
+ * OpenAI is available when explicitly selected and configured; the service
  * reports `not_configured` rather than pretending otherwise.
  */
-export const bundledSttProviders: readonly SpeechToTextProvider[] = [];
+export const bundledSttProviders: readonly SpeechToTextProvider[] = [openAiSttProvider];
 
 for (const provider of bundledSttProviders) {
   sttRegistry.register(provider);

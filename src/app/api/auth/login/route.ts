@@ -3,6 +3,7 @@ import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { users } from "@/db/schema";
 import { loginSchema } from "@/lib/validation/auth";
+import { passwordLoginColumns } from "@/lib/auth/password-login-columns";
 import { verifyPassword } from "@/lib/auth/password";
 import { createSessionToken, SESSION_COOKIE, clearSessionCookies, sessionCookieOptions } from "@/lib/auth/session";
 import { RULES, accountKey, blockIfOver, clientKey, consume, reset } from "@/lib/http/rate-limit";
@@ -28,7 +29,9 @@ export async function POST(req: NextRequest) {
   // with a fixed code, and the driver's message stays in the server log.
   let user;
   try {
-    user = await db.query.users.findFirst({ where: eq(users.email, email) });
+    // Password sign-in does not depend on optional provider identity columns.
+    // Explicit projection also avoids fetching unrelated profile/private data.
+    user = await db.query.users.findFirst({ where: eq(users.email, email), columns: passwordLoginColumns });
   } catch (cause) {
     const reason = classifyDatabaseError(cause);
     if (!reason) throw cause;

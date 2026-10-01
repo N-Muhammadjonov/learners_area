@@ -575,7 +575,7 @@ test("v2: answer-scoped claims apply denials per sentence too", () => {
 
 test("v2: evaluator version is bumped for newly graded attempts", () => {
   // v4: occurrence-complete matching + sentence boundaries in answer scope (N14 audit).
-  assert.equal(RETENTION_EVALUATOR_VERSION, "retention-deterministic-v4");
+  assert.equal(RETENTION_EVALUATOR_VERSION, "retention-deterministic-v5");
 });
 
 const v4 = (scope: "answer" | "sentence") => structure({ schemaVersion: 1, maxScore: 100, claims: [{ id: "cheap", label: "Cheap flights replaced night trains", points: 100, scope, groups: [

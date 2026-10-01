@@ -142,9 +142,13 @@ test("no committed source file contains a live-looking credential", () => {
   }
 });
 
-test("no AI vendor is hardcoded into the application", () => {
+test("vendor references stay in server-only adapters and their registration, never app UI or data routes", () => {
   const vendors = ["openai", "anthropic", "gemini", "claude", "gpt-4", "mistral", "deepseek"];
   for (const file of SRC_FILES) {
+    if (file.startsWith("src/lib/services/coach/providers/openai/") || file === "src/lib/services/coach/stt/openai.ts" || file === "src/lib/services/coach/providers/index.ts" || file === "src/lib/services/coach/stt/registry.ts") {
+      assert.match(read(file), /^import "server-only";/m);
+      continue;
+    }
     const source = read(file).toLowerCase();
     for (const vendor of vendors) {
       assert.ok(!source.includes(vendor), `${file} references a specific vendor (${vendor})`);

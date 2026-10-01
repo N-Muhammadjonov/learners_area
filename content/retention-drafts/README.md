@@ -12,7 +12,7 @@ strict 100-point measurement structure. Sources are in `src/<LEVEL>.txt`.
 ## What the build actually proves (receipt: `docs/receipts/N14-retention-drafts.json`)
 
 Every check uses the production modules (`countWords`, `validateMeasurementStructure`,
-`evaluateRecall` at `retention-deterministic-v4`):
+`evaluateRecall` at `retention-deterministic-v5`):
 
 * **Word ranges:** each draft is inside its level's range.
 * **Grounding:** every rubric group is grounded in the text.
@@ -26,10 +26,7 @@ Every check uses the production modules (`countWords`, `validateMeasurementStruc
   mutations, all enforced.
 * **Keyword lists:** a list of unrelated topic words scores < 50, and one rubric term per claim
   scores < 100.
-* **Source text score:** recorded with its cause. 67/75 score 100. The other 8 score 90, all because
-  of `sentence-scope-split`: the source spreads one fact over two sentences, and sentence scope
-  deliberately refuses to stitch them. No deficit comes from negation or absence; the test
-  enforces this.
+* **Source text score:** all 75 now score 100. Eight source paragraphs were clarified to name the subject or join the two related sentences, preserving their facts and strict sentence-scope scoring. This is still not factual or human language approval.
 
 ## Root causes found by the audit (fixed)
 
@@ -50,8 +47,7 @@ joined labels scored < 100 and 20 whose source text scored < 100. The causes wer
 5. **Missing date/number groups:** years written in labels (C2-03 1945, 2019, and others) were not
    graded at all.
 
-**Known limitation (not fixed):** a bare list of the exact rubric terms still scores 100 on
-65/75 drafts. The scorer is keyword-based by design, and the rubric is never sent to learners.
+**Evaluator v5:** bare comma-, semicolon- and newline-separated exact rubric term lists now score below 100 for every draft (regression tests cover all 75). This does not turn deterministic phrase matching into semantic assessment. Human review and recall quality checks remain mandatory; the private rubric is never sent to learners.
 
 ## Boundaries
 
