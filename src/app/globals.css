@@ -1120,3 +1120,22 @@
 .listening-review-grid { display:grid; grid-template-columns:1fr; gap:24px; }
 @media(min-width:1000px){.listening-review-grid{grid-template-columns:minmax(0,1.65fr) minmax(0,1fr);}}
 .listening-question-nav { position:sticky; bottom:0; padding:12px; background:rgb(var(--paper-raised)); border:1px solid rgb(var(--ink-100)); border-radius:12px; display:flex; flex-wrap:wrap; gap:6px; z-index:20; }
+
+/* Original lightweight motion: transform-only loops, no animation library. */
+h1.font-display, h2.font-display, h3.font-display { font-weight: 700; }
+.la-welcome { position: relative; isolation: isolate; background: #080f21; }
+.la-welcome-cosmos { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: -1; }
+.la-welcome-aurora { position: absolute; width: min(90vw, 1100px); height: 70vh; top: 5%; left: 5%; background: radial-gradient(ellipse, #30628b35, transparent 65%); animation: la-aurora-drift 16s ease-in-out infinite alternate; }
+.la-welcome-ring { position: absolute; width: min(80vw, 800px); aspect-ratio: 1; border: 1px solid #e5bf5a30; border-radius: 50%; box-shadow: inset 0 0 60px #d3a94308, 0 0 50px #d3a94308; }
+.la-welcome-ring-one { left: -25%; top: -20%; animation: la-ring-drift 22s ease-in-out infinite alternate; }
+.la-welcome-ring-two { right: -28%; bottom: -45%; border-width: 2px; animation: la-ring-drift 28s ease-in-out -8s infinite alternate-reverse; }
+.la-welcome-heading { text-wrap: balance; }
+.la-welcome-heading .text-gold { background: linear-gradient(100deg, #b28d36, #ffe5a1 48%, #d3a943); background-clip: text; color: transparent; }
+.la-welcome-cta { box-shadow: 0 8px 40px #d3a94322; transition: transform .2s, box-shadow .2s; }
+.la-welcome-cta:hover { transform: translateY(-3px); box-shadow: 0 12px 45px #d3a94340; }
+@keyframes la-ring-drift { from { transform: translate3d(0,0,0) scale(1); } to { transform: translate3d(5%,8%,0) scale(1.12); } }
+@keyframes la-aurora-drift { from { transform: translate3d(0,0,0); } to { transform: translate3d(12%,8%,0); } }
+.listening-library-card { border-radius: 1.4rem; border-color: rgb(var(--ink-100)); transition: border-color .2s, transform .2s; }
+.listening-library-card:hover { border-color: rgb(var(--gold) / .6); transform: translateY(-2px); }
+.listening-library-badge { width: 100%; border-radius: 999px; padding: .45rem .8rem; font-weight: 700; background: rgb(var(--gold) / .12); }
+@media (prefers-reduced-motion: reduce) { .la-welcome-ring, .la-welcome-aurora { animation: none; } .la-welcome-cta:hover, .listening-library-card:hover { transform: none; } }

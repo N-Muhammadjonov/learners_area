@@ -22,7 +22,10 @@ export function FullListeningLibrary({ cards }: { cards: Card[] }) {
   );
   const completed = cards.reduce((n, t) => n + Number(t.completed), 0);
   return (
-    <section className="space-y-6" data-async-content="listening-tests">
+    <section
+      className="listening-library space-y-6"
+      data-async-content="listening-tests"
+    >
       <div className="card flex items-center justify-between">
         <span>Learning progress on this page</span>
         <span>
@@ -42,10 +45,20 @@ export function FullListeningLibrary({ cards }: { cards: Card[] }) {
             type="button"
             className={filter === name ? "btn-primary" : "btn-secondary"}
             aria-pressed={filter === name}
-            key={name}
+            key={
+              name === "All"
+                ? "✨ All"
+                : name === "Full Listening"
+                  ? "🎧 Full Listening"
+                  : `🎙️ ${name}`
+            }
             onClick={() => setFilter(name)}
           >
-            {name}
+            {name === "All"
+              ? "✨ All"
+              : name === "Full Listening"
+                ? "🎧 Full Listening"
+                : `🎙️ ${name}`}
           </button>
         ))}
         <label className="ml-auto">
@@ -59,9 +72,14 @@ export function FullListeningLibrary({ cards }: { cards: Card[] }) {
       </div>
       <div className="full-listening-grid">
         {visible.map((t) => (
-          <article key={t.id} className="card flex min-h-72 flex-col gap-4">
+          <article
+            key={t.id}
+            className="listening-library-card card flex min-h-72 flex-col gap-4"
+          >
             <div className="flex items-center justify-between gap-3">
-              <span className="badge">FULL LISTENING</span>
+              <span className="listening-library-badge badge">
+                40 QUESTIONS
+              </span>
               <span className="text-sm">
                 {Number(t.completed) === 5
                   ? "✓ Completed"
@@ -70,7 +88,7 @@ export function FullListeningLibrary({ cards }: { cards: Card[] }) {
                     : "Not started"}
               </span>
             </div>
-            <h2 className="font-display text-xl">{t.title}</h2>
+            <h2 className="font-display text-xl font-bold">{t.title}</h2>
             <p>4 Sections · 40 Questions · {Math.round(t.duration / 60)} min</p>
             <p>5 Activities</p>
             <div>
@@ -86,10 +104,10 @@ export function FullListeningLibrary({ cards }: { cards: Card[] }) {
               href={`/listening/tests/${t.id}`}
             >
               {Number(t.completed) === 5
-                ? "Review"
+                ? "📖 Review"
                 : t.started
-                  ? "Continue"
-                  : "Start"}
+                  ? "▶ Continue"
+                  : "▶ Start"}
             </Link>
           </article>
         ))}

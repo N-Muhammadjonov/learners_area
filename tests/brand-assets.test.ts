@@ -88,10 +88,10 @@ test("no brand artwork is duplicated outside the canonical directory", () => {
 });
 
 test("the theme picks the supplied file for that theme, never a filter", () => {
-  assert.equal(brandLogoFor("mark", "day"), BRAND_ASSETS.logoMarkLight);
-  assert.equal(brandLogoFor("mark", "night"), BRAND_ASSETS.logoMarkDark);
-  assert.equal(brandLogoFor("horizontal", "day"), BRAND_ASSETS.logoHorizontalLight);
-  assert.equal(brandLogoFor("horizontal", "night"), BRAND_ASSETS.logoHorizontalDark);
+  assert.equal(brandLogoFor("mark", "day"), BRAND_ASSETS.logoMarkDark);
+  assert.equal(brandLogoFor("mark", "night"), BRAND_ASSETS.logoMarkLight);
+  assert.equal(brandLogoFor("horizontal", "day"), BRAND_ASSETS.logoHorizontalDark);
+  assert.equal(brandLogoFor("horizontal", "night"), BRAND_ASSETS.logoHorizontalLight);
   // The master artwork is supplied once; it is returned for both themes rather
   // than manufactured from the other file.
   assert.equal(brandLogoFor("master", "day"), BRAND_ASSETS.logoMasterDark);

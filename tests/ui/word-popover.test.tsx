@@ -269,3 +269,27 @@ test("double-click does not focus a popup before native word selection", async (
     });
   } finally { t.mock.timers.reset(); }
 });
+
+test('Listening catalogue lookup displays a sourced meaning and saves under the canonical listening source', async () => {
+ let saved: Record<string, unknown> | undefined;
+ await page(async (url, options) => {
+  if (options.method === 'POST') { saved = JSON.parse(String(options.body)); return json({ok:true}); }
+  if (url.includes('folders')) return folderReply();
+  assert.ok(url.includes('/meaning?sourceId=qa-listening&q=decades'));
+  return json({contextual:{definitionEn:'Periods of ten years',translationUz:"o'n yilliklar",verificationStatus:null,sourceLabel:'Catalogue (unverified)'}});
+ }, async () => {
+  await click('[data-word="decades"]');
+  assert.ok(popupText().includes('Periods of ten years'));
+  assert.ok(popupText().includes('Catalogue (unverified)'));
+  await click('[data-word-save]');
+  assert.equal(saved?.sourceType,'listening'); assert.equal(saved?.sourceId,'qa-listening');
+  assert.equal(saved?.occurrenceId,undefined);
+ }, {sourceType:'listening',sourceId:'qa-listening',catalogueLookup:true});
+});
+test('Listening unknown meaning remains editable rather than inventing a translation', async () => {
+ await page(async (url) => url.includes('folders') ? folderReply() : json({contextual:null}), async () => {
+  await click('[data-word="decades"]');
+  assert.deepEqual(values(),['','']);
+  assert.equal(document.querySelector('[data-word-saved]'),null);
+ }, {sourceType:'listening',sourceId:'qa-listening',catalogueLookup:true});
+});

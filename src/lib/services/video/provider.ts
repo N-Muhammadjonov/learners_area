@@ -105,8 +105,8 @@ export function parseVideoInput(raw: string, options: { mediaOrigin?: string | n
 /**
  * The URL that goes into the iframe.
  *
- * `youtube-nocookie` is the privacy-enhanced domain, and `rel=0` keeps the
- * player from treating the embed as a recommendation feed. Parameters the
+ * `youtube-nocookie` is the privacy-enhanced domain. `rel=0` limits
+ * recommendations to the same channel; it does not disable them or branding. Parameters the
  * provider offers for the JavaScript API (`enablejsapi`) are added by the
  * player component, not here, so this stays a pure URL builder.
  */

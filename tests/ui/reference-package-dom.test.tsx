@@ -101,9 +101,9 @@ test("fonts and welcome: owner font roles, no VocaType assets, single authoritat
   assert.match(css, /\.academic-text \{ font-family: var\(--font-academic\)/);
   assert.match(css, /prefers-reduced-motion: reduce\) \{ \.la-welcome-chip, \.la-welcome-heading, \.la-welcome-cta \{ animation: none; \}/);
   const page = readFileSync("src/app/page.tsx", "utf8");
-  assert.equal((page.match(/<Link /g) ?? []).length, 1);
-  assert.match(page, /prefetch=\{false\} data-landing-cta/);
-  assert.match(page, /!user \? "\/login" : hasPrivateAccess\(user\.accountStatus\) \? "\/dashboard" : "\/pending"/);
+  assert.equal((page.match(/<Link\s/g) ?? []).length, 1);
+  assert.match(page, /prefetch=\{false\}\s+data-landing-cta/);
+  assert.match(page, /!user\s*\? "\/login"\s*:\s*hasPrivateAccess\(user\.accountStatus\)\s*\? "\/dashboard"\s*:\s*"\/pending"/);
 });
 
 test("academic-text applied to Reading, Listening, Writing and Grammar reading surfaces", () => {

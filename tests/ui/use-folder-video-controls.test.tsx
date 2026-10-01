@@ -134,3 +134,16 @@ test('Slow video progress survives subsequent player ticks and aborts only when 
     assert.equal(signal?.aborted,true);
   }finally{globalThis.fetch=original;}
 });
+
+test('TED end screen rejects forged messages and replaces the genuine completed frame with Replay', async () => {
+  await mounted(<VideoLessonStudio dict={en} lessonId="local" videoLesson={{id:'local',provider:'youtube',videoId:'iG9CE55wbtY',title:'QA video',beforeYouWatch:null,durationSeconds:null,transcript:null,transcriptSource:null,transcriptAttribution:null,notes:null}} questions={[]} initialProgress={null} />, async () => {
+    const frame=q<HTMLIFrameElement>('[data-video-frame]');
+    await act(async()=>window.dispatchEvent(new window.MessageEvent('message',{source:frame.contentWindow,origin:'https://untrusted.example',data:{event:'onStateChange',info:0}})));
+    assert.ok(document.querySelector('[data-video-frame]'));
+    await act(async()=>window.dispatchEvent(new window.MessageEvent('message',{source:frame.contentWindow,origin:'https://www.youtube-nocookie.com',data:{event:'onStateChange',info:0}})));
+    assert.equal(document.querySelector('[data-video-frame]'),null);
+    assert.ok(document.querySelector('[data-video-ended]'));
+    await act(async()=>q<HTMLButtonElement>('[data-video-ended] button').click());
+    assert.ok(document.querySelector('[data-video-frame]'));
+  });
+});

@@ -15,12 +15,13 @@ export function ClickableText(props: {
   sourceId: string;
   className?: string;
   occurrences?: OccurrenceSpan[];
+  catalogueLookup?: boolean;
 }) {
   // A changed source/text cannot keep an anchor or an async form from the old text.
   return <LexicalText key={JSON.stringify([props.sourceType, props.sourceId, props.text])} {...props} />;
 }
 
-function LexicalText({ dict, text, sourceType, sourceId, className = "", occurrences = [] }: Parameters<typeof ClickableText>[0]) {
+function LexicalText({ dict, text, sourceType, sourceId, className = "", occurrences = [], catalogueLookup = false }: Parameters<typeof ClickableText>[0]) {
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
   const [active, setActive] = useState<number | null>(null);
   const [cursor, setCursor] = useState<number | null>(null);
@@ -131,13 +132,14 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "", occurre
       </div>
       <span id={cursorId} role="status" className="sr-only">{cursor === null ? "" : tokens[cursor]?.value}</span>
       {active !== null && anchor && <WordPopover key={`${sourceType}:${sourceId}:${active}:${occurrence?.id ?? ""}`}
-        anchor={anchor} dict={dict} word={occurrence?.surfaceForm ?? tokens[active]!.clean} sourceType={sourceType} sourceId={sourceId} occurrenceId={occurrence?.id}
+        anchor={anchor} dict={dict} word={occurrence?.surfaceForm ?? tokens[active]!.clean} sourceType={sourceType} sourceId={sourceId} occurrenceId={occurrence?.id} catalogueLookup={catalogueLookup}
         onClose={() => close(true)} />}
     </div>
   );
 }
 
 function WordPopover({
+  catalogueLookup = false,
   occurrenceId,
   anchor,
   dict,
@@ -153,9 +155,10 @@ function WordPopover({
   onClose: () => void;
   anchor: HTMLElement;
   occurrenceId?: string;
+  catalogueLookup?: boolean;
 }) {
   const t = dict.vocabulary;
-  const [contextual, setContextual] = useState<{ definitionEn: string; translationUz: string | null; verificationStatus: string | null } | null>(null);
+  const [contextual, setContextual] = useState<{ definitionEn: string; translationUz: string | null; verificationStatus: string | null; sourceLabel?: string } | null>(null);
   const [known, setKnown] = useState<{ id: string; definitionEn: string; translationUz: string | null; mastery: string } | null>(null);
   const [loading, setLoading] = useState(true);
   const [meaning, setMeaning] = useState("");
@@ -213,13 +216,15 @@ function WordPopover({
     setError(null);
     void (async () => {
       const [lookup, folderResult] = await Promise.all([
-        requestJson<{ contextual?: { definitionEn: string; translationUz: string | null; verificationStatus: string | null }; known?: { id: string; mastery: string } | null; results?: { id: string; term: string; definitionEn: string; translationUz: string | null; mastery: string }[] }>(occurrenceId ? `/api/vocabulary/lookup?sourceId=${encodeURIComponent(sourceId)}&occurrenceId=${encodeURIComponent(occurrenceId)}` : `/api/vocabulary/search?q=${encodeURIComponent(word)}`, { method: "GET", signal: controller.signal }),
+        requestJson<{ contextual?: { definitionEn: string; translationUz: string | null; verificationStatus: string | null; sourceLabel?: string }; known?: { id: string; mastery: string } | null; results?: { id: string; term: string; definitionEn: string; translationUz: string | null; mastery: string }[] }>(occurrenceId ? `/api/vocabulary/lookup?sourceId=${encodeURIComponent(sourceId)}&occurrenceId=${encodeURIComponent(occurrenceId)}` : catalogueLookup ? `/api/vocabulary/meaning?sourceId=${encodeURIComponent(sourceId)}&q=${encodeURIComponent(word)}` : `/api/vocabulary/search?q=${encodeURIComponent(word)}`, { method: "GET", signal: controller.signal }),
         requestJson<{ folders: { id: string; name: string }[] }>("/api/vocabulary/folders", { method: "GET", signal: controller.signal }),
       ]);
       if (controller.signal.aborted) return;
-      if (occurrenceId && lookup.ok && typeof lookup.data?.contextual?.definitionEn === "string") {
+      if ((occurrenceId || catalogueLookup) && lookup.ok && typeof lookup.data?.contextual?.definitionEn === "string") {
         setContextual(lookup.data.contextual);
         if (lookup.data.known) setKnown({ ...lookup.data.known, ...lookup.data.contextual });
+      } else if (catalogueLookup && lookup.ok && lookup.data?.contextual === null) {
+        setContextual(null);
       } else if (!occurrenceId && lookup.ok && Array.isArray(lookup.data?.results)) {
         const exact = lookup.data.results.filter((hit) => typeof hit?.term === "string" && typeof hit.definitionEn === "string" && hit.term.toLowerCase() === word.toLowerCase());
         // Multiple saved senses are not enough evidence to pick one for this text.
@@ -230,7 +235,7 @@ function WordPopover({
       setLoading(false);
     })();
     return () => controller.abort();
-  }, [word, dict.auth, lookupVersion, occurrenceId, sourceId]);
+  }, [word, dict.auth, lookupVersion, occurrenceId, sourceId, catalogueLookup]);
 
   async function save() {
     setBusy(true);
@@ -292,7 +297,7 @@ function WordPopover({
           {contextual ? <div className="text-sm text-ink-700">
             <p>{contextual.definitionEn}</p>
             {contextual.translationUz && <p>{contextual.translationUz}</p>}
-            <p className="mt-1 text-xs text-ink-500">{contextual.verificationStatus === "verified" ? t.contextVerified : t.contextUnverified}</p>
+            <p className="mt-1 text-xs text-ink-500">{catalogueLookup ? contextual.sourceLabel : contextual.verificationStatus === "verified" ? t.contextVerified : t.contextUnverified}</p>
           </div> : <>
           <label className="text-xs text-ink-500">
             {t.add.definition}

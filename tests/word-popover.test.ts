@@ -16,5 +16,5 @@ test("Shared lexical text and popup DOM behavior regressions", (t) => {
   });
   t.diagnostic(result.stdout.trim());
   assert.equal(result.status, 0, result.stderr || result.stdout || result.error?.message);
-  assert.match(result.stdout, /tests 15/, "the component cases must actually execute");
+  assert.match(result.stdout, /tests 17/, "the component cases must actually execute");
 });

@@ -48,7 +48,7 @@ export default async function Hub({
               <span aria-hidden="true">
                 {["🎧", "🔎", "🔑", "🧩", "📚"][index]}
               </span>
-              <h2 className="font-display text-xl">{name}</h2>
+              <h2 className="font-display text-xl font-bold">{name}</h2>
               <p>
                 {state.complete
                   ? "✓ Completed"
@@ -61,6 +61,14 @@ export default async function Hub({
                   {state.latest.score} / {state.latest.total}
                 </p>
               )}
+              {activity === 1 && (
+                <Link
+                  className="btn-secondary"
+                  href={`/listening/tests/${id}/study`}
+                >
+                  🎛 Controlled practice · word lookup
+                </Link>
+              )}
               {locked ? (
                 <p className="mt-auto">Complete Full Exam to unlock.</p>
               ) : (
@@ -68,7 +76,11 @@ export default async function Hub({
                   className="btn-primary mt-auto"
                   href={`/listening/tests/${id}/${activity}`}
                 >
-                  {state.complete ? "Review / Try again" : "Start / Continue"}
+                  {activity === 1
+                    ? "🎧 IELTS Exam"
+                    : state.complete
+                      ? "Review / Try again"
+                      : "Start / Continue"}
                 </Link>
               )}
             </article>

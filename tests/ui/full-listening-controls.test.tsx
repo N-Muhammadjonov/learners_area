@@ -195,7 +195,7 @@ test("Library search and category filters operate locally without reloading or f
       assert.ok(document.body.textContent?.includes("2 / 5 completed"));
       await act(async () =>
         Array.from(document.querySelectorAll("button"))
-          .find((b) => b.textContent === "Section 1")!
+          .find((b) => b.textContent?.includes("Section 1"))!
           .click(),
       );
       assert.equal(document.querySelectorAll("article").length, 0);
@@ -246,5 +246,106 @@ test("Activity draft resumes only for its owner and canonical source", async () 
     );
   } finally {
     sessionStorage.removeItem(key);
+  }
+});
+
+const { FullListeningStudy } = await import(
+  "../../src/components/listening/FullListeningStudy"
+);
+test("Controlled study offers audio controls and lexical text without enabling an empty check", async () => {
+  let calls = 0;
+  const original = globalThis.fetch;
+  globalThis.fetch = async () => {
+    calls++;
+    return new Response("{}", { status: 503 });
+  };
+  try {
+    await mount(
+      React.createElement(FullListeningStudy, {
+        id,
+        userId: "qa-study",
+        title: "Study",
+        audioUrl: "/canonical.mp3",
+        imageUrl: null,
+        questions: [
+          {
+            number: 1,
+            text: "Weekly rent",
+            instruction: "One word",
+            options: [],
+          },
+        ],
+        sections: [
+          { number: 1, title: "Rent", transcript: "Weekly rent is eighty." },
+        ],
+        dict: en,
+      }),
+      async () => {
+        assert.equal(
+          document.querySelector("audio")?.hasAttribute("controls"),
+          true,
+        );
+        assert.ok(document.querySelector("[data-clickable-text]"));
+        assert.equal(
+          Array.from(document.querySelectorAll("button")).find((b) =>
+            b.textContent?.includes("Check practice"),
+          )?.disabled,
+          true,
+        );
+        assert.equal(calls, 0);
+      },
+    );
+  } finally {
+    globalThis.fetch = original;
+  }
+});
+test("Controlled study restores only this owner/source draft and retains it when check fails", async () => {
+  const original = globalThis.fetch;
+  const requests: string[] = [];
+  globalThis.fetch = async (url) => {
+    requests.push(String(url));
+    return new Response("failed", { status: 503 });
+  };
+  sessionStorage.setItem(
+    `la-listening-study:qa-study:${id}`,
+    JSON.stringify({ 1: "80" }),
+  );
+  try {
+    await mount(
+      React.createElement(FullListeningStudy, {
+        id,
+        userId: "qa-study",
+        title: "Study",
+        audioUrl: "/canonical.mp3",
+        imageUrl: null,
+        questions: [
+          {
+            number: 1,
+            text: "Weekly rent",
+            instruction: "One word",
+            options: [],
+          },
+        ],
+        sections: [],
+        dict: en,
+      }),
+      async () => {
+        const button = Array.from(document.querySelectorAll("button")).find(
+          (b) => b.textContent?.includes("Check practice"),
+        )!;
+        await act(async () => button.click());
+        assert.deepEqual(requests, [`/api/listening/full/${id}/study`]);
+        assert.equal(
+          document.querySelector<HTMLInputElement>('input[maxlength="500"]')
+            ?.value,
+          "80",
+        );
+        assert.ok(document.querySelector("[role=alert]"));
+        assert.equal(button.disabled, false);
+      },
+    );
+  } finally {
+    globalThis.fetch = original;
+    sessionStorage.clear();
   }
 });

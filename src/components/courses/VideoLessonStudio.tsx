@@ -64,6 +64,9 @@ export function VideoLessonStudio({
   const [state, setState] = useState(initialProgress?.state ?? "not_started");
   const [liveTime, setLiveTime] = useState<number | null>(null);
   const [blocked, setBlocked] = useState(false);
+  const [playbackEnded, setPlaybackEnded] = useState(false);
+  const [playbackGeneration, setPlaybackGeneration] = useState(0);
+  const [restartAt, setRestartAt] = useState(0);
   const [graded, setGraded] = useState<Record<string, { answer: string; correct: boolean }>>(
     initialProgress?.answers ?? {}
   );
@@ -98,7 +101,7 @@ export function VideoLessonStudio({
 
   // Built without the browser origin so the player is part of the server-rendered
   // page: the video starts loading with the lesson instead of after hydration.
-  const src = useMemo(() => (provider === "youtube" ? embedUrlFor(provider, videoLesson.videoId) : "about:blank"), [provider, videoLesson.videoId]);
+  const src = useMemo(() => (provider === "youtube" ? embedUrlFor(provider, videoLesson.videoId) + (restartAt > 0 ? `&start=${Math.floor(restartAt)}` : "") : "about:blank"), [provider, videoLesson.videoId, restartAt]);
   const direct = provider === "direct" ? directMedia ?? null : null;
   const directControls = useRef<DirectMediaControls | null>(null);
 
@@ -113,17 +116,21 @@ export function VideoLessonStudio({
   const seekTo = useCallback(
     (seconds: number) => {
       if (directControls.current) { directControls.current.seekTo(seconds); return; }
+      if (playbackEnded) { setRestartAt(seconds); setPlaybackGeneration(n => n + 1); setPlaybackEnded(false); return; }
       send({ event: "command", func: "seekTo", args: [seconds, true] });
       send({ event: "command", func: "playVideo", args: [] });
     },
-    [send]
+    [send, playbackEnded]
   );
 
   // Report position only when the validated player actually supplies it.
   useEffect(() => {
     const el = iframeRef.current;
     if (!el) return;
-    const ask = () => send({ event: "listening", id: 1, channel: "widget" });
+    const ask = () => {
+      send({ event: "listening", id: 1, channel: "widget" });
+      send({ event: "command", func: "addEventListener", args: ["onStateChange"] });
+    };
     let loadTimer: number | undefined;
     const onLoad = () => {
       ask();
@@ -141,7 +148,13 @@ export function VideoLessonStudio({
       } catch {
         return;
       }
-      const info = (data as { info?: { currentTime?: number } }).info;
+      if (!data || typeof data !== "object") return;
+      const message = data as { event?: string; info?: unknown };
+      // Replace the completed frame, rather than covering provider controls.
+      // Ignore untrusted windows/origins above and all non-state messages.
+      if (message.event === "onStateChange" && message.info === 0) setPlaybackEnded(true);
+      const info = message.info as { currentTime?: number; playerState?: number } | undefined;
+      if (message.event === "infoDelivery" && info?.playerState === 0) setPlaybackEnded(true);
       if (typeof info?.currentTime === "number" && Number.isFinite(info.currentTime) && info.currentTime >= 0) setLiveTime(info.currentTime);
     }
     window.addEventListener("message", onMessage);
@@ -151,7 +164,7 @@ export function VideoLessonStudio({
       window.clearTimeout(loadTimer);
       window.removeEventListener("message", onMessage);
     };
-  }, [send, src]);
+  }, [send, src, playbackEnded, playbackGeneration]);
 
   // Keep a slow progress write alive across player ticks. Never overlap writes,
   // and advance the acknowledged position only after the server accepts it.
@@ -289,7 +302,11 @@ export function VideoLessonStudio({
           )
         ) : (
         <div className="relative aspect-video w-full">
-            <iframe
+            {playbackEnded ? <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 text-white" data-video-ended>
+              <p>{"Video tugadi / Video finished"}</p>
+              <button type="button" className="btn-primary" onClick={() => { setRestartAt(0); setPlaybackGeneration(n => n + 1); setPlaybackEnded(false); }}>{"▶ Qayta ko'rish / Replay"}</button>
+            </div> : <iframe
+              key={playbackGeneration}
               ref={iframeRef}
               src={src}
               title={videoLesson.title}
@@ -302,7 +319,7 @@ export function VideoLessonStudio({
               referrerPolicy="strict-origin-when-cross-origin"
               onError={() => setBlocked(true)}
               data-video-frame
-            />
+            />}
         </div>
         )}
       </div>
