@@ -81,10 +81,21 @@ test("measurement builder: edits structure via form, raw-mode keeps invalid JSON
   });
 });
 
-test("fonts and welcome: owner font roles, no VocaType assets, single authoritative CTA without prefetch", () => {
+test("fonts and welcome: owner font roles, no VocaType assets, single authoritative CTA without prefetch", async () => {
   const fonts = readFileSync("src/lib/ui/fonts.ts", "utf8");
-  for (const family of ["Quicksand", "Be_Vietnam_Pro", "Kanit", "Roboto_Mono", "Itim"]) assert.ok(fonts.includes(family));
-  assert.ok(!/vocatype|woff2?\b/i.test(fonts.replace("VocaType's hashed font assets", "")));
+  // Self-hosted OFL files (no build-time network); every referenced file exists and is in the provenance ledger.
+  const files = [...fonts.matchAll(/fonts\/([a-z0-9-]+\.woff2)/g)].map((m) => m[1]!);
+  for (const family of ["quicksand", "be-vietnam-pro", "kanit", "roboto-mono", "itim"]) assert.ok(files.some((f) => f.startsWith(family)), family);
+  const provenance = readFileSync("src/fonts/PROVENANCE.md", "utf8");
+  const { createHash } = await import("node:crypto");
+  for (const file of files) {
+    const sha = createHash("sha256").update(readFileSync(`src/fonts/${file}`)).digest("hex");
+    assert.ok(provenance.includes(`| ${file} | @fontsource`) && provenance.includes(sha), file);
+  }
+  assert.equal((fonts.match(/preload: true/g) ?? []).length, 1, "only the UI face is preloaded");
+  assert.match(fonts, /const ui = localFont\(\{[^\n]*preload: true/);
+  assert.ok(!/vocatype/i.test(fonts.replace("VocaType's font assets", "")));
+  assert.ok(!fonts.includes("next/font/google"));
   assert.match(readFileSync("src/app/layout.tsx", "utf8"), /<html className=\{fontVariables\}/);
   const css = readFileSync("src/app/globals.css", "utf8");
   assert.match(css, /\.academic-text \{ font-family: var\(--font-academic\)/);
