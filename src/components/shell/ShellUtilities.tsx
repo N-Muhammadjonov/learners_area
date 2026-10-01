@@ -1,5 +1,6 @@
 "use client";
 
+import { ModuleEmoji } from "@/components/ui/ModuleEmoji";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -241,12 +242,12 @@ export function ShellUtilities({ dict }: { dict: Dictionary }) {
         aria-controls="shell-utilities-panel"
         title={dict.shell.utilities}
         onClick={() => setOpen((value) => !value)}
-        className={`pointer-events-auto flex min-h-[46px] min-w-[46px] items-center justify-center gap-2 rounded-full border px-4 text-[0.9375rem] font-medium shadow-card transition-colors ${
+        className={`pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full border p-0 text-[0.9375rem] font-medium shadow-card transition-colors ${
           open ? "border-signal-600 bg-signal-600 text-signal-contrast" : "border-ink-100 bg-paper-raised text-ink-700 hover:bg-paper-sunken"
         }`}
       >
-        {open ? <IconClose className="text-[18px]" /> : <IconSparkles className="text-[18px]" />}
-        <span className="sr-only sm:not-sr-only">{dict.shell.utilities}</span>
+        {open ? <IconClose className="text-[18px]" /> : <ModuleEmoji kind="eject" />}
+        <span className="sr-only">{dict.shell.utilities}</span>
       </button>
     </div>
   );

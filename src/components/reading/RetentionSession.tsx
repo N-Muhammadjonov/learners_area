@@ -90,35 +90,54 @@ export function RetentionSession({ dict, initial }: { dict: Dictionary; initial:
   const [selectedLevel, setSelectedLevel] = useState<RetentionLevel>("A2");
   const [error, setError] = useState<string | null>(null);
 
+  const sessionMounted = useRef(false);
+  const startController = useRef<AbortController | null>(null);
+  const refreshController = useRef<AbortController | null>(null);
+  const [startOutcomeUnknown, setStartOutcomeUnknown] = useState(false);
+  useEffect(() => {
+    sessionMounted.current = true;
+    return () => {
+      sessionMounted.current = false;
+      startController.current?.abort();
+      refreshController.current?.abort();
+    };
+  }, []);
+
   const skewMs = useMemo(
     () => (payload ? Date.parse(payload.serverNow) - Date.now() : 0),
     [payload]
   );
 
-  const start = useCallback(
-    async (level: string) => {
-      setBusy(true);
-      setError(null);
-      try {
-        const response = await fetch("/api/retention/attempts", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({ level }),
-        });
-        const body = (await response.json()) as RetentionAttemptPayload & { error?: string };
-        if (!response.ok) {
-          setError(errorText(dict, body.error));
-          return;
-        }
-        setPayload(body);
-      } catch {
-        setError(errorText(dict, "retention_unavailable"));
-      } finally {
-        setBusy(false);
+  const start = useCallback(async (level: string) => {
+    if (startController.current || startOutcomeUnknown) return;
+    const controller = new AbortController();
+    startController.current = controller;
+    const timer = window.setTimeout(() => controller.abort(), 12_000);
+    setBusy(true);
+    setError(null);
+    try {
+      const response = await fetch("/api/retention/attempts", {
+        method: "POST", headers: { "content-type": "application/json" },
+        body: JSON.stringify({ level }), signal: controller.signal,
+      });
+      const body = (await response.json()) as RetentionAttemptPayload & { error?: string };
+      if (!sessionMounted.current) return;
+      if (controller.signal.aborted) throw new Error("start deadline exceeded");
+      if (!response.ok) { setError(errorText(dict, body.error)); return; }
+      setPayload(body);
+    } catch {
+      if (sessionMounted.current) {
+        // The server may have created an attempt. Do a fresh authoritative GET
+        // via page navigation before allowing another POST; no fake success.
+        setStartOutcomeUnknown(true);
+        setError(dict.retentionMemory.startUnknownOutcome);
       }
-    },
-    [dict]
-  );
+    } finally {
+      window.clearTimeout(timer);
+      if (startController.current === controller) startController.current = null;
+      if (sessionMounted.current) setBusy(false);
+    }
+  }, [dict, startOutcomeUnknown]);
 
   const refreshing = useRef(false);
   const refresh = useCallback(async () => {
@@ -126,10 +145,12 @@ export function RetentionSession({ dict, initial }: { dict: Dictionary; initial:
     refreshing.current = true;
     const attemptId = payload.attemptId;
     const controller = new AbortController();
+    refreshController.current = controller;
     const timer = window.setTimeout(() => controller.abort(), 8_000);
     try {
       const response = await fetch(`/api/retention/attempts/${attemptId}`, { cache: "no-store", signal: controller.signal });
       const body = (await response.json()) as RetentionAttemptPayload & { error?: string };
+      if (!sessionMounted.current || controller.signal.aborted) return;
       if (!response.ok) throw new Error("phase refresh failed");
       // A reading payload that arrives after the deadline (clock skew) is never
       // re-admitted: only the server's recall/terminal state replaces the gate.
@@ -141,9 +162,10 @@ export function RetentionSession({ dict, initial }: { dict: Dictionary; initial:
       setRefreshFailed(false);
       if (body.phase === "completed" || body.phase === "timed_out") router.refresh();
     } catch {
-      setRefreshFailed(true);
+      if (sessionMounted.current) setRefreshFailed(true);
     } finally {
       window.clearTimeout(timer);
+      if (refreshController.current === controller) refreshController.current = null;
       refreshing.current = false;
     }
   }, [payload, router]);
@@ -172,6 +194,7 @@ export function RetentionSession({ dict, initial }: { dict: Dictionary; initial:
           <p className="body-text">{dict.retentionMemory.levelHint}</p>
         </div>
         {error && <ErrorBanner message={error} />}
+        {startOutcomeUnknown && <button type="button" onClick={() => window.location.reload()} className="btn-secondary" data-retention-recover-start>{dict.retentionMemory.checkActiveAttempt}</button>}
         <div className="retention-level-options" role="group" aria-label={dict.retentionMemory.levelsTitle} data-retention-level-list>
           {RETENTION_LEVELS.map((level) => (
             <button key={level} type="button" className="retention-level-option" aria-pressed={selectedLevel === level} disabled={busy} onClick={() => setSelectedLevel(level)} data-retention-level={level}>
@@ -181,7 +204,7 @@ export function RetentionSession({ dict, initial }: { dict: Dictionary; initial:
             </button>
           ))}
         </div>
-        <button type="button" className="btn-primary w-fit" onClick={() => void start(selectedLevel)} disabled={busy} data-retention-start={selectedLevel}>
+        <button type="button" className="btn-primary w-fit" onClick={() => void start(selectedLevel)} disabled={busy || startOutcomeUnknown} data-retention-start={selectedLevel}>
           {busy ? dict.common.loading : dict.retentionMemory.start} →
         </button>
       </div>
@@ -250,7 +273,7 @@ function ReadingPhase({
       </div>
       <p className="body-text">{dict.retentionMemory.readingHint}</p>
       {seconds > 0 ? (
-        <article className="panel whitespace-pre-line text-[1.05rem] leading-8 text-ink-800" data-retention-source>{payload.bodyText}</article>
+        <article className="academic-text panel whitespace-pre-line text-[1.05rem] leading-8 text-ink-800" data-retention-source>{payload.bodyText}</article>
       ) : (
         <p className="panel" role="status" data-retention-phase-pending>{dict.common.loading}</p>
       )}

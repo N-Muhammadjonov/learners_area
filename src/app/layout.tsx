@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { cookies } from "next/headers";
 import "./globals.css";
+import { fontVariables } from "@/lib/ui/fonts";
 import { BRAND, BRAND_FAVICON } from "@/lib/config/brand";
 import { THEME_COOKIE, themeFromCookie } from "@/lib/theme";
 import { getLocale } from "@/lib/i18n";
@@ -57,7 +58,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   // palette: no flash of a white page for a reader who chose Night Mode.
   const theme = await readTheme();
   return (
-    <html lang={await getLocale()} data-theme={theme} data-focus="off">
+    <html className={fontVariables} lang={await getLocale()} data-theme={theme} data-focus="off">
       <body>
         {performanceDiagnosticsEnabled() && <GlobalControlDiagnostics />}
         {children}

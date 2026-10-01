@@ -95,7 +95,7 @@ export function ProductionAnswer({ dict, exerciseId }: { dict: Dictionary; exerc
           <p className="text-xs text-ink-300">
             {t.sampleAnswer}: {result.sampleAnswer}
           </p>
-          <p className="text-xs text-ink-500">{result.explanation}</p>
+          <p className="academic-text text-xs text-ink-500">{result.explanation}</p>
           {result.issues.length > 0 && (
             <ul className="list-inside list-disc text-xs text-ink-500">
               {result.issues.map((issue, index) => (

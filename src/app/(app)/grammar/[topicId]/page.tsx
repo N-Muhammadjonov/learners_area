@@ -72,7 +72,7 @@ export default async function GrammarTopicPage({ params }: { params: Promise<{ t
           ← {dict.grammar.backToTopics}
         </Link>
         <h1 className="mt-2 font-display text-2xl text-ink-900">{topic.title}</h1>
-        <p className="text-sm text-ink-500">{topic.explanation}</p>
+        <p className="academic-text text-sm text-ink-500">{topic.explanation}</p>
       </div>
       <Suspense fallback={<GrammarMaterialsSkeleton />}>
         <GrammarMaterials blocksPromise={blocksPromise} dict={dict} />

@@ -464,7 +464,7 @@ export function ReadingExam({
                     occurrences={occurrenceSpans(passageBody, paragraph.text, occurrences)}
                     sourceType="reading"
                     sourceId={attemptId}
-                    className={`text-sm leading-relaxed text-ink-700 ${paragraph.isFootnote ? "italic" : ""}`}
+                    className={`academic-text text-sm leading-relaxed text-ink-700 ${paragraph.isFootnote ? "italic" : ""}`}
                   />
                 </div>
               ))
@@ -476,7 +476,7 @@ export function ReadingExam({
                 occurrences={occurrenceSpans(passageBody, passageBody, occurrences)}
                 sourceType="reading"
                 sourceId={attemptId}
-                className="text-sm leading-relaxed text-ink-700"
+                className="academic-text text-sm leading-relaxed text-ink-700"
               />
             )}
           </div>
@@ -729,7 +729,7 @@ function StimulusCard({
       {paragraphs.map((paragraph, paragraphIndex) => (
         <p
           key={paragraphIndex}
-          className={`whitespace-pre-line text-sm leading-relaxed text-ink-900 ${paragraphIndex > 0 ? "mt-3" : ""}`}
+          className={`academic-text whitespace-pre-line text-sm leading-relaxed text-ink-900 ${paragraphIndex > 0 ? "mt-3" : ""}`}
         >
           {parseStimulus(paragraph).map((segment, index) => {
             if (segment.kind === "text") return <span key={index}>{segment.text}</span>;

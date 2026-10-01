@@ -126,7 +126,9 @@ test("the Retention bank panel offers Add, Change, Delete-as-archive and Restore
   }
   // Two authoring fields, live validation, and the conflict path.
   assert.match(panel, /data-retention-editor-text/);
-  assert.match(panel, /data-retention-editor-structure/);
+  // The structure field now lives in the builder the panel renders.
+  assert.match(panel, /<RetentionMeasurementEditor value=\{structureText\} onChange=\{setStructureText\}/);
+  assert.match(read("src/components/admin/RetentionMeasurementEditor.tsx"), /data-retention-editor-structure/);
   assert.match(panel, /api\/admin\/retention\/validate/);
   assert.match(panel, /response\.status === 409/);
   assert.match(panel, /window\.confirm/);

@@ -1,5 +1,6 @@
 "use client";
 
+import { ModuleEmoji, moduleEmojiFor } from "@/components/ui/ModuleEmoji";
 import { InstantLink } from "@/components/interaction/InstantLink";
 import { LinkPending } from "./LinkPending";
 import { usePathname } from "next/navigation";
@@ -50,12 +51,13 @@ function Group({ title, items, pathname, loading }: { title: string; items: NavI
             <li key={item.href}>
               <InstantLink
                 href={item.href}
+                intentPrefetch
                 data-sidebar-link={item.href}
                 aria-current={active ? "page" : undefined}
                 className={active ? "sidebar-link sidebar-link-active" : "sidebar-link"}
               >
                 <span aria-hidden className="sidebar-link-icon">
-                  {item.icon}
+                  {moduleEmojiFor(item.href) ? <ModuleEmoji kind={moduleEmojiFor(item.href)!} /> : item.icon}
                 </span>
                 <span className="sidebar-link-label">{item.label}</span>
                 <LinkPending label={loading} />

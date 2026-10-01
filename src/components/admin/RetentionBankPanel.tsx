@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { RetentionMeasurementEditor } from "@/components/admin/RetentionMeasurementEditor";
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n/en";
@@ -661,17 +662,7 @@ function RetentionEditor({
             </span>
           </label>
 
-          <label className="flex flex-col gap-1">
-            <span className="meta-text">{t.structureLabel}</span>
-            <span className="meta-text">{t.structureHint}</span>
-            <textarea
-              className="input min-h-[12rem] w-full font-mono text-xs"
-              value={structureText}
-              onChange={(event) => setStructureText(event.target.value)}
-              spellCheck={false}
-              data-retention-editor-structure
-            />
-          </label>
+          <RetentionMeasurementEditor value={structureText} onChange={setStructureText} dict={dict} />
 
           <div
             className="meta-text"

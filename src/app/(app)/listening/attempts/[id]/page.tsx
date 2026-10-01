@@ -60,7 +60,7 @@ export default async function ListeningAttemptPage({ params }: { params: Promise
                 text={test.transcript}
                 sourceType="listening"
                 sourceId={test.id}
-                className="text-sm leading-relaxed text-ink-700"
+                className="academic-text text-sm leading-relaxed text-ink-700"
               />
             </div>
           )}

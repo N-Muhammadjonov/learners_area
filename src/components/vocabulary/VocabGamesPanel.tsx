@@ -1117,7 +1117,7 @@ function TypingRace({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
     return (
       <GameFrame compact dict={dict} title={t.games.race} hint={t.games.raceHint} counter={`${stats.correct} / ${deck.length}`}>
         <section data-race-results aria-labelledby="race-results-title" className="flex flex-col gap-3">
-          <h3 id="race-results-title" className="text-base font-medium text-ink-900">{t.games.result}</h3>
+          <h3 id="race-results-title" className="game-display text-base font-medium text-ink-900">{t.games.result}</h3>
           <dl className="grid grid-cols-2 gap-2 sm:grid-cols-3">
             <RaceMetric label={t.games.correctCount} value={`${stats.correct} / ${deck.length}`} />
             <RaceMetric label={t.games.accuracy} value={accuracy === null ? "—" : `${accuracy}%`} />
