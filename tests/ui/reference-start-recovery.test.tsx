@@ -45,13 +45,14 @@ test("start is one synchronous flight and is cancelled on leave", async () => {
  });assert.equal(signal?.aborted,true); } finally {globalThis.fetch=old;}
 });
 test("start deadline stops the spinner and requires an authoritative read before another write", async () => {
- const old=globalThis.fetch;const timeout=window.setTimeout;let calls=0;
+ const old=globalThis.fetch;const timeout=window.setTimeout;let calls=0;const reads:string[]=[];
  window.setTimeout=((handler:TimerHandler,ms?:number,...args:unknown[])=>timeout(handler,ms===12000?15:ms,...args)) as typeof window.setTimeout;
- globalThis.fetch=(async (_url,init)=> { calls++;const signal=init?.signal;return await new Promise<Response>((_resolve,reject)=>signal?.addEventListener("abort",()=>reject(new DOMException("aborted","AbortError")),{once:true})); }) as typeof fetch;
+ globalThis.fetch=(async (url,init)=> { if ((init?.method ?? "GET").toUpperCase()==="GET") reads.push(String(url)); else calls++;const signal=init?.signal;return await new Promise<Response>((_resolve,reject)=>signal?.addEventListener("abort",()=>reject(new DOMException("aborted","AbortError")),{once:true})); }) as typeof fetch;
  try { await render(React.createElement(RetentionSession,{dict:en,initial:null}),async()=>{
   await act(async()=>query<HTMLButtonElement>("[data-retention-start]").click());await wait(40);
   assert.equal(query<HTMLButtonElement>("[data-retention-start]").disabled,true);
   assert.match(query("[data-retention-error]").textContent ?? "",/already have started/);
-  assert.ok(query("[data-retention-recover-start]"));assert.equal(calls,1);
+  assert.ok(query("[data-retention-recover-start]"));assert.equal(calls,1,"exactly one start POST; never auto-retried");
+  assert.deepEqual(reads,["/api/retention/attempts"],"only the authoritative read-only recheck follows the timed-out write");
  }); } finally {globalThis.fetch=old;window.setTimeout=timeout;}
 });
