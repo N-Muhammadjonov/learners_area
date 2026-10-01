@@ -13,7 +13,7 @@ const DAY_MS = 86_400_000;
 
 export type GradedRow = { at: Date; score: number; total: number };
 export type BandRow = { at: Date; band: number };
-export type RetentionRow = { at: Date; level: RetentionLevel; score: number };
+export type RetentionRow = { at: Date; level: RetentionLevel; score: number; textId: string };
 export type WeekPoint = { weekStart: string; value: number | null; count: number };
 
 /** Monday (YYYY-MM-DD, centre timezone) of the week containing `at`. */
@@ -77,14 +77,15 @@ export function heatLevel(count: number): 0 | 1 | 2 | 3 | 4 {
   return count <= 0 ? 0 : count === 1 ? 1 : count <= 3 ? 2 : count <= 5 ? 3 : 4;
 }
 
-export type RetentionLevelTrend = { level: RetentionLevel; attempts: number; recent: number[]; average: number | null; change: number | null };
-/** Per level: last five finalized scores (oldest→newest), mean, and newest−oldest change. */
+export type RetentionLevelTrend = { level: RetentionLevel; attempts: number; textsCompleted: number; best: number | null; recent: number[]; average: number | null; change: number | null };
+/** Per level: best score, distinct texts completed, last five finalized scores (oldest→newest), their mean, and newest−oldest change. */
 export function retentionLevelTrends(rows: RetentionRow[], levels: readonly RetentionLevel[]): RetentionLevelTrend[] {
   return levels.map((level) => {
-    const scores = rows.filter((r) => r.level === level).sort((a, b) => a.at.getTime() - b.at.getTime()).map((r) => r.score);
+    const mine = rows.filter((r) => r.level === level);
+    const scores = mine.sort((a, b) => a.at.getTime() - b.at.getTime()).map((r) => r.score);
     const recent = scores.slice(-5);
     const average = recent.length ? Math.round(recent.reduce((s, n) => s + n, 0) / recent.length) : null;
     const change = recent.length >= 2 ? recent[recent.length - 1]! - recent[0]! : null;
-    return { level, attempts: scores.length, recent, average, change };
+    return { level, attempts: scores.length, textsCompleted: new Set(mine.map((r) => r.textId)).size, best: scores.length ? Math.max(...scores) : null, recent, average, change };
   });
 }

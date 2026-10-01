@@ -38,20 +38,22 @@ test("heatmap is 12×7, Monday-first, counts per Tashkent day", () => {
 });
 
 test("retention trends per level use last five finalized scores in time order", () => {
-  const rows = [70, 40, 50, 60, 80, 90].map((score, i) => ({ at: new Date(Date.UTC(2026, 8, 1 + i)), level: "B1" as const, score }));
+  const rows = [70, 40, 50, 60, 80, 90].map((score, i) => ({ at: new Date(Date.UTC(2026, 8, 1 + i)), level: "B1" as const, score, textId: `t${i % 4}` }));
   const trends = retentionLevelTrends(rows.reverse(), RETENTION_LEVELS);
   const b1 = trends.find((t) => t.level === "B1")!;
   assert.deepEqual(b1.recent, [40, 50, 60, 80, 90]);
   assert.equal(b1.attempts, 6);
   assert.equal(b1.average, 64);
   assert.equal(b1.change, 50);
-  assert.deepEqual(trends.find((t) => t.level === "A2"), { level: "A2", attempts: 0, recent: [], average: null, change: null });
+  assert.equal(b1.best, 90);
+  assert.equal(b1.textsCompleted, 4, "repeat of the same text counts once");
+  assert.deepEqual(trends.find((t) => t.level === "A2"), { level: "A2", attempts: 0, textsCompleted: 0, best: null, recent: [], average: null, change: null });
 });
 
 test("trend data source is user-scoped, bounded, never reads self-estimates or Retention source/rubric", () => {
   const src = readFileSync("src/lib/data/progress-trends.ts", "utf8");
-  assert.equal((src.match(/\.limit\(ROW_CAP\)/g) ?? []).length, 5);
-  assert.equal((src.match(/eq\(\w+\.userId, userId\)/g) ?? []).length, 5);
+  assert.equal((src.match(/\.limit\(ROW_CAP\)/g) ?? []).length, 6);
+  assert.equal((src.match(/eq\(\w+\.userId, userId\)/g) ?? []).length, 6);
   for (const forbidden of ["onboardingProfiles", "currentBand", "bodyText", "scoringStructure", "recallText", "unstable_cache", "\"use cache\""]) {
     assert.ok(!src.includes(forbidden), `must not reference ${forbidden}`);
   }

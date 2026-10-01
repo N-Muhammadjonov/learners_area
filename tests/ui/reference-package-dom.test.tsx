@@ -115,9 +115,9 @@ test("academic-text applied to Reading, Listening, Writing and Grammar reading s
 test("progress trends render real values with accessible tables and honest empty/unavailable states", () => {
   const week = (v: number | null) => ({ weekStart: "2026-09-28", value: v, count: v === null ? 0 : 1 });
   const html = renderToStaticMarkup(React.createElement(ProgressTrends, { dict: en, trends: {
-    reading: [week(null), week(75)], listening: [week(null)], writing: null,
+    reading: [week(null), week(75)], listening: [week(null)], writing: null, speaking: [week(6.5)],
     heatmap: [[{ day: "2026-09-28", count: 2 }, ...Array.from({ length: 6 }, (_, i) => ({ day: `2026-09-${29 + i}`, count: 0 }))]],
-    retention: [{ level: "B1", attempts: 2, recent: [40, 60], average: 50, change: 20 }],
+    retention: [{ level: "B1", attempts: 2, textsCompleted: 2, best: 60, recent: [40, 60], average: 50, change: 20 }],
   } as never }));
   assert.match(html, /data-trend-table="reading"/);
   assert.match(html, /<td>75%<\/td>/);
@@ -126,4 +126,6 @@ test("progress trends render real values with accessible tables and honest empty
   assert.match(html, /<th scope="row" class="font-normal">2026-09-28<\/th><td>2<\/td>/);
   assert.match(html, /40 → 60/);
   assert.match(html, /\+20/);
+  assert.match(html, /data-trend-table="speaking"[^]*<td>6.5<\/td>/);
+  assert.match(html, /<td>2<\/td><td>60<\/td>/);
 });

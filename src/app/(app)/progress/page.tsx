@@ -8,7 +8,7 @@ import { timed } from "@/lib/observability/timing";
 import { Card, StatCard } from "@/components/ui/Card";
 import { RegionFailureNotice } from "@/components/interaction/RegionFailureNotice";
 import { getProgressTrends } from "@/lib/data/progress-trends";
-import { ProgressTrends } from "@/components/progress/ProgressTrends";
+import { ProgressTrends, VocabularyDistribution } from "@/components/progress/ProgressTrends";
 
 export const dynamic = "force-dynamic";
 
@@ -69,13 +69,7 @@ async function ProgressContent({ userId, dict }: {
       <Card data-progress-vocabulary>
         <h2 className="mb-2 font-display text-lg text-ink-900">{t.vocabulary}</h2>
         {vocabulary ? (
-          <ul className="flex flex-wrap gap-3 text-sm">
-            {(["new", "learning", "review", "known", "mastered", "activated"] as const).map((state) => (
-              <li key={state} className="text-ink-500" data-vocab-state={state}>
-                {t.states[state]}: <span className="text-ink-900">{vocabulary.byState[state]}</span>
-              </li>
-            ))}
-          </ul>
+          <VocabularyDistribution dict={dict} byState={vocabulary.byState} />
         ) : <p data-vocabulary-states-unavailable>—</p>}
       </Card>
 

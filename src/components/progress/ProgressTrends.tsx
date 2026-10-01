@@ -33,6 +33,26 @@ function WeekChart({ t, title, points, max, unit, id }: { t: T; title: string; p
   );
 }
 
+/** Mastery distribution: bar + the same numbers as visible text (no separate source of truth). */
+export function VocabularyDistribution({ dict, byState }: { dict: Dictionary; byState: Record<"new" | "learning" | "review" | "known" | "mastered" | "activated", number> }) {
+  const states = ["new", "learning", "review", "known", "mastered", "activated"] as const;
+  const total = states.reduce((n, s) => n + byState[s], 0);
+  return (
+    <div className="flex flex-col gap-2" data-vocab-distribution>
+      {total > 0 && <div className="flex h-3 w-full overflow-hidden rounded-full bg-ink-50" aria-hidden="true">
+        {states.map((s, i) => byState[s] > 0 && <span key={s} style={{ width: `${(byState[s] / total) * 100}%`, background: `rgb(var(--gold) / ${0.25 + i * 0.15})` }} />)}
+      </div>}
+      <ul className="flex flex-wrap gap-3 text-sm">
+        {states.map((state) => (
+          <li key={state} className="text-ink-500" data-vocab-state={state}>
+            {dict.progress.states[state]}: <span className="text-ink-900">{byState[state]}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export function ProgressTrends({ dict, trends }: { dict: Dictionary; trends: Trends }) {
   const t = dict.progress.trends;
   const days = trends.heatmap?.flat() ?? [];
@@ -41,10 +61,11 @@ export function ProgressTrends({ dict, trends }: { dict: Dictionary; trends: Tre
       <Card data-progress-trends>
         <h2 className="mb-1 font-display text-lg text-ink-900">{t.title}</h2>
         <p className="meta-text mb-3">{t.hint}</p>
-        <div className="grid gap-4 sm:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2">
           <WeekChart t={t} id="reading" title={t.readingAccuracy} points={trends.reading} max={100} unit="%" />
           <WeekChart t={t} id="listening" title={t.listeningAccuracy} points={trends.listening} max={100} unit="%" />
           <WeekChart t={t} id="writing" title={t.writingBand} points={trends.writing} max={9} unit="" />
+          <WeekChart t={t} id="speaking" title={t.speakingBand} points={trends.speaking} max={9} unit="" />
         </div>
       </Card>
 
@@ -77,10 +98,10 @@ export function ProgressTrends({ dict, trends }: { dict: Dictionary; trends: Tre
         {trends.retention === null ? <p className="meta-text" data-trend-unavailable>{t.unavailable}</p> : (
           <table className="w-full text-left text-sm" data-retention-trend-table>
             <caption className="sr-only">{t.retentionTitle}</caption>
-            <thead><tr><th scope="col">{t.level}</th><th scope="col">{t.attempts}</th><th scope="col">{t.recent}</th><th scope="col">{t.average}</th><th scope="col">{t.change}</th></tr></thead>
+            <thead><tr><th scope="col">{t.level}</th><th scope="col">{t.attempts}</th><th scope="col">{t.textsCompleted}</th><th scope="col">{t.best}</th><th scope="col">{t.recent}</th><th scope="col">{t.average}</th><th scope="col">{t.change}</th></tr></thead>
             <tbody>{trends.retention.map((r) => (
               <tr key={r.level} data-retention-trend-level={r.level}>
-                <th scope="row">{r.level}</th><td>{r.attempts}</td>
+                <th scope="row">{r.level}</th><td>{r.attempts}</td><td>{r.textsCompleted}</td><td>{r.best ?? "—"}</td>
                 <td className="technical-text">{r.recent.length ? r.recent.join(" → ") : "—"}</td>
                 <td>{r.average ?? "—"}</td><td>{r.change === null ? "—" : r.change > 0 ? `+${r.change}` : String(r.change)}</td>
               </tr>

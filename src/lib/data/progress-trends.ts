@@ -24,7 +24,7 @@ export type ProgressTrends = Awaited<ReturnType<typeof getProgressTrends>>;
  */
 export async function getProgressTrends(userId: string, now = new Date()) {
   const since = new Date(now.getTime() - (HEATMAP_WEEKS * 7 + 1) * 86_400_000);
-  const [reading, listening, writingBands, writingSubmitted, retention] = await Promise.allSettled([
+  const [reading, listening, writingBands, writingSubmitted, retention, speakingBands] = await Promise.allSettled([
     db.select({ at: readingAttempts.submittedAt, score: readingAttempts.score, total: readingAttempts.totalQuestions })
       .from(readingAttempts)
       .where(and(eq(readingAttempts.userId, userId), eq(readingAttempts.status, "completed"), gte(readingAttempts.submittedAt, since)))
@@ -41,9 +41,14 @@ export async function getProgressTrends(userId: string, now = new Date()) {
       .from(writingSubmissions)
       .where(and(eq(writingSubmissions.userId, userId), isNotNull(writingSubmissions.submittedAt), gte(writingSubmissions.submittedAt, since)))
       .limit(ROW_CAP),
-    db.select({ at: retentionAttempts.completedAt, level: retentionAttempts.level, score: retentionAttempts.score })
+    db.select({ at: retentionAttempts.completedAt, level: retentionAttempts.level, score: retentionAttempts.score, textId: retentionAttempts.retentionTextId })
       .from(retentionAttempts)
       .where(and(eq(retentionAttempts.userId, userId), inArray(retentionAttempts.status, ["completed", "timed_out"]), isNotNull(retentionAttempts.score), gte(retentionAttempts.completedAt, since)))
+      .limit(ROW_CAP),
+    // Speaking: only stored evaluation estimates; never the self-reported profile bands.
+    db.select({ at: evaluations.createdAt, band: evaluations.overallEstimate })
+      .from(evaluations)
+      .where(and(eq(evaluations.userId, userId), eq(evaluations.sourceType, "speaking_attempt"), isNotNull(evaluations.overallEstimate), gte(evaluations.createdAt, since)))
       .limit(ROW_CAP),
   ]);
 
@@ -54,8 +59,9 @@ export async function getProgressTrends(userId: string, now = new Date()) {
   const readingRows = graded(ok(reading));
   const listeningRows = graded(ok(listening));
   const bandRows = ok(writingBands)?.flatMap((r) => (r.band === null ? [] : [{ at: r.at, band: r.band }])) ?? null;
+  const speakingRows = ok(speakingBands)?.flatMap((r) => (r.band === null ? [] : [{ at: r.at, band: r.band }])) ?? null;
   const submittedRows = ok(writingSubmitted);
-  const retentionRows = ok(retention)?.flatMap((r) => (r.at && r.score !== null ? [{ at: r.at, level: r.level, score: r.score }] : [])) ?? null;
+  const retentionRows = ok(retention)?.flatMap((r) => (r.at && r.score !== null ? [{ at: r.at, level: r.level, score: r.score, textId: r.textId }] : [])) ?? null;
 
   const sources = [readingRows, listeningRows, submittedRows, retentionRows];
   const activity = sources.every((s) => s !== null)
@@ -66,6 +72,7 @@ export async function getProgressTrends(userId: string, now = new Date()) {
     reading: readingRows && weeklyAccuracy(readingRows, now),
     listening: listeningRows && weeklyAccuracy(listeningRows, now),
     writing: bandRows && weeklyBand(bandRows, now),
+    speaking: speakingRows && weeklyBand(speakingRows, now),
     heatmap: activity && activityHeatmap(activity, now),
     retention: retentionRows && retentionLevelTrends(retentionRows, RETENTION_LEVELS),
   };
