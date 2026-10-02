@@ -46,7 +46,7 @@ export async function MockProgressOverview({
   return (
     <section className="space-y-4" data-dashboard-mock-overview>
       <div className="grid items-start gap-4 lg:grid-cols-[2fr_1fr]">
-        <div className="card space-y-4">
+        <div className="card min-w-0 p-5 space-y-4">
           <h2 className="font-display text-2xl font-bold">
             📝 {uz ? "Mock testlar" : "Mock tests"}
           </h2>
@@ -68,7 +68,7 @@ export async function MockProgressOverview({
         </div>
         {chart}
       </div>
-      <div className="card overflow-x-auto">
+      <div className="card p-5 overflow-x-auto">
         <h3 className="mb-3 font-bold">
           {uz ? "Hozirgacha natijalar" : "Results so far"}
         </h3>

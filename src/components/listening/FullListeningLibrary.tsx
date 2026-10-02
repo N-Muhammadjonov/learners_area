@@ -87,7 +87,7 @@ export function FullListeningLibrary({ cards }: { cards: Card[] }) {
         {visible.map((t) => (
           <article
             key={t.id}
-            className="listening-library-card card flex flex-col gap-3"
+            className="listening-library-card card p-5 flex flex-col gap-3"
           >
             <span className="listening-library-badge badge">
               {section ? "10 questions · controlled review" : "40 questions"}
@@ -125,7 +125,7 @@ export function FullListeningLibrary({ cards }: { cards: Card[] }) {
         ))}
       </div>
       {!visible.length && (
-        <p className="card">No matching published tests in this collection.</p>
+        <p className="card p-5">No matching published tests in this collection.</p>
       )}
     </section>
   );

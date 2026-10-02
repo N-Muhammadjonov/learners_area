@@ -14,7 +14,7 @@ export function MockBandPanel({
   const y = (band: number) => 215 - (band / 9) * 185;
   const show = (n: number | null) => (n === null ? "—" : n.toFixed(1));
   return (
-    <section className="card space-y-5" data-mock-band-panel>
+    <section className="card min-w-0 p-5 space-y-5" data-mock-band-panel>
       <h2 className="font-display text-xl font-bold">
         📈 {uz ? "Mock natijalari" : "Overall mock band trend"}
       </h2>
