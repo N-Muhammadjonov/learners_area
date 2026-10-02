@@ -804,3 +804,26 @@ contexts, usages) — 0 rows changed, 0 missing, 0 added; 0 passages classified 
   explicit owner approval. Until then the General surfaces show an empty state there.
 * **FUTURE** — no General Reading content exists in any shared database (none was fabricated);
   an owner-authored bundle must be imported. Admin editing UI for sets is not built.
+
+## B19. Acceptance status by mode (forensic audit, see docs/vocabulary-acceptance/)
+
+Labels are separate on purpose: IMPLEMENTED = code exists; TESTED = automated tests
+(QA2 real PostgreSQL / jsdom UI); RUNTIME_VERIFIED = HTTP E2E against a local production
+build; PREVIEW_VERIFIED = checked on the Preview deployment; FUTURE = not built.
+
+| Mode | Vocabulary | IMPLEMENTED | TESTED | RUNTIME_VERIFIED | PREVIEW_VERIFIED |
+|---|---|---|---|---|---|
+| IELTS Academic Reading — active exam | OFF (assessment) | YES | YES | YES (local) | NO |
+| Academic Review | ON after valid submission, re-locked by an open retake | YES | YES | YES (local) | NO |
+| General Reading (P1/P2/P3/Full) | ON during reading (learning) | YES | YES | YES (local) | NO — 0030 not applied |
+| Listening Full Exam | OFF | YES | YES | YES (local) | NO — 0029 not applied |
+| Listening Review / Control | ON only when policy permits | YES | YES | YES (local) | NO |
+| Listening Vocabulary Session | canonical sense truth | YES | YES | YES (local) | NO |
+
+Browser behaviour (real focus, touch, mobile layout, Day/Night, back/forward) is NOT
+verified: no browser was available. FUTURE: General Reading content (owner-authored),
+admin editing for General Reading sets, word-level Listening timings.
+
+Fixed in this audit: VD-001 — a Reading save **without** an occurrence now needs a real
+source (404 otherwise), obeys the Reading mode policy (403 during an active Academic
+attempt) and never receives a sense by spelling (422 until the learner writes the meaning).
