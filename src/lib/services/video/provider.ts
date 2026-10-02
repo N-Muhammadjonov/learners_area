@@ -119,6 +119,15 @@ export function embedUrlFor(provider: VideoProvider, videoId: string, options: {
   return `${base}?${params.toString()}`;
 }
 
+/**
+ * Library-card thumbnail for a validated YouTube id (static image from YouTube's
+ * image host; no player, no iframe). Returns null for anything that is not a
+ * valid id so the card shows its neutral fallback instead of a broken image.
+ */
+export function youtubeThumbnailUrl(videoId: string): string | null {
+  return VIDEO_ID.test(videoId) ? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg` : null;
+}
+
 /** Where a "watch on the provider" link points, for the honest fallback action. */
 export function watchUrlFor(provider: VideoProvider, videoId: string): string {
   if (provider !== "youtube") throw new Error(`unsupported provider: ${provider}`);

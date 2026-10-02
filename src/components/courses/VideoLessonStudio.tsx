@@ -26,7 +26,10 @@ export function VideoLessonStudio({
   questions,
   initialProgress,
   directMedia,
+  embedOrigin,
 }: {
+  /** Configured public origin of this site for the YouTube JS API; omitted (never "*") when not configured. */
+  embedOrigin?: string | null;
   /** Server-resolved URLs for an owner-authorised direct media item (provider "direct"). */
   directMedia?: { src: string; captions: string | null } | null;
   dict: Dictionary;
@@ -101,7 +104,7 @@ export function VideoLessonStudio({
 
   // Built without the browser origin so the player is part of the server-rendered
   // page: the video starts loading with the lesson instead of after hydration.
-  const src = useMemo(() => (provider === "youtube" ? embedUrlFor(provider, videoLesson.videoId) + (restartAt > 0 ? `&start=${Math.floor(restartAt)}` : "") : "about:blank"), [provider, videoLesson.videoId, restartAt]);
+  const src = useMemo(() => (provider === "youtube" ? embedUrlFor(provider, videoLesson.videoId, embedOrigin ? { origin: embedOrigin } : {}) + (restartAt > 0 ? `&start=${Math.floor(restartAt)}` : "") : "about:blank"), [provider, videoLesson.videoId, restartAt, embedOrigin]);
   const direct = provider === "direct" ? directMedia ?? null : null;
   const directControls = useRef<DirectMediaControls | null>(null);
 
@@ -310,6 +313,7 @@ export function VideoLessonStudio({
               ref={iframeRef}
               src={src}
               title={videoLesson.title}
+              loading="lazy"
               className="absolute inset-0 h-full w-full"
               // No popups or top navigation: provider links cannot take the
               // learner out of this site. Playback and native CC remain enabled.

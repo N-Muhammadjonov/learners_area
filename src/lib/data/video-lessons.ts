@@ -155,6 +155,9 @@ export async function listStandaloneVideoLessonsForStudent(userId: string, limit
       id: videoLessons.id,
       title: videoLessons.title,
       beforeYouWatch: videoLessons.beforeYouWatch,
+      provider: videoLessons.provider,
+      videoId: videoLessons.videoId,
+      durationSeconds: videoLessons.durationSeconds,
       progressState: videoLessonProgress.state,
     })
     .from(videoLessons)
@@ -184,6 +187,9 @@ export async function listVideoLessonsForStudent(userId: string) {
         id: videoLessons.id,
         title: videoLessons.title,
         beforeYouWatch: videoLessons.beforeYouWatch,
+        provider: videoLessons.provider,
+        videoId: videoLessons.videoId,
+        durationSeconds: videoLessons.durationSeconds,
       },
       lesson: {
         id: lessons.id,

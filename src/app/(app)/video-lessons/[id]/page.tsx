@@ -5,6 +5,7 @@ import { getDictionary, getLocale } from "@/lib/i18n";
 import { getStandaloneVideoLesson } from "@/lib/data/video-lessons";
 import { isUuid } from "@/lib/validation/ids";
 import { resolveDirectMedia } from "@/lib/services/video/direct";
+import { publicBaseUrl } from "@/lib/config/site";
 import { VideoLessonStudio } from "@/components/courses/VideoLessonStudio";
 
 export const dynamic = "force-dynamic";
@@ -24,14 +25,19 @@ export default async function StandaloneVideoLessonPage({ params }: { params: Pr
   if (!data) notFound();
   const dict = getDictionary(locale);
   const { videoLesson, questions, progress } = data;
+  const minutes = videoLesson.durationSeconds && videoLesson.durationSeconds > 0 ? Math.max(1, Math.round(videoLesson.durationSeconds / 60)) : null;
 
   return (
-    <div className="mx-auto flex max-w-4xl flex-col gap-4" data-route-usable="video-lesson" data-video-standalone={videoLesson.id}>
-      <div className="flex flex-wrap items-center justify-between gap-2">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-4" data-route-usable="video-lesson" data-video-standalone={videoLesson.id}>
+      <Link href="/video-lessons" className="w-fit text-sm text-ink-500 hover:text-ink-900" data-video-back>← {dict.videoLessons.title}</Link>
+      <header className="flex flex-col gap-1" data-video-detail-header>
         <h1 className="font-display text-2xl text-ink-900">{videoLesson.title}</h1>
-        <Link href="/video-lessons" className="btn-secondary">{dict.videoLessons.title}</Link>
-      </div>
+        {minutes !== null ? (
+          <p className="text-sm text-ink-500" data-video-detail-meta>{dict.videoLessons.minutes.replace("{n}", String(minutes))}</p>
+        ) : null}
+      </header>
       <VideoLessonStudio
+        embedOrigin={publicBaseUrl}
           directMedia={resolveDirectMedia(videoLesson.provider, videoLesson.videoId)}
         dict={dict}
         lessonId={videoLesson.id}

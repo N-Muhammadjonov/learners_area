@@ -335,6 +335,7 @@ const en = {
       "A short talk, then the lesson around it: predict before you watch, answer the centre's own questions, and write what you took from it. Published standalone talks open here. Videos linked to a roadmap lesson follow that lesson's access.",
     none: "No video lesson is open right now.",
     open: "Open the lesson",
+    minutes: "{n} min",
   },
   videoLesson: {
     revealTranscript: "Show transcript",
