@@ -5,7 +5,8 @@ import { lexicalOccurrences, lexemes, lexicalUnitPronunciations, lexicalUnits, r
 import { fullListeningDetail, listeningExamState } from "@/lib/data/full-listening";
 import { lexicalAssistanceAllowed } from "@/lib/listening/lexical-policy";
 import { sentenceAt } from "./listening-occurrences";
-import type { Role } from "@/lib/auth/roles";
+import { isStaff, type Role } from "@/lib/auth/roles";
+import { readingLexicalAssistanceAllowed, type ReadingExamState, type ReadingMode } from "@/lib/reading/lexical-policy";
 import { isLive } from "@/lib/services/cms/publication";
 
 export type VocabularySourceSnapshot = {
@@ -66,7 +67,7 @@ export async function resolveReadingOccurrence(userId: string, sourceId: string,
 
 export type OccurrenceResolution =
   | { status: "resolved"; lexeme: typeof lexemes.$inferSelect; snapshot: VocabularySourceSnapshot }
-  /** Listening content exists and is accessible, but the learner's mode forbids lexical help (exam not submitted / exam open). */
+  /** Content exists and is accessible, but the learner's mode forbids lexical help (Listening/Reading exam not submitted or open). */
   | { status: "locked"; lexeme: null; snapshot: null }
   /** The span is known but no sense has been checked for it. Never paired with a meaning. */
   | { status: "unresolved"; lexeme: null; snapshot: Omit<VocabularySourceSnapshot, "lexemeId"> & { lexemeId: null } };
@@ -101,12 +102,37 @@ export async function resolveListeningOccurrence(user: { id: string; role: Role 
   return { status: "resolved", lexeme, snapshot: { ...base, lexemeId: lexeme.id } };
 }
 
+/**
+ * Reading mode of a lookup source and the learner's exam state for its passage.
+ * An owned attempt id: in progress → ACADEMIC_EXAM, submitted → ACADEMIC_REVIEW.
+ * A bare passage id: every current passage is an Academic test, so it is treated
+ * as ACADEMIC_REVIEW — open only after a submitted attempt (closes the bypass of
+ * calling the endpoint with the passage id during an exam).
+ */
+export async function readingLexicalAccess(user: { id: string; role: Role }, sourceId: string, passageId: string) {
+  const attempts = await db.select({ id: readingAttempts.id, status: readingAttempts.status }).from(readingAttempts)
+    .where(and(eq(readingAttempts.userId, user.id), eq(readingAttempts.passageId, passageId)));
+  const own = attempts.find((attempt) => attempt.id === sourceId);
+  const mode: ReadingMode = own?.status === "in_progress" ? "ACADEMIC_EXAM" : "ACADEMIC_REVIEW";
+  const state: ReadingExamState = {
+    submitted: attempts.some((attempt) => attempt.status === "completed"),
+    examInProgress: attempts.some((attempt) => attempt.status === "in_progress"),
+    staff: isStaff(user.role),
+  };
+  return { mode, state };
+}
+
 /** One entry point for every source type that has occurrences. */
 export async function resolveOccurrence(user: { id: string; role: Role }, sourceType: string, sourceId: string, occurrenceId: string): Promise<OccurrenceResolution | null> {
   if (sourceType === "listening") return resolveListeningOccurrence(user, sourceId, occurrenceId);
   if (sourceType === "reading") {
     const reading = await resolveReadingOccurrence(user.id, sourceId, occurrenceId);
-    return reading ? { status: "resolved", ...reading } : null;
+    if (!reading) return null;
+    // Exam integrity: the occurrence is valid data, but an open Academic attempt
+    // (this one or another of the same passage) may not reveal it.
+    const { mode, state } = await readingLexicalAccess(user, sourceId, reading.snapshot.passageId ?? sourceId);
+    if (!readingLexicalAssistanceAllowed(mode, state)) return { status: "locked", lexeme: null, snapshot: null };
+    return { status: "resolved", ...reading };
   }
   return null;
 }
