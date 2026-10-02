@@ -31,7 +31,18 @@ export type WritingEvaluationInput = {
   /** Grade My Work: ask for the bilingual W7 analysis and the exact four criteria. */
   detailedAnalysis?: boolean;
   wordCount?: number;
+  /** A short Writing-workspace check (Translation / Activation / Language Stealing) instead of an essay grade. */
+  check?: WritingCheckInput;
 };
+
+/**
+ * Short, structured Writing checks. Reference answers travel only server →
+ * provider; they are never returned to the browser by the check layer.
+ */
+export type WritingCheckInput =
+  | { kind: "translation"; uzbekSource: string; referenceEnglish: string; acceptedAlternatives: string[]; targetBand: number; answer: string }
+  | { kind: "activation"; item: string; meaningHint: string | null; mode: "writing" | "speaking"; targetLevel: string; uzbekPrompt: string | null; upgradeFrom: string | null; answer: string }
+  | { kind: "pattern"; pattern: string; sourceExample: string; sourceTopic: string; newTopic: string; answer: string };
 
 export type SpeakingPart = "part1" | "part2" | "part3" | "general" | "mock";
 

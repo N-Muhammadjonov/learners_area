@@ -6,6 +6,7 @@ import { listActivePromptsWithResources, typingSummary } from "@/lib/data/writin
 import { timed } from "@/lib/observability/timing";
 import { TypingTrainer } from "@/components/writing/TypingTrainer";
 import { WritingExamHome } from "@/components/writing/exam/WritingExamHome";
+import { WritingTranslationTab } from "@/components/writing/translation/WritingTranslationTab";
 import { RegionFailureNotice } from "@/components/interaction/RegionFailureNotice";
 import { WritingNav } from "@/components/writing/workspace/WritingNav";
 import { WritingGradeTab } from "@/components/writing/workspace/WritingGradeTab";
@@ -90,6 +91,8 @@ export default async function WritingPage({ searchParams }: { searchParams: Prom
           <WritingGradeTab dict={dict} userId={user.id} view={sp.view === "essays" ? "essays" : "new"} locale={locale} />
         ) : tab === "exam" ? (
           <Suspense fallback={<WritingActivitiesSkeleton />}><WritingExamHome dict={dict} userId={user.id} locale={locale} /></Suspense>
+        ) : tab === "translation" ? (
+          <Suspense fallback={<WritingActivitiesSkeleton />}><WritingTranslationTab dict={dict} userId={user.id} /></Suspense>
         ) : tab === "typing" ? (
           <Suspense fallback={<WritingActivitiesSkeleton />}>
             <WritingActivities userId={user.id} dict={dict} view={tab} />
