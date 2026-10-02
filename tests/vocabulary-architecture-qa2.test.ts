@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import { and, eq, sql } from "drizzle-orm";
 import { db } from "../src/db/client";
-import { lexemes, lexicalOccurrences, lexicalUnitPronunciations, userVocabulary, userVocabularyContexts, users, vocabularyUsages } from "../src/db/schema";
+import { lexemes, lexicalOccurrences, listeningAttempts, lexicalUnitPronunciations, userVocabulary, userVocabularyContexts, users, vocabularyUsages } from "../src/db/schema";
 import { lexicalDetailFor, resolveOccurrence, type VocabularySourceSnapshot } from "../src/lib/services/lexical/context";
 import { ingestListeningOccurrences } from "../src/lib/services/lexical/listening-occurrences";
 import { addVocabularyBatch, applyScheduledReview, listVocabularyContexts, recordGameAnswer, recordSentenceUse } from "../src/lib/services/vocabulary/engine";
@@ -54,6 +54,12 @@ async function listeningFixture(authorId: string, transcript: string, vocabulary
   return { testId: testRow!.id, occurrences, lexical };
 }
 
+/** A full-exam attempt for this learner and test (status "completed" = submitted). */
+async function examAttempt(userId: string, testId: string, status: "completed" | "in_progress" = "completed") {
+  const [row] = await db.insert(listeningAttempts).values({ userId, testId, status, ...(status === "completed" ? { submittedAt: new Date() } : {}) }).returning();
+  return row!;
+}
+
 async function save(user: { id: string; role: "student" | "admin" }, sourceType: "reading" | "listening", sourceId: string, occurrenceId: string) {
   const resolved = await resolveOccurrence(user, sourceType, sourceId, occurrenceId);
   assert.ok(resolved && resolved.status === "resolved", "fixture occurrence must resolve");
@@ -68,10 +74,10 @@ test("1 Reading click: each occurrence resolves to ITS sense, server-validated, 
   const river = await resolveOccurrence(user, "reading", r.attemptId, r.riverOcc.id);
   assert.equal(money?.status === "resolved" && money.lexeme.id, r.money.id);
   assert.equal(river?.status === "resolved" && river.lexeme.id, r.river.id);
-  assert.equal(money?.snapshot.attemptId, r.attemptId);
+  assert.equal(money?.status === "resolved" && money.snapshot.attemptId, r.attemptId);
   const stranger = await learner();
   const foreign = await resolveOccurrence(stranger, "reading", r.attemptId, r.moneyOcc.id);
-  assert.equal(foreign?.snapshot.attemptId ?? null, null, "another learner's attempt id is never adopted as theirs");
+  assert.equal(foreign?.status === "resolved" ? foreign.snapshot.attemptId : null, null, "another learner's attempt id is never adopted as theirs");
 });
 
 test("2/3 Listening click: authored place resolves; the same spelling in another sense is UNRESOLVED (no meaning)", { skip: !enabled }, async () => {
@@ -80,6 +86,7 @@ test("2/3 Listening click: authored place resolves; the same spelling in another
   const student = await learner();
   const text = "I opened an account at the bank. They sat on the river bank.";
   const l = await listeningFixture(author.id, text, [vocab("bank", "n", `An institution that keeps money ${randomUUID()}`, "I opened an account at the bank.")]);
+  await examAttempt(student.id, l.testId); // Review/Control is open only after submission (lexical-policy)
   assert.equal(l.occurrences.length, 2);
   const money = await resolveOccurrence(student, "listening", l.testId, l.occurrences[0]!.id);
   const trap = await resolveOccurrence(student, "listening", l.testId, l.occurrences[1]!.id);
@@ -91,6 +98,7 @@ test("2/3 Listening click: authored place resolves; the same spelling in another
   assert.equal(trap?.snapshot.sentenceText, "They sat on the river bank.");
   // A forged pairing (occurrence of another test) is refused.
   const other = await listeningFixture(author.id, "Nothing here.", [vocab("here", "adv", "In this place", "Nothing here.")]);
+  await examAttempt(student.id, other.testId);
   assert.equal(await resolveOccurrence(student, "listening", other.testId, l.occurrences[0]!.id), null);
 });
 
@@ -99,6 +107,7 @@ test("2b a draft Listening test is not resolvable by a student; staff may", { sk
   const author = await learner("admin");
   const student = await learner();
   const l = await listeningFixture(author.id, "Costs rose sharply.", [vocab("rise", "verb", `To go up ${randomUUID()}`, "Costs rose sharply.")]);
+  await examAttempt(student.id, l.testId);
   await db.execute(sql`update listening_tests set publication_state = 'draft' where id = ${l.testId}`);
   assert.equal(await resolveOccurrence(student, "listening", l.testId, l.occurrences[0]!.id), null);
   assert.equal((await resolveOccurrence(author, "listening", l.testId, l.occurrences[0]!.id))?.status, "resolved");
@@ -111,6 +120,7 @@ test("10/11 same sense from Reading and Listening → ONE item with TWO contexts
   const r = await readingFixture(user.id);
   // The Listening package authors the SAME sense text → same sense_key → same canonical sense.
   const l = await listeningFixture(author.id, "Firms borrow from a bank.", [vocab("bank", "noun", r.money.definitionEn, "Firms borrow from a bank.")]);
+  await examAttempt(user.id, l.testId);
   assert.equal(l.occurrences[0]!.lexemeId, r.money.id, "Listening reuses the existing canonical sense");
   const first = await save(user, "reading", r.attemptId, r.moneyOcc.id);
   assert.ok(first.ok && first.added === 1);
@@ -223,12 +233,14 @@ test("14 an unresolved Listening occurrence cannot be saved under a sense; 24 mi
   const author = await learner("admin");
   const student = await learner();
   const l = await listeningFixture(author.id, "I opened an account at the bank. They sat on the river bank.", [vocab("bank", "n", `An institution that keeps money ${randomUUID()}`, "I opened an account at the bank.")]);
+  await examAttempt(student.id, l.testId);
   const trap = await resolveOccurrence(student, "listening", l.testId, l.occurrences[1]!.id);
   assert.equal(trap?.status, "unresolved");
   assert.equal(trap?.lexeme, null, "there is no sense object a route could save");
   // Units are global: a fresh word guarantees no earlier run stored a pronunciation.
   const word = Array.from({ length: 9 }, () => "abcdefghijklmnopqrstuvwxyz"[Math.floor(Math.random() * 26)]).join("");
   const fresh = await listeningFixture(author.id, `The ${word} glowed.`, [vocab(word, "n", "A QA2 test object", `The ${word} glowed.`)]);
+  await examAttempt(student.id, fresh.testId);
   const resolved = await resolveOccurrence(student, "listening", fresh.testId, fresh.occurrences[0]!.id);
   assert.ok(resolved?.status === "resolved");
   const detail = await lexicalDetailFor(resolved.lexeme);
@@ -236,4 +248,113 @@ test("14 an unresolved Listening occurrence cannot be saved under a sense; 24 mi
   assert.equal(detail?.lexicalType, "word");
   await db.insert(lexicalUnitPronunciations).values({ lexicalUnitId: resolved.lexeme.lexicalUnitId!, ipa: "b\u00e6\u014bk", provenance: "qa2_fixture" });
   assert.equal((await lexicalDetailFor(resolved.lexeme))?.ipa, "b\u00e6\u014bk");
+});
+
+// ---------------------------------------------------------------------------
+// Listening mode separation (FULL_EXAM vs REVIEW_CONTROL vs VOCABULARY_STUDY).
+// ---------------------------------------------------------------------------
+import { readFileSync } from "node:fs";
+import { lexicalAssistanceAllowed, modeForActivity } from "../src/lib/listening/lexical-policy";
+import { listeningExamState } from "../src/lib/data/full-listening";
+import { listeningVocabularySession } from "../src/lib/services/lexical/listening-occurrences";
+
+test("M21 Full Exam reveals nothing: exam components carry no lexical code or transcript; policy and server lock while the exam is open", { skip: !enabled }, async () => {
+  for (const file of ["src/components/listening/NativeListeningExam.tsx", "src/components/listening/ListeningExam.tsx"]) {
+    const source = readFileSync(file, "utf8");
+    for (const banned of ["ClickableText", "WordPopover", "/api/vocabulary", "occurrence", "transcript"]) assert.equal(source.includes(banned), false, `${file} must not contain ${banned}`);
+  }
+  for (const state of [{ submitted: true, examInProgress: false, staff: true }, { submitted: false, examInProgress: false, staff: false }]) {
+    assert.equal(lexicalAssistanceAllowed("FULL_EXAM", state), false);
+    assert.equal(lexicalAssistanceAllowed("KEYWORD_PRACTICE", state), false);
+  }
+  assert.equal(modeForActivity(1), "FULL_EXAM");
+  isolated();
+  const author = await learner("admin");
+  const student = await learner();
+  const l = await listeningFixture(author.id, "I opened an account at the bank.", [vocab("bank", "n", `An institution that keeps money ${randomUUID()}`, "I opened an account at the bank.")]);
+  assert.ok(l.occurrences.length, "occurrence data EXISTS before the exam (data availability)…");
+  await examAttempt(student.id, l.testId, "in_progress");
+  const during = await resolveOccurrence(student, "listening", l.testId, l.occurrences[0]!.id);
+  assert.equal(during?.status, "locked", "…but revealing it is not permitted (permission)");
+  assert.equal(during?.lexeme, null);
+  assert.equal(during?.snapshot, null);
+});
+
+test("M22 mode transition: never-taken → locked; exam open → locked; submitted → resolved; a NEW open attempt re-locks", { skip: !enabled }, async () => {
+  isolated();
+  const author = await learner("admin");
+  const student = await learner();
+  const l = await listeningFixture(author.id, "Firms borrow from a bank.", [vocab("bank", "noun", `An institution that keeps money ${randomUUID()}`, "Firms borrow from a bank.")]);
+  const occ = l.occurrences[0]!.id;
+  assert.equal((await resolveOccurrence(student, "listening", l.testId, occ))?.status, "locked");
+  const attempt = await examAttempt(student.id, l.testId, "in_progress");
+  assert.equal((await resolveOccurrence(student, "listening", l.testId, occ))?.status, "locked");
+  await db.update(listeningAttempts).set({ status: "completed", submittedAt: new Date() }).where(eq(listeningAttempts.id, attempt.id));
+  assert.deepEqual(await listeningExamState(student, l.testId), { submitted: true, examInProgress: false, staff: false });
+  assert.equal((await resolveOccurrence(student, "listening", l.testId, occ))?.status, "resolved");
+  await examAttempt(student.id, l.testId, "in_progress");
+  assert.equal((await resolveOccurrence(student, "listening", l.testId, occ))?.status, "locked", "a second tab cannot be a dictionary for a retake");
+  assert.equal((await resolveOccurrence(author, "listening", l.testId, occ))?.status, "resolved", "staff may inspect content");
+});
+
+test("M23/M24 after submission, financial vs river bank: the money place resolves, the river place stays UNRESOLVED (one-meaning trap)", { skip: !enabled }, async () => {
+  isolated();
+  const author = await learner("admin");
+  const student = await learner();
+  const money = `An institution that keeps money ${randomUUID()}`;
+  const l = await listeningFixture(author.id, "My salary goes to the bank. We walked along the river bank.", [vocab("bank", "n", money, "My salary goes to the bank.")]);
+  await examAttempt(student.id, l.testId);
+  const [first, second] = l.occurrences.filter((row) => row.surfaceForm.toLowerCase() === "bank");
+  const a = await resolveOccurrence(student, "listening", l.testId, first!.id);
+  const b = await resolveOccurrence(student, "listening", l.testId, second!.id);
+  assert.equal(a?.status === "resolved" && a.lexeme.definitionEn, money);
+  assert.equal(b?.status, "unresolved", "the only known sense is NOT assigned to a different usage");
+  assert.equal(b?.lexeme, null);
+});
+
+test("M25/M26 save from review keeps the Listening source context; the same sense from Reading is ONE item with TWO contexts", { skip: !enabled }, async () => {
+  isolated();
+  const author = await learner("admin");
+  const user = await learner();
+  const r = await readingFixture(user.id);
+  const l = await listeningFixture(author.id, "Firms borrow from a bank.", [vocab("bank", "noun", r.money.definitionEn, "Firms borrow from a bank.")]);
+  await examAttempt(user.id, l.testId);
+  await save(user, "reading", r.attemptId, r.moneyOcc.id);
+  await save(user, "listening", l.testId, l.occurrences[0]!.id);
+  const items = await db.select().from(userVocabulary).where(and(eq(userVocabulary.userId, user.id), eq(userVocabulary.lexemeId, r.money.id)));
+  assert.equal(items.length, 1);
+  const contexts = await db.select().from(userVocabularyContexts).where(eq(userVocabularyContexts.userVocabularyId, items[0]!.id));
+  assert.deepEqual(contexts.map((c) => c.sourceType).sort(), ["listening", "reading"]);
+  const listening = contexts.find((c) => c.sourceType === "listening")!;
+  assert.equal(listening.occurrenceId, l.occurrences[0]!.id);
+  assert.equal(listening.snapshot.sentenceText, "Firms borrow from a bank.");
+  assert.equal(listening.snapshot.listeningTestId, l.testId);
+  assert.equal(listening.snapshot.sectionNumber, 2);
+  assert.equal(listening.snapshot.startMs ?? null, null, "no word timings exist; none is fabricated");
+});
+
+test("M27 Vocabulary Session: canonical sense wins over a conflicting package definition; order kept for index grading", { skip: !enabled }, async () => {
+  isolated();
+  const author = await learner("admin");
+  const def = `Land beside a river ${randomUUID()}`;
+  const entries = [vocab("the", "det", "function word", "the"), vocab("shore", "n", def, "We reached the shore.")];
+  const l = await listeningFixture(author.id, "We reached the shore.", entries);
+  const [sense] = await db.select().from(lexemes).where(eq(lexemes.definitionEn, def));
+  await db.update(lexemes).set({ translationUz: "qirg'oq (kanonik)" }).where(eq(lexemes.id, sense!.id));
+  const conflicting = [entries[0]!, { ...entries[1]!, uz: "PACKAGE LOCAL — must not win" }];
+  const session = await listeningVocabularySession(db, l.testId, conflicting);
+  assert.equal(session.length, 2, "one item per package entry");
+  assert.equal(session[0]!.senseId, null, "function word is not linked");
+  assert.equal(session[1]!.senseId, sense!.id);
+  assert.equal(session[1]!.translationUz, "qirg'oq (kanonik)");
+  assert.equal(session[1]!.occurrenceId, l.occurrences.find((o) => o.lexemeId === sense!.id)?.id);
+});
+
+test("M28 question evidence is independent of vocabulary occurrences: ingestion ignores evidence, evidence never creates a sense", { skip: !enabled }, async () => {
+  isolated();
+  const author = await learner("admin");
+  const plain = await listeningFixture(author.id, "The museum opens at nine.", []);
+  assert.equal(plain.occurrences.filter((o) => o.lexemeId).length, 0);
+  const source = readFileSync("src/lib/services/lexical/listening-occurrences.ts", "utf8");
+  assert.equal(/evidence/.test(source), false, "occurrence ingestion does not read question evidence");
 });

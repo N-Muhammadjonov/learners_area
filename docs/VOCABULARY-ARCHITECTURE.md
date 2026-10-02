@@ -605,3 +605,67 @@ implemented for TED or podcasts (schema columns only). Preview/Production proof 
 - `qa2-vocabulary-0029-upgrade.mjs` on a seeded 0028 database, then `drizzle-kit migrate`:
   EXISTING_LEXEME_IDS_CHANGED=0, READING_OCCURRENCES_BROKEN=0, USER_VOCABULARY_OR_SRS_CHANGED=0,
   DESTRUCTIVE_DATA_LOSS=0, LEXEMES_WITHOUT_UNIT=0, contexts 2/2.
+
+## B16. Listening runtime modes — exam integrity vs study/control
+
+Precomputed occurrence data is **data availability**; showing it to a learner is a
+**permission**. One policy (`src/lib/listening/lexical-policy.ts`) decides the
+permission, and both the pages and the API routes call it — hiding a popup is never
+the only barrier.
+
+| Mode | Surface | Contextual vocabulary |
+|---|---|---|
+| `FULL_EXAM` | Activity 1 (`NativeListeningExam`, legacy `ListeningExam`), attempt page while `in_progress` | **Never.** No word click, popup, tooltip, translation, pronunciation, highlighting or pointer. The exam components receive no transcript and import no lexical code. |
+| `REVIEW_CONTROL` | Activity 2 Review & Revision transcript, `/listening/tests/[id]/study` controlled practice | Only after a **submitted** exam for the test (or staff), and **not while an exam attempt is open** (a second tab cannot be a dictionary for a retake). Click → `occurrence_id` → exact sense; otherwise "Meaning not checked yet". |
+| `KEYWORD_PRACTICE` | Activities 3–4 | No popups (unchanged paraphrase training). |
+| `VOCABULARY_STUDY` | Activity 5 Vocabulary Session | Same gate as review. Items are package-curated, lexical truth is the **canonical sense**. |
+
+Server enforcement: `resolveOccurrence` returns `{status:"locked"}` for a forbidden
+Listening mode. `/api/vocabulary/lookup`, `/api/vocabulary/meaning`, `POST
+/api/vocabulary` (by occurrence or by `sessionSenseId`) answer **403
+`lexical_assistance_locked`**. Pages without permission render `ClickableText` with
+`lexicalAssistance={false}`: plain text, no `data-word`/`data-token`, no keyboard stop,
+and occurrence ids are not sent to the browser at all.
+
+Spelling is never contextual truth for Listening: a Listening word without a
+server-proven occurrence makes **no** meaning/library request; the popup goes
+straight to the unresolved state and only the learner's own meaning can be saved.
+
+Vocabulary Session (activity 5): `listeningVocabularySession` maps each package
+entry (in package order — quiz answers are graded by index) to its canonical sense
+by the same rule as ingestion. Display of term/POS/definition/Uzbek/IPA comes from
+the canonical sense; the package keeps only presentation (example sentence, "also
+said as", quiz). Saving sends `sessionSenseId`; the server re-derives the session
+list for that test, rejects any sense not on it (404), applies the policy, and saves
+the canonical sense with its first resolved occurrence in the test as the source
+context — so a review save and a session save of the same sense are one item.
+Entries not yet ingested (no sense) keep the old authored-text save path.
+
+Question-evidence highlighting (`questions[].evidence.at`) is answer-review data and
+is independent of vocabulary occurrences: occurrence ingestion never reads evidence,
+and evidence never creates or selects a sense.
+
+Timing: the package carries no word timings, so `startMs`/`endMs` stay `null`; the
+revisit target is test + section. Nothing is estimated.
+
+```
+FULL TEST (FULL_EXAM: plain exam, no lexical help — server returns 403)
+   │ submit
+   ▼
+REVIEW / CONTROL (REVIEW_CONTROL)
+   click word → occurrence_id → exact sense → popup → Add to Vocabulary
+   (no occurrence / other sense → "Meaning not checked yet")
+   │
+   ▼
+VOCABULARY SESSION (VOCABULARY_STUDY: canonical sense_id, package = presentation)
+   │ save (one item per sense, one context per source occurrence)
+   ▼
+SRS (per user) / RIWI V1 (sentence use tied to the saved sense)
+```
+
+Tests: `tests/vocabulary-architecture-qa2.test.ts` M21–M28 (real Postgres),
+`tests/ui/full-listening-controls.test.tsx` (plain study text before submission;
+canonical session save), `tests/ui/word-popover.test.tsx` (no spelling request), and
+a local HTTP run against the production build (A never-taken / B exam open → 403;
+C submitted → resolved, river trap unresolved, save, contexts; D session canonical,
+forged sense rejected, one item). Local evidence only — not Preview, not browser.
