@@ -1,22 +1,12 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { z } from "zod";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getLocale } from "@/lib/i18n";
 import { checkActivation } from "@/lib/services/writing/activation";
 import { writingAiReady } from "@/lib/writing/ai-readiness";
+import { activationCheckBody as body } from "@/lib/writing/activation-schema";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
-const body = z.object({
-  sessionId: z.string().uuid(),
-  entryId: z.string().uuid().nullish(),
-  customTerm: z.string().max(80).nullish(),
-  mode: z.enum(["writing", "speaking"]),
-  targetLevel: z.enum(["6", "7", "8"]),
-  uzbekPrompt: z.boolean(),
-  upgradeFrom: z.string().max(600).nullish(),
-  answer: z.string().min(1).max(600),
-}).strict().refine((b) => Boolean(b.entryId) !== Boolean(b.customTerm), { message: "one item" });
 
 /** POST /api/writing/activation/check — external-AI usage check for one item. Never auto-retried. */
 export async function POST(req: NextRequest) {

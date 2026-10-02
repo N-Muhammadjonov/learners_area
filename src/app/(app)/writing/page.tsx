@@ -119,7 +119,7 @@ export default async function WritingPage({ searchParams }: { searchParams: Prom
             <WritingActivities userId={user.id} dict={dict} />
           </Suspense>
         ) : tab === "activation" ? (
-          <Suspense fallback={<WritingActivitiesSkeleton />}><WritingActivationTab dict={dict} userId={user.id} item={sp.item} /></Suspense>
+          <Suspense fallback={<WritingActivitiesSkeleton />}><WritingActivationTab dict={dict} userId={user.id} item={sp.item} locale={locale} /></Suspense>
         ) : tab === "lessons" ? (
           <Suspense fallback={<WritingActivitiesSkeleton />}><WritingLessonsTab dict={dict} userId={user.id} /></Suspense>
         ) : (

@@ -13,6 +13,7 @@ import { writingPrompts } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { isUuid } from "@/lib/validation/ids";
 import { liveWhere } from "@/lib/services/cms/publication";
+import { activationOverview } from "@/lib/services/writing/activation";
 
 export default async function StudentDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -43,6 +44,8 @@ export default async function StudentDetailPage({ params }: { params: Promise<{ 
       }),
     );
 
+  const activation = await activationOverview(detail.student.id).catch(() => ({ wordsActivated: 0, averageActivation: null, dayStreak: 0, lastSession: null }));
+
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-6">
       <BackLink fallbackHref="/teacher/students" label={dict.common.back} />
@@ -61,6 +64,19 @@ export default async function StudentDetailPage({ params }: { params: Promise<{ 
           }))}
         />
       </div>
+
+      {/* Mentor visibility (§43/W5): read-only Activation Lab summary from the student's stored check events. */}
+      <Card className="flex flex-col gap-2" data-teacher-activation>
+        <h2 className="font-display text-lg text-ink-900">{dict.writingWorkspace.activation.mentorTitle}</h2>
+        {activation.lastSession ? (
+          <dl className="grid grid-cols-2 gap-3 text-sm sm:grid-cols-4">
+            <div><dt className="text-ink-500">{dict.writingWorkspace.activation.wordsActivated}</dt><dd className="font-semibold text-ink-900">{activation.wordsActivated}</dd></div>
+            <div><dt className="text-ink-500">{dict.writingWorkspace.activation.averageActivation}</dt><dd className="font-semibold text-ink-900">{activation.averageActivation ?? "—"}</dd></div>
+            <div><dt className="text-ink-500">{dict.writingWorkspace.activation.dayStreak}</dt><dd className="font-semibold text-ink-900">{activation.dayStreak}</dd></div>
+            <div><dt className="text-ink-500">{dict.writingWorkspace.activation.lastSession}</dt><dd className="font-semibold text-ink-900">{activation.lastSession.stats.accepted}/{activation.lastSession.stats.attempts}</dd></div>
+          </dl>
+        ) : <p className="text-sm text-ink-500">{dict.writingWorkspace.activation.mentorEmpty}</p>}
+      </Card>
 
       <div>
         <h2 className="mb-3 font-display text-lg text-ink-900">{dict.teacher.submissionsTitle}</h2>

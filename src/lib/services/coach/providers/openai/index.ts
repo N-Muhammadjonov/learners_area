@@ -34,7 +34,7 @@ topFixes: [{title: {en, uz}, explanation: {en, uz}, examples: [short quotes]}] (
 Uzbek text uses Latin script only. Never quote text that is not in the essay. No generic filler.`;
 }
 
-const CHECK_VERSIONS = { promptVersion: "writing-check-v1", rubricVersion: "writing-check-v1" };
+const CHECK_VERSIONS = { promptVersion: "writing-check-v2", rubricVersion: "writing-check-v2" };
 
 /** Writing workspace checks: short structured verdicts, never an essay band. */
 function writingCheckInstructions(kind: "translation" | "activation" | "pattern", mode = "writing"): string {
@@ -51,7 +51,9 @@ Put one improved learner-specific version in issues[0].suggestion when the answe
   if (kind === "activation") return `${common}
 Judge whether the learner used the target word/expression correctly in their own ${mode} sentence.
 criteria: EXACTLY meaning, form, collocation, naturalness, grammar (band 0..9 each). If the item is missing or misused, verdict is needs_correction.
-In speaking mode judge spoken naturalness; in writing mode judge written register.`;
+targetLevel is the learner's vocabulary target (5.5..7.5+), not an essay band: never give an IELTS essay band for one sentence.
+In writing mode judge formal Task 2-style written register. In speaking mode the learner TYPED a sentence they would say in Part 2-3:
+judge spoken-style naturalness of the text only. You have no audio: never comment on pronunciation, fluency, prosody or speaking performance.`;
   return `${common}
 Judge whether the learner adapted a language pattern from a source essay to a NEW topic.
 criteria: EXACTLY grammar, meaning, pattern (correct use of the pattern), adaptation (0 if the sentence copies the source example or keeps the source topic; 9 if it is fully adapted).
