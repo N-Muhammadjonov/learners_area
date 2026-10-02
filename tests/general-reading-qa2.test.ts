@@ -4,7 +4,7 @@ import { randomUUID } from "node:crypto";
 import { and, eq, inArray, sql } from "drizzle-orm";
 import { db } from "../src/db/client";
 import { generalReadingPassages, generalReadingProgress, lexemes, lexicalOccurrences, readingPassages, userVocabulary, userVocabularyContexts, users } from "../src/db/schema";
-import { resolveOccurrence, type VocabularySourceSnapshot } from "../src/lib/services/lexical/context";
+import { readingSourceAccess, resolveOccurrence, type VocabularySourceSnapshot } from "../src/lib/services/lexical/context";
 import { ingestListeningOccurrences } from "../src/lib/services/lexical/listening-occurrences";
 import { addVocabularyBatch, applyScheduledReview, listVocabularyContexts } from "../src/lib/services/vocabulary/engine";
 import { importGeneralReadingSet, type GeneralReadingBundle } from "../src/lib/services/reading/general-import";
@@ -233,9 +233,13 @@ test("12 SRS is not reset when the same sense is saved again from another Genera
   const [before] = await db.select().from(userVocabulary).where(eq(userVocabulary.id, a.ids[0]!));
   await save(u, "reading", g.ids[2], at(await g.occ(2), P2, "bank")!.id);
   const [after] = await db.select().from(userVocabulary).where(eq(userVocabulary.id, a.ids[0]!));
-  for (const key of ["mastery", "nextReviewAt", "reviewStage", "correctCount", "lexemeId"] as const) {
-    if (key in before!) assert.deepEqual((after as Record<string, unknown>)[key], (before as Record<string, unknown>)[key], key);
+  // VD-006: every compared field must exist (no silent skip of a misspelled key).
+  for (const key of ["mastery", "srsStage", "intervalDays", "nextReviewAt", "lastReviewedAt", "correctCount", "lexemeId"] as const) {
+    assert.ok(key in before!, `field ${key} exists`);
+    assert.deepEqual(after![key], before![key], key);
   }
+  assert.ok(before!.srsStage > 0 || before!.lastReviewedAt, "the review really changed SRS state before the re-encounter");
+  assert.equal(after!.seenCount, before!.seenCount + 1, "exposure is recorded instead");
 });
 
 test("13 Academic exam lock unchanged: an open Academic attempt is locked while General works for the same learner", { skip: !enabled }, async () => {
@@ -392,4 +396,20 @@ test("25 existing ids unchanged: adding General content never touches existing A
   const before = await snap();
   await generalSet();
   assert.equal(await snap(), before);
+});
+
+test("26 VD-001 occurrence-less Reading save gate: active exam locked, forged source not found, General and review allowed", { skip: !enabled }, async () => {
+  isolated();
+  const g = await generalSet(); const u = await learner(); const other = await learner();
+  const lex = at(await g.occ(1), P1, "bank")!.lexemeId!;
+  const exam = await academicPassage(lex, { userId: u.id, status: "in_progress" });
+  const done = await academicPassage(lex, { userId: u.id, status: "completed" });
+  assert.equal(await readingSourceAccess(u, exam.attemptId!), "locked", "active attempt id");
+  assert.equal(await readingSourceAccess(u, exam.passageId), "locked", "passage-id bypass");
+  assert.equal(await readingSourceAccess(u, randomUUID()), "not_found", "forged source id");
+  assert.equal(await readingSourceAccess(other, done.attemptId!), "not_found", "another learner's attempt id is not a source for them (IDOR)");
+  assert.equal(await readingSourceAccess(u, done.attemptId!), "allowed");
+  assert.equal(await readingSourceAccess(u, g.ids[2]), "allowed", "General passage");
+  const draft = await generalSet(false);
+  assert.equal(await readingSourceAccess(u, draft.ids[1]), "not_found", "draft General is invisible to a learner");
 });

@@ -140,6 +140,21 @@ export async function readingLexicalAccess(user: { id: string; role: Role }, sou
 }
 
 /**
+ * VD-001: a Reading save that carries NO occurrence (the learner's own meaning for an
+ * unresolved word) still obeys the Reading mode policy and needs a real source:
+ * this learner's attempt, or a passage they may see. Never decided by the request.
+ */
+export async function readingSourceAccess(user: { id: string; role: Role }, sourceId: string): Promise<"allowed" | "locked" | "not_found"> {
+  const attempt = await db.query.readingAttempts.findFirst({ where: and(eq(readingAttempts.id, sourceId), eq(readingAttempts.userId, user.id)) });
+  const passage = await db.query.readingPassages.findFirst({ where: eq(readingPassages.id, attempt?.passageId ?? sourceId) });
+  if (!passage) return "not_found";
+  const { mode, state, general } = await readingLexicalAccess(user, sourceId, passage.id);
+  if (!attempt && !isLive(passage) && !(general && state.staff)) return "not_found";
+  if (general && mode !== "GENERAL_READING") return "not_found";
+  return readingLexicalAssistanceAllowed(mode, state) ? "allowed" : "locked";
+}
+
+/**
  * A Reading occurrence that is known (offsets proven against the body) but has no
  * checked sense — e.g. "river bank" where only the financial bank was authored.
  * Same source validation as resolveReadingOccurrence; never paired with a meaning.
