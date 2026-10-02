@@ -8,6 +8,7 @@ import { NotMigrated } from "@/components/writing/workspace/NotMigrated";
 import { timed } from "@/lib/observability/timing";
 import { TypingTrainer } from "@/components/writing/TypingTrainer";
 import { WritingExamHome } from "@/components/writing/exam/WritingExamHome";
+import { WritingTopicVocabularyTab } from "@/components/writing/topic/WritingTopicVocabularyTab";
 import { WritingTranslationTab } from "@/components/writing/translation/WritingTranslationTab";
 import { RegionFailureNotice } from "@/components/interaction/RegionFailureNotice";
 import { WritingNav } from "@/components/writing/workspace/WritingNav";
@@ -85,7 +86,7 @@ function TypingRegionSkeleton() {
   return <div aria-hidden="true" className="h-48 animate-pulse rounded-xl bg-ink-50" data-async-loading="writing-typing-summary" />;
 }
 
-export default async function WritingPage({ searchParams }: { searchParams: Promise<{ tab?: string; view?: string }> }) {
+export default async function WritingPage({ searchParams }: { searchParams: Promise<{ tab?: string; view?: string; topic?: string; task?: string; fn?: string; item?: string }> }) {
   const [user, locale] = await Promise.all([requireActiveUser(), getLocale()]);
   const sp = await searchParams;
   if (!user) return null;
@@ -110,6 +111,8 @@ export default async function WritingPage({ searchParams }: { searchParams: Prom
           <Suspense fallback={<WritingActivitiesSkeleton />}><WritingExamHome dict={dict} userId={user.id} locale={locale} /></Suspense>
         ) : tab === "translation" ? (
           <Suspense fallback={<WritingActivitiesSkeleton />}><WritingTranslationTab dict={dict} userId={user.id} /></Suspense>
+        ) : tab === "topic-vocabulary" ? (
+          <Suspense fallback={<WritingActivitiesSkeleton />}><WritingTopicVocabularyTab dict={dict} userId={user.id} locale={locale} params={{ topic: sp.topic, task: sp.task, fn: sp.fn }} /></Suspense>
         ) : tab === "typing" ? (
           <Suspense fallback={<WritingActivitiesSkeleton />}>
             <WritingActivities userId={user.id} dict={dict} />
