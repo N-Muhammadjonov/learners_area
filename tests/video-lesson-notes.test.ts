@@ -58,7 +58,10 @@ test("the admin form authors notes and Management reports whether they exist", (
 
 test("captions stay inside the player; optional notes retain their reveal control", () => {
   const studio = read("src/components/courses/VideoLessonStudio.tsx");
-  assert.doesNotMatch(studio, /list\.push\("transcript"\)|data-video-transcript-reveal/);
+  // Superseded W12 (owner, TED/PODCAST final UX): Transcript appears only when authored content exists;
+  // captions still stay in the native player and there is still no below-player reveal control.
+  assert.match(studio, /if \(hasTranscript\) list\.push\("transcript"\);/);
+  assert.doesNotMatch(studio, /data-video-transcript-reveal/);
   assert.match(studio, /if \(notes\.length > 0\) list\.push\("notes"\);/);
   assert.match(studio, /data-video-notes-reveal/);
   assert.match(studio, /aria-expanded=\{notesShown\}/);

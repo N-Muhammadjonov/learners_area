@@ -343,6 +343,8 @@ const en = {
     revealNotes: "Show notes",
     hideNotes: "Hide notes",
     stagesLabel: "Lesson stages",
+    ended: "Video finished",
+    replay: "Replay",
     tabs: {
       before: "Before you watch",
       transcript: "Transcript",

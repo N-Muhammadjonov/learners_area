@@ -106,9 +106,10 @@ export function parseVideoInput(raw: string, options: { mediaOrigin?: string | n
  * The URL that goes into the iframe.
  *
  * `youtube-nocookie` is the privacy-enhanced domain. `rel=0` limits
- * recommendations to the same channel; it does not disable them or branding. Parameters the
- * provider offers for the JavaScript API (`enablejsapi`) are added by the
- * player component, not here, so this stays a pure URL builder.
+ * recommendations to the same channel; it does not disable them or branding.
+ * `enablejsapi=1` lets the player report its end/position to the page; `origin`
+ * is added only from the configured public origin (never "*"). `cc_load_policy=1`
+ * keeps the owner-requested native captions on by default.
  */
 export function embedUrlFor(provider: VideoProvider, videoId: string, options: { origin?: string } = {}): string {
   if (provider !== "youtube") throw new Error(`unsupported provider: ${provider}`);

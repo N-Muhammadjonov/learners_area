@@ -149,11 +149,21 @@ test("24 Notes appear only when notes exist", async () => {
   await mounted(studio({}, { notes: "Key idea" }), () => { assert.ok(document.querySelector('[data-video-tab="notes"]')); });
   await mounted(studio(), () => { assert.equal(document.querySelector('[data-video-tab="notes"]'), null); });
 });
-test("25 no app-owned More videos / Copy link / Watch on YouTube controls", () => mounted(studio({}, { transcript: [{ startSeconds: 0, text: "x" }], transcriptText: "x" }), () => {
-  const text = document.body.textContent ?? "";
-  for (const phrase of [/more videos/i, /copy link/i, /watch on youtube/i, /open on youtube/i]) assert.doesNotMatch(text, phrase);
-  assert.equal(document.querySelector('[data-video-tab="transcript"]'), null, "captions stay in the native player (owner decision W12)");
-}));
+test("25 no app-owned More videos / Copy link / Watch on YouTube; Transcript only when authored content exists", async () => {
+  await mounted(studio({}, { transcript: [{ startSeconds: 12, text: "Welcome to the talk." }], transcriptText: null }), async () => {
+    const text = document.body.textContent ?? "";
+    for (const phrase of [/more videos/i, /copy link/i, /watch on youtube/i, /open on youtube/i]) assert.doesNotMatch(text, phrase);
+    await act(async () => q<HTMLButtonElement>('[data-video-tab="transcript"]').click());
+    assert.match(q("[data-video-transcript-panel]").textContent ?? "", /0:12\s*Welcome to the talk\./);
+  });
+  await mounted(studio({}, { transcriptText: "Plain paragraph." }), async () => {
+    await act(async () => q<HTMLButtonElement>('[data-video-tab="transcript"]').click());
+    assert.equal(q("[data-video-transcript-text]").textContent, "Plain paragraph.");
+  });
+  for (const empty of [{ transcript: null, transcriptText: null }, { transcript: [], transcriptText: "  \n " }, { transcript: [{ startSeconds: 0, text: "  " }] }]) {
+    await mounted(studio({}, empty), () => { assert.equal(document.querySelector('[data-video-tab="transcript"]'), null); });
+  }
+});
 test("26 the player fills the width at 16:9 with nothing layered over it while playing", () => mounted(studio(), () => {
   const frame = q("[data-video-frame]");
   const wrap = frame.parentElement!;
@@ -161,6 +171,38 @@ test("26 the player fills the width at 16:9 with nothing layered over it while p
   assert.match(wrap.className, /w-full/);
   assert.equal(wrap.children.length, 1, "no overlay sibling over the iframe");
 }));
+test("A1 resume: an unfinished lesson reopens at the saved position; a completed one starts at 0", async () => {
+  const progress = (state: string, watchedSeconds: number) => ({ state, watchedSeconds, answers: {}, responseText: null, summaryText: null });
+  await mounted(studio({ initialProgress: progress("in_progress", 73.6) }), () => {
+    assert.equal(new URL(q<HTMLIFrameElement>("[data-video-frame]").src).searchParams.get("start"), "73");
+  });
+  for (const [state, seconds] of [["completed", 300], ["in_progress", 3], ["not_started", 0]] as const) {
+    await mounted(studio({ initialProgress: progress(state, seconds) }), () => {
+      assert.equal(new URL(q<HTMLIFrameElement>("[data-video-frame]").src).searchParams.get("start"), null);
+    });
+  }
+});
+test("A2 the verified end event sends the final position once and shows a localized replay", async () => {
+  const original = globalThis.fetch;
+  const bodies: unknown[] = [];
+  globalThis.fetch = (async (_url: unknown, init?: RequestInit) => { bodies.push(JSON.parse(String(init?.body))); return Response.json({ ok: true, watchedSeconds: 120, state: "completed" }); }) as typeof fetch;
+  try {
+    await mounted(studio({}, { durationSeconds: 120 }), async () => {
+      const frame = q<HTMLIFrameElement>("[data-video-frame]");
+      const forged = new dom.window.MessageEvent("message", { data: JSON.stringify({ event: "onStateChange", info: 0 }), origin: "https://evil.example", source: frame.contentWindow });
+      await act(async () => { window.dispatchEvent(forged); });
+      assert.ok(document.querySelector("[data-video-frame]"), "untrusted origin is ignored");
+      const real = new dom.window.MessageEvent("message", { data: JSON.stringify({ event: "onStateChange", info: 0 }), origin: "https://www.youtube-nocookie.com", source: frame.contentWindow });
+      await act(async () => { window.dispatchEvent(real); await new Promise((r) => setTimeout(r, 0)); });
+      assert.ok(q("[data-video-ended]").textContent?.includes(en.videoLesson.ended));
+      assert.ok(q("[data-video-ended] button").textContent?.includes(en.videoLesson.replay));
+      assert.deepEqual(bodies, [{ watchedSeconds: 120 }]);
+      assert.equal(q("[data-video-progress-state]").textContent, en.videoLesson.stateCompleted);
+    });
+  } finally { globalThis.fetch = original; }
+  assert.doesNotMatch(studioSrc, /Video tugadi|Qayta ko'rish/);
+  assert.equal(uz.videoLesson.ended, "Video tugadi");
+});
 test("outbound-navigation regression: no external link, new tab, or scripted navigation anywhere in the module", async () => {
   for (const src of [libraryPage, detailPage, cardSrc, thumbSrc, studioSrc]) {
     assert.doesNotMatch(src, /target="_blank"|window\.open|window\.location|location\.href|watchUrlFor|allow-popups|allow-top-navigation/);

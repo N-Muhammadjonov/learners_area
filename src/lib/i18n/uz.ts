@@ -345,6 +345,8 @@ const uz: Dictionary = {
     revealNotes: "Eslatmalarni ko'rsatish",
     hideNotes: "Eslatmalarni yashirish",
     stagesLabel: "Dars bosqichlari",
+    ended: "Video tugadi",
+    replay: "Qayta ko'rish",
     tabs: {
       before: "Ko'rishdan oldin",
       transcript: "Transkript",

@@ -8,9 +8,10 @@ import { embedUrlFor, type VideoProvider } from "@/lib/services/video/provider";
 import { DirectMediaPlayer, type DirectMediaControls } from "@/components/courses/DirectMediaPlayer";
 
 /** Validated provider embeds with native captions and server-authoritative progress.
- * Legacy transcript data stays compatible; it is not rendered as a lesson tab.
+ * An authored transcript (timed lines or plain text) is shown as a read-only
+ * Transcript tab only when it has content; native captions stay in the player.
  */
-type Tab = "before" | "notes" | "comprehension" | "gap" | "opinion" | "summary";
+type Tab = "before" | "transcript" | "notes" | "comprehension" | "gap" | "opinion" | "summary";
 
 type Question = {
   id: string;
@@ -66,10 +67,17 @@ export function VideoLessonStudio({
 
   const [state, setState] = useState(initialProgress?.state ?? "not_started");
   const [liveTime, setLiveTime] = useState<number | null>(null);
+  const liveTimeRef = useRef<number | null>(null);
+  useEffect(() => { liveTimeRef.current = liveTime; }, [liveTime]);
   const [blocked, setBlocked] = useState(false);
   const [playbackEnded, setPlaybackEnded] = useState(false);
   const [playbackGeneration, setPlaybackGeneration] = useState(0);
-  const [restartAt, setRestartAt] = useState(0);
+  // Resume: an unfinished lesson reopens where the server last acknowledged
+  // progress (YouTube's own `start` parameter); a completed one starts at 0.
+  const [restartAt, setRestartAt] = useState(() => {
+    const saved = initialProgress?.watchedSeconds ?? 0;
+    return initialProgress?.state !== "completed" && Number.isFinite(saved) && saved >= 5 ? Math.floor(saved) : 0;
+  });
   const [graded, setGraded] = useState<Record<string, { answer: string; correct: boolean }>>(
     initialProgress?.answers ?? {}
   );
@@ -82,12 +90,16 @@ export function VideoLessonStudio({
   const [savedResponse, setSavedResponse] = useState<boolean | null>(null);
 
   const notes = useMemo(() => (videoLesson.notes ?? "").trim(), [videoLesson.notes]);
+  const timedTranscript = useMemo(() => (videoLesson.transcript ?? []).filter((line) => line.text.trim().length > 0), [videoLesson.transcript]);
+  const plainTranscript = useMemo(() => (videoLesson.transcriptText ?? "").trim(), [videoLesson.transcriptText]);
+  const hasTranscript = timedTranscript.length > 0 || plainTranscript.length > 0;
   const comprehension = useMemo(() => questions.filter((q) => q.stage === "comprehension"), [questions]);
   const gapFill = useMemo(() => questions.filter((q) => q.stage === "gap_fill"), [questions]);
 
   const tabs = useMemo(() => {
     const list: Tab[] = [];
     if (videoLesson.beforeYouWatch) list.push("before");
+    if (hasTranscript) list.push("transcript");
     if (notes.length > 0) list.push("notes");
     if (comprehension.length > 0) list.push("comprehension");
     if (gapFill.length > 0) list.push("gap");
@@ -96,7 +108,7 @@ export function VideoLessonStudio({
     // remember from the video itself.
     list.push("summary");
     return list;
-  }, [videoLesson.beforeYouWatch, notes.length, comprehension.length, gapFill.length]);
+  }, [videoLesson.beforeYouWatch, hasTranscript, notes.length, comprehension.length, gapFill.length]);
 
   const [tab, setTab] = useState<Tab>(tabs[0] ?? "opinion");
   // Study notes are revealed only when requested.
@@ -194,6 +206,32 @@ export function VideoLessonStudio({
         if (progressRequest.current === controller) progressRequest.current = null;
       });
   }, [liveTime, videoLesson.id]);
+
+  // The last few seconds before "ended" never reach the 5-second write above, so
+  // send the final position once when the verified player reports the end.
+  // The server still clamps it to the authored duration and keeps it monotonic.
+  useEffect(() => {
+    if (!playbackEnded) return;
+    const finalSeconds = videoLesson.durationSeconds && videoLesson.durationSeconds > 0 ? videoLesson.durationSeconds : liveTimeRef.current;
+    if (finalSeconds === null || finalSeconds <= reportedRef.current) return;
+    const controller = new AbortController();
+    const deadline = window.setTimeout(() => controller.abort(), 12000);
+    fetch(`/api/video-lessons/${videoLesson.id}/progress`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ watchedSeconds: finalSeconds }),
+      signal: controller.signal,
+    })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((body) => {
+        if (controller.signal.aborted || !body) return;
+        if (Number.isFinite(body.watchedSeconds)) reportedRef.current = Math.max(reportedRef.current, body.watchedSeconds);
+        if (body.state) setState(body.state);
+      })
+      .catch(() => {})
+      .finally(() => window.clearTimeout(deadline));
+    return () => { window.clearTimeout(deadline); controller.abort(); };
+  }, [playbackEnded, videoLesson.id, videoLesson.durationSeconds]);
 
   useEffect(() => () => {
     const mutation = mutationRef.current;
@@ -306,8 +344,8 @@ export function VideoLessonStudio({
         ) : (
         <div className="relative aspect-video w-full">
             {playbackEnded ? <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 text-white" data-video-ended>
-              <p>{"Video tugadi / Video finished"}</p>
-              <button type="button" className="btn-primary" onClick={() => { setRestartAt(0); setPlaybackGeneration(n => n + 1); setPlaybackEnded(false); }}>{"▶ Qayta ko'rish / Replay"}</button>
+              <p>{t.ended}</p>
+              <button type="button" className="btn-primary" onClick={() => { setRestartAt(0); setPlaybackGeneration(n => n + 1); setPlaybackEnded(false); }}>▶ {t.replay}</button>
             </div> : <iframe
               key={playbackGeneration}
               ref={iframeRef}
@@ -369,6 +407,26 @@ export function VideoLessonStudio({
           <p className="whitespace-pre-line text-sm text-ink-700" data-video-before>
             {videoLesson.beforeYouWatch}
           </p>
+        ) : null}
+
+        {tab === "transcript" ? (
+          <div className="flex flex-col gap-2" data-video-transcript-panel>
+            {timedTranscript.length > 0 ? (
+              <ol className="flex flex-col gap-1.5">
+                {timedTranscript.map((line, index) => (
+                  <li key={`${line.startSeconds}-${index}`} className="flex gap-3 text-sm text-ink-700">
+                    <span className="shrink-0 font-mono text-xs leading-5 text-ink-500">{formatClock(line.startSeconds)}</span>
+                    <span>{line.text}</span>
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <p className="whitespace-pre-line text-sm text-ink-700" data-video-transcript-text>{plainTranscript}</p>
+            )}
+            {videoLesson.transcriptAttribution ? (
+              <p className="text-xs text-ink-500">{t.transcriptProvenance}: {videoLesson.transcriptAttribution}</p>
+            ) : null}
+          </div>
         ) : null}
 
         {tab === "notes" ? (

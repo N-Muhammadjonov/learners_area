@@ -60,7 +60,9 @@ test("W12: plain transcript is kept, timed lines stay timed, mixed input is refu
 
 test("W12 superseded UI: native captions replace the reveal; legacy transcript storage remains compatible", () => {
   const studio = read("src/components/courses/VideoLessonStudio.tsx");
-  assert.doesNotMatch(studio, /data-video-transcript-reveal|list\.push\("transcript"\)/);
+  // Superseded W12 (owner, TED/PODCAST final UX): a read-only Transcript tab exists only when content exists.
+  assert.doesNotMatch(studio, /data-video-transcript-reveal/);
+  assert.match(studio, /if \(hasTranscript\) list\.push\("transcript"\);/);
   assert.match(read("src/lib/services/video/provider.ts"), /cc_load_policy: "1"/);
   for (const page of ["src/app/(app)/video-lessons/[id]/page.tsx", "src/app/(app)/courses/ielts/lessons/[lessonId]/page.tsx"]) {
     assert.match(read(page), /transcriptText: (video\.)?videoLesson\.transcriptText \?\? null/);
