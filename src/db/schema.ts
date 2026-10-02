@@ -2056,6 +2056,28 @@ export const writingExamSessions = pgTable("writing_exam_sessions", {
   finalizedAt: timestamp("finalized_at", { withTimezone: true }),
 });
 
+/** 0032 Real Exam paper: one server deadline shared by its task entries. */
+export const writingExamPapers = pgTable("writing_exam_papers", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  mode: varchar("mode", { length: 8 }).$type<"task1" | "task2" | "full">().notNull(),
+  startedAt: timestamp("started_at", { withTimezone: true }).defaultNow().notNull(),
+  durationSeconds: integer("duration_seconds").notNull(),
+  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  finalizedAt: timestamp("finalized_at", { withTimezone: true }),
+  finalizeReason: varchar("finalize_reason", { length: 12 }).$type<"submitted" | "timeout" | "abandoned">(),
+});
+
+export const writingExamPaperEntries = pgTable("writing_exam_paper_entries", {
+  paperId: uuid("paper_id").notNull().references(() => writingExamPapers.id, { onDelete: "cascade" }),
+  position: smallint("position").notNull(),
+  taskType: writingTaskTypeEnum("task_type").notNull(),
+  promptId: uuid("prompt_id").notNull().references(() => writingPrompts.id),
+  submissionId: uuid("submission_id").notNull().unique().references(() => writingSubmissions.id, { onDelete: "cascade" }),
+  draftRevision: integer("draft_revision").notNull().default(0),
+  savedAt: timestamp("saved_at", { withTimezone: true }),
+}, (table) => [primaryKey({ columns: [table.paperId, table.position] })]);
+
 export const writingGradeRequests = pgTable("writing_grade_requests", {
   id: uuid("id").defaultRandom().primaryKey(),
   userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),

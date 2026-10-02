@@ -225,6 +225,13 @@
       "when": 1791100000000,
       "tag": "0031_writing_workspace",
       "breakpoints": true
+    },
+    {
+      "idx": 32,
+      "version": "7",
+      "when": 1791200000000,
+      "tag": "0032_writing_exam_papers",
+      "breakpoints": true
     }
   ]
 }
