@@ -1,0 +1,154 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { JSDOM } from "jsdom";
+import en from "../../src/lib/i18n/en";
+
+/*
+ * Reading mode separation (src/lib/reading/lexical-policy.ts).
+ * The SAME passage and the SAME precomputed occurrence are rendered in the active
+ * Academic exam and in the post-submission Academic review: only the mode differs.
+ */
+const dom = new JSDOM('<html><body><div id="root"></div></body></html>', { url: "http://localhost/reading" });
+for (const k of ["window", "document", "navigator", "HTMLElement", "HTMLButtonElement", "HTMLInputElement", "HTMLSelectElement", "HTMLTextAreaElement", "HTMLAnchorElement", "Element", "Node", "Event", "MouseEvent", "KeyboardEvent", "localStorage", "sessionStorage", "getComputedStyle"] as const)
+  Object.defineProperty(globalThis, k, { value: dom.window[k], configurable: true });
+Object.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true, self: globalThis, ResizeObserver: class { observe() {} disconnect() {} } });
+dom.window.HTMLElement.prototype.scrollIntoView = () => {};
+const React = await import("react");
+Object.assign(globalThis, { React });
+const { act } = React;
+const { createRoot } = await import("react-dom/client");
+const { AppRouterContext } = await import("next/dist/shared/lib/app-router-context.shared-runtime");
+const { ReadingExam } = await import("../../src/components/reading/ReadingExam");
+const { ReadingAnalysis } = await import("../../src/components/reading/ReadingAnalysis");
+const { readingLexicalAssistanceAllowed } = await import("../../src/lib/reading/lexical-policy");
+
+const router = { back() {}, forward() {}, refresh() {}, push() {}, replace() {}, prefetch() {} };
+const body = "The bank approved the loan. He took the cost into account.";
+const occurrences = [
+  { id: "occ-bank", startChar: 4, endChar: 8, surfaceForm: "bank" },
+  { id: "occ-take-into-account", startChar: 31, endChar: 57, surfaceForm: "took the cost into account" },
+];
+const material = { id: "mat-1", type: "text", position: 0, textContent: "Glossary-free note about the loan.", linkUrl: null, fileKey: null, fileName: null, mimeType: null, title: null } as never;
+
+async function mount(element: React.ReactElement, run: () => Promise<void>) {
+  document.body.innerHTML = '<div id="root"></div>';
+  const root = createRoot(document.querySelector("#root")!);
+  try {
+    await act(async () => root.render(React.createElement(AppRouterContext.Provider, { value: router as never }, element)));
+    await run();
+  } finally {
+    await act(async () => root.unmount());
+  }
+}
+
+function recordFetch() {
+  const urls: string[] = [];
+  const original = globalThis.fetch;
+  globalThis.fetch = (async (url: string) => {
+    urls.push(String(url));
+    if (String(url).includes("folders")) return new Response(JSON.stringify({ folders: [] }), { headers: { "Content-Type": "application/json" } });
+    if (String(url).includes("/api/vocabulary/lookup")) return new Response(JSON.stringify({ status: "resolved", contextual: { definitionEn: "An organisation that keeps money", translationUz: "bank", verificationStatus: "verified", partOfSpeech: "noun", lexicalType: "word", ipa: null }, known: null }), { headers: { "Content-Type": "application/json" } });
+    return new Response("{}", { status: 200, headers: { "Content-Type": "application/json" } });
+  }) as typeof fetch;
+  return { urls, restore: () => { globalThis.fetch = original; } };
+}
+
+const examProps = {
+  dict: en, attemptId: "11111111-1111-4111-8111-111111111111", passageTitle: "Banks", passageBody: body, passageMeta: null,
+  questions: [], groups: [], paragraphs: [], savedAnswers: {}, startedAt: new Date().toISOString(), suggestedMinutes: 20, materials: [material],
+};
+
+test("ACADEMIC_EXAM (active test): the passage reveals nothing — no word target, popup, Add to Vocabulary, hint text or lookup request", async () => {
+  const net = recordFetch();
+  try {
+    await mount(React.createElement(ReadingExam, examProps), async () => {
+      const passage = document.querySelector("[data-passage-body]")!;
+      assert.ok(passage.textContent?.includes("The bank approved the loan."), "the text itself is readable");
+      assert.ok(passage.querySelector("[data-exam-passage-text]"));
+      for (const selector of ["[data-clickable-text]", "[data-word]", "[data-token]", "[data-word-popover]", "[data-word-save]", "[role=dialog]"])
+        assert.equal(document.querySelector(selector), null, `no ${selector} in the active exam`);
+      // Attached material text inside the exam is plain as well.
+      assert.ok(document.querySelector("[data-resource-blocks] [data-plain-text]"));
+      assert.equal(document.body.textContent?.includes(en.readingPractice.wordSaveHint), false, "no 'click a word to save' hint");
+      // Visual integrity: nothing in the passage is a focus stop or styled as interactive vocabulary.
+      assert.equal(passage.querySelectorAll("[tabindex],button,a").length, 0, "no keyboard stop in the passage");
+      const classes = Array.from(passage.querySelectorAll("*")).map((el) => el.getAttribute("class") ?? "").join(" ");
+      for (const banned of ["cursor-pointer", "underline", "decoration-", "bg-signal", "hover:"]) assert.equal(classes.includes(banned), false, `no ${banned} on passage text`);
+      // Interaction attempts: click and keyboard on the passage produce no lookup.
+      const text = passage.querySelector("[data-exam-passage-text]") as HTMLElement;
+      await act(async () => { text.dispatchEvent(new dom.window.MouseEvent("click", { bubbles: true, detail: 1 })); });
+      await act(async () => { text.dispatchEvent(new dom.window.KeyboardEvent("keydown", { key: "Enter", bubbles: true })); });
+      assert.equal(document.querySelector("[role=dialog]"), null);
+      assert.deepEqual(net.urls.filter((url) => url.includes("/api/vocabulary")), []);
+    });
+  } finally { net.restore(); }
+});
+
+test("ACADEMIC_EXAM: exam component cannot receive lexical data (no occurrences prop, no ClickableText import)", () => {
+  const source = readFileSync("src/components/reading/ReadingExam.tsx", "utf8");
+  for (const banned of ["ClickableText", "occurrenceSpans", "OccurrenceSpan", "occurrences", "wordSaveHint"]) assert.equal(source.includes(banned), false, banned);
+  const page = readFileSync("src/app/(app)/reading/attempts/[id]/page.tsx", "utf8");
+  const examJsx = page.slice(page.indexOf("<ReadingExam"), page.indexOf("/>", page.indexOf("questions={questions.map")));
+  assert.equal(examJsx.includes("occurrences"), false, "the page does not send occurrences to the exam");
+});
+
+test("Same content, ACADEMIC_REVIEW (submitted): the same occurrence is interactive and resolves BY OCCURRENCE ID; keyboard open/close/focus return", async () => {
+  const net = recordFetch();
+  try {
+    await mount(React.createElement(ReadingAnalysis, { dict: en, score: 0, total: 0, questions: [], answers: [], passageBody: body, passageTitle: "Banks", attemptId: examProps.attemptId, locale: "en", occurrences }), async () => {
+      const show = Array.from(document.querySelectorAll("button")).find((b) => b.getAttribute("aria-expanded") !== null)!;
+      await act(async () => show.click());
+      const region = document.querySelector("[data-retention-passage] [data-clickable-text]") as HTMLElement;
+      assert.ok(region, "review passage is vocabulary-interactive");
+      // Keyboard: one focus stop, arrows move, Enter opens, Escape closes and returns focus.
+      assert.equal(region.getAttribute("tabindex"), "0");
+      region.focus();
+      await act(async () => { region.dispatchEvent(new dom.window.KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true })); });
+      await act(async () => { region.dispatchEvent(new dom.window.KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true })); });
+      await act(async () => { region.dispatchEvent(new dom.window.KeyboardEvent("keydown", { key: "Enter", bubbles: true })); });
+      await act(async () => { await new Promise((resolve) => setTimeout(resolve, 0)); });
+      const dialog = document.querySelector("[role=dialog]") as HTMLElement;
+      assert.ok(dialog, "popup opens from the keyboard");
+      assert.ok(dialog.contains(document.activeElement), "focus moves into the popup");
+      const lookup = net.urls.find((url) => url.includes("/api/vocabulary/lookup"));
+      assert.ok(lookup?.includes("occurrenceId=occ-bank"), `contextual click uses the occurrence id: ${lookup}`);
+      assert.equal(net.urls.some((url) => url.includes("/search?q=") || url.includes("/meaning?")), false, "no spelling lookup");
+      assert.ok(document.querySelector("[data-word-save]"), "Add to Vocabulary is available");
+      await act(async () => { document.activeElement!.dispatchEvent(new dom.window.KeyboardEvent("keydown", { key: "Escape", bubbles: true })); });
+      assert.equal(document.querySelector("[role=dialog]"), null);
+      assert.equal(document.activeElement, region, "focus returns to the text region");
+    });
+  } finally { net.restore(); }
+});
+
+test("Reading policy table: exam never, review only after submission and not while an attempt is open, general always", () => {
+  const states = [
+    { submitted: false, examInProgress: false, staff: false },
+    { submitted: true, examInProgress: false, staff: false },
+    { submitted: true, examInProgress: true, staff: false },
+    { submitted: true, examInProgress: true, staff: true },
+  ];
+  assert.deepEqual(states.map((s) => readingLexicalAssistanceAllowed("ACADEMIC_EXAM", s)), [false, false, false, false]);
+  assert.deepEqual(states.map((s) => readingLexicalAssistanceAllowed("ACADEMIC_REVIEW", s)), [false, true, false, false]);
+  assert.deepEqual(states.map((s) => readingLexicalAssistanceAllowed("GENERAL_READING", s)), [true, true, true, true]);
+});
+
+test("Review MWE: clicking 'account' (or 'took') opens the WHOLE expression by its occurrence, never 'account' alone", async () => {
+  const net = recordFetch();
+  try {
+    await mount(React.createElement(ReadingAnalysis, { dict: en, score: 0, total: 0, questions: [], answers: [], passageBody: body, passageTitle: "Banks", attemptId: examProps.attemptId, locale: "en", occurrences }), async () => {
+      const show = Array.from(document.querySelectorAll("button")).find((b) => b.getAttribute("aria-expanded") !== null)!;
+      await act(async () => show.click());
+      for (const word of ["account", "took"]) {
+        net.urls.length = 0;
+        const target = document.querySelector(`[data-retention-passage] [data-word="${word}"]`) as HTMLElement;
+        await act(async () => { target.dispatchEvent(new dom.window.MouseEvent("click", { bubbles: true, detail: 0 })); });
+        await act(async () => { await new Promise((resolve) => setTimeout(resolve, 0)); });
+        assert.equal(document.querySelector("[role=dialog]")?.getAttribute("aria-label"), "took the cost into account", word);
+        assert.ok(net.urls.some((url) => url.includes("occurrenceId=occ-take-into-account")), word);
+        await act(async () => { document.activeElement!.dispatchEvent(new dom.window.KeyboardEvent("keydown", { key: "Escape", bubbles: true })); });
+      }
+    });
+  } finally { net.restore(); }
+});

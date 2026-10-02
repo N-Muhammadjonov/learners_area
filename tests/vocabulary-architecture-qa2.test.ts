@@ -29,11 +29,12 @@ async function learner(role: "student" | "admin" = "student") {
 }
 
 /** A live Reading passage whose "bank" occurrences carry two different senses. */
-async function readingFixture(userId: string) {
+/** Reading content with a money and a river "bank". Default: a SUBMITTED Academic attempt (review). */
+async function readingFixture(userId: string, status: "completed" | "in_progress" = "completed") {
   const tag = randomUUID().slice(0, 8);
   const body = "The bank lends money to firms. Ducks sleep on the bank of the river.";
   const [passage] = await db.execute<{ id: string }>(sql`insert into reading_passages (title, body_text) values (${`QA2 reading ${tag}`}, ${body}) returning id`).then((r) => r.rows);
-  const [attempt] = await db.execute<{ id: string }>(sql`insert into reading_attempts (user_id, passage_id) values (${userId}, ${passage!.id}) returning id`).then((r) => r.rows);
+  const [attempt] = await db.execute<{ id: string }>(sql`insert into reading_attempts (user_id, passage_id, status, submitted_at) values (${userId}, ${passage!.id}, ${status}, ${status === "completed" ? new Date().toISOString() : null}) returning id`).then((r) => r.rows);
   const [money] = await db.insert(lexemes).values({ term: "bank", partOfSpeech: "noun", definitionEn: `A financial institution ${tag}`, senseKey: `qa2-money-${tag}`, provenance: "authored", verificationStatus: "verified" }).returning();
   const [river] = await db.insert(lexemes).values({ term: "bank", partOfSpeech: "noun", definitionEn: `Land beside a river ${tag}`, senseKey: `qa2-river-${tag}`, provenance: "authored", verificationStatus: "verified" }).returning();
   const at = (word: string, from = 0) => body.indexOf(word, from);
@@ -193,6 +194,9 @@ test("19/20 multi-user isolation: separate items, contexts and SRS per learner",
   const a = await learner();
   const b = await learner();
   const r = await readingFixture(a.id);
+  // B submitted the same passage too (Reading review is open only after submission);
+  // B still saves through the passage id, so B's context never points at A's attempt.
+  await db.insert(readingAttempts).values({ userId: b.id, passageId: r.passageId, status: "completed", submittedAt: new Date() });
   const ra = await save(a, "reading", r.attemptId, r.moneyOcc.id);
   const rb = await save(b, "reading", r.passageId, r.moneyOcc.id);
   assert.ok(ra.ok && rb.ok);
@@ -357,4 +361,136 @@ test("M28 question evidence is independent of vocabulary occurrences: ingestion 
   assert.equal(plain.occurrences.filter((o) => o.lexemeId).length, 0);
   const source = readFileSync("src/lib/services/lexical/listening-occurrences.ts", "utf8");
   assert.equal(/evidence/.test(source), false, "occurrence ingestion does not read question evidence");
+});
+
+// ---------------------------------------------------------------------------
+// Reading mode separation (ACADEMIC_EXAM vs ACADEMIC_REVIEW; GENERAL_READING policy).
+// ---------------------------------------------------------------------------
+import { readingAttempts, readingPassages } from "../src/db/schema";
+
+async function passageWith(body: string, spans: { term: string; def: string; surface: string; from?: number; pos?: string; key?: string }[]) {
+  const tag = randomUUID().slice(0, 8);
+  const [passage] = await db.insert(readingPassages).values({ title: `QA2 R ${tag}`, bodyText: body }).returning();
+  const out: { occurrenceId: string; lexemeId: string }[] = [];
+  const senses = new Map<string, string>();
+  for (const span of spans) {
+    const key = span.key ?? `${span.term}|${span.def}`;
+    let lexemeId = senses.get(key);
+    if (!lexemeId) {
+      const [row] = await db.insert(lexemes).values({ term: span.term, partOfSpeech: span.pos ?? "noun", definitionEn: span.def, senseKey: `qa2-r-${randomUUID()}`, provenance: "authored", verificationStatus: "verified" }).returning();
+      lexemeId = row!.id; senses.set(key, lexemeId);
+    }
+    const start = body.indexOf(span.surface, span.from ?? 0);
+    assert.ok(start >= 0, span.surface);
+    const [occ] = await db.insert(lexicalOccurrences).values({ lexemeId, passageId: passage!.id, surfaceForm: span.surface, startChar: start, endChar: start + span.surface.length, occurrenceType: "vocabulary", isTargetVocabulary: true }).returning();
+    out.push({ occurrenceId: occ!.id, lexemeId });
+  }
+  return { passageId: passage!.id, spans: out };
+}
+async function readingAttempt(userId: string, passageId: string, status: "completed" | "in_progress") {
+  const [row] = await db.insert(readingAttempts).values({ userId, passageId, status, ...(status === "completed" ? { submittedAt: new Date() } : {}) }).returning();
+  return row!;
+}
+
+test("R23 ACADEMIC_EXAM: occurrence data exists, but an open attempt reveals nothing — by attempt id AND by the passage-id bypass", { skip: !enabled }, async () => {
+  isolated();
+  const user = await learner();
+  const r = await readingFixture(user.id, "in_progress");
+  assert.ok(r.moneyOcc.id, "lexical data is precomputed (data availability)");
+  for (const sourceId of [r.attemptId, r.passageId]) {
+    const result = await resolveOccurrence(user, "reading", sourceId, r.moneyOcc.id);
+    assert.equal(result?.status, "locked", `locked via ${sourceId === r.attemptId ? "attempt" : "passage"} id`);
+    assert.equal(result?.lexeme, null);
+    assert.equal(result?.snapshot, null);
+  }
+  const rows = await db.select().from(lexicalOccurrences).where(eq(lexicalOccurrences.id, r.moneyOcc.id));
+  assert.equal(rows.length, 1, "backend data is not removed to satisfy the UI rule");
+});
+
+test("R27 Academic transition: never taken → locked; open → locked; submitted → resolved; a retake re-locks (also the old attempt id)", { skip: !enabled }, async () => {
+  isolated();
+  const user = await learner();
+  const p = await passageWith("The bank approved the loan.", [{ term: "bank", def: `A financial institution ${randomUUID()}`, surface: "bank" }]);
+  const occ = p.spans[0]!.occurrenceId;
+  assert.equal((await resolveOccurrence(user, "reading", p.passageId, occ))?.status, "locked", "never taken: the passage id is not a dictionary");
+  const first = await readingAttempt(user.id, p.passageId, "in_progress");
+  assert.equal((await resolveOccurrence(user, "reading", first.id, occ))?.status, "locked");
+  await db.update(readingAttempts).set({ status: "completed", submittedAt: new Date() }).where(eq(readingAttempts.id, first.id));
+  assert.equal((await resolveOccurrence(user, "reading", first.id, occ))?.status, "resolved");
+  assert.equal((await resolveOccurrence(user, "reading", p.passageId, occ))?.status, "resolved");
+  await readingAttempt(user.id, p.passageId, "in_progress");
+  assert.equal((await resolveOccurrence(user, "reading", first.id, occ))?.status, "locked", "the old review cannot assist the open retake");
+  assert.equal((await resolveOccurrence(await learner("admin"), "reading", p.passageId, occ))?.status, "resolved", "staff may inspect content");
+});
+
+test("R28/R29 bank polysemy by occurrence identity; one-meaning trap: an unlinked river 'bank' has NO occurrence, so no meaning is served", { skip: !enabled }, async () => {
+  isolated();
+  const user = await learner();
+  const money = `A financial institution ${randomUUID()}`, river = `Land beside a river ${randomUUID()}`;
+  const body = "She deposited her salary in the bank. They rested on the river bank.";
+  const two = await passageWith(body, [{ term: "bank", def: money, surface: "bank" }, { term: "bank", def: river, surface: "bank", from: body.indexOf("river") }]);
+  await readingAttempt(user.id, two.passageId, "completed");
+  const a = await resolveOccurrence(user, "reading", two.passageId, two.spans[0]!.occurrenceId);
+  const b = await resolveOccurrence(user, "reading", two.passageId, two.spans[1]!.occurrenceId);
+  assert.equal(a?.status === "resolved" && a.lexeme.definitionEn, money);
+  assert.equal(b?.status === "resolved" && b.lexeme.definitionEn, river);
+  // Trap: the dictionary knows only the money sense; only the salary place is linked.
+  const trap = await passageWith(body, [{ term: "bank", def: `A financial institution ${randomUUID()}`, surface: "bank" }]);
+  await readingAttempt(user.id, trap.passageId, "completed");
+  const riverStart = body.indexOf("bank", body.indexOf("river"));
+  const linked = await db.select().from(lexicalOccurrences).where(eq(lexicalOccurrences.passageId, trap.passageId));
+  assert.equal(linked.some((o) => o.startChar === riverStart), false, "no occurrence → the UI shows 'Meaning not checked yet' (UI test) and never searches by spelling");
+  assert.equal(await resolveOccurrence(user, "reading", trap.passageId, two.spans[1]!.occurrenceId), null, "another passage's river occurrence cannot be borrowed");
+});
+
+test("R30/R13 save from review: one sense-level item, source occurrence + passage in context; same sense in a 2nd passage → SAME item, 2 contexts; canonical not copied", { skip: !enabled }, async () => {
+  isolated();
+  const user = await learner();
+  const def = `A financial institution ${randomUUID()}`;
+  const [sense] = await db.insert(lexemes).values({ term: "bank", partOfSpeech: "noun", definitionEn: def, senseKey: `qa2-r-${randomUUID()}`, provenance: "authored", verificationStatus: "verified" }).returning();
+  const passages = [];
+  for (const body of ["The bank approved the loan.", "Her bank charged a fee."]) {
+    const [passage] = await db.insert(readingPassages).values({ title: `QA2 R ${randomUUID().slice(0, 6)}`, bodyText: body }).returning();
+    const start = body.indexOf("bank");
+    const [occ] = await db.insert(lexicalOccurrences).values({ lexemeId: sense!.id, passageId: passage!.id, surfaceForm: "bank", startChar: start, endChar: start + 4, occurrenceType: "vocabulary", isTargetVocabulary: true }).returning();
+    const attempt = await readingAttempt(user.id, passage!.id, "completed");
+    passages.push({ passageId: passage!.id, attemptId: attempt.id, occurrenceId: occ!.id, body });
+  }
+  for (const p of passages) await save(user, "reading", p.attemptId, p.occurrenceId);
+  const items = await db.select().from(userVocabulary).where(eq(userVocabulary.userId, user.id));
+  assert.equal(items.length, 1, "one student item for the sense");
+  assert.equal(items[0]!.lexemeId, sense!.id, "the item REFERENCES the canonical sense");
+  const contexts = await db.select().from(userVocabularyContexts).where(eq(userVocabularyContexts.userVocabularyId, items[0]!.id));
+  assert.equal(contexts.length, 2);
+  for (const p of passages) {
+    const c = contexts.find((row) => row.occurrenceId === p.occurrenceId)!;
+    assert.equal(c.snapshot.passageId, p.passageId);
+    assert.equal(c.snapshot.attemptId, p.attemptId, "revisit target: the learner's own attempt");
+    assert.equal(c.snapshot.sentenceText.includes("bank"), true);
+  }
+  await db.update(lexemes).set({ definitionEn: `${def} (edited)` }).where(eq(lexemes.id, sense!.id));
+  const [after] = await db.select({ def: lexemes.definitionEn }).from(userVocabulary).innerJoin(lexemes, eq(lexemes.id, userVocabulary.lexemeId)).where(eq(userVocabulary.id, items[0]!.id));
+  assert.equal(after!.def, `${def} (edited)`, "canonical edit is visible through the reference");
+});
+
+test("R31/R32 MWE resolves the whole expression; inflections run/runs/running/ran share one sense → ONE item, four distinct occurrences", { skip: !enabled }, async () => {
+  isolated();
+  const user = await learner();
+  const body = "He took the cost into account. I run daily. She runs fast. Running helps. We ran home.";
+  const runDef = `To move quickly on foot ${randomUUID()}`;
+  const p = await passageWith(body, [
+    { term: "take into account", def: `To consider something ${randomUUID()}`, surface: "took the cost into account", pos: "verb phrase" },
+    ...["run", "runs", "Running", "ran"].map((surface) => ({ term: "run", def: runDef, surface, pos: "verb", key: "run", from: surface === "run" ? body.indexOf("I run") : 0 })),
+  ]);
+  await readingAttempt(user.id, p.passageId, "completed");
+  const mwe = await resolveOccurrence(user, "reading", p.passageId, p.spans[0]!.occurrenceId);
+  assert.equal(mwe?.status === "resolved" && mwe.lexeme.term, "take into account");
+  assert.equal(mwe?.status === "resolved" && mwe.snapshot.surfaceForm, "took the cost into account");
+  const runIds = new Set(p.spans.slice(1).map((s) => s.lexemeId));
+  assert.equal(runIds.size, 1, "one shared sense for the four forms");
+  for (const span of p.spans.slice(1)) await save(user, "reading", p.passageId, span.occurrenceId);
+  const items = await db.select().from(userVocabulary).where(and(eq(userVocabulary.userId, user.id), eq(userVocabulary.lexemeId, [...runIds][0]!)));
+  assert.equal(items.length, 1, "no four duplicate entries");
+  const contexts = await db.select().from(userVocabularyContexts).where(eq(userVocabularyContexts.userVocabularyId, items[0]!.id));
+  assert.deepEqual(contexts.map((c) => c.snapshot.surfaceForm).sort(), ["Running", "ran", "run", "runs"], "surface occurrences stay distinct");
 });

@@ -669,3 +669,59 @@ canonical session save), `tests/ui/word-popover.test.tsx` (no spelling request),
 a local HTTP run against the production build (A never-taken / B exam open → 403;
 C submitted → resolved, river trap unresolved, save, contexts; D session canonical,
 forged sense rejected, one item). Local evidence only — not Preview, not browser.
+
+## B17. Reading runtime modes — IELTS Academic exam vs review vs general reading
+
+Same principle as B16: lexical data may exist without being exposed. The Reading
+policy lives in `src/lib/reading/lexical-policy.ts` and is enforced in
+`resolveOccurrence` (server) as well as in the UI.
+
+```
+READING
+│
+├── IELTS ACADEMIC EXAM  (in-progress attempt, ReadingExam)
+│       └── Vocabulary assistance OFF — plain passage, plain attached materials,
+│           no word targets/keyboard stop/pointer/underline/hint text,
+│           no occurrence data in the page; lookup/save → 403
+│
+├── ACADEMIC REVIEW / CONTROL  (submitted attempt, ReadingAnalysis → RetentionCheck passage, evidence quotes)
+│       └── Contextual vocabulary ON — only if no attempt of the passage is open
+│
+└── GENERAL READING  (policy: ON — NO product surface exists yet, see below)
+        └── occurrence → exact sense → popup → Add to Vocabulary → student learning state
+```
+
+| Mode | Decided by | Lexical help |
+|---|---|---|
+| `ACADEMIC_EXAM` | lookup source is the learner's attempt with `status = in_progress` | never |
+| `ACADEMIC_REVIEW` | a submitted attempt id, or a bare passage id (all current passages are Academic tests) | only with a submitted attempt of that passage AND no open attempt of it (staff may inspect) |
+| `GENERAL_READING` | — | allowed by policy; **not reachable**: there is no general-reading content model or page. The hub's "General" tab is an empty IELTS General Training placeholder and topic code `general` is a topic, not a mode. Nothing is marked as implemented that is not. |
+
+Implemented now:
+- `ReadingExam` takes no occurrence prop and imports no lexical component; the
+  attempt page sends no occurrence/sense data while the attempt is open. Attached
+  materials render through `ResourceBlocks lexicalAssistance={false}`.
+- The bare-passage-id path that used to resolve any live passage now requires a
+  submitted attempt — calling the endpoint with the passage id during an exam is 403.
+- An open retake re-locks the old review attempt id as well.
+- Reading words with no occurrence never trigger a spelling search
+  (`/api/vocabulary/search`): the popup shows "Meaning not checked yet" and only
+  the learner's own meaning can be saved. Library search stays a separate flow
+  (Vocabulary page, attached-material text outside exams).
+- Question evidence highlighting in `ReadingExam` is unchanged and carries no
+  vocabulary interaction; in review, evidence quotes are interactive only through
+  occurrences mapped into them — evidence never creates or selects a sense.
+- Saved contexts keep the occurrence, passage, sentence and the learner's own
+  attempt (revisit link `/reading/attempts/{id}`); the item references the
+  canonical sense (no copied truth). Same sense from two passages or from Reading
+  and Listening → one item, several contexts.
+
+Existing product behavior intentionally kept: the exam's whole-passage Read Aloud
+button and native text selection/copy (not vocabulary features, not changed here).
+
+Tests: `tests/ui/reading-mode-separation.test.tsx` (exam plain + no requests +
+keyboard; same content interactive in review; MWE; policy table),
+`tests/vocabulary-architecture-qa2.test.ts` R23/R27–R32 (real Postgres), and a
+local HTTP run against the production build (exam 403 by attempt and passage id,
+no lexical ids in exam HTML, review resolves/saves, retake re-locks). Local
+evidence only — not Preview, not a browser.

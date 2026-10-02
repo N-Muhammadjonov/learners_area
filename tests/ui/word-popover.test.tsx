@@ -34,7 +34,11 @@ async function page(fetcher: Fetcher, run: () => Promise<void>, props: Partial<P
   globalThis.fetch = ((url: string, options: RequestInit) => fetcher(String(url), options)) as typeof fetch;
   const root = createRoot(query("#root"));
   try {
-    await act(async () => root.render(<ClickableText dict={en} text="decades growing" sourceType="reading" sourceId="qa-attempt" {...props} />));
+    // Default source keeps the library-search path (attached material). Reading and
+    // Listening never search by spelling (no occurrence → unresolved); they are tested
+    // with explicit props below. The robustness invariants of the search path
+    // (abort, races, retry, malformed bodies, deadline) are unchanged.
+    await act(async () => root.render(<ClickableText dict={en} text="decades growing" sourceType="material" sourceId="qa-material" {...props} />));
     await run();
   } finally {
     window.getSelection()?.removeAllRanges();
@@ -388,4 +392,23 @@ test('Listening popup is a labelled dialog that takes focus, closes on Escape an
     assert.equal(document.querySelector('[data-word-popover]'), null);
     assert.equal(document.activeElement, query('[data-clickable-text]'));
   }, listeningSpans);
+});
+
+test('Reading word without an occurrence: no spelling search, "Meaning not checked yet", own meaning only', async () => {
+  const lookups: string[] = [];
+  let saved: Record<string, unknown> | undefined;
+  await page(async (url, options) => {
+    if (options.method === 'POST') { saved = JSON.parse(String(options.body)); return json({ ok: true }); }
+    if (url.includes('folders')) return folderReply();
+    lookups.push(url);
+    return json({ results: [{ id: 'x', term: 'decades', definitionEn: 'SPELLING GUESS', translationUz: 'X', mastery: 'new' }] });
+  }, async () => {
+    await click('[data-word="decades"]');
+    assert.ok(document.querySelector('[data-word-unresolved]'));
+    assert.equal(popupText().includes('SPELLING GUESS'), false);
+    await fill('[data-word-popover] input', 'Periods of ten years');
+    await click('[data-word-save]');
+    assert.equal(saved?.occurrenceId, undefined);
+    assert.deepEqual(lookups, [], 'no /search or /meaning request for a Reading spelling');
+  }, { sourceType: 'reading', sourceId: 'qa-attempt' });
 });
