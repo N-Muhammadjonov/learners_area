@@ -155,3 +155,33 @@ test("learner-facing text shows no internal ids or enum names (en + uz Latin)", 
     for (const p of ["1", "2", "3", "full"]) assert.ok(hrefs.includes(`/reading/general/${SET}?passage=${p}`), p);
   });
 });
+
+test("VD-003 XSS: HTML-like source, question and popup strings render as literal text, never as elements", async () => {
+  const evil = '<img src=x onerror="globalThis.__xss=1"> bank <script>globalThis.__xss=2</script>';
+  const xssPassage = { ...passages[0]!, body: evil, title: "<b>T</b>",
+    occurrences: [{ id: "occ-x", startChar: evil.indexOf("bank"), endChar: evil.indexOf("bank") + 4, surfaceForm: "bank" }],
+    questions: [{ id: "qx", questionNo: 1, order: 1, type: "short_answer", questionText: "<svg onload=alert(1)>Q</svg>", options: null }] };
+  const original = globalThis.fetch;
+  globalThis.fetch = (async (url: string) => new Response(JSON.stringify(String(url).includes("folders") ? { folders: [] }
+    : { status: "resolved", contextual: { definitionEn: "<img src=y onerror=alert(2)>money place", translationUz: "<i>bank</i>", verificationStatus: "verified", partOfSpeech: "noun", lexicalType: "word", ipa: null }, known: null }),
+    { headers: { "Content-Type": "application/json" } })) as typeof fetch;
+  try {
+    await mount(React.createElement(GeneralReadingSession, { dict: en, setId: SET, setTitle: "<i>S</i>", passages: [xssPassage], initialProgress: {}, mode: 1 }), async () => {
+      for (const tag of ["img", "script", "svg", "b", "i"]) assert.equal(document.querySelector(`[data-general-reading] ${tag}`), null, `no <${tag}> element from data`);
+      assert.ok(document.body.textContent!.includes('<img src=x onerror="globalThis.__xss=1">'), "source text kept verbatim, not stripped");
+      assert.ok(document.body.textContent!.includes("<svg onload=alert(1)>Q</svg>"));
+      const region = document.querySelector("[data-clickable-text]") as HTMLElement;
+      const bank = Array.from(region.querySelectorAll("[data-token]")).find((el) => el.textContent === "bank") as HTMLElement;
+      region.focus();
+      for (let i = 0; i < 40 && region.querySelector(".bg-signal-50")?.textContent !== "bank"; i += 1)
+        await act(async () => { region.dispatchEvent(new dom.window.KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true })); });
+      assert.ok(bank, "bank token exists");
+      await act(async () => { region.dispatchEvent(new dom.window.KeyboardEvent("keydown", { key: "Enter", bubbles: true })); });
+      await tick();
+      const dialog = document.querySelector("[role=dialog]")!;
+      assert.ok(dialog.textContent!.includes("<img src=y onerror=alert(2)>money place"), "popup meaning shown as text");
+      assert.equal(dialog.querySelector("img,i"), null);
+      assert.equal((globalThis as { __xss?: number }).__xss, undefined, "nothing executed");
+    });
+  } finally { globalThis.fetch = original; }
+});
