@@ -464,7 +464,8 @@ export function VideoLessonStudio({
 
       {requestError ? <p role="alert" data-video-request-error>{dict.common.error}</p> : null}
       <div
-        className="rounded-lg border border-ink-200 bg-paper-50 p-4"
+        key={activeTab}
+        className="motion-tab-panel rounded-lg border border-ink-200 bg-paper-50 p-4"
         role="tabpanel"
         id={`${tabIdBase}-panel`}
         aria-labelledby={`${tabIdBase}-tab-${activeTab}`}

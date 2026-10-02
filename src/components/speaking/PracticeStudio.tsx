@@ -53,10 +53,10 @@ export function PracticeStudio({ dict, prompts }: { dict: Dictionary; prompts: P
       </nav>
 
       {step === "part" && (
-        <div className="grid gap-4 sm:grid-cols-3" data-practice-parts>
+        <div className="motion-enter-stagger grid gap-4 sm:grid-cols-3" data-practice-parts>
           {PRACTICE_PARTS.map((p) => (
             <button key={p} type="button" disabled={counts[p] === 0} onClick={() => go(p, null)} data-practice-part={p}
-              className="card flex min-h-32 flex-col items-start gap-2 p-5 text-left transition-transform duration-150 hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50 motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+              className="card motion-lift flex min-h-32 flex-col items-start gap-2 p-5 text-left disabled:cursor-not-allowed disabled:opacity-50">
               <span className="font-display text-lg text-ink-900">{t.part[p]}</span>
               <span className="text-sm text-ink-500">{t.partBody[p]}</span>
               <span className="mt-auto text-xs text-ink-500">{t.questionCount.replace("{n}", String(counts[p]))}</span>

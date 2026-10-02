@@ -85,7 +85,9 @@ test("fonts and welcome: owner font roles, no VocaType assets, single authoritat
   const fonts = readFileSync("src/lib/ui/fonts.ts", "utf8");
   // Self-hosted OFL files (no build-time network); every referenced file exists and is in the provenance ledger.
   const files = [...fonts.matchAll(/fonts\/([a-z0-9-]+\.woff2)/g)].map((m) => m[1]!);
-  for (const family of ["quicksand", "be-vietnam-pro", "kanit", "roboto-mono", "itim"]) assert.ok(files.some((f) => f.startsWith(family)), family);
+  // Owner master prompt §8 replaced Quicksand (UI) / Be Vietnam Pro (academic) with Geist Sans + Sora.
+  for (const family of ["geist", "sora", "kanit", "roboto-mono", "itim"]) assert.ok(files.some((f) => f.startsWith(family)), family);
+  assert.ok(!files.some((f) => /quicksand|be-vietnam/.test(f)), "superseded faces are gone");
   const provenance = readFileSync("src/fonts/PROVENANCE.md", "utf8");
   const { createHash } = await import("node:crypto");
   for (const file of files) {
@@ -98,7 +100,9 @@ test("fonts and welcome: owner font roles, no VocaType assets, single authoritat
   assert.ok(!fonts.includes("next/font/google"));
   assert.match(readFileSync("src/app/layout.tsx", "utf8"), /<html className=\{fontVariables\}/);
   const css = readFileSync("src/app/globals.css", "utf8");
-  assert.match(css, /\.academic-text \{ font-family: var\(--font-academic\)/);
+  // §8: long reading text uses the readable UI family, not a display face.
+  assert.match(css, /\.academic-text \{ font-family: var\(--font-ui\)/);
+  assert.match(css, /--font-display: var\(--font-heading\)/);
   assert.match(css, /prefers-reduced-motion: reduce\) \{ \.la-welcome-chip, \.la-welcome-heading, \.la-welcome-cta \{ animation: none; \}/);
   const page = readFileSync("src/app/page.tsx", "utf8");
   assert.equal((page.match(/<Link\s/g) ?? []).length, 1);

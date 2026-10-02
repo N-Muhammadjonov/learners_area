@@ -157,7 +157,14 @@
   }
   body {
     @apply bg-paper text-ink-900 antialiased;
+    /* §8 readable body: ≥16px, weight 450–500, line-height 1.5–1.7. */
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 450;
+    line-height: 1.6;
   }
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 650; }
+  strong, b, label, button { font-weight: 550; }
   ::selection {
     @apply bg-signal-600 text-signal-contrast;
   }
@@ -1091,8 +1098,9 @@
 
 
 /* Font assignments follow the owner's RTF, not Booster's typography. */
-:root { --font-sans: var(--font-ui), system-ui, sans-serif; --font-display: var(--font-ui), system-ui, sans-serif; --font-mono: var(--font-technical), ui-monospace, monospace; }
-.academic-text { font-family: var(--font-academic), system-ui, sans-serif; line-height: 1.75; }
+:root { --font-sans: var(--font-ui), system-ui, sans-serif; --font-display: var(--font-heading), var(--font-ui), system-ui, sans-serif; --font-mono: var(--font-technical), ui-monospace, monospace; }
+/* Long reading text uses the readable UI family (§8), never the display face. */
+.academic-text { font-family: var(--font-ui), system-ui, sans-serif; font-weight: 450; line-height: 1.7; }
 .game-display { font-family: var(--font-game), var(--font-ui), sans-serif; }
 .technical-text { font-family: var(--font-technical), ui-monospace, monospace; font-variant-numeric: tabular-nums; }
 .celebration-copy { font-family: var(--font-celebration), var(--font-ui), sans-serif; }
@@ -1122,7 +1130,7 @@
 .listening-question-nav { position:sticky; bottom:0; padding:12px; background:rgb(var(--paper-raised)); border:1px solid rgb(var(--ink-100)); border-radius:12px; display:flex; flex-wrap:wrap; gap:6px; z-index:20; }
 
 /* Original lightweight motion: transform-only loops, no animation library. */
-h1.font-display, h2.font-display, h3.font-display { font-weight: 700; }
+h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spacing: -0.01em; }
 .la-welcome { position: relative; isolation: isolate; background: #080f21; }
 .la-welcome-cosmos { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: -1; }
 .la-welcome-aurora { position: absolute; width: min(90vw, 1100px); height: 70vh; top: 5%; left: 5%; background: radial-gradient(ellipse, #30628b35, transparent 65%); animation: la-aurora-drift 16s ease-in-out infinite alternate; }
@@ -1151,3 +1159,21 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 700; }
 .la-welcome-text-second { animation-delay:.16s; }
 @keyframes la-text-rise { 0%,100% { transform:translateY(0); } 45% { transform:translateY(-5px); } }
 @media (prefers-reduced-motion:reduce) { .la-welcome-text { animation:none; } }
+
+/* Motion system (§9): selective, transform/opacity only, never on reading,
+   writing, question text, long forms or tables. Durations follow the owner's
+   bands: hover 150ms, press 110ms, tab 200ms, card entrance 280ms, panel
+   220ms, success 350ms. The global reduced-motion rule above neutralises all. */
+:root { --motion-hover: 150ms; --motion-press: 110ms; --motion-tab: 200ms; --motion-enter: 280ms; --motion-panel: 220ms; --motion-success: 350ms; --motion-ease: cubic-bezier(.2,.7,.2,1); }
+.motion-enter { animation: la-motion-enter var(--motion-enter) var(--motion-ease) both; }
+.motion-enter-stagger > * { animation: la-motion-enter var(--motion-enter) var(--motion-ease) both; }
+.motion-enter-stagger > *:nth-child(2) { animation-delay: 40ms; }
+.motion-enter-stagger > *:nth-child(3) { animation-delay: 80ms; }
+.motion-enter-stagger > *:nth-child(4) { animation-delay: 120ms; }
+.motion-tab-panel { animation: la-motion-fade var(--motion-tab) ease-out both; }
+.motion-lift { transition: transform var(--motion-hover) var(--motion-ease), box-shadow var(--motion-hover) var(--motion-ease); }
+@media (hover: hover) { .motion-lift:hover { transform: translateY(-2px); } }
+.motion-lift:active { transform: translateY(0) scale(.99); transition-duration: var(--motion-press); }
+@keyframes la-motion-enter { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes la-motion-fade { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .motion-enter, .motion-enter-stagger > *, .motion-tab-panel { animation: none; } .motion-lift, .motion-lift:hover, .motion-lift:active { transform: none; transition: none; } }
