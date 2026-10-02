@@ -1,7 +1,8 @@
 import "server-only";
 import { and, asc, eq, inArray, isNull, sql } from "drizzle-orm";
 import { db } from "@/db/client";
-import { writingExamPaperEntries, writingExamPapers, writingPrompts, writingSubmissions } from "@/db/schema";
+import { writingExamPaperEntries, writingExamPapers, writingGradeRequests, writingPrompts, writingSubmissions } from "@/db/schema";
+import { findEvaluationsForSources } from "@/lib/data/evaluations";
 import { liveWhere } from "@/lib/services/cms/publication";
 import { countEssayWords, type WritingTask } from "@/lib/writing/grade-criteria";
 import { EXAM_MODES, EXAM_SAVE_GRACE_SECONDS, type ExamMode } from "@/lib/writing/exam-modes";
@@ -218,4 +219,26 @@ export async function examPromptAvailability(database: Database = db) {
     .groupBy(writingPrompts.taskType);
   const by = Object.fromEntries(rows.map((r) => [r.task, Number(r.n)])) as Partial<Record<WritingTask, number>>;
   return { task1: by.task1 ?? 0, task2: by.task2 ?? 0 };
+}
+
+/** The Grade My Work idempotency key for one exam entry: one AI grade per entry, ever. */
+export function examGradeKey(paperId: string, position: number) {
+  return `exam_${paperId}_${position}`;
+}
+
+/** Existing AI grades (if any) for a finalized paper's entries, keyed by position. */
+export async function examEntryGrades(userId: string, paper: ExamPaperView, database: Database = db) {
+  const keys = paper.entries.map((e) => examGradeKey(paper.id, e.position));
+  const rows = await database.select({ id: writingGradeRequests.id, key: writingGradeRequests.idempotencyKey, status: writingGradeRequests.status })
+    .from(writingGradeRequests).where(and(eq(writingGradeRequests.userId, userId), inArray(writingGradeRequests.idempotencyKey, keys)));
+  const evaluated = rows.filter((r) => r.status === "evaluated").map((r) => r.id);
+  const evals = evaluated.length ? await findEvaluationsForSources({ sourceType: "writing_grade", sourceIds: evaluated }) : new Map();
+  const out = new Map<number, { requestId: string; status: string; overall: number | null }>();
+  for (const e of paper.entries) {
+    const r = rows.find((x) => x.key === examGradeKey(paper.id, e.position));
+    if (!r) continue;
+    const ev = evals.get(r.id) as { providerType?: string; fallbackUsed?: boolean; overallEstimate?: number | null } | undefined;
+    out.set(e.position, { requestId: r.id, status: r.status, overall: ev && ev.providerType === "external" && !ev.fallbackUsed ? ev.overallEstimate ?? null : null });
+  }
+  return out;
 }

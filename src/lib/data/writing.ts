@@ -1,4 +1,4 @@
-import { and, asc, count, desc, eq, max } from "drizzle-orm";
+import { and, asc, count, desc, eq, inArray, max } from "drizzle-orm";
 import { db } from "@/db/client";
 import { liveWhere } from "@/lib/services/cms/publication";
 import {
@@ -134,4 +134,19 @@ export async function typingSummary(userId: string) {
     bestWpm: total > 0 && summary?.bestWpm != null ? Number(summary.bestWpm) : null,
     bestAccuracy: total > 0 && summary?.bestAccuracy != null ? Number(summary.bestAccuracy) : null,
   };
+}
+
+/** Attached materials (Task 1 chart/map/process images etc.) for specific prompts. */
+export async function resourceBlocksForPrompts(promptIds: string[]): Promise<Map<string, ResourceBlockView[]>> {
+  const out = new Map<string, ResourceBlockView[]>();
+  if (!promptIds.length) return out;
+  const rows = await db.select().from(resourceBlocks)
+    .where(and(eq(resourceBlocks.ownerType, "writing"), inArray(resourceBlocks.ownerId, promptIds)))
+    .orderBy(asc(resourceBlocks.position));
+  for (const row of rows) {
+    const list = out.get(row.ownerId) ?? [];
+    list.push(toResourceBlockView([row])[0]!);
+    out.set(row.ownerId, list);
+  }
+  return out;
 }

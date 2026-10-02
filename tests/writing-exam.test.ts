@@ -124,3 +124,28 @@ test("full paper band: Task 2 counts double; clock formatting", () => {
   assert.equal(formatClock(1200), "20:00");
   assert.equal(formatClock(3600), "1:00:00");
 });
+
+test("E8 autosave is debounced and revisioned; the runner never reads the device wall clock", async () => {
+  const { EXAM_AUTOSAVE_DEBOUNCE_MS } = await import("../src/lib/writing/exam-modes");
+  assert.ok(EXAM_AUTOSAVE_DEBOUNCE_MS >= 1000);
+  const runner = readFileSync("src/components/writing/exam/ExamRunner.tsx", "utf8");
+  const onChange = runner.slice(runner.indexOf("const onChange"), runner.indexOf("// Time up"));
+  assert.match(onChange, /clearTimeout\(timers\.current\.debounce\)/);
+  assert.match(onChange, /setTimeout\([\s\S]*EXAM_AUTOSAVE_DEBOUNCE_MS\)/);
+  assert.doesNotMatch(onChange, /fetch\(/, "no request per keystroke");
+  assert.match(onChange, /localStorage\.setItem/, "local emergency copy before any network call");
+  assert.match(runner, /revision: e\.revision/);
+  assert.doesNotMatch(runner, /Date\.now\(\)|new Date\(\)/);
+  assert.match(runner, /performance\.now\(\)/);
+});
+
+test("Exam API: the client sends only the mode / text / revision — never time or duration", () => {
+  const start = readFileSync("src/app/api/writing/exam/route.ts", "utf8");
+  assert.match(start, /z\.object\(\{ mode: z\.enum\(\["task1", "task2", "full"\]\) \}\)\.strict\(\)/);
+  const draft = readFileSync("src/app/api/writing/exam/[id]/draft/route.ts", "utf8");
+  assert.doesNotMatch(draft, /expires|duration|startedAt/);
+  assert.match(draft, /\.strict\(\)/);
+  const page = readFileSync("src/app/(app)/writing/page.tsx", "utf8");
+  assert.match(page, /tab === "exam" \?[\s\S]*WritingExamHome/);
+  assert.doesNotMatch(page, /StartPromptButton/, "the old prompt-card list is no longer the exam");
+});
