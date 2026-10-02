@@ -100,10 +100,11 @@ test("Writing prompt entry does not wait for typing stats; the typing region cat
   const page = read("src/app/(app)/writing/page.tsx");
   const writingData = read("src/lib/data/writing.ts");
   const activities = page.slice(page.indexOf("async function WritingActivities"), page.indexOf("function WritingActivitiesSkeleton"));
-  assert.match(activities, /timed\("writing\.promptsAndResources"/);
+  // Typing content is Band 8–9 model texts (§41), never prompts.
+  assert.match(activities, /timed\("writing\.modelTexts"/);
   assert.match(activities, /<Suspense fallback=\{<TypingRegionSkeleton \/>\}>/);
   assert.match(activities, /const typingPromise = timed\("writing\.typingSummary"/);
-  assert.ok(activities.indexOf("const typingPromise") < activities.indexOf("writing.promptsAndResources"), "typing summary starts before the prompt query resolves");
+  assert.ok(activities.indexOf("const typingPromise") < activities.indexOf("writing.modelTexts"), "typing summary starts before the model-text query resolves");
   assert.match(activities, /WritingTypingRegion typingPromise=\{typingPromise\}/);
   assert.doesNotMatch(activities, /Promise\.all\([\s\S]*typingSummary/);
   assert.match(page, /async function WritingTypingRegion[\s\S]*await typingPromise[\s\S]*if \(!result\.ok\)[\s\S]*RegionFailureNotice/);

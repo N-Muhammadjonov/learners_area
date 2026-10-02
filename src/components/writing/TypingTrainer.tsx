@@ -1,167 +1,188 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { Card } from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { Dictionary } from "@/lib/i18n/en";
-import { CHARS_PER_WORD, computeTypingMetrics } from "@/lib/services/writing/typing";
+import type { ModelTextView } from "@/lib/services/writing/typing-runs";
+import { computeTypingResult, type TypingResult } from "@/lib/services/writing/typing";
+import { formatClock } from "@/lib/writing/exam-modes";
 
-type Target = { id: string; label: string; text: string };
+type Summary = { count: number; bestWpm: number | null; bestAccuracy: number | null };
+type HistoryRow = { id: string; createdAt: string; wpm: number; accuracy: number; durationMs: number; mistakes: number; title: string };
 
-export function TypingTrainer({
-  dict,
-  targets,
-  initialSummary,
-}: {
-  dict: Dictionary;
-  targets: Target[];
-  initialSummary: { count: number; bestWpm: number | null; bestAccuracy: number | null };
+/**
+ * Typing on complete Band 8–9 model texts (PDF pp.11–12). The target is always
+ * a published model text chosen by id; the server reloads its body and
+ * recomputes every metric. The live numbers here are a preview only.
+ */
+export function TypingTrainer({ dict, texts, initialSummary, initialHistory }: {
+  dict: Dictionary; texts: ModelTextView[]; initialSummary: Summary; initialHistory: HistoryRow[];
 }) {
-  const [targetId, setTargetId] = useState(targets[0]?.id ?? "");
+  const t = dict.writingWorkspace.typing;
+  const [textId, setTextId] = useState(texts[0]?.id ?? "");
   const [typed, setTyped] = useState("");
+  const [token, setToken] = useState<string | null>(null);
   const [startedAt, setStartedAt] = useState<number | null>(null);
   const [elapsed, setElapsed] = useState(0);
   const [summary, setSummary] = useState(initialSummary);
-  const [verdict, setVerdict] = useState<{ wpm: number; accuracy: number } | null>(null);
+  const [history, setHistory] = useState(initialHistory);
+  const [result, setResult] = useState<TypingResult | null>(null);
+  const [busy, setBusy] = useState<null | "start" | "finish">(null);
   const [error, setError] = useState<string | null>(null);
-  const [busy, setBusy] = useState(false);
-  const timer = useRef<ReturnType<typeof setInterval> | null>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+  const text = texts.find((x) => x.id === textId) ?? texts[0];
 
-  const target = targets.find((t) => t.id === targetId) ?? targets[0];
+  useEffect(() => {
+    if (startedAt == null) return;
+    const id = window.setInterval(() => setElapsed(performance.now() - startedAt), 250);
+    return () => window.clearInterval(id);
+  }, [startedAt]);
 
-  function start() {
-    setTyped("");
-    setVerdict(null);
-    setError(null);
-    setStartedAt(Date.now());
-    setElapsed(0);
-    if (timer.current) clearInterval(timer.current);
-    timer.current = setInterval(() => {
-      setElapsed((prev) => prev + 1000);
-    }, 1000);
-  }
+  const preview = useMemo(() => {
+    if (!text || startedAt == null || elapsed < 5000 || !typed) return null;
+    try { return computeTypingResult(text.body, typed, elapsed); } catch { return null; }
+  }, [text, typed, elapsed, startedAt]);
 
-  function stop() {
-    if (timer.current) clearInterval(timer.current);
-    timer.current = null;
-  }
+  if (!text) return null;
 
-  /** A live preview from the browser clock; the server's number is the real one. */
-  const preview =
-    startedAt && typed.length > 0 && elapsed > 0 && target
-      ? computeTypingMetrics(target.text, typed, elapsed)
-      : null;
+  const start = async () => {
+    setBusy("start"); setError(null); setResult(null); setTyped(""); setElapsed(0); setStartedAt(null);
+    try {
+      const res = await fetch("/api/writing/typing/start", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ modelTextId: text.id }) });
+      const data = (await res.json().catch(() => null)) as { token?: string } | null;
+      if (!res.ok || !data?.token) { setError(t.error); setBusy(null); return; }
+      setToken(data.token);
+      setStartedAt(performance.now());
+      setTimeout(() => inputRef.current?.focus(), 0);
+    } catch { setError(t.error); }
+    setBusy(null);
+  };
 
-  async function submit() {
-    if (!target || !startedAt) return;
-    const durationMs = Date.now() - startedAt;
-    stop();
-    setBusy(true);
-    setError(null);
-    const res = await fetch("/api/writing/typing", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ targetText: target.text, typedText: typed, durationMs }),
-    });
-    setBusy(false);
-    const body = await res.json().catch(() => null);
-    if (!res.ok) {
-      setError(body?.error === "invalid_duration" ? dict.writing.typingTooShort : dict.common.error);
-      return;
-    }
-    setVerdict({ wpm: body.run.wpm, accuracy: body.run.accuracy });
-    setSummary({
-      count: body.summary.count,
-      bestWpm: body.summary.bestWpm,
-      bestAccuracy: body.summary.bestAccuracy,
-    });
-    setStartedAt(null);
-  }
+  const finish = async () => {
+    if (!token || startedAt == null) return;
+    const durationMs = Math.round(performance.now() - startedAt);
+    setBusy("finish"); setError(null);
+    try {
+      const res = await fetch("/api/writing/typing", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ modelTextId: text.id, typedText: typed, durationMs, token }) });
+      const data = (await res.json().catch(() => null)) as { run?: TypingResult; summary?: Summary; history?: HistoryRow[]; error?: { code?: string } } | null;
+      if (!res.ok || !data?.run) {
+        setError(data?.error?.code === "invalid_duration" ? t.tooShort : data?.error?.code === "invalid_token" ? t.expired : t.error);
+        setBusy(null); return;
+      }
+      setResult(data.run);
+      if (data.summary) setSummary(data.summary);
+      if (data.history) setHistory(data.history);
+      setStartedAt(null); setToken(null);
+    } catch { setError(t.error); }
+    setBusy(null);
+  };
 
-  if (targets.length === 0) return null;
+  const running = startedAt != null;
 
   return (
-    <Card data-typing-trainer>
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 className="font-display text-lg text-ink-900">{dict.writing.typingTitle}</h2>
-        <span className="text-xs text-ink-300" data-typing-best={summary.bestWpm ?? ""}>
-          {dict.writing.typingBest}: {summary.bestWpm === null ? "—" : `${summary.bestWpm} WPM`}
-          {summary.bestAccuracy !== null ? ` · ${summary.bestAccuracy}%` : ""}
-          {` · ${summary.count} ${dict.writing.typingRuns}`}
+    <div className="flex flex-col gap-5" data-typing-trainer>
+      <div className="flex flex-wrap items-end gap-3">
+        <label className="flex flex-col gap-1 text-sm font-semibold text-ink-900" htmlFor="typing-target">
+          {t.pick}
+          <select id="typing-target" className="input min-h-11 min-w-[16rem]" value={text.id} disabled={running}
+            onChange={(e) => { setTextId(e.target.value); setResult(null); setTyped(""); }} data-typing-target>
+            {texts.map((x) => <option key={x.id} value={x.id}>{x.title} · {x.taskType === "task1" ? "Task 1" : "Task 2"} · {t.band} {x.targetBand}</option>)}
+          </select>
+        </label>
+        <button type="button" className="btn-secondary min-h-11" onClick={() => void start()} disabled={busy !== null} data-typing-start>
+          {busy === "start" ? t.starting : running || result ? t.restart : t.start}
+        </button>
+        <span className="ml-auto text-sm text-ink-500" data-typing-best={summary.bestWpm ?? ""}>
+          {t.best}: {summary.bestWpm == null ? "—" : `${summary.bestWpm} ${t.wpm}`} · {t.bestAccuracy}: {summary.bestAccuracy == null ? "—" : `${summary.bestAccuracy}%`} · {summary.count} {t.runs}
         </span>
       </div>
-      <p className="mt-1 text-xs text-ink-300">{dict.writing.typingHint}</p>
 
-      <div className="mt-3 flex flex-wrap items-center gap-2">
-        <label className="text-xs font-medium text-ink-500" htmlFor="typing-target">
-          {dict.writing.typingPickTarget}
-        </label>
-        <select
-          id="typing-target"
-          className="input"
-          value={targetId}
-          onChange={(e) => setTargetId(e.target.value)}
-          data-typing-target
-        >
-          {targets.map((t) => (
-            <option key={t.id} value={t.id}>
-              {t.label}
-            </option>
-          ))}
-        </select>
-        <Button variant="secondary" onClick={start} data-typing-start>
-          {startedAt ? dict.writing.typingRestart : dict.writing.typingStart}
-        </Button>
-      </div>
-
-      {target && (
-        <p className="mt-3 rounded-sm bg-paper-sunken p-3 text-sm text-ink-700" data-typing-text>
-          {target.text}
-        </p>
+      {result ? (
+        <section className="card motion-enter flex flex-col gap-4 p-5" data-typing-result aria-live="polite">
+          <div className="flex flex-wrap items-baseline justify-between gap-2">
+            <h3 className="font-display text-xl text-ink-900">{t.resultTitle}</h3>
+            <span className="text-sm text-ink-500">{t.verified} · {text.title}</span>
+          </div>
+          <dl className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <Metric big label={t.wpm} value={String(result.wpm)} />
+            <Metric big label={t.accuracy} value={`${result.accuracy}%`} />
+            <Metric label={t.time} value={formatClock(result.durationMs / 1000)} />
+            <Metric label={t.rawWpm} value={String(result.rawWpm)} />
+            <Metric label={t.correctChars} value={`${result.correctChars}/${result.typedChars}`} />
+            <Metric label={t.mistakes} value={String(result.mistakes)} />
+            <Metric label={t.completion} value={`${result.completion}%`} />
+          </dl>
+          <div className="flex flex-wrap gap-2">
+            <button type="button" className="btn-primary min-h-11" onClick={() => void start()}>{t.tryAgain}</button>
+            <button type="button" className="btn-secondary min-h-11" onClick={() => { setResult(null); setTyped(""); }}>{t.another}</button>
+          </div>
+        </section>
+      ) : (
+        <div className="grid gap-4 lg:grid-cols-2">
+          <section className="card flex flex-col gap-2 p-5">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-signal-600 dark:text-signal-400">{text.topic} · {text.wordCount} {t.words}</p>
+            <div className="max-h-[28rem] overflow-auto whitespace-pre-line text-base leading-relaxed text-ink-900" data-typing-text aria-label={text.title}>
+              <TargetWithProgress body={text.body} typed={typed} />
+            </div>
+          </section>
+          <section className="card flex flex-col gap-3 p-5">
+            <div className="flex flex-wrap items-center gap-3 text-sm text-ink-500">
+              <span className="font-display text-2xl tabular-nums text-ink-900" data-typing-elapsed>{formatClock(elapsed / 1000)}</span>
+              {preview && <span data-typing-preview>{t.live}: {preview.wpm} {t.wpm} · {preview.accuracy}%</span>}
+            </div>
+            <textarea ref={inputRef} className="input min-h-[20rem] flex-1 text-base leading-relaxed" placeholder={t.placeholder} value={typed}
+              onChange={(e) => setTyped(e.target.value)} disabled={!running} spellCheck={false} autoCorrect="off" autoCapitalize="off"
+              onPaste={(e) => e.preventDefault()} data-typing-input aria-label={t.placeholder} />
+            <button type="button" className="btn-primary min-h-11 self-start" onClick={() => void finish()} disabled={busy !== null || !running || !typed.trim()} data-typing-submit>
+              {busy === "finish" ? t.saving : t.finish}
+            </button>
+            {error && <p role="alert" className="text-sm text-band-bad" data-typing-error>{error}</p>}
+          </section>
+        </div>
       )}
 
-      <textarea
-        className="input mt-3 min-h-[120px] w-full"
-        placeholder={dict.writing.typingPlaceholder}
-        value={typed}
-        onChange={(e) => setTyped(e.target.value)}
-        disabled={!startedAt}
-        data-typing-input
-      />
+      <p className="text-sm text-ink-500">{t.note}</p>
 
-      <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-ink-500">
-        <span data-typing-elapsed>{Math.floor(elapsed / 1000)}s</span>
-        {preview && startedAt && (
-          <span data-typing-preview>
-            {dict.writing.typingLive}: {preview.wpm} WPM · {preview.accuracy}%
-          </span>
-        )}
-        {preview && startedAt && <span className="text-ink-300">{dict.writing.typingUnverified}</span>}
-      </div>
+      {history.length > 0 && (
+        <section>
+          <h3 className="mb-2 text-sm font-semibold text-ink-900">{t.history}</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[32rem] text-left text-sm" data-typing-history>
+              <thead className="text-ink-500"><tr><th className="py-2 pr-3 font-medium">{t.pick}</th><th className="pr-3 font-medium">{t.wpm}</th><th className="pr-3 font-medium">{t.accuracy}</th><th className="pr-3 font-medium">{t.mistakes}</th><th className="font-medium">{t.time}</th></tr></thead>
+              <tbody>
+                {history.map((h) => (
+                  <tr key={h.id} className="border-t border-ink-100 text-ink-700">
+                    <td className="py-2 pr-3">{h.title}</td><td className="pr-3">{h.wpm}</td><td className="pr-3">{h.accuracy}%</td><td className="pr-3">{h.mistakes}</td><td>{formatClock(h.durationMs / 1000)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
+    </div>
+  );
+}
 
-      <div className="mt-3 flex flex-wrap items-center gap-2">
-        <Button
-          onClick={submit}
-          disabled={busy || !startedAt || typed.trim().length === 0}
-          data-typing-submit
-        >
-          {busy ? dict.common.loading : dict.writing.typingSubmit}
-        </Button>
-        {verdict && (
-          <span className="text-sm text-band-good" data-typing-verdict>
-            {dict.writing.typingVerified}: {verdict.wpm} WPM · {verdict.accuracy}%
-          </span>
-        )}
-        {error && (
-          <span className="text-sm text-band-bad" data-typing-error>
-            {error}
-          </span>
-        )}
-      </div>
+/** Shows typed progress on the target: correct, wrong, and the rest. */
+function TargetWithProgress({ body, typed }: { body: string; typed: string }) {
+  const n = Math.min(typed.length, body.length);
+  let firstWrong = -1;
+  for (let i = 0; i < n; i++) if (typed[i] !== body[i]) { firstWrong = i; break; }
+  const okEnd = firstWrong === -1 ? n : firstWrong;
+  return (
+    <>
+      <span className="text-band-good">{body.slice(0, okEnd)}</span>
+      {okEnd < n && <span className="bg-band-bad/15 text-band-bad">{body.slice(okEnd, n)}</span>}
+      <span>{body.slice(n)}</span>
+    </>
+  );
+}
 
-      <p className="mt-3 text-xs text-ink-300">
-        {dict.writing.typingNote.replace("{chars}", String(CHARS_PER_WORD))}
-      </p>
-    </Card>
+function Metric({ label, value, big }: { label: string; value: string; big?: boolean }) {
+  return (
+    <div className="rounded-lg border border-ink-100 p-3">
+      <dt className="text-xs text-ink-500">{label}</dt>
+      <dd className={`font-display tabular-nums text-ink-900 ${big ? "text-3xl" : "text-xl"}`}>{value}</dd>
+    </div>
   );
 }

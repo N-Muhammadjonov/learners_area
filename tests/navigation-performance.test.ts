@@ -125,7 +125,8 @@ test("Writing streams the entry header before its independent prompt and learner
   assert.match(page, /Promise\.all\(\[requireActiveUser\(\), getLocale\(\)\]\)/);
   assert.match(page, /data-route-usable="writing"/);
   assert.match(page, /data-async-loading="writing"/);
-  assert.match(page, /timed\("writing\.promptsAndResources"/);
+  // Typing reads Band 8–9 model texts, not prompts (owner spec §41).
+  assert.match(page, /timed\("writing\.modelTexts"/);
   assert.match(page, /timed\("writing\.typingSummary"/);
 });
 

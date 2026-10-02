@@ -88,3 +88,43 @@ export function computeTypingMetrics(
     targetChars: targetText.length,
   };
 }
+
+export type TypingResult = {
+  /** Net WPM: correctly typed characters / 5 per minute. */
+  wpm: number;
+  /** Raw WPM: every typed character / 5 per minute. */
+  rawWpm: number;
+  /** Share of typed characters that match the model text, 0–100. */
+  accuracy: number;
+  correctChars: number;
+  mistakes: number;
+  typedChars: number;
+  targetChars: number;
+  /** How much of the model text was typed, 0–100. */
+  completion: number;
+  durationMs: number;
+};
+
+/**
+ * Model-text typing result. The typed text is compared with the same-length
+ * prefix of the canonical model body (a learner who stops halfway is not
+ * charged for the untyped rest); mistakes are the edit distance there.
+ */
+export function computeTypingResult(targetText: string, typedText: string, durationMs: number): TypingResult {
+  if (!targetText.trim()) throw new Error("empty_target");
+  if (!Number.isFinite(durationMs) || durationMs < MIN_DURATION_MS || durationMs > MAX_DURATION_MS) throw new Error("invalid_duration");
+  const typed = typedText.slice(0, targetText.length + 200);
+  const reference = targetText.slice(0, Math.min(targetText.length, typed.length));
+  const mistakes = typed.length ? levenshtein(reference, typed) : 0;
+  const correctChars = Math.max(0, typed.length - mistakes);
+  const minutes = durationMs / 60_000;
+  const r1 = (n: number) => Math.round(n * 10) / 10;
+  return {
+    wpm: r1(correctChars / CHARS_PER_WORD / minutes),
+    rawWpm: r1(typed.length / CHARS_PER_WORD / minutes),
+    accuracy: typed.length ? r1((correctChars / typed.length) * 100) : 0,
+    correctChars, mistakes, typedChars: typed.length, targetChars: targetText.length,
+    completion: r1(Math.min(100, (Math.min(typed.length, targetText.length) / targetText.length) * 100)),
+    durationMs,
+  };
+}
