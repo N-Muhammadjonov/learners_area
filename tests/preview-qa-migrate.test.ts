@@ -72,6 +72,22 @@ const allApplied = Object.keys(sql).map(h);
 const healthy = (q: string) => (q.includes("listening_packages',") ? 3 : q.includes("speaking_prompts") && q.includes("column_name") ? 4 : q.includes("live_partner_presence','") ? 4 : 1);
 const base = { readJournal: () => journal, readSql: (t: string) => sql[t]!, runMigrations: async () => {} };
 
+test("Connection construction, socket and identity errors produce FAIL receipts without leaking credentials", async () => {
+ for (const stage of ["factory", "socket", "identity"]) {
+  let written = "";
+  const error = Object.assign(new Error(QA), { code: "ECONNRESET" });
+  const { client } = fakeClient({});
+  const result = await mig.run({ ...base, mode: "--fingerprint", env: goodEnv,
+   connect: () => {
+    if(stage === "factory") throw error;
+    return {...client, connect: async()=>{if(stage === "socket") throw error;}, query: async()=>{throw error;}};
+   }, writeReceipt: (r: unknown)=>{written=JSON.stringify(r);return null;},
+  });
+  assert.equal(result.code,1);assert.equal(result.receipt.result.pass,false);
+  assert.match(written,/ECONNRESET/);assert.ok(!written.includes("fake"));assert.ok(!written.includes("postgres:\/\/"));
+ }
+});
+
 test("CLI run: a failed verification exits non-zero (receipt pass:false is no longer silent)", async () => {
   const { client } = fakeClient({ applied: allApplied, verifyN: () => 0 });
   const r = await mig.run({ ...base, mode: "--plan", env: goodEnv, connect: () => client });

@@ -32,6 +32,21 @@ export const ALLOWED_PENDING = ["0025_speaking_bank_identity", "0026_google_iden
 const DESTRUCTIVE = /\b(drop\s+(table|column|schema|database|type)|truncate|delete\s+from|alter\s+column\s+\S+\s+type)\b/i;
 const sha = (s) => createHash("sha256").update(s).digest("hex");
 
+/** Keep TLS verification enabled, including on Supabase session poolers. */
+export function qaConnectionOptions(url, env = process.env) {
+  const u = new URL(url);
+  // pg connection-string SSL parameters can replace the explicit CA options.
+  if ([...u.searchParams.keys()].some(k => /^ssl/i.test(k))) throw new Error("Remove URL SSL parameters; use PREVIEW_QA_CA_FILE with verified TLS");
+  const local = ["localhost", "127.0.0.1", "[::1]"].includes(u.hostname);
+  return {
+    connectionString: url, connectionTimeoutMillis: 15000, query_timeout: 30000,
+    ssl: local ? false : {
+      rejectUnauthorized: true, servername: u.hostname,
+      ...(env.PREVIEW_QA_CA_FILE ? { ca: readFileSync(env.PREVIEW_QA_CA_FILE, "utf8") } : {}),
+    },
+  };
+}
+
 /** Parse the identity-relevant parts of a connection URL. The password is never read. */
 export function urlIdentity(url) {
   const u = new URL(url);
@@ -120,7 +135,7 @@ export function receiptFailures(receipt) {
   return failures;
 }
 
-async function readServerIdentity(client) {
+export async function readServerIdentity(client) {
   const base = (await client.query("select current_database() db, session_user, inet_server_port() port")).rows[0];
   let system_identifier = null;
   try { system_identifier = String((await client.query("select system_identifier from pg_control_system()")).rows[0].system_identifier); } catch { /* not permitted for this role: recorded as unavailable */ }
@@ -145,8 +160,9 @@ export async function run({ mode = "--plan", env = process.env, connect, runMigr
     const problems = identityProblems(url, env);
     if (problems.length) { receipt.refused = `refused: ${problems.join("; ")}`; return { code: 1, receipt }; }
   }
-  const client = await connect(url);
+  let client;
   try {
+    client = await connect(url);
     await client.connect();
     const server = await readServerIdentity(client);
     receipt.serverIdentity = serverIdentityHash(server);
@@ -177,8 +193,13 @@ export async function run({ mode = "--plan", env = process.env, connect, runMigr
       try { const r = (await client.query(q)).rows[0]; receipt.verify.push({ name, pass: Boolean(ok(r)), value: r.n }); }
       catch (e) { receipt.verify.push({ name, pass: false, error: String(e.code ?? e.message).slice(0, 80) }); }
     }
+  } catch (error) {
+    // Connection/identity/migration failures must never leave a green receipt.
+    // Record only a driver code: error messages can contain connection secrets.
+    const code = /^[A-Z0-9_]+$/.test(String(error?.code ?? "")) ? error.code : "DATABASE_OPERATION_FAILED";
+    receipt.refused = `database operation failed: ${code}; inspect current state before retrying`;
   } finally {
-    await client.end().catch(() => {});
+    if (client) await client.end().catch(() => {});
     const failures = receiptFailures(receipt);
     receipt.result = failures.length ? { pass: false, failures } : { pass: true };
     const file = writeReceipt(receipt);
@@ -194,7 +215,7 @@ async function cli() {
   const { migrate } = await import("drizzle-orm/node-postgres/migrator");
   const { code } = await run({
     mode: process.argv[2] ?? "--plan",
-    connect: (url) => new pg.Client({ connectionString: url, ssl: /@(localhost|127\.0\.0\.1)[:/]/.test(url) ? false : { rejectUnauthorized: true } }),
+    connect: (url) => new pg.Client(qaConnectionOptions(url)),
     runMigrations: (client) => migrate(drizzle(client), { migrationsFolder: "drizzle" }),
     readJournal: () => JSON.parse(readFileSync("drizzle/meta/_journal.json", "utf8")),
     readSql: (tag) => readFileSync(`drizzle/${tag}.sql`, "utf8"),
