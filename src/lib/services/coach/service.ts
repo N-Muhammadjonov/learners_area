@@ -2,8 +2,8 @@ import { touchMeaningfulActivity } from "@/lib/services/activity";
 import "server-only";
 import { findEvaluation, recordEvaluationEvent, recordFallbackEvent, recordWeaknessesFromEvaluation, saveEvaluation, type EvaluationRecord } from "@/lib/data/evaluations";
 import { getStorageService } from "@/lib/services/storage";
-import { resolveEvaluation, type CoachEvaluationError, type EvaluationRequest } from "./resolver";
-import type { EvaluationType } from "./schema";
+import { resolveEvaluation, type CoachEvaluationError, type EvaluationRequest, type ResolveExtras, type ResolvePolicy } from "./resolver";
+import type { EvaluationResult, EvaluationType } from "./schema";
 import type { ProviderFailure } from "./types";
 
 /**
@@ -17,7 +17,7 @@ import type { ProviderFailure } from "./types";
  */
 
 export type ServiceOutcome =
-  | { ok: true; evaluation: EvaluationRecord; reused: boolean }
+  | { ok: true; evaluation: EvaluationRecord; reused: boolean; extras?: ResolveExtras }
   | { ok: false; error: ServiceError; detail?: string };
 
 export type ServiceError =
@@ -90,6 +90,10 @@ export async function evaluateAndPersist(params: {
   sourceId: string;
   request: EvaluationRequest;
   language: "uz" | "en";
+  /** Default "riwi". Grade My Work passes "none" (external result or nothing). */
+  policy?: ResolvePolicy;
+  /** Last check before persisting; null rejects the result (nothing is saved). */
+  normalize?: (result: EvaluationResult) => EvaluationResult | null;
 }): Promise<ServiceOutcome> {
   // 1. One authoritative evaluation per submission. An existing row is reused,
   //    so a retry never pays a provider twice and never produces a second,
@@ -101,10 +105,12 @@ export async function evaluateAndPersist(params: {
   const outcome = await resolveEvaluation(params.request, {
     userId: params.userId,
     language: params.language,
-  });
+  }, undefined, params.policy);
   if (!outcome.ok) {
     return { ok: false, error: outcome.error };
   }
+  const result = params.normalize ? params.normalize(outcome.result) : outcome.result;
+  if (!result) return { ok: false, error: "invalid_evaluation" };
 
   // 3. Persist the result together with the identity of the evaluator that
   //    actually produced it.
@@ -113,7 +119,7 @@ export async function evaluateAndPersist(params: {
     evaluationType: params.evaluationType,
     sourceType: params.sourceType,
     sourceId: params.sourceId,
-    result: outcome.result,
+    result,
   });
 
   if (created) {
@@ -123,7 +129,7 @@ export async function evaluateAndPersist(params: {
     await recordWeaknessesFromEvaluation({
       userId: params.userId,
       evaluationType: params.evaluationType,
-      result: outcome.result,
+      result,
     });
     await recordEvaluationEvent({
       userId: params.userId,
@@ -142,5 +148,5 @@ export async function evaluateAndPersist(params: {
     }
   }
 
-  return { ok: true, evaluation: record, reused: !created };
+  return { ok: true, evaluation: record, reused: !created, extras: outcome.extras };
 }

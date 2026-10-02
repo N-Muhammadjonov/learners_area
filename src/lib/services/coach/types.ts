@@ -28,6 +28,9 @@ export type WritingEvaluationInput = {
   prompt: string;
   content: string;
   targetWordCount: number;
+  /** Grade My Work: ask for the bilingual W7 analysis and the exact four criteria. */
+  detailedAnalysis?: boolean;
+  wordCount?: number;
 };
 
 export type SpeakingPart = "part1" | "part2" | "part3" | "general" | "mock";
@@ -121,6 +124,8 @@ export interface EvaluationProvider {
   readonly requiredSecrets: readonly string[];
   readonly promptVersion: string;
   readonly rubricVersion: string;
+  /** A dedicated prompt/rubric for one evaluation type (e.g. Grade My Work). */
+  versionsFor?(evaluationType: string, input: unknown): { promptVersion: string; rubricVersion: string } | null;
 
   evaluateWriting?(
     ctx: EvaluationContext,

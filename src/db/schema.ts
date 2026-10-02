@@ -13,6 +13,7 @@ import {
   index,
   uniqueIndex,
   smallint,
+  primaryKey,
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 import type { AnyPgColumn } from "drizzle-orm/pg-core";
@@ -2018,3 +2019,155 @@ export const generalReadingProgress = pgTable("general_reading_progress", {
   checkedAt: timestamp("checked_at", { withTimezone: true }),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 }, (table) => [uniqueIndex("general_reading_progress_owner_idx").on(table.userId, table.passageId)]);
+
+// ---------------------------------------------------------------------------
+// Writing workspace (0031). Additive tables; content starts empty and arrives
+// only through the staff import. See drizzle/0031_writing_workspace.sql.
+// ---------------------------------------------------------------------------
+
+export const writingLessons = pgTable("writing_lessons", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  title: varchar("title", { length: 200 }).notNull(),
+  category: varchar("category", { length: 40 }).notNull(),
+  summary: text("summary"),
+  body: text("body").notNull(),
+  durationMinutes: smallint("duration_minutes"),
+  position: integer("position").notNull().default(0),
+  publicationState: publicationStateEnum("publication_state").notNull().default("draft"),
+  publishAt: timestamp("publish_at", { withTimezone: true }),
+  sourceRef: varchar("source_ref", { length: 80 }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const writingLessonProgress = pgTable("writing_lesson_progress", {
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  lessonId: uuid("lesson_id").notNull().references(() => writingLessons.id, { onDelete: "cascade" }),
+  completedAt: timestamp("completed_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => [primaryKey({ columns: [table.userId, table.lessonId] })]);
+
+export const writingExamSessions = pgTable("writing_exam_sessions", {
+  submissionId: uuid("submission_id").primaryKey().references(() => writingSubmissions.id, { onDelete: "cascade" }),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  taskType: writingTaskTypeEnum("task_type").notNull(),
+  startedAt: timestamp("started_at", { withTimezone: true }).defaultNow().notNull(),
+  durationSeconds: integer("duration_seconds").notNull(),
+  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  finalizedAt: timestamp("finalized_at", { withTimezone: true }),
+});
+
+export const writingGradeRequests = pgTable("writing_grade_requests", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  taskType: writingTaskTypeEnum("task_type").notNull(),
+  questionText: text("question_text").notNull(),
+  essayText: text("essay_text").notNull(),
+  wordCount: integer("word_count").notNull(),
+  status: varchar("status", { length: 20 }).notNull().default("pending"),
+  lastError: varchar("last_error", { length: 60 }),
+  claimedAt: timestamp("claimed_at", { withTimezone: true }),
+  analysis: jsonb("analysis"),
+  idempotencyKey: varchar("idempotency_key", { length: 64 }).notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  evaluatedAt: timestamp("evaluated_at", { withTimezone: true }),
+}, (table) => [uniqueIndex("writing_grade_requests_idem_idx").on(table.userId, table.idempotencyKey)]);
+
+export const writingTranslationSets = pgTable("writing_translation_sets", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  title: varchar("title", { length: 200 }).notNull(),
+  topic: varchar("topic", { length: 120 }).notNull(),
+  questionType: varchar("question_type", { length: 30 }).notNull(),
+  taskType: writingTaskTypeEnum("task_type").notNull().default("task2"),
+  targetBand: smallint("target_band").notNull(),
+  promptText: text("prompt_text").notNull(),
+  provenance: varchar("provenance", { length: 200 }).notNull(),
+  publicationState: publicationStateEnum("publication_state").notNull().default("draft"),
+  publishAt: timestamp("publish_at", { withTimezone: true }),
+  sourceRef: varchar("source_ref", { length: 80 }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const writingTranslationSentences = pgTable("writing_translation_sentences", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  setId: uuid("set_id").notNull().references(() => writingTranslationSets.id, { onDelete: "cascade" }),
+  position: smallint("position").notNull(),
+  uzbekSource: text("uzbek_source").notNull(),
+  modelEnglish: text("model_english").notNull(),
+  acceptedAlternatives: jsonb("accepted_alternatives").$type<string[]>().notNull().default([]),
+  notes: jsonb("notes").$type<string[]>().notNull().default([]),
+  targetLexicalItems: jsonb("target_lexical_items").$type<string[]>().notNull().default([]),
+});
+
+export const writingTranslationAttempts = pgTable("writing_translation_attempts", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  setId: uuid("set_id").notNull().references(() => writingTranslationSets.id, { onDelete: "cascade" }),
+  startedAt: timestamp("started_at", { withTimezone: true }).defaultNow().notNull(),
+  completedAt: timestamp("completed_at", { withTimezone: true }),
+  status: varchar("status", { length: 20 }).notNull().default("in_progress"),
+  elapsedMs: integer("elapsed_ms"),
+  overallEstimate: real("overall_estimate"),
+  meaningScore: real("meaning_score"),
+  grammarBand: real("grammar_band"),
+  vocabularyBand: real("vocabulary_band"),
+});
+
+export const writingTranslationAnswers = pgTable("writing_translation_answers", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  attemptId: uuid("attempt_id").notNull().references(() => writingTranslationAttempts.id, { onDelete: "cascade" }),
+  sentenceId: uuid("sentence_id").notNull().references(() => writingTranslationSentences.id, { onDelete: "cascade" }),
+  answerText: text("answer_text").notNull(),
+  evaluationStatus: varchar("evaluation_status", { length: 20 }).notNull(),
+  verdict: varchar("verdict", { length: 20 }),
+  meaningPreserved: smallint("meaning_preserved"),
+  grammarBand: real("grammar_band"),
+  vocabularyBand: real("vocabulary_band"),
+  feedback: text("feedback"),
+  improvedVersion: text("improved_version"),
+  tries: smallint("tries").notNull().default(1),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => [uniqueIndex("writing_translation_answers_attempt_id_sentence_id_key").on(table.attemptId, table.sentenceId)]);
+
+export const writingModelTexts = pgTable("writing_model_texts", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  title: varchar("title", { length: 200 }).notNull(),
+  taskType: writingTaskTypeEnum("task_type").notNull(),
+  topic: varchar("topic", { length: 120 }).notNull(),
+  targetBand: numeric("target_band", { precision: 2, scale: 1 }).notNull(),
+  body: text("body").notNull(),
+  wordCount: integer("word_count").notNull(),
+  provenance: varchar("provenance", { length: 200 }).notNull(),
+  publicationState: publicationStateEnum("publication_state").notNull().default("draft"),
+  publishAt: timestamp("publish_at", { withTimezone: true }),
+  sourceRef: varchar("source_ref", { length: 80 }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const typingRunTexts = pgTable("typing_run_texts", {
+  runId: uuid("run_id").primaryKey().references(() => typingRuns.id, { onDelete: "cascade" }),
+  modelTextId: uuid("model_text_id").notNull().references(() => writingModelTexts.id, { onDelete: "cascade" }),
+  mistakes: integer("mistakes").notNull().default(0),
+});
+
+export const writingLanguagePatterns = pgTable("writing_language_patterns", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  pattern: varchar("pattern", { length: 240 }).notNull(),
+  function: varchar("function", { length: 30 }).notNull(),
+  taskType: writingTaskTypeEnum("task_type").notNull(),
+  topic: varchar("topic", { length: 120 }),
+  targetBand: smallint("target_band"),
+  example: text("example").notNull(),
+  usageNote: text("usage_note"),
+  provenance: varchar("provenance", { length: 200 }).notNull(),
+  publicationState: publicationStateEnum("publication_state").notNull().default("draft"),
+  publishAt: timestamp("publish_at", { withTimezone: true }),
+  sourceRef: varchar("source_ref", { length: 80 }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const writingPatternBank = pgTable("writing_pattern_bank", {
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  patternId: uuid("pattern_id").notNull().references(() => writingLanguagePatterns.id, { onDelete: "cascade" }),
+  savedAt: timestamp("saved_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => [primaryKey({ columns: [table.userId, table.patternId] })]);
