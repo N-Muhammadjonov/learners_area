@@ -16,7 +16,13 @@ export function ClickableText(props: {
   className?: string;
   occurrences?: OccurrenceSpan[];
   catalogueLookup?: boolean;
+  /**
+   * False where the Listening mode forbids lexical help (src/lib/listening/lexical-policy.ts):
+   * plain text only — no word buttons, no keyboard stop, no popup, no vocabulary styling.
+   */
+  lexicalAssistance?: boolean;
 }) {
+  if (props.lexicalAssistance === false) return <div className={`whitespace-pre-line ${props.className ?? ""}`} data-plain-text>{props.text}</div>;
   // A changed source/text cannot keep an anchor or an async form from the old text.
   return <LexicalText key={JSON.stringify([props.sourceType, props.sourceId, props.text])} {...props} />;
 }
@@ -217,7 +223,20 @@ function WordPopover({
     setLoading(true);
     setError(null);
     setUnresolved(false);
+    // A Listening word without a server-proven occurrence has no knowable sense.
+    // No spelling lookup is made at all: the learner sees "Meaning not checked yet".
+    const spellingOnlyListening = sourceType === "listening" && !occurrenceId;
     void (async () => {
+      if (spellingOnlyListening) {
+        const folderResult = await requestJson<{ folders: { id: string; name: string }[] }>("/api/vocabulary/folders", { method: "GET", signal: controller.signal });
+        if (controller.signal.aborted) return;
+        setContextual(null);
+        setUnresolved(true);
+        if (folderResult.ok && Array.isArray(folderResult.data?.folders)) setFolders(folderResult.data.folders.filter((folder) => typeof folder?.id === "string" && typeof folder.name === "string"));
+        else setError(folderResult.ok ? dict.auth.errorServer : failureMessage(folderResult, dict.auth));
+        setLoading(false);
+        return;
+      }
       const [lookup, folderResult] = await Promise.all([
         requestJson<{ status?: "resolved" | "unresolved"; contextual?: { definitionEn: string; translationUz: string | null; verificationStatus: string | null; sourceLabel?: string; partOfSpeech?: string | null; lexicalType?: string | null; ipa?: string | null } | null; known?: { id: string; mastery: string } | null; results?: { id: string; term: string; definitionEn: string; translationUz: string | null; mastery: string }[] }>(occurrenceId ? `/api/vocabulary/lookup?sourceType=${encodeURIComponent(sourceType)}&sourceId=${encodeURIComponent(sourceId)}&occurrenceId=${encodeURIComponent(occurrenceId)}` : catalogueLookup ? `/api/vocabulary/meaning?sourceId=${encodeURIComponent(sourceId)}&q=${encodeURIComponent(word)}` : `/api/vocabulary/search?q=${encodeURIComponent(word)}`, { method: "GET", signal: controller.signal }),
         requestJson<{ folders: { id: string; name: string }[] }>("/api/vocabulary/folders", { method: "GET", signal: controller.signal }),

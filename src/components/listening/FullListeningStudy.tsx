@@ -22,6 +22,7 @@ export function FullListeningStudy({
   questions,
   sections,
   occurrences = {},
+  lexicalAssistance = false,
   dict,
   initialSection = 1,
 }: {
@@ -34,6 +35,8 @@ export function FullListeningStudy({
   sections: { number: number; title: string; transcript: string }[];
   /** Server-proven transcript spans per section (0029); words outside them resolve as unchecked. */
   occurrences?: Record<number, OccurrenceSpan[]>;
+  /** Server decision from the Listening lexical policy; false renders plain text. */
+  lexicalAssistance?: boolean;
   dict: Dictionary;
   initialSection?: number;
 }) {
@@ -117,6 +120,7 @@ export function FullListeningStudy({
     sourceType: "listening" as const,
     sourceId: id,
     catalogueLookup: true,
+    lexicalAssistance,
   };
   return (
     <main className="mx-auto max-w-[1600px] space-y-6" data-listening-study>

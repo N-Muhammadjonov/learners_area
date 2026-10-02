@@ -271,13 +271,15 @@ test("double-click does not focus a popup before native word selection", async (
 });
 
 test('Listening spelling-only lookup shows "Meaning not checked yet" and saves only the learner\'s own meaning', async () => {
- // Contract since 0029: /api/vocabulary/meaning never returns a catalogue meaning for
- // a bare spelling (it cannot know the sense); it answers `unresolved`.
+ // Contract (mode separation): a Listening word with no server-proven occurrence has
+ // no knowable sense, so the client makes NO meaning/spelling request at all — it
+ // shows the unresolved state directly. Only folders are loaded for an own-meaning save.
  let saved: Record<string, unknown> | undefined;
+ const lookups: string[] = [];
  await page(async (url, options) => {
   if (options.method === 'POST') { saved = JSON.parse(String(options.body)); return json({ok:true}); }
   if (url.includes('folders')) return folderReply();
-  assert.ok(url.includes('/meaning?sourceId=qa-listening&q=decades'));
+  lookups.push(url);
   return json({status:'unresolved',contextual:null});
  }, async () => {
   await click('[data-word="decades"]');
@@ -288,6 +290,7 @@ test('Listening spelling-only lookup shows "Meaning not checked yet" and saves o
   assert.equal(saved?.sourceType,'listening'); assert.equal(saved?.sourceId,'qa-listening');
   assert.equal(saved?.occurrenceId,undefined);
   assert.deepEqual((saved?.items as {definitionEn?: string}[])[0]?.definitionEn,'Periods of ten years');
+  assert.deepEqual(lookups, [], 'no spelling-based meaning or library request');
  }, {sourceType:'listening',sourceId:'qa-listening',catalogueLookup:true});
 });
 test('Listening unknown meaning remains editable rather than inventing a translation', async () => {
