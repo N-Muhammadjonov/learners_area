@@ -1,17 +1,18 @@
 # Learners Area — Vocabulary System Architecture
 
-Status: **architecture specification + audited gap analysis.** Audited at HEAD `5476015`.
-This document does **not** claim the target architecture is implemented. Section B2 says,
-row by row, what exists today and what does not. No schema change described here has been
-applied; every migration in B12 is a proposal awaiting owner approval.
+Status: **specification + Phase 2 implementation.** Specified at `5476015`; Phase 2 code
+adds migration `0029_vocabulary_architecture` and the services listed in **B15**. B15 says
+exactly what is IMPLEMENTED NOW and what is FUTURE. Migration 0029 has been applied and
+verified **only on isolated local databases** (PGlite and a local UTF8 PostgreSQL); it has
+**not** been applied to Preview or Production.
 
 The four questions every part of the system must answer, and never mix up:
 
 | Question | Layer | Today in the repo |
 |---|---|---|
-| WHAT lexical unit is this? | **Lexeme** | *not a separate table* — implied by `lexemes.term` + `part_of_speech` |
+| WHAT lexical unit is this? | **Lexeme** | `lexical_units` (0029) + `lexical_unit_forms`; senses link via `lexemes.lexical_unit_id` |
 | WHICH meaning is intended? | **Sense** | `lexemes` row (one row = one sense, identity `sense_key`) |
-| WHERE was it met? | **Occurrence** | `lexical_occurrences` (Reading only) |
+| WHERE was it met? | **Occurrence** | `lexical_occurrences` — Reading and Listening (0029); TED/podcast columns are model-only |
 | WHAT has THIS learner done with it? | **Student state** | `user_vocabulary`, `vocabulary_usages`, `vocab_point_events`, `vocab_folders` |
 
 ---
@@ -478,7 +479,7 @@ overwrites a verified field. Missing definition, translation, IPA or example sta
 review-needed**. `provenance` / `verification_status` stay truthful internally; learner UI
 shows only Learners Area branding.
 
-## B12. Migration plan (proposal — NOT applied; needs owner approval)
+## B12. Migration plan (implemented as `0029`; local-only verification, see B15)
 All forward-only, additive, following the current drizzle journal; no historical migration
 edited; nothing run on Preview or Production without the established guarded procedure.
 
@@ -497,6 +498,12 @@ edited; nothing run on Preview or Production without the established guarded pro
 6. **M6** `is_function_word`, `lexical_type` on units; pronunciation table.
 
 Legacy rows whose sense can't be determined are marked `unresolved`, never assigned.
+
+As built in `drizzle/0029_vocabulary_architecture.sql` (differences from the proposal above):
+M2 uses `listening_test_id` and `video_lesson_id` columns (not one `listening_source_id`),
+plus `section_number`, `lexical_unit_id` and `resolution_source`; M6's `lexical_type` and
+`is_function_word` live on `lexical_units` from M1; the backfill creates no helper object
+(nothing is dropped); the migration refuses to run on a non-UTF8 database.
 
 ## B13. Test plan
 ✔ = existing test covers it today · ✚ = to add with the corresponding change.
@@ -534,30 +541,67 @@ sentence judged against the wrong sense · weaker source overwriting verified da
 
 ## Architectural truth table
 
-| Statement | Target | Today |
+"Now" = this branch after Phase 2 (local verification only; not yet on Preview).
+
+| Statement | Target | Now |
 |---|---|---|
-| Reading and Listening share one dictionary | **YES** | YES (one `lexemes` table) |
+| Reading and Listening share one dictionary | **YES** | YES (one `lexemes` table; Listening reuses an existing equal sense) |
 | Each source creates a new lexeme | **NO** | NO |
-| Each source context may create an occurrence | **YES** | Reading only (GAP-2) |
+| Each source context may create an occurrence | **YES** | Reading YES; Listening YES (authored vocabulary, `ingestListeningOccurrences`); TED/podcast model-only |
 | Same word may have several senses | **YES** | YES |
-| Occurrence points to exact contextual sense | **YES** | Reading YES; Listening NO (GAP-1) |
-| Word click should search by text only | **NO** | Listening currently does (GAP-1) |
-| Inflections create separate lexemes | **NO**, unless linguistically and structurally justified by canonical model | no forms table (GAP-5) |
-| Useful MWEs can be first-class lexical units | **YES** | as terms only (GAP-6) |
-| Standalone function words become target vocabulary | **NO** | enforced by import data only |
+| Occurrence points to exact contextual sense | **YES** | Reading YES; Listening YES only where the author checked it (example sentence), otherwise `unresolved` |
+| Word click should search by text only | **NO** | NO — `/api/vocabulary/meaning` now always answers `unresolved` |
+| Inflections create separate lexemes | **NO**, unless linguistically and structurally justified by canonical model | NO — `lexical_unit_forms` (lemma/regular/irregular) |
+| Useful MWEs can be first-class lexical units | **YES** | YES (`lexical_type` phrase/phrasal_verb/…; longest span wins) |
+| Standalone function words become target vocabulary | **NO** | NO — filtered at ingestion; MWEs containing them kept |
 | Student vocabulary duplicates global dictionary | **NO** | NO |
 | Student state references canonical lexeme/sense | **YES** | YES (`lexeme_id` = sense) |
-| Same sense from multiple sources creates duplicate saved word | **NO** | NO, but the 2nd context is lost (GAP-3) |
+| Same sense from multiple sources creates duplicate saved word | **NO** | NO — one item + N rows in `user_vocabulary_contexts` |
 | Same lexeme with different saved senses may have separate learning states | **YES** | YES |
-| SRS belongs to student state | **YES** | YES |
+| SRS belongs to student state | **YES** | YES (meeting a word again changes `seen_count`, never SRS) |
 | Games and SRS are identical | **NO** | NO |
-| RIWI V1 evaluates student-created usage | **YES** | YES |
+| RIWI V1 evaluates student-created usage | **YES** | YES, tied to the exact saved sense |
 | RIWI V2 should be started | **NO** | NO |
-| Missing sense should be guessed | **NO** | NO in Reading; Listening risk (GAP-1) |
-| Internal provenance must remain truthful | **YES** | YES |
+| Missing sense should be guessed | **NO** | NO in Reading and Listening |
+| Internal provenance must remain truthful | **YES** | YES (`listening_package` + `unverified`; `backfill_0029`) |
 | Learner-facing branding | **LEARNERS AREA** | Learners Area |
 
-**Completion status:** the chain SOURCE → OCCURRENCE → LEXEME → SENSE → CLICK → SAVE →
-STUDENT STATE → SRS/PRACTICE/RIWI → SOURCE REVISIT is complete **for Reading only**, and
-even there with a single saved context. It is **not** complete for Listening, TED or
-podcasts. This document is the specification. It is not proof of completion.
+**Completion status:** SOURCE → OCCURRENCE → LEXEME → SENSE → CLICK → SAVE → STUDENT STATE
+→ SRS/PRACTICE/RIWI → SOURCE REVISIT is implemented for **Reading** and **Listening** on this
+branch and proven on local databases and a local production build. It is **not**
+implemented for TED or podcasts (schema columns only). Preview/Production proof is pending.
+
+## B15. Implementation status (Phase 2)
+
+### IMPLEMENTED NOW
+
+| Area | Where |
+|---|---|
+| One shared normalizer (Uzbek apostrophes `'` U+2018 U+2019 U+02BB U+02BC U+0060 U+00B4 U+2032; NFKC; case; whitespace) used by search, dedup, grading, enrichment | `src/lib/text/lexical-normalize.ts` |
+| Lexical units, forms (incl. irregular verbs/nouns, verbal MWE heads), function-word list | `lexical_units`, `lexical_unit_forms`; `src/lib/services/lexical/forms.ts`, `units.ts` |
+| Listening occurrences from authored package vocabulary, inside the import transaction; example-sentence rule; ambiguous → unresolved; idempotent | `src/lib/services/lexical/listening-occurrences.ts`; `api/admin/listening/import` |
+| Occurrence-first click for Reading and Listening; unresolved state; POS, type, IPA only when stored | `resolveOccurrence` in `context.ts`; `api/vocabulary/lookup`; `ClickableText` |
+| Spelling-only Listening lookup never returns a meaning | `api/vocabulary/meaning` |
+| Unresolved occurrence / Listening word without definition is never saved under a guessed sense | `POST /api/vocabulary` (`needs_definition`) |
+| One item + many contexts; replay-safe; `seen_count`/`last_seen_at`; SRS untouched | `addVocabularyBatch`, `user_vocabulary_contexts` |
+| Context revisit (Reading attempt, Listening test + section) | `GET /api/vocabulary/:id/contexts`, `sourceRevisitHref` |
+| DB uniqueness: `(user_id, lexeme_id)` index (created only if no duplicates), contexts `(item, occurrence)`, Listening offsets | `0029` M3/M5, M2 |
+| Backfill for already-imported Listening packages and unit forms (`--dry-run` supported) | `scripts/backfill-vocabulary-0029.ts` |
+| Read-only duplicate report if M5 could not create its index | `scripts/vocabulary-duplicate-report.mjs` |
+| Real-PostgreSQL upgrade check with hard gates | `scripts/qa2-vocabulary-0029-upgrade.mjs` |
+
+### FUTURE (not built)
+
+- TED / video-lesson and podcast occurrences: columns exist (`video_lesson_id`, `source_type` CHECK), no ingestion, no UI.
+- Audio timestamps: `start_ms`/`end_ms` exist; current transcripts have no word timing, so they stay null. No estimated timings.
+- Pronunciations: table exists; no importer. The popup shows IPA only from that table.
+- A UI page listing a saved word's contexts (the API exists; the vocabulary page does not render it yet).
+- Applying 0029 to Preview: `scripts/preview-qa-migrate.mjs` approves only 0025–0028; 0029 needs an explicit owner approval before it can be added there.
+
+### Verification evidence (local only)
+
+- `tests/vocabulary-architecture.test.ts` (PGlite, every `npm test`) and
+  `tests/vocabulary-architecture-qa2.test.ts` (real PostgreSQL, `QA2_DATABASE_TESTS=1`).
+- `qa2-vocabulary-0029-upgrade.mjs` on a seeded 0028 database, then `drizzle-kit migrate`:
+  EXISTING_LEXEME_IDS_CHANGED=0, READING_OCCURRENCES_BROKEN=0, USER_VOCABULARY_OR_SRS_CHANGED=0,
+  DESTRUCTIVE_DATA_LOSS=0, LEXEMES_WITHOUT_UNIT=0, contexts 2/2.
