@@ -1,3 +1,4 @@
+import { foldApostrophes } from "@/lib/text/lexical-normalize";
 /**
  * Grading a game answer — the ONE rule that decides whether a typed answer is
  * right.
@@ -29,9 +30,7 @@
  * correct English answer wrong.
  */
 export function normalizeAnswer(value: string): string {
-  return value
-    .toLowerCase()
-    .replace(/[‘’ʼ`]/g, "'")
+  return foldApostrophes(value.toLowerCase())
     .replace(/[^a-z0-9' ]+/g, " ")
     .replace(/\s+/g, " ")
     .trim();

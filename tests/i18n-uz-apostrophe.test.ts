@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
+import { foldApostrophes } from "../src/lib/text/lexical-normalize";
 
 /**
  * The canonical Learners Area convention for Uzbek user-facing text is the ASCII
@@ -105,13 +106,19 @@ test("the English dictionary keeps its own apostrophes", () => {
 test("the marks accepted from keyboards are still normalised to ASCII", () => {
   // The rule above must not be "solved" by refusing the marks a learner's
   // keyboard produces; they are folded into the ASCII form on the way in.
+  // A normaliser either folds with its own regex, or delegates to the ONE shared
+  // Uzbek apostrophe fold (src/lib/text/lexical-normalize.ts, owner decision for
+  // search, dedup and grading). The shared fold is then proven by behaviour.
   for (const file of INPUT_NORMALISERS) {
     const source = readFileSync(file, "utf8");
     assert.ok(
-      /\.replace\(\/\[[^\]]*[\u2018\u2019][^\]]*\]\/g/.test(source),
+      /\.replace\(\/\[[^\]]*[\u2018\u2019][^\]]*\]\/g/.test(source)
+        || /import \{[^}]*\b(foldApostrophes|normalizeLexical)\b[^}]*\} from "@\/lib\/text\/lexical-normalize"/.test(source),
       `${file} should still fold typographic marks to the ASCII apostrophe`
     );
   }
+  assert.equal(foldApostrophes("o\u2018qish o\u2019qish o\u02bbqish g\u02bboya g\u2018oya"), "o'qish o'qish o'qish g'oya g'oya");
+  assert.equal(foldApostrophes("\u201cquoted\u201d \u2013 dash"), "\u201cquoted\u201d \u2013 dash", "unrelated punctuation is untouched");
 });
 // Key parity between the two dictionaries is enforced by the type system:
 // `src/lib/i18n/index.ts` declares `Record<Locale, Dictionary>`, so a key missing
