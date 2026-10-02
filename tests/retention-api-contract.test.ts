@@ -111,7 +111,7 @@ test("the Management page links to the Retention bank one step below Reading", (
   const reading = read("src/app/(app)/admin/reading/page.tsx");
   assert.match(reading, /href="\/admin\/reading\/retention"/);
   const page = read("src/app/(app)/admin/reading/retention/page.tsx");
-  assert.match(page, /href="\/admin\/reading"/);
+  assert.match(page, /(?:h|fallbackH)ref="\/admin\/reading"/); // shared BackLink
   assert.match(page, /requireAdministrator\(\)/);
   const routes = read("src/lib/nav/routes.ts");
   const retentionIndex = routes.indexOf('prefix: "/admin/reading/retention"');

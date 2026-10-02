@@ -1,3 +1,4 @@
+import { BackLink } from "@/components/ui/BackLink";
 import { notFound } from "next/navigation";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
@@ -36,6 +37,7 @@ export default async function ReadingAttemptPage({ params }: { params: Promise<{
 
   return (
     <div className="mx-auto max-w-[1440px]">
+      <BackLink fallbackHref="/reading/history" label={dict.common.back} />
       {attempt.status === "in_progress" ? (
         // ACADEMIC_EXAM: no occurrence/sense data is sent to the active passage.
         <ReadingExam

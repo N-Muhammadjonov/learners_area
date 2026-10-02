@@ -1,3 +1,4 @@
+import { BackLink } from "@/components/ui/BackLink";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireActiveUser } from "@/lib/auth/current-user";
@@ -31,7 +32,7 @@ export default async function StandaloneVideoLessonPage({ params }: { params: Pr
 
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-4" data-route-usable="video-lesson" data-video-standalone={videoLesson.id}>
-      <Link href="/video-lessons" className="w-fit text-sm text-ink-500 hover:text-ink-900" data-video-back>← {dict.videoLessons.title}</Link>
+      <BackLink fallbackHref="/video-lessons" label={dict.videoLessons.title} data-video-back />
       <header className="flex flex-col gap-1" data-video-detail-header>
         <h1 className="font-display text-2xl text-ink-900">{videoLesson.title}</h1>
         {minutes !== null ? (

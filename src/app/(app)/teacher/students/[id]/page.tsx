@@ -1,3 +1,4 @@
+import { BackLink } from "@/components/ui/BackLink";
 import { notFound, redirect } from "next/navigation";
 import { requireStaff } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
@@ -44,6 +45,7 @@ export default async function StudentDetailPage({ params }: { params: Promise<{ 
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-6">
+      <BackLink fallbackHref="/teacher/students" label={dict.common.back} />
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h1 className="font-display text-2xl text-ink-900">{detail.student.name}</h1>

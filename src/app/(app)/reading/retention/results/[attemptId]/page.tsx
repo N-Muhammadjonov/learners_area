@@ -1,3 +1,4 @@
+import { BackLink } from "@/components/ui/BackLink";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { db } from "@/db/client";
@@ -46,6 +47,7 @@ export default async function RetentionResultPage({ params }: { params: Promise<
 
   return (
     <div className="mx-auto flex max-w-4xl flex-col gap-6" data-retention-result-page data-route-usable="retention-result">
+      <BackLink fallbackHref="/reading/retention" label={dict.common.back} />
       <header className="flex flex-wrap items-center justify-between gap-2">
         <h1 className="page-title">{t.resultTitle}</h1>
         <Link href="/reading/retention" prefetch={false} className="btn-secondary">{t.title}</Link>

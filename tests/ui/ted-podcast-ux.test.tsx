@@ -101,7 +101,8 @@ test("16 existing routes are kept: standalone and roadmap-linked hrefs", () => {
 });
 test("17 detail order is title/metadata, then the player, with a Link back", () => {
   assert.ok(detailPage.indexOf("data-video-detail-header") < detailPage.indexOf("<VideoLessonStudio"));
-  assert.match(detailPage, /<Link href="\/video-lessons"/);
+  // BackLink renders next/link to its fallbackHref (shared Back control, B1-B4).
+  assert.match(detailPage, /<(?:Link href|BackLink fallbackHref)="\/video-lessons"/);
   assert.doesNotMatch(detailPage, /<aside|lg:grid-cols-\[|window\.location/);
 });
 test("18 the player is YouTube's native /embed/ player with native controls", () => mounted(studio(), () => {

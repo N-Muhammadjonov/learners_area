@@ -80,9 +80,10 @@ test("the materials screens sit under Management and are reachable from it", () 
   assert.equal(parentFor("/admin/materials/lesson", en)?.href, "/admin/materials");
   assert.equal(parentFor("/admin/materials/lesson/qa-sample", en)?.href, "/admin/materials");
 
-  // The nested screens keep their own inline way up as well.
-  assert.match(read("src/app/(app)/admin/materials/[type]/page.tsx"), /href="\/admin\/materials"/);
-  assert.match(read("src/app/(app)/admin/materials/[type]/[id]/page.tsx"), /href=\{`\/admin\/materials\/\$\{type\}`\}/);
+  // The nested screens keep their own inline way up as well (the shared
+  // BackLink, whose real link target is its fallbackHref).
+  assert.match(read("src/app/(app)/admin/materials/[type]/page.tsx"), /(?:h|fallbackH)ref="\/admin\/materials"/);
+  assert.match(read("src/app/(app)/admin/materials/[type]/[id]/page.tsx"), /(?:h|fallbackH)ref=\{`\/admin\/materials\/\$\{type\}`\}/);
 });
 
 test("every card on the Management hub leads to a screen with a back path", () => {

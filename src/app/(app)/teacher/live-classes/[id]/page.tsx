@@ -1,3 +1,4 @@
+import { BackLink } from "@/components/ui/BackLink";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { asc, eq } from "drizzle-orm";
@@ -45,9 +46,7 @@ export default async function TeacherLiveClassPage({ params }: { params: Promise
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-4">
       <div>
-        <Link href="/teacher/live-classes" className="btn-secondary " data-class-back>
-          ← {dict.liveClasses.manageTitle}
-        </Link>
+        <BackLink fallbackHref="/teacher/live-classes" label={dict.liveClasses.manageTitle} data-class-back />
         <h1 className="mt-2 font-display text-2xl text-ink-900">{liveClass.title}</h1>
         {liveClass.topic && <p className="text-sm text-ink-500">{liveClass.topic}</p>}
       </div>

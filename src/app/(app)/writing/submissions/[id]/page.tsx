@@ -1,3 +1,4 @@
+import { BackLink } from "@/components/ui/BackLink";
 import { notFound } from "next/navigation";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
@@ -39,6 +40,7 @@ export default async function SubmissionPage({ params }: { params: Promise<{ id:
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-4">
+      <BackLink fallbackHref="/writing/history" label={dict.common.back} />
       <div>
         <span className="badge bg-signal-100 text-signal-700">
           {prompt.taskType === "task1" ? dict.writing.task1 : dict.writing.task2}

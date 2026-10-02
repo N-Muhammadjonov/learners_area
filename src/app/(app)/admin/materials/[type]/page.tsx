@@ -1,3 +1,4 @@
+import { BackLink } from "@/components/ui/BackLink";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { requireStaff } from "@/lib/auth/current-user";
@@ -27,9 +28,7 @@ export default async function AdminMaterialsKindPage({ params }: { params: Promi
 
   return (
     <div className="mx-auto flex max-w-4xl flex-col gap-4" data-materials-kind={type}>
-      <Link href="/admin/materials" className="link-inline w-fit text-sm" data-materials-back>
-        {dict.admin.materialsBack}
-      </Link>
+      <BackLink fallbackHref="/admin/materials" label={dict.admin.materialsBack} data-materials-back />
       <h1 className="font-display text-2xl text-ink-900">{kindLabel(dict, type)}</h1>
 
       {rows.length === 0 ? (

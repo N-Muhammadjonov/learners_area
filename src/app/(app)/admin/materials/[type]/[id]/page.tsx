@@ -1,3 +1,4 @@
+import { BackLink } from "@/components/ui/BackLink";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { actorOf, requireStaff } from "@/lib/auth/current-user";
@@ -40,9 +41,7 @@ export default async function AdminMaterialsEditorPage({
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-4" data-materials-editor={type}>
-      <Link href={`/admin/materials/${type}`} className="link-inline w-fit text-sm" data-materials-back>
-        {dict.admin.materialsBack}
-      </Link>
+      <BackLink fallbackHref={`/admin/materials/${type}`} label={dict.admin.materialsBack} data-materials-back />
 
       <div>
         <h1 className="font-display text-2xl text-ink-900">

@@ -1,3 +1,4 @@
+import { BackLink } from "@/components/ui/BackLink";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireActiveUser } from "@/lib/auth/current-user";
@@ -46,9 +47,7 @@ export default async function LessonPage({ params }: { params: Promise<{ lessonI
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-4">
       <div>
-        <Link href="/courses/ielts" className="btn-secondary " data-lesson-back>
-          ← {dict.courseRoadmap.back}
-        </Link>
+        <BackLink fallbackHref="/courses/ielts" label={dict.courseRoadmap.back} data-lesson-back />
         <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
           <h1 className="font-display text-2xl text-ink-900">{lesson.title}</h1>
           <span data-lesson-state={state}>

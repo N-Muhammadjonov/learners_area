@@ -1,3 +1,4 @@
+import { BackLink } from "@/components/ui/BackLink";
 import { Suspense } from "react";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { notFound } from "next/navigation";
@@ -68,9 +69,7 @@ export default async function GrammarTopicPage({ params }: { params: Promise<{ t
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-4">
       <div>
-        <Link href="/grammar" className="btn-secondary ">
-          ← {dict.grammar.backToTopics}
-        </Link>
+        <BackLink fallbackHref="/grammar" label={dict.grammar.backToTopics} />
         <h1 className="mt-2 font-display text-2xl text-ink-900">{topic.title}</h1>
         <p className="academic-text text-sm text-ink-500">{topic.explanation}</p>
       </div>

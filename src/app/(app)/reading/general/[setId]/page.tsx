@@ -1,3 +1,4 @@
+import { BackLink } from "@/components/ui/BackLink";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireActiveUser } from "@/lib/auth/current-user";
@@ -32,7 +33,7 @@ export default async function GeneralReadingSetPage({ params, searchParams }: {
     return (
       <div className="mx-auto flex max-w-[960px] flex-col gap-6" data-general-reading-choose>
         <header className="flex flex-col gap-2">
-          <Link href="/reading/general" prefetch={false} className="link-inline w-fit text-sm">{t.back}</Link>
+          <BackLink fallbackHref="/reading/general" label={t.back} />
           <h1 className="section-title">{detail.set.title}</h1>
           {detail.set.description && <p className="body-text">{detail.set.description}</p>}
           <p className="body-text text-sm">{t.choose}</p>

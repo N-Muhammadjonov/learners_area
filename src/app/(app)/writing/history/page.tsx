@@ -1,3 +1,4 @@
+import { BackLink } from "@/components/ui/BackLink";
 import Link from "next/link";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
@@ -21,6 +22,7 @@ export default async function WritingHistoryPage() {
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-4">
+      <BackLink fallbackHref="/writing" label={dict.common.back} />
       <h1 className="font-display text-2xl text-ink-900">{dict.writing.historyTitle}</h1>
 
       {rows.length === 0 && (

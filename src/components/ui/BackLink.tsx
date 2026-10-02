@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import type { MouseEvent } from "react";
+import type { MouseEvent, ReactNode } from "react";
 import { shouldUseHistory } from "@/lib/navigation/back";
 
 /**
@@ -12,7 +12,20 @@ import { shouldUseHistory } from "@/lib/navigation/back";
  * site, a plain click goes back in history instead, so filters and scroll on
  * the previous page survive. Modified clicks keep normal link behaviour.
  */
-export function BackLink({ fallbackHref, label, className }: { fallbackHref: string; label: string; className?: string }) {
+export function BackLink({
+  fallbackHref,
+  label,
+  className,
+  prefetch,
+  ...data
+}: {
+  fallbackHref: string;
+  label: ReactNode;
+  className?: string;
+  prefetch?: boolean;
+  /** Route-specific hooks such as data-video-back stay on the anchor. */
+  [dataAttribute: `data-${string}`]: string | boolean | undefined;
+}) {
   const router = useRouter();
   function onClick(event: MouseEvent<HTMLAnchorElement>) {
     if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
@@ -23,7 +36,9 @@ export function BackLink({ fallbackHref, label, className }: { fallbackHref: str
   return (
     <Link
       href={fallbackHref}
+      prefetch={prefetch}
       onClick={onClick}
+      {...data}
       className={className ?? "btn-ghost inline-flex min-h-11 w-fit items-center gap-1"}
       data-back-link
     >

@@ -1,3 +1,4 @@
+import { BackLink } from "@/components/ui/BackLink";
 import { Suspense } from "react";
 import type { Dictionary } from "@/lib/i18n/en";
 import { timed } from "@/lib/observability/timing";
@@ -64,9 +65,7 @@ async function RetentionBankContent({ dict, params }: {
     <div className="mx-auto flex max-w-5xl flex-col gap-6" data-retention-admin data-route-usable="retention-admin">
       <header className="flex flex-col gap-2">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <Link href="/admin/reading" className="link-inline" data-retention-back>
-            {dict.retentionMemory.admin.backToReading}
-          </Link>
+          <BackLink fallbackHref="/admin/reading" label={dict.retentionMemory.admin.backToReading} data-retention-back />
         </div>
         <p className="page-subtitle">{dict.retentionMemory.admin.subtitle}</p>
       </header>

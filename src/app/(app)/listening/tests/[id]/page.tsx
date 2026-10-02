@@ -1,3 +1,4 @@
+import { BackLink } from "@/components/ui/BackLink";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireActiveUser } from "@/lib/auth/current-user";
@@ -21,9 +22,7 @@ export default async function Hub({
   const progress = await fullListeningProgress(user.id, id);
   return (
     <div className="mx-auto max-w-[1840px] space-y-6">
-      <Link href="/listening" className="btn-secondary">
-        ← Listening
-      </Link>
+      <BackLink fallbackHref="/listening" label="Listening" />
       <h1 className="font-display text-3xl">{detail.test.title}</h1>
       <p>
         4 Sections · 40 Questions ·{" "}

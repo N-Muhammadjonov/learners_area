@@ -1,3 +1,4 @@
+import { BackLink } from "@/components/ui/BackLink";
 import { notFound } from "next/navigation";
 import { redirect } from "next/navigation";
 import { requireAdministrator } from "@/lib/auth/current-user";
@@ -25,6 +26,7 @@ export default async function AdminTestDetailPage({ params }: { params: Promise<
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-4">
+      <BackLink fallbackHref="/admin/listening" label={dict.common.back} />
       <div>
         <h1 className="font-display text-2xl text-ink-900">{test.title}</h1>
         <div className="mt-2">

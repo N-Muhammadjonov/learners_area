@@ -32,3 +32,19 @@ test("B3 the Management Listening import uses BackLink to /admin/listening; the 
   assert.doesNotMatch(legacy, /<ListeningImport|components\/listening\/ListeningImport/);
   assert.match(readFileSync("src/app/(app)/listening/page.tsx", "utf8"), /href="\/admin\/listening\/import"/);
 });
+
+test("B4 nested learner and management pages use the shared BackLink (no hand-rolled ← links)", () => {
+  const nested = [
+    "listening/history", "listening/attempts/[id]", "listening/tests/[id]", "reading/history", "reading/attempts/[id]",
+    "reading/general", "reading/general/[setId]", "reading/retention/results/[attemptId]", "writing/history",
+    "writing/submissions/[id]", "grammar/[topicId]", "video-lessons/[id]", "courses/ielts/lessons/[lessonId]",
+    "admin/grammar/[id]", "admin/listening/[id]", "admin/listening/import", "admin/reading/[id]", "admin/reading/import",
+    "admin/reading/retention", "admin/materials/[type]", "admin/materials/[type]/[id]", "teacher/students/[id]",
+    "teacher/live-classes/[id]",
+  ];
+  for (const r of nested) {
+    const src = readFileSync(`src/app/(app)/${r}/page.tsx`, "utf8");
+    assert.match(src, /<BackLink fallbackHref=/, r);
+    assert.doesNotMatch(src, />\s*←/, `${r} still hand-rolls a ← link`);
+  }
+});
