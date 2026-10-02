@@ -90,6 +90,13 @@ export interface StorageService {
    * URL (local disk); S3/R2 implement it too, as a fallback delivery path.
    */
   read(key: ObjectKey): Promise<ReadResult | null>;
+  /**
+   * The first `maxBytes` of an object (bounded: S3/R2 use a Range GET, local
+   * disk reads only the prefix). Used by finalize to verify the stored bytes —
+   * the server-side authority behind the browser's signature preflight.
+   * Returns null when the object does not exist.
+   */
+  readHead(key: ObjectKey, maxBytes: number): Promise<Buffer | null>;
   delete(key: ObjectKey): Promise<void>;
 }
 

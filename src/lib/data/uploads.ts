@@ -19,6 +19,10 @@ import {
 } from "@/lib/services/resources/owners";
 import { canonicalMimeFor, validateUploadFile, type UploadCategory } from "@/lib/validation/uploads";
 import { buildObjectKey } from "@/lib/uploads/keys";
+import { verifySignature } from "@/lib/uploads/signature";
+import type { StorageService } from "@/lib/services/storage/types";
+
+const SIGNATURE_BYTES = 4096;
 
 /**
  * The upload lifecycle, server side.
@@ -195,10 +199,15 @@ export type FinalizeResult =
  * content type and size, then flips the intent to `finalized`. Only a
  * finalized intent can be claimed by a resource.
  */
-export async function finalizeUploadIntent(userId: string, uploadId: string): Promise<FinalizeResult> {
+export async function finalizeUploadIntent(
+  userId: string,
+  uploadId: string,
+  deps: { database?: typeof db; storage?: StorageService } = {},
+): Promise<FinalizeResult> {
+  const database = deps.database ?? db;
   if (!isUuid(uploadId)) return { ok: false, status: 400, error: "invalid_upload_id" };
 
-  const intent = await db.query.uploadIntents.findFirst({ where: eq(uploadIntents.id, uploadId) });
+  const intent = await database.query.uploadIntents.findFirst({ where: eq(uploadIntents.id, uploadId) });
   if (!intent || intent.userId !== userId) return { ok: false, status: 404, error: "upload_not_found" };
   if (intent.status === "finalized" || intent.status === "attached") {
     return {
@@ -213,7 +222,7 @@ export async function finalizeUploadIntent(userId: string, uploadId: string): Pr
   if (intent.status !== "pending") return { ok: false, status: 409, error: "upload_not_active" };
   if (intent.expiresAt.getTime() < Date.now()) return { ok: false, status: 410, error: "upload_expired" };
 
-  const storage = getStorageService();
+  const storage = deps.storage ?? getStorageService();
   const head = await storage.head(intent.objectKey);
   if (!head) {
     return { ok: false, status: 409, error: "upload_not_found_in_storage" };
@@ -230,7 +239,26 @@ export async function finalizeUploadIntent(userId: string, uploadId: string): Pr
     return { ok: false, status: 409, error: "upload_size_mismatch" };
   }
 
-  const finalized = await db
+  // Stored bytes are the authority. The browser's signature preflight is a UX
+  // shortcut a custom client can skip; this check cannot be skipped, because
+  // nothing can claim an intent that never reaches `finalized`.
+  const prefix = await storage.readHead(intent.objectKey, SIGNATURE_BYTES);
+  const verdict = prefix ? verifySignature(intent.originalName, new Uint8Array(prefix)) : { ok: false as const, reason: "mismatch" as const };
+  if (!verdict.ok) {
+    const error = verdict.reason === "executable" ? "dangerous_type" : "upload_type_mismatch";
+    await database
+      .update(uploadIntents)
+      .set({ status: "aborted", error: `signature_${verdict.reason}` })
+      .where(and(eq(uploadIntents.id, intent.id), eq(uploadIntents.status, "pending")));
+    await storage.delete(intent.objectKey).catch((err) => {
+      // The intent is already aborted, so the object can never be claimed;
+      // the expired-intent sweeper retries the delete.
+      console.warn(`finalizeUploadIntent: could not delete rejected ${intent.objectKey}:`, err);
+    });
+    return { ok: false, status: 422, error };
+  }
+
+  const finalized = await database
     .update(uploadIntents)
     .set({ status: "finalized", finalizedAt: new Date(), error: null })
     .where(and(eq(uploadIntents.id, intent.id), eq(uploadIntents.status, "pending"), gt(uploadIntents.expiresAt, new Date())))

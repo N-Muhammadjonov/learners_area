@@ -1,4 +1,4 @@
-import { mkdir, readFile, stat, unlink, writeFile } from "node:fs/promises";
+import { mkdir, open, readFile, stat, unlink, writeFile } from "node:fs/promises";
 import path from "node:path";
 import type { ObjectHead, ObjectKey, PresignedPut, PutInput, ReadResult, StorageService } from "./types";
 import { isSafeObjectKey } from "./types";
@@ -88,6 +88,23 @@ export class LocalDiskStorageProvider implements StorageService {
       return { body: await readFile(this.resolve(key)), contentType: inferContentType(key) };
     } catch {
       return null;
+    }
+  }
+
+  async readHead(key: ObjectKey, maxBytes: number): Promise<Buffer | null> {
+    const filePath = this.resolve(key);
+    let handle;
+    try {
+      handle = await open(filePath, "r");
+    } catch {
+      return null;
+    }
+    try {
+      const buffer = Buffer.alloc(Math.max(0, Math.floor(maxBytes)));
+      const { bytesRead } = await handle.read(buffer, 0, buffer.length, 0);
+      return buffer.subarray(0, bytesRead);
+    } finally {
+      await handle.close();
     }
   }
 

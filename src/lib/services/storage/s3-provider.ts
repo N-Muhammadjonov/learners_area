@@ -134,6 +134,23 @@ export class S3StorageProvider implements StorageService {
     }
   }
 
+  async readHead(key: ObjectKey, maxBytes: number): Promise<Buffer | null> {
+    this.assertSafeKey(key);
+    const end = Math.max(0, Math.floor(maxBytes) - 1);
+    try {
+      const res = await this.client.send(
+        new GetObjectCommand({ Bucket: this.bucket, Key: key, Range: `bytes=0-${end}` }),
+      );
+      const body = await res.Body?.transformToByteArray();
+      if (!body) return null;
+      // A provider that ignores Range must still not hand us more than asked.
+      return Buffer.from(body.subarray(0, end + 1));
+    } catch (err) {
+      if (isNotFound(err)) return null;
+      throw err;
+    }
+  }
+
   async delete(key: ObjectKey): Promise<void> {
     this.assertSafeKey(key);
     await this.client.send(new DeleteObjectCommand({ Bucket: this.bucket, Key: key }));
