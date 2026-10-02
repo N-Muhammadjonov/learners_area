@@ -17,6 +17,11 @@ import {
   listeningPackageSchema,
   publicationIssues,
 } from "@/lib/listening/package";
+import { AUDIO_MIME } from "@/lib/listening/discover";
+// Every recording format the ZIP importer accepts (stored as the canonical MIME
+// for its extension; an audio-only .webm is stored as video/webm by the
+// upload policy and plays in <audio> all the same).
+const LISTENING_AUDIO_MIME = new Set([...Object.values(AUDIO_MIME), "video/webm"]);
 const input = z.object({
   payload: listeningPackageSchema,
   audioUploadId: z.string().uuid(),
@@ -67,7 +72,7 @@ export async function POST(req: NextRequest) {
     const audio = intents.find((x) => x.id === audioUploadId)!;
     const image = intents.find((x) => x.id === imageUploadId);
     if (
-      audio.mimeType !== "audio/mpeg" ||
+      !LISTENING_AUDIO_MIME.has(audio.mimeType) ||
       (image &&
         !["image/jpeg", "image/png", "image/webp"].includes(image.mimeType))
     )

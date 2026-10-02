@@ -1,4 +1,5 @@
 import { listeningPackageSchema, type ListeningPackage } from "./package";
+import { discoverTranscripts, ListeningImportProblem, textFile } from "./discover";
 
 /** Only JSON literals are read. No eval, Function, imported scripts, event handlers or HTML rendering. */
 export function jsonLiteral(html: string, marker: string): unknown {
@@ -29,16 +30,53 @@ export function jsonLiteral(html: string, marker: string): unknown {
   throw new Error("Incomplete source JSON");
 }
 export type HtmlDocumentReader = (html: string) => Document;
+export type LegacyOptions = {
+  /** Audio chosen by discovery (or by staff) when metadata does not name one. */
+  audioPath?: string;
+  /** Used only when metadata.json is absent: derived from the ZIP filename. */
+  fallbackTestId?: string;
+};
+/** The exam page: the canonical name, otherwise the one HTML file that holds the Q1 answer control. */
+function examHtml(files: Record<string, string>): string | undefined {
+  const named = textFile(files, "01_full_exam.html");
+  if (named) return named;
+  const candidates = Object.entries(files)
+    .filter(([p, v]) => /\.html?$/i.test(p) && /(id|name)\s*=\s*["']l1["']/.test(v))
+    .sort(([a], [b]) => a.localeCompare(b));
+  return candidates.length === 1 ? candidates[0]![1] : undefined;
+}
+export function slugTestId(value: string): string {
+  return value
+    .replace(/\.zip$/i, "")
+    .normalize("NFKD")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80) || "listening-import";
+}
 export function convertLegacyPackage(
   files: Record<string, string>,
   durationSec: number,
   read: HtmlDocumentReader,
+  options: LegacyOptions = {},
 ): ListeningPackage {
-  const html = files["01_full_exam.html"];
-  if (!html) throw new Error("01_full_exam.html missing");
-  const meta = JSON.parse(files["metadata.json"] ?? "null");
-  if (!meta?.test_id || !Array.isArray(meta.sections))
-    throw new Error("metadata.json missing or invalid");
+  const html = examHtml(files);
+  if (!html) throw new ListeningImportProblem("no_question_source");
+  // metadata.json is helpful but no longer mandatory. When it is absent the
+  // values are DERIVED (ZIP name, chosen audio, structural section numbers),
+  // never invented, and the provenance says so.
+  let parsedMeta: { test_id?: string; sections?: string[]; audio_file?: string; map_file?: string; source_identity?: string; internal_provenance?: string } | null = null;
+  try { parsedMeta = JSON.parse(textFile(files, "metadata.json") ?? textFile(files, "manifest.json") ?? "null"); } catch { parsedMeta = null; }
+  const inferred = !parsedMeta?.test_id || !Array.isArray(parsedMeta.sections) || parsedMeta.sections.length !== 4;
+  const meta = {
+    test_id: parsedMeta?.test_id && /^[a-z0-9-]{1,80}$/.test(parsedMeta.test_id) ? parsedMeta.test_id : slugTestId(parsedMeta?.test_id ?? options.fallbackTestId ?? "listening-import"),
+    sections: !inferred ? parsedMeta!.sections! : [1, 2, 3, 4].map((n) => `Section ${n}`),
+    audio_file: options.audioPath ?? parsedMeta?.audio_file,
+    map_file: parsedMeta?.map_file,
+    source_identity: parsedMeta?.source_identity,
+    internal_provenance: parsedMeta?.internal_provenance ?? (inferred ? "Human-created HTML package; metadata inferred from package contents" : undefined),
+  };
+  if (!meta.audio_file) throw new ListeningImportProblem("no_audio");
   const plain = (s: string) =>
     read(s).body.textContent?.replace(/\s+/g, " ").trim() ?? "";
   const doc = read(
@@ -118,25 +156,27 @@ export function convertLegacyPackage(
   });
   const keyword1 = (
     jsonLiteral(
-      files["03_keyword_match_1.html"] ?? "",
+      textFile(files, "03_keyword_match_1.html") ?? "",
       "const KEYS =",
     ) as ListeningPackage["keyword1"]
   ).map((x) => ({ ...x, text: plain(x.text) }));
   const keyword2 = jsonLiteral(
-    files["04_keyword_match_2.html"] ?? "",
+    textFile(files, "04_keyword_match_2.html") ?? "",
     "const ITEMS=",
   );
   const vocabulary = jsonLiteral(
-    files["05_vocabulary_session.html"] ?? "",
+    textFile(files, "05_vocabulary_session.html") ?? "",
     "const ITEMS =",
   );
-  const transcripts = files["data/transcript.json"]
-    ? (JSON.parse(files["data/transcript.json"]) as {
-        number: number;
-        text: string;
-        reviewRequired?: boolean;
-      }[])
-    : [];
+  // Real transcript text only: canonical data/transcript.json first, then any
+  // transcript-looking txt/md/html/xml/json/vtt/srt file that can be tied to a
+  // section. Scripts are stripped before text extraction and never executed.
+  const canonical = textFile(files, "data/transcript.json");
+  const transcripts: { number: number; text: string; reviewRequired?: boolean }[] = canonical
+    ? (JSON.parse(canonical) as { number: number; text: string; reviewRequired?: boolean }[])
+    : Object.entries(
+        discoverTranscripts(files, (h) => plain(h.replace(/<script[\s\S]*?<\/script>/gi, " ").replace(/<\/(p|div|li|h\d)>|<br\s*\/?>/gi, "$&\n"))).bySection,
+      ).map(([n, text]) => ({ number: Number(n), text }));
   return listeningPackageSchema.parse({
     schemaVersion: 1,
     testId: meta.test_id,

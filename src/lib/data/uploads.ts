@@ -17,7 +17,7 @@ import {
   loadResourceOwner,
   mayReadResources,
 } from "@/lib/services/resources/owners";
-import { validateUploadFile, type UploadCategory } from "@/lib/validation/uploads";
+import { canonicalMimeFor, validateUploadFile, type UploadCategory } from "@/lib/validation/uploads";
 import { buildObjectKey } from "@/lib/uploads/keys";
 
 /**
@@ -147,10 +147,14 @@ export async function createUploadIntent(input: CreateIntentInput): Promise<Crea
   const storage = getStorageService();
   const direct = storage.supportsDirectUpload;
 
+  // The stored label comes from the extension, not the browser claim: Safari
+  // sends "" / octet-stream for ordinary files, and markup must stay inert.
+  const contentType = canonicalMimeFor(input.filename, category);
+
   const presigned = direct
     ? await storage.presignPut({
         key: objectKey,
-        contentType: input.contentType,
+        contentType,
         expiresInSeconds: PRESIGN_TTL_SECONDS,
       })
     : null;
@@ -164,7 +168,7 @@ export async function createUploadIntent(input: CreateIntentInput): Promise<Crea
     blockKind: blockKind ?? null,
     objectKey,
     originalName: input.filename.slice(0, 255),
-    mimeType: input.contentType.slice(0, 120),
+    mimeType: contentType.slice(0, 120),
     size: input.size,
     status: "pending",
     directToStorage: Boolean(presigned),
@@ -177,7 +181,7 @@ export async function createUploadIntent(input: CreateIntentInput): Promise<Crea
     objectKey,
     mode: presigned ? "direct" : "proxy",
     uploadUrl: presigned?.uploadUrl ?? null,
-    contentType: input.contentType,
+    contentType,
     expiresInSeconds: presigned?.expiresInSeconds ?? UPLOAD_INTENT_TTL_SECONDS,
   };
 }

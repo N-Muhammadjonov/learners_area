@@ -117,9 +117,18 @@ export const ACTIVITY_NAMES = [
   "Vocabulary Session",
 ] as const;
 
+/**
+ * Paths are only ever used as lookup keys (nothing is written to disk under
+ * them), so ordinary human filenames — parentheses, apostrophes, Uzbek or
+ * Cyrillic letters — are accepted. What stays refused: control characters,
+ * backslashes, drive letters, absolute paths and traversal.
+ */
 export function safePackagePath(path: string) {
   return (
-    /^[a-zA-Z0-9_./ -]+$/.test(path) &&
+    path.length > 0 &&
+    path.length <= 400 &&
+    // eslint-disable-next-line no-control-regex
+    !/[\u0000-\u001f\u007f\\:*?"<>|]/.test(path) &&
     !path.startsWith("/") &&
     !path.split("/").includes("..") &&
     !path.includes("//")

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { RULES, clientKey, enforce } from "@/lib/http/rate-limit";
 import { actorOf, requireActiveUser } from "@/lib/auth/current-user";
 import { createUploadIntent, type BlockKind, type UploadPurpose } from "@/lib/data/uploads";
+import { uploadErrorBody, uploadError, withUploadErrorBoundary } from "@/lib/uploads/server-errors";
 
 /**
  * POST /api/uploads/intent — step 1 of the upload lifecycle.
@@ -31,8 +32,13 @@ import { createUploadIntent, type BlockKind, type UploadPurpose } from "@/lib/da
  * converge on /api/uploads/finalize, so the rest of the flow is identical.
  */
 export async function POST(req: NextRequest) {
+  return withUploadErrorBoundary("intent", () => handle(req));
+}
+
+async function handle(req: NextRequest): Promise<Response> {
   const user = await requireActiveUser();
-  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  // Inline status so the access-control audit can see the refusal.
+  if (!user) return NextResponse.json(uploadErrorBody("unauthenticated"), { status: 401 });
 
   const limited = enforce(RULES.uploadIntent, clientKey(req));
   if (limited) return limited;
@@ -45,16 +51,16 @@ export async function POST(req: NextRequest) {
   const size = body?.size;
 
   if (typeof purpose !== "string" || typeof filename !== "string" || typeof contentType !== "string") {
-    return NextResponse.json({ error: "invalid_input" }, { status: 400 });
+    return uploadError("invalid_input", 400);
   }
   if (purpose !== "material_primary" && purpose !== "material_block" && purpose !== "speaking_recording") {
-    return NextResponse.json({ error: "invalid_purpose" }, { status: 400 });
+    return uploadError("invalid_purpose", 400);
   }
   if (typeof size !== "number" || !Number.isFinite(size) || size <= 0) {
-    return NextResponse.json({ error: "invalid_size" }, { status: 400 });
+    return uploadError("invalid_size", 400);
   }
   if (purpose === "material_block" && !["image", "audio", "file"].includes(blockKind)) {
-    return NextResponse.json({ error: "invalid_block_kind" }, { status: 400 });
+    return uploadError("invalid_block_kind", 400);
   }
 
   const result = await createUploadIntent({
@@ -69,7 +75,7 @@ export async function POST(req: NextRequest) {
   });
 
   if (!result.ok) {
-    return NextResponse.json({ error: result.error }, { status: result.status });
+    return uploadError(result.error, result.status);
   }
 
   return NextResponse.json({

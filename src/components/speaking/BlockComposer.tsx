@@ -1,5 +1,6 @@
 "use client";
 
+import { describeUploadError } from "@/lib/uploads/errors";
 import { useId, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
@@ -555,7 +556,7 @@ function MediaBlockBody({
         <div className="flex flex-wrap items-center gap-2">
           <span className="text-xs text-band-bad">
             {t.uploadState[block.state]}
-            {block.error ? ` — ${block.error}` : ""}
+            {block.error ? ` — ${describeUploadError(block.error, dict.uploadErrors)}` : ""}
           </span>
           <button type="button" onClick={onRetry} className="btn-secondary ">
             {t.retryUpload}

@@ -11,6 +11,8 @@
  * would pull Node built-ins into the browser bundle and break the build.
  */
 
+import { isDangerousFilename } from "@/lib/uploads/errors";
+
 export type UploadCategory = "primary" | "image" | "audio" | "file";
 
 /** Object-key segment per block type. `primary` is a resource's main file. */
@@ -41,14 +43,30 @@ const DOC_MIME_TYPES = [
   "application/vnd.ms-excel",
   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
   "application/zip",
+  "application/x-zip-compressed",
   "text/plain",
   "text/csv",
+  "text/markdown",
+  "text/x-markdown",
+  "application/rtf",
+  "text/rtf",
+  "text/html",
+  "application/xml",
+  "text/xml",
+  "application/json",
 ];
 
-const DOC_EXTENSIONS = [".pdf", ".doc", ".docx", ".ppt", ".pptx", ".xls", ".xlsx", ".zip", ".txt", ".csv"];
+const DOC_EXTENSIONS = [
+  ".pdf", ".doc", ".docx", ".ppt", ".pptx", ".xls", ".xlsx", ".zip",
+  ".txt", ".csv", ".md", ".rtf", ".html", ".htm", ".xml", ".json",
+];
 
 const MEDIA_MIME_PREFIXES = ["video/", "audio/", "image/"];
 
+/**
+ * SVG is deliberately absent: it can carry script and there is no sanitizer
+ * in this pipeline. It is refused rather than stored and later rendered.
+ */
 const MEDIA_EXTENSIONS = [
   ".mp4",
   ".webm",
@@ -59,13 +77,66 @@ const MEDIA_EXTENSIONS = [
   ".m4a",
   ".aac",
   ".ogg",
+  ".oga",
   ".opus",
+  ".flac",
   ".png",
   ".jpg",
   ".jpeg",
   ".webp",
   ".gif",
 ];
+
+/**
+ * The MIME a stored object is labelled with, decided by the server from the
+ * extension — never the browser's claim (Safari sends "" or octet-stream for
+ * ordinary files). Markup is stored as text/plain so an uploaded HTML/XML
+ * source is INERT: it is shown as text or downloaded, never executed.
+ */
+export const CANONICAL_MIME: Record<string, string> = {
+  ".pdf": "application/pdf",
+  ".doc": "application/msword",
+  ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  ".ppt": "application/vnd.ms-powerpoint",
+  ".pptx": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  ".xls": "application/vnd.ms-excel",
+  ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  ".zip": "application/zip",
+  ".txt": "text/plain",
+  ".csv": "text/csv",
+  ".md": "text/markdown",
+  ".rtf": "application/rtf",
+  ".html": "text/plain",
+  ".htm": "text/plain",
+  ".xml": "text/plain",
+  ".json": "application/json",
+  ".mp4": "video/mp4",
+  ".webm": "video/webm",
+  ".mov": "video/quicktime",
+  ".m4v": "video/x-m4v",
+  ".mp3": "audio/mpeg",
+  ".wav": "audio/wav",
+  ".m4a": "audio/mp4",
+  ".aac": "audio/aac",
+  ".ogg": "audio/ogg",
+  ".oga": "audio/ogg",
+  ".opus": "audio/ogg",
+  ".flac": "audio/flac",
+  ".png": "image/png",
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
+  ".webp": "image/webp",
+  ".gif": "image/gif",
+};
+
+/** Audio recorded in the browser (MediaRecorder) arrives as webm/ogg/mp4 audio. */
+const RECORDING_MIME: Record<string, string> = { ".webm": "audio/webm", ".ogg": "audio/ogg", ".mp4": "audio/mp4" };
+
+export function canonicalMimeFor(filename: string, category: UploadCategory): string {
+  const ext = extensionOf(filename);
+  if (category === "audio" && RECORDING_MIME[ext]) return RECORDING_MIME[ext]!;
+  return CANONICAL_MIME[ext] ?? "application/octet-stream";
+}
 
 function mb(value: number): number {
   return Math.round(value * 1024 * 1024);
@@ -101,7 +172,7 @@ export const UPLOAD_RULES: Record<UploadCategory, UploadRules> = {
     maxBytes: envMb("MAX_AUDIO_UPLOAD_MB", 50),
     mimePrefixes: ["audio/"],
     mimeTypes: [],
-    extensions: [".mp3", ".wav", ".m4a", ".aac", ".ogg", ".opus", ".webm"],
+    extensions: [".mp3", ".wav", ".m4a", ".aac", ".ogg", ".oga", ".opus", ".webm", ".flac", ".mp4"],
   },
   file: {
     maxBytes: envMb("MAX_FILE_UPLOAD_MB", 50),
@@ -113,6 +184,7 @@ export const UPLOAD_RULES: Record<UploadCategory, UploadRules> = {
 
 export type UploadErrorCode =
   | "unsupported_type"
+  | "dangerous_type"
   | "file_too_large"
   | "missing_file"
   | "size_mismatch"
@@ -136,6 +208,9 @@ export function validateUploadFile(input: {
 }): UploadValidation {
   const { filename, contentType, size, category } = input;
   if (!filename) return { ok: false, error: "missing_file" };
+  // Executables are refused outright, including disguised double extensions
+  // ("audio.mp3.exe") whatever MIME the browser claims.
+  if (isDangerousFilename(filename)) return { ok: false, error: "dangerous_type" };
 
   const rules = UPLOAD_RULES[category];
   const ext = extensionOf(filename);

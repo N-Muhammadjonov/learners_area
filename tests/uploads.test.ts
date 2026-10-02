@@ -60,7 +60,9 @@ test("validateUploadFile: rejects an executable even when claimed as audio", () 
     size: 2048,
     category: "audio",
   });
-  assert.deepEqual(result, { ok: false, error: "unsupported_type" });
+  // Still refused; the owner spec (uploads §) now names executables explicitly
+  // so the learner sees "this file type is never accepted", not "unsupported".
+  assert.deepEqual(result, { ok: false, error: "dangerous_type" });
 });
 
 test("validateUploadFile: rejects an empty MIME with an unlisted extension", () => {

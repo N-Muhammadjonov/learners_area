@@ -2,23 +2,33 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { startUpload, type UploadHandle } from "@/lib/uploads/client";
-import { convertLegacyPackage } from "@/lib/listening/source-parser";
-import {
-  listeningPackageSchema,
-  publicationIssues,
-  type ListeningPackage,
-} from "@/lib/listening/package";
+import { uploadErrorMessage } from "@/lib/uploads/errors";
+import type { ListeningPackage } from "@/lib/listening/package";
+import type { AudioCandidate, ImportProblemCode } from "@/lib/listening/discover";
+import type { InspectResult } from "@/lib/listening/inspect";
+import type { Dictionary } from "@/lib/i18n/en";
 
-export function ListeningImport() {
-  const [bundle, setBundle] = useState<{
-    payload: ListeningPackage;
-    audio: File;
-    image: File | null;
-  } | null>(null);
-  const [collection, setCollection] =
-    useState<NonNullable<ListeningPackage["collection"]>>("academic");
+type Problem = { code: ImportProblemCode | "unknown"; files: string[]; candidates?: AudioCandidate[] };
+type Loaded = { file: File; entries: Record<string, Uint8Array>; textFiles: Record<string, string> };
+
+const fill = (t: string, v: Record<string, string | number>) =>
+  Object.entries(v).reduce((acc, [k, x]) => acc.replaceAll(`{${k}}`, String(x)), t);
+
+/** ZIP reader errors are plain Errors; map them to staff-facing problem codes. */
+function zipProblem(message: string): ImportProblemCode {
+  if (/exceeds|too large/i.test(message)) return "zip_too_large";
+  if (/unsafe|duplicate/i.test(message)) return "zip_unsafe";
+  return "zip_unreadable";
+}
+
+export function ListeningImport({ dict }: { dict: Pick<Dictionary, "listeningImport" | "uploadErrors"> }) {
+  const t = dict.listeningImport;
+  const [loaded, setLoaded] = useState<Loaded | null>(null);
+  const [result, setResult] = useState<(InspectResult & { image: File | null; audioFile: File }) | null>(null);
+  const [problem, setProblem] = useState<Problem | null>(null);
+  const [collection, setCollection] = useState<NonNullable<ListeningPackage["collection"]>>("academic");
   const [error, setError] = useState("");
-  const [busy, setBusy] = useState(false);
+  const [busy, setBusy] = useState<"" | "check" | "upload">("");
   const [progress, setProgress] = useState(0);
   const [id, setId] = useState("");
   const handles = useRef<UploadHandle[]>([]);
@@ -31,95 +41,93 @@ export function ListeningImport() {
     },
     [],
   );
-  async function inspect(file: File) {
-    setBundle(null);
+
+  async function readZip(file: File) {
+    setLoaded(null);
+    setResult(null);
+    setProblem(null);
     setId("");
     setError("");
-    setBusy(true);
+    setBusy("check");
     try {
       const { readListeningZipAsync } = await import("@/lib/listening/zip");
-      const { entries, textFiles } = await readListeningZipAsync(
-        new Uint8Array(await file.arrayBuffer()),
-      );
-      const metadata = JSON.parse(
-        textFiles["metadata.json"] ?? textFiles["manifest.json"] ?? "null",
-      );
-      const audioPath = metadata?.audio_file ?? metadata?.audio?.path;
-      const bytes = entries[audioPath];
-      if (!bytes) throw new Error("Canonical MP3 missing");
-      if (
-        !/\.mp3$/i.test(audioPath) ||
-        !(
-          (bytes[0] === 73 && bytes[1] === 68 && bytes[2] === 51) ||
-          (bytes[0] === 255 && (bytes[1]! & 224) === 224)
-        )
-      )
-        throw new Error("Unreadable MP3 signature");
-      const audio = new File([new Uint8Array(bytes)], "full.mp3", {
-        type: "audio/mpeg",
-      });
-      const duration = await probeAudio(audio);
-      const payload = textFiles["data/package.json"]
-        ? listeningPackageSchema.parse(
-            JSON.parse(textFiles["data/package.json"]),
-          )
-        : convertLegacyPackage(textFiles, duration, (html) =>
-            new DOMParser().parseFromString(html, "text/html"),
-          );
-      // Trust the probed recording, not a source QA report or claimed manifest duration.
-      payload.audio.durationSec = duration;
-      listeningPackageSchema.parse(payload);
-      const imageBytes = payload.imagePath ? entries[payload.imagePath] : null;
-      if (payload.audio.path !== audioPath)
-        throw new Error("Manifest audio path mismatch");
-      if (payload.imagePath && !imageBytes)
-        throw new Error("Required map missing");
-      const mime =
-        imageBytes && imageBytes[0] === 137 && imageBytes[1] === 80
-          ? "image/png"
-          : "image/jpeg";
-      if (
-        imageBytes &&
-        mime === "image/jpeg" &&
-        !(imageBytes[0] === 255 && imageBytes[1] === 216)
-      )
-        throw new Error("Unsupported map format");
-      const image = imageBytes
-        ? new File(
-            [new Uint8Array(imageBytes)],
-            mime === "image/png" ? "map.png" : "map.jpg",
-            { type: mime },
-          )
-        : null;
-      setCollection(payload.collection ?? "academic");
-      setBundle({ payload, audio, image });
+      const { entries, textFiles } = await readListeningZipAsync(new Uint8Array(await file.arrayBuffer()));
+      const next = { file, entries, textFiles };
+      setLoaded(next);
+      await inspect(next);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Invalid package");
+      setProblem({ code: zipProblem(e instanceof Error ? e.message : ""), files: [] });
     } finally {
-      setBusy(false);
+      setBusy("");
     }
   }
+
+  async function inspect(source: Loaded, chosenAudioPath?: string) {
+    setProblem(null);
+    setBusy("check");
+    try {
+      const [{ inspectListeningPackage }, { ListeningImportProblem }] = await Promise.all([
+        import("@/lib/listening/inspect"),
+        import("@/lib/listening/discover"),
+      ]);
+      try {
+        const inspected = await inspectListeningPackage({
+          entries: source.entries,
+          textFiles: source.textFiles,
+          zipName: source.file.name,
+          chosenAudioPath,
+          probeDuration: (audio, bytes) => probeAudio(new File([new Uint8Array(bytes)], audio.path.split("/").pop()!, { type: audio.mimeType })),
+          read: (html) => new DOMParser().parseFromString(html, "text/html"),
+        });
+        const audioBytes = source.entries[inspected.audio.path]!;
+        const audioFile = new File([new Uint8Array(audioBytes)], `full.${inspected.audio.format}`, { type: inspected.audio.mimeType });
+        const imageBytes = inspected.payload.imagePath ? source.entries[inspected.payload.imagePath] : null;
+        const image = imageBytes ? imageFile(imageBytes) : null;
+        if (imageBytes && !image) {
+          setProblem({ code: "map_missing", files: [inspected.payload.imagePath!] });
+          return;
+        }
+        setCollection(inspected.payload.collection ?? "academic");
+        setResult({ ...inspected, audioFile, image });
+      } catch (e) {
+        if (e instanceof ListeningImportProblem) {
+          const candidates = e.code === "audio_ambiguous"
+            ? (await import("@/lib/listening/discover")).audioCandidates(source.entries).candidates
+            : undefined;
+          setProblem({ code: e.code, files: e.detail.files ?? [], candidates });
+        } else {
+          setProblem({ code: "unknown", files: [] });
+        }
+      }
+    } finally {
+      setBusy("");
+    }
+  }
+
   async function upload() {
-    if (!bundle || flight.current) return;
+    if (!result || flight.current) return;
     flight.current = true;
-    setBusy(true);
+    setBusy("upload");
     setError("");
     setProgress(0);
     try {
-      const audio = startUpload(bundle.audio, {
-        purpose: "material_primary",
-        onProgress: setProgress,
-      });
+      const audio = startUpload(result.audioFile, { purpose: "material_primary", onProgress: setProgress });
       handles.current.push(audio);
       const a = await audio.promise;
-      if (!a.ok) throw new Error(a.error);
+      if (!a.ok) {
+        setError(uploadErrorMessage(a.failure, dict.uploadErrors));
+        return;
+      }
       let imageUploadId: string | null = null;
-      if (bundle.image) {
-        const h = startUpload(bundle.image, { purpose: "material_primary" });
+      if (result.image) {
+        const h = startUpload(result.image, { purpose: "material_primary" });
         handles.current.push(h);
-        const result = await h.promise;
-        if (!result.ok) throw new Error(result.error);
-        imageUploadId = result.uploadId;
+        const r = await h.promise;
+        if (!r.ok) {
+          setError(uploadErrorMessage(r.failure, dict.uploadErrors));
+          return;
+        }
+        imageUploadId = r.uploadId;
       }
       const controller = new AbortController();
       request.current = controller;
@@ -129,43 +137,37 @@ export function ListeningImport() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           signal: controller.signal,
-          body: JSON.stringify({
-            payload: { ...bundle.payload, collection },
-            audioUploadId: a.uploadId,
-            imageUploadId,
-          }),
+          body: JSON.stringify({ payload: { ...result.payload, collection }, audioUploadId: a.uploadId, imageUploadId }),
         });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error ?? "Import failed");
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          const code = String(data.error ?? "unknown") as keyof typeof t.importErrors;
+          setError(t.importErrors[code] ?? t.importErrors.unknown);
+          return;
+        }
         setId(data.id);
       } finally {
         clearTimeout(timer);
       }
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Upload failed");
+    } catch {
+      setError(t.importErrors.unknown);
     } finally {
       flight.current = false;
-      setBusy(false);
+      setBusy("");
     }
   }
+
   return (
-    <div className="card space-y-4">
-      <h2 className="font-display text-xl">Add Listening · ZIP</h2>
-      <p>
-        To&#39;rtta bo&#39;lim, 40 savol, beshta mashq. HTML skriptlari ishga
-        tushirilmaydi. Import avval draft sifatida saqlanadi.
-      </p>
+    <div className="card space-y-4" data-listening-import>
+      <h1 className="font-display text-xl">{t.title}</h1>
+      <p>{t.intro}</p>
       <label className="block">
-        Collection
+        {t.collection}
         <select
           className="input"
           value={collection}
-          disabled={busy}
-          onChange={(e) =>
-            setCollection(
-              e.target.value as NonNullable<ListeningPackage["collection"]>,
-            )
-          }
+          disabled={!!busy}
+          onChange={(e) => setCollection(e.target.value as NonNullable<ListeningPackage["collection"]>)}
         >
           <option value="essential">Essential Recordings</option>
           <option value="academic">Academic Listening</option>
@@ -175,81 +177,123 @@ export function ListeningImport() {
         </select>
       </label>
       <label className="block">
-        Listening ZIP
+        {t.zipLabel}
         <input
           className="mt-2 block"
           type="file"
-          accept=".zip"
-          disabled={busy}
+          accept=".zip,application/zip"
+          disabled={!!busy}
           onChange={(e) => {
             const file = e.target.files?.[0];
-            if (file) void inspect(file);
+            if (file) void readZip(file);
           }}
         />
       </label>
       {busy && (
-        <p role="status">
-          Tekshirish / yuklash… {progress > 0 ? `${progress}%` : ""}
-        </p>
+        <p role="status">{busy === "check" ? t.checking : fill(t.uploading, { pct: progress > 0 ? `${progress}%` : "" })}</p>
       )}
-      {error && (
-        <p role="alert" className="text-red-700">
-          {error}
-        </p>
+
+      {problem && (
+        <div role="alert" className="space-y-2 rounded-lg border border-red-300 p-3" data-import-problem={problem.code}>
+          <p className="font-medium text-red-700">{t.problems[problem.code] ?? t.problems.unknown}</p>
+          {problem.code === "audio_ambiguous" && loaded && problem.candidates && (
+            <fieldset className="space-y-2" data-audio-selector>
+              <legend>{t.chooseAudio}</legend>
+              {problem.candidates.map((c) => (
+                <button
+                  key={c.path}
+                  type="button"
+                  className="btn-secondary block min-h-11 w-full text-left"
+                  disabled={!!busy}
+                  onClick={() => void inspect(loaded, c.path)}
+                >
+                  {c.path} · {c.format} · {(c.size / 1048576).toFixed(1)} MB — {t.useAudio}
+                </button>
+              ))}
+            </fieldset>
+          )}
+          {problem.files.length > 0 && problem.code !== "audio_ambiguous" && (
+            <>
+              <p className="text-sm">{t.filesInZip}</p>
+              <ul className="list-disc pl-5 text-sm" data-import-files>
+                {problem.files.map((f) => <li key={f}>{f}</li>)}
+              </ul>
+            </>
+          )}
+        </div>
       )}
-      {bundle && (
+
+      {error && <p role="alert" className="text-red-700">{error}</p>}
+
+      {result && (
         <>
-          <label>
-            Test nomi
+          <label className="block">
+            {t.testTitle}
             <input
               className="input mt-1"
-              value={bundle.payload.title}
-              onChange={(e) =>
-                setBundle({
-                  ...bundle,
-                  payload: { ...bundle.payload, title: e.target.value },
-                })
-              }
+              value={result.payload.title}
+              onChange={(e) => setResult({ ...result, payload: { ...result.payload, title: e.target.value } })}
             />
           </label>
           <p>
-            {bundle.payload.questions.length} savol ·{" "}
-            {bundle.payload.sections.length} bo&#39;lim ·{" "}
-            {Math.round(bundle.payload.audio.durationSec / 60)} daqiqa · 5 mashq
-            · {bundle.payload.vocabulary.length} so&#39;z
+            {fill(t.summary, {
+              q: result.payload.questions.length,
+              s: result.payload.sections.length,
+              m: Math.round(result.payload.audio.durationSec / 60),
+              v: result.payload.vocabulary.length,
+            })}
           </p>
-          {publicationIssues(bundle.payload).length > 0 && (
-            <div role="status">
-              <strong>Nashr qilish bloklangan:</strong>
+          <p className="text-sm">{fill(t.family, { family: result.family === "canonical" ? t.familyCanonical : t.familyLegacy })}</p>
+          <p className="text-sm">{fill(t.audioUsed, { path: result.audio.path, format: result.audio.format })}</p>
+          <div data-transcript-summary>
+            <p className="font-medium">{t.transcripts}</p>
+            <ul className="text-sm">
+              {result.transcriptStatus.map((s) => (
+                <li key={s.section} data-transcript-section={s.section} data-present={s.present}>
+                  {fill(t.sectionN, { n: s.section })}: {s.present ? t.present : t.missing}
+                </li>
+              ))}
+            </ul>
+            {result.unassignedTranscriptFiles.length > 0 && (
+              <p className="text-sm">{fill(t.unassigned, { files: result.unassignedTranscriptFiles.join(", ") })}</p>
+            )}
+          </div>
+          {result.blockers.length > 0 && (
+            <div role="status" data-publication-blockers>
+              <strong>{t.blockedTitle}</strong>
               <ul>
-                {publicationIssues(bundle.payload).map((x) => (
-                  <li key={x}>{x}</li>
+                {result.blockers.map((b) => (
+                  <li key={`${b.kind}-${b.section}`}>
+                    {fill(b.kind === "transcript_missing" ? t.blockMissing : t.blockReview, { n: b.section })}
+                  </li>
                 ))}
               </ul>
-              <p>To&#39;liq transcript qo&#39;shilmaguncha faqat QA draft.</p>
             </div>
           )}
-          <button
-            type="button"
-            className="btn-primary"
-            disabled={busy || !!id}
-            onClick={() => void upload()}
-          >
-            Upload QA draft
+          <button type="button" className="btn-primary" disabled={!!busy || !!id} onClick={() => void upload()}>
+            {t.upload}
           </button>
         </>
       )}
       {id && (
         <p role="status">
-          Draft saqlandi.{" "}
-          <Link className="btn-secondary" href={`/listening/tests/${id}`}>
-            QA testni ochish
-          </Link>
+          {t.saved}{" "}
+          <Link className="btn-secondary" href={`/listening/tests/${id}`}>{t.open}</Link>
         </p>
       )}
     </div>
   );
 }
+
+function imageFile(bytes: Uint8Array): File | null {
+  const png = bytes[0] === 137 && bytes[1] === 80;
+  const jpg = bytes[0] === 255 && bytes[1] === 216;
+  const webp = bytes[8] === 0x57 && bytes[9] === 0x45 && bytes[10] === 0x42 && bytes[11] === 0x50;
+  if (!png && !jpg && !webp) return null;
+  const [name, type] = png ? ["map.png", "image/png"] : jpg ? ["map.jpg", "image/jpeg"] : ["map.webp", "image/webp"];
+  return new File([new Uint8Array(bytes)], name, { type });
+}
+
 async function probeAudio(file: File): Promise<number> {
   const url = URL.createObjectURL(file);
   const audio = new Audio();

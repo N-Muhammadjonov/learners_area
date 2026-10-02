@@ -1,5 +1,6 @@
 "use client";
 
+import { uploadErrorMessage } from "@/lib/uploads/errors";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useInstantInteraction } from "@/components/interaction/InstantInteractionProvider";
@@ -219,7 +220,7 @@ export function PracticeStudio({
     const outcome = await handle.promise;
     if (!outcome.ok) {
       setPhase({ kind: "reviewing" });
-      setError(t.uploadFailed);
+      setError(outcome.error === "cancelled" ? t.uploadFailed : uploadErrorMessage(outcome.failure, dict.uploadErrors));
       return;
     }
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { describeUploadError } from "@/lib/uploads/errors";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
@@ -136,7 +137,7 @@ export function NewMaterialForm({ dict }: { dict: Dictionary }) {
         <BlockComposer dict={dict} controller={controller} />
       </fieldset>
 
-      {error && <p className="text-sm text-band-bad">{error}</p>}
+      {error && <p className="text-sm text-band-bad">{describeUploadError(error, dict.uploadErrors)}</p>}
 
       <div className="flex flex-wrap gap-2">
         <Button type="submit" disabled={!canSubmit}>

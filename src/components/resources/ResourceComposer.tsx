@@ -1,5 +1,6 @@
 "use client";
 
+import { describeUploadError, uploadErrorMessage } from "@/lib/uploads/errors";
 import { useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
@@ -155,7 +156,7 @@ export function ResourceComposer({
     // before a single byte moves, with the real limit in the message.
     const check = preflight(file, kind);
     if (!check.ok) {
-      update({ state: "failed", error: check.error });
+      update({ state: "failed", error: describeUploadError(check.error, dict.uploadErrors) });
       return;
     }
 
@@ -171,7 +172,7 @@ export function ResourceComposer({
       update({ state: "complete", progress: 100, uploadId: result.uploadId, objectKey: result.objectKey });
     } else {
       // The file itself is kept, so "Retry" re-sends it without a re-pick.
-      update({ state: "failed", error: result.error });
+      update({ state: "failed", error: uploadErrorMessage(result.failure, dict.uploadErrors) });
     }
   }
 

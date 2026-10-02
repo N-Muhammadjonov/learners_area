@@ -1,5 +1,6 @@
 "use client";
 
+import { describeUploadError, uploadErrorMessage } from "@/lib/uploads/errors";
 import { useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Input, Label } from "@/components/ui/Input";
@@ -58,7 +59,7 @@ export function PrimaryFileField({
   function startUploadOf(file: File) {
     const pre = preflight(file, "primary");
     if (!pre.ok) {
-      onError?.(pre.error);
+      onError?.(describeUploadError(pre.error, dict.uploadErrors));
       return;
     }
 
@@ -235,7 +236,7 @@ export function PrimaryFileField({
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="text-xs text-band-bad">
                     {t.uploadState[value.state]}
-                    {value.error ? ` — ${value.error}` : ""}
+                    {value.error ? ` — ${describeUploadError(value.error, dict.uploadErrors)}` : ""}
                   </span>
                   {value.file && (
                     <button type="button" onClick={() => startUploadOf(value.file!)} className="btn-secondary ">

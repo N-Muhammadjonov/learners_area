@@ -1,5 +1,6 @@
 import { unzip, unzipSync, strFromU8 } from "fflate";
 import { safePackagePath } from "./package";
+import { isIgnoredEntry, isTextEntry, packageRoot } from "./discover";
 const MAX_TOTAL = 200 * 1024 * 1024;
 /** Check declared uncompressed sizes before inflation, and bound count and total output. */
 export function readListeningZip(bytes: Uint8Array) {
@@ -22,29 +23,26 @@ export function readListeningZip(bytes: Uint8Array) {
   return normalizeEntries(entries);
 }
 function normalizeEntries(entries: Record<string, Uint8Array>) {
-  const names = Object.keys(entries);
-  const root =
-    names
-      .find((n) => n.endsWith("/metadata.json") || n.endsWith("/manifest.json"))
-      ?.split("/")
-      .slice(0, -1)
-      .join("/") ?? "";
-  const prefix = root ? root + "/" : "";
+  // System junk (__MACOSX/, ._files, .DS_Store) used to count as a second
+  // "package root" and failed the whole import. It is ignored, not trusted.
+  const names = Object.keys(entries).filter((n) => !isIgnoredEntry(n));
+  const root = packageRoot(names);
   const normalized: Record<string, Uint8Array> = {};
-  for (const [path, value] of Object.entries(entries)) {
-    if (!path.startsWith(prefix)) throw new Error("Multiple package roots");
-    const relative = path.slice(prefix.length);
+  for (const path of names) {
+    // Files outside the canonical folder are still offered (e.g. audio kept
+    // next to a nested package folder) under their full path.
+    const relative = root && path.toLowerCase().startsWith(root.toLowerCase()) ? path.slice(root.length) : path;
     if (normalized[relative]) throw new Error("Duplicate ZIP filename");
-    normalized[relative] = value;
+    normalized[relative] = entries[path]!;
   }
   const textFiles: Record<string, string> = {};
   for (const [path, value] of Object.entries(normalized))
-    if (/\.(json|html)$/i.test(path)) {
+    if (isTextEntry(path)) {
       if (value.byteLength > 5 * 1024 * 1024)
         throw new Error("Text asset too large");
       textFiles[path] = strFromU8(value);
     }
-  return { entries: normalized, textFiles };
+  return { entries: normalized, textFiles, root };
 }
 
 /** Browser decompression uses fflate workers; large MP3 inflation does not block the UI. */

@@ -1,5 +1,6 @@
 "use client";
 
+import { describeUploadError, uploadErrorMessage } from "@/lib/uploads/errors";
 import { startUpload } from "@/lib/uploads/client";
 import { requestJson } from "@/lib/http/client-request";
 import { useEffect, useRef, useState } from "react";
@@ -38,7 +39,7 @@ export function NewTestForm({ dict }: { dict: Dictionary }) {
     uploadRef.current = upload;
     const result = await upload.promise;
     setUploading(false);
-    if (!result.ok) { setError(result.error); return; }
+    if (!result.ok) { setError(uploadErrorMessage(result.failure, dict.uploadErrors) || describeUploadError(result.error, dict.uploadErrors)); return; }
     setAudioUploadId(result.uploadId);
     setAudioType("audio");
     setUploadedName(file.name);
