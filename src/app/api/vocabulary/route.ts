@@ -3,7 +3,7 @@ import { z } from "zod";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { addVocabularyBatch, listLibrary } from "@/lib/services/vocabulary/engine";
 import { timed } from "@/lib/observability/timing";
-import { resolveReadingOccurrence } from "@/lib/services/lexical/context";
+import { resolveOccurrence } from "@/lib/services/lexical/context";
 import { enrichTerms } from "@/lib/services/lexical/enrichment";
 
 /**
@@ -82,16 +82,27 @@ export async function POST(req: NextRequest) {
   if (!parsed.success) return NextResponse.json({ error: "invalid_input" }, { status: 400 });
 
   if (parsed.data.occurrenceId) {
-    if (parsed.data.sourceType !== "reading" || !parsed.data.sourceId || parsed.data.items.length !== 1) {
+    const sourceType = parsed.data.sourceType;
+    if ((sourceType !== "reading" && sourceType !== "listening") || !parsed.data.sourceId || parsed.data.items.length !== 1) {
       return NextResponse.json({ error: "invalid_input" }, { status: 400 });
     }
-    const contextual = await resolveReadingOccurrence(user.id, parsed.data.sourceId, parsed.data.occurrenceId);
+    const contextual = await resolveOccurrence(user, sourceType, parsed.data.sourceId, parsed.data.occurrenceId);
     if (!contextual) return NextResponse.json({ error: "source_not_found" }, { status: 404 });
+    // No checked sense for this occurrence: nothing is saved under a guessed meaning.
+    if (contextual.status === "unresolved") {
+      return NextResponse.json({ ok: false, error: "needs_definition", needsDefinition: [contextual.snapshot.surfaceForm] }, { status: 422 });
+    }
     const result = await addVocabularyBatch({ userId: user.id, folderId: parsed.data.folderId,
-      sourceType: "reading", sourceId: parsed.data.sourceId,
+      sourceType, sourceId: parsed.data.sourceId,
       items: [{ ...contextual.lexeme, canonicalLexemeId: contextual.lexeme.id, sourceSnapshot: contextual.snapshot }],
     });
     return NextResponse.json(result, { status: result.ok ? 200 : 404 });
+  }
+
+  // A Listening word without an occurrence has no known sense; a spelling-based
+  // catalogue guess would be context-free, so it is not attempted.
+  if (parsed.data.sourceType === "listening" && parsed.data.items.some((item) => !item.definitionEn)) {
+    return NextResponse.json({ ok: false, error: "needs_definition", needsDefinition: parsed.data.items.filter((item) => !item.definitionEn).map((item) => item.term) }, { status: 422 });
   }
 
   // Words that arrived without a meaning are completed from the configured

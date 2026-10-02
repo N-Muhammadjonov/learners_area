@@ -1,4 +1,6 @@
 import { notFound } from "next/navigation";
+import { db } from "@/db/client";
+import { listeningOccurrenceSpans } from "@/lib/services/lexical/listening-occurrences";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { fullListeningDetail } from "@/lib/data/full-listening";
 import { isUuid } from "@/lib/validation/ids";
@@ -41,6 +43,7 @@ export default async function Study({
         title: s.title,
         transcript: s.transcript,
       }))}
+      occurrences={await listeningOccurrenceSpans(db, id)}
       dict={getDictionary(await getLocale())}
     />
   );

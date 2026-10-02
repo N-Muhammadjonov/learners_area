@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { ClickableText } from "@/components/vocabulary/ClickableText";
+import type { OccurrenceSpan } from "@/lib/services/lexical/occurrence-spans";
 import { requestJson } from "@/lib/http/client-request";
 import type { Dictionary } from "@/lib/i18n/en";
 type Question = {
@@ -20,6 +21,7 @@ export function FullListeningStudy({
   imageUrl,
   questions,
   sections,
+  occurrences = {},
   dict,
   initialSection = 1,
 }: {
@@ -30,6 +32,8 @@ export function FullListeningStudy({
   imageUrl: string | null;
   questions: Question[];
   sections: { number: number; title: string; transcript: string }[];
+  /** Server-proven transcript spans per section (0029); words outside them resolve as unchecked. */
+  occurrences?: Record<number, OccurrenceSpan[]>;
   dict: Dictionary;
   initialSection?: number;
 }) {
@@ -240,6 +244,7 @@ export function FullListeningStudy({
           <h2 className="font-display text-xl font-bold">📖 Transcript</h2>
           <ClickableText
             {...textProps}
+            occurrences={sections.find((s) => s.number === section)?.transcript ? occurrences[section] ?? [] : []}
             text={
               sections.find((s) => s.number === section)?.transcript ||
               "Transcript not supplied for this QA draft."

@@ -1,3 +1,5 @@
+import { db } from "@/db/client";
+import { listeningOccurrenceSpans } from "@/lib/services/lexical/listening-occurrences";
 import type { McqStage } from "@/lib/services/listening/mcq-mastery";
 import {
   listMcqQuestions,
@@ -79,6 +81,7 @@ export default async function Activity({
       data={data}
       audioUrl={n === 5 ? null : detail.test.audioUrl}
       initial={progress.activities[n - 1]?.latest?.answers ?? {}}
+      occurrences={await listeningOccurrenceSpans(db, id)}
       dict={getDictionary(await getLocale())}
     />
   );

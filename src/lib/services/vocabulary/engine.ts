@@ -6,6 +6,7 @@ import {
   activityEvents,
   lexemes,
   userVocabulary,
+  userVocabularyContexts,
   users,
   vocabFolders,
   vocabPointEvents,
@@ -33,6 +34,8 @@ import {
   type PointKind,
 } from "./points";
 import { legacySenseKeyOf, senseKeyOf } from "./dedupe";
+import { linkSenseToUnit } from "@/lib/services/lexical/units";
+import { sourceRevisitHref } from "@/lib/services/lexical/context";
 import { gradeSentence, gradeSpelling, shouldAwardGamePoint, submissionMatchesGame, type GameSubmission } from "./grading";
 import { searchRows } from "./search";
 import { findPack } from "./packs";
@@ -284,6 +287,36 @@ export type NewWordInput = {
   acceptedTranslations?: string[] | null;
 };
 
+type SaveTx = Parameters<Parameters<typeof db.transaction>[0]>[0];
+
+/**
+ * Record where a saved sense was met. One row per (item, occurrence): a replayed
+ * save is a no-op, a new place adds a row and bumps seen_count / last_seen_at.
+ * Only server-resolved snapshots reach here (routes build them from occurrences).
+ */
+async function appendSourceContext(
+  tx: SaveTx,
+  userVocabularyId: string,
+  snapshot: import("@/lib/services/lexical/context").VocabularySourceSnapshot,
+  input: { userId: string; sourceType?: string; sourceId?: string | null },
+  options: { first?: boolean } = {},
+) {
+  const sourceType = snapshot.sourceType ?? (input.sourceType === "listening" ? "listening" : "reading");
+  const inserted = await tx.insert(userVocabularyContexts).values({
+    userVocabularyId,
+    userId: input.userId,
+    occurrenceId: snapshot.occurrenceId,
+    sourceType,
+    sourceId: snapshot.listeningTestId ?? snapshot.attemptId ?? snapshot.passageId ?? input.sourceId ?? null,
+    snapshot,
+  }).onConflictDoNothing().returning({ id: userVocabularyContexts.id });
+  if (!inserted.length || options.first) return;
+  await tx.update(userVocabulary).set({
+    seenCount: sql`${userVocabulary.seenCount} + 1`,
+    lastSeenAt: new Date(),
+  }).where(and(eq(userVocabulary.id, userVocabularyId), eq(userVocabulary.userId, input.userId)));
+}
+
 export async function addVocabularyBatch(input: {
   userId: string;
   items: NewWordInput[];
@@ -366,6 +399,9 @@ export async function addVocabularyBatch(input: {
       const known = existingRows.find((row) => lexeme && row.lexemeId === lexeme.id)?.id ?? existingSense.get(senseKey);
       if (known) {
         ids.push(known);
+        // Same sense met again in a NEW place: keep one item, append the context.
+        // SRS fields are not touched — meeting a word is not reviewing it.
+        if (item.sourceSnapshot) await appendSourceContext(tx, known, item.sourceSnapshot, input);
         continue;
       }
       if (!lexeme) {
@@ -393,6 +429,9 @@ export async function addVocabularyBatch(input: {
           (await tx.query.lexemes.findFirst({ where: eq(lexemes.senseKey, senseKey) }));
       }
       if (!lexeme) continue;
+      if (!lexeme.lexicalUnitId) {
+        lexeme = { ...lexeme, lexicalUnitId: await linkSenseToUnit(tx, lexeme, lexeme.provenance ?? "user_provided") };
+      }
 
       const [entry] = await tx
         .insert(userVocabulary)
@@ -412,6 +451,7 @@ export async function addVocabularyBatch(input: {
         .returning();
 
       if (!entry) continue;
+      if (item.sourceSnapshot) await appendSourceContext(tx, entry.id, item.sourceSnapshot, input, { first: true });
       ids.push(entry.id);
       existingSense.set(senseKey, entry.id);
       added += 1;
@@ -1212,4 +1252,29 @@ export async function librarySummary(userId: string) {
   }
 
   return { total, due, byMastery, bySource, nextDueAt };
+}
+
+/**
+ * Every place THIS learner met one saved sense, newest first, with a revisit link.
+ * Scoped by user id on both the item and the context rows: another learner's id
+ * returns null, never their contexts.
+ */
+export async function listVocabularyContexts(userId: string, userVocabularyId: string) {
+  const item = await db.query.userVocabulary.findFirst({
+    where: and(eq(userVocabulary.id, userVocabularyId), eq(userVocabulary.userId, userId)),
+    columns: { id: true, seenCount: true, firstSeenAt: true, lastSeenAt: true },
+  });
+  if (!item) return null;
+  const rows = await db.select().from(userVocabularyContexts)
+    .where(and(eq(userVocabularyContexts.userVocabularyId, item.id), eq(userVocabularyContexts.userId, userId)))
+    .orderBy(desc(userVocabularyContexts.seenAt));
+  return {
+    seenCount: item.seenCount, firstSeenAt: item.firstSeenAt, lastSeenAt: item.lastSeenAt,
+    contexts: rows.map((row) => ({
+      id: row.id, sourceType: row.sourceType, seenAt: row.seenAt,
+      sourceTitle: row.snapshot.sourceTitle, surfaceForm: row.snapshot.surfaceForm, sentenceText: row.snapshot.sentenceText,
+      sectionNumber: row.snapshot.sectionNumber ?? null, startMs: row.snapshot.startMs ?? null, endMs: row.snapshot.endMs ?? null,
+      revisitHref: sourceRevisitHref(row.snapshot),
+    })),
+  };
 }

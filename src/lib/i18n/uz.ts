@@ -753,6 +753,9 @@ const uz: Dictionary = {
   vocabulary: {
     contextVerified: "Tekshirilgan manba ma'nosi",
     contextUnverified: "Manbadagi ma'no - muharrir tekshiruvidan o'tmagan",
+    meaningUnchecked: "Ma'nosi hali tekshirilmagan",
+    meaningUncheckedHint: "Bu so'zning ushbu matndagi ma'nosi hali tekshirilmagan. Uni o'zingiz yozgan ma'no bilan saqlashingiz mumkin.",
+    lexicalTypeLabel: { word: "so'z", noun_phrase: "ot birikmasi", verb_phrase: "fe'l birikmasi", collocation: "kollokatsiya", phrasal_verb: "frazali fe'l", idiom: "idioma", fixed_expression: "turg'un ibora", compound: "qo'shma so'z", technical_term: "atama", phrase: "ibora" },
     textLookup: "Matndagi so'z ma'nosini ko'rish",
     textLookupHint: "So'z ma'nosini ko'rish uchun uni bosing; nusxalash uchun matnni belgilang. Klaviatura: chap va o'ng strelka bilan so'z tanlang, Home yoki End bilan boshiga yoki oxiriga o'ting, Enter bilan ma'nosini oching. Escape oynani yopadi.",
     title: "Lug'at",

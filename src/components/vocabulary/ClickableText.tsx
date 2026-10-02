@@ -158,7 +158,9 @@ function WordPopover({
   catalogueLookup?: boolean;
 }) {
   const t = dict.vocabulary;
-  const [contextual, setContextual] = useState<{ definitionEn: string; translationUz: string | null; verificationStatus: string | null; sourceLabel?: string } | null>(null);
+  const [contextual, setContextual] = useState<{ definitionEn: string; translationUz: string | null; verificationStatus: string | null; sourceLabel?: string; partOfSpeech?: string | null; lexicalType?: string | null; ipa?: string | null } | null>(null);
+  /** The server knows this place in the text but has no checked meaning for it. */
+  const [unresolved, setUnresolved] = useState(false);
   const [known, setKnown] = useState<{ id: string; definitionEn: string; translationUz: string | null; mastery: string } | null>(null);
   const [loading, setLoading] = useState(true);
   const [meaning, setMeaning] = useState("");
@@ -214,13 +216,17 @@ function WordPopover({
     const controller = new AbortController();
     setLoading(true);
     setError(null);
+    setUnresolved(false);
     void (async () => {
       const [lookup, folderResult] = await Promise.all([
-        requestJson<{ contextual?: { definitionEn: string; translationUz: string | null; verificationStatus: string | null; sourceLabel?: string }; known?: { id: string; mastery: string } | null; results?: { id: string; term: string; definitionEn: string; translationUz: string | null; mastery: string }[] }>(occurrenceId ? `/api/vocabulary/lookup?sourceId=${encodeURIComponent(sourceId)}&occurrenceId=${encodeURIComponent(occurrenceId)}` : catalogueLookup ? `/api/vocabulary/meaning?sourceId=${encodeURIComponent(sourceId)}&q=${encodeURIComponent(word)}` : `/api/vocabulary/search?q=${encodeURIComponent(word)}`, { method: "GET", signal: controller.signal }),
+        requestJson<{ status?: "resolved" | "unresolved"; contextual?: { definitionEn: string; translationUz: string | null; verificationStatus: string | null; sourceLabel?: string; partOfSpeech?: string | null; lexicalType?: string | null; ipa?: string | null } | null; known?: { id: string; mastery: string } | null; results?: { id: string; term: string; definitionEn: string; translationUz: string | null; mastery: string }[] }>(occurrenceId ? `/api/vocabulary/lookup?sourceType=${encodeURIComponent(sourceType)}&sourceId=${encodeURIComponent(sourceId)}&occurrenceId=${encodeURIComponent(occurrenceId)}` : catalogueLookup ? `/api/vocabulary/meaning?sourceId=${encodeURIComponent(sourceId)}&q=${encodeURIComponent(word)}` : `/api/vocabulary/search?q=${encodeURIComponent(word)}`, { method: "GET", signal: controller.signal }),
         requestJson<{ folders: { id: string; name: string }[] }>("/api/vocabulary/folders", { method: "GET", signal: controller.signal }),
       ]);
       if (controller.signal.aborted) return;
-      if ((occurrenceId || catalogueLookup) && lookup.ok && typeof lookup.data?.contextual?.definitionEn === "string") {
+      if ((occurrenceId || catalogueLookup) && lookup.ok && lookup.data?.status === "unresolved") {
+        setContextual(null);
+        setUnresolved(true);
+      } else if ((occurrenceId || catalogueLookup) && lookup.ok && typeof lookup.data?.contextual?.definitionEn === "string") {
         setContextual(lookup.data.contextual);
         if (lookup.data.known) setKnown({ ...lookup.data.known, ...lookup.data.contextual });
       } else if (catalogueLookup && lookup.ok && lookup.data?.contextual === null) {
@@ -235,7 +241,7 @@ function WordPopover({
       setLoading(false);
     })();
     return () => controller.abort();
-  }, [word, dict.auth, lookupVersion, occurrenceId, sourceId, catalogueLookup]);
+  }, [word, dict.auth, lookupVersion, occurrenceId, sourceId, sourceType, catalogueLookup]);
 
   async function save() {
     setBusy(true);
@@ -244,7 +250,8 @@ function WordPopover({
     const result = await requestJson<{ ok: boolean }>("/api/vocabulary", {
       body: {
         items: [{ term: word, ...(meaning.trim() ? { definitionEn: meaning.trim() } : {}), translationUz: uzbek.trim() || null }],
-        sourceType, sourceId, occurrenceId, folderId: folderId || null,
+        // An unresolved occurrence has no sense to attach: the learner's own meaning is saved without it.
+        sourceType, sourceId, occurrenceId: unresolved ? undefined : occurrenceId, folderId: folderId || null,
       },
     });
     setBusy(false);
@@ -294,7 +301,15 @@ function WordPopover({
 
       {!loading && !known && !saved && (
         <div className="mt-2 flex flex-col gap-2">
+          {unresolved && <div role="status" className="text-xs text-ink-500" data-word-unresolved>
+            <p className="font-medium text-ink-700">{t.meaningUnchecked}</p>
+            <p>{t.meaningUncheckedHint}</p>
+          </div>}
           {contextual ? <div className="text-sm text-ink-700">
+            {(contextual.partOfSpeech || contextual.lexicalType || contextual.ipa) && <p className="text-xs text-ink-500" data-word-lexical>
+              {[contextual.partOfSpeech, contextual.lexicalType && contextual.lexicalType !== "word" ? t.lexicalTypeLabel[contextual.lexicalType as keyof typeof t.lexicalTypeLabel] ?? null : null].filter(Boolean).join(" · ")}
+              {contextual.ipa && <span className="ml-1 font-mono" data-word-ipa>/{contextual.ipa}/</span>}
+            </p>}
             <p>{contextual.definitionEn}</p>
             {contextual.translationUz && <p>{contextual.translationUz}</p>}
             <p className="mt-1 text-xs text-ink-500">{catalogueLookup ? contextual.sourceLabel : contextual.verificationStatus === "verified" ? t.contextVerified : t.contextUnverified}</p>

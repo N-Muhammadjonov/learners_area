@@ -270,20 +270,24 @@ test("double-click does not focus a popup before native word selection", async (
   } finally { t.mock.timers.reset(); }
 });
 
-test('Listening catalogue lookup displays a sourced meaning and saves under the canonical listening source', async () => {
+test('Listening spelling-only lookup shows "Meaning not checked yet" and saves only the learner\'s own meaning', async () => {
+ // Contract since 0029: /api/vocabulary/meaning never returns a catalogue meaning for
+ // a bare spelling (it cannot know the sense); it answers `unresolved`.
  let saved: Record<string, unknown> | undefined;
  await page(async (url, options) => {
   if (options.method === 'POST') { saved = JSON.parse(String(options.body)); return json({ok:true}); }
   if (url.includes('folders')) return folderReply();
   assert.ok(url.includes('/meaning?sourceId=qa-listening&q=decades'));
-  return json({contextual:{definitionEn:'Periods of ten years',translationUz:"o'n yilliklar",verificationStatus:null,sourceLabel:'Catalogue (unverified)'}});
+  return json({status:'unresolved',contextual:null});
  }, async () => {
   await click('[data-word="decades"]');
-  assert.ok(popupText().includes('Periods of ten years'));
-  assert.ok(popupText().includes('Catalogue (unverified)'));
+  assert.ok(document.querySelector('[data-word-unresolved]'));
+  assert.ok(popupText().includes(en.vocabulary.meaningUnchecked));
+  await fill('[data-word-popover] input', 'Periods of ten years');
   await click('[data-word-save]');
   assert.equal(saved?.sourceType,'listening'); assert.equal(saved?.sourceId,'qa-listening');
   assert.equal(saved?.occurrenceId,undefined);
+  assert.deepEqual((saved?.items as {definitionEn?: string}[])[0]?.definitionEn,'Periods of ten years');
  }, {sourceType:'listening',sourceId:'qa-listening',catalogueLookup:true});
 });
 test('Listening unknown meaning remains editable rather than inventing a translation', async () => {
@@ -292,4 +296,93 @@ test('Listening unknown meaning remains editable rather than inventing a transla
   assert.deepEqual(values(),['','']);
   assert.equal(document.querySelector('[data-word-saved]'),null);
  }, {sourceType:'listening',sourceId:'qa-listening',catalogueLookup:true});
+});
+
+// ---------------------------------------------------------------------------
+// 0029 — Listening occurrences, unresolved state, lexical detail, races, a11y.
+// ---------------------------------------------------------------------------
+const listeningSpans = { text: 'shed pounds bank', occurrences: [{ id: 'occ-shed', startChar: 0, endChar: 11, surfaceForm: 'shed pounds' }, { id: 'occ-bank', startChar: 12, endChar: 16, surfaceForm: 'bank' }], sourceType: 'listening', sourceId: 'qa-listening', catalogueLookup: true };
+
+test('Listening click resolves by occurrence, shows only the linked sense with POS/type, and saves the occurrence', async () => {
+  const posted: Record<string, unknown>[] = [];
+  const urls: string[] = [];
+  await page(async (url, options) => {
+    if (options.method === 'POST') { posted.push(JSON.parse(String(options.body))); return json({ ok: true }); }
+    if (url.includes('folders')) return folderReply();
+    urls.push(url);
+    return json({ status: 'resolved', senseId: 'sense-shed', contextual: { term: 'shed pounds', definitionEn: 'To lose body weight', translationUz: 'vazn tashlamoq', partOfSpeech: 'phrase', lexicalType: 'phrase', ipa: null, verificationStatus: 'unverified' }, known: null });
+  }, async () => {
+    await click('[data-token="0"]');
+    assert.ok(urls[0]!.includes('/lookup?sourceType=listening&sourceId=qa-listening&occurrenceId=occ-shed'), urls[0]);
+    assert.equal(urls.some((url) => url.includes('/meaning?')), false, 'an occurrence never falls back to spelling');
+    assert.ok(popupText().includes('To lose body weight'));
+    assert.ok(query('[data-word-lexical]').textContent!.includes(en.vocabulary.lexicalTypeLabel.phrase));
+    assert.equal(document.querySelector('[data-word-ipa]'), null, 'missing pronunciation renders no IPA, never an invented one');
+    await click('[data-word-save]');
+    assert.equal(posted[0]?.occurrenceId, 'occ-shed');
+    assert.equal(posted[0]?.sourceType, 'listening');
+    assert.ok(document.querySelector('[data-word-saved]'));
+  }, listeningSpans);
+});
+
+test('An occurrence the server marks unresolved shows the unchecked state, no meaning, and never posts its occurrence', async () => {
+  const posted: Record<string, unknown>[] = [];
+  await page(async (url, options) => {
+    if (options.method === 'POST') { posted.push(JSON.parse(String(options.body))); return json({ ok: true }); }
+    if (url.includes('folders')) return folderReply();
+    return json({ status: 'unresolved', occurrenceId: 'occ-bank', surfaceForm: 'bank', contextual: null, known: null });
+  }, async () => {
+    await click('[data-token="4"]');
+    const status = query('[data-word-unresolved]');
+    assert.equal(status.getAttribute('role'), 'status', 'screen readers hear the unchecked state');
+    assert.ok(status.textContent!.includes(en.vocabulary.meaningUnchecked));
+    assert.equal(popupText().includes('financial'), false);
+    await fill('[data-word-popover] input', 'Land beside a river');
+    await click('[data-word-save]');
+    assert.equal(posted[0]?.occurrenceId, undefined);
+  }, listeningSpans);
+});
+
+test('A stored pronunciation is shown; an already-saved sense shows its mastery instead of the save form', async () => {
+  await page(async (url) => url.includes('folders') ? folderReply() : json({ status: 'resolved', contextual: { term: 'bank', definitionEn: 'A financial institution', translationUz: 'bank', partOfSpeech: 'noun', lexicalType: 'word', ipa: 'baenk', verificationStatus: 'verified' }, known: { id: 'uv-1', mastery: 'learning' } }), async () => {
+    await click('[data-token="4"]');
+    assert.ok(popupText().includes(en.vocabulary.mastery.learning));
+    assert.equal(document.querySelector('[data-word-save]'), null);
+  }, listeningSpans);
+  await page(async (url) => url.includes('folders') ? folderReply() : json({ status: 'resolved', contextual: { term: 'bank', definitionEn: 'A financial institution', translationUz: 'bank', partOfSpeech: 'noun', lexicalType: 'word', ipa: 'baenk', verificationStatus: 'verified' }, known: null }), async () => {
+    await click('[data-token="4"]');
+    assert.equal(query('[data-word-ipa]').textContent, '/baenk/');
+    assert.ok(document.querySelector('[data-word-save]'));
+  }, listeningSpans);
+});
+
+test('Rapid clicks between two occurrences: the late first answer never fills the second popup', async () => {
+  let releaseFirst!: (response: Response) => void;
+  await page(async (url, options) => {
+    if (url.includes('folders')) return folderReply();
+    if (url.includes('occurrenceId=occ-shed')) return new Promise((resolve) => { releaseFirst = resolve; });
+    void options;
+    return json({ status: 'unresolved', contextual: null, known: null });
+  }, async () => {
+    await click('[data-token="0"]');
+    await click('[data-token="4"]');
+    await act(async () => releaseFirst(json({ status: 'resolved', contextual: { term: 'shed pounds', definitionEn: 'STALE SHED', translationUz: null, partOfSpeech: null, lexicalType: null, ipa: null, verificationStatus: 'unverified' }, known: null })));
+    assert.equal(query('[role="dialog"]').getAttribute('aria-label'), 'bank');
+    assert.equal(popupText().includes('STALE SHED'), false);
+    assert.ok(document.querySelector('[data-word-unresolved]'));
+  }, listeningSpans);
+});
+
+test('Listening popup is a labelled dialog that takes focus, closes on Escape and returns focus; buttons are labelled', async () => {
+  await page(async (url) => url.includes('folders') ? folderReply() : json({ status: 'unresolved', contextual: null, known: null }), async () => {
+    await click('[data-token="0"]');
+    const dialog = query('[data-word-popover]');
+    assert.equal(dialog.getAttribute('role'), 'dialog');
+    assert.equal(dialog.getAttribute('aria-label'), 'shed pounds', 'the whole multi-word unit is announced');
+    assert.equal(document.activeElement, dialog);
+    assert.ok(query(`[data-word-popover] button[aria-label="${en.vocabulary.games.pronounce}"]`));
+    await act(async () => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })));
+    assert.equal(document.querySelector('[data-word-popover]'), null);
+    assert.equal(document.activeElement, query('[data-clickable-text]'));
+  }, listeningSpans);
 });

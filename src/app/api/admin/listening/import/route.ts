@@ -1,5 +1,6 @@
 import { listeningSchemaReady } from "@/lib/data/listening-schema-ready";
 import { NextRequest, NextResponse } from "next/server";
+import { ingestListeningOccurrences } from "@/lib/services/lexical/listening-occurrences";
 import { createHash } from "node:crypto";
 import { and, eq, inArray } from "drizzle-orm";
 import { z } from "zod";
@@ -140,7 +141,10 @@ export async function POST(req: NextRequest) {
           eq(uploadIntents.status, "finalized"),
         ),
       );
-    return { id: test!.id, publicationIssues: publicationIssues(payload) };
+    // Authored vocabulary → exact transcript occurrences, in the same transaction:
+    // a test is never live with transcript words that point at no checked sense.
+    const lexical = await ingestListeningOccurrences(tx, test!.id, payload);
+    return { id: test!.id, publicationIssues: publicationIssues(payload), lexical };
   }).catch((error: unknown) => {
     // Two uploads of the same source can race past the read check. The unique
     // source ID remains authoritative and the transaction rolls back all claims.

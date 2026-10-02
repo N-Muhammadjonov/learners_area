@@ -751,6 +751,9 @@ const en = {
   vocabulary: {
     contextVerified: "Verified source meaning",
     contextUnverified: "Source meaning - not editorially verified",
+    meaningUnchecked: "Meaning not checked yet",
+    meaningUncheckedHint: "This word's meaning in this text has not been checked. You can save it with your own meaning.",
+    lexicalTypeLabel: { word: "word", noun_phrase: "noun phrase", verb_phrase: "verb phrase", collocation: "collocation", phrasal_verb: "phrasal verb", idiom: "idiom", fixed_expression: "fixed expression", compound: "compound", technical_term: "technical term", phrase: "phrase" },
     textLookup: 'Look up words in this text',
     textLookupHint: 'Click a word to look it up, or select text to copy it. Keyboard: use Left and Right to choose a word, Home or End to move to the first or last word, and Enter to look it up. Escape closes the popup.',
     title: "Vocabulary",

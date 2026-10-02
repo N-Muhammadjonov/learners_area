@@ -6,6 +6,7 @@ import type { McqStage } from "@/lib/services/listening/mcq-mastery";
 import { useEffect, useRef, useState } from "react";
 import { ACTIVITY_NAMES, type ListeningPackage } from "@/lib/listening/package";
 import { ClickableText } from "@/components/vocabulary/ClickableText";
+import type { OccurrenceSpan } from "@/lib/services/lexical/occurrence-spans";
 import type { Dictionary } from "@/lib/i18n/en";
 type Data = Partial<
   Pick<
@@ -34,6 +35,7 @@ export function FullListeningActivity({
   audioUrl,
   initial,
   dict,
+  occurrences = {},
 }: {
   id: string;
   userId: string;
@@ -43,6 +45,7 @@ export function FullListeningActivity({
   audioUrl: string | null;
   initial: Record<string, string>;
   dict: Dictionary;
+  occurrences?: Record<number, OccurrenceSpan[]>;
 }) {
   const [answers, setAnswers] = useState(initial);
   const [error, setError] = useState("");
@@ -270,6 +273,8 @@ export function FullListeningActivity({
                       sourceType="listening"
                       sourceId={id}
                       text={s.transcript}
+                      occurrences={occurrences[s.number] ?? []}
+                      catalogueLookup
                     />
                   ) : (
                     <p role="status">
