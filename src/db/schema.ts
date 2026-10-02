@@ -1981,3 +1981,40 @@ export const listeningDrafts = pgTable("listening_drafts", {
   audioStartedAt: timestamp("audio_started_at", { withTimezone: true }),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });
+
+/* ----------------------------------------------------------------------------
+ * 0030 General Reading — a LEARNING mode (develop reading), separate from the
+ * IELTS Academic assessment (measure reading). The same reading_passages,
+ * reading_questions, lexical_occurrences and canonical senses are reused; only the
+ * explicit classification below makes a passage GENERAL_PRACTICE. A passage with no
+ * row here is Academic. See src/lib/reading/lexical-policy.ts.
+ * ------------------------------------------------------------------------- */
+export const generalReadingSets = pgTable("general_reading_sets", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  title: varchar("title", { length: 200 }).notNull(),
+  description: text("description"),
+  difficultyLevel: varchar("difficulty_level", { length: 10 }),
+  publicationState: publicationStateEnum("publication_state").notNull().default("published"),
+  publishAt: timestamp("publish_at", { withTimezone: true }),
+  sourceRef: varchar("source_ref", { length: 80 }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const generalReadingPassages = pgTable("general_reading_passages", {
+  passageId: uuid("passage_id").primaryKey().references(() => readingPassages.id, { onDelete: "cascade" }),
+  setId: uuid("set_id").notNull().references(() => generalReadingSets.id, { onDelete: "cascade" }),
+  passageNo: integer("passage_no").notNull(),
+  readingMode: varchar("reading_mode", { length: 24 }).notNull().default("general_practice"),
+});
+
+export const generalReadingProgress = pgTable("general_reading_progress", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  setId: uuid("set_id").notNull().references(() => generalReadingSets.id, { onDelete: "cascade" }),
+  passageId: uuid("passage_id").notNull().references(() => readingPassages.id, { onDelete: "cascade" }),
+  answers: jsonb("answers").$type<Record<string, string>>().notNull().default({}),
+  score: integer("score"),
+  total: integer("total"),
+  checkedAt: timestamp("checked_at", { withTimezone: true }),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => [uniqueIndex("general_reading_progress_owner_idx").on(table.userId, table.passageId)]);
