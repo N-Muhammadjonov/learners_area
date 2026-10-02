@@ -1,3 +1,5 @@
+import { listGeneralSets } from "@/lib/data/general-reading";
+import { GeneralReadingSets } from "@/components/reading/GeneralReadingSets";
 import { Suspense } from "react";
 import Link from "next/link";
 import { requireActiveUser } from "@/lib/auth/current-user";
@@ -14,7 +16,7 @@ export const metadata = { title: "Reading" };
 
 // TED / PODCAST is its own section in the navigation (Part 1 override), so the
 // Reading hub no longer carries a videos tab or a placeholder that pointed at it.
-const TABS = ["academic", "general", "types", "retention"] as const;
+const TABS = ["academic", "practice", "general", "types", "retention"] as const;
 type Tab = (typeof TABS)[number];
 type ReadingFilter = { status?: string; topic?: string; type?: string; query?: string; page: number };
 
@@ -56,6 +58,7 @@ function ReadingWorkspace({ userId, lang, dict, tab, filter }: {
 
   const tabItems: { key: Tab; label: string }[] = [
     { key: "academic", label: dict.readingHub.tabAcademic },
+    { key: "practice", label: dict.readingHub.tabPractice },
     { key: "general", label: dict.readingHub.tabGeneral },
     { key: "types", label: dict.readingHub.tabTypes },
     { key: "retention", label: dict.readingHub.tabRetention },
@@ -96,6 +99,17 @@ function ReadingWorkspace({ userId, lang, dict, tab, filter }: {
           </Suspense>
           <Suspense fallback={<ReadingLibrarySkeleton />}>
             <ReadingLibraryRegion dict={dict} lang={lang} filter={filter} libraryPromise={libraryPromise} />
+          </Suspense>
+        </section>
+      )}
+
+      {tab === "practice" && (
+        // General Reading: the LEARNING mode (vocabulary help on), not IELTS General Training.
+        <section className="flex flex-col gap-4" data-reading-practice>
+          <h2 className="section-title">{dict.generalReading.title}</h2>
+          <p className="body-text">{dict.generalReading.subtitle}</p>
+          <Suspense fallback={<ReadingLibrarySkeleton />}>
+            <GeneralSetsRegion dict={dict} userId={userId} />
           </Suspense>
         </section>
       )}
@@ -345,4 +359,8 @@ function AcademicLibrary({
       )}
     </>
   );
+}
+
+async function GeneralSetsRegion({ dict, userId }: { dict: ReturnType<typeof getDictionary>; userId: string }) {
+  return <GeneralReadingSets dict={dict} sets={await listGeneralSets(userId)} />;
 }

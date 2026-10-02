@@ -38,8 +38,9 @@ test("all required destinations have localized, route-shaped entry frames", () =
   // the Reading hub into its own standalone section, so the Reading entry frame
   // has four tabs (academic, general, types, retention) — not five. The identity
   // of the removed tab is asserted too, so a silent re-add cannot pass.
-  assert.equal(english.reading?.tabs?.length, 4);
-  assert.equal(uzbek.reading?.tabs?.length, 4);
+  // Academic, General Reading (practice), IELTS General, Question types, Retention.
+  assert.equal(english.reading?.tabs?.length, 5);
+  assert.equal(uzbek.reading?.tabs?.length, 5);
   assert.ok(!english.reading?.tabs?.some((tab) => /TED|PODCAST/i.test(tab)));
   assert.ok(!uzbek.reading?.tabs?.some((tab) => /TED|PODCAST/i.test(tab)));
   assert.equal(english.vocabulary?.tabs?.length, 5);

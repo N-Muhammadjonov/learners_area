@@ -35,7 +35,7 @@ export function sectionEntryFrames(dict: Dictionary): EntryFrames {
     assignments: { title: dict.assignments.title, subtitle: dict.assignments.subtitle, shape: "assignments" },
     listening: { title: dict.listening.practiceTitle, shape: "list" },
     "video-lessons": { title: dict.videoLessons.title, subtitle: dict.videoLessons.intro, shape: "list" },
-    reading: { title: dict.readingHub.title, subtitle: dict.readingHub.subtitle, shape: "reading", tabs: [dict.readingHub.tabAcademic, dict.readingHub.tabGeneral, dict.readingHub.tabTypes, dict.readingHub.tabRetention] },
+    reading: { title: dict.readingHub.title, subtitle: dict.readingHub.subtitle, shape: "reading", tabs: [dict.readingHub.tabAcademic, dict.readingHub.tabPractice, dict.readingHub.tabGeneral, dict.readingHub.tabTypes, dict.readingHub.tabRetention] },
     writing: { title: dict.writing.practiceTitle, shape: "writing" },
     speaking: { title: dict.speaking.title, shape: "speaking" },
     grammar: { title: dict.grammar.title, subtitle: dict.grammar.subtitle, shape: "grammar" },
