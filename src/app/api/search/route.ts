@@ -1,3 +1,4 @@
+import { academicOnlyClause } from "@/lib/data/general-reading";
 import { NextRequest, NextResponse } from "next/server";
 import { and, eq, ilike, ne, or } from "drizzle-orm";
 import { db } from "@/db/client";
@@ -94,7 +95,7 @@ export async function GET(req: NextRequest) {
       const rows = await db
         .select({ id: readingPassages.id, title: readingPassages.title })
         .from(readingPassages)
-        .where(and(staff ? undefined : liveReading, ilike(readingPassages.title, like)))
+        .where(and(staff ? undefined : liveReading, await academicOnlyClause(), ilike(readingPassages.title, like)))
         .limit(PER_CATEGORY);
       return rows.map((row) => ({
         type: "reading",

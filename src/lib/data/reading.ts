@@ -11,15 +11,17 @@ import {
 } from "@/db/schema";
 import { isLive, liveWhere } from "@/lib/services/cms/publication";
 import { readingAttemptExpired } from "@/lib/reading/timer";
+import { academicOnlyClause, generalMembership } from "@/lib/data/general-reading";
 
-export function listActivePassages() {
+export async function listActivePassages() {
   // A draft, a not-yet-due schedule and an archive are all invisible here; the
-  // one rule that decides that lives in the publication service.
+  // one rule that decides that lives in the publication service. General Reading
+  // (learning) passages are not Academic test passages.
   return db.query.readingPassages.findMany({
-    where: liveWhere({
+    where: and(liveWhere({
       publicationState: readingPassages.publicationState,
       publishAt: readingPassages.publishAt,
-    }),
+    }), await academicOnlyClause()),
     orderBy: asc(readingPassages.createdAt),
   });
 }
@@ -36,6 +38,9 @@ export function listActivePassages() {
 export async function getStartablePassage(passageId: string) {
   const passage = await db.query.readingPassages.findFirst({ where: eq(readingPassages.id, passageId) });
   if (!passage || !isLive(passage)) return null;
+  // A General Reading passage is learning material: it never becomes an Academic
+  // exam attempt (and so can never be locked by, or unlock, exam state).
+  if (await generalMembership(passage.id)) return null;
   return passage;
 }
 

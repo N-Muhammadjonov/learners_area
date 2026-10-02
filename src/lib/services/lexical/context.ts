@@ -1,5 +1,6 @@
 import "server-only";
-import { and, eq } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
+import { generalMembership } from "@/lib/data/general-reading";
 import { db } from "@/db/client";
 import { lexicalOccurrences, lexemes, lexicalUnitPronunciations, lexicalUnits, readingAttempts, readingPassages } from "@/db/schema";
 import { fullListeningDetail, listeningExamState } from "@/lib/data/full-listening";
@@ -20,6 +21,10 @@ export type VocabularySourceSnapshot = {
   /** Reading: the learner's own attempt the word was met in (revisit target). */
   attemptId?: string | null;
   passageId?: string | null;
+  /** 0030 General Reading (learning mode): the set + passage slot the word was met in. No attempt exists. */
+  readingMode?: "academic" | "general_practice";
+  generalSetId?: string | null;
+  passageNo?: number | null;
   /** Listening: test + section; audio time only when the source has word timing. */
   listeningTestId?: string | null;
   sectionNumber?: number | null;
@@ -34,15 +39,20 @@ export function sourceRevisitHref(snapshot: Partial<VocabularySourceSnapshot> | 
     const section = snapshot.sectionNumber && snapshot.sectionNumber >= 1 && snapshot.sectionNumber <= 4 ? `?section=${snapshot.sectionNumber}` : "";
     return `/listening/tests/${snapshot.listeningTestId}/study${section}`;
   }
+  if (snapshot.sourceType === "reading" && snapshot.generalSetId) {
+    const passage = snapshot.passageNo && snapshot.passageNo >= 1 && snapshot.passageNo <= 3 ? `?passage=${snapshot.passageNo}` : "";
+    return `/reading/general/${snapshot.generalSetId}${passage}`;
+  }
   if (snapshot.attemptId) return `/reading/attempts/${snapshot.attemptId}`;
   return null;
 }
 
 /** Resolve authority afresh on lookup AND save. A guessed occurrence is not access. */
-export async function resolveReadingOccurrence(userId: string, sourceId: string, occurrenceId: string) {
+/** `allowDraft` (staff only) finds an unpublished passage; the mode/permission decision still follows. */
+export async function resolveReadingOccurrence(userId: string, sourceId: string, occurrenceId: string, allowDraft = false) {
   const attempt = await db.query.readingAttempts.findFirst({ where: and(eq(readingAttempts.id, sourceId), eq(readingAttempts.userId, userId)) });
   const passage = await db.query.readingPassages.findFirst({ where: eq(readingPassages.id, attempt?.passageId ?? sourceId) });
-  if (!passage || (!attempt && !isLive(passage))) return null;
+  if (!passage || (!attempt && !allowDraft && !isLive(passage))) return null;
   const [row] = await db.select({ occurrence: lexicalOccurrences, lexeme: lexemes }).from(lexicalOccurrences)
     .innerJoin(lexemes, eq(lexemes.id, lexicalOccurrences.lexemeId))
     .where(and(eq(lexicalOccurrences.id, occurrenceId), eq(lexicalOccurrences.passageId, passage.id)));
@@ -110,6 +120,13 @@ export async function resolveListeningOccurrence(user: { id: string; role: Role 
  * calling the endpoint with the passage id during an exam).
  */
 export async function readingLexicalAccess(user: { id: string; role: Role }, sourceId: string, passageId: string) {
+  // The mode comes from persisted classification only (0030), never from the request.
+  const general = await generalMembership(passageId);
+  if (general) {
+    const state: ReadingExamState = { submitted: false, examInProgress: false, staff: isStaff(user.role) };
+    // A withdrawn set is not a learning source for students.
+    return { mode: (isLive(general.set) || state.staff ? "GENERAL_READING" : "ACADEMIC_EXAM") as ReadingMode, state, general };
+  }
   const attempts = await db.select({ id: readingAttempts.id, status: readingAttempts.status }).from(readingAttempts)
     .where(and(eq(readingAttempts.userId, user.id), eq(readingAttempts.passageId, passageId)));
   const own = attempts.find((attempt) => attempt.id === sourceId);
@@ -119,20 +136,45 @@ export async function readingLexicalAccess(user: { id: string; role: Role }, sou
     examInProgress: attempts.some((attempt) => attempt.status === "in_progress"),
     staff: isStaff(user.role),
   };
-  return { mode, state };
+  return { mode, state, general: null };
+}
+
+/**
+ * A Reading occurrence that is known (offsets proven against the body) but has no
+ * checked sense — e.g. "river bank" where only the financial bank was authored.
+ * Same source validation as resolveReadingOccurrence; never paired with a meaning.
+ */
+async function unresolvedReadingOccurrence(userId: string, sourceId: string, occurrenceId: string, allowDraft = false) {
+  const attempt = await db.query.readingAttempts.findFirst({ where: and(eq(readingAttempts.id, sourceId), eq(readingAttempts.userId, userId)) });
+  const passage = await db.query.readingPassages.findFirst({ where: eq(readingPassages.id, attempt?.passageId ?? sourceId) });
+  if (!passage || (!attempt && !allowDraft && !isLive(passage))) return null;
+  const occurrence = await db.query.lexicalOccurrences.findFirst({ where: and(eq(lexicalOccurrences.id, occurrenceId), eq(lexicalOccurrences.passageId, passage.id), isNull(lexicalOccurrences.lexemeId)) });
+  if (!occurrence || occurrence.startChar < 0 || occurrence.endChar <= occurrence.startChar
+    || passage.bodyText.slice(occurrence.startChar, occurrence.endChar).toLowerCase() !== occurrence.surfaceForm.toLowerCase()) return null;
+  return { passageId: passage.id, snapshot: {
+    occurrenceId: occurrence.id, sourceTitle: passage.title.slice(0, 240), surfaceForm: occurrence.surfaceForm,
+    sentenceText: occurrence.sentenceText ?? passage.bodyText.slice(Math.max(0, occurrence.startChar - 160), occurrence.endChar + 160),
+    sourceType: "reading" as const, attemptId: attempt?.id ?? null, passageId: passage.id,
+  } };
 }
 
 /** One entry point for every source type that has occurrences. */
 export async function resolveOccurrence(user: { id: string; role: Role }, sourceType: string, sourceId: string, occurrenceId: string): Promise<OccurrenceResolution | null> {
   if (sourceType === "listening") return resolveListeningOccurrence(user, sourceId, occurrenceId);
   if (sourceType === "reading") {
-    const reading = await resolveReadingOccurrence(user.id, sourceId, occurrenceId);
-    if (!reading) return null;
+    const staff = isStaff(user.role);
+    const reading = await resolveReadingOccurrence(user.id, sourceId, occurrenceId, staff);
+    const pending = reading ? null : await unresolvedReadingOccurrence(user.id, sourceId, occurrenceId, staff);
+    if (!reading && !pending) return null;
     // Exam integrity: the occurrence is valid data, but an open Academic attempt
-    // (this one or another of the same passage) may not reveal it.
-    const { mode, state } = await readingLexicalAccess(user, sourceId, reading.snapshot.passageId ?? sourceId);
+    // (this one or another of the same passage) may not reveal it. General Reading
+    // is decided by the passage's persisted classification.
+    const passageId = (reading?.snapshot.passageId ?? pending?.passageId)!;
+    const { mode, state, general } = await readingLexicalAccess(user, sourceId, passageId);
     if (!readingLexicalAssistanceAllowed(mode, state)) return { status: "locked", lexeme: null, snapshot: null };
-    return { status: "resolved", ...reading };
+    const generalContext = general ? { readingMode: "general_practice" as const, generalSetId: general.setId, passageNo: general.passageNo } : {};
+    if (!reading) return { status: "unresolved", lexeme: null, snapshot: { ...pending!.snapshot, ...generalContext, lexemeId: null } };
+    return { status: "resolved", lexeme: reading.lexeme, snapshot: { ...reading.snapshot, ...generalContext } };
   }
   return null;
 }

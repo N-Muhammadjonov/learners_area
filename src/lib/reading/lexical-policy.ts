@@ -11,9 +11,9 @@ export const READING_MODES = [
   /** A submitted Academic attempt (analysis / evidence / retention review). */
   "ACADEMIC_REVIEW",
   /**
-   * A non-exam learning passage. Policy-ready, but NO product surface exists yet:
-   * every current reading passage is an Academic test (the "General" hub tab is an
-   * empty General Training placeholder; topic code "general" is a topic, not a mode).
+   * General Reading (0030): a LEARNING passage — develop reading, not measure it.
+   * Decided only by the passage's persisted row in general_reading_passages; a
+   * request can never claim it. Help is on immediately, in Passage and Full mode.
    */
   "GENERAL_READING",
 ] as const;

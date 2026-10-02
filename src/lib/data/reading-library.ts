@@ -2,6 +2,7 @@ import { and, asc, count, desc, eq, ilike, inArray, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { readingAttempts, readingPassages, readingQuestions } from "@/db/schema";
 import { liveWhere } from "@/lib/services/cms/publication";
+import { academicOnlyClause } from "@/lib/data/general-reading";
 import { timed } from "@/lib/observability/timing";
 
 /**
@@ -75,11 +76,12 @@ function text(value: string | undefined): string | undefined {
 }
 
 /** The publication window: a draft, an archive or a not-yet-due schedule is invisible. */
-function liveClause() {
-  return liveWhere({
+async function liveClause() {
+  // The Academic library: live AND not a General Reading (learning) passage (0030).
+  return and(liveWhere({
     publicationState: readingPassages.publicationState,
     publishAt: readingPassages.publishAt,
-  });
+  }), await academicOnlyClause());
 }
 
 /**
@@ -91,8 +93,8 @@ function liveClause() {
  * correlated EXISTS instead of a join — a join would repeat passages that carry
  * the type twice and quietly break the count.
  */
-function libraryWhere(userId: string, filter: ReadingLibraryFilter) {
-  const clauses = [liveClause()];
+async function libraryWhere(userId: string, filter: ReadingLibraryFilter) {
+  const clauses = [await liveClause()];
 
   if (filter.status === "passage1") clauses.push(eq(readingPassages.passageNo, 1));
   if (filter.status === "passage2") clauses.push(eq(readingPassages.passageNo, 2));
@@ -139,7 +141,7 @@ export async function countLibrary(userId: string, filter: ReadingLibraryFilter 
     const rows = await db
       .select({ value: count() })
       .from(readingPassages)
-      .where(libraryWhere(userId, filter));
+      .where(await libraryWhere(userId, filter));
     return Number(rows[0]?.value ?? 0);
   });
 }
@@ -156,7 +158,7 @@ export async function listLibrary(
   userId: string,
   filter: ReadingLibraryFilter = {}
 ): Promise<{ items: ReadingPassageCard[]; total: number; page: number; pageCount: number }> {
-  const where = libraryWhere(userId, filter);
+  const where = await libraryWhere(userId, filter);
   const requestedPage = Math.max(1, Math.floor(filter.page ?? 1));
 
   const fetchPage = (page: number) =>
@@ -262,7 +264,7 @@ export async function listLibrary(
  */
 export async function listLibraryFacets() {
   return timed("reading.facets", async () => {
-    const live = liveClause();
+    const live = await liveClause();
 
     const [topics, types] = await Promise.all([
       db
@@ -310,7 +312,7 @@ export async function readingHubCounts(userId: string) {
                                    where a.passage_id = "reading_passages"."id" and a.user_id = ${userId} and a.status = 'in_progress'))`,
       })
       .from(readingPassages)
-      .where(liveClause());
+      .where(await liveClause());
 
     const total = Number(rows[0]?.total ?? 0);
     const completed = Number(rows[0]?.completed ?? 0);
