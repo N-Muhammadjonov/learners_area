@@ -687,7 +687,7 @@ READING
 ├── ACADEMIC REVIEW / CONTROL  (submitted attempt, ReadingAnalysis → RetentionCheck passage, evidence quotes)
 │       └── Contextual vocabulary ON — only if no attempt of the passage is open
 │
-└── GENERAL READING  (policy: ON — NO product surface exists yet, see below)
+└── GENERAL READING  (policy: ON — implemented by migration 0030, see B18)
         └── occurrence → exact sense → popup → Add to Vocabulary → student learning state
 ```
 
@@ -695,7 +695,7 @@ READING
 |---|---|---|
 | `ACADEMIC_EXAM` | lookup source is the learner's attempt with `status = in_progress` | never |
 | `ACADEMIC_REVIEW` | a submitted attempt id, or a bare passage id (all current passages are Academic tests) | only with a submitted attempt of that passage AND no open attempt of it (staff may inspect) |
-| `GENERAL_READING` | — | allowed by policy; **not reachable**: there is no general-reading content model or page. The hub's "General" tab is an empty IELTS General Training placeholder and topic code `general` is a topic, not a mode. Nothing is marked as implemented that is not. |
+| `GENERAL_READING` | `general_reading_passages` row (`reading_mode = general_practice`) | allowed: implemented in B18 (0030). The hub's "IELTS General" tab is still the IELTS General Training placeholder and topic code `general` is a topic, not a mode — neither grants anything. |
 
 Implemented now:
 - `ReadingExam` takes no occurrence prop and imports no lexical component; the
@@ -725,3 +725,82 @@ keyboard; same content interactive in review; MWE; policy table),
 local HTTP run against the production build (exam 403 by attempt and passage id,
 no lexical ids in exam HTML, review resolves/saves, retake re-locks). Local
 evidence only — not Preview, not a browser.
+
+## B18. General Reading — learning mode (migration 0030)
+
+> Academic Reading measures reading; General Reading develops reading.
+
+### Mode decision (server, from persisted data only)
+
+A Reading passage is **General** if and only if it has a row in
+`general_reading_passages` with `reading_mode = 'general_practice'` (CHECK-constrained).
+Everything else — all content that existed before 0030 — is **Academic**. The mode is
+never taken from the route, the request body/query, a title, the passage count or a
+timer. `readingLexicalAccess` (src/lib/services/lexical/context.ts) looks up the
+membership first; the lookup and save endpoints ignore any `mode` / `readingMode` /
+`generalSetId` the client sends.
+
+| Situation | Persisted evidence | Mode | Vocabulary help | Server answer |
+|---|---|---|---|---|
+| Academic passage, own attempt in progress | attempt `in_progress` | ACADEMIC_EXAM | off | 403 `lexical_assistance_locked` |
+| Academic passage id instead of attempt id while an attempt is open | open attempt for passage | ACADEMIC_EXAM | off | 403 |
+| Academic retake open after a completed attempt | newer `in_progress` attempt | ACADEMIC_EXAM | off | 403 |
+| Academic request carrying `mode=GENERAL_PRACTICE` (forged) | no membership row | ACADEMIC_EXAM | off | 403 |
+| Academic, submitted attempt, no open retake | `completed` attempt | ACADEMIC_REVIEW | on | 200 |
+| General passage, published set | membership + live set | GENERAL_READING | on from the first second, P1/P2/P3 and Full | 200 |
+| General passage, draft set, learner | membership, set not live | — | off | not found (no existence signal) |
+| General passage, draft set, staff preview | membership + staff role | GENERAL_READING | on | 200 |
+| Academic occurrence id sent with a General passage id | occurrence not in that passage | — | — | rejected |
+| General occurrence outside its authored example (one-meaning trap) | `lexeme_id IS NULL` | GENERAL_READING | "Meaning not checked yet" | 200 `unresolved`, save refused |
+
+### Migration 0030 (additive, forward-only)
+
+`drizzle/0030_general_reading.sql` creates three tables and nothing else:
+
+* `general_reading_sets` — title, description, level, publication state, unique `source_ref`.
+* `general_reading_passages` — `passage_id` (PK, FK → reading_passages, cascade), `set_id`,
+  `passage_no` 1–3 (unique per set), `reading_mode` CHECK `= 'general_practice'`.
+* `general_reading_progress` — per learner × passage: answers JSON, score/total, `checked_at`;
+  unique `(user_id, passage_id)`.
+
+No column is added to or changed on existing tables; no DROP; no data rewrite. The app
+detects the tables with `to_regclass` (`generalReadingSchemaReady`), so code deployed
+before the migration keeps every Academic surface working. Verified on the isolated
+local QA2 PostgreSQL by `scripts/qa2-general-reading-0030-upgrade.mjs` (seed at 0029 →
+real `drizzle-kit migrate` → verify): 10 tables (reading, lexical, learner vocabulary,
+contexts, usages) — 0 rows changed, 0 missing, 0 added; 0 passages classified General.
+
+### What the learner gets
+
+* `/reading/general` and the hub tab **General Reading** list published sets.
+* `/reading/general/{set}` offers Passage 1, Passage 2, Passage 3 and Full Reading
+  (`?passage=1|2|3|full` only selects what to show; it grants nothing).
+* The passage uses the shared `ClickableText` → occurrence id → canonical sense → popup
+  → save path (sourceType `reading`, sourceId = passage id; no attempt is created or
+  invented). Read Aloud and text selection stay. No timer.
+* Questions (TFNG/YNNG, multiple choice, short answer) autosave per passage; **Check
+  answers** grades with the existing Reading grader and shows the correct answer and
+  the evidence quote. The answer key is not sent before Check. Full Reading keeps each
+  passage's progress independently.
+* Saved context: source type, set id, passage id + number, occurrence, sentence,
+  `readingMode: general_practice`, no attempt id; revisit → `/reading/general/{set}?passage=N`.
+* Dedup is learner × canonical sense, so General P1/P3, Academic review and Listening
+  saves of the same sense are one item with several contexts; SRS state is never reset.
+* Question evidence is never a vocabulary input (no sense is created from it).
+* Content arrives only from authored bundles: `scripts/import-general-reading.ts`
+  (zod-validated, draft by default, idempotent on `source_ref`, `--dry-run`). Authored
+  vocabulary goes through the same canonical-sense rule as Listening
+  (`ingestReadingPassageOccurrences`): exact sense only inside the author's example
+  sentence, longest span wins (MWE), inflections via `formsOf`, function words skipped.
+
+### Status
+
+* **IMPLEMENTED NOW** — 0030, data layer, policy, progress API, pages, hub tab, importer, en + uz (Latin) copy.
+* **LOCAL VERIFIED** — isolated QA2 PostgreSQL: 0030 upgrade gates PASS; 25 General Reading
+  semantic tests (`tests/general-reading-qa2.test.ts`); UI interaction tests
+  (`tests/ui/general-reading.test.tsx`); HTTP E2E against a local production build (both modes).
+  No browser test was run (no browser available in the sandbox).
+* **PREVIEW NOT VERIFIED** — 0029 and 0030 are not applied to Preview or Production; that needs
+  explicit owner approval. Until then the General surfaces show an empty state there.
+* **FUTURE** — no General Reading content exists in any shared database (none was fabricated);
+  an owner-authored bundle must be imported. Admin editing UI for sets is not built.
