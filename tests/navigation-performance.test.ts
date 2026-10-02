@@ -131,7 +131,9 @@ test("Writing streams the entry header before its independent prompt and learner
 
 test("Listening and Speaking stream useful module headers before catalogue reads", () => {
   const listening = read("src/app/(app)/listening/page.tsx");
-  const speaking = read("src/app/(app)/speaking/page.tsx");
+  // The Speaking material catalogue moved from the hub to Speaking lessons
+  // (owner spec §26–28); the streaming invariant follows the catalogue.
+  const speaking = read("src/app/(app)/speaking/lessons/page.tsx");
   for (const page of [listening, speaking]) {
     assert.match(page, /Promise\.all\(\[requireActiveUser\(\), getLocale\(\)\]\)/);
     assert.match(page, /data-route-usable=/);

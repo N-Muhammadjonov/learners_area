@@ -115,7 +115,7 @@ test("Writing prompt entry does not wait for typing stats; the typing region cat
 
 test("Speaking loads only blocks attached to the current materials and surfaces block-query failure", () => {
   const data = read("src/lib/data/speaking.ts");
-  const page = read("src/app/(app)/speaking/page.tsx");
+  const page = read("src/app/(app)/speaking/lessons/page.tsx"); // catalogue moved off the hub (§26–28)
   assert.match(data, /where: inArray\(materialBlocks\.materialId, ids\)/);
   assert.doesNotMatch(data, /materialBlocks\.findMany\(\{\s*orderBy/);
   assert.match(data, /blocksUnavailable: true/);

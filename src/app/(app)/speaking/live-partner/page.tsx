@@ -1,3 +1,4 @@
+import { BackLink } from "@/components/ui/BackLink";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { listLivePartnerQuestions } from "@/lib/data/speaking-practice";
@@ -14,6 +15,7 @@ export default async function LivePartnerPage() {
   const [questions, profile] = await Promise.all([listLivePartnerQuestions(), getLivePartnerProfile(user.id)]);
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-4" data-route-usable="live-partner">
+      <BackLink fallbackHref="/speaking" label={dict.common.back} />
       <div>
         <h1 className="font-display text-2xl text-ink-900">{dict.livePartner.title}</h1>
         <p className="text-sm text-ink-500">{dict.livePartner.intro}</p>

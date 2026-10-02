@@ -1,3 +1,4 @@
+import { BackLink } from "@/components/ui/BackLink";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { listAttempts } from "@/lib/data/speaking-practice";
@@ -27,6 +28,7 @@ export default async function SpeakingHistoryPage() {
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-4">
+      <BackLink fallbackHref="/speaking" label={dict.common.back} />
       <h1 className="font-display text-2xl text-ink-900">{t.historyTitle}</h1>
 
       {attempts.length === 0 && (

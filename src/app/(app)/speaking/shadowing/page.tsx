@@ -1,3 +1,4 @@
+import { BackLink } from "@/components/ui/BackLink";
 import Link from "next/link";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
@@ -35,6 +36,7 @@ export default async function ShadowingPage() {
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-4">
+      <BackLink fallbackHref="/speaking/lessons" label={dict.common.back} />
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
           <h1 className="font-display text-2xl text-ink-900">{dict.speakingShadowing.title}</h1>
