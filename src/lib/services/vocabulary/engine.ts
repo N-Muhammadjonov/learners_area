@@ -865,8 +865,8 @@ export async function recordSentenceUse(input: {
   userId: string;
   entryId: string;
   sentence: string;
-}) {
-  const entry = await db.query.userVocabulary.findFirst({
+}, database: typeof db = db) {
+  const entry = await database.query.userVocabulary.findFirst({
     where: and(
       eq(userVocabulary.id, input.entryId),
       eq(userVocabulary.userId, input.userId),
@@ -878,7 +878,7 @@ export async function recordSentenceUse(input: {
   // called after the RIWI evaluator returns, may mark it accepted or award points.
   const pointsAwarded = 0;
 
-  const [usage] = await db
+  const [usage] = await database
     .insert(vocabularyUsages)
     .values({
       userId: input.userId,
@@ -916,19 +916,22 @@ export async function confirmSentenceUse(input: {
   accepted: boolean;
   evaluationId: string;
   now?: Date;
-}) {
+  /** Who judged the sentence: RIWI (Vocabulary "use") or the external AI (Writing Activation Lab). */
+  origin?: "riwi" | "external_ai";
+}, database: typeof db = db) {
   const now = input.now ?? new Date();
-  const usage = await db.query.vocabularyUsages.findFirst({
+  const origin = input.origin ?? "riwi";
+  const usage = await database.query.vocabularyUsages.findFirst({
     where: and(
       eq(vocabularyUsages.id, input.usageId),
       eq(vocabularyUsages.userId, input.userId),
     ),
   });
   if (!usage) return { ok: false as const, error: "not_found" };
-  if (usage.origin === "riwi")
+  if (usage.origin !== "manual")
     return { ok: false as const, error: "already_evaluated" };
 
-  const entry = await db.query.userVocabulary.findFirst({
+  const entry = await database.query.userVocabulary.findFirst({
     where: eq(userVocabulary.id, usage.userVocabularyId),
   });
   if (!entry) return { ok: false as const, error: "not_found" };
@@ -944,7 +947,7 @@ export async function confirmSentenceUse(input: {
         dedupeKey: dedupeKeys.sentence(input.userId, entry.id, sentenceHash),
         refType: "vocabulary_usage",
         refId: usage.id,
-      })
+      }, database)
     : false;
   const pointsAwarded = inserted ? VOCAB_POINTS.sentence : 0;
   const activeUseCount = entry.activeUseCount + (inserted ? 1 : 0);
@@ -955,10 +958,10 @@ export async function confirmSentenceUse(input: {
     activeUseCount,
   });
 
-  await db
+  await database
     .update(vocabularyUsages)
     .set({
-      origin: "riwi",
+      origin,
       riwiAccepted: input.accepted,
       evaluationId: input.evaluationId,
       pointsAwarded,
@@ -966,7 +969,7 @@ export async function confirmSentenceUse(input: {
     .where(eq(vocabularyUsages.id, usage.id));
 
   if (inserted) {
-    await db
+    await database
       .update(userVocabulary)
       .set({
         activeUseCount,

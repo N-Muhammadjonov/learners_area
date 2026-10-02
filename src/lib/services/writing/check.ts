@@ -10,6 +10,8 @@ export type CheckResult = {
   feedback: string | null;
   improved: string | null;
   fixes: string[];
+  /** The resolver's evaluation id (for vocabulary usage evidence). */
+  evaluationId: string | null;
 };
 export type CheckOutcome = { ok: true; result: CheckResult } | { ok: false; reason: "unavailable" | "failed" };
 
@@ -44,6 +46,7 @@ export async function runWritingCheck(userId: string, language: "uz" | "en", che
 }
 
 type ResultLike = {
+  evaluationId?: string;
   verdict?: string | null;
   criteria?: Array<{ key: string; band: number | null }>;
   weaknesses?: string[];
@@ -70,5 +73,6 @@ export function normalizeCheck(kind: WritingCheckInput["kind"], r: ResultLike): 
     feedback: issues[0]?.message ?? r.weaknesses?.[0] ?? null,
     improved: issues.find((i) => i.suggestion)?.suggestion ?? null,
     fixes,
+    evaluationId: r.evaluationId ?? null,
   };
 }

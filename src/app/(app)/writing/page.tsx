@@ -11,6 +11,7 @@ import { WritingExamHome } from "@/components/writing/exam/WritingExamHome";
 import { WritingTopicVocabularyTab } from "@/components/writing/topic/WritingTopicVocabularyTab";
 import { WritingTranslationTab } from "@/components/writing/translation/WritingTranslationTab";
 import { RegionFailureNotice } from "@/components/interaction/RegionFailureNotice";
+import { WritingActivationTab } from "@/components/writing/activation/WritingActivationTab";
 import { WritingNav } from "@/components/writing/workspace/WritingNav";
 import { WritingGradeTab } from "@/components/writing/workspace/WritingGradeTab";
 import { WritingLessonsTab, WritingContentTab } from "@/components/writing/workspace/WritingContentTabs";
@@ -117,6 +118,8 @@ export default async function WritingPage({ searchParams }: { searchParams: Prom
           <Suspense fallback={<WritingActivitiesSkeleton />}>
             <WritingActivities userId={user.id} dict={dict} />
           </Suspense>
+        ) : tab === "activation" ? (
+          <Suspense fallback={<WritingActivitiesSkeleton />}><WritingActivationTab dict={dict} userId={user.id} item={sp.item} /></Suspense>
         ) : tab === "lessons" ? (
           <Suspense fallback={<WritingActivitiesSkeleton />}><WritingLessonsTab dict={dict} userId={user.id} /></Suspense>
         ) : (
