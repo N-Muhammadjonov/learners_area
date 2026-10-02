@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Dictionary } from "@/lib/i18n/en";
 import { listMyEssays } from "@/lib/services/writing/grade";
 import { safeWritingQuery } from "@/lib/writing/safe-query";
-import { speakingAiReadiness } from "@/lib/speaking/ai-readiness";
+import { writingAiReady } from "@/lib/writing/ai-readiness";
 import { GradeForm } from "./GradeForm";
 import { formatDateTime } from "@/lib/time";
 import type { Locale } from "@/lib/i18n";
@@ -11,7 +11,7 @@ import { NotMigrated } from "./NotMigrated";
 /** Grade My Work (W6): New submission / My essays, with an honest "How it is marked". */
 export async function WritingGradeTab({ dict, userId, view, locale }: { dict: Dictionary; userId: string; view: "new" | "essays"; locale: string }) {
   const t = dict.writingWorkspace.grade;
-  const aiReady = speakingAiReadiness().aiEvaluation;
+  const aiReady = writingAiReady();
   const essays = view === "essays" ? await safeWritingQuery(() => listMyEssays(userId)) : null;
   return (
     <section className="flex flex-col gap-4">
