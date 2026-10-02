@@ -26,7 +26,7 @@ export default async function StandaloneVideoLessonPage({ params }: { params: Pr
   const data = await getStandaloneVideoLesson(id, user.id);
   if (!data) notFound();
   const dict = getDictionary(locale);
-  const { videoLesson, questions, progress } = data;
+  const { videoLesson, progress } = data;
   const minutes = videoLesson.durationSeconds && videoLesson.durationSeconds > 0 ? Math.max(1, Math.round(videoLesson.durationSeconds / 60)) : null;
 
   return (
@@ -57,12 +57,7 @@ export default async function StandaloneVideoLessonPage({ params }: { params: Pr
           transcriptText: videoLesson.transcriptText ?? null,
           notes: videoLesson.notes ?? null,
         }}
-        questions={questions.map((question) => ({
-          id: question.id,
-          stage: question.stage,
-          prompt: question.prompt,
-          atSeconds: question.atSeconds,
-        }))}
+        questions={[]}
         initialProgress={
           progress
             ? {
