@@ -11,6 +11,9 @@ import { VideoLessonStudio } from "@/components/courses/VideoLessonStudio";
 import { getVideoLessonForLesson } from "@/lib/data/video-lessons";
 import { isUuid } from "@/lib/validation/ids";
 import { resolveDirectMedia } from "@/lib/services/video/direct";
+import { headers } from "next/headers";
+import { publicBaseUrl } from "@/lib/config/site";
+import { resolveEmbedOrigin } from "@/lib/services/video/embed-origin";
 import { OwnerMaterialBlocks } from "@/components/resources/OwnerMaterialBlocks";
 
 export const dynamic = "force-dynamic";
@@ -65,6 +68,8 @@ export default async function LessonPage({ params }: { params: Promise<{ lessonI
 
       {video ? (
         <VideoLessonStudio
+          mode="course"
+          embedOrigin={resolveEmbedOrigin(await headers(), publicBaseUrl)}
           directMedia={resolveDirectMedia(video.videoLesson.provider, video.videoLesson.videoId)}
           dict={dict}
           lessonId={lesson.id}

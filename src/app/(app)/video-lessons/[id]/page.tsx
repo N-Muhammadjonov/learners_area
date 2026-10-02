@@ -5,7 +5,9 @@ import { getDictionary, getLocale } from "@/lib/i18n";
 import { getStandaloneVideoLesson } from "@/lib/data/video-lessons";
 import { isUuid } from "@/lib/validation/ids";
 import { resolveDirectMedia } from "@/lib/services/video/direct";
+import { headers } from "next/headers";
 import { publicBaseUrl } from "@/lib/config/site";
+import { resolveEmbedOrigin } from "@/lib/services/video/embed-origin";
 import { VideoLessonStudio } from "@/components/courses/VideoLessonStudio";
 
 export const dynamic = "force-dynamic";
@@ -18,7 +20,7 @@ export const dynamic = "force-dynamic";
  * served here — the latter stay behind their lesson's access on the course route.
  */
 export default async function StandaloneVideoLessonPage({ params }: { params: Promise<{ id: string }> }) {
-  const [user, locale, { id }] = await Promise.all([requireActiveUser(), getLocale(), params]);
+  const [user, locale, { id }, requestHeaders] = await Promise.all([requireActiveUser(), getLocale(), params, headers()]);
   if (!user) return null;
   if (!isUuid(id)) notFound();
   const data = await getStandaloneVideoLesson(id, user.id);
@@ -37,7 +39,8 @@ export default async function StandaloneVideoLessonPage({ params }: { params: Pr
         ) : null}
       </header>
       <VideoLessonStudio
-        embedOrigin={publicBaseUrl}
+        mode="standalone"
+        embedOrigin={resolveEmbedOrigin(requestHeaders, publicBaseUrl)}
           directMedia={resolveDirectMedia(videoLesson.provider, videoLesson.videoId)}
         dict={dict}
         lessonId={videoLesson.id}

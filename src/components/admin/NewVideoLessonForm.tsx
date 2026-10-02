@@ -15,7 +15,8 @@ export { parseTranscript, parseTranscriptInput, type TranscriptInput } from "@/l
  * link explains itself (unsupported host, missing id, wrong shape) instead of
  * silently creating a lesson whose video will never play.
  *
- * URL, title and notes are the primary workflow. Optional authored questions
+ * URL, title and notes are the primary workflow. Standalone TED / PODCAST items
+ * have no question authoring; for a course-linked lesson, optional authored questions
  * retain server validation. Captions come from the provider player itself.
  */
 type LessonOption = { id: string; title: string };
@@ -68,7 +69,8 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
         transcript: null,
         transcriptText: null,
         notes: notes.trim() || null,
-        questions: parseQuestions(questionsText),
+        // Standalone TED / PODCAST never carries questions (the API rejects them too).
+        questions: lessonId ? parseQuestions(questionsText) : [],
       }),
     });
     const body = await res.json().catch(() => ({}));
@@ -137,7 +139,12 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
 
       <label className="flex flex-col gap-1 text-sm">
         {t.lessonOptional}
-        <select className="input" value={lessonId} onChange={(e) => setLessonId(e.target.value)} data-video-lesson-select>
+        <select className="input" value={lessonId} onChange={(e) => {
+          const next = e.target.value;
+          setLessonId(next);
+          // Course -> standalone: discard question text so it can never be submitted hidden.
+          if (!next) setQuestionsText("");
+        }} data-video-lesson-select>
           <option value="">{t.standaloneOption}</option>
           {lessons.map((lesson) => (
             <option key={lesson.id} value={lesson.id}>
@@ -165,6 +172,7 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
 
 
 
+      {lessonId ? (
       <label className="flex flex-col gap-1 text-sm">
         {t.questions}
         <textarea
@@ -176,6 +184,7 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
         />
         <span className="text-xs text-ink-500">{t.questionsHelp}</span>
       </label>
+      ) : null}
 
       <div className="flex items-center gap-3">
         <Button type="submit" disabled={busy}>

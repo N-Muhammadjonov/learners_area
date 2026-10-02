@@ -17,7 +17,9 @@ import { eq } from "drizzle-orm";
  * the student watched more than the video holds. Opening the page alone is not
  * progress.
  */
-const schema = z.object({ watchedSeconds: z.number().finite().min(0).max(60 * 60 * 12) });
+// `ended` reports that the verified player reached the end; the server decides
+// the resulting state (a client never sends a verdict).
+const schema = z.object({ watchedSeconds: z.number().finite().min(0).max(60 * 60 * 12), ended: z.boolean().optional() });
 
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -36,7 +38,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     return NextResponse.json({ error: "not_found" }, { status: 404 });
   }
 
-  const progress = await recordWatched(videoLesson.id, user.id, parsed.data.watchedSeconds);
+  const progress = await recordWatched(videoLesson.id, user.id, parsed.data.watchedSeconds, { ended: parsed.data.ended === true });
   if (!progress) return NextResponse.json({ error: "not_found" }, { status: 404 });
 
   return NextResponse.json({

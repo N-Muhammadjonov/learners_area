@@ -27,7 +27,7 @@ const card = (over: Partial<React.ComponentProps<typeof VideoLessonCard>> = {}) 
   <ul><VideoLessonCard entryId="v1" standalone href="/video-lessons/v1" title="A talk about memory" provider="youtube" videoId={ID} durationSeconds={null} state="available" minutesLabel={en.videoLessons.minutes} {...over} /></ul>
 );
 const lesson = (over: Record<string, unknown> = {}) => ({ id: "v1", provider: "youtube", videoId: ID, title: "QA talk", beforeYouWatch: null, durationSeconds: null, transcript: null, transcriptSource: null, transcriptAttribution: null, notes: null, ...over });
-const studio = (props: Record<string, unknown> = {}, over: Record<string, unknown> = {}) => <VideoLessonStudio dict={en} lessonId="v1" videoLesson={lesson(over)} questions={[]} initialProgress={null} {...props} />;
+const studio = (props: Record<string, unknown> = {}, over: Record<string, unknown> = {}) => <VideoLessonStudio mode="standalone" dict={en} lessonId="v1" videoLesson={lesson(over)} questions={[]} initialProgress={null} {...props} />;
 const libraryPage = read("src/app/(app)/video-lessons/page.tsx");
 const detailPage = read("src/app/(app)/video-lessons/[id]/page.tsx");
 const cardSrc = read("src/components/video/VideoLessonCard.tsx");
@@ -196,7 +196,7 @@ test("A2 the verified end event sends the final position once and shows a locali
       await act(async () => { window.dispatchEvent(real); await new Promise((r) => setTimeout(r, 0)); });
       assert.ok(q("[data-video-ended]").textContent?.includes(en.videoLesson.ended));
       assert.ok(q("[data-video-ended] button").textContent?.includes(en.videoLesson.replay));
-      assert.deepEqual(bodies, [{ watchedSeconds: 120 }]);
+      assert.deepEqual(bodies, [{ watchedSeconds: 120, ended: true }], "final write reports the end; the server decides the state");
       assert.equal(q("[data-video-progress-state]").textContent, en.videoLesson.stateCompleted);
     });
   } finally { globalThis.fetch = original; }

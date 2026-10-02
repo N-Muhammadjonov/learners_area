@@ -90,6 +90,10 @@ export async function POST(req: NextRequest) {
   if (parsed.data.transcript?.length && parsed.data.transcriptText?.trim()) {
     return NextResponse.json({ error: "invalid_input", detail: "transcript_ambiguous" }, { status: 400 });
   }
+  // Standalone TED / PODCAST is a watching experience: no authored questions.
+  if (!parsed.data.lessonId && (parsed.data.questions?.length ?? 0) > 0) {
+    return NextResponse.json({ error: "standalone_questions_not_allowed" }, { status: 400 });
+  }
 
   const existing = parsed.data.videoLessonId
     ? await db.query.videoLessons.findFirst({ where: eq(videoLessons.id, parsed.data.videoLessonId) })
@@ -104,6 +108,9 @@ export async function POST(req: NextRequest) {
   if (!result.ok) {
     if (result.reason === "lesson_not_found" || result.reason === "video_lesson_not_found") {
       return NextResponse.json({ error: result.reason }, { status: 404 });
+    }
+    if (result.reason === "standalone_questions_not_allowed") {
+      return NextResponse.json({ error: "standalone_questions_not_allowed" }, { status: 400 });
     }
     if (result.reason === "video_exists") {
       return NextResponse.json({ error: "video_exists" }, { status: 409 });

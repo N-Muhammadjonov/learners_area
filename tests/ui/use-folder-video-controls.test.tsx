@@ -91,7 +91,7 @@ test('Video authoring presents URL, title and notes without a transcript input',
   });
 });
 test('Player keeps native controls and CC, forbids popups/top navigation and has no below-player transcript control', async () => {
-  await mounted(<VideoLessonStudio dict={en} lessonId="local" videoLesson={{id:'local',provider:'youtube',videoId:'dQw4w9WgXcQ',title:'QA video',beforeYouWatch:null,durationSeconds:null,transcript:[{startSeconds:0,text:'Old authored transcript'}],transcriptSource:'authored',transcriptAttribution:null,transcriptText:'Legacy text',notes:null}} questions={[]} initialProgress={null} />, async () => {
+  await mounted(<VideoLessonStudio mode="standalone" dict={en} lessonId="local" videoLesson={{id:'local',provider:'youtube',videoId:'dQw4w9WgXcQ',title:'QA video',beforeYouWatch:null,durationSeconds:null,transcript:[{startSeconds:0,text:'Old authored transcript'}],transcriptSource:'authored',transcriptAttribution:null,transcriptText:'Legacy text',notes:null}} questions={[]} initialProgress={null} />, async () => {
     const frame=q<HTMLIFrameElement>('[data-video-frame]');
     assert.equal(frame.getAttribute('sandbox'),'allow-scripts allow-same-origin allow-presentation');
     const src=new URL(frame.src);assert.equal(src.origin,'https://www.youtube-nocookie.com');assert.equal(src.searchParams.get('controls'),'1');assert.equal(src.searchParams.get('cc_load_policy'),'1');
@@ -104,7 +104,7 @@ test('Video network failure releases save and keeps the learner draft for a manu
   let calls = 0;
   globalThis.fetch = (async () => { calls++; throw new TypeError('offline'); }) as typeof fetch;
   try {
-    await mounted(<VideoLessonStudio dict={en} lessonId="local" videoLesson={{id:'local',provider:'youtube',videoId:'dQw4w9WgXcQ',title:'QA video',beforeYouWatch:null,durationSeconds:null,transcript:null,transcriptSource:null,transcriptAttribution:null,notes:null}} questions={[]} initialProgress={null} />, async () => {
+    await mounted(<VideoLessonStudio mode="standalone" dict={en} lessonId="local" videoLesson={{id:'local',provider:'youtube',videoId:'dQw4w9WgXcQ',title:'QA video',beforeYouWatch:null,durationSeconds:null,transcript:null,transcriptSource:null,transcriptAttribution:null,notes:null}} questions={[]} initialProgress={null} />, async () => {
       await act(async () => {
         const input=q<HTMLTextAreaElement>('[data-video-opinion-input]');
         Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype,'value')!.set!.call(input,'My retained draft.');
@@ -126,7 +126,7 @@ test('Slow video progress survives subsequent player ticks and aborts only when 
   let calls=0;
   globalThis.fetch=(async (_input,init)=>{calls++;signal=init?.signal ?? undefined;return new Promise<Response>((_resolve,reject)=>signal?.addEventListener('abort',()=>reject(new Error('aborted')),{once:true}));}) as typeof fetch;
   try {
-    await mounted(<VideoLessonStudio dict={en} lessonId="local" videoLesson={{id:'local',provider:'youtube',videoId:'iG9CE55wbtY',title:'QA video',beforeYouWatch:null,durationSeconds:null,transcript:null,transcriptSource:null,transcriptAttribution:null,notes:null}} questions={[]} initialProgress={null} />,async()=>{
+    await mounted(<VideoLessonStudio mode="standalone" dict={en} lessonId="local" videoLesson={{id:'local',provider:'youtube',videoId:'iG9CE55wbtY',title:'QA video',beforeYouWatch:null,durationSeconds:null,transcript:null,transcriptSource:null,transcriptAttribution:null,notes:null}} questions={[]} initialProgress={null} />,async()=>{
       const frame=q<HTMLIFrameElement>('[data-video-frame]');
       for(const currentTime of [6,7,12]) await act(async()=>window.dispatchEvent(new window.MessageEvent('message',{source:frame.contentWindow,origin:'https://www.youtube-nocookie.com',data:{info:{currentTime}}})));
       assert.equal(calls,1);assert.equal(signal?.aborted,false);
@@ -136,7 +136,7 @@ test('Slow video progress survives subsequent player ticks and aborts only when 
 });
 
 test('TED end screen rejects forged messages and replaces the genuine completed frame with Replay', async () => {
-  await mounted(<VideoLessonStudio dict={en} lessonId="local" videoLesson={{id:'local',provider:'youtube',videoId:'iG9CE55wbtY',title:'QA video',beforeYouWatch:null,durationSeconds:null,transcript:null,transcriptSource:null,transcriptAttribution:null,notes:null}} questions={[]} initialProgress={null} />, async () => {
+  await mounted(<VideoLessonStudio mode="standalone" dict={en} lessonId="local" videoLesson={{id:'local',provider:'youtube',videoId:'iG9CE55wbtY',title:'QA video',beforeYouWatch:null,durationSeconds:null,transcript:null,transcriptSource:null,transcriptAttribution:null,notes:null}} questions={[]} initialProgress={null} />, async () => {
     const frame=q<HTMLIFrameElement>('[data-video-frame]');
     await act(async()=>window.dispatchEvent(new window.MessageEvent('message',{source:frame.contentWindow,origin:'https://untrusted.example',data:{event:'onStateChange',info:0}})));
     assert.ok(document.querySelector('[data-video-frame]'));
