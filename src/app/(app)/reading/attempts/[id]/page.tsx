@@ -37,9 +37,9 @@ export default async function ReadingAttemptPage({ params }: { params: Promise<{
   return (
     <div className="mx-auto max-w-[1440px]">
       {attempt.status === "in_progress" ? (
+        // ACADEMIC_EXAM: no occurrence/sense data is sent to the active passage.
         <ReadingExam
           dict={dict}
-          occurrences={occurrences}
           attemptId={attempt.id}
           passageTitle={passage.title}
           passageBody={passage.bodyText}

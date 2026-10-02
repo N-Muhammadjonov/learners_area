@@ -223,11 +223,12 @@ function WordPopover({
     setLoading(true);
     setError(null);
     setUnresolved(false);
-    // A Listening word without a server-proven occurrence has no knowable sense.
-    // No spelling lookup is made at all: the learner sees "Meaning not checked yet".
-    const spellingOnlyListening = sourceType === "listening" && !occurrenceId;
+    // A Listening or Reading word without a server-proven occurrence has no knowable
+    // sense. No spelling lookup is made at all: the learner sees "Meaning not checked
+    // yet" and may only save their own meaning. (Other sources keep the library search.)
+    const spellingOnlyContextual = (sourceType === "listening" || sourceType === "reading") && !occurrenceId;
     void (async () => {
-      if (spellingOnlyListening) {
+      if (spellingOnlyContextual) {
         const folderResult = await requestJson<{ folders: { id: string; name: string }[] }>("/api/vocabulary/folders", { method: "GET", signal: controller.signal });
         if (controller.signal.aborted) return;
         setContextual(null);

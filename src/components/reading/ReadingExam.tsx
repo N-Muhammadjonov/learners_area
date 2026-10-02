@@ -5,8 +5,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { choiceSetFor } from "@/lib/reading-choices";
-import { occurrenceSpans, type OccurrenceSpan } from "@/lib/services/lexical/occurrence-spans";
-import { ClickableText } from "@/components/vocabulary/ClickableText";
 import { useFocusEntry } from "@/lib/interaction/focus-entry";
 import { IconBack, IconCheck, IconTarget } from "@/components/ui/icons";
 import { ResourceBlocks } from "@/components/resources/ResourceBlocks";
@@ -158,7 +156,6 @@ export function ReadingExam({
   startedAt,
   suggestedMinutes,
   materials = [],
-  occurrences = [],
 }: {
   dict: Dictionary;
   attemptId: string;
@@ -177,7 +174,6 @@ export function ReadingExam({
   suggestedMinutes: number;
   /** Blocks an administrator attached to this passage; empty means no section. */
   materials?: ResourceBlockView[];
-  occurrences?: OccurrenceSpan[];
 }) {
   const t = dict.readingPractice;
   const router = useRouter();
@@ -442,7 +438,6 @@ export function ReadingExam({
             <h2 className="font-display text-base text-ink-900">{passageTitle}</h2>
             <ReadAloud dict={dict} text={`${passageTitle}. ${passageBody}`} />
           </div>
-          <p className="text-xs text-ink-300">{t.wordSaveHint}</p>
 
           <div className="flex flex-col gap-4 lg:max-h-[70vh] lg:overflow-y-auto lg:pr-2" data-passage-body>
             {paragraphs.length > 0 ? (
@@ -458,30 +453,19 @@ export function ReadingExam({
                   ) : (
                     <span className="w-7 shrink-0" aria-hidden />
                   )}
-                  <ClickableText
-                    dict={dict}
+                  <ExamPassageText
                     text={paragraph.text}
-                    occurrences={occurrenceSpans(passageBody, paragraph.text, occurrences)}
-                    sourceType="reading"
-                    sourceId={attemptId}
                     className={`academic-text text-sm leading-relaxed text-ink-700 ${paragraph.isFootnote ? "italic" : ""}`}
                   />
                 </div>
               ))
             ) : (
               // A passage that was stored as one block of text still renders.
-              <ClickableText
-                dict={dict}
-                text={passageBody}
-                occurrences={occurrenceSpans(passageBody, passageBody, occurrences)}
-                sourceType="reading"
-                sourceId={attemptId}
-                className="academic-text text-sm leading-relaxed text-ink-700"
-              />
+              <ExamPassageText text={passageBody} className="academic-text text-sm leading-relaxed text-ink-700" />
             )}
           </div>
 
-          <ResourceBlocks dict={dict} blocks={materials} />
+          <ResourceBlocks dict={dict} blocks={materials} lexicalAssistance={false} />
         </section>
 
         <section
@@ -990,4 +974,14 @@ function ReadAloud({ dict, text }: { dict: Dictionary; text: string }) {
       {state === "speaking" ? dict.reading.readAloudStop : dict.reading.readAloud}
     </button>
   );
+}
+
+/**
+ * The active IELTS Academic passage (mode ACADEMIC_EXAM, src/lib/reading/lexical-policy.ts).
+ * Plain text by design: no word buttons, no keyboard word cursor, no pointer, no
+ * vocabulary styling and no lexical data in the props — whatever lexical rows exist
+ * in the database. Native selection/copy still works.
+ */
+function ExamPassageText({ text, className }: { text: string; className: string }) {
+  return <div className={`whitespace-pre-line ${className}`} data-exam-passage-text>{text}</div>;
 }
