@@ -2085,6 +2085,8 @@ export const writingGradeRequests = pgTable("writing_grade_requests", {
   questionText: text("question_text").notNull(),
   essayText: text("essay_text").notNull(),
   wordCount: integer("word_count").notNull(),
+  /** 0032: the published Task 1 prompt (and its visual) the essay answers, if chosen. */
+  promptId: uuid("prompt_id").references(() => writingPrompts.id, { onDelete: "set null" }),
   status: varchar("status", { length: 20 }).notNull().default("pending"),
   lastError: varchar("last_error", { length: 60 }),
   claimedAt: timestamp("claimed_at", { withTimezone: true }),

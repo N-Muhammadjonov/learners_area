@@ -19,12 +19,12 @@ export const GRADE_SOURCE_TYPE = "writing_grade";
 export const CLAIM_STALE_MS = 3 * 60_000;
 type Database = typeof db;
 
-export type GradeInput = { taskType: WritingTask; question: string; essay: string; idempotencyKey: string };
+export type GradeInput = { taskType: WritingTask; question: string; essay: string; idempotencyKey: string; promptId?: string | null };
 
 export async function createGradeRequest(userId: string, input: GradeInput, database: Database = db) {
   const inserted = await database.insert(writingGradeRequests).values({
     userId, taskType: input.taskType, questionText: input.question.trim(), essayText: input.essay,
-    wordCount: countEssayWords(input.essay), idempotencyKey: input.idempotencyKey,
+    wordCount: countEssayWords(input.essay), idempotencyKey: input.idempotencyKey, promptId: input.promptId ?? null,
   }).onConflictDoNothing({ target: [writingGradeRequests.userId, writingGradeRequests.idempotencyKey] }).returning();
   if (inserted[0]) return { row: inserted[0], created: true };
   const existing = await database.query.writingGradeRequests.findFirst({

@@ -77,7 +77,7 @@ export default async function WritingExamPaperPage({ params }: { params: Promise
               {grade?.status === "evaluated" ? (
                 <Link className="btn-secondary min-h-11 self-start" href={`/writing/grade/${grade.requestId}`}>{t.viewGrade}{grade.overall != null ? ` · ${grade.overall.toFixed(1)}` : ""}</Link>
               ) : aiReady && paper.finalizeReason !== "abandoned" && words >= MIN_GRADE_WORDS ? (
-                <ExamGradeButton taskType={e.taskType} question={e.prompt} essay={e.content} idempotencyKey={examGradeKey(paper.id, e.position)}
+                <ExamGradeButton taskType={e.taskType} question={e.prompt} essay={e.content} idempotencyKey={examGradeKey(paper.id, e.position)} promptId={e.promptId}
                   labels={{ grade: grade ? t.viewGrade : t.gradeWithAi, grading: t.grading, failed: t.gradeFailed }} />
               ) : null}
             </article>

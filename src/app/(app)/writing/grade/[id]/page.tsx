@@ -9,6 +9,9 @@ import { formatDateTime } from "@/lib/time";
 import { BackLink } from "@/components/ui/BackLink";
 import { NotMigrated } from "@/components/writing/workspace/NotMigrated";
 import { GradeRetryButton } from "@/components/writing/workspace/GradeRetryButton";
+import { annotateEssay } from "@/lib/writing/annotate";
+import { resourceBlocksForPrompts } from "@/lib/data/writing";
+import { ResourceBlocks } from "@/components/resources/ResourceBlocks";
 
 export const dynamic = "force-dynamic";
 
@@ -23,10 +26,12 @@ export default async function WritingGradeResultPage({ params, searchParams }: {
   if (!isUuid(id)) notFound();
   const dict = getDictionary(locale);
   const t = dict.writingWorkspace.grade;
+  const gx = dict.writingWorkspace.gradeExtra;
   const view = await safeWritingQuery(() => getGradeView(id, user.id));
   if (!view.ok) return <div className="mx-auto max-w-5xl"><NotMigrated dict={dict} /></div>;
   if (!view.value) notFound();
   const { request, evaluation, analysis } = view.value;
+  const visualBlocks = request.promptId ? (await resourceBlocksForPrompts([request.promptId])).get(request.promptId) ?? [] : [];
   const fl: "uz" | "en" = sp.fl === "uz" || sp.fl === "en" ? sp.fl : locale === "uz" ? "uz" : "en";
   const other = fl === "uz" ? "en" : "uz";
   const taskLabel = request.taskType === "task1" ? dict.writing.task1 : dict.writing.task2;
@@ -45,6 +50,8 @@ export default async function WritingGradeResultPage({ params, searchParams }: {
           <Link href="/writing?tab=grade" className="btn-secondary">{t.writeAnother}</Link>
         </div>
       </header>
+
+      {visualBlocks.length > 0 && <ResourceBlocks dict={dict} blocks={visualBlocks} title={gx.visual} lexicalAssistance={false} />}
 
       {!evaluation ? (
         <section className="card flex flex-col gap-3 p-5" data-grade-state={request.status}>
@@ -89,11 +96,22 @@ export default async function WritingGradeResultPage({ params, searchParams }: {
                 </div>
               </div>
               {analysis.sentenceFeedback.length > 0 && (
+                <section className="card p-5" data-grade-annotated>
+                  <h2 className="font-display text-lg text-ink-900">{gx.annotated}</h2>
+                  <p className="mb-3 text-sm text-ink-500">{gx.annotatedHint}</p>
+                  <p className="whitespace-pre-line text-base leading-relaxed text-ink-900">
+                    {annotateEssay(request.essayText, analysis.sentenceFeedback).map((seg, i) => seg.mark == null ? <span key={i}>{seg.text}</span> : (
+                      <mark key={i} className="rounded bg-amber-100 px-0.5 text-ink-900 dark:bg-amber-900/40">{seg.text}<a href={`#sf-${seg.mark}`} className="ml-0.5 align-super text-xs font-semibold text-signal-700 dark:text-signal-300">{seg.mark}</a></mark>
+                    ))}
+                  </p>
+                </section>
+              )}
+              {analysis.sentenceFeedback.length > 0 && (
                 <section className="card p-5" data-grade-sentences>
                   <h2 className="mb-3 font-display text-lg text-ink-900">{t.sentences}</h2>
                   <ol className="flex flex-col gap-3">
                     {analysis.sentenceFeedback.map((s) => (
-                      <li key={`${s.index}-${s.original}`} className="rounded-md border border-ink-100 p-3 text-sm">
+                      <li key={`${s.index}-${s.original}`} id={`sf-${s.index}`} className="scroll-mt-24 rounded-md border border-ink-100 p-3 text-sm">
                         <p className="text-ink-500"><span className="font-semibold">#{s.index}</span> <span className="line-through decoration-band-bad/60">{s.original}</span></p>
                         <p className="mt-1 text-ink-900">{s.improved}</p>
                         <p className="mt-1 text-ink-500">{s.note[fl]}</p>

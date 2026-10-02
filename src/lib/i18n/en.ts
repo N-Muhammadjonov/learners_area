@@ -2316,6 +2316,18 @@ const en = {
       empty: "Nothing matches these filters yet.",
       noPatterns: "No published phrases or frames for this choice yet. Your teacher adds them in Management.",
     },
+    gradeExtra: {
+      source: "Question source",
+      ownQuestion: "Type my own question",
+      published: "Choose a published Task 1 question",
+      pick: "Published question",
+      pickPlaceholder: "Select a question…",
+      visualNote: "The chart or diagram is shown to you and kept with your result. The AI grades against the exact question wording; it does not see the image.",
+      draftSaved: "Draft saved on this device",
+      annotated: "Your essay with corrections",
+      annotatedHint: "Highlighted sentences have a correction below — the number links to it.",
+      visual: "Task 1 visual",
+    },
   },
 };
 

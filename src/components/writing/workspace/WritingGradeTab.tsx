@@ -4,6 +4,8 @@ import { listMyEssays } from "@/lib/services/writing/grade";
 import { safeWritingQuery } from "@/lib/writing/safe-query";
 import { writingAiReady } from "@/lib/writing/ai-readiness";
 import { GradeForm } from "./GradeForm";
+import { liveTask1Prompts } from "@/lib/data/writing";
+import { ResourceBlocks } from "@/components/resources/ResourceBlocks";
 import { formatDateTime } from "@/lib/time";
 import type { Locale } from "@/lib/i18n";
 import { NotMigrated } from "./NotMigrated";
@@ -13,6 +15,8 @@ export async function WritingGradeTab({ dict, userId, view, locale }: { dict: Di
   const t = dict.writingWorkspace.grade;
   const aiReady = writingAiReady();
   const essays = view === "essays" ? await safeWritingQuery(() => listMyEssays(userId)) : null;
+  const task1 = view === "new" ? await liveTask1Prompts().catch(() => []) : [];
+  const visuals = Object.fromEntries(task1.filter((p) => p.blocks.length).map((p) => [p.id, <ResourceBlocks key={p.id} dict={dict} blocks={p.blocks} title={dict.writingWorkspace.gradeExtra.visual} lexicalAssistance={false} />]));
   return (
     <section className="flex flex-col gap-4">
       <div>
@@ -27,7 +31,7 @@ export async function WritingGradeTab({ dict, userId, view, locale }: { dict: Di
       {!aiReady && <p role="status" className="rounded-md border border-amber-300 bg-amber-50 p-3 text-sm text-ink-700 dark:bg-amber-950/30" data-grade-ai-unavailable>{t.aiUnavailable}</p>}
       {view === "new" ? (
         <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_18rem]">
-          <div className="card p-5"><GradeForm dict={dict} /></div>
+          <div className="card p-5"><GradeForm dict={dict} task1Prompts={task1.map((p) => ({ id: p.id, category: p.category, prompt: p.prompt }))} visuals={visuals} /></div>
           <aside className="card h-fit p-5 text-sm text-ink-700" data-grade-how>
             <p className="mb-2 font-semibold text-ink-900">{t.howTitle}</p>
             <ul className="list-disc space-y-1 pl-5">{t.how.map((line) => <li key={line}>{line}</li>)}</ul>

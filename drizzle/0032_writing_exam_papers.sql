@@ -1,5 +1,5 @@
 -- 0032 Real Exam papers (Task 1 / Task 2 / Full Writing).
--- Additive only: two NEW tables. 0031's writing_exam_sessions (one submission,
+-- Additive only: two NEW tables + one nullable column on writing_grade_requests. 0031's writing_exam_sessions (one submission,
 -- 1200/2400 s) is left untouched and stays valid; it cannot represent a 60-min
 -- paper holding two tasks, so Real Exam uses this parent/child model instead.
 -- One paper = one server deadline (started_at + duration = expires_at) shared
@@ -37,3 +37,8 @@ CREATE TABLE writing_exam_paper_entries (
  PRIMARY KEY (paper_id, position),
  UNIQUE (paper_id, task_type)
 )
+--> statement-breakpoint
+-- Grade My Work Task 1 visual: an optional link to the published prompt whose
+-- chart/map/process the learner answered (Learners Area-owned material only).
+-- Nullable, additive; every existing 0031 row stays valid with NULL.
+ALTER TABLE writing_grade_requests ADD COLUMN prompt_id uuid REFERENCES writing_prompts(id) ON DELETE SET NULL

@@ -144,3 +144,28 @@ test("W8 0031 constraints: exam timer truth and grade snapshot bounds are enforc
     assert.ok(checks.some((c) => /1200.*2400/.test(c.def)));
   } finally { await t.close(); }
 });
+
+test("G1–G5 Grade My Work additions: writing readiness, Task 1 visual link, annotated essay, no regrade on view", async () => {
+  const { readFileSync } = await import("node:fs");
+  const { annotateEssay } = await import("../src/lib/writing/annotate");
+  // G1 readiness is the Writing capability, not Speaking.
+  assert.match(readFileSync("src/components/writing/workspace/WritingGradeTab.tsx", "utf8"), /writingAiReady\(\)/);
+  // G2 a chosen published prompt is authoritative and stored with the request.
+  const route = readFileSync("src/app/api/writing/grade/route.ts", "utf8");
+  assert.match(route, /livePromptForGrade\(parsed\.data\.promptId, parsed\.data\.taskType\)/);
+  assert.match(route, /question: prompt\.prompt, promptId: prompt\.id/);
+  const t = await createTestDatabase();
+  try {
+    const cols = await t.query<{ column_name: string }>(`SELECT column_name FROM information_schema.columns WHERE table_name = 'writing_grade_requests'`);
+    assert.ok(cols.some((c) => c.column_name === "prompt_id"));
+  } finally { await t.close(); }
+  // Annotated essay marks only verbatim quotes, never invented text.
+  const essay = "First sentence is fine. Second sentense has error. Third.";
+  const segs = annotateEssay(essay, [{ index: 2, original: "Second sentense has error." }, { index: 5, original: "Not in the essay." }]);
+  assert.equal(segs.map((s) => s.text).join(""), essay);
+  assert.deepEqual(segs.filter((s) => s.mark != null).map((s) => s.mark), [2]);
+  // G4/G5 the result page never calls a provider.
+  const page = readFileSync("src/app/(app)/writing/grade/[id]/page.tsx", "utf8");
+  assert.doesNotMatch(page, /runGrade|evaluateAndPersist|resolveEvaluation/);
+  assert.match(page, /data-grade-annotated/);
+});

@@ -2311,6 +2311,18 @@ const uz: Dictionary = {
       empty: "Bu filtrlarga mos narsa hozircha yo'q.",
       noPatterns: "Bu tanlov uchun hali ibora yoki qolip e'lon qilinmagan. O'qituvchingiz ularni Boshqaruv bo'limida qo'shadi.",
     },
+    gradeExtra: {
+      source: "Savol manbai",
+      ownQuestion: "O'z savolimni yozaman",
+      published: "E'lon qilingan Task 1 savolini tanlash",
+      pick: "E'lon qilingan savol",
+      pickPlaceholder: "Savolni tanlang…",
+      visualNote: "Diagramma yoki chizma sizga ko'rsatiladi va natijangiz bilan saqlanadi. AI aniq savol matni bo'yicha baholaydi; u rasmni ko'rmaydi.",
+      draftSaved: "Qoralama shu qurilmada saqlandi",
+      annotated: "Tuzatishlar bilan inshongiz",
+      annotatedHint: "Belgilangan gaplar uchun pastda tuzatish bor — raqam unga olib boradi.",
+      visual: "Task 1 tasviri",
+    },
   },
 };
 

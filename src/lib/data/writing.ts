@@ -150,3 +150,22 @@ export async function resourceBlocksForPrompts(promptIds: string[]): Promise<Map
   }
   return out;
 }
+
+/** A live prompt of the given task, for Grade My Work's "choose a published question". */
+export async function livePromptForGrade(promptId: string, taskType: "task1" | "task2") {
+  const row = await db.query.writingPrompts.findFirst({
+    where: and(eq(writingPrompts.id, promptId), eq(writingPrompts.taskType, taskType), liveWhere({ publicationState: writingPrompts.publicationState, publishAt: writingPrompts.publishAt })),
+    columns: { id: true, prompt: true, taskType: true },
+  });
+  return row ?? null;
+}
+
+/** Live Task 1 prompts with their attached visuals (chart, map, process). */
+export async function liveTask1Prompts() {
+  const prompts = await db.select({ id: writingPrompts.id, category: writingPrompts.category, prompt: writingPrompts.prompt })
+    .from(writingPrompts)
+    .where(and(eq(writingPrompts.taskType, "task1"), liveWhere({ publicationState: writingPrompts.publicationState, publishAt: writingPrompts.publishAt })))
+    .orderBy(asc(writingPrompts.category));
+  const blocks = await resourceBlocksForPrompts(prompts.map((p) => p.id));
+  return prompts.map((p) => ({ ...p, blocks: blocks.get(p.id) ?? [] }));
+}

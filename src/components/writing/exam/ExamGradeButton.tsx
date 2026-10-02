@@ -8,8 +8,8 @@ import { useRouter } from "next/navigation";
  * idempotency key is derived from paper + position on the server side of the
  * contract, so pressing twice never creates a second grade or provider call.
  */
-export function ExamGradeButton({ taskType, question, essay, idempotencyKey, labels }: {
-  taskType: "task1" | "task2"; question: string; essay: string; idempotencyKey: string;
+export function ExamGradeButton({ taskType, question, essay, idempotencyKey, promptId, labels }: {
+  taskType: "task1" | "task2"; question: string; essay: string; idempotencyKey: string; promptId: string;
   labels: { grade: string; grading: string; failed: string };
 }) {
   const router = useRouter();
@@ -18,7 +18,7 @@ export function ExamGradeButton({ taskType, question, essay, idempotencyKey, lab
   const run = async () => {
     setBusy(true); setError(false);
     try {
-      const res = await fetch("/api/writing/grade", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ taskType, question, essay, idempotencyKey }) });
+      const res = await fetch("/api/writing/grade", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ taskType, question, essay, idempotencyKey, promptId }) });
       const data = (await res.json().catch(() => null)) as { id?: string; ok?: boolean } | null;
       if (data?.id) { router.push(`/writing/grade/${data.id}`); return; }
       setError(true);
