@@ -204,6 +204,13 @@
       "when": 1790857800000,
       "tag": "0028_full_listening",
       "breakpoints": true
+    },
+    {
+      "idx": 29,
+      "version": "7",
+      "when": 1790900000000,
+      "tag": "0029_vocabulary_architecture",
+      "breakpoints": true
     }
   ]
 }

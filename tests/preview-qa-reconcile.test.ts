@@ -8,8 +8,13 @@ import { createTestDatabase } from "./support/pglite";
 // @ts-expect-error inspected local ESM utility
 import { assess, readEvidence, verifyBackup, reconcile, TARGET } from "../scripts/preview-qa-reconcile-0021.mjs";
 // @ts-expect-error inspected local ESM utility
-import { fingerprint, serverIdentityHash, qaConnectionOptions } from "../scripts/preview-qa-migrate.mjs";
-const journal=JSON.parse(readFileSync("drizzle/meta/_journal.json","utf8")) as {entries:{tag:string;when:number;idx:number}[]};
+import { fingerprint, serverIdentityHash, qaConnectionOptions, ALLOWED_PENDING } from "../scripts/preview-qa-migrate.mjs";
+const fullJournal=JSON.parse(readFileSync("drizzle/meta/_journal.json","utf8")) as {entries:{tag:string;when:number;idx:number}[]};
+// The 0021 repair is evaluated against the journal the Preview QA guard is approved
+// for (through the last ALLOWED_PENDING tag). Later migrations are not approved for
+// Preview QA and must make the full-journal assessment refuse — asserted below.
+const approvedUntil=Math.max(...fullJournal.entries.filter(e=>ALLOWED_PENDING.includes(e.tag)).map(e=>e.idx));
+const journal={...fullJournal,entries:fullJournal.entries.filter(e=>e.idx<=approvedUntil)};
 const sql=(tag:string)=>readFileSync(`drizzle/${tag}.sql`,"utf8");
 const hash=(tag:string)=>createHash("sha256").update(sql(tag)).digest("hex");
 const history=journal.entries.filter(e=>e.idx<=24 && e.tag!==TARGET).map(e=>({hash:hash(e.tag),created_at:String(e.when)}));
@@ -71,4 +76,11 @@ test("Actual migrated PostgreSQL DDL is inspected; one journal entry is added tr
   await assert.rejects(reconcile({...opts,env:{...env,PREVIEW_QA_SERVER_IDENTITY:"wrong"}}),/server identity mismatch/);
   await assert.rejects(reconcile({...opts,env:{...env,VERCEL_ENV:"production"}}),/production/);
  }finally{await d.close();}
+});
+test("A migration newer than the approved Preview QA set is refused, never silently allowed",()=>{
+ const unapproved=fullJournal.entries.filter(e=>e.idx>approvedUntil);
+ if(!unapproved.length) return;
+ const result=assess(evidence,fullJournal,sql);
+ assert.equal(result.eligible,false);
+ for(const e of unapproved) assert.ok(result.problems.includes(`pending ${e.tag} is not approved`),e.tag);
 });

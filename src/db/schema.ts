@@ -12,8 +12,10 @@ import {
   real,
   index,
   uniqueIndex,
+  smallint,
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
+import type { AnyPgColumn } from "drizzle-orm/pg-core";
 
 // ---------------------------------------------------------------------------
 // Enums
@@ -1035,9 +1037,15 @@ export const lexemes = pgTable(
     provenance: varchar("provenance", { length: 20 }),
     verificationStatus: varchar("verification_status", { length: 24 }),
     importBatch: varchar("import_batch", { length: 80 }),
+    /**
+     * The LEXEME (lexical unit) this sense belongs to (0029). This row's own id
+     * stays the sense identity: nothing that references `lexemes.id` changed.
+     */
+    lexicalUnitId: uuid("lexical_unit_id").references((): AnyPgColumn => lexicalUnits.id, { onDelete: "restrict" }),
   },
   (table) => ({
     termIdx: index("lexemes_term_idx").on(table.term),
+    unitIdx: index("lexemes_lexical_unit_idx").on(table.lexicalUnitId),
     senseKeyIdx: uniqueIndex("lexemes_sense_key_idx").on(table.senseKey),
   })
 );
@@ -1059,12 +1067,24 @@ export const lexicalOccurrences = pgTable(
   "lexical_occurrences",
   {
     id: uuid("id").defaultRandom().primaryKey(),
-    lexemeId: uuid("lexeme_id")
-      .notNull()
-      .references(() => lexemes.id, { onDelete: "cascade" }),
-    passageId: uuid("passage_id")
-      .notNull()
-      .references(() => readingPassages.id, { onDelete: "cascade" }),
+    /** The exact SENSE. Null only while `resolution_status` is not "resolved" (DB CHECK). */
+    lexemeId: uuid("lexeme_id").references(() => lexemes.id, { onDelete: "cascade" }),
+    /** reading | listening | video — exactly one matching source column is set (DB CHECK). */
+    sourceType: varchar("source_type", { length: 16 }).notNull().default("reading"),
+    passageId: uuid("passage_id").references(() => readingPassages.id, { onDelete: "cascade" }),
+    listeningTestId: uuid("listening_test_id").references(() => listeningTests.id, { onDelete: "cascade" }),
+    videoLessonId: uuid("video_lesson_id").references((): AnyPgColumn => videoLessons.id, { onDelete: "cascade" }),
+    /** Listening section (1–4); offsets are then relative to that section's transcript. */
+    sectionNumber: smallint("section_number"),
+    /** Audio time of the span when the source has word timing; null = not available, never estimated. */
+    startMs: integer("start_ms"),
+    endMs: integer("end_ms"),
+    /** Candidate lexeme for an unresolved span (no sense chosen). */
+    lexicalUnitId: uuid("lexical_unit_id").references((): AnyPgColumn => lexicalUnits.id, { onDelete: "set null" }),
+    /** resolved | unresolved | review */
+    resolutionStatus: varchar("resolution_status", { length: 16 }).notNull().default("resolved"),
+    /** Who linked the sense: e.g. "reading_import", "listening_package". */
+    resolutionSource: varchar("resolution_source", { length: 24 }),
     /** Segment key inside the source package ("p1") — internal traceability. */
     segmentKey: varchar("segment_key", { length: 40 }),
     surfaceForm: varchar("surface_form", { length: 120 }).notNull(),
@@ -1083,6 +1103,10 @@ export const lexicalOccurrences = pgTable(
       table.endChar
     ),
     lexemeIdx: index("lexical_occurrences_lexeme_idx").on(table.lexemeId),
+    listeningOffsetIdx: uniqueIndex("lexical_occurrences_listening_offset_idx")
+      .on(table.listeningTestId, table.sectionNumber, table.startChar, table.endChar)
+      .where(sql`listening_test_id IS NOT NULL`),
+    unitIdx: index("lexical_occurrences_unit_idx").on(table.lexicalUnitId),
   })
 );
 
@@ -1132,10 +1156,92 @@ export const userVocabulary = pgTable(
     lastReviewedAt: timestamp("last_reviewed_at", { withTimezone: true }),
     masteredAt: timestamp("mastered_at", { withTimezone: true }),
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    /** Exposure (0029): first/last time this learner met this sense in a source, and how often. */
+    firstSeenAt: timestamp("first_seen_at", { withTimezone: true }).defaultNow().notNull(),
+    lastSeenAt: timestamp("last_seen_at", { withTimezone: true }).defaultNow().notNull(),
+    seenCount: integer("seen_count").notNull().default(1),
   },
   (table) => ({
     libraryIdx: index("user_vocabulary_user_idx").on(table.userId, table.nextReviewAt),
     senseIdx: index("user_vocabulary_sense_idx").on(table.userId, table.senseKey),
+  })
+);
+
+/**
+ * The LEXEME layer (0029): one canonical lexical unit — language + normalized
+ * lemma + part of speech + lexical type. Its senses are `lexemes` rows.
+ */
+export const lexicalUnits = pgTable(
+  "lexical_units",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    language: varchar("language", { length: 8 }).notNull().default("en"),
+    lemma: varchar("lemma", { length: 120 }).notNull(),
+    lemmaNorm: varchar("lemma_norm", { length: 120 }).notNull(),
+    partOfSpeech: varchar("part_of_speech", { length: 30 }).notNull().default(""),
+    lexicalType: varchar("lexical_type", { length: 24 }).notNull().default("word"),
+    isFunctionWord: boolean("is_function_word").notNull().default(false),
+    provenance: varchar("provenance", { length: 24 }),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => ({
+    identityIdx: uniqueIndex("lexical_units_identity_idx").on(table.language, table.lemmaNorm, table.partOfSpeech, table.lexicalType),
+  })
+);
+
+/** Surface forms of a unit (lemma, regular/irregular inflections, authored variants). */
+export const lexicalUnitForms = pgTable(
+  "lexical_unit_forms",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    lexicalUnitId: uuid("lexical_unit_id").notNull().references(() => lexicalUnits.id, { onDelete: "cascade" }),
+    form: varchar("form", { length: 160 }).notNull(),
+    formNorm: varchar("form_norm", { length: 160 }).notNull(),
+    formType: varchar("form_type", { length: 16 }).notNull(),
+  },
+  (table) => ({
+    unitFormIdx: uniqueIndex("lexical_unit_forms_unit_form_idx").on(table.lexicalUnitId, table.formNorm),
+    formIdx: index("lexical_unit_forms_form_idx").on(table.formNorm),
+  })
+);
+
+/** Pronunciation of a unit. No row = not known; a pronunciation is never fabricated. */
+export const lexicalUnitPronunciations = pgTable(
+  "lexical_unit_pronunciations",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    lexicalUnitId: uuid("lexical_unit_id").notNull().references(() => lexicalUnits.id, { onDelete: "cascade" }),
+    ipa: varchar("ipa", { length: 120 }).notNull(),
+    variant: varchar("variant", { length: 8 }).notNull().default(""),
+    audioObjectKey: text("audio_object_key"),
+    provenance: varchar("provenance", { length: 24 }).notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => ({
+    unitVariantIdx: uniqueIndex("lexical_unit_pronunciations_unit_variant_idx").on(table.lexicalUnitId, table.variant),
+  })
+);
+
+/**
+ * Every place THIS learner met a saved sense (0029). Many per student item;
+ * the snapshot survives source deletion (occurrence_id then becomes null).
+ */
+export const userVocabularyContexts = pgTable(
+  "user_vocabulary_contexts",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userVocabularyId: uuid("user_vocabulary_id").notNull().references(() => userVocabulary.id, { onDelete: "cascade" }),
+    userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    occurrenceId: uuid("occurrence_id").references(() => lexicalOccurrences.id, { onDelete: "set null" }),
+    sourceType: varchar("source_type", { length: 16 }).notNull(),
+    sourceId: uuid("source_id"),
+    snapshot: jsonb("snapshot").$type<import("@/lib/services/lexical/context").VocabularySourceSnapshot>().notNull(),
+    seenAt: timestamp("seen_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => ({
+    itemOccurrenceIdx: uniqueIndex("user_vocabulary_contexts_item_occurrence_idx").on(table.userVocabularyId, table.occurrenceId),
+    userIdx: index("user_vocabulary_contexts_user_idx").on(table.userId, table.userVocabularyId),
+    occurrenceIdx: index("user_vocabulary_contexts_occurrence_idx").on(table.occurrenceId),
   })
 );
 

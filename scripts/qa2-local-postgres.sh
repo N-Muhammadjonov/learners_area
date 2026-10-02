@@ -14,7 +14,7 @@ for it in json.load(open('package/native/pg-symlinks.json')):
 P
 fi
 export LD_LIBRARY_PATH=$DIR/package/native/lib
-[ -d data ] || package/native/bin/initdb -D data -U postgres --auth=trust >/dev/null
+[ -d data ] || package/native/bin/initdb -D data -U postgres --auth=trust -E UTF8 --locale=C >/dev/null
 package/native/bin/pg_ctl -D data -l log -o "-p 5432 -k /tmp -c listen_addresses=localhost" start
 echo "Now: create database learners_qa2; DATABASE_URL=postgres://postgres@localhost:5432/learners_qa2 npx drizzle-kit migrate;"
 echo "insert one active owner and one active student fixture; then:"
