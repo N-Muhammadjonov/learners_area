@@ -24,6 +24,7 @@ export async function GET(req: NextRequest) {
   }
   const result = await resolveOccurrence(user, sourceType, sourceId, occurrenceId);
   if (!result) return NextResponse.json({ error: "source_not_found" }, { status: 404, headers });
+  if (result.status === "locked") return NextResponse.json({ error: "lexical_assistance_locked" }, { status: 403, headers });
   if (result.status === "unresolved") {
     return NextResponse.json({ status: "unresolved", occurrenceId, surfaceForm: result.snapshot.surfaceForm, contextual: null, known: null }, { headers });
   }

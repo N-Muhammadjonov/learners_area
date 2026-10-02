@@ -2,7 +2,8 @@ import "server-only";
 import { and, eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { lexicalOccurrences, lexemes, lexicalUnitPronunciations, lexicalUnits, readingAttempts, readingPassages } from "@/db/schema";
-import { fullListeningDetail } from "@/lib/data/full-listening";
+import { fullListeningDetail, listeningExamState } from "@/lib/data/full-listening";
+import { lexicalAssistanceAllowed } from "@/lib/listening/lexical-policy";
 import { sentenceAt } from "./listening-occurrences";
 import type { Role } from "@/lib/auth/roles";
 import { isLive } from "@/lib/services/cms/publication";
@@ -65,6 +66,8 @@ export async function resolveReadingOccurrence(userId: string, sourceId: string,
 
 export type OccurrenceResolution =
   | { status: "resolved"; lexeme: typeof lexemes.$inferSelect; snapshot: VocabularySourceSnapshot }
+  /** Listening content exists and is accessible, but the learner's mode forbids lexical help (exam not submitted / exam open). */
+  | { status: "locked"; lexeme: null; snapshot: null }
   /** The span is known but no sense has been checked for it. Never paired with a meaning. */
   | { status: "unresolved"; lexeme: null; snapshot: Omit<VocabularySourceSnapshot, "lexemeId"> & { lexemeId: null } };
 
@@ -77,6 +80,8 @@ export type OccurrenceResolution =
 export async function resolveListeningOccurrence(user: { id: string; role: Role }, testId: string, occurrenceId: string): Promise<OccurrenceResolution | null> {
   const detail = await fullListeningDetail(testId, user.role);
   if (!detail) return null;
+  // Exam integrity: occurrence data may exist before the exam; revealing it may not.
+  if (!lexicalAssistanceAllowed("REVIEW_CONTROL", await listeningExamState(user, testId))) return { status: "locked", lexeme: null, snapshot: null };
   const occurrence = await db.query.lexicalOccurrences.findFirst({
     where: and(eq(lexicalOccurrences.id, occurrenceId), eq(lexicalOccurrences.listeningTestId, testId), eq(lexicalOccurrences.sourceType, "listening")),
   });

@@ -183,3 +183,16 @@ export async function allowedListeningSpeeds(userId: string, testId: string) {
   }
   return allowed;
 }
+
+/** Exam state the Listening lexical policy needs (src/lib/listening/lexical-policy.ts). */
+export async function listeningExamState(user: { id: string; role: Role }, testId: string) {
+  const rows = await db
+    .select({ status: listeningAttempts.status })
+    .from(listeningAttempts)
+    .where(and(eq(listeningAttempts.userId, user.id), eq(listeningAttempts.testId, testId)));
+  return {
+    submitted: rows.some((row) => row.status === "completed"),
+    examInProgress: rows.some((row) => row.status === "in_progress"),
+    staff: isStaff(user.role),
+  };
+}
