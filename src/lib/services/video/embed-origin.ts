@@ -31,8 +31,13 @@ export function resolveEmbedOrigin(
   env: Record<string, string | undefined> = process.env,
 ): string | null {
   if (configured) {
-    const origin = normalizeOrigin(configured);
-    if (origin) return origin;
+    const normalized = normalizeOrigin(configured);
+    if (normalized) {
+      const url = new URL(normalized);
+      const protocol = url.protocol === "http:" ? "http" : "https";
+      const origin = fromHost(protocol, url.host);
+      if (origin) return origin;
+    }
   }
   const trustProxy = env.TRUST_PROXY_HEADERS === "true" || (env.TRUST_PROXY_HEADERS !== "false" && env.VERCEL === "1");
   if (trustProxy) {

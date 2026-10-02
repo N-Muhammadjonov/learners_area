@@ -208,10 +208,13 @@ export function VideoLessonStudio({
   // watchedSeconds monotonic and decides the state (`ended` is a report).
   const flushFinalProgress = useCallback(() => {
     if (finalizedGenerationRef.current === generationRef.current) return;
-    finalizedGenerationRef.current = generationRef.current;
     const duration = videoLesson.durationSeconds && videoLesson.durationSeconds > 0 ? videoLesson.durationSeconds : null;
-    const seconds = duration ?? liveTimeRef.current;
+    // END can arrive before YouTube's last position delivery. For an
+    // unknown-duration lesson, use the last server-acknowledged position as a
+    // safe fallback and do not consume this generation before a write exists.
+    const seconds = duration ?? liveTimeRef.current ?? (reportedRef.current > 0 ? reportedRef.current : null);
     if (seconds === null) return;
+    finalizedGenerationRef.current = generationRef.current;
     const controller = new AbortController();
     const deadline = setTimeout(() => controller.abort(), 12000);
     fetch(`/api/video-lessons/${videoLesson.id}/progress`, {

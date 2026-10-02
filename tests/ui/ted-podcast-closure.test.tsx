@@ -195,6 +195,17 @@ test("F5 END while a periodic write is in flight -> final write still sent", asy
     });
   } finally { f.restore(); }
 });
+test("F8 unknown-duration END without a fresh currentTime uses the last acknowledged position", async () => {
+  const f = mockFetch(() => ok());
+  try {
+    await mounted(studio("standalone", { initialProgress: { state: "in_progress", watchedSeconds: 35, answers: {}, responseText: null, summaryText: null } }, { durationSeconds: null }), async () => {
+      await act(async () => { post({ event: "onStateChange", info: 0 }); });
+      await tick();
+      assert.equal(finals(f.calls).length, 1);
+      assert.deepEqual(finals(f.calls)[0]!.body, { watchedSeconds: 35, ended: true });
+    });
+  } finally { f.restore(); }
+});
 test("F6/F7 forged END from a wrong origin or another window -> no final write, no end screen", async () => {
   const f = mockFetch(() => ok());
   try {
@@ -232,6 +243,7 @@ test("O1-O6 origin resolution is exact, safe and never *", () => {
   assert.equal(resolveEmbedOrigin(H({ host: "user:password@example.com" }), null, {}), null);
   assert.equal(resolveEmbedOrigin(H({}), "https://example.com/path", {}), null);
   assert.equal(resolveEmbedOrigin(H({}), "https://user:pw@example.com", {}), null);
+  assert.equal(resolveEmbedOrigin(H({}), "https://*.example.com", {}), null, "configured wildcard hosts are rejected");
   assert.equal(resolveEmbedOrigin(H({ host: "*" }), null, {}), null);
   assert.equal(resolveEmbedOrigin(H({ host: "x", "x-forwarded-host": "*", "x-forwarded-proto": "https" }), null, { VERCEL: "1" }), "https://x");
   assert.equal(resolveEmbedOrigin(H({ host: "[::1]:3000" }), null, {}), "http://[::1]:3000");

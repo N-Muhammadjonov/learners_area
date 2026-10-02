@@ -68,3 +68,14 @@ test("W12 superseded UI: native captions replace the reveal; legacy transcript s
     assert.match(read(page), /transcriptText: (video\.)?videoLesson\.transcriptText \?\? null/);
   }
 });
+
+
+test("standalone learner loader never fetches historical question rows", () => {
+  const data = read("src/lib/data/video-lessons.ts");
+  const fn = data.slice(
+    data.indexOf("export async function getStandaloneVideoLesson"),
+    data.indexOf("export async function listStandaloneVideoLessonsForStudent")
+  );
+  assert.doesNotMatch(fn, /videoLessonQuestions/, "standalone payload must not load stale question rows");
+  assert.match(fn, /questions: \[\]/);
+});

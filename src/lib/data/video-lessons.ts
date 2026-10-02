@@ -141,16 +141,13 @@ export async function getStandaloneVideoLesson(videoLessonId: string, userId: st
     })),
   });
   if (!videoLesson) return null;
-  const [questions, progress] = await Promise.all([
-    db.query.videoLessonQuestions.findMany({
-      where: eq(videoLessonQuestions.videoLessonId, videoLesson.id),
-      orderBy: asc(videoLessonQuestions.position),
-    }),
-    db.query.videoLessonProgress.findFirst({
-      where: and(eq(videoLessonProgress.videoLessonId, videoLesson.id), eq(videoLessonProgress.userId, userId)),
-    }),
-  ]);
-  return { videoLesson, questions, progress: progress ?? null };
+  // Standalone TED / PODCAST never exposes authored questions. Historical rows
+  // remain non-destructively in storage, but are not loaded into the learner
+  // payload at all.
+  const progress = await db.query.videoLessonProgress.findFirst({
+    where: and(eq(videoLessonProgress.videoLessonId, videoLesson.id), eq(videoLessonProgress.userId, userId)),
+  });
+  return { videoLesson, questions: [], progress: progress ?? null };
 }
 
 /** Live standalone items for the learner index, newest first, bounded. */
