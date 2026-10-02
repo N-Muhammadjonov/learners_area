@@ -14,6 +14,7 @@ import {
   uniqueIndex,
   smallint,
   primaryKey,
+  unique,
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 import type { AnyPgColumn } from "drizzle-orm/pg-core";
@@ -2189,6 +2190,25 @@ export const writingLanguagePatterns = pgTable("writing_language_patterns", {
   sourceRef: varchar("source_ref", { length: 80 }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
+
+/** Language Stealing 7-step workflow (0032). One resumable row per learner per model text. */
+export const writingStealingSessions = pgTable("writing_stealing_sessions", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  modelTextId: uuid("model_text_id").notNull().references(() => writingModelTexts.id, { onDelete: "cascade" }),
+  step: smallint("step").notNull().default(1),
+  brainstorm: text("brainstorm"),
+  draft: text("draft"),
+  selectedPatternIds: jsonb("selected_pattern_ids").$type<string[]>().notNull().default([]),
+  comparison: text("comparison"),
+  memorisedPatternIds: jsonb("memorised_pattern_ids").$type<string[]>().notNull().default([]),
+  rewriteAvailableAt: timestamp("rewrite_available_at", { withTimezone: true }),
+  rewrite: text("rewrite"),
+  rewritePatternIds: jsonb("rewrite_pattern_ids").$type<string[]>().notNull().default([]),
+  completedAt: timestamp("completed_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => [unique("writing_stealing_sessions_user_id_model_text_id_key").on(table.userId, table.modelTextId)]);
 
 export const writingPatternBank = pgTable("writing_pattern_bank", {
   userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
