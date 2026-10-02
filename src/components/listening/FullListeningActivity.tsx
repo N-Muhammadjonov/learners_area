@@ -7,13 +7,16 @@ import { useEffect, useRef, useState } from "react";
 import { ACTIVITY_NAMES, type ListeningPackage } from "@/lib/listening/package";
 import { ClickableText } from "@/components/vocabulary/ClickableText";
 import type { OccurrenceSpan } from "@/lib/services/lexical/occurrence-spans";
+import type { VocabularySessionItem } from "@/lib/services/lexical/listening-occurrences";
 import type { Dictionary } from "@/lib/i18n/en";
 type Data = Partial<
   Pick<
     ListeningPackage,
-    "questions" | "sections" | "keyword1" | "keyword2" | "vocabulary"
+    "questions" | "sections" | "keyword1" | "keyword2"
   >
 > & {
+  /** Activity 5: package-curated items whose lexical truth is the canonical sense. */
+  vocabulary?: VocabularySessionItem[];
   report?: {
     score: number | null;
     total: number | null;
@@ -36,6 +39,7 @@ export function FullListeningActivity({
   initial,
   dict,
   occurrences = {},
+  lexicalAssistance = false,
 }: {
   id: string;
   userId: string;
@@ -46,6 +50,8 @@ export function FullListeningActivity({
   initial: Record<string, string>;
   dict: Dictionary;
   occurrences?: Record<number, OccurrenceSpan[]>;
+  /** Server decision from the Listening lexical policy (Review & Revision only). */
+  lexicalAssistance?: boolean;
 }) {
   const [answers, setAnswers] = useState(initial);
   const [error, setError] = useState("");
@@ -145,19 +151,25 @@ export function FullListeningActivity({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         signal: AbortSignal.timeout(12000),
-        body: JSON.stringify({
-          sourceType: "listening",
-          sourceId: id,
-          items: [
-            {
-              term: x.word,
-              definitionEn: x.def,
-              translationUz: x.uz,
-              exampleSentence: x.ex,
-              partOfSpeech: x.pos,
-            },
-          ],
-        }),
+        // A linked item saves its canonical sense (server re-validates it against
+        // this test's session list); an unlinked one falls back to the authored text.
+        body: JSON.stringify(
+          x.senseId
+            ? { sourceType: "listening", sourceId: id, sessionSenseId: x.senseId, items: [{ term: x.term }] }
+            : {
+                sourceType: "listening",
+                sourceId: id,
+                items: [
+                  {
+                    term: x.term,
+                    definitionEn: x.definitionEn,
+                    translationUz: x.translationUz,
+                    exampleSentence: x.example,
+                    partOfSpeech: x.partOfSpeech,
+                  },
+                ],
+              },
+        ),
       });
       if (!res.ok) throw new Error();
       setError("");
@@ -274,6 +286,7 @@ export function FullListeningActivity({
                       sourceId={id}
                       text={s.transcript}
                       occurrences={occurrences[s.number] ?? []}
+                      lexicalAssistance={lexicalAssistance}
                       catalogueLookup
                     />
                   ) : (
@@ -408,20 +421,16 @@ export function FullListeningActivity({
             </button>
           </nav>
           {data.vocabulary?.map((x, i) => (
-            <article key={x.word} className="card space-y-3">
+            <article key={`${i}:${x.term}`} className="card space-y-3" data-session-sense={x.senseId ?? ""}>
               {!quiz ? (
                 <>
                   <h2 className="font-display text-xl">
-                    {x.word} <span className="text-sm">{x.pos}</span>
+                    {x.term} <span className="text-sm">{x.partOfSpeech}</span>
+                    {x.ipa && <span className="ml-2 font-mono text-sm">/{x.ipa}/</span>}
                   </h2>
-                  <p>{x.uz}</p>
-                  <p>{x.def}</p>
-                  <ClickableText
-                    dict={dict}
-                    text={x.ex}
-                    sourceType="listening"
-                    sourceId={id}
-                  />
+                  {x.translationUz && <p>{x.translationUz}</p>}
+                  <p>{x.definitionEn}</p>
+                  <p className="academic-text">{x.example}</p>
                   <p>Also said as: {x.also.join(" · ")}</p>
                   <button
                     type="button"
@@ -432,7 +441,7 @@ export function FullListeningActivity({
                         return;
                       }
                       speechSynthesis.cancel();
-                      const utterance = new SpeechSynthesisUtterance(x.word);
+                      const utterance = new SpeechSynthesisUtterance(x.term);
                       utterance.lang = "en-GB";
                       speechSynthesis.speak(utterance);
                     }}

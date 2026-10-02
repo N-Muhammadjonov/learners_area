@@ -152,11 +152,15 @@ test("Vocabulary mounts without an audio element and makes zero media or API req
         data: {
           vocabulary: [
             {
-              word: "keen",
-              pos: "adjective",
-              uz: "ishtiyoqli",
-              def: "very interested",
-              ex: "I am keen.",
+              senseId: "11111111-1111-4111-8111-111111111111",
+              occurrenceId: null,
+              term: "keen",
+              partOfSpeech: "adjective",
+              translationUz: "ishtiyoqli",
+              definitionEn: "very interested",
+              lexicalType: "word",
+              ipa: null,
+              example: "I am keen.",
               also: ["eager"],
               quiz: {
                 q: "Meaning?",
@@ -281,6 +285,7 @@ test("Controlled study offers audio controls and lexical text without enabling a
           { number: 1, title: "Rent", transcript: "Weekly rent is eighty." },
         ],
         dict: en,
+        lexicalAssistance: true,
       }),
       async () => {
         assert.equal(
@@ -349,5 +354,65 @@ test("Controlled study restores only this owner/source draft and retains it when
   } finally {
     globalThis.fetch = original;
     sessionStorage.clear();
+  }
+});
+
+test("Same study content before exam submission: plain text, no word targets, no popup, no lookup request", async () => {
+  let calls = 0;
+  const original = globalThis.fetch;
+  globalThis.fetch = async () => { calls++; return new Response("{}", { status: 503 }); };
+  try {
+    await mount(
+      React.createElement(FullListeningStudy, {
+        id, userId: "qa-study", title: "Study", audioUrl: "/canonical.mp3", imageUrl: null,
+        questions: [{ number: 1, text: "Weekly rent", instruction: "One word", options: [] }],
+        sections: [{ number: 1, title: "Rent", transcript: "Weekly rent is eighty." }],
+        occurrences: { 1: [{ id: "occ-rent", startChar: 7, endChar: 11, surfaceForm: "rent" }] },
+        dict: en,
+        lexicalAssistance: false,
+      }),
+      async () => {
+        assert.ok(document.body.textContent?.includes("Weekly rent is eighty."), "the text itself is still readable");
+        assert.equal(document.querySelector("[data-clickable-text]"), null);
+        assert.equal(document.querySelector("[data-word],[data-token]"), null, "no vocabulary click target, cursor or highlight");
+        assert.ok(document.querySelector("[data-plain-text]"));
+        assert.equal(document.querySelector("[data-word-popover]"), null);
+        assert.equal(calls, 0);
+      },
+    );
+  } finally {
+    globalThis.fetch = original;
+  }
+});
+
+test("Vocabulary Session shows the CANONICAL sense, not a conflicting package definition, and saves by sense id", async () => {
+  const posted: Record<string, unknown>[] = [];
+  const original = globalThis.fetch;
+  globalThis.fetch = (async (_url: string, options: RequestInit) => {
+    posted.push(JSON.parse(String(options.body)));
+    return new Response(JSON.stringify({ ok: true }), { headers: { "Content-Type": "application/json" } });
+  }) as typeof fetch;
+  try {
+    await mount(
+      React.createElement(FullListeningActivity, {
+        id, userId: "qa-user", title: "Session", activity: 5, audioUrl: null, initial: {}, dict: en,
+        data: { vocabulary: [{
+          senseId: "22222222-2222-4222-8222-222222222222", occurrenceId: "33333333-3333-4333-8333-333333333333",
+          term: "bank", partOfSpeech: "noun", definitionEn: "CANONICAL: land beside a river", translationUz: "qirg'oq",
+          lexicalType: "word", ipa: null, example: "They sat on the river bank.", also: [],
+          quiz: { q: "Meaning?", options: ["river side", "money"], correct: 0 },
+        }] },
+      }),
+      async () => {
+        assert.ok(document.body.textContent?.includes("CANONICAL: land beside a river"));
+        assert.equal(document.querySelector("[data-session-sense]")?.getAttribute("data-session-sense"), "22222222-2222-4222-8222-222222222222");
+        assert.equal(document.querySelector("[data-clickable-text]"), null, "the session is its own study surface, not the transcript popup");
+        await act(async () => Array.from(document.querySelectorAll("button")).find((b) => b.textContent?.includes("+ Vocabulary"))!.click());
+        assert.equal(posted[0]?.sessionSenseId, "22222222-2222-4222-8222-222222222222");
+        assert.equal((posted[0]?.items as { definitionEn?: string }[])[0]?.definitionEn, undefined, "no local definition is sent as truth");
+      },
+    );
+  } finally {
+    globalThis.fetch = original;
   }
 });

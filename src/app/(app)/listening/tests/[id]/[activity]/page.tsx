@@ -1,5 +1,6 @@
 import { db } from "@/db/client";
-import { listeningOccurrenceSpans } from "@/lib/services/lexical/listening-occurrences";
+import { listeningOccurrenceSpans, listeningVocabularySession } from "@/lib/services/lexical/listening-occurrences";
+import { lexicalAssistanceAllowed, modeForActivity } from "@/lib/listening/lexical-policy";
 import type { McqStage } from "@/lib/services/listening/mcq-mastery";
 import {
   listMcqQuestions,
@@ -12,6 +13,7 @@ import {
   fullListeningDetail,
   hasFullExam,
   fullListeningProgress,
+  listeningExamState,
   allowedListeningSpeeds,
 } from "@/lib/data/full-listening";
 import { isUuid } from "@/lib/validation/ids";
@@ -33,6 +35,9 @@ export default async function Activity({
   if (n === 1) return <FullExamStart id={id} title={detail.test.title} />;
   if (!(await hasFullExam(user.id, id))) redirect(`/listening/tests/${id}`);
   const progress = await fullListeningProgress(user.id, id);
+  // Review & Revision is the transcript study surface; the exam itself (activity 1)
+  // never reaches this component, keyword drills keep their own interaction.
+  const lexicalAssistance = lexicalAssistanceAllowed(modeForActivity(n), await listeningExamState(user, id));
   const report =
     n === 2 && progress.exam
       ? await getAttemptDetail(progress.exam.id, user.id)
@@ -43,7 +48,7 @@ export default async function Activity({
   // Vocabulary route serializes neither audio URL nor transcript/questions into its client payload.
   const data =
     n === 5
-      ? { vocabulary: detail.pkg.payload.vocabulary }
+      ? { vocabulary: await listeningVocabularySession(db, id, detail.pkg.payload.vocabulary) }
       : n === 3
         ? { keyword1: detail.pkg.payload.keyword1 }
         : n === 4
@@ -81,7 +86,8 @@ export default async function Activity({
       data={data}
       audioUrl={n === 5 ? null : detail.test.audioUrl}
       initial={progress.activities[n - 1]?.latest?.answers ?? {}}
-      occurrences={await listeningOccurrenceSpans(db, id)}
+      lexicalAssistance={lexicalAssistance}
+      occurrences={n === 2 && lexicalAssistance ? await listeningOccurrenceSpans(db, id) : {}}
       dict={getDictionary(await getLocale())}
     />
   );

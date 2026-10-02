@@ -1,6 +1,6 @@
 import { and, eq, or } from "drizzle-orm";
 import type { db } from "@/db/client";
-import { lexemes, lexicalOccurrences } from "@/db/schema";
+import { lexemes, lexicalOccurrences, lexicalUnitPronunciations, lexicalUnits } from "@/db/schema";
 import type { ListeningPackage } from "@/lib/listening/package";
 import { legacySenseKeyOf, senseKeyOf } from "@/lib/services/vocabulary/dedupe";
 import { foldApostrophes, isFunctionWord, normalizeLexical } from "@/lib/text/lexical-normalize";
@@ -71,6 +71,18 @@ export function exampleMatchesSentence(example: string, sentence: string): boole
   return here.includes(ex) || ex.includes(here);
 }
 
+/**
+ * The canonical sense an authored package entry denotes — the same rule as
+ * addVocabularyBatch: exact sense key, legacy key, or equal term + POS + meaning.
+ */
+export async function canonicalSenseFor(tx: Tx, entry: { word: string; pos: string; def: string }) {
+  const senseKey = senseKeyOf({ term: entry.word, partOfSpeech: entry.pos, meaning: entry.def });
+  const legacyKey = legacySenseKeyOf({ term: entry.word, partOfSpeech: entry.pos, meaning: entry.def });
+  return (await tx.select().from(lexemes).where(or(
+    eq(lexemes.senseKey, senseKey), eq(lexemes.senseKey, legacyKey), eq(lexemes.term, entry.word.trim()), eq(lexemes.term, entry.word.trim().toLowerCase()),
+  ))).find((row) => row.senseKey === senseKey || senseKeyOf({ term: row.term, partOfSpeech: row.partOfSpeech, meaning: row.definitionEn }) === senseKey);
+}
+
 export function sentenceAt(text: string, start: number, end: number): string {
   const left = Math.max(text.lastIndexOf(".", start - 1), text.lastIndexOf("?", start - 1), text.lastIndexOf("!", start - 1), text.lastIndexOf("\n", start - 1));
   const stops = [".", "?", "!", "\n"].map((mark) => text.indexOf(mark, end)).filter((index) => index >= 0);
@@ -104,12 +116,7 @@ export async function ingestListeningOccurrences(tx: Tx, testId: string, payload
     if (isFunctionWord(entry.word)) { skippedFunctionWords += 1; continue; }
     const senseKey = senseKeyOf({ term: entry.word, partOfSpeech: entry.pos, meaning: entry.def });
     if (senses.has(senseKey)) continue;
-    // Reuse an existing canonical sense with the same term, POS and meaning — the
-    // same rule as addVocabularyBatch — even when it was stored under a legacy key.
-    const legacyKey = legacySenseKeyOf({ term: entry.word, partOfSpeech: entry.pos, meaning: entry.def });
-    const existing = (await tx.select().from(lexemes).where(or(
-      eq(lexemes.senseKey, senseKey), eq(lexemes.senseKey, legacyKey), eq(lexemes.term, entry.word.trim()), eq(lexemes.term, entry.word.trim().toLowerCase()),
-    ))).find((row) => row.senseKey === senseKey || senseKeyOf({ term: row.term, partOfSpeech: row.partOfSpeech, meaning: row.definitionEn }) === senseKey);
+    const existing = await canonicalSenseFor(tx, entry);
     if (existing) {
       const unitId = await linkSenseToUnit(tx, existing, "listening_package");
       senses.set(senseKey, { lexemeId: existing.id, unitId, example: entry.ex });
@@ -162,4 +169,50 @@ export async function listeningOccurrenceSpans(tx: Tx, testId: string) {
     (bySection[row.sectionNumber] ??= []).push({ id: row.id, startChar: row.startChar, endChar: row.endChar, surfaceForm: row.surfaceForm });
   }
   return bySection;
+}
+
+export type VocabularySessionItem = {
+  /** Canonical sense id; null only when the package has not been ingested yet. */
+  senseId: string | null;
+  /** First resolved occurrence of this sense in this test — the saved source context. */
+  occurrenceId: string | null;
+  term: string;
+  partOfSpeech: string | null;
+  definitionEn: string;
+  translationUz: string | null;
+  lexicalType: string | null;
+  ipa: string | null;
+  /* Activity presentation only — never lexical truth. */
+  example: string;
+  also: string[];
+  quiz: ListeningPackage["vocabulary"][number]["quiz"];
+};
+
+/**
+ * Activity 5 (Vocabulary Session) items. The package CURATES which words are
+ * studied; their meaning, translation, POS, type and pronunciation come from the
+ * canonical sense. A function-word entry (never ingested) keeps senseId null.
+ */
+export async function listeningVocabularySession(tx: Tx, testId: string, vocabulary: ListeningPackage["vocabulary"]): Promise<VocabularySessionItem[]> {
+  const items: VocabularySessionItem[] = [];
+  // One item per package entry, in package order: quiz answers are graded by index.
+  for (const entry of vocabulary) {
+    const sense = isFunctionWord(entry.word) ? undefined : await canonicalSenseFor(tx, entry);
+    const presentation = { example: entry.ex, also: entry.also, quiz: entry.quiz };
+    if (!sense) {
+      items.push({ senseId: null, occurrenceId: null, term: entry.word, partOfSpeech: entry.pos || null, definitionEn: entry.def, translationUz: entry.uz || null, lexicalType: null, ipa: null, ...presentation });
+      continue;
+    }
+    const [occurrence] = await tx.select({ id: lexicalOccurrences.id }).from(lexicalOccurrences)
+      .where(and(eq(lexicalOccurrences.listeningTestId, testId), eq(lexicalOccurrences.lexemeId, sense.id), eq(lexicalOccurrences.resolutionStatus, "resolved")))
+      .orderBy(lexicalOccurrences.sectionNumber, lexicalOccurrences.startChar).limit(1);
+    const unit = sense.lexicalUnitId ? await tx.query.lexicalUnits.findFirst({ where: eq(lexicalUnits.id, sense.lexicalUnitId) }) : undefined;
+    const pronunciation = unit ? await tx.query.lexicalUnitPronunciations.findFirst({ where: eq(lexicalUnitPronunciations.lexicalUnitId, unit.id) }) : undefined;
+    items.push({
+      senseId: sense.id, occurrenceId: occurrence?.id ?? null, term: sense.term, partOfSpeech: sense.partOfSpeech,
+      definitionEn: sense.definitionEn, translationUz: sense.translationUz, lexicalType: unit?.lexicalType ?? null, ipa: pronunciation?.ipa ?? null,
+      ...presentation,
+    });
+  }
+  return items;
 }
