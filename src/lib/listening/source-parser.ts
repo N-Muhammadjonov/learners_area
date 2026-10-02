@@ -74,7 +74,9 @@ export function convertLegacyPackage(
     audio_file: options.audioPath ?? parsedMeta?.audio_file,
     map_file: parsedMeta?.map_file,
     source_identity: parsedMeta?.source_identity,
-    internal_provenance: parsedMeta?.internal_provenance ?? (inferred ? "Human-created HTML package; metadata inferred from package contents" : undefined),
+    // When metadata is missing or incomplete the provenance always says so,
+    // even if the file carried its own provenance text.
+    internal_provenance: [parsedMeta?.internal_provenance, inferred ? "metadata inferred from package contents" : undefined].filter(Boolean).join("; ") || undefined,
   };
   if (!meta.audio_file) throw new ListeningImportProblem("no_audio");
   const plain = (s: string) =>

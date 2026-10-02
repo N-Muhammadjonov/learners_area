@@ -8,7 +8,7 @@ import type { AudioCandidate, ImportProblemCode } from "@/lib/listening/discover
 import type { InspectResult } from "@/lib/listening/inspect";
 import type { Dictionary } from "@/lib/i18n/en";
 
-type Problem = { code: ImportProblemCode | "unknown"; files: string[]; candidates?: AudioCandidate[] };
+type Problem = { code: ImportProblemCode | "unknown"; files: string[]; candidates?: AudioCandidate[]; info?: string };
 type Loaded = { file: File; entries: Record<string, Uint8Array>; textFiles: Record<string, string> };
 
 const fill = (t: string, v: Record<string, string | number>) =>
@@ -91,10 +91,10 @@ export function ListeningImport({ dict }: { dict: Pick<Dictionary, "listeningImp
         setResult({ ...inspected, audioFile, image });
       } catch (e) {
         if (e instanceof ListeningImportProblem) {
-          const candidates = e.code === "audio_ambiguous"
+          const candidates = e.code === "audio_ambiguous" || e.code === "audio_reference_missing"
             ? (await import("@/lib/listening/discover")).audioCandidates(source.entries).candidates
             : undefined;
-          setProblem({ code: e.code, files: e.detail.files ?? [], candidates });
+          setProblem({ code: e.code, files: e.detail.files ?? [], candidates, info: e.detail.info });
         } else {
           setProblem({ code: "unknown", files: [] });
         }
@@ -142,7 +142,8 @@ export function ListeningImport({ dict }: { dict: Pick<Dictionary, "listeningImp
         const data = await res.json().catch(() => ({}));
         if (!res.ok) {
           const code = String(data.error ?? "unknown") as keyof typeof t.importErrors;
-          setError(t.importErrors[code] ?? t.importErrors.unknown);
+          const ref = typeof data.correlationId === "string" ? ` (ref ${data.correlationId.slice(0, 16)})` : "";
+          setError((t.importErrors[code] ?? t.importErrors.unknown) + ref);
           return;
         }
         setId(data.id);
@@ -195,8 +196,8 @@ export function ListeningImport({ dict }: { dict: Pick<Dictionary, "listeningImp
 
       {problem && (
         <div role="alert" className="space-y-2 rounded-lg border border-red-300 p-3" data-import-problem={problem.code}>
-          <p className="font-medium text-red-700">{t.problems[problem.code] ?? t.problems.unknown}</p>
-          {problem.code === "audio_ambiguous" && loaded && problem.candidates && (
+          <p className="font-medium text-red-700">{fill(t.problems[problem.code] ?? t.problems.unknown, { ref: problem.info ?? "" })}</p>
+          {(problem.code === "audio_ambiguous" || problem.code === "audio_reference_missing") && loaded && problem.candidates && (
             <fieldset className="space-y-2" data-audio-selector>
               <legend>{t.chooseAudio}</legend>
               {problem.candidates.map((c) => (
@@ -212,7 +213,7 @@ export function ListeningImport({ dict }: { dict: Pick<Dictionary, "listeningImp
               ))}
             </fieldset>
           )}
-          {problem.files.length > 0 && problem.code !== "audio_ambiguous" && (
+          {problem.files.length > 0 && !problem.candidates && (
             <>
               <p className="text-sm">{t.filesInZip}</p>
               <ul className="list-disc pl-5 text-sm" data-import-files>
@@ -244,6 +245,7 @@ export function ListeningImport({ dict }: { dict: Pick<Dictionary, "listeningImp
             })}
           </p>
           <p className="text-sm">{fill(t.family, { family: result.family === "canonical" ? t.familyCanonical : t.familyLegacy })}</p>
+          {result.canonicalFallback && <p role="status" className="text-sm" data-canonical-fallback>{t.canonicalFallback}</p>}
           <p className="text-sm">{fill(t.audioUsed, { path: result.audio.path, format: result.audio.format })}</p>
           <div data-transcript-summary>
             <p className="font-medium">{t.transcripts}</p>

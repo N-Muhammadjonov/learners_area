@@ -30,7 +30,24 @@ export type InspectResult = {
   /** Human blockers (section-specific), never a raw code. */
   blockers: { kind: "transcript_missing" | "transcript_review"; section: number }[];
   unassignedTranscriptFiles: string[];
+  /** Set when data/package.json was invalid and the exam page was used instead. */
+  canonicalFallback?: string;
 };
+
+function hasExamPage(textFiles: Record<string, string>): boolean {
+  return Object.entries(textFiles).some(([p, v]) => /\.html?$/i.test(p) && /(id|name)\s*=\s*["']l1["']/.test(v));
+}
+
+/** data/package.json → validated package; empty section transcripts are filled from real transcript files. */
+function canonicalPayload(raw: string, textFiles: Record<string, string>, audio: AudioCandidate, duration: number): ListeningPackage {
+  const parsed = JSON.parse(raw);
+  const found = discoverTranscripts(textFiles).bySection;
+  if (Array.isArray(parsed?.sections))
+    for (const s of parsed.sections)
+      if (s && typeof s === "object" && !String(s.transcript ?? "").trim() && found[s.number]) s.transcript = found[s.number];
+  parsed.audio = { ...(parsed.audio ?? {}), path: audio.path, durationSec: duration };
+  return listeningPackageSchema.parse(parsed);
+}
 
 function referencedAudio(textFiles: Record<string, string>): string | null {
   for (const name of ["data/package.json", "metadata.json", "manifest.json"]) {
@@ -57,6 +74,15 @@ export async function inspectListeningPackage(input: InspectInput): Promise<Insp
   const names = Object.keys(entries);
   const { candidates, rejected } = audioCandidates(entries);
   const ref = referencedAudio(textFiles);
+  // A manifest that names a recording which is not in the ZIP is reported as
+  // such (with the recordings that ARE present) rather than silently replaced
+  // by a filename guess. Staff can then pick one explicitly.
+  if (ref && !input.chosenAudioPath && candidates.length > 0) {
+    const hit = chooseAudio(candidates, ref);
+    if (hit.kind !== "chosen" || hit.reason !== "referenced") {
+      throw new ListeningImportProblem("audio_reference_missing", { files: candidates.map((c) => c.path), info: ref });
+    }
+  }
   const choice = input.chosenAudioPath
     ? chooseAudio(candidates, input.chosenAudioPath)
     : chooseAudio(candidates, ref);
@@ -79,17 +105,23 @@ export async function inspectListeningPackage(input: InspectInput): Promise<Insp
   const canonicalRaw = textFile(textFiles, "data/package.json");
   let payload: ListeningPackage;
   let family: InspectResult["family"];
+  let canonicalError: string | undefined;
   try {
     if (canonicalRaw) {
-      const parsed = JSON.parse(canonicalRaw);
-      family = "canonical";
-      // Fill empty section transcripts from real transcript files in the ZIP.
-      const found = discoverTranscripts(textFiles).bySection;
-      if (Array.isArray(parsed?.sections))
-        for (const s of parsed.sections)
-          if (s && typeof s === "object" && !String(s.transcript ?? "").trim() && found[s.number]) s.transcript = found[s.number];
-      parsed.audio = { ...(parsed.audio ?? {}), path: audio.path, durationSec: duration };
-      payload = listeningPackageSchema.parse(parsed);
+      try {
+        payload = canonicalPayload(canonicalRaw, textFiles, audio, duration);
+        family = "canonical";
+      } catch (e) {
+        // An invalid data/package.json falls back to the legacy family ONLY
+        // when the ZIP really contains the exam page; otherwise it is reported.
+        canonicalError = e instanceof Error ? e.message.slice(0, 300) : "invalid";
+        if (!hasExamPage(textFiles)) throw e;
+        family = "legacy";
+        payload = convertLegacyPackage(textFiles, duration, input.read, {
+          audioPath: audio.path,
+          fallbackTestId: slugTestId(input.zipName),
+        });
+      }
     } else {
       family = "legacy";
       payload = convertLegacyPackage(textFiles, duration, input.read, {
@@ -129,5 +161,6 @@ export async function inspectListeningPackage(input: InspectInput): Promise<Insp
     transcriptStatus: payload.sections.map((s) => ({ section: s.number, present: Boolean(s.transcript.trim()) })),
     blockers,
     unassignedTranscriptFiles: discoverTranscripts(textFiles).unassigned,
+    ...(canonicalError ? { canonicalFallback: canonicalError } : {}),
   };
 }

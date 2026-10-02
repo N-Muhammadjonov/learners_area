@@ -1,6 +1,6 @@
 // Server-authoritative byte verification on finalize (bypass of the browser preflight).
 import assert from "node:assert/strict";
-import test from "node:test";
+import test, { type TestContext } from "node:test";
 import { mkdtemp, rm, writeFile, mkdir } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
@@ -8,7 +8,7 @@ import { createTestDatabase } from "./support/pglite";
 import { finalizeUploadIntent } from "../src/lib/data/uploads";
 import { LocalDiskStorageProvider } from "../src/lib/services/storage/local-provider";
 
-async function setup(t: test.TestContext) {
+async function setup(t: TestContext) {
   const dir = await mkdtemp(path.join(tmpdir(), "la-finalize-"));
   const database = await createTestDatabase();
   t.after(async () => {

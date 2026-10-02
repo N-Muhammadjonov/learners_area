@@ -12,7 +12,8 @@ import {
   resourceBlocks,
   uploadIntents,
 } from "@/db/schema";
-import { requireActiveUser, isStaff } from "@/lib/auth/current-user";
+import { requireActiveUser } from "@/lib/auth/current-user";
+import { mayImportListening } from "@/lib/listening/permissions";
 import {
   listeningPackageSchema,
   publicationIssues,
@@ -28,10 +29,22 @@ const input = z.object({
   imageUploadId: z.string().uuid().nullable(),
 });
 export async function POST(req: NextRequest) {
+  try {
+    return await handle(req);
+  } catch (error) {
+    // Never an HTML 500: the staff UI maps `error` to a readable message and
+    // shows the reference; the technical detail stays in the server log.
+    const correlationId = crypto.randomUUID().slice(0, 8);
+    console.error("[listening-import] failed", { correlationId, error: error instanceof Error ? error.message : String(error) });
+    return NextResponse.json({ error: "unknown", correlationId }, { status: 500 });
+  }
+}
+
+async function handle(req: NextRequest) {
   const user = await requireActiveUser();
   if (!user)
     return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
-  if (!isStaff(user.role))
+  if (!mayImportListening(user.role))
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   if (!(await listeningSchemaReady()))
     return NextResponse.json(
@@ -41,7 +54,8 @@ export async function POST(req: NextRequest) {
   const parsed = input.safeParse(await req.json().catch(() => null));
   if (!parsed.success)
     return NextResponse.json(
-      { error: parsed.error.issues[0]?.message ?? "invalid_package" },
+      // Stable code for the UI; the first schema issue is detail for staff/logs.
+      { error: "invalid_package", detail: parsed.error.issues[0]?.message?.slice(0, 200) },
       { status: 400 },
     );
   const { payload, audioUploadId, imageUploadId } = parsed.data;

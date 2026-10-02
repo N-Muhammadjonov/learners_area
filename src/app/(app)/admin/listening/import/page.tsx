@@ -1,6 +1,7 @@
 import { listeningSchemaReady } from "@/lib/data/listening-schema-ready";
 import { redirect } from "next/navigation";
 import { requireAdministrator } from "@/lib/auth/current-user";
+import { mayImportListening } from "@/lib/listening/permissions";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { ListeningImport } from "@/components/listening/ListeningImport";
 import { BackLink } from "@/components/ui/BackLink";
@@ -12,7 +13,7 @@ export const metadata = { title: "Listening import" };
 export default async function AdminListeningImportPage() {
   // Same database-backed guard as every Management page.
   const administrator = await requireAdministrator();
-  if (!administrator) redirect("/dashboard");
+  if (!administrator || !mayImportListening(administrator.role)) redirect("/dashboard");
   const dict = getDictionary(await getLocale());
   return (
     <div className="mx-auto flex max-w-4xl flex-col gap-4">

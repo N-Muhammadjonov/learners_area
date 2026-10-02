@@ -308,6 +308,7 @@ export type ImportProblemCode =
   | "zip_unsafe"
   | "no_audio"
   | "audio_ambiguous"
+  | "audio_reference_missing"
   | "audio_signature_mismatch"
   | "audio_unreadable"
   | "no_question_source"
