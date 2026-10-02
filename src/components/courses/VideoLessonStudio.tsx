@@ -118,7 +118,8 @@ export function VideoLessonStudio({
 
   const tabs = useMemo(() => {
     const list: Tab[] = [];
-    if (videoLesson.beforeYouWatch) list.push("before");
+    // Whitespace-only authored text is no content: hide the tab.
+    if (videoLesson.beforeYouWatch?.trim()) list.push("before");
     if (hasTranscript) list.push("transcript");
     if (notes.length > 0) list.push("notes");
     // Course-linked lessons only: standalone TED / PODCAST never shows questions.
