@@ -89,9 +89,10 @@ test("the Reading hub keeps Reading concepts only", () => {
   const page = read("src/app/(app)/reading/page.tsx");
   const tabs = page.slice(page.indexOf("const TABS ="), page.indexOf("type Tab ="));
   assert.deepEqual(
-    tabs.match(/"[a-z]+"/g),
-    // "practice" = General Reading (learning mode, 0030) — a Reading concept.
-    ['"academic"', '"practice"', '"general"', '"types"', '"retention"'],
+    tabs.match(/"[a-z-]+"/g),
+    // Owner swap (2026-10-02): "academic" = guided reading sets, "general-reading"
+    // = the passage library, "general" = General Training. All Reading concepts.
+    ['"academic"', '"general-reading"', '"general"', '"types"', '"retention"'],
   );
   // A comment records why the tab left; no code may reintroduce it.
   assert.doesNotMatch(code(page), /video/i);

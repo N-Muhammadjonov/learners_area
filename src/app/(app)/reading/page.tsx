@@ -11,13 +11,25 @@ import { ReadingPassageCard } from "@/components/reading/ReadingPassageCard";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { IconChevronRight, IconReading, IconRetention } from "@/components/ui/icons";
 import { RegionFailureNotice } from "@/components/interaction/RegionFailureNotice";
+import { READING_TABS, resolveReadingTab, type ReadingTab } from "@/lib/reading/tabs";
 
 export const metadata = { title: "Reading" };
 
 // TED / PODCAST is its own section in the navigation (Part 1 override), so the
 // Reading hub no longer carries a videos tab or a placeholder that pointed at it.
-const TABS = ["academic", "practice", "general", "types", "retention"] as const;
-type Tab = (typeof TABS)[number];
+//
+// Owner decision (2026-10-02): the passage LIBRARY (search, topic, question
+// type, status, pages) is General Reading; the guided reading sets that used
+// to sit under "General Reading" are Academic Reading. The swap is semantic:
+// the tab key in the URL, the query that runs, the rendered region and the
+// subtitle all move together. `?tab=practice` (the old key of the guided sets)
+// keeps working as an alias of `academic`, and any library filter in the URL
+// (q, topic, type, status, page) opens General Reading, so old filter links
+// still land on the library.
+// Literal list kept here for readers and source audits; `satisfies` ties it
+// to the resolver's list in src/lib/reading/tabs.ts at compile time.
+const TABS = ["academic", "general-reading", "general", "types", "retention"] as const satisfies typeof READING_TABS;
+type Tab = ReadingTab;
 type ReadingFilter = { status?: string; topic?: string; type?: string; query?: string; page: number };
 
 type ReadingFacets = Awaited<ReturnType<typeof listLibraryFacets>>;
@@ -43,10 +55,10 @@ function ReadingWorkspace({ userId, lang, dict, tab, filter }: {
   // Start independent reads together, then let each region stream on its own.
   // A slow count or facet query must not hold the selected passage library.
   const countsPromise = captureRegion(readingHubCounts(userId));
-  const facetsPromise: Promise<ReadingRegionResult<ReadingFacets>> = tab === "academic" || tab === "types"
+  const facetsPromise: Promise<ReadingRegionResult<ReadingFacets>> = tab === "general-reading" || tab === "types"
     ? captureRegion(listLibraryFacets())
     : Promise.resolve({ value: EMPTY_READING_FACETS, unavailable: false });
-  const libraryPromise: Promise<ReadingRegionResult<ReadingLibrary>> | null = tab === "academic"
+  const libraryPromise: Promise<ReadingRegionResult<ReadingLibrary>> | null = tab === "general-reading"
     ? captureRegion(listLibrary(userId, filter))
     : null;
 
@@ -58,7 +70,7 @@ function ReadingWorkspace({ userId, lang, dict, tab, filter }: {
 
   const tabItems: { key: Tab; label: string }[] = [
     { key: "academic", label: dict.readingHub.tabAcademic },
-    { key: "practice", label: dict.readingHub.tabPractice },
+    { key: "general-reading", label: dict.readingHub.tabPractice },
     { key: "general", label: dict.readingHub.tabGeneral },
     { key: "types", label: dict.readingHub.tabTypes },
     { key: "retention", label: dict.readingHub.tabRetention },
@@ -67,6 +79,8 @@ function ReadingWorkspace({ userId, lang, dict, tab, filter }: {
   return (
     <div className="flex flex-col gap-8" data-reading-content data-async-content="reading">
       <header className="flex flex-col gap-2">
+        {/* The subtitle belongs to the selected tab — never a global "Academic passages…". */}
+        <p className="page-subtitle" data-reading-subtitle={tab}>{READING_SUBTITLE[tab](dict)}</p>
         <Suspense fallback={<ReadingCountsSkeleton dict={dict} />}>
           <ReadingCountsRegion countsPromise={countsPromise} dict={dict} />
         </Suspense>
@@ -82,14 +96,14 @@ function ReadingWorkspace({ userId, lang, dict, tab, filter }: {
             aria-current={item.key === tab ? "page" : undefined}
           >
             {item.label}
-            {item.key === "academic" && <Suspense fallback={null}><ReadingTabCount kind="academic" countsPromise={countsPromise} facetsPromise={facetsPromise} /></Suspense>}
+            {item.key === "general-reading" && <Suspense fallback={null}><ReadingTabCount kind="library" countsPromise={countsPromise} facetsPromise={facetsPromise} /></Suspense>}
             {item.key === "types" && <Suspense fallback={null}><ReadingTabCount kind="types" countsPromise={countsPromise} facetsPromise={facetsPromise} /></Suspense>}
           </Link>
         ))}
       </nav>
 
-      {tab === "academic" && libraryPromise && (
-        <section className="flex flex-col gap-5" data-reading-library>
+      {tab === "general-reading" && libraryPromise && (
+        <section className="flex flex-col gap-5" data-reading-library data-reading-panel="general-reading">
           <div className="flex flex-col gap-1">
             <h2 className="section-title">{dict.readingHub.library}</h2>
             <p className="body-text">{dict.readingHub.libraryHint}</p>
@@ -103,10 +117,12 @@ function ReadingWorkspace({ userId, lang, dict, tab, filter }: {
         </section>
       )}
 
-      {tab === "practice" && (
-        // General Reading: the LEARNING mode (vocabulary help on), not IELTS General Training.
-        <section className="flex flex-col gap-4" data-reading-practice>
-          <h2 className="section-title">{dict.generalReading.title}</h2>
+      {tab === "academic" && (
+        // Academic Reading tab: the guided reading sets (owner swap, 2026-10-02).
+        // Each set keeps the reading mode stored on its own rows; the tab does
+        // not rewrite data or infer a mode from the route.
+        <section className="flex flex-col gap-4" data-reading-sets data-reading-panel="academic">
+          <h2 className="section-title">{dict.readingHub.tabAcademic}</h2>
           <p className="body-text">{dict.generalReading.subtitle}</p>
           <Suspense fallback={<ReadingLibrarySkeleton />}>
             <GeneralSetsRegion dict={dict} userId={userId} />
@@ -115,7 +131,7 @@ function ReadingWorkspace({ userId, lang, dict, tab, filter }: {
       )}
 
       {tab === "general" && (
-        <section className="flex flex-col gap-4" data-reading-general>
+        <section className="flex flex-col gap-4" data-reading-general data-reading-panel="general">
           <h2 className="section-title">{dict.readingHub.generalTitle}</h2>
           <EmptyState icon="◆" title={dict.readingHub.generalEmpty} body={dict.readingHub.generalEmptyHint} />
         </section>
@@ -128,7 +144,7 @@ function ReadingWorkspace({ userId, lang, dict, tab, filter }: {
       )}
 
       {tab === "retention" && (
-        <section className="flex flex-col gap-4" data-reading-retention>
+        <section className="flex flex-col gap-4" data-reading-retention data-reading-panel="retention">
           <div className="panel flex flex-col gap-3">
             <span aria-hidden className="flex h-11 w-11 items-center justify-center rounded-xl border border-gold/45 bg-gold/10 text-[22px] text-gold"><IconRetention /></span>
             <h2 className="section-title">{dict.readingHub.retentionTitle}</h2>
@@ -155,21 +171,17 @@ async function ReadingCountsRegion({ countsPromise, dict }: {
   return (
     <>
       {result.unavailable && <RegionFailureNotice region="reading-hub-counts" message={dict.errors.unknown} retryLabel={dict.errorPage.retry} />}
-      <p className="page-subtitle">
-        {counts && counts.total > 0
-          ? dict.readingHub.subtitleWithCount.replace("{n}", String(counts.total))
-          : dict.readingHub.subtitle}
-      </p>
+      {counts === null ? null : <span className="sr-only" data-reading-total={counts.total} />}
     </>
   );
 }
 
 async function ReadingTabCount({ kind, countsPromise, facetsPromise }: {
-  kind: "academic" | "types";
+  kind: "library" | "types";
   countsPromise: Promise<ReadingRegionResult<Awaited<ReturnType<typeof readingHubCounts>>>>;
   facetsPromise: Promise<ReadingRegionResult<ReadingFacets>>;
 }) {
-  if (kind === "academic") {
+  if (kind === "library") {
     const result = await countsPromise;
     if (result.unavailable || result.value.total <= 0) return null;
     return <span className="tab-count">{result.value.total}</span>;
@@ -179,8 +191,19 @@ async function ReadingTabCount({ kind, countsPromise, facetsPromise }: {
   return <span className="tab-count">{result.value.types.length}</span>;
 }
 
+const READING_SUBTITLE: Record<Tab, (dict: ReturnType<typeof getDictionary>) => string> = {
+  academic: (d) => d.readingHub.subtitleAcademic,
+  "general-reading": (d) => d.readingHub.subtitleGeneralReading,
+  general: (d) => d.readingHub.subtitleGeneralTraining,
+  types: (d) => d.readingHub.subtitleTypes,
+  retention: (d) => d.readingHub.subtitleRetention,
+};
+
+
+// The subtitle no longer waits for counts, so the counts region only carries a
+// failure notice; its loading marker stays for the streaming contract.
 function ReadingCountsSkeleton({ dict }: { dict: ReturnType<typeof getDictionary> }) {
-  return <p aria-busy="true" data-async-loading="reading-hub-counts" className="h-5 w-56 animate-pulse rounded bg-ink-50">{dict.common.loading}</p>;
+  return <span aria-busy="true" data-async-loading="reading-hub-counts" className="sr-only">{dict.common.loading}</span>;
 }
 
 function ReadingFiltersSkeleton({ dict }: { dict: ReturnType<typeof getDictionary> }) {
@@ -224,7 +247,7 @@ async function ReadingFiltersRegion({ dict, lang, filter, facetsPromise }: {
   return (
     <>
       {result.unavailable && <RegionFailureNotice region="reading-library-facets" message={dict.errors.unknown} retryLabel={dict.errorPage.retry} />}
-      <ReadingFilters dict={dict} topics={topicOptions} types={typeOptions} current={{
+      <ReadingFilters dict={dict} topics={topicOptions} types={typeOptions} tab="general-reading" current={{
         status: filter.status ?? "",
         topic: filter.topic ?? "",
         type: filter.type ?? "",
@@ -255,7 +278,7 @@ async function ReadingTypesRegion({ dict, lang, facetsPromise }: {
   const result = await facetsPromise;
   const types = result.unavailable ? [] : result.value.types;
   return (
-    <section className="flex flex-col gap-4" data-reading-types>
+    <section className="flex flex-col gap-4" data-reading-types data-reading-panel="types">
       <div className="flex flex-col gap-1">
         <h2 className="section-title">{dict.readingHub.typesTitle}</h2>
         <p className="body-text">{dict.readingHub.typesHint}</p>
@@ -267,7 +290,7 @@ async function ReadingTypesRegion({ dict, lang, facetsPromise }: {
             <li key={type.code} className="panel flex flex-col gap-2">
               <span className="card-title">{questionTypeLabel(type.code, lang)}</span>
               <span className="meta-text">{dict.readingHub.typesCount.replace("{n}", String(type.count))}</span>
-              <Link href={`/reading?type=${encodeURIComponent(type.code)}`} className="btn-secondary mt-1" data-reading-type-link={type.code}>
+              <Link href={`/reading?tab=general-reading&type=${encodeURIComponent(type.code)}`} className="btn-secondary mt-1" data-reading-type-link={type.code}>
                 {dict.readingHub.typesPractice}<IconChevronRight className="text-[15px]" />
               </Link>
             </li>
@@ -285,8 +308,10 @@ export default async function ReadingPage({ searchParams }: {
   if (!user) return null;
   const dict = getDictionary(lang);
   const first = (value: string | string[] | undefined) => (Array.isArray(value) ? value[0] : value);
-  const requestedTab = first(params.tab);
-  const tab: Tab = (TABS as readonly string[]).includes(requestedTab ?? "") ? requestedTab as Tab : "academic";
+  const tab: Tab = resolveReadingTab({
+    tab: first(params.tab), q: first(params.q), topic: first(params.topic), type: first(params.type),
+    status: first(params.status), page: first(params.page),
+  });
   const filter: ReadingFilter = {
     status: first(params.status), topic: first(params.topic), type: first(params.type), query: first(params.q),
     page: Number(first(params.page) ?? "1") || 1,
@@ -313,7 +338,7 @@ function AcademicLibrary({
 }) {
   /* The total arrives with the page rows (`count(*) over ()`), avoiding extra count reads. */
   const buildPageHref = (page: number) => {
-    const search = new URLSearchParams();
+    const search = new URLSearchParams({ tab: "general-reading" });
     for (const [key, value] of Object.entries({ ...filter, page })) {
       if (value && key !== "page") search.set(key === "query" ? "q" : key, String(value));
     }
@@ -333,7 +358,7 @@ function AcademicLibrary({
           title={dict.readingHub.noResults}
           body={dict.readingHub.noResultsHint}
           action={
-            <Link href="/reading" className="btn-secondary" data-reading-empty-reset>
+            <Link href="/reading?tab=general-reading" className="btn-secondary" data-reading-empty-reset>
               {dict.readingHub.filterReset}
             </Link>
           }
