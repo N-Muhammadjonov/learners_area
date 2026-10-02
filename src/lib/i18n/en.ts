@@ -1949,6 +1949,26 @@ const en = {
       unknown: "The import failed. Try again.",
     },
   },
+  readingImport: {
+    title: "Import a Reading set",
+    intro: "Upload one authored Reading set (JSON bundle: up to three passages with questions and vocabulary). Check it first; nothing is saved until you import. Sets are saved as drafts unless the bundle says publish. Re-importing the same sourceRef changes nothing.",
+    fileLabel: "Reading set (.json)",
+    check: "Check",
+    import: "Import",
+    checked: "Check passed. Nothing was saved yet.",
+    created: "Set imported.",
+    exists: "This set (sourceRef) was already imported; nothing changed.",
+    passageLine: "Passage {n}: {resolved} vocabulary items linked, {unresolved} unresolved",
+    backToList: "Back to Reading passages",
+    errors: {
+      not_json: "The file is not valid JSON.",
+      invalid_bundle: "The file does not match the Reading set format",
+      schema_not_ready: "Import is unavailable until the database update for General Reading is applied.",
+      forbidden: "Only administrators can import Reading content.",
+      unauthenticated: "Your session has ended. Sign in again.",
+      unknown: "The import failed. Try again.",
+    },
+  },
 };
 
 export default en;

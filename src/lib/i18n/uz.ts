@@ -1944,6 +1944,26 @@ const uz: Dictionary = {
       unknown: "Import amalga oshmadi. Qayta urinib ko'ring.",
     },
   },
+  readingImport: {
+    title: "Reading to'plamini import qilish",
+    intro: "Muallif tayyorlagan bitta Reading to'plamini yuklang (JSON: savollari va lug'ati bilan uchtagacha matn). Avval tekshiring; import qilmaguningizcha hech narsa saqlanmaydi. To'plamda publish ko'rsatilmagan bo'lsa, draft sifatida saqlanadi. Bir xil sourceRef qayta import qilinsa, hech narsa o'zgarmaydi.",
+    fileLabel: "Reading to'plami (.json)",
+    check: "Tekshirish",
+    import: "Import qilish",
+    checked: "Tekshiruvdan o'tdi. Hali hech narsa saqlanmadi.",
+    created: "To'plam import qilindi.",
+    exists: "Bu to'plam (sourceRef) avval import qilingan; hech narsa o'zgarmadi.",
+    passageLine: "{n}-matn: {resolved} ta so'z bog'landi, {unresolved} tasi bog'lanmadi",
+    backToList: "Reading matnlariga qaytish",
+    errors: {
+      not_json: "Fayl to'g'ri JSON emas.",
+      invalid_bundle: "Fayl Reading to'plami formatiga mos emas",
+      schema_not_ready: "General Reading uchun baza yangilanishi qo'llanmaguncha import mavjud emas.",
+      forbidden: "Reading kontentini faqat administratorlar import qila oladi.",
+      unauthenticated: "Sessiyangiz tugadi. Qayta kiring.",
+      unknown: "Import amalga oshmadi. Qayta urinib ko'ring.",
+    },
+  },
 };
 
 export default uz;

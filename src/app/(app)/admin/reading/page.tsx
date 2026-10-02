@@ -25,6 +25,9 @@ export default async function AdminReadingPage() {
           <Link href="/admin/reading/retention" className="btn-secondary " data-reading-retention-link>
             {dict.retentionMemory.admin.title}
           </Link>
+          <Link href="/admin/reading/import" className="btn-secondary" data-admin-reading-import>
+            {dict.readingImport.title}
+          </Link>
           <NewPassageForm dict={dict} />
         </div>
       </div>
