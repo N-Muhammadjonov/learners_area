@@ -28,7 +28,7 @@ This is the phase checkpoint ledger; the final requirement-by-requirement accept
 | Baseline typecheck | PASS | `npm run typecheck`. |
 | Baseline lint | PASS | `npm run lint`. |
 | Baseline runtime | PARTIAL | Installed lockfile dependencies; Node 22.22.3 is below declared Node 24.x engine. |
-| Migration generator baseline | BLOCKED pending snapshot repair | Journal 0035 / snapshots through 0027 mismatch. No-change Drizzle generation was probed; its unintended generated artifacts were removed; no DB mutation occurred. |
+| Migration generator baseline | PASS for forward generation; historical metadata PARTIAL | Added generator-produced `drizzle/meta/0035_snapshot.json` as a current-schema anchor linked to 0027; the journal is byte-for-byte unchanged. `drizzle-kit check` passed; official generation against the repaired baseline reported no changes; a temporary one-table probe generated only its one table with a linked snapshot. Historical 0028–0034 snapshots remain absent and are explicitly not claimed restored. No migration was applied. |
 | Shared Preview migration apply | OWNER ACTION REQUIRED | Not requested or attempted. |
 | Provider live verification | EXTERNALLY UNVERIFIED | No live call made; credential presence is checked by name only before any possible live test. |
 | Listening source package | OWNER ACTION REQUIRED | `LISTENING_SOURCE_ZIP` not supplied/proven by this phase; source tests remain skipped. |
