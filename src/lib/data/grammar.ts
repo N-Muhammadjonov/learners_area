@@ -23,7 +23,7 @@ export function getGrammarExerciseForUser(id: string, userId: string) {
 }
 
 export function listTopics() {
-  return db.select({ id: grammarTopics.id, title: grammarTopics.title, order: grammarTopics.order })
+  return db.select({ id: grammarTopics.id, title: grammarTopics.title, skillArea: grammarTopics.skillArea, order: grammarTopics.order })
     .from(grammarTopics)
     .orderBy(asc(grammarTopics.order));
 }

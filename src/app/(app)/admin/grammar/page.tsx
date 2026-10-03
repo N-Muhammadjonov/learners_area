@@ -6,6 +6,7 @@ import { db } from "@/db/client";
 import { grammarTopics } from "@/db/schema";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { Card } from "@/components/ui/Card";
+import { GrammarImport } from "@/components/admin/GrammarImport";
 import { NewTopicForm } from "@/components/admin/NewTopicForm";
 
 export default async function AdminGrammarPage() {
@@ -22,6 +23,7 @@ export default async function AdminGrammarPage() {
         <h1 className="font-display text-2xl text-ink-900">{dict.admin.grammarTitle}</h1>
         <NewTopicForm dict={dict} />
       </div>
+      <GrammarImport dict={dict} />
       <div className="flex flex-col gap-2">
         {topics.map((t) => (
           <Link key={t.id} href={`/admin/grammar/${t.id}`}>

@@ -27,7 +27,9 @@ async function GrammarTopics({ userId, isAdmin, dict }: {
           {isAdmin ? dict.grammar.manageContent : dict.nav.dashboard}
         </Link>} />}
       <div className="flex flex-col gap-3" data-grammar-topics data-async-content="grammar-topics">
-        {rows.map(({ topic, totalExercises, mastery }) => (
+        {(["writing", "speaking"] as const).map(area => <section key={area} className="space-y-3" data-grammar-skill={area}>
+        <h2 className="font-display text-xl">{area === "writing" ? dict.grammar.forWriting : dict.grammar.forSpeaking}</h2>
+        {rows.filter(row => row.topic.skillArea === area).map(({ topic, totalExercises, mastery }) => (
           <Link key={topic.id} href={`/grammar/${topic.id}`}>
             <Card className="hover:border-signal-400" data-topic-row={topic.id}>
               <div className="mb-2 flex items-center justify-between">
@@ -53,6 +55,7 @@ async function GrammarTopics({ userId, isAdmin, dict }: {
             </Card>
           </Link>
         ))}
+        </section>)}
       </div>
     </>
   );

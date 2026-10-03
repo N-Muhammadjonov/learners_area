@@ -27,6 +27,7 @@ export type AuditAction =
   | "retention_text.restored"
   | "support.reported"
   | "video_lesson.saved"
+  | "grammar.bundle_imported"
   | "content.created"
   | "content.updated"
   | "retention.preview"

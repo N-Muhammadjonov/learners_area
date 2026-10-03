@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import type { Dictionary } from "@/lib/i18n/en";
+import { useScopedRequest } from "@/lib/http/use-scoped-request";
 import { apiErrorMessage } from "@/lib/api-error-message";
 
 type ProduceResult = {
@@ -26,6 +27,7 @@ type ProduceResult = {
  */
 export function ProductionAnswer({ dict, exerciseId }: { dict: Dictionary; exerciseId: string }) {
   const t = dict.grammar;
+  const request = useScopedRequest();
   const [text, setText] = useState("");
   const [busy, setBusy] = useState(false);
   const [result, setResult] = useState<ProduceResult | null>(null);
@@ -34,18 +36,11 @@ export function ProductionAnswer({ dict, exerciseId }: { dict: Dictionary; exerc
   async function submit() {
     setBusy(true);
     setError(null);
-    const res = await fetch(`/api/grammar/exercises/${exerciseId}/produce`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ answer: text.trim() }),
-    });
+    const res = await request<Record<string, unknown>>(`/api/grammar/exercises/${exerciseId}/produce`, { body: { answer: text.trim() }, timeoutMs: 60_000 });
+    if (!res) return;
     setBusy(false);
-    if (!res.ok) {
-      const data = await res.json().catch(() => ({}));
-      setError(apiErrorMessage(data.error, res.status, dict));
-      return;
-    }
-    const data = await res.json();
+    if (!res.ok) { setError(apiErrorMessage(res.error, res.status, dict)); return; }
+    const data = res.data as { verdict?: string; checkedBy?: string; structures?: { used?: string[]; missing?: string[] }; sampleAnswer?: string; explanation?: string; issues?: string[] };
     setResult({
       verdict: data.verdict ?? null,
       checkedBy: String(data.checkedBy ?? ""),
@@ -71,7 +66,7 @@ export function ProductionAnswer({ dict, exerciseId }: { dict: Dictionary; exerc
         disabled={busy}
         onChange={(e) => setText(e.target.value)}
       />
-      {error && <p className="text-xs text-band-bad">{error}</p>}
+      {error && <p role="alert" className="text-xs text-band-bad">{error}</p>}
       <div className="flex flex-wrap items-center gap-3">
         <Button
           variant="secondary"
