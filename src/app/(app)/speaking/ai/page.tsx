@@ -25,7 +25,7 @@ export default async function SpeakingAiPage() {
       {prompts.length === 0 ? (
         <EmptyState icon="🎙" title={dict.speakingPractice.bankEmpty} />
       ) : (
-        <AiExaminerSession dict={dict} prompts={prompts} readiness={speakingAiReadiness()} isStaff={isStaff(user.role)} />
+        <AiExaminerSession dict={dict} prompts={prompts} readiness={(await speakingAiReadiness())} isStaff={isStaff(user.role)} />
       )}
     </div>
   );

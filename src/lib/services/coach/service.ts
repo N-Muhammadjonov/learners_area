@@ -1,4 +1,5 @@
 import { touchMeaningfulActivity } from "@/lib/services/activity";
+import { effectiveCoachConfig } from "./owner-control";
 import "server-only";
 import { findEvaluation, recordEvaluationEvent, recordFallbackEvent, recordWeaknessesFromEvaluation, saveEvaluation, type EvaluationRecord } from "@/lib/data/evaluations";
 import { getStorageService } from "@/lib/services/storage";
@@ -68,12 +69,13 @@ export async function transcribePrivateRecording(params: {
     };
   }
 
+  const control = await effectiveCoachConfig();
   const outcome = await SpeechToTextService.transcribe({
     objectKey: params.objectKey,
     contentType: params.contentType,
     durationMs: params.durationMs,
     language: params.language,
-  });
+  }, { externalEnabled: control.externalEnabled });
   if (!outcome.ok) return { ok: false, failure: outcome.failure };
   return {
     ok: true,
@@ -102,10 +104,12 @@ export async function evaluateAndPersist(params: {
   if (existing) return { ok: true, evaluation: existing, reused: true };
 
   // 2. Resolve: configured provider first, RIWI on any failure.
+  //    Owner master switch + deployment ceiling, enforced server-side (fail-closed).
+  const control = await effectiveCoachConfig();
   const outcome = await resolveEvaluation(params.request, {
     userId: params.userId,
     language: params.language,
-  }, undefined, params.policy);
+  }, { externalEnabled: control.externalEnabled, aiPrimaryProvider: control.aiPrimaryProvider }, params.policy);
   if (!outcome.ok) {
     return { ok: false, error: outcome.error };
   }

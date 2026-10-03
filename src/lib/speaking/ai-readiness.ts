@@ -1,5 +1,6 @@
 import "server-only";
-import { readCoachConfig } from "@/lib/services/coach/config";
+import type { CoachConfig } from "@/lib/services/coach/config";
+import { effectiveCoachConfig } from "@/lib/services/coach/owner-control";
 import { getProvider, isRiwi } from "@/lib/services/coach/registry";
 import { isSttConfigured } from "@/lib/services/coach/stt";
 
@@ -14,9 +15,10 @@ import { isSttConfigured } from "@/lib/services/coach/stt";
  */
 export type SpeakingAiReadiness = { transcription: boolean; aiEvaluation: boolean };
 
-export function speakingAiReadiness(env: NodeJS.ProcessEnv = process.env): SpeakingAiReadiness {
-  const config = readCoachConfig();
-  const transcription = isSttConfigured();
+export async function speakingAiReadiness(env: NodeJS.ProcessEnv = process.env, control: () => Promise<CoachConfig> = effectiveCoachConfig): Promise<SpeakingAiReadiness> {
+  const config = await control();
+  // STT is an external service too: the owner switch governs it.
+  const transcription = isSttConfigured() && config.externalEnabled;
   const provider = isRiwi(config.aiPrimaryProvider) ? null : getProvider(config.aiPrimaryProvider);
   const aiEvaluation = Boolean(
     config.externalEnabled && provider && typeof provider.evaluateSpeaking === "function" &&

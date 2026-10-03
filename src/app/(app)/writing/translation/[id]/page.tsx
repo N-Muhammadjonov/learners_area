@@ -39,7 +39,7 @@ export default async function TranslationAttemptPage({ params }: { params: Promi
           <Link href="/writing?tab=translation" className="btn-primary min-h-11 self-start">{t.newAttempt}</Link>
         </>
       ) : (
-        <TranslationRunner dict={dict} initial={view} aiReady={writingAiReady()} />
+        <TranslationRunner dict={dict} initial={view} aiReady={(await writingAiReady())} />
       )}
     </div>
   );

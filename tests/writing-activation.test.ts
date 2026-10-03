@@ -186,7 +186,8 @@ test("A13 speaking mode copy and provider instructions never claim audio evaluat
   }
   assert.match(en.writingWorkspace.activation.speakingHint, /No audio/);
   assert.match(uz.writingWorkspace.activation.speakingHint, /Ovoz yozilmaydi/);
-  const provider = readFileSync("src/lib/services/coach/providers/openai/index.ts", "utf8");
+  // Changed 2026-10-03: the prompts moved verbatim to the shared module used by every adapter.
+  const provider = readFileSync("src/lib/services/coach/providers/shared/prompts.ts", "utf8");
   assert.match(provider, /You have no audio: never comment on pronunciation/);
 });
 

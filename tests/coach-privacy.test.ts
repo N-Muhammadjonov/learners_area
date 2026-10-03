@@ -145,7 +145,11 @@ test("no committed source file contains a live-looking credential", () => {
 test("vendor references stay in server-only adapters and their registration, never app UI or data routes", () => {
   const vendors = ["openai", "anthropic", "gemini", "claude", "gpt-4", "mistral", "deepseek"];
   for (const file of SRC_FILES) {
-    if (file.startsWith("src/lib/services/coach/providers/openai/") || file === "src/lib/services/coach/stt/openai.ts" || file === "src/lib/services/coach/providers/index.ts" || file === "src/lib/services/coach/stt/registry.ts") {
+    // Changed 2026-10-03 (universal providers): any first-class vendor adapter folder
+    // providers/<vendor>/ may name its vendor; providers/shared/ and providers/compatible/
+    // (and the internal providers/riwi/) must stay vendor-neutral and are still scanned below.
+    const vendorAdapter = /^src\/lib\/services\/coach\/providers\/(?!shared\/|compatible\/|riwi\/)[a-z0-9-]+\//.test(file);
+    if (vendorAdapter || file === "src/lib/services/coach/stt/openai.ts" || file === "src/lib/services/coach/providers/index.ts" || file === "src/lib/services/coach/stt/registry.ts") {
       assert.match(read(file), /^import "server-only";/m);
       continue;
     }

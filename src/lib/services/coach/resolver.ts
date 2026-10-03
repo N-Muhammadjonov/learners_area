@@ -308,7 +308,9 @@ export async function resolveEvaluation(
   overrides?: Partial<CoachConfig>,
   policy: ResolvePolicy = { fallback: "riwi" },
 ): Promise<ResolveOutcome> {
-  const config: CoachConfig = { ...readCoachConfig(), ...overrides };
+  // Undefined override fields never erase configuration.
+  const defined = Object.fromEntries(Object.entries(overrides ?? {}).filter(([, value]) => value !== undefined)) as Partial<CoachConfig>;
+  const config: CoachConfig = { ...readCoachConfig(), ...defined };
   const capability = CAPABILITY_BY_TYPE[request.evaluationType];
   const attempts: ProviderAttempt[] = [];
   const evaluationId = crypto.randomUUID();

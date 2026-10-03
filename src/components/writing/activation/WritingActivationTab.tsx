@@ -9,5 +9,5 @@ export async function WritingActivationTab({ dict, userId, item, locale }: { dic
     activationVocabularyCount(userId).catch(() => 0),
     activationOverview(userId).catch(() => ({ wordsActivated: 0, averageActivation: null, dayStreak: 0, lastSession: null })),
   ]);
-  return <div data-async-content="writing"><ActivationLab dict={dict} locale={locale} aiReady={writingAiReady()} vocabularyCount={vocabularyCount} overview={overview} initialItem={item ? cleanCustomItem(item) : null} /></div>;
+  return <div data-async-content="writing"><ActivationLab dict={dict} locale={locale} aiReady={(await writingAiReady())} vocabularyCount={vocabularyCount} overview={overview} initialItem={item ? cleanCustomItem(item) : null} /></div>;
 }

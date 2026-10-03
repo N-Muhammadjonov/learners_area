@@ -3,6 +3,8 @@ import { requireOwner } from "@/lib/auth/current-user";
 import { integrationReport } from "@/lib/services/integrations";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { Card } from "@/components/ui/Card";
+import { AiControlPanel } from "@/components/owner/AiControlPanel";
+import { ownerAiStatus } from "@/lib/services/coach/owner-control";
 
 export const dynamic = "force-dynamic";
 
@@ -27,7 +29,8 @@ export default async function OwnerIntegrationsPage() {
   if (!owner) redirect("/dashboard");
 
   const dict = getDictionary(await getLocale());
-  const report = await integrationReport();
+  const [report, ai] = await Promise.all([integrationReport(), ownerAiStatus()]);
+  const aiInitial = { ...ai, owner: { ...ai.owner, updatedAt: ai.owner.updatedAt ? ai.owner.updatedAt.toISOString() : null } };
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-4">
@@ -35,6 +38,8 @@ export default async function OwnerIntegrationsPage() {
         <h1 className="font-display text-2xl text-ink-900">{dict.integration.title}</h1>
         <p className="text-sm text-ink-500">{dict.integration.subtitle}</p>
       </div>
+
+      <AiControlPanel dict={dict} initial={aiInitial} />
 
       <div className="flex flex-col gap-2">
         {report.map((row) => {

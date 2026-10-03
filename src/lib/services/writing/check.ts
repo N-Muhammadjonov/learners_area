@@ -1,6 +1,8 @@
 import "server-only";
 import { resolveEvaluation, type ResolveOutcome } from "@/lib/services/coach/resolver";
 import type { WritingCheckInput } from "@/lib/services/coach/types";
+import type { CoachConfig } from "@/lib/services/coach/config";
+import { effectiveCoachConfig } from "@/lib/services/coach/owner-control";
 
 export type CheckVerdict = "correct" | "acceptable" | "needs_revision";
 export type CheckResult = {
@@ -28,13 +30,15 @@ type Resolve = (...args: Parameters<typeof resolveEvaluation>) => Promise<Resolv
  * fallback "none": RIWI is never asked, and anything that is not an external,
  * non-fallback result is discarded — so nothing rule-based is shown as AI.
  */
-export async function runWritingCheck(userId: string, language: "uz" | "en", check: WritingCheckInput, deps: { resolve?: Resolve } = {}): Promise<CheckOutcome> {
+export async function runWritingCheck(userId: string, language: "uz" | "en", check: WritingCheckInput, deps: { resolve?: Resolve; control?: () => Promise<Partial<CoachConfig>> } = {}): Promise<CheckOutcome> {
   const resolve = deps.resolve ?? resolveEvaluation;
   let outcome: ResolveOutcome;
   try {
+    // Owner master switch + deployment ceiling (server-side, fail-closed).
+    const control = deps.control ? await deps.control() : await effectiveCoachConfig();
     outcome = await resolve(
       { evaluationType: "writing", input: { taskType: "task2", prompt: "", content: check.answer, targetWordCount: 0, check } },
-      { userId, language }, undefined, { fallback: "none" },
+      { userId, language }, { externalEnabled: control.externalEnabled, aiPrimaryProvider: control.aiPrimaryProvider }, { fallback: "none" },
     );
   } catch {
     return { ok: false, reason: "failed" };

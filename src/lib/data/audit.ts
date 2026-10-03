@@ -30,7 +30,10 @@ export type AuditAction =
   | "content.created"
   | "content.updated"
   | "retention.preview"
-  | "upload.deleted";
+  | "upload.deleted"
+  | "ai.control.set"
+  | "report.generated"
+  | "report.downloaded";
 
 export async function recordAudit(input: {
   actorUserId: string | null;

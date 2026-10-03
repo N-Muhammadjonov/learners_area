@@ -1,5 +1,6 @@
 import "server-only";
-import { readCoachConfig } from "@/lib/services/coach/config";
+import type { CoachConfig } from "@/lib/services/coach/config";
+import { effectiveCoachConfig } from "@/lib/services/coach/owner-control";
 import { getProvider, isRiwi } from "@/lib/services/coach/registry";
 import { externalCapabilityReady } from "@/lib/services/coach/capability-readiness";
 
@@ -9,8 +10,9 @@ import { externalCapabilityReady } from "@/lib/services/coach/capability-readine
  * external provider with its secrets. Independent of STT and of
  * `evaluateSpeaking`. Boolean only — no provider names or secrets leave the server.
  */
-export function writingAiReady(env: NodeJS.ProcessEnv = process.env): boolean {
-  const config = readCoachConfig();
+export async function writingAiReady(env: NodeJS.ProcessEnv = process.env, control: () => Promise<CoachConfig> = effectiveCoachConfig): Promise<boolean> {
+  // Owner master switch + deployment ceiling: the UI never offers what the server would refuse.
+  const config = await control();
   const providerIsRiwi = isRiwi(config.aiPrimaryProvider);
   return externalCapabilityReady({
     externalEnabled: config.externalEnabled,

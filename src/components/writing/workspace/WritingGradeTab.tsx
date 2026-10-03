@@ -13,7 +13,7 @@ import { NotMigrated } from "./NotMigrated";
 /** Grade My Work (W6): New submission / My essays, with an honest "How it is marked". */
 export async function WritingGradeTab({ dict, userId, view, locale }: { dict: Dictionary; userId: string; view: "new" | "essays"; locale: string }) {
   const t = dict.writingWorkspace.grade;
-  const aiReady = writingAiReady();
+  const aiReady = (await writingAiReady());
   const essays = view === "essays" ? await safeWritingQuery(() => listMyEssays(userId)) : null;
   const task1 = view === "new" ? await liveTask1Prompts().catch(() => []) : [];
   const visuals = Object.fromEntries(task1.filter((p) => p.blocks.length).map((p) => [p.id, <ResourceBlocks key={p.id} dict={dict} blocks={p.blocks} title={dict.writingWorkspace.gradeExtra.visual} lexicalAssistance={false} />]));

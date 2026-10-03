@@ -40,7 +40,7 @@ export default async function WritingExamPaperPage({ params }: { params: Promise
     );
   }
 
-  const aiReady = writingAiReady();
+  const aiReady = (await writingAiReady());
   const grades = await examEntryGrades(user.id, paper);
   const t1 = paper.entries.find((e) => e.taskType === "task1");
   const t2 = paper.entries.find((e) => e.taskType === "task2");

@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
   if (!user) return unauth();
   const parsed = body.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({ error: { code: "invalid_input", message: "Write your adapted sentence.", field: "answer" } }, { status: 400 });
-  if (!writingAiReady()) return NextResponse.json({ error: { code: "unavailable", message: "AI checking is not available right now.", retryable: false } }, { status: 503 });
+  if (!(await writingAiReady())) return NextResponse.json({ error: { code: "unavailable", message: "AI checking is not available right now.", retryable: false } }, { status: 503 });
   const r = await submitPractice(user.id, await getLocale(), parsed.data);
   if (!r.ok) {
     const status = r.code === "not_found" ? 404 : r.code === "unavailable" || r.code === "failed" ? 503 : 400;

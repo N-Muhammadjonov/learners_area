@@ -40,7 +40,7 @@ export async function WritingLanguageStealingTab({ dict, userId, params }: { dic
   if (!data.ok) return <NotMigrated dict={dict} />;
   const [lib, sources, sessions] = data.value;
   const cur: StealingParams = { task: filter.task, fn: filter.fn, topic: filter.topic, band: filter.band ? String(filter.band) : undefined, bank: filter.saved ? "1" : undefined };
-  const aiReady = writingAiReady();
+  const aiReady = (await writingAiReady());
   const saveLabels = { save: t.save, saved: t.saved, error: t.saveError };
 
   return (
