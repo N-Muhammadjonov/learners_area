@@ -1177,3 +1177,19 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 @keyframes la-motion-enter { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 @keyframes la-motion-fade { from { opacity: 0; } to { opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .motion-enter, .motion-enter-stagger > *, .motion-tab-panel { animation: none; } .motion-lift, .motion-lift:hover, .motion-lift:active { transform: none; transition: none; } }
+
+/* Owner-approved Part selector: distinct accents, real buttons, theme tokens. */
+.practice-part-card { background: linear-gradient(135deg, rgb(var(--paper-raised)), rgb(var(--paper-sunken))); border-color: rgb(var(--ink-100)); }
+.practice-part-card::before { content: ""; position: absolute; left: 0; top: 24px; bottom: 24px; width: 5px; border-radius: 5px; background: var(--part-accent); }
+.practice-part-card[data-practice-part="part1"] { --part-accent: #1c9b61; }
+.practice-part-card[data-practice-part="part2"] { --part-accent: #3188c5; }
+.practice-part-card[data-practice-part="part3"] { --part-accent: #b97312; }
+.practice-part-label { color: var(--part-accent); }
+.practice-part-number { position: absolute; right: 22px; top: 26px; font-size: 150px; line-height: 1; font-weight: 700; color: var(--part-accent); opacity: .12; }
+.practice-part-mic { display: grid; place-items: center; width: 60px; height: 60px; border-radius: 20px; color: white; background: var(--part-accent); box-shadow: 0 8px 20px #0002; margin-bottom: 8px; }
+.practice-part-card:focus-visible { outline: 3px solid var(--part-accent); outline-offset: 4px; }
+
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  [data-root-entry] { min-height: 100dvh; background: black; }
+  [data-root-entry] [data-touch-welcome] { display: none; }
+}

@@ -28,7 +28,7 @@ const PUBLIC_DIR = join(process.cwd(), "public");
 
 const EXPECTED_FILES = [
   "learners-area-logo-master-dark.png",
-  "learners-area-logo-mark-dark.png",
+  "Learners_Area_V11_Exact_Cutout_Logo.png",
   "learners-area-logo-mark-light.png",
   "learners-area-logo-horizontal-dark.png",
   "learners-area-logo-horizontal-light.png",
@@ -91,11 +91,11 @@ test("the theme picks the supplied file for that theme, never a filter", () => {
   assert.equal(brandLogoFor("mark", "day"), BRAND_ASSETS.logoMarkLight);
   assert.equal(brandLogoFor("mark", "night"), BRAND_ASSETS.logoMarkDark);
   assert.equal(brandLogoFor("horizontal", "day"), BRAND_ASSETS.logoHorizontalDark);
-  assert.equal(brandLogoFor("horizontal", "night"), BRAND_ASSETS.logoHorizontalLight);
+  assert.equal(brandLogoFor("horizontal", "night"), BRAND_ASSETS.logoMarkDark);
   // The master artwork is supplied once; it is returned for both themes rather
   // than manufactured from the other file.
   assert.equal(brandLogoFor("master", "day"), BRAND_ASSETS.logoMasterDark);
-  assert.equal(brandLogoFor("master", "night"), BRAND_ASSETS.logoMasterDark);
+  assert.equal(brandLogoFor("master", "night"), BRAND_ASSETS.logoMarkDark);
 
   const css = readFileSync(join("src", "app", "globals.css"), "utf8");
   assert.equal(/invert|hue-rotate|grayscale/.test(css), false, "brand artwork must never be filtered");

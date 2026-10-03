@@ -7,6 +7,7 @@ import { getCurrentUser } from "@/lib/auth/current-user";
 import { hasPrivateAccess } from "@/lib/auth/account-status";
 import { publicBaseUrl } from "@/lib/config/site";
 import { ModuleEmoji, type ModuleEmojiKind } from "@/components/ui/ModuleEmoji";
+import { DesktopIntro } from "@/components/brand/DesktopIntro";
 export const metadata: Metadata = {
   title: `${BRAND.siteName} — IELTS inside a private centre`,
   description: BRAND.tagline,
@@ -41,6 +42,7 @@ export default async function Home() {
       ? "/dashboard"
       : "/pending";
   return (
+    <DesktopIntro destination={destination}>
     <div
       data-theme="night"
       className="la-welcome flex min-h-dvh flex-col bg-paper text-ink-900"
@@ -97,5 +99,6 @@ export default async function Home() {
         {t.footer}
       </footer>
     </div>
+    </DesktopIntro>
   );
 }

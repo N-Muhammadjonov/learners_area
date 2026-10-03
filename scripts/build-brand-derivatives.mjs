@@ -35,6 +35,7 @@ const SOURCES = {
   horizontalLight: "learners-area-logo-horizontal-light.png",
   horizontalDark: "learners-area-logo-horizontal-dark.png",
   favicon: "learners-area-favicon.png",
+  ownerNight: "Learners_Area_V11_Exact_Cutout_Logo.png",
 };
 
 /**
@@ -45,6 +46,8 @@ const SOURCES = {
  * displayed at ~320px wide, so 640px covers it at 2×.
  */
 const TARGETS = [
+  { name: "owner-v11-night-96.png", source: "ownerNight", width: 96 },
+  { name: "owner-v11-night-192.png", source: "ownerNight", width: 192 },
   { name: "mark-light-96.png", source: "markLight", width: 96 },
   { name: "mark-light-192.png", source: "markLight", width: 192 },
   { name: "mark-dark-96.png", source: "markDark", width: 96 },

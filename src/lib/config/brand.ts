@@ -74,6 +74,7 @@ export type BrandAssets = {
 
 /** One canonical directory for approved brand artwork. */
 export const BRAND_ASSET_DIR = "/brand";
+export const INTRO_VIDEO = `${BRAND_ASSET_DIR}/Learners_Area_2K_Clean_Background_v16_FINAL.mp4`;
 
 /**
  * Runtime derivatives of the approved artwork.
@@ -110,7 +111,7 @@ const DERIVED_DIR = `${BRAND_ASSET_DIR}/derived`;
 /** The mark, per theme, sized for a ~40–48px slot. */
 export const BRAND_MARK: Record<BrandTheme, BrandDerivative> = {
   day: { width: 48, height: 48, src: `${DERIVED_DIR}/mark-night-cutout-96.png`, src2x: `${DERIVED_DIR}/mark-night-cutout-192.png` },
-  night: { width: 48, height: 48, src: `${DERIVED_DIR}/mark-day-cutout-96.png`, src2x: `${DERIVED_DIR}/mark-day-cutout-192.png` },
+  night: { width: 48, height: 36, src: `${DERIVED_DIR}/owner-v11-night-96.png`, src2x: `${DERIVED_DIR}/owner-v11-night-192.png` },
 };
 
 /** The horizontal lock-up, sized for the ~300px slot the auth screens use. */
@@ -138,7 +139,7 @@ export const BRAND_FAVICON = {
 
 export const BRAND_ASSETS: BrandAssets = {
   logoMasterDark: `${BRAND_ASSET_DIR}/learners-area-logo-master-dark.png`,
-  logoMarkDark: `${BRAND_ASSET_DIR}/learners-area-logo-mark-dark.png`,
+  logoMarkDark: `${BRAND_ASSET_DIR}/Learners_Area_V11_Exact_Cutout_Logo.png`,
   logoMarkLight: `${BRAND_ASSET_DIR}/learners-area-logo-mark-light.png`,
   logoHorizontalDark: `${BRAND_ASSET_DIR}/learners-area-logo-horizontal-dark.png`,
   logoHorizontalLight: `${BRAND_ASSET_DIR}/learners-area-logo-horizontal-light.png`,
@@ -162,9 +163,9 @@ export function brandLogoFor(kind: BrandLogoKind, theme: BrandTheme): string {
     case "mark":
       return theme === "night" ? BRAND_ASSETS.logoMarkDark : BRAND_ASSETS.logoMarkLight;
     case "horizontal":
-      return theme === "night" ? BRAND_ASSETS.logoHorizontalLight : BRAND_ASSETS.logoHorizontalDark;
+      return theme === "night" ? BRAND_ASSETS.logoMarkDark : BRAND_ASSETS.logoHorizontalDark;
     case "master":
-      return BRAND_ASSETS.logoMasterDark;
+      return theme === "night" ? BRAND_ASSETS.logoMarkDark : BRAND_ASSETS.logoMasterDark;
   }
 }
 

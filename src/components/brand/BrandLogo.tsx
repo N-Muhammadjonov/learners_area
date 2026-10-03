@@ -124,7 +124,7 @@ export function BrandLogo({
         aria-hidden={hidden}
         loading={loading}
         decoding="async"
-        {...intrinsic}
+        {...(sized ? { width: sized.night.width, height: sized.night.height } : intrinsic)}
         className={`brand-asset-dark h-full w-auto object-contain ${imgClassName}`}
       />
     </span>
