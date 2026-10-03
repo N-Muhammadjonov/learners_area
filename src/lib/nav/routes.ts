@@ -69,6 +69,7 @@ const ENTRIES: Entry[] = [
   { prefix: "/mocks", exact: true, build: (d) => [{ label: d.nav.mocks, href: "/mocks" }] },
   { prefix: "/mocks/", build: (d) => [{ label: d.nav.mocks, href: "/mocks" }, { label: d.mocks.catalogue, href: "/mocks" }] },
 
+  { prefix: "/reports", exact: true, build: (d) => [{ label: d.reporter.title, href: "/reports" }] },
   { prefix: "/progress", exact: true, build: (d) => [{ label: d.nav.progress, href: "/progress" }] },
   { prefix: "/live-classes", exact: true, build: (d) => [{ label: d.nav.liveClasses, href: "/live-classes" }] },
   { prefix: "/notifications", exact: true, build: (d) => [{ label: d.notifications.title, href: "/notifications" }] },

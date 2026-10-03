@@ -161,6 +161,13 @@ export default async function ManagementPage() {
     );
   }
 
+  areas.push({
+    href: "/reports",
+    title: dict.reporter.title,
+    body: dict.reporter.managementBody,
+    icon: <IconAudit />,
+  });
+
   if (owner) {
     areas.push(
       {
