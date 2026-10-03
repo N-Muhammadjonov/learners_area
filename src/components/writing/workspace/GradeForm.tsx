@@ -1,4 +1,5 @@
 "use client";
+import { useScopedRequest } from "@/lib/http/use-scoped-request";
 
 import { useEffect, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
@@ -16,6 +17,7 @@ const DRAFT_KEY = "la-writing-grade-draft";
 type PublishedPrompt = { id: string; category: string; prompt: string };
 
 export function GradeForm({ dict, task1Prompts = [], visuals = {} }: { dict: Dictionary; task1Prompts?: PublishedPrompt[]; visuals?: Record<string, ReactNode> }) {
+  const request = useScopedRequest();
   const t = dict.writingWorkspace.grade;
   const gx = dict.writingWorkspace.gradeExtra;
   const [promptId, setPromptId] = useState<string>("");
@@ -57,14 +59,15 @@ export function GradeForm({ dict, task1Prompts = [], visuals = {} }: { dict: Dic
     if (!key) { setKey(idem); persist({ key: idem }); }
     setBusy(true);
     try {
-      const res = await fetch("/api/writing/grade", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ taskType: task, question, essay, idempotencyKey: idem, ...(usePublished ? { promptId } : {}) }) });
-      const data = await res.json().catch(() => ({})) as { id?: string; error?: { code?: string } };
-      if (data.id) {
+      const res = await request<{id?: string}>("/api/writing/grade", {method: "POST", timeoutMs: 60000, body: { taskType: task, question, essay, idempotencyKey: idem, ...(usePublished ? { promptId } : {}) }});
+      if (!res) return;
+      const data = res.ok ? res.data : null;
+      if (res.ok && data?.id) {
         try { window.localStorage.removeItem(DRAFT_KEY); } catch { /* ignore */ }
         router.push(`/writing/grade/${data.id}`);
         return;
       }
-      setError(data.error?.code === "too_short" ? t.errors.tooShort.replace("{n}", String(MIN_GRADE_WORDS)) : t.errors.generic);
+      setError(!res.ok && res.error === "too_short" ? t.errors.tooShort.replace("{n}", String(MIN_GRADE_WORDS)) : t.errors.generic);
     } catch {
       // Not retried automatically: the essay is saved on the server if the request arrived — check My essays.
       setError(t.errors.network);

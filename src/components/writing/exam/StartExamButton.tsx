@@ -1,4 +1,5 @@
 "use client";
+import { useScopedRequest } from "@/lib/http/use-scoped-request";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -8,16 +9,18 @@ import type { ExamMode } from "@/lib/writing/exam-modes";
 export function StartExamButton({ mode, label, busyLabel, errorLabel, otherOpenLabel, disabled }: {
   mode: ExamMode; label: string; busyLabel: string; errorLabel: string; otherOpenLabel: string; disabled?: boolean;
 }) {
+  const request = useScopedRequest();
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const start = async () => {
     setBusy(true); setError(null);
     try {
-      const res = await fetch("/api/writing/exam", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ mode }) });
-      const data = (await res.json().catch(() => null)) as { id?: string; error?: { code?: string } } | null;
-      if (res.ok && data?.id) { router.push(`/writing/exam/${data.id}`); return; }
-      setError(data?.error?.code === "other_paper_open" ? otherOpenLabel : errorLabel);
+      const res = await request<Record<string, unknown>>("/api/writing/exam", {method: "POST", timeoutMs: 25000, body: { mode }});
+      if (!res) return;
+      const data = (res.ok ? res.data : null) as { id?: string; error?: { code?: string } } | null;
+      if (res.ok && data?.id) { setBusy(false); router.push(`/writing/exam/${data.id}`); return; }
+      setError(!res.ok && res.error === "other_paper_open" ? otherOpenLabel : errorLabel);
     } catch { setError(errorLabel); }
     setBusy(false);
   };

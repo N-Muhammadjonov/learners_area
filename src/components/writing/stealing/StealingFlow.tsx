@@ -1,4 +1,5 @@
 "use client";
+import { useScopedRequest } from "@/lib/http/use-scoped-request";
 
 import { formatDateTime } from "@/lib/time";
 import { useState } from "react";
@@ -8,6 +9,7 @@ import { MIN_BRAINSTORM_WORDS, MIN_COMPARE_WORDS, MIN_DRAFT_WORDS, STEALING_STEP
 
 /** The 7-step Language Stealing workflow. Every step is validated and stored by the server; the next unlocks only then. */
 export function StealingFlow({ dict, initial, locale }: { dict: Dictionary; initial: StealingView; locale: "uz" | "en" }) {
+  const request = useScopedRequest();
   const t = dict.writingWorkspace.stealing;
   const fns = dict.writingWorkspace.topicVocab.fns;
   const [v, setV] = useState(initial);
@@ -19,11 +21,13 @@ export function StealingFlow({ dict, initial, locale }: { dict: Dictionary; init
   const [error, setError] = useState<string | null>(null);
 
   async function send(body: Record<string, unknown>) {
+    if (busy) return null;
     setBusy(true); setError(null);
-    const res = await fetch(`/api/writing/stealing/sessions/${v.id}`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) }).catch(() => null);
+    const res = await request<{view?: StealingView; recalled?: boolean}>(`/api/writing/stealing/sessions/${v.id}`, {body});
+    if (!res) return null;
     setBusy(false);
-    const data = res ? ((await res.json().catch(() => null)) as { view?: StealingView; recalled?: boolean; error?: { code: string } } | null) : null;
-    if (!res?.ok || !data?.view) { setError(data?.error?.code === "too_short" ? t.tooShort : t.error); return null; }
+    const data = res.ok ? res.data : null;
+    if (!res.ok || !data?.view) { setError(!res.ok && res.error === "too_short" ? t.tooShort : t.error); return null; }
     if (data.view.step !== v.step) setText("");
     setV(data.view);
     return data;

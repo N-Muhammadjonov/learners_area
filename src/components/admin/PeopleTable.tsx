@@ -1,4 +1,5 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -57,6 +58,8 @@ export function PeopleTable({
   actorRole: Role;
   grantableRoles: Role[];
 }) {
+  const requestResponse = useScopedResponse(25000);
+
   const t = dict.people;
   const router = useRouter();
   const [busyId, setBusyId] = useState<string | null>(null);
@@ -72,11 +75,12 @@ export function PeopleTable({
     setBusyId(person.id);
     setError(null);
     try {
-      const res = await fetch(`/api/admin/users/${person.id}/role`, {
+      const res = await requestResponse(`/api/admin/users/${person.id}/role`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ role }),
       });
+    if (!res) return;
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         setError(`${t.failed} ${apiErrorMessage(data.error, res.status, dict)}`);
@@ -95,11 +99,12 @@ export function PeopleTable({
     setBusyId(person.id);
     setError(null);
     try {
-      const res = await fetch(`/api/admin/users/${person.id}/status`, {
+      const res = await requestResponse(`/api/admin/users/${person.id}/status`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status, reason: reason.trim() || null }),
       });
+    if (!res) return;
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         setError(`${t.failed} ${apiErrorMessage(data.error, res.status, dict)}`);

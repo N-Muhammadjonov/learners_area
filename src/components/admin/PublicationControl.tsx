@@ -1,4 +1,5 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -30,6 +31,8 @@ export function PublicationControl({
   /** Localized sentences for server publish-blocker codes (Writing Management). Raw codes are never shown. */
   issueLabels?: Record<string, string>;
 }) {
+  const requestResponse = useScopedResponse(25000);
+
   const t = dict.admin.publication;
   const router = useRouter();
   const [next, setNext] = useState<PublicationState>(state);
@@ -43,7 +46,7 @@ export function PublicationControl({
   async function save() {
     setBusy(true);
     setMessage(null);
-    const response = await fetch(`/api/admin/content/${type}/${id}/publication`, {
+    const response = await requestResponse(`/api/admin/content/${type}/${id}/publication`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -51,6 +54,7 @@ export function PublicationControl({
         publishAt: next === "scheduled" && moment ? new Date(moment).toISOString() : null,
       }),
     }).catch(() => null);
+    if (!response) return;
     setBusy(false);
     setIssues([]);
     if (!response || !response.ok) {

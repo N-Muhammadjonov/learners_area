@@ -1,4 +1,5 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
@@ -34,6 +35,8 @@ export function ProfileMenu({
   userEmail: string | null;
   role: Role;
 }) {
+  const requestResponse = useScopedResponse(25000);
+
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -133,7 +136,8 @@ export function ProfileMenu({
               pendingLabel={dict.loadingPage.label}
               failureMessage={dict.auth.errorServer}
               onConfirm={async () => {
-                const response = await fetch("/api/auth/logout", { method: "POST" });
+                const response = await requestResponse("/api/auth/logout", { method: "POST" });
+    if (!response) return;
                 if (!response.ok) throw new Error("Logout was not confirmed by the server");
                 // Private learner data must not survive the session in browser memory.
                 privateResources.setScope(null);

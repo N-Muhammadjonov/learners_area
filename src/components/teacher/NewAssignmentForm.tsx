@@ -1,4 +1,5 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -23,6 +24,8 @@ export function NewAssignmentForm({
   studentId: string;
   prompts: { id: string; label: string }[];
 }) {
+  const requestResponse = useScopedResponse(25000);
+
   const t = dict.teacher;
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -36,7 +39,7 @@ export function NewAssignmentForm({
   async function submit() {
     setBusy(true);
     setError(null);
-    const res = await fetch("/api/assignments", {
+    const res = await requestResponse("/api/assignments", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -46,6 +49,7 @@ export function NewAssignmentForm({
         relatedWritingPromptId: promptId || null,
       }),
     });
+    if (!res) return;
     setBusy(false);
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));

@@ -1,4 +1,5 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -41,6 +42,8 @@ export function AssignmentBoard({
    */
   materials: Record<string, ResourceBlockView[]>;
 }) {
+  const requestResponse = useScopedResponse(60000);
+
   const t = dict.assignments;
   const router = useRouter();
   const [drafts, setDrafts] = useState<Record<string, string>>(
@@ -57,11 +60,12 @@ export function AssignmentBoard({
     }
     setBusyId(assignment.id);
     setErrors((prev) => ({ ...prev, [assignment.id]: "" }));
-    const res = await fetch(`/api/assignments/${assignment.id}/evaluate`, {
+    const res = await requestResponse(`/api/assignments/${assignment.id}/evaluate`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ response }),
     });
+    if (!res) return;
     setBusyId(null);
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));

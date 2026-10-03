@@ -1,4 +1,5 @@
 "use client";
+import { useScopedRequest } from "@/lib/http/use-scoped-request";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -12,15 +13,17 @@ export function ExamGradeButton({ taskType, question, essay, idempotencyKey, pro
   taskType: "task1" | "task2"; question: string; essay: string; idempotencyKey: string; promptId: string;
   labels: { grade: string; grading: string; failed: string };
 }) {
+  const request = useScopedRequest();
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(false);
   const run = async () => {
     setBusy(true); setError(false);
     try {
-      const res = await fetch("/api/writing/grade", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ taskType, question, essay, idempotencyKey, promptId }) });
-      const data = (await res.json().catch(() => null)) as { id?: string; ok?: boolean } | null;
-      if (data?.id) { router.push(`/writing/grade/${data.id}`); return; }
+      const res = await request<Record<string, unknown>>("/api/writing/grade", {method: "POST", timeoutMs: 60000, body: { taskType, question, essay, idempotencyKey, promptId }});
+      if (!res) return;
+      const data = (res.ok ? res.data : null) as { id?: string; ok?: boolean } | null;
+      if (res.ok && data?.id) { setBusy(false); router.push(`/writing/grade/${data.id}`); return; }
       setError(true);
     } catch { setError(true); }
     setBusy(false);

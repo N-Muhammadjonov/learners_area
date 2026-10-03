@@ -30,7 +30,8 @@ test("B3 the Management Listening import uses BackLink to /admin/listening; the 
   const legacy = readFileSync("src/app/(app)/listening/import/page.tsx", "utf8");
   assert.match(legacy, /redirect\(administrator \? "\/admin\/listening\/import" : "\/listening"\)/);
   assert.doesNotMatch(legacy, /<ListeningImport|components\/listening\/ListeningImport/);
-  assert.match(readFileSync("src/app/(app)/listening/page.tsx", "utf8"), /href="\/admin\/listening\/import"/);
+  assert.doesNotMatch(readFileSync("src/app/(app)/listening/page.tsx", "utf8"), /href="\/admin\/listening\/import"/);
+  assert.match(readFileSync("src/app/(app)/admin/listening/page.tsx", "utf8"), /href="\/admin\/listening\/import"/);
 });
 
 test("B4 nested learner and management pages use the shared BackLink (no hand-rolled ← links)", () => {

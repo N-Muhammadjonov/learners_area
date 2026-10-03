@@ -1,4 +1,5 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -8,6 +9,8 @@ import type { Dictionary } from "@/lib/i18n/en";
 import { apiErrorMessage } from "@/lib/api-error-message";
 
 export function NewLiveClassForm({ dict }: { dict: Dictionary }) {
+  const requestResponse = useScopedResponse(25000);
+
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
@@ -27,7 +30,7 @@ export function NewLiveClassForm({ dict }: { dict: Dictionary }) {
         e.preventDefault();
         setPending(true);
         setError("");
-        const res = await fetch("/api/teacher/live-classes", {
+        const res = await requestResponse("/api/teacher/live-classes", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -38,6 +41,7 @@ export function NewLiveClassForm({ dict }: { dict: Dictionary }) {
             meetingUrl: meetingUrl || undefined,
           }),
         });
+    if (!res) return;
         setPending(false);
         if (res.ok) {
           setOpen(false);

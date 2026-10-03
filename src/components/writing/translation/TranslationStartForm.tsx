@@ -1,4 +1,5 @@
 "use client";
+import { useScopedRequest } from "@/lib/http/use-scoped-request";
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -8,6 +9,7 @@ import { TRANSLATION_BANDS, TRANSLATION_QUESTION_TYPES, type TranslationQuestion
 
 /** Setup (PDF p.8): Random essay or Choose topic, question family, target band. */
 export function TranslationStartForm({ dict, sets }: { dict: Dictionary; sets: SetSummary[] }) {
+  const request = useScopedRequest();
   const t = dict.writingWorkspace.translation;
   const router = useRouter();
   const [path, setPath] = useState<"random" | "topic">("random");
@@ -23,9 +25,10 @@ export function TranslationStartForm({ dict, sets }: { dict: Dictionary; sets: S
     setBusy(true); setError(null);
     const payload = path === "topic" ? { setId } : { random: { ...(type ? { questionType: type } : {}), ...(band ? { targetBand: band } : {}) } };
     try {
-      const res = await fetch("/api/writing/translation", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(payload) });
-      const data = (await res.json().catch(() => null)) as { id?: string } | null;
-      if (res.ok && data?.id) { router.push(`/writing/translation/${data.id}`); return; }
+      const res = await request<Record<string, unknown>>("/api/writing/translation", {method: "POST", timeoutMs: 25000, body: payload});
+      if (!res) return;
+      const data = (res.ok ? res.data : null) as { id?: string } | null;
+      if (res.ok && data?.id) { setBusy(false); router.push(`/writing/translation/${data.id}`); return; }
       setError(res.status === 404 ? t.noMatch : t.startError);
     } catch { setError(t.startError); }
     setBusy(false);

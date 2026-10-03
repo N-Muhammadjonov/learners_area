@@ -1,4 +1,5 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -21,6 +22,9 @@ export function VocabBoardPanel({
   dict: Dictionary;
   compact?: boolean;
 }) {
+  const requestResponse = useScopedResponse(25000);
+  const requestAwards = useScopedResponse(25000);
+
   const t = dict.vocabulary;
   const router = useRouter();
   const [awards, setAwards] = useState<VocabAward[]>([]);
@@ -32,7 +36,8 @@ export function VocabBoardPanel({
   const refreshLedger = useCallback(async () => {
     setStatus("loading");
     try {
-      const res = await fetch("/api/vocabulary/leaderboard", { cache: "no-store" });
+      const res = await requestResponse("/api/vocabulary/leaderboard", { cache: "no-store" });
+    if (!res) return;
       if (res.status === 401) router.refresh();
       const payload = await res.json().catch(() => null);
       if (!res.ok || !payload?.ok) throw new Error("leaderboard unavailable");
@@ -48,12 +53,13 @@ export function VocabBoardPanel({
     } catch {
       setStatus("error");
     }
-  }, [router]);
+  }, [router, requestResponse]);
 
   const refreshStanding = useCallback(async () => {
     setStatus("loading");
     try {
-      const res = await fetch("/api/vocabulary/leaderboard?view=standing", { cache: "no-store" });
+      const res = await requestResponse("/api/vocabulary/leaderboard?view=standing", { cache: "no-store" });
+    if (!res) return;
       if (res.status === 401) router.refresh();
       const payload = await res.json().catch(() => null);
       if (!res.ok || !payload?.ok) throw new Error("standing unavailable");
@@ -67,13 +73,14 @@ export function VocabBoardPanel({
     } catch {
       setStatus("error");
     }
-  }, [router]);
+  }, [router, requestResponse]);
 
   const refreshAwards = useCallback(async () => {
     if (awardsRetrying) return;
     setAwardsRetrying(true);
     try {
-      const res = await fetch("/api/vocabulary/leaderboard?view=awards", { cache: "no-store" });
+      const res = await requestAwards("/api/vocabulary/leaderboard?view=awards", { cache: "no-store" });
+    if (!res) return;
       if (res.status === 401) router.refresh();
       const payload = await res.json().catch(() => null);
       if (!res.ok || !payload?.ok) throw new Error("award history unavailable");
@@ -84,7 +91,7 @@ export function VocabBoardPanel({
     } finally {
       setAwardsRetrying(false);
     }
-  }, [awardsRetrying, router]);
+  }, [awardsRetrying, router, requestAwards]);
 
   useEffect(() => {
     void refreshLedger();

@@ -1,4 +1,5 @@
 "use client";
+import { useScopedRequest } from "@/lib/http/use-scoped-request";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Dictionary } from "@/lib/i18n/en";
@@ -23,6 +24,7 @@ type RunResult = TypingResult & { presetSeconds?: number | null };
 export function TypingTrainer({ dict, texts, initialSummary, initialHistory }: {
   dict: Dictionary; texts: ModelTextView[]; initialSummary: Summary; initialHistory: HistoryRow[];
 }) {
+  const request = useScopedRequest();
   const t = dict.writingWorkspace.typing;
   const [textId, setTextId] = useState(texts[0]?.id ?? "");
   const [typed, setTyped] = useState("");
@@ -70,10 +72,12 @@ export function TypingTrainer({ dict, texts, initialSummary, initialHistory }: {
   if (!text) return null;
 
   const start = async () => {
+    if (busy !== null) return;
     setBusy("start"); setError(null); setResult(null); setTyped(""); typedRef.current = ""; setElapsed(0); setStartedAt(null); setTimeUp(false); finishing.current = false;
     try {
-      const res = await fetch("/api/writing/typing/start", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ modelTextId: text.id, presetSeconds: preset }) });
-      const data = (await res.json().catch(() => null)) as { token?: string } | null;
+      const res = await request<{token?: string}>("/api/writing/typing/start", {body: {modelTextId: text.id, presetSeconds: preset}});
+      if (!res) return;
+      const data = res.ok ? res.data : null;
       if (!res.ok || !data?.token) { setError(t.error); setBusy(null); return; }
       setToken(data.token);
       setRunPreset(preset);
@@ -93,10 +97,11 @@ export function TypingTrainer({ dict, texts, initialSummary, initialHistory }: {
     const durationMs = runPreset === null ? measured : Math.min(measured, runPreset * 1000);
     setBusy("finish"); setError(null);
     try {
-      const res = await fetch("/api/writing/typing", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ modelTextId: text.id, typedText: typedRef.current, durationMs, token }) });
-      const data = (await res.json().catch(() => null)) as { run?: RunResult; summary?: Summary; history?: HistoryRow[]; error?: { code?: string } } | null;
+      const res = await request<{run?: RunResult; summary?: Summary; history?: HistoryRow[]}>("/api/writing/typing", {body: {modelTextId: text.id, typedText: typedRef.current, durationMs, token}});
+      if (!res) return;
+      const data = res.ok ? res.data : null;
       if (!res.ok || !data?.run) {
-        const code = data?.error?.code;
+        const code = res.ok ? null : res.error;
         setError(code === "invalid_duration" ? t.tooShort : code === "invalid_token" || code === "expired" ? t.expired : t.error);
         // A failed save keeps the typed text and lets the learner press Finish again (never auto-retried).
         finishing.current = false;

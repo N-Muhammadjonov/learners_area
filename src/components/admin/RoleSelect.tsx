@@ -1,4 +1,5 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useRouter } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n/en";
@@ -17,6 +18,8 @@ export function RoleSelect({
   options: Role[];
   dict: Dictionary;
 }) {
+  const requestResponse = useScopedResponse(25000);
+
   const router = useRouter();
 
   return (
@@ -32,11 +35,12 @@ export function RoleSelect({
       pendingLabel={dict.loadingPage.label}
       failureMessage={dict.people.failed}
       onConfirm={async (role) => {
-        const response = await fetch(`/api/admin/users/${userId}/role`, {
+        const response = await requestResponse(`/api/admin/users/${userId}/role`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ role }),
         });
+    if (!response) return;
         if (!response.ok) throw new Error("role_change_failed");
         router.refresh();
       }}

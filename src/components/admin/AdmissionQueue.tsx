@@ -1,4 +1,5 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -21,6 +22,8 @@ export function AdmissionQueue({
   dict: Dictionary;
   requests: AccessRequestRow[];
 }) {
+  const requestResponse = useScopedResponse(25000);
+
   const router = useRouter();
   const [busy, setBusy] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -30,11 +33,12 @@ export function AdmissionQueue({
     setBusy(id);
     setError(null);
     try {
-      const res = await fetch(`/api/admin/admission/${id}/decide`, {
+      const res = await requestResponse(`/api/admin/admission/${id}/decide`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ decision, note: note[id]?.trim() || null }),
       });
+    if (!res) return;
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         setError(`${dict.people.failed} ${apiErrorMessage(data.error, res.status, dict)}`);

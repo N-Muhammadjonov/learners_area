@@ -1,4 +1,5 @@
 "use client";
+import { useScopedRequest } from "@/lib/http/use-scoped-request";
 
 import { formatDate } from "@/lib/time";
 import { useEffect, useRef, useState } from "react";
@@ -62,6 +63,7 @@ function Feedback({ t, entry }: { t: Dictionary["writingWorkspace"]["activation"
  * against MY Vocabulary on the server. Without AI: honest unavailable state.
  */
 export function ActivationLab({ dict, aiReady, vocabularyCount, initialItem, overview, locale }: { dict: Dictionary; aiReady: boolean; vocabularyCount: number; initialItem?: string | null; overview: ActivationOverviewView; locale: "uz" | "en" }) {
+  const request = useScopedRequest();
   const t = dict.writingWorkspace.activation;
   const [setup, setSetup] = useState<Setup>({ source: initialItem || vocabularyCount === 0 ? "own" : "random", ownList: initialItem ?? "", count: 10, mode: "writing", task: "invent", level: "6.5", feedback: "instant" });
   const [phase, setPhase] = useState<"setup" | "session" | "summary">("setup");
@@ -86,21 +88,19 @@ export function ActivationLab({ dict, aiReady, vocabularyCount, initialItem, ove
   if (!aiReady) return <p role="status" className="rounded-md border border-ink-100 bg-paper-sunken p-4 text-base text-ink-700" data-activation-unavailable>{t.aiUnavailable}</p>;
 
   async function start() {
+    if (busy) return;
     setError(null);
-    let req: Promise<Response | null>;
-    if (setup.source === "own") {
-      const terms = setup.ownList.split("\n").map((s) => s.trim()).filter(Boolean).slice(0, 30);
-      if (!terms.length) { setError(t.noItems); return; }
-      req = fetch("/api/writing/activation/items", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ terms }) }).catch(() => null);
-    } else {
-      req = fetch(`/api/writing/activation/items?count=${setup.count}`, { cache: "no-store" }).catch(() => null);
-    }
+    const terms = setup.ownList.split("\n").map(s => s.trim()).filter(Boolean).slice(0, 30);
+    if (setup.source === "own" && !terms.length) {setError(t.noItems); return;}
     setBusy(true);
-    const res = await req;
+    const res = setup.source === "own"
+      ? await request<{items: Item[]}>("/api/writing/activation/items", {body: {terms}})
+      : await request<{items: Item[]}>(`/api/writing/activation/items?count=${setup.count}`, {method: "GET"});
+    if (!res) return;
     setBusy(false);
-    const data = res?.ok ? ((await res.json()) as { items: Item[] }) : null;
-    if (!data) { setError(t.error); return; }
-    if (data.items.length === 0) { setError(setup.source === "own" ? t.noItems : t.noVocabulary); return; }
+    const data = res.ok ? res.data : null;
+    if (!data || !Array.isArray(data.items)) {setError(t.error); return;}
+    if (!data.items.length) {setError(setup.source === "own" ? t.noItems : t.noVocabulary); return;}
     sessionId.current = crypto.randomUUID();
     setItems(data.items); setIndex(0); setLog([]); setStats(null); setSeconds(0); setCurrent(null); setAnswer(""); setPlain("");
     setPhase("session");
@@ -110,13 +110,14 @@ export function ActivationLab({ dict, aiReady, vocabularyCount, initialItem, ove
     const item = items[index];
     if (!item || !answer.trim() || busy) return;
     setBusy(true); setError(null);
-    const res = await fetch("/api/writing/activation/check", {
-      method: "POST", headers: { "content-type": "application/json" },
-      body: JSON.stringify({ sessionId: sessionId.current, entryId: item.entryId, customTerm: item.entryId ? null : item.term, mode: setup.mode, targetLevel: setup.level, uzbekPrompt: setup.task === "uzbek", upgradeFrom: setup.task === "upgrade" ? plain : null, answer }),
-    }).catch(() => null);
+    const res = await request<Result>("/api/writing/activation/check", {
+      timeoutMs: 60_000,
+      body: {sessionId: sessionId.current, entryId: item.entryId, customTerm: item.entryId ? null : item.term, mode: setup.mode, targetLevel: setup.level, uzbekPrompt: setup.task === "uzbek", upgradeFrom: setup.task === "upgrade" ? plain : null, answer},
+    });
+    if (!res) return;
     setBusy(false);
-    if (!res?.ok) { setError(t.error); return; }
-    const r = (await res.json()) as Result;
+    if (!res.ok || !res.data?.stats) {setError(t.error); return;}
+    const r = res.data;
     setStats(r.stats);
     const entry = { item, answer, r };
     setLog((l) => [...l.filter((e) => e.item !== item), entry]);

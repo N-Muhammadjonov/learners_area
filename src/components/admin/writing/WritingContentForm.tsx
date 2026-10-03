@@ -1,4 +1,5 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -19,6 +20,8 @@ const str = (v: unknown) => (v == null ? "" : String(v));
  * problems as localized sentences — never raw codes.
  */
 export function WritingContentForm({ dict, kind, id, initial, sources }: { dict: Dictionary; kind: WritingAdminKind; id: string | null; initial: Values; sources: { id: string; title: string }[] }) {
+  const requestResponse = useScopedResponse(25000);
+
   const t = dict.admin.writingAdmin;
   const f = t.fields;
   const router = useRouter();
@@ -48,9 +51,10 @@ export function WritingContentForm({ dict, kind, id, initial, sources }: { dict:
 
   async function save() {
     setBusy(true); setIssues([]); setSaved(false);
-    const res = await fetch(id ? `/api/admin/writing/${kind}/${id}` : `/api/admin/writing/${kind}`, {
+    const res = await requestResponse(id ? `/api/admin/writing/${kind}/${id}` : `/api/admin/writing/${kind}`, {
       method: id ? "PUT" : "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(payload()),
     }).catch(() => null);
+    if (!res) return;
     setBusy(false);
     const data = res ? ((await res.json().catch(() => null)) as { id?: string; error?: { issues?: string[] } } | null) : null;
     if (!res?.ok || !data?.id) { setIssues(data?.error?.issues?.length ? data.error.issues : ["write_failed"]); return; }

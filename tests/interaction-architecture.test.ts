@@ -93,8 +93,8 @@ test("role, account-status, and admission decisions require a modal before autho
   const legacyRole = read("src/components/admin/RoleSelect.tsx");
   assert.match(people, /<ConfirmSelect/);
   assert.match(people, /<ConfirmAction/);
-  assert.match(people, /fetch\(`\/api\/admin\/users\/\$\{person\.id\}\/role`/);
-  assert.match(people, /fetch\(`\/api\/admin\/users\/\$\{person\.id\}\/status`/);
+  assert.match(people, /requestResponse\(`\/api\/admin\/users\/\$\{person\.id\}\/role`/);
+  assert.match(people, /requestResponse\(`\/api\/admin\/users\/\$\{person\.id\}\/status`/);
   assert.match(admission, /<ConfirmAction[\s\S]*?onConfirm=\{\(\) => decide/);
   assert.match(legacyRole, /<ConfirmSelect/);
 });

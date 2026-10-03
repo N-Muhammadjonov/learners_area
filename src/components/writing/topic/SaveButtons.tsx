@@ -1,21 +1,24 @@
 "use client";
+import { useScopedRequest } from "@/lib/http/use-scoped-request";
 
 import { useState } from "react";
 import type { PackWord } from "@/lib/services/vocabulary/packs";
 
 /** Save one authored topic word through the canonical vocabulary engine (POST /api/vocabulary). */
 export function SaveWordButton({ word, packId, initialSaved, labels }: { word: PackWord; packId: string; initialSaved: boolean; labels: { save: string; saved: string; saving: string; error: string } }) {
+  const request = useScopedRequest();
   const [saved, setSaved] = useState(initialSaved);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(false);
   const save = async () => {
     setBusy(true); setError(false);
     try {
-      const res = await fetch("/api/vocabulary", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({
+      const res = await request<Record<string, unknown>>("/api/vocabulary", {method: "POST", timeoutMs: 25000, body: {
         items: [{ term: word.term, definitionEn: word.definitionEn, translationUz: word.translationUz, exampleSentence: word.example, partOfSpeech: word.partOfSpeech }],
         topicPack: packId, sourceType: "writing_topic_vocabulary",
-      }) });
-      const data = (await res.json().catch(() => null)) as { ok?: boolean } | null;
+      }});
+      if (!res) return;
+      const data = (res.ok ? res.data : null) as { ok?: boolean } | null;
       if (res.ok && data?.ok !== false) setSaved(true); else setError(true);
     } catch { setError(true); }
     setBusy(false);
@@ -31,13 +34,15 @@ export function SaveWordButton({ word, packId, initialSaved, labels }: { word: P
 
 /** Save / unsave a published phrase in the pattern bank (used by Language Stealing). */
 export function SavePatternButton({ id, initialSaved, labels }: { id: string; initialSaved: boolean; labels: { save: string; saved: string; error: string } }) {
+  const request = useScopedRequest();
   const [saved, setSaved] = useState(initialSaved);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(false);
   const toggle = async () => {
     setBusy(true); setError(false);
     try {
-      const res = await fetch(`/api/writing/patterns/${id}`, { method: "PUT", headers: { "content-type": "application/json" }, body: JSON.stringify({ saved: !saved }) });
+      const res = await request<Record<string, unknown>>(`/api/writing/patterns/${id}`, {method: "PUT", timeoutMs: 25000, body: { saved: !saved }});
+      if (!res) return;
       if (res.ok) setSaved(!saved); else setError(true);
     } catch { setError(true); }
     setBusy(false);

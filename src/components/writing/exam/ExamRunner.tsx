@@ -6,6 +6,7 @@ import type { Dictionary } from "@/lib/i18n/en";
 import type { ExamPaperView } from "@/lib/services/writing/exam";
 import { countEssayWords } from "@/lib/writing/grade-criteria";
 import { EXAM_AUTOSAVE_DEBOUNCE_MS, EXAM_MIN_WORDS, formatClock } from "@/lib/writing/exam-modes";
+import { useScopedRequest } from "@/lib/http/use-scoped-request";
 
 type SaveState = "idle" | "saving" | "saved" | "failed";
 type EntryState = { text: string; revision: number; savedRevision: number };
@@ -22,6 +23,10 @@ const RETRY_STEPS_MS = [2000, 4000, 8000, 15000, 30000];
 export function ExamRunner({ dict, paper, materials }: { dict: Dictionary; paper: ExamPaperView; materials: Record<number, ReactNode> }) {
   const t = dict.writingWorkspace.exam;
   const router = useRouter();
+  const saveRequest = useScopedRequest();
+  const finalizeRequest = useScopedRequest();
+  const alive = useRef(true);
+  useEffect(() => {alive.current = true; return () => {alive.current = false;};}, []);
   const [active, setActive] = useState(paper.entries[0]!.position);
   const [entries, setEntries] = useState<Record<number, EntryState>>(() =>
     Object.fromEntries(paper.entries.map((e) => [e.position, { text: e.content, revision: e.revision, savedRevision: e.revision }])));
@@ -72,10 +77,10 @@ export function ExamRunner({ dict, paper, materials }: { dict: Dictionary; paper
       let allOk = true;
       for (const [pos, e] of dirty) {
         try {
-          const res = await fetch(`/api/writing/exam/${paper.id}/draft`, {
-            method: "PUT", headers: { "content-type": "application/json" },
-            body: JSON.stringify({ position: Number(pos), content: e.text, revision: e.revision }),
+          const res = await saveRequest(`/api/writing/exam/${paper.id}/draft`, {
+            method: "PUT", body: {position: Number(pos), content: e.text, revision: e.revision},
           });
+          if (!res) return false;
           if (res.status === 409) { allOk = false; setFrozen(true); continue; }
           if (!res.ok) { allOk = false; continue; }
           setEntries((prev) => ({ ...prev, [pos]: { ...prev[Number(pos)]!, savedRevision: Math.max(prev[Number(pos)]!.savedRevision, e.revision) } }));
@@ -86,10 +91,11 @@ export function ExamRunner({ dict, paper, materials }: { dict: Dictionary; paper
     inflight.current = run;
     const ok = await run;
     inflight.current = null;
+    if (!alive.current) return false;
     setSave(ok ? "saved" : "failed");
     if (ok) timers.current.attempt = 0;
     return ok;
-  }, [paper.id]);
+  }, [paper.id, saveRequest]);
 
   const scheduleRetry = useCallback(() => {
     clearTimeout(timers.current.retry);
@@ -136,12 +142,15 @@ export function ExamRunner({ dict, paper, materials }: { dict: Dictionary; paper
   useEffect(() => () => { clearTimeout(timers.current.debounce); clearTimeout(timers.current.retry); }, []);
 
   const finish = async (reason: "submitted" | "abandoned") => {
+    if (busy) return;
     if (!window.confirm(reason === "submitted" ? t.submitConfirm : t.leaveConfirm)) return;
     setBusy(reason === "submitted" ? "submit" : "leave");
     clearTimeout(timers.current.debounce);
     const ok = await flush();
+    if (!alive.current) return;
     if (!ok && reason === "submitted") { setBusy(null); setNotice(t.saveFailed); scheduleRetry(); return; }
-    const res = await fetch(`/api/writing/exam/${paper.id}/finalize`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ reason }) }).catch(() => null);
+    const res = await finalizeRequest(`/api/writing/exam/${paper.id}/finalize`, {body: {reason}});
+    if (!res) return;
     setBusy(null);
     if (!res || !res.ok) { setNotice(t.saveFailed); return; }
     for (const e of paper.entries) { try { window.localStorage.removeItem(backupKey(paper.id, e.position)); } catch { /* ignore */ } }

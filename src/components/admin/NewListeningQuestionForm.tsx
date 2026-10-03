@@ -1,4 +1,5 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -10,6 +11,8 @@ import { apiErrorMessage } from "@/lib/api-error-message";
 type QType = "multiple_choice" | "short_answer";
 
 export function NewListeningQuestionForm({ dict, testId }: { dict: Dictionary; testId: string }) {
+  const requestResponse = useScopedResponse(25000);
+
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [type, setType] = useState<QType>("multiple_choice");
@@ -31,7 +34,7 @@ export function NewListeningQuestionForm({ dict, testId }: { dict: Dictionary; t
         e.preventDefault();
         setPending(true);
         setError("");
-        const res = await fetch(`/api/admin/listening/tests/${testId}/questions`, {
+        const res = await requestResponse(`/api/admin/listening/tests/${testId}/questions`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -42,6 +45,7 @@ export function NewListeningQuestionForm({ dict, testId }: { dict: Dictionary; t
             explanation,
           }),
         });
+    if (!res) return;
         setPending(false);
         if (res.ok) {
           setOpen(false);

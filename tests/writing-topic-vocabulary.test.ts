@@ -58,7 +58,7 @@ test("No Writing-only lexical store: saving uses the canonical /api/vocabulary e
     assert.doesNotMatch(readFileSync(`drizzle/${f}`, "utf8"), /CREATE TABLE writing_(words|vocab)/);
   }
   const btn = readFileSync("src/components/writing/topic/SaveButtons.tsx", "utf8");
-  assert.match(btn, /fetch\("\/api\/vocabulary"/);
+  assert.match(btn, /request<[\s\S]*?>\("\/api\/vocabulary"/);
   const tab = readFileSync("src/components/writing/topic/WritingTopicVocabularyTab.tsx", "utf8");
   assert.match(tab, /tab=activation&item=/, "Activate in Writing opens Activation Lab with the item");
   const page = readFileSync("src/app/(app)/writing/page.tsx", "utf8");

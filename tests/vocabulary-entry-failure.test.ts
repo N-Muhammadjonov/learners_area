@@ -71,10 +71,10 @@ test("Vocabulary panels retain independent loading, error and retry scopes", () 
   assert.match(use, /loadSentences\(\)/);
   assert.match(use, /loadWords\(\)/);
   assert.match(board, /data-region-retry="leaderboard"/);
-  assert.match(board, /fetch\("\/api\/vocabulary\/leaderboard\?view=standing", \{ cache: "no-store" \}\)/);
+  assert.match(board, /requestResponse\("\/api\/vocabulary\/leaderboard\?view=standing", \{ cache: "no-store" \}\)/);
   assert.match(board, /data-vocabulary-region-error="award-history"/);
   assert.match(board, /refreshAwards\(\)/);
-  assert.match(board, /fetch\("\/api\/vocabulary\/leaderboard\?view=awards", \{ cache: "no-store" \}\)/);
+  assert.match(board, /requestAwards\("\/api\/vocabulary\/leaderboard\?view=awards", \{ cache: "no-store" \}\)/);
   assert.doesNotMatch(board, /standing\?: VocabStanding/);
   const leaderboard = read("src/app/api/vocabulary/leaderboard/route.ts");
   assert.match(leaderboard, /Promise\.allSettled/);

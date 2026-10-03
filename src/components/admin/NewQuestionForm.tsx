@@ -1,4 +1,5 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -23,6 +24,8 @@ const TERNARY_OPTIONS: Record<"true_false_not_given" | "yes_no_not_given", { val
 };
 
 export function NewQuestionForm({ dict, passageId }: { dict: Dictionary; passageId: string }) {
+  const requestResponse = useScopedResponse(25000);
+
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [type, setType] = useState<QType>("true_false_not_given");
@@ -45,7 +48,7 @@ export function NewQuestionForm({ dict, passageId }: { dict: Dictionary; passage
         e.preventDefault();
         setPending(true);
         setError("");
-        const res = await fetch(`/api/admin/reading/passages/${passageId}/questions`, {
+        const res = await requestResponse(`/api/admin/reading/passages/${passageId}/questions`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -57,6 +60,7 @@ export function NewQuestionForm({ dict, passageId }: { dict: Dictionary; passage
             explanation,
           }),
         });
+    if (!res) return;
         setPending(false);
         if (res.ok) {
           setOpen(false);

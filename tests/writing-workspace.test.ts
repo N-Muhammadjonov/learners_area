@@ -42,7 +42,7 @@ test("W12 Grade form: no automatic retry, idempotency key per draft, draft resto
   const form = read("src/components/writing/workspace/GradeForm.tsx");
   assert.match(form, /idempotencyKey: idem/);
   assert.match(form, /useEffect\(\(\) => \{\s*try \{\s*const d = JSON\.parse\(window\.localStorage/);
-  assert.equal((form.match(/fetch\(/g) ?? []).length, 1);
+  assert.equal((form.match(/await request</g) ?? []).length, 1);
   const tab = read("src/components/writing/workspace/WritingGradeTab.tsx");
   assert.match(tab, /data-grade-ai-unavailable/);
 });

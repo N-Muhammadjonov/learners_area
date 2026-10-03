@@ -55,7 +55,7 @@ export default async function SupportInboxPage() {
                 {report.viewport ? ` · ${dict.support.viewport}: ${report.viewport}` : ""}
                 {report.lastErrorCode ? ` · ${dict.support.lastError}: ${report.lastErrorCode}` : ""}
               </p>
-              {report.status !== "resolved" && <ResolveReportButton id={report.id} label={dict.support.resolved} />}
+              {report.status !== "resolved" && <ResolveReportButton id={report.id} label={dict.support.resolved} errorLabel={dict.common.error} />}
             </Card>
           ))}
         </div>

@@ -81,13 +81,14 @@ test('Use word pages are concatenated before shuffling, including the 101st entr
   }) as typeof fetch;
   try { await mounted(<VocabUsePanel dict={en} onSaved={() => {}} />,async()=>{await tick(); assert.equal(q<HTMLSelectElement>('[data-sentence-word]').options.length,102);}); } finally{globalThis.fetch=original;}
 });
-test('Video authoring presents URL, title and notes without a transcript input', async () => {
+test('Video authoring keeps URL, title and notes first and supports a legitimate optional transcript', async () => {
   await mounted(<NewVideoLessonForm dict={en} lessons={[]} />, async () => {
     const labels=[...document.querySelectorAll('form > label')].map(el=>el.textContent ?? '');
     assert.ok(labels[0]?.includes(en.videoLessonAdmin.videoUrl));
     assert.ok(labels[1]?.includes(en.videoLessonAdmin.videoTitle));
     assert.ok(labels[2]?.includes(en.videoLessonAdmin.notes));
-    assert.equal(document.querySelector('[data-video-transcript-input]'),null);
+    assert.ok(document.querySelector('[data-video-transcript-input]'));
+    assert.ok(document.querySelector('[data-video-vocabulary-input]'));
   });
 });
 test('Player keeps native controls and CC, forbids popups/top navigation and has no below-player transcript control', async () => {

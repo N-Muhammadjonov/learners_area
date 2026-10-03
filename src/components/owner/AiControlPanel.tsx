@@ -1,4 +1,5 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useState } from "react";
 import type { Dictionary } from "@/lib/i18n/en";
@@ -13,6 +14,8 @@ export type AiControlStatus = {
 };
 
 export function AiControlPanel({ dict, initial }: { dict: Dictionary; initial: AiControlStatus }) {
+  const requestResponse = useScopedResponse(25000);
+
   const t = dict.aiControl;
   const [status, setStatus] = useState(initial);
   const [enabled, setEnabled] = useState(initial.owner.externalEnabled);
@@ -26,11 +29,12 @@ export function AiControlPanel({ dict, initial }: { dict: Dictionary; initial: A
     setPending(true);
     setMessage(null);
     try {
-      const res = await fetch("/api/owner/ai-control", {
+      const res = await requestResponse("/api/owner/ai-control", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ externalEnabled: enabled, providerId, model: model.trim() || null, fallback }),
       });
+    if (!res) return;
       const data = await res.json().catch(() => null);
       if (!res.ok) {
         setMessage({ tone: "bad", text: data?.error?.code === "unknown_provider" ? t.unknownProvider : data?.error?.code === "invalid_model" ? t.invalidModel : t.failed });

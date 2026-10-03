@@ -1,4 +1,5 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -20,6 +21,8 @@ export function OwnershipTransferForm({
   dict: Dictionary;
   ownerEmail: string;
 }) {
+  const requestResponse = useScopedResponse(25000);
+
   const t = dict.owner;
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -32,11 +35,12 @@ export function OwnershipTransferForm({
   async function submit() {
     setBusy(true);
     setError(null);
-    const res = await fetch("/api/owner/transfer", {
+    const res = await requestResponse("/api/owner/transfer", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: email.trim(), password, keepRole }),
     });
+    if (!res) return;
     setBusy(false);
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));

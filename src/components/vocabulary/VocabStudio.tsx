@@ -1,4 +1,5 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -344,6 +345,8 @@ export function VocabStudio({ dict, initialTab, packs }: { dict: Dictionary; ini
  * arrow through the hits and open one with Enter; pressing Escape closes it.
  */
 function VocabSearch({ dict, onOpenWord }: { dict: Dictionary; onOpenWord: () => void }) {
+  const requestResponse = useScopedResponse(25000);
+
   const t = dict.vocabulary;
   const [query, setQuery] = useState("");
   const [hits, setHits] = useState<SearchHit[]>([]);
@@ -362,7 +365,8 @@ function VocabSearch({ dict, onOpenWord }: { dict: Dictionary; onOpenWord: () =>
     setBusy(true);
     const timer = setTimeout(async () => {
       try {
-        const res = await fetch(`/api/vocabulary/search?q=${encodeURIComponent(trimmed)}`);
+        const res = await requestResponse(`/api/vocabulary/search?q=${encodeURIComponent(trimmed)}`);
+    if (!res) return;
         const payload = await res.json().catch(() => ({ results: [] }));
         if (!cancelled) {
           setHits(Array.isArray(payload.results) ? payload.results : []);
@@ -376,7 +380,7 @@ function VocabSearch({ dict, onOpenWord }: { dict: Dictionary; onOpenWord: () =>
       cancelled = true;
       clearTimeout(timer);
     };
-  }, [query]);
+  }, [query, requestResponse]);
 
   useEffect(() => {
     function onDocClick(event: MouseEvent) {

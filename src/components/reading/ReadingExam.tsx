@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 import { Button } from "@/components/ui/Button";
 import { choiceSetFor } from "@/lib/reading-choices";
 import { ReadAloud } from "@/components/reading/ReadAloud";
@@ -201,6 +202,10 @@ export function ReadingExam({
   // The two refs that make autosave honest: one request at a time, and never a
   // lost keystroke — a change made while a save is in flight is saved right after.
   const inFlight = useRef(false);
+  const saveRequest = useScopedResponse();
+  const submitRequest = useScopedResponse();
+  const alive = useRef(true);
+  useEffect(() => {alive.current = true; return () => {alive.current = false;};}, []);
   const dirty = useRef(false);
   const locked = useRef(false);
   const answersRef = useRef(answers);
@@ -223,11 +228,12 @@ export function ReadingExam({
         questionId,
         answer,
       }));
-      const res = await fetch(`/api/reading/attempts/${attemptId}`, {
+      const res = await saveRequest(`/api/reading/attempts/${attemptId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ answers: entries }),
       });
+      if (!res) return;
       if (res.status === 409) {
         // Submitted elsewhere: stop pretending this is still a draft.
         locked.current = true;
@@ -253,13 +259,13 @@ export function ReadingExam({
       setSaveState("error");
     } finally {
       inFlight.current = false;
-      if (dirty.current && !locked.current) {
+      if (alive.current && dirty.current && !locked.current) {
         // A change arrived while saving; schedule the follow-up.
         if (timer.current) clearTimeout(timer.current);
         timer.current = setTimeout(() => void save(), SAVE_DEBOUNCE_MS);
       }
     }
-  }, [attemptId]);
+  }, [attemptId, saveRequest]);
 
   function setAnswer(questionId: string, value: string) {
     setAnswers((prev) => ({ ...prev, [questionId]: value }));
@@ -286,7 +292,8 @@ export function ReadingExam({
             })),
           }),
           keepalive: true,
-        });
+          signal: AbortSignal.timeout(5_000),
+        }).catch(() => {});
       } catch {
         // Nothing useful can be shown while the page is going away.
       }
@@ -343,17 +350,19 @@ export function ReadingExam({
   }, [groups, questions, groupById]);
 
   async function onSubmit() {
+    if (submitting) return;
     if (!confirm(dict.reading.submitConfirm)) return;
     setSubmitting(true);
     setError(null);
     try {
-      const res = await fetch(`/api/reading/attempts/${attemptId}/submit`, {
+      const res = await submitRequest(`/api/reading/attempts/${attemptId}/submit`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           answers: questions.map((q) => ({ questionId: q.id, answer: answers[q.id] ?? "" })),
         }),
       });
+      if (!res) return;
       if (res.status === 409) {
         setSaveState("locked");
         setError(dict.readingPractice.saveSubmitted);

@@ -1,4 +1,5 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useState } from "react";
 import type { Dictionary } from "@/lib/i18n/en";
@@ -30,6 +31,8 @@ export function VocabRevisionPanel({
   initialDue: VocabWord[];
   onFinished: (remaining: number, pointsAwarded: number) => void;
 }) {
+  const requestResponse = useScopedResponse(25000);
+
   const t = dict.vocabulary;
   const [queue, setQueue] = useState<VocabWord[]>(initialDue);
   const [index, setIndex] = useState(0);
@@ -47,11 +50,12 @@ export function VocabRevisionPanel({
     if (!current) return;
     setBusy(true);
     setError(null);
-    const res = await fetch(`/api/vocabulary/${current.id}/review`, {
+    const res = await requestResponse(`/api/vocabulary/${current.id}/review`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ outcome }),
     });
+    if (!res) return;
     setBusy(false);
 
     if (!res.ok) {

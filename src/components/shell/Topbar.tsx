@@ -62,7 +62,7 @@ export function Topbar({
       </div>
 
       <div className="col-span-3 row-start-2 flex shrink-0 items-center justify-end gap-2 lg:order-none">
-        <ThemeToggle nightLabel={dict.theme.night} dayLabel={dict.theme.day} currentLabel={dict.theme.toggle} />
+        <ThemeToggle nightLabel={dict.theme.night} dayLabel={dict.theme.day} currentLabel={dict.theme.toggle} errorLabel={dict.common.error} />
         <LocaleSwitcher locale={locale} dict={dict} />
       </div>
       <div className="col-start-3 row-start-1 flex shrink-0 items-center gap-1.5 md:gap-2">

@@ -1,4 +1,5 @@
 "use client";
+import { useScopedRequest } from "@/lib/http/use-scoped-request";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -15,6 +16,7 @@ type Verdict = "correct" | "acceptable" | "needs_revision" | "unchecked";
  * One request per Check press; never retried automatically.
  */
 export function TranslationRunner({ dict, initial, aiReady }: { dict: Dictionary; initial: TranslationView; aiReady: boolean }) {
+  const request = useScopedRequest();
   const t = dict.writingWorkspace.translation;
   const router = useRouter();
   const [view, setView] = useState(initial);
@@ -26,11 +28,12 @@ export function TranslationRunner({ dict, initial, aiReady }: { dict: Dictionary
   const done = view.finished.length;
 
   const check = async () => {
-    if (!cur || !answer.trim()) return;
+    if (!cur || !answer.trim() || busy) return;
     setBusy(true); setError(null);
     try {
-      const res = await fetch(`/api/writing/translation/${view.attemptId}/answer`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ position: cur.position, answer }) });
-      const data = (await res.json().catch(() => null)) as { verdict?: Verdict; view?: TranslationView } | null;
+      const res = await request<{verdict?: Verdict; view?: TranslationView}>(`/api/writing/translation/${view.attemptId}/answer`, {body: {position: cur.position, answer}, timeoutMs: 60_000});
+      if (!res) return;
+      const data = res.ok ? res.data : null;
       if (!res.ok || !data?.view) { setError(t.checkError); setBusy(false); return; }
       setLast(data.verdict ?? null);
       setView(data.view);

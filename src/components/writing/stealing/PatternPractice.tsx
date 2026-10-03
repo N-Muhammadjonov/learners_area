@@ -1,4 +1,5 @@
 "use client";
+import { useScopedRequest } from "@/lib/http/use-scoped-request";
 
 import { useState } from "react";
 import type { Dictionary } from "@/lib/i18n/en";
@@ -7,6 +8,7 @@ type Practice = { verdict: "correct" | "acceptable" | "needs_revision"; copy: { 
 
 /** Adapt one pattern to a NEW server-chosen topic. Copy guard + external AI run on the server. */
 export function PatternPractice({ dict, patternId, aiReady }: { dict: Dictionary; patternId: string; aiReady: boolean }) {
+  const request = useScopedRequest();
   const t = dict.writingWorkspace.stealing;
   const [open, setOpen] = useState(false);
   const [topic, setTopic] = useState<string | null>(null);
@@ -19,21 +21,28 @@ export function PatternPractice({ dict, patternId, aiReady }: { dict: Dictionary
   async function openPractice() {
     setOpen(true); setError(null);
     if (topic) return;
-    const res = await fetch(`/api/writing/stealing/practice?patternId=${patternId}`, { cache: "no-store" }).catch(() => null);
-    const data = res?.ok ? ((await res.json()) as { newTopic: string }) : null;
+    const res = await request<{newTopic: string}>(`/api/writing/stealing/practice?patternId=${patternId}`, {method: "GET"});
+    if (!res) return;
+    const data = res.ok ? res.data : null;
     if (data) setTopic(data.newTopic); else setError(t.error);
   }
   async function check() {
     if (!topic || !answer.trim() || busy) return;
     setBusy(true); setError(null);
-    const res = await fetch("/api/writing/stealing/practice", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ patternId, newTopic: topic, answer }) }).catch(() => null);
+    const res = await request<Practice>("/api/writing/stealing/practice", {body: {patternId, newTopic: topic, answer}, timeoutMs: 60_000});
+    if (!res) return;
     setBusy(false);
     if (!res?.ok) { setError(t.error); return; }
-    const data = (await res.json()) as Practice;
+    const data = res.data;
+    if (!data?.verdict || !data.copy) {setError(t.error); return;}
     setR(data); setSaved(data.saved);
   }
   async function save() {
-    const res = await fetch(`/api/writing/patterns/${patternId}`, { method: "PUT", headers: { "content-type": "application/json" }, body: JSON.stringify({ saved: true }) }).catch(() => null);
+    if (busy) return;
+    setBusy(true);
+    const res = await request(`/api/writing/patterns/${patternId}`, {method: "PUT", body: {saved: true}});
+    if (!res) return;
+    setBusy(false);
     if (res?.ok) setSaved(true); else setError(t.saveError);
   }
 
@@ -60,7 +69,7 @@ export function PatternPractice({ dict, patternId, aiReady }: { dict: Dictionary
               {r.result.fixes.length > 0 && <ul className="list-disc pl-5 text-sm text-ink-700">{r.result.fixes.slice(0, 3).map((f) => <li key={f}>{f}</li>)}</ul>}
             </>
           )}
-          {r.canSave && (saved ? <span className="badge self-start bg-signal-100 text-signal-700">{t.saved}</span> : <button type="button" className="btn-secondary min-h-11 self-start" onClick={() => void save()}>{t.save}</button>)}
+          {r.canSave && (saved ? <span className="badge self-start bg-signal-100 text-signal-700">{t.saved}</span> : <button type="button" className="btn-secondary min-h-11 self-start" disabled={busy} onClick={() => void save()}>{t.save}</button>)}
         </div>
       )}
       <button type="button" className="btn-primary min-h-11 self-start" disabled={busy || !answer.trim() || !topic} onClick={() => void check()}>{busy ? t.checking : t.check}</button>

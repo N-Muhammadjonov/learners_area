@@ -1,4 +1,5 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
@@ -34,6 +35,8 @@ export function JoinButton({
   watchedLabel: string;
   cancelledLabel: string;
 }) {
+  const requestResponse = useScopedResponse(25000);
+
   const [joined, setJoined] = useState(alreadyJoined);
   const [joinedAt, setJoinedAt] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
@@ -72,7 +75,8 @@ export function JoinButton({
         onClick={async () => {
           setPending(true);
           setError(null);
-          const res = await fetch(`/api/live-classes/${liveClassId}/join`, { method: "POST" });
+          const res = await requestResponse(`/api/live-classes/${liveClassId}/join`, { method: "POST" });
+    if (!res) return;
           setPending(false);
           if (!res.ok) {
             const body = await res.json().catch(() => ({}));

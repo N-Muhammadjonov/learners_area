@@ -1,4 +1,5 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useEffect, useMemo, useState } from "react";
 import type { Dictionary } from "@/lib/i18n/en";
@@ -397,6 +398,8 @@ function AddWords({
   packs: VocabPack[];
   onAdded: (result: AddResult) => void | Promise<void>;
 }) {
+  const requestResponse = useScopedResponse(25000);
+
   const t = dict.vocabulary;
   const [mode, setMode] = useState<"bulk" | "single">("bulk");
   const [bulk, setBulk] = useState("");
@@ -453,16 +456,16 @@ function AddWords({
     }
 
     setBusy(true);
-    const res = await fetch("/api/vocabulary", {
+    const res = await requestResponse("/api/vocabulary", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ items, folderId: folderId || null, sourceType: "manual" }),
     });
+    if (!res) return;
     setBusy(false);
 
     if (!res.ok) {
-      const payload = await res.json().catch(() => ({}));
-      setError(String((payload as { error?: string }).error ?? dict.errors.unknown));
+      setError(dict.errors.unknown);
       return;
     }
 
@@ -477,11 +480,12 @@ function AddWords({
 
   async function addPack(packId: string) {
     setPackBusy(packId);
-    const res = await fetch("/api/vocabulary/packs", {
+    const res = await requestResponse("/api/vocabulary/packs", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ packId }),
     });
+    if (!res) return;
     setPackBusy(null);
     if (!res.ok) {
       setError(dict.errors.unknown);
@@ -620,6 +624,8 @@ function Folders({
   onMoved: () => Promise<void>;
   words: VocabWord[];
 }) {
+  const requestResponse = useScopedResponse(25000);
+
   const t = dict.vocabulary;
   const [name, setName] = useState("");
   const [busy, setBusy] = useState(false);
@@ -631,11 +637,12 @@ function Folders({
     if (name.trim().length === 0) return;
     setBusy(true);
     setError(null);
-    const res = await fetch("/api/vocabulary/folders", {
+    const res = await requestResponse("/api/vocabulary/folders", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name: name.trim() }),
     });
+    if (!res) return;
     setBusy(false);
     if (!res.ok) {
       setError(dict.errors.unknown);
@@ -650,11 +657,12 @@ function Folders({
   async function move() {
     if (selected.length === 0) return;
     setBusy(true);
-    const res = await fetch("/api/vocabulary/folders", {
+    const res = await requestResponse("/api/vocabulary/folders", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ entryIds: selected, folderId: moveTarget || null }),
     });
+    if (!res) return;
     setBusy(false);
     if (res.ok) {
       setSelected([]);

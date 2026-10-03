@@ -69,7 +69,15 @@ function fakeClient(opts: { db?: string; verifyN?: (q: string) => number; applie
 const serverId = mig.serverIdentityHash({ system_identifier: "7300000000000000001", db: "postgres", session_user: "postgres", port: 6543 });
 const goodEnv = { DATABASE_URL: QA, PREVIEW_QA_DB_FINGERPRINT: mig.fingerprint(QA), PREVIEW_QA_PROJECT_REF: "qa", PREVIEW_QA_SERVER_IDENTITY: serverId };
 const allApplied = Object.keys(sql).map(h);
-const healthy = (q: string) => (q.includes("listening_packages',") ? 3 : q.includes("speaking_prompts") && q.includes("column_name") ? 4 : q.includes("live_partner_presence','") ? 4 : 1);
+const healthy = (q: string) => (
+  q.includes("lexical_units','") ? 2 :
+  q.includes("lexical_unit_id is null") ? 0 :
+  q.includes("general_reading_sets','") ? 3 :
+  q.includes("writing_lessons','") ? 15 :
+  q.includes("listening_packages',") ? 3 :
+  q.includes("speaking_prompts") && q.includes("column_name") ? 4 :
+  q.includes("live_partner_presence','") ? 4 : 1
+);
 const base = { readJournal: () => journal, readSql: (t: string) => sql[t]!, runMigrations: async () => {} };
 
 test("Connection construction, socket and identity errors produce FAIL receipts without leaking credentials", async () => {
