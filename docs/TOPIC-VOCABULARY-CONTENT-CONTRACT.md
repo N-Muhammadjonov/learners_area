@@ -4,9 +4,9 @@
 
 | Question | Answer | Evidence |
 |---|---|---|
-| A. Architecture complete, content absent? | **Yes.** The learner tab, filters (topic / task / function), save-to-vocabulary and save-to-pattern-bank work. 2 of the 60 reference topics have content. | `src/lib/services/writing/topic-vocabulary.ts`, `src/components/writing/topic/*`, `src/lib/services/vocabulary/packs.ts` (2 packs, 21 words: Health & Medicine, Work & Career) |
+| A. Architecture complete, content absent? | **Yes.** The learner tab, filters (topic / task / function), save-to-vocabulary and save-to-pattern-bank work. 2 of the 60 reference topics have content. | `src/lib/services/writing/topic-vocabulary.ts`, `src/components/writing/topic/*`, `src/lib/services/vocabulary/packs.ts` (2 packs, 20 words: Health & Medicine, Work & Career) |
 | B. Owner-approved content elsewhere? | **No.** The repo and `arena/reference-materials` hold only `work_career_vocab_practice.html` (already the Work & Career pack). The 60-topic list in the reference PDF has titles only, and copying third-party material is not allowed. | `git ls-tree origin/arena/reference-materials` |
-| C. Blocked by Preview DB? | **Partly.** Words (packs) work without migrations. Phrases/frames live in `writing_language_patterns` from migration **0031**, which is not approved for Preview. | `drizzle/0031_writing_workspace.sql` |
+| C. Blocked by Preview DB? | **Partly.** Words (packs) work without migrations. Phrases/frames live in `writing_language_patterns` from migration **0031**, which was explicitly approved and applied to the fingerprinted Preview on 2026-10-03. | `drizzle/0031_writing_workspace.sql` |
 | D. Authoring still needs owner input? | **Yes.** The owner (or a teacher the owner approves) must supply or approve the topic texts. | — |
 
 ## Contract A — topic word pack (works today, no migration)
@@ -56,5 +56,4 @@ Items publish only through the existing publication states (draft → published)
 2. For each topic: one Contract A pack, plus optional Contract B items.
 3. A one-line approval for each batch ("approved for publication").
 
-After 0031 is approved and applied, Contract B items can be published. Until then the ledger
-row W13 stays **OWNER ACTION REQUIRED**.
+0031 is now applied on Preview. Contract B items still require original owner-approved content and normal publication validation. The content library remains **OWNER ACTION REQUIRED**.

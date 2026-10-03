@@ -1,0 +1,127 @@
+{
+  "pdfPages": {
+    "BOOSTER_TED_PODCAST_REFERENCE.pdf": 22,
+    "BOOSTER_GRAMMAR_READING_REFERENCE.pdf": 22,
+    "SPEAKING_PRACTICE_ON_YOUR_OWN_REFERENCE.pdf": 1
+  },
+  "visuals": [
+    {
+      "file": "source-screenshots/ted-catalogue.jpg",
+      "sha256": "b3f9752bed82e9ae87cf69b5e8645dbb5e521c446486a2bbea42d0a19697ba9e",
+      "label": "CODE-DERIVED RECONSTRUCTION"
+    },
+    {
+      "file": "source-screenshots/reading-rd-genhub.jpg",
+      "sha256": "f7e610e7dd4ff96bc2a5de771a4da78a1717603125766185eba07a6a617d8ee1",
+      "label": "CODE-DERIVED RECONSTRUCTION"
+    },
+    {
+      "file": "source-screenshots/grammar-writing-activation.jpg",
+      "sha256": "7e8485ae7a05fa6130c58c08d5f85ea31aefb25805e921fa3815dcd0f28233bb",
+      "label": "CODE-DERIVED RECONSTRUCTION"
+    },
+    {
+      "file": "source-screenshots/grammar-speaking-activation.jpg",
+      "sha256": "cb04d75f3d26b8a58b5113bb9ad79cebcdf2ca4d5bacad40cb7e7add0bd3eab1",
+      "label": "CODE-DERIVED RECONSTRUCTION"
+    },
+    {
+      "file": "source-screenshots/grammar-speaking-translation.jpg",
+      "sha256": "fc838723eb7580938e50d224cfd40fcd2f39277cc1f5db1a75e5ffd0846ecfa8",
+      "label": "CODE-DERIVED RECONSTRUCTION"
+    },
+    {
+      "file": "source-screenshots/reading-rd-acan.jpg",
+      "sha256": "6a01c9f0153a1d426730c4ee06f3a5e37d08a5a10955e4ac81031aa08b6f2836",
+      "label": "CODE-DERIVED RECONSTRUCTION"
+    },
+    {
+      "file": "source-screenshots/reading-rd-achub.jpg",
+      "sha256": "33db3cc1958a6f775116c7b4e4a7a899d16a66b69b2896c48b99cc69391fee2e",
+      "label": "CODE-DERIVED RECONSTRUCTION"
+    },
+    {
+      "file": "source-screenshots/grammar-writing-translation.jpg",
+      "sha256": "68843c90c3f05a4a3203b819b0a04c3eab6ec961267f3926e3edc5232677d2dc",
+      "label": "CODE-DERIVED RECONSTRUCTION"
+    },
+    {
+      "file": "source-screenshots/reading-rd-qt.jpg",
+      "sha256": "68ac721a4a0a9b8e7ff09e2b6414b549a96f9c00d72ea4a1426a392d7f559392",
+      "label": "CODE-DERIVED RECONSTRUCTION"
+    },
+    {
+      "file": "source-screenshots/ted-lesson-vocabulary.jpg",
+      "sha256": "6aa8f511461f7499102a55131774dd905c72feb6cf6c6270618873e7d3f8a6e6",
+      "label": "CODE-DERIVED RECONSTRUCTION"
+    },
+    {
+      "file": "source-screenshots/ted-lesson-comprehension.jpg",
+      "sha256": "fff9ce088cf275bf6d392aa97eaef580d8429921da080c19833fab15bd0851ba",
+      "label": "CODE-DERIVED RECONSTRUCTION"
+    },
+    {
+      "file": "source-screenshots/ted-lesson.jpg",
+      "sha256": "04bf46385275dfd8b67bede5e01c7fa39a94a8d5ce5f14ac9efc33debbd5a623",
+      "label": "CODE-DERIVED RECONSTRUCTION"
+    },
+    {
+      "file": "source-screenshots/reading-rd-gen.jpg",
+      "sha256": "81e00ec98947c3fbe35e1df31b3bb6f05410f83b4c43d4c6706da74744693cf2",
+      "label": "CODE-DERIVED RECONSTRUCTION"
+    },
+    {
+      "file": "source-screenshots/speaking-structures.jpg",
+      "sha256": "b8dc8f9dc75efc463e03aa597f72b48cd92c2ef600c24ea0ef418faf360c6f2a",
+      "label": "CODE-DERIVED RECONSTRUCTION"
+    },
+    {
+      "file": "source-screenshots/ted-lesson-transcript.jpg",
+      "sha256": "b1703e3f785c5436f6257cf1a38d1d1d915a62a4797bcad53e898e376e6d134c",
+      "label": "CODE-DERIVED RECONSTRUCTION"
+    },
+    {
+      "file": "source-screenshots/ted-lesson-before.jpg",
+      "sha256": "b74d6d4793d912fc84a9edbd7ef50b59caf047b81b56f48d4fc7e548cfc82af0",
+      "label": "CODE-DERIVED RECONSTRUCTION"
+    },
+    {
+      "file": "source-screenshots/ted-lesson-opinion.jpg",
+      "sha256": "2d97950ef73918d95687c39e1c4166c1c4b501f5db3d6106d440174d1f3856ff",
+      "label": "CODE-DERIVED RECONSTRUCTION"
+    },
+    {
+      "file": "source-screenshots/ted.jpg",
+      "sha256": "59033e83efdc4494f74ea006b62b0e73241af1a98bc79843ad8ada405a5e2943",
+      "label": "CODE-DERIVED RECONSTRUCTION"
+    },
+    {
+      "file": "source-screenshots/ted-lesson-summary.jpg",
+      "sha256": "ba36ad3cbf38afdb208f31b9965606afda52df178562a9ab05f039f305dbafef",
+      "label": "CODE-DERIVED RECONSTRUCTION"
+    },
+    {
+      "file": "source-screenshots/grammar-writing-correction.jpg",
+      "sha256": "650412d6684e4e1e4febf141880ed68ec95bb01a994f2c2bcce731c6d6412eb8",
+      "label": "CODE-DERIVED RECONSTRUCTION"
+    },
+    {
+      "file": "source-screenshots/ted-lesson-gap.jpg",
+      "sha256": "c201a77eaea51b0ce9c2626793648792897e9982e59a10c7dda15db943199aff",
+      "label": "CODE-DERIVED RECONSTRUCTION"
+    },
+    {
+      "file": "source-screenshots/grammar-speaking-correction.jpg",
+      "sha256": "16cd9ce69d2ef49a6ec5ea85e399341c6992c738865ae731c59613dd335581d5",
+      "label": "CODE-DERIVED RECONSTRUCTION"
+    },
+    {
+      "file": "source-screenshots/reading-rd-ac.jpg",
+      "sha256": "28f02dd15a987682ccba61eb84d21261fcf913bb030889e58e127b8c6b191097",
+      "label": "CODE-DERIVED RECONSTRUCTION"
+    }
+  ],
+  "boosterArchiveSHA256": "b666a20b004a824cc287ff7af7aa9989d96b62c7d64ba638e0e67c2a3a19010b",
+  "boosterScriptsExecuted": false,
+  "uploadedAssetsModified": false
+}
