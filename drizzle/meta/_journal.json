@@ -232,6 +232,13 @@
       "when": 1791200000000,
       "tag": "0032_writing_exam_papers",
       "breakpoints": true
+    },
+    {
+      "idx": 33,
+      "version": "7",
+      "when": 1791300000000,
+      "tag": "0033_writing_language_stealing",
+      "breakpoints": true
     }
   ]
 }

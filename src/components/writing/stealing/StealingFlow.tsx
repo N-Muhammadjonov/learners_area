@@ -64,8 +64,10 @@ export function StealingFlow({ dict, initial, locale }: { dict: Dictionary; init
           {model}
         </div>
       ) : v.step === 1 ? (
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3" data-stealing-source-step>
+          <p className="text-sm text-ink-500">{v.source.taskType === "task1" ? "Task 1" : "Task 2"} · {v.source.topic} · Band {v.source.targetBand}</p>
           <p className="text-base text-ink-700">{t.readTask}</p>
+          {model}
           <button type="button" className="btn-primary min-h-11 self-start" disabled={busy} onClick={() => void send({ action: "read" })}>{t.readDone}</button>
         </div>
       ) : v.step === 2 ? textStep("brainstorm", t.brainstormHint, 5)

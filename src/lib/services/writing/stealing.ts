@@ -124,7 +124,7 @@ type Session = typeof writingStealingSessions.$inferSelect;
 export type StealingView = {
   id: string; step: number; source: { id: string; title: string; taskType: "task1" | "task2"; topic: string; targetBand: number };
   brainstorm: string | null; draft: string | null; comparison: string | null; rewrite: string | null;
-  /** Model text body: only from step 4 (Analyse) on — learners brainstorm and draft first. Hidden again at step 7. */
+  /** Model text body: step 1 (source), steps 4–6 and after completion; hidden during brainstorm/draft and the Day-3 rewrite. */
   modelBody: string | null;
   patterns: { id: string; pattern: string; fn: PatternFunction; example: string; usageNote: string | null }[] | null;
   selectedPatternIds: string[]; memorisedPatternIds: string[]; rewritePatternIds: string[];
@@ -141,7 +141,10 @@ async function view(s: Session, database: Database, now: Date): Promise<Stealing
   const [t] = await database.select().from(writingModelTexts).where(eq(writingModelTexts.id, s.modelTextId));
   const linked = s.step >= 4 ? await database.select().from(writingLanguagePatterns).where(and(eq(writingLanguagePatterns.sourceRef, s.modelTextId), livePattern())).orderBy(asc(writingLanguagePatterns.function)) : [];
   const rewriteUnlocked = Boolean(s.rewriteAvailableAt && s.rewriteAvailableAt <= now);
-  const showModel = (s.step >= 4 && s.step < 7) || Boolean(s.completedAt);
+  // Step 1 = read the authorized source essay. Steps 2–3 hide it so brainstorm/draft are the learner's own
+  // work (no copying while drafting); Steps 4–6 bring it back for analysis; the Day-3 rewrite hides it again;
+  // once completed it is shown for comparison.
+  const showModel = s.step === 1 || (s.step >= 4 && s.step < 7) || Boolean(s.completedAt);
   // Step 6 is recall: the pattern text is the answer, so it is only listed for selection/analysis steps.
   const patterns = s.step >= 4 ? linked.map((p) => ({ id: p.id, pattern: p.pattern, fn: p.function as PatternFunction, example: p.example, usageNote: p.usageNote })) : null;
   return {

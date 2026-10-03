@@ -65,14 +65,14 @@ test("LS5 low AI adaptation band → needs_revision even if the provider says co
   } finally { await t.close(); }
 });
 
-test("LS7 7-step flow is server-enforced: model hidden until Analyse, minimums, recall, Day-3 lock", async () => {
+test("LS7 7-step flow is server-enforced: minimums, recall, Day-3 lock", async () => {
   const { t, db, userId, textId, patternId } = await setup();
   try {
     assert.equal((await stealingSources(db)).length, 1);
     const now = new Date("2026-10-03T10:00:00Z");
     const v1 = (await startStealing(userId, textId, db, now))!;
     assert.equal(v1.step, 1);
-    assert.equal(v1.modelBody, null, "source essay body hidden before brainstorm/draft");
+    assert.ok(v1.modelBody?.includes("MODEL-BODY-SECRET"), "step 1 shows the source essay");
     assert.equal(v1.patterns, null);
     assert.ok(!(await advanceStealing(userId, v1.id, { action: "draft", text: "x" }, db, now)).ok, "cannot skip steps");
     assert.ok((await advanceStealing(userId, v1.id, { action: "read" }, db, now)).ok);
