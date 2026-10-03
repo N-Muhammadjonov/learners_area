@@ -146,3 +146,72 @@ The following must be completed before implementation proceeds:
 - create the Grammar visual-reference PDF from actual reference visuals;
 - commit/push those references to the integration branch;
 - only then use them as implementation requirements.
+
+
+## Integrity hashes for the three owner-supplied assets
+
+Work mode MUST verify these exact hashes before using or committing the assets:
+
+- Learners_Area_2K_Clean_Background_v16_FINAL.mp4
+  - SHA-256: `40c29b7c3396aac7315cba03f5b1bf9f9160fb12d3b1493fb26cd47c636d5afd`
+  - H.264, 2560x1440, 30 fps, AAC audio, exactly ~10.0 s, 15,156,358 bytes.
+
+- Learners_Area_V11_Exact_Cutout_Logo.png
+  - SHA-256: `64a4308f15e36acd30e4dc96e8065e80f93678c3824539d6d6ec872f5c769a28`
+  - 746x560 RGBA PNG, 523,282 bytes.
+
+- Screenshot 2026-10-03 at 12.32.30.png
+  - SHA-256: `cd9cda33ff2157045a25b3485b731f54dd604cbffc31c06c473d596d80c085e1`
+  - 2048x471 RGBA PNG, 1,285,884 bytes.
+
+The original binaries are user uploads in the current ChatGPT conversation. Do not substitute derivatives when the exact source file is required.
+
+## Public Booster visual-reference anchors already verified
+
+The following public Booster 8 platform screenshots are suitable as truthful implementation-reference anchors. Work mode should capture/download these exact public images and place each screenshot on its own PDF page with provenance.
+
+### TED / Podcast reference
+- Public module page: https://ieltsbooster.uz/info8/
+- TED Lessons screenshot: https://ieltsbooster.uz/info8/assets/images/platform/ted.jpg
+- Public description states TED Lessons contains 20 TED talks with questions and vocabulary.
+
+Do not invent additional Booster TED screens that are not actually available. If deeper exercise screens cannot be found in the public site or owner-supplied reference archive, mark them as unavailable rather than fabricating them.
+
+### Reading / Grammar-oriented reference
+- Reading Academic Lab: https://ieltsbooster.uz/info8/assets/images/platform/reading-ac.jpg
+- General Reading missions: https://ieltsbooster.uz/info8/assets/images/platform/reading-gen.jpg
+- Reading Question Types: https://ieltsbooster.uz/info8/assets/images/platform/reading-qt.jpg
+- Essential Videos/Reading lesson UI: https://ieltsbooster.uz/info8/assets/images/platform/reading-rec.jpg
+- Speaking Top 15 Structures (grammar-card interaction reference): https://ieltsbooster.uz/info8/assets/images/platform/speaking-struct.jpg
+
+The public Booster page confirms that separate Grammar - Writing and Grammar - Speaking modules exist, but it does not expose a dedicated public Grammar screenshot. Therefore the future Grammar reference PDF must distinguish:
+1. real public screenshots;
+2. code-derived structural observations;
+3. any missing visual evidence.
+
+Never label inferred or reconstructed UI as a real Booster screenshot.
+
+## Required dedicated PDFs before implementation
+
+Work mode must create and commit, at minimum:
+
+1. `docs/owner-references/2026-10-03/manual-check-round-2/BOOSTER_TED_PODCAST_REFERENCE.pdf`
+   - one real screenshot per page where available;
+   - source URL/provenance on every page;
+   - TED library screenshot mandatory;
+   - exercise architecture notes may be included separately, but must not be represented as screenshots unless actual screenshots exist.
+
+2. `docs/owner-references/2026-10-03/manual-check-round-2/BOOSTER_GRAMMAR_READING_REFERENCE.pdf`
+   - Reading Academic Lab;
+   - General Reading missions;
+   - Reading Question Types;
+   - Essential Videos;
+   - Top 15 Structures as grammar-interaction reference;
+   - explicit note that a dedicated public Grammar screenshot was not found if that remains true.
+
+3. `docs/owner-references/2026-10-03/manual-check-round-2/SPEAKING_PRACTICE_ON_YOUR_OWN_REFERENCE.pdf`
+   - exact owner-uploaded 2048x471 screenshot;
+   - no crop that changes the visible three-card layout;
+   - Part 1 Interview / Part 2 Cue card / Part 3 Discussion clearly preserved.
+
+These are reference artifacts only. They do not authorize copying Booster branding or copyrighted course content into the Learners Area product.
