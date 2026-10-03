@@ -338,3 +338,23 @@ test("P4/P5 opinion and summary keep focus, cursor and draft while the player re
     });
   } finally { f.restore(); }
 });
+
+test("standalone Vocabulary renders the authored sense and saves its occurrence through the real API contract", async () => {
+  const original = globalThis.fetch;
+  const calls: {url: string; body: unknown}[] = [];
+  globalThis.fetch = (async (url: unknown, init: RequestInit = {}) => {
+    if (String(url).endsWith('/vocabulary')) calls.push({url: String(url), body: JSON.parse(String(init.body))});
+    return Response.json({ok: true});
+  }) as typeof fetch;
+  try {
+    await mounted(studio('standalone', {vocabulary: [{occurrenceId: 'occurrence-1', id: 'sense-1', term: 'bank', partOfSpeech: 'noun', definitionEn: 'a financial institution', translationUz: 'bank', exampleSentence: 'She saved her money in the bank.'}]}), async () => {
+      await act(async () => q('[data-video-tab="vocabulary"]').click());
+      assert.match(q('[data-video-vocabulary]').textContent ?? '', /a financial institution/);
+      await act(async () => q<HTMLButtonElement>('[data-video-vocabulary] button').click());
+      await tick();
+      assert.deepEqual(calls, [{url: '/api/video-lessons/v1/vocabulary', body: {occurrenceId: 'occurrence-1'}}]);
+      assert.equal(q<HTMLButtonElement>('[data-video-vocabulary] button').disabled, true);
+      assert.match(q('[data-video-vocabulary] button').textContent ?? '', new RegExp(en.videoLesson.vocabularySaved));
+    });
+  } finally {globalThis.fetch = original;}
+});

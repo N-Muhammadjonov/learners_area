@@ -478,6 +478,7 @@ export function VideoLessonStudio({
         tabIndex={0}
         data-video-tabpanel
       >
+        {tab === "vocabulary" ? <VideoVocabulary id={videoLesson.id} words={vocabulary} dict={dict} /> : null}
         {tab === "before" && videoLesson.beforeYouWatch ? (
           <p className="whitespace-pre-line text-sm text-ink-700" data-video-before>
             {videoLesson.beforeYouWatch}

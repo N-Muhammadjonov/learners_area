@@ -14,7 +14,7 @@ function bundleFromText(text: string): unknown | null {
     return value && typeof value === "object" && Array.isArray(value.passages) ? value : null;
   } catch { return null; }
 }
-function scrubDocument(text: string): string {
+export function scrubDocument(text: string): string {
   return text.replace(/<!DOCTYPE[\s\S]*?>/gi, "")
     .replace(/\s(?:on\w+|src|href|srcset|action|data)\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, "")
     .replace(/<(iframe|object|embed|link)[\s\S]*?>/gi, "");

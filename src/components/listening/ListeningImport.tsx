@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import { scrubDocument } from "@/lib/import/reading-source";
 import Link from "next/link";
 import { startUpload, type UploadHandle } from "@/lib/uploads/client";
 import { uploadErrorMessage } from "@/lib/uploads/errors";
@@ -32,17 +33,23 @@ export function ListeningImport({ dict }: { dict: Pick<Dictionary, "listeningImp
   const [progress, setProgress] = useState(0);
   const [id, setId] = useState("");
   const handles = useRef<UploadHandle[]>([]);
+  const lifetime = useRef(new AbortController());
   const request = useRef<AbortController | null>(null);
   const flight = useRef(false);
   useEffect(
-    () => () => {
-      handles.current.forEach((h) => h.cancel());
-      request.current?.abort();
+    () => {
+      if (lifetime.current.signal.aborted) lifetime.current = new AbortController();
+      return () => {
+        lifetime.current.abort();
+        handles.current.forEach((h) => h.cancel());
+        request.current?.abort();
+      };
     },
     [],
   );
 
   async function readZip(file: File) {
+    const signal = lifetime.current.signal;
     setLoaded(null);
     setResult(null);
     setProblem(null);
@@ -51,18 +58,21 @@ export function ListeningImport({ dict }: { dict: Pick<Dictionary, "listeningImp
     setBusy("check");
     try {
       const { readListeningZipAsync } = await import("@/lib/listening/zip");
-      const { entries, textFiles } = await readListeningZipAsync(new Uint8Array(await file.arrayBuffer()));
+      const { entries, textFiles } = await readListeningZipAsync(new Uint8Array(await file.arrayBuffer()), signal);
+      if (signal.aborted) return;
       const next = { file, entries, textFiles };
       setLoaded(next);
       await inspect(next);
     } catch (e) {
+      if (signal.aborted) return;
       setProblem({ code: zipProblem(e instanceof Error ? e.message : ""), files: [] });
     } finally {
-      setBusy("");
+      if (!signal.aborted) setBusy("");
     }
   }
 
   async function inspect(source: Loaded, chosenAudioPath?: string) {
+    const signal = lifetime.current.signal;
     setProblem(null);
     setBusy("check");
     try {
@@ -70,15 +80,17 @@ export function ListeningImport({ dict }: { dict: Pick<Dictionary, "listeningImp
         import("@/lib/listening/inspect"),
         import("@/lib/listening/discover"),
       ]);
+      if (signal.aborted) return;
       try {
         const inspected = await inspectListeningPackage({
           entries: source.entries,
           textFiles: source.textFiles,
           zipName: source.file.name,
           chosenAudioPath,
-          probeDuration: (audio, bytes) => probeAudio(new File([new Uint8Array(bytes)], audio.path.split("/").pop()!, { type: audio.mimeType })),
-          read: (html) => new DOMParser().parseFromString(html, "text/html"),
+          probeDuration: (audio, bytes) => probeAudio(new File([new Uint8Array(bytes)], audio.path.split("/").pop()!, { type: audio.mimeType }), signal),
+          read: (html) => new DOMParser().parseFromString(scrubDocument(html), "text/html"),
         });
+        if (signal.aborted) return;
         const audioBytes = source.entries[inspected.audio.path]!;
         const audioFile = new File([new Uint8Array(audioBytes)], `full.${inspected.audio.format}`, { type: inspected.audio.mimeType });
         const imageBytes = inspected.payload.imagePath ? source.entries[inspected.payload.imagePath] : null;
@@ -90,30 +102,34 @@ export function ListeningImport({ dict }: { dict: Pick<Dictionary, "listeningImp
         setCollection(inspected.payload.collection ?? "academic");
         setResult({ ...inspected, audioFile, image });
       } catch (e) {
+        if (signal.aborted) return;
         if (e instanceof ListeningImportProblem) {
           const candidates = e.code === "audio_ambiguous" || e.code === "audio_reference_missing"
             ? (await import("@/lib/listening/discover")).audioCandidates(source.entries).candidates
             : undefined;
+          if (signal.aborted) return;
           setProblem({ code: e.code, files: e.detail.files ?? [], candidates, info: e.detail.info });
         } else {
           setProblem({ code: "unknown", files: [] });
         }
       }
     } finally {
-      setBusy("");
+      if (!signal.aborted) setBusy("");
     }
   }
 
   async function upload() {
+    const signal = lifetime.current.signal;
     if (!result || flight.current) return;
     flight.current = true;
     setBusy("upload");
     setError("");
     setProgress(0);
     try {
-      const audio = startUpload(result.audioFile, { purpose: "material_primary", onProgress: setProgress });
+      const audio = startUpload(result.audioFile, { purpose: "material_primary", onProgress: pct => {if (!signal.aborted) setProgress(pct);} });
       handles.current.push(audio);
       const a = await audio.promise;
+      if (signal.aborted) return;
       if (!a.ok) {
         setError(uploadErrorMessage(a.failure, dict.uploadErrors));
         return;
@@ -123,6 +139,7 @@ export function ListeningImport({ dict }: { dict: Pick<Dictionary, "listeningImp
         const h = startUpload(result.image, { purpose: "material_primary" });
         handles.current.push(h);
         const r = await h.promise;
+        if (signal.aborted) return;
         if (!r.ok) {
           setError(uploadErrorMessage(r.failure, dict.uploadErrors));
           return;
@@ -140,6 +157,8 @@ export function ListeningImport({ dict }: { dict: Pick<Dictionary, "listeningImp
           body: JSON.stringify({ payload: { ...result.payload, collection }, audioUploadId: a.uploadId, imageUploadId }),
         });
         const data = await res.json().catch(() => ({}));
+        if (signal.aborted) return;
+        if (controller.signal.aborted) throw new DOMException("Timed out", "TimeoutError");
         if (!res.ok) {
           const code = String(data.error ?? "unknown") as keyof typeof t.importErrors;
           const ref = typeof data.correlationId === "string" ? ` (ref ${data.correlationId.slice(0, 16)})` : "";
@@ -151,10 +170,10 @@ export function ListeningImport({ dict }: { dict: Pick<Dictionary, "listeningImp
         clearTimeout(timer);
       }
     } catch {
-      setError(t.importErrors.unknown);
+      if (!signal.aborted) setError(t.importErrors.unknown);
     } finally {
       flight.current = false;
-      setBusy("");
+      if (!signal.aborted) setBusy("");
     }
   }
 
@@ -296,17 +315,22 @@ function imageFile(bytes: Uint8Array): File | null {
   return new File([new Uint8Array(bytes)], name, { type });
 }
 
-async function probeAudio(file: File): Promise<number> {
+export async function probeAudio(file: File, signal?: AbortSignal): Promise<number> {
+  if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
   const url = URL.createObjectURL(file);
   const audio = new Audio();
   audio.preload = "metadata";
   return new Promise((resolve, reject) => {
     const cleanup = () => {
       clearTimeout(timer);
+      signal?.removeEventListener("abort", onAbort);
+      audio.onloadedmetadata = null;
+      audio.onerror = null;
       audio.removeAttribute("src");
       audio.load();
       URL.revokeObjectURL(url);
     };
+    const onAbort = () => {cleanup(); reject(new DOMException("Aborted", "AbortError"));};
     const timer = setTimeout(() => {
       cleanup();
       reject(new Error("Audio metadata timeout"));
@@ -322,6 +346,7 @@ async function probeAudio(file: File): Promise<number> {
       cleanup();
       reject(new Error("Audio unreadable"));
     };
+    signal?.addEventListener("abort", onAbort, {once: true});
     audio.src = url;
   });
 }

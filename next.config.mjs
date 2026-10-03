@@ -1,6 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // The disposable local development server proxies file bytes to disk. Next
+  // 15's 10 MB middleware clone otherwise truncates a valid 16 MB audio file.
+  // Hosted Preview/Production retain the framework limit and direct S3/R2 PUTs.
+  ...(process.env.APP_ENV === "development" && process.env.STORAGE_PROVIDER === "local"
+    ? { experimental: { middlewareClientMaxBodySize: "64mb" } }
+    : {}),
   eslint: { ignoreDuringBuilds: false },
   /**
    * Front-end source minimisation, stated rather than assumed.
