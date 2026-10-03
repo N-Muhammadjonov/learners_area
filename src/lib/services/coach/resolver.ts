@@ -103,7 +103,7 @@ function sleep(ms: number): Promise<void> {
  * Telegram handle — only the text (or transcript) the task genuinely needs.
  */
 function externalContext(ctx: EvaluationContext, signal: AbortSignal): EvaluationContext {
-  return { userId: "external-anonymous", language: ctx.language, signal };
+  return { userId: "external-anonymous", language: ctx.language, signal, ...(ctx.model ? { model: ctx.model } : {}) };
 }
 
 async function invoke(
@@ -251,6 +251,8 @@ function buildResult(params: {
   fallbackFrom: string | null;
   processedInMs: number;
   input?: unknown;
+  /** The model actually used when the owner overrode the provider default. */
+  model?: string | null;
 }): { result: EvaluationResult; extras: ResolveExtras } {
   const { provider } = params;
   // The W7 analysis travels beside the result, never inside the strict row.
@@ -261,7 +263,7 @@ function buildResult(params: {
     providerDisplayName: provider.displayName,
     providerType: provider.type,
     providerVersion: provider.version,
-    model: provider.model,
+    model: params.model ?? provider.model,
     promptVersion: versions?.promptVersion ?? provider.promptVersion,
     rubricVersion: versions?.rubricVersion ?? provider.rubricVersion,
   };
@@ -384,10 +386,11 @@ export async function resolveEvaluation(
   }
 
   // --- 3. the configured external provider is attempted -------------------
+  const modelOverride = config.modelOverride ?? null;
   const externalRun = await runProvider(
     primary.provider,
     request,
-    ctx,
+    modelOverride ? { ...ctx, model: modelOverride } : ctx,
     config,
     capability,
     true
@@ -414,6 +417,7 @@ export async function resolveEvaluation(
         fallbackFrom: null,
         processedInMs: externalRun.durationMs,
         input: request.input,
+        model: modelOverride,
       }),
     };
   }

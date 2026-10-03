@@ -19,6 +19,8 @@ export type EvaluationContext = {
   language: "uz" | "en";
   /** Aborted on timeout so a slow provider cannot hold a request open. */
   signal?: AbortSignal;
+  /** Owner-selected model for the external provider (server-side value, never from a learner). */
+  model?: string;
 };
 
 export type WritingTaskType = "task1" | "task2";

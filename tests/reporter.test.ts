@@ -251,3 +251,16 @@ test("RP11 the recorded query binds the subject as a parameter (no string interp
   assert.ok(!text.includes(`'${S1}'`), "id is a bound parameter, not inlined SQL");
   assert.throws(() => compileMetricSql("select :subject", { from: NOW, to: NOW, subject: null }));
 });
+
+test("RP12 Grammar and video metrics are included; audit records AI-narrative provenance (none used); file names are fixed-pattern", async () => {
+  const s = await sample();
+  for (const key of ["grammar.attempts", "grammar.accuracy", "video.completed"]) assert.ok(metric(s, key), key);
+  const ok = await generateReport(people[OWN]!, { scope: "owner", period: "weekly", format: "zip" }, { database: database.db, lookup, now: () => NOW });
+  assert.ok(ok.ok);
+  if (!ok.ok) return;
+  assert.match(ok.fileName, /^riwi-report-owner-\d{4}-\d{2}-\d{2}_\d{4}-\d{2}-\d{2}\.zip$/);
+  for (const name of Object.keys(unzipSync(ok.bytes))) assert.match(name, /^[a-z]+\.[a-z]+$/, "no paths inside the bundle");
+  const [row] = await database.query<{ metadata: { aiNarrative: { used: boolean }; filters: unknown; schemaVersion: string } }>(`select metadata from audit_log where action = 'report.generated' order by created_at desc limit 1`);
+  assert.equal(row!.metadata.aiNarrative.used, false);
+  assert.equal(row!.metadata.schemaVersion, "riwi-report/1");
+});

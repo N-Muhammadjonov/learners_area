@@ -64,7 +64,7 @@ export async function generateReport(actor: Actor, raw: unknown, deps: Deps = {}
     from: snapshot.period.from, to: snapshot.period.to, timezone: snapshot.timezone,
   };
   try {
-    await recordAudit({ actorUserId: actor.id, action: "report.generated", targetType: "report", targetId: target, metadata: { ...common, snapshotSha256: snapshotSha256(snapshot), metrics: snapshot.metrics.length } }, database);
+    await recordAudit({ actorUserId: actor.id, action: "report.generated", targetType: "report", targetId: target, metadata: { ...common, snapshotSha256: snapshotSha256(snapshot), metrics: snapshot.metrics.length, schemaVersion: snapshot.schemaVersion, filters: { subject: access.scope.kind === "student" ? access.scope.subjectId : null }, aiNarrative: { used: false, providerId: null, model: null, fallbackUsed: false } } }, database);
     await recordAudit({ actorUserId: actor.id, action: "report.downloaded", targetType: "report", targetId: target, metadata: { ...common, format, lang: request.lang, bytes: bytes.length, sha256: bytesSha256(bytes) } }, database);
   } catch {
     // An unaudited report is not delivered.

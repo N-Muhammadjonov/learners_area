@@ -16,6 +16,9 @@ export const dynamic = "force-dynamic";
 const schema = z.object({
   externalEnabled: z.boolean(),
   providerId: z.string().trim().toLowerCase().regex(/^[a-z][a-z0-9-]{1,31}$/).nullable(),
+  // A model identifier only; owner-control validates it with MODEL_ID.
+  model: z.string().trim().max(100).nullable().optional(),
+  fallback: z.enum(["riwi", "none"]).optional(),
 }).strict();
 
 export async function GET() {

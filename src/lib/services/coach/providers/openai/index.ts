@@ -13,14 +13,14 @@ export const openAiProvider = createLlmEvaluationProvider({
   version: "1",
   model: () => process.env.OPENAI_EVALUATION_MODEL?.trim() || null,
   requiredSecrets: () => ["OPENAI_API_KEY", "OPENAI_EVALUATION_MODEL"],
-  async transport({ system, user, maxOutputTokens, signal }): Promise<CompletionResult> {
+  async transport({ system, user, maxOutputTokens, signal, model }): Promise<CompletionResult> {
     const response = await fetch("https://api.openai.com/v1/responses", {
       method: "POST",
       redirect: "error",
       headers: { Authorization: `Bearer ${process.env.OPENAI_API_KEY!.trim()}`, "Content-Type": "application/json" },
       signal,
       body: JSON.stringify({
-        model: process.env.OPENAI_EVALUATION_MODEL!.trim(), store: false, instructions: system, input: user,
+        model, store: false, instructions: system, input: user,
         text: { format: { type: "json_object" } }, max_output_tokens: maxOutputTokens,
       }),
     });

@@ -6,8 +6,8 @@ import type { Dictionary } from "@/lib/i18n/en";
 /** Serializable mirror of OwnerAiStatus (dates as ISO strings). No secret values exist in it. */
 export type AiControlStatus = {
   deploymentCeiling: boolean;
-  owner: { externalEnabled: boolean; providerId: string | null; updatedAt: string | null; source: "owner" | "default" | "unavailable" };
-  effective: { externalEnabled: boolean; providerId: string; providerIsExternal: boolean; ready: boolean };
+  owner: { externalEnabled: boolean; providerId: string | null; model: string | null; fallback: "riwi" | "none"; updatedAt: string | null; source: "owner" | "default" | "unavailable" };
+  effective: { externalEnabled: boolean; providerId: string; providerIsExternal: boolean; ready: boolean; model: string | null; fallback: "riwi" | "none" };
   providers: Array<{ id: string; displayName: string; type: "internal" | "external"; model: string | null; capabilities: string[]; secretsPresent: boolean; missingSecretNames: string[] }>;
   configIssues: Array<{ index: number; reason: string }>;
 };
@@ -17,6 +17,8 @@ export function AiControlPanel({ dict, initial }: { dict: Dictionary; initial: A
   const [status, setStatus] = useState(initial);
   const [enabled, setEnabled] = useState(initial.owner.externalEnabled);
   const [providerId, setProviderId] = useState<string>(initial.owner.providerId ?? initial.effective.providerId);
+  const [model, setModel] = useState(initial.owner.model ?? "");
+  const [fallback, setFallback] = useState<"riwi" | "none">(initial.owner.fallback);
   const [pending, setPending] = useState(false);
   const [message, setMessage] = useState<{ tone: "good" | "bad"; text: string } | null>(null);
 
@@ -27,11 +29,11 @@ export function AiControlPanel({ dict, initial }: { dict: Dictionary; initial: A
       const res = await fetch("/api/owner/ai-control", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ externalEnabled: enabled, providerId }),
+        body: JSON.stringify({ externalEnabled: enabled, providerId, model: model.trim() || null, fallback }),
       });
       const data = await res.json().catch(() => null);
       if (!res.ok) {
-        setMessage({ tone: "bad", text: data?.error?.code === "unknown_provider" ? t.unknownProvider : t.failed });
+        setMessage({ tone: "bad", text: data?.error?.code === "unknown_provider" ? t.unknownProvider : data?.error?.code === "invalid_model" ? t.invalidModel : t.failed });
         return;
       }
       setStatus({ ...data, owner: { ...data.owner, updatedAt: data.owner.updatedAt ? String(data.owner.updatedAt) : null } });
@@ -68,6 +70,16 @@ export function AiControlPanel({ dict, initial }: { dict: Dictionary; initial: A
           ))}
         </select>
       </label>
+      <label className="flex flex-col gap-1 text-sm">
+        <span className="font-semibold text-ink-700">{t.modelLabel}</span>
+        <input className="input" value={model} maxLength={100} onChange={(e) => setModel(e.target.value)} placeholder={t.modelPlaceholder} data-ai-model-input />
+        <span className="text-xs text-ink-500">{t.modelHint}</span>
+      </label>
+      <fieldset className="flex flex-col gap-1">
+        <legend className="text-sm font-semibold text-ink-700">{t.fallbackLabel}</legend>
+        <label className="flex items-center gap-2 text-sm"><input type="radio" name="ai-fallback" checked={fallback === "riwi"} onChange={() => setFallback("riwi")} /> {t.fallbackRiwi}</label>
+        <label className="flex items-center gap-2 text-sm"><input type="radio" name="ai-fallback" checked={fallback === "none"} onChange={() => setFallback("none")} /> {t.fallbackStrict}</label>
+      </fieldset>
       <ul className="flex flex-col gap-1 text-xs text-ink-500">
         {status.providers.filter((p) => p.type === "external").map((p) => (
           <li key={p.id} data-ai-provider={p.id}>
@@ -82,6 +94,7 @@ export function AiControlPanel({ dict, initial }: { dict: Dictionary; initial: A
       )}
       <p className="text-sm" data-ai-effective={status.effective.ready ? "ready" : "off"}>
         {t.effective}: <strong>{status.effective.ready ? t.ready : t.notReady}</strong>
+        {status.effective.ready && <span className="block text-xs text-ink-500">{t.model}: {status.effective.model ?? "—"} · {status.effective.fallback === "none" ? t.fallbackStrict : t.fallbackRiwi}</span>}
       </p>
       <p className="text-xs text-ink-500">
         {t.lastChange}: {status.owner.updatedAt ? new Date(status.owner.updatedAt).toLocaleString() : t.neverChanged}

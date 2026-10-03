@@ -72,7 +72,7 @@ export function createCompatibleProvider(entry: CompatibleEntry, deps: { lookup?
     model: () => entry.model,
     requiredSecrets: () => [entry.secretRef],
     capabilities: entry.capabilities?.filter((c) => TEXT_CAPABILITIES.includes(c)) ?? TEXT_CAPABILITIES,
-    async transport({ system, user, maxOutputTokens, signal }): Promise<CompletionResult> {
+    async transport({ system, user, maxOutputTokens, signal, model }): Promise<CompletionResult> {
       // Runtime SSRF check right before every call: every resolved address must be public.
       if (!(await assertPublicHost(endpoint.hostname, deps.lookup))) {
         return { ok: false, failure: { reason: "provider_unavailable", detail: "Endpoint host is not a public address", retryable: false } };
@@ -83,7 +83,7 @@ export function createCompatibleProvider(entry: CompatibleEntry, deps: { lookup?
         headers: { Authorization: `Bearer ${process.env[entry.secretRef]!.trim()}`, "Content-Type": "application/json" },
         signal,
         body: JSON.stringify({
-          model: entry.model,
+          model,
           messages: [{ role: "system", content: system }, { role: "user", content: user }],
           response_format: { type: "json_object" },
           max_tokens: maxOutputTokens,

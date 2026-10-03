@@ -25,7 +25,7 @@ import { CHECK_VERSIONS, instructions, writingCheckInstructions, writingGradeIns
  *  - provider error bodies are never surfaced (safe, fixed failure details).
  */
 
-export type CompletionRequest = { system: string; user: string; maxOutputTokens: number; signal: AbortSignal };
+export type CompletionRequest = { system: string; user: string; maxOutputTokens: number; signal: AbortSignal; model: string };
 export type CompletionResult = { ok: true; text: string } | { ok: false; failure: ProviderFailure };
 export type LlmTransport = (request: CompletionRequest) => Promise<CompletionResult>;
 
@@ -71,10 +71,11 @@ export function createLlmEvaluationProvider(def: LlmProviderDefinition): Evaluat
     // Identity-free by construction: only the task, the language and the task input.
     const user = JSON.stringify({ task, language: ctx.language, input });
     if (user.length > MAX_INPUT_CHARS) return providerFail("provider_error", "Evaluation input is too large");
+    const model = ctx.model ?? def.model()!;
     const signal = ctx.signal ? AbortSignal.any([ctx.signal, AbortSignal.timeout(CALL_TIMEOUT_MS)]) : AbortSignal.timeout(CALL_TIMEOUT_MS);
     let completion: CompletionResult;
     try {
-      completion = await def.transport({ system, user, maxOutputTokens, signal });
+      completion = await def.transport({ system, user, maxOutputTokens, signal, model });
     } catch {
       return providerFail(ctx.signal?.aborted ? "cancelled" : "network", `${def.displayName} evaluation could not complete`, !ctx.signal?.aborted);
     }

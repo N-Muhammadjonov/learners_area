@@ -159,7 +159,7 @@ test("UA6 first-class Anthropic adapter uses its own API shape and fails closed 
 // ---------------------------------------------------------------------------
 // Owner master switch
 // ---------------------------------------------------------------------------
-const owner = (o: Partial<OwnerAiControl>): OwnerAiControl => ({ externalEnabled: true, providerId: null, updatedAt: null, updatedBy: null, source: "owner", ...o });
+const owner = (o: Partial<OwnerAiControl>): OwnerAiControl => ({ externalEnabled: true, providerId: null, model: null, fallback: "riwi", updatedAt: null, updatedBy: null, source: "owner", ...o });
 
 test("UA7 effective config = deployment ceiling AND owner switch; owner picks registered providers only", () => {
   const env = { ...readCoachConfig(), externalEnabled: true, aiPrimaryProvider: "openai" };
@@ -198,7 +198,7 @@ test("UA9 enforcement: a Writing check passes the owner's OFF to the resolver, a
   const check = { kind: "pattern" as const, pattern: "p", sourceExample: "s", sourceTopic: "a", newTopic: "b", answer: "x y z" };
   const out = await runWritingCheck("u", "en", check, { resolve: fakeResolve, control: async () => ({ externalEnabled: false, aiPrimaryProvider: "openai" }) });
   assert.equal(out.ok, false);
-  assert.deepEqual(overrides, { externalEnabled: false, aiPrimaryProvider: "openai" });
+  assert.deepEqual(overrides, { externalEnabled: false, aiPrimaryProvider: "openai", modelOverride: null });
   const off = async () => ({ ...readCoachConfig(), externalEnabled: false, aiPrimaryProvider: "openai" });
   assert.equal(await writingAiReady(({ OPENAI_API_KEY: "k", OPENAI_EVALUATION_MODEL: "m" } as unknown as NodeJS.ProcessEnv), off), false);
   const speaking = await speakingAiReadiness(({ OPENAI_API_KEY: "k", OPENAI_EVALUATION_MODEL: "m" } as unknown as NodeJS.ProcessEnv), off);
@@ -226,4 +226,61 @@ test("UA11 owner route: OWNER-only on GET and POST; the request schema accepts n
   for (const entry of ["src/lib/services/coach/service.ts", "src/lib/services/writing/check.ts", "src/lib/writing/ai-readiness.ts", "src/lib/speaking/ai-readiness.ts"]) {
     assert.match(readFileSync(entry, "utf8"), /effectiveCoachConfig/, `${entry} must enforce the owner switch`);
   }
+});
+
+// ---------------------------------------------------------------------------
+// Owner model + fallback policy (continuation 2026-10-03)
+// ---------------------------------------------------------------------------
+import { MODEL_ID, setOwnerAiControl, AiControlError } from "../src/lib/services/coach/owner-control";
+import { resolveEvaluation } from "../src/lib/services/coach/resolver";
+
+test("UA12 owner model override reaches the provider call and is recorded truthfully in internal provenance", async () => {
+  await withEnv({ OPENAI_API_KEY: "k", OPENAI_EVALUATION_MODEL: "env-default-model" }, async () => {
+    let sentModel = "";
+    globalThis.fetch = (async (_u: string | URL, init?: RequestInit) => {
+      sentModel = JSON.parse(String(init!.body)).model;
+      return Response.json({ status: "completed", output: [{ type: "message", content: [{ type: "output_text", text: JSON.stringify(validOutput) }] }] });
+    }) as typeof fetch;
+    const out = await resolveEvaluation({ evaluationType: "grammar", input: grammarInput } as Parameters<typeof resolveEvaluation>[0], ctx,
+      { externalEnabled: true, aiPrimaryProvider: "openai", modelOverride: "owner-chosen-model" }, { fallback: "none" });
+    assert.ok(out.ok, JSON.stringify(out.ok ? "" : out));
+    if (!out.ok) return;
+    assert.equal(sentModel, "owner-chosen-model");
+    assert.equal(out.result.providerId, "openai");
+    assert.equal(out.result.model, "owner-chosen-model", "provenance records the model actually used");
+    assert.equal(out.result.fallbackUsed, false);
+  });
+});
+
+test("UA13 a model is an identifier, never an endpoint; legacy switch rows default safely; strict policy means no fallback", async () => {
+  const [actor] = await database.query<{ id: string }>(`insert into users (email, name, role, account_status) values ('ua13-owner@example.test', 'Owner', 'owner', 'active') returning id`);
+  const uid = actor!.id;
+  for (const ok of ["gpt-4.1-mini", "claude-sonnet-4-5", "models/gemini-2.5-pro", "deepseek-chat", "mistral-large-latest", "grok-4"]) assert.ok(MODEL_ID.test(ok), ok);
+  for (const bad of ["https://evil.example/v1", "http://10.0.0.1", "a b", "", "x".repeat(101), "../etc", "-flag"]) assert.ok(!MODEL_ID.test(bad), bad);
+  await assert.rejects(setOwnerAiControl(uid, { externalEnabled: true, providerId: "openai", model: "https://evil.example" }, database.db), (e: unknown) => e instanceof AiControlError && e.code === "invalid_model");
+  await assert.rejects(setOwnerAiControl(uid, { externalEnabled: true, providerId: "riwi", model: "m" }, database.db), (e: unknown) => e instanceof AiControlError && e.code === "invalid_model");
+  // A legacy row written before model/fallback existed is still an OWNER row with defaults.
+  await database.query(`insert into audit_log (action, metadata) values ($1, $2::jsonb)`, [AI_CONTROL_ACTION, JSON.stringify({ externalEnabled: true, providerId: "openai" })]);
+  const legacy = await readOwnerAiControl(database.db);
+  assert.equal(legacy.source, "owner");
+  assert.equal(legacy.model, null);
+  assert.equal(legacy.fallback, "riwi");
+  await setOwnerAiControl(uid, { externalEnabled: true, providerId: "openai", model: "owner-model", fallback: "none" }, database.db);
+  const strict = await readOwnerAiControl(database.db);
+  assert.equal(strict.fallback, "none");
+  const env = { ...readCoachConfig(), externalEnabled: true, aiPrimaryProvider: "riwi" };
+  const eff = combineControl(env, strict, (id) => ["openai", "riwi"].includes(id));
+  assert.equal(eff.modelOverride, "owner-model");
+  assert.equal(eff.ownerFallback, "none");
+  // Model override never leaks onto a provider the owner did not select.
+  assert.equal(combineControl(env, { ...strict, providerId: "ghost" }, (id) => id === "riwi").modelOverride, null);
+  // Failure under strict policy: external fails → no RIWI substitute.
+  await withEnv({ OPENAI_API_KEY: "k", OPENAI_EVALUATION_MODEL: "m" }, async () => {
+    globalThis.fetch = (async () => new Response("x", { status: 500 })) as typeof fetch;
+    const out = await resolveEvaluation({ evaluationType: "grammar", input: grammarInput } as Parameters<typeof resolveEvaluation>[0], ctx,
+      { externalEnabled: true, aiPrimaryProvider: "openai", maxAttempts: 1 }, { fallback: "none" });
+    assert.equal(out.ok, false);
+  });
+  const svc = readFileSync("src/lib/services/coach/service.ts", "utf8");
+  assert.match(svc, /params\.policy\?\.fallback === "none" \|\| control\.ownerFallback === "none"/, "stricter policy wins");
 });

@@ -83,6 +83,12 @@ const LEARNER_SPECS: Spec[] = [
     sql: "select count(*)::int as v from retention_attempts where {{LEARNERS}} and status = 'completed' and completed_at >= :from and completed_at < :to" },
   { key: "retention.score", section: "results", unit: "score", label: { en: "Average Retention score", uz: "O'rtacha Retention natijasi" },
     sql: "select round(avg(score)::numeric, 2)::float8 as v from retention_attempts where {{LEARNERS}} and status = 'completed' and score is not null and completed_at >= :from and completed_at < :to" },
+  { key: "grammar.attempts", section: "learning", unit: "count", label: { en: "Grammar exercise attempts", uz: "Grammatika mashqi urinishlari" },
+    sql: "select count(*)::int as v from grammar_attempts where {{LEARNERS}} and attempted_at >= :from and attempted_at < :to" },
+  { key: "grammar.accuracy", section: "results", unit: "ratio", label: { en: "Grammar accuracy", uz: "Grammatika aniqligi" },
+    sql: "select case when count(*) filter (where is_correct is not null) > 0 then (count(*) filter (where is_correct))::float8 / count(*) filter (where is_correct is not null) end as v from grammar_attempts where {{LEARNERS}} and attempted_at >= :from and attempted_at < :to" },
+  { key: "video.completed", section: "learning", unit: "count", label: { en: "Video (TED) lessons completed", uz: "Yakunlangan video (TED) darslar" },
+    sql: "select count(*)::int as v from video_lesson_progress where {{LEARNERS}} and completed_at >= :from and completed_at < :to" },
   { key: "vocabulary.added", section: "learning", unit: "count", label: { en: "Words added to vocabulary", uz: "Lug'atga qo'shilgan so'zlar" },
     sql: "select count(*)::int as v from user_vocabulary where {{LEARNERS}} and created_at >= :from and created_at < :to" },
 ];

@@ -109,7 +109,10 @@ export async function evaluateAndPersist(params: {
   const outcome = await resolveEvaluation(params.request, {
     userId: params.userId,
     language: params.language,
-  }, { externalEnabled: control.externalEnabled, aiPrimaryProvider: control.aiPrimaryProvider }, params.policy);
+  }, { externalEnabled: control.externalEnabled, aiPrimaryProvider: control.aiPrimaryProvider, modelOverride: control.modelOverride ?? null },
+  // The stricter policy wins: a caller's "none" (Grade My Work) is never relaxed,
+  // and the owner may make every check strict.
+  params.policy?.fallback === "none" || control.ownerFallback === "none" ? { fallback: "none" } : { fallback: "riwi" });
   if (!outcome.ok) {
     return { ok: false, error: outcome.error };
   }

@@ -15,7 +15,7 @@ export const anthropicProvider = createLlmEvaluationProvider({
   version: "1",
   model: () => process.env.ANTHROPIC_EVALUATION_MODEL?.trim() || null,
   requiredSecrets: () => ["ANTHROPIC_API_KEY", "ANTHROPIC_EVALUATION_MODEL"],
-  async transport({ system, user, maxOutputTokens, signal }): Promise<CompletionResult> {
+  async transport({ system, user, maxOutputTokens, signal, model }): Promise<CompletionResult> {
     const response = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
       redirect: "error",
@@ -26,7 +26,7 @@ export const anthropicProvider = createLlmEvaluationProvider({
       },
       signal,
       body: JSON.stringify({
-        model: process.env.ANTHROPIC_EVALUATION_MODEL!.trim(),
+        model,
         max_tokens: maxOutputTokens,
         system,
         messages: [{ role: "user", content: user }],

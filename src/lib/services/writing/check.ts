@@ -38,7 +38,7 @@ export async function runWritingCheck(userId: string, language: "uz" | "en", che
     const control = deps.control ? await deps.control() : await effectiveCoachConfig();
     outcome = await resolve(
       { evaluationType: "writing", input: { taskType: "task2", prompt: "", content: check.answer, targetWordCount: 0, check } },
-      { userId, language }, { externalEnabled: control.externalEnabled, aiPrimaryProvider: control.aiPrimaryProvider }, { fallback: "none" },
+      { userId, language }, { externalEnabled: control.externalEnabled, aiPrimaryProvider: control.aiPrimaryProvider, modelOverride: control.modelOverride ?? null }, { fallback: "none" },
     );
   } catch {
     return { ok: false, reason: "failed" };
