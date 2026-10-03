@@ -253,6 +253,13 @@
       "when": 1791500000000,
       "tag": "0035_teacher_student_links",
       "breakpoints": true
+    },
+    {
+      "idx": 36,
+      "version": "7",
+      "when": 1791600000000,
+      "tag": "0036_speaking_study_support",
+      "breakpoints": true
     }
   ]
 }

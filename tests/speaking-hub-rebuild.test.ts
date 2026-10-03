@@ -69,8 +69,8 @@ test("S5 Practice on your own groups Part → Topic → Questions without hiding
 
 test("S6 every question owns its recorder; one microphone at a time; release on unmount", () => {
   const studio = read("src/components/speaking/PracticeStudio.tsx");
-  assert.match(studio, /topic\.prompts\.map\(\(p, i\) => \([\s\S]*<QuestionRecorder [^>]*prompt=\{p\}/);
-  assert.match(studio, /<li key=\{p\.id\}>/);
+  assert.match(studio, /topic\.prompts\.map\(\(p, i\) =>[\s\S]*<LocalAnswerRecorder [^>]*id=\{p\.id\}/);
+  assert.match(studio, /<li key=\{p\.id\}/);
   assert.doesNotMatch(studio, /<select|createRecorder/);
   assert.match(studio, /window\.history\.pushState/);
   const rec = read("src/components/speaking/QuestionRecorder.tsx");

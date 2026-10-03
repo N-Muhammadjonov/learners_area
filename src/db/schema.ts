@@ -936,6 +936,7 @@ export const speakingPrompts = pgTable("speaking_prompts", {
   prepSeconds: integer("prep_seconds").notNull().default(30),
   answerSeconds: integer("answer_seconds").notNull().default(90),
   followUps: jsonb("follow_ups").$type<string[]>().notNull().default([]),
+  studySupport: jsonb("study_support").$type<import("@/lib/speaking/study-support").SpeakingStudySupport>().notNull().default({ vocabularyHtml: "", modelAnswerHtml: "", ideasHtml: "", vocabulary: [] }),
   /**
    * Stable identity of a row imported from the canonical speaking master bank
    * (e.g. "P3-001-2"). NULL for hand-authored prompts. Partial unique index
@@ -1106,7 +1107,7 @@ export const lexicalOccurrences = pgTable(
     ),
     lexemeIdx: index("lexical_occurrences_lexeme_idx").on(table.lexemeId),
     listeningOffsetIdx: uniqueIndex("lexical_occurrences_listening_offset_idx")
-      .on(table.listeningTestId, table.sectionNumber, table.startChar, table.endChar)
+      .on(table.listeningTestId, table.sectionNumber, table.segmentKey, table.startChar, table.endChar)
       .where(sql`listening_test_id IS NOT NULL`),
     unitIdx: index("lexical_occurrences_unit_idx").on(table.lexicalUnitId),
   })
@@ -1253,7 +1254,7 @@ export const vocabFolders = pgTable(
   {
     id: uuid("id").defaultRandom().primaryKey(),
     userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
-    name: varchar("name", { length: 80 }).notNull(),
+    name: varchar("name", { length: 200 }).notNull(),
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   },
   (table) => ({

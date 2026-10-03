@@ -1037,7 +1037,7 @@ export async function listFolders(userId: string) {
 }
 
 export async function createFolder(userId: string, name: string) {
-  const trimmed = name.trim().slice(0, 80);
+  const trimmed = name.trim().slice(0, 200);
   if (!trimmed) return { ok: false as const, error: "invalid_name" };
   const [row] = await db
     .insert(vocabFolders)

@@ -1193,3 +1193,16 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
   [data-root-entry] { min-height: 100dvh; background: black; }
   [data-root-entry] [data-touch-welcome] { display: none; }
 }
+
+/* Partner controls keep their established self / questions / partner columns. */
+.live-partner-workspace .lp-panel { border-radius: 24px; padding: 24px; min-width: 0; }
+.live-partner-workspace .lp-self { border-top: 4px solid #c94343; background: linear-gradient(135deg, rgb(var(--paper-raised)), rgb(var(--paper-sunken))); }
+.live-partner-workspace .lp-peer { border-top: 4px solid #3188c5; }
+.live-partner-workspace .lp-questions { background: linear-gradient(135deg, rgb(var(--paper-raised)), rgb(var(--paper-sunken))); }
+.study-rich-text p, .study-rich-text ul, .study-rich-text ol, .study-rich-text blockquote { margin-block: .65em; }
+.study-rich-text ul { list-style: disc; padding-left: 1.5em; }
+.study-rich-text ol { list-style: decimal; padding-left: 1.5em; }
+.study-rich-text table { border-collapse: collapse; max-width: 100%; }
+.study-rich-text th, .study-rich-text td { border: 1px solid rgb(var(--ink-100)); padding: .4em; }
+.study-rich-text mark { background: #fff1a8; color: #16362b; }
+@media (max-width: 639px) { .live-partner-workspace .lp-panel { padding: 16px; } }

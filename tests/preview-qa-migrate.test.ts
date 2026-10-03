@@ -30,6 +30,14 @@ test("identity guard: fingerprint hides the host; production refused", () => {
 // ---- identity hardening (audit of fd73eed) ----
 // @ts-expect-error plain ESM script
 const mig = await import("../scripts/preview-qa-migrate.mjs");
+test("0036 approval permits only the exact reviewed SQL; altered widening and destructive SQL remain refused", async () => {
+  const { readFileSync } = await import("node:fs");
+  const source = readFileSync("drizzle/0036_speaking_study_support.sql", "utf8");
+  const single = { entries: [{ tag: "0036_speaking_study_support", when: 1 }] };
+  assert.deepEqual(mig.plan(single, [], () => source).problems, []);
+  assert.match(mig.plan(single, [], () => source.replace("varchar(200)", "varchar(20)")).problems.join(), /approved hash/);
+  assert.match(mig.plan(single, [], () => "drop table users;").problems.join(), /destructive SQL/);
+});
 const QA = "postgres://postgres.qa:fake@pooler.example:6543/postgres";
 const OTHER = "postgres://postgres.production:fake@pooler.example:6543/postgres";
 const OTHER_NEUTRAL = "postgres://postgres.abcd1234:fake@pooler.example:6543/postgres";
@@ -70,6 +78,7 @@ const serverId = mig.serverIdentityHash({ system_identifier: "730000000000000000
 const goodEnv = { DATABASE_URL: QA, PREVIEW_QA_DB_FINGERPRINT: mig.fingerprint(QA), PREVIEW_QA_PROJECT_REF: "qa", PREVIEW_QA_SERVER_IDENTITY: serverId };
 const allApplied = Object.keys(sql).map(h);
 const healthy = (q: string) => (
+  q.includes("study_support") ? 1 :
   q.includes("lexical_units','") ? 2 :
   q.includes("lexical_unit_id is null") ? 0 :
   q.includes("general_reading_sets','") ? 3 :

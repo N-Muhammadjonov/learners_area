@@ -4,11 +4,11 @@ import { speakingAttempts, speakingPrompts } from "@/db/schema";
 import { isLive, liveWhere } from "@/lib/services/cms/publication";
 
 /** Prompts a student may practise against, in a stable order. */
-export async function listActivePrompts() {
+export async function listActivePrompts(channel: "practice_alone" | "ai" = "practice_alone") {
   return db.query.speakingPrompts.findMany({
     where: and(
       liveWhere({ publicationState: speakingPrompts.publicationState, publishAt: speakingPrompts.publishAt }),
-      sql`${speakingPrompts.availableIn} @> '["practice_alone"]'::jsonb`,
+      channel === "ai" ? sql`(${speakingPrompts.availableIn} @> '["ai"]'::jsonb OR ${speakingPrompts.availableIn} @> '["practice_alone"]'::jsonb)` : sql`(${speakingPrompts.availableIn} @> '["practice_alone"]'::jsonb OR ${speakingPrompts.availableIn} @> '["live_partner"]'::jsonb)`,
     ),
     orderBy: [asc(speakingPrompts.part), asc(speakingPrompts.createdAt)],
   });
@@ -24,7 +24,7 @@ export async function listLivePartnerQuestions() {
     .from(speakingPrompts)
     .where(and(
       liveWhere({ publicationState: speakingPrompts.publicationState, publishAt: speakingPrompts.publishAt }),
-      sql`${speakingPrompts.availableIn} @> '["live_partner"]'::jsonb`,
+      sql`(${speakingPrompts.availableIn} @> '["practice_alone"]'::jsonb OR ${speakingPrompts.availableIn} @> '["live_partner"]'::jsonb)`,
     ))
     .orderBy(asc(speakingPrompts.part), asc(speakingPrompts.externalId), asc(speakingPrompts.createdAt))
     .limit(1500);

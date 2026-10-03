@@ -23,9 +23,9 @@ const REQUEST_TIMEOUT_MS = 8_000;
 const score = (s: number | null) => (s == null ? "S —" : `S ${s.toFixed(1)}`);
 const json = (body: unknown) => ({ method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
 
-function Avatar({ kind, label }: { kind: "a" | "b"; label: string }) {
+function Avatar({ kind, label, large = false }: { kind: "a" | "b"; label: string; large?: boolean }) {
   // Exactly two system avatar styles; no uploads.
-  return <span role="img" aria-label={label} className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-lg ${kind === "b" ? "bg-rose-100" : "bg-sky-100"}`}>{kind === "b" ? "👩" : "👨"}</span>;
+  return <span role="img" aria-label={label} className={`flex ${large ? "h-24 w-24 text-4xl" : "h-10 w-10 text-lg"} shrink-0 items-center justify-center rounded-full ${kind === "b" ? "bg-rose-100" : "bg-sky-100"}`}>{kind === "b" ? "👩" : "👨"}</span>;
 }
 
 function micErrorStatus(error: unknown): MicStatus {
@@ -259,7 +259,7 @@ export function LivePartnerClient({ dict, me, questions }: {
   const callLabel = callStatus === "connected" ? t.callStates.connected : callStatus === "reconnecting" ? t.callStates.reconnecting : t.callStates.connecting;
 
   return (
-    <div className="flex flex-col gap-3" data-live-partner-state={state}>
+    <div className="live-partner-workspace flex flex-col gap-3" data-live-partner-state={state}>
       {error ? <p role="alert" className="rounded-sm border border-rose-200 bg-rose-50 p-2 text-sm text-rose-800">{error}</p> : null}
       {data && !data.realtime.ready ? <p className="rounded-sm border border-amber-200 bg-amber-50 p-2 text-sm text-amber-900" data-realtime-unavailable>{t.realtimeMissing}</p> : null}
       {data?.incoming ? (
@@ -274,10 +274,10 @@ export function LivePartnerClient({ dict, me, questions }: {
       <audio ref={audioRef} autoPlay muted={partnerMuted} className="hidden" aria-hidden="true" />
 
       <div className="grid gap-4 lg:grid-cols-[1fr_1.6fr_1fr]">
-        <section aria-labelledby="lp-you" className="flex flex-col gap-3 rounded-lg border border-ink-100 bg-paper p-4">
+        <section aria-labelledby="lp-you" className="lp-panel lp-self flex flex-col gap-3 rounded-lg border border-ink-100 bg-paper p-4">
           <h2 id="lp-you" className="text-xs font-semibold uppercase tracking-wide text-ink-500">{t.you}</h2>
           <div className="flex items-center gap-3">
-            <Avatar kind={me.avatar} label={t.avatar} />
+            <Avatar kind={me.avatar} label={t.avatar} large />
             <div><p className="font-medium text-ink-900">{me.name}</p><p className="font-mono text-sm text-ink-600">{score(me.speakingScore)}</p></div>
           </div>
           <p className="text-xs text-ink-500">{t.micStatus}: {t.mic[mic]}</p>
@@ -288,16 +288,16 @@ export function LivePartnerClient({ dict, me, questions }: {
           {inCall ? <button type="button" aria-pressed={micMuted} className="btn-secondary" onClick={() => { const next = !micMuted; setMicMuted(next); callRef.current?.setMuted(next); }}>{micMuted ? t.unmuteMic : t.muteMic}</button> : null}
         </section>
 
-        <section aria-labelledby="lp-q" className="flex flex-col gap-3 rounded-lg border border-ink-100 bg-paper p-4">
+        <section aria-labelledby="lp-q" className="lp-panel lp-questions flex flex-col gap-3 rounded-lg border border-ink-100 bg-paper p-4">
           <h2 id="lp-q" className="text-xs font-semibold uppercase tracking-wide text-ink-500">{t.questions}</h2>
           <p className="text-xs text-ink-500">{t.questionsOptional}</p>
           <label className="text-sm"><span className="sr-only">{t.search}</span>
             <input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder={t.search} className="w-full rounded-sm border border-ink-200 px-3 py-2" />
           </label>
           {(["part1", "part2", "part3"] as const).map((part) => (
-            <div key={part} className="rounded-sm border border-ink-100">
-              <button type="button" aria-expanded={open === part} aria-controls={`lp-${part}`} onClick={() => setOpen(open === part ? null : part)} className="flex w-full items-center justify-between px-3 py-2 text-left font-medium">
-                <span>{t.parts[part]}</span><span className="text-xs text-ink-500">{grouped[part].length} <span aria-hidden="true">{open === part ? "▲" : "▼"}</span></span>
+            <div key={part} data-practice-part={part} className="practice-part-card relative overflow-hidden rounded-2xl border border-ink-100">
+              <button type="button" aria-expanded={open === part} aria-controls={`lp-${part}`} onClick={() => setOpen(open === part ? null : part)} className="relative flex min-h-28 w-full items-center justify-between gap-3 px-5 py-4 text-left font-medium">
+                <span className="flex flex-col gap-2"><span className="practice-part-label text-xs font-bold uppercase tracking-widest">{t.parts[part]}</span><span className="font-display text-xl font-bold">{dict.speakingPractice.partTitle[part]}</span><span className="text-xs text-ink-500">{dict.speakingPractice.partBody[part]}</span></span><span className="text-xs text-ink-500">{grouped[part].length} <span aria-hidden="true">{open === part ? "▲" : "▼"}</span></span>
               </button>
               {open === part ? (
                 <ul id={`lp-${part}`} className="max-h-96 overflow-y-auto border-t border-ink-100 text-sm">
@@ -315,16 +315,16 @@ export function LivePartnerClient({ dict, me, questions }: {
         </section>
 
         {inCall && data?.partner ? (
-          <section aria-labelledby="lp-partner" className="flex flex-col gap-3 rounded-lg border border-ink-100 bg-paper p-4">
+          <section aria-labelledby="lp-partner" className="lp-panel lp-peer flex flex-col gap-3 rounded-lg border border-ink-100 bg-paper p-4">
             <h2 id="lp-partner" className="text-xs font-semibold uppercase tracking-wide text-ink-500">{t.partner}</h2>
-            <div className="flex items-center gap-3"><Avatar kind={data.partner.avatar} label={t.avatar} /><div><p className="font-medium">{data.partner.name}</p><p className="font-mono text-sm">{score(data.partner.speakingScore)}</p></div></div>
+            <div className="flex items-center gap-3"><Avatar kind={data.partner.avatar} label={t.avatar} large /><div><p className="font-medium">{data.partner.name}</p><p className="font-mono text-sm">{score(data.partner.speakingScore)}</p></div></div>
             <p className="text-sm" aria-live="polite" data-call-status={callStatus ?? "connecting"}>{callLabel}</p>
             <button type="button" aria-pressed={partnerMuted} className="btn-secondary" onClick={() => setPartnerMuted((m) => !m)}>{partnerMuted ? t.unmutePartner : t.mutePartner}</button>
             <button type="button" disabled={busy} className="btn-primary" onClick={() => endCall()}>{t.choosePartner}</button>
             <button type="button" disabled={busy} className="btn-ghost btn-sm" onClick={() => endCall(data.partner!.userId)}>{t.block}</button>
           </section>
         ) : (
-          <section aria-labelledby="lp-online" className="flex flex-col gap-3 rounded-lg border border-ink-100 bg-paper p-4">
+          <section aria-labelledby="lp-online" className="lp-panel lp-peer flex flex-col gap-3 rounded-lg border border-ink-100 bg-paper p-4">
             <h2 id="lp-online" className="text-xs font-semibold uppercase tracking-wide text-ink-500">{t.onlineUsers}</h2>
             {!data ? <p className="text-sm text-ink-500">{t.loading}</p> : data.online.length === 0 ? <p className="text-sm text-ink-500">{t.nobodyOnline}</p> : (
               <ul className="flex flex-col gap-2">

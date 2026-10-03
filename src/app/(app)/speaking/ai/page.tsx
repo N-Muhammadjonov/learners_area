@@ -13,7 +13,7 @@ export default async function SpeakingAiPage() {
   const user = await requireActiveUser();
   if (!user) return null;
   const dict = getDictionary(await getLocale());
-  const prompts = await listActivePrompts();
+  const prompts = await listActivePrompts("ai");
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-6" data-route-usable="speaking-ai">

@@ -5,7 +5,9 @@ import { usePathname, useSearchParams } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n/en";
 import type { speakingPrompts } from "@/db/schema";
 import { groupByTopic, parsePart, partCounts, PRACTICE_PARTS, resolveTopic, type PracticePart } from "@/lib/speaking/practice-browse";
-import { QuestionRecorder } from "./QuestionRecorder";
+import { LocalAnswerRecorder } from "./LocalAnswerRecorder";
+import { StudySupportPanel } from "./StudySupportPanel";
+import { studySupportSchema } from "@/lib/speaking/study-support";
 
 type Prompt = typeof speakingPrompts.$inferSelect;
 
@@ -19,10 +21,13 @@ type Prompt = typeof speakingPrompts.$inferSelect;
  */
 export function PracticeStudio({ dict, prompts }: { dict: Dictionary; prompts: Prompt[] }) {
   const t = dict.speakingPractice;
+  const study = dict.speakingStudy;
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const part = parsePart(searchParams.get("part"));
   const topicKey = searchParams.get("topic");
+  const [search, setSearch] = useState("");
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const [busyId, setBusyId] = useState<string | null>(null);
 
   const counts = useMemo(() => partCounts(prompts), [prompts]);
@@ -30,6 +35,7 @@ export function PracticeStudio({ dict, prompts }: { dict: Dictionary; prompts: P
   const topic = resolveTopic(groups, topicKey);
 
   const go = useCallback((nextPart: PracticePart | null, nextTopic: string | null) => {
+    setSearch(""); setSelectedId(null);
     const qs = new URLSearchParams();
     if (nextPart) qs.set("part", nextPart);
     if (nextTopic) qs.set("topic", nextTopic);
@@ -42,6 +48,7 @@ export function PracticeStudio({ dict, prompts }: { dict: Dictionary; prompts: P
   }, []);
 
   const locked = busyId !== null;
+  const selected = topic?.prompts.find(p => p.id === selectedId) ?? topic?.prompts[0];
   const step = !part ? "part" : !topic ? "topic" : "questions";
 
   return (
@@ -55,7 +62,7 @@ export function PracticeStudio({ dict, prompts }: { dict: Dictionary; prompts: P
       {step === "part" && (
         <div className="motion-enter-stagger grid grid-cols-[repeat(auto-fit,minmax(min(100%,260px),1fr))] gap-4" data-practice-parts>
           {PRACTICE_PARTS.map((p, index) => (
-            <button key={p} type="button" disabled={counts[p] === 0} onClick={() => go(p, null)} data-practice-part={p}
+            <button key={p} type="button" onClick={() => go(p, null)} data-practice-part={p}
               className="practice-part-card motion-lift relative flex min-h-64 flex-col items-start gap-3 overflow-hidden rounded-3xl border p-6 text-left disabled:cursor-not-allowed disabled:opacity-50">
               <span aria-hidden="true" className="practice-part-number">{index + 1}</span>
               <span className="practice-part-mic" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3"/></svg></span>
@@ -72,8 +79,8 @@ export function PracticeStudio({ dict, prompts }: { dict: Dictionary; prompts: P
         groups.length === 0 ? (
           <p className="text-sm text-ink-500">{t.noQuestionsInPart}</p>
         ) : (
-          <ul className="grid gap-3 sm:grid-cols-2" data-practice-topics>
-            {groups.map((g) => (
+          <div className="space-y-4"><input aria-label={study.searchTopics} className="input" placeholder={study.searchTopics} value={search} onChange={e => setSearch(e.target.value)} /><ul className="grid gap-3 sm:grid-cols-2" data-practice-topics>
+            {groups.filter(g => (g.title ?? t.untitledTopic).toLowerCase().includes(search.toLowerCase())).map((g) => (
               <li key={g.key}>
                 <button type="button" onClick={() => go(part, g.key)} data-practice-topic={g.key}
                   className="card flex min-h-16 w-full items-center justify-between gap-3 p-4 text-left hover:bg-paper-sunken">
@@ -82,18 +89,27 @@ export function PracticeStudio({ dict, prompts }: { dict: Dictionary; prompts: P
                 </button>
               </li>
             ))}
-          </ul>
+          </ul></div>
         )
       )}
 
-      {step === "questions" && topic && (
-        <ol className="flex flex-col gap-4" data-practice-questions={topic.key}>
-          {topic.prompts.map((p, i) => (
-            <li key={p.id}>
-              <QuestionRecorder dict={dict} prompt={p} index={i + 1} lockedBy={busyId} onBusyChange={onBusyChange} />
-            </li>
-          ))}
-        </ol>
+      {step === "questions" && topic && selected && (
+        <div className="grid items-start gap-5 xl:grid-cols-2" data-practice-questions={topic.key}>
+          <section className="card space-y-4 p-5">
+            <h2 className="font-display text-xl">{part === "part2" ? study.yourCue : study.questions}</h2>
+            <ol className="space-y-3">
+              {topic.prompts.map((p, i) => <li key={p.id} className={`rounded-2xl border p-4 ${selected.id === p.id ? "border-accent-500 bg-paper-sunken" : "border-ink-100"}`}>
+                <button type="button" className="w-full text-left text-lg font-semibold" disabled={locked && selected.id !== p.id} onClick={() => setSelectedId(p.id)}>{i + 1}. {p.promptText}</button>
+                <div hidden={selected.id !== p.id}>
+                  {p.cueCard && <p className="mt-3 whitespace-pre-wrap text-ink-500">{p.cueCard}</p>}
+                  {part === "part2" && <p className="mt-3 text-sm">{study.prepare} 1:00 · {study.talk} 2:00</p>}
+                  <LocalAnswerRecorder dict={dict} id={p.id} part={p.part} lockedBy={busyId} onBusyChange={onBusyChange} />
+                </div>
+              </li>)}
+            </ol>
+          </section>
+          <div className="space-y-3"><h2 className="text-lg font-semibold">{selected.promptText}</h2><StudySupportPanel dict={dict} key={selected.id} promptId={selected.id} support={studySupportSchema.parse(selected.studySupport ?? {})} /></div>
+        </div>
       )}
     </div>
   );

@@ -32,7 +32,10 @@ export const ALLOWED_PENDING = ["0025_speaking_bank_identity", "0026_google_iden
   // Owner explicitly approved only the pending 0029–0035 sequence on 2026-10-03,
   // conditional on a fresh verified recovery point for the fingerprinted Preview.
   "0029_vocabulary_architecture", "0030_general_reading", "0031_writing_workspace",
-  "0032_writing_exam_papers", "0033_writing_language_stealing", "0034_typing_duration_presets", "0035_teacher_student_links"];
+  "0032_writing_exam_papers", "0033_writing_language_stealing", "0034_typing_duration_presets", "0035_teacher_student_links",
+  // Owner explicitly approved 0036 on 2026-10-04, after fresh native recovery verification.
+  "0036_speaking_study_support"];
+export const APPROVED_0036_SHA256 = "2287d37ada3bd0d542ecdc9fb966dd024c903f04f6f8d3c274294d73d3b071da";
 const DESTRUCTIVE = /\b(drop\s+(table|column|schema|database|type)|truncate|delete\s+from|alter\s+column\s+\S+\s+type)\b/i;
 const sha = (s) => createHash("sha256").update(s).digest("hex");
 
@@ -110,13 +113,18 @@ export function plan(journal, appliedHashes, readSql) {
   for (const h of applied) if (!known.has(h)) problems.push("database has a migration not in the journal");
   for (const e of pending) {
     if (!ALLOWED_PENDING.includes(e.tag)) problems.push(`pending ${e.tag} is not approved`);
-    if (DESTRUCTIVE.test(readSql(e.tag))) problems.push(`${e.tag} contains destructive SQL`);
+    const reviewed0036 = e.tag === "0036_speaking_study_support" && e.hash === APPROVED_0036_SHA256;
+    if (e.tag === "0036_speaking_study_support" && !reviewed0036) problems.push("0036 SQL differs from the owner-approved hash");
+    if (DESTRUCTIVE.test(readSql(e.tag)) && !reviewed0036) problems.push(`${e.tag} contains destructive SQL`);
   }
   return { applied: entries.filter((e) => applied.has(e.hash)).map((e) => e.tag), pending: pending.map((e) => e.tag), problems };
 }
 
 /** Every verification is scoped to the application schema `public`. */
 export const VERIFY = [
+  ["Speaking study support", "select count(*)::int n from information_schema.columns where table_schema='public' and table_name='speaking_prompts' and column_name='study_support' and data_type='jsonb' and is_nullable='NO'", (r) => r.n === 1],
+  ["Speaking question folder capacity", "select count(*)::int n from information_schema.columns where table_schema='public' and table_name='vocab_folders' and column_name='name' and character_maximum_length=200", (r) => r.n === 1],
+  ["Listening independent segment offsets", "select count(*)::int n from pg_indexes where schemaname='public' and indexname='lexical_occurrences_listening_offset_idx' and indexdef ilike '%UNIQUE%' and indexdef ilike '%segment_key%'", (r) => r.n === 1],
   ["lexical architecture", "select count(*)::int n from information_schema.tables where table_schema='public' and table_name in ('lexical_units','lexical_unit_forms')", (r) => r.n === 2],
   ["lexeme backfill complete", "select count(*)::int n from public.lexemes where lexical_unit_id is null", (r) => r.n === 0],
   ["General Reading tables", "select count(*)::int n from information_schema.tables where table_schema='public' and table_name in ('general_reading_sets','general_reading_passages','general_reading_progress')", (r) => r.n === 3],
