@@ -2,7 +2,7 @@
 
 Reference: `docs/owner-references/booster-ui-reference/BOOSTER_8_WRITING_UI_REFERENCE_19_PAGES.pdf`, used for **information architecture only**. We copy no names, logos, essays, statistics or other third-party content.
 
-The page purposes below come from the PDF's own text layer, extracted locally with pypdf. Code and test references are from commit `6a8d87e` and later.
+The page purposes below come from the PDF's own text layer, extracted locally with pypdf. Code and test references are from the Typing-closure commit and later (page 11 updated after the 1/2/3-minute presets landed).
 
 How to read the columns:
 - **Functional** is backed by code and automated tests in this repo. It is local evidence only, not Preview evidence.
@@ -20,7 +20,7 @@ How to read the columns:
 | 8 | Translation picker (question type, band) | `/writing?tab=translation` | IMPLEMENTED | writing-translation | SOURCE-ALIGNED / EXTERNALLY UNVERIFIED |
 | 9 | Sentence-by-sentence translation | `/writing/translation/[id]` (no future answers sent) | IMPLEMENTED | writing-translation | SOURCE-ALIGNED / EXTERNALLY UNVERIFIED |
 | 10 | Assessment after the final sentence | translation result view (deterministic; not labelled as AI) | IMPLEMENTED | writing-translation | SOURCE-ALIGNED / EXTERNALLY UNVERIFIED |
-| 11 | Typing trainer on model texts | `/writing?tab=typing`, `TypingTrainer.tsx` (Band 8–9 model texts) | PARTIAL: whole-text runs only. The PDF's 1/2/3-minute time presets are **not implemented** | writing-typing, writing-admin J12 | SOURCE-ALIGNED / EXTERNALLY UNVERIFIED |
+| 11 | Typing trainer on model texts | `/writing?tab=typing`, `TypingTrainer.tsx` (Band 8–9 model texts; 1 / 2 / 3-minute presets + untimed full text, chosen before Start) | IMPLEMENTED. The preset is bound into the server-signed start token; elapsed time is capped at the preset; the token expires preset + 30 s; input locks and auto-finalizes at 0:00; history records the preset (migration 0034, **not applied to shared DBs**) | writing-typing, writing-typing-presets TY10–TY19, writing-admin J12 | SOURCE-ALIGNED / EXTERNALLY UNVERIFIED |
 | 12 | Run result (WPM / accuracy) | typing result panel (server-computed metrics) | IMPLEMENTED (no figures from the PDF are copied) | writing-typing | SOURCE-ALIGNED / EXTERNALLY UNVERIFIED |
 | 13 | Topic Vocabulary by topic | `/writing?tab=topic-vocabulary` (canonical vocabulary packs; no Writing word table) | IMPLEMENTED; the topic count depends on content (the PDF's "60" is not claimed) | writing-topic-vocabulary, writing-admin J22 | SOURCE-ALIGNED / EXTERNALLY UNVERIFIED |
 | 14 | Grade my work: submit | `/writing?tab=grade` (existing OpenAI coach path on the server) | IMPLEMENTED; live AI is **EXTERNALLY UNVERIFIED** (no secrets here) | writing-grade, writing-ai-readiness | SOURCE-ALIGNED / EXTERNALLY UNVERIFIED |
@@ -34,7 +34,7 @@ Staff side, which has no PDF page: `/admin/writing` is the one ADMIN/OWNER Manag
 
 ## Totals (denominator 19)
 - IMPLEMENTED with local tests: 15
-- IMPLEMENTED LOCALLY but blocked on shared-DB migration approval: 2 (pages 7 and 19)
-- PARTIAL: 1 (page 11, time presets)
+- IMPLEMENTED LOCALLY but blocked on shared-DB migration approval: 3 (page 7 → 0032, page 11 presets history → 0034, page 19 → 0033)
+- PARTIAL: 0
 - Content-dependent count, not claimed: 1 (page 13)
 - Visual verified: 0 of 19. All are EXTERNALLY UNVERIFIED.
