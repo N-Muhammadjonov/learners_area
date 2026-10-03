@@ -60,25 +60,25 @@ const ok = (state = "completed", watchedSeconds = 120) => Response.json({ state,
 const finals = (calls: Call[]) => calls.filter((c) => c.body.ended === true);
 
 // ---------- Standalone vs course questions ----------
-test("S1 standalone with historical comprehension rows shows no Comprehension tab", () => mounted(studio("standalone", { questions: [questions[0]] }), () => {
-  assert.ok(!tabIds().includes("comprehension"));
+test("S1 standalone exposes real authored Comprehension", () => mounted(studio("standalone", { questions: [questions[0]] }), () => {
+  assert.ok(tabIds().includes("comprehension"));
 }));
-test("S2 standalone with historical gap-fill rows shows no gap-fill tab", () => mounted(studio("standalone", { questions: [questions[1]] }), () => {
-  assert.ok(!tabIds().includes("gap"));
+test("S2 standalone exposes real authored gap-fill", () => mounted(studio("standalone", { questions: [questions[1]] }), () => {
+  assert.ok(tabIds().includes("gap"));
 }));
-test("S3 standalone with both shows neither; only watching activities remain", () => mounted(studio("standalone", { questions }, { beforeYouWatch: "Predict", notes: "N", transcriptText: "T" }), () => {
-  assert.deepEqual(tabIds(), ["before", "transcript", "notes", "opinion", "summary"]);
-  assert.equal(document.querySelector("[data-video-comprehension], [data-video-gap]"), null);
+test("S3 standalone authored stages retain their ordered learning flow", () => mounted(studio("standalone", { questions }, { beforeYouWatch: "Predict", notes: "N", transcriptText: "T" }), () => {
+  assert.deepEqual(tabIds(), ["before", "transcript", "notes", "comprehension", "gap", "opinion", "summary"]);
+
 }));
 test("R4 course mode still renders authored Comprehension and gap-fill", () => mounted(studio("course", { questions }), () => {
   assert.deepEqual(tabIds(), ["comprehension", "gap", "opinion", "summary"]);
 }));
-test("mode is explicit at both call sites and gates the question tabs in code", () => {
+test("mode is explicit at both call sites and authored data determines question tabs", () => {
   assert.match(read("src/app/(app)/video-lessons/[id]/page.tsx"), /mode="standalone"/);
   assert.match(read("src/app/(app)/courses/ielts/lessons/[lessonId]/page.tsx"), /mode="course"/);
   const src = read("src/components/courses/VideoLessonStudio.tsx");
-  assert.match(src, /if \(mode === "course" && comprehension\.length > 0\) list\.push\("comprehension"\);/);
-  assert.match(src, /if \(mode === "course" && gapFill\.length > 0\) list\.push\("gap"\);/);
+  assert.match(src, /if \(comprehension\.length > 0\) list\.push\("comprehension"\);/);
+  assert.match(src, /if \(gapFill\.length > 0\) list\.push\("gap"\);/);
 });
 
 // ---------- Management ----------
@@ -94,14 +94,14 @@ async function type(selector: string, value: string) {
     el.dispatchEvent(new Event("input", { bubbles: true }));
   });
 }
-test("S4 standalone (default) Management has no question editor", () => mounted(<NewVideoLessonForm dict={en} lessons={lessons} />, () => {
-  assert.equal(document.querySelector("[data-video-questions-input]"), null);
+test("S4 standalone Management supports authored exercises", () => mounted(<NewVideoLessonForm dict={en} lessons={lessons} />, () => {
+  assert.ok(document.querySelector("[data-video-questions-input]"));
 }));
 test("S5 selecting a course lesson makes the question editor available", () => mounted(<NewVideoLessonForm dict={en} lessons={lessons} />, async () => {
   await choose(lessons[0]!.id);
   assert.ok(document.querySelector("[data-video-questions-input]"));
 }));
-test("S6 course -> standalone switch discards question text; the standalone request carries no questions", async () => {
+test("S6 changing the course link preserves the authored draft and submits it in standalone mode", async () => {
   const sent: Record<string, unknown>[] = [];
   const original = globalThis.fetch;
   globalThis.fetch = (async (_u: unknown, init?: RequestInit) => { sent.push(JSON.parse(String(init?.body))); return Response.json({ ok: true }); }) as typeof fetch;
@@ -110,9 +110,9 @@ test("S6 course -> standalone switch discards question text; the standalone requ
       await choose(lessons[0]!.id);
       await type("[data-video-questions-input]", "What is the speaker's main point? || education matters");
       await choose("");
-      assert.equal(document.querySelector("[data-video-questions-input]"), null);
+      assert.ok(document.querySelector("[data-video-questions-input]"));
       await choose(lessons[0]!.id);
-      assert.equal(q<HTMLTextAreaElement>("[data-video-questions-input]").value, "", "hidden text was discarded, not preserved");
+      assert.equal(q<HTMLTextAreaElement>("[data-video-questions-input]").value, "What is the speaker's main point? || education matters", "course selection preserves the draft");
       await choose("");
       const inputs = [...document.querySelectorAll<HTMLInputElement>("form input:not([type=number])")];
       await type("form input:not([type=number])", "https://youtu.be/dQw4w9WgXcQ");
@@ -123,12 +123,14 @@ test("S6 course -> standalone switch discards question text; the standalone requ
   } finally { globalThis.fetch = original; }
   assert.equal(sent.length, 1);
   assert.equal(sent[0]!.lessonId, null);
-  assert.deepEqual(sent[0]!.questions, []);
+  assert.equal((sent[0]!.questions as {prompt: string}[]).length, 1);
+  assert.equal((sent[0]!.questions as {prompt: string}[])[0]!.prompt, "What is the speaker's main point?");
 });
-test("S7 (route layer) the admin API rejects standalone questions before touching data", () => {
+test("S7 the admin API validates optional authored exercises for both modes", () => {
   const route = read("src/app/api/admin/video-lessons/route.ts");
-  assert.match(route, /if \(!parsed\.data\.lessonId && \(parsed\.data\.questions\?\.length \?\? 0\) > 0\) \{\s*return NextResponse\.json\(\{ error: "standalone_questions_not_allowed" \}, \{ status: 400 \}\);/);
-  assert.ok(route.indexOf("standalone_questions_not_allowed") < route.indexOf("const existing = parsed.data.videoLessonId"));
+  assert.doesNotMatch(route, /standalone_questions_not_allowed/);
+  assert.match(route, /acceptedAnswers/);
+  assert.match(route, /requireStaff/);
 });
 
 // ---------- Final flush races ----------

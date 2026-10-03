@@ -10,9 +10,11 @@ import {
   videoLessonProgress,
   videoLessonQuestions,
   videoLessons,
+  lexicalOccurrences,
 } from "@/db/schema";
 import { parseVideoInput, type VideoProvider } from "@/lib/services/video/provider";
 import { authorizedMediaOrigin } from "@/lib/config/site";
+import { ingestVideoOccurrences, type AuthoredVocabulary } from "@/lib/services/lexical/reading-occurrences";
 import { isLive, liveWhere } from "@/lib/services/cms/publication";
 
 /**
@@ -24,16 +26,11 @@ import { isLive, liveWhere } from "@/lib/services/cms/publication";
  *   - `watchedSeconds` is monotonic and clamped to the authored duration, so a
  *     reload or a seek backwards cannot lower it and a client cannot claim more
  *     than the video holds;
- *   - STANDALONE TED / PODCAST (lessonId IS NULL) is a watching experience:
- *     it is completed by watching (>= WATCHED_FRACTION of a known duration, or a
- *     trusted end-of-video report when the duration is unknown). Questions are
- *     never authored for it and any historical question rows are ignored;
- *     opinion/summary are optional and never complete or block it. Once
- *     completed it stays completed (completedAt is sticky).
- *   - COURSE-LINKED video (lessonId set) keeps its rule: with authored questions
- *     it is completed only when every question has been answered correctly at
- *     least once; without, at the watched threshold (or, when the duration is
- *     unknown, when the student has written their response).
+ *   - Authored comprehension/gap questions gate both standalone and course
+ *     completion. Every authored question must have a correct server-graded answer.
+ *   - Without questions, standalone items use the watched threshold or a trusted
+ *     end report for unknown duration. Optional opinion/summary do not gate them.
+ *   - Course items without questions retain their existing watching/response rule.
  *
  * A wrong answer is recorded and shown; it never marks the lesson done.
  */
@@ -54,6 +51,7 @@ export type VideoLessonInput = {
   transcript?: { startSeconds: number; text: string }[] | null;
   /** Centre-authored study notes; optional, like the transcript. */
   notes?: string | null;
+  vocabulary?: AuthoredVocabulary[];
   questions?: { stage: "comprehension" | "gap_fill"; prompt: string; acceptedAnswers: string[]; atSeconds?: number | null }[];
 };
 
@@ -141,13 +139,16 @@ export async function getStandaloneVideoLesson(videoLessonId: string, userId: st
     })),
   });
   if (!videoLesson) return null;
-  // Standalone TED / PODCAST never exposes authored questions. Historical rows
-  // remain non-destructively in storage, but are not loaded into the learner
-  // payload at all.
-  const progress = await db.query.videoLessonProgress.findFirst({
-    where: and(eq(videoLessonProgress.videoLessonId, videoLesson.id), eq(videoLessonProgress.userId, userId)),
-  });
-  return { videoLesson, questions: [], progress: progress ?? null };
+  const [questions, progress] = await Promise.all([
+    db.query.videoLessonQuestions.findMany({
+      where: eq(videoLessonQuestions.videoLessonId, videoLesson.id),
+      orderBy: asc(videoLessonQuestions.position),
+    }),
+    db.query.videoLessonProgress.findFirst({
+      where: and(eq(videoLessonProgress.videoLessonId, videoLesson.id), eq(videoLessonProgress.userId, userId)),
+    }),
+  ]);
+  return { videoLesson, questions, progress: progress ?? null };
 }
 
 /** Live standalone items for the learner index, newest first, bounded. */
@@ -232,10 +233,6 @@ export async function createVideoLesson(input: VideoLessonInput, createdByUserId
   if (!parsed.ok) return { ok: false as const, reason: parsed.reason };
 
   const lessonId = input.lessonId ?? null;
-  // Invariant: a standalone TED / PODCAST item never has authored questions.
-  if (!lessonId && input.questions && input.questions.length > 0) {
-    return { ok: false as const, reason: "standalone_questions_not_allowed" as const };
-  }
   let existing: typeof videoLessons.$inferSelect | undefined;
   if (lessonId) {
     const lesson = await db.query.lessons.findFirst({ where: eq(lessons.id, lessonId) });
@@ -285,9 +282,7 @@ export async function createVideoLesson(input: VideoLessonInput, createdByUserId
     // half-updated question list is worse than a replaced one. Progress rows
     // keep whatever they already graded; a removed question simply stops being
     // asked.
-    // Standalone items never write question rows (historical rows are left
-    // untouched and ignored by the learner surface and the completion rule).
-    if (lessonId && input.questions) {
+    if (input.questions) {
       await tx.delete(videoLessonQuestions).where(eq(videoLessonQuestions.videoLessonId, id!));
       if (input.questions.length > 0) {
         await tx.insert(videoLessonQuestions).values(
@@ -301,6 +296,11 @@ export async function createVideoLesson(input: VideoLessonInput, createdByUserId
           }))
         );
       }
+    }
+    if (input.vocabulary) {
+      await tx.delete(lexicalOccurrences).where(and(eq(lexicalOccurrences.videoLessonId, id!), eq(lexicalOccurrences.sourceType, "video")));
+      const body = [values.transcriptText, ...(values.transcript ?? []).map(line => line.text), values.notes].filter(Boolean).join("\n");
+      await ingestVideoOccurrences(tx, id!, body, input.vocabulary);
     }
     return id!;
   });
@@ -336,23 +336,13 @@ async function recomputeState(videoLessonId: string, userId: string, options: { 
   const durationKnown = videoLesson.durationSeconds != null && videoLesson.durationSeconds > 0;
   const reachedThreshold = durationKnown && progress.watchedSeconds >= Math.floor(videoLesson.durationSeconds! * WATCHED_FRACTION);
 
-  let completed: boolean;
-  if (videoLesson.lessonId === null) {
-    // STANDALONE TED / PODCAST: completed by watching only. Question rows and
-    // opinion/summary play no part. Unknown duration completes on a trusted
-    // end-of-video report that actually watched something. Sticky once done.
-    completed =
-      progress.completedAt != null ||
-      reachedThreshold ||
-      (!durationKnown && options.trustedEnd === true && progress.watchedSeconds > 0);
-  } else {
-    // COURSE-LINKED: every authored question counts, comprehension and gap fill
-    // alike; without questions, the watched threshold (or a written response
-    // when the duration is unknown).
-    const allCorrect = questions.length > 0 && questions.every((question) => answers[question.id]?.correct === true);
-    const watchedEnough = durationKnown ? reachedThreshold : Boolean(progress.responseText || progress.summaryText);
-    completed = questions.length > 0 ? allCorrect : watchedEnough;
-  }
+  const allCorrect = questions.length > 0 && questions.every((question) => answers[question.id]?.correct === true);
+  // Authored exercises gate both learning modes. Opinion/summary remain optional
+  // for standalone items; viewing a tab is never evidence of completion.
+  const watchedEnough = durationKnown ? reachedThreshold : videoLesson.lessonId === null
+    ? (progress.completedAt != null || (options.trustedEnd === true && progress.watchedSeconds > 0))
+    : Boolean(progress.responseText || progress.summaryText);
+  const completed = questions.length > 0 ? allCorrect : watchedEnough;
   const started =
     progress.watchedSeconds > 0 ||
     Object.keys(answers).length > 0 ||
@@ -404,8 +394,7 @@ export async function submitAnswers(
   answers: Record<string, string>
 ) {
   const videoLesson = await db.query.videoLessons.findFirst({ where: eq(videoLessons.id, videoLessonId) });
-  // Standalone TED / PODCAST has no questions: historical rows are never graded.
-  if (!videoLesson || videoLesson.lessonId === null) return null;
+  if (!videoLesson) return null;
   const questions = await db.query.videoLessonQuestions.findMany({
     where: eq(videoLessonQuestions.videoLessonId, videoLessonId),
   });

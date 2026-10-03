@@ -55,24 +55,24 @@ test("guard: only the isolated local QA2 database", opts, () => {
   assert.ok(["localhost", "127.0.0.1"].includes(url.hostname) && url.pathname === "/learners_qa2");
 });
 
-test("S7 (data layer) standalone questions are refused; course questions are stored", opts, async () => {
+test("S7 authored standalone and course questions are both stored", opts, async () => {
   const owner = await user();
-  const refused = await createVideoLesson({ videoUrl: `https://youtu.be/${ytId()}`, title: "QA2 talk", lessonId: null, questions: [q1] }, owner);
-  assert.deepEqual(refused, { ok: false, reason: "standalone_questions_not_allowed" });
-  const lessonId = await courseLesson();
-  const id = await video({ lessonId, questions: [q1] }, owner);
-  assert.equal((await db.select().from(videoLessonQuestions).where(eq(videoLessonQuestions.videoLessonId, id))).length, 1);
+  for (const lessonId of [null, await courseLesson()]) {
+    const id = await video({ lessonId, questions: [q1] }, owner);
+    assert.equal((await db.select().from(videoLessonQuestions).where(eq(videoLessonQuestions.videoLessonId, id))).length, 1);
+  }
 });
 
-test("S8/C3 stale standalone question rows: not graded, not a completion blocker, and not deleted by an edit", opts, async () => {
+test("S8 authored standalone questions gate completion and an explicit edit replaces them", opts, async () => {
   const owner = await user(); const learner = await user();
   const id = await video({ durationSeconds: 100 }, owner);
-  const stale = await staleQuestion(id);
-  assert.equal(await submitAnswers(id, learner, { [stale]: "yes" }), null, "answers endpoint treats standalone as no-questions (409)");
-  assert.equal((await recordWatched(id, learner, 80))!.state, "completed");
+  const question = await staleQuestion(id);
+  assert.equal((await recordWatched(id, learner, 100))!.state, "in_progress");
+  assert.equal((await submitAnswers(id, learner, { [question]: "wrong" }))!.state, "in_progress");
+  assert.equal((await submitAnswers(id, learner, { [question]: "yes" }))!.state, "completed");
   const edit = await createVideoLesson({ videoLessonId: id, videoUrl: `https://youtu.be/${(await db.query.videoLessons.findFirst({ where: eq(videoLessons.id, id) }))!.videoId}`, title: "QA2 talk edited", lessonId: null, questions: [] }, owner);
   assert.ok(edit.ok);
-  assert.equal((await db.select().from(videoLessonQuestions).where(eq(videoLessonQuestions.videoLessonId, id))).length, 1, "no destructive cleanup of historical rows");
+  assert.equal((await db.select().from(videoLessonQuestions).where(eq(videoLessonQuestions.videoLessonId, id))).length, 0);
 });
 
 test("C1/C2 standalone known duration: 79% in progress, 80% completed", opts, async () => {

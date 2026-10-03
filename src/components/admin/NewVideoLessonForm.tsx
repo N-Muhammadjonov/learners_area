@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { apiErrorMessage } from "@/lib/api-error-message";
 
+import { parseTranscriptInput } from "@/lib/services/video/transcript";
 export { parseTranscript, parseTranscriptInput, type TranscriptInput } from "@/lib/services/video/transcript";
 
 /**
@@ -16,9 +17,8 @@ export { parseTranscript, parseTranscriptInput, type TranscriptInput } from "@/l
  * link explains itself (unsupported host, missing id, wrong shape) instead of
  * silently creating a lesson whose video will never play.
  *
- * URL, title and notes are the primary workflow. Standalone TED / PODCAST items
- * have no question authoring; for a course-linked lesson, optional authored questions
- * retain server validation. Captions come from the provider player itself.
+ * URL, title, notes and optional authored exercises serve both learning modes.
+ * Captions come from the provider player itself.
  */
 type LessonOption = { id: string; title: string };
 
@@ -39,6 +39,9 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
   const [before, setBefore] = useState("");
   const [duration, setDuration] = useState("");
   const [notes, setNotes] = useState("");
+  const [transcriptText, setTranscriptText] = useState("");
+  const [transcriptSource, setTranscriptSource] = useState("authored");
+  const [vocabularyText, setVocabularyText] = useState("");
   const [questionsText, setQuestionsText] = useState("");
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<{ tone: "ok" | "bad"; text: string } | null>(null);
@@ -46,6 +49,15 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
   async function submit(event: React.FormEvent) {
     event.preventDefault();
     if (submitting.current) return;
+    const transcript = parseTranscriptInput(transcriptText);
+    if (transcript.kind === "mixed") {setMessage({tone: "bad", text: t.transcriptMixed}); return;}
+    const vocabulary = vocabularyText.trim() ? vocabularyText.trim().split(/\r?\n/).map(line => {
+      const [word = "", pos = "", def = "", uz = "", ex = ""] = line.split("||").map(part => part.trim());
+      return {word, pos, def, uz, ex};
+    }) : [];
+    if (vocabulary.some(entry => ![transcript.kind === "plain" ? transcript.text : transcript.kind === "timed" ? transcript.lines.map(line => line.text).join("\n") : "", notes].join("\n").includes(entry.ex) || !entry.ex)) {
+      setMessage({tone: "bad", text: t.vocabularyContextRequired}); return;
+    }
     submitting.current = true;
     setBusy(true);
     setMessage(null);
@@ -65,13 +77,14 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
         beforeYouWatch: before || null,
         durationSeconds: duration ? Number(duration) : null,
         // Captions are supplied by the player; no transcript is scraped or invented.
-        transcriptSource: null,
+        transcriptSource: transcript.kind === "empty" ? null : transcriptSource,
         transcriptAttribution: null,
-        transcript: null,
-        transcriptText: null,
+        transcript: transcript.kind === "timed" ? transcript.lines : null,
+        transcriptText: transcript.kind === "plain" ? transcript.text : null,
+        ...(vocabulary.length ? {vocabulary} : {}),
         notes: notes.trim() || null,
-        // Standalone TED / PODCAST never carries questions (the API rejects them too).
-        questions: lessonId ? parseQuestions(questionsText) : [],
+        // Both standalone and course items may carry authored exercises.
+        questions: parseQuestions(questionsText),
       }),
     });
     const body = await res.json().catch(() => ({}));
@@ -83,14 +96,14 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
       setVideoUrl("");
       setBefore("");
       setNotes("");
-      setQuestionsText("");
+      setQuestionsText(""); setTranscriptText(""); setVocabularyText("");
       router.refresh();
       return;
     }
     const reason = body.reason as keyof typeof t.rejection | undefined;
     setMessage({
       tone: "bad",
-      text: (reason && t.rejection[reason]) ?? apiErrorMessage(body.error, undefined, dict),
+      text: (reason && t.rejection[reason]) ?? apiErrorMessage(body.error, res.status, dict, {vocabulary_context_required: t.vocabularyContextRequired}),
     });
     } catch {
       if (activeRequest.current === controller) setMessage({ tone: "bad", text: dict.errors.unknown });
@@ -139,12 +152,25 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
 
 
       <label className="flex flex-col gap-1 text-sm">
+        {t.transcriptText}<textarea className="input min-h-28" value={transcriptText} onChange={e => setTranscriptText(e.target.value)} maxLength={20000} data-video-transcript-input />
+        <span className="text-xs text-ink-500">{t.transcriptTextHelp}</span>
+      </label>
+      {transcriptText.trim() && <label className="flex flex-col gap-1 text-sm">{t.transcriptSource}
+        <select className="input" value={transcriptSource} onChange={e => setTranscriptSource(e.target.value)}>
+          <option value="authored">{t.sourceAuthored}</option><option value="licensed">{t.sourceLicensed}</option><option value="permitted">{t.sourcePermitted}</option>
+        </select>
+      </label>}
+      <label className="flex flex-col gap-1 text-sm">{t.vocabulary}
+        <textarea className="input min-h-24" value={vocabularyText} onChange={e => setVocabularyText(e.target.value)} maxLength={20000} data-video-vocabulary-input />
+        <span className="text-xs text-ink-500">{t.vocabularyHelp}</span>
+      </label>
+
+      <label className="flex flex-col gap-1 text-sm">
         {t.lessonOptional}
         <select className="input" value={lessonId} onChange={(e) => {
           const next = e.target.value;
           setLessonId(next);
-          // Course -> standalone: discard question text so it can never be submitted hidden.
-          if (!next) setQuestionsText("");
+
         }} data-video-lesson-select>
           <option value="">{t.standaloneOption}</option>
           {lessons.map((lesson) => (
@@ -173,7 +199,6 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
 
 
 
-      {lessonId ? (
       <label className="flex flex-col gap-1 text-sm">
         {t.questions}
         <textarea
@@ -185,7 +210,6 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
         />
         <span className="text-xs text-ink-500">{t.questionsHelp}</span>
       </label>
-      ) : null}
 
       <div className="flex items-center gap-3">
         <Button type="submit" disabled={busy}>

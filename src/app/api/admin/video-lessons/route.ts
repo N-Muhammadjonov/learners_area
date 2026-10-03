@@ -40,6 +40,7 @@ const schema = z.object({
   // Optional study notes: absent means the learner surface shows no notes
   // control at all, never an empty one.
   notes: z.string().max(4000).optional().nullable(),
+  vocabulary: z.array(z.object({word: z.string().trim().min(1).max(120), pos: z.string().max(30), def: z.string().trim().min(1).max(500), uz: z.string().max(500), ex: z.string().trim().min(1).max(500)})).max(100).optional(),
   questions: z
     .array(
       z.object({
@@ -90,11 +91,16 @@ export async function POST(req: NextRequest) {
   if (parsed.data.transcript?.length && parsed.data.transcriptText?.trim()) {
     return NextResponse.json({ error: "invalid_input", detail: "transcript_ambiguous" }, { status: 400 });
   }
-  // Standalone TED / PODCAST is a watching experience: no authored questions.
-  if (!parsed.data.lessonId && (parsed.data.questions?.length ?? 0) > 0) {
-    return NextResponse.json({ error: "standalone_questions_not_allowed" }, { status: 400 });
-  }
 
+  if (parsed.data.vocabulary?.length) {
+    const body = [parsed.data.transcriptText, ...(parsed.data.transcript ?? []).map(line => line.text), parsed.data.notes].filter(Boolean).join("\n");
+    if (parsed.data.vocabulary.some(entry => !body.includes(entry.ex))) {
+      return NextResponse.json({error: "vocabulary_context_required"}, {status: 400});
+    }
+  }
+  if ((parsed.data.transcript?.length || parsed.data.transcriptText?.trim()) && !parsed.data.transcriptSource) {
+    return NextResponse.json({error: "invalid_input", detail: "transcript_source_required"}, {status: 400});
+  }
   const existing = parsed.data.videoLessonId
     ? await db.query.videoLessons.findFirst({ where: eq(videoLessons.id, parsed.data.videoLessonId) })
     : parsed.data.lessonId
@@ -108,9 +114,6 @@ export async function POST(req: NextRequest) {
   if (!result.ok) {
     if (result.reason === "lesson_not_found" || result.reason === "video_lesson_not_found") {
       return NextResponse.json({ error: result.reason }, { status: 404 });
-    }
-    if (result.reason === "standalone_questions_not_allowed") {
-      return NextResponse.json({ error: "standalone_questions_not_allowed" }, { status: 400 });
     }
     if (result.reason === "video_exists") {
       return NextResponse.json({ error: "video_exists" }, { status: 409 });

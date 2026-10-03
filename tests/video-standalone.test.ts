@@ -70,12 +70,14 @@ test("W12 superseded UI: native captions replace the reveal; legacy transcript s
 });
 
 
-test("standalone learner loader never fetches historical question rows", () => {
+test("standalone learner loader includes authored exercises but the learner page excludes accepted answers", () => {
   const data = read("src/lib/data/video-lessons.ts");
   const fn = data.slice(
     data.indexOf("export async function getStandaloneVideoLesson"),
     data.indexOf("export async function listStandaloneVideoLessonsForStudent")
   );
-  assert.doesNotMatch(fn, /videoLessonQuestions/, "standalone payload must not load stale question rows");
-  assert.match(fn, /questions: \[\]/);
+  assert.match(fn, /videoLessonQuestions/);
+  const page = read("src/app/(app)/video-lessons/[id]/page.tsx");
+  assert.match(page, /data.questions.map/);
+  assert.doesNotMatch(page, /acceptedAnswers/);
 });

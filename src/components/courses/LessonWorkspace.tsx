@@ -1,4 +1,5 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
@@ -26,6 +27,8 @@ export function LessonWorkspace({
   initialNotes: string;
   completedAt: string | null;
 }) {
+  const requestResponse = useScopedResponse(25000);
+
   const t = dict.courseRoadmap;
   const [notes, setNotes] = useState(initialNotes);
   const [savedNotes, setSavedNotes] = useState(initialNotes);
@@ -37,11 +40,12 @@ export function LessonWorkspace({
   async function move(next: "in_progress" | "completed") {
     setBusy(true);
     setError(null);
-    const res = await fetch(`/api/lessons/${lessonId}/state`, {
+    const res = await requestResponse(`/api/lessons/${lessonId}/state`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ state: next, notes: savedNotes || undefined }),
     });
+    if (!res) return;
     setBusy(false);
     if (!res.ok) {
       const body = await res.json().catch(() => ({}));
@@ -61,11 +65,12 @@ export function LessonWorkspace({
   async function saveNotes() {
     setBusy(true);
     setError(null);
-    const res = await fetch(`/api/lessons/${lessonId}/notes`, {
+    const res = await requestResponse(`/api/lessons/${lessonId}/notes`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ notes }),
     });
+    if (!res) return;
     setBusy(false);
     if (!res.ok) {
       setError(dict.common.error);

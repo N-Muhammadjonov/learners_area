@@ -17,7 +17,8 @@ export type VocabularySourceSnapshot = {
   surfaceForm: string;
   sentenceText: string;
   /* 0029 — revisit data. Optional: snapshots written before 0029 lack them. */
-  sourceType?: "reading" | "listening";
+  sourceType?: "reading" | "listening" | "video";
+  videoLessonId?: string | null;
   /** Reading: the learner's own attempt the word was met in (revisit target). */
   attemptId?: string | null;
   passageId?: string | null;
@@ -35,6 +36,7 @@ export type VocabularySourceSnapshot = {
 /** Where "go back to this source" leads; null when no learner-reachable page exists. */
 export function sourceRevisitHref(snapshot: Partial<VocabularySourceSnapshot> | null | undefined): string | null {
   if (!snapshot) return null;
+  if (snapshot.sourceType === "video" && snapshot.videoLessonId) return `/video-lessons/${snapshot.videoLessonId}`;
   if (snapshot.sourceType === "listening" && snapshot.listeningTestId) {
     const section = snapshot.sectionNumber && snapshot.sectionNumber >= 1 && snapshot.sectionNumber <= 4 ? `?section=${snapshot.sectionNumber}` : "";
     return `/listening/tests/${snapshot.listeningTestId}/study${section}`;

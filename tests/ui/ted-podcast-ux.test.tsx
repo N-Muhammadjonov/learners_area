@@ -212,12 +212,12 @@ test("outbound-navigation regression: no external link, new tab, or scripted nav
     assert.equal(document.querySelector('a[href^="http"], a[target], form[action^="http"]'), null);
   });
 });
-test("whitespace-only Before you watch hides the tab; standalone never lists Comprehension or Gap-fill", () => mounted(studio({ questions: [{ id: "q1", stage: "comprehension", prompt: "p", options: [], answer: null }] }, { beforeYouWatch: "  \n ", transcriptText: "   " }), () => {
+test("empty optional content hides its tabs while an authored exercise remains available", () => mounted(studio({ questions: [{ id: "q1", stage: "comprehension", prompt: "p", options: [], answer: null }] }, { beforeYouWatch: "  \n ", transcriptText: "   " }), () => {
   const tabs = [...document.querySelectorAll("[data-video-tab]")].map((el) => el.getAttribute("data-video-tab"));
   assert.ok(!tabs.includes("before"));
   assert.ok(!tabs.includes("transcript"));
-  assert.ok(!tabs.includes("comprehension") && !tabs.includes("gap"));
-  assert.ok(tabs.every((tab) => ["notes", "opinion", "summary"].includes(tab!)), String(tabs));
+  assert.ok(tabs.includes("comprehension") && !tabs.includes("gap"));
+  assert.ok(tabs.every((tab) => ["comprehension", "notes", "opinion", "summary"].includes(tab!)), String(tabs));
 }));
 test("no app-owned More videos / Copy link / Watch on YouTube surface", () => {
   assert.doesNotMatch(studioSrc + detailPage, /More videos|Copy link|Watch on YouTube|navigator\.clipboard|youtube\.com\/watch/i);

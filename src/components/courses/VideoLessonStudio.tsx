@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import type { Dictionary } from "@/lib/i18n/en";
+import { VideoVocabulary, type VideoWord } from "./VideoVocabulary";
 import { ClickableText } from "@/components/vocabulary/ClickableText";
 import { Button } from "@/components/ui/Button";
 import { embedUrlFor, type VideoProvider } from "@/lib/services/video/provider";
@@ -11,13 +12,12 @@ import { DirectMediaPlayer, type DirectMediaControls } from "@/components/course
  * An authored transcript (timed lines or plain text) is shown as a read-only
  * Transcript tab only when it has content; native captions stay in the player.
  */
-type Tab = "before" | "transcript" | "notes" | "comprehension" | "gap" | "opinion" | "summary";
+type Tab = "before" | "transcript" | "notes" | "comprehension" | "gap" | "opinion" | "summary" | "vocabulary";
 
 /**
  * Explicit product context (never inferred from the URL or from whether
  * questions happen to exist):
- *   - "standalone": TED / PODCAST — a watching experience. Comprehension and
- *     Script gap-fill can never render, even if historical question rows exist.
+ *   - "standalone": TED / PODCAST — authored exercises use the same grading service.
  *   - "course": a roadmap lesson's video — authored questions render as before.
  */
 export type VideoLessonMode = "standalone" | "course";
@@ -38,8 +38,12 @@ export function VideoLessonStudio({
   initialProgress,
   directMedia,
   embedOrigin,
+  vocabulary = [],
+  vocabularyReady = true,
 }: {
   mode: VideoLessonMode;
+  vocabulary?: VideoWord[];
+  vocabularyReady?: boolean;
   /** Configured public origin of this site for the YouTube JS API; omitted (never "*") when not configured. */
   embedOrigin?: string | null;
   /** Server-resolved URLs for an owner-authorised direct media item (provider "direct"). */
@@ -122,15 +126,16 @@ export function VideoLessonStudio({
     if (videoLesson.beforeYouWatch?.trim()) list.push("before");
     if (hasTranscript) list.push("transcript");
     if (notes.length > 0) list.push("notes");
-    // Course-linked lessons only: standalone TED / PODCAST never shows questions.
-    if (mode === "course" && comprehension.length > 0) list.push("comprehension");
-    if (mode === "course" && gapFill.length > 0) list.push("gap");
+    // Render only stages with real authored questions in either mode.
+    if (comprehension.length > 0) list.push("comprehension");
+    if (gapFill.length > 0) list.push("gap");
+    if (vocabulary.length > 0) list.push("vocabulary");
     list.push("opinion");
     // Written recall does not depend on a transcript: the student writes what they
     // remember from the video itself.
     list.push("summary");
     return list;
-  }, [mode, videoLesson.beforeYouWatch, hasTranscript, notes.length, comprehension.length, gapFill.length]);
+  }, [videoLesson.beforeYouWatch, hasTranscript, notes.length, comprehension.length, gapFill.length, vocabulary.length]);
 
   const [selectedTab, setTab] = useState<Tab>(tabs[0] ?? "opinion");
   // If the available tabs ever change, never point at a removed one.
@@ -429,6 +434,7 @@ export function VideoLessonStudio({
         </span>
       </div>
 
+      {!vocabularyReady && <p role="status" className="text-sm text-ink-500">{t.vocabularyUnavailable}</p>}
       <div className="flex flex-wrap gap-2" role="tablist" aria-label={t.stagesLabel} data-video-tablist>
         {tabs.map((item, index) => (
           <button

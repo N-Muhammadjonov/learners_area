@@ -1,5 +1,5 @@
 import { BackLink } from "@/components/ui/BackLink";
-import Link from "next/link";
+import { videoVocabulary } from "@/lib/services/lexical/video-vocabulary";
 import { notFound } from "next/navigation";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
@@ -26,6 +26,7 @@ export default async function StandaloneVideoLessonPage({ params }: { params: Pr
   if (!isUuid(id)) notFound();
   const data = await getStandaloneVideoLesson(id, user.id);
   if (!data) notFound();
+  const vocabulary = await videoVocabulary(id);
   const dict = getDictionary(locale);
   const { videoLesson, progress } = data;
   const minutes = videoLesson.durationSeconds && videoLesson.durationSeconds > 0 ? Math.max(1, Math.round(videoLesson.durationSeconds / 60)) : null;
@@ -41,6 +42,8 @@ export default async function StandaloneVideoLessonPage({ params }: { params: Pr
       </header>
       <VideoLessonStudio
         mode="standalone"
+        vocabulary={vocabulary.items}
+        vocabularyReady={vocabulary.ready}
         embedOrigin={resolveEmbedOrigin(requestHeaders, publicBaseUrl)}
           directMedia={resolveDirectMedia(videoLesson.provider, videoLesson.videoId)}
         dict={dict}
@@ -58,7 +61,7 @@ export default async function StandaloneVideoLessonPage({ params }: { params: Pr
           transcriptText: videoLesson.transcriptText ?? null,
           notes: videoLesson.notes ?? null,
         }}
-        questions={[]}
+        questions={data.questions.map(({ id, stage, prompt, atSeconds }) => ({ id, stage: stage as "comprehension" | "gap_fill", prompt, atSeconds }))}
         initialProgress={
           progress
             ? {

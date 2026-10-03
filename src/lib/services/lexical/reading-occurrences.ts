@@ -37,7 +37,13 @@ export type AuthoredVocabulary = {
  * Offsets are absolute in `body`, exactly as Academic occurrences are, so the
  * existing occurrenceSpans/resolveReadingOccurrence integrity checks apply unchanged.
  */
-export async function ingestReadingPassageOccurrences(tx: Tx, passageId: string, body: string, vocabulary: AuthoredVocabulary[], provenance = "general_reading") {
+export function ingestReadingPassageOccurrences(tx: Tx, passageId: string, body: string, vocabulary: AuthoredVocabulary[], provenance = "general_reading") {
+  return ingestTextOccurrences(tx, {sourceType: "reading", passageId}, body, vocabulary, provenance, passageId);
+}
+export function ingestVideoOccurrences(tx: Tx, videoLessonId: string, body: string, vocabulary: AuthoredVocabulary[]) {
+  return ingestTextOccurrences(tx, {sourceType: "video", videoLessonId}, body, vocabulary, "video_authoring", videoLessonId);
+}
+async function ingestTextOccurrences(tx: Tx, source: {sourceType: "reading"; passageId: string} | {sourceType: "video"; videoLessonId: string}, body: string, vocabulary: AuthoredVocabulary[], provenance: string, sourceId: string) {
   const senses = new Map<string, { lexemeId: string; unitId: string; example: string }>();
   const candidates: SpanCandidate[] = [];
   let skippedFunctionWords = 0;
@@ -50,7 +56,7 @@ export async function ingestReadingPassageOccurrences(tx: Tx, passageId: string,
       await tx.insert(lexemes).values({
         term: entry.word.trim(), partOfSpeech: entry.pos.trim() || null, definitionEn: entry.def.trim(),
         translationUz: entry.uz.trim() || null, exampleSentence: entry.ex.trim() || null, senseKey,
-        provenance, verificationStatus: "unverified", importBatch: `${provenance}:${passageId}`.slice(0, 80),
+        provenance, verificationStatus: "unverified", importBatch: `${provenance}:${sourceId}`.slice(0, 80),
       }).onConflictDoNothing({ target: lexemes.senseKey });
       sense = await tx.query.lexemes.findFirst({ where: eq(lexemes.senseKey, senseKey) });
     }
@@ -79,7 +85,7 @@ export async function ingestReadingPassageOccurrences(tx: Tx, passageId: string,
     const linked = checkedHere.length === 1 ? senses.get(checkedHere[0]!) : undefined;
     const unitIds = new Set(span.keys.map((key) => senses.get(key)?.unitId));
     const inserted = await tx.insert(lexicalOccurrences).values({
-      sourceType: "reading", passageId,
+      ...source,
       surfaceForm: span.surface.slice(0, 120), startChar: span.start, endChar: span.end,
       sentenceText: sentence, occurrenceType: "vocabulary", isTargetVocabulary: true,
       lexemeId: linked?.lexemeId ?? null, lexicalUnitId: unitIds.size === 1 ? [...unitIds][0] ?? null : null,
