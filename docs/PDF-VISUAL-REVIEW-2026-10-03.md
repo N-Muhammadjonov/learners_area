@@ -65,7 +65,7 @@ Common to every page:
 | W10 | Translation assessment | translation result | EXTERNALLY UNVERIFIED | AI-dependent |
 | W11 | Typing trainer | TypingTrainer | PASS (needs 0034) | Duration presets wait for migration 0034 |
 | W12 | Typing result | typing result | PASS | Server-authoritative timing |
-| W13 | Topic vocabulary 60 topics | topic vocabulary | OWNER ACTION REQUIRED | Content-dependent (topics must be authored) |
+| W13 | Topic vocabulary 60 topics | topic vocabulary | OWNER ACTION REQUIRED | Content-dependent (topics must be authored); architecture complete, 2/60 packs exist; contract: docs/TOPIC-VOCABULARY-CONTENT-CONTRACT.md |
 | W14 | Grade my work submission | Grade tab | PASS | Saves essay without AI; no band |
 | W15 | Examiner comment: 4 criteria + overall | grade result | EXTERNALLY UNVERIFIED | Strict external provider; server-derived overall |
 | W16 | Sentence corrections | grade corrections | EXTERNALLY UNVERIFIED | AI-dependent |
