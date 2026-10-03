@@ -1304,6 +1304,23 @@ export const assignments = pgTable("assignments", {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
+/**
+ * Explicit teacher -> student roster (migration 0035). The ONLY source of a
+ * teacher's Reporter visibility: nothing is inferred from assignments or class
+ * history. Owner/admin create and remove links; a teacher with no links sees
+ * no learners (fail closed).
+ */
+export const teacherStudentLinks = pgTable("teacher_student_links", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  teacherUserId: uuid("teacher_user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  studentUserId: uuid("student_user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  assignedByUserId: uuid("assigned_by_user_id").references(() => users.id, { onDelete: "set null" }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => ({
+  pairIdx: uniqueIndex("teacher_student_links_pair_uidx").on(table.teacherUserId, table.studentUserId),
+  studentIdx: index("teacher_student_links_student_idx").on(table.studentUserId),
+}));
+
 export const activityEvents = pgTable("activity_events", {
   id: uuid("id").defaultRandom().primaryKey(),
   userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),

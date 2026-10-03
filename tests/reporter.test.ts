@@ -8,7 +8,8 @@ import { readFileSync, readdirSync } from "node:fs";
 import { unzipSync, strFromU8 } from "fflate";
 import { sql } from "drizzle-orm";
 import { resolvePeriod } from "../src/lib/reporter/period";
-import { authorizeReport, type Actor, type SubjectLookup } from "../src/lib/reporter/access";
+import { ADMIN_REPORT_POLICY, allowedScopes, authorizeReport, type Actor, type RosterCheck, type SubjectLookup } from "../src/lib/reporter/access";
+import { isOnRoster, listRoster, setRosterLink } from "../src/lib/reporter/roster";
 import { buildReportSnapshot, compileMetricSql, snapshotSha256, validateNarrative, type ReportSnapshot } from "../src/lib/reporter/snapshot";
 import { bytesSha256, renderCsv, renderDocx, renderJson, renderPdf, renderXlsx, renderZip, safeCell } from "../src/lib/reporter/exports";
 import { generateReport } from "../src/lib/reporter/service";
@@ -75,7 +76,10 @@ test("RP3 access matrix: students only see themselves; staff cannot reach owner 
   assert.deepEqual(await authorizeReport(teacher, { scope: "student", subjectId: OWN }, lookup), { ok: false, status: 404 }, "non-student subject");
   assert.deepEqual(await authorizeReport(teacher, { scope: "student", subjectId: "aaaaaaaa-0000-4000-8000-00000000ffff" }, lookup), { ok: false, status: 404 });
   assert.deepEqual(await authorizeReport(teacher, { scope: "student", subjectId: "1 or 1=1" }, lookup), { ok: false, status: 404 });
-  assert.ok((await authorizeReport(teacher, { scope: "student", subjectId: S2 }, lookup)).ok);
+  // Corrected 2026-10-03 (§9): a teacher no longer reaches an arbitrary student.
+  // Admin keeps any-student reach by its explicit policy; an unrostered teacher gets 404.
+  assert.ok((await authorizeReport(admin, { scope: "student", subjectId: S2 }, lookup)).ok);
+  assert.deepEqual(await authorizeReport(teacher, { scope: "student", subjectId: S2 }, lookup), { ok: false, status: 404 }, "no roster → indistinguishable from missing");
   for (const scope of ["owner", "teacher", "student"] as const) {
     assert.ok((await authorizeReport(owner, { scope, subjectId: S1 }, lookup)).ok, scope);
   }
@@ -125,7 +129,7 @@ test("RP4 numbers come from SQL over the window and scope; empty = null, never a
   assert.equal(metric(self, "reading.accuracy")!.value, 0.7);
   assert.ok(!self.metrics.some((m) => m.section === "operations" || m.section === "people"), "a student report has no centre data");
 
-  const teacher = await buildReportSnapshot(database.db, { scope: { kind: "teacher" }, period: week(), actor: { userId: TCH, role: "teacher" }, now: NOW });
+  const teacher = await buildReportSnapshot(database.db, { scope: { kind: "teacher", teacherId: null }, period: week(), actor: { userId: TCH, role: "admin" }, now: NOW });
   assert.ok(!teacher.metrics.some((m) => m.section === "operations"), "provider provenance and support data are owner-only");
 });
 
@@ -263,4 +267,105 @@ test("RP12 Grammar and video metrics are included; audit records AI-narrative pr
   const [row] = await database.query<{ metadata: { aiNarrative: { used: boolean }; filters: unknown; schemaVersion: string } }>(`select metadata from audit_log where action = 'report.generated' order by created_at desc limit 1`);
   assert.equal(row!.metadata.aiNarrative.used, false);
   assert.equal(row!.metadata.schemaVersion, "riwi-report/1");
+});
+
+// ---------------------------------------------------------------- §9 explicit teacher roster
+const TCH2 = "aaaaaaaa-0000-4000-8000-000000000005";
+const ADM = "aaaaaaaa-0000-4000-8000-000000000006";
+
+test("RP13 role matrix is explicit: admin policy is declared, teacher reach is roster-only, roster failure fails closed", async () => {
+  const teacher = people[TCH]!, admin = { id: ADM, role: "admin" as const, name: "Admin" };
+  assert.deepEqual(ADMIN_REPORT_POLICY, { ownerScope: false, cohort: "all_students", student: "any_student" });
+  assert.deepEqual(allowedScopes("owner"), ["owner", "teacher", "student"]);
+  assert.deepEqual(allowedScopes("admin"), ["teacher", "student"]);
+  assert.deepEqual(allowedScopes("teacher"), ["teacher", "student"]);
+  assert.deepEqual(allowedScopes("student"), ["student"]);
+  const roster: RosterCheck = async (t, s) => t === TCH && s === S1;
+  // Teacher: cohort is ALWAYS their own roster, never all students.
+  assert.deepEqual(await authorizeReport(teacher, { scope: "teacher" }, lookup, roster), { ok: true, scope: { kind: "teacher", teacherId: TCH } });
+  assert.ok((await authorizeReport(teacher, { scope: "student", subjectId: S1 }, lookup, roster)).ok, "rostered student");
+  assert.deepEqual(await authorizeReport(teacher, { scope: "student", subjectId: S2 }, lookup, roster), { ok: false, status: 404 }, "unrostered = 404");
+  assert.deepEqual(await authorizeReport(teacher, { scope: "student", subjectId: "aaaaaaaa-0000-4000-8000-00000000ffff" }, lookup, roster), { ok: false, status: 404 }, "missing = same 404");
+  assert.deepEqual(await authorizeReport(teacher, { scope: "student", subjectId: S1 }, lookup), { ok: false, status: 404 }, "no roster check wired → fail closed");
+  assert.deepEqual(await authorizeReport(teacher, { scope: "student", subjectId: S1 }, lookup, async () => { throw new Error("db down"); }), { ok: false, status: 404 }, "roster error → fail closed");
+  // Admin: explicit all-students cohort, any student, never owner scope; roster irrelevant.
+  assert.deepEqual(await authorizeReport(admin, { scope: "teacher" }, lookup, roster), { ok: true, scope: { kind: "teacher", teacherId: null } });
+  assert.ok((await authorizeReport(admin, { scope: "student", subjectId: S2 }, lookup, async () => false)).ok);
+  assert.deepEqual(await authorizeReport(admin, { scope: "owner" }, lookup), { ok: false, status: 403 });
+});
+
+test("RP14 teacher snapshot numbers cover ONLY explicitly linked students (real schema)", async () => {
+  await database.query(`insert into users (id, email, name, role, account_status, created_at) values ($1, $2, 'Teacher Two', 'teacher', 'active', '2026-01-01') on conflict do nothing`, [TCH2, `${TCH2}@example.test`]);
+  await database.query(`delete from teacher_student_links`);
+  // Roster of TCH = {S2}. Weak signals (an assignment from TCH to S1) must NOT grant reach.
+  await database.query(`insert into teacher_student_links (teacher_user_id, student_user_id) values ($1, $2)`, [TCH, S2]);
+  await database.query(`insert into assignments (title, created_by_user_id, target_user_id) values ('weak', $1, $2)`, [TCH, S1]);
+  const mine = await buildReportSnapshot(database.db, { scope: { kind: "teacher", teacherId: TCH }, period: week(), actor: { userId: TCH, role: "teacher" }, now: NOW });
+  assert.equal(metric(mine, "reading.completed")!.value, 1, "only S2's attempt");
+  assert.equal(metric(mine, "reading.accuracy")!.value, 0.1);
+  assert.equal(metric(mine, "people.assigned")!.value, 1);
+  assert.equal(metric(mine, "people.students"), undefined, "centre head-count is not in a teacher report");
+  assert.ok(!mine.metrics.some((m) => m.section === "operations"));
+  assert.equal(mine.metrics[0]!.scope, `teacher:${TCH}:assigned`);
+  assert.equal(metric(mine, "reading.completed")!.source.parameters.teacher, TCH, "provenance records the roster owner");
+  const empty = await buildReportSnapshot(database.db, { scope: { kind: "teacher", teacherId: TCH2 }, period: week(), actor: { userId: TCH2, role: "teacher" }, now: NOW });
+  assert.equal(metric(empty, "reading.completed")!.value, 0, "no roster → zero learners, not the whole centre");
+  assert.equal(metric(empty, "learners.active")!.value, 0);
+  const cohort = await buildReportSnapshot(database.db, { scope: { kind: "teacher", teacherId: null }, period: week(), actor: { userId: ADM, role: "admin" }, now: NOW });
+  assert.equal(metric(cohort, "reading.completed")!.value, 3, "admin cohort still covers all students");
+  // A staff account linked by hand (bypassing setRosterLink) never counts as a learner.
+  await database.query(`insert into teacher_student_links (teacher_user_id, student_user_id) values ($1, $2)`, [TCH2, OWN]);
+  const staffLinked = await buildReportSnapshot(database.db, { scope: { kind: "teacher", teacherId: TCH2 }, period: week(), actor: { userId: TCH2, role: "teacher" }, now: NOW });
+  assert.equal(metric(staffLinked, "people.assigned")!.value, 0);
+  assert.equal(await isOnRoster(TCH2, OWN, database.db), false, "role filter applies to the roster check too");
+  await database.query(`delete from teacher_student_links where teacher_user_id = $1`, [TCH2]);
+});
+
+test("RP15 teacher IDOR through generateReport: rostered → file; unrostered and missing → identical 404; audit stores ids only", async () => {
+  await database.query(`delete from teacher_student_links`);
+  await database.query(`insert into teacher_student_links (teacher_user_id, student_user_id) values ($1, $2)`, [TCH, S2]);
+  const deps = { database: database.db, lookup, now: () => NOW }; // default roster check runs real SQL
+  const ok = await generateReport(people[TCH]!, { scope: "student", subject: S2, period: "weekly", format: "json" }, deps);
+  assert.ok(ok.ok);
+  const denied = await generateReport(people[TCH]!, { scope: "student", subject: S1, period: "weekly", format: "json" }, deps);
+  const missing = await generateReport(people[TCH]!, { scope: "student", subject: "aaaaaaaa-0000-4000-8000-00000000ffff", period: "weekly", format: "json" }, deps);
+  assert.deepEqual(denied, { ok: false, status: 404, code: "not_found" });
+  assert.deepEqual(missing, denied, "unauthorised and missing are indistinguishable");
+  const cohort = await generateReport(people[TCH]!, { scope: "teacher", period: "weekly", format: "json" }, deps);
+  assert.ok(cohort.ok && cohort.snapshot.scope.kind === "teacher" && cohort.snapshot.scope.teacherId === TCH, "teacher cohort request is forced to own roster");
+  const [audit] = await database.query<{ metadata: Record<string, unknown> }>(`select metadata from audit_log where action = 'report.generated' order by created_at desc limit 1`);
+  const filters = audit!.metadata.filters as Record<string, unknown>;
+  assert.equal(filters.roster, TCH);
+  assert.ok(!JSON.stringify(audit!.metadata).includes("Student Two"), "no report contents / names in audit");
+});
+
+test("RP16 roster changes: owner/admin only, teacher→student roles enforced, idempotent, audited", async () => {
+  await database.query(`insert into users (id, email, name, role, account_status, created_at) values ($1, $2, 'Admin', 'admin', 'active', '2026-01-01') on conflict do nothing`, [ADM, `${ADM}@example.test`]);
+  await database.query(`delete from teacher_student_links`);
+  const admin = { id: ADM, role: "admin" as const };
+  assert.deepEqual(await setRosterLink({ id: TCH, role: "teacher" }, { teacherId: TCH, studentId: S1, assigned: true }, database.db), { ok: false, status: 403, code: "forbidden" }, "a teacher cannot grow their own roster");
+  assert.deepEqual(await setRosterLink({ id: S1, role: "student" }, { teacherId: TCH, studentId: S1, assigned: true }, database.db), { ok: false, status: 403, code: "forbidden" });
+  assert.deepEqual(await setRosterLink(admin, { teacherId: TCH, studentId: "x", assigned: true }, database.db), { ok: false, status: 400, code: "invalid_input" });
+  assert.deepEqual(await setRosterLink(admin, { teacherId: TCH, studentId: OWN, assigned: true }, database.db), { ok: false, status: 404, code: "not_found" }, "staff cannot be rostered");
+  assert.deepEqual(await setRosterLink(admin, { teacherId: S2, studentId: S1, assigned: true }, database.db), { ok: false, status: 404, code: "not_found" }, "a student is not a teacher");
+  assert.deepEqual(await setRosterLink(admin, { teacherId: TCH, studentId: S1, assigned: true }, database.db), { ok: true, changed: true });
+  assert.deepEqual(await setRosterLink(admin, { teacherId: TCH, studentId: S1, assigned: true }, database.db), { ok: true, changed: false }, "idempotent");
+  assert.deepEqual((await listRoster(TCH, database.db)).map((s) => s.id), [S1]);
+  assert.equal(await isOnRoster(TCH, S1, database.db), true);
+  assert.deepEqual(await setRosterLink({ id: OWN, role: "owner" }, { teacherId: TCH, studentId: S1, assigned: false }, database.db), { ok: true, changed: true });
+  assert.equal(await isOnRoster(TCH, S1, database.db), false);
+  const rows = await database.query<{ action: string; metadata: Record<string, unknown> }>(`select action, metadata from audit_log where action like 'roster.%' order by created_at`);
+  assert.deepEqual(rows.map((r) => r.action), ["roster.assigned", "roster.unassigned"], "only real changes are audited");
+  assert.deepEqual(rows[0]!.metadata, { teacherId: TCH, studentId: S1 });
+});
+
+test("RP17 migration 0035 is additive and journalled directly after 0034", () => {
+  const journal = JSON.parse(readFileSync("drizzle/meta/_journal.json", "utf8")) as { entries: { idx: number; tag: string }[] };
+  const last = journal.entries.at(-1)!;
+  assert.deepEqual([last.idx, last.tag], [35, "0035_teacher_student_links"]);
+  assert.equal(journal.entries.at(-2)!.tag, "0034_typing_duration_presets");
+  const text = readFileSync("drizzle/0035_teacher_student_links.sql", "utf8").replace(/--.*$/gm, "");
+  const statements = text.split(/;|--> statement-breakpoint/).map((x) => x.trim()).filter(Boolean);
+  for (const st of statements) assert.match(st, /^create (table|unique index|index) if not exists /i, "only additive CREATE statements");
+  assert.match(text, /create table if not exists teacher_student_links/i);
 });

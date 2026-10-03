@@ -12,7 +12,8 @@ export const REPORT_SCHEMA_VERSION = "riwi-report/1";
 
 export type ReportScope =
   | { kind: "owner" }
-  | { kind: "teacher" }
+  /** teacherId null = all-students cohort (owner/admin); a uuid = that teacher's explicit roster. */
+  | { kind: "teacher"; teacherId: string | null }
   | { kind: "student"; subjectId: string; subjectName: string };
 
 export type MetricUnit = "count" | "ratio" | "band" | "score";
@@ -54,10 +55,12 @@ type Spec = {
   sql: string;
 };
 
-// The learner population of a scope. Owner and teacher scopes cover every student
-// account (this product has no teacher→student assignment table: staff already see
-// all students); the student scope covers exactly one account.
+// The learner population of a scope. The owner scope and the all-students cohort
+// (owner/admin) cover every student account; a teacher's scope covers ONLY the
+// students explicitly linked to them in teacher_student_links (0035), as of
+// generation time; the student scope covers exactly one account.
 const COHORT = "user_id in (select id from users where role = 'student')";
+const ROSTER = "user_id in (select l.student_user_id from teacher_student_links l join users u on u.id = l.student_user_id where l.teacher_user_id = :teacher and u.role = 'student')";
 const SELF = "user_id = :subject";
 
 const LEARNER_SPECS: Spec[] = [
@@ -100,6 +103,11 @@ const COHORT_SPECS: Spec[] = [
     sql: "select count(*)::int as v from users where role = 'student' and created_at >= :from and created_at < :to" },
 ];
 
+const ROSTER_SPECS: Spec[] = [
+  { key: "people.assigned", section: "people", unit: "count", basis: "as_of_end", label: { en: "Students assigned to this teacher", uz: "Ushbu o'qituvchiga biriktirilgan talabalar" },
+    sql: "select count(*)::int as v from teacher_student_links l join users u on u.id = l.student_user_id where l.teacher_user_id = :teacher and u.role = 'student' and u.account_status = 'active' and l.created_at < :to" },
+];
+
 const OWNER_SPECS: Spec[] = [
   { key: "people.staff", section: "people", unit: "count", basis: "as_of_end", label: { en: "Approved staff accounts", uz: "Tasdiqlangan xodim hisoblari" },
     sql: "select count(*)::int as v from users where role in ('teacher', 'admin', 'owner') and account_status = 'active' and created_at < :to" },
@@ -116,23 +124,29 @@ const OWNER_SPECS: Spec[] = [
 ];
 
 export function specsFor(scope: ReportScope): Array<Spec & { compiledText: string }> {
-  const learners = scope.kind === "student" ? SELF : COHORT;
+  const roster = scope.kind === "teacher" && scope.teacherId !== null;
+  const learners = scope.kind === "student" ? SELF : roster ? ROSTER : COHORT;
   const learnerSpecs = LEARNER_SPECS.map((s) => ({ ...s, compiledText: s.sql.replaceAll("{{LEARNERS}}", learners) }));
   if (scope.kind === "student") return learnerSpecs;
+  if (roster) return [...ROSTER_SPECS.map((s) => ({ ...s, compiledText: s.sql })), ...learnerSpecs];
   const cohort = COHORT_SPECS.map((s) => ({ ...s, compiledText: s.sql }));
   if (scope.kind === "teacher") return [...cohort, ...learnerSpecs];
   return [...cohort, ...OWNER_SPECS.map((s) => ({ ...s, compiledText: s.sql })), ...learnerSpecs];
 }
 
-/** Binds :from/:to/:subject as real parameters; the remaining text is used verbatim. */
-export function compileMetricSql(text: string, params: { from: Date; to: Date; subject: string | null }): SQL {
-  const pieces = text.split(/(:from|:to|:subject)\b/);
+/** Binds :from/:to/:subject/:teacher as real parameters; the remaining text is used verbatim. */
+export function compileMetricSql(text: string, params: { from: Date; to: Date; subject: string | null; teacher?: string | null }): SQL {
+  const pieces = text.split(/(:from|:to|:subject|:teacher)\b/);
   const chunks: SQL[] = pieces.map((piece) => {
     if (piece === ":from") return sql`${params.from.toISOString()}::timestamptz`;
     if (piece === ":to") return sql`${params.to.toISOString()}::timestamptz`;
     if (piece === ":subject") {
       if (!params.subject) throw new Error("subject parameter required");
       return sql`${params.subject}::uuid`;
+    }
+    if (piece === ":teacher") {
+      if (!params.teacher) throw new Error("teacher parameter required");
+      return sql`${params.teacher}::uuid`;
     }
     return sql.raw(piece);
   });
@@ -142,7 +156,7 @@ export function compileMetricSql(text: string, params: { from: Date; to: Date; s
 type Executor = { execute: (query: SQL) => Promise<unknown> };
 
 export function scopeLabel(scope: ReportScope): string {
-  return scope.kind === "student" ? `student:${scope.subjectId}` : scope.kind === "teacher" ? "teacher:all-students" : "owner:centre";
+  return scope.kind === "student" ? `student:${scope.subjectId}` : scope.kind === "teacher" ? (scope.teacherId ? `teacher:${scope.teacherId}:assigned` : "teacher:all-students") : "owner:centre";
 }
 
 export async function buildReportSnapshot(
@@ -151,16 +165,18 @@ export async function buildReportSnapshot(
 ): Promise<ReportSnapshot> {
   const generatedAt = (input.now ?? new Date()).toISOString();
   const subject = input.scope.kind === "student" ? input.scope.subjectId : null;
+  const teacher = input.scope.kind === "teacher" ? input.scope.teacherId : null;
   const from = new Date(input.period.from);
   const to = new Date(input.period.to);
   const scope = scopeLabel(input.scope);
   const metrics: ReportMetric[] = [];
   for (const spec of specsFor(input.scope)) {
-    const result = (await executor.execute(compileMetricSql(spec.compiledText, { from, to, subject }))) as { rows: Array<{ v: unknown }> };
+    const result = (await executor.execute(compileMetricSql(spec.compiledText, { from, to, subject, teacher }))) as { rows: Array<{ v: unknown }> };
     const raw = result.rows[0]?.v;
     const value = raw === null || raw === undefined ? null : Number(raw);
     const parameters: Record<string, string> = { from: input.period.from, to: input.period.to };
     if (subject && spec.compiledText.includes(":subject")) parameters.subject = subject;
+    if (teacher && spec.compiledText.includes(":teacher")) parameters.teacher = teacher;
     metrics.push({
       key: spec.key, section: spec.section, label: spec.label, unit: spec.unit,
       value: value === null || Number.isFinite(value) ? value : null,

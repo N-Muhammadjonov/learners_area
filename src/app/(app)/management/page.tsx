@@ -74,6 +74,12 @@ export default async function ManagementPage() {
         title: dict.admission.title,
         body: dict.management.admissionsBody,
         icon: <IconAdmissions />,
+      },
+      {
+        href: "/admin/roster",
+        title: dict.reporter.roster.title,
+        body: dict.reporter.roster.body,
+        icon: <IconPeople />,
       }
     );
   }

@@ -33,7 +33,9 @@ export type AuditAction =
   | "upload.deleted"
   | "ai.control.set"
   | "report.generated"
-  | "report.downloaded";
+  | "report.downloaded"
+  | "roster.assigned"
+  | "roster.unassigned";
 
 export async function recordAudit(input: {
   actorUserId: string | null;

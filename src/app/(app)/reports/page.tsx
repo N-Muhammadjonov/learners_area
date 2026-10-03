@@ -5,6 +5,7 @@ import { users } from "@/db/schema";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { allowedScopes } from "@/lib/reporter/access";
+import { listRoster } from "@/lib/reporter/roster";
 import { REPORT_FORMATS } from "@/lib/reporter/exports";
 import { PERIOD_KINDS } from "@/lib/reporter/period";
 import { TIMEZONE } from "@/lib/time";
@@ -29,13 +30,17 @@ export default async function ReportsPage({ searchParams }: { searchParams: Prom
   const errorText = error && error in t.errors ? t.errors[error as keyof typeof t.errors] : null;
   const scopes = allowedScopes(user.role);
   const staff = user.role !== "student";
-  const students = staff
-    ? await db.select({ id: users.id, name: users.name }).from(users).where(eq(users.role, "student")).orderBy(asc(users.name)).limit(STUDENT_LIST_CAP)
-    : [];
+  // Teachers choose only from their explicit roster; owner/admin from all students.
+  const teacher = user.role === "teacher";
+  const students = teacher
+    ? await listRoster(user.id)
+    : staff
+      ? await db.select({ id: users.id, name: users.name }).from(users).where(eq(users.role, "student")).orderBy(asc(users.name), asc(users.id)).limit(STUDENT_LIST_CAP)
+      : [];
   const periodLabel: Record<(typeof PERIOD_KINDS)[number], string> = {
     on_demand: t.periodOnDemand, weekly: t.periodWeekly, monthly: t.periodMonthly, yearly: t.periodYearly, custom: t.periodCustom,
   };
-  const scopeLabel = { owner: t.scopeOwner, teacher: t.scopeTeacher, student: staff ? t.scopeStudent : t.scopeSelf };
+  const scopeLabel = { owner: t.scopeOwner, teacher: teacher ? t.scopeRoster : t.scopeTeacher, student: staff ? t.scopeStudent : t.scopeSelf };
 
   return (
     <div className="flex flex-col gap-4" data-reporter>
@@ -58,7 +63,7 @@ export default async function ReportsPage({ searchParams }: { searchParams: Prom
           {staff && (
             <label className="flex flex-col gap-1 text-sm">
               <span className="font-semibold text-ink-700">{t.student}</span>
-              {students.length === 0 ? <span className="text-ink-500">{t.noStudents}</span> : (
+              {students.length === 0 ? <span className="text-ink-500">{teacher ? t.noRoster : t.noStudents}</span> : (
                 <select name="subject" className="input" defaultValue="">
                   <option value="">—</option>
                   {students.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}

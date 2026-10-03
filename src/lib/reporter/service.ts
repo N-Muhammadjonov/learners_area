@@ -8,7 +8,8 @@ import { db } from "@/db/client";
 import { users } from "@/db/schema";
 import { recordAudit } from "@/lib/data/audit";
 import type { Role } from "@/lib/auth/roles";
-import { authorizeReport, SCOPE_KINDS, type Actor, type SubjectLookup } from "./access";
+import { authorizeReport, SCOPE_KINDS, type Actor, type RosterCheck, type SubjectLookup } from "./access";
+import { isOnRoster } from "./roster";
 import { PERIOD_KINDS, resolvePeriod, type PeriodError } from "./period";
 import { buildReportSnapshot, snapshotSha256, type ReportSnapshot } from "./snapshot";
 import { bytesSha256, CONTENT_TYPES, REPORT_FORMATS, renderReport, reportFileName, type ReportFormat } from "./exports";
@@ -31,6 +32,7 @@ export type GenerateResult =
 type Deps = {
   database?: Pick<typeof db, "execute" | "insert">;
   lookup?: SubjectLookup;
+  rosterCheck?: RosterCheck;
   now?: () => Date;
 };
 
@@ -43,7 +45,8 @@ export async function generateReport(actor: Actor, raw: unknown, deps: Deps = {}
   const parsed = reportRequestSchema.safeParse(raw);
   if (!parsed.success) return { ok: false, status: 400, code: "invalid_input" };
   const request = parsed.data;
-  const access = await authorizeReport(actor, { scope: request.scope, subjectId: request.subject }, deps.lookup ?? defaultSubjectLookup);
+  const rosterDb = deps.database ?? db;
+  const access = await authorizeReport(actor, { scope: request.scope, subjectId: request.subject }, deps.lookup ?? defaultSubjectLookup, deps.rosterCheck ?? ((teacherId, studentId) => isOnRoster(teacherId, studentId, rosterDb)));
   if (!access.ok) return { ok: false, status: access.status, code: access.status === 403 ? "forbidden" : "not_found" };
   const now = deps.now?.() ?? new Date();
   const period = resolvePeriod(request.period, now, { from: request.from, to: request.to });
@@ -64,7 +67,7 @@ export async function generateReport(actor: Actor, raw: unknown, deps: Deps = {}
     from: snapshot.period.from, to: snapshot.period.to, timezone: snapshot.timezone,
   };
   try {
-    await recordAudit({ actorUserId: actor.id, action: "report.generated", targetType: "report", targetId: target, metadata: { ...common, snapshotSha256: snapshotSha256(snapshot), metrics: snapshot.metrics.length, schemaVersion: snapshot.schemaVersion, filters: { subject: access.scope.kind === "student" ? access.scope.subjectId : null }, aiNarrative: { used: false, providerId: null, model: null, fallbackUsed: false } } }, database);
+    await recordAudit({ actorUserId: actor.id, action: "report.generated", targetType: "report", targetId: target, metadata: { ...common, snapshotSha256: snapshotSha256(snapshot), metrics: snapshot.metrics.length, schemaVersion: snapshot.schemaVersion, filters: { subject: access.scope.kind === "student" ? access.scope.subjectId : null, roster: access.scope.kind === "teacher" ? access.scope.teacherId : null }, aiNarrative: { used: false, providerId: null, model: null, fallbackUsed: false } } }, database);
     await recordAudit({ actorUserId: actor.id, action: "report.downloaded", targetType: "report", targetId: target, metadata: { ...common, format, lang: request.lang, bytes: bytes.length, sha256: bytesSha256(bytes) } }, database);
   } catch {
     // An unaudited report is not delivered.
