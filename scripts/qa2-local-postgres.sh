@@ -1,21 +1,65 @@
 #!/usr/bin/env bash
-# Start a throwaway, isolated REAL PostgreSQL for the QA2 gates (never Preview/Production).
-# Binary: official embedded-postgres npm build (downloaded to /tmp, not a project dependency).
+# Deterministic, isolated REAL PostgreSQL for the QA2 gates (never Preview/Production).
+#
+#   bash scripts/qa2-local-postgres.sh          # start server, recreate learners_qa2, migrate, seed
+#   bash scripts/qa2-local-postgres.sh stop     # stop the server
+#
+# Binary: official embedded-postgres npm build (downloaded under QA2_PG_DIR, not a project
+# dependency). The database is dropped and recreated on every run, so re-runs are safe and
+# never depend on earlier state. Fixtures are reserved `.invalid` identities (no real users).
 set -euo pipefail
+REPO=$(cd "$(dirname "$0")/.." && pwd)
 DIR=${QA2_PG_DIR:-/tmp/qa2-pg}
-mkdir -p "$DIR" && cd "$DIR"
-if [ ! -x package/native/bin/postgres ]; then
-  npm pack -q @embedded-postgres/linux-x64 >/dev/null && tar xzf embedded-postgres-linux-x64-*.tgz
-  python3 - <<'P'
+PORT=5432
+export QA2_DATABASE_URL="postgres://postgres@localhost:${PORT}/learners_qa2"
+export LD_LIBRARY_PATH=$DIR/package/native/lib
+PGCTL="$DIR/package/native/bin/pg_ctl"
+
+if [ "${1:-}" = "stop" ]; then
+  [ -x "$PGCTL" ] && "$PGCTL" -D "$DIR/data" stop -m fast >/dev/null 2>&1 || true
+  echo "qa2 postgres stopped"; exit 0
+fi
+
+mkdir -p "$DIR"
+if [ ! -x "$DIR/package/native/bin/postgres" ]; then
+  (cd "$DIR" && npm pack -q @embedded-postgres/linux-x64 >/dev/null && tar xzf embedded-postgres-linux-x64-*.tgz)
+  (cd "$DIR" && python3 - <<'P'
 import json, os
 for it in json.load(open('package/native/pg-symlinks.json')):
     t = 'package/' + it['target']
     if not os.path.exists(t): os.symlink(os.path.basename(it['source']), t)
 P
+  )
 fi
-export LD_LIBRARY_PATH=$DIR/package/native/lib
-[ -d data ] || package/native/bin/initdb -D data -U postgres --auth=trust -E UTF8 --locale=C >/dev/null
-package/native/bin/pg_ctl -D data -l log -o "-p 5432 -k /tmp -c listen_addresses=localhost" start
-echo "Now: create database learners_qa2; DATABASE_URL=postgres://postgres@localhost:5432/learners_qa2 npx drizzle-kit migrate;"
-echo "insert one active owner and one active student fixture; then:"
-echo "QA2_DATABASE_TESTS=1 STORAGE_PROVIDER=local DATABASE_URL=postgres://postgres@localhost:5432/learners_qa2 npm test"
+[ -d "$DIR/data" ] || "$DIR/package/native/bin/initdb" -D "$DIR/data" -U postgres --auth=trust -E UTF8 --locale=C >/dev/null
+if ! "$PGCTL" -D "$DIR/data" status >/dev/null 2>&1; then
+  "$PGCTL" -D "$DIR/data" -l "$DIR/log" -w -o "-p ${PORT} -k /tmp -c listen_addresses=localhost" start >/dev/null
+fi
+
+cd "$REPO"
+# Guard + fresh database + full journal + fixtures, all through the same localhost-only guard.
+node --input-type=module - <<'JS'
+import pg from "pg";
+import { readFileSync } from "node:fs";
+import { assertIsolatedTarget } from "./scripts/qa2-seed-fixtures.mjs";
+assertIsolatedTarget(process.env.QA2_DATABASE_URL);
+const admin = new pg.Client({ connectionString: process.env.QA2_DATABASE_URL.replace(/\/learners_qa2$/, "/postgres") });
+await admin.connect();
+await admin.query("drop database if exists learners_qa2 with (force)");
+await admin.query("create database learners_qa2");
+await admin.end();
+JS
+DATABASE_URL="$QA2_DATABASE_URL" npx drizzle-kit migrate >"$DIR/migrate.log" 2>&1 || { cat "$DIR/migrate.log"; exit 1; }
+DATABASE_URL="$QA2_DATABASE_URL" node --input-type=module - <<'JS'
+import pg from "pg";
+import { readFileSync } from "node:fs";
+const journal = JSON.parse(readFileSync("drizzle/meta/_journal.json", "utf8")).entries.length;
+const c = new pg.Client({ connectionString: process.env.DATABASE_URL });
+await c.connect();
+const { rows } = await c.query("select count(*)::int n from drizzle.__drizzle_migrations");
+await c.end();
+if (rows[0].n !== journal) { console.error(`migration mismatch: applied ${rows[0].n} / journal ${journal}`); process.exit(1); }
+console.log(`migrations ok: ${rows[0].n} / ${journal}`);
+JS
+DATABASE_URL="$QA2_DATABASE_URL" node scripts/qa2-seed-fixtures.mjs
+echo "ready: DATABASE_URL=$QA2_DATABASE_URL"

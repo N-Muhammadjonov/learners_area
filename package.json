@@ -14,7 +14,10 @@
     "db:seed": "node --conditions=react-server --env-file=.env --import tsx src/db/seed.ts",
     "test": "node --conditions=react-server --import tsx --test tests/*.test.ts",
     "db:migrate": "drizzle-kit migrate",
-    "reading:import": "node --import tsx --env-file=.env scripts/import-reading-105.mjs"
+    "reading:import": "node --import tsx --env-file=.env scripts/import-reading-105.mjs",
+    "test:ui": "TSX_TSCONFIG_PATH=tests/ui/tsconfig.json node --import tsx --test tests/ui/*.test.tsx",
+    "qa:pg": "bash scripts/qa2-local-postgres.sh",
+    "qa:gate": "bash scripts/qa-forensic-gate.sh"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1136.0",
