@@ -211,7 +211,7 @@ export function LivePartnerClient({ dict, me, questions }: {
         setCallStatus(status);
         if (status === "failed") {
           setError(detail === "microphone" || detail === "microphone_ended" ? t.errors.mic : t.callFailed);
-          void fetch("/api/live-partner", json({ action: "hangup", sessionId })).catch(() => {}).finally(() => void refresh());
+          void fetch("/api/live-partner", {...json({ action: "hangup", sessionId }), signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)}).catch(() => {}).finally(() => void refresh());
         }
       },
       onRemoteStream: (stream) => {

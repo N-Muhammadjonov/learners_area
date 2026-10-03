@@ -1,4 +1,5 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { describeUploadError } from "@/lib/uploads/errors";
 import { useState } from "react";
@@ -19,6 +20,8 @@ type Category = "part1" | "part2" | "part3" | "general" | "shadowing" | "top_str
  * creating is exactly what you see while editing.
  */
 export function NewMaterialForm({ dict }: { dict: Dictionary }) {
+  const requestResponse = useScopedResponse(25000);
+
   const router = useRouter();
   const t = dict.speaking;
   const [open, setOpen] = useState(false);
@@ -69,11 +72,12 @@ export function NewMaterialForm({ dict }: { dict: Dictionary }) {
             ref: { uploadId: primary.mode === "upload" ? primary.uploadId : undefined },
           };
 
-    const res = await fetch("/api/speaking/materials", {
+    const res = await requestResponse("/api/speaking/materials", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ category, title: title.trim(), primary: primaryPayload, blocks }),
     });
+    if (!res) return;
 
     setPending(false);
     if (res.ok) {

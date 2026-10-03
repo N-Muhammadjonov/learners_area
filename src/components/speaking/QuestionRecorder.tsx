@@ -14,16 +14,18 @@ import {
   RecorderError,
   type Recorder,
 } from "@/lib/audio/recorder";
-import { preflight, startUpload, type UploadState } from "@/lib/uploads/client";
+import { preflight, startUpload, type UploadState, type UploadHandle } from "@/lib/uploads/client";
 import { formatBytes } from "@/lib/uploads/format";
 import type { Dictionary } from "@/lib/i18n/en";
 import type { speakingPrompts } from "@/db/schema";
+import { useScopedRequest } from "@/lib/http/use-scoped-request";
 import { apiErrorMessage } from "@/lib/api-error-message";
 
 type Prompt = typeof speakingPrompts.$inferSelect;
 
 type Phase =
   | { kind: "idle" }
+  | { kind: "starting" }
   | { kind: "prepping"; endsAt: number }
   | { kind: "recording"; startedAt: number; limitSeconds: number }
   | { kind: "reviewing" }
@@ -63,6 +65,18 @@ export function QuestionRecorder({
   const router = useRouter();
   const { navigate } = useInstantInteraction();
   const t = dict.speakingPractice;
+  const request = useScopedRequest();
+  const starting = useRef(false);
+  const submitting = useRef(false);
+  const alive = useRef(true);
+  const epoch = useRef(0);
+  const invalidate = useCallback(() => {epoch.current++;}, []);
+  const upload = useRef<UploadHandle | null>(null);
+  const microphoneRequest = useRef<AbortController | null>(null);
+  const busyCallback = useRef(onBusyChange);
+  busyCallback.current = onBusyChange;
+  const prepSeconds = prompt.part === "part2" ? 60 : prompt.prepSeconds;
+  const answerSeconds = prompt.part === "part2" ? 120 : prompt.answerSeconds;
 
   const [attemptId, setAttemptId] = useState<string | null>(null);
   const [phase, setPhase] = useState<Phase>({ kind: "idle" });
@@ -80,7 +94,7 @@ export function QuestionRecorder({
 
   // Only one question may hold the microphone at a time; the parent learns
   // when this recorder starts or stops needing it.
-  const busy = phase.kind === "prepping" || phase.kind === "recording" || phase.kind === "uploading" || phase.kind === "submitting";
+  const busy = phase.kind === "starting" || phase.kind === "prepping" || phase.kind === "recording" || phase.kind === "uploading" || phase.kind === "submitting";
   useEffect(() => { onBusyChange(prompt.id, busy); }, [busy, onBusyChange, prompt.id]);
 
   const stopTimer = useCallback(() => {
@@ -91,7 +105,15 @@ export function QuestionRecorder({
   }, []);
 
   // Leaving the topic (unmount) releases the microphone and the timer.
-  useEffect(() => () => { stopTimer(); recorderRef.current?.cancel(); recorderRef.current = null; }, [stopTimer]);
+  useEffect(() => {
+    alive.current = true;
+    return () => {
+      alive.current = false; invalidate(); upload.current?.cancel(); upload.current = null;
+      microphoneRequest.current?.abort(); microphoneRequest.current = null;
+      stopTimer(); recorderRef.current?.cancel(); recorderRef.current = null;
+      busyCallback.current(prompt.id, false);
+    };
+  }, [prompt.id, stopTimer, invalidate]);
 
   // Revoke the local playback URL when it is replaced or the component unmounts.
   useEffect(() => {
@@ -100,25 +122,23 @@ export function QuestionRecorder({
   }, [playbackUrl]);
 
   async function beginAttempt() {
+    if (starting.current || (lockedBy !== null && lockedBy !== prompt.id)) return;
+    starting.current = true;
+    setPhase({kind: "starting"});
     setError("");
     setRecording(null);
     setPlaybackUrl(null);
     setElapsed(0);
 
-    const res = await fetch("/api/speaking/attempts", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ promptId: prompt.id, part: prompt.part }),
-    });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) {
-      setError(apiErrorMessage(data.error, res.status, dict));
-      return;
-    }
-    const createdAttemptId: string = data.attempt.id;
+    const res = await request<{attempt: {id: string}}>("/api/speaking/attempts", {body: {promptId: prompt.id, part: prompt.part}});
+    starting.current = false;
+    if (!res) return;
+    if (!res.ok) {setError(apiErrorMessage(res.error, res.status, dict)); setPhase({kind: "idle"}); return;}
+    if (!res.data?.attempt?.id) {setError(t.errors.unknown); setPhase({kind: "idle"}); return;}
+    const createdAttemptId = res.data.attempt.id;
     setAttemptId(createdAttemptId);
 
-    const prepMs = prompt.prepSeconds * 1000;
+    const prepMs = prepSeconds * 1000;
     if (prepMs > 0) {
       const endsAt = Date.now() + prepMs;
       setPhase({ kind: "prepping", endsAt });
@@ -144,20 +164,27 @@ export function QuestionRecorder({
    */
   async function startRecording(id: string | null = attemptId) {
     if (!id) return;
+    const generation = epoch.current;
     setError("");
     // Account-level rule: starting Practice takes Live Partner presence OFFLINE
     // (all tabs) and cancels invites; it never ends a live call — the server
     // refuses with 409 in_call and the recording does not start.
     try {
       const presence = await fetch("/api/live-partner", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ action: "practice_started" }), signal: AbortSignal.timeout(5_000) });
-      if (presence.status === 409) { setError(t.errors.liveCallActive); return; }
+      if (presence.status === 409) { if (alive.current && generation === epoch.current) {setError(t.errors.liveCallActive); setPhase({kind: "idle"});} return; }
     } catch { /* presence is best-effort; the server sweep removes stale AVAILABLE rows */ }
     try {
-      const recorder = await createRecorder();
+      if (!alive.current || generation !== epoch.current) return;
+      const acquisition = new AbortController();
+      microphoneRequest.current = acquisition;
+      const recorder = await createRecorder({signal: acquisition.signal});
+      if (microphoneRequest.current === acquisition) microphoneRequest.current = null;
+      if (!alive.current || generation !== epoch.current) {recorder.cancel(); return;}
       recorderRef.current = recorder;
       await recorder.start();
+      if (!alive.current || generation !== epoch.current) {recorder.cancel(); return;}
       const startedAt = Date.now();
-      const limitSeconds = prompt.answerSeconds;
+      const limitSeconds = answerSeconds;
       setPhase({ kind: "recording", startedAt, limitSeconds });
       setElapsed(0);
       timerRef.current = setInterval(() => {
@@ -169,6 +196,8 @@ export function QuestionRecorder({
         }
       }, 200);
     } catch (err) {
+      if (!alive.current || generation !== epoch.current) return;
+      recorderRef.current?.cancel(); recorderRef.current = null;
       if (err instanceof RecorderError) setError(t.errors[err.code]);
       else setError(t.errors.unknown);
       setPhase({ kind: "idle" });
@@ -179,7 +208,10 @@ export function QuestionRecorder({
     stopTimer();
     const recorder = recorderRef.current;
     if (!recorder) return;
-    const result = await recorder.stop();
+    const generation = epoch.current;
+    let result;
+    try {result = await recorder.stop();} catch {recorder.cancel(); if (alive.current && generation === epoch.current) {setError(t.errors.unknown); setPhase({kind: "idle"});} return;}
+    if (!alive.current || generation !== epoch.current) return;
     recorderRef.current = null;
     if (!result) {
       setError(t.errors.unknown);
@@ -192,6 +224,8 @@ export function QuestionRecorder({
   }
 
   function discard() {
+    invalidate(); upload.current?.cancel(); upload.current = null;
+    microphoneRequest.current?.abort(); microphoneRequest.current = null;
     stopTimer();
     recorderRef.current?.cancel();
     recorderRef.current = null;
@@ -199,13 +233,16 @@ export function QuestionRecorder({
     setPlaybackUrl(null);
     setPhase({ kind: "idle" });
     if (attemptId) {
-      void fetch(`/api/speaking/attempts/${attemptId}`, { method: "DELETE" });
+      void fetch(`/api/speaking/attempts/${attemptId}`, { method: "DELETE", signal: AbortSignal.timeout(5_000) }).catch(() => {});
       setAttemptId(null);
     }
   }
 
   async function submit() {
-    if (!recording || !attemptId) return;
+    if (!recording || !attemptId || submitting.current) return;
+    submitting.current = true;
+    const generation = epoch.current;
+    try {
     setError("");
 
     // A Blob has no name, so give it one before validating — the extension is
@@ -231,10 +268,13 @@ export function QuestionRecorder({
     const handle = startUpload(file, {
       purpose: "speaking_recording",
       speakingAttemptId: attemptId,
-      onProgress: (progress) => setPhase({ kind: "uploading", progress, state: "uploading" }),
+      onProgress: (progress) => {if (alive.current && generation === epoch.current) setPhase({ kind: "uploading", progress, state: "uploading" });},
     });
     // The attempt id scopes the upload; pass it through the intent request.
+    upload.current = handle;
     const outcome = await handle.promise;
+    upload.current = null;
+    if (!alive.current || generation !== epoch.current) return;
     if (!outcome.ok) {
       setPhase({ kind: "reviewing" });
       setError(outcome.error === "cancelled" ? t.uploadFailed : uploadErrorMessage(outcome.failure, dict.uploadErrors));
@@ -243,34 +283,19 @@ export function QuestionRecorder({
 
     setPhase({ kind: "uploading", progress: 100, state: "finalizing" });
 
-    const attach = await fetch(`/api/speaking/attempts/${attemptId}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ uploadId: outcome.uploadId, durationMs: recording.durationMs }),
-    });
-    if (!attach.ok) {
-      setPhase({ kind: "reviewing" });
-      const data = await attach.json().catch(() => ({}));
-      setError(apiErrorMessage(data.error, attach.status, dict, { upload_failed: t.uploadFailed }));
-      return;
-    }
-
-    setPhase({ kind: "submitting" });
-    const submitRes = await fetch(`/api/speaking/attempts/${attemptId}/submit`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ durationMs: recording.durationMs }),
-    });
-    if (!submitRes.ok) {
-      setPhase({ kind: "reviewing" });
-      const data = await submitRes.json().catch(() => ({}));
-      setError(apiErrorMessage(data.error, submitRes.status, dict, { upload_failed: t.uploadFailed }));
-      return;
-    }
-
+    const attach = await request(`/api/speaking/attempts/${attemptId}`, {method: "PATCH", body: {uploadId: outcome.uploadId, durationMs: recording.durationMs}});
+    if (!attach) return;
+    if (!attach.ok) {setPhase({kind: "reviewing"}); setError(apiErrorMessage(attach.error, attach.status, dict)); return;}
+    setPhase({kind: "submitting"});
+    const result = await request(`/api/speaking/attempts/${attemptId}/submit`, {body: {durationMs: recording.durationMs}, timeoutMs: 60_000});
+    if (!result) return;
+    if (!result.ok) {setPhase({kind: "reviewing"}); setError(apiErrorMessage(result.error, result.status, dict)); return;}
     setPhase({ kind: "done", attemptId });
     onSubmitted?.(attemptId);
     router.refresh();
+    } catch {
+      if (alive.current && generation === epoch.current) {setError(t.errors.unknown); setPhase({kind: "reviewing"});}
+    } finally {submitting.current = false;}
   }
 
   if (!supported) {
@@ -289,7 +314,7 @@ export function QuestionRecorder({
         <div className="flex flex-wrap items-center gap-2 text-xs text-ink-500">
           <span className="badge">{t.questionNumber.replace("{n}", String(index))}</span>
           <span>
-            {prompt.prepSeconds > 0 ? `${t.prep} ${prompt.prepSeconds}s · ` : ""}{t.answer} {prompt.answerSeconds}s
+            {prepSeconds > 0 ? `${t.prep} ${prepSeconds}s · ` : ""}{t.answer} {answerSeconds}s
           </span>
         </div>
         <p className="whitespace-pre-line text-base text-ink-900">{prompt.promptText}</p>
@@ -307,6 +332,7 @@ export function QuestionRecorder({
           <Button data-speak-start disabled={lockedBy !== null && lockedBy !== prompt.id} onClick={() => void beginAttempt()}>{t.recordAnswer}</Button>
         )}
 
+        {phase.kind === "starting" && <span role="status">{dict.common.loading}</span>}
         {phase.kind === "prepping" && (
           <div className="flex items-center gap-3">
             <span className="text-sm text-ink-700">

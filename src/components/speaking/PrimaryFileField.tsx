@@ -1,10 +1,10 @@
 "use client";
 
 import { describeUploadError, uploadErrorMessage } from "@/lib/uploads/errors";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Input, Label } from "@/components/ui/Input";
-import { startUpload, preflight, type UploadState } from "@/lib/uploads/client";
+import { startUpload, preflight, type UploadState, type UploadHandle } from "@/lib/uploads/client";
 import { formatBytes } from "@/lib/uploads/format";
 import { acceptAttribute, maxBytesLabel } from "@/lib/validation/uploads";
 import type { Dictionary } from "@/lib/i18n/en";
@@ -51,19 +51,32 @@ export function PrimaryFileField({
   const t = dict.speaking;
   const [tab, setTab] = useState<"upload" | "link">("upload");
   const inputRef = useRef<HTMLInputElement>(null);
+  const alive = useRef(true);
+  const generation = useRef(0);
+  const uploadRef = useRef<UploadHandle | null>(null);
+  useEffect(() => {alive.current = true; return () => {alive.current = false; uploadRef.current?.cancel(); uploadRef.current = null;};}, []);
+
+  function cancelCurrent() {
+    ++generation.current;
+    uploadRef.current?.cancel();
+    uploadRef.current = null;
+  }
 
   function choose() {
     inputRef.current?.click();
   }
 
   function startUploadOf(file: File) {
+    uploadRef.current?.cancel();
+    const currentGeneration = ++generation.current;
+    const emit = (next: PrimaryDraft) => {if (alive.current && currentGeneration === generation.current) onChange(next);};
     const pre = preflight(file, "primary");
     if (!pre.ok) {
       onError?.(describeUploadError(pre.error, dict.uploadErrors));
       return;
     }
 
-    onChange({
+    emit({
       mode: "upload",
       state: "queued",
       progress: 0,
@@ -77,7 +90,7 @@ export function PrimaryFileField({
       purpose: "material_primary",
       materialId,
       onState: (state) =>
-        onChange({
+        emit({
           mode: "upload",
           state,
           progress: 0,
@@ -87,7 +100,7 @@ export function PrimaryFileField({
           file,
         }),
       onProgress: (progress) =>
-        onChange({
+        emit({
           mode: "upload",
           state: "uploading",
           progress,
@@ -98,9 +111,12 @@ export function PrimaryFileField({
         }),
     });
 
+    uploadRef.current = handle;
     void handle.promise.then((outcome) => {
+      if (!alive.current || currentGeneration !== generation.current) return;
+      uploadRef.current = null;
       if (outcome.ok) {
-        onChange({
+        emit({
           mode: "upload",
           state: "complete",
           progress: 100,
@@ -112,7 +128,7 @@ export function PrimaryFileField({
           file,
         });
       } else {
-        onChange({
+        emit({
           mode: "upload",
           state: outcome.error === "cancelled" ? "cancelled" : "failed",
           progress: 0,
@@ -138,6 +154,7 @@ export function PrimaryFileField({
             type="button"
             aria-pressed={tab === mode}
             onClick={() => {
+              cancelCurrent();
               setTab(mode);
               onChange(mode === "upload" ? { mode: "empty" } : { mode: "link", primaryUrl: "" });
             }}
@@ -204,7 +221,7 @@ export function PrimaryFileField({
                   </span>
                   <button
                     type="button"
-                    onClick={() => onChange({ mode: "empty" })}
+                    onClick={() => { cancelCurrent(); onChange({ mode: "empty" }); }}
                     className="shrink-0 text-xs text-ink-400 hover:text-band-bad"
                   >
                     {t.cancelUpload}
@@ -224,7 +241,7 @@ export function PrimaryFileField({
                   </button>
                   <button
                     type="button"
-                    onClick={() => onChange({ mode: "empty" })}
+                    onClick={() => { cancelCurrent(); onChange({ mode: "empty" }); }}
                     className="btn-secondary text-band-bad"
                   >
                     {t.removeFile}

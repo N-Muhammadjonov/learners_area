@@ -344,6 +344,12 @@ const uz: Dictionary = {
     minutes: "{n} daqiqa",
   },
   videoLesson: {
+    vocabularyHelp: "Bu dars so'zlari umumiy lug'atingizga saqlanadi.",
+    vocabularyPractice: "Takrorlash, kartochkalar va o'yinlar",
+    vocabularySave: "Lug'atimga saqlash",
+    vocabularySaved: "Saqlandi",
+    vocabularyUnavailable: "Dars lug'ati bazaning yangilanishini kutmoqda.",
+
     revealTranscript: "Transkriptni ko'rsatish",
     hideTranscript: "Transkriptni yashirish",
     revealNotes: "Eslatmalarni ko'rsatish",
@@ -352,6 +358,7 @@ const uz: Dictionary = {
     ended: "Video tugadi",
     replay: "Qayta ko'rish",
     tabs: {
+      vocabulary: "Lug'at",
       before: "Ko'rishdan oldin",
       transcript: "Transkript",
       comprehension: "Tushunish",
@@ -390,6 +397,11 @@ const uz: Dictionary = {
     feedbackNote: "Buni o'qituvchingiz o'qib javob beradi. Avtomatik baholanmaydi.",
   },
   videoLessonAdmin: {
+    vocabulary: "Muallif kiritgan lug'at (ixtiyoriy)",
+    vocabularyHelp: "Har qatorda: so'z || turkum || inglizcha ma'no || o'zbekcha || transkript yoki qayddagi aynan gap.",
+    vocabularyContextRequired: "Har bir lug'at misoli muallif transkripti yoki qaydlarida bo'lishi kerak.",
+    sourceAuthored: "Muallifniki", sourceLicensed: "Litsenziyalangan", sourcePermitted: "Ruxsat olingan",
+
     standaloneOption: "Mustaqil TED / Podcast (yo'l xaritasi darsisiz)",
     standaloneBadge: "Mustaqil",
     lessonOptional: "Yo'l xaritasi darsi (ixtiyoriy)",
@@ -1199,7 +1211,8 @@ const uz: Dictionary = {
     stepsLabel: "Mashq bosqichlari",
     choosePart: "Qismni tanlang",
     untitledTopic: "Boshqa savollar",
-    partBody: { part1: "Tanish mavzular bo'yicha qisqa savollar.", part2: "Kartochka: tayyorlaning, so'ng ikki daqiqagacha gapiring.", part3: "Chuqurroq muhokama savollari." },
+    partTitle: { part1: "Suhbat", part2: "Mavzu kartochkasi", part3: "Muhokama" },
+    partBody: { part1: "Qisqa savollar · ~30 soniya", part2: "1 daqiqa tayyorlanish · 2 daqiqa gapirish", part3: "Chuqurroq savollar · ~45 soniya" },
     questionCount: "{n} ta savol",
     noQuestionsInPart: "Bu qism uchun hali savollar e'lon qilinmagan.",
     bankEmpty: "Hozircha speaking savollari e'lon qilinmagan.",
@@ -1316,6 +1329,14 @@ const uz: Dictionary = {
     noAttendees: "Bu darsga hech kim qo'shilmagan.",
   },
   grammar: {
+    importTitle: "Muallifning Grammar mavzularini import qilish",
+    importHelp: "Tekshirilgan mavzular to'plamini joylang. Saqlashdan avval tekshiring. Namuna — egasi ko'rib chiqishi uchun tayyorlangan original AI qoralama; mavjud kontent almashtirilmaydi.",
+    importExample: "Namunani yuklash", importSource: "Mavzular to'plami", importValidate: "Tekshirish va ko'rish", importApply: "Bu mavzularni saqlash",
+    importPreview: "Tayyor: {topics} mavzu, {exercises} mashq. Hali hech narsa saqlanmadi.",
+    importSaved: "Saqlandi: {topics} mavzu, {exercises} mashq.",
+
+    forWriting: "Writing uchun grammatika",
+    forSpeaking: "Speaking uchun grammatika",
     emptyTitle: "Hozircha grammatika mavzulari yo'q.",
     emptyHint: "Markaz hali mavzu qo'shmagan. Hozircha boshqa modulda mashq qilishingiz mumkin.",
     manageContent: "Grammatika kontentini boshqarish",
@@ -2038,8 +2059,11 @@ const uz: Dictionary = {
   },
   readingImport: {
     title: "Reading to'plamini import qilish",
-    intro: "Muallif tayyorlagan bitta Reading to'plamini yuklang (JSON: savollari va lug'ati bilan uchtagacha matn). Avval tekshiring; import qilmaguningizcha hech narsa saqlanmaydi. To'plamda publish ko'rsatilmagan bo'lsa, draft sifatida saqlanadi. Bir xil sourceRef qayta import qilinsa, hech narsa o'zgarmaydi.",
-    fileLabel: "Reading to'plami (.json)",
+    intro: "JSON, ZIP, HTML, matn yoki hujjatni tanlang. Aniq Reading ma'lumotlari importdan oldin ko'rsatiladi va tekshiriladi; boshqa fayllar qo'shimcha material bo'lib qoladi. Savollar o'ylab topilmaydi.",
+    fileLabel: "Reading manbasi yoki material",
+    supplemental: "Bu manbada aniq Reading to'plami yo'q. Uni qo'shimcha material sifatida yuklang.",
+    manageMaterials: "Materiallarni boshqarish",
+    preview: "Ajratilgan tuzilmani ko'rish",
     check: "Tekshirish",
     import: "Import qilish",
     checked: "Tekshiruvdan o'tdi. Hali hech narsa saqlanmadi.",

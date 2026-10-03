@@ -1,4 +1,5 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -31,6 +32,8 @@ export function ManagedMaterialCard({
   authorName: string;
   canManage: boolean;
 }) {
+  const requestResponse = useScopedResponse(25000);
+
   const router = useRouter();
   const [editingTitle, setEditingTitle] = useState(false);
   const [editingContent, setEditingContent] = useState(false);
@@ -42,11 +45,12 @@ export function ManagedMaterialCard({
   async function patch(body: Record<string, unknown>) {
     setPending(true);
     setError(null);
-    const res = await fetch(`/api/speaking/materials/${material.id}`, {
+    const res = await requestResponse(`/api/speaking/materials/${material.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
+    if (!res) return;
     setPending(false);
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));
@@ -65,7 +69,8 @@ export function ManagedMaterialCard({
     if (!confirmed) return;
     setPending(true);
     setError(null);
-    const res = await fetch(`/api/speaking/materials/${material.id}`, { method: "DELETE" }).catch(() => null);
+    const res = await requestResponse(`/api/speaking/materials/${material.id}`, { method: "DELETE" }).catch(() => null);
+    if (!res) return;
     setPending(false);
     if (!res || !res.ok) {
       // A failed delete used to be silent; now the staff member sees why (localised, no raw code).

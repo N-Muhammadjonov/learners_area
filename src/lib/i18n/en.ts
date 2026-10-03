@@ -342,6 +342,12 @@ const en = {
     minutes: "{n} min",
   },
   videoLesson: {
+    vocabularyHelp: "Words from this lesson use your shared vocabulary library.",
+    vocabularyPractice: "Revision, flashcards and games",
+    vocabularySave: "Save to my vocabulary",
+    vocabularySaved: "Saved",
+    vocabularyUnavailable: "Lesson vocabulary is waiting for the database update.",
+
     revealTranscript: "Show transcript",
     hideTranscript: "Hide transcript",
     revealNotes: "Show notes",
@@ -350,6 +356,7 @@ const en = {
     ended: "Video finished",
     replay: "Replay",
     tabs: {
+      vocabulary: "Vocabulary",
       before: "Before you watch",
       transcript: "Transcript",
       comprehension: "Comprehension",
@@ -388,6 +395,11 @@ const en = {
     feedbackNote: "Your teacher reads this and replies. It is not scored automatically.",
   },
   videoLessonAdmin: {
+    vocabulary: "Authored vocabulary (optional)",
+    vocabularyHelp: "One per line: word || POS || English meaning || Uzbek || exact sentence from your transcript or notes.",
+    vocabularyContextRequired: "Every vocabulary example must occur in the authored transcript or notes.",
+    sourceAuthored: "Authored", sourceLicensed: "Licensed", sourcePermitted: "Permitted",
+
     standaloneOption: "Standalone TED / Podcast (no roadmap lesson)",
     standaloneBadge: "Standalone",
     lessonOptional: "Roadmap lesson (optional)",
@@ -1196,7 +1208,8 @@ const en = {
     stepsLabel: "Practice steps",
     choosePart: "Choose a part",
     untitledTopic: "Other questions",
-    partBody: { part1: "Short questions about familiar topics.", part2: "A cue card: prepare, then speak for up to two minutes.", part3: "Deeper discussion questions." },
+    partTitle: { part1: "Interview", part2: "Cue card", part3: "Discussion" },
+    partBody: { part1: "Short questions · ~30s", part2: "1 min prep · 2 min talk", part3: "Deeper questions · ~45s" },
     questionCount: "{n} questions",
     noQuestionsInPart: "No questions are published for this part yet.",
     bankEmpty: "No speaking questions are published yet.",
@@ -1313,6 +1326,14 @@ const en = {
     noAttendees: "Nobody joined this class.",
   },
   grammar: {
+    importTitle: "Import authored Grammar topics",
+    importHelp: "Paste a reviewed topic bundle. Validate it before saving. The sample is an original AI draft for owner review; it does not replace existing content.",
+    importExample: "Download sample", importSource: "Topic bundle", importValidate: "Validate and preview", importApply: "Save these topics",
+    importPreview: "Ready: {topics} topics, {exercises} exercises. Nothing has been saved.",
+    importSaved: "Saved: {topics} topics, {exercises} exercises.",
+
+    forWriting: "Grammar for Writing",
+    forSpeaking: "Grammar for Speaking",
     emptyTitle: "No grammar topics are available yet.",
     emptyHint: "The centre has not added any topics yet. You can continue with another module.",
     manageContent: "Manage grammar content",
@@ -2043,8 +2064,11 @@ const en = {
   },
   readingImport: {
     title: "Import a Reading set",
-    intro: "Upload one authored Reading set (JSON bundle: up to three passages with questions and vocabulary). Check it first; nothing is saved until you import. Sets are saved as drafts unless the bundle says publish. Re-importing the same sourceRef changes nothing.",
-    fileLabel: "Reading set (.json)",
+    intro: "Choose an authored set from JSON, ZIP, HTML, text or a document. Explicit Reading data is previewed and checked before import; other files stay supplemental materials. No questions are invented.",
+    fileLabel: "Reading source or material",
+    supplemental: "This source has no deterministic Reading bundle. Add it as a supplemental material instead.",
+    manageMaterials: "Manage materials",
+    preview: "Preview extracted structure",
     check: "Check",
     import: "Import",
     checked: "Check passed. Nothing was saved yet.",

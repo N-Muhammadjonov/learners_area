@@ -75,7 +75,8 @@ test("S6 every question owns its recorder; one microphone at a time; release on 
   assert.match(studio, /window\.history\.pushState/);
   const rec = read("src/components/speaking/QuestionRecorder.tsx");
   assert.match(rec, /disabled=\{lockedBy !== null && lockedBy !== prompt\.id\}/);
-  assert.match(rec, /useEffect\(\(\) => \(\) => \{ stopTimer\(\); recorderRef\.current\?\.cancel\(\)/);
+  assert.match(rec, /return \(\) => \{[\s\S]*alive\.current = false;[\s\S]*stopTimer\(\); recorderRef\.current\?\.cancel\(\)/);
+  assert.match(rec, /busyCallback\.current\(prompt\.id, false\)/);
   assert.match(rec, /recordAgain/);
   assert.match(rec, /<audio controls src=\{playbackUrl\}/);
   assert.match(rec, /data-speak-cue-card/);

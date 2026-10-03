@@ -1,4 +1,5 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { describeUploadError } from "@/lib/uploads/errors";
 import { useState } from "react";
@@ -35,6 +36,8 @@ export function EditMaterialForm({
   blocks: Block[];
   onDone: () => void;
 }) {
+  const requestResponse = useScopedResponse(25000);
+
   const router = useRouter();
   const t = dict.speaking;
 
@@ -94,11 +97,12 @@ export function EditMaterialForm({
     };
     if (primaryPayload) body.primary = primaryPayload;
 
-    const res = await fetch(`/api/speaking/materials/${material.id}`, {
+    const res = await requestResponse(`/api/speaking/materials/${material.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
+    if (!res) return;
 
     setPending(false);
     if (res.ok) {
