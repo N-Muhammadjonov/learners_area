@@ -53,7 +53,7 @@ export function PracticeStudio({ dict, prompts }: { dict: Dictionary; prompts: P
       </nav>
 
       {step === "part" && (
-        <div className="motion-enter-stagger grid gap-4 sm:grid-cols-3" data-practice-parts>
+        <div className="motion-enter-stagger grid grid-cols-[repeat(auto-fit,minmax(min(100%,260px),1fr))] gap-4" data-practice-parts>
           {PRACTICE_PARTS.map((p, index) => (
             <button key={p} type="button" disabled={counts[p] === 0} onClick={() => go(p, null)} data-practice-part={p}
               className="practice-part-card motion-lift relative flex min-h-64 flex-col items-start gap-3 overflow-hidden rounded-3xl border p-6 text-left disabled:cursor-not-allowed disabled:opacity-50">
