@@ -28,7 +28,11 @@
 import { createHash } from "node:crypto";
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 
-export const ALLOWED_PENDING = ["0025_speaking_bank_identity", "0026_google_identity", "0027_live_partner", "0028_full_listening"];
+export const ALLOWED_PENDING = ["0025_speaking_bank_identity", "0026_google_identity", "0027_live_partner", "0028_full_listening",
+  // Owner explicitly approved only the pending 0029–0035 sequence on 2026-10-03,
+  // conditional on a fresh verified recovery point for the fingerprinted Preview.
+  "0029_vocabulary_architecture", "0030_general_reading", "0031_writing_workspace",
+  "0032_writing_exam_papers", "0033_writing_language_stealing", "0034_typing_duration_presets", "0035_teacher_student_links"];
 const DESTRUCTIVE = /\b(drop\s+(table|column|schema|database|type)|truncate|delete\s+from|alter\s+column\s+\S+\s+type)\b/i;
 const sha = (s) => createHash("sha256").update(s).digest("hex");
 
@@ -113,6 +117,12 @@ export function plan(journal, appliedHashes, readSql) {
 
 /** Every verification is scoped to the application schema `public`. */
 export const VERIFY = [
+  ["lexical architecture", "select count(*)::int n from information_schema.tables where table_schema='public' and table_name in ('lexical_units','lexical_unit_forms')", (r) => r.n === 2],
+  ["lexeme backfill complete", "select count(*)::int n from public.lexemes where lexical_unit_id is null", (r) => r.n === 0],
+  ["General Reading tables", "select count(*)::int n from information_schema.tables where table_schema='public' and table_name in ('general_reading_sets','general_reading_passages','general_reading_progress')", (r) => r.n === 3],
+  ["Writing workspace and paper tables", "select count(*)::int n from information_schema.tables where table_schema='public' and table_name in ('writing_lessons','writing_lesson_progress','writing_exam_sessions','writing_grade_requests','writing_translation_sets','writing_translation_sentences','writing_translation_attempts','writing_translation_answers','writing_model_texts','typing_run_texts','writing_language_patterns','writing_pattern_bank','writing_exam_papers','writing_exam_paper_entries','writing_stealing_sessions')", (r) => r.n === 15],
+  ["Typing preset column", "select count(*)::int n from information_schema.columns where table_schema='public' and table_name='typing_run_texts' and column_name='preset_seconds'", (r) => r.n === 1],
+  ["Explicit teacher roster", "select count(*)::int n from pg_indexes where schemaname='public' and tablename='teacher_student_links' and indexname='teacher_student_links_pair_uidx'", (r) => r.n === 1],
   ["full Listening tables", "select count(*)::int n from information_schema.tables where table_schema='public' and table_name in ('listening_packages','listening_activity_runs','listening_drafts')", (r) => r.n === 3],
   ["full Listening speed column", "select count(*)::int n from information_schema.columns where table_schema='public' and table_name='listening_activity_runs' and column_name='speed_rate'", (r) => r.n === 1],
   ["speaking_prompts identity columns", "select count(*)::int n from information_schema.columns where table_schema='public' and table_name='speaking_prompts' and column_name in ('external_id','topic','source_class','available_in')", (r) => r.n === 4],

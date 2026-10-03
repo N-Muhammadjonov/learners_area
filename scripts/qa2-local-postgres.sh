@@ -13,6 +13,7 @@ DIR=${QA2_PG_DIR:-/tmp/qa2-pg}
 PORT=5432
 export QA2_DATABASE_URL="postgres://postgres@localhost:${PORT}/learners_qa2"
 export LD_LIBRARY_PATH=$DIR/package/native/lib
+export DYLD_LIBRARY_PATH=$DIR/package/native/lib
 PGCTL="$DIR/package/native/bin/pg_ctl"
 
 if [ "${1:-}" = "stop" ]; then
@@ -20,9 +21,19 @@ if [ "${1:-}" = "stop" ]; then
   echo "qa2 postgres stopped"; exit 0
 fi
 
+# An owner-started native server may be reachable over TCP while process-status
+# inspection is denied by the host sandbox. Reuse it explicitly; never signal it.
+if [ "${QA2_PG_EXTERNAL:-0}" != "1" ]; then
 mkdir -p "$DIR"
 if [ ! -x "$DIR/package/native/bin/postgres" ]; then
-  (cd "$DIR" && npm pack -q @embedded-postgres/linux-x64 >/dev/null && tar xzf embedded-postgres-linux-x64-*.tgz)
+  case "$(uname -s)/$(uname -m)" in
+    Darwin/arm64) package_name=darwin-arm64 ;;
+    Darwin/x86_64) package_name=darwin-x64 ;;
+    Linux/x86_64) package_name=linux-x64 ;;
+    Linux/aarch64) package_name=linux-arm64 ;;
+    *) echo "Unsupported real-PostgreSQL QA platform" >&2; exit 1 ;;
+  esac
+  (cd "$DIR" && npm pack -q "@embedded-postgres/$package_name" --cache "$DIR/npm-cache" >/dev/null && tar xzf embedded-postgres-"$package_name"-*.tgz)
   (cd "$DIR" && python3 - <<'P'
 import json, os
 for it in json.load(open('package/native/pg-symlinks.json')):
@@ -36,6 +47,8 @@ if ! "$PGCTL" -D "$DIR/data" status >/dev/null 2>&1; then
   "$PGCTL" -D "$DIR/data" -l "$DIR/log" -w -o "-p ${PORT} -k /tmp -c listen_addresses=localhost" start >/dev/null
 fi
 
+fi
+
 cd "$REPO"
 # Guard + fresh database + full journal + fixtures, all through the same localhost-only guard.
 node --input-type=module - <<'JS'
@@ -45,6 +58,8 @@ import { assertIsolatedTarget } from "./scripts/qa2-seed-fixtures.mjs";
 assertIsolatedTarget(process.env.QA2_DATABASE_URL);
 const admin = new pg.Client({ connectionString: process.env.QA2_DATABASE_URL.replace(/\/learners_qa2$/, "/postgres") });
 await admin.connect();
+const native = (await admin.query("select current_setting('server_version_num')::int version")).rows[0];
+if (native.version < 150000) throw new Error("Native QA PostgreSQL 15+ is required");
 await admin.query("drop database if exists learners_qa2 with (force)");
 await admin.query("create database learners_qa2");
 await admin.end();
