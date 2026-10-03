@@ -35,7 +35,7 @@ export const listeningPackageSchema = z
         z.object({
           number: z.number().int().min(1).max(4),
           title: text,
-          transcript: z.string().max(100000),
+          transcript: z.string().max(100000).default(""),
           reviewRequired: z.boolean().default(false),
         }),
       )
@@ -137,14 +137,12 @@ export function safePackagePath(path: string) {
   );
 }
 export type PublicationBlocker = { kind: "transcript_missing" | "transcript_review"; section: number };
-/** Structured publication gate: UI localizes these; never render the log strings below. */
+/** Full transcripts are optional; supplied transcripts still require any requested audio review. */
 export function publicationBlockers(p: ListeningPackage): PublicationBlocker[] {
   return p.sections.flatMap((s): PublicationBlocker[] =>
-    !s.transcript.trim()
-      ? [{ kind: "transcript_missing", section: s.number }]
-      : s.reviewRequired
-        ? [{ kind: "transcript_review", section: s.number }]
-        : [],
+    s.transcript.trim() && s.reviewRequired
+      ? [{ kind: "transcript_review", section: s.number }]
+      : [],
   );
 }
 /** Technical (English) form for API payloads and logs only. */

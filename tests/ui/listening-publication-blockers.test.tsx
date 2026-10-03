@@ -82,10 +82,8 @@ test("LB3 structured blockers and log issues come from one gate", () => {
   const p = { sections } as unknown as Parameters<typeof publicationBlockers>[0];
   assert.deepEqual(publicationBlockers(p), [
     { kind: "transcript_review", section: 2 },
-    { kind: "transcript_missing", section: 3 },
-    { kind: "transcript_missing", section: 4 },
   ]);
-  assert.equal(publicationIssues(p).length, 3);
+  assert.equal(publicationIssues(p).length, 1);
 });
 
 test("LB4 Full Listening hub copy exists in both dictionaries with five activities", () => {

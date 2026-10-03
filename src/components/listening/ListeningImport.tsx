@@ -39,9 +39,11 @@ export function ListeningImport({ dict }: { dict: Pick<Dictionary, "listeningImp
   useEffect(
     () => {
       if (lifetime.current.signal.aborted) lifetime.current = new AbortController();
+      const uploads = handles.current;
+      const controller = lifetime.current;
       return () => {
-        lifetime.current.abort();
-        handles.current.forEach((h) => h.cancel());
+        controller.abort();
+        uploads.forEach((h) => h.cancel());
         request.current?.abort();
       };
     },

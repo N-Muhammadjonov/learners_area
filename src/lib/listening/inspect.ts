@@ -1,4 +1,4 @@
-import { listeningPackageSchema, publicationIssues, type ListeningPackage } from "./package";
+import { listeningPackageSchema, publicationBlockers, type ListeningPackage } from "./package";
 import { convertLegacyPackage, slugTestId, type HtmlDocumentReader } from "./source-parser";
 import {
   audioCandidates,
@@ -147,13 +147,7 @@ export async function inspectListeningPackage(input: InspectInput): Promise<Insp
     throw new ListeningImportProblem("map_missing", { files: [payload.imagePath] });
   }
 
-  const blockers: InspectResult["blockers"] = [];
-  for (const s of payload.sections) {
-    if (!s.transcript.trim()) blockers.push({ kind: "transcript_missing", section: s.number });
-    else if (s.reviewRequired) blockers.push({ kind: "transcript_review", section: s.number });
-  }
-  // Same rule as the server gate; kept in one place.
-  if (publicationIssues(payload).length !== blockers.length) throw new Error("publication gate drift");
+  const blockers = publicationBlockers(payload);
   return {
     payload,
     audio,

@@ -160,10 +160,10 @@ test("L12 one full transcript is split at Section headings; untied files are rep
   assert.deepEqual(found.unassigned, ["transcript.txt"]);
 });
 
-test("L13 missing transcripts are QA blockers per section, never a crash", async () => {
+test("L13 optional transcripts are reported per section without blocking authored exercises", async () => {
   const r = await inspect({ "exam.html": examHtml(), "full.mp3": MP3, "section1_transcript.txt": "Spoken words." });
   assert.deepEqual(r.transcriptStatus.map((s) => s.present), [true, false, false, false]);
-  assert.deepEqual(r.blockers.map((b) => `${b.kind}:${b.section}`), ["transcript_missing:2", "transcript_missing:3", "transcript_missing:4"]);
+  assert.deepEqual(r.blockers.map((b) => `${b.kind}:${b.section}`), []);
 });
 
 test("L14 unsafe or duplicate ZIP entries are still refused", () => {

@@ -103,10 +103,10 @@ test("Legacy HTML is data only: malicious code is never evaluated", () => {
     [{ text: 'braces } and " quote' }],
   );
 });
-test("Forty logical questions and four independent sections; missing transcripts block publication", () => {
+test("Forty logical questions and four independent sections; optional transcripts preserve authored questions", () => {
   const p = fixture();
   assert.equal(p.questions.length, 40);
-  assert.equal(publicationIssues(p).length, 4);
+  assert.equal(publicationIssues(p).length, 0);
   p.questions[39]!.number = 1;
   assert.equal(listeningPackageSchema.safeParse(p).success, false);
 });
@@ -172,7 +172,7 @@ test(
     assert.equal(p.vocabulary.length, 20);
     assert.ok(p.vocabulary.every(word => !word.quiz), "source authors study cards, not a quiz");
     assert.ok(p.mapDiagram?.shapes.length);
-    assert.equal(publicationIssues(p).length, 4);
+    assert.equal(publicationIssues(p).length, 0);
     assert.equal(entries[p.audio.path]!.length, 16450918);
   },
 );
@@ -182,4 +182,19 @@ test("Duplicate filenames in ZIP headers cannot overwrite a validated asset", ()
  const marker=Buffer.from("b.json");
  for(let offset=bytes.indexOf(marker);offset>=0;offset=bytes.indexOf(marker,offset+marker.length)) bytes[offset]=97;
  assert.throws(()=>readListeningZip(bytes),/Duplicate ZIP filename/);
+});
+
+test("Absent canonical transcript fields default to empty without changing Script Completion", () => {
+  const original = fixture();
+  const input = JSON.parse(JSON.stringify(original));
+  for (const section of input.sections) delete section.transcript;
+  const parsed = listeningPackageSchema.parse(input);
+  assert.ok(parsed.sections.every((section) => section.transcript === ""));
+  assert.deepEqual(parsed.questions, original.questions);
+  assert.deepEqual(parsed.keyword1, original.keyword1);
+  assert.deepEqual(parsed.keyword2, original.keyword2);
+  assert.deepEqual(publicationIssues(parsed), []);
+  parsed.sections[0]!.transcript = "Authored transcript awaiting audio review";
+  parsed.sections[0]!.reviewRequired = true;
+  assert.equal(publicationIssues(parsed).length, 1);
 });
