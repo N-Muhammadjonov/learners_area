@@ -10,6 +10,7 @@ import { PrimaryFileField, type PrimaryDraft } from "./PrimaryFileField";
 import { draftsFromBlocks, useBlockDrafts } from "./useBlockDrafts";
 import type { Dictionary } from "@/lib/i18n/en";
 import type { materialBlocks, speakingMaterials } from "@/db/schema";
+import { apiErrorMessage } from "@/lib/api-error-message";
 
 type Material = typeof speakingMaterials.$inferSelect;
 type Block = typeof materialBlocks.$inferSelect;
@@ -106,7 +107,7 @@ export function EditMaterialForm({
       onDone();
     } else {
       const data = await res.json().catch(() => ({}));
-      setError(data.error ?? t.saveFailed);
+      setError(apiErrorMessage(data.error, res.status, dict));
     }
   }
 

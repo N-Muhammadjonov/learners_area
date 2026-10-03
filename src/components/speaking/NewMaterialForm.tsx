@@ -9,6 +9,7 @@ import { BlockComposer } from "./BlockComposer";
 import { PrimaryFileField, type PrimaryDraft } from "./PrimaryFileField";
 import { useBlockDrafts } from "./useBlockDrafts";
 import type { Dictionary } from "@/lib/i18n/en";
+import { apiErrorMessage } from "@/lib/api-error-message";
 
 type Category = "part1" | "part2" | "part3" | "general" | "shadowing" | "top_structures";
 
@@ -84,7 +85,7 @@ export function NewMaterialForm({ dict }: { dict: Dictionary }) {
       router.refresh();
     } else {
       const data = await res.json().catch(() => ({}));
-      setError(data.error ?? t.saveFailed);
+      setError(apiErrorMessage(data.error, res.status, dict));
     }
   }
 

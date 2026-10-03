@@ -1,4 +1,5 @@
 "use client";
+import type { Dictionary } from "@/lib/i18n/en";
 import { useEffect, useRef, useState } from "react";
 import { requestJson } from "@/lib/http/client-request";
 import { useRouter } from "next/navigation";
@@ -8,7 +9,9 @@ export function ListeningSpeedPractice({
   audioUrl,
   questions,
   allowed,
+  dict,
 }: {
+  dict: Dictionary;
   id: string;
   audioUrl: string | null;
   questions: ListeningPackage["questions"];
@@ -37,12 +40,13 @@ export function ListeningSpeedPractice({
           body: { activity: 2, speedRate: rate, answers, complete: true },
         },
       );
-      if (!res.ok) throw new Error(res.error ?? "Request failed");
+      if (!res.ok) throw new Error("check_failed");
       const data = res.data;
       setResult(`${data.score} / ${data.total}`);
       router.refresh();
     } catch (e) {
-      setResult(e instanceof Error ? e.message : "Request failed");
+      void e;
+      setResult(dict.fullListeningHub.speed.failed);
     } finally {
       flight.current = false;
       setBusy(false);
@@ -50,20 +54,17 @@ export function ListeningSpeedPractice({
   }
   return (
     <details className="card space-y-3">
-      <summary>Speed Training · 80% unlock ladder</summary>
-      <p>
-        1× → 1.25× → 1.5× → 1.75× → 2×. Reach 80% at the previous rate before
-        the next rate unlocks.
-      </p>
+      <summary>{dict.fullListeningHub.speed.summary}</summary>
+      <p>{dict.fullListeningHub.speed.ladder}</p>
       <audio
         ref={audio}
         src={audioUrl ?? undefined}
         controls
         preload="none"
-        onError={() => setResult("Audio unavailable")}
+        onError={() => setResult(dict.fullListeningHub.speed.audioUnavailable)}
       />
       <label>
-        Speed
+        {dict.fullListeningHub.speed.speed}
         <select
           className="input"
           value={rate}
@@ -75,7 +76,7 @@ export function ListeningSpeedPractice({
         >
           {[1, 1.25, 1.5, 1.75, 2].map((r) => (
             <option value={r} key={r} disabled={!allowed.includes(r)}>
-              {r}×{allowed.includes(r) ? "" : " · locked"}
+              {r}×{allowed.includes(r) ? "" : ` · ${dict.fullListeningHub.speed.locked}`}
             </option>
           ))}
         </select>
@@ -99,7 +100,7 @@ export function ListeningSpeedPractice({
         disabled={busy}
         onClick={() => void check()}
       >
-        Check speed attempt
+        {dict.fullListeningHub.speed.check}
       </button>
       {result && <p role="status">{result}</p>}
     </details>

@@ -5,9 +5,17 @@ import type { Dictionary } from "@/lib/i18n/en";
  * or nothing) into a localized human sentence. Raw codes are never returned —
  * they stay in the network response and server logs (master §O, §47, §59).
  */
-export function apiErrorMessage(raw: unknown, status: number | undefined, dict: Dictionary): string {
+export function apiErrorMessage(
+  raw: unknown,
+  status: number | undefined,
+  dict: Dictionary,
+  /** Feature-specific localized copy for codes the caller knows (e.g. `{ too_short: t.tooShort }`). */
+  overrides?: Partial<Record<string, string>>,
+): string {
   const t = dict.apiErrors;
-  const code = typeof raw === "string" ? raw : "";
+  const code = errorCode(raw);
+  const specific = code ? overrides?.[code] : undefined;
+  if (specific) return specific;
   switch (code) {
     case "unauthenticated":
       return t.unauthenticated;
@@ -30,4 +38,15 @@ export function apiErrorMessage(raw: unknown, status: number | undefined, dict: 
   if (status === 429) return t.rateLimited;
   if (status === 400 || status === 422 || code === "invalid_input") return t.invalid;
   return t.generic;
+}
+
+/** Accepts `"code"`, `{ code }` and `{ error: "code" }` shapes; anything else is not a code. */
+export function errorCode(raw: unknown): string {
+  if (typeof raw === "string") return raw;
+  if (raw && typeof raw === "object") {
+    const r = raw as { code?: unknown; error?: unknown };
+    if (typeof r.code === "string") return r.code;
+    if (typeof r.error === "string") return r.error;
+  }
+  return "";
 }

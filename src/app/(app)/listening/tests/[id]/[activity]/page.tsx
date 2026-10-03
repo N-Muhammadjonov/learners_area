@@ -32,7 +32,7 @@ export default async function Activity({
   if (!isUuid(id) || !Number.isInteger(n) || n < 1 || n > 5) notFound();
   const detail = await fullListeningDetail(id, user.role);
   if (!detail) notFound();
-  if (n === 1) return <FullExamStart id={id} title={detail.test.title} />;
+  if (n === 1) return <FullExamStart id={id} title={detail.test.title} dict={getDictionary(await getLocale())} />;
   if (!(await hasFullExam(user.id, id))) redirect(`/listening/tests/${id}`);
   const progress = await fullListeningProgress(user.id, id);
   // Review & Revision is the transcript study surface; the exam itself (activity 1)

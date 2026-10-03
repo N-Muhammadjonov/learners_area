@@ -118,14 +118,15 @@ export function FullListeningActivity({
         signal: abort.signal,
         body: JSON.stringify({ activity, answers, complete }),
       });
-      const body = await res.json();
-      if (!res.ok) throw new Error(body.error);
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error("activity_save_failed");
       try {
         sessionStorage.removeItem(draftKey);
       } catch {}
       if (complete) setResult({ score: body.score, total: body.total });
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Save failed; answers kept.");
+      void e;
+      setError(dict.fullListeningHub.activity.saveFailed);
     } finally {
       clearTimeout(timer);
       flight.current = false;
@@ -140,7 +141,7 @@ export function FullListeningActivity({
     try {
       await audio.current.play();
     } catch {
-      setError("Audio moment unavailable. Retry playback.");
+      setError(dict.fullListeningHub.activity.momentUnavailable);
     }
   }
   async function vocabulary(index: number) {
@@ -174,7 +175,7 @@ export function FullListeningActivity({
       if (!res.ok) throw new Error();
       setError("");
     } catch {
-      setError("Vocabulary save failed. Try again.");
+      setError(dict.fullListeningHub.activity.vocabSaveFailed);
     }
   }
   const q = data.questions?.find((x) => x.number === selected);
@@ -203,7 +204,7 @@ export function FullListeningActivity({
               end.current = null;
             }
           }}
-          onError={() => setError("Recording unavailable")}
+          onError={() => setError(dict.fullListeningHub.activity.recordingUnavailable)}
         />
       )}
       {activity === 2 && (
@@ -260,20 +261,20 @@ export function FullListeningActivity({
                       )
                     }
                   >
-                    Play evidence moment
+                    {dict.fullListeningHub.activity.playEvidence}
                   </button>
                   <button
                     type="button"
                     className="btn-secondary"
                     onClick={() => answer(String(q.number), "reviewed")}
                   >
-                    Mark reviewed
+                    {dict.fullListeningHub.activity.markReviewed}
                   </button>
                 </>
               )}
             </section>
             <aside className="card space-y-5">
-              <h2>Transcript</h2>
+              <h2>{dict.fullListeningHub.activity.transcript}</h2>
               {data.sections?.map((s) => (
                 <section key={s.number}>
                   <h3>
@@ -302,6 +303,7 @@ export function FullListeningActivity({
       )}
       {activity === 2 && data.questions && (
         <ListeningSpeedPractice
+          dict={dict}
           id={id}
           audioUrl={audioUrl}
           questions={data.questions}
@@ -313,10 +315,7 @@ export function FullListeningActivity({
       )}
       {activity === 3 && (
         <>
-          <p>
-            Write the matching relationship. Exact authored model is used for
-            checking; free paraphrases need teacher review.
-          </p>
+          <p>{dict.fullListeningHub.study.keywordIntro}</p>
           {data.keyword1?.map((x) => (
             <article className="card listening-review-grid" key={x.q}>
               <div>
@@ -333,10 +332,10 @@ export function FullListeningActivity({
                 </button>
               </div>
               <div>
-                <p>The speaker said:</p>
+                <p>{dict.fullListeningHub.activity.speakerSaid}</p>
                 <blockquote>{x.heard}</blockquote>
                 <label>
-                  Your matches
+                  {dict.fullListeningHub.activity.yourMatches}
                   <textarea
                     className="input mt-2"
                     value={answers[x.q] ?? ""}
@@ -375,7 +374,7 @@ export function FullListeningActivity({
                   disabled={!!revealed[x.q]}
                   onChange={(e) => answer(String(x.q), e.target.value)}
                 >
-                  <option value="">Choose the meaning</option>
+                  <option value="">{dict.fullListeningHub.activity.chooseMeaning}</option>
                   {x.options.map((o, i) => (
                     <option key={o} value={i}>
                       {o}
@@ -389,7 +388,7 @@ export function FullListeningActivity({
                 disabled={!answers[x.q]}
                 onClick={() => setRevealed((old) => ({ ...old, [x.q]: true }))}
               >
-                Commit and reveal
+                {dict.fullListeningHub.activity.commitReveal}
               </button>
               {revealed[x.q] && (
                 <>
@@ -436,7 +435,7 @@ export function FullListeningActivity({
                     className="btn-secondary"
                     onClick={() => {
                       if (typeof speechSynthesis === "undefined") {
-                        setError("Pronunciation unavailable on this device");
+                        setError(dict.fullListeningHub.activity.pronunciationUnavailable);
                         return;
                       }
                       speechSynthesis.cancel();
@@ -445,7 +444,7 @@ export function FullListeningActivity({
                       speechSynthesis.speak(utterance);
                     }}
                   >
-                    Say it
+                    {dict.fullListeningHub.activity.sayIt}
                   </button>
                   <button
                     type="button"
@@ -465,7 +464,7 @@ export function FullListeningActivity({
                       value={answers[i] ?? ""}
                       onChange={(e) => answer(String(i), e.target.value)}
                     >
-                      <option value="">Choose</option>
+                      <option value="">{dict.fullListeningHub.activity.choose}</option>
                       {x.quiz.options.map((o, n) => (
                         <option key={o} value={n}>
                           {o}
@@ -476,8 +475,8 @@ export function FullListeningActivity({
                   {result && (
                     <p>
                       {Number(answers[i]) === x.quiz.correct
-                        ? "Correct"
-                        : "Incorrect"}{" "}
+                        ? dict.fullListeningHub.activity.correct
+                        : dict.fullListeningHub.activity.incorrect}{" "}
                       · {x.quiz.options[x.quiz.correct]}
                     </p>
                   )}
@@ -494,7 +493,7 @@ export function FullListeningActivity({
           disabled={busy}
           onClick={() => void save(false)}
         >
-          Save progress
+          {dict.fullListeningHub.activity.saveProgress}
         </button>
         <button
           type="button"
@@ -502,7 +501,7 @@ export function FullListeningActivity({
           disabled={busy}
           onClick={() => void save(true)}
         >
-          {activity === 2 ? "Complete reviewed questions" : "Check all answers"}
+          {activity === 2 ? dict.fullListeningHub.activity.completeReviewed : dict.fullListeningHub.activity.checkAll}
         </button>
         <button
           type="button"
@@ -514,7 +513,7 @@ export function FullListeningActivity({
             setRevealed({});
           }}
         >
-          Try again
+          {dict.fullListeningHub.activity.tryAgain}
         </button>
       </div>
       {error && <p role="alert">{error}</p>}

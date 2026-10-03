@@ -1,13 +1,10 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-const collections = [
-  ["essential", "▶ Essential Recordings"],
-  ["academic", "🎧 Academic Listening"],
-  ["general", "🎙️ General Listening"],
-  ["question_types", "📚 Question types"],
-  ["mcq", "🔑 MCQ Mastery"],
-] as const;
+import type { Dictionary } from "@/lib/i18n/en";
+
+const collections = ["essential", "academic", "general", "question_types", "mcq"] as const;
+const fill = (t: string, v: Record<string, string | number>) => t.replace(/\{(\w+)\}/g, (_, k: string) => String(v[k] ?? ""));
 type Card = {
   id: string;
   title: string;
@@ -16,17 +13,18 @@ type Card = {
   started: boolean;
   collection?: string;
 };
-export function FullListeningLibrary({ cards }: { cards: Card[] }) {
+export function FullListeningLibrary({ cards, dict }: { cards: Card[]; dict: Dictionary }) {
+  const t = dict.fullListeningHub.library;
   const [search, setSearch] = useState("");
   const [collection, setCollection] = useState("academic");
   const [section, setSection] = useState(0);
   const categoryCards = cards.filter(
-    (t) => (t.collection ?? "academic") === collection,
+    (c) => (c.collection ?? "academic") === collection,
   );
-  const visible = categoryCards.filter((t) =>
-    t.title.toLowerCase().includes(search.toLowerCase()),
+  const visible = categoryCards.filter((c) =>
+    c.title.toLowerCase().includes(search.toLowerCase()),
   );
-  const completed = categoryCards.reduce((n, t) => n + Number(t.completed), 0);
+  const completed = categoryCards.reduce((n, c) => n + Number(c.completed), 0);
   return (
     <section
       className="listening-library space-y-6"
@@ -34,9 +32,9 @@ export function FullListeningLibrary({ cards }: { cards: Card[] }) {
     >
       <nav
         className="listening-collection-tabs"
-        aria-label="Listening collections"
+        aria-label={t.collections}
       >
-        {collections.map(([key, label]) => (
+        {collections.map((key) => (
           <button
             key={key}
             type="button"
@@ -46,19 +44,19 @@ export function FullListeningLibrary({ cards }: { cards: Card[] }) {
               setSection(0);
             }}
           >
-            {label} (
-            {cards.filter((t) => (t.collection ?? "academic") === key).length})
+            {t[key]} (
+            {cards.filter((c) => (c.collection ?? "academic") === key).length})
           </button>
         ))}
       </nav>
       <div className="listening-summary card flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-3xl font-bold">{categoryCards.length}</p>
-          <p>Published tests on this page</p>
+          <p>{t.publishedOnPage}</p>
         </div>
-        <p>Exam → Review → Keyword Match → Vocabulary</p>
+        <p>{t.flow}</p>
         <p>
-          {completed} / {categoryCards.length * 5} activities completed
+          {fill(t.activitiesCompleted, { done: completed, total: categoryCards.length * 5 })}
         </p>
       </div>
       <div className="flex flex-wrap items-center gap-2">
@@ -71,11 +69,11 @@ export function FullListeningLibrary({ cards }: { cards: Card[] }) {
               className={section === n ? "btn-primary" : "btn-secondary"}
               onClick={() => setSection(n)}
             >
-              {n ? `🎙️ Section ${n}` : "🎧 Full Listening"}
+              {n ? fill(t.sectionN, { n }) : t.fullListening}
             </button>
           ))}
         <label className="ml-auto">
-          Search listening tests
+          {t.search}
           <input
             className="input"
             value={search}
@@ -84,48 +82,48 @@ export function FullListeningLibrary({ cards }: { cards: Card[] }) {
         </label>
       </div>
       <div className="full-listening-grid">
-        {visible.map((t) => (
+        {visible.map((card) => (
           <article
-            key={t.id}
+            key={card.id}
             className="listening-library-card card p-5 flex flex-col gap-3"
           >
             <span className="listening-library-badge badge">
-              {section ? "10 questions · controlled review" : "40 questions"}
+              {section ? t.badgeSection : t.badgeFull}
             </span>
-            <h2 className="font-display text-xl font-bold">{t.title}</h2>
+            <h2 className="font-display text-xl font-bold">{card.title}</h2>
             <p>
               {section
-                ? `Section ${section} of the full recording`
-                : `4 Sections · ${Math.round(t.duration / 60)} min`}
+                ? fill(t.sectionOf, { n: section })
+                : fill(t.fullMeta, { min: Math.round(card.duration / 60) })}
             </p>
             <progress
               className="w-full"
               max={5}
-              value={Number(t.completed)}
-              aria-label={`${t.title}: completed activities`}
+              value={Number(card.completed)}
+              aria-label={fill(t.progressLabel, { title: card.title })}
             />
-            <p>{t.completed} / 5 completed</p>
+            <p>{fill(t.completedOf5, { done: card.completed })}</p>
             <Link
               className="btn-primary mt-auto"
               href={
                 section
-                  ? `/listening/tests/${t.id}/study?section=${section}`
-                  : `/listening/tests/${t.id}`
+                  ? `/listening/tests/${card.id}/study?section=${section}`
+                  : `/listening/tests/${card.id}`
               }
             >
               {section
-                ? "▶ Open section"
-                : Number(t.completed) === 5
-                  ? "📖 Review"
-                  : t.started
-                    ? "▶ Continue"
-                    : "▶ Start"}
+                ? t.openSection
+                : Number(card.completed) === 5
+                  ? t.review
+                  : card.started
+                    ? t.continue
+                    : t.start}
             </Link>
           </article>
         ))}
       </div>
       {!visible.length && (
-        <p className="card p-5">No matching published tests in this collection.</p>
+        <p className="card p-5">{t.empty}</p>
       )}
     </section>
   );

@@ -91,7 +91,8 @@ test("LB3 structured blockers and log issues come from one gate", () => {
 test("LB4 Full Listening hub copy exists in both dictionaries with five activities", () => {
   for (const d of [en, uz]) {
     assert.equal(d.fullListeningHub.activities.length, 5);
-    for (const v of Object.values(d.fullListeningHub)) assert.ok((Array.isArray(v) ? v : [v]).every((s) => s.trim().length > 0));
+    const strings = (v: unknown): string[] => (typeof v === "string" ? [v] : Object.values(v as object).flatMap(strings));
+    assert.ok(strings(d.fullListeningHub).every((s) => s.trim().length > 0));
   }
   assert.ok(!JSON.stringify(uz.fullListeningHub).match(/[\u0400-\u04FF]/));
 });

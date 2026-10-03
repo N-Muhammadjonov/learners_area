@@ -106,7 +106,7 @@ export function FullListeningStudy({
       });
       if (!controller.signal.aborted) {
         if (response.ok) setResult(response.data);
-        else setError("Check failed. Your answers are kept; try again.");
+        else setError(dict.fullListeningHub.study.checkFailed);
       }
     } finally {
       if (flight.current === controller) {
@@ -129,17 +129,14 @@ export function FullListeningStudy({
       </Link>
       <header className="card space-y-3">
         <h1 className="font-display text-3xl font-bold">🎧 {title}</h1>
-        <p>
-          Controlled practice · pause, rewind and look up words. This result is
-          separate from IELTS Exam.
-        </p>
+        <p>{dict.fullListeningHub.study.intro}</p>
         <audio
           ref={audio}
           src={audioUrl}
           controls
           preload="none"
           className="w-full"
-          onError={() => setError("Audio unavailable. Try loading it again.")}
+          onError={() => setError(dict.fullListeningHub.study.audioUnavailable)}
         />
         <label>
           Speed{" "}

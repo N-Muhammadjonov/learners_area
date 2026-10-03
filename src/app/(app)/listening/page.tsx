@@ -33,10 +33,10 @@ async function ActiveListeningTests({
           retryLabel={dict.errorPage.retry}
         />
       )}
-      <FullListeningLibrary cards={full.rows} />
+      <FullListeningLibrary cards={full.rows} dict={dict} />
       {page > 1 && (
         <Link className="btn-secondary" href={`/listening?page=${page - 1}`}>
-          Previous tests
+          {dict.fullListeningHub.library.previous}
         </Link>
       )}
       {full.hasMore && (

@@ -32,7 +32,7 @@ export default async function ListeningAttemptPage({ params }: { params: Promise
   if (pkg) {
     if (attempt.status === "completed") redirect(`/listening/tests/${test.id}/2`);
     const draft = await db.query.listeningDrafts.findFirst({ where: eq(listeningDrafts.attemptId, id) });
-    return <NativeListeningExam attemptId={id} testId={test.id} title={test.title} audioUrl={test.audioUrl!}
+    return <NativeListeningExam dict={dict} attemptId={id} testId={test.id} title={test.title} audioUrl={test.audioUrl!}
       imageUrl={pkg.imageObjectKey ? `/api/resources/${pkg.imageObjectKey}` : null}
       duration={pkg.payload.audio.durationSec} initial={draft?.answers ?? {}} audioPosition={draft?.audioPosition ?? 0}
       audioStartedAt={draft?.audioStartedAt?.toISOString() ?? null}

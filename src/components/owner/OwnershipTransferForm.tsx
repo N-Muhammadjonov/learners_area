@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n/en";
 import { Card } from "@/components/ui/Card";
 import { Input, Label } from "@/components/ui/Input";
+import { apiErrorMessage } from "@/lib/api-error-message";
 
 /**
  * The final step of a business transfer.
@@ -39,7 +40,7 @@ export function OwnershipTransferForm({
     setBusy(false);
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));
-      setError(`${t.transferFailed} (${data.error ?? res.status})`);
+      setError(`${t.transferFailed} ${apiErrorMessage(data.error, res.status, dict)}`);
       return;
     }
     setDone(true);

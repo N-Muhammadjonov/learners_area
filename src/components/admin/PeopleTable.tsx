@@ -10,6 +10,7 @@ import type { PersonRow } from "@/lib/data/people";
 import type { Locale } from "@/lib/i18n";
 import { Label } from "@/components/ui/Input";
 import { ConfirmAction, ConfirmSelect } from "@/components/interaction/InteractionPrimitives";
+import { apiErrorMessage } from "@/lib/api-error-message";
 
 function peoplePageHref(
   filters: { q: string; role?: Role; status?: AccountStatus },
@@ -78,7 +79,7 @@ export function PeopleTable({
       });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        setError(`${t.failed} (${data.error ?? res.status})`);
+        setError(`${t.failed} ${apiErrorMessage(data.error, res.status, dict)}`);
         throw new Error("role_change_failed");
       }
       router.refresh();
@@ -101,7 +102,7 @@ export function PeopleTable({
       });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        setError(`${t.failed} (${data.error ?? res.status})`);
+        setError(`${t.failed} ${apiErrorMessage(data.error, res.status, dict)}`);
         throw new Error("status_change_failed");
       }
       setReason("");

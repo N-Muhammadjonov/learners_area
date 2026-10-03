@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import type { Dictionary } from "@/lib/i18n/en";
+import { apiErrorMessage } from "@/lib/api-error-message";
 
 /**
  * Assigning follow-up work after reviewing feedback.
@@ -48,7 +49,7 @@ export function NewAssignmentForm({
     setBusy(false);
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));
-      setError(String(data.error ?? t.assignmentFailed));
+      setError(apiErrorMessage(data.error, res.status, dict));
       return;
     }
     setSaved(true);

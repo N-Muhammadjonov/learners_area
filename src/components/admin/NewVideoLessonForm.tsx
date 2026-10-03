@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n/en";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
+import { apiErrorMessage } from "@/lib/api-error-message";
 
 export { parseTranscript, parseTranscriptInput, type TranscriptInput } from "@/lib/services/video/transcript";
 
@@ -89,7 +90,7 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
     const reason = body.reason as keyof typeof t.rejection | undefined;
     setMessage({
       tone: "bad",
-      text: (reason && t.rejection[reason]) ?? body.error ?? dict.common.error,
+      text: (reason && t.rejection[reason]) ?? apiErrorMessage(body.error, undefined, dict),
     });
     } catch {
       if (activeRequest.current === controller) setMessage({ tone: "bad", text: dict.errors.unknown });

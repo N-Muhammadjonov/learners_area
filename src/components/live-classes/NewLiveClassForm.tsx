@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea, Label } from "@/components/ui/Input";
 import type { Dictionary } from "@/lib/i18n/en";
+import { apiErrorMessage } from "@/lib/api-error-message";
 
 export function NewLiveClassForm({ dict }: { dict: Dictionary }) {
   const router = useRouter();
@@ -47,7 +48,7 @@ export function NewLiveClassForm({ dict }: { dict: Dictionary }) {
           router.refresh();
         } else {
           const data = await res.json();
-          setError(data.error ?? "Could not save");
+          setError(apiErrorMessage(data.error, res.status, dict));
         }
       }}
     >

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import type { Dictionary } from "@/lib/i18n/en";
+import { apiErrorMessage } from "@/lib/api-error-message";
 
 type ProduceResult = {
   verdict: string | null;
@@ -41,7 +42,7 @@ export function ProductionAnswer({ dict, exerciseId }: { dict: Dictionary; exerc
     setBusy(false);
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));
-      setError(String(data.error ?? dict.speakingPractice.errors.unknown));
+      setError(apiErrorMessage(data.error, res.status, dict));
       return;
     }
     const data = await res.json();

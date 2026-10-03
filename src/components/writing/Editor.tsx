@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { countWords } from "@/lib/services/writing-evaluation/heuristics";
 import type { Dictionary } from "@/lib/i18n/en";
+import { apiErrorMessage } from "@/lib/api-error-message";
 
 export function Editor({
   dict,
@@ -58,8 +59,8 @@ export function Editor({
     const res = await fetch(`/api/writing/submissions/${submissionId}/submit`, { method: "POST" });
     setSubmitting(false);
     if (!res.ok) {
-      const data = await res.json();
-      setError(data.error === "too_short" ? "Write at least 20 words before submitting." : "Could not submit.");
+      const data = await res.json().catch(() => ({}));
+      setError(apiErrorMessage(data.error, res.status, dict, { too_short: dict.writing.tooShortSubmit }));
       return;
     }
     router.refresh();

@@ -1,4 +1,5 @@
 "use client";
+import type { Dictionary } from "@/lib/i18n/en";
 import { requestJson } from "@/lib/http/client-request";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
@@ -9,6 +10,7 @@ type Question = Omit<
   "key" | "alternatives" | "pair" | "evidence"
 > & { id: string };
 export function NativeListeningExam({
+  dict,
   attemptId,
   testId,
   title,
@@ -20,6 +22,7 @@ export function NativeListeningExam({
   audioStartedAt,
   duration,
 }: {
+  dict: Dictionary;
   attemptId: string;
   testId: string;
   title: string;
@@ -93,13 +96,11 @@ export function NativeListeningExam({
       );
       requests.current = requests.current.filter((c) => c !== controller);
       if (!res.ok) throw new Error();
-      if (mounted.current) setSaved("Saved");
+      if (mounted.current) setSaved(dict.fullListeningHub.examScreen.saved);
       dirty.current = JSON.stringify(current.current) !== snapshot;
     } catch {
       if (mounted.current)
-        setSaved(
-          "Saved on this device; server save failed. Retry will keep your answers.",
-        );
+        setSaved(dict.fullListeningHub.examScreen.deviceOnly);
     } finally {
       saving.current = false;
     }
@@ -117,11 +118,11 @@ export function NativeListeningExam({
     current.current = next;
     setAnswers(next);
     dirty.current = true;
-    setSaved("Saving…");
+    setSaved(dict.fullListeningHub.examScreen.saving);
     try {
       localStorage.setItem(key, JSON.stringify({ answers: next }));
     } catch {
-      setSaved("Device save unavailable; keeping answers on screen.");
+      setSaved(dict.fullListeningHub.examScreen.deviceUnavailable);
     }
   }
   async function play() {
@@ -133,9 +134,7 @@ export function NativeListeningExam({
       startState.current = true;
       void save(true);
     } catch {
-      setError(
-        "Audio could not play. Check your connection, then retry audio.",
-      );
+      setError(dict.fullListeningHub.examScreen.audioPlayFailed);
     }
   }
   async function submit() {
@@ -170,7 +169,7 @@ export function NativeListeningExam({
       } catch {}
       router.push(`/listening/tests/${testId}/2`);
     } catch {
-      setError("Submit failed. Your answers remain saved. Retry submission.");
+      setError(dict.fullListeningHub.examScreen.submitFailed);
       flight.current = false;
       setBusy(false);
     }
@@ -193,9 +192,9 @@ export function NativeListeningExam({
           {String(Math.floor(duration % 60)).padStart(2, "0")}
         </span>
         <label>
-          Volume
+          {dict.fullListeningHub.examScreen.volume}
           <input
-            aria-label="Volume"
+            aria-label={dict.fullListeningHub.examScreen.volume}
             type="range"
             min={0}
             max={1}
@@ -214,13 +213,13 @@ export function NativeListeningExam({
               if (document.fullscreenElement) await document.exitFullscreen();
               else if (container.current?.requestFullscreen)
                 await container.current.requestFullscreen();
-              else setError("Fullscreen is unavailable in this browser.");
+              else setError(dict.fullListeningHub.examScreen.fullscreenUnavailable);
             } catch {
-              setError("Fullscreen could not be opened.");
+              setError(dict.fullListeningHub.examScreen.fullscreenFailed);
             }
           }}
         >
-          Fullscreen ⛶
+          {dict.fullListeningHub.examScreen.fullscreen}
         </button>
       </header>
       <audio
@@ -241,9 +240,7 @@ export function NativeListeningExam({
           setConfirm(true);
         }}
         onError={() =>
-          setError(
-            "Recording unavailable. Answers are safe; retry when connected.",
-          )
+          setError(dict.fullListeningHub.examScreen.recordingUnavailable)
         }
       />
       <button
@@ -253,12 +250,12 @@ export function NativeListeningExam({
         disabled={busy || position >= duration - 0.5}
       >
         {started
-          ? "Resume recording after interruption"
-          : "Play recording — begin"}
+          ? dict.fullListeningHub.examScreen.resume
+          : dict.fullListeningHub.examScreen.begin}
       </button>
       <p role="status">{saved}</p>
       {error && <p role="alert">{error}</p>}
-      <nav className="flex flex-wrap gap-2" aria-label="Sections">
+      <nav className="flex flex-wrap gap-2" aria-label={dict.fullListeningHub.examScreen.sections}>
         {[1, 2, 3, 4].map((s) => (
           <button
             type="button"
@@ -267,7 +264,7 @@ export function NativeListeningExam({
             aria-pressed={section === s}
             onClick={() => setSection(s)}
           >
-            Section {s}
+            {dict.fullListeningHub.examScreen.section.replace("{n}", String(s))}
           </button>
         ))}
       </nav>
@@ -278,7 +275,7 @@ export function NativeListeningExam({
             height={400}
             unoptimized
             src={imageUrl}
-            alt="Spring Down Junior School floor plan"
+            alt={dict.fullListeningHub.examScreen.mapAlt.replace("{n}", "2")}
             className="mx-auto max-h-96 max-w-full"
           />
         </div>
@@ -302,7 +299,7 @@ export function NativeListeningExam({
                 value={answers[q.id] ?? ""}
                 onChange={(e) => change(q.id, e.target.value)}
               >
-                <option value="">Choose an answer</option>
+                <option value="">{dict.fullListeningHub.examScreen.chooseAnswer}</option>
                 {q.options.map((o, i) => {
                   const letter = /^[A-Z](?:\s|$)/.test(o)
                     ? o[0]
@@ -326,7 +323,7 @@ export function NativeListeningExam({
             )}
           </div>
         ))}
-      <nav className="listening-question-nav" aria-label="Question navigation">
+      <nav className="listening-question-nav" aria-label={dict.fullListeningHub.examScreen.questionNav}>
         {questions.map((q) => (
           <button
             type="button"
@@ -354,17 +351,18 @@ export function NativeListeningExam({
         disabled={busy}
         onClick={() => setConfirm(true)}
       >
-        Submit exam
+        {dict.fullListeningHub.examScreen.submit}
       </button>
       {confirm && (
         <div
           className="card space-y-3"
           role="dialog"
-          aria-label="Confirm submission"
+          aria-label={dict.fullListeningHub.examScreen.confirmLabel}
         >
           <p>
-            {answered} answered; {questions.length - answered} unanswered.
-            Submission is final.
+            {dict.fullListeningHub.examScreen.confirmText
+              .replace("{answered}", String(answered))
+              .replace("{unanswered}", String(questions.length - answered))}
           </p>
           <button
             type="button"
@@ -372,7 +370,7 @@ export function NativeListeningExam({
             disabled={busy}
             onClick={() => void submit()}
           >
-            Confirm submit
+            {dict.fullListeningHub.examScreen.confirm}
           </button>
           <button
             type="button"
@@ -380,7 +378,7 @@ export function NativeListeningExam({
             disabled={busy}
             onClick={() => setConfirm(false)}
           >
-            Keep working
+            {dict.fullListeningHub.examScreen.keepWorking}
           </button>
         </div>
       )}

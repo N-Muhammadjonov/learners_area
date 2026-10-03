@@ -8,6 +8,7 @@ import type { Dictionary } from "@/lib/i18n/en";
 import { formatDate } from "@/lib/time";
 import { ResourceBlocks } from "@/components/resources/ResourceBlocks";
 import type { ResourceBlockView } from "@/lib/data/resources";
+import { apiErrorMessage } from "@/lib/api-error-message";
 
 export type AssignmentCard = {
   id: string;
@@ -64,7 +65,7 @@ export function AssignmentBoard({
     setBusyId(null);
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));
-      setErrors((prev) => ({ ...prev, [assignment.id]: String(data.error ?? t.genericError) }));
+      setErrors((prev) => ({ ...prev, [assignment.id]: apiErrorMessage(data.error, res.status, dict) }));
       return;
     }
     router.refresh();

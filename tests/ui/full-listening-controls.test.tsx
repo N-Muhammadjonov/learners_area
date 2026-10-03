@@ -71,6 +71,7 @@ async function mount(element: React.ReactElement, run: () => Promise<void>) {
 }
 const id = "00000000-0000-4000-8000-000000000001";
 const examProps = {
+  dict: en,
   attemptId: id,
   testId: id,
   title: "Source test",
@@ -184,6 +185,7 @@ test("Vocabulary mounts without an audio element and makes zero media or API req
 test("Library search and category filters operate locally without reloading or fetching audio", async () => {
   await mount(
     React.createElement(FullListeningLibrary, {
+      dict: en,
       cards: [
         {
           id,

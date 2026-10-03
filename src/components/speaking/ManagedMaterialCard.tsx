@@ -8,6 +8,7 @@ import { BlockRenderer } from "./BlockRenderer";
 import { EditMaterialForm } from "./EditMaterialForm";
 import type { Dictionary } from "@/lib/i18n/en";
 import type { materialBlocks, speakingMaterials } from "@/db/schema";
+import { apiErrorMessage } from "@/lib/api-error-message";
 
 type Material = typeof speakingMaterials.$inferSelect;
 type Block = typeof materialBlocks.$inferSelect;
@@ -47,7 +48,7 @@ export function ManagedMaterialCard({
     setPending(false);
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));
-      alert(data.error ?? dict.speaking.saveFailed);
+      alert(apiErrorMessage(data.error, res.status, dict));
       return;
     }
     router.refresh();

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea, Label } from "@/components/ui/Input";
 import type { Dictionary } from "@/lib/i18n/en";
+import { apiErrorMessage } from "@/lib/api-error-message";
 
 type QType = "true_false_not_given" | "yes_no_not_given" | "multiple_choice" | "short_answer";
 
@@ -66,7 +67,7 @@ export function NewQuestionForm({ dict, passageId }: { dict: Dictionary; passage
           router.refresh();
         } else {
           const data = await res.json();
-          setError(data.error ?? "Could not save");
+          setError(apiErrorMessage(data.error, res.status, dict));
         }
       }}
     >

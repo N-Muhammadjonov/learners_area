@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import type { Dictionary } from "@/lib/i18n/en";
 import type { GrammarActivity } from "@/lib/services/grammar/mastery";
+import { apiErrorMessage } from "@/lib/api-error-message";
 
 type Exercise = {
   id: string;
@@ -61,7 +62,7 @@ export function PracticeActivities({
     setBusy(null);
     const data = await res.json().catch(() => null);
     if (!res.ok) {
-      setError(String(data?.error ?? dict.common.error));
+      setError(apiErrorMessage(data?.error, res.status, dict));
       return;
     }
     setResults((prev) => ({

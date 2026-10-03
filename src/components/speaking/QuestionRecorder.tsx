@@ -18,6 +18,7 @@ import { preflight, startUpload, type UploadState } from "@/lib/uploads/client";
 import { formatBytes } from "@/lib/uploads/format";
 import type { Dictionary } from "@/lib/i18n/en";
 import type { speakingPrompts } from "@/db/schema";
+import { apiErrorMessage } from "@/lib/api-error-message";
 
 type Prompt = typeof speakingPrompts.$inferSelect;
 
@@ -111,7 +112,7 @@ export function QuestionRecorder({
     });
     const data = await res.json().catch(() => ({}));
     if (!res.ok) {
-      setError(String(data.error ?? "could_not_start"));
+      setError(apiErrorMessage(data.error, res.status, dict));
       return;
     }
     const createdAttemptId: string = data.attempt.id;
@@ -250,7 +251,7 @@ export function QuestionRecorder({
     if (!attach.ok) {
       setPhase({ kind: "reviewing" });
       const data = await attach.json().catch(() => ({}));
-      setError(String(data.error ?? t.uploadFailed));
+      setError(apiErrorMessage(data.error, attach.status, dict, { upload_failed: t.uploadFailed }));
       return;
     }
 
@@ -263,7 +264,7 @@ export function QuestionRecorder({
     if (!submitRes.ok) {
       setPhase({ kind: "reviewing" });
       const data = await submitRes.json().catch(() => ({}));
-      setError(String(data.error ?? t.uploadFailed));
+      setError(apiErrorMessage(data.error, submitRes.status, dict, { upload_failed: t.uploadFailed }));
       return;
     }
 
