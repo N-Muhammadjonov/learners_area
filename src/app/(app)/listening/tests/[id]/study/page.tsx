@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { db } from "@/db/client";
-import { listeningOccurrenceSpans } from "@/lib/services/lexical/listening-occurrences";
+import { listeningOccurrenceSpans, listeningSegmentSpans } from "@/lib/services/lexical/listening-occurrences";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { fullListeningDetail, listeningExamState } from "@/lib/data/full-listening";
 import { lexicalAssistanceAllowed } from "@/lib/listening/lexical-policy";
@@ -21,8 +21,7 @@ export default async function Study({
   const detail = await fullListeningDetail(id, user.role);
   if (!detail) notFound();
   const p = detail.pkg.payload;
-  // Controlled practice is a study surface: lexical help only after the exam was
-  // submitted and while no exam attempt is open (exam integrity).
+  // Study help is available while no full exam attempt is open.
   const lexicalAssistance = lexicalAssistanceAllowed("REVIEW_CONTROL", await listeningExamState(user, id));
   return (
     <FullListeningStudy
@@ -39,6 +38,7 @@ export default async function Study({
       }
       questions={p.questions.map((q) => ({
         number: q.number,
+        section: q.section,
         text: q.text,
         instruction: q.instruction,
         options: q.options,
@@ -50,6 +50,7 @@ export default async function Study({
       }))}
       lexicalAssistance={lexicalAssistance}
       occurrences={lexicalAssistance ? await listeningOccurrenceSpans(db, id) : {}}
+      segmentOccurrences={lexicalAssistance ? await listeningSegmentSpans(db, id) : {}}
       dict={getDictionary(await getLocale())}
     />
   );

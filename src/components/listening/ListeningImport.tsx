@@ -2,6 +2,8 @@
 import { useEffect, useRef, useState } from "react";
 import { scrubDocument } from "@/lib/import/reading-source";
 import Link from "next/link";
+import { ListeningTryout } from "@/components/import/ListeningTryout";
+import { safePackagePath } from "@/lib/listening/package";
 import { startUpload, type UploadHandle } from "@/lib/uploads/client";
 import { uploadErrorMessage } from "@/lib/uploads/errors";
 import type { ListeningPackage } from "@/lib/listening/package";
@@ -22,7 +24,7 @@ function zipProblem(message: string): ImportProblemCode {
   return "zip_unreadable";
 }
 
-export function ListeningImport({ dict }: { dict: Pick<Dictionary, "listeningImport" | "uploadErrors"> }) {
+export function ListeningImport({ dict }: { dict: Pick<Dictionary, "listeningImport" | "uploadErrors" | "importPreview"> }) {
   const t = dict.listeningImport;
   const [loaded, setLoaded] = useState<Loaded | null>(null);
   const [result, setResult] = useState<(InspectResult & { image: File | null; audioFile: File }) | null>(null);
@@ -50,7 +52,7 @@ export function ListeningImport({ dict }: { dict: Pick<Dictionary, "listeningImp
     [],
   );
 
-  async function readZip(file: File) {
+  async function readZip(file: File, companions: File[] = []) {
     const signal = lifetime.current.signal;
     setLoaded(null);
     setResult(null);
@@ -60,7 +62,17 @@ export function ListeningImport({ dict }: { dict: Pick<Dictionary, "listeningImp
     setBusy("check");
     try {
       const { readListeningZipAsync } = await import("@/lib/listening/zip");
-      const { entries, textFiles } = await readListeningZipAsync(new Uint8Array(await file.arrayBuffer()), signal);
+      let entries: Record<string, Uint8Array>, textFiles: Record<string, string>;
+      if (/\.html?$/i.test(file.name)) {
+        entries = {}; textFiles = {};
+        const files = [file, ...companions];
+        if (files.reduce((n,f) => n + f.size,0) > 128 * 1024 * 1024) throw new Error("too large");
+        for (const input of files) {
+          if (!safePackagePath(input.name) || entries[input.name]) throw new Error("unsafe or duplicate");
+          entries[input.name] = new Uint8Array(await input.arrayBuffer());
+          if (/\.html?$/i.test(input.name)) textFiles[input.name] = await input.text();
+        }
+      } else ({ entries, textFiles } = await readListeningZipAsync(new Uint8Array(await file.arrayBuffer()), signal));
       if (signal.aborted) return;
       const next = { file, entries, textFiles };
       setLoaded(next);
@@ -194,8 +206,6 @@ export function ListeningImport({ dict }: { dict: Pick<Dictionary, "listeningImp
           <option value="essential">Essential Recordings</option>
           <option value="academic">Academic Listening</option>
           <option value="general">General Listening</option>
-          <option value="question_types">Question types</option>
-          <option value="mcq">MCQ Mastery</option>
         </select>
       </label>
       <label className="block">
@@ -203,11 +213,13 @@ export function ListeningImport({ dict }: { dict: Pick<Dictionary, "listeningImp
         <input
           className="mt-2 block"
           type="file"
-          accept=".zip,application/zip"
+          accept=".zip,.html,.htm,.mp3,.m4a,.wav,.ogg,.webm,.png,.jpg,.webp"
+          multiple
           disabled={!!busy}
           onChange={(e) => {
-            const file = e.target.files?.[0];
-            if (file) void readZip(file);
+            const files = Array.from(e.target.files ?? []);
+            const file = files.find(f => /\.(zip|html?)$/i.test(f.name));
+            if (file) void readZip(file, files.filter(f => f !== file));
           }}
         />
       </label>
@@ -268,31 +280,7 @@ export function ListeningImport({ dict }: { dict: Pick<Dictionary, "listeningImp
           <p className="text-sm">{fill(t.family, { family: result.family === "canonical" ? t.familyCanonical : t.familyLegacy })}</p>
           {result.canonicalFallback && <p role="status" className="text-sm" data-canonical-fallback>{t.canonicalFallback}</p>}
           <p className="text-sm">{fill(t.audioUsed, { path: result.audio.path, format: result.audio.format })}</p>
-          <div data-transcript-summary>
-            <p className="font-medium">{t.transcripts}</p>
-            <ul className="text-sm">
-              {result.transcriptStatus.map((s) => (
-                <li key={s.section} data-transcript-section={s.section} data-present={s.present}>
-                  {fill(t.sectionN, { n: s.section })}: {s.present ? t.present : t.missing}
-                </li>
-              ))}
-            </ul>
-            {result.unassignedTranscriptFiles.length > 0 && (
-              <p className="text-sm">{fill(t.unassigned, { files: result.unassignedTranscriptFiles.join(", ") })}</p>
-            )}
-          </div>
-          {result.blockers.length > 0 && (
-            <div role="status" data-publication-blockers>
-              <strong>{t.blockedTitle}</strong>
-              <ul>
-                {result.blockers.map((b) => (
-                  <li key={`${b.kind}-${b.section}`}>
-                    {fill(b.kind === "transcript_missing" ? t.blockMissing : t.blockReview, { n: b.section })}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+          <ListeningTryout dict={dict} key={result.payload.testId} payload={result.payload} audioFile={result.audioFile} image={result.image} />
           <button type="button" className="btn-primary" disabled={!!busy || !!id} onClick={() => void upload()}>
             {t.upload}
           </button>

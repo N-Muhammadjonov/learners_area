@@ -26,12 +26,13 @@ export default async function Hub({
   const progress = await fullListeningProgress(user.id, id);
   const dict = getDictionary(await getLocale());
   const t = dict.fullListeningHub;
+  const availableActivities = progress.activities.filter((a) => a.activity <= 2 || (a.activity === 3 && detail.pkg.payload.keyword1.length) || (a.activity === 4 && detail.pkg.payload.keyword2.length) || (a.activity === 5 && detail.pkg.payload.vocabulary.length));
   const blockers = publicationBlockers(detail.pkg.payload);
   return (
     <div className="mx-auto max-w-[1840px] space-y-6">
       <BackLink fallbackHref="/listening" label={dict.nav.listening} />
       <h1 className="font-display text-3xl">{detail.test.title}</h1>
-      <p>{fill(t.summary, { min: Math.round(detail.pkg.payload.audio.durationSec / 60) })}</p>
+      <p>{fill(t.testMeta, { parts: detail.pkg.payload.sections.length, questions: detail.pkg.payload.questions.length, min: Math.round(detail.pkg.payload.audio.durationSec / 60) })}</p>
       {detail.test.publicationState === "draft" && (
         <p role="status" className="card">
           {t.qaDraft}{" "}
@@ -45,13 +46,14 @@ export default async function Hub({
         </p>
       )}
       <p>
-        {fill(t.completedCount, { done: progress.activities.filter((a) => a.complete).length })}
+        {fill(t.completedCount, { done: availableActivities.filter((a) => a.complete).length, total: availableActivities.length })}
       </p>
       <div className="full-listening-grid">
         {t.activities.map((name, index) => {
+          if ((index === 2 && !detail.pkg.payload.keyword1.length) || (index === 3 && !detail.pkg.payload.keyword2.length) || (index === 4 && !detail.pkg.payload.vocabulary.length)) return null;
           const activity = index + 1;
           const state = progress.activities[index]!;
-          const locked = activity > 1 && !progress.exam;
+          const locked = false;
           return (
             <article key={name} className="card flex min-h-64 flex-col gap-4">
               <span aria-hidden="true">

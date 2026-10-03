@@ -33,13 +33,13 @@ export type ListeningExamState = {
 };
 
 /**
- * Pure decision. FULL_EXAM and KEYWORD_PRACTICE never get contextual lookup.
- * Study modes need a submitted exam (staff may inspect content), and are closed
+ * Pure decision. Only FULL_EXAM forbids contextual lookup.
+ * Study modes support independent prepared exercises, and are closed
  * while an exam attempt for the same test is open — a second tab cannot become
  * a dictionary for the running exam.
  */
 export function lexicalAssistanceAllowed(mode: ListeningMode, state: ListeningExamState): boolean {
-  if (mode === "FULL_EXAM" || mode === "KEYWORD_PRACTICE") return false;
+  if (mode === "FULL_EXAM") return false;
   if (state.examInProgress) return false;
-  return state.submitted || state.staff;
+  return true;
 }

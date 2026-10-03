@@ -42,8 +42,8 @@ test("5 run/runs/running/ran are forms of ONE verb unit; the surface form is pre
     const testId = await listeningTest(d);
     const text = "She runs every day. He ran yesterday. Running is fun. They run.";
     const result = await ingestListeningOccurrences(d.db, testId, { testId: "qa", sections: [{ number: 1, title: "s", transcript: text }] as never, vocabulary: [entry("run", "verb", "To move fast on foot", text)] });
-    assert.equal(result.resolved, 4);
-    const rows = await d.query<{ surface_form: string; lexeme_id: string; lexical_unit_id: string }>("select surface_form, lexeme_id, lexical_unit_id from lexical_occurrences order by start_char");
+    assert.equal(result.resolved, 8, "four transcript forms plus four authored example forms");
+    const rows = await d.query<{ surface_form: string; lexeme_id: string; lexical_unit_id: string }>("select surface_form, lexeme_id, lexical_unit_id from lexical_occurrences where segment_key like 's%' order by start_char");
     assert.deepEqual(rows.map((r) => r.surface_form), ["runs", "ran", "Running", "run"], "the exact surface (case included) is kept on each occurrence");
     assert.equal(new Set(rows.map((r) => r.lexeme_id)).size, 1);
     assert.equal(new Set(rows.map((r) => r.lexical_unit_id)).size, 1);
@@ -92,7 +92,7 @@ test("9 function words are filtered as single words, but MWEs containing them ar
     const text = "It rained on and off all day on the coast.";
     const result = await ingestListeningOccurrences(d.db, testId, { testId: "qa", sections: [{ number: 1, title: "s", transcript: text }] as never, vocabulary: [entry("on", "prep", "Touching a surface", text), entry("on and off", "adv", "From time to time", text)] });
     assert.equal(result.skippedFunctionWords, 1);
-    const rows = await d.query<{ surface_form: string }>("select surface_form from lexical_occurrences");
+    const rows = await d.query<{ surface_form: string }>("select surface_form from lexical_occurrences where segment_key like 's%'");
     assert.deepEqual(rows.map((r) => r.surface_form), ["on and off"], "the bare 'on' in 'on the coast' is not a vocabulary occurrence");
   } finally { await d.close(); }
 });
@@ -104,8 +104,8 @@ test("3 one-meaning trap: only the financial 'bank' is authored, 'They sat on th
     const testId = await listeningTest(d);
     const text = "I opened an account at the bank. Later they sat on the river bank.";
     const result = await ingestListeningOccurrences(d.db, testId, { testId: "qa", sections: [{ number: 1, title: "s", transcript: text }] as never, vocabulary: [entry("bank", "n", "An institution that keeps money", "I opened an account at the bank.")] });
-    assert.deepEqual([result.resolved, result.unresolved], [1, 1]);
-    const rows = await d.query<{ sentence_text: string; resolution_status: string; lexeme_id: string | null; lexical_unit_id: string | null }>("select sentence_text, resolution_status, lexeme_id, lexical_unit_id from lexical_occurrences order by start_char");
+    assert.deepEqual([result.resolved, result.unresolved], [2, 1]);
+    const rows = await d.query<{ sentence_text: string; resolution_status: string; lexeme_id: string | null; lexical_unit_id: string | null }>("select sentence_text, resolution_status, lexeme_id, lexical_unit_id from lexical_occurrences where segment_key like 's%' order by start_char");
     assert.equal(rows[1]!.sentence_text, "Later they sat on the river bank.");
     assert.equal(rows[1]!.resolution_status, "unresolved");
     assert.equal(rows[1]!.lexeme_id, null, "the river bank never inherits the financial sense");
@@ -121,7 +121,7 @@ test("4/12 two senses of 'bank' authored for two places stay separate senses of 
     const money = "She paid the cheque into the bank.";
     const river = "Ducks rested on the bank of the river.";
     await ingestListeningOccurrences(d.db, testId, { testId: "qa", sections: [{ number: 2, title: "s", transcript: `${money} ${river}` }] as never, vocabulary: [entry("bank", "n", "An institution that keeps money", money), entry("bank", "n", "The land beside a river", river)] });
-    const rows = await d.query<{ definition_en: string; sentence_text: string; lexical_unit_id: string; lexeme_id: string }>("select l.definition_en, o.sentence_text, o.lexical_unit_id, o.lexeme_id from lexical_occurrences o join lexemes l on l.id = o.lexeme_id order by o.start_char");
+    const rows = await d.query<{ definition_en: string; sentence_text: string; lexical_unit_id: string; lexeme_id: string }>("select l.definition_en, o.sentence_text, o.lexical_unit_id, o.lexeme_id from lexical_occurrences o join lexemes l on l.id = o.lexeme_id where o.segment_key like 's%' order by o.start_char");
     assert.deepEqual(rows.map((r) => r.definition_en), ["An institution that keeps money", "The land beside a river"]);
     assert.notEqual(rows[0]!.lexeme_id, rows[1]!.lexeme_id);
     assert.equal(rows[0]!.lexical_unit_id, rows[1]!.lexical_unit_id);
@@ -146,7 +146,7 @@ test("ingestion is idempotent and spans are served per section without meanings"
     const pkg = { testId: "qa", sections: [{ number: 1, title: "a", transcript: "Prices rose sharply." }, { number: 3, title: "b", transcript: "Sales rose too." }] as never, vocabulary: [entry("rise", "verb", "To go up", "Prices rose sharply.")] };
     const first = await ingestListeningOccurrences(d.db, testId, pkg);
     const second = await ingestListeningOccurrences(d.db, testId, pkg);
-    assert.deepEqual([first.resolved, first.unresolved], [1, 1]);
+    assert.deepEqual([first.resolved, first.unresolved], [2, 1]);
     assert.deepEqual([second.resolved, second.unresolved], [0, 0], "a re-import adds nothing");
     const spans = await listeningOccurrenceSpans(d.db, testId);
     assert.deepEqual(Object.keys(spans).sort(), ["1", "3"]);

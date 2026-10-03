@@ -94,9 +94,9 @@ test("LC7 canonical transcripts are preserved", async () => {
   assert.equal(r.blockers.length, 0);
 });
 
-test("LC8 invalid metadata is not silently invented: derived values are labelled", async () => {
+test("LC8 partial authored sections are preserved; a derived source ID is labelled", async () => {
   const r = await inspect({ "01_full_exam.html": EXAM, "metadata.json": JSON.stringify({ test_id: "Bad ID!", sections: ["only one"], audio_file: "full.mp3" }), "full.mp3": MP3, ...ACTIVITIES });
-  assert.deepEqual(r.payload.sections.map((s) => s.title), ["Section 1", "Section 2", "Section 3", "Section 4"]);
+  assert.deepEqual(r.payload.sections.map((s) => s.title), ["only one"]);
   assert.match(r.payload.provenance, /metadata inferred from package contents/);
   assert.match(r.payload.testId, /^[a-z0-9-]+$/);
 });

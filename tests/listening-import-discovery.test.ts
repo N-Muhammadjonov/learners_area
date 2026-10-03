@@ -162,7 +162,7 @@ test("L12 one full transcript is split at Section headings; untied files are rep
 
 test("L13 optional transcripts are reported per section without blocking authored exercises", async () => {
   const r = await inspect({ "exam.html": examHtml(), "full.mp3": MP3, "section1_transcript.txt": "Spoken words." });
-  assert.deepEqual(r.transcriptStatus.map((s) => s.present), [true, false, false, false]);
+  assert.deepEqual(r.transcriptStatus.map((s) => s.present), [true]);
   assert.deepEqual(r.blockers.map((b) => `${b.kind}:${b.section}`), []);
 });
 

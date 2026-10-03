@@ -13,6 +13,16 @@ Continuation checkpoint after owner transcript clarification:
 - Preview actual ZIP import parsed 40 questions/five authored activities but file upload failed because object storage is not configured. Owner is configuring private R2 Preview storage; successful upload/audio delivery has NOT yet been verified.
 - Current-source receipts `gates/final-gate-1.txt` and `final-gate-2.txt` certify `c821174`: native PostgreSQL 1037/1037, UI 205/205, PGlite 949 PASS plus 88 native-only SKIP, and typecheck/lint/build/diff PASS on both runs. These remain distinct from incomplete final browser acceptance.
 
+## October 4 continuation — current scope supersedes older import/Speaking notes
+
+- Owner approved 0036 separately. Fresh native backup and PostgreSQL restore preceded apply; strict TLS, both target identities, exact migration hashes/timestamps, schema checks and preservation of all 98 table counts passed. Receipt: `receipts/preview-0036-row-preservation-2026-10-04.json`. Production untouched.
+- R2 required Preview variable names/scopes were verified on both relevant branches, without reading secret values; none are missing. Real upload on the next deployment remains pending.
+- Listening and Reading ready-source imports now offer interactive tryout before publication. Transcript, all-parts and exercise-completeness publication gates were removed per the owner. File/path/schema safety checks remain. Listening Question Types/MCQ collections and the summary rectangle were removed; Back links and contextual vocabulary cover the supported non-exam text segments.
+- Practice and Partner now read the same canonical Speaking rows, including legacy rows assigned to either channel. Authoring writes both channels without duplicate questions. Partner selects only question fields; helpers remain exclusive to Practice. Native shared-bank tests passed.
+- Practice uses per-question session-only recording/replay, helper tabs revealed by a three-second hold, native vocabulary saves and rich owner authoring. Large empty banner, disabled zero-count Part cards and STT/provider disclaimer were removed. No recording archive or AI grade was added to independent practice.
+- Fifteen original demo materials prepared for owner-authorized Preview publication: five per Part, sixty vocabulary items, original Band 8/9-style answers and ideas. Canonical draft validation passed. Publication and final browser proof remain pending.
+- Previous canonical gate receipts are historical. Two complete final-source gates are being rerun after the shared-bank changes. This is not a complete product acceptance certificate.
+
 ## Owner defects
 
 |Defect|Verified cause / finding|Change|Evidence and remaining work|

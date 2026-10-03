@@ -73,17 +73,15 @@ test("LB2 same blockers in Uzbek (Latin only)", async () => {
   assert.ok(!items.some((t) => /[\u0400-\u04FF]/.test(t ?? "")));
 });
 
-test("LB3 structured blockers and log issues come from one gate", () => {
+test("LB3 owner preview replaces transcript completeness and review blockers", () => {
   const sections = [1, 2, 3, 4].map((number) => ({
     number,
     transcript: number === 1 ? "Real text" : number === 2 ? "Text" : "   ",
     reviewRequired: number === 2,
   }));
   const p = { sections } as unknown as Parameters<typeof publicationBlockers>[0];
-  assert.deepEqual(publicationBlockers(p), [
-    { kind: "transcript_review", section: 2 },
-  ]);
-  assert.equal(publicationIssues(p).length, 1);
+  assert.deepEqual(publicationBlockers(p), []);
+  assert.equal(publicationIssues(p).length, 0);
 });
 
 test("LB4 Full Listening hub copy exists in both dictionaries with five activities", () => {

@@ -14,7 +14,7 @@ export default async function AdminReadingImportPage() {
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-4">
       <BackLink fallbackHref="/admin/reading" label={dict.common.back} />
-      <ReadingImport t={dict.readingImport} />
+      <ReadingImport dict={dict} />
     </div>
   );
 }

@@ -41,6 +41,7 @@ export function FullListeningActivity({
   initial,
   dict,
   occurrences = {},
+  segmentOccurrences = {},
   lexicalAssistance = false,
 }: {
   id: string;
@@ -52,9 +53,11 @@ export function FullListeningActivity({
   initial: Record<string, string>;
   dict: Dictionary;
   occurrences?: Record<number, OccurrenceSpan[]>;
+  segmentOccurrences?: Record<string, OccurrenceSpan[]>;
   /** Server decision from the Listening lexical policy (Review & Revision only). */
   lexicalAssistance?: boolean;
 }) {
+  const studyText = (text: string, key: string) => <ClickableText dict={dict} text={text} sourceType="listening" sourceId={id} occurrences={segmentOccurrences[key] ?? []} lexicalAssistance={lexicalAssistance} />;
   const vocabularyRequest = useScopedResponse(12000);
   const [answers, setAnswers] = useState(initial);
   const [error, setError] = useState("");
@@ -248,7 +251,7 @@ export function FullListeningActivity({
               {q && (
                 <>
                   <h2>
-                    Q{q.number}. {q.text}
+                    Q{q.number}. {studyText(q.text, `q${q.number}:text`)}
                   </h2>
                   <p>
                     Answer: {q.key}
@@ -261,7 +264,7 @@ export function FullListeningActivity({
                     {data.report?.answers.find((a) => a.number === q.number)
                       ?.userAnswer || "—"}
                   </p>
-                  <p>{q.evidence.why}</p>
+                  <div>{studyText(q.evidence.why, `q${q.number}:why`)}</div>
                   <button
                     type="button"
                     className="btn-primary"
@@ -331,9 +334,9 @@ export function FullListeningActivity({
             <article className="card listening-review-grid" key={x.q}>
               <div>
                 <h2>
-                  Q{x.q} · Section {Math.ceil(x.q / 10)}
+                  Q{x.q} · Section {data.questions?.find(q => q.number === x.q)?.section ?? 1}
                 </h2>
-                <p>{x.text}</p>
+                <div>{studyText(x.text, `k1:${x.q}:text`)}</div>
                 <button
                   type="button"
                   className="btn-secondary"
@@ -344,7 +347,7 @@ export function FullListeningActivity({
               </div>
               <div>
                 <p>{dict.fullListeningHub.activity.speakerSaid}</p>
-                <blockquote>{x.heard}</blockquote>
+                <blockquote>{studyText(x.heard, `k${activity === 3 ? 1 : 2}:${x.q}:heard`)}</blockquote>
                 <label>
                   {dict.fullListeningHub.activity.yourMatches}
                   <textarea
@@ -353,7 +356,7 @@ export function FullListeningActivity({
                     onChange={(e) => answer(String(x.q), e.target.value)}
                   />
                 </label>
-                {result && <p>Model: {x.link}</p>}
+                {result && <div>Model: {studyText(x.link, `k1:${x.q}:link`)}</div>}
               </div>
             </article>
           ))}
@@ -368,7 +371,7 @@ export function FullListeningActivity({
           {data.keyword2?.map((x) => (
             <article className="card space-y-3" key={x.q}>
               <h2>
-                Q{x.q} · Section {Math.ceil(x.q / 10)}
+                Q{x.q} · Section {data.questions?.find(q => q.number === x.q)?.section ?? 1}
               </h2>
               <button
                 type="button"
@@ -403,8 +406,8 @@ export function FullListeningActivity({
               </button>
               {revealed[x.q] && (
                 <>
-                  <blockquote>{x.heard}</blockquote>
-                  <p>{x.link}</p>
+                  <blockquote>{studyText(x.heard, `k2:${x.q}:heard`)}</blockquote>
+                  <div>{studyText(x.link, `k2:${x.q}:link`)}</div>
                 </>
               )}
             </article>
@@ -440,7 +443,7 @@ export function FullListeningActivity({
                   </h2>
                   {x.translationUz && <p>{x.translationUz}</p>}
                   <p>{x.definitionEn}</p>
-                  <p className="academic-text">{x.example}</p>
+                  <p className="academic-text">{studyText(x.example, `v:${i}:example`)}</p>
                   <p>Also said as: {x.also.join(" · ")}</p>
                   <button
                     type="button"

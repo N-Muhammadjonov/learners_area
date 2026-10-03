@@ -34,7 +34,7 @@ export async function POST(
   return NextResponse.json(
     {
       score: results.filter((r) => r.correct).length,
-      total: 40,
+      total: detail.pkg.payload.questions.length,
       results: results
         .filter((r) => parsed.data.answers[r.number]?.trim())
         .map((r) => ({

@@ -1,5 +1,5 @@
 import { db } from "@/db/client";
-import { listeningOccurrenceSpans, listeningVocabularySession } from "@/lib/services/lexical/listening-occurrences";
+import { listeningOccurrenceSpans, listeningSegmentSpans, listeningVocabularySession } from "@/lib/services/lexical/listening-occurrences";
 import { lexicalAssistanceAllowed, modeForActivity } from "@/lib/listening/lexical-policy";
 import type { McqStage } from "@/lib/services/listening/mcq-mastery";
 import {
@@ -7,11 +7,10 @@ import {
   listMcqSessions,
   getAttemptDetail,
 } from "@/lib/data/listening";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import {
   fullListeningDetail,
-  hasFullExam,
   fullListeningProgress,
   listeningExamState,
   allowedListeningSpeeds,
@@ -33,7 +32,6 @@ export default async function Activity({
   const detail = await fullListeningDetail(id, user.role);
   if (!detail) notFound();
   if (n === 1) return <FullExamStart id={id} title={detail.test.title} dict={getDictionary(await getLocale())} />;
-  if (!(await hasFullExam(user.id, id))) redirect(`/listening/tests/${id}`);
   const progress = await fullListeningProgress(user.id, id);
   // Review & Revision is the transcript study surface; the exam itself (activity 1)
   // never reaches this component, keyword drills keep their own interaction.
@@ -88,6 +86,7 @@ export default async function Activity({
       audioUrl={n === 5 ? null : detail.test.audioUrl}
       initial={progress.activities[n - 1]?.latest?.answers ?? {}}
       lexicalAssistance={lexicalAssistance}
+      segmentOccurrences={lexicalAssistance ? await listeningSegmentSpans(db, id) : {}}
       occurrences={n === 2 && lexicalAssistance ? await listeningOccurrenceSpans(db, id) : {}}
       dict={getDictionary(await getLocale())}
     />

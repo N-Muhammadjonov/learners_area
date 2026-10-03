@@ -6,7 +6,6 @@ import { requireActiveUser } from "@/lib/auth/current-user";
 import {
   allowedListeningSpeeds,
   fullListeningDetail,
-  hasFullExam,
 } from "@/lib/data/full-listening";
 import { gradePackage, normalized } from "@/lib/listening/package";
 import { isUuid } from "@/lib/validation/ids";
@@ -29,8 +28,6 @@ export async function POST(
   const detail = await fullListeningDetail(id, user.role);
   if (!detail)
     return NextResponse.json({ error: "not_found" }, { status: 404 });
-  if (!(await hasFullExam(user.id, id)))
-    return NextResponse.json({ error: "full_exam_required" }, { status: 403 });
   const parsed = schema.safeParse(await req.json().catch(() => null));
   if (!parsed.success)
     return NextResponse.json({ error: "invalid_input" }, { status: 400 });

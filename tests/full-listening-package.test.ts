@@ -119,6 +119,7 @@ test("Unsafe asset paths, out-of-range clips and foreign section are refused", (
       p.keyword2[0]!.end = 200;
     },
     (p: ReturnType<typeof fixture>) => {
+      p.sections = p.sections.filter(s => s.number !== 4);
       p.questions[1]!.section = 4;
     },
   ]) {
@@ -196,5 +197,5 @@ test("Absent canonical transcript fields default to empty without changing Scrip
   assert.deepEqual(publicationIssues(parsed), []);
   parsed.sections[0]!.transcript = "Authored transcript awaiting audio review";
   parsed.sections[0]!.reviewRequired = true;
-  assert.equal(publicationIssues(parsed).length, 1);
+  assert.equal(publicationIssues(parsed).length, 0);
 });

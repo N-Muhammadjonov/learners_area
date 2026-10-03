@@ -103,7 +103,7 @@ async function handle(req: NextRequest) {
         title: payload.title,
         createdByUserId: user.id,
         audioType: "audio",
-        publicationState: "draft",
+        publicationState: "published",
         transcript: payload.sections.map((s) => s.transcript).join("\n\n"),
         audioUrl: `/api/resources/${audio.objectKey}`,
       })

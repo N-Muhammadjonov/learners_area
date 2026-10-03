@@ -3,12 +3,14 @@ import Link from "next/link";
 import { useState } from "react";
 import type { Dictionary } from "@/lib/i18n/en";
 
-const collections = ["essential", "academic", "general", "question_types", "mcq"] as const;
+const collections = ["essential", "academic", "general"] as const;
 const fill = (t: string, v: Record<string, string | number>) => t.replace(/\{(\w+)\}/g, (_, k: string) => String(v[k] ?? ""));
 type Card = {
   id: string;
   title: string;
   duration: number;
+  sectionNumbers?: number[];
+  activityCount?: number;
   completed: number;
   started: boolean;
   collection?: string;
@@ -18,13 +20,13 @@ export function FullListeningLibrary({ cards, dict }: { cards: Card[]; dict: Dic
   const [search, setSearch] = useState("");
   const [collection, setCollection] = useState("academic");
   const [section, setSection] = useState(0);
+  const categoryOf = (card: Card) => ["question_types", "mcq"].includes(card.collection ?? "") ? "academic" : card.collection ?? "academic";
   const categoryCards = cards.filter(
-    (c) => (c.collection ?? "academic") === collection,
+    (c) => categoryOf(c) === collection,
   );
   const visible = categoryCards.filter((c) =>
-    c.title.toLowerCase().includes(search.toLowerCase()),
+    c.title.toLowerCase().includes(search.toLowerCase()) && (!section || (c.sectionNumbers ?? [1,2,3,4]).includes(section)),
   );
-  const completed = categoryCards.reduce((n, c) => n + Number(c.completed), 0);
   return (
     <section
       className="listening-library space-y-6"
@@ -45,23 +47,13 @@ export function FullListeningLibrary({ cards, dict }: { cards: Card[]; dict: Dic
             }}
           >
             {t[key]} (
-            {cards.filter((c) => (c.collection ?? "academic") === key).length})
+            {cards.filter((c) => categoryOf(c) === key).length})
           </button>
         ))}
       </nav>
-      <div className="listening-summary card flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <p className="text-3xl font-bold">{categoryCards.length}</p>
-          <p>{t.publishedOnPage}</p>
-        </div>
-        <p>{t.flow}</p>
-        <p>
-          {fill(t.activitiesCompleted, { done: completed, total: categoryCards.length * 5 })}
-        </p>
-      </div>
       <div className="flex flex-wrap items-center gap-2">
         {collection === "general" &&
-          [0, 1, 2, 3, 4].map((n) => (
+          [0, ...new Set(categoryCards.flatMap(card => card.sectionNumbers ?? [1,2,3,4]))].sort((a,b) => a-b).map((n) => (
             <button
               type="button"
               key={n}
@@ -94,15 +86,15 @@ export function FullListeningLibrary({ cards, dict }: { cards: Card[]; dict: Dic
             <p>
               {section
                 ? fill(t.sectionOf, { n: section })
-                : fill(t.fullMeta, { min: Math.round(card.duration / 60) })}
+                : fill(t.fullMeta, { parts: card.sectionNumbers?.length ?? 4, min: Math.round(card.duration / 60) })}
             </p>
             <progress
               className="w-full"
-              max={5}
+              max={card.activityCount ?? 5}
               value={Number(card.completed)}
               aria-label={fill(t.progressLabel, { title: card.title })}
             />
-            <p>{fill(t.completedOf5, { done: card.completed })}</p>
+            <p>{fill(t.completedOf5, { done: card.completed, total: card.activityCount ?? 5 })}</p>
             <Link
               className="btn-primary mt-auto"
               href={
@@ -113,7 +105,7 @@ export function FullListeningLibrary({ cards, dict }: { cards: Card[]; dict: Dic
             >
               {section
                 ? t.openSection
-                : Number(card.completed) === 5
+                : Number(card.completed) >= (card.activityCount ?? 5)
                   ? t.review
                   : card.started
                     ? t.continue

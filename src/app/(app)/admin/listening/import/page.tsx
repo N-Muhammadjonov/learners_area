@@ -19,7 +19,7 @@ export default async function AdminListeningImportPage() {
     <div className="mx-auto flex max-w-4xl flex-col gap-4">
       <BackLink fallbackHref="/admin/listening" label={dict.common.back} />
       {(await listeningSchemaReady()) ? (
-        <ListeningImport dict={{ listeningImport: dict.listeningImport, uploadErrors: dict.uploadErrors }} />
+        <ListeningImport dict={{ listeningImport: dict.listeningImport, uploadErrors: dict.uploadErrors, importPreview: dict.importPreview }} />
       ) : (
         <div className="card space-y-4">
           <h1 className="font-display text-2xl">{dict.listeningImport.title}</h1>

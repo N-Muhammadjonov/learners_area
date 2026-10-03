@@ -1,3 +1,4 @@
+import { listeningStudySegments } from "@/lib/listening/study-segments";
 import { and, eq, or } from "drizzle-orm";
 import type { db } from "@/db/client";
 import { lexemes, lexicalOccurrences, lexicalUnitPronunciations, lexicalUnits } from "@/db/schema";
@@ -108,7 +109,7 @@ export function sentenceAt(text: string, start: number, end: number): string {
  * Idempotent: senses dedupe on sense_key, occurrences on the listening offset index.
  * No timing exists in the transcripts, so start_ms/end_ms stay null (never estimated).
  */
-export async function ingestListeningOccurrences(tx: Tx, testId: string, payload: Pick<ListeningPackage, "testId" | "sections" | "vocabulary">) {
+export async function ingestListeningOccurrences(tx: Tx, testId: string, payload: Pick<ListeningPackage, "testId" | "sections" | "vocabulary"> & Partial<Pick<ListeningPackage, "questions" | "keyword1" | "keyword2">>) {
   const senses = new Map<string, { lexemeId: string; unitId: string; example: string }>();
   const candidates: SpanCandidate[] = [];
   let skippedFunctionWords = 0;
@@ -136,8 +137,8 @@ export async function ingestListeningOccurrences(tx: Tx, testId: string, payload
   }
   let resolved = 0;
   let unresolved = 0;
-  for (const section of payload.sections) {
-    const transcript = section.transcript;
+  for (const segment of listeningStudySegments(payload)) {
+    const transcript = segment.text;
     if (!transcript.trim()) continue;
     for (const span of findUnitSpans(transcript, candidates)) {
       const sentence = sentenceAt(transcript, span.start, span.end);
@@ -145,7 +146,7 @@ export async function ingestListeningOccurrences(tx: Tx, testId: string, payload
       const linked = checkedHere.length === 1 ? senses.get(checkedHere[0]!) : undefined;
       const unitIds = new Set(span.keys.map((key) => senses.get(key)?.unitId));
       const inserted = await tx.insert(lexicalOccurrences).values({
-        sourceType: "listening", listeningTestId: testId, sectionNumber: section.number, segmentKey: `s${section.number}`,
+        sourceType: "listening", listeningTestId: testId, sectionNumber: segment.section, segmentKey: segment.key,
         surfaceForm: span.surface.slice(0, 120), startChar: span.start, endChar: span.end,
         sentenceText: sentence, occurrenceType: "vocabulary", isTargetVocabulary: true,
         lexemeId: linked?.lexemeId ?? null, lexicalUnitId: unitIds.size === 1 ? [...unitIds][0] ?? null : null,
@@ -160,12 +161,12 @@ export async function ingestListeningOccurrences(tx: Tx, testId: string, payload
 /** Spans for the transcript UI of one test: id + offsets per section. No meanings. */
 export async function listeningOccurrenceSpans(tx: Tx, testId: string) {
   const rows = await tx.select({
-    id: lexicalOccurrences.id, sectionNumber: lexicalOccurrences.sectionNumber, startChar: lexicalOccurrences.startChar,
+    id: lexicalOccurrences.id, segmentKey: lexicalOccurrences.segmentKey, sectionNumber: lexicalOccurrences.sectionNumber, startChar: lexicalOccurrences.startChar,
     endChar: lexicalOccurrences.endChar, surfaceForm: lexicalOccurrences.surfaceForm,
   }).from(lexicalOccurrences).where(and(eq(lexicalOccurrences.listeningTestId, testId), eq(lexicalOccurrences.sourceType, "listening")));
   const bySection: Record<number, { id: string; startChar: number; endChar: number; surfaceForm: string }[]> = {};
   for (const row of rows) {
-    if (row.sectionNumber === null) continue;
+    if (row.sectionNumber === null || (row.segmentKey && row.segmentKey !== `s${row.sectionNumber}`)) continue;
     (bySection[row.sectionNumber] ??= []).push({ id: row.id, startChar: row.startChar, endChar: row.endChar, surfaceForm: row.surfaceForm });
   }
   return bySection;
@@ -215,4 +216,14 @@ export async function listeningVocabularySession(tx: Tx, testId: string, vocabul
     });
   }
   return items;
+}
+
+/** Drill/question spans are keyed by the exact source segment, never reused for another text. */
+export async function listeningSegmentSpans(tx: Tx, testId: string) {
+  const rows = await tx.select({ id: lexicalOccurrences.id, segmentKey: lexicalOccurrences.segmentKey,
+    startChar: lexicalOccurrences.startChar, endChar: lexicalOccurrences.endChar, surfaceForm: lexicalOccurrences.surfaceForm
+  }).from(lexicalOccurrences).where(and(eq(lexicalOccurrences.listeningTestId, testId), eq(lexicalOccurrences.sourceType, "listening")));
+  const result: Record<string, { id: string; startChar: number; endChar: number; surfaceForm: string }[]> = {};
+  for (const row of rows) if (row.segmentKey) (result[row.segmentKey] ??= []).push(row);
+  return result;
 }

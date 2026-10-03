@@ -51,7 +51,7 @@ async function listeningFixture(authorId: string, transcript: string, vocabulary
   const payload = { testId: `qa2-${tag}`, sections: [{ number: section, title: "QA2", transcript }], vocabulary, questions: [] };
   await db.execute(sql`insert into listening_packages (test_id, source_id, payload, audio_object_key, source_hash) values (${testRow!.id}, ${`qa2-${tag}`}, ${JSON.stringify(payload)}::jsonb, 'qa2-audio', ${"0".repeat(64)})`);
   const lexical = await db.transaction((tx) => ingestListeningOccurrences(tx, testRow!.id, payload as never));
-  const occurrences = await db.select().from(lexicalOccurrences).where(eq(lexicalOccurrences.listeningTestId, testRow!.id)).orderBy(lexicalOccurrences.startChar);
+  const occurrences = await db.select().from(lexicalOccurrences).where(and(eq(lexicalOccurrences.listeningTestId, testRow!.id), eq(lexicalOccurrences.segmentKey, `s${section}`))).orderBy(lexicalOccurrences.startChar);
   return { testId: testRow!.id, occurrences, lexical };
 }
 
@@ -269,7 +269,7 @@ test("M21 Full Exam reveals nothing: exam components carry no lexical code or tr
   }
   for (const state of [{ submitted: true, examInProgress: false, staff: true }, { submitted: false, examInProgress: false, staff: false }]) {
     assert.equal(lexicalAssistanceAllowed("FULL_EXAM", state), false);
-    assert.equal(lexicalAssistanceAllowed("KEYWORD_PRACTICE", state), false);
+    assert.equal(lexicalAssistanceAllowed("KEYWORD_PRACTICE", state), true);
   }
   assert.equal(modeForActivity(1), "FULL_EXAM");
   isolated();
@@ -284,13 +284,13 @@ test("M21 Full Exam reveals nothing: exam components carry no lexical code or tr
   assert.equal(during?.snapshot, null);
 });
 
-test("M22 mode transition: never-taken → locked; exam open → locked; submitted → resolved; a NEW open attempt re-locks", { skip: !enabled }, async () => {
+test("M22 independent study: never-taken → resolved; exam open → locked; submitted → resolved; a NEW open attempt re-locks", { skip: !enabled }, async () => {
   isolated();
   const author = await learner("admin");
   const student = await learner();
   const l = await listeningFixture(author.id, "Firms borrow from a bank.", [vocab("bank", "noun", `An institution that keeps money ${randomUUID()}`, "Firms borrow from a bank.")]);
   const occ = l.occurrences[0]!.id;
-  assert.equal((await resolveOccurrence(student, "listening", l.testId, occ))?.status, "locked");
+  assert.equal((await resolveOccurrence(student, "listening", l.testId, occ))?.status, "resolved");
   const attempt = await examAttempt(student.id, l.testId, "in_progress");
   assert.equal((await resolveOccurrence(student, "listening", l.testId, occ))?.status, "locked");
   await db.update(listeningAttempts).set({ status: "completed", submittedAt: new Date() }).where(eq(listeningAttempts.id, attempt.id));

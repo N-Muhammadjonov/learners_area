@@ -206,7 +206,7 @@ test("Library search and category filters operate locally without reloading or f
           .click(),
       );
       assert.equal(document.querySelectorAll("article").length, 0);
-      assert.ok(document.body.textContent?.includes("Section 1"));
+      assert.equal(document.body.textContent?.includes("Section 1"), false);
       assert.ok(document.body.textContent?.includes("No matching published"));
     },
   );
@@ -278,6 +278,7 @@ test("Controlled study offers audio controls and lexical text without enabling a
         questions: [
           {
             number: 1,
+            section: 1,
             text: "Weekly rent",
             instruction: "One word",
             options: [],
@@ -330,12 +331,13 @@ test("Controlled study restores only this owner/source draft and retains it when
         questions: [
           {
             number: 1,
+            section: 1,
             text: "Weekly rent",
             instruction: "One word",
             options: [],
           },
         ],
-        sections: [],
+        sections: [{ number: 1, title: "Section 1", transcript: "" }],
         dict: en,
       }),
       async () => {
@@ -367,7 +369,7 @@ test("Same study content before exam submission: plain text, no word targets, no
     await mount(
       React.createElement(FullListeningStudy, {
         id, userId: "qa-study", title: "Study", audioUrl: "/canonical.mp3", imageUrl: null,
-        questions: [{ number: 1, text: "Weekly rent", instruction: "One word", options: [] }],
+        questions: [{ number: 1, section: 1, text: "Weekly rent", instruction: "One word", options: [] }],
         sections: [{ number: 1, title: "Rent", transcript: "Weekly rent is eighty." }],
         occurrences: { 1: [{ id: "occ-rent", startChar: 7, endChar: 11, surfaceForm: "rent" }] },
         dict: en,

@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { ReadingTryout } from "@/components/import/ReadingTryout";
+import { generalReadingBundle } from "@/lib/reading/import-schema";
 import type { Dictionary } from "@/lib/i18n/en";
 
 import { READING_SOURCE_ACCEPT, readReadingSource, type ReadingSource } from "@/lib/import/reading-source";
@@ -8,7 +10,8 @@ import { requestJson } from "@/lib/http/client-request";
 
 type Result = { setId: string; created: boolean; dryRun: boolean; passages: { passageNo: number; resolved: number; unresolved: number }[] };
 
-export function ReadingImport({ t }: { t: Dictionary["readingImport"] }) {
+export function ReadingImport({ dict }: { dict: Dictionary }) {
+  const t = dict.readingImport;
   const active = useRef<AbortController | null>(null);
   const flight = useRef(false);
   useEffect(() => () => { active.current?.abort(); active.current = null; }, []);
@@ -46,7 +49,7 @@ export function ReadingImport({ t }: { t: Dictionary["readingImport"] }) {
     setBusy(true);
     setError("");
     try {
-      const res = await requestJson<Result>("/api/admin/reading/import", { body: { bundle, dryRun }, signal: controller.signal });
+      const res = await requestJson<Result>("/api/admin/reading/import", { body: { bundle: { ...generalReadingBundle.parse(bundle), publish: !dryRun }, dryRun }, signal: controller.signal });
       if (active.current !== controller || controller.signal.aborted) return;
       if (!res.ok) {
         const code = String(res.error ?? "unknown") as keyof typeof t.errors;
@@ -74,11 +77,10 @@ export function ReadingImport({ t }: { t: Dictionary["readingImport"] }) {
       </label>
       {name && <p className="text-sm">{name}</p>}
       {source?.kind === "supplemental" && <div role="status" className="space-y-2"><p>{t.supplemental}</p><Link className="btn-secondary" href="/admin/materials">{t.manageMaterials}</Link>{source.textPreview && <pre className="max-h-48 overflow-auto whitespace-pre-wrap text-sm">{source.textPreview}</pre>}</div>}
-      {source?.kind === "structured" && <details><summary>{t.preview}</summary><pre className="max-h-64 overflow-auto whitespace-pre-wrap text-xs">{JSON.stringify(source.bundle, null, 2)}</pre></details>}
+      {source?.kind === "structured" && <ReadingTryout dict={dict} key={name} bundle={source.bundle} />}
       {error && <p role="alert" className="text-red-700">{error}</p>}
       <div className="flex flex-wrap gap-2">
-        <button type="button" className="btn-secondary min-h-11" disabled={!bundle || busy} onClick={() => void send(true)}>{t.check}</button>
-        <button type="button" className="btn-primary min-h-11" disabled={!bundle || busy || !result?.dryRun} onClick={() => void send(false)}>{t.import}</button>
+        <button type="button" className="btn-primary min-h-11" disabled={!bundle || busy || !!result || !generalReadingBundle.safeParse(bundle).success} onClick={() => void send(false)}>{t.import}</button>
       </div>
       {result && (
         <div role="status" data-reading-import-result>

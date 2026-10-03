@@ -1,4 +1,5 @@
 import "server-only";
+import { listeningStudySegments } from "@/lib/listening/study-segments";
 import { and, eq, isNull } from "drizzle-orm";
 import { generalMembership } from "@/lib/data/general-reading";
 import { db } from "@/db/client";
@@ -99,7 +100,7 @@ export async function resolveListeningOccurrence(user: { id: string; role: Role 
     where: and(eq(lexicalOccurrences.id, occurrenceId), eq(lexicalOccurrences.listeningTestId, testId), eq(lexicalOccurrences.sourceType, "listening")),
   });
   if (!occurrence || occurrence.sectionNumber === null) return null;
-  const transcript = detail.pkg.payload.sections.find((section) => section.number === occurrence.sectionNumber)?.transcript ?? "";
+  const transcript = listeningStudySegments(detail.pkg.payload).find(segment => segment.key === (occurrence.segmentKey ?? `s${occurrence.sectionNumber}`) && segment.section === occurrence.sectionNumber)?.text ?? "";
   if (occurrence.startChar < 0 || occurrence.endChar <= occurrence.startChar
     || transcript.slice(occurrence.startChar, occurrence.endChar).toLowerCase() !== occurrence.surfaceForm.toLowerCase()) return null;
   const base = {

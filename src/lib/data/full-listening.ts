@@ -88,6 +88,8 @@ export async function fullListeningCards(userId: string, page = 1) {
       title: listeningTests.title,
       sourceId: listeningPackages.sourceId,
       collection: sql<string>`coalesce(${listeningPackages.payload}->>'collection', 'academic')`,
+      activityCount: sql<number>`2 + case when jsonb_array_length(${listeningPackages.payload}->'keyword1') > 0 then 1 else 0 end + case when jsonb_array_length(${listeningPackages.payload}->'keyword2') > 0 then 1 else 0 end + case when jsonb_array_length(${listeningPackages.payload}->'vocabulary') > 0 then 1 else 0 end`,
+      sectionNumbers: sql<number[]>`(select jsonb_agg((s->>'number')::integer) from jsonb_array_elements(${listeningPackages.payload}->'sections') s)`,
       duration: sql<number>`(${listeningPackages.payload}->'audio'->>'durationSec')::real`,
       createdAt: listeningTests.createdAt,
       completed: sql<number>`(case when exists(select 1 from listening_attempts a where a.test_id=${listeningTests.id} and a.user_id=${userId} and a.status='completed') then 1 else 0 end) + (select count(distinct r.activity)::integer from listening_activity_runs r where r.test_id=${listeningTests.id} and r.user_id=${userId} and r.completed=true and r.speed_rate is null)`,

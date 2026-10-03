@@ -10,6 +10,7 @@ import { requestJson } from "@/lib/http/client-request";
 import type { Dictionary } from "@/lib/i18n/en";
 type Question = {
   number: number;
+  section: number;
   text: string;
   instruction: string;
   options: string[];
@@ -25,6 +26,7 @@ export function FullListeningStudy({
   questions,
   sections,
   occurrences = {},
+  segmentOccurrences = {},
   lexicalAssistance = false,
   dict,
   initialSection = 1,
@@ -39,13 +41,14 @@ export function FullListeningStudy({
   sections: { number: number; title: string; transcript: string }[];
   /** Server-proven transcript spans per section (0029); words outside them resolve as unchecked. */
   occurrences?: Record<number, OccurrenceSpan[]>;
+  segmentOccurrences?: Record<string, OccurrenceSpan[]>;
   /** Server decision from the Listening lexical policy; false renders plain text. */
   lexicalAssistance?: boolean;
   dict: Dictionary;
   initialSection?: number;
 }) {
   const [section, setSection] = useState(
-      initialSection >= 1 && initialSection <= 4 ? initialSection : 1,
+      sections.some(s => s.number === initialSection) ? initialSection : sections[0]?.number ?? 1,
     ),
     [answers, setAnswers] = useState<Record<string, string>>({}),
     [result, setResult] = useState<{
@@ -161,7 +164,7 @@ export function FullListeningStudy({
         </label>
       </header>
       <nav className="flex flex-wrap gap-2" aria-label={dict.formCopy.sections}>
-        {[1, 2, 3, 4].map((n) => (
+        {sections.map(({ number: n }) => (
           <button
             type="button"
             key={n}
@@ -186,17 +189,17 @@ export function FullListeningStudy({
             />
           )}
           {questions
-            .filter((q) => Math.ceil(q.number / 10) === section)
+            .filter((q) => q.section === section)
             .map((q) => (
               <article key={q.number} className="space-y-2">
                 <p className="text-sm font-semibold">{q.instruction}</p>
                 <h2 className="font-bold">Q{q.number}</h2>
-                <ClickableText {...textProps} text={q.text} />
+                <ClickableText {...textProps} occurrences={segmentOccurrences[`q${q.number}:text`] ?? []} text={q.text} />
                 {q.options.length ? (
                   <>
                     <div className="space-y-1">
-                      {q.options.map((o) => (
-                        <ClickableText key={o} {...textProps} text={o} />
+                      {q.options.map((o, optionIndex) => (
+                        <ClickableText key={o} {...textProps} occurrences={segmentOccurrences[`q${q.number}:option:${optionIndex}`] ?? []} text={o} />
                       ))}
                     </div>
                     <label>

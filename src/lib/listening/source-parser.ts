@@ -72,7 +72,7 @@ export function convertLegacyPackage(
   // never invented, and the provenance says so.
   let parsedMeta: { test_id?: string; sections?: string[]; audio_file?: string; map_file?: string; source_identity?: string; internal_provenance?: string } | null = null;
   try { parsedMeta = JSON.parse(textFile(files, "metadata.json") ?? textFile(files, "manifest.json") ?? "null"); } catch { parsedMeta = null; }
-  const inferred = !parsedMeta?.test_id || !Array.isArray(parsedMeta.sections) || parsedMeta.sections.length !== 4;
+  const inferred = !parsedMeta?.test_id || !/^[a-z0-9-]{1,80}$/.test(parsedMeta.test_id) || !Array.isArray(parsedMeta.sections) || parsedMeta.sections.length === 0;
   const meta = {
     test_id: parsedMeta?.test_id && /^[a-z0-9-]{1,80}$/.test(parsedMeta.test_id) ? parsedMeta.test_id : slugTestId(parsedMeta?.test_id ?? options.fallbackTestId ?? "listening-import"),
     sections: !inferred ? parsedMeta!.sections! : [1, 2, 3, 4].map((n) => `Section ${n}`),
@@ -89,17 +89,22 @@ export function convertLegacyPackage(
   const doc = read(
     html.replace(/\s(?:src|href|srcset)\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, ""),
   );
+  const optionalJson = <T,>(source: string, marker: string, fallback: T): T => {
+    const name = marker.replace(/^(?:const|let|var)\s+|^window\./, "").replace(/\s*=\s*$/, "").trim();
+    return new RegExp(`\\b${name}\\s*=`).test(source) ? jsonLiteral(source, marker) as T : fallback;
+  };
   const keys = jsonLiteral(html, "const KEY =") as Record<string, string>;
-  const alt = jsonLiteral(html, "const ALT =") as Record<string, string[]>;
+  const alt = optionalJson(html, "const ALT =", {}) as Record<string, string[]>;
   const modern = !/\bPAIR_OF\s*=/.test(html) && /\bPAIRS\s*=/.test(html);
   const pairAnswers = modern ? jsonLiteral(html, "const PAIRS =") as Record<string, string[]> : null;
   const pairs = modern ? Object.fromEntries(Object.keys(pairAnswers!).map(n => [n, [Number(n) % 2 ? Number(n) + 1 : Number(n) - 1]]))
-    : jsonLiteral(html, "const PAIR_OF =") as Record<string, number[]>;
-  const reviewRows = modern ? jsonLiteral(textFile(files, "02_review_revision.html") ?? "", "const DATA =") as {q: number; at: number; why: string}[] : null;
+    : optionalJson(html, "const PAIR_OF =", {}) as Record<string, number[]>;
+  const reviewRows = modern ? optionalJson(textFile(files, "02_review_revision.html") ?? "", "const DATA =", []) as {q: number; at: number; why: string}[] : null;
   const evidence = reviewRows ? Object.fromEntries(reviewRows.map(row => [row.q, row]))
-    : jsonLiteral(html, "window.RS_WHY =") as Record<string, { at: number; why: string }>;
-  const questions = Array.from({ length: 40 }, (_, i) => {
-    const n = i + 1;
+    : optionalJson(html, "window.RS_WHY =", {}) as Record<string, { at: number; why: string }>;
+  const numbers = [...new Set(Array.from(doc.querySelectorAll("input,select,textarea")).map(input => Number(/^[l](\d+)$/.exec(input.id || input.getAttribute("name") || "")?.[1])).filter(n => n >= 1 && n <= 40))].sort((a, b) => a - b);
+  const sectionElements = Array.from(doc.querySelectorAll(".lp,.exam-part"));
+  const questions = numbers.map((n) => {
     const input =
       doc.getElementById(`l${n}`) ?? doc.querySelector(`[name="l${n}"]`);
     if (!input) throw new Error(`Q${n}: source control missing`);
@@ -146,11 +151,10 @@ export function convertLegacyPackage(
         .at(-1)
         ?.textContent?.replace(/\s+/g, " ")
         .trim() ?? "";
-    const e = evidence[n];
-    if (!e) throw new Error(`Q${n}: explanation missing`);
+    const e = evidence[n] ?? { at: 0, why: "" };
     return {
       number: n,
-      section: Math.ceil(n / 10),
+      section: sectionElements.indexOf(section) + 1,
       text,
       instruction,
       options: optionTexts.length ? optionTexts : selectOptions,
@@ -161,20 +165,20 @@ export function convertLegacyPackage(
     };
   });
   const keyword1 = (
-    jsonLiteral(
+    optionalJson(
       textFile(files, "03_keyword_match_1.html") ?? "",
-      "const KEYS =",
+      "const KEYS =", [],
     ) as ListeningPackage["keyword1"]
   ).map((x) => ({ ...x, text: plain(x.text) }));
-  const keyword2Raw = jsonLiteral(textFile(files, "04_keyword_match_2.html") ?? "", "const ITEMS=") as Record<string, unknown>[];
+  const keyword2Raw = optionalJson(textFile(files, "04_keyword_match_2.html") ?? "", "const ITEMS=", []) as Record<string, unknown>[];
   const keyword2 = modern ? keyword2Raw.map(row => ({ q: row.q, at: row.at, end: row.end,
     heard: plain(String(row.evidence ?? "")), link: plain(String(row.text ?? "")), answer: row.answer })) : keyword2Raw;
   const vocabularyHtml = textFile(files, "05_vocabulary_session.html") ?? "";
-  const vocabulary = modern ? (jsonLiteral(vocabularyHtml, "const V =") as Record<string, unknown>[]).map(row => ({
+  const vocabulary = modern ? (optionalJson(vocabularyHtml, "const V =", []) as Record<string, unknown>[]).map(row => ({
     word: row.word, pos: row.pos, uz: row.uz, def: row.definition, ex: row.example,
     also: String(row.para ?? "").split(";").map(x => x.trim()).filter(Boolean),
     // This source did not author a quiz. Do not fabricate one.
-  })) : jsonLiteral(vocabularyHtml, "const ITEMS =");
+  })) : optionalJson(vocabularyHtml, "const ITEMS =", []);
   // Real transcript text only: canonical data/transcript.json first, then any
   // transcript-looking txt/md/html/xml/json/vtt/srt file that can be tied to a
   // section. Scripts are stripped before text extraction and never executed.
@@ -195,9 +199,9 @@ export function convertLegacyPackage(
     audio: { path: meta.audio_file, durationSec },
     imagePath: meta.map_file ?? null,
     ...(doc.querySelector("svg.la-map") ? {mapDiagram: extractMapDiagram(doc.querySelector("svg.la-map")!)} : {}),
-    sections: meta.sections.map((title: string, i: number) => ({
+    sections: Array.from({ length: Math.max(sectionElements.length, parsedMeta?.sections?.length ?? 0) }, (_, i) => ({
       number: i + 1,
-      title,
+      title: parsedMeta?.sections?.[i] ?? sectionElements[i]?.querySelector("h1,h2,h3")?.textContent?.trim() ?? `Section ${i + 1}`,
       transcript: transcripts.find((s) => s.number === i + 1)?.text ?? "",
       reviewRequired:
         transcripts.find((s) => s.number === i + 1)?.reviewRequired ?? false,

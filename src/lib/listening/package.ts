@@ -39,7 +39,7 @@ export const listeningPackageSchema = z
           reviewRequired: z.boolean().default(false),
         }),
       )
-      .length(4),
+      .min(1).max(4),
     questions: z
       .array(
         z.object({
@@ -51,11 +51,11 @@ export const listeningPackageSchema = z
           key: text,
           alternatives: z.array(z.string().max(500)).max(20),
           pair: z.array(z.number().int().min(1).max(40)).max(2),
-          evidence: z.object({ at: z.number().nonnegative(), why: text }),
+          evidence: z.object({ at: z.number().nonnegative(), why: z.string().max(12000) }),
         }),
       )
-      .length(40),
-    keyword1: z.array(clip.extend({ text })).min(1).max(40),
+      .min(1).max(40),
+    keyword1: z.array(clip.extend({ text })).min(0).max(40),
     keyword2: z
       .array(
         clip.extend({
@@ -63,7 +63,7 @@ export const listeningPackageSchema = z
           correct: z.number().int().nonnegative(),
         }).or(clip.extend({ answer: text })),
       )
-      .min(1)
+      .min(0)
       .max(40),
     vocabulary: z
       .array(
@@ -77,17 +77,17 @@ export const listeningPackageSchema = z
           quiz: quiz.optional(),
         }),
       )
-      .min(1)
+      .min(0)
       .max(40),
   })
   .superRefine((v, ctx) => {
     const fail = (message: string) => ctx.addIssue({ code: "custom", message });
-    if (new Set(v.sections.map((s) => s.number)).size !== 4)
+    if (new Set(v.sections.map((s) => s.number)).size !== v.sections.length)
       fail("Duplicate section");
-    if (new Set(v.questions.map((q) => q.number)).size !== 40)
-      fail("Questions must be Q1–Q40 exactly once");
+    if (new Set(v.questions.map((q) => q.number)).size !== v.questions.length)
+      fail("Duplicate question number");
     for (const q of v.questions) {
-      if (q.section !== Math.ceil(q.number / 10))
+      if (!v.sections.some((section) => section.number === q.section))
         fail(`Q${q.number}: wrong section`);
       if (q.evidence.at >= v.audio.durationSec)
         fail(`Q${q.number}: evidence outside audio`);
@@ -137,13 +137,9 @@ export function safePackagePath(path: string) {
   );
 }
 export type PublicationBlocker = { kind: "transcript_missing" | "transcript_review"; section: number };
-/** Full transcripts are optional; supplied transcripts still require any requested audio review. */
-export function publicationBlockers(p: ListeningPackage): PublicationBlocker[] {
-  return p.sections.flatMap((s): PublicationBlocker[] =>
-    s.transcript.trim() && s.reviewRequired
-      ? [{ kind: "transcript_review", section: s.number }]
-      : [],
-  );
+/** Author reviews the interactive preview; transcript completeness never blocks publication. */
+export function publicationBlockers(_p: ListeningPackage): PublicationBlocker[] {
+  return [];
 }
 /** Technical (English) form for API payloads and logs only. */
 export function publicationIssues(p: ListeningPackage) {
