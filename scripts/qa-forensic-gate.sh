@@ -56,5 +56,8 @@ step typecheck npm run -s typecheck
 step lint npm run -s lint
 step build npm run -s build
 step diff-check git diff --check
+# Committed whitespace defects too (working-tree check alone missed EOF blank lines in 3 files).
+QA_BASE=${QA_BASE:-0f4a6eaed94da4254789c3c89f8c2871ab96959e}
+step diff-check-range git diff --check "$QA_BASE" HEAD -- src tests scripts
 echo "GATE $([ $FAIL = 0 ] && echo PASS || echo FAIL) — logs in $OUT" | tee -a "$OUT/summary.txt"
 exit $FAIL

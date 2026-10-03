@@ -607,4 +607,3 @@ export async function labelsForTexts(
     .where(inArray(retentionTexts.id, textIds));
   return new Map(rows.map((row) => [row.id, { label: row.internalLabel, level: row.level }]));
 }
-

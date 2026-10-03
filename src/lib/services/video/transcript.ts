@@ -42,4 +42,3 @@ export function parseTranscript(text: string): { startSeconds: number; text: str
   }
   return lines;
 }
-

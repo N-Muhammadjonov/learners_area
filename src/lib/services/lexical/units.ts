@@ -73,4 +73,3 @@ export async function backfillLexicalForms(tx: Tx): Promise<{ units: number; for
   }
   return { units: units.length, forms };
 }
-
