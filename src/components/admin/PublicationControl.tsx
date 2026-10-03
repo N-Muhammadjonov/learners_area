@@ -54,8 +54,22 @@ export function PublicationControl({
     setBusy(false);
     setIssues([]);
     if (!response || !response.ok) {
-      const data = response ? ((await response.json().catch(() => null)) as { issues?: string[] } | null) : null;
-      if (issueLabels && data?.issues?.length) setIssues(data.issues.map((code) => issueLabels[code]).filter((x): x is string => Boolean(x)));
+      const data = response
+        ? ((await response.json().catch(() => null)) as {
+            issues?: string[];
+            blockers?: { kind?: string; section?: number }[];
+          } | null)
+        : null;
+      if (data?.blockers?.length) {
+        // Listening publish gate: structured, localized here (the English `issues` are log text only).
+        const l = dict.listeningImport;
+        setIssues(
+          data.blockers.map((b) =>
+            (b.kind === "transcript_missing" ? l.blockMissing : l.blockReview).replace("{n}", String(b.section ?? "?")),
+          ),
+        );
+      } else if (issueLabels && data?.issues?.length)
+        setIssues(data.issues.map((code) => issueLabels[code]).filter((x): x is string => Boolean(x)));
       setMessage("error");
       return;
     }

@@ -4,7 +4,7 @@ import { ListeningSpeedPractice } from "./ListeningSpeedPractice";
 import { McqMastery } from "./McqMastery";
 import type { McqStage } from "@/lib/services/listening/mcq-mastery";
 import { useEffect, useRef, useState } from "react";
-import { ACTIVITY_NAMES, type ListeningPackage } from "@/lib/listening/package";
+import { type ListeningPackage } from "@/lib/listening/package";
 import { ClickableText } from "@/components/vocabulary/ClickableText";
 import type { OccurrenceSpan } from "@/lib/services/lexical/occurrence-spans";
 import type { VocabularySessionItem } from "@/lib/services/lexical/listening-occurrences";
@@ -184,7 +184,7 @@ export function FullListeningActivity({
         ← Test hub
       </Link>
       <h1 className="font-display text-3xl">
-        {title} · {ACTIVITY_NAMES[activity - 1]}
+        {title} · {dict.fullListeningHub.activities[activity - 1]}
       </h1>
       {activity !== 5 && audioUrl && (
         <audio
@@ -291,8 +291,7 @@ export function FullListeningActivity({
                     />
                   ) : (
                     <p role="status">
-                      Full transcript missing from this QA draft. Evidence
-                      extracts are not a full transcript.
+                      {dict.fullListeningHub.transcriptMissing}
                     </p>
                   )}
                 </section>

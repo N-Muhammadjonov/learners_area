@@ -2564,6 +2564,21 @@ const en = {
       yourRewrite: "Your Day-3 rewrite",
     },
   },
+  fullListeningHub: {
+    summary: "4 sections · 40 questions · {min} min · 5 activities",
+    qaDraft: "QA draft — not visible to learners yet.",
+    completedCount: "{done} / 5 completed",
+    activities: ["Full Exam", "Review & Revision", "Keyword Match I", "Keyword Match II", "Vocabulary Session"],
+    completed: "✓ Completed",
+    inProgress: "In progress",
+    notStarted: "Not started",
+    studyLink: "🎛 Controlled practice · word lookup",
+    locked: "Complete the Full Exam to unlock.",
+    exam: "🎧 IELTS Exam",
+    review: "Review / Try again",
+    start: "Start / Continue",
+    transcriptMissing: "The full transcript is missing from this QA draft. Evidence extracts are not a full transcript.",
+  },
 };
 
 export default en;

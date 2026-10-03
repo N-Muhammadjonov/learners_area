@@ -2559,6 +2559,21 @@ const uz: Dictionary = {
       yourRewrite: "3-kundagi qayta yozganingiz",
     },
   },
+  fullListeningHub: {
+    summary: "4 bo'lim · 40 savol · {min} daqiqa · 5 mashq",
+    qaDraft: "QA draft — o'quvchilarga hali ko'rinmaydi.",
+    completedCount: "{done} / 5 bajarildi",
+    activities: ["To'liq imtihon", "Tahlil va takrorlash", "Kalit so'zlar I", "Kalit so'zlar II", "Lug'at mashg'uloti"],
+    completed: "✓ Bajarildi",
+    inProgress: "Jarayonda",
+    notStarted: "Boshlanmagan",
+    studyLink: "🎛 Nazoratli mashq · so'z qidirish",
+    locked: "Ochish uchun avval to'liq imtihonni yakunlang.",
+    exam: "🎧 IELTS imtihoni",
+    review: "Ko'rib chiqish / Qayta urinish",
+    start: "Boshlash / Davom etish",
+    transcriptMissing: "Bu QA draftda to'liq transcript yo'q. Dalil parchalari to'liq transcript emas.",
+  },
 };
 
 export default uz;

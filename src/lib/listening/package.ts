@@ -134,13 +134,23 @@ export function safePackagePath(path: string) {
     !path.includes("//")
   );
 }
-export function publicationIssues(p: ListeningPackage) {
-  return p.sections.flatMap((s) =>
+export type PublicationBlocker = { kind: "transcript_missing" | "transcript_review"; section: number };
+/** Structured publication gate: UI localizes these; never render the log strings below. */
+export function publicationBlockers(p: ListeningPackage): PublicationBlocker[] {
+  return p.sections.flatMap((s): PublicationBlocker[] =>
     !s.transcript.trim()
-      ? [`Section ${s.number}: full transcript missing`]
+      ? [{ kind: "transcript_missing", section: s.number }]
       : s.reviewRequired
-        ? [`Section ${s.number}: transcript requires audio review`]
+        ? [{ kind: "transcript_review", section: s.number }]
         : [],
+  );
+}
+/** Technical (English) form for API payloads and logs only. */
+export function publicationIssues(p: ListeningPackage) {
+  return publicationBlockers(p).map((b) =>
+    b.kind === "transcript_missing"
+      ? `Section ${b.section}: full transcript missing`
+      : `Section ${b.section}: transcript requires audio review`,
   );
 }
 export function normalized(value: string) {

@@ -6,7 +6,11 @@ import {
   fullListeningDetail,
   fullListeningProgress,
 } from "@/lib/data/full-listening";
-import { ACTIVITY_NAMES, publicationIssues } from "@/lib/listening/package";
+import { publicationBlockers } from "@/lib/listening/package";
+import { getDictionary, getLocale } from "@/lib/i18n";
+
+const fill = (t: string, v: Record<string, string | number>) =>
+  t.replace(/\{(\w+)\}/g, (_, k: string) => String(v[k] ?? ""));
 import { isUuid } from "@/lib/validation/ids";
 export default async function Hub({
   params,
@@ -20,25 +24,31 @@ export default async function Hub({
   const detail = await fullListeningDetail(id, user.role);
   if (!detail) notFound();
   const progress = await fullListeningProgress(user.id, id);
+  const dict = getDictionary(await getLocale());
+  const t = dict.fullListeningHub;
+  const blockers = publicationBlockers(detail.pkg.payload);
   return (
     <div className="mx-auto max-w-[1840px] space-y-6">
       <BackLink fallbackHref="/listening" label="Listening" />
       <h1 className="font-display text-3xl">{detail.test.title}</h1>
-      <p>
-        4 Sections · 40 Questions ·{" "}
-        {Math.round(detail.pkg.payload.audio.durationSec / 60)} min · 5
-        Activities
-      </p>
+      <p>{fill(t.summary, { min: Math.round(detail.pkg.payload.audio.durationSec / 60) })}</p>
       {detail.test.publicationState === "draft" && (
         <p role="status" className="card">
-          QA draft. {publicationIssues(detail.pkg.payload).join(" · ")}
+          {t.qaDraft}{" "}
+          {blockers
+            .map((b) =>
+              fill(b.kind === "transcript_missing" ? dict.listeningImport.blockMissing : dict.listeningImport.blockReview, {
+                n: b.section,
+              }),
+            )
+            .join(" ")}
         </p>
       )}
       <p>
-        {progress.activities.filter((a) => a.complete).length} / 5 completed
+        {fill(t.completedCount, { done: progress.activities.filter((a) => a.complete).length })}
       </p>
       <div className="full-listening-grid">
-        {ACTIVITY_NAMES.map((name, index) => {
+        {t.activities.map((name, index) => {
           const activity = index + 1;
           const state = progress.activities[index]!;
           const locked = activity > 1 && !progress.exam;
@@ -50,10 +60,10 @@ export default async function Hub({
               <h2 className="font-display text-xl font-bold">{name}</h2>
               <p>
                 {state.complete
-                  ? "✓ Completed"
+                  ? t.completed
                   : state.latest
-                    ? "In progress"
-                    : "Not started"}
+                    ? t.inProgress
+                    : t.notStarted}
               </p>
               {state.latest?.score != null && (
                 <p>
@@ -65,21 +75,21 @@ export default async function Hub({
                   className="btn-secondary"
                   href={`/listening/tests/${id}/study`}
                 >
-                  🎛 Controlled practice · word lookup
+                  {t.studyLink}
                 </Link>
               )}
               {locked ? (
-                <p className="mt-auto">Complete Full Exam to unlock.</p>
+                <p className="mt-auto">{t.locked}</p>
               ) : (
                 <Link
                   className="btn-primary mt-auto"
                   href={`/listening/tests/${id}/${activity}`}
                 >
                   {activity === 1
-                    ? "🎧 IELTS Exam"
+                    ? t.exam
                     : state.complete
-                      ? "Review / Try again"
-                      : "Start / Continue"}
+                      ? t.review
+                      : t.start}
                 </Link>
               )}
             </article>
