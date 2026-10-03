@@ -36,7 +36,7 @@ export type ApiFailureKind =
 
 export type ApiResult<T> =
   | { ok: true; status: number; data: T }
-  | { ok: false; status: number; kind: ApiFailureKind; error: string | null; reason?: string };
+  | { ok: false; status: number; kind: ApiFailureKind; error: string | null; reason?: string; data?: unknown };
 
 /**
  * The dictionary entries this helper reads. Every one is optional except the two
@@ -92,6 +92,7 @@ export async function requestJson<T = unknown>(
       response = await fetch(url, {
         method,
         signal: controller.signal,
+        cache: "no-store",
         // Same-origin API calls need no credentials flag: the session cookie is
         // first-party. Sending `include` would only widen what the browser allows.
         headers: form ? undefined : body === undefined ? undefined : { "Content-Type": "application/json" },
@@ -132,10 +133,11 @@ export async function requestJson<T = unknown>(
       }
     }
 
-    const errorCode =
-      parsedOk && parsed && typeof parsed === "object" && typeof (parsed as { error?: unknown }).error === "string"
-        ? ((parsed as { error: string }).error)
-        : null;
+    const errorValue = parsedOk && parsed && typeof parsed === "object"
+      ? (parsed as { error?: unknown }).error : null;
+    const errorCode = typeof errorValue === "string" ? errorValue
+      : errorValue && typeof errorValue === "object" && typeof (errorValue as { code?: unknown }).code === "string"
+        ? (errorValue as { code: string }).code : null;
 
     if (!response.ok) {
       const kind: ApiFailureKind = response.status >= 500 ? "server" : "http";
@@ -143,7 +145,20 @@ export async function requestJson<T = unknown>(
       const reason = errorCode === "service_unavailable" && typeof candidate === "string" &&
         ["schema_missing", "column_missing", "database_missing", "auth_failed", "unreachable", "capacity"].includes(candidate)
         ? candidate : undefined;
-      return { ok: false, status: response.status, kind, error: errorCode, ...(reason ? { reason } : {}) };
+      // Preserve only structured validator codes needed by existing controls.
+      // Arbitrary server messages/metadata must not enter auth diagnostics.
+      const object = parsedOk && parsed && typeof parsed === "object" ? parsed as Record<string, unknown> : null;
+      const codes = (value: unknown) => Array.isArray(value)
+        ? value.filter((code): code is string => typeof code === "string" && /^[a-z][a-z0-9_]{0,99}$/.test(code)).slice(0, 100) : [];
+      const nestedIssues = errorValue && typeof errorValue === "object" ? codes((errorValue as {issues?: unknown}).issues) : [];
+      const issues = codes(object?.issues);
+      const blockers = Array.isArray(object?.blockers) ? object.blockers.filter((b): b is {kind: string; section: number} =>
+        !!b && typeof b === "object" && ["transcript_missing", "transcript_review"].includes(b.kind) &&
+        Number.isInteger(b.section) && b.section >= 1 && b.section <= 4).map(b => ({kind: b.kind, section: b.section})) : [];
+      const data = nestedIssues.length ? {error: {issues: nestedIssues}}
+        : blockers.length ? {error: errorCode, blockers}
+        : issues.length ? {error: errorCode, issues} : null;
+      return { ok: false, status: response.status, kind, error: errorCode, ...(reason ? { reason } : {}), ...(data ? {data} : {}) };
     }
 
     if (!parsedOk) {

@@ -254,7 +254,7 @@ function startUploadOnce(file: Blob & { name: string }, options: StartUploadOpti
 
 async function discardUpload(uploadId: string): Promise<void> {
   try {
-    await fetch(`/api/uploads/${uploadId}`, { method: "DELETE" });
+    await fetch(`/api/uploads/${uploadId}`, { method: "DELETE", signal: AbortSignal.timeout(5_000) });
   } catch {
     /* best effort — the intent expires and cleanup reclaims the object */
   }
