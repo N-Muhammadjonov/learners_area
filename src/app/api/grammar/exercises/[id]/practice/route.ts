@@ -1,5 +1,6 @@
 import { getGrammarExerciseForUser } from "@/lib/data/grammar";
 import { isUuid } from "@/lib/validation/ids";
+import { PUBLIC_CHECKED_BY } from "@/lib/services/coach/attribution";
 import { NextRequest, NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
@@ -128,7 +129,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     attemptId: attempt.id,
     activity: parsed.data.activity,
     verdict: finalVerdict,
-    checkedBy: outcome.evaluation.checkedBy.displayName,
+    checkedBy: PUBLIC_CHECKED_BY,
     structures: check,
     sampleAnswer: exercise.correctOption,
     explanation: exercise.explanation,

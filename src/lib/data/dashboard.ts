@@ -1,5 +1,6 @@
 import { and, asc, count, desc, eq, gt, lte, ne, sql } from "drizzle-orm";
 import { streakFromDays } from "@/lib/progress/streak";
+import { PUBLIC_CHECKED_BY } from "@/lib/services/coach/attribution";
 import { TIMEZONE, tashkentDayKey } from "@/lib/time";
 import { getCourseRoadmap } from "@/lib/data/roadmap";
 import { isOpen, resolveState, type LessonState } from "@/lib/services/lessons/state";
@@ -118,7 +119,6 @@ export async function getDashboardData(userId: string) {
       .select({
         overallEstimate: evaluations.overallEstimate,
         weaknesses: evaluations.weaknesses,
-        checkedByName: evaluations.checkedByName,
       })
       .from(evaluations)
       .where(eq(evaluations.userId, userId))
@@ -163,7 +163,10 @@ export async function getDashboardData(userId: string) {
 
   return {
     profile: profileResult.status === "fulfilled" ? profileResult.value[0] ?? null : null,
-    latestEvaluation: latestEvaluationResult.status === "fulfilled" ? latestEvaluationResult.value[0] ?? null : null,
+    // Learner surface: public attribution only, never the stored provider identity.
+    latestEvaluation: latestEvaluationResult.status === "fulfilled" && latestEvaluationResult.value[0]
+      ? { ...latestEvaluationResult.value[0], checkedByName: PUBLIC_CHECKED_BY }
+      : null,
     vocabDueCount: countValue(vocabDueResult),
     streak: streakResult.status === "fulfilled" ? streakResult.value : null,
     writingAttempts: countValue(submissionCountResult),

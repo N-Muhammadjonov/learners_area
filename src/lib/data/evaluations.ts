@@ -1,5 +1,6 @@
 import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import { db } from "@/db/client";
+import { PUBLIC_CHECKED_BY } from "@/lib/services/coach/attribution";
 import { activityEvents, coachWeaknesses, evaluations } from "@/db/schema";
 import { categoriesCheckedBy, isWeaknessCategory } from "@/lib/services/coach/categories";
 import {
@@ -42,9 +43,9 @@ export type EvaluationRecord = {
   rubricVersion: string;
   fallbackUsed: boolean;
   fallbackFrom: string | null;
-  /** Denormalised label written from provider metadata at evaluation time. */
+  /** PUBLIC learner-facing label: always "RIWI" (legacy rows normalised on read). */
   checkedByName: string;
-  /** Derived from the stored provider identity — never from current configuration. */
+  /** INTERNAL provenance (staff/audit only) — the stored actual provider identity. Never render to learners. */
   checkedBy: { id: string; displayName: string; type: "internal" | "external" };
   overallEstimate: number | null;
   confidence: number;
@@ -92,7 +93,7 @@ function toRecord(row: EvaluationRow): EvaluationRecord {
     rubricVersion: row.rubricVersion,
     fallbackUsed: row.fallbackUsed,
     fallbackFrom: row.fallbackFrom,
-    checkedByName: row.checkedByName,
+    checkedByName: PUBLIC_CHECKED_BY,
     checkedBy: {
       id: row.providerId,
       displayName: row.providerDisplayName,
@@ -332,7 +333,7 @@ export async function saveEvaluation(params: {
       rubricVersion: result.rubricVersion,
       fallbackUsed: result.fallbackUsed,
       fallbackFrom: result.fallbackFrom,
-      checkedByName: result.checkedBy.displayName,
+      checkedByName: PUBLIC_CHECKED_BY,
       overallEstimate: result.overallEstimate,
       confidence: result.confidence,
       verdict: result.verdict,

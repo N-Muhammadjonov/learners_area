@@ -1,6 +1,7 @@
 import { and, desc, eq, lte, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { coachWeaknesses, evaluations, lexemes, userVocabulary } from "@/db/schema";
+import { PUBLIC_CHECKED_BY } from "@/lib/services/coach/attribution";
 import { WEAKNESS_CATEGORY_META, isWeaknessCategory } from "@/lib/services/coach/categories";
 
 /**
@@ -51,12 +52,14 @@ export async function getWeaknessSummary(userId: string): Promise<WeaknessSummar
 }
 
 export async function getRecentEvaluations(userId: string, limit = 8) {
-  return db
+  const rows = await db
     .select()
     .from(evaluations)
     .where(eq(evaluations.userId, userId))
     .orderBy(desc(evaluations.createdAt))
     .limit(limit);
+  // Learner surface: legacy rows may hold a vendor label; the public label is always RIWI.
+  return rows.map((row) => ({ ...row, checkedByName: PUBLIC_CHECKED_BY }));
 }
 
 export async function getEvaluationCount(userId: string): Promise<number> {

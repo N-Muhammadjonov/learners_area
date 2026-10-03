@@ -1,4 +1,5 @@
 import { BackLink } from "@/components/ui/BackLink";
+import { staffProvenanceLabel } from "@/lib/services/coach/attribution";
 import { notFound, redirect } from "next/navigation";
 import { requireStaff } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
@@ -104,6 +105,10 @@ export default async function StudentDetailPage({ params }: { params: Promise<{ 
                           data-checked-by={evaluation.checkedByName}
                         >
                           {dict.coach.checkedBy} {evaluation.checkedByName}
+                        </span>
+                        {/* Staff audit: the truthful stored provenance (never shown to learners). */}
+                        <span className="text-xs text-ink-300" data-staff-provenance>
+                          {staffProvenanceLabel(evaluation)}
                         </span>
                         <span className="text-xs text-ink-300">
                           {dict.coach.confidence} {(evaluation.confidence * 100).toFixed(0)}%

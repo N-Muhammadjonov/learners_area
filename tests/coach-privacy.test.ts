@@ -156,10 +156,14 @@ test("vendor references stay in server-only adapters and their registration, nev
   }
 });
 
-test("the label shown to a student comes from the stored row, not from configuration", () => {
+// Changed 2026-10-03 (owner rule "Checked by RIWI"): the student label was the stored
+// provider name; it is now the fixed public constant. The invariant kept: the label never
+// comes from configuration, and the resolver still records the TRUE provider (asserted below
+// and rendered to staff only — tests/ui/checked-by-riwi.test.tsx).
+test("the label shown to a student is the fixed public label, not configuration; provenance stays truthful", () => {
   const view = read("src/components/coach/EvaluationView.tsx");
   const viewCode = stripComments(view);
-  assert.ok(view.includes("evaluation.checkedByName"), "the view must render the stored label");
+  assert.ok(viewCode.includes("{t.checkedBy} {PUBLIC_CHECKED_BY}"), "the view must render the fixed public label");
   assert.ok(!viewCode.includes("readCoachConfig"), "the view must not consult configuration");
   assert.ok(!viewCode.includes("AI_PRIMARY_PROVIDER"), "the view must not consult configuration");
 

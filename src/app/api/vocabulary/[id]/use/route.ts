@@ -1,5 +1,6 @@
 import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
+import { PUBLIC_CHECKED_BY } from "@/lib/services/coach/attribution";
 import { and, eq } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/db/client";
@@ -85,7 +86,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     usageId: stored.usageId,
     verdict: outcome.evaluation.verdict,
     accepted,
-    checkedBy: outcome.evaluation.checkedBy.displayName,
+    checkedBy: PUBLIC_CHECKED_BY,
     mastery: confirmed.ok ? confirmed.mastery : null,
     points: confirmed.ok ? confirmed.points : 0,
   });

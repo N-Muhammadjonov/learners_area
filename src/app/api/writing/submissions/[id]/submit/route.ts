@@ -1,5 +1,6 @@
 import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
+import { PUBLIC_CHECKED_BY } from "@/lib/services/coach/attribution";
 import { and, eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { activityEvents, writingPrompts, writingSubmissions } from "@/db/schema";
@@ -79,8 +80,7 @@ export async function POST(_req: NextRequest, { params }: { params: Promise<{ id
   return NextResponse.json({
     ok: true,
     evaluationId: outcome.evaluation.id,
-    checkedBy: outcome.evaluation.checkedBy.displayName,
-    providerId: outcome.evaluation.providerId,
+    checkedBy: PUBLIC_CHECKED_BY,
     fallbackUsed: outcome.evaluation.fallbackUsed,
   });
 }
