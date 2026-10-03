@@ -114,7 +114,12 @@ test("signal token: audience/issuer/expiry bound; tamper and wrong secret reject
   assert.deepEqual(await verifySignalToken(token, secret, at(60)), { userId: ids.a!, peerId: ids.b!, role: "offerer", sessionId: "00000000-0000-4000-8000-000000000001" });
   await assert.rejects(verifySignalToken(token, secret, at(200)));
   await assert.rejects(verifySignalToken(token, "y".repeat(40), at(10)));
-  await assert.rejects(verifySignalToken(token.slice(0, -2) + "aa", secret, at(10)));
+  // Changed 2026-10-03: the old tamper (`slice(0, -2) + "aa"`) was a no-op ~1/1024 runs —
+  // the last base64url char carries 2 padding bits, so a signature already ending in
+  // "a"+[YZab] decoded to the same bytes and verified correctly. Flip a middle char instead.
+  const at10 = token.length - 10;
+  const tampered = token.slice(0, at10) + (token[at10] === "A" ? "B" : "A") + token.slice(at10 + 1);
+  await assert.rejects(verifySignalToken(tampered, secret, at(10)));
   assert.equal(await issueSignalToken({ userId: "u", peerId: "p", role: "answerer", sessionId: "s" }, undefined), null);
 });
 
