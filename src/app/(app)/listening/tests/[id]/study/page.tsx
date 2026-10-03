@@ -31,6 +31,7 @@ export default async function Study({
       userId={user.id}
       title={detail.test.title}
       audioUrl={detail.test.audioUrl!}
+      mapDiagram={p.mapDiagram}
       imageUrl={
         detail.pkg.imageObjectKey
           ? `/api/resources/${detail.pkg.imageObjectKey}`

@@ -1,7 +1,6 @@
 import { RegionFailureNotice } from "@/components/interaction/RegionFailureNotice";
 import { FullListeningLibrary } from "@/components/listening/FullListeningLibrary";
 import { fullListeningCards } from "@/lib/data/full-listening";
-import { isAdministrator } from "@/lib/auth/roles";
 import { Suspense } from "react";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import Link from "next/link";
@@ -109,11 +108,6 @@ export default async function ListeningPage({
     >
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="font-display text-2xl text-ink-900">🎧 Listening</h1>
-        {isAdministrator(user.role) && (
-          <Link className="btn-primary" href="/admin/listening/import">
-            + Add Listening
-          </Link>
-        )}
         <Link href="/listening/history" className="btn-secondary ">
           {dict.listening.historyTitle} →
         </Link>

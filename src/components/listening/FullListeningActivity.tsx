@@ -1,4 +1,6 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
+import { ListeningMap } from "./ListeningMap";
 import Link from "next/link";
 import { ListeningSpeedPractice } from "./ListeningSpeedPractice";
 import { McqMastery } from "./McqMastery";
@@ -12,7 +14,7 @@ import type { Dictionary } from "@/lib/i18n/en";
 type Data = Partial<
   Pick<
     ListeningPackage,
-    "questions" | "sections" | "keyword1" | "keyword2"
+    "questions" | "sections" | "keyword1" | "keyword2" | "mapDiagram"
   >
 > & {
   /** Activity 5: package-curated items whose lexical truth is the canonical sense. */
@@ -53,6 +55,7 @@ export function FullListeningActivity({
   /** Server decision from the Listening lexical policy (Review & Revision only). */
   lexicalAssistance?: boolean;
 }) {
+  const vocabularyRequest = useScopedResponse(12000);
   const [answers, setAnswers] = useState(initial);
   const [error, setError] = useState("");
   const [result, setResult] = useState<{ score: number; total: number } | null>(
@@ -68,7 +71,9 @@ export function FullListeningActivity({
   const controller = useRef<AbortController | null>(null);
   useEffect(
     () => () => {
-      controller.current?.abort();
+      const current = controller.current;
+      controller.current = null;
+      current?.abort();
       audio.current?.pause();
     },
     [],
@@ -119,6 +124,7 @@ export function FullListeningActivity({
         body: JSON.stringify({ activity, answers, complete }),
       });
       const body = await res.json().catch(() => ({}));
+      if (controller.current !== abort) return;
       if (!res.ok) throw new Error("activity_save_failed");
       try {
         sessionStorage.removeItem(draftKey);
@@ -126,11 +132,14 @@ export function FullListeningActivity({
       if (complete) setResult({ score: body.score, total: body.total });
     } catch (e) {
       void e;
-      setError(dict.fullListeningHub.activity.saveFailed);
+      if (controller.current === abort) setError(dict.fullListeningHub.activity.saveFailed);
     } finally {
       clearTimeout(timer);
-      flight.current = false;
-      setBusy(false);
+      if (controller.current === abort) {
+        controller.current = null;
+        flight.current = false;
+        setBusy(false);
+      }
     }
   }
   async function clip(start: number, stop: number) {
@@ -148,10 +157,10 @@ export function FullListeningActivity({
     const x = data.vocabulary?.[index];
     if (!x) return;
     try {
-      const res = await fetch("/api/vocabulary", {
+      const res = await vocabularyRequest("/api/vocabulary", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        signal: AbortSignal.timeout(12000),
+
         // A linked item saves its canonical sense (server re-validates it against
         // this test's session list); an unlinked one falls back to the authored text.
         body: JSON.stringify(
@@ -172,6 +181,7 @@ export function FullListeningActivity({
               },
         ),
       });
+      if (!res) return;
       if (!res.ok) throw new Error();
       setError("");
     } catch {
@@ -187,6 +197,7 @@ export function FullListeningActivity({
       <h1 className="font-display text-3xl">
         {title} · {dict.fullListeningHub.activities[activity - 1]}
       </h1>
+      {activity === 2 && data.mapDiagram && <ListeningMap diagram={data.mapDiagram} />}
       {activity !== 5 && audioUrl && (
         <audio
           ref={audio}
@@ -368,7 +379,7 @@ export function FullListeningActivity({
               </button>
               <label>
                 Meaning
-                <select
+                {"options" in x ? <select
                   className="input"
                   value={answers[x.q] ?? ""}
                   disabled={!!revealed[x.q]}
@@ -380,7 +391,7 @@ export function FullListeningActivity({
                       {o}
                     </option>
                   ))}
-                </select>
+                </select> : <input className="input" value={answers[x.q] ?? ""} disabled={!!revealed[x.q]} onChange={(e) => answer(String(x.q), e.target.value)} />}
               </label>
               <button
                 type="button"
@@ -413,6 +424,7 @@ export function FullListeningActivity({
             <button
               type="button"
               className={quiz ? "btn-primary" : "btn-secondary"}
+              disabled={!data.vocabulary?.some(x => x.quiz)}
               onClick={() => setQuiz(true)}
             >
               Quiz
@@ -420,7 +432,7 @@ export function FullListeningActivity({
           </nav>
           {data.vocabulary?.map((x, i) => (
             <article key={`${i}:${x.term}`} className="card space-y-3" data-session-sense={x.senseId ?? ""}>
-              {!quiz ? (
+              {!quiz || !x.quiz ? (
                 <>
                   <h2 className="font-display text-xl">
                     {x.term} <span className="text-sm">{x.partOfSpeech}</span>

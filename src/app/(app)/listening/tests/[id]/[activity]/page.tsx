@@ -56,6 +56,7 @@ export default async function Activity({
           : {
               questions: detail.pkg.payload.questions,
               sections: detail.pkg.payload.sections,
+              mapDiagram: detail.pkg.payload.mapDiagram,
               report: report
                 ? {
                     score: report.attempt.score,

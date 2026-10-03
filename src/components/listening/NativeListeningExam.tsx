@@ -1,4 +1,6 @@
 "use client";
+import { ListeningMap } from "./ListeningMap";
+import type { MapDiagram } from "@/lib/listening/map-diagram";
 import type { Dictionary } from "@/lib/i18n/en";
 import { requestJson } from "@/lib/http/client-request";
 import Image from "next/image";
@@ -16,6 +18,7 @@ export function NativeListeningExam({
   title,
   audioUrl,
   imageUrl,
+  mapDiagram,
   questions,
   initial,
   audioPosition,
@@ -28,6 +31,7 @@ export function NativeListeningExam({
   title: string;
   audioUrl: string;
   imageUrl: string | null;
+  mapDiagram?: MapDiagram;
   questions: Question[];
   initial: Record<string, string>;
   audioPosition: number;
@@ -268,6 +272,7 @@ export function NativeListeningExam({
           </button>
         ))}
       </nav>
+      {section === 2 && mapDiagram && <ListeningMap diagram={mapDiagram} />}
       {section === 2 && imageUrl && (
         <div className="card">
           <Image

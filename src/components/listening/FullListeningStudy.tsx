@@ -1,4 +1,6 @@
 "use client";
+import { ListeningMap } from "./ListeningMap";
+import type { MapDiagram } from "@/lib/listening/map-diagram";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
@@ -19,6 +21,7 @@ export function FullListeningStudy({
   title,
   audioUrl,
   imageUrl,
+  mapDiagram,
   questions,
   sections,
   occurrences = {},
@@ -31,6 +34,7 @@ export function FullListeningStudy({
   title: string;
   audioUrl: string;
   imageUrl: string | null;
+  mapDiagram?: MapDiagram;
   questions: Question[];
   sections: { number: number; title: string; transcript: string }[];
   /** Server-proven transcript spans per section (0029); words outside them resolve as unchecked. */
@@ -170,7 +174,8 @@ export function FullListeningStudy({
       </nav>
       <div className="listening-review-grid">
         <section className="card academic-text space-y-6">
-          {section === 2 && imageUrl && (
+          {section === 2 && mapDiagram && <ListeningMap diagram={mapDiagram} />}
+      {section === 2 && imageUrl && (
             <Image
               src={imageUrl}
               alt={dict.formCopy.listeningMap}

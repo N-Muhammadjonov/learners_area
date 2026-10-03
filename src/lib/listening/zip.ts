@@ -1,26 +1,9 @@
-import { unzip, unzipSync, strFromU8 } from "fflate";
-import { safePackagePath } from "./package";
+import { strFromU8 } from "fflate";
+import { readSafeArchive, readSafeArchiveAsync } from "../import/archive";
 import { isIgnoredEntry, isTextEntry, packageRoot } from "./discover";
-const MAX_TOTAL = 200 * 1024 * 1024;
-/** Check declared uncompressed sizes before inflation, and bound count and total output. */
+
 export function readListeningZip(bytes: Uint8Array) {
-  if (bytes.byteLength > MAX_TOTAL) throw new Error("ZIP exceeds 200 MB");
-  let total = 0,
-    count = 0;
-  const seen = new Set<string>();
-  const entries = unzipSync(bytes, {
-    filter(file) {
-      if (seen.has(file.name)) throw new Error("Duplicate ZIP filename");
-      seen.add(file.name);
-      if (++count > 200 || !safePackagePath(file.name))
-        throw new Error("Unsafe ZIP path or too many files");
-      if (!file.name.endsWith("/")) total += file.originalSize;
-      if (file.originalSize > MAX_TOTAL || total > MAX_TOTAL)
-        throw new Error("Expanded ZIP exceeds 200 MB");
-      return !file.name.endsWith("/");
-    },
-  });
-  return normalizeEntries(entries);
+  return normalizeEntries(readSafeArchive(bytes));
 }
 function normalizeEntries(entries: Record<string, Uint8Array>) {
   // System junk (__MACOSX/, ._files, .DS_Store) used to count as a second
@@ -45,41 +28,7 @@ function normalizeEntries(entries: Record<string, Uint8Array>) {
   return { entries: normalized, textFiles, root };
 }
 
-/** Browser decompression uses fflate workers; large MP3 inflation does not block the UI. */
-export async function readListeningZipAsync(bytes: Uint8Array) {
-  if (bytes.byteLength > MAX_TOTAL) throw new Error("ZIP exceeds 200 MB");
-  let total = 0,
-    count = 0;
-  const seen = new Set<string>();
-  return new Promise<ReturnType<typeof readListeningZip>>((resolve, reject) => {
-    try {
-      unzip(
-        bytes,
-        {
-          filter(file) {
-            if (seen.has(file.name)) throw new Error("Duplicate ZIP filename");
-            seen.add(file.name);
-            if (++count > 200 || !safePackagePath(file.name))
-              throw new Error("Unsafe ZIP path or too many files");
-            total += file.originalSize;
-            if (file.originalSize > MAX_TOTAL || total > MAX_TOTAL)
-              throw new Error("Expanded ZIP exceeds 200 MB");
-            return !file.name.endsWith("/");
-          },
-        },
-        (error, entries) => {
-          if (error) reject(error);
-          else {
-            try {
-              resolve(normalizeEntries(entries));
-            } catch (e) {
-              reject(e);
-            }
-          }
-        },
-      );
-    } catch (e) {
-      reject(e);
-    }
-  });
+/** Shared worker decompression keeps large media off the UI thread. */
+export async function readListeningZipAsync(bytes: Uint8Array, signal?: AbortSignal) {
+  return normalizeEntries(await readSafeArchiveAsync(bytes, signal));
 }

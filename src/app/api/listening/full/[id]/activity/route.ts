@@ -43,7 +43,7 @@ export async function POST(
         ? p.keyword1.map((q) => String(q.q))
         : activity === 4
           ? p.keyword2.map((q) => String(q.q))
-          : p.vocabulary.map((_, i) => String(i));
+          : p.vocabulary.flatMap((x, i) => x.quiz ? [String(i)] : []);
   if (Object.keys(answers).some((n) => !ids.includes(n)))
     return NextResponse.json({ error: "foreign_question" }, { status: 400 });
   if (complete && ids.some((n) => !answers[n]?.trim()))
@@ -68,11 +68,11 @@ export async function POST(
       ).length;
     else if (activity === 4)
       score = p.keyword2.filter(
-        (x) => answers[x.q] === String(x.correct),
+        (x) => "correct" in x ? answers[x.q] === String(x.correct) : normalized(answers[x.q] ?? "") === normalized(x.answer),
       ).length;
     else
       score = p.vocabulary.filter(
-        (x, i) => answers[i] === String(x.quiz.correct),
+        (x, i) => x.quiz ? answers[i] === String(x.quiz.correct) : false,
       ).length;
   }
   const [run] = await db

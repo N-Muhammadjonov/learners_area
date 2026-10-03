@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { mapDiagramSchema } from "./map-diagram";
 
 const text = z.string().trim().min(1).max(12000);
 const clip = z.object({
@@ -28,6 +29,7 @@ export const listeningPackageSchema = z
       durationSec: z.number().min(60).max(7200),
     }),
     imagePath: z.string().max(200).nullable(),
+    mapDiagram: mapDiagramSchema.optional(),
     sections: z
       .array(
         z.object({
@@ -59,7 +61,7 @@ export const listeningPackageSchema = z
         clip.extend({
           options: z.array(text).min(2).max(8),
           correct: z.number().int().nonnegative(),
-        }),
+        }).or(clip.extend({ answer: text })),
       )
       .min(1)
       .max(40),
@@ -72,7 +74,7 @@ export const listeningPackageSchema = z
           def: z.string().min(1).max(500),
           ex: z.string().max(500),
           also: z.array(z.string().max(120)).max(20),
-          quiz,
+          quiz: quiz.optional(),
         }),
       )
       .min(1)
@@ -104,7 +106,7 @@ export const listeningPackageSchema = z
           fail("Clip outside audio");
     }
     for (const row of v.keyword2)
-      if (row.correct >= row.options.length) fail("Invalid Keyword II key");
+      if ("correct" in row && row.correct >= row.options.length) fail("Invalid Keyword II key");
     for (const path of [v.audio.path, v.imagePath].filter(Boolean) as string[])
       if (!safePackagePath(path)) fail("Unsafe asset path");
   });

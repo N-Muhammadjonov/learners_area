@@ -161,7 +161,7 @@ test(
       1645.061224,
       (html) => new JSDOM(html).window.document,
     );
-    assert.equal(p.testId, "full-listening-10");
+    assert.equal(p.testId, "listening-test-1");
     assert.equal(p.questions.length, 40);
     assert.ok(p.questions[17]!.options.includes("A Music room"));
     assert.match(p.questions[17]!.instruction, /Label the map/);
@@ -169,9 +169,11 @@ test(
     assert.match(p.questions[24]!.text, /Choose TWO/);
     assert.equal(p.keyword1.length, 20);
     assert.equal(p.keyword2.length, 20);
-    assert.equal(p.vocabulary.length, 15);
+    assert.equal(p.vocabulary.length, 20);
+    assert.ok(p.vocabulary.every(word => !word.quiz), "source authors study cards, not a quiz");
+    assert.ok(p.mapDiagram?.shapes.length);
     assert.equal(publicationIssues(p).length, 4);
-    assert.equal(entries[p.audio.path]!.length, 16451023);
+    assert.equal(entries[p.audio.path]!.length, 16450918);
   },
 );
 

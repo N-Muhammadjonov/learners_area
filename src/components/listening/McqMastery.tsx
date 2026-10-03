@@ -1,4 +1,5 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useState } from "react";
 import { Card } from "@/components/ui/Card";
@@ -58,6 +59,8 @@ export function McqMastery({
   dict: Dictionary;
   questions: Question[];
 }) {
+  const requestResponse = useScopedResponse(25000);
+
   const [questions, setQuestions] = useState(initialQuestions);
   const [open, setOpen] = useState<string | null>(null);
   const [payload, setPayload] = useState<Payload | null>(null);
@@ -78,11 +81,12 @@ export function McqMastery({
     setBusy(true);
     setError(null);
     setText("");
-    const res = await fetch("/api/listening/mcq", {
+    const res = await requestResponse("/api/listening/mcq", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ questionId }),
     });
+    if (!res) return;
     setBusy(false);
     if (!res.ok) {
       setError(dict.common.error);
@@ -98,11 +102,12 @@ export function McqMastery({
     if (!step) return;
     setBusy(true);
     setError(null);
-    const res = await fetch(`/api/listening/mcq/${payload.session.id}`, {
+    const res = await requestResponse(`/api/listening/mcq/${payload.session.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ step: step.to, text: step.field ? text : undefined }),
     });
+    if (!res) return;
     setBusy(false);
     if (!res.ok) {
       setError(dict.common.error);

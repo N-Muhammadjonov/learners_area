@@ -118,10 +118,10 @@ test("LC10 metadata naming a missing recording is an actionable error with the p
 });
 
 test("ZIP limits stay: size ceiling, file count, text asset size", () => {
-  const src = readFileSync("src/lib/listening/zip.ts", "utf8");
+  const src = readFileSync("src/lib/import/archive.ts", "utf8");
   assert.match(src, /MAX_TOTAL = 200 \* 1024 \* 1024/);
   assert.match(src, /\+\+count > 200/);
-  assert.match(src, /5 \* 1024 \* 1024/);
+  assert.match(readFileSync("src/lib/listening/zip.ts", "utf8"), /5 \* 1024 \* 1024/);
   const many: Record<string, Uint8Array> = {};
   for (let i = 0; i < 201; i++) many[`f${i}.txt`] = strToU8("x");
   assert.throws(() => readListeningZip(zipSync(many)), /too many files/);
