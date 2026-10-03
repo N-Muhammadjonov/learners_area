@@ -43,7 +43,7 @@ test("LS9–LS12 source visibility by step (service-level): 1 shown, 2–3 hidde
   } finally { await t.close(); }
 });
 
-test("Migration boundary: 0032 = Real Exam only; 0033 adds writing_stealing_sessions; 0031→0032→0033 additive", async () => {
+test("Migration boundary: 0032 = Real Exam only; 0033 adds writing_stealing_sessions; 0031→0032→0033(→0034) additive", async () => {
   const dir = new URL("../drizzle/", import.meta.url);
   const files = readdirSync(dir).filter((f) => f.endsWith(".sql")).sort();
   assert.ok(files.includes("0033_writing_language_stealing.sql"));
@@ -53,7 +53,10 @@ test("Migration boundary: 0032 = Real Exam only; 0033 adds writing_stealing_sess
   assert.match(m33, /CREATE TABLE writing_stealing_sessions/);
   assert.doesNotMatch(m33.replace(/ON DELETE (CASCADE|SET NULL|RESTRICT)/g, ""), /\b(DROP|TRUNCATE|DELETE|UPDATE)\b/i);
   const journal = JSON.parse(readFileSync(new URL("meta/_journal.json", dir), "utf8")) as { entries: { tag: string }[] };
-  assert.deepEqual(journal.entries.slice(-3).map((e) => e.tag), ["0031_writing_workspace", "0032_writing_exam_papers", "0033_writing_language_stealing"]);
+  // 0031→0032→0033 stay consecutive and in order; later additive migrations (0034 typing presets) follow them.
+  const tags = journal.entries.map((e) => e.tag);
+  const at = tags.indexOf("0031_writing_workspace");
+  assert.deepEqual(tags.slice(at, at + 4), ["0031_writing_workspace", "0032_writing_exam_papers", "0033_writing_language_stealing", "0034_typing_duration_presets"]);
   const client = new PGlite();
   const has = async (table: string) => ((await client.query(`select to_regclass('public.${table}') as r`)).rows[0] as { r: string | null }).r;
   const apply = async (f: string) => {
@@ -69,5 +72,10 @@ test("Migration boundary: 0032 = Real Exam only; 0033 adds writing_stealing_sess
     assert.ok(await has("writing_stealing_sessions"));
     const rows = (await client.query("select count(*)::int as n from writing_model_texts")).rows[0] as { n: number };
     assert.equal(rows.n, 1, "existing 0031 rows untouched");
+    await apply("0034_typing_duration_presets.sql");
+    const after = (await client.query("select count(*)::int as n from writing_model_texts")).rows[0] as { n: number };
+    assert.equal(after.n, 1, "0034 leaves existing rows untouched");
+    const col = (await client.query("select is_nullable from information_schema.columns where table_name = 'typing_run_texts' and column_name = 'preset_seconds'")).rows[0] as { is_nullable: string };
+    assert.equal(col.is_nullable, "YES");
   } finally { await client.close(); }
 });

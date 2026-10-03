@@ -31,9 +31,9 @@ export async function POST(req: NextRequest) {
   if (!parsed.success) return NextResponse.json({ error: { code: "invalid_input", message: "Could not record this run." } }, { status: 400 });
   const r = await recordModelTextRun(user.id, parsed.data);
   if (!r.ok) {
-    const status = r.code === "not_found" ? 404 : 400;
+    const status = r.code === "not_found" ? 404 : r.code === "expired" ? 409 : 400;
     return NextResponse.json({ error: { code: r.code, message: r.code === "invalid_duration" ? "The run was too short to measure." : "Could not record this run." } }, { status });
   }
   const stats = await typingStats(user.id);
-  return NextResponse.json({ run: { id: r.runId, ...r.result }, summary: { count: stats.count, bestWpm: stats.bestWpm, bestAccuracy: stats.bestAccuracy }, history: stats.history });
+  return NextResponse.json({ run: { id: r.runId, ...r.result, presetSeconds: r.presetSeconds }, summary: { count: stats.count, bestWpm: stats.bestWpm, bestAccuracy: stats.bestAccuracy }, history: stats.history });
 }

@@ -2370,6 +2370,13 @@ const en = {
       tooShort: "That run was under five seconds — type for longer and it will be recorded.",
       error: "Could not save this run. Your typing is still here — try Finish again.",
       expired: "This run started too long ago. Press Restart.",
+      duration: "Duration",
+      presetMin: "{n} min",
+      presetFull: "Full text",
+      remaining: "Time remaining",
+      timeUp: "Time is up — your text has been sent for scoring.",
+      mode: "Mode",
+      date: "Date",
       note: "Net WPM counts only correct characters (5 characters = 1 word); raw WPM counts everything you typed.",
     },
     topicVocab: {

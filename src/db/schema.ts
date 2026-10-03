@@ -2173,6 +2173,8 @@ export const typingRunTexts = pgTable("typing_run_texts", {
   runId: uuid("run_id").primaryKey().references(() => typingRuns.id, { onDelete: "cascade" }),
   modelTextId: uuid("model_text_id").notNull().references(() => writingModelTexts.id, { onDelete: "cascade" }),
   mistakes: integer("mistakes").notNull().default(0),
+  /** 60 / 120 / 180 for a timed preset run; NULL = untimed full-text run (and all pre-preset runs). Migration 0034. */
+  presetSeconds: smallint("preset_seconds"),
 });
 
 export const writingLanguagePatterns = pgTable("writing_language_patterns", {

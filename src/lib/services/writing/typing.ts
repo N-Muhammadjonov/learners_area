@@ -19,6 +19,13 @@ export const CHARS_PER_WORD = 5;
 export const MIN_DURATION_MS = 5_000;
 export const MAX_DURATION_MS = 60 * 60 * 1000;
 
+/** Timed training presets (seconds). `null` = untimed full-text run. */
+export const TYPING_PRESETS = [60, 120, 180] as const;
+export type TypingPreset = (typeof TYPING_PRESETS)[number];
+export function isTypingPreset(v: unknown): v is TypingPreset {
+  return typeof v === "number" && (TYPING_PRESETS as readonly number[]).includes(v);
+}
+
 export function levenshtein(a: string, b: string): number {
   if (a === b) return 0;
   if (!a.length) return b.length;

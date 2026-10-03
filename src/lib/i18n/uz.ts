@@ -2365,6 +2365,13 @@ const uz: Dictionary = {
       tooShort: "Bu urinish besh soniyadan qisqa bo'ldi — uzoqroq yozing, shunda saqlanadi.",
       error: "Natijani saqlab bo'lmadi. Yozganingiz shu yerda — Yakunlash tugmasini yana bosing.",
       expired: "Bu urinish juda oldin boshlangan. Qaytadan tugmasini bosing.",
+      duration: "Davomiylik",
+      presetMin: "{n} daqiqa",
+      presetFull: "To'liq matn",
+      remaining: "Qolgan vaqt",
+      timeUp: "Vaqt tugadi — matningiz baholashga yuborildi.",
+      mode: "Rejim",
+      date: "Sana",
       note: "Sof WPM faqat to'g'ri belgilarni hisoblaydi (5 belgi = 1 so'z); xom WPM yozilgan hamma narsani hisoblaydi.",
     },
     topicVocab: {

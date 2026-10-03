@@ -1,18 +1,24 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Dictionary } from "@/lib/i18n/en";
 import type { ModelTextView } from "@/lib/services/writing/typing-runs";
-import { computeTypingResult, type TypingResult } from "@/lib/services/writing/typing";
+import { TYPING_PRESETS, computeTypingResult, type TypingPreset, type TypingResult } from "@/lib/services/writing/typing";
 import { formatClock } from "@/lib/writing/exam-modes";
+import { formatDate } from "@/lib/time";
 
 type Summary = { count: number; bestWpm: number | null; bestAccuracy: number | null };
-type HistoryRow = { id: string; createdAt: string; wpm: number; accuracy: number; durationMs: number; mistakes: number; title: string };
+type HistoryRow = { id: string; createdAt: string; wpm: number; accuracy: number; durationMs: number; mistakes: number; presetSeconds: number | null; title: string };
+type RunResult = TypingResult & { presetSeconds?: number | null };
 
 /**
  * Typing on complete Band 8–9 model texts (PDF pp.11–12). The target is always
  * a published model text chosen by id; the server reloads its body and
  * recomputes every metric. The live numbers here are a preview only.
+ *
+ * Duration presets (1/2/3 min) are chosen BEFORE Start and are bound into the
+ * server-signed start token; the countdown here is display only. At 0:00 the
+ * input locks and the visible text is finalized automatically (once).
  */
 export function TypingTrainer({ dict, texts, initialSummary, initialHistory }: {
   dict: Dictionary; texts: ModelTextView[]; initialSummary: Summary; initialHistory: HistoryRow[];
@@ -25,7 +31,15 @@ export function TypingTrainer({ dict, texts, initialSummary, initialHistory }: {
   const [elapsed, setElapsed] = useState(0);
   const [summary, setSummary] = useState(initialSummary);
   const [history, setHistory] = useState(initialHistory);
-  const [result, setResult] = useState<TypingResult | null>(null);
+  const [result, setResult] = useState<RunResult | null>(null);
+  const [preset, setPreset] = useState<TypingPreset | null>(TYPING_PRESETS[0]);
+  /** The preset the running token was issued for (fixed once the run begins). */
+  const [runPreset, setRunPreset] = useState<TypingPreset | null>(null);
+  const [timeUp, setTimeUp] = useState(false);
+  const typedRef = useRef("");
+  const finishing = useRef(false);
+  const startRef = useRef<number | null>(null);
+  const finishRef = useRef<() => Promise<void>>(async () => {});
   const [busy, setBusy] = useState<null | "start" | "finish">(null);
   const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -42,41 +56,63 @@ export function TypingTrainer({ dict, texts, initialSummary, initialHistory }: {
     try { return computeTypingResult(text.body, typed, elapsed); } catch { return null; }
   }, [text, typed, elapsed, startedAt]);
 
+  // Timed run reaches 0:00 → lock input, stop the clock, finalize what is visible (once).
+  const onTimeUp = useCallback(() => {
+    setTimeUp(true);
+    setStartedAt(null);
+    void finishRef.current();
+  }, []);
+  useEffect(() => {
+    if (startedAt == null || runPreset === null || timeUp) return;
+    if (elapsed >= runPreset * 1000) onTimeUp();
+  }, [elapsed, startedAt, runPreset, timeUp, onTimeUp]);
+
   if (!text) return null;
 
   const start = async () => {
-    setBusy("start"); setError(null); setResult(null); setTyped(""); setElapsed(0); setStartedAt(null);
+    setBusy("start"); setError(null); setResult(null); setTyped(""); typedRef.current = ""; setElapsed(0); setStartedAt(null); setTimeUp(false); finishing.current = false;
     try {
-      const res = await fetch("/api/writing/typing/start", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ modelTextId: text.id }) });
+      const res = await fetch("/api/writing/typing/start", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ modelTextId: text.id, presetSeconds: preset }) });
       const data = (await res.json().catch(() => null)) as { token?: string } | null;
       if (!res.ok || !data?.token) { setError(t.error); setBusy(null); return; }
       setToken(data.token);
-      setStartedAt(performance.now());
+      setRunPreset(preset);
+      const t0 = performance.now();
+      startRef.current = t0;
+      setStartedAt(t0);
       setTimeout(() => inputRef.current?.focus(), 0);
     } catch { setError(t.error); }
     setBusy(null);
   };
 
   const finish = async () => {
-    if (!token || startedAt == null) return;
-    const durationMs = Math.round(performance.now() - startedAt);
+    const t0 = startRef.current;
+    if (!token || t0 == null || finishing.current) return;
+    finishing.current = true;
+    const measured = Math.round(performance.now() - t0);
+    const durationMs = runPreset === null ? measured : Math.min(measured, runPreset * 1000);
     setBusy("finish"); setError(null);
     try {
-      const res = await fetch("/api/writing/typing", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ modelTextId: text.id, typedText: typed, durationMs, token }) });
-      const data = (await res.json().catch(() => null)) as { run?: TypingResult; summary?: Summary; history?: HistoryRow[]; error?: { code?: string } } | null;
+      const res = await fetch("/api/writing/typing", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ modelTextId: text.id, typedText: typedRef.current, durationMs, token }) });
+      const data = (await res.json().catch(() => null)) as { run?: RunResult; summary?: Summary; history?: HistoryRow[]; error?: { code?: string } } | null;
       if (!res.ok || !data?.run) {
-        setError(data?.error?.code === "invalid_duration" ? t.tooShort : data?.error?.code === "invalid_token" ? t.expired : t.error);
+        const code = data?.error?.code;
+        setError(code === "invalid_duration" ? t.tooShort : code === "invalid_token" || code === "expired" ? t.expired : t.error);
+        // A failed save keeps the typed text and lets the learner press Finish again (never auto-retried).
+        finishing.current = false;
         setBusy(null); return;
       }
       setResult(data.run);
       if (data.summary) setSummary(data.summary);
       if (data.history) setHistory(data.history);
-      setStartedAt(null); setToken(null);
-    } catch { setError(t.error); }
+      setStartedAt(null); startRef.current = null; setToken(null); setTimeUp(false);
+    } catch { setError(t.error); finishing.current = false; }
     setBusy(null);
   };
+  finishRef.current = finish;
 
   const running = startedAt != null;
+  const remainingMs = runPreset === null ? null : Math.max(0, runPreset * 1000 - elapsed);
 
   return (
     <div className="flex flex-col gap-5" data-typing-trainer>
@@ -88,6 +124,21 @@ export function TypingTrainer({ dict, texts, initialSummary, initialHistory }: {
             {texts.map((x) => <option key={x.id} value={x.id}>{x.title} · {x.taskType === "task1" ? "Task 1" : "Task 2"} · {t.band} {x.targetBand}</option>)}
           </select>
         </label>
+        <fieldset className="flex flex-col gap-1" data-typing-presets>
+          <legend className="text-sm font-semibold text-ink-900">{t.duration}</legend>
+          <div role="radiogroup" aria-label={t.duration} className="grid grid-cols-2 gap-1 rounded-xl border border-ink-100 bg-paper-sunken p-1 sm:flex">
+            {[...TYPING_PRESETS, null].map((p) => {
+              const active = preset === p;
+              return (
+                <button key={String(p)} type="button" role="radio" aria-checked={active} disabled={running || busy !== null}
+                  onClick={() => setPreset(p)} data-typing-preset={p ?? "full"}
+                  className={`min-h-11 rounded-lg px-4 text-sm font-semibold transition-colors ${active ? "bg-paper-raised text-ink-900 shadow-sm ring-1 ring-signal-500" : "text-ink-600 hover:text-ink-900"} disabled:opacity-60`}>
+                  {p === null ? t.presetFull : t.presetMin.replace("{n}", String(p / 60))}
+                </button>
+              );
+            })}
+          </div>
+        </fieldset>
         <button type="button" className="btn-secondary min-h-11" onClick={() => void start()} disabled={busy !== null} data-typing-start>
           {busy === "start" ? t.starting : running || result ? t.restart : t.start}
         </button>
@@ -100,7 +151,7 @@ export function TypingTrainer({ dict, texts, initialSummary, initialHistory }: {
         <section className="card motion-enter flex flex-col gap-4 p-5" data-typing-result aria-live="polite">
           <div className="flex flex-wrap items-baseline justify-between gap-2">
             <h3 className="font-display text-xl text-ink-900">{t.resultTitle}</h3>
-            <span className="text-sm text-ink-500">{t.verified} · {text.title}</span>
+            <span className="text-sm text-ink-500">{t.verified} · {text.title} · {result.presetSeconds ? t.presetMin.replace("{n}", String(result.presetSeconds / 60)) : t.presetFull}</span>
           </div>
           <dl className="grid grid-cols-2 gap-3 sm:grid-cols-4">
             <Metric big label={t.wpm} value={String(result.wpm)} />
@@ -126,13 +177,16 @@ export function TypingTrainer({ dict, texts, initialSummary, initialHistory }: {
           </section>
           <section className="card flex flex-col gap-3 p-5">
             <div className="flex flex-wrap items-center gap-3 text-sm text-ink-500">
-              <span className="font-display text-2xl tabular-nums text-ink-900" data-typing-elapsed>{formatClock(elapsed / 1000)}</span>
+              {remainingMs === null
+                ? <span className="font-display text-2xl tabular-nums text-ink-900" data-typing-elapsed>{formatClock(elapsed / 1000)}</span>
+                : <span className={`font-display text-2xl tabular-nums ${remainingMs <= 10_000 ? "text-band-bad" : "text-ink-900"}`} data-typing-remaining aria-label={t.remaining}>{formatClock(Math.ceil(remainingMs / 1000))}</span>}
+              {timeUp && <span role="status" className="font-semibold text-band-warn" data-typing-timeup>{t.timeUp}</span>}
               {preview && <span data-typing-preview>{t.live}: {preview.wpm} {t.wpm} · {preview.accuracy}%</span>}
             </div>
             <textarea ref={inputRef} className="input min-h-[20rem] flex-1 text-base leading-relaxed" placeholder={t.placeholder} value={typed}
-              onChange={(e) => setTyped(e.target.value)} disabled={!running} spellCheck={false} autoCorrect="off" autoCapitalize="off"
+              onChange={(e) => { if (timeUp) return; typedRef.current = e.target.value; setTyped(e.target.value); }} disabled={!running && !timeUp} readOnly={timeUp} spellCheck={false} autoCorrect="off" autoCapitalize="off"
               onPaste={(e) => e.preventDefault()} data-typing-input aria-label={t.placeholder} />
-            <button type="button" className="btn-primary min-h-11 self-start" onClick={() => void finish()} disabled={busy !== null || !running || !typed.trim()} data-typing-submit>
+            <button type="button" className="btn-primary min-h-11 self-start" onClick={() => void finish()} disabled={busy !== null || (!running && !timeUp) || !typed.trim()} data-typing-submit>
               {busy === "finish" ? t.saving : t.finish}
             </button>
             {error && <p role="alert" className="text-sm text-band-bad" data-typing-error>{error}</p>}
@@ -147,11 +201,11 @@ export function TypingTrainer({ dict, texts, initialSummary, initialHistory }: {
           <h3 className="mb-2 text-sm font-semibold text-ink-900">{t.history}</h3>
           <div className="overflow-x-auto">
             <table className="w-full min-w-[32rem] text-left text-sm" data-typing-history>
-              <thead className="text-ink-500"><tr><th className="py-2 pr-3 font-medium">{t.pick}</th><th className="pr-3 font-medium">{t.wpm}</th><th className="pr-3 font-medium">{t.accuracy}</th><th className="pr-3 font-medium">{t.mistakes}</th><th className="font-medium">{t.time}</th></tr></thead>
+              <thead className="text-ink-500"><tr><th className="py-2 pr-3 font-medium">{t.pick}</th><th className="pr-3 font-medium">{t.wpm}</th><th className="pr-3 font-medium">{t.accuracy}</th><th className="pr-3 font-medium">{t.mistakes}</th><th className="pr-3 font-medium">{t.mode}</th><th className="pr-3 font-medium">{t.time}</th><th className="font-medium">{t.date}</th></tr></thead>
               <tbody>
                 {history.map((h) => (
                   <tr key={h.id} className="border-t border-ink-100 text-ink-700">
-                    <td className="py-2 pr-3">{h.title}</td><td className="pr-3">{h.wpm}</td><td className="pr-3">{h.accuracy}%</td><td className="pr-3">{h.mistakes}</td><td>{formatClock(h.durationMs / 1000)}</td>
+                    <td className="py-2 pr-3">{h.title}</td><td className="pr-3">{h.wpm}</td><td className="pr-3">{h.accuracy}%</td><td className="pr-3">{h.mistakes}</td><td className="pr-3" data-typing-history-mode={h.presetSeconds ?? "full"}>{h.presetSeconds ? t.presetMin.replace("{n}", String(h.presetSeconds / 60)) : t.presetFull}</td><td className="pr-3">{formatClock(h.durationMs / 1000)}</td><td>{formatDate(h.createdAt)}</td>
                   </tr>
                 ))}
               </tbody>
