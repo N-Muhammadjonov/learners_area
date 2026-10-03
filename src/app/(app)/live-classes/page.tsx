@@ -56,7 +56,7 @@ async function LiveClassesContent({ user, locale, dict }: {
       .orderBy(desc(liveClasses.scheduledAt))
       .limit(10)),
   ]);
-  if (ielts.length === 0) return <p className="text-sm text-ink-500">No course configured yet.</p>;
+  if (ielts.length === 0) return <p className="text-sm text-ink-500">{dict.formCopy.noCourse}</p>;
   const upcoming = upcomingRows.map((row) => row.liveClass);
   const past = pastRows.map((row) => row.liveClass);
   const allIds = [...upcoming, ...past].map((liveClass) => liveClass.id);

@@ -57,25 +57,25 @@ export function NewListeningQuestionForm({ dict, testId }: { dict: Dictionary; t
       }}
     >
       <div>
-        <Label htmlFor="type">Type</Label>
+        <Label htmlFor="type">{dict.formCopy.type}</Label>
         <select id="type" className="input" value={type} onChange={(e) => setType(e.target.value as QType)}>
-          <option value="multiple_choice">Multiple choice</option>
-          <option value="short_answer">Short answer</option>
+          <option value="multiple_choice">{dict.formCopy.multipleChoice}</option>
+          <option value="short_answer">{dict.formCopy.shortAnswer}</option>
         </select>
       </div>
 
       <div>
-        <Label htmlFor="questionText">Question</Label>
+        <Label htmlFor="questionText">{dict.formCopy.question}</Label>
         <Textarea id="questionText" required value={questionText} onChange={(e) => setQuestionText(e.target.value)} className="min-h-[70px]" />
       </div>
 
       {type === "multiple_choice" ? (
         <div className="flex flex-col gap-2">
-          <Label>Options</Label>
+          <Label>{dict.formCopy.options}</Label>
           {options.map((opt, i) => (
             <Input key={i} placeholder={`Option ${i + 1}`} value={opt} onChange={(e) => setOptions((prev) => prev.map((o, idx) => (idx === i ? e.target.value : o)))} />
           ))}
-          <Label htmlFor="correctAnswerMcq">Correct option</Label>
+          <Label htmlFor="correctAnswerMcq">{dict.formCopy.correctOption}</Label>
           <select id="correctAnswerMcq" className="input" value={correctAnswer} onChange={(e) => setCorrectAnswer(e.target.value)}>
             <option value="">—</option>
             {cleanOptions.map((o) => <option key={o} value={o}>{o}</option>)}
@@ -83,13 +83,13 @@ export function NewListeningQuestionForm({ dict, testId }: { dict: Dictionary; t
         </div>
       ) : (
         <div>
-          <Label htmlFor="correctAnswerShort">Correct answer (exact-match)</Label>
+          <Label htmlFor="correctAnswerShort">{dict.formCopy.correctAnswerExact}</Label>
           <Input id="correctAnswerShort" required value={correctAnswer} onChange={(e) => setCorrectAnswer(e.target.value)} />
         </div>
       )}
 
       <div>
-        <Label htmlFor="explanation">Explanation</Label>
+        <Label htmlFor="explanation">{dict.formCopy.explanation}</Label>
         <Textarea id="explanation" required value={explanation} onChange={(e) => setExplanation(e.target.value)} className="min-h-[60px]" />
       </div>
 

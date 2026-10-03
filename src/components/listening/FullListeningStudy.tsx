@@ -156,7 +156,7 @@ export function FullListeningStudy({
           </select>
         </label>
       </header>
-      <nav className="flex flex-wrap gap-2" aria-label="Sections">
+      <nav className="flex flex-wrap gap-2" aria-label={dict.formCopy.sections}>
         {[1, 2, 3, 4].map((n) => (
           <button
             type="button"
@@ -173,7 +173,7 @@ export function FullListeningStudy({
           {section === 2 && imageUrl && (
             <Image
               src={imageUrl}
-              alt="Listening map"
+              alt={dict.formCopy.listeningMap}
               width={560}
               height={400}
               unoptimized
@@ -203,7 +203,7 @@ export function FullListeningStudy({
                           answer(String(q.number), e.target.value)
                         }
                       >
-                        <option value="">Choose</option>
+                        <option value="">{dict.formCopy.choose}</option>
                         {q.options.map((o, i) => (
                           <option
                             key={o}

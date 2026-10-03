@@ -36,22 +36,22 @@ export function NewPassageForm({ dict }: { dict: Dictionary }) {
       }}
     >
       <div>
-        <Label htmlFor="title">Title</Label>
+        <Label htmlFor="title">{dict.formCopy.title}</Label>
         <Input id="title" required value={title} onChange={(e) => setTitle(e.target.value)} />
       </div>
       <div>
-        <Label htmlFor="bodyText">Passage text</Label>
+        <Label htmlFor="bodyText">{dict.formCopy.passageText}</Label>
         <Textarea id="bodyText" required value={bodyText} onChange={(e) => setBodyText(e.target.value)} className="min-h-[200px]" />
       </div>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <div>
-          <Label htmlFor="difficultyLevel">Level</Label>
+          <Label htmlFor="difficultyLevel">{dict.formCopy.level}</Label>
           <select id="difficultyLevel" className="input" value={difficultyLevel} onChange={(e) => setDifficultyLevel(e.target.value)}>
             {["A2", "B1", "B2", "C1", "C2"].map((l) => <option key={l} value={l}>{l}</option>)}
           </select>
         </div>
         <div>
-          <Label htmlFor="suggestedMinutes">Minutes</Label>
+          <Label htmlFor="suggestedMinutes">{dict.formCopy.minutes}</Label>
           <Input id="suggestedMinutes" type="number" min={5} max={90} value={suggestedMinutes} onChange={(e) => setSuggestedMinutes(e.target.value)} />
         </div>
       </div>

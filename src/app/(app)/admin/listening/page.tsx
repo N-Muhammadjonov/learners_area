@@ -20,7 +20,7 @@ export default async function AdminListeningPage() {
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-4">
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-2xl text-ink-900">Listening tests</h1>
+        <h1 className="font-display text-2xl text-ink-900">{dict.admin.listeningTitle}</h1>
         <div className="flex flex-wrap items-center gap-2">
           <Link className="btn-primary" href="/admin/listening/import" data-admin-listening-import>
             {dict.listeningImport.title}

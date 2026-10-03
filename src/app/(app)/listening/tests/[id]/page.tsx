@@ -29,7 +29,7 @@ export default async function Hub({
   const blockers = publicationBlockers(detail.pkg.payload);
   return (
     <div className="mx-auto max-w-[1840px] space-y-6">
-      <BackLink fallbackHref="/listening" label="Listening" />
+      <BackLink fallbackHref="/listening" label={dict.nav.listening} />
       <h1 className="font-display text-3xl">{detail.test.title}</h1>
       <p>{fill(t.summary, { min: Math.round(detail.pkg.payload.audio.durationSec / 60) })}</p>
       {detail.test.publicationState === "draft" && (

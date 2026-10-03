@@ -48,11 +48,11 @@ export function NewExerciseForm({ dict, topicId }: { dict: Dictionary; topicId: 
       }}
     >
       <div>
-        <Label htmlFor="promptText">Sentence (with the error shown in context)</Label>
+        <Label htmlFor="promptText">{dict.formCopy.sentenceWithError}</Label>
         <Textarea id="promptText" required value={promptText} onChange={(e) => setPromptText(e.target.value)} className="min-h-[60px]" />
       </div>
       <div className="flex flex-col gap-2">
-        <Label>Options</Label>
+        <Label>{dict.formCopy.options}</Label>
         {options.map((opt, i) => (
           <Input
             key={i}
@@ -63,14 +63,14 @@ export function NewExerciseForm({ dict, topicId }: { dict: Dictionary; topicId: 
         ))}
       </div>
       <div>
-        <Label htmlFor="correctOption">Correct option (must match one exactly)</Label>
+        <Label htmlFor="correctOption">{dict.formCopy.correctOptionExact}</Label>
         <select id="correctOption" className="input" value={correctOption} onChange={(e) => setCorrectOption(e.target.value)}>
           <option value="">—</option>
           {cleanOptions.map((o) => <option key={o} value={o}>{o}</option>)}
         </select>
       </div>
       <div>
-        <Label htmlFor="explanation">Explanation</Label>
+        <Label htmlFor="explanation">{dict.formCopy.explanation}</Label>
         <Textarea id="explanation" required value={explanation} onChange={(e) => setExplanation(e.target.value)} className="min-h-[60px]" />
       </div>
       {error && <p className="text-sm text-band-bad">{error}</p>}

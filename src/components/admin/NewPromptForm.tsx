@@ -39,23 +39,23 @@ export function NewPromptForm({ dict }: { dict: Dictionary }) {
     >
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <div>
-          <Label htmlFor="taskType">Task type</Label>
+          <Label htmlFor="taskType">{dict.formCopy.taskType}</Label>
           <select id="taskType" className="input" value={taskType} onChange={(e) => setTaskType(e.target.value as "task1" | "task2")}>
             <option value="task1">{dict.writing.task1}</option>
             <option value="task2">{dict.writing.task2}</option>
           </select>
         </div>
         <div>
-          <Label htmlFor="category">Category</Label>
+          <Label htmlFor="category">{dict.formCopy.category}</Label>
           <Input id="category" required value={category} onChange={(e) => setCategory(e.target.value)} placeholder="opinion, problem-solution…" />
         </div>
       </div>
       <div>
-        <Label htmlFor="prompt">Prompt</Label>
+        <Label htmlFor="prompt">{dict.formCopy.prompt}</Label>
         <Textarea id="prompt" required value={prompt} onChange={(e) => setPrompt(e.target.value)} />
       </div>
       <div>
-        <Label htmlFor="targetWordCount">Target word count</Label>
+        <Label htmlFor="targetWordCount">{dict.formCopy.targetWords}</Label>
         <Input id="targetWordCount" type="number" min={50} max={500} value={targetWordCount} onChange={(e) => setTargetWordCount(e.target.value)} />
       </div>
       <div className="flex gap-2">

@@ -63,12 +63,12 @@ export function NewTestForm({ dict }: { dict: Dictionary }) {
       }}
     >
       <div>
-        <Label htmlFor="title">Title</Label>
+        <Label htmlFor="title">{dict.formCopy.title}</Label>
         <Input id="title" required value={title} onChange={(e) => setTitle(e.target.value)} />
       </div>
 
       <div>
-        <Label htmlFor="difficultyLevel">Level</Label>
+        <Label htmlFor="difficultyLevel">{dict.formCopy.level}</Label>
         <select id="difficultyLevel" className="input" value={difficultyLevel} onChange={(e) => setDifficultyLevel(e.target.value)}>
           {["A2", "B1", "B2", "C1", "C2"].map((l) => <option key={l} value={l}>{l}</option>)}
         </select>
@@ -111,7 +111,7 @@ export function NewTestForm({ dict }: { dict: Dictionary }) {
       </div>
 
       <div>
-        <Label htmlFor="transcript">Transcript (optional, shown after submit)</Label>
+        <Label htmlFor="transcript">{dict.formCopy.transcriptOptional}</Label>
         <Textarea id="transcript" value={transcript} onChange={(e) => setTranscript(e.target.value)} className="min-h-[100px]" />
       </div>
 

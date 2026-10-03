@@ -53,25 +53,25 @@ export function NewLiveClassForm({ dict }: { dict: Dictionary }) {
       }}
     >
       <div>
-        <Label htmlFor="title">Title</Label>
+        <Label htmlFor="title">{dict.formCopy.title}</Label>
         <Input id="title" required value={title} onChange={(e) => setTitle(e.target.value)} />
       </div>
       <div>
-        <Label htmlFor="topic">Topic (optional)</Label>
+        <Label htmlFor="topic">{dict.formCopy.topicOptional}</Label>
         <Textarea id="topic" value={topic} onChange={(e) => setTopic(e.target.value)} className="min-h-[60px]" />
       </div>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <div>
-          <Label htmlFor="scheduledAt">Date & time</Label>
+          <Label htmlFor="scheduledAt">{dict.formCopy.dateTime}</Label>
           <Input id="scheduledAt" type="datetime-local" required value={scheduledAt} onChange={(e) => setScheduledAt(e.target.value)} />
         </div>
         <div>
-          <Label htmlFor="durationMinutes">Duration (min)</Label>
+          <Label htmlFor="durationMinutes">{dict.formCopy.durationMin}</Label>
           <Input id="durationMinutes" type="number" min={15} max={240} value={durationMinutes} onChange={(e) => setDurationMinutes(e.target.value)} />
         </div>
       </div>
       <div>
-        <Label htmlFor="meetingUrl">Meeting link (optional)</Label>
+        <Label htmlFor="meetingUrl">{dict.formCopy.meetingLinkOptional}</Label>
         <Input id="meetingUrl" type="url" placeholder="https://..." value={meetingUrl} onChange={(e) => setMeetingUrl(e.target.value)} />
       </div>
       {error && <p className="text-sm text-band-bad">{error}</p>}

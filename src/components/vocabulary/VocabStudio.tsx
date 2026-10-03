@@ -61,9 +61,9 @@ function RegionFailure({ dict, name, retry }: { dict: Dictionary; name: string; 
   );
 }
 
-function RegionSkeleton({ name, rows = 2 }: { name: string; rows?: number }) {
+function RegionSkeleton({ name, label, rows = 2 }: { name: string; label: string; rows?: number }) {
   return (
-    <div aria-busy="true" aria-label="Loading section data" data-async-loading={name} className="flex flex-col gap-2">
+    <div aria-busy="true" aria-label={label} data-async-loading={name} className="flex flex-col gap-2">
       {Array.from({ length: rows }, (_, index) => <div key={index} aria-hidden="true" className="h-12 animate-pulse rounded-lg bg-ink-50" />)}
     </div>
   );
@@ -275,7 +275,7 @@ export function VocabStudio({ dict, initialTab, packs }: { dict: Dictionary; ini
           {tab === "words" && (
             <>
               <section data-vocabulary-core="library" aria-label={t.tab.words}>
-                {libraryStatus === "loading" && !library ? <RegionSkeleton name="vocabulary-library" rows={3} /> : null}
+                {libraryStatus === "loading" && !library ? <RegionSkeleton name="vocabulary-library" label={dict.common.loading} rows={3} /> : null}
                 {libraryStatus === "error" && <RegionFailure dict={dict} name="library" retry={() => void loadLibrary(true)} />}
                 {library && <VocabWordsPanel
                   dict={dict}
@@ -299,7 +299,7 @@ export function VocabStudio({ dict, initialTab, packs }: { dict: Dictionary; ini
           )}
           {tab === "revision" && (
             <section data-vocabulary-core="revision" aria-label={t.tab.revision}>
-              {dueStatus === "loading" && !loaded.current.has("due") ? <RegionSkeleton name="vocabulary-revision" rows={2} /> : null}
+              {dueStatus === "loading" && !loaded.current.has("due") ? <RegionSkeleton name="vocabulary-revision" label={dict.common.loading} rows={2} /> : null}
               {dueStatus === "error" ? <RegionFailure dict={dict} name="revision" retry={() => void loadDue(true)} /> : null}
               {dueStatus === "ready" && <VocabRevisionPanel
                 key={`revision-${due.map((word) => word.id).join("|")}`}

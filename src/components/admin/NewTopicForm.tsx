@@ -35,18 +35,18 @@ export function NewTopicForm({ dict }: { dict: Dictionary }) {
       }}
     >
       <div>
-        <Label htmlFor="skillArea">Skill area</Label>
+        <Label htmlFor="skillArea">{dict.formCopy.skillArea}</Label>
         <select id="skillArea" className="input" value={skillArea} onChange={(e) => setSkillArea(e.target.value as "writing" | "speaking")}>
-          <option value="writing">Writing</option>
-          <option value="speaking">Speaking</option>
+          <option value="writing">{dict.formCopy.writing}</option>
+          <option value="speaking">{dict.formCopy.speaking}</option>
         </select>
       </div>
       <div>
-        <Label htmlFor="title">Title</Label>
+        <Label htmlFor="title">{dict.formCopy.title}</Label>
         <Input id="title" required value={title} onChange={(e) => setTitle(e.target.value)} />
       </div>
       <div>
-        <Label htmlFor="explanation">Explanation</Label>
+        <Label htmlFor="explanation">{dict.formCopy.explanation}</Label>
         <Textarea id="explanation" required value={explanation} onChange={(e) => setExplanation(e.target.value)} />
       </div>
       <div className="flex gap-2">

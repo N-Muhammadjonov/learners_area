@@ -43,7 +43,7 @@ export function TeacherFeedbackForm({ dict, submissionId }: { dict: Dictionary; 
     >
       <Label htmlFor={`comment-${submissionId}`}>{dict.teacher.leaveFeedback}</Label>
       <Textarea id={`comment-${submissionId}`} required value={comment} onChange={(e) => setComment(e.target.value)} className="min-h-[100px]" />
-      <Input type="number" step={0.5} min={0} max={9} placeholder="Overall band (optional)" value={band} onChange={(e) => setBand(e.target.value)} />
+      <Input type="number" step={0.5} min={0} max={9} placeholder={dict.formCopy.overallBandOptional} value={band} onChange={(e) => setBand(e.target.value)} />
       <div className="flex gap-2">
         <Button type="submit" disabled={pending}>{pending ? dict.common.saving : dict.common.save}</Button>
         <Button type="button" variant="ghost" onClick={() => setOpen(false)}>{dict.common.cancel}</Button>
