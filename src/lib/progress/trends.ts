@@ -11,8 +11,10 @@ export const TREND_WEEKS = 8;
 export const HEATMAP_WEEKS = 12;
 const DAY_MS = 86_400_000;
 
-export type GradedRow = { at: Date; score: number; total: number };
-export type BandRow = { at: Date; band: number };
+/** One attempt, or — with `count` — a pre-aggregated day: `score`/`total` are sums over `count` attempts. */
+export type GradedRow = { at: Date; score: number; total: number; count?: number };
+/** One estimate, or — with `count` — a pre-aggregated day where `band` is the SUM of `count` estimates. */
+export type BandRow = { at: Date; band: number; count?: number };
 export type RetentionRow = { at: Date; level: RetentionLevel; score: number; textId: string };
 export type WeekPoint = { weekStart: string; value: number | null; count: number };
 
@@ -36,7 +38,7 @@ export function weeklyAccuracy(rows: GradedRow[], now: Date, weeks = TREND_WEEKS
   for (const row of rows) {
     const bucket = buckets.get(weekStartKey(row.at));
     if (!bucket || row.total <= 0) continue;
-    bucket.score += row.score; bucket.total += row.total; bucket.count += 1;
+    bucket.score += row.score; bucket.total += row.total; bucket.count += row.count ?? 1;
   }
   return keys.map((weekStart) => {
     const b = buckets.get(weekStart)!;
@@ -51,7 +53,7 @@ export function weeklyBand(rows: BandRow[], now: Date, weeks = TREND_WEEKS): Wee
   for (const row of rows) {
     const bucket = buckets.get(weekStartKey(row.at));
     if (!bucket || !Number.isFinite(row.band)) continue;
-    bucket.sum += row.band; bucket.count += 1;
+    bucket.sum += row.band; bucket.count += row.count ?? 1;
   }
   return keys.map((weekStart) => {
     const b = buckets.get(weekStart)!;
@@ -61,9 +63,13 @@ export function weeklyBand(rows: BandRow[], now: Date, weeks = TREND_WEEKS): Wee
 
 export type HeatmapDay = { day: string; count: number };
 /** Activity per calendar day for the last HEATMAP_WEEKS full weeks (Mon-first). */
-export function activityHeatmap(times: Date[], now: Date, weeks = HEATMAP_WEEKS): HeatmapDay[][] {
+export function activityHeatmap(times: (Date | { at: Date; count: number })[], now: Date, weeks = HEATMAP_WEEKS): HeatmapDay[][] {
   const counts = new Map<string, number>();
-  for (const at of times) { const k = tashkentDayKey(at); counts.set(k, (counts.get(k) ?? 0) + 1); }
+  for (const t of times) {
+    const [at, n] = t instanceof Date ? [t, 1] : [t.at, t.count];
+    const k = tashkentDayKey(at);
+    counts.set(k, (counts.get(k) ?? 0) + n);
+  }
   return weekKeys(now, weeks).map((weekStart) => {
     const start = new Date(`${weekStart}T00:00:00Z`).getTime();
     return Array.from({ length: 7 }, (_, d) => {

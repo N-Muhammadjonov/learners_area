@@ -50,10 +50,15 @@ test("retention trends per level use last five finalized scores in time order", 
   assert.deepEqual(trends.find((t) => t.level === "A2"), { level: "A2", attempts: 0, textsCompleted: 0, best: null, recent: [], average: null, change: null });
 });
 
-test("trend data source is user-scoped, bounded, never reads self-estimates or Retention source/rubric", () => {
+// Changed 2026-10-03 (§25): the old assertion pinned `.limit(ROW_CAP)` ×6, i.e. the silent
+// 1 000-row truncation itself. Invariant now: no row cap; every source aggregates in SQL
+// (exactness past 1 000 rows is proven on real PostgreSQL by qa2-progress-scale PS1);
+// user scoping is asserted here and behaviourally by N08/PS1 (other users excluded).
+test("trend data source is user-scoped, aggregated (no row cap), never reads self-estimates or Retention source/rubric", () => {
   const src = readFileSync("src/lib/data/progress-trends.ts", "utf8");
-  assert.equal((src.match(/\.limit\(ROW_CAP\)/g) ?? []).length, 6);
-  assert.equal((src.match(/eq\(\w+\.userId, userId\)/g) ?? []).length, 6);
+  assert.doesNotMatch(src, /ROW_CAP|\.limit\(/);
+  assert.ok((src.match(/\.groupBy\(/g) ?? []).length >= 5, "each source groups in the database");
+  assert.equal((src.match(/eq\(\w+\.userId, userId\)/g) ?? []).length, 4);
   for (const forbidden of ["onboardingProfiles", "currentBand", "bodyText", "scoringStructure", "recallText", "unstable_cache", "\"use cache\""]) {
     assert.ok(!src.includes(forbidden), `must not reference ${forbidden}`);
   }
