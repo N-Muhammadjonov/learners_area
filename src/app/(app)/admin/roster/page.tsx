@@ -1,10 +1,11 @@
 import { redirect } from "next/navigation";
-import { and, asc, eq, notInArray } from "drizzle-orm";
+import { and, asc, eq, ilike, notInArray, type SQL } from "drizzle-orm";
 import { db } from "@/db/client";
 import { users } from "@/db/schema";
 import { requireAdministrator } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { listRoster, ROSTER_LIST_CAP } from "@/lib/reporter/roster";
+import { escapeLike } from "@/lib/validation/like";
 import { BackLink } from "@/components/ui/BackLink";
 import { Card } from "@/components/ui/Card";
 
@@ -15,10 +16,10 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const LIST_CAP = 1000;
 
 /** Teacher rosters: the explicit source of a teacher's RIWI Reporter visibility. */
-export default async function TeacherRosterPage({ searchParams }: { searchParams: Promise<{ teacher?: string; status?: string }> }) {
+export default async function TeacherRosterPage({ searchParams }: { searchParams: Promise<{ teacher?: string; status?: string; q?: string }> }) {
   const actor = await requireAdministrator();
   if (!actor) redirect("/dashboard");
-  const [{ teacher, status }, locale] = await Promise.all([searchParams, getLocale()]);
+  const [{ teacher, status, q }, locale] = await Promise.all([searchParams, getLocale()]);
   const dict = getDictionary(locale);
   const t = dict.reporter.roster;
   const teachers = await db.select({ id: users.id, name: users.name }).from(users)
@@ -26,10 +27,13 @@ export default async function TeacherRosterPage({ searchParams }: { searchParams
   const selected = teacher && UUID.test(teacher) ? teachers.find((x) => x.id === teacher) ?? null : null;
   const roster = selected ? await listRoster(selected.id) : [];
   const assignedIds = roster.map((s) => s.id);
+  const query = (q ?? "").trim().slice(0, 60);
+  const filters: SQL[] = [eq(users.role, "student")];
+  if (assignedIds.length) filters.push(notInArray(users.id, assignedIds));
+  if (query) filters.push(ilike(users.name, `%${escapeLike(query)}%`));
   const candidates = selected
     ? await db.select({ id: users.id, name: users.name }).from(users)
-        .where(assignedIds.length ? and(eq(users.role, "student"), notInArray(users.id, assignedIds)) : eq(users.role, "student"))
-        .orderBy(asc(users.name), asc(users.id)).limit(LIST_CAP)
+        .where(and(...filters)).orderBy(asc(users.name), asc(users.id)).limit(LIST_CAP)
     : [];
   const statusText = status === "saved" ? t.saved : status === "unchanged" ? t.unchanged : status === "failed" ? t.failed : null;
 
@@ -73,6 +77,15 @@ export default async function TeacherRosterPage({ searchParams }: { searchParams
               ))}
             </ul>
           )}
+          <form method="get" action="/admin/roster" className="flex flex-wrap items-end gap-3" data-roster-search>
+            <input type="hidden" name="teacher" value={selected.id} />
+            <label className="flex flex-col gap-1 text-sm">
+              <span className="font-semibold text-ink-700">{dict.reporter.studentSearch}</span>
+              <input type="search" name="q" defaultValue={query} maxLength={60} className="input" />
+            </label>
+            <button type="submit" className="btn-secondary min-h-11">{dict.reporter.studentSearchButton}</button>
+          </form>
+          {candidates.length >= LIST_CAP && <p className="text-xs text-ink-500" role="status">{dict.reporter.listCapped.replace("{n}", String(LIST_CAP))}</p>}
           {roster.length >= ROSTER_LIST_CAP ? null : candidates.length > 0 && (
             <form method="post" action="/api/admin/roster" className="flex flex-wrap items-end gap-3">
               <input type="hidden" name="teacherId" value={selected.id} />

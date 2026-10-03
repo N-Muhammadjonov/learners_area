@@ -369,3 +369,14 @@ test("RP17 migration 0035 is additive and journalled directly after 0034", () =>
   for (const st of statements) assert.match(st, /^create (table|unique index|index) if not exists /i, "only additive CREATE statements");
   assert.match(text, /create table if not exists teacher_student_links/i);
 });
+
+test("RP18 the student-name filter matches typed text literally (LIKE wildcards escaped) on a real database", async () => {
+  const { escapeLike } = await import("../src/lib/validation/like");
+  const ids = ["aaaaaaaa-0000-4000-8000-0000000000a1", "aaaaaaaa-0000-4000-8000-0000000000a2"];
+  await database.query(`insert into users (id, email, name, role, account_status) values ($1, $2, '100% Sure', 'student', 'active'), ($3, $4, '1000 Surely', 'student', 'active')`, [ids[0], `${ids[0]}@example.test`, ids[1], `${ids[1]}@example.test`]);
+  const find = async (q: string) => (await database.query<{ name: string }>(`select name from users where role = 'student' and name ilike $1 order by name`, [`%${escapeLike(q)}%`])).map((r) => r.name);
+  assert.deepEqual(await find("100%"), ["100% Sure"], "% is literal, not a wildcard");
+  assert.deepEqual(await find("_"), [], "_ is literal");
+  assert.deepEqual(await find("sure"), ["100% Sure", "1000 Surely"]);
+  await database.query(`delete from users where id = any($1::uuid[])`, [ids]);
+});

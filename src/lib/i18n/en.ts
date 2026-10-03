@@ -308,7 +308,7 @@ const en = {
     continueWithTelegram: "Continue with Telegram",
     telegramUnavailable: "Telegram login isn't configured in this environment yet.",
     resetTitle: "Reset your password",
-    resetSubtitle: "We'll show you a reset link here (no email service is wired up in this demo).",
+    resetSubtitle: "Enter your account email. If online reset is not available, the centre will help you reset your password.",
     resetSend: "Send reset link",
     resetConfirmTitle: "Choose a new password",
     resetConfirmCta: "Update password",
@@ -2773,6 +2773,9 @@ const en = {
     student: "Student",
     studentHint: "Only used when \"One student\" is selected.",
     noStudents: "No student accounts yet.",
+    studentSearch: "Find a student by name",
+    studentSearchButton: "Find",
+    listCapped: "Showing the first {n} students. Type part of a name to narrow the list.",
     scopeRoster: "My assigned students",
     noRoster: "No students are assigned to you yet. The owner or an admin assigns them under Management, Teacher rosters.",
     roster: {

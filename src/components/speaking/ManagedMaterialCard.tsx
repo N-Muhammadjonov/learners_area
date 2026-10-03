@@ -37,9 +37,11 @@ export function ManagedMaterialCard({
   const [title, setTitle] = useState(material.title);
   const [pending, setPending] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   async function patch(body: Record<string, unknown>) {
     setPending(true);
+    setError(null);
     const res = await fetch(`/api/speaking/materials/${material.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -48,7 +50,7 @@ export function ManagedMaterialCard({
     setPending(false);
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));
-      alert(apiErrorMessage(data.error, res.status, dict));
+      setError(apiErrorMessage(data.error, res.status, dict));
       return;
     }
     router.refresh();
@@ -62,13 +64,21 @@ export function ManagedMaterialCard({
     );
     if (!confirmed) return;
     setPending(true);
-    await fetch(`/api/speaking/materials/${material.id}`, { method: "DELETE" });
+    setError(null);
+    const res = await fetch(`/api/speaking/materials/${material.id}`, { method: "DELETE" }).catch(() => null);
     setPending(false);
+    if (!res || !res.ok) {
+      // A failed delete used to be silent; now the staff member sees why (localised, no raw code).
+      const data = res ? await res.json().catch(() => ({})) : {};
+      setError(apiErrorMessage((data as { error?: string }).error, res?.status ?? 0, dict));
+      return;
+    }
     router.refresh();
   }
 
   return (
     <div className={`card flex flex-col gap-2 ${!material.isActive ? "opacity-50" : ""}`}>
+      {error && <p role="alert" className="rounded-md border border-band-bad/40 bg-band-bad/10 p-2 text-sm text-band-bad" data-material-error>{error}</p>}
       <div className="flex flex-wrap items-center justify-between gap-2">
         {editingTitle ? (
           <div className="flex flex-1 items-center gap-2">

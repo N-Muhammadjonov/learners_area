@@ -1,11 +1,12 @@
 import { redirect } from "next/navigation";
-import { asc, eq } from "drizzle-orm";
+import { and, asc, eq, ilike } from "drizzle-orm";
 import { db } from "@/db/client";
 import { users } from "@/db/schema";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { allowedScopes } from "@/lib/reporter/access";
 import { listRoster } from "@/lib/reporter/roster";
+import { escapeLike } from "@/lib/validation/like";
 import { REPORT_FORMATS } from "@/lib/reporter/exports";
 import { PERIOD_KINDS } from "@/lib/reporter/period";
 import { TIMEZONE } from "@/lib/time";
@@ -20,13 +21,14 @@ const FORMAT_LABELS: Record<(typeof REPORT_FORMATS)[number], string> = {
   pdf: "PDF", docx: "Word (DOCX)", xlsx: "Excel (XLSX)", csv: "CSV", json: "JSON", zip: "ZIP (all formats + manifest)",
 };
 
-export default async function ReportsPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
+export default async function ReportsPage({ searchParams }: { searchParams: Promise<{ error?: string; q?: string }> }) {
   const user = await requireActiveUser();
   if (!user) redirect("/login");
   const locale = await getLocale();
   const dict = getDictionary(locale);
   const t = dict.reporter;
-  const { error } = await searchParams;
+  const { error, q } = await searchParams;
+  const query = (q ?? "").trim().slice(0, 60);
   const errorText = error && error in t.errors ? t.errors[error as keyof typeof t.errors] : null;
   const scopes = allowedScopes(user.role);
   const staff = user.role !== "student";
@@ -35,7 +37,7 @@ export default async function ReportsPage({ searchParams }: { searchParams: Prom
   const students = teacher
     ? await listRoster(user.id)
     : staff
-      ? await db.select({ id: users.id, name: users.name }).from(users).where(eq(users.role, "student")).orderBy(asc(users.name), asc(users.id)).limit(STUDENT_LIST_CAP)
+      ? await db.select({ id: users.id, name: users.name }).from(users).where(query ? and(eq(users.role, "student"), ilike(users.name, `%${escapeLike(query)}%`)) : eq(users.role, "student")).orderBy(asc(users.name), asc(users.id)).limit(STUDENT_LIST_CAP)
       : [];
   const periodLabel: Record<(typeof PERIOD_KINDS)[number], string> = {
     on_demand: t.periodOnDemand, weekly: t.periodWeekly, monthly: t.periodMonthly, yearly: t.periodYearly, custom: t.periodCustom,
@@ -49,6 +51,16 @@ export default async function ReportsPage({ searchParams }: { searchParams: Prom
         <p className="text-sm text-ink-500">{t.subtitle}</p>
       </div>
       {errorText && <p className="rounded-md border border-band-bad/40 bg-band-bad/10 p-3 text-sm text-band-bad" role="alert" data-reporter-error>{errorText}</p>}
+      {staff && !teacher && (
+        <form method="get" action="/reports" className="flex flex-wrap items-end gap-3" data-reporter-student-search>
+          <label className="flex flex-col gap-1 text-sm">
+            <span className="font-semibold text-ink-700">{t.studentSearch}</span>
+            <input type="search" name="q" defaultValue={query} maxLength={60} className="input" />
+          </label>
+          <button type="submit" className="btn-secondary min-h-11">{t.studentSearchButton}</button>
+        </form>
+      )}
+      {staff && !teacher && students.length >= STUDENT_LIST_CAP && <p className="text-xs text-ink-500" role="status" data-reporter-list-capped>{t.listCapped.replace("{n}", String(STUDENT_LIST_CAP))}</p>}
       <Card className="p-4">
         <form method="get" action="/api/reports" className="flex flex-col gap-4" data-reporter-form>
           <input type="hidden" name="ui" value="1" />

@@ -310,7 +310,7 @@ const uz: Dictionary = {
     continueWithTelegram: "Telegram orqali davom etish",
     telegramUnavailable: "Bu muhitda Telegram orqali kirish hali sozlanmagan.",
     resetTitle: "Parolni tiklash",
-    resetSubtitle: "Tiklash havolasini shu yerda ko'rsatamiz (bu demoda email xizmati ulanmagan).",
+    resetSubtitle: "Hisobingiz emailini kiriting. Onlayn tiklash mavjud bo'lmasa, parolni tiklashda markaz yordam beradi.",
     resetSend: "Tiklash havolasini olish",
     resetConfirmTitle: "Yangi parol tanlang",
     resetConfirmCta: "Parolni yangilash",
@@ -2768,6 +2768,9 @@ const uz: Dictionary = {
     student: "Talaba",
     studentHint: "Faqat \"Bitta talaba\" tanlanganda ishlatiladi.",
     noStudents: "Hozircha talaba hisoblari yo'q.",
+    studentSearch: "Talabani ism bo'yicha topish",
+    studentSearchButton: "Topish",
+    listCapped: "Birinchi {n} ta talaba ko'rsatilmoqda. Ro'yxatni qisqartirish uchun ismning bir qismini yozing.",
     scopeRoster: "Menga biriktirilgan talabalar",
     noRoster: "Sizga hali talaba biriktirilmagan. Ularni ega yoki admin Boshqaruv, O'qituvchi ro'yxatlari bo'limida biriktiradi.",
     roster: {
