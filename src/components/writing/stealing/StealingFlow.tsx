@@ -1,5 +1,6 @@
 "use client";
 
+import { formatDateTime } from "@/lib/time";
 import { useState } from "react";
 import type { Dictionary } from "@/lib/i18n/en";
 import type { StealingView } from "@/lib/services/writing/stealing";
@@ -115,7 +116,7 @@ export function StealingFlow({ dict, initial, locale }: { dict: Dictionary; init
             })}
           </div>
         ) : !v.rewriteUnlocked ? (
-          <p role="status" className="rounded-md bg-paper-sunken p-4 text-base text-ink-700" data-stealing-rewrite-locked>{t.rewriteLocked.replace("{date}", v.rewriteAvailableAt ? new Date(v.rewriteAvailableAt).toLocaleString(locale === "uz" ? "uz-Latn-UZ" : "en-GB", { timeZone: "Asia/Tashkent", dateStyle: "medium", timeStyle: "short" }) : "—")}</p>
+          <p role="status" className="rounded-md bg-paper-sunken p-4 text-base text-ink-700" data-stealing-rewrite-locked>{t.rewriteLocked.replace("{date}", v.rewriteAvailableAt ? formatDateTime(v.rewriteAvailableAt, locale) : "—")}</p>
         ) : textStep("rewrite", t.rewriteHint, 14)}
     </div>
   );

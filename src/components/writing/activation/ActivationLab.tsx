@@ -1,5 +1,6 @@
 "use client";
 
+import { formatDate } from "@/lib/time";
 import { useEffect, useRef, useState } from "react";
 import type { Dictionary } from "@/lib/i18n/en";
 
@@ -206,7 +207,7 @@ export function ActivationLab({ dict, aiReady, vocabularyCount, initialItem, ove
               <div><dt className="text-ink-500">{t.wordsActivated}</dt><dd className="text-xl font-semibold text-ink-900">{overview.wordsActivated}</dd></div>
               <div><dt className="text-ink-500">{t.averageActivation}</dt><dd className="text-xl font-semibold text-ink-900">{overview.averageActivation ?? "—"}</dd></div>
               <div><dt className="text-ink-500">{t.dayStreak}</dt><dd className="text-xl font-semibold text-ink-900">{overview.dayStreak}</dd></div>
-              <div className="col-span-2"><dt className="text-ink-500">{t.lastSession}</dt><dd className="text-base text-ink-900">{last ? t.lastSessionLine.replace("{date}", new Date(last.at).toLocaleDateString(locale === "uz" ? "uz-Latn-UZ" : "en-GB", { timeZone: "Asia/Tashkent" })).replace("{accepted}", String(last.stats.accepted)).replace("{attempts}", String(last.stats.attempts)) : t.noSessions}</dd></div>
+              <div className="col-span-2"><dt className="text-ink-500">{t.lastSession}</dt><dd className="text-base text-ink-900">{last ? t.lastSessionLine.replace("{date}", formatDate(last.at, locale)).replace("{accepted}", String(last.stats.accepted)).replace("{attempts}", String(last.stats.attempts)) : t.noSessions}</dd></div>
             </dl>
           </section>
         </aside>

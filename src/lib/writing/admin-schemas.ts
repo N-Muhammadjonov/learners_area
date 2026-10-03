@@ -95,5 +95,5 @@ export const ADMIN_ISSUES = [
 export type AdminIssue = (typeof ADMIN_ISSUES)[number];
 
 export function wordsIn(text: string): number {
-  return (text.trim().match(/[\p{L}\p{N}][\p{L}\p{N}'’-]*/gu) ?? []).length;
+  return (text.trim().match(/[\p{L}\p{N}][\p{L}\p{N}'\u2019-]*/gu) ?? []).length;
 }
