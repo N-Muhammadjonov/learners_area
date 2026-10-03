@@ -1,0 +1,22 @@
+{
+  "at": "2026-10-03T20:48:00.019Z",
+  "target": "approved Preview only",
+  "tests": [
+    {
+      "id": "2538af07-787e-4772-a7a8-cdd6f54a055f",
+      "title": "Listening Test 1",
+      "publication_state": "published"
+    }
+  ],
+  "uploads": [
+    {
+      "status": "attached",
+      "direct_to_storage": true,
+      "size": 16450918,
+      "finalized_at": "2026-10-03T20:38:38.594Z",
+      "used_at": "2026-10-03T20:38:39.333Z",
+      "error": null
+    }
+  ],
+  "pass": true
+}

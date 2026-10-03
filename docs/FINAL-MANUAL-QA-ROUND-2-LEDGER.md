@@ -23,6 +23,17 @@ Continuation checkpoint after owner transcript clarification:
 - Fifteen original demo materials prepared for owner-authorized Preview publication: five per Part, sixty vocabulary items, original Band 8/9-style answers and ideas. Canonical draft validation passed. Publication and final browser proof remain pending.
 - Previous canonical gate receipts are historical. Two complete final-source gates are being rerun after the shared-bank changes. This is not a complete product acceptance certificate.
 
+## Latest verified continuation — October 4
+
+This section supersedes earlier pending R2/demo/owner-authoring statements; older checkpoints remain historical. Broad manual acceptance is still incomplete.
+
+- Owner approved the existing private learners-area-preview bucket CORS change. Only the exact qnsdvm460 Preview and stable learners-area-next origins were allowed. No bucket/variable duplication or public exposure. Actual16,450,918-byte direct upload finalized/attached; Listening Test1 published as2538af07-787e-4772-a7a8-cdd6f54a055f. Authenticated audio loaded and advanced, duration1645.034671 seconds. Safe receipts: receipts/r2-preview-upload-verified-2026-10-04.json and r2-preview-audio-2026-10-04.json.
+- All15 demo Speaking questions are published, five per Part,60 original vocabulary entries; advanced-style samples are educational examples, not official band scores. Practice/Partner share IDs; helpers are not sent to Partner. Both learner views verified at all eight CSS widths without horizontal overflow.
+- Owner authoring now publishes a topic batch atomically: Part1/3 multiple questions with separate helpers, Part2 one cue card with points and optional Part3 note. Existing topics can be edited, renamed, archived and restored. Removed rows remain for attempt/vocabulary references; no schema migration. Native and actual isolated-browser evidence is recorded in SPEAKING-TOPIC-AUTHORING-2026-10-04.md and receipts/speaking-topic-browser-db-2026-10-04.json. One Upload produced one learner topic with two questions. Owner form measured375/1280px without overflow.
+- Missing Listening transcript panels are hidden. Owner package completeness gates remain removed; safe parsing/schema/path checks remain.
+- Two final unchanged-source canonical gates12/13 PASS: native PostgreSQL1048/1048, UI206/206, PGlite958 pass plus90 native-only skips, typecheck/lint/build and whitespace checks. Receipts under receipts/gates. Final new Preview deployment/owner verification is next; Production remains untouched.
+- Still unverified: physical microphone/replay, actual two-user Live Partner audio (realtime service absent), broader module/role/offline/performance acceptance and remaining original-content scope. Do not certify the full74-section request as complete.
+
 ## Owner defects
 
 |Defect|Verified cause / finding|Change|Evidence and remaining work|

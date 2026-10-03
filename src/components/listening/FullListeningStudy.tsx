@@ -249,17 +249,17 @@ export function FullListeningStudy({
               </article>
             ))}
         </section>
-        <aside className="card academic-text space-y-4">
+        {sections.find(s => s.number === section)?.transcript && <aside className="card academic-text space-y-4">
           <h2 className="font-display text-xl font-bold">📖 Transcript</h2>
           <ClickableText
             {...textProps}
             occurrences={sections.find((s) => s.number === section)?.transcript ? occurrences[section] ?? [] : []}
             text={
               sections.find((s) => s.number === section)?.transcript ||
-              "Transcript not supplied for this QA draft."
+              ""
             }
           />
-        </aside>
+        </aside>}
       </div>
       {error && <p role="alert">{error}</p>}
       {result && (

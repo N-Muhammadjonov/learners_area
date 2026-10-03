@@ -1,0 +1,97 @@
+{
+  "at": "2026-10-03T21:00:30.028Z",
+  "target": "isolated local only",
+  "rows": [
+    {
+      "id": "bd443212-5016-431d-8734-6bd7b7d0d44d",
+      "part": "part1",
+      "topic": "Work and studies · updated browser QA",
+      "prompt_text": "Do you work or are you a student?",
+      "cue_card": "",
+      "available_in": [
+        "practice_alone",
+        "live_partner"
+      ],
+      "publication_state": "published",
+      "study_support": {
+        "ideasHtml": "",
+        "vocabulary": [],
+        "vocabularyHtml": "",
+        "modelAnswerHtml": "<p style=\"font-family:Georgia\"><strong>I study engineering.</strong> <em>I enjoy practical projects.</em></p>"
+      }
+    },
+    {
+      "id": "d349de73-a10f-47a2-9382-2108a299404f",
+      "part": "part1",
+      "topic": "Work and studies · updated browser QA",
+      "prompt_text": "Why did you choose your subject?",
+      "cue_card": "",
+      "available_in": [
+        "practice_alone",
+        "live_partner"
+      ],
+      "publication_state": "published",
+      "study_support": {
+        "ideasHtml": "Practical skills; interesting projects; future career.",
+        "vocabulary": [],
+        "vocabularyHtml": "",
+        "modelAnswerHtml": ""
+      }
+    },
+    {
+      "id": "fcc506b8-f7d0-421e-8dff-2a3153d7f7a1",
+      "part": "part2",
+      "topic": "Person you met and want to know more about · browser QA",
+      "prompt_text": "Person you met and want to know more about · browser QA",
+      "cue_card": "- who this person is\n- how you met this person\n- when you met this person\n- why you want to know more about this person\n- Part 3 – Making friends",
+      "available_in": [
+        "practice_alone",
+        "live_partner"
+      ],
+      "publication_state": "published",
+      "study_support": {
+        "ideasHtml": "",
+        "vocabulary": [],
+        "vocabularyHtml": "",
+        "modelAnswerHtml": "I met a thoughtful neighbour at a local volunteering event."
+      }
+    },
+    {
+      "id": "7f487030-08fb-4d70-813f-48ff85542ea8",
+      "part": "part3",
+      "topic": "Making friends · edited browser QA",
+      "prompt_text": "Why are close friends important?",
+      "cue_card": "",
+      "available_in": [
+        "practice_alone",
+        "live_partner"
+      ],
+      "publication_state": "published",
+      "study_support": {
+        "ideasHtml": "",
+        "vocabulary": [],
+        "vocabularyHtml": "",
+        "modelAnswerHtml": ""
+      }
+    },
+    {
+      "id": "497fc182-ac0a-42c8-8038-67189065e1c4",
+      "part": "part3",
+      "topic": "Making friends · edited browser QA",
+      "prompt_text": "How has technology changed friendships?",
+      "cue_card": "",
+      "available_in": [
+        "practice_alone",
+        "live_partner"
+      ],
+      "publication_state": "archived",
+      "study_support": {
+        "ideasHtml": "",
+        "vocabulary": [],
+        "vocabularyHtml": "",
+        "modelAnswerHtml": ""
+      }
+    }
+  ],
+  "pass": true
+}

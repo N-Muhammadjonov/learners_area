@@ -1,3 +1,5 @@
+import { asc } from "drizzle-orm";
+import { speakingPrompts } from "@/db/schema";
 import { redirect } from "next/navigation";
 import { requireStaff } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
@@ -13,7 +15,7 @@ export default async function TeacherSpeakingPage() {
   if (!user) redirect("/dashboard");
   const dict = getDictionary(await getLocale());
   const rows = await listAllForManagement();
-  const prompts = user.role === "owner" || user.role === "admin" ? await db.query.speakingPrompts.findMany() : [];
+  const prompts = user.role === "owner" || user.role === "admin" ? await db.query.speakingPrompts.findMany({orderBy:[asc(speakingPrompts.createdAt),asc(speakingPrompts.id)]}) : [];
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-4">
