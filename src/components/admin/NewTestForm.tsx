@@ -8,6 +8,7 @@ import { useInstantInteraction } from "@/components/interaction/InstantInteracti
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea, Label } from "@/components/ui/Input";
 import type { Dictionary } from "@/lib/i18n/en";
+import { apiErrorMessage } from "@/lib/api-error-message";
 
 type SourceMode = "link" | "upload";
 
@@ -58,7 +59,7 @@ export function NewTestForm({ dict }: { dict: Dictionary }) {
         });
         setPending(false); submitRef.current = false;
         if (result.ok) navigate(`/admin/listening/${result.data.id}`);
-        else setError(result.error ?? "Could not save. Your input has been kept.");
+        else setError(apiErrorMessage(result.error, result.status, dict));
       }}
     >
       <div>

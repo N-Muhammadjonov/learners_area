@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea, Label } from "@/components/ui/Input";
 import type { Dictionary } from "@/lib/i18n/en";
+import { apiErrorMessage } from "@/lib/api-error-message";
 
 type QType = "multiple_choice" | "short_answer";
 
@@ -50,8 +51,8 @@ export function NewListeningQuestionForm({ dict, testId }: { dict: Dictionary; t
           setExplanation("");
           router.refresh();
         } else {
-          const data = await res.json();
-          setError(data.error ?? "Could not save");
+          const data = (await res.json().catch(() => ({}))) as { error?: unknown };
+          setError(apiErrorMessage(data.error, res.status, dict));
         }
       }}
     >

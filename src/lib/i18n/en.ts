@@ -455,7 +455,7 @@ const en = {
     retentionDrillAction: "Start the drill",
     vocabDue: "Vocabulary due for review",
     skillSummary: "Skill summary",
-    noAttemptsYet: "No attempts yet — this module opens soon.",
+    noAttemptsYet: "No attempts yet.",
     startWriting: "Practise Writing",
     reviewVocab: "Review vocabulary",
     lastModule: "Last worked on",
@@ -2578,6 +2578,16 @@ const en = {
     review: "Review / Try again",
     start: "Start / Continue",
     transcriptMissing: "The full transcript is missing from this QA draft. Evidence extracts are not a full transcript.",
+  },
+  apiErrors: {
+    unauthenticated: "Your session has ended. Sign in again, then retry.",
+    forbidden: "Your account does not have permission for this action.",
+    notFound: "This item no longer exists. Refresh the page.",
+    rateLimited: "Too many attempts. Wait a moment, then try again.",
+    conflict: "This was already changed by someone else. Refresh the page.",
+    uploadNotReady: "The uploaded file is not ready. Upload it again, then save.",
+    invalid: "Some fields are missing or invalid. Check them and try again.",
+    generic: "Could not save. Your input has been kept — try again.",
   },
 };
 

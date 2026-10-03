@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import type { Dictionary } from "@/lib/i18n/en";
+import { apiErrorMessage } from "@/lib/api-error-message";
 
 /**
  * Adds a student-typed transcript to an attempt that has none, which is what
@@ -31,7 +32,7 @@ export function ManualTranscriptForm({ dict, attemptId }: { dict: Dictionary; at
     setBusy(false);
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));
-      setError(String(data.error ?? t.errors.unknown));
+      setError(apiErrorMessage(data.error, res.status, dict));
       return;
     }
     setSaved(true);

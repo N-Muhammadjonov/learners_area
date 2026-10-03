@@ -457,7 +457,7 @@ const uz: Dictionary = {
     retentionDrillAction: "Mashqni boshlash",
     vocabDue: "Takrorlash vaqti kelgan so'zlar",
     skillSummary: "Ko'nikmalar xulosasi",
-    noAttemptsYet: "Hali urinish yo'q — bu modul tez orada ochiladi.",
+    noAttemptsYet: "Hali urinish yo'q.",
     startWriting: "Writing mashq qilish",
     reviewVocab: "Lug'atni takrorlash",
     lastModule: "Oxirgi ishlangan",
@@ -2573,6 +2573,16 @@ const uz: Dictionary = {
     review: "Ko'rib chiqish / Qayta urinish",
     start: "Boshlash / Davom etish",
     transcriptMissing: "Bu QA draftda to'liq transcript yo'q. Dalil parchalari to'liq transcript emas.",
+  },
+  apiErrors: {
+    unauthenticated: "Sessiya tugadi. Qayta kiring va yana urinib ko'ring.",
+    forbidden: "Hisobingizda bu amal uchun ruxsat yo'q.",
+    notFound: "Bu element endi mavjud emas. Sahifani yangilang.",
+    rateLimited: "Urinishlar juda ko'p. Biroz kutib, qayta urinib ko'ring.",
+    conflict: "Buni boshqa foydalanuvchi allaqachon o'zgartirgan. Sahifani yangilang.",
+    uploadNotReady: "Yuklangan fayl tayyor emas. Uni qayta yuklab, keyin saqlang.",
+    invalid: "Ba'zi maydonlar bo'sh yoki noto'g'ri. Tekshirib, qayta urinib ko'ring.",
+    generic: "Saqlab bo'lmadi. Kiritganlaringiz saqlanib qoldi — qayta urinib ko'ring.",
   },
 };
 

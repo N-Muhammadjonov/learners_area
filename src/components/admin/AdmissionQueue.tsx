@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n/en";
+import { apiErrorMessage } from "@/lib/api-error-message";
 import type { AccessRequestRow } from "@/lib/data/admission";
 import { ConfirmAction } from "@/components/interaction/InteractionPrimitives";
 
@@ -36,7 +37,7 @@ export function AdmissionQueue({
       });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        setError(`${dict.people.failed} (${data.error ?? res.status})`);
+        setError(`${dict.people.failed} ${apiErrorMessage(data.error, res.status, dict)}`);
         throw new Error("admission_decision_failed");
       }
       router.refresh();
