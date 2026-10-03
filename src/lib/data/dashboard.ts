@@ -1,4 +1,6 @@
-import { and, asc, count, desc, eq, gt, lte, ne } from "drizzle-orm";
+import { and, asc, count, desc, eq, gt, lte, ne, sql } from "drizzle-orm";
+import { streakFromDays } from "@/lib/progress/streak";
+import { TIMEZONE, tashkentDayKey } from "@/lib/time";
 import { getCourseRoadmap } from "@/lib/data/roadmap";
 import { isOpen, resolveState, type LessonState } from "@/lib/services/lessons/state";
 import { db } from "@/db/client";
@@ -16,26 +18,16 @@ import {
   courses,
 } from "@/db/schema";
 
-async function computeStreak(userId: string): Promise<number> {
-  const events = await db
-    .select({ createdAt: activityEvents.createdAt })
-    .from(activityEvents)
-    .where(eq(activityEvents.userId, userId))
-    .orderBy(desc(activityEvents.createdAt))
-    .limit(400);
+const STREAK_ZONE = sql.raw(`'${TIMEZONE.replace(/'/g, "")}'`);
 
-  const days = new Set(events.map((e) => e.createdAt.toISOString().slice(0, 10)));
-  let streak = 0;
-  const cursor = new Date();
-  // Allow "today not logged yet" to not zero out the streak.
-  if (!days.has(cursor.toISOString().slice(0, 10))) {
-    cursor.setDate(cursor.getDate() - 1);
-  }
-  while (days.has(cursor.toISOString().slice(0, 10))) {
-    streak += 1;
-    cursor.setDate(cursor.getDate() - 1);
-  }
-  return streak;
+async function computeStreak(userId: string): Promise<number> {
+  // Distinct active days in the centre's timezone, computed in SQL: a busy learner's
+  // many events per day can no longer push older streak days out of a row window.
+  const days = await db
+    .selectDistinct({ day: sql<string>`to_char((${activityEvents.createdAt} at time zone ${STREAK_ZONE})::date, 'YYYY-MM-DD')` })
+    .from(activityEvents)
+    .where(eq(activityEvents.userId, userId));
+  return streakFromDays(days.map((d) => d.day), tashkentDayKey(new Date()));
 }
 
 /**

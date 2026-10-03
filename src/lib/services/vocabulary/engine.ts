@@ -228,8 +228,9 @@ export async function searchLibrary(
     })
     .from(userVocabulary)
     .innerJoin(lexemes, eq(userVocabulary.lexemeId, lexemes.id))
-    .where(eq(userVocabulary.userId, userId))
-    .limit(2000);
+    // Whole own library (narrow columns): ranking uses Unicode/apostrophe folding
+    // that SQL LIKE cannot mirror, and a row cap made words beyond it unfindable.
+    .where(eq(userVocabulary.userId, userId));
 
   return searchRows(rows, query, limit);
 }

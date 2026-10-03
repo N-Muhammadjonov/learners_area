@@ -548,7 +548,12 @@ export async function setRetentionTextActive(
 
 export type RetentionCandidateRow = { textId: string; versionId: string };
 
-/** Every ACTIVE text of a level that has a current version, ready to assign. */
+/**
+ * Every ACTIVE text of a level that has a current version, ready to assign.
+ * Deliberately unbounded: rotation needs the COMPLETE pool (a cycle ends only when
+ * every candidate is done), so a row cap would make high-sequence texts silently
+ * unreachable. Level-scoped, index-backed (level, active), two uuids per row.
+ */
 export async function listActiveCandidates(
   level: RetentionLevel,
   connection: RetentionBankDatabase = db
@@ -557,8 +562,7 @@ export async function listActiveCandidates(
     .select({ textId: retentionTexts.id, versionId: retentionTexts.currentVersionId })
     .from(retentionTexts)
     .where(and(eq(retentionTexts.level, level), eq(retentionTexts.active, true), isNotNull(retentionTexts.currentVersionId)))
-    .orderBy(asc(retentionTexts.sequence))
-    .limit(1000);
+    .orderBy(asc(retentionTexts.sequence));
   return rows.map((row) => ({ textId: row.textId, versionId: row.versionId! }));
 }
 

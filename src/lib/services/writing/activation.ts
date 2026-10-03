@@ -50,7 +50,8 @@ export async function resolveActivationItems(userId: string, terms: string[], da
   const rows = await database.select(itemColumns)
     .from(userVocabulary).innerJoin(lexemes, eq(lexemes.id, userVocabulary.lexemeId))
     .where(eq(userVocabulary.userId, userId))
-    .orderBy(desc(userVocabulary.createdAt)).limit(5000);
+    // Whole own library: a saved word older than any row cap must still resolve to its entry.
+    .orderBy(desc(userVocabulary.createdAt));
   const byKey = new Map<string, ActivationItem>();
   for (const r of rows) if (!byKey.has(activationMatchKey(r.term))) byKey.set(activationMatchKey(r.term), r);
   return cleaned.map((term, i) => byKey.get(keys[i]!) ?? { entryId: null, term, definitionEn: null, translationUz: null });

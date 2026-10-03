@@ -41,3 +41,43 @@ test("PS1 1 205 band estimates in one week: exact count and pooled mean (no trun
     await db.delete(users).where(inArray(users.id, [me, other]));
   }
 });
+
+// PS2/PS3 (2026-10-03): other silent row windows found in the same sweep.
+test("PS2 streak counts Tashkent days, not a 400-event window: 3 busy days of 500 events each = 3", { skip: !enabled && "set QA2_DATABASE_TESTS=1" }, async () => {
+  const { getActivityStreak } = await import("../src/lib/data/dashboard");
+  const { activityEvents } = await import("../src/db/schema");
+  const { tashkentDayKey } = await import("../src/lib/time");
+  const me = randomUUID();
+  await db.insert(users).values({ id: me, name: "PS2", role: "student", accountStatus: "active", email: `ps2.${me}@qa.invalid` } as never);
+  try {
+    const noonToday = new Date(`${tashkentDayKey(new Date())}T07:00:00Z`); // 12:00 Tashkent
+    const rows = [0, 1, 2].flatMap((d) => Array.from({ length: 500 }, (_, i) => ({
+      userId: me, type: "qa_scale", payload: {}, createdAt: new Date(noonToday.getTime() - d * 86_400_000 - i * 1000),
+    })));
+    for (let i = 0; i < rows.length; i += 500) await db.insert(activityEvents).values(rows.slice(i, i + 500) as never);
+    assert.equal(await getActivityStreak(me), 3);
+  } finally {
+    await db.delete(users).where(inArray(users.id, [me]));
+  }
+});
+
+test("PS3 own-library search finds the 2 101st word of a library (no 2 000-row cap; last in heap order)", { skip: !enabled && "set QA2_DATABASE_TESTS=1" }, async () => {
+  const { searchLibrary } = await import("../src/lib/services/vocabulary/engine");
+  const { lexemes, userVocabulary } = await import("../src/db/schema");
+  const me = randomUUID();
+  const tag = me.slice(0, 8);
+  await db.insert(users).values({ id: me, name: "PS3", role: "student", accountStatus: "active", email: `ps3.${me}@qa.invalid` } as never);
+  const lex = await db.insert(lexemes).values(Array.from({ length: 2101 }, (_, i) => ({
+    term: i === 2100 ? `zqoldest${tag}` : `zqw${tag}x${i}`, senseKey: `qa-${tag}-${i}`, definitionEn: "qa",
+  })) as never).returning({ id: lexemes.id }).catch((e: { cause?: Error }) => { throw new Error(`lexeme seed: ${e.cause?.message}`); });
+  try {
+    const base = Date.now();
+    const uv = lex.map((l, i) => ({ userId: me, lexemeId: l.id, createdAt: new Date(base - (2101 - i) * 1000) }));
+    for (let i = 0; i < uv.length; i += 700) await db.insert(userVocabulary).values(uv.slice(i, i + 700) as never);
+    const hits = await searchLibrary(me, `zqoldest${tag}`);
+    assert.equal(hits[0]?.row.term, `zqoldest${tag}`);
+  } finally {
+    await db.delete(users).where(inArray(users.id, [me]));
+    await db.delete(lexemes).where(inArray(lexemes.id, lex.map((l) => l.id)));
+  }
+});
