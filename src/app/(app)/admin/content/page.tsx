@@ -13,6 +13,7 @@ import { requireAdministrator } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { Card } from "@/components/ui/Card";
 import { isLive } from "@/lib/services/cms/publication";
+import { writingContentTotals } from "@/lib/services/writing/admin";
 
 export const metadata = { title: "Content" };
 
@@ -48,6 +49,7 @@ export default async function AdminContentPage() {
       .from(videoLessons),
   ]);
 
+  const writingOther = await writingContentTotals().catch(() => ({ total: 0, live: 0 }));
   const published = (rows: { state: typeof readingRows[number]["state"]; publishAt: Date | null }[]) =>
     rows.filter((row) => isLive({ publicationState: row.state, publishAt: row.publishAt })).length;
 
@@ -70,11 +72,12 @@ export default async function AdminContentPage() {
     },
     {
       key: "writing",
-      title: dict.admin.promptsTitle,
-      href: "/admin/writing-prompts",
+      // The whole Writing content system (lessons, exam prompts, translation, model texts, patterns) — one canonical area.
+      title: dict.admin.writingAdmin.title,
+      href: "/admin/writing",
       materialsType: "writing" as const,
-      total: writingRows.length,
-      live: published(writingRows),
+      total: writingRows.length + writingOther.total,
+      live: published(writingRows) + writingOther.live,
     },
     {
       key: "grammar",

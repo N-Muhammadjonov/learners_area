@@ -94,7 +94,9 @@ const ENTRIES: Entry[] = [
   { prefix: "/admin/reading", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.admin.readingTitle, href: "/admin/reading" }] },
   { prefix: "/admin/listening", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.admin.listeningTitle, href: "/admin/listening" }] },
   { prefix: "/admin/grammar", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.admin.grammarTitle, href: "/admin/grammar" }] },
-  { prefix: "/admin/writing-prompts", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.nav.adminPrompts, href: "/admin/writing-prompts" }] },
+  // Legacy alias (redirects to /admin/writing?section=exam); kept so old bookmarks still have a parent.
+  { prefix: "/admin/writing-prompts", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.admin.writingAdmin.title, href: "/admin/writing" }] },
+  { prefix: "/admin/writing", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.admin.writingAdmin.title, href: "/admin/writing" }] },
   { prefix: "/admin/video-lessons", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.videoLessonAdmin.title, href: "/admin/video-lessons" }] },
 
   { prefix: "/owner/integrations", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.owner.integrations, href: "/owner/integrations" }] },

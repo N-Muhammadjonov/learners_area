@@ -135,8 +135,8 @@ export default async function ManagementPage() {
         icon: <IconGrammar />,
       },
       {
-        href: "/admin/writing-prompts",
-        title: dict.nav.adminPrompts,
+        href: "/admin/writing",
+        title: dict.admin.writingAdmin.title,
         body: dict.management.writingBody,
         icon: <IconWriting />,
       },

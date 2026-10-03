@@ -20,12 +20,15 @@ export function PublicationControl({
   state,
   publishAt,
   dict,
+  issueLabels,
 }: {
   type: string;
   id: string;
   state: PublicationState;
   publishAt: string | null;
   dict: Dictionary;
+  /** Localized sentences for server publish-blocker codes (Writing Management). Raw codes are never shown. */
+  issueLabels?: Record<string, string>;
 }) {
   const t = dict.admin.publication;
   const router = useRouter();
@@ -35,6 +38,7 @@ export function PublicationControl({
   const [moment, setMoment] = useState(() => toLocalInput(publishAt));
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<"saved" | "error" | null>(null);
+  const [issues, setIssues] = useState<string[]>([]);
 
   async function save() {
     setBusy(true);
@@ -48,7 +52,10 @@ export function PublicationControl({
       }),
     }).catch(() => null);
     setBusy(false);
+    setIssues([]);
     if (!response || !response.ok) {
+      const data = response ? ((await response.json().catch(() => null)) as { issues?: string[] } | null) : null;
+      if (issueLabels && data?.issues?.length) setIssues(data.issues.map((code) => issueLabels[code]).filter((x): x is string => Boolean(x)));
       setMessage("error");
       return;
     }
@@ -102,6 +109,11 @@ export function PublicationControl({
         <span className="text-xs text-band-bad" data-publication-result="error">
           {t.failed}
         </span>
+      )}
+      {issues.length > 0 && (
+        <ul className="w-full list-disc pl-5 text-xs text-band-bad" data-publication-issues>
+          {issues.map((issue) => <li key={issue}>{issue}</li>)}
+        </ul>
       )}
     </div>
   );
