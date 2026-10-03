@@ -28,4 +28,3 @@ export const generalReadingBundle = z.object({
   })).min(1).max(3).refine((rows) => new Set(rows.map((row) => row.passageNo)).size === rows.length, "passage numbers must be unique"),
 });
 export type GeneralReadingBundle = z.infer<typeof generalReadingBundle>;
-
