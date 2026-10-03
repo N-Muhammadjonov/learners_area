@@ -1,0 +1,93 @@
+{
+  "deployedSha": "2b77083e4afe7cea49cb412408353390a9f783cb",
+  "rows": [
+    {
+      "desired": 320,
+      "dpr": 1,
+      "height": 900,
+      "overflow": false,
+      "text": "Learners Area\nTake your learning journey with us\nWelcome to the next level\nwith LEARNERS AREA\nLet's Get Started\n→\nPrepared by Nurmuhammad · @LEARNERS_AREA",
+      "video": false,
+      "width": 320
+    },
+    {
+      "desired": 375,
+      "dpr": 1,
+      "height": 900,
+      "overflow": false,
+      "text": "Learners Area\nTake your learning journey with us\nWelcome to the next level\nwith LEARNERS AREA\nLet's Get Started\n→\nPrepared by Nurmuhammad · @LEARNERS_AREA",
+      "video": false,
+      "width": 375
+    },
+    {
+      "desired": 430,
+      "dpr": 1,
+      "height": 900,
+      "overflow": false,
+      "text": "Learners Area\nTake your learning journey with us\nWelcome to the next level\nwith LEARNERS AREA\nLet's Get Started\n→\nPrepared by Nurmuhammad · @LEARNERS_AREA",
+      "video": false,
+      "width": 430
+    },
+    {
+      "desired": 768,
+      "dpr": 1,
+      "height": 900,
+      "overflow": false,
+      "text": "Learners Area\nTake your learning journey with us\nWelcome to the next level\nwith LEARNERS AREA\nLet's Get Started\n→\nPrepared by Nurmuhammad · @LEARNERS_AREA",
+      "video": false,
+      "width": 768
+    },
+    {
+      "desired": 1024,
+      "controls": false,
+      "dpr": 1,
+      "fit": "contain",
+      "height": 900,
+      "muted": true,
+      "overflow": false,
+      "src": "/brand/Learners_Area_2K_Clean_Background_v16_FINAL.mp4",
+      "video": true,
+      "welcome": false,
+      "width": 1024
+    },
+    {
+      "desired": 1280,
+      "controls": false,
+      "dpr": 1,
+      "fit": "contain",
+      "height": 900,
+      "muted": true,
+      "overflow": false,
+      "src": "/brand/Learners_Area_2K_Clean_Background_v16_FINAL.mp4",
+      "video": true,
+      "welcome": false,
+      "width": 1280
+    },
+    {
+      "desired": 1440,
+      "controls": false,
+      "dpr": 1,
+      "fit": "contain",
+      "height": 900,
+      "muted": true,
+      "overflow": false,
+      "src": "/brand/Learners_Area_2K_Clean_Background_v16_FINAL.mp4",
+      "video": true,
+      "welcome": false,
+      "width": 1440
+    },
+    {
+      "desired": 1920,
+      "controls": false,
+      "dpr": 1,
+      "fit": "contain",
+      "height": 900,
+      "muted": true,
+      "overflow": false,
+      "src": "/brand/Learners_Area_2K_Clean_Background_v16_FINAL.mp4",
+      "video": true,
+      "welcome": false,
+      "width": 1920
+    }
+  ]
+}
