@@ -299,6 +299,7 @@ export const auditLog = pgTable("audit_log", {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 }, (table) => ({
   actionIdx: index("audit_log_action_idx").on(table.action, table.createdAt),
+  riwiHistoryIdx: index("audit_log_created_id_idx").on(table.createdAt, table.id),
 }));
 
 // ---------------------------------------------------------------------------
@@ -336,6 +337,7 @@ export const riwiKnowledgeSources = pgTable("riwi_knowledge_sources", {
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 }, (table) => [
   index("riwi_knowledge_sources_state_idx").on(table.state, table.authority, table.updatedAt),
+  index("riwi_knowledge_sources_history_idx").on(table.updatedAt, table.id),
   index("riwi_knowledge_sources_scope_idx").on(table.scope, table.scopeRole, table.scopeUserId, table.state),
   index("riwi_knowledge_sources_checksum_idx").on(table.checksum),
   uniqueIndex("riwi_knowledge_sources_type_checksum_uidx").on(table.sourceType, table.checksum),
@@ -407,6 +409,7 @@ export const riwiLearningSignals = pgTable("riwi_learning_signals", {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 }, (table) => [
   index("riwi_learning_signals_state_created_idx").on(table.state, table.createdAt),
+  index("riwi_learning_signals_history_idx").on(table.createdAt, table.id),
   index("riwi_learning_signals_actor_idx").on(table.actorUserId, table.createdAt),
   index("riwi_learning_signals_target_idx").on(table.targetUserId, table.createdAt),
   uniqueIndex("riwi_learning_signals_actor_source_uidx").on(table.actorUserId, table.signalType, table.sourceId)
@@ -490,7 +493,7 @@ export const riwiProviderExperiments = pgTable("riwi_provider_experiments", {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   completedAt: timestamp("completed_at", { withTimezone: true }),
 }, (table) => [
-  index("riwi_provider_experiments_actor_created_idx").on(table.actorUserId, table.createdAt),
+  index("riwi_provider_experiments_actor_created_idx").on(table.actorUserId, table.createdAt, table.id),
   uniqueIndex("riwi_provider_experiments_actor_idempotency_uidx").on(table.actorUserId, table.idempotencyKey),
   check("riwi_provider_experiments_budget_check", sql`${table.budgetMicros} >= 0`),
 ]);

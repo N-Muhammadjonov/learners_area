@@ -9,12 +9,12 @@ import { countVisibleGrammarExercises, findGrammarTopic } from "@/lib/data/gramm
 import { ownerAiStatus } from "@/lib/services/coach/owner-control";
 import { isOnRoster } from "@/lib/reporter/roster";
 import { PERIOD_KINDS } from "@/lib/reporter/period";
-import { reportSnapshotSchema } from "@/lib/reporter/snapshot-schema";
+
 import { resolveUserScope, ROLE_CAPABILITIES, authorizeCapability, type RiwiActor, type RiwiCapability, type ScopeDecision, type ScopeDependencies } from "./capabilities";
 import { formatDictionaryAnswer, lookupCanonicalDictionary, lookupDictionaryOccurrence } from "./dictionary";
 import { riwiDictionaryOccurrenceSchema } from "./contracts";
 import { findAuthorizedRiwiCourseLesson, RIWI_COURSE_EXCERPT_MAX_CHARS } from "./course-lessons";
-import { buildRiwiReport, type RiwiReportRequest } from "./reports";
+import { buildRiwiReport, riwiReportResultSchema, type RiwiReportRequest } from "./reports";
 import { RiwiToolBroker, type RiwiRiskClass, type RiwiToolHandler } from "./tool-broker";
 import { RIWI_AUDIT_ACTIONS, recordRiwiAudit } from "./audit";
 import { registerRiwiEvaluationTools, type RiwiEvaluationServices } from "./evaluation-tools";
@@ -220,10 +220,7 @@ export function createRiwiCoreTools(database: typeof db = db, evaluationServices
   const reportSelfInput = z.object(periodFields).strict();
   const reportAssignedInput = z.object({ ...periodFields, targetUserId: UUID.optional() }).strict();
   const reportAdminInput = z.object({ ...periodFields, targetUserId: UUID.optional() }).strict();
-  const reportResultSchema = z.discriminatedUnion("status", [
-    z.object({ status: z.literal("ready"), snapshot: reportSnapshotSchema }).strict(),
-    z.object({ status: z.literal("unavailable"), reason: z.enum(["not_available", "invalid_period", "generation_failed"]) }).strict(),
-  ]);
+  const reportResultSchema = riwiReportResultSchema;
 
   function reportRequest(input: { period: (typeof PERIOD_KINDS)[number]; from?: string; to?: string }, scope: ScopeKind, subjectId?: string): RiwiReportRequest {
     return { scope, subjectId, period: input.period, from: input.from, to: input.to };

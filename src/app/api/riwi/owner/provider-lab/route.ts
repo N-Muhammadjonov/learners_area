@@ -2,13 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { checkRequestOrigin } from "@/lib/http/request-origin";
-import { RULES, accountKey, consume } from "@/lib/http/rate-limit";
+import { RULES, accountKey, clientKey, consume } from "@/lib/http/rate-limit";
 import { MODEL_ID, ownerAiStatus } from "@/lib/services/coach/owner-control";
 import { authorizeCapability } from "@/lib/services/riwi/capabilities";
 import { readRiwiBoundedJson } from "@/lib/services/riwi/http";
 import { readRiwiRollout } from "@/lib/services/riwi/rollout";
 import {
-  listRiwiProviderExperiments,
+  countRiwiProviderExperiments,
+  listRiwiProviderExperimentPage,
   riwiProviderLabRequestSchema,
   runRiwiProviderExperiment,
   RiwiProviderLabError,
@@ -40,6 +41,7 @@ const experimentSchema = z.object({
 const getResponseSchema = z.object({
   ok: z.literal(true), enabled: z.object({ owner: z.boolean(), providerLab: z.boolean(), externalAi: z.boolean() }).strict(),
   providers: z.array(providerSchema).max(50), experiments: z.array(experimentSchema).max(50),
+  nextCursor: z.string().max(2048).nullable(), experimentCount: z.number().int().nonnegative(),
 }).strict();
 const postResponseSchema = z.object({ ok: z.literal(true), replay: z.boolean(), experiment: experimentSchema }).strict();
 
@@ -54,13 +56,26 @@ async function ownerActor() {
   return user;
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   const user = await ownerActor();
   if (!user) return denied(401, "unauthorized");
+  const ipLimit = consume(RULES.riwiGovernanceReadByIp, clientKey(req));
+  if (!ipLimit.ok) return json({ error: { code: "riwi_rate_limited" }, retryAfterSeconds: ipLimit.retryAfterSeconds }, 429);
+  const accountLimit = consume(RULES.riwiGovernanceReadByAccount, accountKey(user.id));
+  if (!accountLimit.ok) return json({ error: { code: "riwi_rate_limited" }, retryAfterSeconds: accountLimit.retryAfterSeconds }, 429);
+  const limits = req.nextUrl.searchParams.getAll("limit");
+  const cursors = req.nextUrl.searchParams.getAll("cursor");
+  if (limits.length > 1 || cursors.length > 1 || (limits[0] !== undefined && !/^\d{1,2}$/.test(limits[0]))) {
+    return denied(400, "riwi_request_invalid");
+  }
+  const limit = limits[0] === undefined ? 20 : Number(limits[0]);
+  if (limit < 1 || limit > 50) return denied(400, "riwi_request_invalid");
   try {
-    const [status, experiments] = await Promise.all([
+    const actor = { id: user.id, role: user.role, accountStatus: user.accountStatus };
+    const [status, history, experimentCount] = await Promise.all([
       ownerAiStatus(),
-      listRiwiProviderExperiments({ id: user.id, role: user.role, accountStatus: user.accountStatus }, 20),
+      listRiwiProviderExperimentPage(actor, { limit, cursor: cursors[0] }),
+      countRiwiProviderExperiments(actor),
     ]);
     const rollout = readRiwiRollout();
     const response = getResponseSchema.parse({
@@ -74,10 +89,13 @@ export async function GET() {
           capabilities: provider.capabilities, secretsPresent: provider.secretsPresent,
           missingSecretNames: provider.missingSecretNames,
         })),
-      experiments,
+      experiments: history.experiments,
+      nextCursor: history.nextCursor,
+      experimentCount,
     });
     return json(response);
-  } catch {
+  } catch (error) {
+    if (error instanceof RiwiProviderLabError && error.code === "invalid_input") return denied(400, "riwi_request_invalid");
     return denied(503, "riwi_provider_lab_unavailable");
   }
 }

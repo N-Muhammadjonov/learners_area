@@ -1,5 +1,5 @@
 import "server-only";
-import { and, desc, eq, sql } from "drizzle-orm";
+import { and, desc, eq, lt, or, sql } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/db/client";
 import { riwiProviderExperimentResults, riwiProviderExperiments, users } from "@/db/schema";
@@ -13,6 +13,13 @@ import { authorizeCapability } from "./capabilities";
 import { recordRiwiAudit, type RiwiAuditAction, type RiwiAuditMetadata } from "./audit";
 import { readRiwiRollout } from "./rollout";
 import { createLearningSignal } from "./learning";
+import {
+  decodeOwnerHistoryCursor,
+  encodeOwnerHistoryCursor,
+  ownerHistoryPageLimit,
+  RiwiOwnerHistoryCursorError,
+  type RiwiOwnerHistoryPosition,
+} from "./owner-history-cursor";
 
 export const RIWI_PROVIDER_LAB_MAX_PROVIDERS = 2;
 export const RIWI_PROVIDER_LAB_MAX_OUTPUT_TOKENS = 1200;
@@ -593,4 +600,51 @@ export async function listRiwiProviderExperiments(actor: ProviderLabActor, limit
     .orderBy(desc(riwiProviderExperiments.createdAt)).limit(safeLimit);
   const results = await Promise.all(rows.map((row) => getRiwiProviderExperiment(actor, row.id, database)));
   return results;
+}
+
+export async function listRiwiProviderExperimentPage(
+  actor: ProviderLabActor,
+  options: { cursor?: string | null; limit?: number } = {},
+  database: typeof db = db,
+) {
+  if (!(await activeOwner(actor, database)) || !authorizeCapability(actor, "riwi.provider.read_status").allowed) {
+    throw new RiwiProviderLabError("forbidden");
+  }
+  let limit: number;
+  let after: RiwiOwnerHistoryPosition | null;
+  try {
+    limit = ownerHistoryPageLimit(options.limit);
+    after = decodeOwnerHistoryCursor(options.cursor, actor, "provider_experiments");
+  } catch (error) {
+    if (error instanceof RiwiOwnerHistoryCursorError) throw new RiwiProviderLabError("invalid_input");
+    throw error;
+  }
+  const rows = await database.select({ id: riwiProviderExperiments.id, createdAt: riwiProviderExperiments.createdAt })
+    .from(riwiProviderExperiments).where(and(
+      eq(riwiProviderExperiments.actorUserId, actor.id),
+      after ? or(
+        lt(riwiProviderExperiments.createdAt, after.sortAt),
+        and(eq(riwiProviderExperiments.createdAt, after.sortAt), lt(riwiProviderExperiments.id, after.id)),
+      ) : undefined,
+    ))
+    .orderBy(desc(riwiProviderExperiments.createdAt), desc(riwiProviderExperiments.id)).limit(limit + 1);
+  const hasMore = rows.length > limit;
+  const selected = rows.slice(0, limit);
+  const experiments = await Promise.all(selected.map((row) => getRiwiProviderExperiment(actor, row.id, database)));
+  const last = selected.at(-1);
+  return {
+    experiments,
+    nextCursor: hasMore && last
+      ? encodeOwnerHistoryCursor({ actor, collection: "provider_experiments", after: { sortAt: last.createdAt, id: last.id } })
+      : null,
+  };
+}
+
+export async function countRiwiProviderExperiments(actor: ProviderLabActor, database: typeof db = db) {
+  if (!(await activeOwner(actor, database)) || !authorizeCapability(actor, "riwi.provider.read_status").allowed) {
+    throw new RiwiProviderLabError("forbidden");
+  }
+  const [row] = await database.select({ total: sql<number>`count(*)::int` })
+    .from(riwiProviderExperiments).where(eq(riwiProviderExperiments.actorUserId, actor.id));
+  return Number(row?.total ?? 0);
 }

@@ -290,6 +290,8 @@ test("Reporter response exposes the exact canonical snapshot and SQL provenance 
   assert.equal(uz.riwiLab.riwi, "RIWI");
   assert.equal(en.riwiLab.schema, "Schema");
   assert.equal(uz.riwiLab.schema, "Sxema");
+  assert.equal(en.riwiLab.sqlProvenance, "SQL provenance");
+  assert.equal(uz.riwiLab.sqlProvenance, "SQL kelib chiqishi");
   const snapshot = {
     schemaVersion: "riwi-report/1", reportId: "dddddddd-0000-4000-8000-000000000001",
     generatedAt: "2026-10-04T09:00:00.000Z", generatedBy: { userId: "aaaaaaaa-0000-4000-8000-000000000001", role: "student" },
@@ -314,6 +316,7 @@ test("Reporter response exposes the exact canonical snapshot and SQL provenance 
     throw new Error(`unexpected request ${url}`);
   }, async () => {
     await sendMessage("Show my personal report");
+    assert.ok(document.body.textContent?.includes("RIWI · STUDENT"), "the localized RIWI brand label is present on the English surface");
     const details = query<HTMLDetailsElement>("details");
     assert.equal(details.querySelector("dt")?.textContent, "Schema");
     assert.ok([...details.querySelectorAll("summary")].some((summary) => summary.textContent === "SQL provenance"));
@@ -321,6 +324,7 @@ test("Reporter response exposes the exact canonical snapshot and SQL provenance 
     assert.ok(details.textContent?.includes("Asia/Tashkent"));
     assert.ok(details.textContent?.includes("0.333333333333"), "ratio precision is not rounded in the snapshot view");
     assert.ok(details.textContent?.includes("select count(distinct user_id)"), "the canonical SQL provenance remains available");
+    assert.ok(details.textContent?.includes("Parameters:"));
     assert.equal(details.open, false, "provenance is available on demand without overwhelming the answer");
   });
 
@@ -333,10 +337,12 @@ test("Reporter response exposes the exact canonical snapshot and SQL provenance 
     throw new Error(`unexpected request ${url}`);
   }, async () => {
     await sendMessage("Show my personal report");
+    assert.ok(document.body.textContent?.includes("RIWI · STUDENT"), "the localized RIWI brand label is present on the Uzbek surface");
     const details = query<HTMLDetailsElement>("details");
     assert.equal(details.querySelector("dt")?.textContent, "Sxema");
     assert.ok([...details.querySelectorAll("summary")].some((summary) => summary.textContent === "SQL kelib chiqishi"));
     assert.ok(details.textContent?.includes("riwi-report/1"), "the schema value remains a canonical identifier");
     assert.ok(details.textContent?.includes("select count(distinct user_id)"), "SQL remains canonical and untranslated");
+    assert.ok(details.textContent?.includes("Parametrlar:"));
   }, "student", undefined, "uz");
 });

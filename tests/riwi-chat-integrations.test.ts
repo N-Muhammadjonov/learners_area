@@ -159,7 +159,10 @@ test("the migration-backed chat gateway uses canonical Dictionary, learner progr
     assert.match(active.source.sql, /from activity_events/);
     assert.deepEqual(active.source.parameters, { from: snapshot.period.from, to: snapshot.period.to, subject: studentId });
     assert.match(report.body.answer, /Asia\/Tashkent/);
-    assert.match(report.body.answer, /Active learners \[learners\.active; count\]: 1/);
+    assert.match(report.body.answer, /^Active learners: 1$/m,
+      "the deterministic narrative renders the canonical metric value without replacing its SQL-backed snapshot");
+    assert.match(report.body.answer, /^Source query IDs:.*riwi\.learners\.active/m,
+      "the query identifier remains visible as canonical provenance, separate from learner-facing copy");
 
     const saved = await getRiwiConversationTranscript({
       actor: { id: studentId, role: "student" }, conversationId: report.body.conversationId!,

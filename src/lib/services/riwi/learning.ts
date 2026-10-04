@@ -1,6 +1,6 @@
 import "server-only";
 import { createHash } from "node:crypto";
-import { and, asc, desc, eq, isNull, sql } from "drizzle-orm";
+import { and, asc, desc, eq, isNull, lt, or, sql } from "drizzle-orm";
 import type { AccountStatus } from "@/lib/auth/account-status";
 import { isOnRoster } from "@/lib/reporter/roster";
 import { db } from "@/db/client";
@@ -12,6 +12,13 @@ import { recordRiwiAudit } from "./audit";
 import { isRiwiRegressionFixture, runRiwiRegressionSuite } from "./golden/fixtures";
 import { redactExternalText } from "./outbound-guard";
 import { createKnowledgeCandidate, KnowledgeServiceError, type KnowledgePublicationScope, type KnowledgeSourceType } from "./knowledge";
+import {
+  decodeOwnerHistoryCursor,
+  encodeOwnerHistoryCursor,
+  ownerHistoryPageLimit,
+  RiwiOwnerHistoryCursorError,
+  type RiwiOwnerHistoryPosition,
+} from "./owner-history-cursor";
 
 export type LearningSignalType = "owner_correction" | "teacher_correction" | "provider_disagreement" | "provider_agreement" | "student_outcome" | "rubric_reference" | "known_good_example" | "known_bad_example" | "retrieval_failure" | "hallucination_report" | "tool_failure" | "provider_failure" | "user_feedback" | "manual_qa_finding";
 export type LearningSignalProducer = "gateway" | "provider_lab" | "evaluation";
@@ -420,6 +427,61 @@ export async function listLearningSignals(actor: { id: string; role: Role; accou
     rubricVersion: riwiLearningSignals.rubricVersion, evidenceHash: riwiLearningSignals.evidenceHash,
     scope: riwiLearningSignals.scope, createdAt: riwiLearningSignals.createdAt,
   }).from(riwiLearningSignals).orderBy(desc(riwiLearningSignals.createdAt)).limit(safeLimit);
+}
+
+export async function listLearningSignalPage(
+  actor: { id: string; role: Role; accountStatus: AccountStatus },
+  options: { cursor?: string | null; limit?: number } = {},
+  database: typeof db = db,
+) {
+  if (actor.role !== "owner" || !authorizeCapability(actor, "riwi.knowledge.review").allowed || !(await isActiveActor(actor, database))) {
+    throw new LearningServiceError("forbidden");
+  }
+  let limit: number;
+  let after: RiwiOwnerHistoryPosition | null;
+  try {
+    limit = ownerHistoryPageLimit(options.limit);
+    after = decodeOwnerHistoryCursor(options.cursor, actor, "learning_signals");
+  } catch (error) {
+    if (error instanceof RiwiOwnerHistoryCursorError) throw new LearningServiceError("invalid_input");
+    throw error;
+  }
+  const rows = await database.select({
+    id: riwiLearningSignals.id, type: riwiLearningSignals.signalType, state: riwiLearningSignals.state,
+    actorRole: riwiLearningSignals.actorRole, sourceId: riwiLearningSignals.sourceId, providerId: riwiLearningSignals.providerId,
+    model: riwiLearningSignals.model, promptVersion: riwiLearningSignals.promptVersion,
+    rubricVersion: riwiLearningSignals.rubricVersion, evidenceHash: riwiLearningSignals.evidenceHash,
+    scope: riwiLearningSignals.scope, createdAt: riwiLearningSignals.createdAt,
+  }).from(riwiLearningSignals).where(after
+    ? or(
+      lt(riwiLearningSignals.createdAt, after.sortAt),
+      and(eq(riwiLearningSignals.createdAt, after.sortAt), lt(riwiLearningSignals.id, after.id)),
+    )
+    : undefined)
+    .orderBy(desc(riwiLearningSignals.createdAt), desc(riwiLearningSignals.id)).limit(limit + 1);
+  const hasMore = rows.length > limit;
+  const items = rows.slice(0, limit);
+  const last = items.at(-1);
+  return {
+    signals: items,
+    nextCursor: hasMore && last
+      ? encodeOwnerHistoryCursor({ actor, collection: "learning_signals", after: { sortAt: last.createdAt, id: last.id } })
+      : null,
+  };
+}
+
+export async function countLearningSignalsForOwner(
+  actor: { id: string; role: Role; accountStatus: AccountStatus },
+  database: typeof db = db,
+) {
+  if (actor.role !== "owner" || !authorizeCapability(actor, "riwi.knowledge.review").allowed || !(await isActiveActor(actor, database))) {
+    throw new LearningServiceError("forbidden");
+  }
+  const [counts] = await database.select({
+    total: sql<number>`count(*)::int`,
+    pending: sql<number>`count(*) filter (where ${riwiLearningSignals.state} in ('candidate', 'in_review'))::int`,
+  }).from(riwiLearningSignals);
+  return { total: Number(counts?.total ?? 0), pending: Number(counts?.pending ?? 0) };
 }
 
 export async function listLearningCandidateForOwner(actor: { id: string; role: Role; accountStatus: AccountStatus }, signalId: string, database: typeof db = db) {

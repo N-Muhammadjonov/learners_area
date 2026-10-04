@@ -4,7 +4,8 @@ import { requireActiveUser } from "@/lib/auth/current-user";
 import { RULES, accountKey, clientKey, consume } from "@/lib/http/rate-limit";
 import { checkRequestOrigin } from "@/lib/http/request-origin";
 import { readRiwiBoundedJson } from "@/lib/services/riwi/http";
-import { createLearningSignal, LearningServiceError, listLearningSignals } from "@/lib/services/riwi/learning";
+import { createLearningSignal, LearningServiceError, listLearningSignalPage } from "@/lib/services/riwi/learning";
+import { RIWI_OWNER_HISTORY_PAGE_SIZE } from "@/lib/services/riwi/owner-history-cursor";
 import { riwiEnabledForRole } from "@/lib/services/riwi/rollout";
 
 export const dynamic = "force-dynamic";
@@ -35,13 +36,20 @@ export async function GET(request: NextRequest) {
   if (user.role !== "owner" || !riwiEnabledForRole(user.role)) return response({ error: { code: "forbidden" } }, 403);
   const accountLimit = consume(RULES.riwiLearningReadByAccount, accountKey(user.id));
   if (!accountLimit.ok) return response({ error: { code: "riwi_rate_limited" }, retryAfterSeconds: accountLimit.retryAfterSeconds }, 429);
-  const rawLimit = request.nextUrl.searchParams.get("limit");
-  if (rawLimit !== null && !/^\d{1,3}$/.test(rawLimit)) return response({ error: { code: "riwi_request_invalid" } }, 400);
+  const limits = request.nextUrl.searchParams.getAll("limit");
+  const cursors = request.nextUrl.searchParams.getAll("cursor");
+  if (limits.length > 1 || cursors.length > 1 || (limits[0] !== undefined && !/^\d{1,3}$/.test(limits[0]))) {
+    return response({ error: { code: "riwi_request_invalid" } }, 400);
+  }
   try {
-    const signals = await listLearningSignals(user, rawLimit === null ? 100 : Number(rawLimit));
-    return response({ signals });
+    const page = await listLearningSignalPage(user, {
+      limit: limits[0] === undefined ? RIWI_OWNER_HISTORY_PAGE_SIZE : Number(limits[0]),
+      cursor: cursors[0],
+    });
+    return response(page);
   } catch (error) {
     if (error instanceof LearningServiceError && error.code === "forbidden") return response({ error: { code: "forbidden" } }, 403);
+    if (error instanceof LearningServiceError && error.code === "invalid_input") return response({ error: { code: "riwi_request_invalid" } }, 400);
     return response({ error: { code: "riwi_signal_unavailable" } }, 503);
   }
 }

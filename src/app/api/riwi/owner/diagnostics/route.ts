@@ -1,8 +1,10 @@
 import { NextRequest } from "next/server";
 import { RULES } from "@/lib/http/rate-limit";
 import { ownerAiStatus } from "@/lib/services/coach/owner-control";
-import { listLearningSignals } from "@/lib/services/riwi/learning";
-import { getActiveConflictCount, listKnowledgeSources } from "@/lib/services/riwi/knowledge";
+import { countLearningSignalsForOwner } from "@/lib/services/riwi/learning";
+import { countKnowledgeSourcesForOwner, getActiveConflictCount } from "@/lib/services/riwi/knowledge";
+import { countRiwiGovernanceAuditForOwner } from "@/lib/services/riwi/audit";
+import { countRiwiProviderExperiments } from "@/lib/services/riwi/provider-lab";
 import { enforceRiwiOwnerRate, ownerJson, requireRiwiOwner } from "@/lib/services/riwi/owner-route";
 import { readRiwiRollout } from "@/lib/services/riwi/rollout";
 
@@ -18,8 +20,13 @@ export async function GET(request: NextRequest) {
   if (limited) return limited;
   try {
     const actor = { id: access.user.id, role: access.user.role, accountStatus: access.user.accountStatus };
-    const [ai, sources, signals, openConflicts] = await Promise.all([
-      ownerAiStatus(), listKnowledgeSources(actor), listLearningSignals(actor, 200), getActiveConflictCount(),
+    const [ai, knowledge, learning, auditEntries, providerExperiments, openConflicts] = await Promise.all([
+      ownerAiStatus(),
+      countKnowledgeSourcesForOwner(actor),
+      countLearningSignalsForOwner(actor),
+      countRiwiGovernanceAuditForOwner(actor),
+      countRiwiProviderExperiments(actor),
+      getActiveConflictCount(),
     ]);
     return ownerJson({
       ok: true,
@@ -45,9 +52,13 @@ export async function GET(request: NextRequest) {
       configIssues: ai.configIssues.map(({ index, reason }) => ({ index, reason })),
       governance: {
         openConflicts,
-        pendingKnowledgeCandidates: sources.filter((source) => source.state === "candidate").length,
-        approvedKnowledgeSources: sources.filter((source) => source.state === "approved").length,
-        pendingLearningReviews: signals.filter((signal) => signal.state === "candidate" || signal.state === "in_review").length,
+        knowledgeSources: knowledge.total,
+        pendingKnowledgeCandidates: knowledge.candidates,
+        approvedKnowledgeSources: knowledge.approved,
+        learningSignals: learning.total,
+        pendingLearningReviews: learning.pending,
+        auditEntries,
+        providerExperiments,
       },
       safety: {
         arbitraryEndpointsAccepted: false, rawSecretsReturned: false,

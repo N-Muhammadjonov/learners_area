@@ -309,6 +309,13 @@
       "when": 1791500000008,
       "tag": "0043_riwi_target_cursor_indexes",
       "breakpoints": true
+    },
+    {
+      "idx": 44,
+      "version": "7",
+      "when": 1791500000009,
+      "tag": "0044_riwi_owner_history_indexes",
+      "breakpoints": true
     }
   ]
 }

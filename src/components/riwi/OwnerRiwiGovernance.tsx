@@ -32,7 +32,10 @@ const sourceDetailSchema = sourceSchema.extend({
   updatedAt: z.string().datetime(), regressionFixtureId: z.string().max(120).nullable(),
   units: z.array(unitSchema).max(200), conflicts: z.array(conflictSchema).max(500),
 }).strip();
-const sourceListResponseSchema = z.object({ ok: z.literal(true), sources: z.array(sourceSchema).max(200), openConflicts: z.number().int().nonnegative() }).strip();
+const sourceListResponseSchema = z.object({
+  ok: z.literal(true), sources: z.array(sourceSchema).max(100), nextCursor: z.string().max(2048).nullable(),
+  openConflicts: z.number().int().nonnegative(),
+}).strip();
 const sourceDetailResponseSchema = z.object({ ok: z.literal(true), source: sourceDetailSchema }).strip();
 const signalSchema = z.object({
   id: z.string().uuid(), type: z.string().max(40), state: z.string().max(24), actorRole: z.string().max(20),
@@ -40,7 +43,7 @@ const signalSchema = z.object({
   promptVersion: z.string().max(60).nullable(), rubricVersion: z.string().max(60).nullable(),
   evidenceHash: z.string().regex(/^[a-f0-9]{64}$/i), scope: z.enum(["global", "user"]), createdAt: z.string().datetime(),
 }).strip();
-const signalListResponseSchema = z.object({ signals: z.array(signalSchema).max(200) }).strip();
+const signalListResponseSchema = z.object({ signals: z.array(signalSchema).max(100), nextCursor: z.string().max(2048).nullable() }).strip();
 const reviewSchema = z.object({
   id: z.string().uuid(), reviewerUserId: z.string().uuid(), decision: z.enum(["approve", "reject", "request_changes"]),
   reason: z.string().max(1000), regressionFixtureId: z.string().max(120).nullable(),
@@ -61,7 +64,7 @@ const auditEntrySchema = z.object({
   id: z.string().uuid(), actorUserId: z.string().uuid().nullable(), action: z.string().max(80), targetType: z.string().max(80).nullable(),
   targetId: z.string().max(80).nullable(), metadata: z.record(z.unknown()).nullable(), createdAt: z.string().datetime(),
 }).strip();
-const auditResponseSchema = z.object({ ok: z.literal(true), entries: z.array(auditEntrySchema).max(100) }).strip();
+const auditResponseSchema = z.object({ ok: z.literal(true), entries: z.array(auditEntrySchema).max(100), nextCursor: z.string().max(2048).nullable() }).strip();
 const diagnosticsSchema = z.object({
   ok: z.literal(true),
   rollout: z.object({ roles: z.record(z.boolean()), providerLab: z.boolean(), externalAi: z.boolean() }).strip(),
@@ -76,7 +79,12 @@ const diagnosticsSchema = z.object({
   }).strip(),
   effectiveProvider: z.object({ enabled: z.boolean(), providerId: z.string().max(40), external: z.boolean(), ready: z.boolean() }).strip(),
   configIssues: z.array(z.object({ index: z.number().int().nonnegative(), reason: z.string().max(120) }).strip()).max(50),
-  governance: z.object({ openConflicts: z.number().int().nonnegative(), pendingKnowledgeCandidates: z.number().int().nonnegative(), approvedKnowledgeSources: z.number().int().nonnegative(), pendingLearningReviews: z.number().int().nonnegative() }).strip(),
+  governance: z.object({
+    openConflicts: z.number().int().nonnegative(), knowledgeSources: z.number().int().nonnegative(),
+    pendingKnowledgeCandidates: z.number().int().nonnegative(), approvedKnowledgeSources: z.number().int().nonnegative(),
+    learningSignals: z.number().int().nonnegative(), pendingLearningReviews: z.number().int().nonnegative(),
+    auditEntries: z.number().int().nonnegative(), providerExperiments: z.number().int().nonnegative(),
+  }).strip(),
   safety: z.object({ arbitraryEndpointsAccepted: z.literal(false), rawSecretsReturned: z.literal(false), sourceTextShownOnlyToOwner: z.literal(true), providerAgreementMeansTruth: z.literal(false), automaticActivationOfUnverifiedKnowledge: z.literal(false) }).strip(),
 }).strip();
 
@@ -132,6 +140,10 @@ function words(locale: Locale) {
     noActive: uz ? "Ro'yxatdan o'tkazish manbani faollashtirmaydi." : "Registration does not activate the source.",
     loading: uz ? "Yuklanmoqda…" : "Loading…",
     refresh: uz ? "Yangilash" : "Refresh",
+    loadMore: uz ? "Yana yuklash" : "Load more",
+    loadingMore: uz ? "Yuklanmoqda…" : "Loading more…",
+    retryMore: uz ? "Qayta urinish" : "Retry",
+    historyPageFailed: uz ? "Keyingi tarix sahifasi yuklanmadi. Oldingi ma'lumotlar saqlandi; qayta urinishingiz mumkin." : "The next history page could not be loaded. Existing history is unchanged; you can retry.",
     sources: uz ? "Bilim manbalari va versiyalar" : "Knowledge sources and versions",
     signals: uz ? "O'rganish signallari va tuzatishlar" : "Learning signals and corrections",
     audit: uz ? "Audit va dalillar" : "Audit and evidence",
@@ -147,6 +159,37 @@ function words(locale: Locale) {
     acceptSignal: uz ? "Dalilni qabul qilish va regressiyani tekshirish" : "Accept evidence and run regression",
     materialize: uz ? "Tasdiqlangan tuzatishdan nomzod yaratish" : "Materialize accepted correction as candidate",
     providerOnly: uz ? "Provayder kelishuvi faqat dalildir: bu haqiqat yoki avtomatik o'qitish emas." : "Provider agreement is evidence only—not truth and not automatic training.",
+    statusEnabled: uz ? "Yoqilgan" : "Enabled",
+    statusOff: uz ? "O'chiq" : "Off",
+    statusReady: uz ? "Tayyor" : "Ready",
+    statusNotReady: uz ? "Tayyor emas" : "Not ready",
+    credentialMissing: uz ? "Hisob ma'lumoti sozlanmagan" : "Credential not configured",
+    externalTestHistory: uz ? "Tashqi provayderning jonli sinovlari faqat yuqoridagi tayyor ssenariy tajribalari tarixida ko'rsatiladi." : "External provider live tests are represented only by the fixed-fixture experiment history above.",
+    configurationIssues: uz ? "Sozlama muammolari" : "Configuration issues",
+    capabilities: uz ? "Imkoniyatlar" : "Capabilities",
+    authority: uz ? "vakolat" : "authority",
+    units: uz ? "birlik" : "units",
+    parser: uz ? "parser" : "parser",
+    parsedTextHash: uz ? "Tahlil qilingan matn SHA-256" : "Parsed text SHA-256",
+    originalUploadHash: uz ? "Asl yuklama baytlari SHA-256" : "Original upload bytes SHA-256",
+    characters: uz ? "belgi" : "chars",
+    globalOwnerEvidence: uz ? "global egasi dalili" : "global owner evidence",
+    reviewEvidence: uz ? "ko'rib chiqish dalili" : "review evidence",
+    scopedLearner: uz ? "doiradagi o'quvchi" : "scoped learner",
+    sourceLabel: uz ? "manba" : "source",
+    evidenceHash: uz ? "Dalil SHA-256" : "Evidence SHA-256",
+    parameters: uz ? "Parametrlar" : "Parameters",
+    reviewHistory: uz ? "Ko'rib chiqish tarixi va regressiya dalili" : "Review history and regression evidence",
+    noReviewYet: uz ? "Hali ko'rib chiqilmagan." : "No review has been recorded yet.",
+    noRegressionNeeded: uz ? "Regressiya dalili talab qilinmadi." : "No regression evidence required for this decision.",
+    noRegressionRun: uz ? "hali bajarilmagan" : "not run yet",
+    parserVersion: uz ? "Parser versiyasi" : "Parser version",
+    browserMimeClaim: uz
+      ? "Brauzer MIME turi faqat da'vo; server baytlar, hajm, arxiv yo'llari va parser qo'llovini tekshiradi."
+      : "Browser MIME is only a claim; the server checks bytes, size, archive paths, and parser support.",
+    noSecretDiagnostics: uz
+      ? "Faqat holat, ro'yxatdan o'tgan provayder identifikatorlari va muhit o'zgaruvchisi nomlari. Sir qiymatlari, endpoint URL yoki tashqi javob mazmuni yo'q."
+      : "Status, registered provider IDs, and environment-variable names only. No secret values, endpoint URLs, or raw external response bodies.",
     noSources: uz ? "Bilim manbalari topilmadi." : "No knowledge sources found.",
     noSignals: uz ? "Ko'rib chiqiladigan signallar topilmadi." : "No learning signals to review.",
     noAudit: uz ? "Audit yozuvlari topilmadi." : "No audit entries found.",
@@ -173,16 +216,36 @@ type Signal = z.infer<typeof signalSchema>;
 type SignalDetail = z.infer<typeof signalDetailResponseSchema>;
 type AuditEntry = z.infer<typeof auditEntrySchema>;
 type Diagnostics = z.infer<typeof diagnosticsSchema>;
+type HistoryKind = "sources" | "signals" | "audit";
+class OwnerHistoryResponseError extends Error {
+  constructor(public readonly status: number) { super("owner_history_response_failed"); }
+}
+
+function appendUniqueById<T extends { id: string }>(current: T[], incoming: T[]): T[] {
+  const known = new Set(current.map((item) => item.id));
+  const result = [...current];
+  for (const item of incoming) {
+    if (known.has(item.id)) continue;
+    known.add(item.id);
+    result.push(item);
+  }
+  return result;
+}
 
 export function OwnerRiwiGovernance({ locale }: { locale: Locale }) {
   const t = words(locale);
   const requestResponse = useScopedResponse(35_000);
   const [sources, setSources] = useState<Source[]>([]);
+  const [sourceCursor, setSourceCursor] = useState<string | null>(null);
   const [openConflicts, setOpenConflicts] = useState(0);
   const [selectedSource, setSelectedSource] = useState<Detail | null>(null);
   const [signals, setSignals] = useState<Signal[]>([]);
+  const [signalCursor, setSignalCursor] = useState<string | null>(null);
   const [selectedSignal, setSelectedSignal] = useState<SignalDetail | null>(null);
   const [audit, setAudit] = useState<AuditEntry[]>([]);
+  const [auditCursor, setAuditCursor] = useState<string | null>(null);
+  const [historyLoading, setHistoryLoading] = useState<Record<HistoryKind, boolean>>({ sources: false, signals: false, audit: false });
+  const [historyPageError, setHistoryPageError] = useState<Partial<Record<HistoryKind, boolean>>>({});
   const [diagnostics, setDiagnostics] = useState<Diagnostics | null>(null);
   const [refreshing, setRefreshing] = useState(false);
   const [busy, setBusy] = useState("");
@@ -204,48 +267,159 @@ export function OwnerRiwiGovernance({ locale }: { locale: Locale }) {
   const [signalEvidence, setSignalEvidence] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const correctionKey = useRef<{ fingerprint: string; key: string } | null>(null);
+  const historyEpoch = useRef(0);
+  const historyPageSequence = useRef(0);
+  const historyPageLock = useRef<{ id: number; kind: HistoryKind } | null>(null);
+  const refreshInProgress = useRef(false);
+  const mounted = useRef(false);
 
   const fetchJson = useCallback(async <T,>(path: string, schema: z.ZodType<T>): Promise<T | null> => {
     const response = await requestResponse(path, { method: "GET", headers: { Accept: "application/json" } });
     if (!response) return null;
     const parsed = schema.safeParse(await response.json().catch(() => null));
-    if (!response.ok || !parsed.success) throw new Error("request_failed");
+    if (!response.ok) throw new OwnerHistoryResponseError(response.status);
+    if (!parsed.success) throw new Error("request_failed");
     return parsed.data;
   }, [requestResponse]);
 
+  const revokeOwnerHistory = useCallback((epoch: number) => {
+    if (!mounted.current || historyEpoch.current !== epoch) return false;
+    historyEpoch.current += 1;
+    historyPageLock.current = null;
+    refreshInProgress.current = false;
+    setSources([]);
+    setSourceCursor(null);
+    setOpenConflicts(0);
+    setSignals([]);
+    setSignalCursor(null);
+    setAudit([]);
+    setAuditCursor(null);
+    setDiagnostics(null);
+    setSelectedSource(null);
+    setSelectedSignal(null);
+    setHistoryLoading({ sources: false, signals: false, audit: false });
+    setHistoryPageError({});
+    setRefreshing(false);
+    setError(t.error);
+    return true;
+  }, [t.error]);
+
+  const fetchJsonWithRevocation = useCallback(async <T,>(path: string, schema: z.ZodType<T>, epoch: number): Promise<T | null> => {
+    try {
+      return await fetchJson(path, schema);
+    } catch (error) {
+      if (error instanceof OwnerHistoryResponseError && (error.status === 401 || error.status === 403)) {
+        revokeOwnerHistory(epoch);
+        return null;
+      }
+      throw error;
+    }
+  }, [fetchJson, revokeOwnerHistory]);
+
   const refresh = useCallback(async () => {
+    const epoch = ++historyEpoch.current;
+    historyPageLock.current = null;
+    refreshInProgress.current = true;
+    setHistoryLoading({ sources: false, signals: false, audit: false });
+    setHistoryPageError({});
     setRefreshing(true);
     setError("");
     try {
       // useScopedResponse intentionally supersedes an older in-flight request.
       // Load distinct scopes sequentially so they do not cancel one another.
-      const sourceData = await fetchJson("/api/riwi/owner/knowledge", sourceListResponseSchema).catch(() => null);
-      const signalData = await fetchJson("/api/riwi/learning-signals?limit=100", signalListResponseSchema).catch(() => null);
-      const auditData = await fetchJson("/api/riwi/owner/audit?limit=30", auditResponseSchema).catch(() => null);
-      const diagnosticData = await fetchJson("/api/riwi/owner/diagnostics", diagnosticsSchema).catch(() => null);
-      if (sourceData) { setSources(sourceData.sources); setOpenConflicts(sourceData.openConflicts); }
-      if (signalData) setSignals(signalData.signals);
-      if (auditData) setAudit(auditData.entries);
+      const sourceData = await fetchJsonWithRevocation(`/api/riwi/owner/knowledge?limit=25`, sourceListResponseSchema, epoch).catch(() => null);
+      if (!mounted.current || historyEpoch.current !== epoch) return;
+      const signalData = await fetchJsonWithRevocation(`/api/riwi/learning-signals?limit=25`, signalListResponseSchema, epoch).catch(() => null);
+      if (!mounted.current || historyEpoch.current !== epoch) return;
+      const auditData = await fetchJsonWithRevocation(`/api/riwi/owner/audit?limit=25`, auditResponseSchema, epoch).catch(() => null);
+      if (!mounted.current || historyEpoch.current !== epoch) return;
+      const diagnosticData = await fetchJsonWithRevocation("/api/riwi/owner/diagnostics", diagnosticsSchema, epoch).catch(() => null);
+      if (!mounted.current || historyEpoch.current !== epoch) return;
+      if (sourceData) { setSources(sourceData.sources); setSourceCursor(sourceData.nextCursor); setOpenConflicts(sourceData.openConflicts); }
+      if (signalData) { setSignals(signalData.signals); setSignalCursor(signalData.nextCursor); }
+      if (auditData) { setAudit(auditData.entries); setAuditCursor(auditData.nextCursor); }
       if (diagnosticData) setDiagnostics(diagnosticData);
       if (!sourceData || !signalData || !auditData || !diagnosticData) setError(t.error);
     } catch {
-      setError(t.error);
+      if (mounted.current && historyEpoch.current === epoch) setError(t.error);
     } finally {
-      setRefreshing(false);
+      if (mounted.current && historyEpoch.current === epoch) {
+        refreshInProgress.current = false;
+        setRefreshing(false);
+      }
     }
-  }, [fetchJson, t.error]);
+  }, [fetchJsonWithRevocation, t.error]);
+
+  const loadMore = useCallback(async (kind: HistoryKind) => {
+    if (refreshInProgress.current || historyPageLock.current) return;
+    const cursor = kind === "sources" ? sourceCursor : kind === "signals" ? signalCursor : auditCursor;
+    if (!cursor) return;
+    const epoch = historyEpoch.current;
+    const requestId = ++historyPageSequence.current;
+    historyPageLock.current = { id: requestId, kind };
+    setHistoryLoading((current) => ({ ...current, [kind]: true }));
+    setHistoryPageError((current) => ({ ...current, [kind]: false }));
+    const pageUrl = `?limit=25&cursor=${encodeURIComponent(cursor)}`;
+    const isCurrentRequest = () => mounted.current && historyEpoch.current === epoch && historyPageLock.current?.id === requestId;
+    try {
+      if (kind === "sources") {
+        const page = await fetchJsonWithRevocation(`/api/riwi/owner/knowledge${pageUrl}`, sourceListResponseSchema, epoch);
+        if (!page || !isCurrentRequest()) return;
+        setSources((current) => appendUniqueById(current, page.sources));
+        setSourceCursor(page.nextCursor);
+        setOpenConflicts(page.openConflicts);
+      } else if (kind === "signals") {
+        const page = await fetchJsonWithRevocation(`/api/riwi/learning-signals${pageUrl}`, signalListResponseSchema, epoch);
+        if (!page || !isCurrentRequest()) return;
+        setSignals((current) => appendUniqueById(current, page.signals));
+        setSignalCursor(page.nextCursor);
+      } else {
+        const page = await fetchJsonWithRevocation(`/api/riwi/owner/audit${pageUrl}`, auditResponseSchema, epoch);
+        if (!page || !isCurrentRequest()) return;
+        setAudit((current) => appendUniqueById(current, page.entries));
+        setAuditCursor(page.nextCursor);
+      }
+    } catch {
+      if (mounted.current && historyEpoch.current === epoch && historyPageLock.current?.id === requestId) {
+        setHistoryPageError((current) => ({ ...current, [kind]: true }));
+      }
+    } finally {
+      if (historyPageLock.current?.id === requestId) {
+        historyPageLock.current = null;
+        if (mounted.current && historyEpoch.current === epoch) setHistoryLoading((current) => ({ ...current, [kind]: false }));
+      }
+    }
+  }, [auditCursor, fetchJsonWithRevocation, signalCursor, sourceCursor]);
 
   const loadSource = useCallback(async (id: string) => {
-    const result = await fetchJson(`/api/riwi/owner/knowledge/${id}`, sourceDetailResponseSchema);
-    if (result) setSelectedSource(result.source);
-  }, [fetchJson]);
+    const epoch = historyEpoch.current;
+    try {
+      const result = await fetchJsonWithRevocation(`/api/riwi/owner/knowledge/${id}`, sourceDetailResponseSchema, epoch);
+      if (result && mounted.current && historyEpoch.current === epoch) setSelectedSource(result.source);
+    } catch {
+      if (mounted.current && historyEpoch.current === epoch) setError(t.error);
+    }
+  }, [fetchJsonWithRevocation, t.error]);
 
   const loadSignal = useCallback(async (id: string) => {
-    const result = await fetchJson(`/api/riwi/learning-signals/${id}`, signalDetailResponseSchema);
-    if (result) setSelectedSignal(result);
-  }, [fetchJson]);
+    const epoch = historyEpoch.current;
+    try {
+      const result = await fetchJsonWithRevocation(`/api/riwi/learning-signals/${id}`, signalDetailResponseSchema, epoch);
+      if (result && mounted.current && historyEpoch.current === epoch) setSelectedSignal(result);
+    } catch {
+      if (mounted.current && historyEpoch.current === epoch) setError(t.error);
+    }
+  }, [fetchJsonWithRevocation, t.error]);
 
-  useEffect(() => { void refresh(); }, [refresh]);
+  useEffect(() => {
+    mounted.current = true;
+    void refresh();
+    return () => {
+      mounted.current = false;
+      historyEpoch.current += 1;
+      historyPageLock.current = null;
+    };
+  }, [refresh]);
 
   async function post(path: string, body: unknown, successText = t.saved) {
     setBusy(path);
@@ -257,6 +431,7 @@ export function OwnerRiwiGovernance({ locale }: { locale: Locale }) {
       });
       if (!response) return false;
       const result = await response.json().catch(() => null) as { error?: { code?: string } } | null;
+      if (response.status === 401 || response.status === 403) revokeOwnerHistory(historyEpoch.current);
       if (!response.ok || !result || typeof result !== "object") throw new Error("request_failed");
       setNotice(successText);
       await refresh();
@@ -423,7 +598,7 @@ export function OwnerRiwiGovernance({ locale }: { locale: Locale }) {
         {notice && <p className="rounded-xl bg-band-good/10 p-3 text-sm text-band-good" role="status">{notice}</p>}
         {diagnostics && (
           <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4" aria-label={t.diagnostics}>
-            <Readiness label={locale === "uz" ? "Tashqi AI" : "External AI"} value={diagnostics.effectiveProvider.enabled ? (diagnostics.effectiveProvider.ready ? (locale === "uz" ? "Tayyor" : "Ready") : (locale === "uz" ? "Sozlangan emas" : "Not ready")) : (locale === "uz" ? "O'chiq" : "Off")} />
+            <Readiness label={locale === "uz" ? "Tashqi AI" : "External AI"} value={diagnostics.effectiveProvider.enabled ? (diagnostics.effectiveProvider.ready ? t.statusReady : t.statusNotReady) : t.statusOff} />
             <Readiness label={locale === "uz" ? "Faol ziddiyatlar" : "Open conflicts"} value={String(openConflicts)} />
             <Readiness label={locale === "uz" ? "Nomzod manbalar" : "Candidate sources"} value={String(diagnostics.governance.pendingKnowledgeCandidates)} />
             <Readiness label={locale === "uz" ? "Kutilayotgan signallar" : "Pending learning reviews"} value={String(diagnostics.governance.pendingLearningReviews)} />
@@ -464,7 +639,7 @@ export function OwnerRiwiGovernance({ locale }: { locale: Locale }) {
             <label className="flex items-center gap-2"><input type="radio" checked={scopeKind === "role"} onChange={() => setScopeKind("role")} />{t.role}</label>
             {scopeKind === "role" && <select className="input max-w-48" value={scopeRole} onChange={(event) => setScopeRole(event.target.value as typeof scopeRole)}>{roleScopes.map((role) => <option key={role} value={role}>{role}</option>)}</select>}
           </fieldset>
-          {file && <p className="text-xs text-ink-500">{file.name} · {Math.ceil(file.size / 1024)} KB · browser MIME is only a claim; server checks bytes, size, archive paths, and parser support</p>}
+          {file && <p className="text-xs text-ink-500">{file.name} · {Math.ceil(file.size / 1024)} KB · {t.browserMimeClaim}</p>}
           {uploadStage !== "idle" && <div className="text-xs text-ink-600" aria-live="polite">
             <p>{uploadStage === "uploading" ? `${t.uploading} · ${uploadProgress}%` : uploadStage === "finalizing" ? t.verifying : t.parsing}</p>
             {uploadStage === "uploading" && <progress className="mt-1 w-full accent-brand-600" max={100} value={uploadProgress} aria-label={t.uploading} />}
@@ -478,23 +653,23 @@ export function OwnerRiwiGovernance({ locale }: { locale: Locale }) {
           {!diagnostics && <p className="text-sm text-ink-500">{refreshing ? t.loading : t.error}</p>}
           {diagnostics && <>
             <div className="grid gap-2 sm:grid-cols-2">
-            <Readiness label={locale === "uz" ? "Joylashtirishning qattiq cheklovi" : "Deployment hard ceiling"} value={diagnostics.aiPolicy.deploymentCeiling ? "Enabled" : "Off"} />
-            <Readiness label={locale === "uz" ? "Egasi tashqi AI kaliti" : "Owner external-AI switch"} value={diagnostics.aiPolicy.ownerSwitch ? "Enabled" : "Off"} />
+            <Readiness label={locale === "uz" ? "Joylashtirishning qattiq cheklovi" : "Deployment hard ceiling"} value={diagnostics.aiPolicy.deploymentCeiling ? t.statusEnabled : t.statusOff} />
+            <Readiness label={locale === "uz" ? "Egasi tashqi AI kaliti" : "Owner external-AI switch"} value={diagnostics.aiPolicy.ownerSwitch ? t.statusEnabled : t.statusOff} />
             <Readiness label={locale === "uz" ? "Sozlangan asosiy provayder" : "Configured primary provider"} value={`${diagnostics.aiPolicy.configuredPrimaryProvider ?? "RIWI"}${diagnostics.aiPolicy.configuredModel ? ` · ${diagnostics.aiPolicy.configuredModel}` : ""}`} />
             <Readiness label={locale === "uz" ? "Amaldagi provayder" : "Effective provider"} value={`${diagnostics.aiPolicy.effectivePrimaryProvider} · ${diagnostics.aiPolicy.fallback} fallback`} />
-            <Readiness label={locale === "uz" ? "Samarali tashqi AI" : "Effective external AI"} value={diagnostics.aiPolicy.enabled ? (diagnostics.aiPolicy.ready ? "Ready" : "Not ready") : "Off"} />
-            <Readiness label={locale === "uz" ? "Provayder laboratoriyasi" : "Fixed-fixture lab"} value={diagnostics.rollout.providerLab ? "Enabled" : "Off"} />
+            <Readiness label={locale === "uz" ? "Samarali tashqi AI" : "Effective external AI"} value={diagnostics.aiPolicy.enabled ? (diagnostics.aiPolicy.ready ? t.statusReady : t.statusNotReady) : t.statusOff} />
+            <Readiness label={locale === "uz" ? "Provayder laboratoriyasi" : "Fixed-fixture lab"} value={diagnostics.rollout.providerLab ? t.statusEnabled : t.statusOff} />
             </div>
-            <p className="text-xs text-ink-500">{t.configuredOnly} External provider live tests are represented only by the fixed-fixture experiment history above.</p>
+            <p className="text-xs text-ink-500">{t.configuredOnly} {t.externalTestHistory}</p>
             <ul className="flex flex-col gap-2">
               {diagnostics.providerReadiness.map((provider) => <li key={provider.id} className="rounded-xl border border-ink-100 p-3 text-xs">
                 <p className="font-semibold text-ink-800">{provider.displayName} <span className="font-mono">({provider.id})</span></p>
-                <p className="mt-1 text-ink-500">{provider.type} · {provider.credentialConfigured ? t.configuredOnly : (locale === "uz" ? "Kredensial sozlanmagan" : "Credential not configured")}</p>
-                <p className="mt-1 text-ink-500">{locale === "uz" ? "Imkoniyatlar" : "Capabilities"}: {provider.capabilities.join(", ") || "—"}</p>
+                <p className="mt-1 text-ink-500">{provider.type} · {provider.credentialConfigured ? t.configuredOnly : t.credentialMissing}</p>
+                <p className="mt-1 text-ink-500">{t.capabilities}: {provider.capabilities.join(", ") || "—"}</p>
                 {provider.missingSecretNames.length > 0 && <p className="mt-1 text-band-warn">{locale === "uz" ? "Yetishmayotgan muhit o'zgaruvchisi nomlari" : "Missing environment-variable names only"}: {provider.missingSecretNames.join(", ")}</p>}
               </li>)}
             </ul>
-            {diagnostics.configIssues.length > 0 && <p className="text-xs text-band-warn">Configuration issues: {diagnostics.configIssues.map((issue) => `#${issue.index + 1} ${issue.reason}`).join("; ")}</p>}
+            {diagnostics.configIssues.length > 0 && <p className="text-xs text-band-warn">{t.configurationIssues}: {diagnostics.configIssues.map((issue) => `#${issue.index + 1} ${issue.reason}`).join("; ")}</p>}
             <p className="rounded-xl bg-paper-sunken p-3 text-xs text-ink-500">{t.providerOnly}</p>
           </>}
         </div>
@@ -504,7 +679,7 @@ export function OwnerRiwiGovernance({ locale }: { locale: Locale }) {
         <div className="card flex flex-col gap-3 p-5" aria-labelledby="riwi-source-list-title">
           <header className="flex flex-wrap items-center justify-between gap-2">
             <h3 id="riwi-source-list-title" className="font-display text-lg text-ink-900">{t.sources}</h3>
-            <span className="badge bg-paper-sunken text-ink-600">{sources.length} · {openConflicts} {locale === "uz" ? "ochiq ziddiyat" : "open conflicts"}</span>
+            <span className="badge bg-paper-sunken text-ink-600">{sources.length}/{diagnostics?.governance.knowledgeSources ?? sources.length} · {openConflicts} {locale === "uz" ? "ochiq ziddiyat" : "open conflicts"}</span>
           </header>
           {sources.length === 0 && <p className="text-sm text-ink-500">{t.noSources}</p>}
           <ul className="flex max-h-[32rem] flex-col gap-2 overflow-y-auto">
@@ -513,22 +688,31 @@ export function OwnerRiwiGovernance({ locale }: { locale: Locale }) {
                 <div><p className="font-medium text-ink-900">{source.title}</p><p className="mt-1 text-xs text-ink-500">{source.sourceType.replaceAll("_", " ")} · v{source.version} · {source.scope === "role" ? source.scopeRole : source.scope}</p></div>
                 <span className={`badge ${source.state === "active" ? "bg-band-good/10 text-band-good" : source.state === "rejected" || source.state === "quarantined" ? "bg-band-bad/10 text-band-bad" : "bg-band-warn/10 text-band-warn"}`}>{source.state}</span>
               </div>
-              <p className="mt-2 text-xs text-ink-500">{source.rightsClass.replaceAll("_", " ")} · authority {source.authority} · {source.unitCount} units · parser {source.parserVersion}</p>
-              <p className="mt-1 break-all text-[11px] text-ink-400">Parsed text SHA-256 {source.checksum}</p>
-              {source.sourceChecksum && <p className="mt-1 break-all text-[11px] text-ink-400">Original upload SHA-256 {source.sourceChecksum}</p>}
+              <p className="mt-2 text-xs text-ink-500">{source.rightsClass.replaceAll("_", " ")} · {t.authority} {source.authority} · {source.unitCount} {t.units} · {t.parser} {source.parserVersion}</p>
+              <p className="mt-1 break-all text-[11px] text-ink-400">{t.parsedTextHash} {source.checksum}</p>
+              {source.sourceChecksum && <p className="mt-1 break-all text-[11px] text-ink-400">{t.originalUploadHash} {source.sourceChecksum}</p>}
               <button type="button" className="btn-secondary mt-3" disabled={busy !== ""} onClick={() => void loadSource(source.id)}>{t.details}</button>
             </li>)}
           </ul>
+          {sourceCursor && <div className="flex flex-wrap items-center gap-3">
+            <button type="button" className="btn-secondary" data-history-kind="sources" aria-label={`${t.loadMore} ${t.sources}`} disabled={refreshing || busy !== "" || Object.values(historyLoading).some(Boolean)} onClick={() => void loadMore("sources")}>
+              {historyLoading.sources ? t.loadingMore : historyPageError.sources ? t.retryMore : t.loadMore}
+            </button>
+            {historyPageError.sources && <p className="text-xs text-band-bad" role="alert">{t.historyPageFailed}</p>}
+          </div>}
         </div>
 
         <div className="card flex flex-col gap-3 p-5" aria-labelledby="riwi-learning-signals-title">
-          <h3 id="riwi-learning-signals-title" className="font-display text-lg text-ink-900">{t.signals}</h3>
+          <header className="flex flex-wrap items-center justify-between gap-2">
+            <h3 id="riwi-learning-signals-title" className="font-display text-lg text-ink-900">{t.signals}</h3>
+            <span className="badge bg-paper-sunken text-ink-600">{signals.length}/{diagnostics?.governance.learningSignals ?? signals.length}</span>
+          </header>
           <p className="text-xs text-ink-500">{t.providerOnly} {locale === "uz" ? "O'qituvchi tuzatishlari faqat tayinlangan o'quvchi ko'lamida qoladi." : "Teacher corrections remain scoped to the assigned learner."}</p>
           <form className="flex flex-col gap-2 border-b border-ink-100 pb-4" onSubmit={submitCorrection}>
             <label className="text-sm font-medium text-ink-700">{locale === "uz" ? "Egasi tuzatishi / QA topilmasi" : "Owner correction / QA finding"}
               <select className="input mt-1" value={signalType} onChange={(event) => setSignalType(event.target.value as typeof signalType)} disabled={busy !== ""}>
-                <option value="owner_correction">owner_correction · global owner evidence</option>
-                <option value="manual_qa_finding">manual_qa_finding · review evidence</option>
+                <option value="owner_correction">owner_correction · {t.globalOwnerEvidence}</option>
+                <option value="manual_qa_finding">manual_qa_finding · {t.reviewEvidence}</option>
               </select>
             </label>
             <label className="text-sm font-medium text-ink-700">{locale === "uz" ? "Tuzatish da'vosi" : "Correction claim"}
@@ -544,34 +728,40 @@ export function OwnerRiwiGovernance({ locale }: { locale: Locale }) {
           <ul className="flex max-h-[24rem] flex-col gap-2 overflow-y-auto">
             {signals.map((signal) => <li key={signal.id} className="rounded-xl border border-ink-100 p-3" data-learning-state={signal.state}>
               <div className="flex items-start justify-between gap-2"><p className="font-medium text-ink-900">{signal.type.replaceAll("_", " ")}</p><span className="badge bg-paper-sunken text-ink-600">{signal.state}</span></div>
-              <p className="mt-1 text-xs text-ink-500">{signal.actorRole} · {signal.scope === "global" ? "global" : "scoped learner"} · {new Date(signal.createdAt).toLocaleString()}</p>
+              <p className="mt-1 text-xs text-ink-500">{signal.actorRole} · {signal.scope === "global" ? "global" : t.scopedLearner} · {new Date(signal.createdAt).toLocaleString(locale === "uz" ? "uz-UZ" : "en-US")}</p>
               <p className="mt-1 text-xs text-ink-500">{signal.type.startsWith("provider_") ? t.providerOnly : `${locale === "uz" ? "Manba" : "Source"}: ${signal.sourceId}`}</p>
-              <button type="button" className="btn-secondary mt-2" disabled={busy !== ""} onClick={() => void loadSignal(signal.id)}>{t.details}</button>
+              <button type="button" className="btn-secondary mt-2" disabled={busy !== "" || refreshing || Object.values(historyLoading).some(Boolean)} onClick={() => void loadSignal(signal.id)}>{t.details}</button>
             </li>)}
           </ul>
+          {signalCursor && <div className="flex flex-wrap items-center gap-3">
+            <button type="button" className="btn-secondary" data-history-kind="signals" aria-label={`${t.loadMore} ${t.signals}`} disabled={refreshing || busy !== "" || Object.values(historyLoading).some(Boolean)} onClick={() => void loadMore("signals")}>
+              {historyLoading.signals ? t.loadingMore : historyPageError.signals ? t.retryMore : t.loadMore}
+            </button>
+            {historyPageError.signals && <p className="text-xs text-band-bad" role="alert">{t.historyPageFailed}</p>}
+          </div>}
         </div>
       </section>
 
       {selectedSource && (
         <section className="card flex flex-col gap-4 p-5" aria-labelledby="riwi-source-detail-title" data-source-detail={selectedSource.id}>
           <header className="flex flex-wrap items-start justify-between gap-2">
-            <div><h3 id="riwi-source-detail-title" className="font-display text-lg text-ink-900">{selectedSource.title} · v{selectedSource.version}</h3><p className="text-xs text-ink-500">{selectedSource.sourceType} · {selectedSource.state} · authority {selectedSource.authority} · {selectedSource.scope === "role" ? selectedSource.scopeRole : selectedSource.scope}</p></div>
+            <div><h3 id="riwi-source-detail-title" className="font-display text-lg text-ink-900">{selectedSource.title} · v{selectedSource.version}</h3><p className="text-xs text-ink-500">{selectedSource.sourceType} · {selectedSource.state} · {t.authority} {selectedSource.authority} · {selectedSource.scope === "role" ? selectedSource.scopeRole : selectedSource.scope}</p></div>
             <button type="button" className="btn-secondary" onClick={() => setSelectedSource(null)}>{locale === "uz" ? "Yopish" : "Close"}</button>
           </header>
           <dl className="grid gap-2 text-xs sm:grid-cols-2 lg:grid-cols-4">
             <Meta label={locale === "uz" ? "Kelib chiqishi" : "Provenance"} value={selectedSource.provenance} />
             <Meta label={locale === "uz" ? "Huquq klassi" : "Rights class"} value={selectedSource.rightsClass} />
-            <Meta label={locale === "uz" ? "Parser" : "Parser version"} value={selectedSource.parserVersion} />
+            <Meta label={t.parserVersion} value={selectedSource.parserVersion} />
             <Meta label={locale === "uz" ? "Birliklar" : "Units"} value={String(selectedSource.unitCount)} />
-            <Meta label={locale === "uz" ? "Tahlil qilingan matn SHA-256" : "Parsed content SHA-256"} value={selectedSource.checksum} />
-            {selectedSource.sourceChecksum && <Meta label={locale === "uz" ? "Asl fayl SHA-256" : "Original source bytes SHA-256"} value={selectedSource.sourceChecksum} />}
-            <Meta label={locale === "uz" ? "Regressiya" : "Regression evidence"} value={selectedSource.regressionFixtureId ? `${selectedSource.regressionFixtureId} · ${selectedSource.regressionEvidenceHash ?? "—"}` : (locale === "uz" ? "hali bajarilmagan" : "not run yet")} />
+            <Meta label={t.parsedTextHash} value={selectedSource.checksum} />
+            {selectedSource.sourceChecksum && <Meta label={t.originalUploadHash} value={selectedSource.sourceChecksum} />}
+            <Meta label={locale === "uz" ? "Regressiya" : "Regression evidence"} value={selectedSource.regressionFixtureId ? `${selectedSource.regressionFixtureId} · ${selectedSource.regressionEvidenceHash ?? "—"}` : t.noRegressionRun} />
             <Meta label={locale === "uz" ? "Oldingi manba" : "Supersedes"} value={selectedSource.supersedesSourceId ? `${selectedSource.supersedesSourceId} · v${sourceMap.get(selectedSource.supersedesSourceId)?.version ?? "?"}` : "—"} />
           </dl>
           <p className="text-xs text-ink-500">{locale === "uz" ? "Yuklangan matn faqat inert ma'lumot. U hech qachon tizim ko'rsatmalari yoki vosita ruxsatlarini o'zgartirmaydi." : "Uploaded text is inert data; it cannot override system instructions or tool permissions."}</p>
           <div className="grid gap-2 md:grid-cols-2">
             {selectedSource.units.map((unit) => <article key={unit.id} className="rounded-xl border border-ink-100 p-3" data-source-content="inert">
-              <p className="text-xs font-semibold text-ink-500">#{unit.ordinal + 1}{unit.heading ? ` · ${unit.heading}` : ""} · {unit.characterCount} chars</p>
+              <p className="text-xs font-semibold text-ink-500">#{unit.ordinal + 1}{unit.heading ? ` · ${unit.heading}` : ""} · {unit.characterCount} {t.characters}</p>
               <p className="mt-2 whitespace-pre-wrap text-sm text-ink-700">{unit.content}</p>
               <p className="mt-1 break-all text-[10px] text-ink-300">{unit.contentHash}</p>
             </article>)}
@@ -611,16 +801,16 @@ export function OwnerRiwiGovernance({ locale }: { locale: Locale }) {
 
       {selectedSignal && (
         <section className="card flex flex-col gap-4 p-5" aria-labelledby="riwi-signal-detail-title" data-signal-detail={selectedSignal.signal.id}>
-          <header className="flex flex-wrap items-start justify-between gap-2"><div><h3 id="riwi-signal-detail-title" className="font-display text-lg text-ink-900">{selectedSignal.signal.signalType.replaceAll("_", " ")} · {selectedSignal.signal.state}</h3><p className="text-xs text-ink-500">{selectedSignal.signal.actorRole} · {selectedSignal.signal.scope === "global" ? "global" : "scoped learner"} · {locale === "uz" ? "manba" : "source"} {selectedSignal.signal.sourceId}</p></div><button type="button" className="btn-secondary" onClick={() => setSelectedSignal(null)}>{locale === "uz" ? "Yopish" : "Close"}</button></header>
+          <header className="flex flex-wrap items-start justify-between gap-2"><div><h3 id="riwi-signal-detail-title" className="font-display text-lg text-ink-900">{selectedSignal.signal.signalType.replaceAll("_", " ")} · {selectedSignal.signal.state}</h3><p className="text-xs text-ink-500">{selectedSignal.signal.actorRole} · {selectedSignal.signal.scope === "global" ? "global" : t.scopedLearner} · {t.sourceLabel} {selectedSignal.signal.sourceId}</p></div><button type="button" className="btn-secondary" onClick={() => setSelectedSignal(null)}>{locale === "uz" ? "Yopish" : "Close"}</button></header>
           <div className="grid gap-3 md:grid-cols-2"><TextExcerpt label={locale === "uz" ? "Nomzod da'vosi" : "Candidate claim"} value={selectedSignal.signal.candidateClaim} /><TextExcerpt label={locale === "uz" ? "Dalil xulosasi" : "Evidence summary"} value={selectedSignal.signal.evidenceSummary} /></div>
-          <p className="break-all text-xs text-ink-400">Evidence SHA-256: {selectedSignal.signal.evidenceHash}</p>
+          <p className="break-all text-xs text-ink-400">{t.evidenceHash}: {selectedSignal.signal.evidenceHash}</p>
           {selectedSignal.signal.signalType.startsWith("provider_") && <p className="rounded-xl bg-band-warn/10 p-3 text-sm text-band-warn">{t.providerOnly}</p>}
           <div className="flex flex-col gap-2">
-            <h4 className="font-semibold text-ink-800">{locale === "uz" ? "Ko'rib chiqish tarixi va regressiya dalili" : "Review history and regression evidence"}</h4>
-            {selectedSignal.reviews.length === 0 && <p className="text-sm text-ink-500">{locale === "uz" ? "Hali ko'rib chiqilmagan." : "No review has been recorded yet."}</p>}
+            <h4 className="font-semibold text-ink-800">{t.reviewHistory}</h4>
+            {selectedSignal.reviews.length === 0 && <p className="text-sm text-ink-500">{t.noReviewYet}</p>}
             {selectedSignal.reviews.map((review) => <article key={review.id} className="rounded-xl border border-ink-100 p-3">
-              <p className="font-medium text-ink-800">{review.decision} · {new Date(review.createdAt).toLocaleString()}</p><p className="mt-1 text-sm text-ink-600">{review.reason}</p>
-              <p className="mt-1 break-all text-xs text-ink-500">{review.regressionFixtureId ? `${review.regressionFixtureId} · ${review.regressionEvidenceHash ?? ""}` : (locale === "uz" ? "Regressiya dalili talab qilinmadi." : "No regression evidence required for this decision.")}</p>
+              <p className="font-medium text-ink-800">{review.decision} · {new Date(review.createdAt).toLocaleString(locale === "uz" ? "uz-UZ" : "en-US")}</p><p className="mt-1 text-sm text-ink-600">{review.reason}</p>
+              <p className="mt-1 break-all text-xs text-ink-500">{review.regressionFixtureId ? `${review.regressionFixtureId} · ${review.regressionEvidenceHash ?? ""}` : t.noRegressionNeeded}</p>
               {review.resultingSourceId && <button type="button" className="btn-secondary mt-2" onClick={() => void loadSource(review.resultingSourceId!)}>{locale === "uz" ? `Bog'langan bilim manbasini ko'rish ${review.resultingSourceId}` : `Inspect linked knowledge source ${review.resultingSourceId}`}</button>}
             </article>)}
           </div>
@@ -642,14 +832,23 @@ export function OwnerRiwiGovernance({ locale }: { locale: Locale }) {
 
       <section className="grid gap-5 xl:grid-cols-2">
         <div className="card flex flex-col gap-3 p-5" aria-labelledby="riwi-audit-title">
-          <h3 id="riwi-audit-title" className="font-display text-lg text-ink-900">{t.audit}</h3>
+          <header className="flex flex-wrap items-center justify-between gap-2">
+            <h3 id="riwi-audit-title" className="font-display text-lg text-ink-900">{t.audit}</h3>
+            <span className="badge bg-paper-sunken text-ink-600">{audit.length}/{diagnostics?.governance.auditEntries ?? audit.length}</span>
+          </header>
           {audit.length === 0 && <p className="text-sm text-ink-500">{t.noAudit}</p>}
           <ul className="flex max-h-80 flex-col gap-2 overflow-y-auto">
             {audit.map((entry) => <li key={entry.id} className="rounded-xl border border-ink-100 p-3">
-              <p className="font-medium text-ink-800">{entry.action}</p><p className="mt-1 text-xs text-ink-500">{entry.targetType ?? "riwi"}{entry.targetId ? ` · ${entry.targetId}` : ""} · {new Date(entry.createdAt).toLocaleString()}</p>
+              <p className="font-medium text-ink-800">{entry.action}</p><p className="mt-1 text-xs text-ink-500">{entry.targetType ?? "riwi"}{entry.targetId ? ` · ${entry.targetId}` : ""} · {new Date(entry.createdAt).toLocaleString(locale === "uz" ? "uz-UZ" : "en-US")}</p>
               {entry.metadata && <p className="mt-1 break-words text-[11px] text-ink-400">{Object.entries(entry.metadata).filter(([key, value]) => !/secret|token|prompt|body|password|url|endpoint/i.test(key) && ["string", "number", "boolean"].includes(typeof value)).map(([key, value]) => `${key}=${String(value).slice(0, 160)}`).join(" · ")}</p>}
             </li>)}
           </ul>
+          {auditCursor && <div className="flex flex-wrap items-center gap-3">
+            <button type="button" className="btn-secondary" data-history-kind="audit" aria-label={`${t.loadMore} ${t.audit}`} disabled={refreshing || busy !== "" || Object.values(historyLoading).some(Boolean)} onClick={() => void loadMore("audit")}>
+              {historyLoading.audit ? t.loadingMore : historyPageError.audit ? t.retryMore : t.loadMore}
+            </button>
+            {historyPageError.audit && <p className="text-xs text-band-bad" role="alert">{t.historyPageFailed}</p>}
+          </div>}
         </div>
         <div className="card flex flex-col gap-3 p-5" aria-labelledby="riwi-diagnostics-title">
           <h3 id="riwi-diagnostics-title" className="font-display text-lg text-ink-900">{t.diagnostics}</h3>

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useRef, type FormEvent } from "react";
+import { useEffect, useState, useRef, type FormEvent } from "react";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 import { z } from "zod";
 import type { Dictionary } from "@/lib/i18n/en";
 
@@ -23,6 +24,20 @@ const experimentSchema = z.object({
   }).strict()).max(2),
 }).strict();
 const apiResponseSchema = z.object({ ok: z.literal(true), replay: z.boolean(), experiment: experimentSchema }).strict();
+const historyPageSchema = z.object({
+  ok: z.literal(true), experiments: z.array(experimentSchema).max(50),
+  nextCursor: z.string().max(2048).nullable(), experimentCount: z.number().int().nonnegative(),
+}).strip();
+function appendUniqueExperiments(current: Experiment[], incoming: Experiment[]): Experiment[] {
+  const seen = new Set(current.map((item) => item.id));
+  const result = [...current];
+  for (const item of incoming) {
+    if (seen.has(item.id)) continue;
+    seen.add(item.id);
+    result.push(item);
+  }
+  return result;
+}
 
 type LabProvider = {
   id: string;
@@ -84,26 +99,92 @@ export function OwnerRiwiControlRoom({
   providers,
   enabled,
   initialExperiments,
+  initialNextCursor,
+  initialExperimentCount,
   text,
 }: {
   providers: LabProvider[];
   enabled: LabEnabled;
   initialExperiments: Experiment[];
+  initialNextCursor: string | null;
+  initialExperimentCount: number;
   text: RiwiLabCopy;
 }) {
   const [fixtureId, setFixtureId] = useState<FixtureId>(initialFixture);
   const [providerIds, setProviderIds] = useState<string[]>(() => providers.slice(0, 1).map((provider) => provider.id));
   const [experiments, setExperiments] = useState(initialExperiments);
+  const [experimentCursor, setExperimentCursor] = useState(initialNextCursor);
+  const [experimentCount, setExperimentCount] = useState(initialExperimentCount);
+  const [historyLoading, setHistoryLoading] = useState(false);
+  const [historyPageFailed, setHistoryPageFailed] = useState(false);
+  const requestResponse = useScopedResponse(35_000);
+  const historyLoadingRef = useRef(false);
+  const historyRequestSequence = useRef(0);
+  const mounted = useRef(true);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const pendingIdempotency = useRef<{ fingerprint: string; key: string } | null>(null);
+
+  useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+      historyRequestSequence.current += 1;
+    };
+  }, []);
 
   function toggleProvider(id: string) {
     setProviderIds((current) => {
       if (current.includes(id)) return current.filter((item) => item !== id);
       return current.length >= 2 ? current : [...current, id];
     });
+  }
+
+  function clearOwnerHistory() {
+    historyRequestSequence.current += 1;
+    historyLoadingRef.current = false;
+    setExperiments([]);
+    setExperimentCursor(null);
+    setExperimentCount(0);
+    setHistoryPageFailed(false);
+    setHistoryLoading(false);
+    setError(text.requestFailed);
+  }
+
+  async function loadMoreExperiments() {
+    const cursor = experimentCursor;
+    if (!cursor || historyLoadingRef.current) return;
+    const requestId = ++historyRequestSequence.current;
+    historyLoadingRef.current = true;
+    setHistoryLoading(true);
+    setHistoryPageFailed(false);
+    try {
+      const response = await requestResponse(
+        `/api/riwi/owner/provider-lab?limit=20&cursor=${encodeURIComponent(cursor)}`,
+        { method: "GET", headers: { Accept: "application/json" } },
+      );
+      if (!response || !mounted.current || historyRequestSequence.current !== requestId) return;
+      if (response.status === 401 || response.status === 403) {
+        clearOwnerHistory();
+        return;
+      }
+      const parsed = historyPageSchema.safeParse(await response.json().catch(() => null));
+      if (!response.ok || !parsed.success) {
+        setHistoryPageFailed(true);
+        return;
+      }
+      setExperiments((current) => appendUniqueExperiments(current, parsed.data.experiments));
+      setExperimentCursor(parsed.data.nextCursor);
+      setExperimentCount(parsed.data.experimentCount);
+    } catch {
+      if (mounted.current && historyRequestSequence.current === requestId) setHistoryPageFailed(true);
+    } finally {
+      if (mounted.current && historyRequestSequence.current === requestId) {
+        historyLoadingRef.current = false;
+        setHistoryLoading(false);
+      }
+    }
   }
 
   async function submit(event: FormEvent<HTMLFormElement>) {
@@ -124,13 +205,18 @@ export function OwnerRiwiControlRoom({
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({ fixtureId, providerIds, idempotencyKey: key }),
       });
+      if (response.status === 401 || response.status === 403) {
+        clearOwnerHistory();
+        return;
+      }
       const parsed = apiResponseSchema.safeParse(await response.json().catch(() => null));
       if (!response.ok || !parsed.success) {
         setError(response.status === 429 ? text.rateLimited : text.requestFailed);
         return;
       }
       const { experiment } = parsed.data;
-      setExperiments((current) => [experiment, ...current.filter((item) => item.id !== experiment.id)].slice(0, 20));
+      setExperiments((current) => [experiment, ...current.filter((item) => item.id !== experiment.id)]);
+      if (!parsed.data.replay) setExperimentCount((current) => current + 1);
       pendingIdempotency.current = null;
       setNotice(parsed.data.replay ? text.noticeReplay : text.noticeRecorded);
     } catch {
@@ -203,9 +289,14 @@ export function OwnerRiwiControlRoom({
       </section>
 
       <section className="flex flex-col gap-3" aria-labelledby="riwi-experiment-history-title">
-        <div>
-          <h2 id="riwi-experiment-history-title" className="font-display text-xl text-ink-900">{text.historyTitle}</h2>
-          <p className="text-xs text-ink-500">{text.historyHint}</p>
+        <div className="flex flex-wrap items-start justify-between gap-2">
+          <div>
+            <h2 id="riwi-experiment-history-title" className="font-display text-xl text-ink-900">{text.historyTitle}</h2>
+            <p className="text-xs text-ink-500">{text.historyHint}</p>
+          </div>
+          <span className="badge bg-paper-sunken text-ink-600" aria-label={text.historyTitle}>
+            {interpolate(text.historyCount, { loaded: String(experiments.length), total: String(experimentCount) })}
+          </span>
         </div>
         {experiments.length === 0 && <div className="card p-5 text-sm text-ink-500">{text.noExperiments}</div>}
         {experiments.map((experiment) => (
@@ -256,6 +347,12 @@ export function OwnerRiwiControlRoom({
             })}</p>
           </article>
         ))}
+        {experimentCursor && <div className="flex flex-wrap items-center gap-3" aria-busy={historyLoading}>
+          <button type="button" className="btn-secondary self-start" disabled={busy || historyLoading} onClick={() => void loadMoreExperiments()}>
+            {historyLoading ? text.loadingMoreHistory : historyPageFailed ? text.retryHistory : text.loadMoreHistory}
+          </button>
+          {historyPageFailed && <p className="text-sm text-band-bad" role="alert">{text.historyPageFailed}</p>}
+        </div>}
       </section>
     </div>
   );

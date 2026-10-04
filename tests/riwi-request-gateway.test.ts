@@ -6,6 +6,7 @@ import type { RiwiGatewayDependencies } from "../src/lib/services/riwi/gateway";
 import { runRiwiGateway } from "../src/lib/services/riwi/gateway";
 import { assessRiwiIntent } from "../src/lib/services/riwi/contracts";
 import type { RiwiCapability, RiwiActor, ScopeDecision } from "../src/lib/services/riwi/capabilities";
+import { scopeLabel, specsFor, type ReportScope } from "../src/lib/reporter/snapshot";
 import type { RiwiRollout } from "../src/lib/services/riwi/rollout";
 import type { RiwiGatewayAuditInput } from "../src/lib/services/riwi/gateway";
 import type { RetrievedKnowledge } from "../src/lib/services/riwi/knowledge";
@@ -47,22 +48,24 @@ function report(
   subjectId?: string,
   teacherId: string | null = null,
 ) {
-  const scope = scopeKind === "owner" ? { kind: "owner" as const }
-    : scopeKind === "teacher" ? { kind: "teacher" as const, teacherId }
-      : { kind: "student" as const, subjectId: subjectId ?? STUDENT_ID, subjectName: "Test learner" };
+  const scope: ReportScope = scopeKind === "owner" ? { kind: "owner" }
+    : scopeKind === "teacher" ? { kind: "teacher", teacherId }
+      : { kind: "student", subjectId: subjectId ?? STUDENT_ID, subjectName: "Test learner" };
   const generatedAt = "2026-10-04T00:00:00.000Z";
   const from = "2026-09-05T00:00:00.000Z";
   const to = "2026-10-05T00:00:00.000Z";
-  const canonicalScope = scope.kind === "owner" ? "owner:centre"
-    : scope.kind === "teacher" ? (scope.teacherId ? `teacher:${scope.teacherId}:assigned` : "teacher:all-students")
-      : `student:${scope.subjectId}`;
-  const where = scope.kind === "student" ? "user_id = :subject"
-    : scope.kind === "teacher" && scope.teacherId
-      ? "user_id in (select l.student_user_id from teacher_student_links l join users u on u.id = l.student_user_id where l.teacher_user_id = :teacher and u.role = 'student')"
-      : "user_id in (select id from users where role = 'student')";
-  const parameters: Record<string, string> = { from, to };
-  if (scope.kind === "student") parameters.subject = scope.subjectId;
-  if (scope.kind === "teacher" && scope.teacherId) parameters.teacher = scope.teacherId;
+  const metrics = specsFor(scope).map((spec) => {
+    const parameters: Record<string, string> = { from, to };
+    if (spec.compiledText.includes(":subject") && scope.kind === "student") parameters.subject = scope.subjectId;
+    if (spec.compiledText.includes(":teacher") && scope.kind === "teacher" && scope.teacherId) parameters.teacher = scope.teacherId;
+    const value = spec.unit === "ratio" ? 0.5 : spec.unit === "count" ? (spec.key === "reading.completed" ? 2 : 3) : 5.5;
+    return {
+      key: spec.key, section: spec.section, label: spec.label, unit: spec.unit, value,
+      source: { queryId: `riwi.${spec.key}`, sql: spec.compiledText, parameters },
+      window: { from, to, basis: spec.basis ?? "window" },
+      scope: scopeLabel(scope), generatedAt,
+    };
+  });
   return {
     status: "ready" as const,
     snapshot: {
@@ -73,12 +76,7 @@ function report(
       timezone: "Asia/Tashkent",
       period: { kind: "on_demand" as const, timezone: "Asia/Tashkent", from, to, fromDate: "2026-09-05", toDate: "2026-10-04" },
       scope,
-      metrics: [{
-        key: "learners.active", section: "learning" as const,
-        label: { en: "Active learners", uz: "Faol o'quvchilar" }, unit: "count" as const, value: 3,
-        source: { queryId: "riwi.learners.active", sql: `select count(distinct user_id)::int as v from activity_events where ${where} and created_at >= :from and created_at < :to`, parameters },
-        window: { from, to, basis: "window" as const }, scope: canonicalScope, generatedAt,
-      }],
+      metrics,
       narrative: { source: "deterministic" as const, en: [narrative], uz: [narrative] },
     },
   };
@@ -616,4 +614,17 @@ test("exam policy denies student help before tools or providers and response sco
   const response = await runRiwiGateway(post({ message: "Show my report" }), mismatchedScope.dependencies);
   assert.equal("errorCode" in response.body && response.body.errorCode, "riwi_scope_denied");
   assert.ok(!JSON.stringify(response.body).includes("OWNER_SECRET_SHOULD_NOT_LEAK"));
+
+  const mismatchedProvenance = makeDependencies({ overrides: {
+    callTool: async (name, toolInput, toolActor) => {
+      mismatchedProvenance.state.tools.push({ name, input: toolInput });
+      const result = report("student", toolActor, "Safe scoped report", toolActor.id);
+      result.snapshot.metrics[0]!.source.sql = "select 999::int as v";
+      return { ok: true, value: result };
+    },
+  } });
+  const provenanceResponse = await runRiwiGateway(post({ message: "Show my report" }), mismatchedProvenance.dependencies);
+  assert.equal("errorCode" in provenanceResponse.body && provenanceResponse.body.errorCode, "riwi_scope_denied",
+    "a structurally valid report with altered SQL provenance is withheld");
+  assert.ok(!JSON.stringify(provenanceResponse.body).includes("select 999"));
 });

@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { RULES } from "@/lib/http/rate-limit";
-import { RiwiAuditError, listRiwiGovernanceAudit } from "@/lib/services/riwi/audit";
+import { RiwiAuditError, listRiwiGovernanceAuditPage } from "@/lib/services/riwi/audit";
+import { RIWI_OWNER_HISTORY_PAGE_SIZE } from "@/lib/services/riwi/owner-history-cursor";
 import { enforceRiwiOwnerRate, ownerJson, requireRiwiOwner } from "@/lib/services/riwi/owner-route";
 
 export const dynamic = "force-dynamic";
@@ -13,16 +14,20 @@ export async function GET(request: NextRequest) {
     account: RULES.riwiGovernanceReadByAccount, ip: RULES.riwiGovernanceReadByIp,
   });
   if (limited) return limited;
-  const rawLimit = request.nextUrl.searchParams.get("limit");
-  const limit = rawLimit === null ? 50 : Number(rawLimit);
-  if (!Number.isInteger(limit) || limit < 1 || limit > 100) return ownerJson({ error: { code: "riwi_request_invalid" } }, 400);
+  const limits = request.nextUrl.searchParams.getAll("limit");
+  const cursors = request.nextUrl.searchParams.getAll("cursor");
+  if (limits.length > 1 || cursors.length > 1 || (limits[0] !== undefined && !/^\d{1,3}$/.test(limits[0]))) {
+    return ownerJson({ error: { code: "riwi_request_invalid" } }, 400);
+  }
+  const limit = limits[0] === undefined ? RIWI_OWNER_HISTORY_PAGE_SIZE : Number(limits[0]);
   try {
-    const entries = await listRiwiGovernanceAudit({
+    const page = await listRiwiGovernanceAuditPage({
       id: access.user.id, role: access.user.role, accountStatus: access.user.accountStatus,
-    }, limit);
-    return ownerJson({ ok: true, entries });
+    }, { limit, cursor: cursors[0] });
+    return ownerJson({ ok: true, ...page });
   } catch (error) {
-    if (error instanceof RiwiAuditError) return ownerJson({ error: { code: "forbidden" } }, 403);
+    if (error instanceof RiwiAuditError && error.code === "forbidden") return ownerJson({ error: { code: "forbidden" } }, 403);
+    if (error instanceof RiwiAuditError && error.code === "invalid_input") return ownerJson({ error: { code: "riwi_request_invalid" } }, 400);
     return ownerJson({ error: { code: "riwi_audit_unavailable" } }, 503);
   }
 }

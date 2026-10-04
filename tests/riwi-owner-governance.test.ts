@@ -107,6 +107,31 @@ test("owner governance lifecycle routes bind strict actions to the server-side o
   assert.match(promotion, /promoteKnowledgeSource\(/);
 });
 
+test("owner history endpoints reauthorize current owner identity and keep diagnostics independent of pages", async () => {
+  const { readFileSync } = await import("node:fs");
+  const read = (path: string) => readFileSync(path, "utf8");
+  const knowledgeRoute = read("src/app/api/riwi/owner/knowledge/route.ts");
+  const signalRoute = read("src/app/api/riwi/learning-signals/route.ts");
+  const auditRoute = read("src/app/api/riwi/owner/audit/route.ts");
+  const providerRoute = read("src/app/api/riwi/owner/provider-lab/route.ts");
+  const diagnosticsRoute = read("src/app/api/riwi/owner/diagnostics/route.ts");
+  assert.match(knowledgeRoute, /requireRiwiOwner\(\)/);
+  assert.match(knowledgeRoute, /listKnowledgeSourcePage\(/);
+  assert.match(signalRoute, /requireActiveUser\(\)/);
+  assert.match(signalRoute, /user\.role !== "owner"/);
+  assert.match(signalRoute, /listLearningSignalPage\(/);
+  assert.match(auditRoute, /requireRiwiOwner\(\)/);
+  assert.match(auditRoute, /listRiwiGovernanceAuditPage\(/);
+  assert.match(providerRoute, /ownerActor\(\)/);
+  assert.match(providerRoute, /listRiwiProviderExperimentPage\(/);
+  assert.match(diagnosticsRoute, /countKnowledgeSourcesForOwner\(/);
+  assert.match(diagnosticsRoute, /countLearningSignalsForOwner\(/);
+  assert.match(diagnosticsRoute, /countRiwiGovernanceAuditForOwner\(/);
+  assert.match(diagnosticsRoute, /countRiwiProviderExperiments\(/);
+  assert.doesNotMatch(diagnosticsRoute, /listKnowledgeSources\(|listLearningSignals\(/,
+    "diagnostics totals are independent aggregate queries, not the displayed history page");
+});
+
 test("owner RIWI has a localized breadcrumb and a real parent route", () => {
   assert.deepEqual(breadcrumbsFor("/owner/riwi", en).map((crumb) => crumb.href), ["/owner", "/owner/riwi"]);
   assert.deepEqual(breadcrumbsFor("/owner/riwi", uz).map((crumb) => crumb.href), ["/owner", "/owner/riwi"]);

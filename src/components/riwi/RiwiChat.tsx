@@ -45,7 +45,7 @@ type UiMessage = {
 
 const STORAGE_KEY = "learners-area.riwi.conversation.v1";
 
-function copy(locale: Locale, role: Role) {
+function copy(locale: Locale, role: Role, labels: RiwiLabelCopy) {
   const uz = locale === "uz";
   const roleTitle: Record<Role, string> = {
     student: uz ? "Shaxsiy o'quv yordamchisi" : "Personal learning assistant",
@@ -54,14 +54,14 @@ function copy(locale: Locale, role: Role) {
     owner: uz ? "Intelligence boshqaruvi" : "Intelligence control",
   };
   const prompts: Record<Role, string[]> = {
-    student: uz ? ["Mening progressim qanday?", "resilient so'zining ma'nosi nima?", "Shaxsiy hisobotimni ko'rsat"] : ["How am I doing?", "What does resilient mean?", "Show my personal report"],
-    teacher: uz ? ["Tanlangan o'quvchi progress", "Biriktirilgan guruhim uchun hisobot", "Articles mavzusini tushuntir"] : ["Show the selected learner's progress", "Show my assigned-roster report", "Explain articles simply"],
-    admin: uz ? ["Operatsion kohort uchun hisobot", "Tanlangan o'quvchi uchun hisobot", "Articles mavzusini tushuntir"] : ["Show the operational cohort report", "Show the selected student's report", "Explain articles simply"],
+    student: uz ? ["O'qishdagi rivojlanishim qanday?", "resilient so'zining ma'nosi nima?", "Shaxsiy hisobotimni ko'rsat"] : ["How am I doing?", "What does resilient mean?", "Show my personal report"],
+    teacher: uz ? ["Tanlangan o'quvchining rivojlanishi", "Biriktirilgan guruhim uchun hisobot", "Artikllar mavzusini tushuntir"] : ["Show the selected learner's progress", "Show my assigned-roster report", "Explain articles simply"],
+    admin: uz ? ["Operatsion kohort uchun hisobot", "Tanlangan o'quvchi uchun hisobot", "Artikllar mavzusini tushuntir"] : ["Show the operational cohort report", "Show the selected student's report", "Explain articles simply"],
     owner: uz ? ["Markaz bo'yicha hisobot", "Tanlangan o'quvchi uchun hisobot", "cohesion so'zini izohla"] : ["Show the centre report", "Show the selected student's report", "Define cohesion"],
   };
   const welcome: Record<Role, string> = {
     student: uz
-      ? "Lug'at, shaxsiy progress va deterministik hisobot haqida so'rang. Tashqi AI ishlatilsa, provayder ochiq ko'rsatiladi. Vaqtli Reading yoki Listening urinishi davomida RIWI yordam bermaydi."
+      ? "Lug'at, shaxsiy rivojlanish va aniq hisobot haqida so'rang. Tashqi AI ishlatilsa, provayder ochiq ko'rsatiladi. Vaqtli Reading yoki Listening urinishi davomida RIWI yordam bermaydi."
       : "Ask about the canonical dictionary, your own progress, or a deterministic personal report. If an external provider is used, RIWI shows its provenance. Help is paused during timed Reading or Listening attempts.",
     teacher: uz
       ? "O'zingizning aniq biriktirilgan guruhingiz bo'yicha hisobot so'rang yoki o'quv mavzusini tushuntiring. Boshqa guruhlar ma'lumoti ochilmaydi."
@@ -96,7 +96,10 @@ function copy(locale: Locale, role: Role) {
     reportSnapshot: uz ? "Reporter snapshot va SQL manbasi" : "Reporter snapshot and SQL provenance",
     learningData: uz ? "O'quv qaydlari" : "Learning records",
     policy: uz ? "Xavfsizlik qoidasi" : "Policy response",
-    riwi: uz ? "RIWI" : "RIWI",
+    riwi: labels.riwi,
+    schema: labels.schema,
+    sqlProvenance: labels.sqlProvenance,
+    parameters: uz ? "Parametrlar" : "Parameters",
     citations: uz ? "Manbalar" : "Sources",
     uncertainty: uz ? "Noaniqlik" : "Uncertainty",
     limit: uz ? "Xabar 4 000 belgidan oshmasligi kerak." : "Message must be 4,000 characters or fewer.",
@@ -122,7 +125,7 @@ function copy(locale: Locale, role: Role) {
         : role === "admin"
           ? (uz ? "Faqat faol o'quvchilar kohorti va aniq tanlangan o'quvchi hisobotlari. Egaga xos markaz, provayder va audit boshqaruvi kirmaydi." : "Only the active-student operational cohort and selected-student reports are available. Owner-only centre, provider, and audit controls are excluded.")
           : (uz ? "O'quvchi tanlanmasa markaz hisoboti, tanlansa shu faol o'quvchi doirasi ishlatiladi. Boshqaruv amallari RIWI nazorat xonasida qoladi." : "With no learner selected, the centre report is used; selecting a learner requests that student's scope. Governance actions stay in the RIWI control room."),
-    targetLabel: uz ? "Hisobot/progress uchun o'quvchi" : "Report or progress target",
+    targetLabel: uz ? "Hisobot yoki rivojlanish ma'lumoti uchun o'quvchi" : "Report or progress target",
     defaultTarget: role === "teacher" ? (uz ? "Biriktirilgan guruh hisoboti" : "My assigned-roster report")
       : role === "admin" ? (uz ? "Operatsion kohort hisoboti" : "Operational cohort report")
         : (uz ? "Butun markaz hisoboti" : "Whole-centre report"),
@@ -136,7 +139,7 @@ function copy(locale: Locale, role: Role) {
     targetPageFailed: uz ? "Keyingi o'quvchilar sahifasi yuklanmadi. Ro'yxat saqlandi; qayta urinib ko'ring." : "The next learner page could not be loaded. Your current list is unchanged; try again.",
     targetIntentHint: uz ? "Tanlangan o'quvchi faqat hisobot/progress so'roviga qo'llanadi; boshqa savollarda nishon yuborilmaydi." : "The selected learner applies only to report/progress requests; other questions do not send a target id.",
     targetRequired: uz ? "Davom etishdan oldin aniq biriktirilgan o'quvchini tanlang." : "Select an explicitly assigned learner before requesting individual progress.",
-    progressUnavailable: uz ? "Admin doirasida shaxsiy progress qaydi mavjud emas; ruxsatli hisobotdan foydalaning." : "Individual progress is not available in the admin scope; use an authorized report instead.",
+    progressUnavailable: uz ? "Admin doirasida shaxsiy rivojlanish qaydi mavjud emas; ruxsatli hisobotdan foydalaning." : "Individual progress is not available in the admin scope; use an authorized report instead.",
     quickLinksTitle: uz ? "Sizga ruxsatli ish joylari" : "Your authorized workspaces",
     quickLinks: role === "student"
       ? [{ href: "/writing", label: uz ? "Yozish" : "Writing" }, { href: "/speaking", label: uz ? "Gapirish" : "Speaking" }, { href: "/grammar", label: uz ? "Grammatika" : "Grammar" }, { href: "/vocabulary", label: uz ? "Lug'at" : "Vocabulary" }, { href: "/reports", label: uz ? "Shaxsiy hisobot" : "My report" }]
@@ -164,7 +167,7 @@ function provenanceLabel(message: UiMessage, text: ReturnType<typeof copy>) {
 }
 
 export function RiwiChat({ role, locale, scopeSurface, labels }: { role: Role; locale: Locale; scopeSurface?: RiwiRoleSurface; labels: RiwiLabelCopy }) {
-  const text = copy(locale, role);
+  const text = copy(locale, role, labels);
   const visibleScope = scopeSurface?.role === role ? scopeSurface : undefined;
   const targetScopeRevision = JSON.stringify([
     role, visibleScope?.status ?? null, visibleScope?.scope ?? null,
@@ -410,7 +413,7 @@ export function RiwiChat({ role, locale, scopeSurface, labels }: { role: Role; l
             <IconSparkles className="h-6 w-6" />
           </div>
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-accent">RIWI · {text.roleTag}</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-accent">{text.riwi} · {text.roleTag}</p>
             <h1 className="font-display text-3xl text-ink-900">{text.title}</h1>
             <p className="mt-1 max-w-2xl text-sm text-ink-500">{text.note}</p>
           </div>
@@ -493,7 +496,7 @@ export function RiwiChat({ role, locale, scopeSurface, labels }: { role: Role; l
                 <details className="mt-3 border-t border-ink-100/70 pt-2 text-xs text-ink-600">
                   <summary className="cursor-pointer font-semibold">{text.reportSnapshot}</summary>
                   <dl className="mt-2 grid gap-x-3 gap-y-1 sm:grid-cols-[auto_1fr]">
-                    <dt>{labels.schema}</dt><dd>{message.reportSnapshot.schemaVersion} · {message.reportSnapshot.reportId}</dd>
+                    <dt>{text.schema}</dt><dd>{message.reportSnapshot.schemaVersion} · {message.reportSnapshot.reportId}</dd>
                     <dt>{text.uz ? "Yaratilgan" : "Generated"}</dt><dd>{message.reportSnapshot.generatedAt} · {message.reportSnapshot.generatedBy.role}</dd>
                     <dt>{text.uz ? "Davr" : "Period"}</dt><dd>{message.reportSnapshot.period.kind}: {message.reportSnapshot.period.fromDate}–{message.reportSnapshot.period.toDate} · {message.reportSnapshot.timezone}</dd>
                     <dt>{text.uz ? "Doira" : "Scope"}</dt>
@@ -509,9 +512,9 @@ export function RiwiChat({ role, locale, scopeSurface, labels }: { role: Role; l
                         <p className="font-medium">{metric.label[text.uz ? "uz" : "en"]} <code>({metric.key})</code>: {metric.value === null ? "—" : String(metric.value)} {metric.unit}</p>
                         <p className="mt-1 break-all">{metric.source.queryId} · {metric.window.from}–{metric.window.to} · {metric.scope}</p>
                         <details className="mt-1">
-                          <summary className="cursor-pointer">{labels.sqlProvenance}</summary>
+                          <summary className="cursor-pointer">{text.sqlProvenance}</summary>
                           <pre className="mt-1 overflow-x-auto whitespace-pre-wrap break-words">{metric.source.sql}</pre>
-                          <p>Parameters: {JSON.stringify(metric.source.parameters)}</p>
+                          <p>{text.parameters}: {JSON.stringify(metric.source.parameters)}</p>
                         </details>
                       </li>
                     ))}

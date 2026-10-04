@@ -1,6 +1,6 @@
 import "server-only";
 import { createHash } from "node:crypto";
-import { and, asc, desc, eq, gt, inArray, isNull, or, sql } from "drizzle-orm";
+import { and, asc, desc, eq, gt, inArray, isNull, lt, or, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { riwiKnowledgeConflicts, riwiKnowledgeSources, riwiKnowledgeUnits, uploadIntents, users } from "@/db/schema";
 import type { AccountStatus } from "@/lib/auth/account-status";
@@ -12,6 +12,13 @@ import { chunkKnowledgeText, RIWI_UNIT_MAX_CHARS } from "./knowledge-parser";
 import type { KnowledgeScope } from "./knowledge-policy";
 import { redactExternalText } from "./outbound-guard";
 import { isSafeObjectKey } from "@/lib/validation/uploads";
+import {
+  decodeOwnerHistoryCursor,
+  encodeOwnerHistoryCursor,
+  ownerHistoryPageLimit,
+  RiwiOwnerHistoryCursorError,
+  type RiwiOwnerHistoryPosition,
+} from "./owner-history-cursor";
 
 export const KNOWLEDGE_SOURCE_TYPES = [
   "owner_instruction", "ielts_rubric", "grammar_material", "vocabulary_material", "speaking_material",
@@ -242,6 +249,74 @@ export async function listKnowledgeSources(actor: KnowledgeActor, database: Pick
     createdAt: riwiKnowledgeSources.createdAt, approvedAt: riwiKnowledgeSources.approvedAt, activatedAt: riwiKnowledgeSources.activatedAt,
   }).from(riwiKnowledgeSources).orderBy(desc(riwiKnowledgeSources.updatedAt)).limit(200);
   return rows.map((row) => ({ ...row, title: redactExternalText(row.title, 200), provenance: redactExternalText(row.provenance, 500) }));
+}
+
+async function requireActiveKnowledgeOwner(actor: KnowledgeActor, database: Pick<typeof db, "select">): Promise<void> {
+  if (!canManage(actor, "riwi.knowledge.review")) throw new KnowledgeServiceError("forbidden");
+  const [subject] = await database.select({ role: users.role, accountStatus: users.accountStatus })
+    .from(users).where(eq(users.id, actor.id)).limit(1);
+  if (subject?.role !== "owner" || subject.accountStatus !== "active") throw new KnowledgeServiceError("forbidden");
+}
+
+export async function listKnowledgeSourcePage(
+  actor: KnowledgeActor,
+  options: { cursor?: string | null; limit?: number } = {},
+  database: Pick<typeof db, "select"> = db,
+) {
+  await requireActiveKnowledgeOwner(actor, database);
+  let limit: number;
+  let after: RiwiOwnerHistoryPosition | null;
+  try {
+    limit = ownerHistoryPageLimit(options.limit);
+    after = decodeOwnerHistoryCursor(options.cursor, actor, "knowledge_sources");
+  } catch (error) {
+    if (error instanceof RiwiOwnerHistoryCursorError) throw new KnowledgeServiceError("invalid_input");
+    throw error;
+  }
+  const rows = await database.select({
+    id: riwiKnowledgeSources.id, sourceType: riwiKnowledgeSources.sourceType, title: riwiKnowledgeSources.title,
+    provenance: riwiKnowledgeSources.provenance, rightsClass: riwiKnowledgeSources.rightsClass, authority: riwiKnowledgeSources.authority,
+    scope: riwiKnowledgeSources.scope, scopeRole: riwiKnowledgeSources.scopeRole, scopeUserId: riwiKnowledgeSources.scopeUserId,
+    supersedesSourceId: riwiKnowledgeSources.supersedesSourceId, version: riwiKnowledgeSources.version,
+    state: riwiKnowledgeSources.state, unitCount: riwiKnowledgeSources.unitCount, checksum: riwiKnowledgeSources.checksum,
+    sourceChecksum: riwiKnowledgeSources.sourceChecksum, parserVersion: riwiKnowledgeSources.parserVersion,
+    regressionFixtureId: riwiKnowledgeSources.regressionFixtureId, regressionEvidenceHash: riwiKnowledgeSources.regressionEvidenceHash,
+    regressionPassedAt: riwiKnowledgeSources.regressionPassedAt,
+    createdAt: riwiKnowledgeSources.createdAt, approvedAt: riwiKnowledgeSources.approvedAt, activatedAt: riwiKnowledgeSources.activatedAt,
+    cursorAt: riwiKnowledgeSources.updatedAt,
+  }).from(riwiKnowledgeSources).where(after
+    ? or(
+      lt(riwiKnowledgeSources.updatedAt, after.sortAt),
+      and(eq(riwiKnowledgeSources.updatedAt, after.sortAt), lt(riwiKnowledgeSources.id, after.id)),
+    )
+    : undefined)
+    .orderBy(desc(riwiKnowledgeSources.updatedAt), desc(riwiKnowledgeSources.id)).limit(limit + 1);
+  const hasMore = rows.length > limit;
+  const pageRows = rows.slice(0, limit);
+  const last = pageRows.at(-1);
+  const nextCursor = hasMore && last
+    ? encodeOwnerHistoryCursor({ actor, collection: "knowledge_sources", after: { sortAt: last.cursorAt, id: last.id } })
+    : null;
+  return {
+    sources: pageRows.map(({ cursorAt: _cursorAt, ...row }) => ({
+      ...row, title: redactExternalText(row.title, 200), provenance: redactExternalText(row.provenance, 500),
+    })),
+    nextCursor,
+  };
+}
+
+export async function countKnowledgeSourcesForOwner(actor: KnowledgeActor, database: Pick<typeof db, "select"> = db) {
+  await requireActiveKnowledgeOwner(actor, database);
+  const [counts] = await database.select({
+    total: sql<number>`count(*)::int`,
+    candidates: sql<number>`count(*) filter (where ${riwiKnowledgeSources.state} = 'candidate')::int`,
+    approved: sql<number>`count(*) filter (where ${riwiKnowledgeSources.state} = 'approved')::int`,
+  }).from(riwiKnowledgeSources);
+  return {
+    total: Number(counts?.total ?? 0),
+    candidates: Number(counts?.candidates ?? 0),
+    approved: Number(counts?.approved ?? 0),
+  };
 }
 
 export async function getKnowledgeSourceDetail(

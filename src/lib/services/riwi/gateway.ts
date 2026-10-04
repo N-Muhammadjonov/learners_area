@@ -9,6 +9,7 @@ import type { Role } from "@/lib/auth/roles";
 import type { Locale } from "@/lib/i18n";
 import { RULES, accountKey, consume, type RateLimitResult } from "@/lib/http/rate-limit";
 import { isOnRoster } from "@/lib/reporter/roster";
+import { scopeLabel as reportScopeLabel, specsFor as reportSpecsFor, type ReportScope } from "@/lib/reporter/snapshot";
 import { effectiveCoachConfig } from "@/lib/services/coach/owner-control";
 import type { RiwiProviderInput } from "@/lib/services/coach/types";
 import { guardExternalPayload, redactExternalText } from "./outbound-guard";
@@ -39,9 +40,10 @@ import { retrieveActiveKnowledge, type RetrievedKnowledge } from "./knowledge";
 import { recordRiwiAudit, type RiwiAuditAction, type RiwiAuditMetadata } from "./audit";
 import { readRiwiRollout, type RiwiRollout } from "./rollout";
 import { routeRiwiAnswer, type RoutedRiwiAnswer } from "./provider-router";
-import { createRiwiCoreTools } from "./core-tools";
+import { createRiwiCoreTools, riwiToolBroker } from "./core-tools";
 import { formatRiwiEvaluation, riwiEvaluationToolResultSchema } from "./evaluation-tools";
-import { reportSnapshotSchema, type ValidatedReportSnapshot } from "@/lib/reporter/snapshot-schema";
+import { riwiReportResultSchema } from "./reports";
+import type { ValidatedReportSnapshot } from "@/lib/reporter/snapshot-schema";
 import type { RiwiRiskClass, RiwiToolBroker, ToolCallResult } from "./tool-broker";
 
 const MIN_INTENT_CONFIDENCE = 0.7;
@@ -70,10 +72,7 @@ const progressResultSchema = z.object({
     term: z.string().max(160), definition: z.string().max(1500), state: z.string().max(40), nextReviewAt: z.string().datetime(),
   }).strict()).max(20),
 }).strict();
-const reportResultSchema = z.discriminatedUnion("status", [
-  z.object({ status: z.literal("ready"), snapshot: reportSnapshotSchema }).strict(),
-  z.object({ status: z.literal("unavailable"), reason: z.enum(["not_available", "invalid_period", "generation_failed"]) }).strict(),
-]);
+const reportResultSchema = riwiReportResultSchema;
 const grammarTopicResultSchema = z.discriminatedUnion("status", [
   z.object({ status: z.literal("unresolved") }).strict(),
   z.object({
@@ -173,7 +172,7 @@ async function defaultResolveScope(
 /** Bind every gateway persistence/scope path to one canonical database connection. */
 export function createRiwiGatewayDependencies(
   database: typeof db = db,
-  toolBroker: RiwiToolBroker = createRiwiCoreTools(database),
+  toolBroker: RiwiToolBroker = database === db ? riwiToolBroker : createRiwiCoreTools(database),
 ): RiwiGatewayDependencies {
   const scopeDependencies = createScopeDependencies(database);
   return {
@@ -316,32 +315,54 @@ function formatReport(snapshot: ValidatedReportSnapshot, actor: RiwiActor, targe
   if (!scopeMatches || snapshot.generatedBy.userId !== actor.id || snapshot.generatedBy.role !== actor.role
     || snapshot.timezone !== snapshot.period.timezone || snapshot.period.from >= snapshot.period.to) return null;
 
-  const canonicalScope = snapshot.scope.kind === "student" ? `student:${snapshot.scope.subjectId}`
-    : snapshot.scope.kind === "teacher" ? (snapshot.scope.teacherId ? `teacher:${snapshot.scope.teacherId}:assigned` : "teacher:all-students")
-      : "owner:centre";
-  if (snapshot.metrics.some((metric) => metric.scope !== canonicalScope
-    || metric.generatedAt !== snapshot.generatedAt
-    || metric.window.from !== snapshot.period.from || metric.window.to !== snapshot.period.to
-    || metric.source.queryId !== `riwi.${metric.key}`
-    || metric.source.parameters.from !== snapshot.period.from || metric.source.parameters.to !== snapshot.period.to
-    || (snapshot.scope.kind === "student" && metric.source.parameters.subject !== undefined
-      && metric.source.parameters.subject !== snapshot.scope.subjectId))) return null;
+  // The snapshot schema is structural only. Bind every metric back to the
+  // Reporter-owned spec so a handler cannot forge a plausible key while
+  // changing SQL, parameters, labels, window basis, order, or scope metadata.
+  const canonicalScope = snapshot.scope as ReportScope;
+  const canonicalMetrics = reportSpecsFor(canonicalScope);
+  const reportedScope = reportScopeLabel(canonicalScope);
+  const metricsMatchCanonical = snapshot.metrics.length === canonicalMetrics.length && snapshot.metrics.every((metric, index) => {
+    const spec = canonicalMetrics[index];
+    if (!spec) return false;
+    const expectedParameters: Record<string, string> = { from: snapshot.period.from, to: snapshot.period.to };
+    if (spec.compiledText.includes(":subject") && canonicalScope.kind === "student") expectedParameters.subject = canonicalScope.subjectId;
+    if (spec.compiledText.includes(":teacher") && canonicalScope.kind === "teacher" && canonicalScope.teacherId) expectedParameters.teacher = canonicalScope.teacherId;
+    const parameterKeys = Object.keys(metric.source.parameters).sort();
+    const expectedParameterKeys = Object.keys(expectedParameters).sort();
+    return metric.key === spec.key
+      && metric.section === spec.section
+      && metric.unit === spec.unit
+      && metric.label.en === spec.label.en && metric.label.uz === spec.label.uz
+      && metric.source.queryId === `riwi.${spec.key}`
+      && metric.source.sql === spec.compiledText
+      && parameterKeys.length === expectedParameterKeys.length
+      && expectedParameterKeys.every((key) => metric.source.parameters[key] === expectedParameters[key])
+      && metric.window.from === snapshot.period.from && metric.window.to === snapshot.period.to
+      && metric.window.basis === (spec.basis ?? "window")
+      && metric.scope === reportedScope && metric.generatedAt === snapshot.generatedAt;
+  });
+  if (!metricsMatchCanonical) return null;
 
   const uz = locale === "uz";
   const scopeText = snapshot.scope.kind === "student"
-    ? (snapshot.scope.subjectId === actor.id ? (uz ? "sizning hisobingiz" : "your account") : snapshot.scope.subjectName)
-    : snapshot.scope.kind === "teacher" ? (snapshot.scope.teacherId ? (uz ? "o'qituvchi ro'yxati" : "teacher's assigned roster") : (uz ? "barcha o'quvchilar kohorti" : "all-students cohort"))
-      : (uz ? "egasining markaz doirasi" : "owner centre scope");
-  const lines = [
-    ...snapshot.narrative[locale],
-    `${uz ? "Davr" : "Period"} (${snapshot.period.kind}): ${snapshot.period.fromDate} — ${snapshot.period.toDate} (${snapshot.timezone}).`,
-    `${uz ? "Yaratilgan" : "Generated"}: ${snapshot.generatedAt}.`,
-    `${uz ? "Doira" : "Scope"}: ${scopeText}.`,
-    uz ? "Ko'rsatkichlar (Reporter snapshotidagi aniq qiymatlar):" : "Metrics (exact Reporter snapshot values):",
-  ];
+    ? (snapshot.scope.subjectId === actor.id ? (uz ? "shaxsiy o'quvchi qamrovi" : "personal student scope") : (uz ? "tanlangan o'quvchi" : "selected student scope"))
+    : snapshot.scope.kind === "teacher"
+      ? snapshot.scope.teacherId
+        ? (uz ? "o'qituvchining biriktirilgan ro'yxati" : "teacher's assigned roster")
+        : (uz ? "barcha o'quvchilar guruhi" : "all-students cohort")
+      : (uz ? "markaz bo'yicha" : "centre-wide");
+  const sourceQueryIds = [...new Set(snapshot.metrics.map((metric) => metric.source.queryId))].sort();
+  const lines = [...snapshot.narrative[locale]];
+  lines.push(`${uz ? "Qamrov" : "Scope"}: ${scopeText}`);
+  lines.push(`${uz ? "Davr" : "Period"}: ${snapshot.period.fromDate} — ${snapshot.period.toDate} (${snapshot.period.timezone})`);
+  lines.push(`${uz ? "Aniq vaqt oralig'i" : "Exact window"}: [${snapshot.period.from}, ${snapshot.period.to})`);
+  lines.push(`${uz ? "Hisobot snapshot" : "Reporter snapshot"}: ${snapshot.schemaVersion}, ${snapshot.reportId}`);
+  lines.push(`${uz ? "Yaratilgan" : "Generated"}: ${snapshot.generatedAt}`);
+  lines.push(`${uz ? "Manba so'rovlari" : "Source query IDs"}: ${sourceQueryIds.length ? sourceQueryIds.join(", ") : "—"}`);
   for (const metric of snapshot.metrics) {
-    const value = metric.value === null ? (uz ? "qayd yo'q" : "no recorded value") : String(metric.value);
-    lines.push(`${metric.label[locale]} [${metric.key}; ${metric.unit}]: ${value}`);
+    const display = metric.value === null ? "—" : metric.unit === "ratio" ? `${(metric.value * 100).toFixed(1)}%`
+      : metric.unit === "count" ? String(Math.round(metric.value)) : metric.value.toFixed(2);
+    lines.push(`${metric.label[locale]}: ${display}`);
   }
   return { answer: lines.join("\n"), snapshot };
 }

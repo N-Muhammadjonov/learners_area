@@ -1,5 +1,5 @@
 import "server-only";
-import { desc, eq, inArray } from "drizzle-orm";
+import { and, desc, eq, inArray, lt, or, sql } from "drizzle-orm";
 import { z } from "zod";
 import { recordAudit, type AuditAction } from "@/lib/data/audit";
 import { db } from "@/db/client";
@@ -8,6 +8,13 @@ import type { AccountStatus } from "@/lib/auth/account-status";
 import type { Role } from "@/lib/auth/roles";
 import { RIWI_PROVENANCE } from "./contracts";
 import { authorizeCapability } from "./capabilities";
+import {
+  decodeOwnerHistoryCursor,
+  encodeOwnerHistoryCursor,
+  ownerHistoryPageLimit,
+  RiwiOwnerHistoryCursorError,
+  type RiwiOwnerHistoryPosition,
+} from "./owner-history-cursor";
 
 export const RIWI_AUDIT_ACTIONS = [
   "riwi.request.started", "riwi.request.completed", "riwi.request.denied", "riwi.action.confirmation.required", "riwi.tool.invoked", "riwi.tool.succeeded", "riwi.tool.failed",
@@ -75,7 +82,7 @@ export async function recordRiwiAudit(input: {
 }
 
 export class RiwiAuditError extends Error {
-  constructor(public readonly code: "forbidden") { super(code); }
+  constructor(public readonly code: "forbidden" | "invalid_input") { super(code); }
 }
 
 /** Owner-only, bounded audit projection. Malformed historical metadata is omitted rather than exposed. */
@@ -98,4 +105,63 @@ export async function listRiwiGovernanceAudit(
     const parsed = metadataSchema.safeParse(entry.metadata);
     return { ...entry, metadata: parsed.success ? parsed.data : null };
   });
+}
+
+async function requireActiveAuditOwner(
+  actor: { id: string; role: Role; accountStatus: AccountStatus },
+  database: Pick<typeof db, "select">,
+): Promise<void> {
+  if (actor.role !== "owner" || !authorizeCapability(actor, "riwi.audit.read_owner").allowed) throw new RiwiAuditError("forbidden");
+  const [subject] = await database.select({ role: users.role, accountStatus: users.accountStatus })
+    .from(users).where(eq(users.id, actor.id)).limit(1);
+  if (subject?.role !== "owner" || subject.accountStatus !== "active") throw new RiwiAuditError("forbidden");
+}
+
+export async function listRiwiGovernanceAuditPage(
+  actor: { id: string; role: Role; accountStatus: AccountStatus },
+  options: { cursor?: string | null; limit?: number } = {},
+  database: Pick<typeof db, "select"> = db,
+) {
+  await requireActiveAuditOwner(actor, database);
+  let limit: number;
+  let after: RiwiOwnerHistoryPosition | null;
+  try {
+    limit = ownerHistoryPageLimit(options.limit);
+    after = decodeOwnerHistoryCursor(options.cursor, actor, "audit_entries");
+  } catch (error) {
+    if (error instanceof RiwiOwnerHistoryCursorError) throw new RiwiAuditError("invalid_input");
+    throw error;
+  }
+  const rows = await database.select({
+    id: auditLog.id, actorUserId: auditLog.actorUserId, action: auditLog.action,
+    targetType: auditLog.targetType, targetId: auditLog.targetId, metadata: auditLog.metadata, createdAt: auditLog.createdAt,
+  }).from(auditLog).where(and(
+    inArray(auditLog.action, RIWI_AUDIT_ACTIONS),
+    after ? or(
+      lt(auditLog.createdAt, after.sortAt),
+      and(eq(auditLog.createdAt, after.sortAt), lt(auditLog.id, after.id)),
+    ) : undefined,
+  )).orderBy(desc(auditLog.createdAt), desc(auditLog.id)).limit(limit + 1);
+  const hasMore = rows.length > limit;
+  const entries = rows.slice(0, limit).map((entry) => {
+    const parsed = metadataSchema.safeParse(entry.metadata);
+    return { ...entry, metadata: parsed.success ? parsed.data : null };
+  });
+  const last = entries.at(-1);
+  return {
+    entries,
+    nextCursor: hasMore && last
+      ? encodeOwnerHistoryCursor({ actor, collection: "audit_entries", after: { sortAt: last.createdAt, id: last.id } })
+      : null,
+  };
+}
+
+export async function countRiwiGovernanceAuditForOwner(
+  actor: { id: string; role: Role; accountStatus: AccountStatus },
+  database: Pick<typeof db, "select"> = db,
+) {
+  await requireActiveAuditOwner(actor, database);
+  const [row] = await database.select({ total: sql<number>`count(*)::int` })
+    .from(auditLog).where(inArray(auditLog.action, RIWI_AUDIT_ACTIONS));
+  return Number(row?.total ?? 0);
 }

@@ -1,5 +1,6 @@
 import "server-only";
 import { eq } from "drizzle-orm";
+import { z } from "zod";
 import { db } from "@/db/client";
 import { users } from "@/db/schema";
 import type { Role } from "@/lib/auth/roles";
@@ -7,6 +8,7 @@ import { authorizeReport, type Actor, type ScopeKind } from "@/lib/reporter/acce
 import { isOnRoster } from "@/lib/reporter/roster";
 import { PERIOD_KINDS, resolvePeriod, type PeriodKind } from "@/lib/reporter/period";
 import { buildReportSnapshot, type ReportSnapshot } from "@/lib/reporter/snapshot";
+import { reportSnapshotSchema } from "@/lib/reporter/snapshot-schema";
 
 export type RiwiReportRequest = {
   scope: ScopeKind;
@@ -15,6 +17,13 @@ export type RiwiReportRequest = {
   from?: string | null;
   to?: string | null;
 };
+
+/** Shared strict Reporter schema; the tool boundary cannot drift from chat/transcript validation. */
+export const riwiReportSnapshotSchema = reportSnapshotSchema;
+export const riwiReportResultSchema = z.discriminatedUnion("status", [
+  z.object({ status: z.literal("ready"), snapshot: riwiReportSnapshotSchema }).strict(),
+  z.object({ status: z.literal("unavailable"), reason: z.enum(["not_available", "invalid_period", "generation_failed"]) }).strict(),
+]);
 
 export type RiwiReportResult =
   | { ok: true; snapshot: ReportSnapshot }
