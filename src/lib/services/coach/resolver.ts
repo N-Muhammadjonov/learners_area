@@ -1,4 +1,5 @@
 import "server-only";
+import { guardExternalPayload } from "@/lib/services/riwi/outbound-guard";
 import { RIWI_PROVIDER_ID, readCoachConfig, type CoachConfig } from "./config";
 import { providerRegistry } from "./registry";
 import {
@@ -130,6 +131,19 @@ async function invoke(
   }
 }
 
+/** External adapters receive a task-specific allowlisted DTO, not arbitrary application objects. */
+function guardExternalRequest(request: EvaluationRequest): EvaluationRequest | null {
+  const guarded = guardExternalPayload(request.evaluationType, request.input);
+  if (!guarded.ok) return null;
+  switch (request.evaluationType) {
+    case "writing": return { evaluationType: "writing", input: guarded.payload as WritingEvaluationInput };
+    case "speaking": return { evaluationType: "speaking", input: guarded.payload as SpeakingEvaluationInput };
+    case "grammar": return { evaluationType: "grammar", input: guarded.payload as GrammarEvaluationInput };
+    case "vocabulary": return { evaluationType: "vocabulary", input: guarded.payload as VocabularyEvaluationInput };
+    case "assignment": return { evaluationType: "assignment", input: guarded.payload as AssignmentEvaluationInput };
+  }
+}
+
 type SingleRun =
   | { ok: true; output: ProviderEvaluationOutput; durationMs: number; callCount: number }
   | { ok: false; failure: ProviderFailure; durationMs: number; callCount: number };
@@ -178,6 +192,11 @@ async function runProvider(
     };
   }
 
+  const safeRequest = external ? guardExternalRequest(request) : request;
+  if (!safeRequest) {
+    return { ok: false, failure: { reason: "invalid_response", detail: "Outbound payload did not match the task allowlist", retryable: false }, durationMs: 0, callCount: 0 };
+  }
+
   let callCount = 0;
   let lastFailure: ProviderFailure = {
     reason: "provider_error",
@@ -192,7 +211,7 @@ async function runProvider(
 
     try {
       const outcome = await withTimeout(
-        invoke(provider, request, { ...attemptCtx, signal: controller.signal }),
+        invoke(provider, safeRequest, { ...attemptCtx, signal: controller.signal }),
         config.timeoutMs,
         controller
       );

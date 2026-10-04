@@ -6,15 +6,17 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { assertPublicHost, checkProviderBaseUrl, isPrivateAddress } from "../src/lib/services/coach/providers/shared/ssrf";
 import { createCompatibleProvider, parseCompatibleProviders } from "../src/lib/services/coach/providers/compatible";
-import { anthropicProvider } from "../src/lib/services/coach/providers/anthropic";
+import { createAnthropicProvider } from "../src/lib/services/coach/providers/anthropic";
+import { createOpenAiProvider } from "../src/lib/services/coach/providers/openai";
 import { AI_CONTROL_ACTION, combineControl, ownerAiStatus, readOwnerAiControl, type OwnerAiControl } from "../src/lib/services/coach/owner-control";
 import { readCoachConfig } from "../src/lib/services/coach/config";
+import type { ProviderEvaluationOutput } from "../src/lib/services/coach/schema";
 import { runWritingCheck } from "../src/lib/services/writing/check";
 import { writingAiReady } from "../src/lib/writing/ai-readiness";
 import { speakingAiReadiness } from "../src/lib/speaking/ai-readiness";
 import { createTestDatabase, type TestDatabase } from "./support/pglite";
 
-const validOutput = {
+const validOutput: ProviderEvaluationOutput = {
   overallEstimate: null, confidence: 0.7, verdict: "mostly_correct",
   criteria: [{ key: "grammar", label: "Grammar", band: 6, limited: false, note: null }],
   strengths: ["clear"], weaknesses: [], nextActions: [], issues: [], recommendedExercises: [],
@@ -43,6 +45,7 @@ test("UA1 static URL guard: https public hosts only; internal, private, credenti
   ]) assert.equal(checkProviderBaseUrl(bad).ok, false, bad);
   assert.equal(checkProviderBaseUrl("https://api.example.com/v1", ["other.example.com"]).ok, false, "allowlist enforced");
   assert.equal(checkProviderBaseUrl("https://api.example.com/v1", ["api.example.com"]).ok, true);
+  assert.equal(checkProviderBaseUrl("https://api.example.com/v1", [" "]).ok, false, "a malformed configured allowlist fails closed instead of becoming unrestricted");
   assert.ok(isPrivateAddress("::ffff:127.0.0.1"));
   assert.ok(!isPrivateAddress("93.184.216.34"));
 });
@@ -76,42 +79,80 @@ test("UA3 compatible config: env-var secret references only, reserved ids, dupli
   for (const leak of ["sk-live-THIS-IS-A-KEY", "sk-should-not-be-here", "10.0.0.8"]) assert.ok(!text.includes(leak), `issue echoes ${leak}`);
   assert.equal(parseCompatibleProviders("{not json").issues.length, 1);
   assert.deepEqual(parseCompatibleProviders(undefined), { entries: [], issues: [] });
+  const invalidConfiguredAllowlist = parseCompatibleProviders(JSON.stringify([good]), ", ,");
+  assert.equal(invalidConfiguredAllowlist.entries.length, 0);
+  assert.equal(invalidConfiguredAllowlist.issues[0]?.reason, "AI_COMPATIBLE_ALLOWED_HOSTS is invalid");
 });
 
-test("UA4 compatible transport: POST {base}/chat/completions with Bearer from the referenced env var, no redirects, identity-free, validated", async () => {
+test("UA4 compatible transport: posts to the configured path with a server-side Bearer secret and identity-free JSON", async () => {
   await withEnv({ AI_ACME_API_KEY: "test-acme-key" }, async () => {
     const entry = parseCompatibleProviders(JSON.stringify([{ id: "acme", displayName: "Acme AI", baseURL: "https://api.acme.example/v1", model: "acme-l", secretRef: "AI_ACME_API_KEY" }])).entries[0]!;
-    const provider = createCompatibleProvider(entry, { lookup: async () => [{ address: "93.184.216.34" }] });
-    let seen: { url: string; init: RequestInit } | null = null;
-    globalThis.fetch = (async (url: string | URL, init?: RequestInit) => {
-      seen = { url: String(url), init: init! };
-      return Response.json({ choices: [{ finish_reason: "stop", message: { content: JSON.stringify(validOutput) } }] });
-    }) as typeof fetch;
+    let reply = { status: 200, contentType: "application/json", text: JSON.stringify({ choices: [{ finish_reason: "stop", message: { content: JSON.stringify(validOutput) } }] }) };
+    let seen: { url: string; headers: Record<string, string>; body: string; allowHosts: readonly string[] | undefined } | null = null;
+    const provider = createCompatibleProvider(entry, {
+      lookup: async () => [{ address: "93.184.216.34" }],
+      allowHosts: ["api.acme.example"],
+      request: async (url, headers, body, options) => {
+        seen = { url: String(url), headers, body, allowHosts: options?.allowHosts };
+        return reply;
+      },
+    });
     const result = await provider.evaluateGrammar!(ctx, grammarInput);
     assert.equal(result.ok, true);
     assert.equal(seen!.url, "https://api.acme.example/v1/chat/completions");
-    assert.equal((seen!.init.headers as Record<string, string>).Authorization, "Bearer test-acme-key");
-    assert.equal(seen!.init.redirect, "error");
-    const body = JSON.parse(String(seen!.init.body));
+    assert.equal(seen!.headers.Authorization, "Bearer test-acme-key");
+    assert.deepEqual(seen!.allowHosts, ["api.acme.example"]);
+    const body = JSON.parse(seen!.body);
     assert.equal(body.model, "acme-l");
-    assert.ok(!String(seen!.init.body).includes(ctx.userId), "no user identity in the payload");
+    assert.ok(!seen!.body.includes(ctx.userId), "no user identity in the payload");
     assert.equal(provider.type, "external");
 
+    const privateText = "Contact learner@example.test at +1 (415) 555-0199";
+    const privateResult = await provider.evaluateGrammar!(ctx, { ...grammarInput, studentAnswer: privateText });
+    assert.equal(privateResult.ok, true);
+    assert.ok(!seen!.body.includes("learner@example.test"));
+    assert.ok(!seen!.body.includes("415) 555-0199"));
+    assert.ok(seen!.body.includes("[redacted]"));
+    const bodyBeforeInvalid = seen!.body;
+    const invalidInput = await provider.evaluateGrammar!(ctx, { ...grammarInput, userId: ctx.userId } as typeof grammarInput);
+    assert.equal(invalidInput.ok, false);
+    assert.equal(seen!.body, bodyBeforeInvalid, "strict task guard rejects extra authority before transport");
+
+    const writing = createCompatibleProvider(entry, {
+      request: async (_url, _headers, body) => {
+        seen = { url: "", headers: {}, body, allowHosts: undefined };
+        return reply;
+      },
+    });
+    const grade = await writing.evaluateWriting!(ctx, {
+      taskType: "task2", prompt: "Discuss", content: "A short essay", targetWordCount: 250,
+      detailedAnalysis: true, wordCount: 3,
+    });
+    assert.equal(grade.ok, true);
+    const writingInput = JSON.parse(seen!.body).messages[1].content;
+    assert.ok(writingInput.includes('"prompt":"Discuss"'));
+    assert.ok(writingInput.includes('"content":"A short essay"'));
+    assert.ok(!writingInput.includes("\"question\":"));
+    assert.ok(!writingInput.includes("\"essay\":"));
+
     // Truncated / refused / malformed output is never accepted.
-    for (const reply of [
+    for (const output of [
       { choices: [{ finish_reason: "length", message: { content: "{" } }] },
       { choices: [{ finish_reason: "stop", message: { content: null, refusal: "no" } }] },
       { choices: [{ finish_reason: "stop", message: { content: "{\"overallEstimate\": \"nine\"}" } }] },
     ]) {
-      globalThis.fetch = (async () => Response.json(reply)) as typeof fetch;
+      reply = { status: 200, contentType: "application/json", text: JSON.stringify(output) };
       assert.equal((await provider.evaluateGrammar!(ctx, grammarInput)).ok, false);
     }
-    // Provider error bodies never surface.
-    globalThis.fetch = (async () => new Response("TEST-ONLY-SECRET internals", { status: 401 })) as typeof fetch;
+    // Error bodies and redirects are never followed or surfaced.
+    reply = { status: 401, contentType: "text/plain", text: "TEST-ONLY-SECRET internals" };
     const denied = await provider.evaluateGrammar!(ctx, grammarInput);
     assert.equal(denied.ok, false);
     assert.ok(!JSON.stringify(denied).includes("TEST-ONLY-SECRET"));
     if (!denied.ok) assert.equal(denied.failure.reason, "auth_failed");
+    reply = { status: 302, contentType: "text/plain", text: "https://evil.example" };
+    const redirected = await provider.evaluateGrammar!(ctx, grammarInput);
+    assert.equal(redirected.ok, false);
   });
 });
 
@@ -128,30 +169,32 @@ test("UA5 compatible transport refuses to call a host that resolves privately (D
 
 test("UA6 first-class Anthropic adapter uses its own API shape and fails closed without configuration", async () => {
   await withEnv({ ANTHROPIC_API_KEY: undefined, ANTHROPIC_EVALUATION_MODEL: undefined }, async () => {
-    globalThis.fetch = (async () => { throw new Error("must not call"); }) as typeof fetch;
-    const r = await anthropicProvider.evaluateGrammar!(ctx, grammarInput);
+    const provider = createAnthropicProvider({ request: async () => { throw new Error("must not call"); } });
+    const r = await provider.evaluateGrammar!(ctx, grammarInput);
     assert.equal(r.ok, false);
     if (!r.ok) assert.equal(r.failure.reason, "not_configured");
   });
   await withEnv({ ANTHROPIC_API_KEY: "test-anthropic", ANTHROPIC_EVALUATION_MODEL: "claude-test" }, async () => {
-    let init: RequestInit | undefined;
-    let url = "";
-    globalThis.fetch = (async (u: string | URL, i?: RequestInit) => {
-      url = String(u); init = i;
-      return Response.json({ stop_reason: "end_turn", content: [{ type: "text", text: JSON.stringify(validOutput) }] });
-    }) as typeof fetch;
-    const r = await anthropicProvider.evaluateGrammar!(ctx, grammarInput);
+    let request: { url: string; headers: Record<string, string>; body: string } | undefined;
+    let status = 200;
+    const provider = createAnthropicProvider({
+      lookup: async () => [{ address: "93.184.216.34" }],
+      request: async (url, headers, body) => {
+        request = { url: String(url), headers, body };
+        return { status, contentType: "application/json", text: JSON.stringify({ stop_reason: "end_turn", content: [{ type: "text", text: JSON.stringify(validOutput) }] }) };
+      },
+    });
+    const r = await provider.evaluateGrammar!(ctx, grammarInput);
     assert.equal(r.ok, true);
-    assert.equal(url, "https://api.anthropic.com/v1/messages");
-    const headers = init!.headers as Record<string, string>;
-    assert.equal(headers["x-api-key"], "test-anthropic");
-    assert.ok(headers["anthropic-version"]);
-    const body = JSON.parse(String(init!.body));
+    assert.equal(request!.url, "https://api.anthropic.com/v1/messages");
+    assert.equal(request!.headers["x-api-key"], "test-anthropic");
+    assert.equal(request!.headers["anthropic-version"], "2023-06-01");
+    const body = JSON.parse(request!.body);
     assert.equal(typeof body.system, "string");
     assert.equal(body.messages[0].role, "user");
-    assert.ok(!String(init!.body).includes(ctx.userId));
-    globalThis.fetch = (async () => new Response("x", { status: 429 })) as typeof fetch;
-    const limited = await anthropicProvider.evaluateGrammar!(ctx, grammarInput);
+    assert.ok(!request!.body.includes(ctx.userId));
+    status = 429;
+    const limited = await provider.evaluateGrammar!(ctx, grammarInput);
     if (!limited.ok) assert.equal(limited.failure.reason, "rate_limited"); else assert.fail("must fail");
   });
 });
@@ -233,22 +276,31 @@ test("UA11 owner route: OWNER-only on GET and POST; the request schema accepts n
 // ---------------------------------------------------------------------------
 import { MODEL_ID, setOwnerAiControl, AiControlError } from "../src/lib/services/coach/owner-control";
 import { resolveEvaluation } from "../src/lib/services/coach/resolver";
+import { providerRegistry } from "../src/lib/services/coach/registry";
 
-test("UA12 owner model override reaches the provider call and is recorded truthfully in internal provenance", async () => {
+test("UA12 owner model override reaches the registered provider call and is recorded truthfully in provenance", async () => {
   await withEnv({ OPENAI_API_KEY: "k", OPENAI_EVALUATION_MODEL: "env-default-model" }, async () => {
+    const registered = providerRegistry.get("openai")!.provider;
     let sentModel = "";
-    globalThis.fetch = (async (_u: string | URL, init?: RequestInit) => {
-      sentModel = JSON.parse(String(init!.body)).model;
-      return Response.json({ status: "completed", output: [{ type: "message", content: [{ type: "output_text", text: JSON.stringify(validOutput) }] }] });
-    }) as typeof fetch;
-    const out = await resolveEvaluation({ evaluationType: "grammar", input: grammarInput } as Parameters<typeof resolveEvaluation>[0], ctx,
-      { externalEnabled: true, aiPrimaryProvider: "openai", modelOverride: "owner-chosen-model" }, { fallback: "none" });
-    assert.ok(out.ok, JSON.stringify(out.ok ? "" : out));
-    if (!out.ok) return;
-    assert.equal(sentModel, "owner-chosen-model");
-    assert.equal(out.result.providerId, "openai");
-    assert.equal(out.result.model, "owner-chosen-model", "provenance records the model actually used");
-    assert.equal(out.result.fallbackUsed, false);
+    providerRegistry.register({
+      ...registered,
+      evaluateGrammar: async (providerContext) => {
+        sentModel = providerContext.model ?? "";
+        return { ok: true, output: validOutput };
+      },
+    });
+    try {
+      const out = await resolveEvaluation({ evaluationType: "grammar", input: grammarInput } as Parameters<typeof resolveEvaluation>[0], ctx,
+        { externalEnabled: true, aiPrimaryProvider: "openai", modelOverride: "owner-chosen-model" }, { fallback: "none" });
+      assert.ok(out.ok, JSON.stringify(out.ok ? "" : out));
+      if (!out.ok) return;
+      assert.equal(sentModel, "owner-chosen-model");
+      assert.equal(out.result.providerId, "openai");
+      assert.equal(out.result.model, "owner-chosen-model", "provenance records the model actually used");
+      assert.equal(out.result.fallbackUsed, false);
+    } finally {
+      providerRegistry.register(registered);
+    }
   });
 });
 
@@ -274,13 +326,24 @@ test("UA13 a model is an identifier, never an endpoint; legacy switch rows defau
   assert.equal(eff.ownerFallback, "none");
   // Model override never leaks onto a provider the owner did not select.
   assert.equal(combineControl(env, { ...strict, providerId: "ghost" }, (id) => id === "riwi").modelOverride, null);
-  // Failure under strict policy: external fails → no RIWI substitute.
-  await withEnv({ OPENAI_API_KEY: "k", OPENAI_EVALUATION_MODEL: "m" }, async () => {
-    globalThis.fetch = (async () => new Response("x", { status: 500 })) as typeof fetch;
+  // Failure under strict policy: an external failure does not call the RIWI substitute.
+  const registered = providerRegistry.get("openai")!.provider;
+  let riwiCalls = 0;
+  providerRegistry.register({
+    ...registered,
+    evaluateGrammar: async () => ({ ok: false, failure: { reason: "provider_error", detail: "fixed test failure", retryable: false } }),
+  });
+  const internal = providerRegistry.get("riwi")!.provider;
+  providerRegistry.register({ ...internal, evaluateGrammar: async () => { riwiCalls += 1; return { ok: true, output: validOutput }; } });
+  try {
     const out = await resolveEvaluation({ evaluationType: "grammar", input: grammarInput } as Parameters<typeof resolveEvaluation>[0], ctx,
       { externalEnabled: true, aiPrimaryProvider: "openai", maxAttempts: 1 }, { fallback: "none" });
     assert.equal(out.ok, false);
-  });
+    assert.equal(riwiCalls, 0);
+  } finally {
+    providerRegistry.register(registered);
+    providerRegistry.register(internal);
+  }
   const svc = readFileSync("src/lib/services/coach/service.ts", "utf8");
   assert.match(svc, /params\.policy\?\.fallback === "none" \|\| control\.ownerFallback === "none"/, "stricter policy wins");
 });

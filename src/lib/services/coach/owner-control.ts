@@ -4,6 +4,7 @@ import { z } from "zod";
 import { db } from "@/db/client";
 import { auditLog } from "@/db/schema";
 import { recordAudit } from "@/lib/data/audit";
+import { recordRiwiAudit } from "@/lib/services/riwi/audit";
 import { readCoachConfig, RIWI_PROVIDER_ID, type CoachConfig } from "./config";
 import { providerRegistry } from "./registry";
 
@@ -96,19 +97,34 @@ export class AiControlError extends Error {
 export async function setOwnerAiControl(
   actorUserId: string,
   input: { externalEnabled: boolean; providerId: string | null; model?: string | null; fallback?: "riwi" | "none" },
-  connection: Pick<typeof db, "insert"> = db,
+  database: Pick<typeof db, "transaction"> = db,
 ): Promise<void> {
   const providerId = input.providerId?.trim().toLowerCase() || null;
   if (providerId && providerId !== RIWI_PROVIDER_ID && !providerRegistry.has(providerId)) throw new AiControlError("unknown_provider");
   const model = input.model?.trim() || null;
   if (model && (!MODEL_ID.test(model) || !providerId || providerId === RIWI_PROVIDER_ID)) throw new AiControlError("invalid_model");
-  await recordAudit({
-    actorUserId,
-    action: AI_CONTROL_ACTION,
-    targetType: "ai_control",
-    targetId: "global",
-    metadata: { externalEnabled: input.externalEnabled, providerId, model, fallback: input.fallback ?? "riwi" },
-  }, connection);
+  await database.transaction(async (tx) => {
+    await recordAudit({
+      actorUserId,
+      action: AI_CONTROL_ACTION,
+      targetType: "ai_control",
+      targetId: "global",
+      metadata: { externalEnabled: input.externalEnabled, providerId, model, fallback: input.fallback ?? "riwi" },
+    }, tx as never);
+    await recordRiwiAudit({
+      actorUserId,
+      action: "riwi.provider.config.changed",
+      targetType: "riwi_provider_config",
+      targetId: "global",
+      metadata: {
+        providerId: providerId ?? RIWI_PROVIDER_ID,
+        model: model ?? undefined,
+        externalEnabled: input.externalEnabled,
+        fallback: input.fallback ?? "riwi",
+        status: input.externalEnabled ? "enabled" : "disabled",
+      },
+    }, tx as never);
+  });
 }
 
 export type OwnerProviderStatus = {

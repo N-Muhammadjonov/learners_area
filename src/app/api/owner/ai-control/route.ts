@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { requireOwner } from "@/lib/auth/current-user";
+import { checkRequestOrigin } from "@/lib/http/request-origin";
+import { authorizeCapability } from "@/lib/services/riwi/capabilities";
+import { readRiwiBoundedJson } from "@/lib/services/riwi/http";
 import { AiControlError, ownerAiStatus, setOwnerAiControl } from "@/lib/services/coach/owner-control";
 
 export const dynamic = "force-dynamic";
@@ -23,14 +26,17 @@ const schema = z.object({
 
 export async function GET() {
   const owner = await requireOwner();
-  if (!owner) return NextResponse.json({ error: { code: "forbidden" } }, { status: 403 });
+  if (!owner || !authorizeCapability(owner, "riwi.provider.read_status").allowed) return NextResponse.json({ error: { code: "forbidden" } }, { status: 403 });
   return NextResponse.json(await ownerAiStatus(), { headers: { "Cache-Control": "no-store" } });
 }
 
 export async function POST(req: NextRequest) {
   const owner = await requireOwner();
-  if (!owner) return NextResponse.json({ error: { code: "forbidden" } }, { status: 403 });
-  const parsed = schema.safeParse(await req.json().catch(() => null));
+  if (!owner || !authorizeCapability(owner, "riwi.provider.configure").allowed) return NextResponse.json({ error: { code: "forbidden" } }, { status: 403 });
+  if (!checkRequestOrigin(req).allowed) return NextResponse.json({ error: { code: "invalid_origin" } }, { status: 403 });
+  const body = await readRiwiBoundedJson(req, 4096);
+  if (!body.ok) return NextResponse.json({ error: { code: body.reason } }, { status: 400 });
+  const parsed = schema.safeParse(body.value);
   if (!parsed.success) return NextResponse.json({ error: { code: "invalid_input" } }, { status: 400 });
   try {
     await setOwnerAiControl(owner.id, parsed.data);

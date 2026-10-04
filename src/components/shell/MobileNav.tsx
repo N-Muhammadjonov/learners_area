@@ -20,7 +20,7 @@ import type { Role } from "@/lib/auth/roles";
  * It renders the *same* brand block and the *same* navigation list as the
  * desktop sidebar, so the two can never drift into showing different menus.
  */
-export function MobileNav({ dict, role, email }: { dict: Dictionary; role: Role; email?: string }) {
+export function MobileNav({ dict, role, email, riwiEnabled = false }: { dict: Dictionary; role: Role; email?: string; riwiEnabled?: boolean }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -77,7 +77,7 @@ export function MobileNav({ dict, role, email }: { dict: Dictionary; role: Role;
                 </svg>
               </button>
             </div>
-            <SidebarNav dict={dict} role={role} email={email} />
+            <SidebarNav dict={dict} role={role} email={email} riwiEnabled={riwiEnabled} />
             {/* The same contextual report form, reachable on a phone too. */}
             <div className="mt-6">
               <ReportProblem dict={dict} />

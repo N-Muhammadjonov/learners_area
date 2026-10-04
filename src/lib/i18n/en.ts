@@ -229,6 +229,7 @@ const en = {
     menu: "Menu",
     dashboard: "Dashboard",
     coach: "AI Coach",
+    riwi: "RIWI assistant",
     assignments: "Assignments",
     liveClasses: "Live classes",
     main: "Main",

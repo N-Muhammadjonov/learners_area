@@ -36,7 +36,29 @@ export type AuditAction =
   | "report.generated"
   | "report.downloaded"
   | "roster.assigned"
-  | "roster.unassigned";
+  | "roster.unassigned"
+  | "riwi.request.started"
+  | "riwi.request.completed"
+  | "riwi.request.denied"
+  | "riwi.action.confirmation.required"
+  | "riwi.tool.invoked"
+  | "riwi.tool.succeeded"
+  | "riwi.tool.failed"
+  | "riwi.external.requested"
+  | "riwi.external.succeeded"
+  | "riwi.external.failed"
+  | "riwi.provider.config.changed"
+  | "riwi.knowledge.source.created"
+  | "riwi.knowledge.conflict.resolved"
+  | "riwi.knowledge.approved"
+  | "riwi.knowledge.promoted"
+  | "riwi.knowledge.superseded"
+  | "riwi.owner.action.confirmed"
+  | "riwi.learning.signal.created"
+  | "riwi.learning.promotion.rejected"
+  | "riwi.conversation.deleted"
+  | "riwi.conversation.read"
+  | "riwi.learning.reviewed";
 
 export async function recordAudit(input: {
   actorUserId: string | null;

@@ -11,12 +11,12 @@ import type { Role } from "@/lib/auth/roles";
  * navigation (client, because it needs the current path) — so the shell can be
  * rendered by the layout without making the whole sidebar interactive.
  */
-export function Sidebar({ dict, role, email }: { dict: Dictionary; role: Role; email: string }) {
+export function Sidebar({ dict, role, email, riwiEnabled }: { dict: Dictionary; role: Role; email: string; riwiEnabled: boolean }) {
   return (
     <div className="flex h-full flex-col gap-6">
       <BrandBlock className="px-1" />
       <div className="flex min-h-0 flex-1 flex-col">
-        <SidebarNav dict={dict} role={role} email={email} />
+        <SidebarNav dict={dict} role={role} email={email} riwiEnabled={riwiEnabled} />
       </div>
     </div>
   );

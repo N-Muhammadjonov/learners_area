@@ -51,6 +51,9 @@ export const RULES = {
   admissionRequest: { name: "admission_request", limit: 10, windowMs: 60 * 60_000 },
   telegramAuth: { name: "telegram_auth", limit: 20, windowMs: 15 * 60_000 },
   evaluation: { name: "evaluation", limit: 60, windowMs: 15 * 60_000 },
+  riwiChatByAccount: { name: "riwi_chat_account", limit: 40, windowMs: 15 * 60_000 },
+  riwiChatByIp: { name: "riwi_chat_ip", limit: 100, windowMs: 15 * 60_000 },
+  riwiConversationRead: { name: "riwi_conversation_read", limit: 120, windowMs: 15 * 60_000 },
   uploadIntent: { name: "upload_intent", limit: 120, windowMs: 15 * 60_000 },
   vocabularySearch: { name: "vocabulary_search", limit: 300, windowMs: 60_000 },
   /** Live Partner actions per user (heartbeats included); invites are a subset. */

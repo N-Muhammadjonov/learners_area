@@ -231,6 +231,7 @@ const uz: Dictionary = {
     menu: "Menyu",
     dashboard: "Boshqaruv paneli",
     coach: "AI Coach",
+    riwi: "RIWI yordamchisi",
     assignments: "Topshiriqlar",
     liveClasses: "Jonli darslar",
     main: "Asosiy",

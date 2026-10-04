@@ -37,12 +37,14 @@ export function Topbar({
   userName,
   userEmail,
   role,
+  riwiEnabled,
 }: {
   dict: Dictionary;
   locale: Locale;
   userName: string;
   userEmail?: string | null;
   role: Role;
+  riwiEnabled: boolean;
 }) {
   return (
     <header
@@ -53,7 +55,7 @@ export function Topbar({
       <div className="flex min-w-0 flex-1 items-center gap-2">
         {/* The only way into the drawer on a phone; the brand artwork itself
             lives inside it. See MobileNav. */}
-        <MobileNav dict={dict} role={role} />
+        <MobileNav dict={dict} role={role} riwiEnabled={riwiEnabled} />
         <Breadcrumbs dict={dict} />
       </div>
 
