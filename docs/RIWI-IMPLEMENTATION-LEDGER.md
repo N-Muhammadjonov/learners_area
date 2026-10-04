@@ -35,9 +35,23 @@ This is the phase checkpoint ledger; the final requirement-by-requirement accept
 | W13 author content | OWNER ACTION REQUIRED | Existing content contract remains authoritative; no content invented. |
 | Live Partner / R2 acceptance | EXTERNALLY UNVERIFIED | Not re-run in Phase 0; preserve existing evidence and re-test only if RIWI code changes affect these paths. |
 
+## Checkpoint 1 — deny-by-default capabilities and row-scope policy
+
+| Requirement | Status | Evidence / notes |
+|---|---|---|
+| Explicit role capability matrix | PASS | `src/lib/services/riwi/capabilities.ts`: finite capability registry and explicit student, teacher, admin, and owner lists; unknown values deny. Admin does not inherit teacher or owner powers. Owner rights are explicitly enumerated and remain product-bounded. |
+| Server-derived active actor policy | PASS | Capability authorization requires an active server-derived actor; inactive actors and unregistered capabilities are denied. Request data is not treated as identity or role authority. |
+| Student and teacher row scope | PASS | Students resolve self only. Teacher target rows must be active students and pass the authoritative roster dependency; lookup/roster errors and unmapped scopes deny, with missing/unassigned subjects indistinguishable. |
+| Admin and owner scope | PASS | Admin report scope is limited to its registered operational capability and active student subjects; admin user scope excludes owner/other unbounded accounts. Owner global scope has no caller-supplied row id; targeted owner scopes still require an existing subject. |
+| Capability/security tests | PASS | `node --conditions=react-server --import tsx --test tests/riwi-capabilities.test.ts tests/riwi-security.test.ts`: 14 passed, 0 failed. New six-test suite covers explicit grants, inactive/unknown denial, self-only, assigned-roster, admin/owner scope, and unknown scope denial. |
+| Typecheck | PASS | `npm run typecheck`. |
+| Patch hygiene | PASS | `git diff --check`. |
+| Shared Preview / Production | NOT TOUCHED | No migration or deployment applied. |
+
 ## Phase status
 
 | Phase | Purpose | Status | Checkpoint |
 |---|---|---|---|
 | 0 | Forensic baseline | PASS | Docs and baseline tests recorded. |
-| 1–20 | Full RIWI build / acceptance | NOT STARTED | Will be updated with each logical code checkpoint; external and shared-DB gates remain independent. |
+| 1 | Deny-by-default capabilities and row-scope policy | PASS | Checkpoint 1 evidence above; code/test/ledger checkpoint committed and pushed to the current Arena branch. |
+| 2–20 | Remaining Full RIWI build / acceptance | NOT STARTED | Continue in order; update each logical checkpoint with tests and evidence. External and shared-DB gates remain independent. |
