@@ -36,8 +36,7 @@ export default async function ReadingAttemptPage({ params }: { params: Promise<{
       : null;
 
   return (
-    <div className="mx-auto max-w-[1440px]">
-      <BackLink fallbackHref="/reading/history" label={dict.common.back} />
+    <div className={attempt.status === "in_progress" ? "w-full" : "mx-auto max-w-[1440px]"}>
       {attempt.status === "in_progress" ? (
         // ACADEMIC_EXAM: no occurrence/sense data is sent to the active passage.
         <ReadingExam
@@ -86,7 +85,9 @@ export default async function ReadingAttemptPage({ params }: { params: Promise<{
           }))}
         />
       ) : (
-        <ReadingAnalysis
+        <>
+          <BackLink fallbackHref="/reading/history" label={dict.common.back} />
+          <ReadingAnalysis
           dict={dict}
           occurrences={occurrences}
           score={attempt.score}
@@ -100,6 +101,7 @@ export default async function ReadingAttemptPage({ params }: { params: Promise<{
           attemptId={attempt.id}
           locale={locale}
         />
+        </>
       )}
     </div>
   );
