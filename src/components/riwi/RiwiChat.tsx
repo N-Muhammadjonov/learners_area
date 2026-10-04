@@ -6,7 +6,7 @@ import { z } from "zod";
 import { IconSparkles } from "@/components/ui/icons";
 import type { Role } from "@/lib/auth/roles";
 import type { Locale } from "@/lib/i18n";
-import { riwiChatResponseSchema, type RiwiChatResponse } from "@/lib/services/riwi/contracts";
+import { assessRiwiIntent, riwiChatResponseSchema, type RiwiChatResponse, type RiwiRoleSurface } from "@/lib/services/riwi/contracts";
 
 const transcriptSchema = z.object({
   ok: z.literal(true), conversationId: z.string().uuid(),
@@ -44,9 +44,9 @@ function copy(locale: Locale, role: Role) {
   };
   const prompts: Record<Role, string[]> = {
     student: uz ? ["Mening progressim qanday?", "resilient so'zining ma'nosi nima?", "Shaxsiy hisobotimni ko'rsat"] : ["How am I doing?", "What does resilient mean?", "Show my personal report"],
-    teacher: uz ? ["Biriktirilgan guruhim uchun hisobot", "Articles mavzusini tushuntir", "cohesion ma'nosini ayt"] : ["Show my assigned learners' report", "Explain articles simply", "Define cohesion"],
-    admin: uz ? ["Guruh bo'yicha hisobot", "Articles mavzusini tushuntir", "Reading natijalarini ko'rsat"] : ["Show the cohort report", "Explain articles simply", "Show Reading statistics"],
-    owner: uz ? ["Markaz bo'yicha hisobot", "Articles mavzusini tushuntir", "cohesion so'zini izohla"] : ["Show the centre report", "Explain articles simply", "Define cohesion"],
+    teacher: uz ? ["Tanlangan o'quvchi progress", "Biriktirilgan guruhim uchun hisobot", "Articles mavzusini tushuntir"] : ["Show the selected learner's progress", "Show my assigned-roster report", "Explain articles simply"],
+    admin: uz ? ["Operatsion kohort uchun hisobot", "Tanlangan o'quvchi uchun hisobot", "Articles mavzusini tushuntir"] : ["Show the operational cohort report", "Show the selected student's report", "Explain articles simply"],
+    owner: uz ? ["Markaz bo'yicha hisobot", "Tanlangan o'quvchi uchun hisobot", "cohesion so'zini izohla"] : ["Show the centre report", "Show the selected student's report", "Define cohesion"],
   };
   const welcome: Record<Role, string> = {
     student: uz
@@ -97,6 +97,36 @@ function copy(locale: Locale, role: Role) {
     deleting: uz ? "O'chirilmoqda…" : "Deleting…",
     ownerTools: uz ? "RIWI boshqaruv paneli" : "RIWI control room",
     roleTag: role.toUpperCase(),
+    scopeTitle: role === "student" ? (uz ? "Shaxsiy o'quv doirangiz" : "Your private learning scope")
+      : role === "teacher" ? (uz ? "Biriktirilgan o'quvchilar doirasi" : "Assigned learner scope")
+        : role === "admin" ? (uz ? "Operatsion o'quvchi doirasi" : "Operational student scope")
+          : (uz ? "Egasi — markaz doirasi" : "Owner centre scope"),
+    scopeDescription: role === "student"
+      ? (uz ? "RIWI faqat o'zingizning ruxsatli o'quv qaydlaringizdan foydalanadi; boshqa o'quvchi tanlanmaydi." : "RIWI can use only your own authorized learning records; another learner cannot be selected.")
+      : role === "teacher"
+        ? (uz ? "Faqat hozirgi aniq ro'yxatingizdagi faol o'quvchilar ko'rsatiladi. Server har bir so'rovda biriktirilganlikni qayta tekshiradi." : "Only active learners on your current explicit roster are listed. The server re-checks assignment on every request.")
+        : role === "admin"
+          ? (uz ? "Faqat faol o'quvchilar kohorti va aniq tanlangan o'quvchi hisobotlari. Egaga xos markaz, provayder va audit boshqaruvi kirmaydi." : "Only the active-student operational cohort and selected-student reports are available. Owner-only centre, provider, and audit controls are excluded.")
+          : (uz ? "O'quvchi tanlanmasa markaz hisoboti, tanlansa shu faol o'quvchi doirasi ishlatiladi. Boshqaruv amallari RIWI nazorat xonasida qoladi." : "With no learner selected, the centre report is used; selecting a learner requests that student's scope. Governance actions stay in the RIWI control room."),
+    targetLabel: uz ? "Hisobot/progress uchun o'quvchi" : "Report or progress target",
+    defaultTarget: role === "teacher" ? (uz ? "Biriktirilgan guruh hisoboti" : "My assigned-roster report")
+      : role === "admin" ? (uz ? "Operatsion kohort hisoboti" : "Operational cohort report")
+        : (uz ? "Butun markaz hisoboti" : "Whole-centre report"),
+    targetEmpty: role === "teacher" ? (uz ? "Ro'yxatda faol o'quvchi yo'q." : "No active learners are assigned to your roster.")
+      : (uz ? "Faol o'quvchilar topilmadi." : "No active student records are available in this scope."),
+    targetUnavailable: uz ? "Ruxsatli o'quvchilar ro'yxatini yuklab bo'lmadi. O'zingizning doirangizdagi amallardan foydalaning yoki keyinroq qayta urinib ko'ring." : "The authorized learner list could not be loaded. Use actions within your own scope or try again later.",
+    targetCapped: uz ? "Tanlov ro'yxati 500 faol o'quvchi bilan cheklangan; har bir tanlov serverda qayta tekshiriladi." : "The selector shows at most 500 active learners; every selected target is re-authorized on the server.",
+    targetIntentHint: uz ? "Tanlangan o'quvchi faqat hisobot/progress so'roviga qo'llanadi; boshqa savollarda nishon yuborilmaydi." : "The selected learner applies only to report/progress requests; other questions do not send a target id.",
+    targetRequired: uz ? "Davom etishdan oldin aniq biriktirilgan o'quvchini tanlang." : "Select an explicitly assigned learner before requesting individual progress.",
+    progressUnavailable: uz ? "Admin doirasida shaxsiy progress qaydi mavjud emas; ruxsatli hisobotdan foydalaning." : "Individual progress is not available in the admin scope; use an authorized report instead.",
+    quickLinksTitle: uz ? "Sizga ruxsatli ish joylari" : "Your authorized workspaces",
+    quickLinks: role === "student"
+      ? [{ href: "/writing", label: uz ? "Yozish" : "Writing" }, { href: "/speaking", label: uz ? "Gapirish" : "Speaking" }, { href: "/grammar", label: uz ? "Grammatika" : "Grammar" }, { href: "/vocabulary", label: uz ? "Lug'at" : "Vocabulary" }, { href: "/reports", label: uz ? "Shaxsiy hisobot" : "My report" }]
+      : role === "teacher"
+        ? [{ href: "/teacher/students", label: uz ? "Biriktirilgan o'quvchilar" : "Assigned learners" }, { href: "/reports", label: uz ? "Ro'yxat hisoboti" : "Roster report" }, { href: "/management", label: uz ? "Boshqaruv" : "Management" }]
+        : role === "admin"
+          ? [{ href: "/reports", label: uz ? "Operatsion hisobot" : "Operational reports" }, { href: "/admin/roster", label: uz ? "O'qituvchi ro'yxatlari" : "Teacher rosters" }, { href: "/management", label: uz ? "Boshqaruv" : "Management" }]
+          : [{ href: "/reports", label: uz ? "Markaz hisoboti" : "Centre report" }, { href: "/owner/riwi", label: uz ? "RIWI nazorat xonasi" : "RIWI control room" }, { href: "/management", label: uz ? "Boshqaruv" : "Management" }],
   };
 }
 
@@ -113,8 +143,11 @@ function provenanceLabel(message: UiMessage, text: ReturnType<typeof copy>) {
   }
 }
 
-export function RiwiChat({ role, locale }: { role: Role; locale: Locale }) {
+export function RiwiChat({ role, locale, scopeSurface }: { role: Role; locale: Locale; scopeSurface?: RiwiRoleSurface }) {
   const text = copy(locale, role);
+  const visibleScope = scopeSurface?.role === role ? scopeSurface : undefined;
+  const [selectedTargetId, setSelectedTargetId] = useState("");
+  const selectedTarget = visibleScope?.targetOptions.find((target) => target.id === selectedTargetId);
   const [conversationId, setConversationId] = useState<string | null>(null);
   const [messages, setMessages] = useState<UiMessage[]>([]);
   const [draft, setDraft] = useState("");
@@ -183,7 +216,21 @@ export function RiwiChat({ role, locale }: { role: Role; locale: Locale }) {
     const message = draft.trim();
     if (!message) return;
     if (message.length > 4000) { setNotice(text.limit); return; }
-    setNotice("");
+    const intent = assessRiwiIntent(message).intent;
+    if ((role === "teacher" || role === "owner") && intent === "progress_self" && !selectedTarget) {
+      setNotice(text.targetRequired);
+      return;
+    }
+    if (role === "admin" && intent === "progress_self") {
+      setNotice(text.progressUnavailable);
+      return;
+    }
+    const targetIntent = role === "teacher"
+      ? intent === "report_self" || intent === "progress_self"
+      : role === "admin" ? intent === "report_self"
+        : role === "owner" ? intent === "report_self" || intent === "progress_self" : false;
+    const targetUserId = targetIntent ? selectedTarget?.id : undefined;
+    setNotice(selectedTarget && !targetIntent ? text.targetIntentHint : "");
     setDraft("");
     setMessages((current) => [...current, {
       id: `user-${Date.now()}`, role: "user", content: message, correlationId: null, feedbackStatus: null,
@@ -196,7 +243,7 @@ export function RiwiChat({ role, locale }: { role: Role; locale: Locale }) {
       const response = await fetch("/api/riwi/chat", {
         method: "POST", credentials: "same-origin", signal: controller.signal,
         headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({ message, ...(conversationId ? { conversationId } : {}) }),
+        body: JSON.stringify({ message, ...(conversationId ? { conversationId } : {}), ...(targetUserId ? { targetUserId } : {}) }),
       });
       const parsed = riwiChatResponseSchema.safeParse(await response.json().catch(() => null));
       if (!response.ok || !parsed.success) {
@@ -254,7 +301,7 @@ export function RiwiChat({ role, locale }: { role: Role; locale: Locale }) {
   const examples = text.prompts;
   const welcomeMessage = messages.length === 0;
   return (
-    <main className="mx-auto flex w-full max-w-5xl flex-col gap-5" data-riwi-chat data-role={role}>
+    <main className="mx-auto flex w-full max-w-5xl flex-col gap-5" data-riwi-chat data-role={role} data-riwi-scope={visibleScope?.scope}>
       <header className="flex flex-wrap items-start justify-between gap-4">
         <div className="flex items-start gap-3">
           <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-accent/20 bg-accent-soft text-accent-strong">
@@ -273,6 +320,35 @@ export function RiwiChat({ role, locale }: { role: Role; locale: Locale }) {
           </button>
         </div>
       </header>
+
+      {visibleScope && (
+        <section className="card flex flex-col gap-3 p-4 sm:p-5" aria-labelledby="riwi-scope-title" data-riwi-role-scope={visibleScope.scope}>
+          <div>
+            <h2 id="riwi-scope-title" className="font-display text-lg text-ink-900">{text.scopeTitle}</h2>
+            <p className="mt-1 text-sm text-ink-500">{text.scopeDescription}</p>
+          </div>
+          {visibleScope.status === "unavailable" && <p className="text-sm text-band-warn" role="status">{text.targetUnavailable}</p>}
+          {visibleScope.status === "ready" && role !== "student" && (
+            <div className="flex flex-col gap-2">
+              <label className="flex max-w-xl flex-col gap-1 text-sm font-medium text-ink-700" htmlFor="riwi-target-user">{text.targetLabel}
+                <select id="riwi-target-user" className="input" value={selectedTargetId} disabled={busy || loadingHistory} onChange={(event) => setSelectedTargetId(event.target.value)}>
+                  <option value="">{text.defaultTarget}</option>
+                  {visibleScope.targetOptions.map((target) => <option key={target.id} value={target.id}>{target.name}</option>)}
+                </select>
+              </label>
+              {visibleScope.targetOptions.length === 0 && <p className="text-xs text-ink-500">{text.targetEmpty}</p>}
+              {visibleScope.targetOptionsCapped && <p className="text-xs text-ink-500" role="status">{text.targetCapped}</p>}
+              <p className="text-xs text-ink-500">{text.targetIntentHint}</p>
+            </div>
+          )}
+          <nav aria-label={text.quickLinksTitle} className="border-t border-ink-100 pt-3">
+            <p className="mb-2 text-xs font-semibold text-ink-500">{text.quickLinksTitle}</p>
+            <ul className="flex flex-wrap gap-2">
+              {text.quickLinks.map((item) => <li key={item.href}><Link className="btn-secondary min-h-9 px-3 py-1.5 text-xs" href={item.href}>{item.label}</Link></li>)}
+            </ul>
+          </nav>
+        </section>
+      )}
 
       <section aria-label={text.title} className="flex min-h-[54vh] flex-col overflow-hidden rounded-3xl border border-ink-100 bg-paper-raised shadow-card">
         <div className="flex items-center justify-between border-b border-ink-100 px-5 py-3">

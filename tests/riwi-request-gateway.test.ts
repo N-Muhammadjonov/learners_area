@@ -257,11 +257,23 @@ test("role capabilities deny admin provider status, allow owner global report, a
   assert.equal("errorCode" in denied.body && denied.body.errorCode, "riwi_permission_denied");
   assert.equal(admin.state.tools.length, 0);
 
+  const adminStudent = makeDependencies({ role: "admin", userId: "aaaaaaaa-0000-4000-8000-000000000006" });
+  const operational = await runRiwiGateway(post({ message: "Show the selected student's report", targetUserId: OTHER_STUDENT_ID }), adminStudent.dependencies);
+  assert.equal("ok" in operational.body && operational.body.ok, true);
+  assert.deepEqual(adminStudent.state.tools.map((item) => item.name), ["riwi.report.readAdminScope"]);
+  assert.deepEqual(adminStudent.state.tools[0]?.input, { language: "en", targetUserId: OTHER_STUDENT_ID });
+
   const owner = makeDependencies({ role: "owner" });
   const allowed = await runRiwiGateway(post({ message: "Show my report" }), owner.dependencies);
   assert.equal("ok" in allowed.body && allowed.body.ok, true);
   assert.deepEqual(owner.state.tools.map((item) => item.name), ["riwi.report.readGlobal"]);
   if ("ok" in allowed.body) assert.ok(allowed.body.answer.includes("Centre-wide deterministic summary"));
+
+  const ownerTargeted = makeDependencies({ role: "owner" });
+  const targetedProgress = await runRiwiGateway(post({ message: "Show progress for the selected learner", targetUserId: ASSIGNED_STUDENT_ID }), ownerTargeted.dependencies);
+  assert.equal("ok" in targetedProgress.body && targetedProgress.body.ok, true);
+  assert.deepEqual(ownerTargeted.state.tools.map((item) => item.name), ["riwi.learning.progress.readAssigned"],
+    "owner target progress uses the same assigned-target capability and rechecked server scope");
 
   const inactive = makeDependencies({ role: "student", accountStatus: "pending" });
   const rejected = await runRiwiGateway(post({ message: "Show my report" }), inactive.dependencies);

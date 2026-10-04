@@ -125,13 +125,15 @@ register({
   name: "riwi.learning.progress.readAssigned",
   description: "Read one active student's learning summary only when that student is on the authenticated teacher's explicit roster.",
   capability: "riwi.progress.read_assigned", inputSchema: assignedProgressInput, outputSchema: progressOutput, timeoutMs: 10_000,
-  roles: ["teacher"],
+  roles: ["teacher", "owner"],
   scope: (actor, input) => resolveUserScope(actor, "riwi.progress.read_assigned", input.targetUserId, scopeDependencies),
 }, async (_input, { actor, scope }) => {
   if (!scope.allowed || scope.kind !== "assigned") throw new Error("riwi_scope_denied");
   const targetUserId = scope.userIds[0];
   // Re-check after capability resolution to narrow the roster-change TOCTOU window.
-  if (actor.role !== "teacher" || await scopeDependencies.subjectRole(targetUserId) !== "student" || !(await isOnRoster(actor.id, targetUserId))) {
+  if ((actor.role !== "teacher" && actor.role !== "owner")
+    || (actor.role === "teacher" && !(await isOnRoster(actor.id, targetUserId)))
+    || await scopeDependencies.subjectRole(targetUserId) !== "student") {
     throw new Error("riwi_scope_denied");
   }
   return progressFor(targetUserId, 10);

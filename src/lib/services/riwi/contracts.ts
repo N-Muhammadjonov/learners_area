@@ -32,6 +32,16 @@ export const riwiChatRequestSchema = z.object({
 }).strict();
 export type RiwiChatRequest = z.infer<typeof riwiChatRequestSchema>;
 
+/** Presentation-only scope options; every target is re-authorized by the gateway. */
+export const riwiRoleSurfaceSchema = z.object({
+  status: z.enum(["ready", "unavailable"]),
+  role: z.enum(["student", "teacher", "admin", "owner"]),
+  scope: z.enum(["self", "assigned_roster", "admin_cohort", "owner_centre"]),
+  targetOptions: z.array(z.object({ id: z.string().uuid(), name: z.string().trim().min(1).max(120) }).strict()).max(500),
+  targetOptionsCapped: z.boolean(),
+}).strict();
+export type RiwiRoleSurface = z.infer<typeof riwiRoleSurfaceSchema>;
+
 export const riwiChatResponseSchema = z.object({
   ok: z.boolean(),
   correlationId: z.string().uuid(),
