@@ -1,3 +1,4 @@
+import "server-only";
 import { and, eq, gt, inArray, lt, or, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import {
@@ -21,6 +22,8 @@ import { canonicalMimeFor, validateUploadFile, type UploadCategory } from "@/lib
 import { buildObjectKey } from "@/lib/uploads/keys";
 import { verifySignature } from "@/lib/uploads/signature";
 import type { StorageService } from "@/lib/services/storage/types";
+import { authorizeCapability } from "@/lib/services/riwi/capabilities";
+import { isSupportedKnowledgeSourceFilename, RIWI_SOURCE_LIMIT_BYTES } from "@/lib/services/riwi/knowledge-parser";
 
 const SIGNATURE_BYTES = 4096;
 
@@ -49,7 +52,7 @@ export const UPLOAD_INTENT_TTL_SECONDS = 15 * 60;
 /** How long a signed read URL stays valid for private delivery. */
 export const READ_URL_TTL_SECONDS = 5 * 60;
 
-export type UploadPurpose = "material_primary" | "material_block" | "speaking_recording";
+export type UploadPurpose = "material_primary" | "material_block" | "speaking_recording" | "riwi_knowledge_source";
 export type BlockKind = "image" | "audio" | "file";
 
 export type CreateIntentInput = {
@@ -80,6 +83,7 @@ export type CreateIntentResult =
 function categoryFor(purpose: UploadPurpose, blockKind?: BlockKind): UploadCategory {
   if (purpose === "material_primary") return "primary";
   if (purpose === "speaking_recording") return "audio";
+  if (purpose === "riwi_knowledge_source") return "file";
   return blockKind ?? "file";
 }
 
@@ -88,18 +92,37 @@ function categoryFor(purpose: UploadPurpose, blockKind?: BlockKind): UploadCateg
  * generated here — the browser never chooses it, and never learns a key it was
  * not issued.
  */
-export async function createUploadIntent(input: CreateIntentInput): Promise<CreateIntentResult> {
+export async function createUploadIntent(
+  input: CreateIntentInput,
+  deps: { database?: typeof db; storage?: StorageService } = {},
+): Promise<CreateIntentResult> {
+  const database = deps.database ?? db;
   const { caller, purpose, blockKind, materialId, speakingAttemptId } = input;
-
+  if (!Number.isSafeInteger(input.size) || input.size <= 0) return { ok: false, status: 400, error: "invalid_size" };
   if (purpose === "material_block" && !blockKind) {
     return { ok: false, status: 400, error: "missing_block_kind" };
   }
-  if (purpose === "speaking_recording") {
+  if (purpose === "riwi_knowledge_source") {
+    if (!caller.id || caller.role !== "owner" || blockKind || materialId || speakingAttemptId) {
+      return { ok: false, status: 403, error: "forbidden" };
+    }
+    const account = await database.query.users.findFirst({
+      where: eq(users.id, caller.id), columns: { role: true, accountStatus: true },
+    });
+    if (!account || account.role !== "owner" || account.accountStatus !== "active"
+      || !authorizeCapability({ id: caller.id, role: account.role, accountStatus: account.accountStatus }, "riwi.knowledge.submit_candidate").allowed) {
+      return { ok: false, status: 403, error: "forbidden" };
+    }
+    if (!isSupportedKnowledgeSourceFilename(input.filename)) {
+      return { ok: false, status: 400, error: "unsupported_type" };
+    }
+    if (input.size > RIWI_SOURCE_LIMIT_BYTES) return { ok: false, status: 413, error: "file_too_large" };
+  } else if (purpose === "speaking_recording") {
     // A student's own practice recording. The attempt must exist, belong to
     // this user, and still be open for recording — otherwise anyone could hang
     // audio off someone else's attempt by guessing its id.
     if (!speakingAttemptId) return { ok: false, status: 400, error: "missing_attempt_id" };
-    const attempt = await db.query.speakingAttempts.findFirst({
+    const attempt = await database.query.speakingAttempts.findFirst({
       where: eq(speakingAttempts.id, speakingAttemptId),
     });
     if (!attempt) return { ok: false, status: 404, error: "attempt_not_found" };
@@ -113,7 +136,7 @@ export async function createUploadIntent(input: CreateIntentInput): Promise<Crea
   // own it (or be the platform owner). Without this, any teacher could attach
   // objects to someone else's resource by guessing its id.
   if (materialId) {
-    const material = await db.query.speakingMaterials.findFirst({
+    const material = await database.query.speakingMaterials.findFirst({
       where: eq(speakingMaterials.id, materialId),
     });
     if (!material) return { ok: false, status: 404, error: "material_not_found" };
@@ -147,9 +170,14 @@ export async function createUploadIntent(input: CreateIntentInput): Promise<Crea
     category,
     filename: input.filename,
   });
+  if (!isSafeObjectKey(objectKey)) return { ok: false, status: 400, error: "invalid_object_key" };
 
-  const storage = getStorageService();
-  const direct = storage.supportsDirectUpload;
+  const storage = deps.storage ?? getStorageService();
+  // Knowledge originals are small (20 MB max). Keep their proxy upload on the
+  // app server so the short-lived signed PUT cannot overwrite evidence after
+  // finalization; the same private storage provider and intent lifecycle still
+  // own the object.
+  const direct = storage.supportsDirectUpload && purpose !== "riwi_knowledge_source";
 
   // The stored label comes from the extension, not the browser claim: Safari
   // sends "" / octet-stream for ordinary files, and markup must stay inert.
@@ -163,7 +191,7 @@ export async function createUploadIntent(input: CreateIntentInput): Promise<Crea
       })
     : null;
 
-  await db.insert(uploadIntents).values({
+  await database.insert(uploadIntents).values({
     id: intentId,
     userId: caller.id!,
     materialId: materialId ?? null,
@@ -209,6 +237,23 @@ export async function finalizeUploadIntent(
 
   const intent = await database.query.uploadIntents.findFirst({ where: eq(uploadIntents.id, uploadId) });
   if (!intent || intent.userId !== userId) return { ok: false, status: 404, error: "upload_not_found" };
+  if (intent.purpose === "riwi_knowledge_source") {
+    const account = await database.query.users.findFirst({
+      where: eq(users.id, userId), columns: { role: true, accountStatus: true },
+    });
+    if (account?.role !== "owner" || account.accountStatus !== "active"
+      || !authorizeCapability({ id: userId, role: account.role, accountStatus: account.accountStatus }, "riwi.knowledge.submit_candidate").allowed) {
+      return { ok: false, status: 403, error: "forbidden" };
+    }
+    if (!isSupportedKnowledgeSourceFilename(intent.originalName)) return { ok: false, status: 400, error: "unsupported_type" };
+    if (intent.size > RIWI_SOURCE_LIMIT_BYTES) return { ok: false, status: 413, error: "file_too_large" };
+    const validation = validateUploadFile({
+      filename: intent.originalName, contentType: intent.mimeType, size: intent.size, category: "file",
+    });
+    if (!validation.ok || intent.mimeType !== canonicalMimeFor(intent.originalName, "file") || !isSafeObjectKey(intent.objectKey)) {
+      return { ok: false, status: 400, error: "invalid_upload" };
+    }
+  }
   if (intent.status === "finalized" || intent.status === "attached") {
     return {
       ok: true,
@@ -279,18 +324,23 @@ export async function finalizeUploadIntent(
  * Cancel. Marks the intent aborted and removes the object if it already
  * landed — a cancelled upload must not leave a billable orphan behind.
  */
-export async function abortUploadIntent(userId: string, uploadId: string): Promise<{ ok: boolean }> {
+export async function abortUploadIntent(
+  userId: string,
+  uploadId: string,
+  deps: { database?: typeof db; storage?: StorageService } = {},
+): Promise<{ ok: boolean }> {
+  const database = deps.database ?? db;
   if (!isUuid(uploadId)) return { ok: false };
-  const intent = await db.query.uploadIntents.findFirst({ where: eq(uploadIntents.id, uploadId) });
+  const intent = await database.query.uploadIntents.findFirst({ where: eq(uploadIntents.id, uploadId) });
   if (!intent || intent.userId !== userId) return { ok: false };
   if (intent.status === "attached") return { ok: false }; // still referenced by content
 
-  const aborted = await db.update(uploadIntents).set({ status: "aborted" }).where(
+  const aborted = await database.update(uploadIntents).set({ status: "aborted" }).where(
     and(eq(uploadIntents.id, intent.id), inArray(uploadIntents.status, ["pending", "finalized", "aborted"]))
   ).returning({ id: uploadIntents.id });
   if (!aborted.length) return { ok: false };
 
-  const storage = getStorageService();
+  const storage = deps.storage ?? getStorageService();
   await storage.delete(intent.objectKey).catch((err) => {
     console.warn(`abortUploadIntent: could not delete ${intent.objectKey}:`, err);
   });
@@ -458,27 +508,39 @@ export async function releaseAttachments(uploadIds: string[]): Promise<void> {
 }
 
 /**
- * Abandoned-upload cleanup. Anything still `pending` past its expiry is an
- * orphan — the browser went away mid-upload, or the tab was closed — so its
- * object is deleted and the row is closed out only after storage succeeds.
- * This bounded sweep covers pending/aborted intents. It does not list storage
- * to find objects without intents, or remove finalized/attached intents.
- *
- * Returns how many objects it removed, so a caller can log/verify it.
+ * Abandoned-upload cleanup. Expired pending/aborted intents are orphans. A
+ * finalized RIWI knowledge intent is also reclaimable once expired and only
+ * while no source row references its object key; ordinary finalized material
+ * uploads retain their existing claim window. Deletion is confirmed before the
+ * retryable intent row is removed, and storage is never listed by guesswork.
  */
-export async function cleanupAbandonedUploads(connection: Pick<typeof db, "select" | "update" | "delete"> = db): Promise<{ removedIntents: number; removedObjects: number }> {
+export async function cleanupAbandonedUploads(
+  connection: Pick<typeof db, "select" | "update" | "delete"> = db,
+  storageOverride?: StorageService,
+): Promise<{ removedIntents: number; removedObjects: number }> {
   const now = new Date();
-  const stale = await connection.select().from(uploadIntents).where(and(
-    inArray(uploadIntents.status, ["pending", "aborted"]), lt(uploadIntents.expiresAt, now)
-  )).orderBy(uploadIntents.expiresAt).limit(500);
-  const storage = getStorageService();
+  const unlinkedKnowledgeSource = and(
+    eq(uploadIntents.status, "finalized"), eq(uploadIntents.purpose, "riwi_knowledge_source"),
+    sql`not exists (select 1 from riwi_knowledge_sources s where s.source_object_key = ${uploadIntents.objectKey})`,
+  );
+  const expiredOrphan = and(lt(uploadIntents.expiresAt, now), or(
+    inArray(uploadIntents.status, ["pending", "aborted"]), unlinkedKnowledgeSource,
+  ));
+  const stale = await connection.select().from(uploadIntents).where(expiredOrphan)
+    .orderBy(uploadIntents.expiresAt).limit(500);
+  const storage = storageOverride ?? getStorageService();
   let removedObjects = 0;
   let removedIntents = 0;
   for (const intent of stale) {
     // Competes atomically with finalization/claim. No stale read can delete an
     // object after its intent has become finalized/attached.
+    const reclaimableKnowledge = and(
+      eq(uploadIntents.status, "finalized"), eq(uploadIntents.purpose, "riwi_knowledge_source"),
+      sql`not exists (select 1 from riwi_knowledge_sources s where s.source_object_key = ${uploadIntents.objectKey})`,
+    );
     const claimed = await connection.update(uploadIntents).set({ status: "aborted" }).where(and(
-      eq(uploadIntents.id, intent.id), inArray(uploadIntents.status, ["pending", "aborted"]), lt(uploadIntents.expiresAt, now)
+      eq(uploadIntents.id, intent.id), lt(uploadIntents.expiresAt, now),
+      or(inArray(uploadIntents.status, ["pending", "aborted"]), reclaimableKnowledge),
     )).returning({ id: uploadIntents.id });
     if (!claimed.length) continue;
     try {

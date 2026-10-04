@@ -115,7 +115,7 @@ const week = () => { const p = resolvePeriod("weekly", NOW); if (!p.ok) throw ne
 const metric = (s: ReportSnapshot, key: string) => s.metrics.find((m) => m.key === key);
 
 test("RP4 numbers come from SQL over the window and scope; empty = null, never a silent 0", async () => {
-  const actor = { userId: OWN, role: "owner" };
+  const actor = { userId: OWN, role: "owner" as const };
   const owner = await buildReportSnapshot(database.db, { scope: { kind: "owner" }, period: week(), actor, now: NOW });
   assert.equal(metric(owner, "reading.completed")!.value, 3, "students only, window only");
   assert.equal(metric(owner, "reading.accuracy")!.value, 15 / 30);
@@ -361,9 +361,13 @@ test("RP16 roster changes: owner/admin only, teacher→student roles enforced, i
 
 test("RP17 migration 0035 is additive and journalled directly after 0034", () => {
   const journal = JSON.parse(readFileSync("drizzle/meta/_journal.json", "utf8")) as { entries: { idx: number; tag: string }[] };
-  const last = journal.entries.at(-1)!;
-  assert.deepEqual([last.idx, last.tag], [35, "0035_teacher_student_links"]);
-  assert.equal(journal.entries.at(-2)!.tag, "0034_typing_duration_presets");
+  const reporterIndex = journal.entries.findIndex((entry) => entry.tag === "0035_teacher_student_links");
+  assert.notEqual(reporterIndex, -1, "Reporter roster migration remains in the journal");
+  const reporterEntry = journal.entries[reporterIndex]!;
+  assert.deepEqual([reporterEntry.idx, reporterEntry.tag], [35, "0035_teacher_student_links"]);
+  assert.equal(journal.entries[reporterIndex - 1]?.tag, "0034_typing_duration_presets");
+  assert.ok(journal.entries.slice(reporterIndex + 1).every((entry) => entry.idx > reporterEntry.idx),
+    "later additive migrations retain monotonically increasing journal indexes");
   const text = readFileSync("drizzle/0035_teacher_student_links.sql", "utf8").replace(/--.*$/gm, "");
   const statements = text.split(/;|--> statement-breakpoint/).map((x) => x.trim()).filter(Boolean);
   for (const st of statements) assert.match(st, /^create (table|unique index|index) if not exists /i, "only additive CREATE statements");

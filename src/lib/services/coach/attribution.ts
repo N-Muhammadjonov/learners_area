@@ -12,6 +12,10 @@
 export const PUBLIC_CHECKED_BY = "RIWI" as const;
 
 export type InternalProvenance = {
+  evaluationId?: string;
+  evaluationType?: "writing" | "speaking" | "grammar" | "vocabulary" | "assignment";
+  correlationId?: string;
+  validationStatus?: "validated";
   providerId: string;
   providerDisplayName: string;
   providerType: "internal" | "external";
@@ -25,8 +29,15 @@ export type InternalProvenance = {
 };
 
 export function internalProvenance(row: InternalProvenance): InternalProvenance {
-  const { providerId, providerDisplayName, providerType, providerVersion, model, promptVersion, rubricVersion, fallbackUsed, fallbackFrom, createdAt } = row;
-  return { providerId, providerDisplayName, providerType, providerVersion, model, promptVersion, rubricVersion, fallbackUsed, fallbackFrom, createdAt };
+  const { evaluationId, evaluationType, correlationId, validationStatus,
+    providerId, providerDisplayName, providerType, providerVersion, model, promptVersion, rubricVersion,
+    fallbackUsed, fallbackFrom, createdAt } = row;
+  return {
+    ...(evaluationId ? { evaluationId } : {}), ...(evaluationType ? { evaluationType } : {}),
+    ...(correlationId ? { correlationId } : {}), ...(validationStatus ? { validationStatus } : {}),
+    providerId, providerDisplayName, providerType, providerVersion, model, promptVersion, rubricVersion,
+    fallbackUsed, fallbackFrom, createdAt,
+  };
 }
 
 /** One-line audit label for staff surfaces only. */

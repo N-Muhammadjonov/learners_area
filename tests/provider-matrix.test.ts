@@ -14,6 +14,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { createCompatibleProvider, parseCompatibleProviders, type CompatibleEntry } from "../src/lib/services/coach/providers/compatible";
 import { instructions, writingCheckInstructions, writingGradeInstructions } from "../src/lib/services/coach/providers/shared/prompts";
+import { PinnedHttpsError } from "../src/lib/services/coach/providers/shared/ssrf";
 
 const PUBLIC = async () => [{ address: "93.184.216.34" }];
 const output = {
@@ -23,7 +24,10 @@ const output = {
 };
 const ctx = { userId: "11111111-2222-3333-4444-555555555555", language: "en" as const };
 const grammarInput = { promptText: "Fix it", studentAnswer: "She go home", targetStructure: null, sampleAnswer: null };
-const ok = (content: string, finish = "stop") => Response.json({ choices: [{ finish_reason: finish, message: { content } }] });
+const ok = (content: string, finish = "stop") => ({
+  status: 200, contentType: "application/json",
+  text: JSON.stringify({ choices: [{ finish_reason: finish, message: { content } }] }),
+});
 
 /** Server-side configuration examples, one per vendor (models are placeholders the owner replaces). */
 export const MATRIX: Array<CompatibleEntry & { vendor: string; host: string }> = [
@@ -36,10 +40,19 @@ export const MATRIX: Array<CompatibleEntry & { vendor: string; host: string }> =
 ];
 const entries = MATRIX.map(({ vendor: _v, host: _h, ...e }) => ({ ...e, capabilities: ["writing-evaluation", "grammar-evaluation", "structured-output"] as CompatibleEntry["capabilities"] }));
 
-async function withEnv(vars: Record<string, string>, run: () => Promise<void>) {
-  const saved = { ...process.env }; const fetcher = globalThis.fetch;
-  Object.assign(process.env, vars);
-  try { await run(); } finally { globalThis.fetch = fetcher; process.env = saved; }
+async function withEnv(vars: Record<string, string | undefined>, run: () => Promise<void>) {
+  const saved = new Map<string, string | undefined>();
+  for (const [key, value] of Object.entries(vars)) {
+    saved.set(key, process.env[key]);
+    if (value === undefined) delete process.env[key];
+    else process.env[key] = value;
+  }
+  try { await run(); } finally {
+    for (const [key, value] of saved) {
+      if (value === undefined) delete process.env[key];
+      else process.env[key] = value;
+    }
+  }
 }
 
 test("PM1 every named vendor's documented base URL passes the server-side config + SSRF guard; Grok and Groq are distinct", () => {
@@ -60,19 +73,24 @@ for (const m of MATRIX) {
   test(`PM2 ${m.vendor}: exact chat-completions request, Bearer from the referenced env var, identity-free, validated reply`, async () => {
     const entry = entries.find((e) => e.id === m.id)!;
     await withEnv({ [m.secretRef]: `TEST-KEY-${m.id}` }, async () => {
-      let seen: { url: string; init: RequestInit } | null = null;
-      globalThis.fetch = (async (url: string | URL, init?: RequestInit) => { seen = { url: String(url), init: init! }; return ok(JSON.stringify(output)); }) as typeof fetch;
-      const provider = createCompatibleProvider(entry, { lookup: PUBLIC });
+      let seen: { url: string; headers: Record<string, string>; body: string; allowHosts?: readonly string[] } | null = null;
+      const provider = createCompatibleProvider(entry, {
+        lookup: PUBLIC,
+        allowHosts: [m.host],
+        request: async (url, headers, body, options) => {
+          seen = { url: String(url), headers, body, allowHosts: options?.allowHosts };
+          return ok(JSON.stringify(output));
+        },
+      });
       assert.equal(provider.type, "external");
       assert.equal(provider.model, entry.model);
       const result = await provider.evaluateGrammar!(ctx, grammarInput);
       assert.ok(result.ok, JSON.stringify(result));
-      const s = seen as unknown as { url: string; init: RequestInit };
+      const s = seen as unknown as { url: string; headers: Record<string, string>; body: string; allowHosts?: readonly string[] };
       assert.equal(s.url, `${m.baseURL}/chat/completions`);
-      assert.equal(s.init.method, "POST");
-      assert.equal(s.init.redirect, "error", "redirects are never followed");
-      assert.equal((s.init.headers as Record<string, string>).Authorization, `Bearer TEST-KEY-${m.id}`);
-      const body = JSON.parse(String(s.init.body));
+      assert.deepEqual(s.allowHosts, [m.host]);
+      assert.equal(s.headers.Authorization, `Bearer TEST-KEY-${m.id}`);
+      const body = JSON.parse(s.body);
       assert.deepEqual(Object.keys(body).sort(), ["max_tokens", "messages", "model", "response_format", "stream"]);
       assert.deepEqual(body.response_format, { type: "json_object" });
       assert.equal(body.stream, false);
@@ -95,19 +113,18 @@ test("PM3 every shared system prompt contains the word JSON (DeepSeek/Qwen JSON-
 
 for (const id of ["qwen", "groq"] as const) {
   const entry = entries.find((e) => e.id === id)!;
+  const host = MATRIX.find((vendor) => vendor.id === id)!.host;
   const secret = `TEST-SECRET-${id.toUpperCase()}-DO-NOT-LEAK`;
 
-  test(`PM4 ${id}: SSRF — private/metadata resolution, http, localhost, link-local and odd ports are refused before any request`, async () => {
+  test(`PM4 ${id}: pinned SSRF guard refuses private/metadata DNS answers and unsafe endpoint configurations`, async () => {
     await withEnv({ [entry.secretRef]: secret }, async () => {
-      let calls = 0;
-      globalThis.fetch = (async () => { calls += 1; return ok(JSON.stringify(output)); }) as typeof fetch;
       for (const address of ["10.0.0.7", "127.0.0.1", "169.254.169.254", "fd00::1", "::1"]) {
         const r = await createCompatibleProvider(entry, { lookup: async () => [{ address }] }).evaluateGrammar!(ctx, grammarInput);
         assert.ok(!r.ok, address);
+        if (!r.ok) assert.equal(r.failure.reason, "provider_unavailable", `${address} is refused before connection`);
       }
       const r = await createCompatibleProvider(entry, { lookup: async () => { throw new Error("ENOTFOUND"); } }).evaluateGrammar!(ctx, grammarInput);
       assert.ok(!r.ok, "DNS failure blocks the call");
-      assert.equal(calls, 0, "no request leaves the server");
       for (const bad of ["http://api.groq.com/openai/v1", "https://localhost/v1", "https://169.254.169.254/v1", "https://dashscope-intl.aliyuncs.com:8443/compatible-mode/v1", "https://key@api.groq.com/openai/v1"]) {
         assert.equal(parseCompatibleProviders(JSON.stringify([{ ...entry, baseURL: bad }])).entries.length, 0, bad);
       }
@@ -116,19 +133,25 @@ for (const id of ["qwen", "groq"] as const) {
 
   test(`PM5 ${id}: malformed, truncated, refused and HTTP-error replies fail validation without leaking the body or the key`, async () => {
     await withEnv({ [entry.secretRef]: secret }, async () => {
-      const provider = createCompatibleProvider(entry, { lookup: PUBLIC });
-      const cases: Array<() => Response> = [
-        () => ok("not json"),
-        () => ok(JSON.stringify({ overallEstimate: 99 })),
-        () => ok(JSON.stringify(output), "length"),
-        () => Response.json({ choices: [{ finish_reason: "stop", message: { content: null, refusal: "no" } }] }),
-        () => Response.json({ choices: [] }),
-        () => new Response(`upstream internals ${secret}`, { status: 500 }),
-        () => new Response(`bad key ${secret}`, { status: 401 }),
-        () => new Response("slow down", { status: 429 }),
+      const contentType = "application/json";
+      const refused = { status: 200, contentType, text: JSON.stringify({ choices: [{ finish_reason: "stop", message: { content: null, refusal: "no" } }] }) };
+      const cases = [
+        ok("not json"),
+        ok(JSON.stringify({ overallEstimate: 99 })),
+        ok(JSON.stringify(output), "length"),
+        refused,
+        { status: 200, contentType, text: JSON.stringify({ choices: [] }) },
+        { status: 500, contentType: "text/plain", text: `upstream internals ${secret}` },
+        { status: 401, contentType: "text/plain", text: `bad key ${secret}` },
+        { status: 429, contentType: "text/plain", text: "slow down" },
       ];
-      for (const make of cases) {
-        globalThis.fetch = (async () => make()) as typeof fetch;
+      let reply = cases[0]!;
+      const provider = createCompatibleProvider(entry, {
+        allowHosts: [host],
+        request: async () => reply,
+      });
+      for (const next of cases) {
+        reply = next;
         const r = await provider.evaluateGrammar!(ctx, grammarInput);
         assert.ok(!r.ok);
         const dump = JSON.stringify(r);
@@ -137,33 +160,39 @@ for (const id of ["qwen", "groq"] as const) {
     });
   });
 
-  test(`PM6 ${id}: the call honours its deadline (aborted signal → no result, retry-safe failure)`, async () => {
+  test(`PM6 ${id}: the call honours abort and returns without leaving a pending transport`, async () => {
     await withEnv({ [entry.secretRef]: secret }, async () => {
-      globalThis.fetch = ((_u: unknown, init?: RequestInit) => new Promise((_r, reject) => {
-        init?.signal?.addEventListener("abort", () => reject(new DOMException("aborted", "AbortError")));
-      })) as typeof fetch;
-      const provider = createCompatibleProvider(entry, { lookup: PUBLIC });
+      const provider = createCompatibleProvider(entry, {
+        allowHosts: [host],
+        request: async (_url, _headers, _body, options) => new Promise((_resolve, reject) => {
+          const signal = options?.signal;
+          const abort = () => reject(new PinnedHttpsError("aborted"));
+          if (signal?.aborted) abort();
+          else signal?.addEventListener("abort", abort, { once: true });
+        }),
+      });
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), 50); // ref'd, unlike AbortSignal.timeout
       const started = Date.now();
-      const r = await provider.evaluateGrammar!({ ...ctx, signal: controller.signal }, grammarInput);
-      clearTimeout(timer);
-      assert.ok(!r.ok);
-      assert.ok(Date.now() - started < 5_000, "returns at the deadline, not later");
+      try {
+        const r = await provider.evaluateGrammar!({ ...ctx, signal: controller.signal }, grammarInput);
+        assert.ok(!r.ok);
+        assert.ok(Date.now() - started < 5_000, "returns at the abort deadline, not later");
+      } finally { clearTimeout(timer); }
     });
   });
 
-  test(`PM7 ${id}: a missing key or model means not_configured and zero network calls`, async () => {
-    const saved = process.env[entry.secretRef];
-    delete process.env[entry.secretRef];
-    const fetcher = globalThis.fetch;
-    let calls = 0;
-    globalThis.fetch = (async () => { calls += 1; return ok("{}"); }) as typeof fetch;
-    try {
-      const r = await createCompatibleProvider(entry, { lookup: PUBLIC }).evaluateGrammar!(ctx, grammarInput);
+  test(`PM7 ${id}: a missing key or model means not_configured and zero request seam calls`, async () => {
+    await withEnv({ [entry.secretRef]: undefined }, async () => {
+      let calls = 0;
+      const provider = createCompatibleProvider(entry, {
+        allowHosts: [host],
+        request: async () => { calls += 1; return ok("{}"); },
+      });
+      const r = await provider.evaluateGrammar!(ctx, grammarInput);
       assert.ok(!r.ok && r.failure.reason === "not_configured");
       assert.equal(calls, 0);
-    } finally { globalThis.fetch = fetcher; if (saved !== undefined) process.env[entry.secretRef] = saved; }
+    });
   });
 }
 
@@ -183,32 +212,53 @@ test("PM9 .env.example documents every matrix vendor with an empty key and no re
   assert.ok(!/(sk-|gsk_|xai-)[A-Za-z0-9]{12,}/.test(example), "no real-looking key");
 });
 
-test("PM10 bounded retry applies to compatible providers: a retryable 5xx is retried up to maxAttempts, never beyond", async () => {
-  // Resolver-level proof. The host is a public IP literal so no DNS is needed in tests.
+test("PM10 bounded retry applies to compatible providers: retryable 5xx stops at maxAttempts and auth failures are not retried", async () => {
   const secretRef = "AI_QWEN_API_KEY";
-  await withEnv({
-    AI_COMPATIBLE_PROVIDERS: JSON.stringify([{ id: "qwen", displayName: "Qwen", baseURL: "https://93.184.216.34/compatible-mode/v1", model: "owner-chosen-qwen-model", secretRef, capabilities: ["grammar-evaluation", "structured-output"] }]),
-    [secretRef]: "TEST-KEY",
-  }, async () => {
-    const { resolveEvaluation } = await import("../src/lib/services/coach/resolver");
+  const host = "api.qwen-test.example";
+  const providers = JSON.stringify([{ id: "qwen", displayName: "Qwen", baseURL: `https://${host}/compatible-mode/v1`, model: "owner-chosen-qwen-model", secretRef, capabilities: ["grammar-evaluation", "structured-output"] }]);
+  await withEnv({ AI_COMPATIBLE_PROVIDERS: providers, AI_COMPATIBLE_ALLOWED_HOSTS: host, [secretRef]: "TEST-KEY" }, async () => {
+    const [{ resolveEvaluation }, { providerRegistry }] = await Promise.all([
+      import("../src/lib/services/coach/resolver"),
+      import("../src/lib/services/coach/registry"),
+    ]);
+    const configured = parseCompatibleProviders(providers, host).entries[0];
+    const original = providerRegistry.get("qwen");
+    assert.ok(configured && original, "server config should register the compatible provider");
+    let mode: "down" | "recover" | "unauthorized" = "down";
     let calls = 0;
-    globalThis.fetch = (async () => { calls += 1; return new Response("down", { status: 503 }); }) as typeof fetch;
-    const request = { evaluationType: "grammar", input: grammarInput } as Parameters<typeof resolveEvaluation>[0];
-    const strict = await resolveEvaluation(request, ctx, { externalEnabled: true, aiPrimaryProvider: "qwen", maxAttempts: 3, retryBackoffMs: 0 }, { fallback: "none" });
-    assert.equal(calls, 3, "exactly maxAttempts");
-    assert.ok(!strict.ok, "strict policy: no substitute result");
-    calls = 0;
-    globalThis.fetch = (async () => { calls += 1; return calls === 1 ? new Response("down", { status: 503 }) : ok(JSON.stringify(output)); }) as typeof fetch;
-    const recovered = await resolveEvaluation(request, ctx, { externalEnabled: true, aiPrimaryProvider: "qwen", maxAttempts: 2, retryBackoffMs: 0 }, { fallback: "none" });
-    assert.ok(recovered.ok);
-    if (!recovered.ok) return;
-    assert.equal(recovered.result.providerId, "qwen");
-    assert.equal(recovered.result.providerType, "external");
-    assert.equal(recovered.result.model, "owner-chosen-qwen-model");
-    assert.equal(recovered.result.fallbackUsed, false);
-    calls = 0;
-    globalThis.fetch = (async () => { calls += 1; return new Response("no", { status: 401 }); }) as typeof fetch;
-    await resolveEvaluation(request, ctx, { externalEnabled: true, aiPrimaryProvider: "qwen", maxAttempts: 3, retryBackoffMs: 0 }, { fallback: "none" });
-    assert.equal(calls, 1, "auth failure is not retried");
+    const provider = createCompatibleProvider(configured, {
+      allowHosts: [host],
+      request: async () => {
+        calls += 1;
+        if (mode === "unauthorized") return { status: 401, contentType: "text/plain", text: "no" };
+        if (mode === "recover" && calls === 2) return ok(JSON.stringify(output));
+        return { status: 503, contentType: "text/plain", text: "down" };
+      },
+    });
+    providerRegistry.register(provider);
+    try {
+      const request = { evaluationType: "grammar", input: grammarInput } as Parameters<typeof resolveEvaluation>[0];
+      const strict = await resolveEvaluation(request, ctx, { externalEnabled: true, aiPrimaryProvider: "qwen", maxAttempts: 3, retryBackoffMs: 0 }, { fallback: "none" });
+      assert.equal(calls, 3, "exactly maxAttempts for retryable 5xx");
+      assert.ok(!strict.ok, "strict policy: no substitute result");
+
+      mode = "recover";
+      calls = 0;
+      const recovered = await resolveEvaluation(request, ctx, { externalEnabled: true, aiPrimaryProvider: "qwen", maxAttempts: 2, retryBackoffMs: 0 }, { fallback: "none" });
+      assert.ok(recovered.ok);
+      if (!recovered.ok) return;
+      assert.equal(calls, 2);
+      assert.equal(recovered.result.providerId, "qwen");
+      assert.equal(recovered.result.providerType, "external");
+      assert.equal(recovered.result.model, "owner-chosen-qwen-model");
+      assert.equal(recovered.result.fallbackUsed, false);
+
+      mode = "unauthorized";
+      calls = 0;
+      await resolveEvaluation(request, ctx, { externalEnabled: true, aiPrimaryProvider: "qwen", maxAttempts: 3, retryBackoffMs: 0 }, { fallback: "none" });
+      assert.equal(calls, 1, "auth failure is not retried");
+    } finally {
+      providerRegistry.register(original.provider);
+    }
   });
 });

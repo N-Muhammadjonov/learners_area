@@ -6,6 +6,8 @@
 // no AI is involved anywhere in this file.
 import { createHash, randomUUID } from "node:crypto";
 import { sql, type SQL } from "drizzle-orm";
+import type { Role } from "@/lib/auth/roles";
+import { reportSnapshotSchema } from "./snapshot-schema";
 import type { ReportWindow } from "./period";
 
 export const REPORT_SCHEMA_VERSION = "riwi-report/1";
@@ -36,7 +38,7 @@ export type ReportSnapshot = {
   schemaVersion: typeof REPORT_SCHEMA_VERSION;
   reportId: string;
   generatedAt: string;
-  generatedBy: { userId: string; role: string };
+  generatedBy: { userId: string; role: Role };
   timezone: string;
   period: ReportWindow;
   scope: ReportScope;
@@ -161,7 +163,7 @@ export function scopeLabel(scope: ReportScope): string {
 
 export async function buildReportSnapshot(
   executor: Executor,
-  input: { scope: ReportScope; period: ReportWindow; actor: { userId: string; role: string }; now?: Date; reportId?: string },
+  input: { scope: ReportScope; period: ReportWindow; actor: { userId: string; role: Role }; now?: Date; reportId?: string },
 ): Promise<ReportSnapshot> {
   const generatedAt = (input.now ?? new Date()).toISOString();
   const subject = input.scope.kind === "student" ? input.scope.subjectId : null;
@@ -197,7 +199,7 @@ export async function buildReportSnapshot(
     narrative: { source: "deterministic", en: [], uz: [] },
   };
   snapshot.narrative = deterministicNarrative(snapshot);
-  return snapshot;
+  return reportSnapshotSchema.parse(snapshot);
 }
 
 export function formatMetricValue(metric: Pick<ReportMetric, "unit" | "value">): string {

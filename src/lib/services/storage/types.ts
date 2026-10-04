@@ -72,6 +72,8 @@ export interface StorageService {
   readonly supportsDirectUpload: boolean;
   /** Server-side write — the proxy upload path, seeds and tests. */
   put(input: PutInput): Promise<void>;
+  /** Create a new object without replacing existing stored evidence. */
+  putIfAbsent(input: PutInput): Promise<boolean>;
   /**
    * Short-lived presigned PUT for exactly one object key. Returns null when
    * the provider cannot presign (`local`), in which case callers fall back to
@@ -90,6 +92,12 @@ export interface StorageService {
    * URL (local disk); S3/R2 implement it too, as a fallback delivery path.
    */
   read(key: ObjectKey): Promise<ReadResult | null>;
+  /**
+   * Read at most `maxBytes + 1` bytes, allowing callers to detect an oversized
+   * object without allocating or downloading it in full. Range-capable object
+   * stores are asked for only that prefix; local storage reads only that many.
+   */
+  readBounded(key: ObjectKey, maxBytes: number): Promise<ReadResult | null>;
   /**
    * The first `maxBytes` of an object (bounded: S3/R2 use a Range GET, local
    * disk reads only the prefix). Used by finalize to verify the stored bytes —

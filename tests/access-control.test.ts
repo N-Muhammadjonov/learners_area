@@ -165,7 +165,7 @@ test("every private API route rejects anonymous callers with 401", () => {
   // database-backed `requireActiveUser()` with the administrator role check, and
   // the assertions below prove that composition, so naming it here does not
   // loosen the invariant for the routes that use it.
-  const guard = /require(ActiveUser|Staff|Administrator|Owner|RoleAtLeast|RetentionAdmin)\(/;
+  const guard = /require(ActiveUser|Staff|Administrator|Owner|RoleAtLeast|RetentionAdmin|RiwiOwner)\(/;
   const exceptions = [
     // Signed-out flows and the admission request itself (a pending applicant
     // must be able to apply; it authorizes with requireUser, not the active gate).
@@ -188,21 +188,63 @@ test("every private API route rejects anonymous callers with 401", () => {
   const retentionHelpers = stripComments(read("src/lib/retention/http.ts"));
   assert.match(retentionHelpers, /status: 401/, "the retention refusal helper answers 401");
   assert.match(retentionHelpers, /status: 403/, "the retention refusal helper answers 403");
+  // RIWI owner routes delegate the shared refusal to one database-backed helper.
+  // Verify the composition once, then require every delegated route to call it.
+  const riwiOwnerGuard = stripComments(read("src/lib/services/riwi/owner-route.ts"));
+  assert.match(riwiOwnerGuard, /requireActiveUser\(\)/, "the delegated RIWI owner guard re-reads the active database identity");
+  assert.match(riwiOwnerGuard, /user\.role !== "owner"/);
+  assert.match(riwiOwnerGuard, /user\.accountStatus !== "active"/);
+  assert.match(riwiOwnerGuard, /authorizeCapability\([\s\S]*riwi\.knowledge\.review/);
+  assert.match(riwiOwnerGuard, /401/);
+  assert.match(riwiOwnerGuard, /403/);
   const RETENTION_ROUTES = /^src\/app\/api\/(admin\/)?retention\//;
+  const RIWI_OWNER_ROUTES = /^src\/app\/api\/riwi\/owner\//;
+  const riwiGateway = stripComments(read("src/lib/services/riwi/gateway.ts"));
+  assert.match(riwiGateway, /authenticate: requireActiveUser/);
+  assert.match(riwiGateway, /if \(!user \|\| user\.accountStatus !== "active"\)/);
+  assert.match(riwiGateway, /wireFailure\(401, "unauthorized"\)/);
+  const riwiChatHttp = stripComments(read("src/lib/services/riwi/chat-http.ts"));
+  assert.match(riwiChatHttp, /runGateway: \(request\) => runRiwiGateway\(request\)/);
+  const riwiTargetsHttp = stripComments(read("src/lib/services/riwi/targets-http.ts"));
+  assert.match(riwiTargetsHttp, /authenticate: requireActiveUser/);
+  assert.match(riwiTargetsHttp, /if \(!user\) return NextResponse\.json\([\s\S]*status: 401/);
+  assert.match(riwiTargetsHttp, /getTargetPage\(\s*\{ id: user\.id, role: user\.role, accountStatus: user\.accountStatus \}/);
 
   for (const route of API_ROUTES) {
     if (exceptions.some((prefix) => route.startsWith(prefix))) continue;
     const source = stripComments(read(route));
+    if (route === "src/app/api/riwi/chat/route.ts") {
+      assert.match(source, /handleRiwiChatPost\(request\)/, "the HTTP route delegates to the tested chat boundary");
+      continue;
+    }
+    if (route === "src/app/api/riwi/targets/route.ts") {
+      assert.match(source, /handleRiwiTargetsGet\(request\)/, "every page delegates to the authenticated, reauthorizing target handler");
+      continue;
+    }
+    if (route === "src/app/api/riwi/conversations/[id]/route.ts") {
+      assert.match(source, /if \(!user\) return unavailable\(401\)/, "anonymous transcript and delete requests use the 401 branch");
+      assert.match(source, /function unavailable\(status: number\)[\s\S]*status/);
+      continue;
+    }
     assert.match(source, guard, `${route} must gate on a database-backed guard`);
-    // Retention routes use the shared refusal helpers asserted above, so there is
-    // no inline status to match here; every other route carries its own.
+    // Retention and RIWI owner routes use shared refusal helpers asserted above,
+    // so every route must name its guard while the helper carries the 401/403.
     if (RETENTION_ROUTES.test(route)) continue;
+    if (RIWI_OWNER_ROUTES.test(route) && /requireRiwiOwner\(\)/.test(source)) continue;
     // Administrator/owner routes answer 403 for an unidentified caller (they do
     // not confirm whether the caller is signed in), student-facing routes 401.
     const expected = /^src\/app\/api\/(admin|owner|teacher)\//.test(route)
       ? /status: (401|403)/
       : /status: 401/;
-    assert.match(source, expected, `${route} must refuse an unauthorised caller`);
+    if (!expected.test(source)) {
+      // Some RIWI learning routes share a response helper. Prove both its status
+      // forwarding and the exact anonymous 401 call instead of requiring an
+      // inline NextResponse literal.
+      assert.match(source, /function (?:response|json)\([^)]*status = 200\)[\s\S]*NextResponse\.json\([\s\S]*status,/,
+        `${route} shared response helper must forward its explicit status`);
+      assert.match(source, /if \(!user\) return (?:response|denied)\([^\n]*401/,
+        `${route} must pass 401 for an unidentified active user`);
+    }
   }
 });
 

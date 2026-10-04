@@ -29,16 +29,24 @@ export type TestDatabase = {
 };
 
 /** Apply every shipped migration, in filename order, exactly as drizzle-kit does. */
-export async function migrateTestDatabase(client: PGlite): Promise<void> {
+export async function migrateTestDatabase(client: PGlite, range: { after?: string; through?: string } = {}): Promise<void> {
   const files = readdirSync(join(ROOT, "drizzle"))
     .filter((name) => name.endsWith(".sql"))
     .sort();
+  let reachedEnd = range.through === undefined;
   for (const file of files) {
+    if (range.after && file <= range.after) continue;
+    if (range.through && file > range.through) break;
     const sql = readFileSync(join(ROOT, "drizzle", file), "utf8");
     for (const statement of sql.split("--> statement-breakpoint").map((part) => part.trim()).filter(Boolean)) {
       await client.exec(statement);
     }
+    if (file === range.through) {
+      reachedEnd = true;
+      break;
+    }
   }
+  if (!reachedEnd) throw new Error(`test migration checkpoint not found: ${range.through}`);
 }
 
 export async function createTestDatabase(): Promise<TestDatabase> {

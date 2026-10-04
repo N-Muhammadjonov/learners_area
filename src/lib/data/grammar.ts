@@ -1,4 +1,4 @@
-import { and, asc, eq, isNull, or } from "drizzle-orm";
+import { and, asc, eq, ilike, isNull, or, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { timed } from "@/lib/observability/timing";
 import { grammarTopics, grammarExercises, grammarAttempts } from "@/db/schema";
@@ -28,10 +28,47 @@ export function listTopics() {
     .orderBy(asc(grammarTopics.order));
 }
 
-export async function getTopicWithExercises(topicId: string, userId: string) {
+const GRAMMAR_QUERY_STOP_WORDS = new Set([
+  "can", "could", "would", "please", "you", "me", "my", "the", "a", "an", "is", "are", "was", "were",
+  "what", "how", "does", "do", "why", "about", "explain", "teach", "simply", "simple", "terms", "use",
+  "grammar", "grammatical", "topic", "topics", "rule", "rules", "lesson", "lessons",
+  "tushuntir", "tushuntiring", "izohla", "izohlang", "grammatika", "mavzu", "mavzusini", "qanday", "misol", "bilan",
+  "объясни", "объясните", "почему", "как", "грамматика", "грамматику", "правило", "тема", "тему", "простыми", "словами",
+]);
+
+/** Find one unambiguous authored Grammar topic; never returns exercises or essay-derived text. */
+export async function findGrammarTopic(query: string, database: typeof db = db) {
+  const terms = [...new Set(query.normalize("NFKC").toLocaleLowerCase().match(/[\p{L}\p{N}]+/gu) ?? [])]
+    .filter((term) => term.length >= 3 && term.length <= 40 && !GRAMMAR_QUERY_STOP_WORDS.has(term))
+    .slice(0, 6);
+  if (terms.length === 0) return null;
+  const titleMatches = await database.select({
+    id: grammarTopics.id, title: grammarTopics.title, explanation: grammarTopics.explanation,
+    skillArea: grammarTopics.skillArea, order: grammarTopics.order,
+  }).from(grammarTopics)
+    .where(or(...terms.map((term) => ilike(grammarTopics.title, `%${term}%`))))
+    .orderBy(asc(grammarTopics.order), asc(grammarTopics.id))
+    .limit(20);
+  const ranked = titleMatches.map((topic) => ({
+    topic,
+    score: terms.filter((term) => topic.title.normalize("NFKC").toLocaleLowerCase().includes(term)).length,
+  })).filter((item) => item.score > 0)
+    .sort((left, right) => right.score - left.score || left.topic.order - right.topic.order || left.topic.id.localeCompare(right.topic.id));
+  if (!ranked[0] || ranked[1]?.score === ranked[0].score) return null;
+  return ranked[0].topic;
+}
+
+/** A count, not a private exercise payload; uses the Grammar learner visibility predicate. */
+export async function countVisibleGrammarExercises(topicId: string, userId: string, database: typeof db = db): Promise<number> {
+  const [row] = await database.select({ count: sql<number>`count(*)::int` }).from(grammarExercises)
+    .where(and(eq(grammarExercises.topicId, topicId), grammarVisibleTo(userId)));
+  return row?.count ?? 0;
+}
+
+export async function getTopicWithExercises(topicId: string, userId: string, database: typeof db = db) {
   const [topic, exercises] = await Promise.all([
-    db.query.grammarTopics.findFirst({ where: eq(grammarTopics.id, topicId) }),
-    db.query.grammarExercises.findMany({
+    database.query.grammarTopics.findFirst({ where: eq(grammarTopics.id, topicId) }),
+    database.query.grammarExercises.findMany({
       where: and(eq(grammarExercises.topicId, topicId), grammarVisibleTo(userId)),
       orderBy: asc(grammarExercises.order),
     }),

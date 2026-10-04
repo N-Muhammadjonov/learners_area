@@ -5,6 +5,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { JSDOM } from "jsdom";
 import { zipSync, strToU8 } from "fflate";
+import { readSafeArchive } from "../src/lib/import/archive";
 import { readListeningZip } from "../src/lib/listening/zip";
 import { ListeningImportProblem } from "../src/lib/listening/discover";
 import { inspectListeningPackage } from "../src/lib/listening/inspect";
@@ -117,14 +118,27 @@ test("LC10 metadata naming a missing recording is an actionable error with the p
   for (const d of [en, uz]) assert.match(d.listeningImport.problems.audio_reference_missing, /\{ref\}/);
 });
 
-test("ZIP limits stay: size ceiling, file count, text asset size", () => {
+test("ZIP limits stay: compressed and expanded size, entry count, text asset size", () => {
   const src = readFileSync("src/lib/import/archive.ts", "utf8");
-  assert.match(src, /MAX_TOTAL = 200 \* 1024 \* 1024/);
-  assert.match(src, /\+\+count > 200/);
+  assert.match(src, /DEFAULT_LIMIT = 200 \* 1024 \* 1024/);
+  assert.match(src, /DEFAULT_ENTRIES = 200/);
   assert.match(readFileSync("src/lib/listening/zip.ts", "utf8"), /5 \* 1024 \* 1024/);
-  const many: Record<string, Uint8Array> = {};
-  for (let i = 0; i < 201; i++) many[`f${i}.txt`] = strToU8("x");
-  assert.throws(() => readListeningZip(zipSync(many)), /too many files/);
+
+  assert.throws(
+    () => readSafeArchive(new Uint8Array(4), { maxCompressedBytes: 3 }),
+    /ZIP exceeds compressed size limit/,
+  );
+  assert.throws(
+    () => readSafeArchive(zipSync({ "expanded.txt": strToU8("too large") }), { maxExpandedBytes: 4 }),
+    /Expanded ZIP exceeds size limit/,
+  );
+  assert.equal(Object.keys(readSafeArchive(zipSync(Object.fromEntries(
+    Array.from({ length: 200 }, (_, index) => [`f${index}.txt`, strToU8("x")]),
+  )))).length, 200, "the default entry bound accepts exactly 200 files");
+
+  const tooMany: Record<string, Uint8Array> = {};
+  for (let i = 0; i < 201; i++) tooMany[`f${i}.txt`] = strToU8("x");
+  assert.throws(() => readListeningZip(zipSync(tooMany)), /too many files/);
   assert.throws(() => readListeningZip(zipSync({ "big.txt": new Uint8Array(5 * 1024 * 1024 + 1) })), /Text asset too large/);
 });
 

@@ -1,0 +1,1 @@
+CREATE INDEX "users_riwi_active_student_target_idx" ON "users" USING btree (lower(trim("name")),"id") WHERE "users"."role" = 'student' AND "users"."account_status" = 'active';

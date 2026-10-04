@@ -48,7 +48,7 @@ export type UploadOutcome =
   | { ok: false; error: UploadErrorCodeAll; failure: UploadFailure };
 
 export type StartUploadOptions = {
-  purpose: "material_primary" | "material_block" | "speaking_recording";
+  purpose: "material_primary" | "material_block" | "speaking_recording" | "riwi_knowledge_source";
   blockKind?: "image" | "audio" | "file";
   materialId?: string;
   /** Set for purpose="speaking_recording" — the attempt the recording belongs to. */
@@ -246,6 +246,9 @@ function startUploadOnce(file: Blob & { name: string }, options: StartUploadOpti
         form.append("uploadId", intent.uploadId);
         form.append("file", file);
         request.open("POST", "/api/uploads");
+        // The server uses this authenticated intent id to set the streaming
+        // body cap before it parses the multipart form.
+        request.setRequestHeader("X-Upload-Id", intent.uploadId);
         request.send(form);
       }
     });

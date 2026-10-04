@@ -10,9 +10,9 @@ import {
 } from "@/db/schema";
 import { liveWhere, isLive } from "@/lib/services/cms/publication";
 import { isStaff, type Role } from "@/lib/auth/roles";
-export async function fullListeningDetail(testId: string, role: Role) {
-  if (!(await listeningSchemaReady())) return null;
-  const rows = await db
+export async function fullListeningDetail(testId: string, role: Role, database: typeof db = db) {
+  if (!(await listeningSchemaReady(database))) return null;
+  const rows = await database
     .select({ test: listeningTests, pkg: listeningPackages })
     .from(listeningPackages)
     .innerJoin(listeningTests, eq(listeningTests.id, listeningPackages.testId))
@@ -185,8 +185,8 @@ export async function allowedListeningSpeeds(userId: string, testId: string) {
 }
 
 /** Exam state the Listening lexical policy needs (src/lib/listening/lexical-policy.ts). */
-export async function listeningExamState(user: { id: string; role: Role }, testId: string) {
-  const rows = await db
+export async function listeningExamState(user: { id: string; role: Role }, testId: string, database: typeof db = db) {
+  const rows = await database
     .select({ status: listeningAttempts.status })
     .from(listeningAttempts)
     .where(and(eq(listeningAttempts.userId, user.id), eq(listeningAttempts.testId, testId)));

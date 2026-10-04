@@ -31,6 +31,24 @@ export function requestOrigin(req: NextRequest, env: Record<string, string | und
 
 export type OriginCheck = { allowed: true } | { allowed: false; reason: string };
 
+export function checkSameOriginRead(req: NextRequest): OriginCheck {
+  const fetchSite = req.headers.get("sec-fetch-site")?.toLowerCase();
+  if (fetchSite === "cross-site" || fetchSite === "same-site") return { allowed: false, reason: "cross_site_read" };
+
+  const expected = requestOrigin(req);
+  const origin = req.headers.get("origin");
+  if (origin && (origin === "null" || normalizeOrigin(origin) !== expected)) {
+    return { allowed: false, reason: "cross_origin_read" };
+  }
+  const referer = req.headers.get("referer");
+  if (referer) {
+    try {
+      if (new URL(referer).origin !== expected) return { allowed: false, reason: "cross_origin_referer" };
+    } catch { return { allowed: false, reason: "invalid_referer" }; }
+  }
+  return { allowed: true };
+}
+
 export function checkRequestOrigin(req: NextRequest): OriginCheck {
   if (isSafeMethod(req.method)) return { allowed: true };
   const allowed = new Set([requestOrigin(req), ...trustedOrigins]);

@@ -55,6 +55,27 @@ export class LocalDiskStorageProvider implements StorageService {
     await writeFile(filePath, body);
   }
 
+  async putIfAbsent({ key, body }: PutInput): Promise<boolean> {
+    const filePath = this.resolve(key);
+    await mkdir(path.dirname(filePath), { recursive: true });
+    let handle;
+    try { handle = await open(filePath, "wx", 0o600); }
+    catch (error) {
+      if ((error as NodeJS.ErrnoException).code === "EEXIST") return false;
+      throw error;
+    }
+    try {
+      await handle.writeFile(body);
+      return true;
+    } catch (error) {
+      await handle.close().catch(() => undefined);
+      await unlink(filePath).catch(() => undefined);
+      throw error;
+    } finally {
+      await handle.close().catch(() => undefined);
+    }
+  }
+
   async presignPut(_input: { key: ObjectKey; contentType: string; expiresInSeconds: number }): Promise<PresignedPut | null> {
     // Nothing to presign against — the app server *is* the storage host. The
     // client falls back to the proxy path (POST /api/uploads) for this
@@ -88,6 +109,31 @@ export class LocalDiskStorageProvider implements StorageService {
       return { body: await readFile(this.resolve(key)), contentType: inferContentType(key) };
     } catch {
       return null;
+    }
+  }
+
+  async readBounded(key: ObjectKey, maxBytes: number): Promise<ReadResult | null> {
+    if (!Number.isSafeInteger(maxBytes) || maxBytes < 0 || maxBytes >= Number.MAX_SAFE_INTEGER) {
+      throw new RangeError("Invalid bounded-read size");
+    }
+    const filePath = this.resolve(key);
+    let handle;
+    try { handle = await open(filePath, "r"); }
+    catch { return null; }
+    try {
+      const stats = await handle.stat();
+      if (!stats.isFile()) return null;
+      const length = Math.min(stats.size, maxBytes + 1);
+      const buffer = Buffer.alloc(length);
+      let bytesRead = 0;
+      while (bytesRead < length) {
+        const result = await handle.read(buffer, bytesRead, length - bytesRead, bytesRead);
+        if (result.bytesRead === 0) break;
+        bytesRead += result.bytesRead;
+      }
+      return { body: buffer.subarray(0, bytesRead), contentType: inferContentType(key) };
+    } finally {
+      await handle.close();
     }
   }
 
