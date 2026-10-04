@@ -7,20 +7,20 @@ import { LivePartnerClient } from "@/components/speaking/LivePartnerClient";
 
 export const dynamic = "force-dynamic";
 
-/** Opening this page never changes presence: the learner stays OFFLINE until Go Online. */
+/** The client registers availability while this room is mounted. */
 export default async function LivePartnerPage() {
   const user = await requireActiveUser();
   if (!user) return null;
   const dict = getDictionary(await getLocale());
   const [questions, profile] = await Promise.all([listLivePartnerQuestions(), getLivePartnerProfile(user.id)]);
   return (
-    <div className="mx-auto flex max-w-6xl flex-col gap-4" data-route-usable="live-partner">
+    <div className="mx-auto flex w-full max-w-[1840px] flex-col gap-4" data-route-usable="live-partner">
       <BackLink fallbackHref="/speaking" label={dict.common.back} />
       <div>
         <h1 className="font-display text-2xl text-ink-900">{dict.livePartner.title}</h1>
         <p className="text-sm text-ink-500">{dict.livePartner.intro}</p>
       </div>
-      <LivePartnerClient dict={dict} me={{ name: user.name, ...profile }} questions={questions} />
+      <LivePartnerClient dict={dict} me={{ userId: user.id, name: user.name, ...profile }} questions={questions} />
     </div>
   );
 }

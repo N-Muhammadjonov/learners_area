@@ -348,6 +348,16 @@ export async function addVocabularyBatch(input: {
       if (!folder) return { ok: false as const, error: "folder_not_found" };
     }
 
+    let destinationFolderId = input.folderId ?? null;
+    if (!destinationFolderId && (input.sourceType === "listening" || input.sourceType === "reading")) {
+      const name = input.sourceType === "listening" ? "Listening" : "Reading";
+      const [created] = await tx.insert(vocabFolders).values({ userId: input.userId, name })
+        .onConflictDoNothing({ target: [vocabFolders.userId, vocabFolders.name] }).returning({ id: vocabFolders.id });
+      const existing = created ?? await tx.query.vocabFolders.findFirst({ where: and(eq(vocabFolders.userId, input.userId), eq(vocabFolders.name, name)) });
+      if (!existing) throw new Error("Default vocabulary folder unavailable");
+      destinationFolderId = existing.id;
+    }
+
     // The identity of a word is its spelling, its part of speech and its ENGLISH
     // MEANING. Both the within-batch collapse and the "is it already in the
     // library" check use this one key, so two senses of one spelling stay apart
@@ -440,7 +450,7 @@ export async function addVocabularyBatch(input: {
           userId: input.userId,
           lexemeId: lexeme.id,
           senseKey,
-          folderId: input.folderId ?? null,
+          folderId: destinationFolderId,
           topicPack: input.topicPack ?? null,
           sourceType: input.sourceType ?? "manual",
           sourceId: input.sourceId ?? null,

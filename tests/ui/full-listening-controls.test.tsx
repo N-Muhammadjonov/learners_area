@@ -392,7 +392,8 @@ test("Same study content before exam submission: plain text, no word targets, no
 test("Vocabulary Session shows the CANONICAL sense, not a conflicting package definition, and saves by sense id", async () => {
   const posted: Record<string, unknown>[] = [];
   const original = globalThis.fetch;
-  globalThis.fetch = (async (_url: string, options: RequestInit) => {
+  globalThis.fetch = (async (url: string, options: RequestInit) => {
+    if (url === "/api/vocabulary/folders") return new Response(JSON.stringify({ folders: [{ id: "44444444-4444-4444-8444-444444444444", name: "My words" }] }), { headers: { "Content-Type": "application/json" } });
     posted.push(JSON.parse(String(options.body)));
     return new Response(JSON.stringify({ ok: true }), { headers: { "Content-Type": "application/json" } });
   }) as typeof fetch;
@@ -412,6 +413,13 @@ test("Vocabulary Session shows the CANONICAL sense, not a conflicting package de
         assert.equal(document.querySelector("[data-session-sense]")?.getAttribute("data-session-sense"), "22222222-2222-4222-8222-222222222222");
         assert.equal(document.querySelector("[data-clickable-text]"), null, "the session is its own study surface, not the transcript popup");
         await act(async () => Array.from(document.querySelectorAll("button")).find((b) => b.textContent?.includes("+ Vocabulary"))!.click());
+        assert.equal(posted.length, 0, "opening the chooser does not save yet");
+        const chooser = document.querySelector("[data-listening-vocabulary-folder]")!;
+        assert.ok(chooser);
+        const select = chooser.querySelector("select")!;
+        await act(async () => { select.value = "44444444-4444-4444-8444-444444444444"; select.dispatchEvent(new dom.window.Event("change", { bubbles: true })); });
+        await act(async () => chooser.querySelector("button")!.click());
+        assert.equal(posted[0]?.folderId, "44444444-4444-4444-8444-444444444444");
         assert.equal(posted[0]?.sessionSenseId, "22222222-2222-4222-8222-222222222222");
         assert.equal((posted[0]?.items as { definitionEn?: string }[])[0]?.definitionEn, undefined, "no local definition is sent as truth");
       },

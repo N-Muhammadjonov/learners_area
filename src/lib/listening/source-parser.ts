@@ -52,7 +52,7 @@ function examHtml(files: Record<string, string>): string | undefined {
 }
 export function slugTestId(value: string): string {
   return value
-    .replace(/\.zip$/i, "")
+    .replace(/\.(?:zip|html?)$/i, "")
     .normalize("NFKD")
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
@@ -65,6 +65,10 @@ export function convertLegacyPackage(
   read: HtmlDocumentReader,
   options: LegacyOptions = {},
 ): ListeningPackage {
+  const structuredSource = Object.values(files).find(source => /\b(?:const|let|var)\s+DATA\s*=\s*\{/.test(source) && /part_audio_boundaries/.test(source));
+  if (structuredSource) return convertStructuredPractice(structuredSource, durationSec, options, read);
+  const modernSource = Object.values(files).find(source => /\bconst\s+D\s*=\s*\{/.test(source));
+  if (modernSource) return convertResearchPractice(modernSource, durationSec, options, read);
   const html = examHtml(files);
   if (!html) throw new ListeningImportProblem("no_question_source");
   // metadata.json is helpful but no longer mandatory. When it is absent the
@@ -210,5 +214,68 @@ export function convertLegacyPackage(
     keyword1,
     keyword2,
     vocabulary,
+  });
+}
+
+/** Owner-authored monolithic research-practice HTML: JSON data only. */
+function convertResearchPractice(html: string, durationSec: number, options: LegacyOptions, read: HtmlDocumentReader): ListeningPackage {
+  const source = jsonLiteral(html, "const D =") as { questions?: unknown; sections?: unknown; vocab?: { word: string; type: string; uz: string; def: string; source: string; also: string[] }[]; scriptCompletion?: { q: number; at: number; end: number; before: string; answer: string; after: string }[]; partRanges?: Record<string, [number, number]>; focus?: { part: number; title: string; points: string[] }[] };
+  return listeningPackageSchema.parse({
+    schemaVersion: 1, testId: slugTestId(options.fallbackTestId ?? "listening-research-practice"), title: read(html).querySelector("h1")?.textContent?.trim() || options.fallbackTestId || "Listening", category: "full", collection: "academic", provenance: "Owner-provided research-practice HTML; parsed JSON without executing uploaded scripts", audio: { path: options.audioPath, durationSec }, imagePath: /\[embedded:embedded-listening-map.png\]/.test(html) ? "embedded-listening-map.png" : null,
+    questions: source.questions, sections: source.sections,
+    keyword1: source.scriptCompletion?.map((row, index) => ({ q: index + 1, sourceQuestion: row.q, at: row.at, end: row.end, text: `${row.before}_____ ${row.after}`, heard: `${row.before}${row.answer}${row.after}`, link: row.answer })) ?? [], keyword2: [],
+    vocabulary: source.vocab?.map(row => ({ word: row.word, pos: row.type, uz: row.uz, def: row.def, ex: row.source, also: row.also })) ?? [],
+    studyPack: { kind: "research-practice", activities: ["exam", "review", "script", "mcq", "recall", "vocab"], partRanges: source.partRanges, recall: source.focus },
+  });
+}
+
+/** A second authored HTML family. Inputs are JSON and inert DOM; executable HTML is never trusted. */
+function convertStructuredPractice(html: string, durationSec: number, options: LegacyOptions, read: HtmlDocumentReader): ListeningPackage {
+  const source = jsonLiteral(html, "const DATA =") as {
+    test_id: string; title: string; sections: string[]; transcript: Record<string, string>;
+    questions: Record<string, { q: number; part: number; prompt: string; answer: string; timeStart: number; timeEnd: number; why: string; trap?: string; options?: { code: string; text: string }[] }>;
+    alternatives: Record<string, string[]>; question_types: Record<string, string>;
+    part_audio_boundaries: Record<string, { start: number; end: number }>;
+    script_completion: { q: number; part: number; n?:number; match?:string; prompt?: string; answer: string; start?: number; end?: number }[];
+    vocabulary: { headword: string; type: string; definition: string; uzbek: string; context: string; paraphrases?: string[] }[];
+    activities: string[];
+  };
+  const parts = jsonLiteral(html, "const PARTS =") as Record<string, string>;
+  const kindOf = (n: number): "completion" | "mcq" | "matching" => {
+    const authored = Object.entries(source.question_types).find(([range]) => { const [a,b] = range.split("-").map(Number); return n >= a! && n <= (b ?? a!); })?.[1] ?? "";
+    return /matching/i.test(authored) ? "matching" : /mcq/i.test(authored) ? "mcq" : "completion";
+  };
+  const questions = Object.values(source.questions).sort((a,b) => a.q-b.q).map(row => {
+    const document = read(parts[String(row.part)] ?? "");
+    const control = document.getElementById(`q${row.q}`);
+    const instruction = control?.closest(".task-card")?.querySelector(".instructions-block")?.textContent?.replace(/\s+/g," ").trim() ?? "";
+    return { number: row.q, section: row.part, text: row.prompt, instruction, kind: kindOf(row.q), options: row.options?.map(o => o.text.match(new RegExp(`^${o.code}[).\\s]`)) ? o.text : `${o.code}) ${o.text}`) ?? [], key: row.answer, alternatives: source.alternatives[String(row.q)] ?? [], pair: [], evidence: { at: row.timeStart, end: row.timeEnd, why: [row.why, row.trap].filter(Boolean).join("\n") } };
+  });
+  const activities: ("exam"|"review"|"script"|"mcq"|"matching"|"completion"|"vocab"|"retry")[] = ["exam", "review"];
+  if (source.script_completion?.length) activities.push("script");
+  if (questions.some(q => q.kind === "mcq")) activities.push("mcq");
+  if (questions.some(q => q.kind === "matching")) activities.push("matching");
+  if (questions.some(q => q.kind === "completion")) activities.push("completion");
+  if (source.vocabulary?.length) activities.push("vocab");
+  if (source.activities?.some(name => /retry/i.test(name))) activities.push("retry");
+  const cursors:Record<number,number>={};
+  const gaps = source.script_completion.map(row=>{
+    const transcript=source.transcript[String(row.part)] ?? "";
+    const boundary=source.part_audio_boundaries[String(row.part)];
+    if(!boundary)throw new Error("Script part missing");
+    let snippet=row.prompt;
+    if(row.match){const at=transcript.indexOf(row.match,cursors[row.part]??0);if(at<0)throw new Error(`Script gap ${row.q} absent from transcript`);cursors[row.part]=at+row.match.length;snippet=transcript.slice(Math.max(0,at-90),at)+"_____"+transcript.slice(at+row.match.length,at+row.match.length+90);}
+    if(!snippet)throw new Error("Script gap has no source text");
+    return {q:row.q,part:row.part,at:row.start ?? boundary.start,end:row.end ?? boundary.end,text:snippet,heard:snippet.replace(/_{2,}/,row.answer),link:row.answer};
+  });
+  const scriptParts = source.script_completion.every(row=>row.match) ? source.sections.map((_,index)=>({part:index+1,transcript:source.transcript[String(index+1)],gaps:source.script_completion.filter(row=>row.part===index+1).map(row=>({q:row.q,match:row.match!,answer:row.answer}))})) : undefined;
+  return listeningPackageSchema.parse({
+    schemaVersion: 1, testId: slugTestId(source.test_id || options.fallbackTestId || source.title), title: source.title,
+    category: "full", collection: "academic", provenance: "Owner-provided structured practice HTML; authored transcript, question types, evidence and activities; no scripts executed",
+    audio: { path: options.audioPath, durationSec }, imagePath: null,
+    sections: source.sections.map((title, index) => ({ number: index+1, title, transcript: source.transcript[String(index+1)] ?? "", reviewRequired: false })), questions,
+    keyword1: gaps, keyword2: [],
+    vocabulary: source.vocabulary.map(row => ({ word: row.headword, pos: /collocation/i.test(row.type) ? "collocation" : row.type.split("·")[0]!.trim(), def: row.definition, uz: row.uzbek, ex: row.context, also: row.paraphrases ?? [] })),
+    studyPack: { kind: "research-practice", activities, scriptParts, recall: [], partRanges: Object.fromEntries(Object.entries(source.part_audio_boundaries).map(([part,range]) => [part, [range.start, range.end]])) },
   });
 }

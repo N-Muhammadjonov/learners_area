@@ -36,12 +36,12 @@ const props = { dict: en, me: { name: "Ali", avatar: "a" as const, hasGender: tr
 ] };
 const flush = async () => { await act(async () => { await new Promise((r) => setTimeout(r, 0)); }); };
 
-test("transport not ready: notice shown, Go Online disabled, nobody can enter a call; S — shown", async () => {
+test("transport not ready: notice shown, automatic entry makes no POST; S — shown", async () => {
   await act(async () => { root.render(React.createElement(LivePartnerClient, props)); });
   await flush();
   assert.ok(container.querySelector("[data-realtime-unavailable]"));
-  const go = [...container.querySelectorAll("button")].find((b) => b.textContent === en.livePartner.goOnline)!;
-  assert.equal(go.disabled, true);
+  assert.equal([...container.querySelectorAll("button")].some(b => b.textContent === en.livePartner.goOnline), false);
+  assert.equal(calls.some(call => call.method === "POST"), false);
   assert.ok(container.textContent!.includes("S —"));
 });
 
@@ -65,21 +65,52 @@ test("rules dialog: focus moves in, Escape closes and restores focus; double cli
   const r2 = createRoot(c2);
   await act(async () => { r2.render(React.createElement(LivePartnerClient, props)); });
   await flush();
-  const go = [...c2.querySelectorAll("button")].find((b) => b.textContent === en.livePartner.goOnline)!;
-  assert.equal(go.disabled, false);
-  go.focus();
-  await act(async () => { go.click(); });
+  const rulesButton = [...c2.querySelectorAll("button")].find(b => b.textContent === en.livePartner.rulesTitle)!;
   const dialog = c2.querySelector('[role="dialog"]')!;
   assert.ok(dialog, "rules dialog opens");
   assert.ok(dialog.contains(document.activeElement), "focus is inside the dialog");
   await act(async () => { document.dispatchEvent(new dom.window.KeyboardEvent("keydown", { key: "Escape", bubbles: true })); });
   assert.equal(c2.querySelector('[role="dialog"]'), null);
-  assert.equal(document.activeElement, go, "focus returns to the trigger");
-  await act(async () => { go.click(); });
+  rulesButton.focus();
+  await act(async () => { rulesButton.click(); });
   const agree = [...c2.querySelectorAll("button")].find((b) => b.textContent === en.livePartner.agree)!;
-  const posts = () => calls.filter((c) => c.method === "POST").length;
+  const posts = () => calls.filter((c) => c.method === "POST" && (c.body as { action: string }).action === "accept_rules").length;
   const p0 = posts();
   await act(async () => { agree.click(); agree.click(); });
   assert.equal(posts() - p0, 1, "synchronous single-flight");
   await act(async () => { r2.unmount(); });
+});
+
+
+test("search reveals matching topics in every part; topics open questions with next and back", async () => {
+  realtimeReady = false;
+  const target = document.createElement("div"); document.body.appendChild(target);
+  const instance = createRoot(target);
+  await act(async () => { instance.render(React.createElement(LivePartnerClient, { ...props, questions: [...props.questions, { id: "3", part: "part1", topic: "Home", promptText: "What is your home like?", cueCard: null }] })); });
+  await flush();
+  const input = target.querySelector<HTMLInputElement>('input[type="search"]')!;
+  await act(async () => {
+    Object.getOwnPropertyDescriptor(dom.window.HTMLInputElement.prototype, "value")!.set!.call(input, "des");
+    input.dispatchEvent(new dom.window.Event("input", { bubbles: true }));
+    input.dispatchEvent(new dom.window.Event("change", { bubbles: true }));
+  });
+  const cafe = [...target.querySelectorAll("button")].find(button => button.textContent === "Café→")!;
+  assert.ok(cafe, "a Part 2 match appears while Part 1 is selected");
+  await act(async () => cafe.click());
+  assert.ok(target.querySelector("[data-partner-topic-question]")?.textContent?.includes("Describe a café"));
+  const back = [...target.querySelectorAll("button")].find(button => button.textContent === `← ${en.common.back}`)!;
+  await act(async () => back.click());
+  assert.equal(target.querySelector("[data-partner-topic-question]"), null);
+  await act(async () => {
+    Object.getOwnPropertyDescriptor(dom.window.HTMLInputElement.prototype, "value")!.set!.call(input, "");
+    input.dispatchEvent(new dom.window.Event("input", { bubbles: true }));
+    input.dispatchEvent(new dom.window.Event("change", { bubbles: true }));
+  });
+  const home = [...target.querySelectorAll("button")].find(button => button.textContent === "Home→")!;
+  await act(async () => home.click());
+  const next = [...target.querySelectorAll("button")].find(button => button.textContent === `${en.livePartner.nextQuestion} →`)!;
+  assert.ok(next, "learner navigation is labelled Next question rather than an authoring action");
+  await act(async () => next.click());
+  assert.ok(target.querySelector("[data-partner-topic-question]")?.textContent?.includes("What is your home like?"));
+  await act(async () => instance.unmount());
 });

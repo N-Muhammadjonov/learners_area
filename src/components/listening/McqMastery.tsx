@@ -24,7 +24,7 @@ type Payload = {
   next: { to: McqStage; field: McqField | null; minLength: number } | null;
 };
 
-type Question = { id: string; order: number; questionText: string; stage: McqStage };
+type Question = { id: string; order: number; questionText: string; stage: McqStage; at?: number };
 
 type ListeningKey = Exclude<keyof Dictionary["listening"], "type">;
 
@@ -55,9 +55,11 @@ const FIELD_LABEL: Record<McqField, ListeningKey> = {
 export function McqMastery({
   dict,
   questions: initialQuestions,
+  audioUrl,
 }: {
   dict: Dictionary;
   questions: Question[];
+  audioUrl?: string | null;
 }) {
   const requestResponse = useScopedResponse(25000);
 
@@ -154,6 +156,7 @@ export function McqMastery({
 
               {isOpen && payload && payload.question.id === q.id && (
                 <div className="mt-3 rounded-sm border border-ink-100 p-3">
+                  {audioUrl && <audio key={q.id} src={`${audioUrl}#t=${q.at ?? 0}`} controls preload="none" className="mb-3 max-w-full" aria-label={`${dict.fullListeningHub.research.listenPart} · ${q.order}`} />}
                   {/* Before the reveal, the options are not in this page at all. */}
                   {!payload.options && (
                     <p className="mb-2 text-xs text-ink-300" data-mcq-options-hidden>

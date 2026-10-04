@@ -32,8 +32,8 @@
   --paper-raised: 255 255 255; /* #FFFFFF */
   --paper-sunken: 242 240 249; /* #F2F0F9 */
 
-  --accent: 92 70 201; /* #5C46C9 */
-  --accent-strong: 68 51 166; /* #4433A6 */
+  --accent: 79 70 229; /* #4F46E5 */
+  --accent-strong: 67 56 202; /* #4338CA */
   --accent-soft: 238 234 251; /* #EEEAFB */
   --accent-contrast: 255 255 255;
 
@@ -67,10 +67,10 @@
   --paper-raised: 17 20 33; /* #111421 — cards */
   --paper-sunken: 21 24 39; /* #151827 — secondary surface / inputs */
 
-  --accent: 230 185 79; /* #E6B94F — gold */
-  --accent-strong: 240 204 116; /* #F0CC74 — light gold */
-  --accent-soft: 38 33 20; /* gold at ~10% over night surface */
-  --accent-contrast: 15 17 28; /* text that stays readable on gold */
+  --accent: 99 102 241; /* #6366F1 */
+  --accent-strong: 79 70 229; /* #4F46E5 */
+  --accent-soft: 30 29 60;
+  --accent-contrast: 255 255 255;
 
   --gold: 230 185 79;
   --gold-light: 240 204 116;
@@ -246,19 +246,19 @@
     @apply btn bg-signal-600 text-signal-contrast hover:bg-signal-700;
   }
   .btn-secondary {
-    @apply btn bg-paper-sunken text-ink-900 hover:bg-ink-100;
+    @apply btn border border-signal-600/25 bg-signal-50 text-signal-600 hover:bg-signal-600/15;
   }
   .btn-ghost {
-    @apply btn text-ink-500 hover:bg-paper-sunken hover:text-ink-900;
+    @apply btn text-signal-600 hover:bg-signal-600/15;
   }
   /* Gold outline action — the night-time secondary emphasis. */
   .btn-gold {
-    @apply btn border border-gold/60 bg-transparent text-ink-900 hover:bg-gold/15;
+    @apply btn border border-signal-600/60 bg-transparent text-signal-600 hover:bg-signal-600/15;
   }
   /* The primary action in the centre's own colours: gold on navy, or navy text
      on gold — never a borrowed accent. */
   .btn-gold-solid {
-    @apply btn bg-gold font-medium text-ink-950 hover:bg-gold-light;
+    @apply btn bg-signal-600 font-medium text-signal-contrast hover:bg-signal-700;
   }
 
   /* Touch targets: a 36px button is comfortable with a mouse and cramped with a
@@ -312,8 +312,9 @@
   padding: 0;
 }
 [data-focus="on"] .focus-main-inner {
-  max-width: 1100px;
-  margin: 0 auto;
+  max-width: none;
+  width: 100%;
+  margin: 0;
   padding: 1.5rem;
 }
 /* The sidebar takes real space in the shell grid, so hiding its contents is not
@@ -322,8 +323,8 @@
   display: none;
 }
 [data-focus="on"] [data-shell-main] {
-  max-width: 1180px;
-  margin-inline: auto;
+  max-width: none;
+  margin-inline: 0;
   width: 100%;
 }
 
@@ -1206,3 +1207,25 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 .study-rich-text th, .study-rich-text td { border: 1px solid rgb(var(--ink-100)); padding: .4em; }
 .study-rich-text mark { background: #fff1a8; color: #16362b; }
 @media (max-width: 639px) { .live-partner-workspace .lp-panel { padding: 16px; } }
+
+/* The supplied Listening study pack has its own reading-friendly palette. */
+.listening-workspace {
+ --paper: 15 17 32; --ink-900: 240 241 252; --ink-700: 214 216 238;
+ --ink-500: 154 160 195; --ink-300: 171 168 255; --ink-100: 39 43 69;
+ --ink-50: 23 26 48; --signal-50: 29 33 64; --signal-100: 39 43 69;
+ --signal-600: 171 168 255; --signal-700: 171 168 255;
+ color: #f0f1fc; background: #0f1120; border-radius: 1.5rem; padding: clamp(1rem, 3vw, 2.5rem);
+}
+.listening-workspace .card, .listening-workspace .panel { background: linear-gradient(130deg,#171a30,#1d2140); border-color:#272b45; }
+.listening-workspace .input { background:#101322; color:#f0f1fc; border-color:#343953; }
+.listening-workspace .font-display { color:#f0f1fc; }
+.listening-workspace .listening-library-badge { background:#272b45; color:#aba8ff; }
+.listening-workspace .btn-primary { background:#4f46e5; color:white; }
+.listening-workspace .btn-secondary { background:#1d2140; border-color:#414572; color:#aba8ff; }
+.listening-eyebrow { color:#8b87ff; text-transform:uppercase; letter-spacing:.1em; font-weight:700; }
+.listening-purpose-grid { display:grid; grid-template-columns:minmax(0,1fr); gap:1rem; }
+.listening-purpose-grid .card { padding:1.4rem; border-radius:1.1rem; }
+@media(min-width:768px) { .listening-purpose-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .listening-exam-purpose { grid-column:1/-1; } }
+
+.listening-collection-tabs button[aria-pressed="true"] { color: white; background: rgb(var(--accent)); border-color: rgb(var(--accent)); }
+.listening-hub h1 { font-family: Georgia, "Times New Roman", serif; }

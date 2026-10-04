@@ -1,10 +1,10 @@
-import { desc, eq } from "drizzle-orm";
+import { and, desc, eq, inArray } from "drizzle-orm";
 import { db } from "@/db/client";
-import { users, writingSubmissions, writingPrompts, writingFeedback } from "@/db/schema";
+import { users, writingSubmissions, writingPrompts, writingFeedback, teacherStudentLinks } from "@/db/schema";
 
-export function listStudents() {
+export function listStudents(teacherId?: string) {
   return db.query.users.findMany({
-    where: eq(users.role, "student"),
+    where: and(eq(users.role, "student"), teacherId ? inArray(users.id, db.select({ id: teacherStudentLinks.studentUserId }).from(teacherStudentLinks).where(eq(teacherStudentLinks.teacherUserId, teacherId))) : undefined),
     orderBy: desc(users.createdAt),
   });
 }

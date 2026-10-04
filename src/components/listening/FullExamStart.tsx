@@ -44,7 +44,7 @@ export function FullExamStart({ id, title, dict }: { id: string; title: string; 
     osc.onended = () => void ctx.close();
   }
   return (
-    <div className="card mx-auto max-w-3xl space-y-5">
+    <div className="listening-workspace card mx-auto max-w-3xl space-y-5">
       <BackLink fallbackHref={`/listening/tests/${id}`} label={t.back} />
       <h1 className="font-display text-2xl">{t.title.replace("{title}", title)}</h1>
       <p>{t.rules}</p>

@@ -29,6 +29,8 @@ export async function listActiveTests() {
 export async function getStartableTest(testId: string) {
   const test = await db.query.listeningTests.findFirst({ where: eq(listeningTests.id, testId) });
   if (!test || !isLive(test)) return null;
+  const question = await db.query.listeningQuestions.findFirst({ where: eq(listeningQuestions.testId, testId) });
+  if (!question) return null;
   return test;
 }
 
@@ -196,4 +198,11 @@ export async function getOwnedMcqSession(userId: string, sessionId: string) {
       where: and(eq(listeningMcqSessions.id, sessionId), eq(listeningMcqSessions.userId, userId)),
     })) ?? null
   );
+}
+
+/** Legacy tests remain visible beside imported packages in the shared catalogue. */
+export async function legacyListeningCards(userId:string,management=false) {
+ const { listeningSchemaReady } = await import("./listening-schema-ready");
+ const ready=await listeningSchemaReady();
+ return db.select({id:listeningTests.id,title:listeningTests.title,duration:sql<number>`0`,activityCount:sql<number>`1`,completed:sql<number>`case when exists(select 1 from listening_attempts a where a.test_id=${listeningTests.id} and a.user_id=${userId} and a.status='completed') then 1 else 0 end`,started:sql<boolean>`exists(select 1 from listening_attempts a where a.test_id=${listeningTests.id} and a.user_id=${userId})`,collection:sql<string>`'academic'`,legacy:sql<boolean>`true`}).from(listeningTests).where(and(management?sql`${listeningTests.publicationState} <> 'archived'`:liveWhere(listeningTests),ready?sql`not exists(select 1 from listening_packages p where p.test_id=${listeningTests.id})`:undefined)).orderBy(asc(listeningTests.createdAt)).limit(200);
 }

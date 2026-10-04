@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import Link from "next/link";
 import { BackLink } from "@/components/ui/BackLink";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
@@ -10,7 +9,7 @@ import { MaterialPlayer } from "@/components/speaking/MaterialPlayer";
 import { BlockRenderer } from "@/components/speaking/BlockRenderer";
 import { RegionFailureNotice } from "@/components/interaction/RegionFailureNotice";
 
-const ORDER = ["part1", "part2", "part3", "general", "top_structures", "shadowing"] as const;
+const ORDER = ["part1", "part2", "part3", "general", "top_structures"] as const;
 type SpeakingEntryMaterials = Awaited<ReturnType<typeof listActiveMaterialsForEntry>>;
 type SpeakingMaterialsWithBlocks = Awaited<SpeakingEntryMaterials["blocksPromise"]>;
 
@@ -49,7 +48,8 @@ function SpeakingBlocksSkeleton() {
 }
 
 async function SpeakingMaterials({ dict }: { dict: ReturnType<typeof getDictionary> }) {
-  const { rows, blocksPromise } = await listActiveMaterialsForEntry();
+  const { rows: materials, blocksPromise } = await listActiveMaterialsForEntry();
+  const rows = materials.filter(row => row.material.category !== "shadowing");
   const byCategory = new Map<string, typeof rows>();
   for (const row of rows) {
     const list = byCategory.get(row.material.category) ?? [];
@@ -109,10 +109,7 @@ export default async function SpeakingLessonsPage() {
           <h1 className="font-display text-2xl text-ink-900">{dict.speakingHub.lessonsTitle}</h1>
           <p className="mt-1 text-base text-ink-500">{dict.speakingHub.lessonsBody}</p>
         </div>
-        {/* Shadowing is lesson content, not a fifth Speaking mode. */}
-        <Link href="/speaking/shadowing" className="btn-secondary" data-shadowing-link>
-          {dict.speakingShadowing.title} →
-        </Link>
+
       </div>
       <Suspense fallback={<SpeakingMaterialsSkeleton />}>
         <SpeakingMaterials dict={dict} />

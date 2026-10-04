@@ -130,7 +130,7 @@ export function FullListeningStudy({
     lexicalAssistance,
   };
   return (
-    <main className="mx-auto max-w-[1600px] space-y-6" data-listening-study>
+    <main className="listening-workspace mx-auto max-w-[1600px] space-y-6" data-listening-study>
       <Link className="btn-secondary" href={`/listening/tests/${id}`}>
         ← Test hub
       </Link>

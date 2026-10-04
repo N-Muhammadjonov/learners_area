@@ -192,7 +192,7 @@ export function PeopleTable({
                 data-person-status={person.accountStatus}
               >
                 <td className="py-2 pr-3">
-                  <span className="font-medium text-ink-900">{person.name}</span>
+                  {person.role === "student" ? <Link href={`/admin/people/${person.id}`} className="font-medium text-signal-600 underline underline-offset-4">{person.name}</Link> : <span className="font-medium text-ink-900">{person.name}</span>}
                   {person.id === actorId && (
                     <span className="ml-2 badge bg-signal-100 text-signal-700">{t.you}</span>
                   )}
@@ -253,7 +253,7 @@ export function PeopleTable({
           >
             <div>
               <p className="text-sm font-medium text-ink-900">
-                {person.name}
+                {person.role === "student" ? <Link href={`/admin/people/${person.id}`} className="text-signal-600 underline underline-offset-4">{person.name}</Link> : person.name}
                 {person.id === actorId && (
                   <span className="ml-2 badge bg-signal-100 text-signal-700">{t.you}</span>
                 )}

@@ -45,6 +45,7 @@ export default async function OwnerRetentionPage() {
         ))}
       </Card>
 
+      <Card className="space-y-3"><h2 className="font-display text-lg">{dict.retention.studentExport}</h2><p className="text-sm text-ink-500">{dict.retention.studentExportBody}</p><form action="/api/owner/student-export" method="get" className="flex flex-wrap items-end gap-3"><label>{dict.retention.fileFormat}<select name="format" className="input"><option value="pdf">{dict.retention.formats.pdf}</option><option value="docx">{dict.retention.formats.docx}</option><option value="zip">{dict.retention.formats.zip}</option></select></label><button type="submit" className="btn-primary">{dict.retention.downloadStudents}</button></form></Card>
       <RetentionRunner dict={dict} />
     </div>
   );

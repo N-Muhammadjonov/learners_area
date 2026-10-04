@@ -14,6 +14,8 @@ type TopicIdentity = { part: "part1" | "part2" | "part3"; topic: string | null; 
 const blank = () => studySupportSchema.parse({});
 export function SpeakingPromptComposer({ dict, prompts }: { dict: Dictionary; prompts: Prompt[] }) {
   const t = dict.speakingStudy;
+  const [browsePart, setBrowsePart] = useState("part1");
+  const [topicSearch, setTopicSearch] = useState("");
   const [module, setModule] = useState("practice_alone");
   const [channels, setChannels] = useState<string[]>([]);
   const [questions, setQuestions] = useState<QuestionDraft[]>([]);
@@ -36,6 +38,11 @@ export function SpeakingPromptComposer({ dict, prompts }: { dict: Dictionary; pr
     const key = JSON.stringify([p.part, p.topic, bank]);
     map.set(key, [...(map.get(key) ?? []), p]); return map;
   }, new Map<string, Prompt[]>()).values()];
+  const searchTerms = topicSearch.normalize("NFKC").toLocaleLowerCase().trim().split(/\s+/).filter(Boolean);
+  const visibleGroups = groups.filter(rows => rows[0]!.part === browsePart && rows.some(row => {
+    const text = `${row.topic ?? ""} ${row.promptText} ${row.cueCard ?? ""}`.normalize("NFKC").toLocaleLowerCase();
+    return searchTerms.every(term => text.includes(term));
+  }));
   function current(): QuestionDraft { return {id, promptText: question, cueCard: cue, followUps:questions[active]?.followUps ?? [], studySupport: support}; }
   function allQuestions() { const rows = questions.length ? [...questions] : [current()]; rows[active] = current(); return rows; }
   function show(q: QuestionDraft) { setId(q.id); setQuestion(q.promptText); setCue(q.cueCard); setSupport(q.studySupport); setOpen([]); setStatus(""); }
@@ -86,6 +93,6 @@ export function SpeakingPromptComposer({ dict, prompts }: { dict: Dictionary; pr
       {archiveConfirm && <div role="alert" className="space-y-2"><p>{t.archiveHelp}</p><button type="button" className="btn-secondary" disabled={pending} onClick={() => void save(true)}>{t.confirmArchive}</button><button type="button" className="btn-secondary ml-2" onClick={() => setArchiveConfirm(false)}>{t.cancel}</button></div>}
       {status && <p role="status">{status}</p>}
     </form>}
-    <details><summary>{t.editExisting} ({groups.length})</summary><ul className="max-h-80 space-y-2 overflow-auto pt-3">{groups.map(rows => <li key={rows[0]!.id}><button type="button" disabled={pending} className="btn-secondary w-full text-left" onClick={() => load(rows)}>{rows[0]!.part} · {rows[0]!.topic} · {rows.filter(q => q.publicationState !== "archived").length} {t.questions}{rows.every(q => q.publicationState === "archived") ? ` · ${t.archived}` : ""}</button></li>)}</ul></details>
+    <details><summary>{t.editExisting} ({groups.length})</summary><div className="space-y-3 pt-3"><div className="flex flex-wrap gap-2" aria-label={t.part}>{[1,2,3].map(n => <button key={n} type="button" className={browsePart === `part${n}` ? "btn-primary" : "btn-secondary"} aria-pressed={browsePart === `part${n}`} onClick={() => setBrowsePart(`part${n}`)}>PART {n}</button>)}</div><label className="block">{t.topic} / {t.question}<input type="search" className="input" value={topicSearch} onChange={e => setTopicSearch(e.target.value)} /></label><ul className="grid max-h-96 gap-2 overflow-auto sm:grid-cols-2">{visibleGroups.map(rows => <li key={rows[0]!.id}><button type="button" disabled={pending} className="btn-secondary w-full text-left" onClick={() => load(rows)}>{rows[0]!.part} · {rows[0]!.topic} · {rows.filter(q => q.publicationState !== "archived").length} {t.questions}{rows.every(q => q.publicationState === "archived") ? ` · ${t.archived}` : ""}</button></li>)}</ul><p role="status" className="text-sm text-ink-500">{visibleGroups.length} {t.topic}</p></div></details>
   </section>;
 }

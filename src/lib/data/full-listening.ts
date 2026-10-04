@@ -80,24 +80,25 @@ export async function fullListeningProgress(userId: string, testId: string) {
   };
 }
 /** Only small card metadata and SQL aggregate progress are loaded. No MP3 or full source payload. */
-export async function fullListeningCards(userId: string, page = 1) {
+export async function fullListeningCards(userId: string, page = 1, management = false) {
   if (!(await listeningSchemaReady())) return { rows: [], hasMore: false, unavailable: true };
   const rows = await db
     .select({
       id: listeningTests.id,
       title: listeningTests.title,
       sourceId: listeningPackages.sourceId,
+      authoredRuntime: sql<boolean>`${listeningPackages.payload}->'authoredRuntime' is not null`,
       collection: sql<string>`coalesce(${listeningPackages.payload}->>'collection', 'academic')`,
-      activityCount: sql<number>`2 + case when jsonb_array_length(${listeningPackages.payload}->'keyword1') > 0 then 1 else 0 end + case when jsonb_array_length(${listeningPackages.payload}->'keyword2') > 0 then 1 else 0 end + case when jsonb_array_length(${listeningPackages.payload}->'vocabulary') > 0 then 1 else 0 end`,
+      activityCount: sql<number>`case when ${listeningPackages.payload}->'studyPack'->'activities' is not null then jsonb_array_length(${listeningPackages.payload}->'studyPack'->'activities') when ${listeningPackages.payload}->'studyPack' is not null then 6 else 2 + case when jsonb_array_length(${listeningPackages.payload}->'keyword1') > 0 then 1 else 0 end + case when jsonb_array_length(${listeningPackages.payload}->'keyword2') > 0 then 1 else 0 end + case when jsonb_array_length(${listeningPackages.payload}->'vocabulary') > 0 then 1 else 0 end end`,
       sectionNumbers: sql<number[]>`(select jsonb_agg((s->>'number')::integer) from jsonb_array_elements(${listeningPackages.payload}->'sections') s)`,
       duration: sql<number>`(${listeningPackages.payload}->'audio'->>'durationSec')::real`,
       createdAt: listeningTests.createdAt,
-      completed: sql<number>`(case when exists(select 1 from listening_attempts a where a.test_id=${listeningTests.id} and a.user_id=${userId} and a.status='completed') then 1 else 0 end) + (select count(distinct r.activity)::integer from listening_activity_runs r where r.test_id=${listeningTests.id} and r.user_id=${userId} and r.completed=true and r.speed_rate is null)`,
+      completed: sql<number>`(case when exists(select 1 from listening_attempts a where a.test_id=${listeningTests.id} and a.user_id=${userId} and a.status='completed') then 1 else 0 end) + (select count(distinct (r.activity::text || coalesce(r.answers->>'_practice','')))::integer from listening_activity_runs r where r.test_id=${listeningTests.id} and r.user_id=${userId} and r.completed=true and r.speed_rate is null) + (case when ${listeningPackages.payload}->'studyPack' is not null and exists(select 1 from listening_questions q where q.test_id=${listeningTests.id} and q.type='multiple_choice') and not exists(select 1 from listening_questions q where q.test_id=${listeningTests.id} and q.type='multiple_choice' and not exists(select 1 from listening_mcq_sessions s where s.question_id=q.id and s.user_id=${userId} and s.stage='reasoned')) then 1 else 0 end)`,
       started: sql<boolean>`exists(select 1 from listening_attempts a where a.test_id=${listeningTests.id} and a.user_id=${userId})`,
     })
     .from(listeningPackages)
     .innerJoin(listeningTests, eq(listeningTests.id, listeningPackages.testId))
-    .where(liveWhere(listeningTests))
+    .where(management ? sql`${listeningTests.publicationState} <> 'archived'` : liveWhere(listeningTests))
     .orderBy(desc(listeningTests.createdAt))
     .limit(101)
     .offset((page - 1) * 100);
@@ -197,4 +198,12 @@ export async function listeningExamState(user: { id: string; role: Role }, testI
     examInProgress: rows.some((row) => row.status === "in_progress"),
     staff: isStaff(user.role),
   };
+}
+
+/** Trainer progress shares the existing practice-run table with an explicit scoped discriminator. */
+export async function listeningPracticeProgress(userId: string, testId: string) {
+  const runs = await db.select().from(listeningActivityRuns).where(and(eq(listeningActivityRuns.userId,userId),eq(listeningActivityRuns.testId,testId),eq(listeningActivityRuns.activity,4),sql`${listeningActivityRuns.answers}->>'_practice' is not null`)).orderBy(desc(listeningActivityRuns.createdAt)).limit(200);
+  const progress: Record<string, { complete: boolean; latest: typeof listeningActivityRuns.$inferSelect }> = {};
+  for (const run of runs) { const kind = run.answers._practice; if (!kind) continue; if (!progress[kind]) progress[kind] = { complete: false, latest: run }; if (run.completed) progress[kind]!.complete = true; }
+  return progress;
 }

@@ -1,4 +1,5 @@
-import { strFromU8 } from "fflate";
+import { extractEmbeddedListeningMedia } from "./embedded-media";
+import { strFromU8, strToU8 } from "fflate";
 import { readSafeArchive, readSafeArchiveAsync } from "../import/archive";
 import { isIgnoredEntry, isTextEntry, packageRoot } from "./discover";
 
@@ -21,9 +22,12 @@ function normalizeEntries(entries: Record<string, Uint8Array>) {
   const textFiles: Record<string, string> = {};
   for (const [path, value] of Object.entries(normalized))
     if (isTextEntry(path)) {
-      if (value.byteLength > 5 * 1024 * 1024)
-        throw new Error("Text asset too large");
-      textFiles[path] = strFromU8(value);
+      if (value.byteLength > 128 * 1024 * 1024) throw new Error("Text asset too large");
+      const extracted = /\.html?$/i.test(path) ? extractEmbeddedListeningMedia(strFromU8(value)) : { html: strFromU8(value), entries: {} };
+      for (const [mediaPath, bytes] of Object.entries(extracted.entries)) { if (normalized[mediaPath]) throw new Error("Duplicate embedded media"); normalized[mediaPath] = bytes; }
+      if (extracted.html.length > 5 * 1024 * 1024) throw new Error("Text asset too large");
+      textFiles[path] = extracted.html;
+      normalized[path] = strToU8(extracted.html);
     }
   return { entries: normalized, textFiles, root };
 }

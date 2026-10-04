@@ -92,7 +92,7 @@ export async function acceptRules(userId: string, version: number, now = new Dat
   });
 }
 
-/** Explicit Go Online only. Requires current rules and a known gender (system avatar). */
+/** Partner route entry requires current rules and a known profile gender. */
 export async function goOnline(userId: string, now = new Date(), connection: Database = db) {
   return connection.transaction(async (tx) => {
     await sweep(tx, now);

@@ -14,6 +14,7 @@ export function ClickableText(props: {
   sourceType: string;
   sourceId: string;
   className?: string;
+  inline?: boolean;
   occurrences?: OccurrenceSpan[];
   catalogueLookup?: boolean;
   /**
@@ -22,16 +23,17 @@ export function ClickableText(props: {
    */
   lexicalAssistance?: boolean;
 }) {
-  if (props.lexicalAssistance === false) return <div className={`whitespace-pre-line ${props.className ?? ""}`} data-plain-text>{props.text}</div>;
+  const Plain = props.inline ? "span" : "div";
+  if (props.lexicalAssistance === false) return <Plain className={`whitespace-pre-line ${props.className ?? ""}`} data-plain-text>{props.text}</Plain>;
   // A changed source/text cannot keep an anchor or an async form from the old text.
   return <LexicalText key={JSON.stringify([props.sourceType, props.sourceId, props.text])} {...props} />;
 }
 
-function LexicalText({ dict, text, sourceType, sourceId, className = "", occurrences = [], catalogueLookup = false }: Parameters<typeof ClickableText>[0]) {
+function LexicalText({ dict, text, sourceType, sourceId, className = "", inline = false, occurrences = [], catalogueLookup = false }: Parameters<typeof ClickableText>[0]) {
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
   const [active, setActive] = useState<number | null>(null);
   const [cursor, setCursor] = useState<number | null>(null);
-  const wrapperRef = useRef<HTMLDivElement | null>(null);
+  const wrapperRef = useRef<HTMLElement | null>(null);
   const gesture = useRef<{ x: number; y: number; started: number; cancelled: boolean } | null>(null);
   const tokens = useMemo(() => tokenise(text), [text]);
   const words = useMemo(() => tokens.flatMap((token, index) => token.isWord ? [index] : []), [tokens]);
@@ -72,11 +74,12 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "", occurre
   const contextualHits = selected ? occurrences.filter((row) => row.startChar <= selected.start && row.endChar >= selected.end) : [];
   const occurrence = contextualHits.length === 1 ? contextualHits[0] : undefined;
 
+  const Region = inline ? "span" : "div";
   return (
-    <div className={className}>
-      <p id={hintId} className="sr-only">{dict.vocabulary.textLookupHint}</p>
-      <div
-        ref={wrapperRef}
+    <Region className={className}>
+      <span id={hintId} className="sr-only">{dict.vocabulary.textLookupHint}</span>
+      <Region
+        ref={node => { wrapperRef.current = node; }}
         className="relative whitespace-pre-line outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal-600"
         data-clickable-text
         role="group"
@@ -135,16 +138,16 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "", occurre
             {token.value}
           </span>
         ) : token.value)}
-      </div>
+      </Region>
       <span id={cursorId} role="status" className="sr-only">{cursor === null ? "" : tokens[cursor]?.value}</span>
       {active !== null && anchor && <WordPopover key={`${sourceType}:${sourceId}:${active}:${occurrence?.id ?? ""}`}
         anchor={anchor} dict={dict} word={occurrence?.surfaceForm ?? tokens[active]!.clean} sourceType={sourceType} sourceId={sourceId} occurrenceId={occurrence?.id} catalogueLookup={catalogueLookup}
         onClose={() => close(true)} />}
-    </div>
+    </Region>
   );
 }
 
-function WordPopover({
+export function WordPopover({
   catalogueLookup = false,
   occurrenceId,
   anchor,
@@ -195,7 +198,8 @@ function WordPopover({
       const rightEdge = textBounds && textBounds.width >= box.width
         ? Math.min(width - 8, textBounds.right) : width - 8;
       const below = rect.bottom + 6;
-      const top = below + box.height <= height - 8 ? below : rect.top - box.height - 6;
+      const above = rect.top - box.height - 6;
+      const top = above >= 8 ? above : below;
       setPosition({
         left: Math.max(8, Math.min(rect.left, rightEdge - box.width)),
         top: Math.max(8, Math.min(top, height - box.height - 8)),
@@ -346,7 +350,7 @@ function WordPopover({
           <label className="text-xs text-ink-500">
             {t.games.set.folder}
             <select className="input mt-1" value={folderId} onChange={(event) => setFolderId(event.target.value)}>
-              <option value="">{t.folders.unassigned}</option>
+              <option value="">{sourceType === "listening" ? "Listening" : sourceType === "reading" ? "Reading" : t.folders.unassigned}</option>
               {folders.map((folder) => <option key={folder.id} value={folder.id}>{folder.name}</option>)}
             </select>
           </label>

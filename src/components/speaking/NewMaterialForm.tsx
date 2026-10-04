@@ -12,7 +12,7 @@ import { useBlockDrafts } from "./useBlockDrafts";
 import type { Dictionary } from "@/lib/i18n/en";
 import { apiErrorMessage } from "@/lib/api-error-message";
 
-type Category = "part1" | "part2" | "part3" | "general" | "shadowing" | "top_structures";
+type Category = "part1" | "part2" | "part3" | "general" | "top_structures";
 
 /**
  * Create a resource: primary file (or link) plus an ordered list of description
@@ -110,7 +110,7 @@ export function NewMaterialForm({ dict }: { dict: Dictionary }) {
             value={category}
             onChange={(e) => setCategory(e.target.value as Category)}
           >
-            {(["part1", "part2", "part3", "general", "top_structures", "shadowing"] as const).map((c) => (
+            {(["part1", "part2", "part3", "general", "top_structures"] as const).map((c) => (
               <option key={c} value={c}>
                 {t.category[c]}
               </option>

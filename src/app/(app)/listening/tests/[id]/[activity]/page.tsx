@@ -1,3 +1,6 @@
+import { ListeningPractice } from "@/components/listening/ListeningPractice";
+import { listeningPracticeProgress } from "@/lib/data/full-listening";
+import type { PracticeKind } from "@/lib/listening/activities";
 import { db } from "@/db/client";
 import { listeningOccurrenceSpans, listeningSegmentSpans, listeningVocabularySession } from "@/lib/services/lexical/listening-occurrences";
 import { lexicalAssistanceAllowed, modeForActivity } from "@/lib/listening/lexical-policy";
@@ -7,7 +10,7 @@ import {
   listMcqSessions,
   getAttemptDetail,
 } from "@/lib/data/listening";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import {
   fullListeningDetail,
@@ -28,10 +31,28 @@ export default async function Activity({
   if (!user) return null;
   const { id, activity } = await params;
   const n = Number(activity);
-  if (!isUuid(id) || !Number.isInteger(n) || n < 1 || n > 5) notFound();
+  const practiceKind = ["matching","completion","retry"].includes(activity) ? activity as PracticeKind : null;
+  if (!isUuid(id) || (!practiceKind && (!Number.isInteger(n) || n < 1 || n > 5))) notFound();
   const detail = await fullListeningDetail(id, user.role);
   if (!detail) notFound();
+  if (detail.pkg.payload.authoredRuntime) redirect(`/listening/tests/${id}`);
+  const dict = getDictionary(await getLocale());
+  if (practiceKind) {
+    if (!detail.pkg.payload.studyPack?.activities?.includes(practiceKind)) notFound();
+    if ((await listeningExamState(user,id)).examInProgress) return <p role="status">{dict.fullListeningHub.research.examLocked}</p>;
+    let questions = detail.pkg.payload.questions.filter(q => q.kind === practiceKind);
+    if (practiceKind === "retry") {
+      const progress = await fullListeningProgress(user.id,id);
+      const report = progress.exam ? await getAttemptDetail(progress.exam.id,user.id) : null;
+      const missed = new Set(report?.answers.filter(a=>a.isCorrect === false).map(a=>report.questions.find(q=>q.id===a.questionId)?.order));
+      questions = detail.pkg.payload.questions.filter(q=>missed.has(q.number));
+    }
+    const progress = await listeningPracticeProgress(user.id,id);
+    return <ListeningPractice id={id} title={detail.test.title} kind={practiceKind} audioUrl={detail.test.audioUrl} initial={progress[practiceKind]?.latest.answers ?? {}} dict={dict} questions={questions.map(q=>({number:q.number,text:q.text,instruction:q.instruction,options:q.options,at:q.evidence.at,end:q.evidence.end}))}/>;
+  }
+
   if (n === 1) return <FullExamStart id={id} title={detail.test.title} dict={getDictionary(await getLocale())} />;
+  if ((await listeningExamState(user, id)).examInProgress) return <p role="status">{dict.fullListeningHub.research.examLocked}</p>;
   const progress = await fullListeningProgress(user.id, id);
   // Review & Revision is the transcript study surface; the exam itself (activity 1)
   // never reaches this component, keyword drills keep their own interaction.
@@ -48,10 +69,11 @@ export default async function Activity({
     n === 5
       ? { vocabulary: await listeningVocabularySession(db, id, detail.pkg.payload.vocabulary) }
       : n === 3
-        ? { keyword1: detail.pkg.payload.keyword1 }
+        ? { keyword1: detail.pkg.payload.keyword1, questionSections: Object.fromEntries(detail.pkg.payload.questions.map(q=>[q.number,q.section])), studyPack: detail.pkg.payload.studyPack }
         : n === 4
-          ? { keyword2: detail.pkg.payload.keyword2 }
+          ? { keyword2: detail.pkg.payload.keyword2, studyPack: detail.pkg.payload.studyPack }
           : {
+              studyPack: detail.pkg.payload.studyPack,
               questions: detail.pkg.payload.questions,
               sections: detail.pkg.payload.sections,
               mapDiagram: detail.pkg.payload.mapDiagram,
@@ -83,11 +105,12 @@ export default async function Activity({
       title={detail.test.title}
       activity={n}
       data={data}
+      imageUrl={n === 2 && detail.pkg.imageObjectKey ? `/api/resources/${detail.pkg.imageObjectKey}` : null}
       audioUrl={n === 5 ? null : detail.test.audioUrl}
       initial={progress.activities[n - 1]?.latest?.answers ?? {}}
       lexicalAssistance={lexicalAssistance}
       segmentOccurrences={lexicalAssistance ? await listeningSegmentSpans(db, id) : {}}
-      occurrences={n === 2 && lexicalAssistance ? await listeningOccurrenceSpans(db, id) : {}}
+      occurrences={(n === 2 || n === 3) && lexicalAssistance ? await listeningOccurrenceSpans(db, id) : {}}
       dict={getDictionary(await getLocale())}
     />
   );

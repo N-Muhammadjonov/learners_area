@@ -1,5 +1,7 @@
 "use client";
+import { StartTestButton } from "./StartTestButton";
 import Link from "next/link";
+import { ListeningTestActions } from "./ListeningTestActions";
 import { useState } from "react";
 import type { Dictionary } from "@/lib/i18n/en";
 
@@ -14,8 +16,10 @@ type Card = {
   completed: number;
   started: boolean;
   collection?: string;
+  legacy?: boolean;
+  authoredRuntime?: boolean;
 };
-export function FullListeningLibrary({ cards, dict }: { cards: Card[]; dict: Dictionary }) {
+export function FullListeningLibrary({ cards, dict, management = false }: { cards: Card[]; dict: Dictionary; management?: boolean }) {
   const t = dict.fullListeningHub.library;
   const [search, setSearch] = useState("");
   const [collection, setCollection] = useState("academic");
@@ -79,26 +83,28 @@ export function FullListeningLibrary({ cards, dict }: { cards: Card[]; dict: Dic
             key={card.id}
             className="listening-library-card card p-5 flex flex-col gap-3"
           >
+            {management && <ListeningTestActions id={card.id} title={card.title} dict={dict} />}
             <span className="listening-library-badge badge">
-              {section ? t.badgeSection : t.badgeFull}
+              {card.authoredRuntime ? dict.nav.listening : section ? t.badgeSection : t.badgeFull}
             </span>
             <h2 className="font-display text-xl font-bold">{card.title}</h2>
             <p>
-              {section
+              {card.authoredRuntime ? fill(t.authoredMeta, { min: Math.round(card.duration / 60) }) : section
                 ? fill(t.sectionOf, { n: section })
-                : fill(t.fullMeta, { parts: card.sectionNumbers?.length ?? 4, min: Math.round(card.duration / 60) })}
+                : card.legacy ? t.badgeFull : fill(t.fullMeta, { parts: card.sectionNumbers?.length ?? 4, min: Math.round(card.duration / 60) })}
             </p>
-            <progress
+            {!card.authoredRuntime && <><progress
               className="w-full"
               max={card.activityCount ?? 5}
               value={Number(card.completed)}
               aria-label={fill(t.progressLabel, { title: card.title })}
             />
-            <p>{fill(t.completedOf5, { done: card.completed, total: card.activityCount ?? 5 })}</p>
+            <p>{fill(t.completedOf5, { done: card.completed, total: card.activityCount ?? 5 })}</p></>}
+            {card.legacy ? management ? <Link className="btn-primary" href={`/admin/listening/${card.id}`}>{dict.common.continue} →</Link> : <StartTestButton testId={card.id} label={dict.listening.startAttempt} messages={dict.auth} /> : (
             <Link
               className="btn-primary mt-auto"
               href={
-                section
+                section && !card.authoredRuntime
                   ? `/listening/tests/${card.id}/study?section=${section}`
                   : `/listening/tests/${card.id}`
               }
@@ -110,7 +116,8 @@ export function FullListeningLibrary({ cards, dict }: { cards: Card[]; dict: Dic
                   : card.started
                     ? t.continue
                     : t.start}
-            </Link>
+            </Link>            )}
+
           </article>
         ))}
       </div>

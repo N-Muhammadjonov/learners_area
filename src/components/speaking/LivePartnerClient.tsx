@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Image from "next/image";
 import type { Dictionary } from "@/lib/i18n/en";
 import { filterQuestions, type QuestionRow } from "@/lib/live-partner/questions";
 import { LIVE_PARTNER_RULES_VERSION } from "@/lib/live-partner/rules";
@@ -23,9 +24,11 @@ const REQUEST_TIMEOUT_MS = 8_000;
 const score = (s: number | null) => (s == null ? "S —" : `S ${s.toFixed(1)}`);
 const json = (body: unknown) => ({ method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
 
-function Avatar({ kind, label, large = false }: { kind: "a" | "b"; label: string; large?: boolean }) {
-  // Exactly two system avatar styles; no uploads.
-  return <span role="img" aria-label={label} className={`flex ${large ? "h-24 w-24 text-4xl" : "h-10 w-10 text-lg"} shrink-0 items-center justify-center rounded-full ${kind === "b" ? "bg-rose-100" : "bg-sky-100"}`}>{kind === "b" ? "👩" : "👨"}</span>;
+function Avatar({ kind, label, large = false, userId }: { kind: "a" | "b"; label: string; large?: boolean; userId?: string }) {
+  const [failed, setFailed] = useState(false);
+  return <span role="img" aria-label={label} className={`flex ${large ? "h-36 w-36 text-6xl" : "h-10 w-10 text-lg"} shrink-0 overflow-hidden items-center justify-center rounded-full ${kind === "b" ? "bg-rose-100" : "bg-sky-100"}`}>
+    {userId && !failed ? <Image src={`/api/profile/photo/${userId}`} alt={label} width={large ? 144 : 40} height={large ? 144 : 40} unoptimized className="h-full w-full object-cover" onError={() => setFailed(true)} /> : kind === "b" ? "👩‍🎓" : "👨‍🎓"}
+  </span>;
 }
 
 function micErrorStatus(error: unknown): MicStatus {
@@ -37,7 +40,7 @@ function micErrorStatus(error: unknown): MicStatus {
 
 export function LivePartnerClient({ dict, me, questions }: {
   dict: Dictionary;
-  me: { name: string; avatar: "a" | "b"; hasGender: boolean; speakingScore: number | null };
+  me: { userId?: string; name: string; avatar: "a" | "b"; hasGender: boolean; speakingScore: number | null };
   questions: QuestionRow[];
 }) {
   const t = dict.livePartner;
@@ -47,12 +50,17 @@ export function LivePartnerClient({ dict, me, questions }: {
   const [busy, setBusy] = useState(false);
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState<"part1" | "part2" | "part3" | null>("part1");
+  const [selectedTopic, setSelectedTopic] = useState<{ part: "part1" | "part2" | "part3"; topic: string | null } | null>(null);
+  const [questionIndex, setQuestionIndex] = useState(0);
   const [level, setLevel] = useState(0);
   const [mic, setMic] = useState<MicStatus>("unknown");
   const [callStatus, setCallStatus] = useState<CallStatus | null>(null);
   const [micMuted, setMicMuted] = useState(false);
   const [partnerMuted, setPartnerMuted] = useState(false);
   const grouped = useMemo(() => filterQuestions(questions, query), [questions, query]);
+
+  const topicQuestions = selectedTopic ? questions.filter(q => q.part === selectedTopic.part && q.topic === selectedTopic.topic) : [];
+  const selectedQuestion = topicQuestions[Math.min(questionIndex, Math.max(0, topicQuestions.length - 1))];
 
   // ---- request discipline -------------------------------------------------
   const alive = useRef(true);
@@ -132,6 +140,27 @@ export function LivePartnerClient({ dict, me, questions }: {
     return () => clearInterval(beat);
   }, [state, tracked]);
 
+  const entryAttempted = useRef(false);
+  const latestPresence = useRef(data);
+  latestPresence.current = data;
+  useEffect(() => {
+    if (!data || entryAttempted.current || data.state !== "offline" || !data.realtime.ready) return;
+    entryAttempted.current = true;
+    if (!me.hasGender) { setError(t.errors.profile_incomplete); return; }
+    if (!data.rulesAccepted) { setFlow("rules"); return; }
+    void act({ action: "go_online" });
+  }, [data, me.hasGender, act, t]);
+  useEffect(() => () => {
+    const presence = latestPresence.current;
+    if (!presence || presence.state === "offline") return;
+    // Release presence when leaving this route, including a call in progress.
+    const leave = async () => {
+      if (presence.sessionId) await fetch("/api/live-partner", { ...json({ action: "hangup", sessionId: presence.sessionId }), keepalive: true, signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS) }).catch(() => {});
+      await fetch("/api/live-partner", { ...json({ action: "go_offline" }), keepalive: true, signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS) }).catch(() => {});
+    };
+    void leave();
+  }, []);
+
   // ---- mic preflight (local level meter only) ------------------------------
   const micRef = useRef<{ stream: MediaStream | null; ctx: AudioContext | null; raf: number; cancelled: boolean } | null>(null);
   const stopMic = useCallback(() => {
@@ -177,17 +206,11 @@ export function LivePartnerClient({ dict, me, questions }: {
     }
   }
 
-  async function goOnline() {
-    if (!me.hasGender) { setError(t.errors.profile_incomplete); return; }
-    if (!data?.realtime.ready) { setError(t.realtimeMissing); return; }
-    if (!data.rulesAccepted) { setFlow("rules"); return; }
-    await startPreflight();
-  }
   async function acceptRules() {
-    if (await act({ action: "accept_rules", version: LIVE_PARTNER_RULES_VERSION })) await startPreflight();
+    if (await act({ action: "accept_rules", version: LIVE_PARTNER_RULES_VERSION })) { closeFlow(); await act({ action: "go_online" }); }
   }
   function closeFlow() { stopMic(); setFlow("none"); }
-  async function finishPreflight() { closeFlow(); await act({ action: "go_online" }); }
+  function finishPreflight() { closeFlow(); }
 
   // ---- the call -------------------------------------------------------------
   const inCall = state === "connecting" || state === "in_call" || state === "reconnecting";
@@ -264,7 +287,7 @@ export function LivePartnerClient({ dict, me, questions }: {
       {data && !data.realtime.ready ? <p className="rounded-sm border border-amber-200 bg-amber-50 p-2 text-sm text-amber-900" data-realtime-unavailable>{t.realtimeMissing}</p> : null}
       {data?.incoming ? (
         <div role="alertdialog" aria-label={t.incomingTitle} className="flex flex-wrap items-center gap-3 rounded-lg border border-ink-200 bg-paper p-3">
-          <Avatar kind={data.incoming.from.avatar} label={t.avatar} />
+          <Avatar userId={data.incoming.from.userId} kind={data.incoming.from.avatar} label={t.avatar} />
           <p className="flex-1 text-sm"><strong>{data.incoming.from.name}</strong> · {score(data.incoming.from.speakingScore)} — {t.incomingBody}</p>
           <button type="button" disabled={busy} className="btn-primary" onClick={() => act({ action: "accept", inviteId: data.incoming!.id })}>{t.accept}</button>
           <button type="button" disabled={busy} className="btn-secondary" onClick={() => act({ action: "decline", inviteId: data.incoming!.id })}>{t.decline}</button>
@@ -276,14 +299,15 @@ export function LivePartnerClient({ dict, me, questions }: {
       <div className="grid gap-4 lg:grid-cols-[1fr_1.6fr_1fr]">
         <section aria-labelledby="lp-you" className="lp-panel lp-self flex flex-col gap-3 rounded-lg border border-ink-100 bg-paper p-4">
           <h2 id="lp-you" className="text-xs font-semibold uppercase tracking-wide text-ink-500">{t.you}</h2>
-          <div className="flex items-center gap-3">
-            <Avatar kind={me.avatar} label={t.avatar} large />
+          <div className="flex flex-col items-center gap-4 py-6 text-center">
+            <Avatar userId={me.userId} kind={me.avatar} label={t.avatar} large />
             <div><p className="font-medium text-ink-900">{me.name}</p><p className="font-mono text-sm text-ink-600">{score(me.speakingScore)}</p></div>
           </div>
           <p className="text-xs text-ink-500">{t.micStatus}: {t.mic[mic]}</p>
           <p className="text-sm text-ink-600" aria-live="polite">{t.states[state]}</p>
-          {state === "offline" ? <button type="button" disabled={busy || !data || !data.realtime.ready} className="btn-primary" onClick={goOnline}>{t.goOnline}</button> : null}
-          {state === "available" ? <button type="button" disabled={busy} className="btn-secondary" onClick={() => act({ action: "go_offline" })}>{t.goOffline}</button> : null}
+          <button type="button" disabled={busy || inCall} className="btn-secondary" onClick={() => void startPreflight()}>{t.micTitle}</button>
+          {data?.realtime.ready && !data.rulesAccepted && <button type="button" className="btn-secondary" onClick={() => setFlow("rules")}>{t.rulesTitle}</button>}
+
           {data?.outgoing ? <button type="button" disabled={busy} className="btn-secondary" onClick={() => act({ action: "cancel", inviteId: data.outgoing!.id })}>{t.cancelInvite}</button> : null}
           {inCall ? <button type="button" aria-pressed={micMuted} className="btn-secondary" onClick={() => { const next = !micMuted; setMicMuted(next); callRef.current?.setMuted(next); }}>{micMuted ? t.unmuteMic : t.muteMic}</button> : null}
         </section>
@@ -292,32 +316,32 @@ export function LivePartnerClient({ dict, me, questions }: {
           <h2 id="lp-q" className="text-xs font-semibold uppercase tracking-wide text-ink-500">{t.questions}</h2>
           <p className="text-xs text-ink-500">{t.questionsOptional}</p>
           <label className="text-sm"><span className="sr-only">{t.search}</span>
-            <input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder={t.search} className="w-full rounded-sm border border-ink-200 px-3 py-2" />
+            <input type="search" value={query} onChange={(e) => { setQuery(e.target.value); setSelectedTopic(null); }} placeholder={t.search} className="w-full rounded-sm border border-ink-200 px-3 py-2" />
           </label>
-          {(["part1", "part2", "part3"] as const).map((part) => (
-            <div key={part} data-practice-part={part} className="practice-part-card relative overflow-hidden rounded-2xl border border-ink-100">
-              <button type="button" aria-expanded={open === part} aria-controls={`lp-${part}`} onClick={() => setOpen(open === part ? null : part)} className="relative flex min-h-28 w-full items-center justify-between gap-3 px-5 py-4 text-left font-medium">
-                <span className="flex flex-col gap-2"><span className="practice-part-label text-xs font-bold uppercase tracking-widest">{t.parts[part]}</span><span className="font-display text-xl font-bold">{dict.speakingPractice.partTitle[part]}</span><span className="text-xs text-ink-500">{dict.speakingPractice.partBody[part]}</span></span><span className="text-xs text-ink-500">{grouped[part].length} <span aria-hidden="true">{open === part ? "▲" : "▼"}</span></span>
+          {selectedTopic && selectedQuestion ? <div className="flex min-h-80 flex-col gap-5 rounded-2xl border border-ink-100 bg-paper-raised p-5" data-partner-topic-question>
+            <button type="button" className="btn-secondary self-start" onClick={() => setSelectedTopic(null)}>← {dict.common.back}</button>
+            <div><p className="text-xs font-semibold uppercase tracking-widest text-signal-600">{t.parts[selectedTopic.part]}</p><h3 className="mt-2 font-display text-xl">{selectedTopic.topic ?? dict.speakingStudy.topic}</h3></div>
+            <p className="whitespace-pre-line text-lg">{selectedQuestion.promptText}</p>
+            {selectedQuestion.cueCard && <p className="whitespace-pre-line text-ink-700">{selectedQuestion.cueCard}</p>}
+            <div className="mt-auto flex flex-wrap items-center justify-between gap-2"><span className="text-sm text-ink-500">{questionIndex + 1} / {topicQuestions.length}</span><button type="button" className="btn-primary" disabled={questionIndex + 1 >= topicQuestions.length} onClick={() => setQuestionIndex(i => i + 1)}>{t.nextQuestion} →</button></div>
+          </div> : (["part1", "part2", "part3"] as const).map(part => {
+            const topics = [...new Map(grouped[part].map(q => [q.topic, q])).values()];
+            const expanded = query.trim().length > 0 || open === part;
+            return <div key={part} data-practice-part={part} className="practice-part-card relative overflow-hidden rounded-2xl border border-ink-100">
+              <button type="button" aria-expanded={expanded} aria-controls={`lp-${part}`} onClick={() => setOpen(open === part ? null : part)} className="relative flex min-h-28 w-full items-center justify-between gap-3 px-5 py-4 text-left font-medium">
+                <span className="flex flex-col gap-2"><span className="practice-part-label text-xs font-bold uppercase tracking-widest">{t.parts[part]}</span><span className="font-display text-xl font-bold">{dict.speakingPractice.partTitle[part]}</span><span className="text-xs text-ink-500">{dict.speakingPractice.partBody[part]}</span></span><span className="text-xs text-ink-500">{topics.length} <span aria-hidden="true">{expanded ? "▲" : "▼"}</span></span>
               </button>
-              {open === part ? (
-                <ul id={`lp-${part}`} className="max-h-96 overflow-y-auto border-t border-ink-100 text-sm">
-                  {grouped[part].length === 0 ? <li className="px-3 py-2 text-ink-500">{t.noQuestions}</li> : grouped[part].map((q) => (
-                    <li key={q.id} className="border-b border-ink-50 px-3 py-2">
-                      {q.topic ? <p className="text-xs text-ink-500">{q.topic}</p> : null}
-                      <p className="whitespace-pre-line text-ink-900">{q.promptText}</p>
-                      {q.cueCard ? <p className="mt-1 whitespace-pre-line text-xs text-ink-600">{q.cueCard}</p> : null}
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
-            </div>
-          ))}
+              {expanded && <ul id={`lp-${part}`} className="max-h-96 space-y-2 overflow-y-auto border-t border-ink-100 p-3">
+                {topics.length === 0 ? <li className="text-sm text-ink-500">{t.noQuestions}</li> : topics.map(q => <li key={q.id}><button type="button" className="btn-secondary w-full justify-between text-left" onClick={() => { setSelectedTopic({ part, topic: q.topic }); setQuestionIndex(0); }}><span>{q.topic ?? dict.speakingStudy.topic}</span><span aria-hidden="true">→</span></button></li>)}
+              </ul>}
+            </div>;
+          })}
         </section>
 
         {inCall && data?.partner ? (
           <section aria-labelledby="lp-partner" className="lp-panel lp-peer flex flex-col gap-3 rounded-lg border border-ink-100 bg-paper p-4">
             <h2 id="lp-partner" className="text-xs font-semibold uppercase tracking-wide text-ink-500">{t.partner}</h2>
-            <div className="flex items-center gap-3"><Avatar kind={data.partner.avatar} label={t.avatar} large /><div><p className="font-medium">{data.partner.name}</p><p className="font-mono text-sm">{score(data.partner.speakingScore)}</p></div></div>
+            <div className="flex flex-col items-center gap-4 py-6 text-center"><Avatar userId={data.partner.userId} kind={data.partner.avatar} label={t.avatar} large /><div><p className="font-medium">{data.partner.name}</p><p className="font-mono text-sm">{score(data.partner.speakingScore)}</p></div></div>
             <p className="text-sm" aria-live="polite" data-call-status={callStatus ?? "connecting"}>{callLabel}</p>
             <button type="button" aria-pressed={partnerMuted} className="btn-secondary" onClick={() => setPartnerMuted((m) => !m)}>{partnerMuted ? t.unmutePartner : t.mutePartner}</button>
             <button type="button" disabled={busy} className="btn-primary" onClick={() => endCall()}>{t.choosePartner}</button>
@@ -330,7 +354,7 @@ export function LivePartnerClient({ dict, me, questions }: {
               <ul className="flex flex-col gap-2">
                 {data.online.map((p) => (
                   <li key={p.userId} className="flex items-center gap-2">
-                    <Avatar kind={p.avatar} label={t.avatar} />
+                    <Avatar userId={p.userId} kind={p.avatar} label={t.avatar} />
                     <div className="flex-1"><p className="text-sm font-medium">{p.name}</p><p className="font-mono text-xs text-ink-600">{score(p.speakingScore)}</p></div>
                     <button type="button" disabled={busy || state !== "available"} className="btn-secondary btn-sm" onClick={() => act({ action: "invite", toUserId: p.userId })}>{t.invite}</button>
                   </li>

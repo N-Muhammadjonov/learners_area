@@ -103,7 +103,14 @@ export async function middleware(req: NextRequest) {
 
   const response = NextResponse.next({ request: { headers: requestHeaders } });
   response.headers.set("Content-Security-Policy", csp);
-  return applySecurityHeaders(response, headerOptions);
+  const secured = applySecurityHeaders(response, headerOptions);
+  // Only the fixed Listening launcher gets an executable source policy. The
+  // response-level sandbox ALSO forces an opaque origin when opened directly.
+  // All authentication, origin and private-resource guards above still apply.
+  if (/^\/api\/listening\/full\/(?:[0-9a-f-]{36}|preview)\/sandbox$/.test(pathname)) {
+    secured.headers.set("Content-Security-Policy", "default-src 'none'; script-src 'unsafe-inline' data: blob:; style-src 'unsafe-inline' data: blob:; img-src data: blob:; media-src data: blob:; font-src data: blob:; connect-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none'; frame-src 'none'; sandbox allow-scripts");
+  }
+  return secured;
 }
 
 export const config = {

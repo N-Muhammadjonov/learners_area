@@ -5,9 +5,7 @@ import { Suspense } from "react";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import Link from "next/link";
 import { getDictionary, getLocale } from "@/lib/i18n";
-import { listActiveTests } from "@/lib/data/listening";
-import { Card } from "@/components/ui/Card";
-import { StartTestButton } from "@/components/listening/StartTestButton";
+import { legacyListeningCards } from "@/lib/data/listening";
 
 async function ActiveListeningTests({
   userId,
@@ -19,10 +17,9 @@ async function ActiveListeningTests({
   dict: ReturnType<typeof getDictionary>;
 }) {
   const [tests, full] = await Promise.all([
-    listActiveTests(),
+    legacyListeningCards(userId),
     fullListeningCards(userId, page),
   ]);
-  const fullIds = new Set(full.rows.map((t) => t.id));
   return (
     <>
       {full.unavailable && (
@@ -32,7 +29,7 @@ async function ActiveListeningTests({
           retryLabel={dict.errorPage.retry}
         />
       )}
-      <FullListeningLibrary cards={full.rows} dict={dict} />
+      <FullListeningLibrary cards={[...full.rows,...tests]} dict={dict} />
       {page > 1 && (
         <Link className="btn-secondary" href={`/listening?page=${page - 1}`}>
           {dict.fullListeningHub.library.previous}
@@ -43,31 +40,7 @@ async function ActiveListeningTests({
           More tests →
         </Link>
       )}
-      <div
-        className="grid grid-cols-1 gap-4 sm:grid-cols-2"
-        data-listening-tests
-        data-async-content="listening-tests"
-      >
-        {tests
-          .filter((t) => !fullIds.has(t.id))
-          .map((t) => (
-            <Card key={t.id} className="flex flex-col gap-3">
-              <div className="flex items-center justify-between">
-                <span className="badge bg-signal-100 text-signal-700">
-                  {t.difficultyLevel}
-                </span>
-              </div>
-              <p className="text-sm font-medium text-ink-900">{t.title}</p>
-              <div className="flex justify-end">
-                <StartTestButton
-                  testId={t.id}
-                  label={dict.listening.startAttempt}
-                  messages={dict.auth}
-                />
-              </div>
-            </Card>
-          ))}
-      </div>
+
     </>
   );
 }
@@ -103,7 +76,7 @@ export default async function ListeningPage({
   const dict = getDictionary(locale);
   return (
     <div
-      className="mx-auto flex max-w-[1840px] flex-col gap-6"
+      className="listening-workspace mx-auto flex max-w-[1840px] flex-col gap-6"
       data-route-usable="listening"
     >
       <div className="flex flex-wrap items-center justify-between gap-3">

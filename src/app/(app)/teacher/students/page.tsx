@@ -12,11 +12,11 @@ export default async function TeacherStudentsPage() {
   const staff = await requireStaff();
   if (!staff) redirect("/dashboard");
   const dict = getDictionary(await getLocale());
-  const students = await listStudents();
+  const students = await listStudents(staff.role === "teacher" ? staff.id : undefined);
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-4">
-      <h1 className="font-display text-2xl text-ink-900">{dict.teacher.studentsTitle}</h1>
+      <h1 className="font-display text-2xl text-ink-900">{dict.nav.people}</h1>
 
       {students.length === 0 && <EmptyState icon="○" title={dict.teacher.noStudents} />}
 

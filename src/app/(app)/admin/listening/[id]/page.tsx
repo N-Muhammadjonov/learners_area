@@ -8,7 +8,9 @@ import { listeningTests, listeningQuestions } from "@/db/schema";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { Card } from "@/components/ui/Card";
 import { MaterialPlayer } from "@/components/speaking/MaterialPlayer";
-import { NewListeningQuestionForm } from "@/components/admin/NewListeningQuestionForm";
+import { ListeningTestActions } from "@/components/listening/ListeningTestActions";
+import { fullListeningDetail } from "@/lib/data/full-listening";
+import { isUuid } from "@/lib/validation/ids";
 
 export default async function AdminTestDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -16,6 +18,8 @@ export default async function AdminTestDetailPage({ params }: { params: Promise<
   // rely on the edge guard's cookie, which goes stale the moment a role changes.
   const administrator = await requireAdministrator();
   if (!administrator) redirect("/dashboard");
+  if (!isUuid(id)) notFound();
+  if (await fullListeningDetail(id, administrator.role)) redirect(`/listening/tests/${id}`);
   const dict = getDictionary(await getLocale());
   const test = await db.query.listeningTests.findFirst({ where: eq(listeningTests.id, id) });
   if (!test) notFound();
@@ -25,7 +29,7 @@ export default async function AdminTestDetailPage({ params }: { params: Promise<
   });
 
   return (
-    <div className="mx-auto flex max-w-3xl flex-col gap-4">
+    <div className="listening-workspace mx-auto flex max-w-3xl flex-col gap-4">
       <BackLink fallbackHref="/admin/listening" label={dict.common.back} />
       <div>
         <h1 className="font-display text-2xl text-ink-900">{test.title}</h1>
@@ -46,7 +50,7 @@ export default async function AdminTestDetailPage({ params }: { params: Promise<
         ))}
       </div>
 
-      <NewListeningQuestionForm dict={dict} testId={test.id} />
+      <ListeningTestActions dict={dict} id={test.id} title={test.title} />
     </div>
   );
 }

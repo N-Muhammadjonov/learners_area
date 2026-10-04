@@ -1,3 +1,4 @@
+import { mcqAccess } from "@/lib/services/listening/mcq-access";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { and, eq } from "drizzle-orm";
@@ -28,6 +29,9 @@ export async function POST(req: NextRequest) {
   if (!question || question.type !== "multiple_choice") {
     return NextResponse.json({ error: "not_found" }, { status: 404 });
   }
+  const access = await mcqAccess(user, question.testId);
+  if (access !== "ok") return NextResponse.json({ error: access }, { status: access === "not_found" ? 404 : 409 });
+
 
   const existing = await db.query.listeningMcqSessions.findFirst({
     where: and(
@@ -47,5 +51,5 @@ export async function POST(req: NextRequest) {
   const session = existing ?? created;
   if (!session) return NextResponse.json({ error: "not_found" }, { status: 404 });
 
-  return NextResponse.json(buildMcqPayload(session, question));
+  return NextResponse.json(buildMcqPayload(session, question), { headers: { "Cache-Control": "private, no-store" } });
 }

@@ -84,14 +84,12 @@ export default async function ManagementPage() {
     );
   }
 
+  if (user.role === "teacher") {
+    areas.push({ href: "/teacher/students", title: dict.nav.people, body: dict.management.studentsBody, icon: <IconPeople /> });
+  }
+
   if (isStaff(user.role)) {
     areas.push(
-      {
-        href: "/teacher/students",
-        title: dict.nav.teacherStudents,
-        body: dict.management.studentsBody,
-        icon: <IconPeople />,
-      },
       {
         href: "/teacher/support",
         title: dict.support.inbox,

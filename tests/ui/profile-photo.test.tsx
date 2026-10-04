@@ -1,0 +1,39 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { JSDOM } from "jsdom";
+import en from "../../src/lib/i18n/en";
+const dom = new JSDOM('<html><body><div id="root"></div></body></html>', { url: "http://localhost/profile" });
+for (const k of ["window", "document", "navigator", "HTMLElement", "HTMLInputElement", "Element", "Node", "Event", "MouseEvent"] as const) Object.defineProperty(globalThis, k, { value: dom.window[k], configurable: true });
+Object.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true });
+const React = await import("react"); Object.assign(globalThis, { React });
+const { act } = React;
+const { createRoot } = await import("react-dom/client");
+const { ProfilePhoto } = await import("../../src/components/profile/ProfilePhoto");
+test("profile upload masks the centered crop as a circular PNG and remove targets the current profile", async () => {
+  const steps: unknown[] = [], requests: { method: string; body: unknown }[] = [];
+  const context = { beginPath: () => steps.push("begin"), arc: (...args: unknown[]) => steps.push(args), clip: () => steps.push("clip"), drawImage: (_: unknown, ...args: unknown[]) => steps.push(args) };
+  Object.defineProperty(dom.window.HTMLCanvasElement.prototype, "getContext", { configurable: true, value: () => context });
+  Object.defineProperty(dom.window.HTMLCanvasElement.prototype, "toBlob", { configurable: true, value: (cb: (blob: Blob) => void, type: string) => { steps.push(type); cb(new Blob(["png"], { type })); } });
+  Object.defineProperty(dom.window.HTMLImageElement.prototype, "decode", { configurable: true, value: async () => {} });
+  Object.defineProperty(dom.window.HTMLImageElement.prototype, "naturalWidth", { configurable: true, get: () => 800 });
+  Object.defineProperty(dom.window.HTMLImageElement.prototype, "naturalHeight", { configurable: true, get: () => 600 });
+  const fetchBefore = globalThis.fetch;
+  globalThis.fetch = async (_url, init) => { requests.push({ method: init?.method ?? "GET", body: init?.body }); return Response.json({ ok: true }); };
+  const root = createRoot(document.getElementById("root")!);
+  try {
+    await act(async () => root.render(<ProfilePhoto userId="current-user" dict={en} />));
+    const input = document.querySelector('input[type="file"]')!;
+    Object.defineProperty(input, "files", { value: [new File(["source"], "wide.jpg", { type: "image/jpeg" })], configurable: true });
+    await act(async () => { input.dispatchEvent(new Event("change", { bubbles: true })); await new Promise(resolve => setTimeout(resolve, 20)); });
+    assert.deepEqual(steps, ["begin", [128, 128, 128, 0, Math.PI * 2], "clip", [100, 0, 600, 600, 0, 0, 256, 256], "image/png"]);
+    assert.equal(requests[0]?.method, "POST");
+    const photo = (requests[0]!.body as FormData).get("photo") as File;
+    assert.equal(photo.type, "image/png");
+    assert.equal(photo.name, "profile.png");
+    const remove = [...document.querySelectorAll("button")].find(b => b.textContent === en.profile.photo.remove)!;
+    await act(async () => remove.click());
+    assert.equal(requests[1]?.method, "DELETE");
+    assert.equal(document.querySelector("img"), null);
+    assert.match(document.body.textContent ?? "", /🎓/);
+  } finally { await act(async () => root.unmount()); globalThis.fetch = fetchBefore; }
+});

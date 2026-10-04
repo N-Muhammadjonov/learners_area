@@ -1,3 +1,4 @@
+import { MicrophoneTest } from "@/components/speaking/MicrophoneTest";
 import Link from "next/link";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
@@ -23,13 +24,15 @@ export default async function SpeakingPage() {
       <ul className="motion-enter-stagger grid grid-cols-1 gap-4 md:grid-cols-2" data-speaking-hub-cards>
         {SPEAKING_HUB_CARDS.map(({ key, href }) => (
           <li key={key}>
-            <Link href={href} data-speaking-card={key}
-              className="card motion-lift group flex h-full min-h-56 flex-col gap-3 p-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal-500 motion-reduce:transition-none">
+            <article className="card motion-lift group flex min-h-56 flex-col gap-3 p-6 motion-reduce:transition-none">
               <span className="text-xs font-semibold uppercase tracking-[0.14em] text-signal-600 dark:text-signal-400">{t.cards[key].eyebrow}</span>
-              <span className="font-display text-xl text-ink-900">{t.cards[key].title}</span>
-              <span className="text-base text-ink-500">{t.cards[key].body}</span>
-              <span className="btn-secondary mt-auto self-start">{t.cards[key].cta} <span aria-hidden>→</span></span>
-            </Link>
+              <h2 className="font-display text-xl text-ink-900">{t.cards[key].title}</h2>
+              <p className="text-base text-ink-500">{t.cards[key].body}</p>
+              <div className="mt-auto flex flex-wrap items-start gap-3">
+                {key === "partner" && <MicrophoneTest dict={dict} />}
+                <Link href={href} data-speaking-card={key} className="btn-primary self-start">{t.cards[key].cta} <span aria-hidden>→</span></Link>
+              </div>
+            </article>
           </li>
         ))}
       </ul>

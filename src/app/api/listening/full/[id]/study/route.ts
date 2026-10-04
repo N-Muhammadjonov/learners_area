@@ -24,6 +24,8 @@ export async function POST(
   const detail = await fullListeningDetail(id, user.role);
   if (!detail)
     return NextResponse.json({ error: "not_found" }, { status: 404 });
+  if (!detail.pkg.payload.questions.length)
+    return NextResponse.json({ error: "authored_runtime_only" }, { status: 409 });
   const parsed = input.safeParse(await req.json().catch(() => null));
   if (
     !parsed.success ||

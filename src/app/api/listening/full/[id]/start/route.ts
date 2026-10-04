@@ -11,8 +11,12 @@ export async function POST(
   if (!user)
     return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
   const { id } = await params;
-  if (!isUuid(id) || !(await fullListeningDetail(id, user.role)))
+  if (!isUuid(id))
     return NextResponse.json({ error: "not_found" }, { status: 404 });
+  const detail = await fullListeningDetail(id, user.role);
+  if (!detail) return NextResponse.json({ error: "not_found" }, { status: 404 });
+  if (!detail.pkg.payload.questions.length)
+    return NextResponse.json({ error: "authored_runtime_only" }, { status: 409 });
   const attemptId = await startListeningAttempt(user.id, id);
   return NextResponse.json(
     { id: attemptId },

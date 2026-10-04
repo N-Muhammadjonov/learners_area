@@ -47,10 +47,10 @@ export function buildMcqPayload(session: Session, question: Question): McqPayloa
     },
     question: { id: question.id, order: question.order, questionText: question.questionText },
     options: visible ? question.options ?? null : null,
-    correctAnswer: visible ? question.correctAnswer : null,
-    explanation: visible ? question.explanation : null,
+    correctAnswer: outcomeVisible(stage) ? question.correctAnswer : null,
+    explanation: outcomeVisible(stage) ? question.explanation : null,
     outcome: outcomeVisible(stage)
-      ? session.chosenAnswer === question.correctAnswer
+      ? (session.chosenAnswer === question.correctAnswer || /^([A-Z])[).\s]/.exec(session.chosenAnswer ?? "")?.[1] === question.correctAnswer)
         ? "correct"
         : "incorrect"
       : null,

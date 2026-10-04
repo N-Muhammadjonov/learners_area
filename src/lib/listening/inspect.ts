@@ -1,3 +1,4 @@
+import { strFromU8 } from "fflate";
 import { listeningPackageSchema, publicationBlockers, type ListeningPackage } from "./package";
 import { convertLegacyPackage, slugTestId, type HtmlDocumentReader } from "./source-parser";
 import {
@@ -35,7 +36,21 @@ export type InspectResult = {
 };
 
 function hasExamPage(textFiles: Record<string, string>): boolean {
-  return Object.entries(textFiles).some(([p, v]) => /\.html?$/i.test(p) && /(id|name)\s*=\s*["']l1["']/.test(v));
+  return Object.entries(textFiles).some(([p, v]) => /\.html?$/i.test(p) && (/(id|name)\s*=\s*["']l1["']/.test(v) || /\b(?:const|let|var)\s+(?:D|DATA)\s*=\s*\{/.test(v)));
+}
+
+/** An author's unversioned manifest is not a broken native schemaVersion package.
+ * It supplies an identity only; its questions/results are never inferred or graded here. */
+function isForeignAuthoredManifest(raw: string | undefined): boolean {
+  if (!raw) return false;
+  try {
+    const value = JSON.parse(raw);
+    return value && typeof value === "object" && !("schemaVersion" in value)
+      && typeof value.test_id === "string" && value.test_id.length > 0
+      && Array.isArray(value.sections) && value.sections.every((s: unknown) => typeof s === "string")
+      && Array.isArray(value.questions) && value.questions.length > 0
+      && value.answers && typeof value.answers === "object" && !Array.isArray(value.answers);
+  } catch { return false; }
 }
 
 /** data/package.json → validated package; empty section transcripts are filled from real transcript files. */
@@ -106,6 +121,10 @@ export async function inspectListeningPackage(input: InspectInput): Promise<Insp
   let payload: ListeningPackage;
   let family: InspectResult["family"];
   let canonicalError: string | undefined;
+  const htmlPaths = Object.keys(textFiles).filter(path => /\.html?$/i.test(path));
+  const entryPath = htmlPaths.find(path => /(^|\/)(index|home|hub)\.html?$/i.test(path)) ?? htmlPaths[0];
+  const runnableEntry = entryPath && /<!doctype\s+html|<html\b|<body\b|<title\b/i.test(textFiles[entryPath]!);
+  const runtimeFiles = Object.fromEntries(Object.entries(entries).filter(([path]) => /\.(html?|css|js)$/i.test(path)).map(([path,bytes]) => [path,textFiles[path] ?? strFromU8(bytes)]));
   try {
     if (canonicalRaw) {
       try {
@@ -130,15 +149,26 @@ export async function inspectListeningPackage(input: InspectInput): Promise<Insp
       });
     }
   } catch (e) {
-    if (e instanceof ListeningImportProblem) {
+    if (e instanceof ListeningImportProblem && !(e.code === "no_question_source" && runnableEntry && (!canonicalRaw || isForeignAuthoredManifest(canonicalRaw)))) {
       if (!e.detail.files) e.detail.files = visibleFileList(names);
       throw e;
     }
-    throw new ListeningImportProblem("package_invalid", {
+    if (entryPath && runnableEntry && (!canonicalRaw || isForeignAuthoredManifest(canonicalRaw))) {
+      const doc = input.read(textFiles[entryPath]!);
+      const title = (doc.querySelector("title")?.textContent || input.zipName.replace(/\.(zip|html?)$/i, "")).trim().slice(0,200);
+      const authored = canonicalRaw ? JSON.parse(canonicalRaw) : null;
+      canonicalError = undefined; // Valid owner runtime is a separate format, not a repaired native package.
+      const vocabulary = authored?.vocabulary === undefined ? [] : listeningPackageSchema._def.schema.shape.vocabulary.parse(authored.vocabulary);
+      const images = names.filter(path => /\.(png|jpe?g)$/i.test(path));
+      if (images.length > 1) throw new ListeningImportProblem("package_invalid", { files: images, info: "Multiple images need an explicit supported manifest mapping" });
+      payload = listeningPackageSchema.parse({schemaVersion:1,authoredRuntime:{entryPath,files:runtimeFiles},testId:slugTestId(authored?.test_id ?? input.zipName),title,category:"full",provenance:"owner_authored_html",audio:{path:audio.path,durationSec:duration},imagePath:images[0]??null,sections:[{number:1,title,transcript:""}],questions:[],keyword1:[],keyword2:[],vocabulary});
+      family = "legacy";
+    } else throw new ListeningImportProblem("package_invalid", {
       files: visibleFileList(names),
       info: e instanceof Error ? e.message.slice(0, 300) : undefined,
     });
   }
+  if (entryPath) payload.authoredRuntime = {entryPath,files:runtimeFiles};
   // The probed recording is the truth, not a claimed manifest duration.
   payload.audio.durationSec = duration;
   payload.audio.path = audio.path;

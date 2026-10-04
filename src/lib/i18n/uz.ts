@@ -245,7 +245,21 @@ const uz: Dictionary = {
     auditBody: "Xavfsizlik va boshqaruv jurnali.",
   },
 
+  studentResults: {
+    title: "Mock natijalari",
+    taken: "Topshirilgan mocklar",
+    latest: "So'nggi band",
+    best: "Eng yaxshi band",
+    average: "O'rtacha band",
+    improvement: "Birinchi → so'nggi",
+    completed: "Tugallangan testlar",
+    trend: "Mock band o'zgarishi",
+    bandNote: "Bandlar alohida mock testlar va ko'nikmalar bo'yicha qayd etilgan.",
+    noResults: "Hozircha tugallangan mock natijalari yo'q.",
+    practice: "Mashq topshirishlari",
+  },
   common: {
+    edit: "Tahrirlash",
     error: "Xatolik yuz berdi.",
     save: "Saqlash",
     saving: "Saqlanmoqda…",
@@ -434,6 +448,7 @@ const uz: Dictionary = {
     minutes: "{n} daqiqa",
   },
   videoLesson: {
+    studyPack: {"title": "TED uchun mashqlar", "source": "Learners Area TED Study Pack, Volume 1 asosidagi mashqlar. Javoblaringiz shu dars bilan saqlanadi.", "official": "TED videosi va rasmiy transkript", "response": "Javobingiz", "key": "Javob namunasini ochish / yopish", "model": "Ma'noni solishtirish uchun namuna. Ochiq javoblarga avtomatik ball qo'yilmaydi.", "tooLong": "Saqlash uchun jami javoblarni 4 000 belgidan qisqa qiling.", "glossary": "Lug'at va birikmalar"},
     vocabularyHelp: "Bu dars so'zlari umumiy lug'atingizga saqlanadi.",
     vocabularyPractice: "Takrorlash, kartochkalar va o'yinlar",
     vocabularySave: "Lug'atimga saqlash",
@@ -1267,10 +1282,11 @@ const uz: Dictionary = {
   },
   livePartner: {
     title: "Live Partner",
-    intro: "Boshqa o'quvchi bilan jonli ovozli qo'ng'iroqda gapirishni mashq qiling. Go Online'ni bosmaguningizcha oflayn qolasiz.",
+    intro: "Boshqa o'quvchi bilan jonli gapirishni mashq qiling. Bu xonaga kirganda onlayn bo'lasiz; undan chiqganda yoki suhbat boshlaganda bo'sh partnerlar ro'yxatidan chiqasiz.",
     you: "Siz", questions: "Savollar", onlineUsers: "Onlayn foydalanuvchilar", avatar: "Avatar",
     search: "Savollarni qidirish", noQuestions: "Mos savol yo'q.", loading: "Yuklanmoqda…", nobodyOnline: "Hozir hech kim bo'sh emas.",
     parts: { part1: "Part 1", part2: "Part 2", part3: "Part 3" },
+    nextQuestion: "Keyingi savol",
     goOnline: "Go Online", goOffline: "Oflayn bo'lish", invite: "Taklif qilish", cancelInvite: "Taklifni bekor qilish", accept: "Qabul qilish", decline: "Rad etish",
     endCall: "Qo'ng'iroqni tugatish", block: "Bu foydalanuvchini bloklash", close: "Yopish", agree: "Roziman",
     incomingTitle: "Kiruvchi taklif", incomingBody: "siz bilan mashq qilmoqchi.",
@@ -1284,7 +1300,7 @@ const uz: Dictionary = {
     tapToPlay: "Brauzer ovozni blokladi. Hamkoringizni eshitish uchun sahifaga bosing.",
     rulesTitle: "Live Partner qoidalari",
     rules: ["Hurmatli bo'ling; ingliz tilida va mavzu doirasida gapiring.", "Hamkoringizni yozib olmang. Learners Area qo'ng'iroqlarni yozmaydi.", "Shaxsiy kontakt ma'lumotlarini ulashmang.", "Istalgan vaqtda qo'ng'iroqni tugatishingiz yoki bloklashingiz mumkin."],
-    micTitle: "Mikrofon tekshiruvi", micBody: "Bir necha so'z ayting. Daraja faqat shu qurilmada o'lchanadi; hech narsa yozilmaydi yoki yuklanmaydi.", micLevel: "Mikrofon darajasi", micReady: "Mikrofon ishlaydi — onlayn bo'lish",
+    micTitle: "Mikrofon tekshiruvi", micBody: "Bir necha so'z ayting. Daraja faqat shu qurilmada o'lchanadi; hech narsa yozilmaydi yoki yuklanmaydi.", micLevel: "Mikrofon darajasi", micReady: "Mikrofon tekshiruvini tugatish",
     realtimeMissing: "Jonli qo'ng'iroqlar mavjud emas: bu muhitda realtime audio xizmati tayyor emas. U tayyor bo'lmaguncha onlayn bo'la olmaysiz.",
     errors: {
       unavailable: "Live Partner hozir mavjud emas. Qayta urinib ko'ring.", unknownResult: "Natijani tasdiqlay olmadik. Holat yangilanadi.",
@@ -1664,6 +1680,7 @@ const uz: Dictionary = {
     nextPage: "Keyingi",
   },
   profile: {
+    photo: {"title": "Profil rasmi", "upload": "Rasm yuklash", "remove": "Rasmni olib tashlash", "saved": "Profil rasmi saqlandi.", "failed": "Rasm saqlanmadi. Kichikroq rasm tanlab, qayta urinib ko'ring."},
     title: "Profilingiz",
     subtitle: "Learners Area hisobingizda ko'rinadigan ismni o'zgartiring.",
     displayName: "Ko'rinadigan ism",
@@ -1695,6 +1712,12 @@ const uz: Dictionary = {
     secretNote: "Kalit, token va parollar hech qachon ko'rsatilmaydi — hatto egasiga ham.",
   },
   retention: {
+    formats: { pdf: "PDF", docx: "DOCX", zip: "ZIP" },
+    studentExport: "O'quvchilar ma'lumotlari va natijalari",
+    studentExportBody: "O'quvchi profillari, Reading, Listening, Speaking, Writing, mock natijalari va qayd etilgan baholarni yuklab oling. ZIP ichida JSON, PDF va DOCX bo'ladi.",
+    fileFormat: "Fayl formati",
+    downloadStudents: "Ma'lumotlarni yuklab olish",
+
     title: "Ma'lumotlarni saqlash",
     subtitle: "Bitta markazlashgan siyosat. Muddatlar — konfiguratsiya, tarqoq sonlar emas.",
     inactiveStudent: "Faol bo'lmagan talaba hisoblari",
@@ -2173,14 +2196,14 @@ const uz: Dictionary = {
   speakingHub: {
     intro: "Bugun gapirishni qanday mashq qilmoqchisiz, tanlang.",
     lessonsTitle: "Speaking darslari",
-    lessonsBody: "Tizimli speaking o'rganish uchun videolar, materiallar, strukturalar va shadowing.",
+    lessonsBody: "Tizimli speaking o'rganish uchun videolar, materiallar, strukturalar.",
     lessonsEmptyTitle: "Hozircha speaking darslari e'lon qilinmagan",
     lessonsEmptyBody: "O'qituvchingiz bu yerga hali dars joylamagan. Mustaqil mashq va AI bilan mashq hozir mavjud.",
     cards: {
       partner: {
         eyebrow: "Onlayn",
         title: "Sherik bilan gapirish",
-        body: "Boshqa o'quvchi bilan jonli ovozli suhbatda mashq qiling. O'zingiz tanlamaguningizcha oflayn qolasiz.",
+        body: "Boshqa o'quvchi bilan jonli ovozli suhbatda mashq qiling. Sheriklar xonasiga kirganda onlayn, suhbat paytida band bo'lasiz.",
         cta: "Sheriklar xonasini ochish",
       },
       practice: {
@@ -2198,7 +2221,7 @@ const uz: Dictionary = {
       lessons: {
         eyebrow: "Darslar",
         title: "Speaking darslari",
-        body: "Videolar, materiallar va tizimli speaking o'rganish, shu jumladan shadowing.",
+        body: "Videolar, materiallar va tizimli speaking o'rganish.",
         cta: "Darslarni ochish",
       },
     },
@@ -2674,6 +2697,27 @@ const uz: Dictionary = {
     },
   },
   fullListeningHub: {
+    research: {
+      matching: "Matching mashqi", completion: "Form va Note Completion", retry: "Xato savollarni qayta ishlash", examLocked: "Mashqlarga kirishdan oldin joriy imtihonni yakunlang.", weakEmpty: "Oxirgi yakunlangan testda xato savollar yo'q. Avval testni bajaring yoki barcha savollarni takrorlang.", prediction: "Tinglashdan oldin javobni taxmin qiling", previous: "Oldingi savol", next: "Keyingi savol", finish: "Bajarilgan mashqni saqlash",
+
+      script: "Skriptni to'ldirish",
+      recall: "Eslab qolish va qaydlar",
+      mcq: "MCQ mashqi",
+      vocabulary: "Lug'at va birikmalar",
+      full: "To'liq test",
+      review: "Qismlar bo'yicha tahlil",
+      listenPart: "Shu qismni tinglash",
+      recallPrompt: "Asosiy fikrlarni eslang va tayanch fikrlarni tekshirishdan oldin qaydlaringizni yozing.",
+      focusPoints: "Tayanch fikrlarni ko'rsatish / yashirish",
+      badge: "Tadqiqotga asoslangan mashqlar",
+      intro: "Imtihon mashqi, dalilli tahlil, aniq til, eslab qolish va foydali lug'at.",
+      examTag: "Imtihon rejimi",
+      reviewTag: "Tahlil + audio",
+      scriptTag: "Tinglab tushunish + lug'at",
+      mcqTag: "MCQ strategiyasi",
+      recallTag: "Eslash + qaydlar",
+      vocabTag: "Til",
+    },
     library: {
       collections: "Listening to'plamlari",
       essential: "▶ Asosiy yozuvlar",
@@ -2691,6 +2735,7 @@ const uz: Dictionary = {
       badgeFull: "40 savol",
       sectionOf: "To'liq yozuvning {n}-bo'limi",
       fullMeta: "{parts} bo'lim · {min} daqiqa",
+      authoredMeta: "{min} daqiqa · Asl test",
       progressLabel: "{title}: bajarilgan mashqlar",
       completedOf5: "{done} / {total} bajarildi",
       openSection: "▶ Bo'limni ochish",
@@ -2701,6 +2746,8 @@ const uz: Dictionary = {
       previous: "Oldingi testlar",
     },
     examScreen: {
+      noteTaking: "Qaydlar",
+      notesLocal: "Qaydlar shu urinish uchun ushbu qurilmada saqlanadi.",
       saving: "Saqlanmoqda…",
       saved: "Saqlandi",
       deviceOnly: "Ushbu qurilmada saqlandi; serverga saqlab bo'lmadi. Qayta urinish javoblaringizni saqlab qoladi.",

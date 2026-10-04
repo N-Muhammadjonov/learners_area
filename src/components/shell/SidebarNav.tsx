@@ -116,9 +116,11 @@ export function SidebarNav({ dict, role, email }: { dict: Dictionary; role: Role
       { href: "/admin/admissions", label: nav.admissions, icon: <IconAdmissions /> }
     );
   }
+  if (role === "teacher") {
+    managementItems.push({ href: "/teacher/students", label: nav.people, icon: <IconPeople /> });
+  }
   if (staff) {
     managementItems.push(
-      { href: "/teacher/students", label: nav.teacherStudents, icon: <IconPeople /> },
       { href: "/teacher/support", label: nav.supportInbox, icon: <IconSupport /> },
       { href: "/teacher/live-classes", label: nav.manageLiveClasses, icon: <IconLive /> },
       { href: "/teacher/speaking", label: nav.manageSpeaking, icon: <IconSpeaking /> }
@@ -143,6 +145,7 @@ export function SidebarNav({ dict, role, email }: { dict: Dictionary; role: Role
             {nav.backToLearning}
           </InstantLink>
           <p className="sidebar-mode">{dict.shell.managementMode}</p>
+          <Group title={nav.groupMain} items={[{ href: "/management", label: dict.shell.management, icon: <IconDashboard /> }]} pathname={activePath} loading={dict.common.loading} />
           <Group title={dict.shell.management} items={managementItems} pathname={activePath} loading={dict.common.loading} />
         </div>
       ) : (

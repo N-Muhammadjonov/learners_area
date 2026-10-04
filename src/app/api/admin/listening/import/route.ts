@@ -120,13 +120,13 @@ async function handle(req: NextRequest) {
           .update(JSON.stringify(payload))
           .digest("hex"),
       });
-    await tx
+    if (payload.questions.length) await tx
       .insert(listeningQuestions)
       .values(
         payload.questions.map((q) => ({
           testId: test!.id,
           order: q.number,
-          type: q.options.length
+          type: q.options.length && q.kind !== "matching"
             ? ("multiple_choice" as const)
             : ("short_answer" as const),
           questionText: q.text,

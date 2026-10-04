@@ -1,3 +1,5 @@
+import { isOnRoster } from "@/lib/reporter/roster";
+import { StudentResults } from "@/components/admin/StudentResults";
 import { BackLink } from "@/components/ui/BackLink";
 import { staffProvenanceLabel } from "@/lib/services/coach/attribution";
 import { notFound, redirect } from "next/navigation";
@@ -23,6 +25,7 @@ export default async function StudentDetailPage({ params }: { params: Promise<{ 
   const dict = getDictionary(await getLocale());
   // Shakli noto'g'ri id hech qachon bazaga yetib bormaydi: javob 500 emas, 404.
   if (!isUuid(id)) notFound();
+  if (user.role === "teacher" && !(await isOnRoster(user.id, id, db))) notFound();
   const detail = await getStudentDetail(id);
   if (!detail) notFound();
 
@@ -65,6 +68,8 @@ export default async function StudentDetailPage({ params }: { params: Promise<{ 
           }))}
         />
       </div>
+
+      <StudentResults studentId={id} dict={dict} />
 
       {/* Mentor visibility (§43/W5): read-only Activation Lab summary from the student's stored check events. */}
       <Card className="flex flex-col gap-2" data-teacher-activation>

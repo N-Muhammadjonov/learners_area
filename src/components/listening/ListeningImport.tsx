@@ -1,7 +1,10 @@
 "use client";
+import { extractEmbeddedListeningMedia } from "@/lib/listening/embedded-media";
+import { strToU8 } from "fflate";
 import { useEffect, useRef, useState } from "react";
 import { scrubDocument } from "@/lib/import/reading-source";
 import Link from "next/link";
+import { AuthoredListeningFrame } from "./AuthoredListeningFrame";
 import { ListeningTryout } from "@/components/import/ListeningTryout";
 import { safePackagePath } from "@/lib/listening/package";
 import { startUpload, type UploadHandle } from "@/lib/uploads/client";
@@ -24,7 +27,7 @@ function zipProblem(message: string): ImportProblemCode {
   return "zip_unreadable";
 }
 
-export function ListeningImport({ dict }: { dict: Pick<Dictionary, "listeningImport" | "uploadErrors" | "importPreview"> }) {
+export function ListeningImport({ dict }: { dict: Dictionary }) {
   const t = dict.listeningImport;
   const [loaded, setLoaded] = useState<Loaded | null>(null);
   const [result, setResult] = useState<(InspectResult & { image: File | null; audioFile: File }) | null>(null);
@@ -70,7 +73,11 @@ export function ListeningImport({ dict }: { dict: Pick<Dictionary, "listeningImp
         for (const input of files) {
           if (!safePackagePath(input.name) || entries[input.name]) throw new Error("unsafe or duplicate");
           entries[input.name] = new Uint8Array(await input.arrayBuffer());
-          if (/\.html?$/i.test(input.name)) textFiles[input.name] = await input.text();
+          if (/\.html?$/i.test(input.name)) {
+            const extracted = extractEmbeddedListeningMedia(await input.text());
+            for (const [path, bytes] of Object.entries(extracted.entries)) { if (entries[path]) throw new Error("duplicate embedded media"); entries[path] = bytes; }
+            textFiles[input.name] = extracted.html; entries[input.name] = strToU8(extracted.html);
+          }
         }
       } else ({ entries, textFiles } = await readListeningZipAsync(new Uint8Array(await file.arrayBuffer()), signal));
       if (signal.aborted) return;
@@ -270,7 +277,7 @@ export function ListeningImport({ dict }: { dict: Pick<Dictionary, "listeningImp
             />
           </label>
           <p>
-            {fill(t.summary, {
+            {result.payload.authoredRuntime ? fill(dict.fullListeningHub.library.authoredMeta, { min: Math.round(result.payload.audio.durationSec / 60) }) : fill(t.summary, {
               q: result.payload.questions.length,
               s: result.payload.sections.length,
               m: Math.round(result.payload.audio.durationSec / 60),
@@ -280,7 +287,7 @@ export function ListeningImport({ dict }: { dict: Pick<Dictionary, "listeningImp
           <p className="text-sm">{fill(t.family, { family: result.family === "canonical" ? t.familyCanonical : t.familyLegacy })}</p>
           {result.canonicalFallback && <p role="status" className="text-sm" data-canonical-fallback>{t.canonicalFallback}</p>}
           <p className="text-sm">{fill(t.audioUsed, { path: result.audio.path, format: result.audio.format })}</p>
-          <ListeningTryout dict={dict} key={result.payload.testId} payload={result.payload} audioFile={result.audioFile} image={result.image} />
+          {result.payload.authoredRuntime ? <AuthoredListeningFrame id="import-preview" userId="staff-preview" dict={dict} preview={{runtime:result.payload.authoredRuntime,audioFile:result.audioFile,audioPath:result.payload.audio.path,imageFile:result.image,imagePath:result.payload.imagePath}} /> : <ListeningTryout dict={dict} key={result.payload.testId} payload={result.payload} audioFile={result.audioFile} image={result.image} />}
           <button type="button" className="btn-primary" disabled={!!busy || !!id} onClick={() => void upload()}>
             {t.upload}
           </button>

@@ -2235,3 +2235,11 @@ export const writingPatternBank = pgTable("writing_pattern_bank", {
   patternId: uuid("pattern_id").notNull().references(() => writingLanguagePatterns.id, { onDelete: "cascade" }),
   savedAt: timestamp("saved_at", { withTimezone: true }).defaultNow().notNull(),
 }, (table) => [primaryKey({ columns: [table.userId, table.patternId] })]);
+
+/** Small, resized profile photographs; deleting the account removes its photograph. */
+export const userProfilePhotos = pgTable("user_profile_photos", {
+  userId: uuid("user_id").primaryKey().references(() => users.id, { onDelete: "cascade" }),
+  imageBase64: text("image_base64").notNull(),
+  contentType: varchar("content_type", { length: 30 }).notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+});

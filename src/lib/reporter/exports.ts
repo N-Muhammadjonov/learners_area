@@ -162,11 +162,15 @@ export function renderDocx(s: ReportSnapshot, lang: ReportLang): Uint8Array {
     para(t.sources, { bold: true, size: 28 }),
     ...s.metrics.flatMap((m) => [para(m.source.queryId, { bold: true }), para(m.source.sql, { mono: true, size: 16 }), para(JSON.stringify(m.source.parameters), { mono: true, size: 16 })]),
   ].join("");
+  return renderDocxBody(body, new Date(s.generatedAt));
+}
+
+function renderDocxBody(body: string, generatedAt: Date): Uint8Array {
   return zip({
     "[Content_Types].xml": `${XML_HEAD}<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>`,
     "_rels/.rels": `${XML_HEAD}<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>`,
     "word/document.xml": `${XML_HEAD}<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>${body}<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1000" w:right="900" w:bottom="1000" w:left="900"/></w:sectPr></w:body></w:document>`,
-  }, new Date(s.generatedAt));
+  }, generatedAt);
 }
 
 // ---------------------------------------------------------------- PDF
@@ -209,6 +213,11 @@ export function renderPdf(s: ReportSnapshot, lang: ReportLang): Uint8Array {
     for (const w of wrap(JSON.stringify(m.source.parameters), 110)) lines.push({ text: w, size: 7, mono: true });
   }
 
+  return renderPdfLines(lines, t.title, s.reportId, "RIWI Reporter");
+}
+
+type PdfLine = { text: string; size: number; bold?: boolean; mono?: boolean };
+function renderPdfLines(lines: PdfLine[], title: string, documentId: string, producer: string): Uint8Array {
   const pageHeight = 842;
   const top = 800;
   const bottom = 50;
@@ -222,7 +231,7 @@ export function renderPdf(s: ReportSnapshot, lang: ReportLang): Uint8Array {
     if (line.text) ops.push(`BT /${line.mono ? "F3" : line.bold ? "F2" : "F1"} ${line.size} Tf 50 ${y} Td (${pdfText(line.text)}) Tj ET`);
   }
   pages.push(ops.join("\n"));
-  const footer = (i: number) => `BT /F1 7 Tf 50 30 Td (${pdfText(`${s.reportId} - ${i + 1}/${pages.length}`)}) Tj ET`;
+  const footer = (i: number) => `BT /F1 7 Tf 50 30 Td (${pdfText(`${documentId} - ${i + 1}/${pages.length}`)}) Tj ET`;
 
   const objects: string[] = [];
   const add = (body: string) => { objects.push(body); return objects.length; };
@@ -239,7 +248,7 @@ export function renderPdf(s: ReportSnapshot, lang: ReportLang): Uint8Array {
   });
   objects[catalog - 1] = `<< /Type /Catalog /Pages ${pagesObj} 0 R >>`;
   objects[pagesObj - 1] = `<< /Type /Pages /Kids [${pageIds.map((id) => `${id} 0 R`).join(" ")}] /Count ${pageIds.length} >>`;
-  const info = add(`<< /Title (${pdfText(`${t.title} ${s.reportId}`)}) /Producer (RIWI Reporter) >>`);
+  const info = add(`<< /Title (${pdfText(`${title} ${documentId}`)}) /Producer (${pdfText(producer)}) >>`);
 
   let out = "%PDF-1.4\n";
   const offsets: number[] = [];
@@ -291,3 +300,11 @@ export function reportFileName(s: ReportSnapshot, format: ReportFormat): string 
 }
 
 export { sha256 as bytesSha256 };
+
+/** Standalone student-data documents use the same validated file encoders. */
+export function renderTextPdf(title: string, body: string[], documentId: string): Uint8Array {
+  return renderPdfLines([{ text: title, size: 16, bold: true }, ...body.flatMap(line => wrap(line, 95).map(text => ({ text, size: 9 })))], title, documentId, "Learners Area");
+}
+export function renderTextDocx(title: string, body: string[], generatedAt: Date): Uint8Array {
+  return renderDocxBody(para(title, { bold: true, size: 36 }) + body.map(line => para(line)).join(""), generatedAt);
+}

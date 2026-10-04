@@ -3,7 +3,9 @@ import { mapDiagramSchema } from "./map-diagram";
 
 const text = z.string().trim().min(1).max(12000);
 const clip = z.object({
-  q: z.number().int().min(1).max(40),
+  q: z.number().int().min(1).max(200),
+  part: z.number().int().min(1).max(4).optional(),
+  sourceQuestion: z.number().int().min(1).max(40).optional(),
   at: z.number().nonnegative(),
   end: z.number().positive(),
   heard: text,
@@ -19,6 +21,15 @@ const quiz = z
 export const listeningPackageSchema = z
   .object({
     schemaVersion: z.literal(1),
+    /** Owner runtime is JSON data only; execution is restricted by authored-sandbox.ts. */
+    authoredRuntime: z.object({ entryPath: z.string().max(200), files: z.record(z.string().max(5 * 1024 * 1024)) }).optional(),
+    studyPack: z.object({
+      kind: z.literal("research-practice"),
+      activities: z.array(z.enum(["exam", "review", "script", "mcq", "recall", "vocab", "matching", "completion", "retry"])).min(1).max(9).optional(),
+      partRanges: z.record(z.tuple([z.number().nonnegative(), z.number().positive()])),
+      scriptParts: z.array(z.object({part:z.number().int().min(1).max(4),transcript:text,gaps:z.array(z.object({q:z.number().int().min(1).max(200),match:text,answer:text})).max(200)})).max(4).optional(),
+      recall: z.array(z.object({ part: z.number().int().min(1).max(4), title: text, points: z.array(text).min(1).max(20) })).max(4).default([]),
+    }).optional(),
     collection: z.enum(["essential", "academic", "general", "question_types", "mcq"]).optional(),
     testId: z.string().regex(/^[a-z0-9-]{1,80}$/),
     title: z.string().trim().min(1).max(200),
@@ -47,15 +58,16 @@ export const listeningPackageSchema = z
           section: z.number().int().min(1).max(4),
           text,
           instruction: z.string().max(2000),
+          kind: z.enum(["completion", "mcq", "matching"]).optional(),
           options: z.array(z.string().max(2000)).max(12),
           key: text,
           alternatives: z.array(z.string().max(500)).max(20),
           pair: z.array(z.number().int().min(1).max(40)).max(2),
-          evidence: z.object({ at: z.number().nonnegative(), why: z.string().max(12000) }),
+          evidence: z.object({ at: z.number().nonnegative(), end: z.number().positive().optional(), why: z.string().max(12000) }),
         }),
       )
-      .min(1).max(40),
-    keyword1: z.array(clip.extend({ text })).min(0).max(40),
+      .min(0).max(40),
+    keyword1: z.array(clip.extend({ text })).min(0).max(200),
     keyword2: z
       .array(
         clip.extend({
@@ -82,6 +94,15 @@ export const listeningPackageSchema = z
   })
   .superRefine((v, ctx) => {
     const fail = (message: string) => ctx.addIssue({ code: "custom", message });
+    if (!v.questions.length && !v.authoredRuntime) fail("Missing questions");
+    if (v.authoredRuntime && (!safePackagePath(v.authoredRuntime.entryPath) || !v.authoredRuntime.files[v.authoredRuntime.entryPath] || Object.keys(v.authoredRuntime.files).some(path => !safePackagePath(path) || !/\.(html?|css|js)$/i.test(path)) || JSON.stringify(v.authoredRuntime.files).length > 6 * 1024 * 1024)) fail("Invalid authored runtime");
+    if (v.studyPack) {
+      if (new Set(v.studyPack.recall.map(row => row.part)).size !== v.studyPack.recall.length) fail("Duplicate recall Part");
+      for (const [part, range] of Object.entries(v.studyPack.partRanges))
+        if (!v.sections.some(section => String(section.number) === part) || range[1] <= range[0] || range[1] > v.audio.durationSec + 1) fail("Part range outside audio");
+      for (const row of v.studyPack.recall)
+        if (!v.studyPack.partRanges[String(row.part)]) fail("Recall Part has no audio range");
+    }
     if (new Set(v.sections.map((s) => s.number)).size !== v.sections.length)
       fail("Duplicate section");
     if (new Set(v.questions.map((q) => q.number)).size !== v.questions.length)

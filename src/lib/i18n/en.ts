@@ -243,7 +243,21 @@ const en = {
     auditBody: "The security and administration journal.",
   },
 
+  studentResults: {
+    title: "Mock results",
+    taken: "Mocks taken",
+    latest: "Latest band",
+    best: "Best band",
+    average: "Average band",
+    improvement: "First → latest",
+    completed: "Tests completed",
+    trend: "Mock band trend",
+    bandNote: "Bands are recorded for individual mock tests and skills.",
+    noResults: "No completed mock results yet.",
+    practice: "Practice submissions",
+  },
   common: {
+    edit: "Edit",
     error: "Something went wrong.",
     save: "Save",
     saving: "Saving…",
@@ -432,6 +446,7 @@ const en = {
     minutes: "{n} min",
   },
   videoLesson: {
+    studyPack: {"title": "TED study practice", "source": "Exercises from Learners Area TED Study Pack, Volume 1. Your responses are saved with this lesson.", "official": "Official TED talk and transcript", "response": "Your response", "key": "Show / hide answer guide", "model": "Use this guide to compare meaning. Open answers are not automatically scored.", "tooLong": "Keep the total response below 4,000 characters before saving.", "glossary": "Vocabulary and collocations"},
     vocabularyHelp: "Words from this lesson use your shared vocabulary library.",
     vocabularyPractice: "Revision, flashcards and games",
     vocabularySave: "Save to my vocabulary",
@@ -1264,10 +1279,11 @@ const en = {
   },
   livePartner: {
     title: "Live Partner",
-    intro: "Practise speaking with another learner in a live voice call. You stay offline until you choose Go Online.",
+    intro: "Practise speaking with another learner in a live voice call. Entering this room makes you available; leaving it or starting a call removes you from the available list.",
     you: "You", questions: "Questions", onlineUsers: "Online users", avatar: "Avatar",
     search: "Search questions", noQuestions: "No questions match.", loading: "Loading…", nobodyOnline: "Nobody is available right now.",
     parts: { part1: "Part 1", part2: "Part 2", part3: "Part 3" },
+    nextQuestion: "Next question",
     goOnline: "Go Online", goOffline: "Go Offline", invite: "Invite", cancelInvite: "Cancel invite", accept: "Accept", decline: "Decline",
     endCall: "End call", block: "Block this user", close: "Close", agree: "I agree",
     incomingTitle: "Incoming invitation", incomingBody: "wants to practise with you.",
@@ -1281,7 +1297,7 @@ const en = {
     tapToPlay: "Your browser blocked playback. Tap anywhere on the page to hear your partner.",
     rulesTitle: "Live Partner rules",
     rules: ["Be respectful; speak English and stay on topic.", "No recording of your partner. Calls are not recorded by Learners Area.", "Do not share personal contact details.", "You can end the call or block a user at any time."],
-    micTitle: "Microphone check", micBody: "Speak a few words. The level is measured on this device only; nothing is recorded or uploaded.", micLevel: "Microphone level", micReady: "Microphone works — go online",
+    micTitle: "Microphone check", micBody: "Speak a few words. The level is measured on this device only; nothing is recorded or uploaded.", micLevel: "Microphone level", micReady: "Finish microphone check",
     realtimeMissing: "Live calls are unavailable: the realtime audio service is not ready in this environment. You cannot go online until it is.",
     errors: {
       unavailable: "Live Partner is unavailable right now. Try again.", unknownResult: "We could not confirm the result. The status will refresh.",
@@ -1662,6 +1678,7 @@ const en = {
     nextPage: "Next",
   },
   profile: {
+    photo: {"title": "Profile photograph", "upload": "Upload photograph", "remove": "Remove photograph", "saved": "Profile photograph saved.", "failed": "The photograph could not be saved. Choose a smaller image and retry."},
     title: "Your profile",
     subtitle: "Change only the name shown across your Learners Area account.",
     displayName: "Display name",
@@ -1694,6 +1711,12 @@ const en = {
     secretNote: "Values such as keys, tokens and passwords are never shown, not even to the owner.",
   },
   retention: {
+    formats: { pdf: "PDF", docx: "DOCX", zip: "ZIP" },
+    studentExport: "Student data and results",
+    studentExportBody: "Download student profiles, Reading, Listening, Speaking, Writing, mock results and recorded evaluations. ZIP includes JSON, PDF and DOCX.",
+    fileFormat: "File format",
+    downloadStudents: "Download student records",
+
     title: "Data retention",
     subtitle: "One centralised policy. Durations are configuration, not scattered constants.",
     inactiveStudent: "Inactive student accounts",
@@ -2178,14 +2201,14 @@ const en = {
   speakingHub: {
     intro: "Choose how you want to practise speaking today.",
     lessonsTitle: "Speaking lessons",
-    lessonsBody: "Videos, materials, structures and shadowing for structured speaking study.",
+    lessonsBody: "Videos, materials and structures for structured speaking study.",
     lessonsEmptyTitle: "No speaking lessons are published yet",
     lessonsEmptyBody: "Your teacher has not published lessons here yet. Practice on your own and Practice with AI are available now.",
     cards: {
       partner: {
         eyebrow: "Online",
         title: "Speak with a partner",
-        body: "Practise with another learner in a live voice session. You stay offline until you choose to go online.",
+        body: "Practise with another learner in a live voice session. Enter the partner room to become available; during a call you are busy.",
         cta: "Open partner room",
       },
       practice: {
@@ -2203,7 +2226,7 @@ const en = {
       lessons: {
         eyebrow: "Lessons",
         title: "Speaking lessons",
-        body: "Videos, materials and structured speaking study, including shadowing.",
+        body: "Videos, materials and structured speaking study.",
         cta: "Open lessons",
       },
     },
@@ -2679,6 +2702,27 @@ const en = {
     },
   },
   fullListeningHub: {
+    research: {
+      matching: "Matching Mastery", completion: "Form & Note Completion", retry: "Retry Weak Areas", examLocked: "Submit your current exam before opening study help.", weakEmpty: "No missed questions in your latest submitted test. Complete a test first, or review all questions.", prediction: "Predict the answer before listening", previous: "Previous question", next: "Next question", finish: "Save completed practice",
+
+      script: "Script Completion",
+      recall: "Recall & Notes",
+      mcq: "MCQ Mastery",
+      vocabulary: "Vocabulary & Collocations",
+      full: "Full Test",
+      review: "Review by Part",
+      listenPart: "Listen to this Part",
+      recallPrompt: "Recall the key ideas and write your notes before checking the focus points.",
+      focusPoints: "Show / hide focus points",
+      badge: "Research-based practice",
+      intro: "Exam practice, evidence-based review, exact language, retrieval and useful vocabulary.",
+      examTag: "Exam mode",
+      reviewTag: "Feedback + audio",
+      scriptTag: "Decoding + lexis",
+      mcqTag: "MCQ strategy",
+      recallTag: "Retrieval + notes",
+      vocabTag: "Language",
+    },
     library: {
       collections: "Listening collections",
       essential: "▶ Essential Recordings",
@@ -2696,6 +2740,7 @@ const en = {
       badgeFull: "40 questions",
       sectionOf: "Section {n} of the full recording",
       fullMeta: "{parts} sections · {min} min",
+      authoredMeta: "{min} min · Original test",
       progressLabel: "{title}: completed activities",
       completedOf5: "{done} / {total} completed",
       openSection: "▶ Open section",
@@ -2706,6 +2751,8 @@ const en = {
       previous: "Previous tests",
     },
     examScreen: {
+      noteTaking: "Note taking",
+      notesLocal: "Notes are saved on this device for this attempt.",
       saving: "Saving…",
       saved: "Saved",
       deviceOnly: "Saved on this device; the server save failed. Retrying keeps your answers.",

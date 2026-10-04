@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import type { Dictionary } from "@/lib/i18n/en";
+import { TedStudyPractice, findTedStudyPack } from "./TedStudyPractice";
 import { VideoVocabulary, type VideoWord } from "./VideoVocabulary";
 import { ClickableText } from "@/components/vocabulary/ClickableText";
 import { Button } from "@/components/ui/Button";
@@ -75,6 +76,7 @@ export function VideoLessonStudio({
   } | null;
 }) {
   const t = dict.videoLesson;
+  const studyPack = mode === "standalone" ? findTedStudyPack(videoLesson.title) : undefined;
   const provider = videoLesson.provider as VideoProvider;
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const reportedRef = useRef(initialProgress?.watchedSeconds ?? 0);
@@ -130,12 +132,12 @@ export function VideoLessonStudio({
     if (comprehension.length > 0) list.push("comprehension");
     if (gapFill.length > 0) list.push("gap");
     if (vocabulary.length > 0) list.push("vocabulary");
-    list.push("opinion");
+    if (!studyPack) list.push("opinion");
     // Written recall does not depend on a transcript: the student writes what they
     // remember from the video itself.
-    list.push("summary");
+    if (!studyPack) list.push("summary");
     return list;
-  }, [videoLesson.beforeYouWatch, hasTranscript, notes.length, comprehension.length, gapFill.length, vocabulary.length]);
+  }, [videoLesson.beforeYouWatch, hasTranscript, notes.length, comprehension.length, gapFill.length, vocabulary.length, studyPack]);
 
   const [selectedTab, setTab] = useState<Tab>(tabs[0] ?? "opinion");
   // If the available tabs ever change, never point at a removed one.
@@ -293,7 +295,7 @@ export function VideoLessonStudio({
   }, [videoLesson.id]);
 
   async function writeLesson(kind: "answers" | "response", payload: Record<string, unknown>) {
-    if (mutationRef.current) return;
+    if (mutationRef.current) return false;
     const controller = new AbortController();
     mutationRef.current = controller;
     const deadline = window.setTimeout(() => controller.abort(), 12000);
@@ -309,15 +311,17 @@ export function VideoLessonStudio({
       });
       if (!res.ok) throw new Error("Video lesson write failed");
       const body = await res.json();
-      if (mutationRef.current !== controller || controller.signal.aborted) return;
+      if (mutationRef.current !== controller || controller.signal.aborted) return false;
       if (kind === "answers" && body.graded) setGraded((prev) => ({ ...prev, ...body.graded }));
       if (body.state) setState(body.state);
       if (kind === "response") setSavedResponse(true);
+      return true;
     } catch {
       if (mutationRef.current === controller) {
         setRequestError(true);
         if (kind === "response") setSavedResponse(false);
       }
+      return false;
     } finally {
       window.clearTimeout(deadline);
       if (mutationRef.current === controller) {
@@ -434,6 +438,8 @@ export function VideoLessonStudio({
         </span>
       </div>
 
+      {studyPack && <TedStudyPractice title={videoLesson.title} initial={initialProgress?.responseText ?? ""} dict={dict} save={text => writeLesson("response", { responseText: text })} />}
+      <div className={studyPack && tabs.length === 0 ? "hidden" : "contents"}>
       {!vocabularyReady && <p role="status" className="text-sm text-ink-500">{t.vocabularyUnavailable}</p>}
       <div className="flex flex-wrap gap-2" role="tablist" aria-label={t.stagesLabel} data-video-tablist>
         {tabs.map((item, index) => (
@@ -596,6 +602,7 @@ export function VideoLessonStudio({
             {t.feedbackNote}
           </p>
         ) : null}
+      </div>
       </div>
     </section>
   );

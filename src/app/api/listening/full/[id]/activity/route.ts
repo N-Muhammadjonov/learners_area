@@ -5,6 +5,7 @@ import { listeningActivityRuns } from "@/db/schema";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import {
   allowedListeningSpeeds,
+  listeningExamState,
   fullListeningDetail,
 } from "@/lib/data/full-listening";
 import { gradePackage, normalized } from "@/lib/listening/package";
@@ -28,6 +29,10 @@ export async function POST(
   const detail = await fullListeningDetail(id, user.role);
   if (!detail)
     return NextResponse.json({ error: "not_found" }, { status: 404 });
+  if (!detail.pkg.payload.questions.length)
+    return NextResponse.json({ error: "authored_runtime_only" }, { status: 409 });
+  if ((await listeningExamState(user, id)).examInProgress)
+    return NextResponse.json({ error: "exam_in_progress" }, { status: 409 });
   const parsed = schema.safeParse(await req.json().catch(() => null));
   if (!parsed.success)
     return NextResponse.json({ error: "invalid_input" }, { status: 400 });
@@ -39,7 +44,7 @@ export async function POST(
       : activity === 3
         ? p.keyword1.map((q) => String(q.q))
         : activity === 4
-          ? p.keyword2.map((q) => String(q.q))
+          ? p.studyPack ? p.studyPack.recall.map(part => String(part.part)) : p.keyword2.map((q) => String(q.q))
           : p.vocabulary.flatMap((x, i) => x.quiz ? [String(i)] : []);
   if (Object.keys(answers).some((n) => !ids.includes(n)))
     return NextResponse.json({ error: "foreign_question" }, { status: 400 });
@@ -63,6 +68,7 @@ export async function POST(
         (x) =>
           normalized(answers[x.q] ?? "") === normalized(x.link.split(";")[0]!),
       ).length;
+    else if (activity === 4 && p.studyPack) score = null;
     else if (activity === 4)
       score = p.keyword2.filter(
         (x) => "correct" in x ? answers[x.q] === String(x.correct) : normalized(answers[x.q] ?? "") === normalized(x.answer),

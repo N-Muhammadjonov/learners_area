@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  outputFileTracingIncludes: { "/api/owner/student-export": ["./src/assets/fonts/DejaVuSans.ttf"] },
   // The disposable local development server proxies file bytes to disk. Next
   // 15's 10 MB middleware clone otherwise truncates a valid 16 MB audio file.
   // Hosted Preview/Production retain the framework limit and direct S3/R2 PUTs.

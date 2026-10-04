@@ -53,6 +53,8 @@ export function NativeListeningExam({
   const [error, setError] = useState("");
   const [saved, setSaved] = useState("");
   const [busy, setBusy] = useState(false);
+  const [notesOpen, setNotesOpen] = useState(false);
+  const [notes, setNotes] = useState("");
   const [confirm, setConfirm] = useState(false);
   const saveRef = useRef<(startAudio?: boolean) => Promise<void>>(
     async () => {},
@@ -78,6 +80,14 @@ export function NativeListeningExam({
       requests.current.forEach((c) => c.abort());
     };
   }, [key, initial]);
+  const notesKey = `la-listening-notes:${attemptId}`;
+  useEffect(() => {
+    try { setNotes(localStorage.getItem(notesKey)?.slice(0, 12000) ?? ""); } catch {}
+  }, [notesKey]);
+  function updateNotes(value: string) {
+    setNotes(value);
+    try { localStorage.setItem(notesKey, value); } catch {}
+  }
   async function save(startAudio = false) {
     if (saving.current) return;
     saving.current = true;
@@ -182,7 +192,7 @@ export function NativeListeningExam({
   return (
     <div
       ref={container}
-      className="mx-auto max-w-5xl space-y-5 bg-white p-4 overflow-auto"
+      className="listening-workspace mx-auto max-w-5xl space-y-5 bg-paper p-4 overflow-auto"
     >
       <header className="card flex flex-wrap items-center gap-4">
         <h1 className="font-display text-2xl">{title} · Full Exam</h1>
@@ -195,6 +205,7 @@ export function NativeListeningExam({
           {Math.floor(duration / 60)}:
           {String(Math.floor(duration % 60)).padStart(2, "0")}
         </span>
+        <button type="button" className="btn-secondary" aria-expanded={notesOpen} aria-controls="listening-exam-notes" onClick={() => setNotesOpen(open => !open)}>{dict.fullListeningHub.examScreen.noteTaking}</button>
         <label>
           {dict.fullListeningHub.examScreen.volume}
           <input
@@ -226,6 +237,7 @@ export function NativeListeningExam({
           {dict.fullListeningHub.examScreen.fullscreen}
         </button>
       </header>
+      {notesOpen && <aside id="listening-exam-notes" className="card space-y-2 p-4"><label className="block" htmlFor="listening-notes-text">{dict.fullListeningHub.examScreen.noteTaking}</label><textarea id="listening-notes-text" className="input min-h-40" maxLength={12000} value={notes} onChange={e => updateNotes(e.target.value)} /><p className="text-xs text-ink-500">{dict.fullListeningHub.examScreen.notesLocal}</p></aside>}
       <audio
         ref={audio}
         src={audioUrl}
