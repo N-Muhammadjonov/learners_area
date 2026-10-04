@@ -108,7 +108,7 @@ function makeDependencies(input: {
     tools: Array<{ name: string; input: unknown }>;
     providerInputs: Array<{ actor: { id: string; role: Role }; payload: unknown }>;
     audits: RiwiGatewayAuditInput[];
-    turns: Array<{ userMessage: string; assistantMessage: string; metadata: { externalEligible: boolean } }>;
+    turns: Array<{ userMessage: string; assistantMessage: string; metadata: { externalEligible: boolean; scopeKind?: string | null; scopeTargetUserId?: string | null } }>;
     learningSignals: Array<{ type: string; producer?: string; sourceId?: string | null; candidateClaim: string; evidenceSummary: string }>;
   } = { tools: [], providerInputs: [], audits: [], turns: [], learningSignals: [] };
   const actor = { ...currentUser(input.role ?? "student", input.userId, input.accountStatus), locale: input.locale ?? "en" };
@@ -244,6 +244,9 @@ test("student cross-row targeting is denied while a teacher's assigned target pa
   assert.equal("ok" in allowed.body && allowed.body.ok, true);
   assert.deepEqual(teacher.state.tools.map((item) => item.name), ["riwi.report.readAssigned"]);
   assert.deepEqual(teacher.state.tools[0]?.input, { language: "en", targetUserId: ASSIGNED_STUDENT_ID });
+  assert.equal(teacher.state.turns[0]?.metadata.scopeKind, "assigned");
+  assert.equal(teacher.state.turns[0]?.metadata.scopeTargetUserId, ASSIGNED_STUDENT_ID,
+    "the transcript persistence boundary records the server-resolved target for future reauthorization");
 
   const unassigned = makeDependencies({ role: "teacher", userId: "aaaaaaaa-0000-4000-8000-000000000005" });
   const deniedTeacher = await runRiwiGateway(post({ message: "Show my report", targetUserId: OTHER_STUDENT_ID }), unassigned.dependencies);

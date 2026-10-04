@@ -668,7 +668,10 @@ export async function runRiwiGateway(request: Request, overrides: Partial<RiwiGa
     if (conversationId) await deps.appendTurn({ actor: { id: actor.id, role: actor.role }, conversationId,
       userMessage: parsed.data.message, assistantMessage: response.answer,
       metadata: { correlationId, intent, providerId: response.provider?.id ?? null, model: response.provider?.model ?? null,
-        fallbackUsed: false, externalEligible, provenance: response.provenance, citations: response.citations } });
+        fallbackUsed: false, externalEligible, provenance: response.provenance, citations: response.citations,
+        scopeKind: scopeKind ?? null,
+        scopeTargetUserId: scopeKind === "self" ? actor.id
+          : "targetUserId" in plan && typeof plan.targetUserId === "string" ? plan.targetUserId : null } });
     // Record success only after every required transcript write has completed, so feedback cannot attach to a failed delivery path.
     await deps.writeAudit({ actorUserId: actor.id, action: "riwi.request.completed", targetType: "riwi_request", targetId: correlationId,
       metadata: { correlationId, role: actor.role, intent, capability: "capability" in plan ? plan.capability : baseCapability,

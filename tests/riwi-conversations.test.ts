@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { randomUUID } from "node:crypto";
 import { eq } from "drizzle-orm";
-import { users, riwiConversationMessages, riwiConversations } from "../src/db/schema";
+import { users, riwiConversationMessages, riwiConversations, teacherStudentLinks } from "../src/db/schema";
 import { createTestDatabase } from "./support/pglite";
 import {
   RIWI_CONVERSATION_STORAGE_MAX_MESSAGES,
@@ -80,6 +80,109 @@ test("conversation ownership, creation-role binding, metadata projection, and de
     assert.deepEqual(await deleteRiwiConversation({ actor, conversationId: conversation.id, correlationId }, database.db), { deleted: true });
     assert.equal((await database.db.select().from(riwiConversations).where(eq(riwiConversations.id, conversation.id))).length, 0);
     assert.equal((await database.db.select().from(riwiConversationMessages).where(eq(riwiConversationMessages.conversationId, conversation.id))).length, 0);
+  } finally {
+    await database.close();
+  }
+});
+
+test("assigned learner answers are re-authorized on transcript read and storage; role changes fail closed", async () => {
+  const database = await createTestDatabase();
+  const teacherId = randomUUID();
+  const learnerId = randomUUID();
+  await database.db.insert(users).values([
+    { id: teacherId, name: "Assigned teacher", role: "teacher", accountStatus: "active" },
+    { id: learnerId, name: "Assigned learner", role: "student", accountStatus: "active" },
+  ]);
+  await database.db.insert(teacherStudentLinks).values({ teacherUserId: teacherId, studentUserId: learnerId });
+  try {
+    const actor = { id: teacherId, role: "teacher" as const };
+    const conversation = await openRiwiConversation({ actor, locale: "en" }, database.db);
+    const metadata = {
+      ...MESSAGE_META,
+      intent: "progress_self",
+      externalEligible: false,
+      provenance: "deterministic_learning_data" as const,
+      scopeKind: "assigned" as const,
+      scopeTargetUserId: learnerId,
+    };
+    await appendRiwiTurn({
+      actor, conversationId: conversation.id,
+      userMessage: "Show assigned learner progress.",
+      assistantMessage: "PRIVATE LEARNER PROGRESS: writing needs work.",
+      metadata,
+    }, database.db);
+
+    const stored = await database.db.select().from(riwiConversationMessages)
+      .where(eq(riwiConversationMessages.conversationId, conversation.id));
+    const assistant = stored.find((row) => row.role === "assistant");
+    assert.equal((assistant?.metadata as Record<string, unknown>).scopeTargetUserId, learnerId,
+      "the authorized target is recorded as server-owned metadata for future rechecks");
+    const permitted = await getRiwiConversationTranscript({ actor, conversationId: conversation.id }, database.db);
+    assert.ok(permitted.some((message) => message.content.includes("PRIVATE LEARNER PROGRESS")));
+
+    await assert.rejects(
+      getRiwiConversationTranscript({ actor: { id: teacherId, role: "student" }, conversationId: conversation.id }, database.db),
+      (error: unknown) => error instanceof RiwiConversationError && error.code === "not_found",
+      "a role change cannot inherit the teacher transcript",
+    );
+
+    await database.db.delete(teacherStudentLinks).where(eq(teacherStudentLinks.teacherUserId, teacherId));
+    const revoked = await getRiwiConversationTranscript({ actor, conversationId: conversation.id }, database.db);
+    const revokedAnswer = revoked.find((message) => message.role === "assistant");
+    assert.ok(revokedAnswer);
+    assert.equal(revokedAnswer.provenance, "unavailable");
+    assert.equal(revokedAnswer.correlationId, null);
+    assert.doesNotMatch(revokedAnswer.content, /PRIVATE LEARNER PROGRESS|writing needs work/i,
+      "a revoked teacher must not receive the previously stored learner answer");
+
+    await assert.rejects(
+      appendRiwiTurn({
+        actor, conversationId: conversation.id,
+        userMessage: "Show assigned learner progress again.",
+        assistantMessage: "PRIVATE LEARNER PROGRESS: writing needs work.",
+        metadata: { ...metadata, correlationId: randomUUID() },
+      }, database.db),
+      (error: unknown) => error instanceof RiwiConversationError && error.code === "not_found",
+      "storage rechecks the assignment and refuses a stale scoped result",
+    );
+  } finally {
+    await database.close();
+  }
+});
+
+test("teacher roster reports retain only a safe placeholder, never the old aggregate", async () => {
+  const database = await createTestDatabase();
+  const teacherId = randomUUID();
+  await database.db.insert(users).values({ id: teacherId, name: "Roster teacher", role: "teacher", accountStatus: "active" });
+  try {
+    const actor = { id: teacherId, role: "teacher" as const };
+    const conversation = await openRiwiConversation({ actor, locale: "en" }, database.db);
+    await appendRiwiTurn({
+      actor, conversationId: conversation.id,
+      userMessage: "Show my roster report.",
+      assistantMessage: "PRIVATE ROSTER AGGREGATE: seven learners.",
+      metadata: {
+        ...MESSAGE_META, intent: "report_self", externalEligible: false,
+        provenance: "deterministic_report", scopeKind: "roster", scopeTargetUserId: null,
+      },
+    }, database.db);
+    const stored = await database.db.select().from(riwiConversationMessages)
+      .where(eq(riwiConversationMessages.conversationId, conversation.id));
+    const savedAnswer = stored.find((row) => row.role === "assistant");
+    assert.ok(savedAnswer);
+    assert.doesNotMatch(savedAnswer.content, /PRIVATE ROSTER AGGREGATE|seven learners/);
+    const transcript = await getRiwiConversationTranscript({ actor, conversationId: conversation.id }, database.db);
+    assert.ok(transcript.some((message) => message.content.includes("not saved in conversation history")));
+    assert.ok(transcript.every((message) => !/PRIVATE ROSTER AGGREGATE|seven learners/.test(message.content)));
+
+    await database.db.insert(riwiConversationMessages).values({
+      conversationId: conversation.id, role: "assistant", content: "LEGACY PRIVATE REPORT WITH UNKNOWN SCOPE.",
+      createdAt: new Date(Date.now() + 10),
+      metadata: { correlationId: randomUUID(), intent: "report_self", provenance: "deterministic_report", citations: [] },
+    });
+    const afterLegacyRow = await getRiwiConversationTranscript({ actor, conversationId: conversation.id }, database.db);
+    assert.ok(afterLegacyRow.every((message) => !message.content.includes("LEGACY PRIVATE REPORT")),
+      "pre-metadata staff reports are redacted rather than guessed to be still authorized");
   } finally {
     await database.close();
   }
