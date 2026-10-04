@@ -382,22 +382,22 @@ export function ReadingExam({
   const questionCount = questions.length;
 
   return (
-    <div className="flex flex-col gap-4" data-reading-practice data-attempt={attemptId}>
+    <div className="relative -mx-2 flex min-h-[calc(100vh-5rem)] flex-col gap-0 overflow-hidden border border-slate-200 bg-white text-slate-950" data-reading-practice data-attempt={attemptId} data-ielts-exam-shell>
       {/*
         One workspace header on every viewport: the timer and the save state are
         the two things a student checks mid-task, so they stay together and stay
         visible — including in Focus mode, which only hides the shell.
       */}
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 rounded-[16px] border border-ink-100 bg-paper-raised px-4 py-2.5">
-        <div className="min-w-0 flex-1">
+      <div className="sticky top-0 z-20 grid min-h-[52px] grid-cols-[1fr_auto_1fr] items-center gap-3 border-b border-slate-200 bg-white px-4 py-2">
+        <div className="min-w-0">
           <h1 className="truncate font-display text-lg text-ink-900">{passageTitle}</h1>
           <p className="text-xs text-ink-300">
             {passageMeta ? `${passageMeta} · ` : ""}
             {dict.reading.questions}: {questionCount}
           </p>
         </div>
-        <span className="flex items-center gap-2 text-sm text-ink-700" data-practice-timer>
-          <span className="text-ink-300">{t.timerLabel}</span>
+        <span className="justify-self-center rounded-md bg-red-50 px-3 py-1.5 text-sm font-semibold text-red-700" data-practice-timer>
+          <span className="sr-only">{t.timerLabel}</span>
           <span className="font-mono tabular-nums" data-time-remaining={remainingSeconds}>
             {now === null ? "--:--" : formatDuration(remainingSeconds * 1000)}
           </span>
@@ -410,7 +410,7 @@ export function ReadingExam({
       </div>
 
       {/* Mobile keeps one pane at a time; the tabs are real buttons, 44px tall. */}
-      <div className="flex gap-2 lg:hidden" role="tablist" aria-label={dict.reading.practiceTitle}>
+      <div className="flex gap-2 border-b border-slate-200 bg-white p-2 lg:hidden" role="tablist" aria-label={dict.reading.practiceTitle}>
         {(
           [
             { key: "passage", label: t.passageTab },
@@ -438,18 +438,23 @@ export function ReadingExam({
         ))}
       </div>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[58fr_42fr]">
+      <div className="grid min-h-0 flex-1 grid-cols-1 gap-0 lg:grid-cols-[60fr_1px_40fr]">
         <section
-          className={`card flex-col gap-3 p-5 lg:flex ${pane === "passage" ? "flex" : "hidden"}`}
+          className={`min-h-0 flex-col gap-0 bg-white lg:flex ${pane === "passage" ? "flex" : "hidden"}`}
           aria-label={t.passageTab}
           data-practice-pane="passage"
         >
-          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-ink-100 pb-3">
-            <h2 className="font-display text-base text-ink-900">{passageTitle}</h2>
+          <div className="flex min-h-[56px] flex-wrap items-center justify-between gap-2 border-b border-slate-200 px-4 py-3">
+            <div>
+              <p className="text-sm font-bold uppercase tracking-wide text-slate-950">
+                {passageMeta ? passageMeta.replace(/Test\s+\d+\s*,?\s*/i, "") : t.passageTab}
+              </p>
+              <h2 className="mt-2 text-sm font-bold text-slate-950">{passageTitle}</h2>
+            </div>
             <ReadAloud dict={dict} text={`${passageTitle}. ${passageBody}`} />
           </div>
 
-          <div className="flex flex-col gap-4 lg:max-h-[70vh] lg:overflow-y-auto lg:pr-2" data-passage-body>
+          <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto px-4 py-4 lg:max-h-[calc(100vh-160px)]" data-passage-body>
             {paragraphs.length > 0 ? (
               paragraphs.map((paragraph) => (
                 <div key={paragraph.id} className="flex gap-3" data-paragraph={paragraph.label ?? "none"}>
@@ -457,7 +462,7 @@ export function ReadingExam({
                       numbering an unlabelled paragraph would invent a reference the
                       questions cannot use. */}
                   {paragraph.label ? (
-                    <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-paper-sunken text-xs font-semibold text-ink-700">
+                    <span className="mt-0.5 w-7 shrink-0 text-sm font-bold text-slate-950">
                       {paragraph.label}
                     </span>
                   ) : (
@@ -478,8 +483,10 @@ export function ReadingExam({
           <ResourceBlocks dict={dict} blocks={materials} lexicalAssistance={false} />
         </section>
 
+        <div className="hidden bg-slate-300 lg:block" aria-hidden="true" />
+
         <section
-          className={`flex-col gap-4 lg:flex ${pane === "questions" ? "flex" : "hidden"}`}
+          className={`min-h-0 flex-col gap-0 bg-white lg:flex ${pane === "questions" ? "flex" : "hidden"}`}
           aria-label={t.questionsTab}
           data-practice-pane="questions"
         >
@@ -502,8 +509,8 @@ export function ReadingExam({
               {t.timeExpired}
             </p>
           )}
-          <div className="flex flex-col gap-3 lg:max-h-[70vh] lg:overflow-y-auto lg:pr-2">
-            <fieldset disabled={timeExpired} className="flex min-w-0 flex-col gap-3 border-0 p-0">
+          <div className="min-h-0 flex-1 overflow-y-auto px-4 py-4 lg:max-h-[calc(100vh-215px)]">
+            <fieldset disabled={timeExpired} className="flex min-w-0 flex-col gap-5 border-0 p-0">
             {orderedGroups.blocks.map(({ group, questions: groupQuestions }) => (
               <div key={group.id} className="flex flex-col gap-3" data-question-group={group.position}>
                 <GroupHeading dict={dict} group={group} />
@@ -535,7 +542,7 @@ export function ReadingExam({
             </fieldset>
           </div>
 
-          <div className="flex flex-col gap-2 rounded-[16px] border border-ink-100 bg-paper-raised p-4">
+          <div className="border-t border-slate-200 bg-white p-3">
             <div className="flex items-center justify-between text-sm text-ink-700">
               <span>{t.answered.replace("{answered}", String(answered)).replace("{total}", String(questionCount))}</span>
               {saveState === "error" && <span className="text-band-bad">{t.unsavedWarning}</span>}
@@ -551,6 +558,52 @@ export function ReadingExam({
             </Button>
           </div>
         </section>
+      </div>
+
+      <div className="sticky bottom-0 z-20 flex min-h-[52px] items-center justify-between gap-3 border-t border-slate-200 bg-white px-3 py-2" data-ielts-question-nav>
+        <div className="flex min-w-0 flex-1 items-center gap-2 overflow-x-auto">
+          <span className="shrink-0 text-xs font-semibold text-slate-700">
+            {passageMeta ?? t.passageTab}
+          </span>
+          {questions
+            .slice()
+            .sort((a, b) => (a.questionNo ?? a.order) - (b.questionNo ?? b.order))
+            .map((question) => {
+              const number = question.questionNo ?? question.order;
+              const isAnswered = (answers[question.id] ?? "").trim() !== "";
+              return (
+                <button
+                  key={question.id}
+                  type="button"
+                  onClick={() => {
+                    setPane("questions");
+                    requestAnimationFrame(() => {
+                      document.querySelector(`[data-question-no="${number}"]`)?.scrollIntoView({
+                        behavior: "smooth",
+                        block: "center",
+                      });
+                    });
+                  }}
+                  className={`grid h-7 min-w-7 shrink-0 place-items-center rounded-sm border px-1 text-xs font-semibold ${
+                    isAnswered
+                      ? "border-signal-600 bg-signal-50 text-signal-700"
+                      : "border-slate-300 bg-white text-slate-700"
+                  }`}
+                  aria-label={`${dict.reading.questions} ${number}`}
+                >
+                  {number}
+                </button>
+              );
+            })}
+        </div>
+        <Button
+          onClick={() => void onSubmit()}
+          disabled={submitting || saveState === "locked"}
+          data-submit-all
+          className="shrink-0"
+        >
+          {submitting ? dict.common.loading : dict.reading.submit}
+        </Button>
       </div>
     </div>
   );
@@ -612,7 +665,7 @@ function GroupHeading({ dict, group }: { dict: Dictionary; group: ExamGroup }) {
           .replace("{to}", String(group.toQuestionNo))
       : null;
   return (
-    <div className="rounded-[16px] border border-ink-100 bg-paper-sunken p-4" data-group-instructions={group.typeCode}>
+    <div className="border-b border-slate-200 pb-3" data-group-instructions={group.typeCode}>
       {(group.displayTitle || range) && (
         <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-ink-500">
           {group.displayTitle ?? range}
@@ -622,11 +675,11 @@ function GroupHeading({ dict, group }: { dict: Dictionary; group: ExamGroup }) {
         <p className="whitespace-pre-line text-sm text-ink-700">{group.instructionsText}</p>
       )}
       {group.sharedChoices.length > 0 && (
-        <ul className="mt-3 grid grid-cols-1 gap-1 sm:grid-cols-2" data-group-choices>
+        <ul className="mt-3 flex flex-col items-start gap-1.5" data-group-choices>
           {group.sharedChoices.map((choice, index) => {
             const { letter, text } = optionLetter(choice, index);
             return (
-              <li key={choice} className="text-sm text-ink-700">
+              <li key={choice} className="rounded border border-slate-300 bg-slate-50 px-2 py-1 text-sm text-slate-800">
                 <span className="mr-1.5 font-semibold text-ink-900">{letter}</span>
                 {text}
               </li>
@@ -719,7 +772,7 @@ function StimulusCard({
 }) {
   const paragraphs = stimulus.text.split(/\n{2,}/);
   return (
-    <div className="card flex flex-col p-4" data-stimulus={group.position} data-stimulus-type={group.typeCode}>
+    <div className="border-0 bg-white py-2" data-stimulus={group.position} data-stimulus-type={group.typeCode}>
       {paragraphs.map((paragraph, paragraphIndex) => (
         <p
           key={paragraphIndex}
@@ -809,13 +862,13 @@ function QuestionCard({
 
   return (
     <div
-      className={`card p-4 ${value.trim() ? "border-signal-600/40" : ""}`}
+      className={`border-0 bg-white py-2 ${value.trim() ? "" : ""}`}
       data-question={question.id}
       data-question-no={number}
       data-answered={value.trim() ? "true" : "false"}
     >
       <div className="mb-2 flex items-start gap-3">
-        <span className="mt-0.5 flex h-6 min-w-6 shrink-0 items-center justify-center rounded-full bg-paper-sunken px-1.5 text-xs font-semibold text-ink-700">
+        <span className="mt-0.5 min-w-6 shrink-0 text-sm font-bold text-slate-950">
           {number}
         </span>
         <div className="min-w-0 flex-1">
@@ -851,7 +904,7 @@ function QuestionCard({
       </div>
 
       {isTernary && (
-        <div className="flex flex-wrap gap-2" role="radiogroup" aria-label={`${dict.reading.yourAnswer} ${number}`}>
+        <div className="flex flex-col gap-2 pl-8" role="radiogroup" aria-label={`${dict.reading.yourAnswer} ${number}`}>
           {ternaryChoices(question).map((choice) => (
             <button
               key={choice.value}
@@ -860,7 +913,7 @@ function QuestionCard({
               aria-checked={value === choice.value}
               data-answer-option={choice.value}
               onClick={() => onChange(value === choice.value ? "" : choice.value)}
-              className={`min-h-[44px] rounded-sm border px-3 text-sm ${
+              className={`min-h-[32px] w-fit rounded-sm border px-3 text-left text-sm ${
                 value === choice.value
                   ? "border-signal-600 bg-signal-600 font-medium text-white"
                   : "border-ink-100 bg-paper-raised text-ink-700 hover:bg-paper-sunken"
