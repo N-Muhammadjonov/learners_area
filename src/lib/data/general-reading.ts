@@ -29,9 +29,9 @@ export async function generalReadingSchemaReady(database = db) {
 }
 
 /** The authoritative mode classification of one passage (server-side truth; never a client flag). */
-export async function generalMembership(passageId: string) {
-  if (!(await generalReadingSchemaReady())) return null;
-  const [row] = await db.select({ setId: generalReadingPassages.setId, passageNo: generalReadingPassages.passageNo, readingMode: generalReadingPassages.readingMode, set: generalReadingSets })
+export async function generalMembership(passageId: string, database = db) {
+  if (!(await generalReadingSchemaReady(database))) return null;
+  const [row] = await database.select({ setId: generalReadingPassages.setId, passageNo: generalReadingPassages.passageNo, readingMode: generalReadingPassages.readingMode, set: generalReadingSets })
     .from(generalReadingPassages).innerJoin(generalReadingSets, eq(generalReadingSets.id, generalReadingPassages.setId))
     .where(eq(generalReadingPassages.passageId, passageId));
   return row && row.readingMode === "general_practice" ? row : null;

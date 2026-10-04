@@ -69,7 +69,7 @@ This is the phase checkpoint ledger; the final requirement-by-requirement accept
 | 1 | Capability and policy core | PASS | Checkpoint 1 evidence above; accepted remote checkpoint `7f8c5cf`. |
 | 2 | Distinct RIWI Request Gateway | PASS for the dependency-injected gateway boundary; authenticated route/database integration remains open | Checkpoint 5 below; server-derived identity, finite planning, scopes, feature/exam policy, provider and tool allowlists, minimized context, validated output, correlation/audit and security tests. |
 | 3 | Safe Tool Registry/Broker | PASS | Checkpoint 2 evidence above; accepted remote checkpoint `5c4122e`. |
-| 4 | Dictionary Connector | PARTIAL | Canonical connector and exam lock exist; full API-to-database/occurrence regression remains open. |
+| 4 | Dictionary Connector | PASS for canonical service/PostgreSQL integration | Checkpoint 6 covers exact-sense lookup, unknown and learner-provided rejection, ambiguity, Reading/Listening exam locks, role-safe staff access, and authorized/stale occurrence resolution. Full chat/browser integration is Phase 12. |
 | 5 | Knowledge Source Model | PARTIAL | Candidate/review/supersession foundations and PGlite coverage exist; owner workflow and safe upload integration remain open. |
 | 6 | Retrieval | PARTIAL | Active approved-source retrieval is role-scoped; end-to-end relevance, conflict and integration acceptance remain open. |
 | 7 | Provider Router | PARTIAL | Registry-backed task routing and outbound guards exist; full integration/performance/provider QA remains open. |
@@ -117,3 +117,15 @@ This is the phase checkpoint ledger; the final requirement-by-requirement accept
 | Required gateway security tests | PASS | `node --conditions=react-server --import tsx --test tests/riwi-request-gateway.test.ts` — 9 passed, 0 failed. Covers student self/cross-row, teacher assigned/unassigned, admin owner-only denial, owner global report, inactive actor, authority spoofing, unknown/unsupported/low-confidence handling, registered-tool-only planning, no provider-to-tool second call, correlation, role-safe output, audit, minimized/redacted context, provider rollout/registry, and exam denial. |
 | Typecheck / targeted lint / patch hygiene | PASS | `npm run typecheck`; targeted ESLint on gateway, contracts, route and test; `git diff --check`. |
 | Authenticated HTTP/database/browser integration | OPEN | The dependency-injected security suite does not replace route-level session/database tests, full browser role QA, performance testing, provider credentials, or final red team. No Preview or Production environment was touched. |
+
+## Checkpoint 6 — Phase 4 Dictionary Connector (PostgreSQL-backed service/occurrence tests pass)
+
+| Requirement area | Status | Evidence / limitation |
+|---|---|---|
+| Canonical dictionary connection | PASS | RIWI lookup reads the shared `lexemes` catalogue, preserves exact canonical sense, translation, example, collocations, verification state and stored pronunciation; user-provided terms are excluded and ambiguous spellings remain unresolved. |
+| Reading/Listening exam policy | PASS for service boundary | Active student Reading and full Listening attempts return `locked`; submitted Reading review and Listening Review/Control allow only the relevant checked sense. Staff access remains separate from student exam locks. |
+| Occurrence authority | PASS for Reading and Listening service paths | PGlite-backed tests resolve only the actor-owned source and occurrence, verify current source offsets and sense, deny foreign/fabricated ids, keep stale offsets unresolved, and return bounded revisit snapshots. |
+| Database injection seam | PASS | `lookupCatalogue`, dictionary lookup, lexical details, and Reading/Listening occurrence resolution accept the application database dependency while retaining `db` as their production default. No deployment or migration was changed. |
+| Focused tests | PASS | `node --conditions=react-server --import tsx --test tests/riwi-dictionary.test.ts tests/riwi-dictionary-db.test.ts tests/vocabulary-architecture.test.ts` — 17 passed, 0 failed. |
+| Typecheck / targeted lint / patch hygiene | PASS | `npm run typecheck`; targeted ESLint on dictionary, lexical context/enrichment, Reading/Listening data helpers and tests; `git diff --check`. |
+| Gateway/browser integration | OPEN | The route's real-session/tool-broker/database/browser path remains part of Phase 12/18; this checkpoint validates the canonical service and occurrence connector directly against migrated PGlite PostgreSQL. |

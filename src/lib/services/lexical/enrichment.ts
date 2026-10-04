@@ -137,10 +137,10 @@ export async function resolveFromSources(term: string, sources: LexicalSource[])
  * Multiple senses are ambiguous without a source occurrence and return null.
  * Learner-provided entries are not automatic definitions for other learners.
  */
-export async function lookupCatalogue(term: string): Promise<LexicalEntry | null> {
+export async function lookupCatalogue(term: string, database: typeof db = db): Promise<LexicalEntry | null> {
   const wanted = normalise(term);
   if (!wanted) return null;
-  const rows = await db
+  const rows = await database
     .select()
     .from(lexemes)
     .where(and(sql`translate(lower(${lexemes.term}), ${APOSTROPHE_VARIANTS}, ${"'".repeat(APOSTROPHE_VARIANTS.length)}) = ${wanted}`, or(isNull(lexemes.provenance), ne(lexemes.provenance, "user_provided"))))

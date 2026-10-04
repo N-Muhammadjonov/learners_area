@@ -51,11 +51,11 @@ export function sourceRevisitHref(snapshot: Partial<VocabularySourceSnapshot> | 
 
 /** Resolve authority afresh on lookup AND save. A guessed occurrence is not access. */
 /** `allowDraft` (staff only) finds an unpublished passage; the mode/permission decision still follows. */
-export async function resolveReadingOccurrence(userId: string, sourceId: string, occurrenceId: string, allowDraft = false) {
-  const attempt = await db.query.readingAttempts.findFirst({ where: and(eq(readingAttempts.id, sourceId), eq(readingAttempts.userId, userId)) });
-  const passage = await db.query.readingPassages.findFirst({ where: eq(readingPassages.id, attempt?.passageId ?? sourceId) });
+export async function resolveReadingOccurrence(userId: string, sourceId: string, occurrenceId: string, allowDraft = false, database: typeof db = db) {
+  const attempt = await database.query.readingAttempts.findFirst({ where: and(eq(readingAttempts.id, sourceId), eq(readingAttempts.userId, userId)) });
+  const passage = await database.query.readingPassages.findFirst({ where: eq(readingPassages.id, attempt?.passageId ?? sourceId) });
   if (!passage || (!attempt && !allowDraft && !isLive(passage))) return null;
-  const [row] = await db.select({ occurrence: lexicalOccurrences, lexeme: lexemes }).from(lexicalOccurrences)
+  const [row] = await database.select({ occurrence: lexicalOccurrences, lexeme: lexemes }).from(lexicalOccurrences)
     .innerJoin(lexemes, eq(lexemes.id, lexicalOccurrences.lexemeId))
     .where(and(eq(lexicalOccurrences.id, occurrenceId), eq(lexicalOccurrences.passageId, passage.id)));
   if (!row) return null;
@@ -90,12 +90,12 @@ export type OccurrenceResolution =
  * (live test, or staff) and that the offsets still point at the same characters
  * of the CURRENT transcript. A stale or foreign occurrence is not a meaning.
  */
-export async function resolveListeningOccurrence(user: { id: string; role: Role }, testId: string, occurrenceId: string): Promise<OccurrenceResolution | null> {
-  const detail = await fullListeningDetail(testId, user.role);
+export async function resolveListeningOccurrence(user: { id: string; role: Role }, testId: string, occurrenceId: string, database: typeof db = db): Promise<OccurrenceResolution | null> {
+  const detail = await fullListeningDetail(testId, user.role, database);
   if (!detail) return null;
   // Exam integrity: occurrence data may exist before the exam; revealing it may not.
-  if (!lexicalAssistanceAllowed("REVIEW_CONTROL", await listeningExamState(user, testId))) return { status: "locked", lexeme: null, snapshot: null };
-  const occurrence = await db.query.lexicalOccurrences.findFirst({
+  if (!lexicalAssistanceAllowed("REVIEW_CONTROL", await listeningExamState(user, testId, database))) return { status: "locked", lexeme: null, snapshot: null };
+  const occurrence = await database.query.lexicalOccurrences.findFirst({
     where: and(eq(lexicalOccurrences.id, occurrenceId), eq(lexicalOccurrences.listeningTestId, testId), eq(lexicalOccurrences.sourceType, "listening")),
   });
   if (!occurrence || occurrence.sectionNumber === null) return null;
@@ -109,7 +109,7 @@ export async function resolveListeningOccurrence(user: { id: string; role: Role 
     startMs: occurrence.startMs, endMs: occurrence.endMs,
   };
   if (occurrence.resolutionStatus !== "resolved" || !occurrence.lexemeId) return { status: "unresolved", lexeme: null, snapshot: { ...base, lexemeId: null } };
-  const lexeme = await db.query.lexemes.findFirst({ where: eq(lexemes.id, occurrence.lexemeId) });
+  const lexeme = await database.query.lexemes.findFirst({ where: eq(lexemes.id, occurrence.lexemeId) });
   if (!lexeme) return { status: "unresolved", lexeme: null, snapshot: { ...base, lexemeId: null } };
   return { status: "resolved", lexeme, snapshot: { ...base, lexemeId: lexeme.id } };
 }
@@ -121,15 +121,15 @@ export async function resolveListeningOccurrence(user: { id: string; role: Role 
  * as ACADEMIC_REVIEW — open only after a submitted attempt (closes the bypass of
  * calling the endpoint with the passage id during an exam).
  */
-export async function readingLexicalAccess(user: { id: string; role: Role }, sourceId: string, passageId: string) {
+export async function readingLexicalAccess(user: { id: string; role: Role }, sourceId: string, passageId: string, database: typeof db = db) {
   // The mode comes from persisted classification only (0030), never from the request.
-  const general = await generalMembership(passageId);
+  const general = await generalMembership(passageId, database);
   if (general) {
     const state: ReadingExamState = { submitted: false, examInProgress: false, staff: isStaff(user.role) };
     // A withdrawn set is not a learning source for students.
     return { mode: (isLive(general.set) || state.staff ? "GENERAL_READING" : "ACADEMIC_EXAM") as ReadingMode, state, general };
   }
-  const attempts = await db.select({ id: readingAttempts.id, status: readingAttempts.status }).from(readingAttempts)
+  const attempts = await database.select({ id: readingAttempts.id, status: readingAttempts.status }).from(readingAttempts)
     .where(and(eq(readingAttempts.userId, user.id), eq(readingAttempts.passageId, passageId)));
   const own = attempts.find((attempt) => attempt.id === sourceId);
   const mode: ReadingMode = own?.status === "in_progress" ? "ACADEMIC_EXAM" : "ACADEMIC_REVIEW";
@@ -161,11 +161,11 @@ export async function readingSourceAccess(user: { id: string; role: Role }, sour
  * checked sense — e.g. "river bank" where only the financial bank was authored.
  * Same source validation as resolveReadingOccurrence; never paired with a meaning.
  */
-async function unresolvedReadingOccurrence(userId: string, sourceId: string, occurrenceId: string, allowDraft = false) {
-  const attempt = await db.query.readingAttempts.findFirst({ where: and(eq(readingAttempts.id, sourceId), eq(readingAttempts.userId, userId)) });
-  const passage = await db.query.readingPassages.findFirst({ where: eq(readingPassages.id, attempt?.passageId ?? sourceId) });
+async function unresolvedReadingOccurrence(userId: string, sourceId: string, occurrenceId: string, allowDraft = false, database: typeof db = db) {
+  const attempt = await database.query.readingAttempts.findFirst({ where: and(eq(readingAttempts.id, sourceId), eq(readingAttempts.userId, userId)) });
+  const passage = await database.query.readingPassages.findFirst({ where: eq(readingPassages.id, attempt?.passageId ?? sourceId) });
   if (!passage || (!attempt && !allowDraft && !isLive(passage))) return null;
-  const occurrence = await db.query.lexicalOccurrences.findFirst({ where: and(eq(lexicalOccurrences.id, occurrenceId), eq(lexicalOccurrences.passageId, passage.id), isNull(lexicalOccurrences.lexemeId)) });
+  const occurrence = await database.query.lexicalOccurrences.findFirst({ where: and(eq(lexicalOccurrences.id, occurrenceId), eq(lexicalOccurrences.passageId, passage.id), isNull(lexicalOccurrences.lexemeId)) });
   if (!occurrence || occurrence.startChar < 0 || occurrence.endChar <= occurrence.startChar
     || passage.bodyText.slice(occurrence.startChar, occurrence.endChar).toLowerCase() !== occurrence.surfaceForm.toLowerCase()) return null;
   return { passageId: passage.id, snapshot: {
@@ -176,18 +176,18 @@ async function unresolvedReadingOccurrence(userId: string, sourceId: string, occ
 }
 
 /** One entry point for every source type that has occurrences. */
-export async function resolveOccurrence(user: { id: string; role: Role }, sourceType: string, sourceId: string, occurrenceId: string): Promise<OccurrenceResolution | null> {
-  if (sourceType === "listening") return resolveListeningOccurrence(user, sourceId, occurrenceId);
+export async function resolveOccurrence(user: { id: string; role: Role }, sourceType: string, sourceId: string, occurrenceId: string, database: typeof db = db): Promise<OccurrenceResolution | null> {
+  if (sourceType === "listening") return resolveListeningOccurrence(user, sourceId, occurrenceId, database);
   if (sourceType === "reading") {
     const staff = isStaff(user.role);
-    const reading = await resolveReadingOccurrence(user.id, sourceId, occurrenceId, staff);
-    const pending = reading ? null : await unresolvedReadingOccurrence(user.id, sourceId, occurrenceId, staff);
+    const reading = await resolveReadingOccurrence(user.id, sourceId, occurrenceId, staff, database);
+    const pending = reading ? null : await unresolvedReadingOccurrence(user.id, sourceId, occurrenceId, staff, database);
     if (!reading && !pending) return null;
     // Exam integrity: the occurrence is valid data, but an open Academic attempt
     // (this one or another of the same passage) may not reveal it. General Reading
     // is decided by the passage's persisted classification.
     const passageId = (reading?.snapshot.passageId ?? pending?.passageId)!;
-    const { mode, state, general } = await readingLexicalAccess(user, sourceId, passageId);
+    const { mode, state, general } = await readingLexicalAccess(user, sourceId, passageId, database);
     if (!readingLexicalAssistanceAllowed(mode, state)) return { status: "locked", lexeme: null, snapshot: null };
     const generalContext = general ? { readingMode: "general_practice" as const, generalSetId: general.setId, passageNo: general.passageNo } : {};
     if (!reading) return { status: "unresolved", lexeme: null, snapshot: { ...pending!.snapshot, ...generalContext, lexemeId: null } };
@@ -197,10 +197,10 @@ export async function resolveOccurrence(user: { id: string; role: Role }, source
 }
 
 /** Display data of the sense's lexeme: lemma, type, POS and a pronunciation only if one is stored. */
-export async function lexicalDetailFor(lexeme: { lexicalUnitId: string | null }) {
+export async function lexicalDetailFor(lexeme: { lexicalUnitId: string | null }, database: typeof db = db) {
   if (!lexeme.lexicalUnitId) return null;
-  const unit = await db.query.lexicalUnits.findFirst({ where: eq(lexicalUnits.id, lexeme.lexicalUnitId) });
+  const unit = await database.query.lexicalUnits.findFirst({ where: eq(lexicalUnits.id, lexeme.lexicalUnitId) });
   if (!unit) return null;
-  const pronunciation = await db.query.lexicalUnitPronunciations.findFirst({ where: eq(lexicalUnitPronunciations.lexicalUnitId, unit.id) });
+  const pronunciation = await database.query.lexicalUnitPronunciations.findFirst({ where: eq(lexicalUnitPronunciations.lexicalUnitId, unit.id) });
   return { lemma: unit.lemma, lexicalType: unit.lexicalType, partOfSpeech: unit.partOfSpeech || null, ipa: pronunciation?.ipa ?? null };
 }

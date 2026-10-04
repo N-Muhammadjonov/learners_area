@@ -13,12 +13,12 @@ export type DictionaryLookup =
   | { status: "resolved"; term: string; definitionEn: string; translationUz: string | null; partOfSpeech: string | null; example: string | null; collocations: string | null; source: string; verified: boolean; pronunciation: string | null };
 
 /** Fail closed during any active Academic Reading or full Listening attempt. */
-export async function hasOpenExam(actor: DictionaryActor): Promise<boolean> {
+export async function hasOpenExam(actor: DictionaryActor, database: typeof db = db): Promise<boolean> {
   if (actor.role !== "student") return false;
-  const [reading] = await db.select({ id: readingAttempts.id }).from(readingAttempts)
+  const [reading] = await database.select({ id: readingAttempts.id }).from(readingAttempts)
     .where(and(eq(readingAttempts.userId, actor.id), eq(readingAttempts.status, "in_progress"))).limit(1);
   if (reading) return true;
-  const [listening] = await db.select({ id: listeningAttempts.id }).from(listeningAttempts)
+  const [listening] = await database.select({ id: listeningAttempts.id }).from(listeningAttempts)
     .where(and(eq(listeningAttempts.userId, actor.id), eq(listeningAttempts.status, "in_progress"))).limit(1);
   return Boolean(listening);
 }
@@ -28,17 +28,17 @@ export function canonicalDictionaryStatus(entry: unknown | null | undefined): "r
   return entry === null || entry === undefined ? "unresolved" : "resolved";
 }
 
-export async function lookupCanonicalDictionary(term: string, actor: DictionaryActor): Promise<DictionaryLookup> {
-  if (await hasOpenExam(actor)) return { status: "locked" };
+export async function lookupCanonicalDictionary(term: string, actor: DictionaryActor, database: typeof db = db): Promise<DictionaryLookup> {
+  if (await hasOpenExam(actor, database)) return { status: "locked" };
   const safeTerm = term.trim().slice(0, 120);
   if (!safeTerm) return { status: "unresolved" };
-  const entry = await lookupCatalogue(safeTerm);
+  const entry = await lookupCatalogue(safeTerm, database);
   if (canonicalDictionaryStatus(entry) === "unresolved") return { status: "unresolved" };
   if (!entry) return { status: "unresolved" };
   const lexical = entry.canonicalLexemeId
-    ? await db.query.lexemes.findFirst({ where: eq(lexemes.id, entry.canonicalLexemeId) })
+    ? await database.query.lexemes.findFirst({ where: eq(lexemes.id, entry.canonicalLexemeId) })
     : null;
-  const details = lexical ? await lexicalDetailFor(lexical) : null;
+  const details = lexical ? await lexicalDetailFor(lexical, database) : null;
   return {
     status: "resolved", term: entry.term, definitionEn: entry.definitionEn,
     translationUz: entry.translationUz, partOfSpeech: entry.partOfSpeech,
@@ -80,8 +80,8 @@ export async function resolveDictionaryOccurrence(input: {
   sourceType: "reading" | "listening";
   sourceId: string;
   occurrenceId: string;
-}) {
-  return resolveOccurrence(input.actor, input.sourceType, input.sourceId, input.occurrenceId);
+}, database: typeof db = db) {
+  return resolveOccurrence(input.actor, input.sourceType, input.sourceId, input.occurrenceId, database);
 }
 
 export function formatDictionaryAnswer(entry: Extract<DictionaryLookup, { status: "resolved" }>, locale: "en" | "uz") {
