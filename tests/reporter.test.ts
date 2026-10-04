@@ -361,9 +361,12 @@ test("RP16 roster changes: owner/admin only, teacher→student roles enforced, i
 
 test("RP17 migration 0035 is additive and journalled directly after 0034", () => {
   const journal = JSON.parse(readFileSync("drizzle/meta/_journal.json", "utf8")) as { entries: { idx: number; tag: string }[] };
-  const last = journal.entries.at(-1)!;
-  assert.deepEqual([last.idx, last.tag], [35, "0035_teacher_student_links"]);
-  assert.equal(journal.entries.at(-2)!.tag, "0034_typing_duration_presets");
+  const migrationIndex = journal.entries.findIndex((entry) => entry.tag === "0035_teacher_student_links");
+  assert.notEqual(migrationIndex, -1, "the roster migration must remain in the ordered journal");
+  const migration = journal.entries[migrationIndex]!;
+  assert.equal(migration.idx, 35);
+  assert.equal(journal.entries[migrationIndex - 1]?.tag, "0034_typing_duration_presets",
+    "later migrations may follow, but 0035 must remain directly after 0034");
   const text = readFileSync("drizzle/0035_teacher_student_links.sql", "utf8").replace(/--.*$/gm, "");
   const statements = text.split(/;|--> statement-breakpoint/).map((x) => x.trim()).filter(Boolean);
   for (const st of statements) assert.match(st, /^create (table|unique index|index) if not exists /i, "only additive CREATE statements");

@@ -25,8 +25,8 @@ export type WeaknessSummary = {
   lastSeenAt: Date;
 };
 
-export async function getWeaknessSummary(userId: string): Promise<WeaknessSummary[]> {
-  const rows = await db
+export async function getWeaknessSummary(userId: string, database: typeof db = db): Promise<WeaknessSummary[]> {
+  const rows = await database
     .select()
     .from(coachWeaknesses)
     .where(eq(coachWeaknesses.userId, userId))
@@ -71,8 +71,8 @@ export async function getEvaluationCount(userId: string): Promise<number> {
 }
 
 /** Words whose review date has arrived — the "what should I review today?" answer. */
-export async function getDueVocabulary(userId: string, limit = 10) {
-  return db
+export async function getDueVocabulary(userId: string, limit = 10, database: typeof db = db) {
+  return database
     .select({
       id: userVocabulary.id,
       state: userVocabulary.state,

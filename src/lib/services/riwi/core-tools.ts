@@ -10,29 +10,30 @@ import { isOnRoster } from "@/lib/reporter/roster";
 import { PERIOD_KINDS } from "@/lib/reporter/period";
 import { resolveUserScope, ROLE_CAPABILITIES, authorizeCapability, type RiwiActor, type RiwiCapability, type ScopeDecision, type ScopeDependencies } from "./capabilities";
 import { formatDictionaryAnswer, lookupCanonicalDictionary } from "./dictionary";
-import { buildRiwiReport, type RiwiReportRequest } from "./reports";
+import { buildRiwiReport, riwiReportResultSchema, type RiwiReportRequest } from "./reports";
 import { RiwiToolBroker, type RiwiRiskClass, type RiwiToolHandler } from "./tool-broker";
 import { RIWI_AUDIT_ACTIONS, recordRiwiAudit } from "./audit";
 
 const UUID = z.string().uuid();
 const actorRoles: readonly Role[] = ["student", "teacher", "admin", "owner"];
 
-const scopeDependencies: ScopeDependencies = {
-  subjectRole: async (userId) => {
-    const subject = await db.query.users.findFirst({
-      where: eq(users.id, userId),
-      columns: { role: true, accountStatus: true },
-    });
-    return subject?.accountStatus === "active" ? subject.role as Role : null;
-  },
-  isAssigned: (teacherId, studentId) => isOnRoster(teacherId, studentId),
-};
+export function createRiwiCoreTools(database: typeof db = db): RiwiToolBroker {
+  const scopeDependencies: ScopeDependencies = {
+    subjectRole: async (userId) => {
+      const subject = await database.query.users.findFirst({
+        where: eq(users.id, userId),
+        columns: { role: true, accountStatus: true },
+      });
+      return subject?.accountStatus === "active" ? subject.role as Role : null;
+    },
+    isAssigned: (teacherId, studentId) => isOnRoster(teacherId, studentId, database),
+  };
 
-function rolesFor(capability: RiwiCapability): Role[] {
-  return actorRoles.filter((role) => ROLE_CAPABILITIES[role].includes(capability));
-}
+  function rolesFor(capability: RiwiCapability): Role[] {
+    return actorRoles.filter((role) => ROLE_CAPABILITIES[role].includes(capability));
+  }
 
-export const riwiToolBroker = new RiwiToolBroker(recordRiwiAudit);
+  const broker = new RiwiToolBroker((input) => recordRiwiAudit(input, database));
 
 function register<I extends ZodTypeAny, O extends ZodTypeAny>(input: {
   name: string;
@@ -45,7 +46,7 @@ function register<I extends ZodTypeAny, O extends ZodTypeAny>(input: {
   scope: (actor: RiwiActor, value: z.infer<I>) => Promise<ScopeDecision>;
 }, handler: RiwiToolHandler<I, O>) {
   const riskClass: RiwiRiskClass = "read-only";
-  riwiToolBroker.register({
+  broker.register({
     name: input.name,
     version: "1.0.0",
     description: input.description,
@@ -83,7 +84,7 @@ register({
   capability: "riwi.dictionary.lookup", inputSchema: dictionaryInput, outputSchema: dictionaryOutput, timeoutMs: 8_000,
   scope: (actor) => resolveUserScope(actor, "riwi.dictionary.lookup", actor.id, scopeDependencies),
 }, async (input, { actor }) => {
-  const entry = await lookupCanonicalDictionary(input.term, actor);
+  const entry = await lookupCanonicalDictionary(input.term, actor, database);
   if (entry.status !== "resolved") return entry;
   return { ...entry, ...formatDictionaryAnswer(entry, input.language) };
 });
@@ -100,7 +101,7 @@ const progressOutput = z.object({ weaknesses: z.array(weaknessSchema).max(100), 
 const assignedProgressInput = z.object({ targetUserId: UUID }).strict();
 
 async function progressFor(userId: string, limit: number) {
-  const [weaknesses, vocabulary] = await Promise.all([getWeaknessSummary(userId), getDueVocabulary(userId, limit)]);
+  const [weaknesses, vocabulary] = await Promise.all([getWeaknessSummary(userId, database), getDueVocabulary(userId, limit, database)]);
   return {
     weaknesses: weaknesses.slice(0, 100).map((item) => ({
       category: item.category, label: item.label, area: item.area,
@@ -132,7 +133,7 @@ register({
   const targetUserId = scope.userIds[0];
   // Re-check after capability resolution to narrow the roster-change TOCTOU window.
   if ((actor.role !== "teacher" && actor.role !== "owner")
-    || (actor.role === "teacher" && !(await isOnRoster(actor.id, targetUserId)))
+    || (actor.role === "teacher" && !(await isOnRoster(actor.id, targetUserId, database)))
     || await scopeDependencies.subjectRole(targetUserId) !== "student") {
     throw new Error("riwi_scope_denied");
   }
@@ -148,18 +149,7 @@ const periodFields = {
 const reportSelfInput = z.object(periodFields).strict();
 const reportAssignedInput = z.object({ ...periodFields, targetUserId: UUID.optional() }).strict();
 const reportAdminInput = z.object({ ...periodFields, targetUserId: UUID.optional() }).strict();
-const reportMetricsSchema = z.array(z.object({
-  key: z.string().max(100), section: z.enum(["learning", "results", "people", "operations"]),
-  label: z.string().max(200), unit: z.enum(["count", "ratio", "band", "score"]), value: z.number().finite().nullable(),
-}).strict()).max(100);
-const reportResultSchema = z.discriminatedUnion("status", [
-  z.object({
-    status: z.literal("ready"), scope: z.enum(["owner", "teacher", "student"]),
-    period: z.object({ kind: z.enum(PERIOD_KINDS), fromDate: z.string(), toDate: z.string(), timezone: z.string() }).strict(),
-    metrics: reportMetricsSchema, narrative: z.array(z.string().max(500)).max(30),
-  }).strict(),
-  z.object({ status: z.literal("unavailable"), reason: z.enum(["not_available", "invalid_period", "generation_failed"]) }).strict(),
-]);
+const reportResultSchema = riwiReportResultSchema;
 
 function reportRequest(input: { period: (typeof PERIOD_KINDS)[number]; from?: string; to?: string }, scope: ScopeKind, subjectId?: string): RiwiReportRequest {
   return { scope, subjectId, period: input.period, from: input.from, to: input.to };
@@ -168,16 +158,9 @@ function reportRequest(input: { period: (typeof PERIOD_KINDS)[number]; from?: st
 type ScopeKind = "owner" | "teacher" | "student";
 
 async function reportOutput(input: { actor: RiwiActor; request: RiwiReportRequest; language: "en" | "uz" }) {
-  const result = await buildRiwiReport({ actor: input.actor, request: input.request });
+  const result = await buildRiwiReport({ actor: input.actor, request: input.request }, database);
   if (!result.ok) return { status: "unavailable" as const, reason: result.code === "invalid_period" ? "invalid_period" as const : result.code === "generation_failed" ? "generation_failed" as const : "not_available" as const };
-  const snapshot = result.snapshot;
-  return {
-    status: "ready" as const,
-    scope: snapshot.scope.kind,
-    period: { kind: snapshot.period.kind, fromDate: snapshot.period.fromDate, toDate: snapshot.period.toDate, timezone: snapshot.timezone },
-    metrics: snapshot.metrics.map((metric) => ({ key: metric.key, section: metric.section, label: metric.label[input.language], unit: metric.unit, value: metric.value })),
-    narrative: snapshot.narrative[input.language],
-  };
+  return riwiReportResultSchema.parse({ status: "ready", snapshot: result.snapshot });
 }
 
 register({
@@ -253,7 +236,7 @@ register({
     ? { allowed: true, kind: "global", userIds: null }
     : { allowed: false, reason: "scope_denied" },
 }, async () => {
-  const status = await ownerAiStatus();
+  const status = await ownerAiStatus(undefined, database);
   return {
     deploymentCeiling: status.deploymentCeiling,
     externalEnabled: status.effective.externalEnabled,
@@ -295,7 +278,7 @@ register({
 }, async (input) => {
   const filters = [like(auditLog.action, "riwi.%"), gte(auditLog.createdAt, new Date(Date.now() - input.days * 86_400_000))];
   if (input.action) filters.push(eq(auditLog.action, input.action));
-  const rows = await db.select({
+  const rows = await database.select({
     id: auditLog.id, actorUserId: auditLog.actorUserId, action: auditLog.action,
     targetType: auditLog.targetType, targetId: auditLog.targetId, metadata: auditLog.metadata, createdAt: auditLog.createdAt,
   }).from(auditLog).where(and(...filters)).orderBy(desc(auditLog.createdAt)).limit(input.limit);
@@ -316,3 +299,7 @@ register({
     }),
   };
 });
+  return broker;
+}
+
+export const riwiToolBroker = createRiwiCoreTools();

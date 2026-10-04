@@ -9,6 +9,7 @@ import type { Role } from "@/lib/auth/roles";
 import type { Locale } from "@/lib/i18n";
 import { RULES, accountKey, consume, type RateLimitResult } from "@/lib/http/rate-limit";
 import { isOnRoster } from "@/lib/reporter/roster";
+import { scopeLabel as reportScopeLabel, specsFor as reportSpecsFor, type ReportScope } from "@/lib/reporter/snapshot";
 import { effectiveCoachConfig } from "@/lib/services/coach/owner-control";
 import type { RiwiProviderInput } from "@/lib/services/coach/types";
 import { guardExternalPayload, redactExternalText } from "./outbound-guard";
@@ -36,8 +37,9 @@ import { retrieveActiveKnowledge, type RetrievedKnowledge } from "./knowledge";
 import { recordRiwiAudit, type RiwiAuditAction, type RiwiAuditMetadata } from "./audit";
 import { readRiwiRollout, type RiwiRollout } from "./rollout";
 import { routeRiwiAnswer, type RoutedRiwiAnswer } from "./provider-router";
-import { riwiToolBroker } from "./core-tools";
-import type { RiwiRiskClass, ToolCallResult } from "./tool-broker";
+import { riwiReportResultSchema } from "./reports";
+import { createRiwiCoreTools, riwiToolBroker } from "./core-tools";
+import type { RiwiRiskClass, RiwiToolBroker, ToolCallResult } from "./tool-broker";
 
 const MIN_INTENT_CONFIDENCE = 0.7;
 const NO_CITATIONS: RiwiChatResponse["citations"] = [];
@@ -63,16 +65,7 @@ const progressResultSchema = z.object({
     term: z.string().max(160), definition: z.string().max(1500), state: z.string().max(40), nextReviewAt: z.string().datetime(),
   }).strict()).max(20),
 }).strict();
-const reportResultSchema = z.discriminatedUnion("status", [
-  z.object({
-    status: z.literal("ready"), scope: z.enum(["owner", "teacher", "student"]),
-    period: z.object({ kind: z.string().max(40), fromDate: z.string().max(30), toDate: z.string().max(30), timezone: z.string().max(80) }).strict(),
-    metrics: z.array(z.object({ key: z.string().max(100), section: z.enum(["learning", "results", "people", "operations"]),
-      label: z.string().max(200), unit: z.enum(["count", "ratio", "band", "score"]), value: z.number().finite().nullable() }).strict()).max(100),
-    narrative: z.array(z.string().max(500)).max(30),
-  }).strict(),
-  z.object({ status: z.literal("unavailable"), reason: z.enum(["not_available", "invalid_period", "generation_failed"]) }).strict(),
-]);
+const reportResultSchema = riwiReportResultSchema;
 const providerStatusResultSchema = z.object({
   deploymentCeiling: z.boolean(), externalEnabled: z.boolean(), providerId: z.string().max(100),
   providerIsExternal: z.boolean(), ready: z.boolean(), model: z.string().max(160).nullable(), fallback: z.enum(["riwi", "none"]),
@@ -126,50 +119,57 @@ export type RiwiGatewayDependencies = {
   externalEnabled: () => Promise<boolean>;
 };
 
-const scopeDependencies = {
-  subjectRole: async (userId: string): Promise<Role | null> => {
-    const subject = await db.query.users.findFirst({ where: eq(users.id, userId), columns: { role: true, accountStatus: true } });
-    return subject?.accountStatus === "active" ? subject.role as Role : null;
-  },
-  isAssigned: (teacherId: string, studentId: string) => isOnRoster(teacherId, studentId),
-};
+export function createRiwiGatewayDependencies(
+  database: typeof db = db,
+  tools: RiwiToolBroker = database === db ? riwiToolBroker : createRiwiCoreTools(database),
+): RiwiGatewayDependencies {
+  const scopeDependencies = {
+    subjectRole: async (userId: string): Promise<Role | null> => {
+      const subject = await database.query.users.findFirst({ where: eq(users.id, userId), columns: { role: true, accountStatus: true } });
+      return subject?.accountStatus === "active" ? subject.role as Role : null;
+    },
+    isAssigned: (teacherId: string, studentId: string) => isOnRoster(teacherId, studentId, database),
+  };
 
-async function defaultResolveScope(actor: RiwiActor, capability: RiwiCapability, targetUserId?: string): Promise<ScopeDecision> {
-  if (capability === "riwi.provider.read_status" || capability === "riwi.provider.live_test") {
-    return actor.role === "owner" && authorizeCapability(actor, capability).allowed
-      ? { allowed: true, kind: "global", userIds: null }
-      : { allowed: false, reason: "scope_denied" };
-  }
-  if (capability === "riwi.report.read_assigned" && !targetUserId && actor.role === "teacher") {
-    return authorizeCapability(actor, capability).allowed
-      ? { allowed: true, kind: "roster", userIds: [actor.id] }
-      : { allowed: false, reason: "scope_denied" };
-  }
-  return resolveUserScope(actor, capability, targetUserId, scopeDependencies);
+  const resolveScope: RiwiGatewayDependencies["resolveScope"] = async (actor, capability, targetUserId) => {
+    if (capability === "riwi.provider.read_status" || capability === "riwi.provider.live_test") {
+      return actor.role === "owner" && authorizeCapability(actor, capability).allowed
+        ? { allowed: true, kind: "global", userIds: null }
+        : { allowed: false, reason: "scope_denied" };
+    }
+    if (capability === "riwi.report.read_assigned" && !targetUserId && actor.role === "teacher") {
+      return authorizeCapability(actor, capability).allowed
+        ? { allowed: true, kind: "roster", userIds: [actor.id] }
+        : { allowed: false, reason: "scope_denied" };
+    }
+    return resolveUserScope(actor, capability, targetUserId, scopeDependencies);
+  };
+
+  return {
+    authenticate: requireActiveUser,
+    newCorrelationId: randomUUID,
+    rollout: readRiwiRollout,
+    consumeAccountLimit: (userId) => consume(RULES.riwiChatByAccount, accountKey(userId)),
+    writeAudit: (input) => recordRiwiAudit(input, database),
+    hasOpenExam: (actor) => hasOpenExam({ id: actor.id, role: actor.role }, database),
+    resolveScope,
+    hasRegisteredTool: (name) => tools.contract(name) !== null,
+    isRegisteredProvider: (providerId) => {
+      const provider = providerRegistry.get(providerId)?.provider;
+      return Boolean(provider && provider.type === "external" && provider.capabilities.includes("riwi-assistant") && provider.respondToRiwi);
+    },
+    callTool: (name, input, actor, correlationId, signal) => tools.call(name, input, { actor, correlationId, signal }),
+    openConversation: (input) => openRiwiConversation(input, database),
+    getHistory: (input) => getRiwiConversationHistory(input, database),
+    appendTurn: (input) => appendRiwiTurn(input, database),
+    retrieveKnowledge: (query, actor) => retrieveActiveKnowledge(query, actor, database),
+    routeProvider: routeRiwiAnswer,
+    createCandidateSignal: (input) => createLearningSignal(input, database),
+    externalEnabled: async () => (await effectiveCoachConfig(database)).externalEnabled,
+  };
 }
 
-const defaultDependencies: RiwiGatewayDependencies = {
-  authenticate: requireActiveUser,
-  newCorrelationId: randomUUID,
-  rollout: readRiwiRollout,
-  consumeAccountLimit: (userId) => consume(RULES.riwiChatByAccount, accountKey(userId)),
-  writeAudit: (input) => recordRiwiAudit(input),
-  hasOpenExam: (actor) => hasOpenExam({ id: actor.id, role: actor.role }),
-  resolveScope: defaultResolveScope,
-  hasRegisteredTool: (name) => riwiToolBroker.contract(name) !== null,
-  isRegisteredProvider: (providerId) => {
-    const provider = providerRegistry.get(providerId)?.provider;
-    return Boolean(provider && provider.type === "external" && provider.capabilities.includes("riwi-assistant") && provider.respondToRiwi);
-  },
-  callTool: (name, input, actor, correlationId, signal) => riwiToolBroker.call(name, input, { actor, correlationId, signal }),
-  openConversation: openRiwiConversation,
-  getHistory: getRiwiConversationHistory,
-  appendTurn: appendRiwiTurn,
-  retrieveKnowledge: retrieveActiveKnowledge,
-  routeProvider: routeRiwiAnswer,
-  createCandidateSignal: createLearningSignal,
-  externalEnabled: async () => (await effectiveCoachConfig()).externalEnabled,
-};
+const defaultDependencies = createRiwiGatewayDependencies();
 
 function actorOf(user: CurrentUser): RiwiActor {
   return { id: user.id, role: user.role, accountStatus: user.accountStatus };
@@ -266,18 +266,64 @@ function formatProgress(value: z.infer<typeof progressResultSchema>, locale: Loc
   return lines.join("\n");
 }
 
-function formatReport(value: z.infer<typeof reportResultSchema>, actor: RiwiActor, targeted: boolean, locale: Locale): string | null {
+function formatReport(value: z.infer<typeof reportResultSchema>, actor: RiwiActor, targetUserId: string | undefined, locale: Locale): string | null {
   if (value.status !== "ready") return null;
+  const snapshot = value.snapshot;
+  const targeted = Boolean(targetUserId);
   const expectedScope = actor.role === "student" ? "student"
     : actor.role === "owner" && !targeted ? "owner"
       : targeted ? "student" : "teacher";
-  if (value.scope !== expectedScope) return null;
-  const lines = [...value.narrative];
-  lines.push(`${locale === "uz" ? "Davr" : "Period"}: ${value.period.fromDate} — ${value.period.toDate}`);
-  for (const metric of value.metrics) {
+  const canonicalScope = snapshot.scope as ReportScope;
+  const canonicalMetrics = reportSpecsFor(canonicalScope);
+  const reportedScope = reportScopeLabel(canonicalScope);
+  const metricsMatchCanonical = snapshot.metrics.length === canonicalMetrics.length && snapshot.metrics.every((metric, index) => {
+    const spec = canonicalMetrics[index];
+    if (!spec) return false;
+    const expectedParameters: Record<string, string> = { from: snapshot.period.from, to: snapshot.period.to };
+    if (spec.compiledText.includes(":subject") && canonicalScope.kind === "student") expectedParameters.subject = canonicalScope.subjectId;
+    if (spec.compiledText.includes(":teacher") && canonicalScope.kind === "teacher" && canonicalScope.teacherId) expectedParameters.teacher = canonicalScope.teacherId;
+    const parameterKeys = Object.keys(metric.source.parameters).sort();
+    const expectedParameterKeys = Object.keys(expectedParameters).sort();
+    return metric.key === spec.key
+      && metric.section === spec.section
+      && metric.unit === spec.unit
+      && metric.label.en === spec.label.en && metric.label.uz === spec.label.uz
+      && metric.source.queryId === `riwi.${spec.key}`
+      && metric.source.sql === spec.compiledText
+      && parameterKeys.length === expectedParameterKeys.length
+      && expectedParameterKeys.every((key) => metric.source.parameters[key] === expectedParameters[key])
+      && metric.window.from === snapshot.period.from && metric.window.to === snapshot.period.to
+      && metric.window.basis === (spec.basis ?? "window")
+      && metric.scope === reportedScope && metric.generatedAt === snapshot.generatedAt;
+  });
+  if (snapshot.scope.kind !== expectedScope
+    || (snapshot.scope.kind === "student" && snapshot.scope.subjectId !== (targetUserId ?? actor.id))
+    || (snapshot.scope.kind === "teacher" && snapshot.scope.teacherId !== (actor.role === "teacher" ? actor.id : null))
+    || snapshot.generatedBy.userId !== actor.id
+    || snapshot.generatedBy.role !== actor.role
+    || snapshot.timezone !== snapshot.period.timezone
+    || !metricsMatchCanonical) return null;
+  const scopeDescription = snapshot.scope.kind === "owner"
+    ? (locale === "uz" ? "markaz bo'yicha" : "centre-wide")
+    : snapshot.scope.kind === "teacher"
+      ? snapshot.scope.teacherId
+        ? (locale === "uz" ? "o'qituvchining biriktirilgan ro'yxati" : "teacher's assigned roster")
+        : (locale === "uz" ? "barcha o'quvchilar guruhi" : "all-students cohort")
+      : actor.role === "student"
+        ? (locale === "uz" ? "shaxsiy o'quvchi qamrovi" : "personal student scope")
+        : (locale === "uz" ? "tanlangan o'quvchi" : "selected student scope");
+  const sourceQueryIds = [...new Set(snapshot.metrics.map((metric) => metric.source.queryId))].sort();
+  const lines = [...snapshot.narrative[locale]];
+  lines.push(`${locale === "uz" ? "Qamrov" : "Scope"}: ${scopeDescription}`);
+  lines.push(`${locale === "uz" ? "Davr" : "Period"}: ${snapshot.period.fromDate} — ${snapshot.period.toDate} (${snapshot.period.timezone})`);
+  lines.push(`${locale === "uz" ? "Aniq vaqt oralig'i" : "Exact window"}: [${snapshot.period.from}, ${snapshot.period.to})`);
+  lines.push(`${locale === "uz" ? "Hisobot snapshot" : "Reporter snapshot"}: ${snapshot.schemaVersion}, ${snapshot.reportId}`);
+  lines.push(`${locale === "uz" ? "Yaratilgan" : "Generated"}: ${snapshot.generatedAt}`);
+  lines.push(`${locale === "uz" ? "Manba so'rovlari" : "Source query IDs"}: ${sourceQueryIds.length ? sourceQueryIds.join(", ") : "—"}`);
+  for (const metric of snapshot.metrics) {
     const display = metric.value === null ? "—" : metric.unit === "ratio" ? `${(metric.value * 100).toFixed(1)}%`
       : metric.unit === "count" ? String(Math.round(metric.value)) : metric.value.toFixed(2);
-    lines.push(`${metric.label}: ${display}`);
+    lines.push(`${metric.label[locale]}: ${display}`);
   }
   return lines.join("\n");
 }
@@ -450,7 +496,7 @@ async function executeToolPlan(input: {
       }
       return failedAnswer({ correlationId: input.correlationId, locale: input.locale, intent: input.intent, conversationId: input.conversationId, code });
     }
-    const report = formatReport(parsed.data, input.actor, Boolean(input.plan.targetUserId), input.locale);
+    const report = formatReport(parsed.data, input.actor, input.plan.targetUserId, input.locale);
     if (!report) return failedAnswer({ correlationId: input.correlationId, locale: input.locale, intent: input.intent, conversationId: input.conversationId, code: "riwi_scope_denied" });
     return answerBody({ ok: true, correlationId: input.correlationId, conversationId: input.conversationId, intent: input.intent, answer: report, provenance: "deterministic_report" });
   }

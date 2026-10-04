@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import type { CurrentUser } from "../src/lib/auth/current-user";
 import type { Role } from "../src/lib/auth/roles";
+import { scopeLabel as reportScopeLabel, specsFor as reportSpecsFor, type ReportScope } from "../src/lib/reporter/snapshot";
 import type { RiwiGatewayDependencies } from "../src/lib/services/riwi/gateway";
 import { runRiwiGateway } from "../src/lib/services/riwi/gateway";
 import { assessRiwiIntent } from "../src/lib/services/riwi/contracts";
@@ -40,13 +41,40 @@ function post(body: unknown): Request {
   });
 }
 
-function report(scope: "owner" | "teacher" | "student", narrative = "Safe scoped report") {
+function report(scope: "owner" | "teacher" | "student", actor: { id: string; role: Role }, targetUserId?: string, narrative = "Safe scoped report") {
+  const generatedAt = "2026-10-07T09:00:00.000Z";
+  const period = {
+    kind: "on_demand" as const, timezone: "Asia/Tashkent", from: "2026-10-06T19:00:00.000Z", to: generatedAt,
+    fromDate: "2026-10-07", toDate: "2026-10-07",
+  };
+  const reportScope: ReportScope = scope === "owner" ? { kind: "owner" }
+    : scope === "teacher" ? { kind: "teacher", teacherId: actor.role === "teacher" ? actor.id : null }
+      : { kind: "student", subjectId: targetUserId ?? actor.id, subjectName: "Scoped test learner" };
+  const metrics = reportSpecsFor(reportScope).map((spec) => {
+    const parameters: Record<string, string> = { from: period.from, to: period.to };
+    if (spec.compiledText.includes(":subject") && reportScope.kind === "student") parameters.subject = reportScope.subjectId;
+    if (spec.compiledText.includes(":teacher") && reportScope.kind === "teacher" && reportScope.teacherId) parameters.teacher = reportScope.teacherId;
+    return {
+      key: spec.key, section: spec.section, label: spec.label, unit: spec.unit,
+      value: spec.unit === "ratio" ? 0.75 : spec.unit === "band" || spec.unit === "score" ? 6.5 : 3,
+      source: { queryId: `riwi.${spec.key}`, sql: spec.compiledText, parameters },
+      window: { from: period.from, to: period.to, basis: spec.basis ?? "window" },
+      scope: reportScopeLabel(reportScope), generatedAt,
+    };
+  });
   return {
     status: "ready" as const,
-    scope,
-    period: { kind: "on_demand", fromDate: "2026-10-04", toDate: "2026-10-04", timezone: "Asia/Tashkent" },
-    metrics: [{ key: "practice_count", section: "learning" as const, label: "Practice", unit: "count" as const, value: 3 }],
-    narrative: [narrative],
+    snapshot: {
+      schemaVersion: "riwi-report/1" as const,
+      reportId: "dddddddd-0000-4000-8000-000000000001",
+      generatedAt,
+      generatedBy: { userId: actor.id, role: actor.role },
+      timezone: period.timezone,
+      period,
+      scope: reportScope,
+      metrics,
+      narrative: { source: "deterministic" as const, en: [narrative], uz: [narrative] },
+    },
   };
 }
 
@@ -55,7 +83,7 @@ const registeredTools = new Set([
   "riwi.report.readSelf", "riwi.report.readAssigned", "riwi.report.readAdminScope", "riwi.report.readGlobal", "riwi.provider.status",
 ]);
 
-function defaultToolResult(name: string, rawInput: unknown): ToolCallResult {
+function defaultToolResult(name: string, rawInput: unknown, actor: { id: string; role: Role }): ToolCallResult {
   const input = rawInput && typeof rawInput === "object" ? rawInput as Record<string, unknown> : {};
   if (name === "riwi.dictionary.lookup") return { ok: true, value: {
     status: "resolved", term: String(input.term ?? "resilient"), definitionEn: "able to recover", translationUz: null,
@@ -63,10 +91,12 @@ function defaultToolResult(name: string, rawInput: unknown): ToolCallResult {
     pronunciation: null, answer: "Resilient: able to recover.", uncertainty: null,
   } };
   if (name === "riwi.learning.progress.readSelf" || name === "riwi.learning.progress.readAssigned") return { ok: true, value: { weaknesses: [], dueVocabulary: [] } };
-  if (name === "riwi.report.readSelf") return { ok: true, value: report("student") };
-  if (name === "riwi.report.readAssigned") return { ok: true, value: report(input.targetUserId ? "student" : "teacher") };
-  if (name === "riwi.report.readAdminScope") return { ok: true, value: report(input.targetUserId ? "student" : "teacher") };
-  if (name === "riwi.report.readGlobal") return { ok: true, value: report("owner", "Centre-wide deterministic summary") };
+  if (name === "riwi.report.readSelf") return { ok: true, value: report("student", actor, actor.role === "student" ? actor.id : undefined) };
+  if (name === "riwi.report.readAssigned") return { ok: true, value: report(input.targetUserId ? "student" : "teacher", actor,
+    typeof input.targetUserId === "string" ? input.targetUserId : undefined) };
+  if (name === "riwi.report.readAdminScope") return { ok: true, value: report(input.targetUserId ? "student" : "teacher", actor,
+    typeof input.targetUserId === "string" ? input.targetUserId : undefined) };
+  if (name === "riwi.report.readGlobal") return { ok: true, value: report("owner", actor, undefined, "Centre-wide deterministic summary") };
   if (name === "riwi.provider.status") return { ok: true, value: {
     deploymentCeiling: true, externalEnabled: true, providerId: "openai", providerIsExternal: true, ready: true,
     model: "fixed-model", fallback: "none", providers: [{ id: "openai", displayName: "OpenAI", type: "external",
@@ -122,7 +152,7 @@ function makeDependencies(input: {
     resolveScope: async (value, capability, targetUserId) => allowedScope(value, capability, targetUserId),
     hasRegisteredTool: (name) => registeredTools.has(name),
     isRegisteredProvider: (providerId) => providerId === "openai",
-    callTool: async (name, toolInput) => { state.tools.push({ name, input: toolInput }); return defaultToolResult(name, toolInput); },
+    callTool: async (name, toolInput, toolActor) => { state.tools.push({ name, input: toolInput }); return defaultToolResult(name, toolInput, toolActor); },
     openConversation: async () => ({ id: CONVERSATION_ID, created: true }),
     getHistory: async () => [],
     appendTurn: async (turn) => { state.turns.push(turn); },
@@ -427,10 +457,23 @@ test("exam policy denies student help before tools or providers and response sco
   const mismatchedScope = makeDependencies({ overrides: {
     callTool: async (name, toolInput) => {
       mismatchedScope.state.tools.push({ name, input: toolInput });
-      return { ok: true, value: report("owner", "OWNER_SECRET_SHOULD_NOT_LEAK") };
+      return { ok: true, value: report("owner", { id: STUDENT_ID, role: "student" }, undefined, "OWNER_SECRET_SHOULD_NOT_LEAK") };
     },
   } });
   const response = await runRiwiGateway(post({ message: "Show my report" }), mismatchedScope.dependencies);
   assert.equal("errorCode" in response.body && response.body.errorCode, "riwi_scope_denied");
   assert.ok(!JSON.stringify(response.body).includes("OWNER_SECRET_SHOULD_NOT_LEAK"));
+
+  const mismatchedProvenance = makeDependencies({ overrides: {
+    callTool: async (name, toolInput, actor) => {
+      mismatchedProvenance.state.tools.push({ name, input: toolInput });
+      const result = report("student", actor, actor.id);
+      result.snapshot.metrics[0]!.source.sql = "select 999::int as v";
+      return { ok: true, value: result };
+    },
+  } });
+  const provenanceResponse = await runRiwiGateway(post({ message: "Show my report" }), mismatchedProvenance.dependencies);
+  assert.equal("errorCode" in provenanceResponse.body && provenanceResponse.body.errorCode, "riwi_scope_denied",
+    "a structurally valid report with altered SQL provenance is withheld");
+  assert.ok(!JSON.stringify(provenanceResponse.body).includes("select 999"));
 });
