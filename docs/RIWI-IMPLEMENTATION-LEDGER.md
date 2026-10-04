@@ -72,7 +72,7 @@ This is the phase checkpoint ledger; the final requirement-by-requirement accept
 | 4 | Dictionary Connector | PASS for canonical service/PostgreSQL integration | Checkpoint 6 covers exact-sense lookup, unknown and learner-provided rejection, ambiguity, Reading/Listening exam locks, role-safe staff access, and authorized/stale occurrence resolution. Full chat/browser integration is Phase 12. |
 | 5 | Knowledge Source Model | PASS for the bounded model, parser, and lifecycle | Checkpoint 7; authenticated owner workflow and safe upload integration remain open in later integration phases. |
 | 6 | Retrieval | PASS for PostgreSQL lexical retrieval and citation binding | Checkpoint 8; live-provider relevance and browser/route integration remain open in later phases. |
-| 7 | Provider Router | PARTIAL | Registry-backed task routing and outbound guards exist; full integration/performance/provider QA remains open. |
+| 7 | Provider Router | PASS for bounded registered-provider routing; live provider behavior is EXTERNALLY UNVERIFIED | Checkpoint 9; authenticated route/browser integration and performance testing remain open in later phases. |
 | 8 | Provider Evaluation Lab | OPEN | Fixed-fixture owner lab checkpoint remains pending; live provider validation is EXTERNALLY UNVERIFIED. |
 | 9 | Learning Signal Pipeline | PARTIAL | Candidate-only signals, review and regression evidence exist; end-to-end product integration remains open. |
 | 10 | Owner Governance UI | OPEN | Full knowledge/learning moderation and governance UX remain open. |
@@ -153,3 +153,16 @@ This is the phase checkpoint ledger; the final requirement-by-requirement accept
 | Focused tests | PASS | `node --conditions=react-server --import tsx --test tests/riwi-retrieval.test.ts tests/riwi-request-gateway.test.ts` — 11 passed, 0 failed. |
 | Typecheck / targeted lint / patch hygiene | PASS | `npm run typecheck`; targeted ESLint with `--max-warnings=0`; `git diff --check`. |
 | Live-provider, authenticated route and browser relevance acceptance | OPEN | No external provider request is needed for this checkpoint; real session/database route and browser QA remain in later integration phases. Retrieval is lexical, not claimed as semantic/vector search. |
+
+## Checkpoint 9 — Phase 7 Provider Router
+
+| Requirement area | Status | Evidence / limitation |
+|---|---|---|
+| Specialized evaluation task routing | PASS for registered local providers | `coach/resolver.ts` maps each typed evaluation to its declared capability, validates the strict result contract, bounds retry count/time, strips local identity for external calls, and either uses the configured RIWI fallback once or obeys strict no-fallback policy. `tests/coach-providers.test.ts` exercises task capability, retry, timeout, fallback, and provider provenance. |
+| RIWI assistant task-profile policy | PASS for implemented profile | `routeRiwiAnswer` validates the finite profile registry and routes only `riwi_chat` through the generic assistant method. Reserved specialist profiles fail closed rather than being coerced into chat; specialized evaluations use the Coach resolver. |
+| Provider selection and readiness | PASS | Rollout/role policy is checked before owner/provider configuration; the owner/deployment switch, registered external provider type, `riwi-assistant` capability, and required-secret presence are checked before dispatch. No caller-controlled provider/model/endpoint is accepted. |
+| Outbound privacy and result validation | PASS for covered contracts | Strict outbound chat DTO is rechecked at the router; provider receives the opaque `external-anonymous` identity, never the learner id. Runtime adapter results are strictly parsed, citations must belong to the guarded knowledge refs, and returned answer/uncertainty are redacted and bounded. Tool-call/extra fields are rejected. |
+| Timeout, cancellation, audit and metrics | PASS for bounded router behavior | One chat call is limited by a 25-second router deadline and abort propagation; no implicit chat retry occurs. Start-audit failure blocks the call, completion-audit failure withholds the answer, and metrics are best-effort with token/cost fields unknown rather than fabricated. |
+| Focused tests | PASS | `node --conditions=react-server --import tsx --test tests/riwi-provider-router.test.ts tests/coach-providers.test.ts tests/universal-ai-providers.test.ts tests/riwi-request-gateway.test.ts` — 50 passed, 0 failed. |
+| Typecheck / targeted lint / patch hygiene | PASS | `npm run typecheck`; targeted ESLint with `--max-warnings=0`; `git diff --check`. |
+| Live provider, authenticated route/browser and performance acceptance | EXTERNALLY UNVERIFIED / OPEN | No credentials or live provider requests were used. Real authenticated route/browser integration and load/performance tests remain later phases. No Preview or Production environment was touched. |

@@ -91,7 +91,7 @@ const routedAnswerSchema = z.discriminatedUnion("status", [
   }).strict(),
   z.object({
     status: z.literal("external_unavailable"),
-    reason: z.enum(["disabled", "not_configured", "capability_missing", "invalid_request", "timeout", "cancelled", "invalid_response", "provider_error"]),
+    reason: z.enum(["disabled", "policy_unavailable", "not_configured", "capability_missing", "invalid_request", "timeout", "cancelled", "invalid_response", "provider_error"]),
     providerId: z.string().max(60).nullable(), model: z.string().max(120).nullable(), durationMs: z.number().int().nonnegative(),
   }).strict(),
 ]);

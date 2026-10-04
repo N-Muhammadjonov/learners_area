@@ -299,6 +299,17 @@ test("provider citation references resolve only to retrieved knowledge titles an
   assert.ok(!JSON.stringify(refused.body).includes("Approved article guidance"));
 });
 
+test("provider-policy read failures map to a safe unavailable response", async () => {
+  const fixture = makeDependencies({ overrides: {
+    routeProvider: async () => ({
+      status: "external_unavailable", reason: "policy_unavailable", providerId: null, model: null, durationMs: 1,
+    }),
+  } });
+  const response = await runRiwiGateway(post({ message: "Explain grammar using articles." }), fixture.dependencies);
+  assert.equal("errorCode" in response.body && response.body.errorCode, "riwi_provider_unavailable");
+  assert.equal(fixture.state.tools.length, 0);
+});
+
 test("rollout disables provider calls before routing and unregistered provider results are refused", async () => {
   let externalConfigurationReads = 0;
   let providerCalls = 0;
