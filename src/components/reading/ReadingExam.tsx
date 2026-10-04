@@ -58,7 +58,6 @@ export type ExamQuestion = {
   renderMode: string | null;
   questionText: string;
   options: string[] | null;
-  acceptedAnswers: string[];
   answerConstraint: Record<string, unknown> | null;
 };
 

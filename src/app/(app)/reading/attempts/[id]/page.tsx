@@ -86,7 +86,6 @@ export default async function ReadingAttemptPage({ params }: { params: Promise<{
             renderMode: q.renderMode,
             questionText: q.questionText,
             options: q.options ?? null,
-            acceptedAnswers: q.acceptedAnswers,
             answerConstraint: (q.answerConstraint ?? null) as Record<string, unknown> | null,
           }))}
         />

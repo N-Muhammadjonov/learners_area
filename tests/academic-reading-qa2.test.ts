@@ -7,6 +7,7 @@ import { users, readingAttempts, readingAnswers } from "../src/db/schema";
 import { importGeneralReadingSet, type GeneralReadingBundle } from "../src/lib/services/reading/general-import";
 import { assessmentScope, startAcademicSet } from "../src/lib/data/reading-assessments";
 import { getAttemptDetail, saveDraftAnswers } from "../src/lib/data/reading";
+import { listLearningLibrary } from "../src/lib/data/reading-library";
 import { generalSetDetail } from "../src/lib/data/general-reading";
 import { readingSourceAccess } from "../src/lib/services/lexical/context";
 
@@ -15,9 +16,10 @@ test("Academic full set captures all three passages, resumes one private timed a
   assert.ok(["localhost","127.0.0.1"].includes(target.hostname) && target.pathname === "/learners_qa2");
   const userId = randomUUID(), strangerId = randomUUID();
   await db.insert(users).values([userId,strangerId].map(id=>({id,name:"QA2 academic full",role:"student" as const,accountStatus:"active" as const})));
+  const title = `QA2 Full Academic ${randomUUID()}`;
   const bundle: GeneralReadingBundle = {
-    sourceRef:`qa2-academic-${randomUUID()}`, title:"QA2 Full Academic", publish:true,
-    passages:[1,2,3].map(number=>({passageNo:number as 1|2|3,title:`Part ${number}`,body:`Shared published passage ${number}.`,vocabulary:[],
+    sourceRef:`qa2-academic-${randomUUID()}`, title, publish:true,
+    passages:[1,2,3].map(number=>({passageNo:number as 1|2|3,title:`${title} Part ${number}`,body:`Shared published passage ${number}.`,vocabulary:[],
       questions:Array.from({length:number===3?14:13},(_,index)=>({questionNo:index+1,type:"short_answer" as const,text:`Q${index+1}`,answer:"answer",accepted:[],explanation:""}))})),
   };
   const imported = await db.transaction(tx=>importGeneralReadingSet(tx,bundle));
@@ -29,6 +31,8 @@ test("Academic full set captures all three passages, resumes one private timed a
   assert.equal(detail.sections.length,3); assert.equal(detail.questions.length,40);
   assert.deepEqual(detail.questions.map(q=>q.questionNo),Array.from({length:40},(_,i)=>i+1));
   assert.equal(await getAttemptDetail(first,strangerId),null);
+  const cards = await listLearningLibrary(userId,{query:title});
+  assert.equal(cards.total,3); assert.ok(cards.items.every(card=>card.setId===imported.setId && card.lastAttemptId===null),"General library links into learning, never an Academic attempt");
   const sameContent = await generalSetDetail(imported.setId,"student"); assert.ok(sameContent);
   assert.deepEqual(sameContent.passages.map(p=>p.passage.id),scope.passageIds);
   assert.equal(await readingSourceAccess({id:userId,role:"student"},first),"locked");

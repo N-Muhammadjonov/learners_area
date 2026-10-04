@@ -307,6 +307,7 @@ export function DictionaryPanel({
             className="btn-secondary"
             onClick={() => {
               setEntry(null);
+              setRelease("");
               setRetry((value) => value + 1);
             }}
           >
@@ -565,7 +566,7 @@ export function DictionaryPanel({
                       <div className="space-y-3">
                         {owner ? (
                           <>
-                            <p className="text-sm text-ink-500">{t.upstream}</p>
+                            <p className="text-sm text-ink-500">{entry.attribution.some(source => source.source_name === "Learners Area") ? t.custom : t.upstream}</p>
                             <button
                               type="button"
                               className="btn-primary w-full"
