@@ -231,6 +231,7 @@ The earlier repo-wide unit diagnostic is not replaced by these focused results. 
 | UI / type / lint / schema metadata | PASS | `npm run test:ui` — 216/216; `npm run typecheck`; `npm run lint`; `npx drizzle-kit check --dialect=postgresql --out=drizzle`; `git diff --check`. PGlite service tests applied `0042` and verified checksum persistence; R2 conditional-write behavior is not live-verified. |
 | Migration / environment boundary | PASS locally; shared Preview OWNER ACTION REQUIRED | `0042_riwi_knowledge_private_upload.sql` and snapshot/journal are generated and exercised only by isolated tests. No shared Preview or Production migration has been applied. |
 | Full repository / canonical database gates | OPEN | `npm test`, production build, canonical PostgreSQL QA and the required independently repeated full gate remain scheduled after Phase 14; focused results do not claim those gates. |
+| Phase 10 upload checkpoint | PASS — committed and remotely verified | `5698e80400bf9ee34f77044e3fccfa80b8eac071` (`feat(riwi): secure owner knowledge uploads`) was pushed to `arena/01a10332-learners-area`; a subsequent fetch confirmed local HEAD equals `origin/arena/01a10332-learners-area`. The worktree was clean before Phase 11 work began. |
 
 ### Non-destructive checkpoint synchronization note
 
