@@ -43,6 +43,7 @@ const metadataSchema = z.object({
   code: z.string().max(80).optional(),
   inputHash: z.string().regex(/^[a-f0-9]{64}$/).optional(),
   contentHash: z.string().regex(/^[a-f0-9]{64}$/).optional(),
+  sourceChecksum: z.string().regex(/^[a-f0-9]{64}$/).optional(),
   sourceType: z.string().max(60).optional(),
   rightsClass: z.string().max(40).optional(),
   decision: z.string().max(40).optional(),

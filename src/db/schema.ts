@@ -163,6 +163,7 @@ export const uploadPurposeEnum = pgEnum("upload_purpose", [
   "material_primary",
   "material_block",
   "speaking_recording",
+  "riwi_knowledge_source",
 ]);
 
 export const uploadBlockKindEnum = pgEnum("upload_block_kind", ["image", "audio", "file"]);
@@ -308,6 +309,7 @@ export const riwiKnowledgeSources = pgTable("riwi_knowledge_sources", {
   sourceType: riwiKnowledgeSourceTypeEnum("source_type").notNull(),
   title: varchar("title", { length: 200 }).notNull(),
   checksum: varchar("checksum", { length: 64 }).notNull(),
+  sourceChecksum: varchar("source_checksum", { length: 64 }),
   provenance: varchar("provenance", { length: 500 }).notNull(),
   rightsClass: varchar("rights_class", { length: 40 }).notNull(),
   authority: smallint("authority").notNull().default(30),
@@ -335,6 +337,7 @@ export const riwiKnowledgeSources = pgTable("riwi_knowledge_sources", {
   index("riwi_knowledge_sources_checksum_idx").on(table.checksum),
   uniqueIndex("riwi_knowledge_sources_type_checksum_uidx").on(table.sourceType, table.checksum),
   check("riwi_knowledge_sources_authority_check", sql`${table.authority} between 0 and 100`),
+  check("riwi_knowledge_sources_source_checksum_check", sql`${table.sourceChecksum} is null or ${table.sourceChecksum} ~ '^[a-f0-9]{64}$'`),
   check("riwi_knowledge_sources_version_check", sql`${table.version} > 0`),
   check("riwi_knowledge_sources_unit_count_check", sql`${table.unitCount} >= 0`),
   check("riwi_knowledge_sources_scope_consistency_check", sql`(

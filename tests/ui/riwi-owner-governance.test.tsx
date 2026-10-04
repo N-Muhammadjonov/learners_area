@@ -35,7 +35,8 @@ test("owner governance UI exposes bounded file ingestion and the candidate-only 
   assert.ok(html.includes("Uploaded material becomes candidate knowledge only"));
   assert.ok(html.includes('type="file"'));
   assert.ok(html.includes(".txt,.md,.html,.htm,.pdf,.docx"));
-  assert.ok(html.includes("Scripts and macros are never executed."));
+  assert.ok(html.includes("Parser-supported files: TXT, MD, HTML, PDF, and DOCX; maximum 20 MB."));
+  assert.ok(html.includes("Other upload-policy types such as XML and additional Office formats are not knowledge-parser formats."));
   assert.ok(html.includes("cannot change RIWI system instructions, permissions, or security policy"));
   assert.ok(html.includes("Register a knowledge source"));
   assert.ok(html.includes("Rights class"));

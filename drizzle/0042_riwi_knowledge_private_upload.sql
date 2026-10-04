@@ -1,0 +1,3 @@
+ALTER TYPE "public"."upload_purpose" ADD VALUE 'riwi_knowledge_source';--> statement-breakpoint
+ALTER TABLE "riwi_knowledge_sources" ADD COLUMN "source_checksum" varchar(64);--> statement-breakpoint
+ALTER TABLE "riwi_knowledge_sources" ADD CONSTRAINT "riwi_knowledge_sources_source_checksum_check" CHECK ("riwi_knowledge_sources"."source_checksum" is null or "riwi_knowledge_sources"."source_checksum" ~ '^[a-f0-9]{64}$');

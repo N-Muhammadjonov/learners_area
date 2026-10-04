@@ -1,5 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { randomUUID } from "node:crypto";
 import path from "node:path";
 import { mkdtemp, mkdir, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
@@ -255,11 +256,41 @@ test("LocalDiskStorageProvider: put → head → read → delete round-trip", as
   assert.equal(await storage.head(key), null);
 });
 
+test("LocalDiskStorageProvider: conditional object creation never overwrites existing source bytes", async () => {
+  const storage = new LocalDiskStorageProvider();
+  const key = `qa-immutable/${randomUUID()}.txt`;
+  try {
+    assert.equal(await storage.putIfAbsent({ key, body: Buffer.from("first source"), contentType: "text/plain" }), true);
+    assert.equal(await storage.putIfAbsent({ key, body: Buffer.from("replacement bytes"), contentType: "text/plain" }), false);
+    assert.equal((await storage.read(key))?.body.toString(), "first source");
+  } finally {
+    await storage.delete(key);
+  }
+});
+
 test("LocalDiskStorageProvider: refuses to write outside the uploads root", async () => {
   const storage = new LocalDiskStorageProvider();
   await assert.rejects(() => storage.put({ key: "../escape.txt", body: Buffer.from("x"), contentType: "text/plain" }));
   await assert.rejects(() => storage.head("../../etc/passwd"));
   await assert.rejects(() => storage.delete("/etc/passwd"));
+});
+
+test("LocalDiskStorageProvider bounded reads never return more than maxBytes plus one", async () => {
+  const storage = new LocalDiskStorageProvider();
+  const key = `qa-bounded/${randomUUID()}.txt`;
+  const body = Buffer.from("0123456789abcdefghijklmnopqrstuvwxyz");
+  try {
+    await storage.put({ key, body, contentType: "text/plain" });
+    const oversized = await storage.readBounded(key, 8);
+    assert.equal(oversized?.body.length, 9, "one extra byte is enough to prove the object exceeded the caller's ceiling");
+    assert.equal(oversized?.body.toString(), body.subarray(0, 9).toString());
+    const exact = await storage.readBounded(key, body.length);
+    assert.equal(exact?.body.toString(), body.toString());
+    assert.equal(await storage.readBounded(`qa-bounded/${randomUUID()}.txt`, 8), null);
+    await assert.rejects(storage.readBounded(key, -1), RangeError);
+  } finally {
+    await storage.delete(key);
+  }
 });
 
 test("inferContentType maps the documented extensions", () => {

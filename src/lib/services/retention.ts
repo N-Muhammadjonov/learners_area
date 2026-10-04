@@ -242,7 +242,10 @@ async function runRetentionOn(options: RetentionOptions | undefined, db: Retenti
     //    keys are orphans); retention delegates instead of duplicating it.
     if (dryRun) {
       const stale = await db.execute<{ count: number }>(
-        sql`select count(*)::int as count from upload_intents where status in ('pending','aborted') and expires_at < ${now}`
+        sql`select count(*)::int as count from upload_intents where expires_at < ${now} and (
+          status in ('pending','aborted') or (status = 'finalized' and purpose = 'riwi_knowledge_source'
+            and not exists (select 1 from riwi_knowledge_sources s where s.source_object_key = upload_intents.object_key))
+        )`
       );
       results.push({
         rule: "abandoned_uploads",

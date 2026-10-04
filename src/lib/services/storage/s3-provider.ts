@@ -69,6 +69,21 @@ export class S3StorageProvider implements StorageService {
     );
   }
 
+  async putIfAbsent({ key, body, contentType }: PutInput): Promise<boolean> {
+    this.assertSafeKey(key);
+    try {
+      await this.client.send(new PutObjectCommand({
+        Bucket: this.bucket, Key: key, Body: body, ContentType: contentType, IfNoneMatch: "*",
+      }));
+      return true;
+    } catch (error) {
+      const failure = error as { name?: string; $metadata?: { httpStatusCode?: number } };
+      if (failure.name === "PreconditionFailed" || failure.name === "ConditionalRequestConflict"
+        || failure.$metadata?.httpStatusCode === 409 || failure.$metadata?.httpStatusCode === 412) return false;
+      throw error;
+    }
+  }
+
   /**
    * The preferred upload path: the browser PUTs bytes straight to this URL,
    * never through our server. Scoped to exactly one object key and one
@@ -128,6 +143,48 @@ export class S3StorageProvider implements StorageService {
       const body = await res.Body?.transformToByteArray();
       if (!body) return null;
       return { body: Buffer.from(body), contentType: res.ContentType ?? "application/octet-stream" };
+    } catch (err) {
+      if (isNotFound(err)) return null;
+      throw err;
+    }
+  }
+
+  async readBounded(key: ObjectKey, maxBytes: number): Promise<ReadResult | null> {
+    this.assertSafeKey(key);
+    if (!Number.isSafeInteger(maxBytes) || maxBytes < 0 || maxBytes >= Number.MAX_SAFE_INTEGER) {
+      throw new RangeError("Invalid bounded-read size");
+    }
+    try {
+      const res = await this.client.send(new GetObjectCommand({
+        Bucket: this.bucket, Key: key, Range: `bytes=0-${maxBytes}`,
+      }));
+      const stream = res.Body?.transformToWebStream();
+      if (!stream) return null;
+      const reader = stream.getReader();
+      const chunks: Uint8Array[] = [];
+      const maxRead = maxBytes + 1;
+      let total = 0;
+      try {
+        while (total < maxRead) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          const take = Math.min(value.byteLength, maxRead - total);
+          if (take > 0) {
+            chunks.push(value.subarray(0, take));
+            total += take;
+          }
+          if (take < value.byteLength || total === maxRead) {
+            await reader.cancel().catch(() => undefined);
+            break;
+          }
+        }
+      } finally {
+        reader.releaseLock();
+      }
+      return {
+        body: Buffer.concat(chunks.map((chunk) => Buffer.from(chunk)), total),
+        contentType: res.ContentType ?? "application/octet-stream",
+      };
     } catch (err) {
       if (isNotFound(err)) return null;
       throw err;

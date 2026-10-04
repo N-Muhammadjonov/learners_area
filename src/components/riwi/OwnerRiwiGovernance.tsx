@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { z } from "zod";
 import { useScopedResponse } from "@/lib/http/use-scoped-response";
+import { startUpload, type UploadState } from "@/lib/uploads/client";
 import type { Locale } from "@/lib/i18n";
 
 const sourceSchema = z.object({
@@ -11,7 +12,8 @@ const sourceSchema = z.object({
   scope: z.enum(["global", "role", "user"]), scopeRole: z.string().nullable(), scopeUserId: z.string().uuid().nullable(),
   supersedesSourceId: z.string().uuid().nullable(), version: z.number().int().positive(),
   state: z.enum(["draft", "parsed", "analyzed", "candidate", "approved", "active", "superseded", "rejected", "quarantined"]),
-  unitCount: z.number().int().nonnegative(), checksum: z.string().regex(/^[a-f0-9]{64}$/i), parserVersion: z.string().max(80),
+  unitCount: z.number().int().nonnegative(), checksum: z.string().regex(/^[a-f0-9]{64}$/i),
+  sourceChecksum: z.string().regex(/^[a-f0-9]{64}$/i).nullable(), parserVersion: z.string().max(80),
   regressionFixtureId: z.string().max(120).nullable(), regressionEvidenceHash: z.string().regex(/^[a-f0-9]{64}$/i).nullable(),
   regressionPassedAt: z.string().datetime().nullable(), createdAt: z.string().datetime(), approvedAt: z.string().datetime().nullable(),
   activatedAt: z.string().datetime().nullable(),
@@ -86,6 +88,30 @@ const sourceTypes = [
 const rightsClasses = ["unknown", "owner_authored", "licensed", "public_domain", "internal_permission", "third_party_reference"] as const;
 const roleScopes = ["student", "teacher", "admin", "owner"] as const;
 const regressionFixture = "retrieval-active-scope-only-v1";
+type SourceUploadStage = "idle" | "uploading" | "finalizing" | "parsing";
+
+function sourceUploadError(code: string | undefined, locale: Locale, fallback: string): string {
+  if (!code) return fallback;
+  if (/too_large|file_too_large/.test(code)) return locale === "uz"
+    ? "Manba fayli yoki arxiv kengaytirilgan hajmi ruxsat etilgan chegaradan oshdi."
+    : "The source or expanded archive exceeds the bounded size limit.";
+  if (/unsupported_type|unsupported_format/.test(code)) return locale === "uz"
+    ? "Faqat TXT, MD, HTML, PDF va DOCX parser tomonidan qo'llab-quvvatlanadi; boshqa fayllar qabul qilinmaydi."
+    : "Only parser-supported TXT, MD, HTML, PDF, and DOCX sources are accepted.";
+  if (/signature_mismatch|dangerous_content|unsafe_archive|invalid_text|source_empty/.test(code)) return locale === "uz"
+    ? "Fayl baytlari xavfsiz tekshiruvdan o'tmadi; nomzod bilim yaratilmadi."
+    : "The file bytes or archive failed safe parsing; no candidate was created.";
+  if (/rate_limited/.test(code)) return locale === "uz"
+    ? "Yuklash tezligi cheklangan. Keyinroq qayta urinib ko'ring."
+    : "Upload rate limit reached. Please try again later.";
+  return fallback;
+}
+
+function uploadStageFor(state: UploadState): SourceUploadStage {
+  if (state === "finalizing") return "finalizing";
+  if (state === "complete") return "parsing";
+  return "uploading";
+}
 
 function words(locale: Locale) {
   const uz = locale === "uz";
@@ -124,7 +150,10 @@ function words(locale: Locale) {
     noSources: uz ? "Bilim manbalari topilmadi." : "No knowledge sources found.",
     noSignals: uz ? "Ko'rib chiqiladigan signallar topilmadi." : "No learning signals to review.",
     noAudit: uz ? "Audit yozuvlari topilmadi." : "No audit entries found.",
-    unsupported: uz ? "Qo'llab-quvvatlanadigan fayllar: TXT, MD, HTML, PDF va DOCX. Skriptlar va makroslar bajarilmaydi." : "Supported files: TXT, MD, HTML, PDF, and DOCX. Scripts and macros are never executed.",
+    unsupported: uz ? "Qo'llab-quvvatlanadigan fayllar: TXT, MD, HTML, PDF va DOCX; maksimal 20 MB. XML va boshqa Office formatlari yuklash qoidalarida bo'lishi mumkin, lekin bilim parseri ularni qo'llab-quvvatlamaydi." : "Parser-supported files: TXT, MD, HTML, PDF, and DOCX; maximum 20 MB. Other upload-policy types such as XML and additional Office formats are not knowledge-parser formats.",
+    uploading: uz ? "Fayl yuklanmoqda" : "Uploading file",
+    verifying: uz ? "Imzo va hajm tekshirilmoqda" : "Verifying signature and size",
+    parsing: uz ? "Xavfsiz parser tekshirmoqda" : "Safely parsing source",
     privateText: uz ? "Fayl mazmuni RIWI tizim ko'rsatmalarini, ruxsatlarini yoki xavfsizlik siyosatini o'zgartira olmaydi." : "File content is inert data and cannot change RIWI system instructions, permissions, or security policy.",
     configuredOnly: uz ? "Sozlangan; muvaffaqiyatli jonli sinov tarixi ko'rsatilmagan." : "Configured; no successful live test appears in retained history.",
     error: uz ? "Amal xavfsiz bajarilmadi. Qayta urinib ko'ring." : "The action could not be completed safely. Please retry.",
@@ -151,6 +180,8 @@ export function OwnerRiwiGovernance({ locale }: { locale: Locale }) {
   const [diagnostics, setDiagnostics] = useState<Diagnostics | null>(null);
   const [refreshing, setRefreshing] = useState(false);
   const [busy, setBusy] = useState("");
+  const [uploadStage, setUploadStage] = useState<SourceUploadStage>("idle");
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const [file, setFile] = useState<File | null>(null);
@@ -165,6 +196,7 @@ export function OwnerRiwiGovernance({ locale }: { locale: Locale }) {
   const [signalType, setSignalType] = useState<"owner_correction" | "manual_qa_finding">("owner_correction");
   const [signalClaim, setSignalClaim] = useState("");
   const [signalEvidence, setSignalEvidence] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const correctionKey = useRef<{ fingerprint: string; key: string } | null>(null);
 
   const fetchJson = useCallback(async <T,>(path: string, schema: z.ZodType<T>): Promise<T | null> => {
@@ -234,36 +266,51 @@ export function OwnerRiwiGovernance({ locale }: { locale: Locale }) {
   async function uploadSource(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!file || busy) return;
-    if (file.size < 1 || file.size > 20 * 1024 * 1024) { setError(t.error); return; }
+    if (file.size < 1 || file.size > 20 * 1024 * 1024) {
+      setError(sourceUploadError("file_too_large", locale, t.error));
+      return;
+    }
     setBusy("upload");
+    setUploadStage("uploading");
+    setUploadProgress(0);
     setError("");
     setNotice("");
     try {
-      const bytes = new Uint8Array(await file.arrayBuffer());
-      let binary = "";
-      const batch = 0x8000;
-      for (let index = 0; index < bytes.length; index += batch) {
-        binary += String.fromCharCode(...bytes.subarray(index, Math.min(index + batch, bytes.length)));
+      const uploaded = await startUpload(file, {
+        purpose: "riwi_knowledge_source",
+        onState: (state) => setUploadStage(uploadStageFor(state)),
+        onProgress: setUploadProgress,
+      }).promise;
+      if (!uploaded.ok) {
+        setError(sourceUploadError(uploaded.error, locale, t.error));
+        return;
       }
-      const contentBase64 = btoa(binary);
+
+      setUploadStage("parsing");
       const scope = scopeKind === "global" ? { kind: "global" as const } : { kind: "role" as const, role: scopeRole };
       const response = await requestResponse("/api/riwi/owner/knowledge", {
         method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({ filename: file.name, title, sourceType, provenance, rightsClass, scope, contentBase64 }),
+        body: JSON.stringify({ uploadId: uploaded.uploadId, title, sourceType, provenance, rightsClass, scope }),
       });
-      if (!response) return;
+      if (!response) { setError(t.error); return; }
       const data = await response.json().catch(() => null) as { sourceId?: string; error?: { code?: string } } | null;
-      if (!response.ok || !data?.sourceId) throw new Error("request_failed");
-      setNotice(locale === "uz" ? "Manba tahlil qilindi va nomzod sifatida saqlandi; faol emas." : "The source was parsed, analyzed, and saved as a candidate; it is not active.");
+      if (!response.ok || !data?.sourceId) {
+        setError(sourceUploadError(data?.error?.code, locale, t.error));
+        return;
+      }
+      setNotice(locale === "uz" ? "Manba xavfsiz tahlil qilindi va inert nomzod sifatida saqlandi; faol emas." : "The source was safely parsed and saved as inert candidate knowledge; it is not active.");
       setFile(null);
       setTitle("");
       setProvenance("");
+      if (fileInputRef.current) fileInputRef.current.value = "";
       await refresh();
       await loadSource(data.sourceId);
     } catch {
       setError(t.error);
     } finally {
       setBusy("");
+      setUploadStage("idle");
+      setUploadProgress(0);
     }
   }
 
@@ -385,7 +432,7 @@ export function OwnerRiwiGovernance({ locale }: { locale: Locale }) {
             <p className="mt-1 text-xs leading-5 text-ink-500">{t.unsupported} {t.privateText}</p>
           </div>
           <label className="flex flex-col gap-1 text-sm font-medium text-ink-700">{t.file}
-            <input type="file" required accept=".txt,.md,.html,.htm,.pdf,.docx" disabled={busy !== ""} onChange={(event) => setFile(event.target.files?.[0] ?? null)} />
+            <input ref={fileInputRef} type="file" required accept=".txt,.md,.html,.htm,.pdf,.docx" disabled={busy !== ""} onChange={(event) => setFile(event.target.files?.[0] ?? null)} />
           </label>
           <label className="flex flex-col gap-1 text-sm font-medium text-ink-700">{t.title}
             <input className="input" required maxLength={200} value={title} onChange={(event) => setTitle(event.target.value)} disabled={busy !== ""} />
@@ -411,8 +458,12 @@ export function OwnerRiwiGovernance({ locale }: { locale: Locale }) {
             <label className="flex items-center gap-2"><input type="radio" checked={scopeKind === "role"} onChange={() => setScopeKind("role")} />{t.role}</label>
             {scopeKind === "role" && <select className="input max-w-48" value={scopeRole} onChange={(event) => setScopeRole(event.target.value as typeof scopeRole)}>{roleScopes.map((role) => <option key={role} value={role}>{role}</option>)}</select>}
           </fieldset>
-          {file && <p className="text-xs text-ink-500">{file.name} · {Math.ceil(file.size / 1024)} KB · server validates file signature and parses content in an inert, bounded parser</p>}
-          <button className="btn-primary self-start" type="submit" disabled={!file || !title.trim() || !provenance.trim() || busy !== ""}>{busy === "upload" ? t.loading : t.register}</button>
+          {file && <p className="text-xs text-ink-500">{file.name} · {Math.ceil(file.size / 1024)} KB · browser MIME is only a claim; server checks bytes, size, archive paths, and parser support</p>}
+          {uploadStage !== "idle" && <div className="text-xs text-ink-600" aria-live="polite">
+            <p>{uploadStage === "uploading" ? `${t.uploading} · ${uploadProgress}%` : uploadStage === "finalizing" ? t.verifying : t.parsing}</p>
+            {uploadStage === "uploading" && <progress className="mt-1 w-full accent-brand-600" max={100} value={uploadProgress} aria-label={t.uploading} />}
+          </div>}
+          <button className="btn-primary self-start" type="submit" disabled={!file || !title.trim() || !provenance.trim() || busy !== ""}>{busy === "upload" ? (uploadStage === "uploading" ? `${t.uploading} · ${uploadProgress}%` : uploadStage === "finalizing" ? t.verifying : t.parsing) : t.register}</button>
           <p className="text-xs text-ink-500">{t.noActive}</p>
         </form>
 
@@ -457,7 +508,8 @@ export function OwnerRiwiGovernance({ locale }: { locale: Locale }) {
                 <span className={`badge ${source.state === "active" ? "bg-band-good/10 text-band-good" : source.state === "rejected" || source.state === "quarantined" ? "bg-band-bad/10 text-band-bad" : "bg-band-warn/10 text-band-warn"}`}>{source.state}</span>
               </div>
               <p className="mt-2 text-xs text-ink-500">{source.rightsClass.replaceAll("_", " ")} · authority {source.authority} · {source.unitCount} units · parser {source.parserVersion}</p>
-              <p className="mt-1 break-all text-[11px] text-ink-400">SHA-256 {source.checksum}</p>
+              <p className="mt-1 break-all text-[11px] text-ink-400">Parsed text SHA-256 {source.checksum}</p>
+              {source.sourceChecksum && <p className="mt-1 break-all text-[11px] text-ink-400">Original upload SHA-256 {source.sourceChecksum}</p>}
               <button type="button" className="btn-secondary mt-3" disabled={busy !== ""} onClick={() => void loadSource(source.id)}>{t.details}</button>
             </li>)}
           </ul>
@@ -505,7 +557,8 @@ export function OwnerRiwiGovernance({ locale }: { locale: Locale }) {
             <Meta label={locale === "uz" ? "Huquq klassi" : "Rights class"} value={selectedSource.rightsClass} />
             <Meta label={locale === "uz" ? "Parser" : "Parser version"} value={selectedSource.parserVersion} />
             <Meta label={locale === "uz" ? "Birliklar" : "Units"} value={String(selectedSource.unitCount)} />
-            <Meta label="SHA-256" value={selectedSource.checksum} />
+            <Meta label={locale === "uz" ? "Tahlil qilingan matn SHA-256" : "Parsed content SHA-256"} value={selectedSource.checksum} />
+            {selectedSource.sourceChecksum && <Meta label={locale === "uz" ? "Asl fayl SHA-256" : "Original source bytes SHA-256"} value={selectedSource.sourceChecksum} />}
             <Meta label={locale === "uz" ? "Regressiya" : "Regression evidence"} value={selectedSource.regressionFixtureId ? `${selectedSource.regressionFixtureId} · ${selectedSource.regressionEvidenceHash ?? "—"}` : (locale === "uz" ? "hali bajarilmagan" : "not run yet")} />
             <Meta label={locale === "uz" ? "Oldingi manba" : "Supersedes"} value={selectedSource.supersedesSourceId ? `${selectedSource.supersedesSourceId} · v${sourceMap.get(selectedSource.supersedesSourceId)?.version ?? "?"}` : "—"} />
           </dl>

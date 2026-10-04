@@ -1,8 +1,8 @@
 import "server-only";
 import { createHash } from "node:crypto";
-import { and, asc, desc, eq, inArray, or, sql } from "drizzle-orm";
+import { and, asc, desc, eq, gt, inArray, isNull, or, sql } from "drizzle-orm";
 import { db } from "@/db/client";
-import { riwiKnowledgeConflicts, riwiKnowledgeSources, riwiKnowledgeUnits, users } from "@/db/schema";
+import { riwiKnowledgeConflicts, riwiKnowledgeSources, riwiKnowledgeUnits, uploadIntents, users } from "@/db/schema";
 import type { AccountStatus } from "@/lib/auth/account-status";
 import type { Role } from "@/lib/auth/roles";
 import { authorizeCapability } from "./capabilities";
@@ -11,6 +11,7 @@ import { isRiwiRegressionFixture, runRiwiRegressionSuite } from "./golden/fixtur
 import { chunkKnowledgeText, RIWI_UNIT_MAX_CHARS } from "./knowledge-parser";
 import type { KnowledgeScope } from "./knowledge-policy";
 import { redactExternalText } from "./outbound-guard";
+import { isSafeObjectKey } from "@/lib/validation/uploads";
 
 export const KNOWLEDGE_SOURCE_TYPES = [
   "owner_instruction", "ielts_rubric", "grammar_material", "vocabulary_material", "speaking_material",
@@ -98,6 +99,8 @@ export async function createKnowledgeCandidate(input: {
   scope: KnowledgePublicationScope;
   checksum?: string;
   content: string;
+  /** Present only for server-parsed bytes from the shared finalized upload intent. */
+  sourceUpload?: { uploadId: string; objectKey: string; checksum: string };
 }, database: Pick<typeof db, "select" | "insert" | "update" | "transaction"> = db) {
   if (!canManage(input.actor, "riwi.knowledge.submit_candidate")) throw new KnowledgeServiceError("forbidden");
   if (!KNOWLEDGE_SOURCE_TYPES.includes(input.sourceType) || !KNOWLEDGE_RIGHTS_CLASSES.includes(input.rightsClass)) {
@@ -106,6 +109,11 @@ export async function createKnowledgeCandidate(input: {
   if (!input.scope || !["global", "role", "user"].includes(input.scope.kind) ||
       (input.scope.kind === "role" && !["student", "teacher", "admin", "owner"].includes(input.scope.role)) ||
       (input.scope.kind === "user" && !UUID.test(input.scope.userId))) {
+    throw new KnowledgeServiceError("invalid_input");
+  }
+  if (input.sourceUpload && (!UUID.test(input.sourceUpload.uploadId)
+    || !isSafeObjectKey(input.sourceUpload.objectKey)
+    || !/^[a-f0-9]{64}$/.test(input.sourceUpload.checksum))) {
     throw new KnowledgeServiceError("invalid_input");
   }
   if (input.scope.kind === "user") {
@@ -129,8 +137,26 @@ export async function createKnowledgeCandidate(input: {
   if (duplicate) throw new KnowledgeServiceError("duplicate_source");
 
   const source = await database.transaction(async (tx) => {
+    const now = new Date();
+    if (input.sourceUpload) {
+      const [owner] = await tx.select({ role: users.role, accountStatus: users.accountStatus })
+        .from(users).where(eq(users.id, input.actor.id)).limit(1).for("update");
+      if (owner?.role !== "owner" || owner.accountStatus !== "active") throw new KnowledgeServiceError("forbidden");
+      const [intent] = await tx.select({
+        id: uploadIntents.id, userId: uploadIntents.userId, purpose: uploadIntents.purpose,
+        objectKey: uploadIntents.objectKey, status: uploadIntents.status, usedAt: uploadIntents.usedAt,
+        expiresAt: uploadIntents.expiresAt,
+      }).from(uploadIntents).where(eq(uploadIntents.id, input.sourceUpload.uploadId)).limit(1).for("update");
+      if (!intent || intent.userId !== input.actor.id || intent.purpose !== "riwi_knowledge_source"
+        || intent.objectKey !== input.sourceUpload.objectKey) throw new KnowledgeServiceError("not_found");
+      if (intent.status !== "finalized" || intent.usedAt || intent.expiresAt <= now) {
+        throw new KnowledgeServiceError("invalid_state");
+      }
+    }
+
     const [created] = await tx.insert(riwiKnowledgeSources).values({
-      sourceType: input.sourceType, title, checksum, provenance,
+      sourceType: input.sourceType, title, checksum, sourceChecksum: input.sourceUpload?.checksum ?? null,
+      sourceObjectKey: input.sourceUpload?.objectKey ?? null, provenance,
       rightsClass: input.rightsClass, authority: OWNER_AUTHORITY[input.sourceType],
       scope: input.scope.kind, scopeRole: input.scope.kind === "role" ? input.scope.role : null,
       scopeUserId: input.scope.kind === "user" ? input.scope.userId : null,
@@ -186,8 +212,17 @@ export async function createKnowledgeCandidate(input: {
     const [candidate] = await tx.update(riwiKnowledgeSources).set({ state: "candidate", updatedAt: new Date() })
       .where(eq(riwiKnowledgeSources.id, created.id)).returning({ id: riwiKnowledgeSources.id, version: riwiKnowledgeSources.version, unitCount: riwiKnowledgeSources.unitCount, state: riwiKnowledgeSources.state });
     if (!candidate) throw new KnowledgeServiceError("write_failed");
+    if (input.sourceUpload) {
+      const [attached] = await tx.update(uploadIntents).set({ status: "attached", usedAt: now })
+        .where(and(eq(uploadIntents.id, input.sourceUpload.uploadId),
+          eq(uploadIntents.userId, input.actor.id), eq(uploadIntents.purpose, "riwi_knowledge_source"),
+          eq(uploadIntents.status, "finalized"), isNull(uploadIntents.usedAt), gt(uploadIntents.expiresAt, now)))
+        .returning({ id: uploadIntents.id });
+      if (!attached) throw new KnowledgeServiceError("invalid_state");
+    }
     await recordRiwiAudit({ actorUserId: input.actor.id, action: "riwi.knowledge.source.created", targetType: "riwi_knowledge_source", targetId: candidate.id,
-      metadata: { sourceId: candidate.id, version: candidate.version, unitCount: candidate.unitCount, contentHash: checksum, sourceType: input.sourceType, rightsClass: input.rightsClass, resultCount: conflicts.length } }, tx as never);
+      metadata: { sourceId: candidate.id, version: candidate.version, unitCount: candidate.unitCount, contentHash: checksum,
+        sourceChecksum: input.sourceUpload?.checksum, sourceType: input.sourceType, rightsClass: input.rightsClass, resultCount: conflicts.length } }, tx as never);
     return { ...candidate, conflictCount: conflicts.length };
   });
   return source;
@@ -201,7 +236,7 @@ export async function listKnowledgeSources(actor: KnowledgeActor, database: Pick
     scope: riwiKnowledgeSources.scope, scopeRole: riwiKnowledgeSources.scopeRole, scopeUserId: riwiKnowledgeSources.scopeUserId,
     supersedesSourceId: riwiKnowledgeSources.supersedesSourceId, version: riwiKnowledgeSources.version,
     state: riwiKnowledgeSources.state, unitCount: riwiKnowledgeSources.unitCount, checksum: riwiKnowledgeSources.checksum,
-    parserVersion: riwiKnowledgeSources.parserVersion,
+    sourceChecksum: riwiKnowledgeSources.sourceChecksum, parserVersion: riwiKnowledgeSources.parserVersion,
     regressionFixtureId: riwiKnowledgeSources.regressionFixtureId, regressionEvidenceHash: riwiKnowledgeSources.regressionEvidenceHash,
     regressionPassedAt: riwiKnowledgeSources.regressionPassedAt,
     createdAt: riwiKnowledgeSources.createdAt, approvedAt: riwiKnowledgeSources.approvedAt, activatedAt: riwiKnowledgeSources.activatedAt,
@@ -221,7 +256,7 @@ export async function getKnowledgeSourceDetail(
     provenance: riwiKnowledgeSources.provenance, rightsClass: riwiKnowledgeSources.rightsClass, authority: riwiKnowledgeSources.authority,
     scope: riwiKnowledgeSources.scope, scopeRole: riwiKnowledgeSources.scopeRole, scopeUserId: riwiKnowledgeSources.scopeUserId,
     version: riwiKnowledgeSources.version, state: riwiKnowledgeSources.state, checksum: riwiKnowledgeSources.checksum,
-    parserVersion: riwiKnowledgeSources.parserVersion, unitCount: riwiKnowledgeSources.unitCount,
+    sourceChecksum: riwiKnowledgeSources.sourceChecksum, parserVersion: riwiKnowledgeSources.parserVersion, unitCount: riwiKnowledgeSources.unitCount,
     supersedesSourceId: riwiKnowledgeSources.supersedesSourceId, createdByUserId: riwiKnowledgeSources.createdByUserId,
     reviewedByUserId: riwiKnowledgeSources.reviewedByUserId, regressionFixtureId: riwiKnowledgeSources.regressionFixtureId,
     regressionEvidenceHash: riwiKnowledgeSources.regressionEvidenceHash, regressionPassedAt: riwiKnowledgeSources.regressionPassedAt,

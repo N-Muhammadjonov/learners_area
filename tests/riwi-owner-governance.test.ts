@@ -85,20 +85,9 @@ test("owner governance conflict resolution binds the displayed candidate and exa
   }
 });
 
-test("owner knowledge routes use database-backed owner authorization, bounded upload, and fixed lifecycle actions", async () => {
+test("owner governance lifecycle routes bind strict actions to the server-side owner", async () => {
   const { readFileSync } = await import("node:fs");
   const read = (path: string) => readFileSync(path, "utf8");
-  const upload = read("src/app/api/riwi/owner/knowledge/route.ts");
-  assert.match(upload, /requireRiwiOwner\(\)/);
-  assert.match(upload, /checkRequestOrigin\(request\)/);
-  assert.match(upload, /riwiKnowledgeWriteByAccount/);
-  assert.match(upload, /readRiwiBoundedJson\(request, MAX_BASE64_BYTES \+ 16_384\)/);
-  assert.match(upload, /extractKnowledgeText\(/);
-  assert.match(upload, /createKnowledgeCandidate\(/);
-  assert.match(upload, /contentBase64/);
-  assert.match(upload, /pdf\|docx/);
-  assert.doesNotMatch(upload, /body\.value\.actor|body\.value\.role|body\.value\.authority|body\.value\.state/);
-
   const approval = read("src/app/api/riwi/owner/knowledge/[sourceId]/approve/route.ts");
   const rejection = read("src/app/api/riwi/owner/knowledge/[sourceId]/reject/route.ts");
   const promotion = read("src/app/api/riwi/owner/knowledge/[sourceId]/promote/route.ts");

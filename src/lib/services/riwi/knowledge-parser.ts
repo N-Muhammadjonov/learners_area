@@ -1,9 +1,17 @@
 import "server-only";
 import { readSafeArchiveAsync } from "@/lib/import/archive";
 import { readPdfTextLayer } from "@/lib/import/pdf-text";
+import { extensionOf } from "@/lib/validation/uploads";
 import { verifySignature } from "@/lib/uploads/signature";
 
 export const RIWI_SOURCE_LIMIT_BYTES = 20 * 1024 * 1024;
+export const RIWI_KNOWLEDGE_EXTENSIONS = [".txt", ".md", ".html", ".htm", ".pdf", ".docx"] as const;
+
+export function isSupportedKnowledgeSourceFilename(filename: string): boolean {
+  return filename.length > 0 && filename.length <= 255
+    && !/[\\/\u0000-\u001f]/.test(filename)
+    && (RIWI_KNOWLEDGE_EXTENSIONS as readonly string[]).includes(extensionOf(filename));
+}
 export const RIWI_SOURCE_LIMIT_CHARS = 200_000;
 export const RIWI_UNIT_MAX_CHARS = 1600;
 export const RIWI_MAX_UNITS = 200;
@@ -11,7 +19,7 @@ export const RIWI_MAX_UNITS = 200;
 export type ParsedKnowledgeUnit = { ordinal: number; heading: string | null; text: string; characterCount: number };
 
 export class KnowledgeParseError extends Error {
-  constructor(public readonly code: "unsupported_format" | "signature_mismatch" | "source_too_large" | "source_empty" | "source_invalid_text" | "too_many_units" | "source_timeout") {
+  constructor(public readonly code: "unsupported_format" | "signature_mismatch" | "dangerous_content" | "source_too_large" | "source_empty" | "source_invalid_text" | "source_unsafe_archive" | "too_many_units" | "source_timeout") {
     super(code);
   }
 }
@@ -34,7 +42,9 @@ function decodeEntities(text: string): string {
 export function htmlToInertText(input: string): string {
   return decodeEntities(input
     .replace(/<!--[\s\S]*?-->/g, " ")
-    .replace(/<(script|style|iframe|object|embed|svg|math|template|noscript)\b[^>]*>[\s\S]*?<\/\1\s*>/gi, " ")
+    // A missing closing tag consumes the rest of the source: executable
+    // content is never reinterpreted as visible educational text.
+    .replace(/<(script|style|iframe|object|embed|svg|math|template|noscript)\b[^>]*>[\s\S]*?(?:<\/\1\s*>|$)/gi, " ")
     .replace(/<(script|style|iframe|object|embed|svg|math|template|noscript)\b[^>]*\/?\s*>/gi, " ")
     .replace(/<\s*br\s*\/?>/gi, "\n")
     .replace(/<\s*\/(p|div|li|h[1-6]|tr|section|article)\s*>/gi, "\n")
@@ -60,9 +70,8 @@ function decodeUtf8(bytes: Uint8Array): string {
 export async function extractKnowledgeText(filename: string, bytes: Uint8Array, signal?: AbortSignal): Promise<string> {
   if (bytes.byteLength === 0) throw new KnowledgeParseError("source_empty");
   if (bytes.byteLength > RIWI_SOURCE_LIMIT_BYTES) throw new KnowledgeParseError("source_too_large");
-  const extension = filename.toLowerCase().match(/\.[a-z0-9]+$/)?.[0] ?? "";
-  const accepted = [".txt", ".md", ".html", ".htm", ".pdf", ".docx"];
-  if (!accepted.includes(extension)) throw new KnowledgeParseError("unsupported_format");
+  const extension = extensionOf(filename);
+  if (!isSupportedKnowledgeSourceFilename(filename)) throw new KnowledgeParseError("unsupported_format");
   const signature = verifySignature(filename, bytes.slice(0, 4096));
   if (!signature.ok) throw new KnowledgeParseError("signature_mismatch");
 
@@ -72,15 +81,23 @@ export async function extractKnowledgeText(filename: string, bytes: Uint8Array, 
     catch { throw new KnowledgeParseError(signal?.aborted ? "source_timeout" : "source_invalid_text"); }
   } else if (extension === ".docx") {
     try {
-      const archive = await readSafeArchiveAsync(bytes, signal);
-      const expanded = Object.values(archive).reduce((total, value) => total + value.byteLength, 0);
-      if (expanded > RIWI_SOURCE_LIMIT_BYTES || Object.keys(archive).some((name) => /vbaProject\.bin/i.test(name))) throw new KnowledgeParseError("source_too_large");
+      const archive = await readSafeArchiveAsync(bytes, signal, {
+        maxCompressedBytes: RIWI_SOURCE_LIMIT_BYTES,
+        maxExpandedBytes: RIWI_SOURCE_LIMIT_BYTES,
+        maxEntries: 200,
+        timeoutMs: 30_000,
+      });
+      const activeArchiveEntry = Object.keys(archive).some((name) =>
+        /(?:^|\/)(?:vbaProject\.bin|activex|customUI|embeddings|macros?|scripts?)(?:\/|$)/i.test(name)
+        || /\.(?:bin|exe|dll|com|scr|bat|cmd|ps1|sh|js|mjs|cjs|vbs|wsf|jar|class|hta)$/i.test(name),
+      );
+      if (activeArchiveEntry) throw new KnowledgeParseError("source_unsafe_archive");
       const document = archive["word/document.xml"];
       if (!document) throw new KnowledgeParseError("source_invalid_text");
       text = xmlToText(decodeUtf8(document));
     } catch (error) {
       if (error instanceof KnowledgeParseError) throw error;
-      throw new KnowledgeParseError(signal?.aborted ? "source_timeout" : "source_invalid_text");
+      throw new KnowledgeParseError(signal?.aborted ? "source_timeout" : "source_unsafe_archive");
     }
   } else {
     const decoded = decodeUtf8(bytes);
