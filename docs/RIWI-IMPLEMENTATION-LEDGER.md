@@ -48,7 +48,7 @@ This is the phase checkpoint ledger; the final requirement-by-requirement accept
 | Patch hygiene | PASS | `git diff --check`. |
 | Shared Preview / Production | NOT TOUCHED | No migration or deployment applied. |
 
-## Checkpoint 2 — bounded server-side tool contracts and broker
+## Phase 3 — Checkpoint 2 — safe tool registry and broker
 
 | Requirement | Status | Evidence / notes |
 |---|---|---|
@@ -66,11 +66,28 @@ This is the phase checkpoint ledger; the final requirement-by-requirement accept
 | Phase | Purpose | Status | Checkpoint |
 |---|---|---|---|
 | 0 | Forensic baseline | PASS | Docs and baseline tests recorded. |
-| 1 | Deny-by-default capabilities and row-scope policy | PASS | Checkpoint 1 evidence above; accepted remote checkpoint `7f8c5cf`. |
-| 2 | Bounded server-side tool contracts and broker | PASS | Checkpoint 2 evidence above; accepted remote checkpoint `5c4122e`. |
-| 3–20 | Remaining Full RIWI build / acceptance | IN PROGRESS | The following local continuation checkpoint advances several independently testable foundations, but does not mark any later numbered phase complete. Owner workflows, provider lab, integrated UI acceptance, and final canonical gates remain open. |
+| 1 | Capability and policy core | PASS | Checkpoint 1 evidence above; accepted remote checkpoint `7f8c5cf`. |
+| 2 | Distinct RIWI Request Gateway | PASS for the dependency-injected gateway boundary; authenticated route/database integration remains open | Checkpoint 5 below; server-derived identity, finite planning, scopes, feature/exam policy, provider and tool allowlists, minimized context, validated output, correlation/audit and security tests. |
+| 3 | Safe Tool Registry/Broker | PASS | Checkpoint 2 evidence above; accepted remote checkpoint `5c4122e`. |
+| 4 | Dictionary Connector | PARTIAL | Canonical connector and exam lock exist; full API-to-database/occurrence regression remains open. |
+| 5 | Knowledge Source Model | PARTIAL | Candidate/review/supersession foundations and PGlite coverage exist; owner workflow and safe upload integration remain open. |
+| 6 | Retrieval | PARTIAL | Active approved-source retrieval is role-scoped; end-to-end relevance, conflict and integration acceptance remain open. |
+| 7 | Provider Router | PARTIAL | Registry-backed task routing and outbound guards exist; full integration/performance/provider QA remains open. |
+| 8 | Provider Evaluation Lab | OPEN | Fixed-fixture owner lab checkpoint remains pending; live provider validation is EXTERNALLY UNVERIFIED. |
+| 9 | Learning Signal Pipeline | PARTIAL | Candidate-only signals, review and regression evidence exist; end-to-end product integration remains open. |
+| 10 | Owner Governance UI | OPEN | Full knowledge/learning moderation and governance UX remain open. |
+| 11 | Role-Specific UX | OPEN | Full role/browser acceptance remains outstanding. |
+| 12 | Feature Integration | OPEN | Authenticated chat-to-feature and client integration acceptance remains outstanding. |
+| 13 | Adversarial Security | PARTIAL | Checkpoint 5 covers required gateway cases; full red-team pass remains open. |
+| 14 | Performance/Stability | OPEN | Load, concurrency and stability acceptance remains outstanding. |
+| 15 | Migrations and real PostgreSQL | PASS for isolated local QA; shared Preview apply is OWNER ACTION REQUIRED | Checkpoint 3 records 39/39 local migrations and the upgrade/backfill probe; no shared environment was touched. |
+| 16 | Preview | OWNER ACTION REQUIRED | No shared Preview deployment or migration apply has been attempted. |
+| 17 | Live external-provider QA | EXTERNALLY UNVERIFIED | No owner-controlled secret was used and no provider request was sent. |
+| 18 | Browser role QA | OPEN | Browser-based role acceptance remains outstanding. |
+| 19 | Final red team | OPEN | Final adversarial review remains outstanding. |
+| 20 | Owner acceptance | OWNER ACTION REQUIRED | Not requested or claimed. |
 
-## Local continuation checkpoint — outbound security and RIWI foundations (not yet pushed)
+## Checkpoint 3 — outbound security and RIWI foundations (verified and pushed)
 
 | Requirement area | Status | Evidence / limitation |
 |---|---|---|
@@ -86,3 +103,17 @@ This is the phase checkpoint ledger; the final requirement-by-requirement accept
 | Typecheck / lint / patch hygiene / migration metadata | PASS | `npm run typecheck`, `npm run lint`, `git diff --check`, and `npx drizzle-kit check --dialect=postgresql --out=drizzle` passed. |
 | Full unit/UI/lint/build/canonical QA | NOT RUN for this continuation | Required final gates remain outstanding; the focused commands above are not substitutes. Declared Node 24 API behavior and Node 22.22.3 test behavior are both covered for the SSRF transport. |
 | Owner/provider-lab/UI workflows | NOT STARTED | No owner RIWI control room API, provider experiment service, or moderation UI has been committed in this checkpoint. Missing live credentials do not block deterministic/code work. |
+
+## Checkpoint 5 — Phase 2 RIWI Request Gateway (tested locally; route/database acceptance remains open)
+
+| Requirement area | Status | Evidence / limitation |
+|---|---|---|
+| Distinct request gateway | PASS for the service boundary | `src/app/api/riwi/chat/route.ts` retains origin and IP controls and delegates to `runRiwiGateway`; the gateway owns active server authentication, account rate limit, bounded DTO parsing, authoritative locale, rollout, plan, scope, execution, output, audit and persistence. |
+| Identity, role and locale authority | PASS | Strict request DTO rejects `userId`, `role`, `locale`, provider and tool fields. The gateway derives active actor and locale from `requireActiveUser`; learner targets remain requests that require live scope resolution. |
+| Finite intent, capability, risk and exam policy | PASS for covered intents | Classifier has explicit confidence and safe unknown/unsupported handling. Each supported plan uses fixed capability/tool/provider names; missing/disabled feature policy, denied capability/scope and student exam restrictions fail closed. |
+| Safe planning and registered execution | PASS | Tool plans must exist in `riwiToolBroker`; the broker repeats capability/input/scope/audit checks. Provider success is checked against the server registry for external `riwi-assistant` capability. Provider output is normalized once and never replanned into another call. |
+| Context minimization and result validation | PASS for tested path | Outbound payload contains only language, message, up to six history turns and up to five bounded knowledge excerpts; direct identifiers are redacted before truncation. Strict provider/tool output schemas, citation mapping and report-scope checks protect the response. |
+| Correlation and audit | PASS for tested paths | Authenticated requests carry correlation through normal responses and invalid-body errors. Start/completion/denial metadata is allowlisted; required start-audit failure blocks execution. |
+| Required gateway security tests | PASS | `node --conditions=react-server --import tsx --test tests/riwi-request-gateway.test.ts` — 9 passed, 0 failed. Covers student self/cross-row, teacher assigned/unassigned, admin owner-only denial, owner global report, inactive actor, authority spoofing, unknown/unsupported/low-confidence handling, registered-tool-only planning, no provider-to-tool second call, correlation, role-safe output, audit, minimized/redacted context, provider rollout/registry, and exam denial. |
+| Typecheck / targeted lint / patch hygiene | PASS | `npm run typecheck`; targeted ESLint on gateway, contracts, route and test; `git diff --check`. |
+| Authenticated HTTP/database/browser integration | OPEN | The dependency-injected security suite does not replace route-level session/database tests, full browser role QA, performance testing, provider credentials, or final red team. No Preview or Production environment was touched. |
