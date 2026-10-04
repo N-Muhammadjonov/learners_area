@@ -20,6 +20,7 @@ import {
   IconPeople,
   IconProgress,
   IconReading,
+  IconSparkles,
   IconSettings,
   IconSpeaking,
   IconSupport,
@@ -70,7 +71,7 @@ function Group({ title, items, pathname, loading }: { title: string; items: NavI
   );
 }
 
-export function SidebarNav({ dict, role, email }: { dict: Dictionary; role: Role; email?: string }) {
+export function SidebarNav({ dict, role, email, riwiEnabled = false }: { dict: Dictionary; role: Role; email?: string; riwiEnabled?: boolean }) {
   const pathname = usePathname() ?? "/";
   const { navigation, currentLocation } = useInstantInteraction();
   const pendingPath = navigation && currentLocation === navigation.from ? navigation.to.split("?")[0] : null;
@@ -83,6 +84,7 @@ export function SidebarNav({ dict, role, email }: { dict: Dictionary; role: Role
     { href: "/dashboard", label: nav.dashboard, icon: <IconDashboard /> },
     { href: "/live-classes", label: nav.liveClasses, icon: <IconLive /> },
     { href: "/assignments", label: nav.assignments, icon: <IconAssignments /> },
+    ...(riwiEnabled ? [{ href: "/riwi", label: nav.riwi, icon: <IconSparkles /> }] : []),
   ];
 
   /*
@@ -130,6 +132,7 @@ export function SidebarNav({ dict, role, email }: { dict: Dictionary; role: Role
   if (role === "owner") {
     managementItems.push(
       { href: "/owner", label: nav.ownerTools, icon: <IconSettings /> },
+      { href: "/owner/riwi", label: dict.owner.riwi, icon: <IconSparkles /> },
       { href: "/owner/audit", label: nav.auditLog, icon: <IconAudit /> }
     );
   }

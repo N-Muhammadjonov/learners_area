@@ -2,8 +2,8 @@ import "server-only";
 import { z } from "zod";
 import { providerCapabilitySchema } from "../../schema";
 import type { EvaluationProvider } from "../../types";
-import { createLlmEvaluationProvider, httpFailure, TEXT_CAPABILITIES, type CompletionResult } from "../shared/llm-provider";
-import { assertPublicHost, checkProviderBaseUrl } from "../shared/ssrf";
+import { createLlmEvaluationProvider, httpFailure, normalizeCompletionUsage, TEXT_CAPABILITIES, type CompletionResult } from "../shared/llm-provider";
+import { checkProviderBaseUrl, PinnedHttpsError, requestPinnedHttps, type HostLookup } from "../shared/ssrf";
 
 /**
  * Generic chat-completions adapter — ONLY for endpoints that genuinely speak the
@@ -49,6 +49,9 @@ export function parseCompatibleProviders(raw: string | undefined, allowHostsRaw?
   const allowHosts = (allowHostsRaw ?? "").split(",").map((h) => h.trim()).filter(Boolean);
   const entries: CompatibleEntry[] = [];
   const issues: CompatibleConfigIssue[] = [];
+  if (allowHostsRaw?.trim() && allowHosts.length === 0) {
+    return { entries, issues: [{ index: -1, reason: "AI_COMPATIBLE_ALLOWED_HOSTS is invalid" }] };
+  }
   const seen = new Set<string>();
   list.slice(0, 10).forEach((item, index) => {
     const parsed = compatibleEntrySchema.safeParse(item);
@@ -63,7 +66,11 @@ export function parseCompatibleProviders(raw: string | undefined, allowHostsRaw?
   return { entries, issues };
 }
 
-export function createCompatibleProvider(entry: CompatibleEntry, deps: { lookup?: Parameters<typeof assertPublicHost>[1] } = {}): EvaluationProvider {
+export function createCompatibleProvider(entry: CompatibleEntry, deps: {
+  lookup?: HostLookup;
+  allowHosts?: readonly string[];
+  request?: typeof requestPinnedHttps;
+} = {}): EvaluationProvider {
   const endpoint = new URL(`${entry.baseURL}/chat/completions`);
   return createLlmEvaluationProvider({
     id: entry.id,
@@ -73,40 +80,56 @@ export function createCompatibleProvider(entry: CompatibleEntry, deps: { lookup?
     requiredSecrets: () => [entry.secretRef],
     capabilities: entry.capabilities?.filter((c) => TEXT_CAPABILITIES.includes(c)) ?? TEXT_CAPABILITIES,
     async transport({ system, user, maxOutputTokens, signal, model }): Promise<CompletionResult> {
-      // Runtime SSRF check right before every call: every resolved address must be public.
-      if (!(await assertPublicHost(endpoint.hostname, deps.lookup))) {
-        return { ok: false, failure: { reason: "provider_unavailable", detail: "Endpoint host is not a public address", retryable: false } };
-      }
-      const response = await fetch(endpoint, {
-        method: "POST",
-        redirect: "error",
-        headers: { Authorization: `Bearer ${process.env[entry.secretRef]!.trim()}`, "Content-Type": "application/json" },
-        signal,
-        body: JSON.stringify({
+      let response: Awaited<ReturnType<typeof requestPinnedHttps>>;
+      try {
+        response = await (deps.request ?? requestPinnedHttps)(endpoint, {
+          Authorization: `Bearer ${process.env[entry.secretRef]!.trim()}`,
+          "Content-Type": "application/json",
+        }, JSON.stringify({
           model,
           messages: [{ role: "system", content: system }, { role: "user", content: user }],
           response_format: { type: "json_object" },
           max_tokens: maxOutputTokens,
           stream: false,
-        }),
-      });
-      if (!response.ok) return httpFailure(response.status, entry.displayName);
-      const raw = await response.text();
-      if (raw.length > 200_000) return { ok: false, failure: { reason: "invalid_response", detail: "Evaluation response is too large", retryable: false } };
-      const body = JSON.parse(raw) as { choices?: Array<{ finish_reason?: string; message?: { content?: string | null; refusal?: string | null } }> };
-      const choice = body.choices?.[0];
-      if (choice?.message?.refusal) return { ok: false, failure: { reason: "provider_error", detail: "Evaluation was declined", retryable: false } };
-      if (!choice || choice.finish_reason !== "stop" || typeof choice.message?.content !== "string") {
-        return { ok: false, failure: { reason: "invalid_response", detail: "Evaluation did not complete", retryable: false } };
+        }), {
+          allowHosts: deps.allowHosts,
+          lookup: deps.lookup,
+          signal,
+          timeoutMs: 20_000,
+          maxResponseBytes: 200_000,
+        });
+      } catch (error) {
+        if (error instanceof PinnedHttpsError) {
+          const reason = error.code === "timeout" ? "timeout"
+            : error.code === "aborted" ? "cancelled"
+              : ["host_unavailable", "url_refused"].includes(error.code) ? "provider_unavailable"
+                : "invalid_response";
+          return { ok: false, failure: { reason, detail: "Provider request could not complete safely", retryable: reason === "timeout" || reason === "provider_unavailable" } };
+        }
+        throw error;
       }
-      return { ok: true, text: choice.message.content };
+      if (response.status < 200 || response.status >= 300) return httpFailure(response.status, entry.displayName);
+      const raw = response.text;
+      if (raw.length > 200_000) return { ok: false, failure: { reason: "invalid_response", detail: "Evaluation response is too large", retryable: false } };
+      const body = JSON.parse(raw) as {
+        usage?: { prompt_tokens?: unknown; completion_tokens?: unknown };
+        choices?: Array<{ finish_reason?: string; message?: { content?: string | null; refusal?: string | null } }>;
+      };
+      const usage = normalizeCompletionUsage(body.usage?.prompt_tokens, body.usage?.completion_tokens);
+      const choice = body.choices?.[0];
+      if (choice?.message?.refusal) return { ok: false, failure: { reason: "provider_error", detail: "Evaluation was declined", retryable: false }, ...(usage ? { usage } : {}) };
+      if (!choice || choice.finish_reason !== "stop" || typeof choice.message?.content !== "string") {
+        return { ok: false, failure: { reason: "invalid_response", detail: "Evaluation did not complete", retryable: false }, ...(usage ? { usage } : {}) };
+      }
+      return { ok: true, text: choice.message.content, ...(usage ? { usage } : {}) };
     },
   });
 }
 
 /** Providers declared by the deployment. Invalid entries are skipped (and reported to the owner). */
 export function compatibleProvidersFromEnv(env: NodeJS.ProcessEnv = process.env, takenIds: readonly string[] = []): EvaluationProvider[] {
+  const allowHosts = (env.AI_COMPATIBLE_ALLOWED_HOSTS ?? "").split(",").map((host) => host.trim()).filter(Boolean);
   return parseCompatibleProviders(env.AI_COMPATIBLE_PROVIDERS, env.AI_COMPATIBLE_ALLOWED_HOSTS).entries
     .filter((e) => !takenIds.includes(e.id))
-    .map((e) => createCompatibleProvider(e));
+    .map((e) => createCompatibleProvider(e, { allowHosts }));
 }

@@ -6,6 +6,7 @@ import { getStorageService } from "@/lib/services/storage";
 import { resolveEvaluation, type CoachEvaluationError, type EvaluationRequest, type ResolveExtras, type ResolvePolicy } from "./resolver";
 import type { EvaluationResult, EvaluationType } from "./schema";
 import type { ProviderFailure } from "./types";
+import { recordEvaluationOutcomeSignal } from "@/lib/services/riwi/learning";
 
 /**
  * Shared plumbing for every specialised evaluation service.
@@ -101,7 +102,10 @@ export async function evaluateAndPersist(params: {
   //    so a retry never pays a provider twice and never produces a second,
   //    competing verdict for the same work.
   const existing = await findEvaluation({ sourceType: params.sourceType, sourceId: params.sourceId });
-  if (existing) return { ok: true, evaluation: existing, reused: true };
+  if (existing) {
+    await recordEvaluationOutcomeSignal(existing.id);
+    return { ok: true, evaluation: existing, reused: true };
+  }
 
   // 2. Resolve: configured provider first, RIWI on any failure.
   //    Owner master switch + deployment ceiling, enforced server-side (fail-closed).
@@ -155,5 +159,7 @@ export async function evaluateAndPersist(params: {
     }
   }
 
+  // Candidate signal persistence is best-effort and never changes the authoritative Coach result.
+  await recordEvaluationOutcomeSignal(record.id);
   return { ok: true, evaluation: record, reused: !created, extras: outcome.extras };
 }

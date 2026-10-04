@@ -21,6 +21,7 @@ export const providerCapabilitySchema = z.enum([
   "pronunciation",
   "vision",
   "structured-output",
+  "riwi-assistant",
 ]);
 
 export const providerTypeSchema = z.enum(["internal", "external"]);
@@ -157,6 +158,13 @@ export const providerEvaluationOutputSchema = z
  * are tracked so a future change to the evaluation logic never rewrites the
  * meaning of a historical evaluation.
  */
+/** Minimal plain-language answer from the optional RIWI assistant adapter. */
+export const riwiAnswerSchema = z.object({
+  answer: z.string().min(1).max(6000),
+  uncertainty: z.string().max(600).nullable(),
+  citations: z.array(z.string().regex(/^K[1-5]$/)).max(5),
+}).strict();
+
 export const evaluationProviderMetadataSchema = z
   .object({
     providerId: z.string().min(1).max(60),
@@ -214,6 +222,7 @@ export type EvaluationIssue = z.infer<typeof evaluationIssueSchema>;
 export type RecommendedExercise = z.infer<typeof recommendedExerciseSchema>;
 export type EvaluationVerdict = z.infer<typeof evaluationVerdictSchema>;
 export type ProviderEvaluationOutput = z.infer<typeof providerEvaluationOutputSchema>;
+export type RiwiAnswer = z.infer<typeof riwiAnswerSchema>;
 export type EvaluationProviderMetadata = z.infer<typeof evaluationProviderMetadataSchema>;
 export type CheckedBy = z.infer<typeof checkedBySchema>;
 export type EvaluationResult = z.infer<typeof evaluationResultSchema>;

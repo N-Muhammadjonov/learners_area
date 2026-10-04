@@ -253,6 +253,48 @@
       "when": 1791500000000,
       "tag": "0035_teacher_student_links",
       "breakpoints": true
+    },
+    {
+      "idx": 36,
+      "version": "7",
+      "when": 1791500000001,
+      "tag": "0036_riwi_core",
+      "breakpoints": true
+    },
+    {
+      "idx": 37,
+      "version": "7",
+      "when": 1791500000002,
+      "tag": "0037_riwi_governance_hardening",
+      "breakpoints": true
+    },
+    {
+      "idx": 38,
+      "version": "7",
+      "when": 1791500000003,
+      "tag": "0038_riwi_provider_experiment_idempotency",
+      "breakpoints": true
+    },
+    {
+      "idx": 39,
+      "version": "7",
+      "when": 1791500000004,
+      "tag": "0039_riwi_learning_signal_pipeline",
+      "breakpoints": true
+    },
+    {
+      "idx": 40,
+      "version": "7",
+      "when": 1791500000005,
+      "tag": "0040_riwi_learning_signal_retention",
+      "breakpoints": true
+    },
+    {
+      "idx": 41,
+      "version": "7",
+      "when": 1791500000006,
+      "tag": "0041_riwi_learning_signal_knowledge_link",
+      "breakpoints": true
     }
   ]
 }

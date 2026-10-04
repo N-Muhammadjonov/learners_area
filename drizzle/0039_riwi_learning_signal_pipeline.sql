@@ -1,0 +1,2 @@
+ALTER TYPE "public"."riwi_learning_signal_type" ADD VALUE 'provider_failure' BEFORE 'user_feedback';--> statement-breakpoint
+CREATE UNIQUE INDEX "riwi_learning_signals_actor_source_uidx" ON "riwi_learning_signals" USING btree ("actor_user_id","signal_type","source_id") WHERE "riwi_learning_signals"."actor_user_id" is not null and "riwi_learning_signals"."source_id" is not null;

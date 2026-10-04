@@ -11,6 +11,7 @@ import { InstantInteractionProvider } from "@/components/interaction/InstantInte
 import { InstantWorkspaceOutlet } from "@/components/interaction/InstantWorkspaceOutlet";
 import { sectionEntryFrames } from "@/lib/interaction/section-entry";
 import { PrivateResourceScope } from "@/components/interaction/PrivateResourceScope";
+import { riwiEnabledForRole } from "@/lib/services/riwi/rollout";
 
 /**
  * This segment is request-dynamic through `getCurrentUser()` and `getLocale()`
@@ -61,6 +62,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   if (!hasPrivateAccess(user.accountStatus)) redirect("/pending");
 
   const dict = getDictionary(locale);
+  const riwiEnabled = riwiEnabledForRole(user.role);
 
   const diagnostics = performanceDiagnosticsEnabled();
   const entryFrames = sectionEntryFrames(dict);
@@ -88,7 +90,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           data-shell-sidebar
           data-sidebar-scroll
         >
-          <Sidebar dict={dict} role={user.role} email={user.email ?? ""} />
+          <Sidebar dict={dict} role={user.role} email={user.email ?? ""} riwiEnabled={riwiEnabled} />
         </aside>
         <div className="flex min-h-0 min-w-0 flex-1 flex-col">
           <Topbar
@@ -97,6 +99,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
             userName={user.name}
             userEmail={user.email}
             role={user.role}
+            riwiEnabled={riwiEnabled}
           />
           <main
             id="main-content"
