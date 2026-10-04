@@ -48,10 +48,24 @@ This is the phase checkpoint ledger; the final requirement-by-requirement accept
 | Patch hygiene | PASS | `git diff --check`. |
 | Shared Preview / Production | NOT TOUCHED | No migration or deployment applied. |
 
+## Checkpoint 2 — bounded server-side tool contracts and broker
+
+| Requirement | Status | Evidence / notes |
+|---|---|---|
+| Finite tool registration | PASS | `src/lib/services/riwi/tool-broker.ts` validates registered capability, risk class, external-data class, role allowlist, strict Zod schemas, idempotency mode, required audit, and a 1–60 second timeout. Contract and role allowlist are copied/frozen at registration. |
+| Authorization and scope before handler | PASS | Every call rechecks the active actor capability and explicit allowed role, strictly parses input, resolves row scope, and refuses before handler execution on any denial. Output is schema-validated. |
+| Audited bounded execution | PASS | Audit is mandatory and audit-start failure blocks handler execution. Tool name, output, role, and scope are not inferred from model text; unknown-name audit omits the untrusted name. Handler timeout and client abort race execution and signal cancellation. |
+| Mutation and outbound guardrails | PASS | Reversible/high-impact registrations require confirmation plus an idempotency mode. The generic broker returns a confirmation-required denial and never executes these handlers; outbound registrations require the sanitized data class. No arbitrary execution primitive is registered. |
+| Broker regression tests | PASS | `node --conditions=react-server --import tsx --test tests/riwi-tool-broker.test.ts`: 3 passed, 0 failed (registration immutability, authorization/schema/scope/output, audit failure, confirmation gate, unknown-name redaction, timeout, and cancellation). |
+| Typecheck | PASS | `npm run typecheck`. |
+| Patch hygiene | PASS | `git diff --check`. |
+| Shared Preview / Production | NOT TOUCHED | No migration or deployment applied. |
+
 ## Phase status
 
 | Phase | Purpose | Status | Checkpoint |
 |---|---|---|---|
 | 0 | Forensic baseline | PASS | Docs and baseline tests recorded. |
 | 1 | Deny-by-default capabilities and row-scope policy | PASS | Checkpoint 1 evidence above; code/test/ledger checkpoint committed and pushed to the current Arena branch. |
-| 2–20 | Remaining Full RIWI build / acceptance | NOT STARTED | Continue in order; update each logical checkpoint with tests and evidence. External and shared-DB gates remain independent. |
+| 2 | Bounded server-side tool contracts and broker | PASS | Checkpoint 2 evidence above; broker/test/ledger checkpoint committed and pushed to the current Arena branch. |
+| 3–20 | Remaining Full RIWI build / acceptance | NOT STARTED | Continue in order; update each logical checkpoint with tests and evidence. External and shared-DB gates remain independent. |
