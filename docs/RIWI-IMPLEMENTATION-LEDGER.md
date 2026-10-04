@@ -70,7 +70,7 @@ This is the phase checkpoint ledger; the final requirement-by-requirement accept
 | 2 | Distinct RIWI Request Gateway | PASS for the dependency-injected gateway boundary; authenticated route/database integration remains open | Checkpoint 5 below; server-derived identity, finite planning, scopes, feature/exam policy, provider and tool allowlists, minimized context, validated output, correlation/audit and security tests. |
 | 3 | Safe Tool Registry/Broker | PASS | Checkpoint 2 evidence above; accepted remote checkpoint `5c4122e`. |
 | 4 | Dictionary Connector | PASS for canonical service/PostgreSQL integration | Checkpoint 6 covers exact-sense lookup, unknown and learner-provided rejection, ambiguity, Reading/Listening exam locks, role-safe staff access, and authorized/stale occurrence resolution. Full chat/browser integration is Phase 12. |
-| 5 | Knowledge Source Model | PARTIAL | Candidate/review/supersession foundations and PGlite coverage exist; owner workflow and safe upload integration remain open. |
+| 5 | Knowledge Source Model | PASS for the bounded model, parser, and lifecycle | Checkpoint 7; authenticated owner workflow and safe upload integration remain open in later integration phases. |
 | 6 | Retrieval | PARTIAL | Active approved-source retrieval is role-scoped; end-to-end relevance, conflict and integration acceptance remain open. |
 | 7 | Provider Router | PARTIAL | Registry-backed task routing and outbound guards exist; full integration/performance/provider QA remains open. |
 | 8 | Provider Evaluation Lab | OPEN | Fixed-fixture owner lab checkpoint remains pending; live provider validation is EXTERNALLY UNVERIFIED. |
@@ -129,3 +129,15 @@ This is the phase checkpoint ledger; the final requirement-by-requirement accept
 | Focused tests | PASS | `node --conditions=react-server --import tsx --test tests/riwi-dictionary.test.ts tests/riwi-dictionary-db.test.ts tests/vocabulary-architecture.test.ts` — 17 passed, 0 failed. |
 | Typecheck / targeted lint / patch hygiene | PASS | `npm run typecheck`; targeted ESLint on dictionary, lexical context/enrichment, Reading/Listening data helpers and tests; `git diff --check`. |
 | Gateway/browser integration | OPEN | The route's real-session/tool-broker/database/browser path remains part of Phase 12/18; this checkpoint validates the canonical service and occurrence connector directly against migrated PGlite PostgreSQL. |
+
+## Checkpoint 7 — Phase 5 Knowledge Source Model
+
+| Requirement area | Status | Evidence / limitation |
+|---|---|---|
+| Bounded source ingestion and parser | PASS for supported text formats | `knowledge-parser.ts` enforces file/character/unit bounds, content signatures, strict UTF-8, inert HTML and DOCX/PDF text extraction, deterministic chunking, and distinct empty/oversize errors. Focused parser tests cover normalization, inert markup, bounds, unsupported formats, mismatched signatures and malformed UTF-8. |
+| Source identity and provenance | PASS | Candidate creation validates source type, rights class, publication scope, owner provenance, optional SHA-256 checksum, and server-derived authority. Source and unit hashes/counts are stored with the parser version in the same transaction. |
+| Candidate governance lifecycle | PASS for service/database | PGlite tests cover active-owner-only creation/review, candidate-only visibility, rights checks, scope, metadata-only source listing, duplicate source rejection, overlap conflict review, exact-source supersession, regression evidence, and transactionally stored audit events. |
+| Owner routes and safe upload integration | OPEN | The model/parser are service boundaries; authenticated owner routes/UI and upload-to-parser/storage integration remain later-phase work. No user-provided source is automatically activated. |
+| Focused tests | PASS | `node --conditions=react-server --import tsx --test tests/riwi-knowledge-parser.test.ts tests/riwi-knowledge.test.ts tests/riwi-security.test.ts` — 15 passed, 0 failed. |
+| Typecheck / targeted lint / patch hygiene | PASS | `npm run typecheck`; targeted ESLint with `--max-warnings=0`; `git diff --check`. |
+| Shared Preview / Production | NOT TOUCHED | No migration, deployment, or external service was applied. |

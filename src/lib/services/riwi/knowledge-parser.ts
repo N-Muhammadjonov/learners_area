@@ -58,7 +58,8 @@ function decodeUtf8(bytes: Uint8Array): string {
 }
 
 export async function extractKnowledgeText(filename: string, bytes: Uint8Array, signal?: AbortSignal): Promise<string> {
-  if (bytes.byteLength === 0 || bytes.byteLength > RIWI_SOURCE_LIMIT_BYTES) throw new KnowledgeParseError("source_too_large");
+  if (bytes.byteLength === 0) throw new KnowledgeParseError("source_empty");
+  if (bytes.byteLength > RIWI_SOURCE_LIMIT_BYTES) throw new KnowledgeParseError("source_too_large");
   const extension = filename.toLowerCase().match(/\.[a-z0-9]+$/)?.[0] ?? "";
   const accepted = [".txt", ".md", ".html", ".htm", ".pdf", ".docx"];
   if (!accepted.includes(extension)) throw new KnowledgeParseError("unsupported_format");
