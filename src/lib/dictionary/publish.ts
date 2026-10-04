@@ -31,7 +31,7 @@ type Job = {
   error: string | null;
 };
 const uuidArray = (ids: string[]) =>
-  sql`ARRAY(SELECT jsonb_array_elements_text(${JSON.stringify(ids)}::jsonb))::uuid[]`;
+  sql`ARRAY[${sql.join(ids.map(id => sql`${id}::uuid`), sql`,`)}]::uuid[]`;
 const lock = sql`select pg_advisory_xact_lock(387384)`;
 export async function beginPublish(owner: string) {
   return db.transaction(async (tx) => {

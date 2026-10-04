@@ -31,6 +31,8 @@ CREATE TABLE dictionary_search_terms (
  FOREIGN KEY(release_id,lexeme_id) REFERENCES dictionary_entries(release_id,lexeme_id)
 );
 --> statement-breakpoint
+CREATE INDEX dictionary_terms_entry_idx ON dictionary_search_terms(release_id,lexeme_id);
+--> statement-breakpoint
 CREATE INDEX dictionary_search_prefix_idx ON dictionary_search_terms(release_id,direction,term text_pattern_ops);
 --> statement-breakpoint
 CREATE TABLE dictionary_sense_mappings (
