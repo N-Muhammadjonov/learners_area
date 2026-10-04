@@ -1,6 +1,6 @@
 import "server-only";
 import { createHash } from "node:crypto";
-import { and, desc, eq, inArray, or, sql } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, or, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { riwiKnowledgeConflicts, riwiKnowledgeSources, riwiKnowledgeUnits } from "@/db/schema";
 import type { AccountStatus } from "@/lib/auth/account-status";
@@ -59,6 +59,27 @@ export function detectKnowledgeOverlap(candidate: string, active: string): boole
   const right = normalizeClaim(active);
   if (!left || !right || left === right) return false;
   return sharedRatio(keywords(left), keywords(right)) >= 0.72;
+}
+
+const KNOWLEDGE_QUERY_STOP_WORDS = new Set([
+  "what", "which", "who", "where", "when", "why", "how", "is", "are", "was", "were", "be", "been", "being",
+  "do", "does", "did", "can", "could", "would", "should", "will", "shall", "may", "might", "must",
+  "the", "and", "but", "for", "with", "from", "about", "into", "over", "under", "between", "after", "before",
+  "that", "this", "these", "those", "there", "here", "please", "explain", "tell", "show", "give", "me", "you",
+  "your", "yours", "our", "their", "his", "her", "they", "them", "we", "she", "him", "its", "then", "than",
+  "men", "menga", "mening", "bu", "buni", "qanday", "nima", "nimani", "qachon", "qayerda", "nega", "uchun",
+  "bilan", "ning", "ham", "shuni", "bering", "ayting", "tushuntir", "tushuntiring", "ko‘rsat", "ko'rsat",
+  "что", "как", "почему", "когда", "где", "который", "какая", "какое", "это", "этот", "эта", "или", "для",
+  "есть", "мне", "мой", "моя", "мое", "ваш", "твой", "вы", "они", "быть", "значит", "объясни", "расскажи",
+  "пожалуйста", "покажи",
+]);
+
+/** Build a bounded, conjunctive prefix query from content words, not conversational filler. */
+function knowledgeSearchQuery(input: string): string {
+  const terms = [...new Set(input.normalize("NFKC").toLowerCase().match(/[\p{L}\p{N}]+/gu) ?? [])]
+    .filter((term) => term.length >= 3 && term.length <= 64 && !KNOWLEDGE_QUERY_STOP_WORDS.has(term))
+    .slice(0, 16);
+  return terms.map((term) => `${term}:*`).join(" & ");
 }
 
 type KnowledgeActor = { id: string; role: Role; accountStatus: AccountStatus };
@@ -318,13 +339,14 @@ export async function promoteKnowledgeSource(input: {
 
 export type RetrievedKnowledge = { ref: string; sourceId: string; unitId: string; title: string; sourceType: KnowledgeSourceType; authority: number; version: number; text: string };
 export async function retrieveActiveKnowledge(query: string, actor: { id: string; role: Role }, database: Pick<typeof db, "select"> = db): Promise<RetrievedKnowledge[]> {
-  const safeQuery = query.trim().slice(0, 500);
+  const safeQuery = knowledgeSearchQuery(query.trim().slice(0, 500));
   if (!safeQuery) return [];
   const scope = or(
     eq(riwiKnowledgeSources.scope, "global"),
     and(eq(riwiKnowledgeSources.scope, "role"), eq(riwiKnowledgeSources.scopeRole, actor.role)),
     and(eq(riwiKnowledgeSources.scope, "user"), eq(riwiKnowledgeSources.scopeUserId, actor.id)),
   );
+  const search = sql`to_tsquery('simple', ${safeQuery})`;
   let rows: Array<{ sourceId: string; unitId: string; title: string; sourceType: KnowledgeSourceType; authority: number; version: number; text: string }> = [];
   try {
     rows = await database.select({
@@ -335,9 +357,13 @@ export async function retrieveActiveKnowledge(query: string, actor: { id: string
       .innerJoin(riwiKnowledgeSources, eq(riwiKnowledgeSources.id, riwiKnowledgeUnits.sourceId))
       .where(and(
         eq(riwiKnowledgeSources.state, "active"), scope,
-        sql`to_tsvector('simple', ${riwiKnowledgeUnits.content}) @@ plainto_tsquery('simple', ${safeQuery})`,
+        sql`to_tsvector('simple', ${riwiKnowledgeUnits.content}) @@ ${search}`,
       ))
-      .orderBy(desc(sql`ts_rank(to_tsvector('simple', ${riwiKnowledgeUnits.content}), plainto_tsquery('simple', ${safeQuery}))`), desc(riwiKnowledgeSources.authority))
+      .orderBy(
+        desc(sql`ts_rank(to_tsvector('simple', ${riwiKnowledgeUnits.content}), ${search})`),
+        desc(riwiKnowledgeSources.authority), desc(riwiKnowledgeSources.updatedAt),
+        asc(riwiKnowledgeUnits.ordinal), asc(riwiKnowledgeUnits.id),
+      )
       .limit(20);
   } catch {
     // Search unavailability is fail-closed: do not widen to unfiltered knowledge.

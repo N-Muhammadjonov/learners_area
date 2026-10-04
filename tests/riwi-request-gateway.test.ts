@@ -271,6 +271,34 @@ test("external provider context is minimized and direct identifiers are redacted
   assert.equal(sent.actor.id, STUDENT_ID, "server actor is used for audit routing but is not nested into provider payload");
 });
 
+test("provider citation references resolve only to retrieved knowledge titles and versions", async () => {
+  const knowledge: RetrievedKnowledge[] = [{
+    ref: "K1", sourceId: CORRELATION_ID, unitId: CONVERSATION_ID, title: "Approved article guidance",
+    sourceType: "grammar_material", authority: 65, version: 3, text: "Use an before a vowel sound.",
+  }];
+  const valid = makeDependencies({ overrides: {
+    retrieveKnowledge: async () => knowledge,
+    routeProvider: async () => ({
+      status: "external_success", answer: "Use an before a vowel sound.", uncertainty: null,
+      citations: ["K1"], providerId: "openai", model: "fixed-model", durationMs: 1,
+    }),
+  } });
+  const accepted = await runRiwiGateway(post({ message: "Explain grammar using an before a vowel sound." }), valid.dependencies);
+  assert.equal("ok" in accepted.body && accepted.body.ok, true);
+  if ("ok" in accepted.body) assert.deepEqual(accepted.body.citations, [{ source: "Approved article guidance", version: 3 }]);
+
+  const invalid = makeDependencies({ overrides: {
+    retrieveKnowledge: async () => knowledge,
+    routeProvider: async () => ({
+      status: "external_success", answer: "Unverifiable citation.", uncertainty: null,
+      citations: ["K2"], providerId: "openai", model: "fixed-model", durationMs: 1,
+    }),
+  } });
+  const refused = await runRiwiGateway(post({ message: "Explain grammar using an before a vowel sound." }), invalid.dependencies);
+  assert.equal("errorCode" in refused.body && refused.body.errorCode, "riwi_provider_invalid_response");
+  assert.ok(!JSON.stringify(refused.body).includes("Approved article guidance"));
+});
+
 test("rollout disables provider calls before routing and unregistered provider results are refused", async () => {
   let externalConfigurationReads = 0;
   let providerCalls = 0;

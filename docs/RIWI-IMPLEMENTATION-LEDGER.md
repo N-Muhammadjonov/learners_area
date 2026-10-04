@@ -71,7 +71,7 @@ This is the phase checkpoint ledger; the final requirement-by-requirement accept
 | 3 | Safe Tool Registry/Broker | PASS | Checkpoint 2 evidence above; accepted remote checkpoint `5c4122e`. |
 | 4 | Dictionary Connector | PASS for canonical service/PostgreSQL integration | Checkpoint 6 covers exact-sense lookup, unknown and learner-provided rejection, ambiguity, Reading/Listening exam locks, role-safe staff access, and authorized/stale occurrence resolution. Full chat/browser integration is Phase 12. |
 | 5 | Knowledge Source Model | PASS for the bounded model, parser, and lifecycle | Checkpoint 7; authenticated owner workflow and safe upload integration remain open in later integration phases. |
-| 6 | Retrieval | PARTIAL | Active approved-source retrieval is role-scoped; end-to-end relevance, conflict and integration acceptance remain open. |
+| 6 | Retrieval | PASS for PostgreSQL lexical retrieval and citation binding | Checkpoint 8; live-provider relevance and browser/route integration remain open in later phases. |
 | 7 | Provider Router | PARTIAL | Registry-backed task routing and outbound guards exist; full integration/performance/provider QA remains open. |
 | 8 | Provider Evaluation Lab | OPEN | Fixed-fixture owner lab checkpoint remains pending; live provider validation is EXTERNALLY UNVERIFIED. |
 | 9 | Learning Signal Pipeline | PARTIAL | Candidate-only signals, review and regression evidence exist; end-to-end product integration remains open. |
@@ -141,3 +141,15 @@ This is the phase checkpoint ledger; the final requirement-by-requirement accept
 | Focused tests | PASS | `node --conditions=react-server --import tsx --test tests/riwi-knowledge-parser.test.ts tests/riwi-knowledge.test.ts tests/riwi-security.test.ts` — 15 passed, 0 failed. |
 | Typecheck / targeted lint / patch hygiene | PASS | `npm run typecheck`; targeted ESLint with `--max-warnings=0`; `git diff --check`. |
 | Shared Preview / Production | NOT TOUCHED | No migration, deployment, or external service was applied. |
+
+## Checkpoint 8 — Phase 6 Retrieval
+
+| Requirement area | Status | Evidence / limitation |
+|---|---|---|
+| Active-source search | PASS for bounded PostgreSQL lexical retrieval | Query terms are normalized, bounded, filtered for common English/Uzbek/Russian conversational filler, and compiled into parameterized conjunctive prefix search over indexed unit text. Retrieval includes active sources only, caps database candidates and returns at most five excerpts. Search failure returns no context. |
+| Role and user scope | PASS for the retrieval predicate | PGlite-backed tests verify global and teacher-role inclusion/exclusion plus self-only user-scoped source filtering. Candidate model remains global/role scoped; user scope is only tested as a read-predicate boundary. |
+| Ranking and citation stability | PASS for bounded service contract | PostgreSQL full-text rank leads, registered authority breaks relevance ties, deterministic source/unit tie-breakers stabilize K1–K5 assignment, and result count is capped at five. |
+| Gateway citation binding | PASS for dependency-injected boundary | Provider citation refs are mapped only to the exact retrieved source title/version; a syntactically valid but unavailable K2 reference is rejected. No provider text can name an arbitrary source. |
+| Focused tests | PASS | `node --conditions=react-server --import tsx --test tests/riwi-retrieval.test.ts tests/riwi-request-gateway.test.ts` — 11 passed, 0 failed. |
+| Typecheck / targeted lint / patch hygiene | PASS | `npm run typecheck`; targeted ESLint with `--max-warnings=0`; `git diff --check`. |
+| Live-provider, authenticated route and browser relevance acceptance | OPEN | No external provider request is needed for this checkpoint; real session/database route and browser QA remain in later integration phases. Retrieval is lexical, not claimed as semantic/vector search. |
