@@ -7,7 +7,7 @@ export const RIWI_AUDIT_ACTIONS = [
   "riwi.request.started", "riwi.request.completed", "riwi.request.denied", "riwi.action.confirmation.required", "riwi.tool.invoked", "riwi.tool.succeeded", "riwi.tool.failed",
   "riwi.external.requested", "riwi.external.succeeded", "riwi.external.failed", "riwi.provider.config.changed",
   "riwi.knowledge.source.created", "riwi.knowledge.conflict.resolved", "riwi.knowledge.approved", "riwi.knowledge.promoted", "riwi.knowledge.superseded",
-  "riwi.owner.action.confirmed", "riwi.learning.signal.created", "riwi.learning.promotion.rejected", "riwi.conversation.deleted", "riwi.conversation.read", "riwi.learning.reviewed",
+  "riwi.owner.action.confirmed", "riwi.learning.signal.created", "riwi.learning.promotion.rejected", "riwi.learning.signal.materialized", "riwi.conversation.deleted", "riwi.conversation.read", "riwi.learning.reviewed",
 ] as const satisfies readonly AuditAction[];
 export type RiwiAuditAction = (typeof RIWI_AUDIT_ACTIONS)[number];
 

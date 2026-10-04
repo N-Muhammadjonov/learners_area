@@ -55,7 +55,7 @@ test("knowledge source creation binds active-owner authority, checksums, scope, 
     await assert.rejects(createKnowledgeCandidate({ ...base, actor, checksum: "0".repeat(64) }, database.db),
       (error: unknown) => error instanceof KnowledgeServiceError && error.code === "invalid_input");
     await assert.rejects(createKnowledgeCandidate({
-      ...base, actor, scope: { kind: "user", userId: studentActor.id } as never,
+      ...base, actor, scope: { kind: "user", userId: randomUUID() } as never,
     }, database.db), (error: unknown) => error instanceof KnowledgeServiceError && error.code === "invalid_input");
     assert.equal((await database.db.select().from(riwiKnowledgeSources)).length, 0, "rejected candidates leave no partial rows");
 

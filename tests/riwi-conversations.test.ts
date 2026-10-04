@@ -15,6 +15,7 @@ import {
 } from "../src/lib/services/riwi/conversations";
 
 const MESSAGE_META = {
+  correlationId: randomUUID(),
   intent: "educational_explanation",
   fallbackUsed: false,
   externalEligible: true,
@@ -52,6 +53,8 @@ test("conversation ownership, creation-role binding, metadata projection, and de
     assert.equal(transcript.length, 4);
     assert.deepEqual(transcript.map((message) => message.role), ["user", "assistant", "user", "assistant"]);
     assert.equal(transcript[1]?.provenance, "external_provider");
+    assert.equal(transcript[1]?.correlationId, MESSAGE_META.correlationId, "the response correlation id survives a conversation restore without retaining extra content");
+    assert.equal(transcript[0]?.correlationId, null, "user message rows do not receive response correlation ids");
     assert.deepEqual(transcript[1]?.citations, [{ source: "Approved grammar notes", version: 1 }]);
     const history = await getRiwiConversationHistory({ actor, conversationId: conversation.id }, database.db);
     assert.deepEqual(history.map((message) => message.content), ["Explain present perfect.", "Use have or has plus a past participle."]);

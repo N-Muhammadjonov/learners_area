@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
+import { mkdtempSync, readFileSync, rmSync } from "node:fs";
 import { createServer as createHttpsServer, request as httpsRequest } from "node:https";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import test from "node:test";
 import {
   assertPublicHost,
@@ -11,8 +14,20 @@ import {
   resolvePublicHost,
 } from "../src/lib/services/coach/providers/shared/ssrf";
 
-const testCertificate = readFileSync(new URL("./fixtures/riwi-ssrf-test-cert.pem", import.meta.url));
-const testPrivateKey = readFileSync(new URL("./fixtures/riwi-ssrf-test-key.pem", import.meta.url));
+function createLocalTestCertificate() {
+  const directory = mkdtempSync(join(tmpdir(), "riwi-ssrf-test-"));
+  const certificatePath = join(directory, "certificate.pem");
+  const keyPath = join(directory, "private-key.pem");
+  try {
+    execFileSync("openssl", ["req", "-x509", "-newkey", "rsa:2048", "-sha256", "-nodes", "-days", "1",
+      "-keyout", keyPath, "-out", certificatePath, "-subj", "/CN=riwi-ssrf.test",
+      "-addext", "subjectAltName=DNS:riwi-ssrf.test"], { stdio: "ignore" });
+    return { certificate: readFileSync(certificatePath), privateKey: readFileSync(keyPath) };
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+}
+const { certificate: testCertificate, privateKey: testPrivateKey } = createLocalTestCertificate();
 const publicV4 = "93.184.216.34";
 
 function listen(server: ReturnType<typeof createHttpsServer>): Promise<number> {
@@ -51,6 +66,15 @@ test("address policy permits public IPv4/IPv6 and rejects local, special, metada
     "2001::1", "2001:1ff::1", "2001:db8::1", "2002::1", "3fff::1",
     "::ffff:127.0.0.1", "::ffff:7f00:1", "::ffff:169.254.169.254", "not-an-ip",
   ]) assert.equal(isPrivateAddress(address), true, `${address} must be denied`);
+});
+
+test("shared HTTPS transport permits only generic version headers beyond its fixed allowlist", () => {
+  const url = new URL("https://api.example.test/v1");
+  const addresses = [{ address: publicV4, family: 4 }] as const;
+  const options = createPinnedRequestOptions(url, addresses, { headers: { "x-service-version": "2026-01-01" } });
+  assert.equal((options.headers as Record<string, string>)["x-service-version"], "2026-01-01");
+  assert.throws(() => createPinnedRequestOptions(url, addresses, { headers: { "x-unregistered-header": "value" } }), /url_refused/);
+  assert.throws(() => createPinnedRequestOptions(url, addresses, { headers: { "x-service-version": "bad\r\nheader" } }), /url_refused/);
 });
 
 test("static URL policy rejects malformed, HTTP, credentials, internal names, odd ports, query/fragment and non-allowlisted hosts", () => {

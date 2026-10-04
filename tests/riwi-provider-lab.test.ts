@@ -3,7 +3,7 @@ import test from "node:test";
 import { randomUUID } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { eq } from "drizzle-orm";
-import { users, riwiProviderExperiments, riwiProviderExperimentResults } from "../src/db/schema";
+import { users, riwiKnowledgeSources, riwiLearningSignals, riwiProviderExperiments, riwiProviderExperimentResults } from "../src/db/schema";
 import type { EvaluationProvider } from "../src/lib/services/coach/types";
 import { ProviderRegistry } from "../src/lib/services/coach/registry";
 import {
@@ -161,6 +161,67 @@ test("owner provider lab is fixture-only, capability-bounded, audited, normalize
     const history = await listRiwiProviderExperiments(actor, 20, database.db);
     assert.equal(history.length, 3, "history contains the success, capability-denial, and externally-unverified runs only for this owner");
     assert.ok(history.every((item) => item.results.length <= 2));
+  } finally {
+    restoreEnvironment();
+    await database.close();
+  }
+});
+
+test("provider agreement and disagreement become deduplicated candidate evidence, never active knowledge", async () => {
+  const database = await createTestDatabase();
+  const registry = new ProviderRegistry();
+  let comparisonMode: "different" | "same" = "different";
+  const calls: string[] = [];
+  const answer = (text: string) => ({ ok: true as const, answer: { answer: text, uncertainty: null, citations: [] } });
+  registry.register({
+    ...fakeProvider(async () => { calls.push("lab-stub-one"); return answer("Provider one candidate answer."); }),
+    id: "lab-stub-one",
+  });
+  registry.register({
+    ...fakeProvider(async () => {
+      calls.push("lab-stub-two");
+      return answer(comparisonMode === "same" ? "Provider one candidate answer." : "Provider two candidate answer.");
+    }),
+    id: "lab-stub-two",
+  });
+  setRollout(true);
+  try {
+    await seed(database);
+    const actor = { id: ownerId, role: "owner" as const, accountStatus: "active" as const };
+    const fixtureId = RIWI_PROVIDER_LAB_FIXTURES[0]!.id;
+    const mismatch = await runRiwiProviderExperiment({ actor, fixtureId, providerIds: ["lab-stub-one", "lab-stub-two"], idempotencyKey: randomUUID() }, {
+      database: database.db, registry, externalEnabled: async () => true, writeAudit: async () => {},
+    });
+    assert.equal(mismatch.experiment.comparison?.exactAnswerMatch, false);
+    const [disagreement] = await database.db.select().from(riwiLearningSignals).where(eq(riwiLearningSignals.sourceId, mismatch.experiment.id));
+    assert.ok(disagreement);
+    assert.equal(disagreement.signalType, "provider_disagreement");
+    assert.equal(disagreement.state, "candidate");
+    assert.equal(disagreement.actorRole, "owner");
+    assert.equal(disagreement.scope, "global");
+    assert.equal(disagreement.targetUserId, null);
+    assert.match(disagreement.evidenceSummary, /normalized_exact_answer_text/);
+    assert.match(disagreement.evidenceSummary, /semantic_quality=not_assessed/);
+    assert.ok(!disagreement.candidateClaim.includes("factual"));
+    assert.ok(!JSON.stringify(disagreement).includes("Provider one candidate answer."));
+    assert.ok(!JSON.stringify(disagreement).includes("Provider two candidate answer."));
+
+    await runRiwiProviderExperiment({ actor, fixtureId, providerIds: ["lab-stub-one", "lab-stub-two"], idempotencyKey: (await database.db.query.riwiProviderExperiments.findFirst({
+      where: eq(riwiProviderExperiments.id, mismatch.experiment.id), columns: { idempotencyKey: true },
+    }))!.idempotencyKey }, { database: database.db, registry, externalEnabled: async () => true, writeAudit: async () => {} });
+    assert.equal(calls.length, 2, "replay retries the idempotent signal path but never repeats provider work");
+    assert.equal((await database.db.select().from(riwiLearningSignals).where(eq(riwiLearningSignals.sourceId, mismatch.experiment.id))).length, 1);
+
+    comparisonMode = "same";
+    const agreement = await runRiwiProviderExperiment({ actor, fixtureId, providerIds: ["lab-stub-one", "lab-stub-two"], idempotencyKey: randomUUID() }, {
+      database: database.db, registry, externalEnabled: async () => true, writeAudit: async () => {},
+    });
+    assert.equal(agreement.experiment.comparison?.exactAnswerMatch, true);
+    const [consensus] = await database.db.select().from(riwiLearningSignals).where(eq(riwiLearningSignals.sourceId, agreement.experiment.id));
+    assert.ok(consensus);
+    assert.equal(consensus.signalType, "provider_agreement");
+    assert.equal(consensus.state, "candidate", "provider agreement is not trusted or promoted");
+    assert.equal((await database.db.select().from(riwiKnowledgeSources)).length, 0, "model agreement cannot create or activate knowledge");
   } finally {
     restoreEnvironment();
     await database.close();

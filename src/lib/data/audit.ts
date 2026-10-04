@@ -56,6 +56,7 @@ export type AuditAction =
   | "riwi.owner.action.confirmed"
   | "riwi.learning.signal.created"
   | "riwi.learning.promotion.rejected"
+  | "riwi.learning.signal.materialized"
   | "riwi.conversation.deleted"
   | "riwi.conversation.read"
   | "riwi.learning.reviewed";

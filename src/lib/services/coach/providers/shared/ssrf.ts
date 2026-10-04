@@ -311,14 +311,15 @@ export type PinnedHttpsOptions = {
   maxResponseBytes?: number;
 };
 
-const HEADER_ALLOWLIST = new Set(["authorization", "content-type", "anthropic-version", "accept"]);
+const HEADER_ALLOWLIST = new Set(["authorization", "content-type", "accept"]);
+const API_VERSION_HEADER = /^[a-z0-9-]{1,58}-version$/;
 const JSON_CONTENT_TYPE = /^application\/(?:[a-z0-9.+-]*\+)?json(?:\s*;|$)/i;
 
 function safeHeaders(input: PinnedHttpsHeaders): OutgoingHttpHeaders {
   const result: OutgoingHttpHeaders = { "accept-encoding": "identity" };
   for (const [rawName, value] of Object.entries(input)) {
     const name = rawName.toLowerCase();
-    if (!HEADER_ALLOWLIST.has(name) || typeof value !== "string" || value.length > 2048 || /[\r\n\u0000]/.test(value)) {
+    if ((!HEADER_ALLOWLIST.has(name) && !API_VERSION_HEADER.test(name)) || typeof value !== "string" || value.length > 2048 || /[\r\n\u0000]/.test(value)) {
       throw new PinnedHttpsError("url_refused");
     }
     result[name] = value;

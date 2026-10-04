@@ -12,6 +12,7 @@ import { redactExternalText } from "./outbound-guard";
 import { authorizeCapability } from "./capabilities";
 import { recordRiwiAudit, type RiwiAuditAction, type RiwiAuditMetadata } from "./audit";
 import { readRiwiRollout } from "./rollout";
+import { createLearningSignal } from "./learning";
 
 export const RIWI_PROVIDER_LAB_MAX_PROVIDERS = 2;
 export const RIWI_PROVIDER_LAB_MAX_OUTPUT_TOKENS = 1200;
@@ -153,6 +154,34 @@ async function writeExperimentAudit(
   }, database);
 }
 
+/** Provider comparison is captured as candidate evidence only; answers are never copied into the signal. */
+async function persistProviderComparisonSignal(
+  actor: ProviderLabActor,
+  experiment: Awaited<ReturnType<typeof getRiwiProviderExperiment>>,
+  database: typeof db,
+) {
+  const comparison = experiment.comparison;
+  if (comparison?.status !== "compared" || comparison.exactAnswerMatch === null) return;
+  const providerIds = [...comparison.providerIds].sort();
+  const matched = comparison.exactAnswerMatch;
+  try {
+    await createLearningSignal({
+      actor,
+      type: matched ? "provider_agreement" : "provider_disagreement",
+      producer: "provider_lab",
+      sourceId: experiment.id,
+      scope: "global",
+      candidateClaim: matched
+        ? "Two registered providers returned identical normalized answer text."
+        : "Two registered providers returned different normalized answer text.",
+      evidenceSummary: `fixture=${experiment.fixtureId}; experiment=${experiment.id}; providers=${providerIds.join(",")}; comparison=normalized_exact_answer_text; exact_match=${matched}; semantic_quality=not_assessed; answer_text=omitted`,
+    }, database);
+  } catch {
+    // The experiment remains completed; an idempotent replay retries this candidate-only side effect.
+    throw new RiwiProviderLabError("write_failed");
+  }
+}
+
 /** Owner-only fixed-fixture lab. Caller content, URLs, keys, and model names are never accepted. */
 export async function runRiwiProviderExperiment(
   input: { actor: ProviderLabActor; fixtureId: string; providerIds: readonly string[]; idempotencyKey: string; signal?: AbortSignal },
@@ -249,7 +278,11 @@ export async function runRiwiProviderExperiment(
     });
   });
 
-  if (replay) return { replay: true, experiment: await getRiwiProviderExperiment(input.actor, experimentId, database) };
+  if (replay) {
+    const experiment = await getRiwiProviderExperiment(input.actor, experimentId, database);
+    await persistProviderComparisonSignal(input.actor, experiment, database);
+    return { replay: true, experiment };
+  }
   activeOwners.add(input.actor.id);
   try {
     let policyAvailable = true;
@@ -436,7 +469,9 @@ export async function runRiwiProviderExperiment(
         .where(and(eq(riwiProviderExperiments.id, experimentId), eq(riwiProviderExperiments.actorUserId, input.actor.id), eq(riwiProviderExperiments.state, "running")));
       throw new RiwiProviderLabError("write_failed");
     }
-    return { replay: false, experiment: await getRiwiProviderExperiment(input.actor, experimentId, database) };
+    const experiment = await getRiwiProviderExperiment(input.actor, experimentId, database);
+    await persistProviderComparisonSignal(input.actor, experiment, database);
+    return { replay: false, experiment };
   } finally {
     activeOwners.delete(input.actor.id);
   }

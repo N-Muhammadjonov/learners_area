@@ -351,15 +351,31 @@ function buildPlan(actor: RiwiActor, request: RiwiChatRequest, locale: Locale) {
   }
 }
 
-async function candidateFailureSignal(deps: RiwiGatewayDependencies, actor: RiwiActor, correlationId: string, intent: RiwiIntent, targetUserId?: string) {
+async function candidateFailureSignal(
+  deps: RiwiGatewayDependencies,
+  actor: RiwiActor,
+  correlationId: string,
+  intent: RiwiIntent,
+  type: "tool_failure" | "retrieval_failure" | "provider_failure",
+  status: string,
+  targetUserId?: string,
+) {
   if (!authorizeCapability(actor, "riwi.knowledge.submit_candidate").allowed) return;
   if (actor.role === "teacher" && !targetUserId) return;
-  await deps.createCandidateSignal({
-    actor, type: "tool_failure", targetUserId: actor.role === "student" ? actor.id : targetUserId ?? null,
-    scope: actor.role === "owner" && !targetUserId ? "global" : "user",
-    candidateClaim: `RIWI ${intent} handler failed; review required.`,
-    evidenceSummary: `correlation=${correlationId}; status=bounded_handler_failure; input=omitted`,
-  }).catch(() => {});
+  const claim = type === "retrieval_failure" ? "RIWI could not find an active knowledge source for a supported query."
+    : type === "provider_failure" ? "RIWI did not receive a validated external-provider answer."
+      : "A bounded RIWI tool handler did not complete successfully.";
+  try {
+    await deps.createCandidateSignal({
+      actor, type, producer: "gateway", sourceId: correlationId,
+      targetUserId: actor.role === "student" ? actor.id : targetUserId ?? null,
+      scope: actor.role === "owner" && !targetUserId ? "global" : "user",
+      candidateClaim: claim,
+      evidenceSummary: `correlation=${correlationId}; status=${status.slice(0, 40)}; intent=${intent}; input=omitted`,
+    });
+  } catch {
+    // Candidate evidence is best-effort and can never replace the bounded request result.
+  }
 }
 
 async function executeToolPlan(input: {
@@ -374,13 +390,21 @@ async function executeToolPlan(input: {
 }) {
   if (input.plan.kind !== "tool") throw new Error("riwi_gateway_invalid_tool_plan");
   if (!input.deps.hasRegisteredTool(input.plan.toolName)) {
+    await candidateFailureSignal(input.deps, input.actor, input.correlationId, input.intent, "tool_failure", "registered_tool_missing", input.plan.targetUserId);
     return failedAnswer({ correlationId: input.correlationId, locale: input.locale, intent: input.intent,
       conversationId: input.conversationId, code: "riwi_tool_not_found" });
   }
-  const result = await input.deps.callTool(input.plan.toolName, input.plan.input, input.actor, input.correlationId, input.signal);
+  let result: ToolCallResult;
+  try {
+    result = await input.deps.callTool(input.plan.toolName, input.plan.input, input.actor, input.correlationId, input.signal);
+  } catch {
+    await candidateFailureSignal(input.deps, input.actor, input.correlationId, input.intent, "tool_failure", "handler_error", input.plan.targetUserId);
+    return failedAnswer({ correlationId: input.correlationId, locale: input.locale, intent: input.intent,
+      conversationId: input.conversationId, code: "riwi_tool_failed" });
+  }
   if (!result.ok) {
     if (result.code === "riwi_tool_failed" || result.code === "riwi_tool_timeout") {
-      await candidateFailureSignal(input.deps, input.actor, input.correlationId, input.intent, input.plan.targetUserId);
+      await candidateFailureSignal(input.deps, input.actor, input.correlationId, input.intent, "tool_failure", result.code, input.plan.targetUserId);
     }
     const errorCode: RiwiErrorCode = result.code === "riwi_permission_denied" ? "riwi_permission_denied"
       : result.code === "riwi_scope_denied" ? "riwi_scope_denied"
@@ -392,7 +416,10 @@ async function executeToolPlan(input: {
 
   if (input.plan.toolName === "riwi.dictionary.lookup") {
     const parsed = dictionaryResultSchema.safeParse(result.value);
-    if (!parsed.success) return failedAnswer({ correlationId: input.correlationId, locale: input.locale, intent: input.intent, conversationId: input.conversationId, code: "riwi_tool_failed" });
+    if (!parsed.success) {
+      await candidateFailureSignal(input.deps, input.actor, input.correlationId, input.intent, "tool_failure", "invalid_tool_result", input.plan.targetUserId);
+      return failedAnswer({ correlationId: input.correlationId, locale: input.locale, intent: input.intent, conversationId: input.conversationId, code: "riwi_tool_failed" });
+    }
     if (parsed.data.status === "locked") return failedAnswer({ correlationId: input.correlationId, locale: input.locale, intent: input.intent, conversationId: input.conversationId, code: "riwi_dictionary_locked" });
     if (parsed.data.status !== "resolved") return failedAnswer({ correlationId: input.correlationId, locale: input.locale, intent: input.intent, conversationId: input.conversationId, code: "riwi_dictionary_unresolved" });
     return answerBody({ ok: true, correlationId: input.correlationId, conversationId: input.conversationId, intent: input.intent,
@@ -402,16 +429,25 @@ async function executeToolPlan(input: {
 
   if (input.plan.toolName === "riwi.learning.progress.readSelf" || input.plan.toolName === "riwi.learning.progress.readAssigned") {
     const parsed = progressResultSchema.safeParse(result.value);
-    if (!parsed.success) return failedAnswer({ correlationId: input.correlationId, locale: input.locale, intent: input.intent, conversationId: input.conversationId, code: "riwi_tool_failed" });
+    if (!parsed.success) {
+      await candidateFailureSignal(input.deps, input.actor, input.correlationId, input.intent, "tool_failure", "invalid_tool_result", input.plan.targetUserId);
+      return failedAnswer({ correlationId: input.correlationId, locale: input.locale, intent: input.intent, conversationId: input.conversationId, code: "riwi_tool_failed" });
+    }
     return answerBody({ ok: true, correlationId: input.correlationId, conversationId: input.conversationId, intent: input.intent,
       answer: formatProgress(parsed.data, input.locale), provenance: "deterministic_learning_data" });
   }
 
   if (["riwi.report.readSelf", "riwi.report.readAssigned", "riwi.report.readAdminScope", "riwi.report.readGlobal"].includes(input.plan.toolName)) {
     const parsed = reportResultSchema.safeParse(result.value);
-    if (!parsed.success) return failedAnswer({ correlationId: input.correlationId, locale: input.locale, intent: input.intent, conversationId: input.conversationId, code: "riwi_tool_failed" });
+    if (!parsed.success) {
+      await candidateFailureSignal(input.deps, input.actor, input.correlationId, input.intent, "tool_failure", "invalid_tool_result", input.plan.targetUserId);
+      return failedAnswer({ correlationId: input.correlationId, locale: input.locale, intent: input.intent, conversationId: input.conversationId, code: "riwi_tool_failed" });
+    }
     if (parsed.data.status === "unavailable") {
       const code = parsed.data.reason === "invalid_period" ? "riwi_request_invalid" : "riwi_tool_failed";
+      if (parsed.data.reason === "generation_failed") {
+        await candidateFailureSignal(input.deps, input.actor, input.correlationId, input.intent, "tool_failure", "report_generation_failed", input.plan.targetUserId);
+      }
       return failedAnswer({ correlationId: input.correlationId, locale: input.locale, intent: input.intent, conversationId: input.conversationId, code });
     }
     const report = formatReport(parsed.data, input.actor, Boolean(input.plan.targetUserId), input.locale);
@@ -421,7 +457,10 @@ async function executeToolPlan(input: {
 
   if (input.plan.toolName === "riwi.provider.status") {
     const parsed = providerStatusResultSchema.safeParse(result.value);
-    if (!parsed.success) return failedAnswer({ correlationId: input.correlationId, locale: input.locale, intent: input.intent, conversationId: input.conversationId, code: "riwi_tool_failed" });
+    if (!parsed.success) {
+      await candidateFailureSignal(input.deps, input.actor, input.correlationId, input.intent, "tool_failure", "invalid_tool_result", input.plan.targetUserId);
+      return failedAnswer({ correlationId: input.correlationId, locale: input.locale, intent: input.intent, conversationId: input.conversationId, code: "riwi_tool_failed" });
+    }
     return answerBody({ ok: true, correlationId: input.correlationId, conversationId: input.conversationId, intent: input.intent,
       answer: formatProviderStatus(parsed.data), provenance: "deterministic_report" });
   }
@@ -538,12 +577,21 @@ export async function runRiwiGateway(request: Request, overrides: Partial<RiwiGa
               response = answerBody({ ok: false, correlationId, conversationId, intent, answer: riwiErrorMessage("riwi_knowledge_unavailable", locale), errorCode: "riwi_knowledge_unavailable", provenance: "unavailable" });
             } else {
               const externalEnabled = rollout.externalAi && await deps.externalEnabled();
+              let retrievalFailed = false;
               const [history, knowledge] = await Promise.all([
                 externalEnabled ? deps.getHistory({ actor: { id: actor.id, role: actor.role }, conversationId }) : Promise.resolve([]),
-                rollout.knowledgeLearning ? deps.retrieveKnowledge(parsed.data.message, actor) : Promise.resolve([]),
+                rollout.knowledgeLearning
+                  ? Promise.resolve().then(() => deps.retrieveKnowledge(parsed.data.message, actor)).catch(() => {
+                      retrievalFailed = true;
+                      return [] as RetrievedKnowledge[];
+                    })
+                  : Promise.resolve([] as RetrievedKnowledge[]),
               ]);
+              if (retrievalFailed) {
+                await candidateFailureSignal(deps, actor, correlationId, intent, "retrieval_failure", "retrieval_error", parsed.data.targetUserId);
+              }
               if (intent === "knowledge_query" && knowledge.length === 0) {
-                await candidateFailureSignal(deps, actor, correlationId, "knowledge_query", parsed.data.targetUserId);
+                if (!retrievalFailed) await candidateFailureSignal(deps, actor, correlationId, intent, "retrieval_failure", "no_active_source", parsed.data.targetUserId);
                 response = answerBody({ ok: false, correlationId, conversationId, intent, answer: riwiErrorMessage("riwi_knowledge_unavailable", locale), errorCode: "riwi_knowledge_unavailable", provenance: "unavailable" });
               } else if (!externalEnabled) {
                 response = answerBody({ ok: false, correlationId, conversationId, intent, answer: riwiErrorMessage("riwi_provider_unavailable", locale), errorCode: "riwi_provider_unavailable", provenance: "unavailable" });
@@ -568,25 +616,41 @@ export async function runRiwiGateway(request: Request, overrides: Partial<RiwiGa
                       payload: guarded.payload, profile: "riwi_chat", signal: request.signal });
                   } catch { routed = { status: "external_unavailable", reason: "provider_error", providerId: null, model: null, durationMs: 0 }; }
                   const parsedRoute = routedAnswerSchema.safeParse(routed);
-                  if (!parsedRoute.success || parsedRoute.data.status !== "external_success") {
-                    const reason = parsedRoute.success && parsedRoute.data.status === "external_unavailable" ? parsedRoute.data.reason : "invalid_response";
-                    const code = reason === "timeout" ? "riwi_provider_timeout" : reason === "invalid_response" || reason === "invalid_request" ? "riwi_provider_invalid_response" : "riwi_provider_unavailable";
-                    response = answerBody({ ok: false, correlationId, conversationId, intent, answer: riwiErrorMessage(code, locale), errorCode: code, provenance: "unavailable" });
-                  } else if (!deps.isRegisteredProvider(parsedRoute.data.providerId)) {
+                  if (!parsedRoute.success) {
+                    await candidateFailureSignal(deps, actor, correlationId, intent, "provider_failure", "invalid_response");
                     response = answerBody({ ok: false, correlationId, conversationId, intent,
                       answer: riwiErrorMessage("riwi_provider_invalid_response", locale), errorCode: "riwi_provider_invalid_response", provenance: "unavailable" });
+                  } else if (parsedRoute.data.status === "external_unavailable") {
+                    const reason = parsedRoute.data.reason;
+                    if (["timeout", "provider_error", "invalid_response"].includes(reason)) {
+                      await candidateFailureSignal(deps, actor, correlationId, intent, "provider_failure", reason);
+                    }
+                    const code = reason === "timeout" ? "riwi_provider_timeout"
+                      : reason === "invalid_response" || reason === "invalid_request" ? "riwi_provider_invalid_response" : "riwi_provider_unavailable";
+                    response = answerBody({ ok: false, correlationId, conversationId, intent,
+                      answer: riwiErrorMessage(code, locale), errorCode: code, provenance: "unavailable" });
                   } else {
-                    const sourceByRef = new Map(knowledge.slice(0, 5).map((item, index) => [`K${index + 1}`, item]));
-                    const citations = parsedRoute.data.citations.flatMap((ref) => {
-                      const source = sourceByRef.get(ref);
-                      return source ? [{ source: clean(source.title, 120), version: source.version }] : [];
-                    });
-                    if (citations.length !== parsedRoute.data.citations.length) {
-                      response = answerBody({ ok: false, correlationId, conversationId, intent, answer: riwiErrorMessage("riwi_provider_invalid_response", locale), errorCode: "riwi_provider_invalid_response", provenance: "unavailable" });
+                    let registeredProvider = false;
+                    try { registeredProvider = deps.isRegisteredProvider(parsedRoute.data.providerId); } catch { /* Fail closed. */ }
+                    if (!registeredProvider) {
+                      await candidateFailureSignal(deps, actor, correlationId, intent, "provider_failure", "unregistered_provider");
+                      response = answerBody({ ok: false, correlationId, conversationId, intent,
+                        answer: riwiErrorMessage("riwi_provider_invalid_response", locale), errorCode: "riwi_provider_invalid_response", provenance: "unavailable" });
                     } else {
-                      response = answerBody({ ok: true, correlationId, conversationId, intent,
-                        answer: parsedRoute.data.answer, uncertainty: parsedRoute.data.uncertainty,
-                        citations, provenance: "external_provider", provider: { id: parsedRoute.data.providerId, model: parsedRoute.data.model } });
+                      const sourceByRef = new Map(knowledge.slice(0, 5).map((item, index) => [`K${index + 1}`, item]));
+                      const citations = parsedRoute.data.citations.flatMap((ref) => {
+                        const source = sourceByRef.get(ref);
+                        return source ? [{ source: clean(source.title, 120), version: source.version }] : [];
+                      });
+                      if (citations.length !== parsedRoute.data.citations.length) {
+                        await candidateFailureSignal(deps, actor, correlationId, intent, "provider_failure", "invalid_citation");
+                        response = answerBody({ ok: false, correlationId, conversationId, intent,
+                          answer: riwiErrorMessage("riwi_provider_invalid_response", locale), errorCode: "riwi_provider_invalid_response", provenance: "unavailable" });
+                      } else {
+                        response = answerBody({ ok: true, correlationId, conversationId, intent,
+                          answer: parsedRoute.data.answer, uncertainty: parsedRoute.data.uncertainty,
+                          citations, provenance: "external_provider", provider: { id: parsedRoute.data.providerId, model: parsedRoute.data.model } });
+                      }
                     }
                   }
                 }
@@ -601,15 +665,16 @@ export async function runRiwiGateway(request: Request, overrides: Partial<RiwiGa
       }
     }
 
+    if (conversationId) await deps.appendTurn({ actor: { id: actor.id, role: actor.role }, conversationId,
+      userMessage: parsed.data.message, assistantMessage: response.answer,
+      metadata: { correlationId, intent, providerId: response.provider?.id ?? null, model: response.provider?.model ?? null,
+        fallbackUsed: false, externalEligible, provenance: response.provenance, citations: response.citations } });
+    // Record success only after every required transcript write has completed, so feedback cannot attach to a failed delivery path.
     await deps.writeAudit({ actorUserId: actor.id, action: "riwi.request.completed", targetType: "riwi_request", targetId: correlationId,
       metadata: { correlationId, role: actor.role, intent, capability: "capability" in plan ? plan.capability : baseCapability,
         riskClass: plan.riskClass, ...(scopeKind ? { scopeKind: scopeKind as RiwiAuditMetadata["scopeKind"] } : {}),
         answerSource: response.provenance, providerId: response.provider?.id, model: response.provider?.model ?? undefined,
         status: response.ok ? "succeeded" : "refused", resultCount: response.citations.length } });
-    if (conversationId) await deps.appendTurn({ actor: { id: actor.id, role: actor.role }, conversationId,
-      userMessage: parsed.data.message, assistantMessage: response.answer,
-      metadata: { intent, providerId: response.provider?.id ?? null, model: response.provider?.model ?? null,
-        fallbackUsed: false, externalEligible, provenance: response.provenance, citations: response.citations } });
     return { status: 200, body: riwiChatResponseSchema.parse(response), headers: { "Cache-Control": "private, no-store", "X-Content-Type-Options": "nosniff", Vary: "Cookie" } };
   } catch (error) {
     const code: RiwiErrorCode = error instanceof RiwiConversationError && error.code === "not_found" ? "riwi_scope_denied" : "riwi_tool_failed";

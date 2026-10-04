@@ -1,0 +1,1 @@
+ALTER TABLE "riwi_learning_reviews" ADD CONSTRAINT "riwi_learning_reviews_resulting_source_id_riwi_knowledge_sources_id_fk" FOREIGN KEY ("resulting_source_id") REFERENCES "public"."riwi_knowledge_sources"("id") ON DELETE set null ON UPDATE no action;

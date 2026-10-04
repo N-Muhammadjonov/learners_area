@@ -63,7 +63,7 @@ export const riwiConflictStateEnum = pgEnum("riwi_conflict_state", ["open", "res
 export const riwiLearningSignalTypeEnum = pgEnum("riwi_learning_signal_type", [
   "owner_correction", "teacher_correction", "provider_disagreement", "provider_agreement", "student_outcome",
   "rubric_reference", "known_good_example", "known_bad_example", "retrieval_failure", "hallucination_report",
-  "tool_failure", "user_feedback", "manual_qa_finding",
+  "tool_failure", "provider_failure", "user_feedback", "manual_qa_finding",
 ]);
 export const riwiLearningSignalStateEnum = pgEnum("riwi_learning_signal_state", ["candidate", "in_review", "accepted", "rejected", "promoted"]);
 export const riwiReviewDecisionEnum = pgEnum("riwi_review_decision", ["approve", "reject", "request_changes"]);
@@ -389,7 +389,7 @@ export const riwiLearningSignals = pgTable("riwi_learning_signals", {
   actorUserId: uuid("actor_user_id").references(() => users.id, { onDelete: "set null" }),
   actorRole: roleEnum("actor_role").notNull(),
   targetUserId: uuid("target_user_id").references(() => users.id, { onDelete: "set null" }),
-  sourceId: uuid("source_id"),
+  sourceId: uuid("source_id").defaultRandom().notNull(),
   providerId: varchar("provider_id", { length: 60 }),
   model: varchar("model", { length: 120 }),
   promptVersion: varchar("prompt_version", { length: 60 }),
@@ -403,9 +403,12 @@ export const riwiLearningSignals = pgTable("riwi_learning_signals", {
   index("riwi_learning_signals_state_created_idx").on(table.state, table.createdAt),
   index("riwi_learning_signals_actor_idx").on(table.actorUserId, table.createdAt),
   index("riwi_learning_signals_target_idx").on(table.targetUserId, table.createdAt),
+  uniqueIndex("riwi_learning_signals_actor_source_uidx").on(table.actorUserId, table.signalType, table.sourceId)
+    .where(sql`${table.actorUserId} is not null and ${table.sourceId} is not null`),
+  // A deleted subject is anonymized by its SET NULL FK; retain the immutable user-scoped evidence row.
   check("riwi_learning_signals_scope_target_check", sql`(
     (${table.scope} = 'global' and ${table.targetUserId} is null) or
-    (${table.scope} = 'user' and ${table.targetUserId} is not null)
+    ${table.scope} = 'user'
   )`),
 ]);
 
@@ -418,7 +421,7 @@ export const riwiLearningReviews = pgTable("riwi_learning_reviews", {
   regressionFixtureId: varchar("regression_fixture_id", { length: 120 }),
   regressionEvidenceHash: varchar("regression_evidence_hash", { length: 64 }),
   regressionPassedAt: timestamp("regression_passed_at", { withTimezone: true }),
-  resultingSourceId: uuid("resulting_source_id"),
+  resultingSourceId: uuid("resulting_source_id").references(() => riwiKnowledgeSources.id, { onDelete: "set null" }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 }, (table) => [
   index("riwi_learning_reviews_signal_idx").on(table.signalId, table.createdAt),

@@ -11,6 +11,7 @@ export const RIWI_CONVERSATION_TTL_DAYS = 30;
 export const RIWI_CONVERSATION_HISTORY_MAX = 6;
 export const RIWI_CONVERSATION_STORAGE_MAX_MESSAGES = 60;
 export const RIWI_CONVERSATION_MESSAGE_MAX = 6000;
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const dayMs = 24 * 60 * 60 * 1000;
 
 export class RiwiConversationError extends Error {
@@ -76,6 +77,7 @@ export async function appendRiwiTurn(input: {
   userMessage: string;
   assistantMessage: string;
   metadata: {
+    correlationId: string;
     intent: string;
     providerId?: string | null;
     model?: string | null;
@@ -88,7 +90,7 @@ export async function appendRiwiTurn(input: {
 }, database: Pick<typeof db, "transaction"> = db) {
   const userMessage = input.userMessage.trim().slice(0, RIWI_CONVERSATION_MESSAGE_MAX);
   const assistantMessage = input.assistantMessage.trim().slice(0, RIWI_CONVERSATION_MESSAGE_MAX);
-  if (!userMessage || !assistantMessage) throw new RiwiConversationError("invalid_input");
+  if (!userMessage || !assistantMessage || !UUID.test(input.metadata.correlationId)) throw new RiwiConversationError("invalid_input");
   const now = input.now ?? new Date();
   await database.transaction(async (tx) => {
     const [conversation] = await tx.select({ id: riwiConversations.id, expiresAt: riwiConversations.expiresAt, roleAtCreation: riwiConversations.roleAtCreation })
@@ -102,7 +104,7 @@ export async function appendRiwiTurn(input: {
         intent: input.metadata.intent.slice(0, 40), externalEligible: input.metadata.externalEligible,
       } },
       { conversationId: conversation.id, role: "assistant", content: assistantMessage, createdAt: new Date(now.getTime() + 1), metadata: {
-        intent: input.metadata.intent.slice(0, 40), providerId: input.metadata.providerId?.slice(0, 60) ?? null,
+        correlationId: input.metadata.correlationId, intent: input.metadata.intent.slice(0, 40), providerId: input.metadata.providerId?.slice(0, 60) ?? null,
         model: input.metadata.model?.slice(0, 120) ?? null, fallbackUsed: input.metadata.fallbackUsed,
         externalEligible: input.metadata.externalEligible, provenance: input.metadata.provenance,
         citations: input.metadata.citations.slice(0, 8).map((citation) => ({ source: citation.source.slice(0, 120), version: citation.version })),
@@ -149,10 +151,12 @@ export async function getRiwiConversationTranscript(input: {
     const provenance = ["canonical_dictionary", "deterministic_learning_data", "deterministic_report", "external_provider", "policy_refusal", "unavailable"].includes(String(metadata.provenance))
       ? metadata.provenance as "canonical_dictionary" | "deterministic_learning_data" | "deterministic_report" | "external_provider" | "policy_refusal" | "unavailable"
       : "unavailable" as const;
+    const correlationId = typeof metadata.correlationId === "string" && UUID.test(metadata.correlationId) ? metadata.correlationId : null;
     return {
       role: row.role,
       content: row.content,
       createdAt: row.createdAt.toISOString(),
+      correlationId: row.role === "assistant" ? correlationId : null,
       provenance: row.role === "assistant" ? provenance : null,
       provider: row.role === "assistant" && typeof metadata.providerId === "string"
         ? { id: metadata.providerId.slice(0, 60), model: typeof metadata.model === "string" ? metadata.model.slice(0, 120) : null }

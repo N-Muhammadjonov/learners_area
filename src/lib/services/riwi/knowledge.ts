@@ -2,7 +2,7 @@ import "server-only";
 import { createHash } from "node:crypto";
 import { and, asc, desc, eq, inArray, or, sql } from "drizzle-orm";
 import { db } from "@/db/client";
-import { riwiKnowledgeConflicts, riwiKnowledgeSources, riwiKnowledgeUnits } from "@/db/schema";
+import { riwiKnowledgeConflicts, riwiKnowledgeSources, riwiKnowledgeUnits, users } from "@/db/schema";
 import type { AccountStatus } from "@/lib/auth/account-status";
 import type { Role } from "@/lib/auth/roles";
 import { authorizeCapability } from "./capabilities";
@@ -20,7 +20,7 @@ export type KnowledgeSourceType = (typeof KNOWLEDGE_SOURCE_TYPES)[number];
 export const KNOWLEDGE_RIGHTS_CLASSES = ["owner_authored", "licensed", "public_domain", "internal_permission", "third_party_reference", "unknown"] as const;
 export type KnowledgeRightsClass = (typeof KNOWLEDGE_RIGHTS_CLASSES)[number];
 export type { KnowledgeScope } from "./knowledge-policy";
-export type KnowledgePublicationScope = Exclude<KnowledgeScope, { kind: "user" }>;
+export type KnowledgePublicationScope = KnowledgeScope;
 
 const RIGHTS_ALLOWED_FOR_PROMOTION = new Set<KnowledgeRightsClass>(["owner_authored", "licensed", "public_domain", "internal_permission"]);
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -102,9 +102,15 @@ export async function createKnowledgeCandidate(input: {
   if (!KNOWLEDGE_SOURCE_TYPES.includes(input.sourceType) || !KNOWLEDGE_RIGHTS_CLASSES.includes(input.rightsClass)) {
     throw new KnowledgeServiceError("invalid_input");
   }
-  if (!input.scope || !["global", "role"].includes(input.scope.kind) ||
-      (input.scope.kind === "role" && !["student", "teacher", "admin", "owner"].includes(input.scope.role))) {
+  if (!input.scope || !["global", "role", "user"].includes(input.scope.kind) ||
+      (input.scope.kind === "role" && !["student", "teacher", "admin", "owner"].includes(input.scope.role)) ||
+      (input.scope.kind === "user" && !UUID.test(input.scope.userId))) {
     throw new KnowledgeServiceError("invalid_input");
+  }
+  if (input.scope.kind === "user") {
+    const [subject] = await database.select({ role: users.role, accountStatus: users.accountStatus })
+      .from(users).where(eq(users.id, input.scope.userId)).limit(1);
+    if (subject?.role !== "student" || subject.accountStatus !== "active") throw new KnowledgeServiceError("invalid_input");
   }
   const title = input.title.trim();
   const provenance = input.provenance.trim();
@@ -123,7 +129,8 @@ export async function createKnowledgeCandidate(input: {
     const [created] = await tx.insert(riwiKnowledgeSources).values({
       sourceType: input.sourceType, title, checksum, provenance,
       rightsClass: input.rightsClass, authority: OWNER_AUTHORITY[input.sourceType],
-      scope: input.scope.kind, scopeRole: input.scope.kind === "role" ? input.scope.role : null, scopeUserId: null,
+      scope: input.scope.kind, scopeRole: input.scope.kind === "role" ? input.scope.role : null,
+      scopeUserId: input.scope.kind === "user" ? input.scope.userId : null,
       state: "draft", parserVersion: "riwi-text-parser/1", unitCount: 0, createdByUserId: input.actor.id,
     }).onConflictDoNothing({ target: [riwiKnowledgeSources.sourceType, riwiKnowledgeSources.checksum] })
       .returning({ id: riwiKnowledgeSources.id, version: riwiKnowledgeSources.version });
@@ -140,7 +147,13 @@ export async function createKnowledgeCandidate(input: {
     // Compare only against active, same-scope sources. Similarity is a review flag, never an automatic resolution.
     const activeScope = input.scope.kind === "global"
       ? sql`true`
-      : or(eq(riwiKnowledgeSources.scope, "global"), and(eq(riwiKnowledgeSources.scope, "role"), eq(riwiKnowledgeSources.scopeRole, input.scope.role)));
+      : input.scope.kind === "role"
+        ? or(eq(riwiKnowledgeSources.scope, "global"), and(eq(riwiKnowledgeSources.scope, "role"), eq(riwiKnowledgeSources.scopeRole, input.scope.role)))
+        : or(
+          eq(riwiKnowledgeSources.scope, "global"),
+          and(eq(riwiKnowledgeSources.scope, "role"), eq(riwiKnowledgeSources.scopeRole, "student")),
+          and(eq(riwiKnowledgeSources.scope, "user"), eq(riwiKnowledgeSources.scopeUserId, input.scope.userId)),
+        );
     const existing = await tx.select({
       sourceId: riwiKnowledgeSources.id,
       unitId: riwiKnowledgeUnits.id,
@@ -291,16 +304,26 @@ export async function promoteKnowledgeSource(input: {
     const regression = runRiwiRegressionSuite(source.checksum);
     if (!regression.passed) throw new KnowledgeServiceError("regression_required");
     const regressionPassedAt = new Date();
-    const conflicts = await tx.select({ activeSourceId: riwiKnowledgeConflicts.activeSourceId, state: riwiKnowledgeConflicts.state })
-      .from(riwiKnowledgeConflicts).where(eq(riwiKnowledgeConflicts.candidateSourceId, source.id));
+    const conflicts = await tx.select({
+      activeSourceId: riwiKnowledgeConflicts.activeSourceId, state: riwiKnowledgeConflicts.state,
+      activeScope: riwiKnowledgeSources.scope, activeScopeRole: riwiKnowledgeSources.scopeRole,
+      activeScopeUserId: riwiKnowledgeSources.scopeUserId,
+    }).from(riwiKnowledgeConflicts)
+      .innerJoin(riwiKnowledgeSources, eq(riwiKnowledgeSources.id, riwiKnowledgeConflicts.activeSourceId))
+      .where(eq(riwiKnowledgeConflicts.candidateSourceId, source.id));
     if (conflicts.some((conflict) => conflict.state === "open" || conflict.state === "resolved")) {
       throw new KnowledgeServiceError("unresolved_conflict");
     }
     if (conflicts.some((conflict) => conflict.state === "rejected")) throw new KnowledgeServiceError("invalid_state");
-    const acceptedSources = [...new Set(conflicts.filter((conflict) => conflict.state === "accepted").map((conflict) => conflict.activeSourceId))];
-    if (acceptedSources.length > 0 && (acceptedSources.length !== 1 || input.supersedesSourceId !== acceptedSources[0])) {
+    const sameScopeAcceptedSources = [...new Set(conflicts.filter((conflict) => conflict.state === "accepted"
+      && conflict.activeScope === source.scope && conflict.activeScopeRole === source.scopeRole
+      && conflict.activeScopeUserId === source.scopeUserId).map((conflict) => conflict.activeSourceId))];
+    if (sameScopeAcceptedSources.length > 0
+      && (sameScopeAcceptedSources.length !== 1 || input.supersedesSourceId !== sameScopeAcceptedSources[0])) {
       throw new KnowledgeServiceError("unresolved_conflict");
     }
+    if (input.supersedesSourceId && sameScopeAcceptedSources.length > 0
+      && input.supersedesSourceId !== sameScopeAcceptedSources[0]) throw new KnowledgeServiceError("unresolved_conflict");
 
     let nextVersion = source.version;
     if (input.supersedesSourceId) {
@@ -360,6 +383,7 @@ export async function retrieveActiveKnowledge(query: string, actor: { id: string
         sql`to_tsvector('simple', ${riwiKnowledgeUnits.content}) @@ ${search}`,
       ))
       .orderBy(
+        desc(sql`case ${riwiKnowledgeSources.scope} when 'user' then 2 when 'role' then 1 else 0 end`),
         desc(sql`ts_rank(to_tsvector('simple', ${riwiKnowledgeUnits.content}), ${search})`),
         desc(riwiKnowledgeSources.authority), desc(riwiKnowledgeSources.updatedAt),
         asc(riwiKnowledgeUnits.ordinal), asc(riwiKnowledgeUnits.id),

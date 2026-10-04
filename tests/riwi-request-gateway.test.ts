@@ -109,7 +109,7 @@ function makeDependencies(input: {
     providerInputs: Array<{ actor: { id: string; role: Role }; payload: unknown }>;
     audits: RiwiGatewayAuditInput[];
     turns: Array<{ userMessage: string; assistantMessage: string; metadata: { externalEligible: boolean } }>;
-    learningSignals: Array<{ candidateClaim: string; evidenceSummary: string }>;
+    learningSignals: Array<{ type: string; producer?: string; sourceId?: string | null; candidateClaim: string; evidenceSummary: string }>;
   } = { tools: [], providerInputs: [], audits: [], turns: [], learningSignals: [] };
   const actor = { ...currentUser(input.role ?? "student", input.userId, input.accountStatus), locale: input.locale ?? "en" };
   const defaults: RiwiGatewayDependencies = {
@@ -132,7 +132,8 @@ function makeDependencies(input: {
       return { status: "external_success", answer: "A grammar explanation.", uncertainty: null, citations: [], providerId: "openai", model: "fixed-model", durationMs: 3 };
     },
     createCandidateSignal: async (signal) => {
-      state.learningSignals.push({ candidateClaim: signal.candidateClaim, evidenceSummary: signal.evidenceSummary });
+      state.learningSignals.push({ type: signal.type, producer: signal.producer, sourceId: signal.sourceId,
+        candidateClaim: signal.candidateClaim, evidenceSummary: signal.evidenceSummary });
       return { id: CORRELATION_ID, state: "candidate", signalType: signal.type };
     },
     externalEnabled: async () => true,
@@ -165,6 +166,69 @@ test("required request audit failure blocks all tool execution", async () => {
   assert.equal(response.status, 503);
   assert.equal("errorCode" in response.body && response.body.errorCode, "riwi_tool_failed");
   assert.equal(fixture.state.tools.length, 0);
+  assert.equal(fixture.state.learningSignals.length, 0, "a request denied before execution cannot be turned into learning evidence");
+});
+
+test("failed transcript persistence cannot create feedback-eligible success evidence", async () => {
+  const fixture = makeDependencies({ overrides: { appendTurn: async () => { throw new Error("transcript persistence failed"); } } });
+  const response = await runRiwiGateway(post({ message: "Explain why articles matter." }), fixture.dependencies);
+  assert.equal(response.status, 503);
+  assert.equal(fixture.state.audits.some((event) => event.action === "riwi.request.completed"), false,
+    "a success audit is written only after every required transcript write completes");
+  assert.ok(fixture.state.audits.some((event) => event.action === "riwi.request.denied"));
+  assert.equal(fixture.state.learningSignals.length, 0);
+});
+
+test("gateway routes bounded failure observations to candidate-only learning signals", async () => {
+  const toolFailure = makeDependencies({ overrides: {
+    callTool: async () => ({ ok: false, code: "riwi_tool_failed" }),
+  } });
+  const failedToolResponse = await runRiwiGateway(post({ message: "Show my report" }), toolFailure.dependencies);
+  assert.equal("errorCode" in failedToolResponse.body && failedToolResponse.body.errorCode, "riwi_tool_failed");
+  assert.equal(toolFailure.state.learningSignals.length, 1);
+  assert.equal(toolFailure.state.learningSignals[0]?.type, "tool_failure");
+  assert.equal(toolFailure.state.learningSignals[0]?.producer, "gateway");
+  assert.equal(toolFailure.state.learningSignals[0]?.sourceId, CORRELATION_ID);
+  assert.ok(!JSON.stringify(toolFailure.state.learningSignals).includes("Show my report"));
+
+  const retrievalFailure = makeDependencies({ overrides: { retrieveKnowledge: async () => [] } });
+  const query = "Summarize the course notes on articles.";
+  assert.equal(assessRiwiIntent(query).intent, "knowledge_query");
+  const missingKnowledge = await runRiwiGateway(post({ message: query }), retrievalFailure.dependencies);
+  assert.equal("errorCode" in missingKnowledge.body && missingKnowledge.body.errorCode, "riwi_knowledge_unavailable");
+  assert.equal(retrievalFailure.state.learningSignals[0]?.type, "retrieval_failure");
+  assert.equal(retrievalFailure.state.learningSignals[0]?.sourceId, CORRELATION_ID);
+  assert.ok(!JSON.stringify(retrievalFailure.state.learningSignals).includes(query));
+
+  const retrievalError = makeDependencies({ overrides: { retrieveKnowledge: async () => { throw new Error("private retrieval failure details"); } } });
+  const unavailableKnowledge = await runRiwiGateway(post({ message: query }), retrievalError.dependencies);
+  assert.equal("errorCode" in unavailableKnowledge.body && unavailableKnowledge.body.errorCode, "riwi_knowledge_unavailable");
+  assert.equal(retrievalError.state.learningSignals[0]?.type, "retrieval_failure");
+  assert.match(retrievalError.state.learningSignals[0]?.evidenceSummary ?? "", /retrieval_error/);
+  assert.ok(!JSON.stringify(retrievalError.state.learningSignals).includes("private retrieval failure details"));
+
+  const providerFailure = makeDependencies({ overrides: {
+    routeProvider: async () => ({ status: "external_unavailable", reason: "provider_error", providerId: "openai", model: "fixed-model", durationMs: 12 }),
+  } });
+  const unavailable = await runRiwiGateway(post({ message: "Explain why articles matter." }), providerFailure.dependencies);
+  assert.equal("errorCode" in unavailable.body && unavailable.body.errorCode, "riwi_provider_unavailable");
+  assert.equal(providerFailure.state.learningSignals[0]?.type, "provider_failure");
+  assert.equal(providerFailure.state.learningSignals[0]?.producer, "gateway");
+  assert.equal(providerFailure.state.learningSignals[0]?.sourceId, CORRELATION_ID);
+  assert.ok(!JSON.stringify(providerFailure.state.learningSignals).includes("provider body"));
+
+  const signalWriteFailure = makeDependencies({ overrides: {
+    callTool: async () => ({ ok: false, code: "riwi_tool_failed" }),
+    createCandidateSignal: async () => { throw new Error("candidate store unavailable"); },
+  } });
+  const stillSafe = await runRiwiGateway(post({ message: "Show my report" }), signalWriteFailure.dependencies);
+  assert.equal("errorCode" in stillSafe.body && stillSafe.body.errorCode, "riwi_tool_failed",
+    "candidate persistence failure does not replace the authoritative bounded handler result");
+
+  const successful = makeDependencies();
+  const delivered = await runRiwiGateway(post({ message: "Explain why articles matter." }), successful.dependencies);
+  assert.equal("ok" in delivered.body && delivered.body.ok, true);
+  assert.equal(successful.state.learningSignals.length, 0, "a normal successful response is not mislabeled as a failure signal");
 });
 
 test("student cross-row targeting is denied while a teacher's assigned target passes the gateway scope step", async () => {
@@ -173,6 +237,7 @@ test("student cross-row targeting is denied while a teacher's assigned target pa
   assert.equal("ok" in denied.body && denied.body.ok, false);
   assert.equal("errorCode" in denied.body && denied.body.errorCode, "riwi_scope_denied");
   assert.equal(student.state.tools.length, 0);
+  assert.equal(student.state.learningSignals.length, 0, "authorization refusal is never recorded as positive candidate evidence");
 
   const teacher = makeDependencies({ role: "teacher", userId: "aaaaaaaa-0000-4000-8000-000000000005" });
   const allowed = await runRiwiGateway(post({ message: "Show my report", targetUserId: ASSIGNED_STUDENT_ID }), teacher.dependencies);
@@ -238,6 +303,7 @@ test("only registered deterministic plans execute; provider output cannot inject
   } });
   const output = await runRiwiGateway(post({ message: "Explain why articles matter." }), injected.dependencies);
   assert.equal("errorCode" in output.body && output.body.errorCode, "riwi_provider_invalid_response");
+  assert.equal(injected.state.learningSignals[0]?.type, "provider_failure");
   assert.equal(injected.state.tools.length, 0, "provider response is validated as normalized text and is never fed back into a tool planner");
 });
 

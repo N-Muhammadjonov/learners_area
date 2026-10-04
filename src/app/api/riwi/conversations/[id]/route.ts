@@ -17,6 +17,7 @@ const transcriptSchema = z.object({
   conversationId: z.string().uuid(),
   messages: z.array(z.object({
     role: z.enum(["user", "assistant"]), content: z.string().max(6000), createdAt: z.string().datetime(),
+    correlationId: z.string().uuid().nullable(),
     provenance: z.enum(["canonical_dictionary", "deterministic_learning_data", "deterministic_report", "external_provider", "policy_refusal", "unavailable"]).nullable(),
     provider: z.object({ id: z.string().max(60), model: z.string().max(120).nullable() }).strict().nullable(),
     citations: z.array(z.object({ source: z.string().max(120), version: z.number().int().positive().nullable() }).strict()).max(8),

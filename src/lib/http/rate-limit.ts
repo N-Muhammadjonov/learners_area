@@ -56,6 +56,12 @@ export const RULES = {
   riwiConversationRead: { name: "riwi_conversation_read", limit: 120, windowMs: 15 * 60_000 },
   /** Fixed-fixture owner provider lab; cap request count to four runs per hour/account. */
   riwiProviderLab: { name: "riwi_provider_lab", limit: 4, windowMs: 60 * 60_000 },
+  riwiFeedbackByAccount: { name: "riwi_feedback_account", limit: 20, windowMs: 60 * 60_000 },
+  riwiFeedbackByIp: { name: "riwi_feedback_ip", limit: 100, windowMs: 60 * 60_000 },
+  riwiLearningByAccount: { name: "riwi_learning_account", limit: 30, windowMs: 60 * 60_000 },
+  riwiLearningByIp: { name: "riwi_learning_ip", limit: 100, windowMs: 60 * 60_000 },
+  riwiLearningReadByAccount: { name: "riwi_learning_read_account", limit: 300, windowMs: 15 * 60_000 },
+  riwiLearningReadByIp: { name: "riwi_learning_read_ip", limit: 600, windowMs: 15 * 60_000 },
   uploadIntent: { name: "upload_intent", limit: 120, windowMs: 15 * 60_000 },
   vocabularySearch: { name: "vocabulary_search", limit: 300, windowMs: 60_000 },
   /** Live Partner actions per user (heartbeats included); invites are a subset. */

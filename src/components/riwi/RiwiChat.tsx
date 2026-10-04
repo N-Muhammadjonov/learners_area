@@ -12,16 +12,20 @@ const transcriptSchema = z.object({
   ok: z.literal(true), conversationId: z.string().uuid(),
   messages: z.array(z.object({
     role: z.enum(["user", "assistant"]), content: z.string().max(6000), createdAt: z.string().datetime(),
+    correlationId: z.string().uuid().nullable(),
     provenance: z.enum(["canonical_dictionary", "deterministic_learning_data", "deterministic_report", "external_provider", "policy_refusal", "unavailable"]).nullable(),
     provider: z.object({ id: z.string().max(60), model: z.string().max(120).nullable() }).strict().nullable(),
     citations: z.array(z.object({ source: z.string().max(120), version: z.number().int().positive().nullable() }).strict()).max(8),
   }).strict()).max(60),
 }).strict();
 
+type FeedbackStatus = "submitting" | "recorded" | "failed";
 type UiMessage = {
   id: string;
   role: "user" | "assistant";
   content: string;
+  correlationId: string | null;
+  feedbackStatus: FeedbackStatus | null;
   provenance: RiwiChatResponse["provenance"] | null;
   provider: RiwiChatResponse["provider"];
   citations: RiwiChatResponse["citations"];
@@ -83,6 +87,11 @@ function copy(locale: Locale, role: Role) {
     uncertainty: uz ? "Noaniqlik" : "Uncertainty",
     limit: uz ? "Xabar 4 000 belgidan oshmasligi kerak." : "Message must be 4,000 characters or fewer.",
     failed: uz ? "So'rovni xavfsiz yakunlab bo'lmadi. Qayta urinib ko'ring." : "The request could not be completed safely. Please try again.",
+    helpful: uz ? "Foydali" : "Helpful",
+    notHelpful: uz ? "Foydali emas" : "Not helpful",
+    feedbackThanks: uz ? "Fikringiz uchun rahmat." : "Thanks for your feedback.",
+    feedbackFailed: uz ? "Fikr yuborilmadi. Qayta urinib ko'ring." : "Feedback was not sent. Please try again.",
+    feedbackSaving: uz ? "Yuborilmoqda…" : "Sending…",
     restored: uz ? "Oldingi suhbat tiklandi." : "Previous conversation restored.",
     restoreFailed: uz ? "Suhbat mavjud emas yoki muddati tugagan; yangi suhbat boshlandi." : "That conversation is unavailable or expired; a new one was started.",
     deleting: uz ? "O'chirilmoqda…" : "Deleting…",
@@ -113,6 +122,7 @@ export function RiwiChat({ role, locale }: { role: Role; locale: Locale }) {
   const [loadingHistory, setLoadingHistory] = useState(true);
   const [notice, setNotice] = useState("");
   const bottomRef = useRef<HTMLDivElement | null>(null);
+  const pendingFeedback = useRef(new Set<string>());
 
   useEffect(() => {
     let cancelled = false;
@@ -130,6 +140,7 @@ export function RiwiChat({ role, locale }: { role: Role; locale: Locale }) {
         setConversationId(payload.data.conversationId);
         setMessages(payload.data.messages.map((message, index) => ({
           id: `${message.createdAt}-${index}`, role: message.role, content: message.content,
+          correlationId: message.correlationId, feedbackStatus: null,
           provenance: message.provenance, provider: message.provider, citations: message.citations, uncertainty: null,
         })));
         setNotice(text.restored);
@@ -175,7 +186,8 @@ export function RiwiChat({ role, locale }: { role: Role; locale: Locale }) {
     setNotice("");
     setDraft("");
     setMessages((current) => [...current, {
-      id: `user-${Date.now()}`, role: "user", content: message, provenance: null, provider: null, citations: [], uncertainty: null,
+      id: `user-${Date.now()}`, role: "user", content: message, correlationId: null, feedbackStatus: null,
+      provenance: null, provider: null, citations: [], uncertainty: null,
     }]);
     setBusy(true);
     const controller = new AbortController();
@@ -202,18 +214,40 @@ export function RiwiChat({ role, locale }: { role: Role; locale: Locale }) {
       }
       setMessages((current) => [...current, {
         id: result.correlationId, role: "assistant", content: result.answer,
+        correlationId: result.ok ? result.correlationId : null, feedbackStatus: null,
         provenance: result.provenance, provider: result.provider, citations: result.citations, uncertainty: result.uncertainty,
       }]);
     } catch (error) {
       const aborted = error instanceof DOMException && error.name === "AbortError";
       const fallback = error instanceof Error && !aborted ? error.message : text.failed;
       setMessages((current) => [...current, {
-        id: `failed-${Date.now()}`, role: "assistant", content: fallback,
+        id: `failed-${Date.now()}`, role: "assistant", content: fallback, correlationId: null, feedbackStatus: null,
         provenance: "unavailable", provider: null, citations: [], uncertainty: null,
       }]);
     } finally {
       window.clearTimeout(timer);
       setBusy(false);
+    }
+  }
+
+  async function submitFeedback(messageId: string, rating: "helpful" | "not_helpful") {
+    const message = messages.find((item) => item.id === messageId);
+    if (role !== "student" || !message?.correlationId || message.feedbackStatus === "recorded" || pendingFeedback.current.has(messageId)) return;
+    pendingFeedback.current.add(messageId);
+    setMessages((current) => current.map((item) => item.id === messageId ? { ...item, feedbackStatus: "submitting" } : item));
+    try {
+      const response = await fetch("/api/riwi/feedback", {
+        method: "POST", credentials: "same-origin", cache: "no-store",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({ correlationId: message.correlationId, rating }),
+      });
+      const result = await response.json().catch(() => null) as { ok?: unknown } | null;
+      if (!response.ok || result?.ok !== true) throw new Error("feedback_unavailable");
+      setMessages((current) => current.map((item) => item.id === messageId ? { ...item, feedbackStatus: "recorded" } : item));
+    } catch {
+      setMessages((current) => current.map((item) => item.id === messageId ? { ...item, feedbackStatus: "failed" } : item));
+    } finally {
+      pendingFeedback.current.delete(messageId);
     }
   }
 
@@ -269,6 +303,22 @@ export function RiwiChat({ role, locale }: { role: Role; locale: Locale }) {
                   {message.citations.map((citation, index) => <span key={`${citation.source}-${index}`}>{citation.source}{citation.version ? ` · v${citation.version}` : ""}{index + 1 < message.citations.length ? ", " : ""}</span>)}
                 </div>
               )}
+              {role === "student" && message.role === "assistant" && message.correlationId
+                && message.provenance && !["policy_refusal", "unavailable"].includes(message.provenance) && (
+                  <div className="mt-3 border-t border-ink-100/70 pt-2" aria-label={text.uz ? "Javob haqida fikr" : "Answer feedback"}>
+                    {message.feedbackStatus === "recorded" ? <p className="text-xs text-ink-500" role="status">{text.feedbackThanks}</p> : (
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="text-xs text-ink-500">{message.feedbackStatus === "failed" ? text.feedbackFailed : text.uz ? "Javob foydali bo'ldimi?" : "Was this answer helpful?"}</span>
+                        <button type="button" className="btn-ghost min-h-8 px-2 py-1 text-xs" disabled={message.feedbackStatus === "submitting"}
+                          onClick={() => void submitFeedback(message.id, "helpful")}>
+                          {message.feedbackStatus === "submitting" ? text.feedbackSaving : text.helpful}
+                        </button>
+                        <button type="button" className="btn-ghost min-h-8 px-2 py-1 text-xs" disabled={message.feedbackStatus === "submitting"}
+                          onClick={() => void submitFeedback(message.id, "not_helpful")}>{text.notHelpful}</button>
+                      </div>
+                    )}
+                  </div>
+                )}
             </article>
           ))}
           {busy && <div className="max-w-3xl self-start rounded-2xl bg-paper-sunken px-4 py-3 text-sm text-ink-500" role="status">{text.sending}</div>}
