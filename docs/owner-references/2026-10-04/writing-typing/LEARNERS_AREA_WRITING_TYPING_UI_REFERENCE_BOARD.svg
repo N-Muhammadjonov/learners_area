@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1050" viewBox="0 0 1600 1050">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f7f5ff"/>
+      <stop offset="1" stop-color="#eef0fb"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#f7f7fc"/>
+    </linearGradient>
+    <linearGradient id="dark" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2e3138"/>
+      <stop offset="1" stop-color="#24272e"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="14" flood-color="#17164a" flood-opacity="0.12"/>
+    </filter>
+    <style>
+      .title{font:700 25px Inter,Arial,sans-serif;fill:#17164a}
+      .h2{font:700 18px Inter,Arial,sans-serif;fill:#17164a}
+      .h3{font:700 15px Inter,Arial,sans-serif;fill:#191833}
+      .body{font:400 13px Inter,Arial,sans-serif;fill:#4d4c68}
+      .small{font:400 11px Inter,Arial,sans-serif;fill:#6b6a83}
+      .mono{font:500 27px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#2b2b38}
+      .monoMuted{font:500 23px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#9a99a9}
+      .monoDark{font:500 17px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#f5f5f7}
+      .metricLabel{font:500 22px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#9ea1ab}
+      .metricBig{font:700 58px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#f4c400}
+      .metric{font:600 25px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#f4c400}
+      .white{fill:#fff}
+      .purple{fill:#34218f}
+      .line{stroke:#d9d9e7;stroke-width:1}
+    </style>
+  </defs>
+
+  <rect width="1600" height="1050" fill="url(#bg)"/>
+
+  <!-- Header -->
+  <text x="38" y="44" class="title">LEARNERS AREA — Writing → Typing UI Reference Board</text>
+  <text x="38" y="68" class="body">Functional target only. Learners Area theme wins; written master prompt overrides any visual ambiguity.</text>
+
+  <!-- Panel 1 -->
+  <g transform="translate(30,95)">
+    <rect x="0" y="0" width="495" height="405" rx="26" fill="url(#panel)" filter="url(#shadow)"/>
+    <circle cx="28" cy="28" r="18" fill="#34218f"/><text x="22" y="34" class="white" style="font:700 17px Inter,Arial">1</text>
+    <text x="58" y="35" class="h2">Ready / time selection</text>
+
+    <rect x="24" y="64" width="447" height="315" rx="22" fill="#fff" stroke="#e4e3ef"/>
+    <text x="48" y="96" class="h3">Typing Practice</text>
+    <text x="48" y="118" class="body">Choose a duration, then focus the typing surface.</text>
+
+    <text x="48" y="158" class="small">DURATION</text>
+    <g transform="translate(48,174)">
+      <rect x="0" y="0" width="66" height="42" rx="11" fill="#34218f"/><text x="20" y="27" class="white" style="font:700 14px Inter,Arial">30s</text>
+      <rect x="78" y="0" width="66" height="42" rx="11" fill="#f3f2fa" stroke="#deddea"/><text x="101" y="27" class="h3">1m</text>
+      <rect x="156" y="0" width="66" height="42" rx="11" fill="#f3f2fa" stroke="#deddea"/><text x="179" y="27" class="h3">2m</text>
+      <rect x="234" y="0" width="66" height="42" rx="11" fill="#f3f2fa" stroke="#deddea"/><text x="257" y="27" class="h3">3m</text>
+      <rect x="312" y="0" width="78" height="42" rx="11" fill="#f3f2fa" stroke="#deddea"/><text x="333" y="27" class="h3">Full</text>
+    </g>
+
+    <rect x="48" y="244" width="390" height="88" rx="16" fill="#f8f8fc" stroke="#e4e3ef"/>
+    <text x="69" y="280" class="monoMuted">ready text appears here▌</text>
+    <text x="69" y="307" class="small">Only a bounded rolling window is shown.</text>
+
+    <circle cx="415" cy="97" r="22" fill="#34218f"/>
+    <text x="407" y="105" class="white" style="font:700 25px Inter,Arial">›</text>
+    <text x="340" y="130" class="small">Next text</text>
+  </g>
+
+  <!-- Arrow 1 -->
+  <path d="M538 300 H565" stroke="#4b38a5" stroke-width="5" stroke-linecap="round"/>
+  <path d="M558 290 L570 300 L558 310" fill="none" stroke="#4b38a5" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Panel 2 -->
+  <g transform="translate(580,95)">
+    <rect x="0" y="0" width="495" height="405" rx="26" fill="url(#panel)" filter="url(#shadow)"/>
+    <circle cx="28" cy="28" r="18" fill="#34218f"/><text x="22" y="34" class="white" style="font:700 17px Inter,Arial">2</text>
+    <text x="58" y="35" class="h2">Active typing</text>
+
+    <rect x="24" y="64" width="447" height="58" rx="17" fill="#fff" stroke="#e4e3ef"/>
+    <text x="48" y="89" class="small">TIME LEFT</text>
+    <text x="48" y="110" class="h2">00:27 / 00:30</text>
+    <circle cx="435" cy="93" r="19" fill="#34218f"/><text x="429" y="100" class="white" style="font:700 22px Inter,Arial">›</text>
+
+    <rect x="24" y="136" width="447" height="216" rx="20" fill="#fcfcfe" stroke="#e4e3ef"/>
+    <line x1="48" y1="204" x2="448" y2="204" class="line"/>
+    <line x1="48" y1="260" x2="448" y2="260" class="line"/>
+
+    <text x="50" y="186" class="monoMuted">previous completed line fades upward...</text>
+    <text x="50" y="244" class="mono">practice accurately and keep a steady▌</text>
+    <text x="50" y="300" class="monoMuted">rhythm while the next line enters below</text>
+
+    <rect x="48" y="334" width="255" height="5" rx="3" fill="#5e45c8"/>
+    <rect x="303" y="334" width="145" height="5" rx="3" fill="#e2e1eb"/>
+    <text x="48" y="374" class="small">No full text. No textarea. Caret follows the target characters.</text>
+  </g>
+
+  <!-- Arrow 2 -->
+  <path d="M1088 300 H1115" stroke="#4b38a5" stroke-width="5" stroke-linecap="round"/>
+  <path d="M1108 290 L1120 300 L1108 310" fill="none" stroke="#4b38a5" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Panel 3 -->
+  <g transform="translate(1130,95)">
+    <rect x="0" y="0" width="440" height="405" rx="26" fill="url(#panel)" filter="url(#shadow)"/>
+    <circle cx="28" cy="28" r="18" fill="#34218f"/><text x="22" y="34" class="white" style="font:700 17px Inter,Arial">3</text>
+    <text x="58" y="35" class="h2">Auto line scroll</text>
+
+    <rect x="24" y="64" width="392" height="58" rx="17" fill="#fff" stroke="#e4e3ef"/>
+    <text x="48" y="89" class="small">TIME LEFT</text><text x="48" y="110" class="h2">00:18 / 00:30</text>
+    <circle cx="380" cy="93" r="19" fill="#34218f"/><text x="374" y="100" class="white" style="font:700 22px Inter,Arial">›</text>
+
+    <rect x="24" y="136" width="392" height="216" rx="20" fill="#fcfcfe" stroke="#e4e3ef"/>
+    <text x="46" y="180" class="monoMuted">steady rhythm over time...</text>
+    <text x="46" y="236" class="mono">new words rise into the active line▌</text>
+    <text x="46" y="292" class="monoMuted">future text stays below the viewport...</text>
+    <path d="M382 300 V205" stroke="#5e45c8" stroke-width="3" stroke-linecap="round"/>
+    <path d="M374 214 L382 203 L390 214" fill="none" stroke="#5e45c8" stroke-width="3"/>
+    <text x="46" y="374" class="small">At a wrapped-line boundary, the stage shifts upward smoothly (~220 ms).</text>
+  </g>
+
+  <!-- Results panel -->
+  <g transform="translate(30,535)">
+    <rect x="0" y="0" width="1035" height="475" rx="28" fill="#f4f2ff" filter="url(#shadow)"/>
+    <circle cx="28" cy="28" r="18" fill="#34218f"/><text x="22" y="34" class="white" style="font:700 17px Inter,Arial">4</text>
+    <text x="58" y="35" class="h2">Result after time ends</text>
+
+    <rect x="20" y="60" width="995" height="390" rx="22" fill="url(#dark)"/>
+
+    <text x="48" y="108" class="metricLabel">wpm</text>
+    <text x="48" y="169" class="metricBig">86</text>
+    <text x="48" y="214" class="metricLabel">acc</text>
+    <text x="48" y="277" class="metricBig">96%</text>
+
+    <!-- chart -->
+    <g transform="translate(220,95)">
+      <rect x="0" y="0" width="735" height="210" rx="10" fill="#2b2e35"/>
+      <g stroke="#3d4048" stroke-width="1">
+        <line x1="0" y1="42" x2="735" y2="42"/><line x1="0" y1="84" x2="735" y2="84"/>
+        <line x1="0" y1="126" x2="735" y2="126"/><line x1="0" y1="168" x2="735" y2="168"/>
+        <line x1="92" y1="0" x2="92" y2="210"/><line x1="184" y1="0" x2="184" y2="210"/>
+        <line x1="276" y1="0" x2="276" y2="210"/><line x1="368" y1="0" x2="368" y2="210"/>
+        <line x1="460" y1="0" x2="460" y2="210"/><line x1="552" y1="0" x2="552" y2="210"/>
+        <line x1="644" y1="0" x2="644" y2="210"/>
+      </g>
+      <polyline points="0,36 45,58 85,70 125,65 170,93 220,108 270,99 315,122 365,119 410,145 460,150 510,163 565,172 615,179 680,185 735,188"
+        fill="none" stroke="#a9abb3" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+      <polyline points="0,30 45,44 85,60 125,74 170,88 220,99 270,109 315,119 365,129 410,139 460,149 510,158 565,168 615,177 680,185 735,190"
+        fill="none" stroke="#f4c400" stroke-width="3" stroke-dasharray="10 9"/>
+      <g fill="#d94c58" font-family="Arial" font-weight="700" font-size="18">
+        <text x="118" y="91">×</text><text x="305" y="118">×</text><text x="398" y="145">×</text>
+      </g>
+      <text x="2" y="204" class="small" fill="#9ea1ab">0</text>
+      <text x="700" y="204" class="small" fill="#9ea1ab">30 sec</text>
+    </g>
+
+    <text x="48" y="355" class="metricLabel" style="font-size:15px">raw</text>
+    <text x="48" y="385" class="metric">90</text>
+
+    <text x="220" y="355" class="metricLabel" style="font-size:15px">characters</text>
+    <text x="220" y="385" class="metric">143/4/1/0</text>
+
+    <text x="495" y="355" class="metricLabel" style="font-size:15px">consistency</text>
+    <text x="495" y="385" class="metric">82%</text>
+
+    <text x="700" y="355" class="metricLabel" style="font-size:15px">time</text>
+    <text x="700" y="385" class="metric">30s</text>
+
+    <circle cx="870" cy="375" r="33" fill="#5e45c8"/><text x="856" y="387" class="white" style="font:700 32px Arial">↻</text>
+    <circle cx="948" cy="375" r="33" fill="#5e45c8"/><text x="938" y="388" class="white" style="font:700 38px Arial">›</text>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(1090,535)">
+    <rect x="0" y="0" width="480" height="475" rx="28" fill="#fff" filter="url(#shadow)"/>
+    <text x="28" y="42" class="h2">Controls & behavior</text>
+
+    <text x="28" y="82" class="h3">30s · 1m · 2m · 3m · Full</text>
+    <text x="28" y="103" class="body">Top-left duration selector. 30s is a real server-bound preset.</text>
+
+    <circle cx="43" cy="145" r="18" fill="#34218f"/><text x="37" y="152" class="white" style="font:700 22px Arial">›</text>
+    <text x="76" y="141" class="h3">Next text</text>
+    <text x="76" y="161" class="body">Top-right. Loads another published Typing text when idle.</text>
+
+    <rect x="28" y="190" width="120" height="54" rx="12" fill="#f7f7fc" stroke="#e4e3ef"/>
+    <text x="44" y="223" class="mono" style="font-size:18px">text▌</text>
+    <text x="165" y="207" class="h3">Rolling viewport</text>
+    <text x="165" y="228" class="body">Only 2–3 lines. Completed line exits upward; new line enters below.</text>
+
+    <rect x="28" y="270" width="120" height="69" rx="12" fill="#2e3138"/>
+    <text x="40" y="296" class="metric" style="font-size:18px">86</text>
+    <text x="81" y="296" class="metric" style="font-size:18px">96%</text>
+    <polyline points="38,322 55,310 70,316 90,301 110,309 137,299" fill="none" stroke="#a9abb3" stroke-width="2"/>
+    <text x="165" y="288" class="h3">Result dashboard</text>
+    <text x="165" y="309" class="body">WPM + accuracy dominate; graph and secondary metrics stay truthful.</text>
+
+    <circle cx="45" cy="386" r="22" fill="#5e45c8"/><text x="35" y="395" class="white" style="font:700 25px Arial">↻</text>
+    <text x="80" y="382" class="h3">Repeat same text</text>
+    <text x="80" y="403" class="body">Same text + same duration + fresh signed run.</text>
+
+    <circle cx="45" cy="438" r="22" fill="#5e45c8"/><text x="38" y="447" class="white" style="font:700 28px Arial">›</text>
+    <text x="80" y="434" class="h3">Next text</text>
+    <text x="80" y="455" class="body">New text, preserving selected duration.</text>
+  </g>
+
+  <text x="32" y="1035" class="small">Reference path: docs/owner-references/2026-10-04/writing-typing/ • Written master prompt is authoritative.</text>
+</svg>
