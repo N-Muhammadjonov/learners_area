@@ -1,5 +1,5 @@
 import "server-only";
-import { createLlmEvaluationProvider, httpFailure, type CompletionResult } from "../shared/llm-provider";
+import { createLlmEvaluationProvider, httpFailure, normalizeCompletionUsage, type CompletionResult } from "../shared/llm-provider";
 import { PinnedHttpsError, requestPinnedHttps, type HostLookup } from "../shared/ssrf";
 
 /**
@@ -46,10 +46,19 @@ export function createAnthropicProvider(deps: { lookup?: HostLookup; request?: t
       if (response.status < 200 || response.status >= 300) return httpFailure(response.status, "Anthropic");
       const raw = response.text;
       if (raw.length > 200_000) return { ok: false, failure: { reason: "invalid_response", detail: "Evaluation response is too large", retryable: false } };
-      const body = JSON.parse(raw) as { stop_reason?: string; content?: Array<{ type: string; text?: string }> };
-      if (body.stop_reason === "refusal") return { ok: false, failure: { reason: "provider_error", detail: "Evaluation was declined", retryable: false } };
-      if (body.stop_reason !== "end_turn") return { ok: false, failure: { reason: "invalid_response", detail: "Evaluation did not complete", retryable: false } };
-      return { ok: true, text: (body.content ?? []).filter((b) => b.type === "text").map((b) => b.text ?? "").join("") };
+      const body = JSON.parse(raw) as {
+        stop_reason?: string;
+        usage?: { input_tokens?: unknown; output_tokens?: unknown };
+        content?: Array<{ type: string; text?: string }>;
+      };
+      const usage = normalizeCompletionUsage(body.usage?.input_tokens, body.usage?.output_tokens);
+      if (body.stop_reason === "refusal") return { ok: false, failure: { reason: "provider_error", detail: "Evaluation was declined", retryable: false }, ...(usage ? { usage } : {}) };
+      if (body.stop_reason !== "end_turn") return { ok: false, failure: { reason: "invalid_response", detail: "Evaluation did not complete", retryable: false }, ...(usage ? { usage } : {}) };
+      return {
+        ok: true,
+        text: (body.content ?? []).filter((b) => b.type === "text").map((b) => b.text ?? "").join(""),
+        ...(usage ? { usage } : {}),
+      };
     },
   });
 }

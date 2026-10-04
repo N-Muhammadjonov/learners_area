@@ -2,7 +2,7 @@ import "server-only";
 import { z } from "zod";
 import { providerCapabilitySchema } from "../../schema";
 import type { EvaluationProvider } from "../../types";
-import { createLlmEvaluationProvider, httpFailure, TEXT_CAPABILITIES, type CompletionResult } from "../shared/llm-provider";
+import { createLlmEvaluationProvider, httpFailure, normalizeCompletionUsage, TEXT_CAPABILITIES, type CompletionResult } from "../shared/llm-provider";
 import { checkProviderBaseUrl, PinnedHttpsError, requestPinnedHttps, type HostLookup } from "../shared/ssrf";
 
 /**
@@ -111,13 +111,17 @@ export function createCompatibleProvider(entry: CompatibleEntry, deps: {
       if (response.status < 200 || response.status >= 300) return httpFailure(response.status, entry.displayName);
       const raw = response.text;
       if (raw.length > 200_000) return { ok: false, failure: { reason: "invalid_response", detail: "Evaluation response is too large", retryable: false } };
-      const body = JSON.parse(raw) as { choices?: Array<{ finish_reason?: string; message?: { content?: string | null; refusal?: string | null } }> };
+      const body = JSON.parse(raw) as {
+        usage?: { prompt_tokens?: unknown; completion_tokens?: unknown };
+        choices?: Array<{ finish_reason?: string; message?: { content?: string | null; refusal?: string | null } }>;
+      };
+      const usage = normalizeCompletionUsage(body.usage?.prompt_tokens, body.usage?.completion_tokens);
       const choice = body.choices?.[0];
-      if (choice?.message?.refusal) return { ok: false, failure: { reason: "provider_error", detail: "Evaluation was declined", retryable: false } };
+      if (choice?.message?.refusal) return { ok: false, failure: { reason: "provider_error", detail: "Evaluation was declined", retryable: false }, ...(usage ? { usage } : {}) };
       if (!choice || choice.finish_reason !== "stop" || typeof choice.message?.content !== "string") {
-        return { ok: false, failure: { reason: "invalid_response", detail: "Evaluation did not complete", retryable: false } };
+        return { ok: false, failure: { reason: "invalid_response", detail: "Evaluation did not complete", retryable: false }, ...(usage ? { usage } : {}) };
       }
-      return { ok: true, text: choice.message.content };
+      return { ok: true, text: choice.message.content, ...(usage ? { usage } : {}) };
     },
   });
 }

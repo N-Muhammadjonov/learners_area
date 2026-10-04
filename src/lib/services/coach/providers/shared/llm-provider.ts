@@ -29,8 +29,17 @@ import { guardExternalPayload } from "@/lib/services/riwi/outbound-guard";
  */
 
 export type CompletionRequest = { system: string; user: string; maxOutputTokens: number; signal: AbortSignal; model: string };
-export type CompletionResult = { ok: true; text: string } | { ok: false; failure: ProviderFailure };
+export type CompletionUsage = { inputTokens: number | null; outputTokens: number | null };
+export type CompletionResult = { ok: true; text: string; usage?: CompletionUsage } | { ok: false; failure: ProviderFailure; usage?: CompletionUsage };
 export type LlmTransport = (request: CompletionRequest) => Promise<CompletionResult>;
+
+/** Normalize only finite, non-negative integer token counts from vendor metadata. */
+export function normalizeCompletionUsage(inputTokens: unknown, outputTokens: unknown): CompletionUsage | undefined {
+  const count = (value: unknown) => typeof value === "number" && Number.isSafeInteger(value) && value >= 0 && value <= 10_000_000 ? value : null;
+  const input = count(inputTokens);
+  const output = count(outputTokens);
+  return input === null && output === null ? undefined : { inputTokens: input, outputTokens: output };
+}
 
 export const TEXT_CAPABILITIES: readonly ProviderCapability[] = [
   "text-evaluation", "writing-evaluation", "speaking-evaluation", "grammar-evaluation",
@@ -135,17 +144,22 @@ export function createLlmEvaluationProvider(def: LlmProviderDefinition): Evaluat
     } catch {
       return providerFail(ctx.signal?.aborted ? "cancelled" : "network", `${def.displayName} assistant request could not complete`, !ctx.signal?.aborted);
     }
-    if (!completion.ok) return { ok: false, failure: completion.failure };
-    if (completion.text.length > 12_000) return providerFail("invalid_response", "RIWI assistant response is too large");
+    if (!completion.ok) return { ok: false, failure: completion.failure, ...(completion.usage ? { usage: completion.usage } : {}) };
+    const failWithUsage = (detail: string): RiwiProviderResult => ({
+      ok: false,
+      failure: { reason: "invalid_response", detail, retryable: false },
+      ...(completion.usage ? { usage: completion.usage } : {}),
+    });
+    if (completion.text.length > 12_000) return failWithUsage("RIWI assistant response is too large");
     let output: unknown;
-    try { output = extractJson(completion.text); } catch { return providerFail("invalid_response", "RIWI assistant response format is invalid"); }
+    try { output = extractJson(completion.text); } catch { return failWithUsage("RIWI assistant response format is invalid"); }
     const parsed = riwiAnswerSchema.safeParse(output);
-    if (!parsed.success) return providerFail("invalid_response", "RIWI assistant response format is invalid");
+    if (!parsed.success) return failWithUsage("RIWI assistant response format is invalid");
     const allowedRefs = new Set(safeInput.knowledge.map((item) => item.ref));
     if (parsed.data.citations.some((citation) => !allowedRefs.has(citation))) {
-      return providerFail("invalid_response", "RIWI assistant cited a source outside its authorized context");
+      return failWithUsage("RIWI assistant cited a source outside its authorized context");
     }
-    return { ok: true, answer: parsed.data };
+    return { ok: true, answer: parsed.data, ...(completion.usage ? { usage: completion.usage } : {}) };
   }
 
   const has = (c: ProviderCapability) => capabilities.includes(c);

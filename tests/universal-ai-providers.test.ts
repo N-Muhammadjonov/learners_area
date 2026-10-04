@@ -107,6 +107,18 @@ test("UA4 compatible transport: posts to the configured path with a server-side 
     assert.ok(!seen!.body.includes(ctx.userId), "no user identity in the payload");
     assert.equal(provider.type, "external");
 
+    reply = {
+      status: 200, contentType: "application/json",
+      text: JSON.stringify({
+        choices: [{ finish_reason: "stop", message: { content: JSON.stringify({ answer: "A bounded assistant answer.", uncertainty: null, citations: [] }) } }],
+        usage: { prompt_tokens: 31, completion_tokens: 12 },
+      }),
+    };
+    const assistant = await provider.respondToRiwi!(ctx, { language: "en", message: "fixed fixture", history: [], knowledge: [] });
+    assert.equal(assistant.ok, true);
+    if (assistant.ok) assert.deepEqual(assistant.usage, { inputTokens: 31, outputTokens: 12 }, "compatible provider usage is normalized from vendor-reported counts");
+    reply = { status: 200, contentType: "application/json", text: JSON.stringify({ choices: [{ finish_reason: "stop", message: { content: JSON.stringify(validOutput) } }] }) };
+
     const privateText = "Contact learner@example.test at +1 (415) 555-0199";
     const privateResult = await provider.evaluateGrammar!(ctx, { ...grammarInput, studentAnswer: privateText });
     assert.equal(privateResult.ok, true);
@@ -156,6 +168,22 @@ test("UA4 compatible transport: posts to the configured path with a server-side 
   });
 });
 
+test("OpenAI Responses adapter normalizes reported RIWI token usage without exposing response bodies", async () => {
+  await withEnv({ OPENAI_API_KEY: "test-openai", OPENAI_EVALUATION_MODEL: "gpt-test" }, async () => {
+    const provider = createOpenAiProvider({
+      lookup: async () => [{ address: "93.184.216.34" }],
+      request: async () => ({ status: 200, contentType: "application/json", text: JSON.stringify({
+        status: "completed",
+        output: [{ type: "message", content: [{ type: "output_text", text: JSON.stringify({ answer: "A bounded answer.", uncertainty: null, citations: [] }) }] }],
+        usage: { input_tokens: 42, output_tokens: 11 },
+      }) }),
+    });
+    const result = await provider.respondToRiwi!(ctx, { language: "en", message: "fixed fixture", history: [], knowledge: [] });
+    assert.equal(result.ok, true);
+    if (result.ok) assert.deepEqual(result.usage, { inputTokens: 42, outputTokens: 11 });
+  });
+});
+
 test("UA5 compatible transport refuses to call a host that resolves privately (DNS rebinding guard)", async () => {
   await withEnv({ AI_ACME_API_KEY: "k" }, async () => {
     const entry = parseCompatibleProviders(JSON.stringify([{ id: "acme", displayName: "Acme", baseURL: "https://api.acme.example/v1", model: "m", secretRef: "AI_ACME_API_KEY" }])).entries[0]!;
@@ -181,7 +209,14 @@ test("UA6 first-class Anthropic adapter uses its own API shape and fails closed 
       lookup: async () => [{ address: "93.184.216.34" }],
       request: async (url, headers, body) => {
         request = { url: String(url), headers, body };
-        return { status, contentType: "application/json", text: JSON.stringify({ stop_reason: "end_turn", content: [{ type: "text", text: JSON.stringify(validOutput) }] }) };
+        const message = JSON.parse(body).messages[0].content as string;
+        const isRiwi = JSON.parse(message).task === "riwi_assistant";
+        const output = isRiwi ? { answer: "An Anthropic fixture answer.", uncertainty: null, citations: [] } : validOutput;
+        return { status, contentType: "application/json", text: JSON.stringify({
+          stop_reason: "end_turn",
+          content: [{ type: "text", text: JSON.stringify(output) }],
+          usage: { input_tokens: 29, output_tokens: 5 },
+        }) };
       },
     });
     const r = await provider.evaluateGrammar!(ctx, grammarInput);
@@ -193,6 +228,9 @@ test("UA6 first-class Anthropic adapter uses its own API shape and fails closed 
     assert.equal(typeof body.system, "string");
     assert.equal(body.messages[0].role, "user");
     assert.ok(!request!.body.includes(ctx.userId));
+    const assistant = await provider.respondToRiwi!(ctx, { language: "en", message: "fixed fixture", history: [], knowledge: [] });
+    assert.equal(assistant.ok, true);
+    if (assistant.ok) assert.deepEqual(assistant.usage, { inputTokens: 29, outputTokens: 5 });
     status = 429;
     const limited = await provider.evaluateGrammar!(ctx, grammarInput);
     if (!limited.ok) assert.equal(limited.failure.reason, "rate_limited"); else assert.fail("must fail");

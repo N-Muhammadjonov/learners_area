@@ -1,5 +1,5 @@
 import "server-only";
-import { createLlmEvaluationProvider, httpFailure, type CompletionResult } from "../shared/llm-provider";
+import { createLlmEvaluationProvider, httpFailure, normalizeCompletionUsage, type CompletionResult } from "../shared/llm-provider";
 import { PinnedHttpsError, requestPinnedHttps, type HostLookup } from "../shared/ssrf";
 
 /**
@@ -41,11 +41,20 @@ export function createOpenAiProvider(deps: { lookup?: HostLookup; request?: type
       if (response.status < 200 || response.status >= 300) return httpFailure(response.status, "OpenAI");
       const raw = response.text;
       if (raw.length > 200_000) return { ok: false, failure: { reason: "invalid_response", detail: "Evaluation response is too large", retryable: false } };
-      const body = JSON.parse(raw) as { status?: string; output?: Array<{ type?: string; content?: Array<{ type: string; text?: string }> }> };
-      if (body.status !== "completed") return { ok: false, failure: { reason: "invalid_response", detail: "Evaluation did not complete", retryable: false } };
+      const body = JSON.parse(raw) as {
+        status?: string;
+        usage?: { input_tokens?: unknown; output_tokens?: unknown };
+        output?: Array<{ type?: string; content?: Array<{ type: string; text?: string }> }>;
+      };
+      const usage = normalizeCompletionUsage(body.usage?.input_tokens, body.usage?.output_tokens);
+      if (body.status !== "completed") return { ok: false, failure: { reason: "invalid_response", detail: "Evaluation did not complete", retryable: false }, ...(usage ? { usage } : {}) };
       const content = body.output?.filter((item) => item.type === "message").flatMap((item) => item.content ?? []) ?? [];
-      if (content.some((item) => item.type === "refusal")) return { ok: false, failure: { reason: "provider_error", detail: "Evaluation was declined", retryable: false } };
-      return { ok: true, text: content.filter((item) => item.type === "output_text").map((item) => item.text ?? "").join("") };
+      if (content.some((item) => item.type === "refusal")) return { ok: false, failure: { reason: "provider_error", detail: "Evaluation was declined", retryable: false }, ...(usage ? { usage } : {}) };
+      return {
+        ok: true,
+        text: content.filter((item) => item.type === "output_text").map((item) => item.text ?? "").join(""),
+        ...(usage ? { usage } : {}),
+      };
     },
   });
 }

@@ -54,6 +54,8 @@ export const RULES = {
   riwiChatByAccount: { name: "riwi_chat_account", limit: 40, windowMs: 15 * 60_000 },
   riwiChatByIp: { name: "riwi_chat_ip", limit: 100, windowMs: 15 * 60_000 },
   riwiConversationRead: { name: "riwi_conversation_read", limit: 120, windowMs: 15 * 60_000 },
+  /** Fixed-fixture owner provider lab; cap request count to four runs per hour/account. */
+  riwiProviderLab: { name: "riwi_provider_lab", limit: 4, windowMs: 60 * 60_000 },
   uploadIntent: { name: "upload_intent", limit: 120, windowMs: 15 * 60_000 },
   vocabularySearch: { name: "vocabulary_search", limit: 300, windowMs: 60_000 },
   /** Live Partner actions per user (heartbeats included); invites are a subset. */

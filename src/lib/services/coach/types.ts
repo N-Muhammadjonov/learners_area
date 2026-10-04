@@ -110,7 +110,9 @@ export type ProviderResult = ProviderSuccess | { ok: false; failure: ProviderFai
 export type RiwiConversationTurn = { role: "user" | "assistant"; content: string };
 export type RiwiKnowledgeContext = { ref: string; text: string; authority: number; version: number };
 export type RiwiProviderInput = { language: "uz" | "en"; message: string; history: RiwiConversationTurn[]; knowledge: RiwiKnowledgeContext[] };
-export type RiwiProviderResult = { ok: true; answer: RiwiAnswer } | { ok: false; failure: ProviderFailure };
+/** Provider-reported usage only; null/absent means unknown, never zero. */
+export type RiwiProviderUsage = { inputTokens: number | null; outputTokens: number | null };
+export type RiwiProviderResult = { ok: true; answer: RiwiAnswer; usage?: RiwiProviderUsage } | { ok: false; failure: ProviderFailure; usage?: RiwiProviderUsage };
 
 const ok = (output: ProviderEvaluationOutput): ProviderSuccess => ({ ok: true, output });
 const fail = (

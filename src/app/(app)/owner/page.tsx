@@ -54,6 +54,7 @@ export default async function OwnerPage() {
         <OwnerLink href="/admin/admissions" title={dict.owner.admissions} body={dict.admission.explainer} />
         <OwnerLink href="/admin/people" title={dict.owner.people} body={dict.people.subtitle} />
         <OwnerLink href="/owner/integrations" title={dict.owner.integrations} body={dict.integration.subtitle} />
+        <OwnerLink href="/owner/riwi" title="RIWI control room" body="Rollout readiness and bounded fixed-fixture provider checks." />
         <OwnerLink href="/owner/retention" title={dict.owner.retention} body={dict.retention.subtitle} />
         <OwnerLink href="/owner/audit" title={dict.owner.audit} body={dict.people.subtitle} />
         <OwnerLink href="/owner/transfer" title={dict.owner.transfer} body={dict.owner.transferWarning} />
