@@ -103,7 +103,7 @@ export function RetentionCheck({
       */}
       <div className={`rounded-sm bg-paper-sunken p-3 ${revealed ? "" : "hidden"}`} data-retention-passage>
         <p className="mb-1 text-xs font-medium text-ink-500">{passageTitle}</p>
-        <ClickableText
+        <ClickableText lexicalAssistance={false}
           dict={dict}
           text={passageBody}
           occurrences={occurrenceSpans(passageBody, passageBody, occurrences)}

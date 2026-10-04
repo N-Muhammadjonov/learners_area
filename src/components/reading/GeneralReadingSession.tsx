@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useFocusEntry } from "@/lib/interaction/focus-entry";
 import { useEffect, useRef, useState } from "react";
 import { ClickableText } from "@/components/vocabulary/ClickableText";
 import { ReadAloud } from "@/components/reading/ReadAloud";
@@ -39,6 +40,7 @@ export function GeneralReadingSession({ dict, setId, setTitle, passages, initial
   /** "full" = all passages in one session; otherwise the single chosen passage number. */
   mode: "full" | 1 | 2 | 3;
 }) {
+  useFocusEntry(`general-reading:${setId}:${mode}`);
   const t = dict.generalReading;
   const [active, setActive] = useState(passages[0]?.passageNo ?? 1);
   const [answers, setAnswers] = useState<Record<string, Record<string, string>>>(() =>

@@ -77,7 +77,7 @@ export type VocabStudioData = {
   initialTab: TabKey;
 };
 
-export type TabKey = "words" | "revision" | "games" | "use" | "board";
+export type TabKey = "words" | "revision" | "games" | "use" | "board" | "dictionary";
 
 /** A meaning-side prompt used by the games — never the answer itself. */
 export type GameWord = {

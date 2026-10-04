@@ -123,6 +123,10 @@ export async function resolveListeningOccurrence(user: { id: string; role: Role 
  * calling the endpoint with the passage id during an exam).
  */
 export async function readingLexicalAccess(user: { id: string; role: Role }, sourceId: string, passageId: string) {
+  // An owned Academic attempt is assessment even when its passage also belongs
+  // to General Reading. Sharing passage content must not open an exam bypass.
+  const ownedAttempt = await db.query.readingAttempts.findFirst({ where: and(eq(readingAttempts.id, sourceId), eq(readingAttempts.userId, user.id), eq(readingAttempts.passageId, passageId)) });
+  if (ownedAttempt) return { mode: (ownedAttempt.status === "in_progress" ? "ACADEMIC_EXAM" : "ACADEMIC_REVIEW") as ReadingMode, state: { submitted: ownedAttempt.status === "completed", examInProgress: ownedAttempt.status === "in_progress", staff: isStaff(user.role) }, general: null };
   // The mode comes from persisted classification only (0030), never from the request.
   const general = await generalMembership(passageId);
   if (general) {

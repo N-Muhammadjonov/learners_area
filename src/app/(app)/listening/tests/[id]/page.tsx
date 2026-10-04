@@ -1,3 +1,4 @@
+import { TestFocusEntry } from "@/components/interaction/TestFocusEntry";
 import { packageActivities, activityPath } from "@/lib/listening/activities";
 import { AuthoredListeningFrame } from "@/components/listening/AuthoredListeningFrame";
 import { BackLink } from "@/components/ui/BackLink";
@@ -18,7 +19,7 @@ export default async function Hub({ params }: { params: Promise<{ id: string }> 
   if (!detail) notFound();
   const progress = await fullListeningProgress(user.id, id);
   const dict = getDictionary(await getLocale());
-  if (detail.pkg.payload.authoredRuntime) return <div className="w-full space-y-3"><BackLink fallbackHref="/listening" label={dict.nav.listening}/><AuthoredListeningFrame id={id} userId={user.id} dict={dict}/></div>;
+  if (detail.pkg.payload.authoredRuntime) return <div className="w-full space-y-3"><TestFocusEntry identity={`listening-test:${id}`} /><BackLink fallbackHref="/listening" label={dict.nav.listening}/><AuthoredListeningFrame id={id} userId={user.id} dict={dict}/></div>;
   const t = dict.fullListeningHub, r = t.research, modern = !!detail.pkg.payload.studyPack;
   const [questions, sessions, practice] = await Promise.all([listMcqQuestions(id), listMcqSessions(user.id, id), listeningPracticeProgress(user.id, id)]);
   const mcqComplete = questions.length > 0 && questions.every(q => sessions.get(q.id)?.stage === "reasoned");
@@ -28,6 +29,7 @@ export default async function Hub({ params }: { params: Promise<{ id: string }> 
     return { path, activity: n, name: names[key]!, tag: key === "exam" ? r.examTag : key === "vocab" ? r.vocabTag : key === "mcq" ? r.mcqTag : r.reviewTag, complete: key === "mcq" ? mcqComplete : practice[key]?.complete ?? base?.complete ?? false, latest: practice[key]?.latest ?? base?.latest ?? null };
   });
   return <div className="listening-workspace listening-hub mx-auto max-w-[1840px] space-y-6">
+    <TestFocusEntry identity={`listening-test:${id}`} />
     <BackLink fallbackHref="/listening" label={dict.nav.listening} />
     <p className="listening-eyebrow">{r.badge}</p>
     <h1 className="font-display text-4xl">{detail.test.title}</h1>

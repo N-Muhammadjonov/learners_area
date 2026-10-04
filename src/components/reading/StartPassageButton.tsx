@@ -16,10 +16,12 @@ import { dictionaryForDocument } from "@/lib/i18n/client";
  */
 export function StartPassageButton({
   passageId,
+  setId,
   label,
   variant = "secondary",
 }: {
-  passageId: string;
+  passageId?: string;
+  setId?: string;
   label: string;
   variant?: "primary" | "secondary";
 }) {
@@ -38,9 +40,9 @@ export function StartPassageButton({
           setPending(true);
           setError(null);
           try {
-            const result = await requestJson<{ id: string }>("/api/reading/attempts", {
+            const result = await requestJson<{ id: string }>(setId ? "/api/reading/academic" : "/api/reading/attempts", {
               method: "POST",
-              body: { passageId },
+              body: setId ? { setId } : { passageId },
             });
             if (result.ok && result.data?.id) {
               navigate(`/reading/attempts/${result.data.id}`);

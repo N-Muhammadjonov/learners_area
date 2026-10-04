@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useInstantInteraction } from "@/components/interaction/InstantInteractionProvider";
 import type { Dictionary } from "@/lib/i18n/en";
+import { DictionaryPanel } from "./DictionaryPanel";
 import { VocabWordsPanel } from "./VocabWordsPanel";
 import { VocabRevisionPanel } from "./VocabRevisionPanel";
 import { VocabUsePanel } from "./VocabUsePanel";
@@ -12,7 +13,7 @@ import { VocabBoardPanel } from "./VocabBoardPanel";
 import type { TabKey, VocabFolder, VocabPack, VocabWord } from "./types";
 import { fetchPrivateJson, privateResources } from "@/lib/client/private-resource";
 
-const TABS: TabKey[] = ["words", "revision", "games", "use", "board"];
+const TABS: TabKey[] = ["words", "revision", "games", "use", "board", "dictionary"];
 const LIBRARY_PAGE_SIZE = 50;
 type LoadStatus = "idle" | "loading" | "ready" | "error";
 type LibraryPage = { words: VocabWord[]; hasMore: boolean };
@@ -225,7 +226,7 @@ export function VocabStudio({ dict, initialTab, packs }: { dict: Dictionary; ini
   }, [library, libraryMoreBusy, router]);
 
   const tabLabel: Record<TabKey, string> = useMemo(
-    () => ({ words: t.tab.words, revision: t.tab.revision, games: t.tab.games, use: t.tab.use, board: t.tab.board }),
+    () => ({ words: t.tab.words, revision: t.tab.revision, games: t.tab.games, use: t.tab.use, board: t.tab.board, dictionary: "Dictionary" }),
     [t],
   );
 
@@ -244,9 +245,9 @@ export function VocabStudio({ dict, initialTab, packs }: { dict: Dictionary; ini
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h1 className="font-display text-2xl text-ink-900">{t.title}</h1>
-          <p className="mt-1 text-sm text-ink-500">{t.search.hint}</p>
+          <p className="mt-1 text-sm text-ink-500">{tab === "dictionary" ? dict.globalDictionary.description : t.search.hint}</p>
         </div>
-        <VocabSearch dict={dict} onOpenWord={() => openTab("words")} />
+        {tab !== "dictionary" && <VocabSearch dict={dict} onOpenWord={() => openTab("words")} />}
       </div>
 
       <div role="tablist" aria-label={t.title} className="flex gap-1 overflow-x-auto rounded-md border border-ink-100 bg-paper-raised p-1" data-vocabulary-tabs>
@@ -271,7 +272,8 @@ export function VocabStudio({ dict, initialTab, packs }: { dict: Dictionary; ini
         })}
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
+      {tab === "dictionary" && <DictionaryPanel dict={dict} />}
+      <div className={tab === "dictionary" ? "hidden" : "grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]"}>
         <div className="flex min-w-0 flex-col gap-4">
           {tab === "words" && (
             <>

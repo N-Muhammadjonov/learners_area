@@ -112,7 +112,7 @@ test("a real attempt enters Focus once, a manual exit survives a remount, a new 
   }
 });
 
-test("only the two exam screens can auto-enter Focus", () => {
+test("test and General Reading entry screens can auto-enter Focus", () => {
   const callers = ["src/components/reading/ReadingExam.tsx", "src/components/listening/ListeningExam.tsx"];
   for (const file of callers) {
     assert.match(readFileSync(join(ROOT, file), "utf8"), /useFocusEntry\(attemptId\)/, file);
@@ -125,7 +125,9 @@ test("only the two exam screens can auto-enter Focus", () => {
     .filter(Boolean)
     .sort();
   assert.deepEqual(consumers, [
+    "src/components/interaction/TestFocusEntry.tsx",
     "src/components/listening/ListeningExam.tsx",
+    "src/components/reading/GeneralReadingSession.tsx",
     "src/components/reading/ReadingExam.tsx",
     "src/components/shell/ShellUtilities.tsx",
   ]);

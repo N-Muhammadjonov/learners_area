@@ -101,6 +101,7 @@ const ENTRIES: Entry[] = [
   { prefix: "/admin/writing", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.admin.writingAdmin.title, href: "/admin/writing" }] },
   { prefix: "/admin/video-lessons", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.videoLessonAdmin.title, href: "/admin/video-lessons" }] },
 
+  { prefix: "/owner/dictionary", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.owner.title, href: "/owner" }, { label: d.globalDictionary.owner, href: "/owner/dictionary" }] },
   { prefix: "/owner/integrations", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.owner.integrations, href: "/owner/integrations" }] },
   { prefix: "/owner/retention", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.owner.retention, href: "/owner/retention" }] },
   { prefix: "/owner/audit", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.owner.audit, href: "/owner/audit" }] },

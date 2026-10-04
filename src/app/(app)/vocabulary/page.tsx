@@ -7,7 +7,7 @@ import type { TabKey } from "@/components/vocabulary/types";
 
 function selectedTab(value: string | undefined): TabKey {
   if (value === "games") redirect("/vocabulary/games");
-  return value === "use" || value === "board" || value === "revision" ? value : "words";
+  return value === "use" || value === "board" || value === "revision" || value === "dictionary" ? value : "words";
 }
 
 export default async function VocabularyPage({ searchParams }: { searchParams: Promise<{ tab?: string }> }) {
