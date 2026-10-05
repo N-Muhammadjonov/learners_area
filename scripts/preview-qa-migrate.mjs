@@ -36,9 +36,14 @@ export const ALLOWED_PENDING = ["0025_speaking_bank_identity", "0026_google_iden
   // Owner explicitly approved 0036 on 2026-10-04, after fresh native recovery verification.
   "0036_speaking_study_support",
   // Owner explicitly approved Preview-only 0037 with circular crop and remove control.
-  "0037_profile_photos"];
+  "0037_profile_photos",
+  // Owner explicitly approved the additive Dictionary + Academic Reading Preview closure on 2026-10-05.
+  // These remain hash-pinned and still require the existing identity + backup gates at --apply time.
+  "0038_dictionary_releases", "0039_academic_reading_sets"];
 export const APPROVED_0036_SHA256 = "2287d37ada3bd0d542ecdc9fb966dd024c903f04f6f8d3c274294d73d3b071da";
 export const APPROVED_0037_SHA256 = "32890672239b62b019331a43c72d1102d48cd66651c156662c1cbad5a98f0341";
+export const APPROVED_0038_SHA256 = "b54e0187c6c5bcafdd7070437c5a9a27d7d3259ba1a93976544da26da74e916d";
+export const APPROVED_0039_SHA256 = "7d4bb56a0cbc516f7be38da90c46b55e64be2fc7bd4816b1b6fe993642e0ebbd";
 const DESTRUCTIVE = /\b(drop\s+(table|column|schema|database|type)|truncate|delete\s+from|alter\s+column\s+\S+\s+type)\b/i;
 const sha = (s) => createHash("sha256").update(s).digest("hex");
 
@@ -119,6 +124,8 @@ export function plan(journal, appliedHashes, readSql) {
     const reviewed0036 = e.tag === "0036_speaking_study_support" && e.hash === APPROVED_0036_SHA256;
     if (e.tag === "0036_speaking_study_support" && !reviewed0036) problems.push("0036 SQL differs from the owner-approved hash");
     if (e.tag === "0037_profile_photos" && e.hash !== APPROVED_0037_SHA256) problems.push("0037 SQL differs from the owner-approved hash");
+    if (e.tag === "0038_dictionary_releases" && e.hash !== APPROVED_0038_SHA256) problems.push("0038 SQL differs from the owner-approved hash");
+    if (e.tag === "0039_academic_reading_sets" && e.hash !== APPROVED_0039_SHA256) problems.push("0039 SQL differs from the owner-approved hash");
     if (DESTRUCTIVE.test(readSql(e.tag)) && !reviewed0036) problems.push(`${e.tag} contains destructive SQL`);
   }
   return { applied: entries.filter((e) => applied.has(e.hash)).map((e) => e.tag), pending: pending.map((e) => e.tag), problems };
@@ -127,6 +134,9 @@ export function plan(journal, appliedHashes, readSql) {
 /** Every verification is scoped to the application schema `public`. */
 export const VERIFY = [
   ["Profile photographs", "select count(*)::int n from information_schema.columns where table_schema='public' and table_name='user_profile_photos' and column_name in ('user_id','image_base64','content_type','updated_at')", (r) => r.n === 4],
+  ["Dictionary release tables", "select count(*)::int n from information_schema.tables where table_schema='public' and table_name in ('dictionary_releases','dictionary_channels','dictionary_entries','dictionary_search_terms','dictionary_sense_mappings','dictionary_recent_searches','dictionary_drafts','dictionary_owner_events','dictionary_publish_jobs')", (r) => r.n === 9],
+  ["Dictionary immutability triggers", "select count(distinct trigger_name)::int n from information_schema.triggers where event_object_schema='public' and trigger_name in ('dictionary_entries_immutable','dictionary_terms_immutable','dictionary_registry_immutable')", (r) => r.n === 3],
+  ["Academic Reading assessment tables", "select count(*)::int n from information_schema.tables where table_schema='public' and table_name in ('reading_assessments','reading_assessment_passages')", (r) => r.n === 2],
   ["Speaking study support", "select count(*)::int n from information_schema.columns where table_schema='public' and table_name='speaking_prompts' and column_name='study_support' and data_type='jsonb' and is_nullable='NO'", (r) => r.n === 1],
   ["Speaking question folder capacity", "select count(*)::int n from information_schema.columns where table_schema='public' and table_name='vocab_folders' and column_name='name' and character_maximum_length=200", (r) => r.n === 1],
   ["Listening independent segment offsets", "select count(*)::int n from pg_indexes where schemaname='public' and indexname='lexical_occurrences_listening_offset_idx' and indexdef ilike '%UNIQUE%' and indexdef ilike '%segment_key%'", (r) => r.n === 1],
