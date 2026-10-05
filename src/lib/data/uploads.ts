@@ -547,12 +547,22 @@ export async function authorizeResourceRead(caller: Actor, objectKey: string): P
   // some deployed databases. The package row is the authoritative owner of its
   // audio/image object, so those assets must remain readable even when an older
   // import has no resource_blocks row.
-  const listeningPackage = await db.query.listeningPackages.findFirst({
-    where: or(
-      eq(listeningPackages.audioObjectKey, objectKey),
-      eq(listeningPackages.imageObjectKey, objectKey),
-    ),
-  });
+  let listeningPackage: typeof listeningPackages.$inferSelect | undefined;
+  try {
+    listeningPackage = await db.query.listeningPackages.findFirst({
+      where: or(
+        eq(listeningPackages.audioObjectKey, objectKey),
+        eq(listeningPackages.imageObjectKey, objectKey),
+      ),
+    });
+  } catch (err) {
+    // During a staged migration an older database may not have
+    // listening_packages yet. That must not take unrelated private resources
+    // offline; the legacy/resource/speaking ownership checks below still apply.
+    console.warn("[resources] listening package ownership lookup unavailable", {
+      error: err instanceof Error ? err.message : String(err),
+    });
+  }
   if (listeningPackage) {
     const owner = await loadResourceOwner("listening", listeningPackage.testId);
     if (!owner) return { allowed: false, reason: "not_found" };
