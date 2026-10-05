@@ -142,7 +142,7 @@ one) — use `r2` there.
      {
        "AllowedOrigins": [
          "https://learnersarea.uz",
-         "https://<stable-preview-origin>"
+         "https://learners-area-git-arena-learners-area-next-learners-area.vercel.app"
        ],
        "AllowedMethods": ["PUT"],
        "AllowedHeaders": ["Content-Type"],
@@ -156,10 +156,11 @@ one) — use `r2` there.
      }
    ]
    ```
-   Replace `<stable-preview-origin>` with the exact stable Vercel branch alias
-   used for authenticated Preview acceptance. Keep only exact trusted origins;
-   never use `"*"`. Exposing a bucket or an origin more widely than this is
-   the one change that would undo the private-by-default model.
+   The second origin is the stable Vercel branch alias for
+   `arena/learners-area-next`; use that alias for Preview QA instead of a
+   one-off deployment hostname. Keep only exact trusted origins; never use
+   `"*"`. Exposing a bucket or an origin more widely than this is the one
+   change that would undo the private-by-default model.
 4. **Do not** enable public access on the bucket. The app does not need it.
 
 ### The upload lifecycle
