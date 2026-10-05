@@ -58,3 +58,12 @@ test("private resource redirects normalize same-origin signed read paths to an a
   assert.match(route, /signed\.startsWith\("\/"\) \? new URL\(signed, req\.url\) : signed/);
   assert.match(route, /NextResponse\.redirect\(location, \{ status: 302 \}\)/);
 });
+
+
+test("authored Listening treats vocabulary enrichment as optional metadata", () => {
+  const route = read("src/app/api/listening/full/[id]/authored/route.ts");
+  assert.match(route, /let vocabulary=\[\] as Awaited<ReturnType<typeof listeningVocabularySession>>/);
+  assert.match(route, /try\{vocabulary=await listeningVocabularySession\(db,id,detail\.pkg\.payload\.vocabulary\);\}/);
+  assert.match(route, /catch\(err\)\{console\.warn\('\[listening-authored\] vocabulary enrichment unavailable'/);
+  assert.match(route, /vocabulary\},\{headers\}\)/);
+});
