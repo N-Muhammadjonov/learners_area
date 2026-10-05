@@ -28,6 +28,7 @@ test("package-owned Listening audio remains authorized even for imports without 
   assert.match(uploads, /eq\(listeningPackages\.imageObjectKey, objectKey\)/);
   assert.match(uploads, /loadResourceOwner\("listening", listeningPackage\.testId\)/);
   assert.match(uploads, /mayReadResources\(caller\.role, owner\)/);
+  assert.match(uploads, /catch \(err\) \{[\s\S]*listening package ownership lookup unavailable/);
 });
 
 test("authored Listening opens before study-progress queries that its runtime does not need", () => {
