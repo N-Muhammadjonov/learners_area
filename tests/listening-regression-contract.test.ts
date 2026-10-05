@@ -5,20 +5,20 @@ import test from "node:test";
 const read = (path: string) =>
   readFileSync(new URL(`../${path}`, import.meta.url), "utf8");
 
-test("Listening storage transport keeps signed R2/S3 requests same-origin with a direct fallback", () => {
+test("Listening direct upload preserves the provider-signed URL and signed Content-Type", () => {
   const provider = read("src/lib/services/storage/s3-provider.ts");
   const config = read("next.config.mjs");
   const client = read("src/lib/uploads/client.ts");
   const intent = read("src/app/api/uploads/intent/route.ts");
 
-  assert.match(provider, /endpointProxyUrl\(uploadUrl, "upload"\)/);
-  assert.match(provider, /fallbackUploadUrl: uploadUrl/);
-  assert.match(provider, /endpointProxyUrl\(signedUrl, "read"\)/);
-  assert.match(config, /source: "\/__storage-upload\/:path\*"/);
+  assert.match(provider, /return \{ uploadUrl, key, contentType, expiresInSeconds \}/);
+  assert.doesNotMatch(provider, /endpointProxyUrl\(uploadUrl|fallbackUploadUrl/);
+  assert.doesNotMatch(config, /__storage-upload/);
   assert.match(config, /source: "\/__storage-read\/:path\*"/);
-  assert.match(client, /fallbackUploadUrl: string \| null/);
-  assert.match(client, /return sendDirect\(intent\.fallbackUploadUrl\)/);
-  assert.match(intent, /fallbackUploadUrl: result\.fallbackUploadUrl/);
+  assert.match(client, /return sendDirect\(intent\.uploadUrl\)/);
+  assert.match(client, /request\.setRequestHeader\("Content-Type", intent\.contentType\)/);
+  assert.doesNotMatch(client, /fallbackUploadUrl/);
+  assert.doesNotMatch(intent, /fallbackUploadUrl/);
 });
 
 test("package-owned Listening audio remains authorized even for imports without a resource-block mirror", () => {

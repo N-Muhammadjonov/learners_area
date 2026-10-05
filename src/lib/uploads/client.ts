@@ -133,7 +133,6 @@ function startUploadOnce(file: Blob & { name: string }, options: StartUploadOpti
       objectKey: string;
       mode: "direct" | "proxy";
       uploadUrl: string | null;
-      fallbackUploadUrl: string | null;
       contentType: string;
     };
     try {
@@ -214,29 +213,16 @@ function startUploadOnce(file: Blob & { name: string }, options: StartUploadOpti
     intent: {
       mode: "direct" | "proxy";
       uploadUrl: string | null;
-      fallbackUploadUrl: string | null;
       uploadId: string;
       contentType: string;
     },
     onProgress?: (percent: number) => void
   ): Promise<{ ok: true } | { ok: false; failure: UploadFailure }> {
     if (intent.mode === "direct" && intent.uploadUrl) {
-      const primary = await sendDirect(intent.uploadUrl);
-      if (
-        primary.ok ||
-        cancelled ||
-        !intent.fallbackUploadUrl ||
-        intent.fallbackUploadUrl === intent.uploadUrl
-      ) {
-        return primary;
-      }
-
-      // Endpoint-backed deployments prefer the same-origin rewrite so they do
-      // not depend on bucket CORS. If that transport is unavailable, retry the
-      // same idempotent signed PUT once at the provider URL. This keeps uploads
-      // usable during a rewrite/CDN regression without changing the object key.
-      onProgress?.(0);
-      return sendDirect(intent.fallbackUploadUrl);
+      // Presigned S3/R2 requests are signature-sensitive. Use exactly the
+      // provider URL and exactly the canonical Content-Type the server signed.
+      // Browser CORS is the boundary; no application rewrite mutates the PUT.
+      return sendDirect(intent.uploadUrl);
     }
 
     return new Promise((resolve) => {

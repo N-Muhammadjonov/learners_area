@@ -46,12 +46,6 @@ export type PutInput = {
 export type PresignedPut = {
   /** Browser PUTs the raw bytes here. One object, one content type, expires fast. */
   uploadUrl: string;
-  /**
-   * Endpoint-backed providers may give the browser a same-origin rewrite first.
-   * This is the original signed provider URL, used only as a retry when that
-   * rewrite transport is unavailable and bucket CORS permits the direct PUT.
-   */
-  fallbackUploadUrl?: string;
   key: ObjectKey;
   contentType: string;
   expiresInSeconds: number;

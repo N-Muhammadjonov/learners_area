@@ -73,7 +73,6 @@ export type CreateIntentResult =
       /** "direct" = browser PUTs to uploadUrl; "proxy" = browser POSTs to /api/uploads. */
       mode: "direct" | "proxy";
       uploadUrl: string | null;
-      fallbackUploadUrl: string | null;
       contentType: string;
       expiresInSeconds: number;
     }
@@ -187,7 +186,6 @@ export async function createUploadIntent(input: CreateIntentInput): Promise<Crea
     objectKey,
     mode: presigned ? "direct" : "proxy",
     uploadUrl: presigned?.uploadUrl ?? null,
-    fallbackUploadUrl: presigned?.fallbackUploadUrl ?? null,
     contentType,
     expiresInSeconds: presigned?.expiresInSeconds ?? UPLOAD_INTENT_TTL_SECONDS,
   };
