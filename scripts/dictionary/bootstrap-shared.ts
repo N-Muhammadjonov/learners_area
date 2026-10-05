@@ -41,7 +41,6 @@ import {
   writeTerms,
 } from "../../src/lib/dictionary/store";
 import { senseKeyOf } from "../../src/lib/services/vocabulary/dedupe";
-// @ts-expect-error plain ESM operational script
 import {
   fingerprint,
   qaConnectionOptions,
