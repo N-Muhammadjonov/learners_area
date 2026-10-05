@@ -1,0 +1,145 @@
+{
+  "status": "AWAITING_OWNER",
+  "baselineEvidenceHead": "a2a0bd0abb4b40ede3c1c0383da46cde4d02a875",
+  "continuationImplementationCheckpoint": "3024ce11e3a497f7de054a309d92a1ac6fc3d04d",
+  "decisions": [
+    {
+      "id": "D-01",
+      "title": "RIWI conversation destructive retention",
+      "options": {
+        "A": "Accept the implemented 30-day expiry and latest-60-message cap as final policy.",
+        "B": "Keep 30 days but change the message cap; provide the exact cap.",
+        "C": "Provide replacement expiry and cap values; implementation and tests must change."
+      },
+      "recommended": "A",
+      "technicalConsequence": "A preserves the currently tested pruning implementation; B/C require code and boundary-test changes.",
+      "securityConsequence": "Short bounded retention reduces private conversation exposure.",
+      "dataLossConsequence": "Messages beyond either accepted boundary are deleted and cannot be recovered without an eligible backup.",
+      "rollbackConsequence": "Changing to a longer policy cannot recover rows already pruned.",
+      "blocker": "Final destructive-retention acceptance and ledger closure."
+    },
+    {
+      "id": "D-02",
+      "title": "Speaking audio/transcript retention",
+      "options": {
+        "A": "Audio 30 days; reviewed/raw transcript 90 days; retain transcript-free attempt/evaluation metrics 24 months; deletion grace 7 days; orphan cleanup retry within 24 hours; legal/safety hold only when explicitly recorded.",
+        "B": "Audio 90 days; transcript and evaluations 24 months; deletion grace 14 days; orphan cleanup retry within 24 hours; recorded legal/safety holds allowed.",
+        "C": "Custom policy; provide audio, raw transcript, reviewed transcript, attempt/evaluation, grace, orphan retry and exception values."
+      },
+      "recommended": "A",
+      "technicalConsequence": "Any option requires lifecycle enforcement and object/database expiry tests.",
+      "securityConsequence": "A minimizes sensitive voice and transcript exposure.",
+      "dataLossConsequence": "Expired audio/transcripts are intentionally irreversible after grace and backup expiry.",
+      "rollbackConsequence": "A later longer policy cannot restore already-deleted private media.",
+      "blocker": "Speaking privacy acceptance, Mode A/C retention reconciliation and restore policy."
+    },
+    {
+      "id": "D-03",
+      "title": "Operational RPO/RTO target",
+      "options": {
+        "A": "Target RPO 15 minutes and RTO 4 hours.",
+        "B": "Target RPO 1 hour and RTO 8 hours.",
+        "C": "Target RPO 24 hours and RTO 24 hours."
+      },
+      "recommended": "A if the provider supports it; otherwise B",
+      "technicalConsequence": "The selected target determines required PITR window, monitoring and restore procedure.",
+      "securityConsequence": "More frequent recovery points reduce integrity-loss exposure after an incident.",
+      "dataLossConsequence": "RPO is the maximum approved data-loss target, not a claim until provider evidence and a drill support it.",
+      "rollbackConsequence": "No production setting changes are authorized by selecting a target.",
+      "blocker": "Backup/PITR acceptance and contractual DR statement."
+    },
+    {
+      "id": "D-04",
+      "title": "Object-storage migration strategy",
+      "options": {
+        "A": "Use O1 keep-R2 for initial cutover; also authorize an isolated-prefix O2 copy/read-back/cleanup acceptance test.",
+        "B": "Plan O2 move-objects for cutover after isolated acceptance succeeds.",
+        "C": "Defer storage migration and external object acceptance."
+      },
+      "recommended": "A",
+      "technicalConsequence": "A avoids production object movement while still proving the O2 implementation safely.",
+      "securityConsequence": "Both A/B require private buckets and server-side authorization; public access is forbidden.",
+      "dataLossConsequence": "O2 source deletion remains forbidden until the accepted rollback window ends.",
+      "rollbackConsequence": "O1 rolls back by restoring application/database configuration; O2 retains source objects for rollback.",
+      "blocker": "Real O1/O2 acceptance and final cutover plan."
+    },
+    {
+      "id": "D-05",
+      "title": "Dedicated isolated Preview authorization",
+      "options": {
+        "A": "Authorize deployment of this assigned branch to a disposable isolated Preview with isolated database/object prefixes and four QA roles.",
+        "B": "Authorize deployment only; owner will provide existing isolated QA identities and resources.",
+        "C": "Do not authorize Preview deployment."
+      },
+      "recommended": "A",
+      "technicalConsequence": "A permits exact-SHA authenticated browser and provider acceptance without touching shared Preview.",
+      "securityConsequence": "QA identities and resources remain isolated; secrets must be configured in the platform, never chat/Git.",
+      "dataLossConsequence": "Only disposable QA data may be created or deleted.",
+      "rollbackConsequence": "Remove the Preview deployment and disposable resources.",
+      "blocker": "Authenticated four-role browser QA and live deployment evidence."
+    },
+    {
+      "id": "D-06",
+      "title": "Shared Preview migration authorization",
+      "options": {
+        "A": "Authorize migration 0048 and any genuinely pending canonical migrations on the specifically identified shared Preview database after a verified safety point.",
+        "B": "Authorize read-only preflight and GO/NO-GO packet only; do not apply migrations yet.",
+        "C": "Do not access shared Preview."
+      },
+      "recommended": "B now; A only after isolated acceptance and target identity evidence",
+      "technicalConsequence": "Only A permits the shared Preview migration acceptance gate to close.",
+      "securityConsequence": "Target identity, safety point and secret-safe receipts are mandatory before apply.",
+      "dataLossConsequence": "Migration is additive, but any shared write operation carries operational risk.",
+      "rollbackConsequence": "Use the recorded provider safety point; do not fake down-migrations.",
+      "blocker": "Shared Preview migration and role smoke acceptance."
+    },
+    {
+      "id": "D-07",
+      "title": "Backup/PITR inspection and isolated restore drill",
+      "options": {
+        "A": "Authorize read-only provider backup/PITR inspection and a restore into a new isolated destination; no production settings change.",
+        "B": "Authorize receipt inspection only; defer restore.",
+        "C": "Do not authorize provider access."
+      },
+      "recommended": "A",
+      "technicalConsequence": "A provides actual RPO observation, measured RTO and application integrity evidence.",
+      "securityConsequence": "Restored data must use isolated private access and be deleted/quarantined per policy.",
+      "dataLossConsequence": "The source is read-only; no restore over Production is allowed.",
+      "rollbackConsequence": "Destroy or quarantine the isolated destination; source remains unchanged.",
+      "blocker": "Real backup/PITR and restore-drill evidence."
+    },
+    {
+      "id": "D-08",
+      "title": "Assessment-policy workflow acceptance",
+      "options": {
+        "A": "Accept the current immutable 68-contract hard core and exact-hash owner overlay candidate/preview/approve/version/rollback boundaries.",
+        "B": "Request a specific policy change; identify the exact overlay field and desired behavior.",
+        "C": "Defer policy acceptance."
+      },
+      "recommended": "A",
+      "technicalConsequence": "A preserves the accepted architecture; B requires security/regression analysis and may be disallowed for hard-core fields.",
+      "securityConsequence": "Hard-core rubric, answer truth, tools and Reporter paths remain immutable under A.",
+      "dataLossConsequence": "Historical policy/evaluations remain version-bound and are not rewritten.",
+      "rollbackConsequence": "Rollback activates a reviewed version; it never destroys history.",
+      "blocker": "Consequential policy owner acceptance."
+    }
+  ],
+  "requiredExternalActions": [
+    {
+      "id": "E-01",
+      "action": "Securely upload the exact original Listening package described in docs/LISTENING-SOURCE-ZIP-CONTRACT.md. Do not use repository booster.zip."
+    },
+    {
+      "id": "E-02",
+      "action": "Configure database/provider/object-store secrets in the authorized isolated environment. Never paste secrets into chat, Git, logs or evidence artifacts."
+    },
+    {
+      "id": "E-03",
+      "action": "Provide or authorize creation of active QA identities for student, teacher, admin and owner in the isolated Preview."
+    },
+    {
+      "id": "E-04",
+      "action": "Provide provider backup/PITR non-secret receipt or grant read-only platform access after D-07 is approved."
+    }
+  ]
+}

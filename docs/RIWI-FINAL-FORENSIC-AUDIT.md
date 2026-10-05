@@ -50,6 +50,14 @@ The Listening owner source ZIP was not supplied, so its two source-dependent tes
 
 The owner must approve retention periods, authorize any Preview/Production migration or cutover, provide external source assets/credentials, approve backup/restore objectives, and accept consequential policy changes. See `RIWI-OWNER-MANUAL.md` and the ledger’s OWNER ACTION REQUIRED records.
 
+## Continuation reclassification (2026-10-05)
+
+The original 217 open-labelled records were deterministically extracted to `RIWI-FINAL-REMAINING-ITEMS.json`. Forensic review found 188 status-vocabulary/template fragments falsely classified as owner decisions and one historical no-contact statement falsely classified as external work. It also found real browser/provider/backup/restore requirements incorrectly labelled PASS by the old broad source mapping. The generator now treats templates/history correctly and reopens explicit external runtime evidence. The recomputed ledger is 17,021 total: 16,978 PASS, 19 OWNER ACTION REQUIRED and 24 EXTERNAL REQUIRED. This is a classification correction, not runtime evidence.
+
+The remaining requirements deduplicate into owner retention/policy/Preview decisions, exact Listening source input, live-provider/Preview browser evidence and external infrastructure receipts. The compact decision protocol is in `RIWI-FINAL-OWNER-DECISIONS.md`/`.json`. New local regressions cover modified-candidate approval replay, transaction-bound security review/deduplication/DB constraints, pre-0048 upgrade constraints, and stronger archive IV/corruption/truncation/plaintext-cleanup behavior. Final full gates remain pending after these changes.
+
+Arena fixes this session to `arena/01a10bac-learners-area`, so the requested alternate finalization branch cannot be created or checked out here. Work remains isolated on the assigned branch and main is untouched.
+
 ## Safety statement
 
 Production touched: **no**. Shared Preview migration applied: **no**. Production deployment performed: **no**. Existing Prompt Base, 68-contract workflow and Speaking architecture were preserved rather than rebuilt.
