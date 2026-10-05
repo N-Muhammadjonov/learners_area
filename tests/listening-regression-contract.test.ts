@@ -32,7 +32,7 @@ test("package-owned Listening audio remains authorized even for imports without 
 });
 
 test("authored Listening opens before study-progress queries that its runtime does not need", () => {
-  const page = read("src/app/(app)/listening/tests/[id]/page.tsx");
+  const page = read("src/app/(focus)/listening/tests/[id]/page.tsx");
   const authored = page.indexOf("if (detail.pkg.payload.authoredRuntime)");
   const progress = page.indexOf("fullListeningProgress(user.id, id)");
   assert.ok(authored >= 0, "authored runtime branch is missing");
