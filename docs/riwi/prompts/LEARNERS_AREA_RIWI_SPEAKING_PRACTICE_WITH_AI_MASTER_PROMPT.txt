@@ -1,0 +1,3274 @@
+LEARNERS AREA
+RIWI — SPEAKING / PRACTICE WITH AI
+FINAL IMPLEMENTATION MASTER PROMPT + SYSTEM BLUEPRINT + ASCII UI ILLUSTRATIONS
+Version: 1.0
+Date: 2026-10-04
+
+======================================================================
+0. PURPOSE OF THIS FILE
+======================================================================
+
+This file is a complete implementation handoff for Arena / GPT Work / a senior
+full-stack engineer.
+
+The task is NOT to create a new Speaking module.
+
+The task is to extend the EXISTING Learners Area Speaking architecture, especially:
+
+    Speaking
+      └── Practice with AI
+
+so that the student can:
+
+1. enter Practice with AI;
+2. test the microphone before a session;
+3. start an examiner-style session;
+4. receive randomized questions from the existing canonical Speaking question bank;
+5. stay on the SAME topic for an examiner-like cluster of questions before moving on;
+6. press Start Answer;
+7. speak into the microphone;
+8. have the audio recorded while the spoken words appear live as text;
+9. press Stop;
+10. NOT have the answer auto-submitted;
+11. review the transcript;
+12. edit the transcript if Speech Recognition made a mistake;
+13. delete/re-record the answer if desired;
+14. press "Send to RIWI" only when satisfied;
+15. see "RIWI is evaluating your answer...";
+16. receive evidence-based feedback;
+17. choose "Try again" or "Next question";
+18. complete the selected Part/session;
+19. receive appropriate part/session feedback and score only where justified;
+20. preserve the recording, transcript provenance, evaluation provenance and history.
+
+This feature must support two evaluation modes:
+
+A. EXTERNAL-ASSISTED RIWI
+   External AI performs the semantic/evaluation reasoning.
+   Learner-facing attribution remains "Checked by RIWI".
+   Internal provenance records the real provider/model/fallback truth.
+   RIWI remains controller, validator, security layer, memory layer and learning layer.
+
+B. LOCAL RIWI FALLBACK
+   If no external AI is configured/available, RIWI uses its existing local
+   deterministic evaluator and canonical Learners Area data.
+   It MUST NOT fake capabilities that the local evaluator does not possess.
+   It may assess transcript-derived signals honestly.
+   Pronunciation remains NOT ASSESSED unless a genuine acoustic provider exists.
+
+The initial Speech-to-Text path must use browser SpeechRecognition /
+webkitSpeechRecognition when available, so the website owner has no separate
+per-minute STT API cost for that path.
+
+Audio recording continues to use the existing browser MediaRecorder /
+Learners Area recorder architecture.
+
+This document is both:
+
+    IMPLEMENTATION PROMPT
+    +
+    SYSTEM DESIGN
+    +
+    UI WIREFRAME
+    +
+    STATE MACHINE
+    +
+    DATA CONTRACT
+    +
+    SECURITY CONTRACT
+    +
+    QA/ACCEPTANCE SPECIFICATION
+
+Do not simplify or reinterpret the requirements.
+
+======================================================================
+1. NON-NEGOTIABLE PROJECT RULES
+======================================================================
+
+1. Continue the EXISTING Learners Area codebase.
+2. Do NOT rebuild Speaking from scratch.
+3. Preserve existing architecture, auth, role model, migrations, R2 storage,
+   canonical Speaking bank, Coach/Riwi services, i18n, history and current UI.
+4. Do NOT damage Practice on Your Own.
+5. Do NOT create a duplicate Speaking question bank.
+6. Do NOT create a duplicate evaluation engine if an existing service can be reused.
+7. Do NOT expose external provider/model names to learners unless the product
+   explicitly changes that decision later.
+8. Learner-facing identity remains:
+       Checked by RIWI
+9. Owner/internal provenance remains truthful.
+10. Do NOT claim pronunciation assessment from transcript-only evidence.
+11. Do NOT auto-submit the student's answer after Stop.
+12. Do NOT auto-send the live transcript to RIWI before explicit Send to RIWI.
+13. Do NOT delete/rewrite existing student Speaking history.
+14. Do NOT weaken existing upload, auth, scope or audit protections.
+15. Do NOT use browser UI state as the only server-side authorization mechanism.
+16. Do NOT make shared Preview/Production migration changes without the normal
+    approval boundary.
+17. Do NOT copy the reference HTML into production wholesale.
+18. Reuse the reference HTML's browser-STT idea only where it fits the current
+    React/Next.js architecture.
+19. All new learner-facing text must support the existing i18n system.
+20. Day/Night and responsive behavior must remain valid.
+
+======================================================================
+2. CURRENT LEARNERS AREA ARCHITECTURE — IMPORTANT
+======================================================================
+
+The current project already contains most of the necessary structure.
+
+Relevant existing routes/components/services include:
+
+ROUTE
+    src/app/(app)/speaking/ai/page.tsx
+
+CURRENT AI SESSION UI
+    src/components/speaking/AiExaminerSession.tsx
+
+CURRENT QUESTION RECORDING / UPLOAD
+    src/components/speaking/QuestionRecorder.tsx
+
+LOCAL RECORDING REFERENCE
+    src/components/speaking/LocalAnswerRecorder.tsx
+
+CANONICAL EXAMINER SCRIPT
+    src/lib/speaking/ai-session.ts
+
+AI READINESS
+    src/lib/speaking/ai-readiness.ts
+
+CANONICAL SPEAKING BANK QUERY
+    src/lib/data/speaking-practice.ts
+
+SPEAKING EVALUATION SERVICE
+    src/lib/services/coach/speaking.ts
+
+LOCAL RIWI SPEAKING EVALUATOR
+    src/lib/services/coach/providers/riwi/speaking.ts
+
+ATTEMPT SUBMIT ROUTE
+    src/app/api/speaking/attempts/[id]/submit/route.ts
+
+MANUAL TRANSCRIPT ROUTE
+    src/app/api/speaking/attempts/[id]/transcript/route.ts
+
+CANONICAL TABLES
+    speaking_prompts
+    speaking_attempts
+
+OBJECT STORAGE
+    private R2 recording objects
+
+EXISTING QUESTION BANK PRINCIPLE
+    one canonical speaking_prompts bank
+    published rows only
+    channel/availableIn determines where they can be used
+
+Current `speaking_prompts` already carries concepts such as:
+
+    id
+    part
+    category
+    promptText
+    cueCard
+    prepSeconds
+    answerSeconds
+    followUps
+    studySupport
+    externalId
+    topic
+    availableIn
+    publicationState
+    publishAt
+
+Current `speaking_attempts` already carries concepts such as:
+
+    id
+    userId
+    promptId
+    part
+    status
+    recordingObjectKey
+    recordingOriginalName
+    recordingMimeType
+    recordingSize
+    recordingDurationMs
+    transcript
+    transcriptProvider
+    transcriptOrigin
+    startedAt
+    submittedAt
+
+The existing code already:
+
+- builds an examiner-style script from the canonical bank;
+- supports Full / Part 1 / Part 2 / Part 3 modes;
+- records audio;
+- uploads audio privately;
+- stores attempts;
+- can transcribe through configured server STT;
+- can evaluate Speaking through the Coach/RIWI service;
+- explicitly refuses to invent pronunciation from text;
+- already has learner-facing RIWI attribution architecture.
+
+EXTEND THESE SYSTEMS.
+DO NOT PARALLEL THEM.
+
+======================================================================
+3. SOURCE HTML REFERENCE — WHAT TO REUSE CONCEPTUALLY
+======================================================================
+
+The supplied reference HTML contains two useful browser-side mechanisms:
+
+A. MediaRecorder
+   - microphone capture
+   - record / stop
+   - local playback
+
+B. Browser Speech Recognition
+   - window.SpeechRecognition
+   - window.webkitSpeechRecognition
+   - continuous recognition
+   - interim transcript
+   - final transcript chunks
+
+The production implementation must reuse the IDEA, not the HTML structure.
+
+Production must remain:
+
+    React
+    Next.js
+    existing audio recorder
+    existing auth
+    existing API routes/services
+    existing design system
+    existing i18n
+
+Browser Speech Recognition is an optional capability.
+
+If unsupported:
+
+    show a truthful unsupported/fallback state.
+
+Never fake live transcription.
+
+======================================================================
+4. PRODUCT DEFINITION
+======================================================================
+
+Feature name:
+
+    Speaking
+      → Practice with AI
+
+The student experience is:
+
+    MICROPHONE CHECK
+        ↓
+    CHOOSE SESSION MODE
+        ↓
+    RIWI CREATES RANDOMIZED EXAMINER PLAN
+        ↓
+    QUESTION
+        ↓
+    START ANSWER
+        ↓
+    AUDIO RECORDING + LIVE BROWSER TRANSCRIPT
+        ↓
+    STOP
+        ↓
+    REVIEW / EDIT / DELETE / RE-RECORD
+        ↓
+    SEND TO RIWI
+        ↓
+    "RIWI is evaluating your answer..."
+        ↓
+    FEEDBACK
+        ↓
+    TRY AGAIN
+       or
+    NEXT QUESTION
+        ↓
+    SAME TOPIC UNTIL TOPIC CLUSTER COMPLETE
+        ↓
+    NEXT TOPIC / NEXT PART
+        ↓
+    SESSION SUMMARY WHEN APPROPRIATE
+
+======================================================================
+5. THE MOST IMPORTANT UX RULE
+======================================================================
+
+STOP DOES NOT MEAN SUBMIT.
+
+The lifecycle is:
+
+    RECORD
+      ↓
+    STOP
+      ↓
+    REVIEW
+      ↓
+    EXPLICIT SEND TO RIWI
+      ↓
+    EVALUATE
+
+NOT:
+
+    RECORD
+      ↓
+    STOP
+      ↓
+    AUTO SUBMIT
+
+The student owns the review step.
+
+After Stop, the student may:
+
+    [ Edit transcript ]
+    [ Delete / clear transcript ]
+    [ Record again ]
+    [ Play audio ]
+    [ Send to RIWI ]
+
+No evaluation starts until:
+
+    Send to RIWI
+
+is explicitly pressed.
+
+======================================================================
+6. DESKTOP UI — COMPLETE ASCII WIREFRAME
+======================================================================
+
+SCREEN A — MICROPHONE CHECK
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│ ← Speaking                                     Practice with AI             │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                            │
+│  Practice with AI                                                         │
+│  Practise with RIWI in an examiner-style speaking session.                │
+│                                                                            │
+│  ┌──────────────────────────────────────────────────────────────────────┐  │
+│  │  🎙 Microphone check                                                │  │
+│  │                                                                      │  │
+│  │  Before you begin, make sure RIWI can hear your microphone.          │  │
+│  │                                                                      │  │
+│  │  Input device:  [ Default microphone                 ▾ ]              │  │
+│  │                                                                      │  │
+│  │  Speak for a few seconds:                                            │  │
+│  │                                                                      │  │
+│  │        ▁▂▃▅▇████▆▄▂        LIVE INPUT LEVEL                          │  │
+│  │                                                                      │  │
+│  │  Status: ✓ Microphone is working                                     │  │
+│  │                                                                      │  │
+│  │  [ Test again ]                         [ Continue ]                  │  │
+│  └──────────────────────────────────────────────────────────────────────┘  │
+│                                                                            │
+└────────────────────────────────────────────────────────────────────────────┘
+
+
+If permission is denied:
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│  Microphone access is required for voice practice.                         │
+│                                                                            │
+│  [ Try microphone again ]                                                  │
+│                                                                            │
+│  Browser setting help may be shown, but do not fake success.               │
+└────────────────────────────────────────────────────────────────────────────┘
+
+
+If browser Speech Recognition is unsupported:
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│  Audio recording is available.                                             │
+│  Live speech-to-text is not supported in this browser.                     │
+│                                                                            │
+│  Recommended: Chrome / Edge for live transcript.                           │
+│                                                                            │
+│  If the product permits the existing server STT fallback,                  │
+│  show that path truthfully.                                                │
+└────────────────────────────────────────────────────────────────────────────┘
+
+
+SCREEN B — SESSION MODE
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Practice with AI                                                           │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                            │
+│  Choose a session                                                          │
+│                                                                            │
+│  ┌────────────────────┐  ┌────────────────────┐                            │
+│  │ Full mock          │  │ Part 1             │                            │
+│  │ Part 1 → 2 → 3     │  │ Short questions    │                            │
+│  └────────────────────┘  └────────────────────┘                            │
+│                                                                            │
+│  ┌────────────────────┐  ┌────────────────────┐                            │
+│  │ Part 2             │  │ Part 3             │                            │
+│  │ Cue card           │  │ Discussion         │                            │
+│  └────────────────────┘  └────────────────────┘                            │
+│                                                                            │
+│                        [ Start practice ]                                  │
+│                                                                            │
+└────────────────────────────────────────────────────────────────────────────┘
+
+
+SCREEN C — ACTIVE QUESTION / BEFORE RECORDING
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Practice with AI                      Part 1  •  Topic: Work & Career       │
+│ Question 2 of 4                       Session progress █████░░░░░           │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                            │
+│  RIWI — Examiner                                                           │
+│                                                                            │
+│  What kind of work would you like to do in the future?                     │
+│                                                                            │
+│  ┌──────────────────────────────────────────────────────────────────────┐  │
+│  │ Your answer                                                         │  │
+│  │                                                                      │  │
+│  │ Your spoken words will appear here while you are speaking.           │  │
+│  │                                                                      │  │
+│  │                                                                      │  │
+│  └──────────────────────────────────────────────────────────────────────┘  │
+│                                                                            │
+│              [ 🎙 Start answer ]                                           │
+│                                                                            │
+└────────────────────────────────────────────────────────────────────────────┘
+
+
+SCREEN D — RECORDING + LIVE TRANSCRIPT
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Practice with AI                      Part 1  •  Topic: Work & Career       │
+│ Question 2 of 4                                                           │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                            │
+│  What kind of work would you like to do in the future?                     │
+│                                                                            │
+│  ● Recording  00:18 / 00:30                                                │
+│                                                                            │
+│  ┌──────────────────────────────────────────────────────────────────────┐  │
+│  │ LIVE TRANSCRIPT                                                     │  │
+│  │                                                                      │  │
+│  │ I would like to work as a software engineer because I really enjoy   │  │
+│  │ solving difficult problems and I also want to work remotely...       │  │
+│  │                                                                      │  │
+│  │                                           ▌                          │  │
+│  └──────────────────────────────────────────────────────────────────────┘  │
+│                                                                            │
+│                        [ ■ Stop ]                                           │
+│                                                                            │
+└────────────────────────────────────────────────────────────────────────────┘
+
+
+SCREEN E — STOPPED / REVIEW BEFORE SUBMIT
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Practice with AI                      Part 1  •  Topic: Work & Career       │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                            │
+│  Your recording                                                            │
+│  ▶ ━━━━━━━━━━━━━━━●━━━━━━━━━━━━━━━━  00:28                                  │
+│                                                                            │
+│  Transcript                                                                │
+│  ┌──────────────────────────────────────────────────────────────────────┐  │
+│  │ I would like to work as a software engineer because I really enjoy   │  │
+│  │ solving difficult problems and I also want to work remotely.         │  │
+│  │                                                                      │  │
+│  │  [ editable textarea ]                                               │  │
+│  └──────────────────────────────────────────────────────────────────────┘  │
+│                                                                            │
+│  Transcript source: Browser speech recognition                             │
+│  Edited by you: No / Yes                                                   │
+│                                                                            │
+│  [ 🗑 Clear ]   [ 🎙 Record again ]               [ Send to RIWI → ]       │
+│                                                                            │
+│  IMPORTANT: nothing has been submitted yet.                                │
+│                                                                            │
+└────────────────────────────────────────────────────────────────────────────┘
+
+
+SCREEN F — EVALUATING
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│                                                                            │
+│                          ◌                                                 │
+│                                                                            │
+│                  RIWI is evaluating your answer...                         │
+│                                                                            │
+│       Checking relevance, fluency/coherence, vocabulary and grammar.       │
+│                                                                            │
+│       Pronunciation is not assessed unless an acoustic provider exists.    │
+│                                                                            │
+└────────────────────────────────────────────────────────────────────────────┘
+
+
+SCREEN G — PER-ANSWER RESULT
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Checked by RIWI                                                             │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                            │
+│  Feedback                                                                  │
+│  Your answer directly addressed the question and included a clear reason.  │
+│                                                                            │
+│  Strengths                                                                 │
+│  ✓ Clear main idea                                                        │
+│  ✓ Good answer development                                                 │
+│  ✓ Useful topic vocabulary                                                 │
+│                                                                            │
+│  Improve next                                                              │
+│  • You repeated "work" several times.                                      │
+│  • One conditional structure needs correction.                             │
+│  • Add one concrete example to develop the answer further.                 │
+│                                                                            │
+│  Evidence                                                                  │
+│  "If I will have a chance..."                                              │
+│                                                                            │
+│  Better                                                                    │
+│  "If I have the chance..."                                                 │
+│                                                                            │
+│  Pronunciation                                                             │
+│  Not assessed                                                              │
+│                                                                            │
+│  [ ↻ Try again ]                             [ Next question → ]            │
+│                                                                            │
+└────────────────────────────────────────────────────────────────────────────┘
+
+
+SCREEN H — TOPIC TRANSITION
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Topic complete                                                              │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                            │
+│  Work & Career                                                             │
+│  4 questions answered                                                      │
+│                                                                            │
+│  RIWI will now move to the next topic.                                     │
+│                                                                            │
+│                         [ Continue → ]                                      │
+│                                                                            │
+└────────────────────────────────────────────────────────────────────────────┘
+
+
+SCREEN I — FINAL SESSION SUMMARY
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Speaking Practice Summary                                                   │
+│ Checked by RIWI                                                             │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                            │
+│  Text-based overall estimate*                                               │
+│                          6.5                                                 │
+│                                                                            │
+│  Fluency & Coherence              6.5                                       │
+│  Lexical Resource                 7.0                                       │
+│  Grammatical Range & Accuracy     6.5                                       │
+│  Pronunciation                    Not assessed                              │
+│                                                                            │
+│  *Not a complete IELTS Speaking band unless pronunciation is genuinely     │
+│   assessed by an acoustic-capable provider.                                 │
+│                                                                            │
+│  Main strengths                                                             │
+│  1. ...                                                                     │
+│  2. ...                                                                     │
+│                                                                            │
+│  Main weaknesses                                                            │
+│  1. ...                                                                     │
+│  2. ...                                                                     │
+│  3. ...                                                                     │
+│                                                                            │
+│  Next focus                                                                 │
+│  ...                                                                         │
+│                                                                            │
+│  [ Practice weaknesses ]   [ New session ]   [ View Speaking history ]      │
+│                                                                            │
+└────────────────────────────────────────────────────────────────────────────┘
+
+======================================================================
+7. MOBILE UI — COMPACT WIREFRAME
+======================================================================
+
+┌──────────────────────────────┐
+│ Practice with AI             │
+│ Part 1 • Work & Career       │
+├──────────────────────────────┤
+│ Question 2 of 4              │
+│                              │
+│ What kind of work would you  │
+│ like to do in the future?    │
+│                              │
+│ ● Recording 00:12            │
+│                              │
+│ ┌──────────────────────────┐ │
+│ │ LIVE TRANSCRIPT          │ │
+│ │ I would like to work...  │ │
+│ │                          │ │
+│ └──────────────────────────┘ │
+│                              │
+│         [ ■ Stop ]           │
+└──────────────────────────────┘
+
+
+After Stop:
+
+┌──────────────────────────────┐
+│ ▶ 00:28                      │
+│                              │
+│ Transcript                   │
+│ ┌──────────────────────────┐ │
+│ │ editable text...         │ │
+│ └──────────────────────────┘ │
+│                              │
+│ [ Record again ]             │
+│ [ Clear ]                    │
+│                              │
+│ [      Send to RIWI      ]   │
+└──────────────────────────────┘
+
+Do not hide review/edit controls on mobile.
+
+======================================================================
+8. MICROPHONE CHECK — REQUIRED BEHAVIOR
+======================================================================
+
+The microphone check occurs before the student starts the session.
+
+It must:
+
+1. request microphone permission;
+2. confirm browser recording support;
+3. verify that non-zero audio energy is arriving;
+4. show a simple visual meter;
+5. release the microphone after the check;
+6. never keep the microphone open unnecessarily;
+7. offer retry;
+8. provide truthful unsupported/denied/error state.
+
+Suggested state:
+
+    idle
+    requesting_permission
+    checking
+    passed
+    denied
+    unsupported
+    error
+
+Optional:
+    2–3 second sample playback.
+
+Do not upload the microphone-check sample.
+
+Do not create a Speaking attempt for microphone check.
+
+======================================================================
+9. SESSION RANDOMIZATION — EXACT PRODUCT RULE
+======================================================================
+
+Every NEW Practice with AI session should feel different.
+
+Do not simply take the first rows of each topic every time.
+
+However:
+
+RANDOM DOES NOT MEAN CHAOTIC.
+
+The examiner must remain on one topic long enough.
+
+Required topic-cluster rule:
+
+    MIN questions per chosen topic = 3
+    DEFAULT questions per chosen topic = 4
+    MAX questions per chosen topic = 6
+
+If a canonical topic contains fewer than 3 published eligible questions:
+
+    do not invent questions;
+    use the real available count;
+    record the limitation.
+
+If a topic has 10 questions:
+
+    choose a random non-repeating subset of 3–6 according to session plan.
+
+The AI MUST NOT do:
+
+    Topic A question 1
+    Topic B question 1
+    Topic C question 1
+    Topic A question 2
+
+Instead:
+
+    Topic A Q1
+    Topic A Q2
+    Topic A Q3
+    Topic A Q4
+       ↓
+    Topic B Q1
+    Topic B Q2
+    Topic B Q3
+       ↓
+    next section
+
+======================================================================
+10. EXAMINER-LIKE PART FLOW
+======================================================================
+
+FULL SESSION:
+
+    Part 1
+      ↓
+    choose random published Part 1 topic A
+      ↓
+    ask 3–4 questions from topic A
+      ↓
+    optionally choose Part 1 topic B
+      ↓
+    ask 3–4 questions from topic B
+      ↓
+    Part 2
+      ↓
+    choose one random published cue card
+      ↓
+    60 sec preparation
+      ↓
+    up to 120 sec answer
+      ↓
+    Part 3
+      ↓
+    prefer a topic semantically/canonically connected to the Part 2 topic
+      ↓
+    ask 3–6 questions
+      ↓
+    final session summary
+
+PART 1 ONLY:
+
+    one or more Part 1 topic clusters
+    per-answer feedback
+    no fake full IELTS overall band
+
+PART 2 ONLY:
+
+    one cue card
+    feedback
+    part/session estimate may be shown with honest limitation
+
+PART 3 ONLY:
+
+    one discussion topic
+    3–6 questions
+    per-answer feedback
+    part/session summary at the end
+
+Do not invent questions outside the canonical speaking_prompts bank unless a
+future owner requirement explicitly enables generated questions.
+
+======================================================================
+11. SESSION PLAN MUST BE STABLE AFTER START
+======================================================================
+
+Randomization happens when the session is CREATED.
+
+After creation, the selected plan must remain stable.
+
+Refresh must NOT silently reshuffle the active session.
+
+Store:
+
+    selected prompt IDs
+    topic order
+    part order
+    current position
+    startedAt
+    completedAt
+    session mode
+
+A new session may randomize again.
+
+The same active session must not.
+
+======================================================================
+12. REQUIRED SESSION PERSISTENCE
+======================================================================
+
+Current `speaking_attempts` stores question-level attempts.
+
+For examiner-style multi-question sessions, add a dedicated session model unless
+the repository already gained one before implementation.
+
+Recommended:
+
+TABLE: speaking_ai_sessions
+
+    id uuid primary key
+    user_id uuid not null
+    mode varchar(...)
+    status varchar(...)
+    session_seed / plan_version
+    current_part
+    current_topic_key
+    current_item_index
+    started_at
+    completed_at
+    created_at
+
+TABLE: speaking_ai_session_items
+
+    id uuid primary key
+    session_id uuid
+    ordinal int
+    prompt_id uuid
+    part
+    topic_key
+    topic_position
+    question_position
+    attempt_id uuid nullable
+    status
+    created_at
+
+Alternative:
+    store an immutable validated plan JSON in speaking_ai_sessions
+    if consistent with current repository conventions.
+
+Do NOT duplicate prompt text as canonical truth unless required for immutable
+historical snapshots.
+
+Reference prompt_id.
+
+======================================================================
+13. TRANSCRIPT DATA MODEL — REQUIRED PROVENANCE
+======================================================================
+
+Current transcript origins:
+
+    stt
+    manual
+
+Browser Speech Recognition introduces a third truthful state.
+
+Recommended origin:
+
+    browser_stt
+
+Current schema may need a length/validation update.
+
+Do NOT silently label browser STT as server STT.
+
+Do NOT silently label it manual.
+
+Recommended fields:
+
+    transcript
+        final transcript sent for evaluation
+
+    transcript_origin
+        browser_stt | stt | manual
+
+    transcript_provider
+        null for browser SpeechRecognition
+        provider id for server STT
+
+    transcript_raw
+        original browser transcript before student edits
+        OPTIONAL but strongly recommended
+
+    transcript_edited
+        boolean
+
+    transcript_edited_at
+        nullable timestamp
+
+Important security/product truth:
+
+Browser Speech Recognition output is user-side data.
+Even if the UI generated it, the server must not treat it as privileged truth.
+
+The student may edit it.
+
+The UI should state:
+
+    Transcript generated from your microphone.
+    Review it before sending.
+
+If edited:
+
+    Edited by you
+
+must be recorded.
+
+======================================================================
+14. WHY RAW + EDITED TRANSCRIPT MATTERS
+======================================================================
+
+Example:
+
+Spoken audio:
+    "I worked there for three years."
+
+Browser STT:
+    "I work there for three years."
+
+Student corrects transcript:
+    "I worked there for three years."
+
+The final evaluation is based on the corrected transcript.
+
+Therefore RIWI MUST NOT later claim:
+
+    "You pronounced / worked / incorrectly"
+
+or:
+
+    "The audio proves..."
+
+The evaluator received an edited textual representation.
+
+Keep the audio for replay/history and future acoustic analysis,
+but the current transcript evaluator assesses the submitted text.
+
+======================================================================
+15. ANSWER RECORDING STATE MACHINE
+======================================================================
+
+                         ┌─────────────┐
+                         │    IDLE     │
+                         └──────┬──────┘
+                                │ Start answer
+                                ▼
+                      ┌───────────────────┐
+                      │ ACQUIRE MICROPHONE│
+                      └─────────┬─────────┘
+                                │ success
+                                ▼
+                         ┌─────────────┐
+                         │  RECORDING  │
+                         │ audio + STT │
+                         └──────┬──────┘
+                                │ Stop
+                                ▼
+                          ┌────────────┐
+                          │   REVIEW   │
+                          └─────┬──────┘
+                   ┌────────────┼───────────────┐
+                   │            │               │
+                   │ edit       │ re-record     │ clear
+                   │            │               │
+                   ▼            ▼               ▼
+                 REVIEW      RECORDING         IDLE
+                   │
+                   │ Send to RIWI
+                   ▼
+                UPLOADING
+                   │
+                   ▼
+                SUBMITTING
+                   │
+                   ▼
+                EVALUATING
+                   │
+           ┌───────┴─────────┐
+           │                 │
+           ▼                 ▼
+        FEEDBACK           ERROR
+           │                 │
+      ┌────┴─────┐           └── retry without duplicate mutation
+      │          │
+      ▼          ▼
+   TRY AGAIN   NEXT QUESTION
+
+======================================================================
+16. BROWSER SPEECH RECOGNITION FLOW
+======================================================================
+
+Use:
+
+    window.SpeechRecognition
+    ||
+    window.webkitSpeechRecognition
+
+Configure where supported:
+
+    lang = "en-US"
+    continuous = true
+    interimResults = true
+
+Flow:
+
+    recognition.start()
+       ↓
+    interim result
+       ↓
+    show immediately in transcript area
+       ↓
+    final result
+       ↓
+    append to raw browser transcript
+       ↓
+    continue while recording
+       ↓
+    Stop
+       ↓
+    recognition.stop()
+       ↓
+    freeze transcript for review
+
+Do not force automatic punctuation transformations that can materially change
+meaning.
+
+Light formatting may be allowed only if semantics are preserved.
+
+Prefer preserving the browser transcript.
+
+======================================================================
+17. RECORDING AND LIVE STT MUST RUN TOGETHER
+======================================================================
+
+When Start Answer is pressed:
+
+    create audio recorder
+        +
+    start browser speech recognition
+
+They run concurrently.
+
+Conceptual flow:
+
+                       MICROPHONE
+                           │
+               ┌───────────┴───────────┐
+               │                       │
+               ▼                       ▼
+          MediaRecorder          SpeechRecognition
+               │                       │
+               │                       ├── interim text
+               │                       └── final text
+               │
+               ▼
+          local audio Blob
+               │
+               └────────────┬──────────┘
+                            ▼
+                         REVIEW
+
+If SpeechRecognition fails mid-recording:
+
+    audio recording may continue;
+    show transcript failure truthfully;
+    do not discard valid audio automatically.
+
+If MediaRecorder fails:
+
+    stop the flow safely;
+    do not keep SpeechRecognition running forever.
+
+======================================================================
+18. DO NOT AUTO-UPLOAD BEFORE SEND TO RIWI
+======================================================================
+
+Recommended privacy/cost behavior:
+
+During recording:
+    keep Blob local.
+
+After Stop:
+    keep Blob local while student reviews.
+
+Only after:
+
+    Send to RIWI
+
+perform:
+
+    upload to private R2
+       ↓
+    attach to speaking attempt
+       ↓
+    send reviewed transcript
+       ↓
+    evaluate
+
+This avoids storing recordings the student discarded.
+
+If current architecture creates an attempt before recording, that is acceptable,
+but abandoned attempts must be cleaned/cancelled according to existing rules.
+
+======================================================================
+19. SEND TO RIWI — EXACT SERVER FLOW
+======================================================================
+
+Student clicks:
+
+    Send to RIWI
+
+Server-side conceptual flow:
+
+    authenticated user
+        ↓
+    validate session ownership
+        ↓
+    validate session item / prompt
+        ↓
+    validate attempt ownership
+        ↓
+    validate reviewed transcript
+        ↓
+    validate recording metadata
+        ↓
+    private R2 upload already finalized
+        ↓
+    persist transcript provenance
+        ↓
+    evaluateSpeakingAttempt(...)
+        ↓
+    choose evaluator mode
+        ↓
+    schema validation
+        ↓
+    persist evaluation
+        ↓
+    create RIWI learning signal where allowed
+        ↓
+    return learner-safe result
+
+Never accept a client-provided userId/role as authority.
+
+======================================================================
+20. PROVIDER MODE ARCHITECTURE
+======================================================================
+
+                 ┌────────────────────────────┐
+                 │       RIWI GATEWAY         │
+                 │ auth / scope / policy      │
+                 │ context / validation       │
+                 └─────────────┬──────────────┘
+                               │
+                    external AI configured?
+                         ┌─────┴─────┐
+                         │           │
+                        YES          NO
+                         │           │
+                         ▼           ▼
+                ┌──────────────┐  ┌────────────────┐
+                │ External AI  │  │ LOCAL RIWI     │
+                │ evaluator    │  │ evaluator      │
+                └──────┬───────┘  └───────┬────────┘
+                       │                  │
+                       └────────┬─────────┘
+                                ▼
+                     ┌──────────────────┐
+                     │ RIWI VALIDATION  │
+                     │ schema / bounds  │
+                     │ provenance       │
+                     │ safety           │
+                     └────────┬─────────┘
+                              ▼
+                         LEARNER RESULT
+                         Checked by RIWI
+
+======================================================================
+21. EXTERNAL AI CONNECTED — RIWI ROLE
+======================================================================
+
+When external AI is available, RIWI is NOT "just a label".
+
+RIWI still performs:
+
+- authentication;
+- authorization;
+- task selection;
+- prompt/context construction;
+- Dictionary/Vocabulary retrieval;
+- data minimization;
+- safe provider routing;
+- output schema validation;
+- score/rubric validation;
+- provenance logging;
+- fallback tracking;
+- memory/history persistence;
+- learning-signal creation;
+- safety enforcement.
+
+External AI performs:
+
+- semantic/relevance reasoning;
+- nuanced language assessment;
+- evidence extraction;
+- structured feedback generation;
+- examiner-style textual judgement inside allowed schema.
+
+Learner sees:
+
+    Checked by RIWI
+
+Internal owner/audit sees:
+
+    checkedByPublic = RIWI
+    actualProvider = ...
+    actualModel = ...
+    providerType = ...
+    fallbackUsed = ...
+    evaluationId = ...
+    createdAt = ...
+
+Never erase internal provider truth.
+
+======================================================================
+22. EXTERNAL AI UNAVAILABLE — LOCAL RIWI FALLBACK
+======================================================================
+
+Use the existing local RIWI Speaking evaluator.
+
+Current local capabilities include transcript-derived signals such as:
+
+- answer length;
+- word count;
+- approximate speaking rate when duration exists;
+- filler/hesitation tokens when transcribed;
+- discourse markers;
+- repeated content words;
+- vocabulary diversity signals;
+- grammatical pattern issues;
+- sentence-complexity signals.
+
+Local RIWI may provide honest feedback from those signals.
+
+Local RIWI MUST NOT pretend it has:
+
+- full human-level semantic reasoning;
+- acoustic pronunciation;
+- real intonation;
+- word stress;
+- phoneme accuracy;
+- audio pause timing unless actually measured.
+
+If semantic relevance cannot be assessed reliably:
+
+    mark it limited/unavailable.
+
+Do not invent a semantic score just to match external mode.
+
+======================================================================
+23. PRONUNCIATION RULE — ABSOLUTE
+======================================================================
+
+Browser STT is NOT pronunciation assessment.
+
+Transcript is NOT pronunciation assessment.
+
+MediaRecorder is NOT pronunciation assessment by itself.
+
+Unless an acoustic-capable pronunciation provider is connected and actually
+processed the audio:
+
+    Pronunciation
+    =
+    Not assessed
+
+No band.
+
+No fake score.
+
+No "your pronunciation is clear" claim.
+
+No intonation claim.
+
+No stress claim.
+
+No phoneme claim.
+
+======================================================================
+24. WHAT RIWI SHOULD ASSESS FROM TEXT
+======================================================================
+
+Depending on evaluator capability and evidence:
+
+FLUENCY & COHERENCE
+    answer development
+    discourse organization
+    filler tokens if transcribed
+    approximate speech rate from duration + word count
+    repetition
+    response length
+
+LEXICAL RESOURCE
+    vocabulary range
+    repetition
+    word choice
+    collocation quality
+    paraphrasing
+    topic vocabulary
+    canonical Dictionary/Vocabulary context
+
+GRAMMATICAL RANGE & ACCURACY
+    grammar patterns
+    tense
+    articles
+    prepositions
+    agreement
+    clause variety
+    complexity
+    error patterns
+
+MEANING / RELEVANCE
+    whether the answer actually addresses the question
+    whether ideas logically support the answer
+    contradictions
+    off-topic response
+    incomplete response
+
+Meaning/relevance is strongest in EXTERNAL-ASSISTED mode.
+
+======================================================================
+25. DICTIONARY / VOCABULARY INTEGRATION
+======================================================================
+
+Do not create new lexical truth.
+
+Use existing canonical architecture.
+
+When RIWI says:
+
+    "You repeated 'good' several times"
+
+and recommends alternatives:
+
+prefer canonical Learners Area lexical data where relevant.
+
+Possible flow:
+
+    transcript
+       ↓
+    detect repeated / weak lexical choice
+       ↓
+    canonical lexeme/sense lookup
+       ↓
+    contextual alternatives/collocations
+       ↓
+    learner feedback
+
+Never auto-add model-invented lexical facts to canonical Dictionary.
+
+Any learning/promotion remains governed by RIWI knowledge workflow.
+
+======================================================================
+26. LEARNING MODE WHEN EXTERNAL AI IS CONNECTED
+======================================================================
+
+External AI output is EVIDENCE, not truth.
+
+Flow:
+
+    external evaluation
+       ↓
+    RIWI validation
+       ↓
+    learner result
+       ↓
+    sanitized learning signal
+       ↓
+    deduplicate / cluster
+       ↓
+    candidate rule / recurring weakness pattern
+       ↓
+    review / regression
+       ↓
+    approved RIWI knowledge if allowed
+
+RIWI does NOT automatically rewrite source code.
+
+RIWI does NOT automatically publish new grammar rules.
+
+RIWI does NOT blindly trust provider consensus.
+
+======================================================================
+27. PER-ANSWER FEEDBACK CONTRACT
+======================================================================
+
+After each submitted answer show:
+
+1. Direct answer/relevance feedback
+2. 1–3 strengths
+3. 1–3 main weaknesses
+4. exact evidence excerpts where possible
+5. concise correction/improvement
+6. one next-action recommendation
+7. pronunciation state
+
+Avoid overwhelming the student.
+
+Example structured shape:
+
+{
+  "checkedBy": "RIWI",
+  "answerFeedback": "...",
+  "strengths": [
+    {
+      "message": "...",
+      "evidence": "..."
+    }
+  ],
+  "weaknesses": [
+    {
+      "category": "grammar",
+      "message": "...",
+      "evidence": "...",
+      "suggestion": "..."
+    }
+  ],
+  "criteria": {
+    "fluency": {...},
+    "lexical": {...},
+    "grammar": {...},
+    "pronunciation": {
+      "assessed": false,
+      "band": null
+    }
+  },
+  "nextAction": "..."
+}
+
+Strict schema validation required.
+
+======================================================================
+28. PART / SESSION SCORING RULE
+======================================================================
+
+Do not throw an "overall IELTS band" after every short Part 1 answer.
+
+Recommended product behavior:
+
+PART 1
+    per-answer feedback first
+    no full IELTS overall band
+
+PART 2
+    per-answer feedback
+    if Part-2-only mode completes:
+        show a PART-2 textual estimate with limitations
+
+PART 3
+    per-answer feedback
+    if Part-3-only mode completes:
+        show a PART-3 textual estimate with limitations
+
+FULL SESSION
+    after Part 3:
+        aggregate valid evidence from the whole session
+        show final text-based estimate
+        show combined strengths
+        show combined weaknesses
+        show next focus
+
+If pronunciation is not assessed:
+
+Do NOT call the result an authoritative complete IELTS Speaking overall band.
+
+Preferred wording:
+
+    Text-based speaking estimate
+
+or:
+
+    Estimated performance on assessed criteria
+
+If later real pronunciation assessment exists:
+    the product may compute/display a fuller result according to policy.
+
+======================================================================
+29. AGGREGATION MUST NOT ASK THE LLM TO INVENT NUMBERS
+======================================================================
+
+Per-answer/criterion evidence may come from provider evaluation.
+
+But aggregation rules must be explicit and validated.
+
+Do not let the external model freely decide:
+
+    "overall = 7.5"
+
+without server validation.
+
+Use the existing Coach evaluation schema and deterministic band normalization
+where possible.
+
+Store per-answer evaluations.
+
+At session end aggregate the accepted criterion evidence.
+
+======================================================================
+30. TRY AGAIN BEHAVIOR
+======================================================================
+
+If student presses:
+
+    Try again
+
+then:
+
+- remain on the same question;
+- create a new attempt/retry;
+- do not overwrite the old attempt silently;
+- optionally mark retry linkage;
+- show previous feedback if useful;
+- do not carry the previous transcript into the new recording field;
+- question remains the same;
+- topic position remains the same;
+- after successful retry, student may choose Next question.
+
+Recommended relationship:
+
+    parent_attempt_id
+or
+    retry_of_attempt_id
+
+if a new schema field is useful.
+
+Do not duplicate vocabulary mutation/evaluation side effects.
+
+Idempotency must remain safe.
+
+======================================================================
+31. NEXT QUESTION BEHAVIOR
+======================================================================
+
+If student presses:
+
+    Next question
+
+then:
+
+- advance exactly one session item;
+- preserve completed attempt/history;
+- do not reshuffle remaining active-session plan;
+- remain in the same topic until topic cluster ends;
+- only after the cluster ends move to next topic/part.
+
+======================================================================
+32. QUESTION RANDOMIZATION ALGORITHM — EXAMPLE
+======================================================================
+
+Pseudo-code:
+
+function buildSessionPlan(prompts, mode, rng):
+    published = onlyAuthorizedPublished(prompts)
+
+    if mode includes Part 1:
+        groups = groupByTopic(published, "part1")
+        shuffle(groups, rng)
+
+        select 1 or 2 topic groups depending session mode
+        for each selected topic:
+            n = boundedQuestionCount(group.size, min=3, preferred=4, max=6)
+            choose n unique random prompts
+            append contiguously
+
+    if mode includes Part 2:
+        group = random Part 2 topic
+        cue = random cue from group
+        append cue
+        remember cue topic key
+
+    if mode includes Part 3:
+        prefer group matching/related to Part 2 topic
+        else random Part 3 group
+        n = boundedQuestionCount(group.size, min=3, preferred=4, max=6)
+        choose n unique prompts
+        append contiguously
+
+    persist immutable plan
+
+Important:
+    no duplicates inside a session
+    no unpublished prompt
+    no unauthorized prompt
+    no random question generation
+    stable after persistence
+
+======================================================================
+33. "EVERY VISIT DIFFERENT" WITHOUT BAD RANDOMNESS
+======================================================================
+
+The requirement means:
+
+A new session should usually not repeat exactly the same plan.
+
+It does NOT require mathematically guaranteed uniqueness forever.
+
+Improve variety using recent-history avoidance:
+
+    fetch recent N Practice-with-AI session prompt IDs
+        ↓
+    de-prioritize recently used questions
+        ↓
+    choose from remaining canonical pool
+        ↓
+    if pool is exhausted:
+        reuse safely
+
+Do not hide valid content forever.
+
+Do not let avoidance produce an empty session.
+
+======================================================================
+34. MICROPHONE / LIVE-PARTNER EXCLUSIVITY
+======================================================================
+
+Preserve the existing product rule:
+
+Practice and Live Partner must not fight for the microphone.
+
+Current code already interacts with:
+
+    /api/live-partner
+    action: practice_started
+
+Preserve existing refusal when an active live call exists.
+
+Do not allow:
+
+    Live Partner microphone
+    +
+    Practice with AI microphone
+
+to run simultaneously.
+
+======================================================================
+35. PROPOSED COMPONENT STRUCTURE
+======================================================================
+
+Keep the existing page:
+
+src/app/(app)/speaking/ai/page.tsx
+    ↓
+AiExaminerSession
+
+Refactor/extend into:
+
+AiExaminerSession
+├── MicrophoneCheck
+├── AiModePicker
+├── SessionHeader
+├── ExaminerQuestionCard
+├── AiAnswerComposer
+│   ├── AudioRecorder
+│   ├── BrowserSpeechRecognition
+│   ├── LiveTranscriptEditor
+│   ├── AudioPlayback
+│   └── ReviewActions
+├── RiwiEvaluatingState
+├── AnswerFeedbackCard
+├── TopicTransitionCard
+└── SpeakingSessionSummary
+
+Do not create unnecessary component fragmentation.
+
+Prefer existing components where they already fit.
+
+======================================================================
+36. QUESTIONRECORDER EVOLUTION
+======================================================================
+
+Current QuestionRecorder is close to the required functionality.
+
+It currently handles:
+
+- attempt creation;
+- preparation;
+- recording;
+- playback;
+- upload;
+- submit;
+- history.
+
+Extend it or create a scoped AI-specific wrapper.
+
+Do NOT break its current non-AI consumers.
+
+Possible safest design:
+
+    existing QuestionRecorder
+        remains stable for current generic practice path
+
+    new AiQuestionRecorder
+        composes/reuses recorder utilities
+        adds browser STT + review + explicit Send to RIWI behavior
+
+OR:
+
+    refactor shared recording logic into a hook/service
+        useSpeakingRecorder()
+
+and keep separate UIs.
+
+Choose the option with the lowest regression risk.
+
+======================================================================
+37. PROPOSED CLIENT HOOKS
+======================================================================
+
+Potential hooks:
+
+useMicrophoneCheck()
+useBrowserSpeechRecognition()
+useSpeakingAnswerRecorder()
+useAiSpeakingSession()
+
+These are implementation suggestions, not mandatory names.
+
+Each hook must have:
+
+- cleanup on unmount;
+- AbortController where relevant;
+- stable callbacks;
+- no Maximum update depth loops;
+- no leaked MediaStream track;
+- no leaked recognition listener;
+- no leaked interval.
+
+======================================================================
+38. BROWSER STT HOOK CONTRACT
+======================================================================
+
+Suggested state:
+
+type BrowserSttState =
+  | { kind: "unsupported" }
+  | { kind: "idle" }
+  | { kind: "starting" }
+  | { kind: "listening"; interim: string; final: string }
+  | { kind: "stopped"; rawTranscript: string }
+  | { kind: "error"; code: string };
+
+Required methods:
+
+    start()
+    stop()
+    reset()
+
+Optional:
+
+    supported: boolean
+
+Do not expose provider secrets because there are none in browser STT.
+
+======================================================================
+39. TRANSCRIPT EDITOR UX
+======================================================================
+
+During recording:
+
+    transcript appears live.
+
+After Stop:
+
+    transcript becomes editable.
+
+Show:
+
+    Live transcript
+or
+    Transcript
+
+If the student edits:
+
+    set transcriptEdited = true
+
+Do not auto-correct grammar before evaluation.
+
+Do not silently rewrite the student's words.
+
+Spellcheck may be browser-native, but do not auto-accept changes.
+
+The point is to evaluate the student's intended submitted transcript honestly.
+
+======================================================================
+40. CLEAR / DELETE BEHAVIOR
+======================================================================
+
+Before Send to RIWI:
+
+Clear should:
+
+- stop recorder if needed;
+- stop speech recognition;
+- revoke local object URL;
+- discard local Blob;
+- clear raw transcript;
+- clear edited transcript;
+- return to idle;
+- delete/cancel any abandoned server attempt if one was created.
+
+After Send to RIWI:
+
+Do not pretend the persisted evaluation never existed.
+
+Use the normal history/delete policy if the product supports it.
+
+======================================================================
+41. PRIVATE AUDIO STORAGE
+======================================================================
+
+When Send to RIWI is pressed:
+
+- validate audio file;
+- upload using existing hardened upload path;
+- private R2 object;
+- safe object key;
+- correct speaking_attempt ownership;
+- store duration, mime type, size;
+- no public object exposure;
+- no secret URL in logs.
+
+Audio can later support:
+
+- playback;
+- owner/student history;
+- future pronunciation/acoustic analysis.
+
+======================================================================
+42. NEW/UPDATED API CONTRACTS
+======================================================================
+
+Prefer extending existing routes safely.
+
+Potential session routes:
+
+POST /api/speaking/ai/sessions
+    create immutable randomized session plan
+
+GET /api/speaking/ai/sessions/:id
+    resume owned session
+
+POST /api/speaking/ai/sessions/:id/items/:itemId/complete
+    bind completed attempt to session item
+
+POST /api/speaking/ai/sessions/:id/complete
+    compute final session summary
+
+Potential transcript/submit evolution:
+
+POST /api/speaking/attempts/:id/submit
+
+Accept an explicit browser-transcript payload only through a validated shape,
+for example:
+
+{
+  "durationMs": 28123,
+  "browserTranscript": "...",
+  "browserTranscriptEdited": true
+}
+
+Do NOT accept:
+
+{
+  "transcriptOrigin": "stt"
+}
+
+from the client as authority.
+
+The server decides the stored origin based on the route/field semantics.
+
+Alternative:
+    dedicated browser-transcript route.
+
+Use whichever is safer and cleaner in the existing architecture.
+
+======================================================================
+43. SERVER TRUST RULE FOR BROWSER STT
+======================================================================
+
+Browser STT is not privileged evidence.
+
+A malicious client can forge the request.
+
+Therefore:
+
+    browserTranscript
+
+is equivalent to learner-submitted textual evidence for trust purposes.
+
+It may be labelled truthfully as originating from the browser STT UX,
+but never let that label bypass validation.
+
+Do not use browser transcript origin to grant additional permissions.
+
+======================================================================
+44. EVALUATION MODE SELECTION
+======================================================================
+
+Pseudo-code:
+
+async function evaluateSpeaking(...):
+    if transcript missing:
+        return transcript_unavailable
+
+    config = effectiveCoachConfig()
+
+    if externalEnabled
+       AND selected provider supports speaking
+       AND required credentials exist:
+          use external provider
+          validate strict schema
+          public attribution = RIWI
+          internal provenance = provider truth
+          create sanitized learning signal
+          return
+
+    else:
+          use local RIWI evaluator
+          return only supported local claims
+          pronunciation = not assessed
+
+Fallback on provider failure:
+
+    if policy allows local fallback:
+        local RIWI
+        fallbackUsed = true
+        preserve provider failure telemetry safely
+
+Never silently claim external provider success.
+
+======================================================================
+45. "RIWI IS EVALUATING..." STATE
+======================================================================
+
+After Send to RIWI:
+
+UI must immediately become non-ambiguous.
+
+Display:
+
+    RIWI is evaluating your answer...
+
+Optional secondary text:
+
+    Checking relevance, fluency/coherence, vocabulary and grammar.
+
+Disable:
+
+    duplicate Send button
+
+while request is in flight.
+
+Allow cancellation only if architecture supports safe cancellation.
+
+On timeout/error:
+
+    preserve reviewed transcript/audio locally if possible;
+    offer Retry;
+    do not create duplicate attempt/evaluation/mutation.
+
+======================================================================
+46. IDEMPOTENCY
+======================================================================
+
+Double-click Send to RIWI must not create:
+
+- two uploads;
+- two attempts;
+- two evaluations;
+- duplicate vocabulary mutations;
+- duplicate learning signals.
+
+Use the existing idempotency architecture or add a scoped idempotency key.
+
+Retry after timeout must safely resolve:
+
+    already completed
+or
+    continue/retry
+
+without duplication.
+
+======================================================================
+47. RESULT PROVENANCE
+======================================================================
+
+Learner result:
+
+    Checked by RIWI
+
+Owner/internal:
+
+    evaluatorProviderId
+    evaluatorModel
+    providerType
+    fallbackUsed
+    transcriptOrigin
+    transcriptProvider
+    transcriptEdited
+    evaluationId
+    attemptId
+    sessionId
+    promptId
+    createdAt
+
+Do not leak secrets.
+
+Do not show raw provider endpoint.
+
+======================================================================
+48. SESSION SUMMARY DATA
+======================================================================
+
+At completion aggregate:
+
+- answered questions;
+- skipped questions;
+- per-part counts;
+- total speaking duration;
+- assessed criteria;
+- recurring strengths;
+- recurring weaknesses;
+- repeated grammar patterns;
+- repeated lexical issues;
+- topical relevance issues;
+- recommended next practice.
+
+Do not aggregate pronunciation if it was not assessed.
+
+======================================================================
+49. RECURRENT WEAKNESS DETECTION
+======================================================================
+
+Example:
+
+Q1:
+    article error
+
+Q2:
+    article error
+
+Q3:
+    article error
+
+Session summary:
+
+    Recurring weakness:
+    Articles — observed in 3 answers.
+
+Do not report a recurring weakness from one isolated occurrence unless the
+evaluation schema explicitly marks it severe.
+
+======================================================================
+50. RIWI LEARNING SIGNALS
+======================================================================
+
+Suitable sanitized signals may include:
+
+    speaking_grammar_pattern
+    speaking_lexical_repetition
+    speaking_short_answer
+    speaking_off_topic
+    speaking_filler_pattern
+    speaking_session_repeated_weakness
+
+Never store secrets in learning signals.
+
+Do not auto-promote raw student data globally.
+
+Respect scope/privacy.
+
+======================================================================
+51. HISTORY
+======================================================================
+
+Speaking history should allow the student to inspect, where current policy allows:
+
+- date;
+- prompt;
+- Part;
+- topic;
+- recording playback;
+- submitted transcript;
+- transcript source;
+- whether transcript was edited;
+- Checked by RIWI;
+- feedback;
+- criterion estimates;
+- retry history if implemented;
+- session summary.
+
+Do not expose another learner's attempt.
+
+======================================================================
+52. PART 2 SPECIAL BEHAVIOR
+======================================================================
+
+Part 2:
+
+1. show cue card;
+2. 60-second preparation timer;
+3. microphone remains OFF during prep;
+4. student may start early;
+5. recording limit around 120 seconds according to canonical prompt/current rules;
+6. live transcript during answer;
+7. Stop → review;
+8. no auto-submit;
+9. Send to RIWI;
+10. feedback;
+11. in Full Session move into related Part 3 topic after user continues.
+
+Do not let browser STT consume preparation-room speech before Start Answer.
+
+======================================================================
+53. PART 3 SPECIAL BEHAVIOR
+======================================================================
+
+Part 3 should prefer questions connected to Part 2 topic when canonical bank supports it.
+
+Stay on the Part 3 topic for 3–6 questions.
+
+Feedback should pay more attention to:
+
+- developed reasoning;
+- comparison;
+- explanation;
+- cause/effect;
+- justification;
+- abstract discussion;
+- coherence.
+
+Do not invent IELTS scoring rules outside current approved rubric/evaluator.
+
+======================================================================
+54. QUESTION SKIP
+======================================================================
+
+If Skip remains allowed:
+
+- require explicit click;
+- mark item skipped;
+- do not create fake answer/evaluation;
+- advance safely;
+- session summary reports skipped count;
+- topic-cluster logic still remains valid.
+
+Do not auto-skip because STT failed.
+
+======================================================================
+55. RESPONSIVE / ACCESSIBILITY
+======================================================================
+
+Required:
+
+- keyboard-operable buttons;
+- visible focus;
+- aria-live for recording/evaluating status;
+- role=status for timers where appropriate;
+- no focus trap;
+- transcript textarea labelled;
+- audio control labelled;
+- 44px-ish mobile touch targets;
+- no horizontal overflow;
+- Day/Night support;
+- Uzbek/English support;
+- reduced-motion friendliness where current design system supports it.
+
+======================================================================
+56. I18N TEXTS TO ADD
+======================================================================
+
+English examples:
+
+Microphone check
+Test microphone
+Microphone is working
+Microphone permission is required
+Live speech-to-text is not supported in this browser
+Start practice
+Start answer
+Recording
+Live transcript
+Stop
+Your recording
+Transcript
+Transcript source
+Browser speech recognition
+Edited by you
+Record again
+Clear
+Send to RIWI
+RIWI is evaluating your answer...
+Checked by RIWI
+Try again
+Next question
+Topic complete
+Continue
+Speaking Practice Summary
+Pronunciation not assessed
+View Speaking history
+New session
+
+Add Uzbek equivalents through the existing dictionary/i18n structure.
+
+Do not hardcode only English in component logic.
+
+======================================================================
+57. FAILURE STATES
+======================================================================
+
+Handle at least:
+
+- microphone permission denied;
+- microphone unavailable;
+- recorder unsupported;
+- SpeechRecognition unsupported;
+- SpeechRecognition starts then errors;
+- no speech captured;
+- empty transcript;
+- R2 upload failure;
+- attempt create failure;
+- evaluation timeout;
+- evaluation schema invalid;
+- external provider unavailable;
+- local fallback used;
+- route returns 401/403/409/429/5xx;
+- browser tab unmount during recording;
+- browser tab unmount during evaluation;
+- duplicate clicks;
+- refresh active session;
+- stale session plan;
+- deleted/unpublished prompt after session creation.
+
+Fail closed without losing unrelated history.
+
+======================================================================
+58. SECURITY
+======================================================================
+
+Do not trust client fields for:
+
+    userId
+    role
+    provider
+    model
+    target learner
+    permission
+    transcript origin authority
+
+Re-authorize:
+
+    session
+    attempt
+    prompt access
+
+at server boundaries.
+
+External AI never receives:
+
+- secrets;
+- DATABASE_URL;
+- R2 credentials;
+- unrelated users;
+- unrelated history;
+- hidden owner data;
+- raw authorization claims not needed for task.
+
+Provider output is untrusted.
+
+Strict schema parse required.
+
+======================================================================
+59. PRIVACY
+======================================================================
+
+Audio recordings are sensitive user content.
+
+Requirements:
+
+- private storage;
+- scoped access;
+- no public URL;
+- retention consistent with project policy;
+- no raw audio copied into logs;
+- no transcript copied into security logs unnecessarily;
+- no provider payload beyond minimum needed.
+
+If browser Speech Recognition is used, product copy/privacy documentation should
+truthfully acknowledge that browser speech-recognition behavior depends on the
+browser/vendor implementation.
+
+Do not claim "all transcription happens locally on-device" unless verified.
+
+The website-owner API cost may be $0 while the browser implementation itself may
+use browser-vendor services.
+
+======================================================================
+60. PERFORMANCE
+======================================================================
+
+Browser STT should not trigger server requests on every interim token.
+
+Interim transcript remains client-side.
+
+Only submit final reviewed transcript when user clicks Send to RIWI.
+
+Do not send:
+
+    one HTTP request per recognized word.
+
+Audio stays local until Send to RIWI.
+
+This is both cheaper and safer.
+
+======================================================================
+61. CLEANUP
+======================================================================
+
+On Stop/unmount/error:
+
+- stop MediaRecorder;
+- stop all MediaStream tracks;
+- stop/abort SpeechRecognition;
+- clear intervals;
+- clear timers;
+- revoke object URLs when replaced;
+- abort pending requests;
+- avoid state update after unmount.
+
+Regression test this.
+
+======================================================================
+62. TEST MATRIX — MICROPHONE / STT
+======================================================================
+
+Add tests for:
+
+[ ] supported microphone check succeeds
+[ ] permission denied shows correct state
+[ ] zero audio input fails check truthfully
+[ ] mic tracks close after check
+[ ] recorder starts once
+[ ] SpeechRecognition starts once
+[ ] interim transcript displays
+[ ] final transcript appends
+[ ] Stop stops both systems
+[ ] Stop does NOT submit
+[ ] transcript is editable after Stop
+[ ] edit sets transcriptEdited
+[ ] Clear removes local recording/transcript
+[ ] Record again resets state
+[ ] unsupported SpeechRecognition does not fake transcript
+[ ] recorder can continue if STT fails where safe
+[ ] no leaked media track
+[ ] no leaked recognition listener
+[ ] no leaked timer
+
+======================================================================
+63. TEST MATRIX — SEND / EVALUATION
+======================================================================
+
+[ ] Send disabled with empty answer
+[ ] Send creates/finalizes only one upload
+[ ] Send persists transcript provenance
+[ ] double click does not duplicate evaluation
+[ ] evaluating state appears
+[ ] external provider path returns Checked by RIWI
+[ ] internal provenance retains provider/model
+[ ] external timeout follows fallback policy
+[ ] local RIWI path works without external AI
+[ ] local RIWI does not fabricate semantic/acoustic claims
+[ ] malformed provider schema rejected
+[ ] pronunciation absent when no acoustic provider
+[ ] retry after failure is idempotent
+[ ] cross-user attempt denied
+[ ] forged session/item denied
+
+======================================================================
+64. TEST MATRIX — RANDOMIZATION / TOPICS
+======================================================================
+
+[ ] new sessions can produce different prompt plans
+[ ] active session refresh does not reshuffle
+[ ] no duplicate question in one session
+[ ] same topic remains contiguous
+[ ] topic has >=3 questions when bank permits
+[ ] topic never exceeds 6 questions
+[ ] no unpublished prompt selected
+[ ] Part 2 selects one cue card
+[ ] Part 3 prefers matching/related Part 2 topic
+[ ] recent-history avoidance does not empty the pool
+[ ] exhausted pool safely permits reuse
+[ ] canonical bank is the only prompt source
+
+======================================================================
+65. TEST MATRIX — FEEDBACK / SUMMARY
+======================================================================
+
+[ ] Part 1 per-answer feedback appears
+[ ] no fake complete IELTS band after one short answer
+[ ] exact evidence excerpt is from submitted transcript
+[ ] edited transcript is identified internally
+[ ] recurring weaknesses deduplicate
+[ ] session summary uses persisted evaluations
+[ ] skipped answers not scored
+[ ] pronunciation not aggregated when unassessed
+[ ] final summary says text-based/assessed-criteria estimate when needed
+[ ] Try again does not overwrite prior attempt
+[ ] Next question advances one item
+[ ] topic transition occurs only after cluster completion
+
+======================================================================
+66. TEST MATRIX — CURRENT ARCHITECTURE REGRESSIONS
+======================================================================
+
+Do not break:
+
+[ ] Practice on Your Own
+[ ] Live Partner
+[ ] Speaking history
+[ ] current R2 uploads
+[ ] current speaking attempt routes
+[ ] current Coach/RIWI provider registry
+[ ] current owner external-AI control
+[ ] i18n
+[ ] Day/Night
+[ ] mobile
+[ ] auth
+[ ] role model
+[ ] publication rules
+[ ] canonical speaking bank
+[ ] current migrations
+
+======================================================================
+67. MIGRATION RULES
+======================================================================
+
+If new DB fields/tables are necessary:
+
+- create additive migration;
+- never rewrite accepted migration history;
+- update Drizzle schema;
+- update snapshot/journal through accepted workflow;
+- fresh DB test;
+- upgrade DB test;
+- real PostgreSQL test;
+- no shared Preview apply without owner approval.
+
+Likely schema additions:
+
+speaking_ai_sessions
+speaking_ai_session_items
+
+speaking_attempts:
+    transcript_raw
+    transcript_edited
+    transcript_edited_at
+
+transcript_origin:
+    expand validation/column length to support browser_stt
+    OR use an agreed concise canonical value.
+
+Choose exact schema names consistent with repository conventions.
+
+======================================================================
+68. DO NOT CHANGE PRACTICE ON YOUR OWN INTO THIS FLOW
+======================================================================
+
+The requested feature is specifically:
+
+    Speaking → Practice with AI
+
+Practice on Your Own remains its own experience.
+
+Shared recorder utilities may be reused.
+
+Do not force AI evaluation into every Practice on Your Own interaction unless a
+separate requirement says so.
+
+======================================================================
+69. UI STYLE
+======================================================================
+
+Use existing Learners Area design language.
+
+Do not import the purple/gold styling from the HTML reference if it conflicts
+with current site design.
+
+The reference file is functional inspiration for:
+
+    record
+    speech-to-text
+    transcript
+
+not a mandate to copy its visuals.
+
+Current accepted Day/Night Learners Area design wins.
+
+======================================================================
+70. OWNER / INTERNAL DIAGNOSTICS
+======================================================================
+
+Owner may inspect:
+
+- browser STT availability;
+- external AI readiness;
+- active provider;
+- last provider error category;
+- fallback usage;
+- evaluation counts;
+- transcription origin counts;
+- session failure counts.
+
+Do not expose:
+
+- raw keys;
+- secret endpoints;
+- private student transcripts broadly;
+- sensitive audio links.
+
+======================================================================
+71. COST MODEL
+======================================================================
+
+Initial browser-STT path:
+
+    browser SpeechRecognition
+    website STT API cost = $0
+
+Recording:
+
+    browser MediaRecorder
+    direct recording API cost = $0
+
+Local RIWI evaluation:
+
+    external-AI API cost = $0
+
+External-assisted mode:
+
+    provider usage cost applies only when external provider is called.
+
+Do not call server STT if usable reviewed browser transcript already exists,
+unless owner explicitly configures a verification/transcription policy.
+
+Avoid paying twice for the same answer.
+
+======================================================================
+72. IMPORTANT HONESTY NOTE ABOUT "FREE STT"
+======================================================================
+
+It is correct to say:
+
+    "No separate STT API bill to Learners Area for the browser SpeechRecognition path."
+
+Do NOT automatically say:
+
+    "Speech recognition is fully local/offline/on-device."
+
+That depends on browser/vendor behavior.
+
+The implementation must remain truthful.
+
+======================================================================
+73. FINAL END-TO-END FLOW — ASCII SYSTEM MAP
+======================================================================
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│                           LEARNERS AREA                                  │
+│                       SPEAKING / PRACTICE WITH AI                        │
+└───────────────────────────────────┬──────────────────────────────────────┘
+                                    │
+                                    ▼
+                         ┌────────────────────┐
+                         │ AUTHENTICATED USER │
+                         └──────────┬─────────┘
+                                    │
+                                    ▼
+                         ┌────────────────────┐
+                         │ MICROPHONE CHECK   │
+                         └──────────┬─────────┘
+                                    │ pass
+                                    ▼
+                         ┌────────────────────┐
+                         │ SESSION PLAN       │
+                         │ canonical prompts  │
+                         │ randomized once    │
+                         └──────────┬─────────┘
+                                    │
+                                    ▼
+                         ┌────────────────────┐
+                         │ EXAMINER QUESTION  │
+                         └──────────┬─────────┘
+                                    │ Start Answer
+                                    ▼
+                    ┌─────────────────────────────────┐
+                    │          BROWSER MIC            │
+                    └───────────────┬─────────────────┘
+                                    │
+                         ┌──────────┴──────────┐
+                         │                     │
+                         ▼                     ▼
+                 ┌──────────────┐      ┌────────────────┐
+                 │ MediaRecorder│      │SpeechRecognition│
+                 │ audio Blob   │      │ live transcript │
+                 └──────┬───────┘      └───────┬────────┘
+                        │                      │
+                        └──────────┬───────────┘
+                                   ▼
+                          ┌─────────────────┐
+                          │ REVIEW / EDIT   │
+                          │ no auto-submit  │
+                          └────────┬────────┘
+                                   │ Send to RIWI
+                                   ▼
+                         ┌────────────────────┐
+                         │ PRIVATE R2 UPLOAD  │
+                         └──────────┬─────────┘
+                                    │
+                                    ▼
+                         ┌────────────────────┐
+                         │ SPEAKING ATTEMPT   │
+                         │ PostgreSQL         │
+                         └──────────┬─────────┘
+                                    │
+                                    ▼
+                         ┌────────────────────┐
+                         │ RIWI CONTROLLER    │
+                         │ policy/context     │
+                         └──────────┬─────────┘
+                                    │
+                      external AI available?
+                        ┌───────────┴───────────┐
+                        │                       │
+                       YES                      NO
+                        │                       │
+                        ▼                       ▼
+             ┌────────────────────┐   ┌────────────────────┐
+             │ EXTERNAL EVALUATOR │   │ LOCAL RIWI         │
+             │ semantic reasoning │   │ deterministic      │
+             └──────────┬─────────┘   └──────────┬─────────┘
+                        │                        │
+                        └───────────┬────────────┘
+                                    ▼
+                         ┌────────────────────┐
+                         │ RIWI VALIDATION    │
+                         │ schema/bounds      │
+                         │ provenance/safety  │
+                         └──────────┬─────────┘
+                                    │
+                                    ▼
+                         ┌────────────────────┐
+                         │ Checked by RIWI    │
+                         │ feedback           │
+                         └──────────┬─────────┘
+                                    │
+                           ┌────────┴────────┐
+                           │                 │
+                           ▼                 ▼
+                      TRY AGAIN        NEXT QUESTION
+                                             │
+                                             ▼
+                                   same topic until
+                                     cluster complete
+                                             │
+                                             ▼
+                                     next topic/part
+                                             │
+                                             ▼
+                                      SESSION SUMMARY
+
+======================================================================
+74. DATA FLOW — NO SECRET / NO OVER-SHARING
+======================================================================
+
+Student audio
+    ↓ private R2
+
+Reviewed transcript
+    ↓ PostgreSQL attempt
+
+Evaluation request
+    ↓ only minimum required data
+
+External provider receives:
+    prompt text
+    reviewed transcript
+    part
+    bounded rubric/context
+    minimum approved lexical/grammar context if needed
+
+External provider does NOT need:
+    student email
+    Telegram id
+    password
+    R2 secret
+    DATABASE_URL
+    unrelated history
+    unrelated students
+    owner diagnostics
+
+======================================================================
+75. WHAT "CHECKED BY RIWI" MEANS
+======================================================================
+
+"Checked by RIWI" means:
+
+RIWI controlled and validated the evaluation pipeline.
+
+It does NOT mean:
+
+RIWI's local deterministic model necessarily produced every reasoning token.
+
+This is analogous to a product-level evaluation identity.
+
+Internal truth is preserved.
+
+======================================================================
+76. ACCEPTANCE SCENARIO — HAPPY PATH
+======================================================================
+
+Given:
+    student is logged in
+    microphone works
+    browser SpeechRecognition works
+    external AI configured
+
+When:
+    student opens Practice with AI
+    microphone check passes
+    student starts Full session
+    RIWI chooses randomized Part 1 topic
+    question appears
+    student presses Start Answer
+    speaks
+    transcript appears live
+    student presses Stop
+
+Then:
+    no submission occurs
+
+When:
+    student edits one STT mistake
+    plays audio
+    presses Send to RIWI
+
+Then:
+    audio uploads privately
+    transcript persists with browser_stt + edited flag
+    external provider evaluates
+    RIWI validates
+    learner sees Checked by RIWI
+    feedback appears
+    pronunciation says Not assessed
+    internal provider provenance is preserved
+
+When:
+    student presses Next question
+
+Then:
+    next question comes from the same topic until topic cluster complete.
+
+======================================================================
+77. ACCEPTANCE SCENARIO — NO EXTERNAL AI
+======================================================================
+
+Given:
+    external AI disabled
+    browser STT works
+
+When:
+    student submits answer
+
+Then:
+    local RIWI evaluator runs
+    learner receives only supported transcript-based feedback
+    no fake external provider result
+    no fake semantic certainty
+    no pronunciation score
+    learner-facing RIWI identity remains valid because RIWI actually processed
+    the local evaluation path.
+
+======================================================================
+78. ACCEPTANCE SCENARIO — STT UNSUPPORTED
+======================================================================
+
+Given:
+    browser can record audio
+    SpeechRecognition unsupported
+
+Then:
+    explain live transcript is unavailable
+
+If approved server STT is configured:
+    allow existing server STT path
+
+Else:
+    allow manual transcript only if current product policy wants it
+    clearly label it manual
+
+Never display fake live transcript.
+
+======================================================================
+79. ACCEPTANCE SCENARIO — EDIT BEFORE SEND
+======================================================================
+
+Student speaks:
+    "I worked there for three years."
+
+Browser outputs:
+    "I work there for three years."
+
+Student edits:
+    "I worked there for three years."
+
+Persist:
+
+    transcript_raw = "I work there for three years."
+    transcript = "I worked there for three years."
+    transcript_origin = browser_stt
+    transcript_edited = true
+
+Evaluation uses:
+    transcript
+
+RIWI must not pretend the corrected grammar error was heard in audio.
+
+======================================================================
+80. ACCEPTANCE SCENARIO — RE-RECORD
+======================================================================
+
+Student records attempt A locally.
+Stops.
+Does not like it.
+Presses Record again.
+
+Expected:
+
+    old local Blob discarded
+    object URL revoked
+    transcript reset
+    no evaluation
+    no learning signal
+    no canonical mutation
+    no unnecessary R2 object if upload had not begun
+
+Student records B.
+Sends B.
+
+Only B is the submitted answer.
+
+======================================================================
+81. ACCEPTANCE SCENARIO — DUPLICATE SEND
+======================================================================
+
+Student double-clicks Send to RIWI.
+
+Expected:
+
+    one effective upload
+    one effective submission
+    one evaluation
+    one learning-signal path
+    one result
+
+No duplicate mutation.
+
+======================================================================
+82. ACCEPTANCE SCENARIO — TOPIC CLUSTER
+======================================================================
+
+Canonical topic:
+    Work & Career
+    9 eligible Part 1 questions
+
+New session chooses:
+    4
+
+Expected:
+
+Q1 Work & Career
+Q2 Work & Career
+Q3 Work & Career
+Q4 Work & Career
+then topic transition
+
+Never:
+Q1 Work
+Q2 Food
+Q3 Work
+Q4 Travel
+
+======================================================================
+83. IMPLEMENTATION ORDER
+======================================================================
+
+PHASE A — FORENSIC
+1. inspect current branch and worktree
+2. inspect all existing Speaking AI files
+3. inspect schema/migrations
+4. inspect current tests
+5. verify no newer implementation already solved a requirement
+
+PHASE B — SESSION PLAN
+6. add stable randomized session-plan layer
+7. add persistence if needed
+8. tests
+
+PHASE C — MICROPHONE CHECK
+9. build microphone check
+10. cleanup tests
+
+PHASE D — BROWSER STT
+11. build SpeechRecognition hook
+12. integrate live transcript
+13. unsupported/error paths
+14. tests
+
+PHASE E — REVIEW UX
+15. Stop → review
+16. edit
+17. clear
+18. re-record
+19. no auto-submit
+20. tests
+
+PHASE F — SEND TO RIWI
+21. upload only on explicit send
+22. persist transcript provenance
+23. evaluate
+24. idempotency
+25. tests
+
+PHASE G — FEEDBACK
+26. evaluating state
+27. result card
+28. Try again
+29. Next question
+30. topic transition
+
+PHASE H — SUMMARY
+31. per-session aggregation
+32. full-session feedback
+33. no fake pronunciation
+34. history integration
+
+PHASE I — PROVIDERS
+35. external-assisted path
+36. local RIWI fallback
+37. truthful internal provenance
+38. learning signals
+
+PHASE J — QA
+39. typecheck
+40. lint
+41. UI tests
+42. full tests
+43. build
+44. migration QA
+45. real PostgreSQL if schema changed
+46. browser manual QA
+
+======================================================================
+84. EXECUTOR INSTRUCTIONS
+======================================================================
+
+You are the implementation executor.
+
+Do not answer with a design-only plan.
+
+First inspect the repository.
+
+Then implement.
+
+Preserve current working architecture.
+
+Do not ask the owner questions that can be resolved from:
+    current code,
+    this specification,
+    existing tests,
+    existing migrations,
+    current product conventions.
+
+If a genuine consequential product decision is missing, stop only at that exact
+decision boundary after all unrelated work is complete.
+
+Commit coherent checkpoints.
+
+Push only to the assigned feature/Arena branch.
+
+Do not merge to main automatically.
+
+Do not deploy Production automatically.
+
+Do not apply shared Preview migrations without explicit approval.
+
+======================================================================
+85. REQUIRED FINAL REPORT
+======================================================================
+
+Final report must include:
+
+1. branch
+2. exact HEAD SHA
+3. files added
+4. files modified
+5. migrations added
+6. session-plan architecture
+7. randomization behavior
+8. microphone-check behavior
+9. browser-STT support matrix
+10. transcript provenance behavior
+11. edit/re-record behavior
+12. explicit-send behavior
+13. external provider behavior
+14. local RIWI behavior
+15. pronunciation behavior
+16. learning-signal behavior
+17. security boundaries
+18. idempotency result
+19. responsive/i18n result
+20. tests run
+21. exact pass/fail/skips
+22. build result
+23. migration QA result
+24. browser QA result
+25. external/live verification still required
+26. owner actions still required
+
+Never call something PASS if it was not actually tested.
+
+======================================================================
+86. FINAL ACCEPTANCE CHECKLIST
+======================================================================
+
+FUNCTIONAL
+
+[ ] Practice with AI opens
+[ ] mic check works
+[ ] session starts only after usable path
+[ ] session questions randomized
+[ ] question plan stable after start
+[ ] same-topic cluster has 3–6 questions where bank allows
+[ ] Start Answer records
+[ ] live transcript appears
+[ ] Stop does not submit
+[ ] transcript editable
+[ ] Clear works
+[ ] Record again works
+[ ] audio playback works
+[ ] Send to RIWI explicit
+[ ] evaluating state works
+[ ] feedback returns
+[ ] Try again works
+[ ] Next question works
+[ ] topic transition correct
+[ ] full-session summary correct
+[ ] history correct
+
+TRUTHFULNESS
+
+[ ] browser STT not mislabeled server STT
+[ ] edited transcript recorded as edited
+[ ] external provider provenance stored
+[ ] learner sees Checked by RIWI
+[ ] local fallback truthful
+[ ] pronunciation not assessed without acoustic provider
+[ ] no fake full IELTS band when criterion coverage incomplete
+
+SECURITY
+
+[ ] auth
+[ ] ownership
+[ ] prompt publication
+[ ] private R2
+[ ] minimal provider data
+[ ] strict output schema
+[ ] no role spoof
+[ ] no user-id spoof
+[ ] no duplicate send
+[ ] no duplicate evaluation
+[ ] no cross-user history leak
+
+STABILITY
+
+[ ] no microphone leak
+[ ] no timer leak
+[ ] no SpeechRecognition leak
+[ ] no object URL leak
+[ ] no infinite render
+[ ] no permanent busy state
+[ ] safe timeout
+[ ] safe retry
+
+REGRESSION
+
+[ ] Practice on Your Own intact
+[ ] Live Partner intact
+[ ] Speaking history intact
+[ ] canonical bank intact
+[ ] Dictionary/Vocabulary intact
+[ ] existing RIWI/Coach intact
+
+======================================================================
+87. ABSOLUTE DEFINITION OF DONE
+======================================================================
+
+This feature is DONE only when the student can perform this exact sequence:
+
+OPEN
+Speaking → Practice with AI
+
+CHECK
+Microphone check
+
+START
+Start practice
+
+QUESTION
+RIWI asks a canonical randomized examiner-style question
+
+ANSWER
+Student presses Start Answer
+
+LIVE
+Audio is recorded
+AND
+spoken words appear live
+
+STOP
+Student presses Stop
+
+REVIEW
+Nothing auto-submits
+Student can:
+    read
+    edit
+    clear
+    replay
+    record again
+
+SEND
+Student explicitly presses Send to RIWI
+
+WAIT
+"RIWI is evaluating your answer..."
+
+RESULT
+RIWI shows evidence-based feedback
+
+DECIDE
+Student presses:
+    Try again
+or
+    Next question
+
+FLOW
+RIWI remains on the same topic for an examiner-like 3–6 question cluster
+
+COMPLETE
+At appropriate Part/session completion:
+    combined feedback
+    valid assessed-criteria estimate
+    strengths
+    weaknesses
+    next focus
+
+HONESTY
+Pronunciation = Not assessed
+unless real acoustic analysis actually ran.
+
+PROVENANCE
+Learner = Checked by RIWI
+Internal = real provider/model/fallback truth.
+
+COST
+Browser STT path does not require a separate paid STT API.
+
+======================================================================
+88. DO NOT DO THESE THINGS
+======================================================================
+
+DO NOT:
+- auto-submit on Stop;
+- auto-send interim transcript to server;
+- call browser STT pronunciation assessment;
+- show fake pronunciation band;
+- show provider brand to learner instead of RIWI;
+- hide provider truth from owner/audit;
+- generate random non-canonical questions;
+- jump topics every question;
+- reshuffle active session after refresh;
+- destroy Practice on Your Own;
+- duplicate speaking_prompts;
+- create a second unrelated Speaking evaluator;
+- upload discarded recordings;
+- store public audio URLs;
+- trust client userId/role;
+- allow duplicate Send to duplicate evaluation;
+- mark browser STT as server STT;
+- call edited transcript raw machine truth;
+- silently correct student transcript before review;
+- claim a full IELTS band from only text criteria;
+- apply Preview/Production migration without approval.
+
+======================================================================
+89. ONE-PAGE EXECUTION SUMMARY
+======================================================================
+
+BUILD THIS:
+
+    Learners Area
+      → Speaking
+        → Practice with AI
+          → Microphone Check
+          → Randomized Canonical Examiner Session
+          → 3–6 Questions per Topic
+          → Start Answer
+          → Record Audio + Live Browser STT
+          → Stop
+          → Review/Edit/Re-record/Clear
+          → Send to RIWI
+          → Evaluating State
+          → External AI if available
+             OR Local RIWI fallback
+          → RIWI Validation
+          → Checked by RIWI
+          → Feedback
+          → Try Again / Next Question
+          → Topic/Part Progression
+          → Final Session Summary
+
+PRESERVE:
+
+    Canonical Speaking bank
+    Existing attempts/history
+    R2 privacy
+    Coach/RIWI service architecture
+    Dictionary/Vocabulary truth
+    Auth/security
+    i18n
+    Day/Night
+    mobile/desktop
+
+END.
+
+======================================================================
+90. EXECUTOR START COMMAND
+======================================================================
+
+Read this entire file twice before editing.
+
+Then begin with repository forensics and continue from the current implementation.
+
+Do not recreate the app.
+
+Do not stop after one component or one passing test.
+
+Implement, test, checkpoint, push, verify, continue.
+
+Stop only at a genuine owner approval / external credential / consequential
+product-decision boundary after all independently solvable work is complete.
+
+======================================================================
+END OF MASTER PROMPT
+======================================================================
