@@ -14,7 +14,7 @@ import { getDictionary } from "../src/lib/i18n";
 
 const output = {
   overallEstimate: null, confidence: 0.7, verdict: "mostly_correct",
-  criteria: [{ key: "grammar", label: "Grammar", band: 6, limited: false, note: null }],
+  criteria: [{ key: "grammar", label: "Grammar", band: null, limited: false, note: null }],
   strengths: ["clear"], weaknesses: [], nextActions: [], issues: [], recommendedExercises: [],
 };
 const request = { evaluationType: "grammar", input: { promptText: "Fix it", studentAnswer: "She go home", targetStructure: null, sampleAnswer: null } } as Parameters<typeof resolveEvaluation>[0];
@@ -173,11 +173,13 @@ test("E4 internal trace preserves evaluation identity, truthful provider metadat
       const prov = internalProvenance({ ...out.result, createdAt: new Date(out.result.createdAt),
         correlationId: REQUEST_CORRELATION, validationStatus: "validated" });
       assert.deepEqual(Object.keys(prov).sort(), [
-        "correlationId", "createdAt", "evaluationId", "evaluationType", "fallbackFrom", "fallbackUsed", "model",
-        "promptVersion", "providerDisplayName", "providerId", "providerType", "providerVersion", "rubricVersion", "validationStatus",
+        "assessmentContractKey", "correlationId", "createdAt", "evaluationId", "evaluationType", "fallbackFrom", "fallbackUsed", "model",
+        "ownerPolicyVersion", "promptVersion", "providerDisplayName", "providerId", "providerType", "providerVersion", "rubricVersion", "validationStatus",
       ]);
       assert.equal(prov.evaluationId, out.result.evaluationId);
       assert.equal(prov.evaluationType, "grammar");
+      assert.equal(prov.assessmentContractKey, "grammar.activate-it");
+      assert.equal(prov.ownerPolicyVersion, null);
       assert.equal(prov.correlationId, REQUEST_CORRELATION);
       assert.equal(prov.validationStatus, "validated");
       assert.equal(prov.providerId, "openai");

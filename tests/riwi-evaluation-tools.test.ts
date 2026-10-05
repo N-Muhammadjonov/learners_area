@@ -34,6 +34,7 @@ function evaluationRecord(type: EvaluationRecord["evaluationType"], userId: stri
     id: randomUUID(), userId, evaluationType: type, sourceType: `${type}_fixture`, sourceId: randomUUID(),
     providerId: "riwi-core", providerDisplayName: "RIWI", providerType: "internal", providerVersion: "fixture-v1",
     model: null, promptVersion: "riwi-evaluation-test-v1", rubricVersion: "riwi-rubric-test-v1",
+    assessmentContractKey: null, ownerPolicyScope: null, ownerPolicyVersion: null,
     fallbackUsed: false, fallbackFrom: null, checkedByName: "RIWI",
     checkedBy: { id: "riwi-core", displayName: "RIWI", type: "internal" },
     overallEstimate: type === "writing" || type === "speaking" ? 7.5 : null,

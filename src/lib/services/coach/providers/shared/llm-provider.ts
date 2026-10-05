@@ -1,6 +1,9 @@
 import "server-only";
 import { providerEvaluationOutputSchema, riwiAnswerSchema, type ProviderCapability } from "../../schema";
-import { WRITING_GRADE_PROMPT_VERSION, WRITING_GRADE_RUBRIC_VERSION } from "@/lib/writing/grade-criteria";
+import { composeAssessmentPrompt } from "@/lib/services/coach/contracts/compose";
+import { assessmentPolicyScopeMatches, getAssessmentContract } from "@/lib/services/coach/contracts/registry";
+import { assessmentContractContextSchema } from "@/lib/services/coach/contracts/schema";
+import type { AssessmentContractKey } from "@/lib/services/coach/contracts/types";
 import {
   providerFail,
   providerOk,
@@ -12,7 +15,6 @@ import {
   type RiwiProviderResult,
   type WritingEvaluationInput,
 } from "../../types";
-import { CHECK_VERSIONS, instructions, writingCheckInstructions, writingGradeInstructions } from "./prompts";
 import { guardExternalPayload } from "@/lib/services/riwi/outbound-guard";
 
 /**
@@ -73,13 +75,54 @@ export function extractJson(text: string): unknown {
   return JSON.parse(fenced ? fenced[1]! : trimmed);
 }
 
+function contractKeyForDirectCall(task: string, input: unknown): AssessmentContractKey | null {
+  if (!input || typeof input !== "object") return null;
+  const value = input as Record<string, unknown>;
+  if (task === "writing-check" || task === "writing") {
+    const check = task === "writing-check" ? value : value.check && typeof value.check === "object" ? value.check as Record<string, unknown> : null;
+    if (check && check.kind === "translation") return "writing.check.translation";
+    if (check && check.kind === "activation") return check.mode === "speaking" ? "writing.check.activation-speaking" : "writing.check.activation-writing";
+    if (check && check.kind === "pattern") return "writing.check.pattern-adaptation";
+    if (value.taskType === "task1") return value.detailedAnalysis ? "writing.grade.task1" : "writing.task1.generic";
+    if (value.taskType === "task2") return value.detailedAnalysis ? "writing.grade.task2" : "writing.task2.generic";
+  }
+  if (task === "speaking" && ["part1", "part2", "part3", "general", "mock"].includes(String(value.part))) return `speaking.${String(value.part)}` as AssessmentContractKey;
+  if (task === "grammar") return "grammar.activate-it";
+  if (task === "vocabulary") return "vocabulary.use-in-sentence";
+  if (task === "assignment") return "assignment.free-form";
+  return null;
+}
+
+function assessmentSystemPrompt(ctx: EvaluationContext, task: string, input: unknown): string | null {
+  const supplied = ctx.assessmentContract ? assessmentContractContextSchema.safeParse(ctx.assessmentContract) : null;
+  if (supplied && !supplied.success) return null;
+  const assessment = supplied?.success ? supplied.data : null;
+  const key = assessment?.key ?? contractKeyForDirectCall(task, input);
+  if (!key) return null;
+  const contract = getAssessmentContract(key);
+  if (!contract || contract.execution !== "coach_evaluation") return null;
+  if (assessment && (
+    assessment.version !== contract.version || assessment.rubricVersion !== contract.rubricVersion
+    || (assessment.policyScope === null && (assessment.policyVersion !== null || assessment.overlay !== null))
+    || (assessment.policyScope !== null && (assessment.policyVersion === null || assessment.overlay === null || !assessmentPolicyScopeMatches(assessment.policyScope, key)))
+  )) return null;
+  return composeAssessmentPrompt({
+    contract,
+    overlay: assessment?.overlay ?? null,
+    policyVersion: assessment?.policyVersion ?? null,
+    detailedWritingAnalysis: task === "writing" && Boolean(input && typeof input === "object" && (input as { detailedAnalysis?: unknown }).detailedAnalysis === true),
+  });
+}
+
 export function createLlmEvaluationProvider(def: LlmProviderDefinition): EvaluationProvider {
   const capabilities = (def.capabilities ?? TEXT_CAPABILITIES).filter((c) => TEXT_CAPABILITIES.includes(c));
 
-  async function evaluate(task: string, ctx: EvaluationContext, input: unknown, system: string = instructions, maxOutputTokens = 2500): Promise<ProviderResult> {
+  async function evaluate(task: string, ctx: EvaluationContext, input: unknown, maxOutputTokens = 2500): Promise<ProviderResult> {
     if (!def.model() || def.requiredSecrets().some((name) => !process.env[name]?.trim())) {
       return providerFail("not_configured", `${def.displayName} key and evaluation model are required`);
     }
+    const system = assessmentSystemPrompt(ctx, task, input);
+    if (!system) return providerFail("invalid_response", "No registered executable task contract is available");
     // Strict task DTO + central direct-identifier redaction are required for
     // every external evaluation, not only RIWI chat. Never serialize the raw
     // adapter input across the provider boundary.
@@ -106,14 +149,22 @@ export function createLlmEvaluationProvider(def: LlmProviderDefinition): Evaluat
     }
     const parsed = providerEvaluationOutputSchema.safeParse(json);
     if (!parsed.success) return providerFail("invalid_response", "Evaluation format is invalid");
-    // Vendors cannot create clickable destinations or invent pronunciation evidence.
+    // Vendors cannot create clickable destinations. The shared resolver validates
+    // pronunciation and all other task-specific output without masking bad claims.
     parsed.data.recommendedExercises = [];
     // Only Grade My Work asks for the analysis; anything else drops it.
-    if (system === instructions || task === "writing-check") delete parsed.data.writingAnalysis;
+    if (task !== "writing" || !input || typeof input !== "object" || (input as { detailedAnalysis?: unknown }).detailedAnalysis !== true) delete parsed.data.writingAnalysis;
     if (task === "speaking") {
-      parsed.data.criteria = parsed.data.criteria.filter((criterion) => !/pronunciation/i.test(`${criterion.key} ${criterion.label}`));
-      parsed.data.criteria.push({ key: "pronunciation", label: "Pronunciation", band: null, limited: true, note: "Audio pronunciation was not evaluated" });
-      if (parsed.data.criteria.length > 12) parsed.data.criteria.splice(11, parsed.data.criteria.length - 12);
+      const pronunciation = parsed.data.criteria.filter((criterion) => /pronunciation/i.test(`${criterion.key} ${criterion.label}`));
+      if (pronunciation.some((criterion) => criterion.band !== null || criterion.limited !== true)) {
+        return providerFail("invalid_response", "Speaking output cannot score pronunciation from transcript text");
+      }
+      const scored = parsed.data.criteria.filter((criterion) => !/pronunciation/i.test(`${criterion.key} ${criterion.label}`));
+      if (scored.length >= 12) return providerFail("invalid_response", "Speaking output exceeds the task criterion limit");
+      parsed.data.criteria = [
+        ...scored,
+        { key: "pronunciation", label: "Pronunciation", band: null, limited: true, note: "Audio pronunciation was not evaluated" },
+      ];
     }
     return providerOk(parsed.data);
   }
@@ -173,18 +224,14 @@ export function createLlmEvaluationProvider(def: LlmProviderDefinition): Evaluat
     get requiredSecrets() { return def.requiredSecrets(); },
     promptVersion: "learners-evidence-v1",
     rubricVersion: "learning-estimate-v1",
-    versionsFor: (type, input) => type === "writing" && (input as WritingEvaluationInput | undefined)?.check
-      ? CHECK_VERSIONS
-      : type === "writing" && (input as WritingEvaluationInput | undefined)?.detailedAnalysis
-      ? { promptVersion: WRITING_GRADE_PROMPT_VERSION, rubricVersion: WRITING_GRADE_RUBRIC_VERSION }
-      : null,
+    versionsFor: () => null,
     ...(has("riwi-assistant") ? { respondToRiwi } : {}),
     ...(has("writing-evaluation") ? {
       evaluateWriting: (ctx: EvaluationContext, input: WritingEvaluationInput) => input.check
-        ? evaluate("writing-check", ctx, input.check, writingCheckInstructions(input.check.kind, input.check.kind === "activation" ? input.check.mode : "writing"), 1500)
+        ? evaluate("writing-check", ctx, input.check, 1500)
         : input.detailedAnalysis
-        ? evaluate("writing", ctx, input, writingGradeInstructions(input.taskType), 5000)
-        : evaluate("writing", ctx, input),
+          ? evaluate("writing", ctx, input, 5000)
+          : evaluate("writing", ctx, input),
     } : {}),
     ...(has("speaking-evaluation") ? {
       evaluateSpeaking: (ctx: EvaluationContext, input: Parameters<NonNullable<EvaluationProvider["evaluateSpeaking"]>>[1]) => !input.transcript?.trim()

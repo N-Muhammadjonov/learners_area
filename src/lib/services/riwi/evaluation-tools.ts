@@ -163,6 +163,7 @@ export function registerRiwiEvaluationTools(
         prompt: prompt.prompt,
         content: submission.content,
         targetWordCount: prompt.targetWordCount,
+        category: prompt.category,
         language,
       });
       return resolved(`Writing ${prompt.taskType.toUpperCase()} saved draft`, outcome);
@@ -223,6 +224,7 @@ export function registerRiwiEvaluationTools(
         studentAnswer: attempt.attempt.responseText,
         targetStructure: attempt.topic.title,
         sampleAnswer: attempt.exercise.correctOption,
+        activity: "activate_it",
         language,
       });
       return resolved("Grammar Activate It saved attempt", outcome);

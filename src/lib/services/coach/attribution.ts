@@ -23,6 +23,9 @@ export type InternalProvenance = {
   model: string | null;
   promptVersion: string;
   rubricVersion: string;
+  assessmentContractKey?: string | null;
+  ownerPolicyScope?: string | null;
+  ownerPolicyVersion?: number | null;
   fallbackUsed: boolean;
   fallbackFrom: string | null;
   createdAt: Date;
@@ -31,11 +34,14 @@ export type InternalProvenance = {
 export function internalProvenance(row: InternalProvenance): InternalProvenance {
   const { evaluationId, evaluationType, correlationId, validationStatus,
     providerId, providerDisplayName, providerType, providerVersion, model, promptVersion, rubricVersion,
-    fallbackUsed, fallbackFrom, createdAt } = row;
+    assessmentContractKey, ownerPolicyScope, ownerPolicyVersion, fallbackUsed, fallbackFrom, createdAt } = row;
   return {
     ...(evaluationId ? { evaluationId } : {}), ...(evaluationType ? { evaluationType } : {}),
     ...(correlationId ? { correlationId } : {}), ...(validationStatus ? { validationStatus } : {}),
     providerId, providerDisplayName, providerType, providerVersion, model, promptVersion, rubricVersion,
+    ...(assessmentContractKey ? { assessmentContractKey } : {}),
+    ...(ownerPolicyScope ? { ownerPolicyScope } : {}),
+    ...(ownerPolicyVersion !== undefined ? { ownerPolicyVersion } : {}),
     fallbackUsed, fallbackFrom, createdAt,
   };
 }
@@ -46,6 +52,8 @@ export function staffProvenanceLabel(p: Omit<InternalProvenance, "createdAt">): 
     `${p.providerDisplayName} (${p.providerId}, ${p.providerType})`,
     p.model ? `model ${p.model}` : null,
     `v${p.providerVersion} · prompt ${p.promptVersion} · rubric ${p.rubricVersion}`,
+    p.assessmentContractKey ? `contract ${p.assessmentContractKey}` : null,
+    p.ownerPolicyScope && p.ownerPolicyVersion ? `owner policy ${p.ownerPolicyScope} v${p.ownerPolicyVersion}` : null,
     p.fallbackUsed ? `fallback${p.fallbackFrom ? ` from ${p.fallbackFrom}` : ""}` : null,
   ].filter(Boolean).join(" · ");
 }

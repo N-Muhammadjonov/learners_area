@@ -63,7 +63,12 @@ export type AuditAction =
   | "riwi.conversation.deleted"
   | "riwi.conversation.read"
   | "riwi.learning.reviewed"
-  | "riwi.course.lesson.read";
+  | "riwi.course.lesson.read"
+  | "riwi.assessment.policy.candidate"
+  | "riwi.assessment.policy.previewed"
+  | "riwi.assessment.policy.regression.passed"
+  | "riwi.assessment.policy.approved"
+  | "riwi.assessment.policy.rejected";
 
 export async function recordAudit(input: {
   actorUserId: string | null;

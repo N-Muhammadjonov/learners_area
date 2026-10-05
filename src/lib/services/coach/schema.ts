@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { assessmentContractKeySchema, assessmentPolicyScopeSchema } from "./contracts/schema";
 
 /**
  * The Coach contract.
@@ -132,6 +133,24 @@ export const writingAnalysisSchema = z
   .strict();
 export type WritingAnalysis = z.infer<typeof writingAnalysisSchema>;
 
+/** Optional evidence-first explanation shared by evaluator providers. */
+export const teachingFeedbackSchema = z.object({
+  simpleExplanation: z.string().max(1200).nullable(),
+  evidence: z.array(z.object({
+    excerpt: z.string().min(1).max(300),
+    point: z.string().min(1).max(400),
+    correction: z.string().max(400).nullable(),
+  }).strict()).max(6),
+  steps: z.array(z.string().min(1).max(300)).max(6),
+  examples: z.array(z.object({
+    before: z.string().max(300).nullable(),
+    after: z.string().min(1).max(300),
+    explanation: z.string().max(300).nullable(),
+  }).strict()).max(4),
+  illustration: z.string().max(1200).nullable(),
+}).strict();
+export type TeachingFeedback = z.infer<typeof teachingFeedbackSchema>;
+
 export const providerEvaluationOutputSchema = z
   .object({
     overallEstimate: z.number().min(0).max(9).nullable(),
@@ -148,8 +167,10 @@ export const providerEvaluationOutputSchema = z
     issues: z.array(evaluationIssueSchema).max(30),
     nextActions: z.array(z.string().min(1).max(400)).max(12),
     recommendedExercises: z.array(recommendedExerciseSchema).max(8),
-    /** Only Grade My Work asks for it; never copied into the evaluation row. */
+    /** Only Grade My Work asks for it; persisted separately from the band authority. */
     writingAnalysis: writingAnalysisSchema.optional(),
+    /** Optional evidence-first teaching presentation; its excerpts are source-validated. */
+    teachingFeedback: teachingFeedbackSchema.optional(),
   })
   .strict();
 
@@ -196,6 +217,10 @@ export const evaluationResultSchema = z
     model: z.string().max(120).nullable(),
     promptVersion: z.string().min(1).max(40),
     rubricVersion: z.string().min(1).max(40),
+    /** Internal, server-derived task provenance. Optional only for historical callers. */
+    assessmentContractKey: assessmentContractKeySchema.optional(),
+    ownerPolicyScope: assessmentPolicyScopeSchema.nullable().optional(),
+    ownerPolicyVersion: z.number().int().positive().max(1_000_000).nullable().optional(),
     fallbackUsed: z.boolean(),
     fallbackFrom: z.string().max(60).nullable(),
     checkedBy: checkedBySchema,
@@ -208,6 +233,7 @@ export const evaluationResultSchema = z
     issues: z.array(evaluationIssueSchema).max(30),
     nextActions: z.array(z.string().min(1).max(400)).max(12),
     recommendedExercises: z.array(recommendedExerciseSchema).max(8),
+    teachingFeedback: teachingFeedbackSchema.optional(),
     processedInMs: z.number().int().min(0).max(600_000),
     createdAt: z.string().min(1).max(40),
   })

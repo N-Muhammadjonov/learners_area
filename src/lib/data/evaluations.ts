@@ -7,6 +7,8 @@ import {
   criterionSchema,
   evaluationIssueSchema,
   recommendedExerciseSchema,
+  teachingFeedbackSchema,
+  type TeachingFeedback,
   type Criterion,
   type EvaluationIssue,
   type EvaluationResult,
@@ -41,6 +43,9 @@ export type EvaluationRecord = {
   model: string | null;
   promptVersion: string;
   rubricVersion: string;
+  assessmentContractKey: string | null;
+  ownerPolicyScope: string | null;
+  ownerPolicyVersion: number | null;
   fallbackUsed: boolean;
   fallbackFrom: string | null;
   /** PUBLIC learner-facing label: always "RIWI" (legacy rows normalised on read). */
@@ -56,6 +61,7 @@ export type EvaluationRecord = {
   issues: EvaluationIssue[];
   nextActions: string[];
   recommendedExercises: RecommendedExercise[];
+  teachingFeedback?: TeachingFeedback;
   processedInMs: number;
   createdAt: Date;
 };
@@ -77,6 +83,8 @@ function toRecord(row: EvaluationRow): EvaluationRecord {
   const recommendedExercises = row.recommendedExercises
     .map((r) => recommendedExerciseSchema.safeParse(r))
     .flatMap((parsed) => (parsed.success ? [parsed.data] : []));
+  const teachingFeedback = row.teachingFeedback === null
+    ? null : teachingFeedbackSchema.safeParse(row.teachingFeedback);
 
   return {
     id: row.id,
@@ -91,6 +99,9 @@ function toRecord(row: EvaluationRow): EvaluationRecord {
     model: row.model,
     promptVersion: row.promptVersion,
     rubricVersion: row.rubricVersion,
+    assessmentContractKey: row.assessmentContractKey,
+    ownerPolicyScope: row.ownerPolicyScope,
+    ownerPolicyVersion: row.ownerPolicyVersion,
     fallbackUsed: row.fallbackUsed,
     fallbackFrom: row.fallbackFrom,
     checkedByName: PUBLIC_CHECKED_BY,
@@ -108,6 +119,7 @@ function toRecord(row: EvaluationRow): EvaluationRecord {
     issues,
     nextActions: row.nextActions,
     recommendedExercises,
+    ...(teachingFeedback && teachingFeedback.success ? { teachingFeedback: teachingFeedback.data } : {}),
     processedInMs: row.processedInMs,
     createdAt: row.createdAt,
   };
@@ -331,6 +343,9 @@ export async function saveEvaluation(params: {
       model: result.model,
       promptVersion: result.promptVersion,
       rubricVersion: result.rubricVersion,
+      assessmentContractKey: result.assessmentContractKey ?? null,
+      ownerPolicyScope: result.ownerPolicyScope ?? null,
+      ownerPolicyVersion: result.ownerPolicyVersion ?? null,
       fallbackUsed: result.fallbackUsed,
       fallbackFrom: result.fallbackFrom,
       checkedByName: PUBLIC_CHECKED_BY,
@@ -343,6 +358,7 @@ export async function saveEvaluation(params: {
       issues: result.issues,
       nextActions: result.nextActions,
       recommendedExercises: result.recommendedExercises,
+      teachingFeedback: result.teachingFeedback ?? null,
       processedInMs: result.processedInMs,
     })
     .onConflictDoNothing({

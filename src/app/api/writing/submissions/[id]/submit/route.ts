@@ -51,6 +51,7 @@ export async function POST(_req: NextRequest, { params }: { params: Promise<{ id
     prompt: prompt.prompt,
     content: submission.content,
     targetWordCount: prompt.targetWordCount,
+    category: prompt.category,
     language: await getLocale(),
   });
 

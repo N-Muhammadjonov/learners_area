@@ -60,6 +60,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     studentAnswer: parsed.data.answer,
     targetStructure: topic?.title ?? null,
     sampleAnswer: exercise.correctOption,
+    activity: "correct_it",
     language: await getLocale(),
   });
 

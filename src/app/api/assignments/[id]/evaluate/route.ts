@@ -89,6 +89,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       prompt: prompt.prompt,
       content: submission.content,
       targetWordCount: prompt.targetWordCount,
+      category: prompt.category,
       language: await getLocale(),
     });
     if (!outcome.ok) return NextResponse.json({ error: outcome.error }, { status: 502 });

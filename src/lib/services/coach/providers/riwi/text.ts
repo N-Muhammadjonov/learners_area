@@ -128,7 +128,11 @@ function tokenise(text: string): string[] {
 
 function trimmedExcerpt(sentence: string, max = 200): string {
   const clean = sentence.trim().replace(/\s+/g, " ");
-  return clean.length > max ? `${clean.slice(0, max - 1)}…` : clean;
+  if (clean.length <= max) return clean;
+  // An evidence excerpt is a quote, not display copy: keep a verbatim prefix
+  // (prefer a word boundary) and never append an ellipsis absent from the source.
+  const boundary = clean.lastIndexOf(" ", max);
+  return clean.slice(0, boundary > 0 ? boundary : max).trimEnd();
 }
 
 function sentenceContaining(text: string, index: number): string {

@@ -8,6 +8,8 @@ import { activationCheckBody } from "../src/lib/writing/activation-schema";
 import { activationScore, ACTIVATION_LEVELS } from "../src/lib/writing/activation-rules";
 import { containsItem, cleanCustomItem } from "../src/lib/writing/activation-rules";
 import { normalizeCheck, type CheckOutcome } from "../src/lib/services/writing/check";
+import { composeAssessmentPrompt } from "../src/lib/services/coach/contracts/compose";
+import { getAssessmentContract } from "../src/lib/services/coach/contracts/registry";
 
 async function setup(words = ["mitigate", "a double-edged sword"]) {
   const t = await createTestDatabase();
@@ -186,9 +188,10 @@ test("A13 speaking mode copy and provider instructions never claim audio evaluat
   }
   assert.match(en.writingWorkspace.activation.speakingHint, /No audio/);
   assert.match(uz.writingWorkspace.activation.speakingHint, /Ovoz yozilmaydi/);
-  // Changed 2026-10-03: the prompts moved verbatim to the shared module used by every adapter.
-  const provider = readFileSync("src/lib/services/coach/providers/shared/prompts.ts", "utf8");
-  assert.match(provider, /You have no audio: never comment on pronunciation/);
+  const activationPrompt = composeAssessmentPrompt({
+    contract: getAssessmentContract("writing.check.activation-speaking")!,
+  });
+  assert.match(activationPrompt, /No audio is available: do not claim pronunciation, fluency, prosody, or speaking performance/);
 });
 
 test("Mentor visibility uses the existing teacher student page (staff-guarded)", () => {

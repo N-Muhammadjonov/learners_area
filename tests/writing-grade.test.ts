@@ -1,12 +1,13 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { getAssessmentContract } from "../src/lib/services/coach/contracts/registry";
 import { providerRegistry, registerProvider } from "../src/lib/services/coach/registry";
 import { resolveEvaluation, type EvaluationRequest } from "../src/lib/services/coach/resolver";
 import { RiwiProvider } from "../src/lib/services/coach/providers/riwi";
 import { providerOk, type EvaluationContext } from "../src/lib/services/coach/types";
 import { GOOD_OUTPUT, TestEvaluationProvider } from "./support/test-provider";
 import { criteriaFor, deriveOverall, normalizeWritingCriteria, toHalfBand } from "../src/lib/writing/grade-criteria";
-import { createGradeRequest, normalizeGradeResult, runGrade, CLAIM_STALE_MS } from "../src/lib/services/writing/grade";
+import { createGradeRequest, normalizeAnalysis, normalizeGradeResult, runGrade, CLAIM_STALE_MS } from "../src/lib/services/writing/grade";
 import { createTestDatabase } from "./support/pglite";
 import { users, writingGradeRequests } from "../src/db/schema";
 import { eq } from "drizzle-orm";
@@ -70,18 +71,31 @@ test("W5 fallback policy 'none': RIWI configured → external_required; external
     const failed = await withEnv({ AI_PRIMARY_PROVIDER: "test-external" }, () => resolveEvaluation(REQ, CTX, { maxAttempts: 1 }, { fallback: "none" }));
     assert.equal(failed.ok, false);
     if (!failed.ok) { assert.equal(failed.error, "evaluation_unavailable"); assert.ok(failed.attempts.every((a) => a.providerId !== "riwi")); }
-    // Default policy is unchanged for every other Coach feature.
-    const legacy = await withEnv({ AI_PRIMARY_PROVIDER: "test-external" }, () => resolveEvaluation(REQ, CTX, { maxAttempts: 1 }));
+    // Ordinary Coach writing still follows the default fallback policy; Grade My Work does not.
+    const ordinaryWriting: EvaluationRequest = { ...REQ, input: { ...REQ.input, detailedAnalysis: false } };
+    const legacy = await withEnv({ AI_PRIMARY_PROVIDER: "test-external" }, () => resolveEvaluation(ordinaryWriting, CTX, { maxAttempts: 1 }));
     assert.equal(legacy.ok && legacy.result.providerId, "riwi");
   } finally { reset(); }
 });
 
-test("W6 the W7 analysis travels beside the strict result and dedicated versions are recorded", async () => {
+test("W6 the W7 analysis travels beside the strict result and task-contract versions are recorded", async () => {
   class Analyst extends TestEvaluationProvider {
-    versionsFor = () => ({ promptVersion: "writing-ielts-v2", rubricVersion: "ielts-writing-four-criteria-v1" });
+    versionsFor = () => ({ promptVersion: "provider-prompt-v0", rubricVersion: "provider-rubric-v0" });
     async evaluateWriting(_ctx: EvaluationContext) {
       const L = (t: string) => ({ en: t, uz: t });
-      return providerOk({ ...GOOD_OUTPUT, writingAnalysis: { examinerComment: L("Clear overview."), criterionNarratives: [], sentenceFeedback: [], topFixes: [{ title: L("Overview"), explanation: L("Add one."), examples: [] }] } });
+      const criterionNarratives = [
+        { key: "task_achievement", narrative: L("A clear overview is present."), evidence: ["word word"] },
+        { key: "coherence_cohesion", narrative: L("The sequence is easy to follow."), evidence: ["word word"] },
+        { key: "lexical_resource", narrative: L("Vocabulary is consistent."), evidence: ["word word"] },
+        { key: "grammatical_range_accuracy", narrative: L("Sentence forms are controlled."), evidence: ["word word"] },
+      ];
+      const analysis = { examinerComment: L("Clear overview."), criterionNarratives, sentenceFeedback: [], topFixes: [{ title: L("Overview"), explanation: L("Add one."), examples: [] }] };
+      assert.ok(normalizeAnalysis("task1", analysis));
+      assert.equal(normalizeAnalysis("task1", { ...analysis, criterionNarratives: [{ ...criterionNarratives[0]!, key: "task_response" }, ...criterionNarratives.slice(1)] }), null,
+        "Task 1 narratives must use the exact Task Achievement criterion key");
+      assert.equal(normalizeAnalysis("task1", { ...analysis, criterionNarratives: [{ ...criterionNarratives[0]!, evidence: [] }, ...criterionNarratives.slice(1)] }), null,
+        "each Grade My Work criterion narrative needs a grounded evidence quote");
+      return providerOk({ ...GOOD_OUTPUT, writingAnalysis: analysis });
     }
   }
   registerProvider(new Analyst());
@@ -89,8 +103,12 @@ test("W6 the W7 analysis travels beside the strict result and dedicated versions
     const out = await withEnv({ AI_PRIMARY_PROVIDER: "test-external" }, () => resolveEvaluation(REQ, CTX, undefined, { fallback: "none" }));
     assert.equal(out.ok, true);
     if (!out.ok) return;
-    assert.equal(out.result.promptVersion, "writing-ielts-v2");
-    assert.equal(out.result.rubricVersion, "ielts-writing-four-criteria-v1");
+    const contract = getAssessmentContract("writing.grade.task1");
+    assert.ok(contract);
+    assert.equal(out.result.promptVersion, contract.version);
+    assert.equal(out.result.rubricVersion, contract.rubricVersion);
+    assert.notEqual(out.result.promptVersion, "provider-prompt-v0");
+    assert.notEqual(out.result.rubricVersion, "provider-rubric-v0");
     assert.equal("writingAnalysis" in out.result, false);
     assert.equal(out.extras.writingAnalysis?.examinerComment.en, "Clear overview.");
   } finally { reset(); }

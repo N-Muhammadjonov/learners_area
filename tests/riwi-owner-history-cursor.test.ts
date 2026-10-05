@@ -32,6 +32,10 @@ test("owner history cursors are signed, canonical, and bound to actor, collectio
   assert.throws(() => decodeOwnerHistoryCursor(filteredCursor, actor, "learning_signals", undefined, "state:accepted"), RiwiOwnerHistoryCursorError);
   assert.throws(() => decodeOwnerHistoryCursor(filteredCursor, actor, "learning_signals"), RiwiOwnerHistoryCursorError,
     "a filtered cursor cannot be replayed without its original filter");
+  const policyCursor = encodeOwnerHistoryCursor({ actor, collection: "assessment_policy_versions", filter: "candidate", after });
+  assert.deepEqual(decodeOwnerHistoryCursor(policyCursor, actor, "assessment_policy_versions", undefined, "candidate"), after);
+  assert.throws(() => decodeOwnerHistoryCursor(policyCursor, actor, "provider_experiments", undefined, "candidate"), RiwiOwnerHistoryCursorError);
+  assert.throws(() => decodeOwnerHistoryCursor(policyCursor, actor, "assessment_policy_versions", undefined, "approved"), RiwiOwnerHistoryCursorError);
 
   const [payload, signature] = cursor.split(".");
   const tamperedPayload = JSON.parse(Buffer.from(payload!, "base64url").toString("utf8")) as Record<string, unknown>;

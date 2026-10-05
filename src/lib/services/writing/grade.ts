@@ -5,7 +5,9 @@ import { writingGradeRequests } from "@/db/schema";
 import { evaluateAndPersist, type ServiceOutcome } from "@/lib/services/coach/service";
 import { findEvaluation, findEvaluationsForSources, type EvaluationRecord } from "@/lib/data/evaluations";
 import { writingAnalysisSchema, type EvaluationResult, type WritingAnalysis } from "@/lib/services/coach/schema";
-import { countEssayWords, normalizeWritingCriteria, slotOf, criteriaFor, type WritingTask } from "@/lib/writing/grade-criteria";
+import { countEssayWords, normalizeWritingCriteria, criteriaFor, type WritingTask } from "@/lib/writing/grade-criteria";
+import { writingContractKey } from "@/lib/services/coach/contracts/registry";
+import type { AssessmentContractKey } from "@/lib/services/coach/contracts/types";
 
 /**
  * Grade My Work (owner spec §42). Strict external AI grading:
@@ -19,12 +21,13 @@ export const GRADE_SOURCE_TYPE = "writing_grade";
 export const CLAIM_STALE_MS = 3 * 60_000;
 type Database = typeof db;
 
-export type GradeInput = { taskType: WritingTask; question: string; essay: string; idempotencyKey: string; promptId?: string | null };
+export type GradeInput = { taskType: WritingTask; question: string; essay: string; idempotencyKey: string; promptId?: string | null; taskCategory?: string | null };
 
 export async function createGradeRequest(userId: string, input: GradeInput, database: Database = db) {
   const inserted = await database.insert(writingGradeRequests).values({
     userId, taskType: input.taskType, questionText: input.question.trim(), essayText: input.essay,
     wordCount: countEssayWords(input.essay), idempotencyKey: input.idempotencyKey, promptId: input.promptId ?? null,
+    taskCategory: input.taskCategory ?? null,
   }).onConflictDoNothing({ target: [writingGradeRequests.userId, writingGradeRequests.idempotencyKey] }).returning();
   if (inserted[0]) return { row: inserted[0], created: true };
   const existing = await database.query.writingGradeRequests.findFirst({
@@ -47,12 +50,12 @@ export function normalizeAnalysis(task: WritingTask, analysis: unknown): Writing
   const parsed = writingAnalysisSchema.safeParse(analysis);
   if (!parsed.success) return null;
   const keys = criteriaFor(task);
-  const narratives = parsed.data.criterionNarratives.flatMap((n) => {
-    const slot = slotOf(n.key);
-    if (!slot) return [];
-    return [{ ...n, key: slot === "task" ? keys[0]! : slot }];
-  });
-  return { ...parsed.data, criterionNarratives: narratives };
+  const narratives = parsed.data.criterionNarratives;
+  const canonical = (value: string) => value.toLowerCase().replace(/[^a-z]/g, "");
+  if (narratives.length !== keys.length
+    || !keys.every((key, index) => canonical(narratives[index]?.key ?? "") === canonical(key))
+    || narratives.some((item) => item.evidence.length === 0)) return null;
+  return parsed.data;
 }
 
 export type GradeRunOutcome =
@@ -81,6 +84,9 @@ export async function runGrade(requestId: string, userId: string, language: "uz"
   }
 
   const task = row.taskType as WritingTask;
+  const contractKey: AssessmentContractKey = row.taskCategory
+    ? writingContractKey(task, row.taskCategory)
+    : task === "task1" ? "writing.grade.task1" : "writing.grade.task2";
   let outcome: ServiceOutcome;
   try {
     outcome = await evaluate({
@@ -88,7 +94,11 @@ export async function runGrade(requestId: string, userId: string, language: "uz"
       policy: { fallback: "none" },
       normalize: (result) => normalizeGradeResult(task, result),
       // Only what grading needs: no identity, profile or history (§42.7).
-      request: { evaluationType: "writing", input: { taskType: task, prompt: row.questionText, content: row.essayText, targetWordCount: task === "task1" ? 150 : 250, detailedAnalysis: true, wordCount: row.wordCount } },
+      request: {
+        evaluationType: "writing",
+        assessmentContractKey: contractKey,
+        input: { taskType: task, prompt: row.questionText, content: row.essayText, targetWordCount: task === "task1" ? 150 : 250, detailedAnalysis: true, wordCount: row.wordCount },
+      },
     });
   } catch {
     outcome = { ok: false, error: "evaluation_unavailable" };

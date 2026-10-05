@@ -19,6 +19,7 @@ import {
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 import type { AnyPgColumn } from "drizzle-orm/pg-core";
+import type { AssessmentOwnerOverlay } from "@/lib/services/coach/contracts/types";
 
 // ---------------------------------------------------------------------------
 // Enums
@@ -69,6 +70,7 @@ export const riwiLearningSignalStateEnum = pgEnum("riwi_learning_signal_state", 
 export const riwiReviewDecisionEnum = pgEnum("riwi_review_decision", ["approve", "reject", "request_changes"]);
 export const riwiConversationMessageRoleEnum = pgEnum("riwi_conversation_message_role", ["user", "assistant"]);
 export const riwiExperimentStateEnum = pgEnum("riwi_experiment_state", ["pending", "running", "completed", "partial", "failed"]);
+export const riwiAssessmentPolicyStateEnum = pgEnum("riwi_assessment_policy_state", ["candidate", "approved", "superseded", "rejected"]);
 
 export const accessRequestStatusEnum = pgEnum("access_request_status", [
   "pending",
@@ -514,6 +516,50 @@ export const riwiProviderExperimentResults = pgTable("riwi_provider_experiment_r
 }, (table) => [
   uniqueIndex("riwi_provider_experiment_results_pair_uidx").on(table.experimentId, table.providerId),
   check("riwi_provider_experiment_results_duration_check", sql`${table.durationMs} >= 0`),
+]);
+
+/**
+ * Owner-reviewed assessment presentation overlays. The message that produced a
+ * candidate is never stored; only its digest, bounded fields, review state, and
+ * regression evidence are retained.
+ */
+export const riwiAssessmentPolicies = pgTable("riwi_assessment_policies", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  scope: varchar("scope", { length: 100 }).notNull(),
+  activeVersion: integer("active_version"),
+  createdByUserId: uuid("created_by_user_id").references(() => users.id, { onDelete: "set null" }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => [
+  uniqueIndex("riwi_assessment_policies_scope_uidx").on(table.scope),
+  check("riwi_assessment_policies_active_version_check", sql`${table.activeVersion} is null or ${table.activeVersion} > 0`),
+]);
+
+export const riwiAssessmentPolicyVersions = pgTable("riwi_assessment_policy_versions", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  policyId: uuid("policy_id").notNull().references(() => riwiAssessmentPolicies.id, { onDelete: "cascade" }),
+  version: integer("version").notNull(),
+  state: riwiAssessmentPolicyStateEnum("state").notNull().default("candidate"),
+  overlay: jsonb("overlay").$type<AssessmentOwnerOverlay>().notNull(),
+  sourceMessageHash: varchar("source_message_hash", { length: 64 }).notNull(),
+  regressionFixtureId: varchar("regression_fixture_id", { length: 120 }),
+  regressionEvidenceHash: varchar("regression_evidence_hash", { length: 64 }),
+  regressionPassedAt: timestamp("regression_passed_at", { withTimezone: true }),
+  createdByUserId: uuid("created_by_user_id").references(() => users.id, { onDelete: "set null" }),
+  reviewedByUserId: uuid("reviewed_by_user_id").references(() => users.id, { onDelete: "set null" }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  approvedAt: timestamp("approved_at", { withTimezone: true }),
+}, (table) => [
+  uniqueIndex("riwi_assessment_policy_versions_policy_version_uidx").on(table.policyId, table.version),
+  uniqueIndex("riwi_assessment_policy_versions_policy_hash_uidx").on(table.policyId, table.sourceMessageHash),
+  index("riwi_assessment_policy_versions_state_idx").on(table.state, table.createdAt, table.id),
+  check("riwi_assessment_policy_versions_version_check", sql`${table.version} > 0`),
+  check("riwi_assessment_policy_versions_message_hash_check", sql`${table.sourceMessageHash} ~ '^[a-f0-9]{64}$'`),
+  check("riwi_assessment_policy_versions_regression_hash_check", sql`${table.regressionEvidenceHash} is null or ${table.regressionEvidenceHash} ~ '^[a-f0-9]{64}$'`),
+  check("riwi_assessment_policy_versions_approval_check", sql`${table.state} <> 'approved' or (
+    ${table.regressionFixtureId} is not null and ${table.regressionEvidenceHash} is not null and ${table.regressionPassedAt} is not null and
+    ${table.reviewedByUserId} is not null and ${table.approvedAt} is not null
+  )`),
 ]);
 
 export const riwiUsageMetrics = pgTable("riwi_usage_metrics", {
@@ -1748,6 +1794,10 @@ export const evaluations = pgTable(
     model: varchar("model", { length: 120 }),
     promptVersion: varchar("prompt_version", { length: 40 }).notNull(),
     rubricVersion: varchar("rubric_version", { length: 40 }).notNull(),
+    /** Nullable for historical rows; populated from the server contract on new evaluations. */
+    assessmentContractKey: varchar("assessment_contract_key", { length: 80 }),
+    ownerPolicyScope: varchar("owner_policy_scope", { length: 100 }),
+    ownerPolicyVersion: integer("owner_policy_version"),
     fallbackUsed: boolean("fallback_used").notNull().default(false),
     fallbackFrom: varchar("fallback_from", { length: 60 }),
     /**
@@ -1790,6 +1840,13 @@ export const evaluations = pgTable(
     >()
       .notNull()
       .default([]),
+    teachingFeedback: jsonb("teaching_feedback").$type<{
+      simpleExplanation: string | null;
+      evidence: { excerpt: string; point: string; correction: string | null }[];
+      steps: string[];
+      examples: { before: string | null; after: string; explanation: string | null }[];
+      illustration: string | null;
+    }>(),
     processedInMs: integer("processed_in_ms").notNull().default(0),
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   },
@@ -2366,8 +2423,10 @@ export const writingGradeRequests = pgTable("writing_grade_requests", {
   questionText: text("question_text").notNull(),
   essayText: text("essay_text").notNull(),
   wordCount: integer("word_count").notNull(),
-  /** 0032: the published Task 1 prompt (and its visual) the essay answers, if chosen. */
+  /** 0032: the published prompt (and its visual) the essay answers, if chosen. */
   promptId: uuid("prompt_id").references(() => writingPrompts.id, { onDelete: "set null" }),
+  /** Immutable server-derived category snapshot; null for learner-authored questions. */
+  taskCategory: varchar("task_category", { length: 60 }),
   status: varchar("status", { length: 20 }).notNull().default("pending"),
   lastError: varchar("last_error", { length: 60 }),
   claimedAt: timestamp("claimed_at", { withTimezone: true }),

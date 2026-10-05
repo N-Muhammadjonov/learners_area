@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { AiControlPanel } from "@/components/owner/AiControlPanel";
 import { OwnerRiwiControlRoom } from "@/components/riwi/OwnerRiwiControlRoom";
 import { OwnerRiwiGovernance } from "@/components/riwi/OwnerRiwiGovernance";
+import { OwnerAssessmentPolicyPanel } from "@/components/riwi/OwnerAssessmentPolicyPanel";
 import { requireOwner } from "@/lib/auth/current-user";
 import { MODEL_ID, ownerAiStatus } from "@/lib/services/coach/owner-control";
 import { countRiwiProviderExperiments, listRiwiProviderExperimentPage } from "@/lib/services/riwi/provider-lab";
@@ -56,6 +57,7 @@ export default async function OwnerRiwiPage() {
         text={dict.riwiLab}
       />
       <OwnerRiwiGovernance locale={locale} />
+      <OwnerAssessmentPolicyPanel key={owner.id} locale={locale} />
     </main>
   );
 }

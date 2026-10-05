@@ -11,14 +11,15 @@ export type RiwiOwnerHistoryCollection =
   | "learning_signals"
   | "learning_reviews"
   | "audit_entries"
-  | "provider_experiments";
+  | "provider_experiments"
+  | "assessment_policy_versions";
 export type RiwiOwnerHistoryPosition = { sortAt: Date; id: string };
 
 const cursorSchema = z.object({
   version: z.literal(1),
   actorId: z.string().uuid(),
   role: z.literal("owner"),
-  collection: z.enum(["knowledge_sources", "learning_signals", "learning_reviews", "audit_entries", "provider_experiments"]),
+  collection: z.enum(["knowledge_sources", "learning_signals", "learning_reviews", "audit_entries", "provider_experiments", "assessment_policy_versions"]),
   scopeId: z.string().uuid().optional(),
   filter: z.string().min(1).max(120).optional(),
   after: z.object({ sortAt: z.string().datetime({ offset: true }), id: z.string().uuid() }).strict(),

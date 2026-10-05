@@ -19,7 +19,7 @@ import { PinnedHttpsError } from "../src/lib/services/coach/providers/shared/ssr
 const PUBLIC = async () => [{ address: "93.184.216.34" }];
 const output = {
   overallEstimate: null, confidence: 0.7, verdict: "mostly_correct",
-  criteria: [{ key: "grammar", label: "Grammar", band: 6, limited: false, note: null }],
+  criteria: [{ key: "grammar", label: "Grammar", band: null, limited: false, note: null }],
   strengths: ["clear"], weaknesses: [], nextActions: [], issues: [], recommendedExercises: [],
 };
 const ctx = { userId: "11111111-2222-3333-4444-555555555555", language: "en" as const };

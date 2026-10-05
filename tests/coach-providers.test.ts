@@ -12,9 +12,11 @@ import {
   evaluationResultSchema,
 } from "../src/lib/services/coach/schema";
 import { RIWI_PROVIDER_ID } from "../src/lib/services/coach/config";
+import { getAssessmentContract } from "../src/lib/services/coach/contracts/registry";
 import { categoriesCheckedBy } from "../src/lib/services/coach/categories";
 import { classifyAssignment } from "../src/lib/services/coach/assignment";
 import { SpeechToTextService, sttRegistry } from "../src/lib/services/coach/stt";
+import { createLlmEvaluationProvider } from "../src/lib/services/coach/providers/shared/llm-provider";
 import { RiwiProvider } from "../src/lib/services/coach/providers/riwi";
 import { GOOD_OUTPUT, StubRiwi, TestEvaluationProvider } from "./support/test-provider";
 
@@ -83,6 +85,23 @@ test("RIWI is the default evaluator and no external provider is called", async (
     providerRegistry.clear();
     reRegisterDefaults();
   }
+});
+
+test("RIWI's bounded evidence excerpts remain exact source quotes under contract validation", async () => {
+  const content = "word ".repeat(160);
+  const outcome = await withEnv(
+    { AI_PRIMARY_PROVIDER: undefined, AI_EXTERNAL_ENABLED: undefined },
+    () => resolveEvaluation({
+      evaluationType: "writing",
+      input: { taskType: "task1", prompt: "Describe the chart.", content, targetWordCount: 150 },
+    }, CTX),
+  );
+  assert.equal(outcome.ok, true);
+  if (!outcome.ok) return;
+  assert.equal(outcome.result.providerId, RIWI_PROVIDER_ID);
+  const excerpts = outcome.result.issues.flatMap((issue) => issue.excerpt ? [issue.excerpt] : []);
+  assert.ok(excerpts.length > 0, "the long test response should exercise RIWI excerpt bounds");
+  for (const excerpt of excerpts) assert.ok(content.includes(excerpt), `excerpt is not verbatim source text: ${excerpt}`);
 });
 
 test("a configured external provider that succeeds is the only evaluator", async () => {
@@ -154,6 +173,61 @@ test("a malformed provider response is rejected and RIWI takes over", async () =
       providerRegistry.clear();
       reRegisterDefaults();
     }
+  }
+});
+
+test("an external LLM pronunciation score is rejected instead of being hidden before validation", async () => {
+  const invalidOutput = {
+    overallEstimate: 7, confidence: 0.8, verdict: null,
+    criteria: [
+      { key: "fluency", label: "Fluency and Coherence", band: 7, limited: false, note: null },
+      { key: "lexical", label: "Lexical Resource", band: 7, limited: false, note: null },
+      { key: "grammar", label: "Grammatical Range and Accuracy", band: 7, limited: false, note: null },
+      { key: "pronunciation", label: "Pronunciation", band: 8, limited: false, note: "Claimed from transcript" },
+    ],
+    strengths: [], weaknesses: [], issues: [], nextActions: [], recommendedExercises: [],
+  };
+  let systemPrompt = "";
+  const external = createLlmEvaluationProvider({
+    id: "test-llm-speaking",
+    displayName: "Test LLM",
+    version: "fixture-v1",
+    model: () => "fixture-model",
+    requiredSecrets: () => ["TEST_LLM_API_KEY"],
+    transport: async ({ system }) => {
+      systemPrompt = system;
+      return { ok: true, text: JSON.stringify(invalidOutput) };
+    },
+  });
+  registerProvider(external);
+  try {
+    const outcome = await withEnv({
+      AI_PRIMARY_PROVIDER: "test-llm-speaking",
+      AI_EXTERNAL_ENABLED: "true",
+      TEST_LLM_API_KEY: "fixture-only-not-a-provider-credential",
+    }, () => resolveEvaluation({
+      evaluationType: "speaking",
+      input: {
+        part: "part2",
+        promptText: "Describe a place you like.",
+        transcript: "I would like to talk about a park near my house. First of all, it is quiet in the morning, so I often go there to read. On the other hand, it becomes crowded at the weekend, because families bring their children. Overall, I like it because it is close to my home and I can walk there in five minutes.",
+        transcriptOrigin: "manual",
+        durationMs: 95_000,
+        pronunciationAvailable: false,
+      },
+    }, CTX));
+    assert.equal(outcome.ok, true);
+    if (!outcome.ok) return;
+    assert.match(systemPrompt, /Pronunciation, accent, intonation, stress, pauses, and prosody cannot be inferred from a transcript/);
+    assert.equal(outcome.result.providerId, RIWI_PROVIDER_ID);
+    assert.equal(outcome.result.fallbackUsed, true);
+    assert.equal(outcome.attempts[0]?.failure?.reason, "invalid_response");
+    const pronunciation = outcome.result.criteria.find((criterion) => criterion.key === "pronunciation");
+    assert.equal(pronunciation?.band, null);
+    assert.equal(pronunciation?.limited, true);
+  } finally {
+    providerRegistry.clear();
+    reRegisterDefaults();
   }
 });
 
@@ -296,12 +370,17 @@ test("external adapters never receive local user identity", async () => {
     assert.equal(spy.calls[0]?.userId, "external-anonymous");
     assert.notEqual(spy.calls[0]?.userId, CTX.userId);
     assert.equal(spy.calls[0]?.language, "en");
-    // Nothing beyond the task text and the language is forwarded.
+    // Provider context contains only anonymous identity, language, timeout signal,
+    // and machine-owned contract metadata (never the local user identity).
     assert.deepEqual(Object.keys(spy.calls[0] ?? {}).sort(), [
+      "assessmentContract",
       "language",
       "signal",
       "userId",
     ]);
+    assert.equal(spy.calls[0]?.assessmentContract?.key, "writing.task2.generic");
+    assert.equal(spy.calls[0]?.assessmentContract?.version, getAssessmentContract("writing.task2.generic")?.version);
+    assert.equal(spy.calls[0]?.assessmentContract?.policyScope, null);
   } finally {
     providerRegistry.clear();
     reRegisterDefaults();
@@ -314,9 +393,11 @@ test("provider version metadata is recorded on every result", async () => {
   );
   assert.equal(outcome.ok, true);
   if (!outcome.ok) return;
+  const contract = getAssessmentContract("writing.task2.generic");
+  assert.ok(contract);
   assert.equal(outcome.result.providerVersion, "1.0.0");
-  assert.equal(outcome.result.promptVersion, "riwi-signals-v1");
-  assert.equal(outcome.result.rubricVersion, "ielts-public-criteria-v1");
+  assert.equal(outcome.result.promptVersion, contract.version);
+  assert.equal(outcome.result.rubricVersion, contract.rubricVersion);
   assert.ok(outcome.result.processedInMs >= 0);
   assert.ok(evaluationResultSchema.safeParse(outcome.result).success);
 });

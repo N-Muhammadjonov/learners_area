@@ -155,7 +155,7 @@ export async function resourceBlocksForPrompts(promptIds: string[]): Promise<Map
 export async function livePromptForGrade(promptId: string, taskType: "task1" | "task2") {
   const row = await db.query.writingPrompts.findFirst({
     where: and(eq(writingPrompts.id, promptId), eq(writingPrompts.taskType, taskType), liveWhere({ publicationState: writingPrompts.publicationState, publishAt: writingPrompts.publishAt })),
-    columns: { id: true, prompt: true, taskType: true },
+    columns: { id: true, prompt: true, taskType: true, category: true },
   });
   return row ?? null;
 }

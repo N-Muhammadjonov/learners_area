@@ -30,6 +30,7 @@ export async function evaluateVocabularyUsage(
     language: input.language,
     request: {
       evaluationType: "vocabulary",
+      assessmentContractKey: "vocabulary.use-in-sentence",
       input: {
         targetWord: input.targetWord,
         definition: input.definition,

@@ -1,5 +1,6 @@
 import "server-only";
 import { evaluateAndPersist, type ServiceOutcome } from "./service";
+import { grammarContractKey } from "./contracts/registry";
 
 export type GrammarEvaluationRequest = {
   userId: string;
@@ -9,6 +10,8 @@ export type GrammarEvaluationRequest = {
   studentAnswer: string;
   targetStructure: string | null;
   sampleAnswer: string | null;
+  /** Persisted grammar activity chosen/derived by the server, never by the answer text. */
+  activity?: "correct_it" | "translate_it" | "activate_it";
   language: "uz" | "en";
 };
 
@@ -35,6 +38,7 @@ export async function evaluateGrammarProduction(
     language: input.language,
     request: {
       evaluationType: "grammar",
+      assessmentContractKey: grammarContractKey(input.activity ?? "activate_it"),
       input: {
         promptText: input.promptText,
         studentAnswer: input.studentAnswer,

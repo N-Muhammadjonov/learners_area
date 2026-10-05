@@ -110,6 +110,34 @@ export function EvaluationView({
         </Card>
       )}
 
+      {evaluation.teachingFeedback && (
+        <Card className="flex flex-col gap-3" data-teaching-feedback>
+          <p className="text-xs font-medium uppercase tracking-wide text-ink-300">{t.teachingFeedback}</p>
+          {evaluation.teachingFeedback.simpleExplanation && <p className="text-sm text-ink-800"><strong>{t.simpleExplanation}: </strong>{evaluation.teachingFeedback.simpleExplanation}</p>}
+          {evaluation.teachingFeedback.evidence.length > 0 && <div className="flex flex-col gap-2">
+            <p className="text-xs font-semibold text-ink-700">{t.evidence}</p>
+            {evaluation.teachingFeedback.evidence.map((item, index) => <div key={`${item.excerpt}-${index}`} className="rounded-lg bg-paper-sunken p-3">
+              <blockquote className="font-mono text-xs text-ink-700">“{item.excerpt}”</blockquote>
+              <p className="mt-1 text-sm text-ink-800">{item.point}</p>
+              {item.correction && <p className="mt-1 text-xs text-ink-600"><strong>{t.suggestion}: </strong>{item.correction}</p>}
+            </div>)}
+          </div>}
+          {evaluation.teachingFeedback.steps.length > 0 && <div>
+            <p className="text-xs font-semibold text-ink-700">{t.practiceSteps}</p>
+            <ol className="mt-1 list-inside list-decimal space-y-1 text-sm text-ink-700">{evaluation.teachingFeedback.steps.map((step, index) => <li key={index}>{step}</li>)}</ol>
+          </div>}
+          {evaluation.teachingFeedback.examples.length > 0 && <div>
+            <p className="text-xs font-semibold text-ink-700">{t.examples}</p>
+            <ul className="mt-1 space-y-2">{evaluation.teachingFeedback.examples.map((example, index) => <li key={index} className="rounded-lg border border-ink-100 bg-white p-3 text-sm">
+              {example.before && <p><strong>{t.before}: </strong>{example.before}</p>}
+              <p><strong>{t.after}: </strong>{example.after}</p>
+              {example.explanation && <p className="mt-1 text-xs text-ink-500">{example.explanation}</p>}
+            </li>)}</ul>
+          </div>}
+          {evaluation.teachingFeedback.illustration && <p className="rounded-lg bg-signal-50 p-3 text-sm text-signal-900"><strong>{t.illustration}: </strong>{evaluation.teachingFeedback.illustration}</p>}
+        </Card>
+      )}
+
       {evaluation.issues.length > 0 && (
         <Card className="flex flex-col gap-3">
           <p className="text-xs font-medium uppercase tracking-wide text-ink-300">{t.issues}</p>

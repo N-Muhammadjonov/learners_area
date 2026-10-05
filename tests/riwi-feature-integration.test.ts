@@ -63,6 +63,7 @@ function evaluationRecord(userId: string, evaluationType: EvaluationRecord["eval
     id: randomUUID(), userId, evaluationType, sourceType: `${evaluationType}_integration_fixture`, sourceId: randomUUID(),
     providerId: "riwi-core", providerDisplayName: "RIWI", providerType: "internal", providerVersion: "integration-fixture-v1",
     model: null, promptVersion: `riwi-${evaluationType}-integration-v1`, rubricVersion: `riwi-${evaluationType}-rubric-v1`,
+    assessmentContractKey: null, ownerPolicyScope: null, ownerPolicyVersion: null,
     fallbackUsed: false, fallbackFrom: null, checkedByName: "RIWI", checkedBy: { id: "riwi-core", displayName: "RIWI", type: "internal" },
     overallEstimate: evaluationType === "writing" || evaluationType === "speaking" ? 7.5 : null,
     confidence: 0.9, verdict: evaluationType === "grammar" || evaluationType === "vocabulary" ? "correct" : null,

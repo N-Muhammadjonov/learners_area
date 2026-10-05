@@ -74,6 +74,7 @@ export async function evaluateAssignment(
     language: input.language,
     request: {
       evaluationType: "assignment",
+      assessmentContractKey: "assignment.free-form",
       input: {
         title: input.title,
         description: input.description,

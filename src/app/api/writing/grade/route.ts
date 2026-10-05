@@ -34,11 +34,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: { code: "too_short", message: "The essay is too short to grade.", field: "essay" } }, { status: 400 });
   }
   // A chosen published prompt is authoritative: its exact wording is graded and its visual is shown with the result.
-  let input = { ...parsed.data, promptId: null as string | null };
+  let input = { ...parsed.data, promptId: null as string | null, taskCategory: null as string | null };
   if (parsed.data.promptId) {
     const prompt = await livePromptForGrade(parsed.data.promptId, parsed.data.taskType);
     if (!prompt) return NextResponse.json({ error: { code: "invalid_input", message: "This question is not available.", field: "promptId" } }, { status: 400 });
-    input = { ...parsed.data, question: prompt.prompt, promptId: prompt.id };
+    input = { ...parsed.data, question: prompt.prompt, promptId: prompt.id, taskCategory: prompt.category };
   }
   const { row } = await createGradeRequest(user.id, input);
   const outcome = await runGrade(row.id, user.id, await getLocale());

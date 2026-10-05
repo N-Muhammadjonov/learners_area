@@ -2,6 +2,10 @@ import "server-only";
 import { guardExternalPayload } from "@/lib/services/riwi/outbound-guard";
 import { RIWI_PROVIDER_ID, readCoachConfig, type CoachConfig } from "./config";
 import { providerRegistry } from "./registry";
+import { assessmentContractForRequest, assessmentContractKeyForRequest, getAssessmentContract } from "./contracts/registry";
+import { applyOwnerOverlayToOutput, validateAssessmentOutput } from "./contracts/compose";
+import { getApprovedOwnerPolicyForContract } from "./contracts/owner-policy";
+import type { AssessmentContractKey } from "./contracts/types";
 import {
   buildCheckedBy,
   evaluationResultSchema,
@@ -47,11 +51,11 @@ export type ResolveOutcome =
   | { ok: false; error: CoachEvaluationError; attempts: ProviderAttempt[] };
 
 export type EvaluationRequest =
-  | { evaluationType: "writing"; input: WritingEvaluationInput }
-  | { evaluationType: "speaking"; input: SpeakingEvaluationInput }
-  | { evaluationType: "grammar"; input: GrammarEvaluationInput }
-  | { evaluationType: "vocabulary"; input: VocabularyEvaluationInput }
-  | { evaluationType: "assignment"; input: AssignmentEvaluationInput };
+  | { evaluationType: "writing"; input: WritingEvaluationInput; assessmentContractKey?: AssessmentContractKey }
+  | { evaluationType: "speaking"; input: SpeakingEvaluationInput; assessmentContractKey?: AssessmentContractKey }
+  | { evaluationType: "grammar"; input: GrammarEvaluationInput; assessmentContractKey?: AssessmentContractKey }
+  | { evaluationType: "vocabulary"; input: VocabularyEvaluationInput; assessmentContractKey?: AssessmentContractKey }
+  | { evaluationType: "assignment"; input: AssignmentEvaluationInput; assessmentContractKey?: AssessmentContractKey };
 
 const CAPABILITY_BY_TYPE: Record<EvaluationType, ProviderCapability> = {
   writing: "writing-evaluation",
@@ -104,7 +108,13 @@ function sleep(ms: number): Promise<void> {
  * Telegram handle — only the text (or transcript) the task genuinely needs.
  */
 function externalContext(ctx: EvaluationContext, signal: AbortSignal): EvaluationContext {
-  return { userId: "external-anonymous", language: ctx.language, signal, ...(ctx.model ? { model: ctx.model } : {}) };
+  return {
+    userId: "external-anonymous",
+    language: ctx.language,
+    signal,
+    ...(ctx.model ? { model: ctx.model } : {}),
+    ...(ctx.assessmentContract ? { assessmentContract: ctx.assessmentContract } : {}),
+  };
 }
 
 async function invoke(
@@ -220,19 +230,28 @@ async function runProvider(
         lastFailure = outcome.failure;
       } else {
         const parsed = providerEvaluationOutputSchema.safeParse(outcome.output);
-        if (!parsed.success) {
+        const contract = ctx.assessmentContract ? getAssessmentContract(ctx.assessmentContract.key) : null;
+        const validated = parsed.success && contract
+          ? validateAssessmentOutput(contract, request.evaluationType, safeRequest.input, parsed.data, ctx.assessmentContract?.overlay ?? null)
+          : null;
+        if (!validated) {
           return {
             ok: false,
             failure: {
               reason: "invalid_response",
-              detail: `${provider.id} returned a response that does not match the evaluation contract`,
+              detail: `${provider.id} returned a response that does not match the task assessment contract`,
               retryable: false,
             },
             durationMs: Date.now() - startedAt,
             callCount: attempt,
           };
         }
-        return { ok: true, output: parsed.data, durationMs: Date.now() - startedAt, callCount: attempt };
+        return {
+          ok: true,
+          output: applyOwnerOverlayToOutput(validated, ctx.assessmentContract?.overlay ?? null),
+          durationMs: Date.now() - startedAt,
+          callCount: attempt,
+        };
       }
     } catch (error) {
       if (error instanceof ProviderTimeoutError) {
@@ -270,6 +289,7 @@ function buildResult(params: {
   fallbackFrom: string | null;
   processedInMs: number;
   input?: unknown;
+  assessmentContract?: EvaluationContext["assessmentContract"];
   /** The model actually used when the owner overrode the provider default. */
   model?: string | null;
 }): { result: EvaluationResult; extras: ResolveExtras } {
@@ -283,14 +303,19 @@ function buildResult(params: {
     providerType: provider.type,
     providerVersion: provider.version,
     model: params.model ?? provider.model,
-    promptVersion: versions?.promptVersion ?? provider.promptVersion,
-    rubricVersion: versions?.rubricVersion ?? provider.rubricVersion,
+    promptVersion: params.assessmentContract?.version ?? versions?.promptVersion ?? provider.promptVersion,
+    rubricVersion: params.assessmentContract?.rubricVersion ?? versions?.rubricVersion ?? provider.rubricVersion,
   };
 
   const candidate: EvaluationResult = {
     evaluationId: params.evaluationId,
     evaluationType: params.evaluationType,
     ...meta,
+    ...(params.assessmentContract ? {
+      assessmentContractKey: params.assessmentContract.key,
+      ownerPolicyScope: params.assessmentContract.policyScope,
+      ownerPolicyVersion: params.assessmentContract.policyVersion,
+    } : {}),
     fallbackUsed: params.fallbackUsed,
     fallbackFrom: params.fallbackFrom,
     checkedBy: buildCheckedBy(meta),
@@ -335,6 +360,21 @@ export async function resolveEvaluation(
   const capability = CAPABILITY_BY_TYPE[request.evaluationType];
   const attempts: ProviderAttempt[] = [];
   const evaluationId = crypto.randomUUID();
+  const contract = assessmentContractForRequest(request);
+  const contractKey = assessmentContractKeyForRequest(request);
+  if (!contract || contract.execution !== "coach_evaluation" || contract.domain !== request.evaluationType) {
+    return { ok: false, error: "invalid_evaluation", attempts };
+  }
+  const activeOwnerPolicy = await getApprovedOwnerPolicyForContract(contractKey);
+  const assessmentContract: NonNullable<EvaluationContext["assessmentContract"]> = {
+    key: contract.key,
+    version: contract.version,
+    rubricVersion: contract.rubricVersion,
+    policyScope: activeOwnerPolicy?.scope ?? null,
+    policyVersion: activeOwnerPolicy?.version ?? null,
+    overlay: activeOwnerPolicy?.overlay ?? null,
+  };
+  const evaluationContext: EvaluationContext = { ...ctx, assessmentContract };
 
   const primaryId = config.aiPrimaryProvider;
   const primary = providerRegistry.get(primaryId);
@@ -367,7 +407,7 @@ export async function resolveEvaluation(
         },
       });
     }
-    const run = await runProvider(riwi.provider, request, ctx, config, capability, false);
+    const run = await runProvider(riwi.provider, request, evaluationContext, config, capability, false);
     if (!run.ok) {
       const attempt: ProviderAttempt = {
         providerId: riwi.provider.id,
@@ -400,6 +440,7 @@ export async function resolveEvaluation(
         fallbackFrom: configuredButMissing ? primaryId : null,
         processedInMs: run.durationMs,
         input: request.input,
+        assessmentContract,
       }),
     };
   }
@@ -409,7 +450,7 @@ export async function resolveEvaluation(
   const externalRun = await runProvider(
     primary.provider,
     request,
-    modelOverride ? { ...ctx, model: modelOverride } : ctx,
+    modelOverride ? { ...evaluationContext, model: modelOverride } : evaluationContext,
     config,
     capability,
     true
@@ -436,6 +477,7 @@ export async function resolveEvaluation(
         fallbackFrom: null,
         processedInMs: externalRun.durationMs,
         input: request.input,
+        assessmentContract,
         model: modelOverride,
       }),
     };
@@ -460,7 +502,7 @@ export async function resolveEvaluation(
     return { ok: false, error: "capability_unsupported", attempts };
   }
 
-  const fallbackRun = await runProvider(riwi.provider, request, ctx, config, capability, false);
+  const fallbackRun = await runProvider(riwi.provider, request, evaluationContext, config, capability, false);
   if (!fallbackRun.ok) {
     const attempt: ProviderAttempt = {
       providerId: riwi.provider.id,
@@ -494,6 +536,7 @@ export async function resolveEvaluation(
       fallbackFrom: primary.provider.id,
       processedInMs: externalRun.durationMs + fallbackRun.durationMs,
       input: request.input,
+      assessmentContract,
     }),
   };
 }

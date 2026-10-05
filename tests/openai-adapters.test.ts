@@ -84,8 +84,8 @@ test("OpenAI speaking never invents pronunciation or a missing transcript", asyn
   }) });
   const request = { part: "part1" as const, promptText: "Work?", transcript: "I work here", transcriptOrigin: "manual" as const, durationMs: null, pronunciationAvailable: true };
   const result = await provider.evaluateSpeaking!(ctx, request);
-  assert.equal(result.ok, true);
-  if (result.ok) assert.equal(result.output.criteria.find((c) => c.key === "pronunciation")?.band, null);
+  assert.equal(result.ok, false, "a numeric pronunciation claim is rejected rather than hidden");
+  if (!result.ok) assert.equal(result.failure.reason, "invalid_response");
   assert.equal((await provider.evaluateSpeaking!(ctx, { ...request, transcript: null })).ok, false);
 }));
 

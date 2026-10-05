@@ -1,6 +1,7 @@
 import "server-only";
 import { evaluateAndPersist, type ServiceOutcome } from "./service";
 import type { WritingTaskType } from "./types";
+import { writingContractKey } from "./contracts/registry";
 
 export type WritingEvaluationRequest = {
   userId: string;
@@ -9,6 +10,8 @@ export type WritingEvaluationRequest = {
   prompt: string;
   content: string;
   targetWordCount: number;
+  /** Persisted writing-prompt category, fetched by the server. */
+  category?: string | null;
   language: "uz" | "en";
 };
 
@@ -31,6 +34,7 @@ export async function evaluateWritingSubmission(
     language: input.language,
     request: {
       evaluationType: "writing",
+      assessmentContractKey: writingContractKey(input.taskType, input.category),
       input: {
         taskType: input.taskType,
         prompt: input.prompt,

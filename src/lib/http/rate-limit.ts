@@ -66,6 +66,8 @@ export const RULES = {
   riwiLearningReadByIp: { name: "riwi_learning_read_ip", limit: 600, windowMs: 15 * 60_000 },
   riwiKnowledgeWriteByAccount: { name: "riwi_knowledge_write_account", limit: 20, windowMs: 60 * 60_000 },
   riwiKnowledgeWriteByIp: { name: "riwi_knowledge_write_ip", limit: 100, windowMs: 60 * 60_000 },
+  riwiAssessmentPolicyWriteByAccount: { name: "riwi_assessment_policy_write_account", limit: 30, windowMs: 60 * 60_000 },
+  riwiAssessmentPolicyWriteByIp: { name: "riwi_assessment_policy_write_ip", limit: 100, windowMs: 60 * 60_000 },
   riwiGovernanceReadByAccount: { name: "riwi_governance_read_account", limit: 300, windowMs: 15 * 60_000 },
   riwiGovernanceReadByIp: { name: "riwi_governance_read_ip", limit: 600, windowMs: 15 * 60_000 },
   uploadIntent: { name: "upload_intent", limit: 120, windowMs: 15 * 60_000 },

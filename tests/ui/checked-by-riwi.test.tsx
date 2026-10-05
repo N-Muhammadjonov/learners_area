@@ -10,12 +10,13 @@ import type { EvaluationRecord } from "../../src/lib/data/evaluations";
 const external: EvaluationRecord = {
   id: "e1", userId: "u1", evaluationType: "writing" as EvaluationRecord["evaluationType"], sourceType: "writing_submission", sourceId: "s1",
   providerId: "vendorx-chat", providerDisplayName: "VendorX AI", providerType: "external", providerVersion: "2025-01",
-  model: "vx-large-7", promptVersion: "p9", rubricVersion: "r4", fallbackUsed: true, fallbackFrom: "othervendor-primary",
+  model: "vx-large-7", promptVersion: "p9", rubricVersion: "r4", assessmentContractKey: "writing.task2.opinion", ownerPolicyScope: "writing.task2.*", ownerPolicyVersion: 3,
+  fallbackUsed: true, fallbackFrom: "othervendor-primary",
   checkedByName: "RIWI", checkedBy: { id: "vendorx-chat", displayName: "VendorX AI", type: "external" },
   overallEstimate: 6.5, confidence: 0.8, verdict: null, criteria: [], strengths: [], weaknesses: [], issues: [], nextActions: [],
   recommendedExercises: [], processedInMs: 900, createdAt: new Date("2026-10-03T08:00:00Z"),
 };
-const SECRET_PROVENANCE = ["vendorx-chat", "VendorX AI", "vx-large-7", "othervendor-primary", "2025-01", "rubric r4"];
+const SECRET_PROVENANCE = ["vendorx-chat", "VendorX AI", "vx-large-7", "othervendor-primary", "2025-01", "rubric r4", "writing.task2.opinion", "owner policy"];
 
 test("CR1 learner render: only 'Checked by RIWI'; no provider id, vendor, model, version or fallback source in the HTML", () => {
   const html = renderToStaticMarkup(React.createElement(EvaluationView, { dict: en, evaluation: external }));
@@ -29,10 +30,33 @@ test("CR2 even a legacy row whose stored label is a vendor name renders RIWI to 
   assert.ok(html.includes("Checked by RIWI") && !html.includes("VendorX AI"));
 });
 
-test("CR3 staff render keeps truthful provenance: actual provider, type, model, versions and fallback", () => {
+test("CR3 evidence-first teaching feedback is rendered as text with source excerpts and bounded examples", () => {
+  const html = renderToStaticMarkup(React.createElement(EvaluationView, {
+    dict: en,
+    evaluation: {
+      ...external,
+      teachingFeedback: {
+        simpleExplanation: "Support each point with an example.",
+        evidence: [{ excerpt: "I believe this is useful.", point: "The position is clear.", correction: "Add a specific reason." }],
+        steps: ["Name one reason.", "Add evidence."],
+        examples: [{ before: "People use it.", after: "People use it to share evidence.", explanation: "The purpose is now specific." }],
+        illustration: "A claim is the signpost; evidence is the road.",
+      },
+    },
+  }));
+  assert.ok(html.includes("How this helps you improve"));
+  assert.ok(html.includes("I believe this is useful."));
+  assert.ok(html.includes("Add a specific reason."));
+  assert.ok(html.includes("Name one reason."));
+  assert.ok(html.includes("People use it to share evidence."));
+  assert.ok(html.includes("A claim is the signpost; evidence is the road."));
+  assert.ok(!html.includes("data-staff-provenance"));
+});
+
+test("CR4 staff render keeps truthful provider, contract, owner-policy, version and fallback provenance", () => {
   const html = renderToStaticMarkup(React.createElement(EvaluationView, { dict: en, evaluation: external, audience: "staff" }));
   assert.ok(html.includes("data-staff-provenance"));
-  for (const truth of ["VendorX AI (vendorx-chat, external)", "model vx-large-7", "v2025-01", "prompt p9", "rubric r4", "fallback from othervendor-primary"]) {
+  for (const truth of ["VendorX AI (vendorx-chat, external)", "model vx-large-7", "v2025-01", "prompt p9", "rubric r4", "contract writing.task2.opinion", "owner policy writing.task2.* v3", "fallback from othervendor-primary"]) {
     assert.ok(html.includes(truth), `staff provenance missing ${truth}`);
   }
   assert.ok(html.includes("Checked by RIWI"), "the public label is the same for every audience");

@@ -5,6 +5,7 @@ import type {
   ProviderType,
   RiwiAnswer,
 } from "./schema";
+import type { AssessmentContractKey, AssessmentOwnerOverlay, AssessmentPolicyScope } from "./contracts/types";
 
 /**
  * What a provider is asked to evaluate.
@@ -14,6 +15,15 @@ import type {
  * any external call (see the resolver) — no email, phone, Telegram id, profile
  * or unrelated history is ever part of an evaluation request.
  */
+export type ResolvedAssessmentContract = {
+  key: AssessmentContractKey;
+  version: string;
+  rubricVersion: string;
+  policyScope: AssessmentPolicyScope | null;
+  policyVersion: number | null;
+  overlay: AssessmentOwnerOverlay | null;
+};
+
 export type EvaluationContext = {
   /** Opaque local id, used for logging and weakness attribution. */
   userId: string;
@@ -22,6 +32,8 @@ export type EvaluationContext = {
   signal?: AbortSignal;
   /** Owner-selected model for the external provider (server-side value, never from a learner). */
   model?: string;
+  /** Server-resolved machine metadata; never read from a learner payload. */
+  assessmentContract?: ResolvedAssessmentContract;
 };
 
 export type WritingTaskType = "task1" | "task2";

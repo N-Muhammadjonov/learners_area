@@ -43,6 +43,9 @@ export const GOOD_OUTPUT: ProviderEvaluationOutput = {
   verdict: null,
   criteria: [
     { key: "task_response", label: "Task Response", band: 7.5, note: "From the test provider." },
+    { key: "coherence_cohesion", label: "Coherence and Cohesion", band: 7, note: "From the test provider." },
+    { key: "lexical_resource", label: "Lexical Resource", band: 7.5, note: "From the test provider." },
+    { key: "grammatical_range_accuracy", label: "Grammatical Range and Accuracy", band: 7, note: "From the test provider." },
   ],
   strengths: ["Provided by the test adapter."],
   weaknesses: [],

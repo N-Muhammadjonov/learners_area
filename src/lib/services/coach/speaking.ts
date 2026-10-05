@@ -3,6 +3,7 @@ import { resolvePronunciationAssessment } from "./pronunciation";
 import { providerRegistry } from "./registry";
 import { evaluateAndPersist, type ServiceOutcome } from "./service";
 import type { SpeakingPart } from "./types";
+import { speakingContractKey } from "./contracts/registry";
 
 export type SpeakingEvaluationRequest = {
   userId: string;
@@ -55,6 +56,7 @@ export async function evaluateSpeakingAttempt(
     language: input.language,
     request: {
       evaluationType: "speaking",
+      assessmentContractKey: speakingContractKey(input.part),
       input: {
         part: input.part,
         promptText: input.promptText,
