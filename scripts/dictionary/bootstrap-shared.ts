@@ -24,7 +24,7 @@ import { createHash, randomUUID } from "node:crypto";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { gunzipSync } from "node:zlib";
 import pg from "pg";
-import { drizzle } from "drizzle-orm/node-postgres";
+import { drizzle, type NodePgDatabase } from "drizzle-orm/node-postgres";
 import { sql } from "drizzle-orm";
 import * as schema from "../../src/db/schema";
 import {
@@ -194,7 +194,7 @@ async function readPreviewState(client: pg.PoolClient) {
   };
 }
 
-async function verifyValidatedRelease(database: ReturnType<typeof drizzle>) {
+async function verifyValidatedRelease(database: NodePgDatabase<typeof schema>) {
   const manifest = await releaseManifest(BASE_RELEASE, database);
   if (
     manifest.lexemes !== EXPECTED.lexemes ||
@@ -230,7 +230,7 @@ async function verifyValidatedRelease(database: ReturnType<typeof drizzle>) {
 
 async function applyBootstrap(
   source: ReturnType<typeof validateSource>,
-  database: ReturnType<typeof drizzle>,
+  database: NodePgDatabase<typeof schema>,
 ) {
   const present = await rows<{ state: string }>(
     sql`select state from dictionary_releases where id=${BASE_RELEASE}`,
