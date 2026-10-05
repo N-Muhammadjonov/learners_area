@@ -1,7 +1,5 @@
-import { TestFocusEntry } from "@/components/interaction/TestFocusEntry";
 import { packageActivities, activityPath } from "@/lib/listening/activities";
 import { AuthoredListeningFrame } from "@/components/listening/AuthoredListeningFrame";
-import { BackLink } from "@/components/ui/BackLink";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireActiveUser } from "@/lib/auth/current-user";
@@ -18,7 +16,7 @@ export default async function Hub({ params }: { params: Promise<{ id: string }> 
   const detail = await fullListeningDetail(id, user.role);
   if (!detail) notFound();
   const dict = getDictionary(await getLocale());
-  if (detail.pkg.payload.authoredRuntime) return <div className="w-full space-y-3"><TestFocusEntry identity={`listening-test:${id}`} /><BackLink fallbackHref="/listening" label={dict.nav.listening}/><AuthoredListeningFrame id={id} userId={user.id} dict={dict}/></div>;
+  if (detail.pkg.payload.authoredRuntime) return <div className="w-full"><AuthoredListeningFrame id={id} userId={user.id} dict={dict}/></div>;
   const progress = await fullListeningProgress(user.id, id);
   const t = dict.fullListeningHub, r = t.research, modern = !!detail.pkg.payload.studyPack;
   const [questions, sessions, practice] = await Promise.all([listMcqQuestions(id), listMcqSessions(user.id, id), listeningPracticeProgress(user.id, id)]);
@@ -28,9 +26,7 @@ export default async function Hub({ params }: { params: Promise<{ id: string }> 
     const path = activityPath[key]!, n = Number(path), base = progress.activities.find(a => a.activity === n);
     return { path, activity: n, name: names[key]!, tag: key === "exam" ? r.examTag : key === "vocab" ? r.vocabTag : key === "mcq" ? r.mcqTag : r.reviewTag, complete: key === "mcq" ? mcqComplete : practice[key]?.complete ?? base?.complete ?? false, latest: practice[key]?.latest ?? base?.latest ?? null };
   });
-  return <div className="listening-workspace listening-hub mx-auto max-w-[1840px] space-y-6">
-    <TestFocusEntry identity={`listening-test:${id}`} />
-    <BackLink fallbackHref="/listening" label={dict.nav.listening} />
+  return <div className="listening-workspace listening-hub w-full space-y-6">
     <p className="listening-eyebrow">{r.badge}</p>
     <h1 className="font-display text-4xl">{detail.test.title}</h1>
     <p>{r.intro}</p>
