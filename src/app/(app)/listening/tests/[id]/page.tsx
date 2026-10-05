@@ -17,9 +17,9 @@ export default async function Hub({ params }: { params: Promise<{ id: string }> 
   if (!isUuid(id)) notFound();
   const detail = await fullListeningDetail(id, user.role);
   if (!detail) notFound();
-  const progress = await fullListeningProgress(user.id, id);
   const dict = getDictionary(await getLocale());
   if (detail.pkg.payload.authoredRuntime) return <div className="w-full space-y-3"><TestFocusEntry identity={`listening-test:${id}`} /><BackLink fallbackHref="/listening" label={dict.nav.listening}/><AuthoredListeningFrame id={id} userId={user.id} dict={dict}/></div>;
+  const progress = await fullListeningProgress(user.id, id);
   const t = dict.fullListeningHub, r = t.research, modern = !!detail.pkg.payload.studyPack;
   const [questions, sessions, practice] = await Promise.all([listMcqQuestions(id), listMcqSessions(user.id, id), listeningPracticeProgress(user.id, id)]);
   const mcqComplete = questions.length > 0 && questions.every(q => sessions.get(q.id)?.stage === "reasoned");
