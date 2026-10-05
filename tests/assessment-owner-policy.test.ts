@@ -146,6 +146,30 @@ test("AP3 owner-only candidate → preview → approve lifecycle is idempotent, 
   }
 });
 
+test("AP3b approval cannot be replayed after a previewed candidate is modified", async () => {
+  const database = await createTestDatabase();
+  const ownerId = await insertOwner(database);
+  const actor = ownerActor(ownerId);
+  try {
+    const created = await createAssessmentPolicyCandidate(actor, writingRequest, database.db);
+    const preview = await previewAssessmentPolicyCandidate(actor, created.candidate.id, database.db);
+    assert.equal(preview.regression.passed, true);
+    await database.db.update(riwiAssessmentPolicyVersions)
+      .set({ overlay: { feedbackStyle: "concise" } })
+      .where(eq(riwiAssessmentPolicyVersions.id, created.candidate.id));
+    await assert.rejects(
+      approveAssessmentPolicyCandidate(actor, created.candidate.id, database.db),
+      (error) => error instanceof AssessmentPolicyError && error.code === "regression_required",
+    );
+    const [candidate] = await database.db.select().from(riwiAssessmentPolicyVersions)
+      .where(eq(riwiAssessmentPolicyVersions.id, created.candidate.id));
+    assert.equal(candidate?.state, "candidate");
+    assert.equal(candidate?.approvedAt, null);
+  } finally {
+    await database.close();
+  }
+});
+
 test("AP4 owner-history pagination is stable, bounded, filter-bound, retryable, and reaches every policy version", async () => {
   const database = await createTestDatabase();
   const ownerId = await insertOwner(database);

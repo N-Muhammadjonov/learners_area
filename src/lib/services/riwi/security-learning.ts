@@ -76,17 +76,20 @@ export async function reviewSecuritySignal(input: {
 }, database: typeof db = db) {
   if (input.actor.role !== "owner" || input.actor.accountStatus !== "active") throw new Error("not_found");
   const id = z.string().uuid().parse(input.signalId);
-  const [stored] = await database.select({ role: users.role, accountStatus: users.accountStatus }).from(users).where(eq(users.id, input.actor.id)).limit(1).for("update");
-  if (stored?.role !== "owner" || stored.accountStatus !== "active") throw new Error("not_found");
   const approved = input.decision === "approve_regression";
   const fixture = approved ? z.string().min(1).max(120).parse(input.regressionFixtureId) : null;
   const evidenceHash = approved ? z.string().regex(/^[a-f0-9]{64}$/).parse(input.regressionEvidenceHash) : null;
   const state = input.decision === "reject" ? "rejected" : input.decision === "developer_action_required" ? "developer_action_required" : "approved_regression";
-  const [row] = await database.update(riwiSecuritySignals).set({
-    state, regressionFixtureId: fixture, regressionEvidenceHash: evidenceHash,
-    reviewedByUserId: input.actor.id, reviewedAt: new Date(),
-  }).where(and(eq(riwiSecuritySignals.id, id), eq(riwiSecuritySignals.state, "candidate")))
-    .returning({ id: riwiSecuritySignals.id, state: riwiSecuritySignals.state });
-  if (!row) throw new Error("stale_or_not_found");
-  return row;
+  return database.transaction(async (tx) => {
+    const [stored] = await tx.select({ role: users.role, accountStatus: users.accountStatus }).from(users)
+      .where(eq(users.id, input.actor.id)).limit(1).for("update");
+    if (stored?.role !== "owner" || stored.accountStatus !== "active") throw new Error("not_found");
+    const [row] = await tx.update(riwiSecuritySignals).set({
+      state, regressionFixtureId: fixture, regressionEvidenceHash: evidenceHash,
+      reviewedByUserId: input.actor.id, reviewedAt: new Date(),
+    }).where(and(eq(riwiSecuritySignals.id, id), eq(riwiSecuritySignals.state, "candidate")))
+      .returning({ id: riwiSecuritySignals.id, state: riwiSecuritySignals.state });
+    if (!row) throw new Error("stale_or_not_found");
+    return row;
+  });
 }

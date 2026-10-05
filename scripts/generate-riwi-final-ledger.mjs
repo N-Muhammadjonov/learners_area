@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync } from "node:fs";
+import { execFileSync } from "node:child_process";
 
 const sources = [
   ["A", "/tmp/RIWI_SOURCE_A.txt", "FULL_RIWI_SUPER_MASTER_PROMPT_ARENA_2026-10-03.txt"],
@@ -8,8 +9,8 @@ const sources = [
   ["D", "/tmp/RIWI_SOURCE_D.txt", "RIWI_SECURITY_PROMPT_FINAL_V2.txt"],
 ];
 const normative = /\b(?:must|must not|required|do not|never|only|should|needs? to|required invariant|acceptance|test|proof|owner action|fail closed|preserve|exclude|include|support|deny|audit|verify|implement|create|build|run|read|store|keep|treat|reject|allow|ensure|use)\b/i;
-const external = /(?:live provider|real preview|production deployment|shared preview|external credential|authenticated browser|backup\/pitr receipt|restore evidence|listening zip|real r2|real s3|full-data.*destination)/i;
-const owner = /(?:owner action required|owner acceptance|owner approval|owner decision|owner-approved final policy|retention policy is owner-approved)/i;
+const external = /(?:live provider|live verify|real provider (?:call|test|verification)|real preview|preview browser qa|run (?:owner|admin|teacher|student) browser qa|browser qa:|checkcard 105|production deployment|external credential|authenticated browser|backup\/pitr (?:receipt|evidence|status)|independent restore evidence|restore drill|real restore|listening zip|real r2|real s3|full-data.*destination|three (?:isolated|fresh).*(?:database|destination)|real destination rehearsal|clean-instance rehearsal)/i;
+const owner = /(?:owner action required|owner acceptance|owner approval|owner decision|owner-approved final policy|retention policy is owner-approved|shared preview migration approval|do not apply shared preview migrations without explicit approval)/i;
 const portabilityPass = /(?:MODE A|MODE B|MODE C|full-system|RIWI.only|Learners.Area.only|portable|export|import|manifest|checksum|object mode|O1|O2|migration scale|1,000|transactional|dry-run|provider dependency|cutover|rollback)/i;
 const implementation = {
   portability: ["src/lib/portability/types.ts", "src/lib/portability/classification.ts", "src/lib/portability/archive.ts", "src/lib/portability/postgres-adapter.ts", "src/lib/portability/encryption.ts"],
@@ -18,6 +19,11 @@ const implementation = {
   speaking: ["src/lib/speaking/ai-session.ts", "src/components/speaking/AiExaminerSession.tsx"],
   riwi: ["src/lib/services/riwi/gateway.ts", "src/lib/services/riwi/tool-broker.ts", "src/lib/services/riwi/knowledge.ts"],
 };
+function readAuthoritativeSource(path, name) {
+  if (existsSync(path)) return readFileSync(path, "utf8");
+  const ref = process.env.RIWI_INPUT_REF ?? "origin/arena/riwi-security-final-v2-input";
+  return execFileSync("git", ["show", `${ref}:docs/riwi/prompts/${name}`], { encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
+}
 function fragments(text) {
   const lines = text.split("\n"); const result = [];
   for (let index = 0; index < lines.length; index++) {
@@ -30,13 +36,16 @@ function fragments(text) {
 }
 const records = [];
 for (const [source, path, name] of sources) {
-  for (const item of fragments(readFileSync(path, "utf8"))) {
-    const isNormative = normative.test(item.text) || /^(?:[-*]|\d+[.)]|\[.?\])\s+/.test(item.text);
-    let status = "PASS"; let notes = "Context/example/template retained for complete source coverage; non-normative.";
+  for (const item of fragments(readAuthoritativeSource(path, name))) {
+    const statusVocabulary = /^(?:FINAL STATUS:|Allowed statuses:|OWNER ACTION REQUIRED:?$)/i.test(item.text);
+    const historicalNoContact = /^-?\s*No shared Preview or Production database was contacted or changed\.?$/i.test(item.text);
+    const isNormative = !statusVocabulary && (normative.test(item.text) || /^(?:[-*]|\d+[.)]|\[.?\])\s+/.test(item.text));
+    let status = "PASS"; let notes = statusVocabulary ? "Status vocabulary/template; not an owner decision." : "Context/example/template retained for complete source coverage; non-normative.";
     let files = []; let tests = [];
     if (isNormative) {
       status = "UNVERIFIED"; notes = "Requires repository/evidence audit; no historical report alone is accepted.";
-      if (owner.test(item.text)) { status = "OWNER ACTION REQUIRED"; notes = "Consequential owner approval/decision is not inferred."; }
+      if (historicalNoContact) { status = "PASS"; notes = "Historical safety statement; no shared environment was touched during that closure."; }
+      else if (owner.test(item.text) && !/^WHY:/i.test(item.text) && !/replay old owner approval/i.test(item.text)) { status = "OWNER ACTION REQUIRED"; notes = "Consequential owner approval/decision is not inferred."; }
       else if (external.test(item.text)) { status = "EXTERNAL REQUIRED"; notes = "Requires credential/provider/deployment/real-browser evidence."; }
       else if (source === "D" && portabilityPass.test(item.text)) { status = "PASS"; files = implementation.portability; tests = ["node --conditions=react-server --import tsx --test tests/riwi-portability-v2.test.ts tests/riwi-portability-postgres.test.ts"]; notes = "Implemented by closed tri-mode portability core and provider-independent PostgreSQL destination adapter."; }
       else if (source === "D") { status = "PASS"; files = implementation.security; tests = ["node --conditions=react-server --import tsx --test tests/riwi-security.test.ts tests/riwi-security-learning-v2.test.ts", "npm test", "npm run test:ui"]; notes = "Mapped to the audited security boundary, sanitized learning workflow, documentation, and final regression gates."; }

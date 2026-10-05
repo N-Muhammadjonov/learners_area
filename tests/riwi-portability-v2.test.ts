@@ -123,17 +123,31 @@ test("O1 keeps object references and O2 verifies bytes before copy", async () =>
   await assert.rejects(() => importPortableArchive({ manifest: move.manifest, archive: badArchive, dryRun: false, destination }), /object_checksum_mismatch/);
 });
 
-test("private archive encryption streams AES-GCM and rejects tampering/wrong keys", async () => {
+test("private archive encryption streams AES-GCM, uses fresh IVs, removes plaintext, and rejects corruption", async () => {
   const directory = await mkdtemp(join(tmpdir(), "riwi-portable-"));
   try {
-    const plain = join(directory, "archive.tar"); const encrypted = join(directory, "archive.enc"); const restored = join(directory, "restored.tar");
+    const plain = join(directory, "archive.tar"); const encrypted = join(directory, "archive.enc");
+    const encryptedAgain = join(directory, "archive-again.enc"); const restored = join(directory, "restored.tar");
     const payload = Buffer.alloc(2_000_000, 0x5a); writeFileSync(plain, payload);
     const key = randomBytes(32);
     await encryptPortableFile(plain, encrypted, key);
+    await encryptPortableFile(plain, encryptedAgain, key);
     assert.notDeepEqual(await readFile(encrypted), payload);
+    assert.notDeepEqual(await readFile(encrypted), await readFile(encryptedAgain), "fresh IV must change ciphertext");
     await decryptPortableFile(encrypted, restored, key);
     assert.deepEqual(await readFile(restored), payload);
-    await assert.rejects(() => decryptPortableFile(encrypted, `${restored}.bad`, randomBytes(32)), /authentication_failed/);
+    await assert.rejects(() => decryptPortableFile(encrypted, `${restored}.bad-key`, randomBytes(32)), /authentication_failed/);
+
+    const ciphertext = await readFile(encrypted);
+    const tampered = join(directory, "tampered.enc"); const modified = Buffer.from(ciphertext); modified[100] = modified[100]! ^ 0xff; writeFileSync(tampered, modified);
+    await assert.rejects(() => decryptPortableFile(tampered, `${restored}.tampered`, key), /authentication_failed/);
+    const truncated = join(directory, "truncated.enc"); writeFileSync(truncated, ciphertext.subarray(0, 20));
+    await assert.rejects(() => decryptPortableFile(truncated, `${restored}.truncated`, key), /truncated/);
+
+    const finalEnvelope = join(directory, "final.enc");
+    await encryptPortableFile(plain, finalEnvelope, key, { removeSourceAfterSuccess: true });
+    await assert.rejects(() => readFile(plain), /ENOENT/);
+    assert.equal((await readFile(finalEnvelope)).subarray(0, 4).toString(), "LAP1");
   } finally { await rm(directory, { recursive: true, force: true }); }
 });
 

@@ -12,8 +12,14 @@ function assertKey(key: Uint8Array) {
 }
 
 /** AES-256-GCM streaming envelope. Keys are supplied out-of-band and never stored. */
-export async function encryptPortableFile(source: string, destination: string, key: Uint8Array): Promise<void> {
+export async function encryptPortableFile(
+  source: string,
+  destination: string,
+  key: Uint8Array,
+  options: { removeSourceAfterSuccess?: boolean } = {},
+): Promise<void> {
   assertKey(key);
+  if (source === destination) throw new Error("portable_envelope_paths_must_differ");
   const iv = randomBytes(IV_BYTES);
   const temporary = `${destination}.partial-${process.pid}`;
   const output = createWriteStream(temporary, { mode: 0o600 });
@@ -23,6 +29,7 @@ export async function encryptPortableFile(source: string, destination: string, k
     await pipeline(createReadStream(source), cipher, output, { end: false });
     await new Promise<void>((resolve, reject) => output.end(cipher.getAuthTag(), (error?: Error | null) => error ? reject(error) : resolve()));
     await rename(temporary, destination);
+    if (options.removeSourceAfterSuccess) await rm(source);
   } catch (error) { output.destroy(); await rm(temporary, { force: true }); throw error; }
 }
 
