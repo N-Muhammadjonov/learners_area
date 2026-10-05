@@ -76,7 +76,7 @@ export default async function ListeningPage({
   const dict = getDictionary(locale);
   return (
     <div
-      className="listening-workspace mx-auto flex max-w-[1840px] flex-col gap-6"
+      className="mx-auto flex max-w-[1840px] flex-col gap-6"
       data-route-usable="listening"
     >
       <div className="flex flex-wrap items-center justify-between gap-3">
