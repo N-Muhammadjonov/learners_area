@@ -394,11 +394,49 @@ export function AiAnswerComposer({
 
   // ---- render ------------------------------------------------------------
 
+  // The QUESTION is rendered before anything about the recorder, so an
+  // unsupported browser still shows what the examiner asked. Hiding the prompt
+  // behind a capability error would turn a browser limitation into a lost
+  // question, and the question is the one part of this card that does not depend
+  // on the microphone at all.
+  const questionBlock = (
+    <div className="flex flex-col gap-2">
+      <div className="flex flex-wrap items-center gap-2 text-xs text-ink-500">
+        <span className="badge" data-ai-question-position>
+          {t.questionOf.replace("{n}", String(item.questionPosition)).replace("{total}", String(item.clusterSize))}
+        </span>
+        <span>{answerSeconds}s</span>
+        {isCueCard && <span>{t.prepSeconds.replace("{n}", String(prepSeconds))}</span>}
+      </div>
+      {prompt ? (
+        <>
+          <p className="whitespace-pre-line text-base text-ink-900">{prompt.promptText}</p>
+          {isCueCard && prompt.cueCard && (
+            <div className="rounded-md border border-ink-100 bg-paper-sunken p-3" data-ai-cue-card>
+              <p className="text-xs font-medium text-ink-500">{tPractice.cueCard}</p>
+              <p className="mt-1 whitespace-pre-line text-sm text-ink-700">{prompt.cueCard}</p>
+            </div>
+          )}
+        </>
+      ) : (
+        // The prompt row was deleted after the plan was written. The plan stands
+        // and the question is reported as unavailable — never replaced with
+        // invented text.
+        <p className="rounded-md border border-amber-300 bg-amber-50 p-3 text-sm text-ink-700 dark:bg-amber-950/30" data-ai-prompt-missing>
+          {t.promptUnavailable}
+        </p>
+      )}
+    </div>
+  );
+
   if (!supported) {
     return (
-      <Card className="flex flex-col gap-2" data-ai-composer="unsupported">
-        <p className="text-sm font-medium text-ink-900">{tPractice.unsupportedTitle}</p>
-        <p className="text-sm text-ink-500">{tPractice.unsupportedBody}</p>
+      <Card className="flex flex-col gap-4" data-ai-composer="unsupported">
+        {questionBlock}
+        <div className="flex flex-col gap-1">
+          <p className="text-sm font-medium text-ink-900">{tPractice.unsupportedTitle}</p>
+          <p className="text-sm text-ink-500">{tPractice.unsupportedBody}</p>
+        </div>
       </Card>
     );
   }
@@ -411,32 +449,7 @@ export function AiAnswerComposer({
 
   return (
     <Card className="flex flex-col gap-4" data-ai-composer={phase.kind} data-ai-item={item.id}>
-      <div className="flex flex-wrap items-center gap-2 text-xs text-ink-500">
-        <span className="badge" data-ai-question-position>
-          {t.questionOf.replace("{n}", String(item.questionPosition)).replace("{total}", String(item.clusterSize))}
-        </span>
-        <span>{answerSeconds}s</span>
-        {isCueCard && <span>{t.prepSeconds.replace("{n}", String(prepSeconds))}</span>}
-      </div>
-
-      {prompt ? (
-        <div className="flex flex-col gap-2">
-          <p className="whitespace-pre-line text-base text-ink-900">{prompt.promptText}</p>
-          {isCueCard && prompt.cueCard && (
-            <div className="rounded-md border border-ink-100 bg-paper-sunken p-3" data-ai-cue-card>
-              <p className="text-xs font-medium text-ink-500">{tPractice.cueCard}</p>
-              <p className="mt-1 whitespace-pre-line text-sm text-ink-700">{prompt.cueCard}</p>
-            </div>
-          )}
-        </div>
-      ) : (
-        // The prompt row was deleted after the plan was written. The plan stands
-        // and the question is reported as unavailable — never replaced with
-        // invented text.
-        <p className="rounded-md border border-amber-300 bg-amber-50 p-3 text-sm text-ink-700 dark:bg-amber-950/30" data-ai-prompt-missing>
-          {t.promptUnavailable}
-        </p>
-      )}
+      {questionBlock}
 
       {phase.kind === "prepping" && (
         <div className="flex flex-col gap-2" data-ai-prep>
