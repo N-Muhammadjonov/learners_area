@@ -1238,19 +1238,129 @@ export const speakingAttempts = pgTable("speaking_attempts", {
   recordingDurationMs: integer("recording_duration_ms"),
   // Null until a transcript exists. Never a guess.
   transcript: text("transcript"),
+  /**
+   * NULL for browser SpeechRecognition (there is no vendor to name); the
+   * provider id for a configured server SpeechToTextService.
+   */
   transcriptProvider: varchar("transcript_provider", { length: 60 }),
   /**
-   * "stt"    — produced by the configured SpeechToTextService
-   * "manual" — typed by the student, and labelled as such everywhere it shows
+   * "browser_stt" — the learner's own browser SpeechRecognition, reviewed and
+   *                 sent by the learner (Practice with AI)
+   * "stt"         — produced by the configured server SpeechToTextService
+   * "manual"      — typed by the student, and labelled as such everywhere it shows
    *
    * Recording this is what keeps the UI honest: a typed transcript is never
-   * presented as machine transcription, and an evaluation of it says so.
+   * presented as machine transcription, browser recognition is never presented
+   * as server transcription, and an evaluation of any of them says which it got.
+   *
+   * Length 20 (was 10) because "browser_stt" is 11 characters. Widening a
+   * varchar is additive and rewrites no row.
    */
-  transcriptOrigin: varchar("transcript_origin", { length: 10 }),
+  transcriptOrigin: varchar("transcript_origin", { length: 20 }),
+  /**
+   * The transcript exactly as the browser produced it, before the learner
+   * corrected a recognition mistake. Kept so an evaluation can never be
+   * attributed to words the learner did not submit: `transcript` (possibly
+   * edited) is what was judged, this is what the recognizer said.
+   */
+  transcriptRaw: text("transcript_raw"),
+  /** True when the learner changed the transcript before sending it to RIWI. */
+  transcriptEdited: boolean("transcript_edited").notNull().default(false),
+  transcriptEditedAt: timestamp("transcript_edited_at", { withTimezone: true }),
+  /**
+   * "Try again" creates a NEW attempt linked to the one it retries; the earlier
+   * attempt, its recording and its evaluation are never overwritten. NULL for a
+   * first take. Self-referencing, so it is declared after the table below.
+   */
+  retryOfAttemptId: uuid("retry_of_attempt_id").references((): AnyPgColumn => speakingAttempts.id, { onDelete: "set null" }),
   startedAt: timestamp("started_at", { withTimezone: true }).defaultNow().notNull(),
   submittedAt: timestamp("submitted_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-});
+}, (table) => ({
+  /** Retry chains are read as a group; history lists attempts of one prompt. */
+  retryOfIdx: index("speaking_attempts_retry_of_idx").on(table.retryOfAttemptId),
+}));
+
+/**
+ * Practice with AI — one examiner session.
+ *
+ * `speaking_attempts` is question-level and stays exactly as it was; this is the
+ * session-level row that makes an examiner-style run resumable. The point of
+ * persisting it is a product rule, not a convenience: randomization happens ONCE,
+ * when the session is created, so a refresh can never silently reshuffle the
+ * questions a learner is halfway through.
+ *
+ * `sessionSeed` + `planVersion` reproduce the plan deterministically, while the
+ * items table below is the authoritative stored plan. Mode/status are varchar
+ * with zod validation at the route boundary (the convention used by
+ * `transcriptOrigin`), rather than new enum types — an additive migration that
+ * creates no PostgreSQL type and rewrites no accepted history.
+ */
+export const speakingAiSessions = pgTable("speaking_ai_sessions", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  /** "full" | "part1" | "part2" | "part3" */
+  mode: varchar("mode", { length: 12 }).notNull(),
+  /** "active" | "completed" | "abandoned" */
+  status: varchar("status", { length: 16 }).notNull().default("active"),
+  /** Selection rules version; a plan is only ever rebuilt by the code that made it. */
+  planVersion: integer("plan_version").notNull().default(1),
+  /** mulberry32 seed. Stored as text-safe integer; reproducible, never secret. */
+  sessionSeed: integer("session_seed").notNull(),
+  /** Cursor into the plan. Advanced only by an explicit learner action. */
+  currentItemIndex: integer("current_item_index").notNull().default(0),
+  /**
+   * Topics that could not reach the cluster minimum from published rows, e.g.
+   * [{part,topicKey,requested:3,available:2}]. The bank is never padded with
+   * invented questions, so the shortfall is recorded instead.
+   */
+  limitations: jsonb("limitations").$type<{ part: string; topicKey: string; topicTitle: string | null; requested: number; available: number }[]>().notNull().default([]),
+  startedAt: timestamp("started_at", { withTimezone: true }).defaultNow().notNull(),
+  completedAt: timestamp("completed_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => ({
+  /** "Resume my session" and recent-history avoidance both read newest-first. */
+  userCreatedIdx: index("speaking_ai_sessions_user_created_idx").on(table.userId, table.createdAt),
+}));
+
+/**
+ * One question of a Practice with AI session, in examiner order.
+ *
+ * These rows ARE the immutable plan: ordinals, topic clustering and the
+ * per-topic question position are fixed at creation and never re-derived.
+ * Prompt TEXT is deliberately not copied — `promptId` references the canonical
+ * `speaking_prompts` row, so there is still exactly one bank.
+ */
+export const speakingAiSessionItems = pgTable("speaking_ai_session_items", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  sessionId: uuid("session_id")
+    .notNull()
+    .references(() => speakingAiSessions.id, { onDelete: "cascade" }),
+  /** 0-based position in the session. */
+  ordinal: integer("ordinal").notNull(),
+  /** Nullable because a prompt may later be deleted; the plan row must survive. */
+  promptId: uuid("prompt_id").references(() => speakingPrompts.id, { onDelete: "set null" }),
+  part: speakingPartEnum("part").notNull(),
+  topicKey: varchar("topic_key", { length: 200 }).notNull(),
+  topicTitle: varchar("topic_title", { length: 200 }),
+  /** 0-based index of the topic cluster inside the session. */
+  topicPosition: integer("topic_position").notNull(),
+  /** 1-based position inside the cluster ("Question 2 of 4"). */
+  questionPosition: integer("question_position").notNull(),
+  /** Cluster length, so a resumed session renders the same "of N". */
+  clusterSize: integer("cluster_size").notNull(),
+  isCueCard: boolean("is_cue_card").notNull().default(false),
+  /** Bound when the learner sends an answer; a retry rebinds to the new attempt. */
+  attemptId: uuid("attempt_id").references(() => speakingAttempts.id, { onDelete: "set null" }),
+  /** "pending" | "answered" | "skipped" — skipping never fabricates an answer. */
+  status: varchar("status", { length: 16 }).notNull().default("pending"),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => ({
+  sessionOrdinalIdx: uniqueIndex("speaking_ai_session_items_session_ordinal_idx").on(table.sessionId, table.ordinal),
+  attemptIdx: index("speaking_ai_session_items_attempt_idx").on(table.attemptId),
+}));
 
 // ---------------------------------------------------------------------------
 // Vocabulary engine — WIRED (add, review, mastery state) in Phase 1
