@@ -1122,10 +1122,8 @@
 .race-answer-box { font-family: var(--font-technical), ui-monospace, monospace; font-variant-numeric: tabular-nums; }
 
 /* Full Listening metadata only; media loads inside the selected activity. */
-.full-listening-grid { display:grid; grid-template-columns:1fr; gap:24px; }
-@media(min-width:768px){.full-listening-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
-@media(min-width:1200px){.full-listening-grid{grid-template-columns:repeat(3,minmax(0,1fr));}}
-@media(min-width:1600px){.full-listening-grid{grid-template-columns:repeat(4,minmax(0,1fr));}}
+.full-listening-grid { display:grid; grid-template-columns:1fr; gap:16px; }
+@media(min-width:640px){.full-listening-grid{grid-template-columns:repeat(3,minmax(0,1fr));}}
 .listening-review-grid { display:grid; grid-template-columns:1fr; gap:24px; }
 @media(min-width:1000px){.listening-review-grid{grid-template-columns:minmax(0,1.65fr) minmax(0,1fr);}}
 .listening-question-nav { position:sticky; bottom:0; padding:12px; background:rgb(var(--paper-raised)); border:1px solid rgb(var(--ink-100)); border-radius:12px; display:flex; flex-wrap:wrap; gap:6px; z-index:20; }
