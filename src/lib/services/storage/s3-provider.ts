@@ -15,9 +15,10 @@ import { isSafeObjectKey } from "./types";
  * SigV4 signing scheme, so this one class covers both — the "S3" naming is
  * the S3 *API*, not a claim that the bucket is AWS.
  *
- * This is the production storage path. `supportsDirectUpload` is true, so the
- * browser PUTs bytes straight to the bucket through a presigned URL and the
- * app server never proxies the payload.
+ * This is the production storage path. `supportsDirectUpload` is true. For
+ * endpoint-backed providers such as R2, the browser uses a same-origin external
+ * rewrite that transparently proxies the signed PUT to the bucket. This keeps
+ * large uploads off the app function while avoiding browser CORS failures.
  *
  * NOT verified against a live bucket from this environment (no credentials and
  * no network path to Cloudflare here). It is written against the documented
@@ -89,7 +90,8 @@ export class S3StorageProvider implements StorageService {
       new PutObjectCommand({ Bucket: this.bucket, Key: key, ContentType: contentType }),
       { expiresIn: expiresInSeconds }
     );
-    return { uploadUrl, key, contentType, expiresInSeconds };
+    const browserUploadUrl = endpointUploadUrl(uploadUrl);
+    return { uploadUrl: browserUploadUrl, key, contentType, expiresInSeconds };
   }
 
   async head(key: ObjectKey): Promise<ObjectHead | null> {
@@ -159,6 +161,13 @@ export class S3StorageProvider implements StorageService {
   private assertSafeKey(key: ObjectKey): void {
     if (!isSafeObjectKey(key)) throw new Error(`Refusing unsafe storage key: ${key}`);
   }
+}
+
+function endpointUploadUrl(signedUrl: string): string {
+  const endpoint = process.env.R2_ENDPOINT || process.env.S3_ENDPOINT;
+  if (!endpoint) return signedUrl;
+  const signed = new URL(signedUrl);
+  return \`/__storage-upload${signed.pathname}${signed.search}\`;
 }
 
 function isNotFound(err: unknown): boolean {
