@@ -11,6 +11,12 @@ export async function GET(_req:NextRequest,{params}:{params:Promise<{id:string}>
  const {id}=await params;if(!isUuid(id))return NextResponse.json({error:'not_found'},{status:404,headers});
  try{const detail=await fullListeningDetail(id,user.role);const runtime=detail?.pkg.payload.authoredRuntime;
  if(!detail||!runtime)return NextResponse.json({error:'not_found'},{status:404,headers});
- return NextResponse.json({runtime,audioUrl:detail.test.audioUrl,audioPath:detail.pkg.payload.audio.path,imageUrl:detail.pkg.imageObjectKey?`/api/resources/${detail.pkg.imageObjectKey}`:null,imagePath:detail.pkg.payload.imagePath,vocabulary:await listeningVocabularySession(db,id,detail.pkg.payload.vocabulary)},{headers});
+ // Vocabulary enrichment is optional UI metadata. A stale lexical row or a
+ // temporarily unavailable enrichment table must never take the authored test,
+ // its audio, or its saved runtime offline.
+ let vocabulary=[] as Awaited<ReturnType<typeof listeningVocabularySession>>;
+ try{vocabulary=await listeningVocabularySession(db,id,detail.pkg.payload.vocabulary);}
+ catch(err){console.warn('[listening-authored] vocabulary enrichment unavailable',{testId:id,error:err instanceof Error?err.message:String(err)});}
+ return NextResponse.json({runtime,audioUrl:detail.test.audioUrl,audioPath:detail.pkg.payload.audio.path,imageUrl:detail.pkg.imageObjectKey?`/api/resources/${detail.pkg.imageObjectKey}`:null,imagePath:detail.pkg.payload.imagePath,vocabulary},{headers});
  }catch{return NextResponse.json({error:'temporarily_unavailable'},{status:503,headers});}
 }
