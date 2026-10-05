@@ -39,18 +39,25 @@ test("every Listening test surface has one design-system BackLink with a safe li
   assert.match(layout, /className="btn-secondary/);
 });
 
-test("moved Listening pages retain route-level auth and publication/detail checks", () => {
+test("moved Listening pages retain route-level auth and the correct ownership/publication checks", () => {
   for (const path of [
     "src/app/(focus)/listening/tests/[id]/page.tsx",
     "src/app/(focus)/listening/tests/[id]/study/page.tsx",
     "src/app/(focus)/listening/tests/[id]/[activity]/page.tsx",
     "src/app/(focus)/listening/tests/[id]/mcq/page.tsx",
+  ]) {
+    const source = read(path);
+    assert.match(source, /requireActiveUser\(\)/, path);
+    assert.match(source, /fullListeningDetail\(/, path);
+  }
+
+  for (const path of [
     "src/app/(focus)/listening/attempts/[id]/page.tsx",
     "src/app/(focus)/listening/attempts/[id]/revision/page.tsx",
   ]) {
     const source = read(path);
     assert.match(source, /requireActiveUser\(\)/, path);
-    assert.match(source, /fullListeningDetail\(/, path);
+    assert.match(source, /getAttemptDetail\(id, user\.id\)/, path);
   }
 });
 
