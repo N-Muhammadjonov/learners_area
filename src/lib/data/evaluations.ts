@@ -116,8 +116,8 @@ function toRecord(row: EvaluationRow): EvaluationRecord {
 export async function findEvaluation(params: {
   sourceType: string;
   sourceId: string;
-}): Promise<EvaluationRecord | null> {
-  const row = await db.query.evaluations.findFirst({
+}, connection: typeof db = db): Promise<EvaluationRecord | null> {
+  const row = await connection.query.evaluations.findFirst({
     where: and(eq(evaluations.sourceType, params.sourceType), eq(evaluations.sourceId, params.sourceId)),
   });
   return row ? toRecord(row) : null;
@@ -146,9 +146,9 @@ export async function deleteEvaluationsForSource(params: {
 export async function findEvaluationsForSources(params: {
   sourceType: string;
   sourceIds: string[];
-}): Promise<Map<string, EvaluationRecord>> {
+}, connection: typeof db = db): Promise<Map<string, EvaluationRecord>> {
   if (params.sourceIds.length === 0) return new Map();
-  const rows = await db.query.evaluations.findMany({
+  const rows = await connection.query.evaluations.findMany({
     where: and(
       eq(evaluations.sourceType, params.sourceType),
       inArray(evaluations.sourceId, params.sourceIds)

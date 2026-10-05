@@ -32,7 +32,14 @@ export type AiSessionRow = typeof speakingAiSessions.$inferSelect;
 export type AiSessionItemRow = typeof speakingAiSessionItems.$inferSelect;
 export type AiSessionWithItems = AiSessionRow & { items: AiSessionItemRow[] };
 
-type Database = typeof db;
+/**
+ * Database this module writes to. Follows the repo convention of an injectable
+ * connection defaulting to the application's `db`, so the transactional
+ * guarantees below can be exercised against a real PostgreSQL in tests instead
+ * of being asserted in prose.
+ */
+export type AiSessionDatabase = typeof db;
+type Database = AiSessionDatabase;
 type Tx = Parameters<Parameters<Database["transaction"]>[0]>[0];
 
 /**
@@ -61,10 +68,10 @@ export type AiSessionFailure = { ok: false; status: 404 | 403 | 409; error: stri
 // read
 // ---------------------------------------------------------------------------
 
-async function selectSessionWithItems(sessionId: string): Promise<AiSessionWithItems | null> {
-  const [session] = await db.select().from(speakingAiSessions).where(eq(speakingAiSessions.id, sessionId)).limit(1);
+async function selectSessionWithItems(sessionId: string, connection: Database): Promise<AiSessionWithItems | null> {
+  const [session] = await connection.select().from(speakingAiSessions).where(eq(speakingAiSessions.id, sessionId)).limit(1);
   if (!session) return null;
-  const items = await db
+  const items = await connection
     .select()
     .from(speakingAiSessionItems)
     .where(eq(speakingAiSessionItems.sessionId, sessionId))
@@ -76,8 +83,8 @@ async function selectSessionWithItems(sessionId: string): Promise<AiSessionWithI
  * Ownership is folded into the lookup: another learner's session is
  * indistinguishable from a missing one, so this never leaks that it exists.
  */
-export async function findAiSessionForUser(sessionId: string, userId: string): Promise<AiSessionWithItems | null> {
-  const session = await selectSessionWithItems(sessionId);
+export async function findAiSessionForUser(sessionId: string, userId: string, connection: Database = db): Promise<AiSessionWithItems | null> {
+  const session = await selectSessionWithItems(sessionId, connection);
   if (!session || session.userId !== userId) return null;
   return session;
 }
@@ -90,19 +97,19 @@ export async function findAiSessionForUser(sessionId: string, userId: string): P
  * page re-renders the stored rows instead of asking for a new plan, so refreshing
  * mid-interview cannot reshuffle the examiner or drop the learner's place.
  */
-export async function findActiveAiSessionForUser(userId: string): Promise<AiSessionWithItems | null> {
-  const [row] = await db
+export async function findActiveAiSessionForUser(userId: string, connection: Database = db): Promise<AiSessionWithItems | null> {
+  const [row] = await connection
     .select()
     .from(speakingAiSessions)
     .where(and(eq(speakingAiSessions.userId, userId), eq(speakingAiSessions.status, "active")))
     .orderBy(desc(speakingAiSessions.createdAt))
     .limit(1);
   if (!row) return null;
-  return selectSessionWithItems(row.id);
+  return selectSessionWithItems(row.id, connection);
 }
 
-export async function listAiSessionsForUser(userId: string, limit = 20): Promise<AiSessionRow[]> {
-  return db
+export async function listAiSessionsForUser(userId: string, limit = 20, connection: Database = db): Promise<AiSessionRow[]> {
+  return connection
     .select()
     .from(speakingAiSessions)
     .where(eq(speakingAiSessions.userId, userId))
@@ -117,8 +124,8 @@ export async function listAiSessionsForUser(userId: string, limit = 20): Promise
  * pool when everything is recent, so a learner who has practised a lot is never
  * handed an empty session.
  */
-export async function recentAnsweredPromptIds(userId: string, limit = 40): Promise<Set<string>> {
-  const rows = await db
+export async function recentAnsweredPromptIds(userId: string, limit = 40, connection: Database = db): Promise<Set<string>> {
+  const rows = await connection
     .select({ promptId: speakingAttempts.promptId })
     .from(speakingAttempts)
     .where(and(eq(speakingAttempts.userId, userId), isNotNull(speakingAttempts.promptId)))
@@ -135,10 +142,10 @@ export async function recentAnsweredPromptIds(userId: string, limit = 40): Promi
  * survives (its FK is `set null`), and the UI then says the question is
  * unavailable instead of inventing replacement text.
  */
-export async function toAiSessionView(session: AiSessionWithItems): Promise<AiSessionView> {
+export async function toAiSessionView(session: AiSessionWithItems, connection: Database = db): Promise<AiSessionView> {
   const promptIds = [...new Set(session.items.map((i) => i.promptId).filter((id): id is string => Boolean(id)))];
   const prompts = promptIds.length
-    ? await db
+    ? await connection
         .select({
           id: speakingPrompts.id,
           part: speakingPrompts.part,
@@ -169,15 +176,15 @@ export async function toAiSessionView(session: AiSessionWithItems): Promise<AiSe
  * This is the only place the summary meets the database: the builder itself does
  * no I/O, so the numbers it produces cannot come from anywhere except these rows.
  */
-export async function loadSessionSummaryInput(session: AiSessionWithItems): Promise<SessionSummaryInput> {
+export async function loadSessionSummaryInput(session: AiSessionWithItems, connection: Database = db): Promise<SessionSummaryInput> {
   const attemptIds = session.items
     .map((i) => i.attemptId)
     .filter((id): id is string => Boolean(id));
 
-  const evaluations = await findEvaluationsForSources({
-    sourceType: "speaking_attempt",
-    sourceIds: attemptIds,
-  });
+  const evaluations = await findEvaluationsForSources(
+    { sourceType: "speaking_attempt", sourceIds: attemptIds },
+    connection,
+  );
 
   return {
     mode: isSessionPlanMode(session.mode) ? session.mode : "full",
@@ -218,10 +225,10 @@ export async function createAiSession(input: {
   userId: string;
   mode: SessionPlanMode;
   plan: SessionPlan;
-}): Promise<AiSessionWithItems> {
+}, connection: Database = db): Promise<AiSessionWithItems> {
   const { userId, mode, plan } = input;
 
-  const sessionId = await db.transaction(async (tx) => {
+  const sessionId = await connection.transaction(async (tx) => {
     const [session] = await tx
       .insert(speakingAiSessions)
       .values({
@@ -256,7 +263,7 @@ export async function createAiSession(input: {
     return id;
   });
 
-  const created = await selectSessionWithItems(sessionId);
+  const created = await selectSessionWithItems(sessionId, connection);
   if (!created) throw new Error("created speaking AI session could not be read back");
   return created;
 }
@@ -290,10 +297,10 @@ export async function bindAttemptToSessionItem(input: {
   itemId: string;
   attemptId: string;
   userId: string;
-}): Promise<BindAttemptResult> {
+}, connection: Database = db): Promise<BindAttemptResult> {
   const { sessionId, itemId, attemptId, userId } = input;
 
-  return db.transaction(async (tx) => {
+  return connection.transaction(async (tx) => {
     // Lock order is always session → item → attempt, so two concurrent binds on
     // the same session queue instead of deadlocking.
     const [session] = await tx
@@ -361,10 +368,10 @@ export async function skipAiSessionItem(input: {
   sessionId: string;
   itemId: string;
   userId: string;
-}): Promise<SkipItemResult> {
+}, connection: Database = db): Promise<SkipItemResult> {
   const { sessionId, itemId, userId } = input;
 
-  return db.transaction(async (tx) => {
+  return connection.transaction(async (tx) => {
     const [session] = await tx
       .select()
       .from(speakingAiSessions)
@@ -399,10 +406,10 @@ export async function skipAiSessionItem(input: {
 export type CompleteSessionResult = { ok: true; reused: boolean; session: AiSessionWithItems } | AiSessionFailure;
 
 /** Finishing is idempotent: a second call returns the same completed session. */
-export async function completeAiSession(input: { sessionId: string; userId: string }): Promise<CompleteSessionResult> {
+export async function completeAiSession(input: { sessionId: string; userId: string }, connection: Database = db): Promise<CompleteSessionResult> {
   const { sessionId, userId } = input;
 
-  return db.transaction(async (tx) => {
+  return connection.transaction(async (tx) => {
     const [session] = await tx
       .select()
       .from(speakingAiSessions)

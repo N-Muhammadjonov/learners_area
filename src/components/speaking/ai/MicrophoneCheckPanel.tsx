@@ -55,7 +55,11 @@ export function MicrophoneCheckPanel({
     controllerRef.current = controller;
     setErrorCode(null);
     setLevel(0);
-    setStatus("requesting_permission");
+    // The status vocabulary and its transitions belong to runMicrophoneCheck,
+    // which reports "requesting_permission" itself before it touches
+    // getUserMedia. Setting it here too would be a second source of truth for
+    // the same state — and pushing a raw status literal into rendered state is
+    // exactly what the UI-copy guard forbids.
 
     const outcome = await runMicrophoneCheck({
       signal: controller.signal,
