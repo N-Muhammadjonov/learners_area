@@ -1,6 +1,6 @@
 # RIWI current-state truth table
 
-Baseline inspected for the authorized Full RIWI build. This records repository truth before the RIWI gateway/policy/knowledge implementation; it is not a claim that RIWI is complete.
+Baseline inspected for the authorized Full RIWI build. This records repository truth before the RIWI gateway/policy/knowledge implementation; it is not a claim that RIWI is complete. Current phase evidence and requirement-by-requirement acceptance status are tracked in `docs/RIWI-IMPLEMENTATION-LEDGER.md` and `docs/RIWI-FINAL-ACCEPTANCE-LEDGER.md`.
 
 **Baseline:** `a83351a3d2fcc2e81fc024e5e1a308f3410864b9`
 **Session branch:** `arena/01a10332-learners-area`
