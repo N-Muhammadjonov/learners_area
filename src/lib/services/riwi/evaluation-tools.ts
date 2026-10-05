@@ -182,8 +182,12 @@ export function registerRiwiEvaluationTools(
       const prompt = attempt.promptId
         ? await database.query.speakingPrompts.findFirst({ where: eq(speakingPrompts.id, attempt.promptId) })
         : null;
-      const transcriptOrigin = attempt.transcriptOrigin === "manual" || attempt.transcriptOrigin === "stt"
-        ? attempt.transcriptOrigin : null;
+      // Accept every honest origin, including a browser-recognised transcript the
+      // learner reviewed and sent. Anything unrecognised stays null rather than
+      // being silently relabelled as machine transcription.
+      const transcriptOrigin =
+        attempt.transcriptOrigin === "manual" || attempt.transcriptOrigin === "stt" || attempt.transcriptOrigin === "browser_stt"
+          ? attempt.transcriptOrigin : null;
       const outcome = await services.evaluateSpeakingAttempt({
         userId: actor.id,
         attemptId: attempt.id,
@@ -191,10 +195,18 @@ export function registerRiwiEvaluationTools(
         promptText: prompt?.promptText ?? null,
         transcript: attempt.transcript,
         transcriptOrigin,
+        transcriptEdited: attempt.transcriptEdited === true,
         durationMs: attempt.recordingDurationMs,
         language,
       });
-      return resolved(`Speaking ${attempt.part.replace("part", "Part ")} ${transcriptOrigin === "manual" ? "manually typed" : transcriptOrigin === "stt" ? "transcribed" : "saved"} transcript`, outcome);
+      // The label names the real source; "browser-recognised" is never described
+      // as server transcription, and a learner edit is never hidden.
+      const originLabel =
+        transcriptOrigin === "manual" ? "manually typed"
+        : transcriptOrigin === "stt" ? "transcribed"
+        : transcriptOrigin === "browser_stt" ? "browser-recognised"
+        : "saved";
+      return resolved(`Speaking ${attempt.part.replace("part", "Part ")} ${originLabel} transcript${attempt.transcriptEdited ? " (edited by the learner)" : ""}`, outcome);
     },
   });
 

@@ -25,5 +25,20 @@ export const createAttemptSchema = z
 export const submitAttemptSchema = z
   .object({
     durationMs: z.number().int().positive().max(60 * 60 * 1000).optional(),
+    /**
+     * Practice with AI only (§13–§18): the learner's own browser
+     * SpeechRecognition output, sent when they press "Send to RIWI".
+     *
+     * Two fields, because the review step is the point. `browserTranscriptRaw`
+     * is exactly what the browser produced; `browserTranscript` is what the
+     * learner chose to send after reading it. The server compares them to derive
+     * `transcriptEdited`, so a client boolean asserting "unedited" is not
+     * accepted — and `.strict()` means sending one is a 400.
+     *
+     * Still absent, as before: `transcript`, `transcriptOrigin`, `score`, `band`
+     * and any provider identity. Those are server-derived (§43).
+     */
+    browserTranscriptRaw: z.string().max(8000).optional(),
+    browserTranscript: z.string().max(8000).optional(),
   })
   .strict();

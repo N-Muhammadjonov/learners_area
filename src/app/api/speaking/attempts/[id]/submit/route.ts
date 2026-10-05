@@ -1,27 +1,41 @@
 import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
-import { PUBLIC_CHECKED_BY } from "@/lib/services/coach/attribution";
 import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { speakingAttempts } from "@/db/schema";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getLocale } from "@/lib/i18n";
 import { submitAttemptSchema } from "@/lib/validation/speaking-practice";
+import { resolveBrowserTranscript } from "@/lib/speaking/browser-transcript";
 import { evaluateSpeakingAttempt, transcribePrivateRecording } from "@/lib/services/coach";
+import { toLearnerEvaluation, type LearnerEvaluation } from "@/lib/services/coach/public-evaluation";
+import type { TranscriptOrigin } from "@/lib/services/coach/types";
 
 /**
  * POST /api/speaking/attempts/:id/submit — finalize a practice attempt.
  *
  * Transcript policy, in order of preference:
- *   1. A configured SpeechToTextService transcribes the private recording.
+ *   1. The student's own browser SpeechRecognition, reviewed and sent by them
+ *      (`browserTranscript`), stored with origin="browser_stt" — the Practice
+ *      with AI path (§13–§18). Costs no STT API call, because the recognition
+ *      ran in the learner's own browser.
  *   2. The student typed their own transcript (`manualTranscript`), which is
  *      stored with origin="manual" and labelled as such everywhere it appears.
- *   3. No transcript. The attempt is still submitted and playable, and the
+ *   3. A configured SpeechToTextService transcribes the private recording.
+ *   4. No transcript. The attempt is still submitted and playable, and the
  *      Coach reports that there is nothing to evaluate — RIWI never invents a
  *      transcript, and it cannot judge audio directly.
  *
- * A `transcript` field is deliberately NOT accepted: it would let a client
- * fabricate machine transcription.
+ * 2 and 3 keep the relative order this route has always had; the browser path is
+ * added ahead of them because it is an explicit, reviewed learner action.
+ *
+ * A `transcript` or `transcriptOrigin` field is deliberately NOT accepted: the
+ * schema is `.strict()`, so sending either is a 400. Origin is derived here from
+ * which path actually produced the text, which is what keeps a client from
+ * labelling its own fabrication as machine transcription (§43).
+ *
+ * The learner response is projected through `toLearnerEvaluation`, so the real
+ * provider/model identity stored on the row can never reach a learner surface.
  */
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -50,11 +64,26 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       ? ((body as { manualTranscript: string }).manualTranscript.trim().slice(0, 8000))
       : "";
 
-  let transcript: string | null = null;
-  let transcriptOrigin: "stt" | "manual" | null = null;
-  let transcriptProvider: string | null = null;
+  // The learner's reviewed browser transcript, if this request carries one. Both
+  // strings are needed: the raw one is the audit trail, and comparing them is how
+  // "the learner edited this" is derived rather than asserted (§14).
+  const browser = resolveBrowserTranscript({
+    raw: parsed.data.browserTranscriptRaw,
+    final: parsed.data.browserTranscript,
+  });
 
-  if (manualTranscript.length >= 10) {
+  let transcript: string | null = null;
+  let transcriptOrigin: TranscriptOrigin | null = null;
+  let transcriptProvider: string | null = null;
+  let transcriptRaw: string | null = null;
+  let transcriptEdited = false;
+
+  if (browser) {
+    transcript = browser.transcript;
+    transcriptOrigin = "browser_stt";
+    transcriptRaw = browser.raw;
+    transcriptEdited = browser.edited;
+  } else if (manualTranscript.length >= 10) {
     transcript = manualTranscript;
     transcriptOrigin = "manual";
   } else {
@@ -80,13 +109,21 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       submittedAt: new Date(),
       ...(parsed.data.durationMs !== undefined ? { recordingDurationMs: parsed.data.durationMs } : {}),
       ...(transcript ? { transcript, transcriptOrigin, transcriptProvider } : {}),
+      // Only the browser path has a raw/edited distinction to record. Storing the
+      // unedited recognition output alongside the sent text is what makes
+      // "transcript_edited = true" verifiable later instead of merely claimed.
+      ...(transcriptRaw !== null
+        ? {
+            transcriptRaw,
+            transcriptEdited,
+            ...(transcriptEdited ? { transcriptEditedAt: new Date() } : {}),
+          }
+        : {}),
     })
     .where(eq(speakingAttempts.id, id))
     .returning();
 
-  let evaluation:
-    | { id: string; checkedBy: string; fallbackUsed: boolean; overallEstimate: number | null; verdict: string | null }
-    | null = null;
+  let evaluation: LearnerEvaluation | null = null;
 
   if (transcript) {
     const prompt = attempt.promptId
@@ -100,6 +137,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       promptText: prompt?.promptText ?? null,
       transcript,
       transcriptOrigin,
+      transcriptEdited,
       durationMs: parsed.data.durationMs ?? attempt.recordingDurationMs ?? null,
       language: await getLocale(),
     });
@@ -108,13 +146,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     // student caused, and their recording is already safely stored: report it
     // rather than pretending feedback exists.
     if (outcome.ok) {
-      evaluation = {
-        id: outcome.evaluation.id,
-        checkedBy: PUBLIC_CHECKED_BY,
-        fallbackUsed: outcome.evaluation.fallbackUsed,
-        overallEstimate: outcome.evaluation.overallEstimate,
-        verdict: outcome.evaluation.verdict,
-      };
+      evaluation = toLearnerEvaluation(outcome.evaluation);
     }
   }
 
@@ -122,6 +154,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     ok: true,
     attempt: updated,
     transcriptOrigin,
+    transcriptEdited,
     evaluated: evaluation !== null,
     evaluation,
   });

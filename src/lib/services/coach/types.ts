@@ -49,6 +49,23 @@ export type WritingCheckInput =
 
 export type SpeakingPart = "part1" | "part2" | "part3" | "general" | "mock";
 
+/**
+ * Where a Speaking transcript truthfully came from. One canonical union for the
+ * whole Coach subsystem — a provider, the persistence layer and the UI must all
+ * agree, or a learner gets told their own browser's recognition was a server
+ * transcription.
+ *
+ *  - "stt"         a configured server SpeechToTextService transcribed the audio
+ *  - "manual"      the learner typed it
+ *  - "browser_stt" the learner's own browser SpeechRecognition produced it and
+ *                  the learner reviewed and sent it (Practice with AI)
+ *
+ * TRUST: "browser_stt" is learner-side data. The label records provenance for
+ * honesty; it grants no additional permission and never bypasses validation.
+ * A client cannot choose the stored origin — the route semantics decide it.
+ */
+export type TranscriptOrigin = "stt" | "manual" | "browser_stt";
+
 export type SpeakingEvaluationInput = {
   part: SpeakingPart;
   promptText: string | null;
@@ -58,7 +75,14 @@ export type SpeakingEvaluationInput = {
    * that case rather than invent one.
    */
   transcript: string | null;
-  transcriptOrigin: "stt" | "manual" | null;
+  transcriptOrigin: TranscriptOrigin | null;
+  /**
+   * True when the learner corrected the transcript before sending it. An
+   * evaluator that knows this cannot claim it heard the original wording: what
+   * it judged is the edited text, and the pre-edit text may have said something
+   * different. Absent/false means the transcript was sent as produced.
+   */
+  transcriptEdited?: boolean;
   durationMs: number | null;
   /** False when the provider has no audio/pronunciation capability at all. */
   pronunciationAvailable: boolean;

@@ -44,6 +44,12 @@ export function evaluateSpeakingWithRiwi(input: SpeakingEvaluationInput): Provid
   const signals = analyseText(transcript);
   const wordCount = signals.wordCount;
   const minimumWords = MIN_WORDS[part];
+  /**
+   * The learner corrected the transcript before sending it. Declared up front
+   * because every rate-derived signal below has to say so: what was measured is
+   * the edited text, not the original recognition and not the audio itself.
+   */
+  const edited = input.transcriptEdited === true;
 
   const strengths: string[] = [];
   const weaknesses: string[] = [];
@@ -70,7 +76,13 @@ export function evaluateSpeakingWithRiwi(input: SpeakingEvaluationInput): Provid
     fluencyNotes.push("No recording duration was supplied, so the speaking rate could not be measured.");
     fluencyRaw -= 0.5;
   } else if (wordsPerMinute !== null) {
-    fluencyNotes.push(`~${Math.round(wordsPerMinute)} words per minute over ${Math.round(durationSeconds)}s.`);
+    // Word count comes from the transcript; when the learner edited it, the rate
+    // is derived from their corrected wording, and the note says so rather than
+    // implying the audio was measured word by word.
+    fluencyNotes.push(
+      `~${Math.round(wordsPerMinute)} words per minute over ${Math.round(durationSeconds)}s` +
+      `${edited ? ", counted from your edited transcript" : ""}.`,
+    );
     if (wordsPerMinute < 90) {
       fluencyRaw -= 1.0;
       weaknesses.push(`Speaking rate of about ${Math.round(wordsPerMinute)} words per minute is slow — hesitation is likely to be audible.`);
@@ -207,15 +219,32 @@ export function evaluateSpeakingWithRiwi(input: SpeakingEvaluationInput): Provid
 
   // Confidence is capped below the writing ceiling: pronunciation is missing
   // from the estimate, and transcript origin matters.
+  //
+  // Origin ordering reflects how closely the text tracks the audio, not how much
+  // we trust the learner:
+  //   stt         a server transcriber worked on the actual recording
+  //   browser_stt the learner's browser recognised the actual recording, then the
+  //               learner reviewed it — real speech, but user-side and editable
+  //   manual      typed from memory, so it may not match the recording at all
   let confidence = 0.3 + 0.3 * Math.min(1, wordCount / 150);
   if (durationMs) confidence += 0.1;
   if (input.transcriptOrigin === "stt") confidence += 0.1;
+  if (input.transcriptOrigin === "browser_stt") confidence += 0.05;
   if (input.transcriptOrigin === "manual") confidence -= 0.05;
+  // An edited transcript is the learner's corrected text. That is exactly what
+  // should be judged, but it can diverge from the audio, so rate-derived signals
+  // (words per minute) are slightly less certain than an untouched transcript.
+  if (edited) confidence -= 0.05;
   if (!input.pronunciationAvailable) confidence -= 0.05;
   confidence = Math.round(Math.min(0.72, Math.max(0.15, confidence)) * 100) / 100;
 
   if (input.transcriptOrigin === "manual") {
     nextActions.push("This transcript was typed by you, not transcribed from the audio — check it against your recording before acting on the details.");
+  }
+  if (edited) {
+    // §14: the evaluation saw the CORRECTED text. Nothing below may be reported
+    // as evidence of what was actually said, and no wording here claims it was.
+    nextActions.push("You edited this transcript before sending it, so the feedback describes the corrected text — not necessarily the exact words in your recording.");
   }
   if (promptText) {
     recommendedExercises.push({

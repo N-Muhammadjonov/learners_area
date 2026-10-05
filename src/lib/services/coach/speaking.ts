@@ -2,7 +2,7 @@ import "server-only";
 import { resolvePronunciationAssessment } from "./pronunciation";
 import { providerRegistry } from "./registry";
 import { evaluateAndPersist, type ServiceOutcome } from "./service";
-import type { SpeakingPart } from "./types";
+import type { SpeakingPart, TranscriptOrigin } from "./types";
 
 export type SpeakingEvaluationRequest = {
   userId: string;
@@ -10,12 +10,16 @@ export type SpeakingEvaluationRequest = {
   part: SpeakingPart;
   promptText: string | null;
   /**
-   * The transcript to evaluate, or null. There are exactly two honest sources:
-   * a configured SpeechToTextService, or the student's own typed transcript
-   * (clearly labelled as such). Nothing else may populate this field.
+   * The transcript to evaluate, or null. There are exactly three honest sources:
+   * a configured server SpeechToTextService ("stt"), the student's own typed
+   * transcript ("manual"), and the student's browser SpeechRecognition reviewed
+   * and sent by the student ("browser_stt"). Each is clearly labelled as such
+   * wherever it appears. Nothing else may populate this field.
    */
   transcript: string | null;
-  transcriptOrigin: "stt" | "manual" | null;
+  transcriptOrigin: TranscriptOrigin | null;
+  /** True when the learner corrected the transcript before sending it (§13/§14). */
+  transcriptEdited?: boolean;
   durationMs: number | null;
   language: "uz" | "en";
 };
@@ -60,6 +64,7 @@ export async function evaluateSpeakingAttempt(
         promptText: input.promptText,
         transcript: input.transcript,
         transcriptOrigin: input.transcriptOrigin,
+        transcriptEdited: input.transcriptEdited ?? false,
         durationMs: input.durationMs,
         pronunciationAvailable,
       },

@@ -5,7 +5,7 @@ import { findEvaluation, recordEvaluationEvent, recordFallbackEvent, recordWeakn
 import { getStorageService } from "@/lib/services/storage";
 import { resolveEvaluation, type CoachEvaluationError, type EvaluationRequest, type ResolveExtras, type ResolvePolicy } from "./resolver";
 import type { EvaluationResult, EvaluationType } from "./schema";
-import type { ProviderFailure } from "./types";
+import type { ProviderFailure, TranscriptOrigin } from "./types";
 import { recordEvaluationOutcomeSignal } from "@/lib/services/riwi/learning";
 
 /**
@@ -29,7 +29,13 @@ export type ServiceError =
   | "unsupported_task_type"
   | "invalid_input";
 
-export type TranscriptOrigin = "stt" | "manual";
+/**
+ * The canonical union lives in ./types (one definition for the whole Coach
+ * subsystem). Re-exported here so this module's existing public surface — and
+ * anything importing the origin vocabulary alongside the shared plumbing —
+ * keeps working without a second, drifting copy.
+ */
+export type { TranscriptOrigin };
 
 /**
  * Ask the configured SpeechToTextService for a transcript of a private
