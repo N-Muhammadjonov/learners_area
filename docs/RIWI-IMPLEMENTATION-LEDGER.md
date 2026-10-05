@@ -304,3 +304,26 @@ The local Arena checkout started at `a83351a`, while the fixed remote session br
 | Phase 15 migrations | PASS locally / OWNER ACTION REQUIRED for shared Preview | Current isolated migration chain is 45/45 and fresh PostgreSQL migration passed. Re-run accepted Drizzle consistency and verify upgrade-path evidence before final closure. No shared Preview or Production migration was applied. |
 | Preview / providers / browser / owner | OWNER ACTION REQUIRED / EXTERNALLY UNVERIFIED / BROWSER QA REQUIRED | No Preview DB fingerprint or migration apply was obtained, no live provider credentials/calls were available, no authenticated real-browser role QA was performed, and no owner acceptance was self-issued. Prepare the exact Preview approval package and browser checklist; keep the owner boundary explicit. |
 | Overall progress threshold | NONE EMITTED | Run #1 alone does not justify the suggested 95% threshold; Run #2, final red-team and remaining owner/external boundaries are still open. The latest emitted threshold remains none. |
+
+## Checkpoint 17 — fail-closed knowledge analysis and disclosed conversation retention
+
+| Requirement area | Status | Evidence / limitation |
+|---|---|---|
+| Knowledge-overlap scan completeness | PASS for bounded analysis behavior | The active-unit query now fetches `RIWI_KNOWLEDGE_CONFLICT_SCAN_MAX_ACTIVE_UNITS + 1`; more than 500 same-scope active units raises `analysis_capacity_exceeded` instead of analyzing a prefix. Conflict collection permits exactly 1,000 records but raises on the 1,001st rather than breaking early and returning a partial list. The error propagates from within the candidate transaction, and owner routes return a safe 409. Regression coverage checks the exact 1,000 boundary and both overflow cases; the safe owner-route 409 mapping is present and type-checked. No conflict is omitted silently. |
+| Conversation retention disclosure | PASS for truthful UI disclosure; OWNER DECISION remains open | The shared contract constant now drives service pruning and both server/client transcript response bounds. English and Uzbek chat copy states the 30-day expiry, latest-60 retention and automatic deletion of older messages. UI regressions assert both locales. The transcript is intentionally a destructive storage cap and has no cursor to older messages; whether the product should retain a larger/continuable transcript remains an owner acceptance decision. |
+| Targeted regressions after changes | PASS | `tests/riwi-knowledge.test.ts` — 4 passed, 0 failed; `tests/ui/riwi-chat-feedback.test.tsx` — 11 passed, 0 failed. `npm run typecheck` and targeted ESLint over changed code/tests passed. These focused results are not substitutes for the new full-gate sequence below. |
+| Shared environments | NOT TOUCHED | No Preview or Production database was contacted; no migration or deployment was attempted. |
+
+## Checkpoint 18 — Canonical QA Gate Run #1 after safety changes (fresh; local only)
+
+| Requirement area | Status | Evidence / limitation |
+|---|---|---|
+| Gate command and source tree | PASS | `QA_BASE=a83351a3d2fcc2e81fc024e5e1a308f3410864b9 QA_OUT=/tmp/qa-gate-riwi-20261005-run1-conflict-cap QA2_PG_DIR=/tmp/qa2-pg-riwi-20261005-run1-conflict-cap npm exec --yes --package=node@24 -- npm run qa:gate`; Node v24.21.0, exit 0, `GATE PASS`. Run began at base HEAD `3fad36e1b555128f63ce918912fd85bc5e78808d` plus the reviewed nine-file working-tree change. Captured logs and fresh isolated PG data are under the `/tmp` paths; no repository QA artifacts were created. |
+| Unit / PGlite | PASS | 1,176 total; 1,086 passed; 0 failed; 90 skipped. The 90 skips remain classified as 88 real-PostgreSQL-gated tests (exercised in the same gate's real-PG run) plus two Listening-source-ZIP tests. No ZIP was fabricated. |
+| UI | PASS | 229 total; 229 passed; 0 failed; 0 skipped. |
+| Speaking bank / migrations / fixtures | PASS locally | Pinned bank checksum verified with 880 rows. Fresh isolated PostgreSQL applied 45/45 journal entries and owner/student QA fixtures passed. |
+| Listening source ZIP | OWNER / EXTERNAL ASSET REQUIRED | `LISTENING_SOURCE_ZIP` was not provided. The same two asset-dependent tests skipped in PGlite and real PostgreSQL; they are not counted PASS. |
+| Real PostgreSQL | PASS with two required asset skips | 1,176 total; 1,174 passed; 0 failed; 2 skipped. Database was isolated under `/tmp/qa2-pg-riwi-20261005-run1-conflict-cap`; no shared target was contacted. |
+| Typecheck / lint / build / diffs | PASS | Typecheck, full lint, production build, working-tree `git diff --check`, and baseline-to-HEAD source diff check all exited 0. Build completed in 80 seconds. |
+| RUN #1 status | PASS locally; RUN #2 REQUIRED | This green run supersedes the older Checkpoint 16 run for the modified source tree. After recording the result, checkpoint and verify the code/evidence on the fixed Arena branch, then repeat from fresh QA output and PG directories. Red-team, Preview, live provider, authenticated browser, Listening ZIP, and owner acceptance boundaries remain open. |
+| Overall progress threshold | NONE EMITTED | One gate does not justify an overall completion threshold; wait for the independent second gate and the remaining evidence review. |

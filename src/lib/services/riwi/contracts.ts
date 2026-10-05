@@ -8,6 +8,7 @@ import {
 } from "@/lib/services/coach/schema";
 
 export const RIWI_TARGET_CURSOR_MAX_LENGTH = 2048;
+export const RIWI_CONVERSATION_STORAGE_MAX_MESSAGES = 60;
 
 export const RIWI_PROVENANCE = [
   "canonical_dictionary", "canonical_evaluation", "canonical_grammar", "approved_knowledge", "course_lesson", "deterministic_learning_data",

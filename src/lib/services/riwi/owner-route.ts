@@ -16,7 +16,7 @@ export function ownerJson(body: unknown, status = 200) {
 export function knowledgeErrorResponse(error: unknown) {
   if (!(error instanceof KnowledgeServiceError)) return ownerJson({ error: { code: "riwi_knowledge_unavailable" } }, 503);
   const status = error.code === "forbidden" ? 403 : error.code === "not_found" ? 404
-    : error.code === "invalid_input" ? 400 : error.code === "invalid_state" || error.code === "duplicate_source" || error.code === "unresolved_conflict" || error.code === "stale_version" ? 409
+    : error.code === "invalid_input" ? 400 : error.code === "invalid_state" || error.code === "duplicate_source" || error.code === "unresolved_conflict" || error.code === "stale_version" || error.code === "analysis_capacity_exceeded" ? 409
       : error.code === "rights_unverified" || error.code === "regression_required" ? 422 : 503;
   return ownerJson({ error: { code: `riwi_knowledge_${error.code}` } }, status);
 }

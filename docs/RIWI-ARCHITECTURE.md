@@ -43,7 +43,7 @@ Provider labs are owner-triggered, concurrency- and budget-bounded, and run only
 
 ## Decision 7 — memory and retention are separated
 
-- Conversation context is per authenticated actor/conversation, capped and expiring; the owner does not receive raw learner chat by default. Users can delete their own conversations.
+- Conversation context is per authenticated actor/conversation. The current implementation retains only the latest 60 messages (older messages are automatically deleted) and expires conversations after 30 days; this is a destructive storage cap, not a continuable transcript-history page. Both limits are disclosed in the chat UI. Whether the product should accept this cap remains an explicit owner decision. The owner does not receive raw learner chat by default; users can delete their own conversations.
 - Approved knowledge, candidate learning signals, normalized evaluation/experiment results, provider policy, failure metadata and audit events have distinct schemas and retrieval eligibility.
 - Audit contains ids, capability/tool/provider, scope, correlation, outcome, hashes/counts, versions and timestamps—never secrets, full private prompts, essay/audio content or report contents by default.
 - Model-weight training is NOT implemented.

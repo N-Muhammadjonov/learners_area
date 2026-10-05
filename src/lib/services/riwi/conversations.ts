@@ -6,14 +6,14 @@ import type { Role } from "@/lib/auth/roles";
 import type { Locale } from "@/lib/i18n";
 import { recordRiwiAudit } from "./audit";
 import type { RiwiConversationTurn } from "@/lib/services/coach/types";
-import { RIWI_PROVENANCE, type RiwiProvenance } from "./contracts";
+import { RIWI_CONVERSATION_STORAGE_MAX_MESSAGES, RIWI_PROVENANCE, type RiwiProvenance } from "./contracts";
+export { RIWI_CONVERSATION_STORAGE_MAX_MESSAGES } from "./contracts";
 import { reportSnapshotSchema, type ValidatedReportSnapshot } from "@/lib/reporter/snapshot-schema";
 import { isAuthorizedRiwiCourseLesson } from "./course-lessons";
 import { hasOpenExam, resolveDictionaryOccurrence } from "./dictionary";
 
 export const RIWI_CONVERSATION_TTL_DAYS = 30;
 export const RIWI_CONVERSATION_HISTORY_MAX = 6;
-export const RIWI_CONVERSATION_STORAGE_MAX_MESSAGES = 60;
 export const RIWI_CONVERSATION_MESSAGE_MAX = 6000;
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const dayMs = 24 * 60 * 60 * 1000;

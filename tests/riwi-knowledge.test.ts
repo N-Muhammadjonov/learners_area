@@ -10,6 +10,9 @@ import { installOwnerHistoryCursorTestSecret } from "./support/riwi-history-curs
 test.after(installOwnerHistoryCursorTestSecret());
 import {
   KnowledgeServiceError,
+  RIWI_KNOWLEDGE_CONFLICT_SCAN_MAX_ACTIVE_UNITS,
+  RIWI_KNOWLEDGE_MAX_CONFLICTS_PER_CANDIDATE,
+  collectKnowledgeConflicts,
   approveKnowledgeCandidate,
   createKnowledgeCandidate,
   getKnowledgeSourceDetail,
@@ -39,6 +42,35 @@ async function candidate(database: Awaited<ReturnType<typeof createTestDatabase>
     rightsClass: input.rightsClass ?? "owner_authored", scope: input.scope ?? { kind: "global" }, content: input.content,
   }, database.db);
 }
+
+test("knowledge overlap scans fail closed at both active-unit and conflict caps", () => {
+  const candidateUnits = [
+    { id: "candidate-1", content: "A resilient learner improves accuracy through deliberate practice." },
+    { id: "candidate-2", content: "An resilient learner improves accuracy through deliberate practice." },
+  ];
+  const activeUnits = Array.from({ length: RIWI_KNOWLEDGE_CONFLICT_SCAN_MAX_ACTIVE_UNITS }, (_, index) => ({
+    sourceId: `source-${index}`, unitId: `unit-${index}`,
+    text: "The resilient learner improves accuracy through deliberate practice.",
+  }));
+  const exactlyBounded = collectKnowledgeConflicts(candidateUnits, activeUnits);
+  assert.equal(exactlyBounded.length, RIWI_KNOWLEDGE_MAX_CONFLICTS_PER_CANDIDATE);
+
+  const overflowingCandidates = [...candidateUnits, {
+    id: "candidate-3", content: "Our resilient learner improves accuracy through deliberate practice.",
+  }];
+  assert.throws(
+    () => collectKnowledgeConflicts(overflowingCandidates, activeUnits),
+    (error) => error instanceof KnowledgeServiceError && error.code === "analysis_capacity_exceeded",
+    "the 1,001st conflict must abort instead of persisting a partial conflict list",
+  );
+
+  const tooManyActiveUnits = [...activeUnits, { sourceId: "source-overflow", unitId: "unit-overflow", text: activeUnits[0]!.text }];
+  assert.throws(
+    () => collectKnowledgeConflicts([candidateUnits[0]!], tooManyActiveUnits),
+    (error) => error instanceof KnowledgeServiceError && error.code === "analysis_capacity_exceeded",
+    "the extra active-unit sentinel must abort instead of analyzing an incomplete window",
+  );
+});
 
 test("knowledge source creation binds active-owner authority, checksums, scope, and unit integrity", async () => {
   const { database, actor } = await setup();

@@ -46,7 +46,7 @@ const OWNER_AUTHORITY: Record<KnowledgeSourceType, number> = {
 };
 
 export class KnowledgeServiceError extends Error {
-  constructor(public readonly code: "forbidden" | "invalid_input" | "not_found" | "invalid_state" | "rights_unverified" | "unresolved_conflict" | "regression_required" | "duplicate_source" | "write_failed" | "stale_version") {
+  constructor(public readonly code: "forbidden" | "invalid_input" | "not_found" | "invalid_state" | "rights_unverified" | "unresolved_conflict" | "regression_required" | "duplicate_source" | "write_failed" | "stale_version" | "analysis_capacity_exceeded") {
     super(code);
   }
 }
@@ -73,6 +73,37 @@ export function detectKnowledgeOverlap(candidate: string, active: string): boole
   const right = normalizeClaim(active);
   if (!left || !right || left === right) return false;
   return sharedRatio(keywords(left), keywords(right)) >= 0.72;
+}
+
+export type KnowledgeConflictCandidateUnit = { id: string; content: string };
+export type KnowledgeConflictActiveUnit = { sourceId: string; unitId: string; text: string };
+export type KnowledgeConflictRecord = { candidateUnitId: string; activeSourceId: string; activeUnitId: string; conflictKey: string };
+
+/**
+ * A capped overlap scan must fail closed rather than create a candidate with
+ * only a partial conflict list. The active-unit + 1 query sentinel and the
+ * conflict + 1 check make both hard bounds observable to the caller.
+ */
+export function collectKnowledgeConflicts(
+  candidateUnits: readonly KnowledgeConflictCandidateUnit[],
+  activeUnits: readonly KnowledgeConflictActiveUnit[],
+): KnowledgeConflictRecord[] {
+  if (activeUnits.length > RIWI_KNOWLEDGE_CONFLICT_SCAN_MAX_ACTIVE_UNITS) {
+    throw new KnowledgeServiceError("analysis_capacity_exceeded");
+  }
+  const conflicts: KnowledgeConflictRecord[] = [];
+  for (const candidate of candidateUnits) {
+    for (const active of activeUnits) {
+      if (!detectKnowledgeOverlap(candidate.content, active.text)) continue;
+      if (conflicts.length >= RIWI_KNOWLEDGE_MAX_CONFLICTS_PER_CANDIDATE) {
+        throw new KnowledgeServiceError("analysis_capacity_exceeded");
+      }
+      const activeWords = keywords(active.text);
+      const key = sha256([...keywords(candidate.content)].filter((word) => activeWords.has(word)).sort().join(" "));
+      conflicts.push({ candidateUnitId: candidate.id, activeSourceId: active.sourceId, activeUnitId: active.unitId, conflictKey: key });
+    }
+  }
+  return conflicts;
 }
 
 const KNOWLEDGE_QUERY_STOP_WORDS = new Set([
@@ -203,18 +234,9 @@ export async function createKnowledgeCandidate(input: {
       .innerJoin(riwiKnowledgeSources, eq(riwiKnowledgeSources.id, riwiKnowledgeUnits.sourceId))
       .where(and(eq(riwiKnowledgeSources.state, "active"), activeScope))
       .orderBy(desc(riwiKnowledgeSources.authority), desc(riwiKnowledgeSources.updatedAt))
-      .limit(RIWI_KNOWLEDGE_CONFLICT_SCAN_MAX_ACTIVE_UNITS);
+      .limit(RIWI_KNOWLEDGE_CONFLICT_SCAN_MAX_ACTIVE_UNITS + 1);
 
-    const conflicts: Array<{ candidateUnitId: string; activeSourceId: string; activeUnitId: string; conflictKey: string }> = [];
-    for (const candidate of storedUnits) {
-      for (const active of existing) {
-        if (!detectKnowledgeOverlap(candidate.content, active.text)) continue;
-        const key = sha256([...keywords(candidate.content)].filter((word) => keywords(active.text).has(word)).sort().join(" "));
-        conflicts.push({ candidateUnitId: candidate.id, activeSourceId: active.sourceId, activeUnitId: active.unitId, conflictKey: key });
-        if (conflicts.length >= RIWI_KNOWLEDGE_MAX_CONFLICTS_PER_CANDIDATE) break;
-      }
-      if (conflicts.length >= RIWI_KNOWLEDGE_MAX_CONFLICTS_PER_CANDIDATE) break;
-    }
+    const conflicts = collectKnowledgeConflicts(storedUnits, existing);
     if (conflicts.length) await tx.insert(riwiKnowledgeConflicts).values(conflicts.map((conflict) => ({
       candidateSourceId: created.id, candidateUnitId: conflict.candidateUnitId,
       activeSourceId: conflict.activeSourceId, activeUnitId: conflict.activeUnitId,

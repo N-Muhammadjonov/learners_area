@@ -7,7 +7,7 @@ import { RULES, accountKey, consume } from "@/lib/http/rate-limit";
 import { deleteRiwiConversation, getRiwiConversationTranscript, RiwiConversationError } from "@/lib/services/riwi/conversations";
 import { recordRiwiAudit } from "@/lib/services/riwi/audit";
 import { riwiEnabledForRole } from "@/lib/services/riwi/rollout";
-import { RIWI_PROVENANCE } from "@/lib/services/riwi/contracts";
+import { RIWI_CONVERSATION_STORAGE_MAX_MESSAGES, RIWI_PROVENANCE } from "@/lib/services/riwi/contracts";
 import { reportSnapshotSchema } from "@/lib/reporter/snapshot-schema";
 
 export const dynamic = "force-dynamic";
@@ -24,7 +24,7 @@ const transcriptSchema = z.object({
     provider: z.object({ id: z.string().max(60), model: z.string().max(120).nullable() }).strict().nullable(),
     citations: z.array(z.object({ source: z.string().max(120), version: z.number().int().positive().nullable() }).strict()).max(8),
     reportSnapshot: reportSnapshotSchema.nullable(),
-  }).strict()).max(60),
+  }).strict()).max(RIWI_CONVERSATION_STORAGE_MAX_MESSAGES),
 }).strict();
 
 function unavailable(status: number) {
