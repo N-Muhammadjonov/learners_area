@@ -1,0 +1,3 @@
+# Learners Area-only migration runbook (Mode C)
+
+Export `scope=learners-area`. Verify zero RIWI knowledge/policy/provider/security canaries. Apply canonical Learners Area migrations, dry-run and import transactionally. Reconcile users/roles/teacher-student links, courses/content/progress, Reading/Listening/Writing/Speaking and private objects under the accepted retention policy. Start the site with portable RIWI intelligence absent; RIWI-dependent paths must be disabled or fail safely, never silently synthesize policy. Speaking sessions/transcripts/audio may move only under the private archive and object rules.

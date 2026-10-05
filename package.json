@@ -17,7 +17,8 @@
     "reading:import": "node --import tsx --env-file=.env scripts/import-reading-105.mjs",
     "test:ui": "TSX_TSCONFIG_PATH=tests/ui/tsconfig.json node --import tsx --test tests/ui/*.test.tsx",
     "qa:pg": "bash scripts/qa2-local-postgres.sh",
-    "qa:gate": "bash scripts/qa-forensic-gate.sh"
+    "qa:gate": "bash scripts/qa-forensic-gate.sh",
+    "qa:riwi-resources": "node --conditions=react-server --import tsx scripts/riwi-resource-leak-scan.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1136.0",

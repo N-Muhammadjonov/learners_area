@@ -1,0 +1,3 @@
+# RIWI-only migration runbook (Mode B)
+
+Export `scope=riwi`. Verify zero user/email/session/progress/Speaking transcript/audio canaries. Apply canonical schema to a clean RIWI-compatible database and attach a fake/new-site adapter with no Learners Area user rows. Dry-run, transactionally import, rebuild retrieval/indexes, verify source/version/checksum and run golden/security regressions plus a grounded query. Configure destination provider credentials separately; status remains not-ready/externally-unverified until a real key call succeeds. User-scoped private evidence is not promoted to global; this mode excludes it by default.

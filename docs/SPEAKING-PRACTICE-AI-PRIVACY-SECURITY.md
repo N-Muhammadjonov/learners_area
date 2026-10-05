@@ -1,0 +1,5 @@
+# Speaking Practice AI privacy and security
+
+The server owns actor, session, persisted plan, prompt and attempt identity. Plans use published canonical prompts and stay stable. Browser STT is editable learner text, not acoustic evidence or authority. Stop is review; only explicit Send uploads privately and evaluates. Duplicate Send is idempotent. External payload is the reviewed transcript plus minimum prompt/session metadata; audio is sent only to an approved declared acoustic/STT capability. Pronunciation is Not assessed and a complete IELTS band is not claimed without genuine criterion coverage. Audio/history access is ownership-scoped; R2 keys are not authorization.
+
+Conversation pruning and Speaking retention are separate. Speaking audio/transcript retention duration is OWNER ACTION REQUIRED; no long-term duration is invented here. Until approval, deletion/export operations must preserve privacy, exclude deleted/expired data, and avoid copying raw audio/full transcripts into security signals.

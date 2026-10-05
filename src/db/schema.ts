@@ -71,6 +71,14 @@ export const riwiReviewDecisionEnum = pgEnum("riwi_review_decision", ["approve",
 export const riwiConversationMessageRoleEnum = pgEnum("riwi_conversation_message_role", ["user", "assistant"]);
 export const riwiExperimentStateEnum = pgEnum("riwi_experiment_state", ["pending", "running", "completed", "partial", "failed"]);
 export const riwiAssessmentPolicyStateEnum = pgEnum("riwi_assessment_policy_state", ["candidate", "approved", "superseded", "rejected"]);
+export const riwiSecuritySignalTypeEnum = pgEnum("riwi_security_signal_type", [
+  "prompt_injection", "role_spoof", "idor", "tool_injection", "provider_injection",
+  "ssrf", "exfiltration", "secret_extraction", "exam_bypass", "replay", "toctou",
+  "knowledge_poisoning", "assessment_policy_injection", "prompt_version_downgrade",
+]);
+export const riwiSecuritySignalStateEnum = pgEnum("riwi_security_signal_state", [
+  "candidate", "in_review", "approved_regression", "rejected", "developer_action_required",
+]);
 
 export const accessRequestStatusEnum = pgEnum("access_request_status", [
   "pending",
@@ -582,6 +590,35 @@ export const riwiUsageMetrics = pgTable("riwi_usage_metrics", {
   check("riwi_usage_metrics_duration_check", sql`${table.durationMs} >= 0`),
   check("riwi_usage_metrics_tokens_check", sql`(${table.inputTokens} is null or ${table.inputTokens} >= 0) and (${table.outputTokens} is null or ${table.outputTokens} >= 0)`),
   check("riwi_usage_metrics_cost_check", sql`${table.estimatedCostMicros} is null or ${table.estimatedCostMicros} >= 0`),
+]);
+
+export const riwiSecuritySignals = pgTable("riwi_security_signals", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  signalType: riwiSecuritySignalTypeEnum("signal_type").notNull(),
+  state: riwiSecuritySignalStateEnum("state").notNull().default("candidate"),
+  fingerprint: varchar("fingerprint", { length: 64 }).notNull(),
+  occurrenceCount: integer("occurrence_count").notNull().default(1),
+  firstSeenAt: timestamp("first_seen_at", { withTimezone: true }).defaultNow().notNull(),
+  lastSeenAt: timestamp("last_seen_at", { withTimezone: true }).defaultNow().notNull(),
+  actorRole: roleEnum("actor_role"),
+  routeClass: varchar("route_class", { length: 120 }).notNull(),
+  sanitizedEvidence: varchar("sanitized_evidence", { length: 500 }).notNull(),
+  regressionFixtureId: varchar("regression_fixture_id", { length: 120 }),
+  regressionEvidenceHash: varchar("regression_evidence_hash", { length: 64 }),
+  reviewedByUserId: uuid("reviewed_by_user_id").references(() => users.id, { onDelete: "set null" }),
+  reviewedAt: timestamp("reviewed_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => [
+  uniqueIndex("riwi_security_signals_fingerprint_uidx").on(table.fingerprint),
+  index("riwi_security_signals_state_seen_idx").on(table.state, table.lastSeenAt, table.id),
+  index("riwi_security_signals_type_seen_idx").on(table.signalType, table.lastSeenAt),
+  check("riwi_security_signals_fingerprint_check", sql`${table.fingerprint} ~ '^[a-f0-9]{64}$'`),
+  check("riwi_security_signals_count_check", sql`${table.occurrenceCount} > 0`),
+  check("riwi_security_signals_regression_hash_check", sql`${table.regressionEvidenceHash} is null or ${table.regressionEvidenceHash} ~ '^[a-f0-9]{64}$'`),
+  check("riwi_security_signals_promotion_check", sql`${table.state} <> 'approved_regression' or (
+    ${table.regressionFixtureId} is not null and ${table.regressionEvidenceHash} is not null and
+    ${table.reviewedByUserId} is not null and ${table.reviewedAt} is not null
+  )`),
 ]);
 
 export const ownershipTransfers = pgTable("ownership_transfers", {

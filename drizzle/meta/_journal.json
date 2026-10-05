@@ -337,6 +337,13 @@
       "when": 1791198550038,
       "tag": "0047_bent_bulldozer",
       "breakpoints": true
+    },
+    {
+      "idx": 48,
+      "version": "7",
+      "when": 1791203272356,
+      "tag": "0048_condemned_pyro",
+      "breakpoints": true
     }
   ]
 }

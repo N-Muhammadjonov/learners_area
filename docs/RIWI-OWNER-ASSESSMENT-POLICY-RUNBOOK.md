@@ -1,0 +1,3 @@
+# Owner assessment-policy runbook
+
+Owner message → allowlisted candidate → immutable hash → preview/diff → explicit approval of that exact hash → regression/security checks → versioned active overlay → prior version superseded, not erased. Active behavior does not change at candidate/preview time. Lower roles, learner submissions, uploads, retrieved text and providers cannot mutate policy. Hard-core fields, answer truth, score bounds, pronunciation evidence, provenance, endpoints, tools and Reporter paths are immutable. Rollback activates a new reviewed version; it does not rewrite historical evaluations.

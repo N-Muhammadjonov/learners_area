@@ -36,6 +36,7 @@ import { extractDictionaryTerm, hasOpenExam } from "./dictionary";
 import { riwiErrorMessage, type RiwiErrorCode } from "./errors";
 import { readRiwiBoundedJson } from "./http";
 import { createLearningSignal } from "./learning";
+import { classifySecuritySignal, recordSecuritySignal } from "./security-learning";
 import { retrieveActiveKnowledge, type RetrievedKnowledge } from "./knowledge";
 import { recordRiwiAudit, type RiwiAuditAction, type RiwiAuditMetadata } from "./audit";
 import { readRiwiRollout, type RiwiRollout } from "./rollout";
@@ -890,6 +891,10 @@ export async function runRiwiGateway(request: Request, overrides: Partial<RiwiGa
   let dictionaryScope: RiwiDictionaryConversationScope | null = null;
   try {
     if (intent === "security_denial") {
+      await recordSecuritySignal({
+        type: classifySecuritySignal(parsed.data.message), actorRole: actor.role,
+        routeClass: "riwi.chat", tags: ["direct"],
+      }).catch(() => undefined);
       response = answerBody({ ok: false, correlationId, intent, answer: riwiErrorMessage("riwi_security_denial", locale),
         errorCode: "riwi_security_denial", provenance: "policy_refusal" });
     } else if (parsed.data.targetUserId && !["progress_self", "report_self"].includes(intent)) {

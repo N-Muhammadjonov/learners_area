@@ -1,0 +1,5 @@
+# RIWI security learning
+
+Authorization is immutable server policy. Attack text is untrusted evidence only. Immediate denial may create a sanitized fingerprint/classification/count with first/last seen; never raw audio, full unnecessary transcript, secret or exploit payload. Deduplication must bound log growth. A candidate regression case requires trusted review, false-positive/negative testing and approval before a rule/test is active. RIWI has no shell, raw-SQL, source-write, package, Git, secret rotation or migration primitive. Findings that need code become developer-action-required records, not runtime patches.
+
+Implementation: `riwi_security_signals` stores bounded classifications, deduplicated fingerprint/count, first/last seen, review state and regression linkage. `security-learning.ts` never accepts raw evidence; the owner-only API and dashboard expose sanitized counts. Approval requires fixture + evidence hash + reviewer. A code-level finding can be marked `developer_action_required`; no runtime patch is produced.

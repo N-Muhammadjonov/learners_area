@@ -1,0 +1,3 @@
+# Assessment contract security
+
+The canonical 68-contract registry under `src/lib/services/coach/contracts` is server-selected. Immutable hard-core rules outrank owner overlays, learner text, uploaded/retrieved content and provider output. Vendor adapters transport one composed contract and may not embed divergent rubrics. Objective Reading/Listening truth and Reporter numbers remain deterministic. Prompt/rubric/overlay/provider provenance is retained. Unsupported pronunciation and complete-band claims are rejected by the Speaking path. See the Prompt Base tests and owner-policy runbook; do not rebuild this architecture.
