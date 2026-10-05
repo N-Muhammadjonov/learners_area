@@ -16,7 +16,7 @@ export type SpeakingEvaluationRequest = {
    * (clearly labelled as such). Nothing else may populate this field.
    */
   transcript: string | null;
-  transcriptOrigin: "stt" | "manual" | null;
+  transcriptOrigin: "stt" | "manual" | "browser_stt" | null;
   durationMs: number | null;
   language: "uz" | "en";
 };

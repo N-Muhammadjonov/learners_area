@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { desc, eq } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
 import { db } from "@/db/client";
-import { speakingAttempts, speakingPrompts } from "@/db/schema";
+import { speakingAiSessionItems, speakingAiSessions, speakingAttempts, speakingPrompts } from "@/db/schema";
 import { isStaff, requireActiveUser } from "@/lib/auth/current-user";
 import { createAttemptSchema } from "@/lib/validation/speaking-practice";
 
@@ -37,6 +37,25 @@ export async function POST(req: NextRequest) {
     }
   }
 
+  // AI clients cannot swap a prompt or item after seeing the immutable plan.
+  if (data.sessionId && data.sessionItemId) {
+    const session = await db.query.speakingAiSessions.findFirst({
+      where: and(eq(speakingAiSessions.id, data.sessionId), eq(speakingAiSessions.userId, user.id)),
+    });
+    const item = await db.query.speakingAiSessionItems.findFirst({
+      where: and(eq(speakingAiSessionItems.id, data.sessionItemId), eq(speakingAiSessionItems.sessionId, data.sessionId)),
+    });
+    if (!session || session.status !== "active" || !item || item.status !== "pending" || item.promptId !== data.promptId || item.part !== data.part) {
+      return NextResponse.json({ error: "invalid_session_item" }, { status: 409 });
+    }
+  }
+  if (data.retryOfAttemptId) {
+    const parent = await db.query.speakingAttempts.findFirst({ where: and(eq(speakingAttempts.id, data.retryOfAttemptId), eq(speakingAttempts.userId, user.id)) });
+    if (!parent || parent.status === "recording" || parent.promptId !== (data.promptId ?? null)) {
+      return NextResponse.json({ error: "invalid_retry" }, { status: 409 });
+    }
+  }
+
   const [created] = await db
     .insert(speakingAttempts)
     .values({
@@ -44,6 +63,9 @@ export async function POST(req: NextRequest) {
       promptId: data.promptId ?? null,
       part: data.part,
       status: "recording",
+      retryOfAttemptId: data.retryOfAttemptId ?? null,
+      aiSessionId: data.sessionId ?? null,
+      aiSessionItemId: data.sessionItemId ?? null,
     })
     .returning();
 

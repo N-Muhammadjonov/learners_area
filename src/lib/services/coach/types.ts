@@ -70,7 +70,7 @@ export type SpeakingEvaluationInput = {
    * that case rather than invent one.
    */
   transcript: string | null;
-  transcriptOrigin: "stt" | "manual" | null;
+  transcriptOrigin: "stt" | "manual" | "browser_stt" | null;
   durationMs: number | null;
   /** False when the provider has no audio/pronunciation capability at all. */
   pronunciationAvailable: boolean;

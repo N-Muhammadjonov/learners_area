@@ -183,7 +183,7 @@ export function registerRiwiEvaluationTools(
       const prompt = attempt.promptId
         ? await database.query.speakingPrompts.findFirst({ where: eq(speakingPrompts.id, attempt.promptId) })
         : null;
-      const transcriptOrigin = attempt.transcriptOrigin === "manual" || attempt.transcriptOrigin === "stt"
+      const transcriptOrigin = attempt.transcriptOrigin === "manual" || attempt.transcriptOrigin === "stt" || attempt.transcriptOrigin === "browser_stt"
         ? attempt.transcriptOrigin : null;
       const outcome = await services.evaluateSpeakingAttempt({
         userId: actor.id,
@@ -195,7 +195,7 @@ export function registerRiwiEvaluationTools(
         durationMs: attempt.recordingDurationMs,
         language,
       });
-      return resolved(`Speaking ${attempt.part.replace("part", "Part ")} ${transcriptOrigin === "manual" ? "manually typed" : transcriptOrigin === "stt" ? "transcribed" : "saved"} transcript`, outcome);
+      return resolved(`Speaking ${attempt.part.replace("part", "Part ")} ${transcriptOrigin === "manual" ? "manually typed" : transcriptOrigin === "stt" ? "server-transcribed" : transcriptOrigin === "browser_stt" ? "browser-recognized" : "saved"} transcript`, outcome);
     },
   });
 

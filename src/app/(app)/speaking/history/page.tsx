@@ -87,7 +87,11 @@ export default async function SpeakingHistoryPage() {
               {attempt.transcript ? (
                 <div className="flex flex-col gap-1">
                   <p className="text-xs text-ink-300">
-                    {attempt.transcriptOrigin === "manual" ? dict.coach.transcriptManual : dict.coach.transcriptFromStt}
+                    {attempt.transcriptOrigin === "manual"
+                      ? dict.coach.transcriptManual
+                      : attempt.transcriptOrigin === "browser_stt"
+                        ? `${dict.speakingAi.browserSpeechRecognition}${attempt.transcriptEdited ? ` · ${dict.speakingAi.editedByYou}: ${dict.speakingAi.yes}` : ""}`
+                        : dict.coach.transcriptFromStt}
                   </p>
                   <p className="whitespace-pre-line rounded-sm bg-paper-sunken p-3 text-sm text-ink-700">
                     {attempt.transcript}

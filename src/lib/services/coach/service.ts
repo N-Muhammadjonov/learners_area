@@ -29,7 +29,7 @@ export type ServiceError =
   | "unsupported_task_type"
   | "invalid_input";
 
-export type TranscriptOrigin = "stt" | "manual";
+export type TranscriptOrigin = "stt" | "manual" | "browser_stt";
 
 /**
  * Ask the configured SpeechToTextService for a transcript of a private

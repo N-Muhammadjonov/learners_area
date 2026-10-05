@@ -1,0 +1,4 @@
+ALTER TABLE "speaking_attempts" ADD COLUMN "ai_session_id" uuid;--> statement-breakpoint
+ALTER TABLE "speaking_attempts" ADD COLUMN "ai_session_item_id" uuid;--> statement-breakpoint
+ALTER TABLE "speaking_attempts" ADD CONSTRAINT "speaking_attempts_ai_session_id_speaking_ai_sessions_id_fk" FOREIGN KEY ("ai_session_id") REFERENCES "public"."speaking_ai_sessions"("id") ON DELETE set null ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "speaking_attempts" ADD CONSTRAINT "speaking_attempts_ai_session_item_id_speaking_ai_session_items_id_fk" FOREIGN KEY ("ai_session_item_id") REFERENCES "public"."speaking_ai_session_items"("id") ON DELETE set null ON UPDATE no action;

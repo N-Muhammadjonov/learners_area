@@ -11,7 +11,7 @@ const writingCheck = z.discriminatedUnion("kind", [
 const taskSchemas = {
   writing: z.object({ taskType: z.enum(["task1", "task2"]), prompt: boundedText(4000), content: boundedText(20_000), targetWordCount: z.number().int().min(1).max(1000), detailedAnalysis: z.boolean().optional(), wordCount: z.number().int().min(0).max(10_000).optional(), check: writingCheck.optional() }).strict(),
   writing_check: writingCheck,
-  speaking: z.object({ part: z.enum(["part1", "part2", "part3", "general", "mock"]), promptText: boundedText(2000).nullable(), transcript: boundedText(20_000).nullable(), transcriptOrigin: z.enum(["stt", "manual"]).nullable(), durationMs: z.number().int().min(0).max(3_600_000).nullable(), pronunciationAvailable: z.boolean() }).strict(),
+  speaking: z.object({ part: z.enum(["part1", "part2", "part3", "general", "mock"]), promptText: boundedText(2000).nullable(), transcript: boundedText(20_000).nullable(), transcriptOrigin: z.enum(["stt", "manual", "browser_stt"]).nullable(), durationMs: z.number().int().min(0).max(3_600_000).nullable(), pronunciationAvailable: z.boolean() }).strict(),
   grammar: z.object({ promptText: boundedText(4000), studentAnswer: boundedText(10_000), targetStructure: boundedText(120).nullable(), sampleAnswer: boundedText(4000).nullable() }).strict(),
   vocabulary: z.object({ targetWord: boundedText(160), definition: boundedText(1000), studentSentence: boundedText(5000) }).strict(),
   assignment: z.object({ title: boundedText(300), description: boundedText(3000).nullable(), studentResponse: boundedText(20_000) }).strict(),

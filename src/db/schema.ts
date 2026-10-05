@@ -1292,11 +1292,53 @@ export const speakingAttempts = pgTable("speaking_attempts", {
    * Recording this is what keeps the UI honest: a typed transcript is never
    * presented as machine transcription, and an evaluation of it says so.
    */
-  transcriptOrigin: varchar("transcript_origin", { length: 10 }),
+  transcriptOrigin: varchar("transcript_origin", { length: 20 }),
+  /** Unedited browser recognition output; never treated as privileged evidence. */
+  transcriptRaw: text("transcript_raw"),
+  transcriptEdited: boolean("transcript_edited").notNull().default(false),
+  transcriptEditedAt: timestamp("transcript_edited_at", { withTimezone: true }),
+  retryOfAttemptId: uuid("retry_of_attempt_id").references((): AnyPgColumn => speakingAttempts.id, { onDelete: "set null" }),
+  aiSessionId: uuid("ai_session_id").references((): AnyPgColumn => speakingAiSessions.id, { onDelete: "set null" }),
+  aiSessionItemId: uuid("ai_session_item_id").references((): AnyPgColumn => speakingAiSessionItems.id, { onDelete: "set null" }),
   startedAt: timestamp("started_at", { withTimezone: true }).defaultNow().notNull(),
   submittedAt: timestamp("submitted_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
+
+/** Immutable examiner plans. Prompt text remains canonical in speaking_prompts. */
+export const speakingAiSessions = pgTable("speaking_ai_sessions", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  mode: varchar("mode", { length: 12 }).notNull(),
+  status: varchar("status", { length: 20 }).notNull().default("active"),
+  sessionSeed: varchar("session_seed", { length: 80 }).notNull(),
+  planVersion: integer("plan_version").notNull().default(1),
+  limitations: jsonb("limitations").$type<string[]>().notNull().default([]),
+  currentItemIndex: integer("current_item_index").notNull().default(0),
+  startedAt: timestamp("started_at", { withTimezone: true }).defaultNow().notNull(),
+  completedAt: timestamp("completed_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => ({
+  userStatusIdx: index("speaking_ai_sessions_user_status_idx").on(table.userId, table.status, table.createdAt),
+}));
+
+export const speakingAiSessionItems = pgTable("speaking_ai_session_items", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  sessionId: uuid("session_id").notNull().references(() => speakingAiSessions.id, { onDelete: "cascade" }),
+  ordinal: integer("ordinal").notNull(),
+  promptId: uuid("prompt_id").notNull().references(() => speakingPrompts.id, { onDelete: "restrict" }),
+  part: speakingPartEnum("part").notNull(),
+  topicKey: varchar("topic_key", { length: 240 }).notNull(),
+  topicPosition: integer("topic_position").notNull(),
+  questionPosition: integer("question_position").notNull(),
+  attemptId: uuid("attempt_id").references(() => speakingAttempts.id, { onDelete: "set null" }),
+  status: varchar("status", { length: 20 }).notNull().default("pending"),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => ({
+  sessionOrdinalUidx: uniqueIndex("speaking_ai_session_items_session_ordinal_uidx").on(table.sessionId, table.ordinal),
+  sessionPromptUidx: uniqueIndex("speaking_ai_session_items_session_prompt_uidx").on(table.sessionId, table.promptId),
+  attemptUidx: uniqueIndex("speaking_ai_session_items_attempt_uidx").on(table.attemptId).where(sql`${table.attemptId} is not null`),
+}));
 
 // ---------------------------------------------------------------------------
 // Vocabulary engine — WIRED (add, review, mastery state) in Phase 1

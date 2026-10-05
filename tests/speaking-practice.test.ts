@@ -92,9 +92,11 @@ test("prompt filtering is optional and restricted to real parts", () => {
 test("submitting an attempt only carries optional review metadata", () => {
   assert.deepEqual(submitAttemptSchema.parse({}), {});
   assert.equal(submitAttemptSchema.parse({ durationMs: 61000 }).durationMs, 61000);
-  // A transcript must never be accepted from the browser: there is no
-  // transcription provider, so the field would be fabricated data.
+  // A generic transcript/origin remains forbidden. Browser recognition is
+  // accepted only through its explicit, learner-reviewable provenance shape.
   assert.throws(() => submitAttemptSchema.parse({ transcript: "I said some things" }));
+  assert.equal(submitAttemptSchema.parse({ browserTranscript: "I said some things", browserTranscriptRaw: "I say some things", browserTranscriptEdited: true }).browserTranscriptEdited, true);
+  assert.throws(() => submitAttemptSchema.parse({ browserTranscript: "edited", browserTranscriptEdited: true }));
 });
 
 test("recording codecs map to the extension the file will actually have", () => {
