@@ -133,6 +133,7 @@ function startUploadOnce(file: Blob & { name: string }, options: StartUploadOpti
       objectKey: string;
       mode: "direct" | "proxy";
       uploadUrl: string | null;
+      fallbackUploadUrl: string | null;
       contentType: string;
     };
     try {
@@ -210,13 +211,37 @@ function startUploadOnce(file: Blob & { name: string }, options: StartUploadOpti
 
   async function sendBytes(
     file: Blob & { name: string },
-    intent: { mode: "direct" | "proxy"; uploadUrl: string | null; uploadId: string; contentType: string },
+    intent: {
+      mode: "direct" | "proxy";
+      uploadUrl: string | null;
+      fallbackUploadUrl: string | null;
+      uploadId: string;
+      contentType: string;
+    },
     onProgress?: (percent: number) => void
   ): Promise<{ ok: true } | { ok: false; failure: UploadFailure }> {
+    if (intent.mode === "direct" && intent.uploadUrl) {
+      const primary = await sendDirect(intent.uploadUrl);
+      if (
+        primary.ok ||
+        cancelled ||
+        !intent.fallbackUploadUrl ||
+        intent.fallbackUploadUrl === intent.uploadUrl
+      ) {
+        return primary;
+      }
+
+      // Endpoint-backed deployments prefer the same-origin rewrite so they do
+      // not depend on bucket CORS. If that transport is unavailable, retry the
+      // same idempotent signed PUT once at the provider URL. This keeps uploads
+      // usable during a rewrite/CDN regression without changing the object key.
+      onProgress?.(0);
+      return sendDirect(intent.fallbackUploadUrl);
+    }
+
     return new Promise((resolve) => {
       const request = new XMLHttpRequest();
       xhr = request;
-
       request.upload.addEventListener("progress", (e) => {
         if (e.lengthComputable && onProgress) onProgress(Math.round((e.loaded / e.total) * 100));
       });
@@ -225,30 +250,45 @@ function startUploadOnce(file: Blob & { name: string }, options: StartUploadOpti
           onProgress?.(100);
           resolve({ ok: true });
         } else {
-          resolve({ ok: false, failure: readError(request, intent.mode) });
+          resolve({ ok: false, failure: readError(request, "proxy") });
         }
       });
-      // A direct PUT blocked by bucket CORS also lands here (status 0).
-      request.addEventListener("error", () => resolve({ ok: false, failure: { code: intent.mode === "direct" ? "storage_rejected" : "network_error", technical: "xhr_error", retryable: true } }));
+      request.addEventListener("error", () => resolve({ ok: false, failure: { code: "network_error", technical: "xhr_error", retryable: true } }));
       request.addEventListener("abort", () => resolve({ ok: false, failure: { code: "cancelled", retryable: false } }));
       request.addEventListener("timeout", () => resolve({ ok: false, failure: { code: "upload_timeout", retryable: true } }));
 
-      if (intent.mode === "direct" && intent.uploadUrl) {
-        // Straight to the bucket. Only the content type the server signed for
-        // is sent — anything else invalidates the signature.
-        request.open("PUT", intent.uploadUrl);
+      // Local disk provider: the bytes have to reach our server, but the
+      // intent is still the authority for the key, size and type.
+      const form = new FormData();
+      form.append("uploadId", intent.uploadId);
+      form.append("file", file);
+      request.open("POST", "/api/uploads");
+      request.send(form);
+    });
+
+    function sendDirect(url: string): Promise<{ ok: true } | { ok: false; failure: UploadFailure }> {
+      return new Promise((resolve) => {
+        const request = new XMLHttpRequest();
+        xhr = request;
+        request.upload.addEventListener("progress", (e) => {
+          if (e.lengthComputable && onProgress) onProgress(Math.round((e.loaded / e.total) * 100));
+        });
+        request.addEventListener("load", () => {
+          if (request.status >= 200 && request.status < 300) {
+            onProgress?.(100);
+            resolve({ ok: true });
+          } else {
+            resolve({ ok: false, failure: readError(request, "direct") });
+          }
+        });
+        request.addEventListener("error", () => resolve({ ok: false, failure: { code: "storage_rejected", technical: "xhr_error", retryable: true } }));
+        request.addEventListener("abort", () => resolve({ ok: false, failure: { code: "cancelled", retryable: false } }));
+        request.addEventListener("timeout", () => resolve({ ok: false, failure: { code: "upload_timeout", retryable: true } }));
+        request.open("PUT", url);
         request.setRequestHeader("Content-Type", intent.contentType);
         request.send(file);
-      } else {
-        // Local disk provider: the bytes have to reach our server, but the
-        // intent is still the authority for the key, size and type.
-        const form = new FormData();
-        form.append("uploadId", intent.uploadId);
-        form.append("file", file);
-        request.open("POST", "/api/uploads");
-        request.send(form);
-      }
-    });
+      });
+    }
   }
 }
 
