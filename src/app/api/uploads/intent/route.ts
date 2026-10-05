@@ -84,6 +84,7 @@ async function handle(req: NextRequest): Promise<Response> {
     objectKey: result.objectKey,
     mode: result.mode,
     uploadUrl: result.uploadUrl,
+    fallbackUploadUrl: result.fallbackUploadUrl,
     contentType: result.contentType,
     expiresInSeconds: result.expiresInSeconds,
   });
