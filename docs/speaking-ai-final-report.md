@@ -26,9 +26,11 @@ HEAD descends from it.)
 60dc060915381226ecf73beebeb418c83c5d0303
 ```
 
-This document is committed directly on top of it as a docs-only commit, so the branch tip is
-one commit later than the implementation SHA above. The tip SHA is stated in the accompanying
-summary; only this file differs between the two.
+This document is committed directly on top of it as one or more docs-only commits, so the
+branch tip is later than the implementation SHA above. The only file that differs between the
+implementation SHA and the tip is this report (plus typo-level corrections to it); no source,
+schema, migration or test file changes after `60dc060`. The tip SHA is reported alongside this
+document rather than inside it, so it cannot go stale.
 
 Seven commits on top of the base:
 
@@ -46,7 +48,7 @@ ade1100 feat(speaking-ai): stable randomized session plan + schema for AI sessio
 
 (Not counting this report, which is a docs-only commit on top.)
 
-**Added — plan, capture, provenance, validation, summary (13)**
+**Added — plan, capture, provenance, validation, summary (14)**
 
 | File | Purpose |
 | --- | --- |
@@ -155,6 +157,11 @@ npm test           → exit 0  tests 1316 · pass 1226 · fail 0 · skipped 90
 npm run test:ui    → exit 0  tests 255  · pass 255  · fail 0 · skipped 0
 npm run build      → exit 0  (all 5 new API routes + /speaking/ai compiled)
 ```
+
+Re-run in full at the frozen implementation SHA on **2026-10-05** (Asia/Tashkent):
+all five gates above reproduced these exact numbers, and the five backend §G suites reproduced
+`139/139 pass · 0 fail` (27+31+24+25+32). `npm run qa:pg` reproduced `migrations ok: 46 / 46`,
+`fixtures ok: owner, student`, with the local database stopped again afterwards.
 
 Baseline before any edit, same environment: `1177 tests · 1087 pass · 0 fail · 90 skipped`.
 
