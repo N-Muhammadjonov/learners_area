@@ -90,8 +90,14 @@ export class S3StorageProvider implements StorageService {
       new PutObjectCommand({ Bucket: this.bucket, Key: key, ContentType: contentType }),
       { expiresIn: expiresInSeconds }
     );
-    const browserUploadUrl = endpointUploadUrl(uploadUrl);
-    return { uploadUrl: browserUploadUrl, key, contentType, expiresInSeconds };
+    const browserUploadUrl = endpointProxyUrl(uploadUrl, "upload");
+    return {
+      uploadUrl: browserUploadUrl,
+      ...(browserUploadUrl !== uploadUrl ? { fallbackUploadUrl: uploadUrl } : {}),
+      key,
+      contentType,
+      expiresInSeconds,
+    };
   }
 
   async head(key: ObjectKey): Promise<ObjectHead | null> {
@@ -113,9 +119,12 @@ export class S3StorageProvider implements StorageService {
   async signedReadUrl(key: ObjectKey, expiresInSeconds: number): Promise<string | null> {
     this.assertSafeKey(key);
     try {
-      return await getSignedUrl(this.client, new GetObjectCommand({ Bucket: this.bucket, Key: key }), {
-        expiresIn: expiresInSeconds,
-      });
+      const signedUrl = await getSignedUrl(
+        this.client,
+        new GetObjectCommand({ Bucket: this.bucket, Key: key }),
+        { expiresIn: expiresInSeconds },
+      );
+      return endpointProxyUrl(signedUrl, "read");
     } catch (err) {
       if (isNotFound(err)) return null;
       throw err;
@@ -163,11 +172,11 @@ export class S3StorageProvider implements StorageService {
   }
 }
 
-function endpointUploadUrl(signedUrl: string): string {
+export function endpointProxyUrl(signedUrl: string, operation: "upload" | "read"): string {
   const endpoint = process.env.R2_ENDPOINT || process.env.S3_ENDPOINT;
   if (!endpoint) return signedUrl;
   const signed = new URL(signedUrl);
-  return `/__storage-upload${signed.pathname}${signed.search}`;
+  return `/__storage-${operation}${signed.pathname}${signed.search}`;
 }
 
 function isNotFound(err: unknown): boolean {
