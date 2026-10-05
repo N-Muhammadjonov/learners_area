@@ -82,6 +82,25 @@ export async function findAiSessionForUser(sessionId: string, userId: string): P
   return session;
 }
 
+/**
+ * The learner's most recent unfinished session, if any — what a page refresh
+ * resumes.
+ *
+ * Returning the newest active session is what makes §11 hold end to end: the
+ * page re-renders the stored rows instead of asking for a new plan, so refreshing
+ * mid-interview cannot reshuffle the examiner or drop the learner's place.
+ */
+export async function findActiveAiSessionForUser(userId: string): Promise<AiSessionWithItems | null> {
+  const [row] = await db
+    .select()
+    .from(speakingAiSessions)
+    .where(and(eq(speakingAiSessions.userId, userId), eq(speakingAiSessions.status, "active")))
+    .orderBy(desc(speakingAiSessions.createdAt))
+    .limit(1);
+  if (!row) return null;
+  return selectSessionWithItems(row.id);
+}
+
 export async function listAiSessionsForUser(userId: string, limit = 20): Promise<AiSessionRow[]> {
   return db
     .select()

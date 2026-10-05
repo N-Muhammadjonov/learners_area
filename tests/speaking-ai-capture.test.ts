@@ -416,6 +416,21 @@ test("abort() discards the transcript for Clear / re-record", () => {
   assert.equal(stt.state().kind, "idle");
 });
 
+test("a NEW take can start after abort(), so re-record still transcribes", () => {
+  // Regression guard: if abort() left the take flagged as started, "Re-record"
+  // would silently produce no transcript for the second attempt.
+  const fake = fakeRecognition();
+  const stt = createBrowserStt({ createRecognition: () => fake });
+  stt.start();
+  fake.emitFinal("Misspoke badly.");
+  stt.abort();
+  stt.start();
+  assert.equal(fake.startCalls, 2, "the second take must really start recognition");
+  fake.emitFinal("Second attempt, said properly.");
+  assert.equal(stt.rawTranscript(), "Second attempt, said properly.");
+  assert.equal(stt.state().kind, "listening");
+});
+
 test("release() detaches every listener so none can fire after unmount", () => {
   const fake = fakeRecognition();
   const stt = createBrowserStt({ createRecognition: () => fake });

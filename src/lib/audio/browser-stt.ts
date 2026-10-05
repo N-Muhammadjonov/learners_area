@@ -291,8 +291,13 @@ export function createBrowserStt(options: BrowserSttOptions = {}): BrowserSttCon
         try { instance.abort(); } catch { /* already idle */ }
         detach(instance);
       }
+      // Reset the take: "Clear" and "Re-record" end with the learner starting
+      // again, and if `started` were left true that next take would silently
+      // produce no transcript at all.
       finalChunks.length = 0;
       interim = "";
+      started = false;
+      restarts = 0;
       emit({ kind: "idle" });
     },
 
@@ -305,6 +310,13 @@ export function createBrowserStt(options: BrowserSttOptions = {}): BrowserSttCon
         try { instance.abort(); } catch { /* already idle */ }
         detach(instance);
       }
+      // Same reason as abort(): a released controller is spent, but leaving the
+      // take flags dirty would make a reused controller useless rather than
+      // obviously finished.
+      finalChunks.length = 0;
+      interim = "";
+      started = false;
+      restarts = 0;
     },
 
     rawTranscript: () => joinTranscript(finalChunks),

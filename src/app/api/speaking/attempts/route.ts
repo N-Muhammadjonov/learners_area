@@ -37,6 +37,22 @@ export async function POST(req: NextRequest) {
     }
   }
 
+  // "Try again" lineage (§30). The retry target has to be the caller's OWN
+  // submitted attempt: a client cannot attach its new work to someone else's
+  // attempt, and cannot claim a retry of an attempt that was never submitted.
+  // The referenced row is left untouched, so the original attempt and its
+  // feedback remain in history exactly as they were.
+  if (data.retryOfAttemptId) {
+    const previous = await db.query.speakingAttempts.findFirst({
+      where: eq(speakingAttempts.id, data.retryOfAttemptId),
+    });
+    if (!previous) return NextResponse.json({ error: "retry_of_not_found" }, { status: 404 });
+    if (previous.userId !== user.id) return NextResponse.json({ error: "forbidden" }, { status: 403 });
+    if (previous.status !== "submitted") {
+      return NextResponse.json({ error: "retry_of_not_submitted" }, { status: 409 });
+    }
+  }
+
   const [created] = await db
     .insert(speakingAttempts)
     .values({
@@ -44,6 +60,7 @@ export async function POST(req: NextRequest) {
       promptId: data.promptId ?? null,
       part: data.part,
       status: "recording",
+      retryOfAttemptId: data.retryOfAttemptId ?? null,
     })
     .returning();
 

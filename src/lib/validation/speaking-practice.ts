@@ -19,6 +19,14 @@ export const createAttemptSchema = z
     promptId: z.string().uuid().nullish(),
     /** Free practice with no prompt at all is allowed; the part still has to be declared. */
     part: z.enum(["part1", "part2", "part3", "general"]),
+    /**
+     * "Try again" (§30): the attempt this one replaces. Recorded on the new row
+     * as `retry_of_attempt_id`, so a retake is always a NEW attempt and the one
+     * it replaced is never overwritten — the lineage survives for history and for
+     * the AI session's rebind check. The route verifies the referenced attempt
+     * belongs to the caller and was really submitted.
+     */
+    retryOfAttemptId: z.string().uuid().nullish(),
   })
   .strict();
 
