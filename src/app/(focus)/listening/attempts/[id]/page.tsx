@@ -1,4 +1,3 @@
-import { BackLink } from "@/components/ui/BackLink";
 import { listeningSchemaReady } from "@/lib/data/listening-schema-ready";
 import { db } from "@/db/client";
 import { eq } from "drizzle-orm";
@@ -42,7 +41,6 @@ export default async function ListeningAttemptPage({ params }: { params: Promise
 
   return (
     <div className="mx-auto max-w-3xl">
-      <BackLink fallbackHref="/listening/history" label={dict.common.back} />
       {attempt.status === "in_progress" ? (
         <ListeningExam
           dict={dict}

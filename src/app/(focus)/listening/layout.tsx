@@ -2,11 +2,11 @@ import { BackLink } from "@/components/ui/BackLink";
 import { getDictionary, getLocale } from "@/lib/i18n";
 
 /**
- * Listening tests own the viewport. The ordinary application sidebar/topbar
+ * Listening tests and attempts own the viewport. The ordinary application sidebar/topbar
  * never mount on this route tree, while one consistent BackLink remains
  * reachable at the top-left and falls back to the Listening library.
  */
-export default async function ListeningTestFocusLayout({
+export default async function ListeningFocusLayout({
   children,
 }: {
   children: React.ReactNode;

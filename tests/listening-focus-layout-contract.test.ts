@@ -11,7 +11,10 @@ test("Listening library remains in the ordinary app shell while test routes live
   assert.ok(existsSync(`${root}/src/app/(focus)/listening/tests/[id]/study/page.tsx`));
   assert.ok(existsSync(`${root}/src/app/(focus)/listening/tests/[id]/[activity]/page.tsx`));
   assert.ok(existsSync(`${root}/src/app/(focus)/listening/tests/[id]/mcq/page.tsx`));
+  assert.ok(existsSync(`${root}/src/app/(focus)/listening/attempts/[id]/page.tsx`));
+  assert.ok(existsSync(`${root}/src/app/(focus)/listening/attempts/[id]/revision/page.tsx`));
   assert.equal(existsSync(`${root}/src/app/(app)/listening/tests/[id]/page.tsx`), false);
+  assert.equal(existsSync(`${root}/src/app/(app)/listening/attempts/[id]/page.tsx`), false);
 });
 
 test("focus layout preserves the same database-backed admission gate without mounting shell chrome", () => {
@@ -25,7 +28,7 @@ test("focus layout preserves the same database-backed admission gate without mou
 });
 
 test("every Listening test surface has one design-system BackLink with a safe library fallback", () => {
-  const layout = read("src/app/(focus)/listening/tests/[id]/layout.tsx");
+  const layout = read("src/app/(focus)/listening/layout.tsx");
   assert.match(layout, /data-listening-full-focus/);
   assert.match(layout, /listening-full-focus/);
   assert.match(layout, /min-h-dvh/);
@@ -42,6 +45,8 @@ test("moved Listening pages retain route-level auth and publication/detail check
     "src/app/(focus)/listening/tests/[id]/study/page.tsx",
     "src/app/(focus)/listening/tests/[id]/[activity]/page.tsx",
     "src/app/(focus)/listening/tests/[id]/mcq/page.tsx",
+    "src/app/(focus)/listening/attempts/[id]/page.tsx",
+    "src/app/(focus)/listening/attempts/[id]/revision/page.tsx",
   ]) {
     const source = read(path);
     assert.match(source, /requireActiveUser\(\)/, path);
@@ -61,4 +66,14 @@ test("focus CSS gives authored runtime and study workspace the remaining dynamic
   assert.match(css, /\[data-listening-focus-content\] \{ min-height: calc\(100dvh - var\(--listening-focus-bar-h\)\)/);
   assert.match(css, /\.listening-full-focus \.listening-workspace \{ min-height: calc\(100dvh - var\(--listening-focus-bar-h\)\); border-radius: 0;/);
   assert.match(css, /\[data-authored-listening\] iframe \{ height: calc\(100dvh - var\(--listening-focus-bar-h\)\); min-height: 0;/);
+});
+
+test("the actual exam attempt and revision routes stay under the same Listening focus frame", () => {
+  const attempt = read("src/app/(focus)/listening/attempts/[id]/page.tsx");
+  const revision = read("src/app/(focus)/listening/attempts/[id]/revision/page.tsx");
+  assert.match(attempt, /requireActiveUser\(\)/);
+  assert.match(attempt, /getAttemptDetail\(id, user\.id\)/);
+  assert.match(revision, /requireActiveUser\(\)/);
+  assert.match(revision, /getAttemptDetail\(id, user\.id\)/);
+  assert.doesNotMatch(attempt, /<BackLink/, "the shared focus frame owns the single top-left Back control");
 });
