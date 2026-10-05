@@ -4,7 +4,7 @@ Date: 2026-10-05 (Asia/Tashkent)
 
 Starting checkpoint: `37f431eb15bedd769f053d76c816e37098569447`
 
-Verified implementation checkpoint: `IMPLEMENTATION_SHA_PENDING`
+Verified implementation checkpoint: `6d0fd2e6c27f8b45486e66d0b8b378cdbf0f72f3`
 
 ## Scope and source recovery
 
