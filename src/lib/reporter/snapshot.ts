@@ -58,11 +58,12 @@ type Spec = {
 };
 
 // The learner population of a scope. The owner scope and the all-students cohort
-// (owner/admin) cover every student account; a teacher's scope covers ONLY the
-// students explicitly linked to them in teacher_student_links (0035), as of
-// generation time; the student scope covers exactly one account.
+// (owner/admin) cover every student account; a teacher's historical report scope
+// covers only links created before that report window's exclusive end. A later
+// assignment cannot retroactively reveal earlier learner activity. The student
+// scope covers exactly one account.
 const COHORT = "user_id in (select id from users where role = 'student')";
-const ROSTER = "user_id in (select l.student_user_id from teacher_student_links l join users u on u.id = l.student_user_id where l.teacher_user_id = :teacher and u.role = 'student')";
+const ROSTER = "user_id in (select l.student_user_id from teacher_student_links l join users u on u.id = l.student_user_id where l.teacher_user_id = :teacher and u.role = 'student' and l.created_at < :to)";
 const SELF = "user_id = :subject";
 
 const LEARNER_SPECS: Spec[] = [

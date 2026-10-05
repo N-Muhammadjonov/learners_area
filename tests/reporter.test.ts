@@ -294,31 +294,45 @@ test("RP13 role matrix is explicit: admin policy is declared, teacher reach is r
   assert.deepEqual(await authorizeReport(admin, { scope: "owner" }, lookup), { ok: false, status: 403 });
 });
 
-test("RP14 teacher snapshot numbers cover ONLY explicitly linked students (real schema)", async () => {
+test("RP14 teacher snapshot uses explicit roster as of report-window end; later links cannot reveal historical rows (real schema)", async () => {
   await database.query(`insert into users (id, email, name, role, account_status, created_at) values ($1, $2, 'Teacher Two', 'teacher', 'active', '2026-01-01') on conflict do nothing`, [TCH2, `${TCH2}@example.test`]);
   await database.query(`delete from teacher_student_links`);
-  // Roster of TCH = {S2}. Weak signals (an assignment from TCH to S1) must NOT grant reach.
-  // Pin the link to the report window; the snapshot is intentionally as-of its end.
-  await database.query(`insert into teacher_student_links (teacher_user_id, student_user_id, created_at) values ($1, $2, $3)`, [TCH, S2, IN]);
+  // TCH's in-window link is effective by the report end. The second link is created
+  // just after the exclusive end and must not unlock S1's earlier activity.
+  const period = week();
+  const afterReportEnd = new Date(Date.parse(period.to) + 1).toISOString();
+  await database.query(`insert into teacher_student_links (teacher_user_id, student_user_id, created_at) values ($1, $2, $3), ($1, $4, $5)`, [TCH, S2, IN, S1, afterReportEnd]);
   await database.query(`insert into assignments (title, created_by_user_id, target_user_id) values ('weak', $1, $2)`, [TCH, S1]);
-  const mine = await buildReportSnapshot(database.db, { scope: { kind: "teacher", teacherId: TCH }, period: week(), actor: { userId: TCH, role: "teacher" }, now: NOW });
-  assert.equal(metric(mine, "reading.completed")!.value, 1, "only S2's attempt");
+  const mine = await buildReportSnapshot(database.db, { scope: { kind: "teacher", teacherId: TCH }, period, actor: { userId: TCH, role: "teacher" }, now: NOW });
+  const historicalReading = metric(mine, "reading.completed")!;
+  assert.equal(historicalReading.value, 1, "the in-window S2 link includes S2; S1's post-window link cannot reveal S1's two earlier attempts");
+  assert.equal(historicalReading.window.to, period.to, "the canonical snapshot retains the exclusive report-window end");
+  assert.equal(historicalReading.source.parameters.to, period.to, "the exact report end is part of metric provenance");
+  assert.match(historicalReading.source.sql, /l\.created_at < :to/, "teacher learner queries enforce roster membership as of the report end");
   assert.equal(metric(mine, "reading.accuracy")!.value, 0.1);
   assert.equal(metric(mine, "people.assigned")!.value, 1);
   assert.equal(metric(mine, "people.students"), undefined, "centre head-count is not in a teacher report");
   assert.ok(!mine.metrics.some((m) => m.section === "operations"));
   assert.equal(mine.metrics[0]!.scope, `teacher:${TCH}:assigned`);
   assert.equal(metric(mine, "reading.completed")!.source.parameters.teacher, TCH, "provenance records the roster owner");
-  const empty = await buildReportSnapshot(database.db, { scope: { kind: "teacher", teacherId: TCH2 }, period: week(), actor: { userId: TCH2, role: "teacher" }, now: NOW });
+  const empty = await buildReportSnapshot(database.db, { scope: { kind: "teacher", teacherId: TCH2 }, period, actor: { userId: TCH2, role: "teacher" }, now: NOW });
   assert.equal(metric(empty, "reading.completed")!.value, 0, "no roster → zero learners, not the whole centre");
   assert.equal(metric(empty, "learners.active")!.value, 0);
-  const cohort = await buildReportSnapshot(database.db, { scope: { kind: "teacher", teacherId: null }, period: week(), actor: { userId: ADM, role: "admin" }, now: NOW });
-  assert.equal(metric(cohort, "reading.completed")!.value, 3, "admin cohort still covers all students");
+  const cohort = await buildReportSnapshot(database.db, { scope: { kind: "teacher", teacherId: null }, period, actor: { userId: ADM, role: "admin" }, now: NOW });
+  assert.equal(metric(cohort, "reading.completed")!.value, 3, "admin cohort remains all students, independent of roster timing");
+  const owner = await buildReportSnapshot(database.db, { scope: { kind: "owner" }, period, actor: { userId: OWN, role: "owner" }, now: NOW });
+  assert.equal(metric(owner, "reading.completed")!.value, 3, "owner centre scope remains all students, independent of roster timing");
   // A staff account linked by hand (bypassing setRosterLink) never counts as a learner.
   await database.query(`insert into teacher_student_links (teacher_user_id, student_user_id, created_at) values ($1, $2, $3)`, [TCH2, OWN, IN]);
-  const staffLinked = await buildReportSnapshot(database.db, { scope: { kind: "teacher", teacherId: TCH2 }, period: week(), actor: { userId: TCH2, role: "teacher" }, now: NOW });
+  const staffLinked = await buildReportSnapshot(database.db, { scope: { kind: "teacher", teacherId: TCH2 }, period, actor: { userId: TCH2, role: "teacher" }, now: NOW });
   assert.equal(metric(staffLinked, "people.assigned")!.value, 0);
   assert.equal(await isOnRoster(TCH2, OWN, database.db), false, "role filter applies to the roster check too");
+  await database.query(`delete from teacher_student_links where teacher_user_id = $1`, [TCH2]);
+  // A roster link created before the historical report window is eligible at its end.
+  await database.query(`insert into teacher_student_links (teacher_user_id, student_user_id, created_at) values ($1, $2, $3)`, [TCH2, S2, OUT]);
+  const beforeWindow = await buildReportSnapshot(database.db, { scope: { kind: "teacher", teacherId: TCH2 }, period, actor: { userId: TCH2, role: "teacher" }, now: NOW });
+  assert.equal(metric(beforeWindow, "reading.completed")!.value, 1, "a pre-window assignment retains the canonical teacher roster reach");
+  assert.equal(metric(beforeWindow, "people.assigned")!.value, 1);
   await database.query(`delete from teacher_student_links where teacher_user_id = $1`, [TCH2]);
 });
 
