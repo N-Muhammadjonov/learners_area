@@ -167,7 +167,7 @@ function endpointUploadUrl(signedUrl: string): string {
   const endpoint = process.env.R2_ENDPOINT || process.env.S3_ENDPOINT;
   if (!endpoint) return signedUrl;
   const signed = new URL(signedUrl);
-  return \`/__storage-upload${signed.pathname}${signed.search}\`;
+  return `/__storage-upload${signed.pathname}${signed.search}`;
 }
 
 function isNotFound(err: unknown): boolean {
