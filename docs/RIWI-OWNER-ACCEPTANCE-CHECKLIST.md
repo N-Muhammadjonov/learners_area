@@ -4,11 +4,12 @@
 
 ## Local evidence to review
 
-- [ ] Read `docs/RIWI-IMPLEMENTATION-LEDGER.md` and the final gate receipts/logs linked there; distinguish `PASS`, intentional `SKIP`, `EXTERNALLY UNVERIFIED`, and `OWNER ACTION REQUIRED`.
+- [ ] Read `docs/RIWI-IMPLEMENTATION-LEDGER.md` and the fresh gate/red-team logs linked there. Current code checkpoint is `27060cce28de4b637cba7a9a495dc24e27580af6`; both 2026-10-05 full gates and the 156-test integrated red-team run are green locally. Distinguish PASS from the two Listening-asset skips, `EXTERNALLY UNVERIFIED`, and `OWNER ACTION REQUIRED`.
 - [ ] Review `docs/RIWI-ARCHITECTURE.md` and confirm the scope/authority, provider, knowledge, evaluation, and audit boundaries remain acceptable.
-- [ ] Review the English and Uzbek RIWI copy in chat and Owner governance. Brand names, provider/model IDs, SQL, schema/report/correlation IDs, capabilities, API fields, enum values, roles, and audit event types remain canonical technical identifiers.
-- [ ] Review owner-history pagination behavior: independent source/signal/audit/experiment counts, user-triggered continuation, failed-page preservation and retry, ID deduplication, non-reentrancy, stable cursors, and fail-closed handling when authorization is revoked.
-- [ ] Confirm local migration 0044 was tested only in isolated PGlite/local PostgreSQL and **was not** applied to shared Preview or Production.
+- [ ] Review the English and Uzbek RIWI copy in chat and Owner governance, including the newly disclosed 30-day conversation expiry, 60-message retention cap, and automatic deletion of older messages. Brand names, provider/model IDs, SQL, schema/report/correlation IDs, capabilities, API fields, enum values, roles, and audit event types remain canonical technical identifiers.
+- [ ] Review owner-history pagination behavior: independent source/signal/audit/experiment counts, stable timestamp+id ordering, user-triggered continuation, failed-page preservation and retry, ID deduplication, non-reentrancy, filter-bound cursors, current-role/scope reauthorization, and fail-closed handling when authorization is revoked. Local tests traverse 1,205 rows per owner-history collection and target surface.
+- [ ] Review the knowledge-overlap overflow fix: a scan that exceeds either the active-unit or conflict bound aborts candidate creation rather than persisting a partial conflict list.
+- [ ] Confirm the local 45/45 migration chain was exercised only in isolated test databases and **was not** applied to shared Preview or Production.
 
 ## Owner/browser acceptance (perform with authorized test accounts)
 
@@ -17,10 +18,11 @@
 - [ ] Admin: operational cohort scope only; Owner-only controls remain absent.
 - [ ] Owner: centre-wide versus explicitly selected-learner scope is clear; governance source, learning-signal, audit, and provider-experiment histories can be paged and retried without duplicate rows or lost selections.
 - [ ] Switch the UI between English and Uzbek and inspect chat, history counters/actions, retry/error text, review controls, provenance disclosures, and accessible names.
-- [ ] Verify authorized upload/use of the actual Listening source ZIP and any other owner-provided content. No source asset or successful asset test may be fabricated.
+- [ ] Decide whether the destructive conversation policy is acceptable: conversations expire after 30 days, retain only the latest 60 messages, and automatically delete older messages. The UI discloses this; older messages are not cursor-reachable. Record explicit accept/reject and any required product change.
+- [ ] Verify authorized upload/use of the actual Listening source ZIP and any other owner-provided content. No source asset or successful asset test may be fabricated; two ZIP-dependent tests remain asset-required.
 - [ ] If live-provider behavior is required, use owner-approved credentials, fixed fixtures, cost/usage limits, and the documented provider acceptance procedure. Credential presence alone is not live-provider evidence.
-- [ ] Record any Preview migration approval only after reviewing `docs/PREVIEW-MIGRATION-APPROVAL-0044-2026-10-04.md`, confirming the fresh target fingerprint and independently restored backup, and explicitly approving migration 0044. Do not approve by implication.
-- [ ] Do not run the deferred V2 portability prompt until the original RIWI master build and this checklist are complete.
+- [ ] Preview is **not ready for approval**. Review `docs/PREVIEW-MIGRATION-APPROVAL-0036-0044-2026-10-05.md`; obtain a fresh target fingerprint and exact applied/pending range, verify per-migration hashes and target impact, and provide target-matched backup/PITR plus an independently restored receipt before asking for approval. The current guarded migration allowlist ends at `0035`. Do not contact/apply Preview or deploy Production without explicit owner direction and all recovery gates.
+- [ ] Do not start `RIWI_SECURITY_PROMPT_FINAL_V2.txt` until the original full RIWI master has reached genuine completion or an explicit owner boundary.
 
 ## Owner decision
 
@@ -29,7 +31,9 @@
 - Branch/commit reviewed: ______________________________
 - Browser roles and locales exercised: ______________________________
 - External assets/provider evidence reviewed (or explicitly unavailable): ______________________________
-- Preview decision (not requested / approved for exact scoped migration / rejected): ______________________________
+- Conversation retention policy decision (accept / reject / change required): ______________________________
+- Preview decision (not ready / approved only for exact verified target and range / rejected): ______________________________
+- Fresh Preview fingerprint, applied/pending range, and restore receipt (or explicitly unavailable): ______________________________
 - Findings and follow-up owner: ______________________________
 - Explicit acceptance decision: ______________________________
 

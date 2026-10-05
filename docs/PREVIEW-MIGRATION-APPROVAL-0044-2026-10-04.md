@@ -1,5 +1,7 @@
 # Proposed Preview migration 0044 — owner approval packet
 
+**Historical 0044-only draft. Superseded for current range planning by [the 2026-10-05 candidate-chain packet](PREVIEW-MIGRATION-APPROVAL-0036-0044-2026-10-05.md).**
+
 **Status: OWNER APPROVAL REQUIRED — NOT APPROVED, NOT APPLIED.** No shared Preview or Production database was contacted for this packet. Do not run the shared migration apply until the owner explicitly approves this exact migration and the recovery gates below have been freshly verified.
 
 ## Identity and scope
