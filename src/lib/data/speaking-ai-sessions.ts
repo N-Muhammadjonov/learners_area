@@ -1,8 +1,11 @@
 import "server-only";
-import { and, asc, desc, eq, isNotNull } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, isNotNull } from "drizzle-orm";
 import { db } from "@/db/client";
-import { speakingAiSessionItems, speakingAiSessions, speakingAttempts } from "@/db/schema";
-import type { SessionPlan, SessionPlanMode } from "@/lib/speaking/ai-session-plan";
+import { speakingAiSessionItems, speakingAiSessions, speakingAttempts, speakingPrompts } from "@/db/schema";
+import { findEvaluationsForSources } from "@/lib/data/evaluations";
+import { isSessionPlanMode, type SessionPlan, type SessionPlanMode } from "@/lib/speaking/ai-session-plan";
+import { parsePart } from "@/lib/speaking/practice-browse";
+import type { SessionSummaryInput } from "@/lib/speaking/ai-session-summary";
 
 /**
  * Persistence for Practice with AI sessions (spec §11, §30, §42–§44).
@@ -31,6 +34,26 @@ export type AiSessionWithItems = AiSessionRow & { items: AiSessionItemRow[] };
 
 type Database = typeof db;
 type Tx = Parameters<Parameters<Database["transaction"]>[0]>[0];
+
+/**
+ * The prompt columns a session item renders.
+ *
+ * Read live from the canonical `speaking_prompts` row rather than copied into the
+ * plan, so there is still exactly one question bank (§4) and a staff correction
+ * to a prompt reaches an in-flight session instead of a stale duplicate.
+ */
+export type AiSessionPromptView = {
+  id: string;
+  part: string;
+  topic: string | null;
+  promptText: string;
+  cueCard: string | null;
+  prepSeconds: number;
+  answerSeconds: number;
+};
+
+export type AiSessionItemView = AiSessionItemRow & { prompt: AiSessionPromptView | null };
+export type AiSessionView = AiSessionRow & { items: AiSessionItemView[] };
 
 export type AiSessionFailure = { ok: false; status: 404 | 403 | 409; error: string };
 
@@ -83,6 +106,84 @@ export async function recentAnsweredPromptIds(userId: string, limit = 40): Promi
     .orderBy(desc(speakingAttempts.startedAt))
     .limit(limit);
   return new Set(rows.map((r) => r.promptId).filter((id): id is string => Boolean(id)));
+}
+
+/**
+ * Attaches live prompt text to a persisted session.
+ *
+ * One query for every referenced prompt rather than one per item. An item whose
+ * prompt row no longer exists comes back with `prompt: null` — the plan row
+ * survives (its FK is `set null`), and the UI then says the question is
+ * unavailable instead of inventing replacement text.
+ */
+export async function toAiSessionView(session: AiSessionWithItems): Promise<AiSessionView> {
+  const promptIds = [...new Set(session.items.map((i) => i.promptId).filter((id): id is string => Boolean(id)))];
+  const prompts = promptIds.length
+    ? await db
+        .select({
+          id: speakingPrompts.id,
+          part: speakingPrompts.part,
+          topic: speakingPrompts.topic,
+          promptText: speakingPrompts.promptText,
+          cueCard: speakingPrompts.cueCard,
+          prepSeconds: speakingPrompts.prepSeconds,
+          answerSeconds: speakingPrompts.answerSeconds,
+        })
+        .from(speakingPrompts)
+        .where(inArray(speakingPrompts.id, promptIds))
+    : [];
+  const byId = new Map(prompts.map((p) => [p.id, p]));
+
+  return {
+    ...session,
+    items: session.items.map((item) => ({
+      ...item,
+      prompt: item.promptId ? byId.get(item.promptId) ?? null : null,
+    })),
+  };
+}
+
+/**
+ * Gathers the stored evaluations behind a session, in the exact shape the pure
+ * summary builder takes.
+ *
+ * This is the only place the summary meets the database: the builder itself does
+ * no I/O, so the numbers it produces cannot come from anywhere except these rows.
+ */
+export async function loadSessionSummaryInput(session: AiSessionWithItems): Promise<SessionSummaryInput> {
+  const attemptIds = session.items
+    .map((i) => i.attemptId)
+    .filter((id): id is string => Boolean(id));
+
+  const evaluations = await findEvaluationsForSources({
+    sourceType: "speaking_attempt",
+    sourceIds: attemptIds,
+  });
+
+  return {
+    mode: isSessionPlanMode(session.mode) ? session.mode : "full",
+    // jsonb stores the limitation's part as text; narrow it here so the summary
+    // receives the same closed vocabulary the planner produced.
+    limitations: (session.limitations ?? []).map((limitation) => ({
+      ...limitation,
+      part: parsePart(limitation.part) ?? "part1",
+    })),
+    answers: session.items.map((item) => ({
+      itemId: item.id,
+      ordinal: item.ordinal,
+      // The plan only ever stores practice parts; an unexpected value is treated
+      // as part1 rather than silently dropped from the summary.
+      part: parsePart(item.part) ?? "part1",
+      topicKey: item.topicKey,
+      topicTitle: item.topicTitle,
+      questionPosition: item.questionPosition,
+      clusterSize: item.clusterSize,
+      isCueCard: item.isCueCard,
+      status: item.status === "answered" || item.status === "skipped" ? item.status : "pending",
+      attemptId: item.attemptId,
+      evaluation: item.attemptId ? evaluations.get(item.attemptId) ?? null : null,
+    })),
+  };
 }
 
 // ---------------------------------------------------------------------------
