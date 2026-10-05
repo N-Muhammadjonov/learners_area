@@ -82,7 +82,9 @@ export function ReadingPassageCard({
       )}
 
       <div className="mt-auto flex items-center justify-between gap-3 pt-1">
-        {passage.status === "in_progress" && passage.lastAttemptId ? (
+        {passage.setId ? (
+          <Link href={`/reading/general/${passage.setId}?passage=${passage.passageNo}`} className="btn-primary">{passage.status === "in_progress" ? dict.readingHub.actionResume : action}</Link>
+        ) : passage.status === "in_progress" && passage.lastAttemptId ? (
           <Link
             href={`/reading/attempts/${passage.lastAttemptId}`}
             className="btn-primary min-h-[var(--control-h)]"

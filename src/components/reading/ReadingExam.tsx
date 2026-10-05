@@ -58,7 +58,6 @@ export type ExamQuestion = {
   renderMode: string | null;
   questionText: string;
   options: string[] | null;
-  acceptedAnswers: string[];
   answerConstraint: Record<string, unknown> | null;
 };
 
@@ -158,6 +157,7 @@ export function ReadingExam({
   startedAt,
   suggestedMinutes,
   materials = [],
+  parts = [],
 }: {
   dict: Dictionary;
   attemptId: string;
@@ -176,7 +176,15 @@ export function ReadingExam({
   suggestedMinutes: number;
   /** Blocks an administrator attached to this passage; empty means no section. */
   materials?: ResourceBlockView[];
+  parts?: { title: string; body: string; paragraphs: ExamParagraph[]; questionIds: string[]; groupIds: string[] }[];
 }) {
+  const [activePart, setActivePart] = useState(0);
+  const selectedPart = parts[activePart];
+  const visibleQuestions = useMemo(() => selectedPart ? questions.filter(q => selectedPart.questionIds.includes(q.id)) : questions, [questions, selectedPart]);
+  const visibleGroups = useMemo(() => selectedPart ? groups.filter(group => selectedPart.groupIds.includes(group.id)) : groups, [groups, selectedPart]);
+  const shownParagraphs = selectedPart?.paragraphs ?? paragraphs;
+  const shownBody = selectedPart?.body ?? passageBody;
+  const shownTitle = selectedPart?.title ?? passageTitle;
   const t = dict.readingPractice;
   const router = useRouter();
   // A real Reading attempt is exactly the place Focus mode is for: entering one
@@ -328,10 +336,10 @@ export function ReadingExam({
    * flat order they were stored in.
    */
   const orderedGroups = useMemo(() => {
-    const sorted = [...groups].sort((a, b) => a.position - b.position);
+    const sorted = [...visibleGroups].sort((a, b) => a.position - b.position);
     const byGroup = new Map<string, ExamQuestion[]>();
     const orphan: ExamQuestion[] = [];
-    for (const question of questions) {
+    for (const question of visibleQuestions) {
       if (question.groupId && groupById.has(question.groupId)) {
         const list = byGroup.get(question.groupId) ?? [];
         list.push(question);
@@ -347,7 +355,7 @@ export function ReadingExam({
       })),
       orphan: orphan.sort((a, b) => a.order - b.order),
     };
-  }, [groups, questions, groupById]);
+  }, [visibleGroups, visibleQuestions, groupById]);
 
   async function onSubmit() {
     if (submitting) return;
@@ -438,6 +446,12 @@ export function ReadingExam({
         ))}
       </div>
 
+      {parts.length > 1 && <nav className="flex flex-wrap gap-2" aria-label={dict.readingHub.tabAcademic} data-academic-parts>
+        {parts.map((part, index) => <button key={part.title + index} type="button" aria-pressed={activePart === index}
+          className={activePart === index ? "btn-primary" : "btn-secondary"} onClick={() => setActivePart(index)}>
+          {dict.generalReading.passageN.replace("{n}", String(index + 1))}
+        </button>)}
+      </nav>}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[58fr_42fr]">
         <section
           className={`card flex-col gap-3 p-5 lg:flex ${pane === "passage" ? "flex" : "hidden"}`}
@@ -445,13 +459,13 @@ export function ReadingExam({
           data-practice-pane="passage"
         >
           <div className="flex flex-wrap items-center justify-between gap-2 border-b border-ink-100 pb-3">
-            <h2 className="font-display text-base text-ink-900">{passageTitle}</h2>
-            <ReadAloud dict={dict} text={`${passageTitle}. ${passageBody}`} />
+            <h2 className="font-display text-base text-ink-900">{shownTitle}</h2>
+            <ReadAloud dict={dict} text={`${shownTitle}. ${shownBody}`} />
           </div>
 
           <div className="flex flex-col gap-4 lg:max-h-[70vh] lg:overflow-y-auto lg:pr-2" data-passage-body>
-            {paragraphs.length > 0 ? (
-              paragraphs.map((paragraph) => (
+            {shownParagraphs.length > 0 ? (
+              shownParagraphs.map((paragraph) => (
                 <div key={paragraph.id} className="flex gap-3" data-paragraph={paragraph.label ?? "none"}>
                   {/* A letter only when the passage really labels that paragraph —
                       numbering an unlabelled paragraph would invent a reference the
@@ -471,7 +485,7 @@ export function ReadingExam({
               ))
             ) : (
               // A passage that was stored as one block of text still renders.
-              <ExamPassageText text={passageBody} className="academic-text text-sm leading-relaxed text-ink-700" />
+              <ExamPassageText text={shownBody} className="academic-text text-sm leading-relaxed text-ink-700" />
             )}
           </div>
 

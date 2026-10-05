@@ -1,4 +1,4 @@
-import { and, asc, desc, eq, isNull } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, isNull } from "drizzle-orm";
 import { db } from "@/db/client";
 import {
   lexicalOccurrences,
@@ -10,6 +10,7 @@ import {
   readingQuestions,
 } from "@/db/schema";
 import { isLive, liveWhere } from "@/lib/services/cms/publication";
+import { assessmentScope } from "@/lib/data/reading-assessments";
 import { readingAttemptExpired } from "@/lib/reading/timer";
 import { academicOnlyClause, generalMembership } from "@/lib/data/general-reading";
 
@@ -83,19 +84,36 @@ export async function getAttemptDetail(attemptId: string, userId: string) {
   });
   if (!attempt) return null;
 
-  const [passageData, answers] = await Promise.all([
-    getPassageWithQuestions(attempt.passageId),
+  const scope = await assessmentScope(attemptId, attempt.passageId);
+  const [sections, answers] = await Promise.all([
+    Promise.all(scope.passageIds.map(getPassageWithQuestions)),
     db.query.readingAnswers.findMany({ where: eq(readingAnswers.attemptId, attemptId) }),
   ]);
-  if (!passageData) return null;
-
+  if (sections.some((section) => !section)) return null;
+  const data = sections.filter((section): section is NonNullable<typeof section> => Boolean(section));
+  let offset = 0;
+  const numbered = data.map((section) => {
+    const numbers = new Map(section.questions.map((question, index) => [question.questionNo ?? question.order, offset + index + 1]));
+    const questions = section.questions.map((question, index) => ({ ...question, order: offset + index + 1, questionNo: scope.title ? offset + index + 1 : question.questionNo }));
+    const groups = section.groups.map((group) => ({ ...group,
+      fromQuestionNo: scope.title ? numbers.get(group.fromQuestionNo ?? -1) ?? group.fromQuestionNo : group.fromQuestionNo,
+      toQuestionNo: scope.title ? numbers.get(group.toQuestionNo ?? -1) ?? group.toQuestionNo : group.toQuestionNo,
+    }));
+    offset += questions.length;
+    return { ...section, questions, groups };
+  });
+  const first = numbered[0]!;
   return {
-    attempt,
-    passage: passageData.passage,
-    questions: passageData.questions,
-    groups: passageData.groups,
-    paragraphs: passageData.paragraphs,
-    occurrences: passageData.occurrences,
+    attempt, sections: numbered,
+    passage: { ...first.passage,
+      title: scope.title ?? first.passage.title,
+      suggestedMinutes: scope.durationMinutes ?? first.passage.suggestedMinutes,
+      bodyText: scope.title && attempt.status !== "in_progress" ? numbered.map(section => `${section.passage.title}\n\n${section.passage.bodyText}`).join("\n\n") : first.passage.bodyText,
+    },
+    questions: numbered.flatMap(section => section.questions),
+    groups: numbered.flatMap(section => section.groups),
+    paragraphs: first.paragraphs,
+    occurrences: scope.title ? [] : first.occurrences,
     answers,
   };
 }
@@ -144,13 +162,15 @@ export async function saveDraftAnswers(
       .for("update", { of: readingAttempts });
     if (!attempt) return { saved: 0, reason: "not_found" as const };
     if (attempt.status !== "in_progress") return { saved: 0, reason: "already_submitted" as const };
-    if (readingAttemptExpired(attempt.startedAt, attempt.suggestedMinutes)) return { saved: 0, reason: "expired" as const };
+    const scope = await assessmentScope(attemptId, attempt.passageId, tx);
+    const duration = scope.durationMinutes ?? attempt.suggestedMinutes;
+    if (readingAttemptExpired(attempt.startedAt, duration)) return { saved: 0, reason: "expired" as const };
 
     // Only questions that really belong to this attempt's passage are accepted:
     // a client that sends somebody else's question id changes nothing. Collapse
     // forged duplicate ids too, since the table deliberately stores no score key.
     const questions = await tx.query.readingQuestions.findMany({
-      where: eq(readingQuestions.passageId, attempt.passageId),
+      where: inArray(readingQuestions.passageId, scope.passageIds),
     });
     const allowed = new Set(questions.map((question) => question.id));
     const rowsByQuestion = new Map<string, string>();
@@ -160,7 +180,7 @@ export async function saveDraftAnswers(
 
     // Recheck the deadline immediately before the write in case question lookup
     // itself crossed the attempt's deadline.
-    if (readingAttemptExpired(attempt.startedAt, attempt.suggestedMinutes)) return { saved: 0, reason: "expired" as const };
+    if (readingAttemptExpired(attempt.startedAt, duration)) return { saved: 0, reason: "expired" as const };
     await tx.delete(readingAnswers).where(and(eq(readingAnswers.attemptId, attemptId), isNull(readingAnswers.isCorrect)));
     const rows = [...rowsByQuestion].map(([questionId, userAnswer]) => ({
       attemptId,

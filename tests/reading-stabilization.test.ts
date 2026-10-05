@@ -88,7 +88,7 @@ test("Reading draft saves and final submission serialize against the attempt row
   const saveDraft = data.slice(data.indexOf("export async function saveDraftAnswers"));
   assert.match(saveDraft, /db\.transaction\(async \(tx\)/);
   assert.match(saveDraft, /\.for\("update", \{ of: readingAttempts \}\)/);
-  assert.match(saveDraft, /readingAttemptExpired\(attempt\.startedAt, attempt\.suggestedMinutes\)/);
+  assert.match(saveDraft, /readingAttemptExpired\(attempt\.startedAt, duration\)/);
   assert.match(saveDraft, /isNull\(readingAnswers\.isCorrect\)/);
   assert.match(saveDraft, /rowsByQuestion\.set\(entry\.questionId/);
   assert.match(submit, /db\.transaction\(async \(tx\)/);

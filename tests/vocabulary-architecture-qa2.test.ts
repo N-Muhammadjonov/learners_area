@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import { and, eq, sql } from "drizzle-orm";
 import { db } from "../src/db/client";
-import { lexemes, lexicalOccurrences, listeningAttempts, lexicalUnitPronunciations, userVocabulary, userVocabularyContexts, users, vocabularyUsages } from "../src/db/schema";
+import { lexemes, lexicalOccurrences, listeningAttempts, lexicalUnitPronunciations, userVocabulary, userVocabularyContexts, users, generalReadingSets, generalReadingPassages, vocabularyUsages } from "../src/db/schema";
 import { lexicalDetailFor, resolveOccurrence, type VocabularySourceSnapshot } from "../src/lib/services/lexical/context";
 import { ingestListeningOccurrences } from "../src/lib/services/lexical/listening-occurrences";
 import { addVocabularyBatch, applyScheduledReview, listVocabularyContexts, recordGameAnswer, recordSentenceUse } from "../src/lib/services/vocabulary/engine";
@@ -19,6 +19,12 @@ function isolated() {
   const url = new URL(process.env.DATABASE_URL!);
   assert.ok(["localhost", "127.0.0.1"].includes(url.hostname) && url.pathname === "/learners_qa2");
 }
+async function studyMembership(passageId: string) {
+  const [set] = await db.insert(generalReadingSets).values({title: "QA2 learning fixture"}).returning();
+  await db.insert(generalReadingPassages).values({setId:set!.id, passageId, passageNo:1, readingMode:"general_practice"});
+  return set!.id;
+}
+
 type Vocab = Parameters<typeof ingestListeningOccurrences>[2]["vocabulary"][number];
 const vocab = (word: string, pos: string, def: string, ex: string): Vocab => ({ word, pos, def, ex, uz: "", also: [], quiz: [] as unknown as Vocab["quiz"] });
 
@@ -29,7 +35,7 @@ async function learner(role: "student" | "admin" = "student") {
 }
 
 /** A live Reading passage whose "bank" occurrences carry two different senses. */
-/** Reading content with a money and a river "bank". Default: a SUBMITTED Academic attempt (review). */
+/** General learning by default; explicit in-progress fixture remains Academic. */
 async function readingFixture(userId: string, status: "completed" | "in_progress" = "completed") {
   const tag = randomUUID().slice(0, 8);
   const body = "The bank lends money to firms. Ducks sleep on the bank of the river.";
@@ -41,7 +47,8 @@ async function readingFixture(userId: string, status: "completed" | "in_progress
   const [moneyOcc] = await db.insert(lexicalOccurrences).values({ lexemeId: money!.id, passageId: passage!.id, surfaceForm: "bank", startChar: at("bank"), endChar: at("bank") + 4, sentenceText: "The bank lends money to firms.", occurrenceType: "vocabulary", isTargetVocabulary: true }).returning();
   const second = at("bank", at("bank") + 1);
   const [riverOcc] = await db.insert(lexicalOccurrences).values({ lexemeId: river!.id, passageId: passage!.id, surfaceForm: "bank", startChar: second, endChar: second + 4, sentenceText: "Ducks sleep on the bank of the river.", occurrenceType: "vocabulary", isTargetVocabulary: true }).returning();
-  return { passageId: passage!.id, attemptId: attempt!.id, money: money!, river: river!, moneyOcc: moneyOcc!, riverOcc: riverOcc! };
+  const setId = status === "completed" ? await studyMembership(passage!.id) : null;
+  return { passageId: passage!.id, sourceId: status === "completed" ? passage!.id : attempt!.id, assessmentId: attempt!.id, setId, money: money!, river: river!, moneyOcc: moneyOcc!, riverOcc: riverOcc! };
 }
 
 /** A live Listening test with a package; authored vocabulary ingested exactly as the import route does. */
@@ -71,13 +78,13 @@ test("1 Reading click: each occurrence resolves to ITS sense, server-validated, 
   isolated();
   const user = await learner();
   const r = await readingFixture(user.id);
-  const money = await resolveOccurrence(user, "reading", r.attemptId, r.moneyOcc.id);
-  const river = await resolveOccurrence(user, "reading", r.attemptId, r.riverOcc.id);
+  const money = await resolveOccurrence(user, "reading", r.sourceId, r.moneyOcc.id);
+  const river = await resolveOccurrence(user, "reading", r.sourceId, r.riverOcc.id);
   assert.equal(money?.status === "resolved" && money.lexeme.id, r.money.id);
   assert.equal(river?.status === "resolved" && river.lexeme.id, r.river.id);
-  assert.equal(money?.status === "resolved" && money.snapshot.attemptId, r.attemptId);
+  assert.equal(money?.status === "resolved" && money.snapshot.attemptId, null);
   const stranger = await learner();
-  const foreign = await resolveOccurrence(stranger, "reading", r.attemptId, r.moneyOcc.id);
+  const foreign = await resolveOccurrence(stranger, "reading", r.sourceId, r.moneyOcc.id);
   assert.equal(foreign?.status === "resolved" ? foreign.snapshot.attemptId : null, null, "another learner's attempt id is never adopted as theirs");
 });
 
@@ -123,7 +130,7 @@ test("10/11 same sense from Reading and Listening → ONE item with TWO contexts
   const l = await listeningFixture(author.id, "Firms borrow from a bank.", [vocab("bank", "noun", r.money.definitionEn, "Firms borrow from a bank.")]);
   await examAttempt(user.id, l.testId);
   assert.equal(l.occurrences[0]!.lexemeId, r.money.id, "Listening reuses the existing canonical sense");
-  const first = await save(user, "reading", r.attemptId, r.moneyOcc.id);
+  const first = await save(user, "reading", r.sourceId, r.moneyOcc.id);
   assert.ok(first.ok && first.added === 1);
   const [before] = await db.select().from(userVocabulary).where(eq(userVocabulary.id, first.ids[0]!));
   const second = await save(user, "listening", l.testId, l.occurrences[0]!.id);
@@ -140,7 +147,7 @@ test("10/11 same sense from Reading and Listening → ONE item with TWO contexts
   // 15/16 revisit
   const reading = contexts!.contexts.find((c) => c.sourceType === "reading")!;
   const listening = contexts!.contexts.find((c) => c.sourceType === "listening")!;
-  assert.equal(reading.revisitHref, `/reading/attempts/${r.attemptId}`);
+  assert.equal(reading.revisitHref, `/reading/general/${r.setId}?passage=1`);
   assert.equal(listening.revisitHref, `/listening/tests/${l.testId}/study?section=2`);
   assert.equal(listening.startMs, null, "no timing exists for this transcript, none is shown");
 });
@@ -149,8 +156,8 @@ test("12 two senses of one spelling are two separate items for one learner", { s
   isolated();
   const user = await learner();
   const r = await readingFixture(user.id);
-  const a = await save(user, "reading", r.attemptId, r.moneyOcc.id);
-  const b = await save(user, "reading", r.attemptId, r.riverOcc.id);
+  const a = await save(user, "reading", r.sourceId, r.moneyOcc.id);
+  const b = await save(user, "reading", r.sourceId, r.riverOcc.id);
   assert.ok(a.ok && b.ok && a.added === 1 && b.added === 1);
   assert.notEqual(a.ids[0], b.ids[0]);
 });
@@ -159,14 +166,14 @@ test("18 concurrent duplicate saves of one occurrence: one item, one context (re
   isolated();
   const user = await learner();
   const r = await readingFixture(user.id);
-  const resolved = await resolveOccurrence(user, "reading", r.attemptId, r.moneyOcc.id);
+  const resolved = await resolveOccurrence(user, "reading", r.sourceId, r.moneyOcc.id);
   assert.ok(resolved?.status === "resolved");
   const item = { ...resolved.lexeme, canonicalLexemeId: resolved.lexeme.id, sourceSnapshot: resolved.snapshot as VocabularySourceSnapshot };
   let pending: Promise<Awaited<ReturnType<typeof addVocabularyBatch>>[]> | undefined;
   await db.transaction(async (lock) => {
     const owner = await lock.execute<{ pid: number }>(sql`select pg_backend_pid() as pid`);
     await lock.select().from(users).where(eq(users.id, user.id)).for("update");
-    pending = Promise.all(Array.from({ length: 3 }, () => addVocabularyBatch({ userId: user.id, sourceType: "reading", sourceId: r.attemptId, items: [item] })));
+    pending = Promise.all(Array.from({ length: 3 }, () => addVocabularyBatch({ userId: user.id, sourceType: "reading", sourceId: r.sourceId, items: [item] })));
     let count = 0;
     for (let tries = 0; tries < 200 && count < 3; tries++) {
       count = (await db.execute<{ count: number }>(sql`with recursive blocked(pid) as (
@@ -197,13 +204,13 @@ test("19/20 multi-user isolation: separate items, contexts and SRS per learner",
   // B submitted the same passage too (Reading review is open only after submission);
   // B still saves through the passage id, so B's context never points at A's attempt.
   await db.insert(readingAttempts).values({ userId: b.id, passageId: r.passageId, status: "completed", submittedAt: new Date() });
-  const ra = await save(a, "reading", r.attemptId, r.moneyOcc.id);
+  const ra = await save(a, "reading", r.sourceId, r.moneyOcc.id);
   const rb = await save(b, "reading", r.passageId, r.moneyOcc.id);
   assert.ok(ra.ok && rb.ok);
   assert.notEqual(ra.ids[0], rb.ids[0]);
   assert.equal(await listVocabularyContexts(b.id, ra.ids[0]!), null, "B cannot read A's contexts");
   const bCtx = await listVocabularyContexts(b.id, rb.ids[0]!);
-  assert.equal(bCtx?.contexts[0]?.revisitHref, null, "B met it via the live passage, not via A's attempt");
+  assert.equal(bCtx?.contexts[0]?.revisitHref, `/reading/general/${r.setId}?passage=1`, "B revisits the shared General passage without A's attempt");
   await db.update(userVocabulary).set({ nextReviewAt: new Date(Date.now() - 1000) }).where(eq(userVocabulary.id, ra.ids[0]!));
   const reviewed = await applyScheduledReview({ userId: a.id, entryId: ra.ids[0]!, outcome: "correct" });
   assert.ok(reviewed.ok);
@@ -217,7 +224,7 @@ test("21 games do not move SRS; 22 RIWI V1 sentence use is tied to the exact sav
   isolated();
   const user = await learner();
   const r = await readingFixture(user.id);
-  const saved = await save(user, "reading", r.attemptId, r.riverOcc.id);
+  const saved = await save(user, "reading", r.sourceId, r.riverOcc.id);
   assert.ok(saved.ok);
   const entryId = saved.ids[0]!;
   const [before] = await db.select().from(userVocabulary).where(eq(userVocabulary.id, entryId));
@@ -284,7 +291,7 @@ test("M21 Full Exam reveals nothing: exam components carry no lexical code or tr
   assert.equal(during?.snapshot, null);
 });
 
-test("M22 independent study: never-taken → resolved; exam open → locked; submitted → resolved; a NEW open attempt re-locks", { skip: !enabled }, async () => {
+test("M22 independent study: never-taken → resolved; exam open → locked; submitted → locked; a NEW open attempt re-locks", { skip: !enabled }, async () => {
   isolated();
   const author = await learner("admin");
   const student = await learner();
@@ -323,7 +330,7 @@ test("M25/M26 save from review keeps the Listening source context; the same sens
   const r = await readingFixture(user.id);
   const l = await listeningFixture(author.id, "Firms borrow from a bank.", [vocab("bank", "noun", r.money.definitionEn, "Firms borrow from a bank.")]);
   await examAttempt(user.id, l.testId);
-  await save(user, "reading", r.attemptId, r.moneyOcc.id);
+  await save(user, "reading", r.sourceId, r.moneyOcc.id);
   await save(user, "listening", l.testId, l.occurrences[0]!.id);
   const items = await db.select().from(userVocabulary).where(and(eq(userVocabulary.userId, user.id), eq(userVocabulary.lexemeId, r.money.id)));
   assert.equal(items.length, 1);
@@ -368,7 +375,7 @@ test("M28 question evidence is independent of vocabulary occurrences: ingestion 
 // ---------------------------------------------------------------------------
 import { readingAttempts, readingPassages } from "../src/db/schema";
 
-async function passageWith(body: string, spans: { term: string; def: string; surface: string; from?: number; pos?: string; key?: string }[]) {
+async function passageWith(body: string, spans: { term: string; def: string; surface: string; from?: number; pos?: string; key?: string }[], learning = true) {
   const tag = randomUUID().slice(0, 8);
   const [passage] = await db.insert(readingPassages).values({ title: `QA2 R ${tag}`, bodyText: body }).returning();
   const out: { occurrenceId: string; lexemeId: string }[] = [];
@@ -385,6 +392,7 @@ async function passageWith(body: string, spans: { term: string; def: string; sur
     const [occ] = await db.insert(lexicalOccurrences).values({ lexemeId, passageId: passage!.id, surfaceForm: span.surface, startChar: start, endChar: start + span.surface.length, occurrenceType: "vocabulary", isTargetVocabulary: true }).returning();
     out.push({ occurrenceId: occ!.id, lexemeId });
   }
+  if (learning) await studyMembership(passage!.id);
   return { passageId: passage!.id, spans: out };
 }
 async function readingAttempt(userId: string, passageId: string, status: "completed" | "in_progress") {
@@ -397,9 +405,9 @@ test("R23 ACADEMIC_EXAM: occurrence data exists, but an open attempt reveals not
   const user = await learner();
   const r = await readingFixture(user.id, "in_progress");
   assert.ok(r.moneyOcc.id, "lexical data is precomputed (data availability)");
-  for (const sourceId of [r.attemptId, r.passageId]) {
+  for (const sourceId of [r.sourceId, r.passageId]) {
     const result = await resolveOccurrence(user, "reading", sourceId, r.moneyOcc.id);
-    assert.equal(result?.status, "locked", `locked via ${sourceId === r.attemptId ? "attempt" : "passage"} id`);
+    assert.equal(result?.status, "locked", `locked via ${sourceId === r.sourceId ? "attempt" : "passage"} id`);
     assert.equal(result?.lexeme, null);
     assert.equal(result?.snapshot, null);
   }
@@ -407,20 +415,20 @@ test("R23 ACADEMIC_EXAM: occurrence data exists, but an open attempt reveals not
   assert.equal(rows.length, 1, "backend data is not removed to satisfy the UI rule");
 });
 
-test("R27 Academic transition: never taken → locked; open → locked; submitted → resolved; a retake re-locks (also the old attempt id)", { skip: !enabled }, async () => {
+test("R27 Academic transition: never taken → locked; open → locked; submitted → locked; a retake re-locks (also the old attempt id)", { skip: !enabled }, async () => {
   isolated();
   const user = await learner();
-  const p = await passageWith("The bank approved the loan.", [{ term: "bank", def: `A financial institution ${randomUUID()}`, surface: "bank" }]);
+  const p = await passageWith("The bank approved the loan.", [{ term: "bank", def: `A financial institution ${randomUUID()}`, surface: "bank" }], false);
   const occ = p.spans[0]!.occurrenceId;
   assert.equal((await resolveOccurrence(user, "reading", p.passageId, occ))?.status, "locked", "never taken: the passage id is not a dictionary");
   const first = await readingAttempt(user.id, p.passageId, "in_progress");
   assert.equal((await resolveOccurrence(user, "reading", first.id, occ))?.status, "locked");
   await db.update(readingAttempts).set({ status: "completed", submittedAt: new Date() }).where(eq(readingAttempts.id, first.id));
-  assert.equal((await resolveOccurrence(user, "reading", first.id, occ))?.status, "resolved");
-  assert.equal((await resolveOccurrence(user, "reading", p.passageId, occ))?.status, "resolved");
+  assert.equal((await resolveOccurrence(user, "reading", first.id, occ))?.status, "locked");
+  assert.equal((await resolveOccurrence(user, "reading", p.passageId, occ))?.status, "locked");
   await readingAttempt(user.id, p.passageId, "in_progress");
   assert.equal((await resolveOccurrence(user, "reading", first.id, occ))?.status, "locked", "the old review cannot assist the open retake");
-  assert.equal((await resolveOccurrence(await learner("admin"), "reading", p.passageId, occ))?.status, "resolved", "staff may inspect content");
+  assert.equal((await resolveOccurrence(await learner("admin"), "reading", p.passageId, occ))?.status, "locked", "Academic assistance remains disabled");
 });
 
 test("R28/R29 bank polysemy by occurrence identity; one-meaning trap: an unlinked river 'bank' has NO occurrence, so no meaning is served", { skip: !enabled }, async () => {
@@ -443,7 +451,7 @@ test("R28/R29 bank polysemy by occurrence identity; one-meaning trap: an unlinke
   assert.equal(await resolveOccurrence(user, "reading", trap.passageId, two.spans[1]!.occurrenceId), null, "another passage's river occurrence cannot be borrowed");
 });
 
-test("R30/R13 save from review: one sense-level item, source occurrence + passage in context; same sense in a 2nd passage → SAME item, 2 contexts; canonical not copied", { skip: !enabled }, async () => {
+test("R30/R13 save from General learning: one sense-level item, source occurrence + passage in context; same sense in a 2nd passage → SAME item, 2 contexts; canonical not copied", { skip: !enabled }, async () => {
   isolated();
   const user = await learner();
   const def = `A financial institution ${randomUUID()}`;
@@ -453,10 +461,10 @@ test("R30/R13 save from review: one sense-level item, source occurrence + passag
     const [passage] = await db.insert(readingPassages).values({ title: `QA2 R ${randomUUID().slice(0, 6)}`, bodyText: body }).returning();
     const start = body.indexOf("bank");
     const [occ] = await db.insert(lexicalOccurrences).values({ lexemeId: sense!.id, passageId: passage!.id, surfaceForm: "bank", startChar: start, endChar: start + 4, occurrenceType: "vocabulary", isTargetVocabulary: true }).returning();
-    const attempt = await readingAttempt(user.id, passage!.id, "completed");
-    passages.push({ passageId: passage!.id, attemptId: attempt.id, occurrenceId: occ!.id, body });
+    const setId = await studyMembership(passage!.id);
+    passages.push({ passageId: passage!.id, setId, occurrenceId: occ!.id, body });
   }
-  for (const p of passages) await save(user, "reading", p.attemptId, p.occurrenceId);
+  for (const p of passages) await save(user, "reading", p.passageId, p.occurrenceId);
   const items = await db.select().from(userVocabulary).where(eq(userVocabulary.userId, user.id));
   assert.equal(items.length, 1, "one student item for the sense");
   assert.equal(items[0]!.lexemeId, sense!.id, "the item REFERENCES the canonical sense");
@@ -465,7 +473,7 @@ test("R30/R13 save from review: one sense-level item, source occurrence + passag
   for (const p of passages) {
     const c = contexts.find((row) => row.occurrenceId === p.occurrenceId)!;
     assert.equal(c.snapshot.passageId, p.passageId);
-    assert.equal(c.snapshot.attemptId, p.attemptId, "revisit target: the learner's own attempt");
+    assert.equal(c.snapshot.attemptId, null, "General context must not borrow an Academic attempt");
     assert.equal(c.snapshot.sentenceText.includes("bank"), true);
   }
   await db.update(lexemes).set({ definitionEn: `${def} (edited)` }).where(eq(lexemes.id, sense!.id));

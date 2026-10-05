@@ -2,9 +2,10 @@ import { isUuid } from "@/lib/validation/ids";
 import { touchMeaningfulActivity } from "@/lib/services/activity";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { and, eq, isNull } from "drizzle-orm";
+import { and, eq, inArray, isNull } from "drizzle-orm";
 import { db } from "@/db/client";
 import { readingAttempts, readingPassages, readingQuestions, readingAnswers, activityEvents } from "@/db/schema";
+import { assessmentScope } from "@/lib/data/reading-assessments";
 import { readingAttemptExpired } from "@/lib/reading/timer";
 import { readingAnswersForSubmission } from "@/lib/reading/submission";
 import { requireActiveUser } from "@/lib/auth/current-user";
@@ -48,11 +49,12 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
 
     // This is the server-accepted submit time, captured only after acquiring the
     // lock. If the deadline passed while waiting for another write, drafts win.
+    const scope = await assessmentScope(id, attempt.passageId, tx);
     const submittedAt = new Date();
     const questions = await tx.query.readingQuestions.findMany({
-      where: eq(readingQuestions.passageId, attempt.passageId),
+      where: inArray(readingQuestions.passageId, scope.passageIds),
     });
-    const timedOut = readingAttemptExpired(attempt.startedAt, attempt.suggestedMinutes, submittedAt.getTime());
+    const timedOut = readingAttemptExpired(attempt.startedAt, scope.durationMinutes ?? attempt.suggestedMinutes, submittedAt.getTime());
     const savedDrafts = timedOut
       ? await tx
           .select({ questionId: readingAnswers.questionId, answer: readingAnswers.userAnswer })

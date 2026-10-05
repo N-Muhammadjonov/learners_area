@@ -216,7 +216,7 @@ export function ReadingAnalysis({
             {q.evidenceQuote && (
               <div className="mt-1 text-xs italic text-ink-300" data-evidence={q.id}>
                 {dict.reading.evidence}:
-                {attemptId ? <ClickableText dict={dict} text={q.evidenceQuote} occurrences={occurrenceSpans(passageBody ?? "", q.evidenceQuote, occurrences)} sourceType="reading" sourceId={attemptId} /> : q.evidenceQuote}
+                {attemptId ? <ClickableText lexicalAssistance={false} dict={dict} text={q.evidenceQuote} occurrences={occurrenceSpans(passageBody ?? "", q.evidenceQuote, occurrences)} sourceType="reading" sourceId={attemptId} /> : q.evidenceQuote}
                 {/* 82 of the source's questions have no locatable evidence line; saying
                     so is honest, inventing one would not be. */}
                 {q.evidenceType === "missing_source" && (
@@ -227,7 +227,7 @@ export function ReadingAnalysis({
             {q.explanation && (
               <div className="mt-1 text-xs text-ink-500">
                 <span className="text-ink-300">{dict.reading.explanation}: </span>
-                {attemptId ? <ClickableText dict={dict} text={q.explanation} sourceType="reading" sourceId={attemptId} /> : q.explanation}
+                {attemptId ? <ClickableText lexicalAssistance={false} dict={dict} text={q.explanation} sourceType="reading" sourceId={attemptId} /> : q.explanation}
               </div>
             )}
             </Card>

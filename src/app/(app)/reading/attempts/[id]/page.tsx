@@ -47,6 +47,11 @@ export default async function ReadingAttemptPage({ params }: { params: Promise<{
           passageBody={passage.bodyText}
           passageMeta={passageMeta}
           materials={materials}
+          parts={detail.sections.length > 1 ? detail.sections.map(section => ({
+            title: section.passage.title, body: section.passage.bodyText,
+            paragraphs: section.paragraphs.map(p => ({ id: p.id, position: p.position, label: p.label, text: p.text, isFootnote: p.isFootnote })),
+            questionIds: section.questions.map(q => q.id), groupIds: section.groups.map(group => group.id),
+          })) : []}
           startedAt={attempt.startedAt.toISOString()}
           suggestedMinutes={passage.suggestedMinutes}
           groups={groups.map((group) => ({
@@ -81,7 +86,6 @@ export default async function ReadingAttemptPage({ params }: { params: Promise<{
             renderMode: q.renderMode,
             questionText: q.questionText,
             options: q.options ?? null,
-            acceptedAnswers: q.acceptedAnswers,
             answerConstraint: (q.answerConstraint ?? null) as Record<string, unknown> | null,
           }))}
         />

@@ -184,3 +184,43 @@ test("Full Listening migration is additive and requires the same identity, journ
  assert.deepEqual(result.problems,[]);
  assert.match(plan(joined,allApplied,(t:string)=>t===tag?"drop table users;":sql[t]!).problems.join(),/destructive/);
 });
+
+
+test("0038 and 0039 Preview closure approval is hash-pinned and additive", () => {
+  const sql38 = readFileSync("drizzle/0038_dictionary_releases.sql", "utf8");
+  const sql39 = readFileSync("drizzle/0039_academic_reading_sets.sql", "utf8");
+  const joined = {
+    entries: [
+      { tag: "0038_dictionary_releases", when: 1 },
+      { tag: "0039_academic_reading_sets", when: 2 },
+    ],
+  };
+  assert.deepEqual(
+    mig.plan(joined, [], (t: string) =>
+      t === "0038_dictionary_releases" ? sql38 : sql39,
+    ).problems,
+    [],
+  );
+  assert.match(
+    mig.plan(joined, [], (t: string) =>
+      t === "0038_dictionary_releases"
+        ? sql38.replace("dictionary_releases", "dictionary_releases_changed")
+        : sql39,
+    ).problems.join(),
+    /0038 SQL differs from the owner-approved hash/,
+  );
+  assert.match(
+    mig.plan(joined, [], (t: string) =>
+      t === "0039_academic_reading_sets"
+        ? sql39 + "\n-- changed"
+        : sql38,
+    ).problems.join(),
+    /0039 SQL differs from the owner-approved hash/,
+  );
+  assert.match(
+    mig.plan(joined, [], (t: string) =>
+      t === "0038_dictionary_releases" ? "drop table users;" : sql39,
+    ).problems.join(),
+    /destructive SQL/,
+  );
+});

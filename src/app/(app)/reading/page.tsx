@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
-import { listLibrary, listLibraryFacets, readingHubCounts } from "@/lib/data/reading-library";
+import { listLibrary, listLearningLibrary, listLibraryFacets, readingHubCounts } from "@/lib/data/reading-library";
 import { questionTypeLabel, topicLabel } from "@/lib/reading-labels";
 import { ReadingFilters } from "@/components/reading/ReadingFilters";
 import { ReadingPassageCard } from "@/components/reading/ReadingPassageCard";
@@ -18,16 +18,7 @@ export const metadata = { title: "Reading" };
 // TED / PODCAST is its own section in the navigation (Part 1 override), so the
 // Reading hub no longer carries a videos tab or a placeholder that pointed at it.
 //
-// Owner decision (2026-10-02): the passage LIBRARY (search, topic, question
-// type, status, pages) is General Reading; the guided reading sets that used
-// to sit under "General Reading" are Academic Reading. The swap is semantic:
-// the tab key in the URL, the query that runs, the rendered region and the
-// subtitle all move together. `?tab=practice` (the old key of the guided sets)
-// keeps working as an alias of `academic`, and any library filter in the URL
-// (q, topic, type, status, page) opens General Reading, so old filter links
-// still land on the library.
-// Literal list kept here for readers and source audits; `satisfies` ties it
-// to the resolver's list in src/lib/reading/tabs.ts at compile time.
+// Academic and General use the same published sets; only Academic creates an assessment.
 const TABS = ["academic", "general-reading", "general", "types", "retention"] as const satisfies typeof READING_TABS;
 type Tab = ReadingTab;
 type ReadingFilter = { status?: string; topic?: string; type?: string; query?: string; page: number };
@@ -56,10 +47,10 @@ function ReadingWorkspace({ userId, lang, dict, tab, filter }: {
   // A slow count or facet query must not hold the selected passage library.
   const countsPromise = captureRegion(readingHubCounts(userId));
   const facetsPromise: Promise<ReadingRegionResult<ReadingFacets>> = tab === "general-reading" || tab === "types"
-    ? captureRegion(listLibraryFacets())
+    ? captureRegion(listLibraryFacets(true))
     : Promise.resolve({ value: EMPTY_READING_FACETS, unavailable: false });
   const libraryPromise: Promise<ReadingRegionResult<ReadingLibrary>> | null = tab === "general-reading"
-    ? captureRegion(listLibrary(userId, filter))
+    ? captureRegion(listLearningLibrary(userId, filter))
     : null;
 
   const tabHref = (next: Tab) => {
@@ -108,6 +99,7 @@ function ReadingWorkspace({ userId, lang, dict, tab, filter }: {
             <h2 className="section-title">{dict.readingHub.library}</h2>
             <p className="body-text">{dict.readingHub.libraryHint}</p>
           </div>
+          <Suspense fallback={<ReadingLibrarySkeleton />}><GeneralSetsRegion dict={dict} userId={userId} /></Suspense>
           <Suspense fallback={<ReadingFiltersSkeleton dict={dict} />}>
             <ReadingFiltersRegion dict={dict} lang={lang} filter={filter} facetsPromise={facetsPromise} />
           </Suspense>
@@ -118,14 +110,12 @@ function ReadingWorkspace({ userId, lang, dict, tab, filter }: {
       )}
 
       {tab === "academic" && (
-        // Academic Reading tab: the guided reading sets (owner swap, 2026-10-02).
-        // Each set keeps the reading mode stored on its own rows; the tab does
-        // not rewrite data or infer a mode from the route.
+        // Full assessment uses captured membership and server-enforced timing.
         <section className="flex flex-col gap-4" data-reading-sets data-reading-panel="academic">
           <h2 className="section-title">{dict.readingHub.tabAcademic}</h2>
-          <p className="body-text">{dict.generalReading.subtitle}</p>
+          <p className="body-text">{dict.readingHub.academicExamHint}</p>
           <Suspense fallback={<ReadingLibrarySkeleton />}>
-            <GeneralSetsRegion dict={dict} userId={userId} />
+            <GeneralSetsRegion dict={dict} userId={userId} assessment />
           </Suspense>
         </section>
       )}
@@ -386,6 +376,6 @@ function AcademicLibrary({
   );
 }
 
-async function GeneralSetsRegion({ dict, userId }: { dict: ReturnType<typeof getDictionary>; userId: string }) {
-  return <GeneralReadingSets dict={dict} sets={await listGeneralSets(userId)} />;
+async function GeneralSetsRegion({ dict, userId, assessment = false }: { dict: ReturnType<typeof getDictionary>; userId: string; assessment?: boolean }) {
+  return <GeneralReadingSets dict={dict} sets={await listGeneralSets(userId)} assessment={assessment} />;
 }

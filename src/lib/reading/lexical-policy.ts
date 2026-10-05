@@ -28,8 +28,8 @@ export type ReadingExamState = {
 };
 
 export function readingLexicalAssistanceAllowed(mode: ReadingMode, state: ReadingExamState): boolean {
-  if (mode === "ACADEMIC_EXAM") return false;
-  if (mode === "GENERAL_READING") return true;
-  if (state.examInProgress) return false;
-  return state.submitted || state.staff;
+  // Academic remains assessment, including submitted review. Only General
+  // Reading is a vocabulary learning surface (owner requirement 2026-10-04).
+  void state;
+  return mode === "GENERAL_READING";
 }

@@ -325,11 +325,11 @@ export async function addVocabularyBatch(input: {
   topicPack?: string | null;
   sourceType?: string;
   sourceId?: string | null;
-}): Promise<
+}, transaction?: SaveTx): Promise<
   | { ok: true; added: number; duplicates: number; ids: string[]; points: number }
   | { ok: false; error: "folder_not_found" | "lexeme_not_found" }
 > {
-  return db.transaction(async (tx) => {
+  const save = async (tx: SaveTx) => {
     // Serialize saves for this learner before reading their existing senses.
     // Canonical rows, personal entries, awards and activity commit together;
     // a replay cannot read an empty library while another save is in flight.
@@ -345,7 +345,7 @@ export async function addVocabularyBatch(input: {
           eq(vocabFolders.userId, input.userId),
         ),
       });
-      if (!folder) return { ok: false as const, error: "folder_not_found" };
+      if (!folder) return { ok: false as const, error: "folder_not_found" as const };
     }
 
     let destinationFolderId = input.folderId ?? null;
@@ -365,7 +365,7 @@ export async function addVocabularyBatch(input: {
     const canonicalIds = input.items.flatMap((item) => item.canonicalLexemeId ? [item.canonicalLexemeId] : []);
     const canonicalRows = canonicalIds.length ? await tx.select().from(lexemes).where(inArray(lexemes.id, canonicalIds)) : [];
     const canonical = new Map(canonicalRows.map((row) => [row.id, row]));
-    if (canonicalIds.some((id) => !canonical.has(id))) return { ok: false as const, error: "lexeme_not_found" };
+    if (canonicalIds.some((id) => !canonical.has(id))) return { ok: false as const, error: "lexeme_not_found" as const };
     const uniqueByKey = new Map<string, NewWordInput>();
     for (const item of input.items) {
       const key = item.canonicalLexemeId ?? senseKeyOf({ ...item, meaning: item.definitionEn });
@@ -490,7 +490,8 @@ export async function addVocabularyBatch(input: {
       ids,
       points,
     };
-  });
+  };
+  return transaction ? save(transaction) : db.transaction(save);
 }
 
 /** Add a whole topic pack in one action. */
@@ -1079,7 +1080,7 @@ export async function moveToFolder(
       ),
     });
     // A folder id from another student's library must never be usable.
-    if (!folder) return { ok: false as const, error: "folder_not_found" };
+    if (!folder) return { ok: false as const, error: "folder_not_found" as const };
   }
   const updated = await db
     .update(userVocabulary)

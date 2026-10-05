@@ -20,6 +20,7 @@ const { act } = React;
 const { createRoot } = await import("react-dom/client");
 const { AppRouterContext } = await import("next/dist/shared/lib/app-router-context.shared-runtime");
 const { ReadingExam } = await import("../../src/components/reading/ReadingExam");
+const { ClickableText } = await import("../../src/components/vocabulary/ClickableText");
 const { ReadingAnalysis } = await import("../../src/components/reading/ReadingAnalysis");
 const { readingLexicalAssistanceAllowed } = await import("../../src/lib/reading/lexical-policy");
 
@@ -93,36 +94,23 @@ test("ACADEMIC_EXAM: exam component cannot receive lexical data (no occurrences 
   assert.equal(examJsx.includes("occurrences"), false, "the page does not send occurrences to the exam");
 });
 
-test("Same content, ACADEMIC_REVIEW (submitted): the same occurrence is interactive and resolves BY OCCURRENCE ID; keyboard open/close/focus return", async () => {
+test("ACADEMIC_REVIEW remains vocabulary-free after submission", async () => {
   const net = recordFetch();
   try {
     await mount(React.createElement(ReadingAnalysis, { dict: en, score: 0, total: 0, questions: [], answers: [], passageBody: body, passageTitle: "Banks", attemptId: examProps.attemptId, locale: "en", occurrences }), async () => {
       const show = Array.from(document.querySelectorAll("button")).find((b) => b.getAttribute("aria-expanded") !== null)!;
       await act(async () => show.click());
-      const region = document.querySelector("[data-retention-passage] [data-clickable-text]") as HTMLElement;
-      assert.ok(region, "review passage is vocabulary-interactive");
-      // Keyboard: one focus stop, arrows move, Enter opens, Escape closes and returns focus.
-      assert.equal(region.getAttribute("tabindex"), "0");
-      region.focus();
-      await act(async () => { region.dispatchEvent(new dom.window.KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true })); });
-      await act(async () => { region.dispatchEvent(new dom.window.KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true })); });
-      await act(async () => { region.dispatchEvent(new dom.window.KeyboardEvent("keydown", { key: "Enter", bubbles: true })); });
-      await act(async () => { await new Promise((resolve) => setTimeout(resolve, 0)); });
-      const dialog = document.querySelector("[role=dialog]") as HTMLElement;
-      assert.ok(dialog, "popup opens from the keyboard");
-      assert.ok(dialog.contains(document.activeElement), "focus moves into the popup");
-      const lookup = net.urls.find((url) => url.includes("/api/vocabulary/lookup"));
-      assert.ok(lookup?.includes("occurrenceId=occ-bank"), `contextual click uses the occurrence id: ${lookup}`);
-      assert.equal(net.urls.some((url) => url.includes("/search?q=") || url.includes("/meaning?")), false, "no spelling lookup");
-      assert.ok(document.querySelector("[data-word-save]"), "Add to Vocabulary is available");
-      await act(async () => { document.activeElement!.dispatchEvent(new dom.window.KeyboardEvent("keydown", { key: "Escape", bubbles: true })); });
+      const region = document.querySelector("[data-retention-passage]") as HTMLElement;
+      assert.ok(region.textContent?.includes(body));
+      assert.equal(region.querySelector("[data-clickable-text],[data-word],[tabindex]"), null);
+      await act(async () => region.dispatchEvent(new dom.window.MouseEvent("click", { bubbles: true })));
       assert.equal(document.querySelector("[role=dialog]"), null);
-      assert.equal(document.activeElement, region, "focus returns to the text region");
+      assert.equal(net.urls.some((url) => url.includes("/api/vocabulary")), false);
     });
   } finally { net.restore(); }
 });
 
-test("Reading policy table: exam never, review only after submission and not while an attempt is open, general always", () => {
+test("Reading policy table: Academic never, General always", () => {
   const states = [
     { submitted: false, examInProgress: false, staff: false },
     { submitted: true, examInProgress: false, staff: false },
@@ -130,19 +118,17 @@ test("Reading policy table: exam never, review only after submission and not whi
     { submitted: true, examInProgress: true, staff: true },
   ];
   assert.deepEqual(states.map((s) => readingLexicalAssistanceAllowed("ACADEMIC_EXAM", s)), [false, false, false, false]);
-  assert.deepEqual(states.map((s) => readingLexicalAssistanceAllowed("ACADEMIC_REVIEW", s)), [false, true, false, false]);
+  assert.deepEqual(states.map((s) => readingLexicalAssistanceAllowed("ACADEMIC_REVIEW", s)), [false, false, false, false]);
   assert.deepEqual(states.map((s) => readingLexicalAssistanceAllowed("GENERAL_READING", s)), [true, true, true, true]);
 });
 
-test("Review MWE: clicking 'account' (or 'took') opens the WHOLE expression by its occurrence, never 'account' alone", async () => {
+test("General MWE: clicking 'account' (or 'took') opens the WHOLE expression by its occurrence, never 'account' alone", async () => {
   const net = recordFetch();
   try {
-    await mount(React.createElement(ReadingAnalysis, { dict: en, score: 0, total: 0, questions: [], answers: [], passageBody: body, passageTitle: "Banks", attemptId: examProps.attemptId, locale: "en", occurrences }), async () => {
-      const show = Array.from(document.querySelectorAll("button")).find((b) => b.getAttribute("aria-expanded") !== null)!;
-      await act(async () => show.click());
+    await mount(React.createElement(ClickableText, { dict: en, text: body, sourceType: "reading", sourceId: "general-passage", lexicalAssistance: true, occurrences }), async () => {
       for (const word of ["account", "took"]) {
         net.urls.length = 0;
-        const target = document.querySelector(`[data-retention-passage] [data-word="${word}"]`) as HTMLElement;
+        const target = document.querySelector(`[data-word="${word}"]`) as HTMLElement;
         await act(async () => { target.dispatchEvent(new dom.window.MouseEvent("click", { bubbles: true, detail: 0 })); });
         await act(async () => { await new Promise((resolve) => setTimeout(resolve, 0)); });
         assert.equal(document.querySelector("[role=dialog]")?.getAttribute("aria-label"), "took the cost into account", word);

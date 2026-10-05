@@ -1229,3 +1229,19 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 
 .listening-collection-tabs button[aria-pressed="true"] { color: white; background: rgb(var(--accent)); border-color: rgb(var(--accent)); }
 .listening-hub h1 { font-family: Georgia, "Times New Roman", serif; }
+
+/* Dictionary: mobile sheet, centered tablet/desktop dialog. Native modal focus
+   trapping and Escape handling keep exact-sense selection keyboard accessible. */
+.dictionary-folder-dialog {
+  width: min(100% - 1rem, 28rem);
+  max-height: calc(100dvh - 1rem);
+  margin: auto auto .5rem;
+  padding: 0;
+  border: 1px solid rgb(var(--ink-100));
+  border-radius: 1.25rem;
+  background: rgb(var(--paper-raised));
+  color: rgb(var(--ink-900));
+  overflow-y: auto;
+}
+.dictionary-folder-dialog::backdrop { background: rgb(15 23 42 / .5); }
+@media (min-width: 768px) { .dictionary-folder-dialog { margin: auto; } }
