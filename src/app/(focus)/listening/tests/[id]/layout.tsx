@@ -17,7 +17,7 @@ export default async function ListeningTestFocusLayout({
     <main
       id="main-content"
       tabIndex={-1}
-      className="relative min-h-dvh w-full min-w-0 overflow-x-hidden bg-paper"
+      className="listening-full-focus relative min-h-dvh w-full min-w-0 overflow-x-hidden bg-paper"
       data-listening-full-focus
     >
       <div
@@ -35,7 +35,7 @@ export default async function ListeningTestFocusLayout({
           className="btn-secondary inline-flex min-h-11 w-fit items-center gap-1"
         />
       </div>
-      <div className="min-h-[calc(100dvh-4rem)] w-full min-w-0" data-listening-focus-content>
+      <div className="w-full min-w-0" data-listening-focus-content>
         {children}
       </div>
     </main>

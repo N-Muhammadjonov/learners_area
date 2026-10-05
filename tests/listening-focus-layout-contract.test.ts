@@ -27,6 +27,7 @@ test("focus layout preserves the same database-backed admission gate without mou
 test("every Listening test surface has one design-system BackLink with a safe library fallback", () => {
   const layout = read("src/app/(focus)/listening/tests/[id]/layout.tsx");
   assert.match(layout, /data-listening-full-focus/);
+  assert.match(layout, /listening-full-focus/);
   assert.match(layout, /min-h-dvh/);
   assert.match(layout, /w-full/);
   assert.match(layout, /data-listening-focus-backbar/);
@@ -52,4 +53,12 @@ test("the full-focus hub does not re-enable the old shell Focus mechanism or she
   const page = read("src/app/(focus)/listening/tests/[id]/page.tsx");
   assert.doesNotMatch(page, /TestFocusEntry/);
   assert.doesNotMatch(page, /max-w-\[1840px\]/);
+});
+
+test("focus CSS gives authored runtime and study workspace the remaining dynamic viewport", () => {
+  const css = read("src/app/globals.css");
+  assert.match(css, /\.listening-full-focus \{ --listening-focus-bar-h:/);
+  assert.match(css, /\[data-listening-focus-content\] \{ min-height: calc\(100dvh - var\(--listening-focus-bar-h\)\)/);
+  assert.match(css, /\.listening-full-focus \.listening-workspace \{ min-height: calc\(100dvh - var\(--listening-focus-bar-h\)\); border-radius: 0;/);
+  assert.match(css, /\[data-authored-listening\] iframe \{ height: calc\(100dvh - var\(--listening-focus-bar-h\)\); min-height: 0;/);
 });
