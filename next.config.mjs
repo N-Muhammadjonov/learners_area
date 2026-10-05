@@ -42,7 +42,15 @@ const nextConfig = {
    * duplicating bytes into the app directory.
    */
   async rewrites() {
-    return [{ source: "/favicon.ico", destination: "/brand/derived/favicon.ico" }];
+    const rewrites = [{ source: "/favicon.ico", destination: "/brand/derived/favicon.ico" }];
+    const storageEndpoint = (process.env.R2_ENDPOINT || process.env.S3_ENDPOINT || "").replace(/\\/+$/, "");
+    if (storageEndpoint) {
+      rewrites.push({
+        source: "/__storage-upload/:path*",
+        destination: \`${storageEndpoint}/:path*\`,
+      });
+    }
+    return rewrites;
   },
 };
 
