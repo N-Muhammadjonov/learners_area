@@ -7,6 +7,7 @@ import { createTestDatabase } from "./support/pglite";
 import en from "../src/lib/i18n/en";
 import uz from "../src/lib/i18n/uz";
 import { breadcrumbsFor, parentFor } from "../src/lib/nav/routes";
+import { knowledgeErrorResponse } from "../src/lib/services/riwi/owner-route";
 import {
   KnowledgeServiceError,
   approveKnowledgeCandidate,
@@ -18,6 +19,21 @@ import {
 } from "../src/lib/services/riwi/knowledge";
 
 const ownerActor = (id: string) => ({ id, role: "owner" as const, accountStatus: "active" as const });
+
+test("knowledge owner route maps overlap-scan overflow to a safe HTTP 409 response", async () => {
+  const { readFileSync } = await import("node:fs");
+  const route = readFileSync("src/app/api/riwi/owner/knowledge/route.ts", "utf8");
+  assert.match(route, /error instanceof KnowledgeServiceError\) return knowledgeErrorResponse\(error\)/,
+    "the actual owner route delegates knowledge-service failures to the tested HTTP mapper");
+
+  const response = knowledgeErrorResponse(new KnowledgeServiceError("analysis_capacity_exceeded"));
+  assert.equal(response.status, 409);
+  assert.deepEqual(await response.json(), {
+    error: { code: "riwi_knowledge_analysis_capacity_exceeded" },
+  });
+  assert.equal(response.headers.get("cache-control"), "private, no-store");
+  assert.equal(response.headers.get("x-content-type-options"), "nosniff");
+});
 
 async function source(database: Awaited<ReturnType<typeof createTestDatabase>>, actor: ReturnType<typeof ownerActor>, title: string, content: string) {
   return createKnowledgeCandidate({
