@@ -6,6 +6,9 @@ import { eq } from "drizzle-orm";
 import { PGlite } from "@electric-sql/pglite";
 import { auditLog, evaluations, riwiKnowledgeConflicts, riwiKnowledgeSources, riwiKnowledgeUnits, riwiLearningReviews, riwiLearningSignals, teacherStudentLinks, users } from "../src/db/schema";
 import { createTestDatabase, migrateTestDatabase } from "./support/pglite";
+import { installOwnerHistoryCursorTestSecret } from "./support/riwi-history-cursor";
+
+test.after(installOwnerHistoryCursorTestSecret());
 import {
   LearningServiceError,
   createLearningSignal,
@@ -13,8 +16,8 @@ import {
   recordEvaluationOutcomeSignal,
   submitRiwiStudentFeedback,
   listLearningCandidateForOwner,
-  listLearningSignals,
-  listLearningReviewsForOwner,
+  listLearningSignalPage,
+  listLearningReviewPageForOwner,
   reviewLearningSignal,
 } from "../src/lib/services/riwi/learning";
 import {
@@ -91,7 +94,8 @@ test("learning intake routes use server identity, strict DTOs, CSRF checks, and 
 
   assert.match(staffRoute, /export async function GET\(/);
   assert.match(staffRoute, /user\.role !== "owner"/);
-  assert.match(staffRoute, /listLearningSignals\(user/);
+  assert.match(staffRoute, /listLearningSignalPage\(user/);
+  assert.match(staffRoute, /getAll\("state"\)/);
   const reviewRoute = readFileSync("src/app/api/riwi/learning-signals/[id]/review/route.ts", "utf8");
   assert.match(reviewRoute, /requireActiveUser\(\)/);
   assert.match(reviewRoute, /checkRequestOrigin\(request\)/);
@@ -103,7 +107,9 @@ test("learning intake routes use server identity, strict DTOs, CSRF checks, and 
   assert.match(detailRoute, /requireActiveUser\(\)/);
   assert.match(detailRoute, /user\.role !== "owner"/);
   assert.match(detailRoute, /listLearningCandidateForOwner\(user, id\)/);
-  assert.match(detailRoute, /listLearningReviewsForOwner\(user, id\)/);
+  assert.match(detailRoute, /listLearningReviewPageForOwner\(user, id/);
+  assert.match(detailRoute, /getAll\("cursor"\)/);
+  assert.match(detailRoute, /reviewsNextCursor/);
 });
 
 async function insertUser(database: Awaited<ReturnType<typeof createTestDatabase>>, role: "student" | "teacher" | "owner", name: string) {
@@ -181,7 +187,7 @@ test("learning signals are redacted candidate-only records with server-derived s
     }, database.db);
     assert.equal(qaSignal.state, "candidate");
 
-    const ownerList = await listLearningSignals(actor(ownerId, "owner"), 100, database.db);
+    const ownerList = (await listLearningSignalPage(actor(ownerId, "owner"), { limit: 100 }, database.db)).signals;
     assert.equal(ownerList.length, 4);
     assert.equal("candidateClaim" in (ownerList[0] ?? {}), false);
     const detail = await listLearningCandidateForOwner(actor(ownerId, "owner"), studentSignal.id, database.db);
@@ -233,7 +239,7 @@ test("learning acceptance requires an owner review and executable regression evi
     assert.equal(acceptedDetail?.state, "accepted");
     assert.equal(acceptedDetail?.candidateClaim, "Keep the short definition before examples.");
     assert.equal(acceptedDetail?.evidenceHash, storedSignal?.evidenceHash, "accepted evidence remains immutable and auditable");
-    const reviewHistory = await listLearningReviewsForOwner(ownerActor, signal.id, database.db);
+    const reviewHistory = (await listLearningReviewPageForOwner(ownerActor, signal.id, { limit: 25 }, database.db)).reviews;
     assert.equal(reviewHistory.length, 1);
     assert.equal(reviewHistory[0]?.decision, "approve");
     assert.equal(reviewHistory[0]?.reviewerUserId, ownerId);

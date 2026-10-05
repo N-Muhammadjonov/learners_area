@@ -8,7 +8,7 @@ import type { Role } from "@/lib/auth/roles";
 import { authorizeCapability } from "./capabilities";
 import { recordRiwiAudit } from "./audit";
 import { isRiwiRegressionFixture, runRiwiRegressionSuite } from "./golden/fixtures";
-import { chunkKnowledgeText, RIWI_UNIT_MAX_CHARS } from "./knowledge-parser";
+import { chunkKnowledgeText, RIWI_MAX_UNITS, RIWI_UNIT_MAX_CHARS } from "./knowledge-parser";
 import type { KnowledgeScope } from "./knowledge-policy";
 import { redactExternalText } from "./outbound-guard";
 import { isSafeObjectKey } from "@/lib/validation/uploads";
@@ -33,6 +33,11 @@ export type KnowledgePublicationScope = KnowledgeScope;
 
 const RIGHTS_ALLOWED_FOR_PROMOTION = new Set<KnowledgeRightsClass>(["owner_authored", "licensed", "public_domain", "internal_permission"]);
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+export const RIWI_KNOWLEDGE_CONFLICT_SCAN_MAX_ACTIVE_UNITS = 500;
+export const RIWI_KNOWLEDGE_MAX_CONFLICTS_PER_CANDIDATE = 1000;
+export const RIWI_KNOWLEDGE_HISTORY_STATES = [
+  "draft", "parsed", "analyzed", "candidate", "approved", "active", "superseded", "rejected", "quarantined",
+] as const;
 const OWNER_AUTHORITY: Record<KnowledgeSourceType, number> = {
   owner_instruction: 100, policy: 100, ielts_rubric: 95, dictionary_material: 90,
   verified_example: 85, owner_correction: 85, learning_methodology: 80, course_document: 75,
@@ -198,7 +203,7 @@ export async function createKnowledgeCandidate(input: {
       .innerJoin(riwiKnowledgeSources, eq(riwiKnowledgeSources.id, riwiKnowledgeUnits.sourceId))
       .where(and(eq(riwiKnowledgeSources.state, "active"), activeScope))
       .orderBy(desc(riwiKnowledgeSources.authority), desc(riwiKnowledgeSources.updatedAt))
-      .limit(500);
+      .limit(RIWI_KNOWLEDGE_CONFLICT_SCAN_MAX_ACTIVE_UNITS);
 
     const conflicts: Array<{ candidateUnitId: string; activeSourceId: string; activeUnitId: string; conflictKey: string }> = [];
     for (const candidate of storedUnits) {
@@ -206,9 +211,9 @@ export async function createKnowledgeCandidate(input: {
         if (!detectKnowledgeOverlap(candidate.content, active.text)) continue;
         const key = sha256([...keywords(candidate.content)].filter((word) => keywords(active.text).has(word)).sort().join(" "));
         conflicts.push({ candidateUnitId: candidate.id, activeSourceId: active.sourceId, activeUnitId: active.unitId, conflictKey: key });
-        if (conflicts.length >= 1000) break;
+        if (conflicts.length >= RIWI_KNOWLEDGE_MAX_CONFLICTS_PER_CANDIDATE) break;
       }
-      if (conflicts.length >= 1000) break;
+      if (conflicts.length >= RIWI_KNOWLEDGE_MAX_CONFLICTS_PER_CANDIDATE) break;
     }
     if (conflicts.length) await tx.insert(riwiKnowledgeConflicts).values(conflicts.map((conflict) => ({
       candidateSourceId: created.id, candidateUnitId: conflict.candidateUnitId,
@@ -235,22 +240,6 @@ export async function createKnowledgeCandidate(input: {
   return source;
 }
 
-export async function listKnowledgeSources(actor: KnowledgeActor, database: Pick<typeof db, "select"> = db) {
-  if (!canManage(actor, "riwi.knowledge.review")) throw new KnowledgeServiceError("forbidden");
-  const rows = await database.select({
-    id: riwiKnowledgeSources.id, sourceType: riwiKnowledgeSources.sourceType, title: riwiKnowledgeSources.title,
-    provenance: riwiKnowledgeSources.provenance, rightsClass: riwiKnowledgeSources.rightsClass, authority: riwiKnowledgeSources.authority,
-    scope: riwiKnowledgeSources.scope, scopeRole: riwiKnowledgeSources.scopeRole, scopeUserId: riwiKnowledgeSources.scopeUserId,
-    supersedesSourceId: riwiKnowledgeSources.supersedesSourceId, version: riwiKnowledgeSources.version,
-    state: riwiKnowledgeSources.state, unitCount: riwiKnowledgeSources.unitCount, checksum: riwiKnowledgeSources.checksum,
-    sourceChecksum: riwiKnowledgeSources.sourceChecksum, parserVersion: riwiKnowledgeSources.parserVersion,
-    regressionFixtureId: riwiKnowledgeSources.regressionFixtureId, regressionEvidenceHash: riwiKnowledgeSources.regressionEvidenceHash,
-    regressionPassedAt: riwiKnowledgeSources.regressionPassedAt,
-    createdAt: riwiKnowledgeSources.createdAt, approvedAt: riwiKnowledgeSources.approvedAt, activatedAt: riwiKnowledgeSources.activatedAt,
-  }).from(riwiKnowledgeSources).orderBy(desc(riwiKnowledgeSources.updatedAt)).limit(200);
-  return rows.map((row) => ({ ...row, title: redactExternalText(row.title, 200), provenance: redactExternalText(row.provenance, 500) }));
-}
-
 async function requireActiveKnowledgeOwner(actor: KnowledgeActor, database: Pick<typeof db, "select">): Promise<void> {
   if (!canManage(actor, "riwi.knowledge.review")) throw new KnowledgeServiceError("forbidden");
   const [subject] = await database.select({ role: users.role, accountStatus: users.accountStatus })
@@ -260,15 +249,19 @@ async function requireActiveKnowledgeOwner(actor: KnowledgeActor, database: Pick
 
 export async function listKnowledgeSourcePage(
   actor: KnowledgeActor,
-  options: { cursor?: string | null; limit?: number } = {},
+  options: { cursor?: string | null; limit?: number; state?: string | null } = {},
   database: Pick<typeof db, "select"> = db,
 ) {
   await requireActiveKnowledgeOwner(actor, database);
+  const stateFilter = options.state ?? null;
+  if (stateFilter !== null && !(RIWI_KNOWLEDGE_HISTORY_STATES as readonly string[]).includes(stateFilter)) {
+    throw new KnowledgeServiceError("invalid_input");
+  }
   let limit: number;
   let after: RiwiOwnerHistoryPosition | null;
   try {
     limit = ownerHistoryPageLimit(options.limit);
-    after = decodeOwnerHistoryCursor(options.cursor, actor, "knowledge_sources");
+    after = decodeOwnerHistoryCursor(options.cursor, actor, "knowledge_sources", undefined, stateFilter);
   } catch (error) {
     if (error instanceof RiwiOwnerHistoryCursorError) throw new KnowledgeServiceError("invalid_input");
     throw error;
@@ -284,18 +277,19 @@ export async function listKnowledgeSourcePage(
     regressionPassedAt: riwiKnowledgeSources.regressionPassedAt,
     createdAt: riwiKnowledgeSources.createdAt, approvedAt: riwiKnowledgeSources.approvedAt, activatedAt: riwiKnowledgeSources.activatedAt,
     cursorAt: riwiKnowledgeSources.updatedAt,
-  }).from(riwiKnowledgeSources).where(after
-    ? or(
+  }).from(riwiKnowledgeSources).where(and(
+    stateFilter ? eq(riwiKnowledgeSources.state, stateFilter as typeof riwiKnowledgeSources.$inferSelect.state) : undefined,
+    after ? or(
       lt(riwiKnowledgeSources.updatedAt, after.sortAt),
       and(eq(riwiKnowledgeSources.updatedAt, after.sortAt), lt(riwiKnowledgeSources.id, after.id)),
-    )
-    : undefined)
+    ) : undefined,
+  ))
     .orderBy(desc(riwiKnowledgeSources.updatedAt), desc(riwiKnowledgeSources.id)).limit(limit + 1);
   const hasMore = rows.length > limit;
   const pageRows = rows.slice(0, limit);
   const last = pageRows.at(-1);
   const nextCursor = hasMore && last
-    ? encodeOwnerHistoryCursor({ actor, collection: "knowledge_sources", after: { sortAt: last.cursorAt, id: last.id } })
+    ? encodeOwnerHistoryCursor({ actor, collection: "knowledge_sources", filter: stateFilter, after: { sortAt: last.cursorAt, id: last.id } })
     : null;
   return {
     sources: pageRows.map(({ cursorAt: _cursorAt, ...row }) => ({
@@ -344,7 +338,7 @@ export async function getKnowledgeSourceDetail(
     content: riwiKnowledgeUnits.content, contentHash: riwiKnowledgeUnits.contentHash,
     characterCount: riwiKnowledgeUnits.characterCount,
   }).from(riwiKnowledgeUnits).where(eq(riwiKnowledgeUnits.sourceId, sourceId))
-    .orderBy(asc(riwiKnowledgeUnits.ordinal)).limit(200);
+    .orderBy(asc(riwiKnowledgeUnits.ordinal)).limit(RIWI_MAX_UNITS);
   const conflicts = await listKnowledgeConflicts(actor, sourceId, database);
   return {
     ...source,
@@ -370,7 +364,8 @@ export async function listKnowledgeConflicts(actor: KnowledgeActor, sourceId: st
     .innerJoin(riwiKnowledgeUnits, eq(riwiKnowledgeUnits.id, riwiKnowledgeConflicts.candidateUnitId))
     .innerJoin(riwiKnowledgeSources, eq(riwiKnowledgeSources.id, riwiKnowledgeConflicts.activeSourceId))
     .where(eq(riwiKnowledgeConflicts.candidateSourceId, sourceId))
-    .orderBy(riwiKnowledgeConflicts.createdAt).limit(500);
+    .orderBy(asc(riwiKnowledgeConflicts.createdAt), asc(riwiKnowledgeConflicts.id))
+    .limit(RIWI_KNOWLEDGE_MAX_CONFLICTS_PER_CANDIDATE);
   return rows.map((row) => ({ ...row,
     reason: redactExternalText(row.reason, 1000),
     candidateText: redactExternalText(row.candidateText, RIWI_UNIT_MAX_CHARS),

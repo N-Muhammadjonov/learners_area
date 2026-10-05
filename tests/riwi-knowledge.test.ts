@@ -5,13 +5,16 @@ import { eq } from "drizzle-orm";
 import type { Role } from "../src/lib/auth/roles";
 import { auditLog, riwiKnowledgeConflicts, riwiKnowledgeSources, riwiKnowledgeUnits, users } from "../src/db/schema";
 import { createTestDatabase } from "./support/pglite";
+import { installOwnerHistoryCursorTestSecret } from "./support/riwi-history-cursor";
+
+test.after(installOwnerHistoryCursorTestSecret());
 import {
   KnowledgeServiceError,
   approveKnowledgeCandidate,
   createKnowledgeCandidate,
   getKnowledgeSourceDetail,
   listKnowledgeConflicts,
-  listKnowledgeSources,
+  listKnowledgeSourcePage,
   promoteKnowledgeSource,
   rejectKnowledgeCandidate,
   resolveKnowledgeConflict,
@@ -85,13 +88,13 @@ test("knowledge source creation binds active-owner authority, checksums, scope, 
     assert.equal(detail?.units[0]?.content, base.content);
     assert.equal(detail?.state, "candidate", "parsed upload remains a candidate until explicit review and promotion");
 
-    const listed = await listKnowledgeSources(actor, database.db);
+    const listed = (await listKnowledgeSourcePage(actor, { limit: 10 }, database.db)).sources;
     const listedSource = listed.find((row) => row.id === item.id);
     assert.ok(listedSource);
     assert.equal("content" in listedSource, false, "owner source listing returns metadata, not raw unit text");
     assert.equal(listedSource.parserVersion, "riwi-text-parser/1");
     assert.equal(listedSource.authority, 65);
-    await assert.rejects(listKnowledgeSources(studentActor, database.db),
+    await assert.rejects(listKnowledgeSourcePage(studentActor, {}, database.db),
       (error: unknown) => error instanceof KnowledgeServiceError && error.code === "forbidden");
 
     await approveKnowledgeCandidate({ actor, sourceId: item.id }, database.db);

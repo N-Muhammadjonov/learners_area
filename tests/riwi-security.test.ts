@@ -96,19 +96,20 @@ test("every evaluation task has a strict outbound DTO and identifiers are redact
   assert.ok(!truncated.includes("learner@"));
   assert.ok(!truncated.includes("example.test"));
 
+  const fakeAwsAccessKey = ["AKIA", "IOSFODNN7EXAMPLE"].join("");
   const privateCanaries = [
     "postgresql://learner:db-secret@db.internal:5432/app",
     "DATABASE_URL=postgresql://owner:another-db-secret@db.internal/app",
     "OPENAI_API_KEY=sk-proj-TEST_PROVIDER_SECRET_123456789",
     "R2_SECRET_ACCESS_KEY=r2-secret-material-123456789",
-    "AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE",
+    `AWS_ACCESS_KEY_ID=${fakeAwsAccessKey}`,
     "Authorization: Bearer opaque-session-token-123456789",
     "Authorization: Bearer eyJhbGciOiJub25lIn0.eyJyb2xlIjoib3duZXIifQ.signature-value-123456789",
     "SESSION_TOKEN=session-secret-value-123456789",
     "role=owner userId=aaaaaaaa-0000-4000-8000-000000000001",
   ].join("\n");
   const safeCanaries = redactExternalText(privateCanaries, 10_000);
-  for (const secret of ["db-secret", "another-db-secret", "TEST_PROVIDER_SECRET", "r2-secret-material", "AKIAIOSFODNN7EXAMPLE", "opaque-session-token-123456789", "eyJhbGci", "session-secret-value", "role=owner", "userId="]) {
+  for (const secret of ["db-secret", "another-db-secret", "TEST_PROVIDER_SECRET", "r2-secret-material", fakeAwsAccessKey, "opaque-session-token-123456789", "eyJhbGci", "session-secret-value", "role=owner", "userId="]) {
     assert.ok(!safeCanaries.includes(secret), `outbound text must redact ${secret}`);
   }
   const guardedWriting = guardExternalPayload("writing", {

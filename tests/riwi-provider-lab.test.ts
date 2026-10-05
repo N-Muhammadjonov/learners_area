@@ -13,10 +13,13 @@ import {
   riwiProviderLabRequestSchema,
   RiwiProviderLabError,
   getRiwiProviderExperiment,
-  listRiwiProviderExperiments,
+  listRiwiProviderExperimentPage,
   runRiwiProviderExperiment,
 } from "../src/lib/services/riwi/provider-lab";
 import { createTestDatabase } from "./support/pglite";
+import { installOwnerHistoryCursorTestSecret } from "./support/riwi-history-cursor";
+
+test.after(installOwnerHistoryCursorTestSecret());
 import { RULES, consume, resetAll } from "../src/lib/http/rate-limit";
 
 const ownerId = randomUUID();
@@ -158,7 +161,7 @@ test("owner provider lab is fixture-only, capability-bounded, audited, normalize
     assert.equal(externallyUnverified.experiment.results[0]?.safeErrorCode, "external_ai_disabled");
     assert.equal(calls.length, 1, "a disabled external-AI rollout never calls the provider");
 
-    const history = await listRiwiProviderExperiments(actor, 20, database.db);
+    const history = (await listRiwiProviderExperimentPage(actor, { limit: 20 }, database.db)).experiments;
     assert.equal(history.length, 3, "history contains the success, capability-denial, and externally-unverified runs only for this owner");
     assert.ok(history.every((item) => item.results.length <= 2));
   } finally {
@@ -272,8 +275,8 @@ test("provider experiments, histories, and idempotency keys are isolated per own
     const first = await runRiwiProviderExperiment({
       actor: firstActor, fixtureId: RIWI_PROVIDER_LAB_FIXTURES[0]!.id, providerIds: ["lab-stub"], idempotencyKey,
     }, { database: database.db, registry, externalEnabled: async () => false, writeAudit: async () => {} });
-    assert.equal((await listRiwiProviderExperiments(firstActor, 20, database.db)).length, 1);
-    assert.equal((await listRiwiProviderExperiments(secondActor, 20, database.db)).length, 0);
+    assert.equal((await listRiwiProviderExperimentPage(firstActor, { limit: 20 }, database.db)).experiments.length, 1);
+    assert.equal((await listRiwiProviderExperimentPage(secondActor, { limit: 20 }, database.db)).experiments.length, 0);
     await assert.rejects(getRiwiProviderExperiment(secondActor, first.experiment.id, database.db),
       (error: unknown) => error instanceof RiwiProviderLabError && error.code === "not_found");
 

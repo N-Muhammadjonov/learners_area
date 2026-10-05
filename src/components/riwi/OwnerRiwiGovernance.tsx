@@ -30,7 +30,7 @@ const unitSchema = z.object({
 const sourceDetailSchema = sourceSchema.extend({
   createdByUserId: z.string().uuid().nullable(), reviewedByUserId: z.string().uuid().nullable(),
   updatedAt: z.string().datetime(), regressionFixtureId: z.string().max(120).nullable(),
-  units: z.array(unitSchema).max(200), conflicts: z.array(conflictSchema).max(500),
+  units: z.array(unitSchema).max(200), conflicts: z.array(conflictSchema).max(1000),
 }).strip();
 const sourceListResponseSchema = z.object({
   ok: z.literal(true), sources: z.array(sourceSchema).max(100), nextCursor: z.string().max(2048).nullable(),
@@ -44,6 +44,10 @@ const signalSchema = z.object({
   evidenceHash: z.string().regex(/^[a-f0-9]{64}$/i), scope: z.enum(["global", "user"]), createdAt: z.string().datetime(),
 }).strip();
 const signalListResponseSchema = z.object({ signals: z.array(signalSchema).max(100), nextCursor: z.string().max(2048).nullable() }).strip();
+const sourceHistoryStates = ["draft", "parsed", "analyzed", "candidate", "approved", "active", "superseded", "rejected", "quarantined"] as const;
+const signalHistoryStates = ["candidate", "in_review", "accepted", "rejected", "promoted"] as const;
+type SourceHistoryFilter = "all" | (typeof sourceHistoryStates)[number];
+type SignalHistoryFilter = "all" | (typeof signalHistoryStates)[number];
 const reviewSchema = z.object({
   id: z.string().uuid(), reviewerUserId: z.string().uuid(), decision: z.enum(["approve", "reject", "request_changes"]),
   reason: z.string().max(1000), regressionFixtureId: z.string().max(120).nullable(),
@@ -59,6 +63,7 @@ const signalDetailResponseSchema = z.object({
     createdAt: z.string().datetime(),
   }).strip(),
   reviews: z.array(reviewSchema).max(100),
+  reviewsNextCursor: z.string().max(2048).nullable(),
 }).strip();
 const auditEntrySchema = z.object({
   id: z.string().uuid(), actorUserId: z.string().uuid().nullable(), action: z.string().max(80), targetType: z.string().max(80).nullable(),
@@ -141,6 +146,8 @@ function words(locale: Locale) {
     loading: uz ? "Yuklanmoqda…" : "Loading…",
     refresh: uz ? "Yangilash" : "Refresh",
     loadMore: uz ? "Yana yuklash" : "Load more",
+    filterByState: uz ? "Holat bo'yicha filtr" : "Filter by state",
+    allStates: uz ? "Barcha holatlar" : "All states",
     loadingMore: uz ? "Yuklanmoqda…" : "Loading more…",
     retryMore: uz ? "Qayta urinish" : "Retry",
     historyPageFailed: uz ? "Keyingi tarix sahifasi yuklanmadi. Oldingi ma'lumotlar saqlandi; qayta urinishingiz mumkin." : "The next history page could not be loaded. Existing history is unchanged; you can retry.",
@@ -216,7 +223,7 @@ type Signal = z.infer<typeof signalSchema>;
 type SignalDetail = z.infer<typeof signalDetailResponseSchema>;
 type AuditEntry = z.infer<typeof auditEntrySchema>;
 type Diagnostics = z.infer<typeof diagnosticsSchema>;
-type HistoryKind = "sources" | "signals" | "audit";
+type HistoryKind = "sources" | "signals" | "audit" | "reviews";
 class OwnerHistoryResponseError extends Error {
   constructor(public readonly status: number) { super("owner_history_response_failed"); }
 }
@@ -232,19 +239,28 @@ function appendUniqueById<T extends { id: string }>(current: T[], incoming: T[])
   return result;
 }
 
+function historyQuery(state?: string, cursor?: string): string {
+  const params = new URLSearchParams({ limit: "25" });
+  if (state) params.set("state", state);
+  if (cursor) params.set("cursor", cursor);
+  return `?${params.toString()}`;
+}
+
 export function OwnerRiwiGovernance({ locale }: { locale: Locale }) {
   const t = words(locale);
   const requestResponse = useScopedResponse(35_000);
   const [sources, setSources] = useState<Source[]>([]);
   const [sourceCursor, setSourceCursor] = useState<string | null>(null);
+  const [sourceStateFilter, setSourceStateFilter] = useState<SourceHistoryFilter>("all");
   const [openConflicts, setOpenConflicts] = useState(0);
   const [selectedSource, setSelectedSource] = useState<Detail | null>(null);
   const [signals, setSignals] = useState<Signal[]>([]);
   const [signalCursor, setSignalCursor] = useState<string | null>(null);
+  const [signalStateFilter, setSignalStateFilter] = useState<SignalHistoryFilter>("all");
   const [selectedSignal, setSelectedSignal] = useState<SignalDetail | null>(null);
   const [audit, setAudit] = useState<AuditEntry[]>([]);
   const [auditCursor, setAuditCursor] = useState<string | null>(null);
-  const [historyLoading, setHistoryLoading] = useState<Record<HistoryKind, boolean>>({ sources: false, signals: false, audit: false });
+  const [historyLoading, setHistoryLoading] = useState<Record<HistoryKind, boolean>>({ sources: false, signals: false, audit: false, reviews: false });
   const [historyPageError, setHistoryPageError] = useState<Partial<Record<HistoryKind, boolean>>>({});
   const [diagnostics, setDiagnostics] = useState<Diagnostics | null>(null);
   const [refreshing, setRefreshing] = useState(false);
@@ -270,6 +286,7 @@ export function OwnerRiwiGovernance({ locale }: { locale: Locale }) {
   const historyEpoch = useRef(0);
   const historyPageSequence = useRef(0);
   const historyPageLock = useRef<{ id: number; kind: HistoryKind } | null>(null);
+  const signalDetailSequence = useRef(0);
   const refreshInProgress = useRef(false);
   const mounted = useRef(false);
 
@@ -297,7 +314,7 @@ export function OwnerRiwiGovernance({ locale }: { locale: Locale }) {
     setDiagnostics(null);
     setSelectedSource(null);
     setSelectedSignal(null);
-    setHistoryLoading({ sources: false, signals: false, audit: false });
+    setHistoryLoading({ sources: false, signals: false, audit: false, reviews: false });
     setHistoryPageError({});
     setRefreshing(false);
     setError(t.error);
@@ -320,16 +337,16 @@ export function OwnerRiwiGovernance({ locale }: { locale: Locale }) {
     const epoch = ++historyEpoch.current;
     historyPageLock.current = null;
     refreshInProgress.current = true;
-    setHistoryLoading({ sources: false, signals: false, audit: false });
+    setHistoryLoading({ sources: false, signals: false, audit: false, reviews: false });
     setHistoryPageError({});
     setRefreshing(true);
     setError("");
     try {
       // useScopedResponse intentionally supersedes an older in-flight request.
       // Load distinct scopes sequentially so they do not cancel one another.
-      const sourceData = await fetchJsonWithRevocation(`/api/riwi/owner/knowledge?limit=25`, sourceListResponseSchema, epoch).catch(() => null);
+      const sourceData = await fetchJsonWithRevocation(`/api/riwi/owner/knowledge${historyQuery(sourceStateFilter === "all" ? undefined : sourceStateFilter)}`, sourceListResponseSchema, epoch).catch(() => null);
       if (!mounted.current || historyEpoch.current !== epoch) return;
-      const signalData = await fetchJsonWithRevocation(`/api/riwi/learning-signals?limit=25`, signalListResponseSchema, epoch).catch(() => null);
+      const signalData = await fetchJsonWithRevocation(`/api/riwi/learning-signals${historyQuery(signalStateFilter === "all" ? undefined : signalStateFilter)}`, signalListResponseSchema, epoch).catch(() => null);
       if (!mounted.current || historyEpoch.current !== epoch) return;
       const auditData = await fetchJsonWithRevocation(`/api/riwi/owner/audit?limit=25`, auditResponseSchema, epoch).catch(() => null);
       if (!mounted.current || historyEpoch.current !== epoch) return;
@@ -348,18 +365,25 @@ export function OwnerRiwiGovernance({ locale }: { locale: Locale }) {
         setRefreshing(false);
       }
     }
-  }, [fetchJsonWithRevocation, t.error]);
+  }, [fetchJsonWithRevocation, signalStateFilter, sourceStateFilter, t.error]);
 
   const loadMore = useCallback(async (kind: HistoryKind) => {
     if (refreshInProgress.current || historyPageLock.current) return;
-    const cursor = kind === "sources" ? sourceCursor : kind === "signals" ? signalCursor : auditCursor;
-    if (!cursor) return;
+    const reviewSignalId = kind === "reviews" ? selectedSignal?.signal.id : undefined;
+    const cursor = kind === "sources" ? sourceCursor : kind === "signals" ? signalCursor
+      : kind === "audit" ? auditCursor : selectedSignal?.reviewsNextCursor ?? null;
+    if (!cursor || (kind === "reviews" && !reviewSignalId)) return;
     const epoch = historyEpoch.current;
+    const detailSequence = signalDetailSequence.current;
     const requestId = ++historyPageSequence.current;
     historyPageLock.current = { id: requestId, kind };
     setHistoryLoading((current) => ({ ...current, [kind]: true }));
     setHistoryPageError((current) => ({ ...current, [kind]: false }));
-    const pageUrl = `?limit=25&cursor=${encodeURIComponent(cursor)}`;
+    const pageUrl = kind === "sources"
+      ? historyQuery(sourceStateFilter === "all" ? undefined : sourceStateFilter, cursor)
+      : kind === "signals"
+        ? historyQuery(signalStateFilter === "all" ? undefined : signalStateFilter, cursor)
+        : historyQuery(undefined, cursor);
     const isCurrentRequest = () => mounted.current && historyEpoch.current === epoch && historyPageLock.current?.id === requestId;
     try {
       if (kind === "sources") {
@@ -373,11 +397,19 @@ export function OwnerRiwiGovernance({ locale }: { locale: Locale }) {
         if (!page || !isCurrentRequest()) return;
         setSignals((current) => appendUniqueById(current, page.signals));
         setSignalCursor(page.nextCursor);
-      } else {
+      } else if (kind === "audit") {
         const page = await fetchJsonWithRevocation(`/api/riwi/owner/audit${pageUrl}`, auditResponseSchema, epoch);
         if (!page || !isCurrentRequest()) return;
         setAudit((current) => appendUniqueById(current, page.entries));
         setAuditCursor(page.nextCursor);
+      } else {
+        const page = await fetchJsonWithRevocation(`/api/riwi/learning-signals/${reviewSignalId}${pageUrl}`, signalDetailResponseSchema, epoch);
+        if (!page || !isCurrentRequest() || signalDetailSequence.current !== detailSequence || page.signal.id !== reviewSignalId) return;
+        setSelectedSignal((current) => current?.signal.id === reviewSignalId ? {
+          ...current,
+          reviews: appendUniqueById(current.reviews, page.reviews),
+          reviewsNextCursor: page.reviewsNextCursor,
+        } : current);
       }
     } catch {
       if (mounted.current && historyEpoch.current === epoch && historyPageLock.current?.id === requestId) {
@@ -389,7 +421,7 @@ export function OwnerRiwiGovernance({ locale }: { locale: Locale }) {
         if (mounted.current && historyEpoch.current === epoch) setHistoryLoading((current) => ({ ...current, [kind]: false }));
       }
     }
-  }, [auditCursor, fetchJsonWithRevocation, signalCursor, sourceCursor]);
+  }, [auditCursor, fetchJsonWithRevocation, selectedSignal, signalCursor, signalStateFilter, sourceCursor, sourceStateFilter]);
 
   const loadSource = useCallback(async (id: string) => {
     const epoch = historyEpoch.current;
@@ -403,13 +435,38 @@ export function OwnerRiwiGovernance({ locale }: { locale: Locale }) {
 
   const loadSignal = useCallback(async (id: string) => {
     const epoch = historyEpoch.current;
+    const requestId = ++signalDetailSequence.current;
     try {
       const result = await fetchJsonWithRevocation(`/api/riwi/learning-signals/${id}`, signalDetailResponseSchema, epoch);
-      if (result && mounted.current && historyEpoch.current === epoch) setSelectedSignal(result);
+      if (result && mounted.current && historyEpoch.current === epoch && signalDetailSequence.current === requestId) setSelectedSignal(result);
     } catch {
-      if (mounted.current && historyEpoch.current === epoch) setError(t.error);
+      if (mounted.current && historyEpoch.current === epoch && signalDetailSequence.current === requestId) setError(t.error);
     }
   }, [fetchJsonWithRevocation, t.error]);
+
+  function changeSourceHistoryFilter(value: string) {
+    if (!(sourceHistoryStates as readonly string[]).includes(value) && value !== "all") return;
+    const next = value as SourceHistoryFilter;
+    if (next === sourceStateFilter) return;
+    historyPageLock.current = null;
+    setSources([]);
+    setSourceCursor(null);
+    setHistoryLoading((current) => ({ ...current, sources: false }));
+    setHistoryPageError((current) => ({ ...current, sources: false }));
+    setSourceStateFilter(next);
+  }
+
+  function changeSignalHistoryFilter(value: string) {
+    if (!(signalHistoryStates as readonly string[]).includes(value) && value !== "all") return;
+    const next = value as SignalHistoryFilter;
+    if (next === signalStateFilter) return;
+    historyPageLock.current = null;
+    setSignals([]);
+    setSignalCursor(null);
+    setHistoryLoading((current) => ({ ...current, signals: false }));
+    setHistoryPageError((current) => ({ ...current, signals: false }));
+    setSignalStateFilter(next);
+  }
 
   useEffect(() => {
     mounted.current = true;
@@ -681,6 +738,12 @@ export function OwnerRiwiGovernance({ locale }: { locale: Locale }) {
             <h3 id="riwi-source-list-title" className="font-display text-lg text-ink-900">{t.sources}</h3>
             <span className="badge bg-paper-sunken text-ink-600">{sources.length}/{diagnostics?.governance.knowledgeSources ?? sources.length} · {openConflicts} {locale === "uz" ? "ochiq ziddiyat" : "open conflicts"}</span>
           </header>
+          <label className="flex flex-col gap-1 text-sm font-medium text-ink-700">{t.filterByState}
+            <select className="input" data-history-filter="sources" value={sourceStateFilter} onChange={(event) => changeSourceHistoryFilter(event.target.value)} disabled={refreshing || busy !== ""}>
+              <option value="all">{t.allStates}</option>
+              {sourceHistoryStates.map((state) => <option key={state} value={state}>{state.replaceAll("_", " ")}</option>)}
+            </select>
+          </label>
           {sources.length === 0 && <p className="text-sm text-ink-500">{t.noSources}</p>}
           <ul className="flex max-h-[32rem] flex-col gap-2 overflow-y-auto">
             {sources.map((source) => <li key={source.id} className="rounded-xl border border-ink-100 p-3" data-knowledge-state={source.state}>
@@ -724,6 +787,12 @@ export function OwnerRiwiGovernance({ locale }: { locale: Locale }) {
             <p className="text-xs text-ink-500">{locale === "uz" ? "Bu signal; modelni o'qitmaydi va faol bilimni o'zgartirmaydi." : "This creates a learning signal only; it does not train a model or change active knowledge."}</p>
             <button type="submit" className="btn-secondary self-start" disabled={busy !== "" || !signalClaim.trim() || !signalEvidence.trim()}>{locale === "uz" ? "Ko'rib chiqishga yuborish" : "Submit for review"}</button>
           </form>
+          <label className="flex flex-col gap-1 text-sm font-medium text-ink-700">{t.filterByState}
+            <select className="input" data-history-filter="signals" value={signalStateFilter} onChange={(event) => changeSignalHistoryFilter(event.target.value)} disabled={refreshing || busy !== ""}>
+              <option value="all">{t.allStates}</option>
+              {signalHistoryStates.map((state) => <option key={state} value={state}>{state.replaceAll("_", " ")}</option>)}
+            </select>
+          </label>
           {signals.length === 0 && <p className="text-sm text-ink-500">{t.noSignals}</p>}
           <ul className="flex max-h-[24rem] flex-col gap-2 overflow-y-auto">
             {signals.map((signal) => <li key={signal.id} className="rounded-xl border border-ink-100 p-3" data-learning-state={signal.state}>
@@ -813,6 +882,10 @@ export function OwnerRiwiGovernance({ locale }: { locale: Locale }) {
               <p className="mt-1 break-all text-xs text-ink-500">{review.regressionFixtureId ? `${review.regressionFixtureId} · ${review.regressionEvidenceHash ?? ""}` : t.noRegressionNeeded}</p>
               {review.resultingSourceId && <button type="button" className="btn-secondary mt-2" onClick={() => void loadSource(review.resultingSourceId!)}>{locale === "uz" ? `Bog'langan bilim manbasini ko'rish ${review.resultingSourceId}` : `Inspect linked knowledge source ${review.resultingSourceId}`}</button>}
             </article>)}
+            {selectedSignal.reviewsNextCursor && <button type="button" className="btn-secondary self-start" data-history-kind="reviews" aria-label={`${t.loadMore} ${t.reviewHistory}`} disabled={refreshing || busy !== "" || Object.values(historyLoading).some(Boolean)} onClick={() => void loadMore("reviews")}>
+              {historyLoading.reviews ? t.loadingMore : historyPageError.reviews ? t.retryMore : t.loadMore}
+            </button>}
+            {historyPageError.reviews && <p className="text-xs text-band-bad" role="alert">{t.historyPageFailed}</p>}
           </div>
           {(selectedSignal.signal.state === "candidate" || selectedSignal.signal.state === "in_review") && <div className="flex flex-col gap-3 border-t border-ink-100 pt-4">
             <label className="text-xs font-medium text-ink-700">{t.review}<textarea className="input mt-1 min-h-16" maxLength={1000} value={signalReason} onChange={(event) => setSignalReason(event.target.value)} /></label>

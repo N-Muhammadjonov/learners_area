@@ -4,7 +4,7 @@ import { requireActiveUser } from "@/lib/auth/current-user";
 import { RULES, accountKey, clientKey, consume } from "@/lib/http/rate-limit";
 import { checkRequestOrigin } from "@/lib/http/request-origin";
 import { readRiwiBoundedJson } from "@/lib/services/riwi/http";
-import { createLearningSignal, LearningServiceError, listLearningSignalPage } from "@/lib/services/riwi/learning";
+import { createLearningSignal, LearningServiceError, listLearningSignalPage, RIWI_LEARNING_SIGNAL_HISTORY_STATES } from "@/lib/services/riwi/learning";
 import { RIWI_OWNER_HISTORY_PAGE_SIZE } from "@/lib/services/riwi/owner-history-cursor";
 import { riwiEnabledForRole } from "@/lib/services/riwi/rollout";
 
@@ -38,13 +38,19 @@ export async function GET(request: NextRequest) {
   if (!accountLimit.ok) return response({ error: { code: "riwi_rate_limited" }, retryAfterSeconds: accountLimit.retryAfterSeconds }, 429);
   const limits = request.nextUrl.searchParams.getAll("limit");
   const cursors = request.nextUrl.searchParams.getAll("cursor");
-  if (limits.length > 1 || cursors.length > 1 || (limits[0] !== undefined && !/^\d{1,3}$/.test(limits[0]))) {
+  const states = request.nextUrl.searchParams.getAll("state");
+  if (
+    limits.length > 1 || cursors.length > 1 || states.length > 1
+    || (limits[0] !== undefined && !/^\d{1,3}$/.test(limits[0]))
+    || (states[0] !== undefined && !(RIWI_LEARNING_SIGNAL_HISTORY_STATES as readonly string[]).includes(states[0]))
+  ) {
     return response({ error: { code: "riwi_request_invalid" } }, 400);
   }
   try {
     const page = await listLearningSignalPage(user, {
       limit: limits[0] === undefined ? RIWI_OWNER_HISTORY_PAGE_SIZE : Number(limits[0]),
       cursor: cursors[0],
+      state: states[0],
     });
     return response(page);
   } catch (error) {

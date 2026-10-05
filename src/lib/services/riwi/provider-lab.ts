@@ -1,5 +1,5 @@
 import "server-only";
-import { and, desc, eq, lt, or, sql } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, lt, or, sql } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/db/client";
 import { riwiProviderExperimentResults, riwiProviderExperiments, users } from "@/db/schema";
@@ -133,6 +133,63 @@ function safeOutput(result: RiwiProviderResult, fixture: (typeof RIWI_PROVIDER_L
 
 function literalAnswerKey(answer: string) {
   return answer.normalize("NFKC").trim().replace(/\s+/g, " ").toLocaleLowerCase("en-US");
+}
+
+type ProviderExperimentViewRow = {
+  id: string;
+  taskProfile: string;
+  fixtureId: string;
+  providers: string[];
+  state: typeof riwiProviderExperiments.$inferSelect.state;
+  createdAt: Date;
+  completedAt: Date | null;
+};
+type ProviderExperimentResultViewRow = {
+  providerId: string;
+  model: string | null;
+  state: string;
+  normalizedResult: unknown;
+  durationMs: number;
+  inputTokens: number | null;
+  outputTokens: number | null;
+  estimatedCostMicros: number | null;
+  safeErrorCode: string | null;
+};
+
+function projectProviderExperiment(experiment: ProviderExperimentViewRow, results: ProviderExperimentResultViewRow[]) {
+  const safeResults = results.map((item) => {
+    const parsed = normalizedResultSchema.safeParse(item.normalizedResult);
+    return {
+      ...item,
+      state: item.state.slice(0, 24),
+      normalizedResult: parsed.success ? parsed.data : null,
+    };
+  });
+  const selectedProviders = Array.isArray(experiment.providers) ? experiment.providers.slice(0, RIWI_PROVIDER_LAB_MAX_PROVIDERS) : [];
+  const successful = safeResults.filter((item) => item.state === "succeeded" && item.normalizedResult);
+  const comparison = selectedProviders.length === RIWI_PROVIDER_LAB_MAX_PROVIDERS
+    ? successful.length === RIWI_PROVIDER_LAB_MAX_PROVIDERS
+      ? {
+          method: "normalized_exact_answer_text" as const,
+          status: "compared" as const,
+          providerIds: successful.map((item) => item.providerId),
+          exactAnswerMatch: literalAnswerKey(successful[0]!.normalizedResult!.answer) === literalAnswerKey(successful[1]!.normalizedResult!.answer),
+        }
+      : {
+          method: "normalized_exact_answer_text" as const,
+          status: "not_comparable" as const,
+          providerIds: selectedProviders,
+          exactAnswerMatch: null,
+        }
+    : null;
+  return {
+    ...experiment,
+    providers: selectedProviders,
+    createdAt: experiment.createdAt.toISOString(),
+    completedAt: experiment.completedAt?.toISOString() ?? null,
+    results: safeResults,
+    comparison,
+  };
 }
 
 async function activeOwner(actor: ProviderLabActor, database: typeof db): Promise<boolean> {
@@ -554,52 +611,9 @@ export async function getRiwiProviderExperiment(actor: ProviderLabActor, experim
     durationMs: riwiProviderExperimentResults.durationMs, inputTokens: riwiProviderExperimentResults.inputTokens,
     outputTokens: riwiProviderExperimentResults.outputTokens, estimatedCostMicros: riwiProviderExperimentResults.estimatedCostMicros,
     safeErrorCode: riwiProviderExperimentResults.safeErrorCode,
-  }).from(riwiProviderExperimentResults).where(eq(riwiProviderExperimentResults.experimentId, experiment.id)).orderBy(riwiProviderExperimentResults.createdAt);
-  const safeResults = results.map((item) => {
-    const parsed = normalizedResultSchema.safeParse(item.normalizedResult);
-    return {
-      ...item,
-      state: item.state.slice(0, 24),
-      normalizedResult: parsed.success ? parsed.data : null,
-    };
-  });
-  const selectedProviders = Array.isArray(experiment.providers) ? experiment.providers.slice(0, RIWI_PROVIDER_LAB_MAX_PROVIDERS) : [];
-  const successful = safeResults.filter((item) => item.state === "succeeded" && item.normalizedResult);
-  const comparison = selectedProviders.length === RIWI_PROVIDER_LAB_MAX_PROVIDERS
-    ? successful.length === RIWI_PROVIDER_LAB_MAX_PROVIDERS
-      ? {
-          method: "normalized_exact_answer_text" as const,
-          status: "compared" as const,
-          providerIds: successful.map((item) => item.providerId),
-          exactAnswerMatch: literalAnswerKey(successful[0]!.normalizedResult!.answer) === literalAnswerKey(successful[1]!.normalizedResult!.answer),
-        }
-      : {
-          method: "normalized_exact_answer_text" as const,
-          status: "not_comparable" as const,
-          providerIds: selectedProviders,
-          exactAnswerMatch: null,
-        }
-    : null;
-  return {
-    ...experiment,
-    providers: selectedProviders,
-    createdAt: experiment.createdAt.toISOString(),
-    completedAt: experiment.completedAt?.toISOString() ?? null,
-    results: safeResults,
-    comparison,
-  };
-}
-
-export async function listRiwiProviderExperiments(actor: ProviderLabActor, limit = 20, database: typeof db = db) {
-  if (!(await activeOwner(actor, database)) || !authorizeCapability(actor, "riwi.provider.read_status").allowed) {
-    throw new RiwiProviderLabError("forbidden");
-  }
-  const safeLimit = Math.max(1, Math.min(50, Math.floor(limit) || 20));
-  const rows = await database.select({ id: riwiProviderExperiments.id })
-    .from(riwiProviderExperiments).where(eq(riwiProviderExperiments.actorUserId, actor.id))
-    .orderBy(desc(riwiProviderExperiments.createdAt)).limit(safeLimit);
-  const results = await Promise.all(rows.map((row) => getRiwiProviderExperiment(actor, row.id, database)));
-  return results;
+  }).from(riwiProviderExperimentResults).where(eq(riwiProviderExperimentResults.experimentId, experiment.id))
+    .orderBy(asc(riwiProviderExperimentResults.createdAt), asc(riwiProviderExperimentResults.id));
+  return projectProviderExperiment(experiment, results);
 }
 
 export async function listRiwiProviderExperimentPage(
@@ -619,18 +633,38 @@ export async function listRiwiProviderExperimentPage(
     if (error instanceof RiwiOwnerHistoryCursorError) throw new RiwiProviderLabError("invalid_input");
     throw error;
   }
-  const rows = await database.select({ id: riwiProviderExperiments.id, createdAt: riwiProviderExperiments.createdAt })
-    .from(riwiProviderExperiments).where(and(
-      eq(riwiProviderExperiments.actorUserId, actor.id),
-      after ? or(
-        lt(riwiProviderExperiments.createdAt, after.sortAt),
-        and(eq(riwiProviderExperiments.createdAt, after.sortAt), lt(riwiProviderExperiments.id, after.id)),
-      ) : undefined,
-    ))
+  const rows = await database.select({
+    id: riwiProviderExperiments.id, taskProfile: riwiProviderExperiments.taskProfile,
+    fixtureId: riwiProviderExperiments.fixtureId, providers: riwiProviderExperiments.providers,
+    state: riwiProviderExperiments.state, createdAt: riwiProviderExperiments.createdAt,
+    completedAt: riwiProviderExperiments.completedAt,
+  }).from(riwiProviderExperiments).where(and(
+    eq(riwiProviderExperiments.actorUserId, actor.id),
+    after ? or(
+      lt(riwiProviderExperiments.createdAt, after.sortAt),
+      and(eq(riwiProviderExperiments.createdAt, after.sortAt), lt(riwiProviderExperiments.id, after.id)),
+    ) : undefined,
+  ))
     .orderBy(desc(riwiProviderExperiments.createdAt), desc(riwiProviderExperiments.id)).limit(limit + 1);
   const hasMore = rows.length > limit;
   const selected = rows.slice(0, limit);
-  const experiments = await Promise.all(selected.map((row) => getRiwiProviderExperiment(actor, row.id, database)));
+  const resultRows = selected.length ? await database.select({
+    experimentId: riwiProviderExperimentResults.experimentId,
+    providerId: riwiProviderExperimentResults.providerId, model: riwiProviderExperimentResults.model,
+    state: riwiProviderExperimentResults.state, normalizedResult: riwiProviderExperimentResults.normalizedResult,
+    durationMs: riwiProviderExperimentResults.durationMs, inputTokens: riwiProviderExperimentResults.inputTokens,
+    outputTokens: riwiProviderExperimentResults.outputTokens, estimatedCostMicros: riwiProviderExperimentResults.estimatedCostMicros,
+    safeErrorCode: riwiProviderExperimentResults.safeErrorCode,
+  }).from(riwiProviderExperimentResults)
+    .where(inArray(riwiProviderExperimentResults.experimentId, selected.map((row) => row.id)))
+    .orderBy(asc(riwiProviderExperimentResults.createdAt), asc(riwiProviderExperimentResults.id)) : [];
+  const resultsByExperiment = new Map<string, ProviderExperimentResultViewRow[]>();
+  for (const { experimentId, ...result } of resultRows) {
+    const existing = resultsByExperiment.get(experimentId) ?? [];
+    existing.push(result);
+    resultsByExperiment.set(experimentId, existing);
+  }
+  const experiments = selected.map((row) => projectProviderExperiment(row, resultsByExperiment.get(row.id) ?? []));
   const last = selected.at(-1);
   return {
     experiments,

@@ -85,28 +85,6 @@ export class RiwiAuditError extends Error {
   constructor(public readonly code: "forbidden" | "invalid_input") { super(code); }
 }
 
-/** Owner-only, bounded audit projection. Malformed historical metadata is omitted rather than exposed. */
-export async function listRiwiGovernanceAudit(
-  actor: { id: string; role: Role; accountStatus: AccountStatus },
-  limit = 50,
-  database: Pick<typeof db, "select"> = db,
-) {
-  if (actor.role !== "owner" || !authorizeCapability(actor, "riwi.audit.read_owner").allowed) throw new RiwiAuditError("forbidden");
-  const [subject] = await database.select({ role: users.role, accountStatus: users.accountStatus })
-    .from(users).where(eq(users.id, actor.id)).limit(1);
-  if (subject?.role !== "owner" || subject.accountStatus !== "active") throw new RiwiAuditError("forbidden");
-  const safeLimit = Math.max(1, Math.min(100, Math.floor(limit) || 50));
-  const entries = await database.select({
-    id: auditLog.id, actorUserId: auditLog.actorUserId, action: auditLog.action,
-    targetType: auditLog.targetType, targetId: auditLog.targetId, metadata: auditLog.metadata, createdAt: auditLog.createdAt,
-  }).from(auditLog).where(inArray(auditLog.action, RIWI_AUDIT_ACTIONS))
-    .orderBy(desc(auditLog.createdAt), desc(auditLog.id)).limit(safeLimit);
-  return entries.map((entry) => {
-    const parsed = metadataSchema.safeParse(entry.metadata);
-    return { ...entry, metadata: parsed.success ? parsed.data : null };
-  });
-}
-
 async function requireActiveAuditOwner(
   actor: { id: string; role: Role; accountStatus: AccountStatus },
   database: Pick<typeof db, "select">,

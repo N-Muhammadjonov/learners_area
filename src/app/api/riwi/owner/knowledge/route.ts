@@ -7,6 +7,7 @@ import { ingestUploadedKnowledgeSource } from "@/lib/services/riwi/knowledge-upl
 import {
   KNOWLEDGE_RIGHTS_CLASSES,
   KNOWLEDGE_SOURCE_TYPES,
+  RIWI_KNOWLEDGE_HISTORY_STATES,
   getActiveConflictCount,
   listKnowledgeSourcePage,
   KnowledgeServiceError,
@@ -42,14 +43,19 @@ export async function GET(request: NextRequest) {
   if (limited) return limited;
   const limits = request.nextUrl.searchParams.getAll("limit");
   const cursors = request.nextUrl.searchParams.getAll("cursor");
-  if (limits.length > 1 || cursors.length > 1 || (limits[0] !== undefined && !/^\d{1,3}$/.test(limits[0]))) {
+  const states = request.nextUrl.searchParams.getAll("state");
+  if (
+    limits.length > 1 || cursors.length > 1 || states.length > 1
+    || (limits[0] !== undefined && !/^\d{1,3}$/.test(limits[0]))
+    || (states[0] !== undefined && !(RIWI_KNOWLEDGE_HISTORY_STATES as readonly string[]).includes(states[0]))
+  ) {
     return ownerJson({ error: { code: "riwi_request_invalid" } }, 400);
   }
   try {
     const actor = { id: access.user.id, role: access.user.role, accountStatus: access.user.accountStatus };
     const limit = limits[0] === undefined ? RIWI_OWNER_HISTORY_PAGE_SIZE : Number(limits[0]);
     const [page, openConflicts] = await Promise.all([
-      listKnowledgeSourcePage(actor, { limit, cursor: cursors[0] }), getActiveConflictCount(),
+      listKnowledgeSourcePage(actor, { limit, cursor: cursors[0], state: states[0] }), getActiveConflictCount(),
     ]);
     return ownerJson({ ok: true, ...page, openConflicts });
   } catch (error) {

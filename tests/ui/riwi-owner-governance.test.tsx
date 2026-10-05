@@ -275,3 +275,149 @@ test("owner governance paginates sources, learning signals, and audit with failu
     dom.window.localStorage.clear();
   }
 });
+
+test("learning review history retries without losing the loaded page, prevents concurrent requests, and appends unique reviews", async () => {
+  const originalFetch = globalThis.fetch;
+  const signalId = "33333333-4444-4555-8666-777777777777";
+  const reviewOneId = "11111111-aaaa-4aaa-8aaa-111111111111";
+  const reviewTwoId = "22222222-bbbb-4bbb-8bbb-222222222222";
+  const reviewerId = "99999999-cccc-4ccc-8ccc-999999999999";
+  const timestamp = "2026-10-04T00:00:00.000Z";
+  const signal = {
+    id: signalId, signalType: "manual_qa_finding", state: "candidate", candidateClaim: "Use an article before a singular count noun.",
+    evidenceSummary: "Owner-authored QA note; learner response omitted.", evidenceHash: "b".repeat(64), sourceId: "77777777-8888-4999-8aaa-bbbbbbbbbbbb",
+    providerId: null, model: null, promptVersion: null, rubricVersion: null, actorRole: "owner", scope: "global", createdAt: timestamp,
+  };
+  const signalListItem = {
+    id: signalId, type: "manual_qa_finding", state: "candidate", actorRole: "owner", sourceId: signal.sourceId,
+    providerId: null, model: null, promptVersion: null, rubricVersion: null, evidenceHash: signal.evidenceHash, scope: "global", createdAt: timestamp,
+  };
+  const review = (id: string, reason: string) => ({
+    id, reviewerUserId: reviewerId, decision: "request_changes", reason,
+    regressionFixtureId: null, regressionEvidenceHash: null, regressionPassedAt: null, resultingSourceId: null, createdAt: timestamp,
+  });
+  const firstReview = review(reviewOneId, "Please clarify the example.");
+  const secondReview = review(reviewTwoId, "Keep the explanation concise.");
+  let reviewPageRequests = 0;
+  let releaseFirstPage: ((response: Response) => void) | null = null;
+  globalThis.fetch = (async (url: string | URL | Request) => {
+    const path = String(url);
+    if (path === "/api/riwi/owner/knowledge?limit=25") return json({ ok: true, sources: [], nextCursor: null, openConflicts: 0 });
+    if (path === "/api/riwi/learning-signals?limit=25") return json({ signals: [signalListItem], nextCursor: null });
+    if (path === "/api/riwi/owner/audit?limit=25") return json({ ok: true, entries: [], nextCursor: null });
+    if (path === "/api/riwi/owner/diagnostics") return json(diagnostics);
+    if (path === `/api/riwi/learning-signals/${signalId}`) return json({ signal, reviews: [firstReview], reviewsNextCursor: "review-cursor" });
+    if (path === `/api/riwi/learning-signals/${signalId}?limit=25&cursor=review-cursor`) {
+      reviewPageRequests += 1;
+      if (reviewPageRequests === 1) return new Promise<Response>((resolve) => { releaseFirstPage = resolve; });
+      return json({ signal, reviews: [firstReview, secondReview], reviewsNextCursor: null });
+    }
+    throw new Error(`unexpected request: ${path}`);
+  }) as typeof fetch;
+  const root = createRoot(query("#root"));
+  try {
+    await act(async () => root.render(<OwnerRiwiGovernance locale="en" />));
+    await act(async () => { await new Promise((resolve) => setTimeout(resolve, 0)); });
+    const inspect = [...document.querySelectorAll<HTMLButtonElement>("button")].find((button) => button.textContent?.trim() === "Inspect details");
+    assert.ok(inspect);
+    await act(async () => { inspect.click(); await new Promise((resolve) => setTimeout(resolve, 0)); });
+    assert.equal(document.querySelectorAll(`[data-signal-detail="${signalId}"] article`).length, 1);
+
+    const loadMore = query<HTMLButtonElement>('[data-history-kind="reviews"]');
+    await act(async () => { loadMore.click(); await new Promise((resolve) => setTimeout(resolve, 0)); });
+    assert.equal(reviewPageRequests, 1);
+    assert.equal(loadMore.disabled, true, "the pending review-page control cannot launch a duplicate request");
+    await act(async () => loadMore.click());
+    assert.equal(reviewPageRequests, 1, "a repeated click while a page is pending is ignored");
+    assert.ok(releaseFirstPage);
+    await act(async () => {
+      releaseFirstPage!(json({ error: { code: "riwi_signal_unavailable" } }, 503));
+      await new Promise((resolve) => setTimeout(resolve, 0));
+    });
+    assert.equal(document.querySelectorAll(`[data-signal-detail="${signalId}"] article`).length, 1, "failure preserves loaded review rows");
+    assert.equal(query<HTMLButtonElement>('[data-history-kind="reviews"]').textContent?.trim(), "Retry");
+    assert.ok(document.body.textContent?.includes("The next history page could not be loaded."));
+
+    await act(async () => { query<HTMLButtonElement>('[data-history-kind="reviews"]').click(); await new Promise((resolve) => setTimeout(resolve, 0)); });
+    assert.equal(reviewPageRequests, 2, "retry reuses the unchanged next-page cursor");
+    assert.equal(document.querySelectorAll(`[data-signal-detail="${signalId}"] article`).length, 2,
+      "the overlapping review id is appended only once and the new review is retained");
+    assert.equal(document.querySelector('[data-history-kind="reviews"]'), null, "the final page clears the continuation cursor");
+  } finally {
+    await act(async () => root.unmount());
+    globalThis.fetch = originalFetch;
+    dom.window.localStorage.clear();
+  }
+});
+
+test("changing history state filters replaces loaded pages and requests a fresh filter-bound cursor", async () => {
+  const originalFetch = globalThis.fetch;
+  const requests: string[] = [];
+  const sourceId = "11111111-2222-4333-8444-555555555555";
+  const candidateSourceId = "22222222-3333-4444-8555-666666666666";
+  const activeSourceId = "33333333-4444-4555-8666-777777777777";
+  const timestamp = "2026-10-04T00:00:00.000Z";
+  const source = (id: string, state: string, title: string) => ({
+    id, sourceType: "grammar_material", title, provenance: "Owner-authored filter fixture", rightsClass: "owner_authored",
+    authority: 65, scope: "global", scopeRole: null, scopeUserId: null, supersedesSourceId: null, version: 1, state,
+    unitCount: 0, checksum: "a".repeat(64), sourceChecksum: null, parserVersion: "riwi-text-parser/1",
+    regressionFixtureId: null, regressionEvidenceHash: null, regressionPassedAt: null, createdAt: timestamp, approvedAt: null, activatedAt: null,
+  });
+  const allSources = [source(sourceId, "candidate", "Unfiltered source"), source(activeSourceId, "active", "Active source")];
+  const candidateSource = source(candidateSourceId, "candidate", "Candidate source");
+  const activeSource = source(activeSourceId, "active", "Active source");
+  globalThis.fetch = (async (url: string | URL | Request) => {
+    const path = String(url);
+    requests.push(path);
+    if (path === "/api/riwi/owner/knowledge?limit=25") return json({ ok: true, sources: allSources, nextCursor: "old-unfiltered-cursor", openConflicts: 0 });
+    if (path === "/api/riwi/owner/knowledge?limit=25&state=candidate") return json({ ok: true, sources: [candidateSource], nextCursor: "candidate-cursor", openConflicts: 0 });
+    if (path === "/api/riwi/owner/knowledge?limit=25&state=candidate&cursor=candidate-cursor") {
+      return json({ ok: true, sources: [candidateSource, source("44444444-5555-4666-8777-888888888888", "candidate", "Second candidate")], nextCursor: null, openConflicts: 0 });
+    }
+    if (path === "/api/riwi/owner/knowledge?limit=25&state=active") return json({ ok: true, sources: [activeSource], nextCursor: null, openConflicts: 0 });
+    if (path === "/api/riwi/learning-signals?limit=25") return json({ signals: [], nextCursor: null });
+    if (path === "/api/riwi/owner/audit?limit=25") return json({ ok: true, entries: [], nextCursor: null });
+    if (path === "/api/riwi/owner/diagnostics") return json(diagnostics);
+    throw new Error(`unexpected request: ${path}`);
+  }) as typeof fetch;
+  const root = createRoot(query("#root"));
+  try {
+    await act(async () => root.render(<OwnerRiwiGovernance locale="en" />));
+    await act(async () => { await new Promise((resolve) => setTimeout(resolve, 0)); });
+    assert.equal(document.querySelectorAll('[data-knowledge-state="candidate"]').length, 1);
+    assert.equal(document.querySelectorAll('[data-knowledge-state="active"]').length, 1);
+
+    const filter = query<HTMLSelectElement>('[data-history-filter="sources"]');
+    await act(async () => {
+      filter.value = "candidate";
+      filter.dispatchEvent(new Event("change", { bubbles: true }));
+      await new Promise((resolve) => setTimeout(resolve, 0));
+    });
+    assert.ok(requests.includes("/api/riwi/owner/knowledge?limit=25&state=candidate"));
+    assert.equal(document.querySelectorAll('[data-knowledge-state="candidate"]').length, 1);
+    assert.equal(document.querySelectorAll('[data-knowledge-state="active"]').length, 0, "changing filters replaces rather than appends prior loaded pages");
+
+    await act(async () => {
+      query<HTMLButtonElement>('[data-history-kind="sources"]').click();
+      await new Promise((resolve) => setTimeout(resolve, 0));
+    });
+    assert.ok(requests.includes("/api/riwi/owner/knowledge?limit=25&state=candidate&cursor=candidate-cursor"),
+      "continuation carries the same server filter as its signed cursor");
+    assert.equal(document.querySelectorAll('[data-knowledge-state="candidate"]').length, 2,
+      "overlapping ids in a filtered next page are appended once");
+
+    await act(async () => {
+      filter.value = "active";
+      filter.dispatchEvent(new Event("change", { bubbles: true }));
+      await new Promise((resolve) => setTimeout(resolve, 0));
+    });
+    assert.ok(requests.includes("/api/riwi/owner/knowledge?limit=25&state=active"));
+    assert.ok(!requests.some((path) => path.includes("state=active&cursor=")), "changing filters starts at page one, never reuses the old cursor");
+    assert.equal(document.querySelectorAll('[data-knowledge-state="candidate"]').length, 0);
+    assert.equal(document.querySelectorAll('[data-knowledge-state="active"]').length, 1);
+  } finally {
+    await act(async () => root.unmount());
+    globalThis.fetch = originalFetch;
+    dom.window.localStorage.clear();
+  }
+});

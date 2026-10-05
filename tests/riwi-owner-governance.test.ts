@@ -117,9 +117,13 @@ test("owner history endpoints reauthorize current owner identity and keep diagno
   const diagnosticsRoute = read("src/app/api/riwi/owner/diagnostics/route.ts");
   assert.match(knowledgeRoute, /requireRiwiOwner\(\)/);
   assert.match(knowledgeRoute, /listKnowledgeSourcePage\(/);
+  assert.match(knowledgeRoute, /getAll\("state"\)/);
+  assert.match(knowledgeRoute, /RIWI_KNOWLEDGE_HISTORY_STATES/);
   assert.match(signalRoute, /requireActiveUser\(\)/);
   assert.match(signalRoute, /user\.role !== "owner"/);
   assert.match(signalRoute, /listLearningSignalPage\(/);
+  assert.match(signalRoute, /getAll\("state"\)/);
+  assert.match(signalRoute, /RIWI_LEARNING_SIGNAL_HISTORY_STATES/);
   assert.match(auditRoute, /requireRiwiOwner\(\)/);
   assert.match(auditRoute, /listRiwiGovernanceAuditPage\(/);
   assert.match(providerRoute, /ownerActor\(\)/);

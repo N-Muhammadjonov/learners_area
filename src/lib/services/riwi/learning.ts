@@ -1,6 +1,6 @@
 import "server-only";
 import { createHash } from "node:crypto";
-import { and, asc, desc, eq, isNull, lt, or, sql } from "drizzle-orm";
+import { and, desc, eq, isNull, lt, or, sql } from "drizzle-orm";
 import type { AccountStatus } from "@/lib/auth/account-status";
 import { isOnRoster } from "@/lib/reporter/roster";
 import { db } from "@/db/client";
@@ -31,6 +31,7 @@ const LEARNING_SIGNAL_TYPES: readonly LearningSignalType[] = [
 const PROVIDER_ID = /^[a-z][a-z0-9-]{1,31}$/;
 const VERSION_ID = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,59}$/;
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+export const RIWI_LEARNING_SIGNAL_HISTORY_STATES = ["candidate", "in_review", "accepted", "rejected", "promoted"] as const;
 const SUCCESSFUL_RESPONSE_SOURCES = new Set([
   "canonical_dictionary", "canonical_grammar", "approved_knowledge", "deterministic_learning_data", "deterministic_report", "external_provider",
 ]);
@@ -415,33 +416,23 @@ export async function createKnowledgeCandidateFromLearningSignal(
   return result;
 }
 
-export async function listLearningSignals(actor: { id: string; role: Role; accountStatus: AccountStatus }, limit = 100, database: typeof db = db) {
-  if (actor.role !== "owner" || !authorizeCapability(actor, "riwi.knowledge.review").allowed || !(await isActiveActor(actor, database))) {
-    throw new LearningServiceError("forbidden");
-  }
-  const safeLimit = Math.max(1, Math.min(200, Math.floor(limit) || 100));
-  return database.select({
-    id: riwiLearningSignals.id, type: riwiLearningSignals.signalType, state: riwiLearningSignals.state,
-    actorRole: riwiLearningSignals.actorRole, sourceId: riwiLearningSignals.sourceId, providerId: riwiLearningSignals.providerId,
-    model: riwiLearningSignals.model, promptVersion: riwiLearningSignals.promptVersion,
-    rubricVersion: riwiLearningSignals.rubricVersion, evidenceHash: riwiLearningSignals.evidenceHash,
-    scope: riwiLearningSignals.scope, createdAt: riwiLearningSignals.createdAt,
-  }).from(riwiLearningSignals).orderBy(desc(riwiLearningSignals.createdAt)).limit(safeLimit);
-}
-
 export async function listLearningSignalPage(
   actor: { id: string; role: Role; accountStatus: AccountStatus },
-  options: { cursor?: string | null; limit?: number } = {},
+  options: { cursor?: string | null; limit?: number; state?: string | null } = {},
   database: typeof db = db,
 ) {
   if (actor.role !== "owner" || !authorizeCapability(actor, "riwi.knowledge.review").allowed || !(await isActiveActor(actor, database))) {
     throw new LearningServiceError("forbidden");
   }
+  const stateFilter = options.state ?? null;
+  if (stateFilter !== null && !(RIWI_LEARNING_SIGNAL_HISTORY_STATES as readonly string[]).includes(stateFilter)) {
+    throw new LearningServiceError("invalid_input");
+  }
   let limit: number;
   let after: RiwiOwnerHistoryPosition | null;
   try {
     limit = ownerHistoryPageLimit(options.limit);
-    after = decodeOwnerHistoryCursor(options.cursor, actor, "learning_signals");
+    after = decodeOwnerHistoryCursor(options.cursor, actor, "learning_signals", undefined, stateFilter);
   } catch (error) {
     if (error instanceof RiwiOwnerHistoryCursorError) throw new LearningServiceError("invalid_input");
     throw error;
@@ -452,12 +443,13 @@ export async function listLearningSignalPage(
     model: riwiLearningSignals.model, promptVersion: riwiLearningSignals.promptVersion,
     rubricVersion: riwiLearningSignals.rubricVersion, evidenceHash: riwiLearningSignals.evidenceHash,
     scope: riwiLearningSignals.scope, createdAt: riwiLearningSignals.createdAt,
-  }).from(riwiLearningSignals).where(after
-    ? or(
+  }).from(riwiLearningSignals).where(and(
+    stateFilter ? eq(riwiLearningSignals.state, stateFilter as typeof riwiLearningSignals.$inferSelect.state) : undefined,
+    after ? or(
       lt(riwiLearningSignals.createdAt, after.sortAt),
       and(eq(riwiLearningSignals.createdAt, after.sortAt), lt(riwiLearningSignals.id, after.id)),
-    )
-    : undefined)
+    ) : undefined,
+  ))
     .orderBy(desc(riwiLearningSignals.createdAt), desc(riwiLearningSignals.id)).limit(limit + 1);
   const hasMore = rows.length > limit;
   const items = rows.slice(0, limit);
@@ -465,7 +457,7 @@ export async function listLearningSignalPage(
   return {
     signals: items,
     nextCursor: hasMore && last
-      ? encodeOwnerHistoryCursor({ actor, collection: "learning_signals", after: { sortAt: last.createdAt, id: last.id } })
+      ? encodeOwnerHistoryCursor({ actor, collection: "learning_signals", filter: stateFilter, after: { sortAt: last.createdAt, id: last.id } })
       : null,
   };
 }
@@ -496,16 +488,26 @@ export async function listLearningCandidateForOwner(actor: { id: string; role: R
 }
 
 /** Owner-only immutable review history, including linked regression evidence. */
-export async function listLearningReviewsForOwner(
+export async function listLearningReviewPageForOwner(
   actor: { id: string; role: Role; accountStatus: AccountStatus },
   signalId: string,
+  options: { cursor?: string | null; limit?: number } = {},
   database: typeof db = db,
 ) {
   if (actor.role !== "owner" || !authorizeCapability(actor, "riwi.knowledge.review").allowed || !(await isActiveActor(actor, database))) {
     throw new LearningServiceError("forbidden");
   }
   if (!UUID.test(signalId)) throw new LearningServiceError("invalid_input");
-  return database.select({
+  let limit: number;
+  let after: RiwiOwnerHistoryPosition | null;
+  try {
+    limit = ownerHistoryPageLimit(options.limit);
+    after = decodeOwnerHistoryCursor(options.cursor, actor, "learning_reviews", signalId);
+  } catch (error) {
+    if (error instanceof RiwiOwnerHistoryCursorError) throw new LearningServiceError("invalid_input");
+    throw error;
+  }
+  const rows = await database.select({
     id: riwiLearningReviews.id, reviewerUserId: riwiLearningReviews.reviewerUserId,
     decision: riwiLearningReviews.decision, reason: riwiLearningReviews.reason,
     regressionFixtureId: riwiLearningReviews.regressionFixtureId,
@@ -513,6 +515,23 @@ export async function listLearningReviewsForOwner(
     regressionPassedAt: riwiLearningReviews.regressionPassedAt,
     resultingSourceId: riwiLearningReviews.resultingSourceId,
     createdAt: riwiLearningReviews.createdAt,
-  }).from(riwiLearningReviews).where(eq(riwiLearningReviews.signalId, signalId))
-    .orderBy(asc(riwiLearningReviews.createdAt), asc(riwiLearningReviews.id)).limit(100);
+  }).from(riwiLearningReviews).where(and(
+    eq(riwiLearningReviews.signalId, signalId),
+    after ? or(
+      lt(riwiLearningReviews.createdAt, after.sortAt),
+      and(eq(riwiLearningReviews.createdAt, after.sortAt), lt(riwiLearningReviews.id, after.id)),
+    ) : undefined,
+  )).orderBy(desc(riwiLearningReviews.createdAt), desc(riwiLearningReviews.id)).limit(limit + 1);
+  const hasMore = rows.length > limit;
+  const reviews = rows.slice(0, limit);
+  const last = reviews.at(-1);
+  return {
+    reviews,
+    nextCursor: hasMore && last
+      ? encodeOwnerHistoryCursor({
+        actor, collection: "learning_reviews", scopeId: signalId,
+        after: { sortAt: last.createdAt, id: last.id },
+      })
+      : null,
+  };
 }
