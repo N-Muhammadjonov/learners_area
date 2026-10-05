@@ -3,6 +3,7 @@ import { db } from "@/db/client";
 import {
   materialBlocks,
   resourceBlocks,
+  listeningPackages,
   speakingAttempts,
   speakingMaterials,
   uploadIntents,
@@ -72,6 +73,7 @@ export type CreateIntentResult =
       /** "direct" = browser PUTs to uploadUrl; "proxy" = browser POSTs to /api/uploads. */
       mode: "direct" | "proxy";
       uploadUrl: string | null;
+      fallbackUploadUrl: string | null;
       contentType: string;
       expiresInSeconds: number;
     }
@@ -185,6 +187,7 @@ export async function createUploadIntent(input: CreateIntentInput): Promise<Crea
     objectKey,
     mode: presigned ? "direct" : "proxy",
     uploadUrl: presigned?.uploadUrl ?? null,
+    fallbackUploadUrl: presigned?.fallbackUploadUrl ?? null,
     contentType,
     expiresInSeconds: presigned?.expiresInSeconds ?? UPLOAD_INTENT_TTL_SECONDS,
   };
@@ -540,6 +543,23 @@ export async function authorizeResourceRead(caller: Actor, objectKey: string): P
     return { allowed: true, objectKey, ownerId: material.createdByUserId, materialId };
   }
 
+  // Imported Listening packages predate the universal resource-block mirror in
+  // some deployed databases. The package row is the authoritative owner of its
+  // audio/image object, so those assets must remain readable even when an older
+  // import has no resource_blocks row.
+  const listeningPackage = await db.query.listeningPackages.findFirst({
+    where: or(
+      eq(listeningPackages.audioObjectKey, objectKey),
+      eq(listeningPackages.imageObjectKey, objectKey),
+    ),
+  });
+  if (listeningPackage) {
+    const owner = await loadResourceOwner("listening", listeningPackage.testId);
+    if (!owner) return { allowed: false, reason: "not_found" };
+    if (!mayReadResources(caller.role, owner)) return { allowed: false, reason: "forbidden" };
+    return { allowed: true, objectKey, ownerId: owner.creatorId ?? owner.id, materialId: owner.id };
+  }
+
   // A material attached by the universal composer belongs to a content owner
   // (a passage, a lesson, a live class …). It is readable exactly when that owner
   // is readable: staff always, a student only while the content is live. The
@@ -580,6 +600,10 @@ export async function storedContentType(objectKey: string): Promise<string | nul
     where: eq(speakingMaterials.primaryObjectKey, objectKey),
   });
   if (primary?.primaryMimeType) return primary.primaryMimeType;
+  const intent = await db.query.uploadIntents.findFirst({
+    where: eq(uploadIntents.objectKey, objectKey),
+  });
+  if (intent?.mimeType) return intent.mimeType;
   const attempt = await db.query.speakingAttempts.findFirst({
     where: eq(speakingAttempts.recordingObjectKey, objectKey),
   });
