@@ -57,7 +57,11 @@ export function computeMetrics(target: string[], typedWords: string[], seconds: 
 export function consistencyFromSamples(samples: number[]): number | null {
   if (samples.length < 4) return null;
   const rates: number[] = [];
-  for (let i = 0; i < samples.length; i++) rates.push(((samples[i] - (samples[i - 1] ?? 0)) / 1) * 12);
+  for (let i = 0; i < samples.length; i++) {
+    const current = samples[i]!;
+    const previous = samples[i - 1] ?? 0;
+    rates.push((current - previous) * 12);
+  }
   const mean = rates.reduce((a, b) => a + b, 0) / rates.length;
   if (mean <= 0) return null;
   const sd = Math.sqrt(rates.reduce((a, b) => a + (b - mean) ** 2, 0) / rates.length);
