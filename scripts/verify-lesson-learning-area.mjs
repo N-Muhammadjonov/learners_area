@@ -131,6 +131,21 @@ async function authorLesson(cookie, { sourceRef, slug, title, learningArea, summ
 
 const publish = async (cookie, versionId) => call(`/api/admin/content/versions/${versionId}/publication`, { method: "POST", cookie, body: { to: "published" } });
 
+/**
+ * The desk editor is a CLIENT component: its controls appear once a lesson is selected,
+ * so the controls themselves cannot be asserted from the first HTML response. What the
+ * browser actually receives is the page PLUS the client bundle, so the bundle is what is
+ * searched — and the ROLE decision is asserted from the server-rendered page instead.
+ */
+async function bundleCarries(html, marker) {
+  const chunks = [...new Set([...html.matchAll(/(\/_next\/static\/[^"]+\.js)/g)].map((match) => match[1]))];
+  for (const chunk of chunks.slice(0, 40)) {
+    const served = await call(chunk);
+    if (has(served.text, marker)) return true;
+  }
+  return false;
+}
+
 const { teacher, admin, owner, student } = await fixtureUsers();
 const [ownerCookie, studentCookie, teacherCookie, adminCookie] = await Promise.all([
   cookieFor(owner), cookieFor(student), cookieFor(teacher), cookieFor(admin),
@@ -271,14 +286,16 @@ try {
   /* ------------------------------------------------------------- staff authoring desk */
   const ownerDesk = await call("/app/listening/lessons/author", { cookie: ownerCookie });
   check("F6 the owner opens the lesson authoring desk", has(ownerDesk.text, "data-lesson-authoring-desk"));
-  check("F6 the owner sees the publication controls", has(ownerDesk.text, "data-lesson-authoring-publish"));
-  check("F6 the desk offers the authored learning-area field", has(ownerDesk.text, "data-lesson-authoring-area"));
+  check("F6 the server tells the desk this role may publish", has(ownerDesk.text, 'data-lesson-authoring-can-publish="true"'));
+  check("F6 the served bundle carries the publication control", await bundleCarries(ownerDesk.text, "data-lesson-authoring-publish"));
+  check("F6 the served bundle carries the authored learning-area field", await bundleCarries(ownerDesk.text, "data-lesson-authoring-area"));
 
   const teacherDesk = await call("/app/listening/lessons/author", { cookie: teacherCookie });
   check("F7 the teacher opens the SAME desk (the dead link is fixed)", has(teacherDesk.text, "data-lesson-authoring-desk"));
-  check("F7 the teacher may save drafts", has(teacherDesk.text, "data-lesson-authoring-save"));
-  check("F7 the teacher sees NO publication control", !has(teacherDesk.text, "data-lesson-authoring-publish"));
-  check("F7 and is told why, truthfully", has(teacherDesk.text, "data-lesson-authoring-no-publish"));
+  check("F7 the server tells the desk this role may write drafts, not publish", has(teacherDesk.text, 'data-lesson-authoring-can-publish="false"'));
+  check("F7 the served bundle carries the draft Save the teacher uses", await bundleCarries(teacherDesk.text, "data-lesson-authoring-save"));
+  check("F7 the teacher's page renders NO publication control", !has(teacherDesk.text, "data-lesson-authoring-publish"));
+  check("F7 and is told why, truthfully, before opening a lesson", has(teacherDesk.text, "data-lesson-authoring-no-publish"));
 
   const teacherWorkspace = await call("/app/admin/content/workspace", { cookie: teacherCookie });
   check(

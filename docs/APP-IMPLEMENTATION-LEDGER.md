@@ -17,9 +17,9 @@ committed; the remaining phases are open and are being worked in order.
 | APP-001 | canonical `/app` namespace | **DONE** | `src/app/app/{layout.tsx,(shell),(focus)}`; `/app` **is** the dashboard; every authenticated page is under `/app`; APIs stay at `/api`. `tests/app-namespace.test.ts` (6 tests) |
 | APP-002 | design preserved | **IN PROGRESS** | no token, class or primitive was changed by the move; the shell layout is the same markup, re-parented. Before/after capture is still owed (§65) |
 | APP-003 | performance baseline | **NOT STARTED** | no baseline has been recorded yet; §4/§66 require measurements before any claim |
-| LSN-001 | Listening Lessons | **IN PROGRESS** | `/app/listening/lessons` (library) + `/app/listening/lessons/[lessonId]` (lesson) on the canonical lesson layer, now classified by the AUTHORED learning area (`lessons.learning_area`, migration 0050) through the generic, area-driven reader `src/lib/content/lesson-library.ts`. The media-derived module was DELETED under the semantic-correction directive. The correction is now proven end-to-end (tests L1–L16, migration proofs `docs/MIGRATION-APPROVAL-0050.md`, built-server smoke 41/41); the row stays IN PROGRESS until the owner accepts the corrected contract |
+| LSN-001 | Listening Lessons | **IN PROGRESS** | `/app/listening/lessons` (library) + `/app/listening/lessons/[lessonId]` (lesson) on the canonical lesson layer, now classified by the AUTHORED learning area (`lessons.learning_area`, migration 0050) through the generic, area-driven reader `src/lib/content/lesson-library.ts`. The media-derived module was DELETED under the semantic-correction directive. The correction is now proven end-to-end (tests L1–L16, migration proofs `docs/MIGRATION-APPROVAL-0050.md`, built-server smoke 43/43, and the lesson-authoring safety scenario 62/62 below); the row stays IN PROGRESS until the owner accepts the corrected contract |
 | LSN-002 | Description | **DONE** | the tab reads authored columns only (`lessons.summary` plus the attached media's `before_you_watch`) and says so when they are empty (LL4 + runtime smoke) |
-| LSN-003 | Teacher Notes | **IN PROGRESS** | lesson-level Teacher Notes on `lessons.teacher_notes` (0050), authored through the single content pipeline and carried by the pinned revision; the learner page shows the lesson-level notes with the attached media item's `video_lessons.notes` as a read-time COMPATIBILITY fallback that lesson-level notes always win over. Generic staff authoring and the built-server smoke are now proven (L5–L8, L16; fixtures 4 and 7); the row stays IN PROGRESS until the owner accepts the corrected contract |
+| LSN-003 | Teacher Notes | **IN PROGRESS** | lesson-level Teacher Notes on `lessons.teacher_notes` (0050), authored through the single content pipeline and carried by the pinned revision; the learner page shows the lesson-level notes with the attached media item's `video_lessons.notes` as a read-time COMPATIBILITY fallback that lesson-level notes always win over. Generic staff authoring, the safe editing desk and the built-server smokes are now proven (L5–L8, L16; fixtures 4 and 7; the lesson-authoring safety scenario below); the row stays IN PROGRESS until the owner accepts the corrected contract |
 | LSN-004 | private Student Notes (Xulosangiz) | **DONE** | the third tab on the listening lesson page renders `LessonNotesPanel` with the learner's own note from `lesson_notes` (0049), keyed by the lesson's stable id — there is no second notes system. Runtime: the author sees the note on their own page, the owner sees an empty box for the same lesson |
 | LSN-005 | Academic catalogue | NOT STARTED | legacy library exists at `/app/listening` (`FullListeningLibrary`, `legacyListeningCards`) |
 | LSN-006 | dynamic 5–10 activity hub | **IN PROGRESS** | `src/lib/listening/activities.ts` already derives activities from authored/structural facts (exam, review, script, mcq, matching, completion, retry, vocab) and hides a card when its content is absent — the hub must be driven from it, not from a fixed list |
@@ -162,11 +162,13 @@ Not yet built (Phase C continues): the Listening **Lessons** three-tab surface (
 > | lesson-level Teacher Notes, media-independent, in the pinned revision, lesson-level wins over the media fallback | L5–L8, L16; `tests/content-preview.test.ts` PV7 (and a `{ blocks }`-only pre-0050 revision stays readable, `source: "lesson_row"`) |
 > | a teacher gets exactly the authoring capability, never the admin workspace | L10–L12; `scripts/verify-lesson-learning-area.mjs` (built server: teacher drafts → 201, teacher publishes → 403 `publish_forbidden`, owner publishes → 200, teacher workspace → redirect) |
 > | the dead link is fixed with a staff-safe desk on the SAME authoring services | `/app/listening/lessons/author` → `POST /api/admin/content/drafts` → `saveContentDraft` → the lesson author → `saveLessonStructure` + `pinVersion` |
-> | built-server acceptance, all seven required fixtures, fixtures deleted and cleanup verified | `scripts/verify-lesson-learning-area.mjs` — **41/41** |
+> | built-server acceptance, all seven required fixtures, fixtures deleted and cleanup verified | `scripts/verify-lesson-learning-area.mjs` — **43/43** (the two desk checks moved to what the browser actually receives: the role flag is server-rendered, the editor controls are searched in the served client bundle — see the authoring-safety section below) |
 > | no per-skill lesson table was invented | the extra guard in `tests/listening-lessons.test.ts`; `lessons` remains the single system |
 >
 > LSN-001 and LSN-003 are **IN PROGRESS** (not DONE) until this correction is proven
-> end-to-end; LSN-002/004/019 remain DONE.
+> end-to-end; LSN-002/004/019 remain DONE. The correction IS proven end-to-end (see
+> "Lesson authoring safety" below), and the two rows still wait for the owner's acceptance
+> of the corrected contract, which is a decision this ledger cannot make for them.
 
 | id | requirement | status | evidence |
 | --- | --- | --- | --- |
@@ -177,3 +179,35 @@ Not yet built (Phase C continues): the Listening **Lessons** three-tab surface (
 | LSN-021 | answer keys stay server-side in a listening body | **DONE** | quiz blocks answer through the existing `POST /api/lessons/blocks/:blockId/answer`; `loadLessonForLearner` hands over no key and no explanation until the learner has answered (LL2). `blockId` was added to the resolved block — the learner's own row reference, which carries no answer |
 | LSN-022 | media is served privately or linked to the canonical media surface | **DONE** | block media goes through the authorizing `/api/resources/<objectKey>` route; an attached provider item links to `/app/video-lessons/[id]` instead of a second player. Runtime: with no authorized media origin configured the page shows that link, not an empty player |
 | LSN-023 | page-level `notFound()` under the streaming shell | **documented, not a claim** | the page calls `notFound()` for unknown / non-live / non-listening lessons; because the shell streams, the response is 200 carrying `NEXT_HTTP_ERROR_FALLBACK;404` and the client renders the not-found boundary. This is the app's existing behaviour on every `[id]` route (`/app/reading/attempts/not-a-uuid` behaves the same) — no HTTP 404 is claimed anywhere |
+
+## Lesson authoring safety (owner directive, 2026-10-06 — after the semantic correction)
+
+> **The defect this closes.** The staff authoring desk hydrated itself from the LESSON LIST:
+> selecting a lesson filled in `title`, `slug` and `sourceRef` and left Description, Teacher
+> Notes, estimated minutes and EVERY block empty. Pressing Save then wrote that blank lesson
+> over real content — data loss by design, for the person the centre asks to write lessons.
+>
+> Two more defects sat behind it: a generic `POST /api/admin/content/drafts` accepted every
+> registered `module:contentType` from anyone who passed `isStaff()` (so a teacher held the
+> whole content bank while the desk showed only lesson controls), and editing a live lesson
+> had no revision model — a "draft save" aimed at the published revision would have rewritten
+> what students were reading.
+>
+> | contract | evidence |
+> | --- | --- |
+> | selecting a lesson loads its EDITABLE, bounded staff projection — every field, every block in order, with media metadata and the quiz key — never the learner HTML, never a title guess, never five unrelated APIs | `GET /api/admin/content/lessons/:id/edit` → `src/lib/content/lesson-edit.ts` (`loadLessonEditModel`); `tests/lesson-authoring-revision.test.ts` E1–E4; built-server H |
+> | the LIST stays a list: no blocks in the library query, DETAIL is its own request | E5 (source guard on the staff reader + the desk's GET), built-server H |
+> | changing ONE field keeps everything else, block rows included | E6, built-server S (title, slug, reference, unit, area, description, minutes and every block compared field by field) |
+> | a published revision is immutable; editing a live lesson starts a DRAFT that copies it | `startLessonRevision` (`POST /api/admin/content/lessons/:id/revision`, idempotent); R1–R2, built-server R (v1 byte-for-byte unchanged, same `sourceRef`, same lesson id) |
+> | students keep reading the published revision while a draft is edited, and the live row is not touched | R3, R6, built-server S (learner page still serves v1; the row only moves on publication) |
+> | publication is what reaches students; the superseded revision stays readable | `publishContentVersion` materializes the row in the same transaction; R4, R7, built-server P |
+> | saving continues the SAME editable draft instead of piling up v3, v4, v5 | `pinVersion({ updateVersionId })` — honoured only for the newest, still-editable draft; S (three saves → exactly two revisions) |
+> | ONE explicit capability decision: a teacher authors `lesson:lesson` (plus the three the repository already proves), an administrator/owner the registered set, a student nothing | `src/lib/content/authoring-capabilities.ts` + `authoring-access.ts`; A1–A7; built-server C (teacher 403 on `mock:full_mock` and `writing:prompt`, capability keys reported per role) |
+> | every failure is a sentence attached to a field — no stack trace, no SQL, no internal code, no file name | the lesson payload's own messages + the `authoringIssues` dictionary; N4, built-server E |
+> | no new migration: hydration, authorization and revisioning needed no column | N1 (0050 is still the newest; 51 shipped migrations) |
+> | Xulosangiz is untouched by revisioning: never versioned, never visible to staff, survives v1 → v2 | R5, built-server X |
+> | the human scenario (§36) performed on the BUILT server: open an existing lesson, see exactly what is inside it, change ONE thing, save, and be confident nothing else was erased | `scripts/verify-lesson-authoring-safety.mjs` — **62/62**, fixtures deleted and cleanup verified |
+
+| id | requirement | status | evidence |
+| --- | --- | --- | --- |
+| LSN-024 | **Safe lesson authoring**: an author opens an existing lesson, sees its whole editable content, changes one thing and saves it without erasing anything; a live lesson is revised, never overwritten | **DONE** | `tests/lesson-authoring-revision.test.ts` E1–E6, R1–R7, A1–A7, N1–N4 (24 tests, real PostgreSQL); built-server human scenario `scripts/verify-lesson-authoring-safety.mjs` **62/62** (hydration, revision, single-field save, publication, Xulosangiz, capability boundary, honest errors, cleanup verified); the earlier acceptance re-run at **43/43**. Gates on this tree: `tsc` 0 · lint clean · build 120/120 · `npm test` 1303 tests / 0 fail · `test:ui` 242/242 · `qa:pg` 51/51 · migration proofs 25/25 + 3/3 unchanged |

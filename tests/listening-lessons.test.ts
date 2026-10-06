@@ -52,10 +52,54 @@ const ownerActor: AuthoringActor = { id: "", role: "owner", mayPublish: true };
 
 /**
  * Source-scan guards match CODE, not prose: a doc comment that names the admin
- * workspace must not be mistaken for the page reaching into it.
+ * workspace must not be mistaken for the page reaching into it. The stripper is
+ * string-aware, because `"audio/*"` inside an `accept` attribute is not a comment —
+ * a naive strip swallows the rest of the file and the guard quietly stops guarding.
+ */
+/**
+ * Source-scan guards match CODE, not prose, and must not be fooled by a STRING that
+ * looks like a comment: `"audio/*"` is an `accept` attribute, not the start of a
+ * block comment. A naive strip would swallow everything after it — which is exactly
+ * how a guard silently stops guarding.
  */
 function code(source: string): string {
-  return source.replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "");
+  let out = "";
+  let i = 0;
+  while (i < source.length) {
+    const two = source.slice(i, i + 2);
+    if (two === "/*") {
+      const end = source.indexOf("*/", i + 2);
+      i = end === -1 ? source.length : end + 2;
+      continue;
+    }
+    if (two === "//") {
+      const end = source.indexOf("\n", i);
+      i = end === -1 ? source.length : end;
+      continue;
+    }
+    const char = source[i]!;
+    if (char === '"' || char === "'" || char === "`") {
+      out += char;
+      i += 1;
+      while (i < source.length) {
+        if (source[i] === "\\") {
+          out += source.slice(i, i + 2);
+          i += 2;
+          continue;
+        }
+        out += source[i];
+        if (source[i] === char) {
+          i += 1;
+          break;
+        }
+        i += 1;
+      }
+      continue;
+    }
+    out += char;
+    i += 1;
+  }
+  return out;
 }
 
 async function fixture() {
@@ -450,7 +494,10 @@ test("L10 a teacher gets exactly the lesson-authoring capability, through the sa
   // workspace uses, which is what makes two authoring surfaces one set of rules.
   const desk = readFileSync(DESK, "utf8");
   assert.match(desk, /"\/api\/admin\/content\/drafts"/);
-  assert.match(desk, /\/api\/admin\/content\/versions\/\$\{savedVersionId\}\/publication/);
+  // Publication acts on the revision being EDITED, never on the published one — and the
+  // desk cannot even name a published revision here: the id comes from the draft.
+  assert.match(desk, /\/api\/admin\/content\/versions\/\$\{versionId\}\/publication/);
+  assert.match(desk, /const versionId = editableDraft\?\.versionId \?\? null;/, "the publication target is the editable draft");
   assert.match(desk, /module: "lesson"/);
   assert.match(desk, /contentType: "lesson"/);
   // Both learning-area choices come from the one vocabulary, and the field is authored.
