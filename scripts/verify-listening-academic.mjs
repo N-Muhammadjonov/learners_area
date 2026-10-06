@@ -59,7 +59,26 @@ async function cookieFor(user) {
     .setIssuedAt()
     .setExpirationTime("1h")
     .sign(new TextEncoder().encode(SECRET));
-  return `la_session=${token}`;
+  // The app's own locale cookie: without it the interface is Uzbek by default, and an
+  // assertion written in English would be testing the wrong dictionary.
+  return `la_session=${token}; la_locale=en`;
+}
+
+/**
+ * The ids of the activity CARDS a hub rendered, in order. Structural markers cannot be
+ * confused with shell navigation, which is where a whole-page text search goes wrong.
+ */
+function cardIds(html) {
+  return [...html.matchAll(/data-listening-academic-activity="([a-z0-9]+)"/g)].map((match) => match[1]);
+}
+
+/** One card's markup, so a label is checked inside the card rather than anywhere on screen. */
+function cardSlice(html, id) {
+  const marker = `data-listening-academic-activity="${id}"`;
+  const at = html.indexOf(marker);
+  if (at < 0) return null;
+  const next = html.indexOf("data-listening-academic-activity=", at + marker.length);
+  return html.slice(at, next < 0 ? html.length : next);
 }
 
 async function get(path, cookie) {
@@ -114,7 +133,7 @@ function packageFor(kind) {
 async function createTest(payload, { sourceRef, state, ownerId, sourceId }) {
   const [test] = await q(
     `insert into listening_tests (title, audio_type, source_ref, publication_state, created_by_user_id, publish_at)
-     values ($1, 'audio', $2, $3, $4, case when $3 = 'published' then now() else null end) returning id`,
+     values ($1, 'audio', $2, $3::publication_state, $4, case when $3::text = 'published' then now() else null end) returning id`,
     [payload.title, sourceRef, state, ownerId],
   );
   await q(
@@ -133,11 +152,22 @@ async function createTest(payload, { sourceRef, state, ownerId, sourceId }) {
 }
 
 const created = [];
+let cookie = "";
 try {
   const [student] = await q(`select id, role, name from users where email = $1`, [STUDENT]);
   const [owner] = await q(`select id, role, name from users where email = $1`, [OWNER]);
   if (!student || !owner) throw new Error("QA2 fixtures are missing the owner/student users");
-  const cookie = await cookieFor(student);
+  cookie = await cookieFor(student);
+
+  // Idempotent on re-run: any fixture a previous, interrupted run left behind is removed
+  // before this one starts, so the acceptance can be executed twice in a row.
+  const stale = await q(`select id from listening_tests where source_ref like 'qa2-academic-%'`);
+  if (stale.length) {
+    const ids = stale.map((row) => row.id);
+    await q(`delete from listening_attempts where test_id = any($1::uuid[])`, [ids]);
+    await q(`delete from listening_mcq_sessions where test_id = any($1::uuid[])`, [ids]).catch(() => {});
+    await q(`delete from listening_tests where id = any($1::uuid[])`, [ids]);
+  }
 
   const rich = packageFor("rich");
   const completion = packageFor("completion");
@@ -165,29 +195,35 @@ try {
   /* --------------------------------------------------------------------- hubs */
   const hubRich = await get(`/app/listening/academic/${richId}`, cookie);
   check("H1 the rich test's hub renders", hubRich.status === 200, `status ${hubRich.status}`);
-  for (const [needle, name] of [
-    ["MCQ Mastery", "MCQ Mastery"],
-    ["Matching Mastery", "Matching Mastery"],
-    ["Form &amp; Note Completion", "Form & Note Completion"],
-    ["Script Completion", "Script Completion"],
-    ["Vocabulary", "Vocabulary & Collocations"],
+  check(
+    "H1b the rich hub offers exactly the activities this test supports",
+    cardIds(hubRich.text).join(",") === "exam,script,mcq,matching,completion,vocab",
+    `cards: ${cardIds(hubRich.text).join(",")}`,
+  );
+  for (const [id, label, name] of [
+    ["exam", "Full IELTS Test", "Full IELTS Test"],
+    ["script", "Script Completion", "Script Completion"],
+    ["mcq", "MCQ Mastery", "MCQ Mastery"],
+    ["matching", "Matching Mastery", "Matching Mastery"],
+    ["completion", "Form &amp; Note Completion", "Form & Note Completion"],
+    ["vocab", "Vocabulary &amp; Collocations", "Vocabulary &amp; Collocations"],
   ]) {
-    check(`H1b the rich hub offers ${name}`, hubRich.text.includes(needle), `${name} missing`);
+    check(`H1c the ${name} card is titled truthfully`, (cardSlice(hubRich.text, id) ?? "").includes(label), `${name} label missing`);
   }
-  check("H1c no Retry card before the learner has an attempt", !hubRich.text.includes("Retry Weak Areas"), "Retry appeared with no prior attempt");
-  check("H1d no Review card before the learner has a result", !hubRich.text.includes("Review by Part"), "Review appeared with no submitted attempt");
+  check("H1d no Retry card before the learner has an attempt", cardSlice(hubRich.text, "retry") === null, "Retry appeared with no prior attempt");
+  check("H1e no Review card before the learner has a result", cardSlice(hubRich.text, "review") === null, "Review appeared with no submitted attempt");
   check("H4 no answer key reaches the hub", !hubRich.text.includes(SECRET_KEY), "a correct answer leaked to the learner surface");
 
   const hubCompletion = await get(`/app/listening/academic/${completionId}`, cookie);
   check("H2 the completion-only hub renders", hubCompletion.status === 200, `status ${hubCompletion.status}`);
-  check("H2b it offers Form & Note Completion", hubCompletion.text.includes("Form &amp; Note Completion"));
-  for (const [needle, name] of [
-    ["MCQ Mastery", "MCQ Mastery"],
-    ["Matching Mastery", "Matching Mastery"],
-    ["Script Completion", "Script Completion"],
-    ["Vocabulary", "Vocabulary"],
-  ]) {
-    check(`H2c it does NOT offer ${name}`, !hubCompletion.text.includes(needle), `${name} was faked for a test that has none`);
+  check(
+    "H2b the completion-only hub offers exactly what that test supports",
+    cardIds(hubCompletion.text).join(",") === "exam,completion",
+    `cards: ${cardIds(hubCompletion.text).join(",")}`,
+  );
+  check("H2c the Completion card is titled truthfully", (cardSlice(hubCompletion.text, "completion") ?? "").includes("Form &amp; Note Completion"));
+  for (const [id, name] of [["mcq", "MCQ Mastery"], ["matching", "Matching Mastery"], ["script", "Script Completion"], ["vocab", "Vocabulary"]]) {
+    check(`H2d it does NOT offer ${name}`, cardSlice(hubCompletion.text, id) === null, `${name} was faked for a test that has none`);
   }
 
   /* ------------------------------------------- a real attempt changes the hub, truthfully */
@@ -205,11 +241,13 @@ try {
     );
   }
   const hubAfter = await get(`/app/listening/academic/${richId}`, cookie);
-  check("H3 a submitted result turns Review on", hubAfter.text.includes("Review by Part"), "Review missing after a submitted attempt");
-  check("H3b a real mistake turns Retry Weak Areas on", hubAfter.text.includes("Retry Weak Areas"), "Retry missing after a real wrong answer");
-  check("H3c the hub states the learner's real exam result", /Exam result: 1 \/ 3/.test(hubAfter.text), "the exam result is not shown");
+  check("H3 a submitted result turns Review on", cardSlice(hubAfter.text, "review") !== null, "Review missing after a submitted attempt");
+  check("H3b a real mistake turns Retry Weak Areas on", cardSlice(hubAfter.text, "retry") !== null, "Retry missing after a real wrong answer");
+  check("H3c the Review card is titled truthfully", (cardSlice(hubAfter.text, "review") ?? "").includes("Review by Part"));
+  check("H3d the hub states the learner's real exam result", /Exam result: 1 \/ 3/.test(hubAfter.text), "the exam result is not shown");
+  check("H3e the completed exam card says so", (cardSlice(hubAfter.text, "exam") ?? "").includes("Completed"));
   check("H4b the hub still carries no answer key", !hubAfter.text.includes(SECRET_KEY));
-  check("H3d the catalogue now reflects this learner's progress", (await get("/app/listening/academic", cookie)).text.includes("activities completed"));
+  check("H3f the catalogue now reflects this learner's progress", /\d+ \/ \d+ activities completed/.test((await get("/app/listening/academic", cookie)).text));
 
   /* --------------------------------------------------------- nothing leaks for a learner */
   const draftHub = await get(`/app/listening/academic/${draftId}`, cookie);
@@ -221,14 +259,18 @@ try {
   check("H5d a malformed id answers with the not-found boundary", unknownHub.text.includes("NEXT_HTTP_ERROR_FALLBACK") || unknownHub.status === 404);
 } finally {
   /* ---------------------------------------------------------------- cleanup verified */
+  // `listening_attempts` references the test without a cascade, so the learner's own rows are
+  // removed first (their answers cascade); then the test takes its package and questions with it.
+  await q(`delete from listening_attempts where test_id = any($1::uuid[])`, [created]);
+  await q(`delete from listening_mcq_sessions where test_id = any($1::uuid[])`, [created]).catch(() => {});
   for (const id of created) await q(`delete from listening_tests where id = $1`, [id]);
-  const remaining = await q(`select count(*)::int as count from listening_tests where id = any($1::uuid[])`, [created]);
+  const remaining = await q(`select count(*)::int as count from listening_tests where source_ref like 'qa2-academic-%'`);
   const orphans = await q(`select count(*)::int as count from listening_packages where test_id = any($1::uuid[])`, [created]);
   const questions = await q(`select count(*)::int as count from listening_questions where test_id = any($1::uuid[])`, [created]);
   const attempts = await q(`select count(*)::int as count from listening_attempts where test_id = any($1::uuid[])`, [created]);
   check("Z1 every fixture is deleted", Number(remaining[0].count) === 0, `${remaining[0].count} rows remain`);
   check("Z2 no package, question or attempt is left behind", Number(orphans[0].count) + Number(questions[0].count) + Number(attempts[0].count) === 0);
-  const after = await get("/app/listening/academic", await cookieFor((await q(`select id, role, name from users where email = $1`, [STUDENT]))[0]));
+  const after = await get("/app/listening/academic", cookie);
   check("Z3 the catalogue is clean again", !after.text.includes("Academic rich fixture") && !after.text.includes("Academic completion fixture"));
   await db.end();
 }
