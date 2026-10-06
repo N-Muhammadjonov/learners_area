@@ -212,6 +212,11 @@ Not yet built (Phase C continues): the Listening **Lessons** three-tab surface (
 > | no new migration | 0050 is still the newest; 51 shipped migrations (gate: `migrations ok: 51 / 51`) |
 > | the human scenario was performed on the BUILT server against the isolated QA2 database | `scripts/verify-listening-academic.mjs` — **39/39**, twice in a row (catalogue truth, two different hubs, learner gating, key secrecy, refusals, cleanup) |
 >
+> Deployment note (recorded because it cost a deploy): a commit must be authored with the
+> repository's configured, GitHub-linked identity. A commit from an unlinked address is refused by
+> the platform with `GitHub couldn't verify an account for the commit` and nothing is deployed, so
+> the release evidence never comes from such a commit.
+>
 > Gates on the frozen tree (`cb47cd3`): unit **1309 tests / 1213 pass / 0 fail / 96 skipped** (owner assets:
 > the Listening source ZIP and the frozen dictionary catalogue), ui **247/247/0/0**, real-PG **1309 / 1305 pass /
 > 0 fail / 4 skipped** (the same two owner assets), `qa:pg` migrations 51/51 + owner/student fixtures,
