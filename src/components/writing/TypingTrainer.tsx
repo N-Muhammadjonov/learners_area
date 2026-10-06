@@ -438,6 +438,10 @@ export function TypingTrainer({
   };
 
   const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (pausedAtPerf.current !== null) {
+      event.preventDefault();
+      return;
+    }
     const currentText = textRef.current;
     const current = typed.current;
     if (
@@ -617,14 +621,14 @@ export function TypingTrainer({
               {mmss(remaining)}
             </span>
           )}
-          {preset === 0 && phase === "running" && (
+          {preset === 0 && (phase === "ready" || phase === "running") && (
             <button
               type="button"
               className={`typing-pause-orb ${paused ? "is-paused" : ""}`}
               aria-label={paused ? t.resume : t.pause}
               title={paused ? t.resume : t.pause}
               onClick={() => void toggleFullPause()}
-              disabled={pauseBusy}
+              disabled={pauseBusy || phase !== "running"}
               data-typing-full-pause
             >
               <IconPauseOrb paused={paused} />
