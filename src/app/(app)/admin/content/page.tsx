@@ -103,6 +103,19 @@ export default async function AdminContentPage() {
       <h1 className="font-display text-2xl text-ink-900">{dict.nav.contentLibrary}</h1>
       <p className="body-text">{dict.admin.contentLibraryHint}</p>
 
+      {/* The authoring workspace: the bank, the revisions, the preview and the
+          publication workflow in one place, over the same services as the
+          per-module surfaces below. */}
+      <Card className="flex flex-col gap-2" data-content-workspace-link>
+        <h2 className="card-title">{dict.admin.contentWorkspace.title}</h2>
+        <p className="meta-text">{dict.admin.contentWorkspace.hint}</p>
+        <div>
+          <Link href="/admin/content/workspace" className="btn-primary" data-content-workspace-open>
+            {dict.admin.contentLibraryOpen}
+          </Link>
+        </div>
+      </Card>
+
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {sections.map((section) => (
           <Card key={section.key} className="flex flex-col gap-2">
