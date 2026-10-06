@@ -128,7 +128,7 @@ export function TypingTrainer({
   const [result, setResult] = useState<RunResult | null>(null);
   const [graph, setGraph] = useState<Graph | null>(null);
   const [focused, setFocused] = useState(true);
-  const [windowStart, setVisibleStart] = useState(0);
+  const [windowStart, setWindowStart] = useState(0);
   const [history, setHistory] = useState(initialHistory);
   const [summary, setSummary] = useState(initialSummary);
   const [, rerender] = useReducer((value: number) => value + 1, 0);
@@ -198,7 +198,7 @@ export function TypingTrainer({
       stackRef.current.style.transition = "none";
       stackRef.current.style.transform = "translateY(0)";
     }
-    setVisibleStart(0);
+    setWindowStart(0);
     setResult(null);
     setGraph(null);
     setRemaining(nextPreset === 0 ? 0 : nextPreset);
