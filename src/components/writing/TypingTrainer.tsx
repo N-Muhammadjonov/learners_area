@@ -255,7 +255,7 @@ export function TypingTrainer({
     void load({ textId: textRef.current?.id }, value);
   };
 
-  const words = text?.words ?? [];
+  const words = useMemo(() => text?.words ?? [], [text]);
   const measureChildren = useMemo(
     () => words.map((word, index) => <Fragment key={index}><span>{word}</span>{" "}</Fragment>),
     [words],
