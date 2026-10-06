@@ -231,3 +231,50 @@ test("0038 and 0039 Preview closure approval is hash-pinned and additive", () =>
     /destructive SQL/,
   );
 });
+
+// ---- integration registration (CONTROLLED CONTENT-OS -> INTEGRATION review, 2026-10-06) ----
+test("real journal: the frozen Preview state (through 0039) leaves exactly 0040-0048 pending, all registered and hash-pinned", () => {
+  const realJournal = JSON.parse(readFileSync("drizzle/meta/_journal.json", "utf8")) as { entries: { tag: string; when: number }[] };
+  const readSql = (tag: string) => readFileSync(`drizzle/${tag}.sql`, "utf8");
+  const hash = (tag: string) => createHash("sha256").update(readSql(tag)).digest("hex");
+  const through0039 = realJournal.entries.filter((e) => e.tag <= "0039_academic_reading_sets").map((e) => hash(e.tag));
+
+  // Every entry is ordered and unique: a duplicated ordinal must never reach this planner.
+  const tags = realJournal.entries.map((e) => e.tag);
+  assert.deepEqual(tags, [...new Set(tags)], "journal tags must be unique");
+  assert.deepEqual(tags, [...tags].sort(), "journal tags must be ordered");
+
+  const frozenPreview = plan(realJournal, through0039, readSql);
+  assert.deepEqual(frozenPreview.problems, []);
+  assert.deepEqual(
+    frozenPreview.pending,
+    ["0040_content_imports", "0041_content_versions", "0042_mock_composition", "0043_authoring_identity",
+      "0044_lesson_blocks", "0045_media_lessons", "0046_vocabulary_topic_packs", "0047_assignments_canonical",
+      "0048_typing_trainer"],
+  );
+
+  // Fully applied: pending nothing, problems none — the planner is a no-op on a current DB.
+  const current = plan(realJournal, tags.map(hash), readSql);
+  assert.deepEqual(current.pending, []);
+  assert.deepEqual(current.problems, []);
+
+  // A reviewed migration that changed after review is refused, not silently applied.
+  assert.match(
+    plan(realJournal, through0039, (t: string) => t === "0048_typing_trainer" ? readSql(t) + "\n-- changed" : readSql(t)).problems.join(),
+    /0048_typing_trainer SQL differs from the reviewed integration hash/,
+  );
+  // The single reviewed widening exception is bound to the pinned SQL and covers one
+  // statement: a narrower (lossy) type change can never ride on it.
+  const widening = mig.REVIEWED_SAFE_STATEMENTS["0043_authoring_identity"] ?? [];
+  assert.equal(widening.length, 1);
+  assert.doesNotMatch('ALTER TABLE "reading_questions" ALTER COLUMN "type_code" TYPE varchar(4);', widening[0]!);
+  assert.match(
+    plan(realJournal, through0039, (t: string) => t === "0043_authoring_identity"
+      ? readSql(t).replace('ALTER COLUMN "type_code" TYPE varchar(40);', 'ALTER COLUMN "type_code" TYPE varchar(4);')
+      : readSql(t)).problems.join(),
+    /0043_authoring_identity SQL differs from the reviewed integration hash/,
+  );
+
+  // An unreviewed pending migration is still refused.
+  assert.match(plan({ entries: [{ tag: "0099_unreviewed", when: 1 }] }, [], () => "create table x();").problems.join(), /0099_unreviewed is not approved/);
+});

@@ -64,6 +64,14 @@ export function plan(
   readSql: (tag: string) => string,
 ): PreviewQaPlan;
 
+export const ALLOWED_PENDING: string[];
+
+/** Hash-pinned SQL for the reviewed integration migrations (0040-0048). */
+export const APPROVED_INTEGRATION_SHA256: Record<string, string>;
+
+/** Named review exceptions for destructive-looking but provably safe statements. */
+export const REVIEWED_SAFE_STATEMENTS: Record<string, RegExp[]>;
+
 export const VERIFY: PreviewQaVerification[];
 
 /**
