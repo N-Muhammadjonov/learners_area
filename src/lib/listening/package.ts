@@ -1,8 +1,25 @@
 import { z } from "zod";
 import { mapDiagramSchema } from "./map-diagram";
 
+/**
+ * The Listening domain schema.
+ *
+ * `listeningPackageSchema` is the CANONICAL Listening content shape and the
+ * single authority for Listening semantics: question numbering, section
+ * membership, evidence bounds, paired answers, clip ranges and asset paths. The
+ * canonical import framework (`src/lib/import/listening`) reuses these exact
+ * leaf schemas and this exact semantic pass — there is no second Listening
+ * schema to drift from this one.
+ *
+ * Levels of meaning:
+ *   • a leaf schema  = the field's own shape
+ *   • `listeningPackageSchema` = structure + `listeningDomainIssues` (semantics)
+ *   • the import envelope = identity, provenance, publication, assets
+ */
+
 const text = z.string().trim().min(1).max(12000);
-const clip = z.object({
+
+export const listeningClipSchema = z.object({
   q: z.number().int().min(1).max(200),
   part: z.number().int().min(1).max(4).optional(),
   sourceQuestion: z.number().int().min(1).max(40).optional(),
@@ -11,25 +28,141 @@ const clip = z.object({
   heard: text,
   link: text,
 });
-const quiz = z
+export type ListeningClip = z.infer<typeof listeningClipSchema>;
+
+export const listeningQuizSchema = z
   .object({
     q: text,
     options: z.array(text).min(2).max(8),
     correct: z.number().int().nonnegative(),
   })
   .refine((v) => v.correct < v.options.length, "Invalid quiz key");
+
+export const listeningStudyPackSchema = z.object({
+  kind: z.literal("research-practice"),
+  activities: z.array(z.enum(["exam", "review", "script", "mcq", "recall", "vocab", "matching", "completion", "retry"])).min(1).max(9).optional(),
+  partRanges: z.record(z.tuple([z.number().nonnegative(), z.number().positive()])),
+  scriptParts: z.array(z.object({part:z.number().int().min(1).max(4),transcript:text,gaps:z.array(z.object({q:z.number().int().min(1).max(200),match:text,answer:text})).max(200)})).max(4).optional(),
+  recall: z.array(z.object({ part: z.number().int().min(1).max(4), title: text, points: z.array(text).min(1).max(20) })).max(4).default([]),
+});
+export type ListeningStudyPack = z.infer<typeof listeningStudyPackSchema>;
+
+export const listeningSectionSchema = z.object({
+  number: z.number().int().min(1).max(4),
+  title: text,
+  transcript: z.string().max(100000).default(""),
+  reviewRequired: z.boolean().default(false),
+});
+export type ListeningSection = z.infer<typeof listeningSectionSchema>;
+
+export const listeningQuestionSchema = z.object({
+  number: z.number().int().min(1).max(40),
+  section: z.number().int().min(1).max(4),
+  text,
+  instruction: z.string().max(2000),
+  kind: z.enum(["completion", "mcq", "matching"]).optional(),
+  options: z.array(z.string().max(2000)).max(12),
+  key: text,
+  alternatives: z.array(z.string().max(500)).max(20),
+  pair: z.array(z.number().int().min(1).max(40)).max(2),
+  evidence: z.object({ at: z.number().nonnegative(), end: z.number().positive().optional(), why: z.string().max(12000) }),
+});
+export type ListeningQuestion = z.infer<typeof listeningQuestionSchema>;
+
+export const listeningKeyword2RowSchema = listeningClipSchema
+  .extend({
+    options: z.array(text).min(2).max(8),
+    correct: z.number().int().nonnegative(),
+  })
+  .or(listeningClipSchema.extend({ answer: text }));
+export type ListeningKeyword2Row = z.infer<typeof listeningKeyword2RowSchema>;
+
+export const listeningVocabularyEntrySchema = z.object({
+  word: z.string().min(1).max(120),
+  pos: z.string().max(30),
+  uz: z.string().max(500),
+  def: z.string().min(1).max(500),
+  ex: z.string().max(500),
+  also: z.array(z.string().max(120)).max(20),
+  quiz: listeningQuizSchema.optional(),
+});
+export type ListeningVocabularyEntry = z.infer<typeof listeningVocabularyEntrySchema>;
+
+export const listeningAuthoredRuntimeSchema = z.object({
+  entryPath: z.string().max(200),
+  files: z.record(z.string().max(5 * 1024 * 1024)),
+});
+export type ListeningAuthoredRuntime = z.infer<typeof listeningAuthoredRuntimeSchema>;
+
+/** Structural view the semantic pass needs; both schemas below satisfy it. */
+export type ListeningDomainCheck = {
+  audio: { path?: string | undefined; durationSec: number };
+  imagePath?: string | null | undefined;
+  sections: ListeningSection[];
+  questions: ListeningQuestion[];
+  keyword1: ListeningClip[];
+  keyword2: ListeningKeyword2Row[];
+  studyPack?: ListeningStudyPack | undefined;
+  authoredRuntime?: ListeningAuthoredRuntime | undefined;
+};
+
+/**
+ * Level-2 Listening semantics. Shared verbatim by the stored package schema and
+ * the canonical import package, so an import that would be rejected by the
+ * runtime cannot pass the importer either.
+ */
+export function listeningDomainIssues(v: ListeningDomainCheck, ctx: z.RefinementCtx) {
+  const fail = (message: string) => ctx.addIssue({ code: "custom", message });
+  if (!v.questions.length && !v.authoredRuntime) fail("Missing questions");
+  if (v.authoredRuntime && (!safePackagePath(v.authoredRuntime.entryPath) || !v.authoredRuntime.files[v.authoredRuntime.entryPath] || Object.keys(v.authoredRuntime.files).some(path => !safePackagePath(path) || !/\.(html?|css|js)$/i.test(path)) || JSON.stringify(v.authoredRuntime.files).length > 6 * 1024 * 1024)) fail("Invalid authored runtime");
+  if (v.studyPack) {
+    if (new Set(v.studyPack.recall.map(row => row.part)).size !== v.studyPack.recall.length) fail("Duplicate recall Part");
+    for (const [part, range] of Object.entries(v.studyPack.partRanges))
+      if (!v.sections.some(section => String(section.number) === part) || range[1] <= range[0] || range[1] > v.audio.durationSec + 1) fail("Part range outside audio");
+    for (const row of v.studyPack.recall)
+      if (!v.studyPack.partRanges[String(row.part)]) fail("Recall Part has no audio range");
+  }
+  if (new Set(v.sections.map((s) => s.number)).size !== v.sections.length)
+    fail("Duplicate section");
+  if (new Set(v.questions.map((q) => q.number)).size !== v.questions.length)
+    fail("Duplicate question number");
+  for (const q of v.questions) {
+    if (!v.sections.some((section) => section.number === q.section))
+      fail(`Q${q.number}: wrong section`);
+    if (q.evidence.at >= v.audio.durationSec)
+      fail(`Q${q.number}: evidence outside audio`);
+    for (const n of q.pair)
+      if (
+        n === q.number ||
+        !v.questions.some((x) => x.number === n && x.pair.includes(q.number))
+      )
+        fail("Invalid answer pair");
+  }
+  for (const rows of [v.keyword1, v.keyword2]) {
+    if (new Set(rows.map((x) => x.q)).size !== rows.length)
+      fail("Duplicate keyword question");
+    for (const row of rows)
+      if (row.end <= row.at || row.end > v.audio.durationSec)
+        fail("Clip outside audio");
+  }
+  for (const row of v.keyword2)
+    if ("correct" in row && row.correct >= row.options.length) fail("Invalid Keyword II key");
+  for (const path of [v.audio.path, v.imagePath].filter(Boolean) as string[])
+    if (!safePackagePath(path)) fail("Unsafe asset path");
+}
+
 export const listeningPackageSchema = z
   .object({
     schemaVersion: z.literal(1),
     /** Owner runtime is JSON data only; execution is restricted by authored-sandbox.ts. */
-    authoredRuntime: z.object({ entryPath: z.string().max(200), files: z.record(z.string().max(5 * 1024 * 1024)) }).optional(),
-    studyPack: z.object({
-      kind: z.literal("research-practice"),
-      activities: z.array(z.enum(["exam", "review", "script", "mcq", "recall", "vocab", "matching", "completion", "retry"])).min(1).max(9).optional(),
-      partRanges: z.record(z.tuple([z.number().nonnegative(), z.number().positive()])),
-      scriptParts: z.array(z.object({part:z.number().int().min(1).max(4),transcript:text,gaps:z.array(z.object({q:z.number().int().min(1).max(200),match:text,answer:text})).max(200)})).max(4).optional(),
-      recall: z.array(z.object({ part: z.number().int().min(1).max(4), title: text, points: z.array(text).min(1).max(20) })).max(4).default([]),
-    }).optional(),
+    authoredRuntime: listeningAuthoredRuntimeSchema.optional(),
+    /**
+     * Explicit legacy marker. Never inferred from a title or a filename: a new
+     * canonical import leaves it unset, a converted/retained legacy runtime sets
+     * it to true so the library and the migration report can count it.
+     */
+    legacyRuntime: z.boolean().optional(),
+    studyPack: listeningStudyPackSchema.optional(),
     collection: z.enum(["essential", "academic", "general", "question_types", "mcq"]).optional(),
     testId: z.string().regex(/^[a-z0-9-]{1,80}$/),
     title: z.string().trim().min(1).max(200),
@@ -41,97 +174,15 @@ export const listeningPackageSchema = z
     }),
     imagePath: z.string().max(200).nullable(),
     mapDiagram: mapDiagramSchema.optional(),
-    sections: z
-      .array(
-        z.object({
-          number: z.number().int().min(1).max(4),
-          title: text,
-          transcript: z.string().max(100000).default(""),
-          reviewRequired: z.boolean().default(false),
-        }),
-      )
-      .min(1).max(4),
-    questions: z
-      .array(
-        z.object({
-          number: z.number().int().min(1).max(40),
-          section: z.number().int().min(1).max(4),
-          text,
-          instruction: z.string().max(2000),
-          kind: z.enum(["completion", "mcq", "matching"]).optional(),
-          options: z.array(z.string().max(2000)).max(12),
-          key: text,
-          alternatives: z.array(z.string().max(500)).max(20),
-          pair: z.array(z.number().int().min(1).max(40)).max(2),
-          evidence: z.object({ at: z.number().nonnegative(), end: z.number().positive().optional(), why: z.string().max(12000) }),
-        }),
-      )
-      .min(0).max(40),
-    keyword1: z.array(clip.extend({ text })).min(0).max(200),
-    keyword2: z
-      .array(
-        clip.extend({
-          options: z.array(text).min(2).max(8),
-          correct: z.number().int().nonnegative(),
-        }).or(clip.extend({ answer: text })),
-      )
-      .min(0)
-      .max(40),
-    vocabulary: z
-      .array(
-        z.object({
-          word: z.string().min(1).max(120),
-          pos: z.string().max(30),
-          uz: z.string().max(500),
-          def: z.string().min(1).max(500),
-          ex: z.string().max(500),
-          also: z.array(z.string().max(120)).max(20),
-          quiz: quiz.optional(),
-        }),
-      )
-      .min(0)
-      .max(40),
+    sections: z.array(listeningSectionSchema).min(1).max(4),
+    questions: z.array(listeningQuestionSchema).min(0).max(40),
+    keyword1: z.array(listeningClipSchema.extend({ text })).min(0).max(200),
+    keyword2: z.array(listeningKeyword2RowSchema).min(0).max(40),
+    vocabulary: z.array(listeningVocabularyEntrySchema).min(0).max(40),
   })
-  .superRefine((v, ctx) => {
-    const fail = (message: string) => ctx.addIssue({ code: "custom", message });
-    if (!v.questions.length && !v.authoredRuntime) fail("Missing questions");
-    if (v.authoredRuntime && (!safePackagePath(v.authoredRuntime.entryPath) || !v.authoredRuntime.files[v.authoredRuntime.entryPath] || Object.keys(v.authoredRuntime.files).some(path => !safePackagePath(path) || !/\.(html?|css|js)$/i.test(path)) || JSON.stringify(v.authoredRuntime.files).length > 6 * 1024 * 1024)) fail("Invalid authored runtime");
-    if (v.studyPack) {
-      if (new Set(v.studyPack.recall.map(row => row.part)).size !== v.studyPack.recall.length) fail("Duplicate recall Part");
-      for (const [part, range] of Object.entries(v.studyPack.partRanges))
-        if (!v.sections.some(section => String(section.number) === part) || range[1] <= range[0] || range[1] > v.audio.durationSec + 1) fail("Part range outside audio");
-      for (const row of v.studyPack.recall)
-        if (!v.studyPack.partRanges[String(row.part)]) fail("Recall Part has no audio range");
-    }
-    if (new Set(v.sections.map((s) => s.number)).size !== v.sections.length)
-      fail("Duplicate section");
-    if (new Set(v.questions.map((q) => q.number)).size !== v.questions.length)
-      fail("Duplicate question number");
-    for (const q of v.questions) {
-      if (!v.sections.some((section) => section.number === q.section))
-        fail(`Q${q.number}: wrong section`);
-      if (q.evidence.at >= v.audio.durationSec)
-        fail(`Q${q.number}: evidence outside audio`);
-      for (const n of q.pair)
-        if (
-          n === q.number ||
-          !v.questions.some((x) => x.number === n && x.pair.includes(q.number))
-        )
-          fail("Invalid answer pair");
-    }
-    for (const rows of [v.keyword1, v.keyword2]) {
-      if (new Set(rows.map((x) => x.q)).size !== rows.length)
-        fail("Duplicate keyword question");
-      for (const row of rows)
-        if (row.end <= row.at || row.end > v.audio.durationSec)
-          fail("Clip outside audio");
-    }
-    for (const row of v.keyword2)
-      if ("correct" in row && row.correct >= row.options.length) fail("Invalid Keyword II key");
-    for (const path of [v.audio.path, v.imagePath].filter(Boolean) as string[])
-      if (!safePackagePath(path)) fail("Unsafe asset path");
-  });
+  .superRefine(listeningDomainIssues);
 export type ListeningPackage = z.infer<typeof listeningPackageSchema>;
+
 export const ACTIVITY_NAMES = [
   "Full Exam",
   "Review & Revision",

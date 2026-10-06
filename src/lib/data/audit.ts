@@ -36,7 +36,15 @@ export type AuditAction =
   | "report.generated"
   | "report.downloaded"
   | "roster.assigned"
-  | "roster.unassigned";
+  | "roster.unassigned"
+  // Structured content import lifecycle (src/lib/import). Never a payload, only
+  // module/type/version/source identity, hash, actor and result.
+  | "content.import.validated"
+  | "content.import.created"
+  | "content.import.updated"
+  | "content.import.rejected"
+  | "content.import.legacy_converted"
+  | "content.published";
 
 export async function recordAudit(input: {
   actorUserId: string | null;

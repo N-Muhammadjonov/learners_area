@@ -281,6 +281,13 @@
       "when": 1791900000000,
       "tag": "0039_academic_reading_sets",
       "breakpoints": true
+    },
+    {
+      "idx": 40,
+      "version": "7",
+      "when": 1792000000000,
+      "tag": "0040_content_imports",
+      "breakpoints": true
     }
   ]
 }

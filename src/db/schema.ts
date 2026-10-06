@@ -1378,12 +1378,22 @@ export const problemReports = pgTable("problem_reports", {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
+/**
+ * A MOCK is an orchestration object (Master Prompt 2 §12).
+ *
+ * It owns NO educational content: `mock_sections` references canonical content at
+ * an exact version. The assessment policy that used to be scattered across React
+ * lives here — timing, navigation, score conversion — so a refresh cannot reset a
+ * formal exam and two mocks can be compared honestly.
+ */
 export const mockTests = pgTable("mock_tests", {
   id: uuid("id").defaultRandom().primaryKey(),
   courseId: uuid("course_id").notNull().references(() => courses.id, { onDelete: "cascade" }),
   title: varchar("title", { length: 200 }).notNull(),
   skill: varchar("skill", { length: 20 }).notNull(), // listening | reading | writing | speaking | full
 });
+
+
 
 export const mockAttempts = pgTable("mock_attempts", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -1982,6 +1992,12 @@ export const listeningPackages = pgTable("listening_packages", {
   audioObjectKey: text("audio_object_key").notNull(),
   imageObjectKey: text("image_object_key"),
   sourceHash: varchar("source_hash", { length: 64 }).notNull(),
+  /**
+   * Explicit legacy marker (never inferred from a title or a filename). True
+   * only for material that still runs uploaded HTML/CSS/JS in the sandboxed
+   * authored frame; a canonical native import is always false.
+   */
+  legacyRuntime: boolean("legacy_runtime").notNull().default(false),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 export const listeningActivityRuns = pgTable("listening_activity_runs", {
@@ -2243,3 +2259,66 @@ export const userProfilePhotos = pgTable("user_profile_photos", {
   contentType: varchar("content_type", { length: 30 }).notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });
+
+/* ----------------------------------------------------------------------------
+ * 0040 Structured content imports — the canonical ingestion record.
+ *
+ * One row per import/rejection for every module (module + contentType +
+ * schemaVersion), carrying the truthful provenance, the canonical content hash,
+ * the content version and the actor. Canonical domain truth stays in each
+ * module's own relational tables; this table only answers "what was imported,
+ * from where, by whom, at which version, and what happened".
+ * ------------------------------------------------------------------------- */
+export const contentImportStatusEnum = pgEnum("content_import_status", [
+  "validated",
+  "created",
+  "updated",
+  "unchanged",
+  "rejected",
+  "converted",
+]);
+
+/* --------------------------------------------------------------------------
+ * Content versions — one immutable row per accepted content revision.
+ *
+ * Why a separate table instead of a version column on each domain table: the
+ * version must be referenced by compositions (mocks, assignments) and by
+ * attempts, across modules, without each domain table growing its own history
+ * table. `(module, content_type, source_ref, version_no)` is the identity; the
+ * row is never updated except to move `status` forward.
+ * -------------------------------------------------------------------------- */
+
+export const contentImports = pgTable(
+  "content_imports",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    module: varchar("module", { length: 20 }).notNull(),
+    contentType: varchar("content_type", { length: 40 }).notNull(),
+    schemaVersion: integer("schema_version").notNull(),
+    /** Version of the importer code that wrote this row. */
+    importVersion: integer("import_version").notNull().default(1),
+    sourceRef: varchar("source_ref", { length: 80 }).notNull(),
+    /** SHA-256 of the normalized educational payload, never of the raw request. */
+    contentHash: varchar("content_hash", { length: 64 }).notNull(),
+    /** 1 for the first row of a sourceRef, +1 for every accepted change. */
+    contentVersion: integer("content_version").notNull().default(1),
+    status: contentImportStatusEnum("status").notNull(),
+    targetType: varchar("target_type", { length: 40 }).notNull(),
+    targetId: uuid("target_id"),
+    actorUserId: uuid("actor_user_id").references(() => users.id, { onDelete: "set null" }),
+    originalFilename: varchar("original_filename", { length: 255 }),
+    legacyRuntime: boolean("legacy_runtime").notNull().default(false),
+    /** Verified objects claimed by this import: key, role, object key, MIME, size. */
+    assets: jsonb("assets").$type<{ key: string; role: string; objectKey: string; mimeType: string; size: number }[]>(),
+    /** Truthful provenance record (see src/lib/import/core/provenance.ts). */
+    provenance: jsonb("provenance").$type<Record<string, unknown>>(),
+    /** Safe, small result summary — never raw transcripts or signed URLs. */
+    result: jsonb("result").$type<Record<string, unknown>>(),
+    note: text("note"),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    index("content_imports_source_idx").on(table.module, table.contentType, table.sourceRef),
+    index("content_imports_created_idx").on(table.createdAt),
+  ],
+);
