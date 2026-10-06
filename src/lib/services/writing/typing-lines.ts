@@ -1,9 +1,6 @@
-export interface LineRange { start: number; end: number }
+export interface LineRange { start: number; end: number } // word indexes, end exclusive
 
-/**
- * Group already-rendered word spans by their real visual line.
- * The caller passes offsetTop for every word; no character-count guessing.
- */
+/** tops[i] = offsetTop of word i in a measured, really-wrapped layout. */
 export function groupTypingLines(tops: number[]): LineRange[] {
   const lines: LineRange[] = [];
   if (tops.length === 0) return lines;
@@ -16,3 +13,25 @@ export function groupTypingLines(tops: number[]): LineRange[] {
   }
   return lines;
 }
+
+/** Alias matching the uploaded ready-code naming. */
+export const groupLines = groupTypingLines;
+
+export type TypingRowRole = "out" | "clear" | "dim" | "buffer";
+
+/**
+ * Uploaded ready-code window:
+ * a-1 is clipped above, a/a+1 are clear, a+2 is dim, a+3 is the lower buffer.
+ * Only three rows are visible because the stack is translated up one line.
+ */
+export function windowRows(a: number): { row: number; role: TypingRowRole }[] {
+  return [
+    { row: a - 1, role: "out" },
+    { row: a, role: "clear" },
+    { row: a + 1, role: "clear" },
+    { row: a + 2, role: "dim" },
+    { row: a + 3, role: "buffer" },
+  ];
+}
+
+export const VISIBLE_ROWS = 3;
