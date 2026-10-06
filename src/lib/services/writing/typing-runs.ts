@@ -540,9 +540,9 @@ export async function typingStats(userId: string, database: Database = db) {
         title: writingModelTexts.title,
       })
       .from(typingRunTexts)
+      .innerJoin(typingRuns, eq(typingRuns.id, typingRunTexts.runId))
       .leftJoin(writingModelTexts, eq(writingModelTexts.id, typingRunTexts.modelTextId))
-      .where(eq(typingRuns.userId, userId))
-      .leftJoin(typingRuns, eq(typingRuns.id, typingRunTexts.runId)),
+      .where(eq(typingRuns.userId, userId)),
   ]);
 
   const eventByRun = new Map<string, Record<string, unknown>>();
