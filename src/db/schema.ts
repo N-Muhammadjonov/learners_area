@@ -2209,7 +2209,7 @@ export const typingTexts = pgTable("typing_texts", {
   difficulty: varchar("difficulty", { length: 20 }),
   topic: varchar("topic", { length: 160 }),
   provenance: varchar("provenance", { length: 200 }).notNull(),
-  publicationState: publicationStateEnum("publication_state").notNull().default("published"),
+  publicationState: publicationStateEnum("publication_state").notNull().default("draft"),
   publishAt: timestamp("publish_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
