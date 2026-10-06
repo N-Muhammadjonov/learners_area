@@ -127,6 +127,7 @@ export function TypingTrainer({
   const [result, setResult] = useState<RunResult | null>(null);
   const [graph, setGraph] = useState<Graph | null>(null);
   const [focused, setFocused] = useState(true);
+  const [visibleStart, setVisibleStart] = useState(0);
   const [history, setHistory] = useState(initialHistory);
   const [summary, setSummary] = useState(initialSummary);
   const [, rerender] = useReducer((value: number) => value + 1, 0);
@@ -143,7 +144,7 @@ export function TypingTrainer({
   const errorSeconds = useRef<number[]>([]);
   const finishing = useRef(false);
   const loadSequence = useRef(0);
-  const previousLine = useRef(0);
+  const lineTransitionTimer = useRef<number | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
   const measureRef = useRef<HTMLDivElement>(null);
@@ -181,7 +182,15 @@ export function TypingTrainer({
     typed.current = { committed: [], buffer: "" };
     samples.current = [];
     errorSeconds.current = [];
-    previousLine.current = 0;
+    if (lineTransitionTimer.current !== null) {
+      window.clearTimeout(lineTransitionTimer.current);
+      lineTransitionTimer.current = null;
+    }
+    if (stackRef.current) {
+      stackRef.current.style.transition = "none";
+      stackRef.current.style.transform = "translateY(0)";
+    }
+    setVisibleStart(0);
     setResult(null);
     setGraph(null);
     setRemaining(nextPreset === 0 ? 0 : nextPreset);
@@ -209,6 +218,10 @@ export function TypingTrainer({
     return () => {
       loadSequence.current += 1;
       stopTimer();
+      if (lineTransitionTimer.current !== null) {
+        window.clearTimeout(lineTransitionTimer.current);
+        lineTransitionTimer.current = null;
+      }
     };
   }, [load, stopTimer]);
 
@@ -324,9 +337,14 @@ export function TypingTrainer({
     if (phaseRef.current !== "ready") return;
     setPhaseSafe("running");
     startedAt.current = performance.now();
-    runPromise.current = postJson<{ runToken: string }>("/api/writing/typing/start", {
+    runPromise.current = postJson<{ runToken: string; startedAt: number }>("/api/writing/typing/start", {
       token: prepToken.current,
-    }).then((response) => response.ok ? response.data.runToken : null);
+    }).then((response) => {
+      if (!response.ok) return null;
+      const serverElapsed = Math.max(0, Date.now() - response.data.startedAt);
+      startedAt.current = performance.now() - serverElapsed;
+      return response.data.runToken;
+    });
     timer.current = window.setInterval(tick, 200);
   };
 
@@ -393,42 +411,47 @@ export function TypingTrainer({
   const wordIndex = typed.current.committed.length;
   let activeLine = ranges.findIndex((line) => wordIndex >= line.start && wordIndex < line.end);
   if (activeLine < 0) activeLine = Math.max(0, ranges.length - 1);
-  const activeRange = ranges[activeLine];
-  const fraction = activeRange
-    ? Math.max(0, Math.min(1, (wordIndex - activeRange.start) / Math.max(1, activeRange.end - activeRange.start)))
-    : 0;
-  // Four rows stay in the DOM, but the first screen starts with three real
-  // visible lines exactly like the supplied trainer/PDF. After line 1, the
-  // previous line becomes row 1 and the fourth line is the fade-in buffer.
-  const rollingLineIndexes =
-    activeLine === 0
-      ? [0, 1, 2, 3]
-      : [activeLine - 1, activeLine, activeLine + 1, activeLine + 2];
+
+  // Exactly three lines are visible. A fourth line stays just below the clipped
+  // stage. Only when the learner finishes the current visual line does the
+  // entire stack move up one row: 2→1, 3→2, 4→3.
+  const rollingLineIndexes = [
+    visibleStart,
+    visibleStart + 1,
+    visibleStart + 2,
+    visibleStart + 3,
+  ];
 
   useLayoutEffect(() => {
     const element = stackRef.current;
-    if (!element) {
-      previousLine.current = activeLine;
+    if (!element || activeLine <= visibleStart || lineTransitionTimer.current !== null) return;
+    const lineHeight = (element.firstElementChild as HTMLElement | null)?.offsetHeight ?? 0;
+    if (!lineHeight) {
+      setVisibleStart(activeLine);
       return;
     }
-    const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-    if (activeLine === previousLine.current + 1 && !reduced) {
-      const lineHeight = (element.firstElementChild as HTMLElement | null)?.offsetHeight ?? 0;
-      element.style.transition = "none";
-      element.style.transform = `translateY(${lineHeight}px)`;
-      void element.offsetHeight;
-      element.style.transition = "transform 200ms cubic-bezier(.2,.7,.2,1)";
-      element.style.transform = "translateY(0)";
-    }
-    previousLine.current = activeLine;
-  }, [activeLine]);
 
-  const renderWord = (
-    index: number,
-    offset: number,
-    lineLength: number,
-    role: "top" | "middle" | "bottom",
-  ) => {
+    const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) {
+      setVisibleStart(activeLine);
+      return;
+    }
+
+    element.style.transition = "transform 200ms cubic-bezier(.2,.7,.2,1)";
+    element.style.transform = `translateY(-${lineHeight}px)`;
+    lineTransitionTimer.current = window.setTimeout(() => {
+      element.style.transition = "none";
+      element.style.transform = "translateY(0)";
+      setVisibleStart(activeLine);
+      lineTransitionTimer.current = null;
+    }, 200);
+
+    return () => {
+      // Keep the in-flight transition alive across the activeLine render.
+    };
+  }, [activeLine, visibleStart]);
+
+  const renderWord = (index: number) => {
     const target = words[index] ?? "";
     const current = typed.current;
     const value =
@@ -438,15 +461,9 @@ export function TypingTrainer({
           ? current.buffer
           : undefined;
     const isCurrent = index === wordIndex;
-    const crossed = Math.round(fraction * lineLength);
-    const className = [
-      "typing-word",
-      role === "top" && offset < crossed ? "typing-word-hide" : "",
-      role === "bottom" && offset < crossed ? "typing-word-show" : "",
-    ].filter(Boolean).join(" ");
 
     return (
-      <span key={index} className={className}>
+      <span key={index} className="typing-word">
         {target.split("").map((character, charIndex) => {
           let state = "typing-char-future";
           if (value !== undefined) {
@@ -510,17 +527,29 @@ export function TypingTrainer({
             </button>
           ))}
         </div>
-        <button
-          type="button"
-          className="typing-icon-button"
-          aria-label={t.next}
-          title={t.next}
-          disabled={busy}
-          onClick={next}
-          data-typing-next
-        >
-          <IconNext />
-        </button>
+        <div className="typing-toolbar-actions">
+          {(phase === "ready" || phase === "running") && (
+            <span
+              className={`typing-time ${preset > 0 && remaining <= 10 && phase === "running" ? "typing-time-warning" : ""}`}
+              role="timer"
+              aria-label={preset === 0 ? t.time : t.remaining}
+              data-typing-timer
+            >
+              {mmss(remaining)}
+            </span>
+          )}
+          <button
+            type="button"
+            className="typing-icon-button"
+            aria-label={t.next}
+            title={t.next}
+            disabled={busy}
+            onClick={next}
+            data-typing-next
+          >
+            <IconNext />
+          </button>
+        </div>
       </div>
 
       {phase !== "result" && phase !== "error" ? (
@@ -539,16 +568,12 @@ export function TypingTrainer({
             </div>
             <div className="typing-stage typing-font" aria-hidden="true">
               <div className="typing-stack" ref={stackRef}>
-                {rollingLineIndexes.map((lineIndex, row) => {
+                {rollingLineIndexes.map((lineIndex) => {
                   const line = ranges[lineIndex];
-                  const role =
-                    activeLine === 0
-                      ? row === 3 ? "bottom" : "middle"
-                      : row === 0 ? "top" : row === 3 ? "bottom" : "middle";
                   return (
-                    <div key={lineIndex} className={`typing-row typing-row-${role}`}>
+                    <div key={lineIndex} className="typing-row">
                       {line && words.slice(line.start, line.end).map((_, offset) =>
-                        renderWord(line.start + offset, offset, line.end - line.start, role)
+                        renderWord(line.start + offset)
                       )}
                     </div>
                   );
@@ -584,15 +609,6 @@ export function TypingTrainer({
                phase === "ready" ? t.typeHint :
                phase === "saving" ? t.saving : ""}
             </span>
-            {(phase === "ready" || phase === "running") && (
-              <span
-                className={`typing-time ${preset > 0 && remaining <= 10 && phase === "running" ? "typing-time-warning" : ""}`}
-                role="timer"
-                aria-label={preset === 0 ? t.time : t.remaining}
-              >
-                {mmss(remaining)}
-              </span>
-            )}
           </div>
         </>
       ) : phase === "result" && result && graph ? (
