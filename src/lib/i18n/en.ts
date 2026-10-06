@@ -1820,6 +1820,12 @@ const en = {
     assignmentPromptHint: "With a prompt attached, the assignment is evaluated with the writing rubric. Without one, it is evaluated as a free-form response and never given a band.",
     assignmentCreated: "Assignment created",
     assignmentFailed: "Could not create the assignment.",
+    assignmentCanonical: "Canonical content",
+    assignmentNoCanonical: "Free-form response (no canonical content)",
+    assignmentCanonicalHint: "Choosing canonical content pins the exact published revision the student will open. Only content that can actually be opened is offered.",
+    assignmentLoadingContent: "Loading content…",
+    assignmentNoContent: "No published content is available to assign yet.",
+    assignmentInstructions: "Instructions the student sees",
   },
   admin: {
     usersTitle: "Users",

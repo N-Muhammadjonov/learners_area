@@ -1821,6 +1821,12 @@ const uz: Dictionary = {
     assignmentPromptHint: "Mavzu biriktirilsa, topshiriq Writing mezoni bilan baholanadi. Biriktirilmasa, erkin javob sifatida baholanadi va hech qachon band berilmaydi.",
     assignmentCreated: "Topshiriq yaratildi",
     assignmentFailed: "Topshiriqni yaratib bo'lmadi.",
+    assignmentCanonical: "Kanontik kontent",
+    assignmentNoCanonical: "Erkin javob (kanonik kontent biriktirilmagan)",
+    assignmentCanonicalHint: "Kanontik kontent tanlansa, talaba ochadigan aniq nashr (revision) qotib qoladi. Faqat haqiqatan ochiladigan kontent taklif qilinadi.",
+    assignmentLoadingContent: "Kontent yuklanmoqda…",
+    assignmentNoContent: "Hozircha biriktirish uchun nashr etilgan kontent yo'q.",
+    assignmentInstructions: "Talaba ko'radigan ko'rsatmalar",
   },
   admin: {
     usersTitle: "Foydalanuvchilar",
