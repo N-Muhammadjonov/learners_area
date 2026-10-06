@@ -54,6 +54,46 @@ test("TY1 dedicated B1/B2 corpus ships all 30 owner-supplied passages", async ()
   }
 });
 
+test("TY1b pre-0040 Preview falls back to the exact bundled corpus instead of showing an error", async () => {
+  const { t, db, userId } = await setup();
+  try {
+    await t.query('alter table typing_run_texts drop constraint if exists typing_run_texts_one_target_chk');
+    await t.query('alter table typing_run_texts drop constraint if exists typing_run_texts_preset_seconds_chk');
+    await t.query('alter table typing_run_texts drop column if exists typing_text_id');
+    await t.query('drop table if exists typing_texts');
+    await t.query('alter table typing_runs drop column if exists run_token_id');
+    await t.query('alter table typing_runs drop column if exists raw_wpm');
+    await t.query('alter table typing_runs drop column if exists consistency');
+    await t.query('alter table typing_runs drop column if exists chars_correct');
+    await t.query('alter table typing_runs drop column if exists chars_incorrect');
+    await t.query('alter table typing_runs drop column if exists chars_extra');
+    await t.query('alter table typing_runs drop column if exists chars_missed');
+    await t.query('alter table typing_runs drop column if exists started_at');
+    await t.query('alter table typing_runs drop column if exists finished_at');
+
+    const texts = await listTypingTexts(db);
+    assert.equal(texts.length, 30);
+    assert.equal(texts[0]!.externalId, "la-typing-b1b2-01");
+
+    const prepared = (await prepareTypingRun(userId, { preset: 30 }, { database: db, now: () => 1_800_100_000_000 }))!;
+    assert.ok(prepared);
+    const runToken = (await startPreparedTypingRun(userId, prepared.token, () => 1_800_100_000_100))!;
+    const result = await finishPreparedTypingRun(
+      userId,
+      { runToken, typedWords: [...prepared.text.words.slice(0, 6), ""], samples: [4, 8, 12, 16] },
+      { database: db, now: () => 1_800_100_030_100 },
+    );
+    assert.ok(result.ok, JSON.stringify(result));
+
+    const stats = await typingStats(userId, db);
+    assert.equal(stats.count, 1);
+    assert.equal(stats.history.length, 1);
+    assert.equal(stats.history[0]!.title, prepared.text.title);
+  } finally {
+    await t.close();
+  }
+});
+
 test("TY2 prepare supports 30/60/120/180/Full and Repeat/Next preserve corpus identity", async () => {
   const { t, db, userId } = await setup();
   try {
