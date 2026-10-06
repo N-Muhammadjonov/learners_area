@@ -99,7 +99,7 @@ test("TY13 EN/UZ include all new preset and result labels without Uzbek Cyrillic
   const { default: uz } = await import("../src/lib/i18n/uz");
   const keys = [
     "duration", "s30", "m1", "m2", "m3", "presetFull", "remaining",
-    "repeat", "next", "rawWpm", "characters", "consistency", "graph",
+    "repeat", "next", "pause", "resume", "rawWpm", "characters", "consistency", "graph",
   ] as const;
   for (const key of keys) {
     assert.ok(en.writingWorkspace.typing[key], key);
