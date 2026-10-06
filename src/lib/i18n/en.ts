@@ -900,6 +900,49 @@ const en = {
     openLink: "Open link",
   },
   listening: {
+    /**
+     * Listening → Lessons: canonical Content OS lessons that carry listening
+     * material. The three learner-facing controls are Description, Teacher Notes and
+     * the learner's own private Xulosangiz — see src/lib/listening/lessons.ts.
+     */
+    lessons: {
+      title: "Listening lessons",
+      subtitle: "Lessons the centre has authored, with the listening material first and the centre's notes beside them.",
+      open: "Open the lesson",
+      minutes: "min",
+      backToList: "All listening lessons",
+      source: {
+        audio_block: "Lesson audio",
+        audio_reference: "Linked audio lesson",
+        attached_media: "Attached audio lesson",
+      },
+      hasTeacherNotes: "Has teacher notes",
+      emptyTitle: "No listening lesson has been published yet.",
+      emptyHint: "Nothing is shown here until the centre authors and publishes a listening lesson — there are no sample lessons on this page.",
+      authoringPath: "Author a lesson",
+      bodyTitle: "Lesson",
+      bodyEmpty: "This lesson has no written body yet.",
+      audioSource: "Audio for this lesson is served privately, to signed-in learners only.",
+      download: "Download the attachment",
+      referencedContent: "Referenced content",
+      openMediaLibrary: "Open the media library",
+      tabs: {
+        description: "Description",
+        teacherNotes: "Teacher notes",
+        xulosangiz: "Xulosangiz",
+      },
+      descriptionEmpty: "The centre has not written a description for this lesson yet.",
+      descriptionMinutes: "{n} minutes of study",
+      teacherNotesEmpty: "The centre has not published teacher notes for this lesson yet.",
+      teacherNotesHint: "Notes the centre wrote for this lesson. They are the same for every learner.",
+      xulosangizHint: "Only you can read this. It is never shown to a teacher, and it is never counted as progress.",
+      checkAnswer: "Check answer",
+      answerCorrect: "Correct.",
+      answerIncorrect: "Not quite — try again.",
+      answerFailed: "The answer could not be checked. Nothing was lost — try again.",
+      duration: "Duration",
+      mediaKind: { audio: "Audio lesson", video: "Video lesson" },
+    },
     emptyTitle: "No listening tests are available yet.",
     emptyHint: "The centre has not published a test yet. You can return to your earlier attempts.",
     manageContent: "Manage listening tests",

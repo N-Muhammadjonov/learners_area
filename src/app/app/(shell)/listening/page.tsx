@@ -81,9 +81,14 @@ export default async function ListeningPage({
     >
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="font-display text-2xl text-ink-900">🎧 Listening</h1>
-        <Link href="/app/listening/history" className="btn-secondary ">
-          {dict.listening.historyTitle} →
-        </Link>
+        <div className="flex flex-wrap items-center gap-2">
+          <Link href="/app/listening/lessons" className="btn-secondary" data-listening-lessons-entry>
+            {dict.listening.lessons.title} →
+          </Link>
+          <Link href="/app/listening/history" className="btn-secondary ">
+            {dict.listening.historyTitle} →
+          </Link>
+        </div>
       </div>
       <Suspense fallback={<ListeningTestsSkeleton />}>
         <ActiveListeningTests page={page} dict={dict} userId={user.id} />

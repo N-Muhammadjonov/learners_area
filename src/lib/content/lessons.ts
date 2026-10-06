@@ -207,6 +207,13 @@ export type LearnerQuizBlock = {
 };
 
 export type ResolvedLessonBlock = Omit<LessonBlockSnapshot, "quiz"> & {
+  /**
+   * The stored block's id. A quiz block is ANSWERED by id
+   * (`POST /api/lessons/blocks/:blockId/answer`), so the learner renderer needs it;
+   * it is not a secret (the id is the learner's own row reference and carries no
+   * answer), and the key itself still arrives only after the learner has answered.
+   */
+  blockId: string;
   quiz: LearnerQuizBlock | null;
   /** Published canonical content behind a reference, when the block has one. */
   referenced?: { module: string; contentType: string; sourceRef: string; versionId: string | null; content: unknown } | null;
@@ -246,6 +253,7 @@ export async function loadLessonForLearner(
       ? { questionType: row.quizQuestionType, prompt: payload.prompt ?? "", options: payload.options ?? null }
       : null;
     const resolved: ResolvedLessonBlock = {
+      blockId: row.id,
       position: row.position,
       type: row.type,
       text: row.textContent,

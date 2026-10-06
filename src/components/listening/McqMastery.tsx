@@ -26,7 +26,14 @@ type Payload = {
 
 type Question = { id: string; order: number; questionText: string; stage: McqStage; at?: number };
 
-type ListeningKey = Exclude<keyof Dictionary["listening"], "type">;
+/**
+ * The STRING-valued keys of the listening dictionary. Derived, not hand-listed:
+ * `type` and `lessons` (and any future sub-object such as mediaKind) are structured
+ * groups, and indexing the dictionary with one of them would render an object.
+ */
+type ListeningKey = {
+  [K in keyof Dictionary["listening"]]: Dictionary["listening"][K] extends string ? K : never;
+}[keyof Dictionary["listening"]];
 
 const STAGE_LABEL: Record<McqStage, ListeningKey> = {
   listen: "mcqStageListen",

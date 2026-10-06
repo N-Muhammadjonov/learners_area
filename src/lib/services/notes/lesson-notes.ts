@@ -39,6 +39,13 @@ export type SaveLessonNoteResult =
 
 export type NoteExecutor = Pick<typeof db, "select" | "insert" | "delete">;
 
+/**
+ * What a READ needs. Kept separate from `NoteExecutor` so a read-only caller (a page
+ * that only renders the learner's own note) does not have to pass write capabilities
+ * it never uses.
+ */
+export type NoteReadExecutor = Pick<typeof db, "select">;
+
 /** Is this lesson readable by a learner at all? Drafts and archives are not. */
 export async function lessonOpenForNotes(lessonId: string, executor: NoteExecutor = db): Promise<boolean> {
   const [lesson] = await executor
@@ -57,7 +64,7 @@ export async function lessonOpenForNotes(lessonId: string, executor: NoteExecuto
 export async function readLessonNote(
   userId: string,
   lessonId: string,
-  executor: NoteExecutor = db,
+  executor: NoteReadExecutor = db,
 ): Promise<LessonNote | null> {
   const [row] = await executor
     .select({ body: lessonNotes.body, updatedAt: lessonNotes.updatedAt })

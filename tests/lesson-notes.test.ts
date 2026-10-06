@@ -202,7 +202,13 @@ test("N6 notes are readable ONLY through the learner's own id: no staff surface,
       file === "src/app/api/lessons/[id]/notes/route.ts" ||
       // The state route may receive historical `notes` in its body; it hands them to the
       // private service instead of writing them into the progress row.
-      file === "src/app/api/lessons/[id]/state/route.ts";
+      file === "src/app/api/lessons/[id]/state/route.ts" ||
+      // PHASE C Listening → Lessons: a learner surface that renders the caller's OWN
+      // note on a listening lesson (the same private store, the same panel). It is not
+      // a staff prefix, and it reads the note only through readLessonNote(userId, …).
+      file === "src/lib/listening/lessons.ts" ||
+      file === "src/app/app/(shell)/listening/lessons/page.tsx" ||
+      file === "src/app/app/(shell)/listening/lessons/[lessonId]/page.tsx";
     if (!allowed) offenders.push(file);
     if (staffPrefixes.some((prefix) => file.startsWith(prefix))) offenders.push(`${file} (staff surface)`);
   }
