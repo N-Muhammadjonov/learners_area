@@ -170,6 +170,9 @@ test("TY7 client contract has no textarea or Start button and blocks paste/drop"
   assert.match(source, /autoCapitalize="off"/);
   assert.match(source, /\[activeLine - 1, activeLine, activeLine \+ 1, activeLine \+ 2\]/);
   assert.match(source, /ResizeObserver/);
+  assert.match(source, /window\.clearInterval\(timer\.current\)/, "run timer is explicitly cleared");
+  assert.match(source, /observer\.disconnect\(\)/, "ResizeObserver is released on unmount");
+  assert.match(source, /cancelAnimationFrame\(frame\)/, "pending measurement frame is cancelled");
 });
 
 test("TY8 prepare API explicitly accepts 30 seconds and rejects 29/31 by schema", () => {
