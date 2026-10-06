@@ -17,10 +17,10 @@ committed; the remaining phases are open and are being worked in order.
 | APP-001 | canonical `/app` namespace | **DONE** | `src/app/app/{layout.tsx,(shell),(focus)}`; `/app` **is** the dashboard; every authenticated page is under `/app`; APIs stay at `/api`. `tests/app-namespace.test.ts` (6 tests) |
 | APP-002 | design preserved | **IN PROGRESS** | no token, class or primitive was changed by the move; the shell layout is the same markup, re-parented. Before/after capture is still owed (§65) |
 | APP-003 | performance baseline | **NOT STARTED** | no baseline has been recorded yet; §4/§66 require measurements before any claim |
-| LSN-001 | Listening Lessons | NOT STARTED | |
-| LSN-002 | Description | NOT STARTED | |
-| LSN-003 | Teacher Notes | NOT STARTED | |
-| LSN-004 | private Student Notes (Xulosangiz) | NOT STARTED | no generic student-note table exists today; `lesson_progress.notes` is course-lesson scoped and must not be reused casually |
+| LSN-001 | Listening Lessons | **DONE** | `/app/listening/lessons` (library) + `/app/listening/lessons/[lessonId]` (lesson) on the canonical lesson layer. A listening lesson is DERIVED from authored facts in one module (`src/lib/listening/lessons.ts`): an `audio` block, a reference to `ted:audio_lesson`, or an attached audio media item. `tests/listening-lessons.test.ts` LL1/LL7 |
+| LSN-002 | Description | **DONE** | the tab reads authored columns only (`lessons.summary` plus the attached media's `before_you_watch`) and says so when they are empty (LL4 + runtime smoke) |
+| LSN-003 | Teacher Notes | **DONE** | the centre's authored notes on the attached media item (`video_lessons.notes`), with a truthful empty state (LL7) |
+| LSN-004 | private Student Notes (Xulosangiz) | **DONE** | the third tab on the listening lesson page renders `LessonNotesPanel` with the learner's own note from `lesson_notes` (0049), keyed by the lesson's stable id — there is no second notes system. Runtime: the author sees the note on their own page, the owner sees an empty box for the same lesson |
 | LSN-005 | Academic catalogue | NOT STARTED | legacy library exists at `/app/listening` (`FullListeningLibrary`, `legacyListeningCards`) |
 | LSN-006 | dynamic 5–10 activity hub | **IN PROGRESS** | `src/lib/listening/activities.ts` already derives activities from authored/structural facts (exam, review, script, mcq, matching, completion, retry, vocab) and hides a card when its content is absent — the hub must be driven from it, not from a fixed list |
 | LSN-007 | formal exam | NOT STARTED | strong native focus exam already exists under `/app/listening/tests/[id]` (focus group) |
@@ -59,7 +59,7 @@ committed; the remaining phases are open and are being worked in order.
 | SEC-001 | auth preserved | **DONE** | one database-backed gate in `src/app/app/layout.tsx` covers the shell and focus groups; the middleware's coarse prefixes are now derived from the same table as the redirects (no drift); built-server smoke: `/app/*` → `/login?next=…` anonymously, `/api/*` → 401/405 and never redirected, a student session on a staff page gets the redirect instruction and **none** of the page's markup |
 | SEC-002 | private assets | **DONE (unchanged)** | private R2/S3 model untouched by this workstream |
 | SEC-003 | answer secrecy | **DONE (unchanged)** | MCQ stage model untouched |
-| SEC-004 | student-note privacy | NOT STARTED | arrives with LSN-004 |
+| SEC-004 | student-note privacy | **DONE** | `lesson_notes` is keyed `(user_id, lesson_id)` and every read/write filters on the caller's own id; no staff surface references it (N6 walks `src`), and the listening lesson page reaches it only through `readLessonNote(userId, ...)`. Runtime: student 200 on their own note, owner `null` on the same lesson, the text on no other surface |
 | PERF-001 | no regression | **IN PROGRESS** | the move adds one cached `getCurrentUser()` parent read and one extra layout frame; measured comparison still owed (§4, §66) |
 | QA-001 | full gates | **IN PROGRESS** | unit 1152/0/96, ui 233/0/0, typecheck/lint/build/diff-check green after Phase B; real-PG and `qa:gate` re-run owed after the later phases |
 | QA-002 | browser acceptance | **BLOCKED — EXTERNAL** | no real browser is available in this environment; jsdom is never counted. A built-server HTTP smoke of the redirect/gate behaviour was run instead and is reported as such |
@@ -142,3 +142,16 @@ otherwise lose its check.
 | NOTE-009 | migration safety | **DONE** | 0049 registered in `ALLOWED_PENDING` + hash-pinned; fresh DB 50/50 (`qa:pg`); accepted-COS upgrade path simulated on real PostgreSQL: migrator applied ONLY 0049, legacy text moved, progress column cleared, 50 journal rows |
 
 Not yet built (Phase C continues): the Listening **Lessons** three-tab surface (Description / Teacher Notes / Xulosangiz) that reuses this panel, and the remaining Listening/Reading V4 scope.
+
+
+## Listening → Lessons (PHASE C, after NOTE-010…012)
+
+| id | requirement | status | evidence |
+| --- | --- | --- | --- |
+| LSN-017 | a listening lesson is DERIVED, never invented | **DONE** | `src/lib/listening/lessons.ts` classifies by authored facts (audio block / `ted:audio_lesson` reference / attached audio media). A text-only lesson is not listed and its detail route does not load (LL1, LL7) |
+| LSN-018 | an empty catalogue stays empty | **DONE** | no seed and no placeholder card; the learner gets a truthful empty state, staff get `Author a lesson` → `/app/admin/content/workspace` (module "Lesson"). Runtime: a student sees the empty state WITHOUT the link, the owner sees it WITH the link |
+| LSN-019 | the lesson body comes first, then exactly three tabs | **DONE** | `ListeningLessonBody` renders the authored typed blocks before the tab bar; the tabs are Description / Teacher notes / Xulosangiz, in that order (LL4 + runtime) |
+| LSN-020 | tabs are derived from the route, so a reload keeps the section | **DONE** | the tab lives in `?tab=` and is read from `searchParams`; the tab links carry it; an unknown value falls back to Description (LL4 + runtime, all three tabs) |
+| LSN-021 | answer keys stay server-side in a listening body | **DONE** | quiz blocks answer through the existing `POST /api/lessons/blocks/:blockId/answer`; `loadLessonForLearner` hands over no key and no explanation until the learner has answered (LL2). `blockId` was added to the resolved block — the learner's own row reference, which carries no answer |
+| LSN-022 | media is served privately or linked to the canonical media surface | **DONE** | block media goes through the authorizing `/api/resources/<objectKey>` route; an attached provider item links to `/app/video-lessons/[id]` instead of a second player. Runtime: with no authorized media origin configured the page shows that link, not an empty player |
+| LSN-023 | page-level `notFound()` under the streaming shell | **documented, not a claim** | the page calls `notFound()` for unknown / non-live / non-listening lessons; because the shell streams, the response is 200 carrying `NEXT_HTTP_ERROR_FALLBACK;404` and the client renders the not-found boundary. This is the app's existing behaviour on every `[id]` route (`/app/reading/attempts/not-a-uuid` behaves the same) — no HTTP 404 is claimed anywhere |
