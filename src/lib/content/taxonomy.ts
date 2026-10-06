@@ -81,7 +81,17 @@ export const MODULE_DESCRIPTORS: ModuleDescriptor[] = [
     tracks: ["academic", "general_training"],
     libraryPath: "/speaking",
     focus: "never",
-    contentTypes: ["part1_question", "cue_card", "part3_question", "topic_set", "shadowing", "material"],
+    /**
+     * `topic_set` and `shadowing` are NOT declared content types, and that is a
+     * deliberate correction rather than an omission:
+     *
+     *   • a "topic set" is the `topic` grouping over canonical `speaking_prompts`,
+     *     managed by `manage-topic` against one bank — declaring a type for it would
+     *     invite a second store for prompts that already have one;
+     *   • `shadowing` is a CATEGORY of `speaking:material` (a row whose category is
+     *     `shadowing`), read by the shadowing studio from the same table.
+     */
+    contentTypes: ["part1_question", "cue_card", "part3_question", "material"],
   },
   {
     module: "grammar",

@@ -91,6 +91,22 @@ function semanticProjection(module: string, contentType: string, content: unknow
   if (module === "writing" && (contentType === "task1" || contentType === "task2"))
     return pick(["prompt", "instructions", "taskType", "visual", "wordMinimum", "recommendedMinutes", "dataPoints"]);
 
+  if (module === "speaking" && contentType === "material")
+    // A material is what it attaches and what it says: its category, its primary
+    // (a link, or the file's own name/type/size — never its storage key) and its text
+    // or link blocks. The title is descriptive and refreshed on the same version.
+    return pick([
+      "category",
+      "primaryType",
+      "primaryUrl",
+      "hasPrimary",
+      "primaryOriginalName",
+      "primaryMimeType",
+      "primarySize",
+      "blocks",
+      "description",
+    ]);
+
   if (module === "speaking")
     return pick(["part", "promptText", "cueCard", "followUps", "prepSeconds", "answerSeconds", "questions"]);
 

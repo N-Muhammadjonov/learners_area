@@ -10,6 +10,7 @@ import {
   listeningTests,
   readingPassages,
   readingQuestions,
+  speakingMaterials,
   speakingPrompts,
   writingLanguagePatterns,
   writingLessons,
@@ -34,6 +35,7 @@ import { LESSON_CATEGORIES, MODEL_TEXT_MIN_WORDS } from "@/lib/writing/admin-sch
 import { PATTERN_FUNCTIONS } from "@/lib/writing/pattern-functions";
 import { TRANSLATION_BANDS, TRANSLATION_QUESTION_TYPES } from "@/lib/writing/translation-rules";
 import { saveTopicPack } from "@/lib/content/vocabulary-packs";
+import { SPEAKING_MATERIAL_TARGET_TYPE, pinSpeakingMaterialVersion, type PinSpeakingMaterialInput } from "@/lib/services/speaking/materials";
 
 /**
  * AUTHORS — how an in-app draft becomes canonical rows.
@@ -906,6 +908,134 @@ function speakingAuthor(contentType: string, part: "part1" | "part2" | "part3"):
   };
 }
 
+/*
+ * Speaking materials (`speaking:material`).
+ *
+ * These rows are the Practice hub's lesson resources and the shadowing studio's
+ * sources. The author owns the DESCRIPTIVE contract — a title, a category, a link
+ * primary and the text of the material. It deliberately does not accept a file: an
+ * attachment reaches a material only through the verified upload pipeline
+ * (upload-intent → upload → finalize → claim), so there is no payload field for an
+ * object key, and a payload that carries one is refused rather than stored.
+ *
+ * `shadowing` is one of the categories, not a second store: a shadowing material is
+ * a material whose category is `shadowing`, read by the studio like any other.
+ */
+const speakingMaterialCategories = ["part1", "part2", "part3", "general", "shadowing", "top_structures"] as const;
+
+/** Refused explicitly: a storage key may not ride in on an authoring payload. */
+const FORBIDDEN_MATERIAL_KEYS = ["primaryObjectKey", "objectKey", "uploadId", "blocks"] as const;
+
+const speakingMaterialPayload = zod
+  .object({
+    title: zod.string().min(3).max(200),
+    category: zod.enum(speakingMaterialCategories),
+    primaryType: zod.enum(["link", "video", "audio", "file"]),
+    /** Required for a link primary; meaningless for the others (files arrive by upload). */
+    primaryUrl: zod.string().url().max(2000).optional(),
+    description: zod.string().max(4000).optional(),
+  })
+  .strict()
+  .superRefine((value, ctx) => {
+    if (value.primaryType === "link" && !value.primaryUrl)
+      ctx.addIssue({ code: zod.ZodIssueCode.custom, path: ["primaryUrl"], message: "A link material needs its URL." });
+    if (value.primaryType !== "link" && value.primaryUrl)
+      ctx.addIssue({ code: zod.ZodIssueCode.custom, path: ["primaryUrl"], message: "A file is attached by upload, not by URL." });
+  });
+
+const speakingMaterialAuthor: ModuleAuthor = {
+  module: "speaking",
+  contentType: "material",
+  payloadVersion: 1,
+  label: "Speaking material",
+  payloadSchema: speakingMaterialPayload,
+  async persist(tx, payload, context) {
+    for (const key of FORBIDDEN_MATERIAL_KEYS)
+      if (payload && typeof payload === "object" && key in (payload as Record<string, unknown>))
+        throw new Error(`speaking:material payload may not carry ${key}`);
+    const parsed = speakingMaterialPayload.parse(payload);
+
+    // Identity comes from the revision chain, not from the title: the previous
+    // revision names the row this sourceRef already created.
+    const [previous] = await tx
+      .select({ targetId: contentVersions.targetId })
+      .from(contentVersions)
+      .where(
+        and(
+          eq(contentVersions.module, "speaking"),
+          eq(contentVersions.contentType, "material"),
+          eq(contentVersions.sourceRef, context.sourceRef),
+        ),
+      )
+      .orderBy(desc(contentVersions.versionNo))
+      .limit(1);
+
+    let materialId: string | null = previous?.targetId ?? null;
+    let current: { primaryType: string; primaryObjectKey: string | null; primaryUrl: string | null } | null = null;
+    if (materialId) {
+      const [row] = await tx
+        .select({ id: speakingMaterials.id, primaryType: speakingMaterials.primaryType, primaryObjectKey: speakingMaterials.primaryObjectKey, primaryUrl: speakingMaterials.primaryUrl })
+        .from(speakingMaterials)
+        .where(eq(speakingMaterials.id, materialId))
+        .limit(1);
+      current = row ?? null;
+      if (!row) materialId = null;
+    }
+
+    // An upload-backed material is not converted into a link by an edit; that would
+    // throw away the file it actually serves.
+    if (current?.primaryObjectKey && parsed.primaryType === "link")
+      throw new Error("speaking:material is upload-backed; its primary is replaced through the upload flow, not by a URL");
+
+    if (materialId) {
+      await tx
+        .update(speakingMaterials)
+        .set({
+          title: parsed.title,
+          category: parsed.category as never,
+          primaryType: parsed.primaryType as never,
+          primaryUrl: parsed.primaryType === "link" ? parsed.primaryUrl! : current?.primaryUrl ?? null,
+        })
+        .where(eq(speakingMaterials.id, materialId));
+    } else {
+      const [created] = await tx
+        .insert(speakingMaterials)
+        .values({
+          createdByUserId: context.actorUserId,
+          category: parsed.category as never,
+          title: parsed.title,
+          primaryType: parsed.primaryType as never,
+          primaryUrl: parsed.primaryType === "link" ? parsed.primaryUrl! : null,
+          publicationState: "draft",
+        })
+        .returning({ id: speakingMaterials.id });
+      materialId = created!.id;
+    }
+
+    return {
+      targetType: SPEAKING_MATERIAL_TARGET_TYPE,
+      targetId: materialId!,
+      content: {
+        title: parsed.title,
+        category: parsed.category,
+        primaryType: parsed.primaryType,
+        primaryUrl: parsed.primaryType === "link" ? parsed.primaryUrl! : null,
+        description: parsed.description ?? null,
+      },
+      summary: `Speaking material (${parsed.category})`,
+    };
+  },
+  async setPublication(tx, version, publication) {
+    if (!version.targetId) return "target_missing";
+    return syncRows(tx, speakingMaterials, eq(speakingMaterials.id, version.targetId), publication, true);
+  },
+  async readSchedule(tx, version) {
+    if (!version.targetId) return null;
+    const [row] = await tx.select({ publishAt: speakingMaterials.publishAt }).from(speakingMaterials).where(eq(speakingMaterials.id, version.targetId)).limit(1);
+    return row?.publishAt ?? null;
+  },
+};
+
 /* -------------------------------------------------------------------------- */
 /* Grammar                                                                     */
 /* -------------------------------------------------------------------------- */
@@ -1164,6 +1294,7 @@ export function registerModuleAuthors(): void {
   registerModuleAuthor(speakingAuthor("part1_question", "part1"));
   registerModuleAuthor(speakingAuthor("cue_card", "part2"));
   registerModuleAuthor(speakingAuthor("part3_question", "part3"));
+  registerModuleAuthor(speakingMaterialAuthor);
   registerModuleAuthor(grammarTopicAuthor);
   registerModuleAuthor(lessonAuthor);
   registerModuleAuthor(vocabularyTopicPackAuthor);

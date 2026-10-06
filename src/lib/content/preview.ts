@@ -258,6 +258,36 @@ export const PREVIEW_PROJECTIONS: PreviewProjection[] = [
     build: speakingPreview,
   },
   {
+    module: "speaking",
+    contentType: "material",
+    requiredParts: ["primary"],
+    build: (content) => {
+      const record = isRecord(content) ? content : {};
+      const primaryType = typeof record.primaryType === "string" ? record.primaryType : null;
+      const primaryUrl = typeof record.primaryUrl === "string" ? record.primaryUrl : null;
+      const hasPrimary = record.hasPrimary === true || Boolean(primaryUrl);
+      const blocks = Array.isArray(record.blocks) ? record.blocks : [];
+      return [
+        {
+          key: "primary",
+          label: "Primary",
+          kind: "text" as const,
+          value: hasPrimary ? `${primaryType ?? "file"}${primaryUrl ? ` — ${primaryUrl}` : ""}` : null,
+          // A material with no primary and no blocks would be an empty promise, so it
+          // is reported as a missing core region rather than previewed as a shell.
+          ...(hasPrimary || blocks.length > 0 ? {} : { problem: "missing_primary" }),
+        },
+        {
+          key: "attachments",
+          label: "Attached blocks",
+          kind: "notice" as const,
+          value: blocks.map((block) => (isRecord(block) ? (block.text ?? block.link ?? block.type ?? "block") : "block")),
+        },
+        { key: "category", label: "Category", kind: "text" as const, value: typeof record.category === "string" ? record.category : null },
+      ];
+    },
+  },
+  {
     module: "grammar",
     contentType: "topic",
     requiredParts: ["exercises"],

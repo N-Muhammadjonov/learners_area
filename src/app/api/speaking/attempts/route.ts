@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { desc, eq } from "drizzle-orm";
 import { db } from "@/db/client";
-import { speakingAttempts, speakingPrompts } from "@/db/schema";
+import { speakingAttempts } from "@/db/schema";
 import { isStaff, requireActiveUser } from "@/lib/auth/current-user";
+import { startSpeakingAttempt } from "@/lib/services/speaking/attempts";
 import { createAttemptSchema } from "@/lib/validation/speaking-practice";
 
 /**
@@ -27,27 +28,24 @@ export async function POST(req: NextRequest) {
   }
   const data = parsed.data;
 
-  // A prompt must exist and be active; free practice (no prompt) is allowed.
-  if (data.promptId) {
-    const prompt = await db.query.speakingPrompts.findFirst({
-      where: eq(speakingPrompts.id, data.promptId),
-    });
-    if (!prompt || !prompt.isActive) {
-      return NextResponse.json({ error: "prompt_not_found" }, { status: 404 });
-    }
+  // The service owns the identity rules: the prompt must exist, must be LIVE for
+  // learners, must match the declared part, and the attempt records the exact revision
+  // it answered (§5). Free practice (no prompt) stays free.
+  const started = await startSpeakingAttempt({ actorId: user.id, promptId: data.promptId ?? null, part: data.part });
+
+  if (!started.ok) {
+    const status = started.reason === "prompt_not_found" ? 404 : 422;
+    return NextResponse.json({ error: started.reason }, { status });
   }
 
-  const [created] = await db
-    .insert(speakingAttempts)
-    .values({
-      userId: user.id,
-      promptId: data.promptId ?? null,
-      part: data.part,
-      status: "recording",
-    })
-    .returning();
-
-  return NextResponse.json({ ok: true, attempt: created });
+  return NextResponse.json({
+    ok: true,
+    attempt: started.attempt,
+    // The client is told whether its attempt is bound to a revision, so it never
+    // implies a pinned prompt it does not have.
+    binding: started.binding,
+    contentVersionId: started.contentVersionId,
+  });
 }
 
 export async function GET(_req: NextRequest) {
