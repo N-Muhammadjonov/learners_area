@@ -25,7 +25,8 @@ import {
   consistencyFromSamples,
   validateTypingSubmission,
 } from "../src/lib/services/writing/typing";
-import { groupTypingLines } from "../src/lib/services/writing/typing-lines";
+import { groupTypingLines, windowRows } from "../src/lib/services/writing/typing-lines";
+import { sanitizeSamples, validateSubmission } from "../src/lib/services/writing/typing-metrics";
 
 process.env.AUTH_SECRET ??= "test-secret-test-secret-1234567890";
 
@@ -192,13 +193,15 @@ test("TY5 forged samples, words and implausible speed are rejected", () => {
   assert.equal(consistencyFromSamples([5, 10]), null);
 });
 
-test("TY5b corrected/backspaced samples remain monotonic and bounded before finish", () => {
-  const source = readFileSync("src/components/writing/TypingTrainer.tsx", "utf8");
-  assert.match(source, /Math\.max\(previous, current\)/);
-  assert.match(source, /\.map\(\(value\) => Math\.min\(value, finalChars\)\)/);
-  assert.match(source, /response\.error === "too_early"/);
+test("TY5b uploaded ready-code repairs optional telemetry instead of rejecting a valid run", () => {
+  assert.deepEqual(sanitizeSamples([5, 10, 7, 12], 12, 30), [5, 10, 10, 12]);
+  assert.deepEqual(sanitizeSamples([5, 99], 12, 30), [5, 12]);
+  assert.deepEqual(sanitizeSamples("garbage", 12, 30), []);
+  assert.equal(validateSubmission(["the", "quick"], ["the", ""], 30), null);
+
   const service = readFileSync("src/lib/services/writing/typing-runs.ts", "utf8");
-  assert.match(service, /invalid === "bad_samples" \? \[\] : input\.samples/);
+  assert.match(service, /sanitizeSamples\(/);
+  assert.match(service, /preset \* 1000 \* 0\.6/);
 });
 
 test("TY6 visual lines come from measured offsetTop values, never character-count heuristics", () => {
@@ -208,29 +211,38 @@ test("TY6 visual lines come from measured offsetTop values, never character-coun
     { start: 5, end: 6 },
   ]);
   assert.deepEqual(groupTypingLines([]), []);
+  assert.deepEqual(windowRows(0), [
+    { row: -1, role: "out" },
+    { row: 0, role: "clear" },
+    { row: 1, role: "clear" },
+    { row: 2, role: "dim" },
+    { row: 3, role: "buffer" },
+  ]);
+  assert.deepEqual(
+    windowRows(1).filter((row) => row.role === "clear" || row.role === "dim").map((row) => row.row),
+    [1, 2, 3],
+  );
 });
 
-test("TY7 client contract has no textarea or Start button and blocks paste/drop", () => {
+test("TY7 client uses uploaded ready-code one-line window with no word-level disappearance", () => {
   const source = readFileSync("src/components/writing/TypingTrainer.tsx", "utf8");
+  const css = readFileSync("src/app/globals.css", "utf8");
   assert.doesNotMatch(source, /<textarea/);
   assert.doesNotMatch(source, /data-typing-start/);
   assert.match(source, /\/api\/writing\/typing\/prepare/);
   assert.match(source, /\/api\/writing\/typing\/start/);
   assert.match(source, /\/api\/writing\/typing\/finish/);
+  assert.match(source, /windowRows\(activeLine\)/);
+  assert.match(source, /activeLine === prevRow\.current \+ 1/);
+  assert.match(source, /transform = "translateY\(0\)"/);
+  assert.doesNotMatch(source, /typing-word-hide|typing-word-show|fraction|crossed/);
+  assert.match(css, /\.typing-stack \{[\s\S]*translateY\(calc\(var\(--typing-line-height\) \* -1\)\)/);
+  assert.match(css, /\.typing-row-clear \{[\s\S]*opacity: 1/);
+  assert.match(css, /\.typing-row-dim,[\s\S]*opacity: \.5/);
+  assert.match(source, /ResizeObserver/);
   assert.match(source, /onPaste=\{\(event\) => event\.preventDefault\(\)\}/);
   assert.match(source, /onDrop=\{\(event\) => event\.preventDefault\(\)\}/);
   assert.match(source, /spellCheck=\{false\}/);
-  assert.match(source, /autoCorrect="off"/);
-  assert.match(source, /autoCapitalize="off"/);
-  assert.match(source, /const rollingLineIndexes = \[[\s\S]*windowStart,[\s\S]*windowStart \+ 1,[\s\S]*windowStart \+ 2,[\s\S]*windowStart \+ 3/);
-  assert.doesNotMatch(source, /typing-word-hide|typing-word-show|const fraction = topRange/, "latest owner rule has no per-word disappearance");
-  assert.match(source, /translateY\(-\\\$\{lineHeight\}px\)/, "only one full visual line shifts upward");
-  assert.match(source, /setWindowStart\(nextStart\)/, "completed top line is replaced by exactly the next measured line");
-  assert.match(source, /ResizeObserver/);
-  assert.match(source, /window\.clearInterval\(timer\.current\)/, "run timer is explicitly cleared");
-  assert.match(source, /window\.clearTimeout\(lineTransitionTimer\.current\)/, "line transition timer is cleared");
-  assert.match(source, /observer\.disconnect\(\)/, "ResizeObserver is released on unmount");
-  assert.match(source, /cancelAnimationFrame\(frame\)/, "pending measurement frame is cancelled");
 });
 
 test("TY7b timer is above the typing stage and only three visual rows are visible", () => {
@@ -240,8 +252,26 @@ test("TY7b timer is above the typing stage and only three visual rows are visibl
   assert.match(css, /\.typing-stage \{[\s\S]*height: calc\(var\(--typing-line-height\) \* 3\)/);
   assert.match(css, /\.typing-toolbar \{[\s\S]*grid-template-columns: minmax\(0, 1fr\) auto minmax\(0, 1fr\)/);
   assert.match(css, /\.typing-toolbar-center \{[\s\S]*justify-self: center/);
-  assert.match(css, /\.typing-row-third,[\s\S]*opacity: \.48/);
+  assert.match(css, /\.typing-row-dim,[\s\S]*opacity: \.5/);
   assert.doesNotMatch(css, /typing-word-hide|typing-word-show/);
+});
+
+test("TY7bb timed runs tolerate server-start lag but are still scored over the full preset", async () => {
+  const { t, db, userId } = await setup();
+  try {
+    const base = 1_800_150_000_000;
+    const prepared = (await prepareTypingRun(userId, { preset: 30 }, { database: db, now: () => base }))!;
+    const token = (await startPreparedTypingRun(userId, prepared.token, () => base + 8_000))!;
+    const result = await finishPreparedTypingRun(
+      userId,
+      { runToken: token, typedWords: [...prepared.text.words.slice(0, 8), ""], samples: [4, 8, 12, 16] },
+      { database: db, now: () => base + 27_000 },
+    );
+    assert.ok(result.ok, JSON.stringify(result));
+    assert.equal(result.result.durationMs, 30_000);
+  } finally {
+    await t.close();
+  }
 });
 
 test("TY7c a persisted run is returned even if history refresh fails", () => {
