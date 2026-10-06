@@ -54,11 +54,7 @@ async function WritingActivities({ userId, dict }: {
 
   return (
     <div className="flex flex-col gap-5" data-writing-activities data-async-content="writing">
-      <div>
-        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-signal-600 dark:text-signal-400">{t.eyebrow}</p>
-        <h2 className="font-display text-xl text-ink-900">{t.title}</h2>
-        <p className="mt-1 max-w-3xl text-base text-ink-500">{t.body}</p>
-      </div>
+      <h2 className="font-display text-xl text-ink-900">{t.title}</h2>
       <Suspense fallback={<TypingRegionSkeleton />}>
         <WritingTypingRegion typingPromise={typingPromise} dict={dict} />
       </Suspense>
