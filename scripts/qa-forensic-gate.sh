@@ -59,7 +59,16 @@ step lint npm run -s lint
 step build npm run -s build
 step diff-check git diff --check
 # Committed whitespace defects too (working-tree check alone missed EOF blank lines in 3 files).
+# The historical base is pinned, but a fresh clone may not contain it: fall back to
+# the merge-base with main (or the root commit) so this step still has real meaning
+# instead of failing on a commit that simply is not here.
 QA_BASE=${QA_BASE:-0f4a6eaed94da4254789c3c89f8c2871ab96959e}
+if ! git rev-parse -q --verify "$QA_BASE^{commit}" >/dev/null; then
+  for candidate in $(git merge-base HEAD origin/main 2>/dev/null) $(git rev-list --max-parents=0 HEAD | tail -1); do
+    if [ -n "$candidate" ] && git rev-parse -q --verify "$candidate^{commit}" >/dev/null; then QA_BASE=$candidate; break; fi
+  done
+  echo "diff-check-range: pinned base unavailable here — comparing against ${QA_BASE:0:12} instead (override with QA_BASE=)" | tee -a "$OUT/summary.txt"
+fi
 step diff-check-range git diff --check "$QA_BASE" HEAD -- src tests scripts
 echo "GATE $([ $FAIL = 0 ] && echo PASS || echo FAIL) — logs in $OUT" | tee -a "$OUT/summary.txt"
 exit $FAIL
