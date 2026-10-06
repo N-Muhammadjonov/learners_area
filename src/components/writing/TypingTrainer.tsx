@@ -210,7 +210,7 @@ export function TypingTrainer({
       loadSequence.current += 1;
       stopTimer();
     };
-  }, [load]);
+  }, [load, stopTimer]);
 
   const choosePreset = (value: Preset) => {
     if (value === presetRef.current || !["ready", "result", "error"].includes(phaseRef.current)) return;
