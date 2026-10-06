@@ -10,6 +10,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { flushSync } from "react-dom";
 import type { Dictionary } from "@/lib/i18n/en";
 import { groupTypingLines, type LineRange } from "@/lib/services/writing/typing-lines";
 import type { TypingPreset } from "@/lib/services/writing/typing";
@@ -127,7 +128,7 @@ export function TypingTrainer({
   const [result, setResult] = useState<RunResult | null>(null);
   const [graph, setGraph] = useState<Graph | null>(null);
   const [focused, setFocused] = useState(true);
-  const [visibleStart, setVisibleStart] = useState(0);
+  const [windowStart, setVisibleStart] = useState(0);
   const [history, setHistory] = useState(initialHistory);
   const [summary, setSummary] = useState(initialSummary);
   const [, rerender] = useReducer((value: number) => value + 1, 0);
@@ -166,6 +167,13 @@ export function TypingTrainer({
       typed.current.buffer.length,
     [],
   );
+  const pushSample = useCallback(() => {
+    const current = charsTyped();
+    const previous = samples.current.at(-1) ?? 0;
+    // Backspace may reduce the visible text length. Samples represent typing
+    // activity over time, so never let a later sample move backwards.
+    samples.current.push(Math.max(previous, current));
+  }, [charsTyped]);
   const elapsedSeconds = useCallback(
     () => startedAt.current ? Math.max(0, (performance.now() - startedAt.current) / 1000) : 0,
     [],
@@ -284,9 +292,12 @@ export function TypingTrainer({
         ? selectedPreset
         : Math.max(1, elapsed);
     while (samples.current.length < Math.floor(scoringSeconds)) {
-      samples.current.push(charsTyped());
+      pushSample();
     }
-    const graphSamples = samples.current.slice(0, Math.max(1, Math.ceil(scoringSeconds)));
+    const finalChars = charsTyped();
+    const graphSamples = samples.current
+      .slice(0, Math.max(1, Math.ceil(scoringSeconds)))
+      .map((value) => Math.min(value, finalChars));
     setGraph({ chars: graphSamples, errors: [...errorSeconds.current] });
 
     const runToken = await runPromise.current;
@@ -294,15 +305,24 @@ export function TypingTrainer({
       setPhaseSafe("error");
       return;
     }
-    const response = await postJson<{
-      run: RunResult;
-      summary?: Summary;
-      history?: HistoryRow[];
-    }>("/api/writing/typing/finish", {
+    const payload = {
       runToken,
       typedWords: [...typed.current.committed, typed.current.buffer],
       samples: graphSamples,
-    });
+    };
+    let response = await postJson<{
+      run: RunResult;
+      summary?: Summary;
+      history?: HistoryRow[];
+    }>("/api/writing/typing/finish", payload);
+    if (!response.ok && response.error === "too_early" && selectedPreset > 0) {
+      await new Promise((resolve) => window.setTimeout(resolve, 1_600));
+      response = await postJson<{
+        run: RunResult;
+        summary?: Summary;
+        history?: HistoryRow[];
+      }>("/api/writing/typing/finish", payload);
+    }
     if (!response.ok) {
       setPhaseSafe("error");
       return;
@@ -312,7 +332,7 @@ export function TypingTrainer({
     if (response.data.summary) setSummary(response.data.summary);
     if (response.data.history) setHistory(response.data.history);
     setPhaseSafe("result");
-  }, [charsTyped, elapsedSeconds, setPhaseSafe, stopTimer]);
+  }, [charsTyped, elapsedSeconds, pushSample, setPhaseSafe, stopTimer]);
 
   const tick = useCallback(() => {
     if (!startedAt.current) return;
@@ -321,7 +341,7 @@ export function TypingTrainer({
     const selectedPreset = presetRef.current;
     const cap = selectedPreset > 0 ? selectedPreset : Number.POSITIVE_INFINITY;
     while (samples.current.length < Math.min(seconds, cap)) {
-      samples.current.push(charsTyped());
+      pushSample();
     }
 
     if (selectedPreset > 0) {
@@ -331,20 +351,15 @@ export function TypingTrainer({
     } else {
       setRemaining((previous) => previous === seconds ? previous : seconds);
     }
-  }, [charsTyped, finish]);
+  }, [finish, pushSample]);
 
   const startIfNeeded = () => {
     if (phaseRef.current !== "ready") return;
     setPhaseSafe("running");
     startedAt.current = performance.now();
-    runPromise.current = postJson<{ runToken: string; startedAt: number }>("/api/writing/typing/start", {
+    runPromise.current = postJson<{ runToken: string }>("/api/writing/typing/start", {
       token: prepToken.current,
-    }).then((response) => {
-      if (!response.ok) return null;
-      const serverElapsed = Math.max(0, Date.now() - response.data.startedAt);
-      startedAt.current = performance.now() - serverElapsed;
-      return response.data.runToken;
-    });
+    }).then((response) => response.ok ? response.data.runToken : null);
     timer.current = window.setInterval(tick, 200);
   };
 
@@ -412,28 +427,34 @@ export function TypingTrainer({
   let activeLine = ranges.findIndex((line) => wordIndex >= line.start && wordIndex < line.end);
   if (activeLine < 0) activeLine = Math.max(0, ranges.length - 1);
 
-  // Exactly three lines are visible. A fourth line stays just below the clipped
-  // stage. Only when the learner finishes the current visual line does the
-  // entire stack move up one row: 2→1, 3→2, 4→3.
+  const topRange = ranges[windowStart];
+  const fraction = topRange
+    ? Math.max(0, Math.min(1, (wordIndex - topRange.start) / Math.max(1, topRange.end - topRange.start)))
+    : 0;
+
+  // Exactly four rows exist in the rolling window, while CSS clips the stage
+  // to three rows. While row 1 is being typed, its words disappear
+  // proportionally and row 4's words appear proportionally.
   const rollingLineIndexes = [
-    visibleStart,
-    visibleStart + 1,
-    visibleStart + 2,
-    visibleStart + 3,
+    windowStart,
+    windowStart + 1,
+    windowStart + 2,
+    windowStart + 3,
   ];
 
   useLayoutEffect(() => {
     const element = stackRef.current;
-    if (!element || activeLine <= visibleStart || lineTransitionTimer.current !== null) return;
+    if (!element || activeLine <= windowStart || lineTransitionTimer.current !== null) return;
     const lineHeight = (element.firstElementChild as HTMLElement | null)?.offsetHeight ?? 0;
     if (!lineHeight) {
-      setVisibleStart(activeLine);
+      setWindowStart((previous) => Math.min(previous + 1, activeLine));
       return;
     }
 
+    const nextStart = Math.min(windowStart + 1, activeLine);
     const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
     if (reduced) {
-      setVisibleStart(activeLine);
+      setWindowStart(nextStart);
       return;
     }
 
@@ -441,17 +462,19 @@ export function TypingTrainer({
     element.style.transform = `translateY(-${lineHeight}px)`;
     lineTransitionTimer.current = window.setTimeout(() => {
       element.style.transition = "none";
+      // Rebase the four-row window and reset transform in the same frame.
+      flushSync(() => setWindowStart(nextStart));
       element.style.transform = "translateY(0)";
-      setVisibleStart(activeLine);
+      void element.offsetHeight;
       lineTransitionTimer.current = null;
     }, 200);
-
-    return () => {
-      // Keep the in-flight transition alive across the activeLine render.
-    };
-  }, [activeLine, visibleStart]);
-
-  const renderWord = (index: number) => {
+  }, [activeLine, windowStart]);
+  const renderWord = (
+    index: number,
+    offset: number,
+    lineLength: number,
+    role: "top" | "middle" | "bottom",
+  ) => {
     const target = words[index] ?? "";
     const current = typed.current;
     const value =
@@ -461,9 +484,15 @@ export function TypingTrainer({
           ? current.buffer
           : undefined;
     const isCurrent = index === wordIndex;
+    const crossed = Math.round(fraction * lineLength);
+    const className = [
+      "typing-word",
+      role === "top" && offset < crossed ? "typing-word-hide" : "",
+      role === "bottom" && offset < crossed ? "typing-word-show" : "",
+    ].filter(Boolean).join(" ");
 
     return (
-      <span key={index} className="typing-word">
+      <span key={index} className={className}>
         {target.split("").map((character, charIndex) => {
           let state = "typing-char-future";
           if (value !== undefined) {
@@ -490,7 +519,6 @@ export function TypingTrainer({
       </span>
     );
   };
-
   const busy = phase === "running" || phase === "saving" || phase === "loading";
   const repeat = () => {
     if (textRef.current) void load({ textId: textRef.current.id });
@@ -568,12 +596,13 @@ export function TypingTrainer({
             </div>
             <div className="typing-stage typing-font" aria-hidden="true">
               <div className="typing-stack" ref={stackRef}>
-                {rollingLineIndexes.map((lineIndex) => {
+                {rollingLineIndexes.map((lineIndex, row) => {
                   const line = ranges[lineIndex];
+                  const role = row === 0 ? "top" : row === 3 ? "bottom" : "middle";
                   return (
-                    <div key={lineIndex} className="typing-row">
+                    <div key={lineIndex} className={`typing-row typing-row-${role}`}>
                       {line && words.slice(line.start, line.end).map((_, offset) =>
-                        renderWord(line.start + offset)
+                        renderWord(line.start + offset, offset, line.end - line.start, role)
                       )}
                     </div>
                   );
