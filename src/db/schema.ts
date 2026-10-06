@@ -131,6 +131,22 @@ export const materialTypeEnum = pgEnum("material_type", ["video", "audio", "file
 
 export const contentBlockTypeEnum = pgEnum("content_block_type", ["text", "link", "file", "image", "audio"]);
 
+/**
+ * The typed native block a lesson is built from (§26). Deliberately a closed set:
+ * a lesson references canonical content or shows native material — it never embeds
+ * an uploaded mini application, so "HTML block" is not a type here on purpose.
+ */
+export const lessonBlockTypeEnum = pgEnum("lesson_block_type", [
+  "text",
+  "image",
+  "audio",
+  "video",
+  "file",
+  "link",
+  "quiz",
+  "content_reference",
+]);
+
 // --- Upload intents ---------------------------------------------------------
 // Every object that reaches storage goes through one of these first. It is the
 // server's record that a specific authenticated user was authorized to write
@@ -357,7 +373,95 @@ export const lessons = pgTable("lessons", {
    * and materials instead of an empty player.
    */
   recordingUrl: text("recording_url"),
+  /** Stable identity of the authored lesson this row is the version OF (§43). */
+  sourceRef: varchar("source_ref", { length: 80 }),
+  /** Authored lessons start as drafts; existing seed lessons are published by default. */
+  publicationState: publicationStateEnum("publication_state").notNull().default("published"),
+  publishAt: timestamp("publish_at", { withTimezone: true }),
+  estimatedMinutes: integer("estimated_minutes"),
+  createdByUserId: uuid("created_by_user_id").references(() => users.id, { onDelete: "set null" }),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });
+
+/** The block shape a lesson revision stores — typed, never a rendered page. */
+export type LessonBlockSnapshot = {
+  position: number;
+  type: string;
+  text: string | null;
+  url: string | null;
+  objectKey: string | null;
+  ref: { module: string; contentType: string; sourceRef: string; versionId?: string | null } | null;
+  quiz: { questionType?: string; prompt?: string; options?: string[] | null; answer?: unknown; explanation?: string | null } | null;
+};
+
+/**
+ * One typed block of a lesson, in order.
+ *
+ * `quiz` carries a CANONICAL question type id and the answer model that type
+ * expects — grading goes through `gradeForType`, so a lesson quiz and an exam
+ * question cannot disagree about what is correct. `content_reference` points at
+ * canonical content by (module, content type, source ref) and optionally pins an
+ * exact revision; nothing is copied.
+ */
+export const lessonBlocks = pgTable(
+  "lesson_blocks",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    lessonId: uuid("lesson_id")
+      .notNull()
+      .references(() => lessons.id, { onDelete: "cascade" }),
+    position: integer("position").notNull(),
+    type: lessonBlockTypeEnum("type").notNull(),
+    /** type=text: plain text. Never HTML — a lesson cannot ship executable script. */
+    textContent: text("text_content"),
+    /** type=link: https URL only. */
+    linkUrl: text("link_url"),
+    /** type=file|image|audio|video: private storage key (never a public URL). */
+    objectKey: text("object_key"),
+    originalName: varchar("original_name", { length: 255 }),
+    mimeType: varchar("mime_type", { length: 120 }),
+    size: integer("size"),
+    /** type=content_reference: what it points at. */
+    refModule: varchar("ref_module", { length: 20 }),
+    refContentType: varchar("ref_content_type", { length: 40 }),
+    refSourceRef: varchar("ref_source_ref", { length: 80 }),
+    refContentVersionId: uuid("ref_content_version_id").references(() => contentVersions.id, { onDelete: "set null" }),
+    /** type=quiz: canonical question type id + the answer model that type expects. */
+    quizQuestionType: varchar("quiz_question_type", { length: 40 }),
+    quizPayload: jsonb("quiz_payload").$type<Record<string, unknown>>(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("lesson_blocks_position_idx").on(table.lessonId, table.position),
+    index("lesson_blocks_lesson_idx").on(table.lessonId),
+    index("lesson_blocks_reference_idx").on(table.refModule, table.refContentType, table.refSourceRef),
+  ],
+);
+
+/** A learner's answer to one quiz block, graded once and kept. */
+export const lessonBlockResponses = pgTable(
+  "lesson_block_responses",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    lessonId: uuid("lesson_id")
+      .notNull()
+      .references(() => lessons.id, { onDelete: "cascade" }),
+    blockId: uuid("block_id")
+      .notNull()
+      .references(() => lessonBlocks.id, { onDelete: "cascade" }),
+    answer: jsonb("answer").$type<Record<string, unknown>>(),
+    correct: boolean("correct"),
+    answeredAt: timestamp("answered_at", { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("lesson_block_responses_user_block_idx").on(table.userId, table.blockId),
+    index("lesson_block_responses_lesson_idx").on(table.lessonId, table.userId),
+  ],
+);
 
 export const lessonProgress = pgTable("lesson_progress", {
   id: uuid("id").defaultRandom().primaryKey(),

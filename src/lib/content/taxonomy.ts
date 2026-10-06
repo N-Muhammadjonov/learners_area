@@ -110,6 +110,15 @@ export const MODULE_DESCRIPTORS: ModuleDescriptor[] = [
     focus: "never",
     contentTypes: ["video_lesson", "audio_lesson"],
   },
+  {
+    module: "lesson",
+    label: "Lesson",
+    class: "composition",
+    tracks: ["unspecified"],
+    libraryPath: "/courses",
+    focus: "never",
+    contentTypes: ["lesson"],
+  },
 ];
 
 export const COMPOSITION_KINDS = ["mock", "sectional_mock", "practice_set", "assignment", "lesson"] as const;

@@ -26,6 +26,12 @@ export const CONTENT_MODULES = [
   "vocabulary",
   "ted",
   "speaking",
+  /**
+   * A lesson is a course-level COMPOSITION: it owns its own presentation blocks
+   * (text, media) and references canonical content, but it never owns assessable
+   * material — that stays in the module that owns it (§26, §68).
+   */
+  "lesson",
 ] as const;
 export type ContentModule = (typeof CONTENT_MODULES)[number];
 

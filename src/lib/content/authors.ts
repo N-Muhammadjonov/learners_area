@@ -3,6 +3,7 @@ import { z as zod } from "zod";
 import {
   grammarExercises,
   grammarTopics,
+  lessons,
   listeningQuestions,
   listeningTests,
   readingPassages,
@@ -21,6 +22,7 @@ import type { PgTable } from "drizzle-orm/pg-core";
 type UpdateTarget = PgTable;
 import type { ImportTransaction } from "@/lib/import/core/dry-run";
 import { resolveQuestionType, storageTypeFor } from "@/lib/content/question-types";
+import { saveLessonStructure } from "@/lib/content/lessons";
 
 /**
  * AUTHORS — how an in-app draft becomes canonical rows.
@@ -615,6 +617,75 @@ export class AuthoringPayloadError extends Error {
   }
 }
 
+/* -------------------------------------------------------------------------- */
+/* Lesson                                                                      */
+/* -------------------------------------------------------------------------- */
+
+const lessonPayload = zod.object({
+  unitId: zod.string().uuid(),
+  slug: zod.string().min(2).max(60),
+  summary: zod.string().max(2000).optional().nullable(),
+  estimatedMinutes: zod.number().int().min(1).max(600).optional().nullable(),
+  order: zod.number().int().min(0).optional(),
+  blocks: zod.array(zod.unknown()).default([]),
+});
+
+/**
+ * A lesson is authored through the SAME pipeline as every other content type: the
+ * blocks are validated by the block contract, the domain rows are written, and the
+ * revision is pinned. The lesson author therefore adds no new storage rules — it
+ * reuses `saveLessonStructure`.
+ */
+export const lessonAuthor: ModuleAuthor = {
+  module: "lesson",
+  contentType: "lesson",
+  payloadVersion: 1,
+  label: "Lesson",
+  payloadSchema: lessonPayload,
+  async persist(tx, payload, context) {
+    const parsed = lessonPayload.parse(payload);
+    const result = await saveLessonStructure(tx as never, {
+      actor: { id: context.actorUserId, role: "owner", mayPublish: true },
+      unitId: parsed.unitId,
+      slug: parsed.slug,
+      title: context.title,
+      summary: parsed.summary ?? null,
+      estimatedMinutes: parsed.estimatedMinutes ?? null,
+      order: parsed.order,
+      sourceRef: context.sourceRef,
+      blocks: parsed.blocks as never,
+    });
+    if (!result.ok)
+      throw new AuthoringPayloadError(
+        "lesson",
+        new zod.ZodError(
+          result.issues.map((issue) => ({
+            code: zod.ZodIssueCode.custom,
+            path: issue.field ? issue.field.split(".") : [],
+            message: issue.message,
+          })),
+        ),
+      );
+    return {
+      targetType: "lesson",
+      targetId: result.lessonId,
+      // saveLessonStructure already pinned the revision; the author returns the
+      // snapshot so the caller's own pin stays identical rather than duplicating it.
+      content: { blocks: parsed.blocks },
+      summary: `Lesson with ${result.blockCount} block(s)`,
+    };
+  },
+  async setPublication(tx, version, publication) {
+    if (!version.targetId) return "target_missing";
+    return syncRows(tx, lessons, eq(lessons.id, version.targetId), publication, true);
+  },
+  async readSchedule(tx, version) {
+    if (!version.targetId) return null;
+    const [row] = await tx.select({ publishAt: lessons.publishAt }).from(lessons).where(eq(lessons.id, version.targetId)).limit(1);
+    return row?.publishAt ?? null;
+  },
+};
+
 let registered = false;
 
 /**
@@ -631,5 +702,6 @@ export function registerModuleAuthors(): void {
   registerModuleAuthor(speakingAuthor("cue_card", "part2"));
   registerModuleAuthor(speakingAuthor("part3_question", "part3"));
   registerModuleAuthor(grammarTopicAuthor);
+  registerModuleAuthor(lessonAuthor);
   registered = true;
 }
