@@ -225,6 +225,13 @@ test("TY7b timer is above the typing stage and only three visual rows are visibl
   assert.doesNotMatch(css, /typing-row-top|typing-row-bottom|typing-word-hide|typing-word-show/);
 });
 
+test("TY7c a persisted run is returned even if history refresh fails", () => {
+  const finishRoute = readFileSync("src/app/api/writing/typing/finish/route.ts", "utf8");
+  assert.match(finishRoute, /const result = await finishPreparedTypingRun/);
+  assert.match(finishRoute, /saved run, history refresh unavailable/);
+  assert.match(finishRoute, /return NextResponse\.json\(\{ run: result\.result \}\)/);
+});
+
 test("TY8 prepare API explicitly accepts 30 seconds and rejects 29/31 by schema", () => {
   const source = readFileSync("src/app/api/writing/typing/prepare/route.ts", "utf8");
   assert.match(source, /z\.literal\(0\)/);
