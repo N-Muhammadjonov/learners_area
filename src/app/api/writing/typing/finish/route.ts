@@ -27,10 +27,21 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: result.code }, { status });
   }
 
-  const stats = await typingStats(user.id);
-  return NextResponse.json({
-    run: result.result,
-    summary: { count: stats.count, bestWpm: stats.bestWpm, bestAccuracy: stats.bestAccuracy },
-    history: stats.history,
-  });
+  try {
+    const stats = await typingStats(user.id);
+    return NextResponse.json({
+      run: result.result,
+      summary: { count: stats.count, bestWpm: stats.bestWpm, bestAccuracy: stats.bestAccuracy },
+      history: stats.history,
+    });
+  } catch (error) {
+    // Persistence already succeeded. Never turn a saved run into a red error
+    // screen just because the non-critical history refresh is temporarily stale.
+    console.warn("[writing-typing] saved run, history refresh unavailable", {
+      userId: user.id,
+      runId: result.result.runId,
+      error: error instanceof Error ? error.message : String(error),
+    });
+    return NextResponse.json({ run: result.result });
+  }
 }
