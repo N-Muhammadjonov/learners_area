@@ -89,8 +89,11 @@ test("Live Classes exposes core classes while optional teacher and resource quer
 test("Reading streams counts, facets, and selected library independently with local failure notices", () => {
   const page = read("src/app/(app)/reading/page.tsx");
   assert.match(page, /const countsPromise = captureRegion\(readingHubCounts\(userId\)\)/);
-  assert.match(page, /tab === "general-reading" \|\| tab === "types"[\s\S]*captureRegion\(listLibraryFacets\(\)\)/);
-  assert.match(page, /tab === "general-reading"[\s\S]*captureRegion\(listLibrary\(userId, filter\)\)/);
+  // The accepted base already reads facets with the learning-library flag and streams
+  // the learning library itself; the invariant under test is that EACH region is its
+  // own captured promise, so the assertions name the calls the page really makes.
+  assert.match(page, /tab === "general-reading" \|\| tab === "types"[\s\S]*captureRegion\(listLibraryFacets\(true\)\)/);
+  assert.match(page, /tab === "general-reading"[\s\S]*captureRegion\(listLearningLibrary\(userId, filter\)\)/);
   assert.match(page, /<Suspense fallback=\{<ReadingCountsSkeleton dict=\{dict\} \/>\}>[\s\S]*ReadingCountsRegion countsPromise=\{countsPromise\}/);
   assert.match(page, /<Suspense fallback=\{<ReadingFiltersSkeleton dict=\{dict\} \/>\}>[\s\S]*ReadingFiltersRegion[\s\S]*facetsPromise=\{facetsPromise\}/);
   assert.match(page, /<Suspense fallback=\{<ReadingLibrarySkeleton \/>\}>[\s\S]*ReadingLibraryRegion[\s\S]*libraryPromise=\{libraryPromise\}/);
