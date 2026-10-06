@@ -207,7 +207,8 @@ test("TY7 client contract has no textarea or Start button and blocks paste/drop"
   assert.match(source, /spellCheck=\{false\}/);
   assert.match(source, /autoCorrect="off"/);
   assert.match(source, /autoCapitalize="off"/);
-  assert.match(source, /\[activeLine - 1, activeLine, activeLine \+ 1, activeLine \+ 2\]/);
+  assert.match(source, /const rollingLineIndexes/);
+  assert.match(source, /activeLine === 0[\s\S]*\[0, 1, 2, 3\][\s\S]*\[activeLine - 1, activeLine, activeLine \+ 1, activeLine \+ 2\]/);
   assert.match(source, /ResizeObserver/);
   assert.match(source, /window\.clearInterval\(timer\.current\)/, "run timer is explicitly cleared");
   assert.match(source, /observer\.disconnect\(\)/, "ResizeObserver is released on unmount");
