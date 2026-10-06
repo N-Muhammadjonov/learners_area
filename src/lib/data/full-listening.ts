@@ -6,6 +6,7 @@ import {
   listeningActivityRuns,
   listeningAttempts,
   listeningPackages,
+  listeningQuestions,
   listeningTests,
 } from "@/db/schema";
 import { liveWhere, isLive } from "@/lib/services/cms/publication";
@@ -204,6 +205,38 @@ export async function listeningExamState(user: { id: string; role: Role }, testI
     examInProgress: rows.some((row) => row.status === "in_progress"),
     staff: isStaff(user.role),
   };
+}
+
+/** Questions of one submitted attempt that have no correct answer — wrong or blank. */
+export async function missedForAttempt(attemptId: string, testId: string, database: typeof db = db): Promise<number> {
+  const [row] = await database
+    .select({ missed: sql<number>`count(*)::integer` })
+    .from(listeningQuestions)
+    .where(
+      and(
+        eq(listeningQuestions.testId, testId),
+        sql`not exists (
+          select 1 from listening_answers ans
+          where ans.attempt_id = ${attemptId}
+            and ans.question_id = ${listeningQuestions.id}
+            and ans.is_correct = true
+        )`,
+      ),
+    );
+  return Number(row?.missed ?? 0);
+}
+
+/**
+ * WHAT IS TRUE ABOUT THIS LEARNER, for the activity registry.
+ *
+ * Both hubs (`/app/listening/tests/:id` and `/app/listening/academic/:id`) ask this one
+ * function, so they can never disagree about whether there is a result to review or real
+ * weakness to retry — and neither of them has to remember to pass it.
+ */
+export async function listeningLearnerFacts(userId: string, testId: string, database: typeof db = db) {
+  const progress = await fullListeningProgress(userId, testId, database);
+  const missedQuestions = progress.exam ? await missedForAttempt(progress.exam.id, testId, database) : 0;
+  return { examSubmitted: Boolean(progress.exam), missedQuestions, progress };
 }
 
 /** Trainer progress shares the existing practice-run table with an explicit scoped discriminator. */

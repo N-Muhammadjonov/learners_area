@@ -3,7 +3,7 @@ import type { Dictionary } from "@/lib/i18n/en";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { gradePackage, normalized, type ListeningPackage } from "@/lib/listening/package";
-import { packageActivities } from "@/lib/listening/activities";
+import { testActivities } from "@/lib/listening/activities";
 import { ListeningMap } from "@/components/listening/ListeningMap";
 
 /** In-memory author preview: source media and all authored activities, no writes. */
@@ -18,7 +18,7 @@ export function ListeningTryout({ dict,payload,audioFile,image }: { dict:Pick<Di
  function choose(key:string){player.current?.pause();clipEnd.current=null;setActivity(key);setChecked(false);setAnswers({});setRevealed({});setPredictions({});}
  const grade=checked?gradePackage(payload,answers):[];
  const questions=payload.questions.filter(q=>q.section===part&&(activity==="matching"?q.kind==="matching":activity==="completion"?q.kind==="completion":activity==="mcq"?q.options.length&&q.kind!=="matching":true));
- return <section className="listening-workspace space-y-4 rounded-2xl border border-ink-100 p-5" data-listening-tryout><h2 className="text-xl font-semibold">{t.title}</h2><p>{t.hint}</p><nav aria-label={t.tabs} className="flex flex-wrap gap-2">{packageActivities(payload).map(key=><button type="button" className={activity===key?"btn-primary":"btn-secondary"} key={key} onClick={()=>choose(key)}>{labels[key]}</button>)}</nav>
+ return <section className="listening-workspace space-y-4 rounded-2xl border border-ink-100 p-5" data-listening-tryout><h2 className="text-xl font-semibold">{t.title}</h2><p>{t.hint}</p><nav aria-label={t.tabs} className="flex flex-wrap gap-2">{testActivities(payload).map(key=><button type="button" className={activity===key?"btn-primary":"btn-secondary"} key={key} onClick={()=>choose(key)}>{labels[key]}</button>)}</nav>
  {url&&activity!=="vocab"&&<audio ref={player} src={url} controls className="w-full" onTimeUpdate={()=>{if(clipEnd.current!==null&&player.current&&player.current.currentTime>=clipEnd.current){player.current.pause();clipEnd.current=null;}}}/>}
  {activity!=="vocab"&&<nav className="flex flex-wrap gap-2">{payload.sections.map(s=><button type="button" className={part===s.number?"btn-primary":"btn-secondary"} key={s.number} onClick={()=>{setPart(s.number);setChecked(false);}}>PART {s.number}</button>)}</nav>}
  {["exam","review","mcq","matching","completion","retry"].includes(activity)&&<>{["exam","review"].includes(activity)&&<>{payload.mapDiagram&&part===2&&<ListeningMap diagram={payload.mapDiagram}/>} {imageUrl&&part===2&&<Image src={imageUrl} alt={t.image} width={1000} height={600} unoptimized className="h-auto max-h-96 w-auto max-w-full"/>}</>}{activity==="retry"&&<p>{r.weakEmpty}</p>}{questions.map(q=><div className="card space-y-3 p-4" key={q.number}><p>{q.instruction}</p><p><strong>{q.number}.</strong> {q.text}</p>{activity!=="exam"&&<button className="btn-secondary" type="button" onClick={()=>clip(q.evidence.at,q.evidence.end??q.evidence.at+25)}>▶ {t.playMoment}</button>}

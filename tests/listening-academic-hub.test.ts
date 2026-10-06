@@ -11,6 +11,9 @@ import {
 import { listeningPackageSchema, type ListeningPackage } from "../src/lib/listening/package";
 import { academicListeningCards, academicListeningTest } from "../src/lib/data/listening-academic";
 import { createTestDatabase } from "./support/pglite";
+import { listeningLearnerFacts } from "../src/lib/data/full-listening";
+import { readdirSync, readFileSync, statSync } from "node:fs";
+import { join } from "node:path";
 
 /**
  * ACADEMIC LISTENING — the catalogue and the per-test hub.
@@ -359,6 +362,82 @@ test("AL8 the fixtures are removed: the catalogue is empty again and the removal
     assert.equal(Number(remaining[0]!.count), 0, "the packages cascade with their tests");
     const questions = await database.query<{ count: number }>(`select count(*)::integer as count from listening_questions`);
     assert.equal(Number(questions[0]!.count), 0);
+  } finally {
+    await database.close();
+  }
+});
+
+/**
+ * Every call of the registry from application code must hand over the learner's own facts.
+ * A hub that forgets them does not merely look different: it hides "Review by Part" and
+ * "Retry Weak Areas" from the only learner who has something to review or retry.
+ */
+function packageActivitiesCallsWithoutLearnerFacts(source: string): string[] {
+  const code = source.replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "");
+  const marker = "packageActivities(";
+  const offenders: string[] = [];
+  let index = code.indexOf(marker);
+  while (index >= 0) {
+    let depth = 1;
+    let cursor = index + marker.length;
+    let commas = 0;
+    while (cursor < code.length && depth > 0) {
+      const char = code[cursor]!;
+      if (char === "(") depth += 1;
+      else if (char === ")") depth -= 1;
+      else if (char === "," && depth === 1) commas += 1;
+      cursor += 1;
+    }
+    if (commas === 0) offenders.push(code.slice(index, cursor).replace(/\s+/g, " "));
+    index = code.indexOf(marker, cursor);
+  }
+  return offenders;
+}
+
+function* sourceFiles(directory: string): Generator<string> {
+  for (const name of readdirSync(directory)) {
+    const path = join(directory, name);
+    if (statSync(path).isDirectory()) yield* sourceFiles(path);
+    else if (/\.tsx?$/.test(path) && path !== join(directory, "activities.ts")) yield path;
+  }
+}
+
+test("AL9 every application call of the registry passes the learner's real facts", () => {
+  const offenders: string[] = [];
+  for (const file of sourceFiles("src")) {
+    if (file.endsWith("listening/activities.ts")) continue;
+    for (const call of packageActivitiesCallsWithoutLearnerFacts(readFileSync(file, "utf8"))) {
+      offenders.push(`${file}: ${call}`);
+    }
+  }
+  assert.deepEqual(offenders, [], "a hub must ask packageActivities(payload, learner) so Review/Retry stay truthful");
+  // The guard is not vacuous: it rejects the exact call it exists to prevent.
+  assert.deepEqual(packageActivitiesCallsWithoutLearnerFacts("const a = packageActivities(pkg);"), ["packageActivities(pkg)"]);
+  assert.deepEqual(packageActivitiesCallsWithoutLearnerFacts("const a = packageActivities(pkg, learner);"), []);
+  // The staff import PREVIEW asks the other question on purpose — "what does this test
+  // support" — because no learner exists before the test does. It is confined to that one
+  // surface, so a learner page cannot quietly adopt the same call.
+  const testOnly: string[] = [];
+  for (const file of sourceFiles("src")) {
+    if (/testActivities\(/.test(readFileSync(file, "utf8"))) testOnly.push(file);
+  }
+  assert.deepEqual(testOnly, [join("src", "components", "import", "ListeningTryout.tsx")], "the learner-free question belongs to the import preview");
+});
+
+test("AL10 the shared learner-facts helper reports exactly what the hubs gate on", async () => {
+  const database = await createTestDatabase();
+  try {
+    const ids = await seed(database);
+    const before = await listeningLearnerFacts(LEARNER, ids.a, database.db);
+    assert.equal(before.examSubmitted, false, "before the first attempt there is nothing to review");
+    assert.equal(before.missedQuestions, 0, "and nothing to retry");
+    assert.equal(before.progress.exam, null);
+    await submit(database, ids.a, LEARNER, [2]);
+    const facts = await listeningLearnerFacts(LEARNER, ids.a, database.db);
+    assert.equal(facts.examSubmitted, true);
+    assert.equal(facts.missedQuestions, 1, "one question was answered wrongly");
+    assert.ok(facts.progress.exam, "the submitted attempt is visible to the hub");
+    assert.equal((await listeningLearnerFacts(OTHER, ids.a, database.db)).examSubmitted, false, "another learner's attempt is not mine");
   } finally {
     await database.close();
   }

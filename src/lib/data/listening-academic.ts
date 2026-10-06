@@ -6,7 +6,7 @@ import { liveWhere } from "@/lib/services/cms/publication";
 import { isUuid } from "@/lib/validation/ids";
 import type { Role } from "@/lib/auth/roles";
 import { listeningSchemaReady } from "./listening-schema-ready";
-import { fullListeningDetail, fullListeningProgress, listeningPracticeProgress } from "./full-listening";
+import { fullListeningDetail, listeningLearnerFacts, listeningPracticeProgress } from "./full-listening";
 import {
   activityPath,
   activityFacts,
@@ -216,25 +216,6 @@ function minutesOf(seconds: number | null): number | null {
   return typeof seconds === "number" && Number.isFinite(seconds) && seconds > 0 ? Math.max(1, Math.round(seconds / 60)) : null;
 }
 
-/** Questions of one submitted attempt that have no correct answer — wrong or blank. */
-async function missedForAttempt(attemptId: string, testId: string, database: typeof db = db): Promise<number> {
-  const [row] = await database
-    .select({ missed: sql<number>`count(*)::integer` })
-    .from(listeningQuestions)
-    .where(
-      and(
-        eq(listeningQuestions.testId, testId),
-        sql`not exists (
-          select 1 from listening_answers ans
-          where ans.attempt_id = ${attemptId}
-            and ans.question_id = ${listeningQuestions.id}
-            and ans.is_correct = true
-        )`,
-      ),
-    );
-  return Number(row?.missed ?? 0);
-}
-
 /**
  * ONE test hub.
  *
@@ -256,17 +237,11 @@ export async function academicListeningTest(
   if (!detail) return null;
   const payload = detail.pkg.payload;
   if (!isAcademicCollection(payload.collection)) return null;
-  const progress = await fullListeningProgress(user.id, testId, database);
-  const [practice, missed] = await Promise.all([
-    listeningPracticeProgress(user.id, testId, database),
-    // Real weakness only: the questions of THAT submitted attempt with no correct answer.
-    progress.exam ? missedForAttempt(progress.exam.id, testId, database) : Promise.resolve(0),
-  ]);
+  // ONE source of learner truth, shared with the generic hub.
+  const { examSubmitted, missedQuestions, progress } = await listeningLearnerFacts(user.id, testId, database);
+  const practice = await listeningPracticeProgress(user.id, testId, database);
 
-  const activities = packageActivities(payload, {
-    examSubmitted: Boolean(progress.exam),
-    missedQuestions: missed,
-  }).map((id) => {
+  const activities = packageActivities(payload, { examSubmitted, missedQuestions }).map((id) => {
     const kind = practiceKindOf(id);
     const run = kind ? practice[kind] : undefined;
     const legacy = progress.activities.find((entry) => String(entry.activity) === activityPath[id]);

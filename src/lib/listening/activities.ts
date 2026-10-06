@@ -211,12 +211,28 @@ function learnerAllows(descriptor: ListeningActivityDescriptor, learner: Listeni
 }
 
 /**
- * THE ACTIVITY LIST OF A TEST.
+ * WHAT THE TEST ITSELF SUPPORTS, with no learner in the picture.
  *
- * With a learner context this is exactly what a hub may show. Without one (a staff
- * preview, an analysis screen) it is the test's own truth: activities that need a
- * submitted attempt — review of a result, retry of real weakness — are absent, because
- * nothing about the learner is known and a card nobody can use is not offered.
+ * This is the staff question — the import preview asks it before a test exists and before
+ * anybody could have a result to review — and it is why review and retry are absent here:
+ * a preview has no learner, so a card nobody could use is not offered. A LEARNER surface
+ * must call `packageActivities(payload, learner)` instead; the test suite guards that.
+ */
+export function testActivities(p: ListeningPackage): ListeningActivityId[] {
+  const facts = activityFacts(p);
+  const allowed = (id: ListeningActivityId) => {
+    const descriptor = BY_ID.get(id);
+    return Boolean(descriptor) && descriptor!.supported(facts) && learnerAllows(descriptor!, undefined);
+  };
+  return activityList(p, facts, allowed);
+}
+
+/**
+ * THE ACTIVITY LIST OF A TEST FOR ONE LEARNER.
+ *
+ * With a learner context this is exactly what a hub may show: activities that need a
+ * submitted attempt — review of a result, retry of real weakness — appear only when they
+ * really exist for that person.
  */
 export function packageActivities(p: ListeningPackage, learner?: ListeningLearner): ListeningActivityId[] {
   const facts = activityFacts(p);
@@ -224,6 +240,16 @@ export function packageActivities(p: ListeningPackage, learner?: ListeningLearne
     const descriptor = BY_ID.get(id);
     return Boolean(descriptor) && descriptor!.supported(facts) && learnerAllows(descriptor!, learner);
   };
+  return activityList(p, facts, allowed);
+}
+
+/** The one ordering rule, shared by both questions above. */
+function activityList(
+  p: ListeningPackage,
+  facts: ListeningActivityFacts,
+  allowed: (id: ListeningActivityId) => boolean,
+): ListeningActivityId[] {
+  void p;
   // The source's own declaration is the strongest authored fact, and it is also the order
   // the owner chose — filtered, so a declared activity whose content does not exist (an
   // activity with no transcript, say) never becomes an empty card.
