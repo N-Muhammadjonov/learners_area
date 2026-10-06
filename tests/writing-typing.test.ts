@@ -3,86 +3,205 @@ import test from "node:test";
 import { readFileSync } from "node:fs";
 import { eq } from "drizzle-orm";
 import { createTestDatabase } from "./support/pglite";
-import { users, writingModelTexts, typingRunTexts, writingPrompts } from "../src/db/schema";
-import { issueTypingToken, recordModelTextRun, listWritingModelTexts, typingStats } from "../src/lib/services/writing/typing-runs";
-import { computeTypingResult } from "../src/lib/services/writing/typing";
+import {
+  typingRunTexts,
+  typingRuns,
+  typingTexts,
+  users,
+  writingModelTexts,
+} from "../src/db/schema";
+import {
+  finishPreparedTypingRun,
+  issueTypingToken,
+  listTypingTexts,
+  prepareTypingRun,
+  recordModelTextRun,
+  startPreparedTypingRun,
+  typingStats,
+} from "../src/lib/services/writing/typing-runs";
+import {
+  computeWordTypingMetrics,
+  consistencyFromSamples,
+  validateTypingSubmission,
+} from "../src/lib/services/writing/typing";
+import { groupTypingLines } from "../src/lib/services/writing/typing-lines";
 
-process.env.AUTH_SECRET ??= "test-secret-test-secret-123456";
-const BODY = "In recent decades, the question of whether university education should be free has become increasingly contentious. ".repeat(3).trim();
+process.env.AUTH_SECRET ??= "test-secret-test-secret-1234567890";
 
 async function setup() {
   const t = await createTestDatabase();
-  const [u] = await t.db.insert(users).values({ email: `y${Math.random()}@example.test`, name: "Y", passwordHash: "x" } as typeof users.$inferInsert).returning();
-  const [mt] = await t.db.insert(writingModelTexts).values({ title: "Free university", taskType: "task2", topic: "education", targetBand: "8.5", body: BODY, wordCount: 45, provenance: "Learners Area QA", publicationState: "published" } as typeof writingModelTexts.$inferInsert).returning();
-  await t.db.insert(writingPrompts).values({ taskType: "task2", category: "x", prompt: "PROMPT-TEXT-MUST-NOT-BE-TYPED", targetWordCount: 250 } as typeof writingPrompts.$inferInsert);
-  return { t, db: t.db as never, userId: u!.id, textId: mt!.id };
+  const [user] = await t.db
+    .insert(users)
+    .values({ email: `typing-${Math.random()}@example.test`, name: "Typing QA", passwordHash: "x" } as typeof users.$inferInsert)
+    .returning();
+  return { t, db: t.db as never, userId: user!.id };
 }
 
-test("TY1/TY2 typing texts come from writing_model_texts, never prompt.prompt", async () => {
+test("TY1 dedicated B1/B2 corpus ships all 30 owner-supplied passages", async () => {
   const { t, db } = await setup();
   try {
-    const texts = await listWritingModelTexts(db);
-    assert.equal(texts.length, 1);
-    assert.equal(texts[0]!.body, BODY);
-    assert.ok(!JSON.stringify(texts).includes("PROMPT-TEXT"));
-    const page = readFileSync("src/app/(app)/writing/page.tsx", "utf8");
-    assert.doesNotMatch(page, /prompts\.map\(\(prompt\) => \(\{[^}]*text: prompt\.prompt/);
-    assert.doesNotMatch(page, /listActivePromptsWithResources/);
-    assert.match(page, /listWritingModelTexts/);
-  } finally { await t.close(); }
-});
-
-test("TY3/TY4/TY5 the client names a modelTextId; the server loads the canonical body; targetText is refused", async () => {
-  const route = readFileSync("src/app/api/writing/typing/route.ts", "utf8");
-  assert.match(route, /modelTextId: z\.string\(\)\.uuid\(\)/);
-  assert.match(route, /\.strict\(\)/, "an extra targetText field fails validation");
-  assert.doesNotMatch(route, /targetText/);
-  const { t, db, userId, textId } = await setup();
-  try {
-    const token = (await issueTypingToken(userId, textId, db))!;
-    const t0 = Date.now();
-    // A tampered client "types" its own easy target; the server scores against the model body.
-    const r = await recordModelTextRun(userId, { modelTextId: textId, typedText: "aaaa aaaa aaaa aaaa", durationMs: 30_000, token }, { database: db, now: () => t0 + 30_000 });
-    assert.ok(r.ok);
-    assert.equal(r.result.targetChars, BODY.length);
-    assert.ok(r.result.accuracy < 30);
-    // A token for another text or user is rejected.
-    const other = await recordModelTextRun("00000000-0000-0000-0000-000000000002", { modelTextId: textId, typedText: "x", durationMs: 30_000, token }, { database: db, now: () => t0 + 30_000 });
-    assert.deepEqual(other, { ok: false, code: "invalid_token" });
-  } finally { await t.close(); }
-});
-
-test("TY6/TY7 WPM and accuracy are server-derived; a client duration shorter than the server elapsed is ignored", async () => {
-  const exact = computeTypingResult(BODY, BODY.slice(0, 100), 60_000);
-  assert.equal(exact.wpm, 20); assert.equal(exact.rawWpm, 20); assert.equal(exact.accuracy, 100); assert.equal(exact.mistakes, 0);
-  const one = computeTypingResult("abcdefghij", "abcdefghiX", 60_000);
-  assert.equal(one.mistakes, 1); assert.equal(one.correctChars, 9); assert.equal(one.accuracy, 90); assert.equal(one.rawWpm, 2); assert.equal(one.wpm, 1.8);
-  const { t, db, userId, textId } = await setup();
-  try {
-    const token = (await issueTypingToken(userId, textId, db))!;
-    const t0 = Date.now();
-    const r = await recordModelTextRun(userId, { modelTextId: textId, typedText: BODY.slice(0, 100), durationMs: 6_000, token }, { database: db, now: () => t0 + 60_000 });
-    assert.ok(r.ok);
-    assert.ok(Math.abs(r.result.durationMs - 60_000) < 1500, "the server's elapsed time wins over an implausibly short client duration");
-    assert.ok(r.result.wpm <= 21);
-  } finally { await t.close(); }
-});
-
-test("TY8/TY9 mistakes are persisted against the model text and appear in history with bests", async () => {
-  const { t, db, userId, textId } = await setup();
-  try {
-    const t0 = Date.now();
-    for (const typed of [BODY.slice(0, 80), BODY.slice(0, 79) + "#"]) {
-      const token = (await issueTypingToken(userId, textId, db))!;
-      const r = await recordModelTextRun(userId, { modelTextId: textId, typedText: typed, durationMs: 20_000, token }, { database: db, now: () => t0 + 20_000 });
-      assert.ok(r.ok);
+    const texts = await listTypingTexts(db);
+    assert.equal(texts.length, 30);
+    assert.deepEqual(texts.map((row) => row.externalId), Array.from({ length: 30 }, (_, i) => `la-typing-b1b2-${String(i + 1).padStart(2, "0")}`));
+    for (const row of texts) {
+      assert.equal(row.difficulty, "B1/B2");
+      assert.ok(row.wordCount >= 150 && row.wordCount <= 200, row.title);
+      assert.equal(row.wordCount, row.body.trim().split(/\s+/).length, row.title);
     }
-    const rows = await t.db.select().from(typingRunTexts).where(eq(typingRunTexts.modelTextId, textId));
-    assert.deepEqual(rows.map((r) => r.mistakes).sort(), [0, 1]);
+    const [countRow] = await t.query<{ n: string }>('select count(*)::text as n from typing_texts');
+    assert.equal(Number(countRow!.n), 30);
+  } finally {
+    await t.close();
+  }
+});
+
+test("TY2 prepare supports 30/60/120/180/Full and Repeat/Next preserve corpus identity", async () => {
+  const { t, db, userId } = await setup();
+  try {
+    for (const preset of [0, 30, 60, 120, 180] as const) {
+      const prepared = await prepareTypingRun(userId, { preset }, { database: db, now: () => 1_800_000_000_000 });
+      assert.ok(prepared);
+      assert.equal(prepared.text.words.length, prepared.text.wordCount);
+    }
+    const first = (await prepareTypingRun(userId, { preset: 30 }, { database: db }))!;
+    const repeat = (await prepareTypingRun(userId, { preset: 30, textId: first.text.id }, { database: db }))!;
+    const next = (await prepareTypingRun(userId, { preset: 30, excludeTextId: first.text.id }, { database: db }))!;
+    assert.equal(repeat.text.id, first.text.id);
+    assert.notEqual(next.text.id, first.text.id);
+  } finally {
+    await t.close();
+  }
+});
+
+test("TY3 first valid keystroke creates a server-timed run token and finish is idempotent", async () => {
+  const { t, db, userId } = await setup();
+  try {
+    const base = 1_800_000_000_000;
+    const prepared = (await prepareTypingRun(userId, { preset: 30 }, { database: db, now: () => base }))!;
+    const runToken = await startPreparedTypingRun(userId, prepared.token, () => base + 100);
+    assert.ok(runToken);
+
+    const typedWords = [...prepared.text.words.slice(0, 8), ""];
+    const samples = [5, 10, 15, 20, 25, 30];
+    const first = await finishPreparedTypingRun(userId, { runToken: runToken!, typedWords, samples }, { database: db, now: () => base + 30_100 });
+    assert.ok(first.ok);
+    const second = await finishPreparedTypingRun(userId, { runToken: runToken!, typedWords, samples }, { database: db, now: () => base + 30_200 });
+    assert.ok(second.ok);
+    assert.equal(second.result.runId, first.result.runId);
+
+    const rows = await t.db.select().from(typingRuns).where(eq(typingRuns.userId, userId));
+    assert.equal(rows.length, 1);
+    const links = await t.db.select().from(typingRunTexts).where(eq(typingRunTexts.runId, rows[0]!.id));
+    assert.equal(links.length, 1);
+    assert.equal(links[0]!.modelTextId, null);
+    assert.equal(links[0]!.typingTextId, prepared.text.id);
+    assert.equal(links[0]!.presetSeconds, 30);
+  } finally {
+    await t.close();
+  }
+});
+
+test("TY4 server derives WPM/accuracy/raw/consistency from canonical words and samples", () => {
+  const target = "the quick brown fox jumps over the lazy dog".split(" ");
+  const perfect = computeWordTypingMetrics(target, ["the", "quick", "brown", ""], 30, [5, 10, 15, 20, 25, 30]);
+  assert.equal(perfect.correct, 13);
+  assert.equal(perfect.incorrect + perfect.extra + perfect.missed, 0);
+  assert.equal(perfect.accuracy, 100);
+  assert.equal(perfect.consistency, 100);
+
+  const mistakes = computeWordTypingMetrics(target, ["thx", "quickkk", "bro", ""], 60, [2, 6, 10, 12]);
+  assert.equal(mistakes.incorrect, 1);
+  assert.equal(mistakes.extra, 2);
+  assert.equal(mistakes.missed, 2);
+  assert.equal(mistakes.wpm, 0);
+  assert.ok(mistakes.rawWpm > 0);
+  assert.ok(mistakes.accuracy < 100);
+});
+
+test("TY5 forged samples, words and implausible speed are rejected", () => {
+  const target = "the quick brown fox jumps over the lazy dog".split(" ");
+  assert.equal(validateTypingSubmission(target, ["a".repeat(81), ""], [], 30), "bad_words");
+  assert.equal(validateTypingSubmission(target, ["the", ""], [3, 2], 30), "bad_samples");
+  assert.equal(validateTypingSubmission(target, ["the", "quick", ""], [0, 100], 30), "bad_samples");
+  assert.equal(consistencyFromSamples([5, 10]), null);
+});
+
+test("TY6 visual lines come from measured offsetTop values, never character-count heuristics", () => {
+  assert.deepEqual(groupTypingLines([0, 0, 0, 48, 48, 96]), [
+    { start: 0, end: 3 },
+    { start: 3, end: 5 },
+    { start: 5, end: 6 },
+  ]);
+  assert.deepEqual(groupTypingLines([]), []);
+});
+
+test("TY7 client contract has no textarea or Start button and blocks paste/drop", () => {
+  const source = readFileSync("src/components/writing/TypingTrainer.tsx", "utf8");
+  assert.doesNotMatch(source, /<textarea/);
+  assert.doesNotMatch(source, /data-typing-start/);
+  assert.match(source, /\/api\/writing\/typing\/prepare/);
+  assert.match(source, /\/api\/writing\/typing\/start/);
+  assert.match(source, /\/api\/writing\/typing\/finish/);
+  assert.match(source, /onPaste=\{\(event\) => event\.preventDefault\(\)\}/);
+  assert.match(source, /onDrop=\{\(event\) => event\.preventDefault\(\)\}/);
+  assert.match(source, /spellCheck=\{false\}/);
+  assert.match(source, /autoCorrect="off"/);
+  assert.match(source, /autoCapitalize="off"/);
+  assert.match(source, /\[activeLine - 1, activeLine, activeLine \+ 1, activeLine \+ 2\]/);
+  assert.match(source, /ResizeObserver/);
+});
+
+test("TY8 prepare API explicitly accepts 30 seconds and rejects 29/31 by schema", () => {
+  const source = readFileSync("src/app/api/writing/typing/prepare/route.ts", "utf8");
+  assert.match(source, /z\.literal\(0\)/);
+  assert.match(source, /TYPING_PRESETS\[0\]/);
+  const metrics = readFileSync("src/lib/services/writing/typing.ts", "utf8");
+  assert.match(metrics, /TYPING_PRESETS = \[30, 60, 120, 180\]/);
+  assert.doesNotMatch(metrics, /\b29\b|\b31\b/);
+});
+
+test("TY9 legacy model-text history still records beside new typing-text history", async () => {
+  const { t, db, userId } = await setup();
+  try {
+    const body = "Legacy model text ".repeat(30).trim();
+    const [model] = await t.db.insert(writingModelTexts).values({
+      title: "Legacy model",
+      taskType: "task2",
+      topic: "education",
+      targetBand: "8.5",
+      body,
+      wordCount: body.split(/\s+/).length,
+      provenance: "Learners Area QA",
+      publicationState: "published",
+    } as typeof writingModelTexts.$inferInsert).returning();
+
+    const token = (await issueTypingToken(userId, model!.id, db, null, () => 1_800_000_000_000))!;
+    const recorded = await recordModelTextRun(
+      userId,
+      { modelTextId: model!.id, typedText: body.slice(0, 80), durationMs: 30_000, token },
+      { database: db, now: () => 1_800_000_030_000 },
+    );
+    assert.ok(recorded.ok);
+
+    const newPrepared = (await prepareTypingRun(userId, { preset: 30 }, { database: db, now: () => 1_800_000_040_000 }))!;
+    const runToken = (await startPreparedTypingRun(userId, newPrepared.token, () => 1_800_000_040_100))!;
+    const newRun = await finishPreparedTypingRun(
+      userId,
+      { runToken, typedWords: [...newPrepared.text.words.slice(0, 6), ""], samples: [4, 8, 12, 16] },
+      { database: db, now: () => 1_800_000_070_100 },
+    );
+    assert.ok(newRun.ok);
+
     const stats = await typingStats(userId, db);
     assert.equal(stats.count, 2);
-    assert.equal(stats.history.length, 2);
-    assert.equal(stats.history[0]!.title, "Free university");
-    assert.equal(stats.bestAccuracy, 100);
-  } finally { await t.close(); }
+    assert.ok(stats.history.some((row) => row.title === "Legacy model"));
+    assert.ok(stats.history.some((row) => row.title === newPrepared.text.title));
+
+    const links = await t.db.select().from(typingRunTexts);
+    assert.equal(links.length, 2);
+    assert.ok(links.some((row) => row.modelTextId === model!.id && row.typingTextId === null));
+    assert.ok(links.some((row) => row.modelTextId === null && row.typingTextId === newPrepared.text.id));
+  } finally {
+    await t.close();
+  }
 });
