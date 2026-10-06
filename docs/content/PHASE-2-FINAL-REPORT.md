@@ -118,8 +118,14 @@ Tests: `content-authoring-publication` 12/12.
 
 `DONE`. `content_version_id` on reading attempts, listening attempts, writing
 submissions, speaking attempts, grammar attempts (0047), mock sections/mock attempts
-and assignments. A bound attempt reads its revision's snapshot for grading/review, so
-an answer-key edit after the fact cannot regrade history (§71/§72).
+and assignments — and, as of `a617d5b`, the runtime actually writes it: starting a
+Reading passage attempt, a Listening test attempt, a Grammar practice/produce attempt
+or a Writing submission resolves the published revision through
+`src/lib/content/attempt-binding.ts` and stores it. Only a published revision is ever
+bound; unversioned (legacy) content is recorded unbound rather than guessed at.
+Tests: `content-attempt-binding` AB1–AB3. A bound attempt reads its revision's
+snapshot for grading/review, so an answer-key edit after the fact cannot regrade
+history (§71/§72).
 
 ## J. Listening model
 

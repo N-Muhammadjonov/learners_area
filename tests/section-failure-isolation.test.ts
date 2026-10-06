@@ -55,7 +55,11 @@ test("Assignments keep assignment rows core and batch learner responses instead 
   assert.match(page, /RegionFailureNotice[\s\S]*assignment-materials/);
   assert.match(page, /metadataUnavailable=\{evaluationsUnavailable \|\| responsesUnavailable\}/);
   assert.match(board, /metadataUnavailable \? \([\s\S]*data-assignment-metadata-unavailable[\s\S]*\) : assignment\.evaluation \?/);
-  assert.match(page, /id: assignments\.id,[\s\S]*title: assignments\.title,[\s\S]*dueAt: assignments\.dueAt/);
+  assert.match(page, /id: assignments\.id,[\s\S]*title: assignments\.title,[\s\S]*dueAt: assignmentTargets\.dueAt/);
+  // A learner's tasks come from the TARGETS table: reading `assignments.target_user_id`
+  // would hide the task from every student except the first one it was set for.
+  assert.match(page, /innerJoin\(assignments, eq\(assignments\.id, assignmentTargets\.assignmentId\)\)/);
+  assert.match(page, /eq\(assignmentTargets\.studentUserId, user\.id\)/);
   assert.match(page, /listAssignmentResponses\(ids, user\.id\)/);
   assert.doesNotMatch(page, /rows\.map\(async[\s\S]*getAssignmentResponse/);
   const batch = data.slice(data.indexOf("export function listAssignmentResponses"), data.indexOf("\n}", data.indexOf("export function listAssignmentResponses")));

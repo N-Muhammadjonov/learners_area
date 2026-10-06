@@ -133,6 +133,14 @@ An attempt row records the revision it was taken against:
 | `assignments` | `content_version_id` (what the learner will be given) |
 | `mock_sections`, `mock_attempts` | `content_version_id` / `content_version_bindings` |
 
+Where the binding happens: an attempt is bound at CREATION, by the route that starts
+it, through `src/lib/content/attempt-binding.ts`. That module answers "which revision
+would a learner starting now be given?" and returns only a PUBLISHED revision,
+resolved through the content row's own identity (`target_type`/`target_id`) or, for
+imported material, through the set's/pack's source ref. Where no revision exists
+(content that predates the version store, legacy rows) the answer is `null` and the
+attempt is recorded unbound — an honest absence rather than a claimed history.
+
 Consequences that are enforced, not hoped for:
 
 * **No mutation of history.** A published revision is immutable
