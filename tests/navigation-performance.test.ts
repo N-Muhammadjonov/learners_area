@@ -120,14 +120,15 @@ test("Vocabulary streams its destination frame before authenticated, selected-vi
   assert.match(page, /if \(value === "games"\) redirect/);
 });
 
-test("Writing streams the entry header before its independent prompt and learner-summary reads", () => {
+test("Writing streams the entry header before its learner-summary reads", () => {
   const page = read("src/app/(app)/writing/page.tsx");
   assert.match(page, /Promise\.all\(\[requireActiveUser\(\), getLocale\(\)\]\)/);
   assert.match(page, /data-route-usable="writing"/);
   assert.match(page, /data-async-loading="writing"/);
-  // Typing reads Band 8–9 model texts, not prompts (owner spec §41).
-  assert.match(page, /timed\("writing\.modelTexts"/);
+  // Typing now prepares its dedicated B1/B2 target through the authenticated API.
+  assert.doesNotMatch(page, /timed\("writing\.modelTexts"/);
   assert.match(page, /timed\("writing\.typingSummary"/);
+  assert.match(page, /<TypingTrainer/);
 });
 
 test("Listening and Speaking stream useful module headers before catalogue reads", () => {

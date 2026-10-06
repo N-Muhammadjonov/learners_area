@@ -337,6 +337,13 @@
       "when": 1792200500000,
       "tag": "0047_assignments_canonical",
       "breakpoints": true
+    },
+    {
+      "idx": 48,
+      "version": "7",
+      "when": 1792200600000,
+      "tag": "0048_typing_trainer",
+      "breakpoints": true
     }
   ]
 }

@@ -15,6 +15,7 @@ import {
   smallint,
   primaryKey,
   unique,
+  check,
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 import type { AnyPgColumn } from "drizzle-orm/pg-core";
@@ -520,8 +521,19 @@ export const typingRuns = pgTable("typing_runs", {
   durationMs: integer("duration_ms").notNull(),
   wpm: numeric("wpm", { precision: 6, scale: 1 }).notNull(),
   accuracy: numeric("accuracy", { precision: 5, scale: 1 }).notNull(),
+  runTokenId: uuid("run_token_id"),
+  rawWpm: numeric("raw_wpm", { precision: 6, scale: 1 }),
+  consistency: numeric("consistency", { precision: 5, scale: 1 }),
+  charsCorrect: integer("chars_correct"),
+  charsIncorrect: integer("chars_incorrect"),
+  charsExtra: integer("chars_extra"),
+  charsMissed: integer("chars_missed"),
+  startedAt: timestamp("started_at", { withTimezone: true }),
+  finishedAt: timestamp("finished_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-});
+}, (table) => [
+  uniqueIndex("typing_runs_run_token_uq").on(table.runTokenId).where(sql`${table.runTokenId} is not null`),
+]);
 
 export const writingSubmissions = pgTable("writing_submissions", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -2502,13 +2514,38 @@ export const writingModelTexts = pgTable("writing_model_texts", {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
+export const typingTexts = pgTable("typing_texts", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  externalId: varchar("external_id", { length: 80 }).notNull(),
+  title: varchar("title", { length: 200 }).notNull(),
+  body: text("body").notNull(),
+  language: varchar("language", { length: 10 }).notNull().default("en"),
+  wordCount: integer("word_count").notNull(),
+  difficulty: varchar("difficulty", { length: 20 }),
+  topic: varchar("topic", { length: 160 }),
+  provenance: varchar("provenance", { length: 200 }).notNull(),
+  publicationState: publicationStateEnum("publication_state").notNull().default("draft"),
+  publishAt: timestamp("publish_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => [
+  uniqueIndex("typing_texts_external_id_uq").on(table.externalId),
+  index("typing_texts_publication_idx").on(table.publicationState, table.language),
+  check("typing_texts_word_count_chk", sql`${table.wordCount} >= 100`),
+]);
+
 export const typingRunTexts = pgTable("typing_run_texts", {
   runId: uuid("run_id").primaryKey().references(() => typingRuns.id, { onDelete: "cascade" }),
-  modelTextId: uuid("model_text_id").notNull().references(() => writingModelTexts.id, { onDelete: "cascade" }),
+  /** Legacy rows point at a Writing model answer; new trainer rows point at typing_texts. */
+  modelTextId: uuid("model_text_id").references(() => writingModelTexts.id, { onDelete: "cascade" }),
+  typingTextId: uuid("typing_text_id").references(() => typingTexts.id, { onDelete: "restrict" }),
   mistakes: integer("mistakes").notNull().default(0),
-  /** 60 / 120 / 180 for a timed preset run; NULL = untimed full-text run (and all pre-preset runs). Migration 0034. */
+  /** 30 / 60 / 120 / 180 for timed runs; NULL = Full / legacy untimed. */
   presetSeconds: smallint("preset_seconds"),
-});
+}, (table) => [
+  check("typing_run_texts_one_target_chk", sql`(${table.modelTextId} is not null) <> (${table.typingTextId} is not null)`),
+  check("typing_run_texts_preset_seconds_chk", sql`${table.presetSeconds} is null or ${table.presetSeconds} in (30,60,120,180)`),
+]);
 
 export const writingLanguagePatterns = pgTable("writing_language_patterns", {
   id: uuid("id").defaultRandom().primaryKey(),
