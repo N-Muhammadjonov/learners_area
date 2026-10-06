@@ -562,3 +562,37 @@ test("AS10 withdrawing content cannot erase what a learner already did", async (
     await database.close();
   }
 });
+
+test("AS11 a task set for two students reaches BOTH of them, not only the first", async () => {
+  const database = await createTestDatabase();
+  try {
+    const { db } = database;
+    const { ownerId, mineId, otherId } = await people(database);
+    const actor = { ...owner, id: ownerId };
+    const version = await publishedWritingTask(database, actor, "assign-both");
+
+    // `target_user_id` keeps the FIRST target for compatibility; the learner read
+    // path must not depend on it, or the second student would see nothing.
+    const created = await db.transaction((tx) =>
+      createAssignment(tx, {
+        actor,
+        title: "Both students",
+        reference: { module: "writing", contentType: "task2", sourceRef: "assign-both", versionId: version.id },
+        studentIds: [mineId, otherId],
+      }),
+    );
+    assert.equal(created.ok, true);
+    if (!created.ok) return;
+
+    const [row] = await db.select({ targetUserId: assignments.targetUserId }).from(assignments).where(eq(assignments.id, created.assignmentId));
+    assert.equal(row!.targetUserId, mineId, "the legacy column still names the first target");
+
+    for (const studentId of [mineId, otherId]) {
+      const list = await listAssignmentsForStudent(studentId, db);
+      assert.equal(list.length, 1, `student ${studentId === mineId ? "one" : "two"} sees the task`);
+      assert.equal(list[0]!.content.versionId, version.id, "and the revision they were given");
+    }
+  } finally {
+    await database.close();
+  }
+});

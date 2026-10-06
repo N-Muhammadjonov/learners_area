@@ -4,7 +4,7 @@ import type { CurrentUser } from "@/lib/auth/current-user";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { db } from "@/db/client";
-import { assignments } from "@/db/schema";
+import { assignmentTargets, assignments } from "@/db/schema";
 import { findEvaluationsForSources } from "@/lib/data/evaluations";
 import { listAssignmentResponses } from "@/lib/data/coach-artifacts";
 import { AssignmentBoard } from "@/components/coach/AssignmentBoard";
@@ -19,16 +19,20 @@ async function AssignmentsContent({ user, dict }: {
   user: CurrentUser;
   dict: ReturnType<typeof getDictionary>;
 }) {
+  // A learner's tasks come from the TARGETS table, because one assignment can be
+  // set for several students: reading `assignments.target_user_id` would hide every
+  // task from everyone except the first student it was set for (§24/§99).
   const rows = await timed("assignments.entry.core", () => db
     .select({
       id: assignments.id,
       title: assignments.title,
       description: assignments.description,
-      status: assignments.status,
-      dueAt: assignments.dueAt,
+      status: assignmentTargets.status,
+      dueAt: assignmentTargets.dueAt,
     })
-    .from(assignments)
-    .where(eq(assignments.targetUserId, user.id))
+    .from(assignmentTargets)
+    .innerJoin(assignments, eq(assignments.id, assignmentTargets.assignmentId))
+    .where(eq(assignmentTargets.studentUserId, user.id))
     .orderBy(desc(assignments.createdAt)));
   const ids = rows.map((row) => row.id);
 

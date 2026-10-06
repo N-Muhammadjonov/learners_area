@@ -3,6 +3,7 @@ import { desc, eq } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/db/client";
 import { activityEvents, assignments } from "@/db/schema";
+import { listAssignmentsCreatedBy, listAssignmentsForStudent } from "@/lib/content/assignments";
 import { isStaff, requireActiveUser } from "@/lib/auth/current-user";
 import { createAssignment } from "@/lib/content/assignments";
 
@@ -34,20 +35,15 @@ export async function GET() {
   const user = await requireActiveUser();
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
-  const staffView = isStaff(user.role);
-  const rows = staffView
-    ? await db
-        .select()
-        .from(assignments)
-        .where(eq(assignments.createdByUserId, user.id))
-        .orderBy(desc(assignments.createdAt))
-    : await db
-        .select()
-        .from(assignments)
-        .where(eq(assignments.targetUserId, user.id))
-        .orderBy(desc(assignments.createdAt));
-
-  return NextResponse.json({ ok: true, assignments: rows });
+  // The read path uses the same service as the write path, so a multi-student
+  // assignment reaches EVERY target (not only the first) and each learner sees the
+  // revision they were given.
+  if (isStaff(user.role)) {
+    const created = await listAssignmentsCreatedBy(user.id);
+    return NextResponse.json({ ok: true, assignments: created }, { headers: { "Cache-Control": "private, no-store" } });
+  }
+  const mine = await listAssignmentsForStudent(user.id);
+  return NextResponse.json({ ok: true, assignments: mine }, { headers: { "Cache-Control": "private, no-store" } });
 }
 
 export async function POST(req: NextRequest) {
