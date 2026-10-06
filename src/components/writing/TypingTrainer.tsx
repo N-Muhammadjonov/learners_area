@@ -373,13 +373,18 @@ export function TypingTrainer({
     if (phaseRef.current !== "ready") return;
     setPhaseSafe("running");
     startedAt.current = performance.now();
-    runPromise.current = postJson<{ runToken: string }>("/api/writing/typing/start", {
-      token: prepToken.current,
-    }).then((response) => {
-      if (!response.ok) return null;
-      runTokenRef.current = response.data.runToken;
-      return response.data.runToken;
-    });
+    runPromise.current = (async () => {
+      for (let attempt = 0; attempt < 2; attempt += 1) {
+        const response = await postJson<{ runToken: string }>("/api/writing/typing/start", {
+          token: prepToken.current,
+        });
+        if (response.ok) {
+          runTokenRef.current = response.data.runToken;
+          return response.data.runToken;
+        }
+      }
+      return null;
+    })();
     timer.current = window.setInterval(tick, 200);
   };
 
@@ -514,16 +519,17 @@ export function TypingTrainer({
     if (!token) return;
 
     setPauseBusy(true);
-    const action = pausedAtPerf.current === null ? "pause" : "resume";
+    const isPaused = pausedAtPerf.current !== null;
     const response = await postJson<{ runToken: string; paused: boolean; pausedMs: number }>(
-      "/api/writing/typing/pause",
-      { runToken: token, action },
+      isPaused ? "/api/writing/typing/resume" : "/api/writing/typing/pause",
+      { runToken: token },
     );
     if (response.ok) {
       runTokenRef.current = response.data.runToken;
       if (response.data.paused) {
         pausedAtPerf.current = performance.now();
         setPaused(true);
+        inputRef.current?.blur();
       } else {
         if (pausedAtPerf.current !== null) {
           pausedTotalMs.current += performance.now() - pausedAtPerf.current;
@@ -619,7 +625,7 @@ export function TypingTrainer({
             ref={wrapRef}
             onPointerDown={(event) => {
               event.preventDefault();
-              inputRef.current?.focus();
+              if (!paused) inputRef.current?.focus();
             }}
             data-typing-stage
           >
@@ -646,6 +652,7 @@ export function TypingTrainer({
               value={typed.current.buffer}
               onChange={onChange}
               onKeyDown={onKeyDown}
+              readOnly={paused}
               onFocus={() => setFocused(true)}
               onBlur={() => setFocused(false)}
               onPaste={(event) => event.preventDefault()}
@@ -665,7 +672,8 @@ export function TypingTrainer({
           </div>
           <div className="typing-footer">
             <span>
-              {phase === "running" && !focused ? t.focus :
+              {paused ? t.pause :
+               phase === "running" && !focused ? t.focus :
                phase === "ready" ? t.typeHint :
                phase === "saving" ? t.saving : ""}
             </span>
