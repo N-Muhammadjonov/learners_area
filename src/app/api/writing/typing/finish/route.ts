@@ -23,6 +23,7 @@ export async function POST(req: NextRequest) {
       result.code === "invalid_token" ? 403 :
       result.code === "not_found" ? 404 :
       result.code === "too_early" ? 409 :
+      result.code === "paused" ? 409 :
       result.code === "bad_submission" ? 422 : 409;
     return NextResponse.json({ error: result.code }, { status });
   }
