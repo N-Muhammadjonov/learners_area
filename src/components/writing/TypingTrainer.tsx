@@ -12,7 +12,7 @@ import {
 } from "react";
 import type { Dictionary } from "@/lib/i18n/en";
 import { groupTypingLines, type LineRange } from "@/lib/services/writing/typing-lines";
-import { TYPING_PRESETS, type TypingPreset } from "@/lib/services/writing/typing";
+import type { TypingPreset } from "@/lib/services/writing/typing";
 import { formatDate } from "@/lib/time";
 
 type Preset = 0 | TypingPreset;
