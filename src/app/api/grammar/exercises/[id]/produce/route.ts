@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/db/client";
+import { revisionForGrammarTopic } from "@/lib/content/attempt-binding";
 import { activityEvents, grammarAttempts, grammarTopics } from "@/db/schema";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getLocale } from "@/lib/i18n";
@@ -41,6 +42,9 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   const topic = await db.query.grammarTopics.findFirst({
     where: eq(grammarTopics.id, exercise.topicId),
   });
+  // The attempt records the topic revision it answers against, so a later wording
+  // or answer change cannot reach back into a past attempt (§71).
+  const revision = topic ? await revisionForGrammarTopic(topic.id) : null;
 
   const [attempt] = await db
     .insert(grammarAttempts)

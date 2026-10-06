@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/db/client";
+import { revisionForGrammarTopic } from "@/lib/content/attempt-binding";
 import { activityEvents, grammarAttempts, grammarTopics } from "@/db/schema";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getLocale } from "@/lib/i18n";
@@ -47,6 +48,9 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   const topic = await db.query.grammarTopics.findFirst({
     where: eq(grammarTopics.id, exercise.topicId),
   });
+  // The attempt records the topic revision it answers against, so a later wording
+  // or answer change cannot reach back into a past attempt (§71).
+  const revision = topic ? await revisionForGrammarTopic(topic.id) : null;
 
   const structures = exercise.targetStructures ?? [];
   const check = checkStructures(parsed.data.answer, structures);
@@ -64,6 +68,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       // structures were authored the row is provisional and only the evaluator's
       // verdict may set it — until then it is not counted as correct.
       isCorrect: verdict === "correct",
+      ...(revision ? { contentVersionId: revision.id } : {}),
     })
     .returning();
   if (!attempt) return NextResponse.json({ error: "attempt_write_failed" }, { status: 500 });

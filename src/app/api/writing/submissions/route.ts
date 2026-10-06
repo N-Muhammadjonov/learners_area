@@ -5,6 +5,7 @@ import { writingPrompts, writingSubmissions } from "@/db/schema";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { createSubmissionSchema } from "@/lib/validation/writing";
 import { isLive } from "@/lib/services/cms/publication";
+import { revisionForWritingPrompt } from "@/lib/content/attempt-binding";
 
 export async function POST(req: NextRequest) {
   const user = await requireActiveUser();
@@ -36,9 +37,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ id: existingDraft.id });
   }
 
+  // The submission records the task revision it answers, so a later edit to the
+  // prompt (or its guidance) cannot change what this learner is judged against (§71).
+  const revision = await revisionForWritingPrompt(parsed.data.promptId);
   const [created] = await db
     .insert(writingSubmissions)
-    .values({ userId: user.id, promptId: parsed.data.promptId })
+    .values({
+      userId: user.id,
+      promptId: parsed.data.promptId,
+      ...(revision ? { contentVersionId: revision.id } : {}),
+    })
     .returning();
 
   return NextResponse.json({ id: created!.id });

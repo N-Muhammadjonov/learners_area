@@ -5,6 +5,7 @@ import { db } from "@/db/client";
 import { listeningPackages, activityEvents, listeningAnswers, listeningAttempts, listeningQuestions, users } from "@/db/schema";
 import { gradePackage } from "@/lib/listening/package";
 import { gradeAnswer } from "@/lib/services/listening/grading";
+import { revisionForListeningTest } from "@/lib/content/attempt-binding";
 
 /** Serialize starts for one authenticated account; retries resume an existing attempt. */
 export async function startListeningAttempt(userId: string, testId: string, database = db) {
@@ -13,7 +14,13 @@ export async function startListeningAttempt(userId: string, testId: string, data
     if (!user) return null;
     const existing = await tx.query.listeningAttempts.findFirst({ where: and(eq(listeningAttempts.userId, userId), eq(listeningAttempts.testId, testId), eq(listeningAttempts.status, "in_progress")) });
     if (existing) return existing.id;
-    const [created] = await tx.insert(listeningAttempts).values({ userId, testId }).returning({ id: listeningAttempts.id });
+    // Bind the attempt to the revision the learner is given (§71). A test with no
+    // published revision is recorded unbound rather than guessed at.
+    const revision = await revisionForListeningTest(testId, tx as never);
+    const [created] = await tx
+      .insert(listeningAttempts)
+      .values({ userId, testId, ...(revision ? { contentVersionId: revision.id } : {}) })
+      .returning({ id: listeningAttempts.id });
     return created!.id;
   });
 }

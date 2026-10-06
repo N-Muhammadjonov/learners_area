@@ -5,6 +5,7 @@ import { db } from "@/db/client";
 import { readingAttempts } from "@/db/schema";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getStartablePassage } from "@/lib/data/reading";
+import { revisionForReadingPassage } from "@/lib/content/attempt-binding";
 
 const schema = z.object({ passageId: z.string().uuid() });
 
@@ -31,9 +32,17 @@ export async function POST(req: NextRequest) {
   });
   if (existing) return NextResponse.json({ id: existing.id });
 
+  // The attempt records the revision the learner was given, so an edit to the
+  // passage later cannot change what this attempt is graded and reviewed against
+  // (§71). No revision (legacy content) means a null binding, never a guess.
+  const revision = await revisionForReadingPassage(parsed.data.passageId);
   const [created] = await db
     .insert(readingAttempts)
-    .values({ userId: user.id, passageId: parsed.data.passageId })
+    .values({
+      userId: user.id,
+      passageId: parsed.data.passageId,
+      ...(revision ? { contentVersionId: revision.id } : {}),
+    })
     .returning();
 
   return NextResponse.json({ id: created!.id });
