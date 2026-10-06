@@ -1,6 +1,9 @@
 # Learners Area Content Operating System
 
-Status: **Phase 2 (Content OS) — forensic inventory complete, canonical registries landing.**
+Status: **Phase 2 (Content OS) — canonical registries, versioning, publication, composition
+(lessons, media, mocks, assignments), identity and migration tooling are implemented and
+test-covered. The honest per-area state, including what is still PARTIAL, is
+`IELTS-COVERAGE-MATRIX.md`; the current report is `PHASE-2-FINAL-REPORT.md`.**
 Owner of truth: this file describes the architecture; `src/lib/content/*` and
 `src/lib/import/*` are the executable parts of it.
 

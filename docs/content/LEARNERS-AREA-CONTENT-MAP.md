@@ -49,7 +49,8 @@ serves it and which table stores it. If a file and this table disagree, the file
 | `/api/admin/content/authoring-capabilities` | which content types can be authored right now |
 | `/api/lessons/[lessonId]`, `/api/lessons/blocks/[blockId]/answer` | learner lesson read + block answer |
 | `/api/vocabulary/packs` | published lexical packs (DB first, built-in fallback) |
-| `/api/assignments` | assignment list/create over canonical content |
+| `/api/assignments` | assignment list/create over canonical content (staff see what they created; a learner sees their own targets) |
+| `/api/assignments/assignable` | staff-only: canonical items with a published revision that may be set as work |
 | `/api/reading/**`, `/api/listening/**`, `/api/writing/**`, `/api/speaking/**`, `/api/grammar/**` | skill attempts and practice |
 | `/api/search`, `/api/dictionary` | discovery over canonical content and the shared lexicon |
 
@@ -57,8 +58,8 @@ serves it and which table stores it. If a file and this table disagree, the file
 
 | Table | Holds |
 | --- | --- |
-| `content_versions` | every revision: identity, hashes, snapshot, publication, provenance |
-| `content_imports` | the import ledger: which package produced which version |
+| `content_versions` | every revision: identity, hashes, snapshot, publication, provenance. Written only by `pinVersion`, which every door uses: authoring, Reading and Listening imports, media lessons, lessons, vocabulary packs, and the backfill scripts |
+| `content_imports` | the import ledger: which package arrived; the revision it produced is stored on the version row (`content_import_id`) |
 | content tables (`general_reading_sets`, `listening_packages`, `writing_prompts`, `speaking_prompts`, `grammar_topics`, `vocabulary_topic_packs`, `video_lessons`, `lessons` + `lesson_blocks`) | the canonical content rows a revision describes |
 | attempt tables (`reading_attempts`, `listening_attempts`, `writing_submissions`, `speaking_attempts`, `grammar_attempts`, `lesson_block_responses`) | what a learner did, each bound to the revision it was given |
 | `mock_tests`, `mock_sections`, `mock_attempts` | the orchestration object and the frozen run |
@@ -78,6 +79,7 @@ serves it and which table stores it. If a file and this table disagree, the file
 | `src/lib/services/vocabulary/packs.ts` (built-in packs) | COMPATIBILITY ONLY — the fallback before any pack is published |
 | `src/lib/data/reading-library.ts` | COMPATIBILITY ONLY — legacy library view |
 | `src/db/seed.ts` | synthetic development fixtures only, never a content source |
+| `scripts/content-backfill-imported-versions.ts` | idempotent, dry-run-first backfill that pins revisions for material imported before the importers did |
 
 The authoritative classification with reasons is
 `scripts/content-legacy-inventory.ts` (`npm run`-able, `--json` for machines); the

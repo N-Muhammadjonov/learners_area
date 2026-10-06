@@ -24,7 +24,7 @@ is baked into shared infrastructure (§3, §68).
 
 | Item | State |
 | --- | --- |
-| Canonical content | DONE — `listening:full_test` imported from a package, converted, hashed, versioned |
+| Canonical content | DONE — `listening:full_test` imported from a package, converted, hashed, **and pinned as a canonical revision** by the importer (see CONTENT-VERSIONING.md) |
 | Native structured model | DONE — sections, groups, questions with typed answers |
 | Authored from scratch | PARTIAL — `full_test` authorable; `section` and `question_type_practice` have no author yet |
 | Learner runner | DONE — attempt → answer → submit → score, version-bound |
@@ -37,7 +37,7 @@ is baked into shared infrastructure (§3, §68).
 
 | Item | State |
 | --- | --- |
-| Canonical content | DONE — `reading:general_set` import + conversion (the strongest path in the repo) |
+| Canonical content | DONE — `reading:general_set` import + conversion (the strongest path in the repo), now pinned as a canonical revision by the importer |
 | Authored from scratch | PARTIAL — `general_set` authorable; `passage`, `passage_set`, `full_test`, `question_type_practice` have no author yet |
 | Attempt binding | DONE — `reading_attempts.content_version_id` |
 | Score policy | DONE — separate Academic / General Training policies, versioned; per-section scores never collapsed |
@@ -99,11 +99,11 @@ is baked into shared infrastructure (§3, §68).
 | --- | --- |
 | Registries (content type, question type) | DONE |
 | Versioning + attempt binding | DONE |
-| Assignments over canonical content | DONE — creation, roster boundaries, per-student status, learner list |
+| Assignments over canonical content | DONE — creation (pinned published revision), roster boundaries, per-student status, learner list from `assignment_targets`, assignable list staff-only (AS1–AS11) |
 | Role-bound assignment workflows (teacher UI) | PARTIAL — service + API are done; the teacher-facing workflow screens are not |
 | Lessons + typed blocks, video/audio lessons | DONE |
 | TED/Podcast DB-driven | DONE |
-| Source identity + duplicate detection | DONE |
+| Source identity + duplicate detection | DONE, including the "did this import change anything?" answer at the version level |
 | Import vs authoring vs composition | DONE — separate surfaces, one writer |
 | Validation matrix (§48/§90) | PARTIAL — import, payload and answer-shape validation are real; a single generated matrix of "every content type × every check" is not yet emitted |
 | Native preview (§49) | PARTIAL — descriptor-level previews exist for import; a preview of an authored draft for every content type is not yet uniform |
@@ -117,7 +117,7 @@ is baked into shared infrastructure (§3, §68).
 | Future-course reuse, thin HTTP + services, normalized storage, private assets | DONE |
 | Audit/provenance/copyright boundaries | DONE (provenance on every revision; private assets; no copyrighted question text imported) |
 | RIWI boundaries, retention, performance, answer-key security, randomization, accessibility, responsive, tokens, focus, cards, owner preview (§77–§89) | PARTIAL — the security and RIWI invariants hold; the UI-polish items (§83–§89) are not all re-verified after Phase 2 |
-| Legacy inventory + migration safety | DONE — classified, nothing deleted |
+| Legacy inventory + migration safety | DONE — classified, nothing deleted; `scripts/content-backfill-imported-versions.ts` versions pre-versioning imported content from stored rows only |
 | §108 documents | DONE — this file and its siblings |
 
 ## 10. What this matrix deliberately does **not** claim

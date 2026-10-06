@@ -60,13 +60,22 @@ The single writer. Given canonical content and a provenance it:
 1. finds the newest revision of that identity;
 2. if only metadata moved (or nothing moved at all) it updates **that row** — a
    rename must not manufacture a version number;
-3. otherwise it inserts `version_no + 1`, and if the previous revision was
-   `published` it becomes `superseded`;
-4. always writes the snapshot and all three hashes.
+3. otherwise it inserts `version_no + 1`;
+4. **only when the new revision is itself published** does the previous published
+   revision become `superseded`;
+5. always writes the snapshot and all three hashes.
+
+Rule 4 is the one that is easy to get wrong, and getting it wrong breaks work that
+was already set: if writing a *draft* superseded the published revision, then the
+moment an editor started revising published content the item would have no published
+revision left — every assignment pointing at it would have nothing to open. A draft
+is a proposal, not a replacement. Publication is what takes the publication slot:
+`publishContentVersion` supersedes the revision that held it, so at most one
+revision of an item is published at a time.
 
 Nothing else writes to `content_versions`. An import, a hand-authored draft, an AI
-draft and a legacy conversion all arrive at the same writer, so all four share the
-same guarantees.
+draft, a media lesson and a legacy backfill all arrive at the same writer, so all
+five share the same guarantees.
 
 ## 5. Publication workflow
 
@@ -94,6 +103,22 @@ draft ──► scheduled ──► published ──► archived
 
 An imported package may carry a publication *intent*; the intent is applied through
 the same workflow and never grants rights the actor does not have.
+
+### Who writes revisions
+
+| door | writer | notes |
+| --- | --- | --- |
+| hand authoring / AI draft | `saveContentDraft` → `pinVersion` | payload validated by the content type's own schema |
+| Reading import | `importCanonicalReadingSet` → `pinVersion` | pinned inside the importer's transaction, with its target row and import id |
+| Listening import | `importCanonicalListeningPackage` → `pinVersion` | created and re-imported-with-changes paths |
+| media lesson (TED / Podcast) | `createVideoLesson` → `pinVersion` | `ted:video_lesson` / `ted:audio_lesson` |
+| lesson structure | `saveLessonStructure` → `pinVersion` | with its typed blocks |
+| vocabulary pack | `saveTopicPack` → `pinVersion` | one lexical system, see `LEARNERS-AREA-CONTENT-MAP.md` |
+| existing material | `scripts/content-backfill-imported-versions.ts` | reads only stored rows; dry-run first; idempotent |
+
+The import *ledger* (`content_imports`) answers "did this package arrive?"; the
+version store answers "what exactly did the learner get, and can it be set as work?".
+Both records are written by the same transaction, so they cannot disagree.
 
 ## 6. Attempt binding
 

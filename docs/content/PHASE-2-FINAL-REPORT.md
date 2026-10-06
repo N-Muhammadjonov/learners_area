@@ -34,7 +34,12 @@ authoring and composition kept separate and no parallel mini-platforms.
   blocks (0044) → `215069f` TED/Podcast media lessons (0045) → `c8fab7b` vocabulary
   packs (0046) → `ba1686d` assignments over canonical content + grammar integration
   (0047) → `ed39081` source identity + duplicate detection + legacy inventory →
-  `d209ebc` the seven remaining `docs/content/*` documents.
+  `d209ebc` the seven remaining `docs/content/*` documents → `b0b5fa6` this report →
+  `bc58aa2` gate hygiene (trailing blank line; committed-range base fallback for a
+  fresh clone) → `d93b0dd` draft-supersede fix + `listAssignableContent` +
+  `/api/assignments/assignable` + AS8–AS10 → `6b050f5` assignment reads through
+  `assignment_targets` (multi-student tasks) + AS11 → `033379d` imports pin canonical
+  revisions + `content-backfill-imported-versions.ts` + IV1–IV6.
 * Local == remote at every commit (verified with `git ls-remote` after each push;
   never force-pushed, never rebased, `main` untouched).
 
@@ -62,9 +67,14 @@ claimed: no real browser was driven here, and jsdom is not a browser (§105).
 
 `DONE`. `src/lib/import/core/*` (envelope, parse, validation levels, identity,
 dry-run, pipeline, ledger, capabilities, assets, provenance), Reading and Listening
-importers that emit canonical structured content, zip/JSON transport, PDF text
-extraction, private asset staging. Tests: `content-import-framework` 13/13,
-`content-import-ledger-schema` 3/3, `content-import-transport` 6/6.
+importers that emit canonical structured content **and pin the canonical revision of
+what they produced inside the same transaction** (with the ledger row, the target
+row and the authorized publication state), zip/JSON transport, PDF text extraction,
+private asset staging. Tests: `content-import-framework` 13/13,
+`content-import-ledger-schema` 3/3, `content-import-transport` 6/6,
+`content-import-versions` 6/6 (one revision per imported item; identical re-import
+writes nothing; a conflicting rewrite is refused with the old snapshot intact; an
+imported published item is offered to teachers and pins the imported revision).
 
 ## E. Content type registry
 
@@ -87,8 +97,13 @@ validation refuses impossible questions at every door. Tests:
 
 `DONE`. Identity `(module, contentType, sourceRef, versionNo)`, three hashes
 (content / semantic / answer-key), immutable published revisions, one writer
-(`pinVersion`), snapshots. Metadata-only edits update the same row instead of
-manufacturing a version. Tests: `content-versioning` 8/8. See
+(`pinVersion`) used by every door — authoring, Reading import, Listening import,
+media lessons, lessons, vocabulary packs, legacy backfill — and snapshots.
+Metadata-only edits update the same row instead of manufacturing a version.
+A newer **published** revision supersedes the previous one; a newer **draft** does
+not, so editing never silently unpublishes what learners were given (a real defect
+found and fixed in `d93b0dd`). Tests: `content-versioning` 8/8,
+`content-import-versions` 6/6, `content-authoring-publication` 12/12. See
 [CONTENT-VERSIONING.md](CONTENT-VERSIONING.md).
 
 ## H. Publication workflow
@@ -193,8 +208,16 @@ missing part yields `null`, never a fabricated band.
 (draft ⇒ refused, forged/mismatched ⇒ refused), records exactly what the learner will
 open, writes one `assignment_targets` row per student with its own status, keeps
 `target_user_id`/`related_writing_prompt_id` working for legacy readers, and
-`listAssignmentsForStudent` returns only the learner's own tasks. Tests:
-`content-assignments` 7/7. Migration: `0047_assignments_canonical.sql`.
+`listAssignmentsForStudent` returns only the learner's own tasks.
+`listAssignableContent()` offers published revisions only (newest published per item;
+drafts, archived and not-yet-scheduled items excluded) and is exposed staff-only at
+`/api/assignments/assignable`; both the API and the learner page read through the
+service, so a task set for several students reaches every one of them (a second real
+defect found and fixed in `6b050f5`). Tests: `content-assignments` **11/11**
+(AS1–AS11), covering every case in the assignment checklist including forged version
+ids, wrong module/version relationships, roster scope, learner isolation, history
+after archive/delete and idempotent status updates. Migration:
+`0047_assignments_canonical.sql`.
 
 ## V. Role-bound workflows
 
@@ -372,10 +395,15 @@ its successor or the inventory fails. Nothing was deleted (§93/§94).
 
 ## AV. Migration tooling
 
-`DONE`. Idempotent, dry-run-first, named-actor backfill
-(`scripts/content-backfill-vocabulary-packs.ts`), an import ledger that records which
-package produced which revision, and identity checks (`classifyIncoming`) that make
-"no new data" the honest answer when nothing changed. Data is never invented (§95).
+`DONE`. Two idempotent, dry-run-first, named-actor backfills —
+`scripts/content-backfill-vocabulary-packs.ts` (built-in packs → canonical content)
+and `scripts/content-backfill-imported-versions.ts` (Reading sets and Listening
+packages imported before the importers pinned revisions; it reads only stored rows,
+reports what it cannot version instead of guessing, and is a no-op on a second run) —
+plus an import ledger that records which package produced which revision and identity
+checks (`classifyIncoming`) that make "no new data" the honest answer when nothing
+changed. Verified against the local QA PostgreSQL, not only in unit tests. Data is
+never invented (§95).
 
 ## AW. Synthetic fixtures
 

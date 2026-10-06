@@ -73,7 +73,13 @@ registered in the taxonomy.
    and the reason in `provenance`.
 6. **Schedule** when the material should open later, or **archive** when it should
    stop being set. Both are the same operation with a different target state, and
-   both are reversible back to `draft`.
+   both are reversible back to `draft`. Publishing a revision takes the publication
+   slot from the revision that held it (which becomes `superseded`); writing a draft
+   does not.
+7. **Assign.** Staff pick from `listAssignableContent()` — published revisions only,
+   newest published revision per item — and the task pins exactly that revision. A
+   draft revision is never offered and never pinned, even when its version number is
+   higher (`GET /api/assignments/assignable`).
 
 ## 4. Rules
 
