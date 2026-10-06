@@ -1270,6 +1270,11 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
   flex-wrap: wrap;
   margin-bottom: 1rem;
 }
+.typing-toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+}
 .typing-presets {
   display: flex;
   align-items: center;
@@ -1348,7 +1353,7 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 }
 .typing-stage {
   position: relative;
-  height: calc(var(--typing-line-height) * 4);
+  height: calc(var(--typing-line-height) * 3);
   overflow: hidden;
 }
 .typing-stack {
@@ -1361,19 +1366,6 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 }
 .typing-word {
   opacity: 1;
-  transition: opacity 150ms linear;
-}
-.typing-row-top .typing-word {
-  opacity: .45;
-}
-.typing-row-top .typing-word-hide {
-  opacity: 0;
-}
-.typing-row-bottom .typing-word {
-  opacity: 0;
-}
-.typing-row-bottom .typing-word-show {
-  opacity: .72;
 }
 .typing-char-future {
   color: rgb(var(--ink-300));
@@ -1430,7 +1422,11 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 }
 .typing-time {
   flex: none;
+  min-width: 4.2rem;
+  text-align: right;
+  color: rgb(var(--ink-700));
   font-variant-numeric: tabular-nums;
+  font-weight: 650;
 }
 .typing-time-warning {
   color: rgb(var(--band-bad));
