@@ -107,11 +107,15 @@ test("Writing prompt entry does not wait for typing stats; the typing region cat
   const page = read("src/app/(app)/writing/page.tsx");
   const writingData = read("src/lib/data/writing.ts");
   const activities = page.slice(page.indexOf("async function WritingActivities"), page.indexOf("function WritingActivitiesSkeleton"));
-  // Typing content is Band 8–9 model texts (§41), never prompts.
-  assert.match(activities, /timed\("writing\.modelTexts"/);
+  // The trainer prepares its own target through the authenticated API, so the entry must
+  // NOT read Band 8–9 model texts on the server any more: that was the older typing
+  // target, replaced by the dedicated B1/B2 corpus (learners-area-next). What this test
+  // is about — the region never blocks the prompt entry and fails locally — is unchanged.
+  assert.doesNotMatch(activities, /timed\("writing\.modelTexts"/, "the typing target is no longer a model-text read");
+  assert.match(page, /<TypingTrainer/, "the trainer is rendered by the typing region");
   assert.match(activities, /<Suspense fallback=\{<TypingRegionSkeleton \/>\}>/);
   assert.match(activities, /const typingPromise = timed\("writing\.typingSummary"/);
-  assert.ok(activities.indexOf("const typingPromise") < activities.indexOf("writing.modelTexts"), "typing summary starts before the model-text query resolves");
+  assert.ok(activities.indexOf("const typingPromise") < activities.indexOf("<WritingTypingRegion"), "the summary starts before the region renders");
   assert.match(activities, /WritingTypingRegion typingPromise=\{typingPromise\}/);
   assert.doesNotMatch(activities, /Promise\.all\([\s\S]*typingSummary/);
   assert.match(page, /async function WritingTypingRegion[\s\S]*await typingPromise[\s\S]*if \(!result\.ok\)[\s\S]*RegionFailureNotice/);

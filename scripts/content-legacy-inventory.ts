@@ -49,6 +49,18 @@ const ITEMS = [
     convertedBy: "scripts/content-backfill-vocabulary-packs.ts",
   },
   {
+    path: "src/lib/services/writing/typing-corpus.ts",
+    what: "the 30 owner-supplied B1/B2 typing passages, bundled in server code",
+    classification: "COMPATIBILITY ONLY",
+    reason:
+      "the trainer must work on a database that has not applied migration 0048 yet, and the browser must never " +
+      "receive a client-trusted target, so the server keeps the same 30 passages as a fallback. The database " +
+      "becomes the source of truth the moment 0048 is applied (the migration seeds exactly these rows, and " +
+      "`listTypingTexts` prefers published rows); this list must not gain new passages.",
+    successor: "typing_texts (drizzle/0048_typing_trainer.sql)",
+    convertedBy: "drizzle/0048_typing_trainer.sql",
+  },
+  {
     path: "src/lib/data/reading-library.ts",
     what: "legacy reading library view over reading attempts/passages",
     classification: "COMPATIBILITY ONLY",
@@ -170,7 +182,11 @@ const ITEMS = [
 export const TABLE_GROUPS: { group: string; reason: string; tables: readonly string[] }[] = [
   {
     group: "canonical content (authored or imported, versioned in content_versions)",
-    reason: "the tables an author or an importer writes; identity, revisions and publication live here",
+    reason:
+      "the tables an author or an importer writes; identity, revisions and publication live here. " +
+      "`typing_texts` is the one member here that is NOT yet revisioned through content_versions: it carries " +
+      "its own identity (`external_id`), provenance and publication state, and its owner corpus is seeded by " +
+      "migration 0048 while the code keeps a bundled fallback. That gap is named, not hidden — see LEGACY-MIGRATION.md.",
     tables: [
       "lessons", "lesson_blocks", "video_lessons", "video_lesson_questions",
       "reading_passages", "reading_passage_paragraphs", "reading_question_groups", "reading_questions",
@@ -178,7 +194,7 @@ export const TABLE_GROUPS: { group: string; reason: string; tables: readonly str
       "general_reading_sets", "general_reading_passages",
       "writing_prompts", "writing_lessons", "writing_model_texts", "writing_language_patterns",
       "writing_translation_sets", "writing_translation_sentences", "writing_exam_papers",
-      "writing_exam_paper_entries", "writing_pattern_bank", "typing_run_texts",
+      "writing_exam_paper_entries", "writing_pattern_bank", "typing_texts", "typing_run_texts",
       "speaking_prompts", "speaking_materials",
       "grammar_topics", "grammar_exercises",
       "vocabulary_topic_packs", "vocabulary_topic_pack_words",
