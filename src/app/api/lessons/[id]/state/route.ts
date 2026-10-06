@@ -7,6 +7,7 @@ import { lessons, lessonProgress, activityEvents } from "@/db/schema";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { resolveState, transition, type LessonState } from "@/lib/services/lessons/state";
 import { touchMeaningfulActivity } from "@/lib/services/activity";
+import { saveLessonNote } from "@/lib/services/notes/lesson-notes";
 
 const schema = z.object({
   state: z.enum(["in_progress", "completed"]),
@@ -47,7 +48,6 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   const values = {
     // `scheduled` exists on the lesson's default state, never on a progress row.
     state: result.state as "in_progress" | "completed" | "available" | "assigned",
-    notes: parsed.data.notes ?? row?.notes ?? null,
     completedAt: result.state === "completed" ? new Date() : null,
     updatedAt: new Date(),
   };
@@ -56,6 +56,13 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     await db.update(lessonProgress).set(values).where(eq(lessonProgress.id, row.id));
   } else {
     await db.insert(lessonProgress).values({ userId: user.id, lessonId: lesson.id, ...values });
+  }
+
+  // A client may still send notes with the state change. They belong to the private
+  // note table, never to this progress row: writing them here would put learner
+  // text back into a payload that ordinary progress reads enumerate.
+  if (parsed.data.notes !== undefined) {
+    await saveLessonNote({ userId: user.id, lessonId: lesson.id, body: parsed.data.notes });
   }
 
   // Finishing a lesson is real work; merely opening it is not.

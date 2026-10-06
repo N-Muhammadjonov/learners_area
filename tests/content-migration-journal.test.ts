@@ -39,8 +39,8 @@ function planned(appliedCount: number): { apply: string[]; skip: string[] } {
   return { apply, skip };
 }
 
-test("J1 the journal is well-formed: 49 entries, idx equals position, unique tags, strictly increasing when", () => {
-  assert.equal(journal.entries.length, 49, "0000…0048 — the 48 Content OS migrations plus the typing trainer");
+test("J1 the journal is well-formed: 50 entries, idx equals position, unique tags, strictly increasing when", () => {
+  assert.equal(journal.entries.length, 50, "0000…0049 — the 48 Content OS migrations, the typing trainer, and private lesson notes");
   journal.entries.forEach((entry, index) => {
     assert.equal(entry.idx, index, `${entry.tag}: idx must equal its position in the journal`);
     assert.equal(entry.version, "7");
@@ -60,7 +60,7 @@ test("J2 the collision is resolved exactly once, and the migration that keeps 00
 
   assert.equal(journal.entries[40]!.tag, "0040_content_imports");
   assert.equal(journal.entries[48]!.tag, "0048_typing_trainer");
-  assert.equal(journal.entries.filter((e) => e.breakpoints).length, 49);
+  assert.equal(journal.entries.filter((e) => e.breakpoints).length, 50);
 
   // The kept entry keeps its ORIGINAL `when` — that value is recorded in every database
   // that applied it, so changing it would make the migrator re-apply (or skip) it.
@@ -104,10 +104,20 @@ test("J4 the two source lines' own states stay safe under the merged journal", (
 
   const after0039 = planned(40);
   assert.equal(after0039.apply[0], "0040_content_imports", "the next step after 0039 is the import ledger");
-  assert.equal(after0039.apply.length, 9, "0040…0048 are pending");
+  assert.equal(after0039.apply.length, 10, "0040…0049 are pending");
 
   const after0047 = planned(48);
-  assert.deepEqual(after0047.apply, ["0048_typing_trainer"], "the accepted schema needs exactly the typing trainer");
+  assert.deepEqual(after0047.apply, ["0048_typing_trainer", "0049_lesson_notes"], "the accepted schema needs the typing trainer, then the private notes table");
+
+  // 0049 is hand-written too (the snapshot chain stops at 0027) and it is additive in
+  // BOTH directions: it creates a table, and its backfill COPIES text into it before
+  // clearing the legacy column only where the copy is provably present. Every statement
+  // carries IF NOT EXISTS / ON CONFLICT so a re-apply cannot fail or lose data.
+  const notesSql = readFileSync("drizzle/0049_lesson_notes.sql", "utf8");
+  assert.match(notesSql, /CREATE TABLE IF NOT EXISTS "lesson_notes"/);
+  assert.match(notesSql, /lesson_notes_user_lesson_uq/, "the unique index is the upsert contract");
+  assert.match(notesSql, /ON CONFLICT \("user_id", "lesson_id"\) DO NOTHING/, "the backfill never overwrites a newer note");
+  assert.match(notesSql, /AND n\."body" = p\."notes"/, "the legacy column is cleared only where the copy exists");
 
   // The learners-area-next line's accepted states are its prefixes up to 0039 (0040 is not
   // in ANY approved apply list, which is why the typing trainer ships with a bundled

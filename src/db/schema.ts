@@ -464,6 +464,48 @@ export const lessonBlockResponses = pgTable(
   ],
 );
 
+/**
+ * A learner's PRIVATE note on a lesson ("Xulosangiz") — summary, conclusion,
+ * useful expressions, personal reminders.
+ *
+ * Why this is its own table and not `lesson_progress.notes`:
+ *
+ *   * `lesson_progress.notes` is rendered by ordinary progress reads
+ *     (`src/lib/data/roadmap.ts`), so private learner text sitting in a progress row
+ *     is one widened SELECT away from being exposed. Here it cannot leak through a
+ *     progress read at all.
+ *   * A note is not progress. This row carries no state and never marks a lesson
+ *     started or completed — note existence is not a completion event.
+ *   * `lesson_progress` has no unique key on (user_id, lesson_id), so its notes path
+ *     is a racy read-then-write. The unique index here IS the upsert contract.
+ *
+ * Identity is (user_id, lesson_id) where `lessons.id` is the stable logical lesson,
+ * so a new revision of the same lesson keeps the learner's note. Ownership is
+ * enforced in `src/lib/services/notes/lesson-notes.ts`, which only ever queries by
+ * the session user's id — no other learner, and no teacher/admin/owner route, reads
+ * this table.
+ */
+export const lessonNotes = pgTable(
+  "lesson_notes",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    lessonId: uuid("lesson_id")
+      .notNull()
+      .references(() => lessons.id, { onDelete: "cascade" }),
+    /** Bounded plain text, never HTML; 1..4000 characters (see LESSON_NOTE_MAX). */
+    body: text("body").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("lesson_notes_user_lesson_uq").on(table.userId, table.lessonId),
+    index("lesson_notes_lesson_idx").on(table.lessonId),
+  ],
+);
+
 export const lessonProgress = pgTable("lesson_progress", {
   id: uuid("id").defaultRandom().primaryKey(),
   userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),

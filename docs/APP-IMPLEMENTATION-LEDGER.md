@@ -122,3 +122,20 @@ the parity mechanically instead of restating a subset — so the drift cannot co
 The coarse check still matters even though `next.config` redirects win for GET: Next does
 not apply `redirects()` to non-GET requests, and a module whose rule is ever removed would
 otherwise lose its check.
+
+
+## PHASE C — private Student Notes ("Xulosangiz")
+
+| id | requirement | status | evidence |
+| --- | --- | --- | --- |
+| NOTE-001 | one shared private note store, keyed by (learner, stable lesson) | **DONE** | `lesson_notes` (migration 0049), UNIQUE `(user_id, lesson_id)`; `lessons.id` is the stable logical lesson, so a new revision keeps the note. `tests/lesson-notes.test.ts` N1 |
+| NOTE-002 | readable by that learner only; another learner gets nothing | **DONE** | every service call takes the caller's id and filters on it; N2 (two learners, one lesson, both notes coexist, a third sees `null`); runtime: owner session on the student's lesson → `{"notes":null}` |
+| NOTE-003 | teacher/admin/owner ordinary routes cannot read it | **DONE** | no staff surface references the table (N6 walks the real filesystem); the API is learner-scoped, so a staff session only ever sees its own note; runtime: `/app/progress`, `/app/reports`, `/app/notifications`, `/app/profile`, `/app` and the lesson page body contain no other learner's text |
+| NOTE-004 | never in progress/search/report/audit/analytics payloads | **DONE** | `lesson_progress.notes` is no longer read (`roadmap.ts`) or written (`state` route) — legacy text was MOVED into the private table; N5 proves the copy-then-guarded-clear backfill; N6/N7 guard the read paths |
+| NOTE-005 | upsert + debounced autosave with truthful Saving/Saved/Could-not-save | **DONE** | atomic `insert … on conflict do update`; `LessonNotesPanel` (900 ms debounce, flush on unmount, sequence guard); `tests/ui/lesson-notes-panel.test.tsx` (4 tests: save, failing save + retry, over-long never posted, no browser storage) |
+| NOTE-006 | never localStorage-only | **DONE** | no web-storage API anywhere in the panel; the server table is the only store (N7 + the UI suite assert it) |
+| NOTE-007 | bounded text, no HTML, refusal instead of truncation | **DONE** | 4,000-character bound enforced in the service, the API, the CHECK constraints and the UI; N3 |
+| NOTE-008 | only on a lesson the learner can open | **DONE** | the publication gate lives in the service (`lessonOpenForNotes`), so every caller inherits it; N4 (draft, scheduled, unknown) |
+| NOTE-009 | migration safety | **DONE** | 0049 registered in `ALLOWED_PENDING` + hash-pinned; fresh DB 50/50 (`qa:pg`); accepted-COS upgrade path simulated on real PostgreSQL: migrator applied ONLY 0049, legacy text moved, progress column cleared, 50 journal rows |
+
+Not yet built (Phase C continues): the Listening **Lessons** three-tab surface (Description / Teacher Notes / Xulosangiz) that reuses this panel, and the remaining Listening/Reading V4 scope.

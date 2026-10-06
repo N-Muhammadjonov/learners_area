@@ -211,6 +211,9 @@ export const TABLE_GROUPS: { group: string; reason: string; tables: readonly str
     group: "attempts and learner state (never a content source)",
     reason: "what a learner did: attempts, answers, drafts, progress, grades and vocabulary state",
     tables: [
+      // Learner-private study text: readable by its own author only, never enumerated by a
+      // progress read, a staff screen or the content pipeline (PHASE C, "Xulosangiz").
+      "lesson_notes",
       "reading_attempts", "reading_answers", "listening_attempts", "listening_answers", "listening_mcq_sessions",
       "listening_activity_runs", "listening_drafts", "grammar_attempts", "speaking_attempts",
       "writing_submissions", "writing_feedback", "writing_lesson_progress", "writing_translation_attempts",

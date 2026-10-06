@@ -48,7 +48,12 @@ export const ALLOWED_PENDING = ["0025_speaking_bank_identity", "0026_google_iden
   // PREVIEW_QA_BACKUP_REF, and the owner must still approve the rollout explicitly.
   "0040_content_imports", "0041_content_versions", "0042_mock_composition", "0043_authoring_identity",
   "0044_lesson_blocks", "0045_media_lessons", "0046_vocabulary_topic_packs", "0047_assignments_canonical",
-  "0048_typing_trainer"];
+  "0048_typing_trainer",
+  // Registered by the PHASE C private-notes review (2026-10-06): additive table only, with a
+  // copy-then-clear backfill of legacy course-lesson notes. Membership means this script knows
+  // the migration; --apply still needs the owner-approved fingerprint, server identity and a
+  // fresh PREVIEW_QA_BACKUP_REF, and the owner still approves the rollout explicitly.
+  "0049_lesson_notes"];
 /**
  * SQL hashes of the integration migrations, pinned where they were reviewed. A file that
  * changes after review stops being "the migration we reviewed" and must be re-approved;
@@ -64,6 +69,8 @@ export const REVIEWED_SAFE_STATEMENTS = {
   "0043_authoring_identity": [/^ALTER TABLE "reading_questions" ALTER COLUMN "type_code" TYPE varchar\(40\);/m],
 };
 export const APPROVED_INTEGRATION_SHA256 = {
+  // Hand-written (the snapshot chain stops at 0027) and reviewed with the private-notes change.
+  "0049_lesson_notes": "5896ddea2edf4916cd7c8c6889b999452a6a0d708dcc0d79b6478ded56f6f841",
   "0040_content_imports": "07061c332c848f89d17fd0510884a097eaabd01a429bf2d1f846e56d02a0a397",
   "0041_content_versions": "594b74d0e36b1dda3a9e783d5de1f880fbe176e63e0209f7c4f2772c94640e35",
   "0042_mock_composition": "7323615d9a62864532b1e23a48d20c7a11654eeba34278554303c73eec0b00f9",

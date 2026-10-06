@@ -1,6 +1,7 @@
 import { and, asc, eq, inArray, or, lte } from "drizzle-orm";
 import { db } from "@/db/client";
 import { courses, courseModules, units, lessons, lessonProgress } from "@/db/schema";
+import { readLessonNote } from "@/lib/services/notes/lesson-notes";
 import { isLive } from "@/lib/services/cms/publication";
 
 /**
@@ -66,11 +67,15 @@ export async function getLessonDetail(lessonId: string, userId: string) {
   // The lesson reader is the second door: a draft is not readable here either.
   if (!isLive({ publicationState: lesson.publicationState, publishAt: lesson.publishAt })) return null;
 
-  const [unit, row] = await Promise.all([
+  const [unit, row, note] = await Promise.all([
     db.query.units.findFirst({ where: eq(units.id, lesson.unitId) }),
     db.query.lessonProgress.findFirst({
       where: and(eq(lessonProgress.lessonId, lesson.id), eq(lessonProgress.userId, userId)),
     }),
+    // The learner's note lives in its own private table: it is read only by the
+    // learner it belongs to (readLessonNote always filters on userId), and it is
+    // deliberately NOT part of the progress row that other reads enumerate.
+    readLessonNote(userId, lesson.id),
   ]);
 
   const state = row?.state ?? lesson.defaultState;
@@ -78,7 +83,7 @@ export async function getLessonDetail(lessonId: string, userId: string) {
     lesson,
     unitTitle: unit?.title ?? null,
     state,
-    notes: row?.notes ?? null,
+    notes: note?.body ?? null,
     completedAt: row?.completedAt ?? null,
   };
 }
