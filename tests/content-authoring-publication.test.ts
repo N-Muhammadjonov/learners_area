@@ -1,7 +1,21 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { eq } from "drizzle-orm";
-import { contentVersions, grammarTopics, listeningQuestions, listeningTests, readingPassages, readingQuestions, speakingPrompts, writingPrompts } from "../src/db/schema";
+import {
+  contentVersions,
+  grammarTopics,
+  listeningQuestions,
+  listeningTests,
+  readingPassages,
+  readingQuestions,
+  speakingPrompts,
+  writingLanguagePatterns,
+  writingLessons,
+  writingModelTexts,
+  writingPrompts,
+  writingTranslationSentences,
+  writingTranslationSets,
+} from "../src/db/schema";
 import { canAuthor, listRegisteredAuthors, registerModuleAuthors, resolveModuleAuthor } from "../src/lib/content/authors";
 import { versionContent } from "../src/lib/content/versions";
 import { activateDueVersions, listContentItems, publishContentVersion, saveContentDraft, slugSourceRef, versionsOf, type AuthoringActor } from "../src/lib/content/authoring";
@@ -50,6 +64,10 @@ test("AU1 an authoring capability is declared per content type, and only where a
   assert.equal(canAuthor("reading", "general_set"), true);
   assert.equal(canAuthor("writing", "task2"), true);
   assert.equal(canAuthor("speaking", "cue_card"), true);
+  assert.equal(canAuthor("writing", "lesson"), true, "the rest of Writing is authorable too");
+  assert.equal(canAuthor("writing", "model_text"), true);
+  assert.equal(canAuthor("writing", "pattern"), true);
+  assert.equal(canAuthor("writing", "translation_set"), true);
   assert.equal(canAuthor("grammar", "topic"), true);
   assert.equal(canAuthor("listening", "section"), true, "a practice section is a content item of its own");
   assert.equal(canAuthor("reading", "passage"), true, "so is a single passage");
@@ -57,7 +75,7 @@ test("AU1 an authoring capability is declared per content type, and only where a
   assert.equal(canAuthor("ted", "video_lesson"), false, "media lessons are authored through the TED/Podcast surface, not here");
   assert.equal(canAuthor("vocabulary", "topic_pack"), true, "a vocabulary pack is canonical content (§31)");
   assert.equal(canAuthor("lesson", "lesson"), true);
-  assert.ok(listRegisteredAuthors().length >= 12);
+  assert.ok(listRegisteredAuthors().length >= 16);
 });
 
 test("AU2 a source reference is a stable slug, and a title-shaped one is refused", async () => {
@@ -687,6 +705,91 @@ test("AU14 a Reading passage is exactly one passage, and shares the set's identi
     const { revisionForReadingPassage } = await import("../src/lib/content/attempt-binding");
     await db.transaction((tx) => publishContentVersion(tx, { actor, versionId: single.version.id, to: "published" }));
     assert.equal((await revisionForReadingPassage(stored[0]!.id, db))!.id, single.version.id);
+  } finally {
+    await database.close();
+  }
+});
+
+test("AU15 the rest of Writing is canonical: lesson, model text, pattern and translation set", async () => {
+  const database = await createTestDatabase();
+  try {
+    const { db } = database;
+    const actor = { ...owner, id: await staff(database.query) };
+    const save = (contentType: string, sourceRef: string, title: string, payload: unknown) =>
+      db.transaction((tx) => saveContentDraft(tx, { actor, module: "writing", contentType, sourceRef, title, payload }));
+
+    const lesson = await save("lesson", "writing-lesson-1", "Cohesion lesson", { category: "coherence", summary: "How to link ideas.", body: "A body long enough for the authoring schema to accept it as a real lesson.", durationMinutes: 20 });
+    assert.equal(lesson.ok, true, JSON.stringify(lesson.ok ? {} : lesson.issues));
+    const model = await save("model_text", "writing-model-1", "A Band 8 essay", {
+      taskType: "task2", topic: "Education", targetBand: 8, provenance: "Centre-written synthetic model.",
+      body: Array.from({ length: 260 }, (_, index) => `synthetic${index % 11}`).join(" "),
+    });
+    assert.equal(model.ok, true, JSON.stringify(model.ok ? {} : model.issues));
+    const pattern = await save("pattern", "writing-pattern-1", "Concession pattern", {
+      pattern: "While it is true that X, Y", function: "concession", taskType: "task2", topic: "Education", targetBand: 7,
+      example: "While it is true that fees rise, access widens.", provenance: "Centre-authored synthetic pattern.",
+    });
+    assert.equal(pattern.ok, true, JSON.stringify(pattern.ok ? {} : pattern.issues));
+    const translation = await save("translation_set", "writing-translation-1", "Trends translation", {
+      topic: "Energy", questionType: "opinion", taskType: "task2", targetBand: 7, promptText: "Translate each sentence into English.", provenance: "Centre-authored synthetic set.",
+      sentences: [
+        { position: 1, uzbekSource: "Narxlar keskin oshdi.", modelEnglish: "Prices rose sharply.", acceptedAlternatives: ["Prices increased sharply."], notes: [], targetLexicalItems: ["rose sharply"] },
+        { position: 2, uzbekSource: "Bu tendentsiya davom etdi.", modelEnglish: "The trend continued.", acceptedAlternatives: [], notes: ["Past simple."], targetLexicalItems: [] },
+      ],
+    });
+    assert.equal(translation.ok, true, JSON.stringify(translation.ok ? {} : translation.issues));
+
+    // The rows the app already reads ARE the canonical rows: one row per item, no copy.
+    const lessonRows = await db.select().from(writingLessons).where(eq(writingLessons.sourceRef, "writing-lesson-1"));
+    assert.equal(lessonRows.length, 1);
+    assert.equal(lessonRows[0]!.publicationState, "draft", "an authored item starts as a draft");
+    const modelRows = await db.select().from(writingModelTexts).where(eq(writingModelTexts.sourceRef, "writing-model-1"));
+    assert.equal(modelRows.length, 1);
+    assert.ok(modelRows[0]!.wordCount > 100, "the word count is computed from the body, not trusted");
+    assert.equal((await db.select().from(writingTranslationSentences).where(eq(writingTranslationSentences.setId, translation.ok ? translation.version.targetId! : ""))).length, 2);
+
+    // Identity: re-authoring the same source ref revises the same ROW (v2 of one item).
+    const revised = await save("lesson", "writing-lesson-1", "Cohesion lesson (revised)", { category: "coherence", body: "A revised body, still long enough for the authoring schema to accept.", durationMinutes: 25 });
+    assert.equal(revised.ok, true);
+    if (revised.ok) {
+      assert.equal(revised.version.targetId, lesson.ok ? lesson.version.targetId! : "", "the same content row is revised");
+      assert.equal(revised.version.versionNo, 2);
+    }
+    assert.equal((await db.select().from(writingLessons).where(eq(writingLessons.sourceRef, "writing-lesson-1"))).length, 1, "still one row");
+
+    // A pattern's `source_ref` means "the model text it came from" — the canonical author
+    // must not hijack it, and must still revise one row across revisions.
+    const patternRow = (await db.select().from(writingLanguagePatterns).where(eq(writingLanguagePatterns.id, pattern.ok ? pattern.version.targetId! : "")))[0]!;
+    assert.equal(patternRow.sourceRef, null, "provenance column left alone");
+    const patternV2 = await save("pattern", "writing-pattern-1", "Concession pattern (revised)", {
+      pattern: "While it is true that X, Y", function: "concession", taskType: "task2", example: "While it is true that fees rise, access widens.", provenance: "Centre-authored synthetic pattern.",
+    });
+    assert.equal(patternV2.ok, true);
+    if (patternV2.ok) assert.equal(patternV2.version.targetId, pattern.version.targetId!, "resolved from the previous revision, not from a provenance column");
+    assert.equal((await db.select().from(writingLanguagePatterns)).length, 1);
+
+    // Publishing moves the row and the revision, and the learner read is live-gated.
+    for (const saved of [lesson, model, pattern, translation]) {
+      if (!saved.ok) continue;
+      const published = await db.transaction((tx) => publishContentVersion(tx, { actor, versionId: saved.version.id, to: "published" }));
+      assert.equal(published.ok, true, JSON.stringify(published.ok ? {} : published.issues));
+    }
+    assert.deepEqual(
+      (await db.select({ state: writingLessons.publicationState }).from(writingLessons)).map((row) => row.state),
+      ["published"],
+      "publishing a revision moves its content row with it",
+    );
+
+    // A duplicate sentence position writes nothing at all.
+    const bad = await save("translation_set", "writing-translation-bad", "Bad set", {
+      topic: "Energy", questionType: "opinion", targetBand: 7, promptText: "Translate each sentence.", provenance: "Synthetic.",
+      sentences: [
+        { position: 1, uzbekSource: "Bir.", modelEnglish: "One.", acceptedAlternatives: [], notes: [], targetLexicalItems: [] },
+        { position: 1, uzbekSource: "Ikki.", modelEnglish: "Two.", acceptedAlternatives: [], notes: [], targetLexicalItems: [] },
+      ],
+    });
+    assert.equal(bad.ok, false, "two sentences cannot share a position");
+    assert.equal((await db.select().from(writingTranslationSets).where(eq(writingTranslationSets.sourceRef, "writing-translation-bad"))).length, 0);
   } finally {
     await database.close();
   }

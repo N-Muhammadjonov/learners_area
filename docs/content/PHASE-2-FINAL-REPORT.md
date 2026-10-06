@@ -143,11 +143,20 @@ per-section reporting.
 
 ## L. Writing model
 
-`PARTIAL`. `writing:task1` and `writing:task2` are canonical, authored, versioned and
-assignable, with submissions bound to the revision and grading through persisted
-records (no re-grading on read). `lesson`, `model_text`, `pattern`,
-`translation_set` still live on legacy tables (COMPATIBILITY ONLY — the inventory
-holds no MIGRATE item; moving them is a named successor away, not a deletion).
+`DONE` for the canonical model. `writing:task1`/`task2` are canonical, authored,
+versioned and assignable, with submissions bound to the revision and grading through
+persisted records (no re-grading on read). The secondary types are canonical too:
+`writing:lesson`, `writing:model_text`, `writing:pattern` and
+`writing:translation_set` are authored through the registry into the SAME domain tables
+the app reads (no second store, no copy), versioned by `pinVersion`, publication-gated
+through the version store, and their authoring schemas reuse the Writing admin lists so
+the form, the author and the 0031 CHECKs agree. The one identity trap is handled in
+code: `writing_language_patterns.source_ref` means "source model text", so the pattern
+author resolves its row from the previous revision's `target_id` rather than hijacking
+that column. AU15 proves identity across revisions, the computed word count, the
+sentence replacement, the duplicate-position refusal and the publish-moves-both rule.
+Tests: `content-authoring-publication` 15/15. The legacy Writing admin service
+remains a COMPATIBILITY writer for rows that already exist.
 
 ## M. Speaking bank
 

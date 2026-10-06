@@ -1,6 +1,7 @@
 import type { z } from "zod";
 import { z as zod } from "zod";
 import {
+  contentVersions,
   grammarExercises,
   grammarTopics,
   lessons,
@@ -10,9 +11,14 @@ import {
   readingPassages,
   readingQuestions,
   speakingPrompts,
+  writingLanguagePatterns,
+  writingLessons,
+  writingModelTexts,
   writingPrompts,
+  writingTranslationSentences,
+  writingTranslationSets,
 } from "@/db/schema";
-import { eq, type SQL } from "drizzle-orm";
+import { and, desc, eq, type SQL } from "drizzle-orm";
 import type { PgTable } from "drizzle-orm/pg-core";
 
 /**
@@ -24,6 +30,9 @@ type UpdateTarget = PgTable;
 import type { ImportTransaction } from "@/lib/import/core/dry-run";
 import { resolveQuestionType, storageTypeFor } from "@/lib/content/question-types";
 import { saveLessonStructure } from "@/lib/content/lessons";
+import { LESSON_CATEGORIES, MODEL_TEXT_MIN_WORDS } from "@/lib/writing/admin-schemas";
+import { PATTERN_FUNCTIONS } from "@/lib/writing/pattern-functions";
+import { TRANSLATION_BANDS, TRANSLATION_QUESTION_TYPES } from "@/lib/writing/translation-rules";
 import { saveTopicPack } from "@/lib/content/vocabulary-packs";
 
 /**
@@ -533,6 +542,299 @@ function writingAuthor(taskType: "task1" | "task2"): ModuleAuthor {
 }
 
 /* -------------------------------------------------------------------------- */
+/* Writing: the rest of the module                                              */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * The remaining Writing content types — `lesson`, `model_text`, `pattern` and
+ * `translation_set` — are canonical through the SAME domain tables the app already
+ * reads. There is no second store and no copy: the row IS the content, and the
+ * revision pinned alongside it is what an assignment, a mock or an attempt can point
+ * at (§24/§41/§43).
+ *
+ * Two identity rules matter here, and one of them is a trap:
+ *
+ *   • `lesson`, `model_text` and `translation_set` carry a `source_ref` column that no
+ *     surface sets, so the canonical source ref is written there and re-authoring the
+ *     same ref revises the same row.
+ *   • `writing_language_patterns.source_ref` ALREADY means something else: the model
+ *     text a pattern was drawn from (the admin form validates it as a model-text id).
+ *     The canonical author must not overwrite that meaning, so it resolves the row to
+ *     revise from the PREVIOUS revision's `target_id` instead — one item, still
+ *     revised in place, without hijacking a column that means provenance.
+ */
+async function revisionTargetId(
+  tx: ImportTransaction,
+  module: string,
+  contentType: string,
+  sourceRef: string,
+): Promise<string | null> {
+  const [row] = await tx
+    .select({ targetId: contentVersions.targetId })
+    .from(contentVersions)
+    .where(and(eq(contentVersions.module, module), eq(contentVersions.contentType, contentType), eq(contentVersions.sourceRef, sourceRef)))
+    .orderBy(desc(contentVersions.versionNo))
+    .limit(1);
+  return row?.targetId ?? null;
+}
+
+const writingLessonPayload = zod.object({
+  // The DB has the same CHECK (0031) — reusing the shared list means an invalid value
+  // is refused as an authoring issue instead of surfacing as a raw constraint error.
+  category: zod.enum(LESSON_CATEGORIES),
+  summary: zod.string().max(600).nullable().optional(),
+  body: zod.string().min(20).max(20000),
+  durationMinutes: zod.number().int().min(1).max(240).nullable().optional(),
+  position: zod.number().int().min(0).max(10000).default(0),
+});
+
+export const writingLessonAuthor: ModuleAuthor = {
+  module: "writing",
+  contentType: "lesson",
+  payloadVersion: 1,
+  label: "Writing lesson",
+  payloadSchema: writingLessonPayload,
+  async persist(tx, payload, context) {
+    const parsed = writingLessonPayload.parse(payload);
+    const values = {
+      title: context.title,
+      category: parsed.category,
+      summary: parsed.summary ?? null,
+      body: parsed.body,
+      durationMinutes: parsed.durationMinutes ?? null,
+      position: parsed.position,
+      updatedAt: new Date(),
+    };
+    const [existing] = await tx.select({ id: writingLessons.id }).from(writingLessons).where(eq(writingLessons.sourceRef, context.sourceRef)).limit(1);
+    const [row] = existing
+      ? await tx.update(writingLessons).set(values).where(eq(writingLessons.id, existing.id)).returning({ id: writingLessons.id })
+      : await tx
+          .insert(writingLessons)
+          .values({ ...values, sourceRef: context.sourceRef, publicationState: "draft" })
+          .returning({ id: writingLessons.id });
+    return {
+      targetType: "writing_lesson",
+      targetId: row!.id,
+      content: { title: context.title, category: parsed.category, summary: parsed.summary ?? null, body: parsed.body, durationMinutes: parsed.durationMinutes ?? null },
+      summary: "Writing lesson",
+    };
+  },
+  async setPublication(tx, version, publication) {
+    if (!version.targetId) return "target_missing";
+    return syncRows(tx, writingLessons, eq(writingLessons.id, version.targetId), publication, true);
+  },
+  async readSchedule(tx, version) {
+    if (!version.targetId) return null;
+    const [row] = await tx.select({ publishAt: writingLessons.publishAt }).from(writingLessons).where(eq(writingLessons.id, version.targetId)).limit(1);
+    return row?.publishAt ?? null;
+  },
+};
+
+const MODEL_TEXT_BANDS = [8, 8.5, 9] as const;
+
+const writingModelTextPayload = zod
+  .object({
+    taskType: zod.enum(["task1", "task2"]),
+    topic: zod.string().min(2).max(120),
+    targetBand: zod.number().refine((band) => (MODEL_TEXT_BANDS as readonly number[]).includes(band), "A model text is Band 8, 8.5 or 9."),
+    body: zod.string().min(200).max(8000),
+    provenance: zod.string().min(2).max(200),
+  })
+  // A model text is a COMPLETE answer, never a prompt pretending to be one.
+  .refine((value) => value.body.trim().split(/\s+/).length >= MODEL_TEXT_MIN_WORDS[value.taskType], {
+    message: `A model text must be a complete answer: at least ${MODEL_TEXT_MIN_WORDS.task1} words for Task 1 and ${MODEL_TEXT_MIN_WORDS.task2} for Task 2.`,
+    path: ["body"],
+  });
+
+export const writingModelTextAuthor: ModuleAuthor = {
+  module: "writing",
+  contentType: "model_text",
+  payloadVersion: 1,
+  label: "Model text",
+  payloadSchema: writingModelTextPayload,
+  async persist(tx, payload, context) {
+    const parsed = writingModelTextPayload.parse(payload);
+    const wordCount = parsed.body.trim().split(/\s+/).length;
+    const values = {
+      title: context.title,
+      taskType: parsed.taskType,
+      topic: parsed.topic,
+      targetBand: String(parsed.targetBand) as never,
+      body: parsed.body,
+      wordCount,
+      provenance: parsed.provenance,
+    };
+    const [existing] = await tx.select({ id: writingModelTexts.id }).from(writingModelTexts).where(eq(writingModelTexts.sourceRef, context.sourceRef)).limit(1);
+    const [row] = existing
+      ? await tx.update(writingModelTexts).set(values).where(eq(writingModelTexts.id, existing.id)).returning({ id: writingModelTexts.id })
+      : await tx
+          .insert(writingModelTexts)
+          .values({ ...values, sourceRef: context.sourceRef, publicationState: "draft" })
+          .returning({ id: writingModelTexts.id });
+    return {
+      targetType: "writing_model_text",
+      targetId: row!.id,
+      content: { title: context.title, taskType: parsed.taskType, topic: parsed.topic, targetBand: parsed.targetBand, body: parsed.body, wordCount, provenance: parsed.provenance },
+      summary: `Model text at Band ${parsed.targetBand} (${wordCount} words)`,
+    };
+  },
+  async setPublication(tx, version, publication) {
+    if (!version.targetId) return "target_missing";
+    return syncRows(tx, writingModelTexts, eq(writingModelTexts.id, version.targetId), publication, true);
+  },
+  async readSchedule(tx, version) {
+    if (!version.targetId) return null;
+    const [row] = await tx.select({ publishAt: writingModelTexts.publishAt }).from(writingModelTexts).where(eq(writingModelTexts.id, version.targetId)).limit(1);
+    return row?.publishAt ?? null;
+  },
+};
+
+const writingPatternPayload = zod.object({
+  pattern: zod.string().min(3).max(240),
+  function: zod.enum(PATTERN_FUNCTIONS),
+  taskType: zod.enum(["task1", "task2"]),
+  topic: zod.string().max(120).nullable().optional(),
+  targetBand: zod.number().int().min(5).max(9).nullable().optional(),
+  example: zod.string().min(5).max(400),
+  usageNote: zod.string().max(600).nullable().optional(),
+  provenance: zod.string().min(2).max(200),
+});
+
+export const writingPatternAuthor: ModuleAuthor = {
+  module: "writing",
+  contentType: "pattern",
+  payloadVersion: 1,
+  label: "Language pattern",
+  payloadSchema: writingPatternPayload,
+  async persist(tx, payload, context) {
+    const parsed = writingPatternPayload.parse(payload);
+    const values = {
+      pattern: parsed.pattern,
+      function: parsed.function,
+      taskType: parsed.taskType,
+      topic: parsed.topic ?? null,
+      targetBand: parsed.targetBand ?? null,
+      example: parsed.example,
+      usageNote: parsed.usageNote ?? null,
+      provenance: parsed.provenance,
+    };
+    // `source_ref` on this table means "the model text this pattern came from", so the
+    // canonical author never writes it: the row to revise comes from the previous
+    // revision of this same canonical item.
+    const previous = await revisionTargetId(tx, "writing", "pattern", context.sourceRef);
+    const existing = previous
+      ? (await tx.select({ id: writingLanguagePatterns.id }).from(writingLanguagePatterns).where(eq(writingLanguagePatterns.id, previous)).limit(1))[0]
+      : undefined;
+    const [row] = existing
+      ? await tx.update(writingLanguagePatterns).set(values).where(eq(writingLanguagePatterns.id, existing.id)).returning({ id: writingLanguagePatterns.id })
+      : await tx.insert(writingLanguagePatterns).values({ ...values, publicationState: "draft" }).returning({ id: writingLanguagePatterns.id });
+    return {
+      targetType: "writing_pattern",
+      targetId: row!.id,
+      content: { pattern: parsed.pattern, function: parsed.function, taskType: parsed.taskType, topic: parsed.topic ?? null, example: parsed.example, usageNote: parsed.usageNote ?? null },
+      summary: `Pattern “${parsed.pattern}”`,
+    };
+  },
+  async setPublication(tx, version, publication) {
+    if (!version.targetId) return "target_missing";
+    return syncRows(tx, writingLanguagePatterns, eq(writingLanguagePatterns.id, version.targetId), publication, true);
+  },
+  async readSchedule(tx, version) {
+    if (!version.targetId) return null;
+    const [row] = await tx.select({ publishAt: writingLanguagePatterns.publishAt }).from(writingLanguagePatterns).where(eq(writingLanguagePatterns.id, version.targetId)).limit(1);
+    return row?.publishAt ?? null;
+  },
+};
+
+const writingTranslationSentencePayload = zod.object({
+  position: zod.number().int().min(1).max(40),
+  uzbekSource: zod.string().min(2).max(600),
+  modelEnglish: zod.string().min(2).max(600),
+  acceptedAlternatives: zod.array(zod.string().min(1).max(600)).max(10).default([]),
+  notes: zod.array(zod.string().min(1).max(400)).max(5).default([]),
+  targetLexicalItems: zod.array(zod.string().min(1).max(80)).max(10).default([]),
+});
+
+const writingTranslationSetPayload = zod.object({
+  topic: zod.string().min(2).max(120),
+  questionType: zod.enum(TRANSLATION_QUESTION_TYPES),
+  taskType: zod.enum(["task1", "task2"]).default("task2"),
+  targetBand: zod.number().int().refine((band) => (TRANSLATION_BANDS as readonly number[]).includes(band), "A translation set is Band 6, 7 or 8."),
+  promptText: zod.string().min(10).max(2000),
+  provenance: zod.string().min(2).max(200),
+  sentences: zod.array(writingTranslationSentencePayload).max(40),
+});
+
+export const writingTranslationSetAuthor: ModuleAuthor = {
+  module: "writing",
+  contentType: "translation_set",
+  payloadVersion: 1,
+  label: "Translation set",
+  payloadSchema: writingTranslationSetPayload,
+  async persist(tx, payload, context) {
+    const parsed = writingTranslationSetPayload.parse(payload);
+    const positions = parsed.sentences.map((sentence) => sentence.position);
+    if (new Set(positions).size !== positions.length)
+      throw new AuthoringPayloadError("writing", new zod.ZodError([
+        { code: zod.ZodIssueCode.custom, path: ["sentences"], message: "Two sentences share a position." },
+      ]));
+    const values = {
+      title: context.title,
+      topic: parsed.topic,
+      questionType: parsed.questionType,
+      taskType: parsed.taskType,
+      targetBand: parsed.targetBand,
+      promptText: parsed.promptText,
+      provenance: parsed.provenance,
+      updatedAt: new Date(),
+    };
+    const [existing] = await tx.select({ id: writingTranslationSets.id }).from(writingTranslationSets).where(eq(writingTranslationSets.sourceRef, context.sourceRef)).limit(1);
+    const [row] = existing
+      ? await tx.update(writingTranslationSets).set(values).where(eq(writingTranslationSets.id, existing.id)).returning({ id: writingTranslationSets.id })
+      : await tx
+          .insert(writingTranslationSets)
+          .values({ ...values, sourceRef: context.sourceRef, publicationState: "draft" })
+          .returning({ id: writingTranslationSets.id });
+    await tx.delete(writingTranslationSentences).where(eq(writingTranslationSentences.setId, row!.id));
+    if (parsed.sentences.length)
+      await tx.insert(writingTranslationSentences).values(
+        parsed.sentences.map((sentence) => ({
+          setId: row!.id,
+          position: sentence.position,
+          uzbekSource: sentence.uzbekSource,
+          modelEnglish: sentence.modelEnglish,
+          acceptedAlternatives: sentence.acceptedAlternatives,
+          notes: sentence.notes,
+          targetLexicalItems: sentence.targetLexicalItems,
+        })),
+      );
+    return {
+      targetType: "writing_translation_set",
+      targetId: row!.id,
+      content: {
+        title: context.title,
+        topic: parsed.topic,
+        questionType: parsed.questionType,
+        taskType: parsed.taskType,
+        targetBand: parsed.targetBand,
+        promptText: parsed.promptText,
+        sentences: parsed.sentences,
+      },
+      summary: `Translation set with ${parsed.sentences.length} sentence(s)`,
+    };
+  },
+  async setPublication(tx, version, publication) {
+    if (!version.targetId) return "target_missing";
+    return syncRows(tx, writingTranslationSets, eq(writingTranslationSets.id, version.targetId), publication, true);
+  },
+  async readSchedule(tx, version) {
+    if (!version.targetId) return null;
+    const [row] = await tx.select({ publishAt: writingTranslationSets.publishAt }).from(writingTranslationSets).where(eq(writingTranslationSets.id, version.targetId)).limit(1);
+    return row?.publishAt ?? null;
+  },
+};
+
+/* -------------------------------------------------------------------------- */
 /* Speaking                                                                    */
 /* -------------------------------------------------------------------------- */
 
@@ -855,6 +1157,10 @@ export function registerModuleAuthors(): void {
   registerModuleAuthor(readingPassageAuthor);
   registerModuleAuthor(writingAuthor("task1"));
   registerModuleAuthor(writingAuthor("task2"));
+  registerModuleAuthor(writingLessonAuthor);
+  registerModuleAuthor(writingModelTextAuthor);
+  registerModuleAuthor(writingPatternAuthor);
+  registerModuleAuthor(writingTranslationSetAuthor);
   registerModuleAuthor(speakingAuthor("part1_question", "part1"));
   registerModuleAuthor(speakingAuthor("cue_card", "part2"));
   registerModuleAuthor(speakingAuthor("part3_question", "part3"));

@@ -36,17 +36,28 @@ creates the content row the revision describes; `setPublication` moves that row'
 visibility with the revision (and reports `unsupported_schedule` when the row cannot
 hold a moment); `readSchedule` reads it back.
 
-Registered today (12):
+Registered today (16):
 
 | module | authored content types |
 | --- | --- |
 | listening | `full_test`, `section` |
 | reading | `general_set`, `passage` |
-| writing | `task1`, `task2` |
+| writing | `task1`, `task2`, `lesson`, `model_text`, `pattern`, `translation_set` |
 | speaking | `part1_question`, `cue_card`, `part3_question` |
 | grammar | `topic` |
 | vocabulary | `topic_pack` |
 | lesson | `lesson` |
+
+The four secondary Writing types are canonical through the SAME tables the app already
+reads (`writing_lessons`, `writing_model_texts`, `writing_language_patterns`,
+`writing_translation_sets`) — the row IS the content, and the revision pinned beside it
+is what an assignment can point at. Their authoring schemas reuse the Writing admin
+lists (`LESSON_CATEGORIES`, `MODEL_TEXT_MIN_WORDS`, `PATTERN_FUNCTIONS`,
+`TRANSLATION_QUESTION_TYPES`/`TRANSLATION_BANDS`) so the form, the author and the
+database CHECK cannot drift. One trap is handled explicitly:
+`writing_language_patterns.source_ref` already means "the model text this pattern came
+from", so the pattern author resolves the row to revise from the previous revision's
+`target_id` instead of overwriting a provenance column.
 
 A `section` is a Listening practice item (one recording, at most twelve questions,
 carrying its `sectionNo`) and a `passage` is a Reading item of exactly one passage:
