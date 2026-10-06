@@ -2,9 +2,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
-import { listWritingModelTexts, typingStats, type ModelTextView } from "@/lib/services/writing/typing-runs";
-import { safeWritingQuery } from "@/lib/writing/safe-query";
-import { NotMigrated } from "@/components/writing/workspace/NotMigrated";
+import { typingStats } from "@/lib/services/writing/typing-runs";
 import { timed } from "@/lib/observability/timing";
 import { TypingTrainer } from "@/components/writing/TypingTrainer";
 import { WritingExamHome } from "@/components/writing/exam/WritingExamHome";
@@ -18,12 +16,11 @@ import { WritingGradeTab } from "@/components/writing/workspace/WritingGradeTab"
 import { WritingLessonsTab, WritingContentTab } from "@/components/writing/workspace/WritingContentTabs";
 import { parseWritingTab, WRITING_TABS, type WritingTab } from "@/lib/writing/tabs";
 
-async function WritingTypingRegion({ typingPromise, texts, dict }: {
+async function WritingTypingRegion({ typingPromise, dict }: {
   typingPromise: Promise<
     | { ok: true; summary: Awaited<ReturnType<typeof typingStats>> }
     | { ok: false }
   >;
-  texts: ModelTextView[];
   dict: ReturnType<typeof getDictionary>;
 }) {
   const result = await typingPromise;
@@ -34,7 +31,6 @@ async function WritingTypingRegion({ typingPromise, texts, dict }: {
   return (
     <TypingTrainer
       dict={dict}
-      texts={texts}
       initialSummary={{ count: typing.count, bestWpm: typing.bestWpm, bestAccuracy: typing.bestAccuracy }}
       initialHistory={typing.history}
     />
@@ -42,8 +38,9 @@ async function WritingTypingRegion({ typingPromise, texts, dict }: {
 }
 
 /**
- * Typing (§41): complete Band 8–9 model texts from writing_model_texts —
- * never Writing question prompts. Stats start before the text query resolves.
+ * Typing now uses the dedicated Learners Area B1/B2 corpus. The browser asks
+ * the server for one published canonical text at a time; Writing prompts and
+ * Band model answers are no longer the typing target.
  */
 async function WritingActivities({ userId, dict }: {
   userId: string;
@@ -54,9 +51,6 @@ async function WritingActivities({ userId, dict }: {
     (summary) => ({ ok: true as const, summary }),
     () => ({ ok: false as const }),
   );
-  const loaded = await safeWritingQuery(() => timed("writing.modelTexts", () => listWritingModelTexts()));
-  if (!loaded.ok) { void typingPromise; return <NotMigrated dict={dict} />; }
-  const texts = loaded.value;
 
   return (
     <div className="flex flex-col gap-5" data-writing-activities data-async-content="writing">
@@ -65,13 +59,9 @@ async function WritingActivities({ userId, dict }: {
         <h2 className="font-display text-xl text-ink-900">{t.title}</h2>
         <p className="mt-1 max-w-3xl text-base text-ink-500">{t.body}</p>
       </div>
-      {texts.length === 0 ? (
-        <p role="status" className="rounded-md border border-ink-100 bg-paper-sunken p-4 text-base text-ink-700" data-typing-no-texts>{t.noTexts}</p>
-      ) : (
-        <Suspense fallback={<TypingRegionSkeleton />}>
-          <WritingTypingRegion typingPromise={typingPromise} texts={texts} dict={dict} />
-        </Suspense>
-      )}
+      <Suspense fallback={<TypingRegionSkeleton />}>
+        <WritingTypingRegion typingPromise={typingPromise} dict={dict} />
+      </Suspense>
     </div>
   );
 }
