@@ -6,7 +6,6 @@ import { createTestDatabase } from "./support/pglite";
 import {
   typingRunTexts,
   typingRuns,
-  typingTexts,
   users,
   writingModelTexts,
 } from "../src/db/schema";
