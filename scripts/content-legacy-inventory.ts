@@ -1,3 +1,6 @@
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+
 /**
  * LEGACY CONTENT INVENTORY (§93, §94).
  *
@@ -106,6 +109,43 @@ const ITEMS = [
     reason: "canonical orchestration objects; mocks compose content by reference",
   },
   {
+    path: "src/app/api/speaking/materials + src/components/speaking/NewMaterialForm.tsx",
+    what: "upload-backed Speaking material writer (a file or link primary plus description blocks)",
+    classification: "COMPATIBILITY ONLY",
+    reason:
+      "an existing material's attachment may only arrive through the verified pipeline (upload-intent → upload → finalize → claim), so this route stays as the file door and now pins the SAME canonical identity as authoring (`speaking:material`, targetType `speaking_material`) — asserted by `speaking-canonical-identity`. New link/descriptive materials are authored through `saveContentDraft`, which is why nothing new should be written here beyond the file claim itself.",
+    successor: "src/lib/content/authors.ts (speaking:material) + src/lib/services/speaking/materials.ts",
+  },
+  {
+    path: "src/components/speaking/ShadowingStudio.tsx + src/app/(app)/speaking/shadowing",
+    what: "shadowing studio: a source recording plus the learner's own local take",
+    classification: "KEEP",
+    reason:
+      "the source is a `speaking_materials` row whose category is `shadowing` — canonical content with identity, not a store — and the take is deliberately never uploaded (an object URL in the tab), so there is no shadowing content store and nothing to bind (§6).",
+  },
+  {
+    path: "src/lib/speaking/manage-topic.ts (+ src/lib/speaking/topic-draft.ts)",
+    what: "the `topic` grouping over the Speaking bank (the thing `topic_set` used to name)",
+    classification: "KEEP",
+    reason:
+      "a topic set is a GROUPING of canonical `speaking_prompts`, not a content type: it creates, edits, removes and restores bank rows atomically and archives rather than deletes. `topic_set` was removed from the taxonomy because declaring it invited a second store for prompts that already have one.",
+    successor: "src/lib/content/authors.ts (speaking:part1_question | speaking:cue_card | speaking:part3_question)",
+  },
+  {
+    path: "src/lib/data/attempt-timeline.ts (+ src/app/api/history)",
+    what: "cross-skill attempt timeline (Reading, Listening, Writing, Speaking, Grammar, Mock, Assignment)",
+    classification: "KEEP",
+    reason:
+      "a READ projection over the real domain attempts: it owns no table, copies nothing, and names the row it represents by (table, id) — the opposite of a parallel content store (§AD).",
+  },
+  {
+    path: "src/lib/services/speaking/attempts.ts",
+    what: "canonical identity for Speaking attempts (which revision a recording answered)",
+    classification: "KEEP",
+    reason:
+      "identity plumbing, not content: it refuses a non-live prompt and pins the newest PUBLISHED revision, leaving legacy prompts honestly unbound. The bank, attempt history, audio retention and RIWI boundary are untouched.",
+  },
+  {
     path: "external provider material (TED programmes, podcast episodes, published test papers)",
     what: "media referenced by external id, or material whose copyright status is unknown",
     classification: "MANUAL REVIEW REQUIRED",
@@ -113,6 +153,107 @@ const ITEMS = [
       "an external id is a reference and is safe; any stored transcript, question text or audio that came from a copyrighted paper must be reviewed by a human before it is stored, and no copyrighted question may be re-created here (§75, §96).",
   },
 ] as const;
+
+/* -------------------------------------------------------------------------- */
+/* TABLE COVERAGE — the mechanical half of "no unclassified runtime remains"  */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Every content-bearing table in the schema, in exactly one group. Declaring the groups
+ * is what makes the claim checkable rather than asserted: a NEW table that is not
+ * covered by a group, the inventory, or the dictionary rule below fails the check, so a
+ * parallel content store cannot be added quietly.
+ *
+ * The dictionary tables are not in `src/db/schema.ts` at all (that subsystem owns its own
+ * SQL under `drizzle/0038…`), which is why it needs the prefix rule instead of a list.
+ */
+export const TABLE_GROUPS: { group: string; reason: string; tables: readonly string[] }[] = [
+  {
+    group: "canonical content (authored or imported, versioned in content_versions)",
+    reason: "the tables an author or an importer writes; identity, revisions and publication live here",
+    tables: [
+      "lessons", "lesson_blocks", "video_lessons", "video_lesson_questions",
+      "reading_passages", "reading_passage_paragraphs", "reading_question_groups", "reading_questions",
+      "listening_tests", "listening_questions", "listening_packages",
+      "general_reading_sets", "general_reading_passages",
+      "writing_prompts", "writing_lessons", "writing_model_texts", "writing_language_patterns",
+      "writing_translation_sets", "writing_translation_sentences", "writing_exam_papers",
+      "writing_exam_paper_entries", "writing_pattern_bank", "typing_run_texts",
+      "speaking_prompts", "speaking_materials",
+      "grammar_topics", "grammar_exercises",
+      "vocabulary_topic_packs", "vocabulary_topic_pack_words",
+      "retention_texts", "retention_text_versions",
+      "content_versions", "content_imports",
+    ],
+  },
+  {
+    group: "composition (orchestration objects that reference canonical content)",
+    reason: "a composition names content by identity and never copies it into itself",
+    tables: ["courses", "course_modules", "units", "mock_tests", "mock_sections", "assignments", "assignment_targets", "retention_rotation_state"],
+  },
+  {
+    group: "attempts and learner state (never a content source)",
+    reason: "what a learner did: attempts, answers, drafts, progress, grades and vocabulary state",
+    tables: [
+      "reading_attempts", "reading_answers", "listening_attempts", "listening_answers", "listening_mcq_sessions",
+      "listening_activity_runs", "listening_drafts", "grammar_attempts", "speaking_attempts",
+      "writing_submissions", "writing_feedback", "writing_lesson_progress", "writing_translation_attempts",
+      "writing_translation_answers", "writing_exam_sessions", "writing_grade_requests", "writing_stealing_sessions",
+      "typing_runs", "mock_attempts", "lesson_progress", "lesson_block_responses", "assignment_responses",
+      "general_reading_progress", "video_lesson_progress", "enrollments", "activity_events", "vocab_point_events",
+      "user_vocabulary", "user_vocabulary_contexts", "vocabulary_usages", "evaluations", "coach_weaknesses",
+      "teacher_student_links", "retention_attempts", "retention_rotation_completions",
+    ],
+  },
+  {
+    group: "lexical subsystem (one lexeme → sense → occurrence model)",
+    reason: "the shared lexical store every module resolves vocabulary through; not per-module content",
+    tables: ["lexemes", "lexical_occurrences", "lexical_units", "lexical_unit_forms", "lexical_unit_pronunciations", "vocab_folders"],
+  },
+  {
+    group: "infrastructure, ownership, billing and media plumbing",
+    reason: "not content: accounts, upload intents, attached-material blocks, ops and payment rows",
+    tables: [
+      "upload_intents", "users", "access_requests", "notifications", "audit_log", "ownership_transfers",
+      "password_reset_tokens", "onboarding_profiles", "resource_blocks", "material_blocks", "user_profile_photos",
+      "problem_reports", "products", "plans", "prices", "subscriptions", "payments", "access_entitlements",
+    ],
+  },
+  {
+    group: "live/interaction runtime",
+    reason: "rooms, presence, invites and blocks — interaction state, never authored content",
+    tables: ["live_classes", "live_class_attendance", "live_partner_presence", "live_partner_invites", "live_partner_sessions", "live_partner_blocks"],
+  },
+];
+
+const DICTIONARY_PREFIX = "dictionary_";
+
+/** Every table the schema declares. */
+export function declaredTables(schemaSource: string = readFileSync(fileURLToPath(new URL("../src/db/schema.ts", import.meta.url)), "utf8")): string[] {
+  return [...schemaSource.matchAll(/pgTable\(\s*"([a-z0-9_]+)"/g)].map((match) => match[1]!).sort();
+}
+
+/**
+ * Coverage problems, in both directions: a table nothing classifies, and a class that
+ * names a table the schema no longer has (that is how a list like this rots into a lie).
+ */
+export function inventoryCoverageProblems(schemaSource?: string): string[] {
+  const tables = new Set(declaredTables(schemaSource));
+  const problems: string[] = [];
+  const classified = new Set<string>();
+  for (const group of TABLE_GROUPS) {
+    for (const table of group.tables) {
+      if (classified.has(table)) problems.push(`${table}: classified twice (${group.group})`);
+      classified.add(table);
+      if (!tables.has(table)) problems.push(`${table}: classified in "${group.group}" but the schema has no such table`);
+    }
+  }
+  for (const table of tables) {
+    if (classified.has(table) || table.startsWith(DICTIONARY_PREFIX)) continue;
+    problems.push(`${table}: UNCLASSIFIED — no group, no dictionary rule, and not named by the inventory`);
+  }
+  return problems;
+}
 
 export type LegacyClassification = "KEEP" | "MIGRATE" | "COMPATIBILITY ONLY" | "REMOVE AFTER MIGRATION" | "MANUAL REVIEW REQUIRED";
 
@@ -143,7 +284,7 @@ export function inventorySummary(items: readonly LegacyItem[]): Record<string, n
  * so the check fails rather than printing a tidy table.
  */
 export function inventoryProblems(items: readonly LegacyItem[] = legacyInventory()): string[] {
-  const problems: string[] = [];
+  const problems: string[] = [...inventoryCoverageProblems()];
   for (const item of items) {
     const mustMove = item.classification === "REMOVE AFTER MIGRATION" || item.classification === "MIGRATE";
     if (mustMove && !item.successor) problems.push(`${item.path}: classified ${item.classification} but names no successor`);

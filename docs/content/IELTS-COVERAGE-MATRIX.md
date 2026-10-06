@@ -51,7 +51,7 @@ is baked into shared infrastructure (§3, §68).
 | Canonical tasks | DONE — `writing:task1`, `writing:task2` authored, versioned, assignable |
 | Submission + attempt binding | DONE — `writing_submissions.content_version_id` |
 | Human/AI grading | DONE — grading requests and feedback records; AI has no publish authority |
-| Other writing content types | PARTIAL — `lesson`, `model_text`, `pattern`, `translation_set` exist as legacy tables (COMPATIBILITY ONLY); they are not yet canonical content types |
+| Other writing content types | DONE — `writing:lesson`, `writing:model_text`, `writing:pattern`, `writing:translation_set` are authored, versioned and publication-gated (the legacy tables remain COMPATIBILITY writers for rows that already exist) |
 | Task 1 visual data | PARTIAL — the visual is stored and shown as an asset/description; no chart-spec → renderer contract yet |
 
 ## 5. Speaking
@@ -60,7 +60,7 @@ is baked into shared infrastructure (§3, §68).
 | --- | --- |
 | Canonical bank | DONE — `part1_question`, `cue_card`, `part3_question` authored and versioned |
 | Attempt binding | DONE — `speaking_attempts.content_version_id` |
-| `topic_set`, `shadowing`, `material` | MISSING as canonical types — legacy speaking tables remain readable (COMPATIBILITY ONLY) |
+| `topic_set`, `shadowing`, `material` | RESOLVED, none of them a gap: `speaking:material` is canonical (identity, revisions, snapshot without object keys; the upload route pins the same identity), `shadowing` is a material CATEGORY whose takes are local-only by design, and `topic_set` is the `topic` grouping over the ONE bank — deliberately not a content type, so no second prompt store exists |
 | Band judgment | DONE — recorded criteria, no fabricated bands |
 
 ## 6. Grammar
@@ -78,7 +78,7 @@ is baked into shared infrastructure (§3, §68).
 | Lexeme → sense → occurrence | DONE — one store, shared by Reading, Listening, TED/Podcast, lessons and vocabulary packs |
 | Topic packs as canonical content | DONE — authored, versioned, published; built-in packs are a compatibility fallback |
 | Retention texts | PARTIAL — own tables and rotation, not yet canonical `vocabulary:retention_text` |
-| Writing topic vocabulary | PARTIAL — still on its legacy table; classified MIGRATE (see LEGACY-MIGRATION.md) |
+| Writing topic vocabulary | DONE — the file no longer carries topic vocabulary: it projects the canonical topic packs (whose words ARE `lexemes` rows) with the built-in list kept only as a pre-publication fallback; classified COMPATIBILITY ONLY, not MIGRATE |
 
 ## 8. Mock
 
@@ -105,13 +105,13 @@ is baked into shared infrastructure (§3, §68).
 | TED/Podcast DB-driven | DONE |
 | Source identity + duplicate detection | DONE, including the "did this import change anything?" answer at the version level |
 | Import vs authoring vs composition | DONE — separate surfaces, one writer |
-| Validation matrix (§48/§90) | PARTIAL — import, payload and answer-shape validation are real; a single generated matrix of "every content type × every check" is not yet emitted |
-| Native preview (§49) | PARTIAL — descriptor-level previews exist for import; a preview of an authored draft for every content type is not yet uniform |
+| Validation matrix (§48/§90) | PARTIAL — import validation (levels 1–3), the author's own payload schema, publication issues, and answer-shape grading checks are real and asserted per type; what is still missing is a single GENERATED matrix document of "every content type × every check" (`validation-matrix` remains owner-visible work, not claimed) |
+| Native preview (§49) | DONE — every registered authorable type has a native preview computed from the registry (17 authors → 17 PREVIEW_READY; 0 MISSING), rendering the same canonical shape the learner renderer consumes, never requiring publication, staff-only, identifying the exact revision, failing an optional region locally and a core region closed, and WITHHOLDING executable content rather than echoing it (`content-preview` PV1–PV6) |
 | Publication workflow | DONE |
-| Authoring workspace / create-from-scratch (§34/35) | PARTIAL — APIs and 10 registered authors exist; the admin workspace screens are minimal |
+| Authoring workspace / create-from-scratch (§34/35) | DONE — `/admin/content/workspace` drives the registered authors end to end (template → validate → preview → save draft → revise → publish/schedule/archive) with no write path of its own; `tests/ui/content-workspace` 8/8 |
 | AI output through validation, no publish authority | DONE |
-| Banks, taxonomy/tags, search/filters (§37–§40) | PARTIAL — taxonomy and content types are canonical; bank/search/filter surfaces over canonical content are incomplete |
-| Attempts/autosave/resume/retry/review/results/progress/history/dashboards (§50–§61) | PARTIAL — attempts, review and progress exist per skill; not uniform across every content type |
+| Banks, taxonomy/tags, search/filters (§37–§40) | DONE — taxonomy and content types are canonical; `content-bank` is a SQL-filtered, paginated, faceted bank over every canonical item (module · contentType · present state · "has ever been" state · track · identity · title · free text · version · changed-between), staff-only (`content-bank` 3/3) |
+| Attempts/autosave/resume/retry/review/results/progress/history/dashboards (§50–§61) | PARTIAL — the cross-skill history is DONE (`getLearnerTimeline`: a projection over the seven real attempt kinds, by reference, degrading by reported region; `attempt-timeline` TL1–TL4+TL3b) and the dashboard continue card reads it. Still open: autosave/resume/retry are not uniform across every content type (Listening has drafts; canonical lessons/media do not) |
 | Mock builder + compatibility rules (§62–§65) | DONE for composition; builder UI is PARTIAL |
 | Learning paths / locks (§66/§67) | PARTIAL — courses/modules/units/lessons exist with progress; path locking rules are not yet canonical |
 | Future-course reuse, thin HTTP + services, normalized storage, private assets | DONE |

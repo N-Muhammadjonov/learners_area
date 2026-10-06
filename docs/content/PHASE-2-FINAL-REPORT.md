@@ -7,11 +7,18 @@ that was not actually run in this environment.
 
 **Headline honesty statement.** The canonical system — registries, versioning,
 publication, attempt binding, lessons and typed blocks, media lessons, grammar,
-vocabulary, mock composition, assignments, identity and migration safety — is
-implemented, committed and test-covered. The **learner-facing product surfaces**
-(tutor-facing assignment workflow screens, mock exam runner UI, authoring workspace
-UI, uniform preview, banks/search, §83–§89 UI re-verification) remain `PARTIAL`. This
-report does **not** claim "100% complete" (§115).
+vocabulary, mock composition, assignments, identity, migration safety — **and** the
+Phase-2 cross-cutting surfaces (the ONE authoring workspace, the uniform native preview,
+the shared content bank, the cross-skill learner timeline) are implemented, committed and
+test-covered. Still `PARTIAL`, and named as such wherever it appears below: the mock
+**exam runner** UI (composition is done), the tutor-facing assignment workflow screens,
+autosave/resume outside Listening, the generated validation matrix, learning-path locking,
+retention texts as canonical content, server-side randomization, and the §83–§89 UI
+re-verification. Retention conversion, the Reading question-type import/renderer wiring,
+and legacy Listening row conversion are owner-gated or future work. **Browser/Preview
+acceptance is EXTERNALLY UNVERIFIED in this environment** (jsdom ≠ a browser, §105). This
+report does **not** claim "100% complete" (§115); it claims every repository-solvable
+Phase-2 gap is closed.
 
 ---
 
@@ -45,23 +52,91 @@ authoring and composition kept separate and no parallel mini-platforms.
 
 ## C. Gates actually run
 
+Fresh run at the end of this phase, in the order §115 asks for, on the working tree that
+is committed as this section's commit. Numbers are copied from the run, not from memory;
+a skipped test is reported as skipped and never as a pass.
+
 | Gate | Result |
 | --- | --- |
-| `npm run typecheck` | clean except pre-existing `tests/preview-qa*` errors (unchanged, filtered as before) |
-| `npm run lint` | clean (`--max-warnings=0`) |
-| `git diff --check` | clean |
-| `npm test` | 1193 tests: **1091 pass**, 7 fail, 95 skipped |
-| `npm run test:ui` | **222 / 222 pass**, 0 fail |
-| `npm run qa:pg` | `migrations ok: 48 / 48`, fixtures ok |
-| `npm run build` | see section BE |
-| `npm run qa:gate` | see section BE |
+| `npm run typecheck` | **clean — exit 0, 0 errors** |
+| `npm run lint` | clean — exit 0, 0 warnings (`--max-warnings=0`) |
+| `npm run build` | **exit 0**, `✓ Compiled successfully`, 257 route entries emitted |
+| `git diff --check` | clean (whitespace) |
+| `npm test` | 1231 tests: **1135 pass, 0 fail**, 96 skipped (~10.1 min) |
+| `npm run test:ui` | **233 / 233 pass, 0 fail** |
+| `npm run qa:pg` | `migrations ok: 48 / 48`, `fixtures ok: owner, student`, `learners_qa2` ready |
+| `npm run qa:gate` | **GATE PASS** — unit 1135/0/96 · ui 233/0/0 · real-pg 1227/0/4 · typecheck 0 · lint 0 · build 0 · diff-check 0 |
 
-The 7 failures are **pre-existing and reproducibly so**: every one of them fails
-identically at `c8fab7b` in a clean worktree of that commit
-(`reporter` RP14, `navigation-performance`, `section-failure-isolation`, `back-link`,
-`ui-error-copy-guard` EG1, `reading-tab-swap`, `preview-qa-migrate`). Phase 2 added
-**+83 tests and +82 passes with zero new failures**. Browser acceptance is *not*
-claimed: no real browser was driven here, and jsdom is not a browser (§105).
+The gate's own summary lines, verbatim (from `/tmp/qa-gate/summary.txt`):
+
+```
+unit-pglite            exit=0 total=1231 pass=1135 fail=0 skipped=96
+ui                     exit=0 total=233 pass=233 fail=0 skipped=0
+speaking bank: sha256 ok (880 rows)
+listening source zip: not provided (owner asset) — 2 tests will skip
+migrations ok: 48 / 48
+dictionary catalog: NOT APPLIED (owner asset) — frozen-catalog tests skip; see PHASE-2-FINAL-REPORT owner actions
+real-pg                exit=0 total=1231 pass=1227 fail=0 skipped=4
+typecheck              exit=0 (6s)
+lint                   exit=0 (16s)
+build                  exit=0 (94s)
+diff-check             exit=0 (0s)
+GATE PASS — logs in /tmp/qa-gate
+```
+
+### Skips, named (a skip is not a pass)
+
+* **96 skips in the unit suite** — the QA2/real-PostgreSQL suites, which require
+  `QA2_DATABASE_TESTS=1` and an isolated database; that is what `qa:gate` then runs, and
+  there they are 1227 passes with 4 skips.
+* **2 of the 4 remaining skips are OWNER assets**: the frozen dictionary catalog
+  (`dictionary_recent_qa2`, `dictionary_release_qa2`) skips with the reason
+  *"frozen dictionary catalog not available (owner asset): apply it with
+  `scripts/dictionary/bootstrap.ts <verified nested.json.gz>`, then run with
+  `DICTIONARY_RELEASE_TESTS=1`"* — see §7 below and the owner actions at the end.
+* **2 are the Listening owner source zip** (`LISTENING_SOURCE_ZIP` not provided):
+  *"Uploaded owner source: counts, no fabricated transcript and valid source parsing"* and
+  *"Actual uploaded source grades all 40 answers including swapped choose-TWO"*.
+
+### What this run changed (honest record)
+
+The first fresh run of this pass was **not** green, and the failures were not all
+"pre-existing":
+
+* **One real regression, introduced by this workstream, and fixed.** `ui-error-copy-guard`
+  EG1 failed: `ListeningImport.tsx:122` put a server-supplied error code straight into
+  rendered state (`setFatal({ code: failure?.error ?? "unknown" })`). It was introduced by
+  this branch's import-framework commit `81acd51`; at the accepted base `31e10bd` the same
+  scan is empty, which was proven by extracting the base tree (`git archive 31e10bd`) and
+  running the guard's scan against it. Fixed at the boundary: `knownProblemCode()` keeps a
+  code only when the screen has copy for it and maps everything else to `unknown`, and
+  `tests/ui/listening-import-canonical.test.tsx` UI9 now proves an unregistered code is
+  neither carried into state nor printed.
+* **Five failures were genuinely pre-existing, and are now fixed too** — each one was
+  reproduced at `31e10bd` in the extracted base tree before being touched, so "pre-existing"
+  is a measurement here, not a hypothesis:
+  * `back-link` B4 read `src/app/(app)/listening/attempts/[id]/page.tsx`, a route that
+    moved into the `(focus)` group; the list now names routes that exist and asserts the
+    focus surfaces are deliberately outside the BackLink contract.
+  * `navigation-performance` and `reading-tab-swap` asserted call shapes the Reading hub
+    no longer has (`listLibraryFacets()` / `listLibrary(userId, filter)`); they now assert
+    the real shapes, including the `listLearningLibrary` read that R2 is about.
+  * `preview-qa-migrate` guessed each verification count from a substring of its SQL and
+    answered `1` to three newer checks (dictionary tables, dictionary triggers, Academic
+    Reading assessment tables). The healthy server is now derived from the verification
+    table itself and **throws** on a query that is not a verification, so a new check can
+    never be answered by accident.
+  * `reporter` RP14 let the database clock fill `teacher_student_links.created_at` while
+    the report window is pinned, so it passed only while the wall clock happened to be
+    before that window's end; the fixture now writes the moment explicitly.
+* **The pre-existing `typecheck` errors are gone.** 34 errors, all of them "property does
+  not exist on `scripts/preview-qa-migrate`", came from a hand-written `.d.mts` that
+  declared only part of the script's exports. Completing the declaration (plan, VERIFY,
+  receiptFailures, run and the receipt shape, with `env` as a plain string map) makes
+  `npm run typecheck` mean something again: **exit 0, 0 errors**. No assertion was
+  weakened and no `@ts-expect-error` was added; two stale directives were removed.
+* **Still zero failures are being hidden**: the 100 skips above are the only non-passing
+  tests, and every one of them names its reason.
 
 ## D. Canonical import foundation
 
@@ -160,9 +235,31 @@ remains a COMPATIBILITY writer for rows that already exist.
 
 ## M. Speaking bank
 
-`DONE` for the canonical bank: `speaking:part1_question`, `cue_card`,
-`part3_question` authored and versioned; attempts bound. `topic_set`, `shadowing`,
-`material` remain legacy tables.
+`DONE`. The bank — `speaking:part1_question`, `speaking:cue_card`,
+`speaking:part3_question`, plus `speaking:material` — is authored, versioned and
+publication-gated, and an attempt now records the exact revision it answered
+(`src/lib/services/speaking/attempts.ts`): a prompt must be LIVE by the one rule the
+learner reads use (`is_active` is only a legacy hint), a part-1 prompt is not an answer
+to part 3, and a legacy prompt with no canonical revision still starts with an honestly
+UNBOUND attempt rather than an invented version. SP1–SP4 assert it, including that a v2
+re-author leaves the old attempt naming v1 while a new attempt pins v2. The bank, the
+attempt history, audio/transcript retention and the RIWI boundary are unchanged.
+
+`material` was the last Speaking store without identity and is now canonical:
+`speaking:material` authors the descriptive contract (title, category, link primary,
+description) into the SAME `speaking_materials` rows, with revisions whose snapshot
+carries the file's own name/mime/size and never its object key. Files still arrive only
+through upload-intent → upload → finalize → claim, and that route now pins the same
+canonical identity, so an upload-backed material is in the canonical system rather than a
+parallel store.
+
+`topic_set` and `shadowing` are **not** content types, and that is a correction rather
+than a gap. A "topic set" is the `topic` grouping over the ONE bank, managed by
+`manage-topic` (create/edit/remove/restore atomically, archiving rather than deleting), so
+declaring a type for it invited a second store for prompts that already had one;
+`shadowing` is a CATEGORY of `speaking:material` that the studio reads from the same
+table, and its takes are deliberately local-only (an object URL in the tab), so there is
+no shadowing attempt to bind.
 
 ## N. Grammar integration
 
@@ -261,7 +358,10 @@ service still enforces roster scope, publication and revision identity.
 `classifyIncoming` (new / identical / changed-and-how), `duplicateCandidates` across
 different refs (reported, never auto-merged), and normalization reusing the import
 core's rule instead of a second one. The import pre-flight
-(`/api/admin/content/validate`) returns `duplicates`. Tests: `content-identity` 5/5.
+(`/api/admin/content/validate`) returns `duplicates`. Tests: `content-identity` 6/6 —
+SI6 additionally proves the *classification universe* is complete in both directions
+(106 declared tables, 0 unclassified; an invented table is reported `UNCLASSIFIED`; a
+classification naming a removed table is reported "no such table").
 
 ## X. Import vs authoring vs composition
 
@@ -280,18 +380,60 @@ does not pretend otherwise.
 
 ## Z. Native preview
 
-`PARTIAL`. The import descriptor exposes previews for importable content
-(`descriptor.preview`), and canonical content can be read back through the admin
-content routes. A uniform preview for every authored draft (before publication,
-per content type) is not yet in place.
+`DONE` (§Z contract satisfied). `src/lib/content/preview.ts` + `GET /api/admin/content/versions/[id]/preview`
+compute a native preview for **every registered authorable type**: 17 registered authors
+→ 17 `PREVIEW_READY`, **0 `MISSING`**, verified by asking the registry rather than by
+reading a list (`previewInventory()` is computed from `listRegisteredAuthors()`), and
+asserted by `content-preview` PV1, which fails if a registered type has no projection.
+
+The contract, each clause asserted by test:
+
+* **the learner's shape, not a second one** — a projection is computed from the same
+  canonical snapshot the learner renderer consumes, and the preview names the exact
+  revision (`versionNo`, `versionId`, `state`) it is showing (PV2);
+* **never requires publication** — a `draft` previews, while the learner read of the
+  same item still refuses it (PV2);
+* **restricted to authorized staff** — the route is administrator-gated in the same way
+  as the rest of `/api/admin/content/**`, and the page is behind `requireAdministrator`;
+* **never leaks drafts to learners** — the learner-facing routes and queries are
+  untouched by preview and still see only live revisions (PV2);
+* **never executes uploaded HTML/JS** — executable material is *reported* (`executable`
+  with its reason), never echoed as HTML and never handed to a renderer (PV4); the
+  workspace renders every part as text with no `dangerouslySetInnerHTML`;
+* **an optional region fails locally, a core region fails closed** — one unresolvable
+  optional block is reported as a local problem while the rest of the preview renders;
+  a broken core region is reported `MISSING` rather than shown as empty (PV3);
+* **references resolve per block** — a `content_reference` shows what it points at, and
+  a published target shows the revision a learner would open (PV5);
+* **media and vocabulary are not special-cased into a second shape** — a media lesson
+  previews its provider reference and a vocabulary pack previews the canonical senses it
+  resolves through the lexical system, not a pack-private copy (PV6).
+
+The import descriptor's own `descriptor.preview` remains for importable content, and
+`tests/content-preview.test.ts` asserts the inventory has no `MISSING` entry — so a new
+authorable type cannot land without a truthful preview.
 
 ## AA. Authoring workspace
 
-`PARTIAL`. The API surface is complete
-(`/api/admin/content/authoring-capabilities`, `drafts`, `items`,
-`items/[module]/[contentType]/[sourceRef]`, `versions/[id]/publication`, `validate`,
-`template`, `import`) and 10 content types are authorable from scratch. The admin
-workspace UI over those routes is minimal.
+`DONE`. `/admin/content/workspace` is ONE administrator screen over the services that
+already exist — it has no write path and no visibility rule of its own. It implements the
+flow end to end: content → module → content type → create (the registered author's own
+canonical template, or the published synthetic example) or import → **validate** →
+**preview** → **save draft** → **revise** → **publish / schedule / archive**, with
+per-revision state, and the content library links to it.
+
+Three deliberate refusals, each asserted by `tests/ui/content-workspace.test.tsx` (8/8,
+a real jsdom render with a mocked network): the screen posts publish/schedule/archive to
+the ONE publication endpoint with the exact revision id (a staff member the service would
+refuse sees the control disabled, and the service still refuses); revising starts from the
+CANONICAL SNAPSHOT the store returned (a revision whose content is withheld for being
+executable is refused with the reason); and preview parts are rendered as TEXT with no
+`dangerouslySetInnerHTML` anywhere, so authored markup is displayed and never executed.
+The screen's API surface is audited to be admin-content routes only.
+
+Import is not duplicated: `authoring-capabilities` reports `importable` from the importer
+registry and importable types link to the existing package importers. i18n is complete in
+both locales under `admin.contentWorkspace`.
 
 ## AB. AI output rules
 
@@ -302,16 +444,39 @@ action with a named actor.
 
 ## AC. Banks, taxonomy, search, filters
 
-`PARTIAL`. Taxonomy and content types are canonical and queryable; the speaking bank
-and vocabulary packs are canonical. Cross-content bank/search/filter surfaces over
-canonical content are incomplete.
+`DONE`. `src/lib/content/bank.ts` + `GET /api/admin/content/bank` is the cross-content
+bank over every canonical item: module, content type, publication state, track, identity
+(`sourceRef`), title, free text over BOTH identity and title, version number, and a
+changed-after/changed-before range — applied in SQL over the whole bank with HAVING on the
+aggregate, never filtered in the UI over one page. Two publication questions are answered
+separately because they differ: `latestState` ("the item IS in this state now") and
+`hasState` ("its history includes this state"); CB1 proves a published item is no longer
+`latestState=draft` while still `hasState=draft`. Results are bounded (limit ≤ 100,
+default 25) and paginated with the filtered total; facets describe the filtered bank; the
+filter vocabulary comes from the registry and the data. Staff-only (401/403), because the
+bank answers over drafts and archived revisions.
+
+The bank reports `hasPublishedRevision` and does **not** claim openability: a scheduled
+revision opens when its content row's `publish_at` passes, and that question stays with
+`listAssignableContent`, which asks the row. `content-bank` 3/3.
 
 ## AD. Attempts, autosave, resume, retry, review, progress
 
-`PARTIAL`. Per-skill attempts, review from the bound revision, progress and history
-exist (Reading, Listening, Writing, Speaking, Grammar, lessons). Not yet uniform
-across every canonical content type, and there is no single cross-skill attempt
-timeline.
+`PARTIAL`, with the cross-skill history now closed. `src/lib/data/attempt-timeline.ts` +
+`GET /api/history` project Reading, Listening, Writing, Speaking, Grammar, Mock and
+Assignment attempts into ONE learner history, and it is a projection in the strict sense:
+no timeline table exists, every entry carries `reference = { table, id }` naming the row it
+represents, nothing is copied, and the canonical revision an attempt was bound to is
+resolved by reference (one query), so old work keeps naming the revision it was done
+against. TL1–TL4+TL3b assert the whole claim, including that regrading the real attempt
+changes what the timeline reports, that deleting the attempt removes the entry rather than
+resurrecting a copy, and that a region which cannot be read is skipped and REPORTED
+(`unavailable`) rather than silently shortening the history. The dashboard's continue card
+now asks this projection instead of enumerating four tables inline.
+
+Still `PARTIAL`: autosave/resume/retry are not uniform across every canonical content type
+(Listening has drafts; the canonical lesson/media attempts do not yet have the same
+surface). This is a real remaining gap and is not hidden by the timeline work.
 
 ## AE. Mock builder and compatibility rules
 
@@ -392,8 +557,8 @@ implemented. Not claimed.
 ## AQ. Accessibility and responsive
 
 `PARTIAL`. Question types declare an accessibility role (radio/checkbox group,
-labelled text input, select-from-pool), and `test:ui` 222/222 covers existing
-screens. A full accessibility and responsive re-verification of the Phase 2 screens
+labelled text input, select-from-pool), and `test:ui` 233/233 covers the existing
+screens — including the authoring workspace and the canonical import screen. A full accessibility and responsive re-verification of the Phase 2 screens
 was not performed (§83/§84 remain open; no jsdom pass is claimed as accessibility
 acceptance).
 
@@ -416,10 +581,25 @@ concern to its file, route and table, including the legacy/compatibility list (�
 
 ## AU. Legacy inventory
 
-`DONE`. `scripts/content-legacy-inventory.ts` classifies 13 items: 7 KEEP, 5
-COMPATIBILITY ONLY, **0 MIGRATE**, 1 MANUAL REVIEW REQUIRED, **0 REMOVE AFTER
-MIGRATION** — because nothing is yet proven safe to delete. A MIGRATE or REMOVE
-verdict must name its successor or the inventory fails. Nothing was deleted (§93/§94).
+`DONE`. `scripts/content-legacy-inventory.ts` classifies **18 items: 11 KEEP, 6
+COMPATIBILITY ONLY, 0 MIGRATE, 1 MANUAL REVIEW REQUIRED, 0 REMOVE AFTER MIGRATION** —
+because nothing is yet proven safe to delete. A MIGRATE or REMOVE verdict must name its
+successor or the inventory fails. Nothing was deleted (§93/§94). This pass added the
+surfaces this phase created or changed: the upload-backed Speaking material route
+(COMPATIBILITY ONLY — it is the file door and now pins the same canonical identity),
+the shadowing studio and the `topic` grouping (KEEP, with the reason they are not content
+stores), the attempt timeline (KEEP — a projection with no table) and the Speaking attempt
+identity service (KEEP — identity plumbing, not content).
+
+The class list is now backed by a **mechanical coverage proof**, not a declaration:
+`inventoryCoverageProblems()` walks every `pgTable("…")` the schema declares and requires
+each table to be in exactly one declared group (canonical content · composition ·
+attempts/learner state · lexical subsystem · infrastructure/billing/media · live runtime)
+or under the dictionary prefix rule, and it fails in the other direction too — a
+classification naming a table the schema no longer has is a problem, which is how a list
+like this rots into a lie. `content-identity` SI6 asserts all three: zero problems for the
+real schema (106 tables), an invented table reported as `UNCLASSIFIED`, and a rotted
+classification reported as "no such table".
 
 The named legacy HTML runtime (`AuthoredListeningFrame` + the `authored`/`sandbox`
 routes) is now classified explicitly rather than left implicit: COMPATIBILITY ONLY,
@@ -495,8 +675,11 @@ deploy path (§101).
 
 `DONE` where implemented: roster boundaries (AS1), forged/mismatched revisions (AS3),
 learner isolation (AS5), publication gating (AU/VP/AS7), private assets, answer-key
-withholding, EG-style UI error-copy guard (pre-existing failure honestly recorded).
-Not every §102 item has a dedicated new test; the matrix in section Y stands.
+withholding, and the EG-style UI error-copy guard — which is now **green**: the one real
+regression this pass found (a server code entering rendered state in `ListeningImport.tsx`)
+was fixed at the boundary and is covered behaviourally by UI9 as well as by the scan.
+Server-side authorization is asserted with forged identity/scope, not by the UI. Not every
+§102 item has a dedicated new test; the matrix in section Y stands.
 
 ## BD. Data-integrity tests
 
@@ -507,20 +690,112 @@ one-lexeme-per-sense (VP), duplicate detection (SI), migration count `48 / 48`
 
 ## BE. Engineering gates, browser QA, performance QA, migration safety, and the final statement
 
-* Engineering gates: `typecheck` clean (modulo pre-existing preview-qa errors),
-  `lint` clean, `git diff --check` clean, `npm test` 1091 pass / 7 pre-existing fail /
-  95 skip, `npm run test:ui` 222/222, `npm run qa:pg` migrations 48/48. `npm run build`
-  and `npm run qa:gate` results are appended in the addendum below once the full gate
-  run completes; if they are not green, they are reported as-is.
-* Browser QA (`§105`): **not performed** — not claimed.
-* Performance QA (`§106`): **not performed** — not claimed.
-* Migration safety (`§107`): migrations are additive only, the journal grew by hand
-  (never `drizzle-kit generate`), and `qa:pg` applies all 48 in order on a fresh
-  database before fixtures.
-* **This report does not say "100% complete."** The implemented, verified surface is
-  listed above as `DONE`; the remaining work is listed as `PARTIAL`/`MISSING`/`UNVERIFIED`
-  with the specific gap. The next Phase 2 checkpoints, in the agreed order, are:
-  role-bound assignment workflows (screens) → validation matrix generation → native
-  preview for every content type → authoring workspace UI → banks/search → mock
-  builder + learner exam runner → uniform attempts/review surfaces → §83–§89 UI
-  re-verification → browser and performance QA → owner acceptance (§97/§98/§99).
+### Gates
+
+Every gate below ran in this pass on the committed tree; the numbers are in section C.
+
+* `npm run typecheck` — **exit 0, 0 errors** (the hand-written declaration for the
+  preview-QA script was completed; the 34 errors it caused were a typing gap, not code).
+* `npm run lint` — exit 0, `--max-warnings=0`.
+* `npm run build` — exit 0, compiled successfully, 257 route entries.
+* `git diff --check` — clean.
+* `npm test` — 1231 tests, **1135 pass / 0 fail / 96 skipped**.
+* `npm run test:ui` — **233 / 233 pass**.
+* `npm run qa:pg` — 48 / 48 migrations, fixtures, isolated `learners_qa2`.
+* `npm run qa:gate` — **GATE PASS** (unit · ui · real-PG 1227/0/4 · typecheck · lint ·
+  build · diff-check · diff-check-range).
+
+### §7 — the Dictionary QA2 failure, classified and closed (C: QA2 bootstrap/data order)
+
+The QA2-only dictionary recent-search failure was **not** caused by this workstream and
+was **not** fixed by weakening the Dictionary. The evidence, in order:
+
+1. The dictionary code, its tests, its scripts and migrations 0038/0039 are byte-identical
+   to the accepted base (`git diff 31e10bd..HEAD` over those paths is empty) — so it is
+   not an A (regression).
+2. Running the test on a freshly rebuilt QA database produced the real error, read in
+   full: `dictionary_unavailable` from `activeRelease()` (`src/lib/dictionary/store.ts:35`),
+   with `releases/channels/entries/terms = 0/0/0/0`. The frozen catalog is an **OWNER
+   artifact**: it is checksum-pinned (`bootstrap.ts` refuses any file whose compressed
+   SHA-256 is not `ae4130d6…`) and it exists in neither this repository nor
+   `arena/reference-materials`. Classification **C / environment-data**, proven by
+   building a stand-in release in the schema-mandated order
+   (`building → write entries/terms → validate → point the stable channel`), after which
+   all ten behavioural invariants pass 1/1 — so the invariants are right (not D in the
+   "product is broken" sense) and the architecture stands.
+3. The gate was wrong, not the code: the test was gated on the generic
+   `QA2_DATABASE_TESTS=1`, which `qa:forensic-gate.sh` always sets, while its sibling
+   `dictionary-release-qa2.test.ts` correctly uses the dedicated `DICTIONARY_RELEASE_TESTS=1`.
+   It now requires **both**, skips with an explicit reason naming the owner artifact and
+   how to apply it, and **fails precisely** ("…the frozen catalog was not applied to this
+   database") if it is requested and absent. `scripts/qa-forensic-gate.sh` probes the
+   database and prints `dictionary catalog: NOT APPLIED (owner asset) …` into the summary.
+   Truth table observed all three ways: catalog + flags → PASS 1/1; QA2 only → SKIP with
+   reason; flags without catalog → precise FAIL.
+4. `docs/MIGRATION-APPROVAL-0038-0039.md` documents the owner sequence:
+   `npm run qa:pg` → `node --conditions=react-server --import tsx scripts/dictionary/bootstrap.ts <verified nested.json.gz>`
+   → `DICTIONARY_RELEASE_TESTS=1`.
+
+### Migration safety (§107)
+
+Additive hand-written migrations only (never `drizzle-kit generate`, `drizzle/meta`
+snapshots untouched); the journal is applied in order on a fresh database by `qa:pg`
+(48 / 48) and the Preview-migration planner refuses unknown history, unapproved or
+destructive SQL. No shared Production database was touched; no Preview was migrated from
+this environment.
+
+### What is NOT verified here (and is therefore not claimed)
+
+* **Browser QA (§105) — EXTERNALLY UNVERIFIED.** No real browser was driven; `test:ui`
+  renders in jsdom with a mocked network, which is not browser acceptance and is never
+  counted as one.
+* **Performance QA (§106) — NOT PERFORMED.** No load or production-profile run.
+* **Vercel / Preview acceptance — NOT CLAIMED.** A green deployment is not product
+  acceptance, and no such run happened in this environment.
+* **§83–§89 UI polish re-verification — NOT DONE** (the security and RIWI invariants
+  behind them are asserted; the polish items are not re-verified after Phase 2).
+
+### OWNER ACTION REQUIRED
+
+1. **Apply the frozen dictionary catalog** to the QA/Preview database so the two
+   dictionary suites run instead of skipping:
+   `npm run qa:pg` → `node --conditions=react-server --import tsx scripts/dictionary/bootstrap.ts <verified nested.json.gz>`
+   (checksum `ae4130d6…`) → re-run with `QA2_DATABASE_TESTS=1 DICTIONARY_RELEASE_TESTS=1`.
+2. **Provide `LISTENING_SOURCE_ZIP`** (the real owner Listening source) so the two
+   imported-source suites run instead of skipping.
+3. **Approve the legacy Listening conversion** for production rows (G7): the conversion
+   pipeline and the owner-gated script exist; the rows convert only with an owner decision.
+4. **Accept or reject the remaining `PARTIAL` rows** in `IELTS-COVERAGE-MATRIX.md`
+   (mock exam runner UI, tutor assignment screens, autosave/resume outside Listening,
+   retention texts as canonical content, server-side randomization, learning-path locks,
+   the generated validation matrix, §83–§89 polish).
+5. **Copyright review** for the `MANUAL REVIEW REQUIRED` inventory item (external provider
+   material: TED/Podcast ids are references; stored transcripts/question text from a
+   copyrighted paper are not re-created here).
+
+### EXTERNAL REQUIRED
+
+* A real browser pass over the authoring workspace, the bank, the preview and the learner
+  surfaces on a Preview deployment (device + screen-reader spot checks included).
+* A performance profile of the bank/preview endpoints against a realistically populated
+  database (already bounded in code: bank limit ≤ 100, paged reads, no N+1 reads).
+* Provider credentials/quotas for RIWI evaluation boundaries in a staging environment.
+
+### Final statement (§115)
+
+The canonical content operating system is implemented, committed, test-covered and green
+on every repository-level gate: registries and question types, one version store with one
+writer and attempt binding, the publication workflow with its gate, lessons and typed
+native blocks, media lessons, grammar, the one lexical system, mock composition,
+assignments by reference, source identity, the native preview, the authoring workspace,
+the shared content bank, the cross-skill learner timeline, identity for the Speaking bank
+and materials, and migration-safety tooling. **The Phase-2 gaps that this repository can
+close on its own are closed.** This report does **not** claim "100% complete" and does
+**not** claim browser, provider or performance acceptance: the remaining work is the owner
+actions and external verifications listed immediately above, plus the `PARTIAL` rows in
+`IELTS-COVERAGE-MATRIX.md`, each of which names its gap.
+
+**This is not a permission to start the `/app` conversion.** That work begins only after a
+separate controlled reconciliation between this branch and the diverged
+`arena/learners-area-next` (shared base `31e10bd`, that branch at `0f62580…`), followed by
+its own gates.

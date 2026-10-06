@@ -22,6 +22,10 @@ serves it and which table stores it. If a file and this table disagree, the file
 | Vocabulary packs as canonical content | `src/lib/content/vocabulary-packs.ts` |
 | Assignments over canonical content | `src/lib/content/assignments.ts` |
 | Source identity and duplicate detection | `src/lib/content/identity.ts` |
+| Shared bank read (filters, facets, pagination) | `src/lib/content/bank.ts` |
+| Native preview projections per authorable type | `src/lib/content/preview.ts` |
+| Cross-skill learner history (by reference) | `src/lib/data/attempt-timeline.ts` |
+| Staff-only workspace over these APIs | `src/app/admin/content/workspace/` |
 
 ## 2. Ingestion
 
@@ -47,6 +51,9 @@ serves it and which table stores it. If a file and this table disagree, the file
 | `/api/admin/content/drafts` | create/update a draft revision |
 | `/api/admin/content/versions/[id]/publication` | publication workflow for one revision |
 | `/api/admin/content/authoring-capabilities` | which content types can be authored right now |
+| `/api/admin/content/bank` | the shared content bank: filters, facets, paging, staff-only |
+| `/api/admin/content/versions/[id]/preview` | native preview of one exact revision (drafts included, staff-only) |
+| `/api/history` | the learner's own cross-skill timeline (a projection over the real attempts) |
 | `/api/lessons/[lessonId]`, `/api/lessons/blocks/[blockId]/answer` | learner lesson read + block answer |
 | `/api/vocabulary/packs` | published lexical packs (DB first, built-in fallback) |
 | `/api/assignments` | assignment list/create over canonical content (staff see what they created; a learner sees their own targets) |

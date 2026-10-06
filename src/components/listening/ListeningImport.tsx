@@ -59,6 +59,17 @@ type ImportResult = {
 const issueToMessage = (t: Dictionary["contentImport"], issue: Issue) =>
   `${t.problems[issue.code as keyof typeof t.problems] ?? t.problems.unknown}${issue.path ? ` (${issue.path})` : ""}`;
 
+/**
+ * Only a code this screen has copy for is kept (§O/§47/§59): the alert renders
+ * `t.problems[code] ?? t.problems.unknown`, and an unknown code — one a newer server
+ * invents, or a rewritten response supplies — becomes `unknown` at the boundary instead
+ * of being carried into rendered state. The value is still the code, not a message, so
+ * `data-canonical-import-problem` stays a machine-readable diagnosis for the operator.
+ */
+function knownProblemCode(t: Dictionary["contentImport"], code: string | undefined): string {
+  return code && code in t.problems ? code : "unknown";
+}
+
 const fill = (template: string, values: Record<string, string | number>) =>
   Object.entries(values).reduce((acc, [key, value]) => acc.replaceAll(`{${key}}`, String(value)), template);
 
@@ -119,7 +130,7 @@ export function ListeningImport({ dict }: { dict: Dictionary }) {
       const data = (await res.json().catch(() => null)) as Validation | { error?: string; ok?: boolean; issues?: Issue[] } | null;
       if (!res.ok || !data || data.ok === false || "error" in data) {
         const failure = data as { error?: string; issues?: Issue[] };
-        setFatal({ code: failure?.error ?? "unknown", issues: failure?.issues ?? [] });
+        setFatal({ code: knownProblemCode(t, failure?.error), issues: failure?.issues ?? [] });
         return;
       }
       setValidation(data as Validation);

@@ -1,7 +1,6 @@
 import test from "node:test";
 import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
-// @ts-expect-error plain ESM script
 import { plan, fingerprint, refuseProduction } from "../scripts/preview-qa-migrate.mjs";
 
 const journal = { entries: ["0023_a", "0024_b", "0025_speaking_bank_identity", "0026_google_identity", "0027_live_partner"].map((tag, i) => ({ tag, when: i })) };
@@ -10,11 +9,11 @@ const { createHash } = await import("node:crypto");
 const h = (tag: string) => createHash("sha256").update(sql[tag]!).digest("hex");
 
 test("plan: only unapplied, approved, additive migrations; refuses gaps, unknown history and destructive SQL", () => {
-  assert.deepEqual(plan(journal, [h("0023_a"), h("0024_b")], (t: string) => sql[t]), { applied: ["0023_a", "0024_b"], pending: ["0025_speaking_bank_identity", "0026_google_identity", "0027_live_partner"], problems: [] });
-  assert.deepEqual(plan(journal, Object.keys(sql).map(h), (t: string) => sql[t]).pending, [], "re-run applies nothing");
-  assert.match(plan(journal, [h("0023_a"), h("0025_speaking_bank_identity")], (t: string) => sql[t]).problems.join(), /gap/);
-  assert.match(plan(journal, [h("0023_a"), "deadbeef"], (t: string) => sql[t]).problems.join(), /not in the journal/);
-  assert.match(plan(journal, [h("0023_a")], (t: string) => sql[t]).problems.join(), /0024_b is not approved/);
+  assert.deepEqual(plan(journal, [h("0023_a"), h("0024_b")], (t: string) => sql[t]!), { applied: ["0023_a", "0024_b"], pending: ["0025_speaking_bank_identity", "0026_google_identity", "0027_live_partner"], problems: [] });
+  assert.deepEqual(plan(journal, Object.keys(sql).map(h), (t: string) => sql[t]!).pending, [], "re-run applies nothing");
+  assert.match(plan(journal, [h("0023_a"), h("0025_speaking_bank_identity")], (t: string) => sql[t]!).problems.join(), /gap/);
+  assert.match(plan(journal, [h("0023_a"), "deadbeef"], (t: string) => sql[t]!).problems.join(), /not in the journal/);
+  assert.match(plan(journal, [h("0023_a")], (t: string) => sql[t]!).problems.join(), /0024_b is not approved/);
   const bad: Record<string, string> = { ...sql, "0027_live_partner": "drop table users;" };
   assert.match(plan(journal, [h("0023_a"), h("0024_b")], (t: string) => bad[t]!).problems.join(), /destructive/);
 });
@@ -28,7 +27,6 @@ test("identity guard: fingerprint hides the host; production refused", () => {
 });
 
 // ---- identity hardening (audit of fd73eed) ----
-// @ts-expect-error plain ESM script
 const mig = await import("../scripts/preview-qa-migrate.mjs");
 test("0036 approval permits only the exact reviewed SQL; altered widening and destructive SQL remain refused", async () => {
   const { readFileSync } = await import("node:fs");
@@ -84,17 +82,23 @@ function fakeClient(opts: { db?: string; verifyN?: (q: string) => number; applie
 const serverId = mig.serverIdentityHash({ system_identifier: "7300000000000000001", db: "postgres", session_user: "postgres", port: 6543 });
 const goodEnv = { DATABASE_URL: QA, PREVIEW_QA_DB_FINGERPRINT: mig.fingerprint(QA), PREVIEW_QA_PROJECT_REF: "qa", PREVIEW_QA_SERVER_IDENTITY: serverId };
 const allApplied = Object.keys(sql).map(h);
-const healthy = (q: string) => (
-  q.includes("user_profile_photos") ? 4 :
-  q.includes("study_support") ? 1 :
-  q.includes("lexical_units','") ? 2 :
-  q.includes("lexical_unit_id is null") ? 0 :
-  q.includes("general_reading_sets','") ? 3 :
-  q.includes("writing_lessons','") ? 15 :
-  q.includes("listening_packages',") ? 3 :
-  q.includes("speaking_prompts") && q.includes("column_name") ? 4 :
-  q.includes("live_partner_presence','") ? 4 : 1
-);
+/**
+ * A healthy Preview server, answered from the verification table itself.
+ *
+ * The previous version guessed each count from a substring of the query ("does it mention
+ * lexical_units?"), which silently rotted: three verifications were added to the script —
+ * the dictionary release tables, the dictionary immutability triggers and the Academic
+ * Reading assessment tables — and the guesser answered 1 to all of them, so a healthy
+ * server was reported unhealthy. Here the count is the smallest one the verification's OWN
+ * predicate accepts, and a query that is not in VERIFY at all is an error: a new check
+ * cannot be added to the script and be answered by accident.
+ */
+const healthy = (q: string) => {
+  const entry = (mig.VERIFY as [string, string, (r: { n: number }) => boolean][]).find(([, query]) => query === q);
+  if (!entry) throw new Error(`healthy fake: ${q.slice(0, 70)} is not in VERIFY`);
+  for (let n = 0; n <= 64; n++) if (entry[2]({ n })) return n;
+  throw new Error(`healthy fake: no count satisfies ${entry[0]}`);
+};
 const base = { readJournal: () => journal, readSql: (t: string) => sql[t]!, runMigrations: async () => {} };
 
 test("Connection construction, socket and identity errors produce FAIL receipts without leaking credentials", async () => {
@@ -108,7 +112,7 @@ test("Connection construction, socket and identity errors produce FAIL receipts 
     return {...client, connect: async()=>{if(stage === "socket") throw error;}, query: async()=>{throw error;}};
    }, writeReceipt: (r: unknown)=>{written=JSON.stringify(r);return null;},
   });
-  assert.equal(result.code,1);assert.equal(result.receipt.result.pass,false);
+  assert.equal(result.code,1);assert.equal(result.receipt.result!.pass,false);
   assert.match(written,/ECONNRESET/);assert.ok(!written.includes("fake"));assert.ok(!written.includes("postgres:\/\/"));
  }
 });
@@ -117,8 +121,8 @@ test("CLI run: a failed verification exits non-zero (receipt pass:false is no lo
   const { client } = fakeClient({ applied: allApplied, verifyN: () => 0 });
   const r = await mig.run({ ...base, mode: "--plan", env: goodEnv, connect: () => client });
   assert.equal(r.code, 1);
-  assert.equal(r.receipt.result.pass, false);
-  assert.match(r.receipt.result.failures.join(), /verification failed: live_partner tables/);
+  assert.equal(r.receipt.result!.pass, false);
+  assert.match(r.receipt.result!.failures.join(), /verification failed: live_partner tables/);
 });
 
 test("CLI run: a query error during verification exits non-zero", async () => {
@@ -131,7 +135,10 @@ test("CLI run: healthy plan passes; every verification query is scoped to schema
   const { client, queries } = fakeClient({ applied: allApplied, verifyN: healthy });
   const r = await mig.run({ ...base, env: goodEnv, connect: () => client });
   assert.equal(r.code, 0, JSON.stringify(r.receipt.result));
-  for (const [, q] of mig.VERIFY) assert.match(q as string, /table_schema='public'|schemaname='public'|public\./);
+  // Every verification must name schema public explicitly rather than trusting search_path.
+  // `event_object_schema` is the spelling information_schema.triggers uses for the same
+  // rule, so it counts — the check is "the schema is named", not "one particular column".
+  for (const [, q] of mig.VERIFY) assert.match(q as string, /(table_schema|event_object_schema|schemaname)='public'|public\./);
   assert.ok(queries.some((q) => q.includes("pg_control_system")), "server identity is read after connecting");
 });
 
@@ -140,7 +147,7 @@ test("CLI run: server identity mismatch refuses before any plan or migration", a
   const { client, queries } = fakeClient({ applied: allApplied, verifyN: healthy });
   const r = await mig.run({ ...base, mode: "--apply", env: { ...goodEnv, PREVIEW_QA_SERVER_IDENTITY: "0".repeat(64), PREVIEW_QA_BACKUP_REF: "snap-1" }, connect: () => client, runMigrations: async () => { migrated = true; } });
   assert.equal(r.code, 1);
-  assert.match(r.receipt.refused, /server identity does not match/);
+  assert.match(r.receipt.refused!, /server identity does not match/);
   assert.equal(migrated, false);
   assert.ok(!queries.some((q) => q.includes("__drizzle_migrations order by")));
 });
@@ -148,10 +155,10 @@ test("CLI run: server identity mismatch refuses before any plan or migration", a
 test("CLI run: apply that leaves pending migrations is a failure; apply needs a backup ref", async () => {
   const two = [h("0023_a"), h("0024_b")];
   const noBackup = await mig.run({ ...base, mode: "--apply", env: goodEnv, connect: () => fakeClient({ applied: two, verifyN: healthy }).client });
-  assert.equal(noBackup.code, 1); assert.match(noBackup.receipt.refused, /PREVIEW_QA_BACKUP_REF/);
+  assert.equal(noBackup.code, 1); assert.match(noBackup.receipt.refused!, /PREVIEW_QA_BACKUP_REF/);
   const stuck = await mig.run({ ...base, mode: "--apply", env: { ...goodEnv, PREVIEW_QA_BACKUP_REF: "snap-1" }, connect: () => fakeClient({ applied: two, verifyN: healthy }).client });
   assert.equal(stuck.code, 1);
-  assert.match(stuck.receipt.result.failures.join(), /still pending 0025_speaking_bank_identity/);
+  assert.match(stuck.receipt.result!.failures.join(), /still pending 0025_speaking_bank_identity/);
 });
 
 test("CLI run: receipts and logs never contain the password or full URL", async () => {
@@ -171,7 +178,7 @@ test("CLI process: a refused run exits non-zero without connecting", async () =>
 test("CLI run: --plan with pending migrations reports them and skips (not fakes) verification", async () => {
   const r = await mig.run({ ...base, mode: "--plan", env: goodEnv, connect: () => fakeClient({ applied: [h("0023_a"), h("0024_b")], verifyN: () => 0 }).client });
   assert.equal(r.code, 0);
-  assert.match(r.receipt.verifySkipped, /pending migrations not applied yet: 0025/);
+  assert.match(r.receipt.verifySkipped!, /pending migrations not applied yet: 0025/);
   assert.equal(r.receipt.verify, undefined);
 });
 

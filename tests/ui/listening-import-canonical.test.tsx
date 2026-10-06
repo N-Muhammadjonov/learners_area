@@ -280,3 +280,17 @@ test("UI8 the imported package never rewrites the interface: no copied chrome, n
   assert.doesNotMatch(source, /[\u0400-\u04FF]/, "preview text stays in the site's own languages");
   assert.doesNotMatch(source, /<style|<link|@import/, "a package cannot restyle the page");
 });
+test("UI9 a control code the screen has no copy for is reported as unknown, never echoed into the alert", async () => {
+  // §O/§47: the alert is rendered state, so the boundary — not the renderer — decides what
+  // may enter it. A code this screen has no dictionary entry for (a newer server, or a
+  // rewritten response) is not "an error message shown to the operator"; it becomes the
+  // generic copy, and the machine-readable attribute says `unknown` rather than echoing it.
+  validateResponse = { error: "brand_new_server_code", issues: [] };
+  await mounted(async () => {
+    await chooseFile("[data-canonical-package-input]", packageFile());
+    const problem = q("[data-canonical-import-problem]");
+    assert.equal(problem.getAttribute("data-canonical-import-problem"), "unknown");
+    assert.equal((problem.textContent ?? "").includes("brand_new_server_code"), false);
+    assert.match(problem.textContent ?? "", new RegExp(en.contentImport.problems.unknown));
+  });
+});

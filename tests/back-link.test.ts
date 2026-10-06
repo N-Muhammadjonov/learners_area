@@ -36,7 +36,7 @@ test("B3 the Management Listening import uses BackLink to /admin/listening; the 
 
 test("B4 nested learner and management pages use the shared BackLink (no hand-rolled ← links)", () => {
   const nested = [
-    "listening/history", "listening/attempts/[id]", "listening/tests/[id]", "reading/history", "reading/attempts/[id]",
+    "listening/history", "reading/history", "reading/attempts/[id]",
     "reading/general", "reading/general/[setId]", "reading/retention/results/[attemptId]", "writing/history",
     "writing/submissions/[id]", "grammar/[topicId]", "video-lessons/[id]", "courses/ielts/lessons/[lessonId]",
     "admin/grammar/[id]", "admin/listening/[id]", "admin/listening/import", "admin/reading/[id]", "admin/reading/import",
@@ -47,5 +47,15 @@ test("B4 nested learner and management pages use the shared BackLink (no hand-ro
     const src = readFileSync(`src/app/(app)/${r}/page.tsx`, "utf8");
     assert.match(src, /<BackLink fallbackHref=/, r);
     assert.doesNotMatch(src, />\s*←/, `${r} still hand-rolls a ← link`);
+  }
+  // The exam surfaces live in the `(focus)` group, which deliberately renders WITHOUT the
+  // ordinary shell, so they are not BackLink pages — and this list must name routes that
+  // exist, which is exactly what stopped being true: `listening/attempts/[id]` and
+  // `listening/tests/[id]` moved into `(focus)` and the stale `(app)` paths made this test
+  // pass on a name instead of on a shape.
+  for (const r of ["listening/attempts/[id]", "listening/tests/[id]"]) {
+    const src = readFileSync(`src/app/(focus)/${r}/page.tsx`, "utf8");
+    assert.doesNotMatch(src, /<BackLink/, `${r} is a focus surface: no ordinary chrome`);
+    assert.doesNotMatch(src, />\s*←/, `${r} must not hand-roll a ← link either`);
   }
 });

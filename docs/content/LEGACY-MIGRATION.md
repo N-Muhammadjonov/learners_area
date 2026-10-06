@@ -18,7 +18,7 @@ importantly — what has deliberately **not** been done.
 | `REMOVE AFTER MIGRATION` | Superseded once its content is canonical **and** the dependency check is clean. |
 | `MANUAL REVIEW REQUIRED` | Cannot be classified mechanically (ambiguous scope, external provider, copyright question). |
 
-Current inventory: **13 items** — 7 KEEP, 5 COMPATIBILITY ONLY, **0 MIGRATE**, 1
+Current inventory: **18 items** — 11 KEEP, 6 COMPATIBILITY ONLY, **0 MIGRATE**, 1
 MANUAL REVIEW REQUIRED, **0 REMOVE AFTER MIGRATION**.
 
 The last `MIGRATE` item was closed in this pass: `topic-vocabulary.ts` no longer
@@ -31,6 +31,19 @@ Zero removals is a deliberate, honest result: nothing is yet proven safe to dele
 and the constraint is explicit — *do not delete legacy content until dependency and
 migration safety are proven* (§94). A `REMOVE AFTER MIGRATION` verdict must name the
 thing that replaces it, and `inventoryProblems()` fails the inventory if it does not.
+
+### No unclassified runtime
+
+The claim "no unclassified runtime remains" is checked, not asserted. Every table the
+schema declares must fall into exactly one declared group — canonical content ·
+composition · attempts and learner state · lexical subsystem · infrastructure/billing/
+media · live-interaction runtime — or under the dictionary prefix rule (that subsystem
+owns its own SQL under `drizzle/0038…`, so it never appears in `src/db/schema.ts`).
+`inventoryCoverageProblems()` fails in **both** directions: a table in no group is
+reported `UNCLASSIFIED`, and a classification naming a table the schema no longer has is
+reported as "no such table" — which is how a list like this rots into a lie.
+`content-identity` SI6 asserts all three cases (0 problems for the real 106-table schema,
+an invented table, and a rotted classification).
 
 ## 2. What is classified, and why
 
@@ -46,6 +59,11 @@ thing that replaces it, and `inventoryProblems()` fails the inventory if it does
 | `src/lib/content/*` | KEEP | This *is* the canonical system. |
 | `src/lib/reading|listening/lexical-policy.ts` | KEEP | Policy, not content. |
 | LEGACY runtime content tables (listening/reading/writing/speaking legacy rows) | COMPATIBILITY ONLY | Attempts were recorded against them; see the content map for the table list. |
+| `src/app/api/speaking/materials` + `NewMaterialForm.tsx` | COMPATIBILITY ONLY | An existing material's ATTACHMENT may only arrive through the verified pipeline (upload-intent → upload → finalize → claim), so this route stays as the file door — and it now pins the SAME canonical identity as authoring (`speaking:material`, `targetType: speaking_material`), so an upload-backed material is in the canonical system rather than a parallel store. New link/descriptive materials go through `saveContentDraft`. |
+| Shadowing studio (`ShadowingStudio.tsx`, `/speaking/shadowing`) | KEEP | The source is a `speaking_materials` row whose category is `shadowing` — canonical content with identity, not a store — and the learner's take is deliberately never uploaded (an object URL in the tab), so there is no shadowing content store and nothing to bind. |
+| `src/lib/speaking/manage-topic.ts` (+ `topic-draft.ts`) | KEEP | The `topic` grouping over the Speaking bank (what `topic_set` used to name): creates, edits, removes and restores bank rows atomically and archives rather than deletes. Not a content type — declaring one would invite a second store for prompts that already have one. |
+| `src/lib/data/attempt-timeline.ts` (+ `/api/history`) | KEEP | A read projection over the real domain attempts: it owns no table, copies nothing, and names the row it represents by (table, id) — the opposite of a parallel store. |
+| `src/lib/services/speaking/attempts.ts` | KEEP | Identity plumbing, not content: refuses a non-live prompt and pins the newest PUBLISHED revision, leaving a legacy prompt's attempt honestly unbound. |
 | External provider material (TED/Podcast ids, published papers) | MANUAL REVIEW REQUIRED | A provider id is a safe reference; stored transcripts, question text or audio from a copyrighted paper must be reviewed by a human, and no copyrighted question is re-created here. |
 
 ## 3. Migration tooling (§95)

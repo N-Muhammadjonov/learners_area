@@ -72,7 +72,8 @@ archive as a container (`src/lib/import/zip-transport.ts`), and the admin endpoi
 `/api/admin/listening/tests/[id]/convert`, backed by the `content_imports` ledger
 (migration 0040).
 
-**Canonical domain models already in PostgreSQL (99 tables).**
+**Canonical domain models already in PostgreSQL (106 tables; the universe is
+enumerated and checked — see `scripts/content-legacy-inventory.ts`).**
 
 | Module | Real tables | Coverage |
 |---|---|---|
@@ -87,6 +88,15 @@ archive as a container (`src/lib/import/zip-transport.ts`), and the admin endpoi
 | Grammar | `grammar_topics`, `grammar_exercises` (options, correctOption, targetStructures, translate/activate prompts), `grammar_attempts` | Concept → exercise → production task |
 | Evaluation | `evaluations` (provider/model/rubric/prompt versions, criteria, verdict), `coach_weaknesses`, `writing_grade_requests` | RIWI contract with versioned provenance |
 
+**Cross-cutting surfaces (Phase 2, §Z/§AA/§AC/§AD).**
+
+| Surface | File | What it is |
+|---|---|---|
+| Native preview | `src/lib/content/preview.ts` | One projection per authorable type over the registry: the same canonical shape the learner renderer consumes, no publication required, staff-only, revision-identified, optional regions fail locally and core regions fail closed |
+| Content bank | `src/lib/content/bank.ts` | A staff-only, SQL-filtered, paginated, faceted read over every canonical item (module · contentType · present state · has-ever state · track · identity · title · free text · version · changed-between) — not a title search. Rendered as the bank panel of the workspace (`GET /api/admin/content/bank`) |
+| Authoring workspace | `/admin/content/workspace` (`ContentWorkspace.tsx`) | ONE admin workspace: template → validate → preview → save draft → revise → publish/schedule/archive. It calls the same APIs everyone else does and has no writer of its own |
+| Learner timeline | `src/lib/data/attempt-timeline.ts` | The seven real attempt kinds projected into one learner history BY REFERENCE (table + id). It owns no table and duplicates nothing |
+
 ## 4. Gap register (what Phase 2 is closing)
 
 | # | Gap | Impact | Phase 2 status |
@@ -99,7 +109,26 @@ archive as a container (`src/lib/import/zip-transport.ts`), and the admin endpoi
 | G6 | Hard-coded content still in code: `TOPIC_PACKS` in `src/lib/services/vocabulary/packs.ts`, IELTS lesson copy in course pages | §100 "no deployment per content" | **partial** — inventory below; vocabulary packs have a canonical target (`user_vocabulary.topicPack`) but no authoring UI yet |
 | G7 | Legacy authored runtime still stored for pre-existing Listening tests | §93/§95 | **partial** — conversion pipeline + owner-gated script exist; production rows need owner approval to convert |
 | G8 | Reading question-type coverage is narrower than IELTS (no matching headings/features/sentence-endings families in the enum; `typeCode` is free-form) | §7 violation | **partial** — registry declares the missing types with answer models; import + renderer wiring for the new codes is the next checkpoint |
-| G9 | Owner authoring UI exists per module but not as one "Content → Add" workflow | §34/§109 | **open** (Phase 8) |
+| G9 | Owner authoring UI exists per module but not as one "Content → Add" workflow | §34/§109 | **closed** by `/admin/content/workspace` (§AA) + the shared bank (§AC) |
+
+### What Phase 2 did not close (kept honest here, not only in the matrix)
+
+* **G6 (hard-coded content)** — vocabulary packs now HAVE a canonical target and an author,
+  and the built-in list is a pre-publication fallback only; IELTS lesson copy in course
+  pages is still code.
+* **G7 (legacy Listening runtime)** — conversion tooling and the owner gate exist; the
+  production rows still convert only with owner approval. This is an OWNER action, not a
+  code gap.
+* **G8 (Reading question-type coverage)** — the registry declares the missing IELTS
+  families with answer models; import and renderer wiring for the new codes is future work.
+* **Validation matrix** — per-type validation is real and asserted; a single generated
+  "every content type × every check" matrix document is not emitted.
+* **Autosave/resume/retry** — uniform for Listening drafts; canonical lessons and media do
+  not yet have a resume contract.
+* **§83–§89 UI polish** — the security and RIWI invariants hold; the polish items are not
+  all re-verified after Phase 2.
+* **Browser/Preview acceptance** — EXTERNALLY UNVERIFIED (no browser gate ran here;
+  jsdom ≠ browser).
 
 ## 5. Control flow of a content change
 
@@ -129,4 +158,5 @@ content_versions row  (immutable for published assessment; new version on answer
 - `CONTENT-VERSIONING.md` — version semantics, immutability rules, attempt binding.
 - `AUTHORING-WORKFLOW.md` — the owner/teacher path from source to publication.
 - `LEGACY-MIGRATION.md` — legacy inventory, classification and the migration runbook.
+- `PHASE-2-FINAL-REPORT.md` — the Phase-2 acceptance report: what is verified, what is not, and every OWNER/EXTERNAL action.
 - Master Prompt 1 documents: `../LISTENING-SOURCE-ZIP-CONTRACT.md`, `../AUTHORED-LISTENING-RUNTIME.md`, `../LEXICAL-ARCHITECTURE.md`.

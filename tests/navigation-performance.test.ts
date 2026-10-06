@@ -101,8 +101,8 @@ test("Reading streams counts, facets, and the selected library through independe
   assert.match(page, /data-route-usable="reading"/);
   assert.match(page, /<ReadingWorkspace userId=\{user\.id\}/);
   assert.match(page, /const countsPromise = captureRegion\(readingHubCounts\(userId\)\)/);
-  assert.match(page, /captureRegion\(listLibraryFacets\(\)\)/);
-  assert.match(page, /captureRegion\(listLibrary\(userId, filter\)\)/);
+  assert.match(page, /captureRegion\(listLibraryFacets\(true\)\)/, "the facets read is captured (and only the tabs that show facets read it)");
+  assert.match(page, /captureRegion\(listLearningLibrary\(userId, filter\)\)/, "the selected library read is captured as its own region");
   assert.match(page, /data-async-loading="reading-hub-counts"/);
   assert.match(page, /data-async-loading="reading-library-facets"/);
   assert.match(page, /data-async-loading="reading-library"/);

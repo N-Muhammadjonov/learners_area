@@ -9,7 +9,13 @@ import {
   normalizeSourceRef,
   sourceRefFor,
 } from "../src/lib/content/identity";
-import { inventoryProblems, inventorySummary, legacyInventory } from "../scripts/content-legacy-inventory";
+import {
+  declaredTables,
+  inventoryCoverageProblems,
+  inventoryProblems,
+  inventorySummary,
+  legacyInventory,
+} from "../scripts/content-legacy-inventory";
 import { pinVersion } from "../src/lib/content/versions";
 import { publishContentVersion, type AuthoringActor } from "../src/lib/content/authoring";
 import { createTestDatabase } from "./support/pglite";
@@ -191,4 +197,30 @@ test("SI5 every legacy source is classified and a migration verdict names its su
   // The rule bites: stripping a successor from a MIGRATE item is a problem.
   const broken = [{ path: "x", what: "y", classification: "MIGRATE" as const, reason: "no successor" }];
   assert.equal(inventoryProblems(broken).length, 1);
+});
+
+test("SI6 no table is unclassified, and the coverage check can fail in both directions", () => {
+  // 1. The real schema: every declared table is in a group, under the dictionary rule, or
+  //    named by the inventory. This is the mechanical half of "no unclassified runtime".
+  assert.deepEqual(inventoryCoverageProblems(), []);
+  const tables = declaredTables();
+  assert.ok(tables.length >= 100, `expected the whole schema, saw ${tables.length}`);
+  assert.ok(tables.includes("speaking_materials"), "a content table known to the inventory is present");
+  assert.equal(tables.filter((table) => table.startsWith("dictionary_")).length, 0, "the dictionary subsystem owns its own SQL, not this schema");
+
+  // The synthetic schemas below are built from the REAL table list, so a failure can only
+  // come from the one table being added or removed.
+  const sourceFor = (names: string[]) => names.map((name) => `export const t_${name} = pgTable("${name}", {});`).join("\n");
+
+  // 2. The check bites: a table nothing classifies is a PROBLEM, so a new parallel content
+  //    store cannot be added without a classification.
+  const invented = inventoryCoverageProblems(sourceFor([...tables, "mystery_content_store"]));
+  assert.equal(invented.length, 1, JSON.stringify(invented));
+  assert.match(invented[0]!, /mystery_content_store: UNCLASSIFIED/);
+
+  // 3. …and so is a classification that names a table the schema no longer has, which is
+  //    how a list like this rots into a lie.
+  const rotted = inventoryCoverageProblems(sourceFor(tables.filter((table) => table !== "speaking_materials")));
+  assert.equal(rotted.length, 1, JSON.stringify(rotted));
+  assert.match(rotted[0]!, /speaking_materials: classified .* but the schema has no such table/);
 });

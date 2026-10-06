@@ -22,6 +22,9 @@ const column={udt_schema:"public",udt_name:"gender",is_nullable:"YES",column_def
 const evidence={labels:["male","female"],column,history};
 test("QA TLS verifies certificates and hostname; URL options cannot replace strict TLS",()=>{
  const opts=qaConnectionOptions("postgres://qa:fake@pooler.example:5432/postgres",{});
+ // `ssl` is `false` only for loopback (the assertion at the end of this test); a remote
+ // host must produce an object, so narrow to it rather than asserting on a union.
+ assert.ok(typeof opts.ssl === "object" && opts.ssl !== null, "remote TLS is configured, not merely enabled");
  assert.equal(opts.ssl.rejectUnauthorized,true);assert.equal(opts.ssl.servername,"pooler.example");
  assert.throws(()=>qaConnectionOptions("postgres://qa:fake@pooler.example/db?sslmode=no-verify",{}),/SSL parameters/);
  assert.throws(()=>qaConnectionOptions("postgres://qa:fake@pooler.example/db",{PREVIEW_QA_CA_FILE:"/missing-ca-file"}),/ENOENT/);
