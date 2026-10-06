@@ -52,9 +52,10 @@ test("AU1 an authoring capability is declared per content type, and only where a
   assert.equal(canAuthor("speaking", "cue_card"), true);
   assert.equal(canAuthor("grammar", "topic"), true);
   assert.equal(canAuthor("reading", "full_test"), false, "no author, no silent empty form");
-  assert.equal(canAuthor("ted", "video_lesson"), false);
-  assert.equal(resolveModuleAuthor("vocabulary", "topic_pack"), undefined);
-  assert.ok(listRegisteredAuthors().length >= 8);
+  assert.equal(canAuthor("ted", "video_lesson"), false, "media lessons are authored through the TED/Podcast surface, not here");
+  assert.equal(canAuthor("vocabulary", "topic_pack"), true, "a vocabulary pack is canonical content (§31)");
+  assert.equal(canAuthor("lesson", "lesson"), true);
+  assert.ok(listRegisteredAuthors().length >= 10);
 });
 
 test("AU2 a source reference is a stable slug, and a title-shaped one is refused", async () => {

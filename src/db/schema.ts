@@ -1380,6 +1380,57 @@ export const userVocabularyContexts = pgTable(
 );
 
 /** A folder in the personal library ("IELTS Writing", "Medicine", …). */
+/**
+ * A vocabulary topic pack: canonical content whose words ARE canonical lexemes.
+ *
+ * The pack owns its identity, publication lifecycle and revision; the senses it
+ * contains live in `lexemes`, which Reading, Listening and TED/Podcast all resolve
+ * into (§31, §76). There is deliberately no second word store here.
+ */
+export const vocabularyTopicPacks = pgTable(
+  "vocabulary_topic_packs",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    /** Stable identity of the authored pack this row is the version OF (§43). */
+    sourceRef: varchar("source_ref", { length: 80 }).notNull(),
+    slug: varchar("slug", { length: 60 }).notNull(),
+    labelEn: varchar("label_en", { length: 120 }).notNull(),
+    labelUz: varchar("label_uz", { length: 120 }),
+    topicCode: varchar("topic_code", { length: 40 }),
+    position: integer("position").notNull().default(0),
+    level: varchar("level", { length: 10 }),
+    publicationState: publicationStateEnum("publication_state").notNull().default("draft"),
+    publishAt: timestamp("publish_at", { withTimezone: true }),
+    createdByUserId: uuid("created_by_user_id").references(() => users.id, { onDelete: "set null" }),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("vocabulary_topic_packs_source_ref_idx").on(table.sourceRef),
+    uniqueIndex("vocabulary_topic_packs_slug_idx").on(table.slug),
+  ],
+);
+
+/** Pack membership: which canonical senses a pack contains, in display order. */
+export const vocabularyTopicPackWords = pgTable(
+  "vocabulary_topic_pack_words",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    packId: uuid("pack_id")
+      .notNull()
+      .references(() => vocabularyTopicPacks.id, { onDelete: "cascade" }),
+    lexemeId: uuid("lexeme_id")
+      .notNull()
+      .references(() => lexemes.id, { onDelete: "cascade" }),
+    position: integer("position").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("vocabulary_topic_pack_words_position_idx").on(table.packId, table.position),
+    uniqueIndex("vocabulary_topic_pack_words_lexeme_idx").on(table.packId, table.lexemeId),
+  ],
+);
+
 export const vocabFolders = pgTable(
   "vocab_folders",
   {

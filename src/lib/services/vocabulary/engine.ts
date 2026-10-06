@@ -34,6 +34,7 @@ import {
   type PointKind,
 } from "./points";
 import { legacySenseKeyOf, senseKeyOf } from "./dedupe";
+import { findTopicPackForLearner } from "@/lib/content/vocabulary-packs";
 import { linkSenseToUnit } from "@/lib/services/lexical/units";
 import { sourceRevisitHref } from "@/lib/services/lexical/context";
 import { gradeSentence, gradeSpelling, shouldAwardGamePoint, submissionMatchesGame, type GameSubmission } from "./grading";
@@ -494,13 +495,24 @@ export async function addVocabularyBatch(input: {
   return transaction ? save(transaction) : db.transaction(save);
 }
 
-/** Add a whole topic pack in one action. */
+/**
+ * Add a whole topic pack in one action.
+ *
+ * The pack is read from the database first (canonical authored content, §31); the
+ * built-in TypeScript packs remain only as a compatibility fallback while an
+ * install has not been backfilled yet. Either way the words go through the ONE
+ * engine below, so there is still no second code path into a learner's library.
+ */
 export async function addTopicPack(userId: string, packId: string) {
-  const pack = findPack(packId);
+  const authored = await findTopicPackForLearner(packId);
+  const pack = authored ?? (() => {
+    const builtIn = findPack(packId);
+    return builtIn ? { id: builtIn.id, slug: builtIn.id, label: builtIn.label.en, labelUz: builtIn.label.uz, words: builtIn.words } : null;
+  })();
   if (!pack) return { ok: false as const, error: "unknown_pack" };
   const result = await addVocabularyBatch({
     userId,
-    items: pack.words.map((word) => ({
+    items: pack.words.map((word: { term: string; partOfSpeech: string; definitionEn: string; translationUz: string; example: string; collocations?: string }) => ({
       authored: true,
       term: word.term,
       definitionEn: word.definitionEn,

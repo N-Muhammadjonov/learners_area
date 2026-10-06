@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { listFolders } from "@/lib/services/vocabulary/engine";
-import { TOPIC_PACKS, findPack } from "@/lib/services/vocabulary/packs";
+import { findTopicPackForLearner, listTopicPacksForLearner } from "@/lib/content/vocabulary-packs";
 import { isUuid } from "@/lib/validation/ids";
 import type { GameSetKey, VocabFolder, VocabPack } from "@/components/vocabulary/types";
 import { VocabGameView } from "@/components/vocabulary/VocabGamesPanel";
@@ -36,7 +36,7 @@ async function GameContent({ gameId, query, userId, locale, dict }: {
   userId: string; locale: Locale; dict: Dictionary;
 }) {
   const folders = await listFolders(userId);
-  const packs: VocabPack[] = TOPIC_PACKS.map((pack) => ({ id: pack.id, label: pack.label[locale], wordCount: pack.words.length }));
+  const packs: VocabPack[] = (await listTopicPacksForLearner(locale)).map((pack) => ({ id: pack.id, label: pack.label, wordCount: pack.words.length }));
   const requestedSet = query.set ?? "";
   let setKey: GameSetKey = isGameSetKey(requestedSet) ? requestedSet : "due";
   let folderId = query.folderId && isUuid(query.folderId) ? query.folderId : undefined;
@@ -51,8 +51,8 @@ async function GameContent({ gameId, query, userId, locale, dict }: {
     }
   }
   if (setKey === "topic") {
-    const pack = topicPack ? findPack(topicPack) : null;
-    if (pack) sourceDetail = pack.label[locale];
+    const pack = topicPack ? packs.find((entry) => entry.id === topicPack) : null;
+    if (pack) sourceDetail = pack.label;
     else { topicPack = undefined; setKey = "due"; }
   }
 

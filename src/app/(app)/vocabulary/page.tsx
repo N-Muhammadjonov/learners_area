@@ -1,7 +1,7 @@
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { redirect } from "next/navigation";
 import { getDictionary, getLocale } from "@/lib/i18n";
-import { TOPIC_PACKS } from "@/lib/services/vocabulary/packs";
+import { listTopicPacksForLearner } from "@/lib/content/vocabulary-packs";
 import { VocabStudio } from "@/components/vocabulary/VocabStudio";
 import type { TabKey } from "@/components/vocabulary/types";
 
@@ -14,7 +14,7 @@ export default async function VocabularyPage({ searchParams }: { searchParams: P
   const [user, locale, params] = await Promise.all([requireActiveUser(), getLocale(), searchParams]);
   if (!user) return null;
   const dict = getDictionary(locale);
-  const packs = TOPIC_PACKS.map((pack) => ({ id: pack.id, label: pack.label[locale], wordCount: pack.words.length }));
+  const packs = (await listTopicPacksForLearner(locale)).map((pack) => ({ id: pack.id, label: pack.label, wordCount: pack.words.length }));
 
   // Only the authoritative identity and locale gate this small server frame.
   // The selected tab starts its own private request after the frame has mounted.

@@ -4,6 +4,7 @@ import {
   grammarExercises,
   grammarTopics,
   lessons,
+  vocabularyTopicPacks,
   listeningQuestions,
   listeningTests,
   readingPassages,
@@ -23,6 +24,7 @@ type UpdateTarget = PgTable;
 import type { ImportTransaction } from "@/lib/import/core/dry-run";
 import { resolveQuestionType, storageTypeFor } from "@/lib/content/question-types";
 import { saveLessonStructure } from "@/lib/content/lessons";
+import { saveTopicPack } from "@/lib/content/vocabulary-packs";
 
 /**
  * AUTHORS — how an in-app draft becomes canonical rows.
@@ -618,6 +620,84 @@ export class AuthoringPayloadError extends Error {
 }
 
 /* -------------------------------------------------------------------------- */
+/* Vocabulary                                                                  */
+/* -------------------------------------------------------------------------- */
+
+const vocabularyPackPayload = zod.object({
+  labelEn: zod.string().min(2).max(120),
+  labelUz: zod.string().max(120).optional().nullable(),
+  slug: zod.string().min(2).max(60),
+  topicCode: zod.string().max(40).optional().nullable(),
+  level: zod.string().max(10).optional().nullable(),
+  position: zod.number().int().min(0).optional(),
+  words: zod
+    .array(
+      zod.object({
+        term: zod.string().min(1).max(120),
+        partOfSpeech: zod.string().max(30).default(""),
+        definitionEn: zod.string().min(1).max(500),
+        translationUz: zod.string().max(500).default(""),
+        example: zod.string().min(1).max(500),
+        collocations: zod.string().max(500).optional(),
+      }),
+    )
+    .min(1),
+});
+
+/**
+ * A vocabulary pack is canonical content whose WORDS are canonical senses (§31).
+ * The author therefore writes no second word store: it delegates to
+ * `saveTopicPack`, which resolves each word to a `lexemes` row.
+ */
+export const vocabularyTopicPackAuthor: ModuleAuthor = {
+  module: "vocabulary",
+  contentType: "topic_pack",
+  payloadVersion: 1,
+  label: "Vocabulary topic pack",
+  payloadSchema: vocabularyPackPayload,
+  async persist(tx, payload, context) {
+    const parsed = vocabularyPackPayload.parse(payload);
+    const result = await saveTopicPack(tx as never, {
+      actorUserId: context.actorUserId,
+      sourceRef: context.sourceRef,
+      slug: parsed.slug,
+      labelEn: parsed.labelEn,
+      labelUz: parsed.labelUz ?? null,
+      topicCode: parsed.topicCode ?? null,
+      level: parsed.level ?? null,
+      position: parsed.position ?? 0,
+      words: parsed.words,
+    });
+    if (!result.ok)
+      throw new AuthoringPayloadError(
+        "vocabulary",
+        new zod.ZodError(
+          result.issues.map((issue) => ({ code: zod.ZodIssueCode.custom, path: [], message: issue.message })),
+        ),
+      );
+    return {
+      targetType: "vocabulary_topic_pack",
+      targetId: result.packId,
+      content: { labelEn: parsed.labelEn, words: parsed.words.map((word) => ({ term: word.term, partOfSpeech: word.partOfSpeech, definitionEn: word.definitionEn })) },
+      summary: `Vocabulary pack with ${result.words} word(s)`,
+    };
+  },
+  async setPublication(tx, version, publication) {
+    if (!version.targetId) return "target_missing";
+    return syncRows(tx, vocabularyTopicPacks, eq(vocabularyTopicPacks.id, version.targetId), publication, true);
+  },
+  async readSchedule(tx, version) {
+    if (!version.targetId) return null;
+    const [row] = await tx
+      .select({ publishAt: vocabularyTopicPacks.publishAt })
+      .from(vocabularyTopicPacks)
+      .where(eq(vocabularyTopicPacks.id, version.targetId))
+      .limit(1);
+    return row?.publishAt ?? null;
+  },
+};
+
+/* -------------------------------------------------------------------------- */
 /* Lesson                                                                      */
 /* -------------------------------------------------------------------------- */
 
@@ -703,5 +783,6 @@ export function registerModuleAuthors(): void {
   registerModuleAuthor(speakingAuthor("part3_question", "part3"));
   registerModuleAuthor(grammarTopicAuthor);
   registerModuleAuthor(lessonAuthor);
+  registerModuleAuthor(vocabularyTopicPackAuthor);
   registered = true;
 }

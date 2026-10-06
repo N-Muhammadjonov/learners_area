@@ -246,6 +246,10 @@ export async function publishContentVersion(
   tx: ImportTransaction & VersionWriter,
   request: PublicationRequest,
 ): Promise<PublicationResult> {
+  // Idempotent: publishing needs the module authors to move the content row's own
+  // visibility, and a caller that never authored a draft must not be told the
+  // capability is missing just because registration had not happened yet.
+  registerModuleAuthors();
   const [row] = await tx.select().from(contentVersions).where(eq(contentVersions.id, request.versionId)).limit(1);
   if (!row) return { ok: false, issues: [{ code: "version_not_found", message: "Unknown content version." }] };
   const version = row as unknown as VersionRecord;
