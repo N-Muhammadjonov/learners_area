@@ -33,7 +33,11 @@ export default async function AcademicListeningTestPage({ params }: { params: Pr
   if (!test) notFound();
 
   return (
-    <div className="mx-auto flex max-w-5xl flex-col gap-6" data-route-usable="listening-academic-test" data-listening-academic-test={test.testId}>
+    <div
+      className="listening-workspace listening-hub mx-auto flex max-w-5xl flex-col gap-6"
+      data-route-usable="listening-academic-test"
+      data-listening-academic-test={test.testId}
+    >
       <div>
         <BackLink fallbackHref="/app/listening/academic" label={t.hubBack} data-listening-academic-test-back />
         <h1 className="mt-2 font-display text-2xl text-ink-900">{test.title}</h1>
@@ -73,9 +77,15 @@ export default async function AcademicListeningTestPage({ params }: { params: Pr
         )}
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2" data-listening-academic-activities>
+      {/* The SAME purpose grid the app's existing test hub uses, so the academic hub is the
+          familiar Listening hub — not a second design — and the exam card spans the row. */}
+      <div className="listening-purpose-grid" data-listening-academic-activities>
         {test.activities.map((activity) => (
-          <Card key={activity.id} data-listening-academic-activity={activity.id}>
+          <Card
+            key={activity.id}
+            className={activity.id === "exam" ? "listening-exam-purpose" : undefined}
+            data-listening-academic-activity={activity.id}
+          >
             <div className="flex h-full flex-col gap-2">
               <h2 className="font-display text-lg text-ink-900">{t.activity[activity.id]}</h2>
               <p className="text-sm text-ink-500">{t.activity[`${activity.id}Hint`]}</p>
