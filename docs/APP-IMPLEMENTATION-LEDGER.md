@@ -17,9 +17,9 @@ committed; the remaining phases are open and are being worked in order.
 | APP-001 | canonical `/app` namespace | **DONE** | `src/app/app/{layout.tsx,(shell),(focus)}`; `/app` **is** the dashboard; every authenticated page is under `/app`; APIs stay at `/api`. `tests/app-namespace.test.ts` (6 tests) |
 | APP-002 | design preserved | **IN PROGRESS** | no token, class or primitive was changed by the move; the shell layout is the same markup, re-parented. Before/after capture is still owed (§65) |
 | APP-003 | performance baseline | **NOT STARTED** | no baseline has been recorded yet; §4/§66 require measurements before any claim |
-| LSN-001 | Listening Lessons | **DONE** | `/app/listening/lessons` (library) + `/app/listening/lessons/[lessonId]` (lesson) on the canonical lesson layer. A listening lesson is DERIVED from authored facts in one module (`src/lib/listening/lessons.ts`): an `audio` block, a reference to `ted:audio_lesson`, or an attached audio media item. `tests/listening-lessons.test.ts` LL1/LL7 |
+| LSN-001 | Listening Lessons | **IN PROGRESS** | `/app/listening/lessons` (library) + `/app/listening/lessons/[lessonId]` (lesson) on the canonical lesson layer, now classified by the AUTHORED learning area (`lessons.learning_area`, migration 0050) through the generic, area-driven reader `src/lib/content/lesson-library.ts`. The media-derived module was DELETED under the semantic-correction directive. The correction is now proven end-to-end (tests L1–L16, migration proofs `docs/MIGRATION-APPROVAL-0050.md`, built-server smoke 41/41); the row stays IN PROGRESS until the owner accepts the corrected contract |
 | LSN-002 | Description | **DONE** | the tab reads authored columns only (`lessons.summary` plus the attached media's `before_you_watch`) and says so when they are empty (LL4 + runtime smoke) |
-| LSN-003 | Teacher Notes | **DONE** | the centre's authored notes on the attached media item (`video_lessons.notes`), with a truthful empty state (LL7) |
+| LSN-003 | Teacher Notes | **IN PROGRESS** | lesson-level Teacher Notes on `lessons.teacher_notes` (0050), authored through the single content pipeline and carried by the pinned revision; the learner page shows the lesson-level notes with the attached media item's `video_lessons.notes` as a read-time COMPATIBILITY fallback that lesson-level notes always win over. Generic staff authoring and the built-server smoke are now proven (L5–L8, L16; fixtures 4 and 7); the row stays IN PROGRESS until the owner accepts the corrected contract |
 | LSN-004 | private Student Notes (Xulosangiz) | **DONE** | the third tab on the listening lesson page renders `LessonNotesPanel` with the learner's own note from `lesson_notes` (0049), keyed by the lesson's stable id — there is no second notes system. Runtime: the author sees the note on their own page, the owner sees an empty box for the same lesson |
 | LSN-005 | Academic catalogue | NOT STARTED | legacy library exists at `/app/listening` (`FullListeningLibrary`, `legacyListeningCards`) |
 | LSN-006 | dynamic 5–10 activity hub | **IN PROGRESS** | `src/lib/listening/activities.ts` already derives activities from authored/structural facts (exam, review, script, mcq, matching, completion, retry, vocab) and hides a card when its content is absent — the hub must be driven from it, not from a fixed list |
@@ -146,10 +146,32 @@ Not yet built (Phase C continues): the Listening **Lessons** three-tab surface (
 
 ## Listening → Lessons (PHASE C, after NOTE-010…012)
 
+> **SEMANTIC CORRECTION (owner directive, 2026-10-06).** The Listening → Lessons
+> contract recorded below as LSN-017 was **reversed**: a "listening lesson" is not derived
+> from an audio block, an audio reference or an attached audio media item. A Listening
+> Lesson is a lesson **ABOUT listening**, classified by its authored learning area
+> (`lessons.learning_area`, migration 0050) — a video-only MCQ-strategy lesson, a
+> text-heavy note-taking lesson, an audio lesson and a mixed-block lesson are all
+> legitimate Listening lessons, and an audio lesson about Reading is not.
+>
+> | contract | evidence |
+> | --- | --- |
+> | explicit, authored, generic area (listening \| reading \| writing \| speaking \| grammar \| vocabulary \| general) on the ONE `lessons` system | `src/lib/content/learning-areas.ts`, `drizzle/0050_lesson_learning_area.sql`, `docs/MIGRATION-APPROVAL-0050.md` |
+> | media type never classifies; an unspecified lesson stays unspecified | `tests/listening-lessons.test.ts` L1–L4, L15 |
+> | the area is a WHERE clause, applied BEFORE any bound (the previous reader took the newest 60 lessons and classified afterwards) | `src/lib/content/lesson-library.ts`, L13–L14 (65 newer reading lessons still return both listening lessons), same pre-filter removed from the staff reader |
+> | lesson-level Teacher Notes, media-independent, in the pinned revision, lesson-level wins over the media fallback | L5–L8, L16; `tests/content-preview.test.ts` PV7 (and a `{ blocks }`-only pre-0050 revision stays readable, `source: "lesson_row"`) |
+> | a teacher gets exactly the authoring capability, never the admin workspace | L10–L12; `scripts/verify-lesson-learning-area.mjs` (built server: teacher drafts → 201, teacher publishes → 403 `publish_forbidden`, owner publishes → 200, teacher workspace → redirect) |
+> | the dead link is fixed with a staff-safe desk on the SAME authoring services | `/app/listening/lessons/author` → `POST /api/admin/content/drafts` → `saveContentDraft` → the lesson author → `saveLessonStructure` + `pinVersion` |
+> | built-server acceptance, all seven required fixtures, fixtures deleted and cleanup verified | `scripts/verify-lesson-learning-area.mjs` — **41/41** |
+> | no per-skill lesson table was invented | the extra guard in `tests/listening-lessons.test.ts`; `lessons` remains the single system |
+>
+> LSN-001 and LSN-003 are **IN PROGRESS** (not DONE) until this correction is proven
+> end-to-end; LSN-002/004/019 remain DONE.
+
 | id | requirement | status | evidence |
 | --- | --- | --- | --- |
-| LSN-017 | a listening lesson is DERIVED, never invented | **DONE** | `src/lib/listening/lessons.ts` classifies by authored facts (audio block / `ted:audio_lesson` reference / attached audio media). A text-only lesson is not listed and its detail route does not load (LL1, LL7) |
-| LSN-018 | an empty catalogue stays empty | **DONE** | no seed and no placeholder card; the learner gets a truthful empty state, staff get `Author a lesson` → `/app/admin/content/workspace` (module "Lesson"). Runtime: a student sees the empty state WITHOUT the link, the owner sees it WITH the link |
+| LSN-017 | **A Listening lesson is explicitly classified by canonical learning area, independent of media type** (requirement REPLACED by the owner: the derived-from-media contract was reversed) | **IN PROGRESS** | `lessons.learning_area` is authored, stable and generic (`listening | reading | writing | speaking | grammar | vocabulary | general`); the learner library filters `WHERE learning_area = <area>` BEFORE any bound, and never infers from a title, a slug, an audio block, attached media or a course. Video-only, audio-only and text-heavy Listening lessons are all legitimate (L1–L4, L13–L14); unspecified stays unspecified (L4, L15). Both are proven (see the semantic-correction section above); the row stays IN PROGRESS until the owner accepts the correction |
+| LSN-018 | an empty catalogue stays empty | **DONE** | no seed and no placeholder card; the learner gets a truthful empty state. The staff CTA now points at the staff-safe lesson authoring desk `/app/listening/lessons/author` (it previously pointed a teacher at the administrator-only `/app/admin/content/workspace`). Runtime: a student sees the empty state WITHOUT the link, staff see it WITH the link |
 | LSN-019 | the lesson body comes first, then exactly three tabs | **DONE** | `ListeningLessonBody` renders the authored typed blocks before the tab bar; the tabs are Description / Teacher notes / Xulosangiz, in that order (LL4 + runtime) |
 | LSN-020 | tabs are derived from the route, so a reload keeps the section | **DONE** | the tab lives in `?tab=` and is read from `searchParams`; the tab links carry it; an unknown value falls back to Description (LL4 + runtime, all three tabs) |
 | LSN-021 | answer keys stay server-side in a listening body | **DONE** | quiz blocks answer through the existing `POST /api/lessons/blocks/:blockId/answer`; `loadLessonForLearner` hands over no key and no explanation until the learner has answered (LL2). `blockId` was added to the resolved block — the learner's own row reference, which carries no answer |

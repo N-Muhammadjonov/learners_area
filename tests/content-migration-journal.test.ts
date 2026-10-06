@@ -39,8 +39,8 @@ function planned(appliedCount: number): { apply: string[]; skip: string[] } {
   return { apply, skip };
 }
 
-test("J1 the journal is well-formed: 50 entries, idx equals position, unique tags, strictly increasing when", () => {
-  assert.equal(journal.entries.length, 50, "0000…0049 — the 48 Content OS migrations, the typing trainer, and private lesson notes");
+test("J1 the journal is well-formed: 51 entries, idx equals position, unique tags, strictly increasing when", () => {
+  assert.equal(journal.entries.length, 51, "0000…0050 — the 48 Content OS migrations, the typing trainer, private lesson notes, and the lesson learning area + Teacher Notes");
   journal.entries.forEach((entry, index) => {
     assert.equal(entry.idx, index, `${entry.tag}: idx must equal its position in the journal`);
     assert.equal(entry.version, "7");
@@ -60,7 +60,7 @@ test("J2 the collision is resolved exactly once, and the migration that keeps 00
 
   assert.equal(journal.entries[40]!.tag, "0040_content_imports");
   assert.equal(journal.entries[48]!.tag, "0048_typing_trainer");
-  assert.equal(journal.entries.filter((e) => e.breakpoints).length, 50);
+  assert.equal(journal.entries.filter((e) => e.breakpoints).length, 51);
 
   // The kept entry keeps its ORIGINAL `when` — that value is recorded in every database
   // that applied it, so changing it would make the migrator re-apply (or skip) it.
@@ -104,10 +104,10 @@ test("J4 the two source lines' own states stay safe under the merged journal", (
 
   const after0039 = planned(40);
   assert.equal(after0039.apply[0], "0040_content_imports", "the next step after 0039 is the import ledger");
-  assert.equal(after0039.apply.length, 10, "0040…0049 are pending");
+  assert.equal(after0039.apply.length, 11, "0040…0050 are pending");
 
   const after0047 = planned(48);
-  assert.deepEqual(after0047.apply, ["0048_typing_trainer", "0049_lesson_notes"], "the accepted schema needs the typing trainer, then the private notes table");
+  assert.deepEqual(after0047.apply, ["0048_typing_trainer", "0049_lesson_notes", "0050_lesson_learning_area"], "the accepted schema needs the typing trainer, the private notes table, then the lesson learning area");
 
   // 0049 is hand-written too (the snapshot chain stops at 0027) and it is additive in
   // BOTH directions: it creates a table, and its backfill COPIES text into it before
@@ -118,6 +118,20 @@ test("J4 the two source lines' own states stay safe under the merged journal", (
   assert.match(notesSql, /lesson_notes_user_lesson_uq/, "the unique index is the upsert contract");
   assert.match(notesSql, /ON CONFLICT \("user_id", "lesson_id"\) DO NOTHING/, "the backfill never overwrites a newer note");
   assert.match(notesSql, /AND n\."body" = p\."notes"/, "the legacy column is cleared only where the copy exists");
+
+  // 0050 is hand-written in the same style and is ADDITIVE ONLY: it adds two nullable
+  // columns, swaps two CHECK constraints and adds an index — it rewrites no lesson row,
+  // so historical lesson data keeps its meaning and its content.
+  const areaSql = readFileSync("drizzle/0050_lesson_learning_area.sql", "utf8");
+  assert.match(areaSql, /ADD COLUMN IF NOT EXISTS "learning_area" varchar\(20\)/);
+  assert.match(areaSql, /ADD COLUMN IF NOT EXISTS "teacher_notes" text/);
+  assert.match(areaSql, /lessons_learning_area_chk/);
+  assert.match(areaSql, /lessons_teacher_notes_len_chk/);
+  assert.match(areaSql, /CREATE INDEX IF NOT EXISTS "lessons_learning_area_idx"/);
+  assert.match(areaSql, /ALTER TYPE "upload_block_kind" ADD VALUE IF NOT EXISTS 'video'/);
+  assert.doesNotMatch(areaSql, /\bUPDATE\s+("?lessons"?)\s+SET\b/i, "0050 must not rewrite historical lesson rows");
+  assert.doesNotMatch(areaSql, /\bDELETE\s+FROM\b/i, "0050 must not delete anything");
+  assert.doesNotMatch(areaSql, /DROP\s+COLUMN/i, "0050 must not drop a column");
 
   // The learners-area-next line's accepted states are its prefixes up to 0039 (0040 is not
   // in ANY approved apply list, which is why the typing trainer ships with a bundled

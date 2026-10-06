@@ -442,6 +442,7 @@ test("L10 a teacher gets exactly the lesson-authoring capability, through the sa
   const page = readFileSync(AUTHOR_PAGE, "utf8");
   const pageCode = code(page);
   assert.match(pageCode, /const \[user, locale\] = await Promise\.all\(\[requireStaff\(\), getLocale\(\)\]\);/);
+  assert.match(pageCode, /if \(!user\) redirect\("\/app"\);/, "a non-staff visitor is redirected, not shown an empty page");
   assert.ok(!/requireAdministrator/.test(pageCode), "the desk must not require an administrator");
   assert.ok(!/requireUser\(\)/.test(pageCode), "a learner must not reach the desk either");
 

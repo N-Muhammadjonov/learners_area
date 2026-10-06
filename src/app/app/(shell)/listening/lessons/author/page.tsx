@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { BackLink } from "@/components/ui/BackLink";
 import { Card } from "@/components/ui/Card";
 import { LessonAuthoringDesk } from "@/components/lessons/LessonAuthoringDesk";
@@ -32,7 +33,9 @@ export const dynamic = "force-dynamic";
  */
 export default async function LessonAuthoringPage() {
   const [user, locale] = await Promise.all([requireStaff(), getLocale()]);
-  if (!user) return null;
+  // Not staff: the same answer the other staff-only pages give — back to the dashboard,
+  // never an empty shell that looks like a broken page.
+  if (!user) redirect("/app");
 
   const dict = getDictionary(locale);
   const t = dict.listening.lessons.authoring;

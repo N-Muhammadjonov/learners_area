@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
-import { contentVersions } from "@/db/schema";
+import { contentVersions, lessons } from "@/db/schema";
 import { listRegisteredAuthors, registerModuleAuthors } from "@/lib/content/authors";
 import { contentTypeKey } from "@/lib/content/taxonomy";
 import { isKnownContentType, isKnownModule } from "@/lib/content/taxonomy";
@@ -65,13 +65,23 @@ export type ContentPreview = {
   status: PreviewRegionStatus;
 };
 
+/**
+ * What a projection knows about the revision it is projecting, beyond its bytes.
+ * Additive: a projection that does not need it ignores it, and none is forced to
+ * restate the identity the version store already holds.
+ */
+export type PreviewBuildContext = {
+  /** The row this revision was pinned against (e.g. the lesson), when it names one. */
+  targetId: string | null;
+};
+
 export type PreviewProjection = {
   /** Which authorable type this projection serves. */
   module: string;
   contentType: string;
   /** Core regions that must be present for the preview to be whole. */
   requiredParts: string[];
-  build: (content: unknown, executor: VersionReader) => Promise<PreviewPart[]> | PreviewPart[];
+  build: (content: unknown, executor: VersionReader, context: PreviewBuildContext) => Promise<PreviewPart[]> | PreviewPart[];
 };
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
@@ -308,7 +318,7 @@ export const PREVIEW_PROJECTIONS: PreviewProjection[] = [
     module: "lesson",
     contentType: "lesson",
     requiredParts: ["blocks"],
-    build: (content, executor) => lessonPreview(content, executor),
+    build: (content, executor, context) => lessonPreview(content, executor, context),
   },
   {
     module: "ted",
@@ -380,8 +390,76 @@ function mediaLessonPreview(content: unknown): PreviewPart[] {
   ];
 }
 
+/**
+ * What the revision says the lesson IS — its area, description, teacher notes and
+ * estimated time — read defensively.
+ *
+ * A revision pinned before migration 0050 holds `{ blocks }` only. It must stay
+ * readable, so when the snapshot carries no metadata at all the part falls back to the
+ * LESSON ROW (the authoring truth) and says so with `source: "lesson_row"`. Nothing is
+ * invented and nothing is rewritten: the same revision keeps previewing exactly as it
+ * did, now with the metadata the lesson actually has.
+ *
+ * Teacher notes are shown here deliberately: this is the staff verification surface
+ * (the route is `isStaff`), and verifying the centre's notes before publishing is
+ * precisely what the preview is for. They are never rendered to a learner by this path.
+ */
+async function lessonMetadataParts(
+  content: unknown,
+  executor: VersionReader,
+  context: PreviewBuildContext,
+): Promise<PreviewPart[]> {
+  const record = isRecord(content) ? content : {};
+  const snapshotSays = ["learningArea", "summary", "teacherNotes", "estimatedMinutes"].some((key) => key in record);
+  const readString = (value: unknown) => (typeof value === "string" && value.trim() ? value : null);
+  const readNumber = (value: unknown) => (typeof value === "number" && Number.isFinite(value) ? value : null);
+
+  let learningArea = readString(record.learningArea);
+  let summary = readString(record.summary);
+  let teacherNotes = readString(record.teacherNotes);
+  let estimatedMinutes = readNumber(record.estimatedMinutes);
+  let source: "revision" | "lesson_row" | "unclassified" = snapshotSays ? "revision" : "unclassified";
+
+  if (!snapshotSays && context.targetId) {
+    const [lesson] = await executor
+      .select({
+        learningArea: lessons.learningArea,
+        summary: lessons.summary,
+        teacherNotes: lessons.teacherNotes,
+        estimatedMinutes: lessons.estimatedMinutes,
+      })
+      .from(lessons)
+      .where(eq(lessons.id, context.targetId))
+      .limit(1);
+    if (lesson) {
+      learningArea = readString(lesson.learningArea);
+      summary = readString(lesson.summary);
+      teacherNotes = readString(lesson.teacherNotes);
+      estimatedMinutes = readNumber(lesson.estimatedMinutes);
+      source = "lesson_row";
+    }
+  }
+
+  return [
+    {
+      key: "lesson_metadata",
+      label: "Lesson metadata",
+      kind: "text",
+      value: {
+        learningArea,
+        summary,
+        teacherNotes,
+        estimatedMinutes,
+        // Where the values came from. `unclassified` is the truthful answer for a
+        // pre-0050 revision whose lesson row is gone or still unspecified.
+        source,
+      },
+    },
+  ];
+}
+
 /** Blocks, plus each canonical reference resolved on its own. */
-async function lessonPreview(content: unknown, executor: VersionReader): Promise<PreviewPart[]> {
+async function lessonPreview(content: unknown, executor: VersionReader, context: PreviewBuildContext): Promise<PreviewPart[]> {
   const blocks = arrayAt(content, "blocks");
   const resolved = new Map<number, { ok: boolean; versionId?: string; publicationState?: string }>();
   for (const [index, block] of blocks.entries()) {
@@ -412,7 +490,7 @@ async function lessonPreview(content: unknown, executor: VersionReader): Promise
       resolved.set(index, { ok: false });
     }
   }
-  return lessonBlocksPart(content, resolved);
+  return [...(await lessonMetadataParts(content, executor, context)), ...lessonBlocksPart(content, resolved)];
 }
 
 export function projectionFor(module: string, contentType: string): PreviewProjection | undefined {
@@ -455,6 +533,9 @@ export async function previewContentVersion(versionId: string, executor: Version
       publicationState: contentVersions.publicationState,
       title: contentVersions.title,
       track: contentVersions.track,
+      // The revision's own target, so a projection whose OLDER snapshots predate a
+      // metadata field can fall back to the row it describes (see lessonMetadataParts).
+      targetId: contentVersions.targetId,
     })
     .from(contentVersions)
     .where(eq(contentVersions.id, versionId))
@@ -478,7 +559,7 @@ export async function previewContentVersion(versionId: string, executor: Version
 
   if (projection && canonical !== null) {
     try {
-      parts = await projection.build(canonical, executor);
+      parts = await projection.build(canonical, executor, { targetId: row.targetId ?? null });
     } catch {
       // A projection that cannot read its own content is a core failure and says so.
       problems.push("projection_failed");

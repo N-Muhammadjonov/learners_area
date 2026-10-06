@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { eq } from "drizzle-orm";
-import { contentVersions, courseModules, courses, units } from "../src/db/schema";
+import { contentVersions, courseModules, courses, lessons, units } from "../src/db/schema";
 import { publishContentVersion, saveContentDraft, type AuthoringActor } from "../src/lib/content/authoring";
 import { loadLessonForLearner, saveLessonStructure } from "../src/lib/content/lessons";
 import { previewContentVersion, previewInventory, previewLatestRevision } from "../src/lib/content/preview";
@@ -294,6 +294,112 @@ test("PV6 a media lesson previews its reference and a vocabulary pack previews c
     assert.equal(mediaPreview!.status, "PREVIEW_READY");
     assert.equal(mediaPreview!.parts.find((part) => part.key === "media")!.problem, undefined);
     assert.doesNotMatch(JSON.stringify(mediaPreview), /https:\/\/www\.youtube\.com/, "the preview names the provider, never a URL to fetch");
+  } finally {
+    await database.close();
+  }
+});
+
+test("PV7 a lesson previews its metadata from the revision, and a pre-0050 { blocks } revision falls back to the lesson row", async () => {
+  const database = await createTestDatabase();
+  try {
+    const { db } = database;
+    const actorId = await staff(database);
+    const unitId = await structure(database);
+    const actor = { ...owner, id: actorId };
+
+    // Authored through the pipeline: the second pin must carry the metadata too.
+    const saved = await db.transaction((tx) =>
+      saveContentDraft(tx, {
+        actor,
+        module: "lesson",
+        contentType: "lesson",
+        sourceRef: "preview-metadata-1",
+        title: "Metadata preview",
+        payload: {
+          unitId,
+          slug: "metadata-preview",
+          learningArea: "listening",
+          summary: "A description the learner reads.",
+          teacherNotes: "Centre notes for the class.",
+          estimatedMinutes: 20,
+          blocks: [{ type: "text", text: "Body." }],
+        },
+      }),
+    );
+    assert.equal(saved.ok, true);
+    if (!saved.ok) return;
+
+    const preview = await previewContentVersion(saved.version.id, db);
+    assert.equal(preview!.status, "PREVIEW_READY");
+    const metadata = preview!.parts.find((part) => part.key === "lesson_metadata")!.value as {
+      learningArea: string | null;
+      summary: string | null;
+      teacherNotes: string | null;
+      estimatedMinutes: number | null;
+      source: string;
+    };
+    assert.equal(metadata.learningArea, "listening", "the preview shows what the lesson is about");
+    assert.equal(metadata.summary, "A description the learner reads.");
+    assert.equal(metadata.teacherNotes, "Centre notes for the class.", "staff verify the centre's notes before publishing");
+    assert.equal(metadata.estimatedMinutes, 20);
+    assert.equal(metadata.source, "revision");
+    assert.ok(preview!.parts.some((part) => part.key === "blocks"), "the blocks region is still there");
+
+    // A revision pinned by the PREVIOUS contract holds `{ blocks }` only. It previews
+    // exactly as before and the lesson row supplies the metadata — nothing is invented,
+    // nothing is rewritten.
+    const [legacyLesson] = await db
+      .insert(lessons)
+      .values({
+        unitId,
+        slug: "legacy-preview",
+        title: "Legacy preview",
+        order: 1,
+        publicationState: "draft",
+        defaultState: "locked",
+        learningArea: "reading",
+        summary: "Row description.",
+        teacherNotes: "Row notes.",
+        estimatedMinutes: 15,
+      })
+      .returning({ id: lessons.id });
+    const [legacyVersion] = await db
+      .insert(contentVersions)
+      .values({
+        module: "lesson",
+        contentType: "lesson",
+        sourceRef: "preview-legacy-1",
+        versionNo: 1,
+        status: "draft",
+        title: "Legacy preview",
+        track: "unspecified",
+        contentHash: "5".repeat(64),
+        semanticHash: "5".repeat(64),
+        answerKeyHash: "5".repeat(64),
+        contentSnapshot: { blocks: [{ position: 1, type: "audio", objectKey: "private/audio/legacy.mp3" }] },
+        publicationState: "draft",
+        targetType: "lesson",
+        targetId: legacyLesson!.id,
+      })
+      .returning({ id: contentVersions.id });
+
+    const legacyPreview = await previewContentVersion(legacyVersion!.id, db);
+    assert.equal(legacyPreview!.status, "PREVIEW_READY", "an old revision stays previewable, with no invented problem");
+    assert.deepEqual(legacyPreview!.problems, []);
+    const legacyMetadata = legacyPreview!.parts.find((part) => part.key === "lesson_metadata")!.value as {
+      learningArea: string | null;
+      summary: string | null;
+      teacherNotes: string | null;
+      estimatedMinutes: number | null;
+      source: string;
+    };
+    assert.equal(legacyMetadata.source, "lesson_row", "the fallback is stated, not hidden");
+    assert.equal(legacyMetadata.learningArea, "reading");
+    assert.equal(legacyMetadata.teacherNotes, "Row notes.");
+    assert.equal((legacyPreview!.parts.find((part) => part.key === "blocks")!.value as unknown[]).length, 1);
+    // The stored revision was not touched: the snapshot is still blocks-only.
+    const [stored] = await db.select({ content: contentVersions.contentSnapshot }).from(contentVersions).where(eq(contentVersions.id, legacyVersion!.id));
+    assert.deepEqual(Object.keys(stored!.content as object), ["blocks"], "historical revision content is never rewritten");
   } finally {
     await database.close();
   }
