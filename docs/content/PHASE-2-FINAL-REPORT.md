@@ -220,11 +220,19 @@ open, writes one `assignment_targets` row per student with its own status, keeps
 drafts, archived and not-yet-scheduled items excluded) and is exposed staff-only at
 `/api/assignments/assignable`; both the API and the learner page read through the
 service, so a task set for several students reaches every one of them (a second real
-defect found and fixed in `6b050f5`). Tests: `content-assignments` **11/11**
-(AS1–AS11), covering every case in the assignment checklist including forged version
+defect found and fixed in `6b050f5`). Tests: `content-assignments` **12/12**
+(AS1–AS12), covering every case in the assignment checklist including forged version
 ids, wrong module/version relationships, roster scope, learner isolation, history
 after archive/delete and idempotent status updates. Migration:
 `0047_assignments_canonical.sql`.
+
+"Assignable" was then tightened to mean **openable**, by three exclusions that a
+revision row alone cannot make: a content type the registry does not know, a revision
+whose canonical row no longer exists, and a row withdrawn in place (archived,
+`is_active = false`, or a schedule that has not opened). The liveness check is bounded
+— one query per target type present in the list, never one per row — and it resolves
+each target type through the same liveness question its learner read asks. AS12 proves
+all three exclusions and that the control item is still offered and still assignable.
 
 ## V. Role-bound workflows
 

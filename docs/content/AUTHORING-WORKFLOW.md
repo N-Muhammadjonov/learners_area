@@ -36,17 +36,23 @@ creates the content row the revision describes; `setPublication` moves that row'
 visibility with the revision (and reports `unsupported_schedule` when the row cannot
 hold a moment); `readSchedule` reads it back.
 
-Registered today (10):
+Registered today (12):
 
 | module | authored content types |
 | --- | --- |
-| listening | `full_test` |
-| reading | `general_set` |
+| listening | `full_test`, `section` |
+| reading | `general_set`, `passage` |
 | writing | `task1`, `task2` |
 | speaking | `part1_question`, `cue_card`, `part3_question` |
 | grammar | `topic` |
 | vocabulary | `topic_pack` |
 | lesson | `lesson` |
+
+A `section` is a Listening practice item (one recording, at most twelve questions,
+carrying its `sectionNo`) and a `passage` is a Reading item of exactly one passage:
+both are filed under their own content type, so an item cannot be mistaken for a
+full test in the catalogue, in a mock composition or in a revision history — the
+same source ref under two content types is two items, not two revisions of one.
 
 `canAuthor(module, contentType)` is the honest answer to "can this be created from
 scratch here?" — `listRegisteredAuthors()` is what the admin UI lists, so a surface
@@ -71,7 +77,13 @@ registered in the taxonomy.
 5. **Publish.** `publicationIssues` gates the move: missing answer key, archived
    content row, or an unresolved reference blocks it. Publishing records the actor
    and the reason in `provenance`.
-6. **Schedule** when the material should open later, or **archive** when it should
+6. **Assign.** `listAssignableContent()` is the list a teacher may choose from, and
+   it offers only content that can actually be opened: a published revision of a
+   content type the registry knows, whose canonical row still exists and is still
+   learner-live. A draft, an archived row, a deactivated row, a schedule that has not
+   opened, an unknown content type or an orphaned revision is not offered — and the
+   assignment pins the exact revision the list showed.
+7. **Schedule** when the material should open later, or **archive** when it should
    stop being set. Both are the same operation with a different target state, and
    both are reversible back to `draft`. Publishing a revision takes the publication
    slot from the revision that held it (which becomes `superseded`); writing a draft

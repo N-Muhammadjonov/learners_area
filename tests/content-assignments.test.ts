@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { eq } from "drizzle-orm";
-import { assignmentTargets, assignments, contentVersions, grammarTopics } from "../src/db/schema";
+import { assignmentTargets, assignments, contentVersions, grammarTopics, writingPrompts } from "../src/db/schema";
 import {
   assignmentContent,
   createAssignment,
@@ -592,6 +592,83 @@ test("AS11 a task set for two students reaches BOTH of them, not only the first"
       assert.equal(list.length, 1, `student ${studentId === mineId ? "one" : "two"} sees the task`);
       assert.equal(list[0]!.content.versionId, version.id, "and the revision they were given");
     }
+  } finally {
+    await database.close();
+  }
+});
+
+test("AS12 the assignable list offers only OPENABLE content: a known type, and a live row behind the revision", async () => {
+  const database = await createTestDatabase();
+  try {
+    const { db } = database;
+    const { ownerId, otherId } = await people(database);
+    const actor = { ...owner, id: ownerId };
+
+    const good = await publishedWritingTask(database, actor, "openable-good");
+    const orphan = await publishedWritingTask(database, actor, "openable-orphan");
+    const withdrawn = await publishedWritingTask(database, actor, "openable-withdrawn");
+
+    // (a) A revision whose content type the registry does not know cannot be opened
+    // by any renderer, so it is not offered — even though the row says published.
+    await db.insert(contentVersions).values({
+      module: "writing",
+      contentType: "not_a_type",
+      sourceRef: "openable-unknown-type",
+      versionNo: 1,
+      status: "published",
+      title: "Unknown content type",
+      track: "academic",
+      contentHash: "0".repeat(64),
+      semanticHash: "0".repeat(64),
+      answerKeyHash: "0".repeat(64),
+      publicationState: "published",
+    });
+
+    // (b) An orphaned revision: the canonical row it points at no longer exists.
+    await db.insert(contentVersions).values({
+      module: "writing",
+      contentType: "task2",
+      sourceRef: "openable-orphan-2",
+      versionNo: 1,
+      status: "published",
+      title: "Orphaned revision",
+      track: "academic",
+      contentHash: "1".repeat(64),
+      semanticHash: "1".repeat(64),
+      answerKeyHash: "1".repeat(64),
+      publicationState: "published",
+      targetType: "writing_prompt",
+      targetId: crypto.randomUUID(),
+    });
+
+    // (c) A row withdrawn in place after its revision was published: the revision
+    // still says published, but a learner could not open it any more.
+    const [orphanRow] = await db.select({ id: writingPrompts.id }).from(writingPrompts).where(eq(writingPrompts.sourceRef, "openable-orphan"));
+    await db.update(writingPrompts).set({ publicationState: "archived" }).where(eq(writingPrompts.id, orphanRow!.id));
+
+    const [withdrawnRow] = await db.select({ id: writingPrompts.id }).from(writingPrompts).where(eq(writingPrompts.sourceRef, "openable-withdrawn"));
+    await db.update(writingPrompts).set({ isActive: false }).where(eq(writingPrompts.id, withdrawnRow!.id));
+
+    const items = await listAssignableContent({ module: "writing" }, db);
+    const refs = items.map((item) => item.sourceRef);
+    assert.ok(refs.includes("openable-good"), "real, live content is still offered");
+    assert.ok(!refs.includes("openable-unknown-type"), "an unknown content type is not offered");
+    assert.ok(!refs.includes("openable-orphan-2"), "a revision with no canonical row is not offered");
+    assert.ok(!refs.includes("openable-orphan"), "content archived in the row is not offered");
+    assert.ok(!refs.includes("openable-withdrawn"), "deactivated content is not offered");
+
+    // The control item is still assignable, and it pins the revision from the list.
+    const chosen = items.find((item) => item.sourceRef === "openable-good")!;
+    assert.equal(chosen.versionId, good.id);
+    const created = await db.transaction((tx) =>
+      createAssignment(tx, {
+        actor,
+        title: "Openable only",
+        reference: { module: chosen.module, contentType: chosen.contentType, sourceRef: chosen.sourceRef },
+        studentIds: [otherId],
+      }),
+    );
+    assert.equal(created.ok, true);
   } finally {
     await database.close();
   }

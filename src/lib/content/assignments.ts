@@ -1,7 +1,21 @@
 import { and, desc, eq, inArray } from "drizzle-orm";
 import { db } from "@/db/client";
-import { assignmentTargets, assignments, contentVersions, teacherStudentLinks, users } from "@/db/schema";
-import { contentTypeKey, moduleDescriptor, referenceProblems } from "@/lib/content/taxonomy";
+import {
+  assignmentTargets,
+  assignments,
+  contentVersions,
+  grammarTopics,
+  lessons,
+  listeningTests,
+  readingPassages,
+  speakingPrompts,
+  teacherStudentLinks,
+  users,
+  videoLessons,
+  writingPrompts,
+} from "@/db/schema";
+import { contentTypeKey, isKnownContentType, isKnownModule, moduleDescriptor, referenceProblems } from "@/lib/content/taxonomy";
+import { liveWhere } from "@/lib/services/cms/publication";
 import { publishedVersion, versionById, versionContent, type VersionReader } from "@/lib/content/versions";
 import { isAdministrator, roleAtLeast } from "@/lib/auth/roles";
 import { registerModuleAuthors, resolveModuleAuthor } from "@/lib/content/authors";
@@ -343,6 +357,79 @@ export type AssignableItem = {
  * shared canonical store, and what a given teacher may set is enforced per student
  * by `mayAssignTo`.
  */
+/**
+ * The canonical rows behind a revision, resolved per target type.
+ *
+ * Each entry asks the SAME question the learner read asks: is this row still
+ * learner-live? Publication moves the row with the revision, so normally the answer
+ * is yes; the check exists for the case where the row moved on its own (a delete, an
+ * archive, `is_active` turned off, a schedule that never opened).
+ */
+const TARGET_LIVENESS: Record<
+  string,
+  (executor: VersionReader, ids: string[]) => Promise<{ id: string }[]>
+> = {
+  listening_test: (executor, ids) =>
+    executor
+      .select({ id: listeningTests.id })
+      .from(listeningTests)
+      .where(and(inArray(listeningTests.id, ids), eq(listeningTests.isActive, true), liveWhere({ publicationState: listeningTests.publicationState, publishAt: listeningTests.publishAt }))),
+  reading_passage: (executor, ids) =>
+    executor
+      .select({ id: readingPassages.id })
+      .from(readingPassages)
+      .where(and(inArray(readingPassages.id, ids), eq(readingPassages.isActive, true), liveWhere({ publicationState: readingPassages.publicationState, publishAt: readingPassages.publishAt }))),
+  writing_prompt: (executor, ids) =>
+    executor
+      .select({ id: writingPrompts.id })
+      .from(writingPrompts)
+      .where(and(inArray(writingPrompts.id, ids), eq(writingPrompts.isActive, true), liveWhere({ publicationState: writingPrompts.publicationState, publishAt: writingPrompts.publishAt }))),
+  speaking_prompt: (executor, ids) =>
+    executor
+      .select({ id: speakingPrompts.id })
+      .from(speakingPrompts)
+      .where(and(inArray(speakingPrompts.id, ids), eq(speakingPrompts.isActive, true), liveWhere({ publicationState: speakingPrompts.publicationState, publishAt: speakingPrompts.publishAt }))),
+  grammar_topic: (executor, ids) =>
+    executor
+      .select({ id: grammarTopics.id })
+      .from(grammarTopics)
+      .where(and(inArray(grammarTopics.id, ids), eq(grammarTopics.publicationState, "published"))),
+  lesson: (executor, ids) =>
+    executor
+      .select({ id: lessons.id })
+      .from(lessons)
+      .where(and(inArray(lessons.id, ids), liveWhere({ publicationState: lessons.publicationState, publishAt: lessons.publishAt }))),
+  video_lesson: (executor, ids) =>
+    executor
+      .select({ id: videoLessons.id })
+      .from(videoLessons)
+      .where(and(inArray(videoLessons.id, ids), eq(videoLessons.isActive, true), liveWhere({ publicationState: videoLessons.publicationState, publishAt: videoLessons.publishAt }))),
+};
+
+async function liveTargetIds(
+  rows: { targetType: string | null; targetId: string | null }[],
+  executor: VersionReader,
+): Promise<Set<string>> {
+  const byType = new Map<string, Set<string>>();
+  for (const row of rows)
+    if (row.targetType && row.targetId) {
+      const ids = byType.get(row.targetType) ?? new Set<string>();
+      ids.add(row.targetId);
+      byType.set(row.targetType, ids);
+    }
+
+  const live = new Set<string>();
+  for (const [targetType, ids] of byType) {
+    const query = TARGET_LIVENESS[targetType];
+    // A target type this module does not know (a type added by another surface) is
+    // not silently treated as live: it is left out of the set, so the revision is
+    // not offered until the contract is declared here.
+    if (!query) continue;
+    for (const row of await query(executor, [...ids])) live.add(`${targetType}|${row.id}`);
+  }
+  return live;
+}
+
 export async function listAssignableContent(
   filter: { module?: string; contentType?: string } = {},
   executor: VersionReader = db,
@@ -357,15 +444,30 @@ export async function listAssignableContent(
       versionId: contentVersions.id,
       versionNo: contentVersions.versionNo,
       publicationState: contentVersions.publicationState,
+      targetType: contentVersions.targetType,
+      targetId: contentVersions.targetId,
     })
     .from(contentVersions)
     .where(and(eq(contentVersions.status, "published"), eq(contentVersions.publicationState, "published")))
     .orderBy(desc(contentVersions.versionNo));
 
+  // A revision is only offered when its content type is one the registry knows. A
+  // row whose pair is unknown cannot be opened by any module renderer, so offering
+  // it would hand a teacher a task nobody can start.
+  const known = rows.filter((row) => isKnownModule(row.module) && isKnownContentType(row.module, row.contentType));
+
+  // A published revision is not enough on its own: the canonical ROW behind it must
+  // still be there and still be learner-live. A deleted row or one withdrawn in
+  // place (archived, deactivated, a schedule that has not opened) would otherwise be
+  // offered by the revision store while being impossible to open. The check is
+  // bounded — one query per target type present, never one per row.
+  const liveTargets = await liveTargetIds(known, executor);
+
   const byItem = new Map<string, AssignableItem>();
-  for (const row of rows) {
+  for (const row of known) {
     if (filter.module && row.module !== filter.module) continue;
     if (filter.contentType && row.contentType !== filter.contentType) continue;
+    if (row.targetType && row.targetId && !liveTargets.has(`${row.targetType}|${row.targetId}`)) continue;
     const key = `${contentTypeKey(row.module, row.contentType)}|${row.sourceRef}`;
     if (byItem.has(key)) continue; // ordered newest-first: the first row is the winner
     byItem.set(key, {
