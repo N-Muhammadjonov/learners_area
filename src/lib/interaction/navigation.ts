@@ -1,9 +1,10 @@
+import { APP_HOME } from "@/lib/nav/private-modules.mjs";
+
 export type InteractionCategory = "local" | "navigation" | "data-view" | "mutation" | "destructive" | "external";
 
 export type NavigationTarget = { href: string; routeKey: string };
 
 const ROUTE_PREFIXES: Array<[string, string]> = [
-  ["/app/dashboard", "dashboard"],
   ["/app/courses/ielts", "course-roadmap"],
   ["/app/coach", "coach"],
   ["/app/notifications", "notifications"],
@@ -53,6 +54,7 @@ export function internalNavigationTarget(
 
 /** Route metrics contain only a fixed workspace key, never path ids or search text. */
 export function workspaceKey(pathname: string): string {
+  if (pathname === APP_HOME) return "dashboard";
   const match = ROUTE_PREFIXES.find(([prefix]) => pathname === prefix || pathname.startsWith(`${prefix}/`));
   return match?.[1] ?? "other";
 }

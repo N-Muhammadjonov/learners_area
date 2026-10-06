@@ -80,7 +80,7 @@ check(
 // 2..4. The signed-in shell
 // ---------------------------------------------------------------------------
 const cookie = await login("demo.student@learnersarea.uz", "Student12345!");
-const dashboard = await page("/app/dashboard", cookie);
+const dashboard = await page("/app", cookie);
 check("the dashboard renders for an ACTIVE student", dashboard.status === 200, `status ${dashboard.status}`);
 
 // Icon-only controls must carry a name. A button whose only child is a glyph is
@@ -186,7 +186,7 @@ check("no control takes keyboard order hostage with a positive tabindex", positi
 // ---------------------------------------------------------------------------
 const timeSource = readFile("src/lib/time.ts", "utf8");
 check("one formatter owns the display timezone", /TIMEZONE = "Asia\/Tashkent"/.test(timeSource) && /timeZone: TIMEZONE/.test(timeSource));
-const strayToLocale = ["src/app/app/(shell)/dashboard/page.tsx", "src/app/app/(shell)/live-classes/page.tsx"].filter((file) =>
+const strayToLocale = ["src/app/app/(shell)/page.tsx", "src/app/app/(shell)/live-classes/page.tsx"].filter((file) =>
   /toLocaleString\(|toLocaleDateString\(/.test(readFile(file, "utf8"))
 );
 check("no page formats a date with the runtime's timezone", strayToLocale.length === 0, strayToLocale.join(", "));
@@ -203,7 +203,7 @@ const TYPOGRAPHIC = /[\u2018\u2019\u02bb\u02bc\u02b9\u2032]/;
 const CYRILLIC = /[\u0400-\u04ff]/;
 
 const uzStudent = await login("demo.student@learnersarea.uz", "Student12345!");
-for (const path of ["/", "/login", "/register", "/app/dashboard", "/app/vocabulary"]) {
+for (const path of ["/", "/login", "/register", "/app", "/app/vocabulary"]) {
   const rendered = await page(path, path === "/" || path === "/login" || path === "/register" ? null : uzStudent);
   const body = rendered.text;
   const typographic = body.match(new RegExp(TYPOGRAPHIC.source, "g")) ?? [];

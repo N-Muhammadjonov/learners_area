@@ -51,7 +51,7 @@ export default async function ManagementPage() {
   // route, so this page must refuse the learner role for the same reason
   // /admin/* and /teacher/* do.
   const [staff, locale] = await Promise.all([requireStaff(), getLocale()]);
-  if (!staff) redirect("/app/dashboard");
+  if (!staff) redirect("/app");
 
   const user = staff;
   const dict = getDictionary(locale);
@@ -207,7 +207,7 @@ export default async function ManagementPage() {
         <h1 className="page-title">{dict.management.title}</h1>
         <p className="page-subtitle">{dict.management.subtitle}</p>
         <Link
-          href="/app/dashboard"
+          href="/app"
           data-management-back
           className="mt-1 inline-flex w-fit min-h-[44px] items-center gap-2 rounded-[10px] border border-gold/45 bg-gold/10 px-3.5 text-[0.9375rem] font-medium text-ink-900 transition-colors hover:bg-gold/20"
         >

@@ -64,7 +64,7 @@ check("the student can sign in", Boolean(studentCookie));
 check("the teacher can sign in", Boolean(teacherCookie));
 
 // The control is reachable from the private shell, on desktop and on mobile.
-const dashboard = await page("/app/dashboard", studentCookie);
+const dashboard = await page("/app", studentCookie);
 check("the private shell offers the report control", dashboard.text.includes("data-report-toggle"));
 check("the report form is contextual", dashboard.text.includes("data-report-form") || dashboard.text.includes("data-report-toggle"));
 
@@ -117,13 +117,13 @@ check("an external route is refused", externalRoute.status === 400, `status ${ex
 const short = await api("/api/support/reports", {
   method: "POST",
   cookie: studentCookie,
-  body: { route: "/app/dashboard", module: "app", message: "x" },
+  body: { route: "/app", module: "app", message: "x" },
 });
 check("an empty report is refused", short.status === 400, `status ${short.status}`);
 
 const anon = await api("/api/support/reports", {
   method: "POST",
-  body: { route: "/app/dashboard", module: "app", message: "hello there" },
+  body: { route: "/app", module: "app", message: "hello there" },
 });
 check("an anonymous report is refused", anon.status === 401, `status ${anon.status}`);
 

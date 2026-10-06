@@ -24,7 +24,7 @@ export const dynamic = "force-dynamic";
 export default async function TeacherLiveClassPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const staff = await requireStaff();
-  if (!staff) redirect("/app/dashboard");
+  if (!staff) redirect("/app");
   const locale = await getLocale();
   const dict = getDictionary(locale);
 

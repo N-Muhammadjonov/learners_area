@@ -86,7 +86,7 @@ function assertCleanHtml(html, label) {
 
 const PAGES = {
   student: [
-    "/app/dashboard",
+    "/app",
     "/onboarding",
     "/app/courses/ielts",
     "/app/writing",
@@ -151,9 +151,9 @@ for (const [role, paths] of Object.entries(PAGES)) {
 await check("switching locale changes the rendered UI language", async () => {
   let cookie = await login("student");
   cookie = await setLocale(cookie, "uz");
-  const uz = await get(cookie, "/app/dashboard");
+  const uz = await get(cookie, "/app");
   cookie = await setLocale(cookie, "en");
-  const en = await get(cookie, "/app/dashboard");
+  const en = await get(cookie, "/app");
   assert.notEqual(uz.html, en.html, "locale switch produced identical HTML");
   assert.match(uz.html, /Boshqaruv paneli/, "Uzbek render is missing Uzbek copy");
   assert.match(en.html, /Dashboard/, "English render is missing English copy");
@@ -162,7 +162,7 @@ await check("switching locale changes the rendered UI language", async () => {
 await check("no hard-coded English section labels survive in the sidebar", async () => {
   let cookie = await login("teacher");
   cookie = await setLocale(cookie, "uz");
-  const { html } = await get(cookie, "/app/dashboard");
+  const { html } = await get(cookie, "/app");
   // The sidebar groups are Main / Modules / Progress (there is no separate
   // "Track" group any more — progress lives in its own group), so the check
   // asserts exactly those three group labels are translated, and that no English

@@ -217,7 +217,7 @@ test("vocabulary mutations invalidate only vocabulary resources, never a global 
 
 test("Retention links never prefetch and the hub reads run concurrently without allocation", () => {
   assert.match(read("src/app/app/(shell)/reading/page.tsx"), /href="\/app\/reading\/retention" prefetch=\{false\}/);
-  assert.match(read("src/app/app/(shell)/dashboard/page.tsx"), /href="\/app\/reading\/retention" prefetch=\{false\}/);
+  assert.match(read("src/app/app/(shell)/page.tsx"), /href="\/app\/reading\/retention" prefetch=\{false\}/);
   const page = read("src/app/app/(shell)/reading/retention/page.tsx");
   assert.match(page, /Promise\.all\(\[/);
   assert.doesNotMatch(page, /startRetentionAttempt|allocateAttempt|createAttempt|method: "POST"/);

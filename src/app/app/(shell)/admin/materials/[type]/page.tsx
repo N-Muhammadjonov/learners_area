@@ -19,7 +19,7 @@ export const metadata = { title: "Materials" };
  */
 export default async function AdminMaterialsKindPage({ params }: { params: Promise<{ type: string }> }) {
   const administrator = await requireStaff();
-  if (!administrator) redirect("/app/dashboard");
+  if (!administrator) redirect("/app");
   const { type } = await params;
   if (!isResourceOwnerType(type)) notFound();
 

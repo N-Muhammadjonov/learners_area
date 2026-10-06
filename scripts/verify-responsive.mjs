@@ -159,7 +159,7 @@ async function login(email, password) {
 
 const cookie = await login("demo.student@learnersarea.uz", "Student12345!");
 const pages = [
-  "/app/dashboard",
+  "/app",
   "/app/vocabulary",
   "/app/reading",
   "/app/listening",

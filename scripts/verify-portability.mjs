@@ -35,7 +35,7 @@ const rawCookies = login.headers.getSetCookie();
 assert.ok(rawCookies.every((cookie) => !cookie.toLowerCase().includes('domain=')));
 const cookie = rawCookies.map((value) => value.split(';')[0]).join('; ');
 console.log('PASS generic Node login and host-only cookie');
-for (const path of ['/app/dashboard', '/app/reading', '/app/notifications', '/app/reading']) {
+for (const path of ['/app', '/app/reading', '/app/notifications', '/app/reading']) {
   const result = await fetch(base + path, { headers: { cookie }, redirect: 'manual' });
   const text = await result.text();
   assert.equal(result.status, 200);

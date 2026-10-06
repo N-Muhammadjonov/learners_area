@@ -50,7 +50,7 @@ export default function AppError({ error, reset }: { error: Error & { digest?: s
             {dict.errorPage.back}
           </Link>
         )}
-        <Link href="/app/dashboard" className="btn-ghost" data-error-dashboard>
+        <Link href="/app" className="btn-ghost" data-error-dashboard>
           {dict.errorPage.dashboard}
         </Link>
       </div>

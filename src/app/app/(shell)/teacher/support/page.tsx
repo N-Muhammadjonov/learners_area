@@ -19,7 +19,7 @@ export default async function SupportInboxPage() {
   // The same gate the rest of /teacher uses, plus a redirect rather than a
   // blank page: a student who lands here goes back to their own dashboard.
   const user = await requireStaff();
-  if (!user) redirect("/app/dashboard");
+  if (!user) redirect("/app");
   const locale = await getLocale();
   const dict = getDictionary(locale);
 

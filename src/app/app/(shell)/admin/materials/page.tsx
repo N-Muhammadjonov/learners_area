@@ -24,7 +24,7 @@ export const metadata = { title: "Materials" };
  */
 export default async function AdminMaterialsPage() {
   const administrator = await requireStaff();
-  if (!administrator) redirect("/app/dashboard");
+  if (!administrator) redirect("/app");
   const dict = getDictionary(await getLocale());
 
   const counts = await Promise.all(

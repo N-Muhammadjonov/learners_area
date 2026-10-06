@@ -14,7 +14,7 @@ export const dynamic = "force-dynamic";
 
 export default async function EditWritingContentPage({ params }: { params: Promise<{ kind: string; id: string }> }) {
   const administrator = await requireAdministrator();
-  if (!administrator) redirect("/app/dashboard");
+  if (!administrator) redirect("/app");
   const { kind, id } = await params;
   if (!isWritingAdminKind(kind) || !isUuid(id)) notFound();
   const row = await getWritingContent(kind, id);

@@ -21,7 +21,7 @@ import { activationOverview } from "@/lib/services/writing/activation";
 export default async function StudentDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const user = await requireStaff();
-  if (!user) redirect("/app/dashboard");
+  if (!user) redirect("/app");
   const dict = getDictionary(await getLocale());
   // Shakli noto'g'ri id hech qachon bazaga yetib bormaydi: javob 500 emas, 404.
   if (!isUuid(id)) notFound();

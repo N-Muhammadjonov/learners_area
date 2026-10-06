@@ -201,7 +201,7 @@ test("a staff member without publish permission cannot publish from the UI — a
     // permission helper the page uses to decide about the button.
     const page = read("src/app/app/(shell)/admin/content/workspace/page.tsx");
     assert.match(page, /requireAdministrator\(\)/);
-    assert.match(page, /redirect\("\/app\/dashboard"\)/);
+    assert.match(page, /redirect\("\/app"\)/);
     const route = read("src/app/api/admin/content/versions/[id]/publication/route.ts");
     assert.match(route, /isStaff\(user\.role\)[\s\S]*status: 403/);
   });

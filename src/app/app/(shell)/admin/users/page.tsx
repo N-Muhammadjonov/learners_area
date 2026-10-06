@@ -8,6 +8,6 @@ import { requireAdministrator } from "@/lib/auth/current-user";
  */
 export default async function AdminUsersPage() {
   const administrator = await requireAdministrator();
-  if (!administrator) redirect("/app/dashboard");
+  if (!administrator) redirect("/app");
   redirect("/app/admin/people");
 }

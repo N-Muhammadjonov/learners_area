@@ -30,7 +30,7 @@ export const metadata = { title: "Content" };
  */
 export default async function AdminContentPage() {
   const administrator = await requireAdministrator();
-  if (!administrator) redirect("/app/dashboard");
+  if (!administrator) redirect("/app");
   const dict = getDictionary(await getLocale());
 
   const [readingRows, listeningRows, writingRows, grammarRows, videoRows] = await Promise.all([

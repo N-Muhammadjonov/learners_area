@@ -37,7 +37,12 @@ import {
  * in a new tab, and to a screen reader.
  */
 
-type NavItem = { href: string; label: string; icon: React.ReactNode };
+/**
+ * `exact` marks the one row whose href is a prefix of every other row — the Home
+ * row, whose URL is the namespace root `/app`. Without it, `/app/reading` would
+ * light up "Dashboard" as well as "Reading".
+ */
+type NavItem = { href: string; label: string; icon: React.ReactNode; exact?: boolean };
 
 function Group({ title, items, pathname, loading }: { title: string; items: NavItem[]; pathname: string; loading: string }) {
   if (items.length === 0) return null;
@@ -46,7 +51,7 @@ function Group({ title, items, pathname, loading }: { title: string; items: NavI
       <p className="sidebar-group">{title}</p>
       <ul className="flex flex-col gap-0.5">
         {items.map((item) => {
-          const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
+          const active = pathname === item.href || (!item.exact && pathname.startsWith(`${item.href}/`));
           return (
             <li key={item.href}>
               <InstantLink
@@ -80,7 +85,7 @@ export function SidebarNav({ dict, role, email }: { dict: Dictionary; role: Role
   const management = isManagementRoute(activePath);
 
   const learning: NavItem[] = [
-    { href: "/app/dashboard", label: nav.dashboard, icon: <IconDashboard /> },
+    { href: "/app", label: nav.dashboard, icon: <IconDashboard />, exact: true },
     { href: "/app/live-classes", label: nav.liveClasses, icon: <IconLive /> },
     { href: "/app/assignments", label: nav.assignments, icon: <IconAssignments /> },
   ];
@@ -140,7 +145,7 @@ export function SidebarNav({ dict, role, email }: { dict: Dictionary; role: Role
     <nav className="flex h-full flex-col" aria-label={management ? dict.shell.managementNav : dict.shell.learningNav} data-pending-route={pendingPath ?? undefined}>
       {management ? (
         <div className="flex flex-col gap-3 pb-4">
-          <InstantLink href="/app/dashboard" className="sidebar-back" data-sidebar-back-to-learning>
+          <InstantLink href="/app" className="sidebar-back" data-sidebar-back-to-learning>
             <span aria-hidden>←</span>
             {nav.backToLearning}
           </InstantLink>

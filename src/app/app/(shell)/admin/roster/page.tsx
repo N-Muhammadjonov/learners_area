@@ -18,7 +18,7 @@ const LIST_CAP = 1000;
 /** Teacher rosters: the explicit source of a teacher's RIWI Reporter visibility. */
 export default async function TeacherRosterPage({ searchParams }: { searchParams: Promise<{ teacher?: string; status?: string; q?: string }> }) {
   const actor = await requireAdministrator();
-  if (!actor) redirect("/app/dashboard");
+  if (!actor) redirect("/app");
   const [{ teacher, status, q }, locale] = await Promise.all([searchParams, getLocale()]);
   const dict = getDictionary(locale);
   const t = dict.reporter.roster;

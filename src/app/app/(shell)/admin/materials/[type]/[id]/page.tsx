@@ -29,7 +29,7 @@ export default async function AdminMaterialsEditorPage({
   params: Promise<{ type: string; id: string }>;
 }) {
   const administrator = await requireStaff();
-  if (!administrator) redirect("/app/dashboard");
+  if (!administrator) redirect("/app");
   const { type, id } = await params;
   if (!isResourceOwnerType(type) || !isUuid(id)) notFound();
 

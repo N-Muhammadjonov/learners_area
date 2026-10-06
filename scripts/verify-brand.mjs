@@ -140,7 +140,7 @@ if (pendingCookie) {
 // ---------------------------------------------------------------------------
 // 6..7. The application shell
 // ---------------------------------------------------------------------------
-const dashboard = await page("/app/dashboard", studentCookie);
+const dashboard = await page("/app", studentCookie);
 check("the dashboard renders", dashboard.status === 200, `status ${dashboard.status}`);
 const sidebarBlock = dashboard.text.match(/<aside[\s\S]*?<\/aside>/)?.[0] ?? "";
 check(

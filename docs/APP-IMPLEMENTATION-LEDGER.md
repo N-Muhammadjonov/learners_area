@@ -14,7 +14,7 @@ committed; the remaining phases are open and are being worked in order.
 
 | ID | Requirement | Status | Evidence / note |
 | --- | --- | --- | --- |
-| APP-001 | canonical `/app` namespace | **DONE** | `src/app/app/{layout.tsx,(shell),(focus)}`; every authenticated page is under `/app`; APIs stay at `/api`. `tests/app-namespace.test.ts` |
+| APP-001 | canonical `/app` namespace | **DONE** | `src/app/app/{layout.tsx,(shell),(focus)}`; `/app` **is** the dashboard; every authenticated page is under `/app`; APIs stay at `/api`. `tests/app-namespace.test.ts` (6 tests) |
 | APP-002 | design preserved | **IN PROGRESS** | no token, class or primitive was changed by the move; the shell layout is the same markup, re-parented. Before/after capture is still owed (§65) |
 | APP-003 | performance baseline | **NOT STARTED** | no baseline has been recorded yet; §4/§66 require measurements before any claim |
 | LSN-001 | Listening Lessons | NOT STARTED | |
@@ -56,7 +56,7 @@ committed; the remaining phases are open and are being worked in order.
 | FRZ-001 | Writing unchanged except `/app` | **DONE for the URL move** | typing tests 17/0, presets 9/0, writing-admin 10/0 after the move; no Writing behaviour changed |
 | FRZ-002 | Speaking unchanged except `/app` | **DONE for the URL move** | speaking-hub-rebuild 10/0, practice 10/0, canonical identity 4/0 after the move |
 | FRZ-003 | unrelated modules unchanged | **DONE for the URL move** | full unit suite 1152 pass / 0 fail |
-| SEC-001 | auth preserved | **DONE** | one database-backed gate in `src/app/app/layout.tsx` covers the shell and focus groups; `browser smoke` `/app/*` → `/login?next=…`, `/api/*` → 401/405, never 500 |
+| SEC-001 | auth preserved | **DONE** | one database-backed gate in `src/app/app/layout.tsx` covers the shell and focus groups; the middleware's coarse prefixes are now derived from the same table as the redirects (no drift); built-server smoke: `/app/*` → `/login?next=…` anonymously, `/api/*` → 401/405 and never redirected, a student session on a staff page gets the redirect instruction and **none** of the page's markup |
 | SEC-002 | private assets | **DONE (unchanged)** | private R2/S3 model untouched by this workstream |
 | SEC-003 | answer secrecy | **DONE (unchanged)** | MCQ stage model untouched |
 | SEC-004 | student-note privacy | NOT STARTED | arrives with LSN-004 |
@@ -80,3 +80,45 @@ committed; the remaining phases are open and are being worked in order.
    fragments (`"/progress"`, `"/vocabulary"`); the namespace rewrite made those fragments
    ambiguous, so they now match the real API path. This was a test defect, not a product
    one, and it is listed here because it was found by the gates rather than by review.
+
+
+## Route-foundation correction (independent GitHub review, 57ef9c9 → this commit)
+
+Two defects were found in the Phase A/B foundation and are closed here.
+
+### Defect 1 — `/app` was not the dashboard
+
+`src/app/app/(shell)/dashboard/page.tsx` meant the canonical Home URL was
+`/app/dashboard`, not the approved `/app`. Fixed by making the dashboard the namespace
+**index** (`git mv` to `src/app/app/(shell)/page.tsx` — still one implementation), and
+turning `/app/dashboard` into an alias:
+
+| URL | behaviour |
+| --- | --- |
+| `/app` | the dashboard (200, real data) |
+| `/dashboard` | 307 → `/app` |
+| `/app/dashboard` | 307 → `/app` |
+| `/dashboard/<deeper>` | 307 → `/app/<deeper>` (shape kept, query kept) |
+
+Every internal navigation target that meant "Home" was rewritten to `/app` (55 source
+files: the shell row, brand/profile/back links, error boundary, coach, grammar, every
+staff `redirect()` guard, the auth callbacks, the landing CTA, robots, prefetch
+landings). The only file that keeps the literal `/app/dashboard` is the alias table
+itself, and `tests/app-namespace.test.ts` fails if anything else does.
+`workspaceKey("/app")` is `"dashboard"` **exactly** (a prefix rule for the root would
+swallow every module), and the sidebar's Home row is the one row that opts out of prefix
+highlighting. The breadcrumb shows nothing at `/app` — never the namespace name.
+
+### Defect 2 — legacy protected-prefix drift
+
+`next.config.mjs` knew 22 historical modules while `src/middleware.ts` knew 16:
+`/video-lessons`, `/profile`, `/notifications`, `/reports`, `/support` and `/management`
+were redirected but not session-checked. Both now read **one** table,
+`src/lib/nav/private-modules.mjs` (dependency-light ESM, imported by the config, the Edge
+middleware bundle and the tests; typed by `private-modules.d.mts`), and the test asserts
+the parity mechanically instead of restating a subset — so the drift cannot come back.
+`robots.ts` derives its private list from the same table.
+
+The coarse check still matters even though `next.config` redirects win for GET: Next does
+not apply `redirects()` to non-GET requests, and a module whose rule is ever removed would
+otherwise lose its check.

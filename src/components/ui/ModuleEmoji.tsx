@@ -128,7 +128,7 @@ export function moduleEmojiFor(href: string): ModuleEmojiKind | null {
     "/app/grammar": "grammar",
     "/app/vocabulary": "vocabulary",
     "/app/video-lessons": "video",
-    "/app/dashboard": "dashboard",
+    "/app": "dashboard",
     "/app/live-classes": "live",
     "/app/assignments": "assignment",
     "/app/progress": "progress",

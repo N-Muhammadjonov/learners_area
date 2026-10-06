@@ -60,7 +60,7 @@ test("every management page in the app is recognised as management mode", () => 
 });
 
 test("learning routes stay in learning mode", () => {
-  for (const pathname of ["/", "/app/dashboard", "/app/reading", "/app/reading/attempts/abc", "/app/vocabulary", "/app/progress", "/app/mocks", "/app/support"]) {
+  for (const pathname of ["/", "/app", "/app/reading", "/app/reading/attempts/abc", "/app/vocabulary", "/app/progress", "/app/mocks", "/app/support"]) {
     assert.equal(isManagementRoute(pathname), false, `${pathname} must stay in learning mode`);
   }
 });

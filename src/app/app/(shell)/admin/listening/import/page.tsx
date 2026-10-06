@@ -13,7 +13,7 @@ export const metadata = { title: "Listening import" };
 export default async function AdminListeningImportPage() {
   // Same database-backed guard as every Management page.
   const administrator = await requireAdministrator();
-  if (!administrator || !mayImportListening(administrator.role)) redirect("/app/dashboard");
+  if (!administrator || !mayImportListening(administrator.role)) redirect("/app");
   const dict = getDictionary(await getLocale());
   return (
     <div className="mx-auto flex max-w-4xl flex-col gap-4">

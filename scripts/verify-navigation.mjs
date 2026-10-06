@@ -84,7 +84,7 @@ const teacher = await signIn(ACCOUNTS.teacher, "10.10.1.2");
 const student = await signIn(ACCOUNTS.student, "10.10.1.3");
 
 // --- OWNER: learning half ---------------------------------------------------
-for (const path of ["/app/dashboard", "/app/reading", "/app/vocabulary"]) {
+for (const path of ["/app", "/app/reading", "/app/vocabulary"]) {
   const page = await get(path, owner);
   check(
     `OWNER ${path} — learning navigation, no management shell`,
@@ -95,7 +95,7 @@ for (const path of ["/app/dashboard", "/app/reading", "/app/vocabulary"]) {
     `http=${page.status}`
   );
 }
-const dashboard = await get("/app/dashboard", owner);
+const dashboard = await get("/app", owner);
 check(
   "OWNER sees one honest way into management mode",
   has(dashboard.body, LEARNING_MARKER) && has(dashboard.body, "/app/management"),
@@ -200,7 +200,7 @@ for (const path of ["/app/management", "/app/admin/admissions", "/app/admin/peop
     `http=${page.status}${page.location ? ` → ${page.location}` : ""}`
   );
 }
-const studentDashboard = await get("/app/dashboard", student);
+const studentDashboard = await get("/app", student);
 check(
   "STUDENT has no way into management at all",
   studentDashboard.status === 200 && !has(studentDashboard.body, LEARNING_MARKER),

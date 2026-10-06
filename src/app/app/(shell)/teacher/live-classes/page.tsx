@@ -15,7 +15,7 @@ export default async function TeacherLiveClassesPage() {
   // Authorization is a database read, not a menu decision: this page used to
   // rely on the edge guard's cookie, which goes stale the moment a role changes.
   const staff = await requireStaff();
-  if (!staff) redirect("/app/dashboard");
+  if (!staff) redirect("/app");
   const locale = await getLocale();
   const dict = getDictionary(locale);
   const classes = await listAllForTeacher();

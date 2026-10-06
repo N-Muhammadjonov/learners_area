@@ -23,7 +23,7 @@ async function GrammarTopics({ userId, isAdmin, dict }: {
         <RegionFailureNotice region="grammar-mastery" message={dict.errors.unknown} retryLabel={dict.errorPage.retry} />
       )}
       {rows.length === 0 && <EmptyState title={dict.grammar.emptyTitle} body={dict.grammar.emptyHint}
-        action={<Link className="text-sm text-signal-600 underline" href={isAdmin ? "/app/admin/grammar" : "/app/dashboard"}>
+        action={<Link className="text-sm text-signal-600 underline" href={isAdmin ? "/app/admin/grammar" : "/app"}>
           {isAdmin ? dict.grammar.manageContent : dict.nav.dashboard}
         </Link>} />}
       <div className="flex flex-col gap-3" data-grammar-topics data-async-content="grammar-topics">

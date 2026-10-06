@@ -50,7 +50,7 @@ export default async function CoachPage() {
 
   return (
     <div className="mx-auto flex max-w-4xl flex-col gap-6">
-      <Link href="/app/dashboard" className="btn-secondary w-fit">← {dict.common.back}</Link>
+      <Link href="/app" className="btn-secondary w-fit">← {dict.common.back}</Link>
       <div>
         <h1 className="font-display text-2xl text-ink-900">{t.dashboardTitle}</h1>
         <p className="text-sm text-ink-500">{t.dashboardSubtitle}</p>

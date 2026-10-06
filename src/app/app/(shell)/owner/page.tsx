@@ -21,7 +21,7 @@ export const dynamic = "force-dynamic";
  */
 export default async function OwnerPage() {
   const owner = await requireOwner();
-  if (!owner) redirect("/app/dashboard");
+  if (!owner) redirect("/app");
 
   const dict = getDictionary(await getLocale());
   const [counts, pending, integrations] = await Promise.all([

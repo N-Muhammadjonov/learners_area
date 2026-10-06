@@ -16,7 +16,7 @@ export default async function AdminPassageDetailPage({ params }: { params: Promi
   // Authorization is a database read, not a menu decision: this page used to
   // rely on the edge guard's cookie, which goes stale the moment a role changes.
   const administrator = await requireAdministrator();
-  if (!administrator) redirect("/app/dashboard");
+  if (!administrator) redirect("/app");
   const dict = getDictionary(await getLocale());
   const passage = await db.query.readingPassages.findFirst({ where: eq(readingPassages.id, id) });
   if (!passage) notFound();

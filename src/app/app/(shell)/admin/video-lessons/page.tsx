@@ -23,7 +23,7 @@ export const dynamic = "force-dynamic";
 export default async function AdminVideoLessonsPage() {
   // Authorization is a database read, not a menu decision.
   const [administrator, locale] = await Promise.all([requireStaff(), getLocale()]);
-  if (!administrator) redirect("/app/dashboard");
+  if (!administrator) redirect("/app");
   const dict = getDictionary(locale);
 
 

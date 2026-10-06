@@ -9,7 +9,7 @@ import { BackLink } from "@/components/ui/BackLink";
 import { StudentResults } from "@/components/admin/StudentResults";
 export default async function StudentResultsPage({ params }: { params: Promise<{ id: string }> }) {
   const actor = await requireAdministrator();
-  if (!actor) redirect("/app/dashboard");
+  if (!actor) redirect("/app");
   const { id } = await params;
   if (!isUuid(id)) notFound();
   const student = await db.query.users.findFirst({ where: and(eq(users.id, id), eq(users.role, "student")), columns: { id: true, name: true, email: true } });

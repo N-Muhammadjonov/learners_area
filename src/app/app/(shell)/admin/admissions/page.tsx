@@ -16,7 +16,7 @@ export const dynamic = "force-dynamic";
  */
 export default async function AdminAdmissionsPage() {
   const actor = await requireAdministrator();
-  if (!actor) redirect("/app/dashboard");
+  if (!actor) redirect("/app");
 
   const dict = getDictionary(await getLocale());
   const [pending, recent] = await Promise.all([

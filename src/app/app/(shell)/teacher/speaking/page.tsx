@@ -12,7 +12,7 @@ import { ManagedMaterialCard } from "@/components/speaking/ManagedMaterialCard";
 
 export default async function TeacherSpeakingPage() {
   const user = await requireStaff();
-  if (!user) redirect("/app/dashboard");
+  if (!user) redirect("/app");
   const dict = getDictionary(await getLocale());
   const rows = await listAllForManagement();
   const prompts = user.role === "owner" || user.role === "admin" ? await db.query.speakingPrompts.findMany({orderBy:[asc(speakingPrompts.createdAt),asc(speakingPrompts.id)]}) : [];

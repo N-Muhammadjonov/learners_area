@@ -18,7 +18,7 @@ const DEFAULTS: Record<WritingAdminKind, Record<string, unknown>> = {
 
 export default async function NewWritingContentPage({ params }: { params: Promise<{ kind: string }> }) {
   const administrator = await requireAdministrator();
-  if (!administrator) redirect("/app/dashboard");
+  if (!administrator) redirect("/app");
   const { kind } = await params;
   if (!isWritingAdminKind(kind)) notFound();
   const dict = getDictionary(await getLocale());

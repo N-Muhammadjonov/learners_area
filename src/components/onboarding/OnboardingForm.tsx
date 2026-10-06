@@ -44,7 +44,7 @@ export function OnboardingForm({ dict, locale }: { dict: Dictionary; locale: Loc
         setError(failureMessage(result, dict.auth));
         return;
       }
-      router.push("/app/dashboard");
+      router.push("/app");
       router.refresh();
     } finally {
       setPending(false);

@@ -4,7 +4,7 @@ import { readFileSync } from "node:fs";
 import { JSDOM } from "jsdom";
 import en from "../../src/lib/i18n/en";
 
-const dom = new JSDOM('<!doctype html><html><body><div id="root"></div></body></html>', { url: "http://localhost/dashboard" });
+const dom = new JSDOM('<!doctype html><html><body><div id="root"></div></body></html>', { url: "http://localhost/app" });
 for (const key of ["window", "document", "navigator", "HTMLElement", "HTMLButtonElement", "HTMLInputElement", "HTMLTextAreaElement", "HTMLSelectElement", "HTMLAnchorElement", "Element", "Node", "Event", "MouseEvent", "FocusEvent", "KeyboardEvent"] as const) {
   Object.defineProperty(globalThis, key, { value: dom.window[key], configurable: true });
 }
@@ -107,7 +107,7 @@ test("fonts and welcome: owner font roles, no VocaType assets, single authoritat
   const page = readFileSync("src/app/page.tsx", "utf8");
   assert.equal((page.match(/<Link\s/g) ?? []).length, 1);
   assert.match(page, /prefetch=\{false\}\s+data-landing-cta/);
-  assert.match(page, /!user\s*\? "\/login"\s*:\s*hasPrivateAccess\(user\.accountStatus\)\s*\? "\/app\/dashboard"\s*:\s*"\/pending"/);
+  assert.match(page, /!user\s*\? "\/login"\s*:\s*hasPrivateAccess\(user\.accountStatus\)\s*\? "\/app"\s*:\s*"\/pending"/);
 });
 
 test("academic-text applied to Reading, Listening, Writing and Grammar reading surfaces", () => {

@@ -111,7 +111,7 @@ console.log(`\nLearners Area — access & admission end-to-end against ${BASE}\n
 // ---------------------------------------------------------------------------
 
 await check("an anonymous visitor is redirected from a private page to login", async () => {
-  const res = await get(null, "/app/dashboard");
+  const res = await get(null, "/app");
   assert.equal(res.status, 307);
   assert.match(res.location ?? "", /\/login/);
 });
@@ -140,7 +140,7 @@ await check("registration creates a PENDING account and signs it in", async () =
 });
 
 await check("a PENDING account is sent to the waiting room, not to the dashboard", async () => {
-  const res = await get(applicantCookie, "/app/dashboard");
+  const res = await get(applicantCookie, "/app");
   assert.equal(res.status, 307);
   assert.match(res.location ?? "", /\/pending/);
 });
@@ -249,7 +249,7 @@ await check("an administrator approves the request and the account becomes ACTIV
 });
 
 await check("the same cookie that was blocked now reaches the dashboard and the APIs", async () => {
-  const page = await get(applicantCookie, "/app/dashboard");
+  const page = await get(applicantCookie, "/app");
   assert.equal(page.status, 200, `expected 200, got ${page.status}`);
 
   const priv = await api(applicantCookie, "/api/assignments");
@@ -284,7 +284,7 @@ await check("suspension revokes access on the very next request, old cookie and 
   });
   assert.equal(suspend.status, 200, suspend.text.slice(0, 200));
 
-  const page = await get(applicantCookie, "/app/dashboard");
+  const page = await get(applicantCookie, "/app");
   assert.equal(page.status, 307);
   assert.match(page.location ?? "", /\/pending/);
 
@@ -475,7 +475,7 @@ await check("night mode is server-rendered, so the theme never flashes", async (
   const cookie = (res.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ");
   const merged = mergeCookies(ownerCookie, cookie);
 
-  const page = await get(merged, "/app/dashboard");
+  const page = await get(merged, "/app");
   assert.equal(page.status, 200);
   assert.match(page.html, /data-theme="night"/);
 
@@ -489,7 +489,7 @@ await check("night mode is server-rendered, so the theme never flashes", async (
     merged,
     (back.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ")
   );
-  const day = await get(dayJar, "/app/dashboard");
+  const day = await get(dayJar, "/app");
   assert.match(day.html, /data-theme="day"/, "the theme must persist back to Day Mode too");
 });
 

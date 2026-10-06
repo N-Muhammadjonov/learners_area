@@ -39,7 +39,7 @@ export default async function Home() {
   const destination = !user
     ? "/login"
     : hasPrivateAccess(user.accountStatus)
-      ? "/app/dashboard"
+      ? "/app"
       : "/pending";
   return (
     <DesktopIntro destination={destination}>

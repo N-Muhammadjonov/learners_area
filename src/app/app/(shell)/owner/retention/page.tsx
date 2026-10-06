@@ -15,7 +15,7 @@ export const dynamic = "force-dynamic";
  */
 export default async function OwnerRetentionPage() {
   const owner = await requireOwner();
-  if (!owner) redirect("/app/dashboard");
+  if (!owner) redirect("/app");
 
   const dict = getDictionary(await getLocale());
   const config = readRetentionConfig();

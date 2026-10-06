@@ -10,7 +10,7 @@ export default async function AdminListeningPage({ searchParams }: { searchParam
   const query = await searchParams;
   const page = Math.max(1, Math.min(10000, Number.parseInt(query.page ?? "1", 10) || 1));
   const administrator = await requireAdministrator();
-  if (!administrator) redirect("/app/dashboard");
+  if (!administrator) redirect("/app");
   const dict = getDictionary(await getLocale());
   const [tests,legacy] = await Promise.all([fullListeningCards(administrator.id, page, true),legacyListeningCards(administrator.id,true)]);
   return <div className="listening-workspace mx-auto flex max-w-[1840px] flex-col gap-6" data-management-listening-library>

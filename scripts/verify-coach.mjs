@@ -405,7 +405,7 @@ await check("another student cannot attach a transcript to someone else's attemp
 // --- Privacy ----------------------------------------------------------------
 
 await check("no credential or provider secret reaches a rendered page", async () => {
-  const pages = ["/app/coach", "/app/assignments", "/app/dashboard", "/app/writing/history"];
+  const pages = ["/app/coach", "/app/assignments", "/app", "/app/writing/history"];
   const forbidden = ["AUTH_SECRET", "R2_SECRET_ACCESS_KEY", "DATABASE_URL=", "AI_PRIMARY_PROVIDER"];
   for (const path of pages) {
     const res = await student.request(path);

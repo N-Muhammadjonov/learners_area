@@ -8,7 +8,7 @@ const read = (path: string) => readFileSync(join(ROOT, path), "utf8");
 
 test("Dashboard summary widgets isolate query failures and the deep roadmap is a separate streamed region", () => {
   const data = read("src/lib/data/dashboard.ts");
-  const page = read("src/app/app/(shell)/dashboard/page.tsx");
+  const page = read("src/app/app/(shell)/page.tsx");
   const summary = data.slice(data.indexOf("export async function getDashboardData"), data.indexOf("export async function getDashboardOpenLessons"));
   assert.match(summary, /Promise\.allSettled/);
   assert.match(summary, /unavailable: \{/);

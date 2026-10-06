@@ -22,7 +22,7 @@ export const metadata = { title: "Authoring workspace" };
  */
 export default async function AdminContentWorkspacePage() {
   const administrator = await requireAdministrator();
-  if (!administrator) redirect("/app/dashboard");
+  if (!administrator) redirect("/app");
   const dict = getDictionary(await getLocale());
 
   return (

@@ -26,7 +26,7 @@ function parseSection(v: string | undefined): WritingAdminKind | "topic" {
  */
 export default async function AdminWritingPage({ searchParams }: { searchParams: Promise<{ section?: string }> }) {
   const administrator = await requireAdministrator();
-  if (!administrator) redirect("/app/dashboard");
+  if (!administrator) redirect("/app");
   const dict = getDictionary(await getLocale());
   const t = dict.admin.writingAdmin;
   const section = parseSection((await searchParams).section);

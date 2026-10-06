@@ -9,7 +9,7 @@ const read = (path: string) => readFileSync(join(ROOT, path), "utf8");
 
 test("required section and nested-route clicks retain stable, privacy-safe destination keys", () => {
   const targets = [
-    ["/app/dashboard", "dashboard"],
+    ["/app", "dashboard"],
     ["/app/live-classes", "live-classes"],
     ["/app/assignments", "assignments"],
     ["/app/listening/history", "listening"],
@@ -27,14 +27,14 @@ test("required section and nested-route clicks retain stable, privacy-safe desti
     assert.equal(intent?.routeKey, key, href);
     assert.equal(workspaceKey(new URL(href, "https://learners.example").pathname), key, href);
   }
-  const reading = internalNavigationTarget("/app/reading/attempts/attempt-private?mode=review", "https://learners.example", "/app/dashboard");
+  const reading = internalNavigationTarget("/app/reading/attempts/attempt-private?mode=review", "https://learners.example", "/app");
   assert.equal(reading?.href, "/app/reading/attempts/attempt-private?mode=review");
   assert.equal(reading?.routeKey, "reading", "private attempt ids never become metric/frame keys");
 });
 
 test("route intent preserves native external/new-tab/hash semantics and Next owns browser history", () => {
-  assert.equal(internalNavigationTarget("https://external.example", "https://learners.example", "/app/dashboard"), null);
-  assert.equal(internalNavigationTarget("/app/dashboard#top", "https://learners.example", "/app/dashboard"), null);
+  assert.equal(internalNavigationTarget("https://external.example", "https://learners.example", "/app"), null);
+  assert.equal(internalNavigationTarget("/app#top", "https://learners.example", "/app"), null);
   assert.equal(routeLocation("/app/reading", "?page=2"), "/app/reading?page=2");
   const provider = read("src/components/interaction/InstantInteractionProvider.tsx");
   assert.match(provider, /router\.push\(href\)/);

@@ -9,7 +9,7 @@ export const metadata = { title: "Reading import" };
 
 export default async function AdminReadingImportPage() {
   const administrator = await requireAdministrator();
-  if (!administrator || !mayImportReading(administrator.role)) redirect("/app/dashboard");
+  if (!administrator || !mayImportReading(administrator.role)) redirect("/app");
   const dict = getDictionary(await getLocale());
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-4">

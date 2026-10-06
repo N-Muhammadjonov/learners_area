@@ -26,7 +26,7 @@ const LABELS: Record<string, keyof ReturnType<typeof getDictionary>["integration
  */
 export default async function OwnerIntegrationsPage() {
   const owner = await requireOwner();
-  if (!owner) redirect("/app/dashboard");
+  if (!owner) redirect("/app");
 
   const dict = getDictionary(await getLocale());
   const [report, ai] = await Promise.all([integrationReport(), ownerAiStatus()]);

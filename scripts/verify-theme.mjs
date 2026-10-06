@@ -42,11 +42,11 @@ console.log(`\nLearners Area — Night Mode and layout against ${BASE}\n`);
 const cookie = await login("demo.student@learnersarea.uz", "Student12345!");
 check("the student can sign in", Boolean(cookie));
 
-const day = await html("/app/dashboard", cookie);
+const day = await html("/app", cookie);
 check("day mode is the default", day.text.includes('data-theme="day"'), "theme attribute missing");
 check("the report control ships with the shell", day.text.includes("data-report-toggle"));
 
-const night = await html("/app/dashboard", `${cookie}; la_theme=night`);
+const night = await html("/app", `${cookie}; la_theme=night`);
 check("the night theme is rendered on the server", night.text.includes('data-theme="night"'));
 check("the server render already carries the night theme (no flash path)", night.status === 200);
 
@@ -86,7 +86,7 @@ check(
 
 // Every private page must survive a 430-wide phone: the shell keeps its menu,
 // and the pages that own a table wrap it in a scroller.
-const pages = ["/app/dashboard", "/app/vocabulary", "/app/reading", "/app/listening", "/app/grammar", "/app/writing", "/app/speaking", "/app/progress", "/app/assignments"];
+const pages = ["/app", "/app/vocabulary", "/app/reading", "/app/listening", "/app/grammar", "/app/writing", "/app/speaking", "/app/progress", "/app/assignments"];
 for (const path of pages) {
   const page = await html(path, cookie);
   const width = page.status === 200 ? "" : `status ${page.status}`;
@@ -102,7 +102,7 @@ check("the grammar list wraps its scores", grammar.text.includes("data-topic-sco
 const listeningList = await html("/app/listening", cookie);
 check("the listening list renders cards", listeningList.text.includes("card"));
 
-const dashboard = await html("/app/dashboard", cookie);
+const dashboard = await html("/app", cookie);
 check("the dashboard keeps its navigation on small screens", dashboard.text.includes("data-report-toggle"));
 
 // The mobile drawer is built from the same navigation tree as the desktop rail.

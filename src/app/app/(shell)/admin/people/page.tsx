@@ -33,7 +33,7 @@ export default async function AdminPeoplePage({
   searchParams: Promise<SearchParams>;
 }) {
   const actor = await requireAdministrator();
-  if (!actor) redirect("/app/dashboard");
+  if (!actor) redirect("/app");
 
   const [params, locale] = await Promise.all([searchParams, getLocale()]);
   const rawRole = first(params.role);

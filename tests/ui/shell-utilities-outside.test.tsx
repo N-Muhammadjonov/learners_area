@@ -4,7 +4,7 @@ import { JSDOM } from "jsdom";
 import en from "../../src/lib/i18n/en";
 
 /** W14: the real ShellUtilities stack in JSDOM — outside press, inside press, Escape. */
-const dom = new JSDOM('<!doctype html><html><body><div id="root"></div></body></html>', { url: "http://localhost/dashboard" });
+const dom = new JSDOM('<!doctype html><html><body><div id="root"></div></body></html>', { url: "http://localhost/app" });
 for (const key of ["window", "document", "navigator", "HTMLElement", "HTMLButtonElement", "HTMLTextAreaElement", "HTMLInputElement", "Element", "Node", "Event", "MouseEvent", "KeyboardEvent", "CustomEvent"] as const) {
   Object.defineProperty(globalThis, key, { value: dom.window[key], configurable: true });
 }
@@ -31,7 +31,7 @@ test("utilities stack: inside presses keep it open, an outside press closes it, 
   try {
     await act(async () => root.render(
       <AppRouterContext.Provider value={router}>
-        <PathnameContext.Provider value="/app/dashboard">
+        <PathnameContext.Provider value="/app">
           <ShellUtilities dict={en} />
         </PathnameContext.Provider>
       </AppRouterContext.Provider>

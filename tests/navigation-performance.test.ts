@@ -83,7 +83,7 @@ test("Grammar streams its destination heading before its authorized mastery data
 });
 
 test("Dashboard streams its authenticated destination heading before account summary reads", () => {
-  const page = read("src/app/app/(shell)/dashboard/page.tsx");
+  const page = read("src/app/app/(shell)/page.tsx");
   assert.match(page, /Promise\.all\(\[requireActiveUser\(\), getLocale\(\)\]\)/);
   assert.match(page, /data-route-usable="dashboard"/);
   assert.match(page, /data-async-loading="dashboard"/);

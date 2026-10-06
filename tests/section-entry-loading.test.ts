@@ -11,7 +11,7 @@ const ROOT = new URL("..", import.meta.url).pathname;
 const read = (path: string) => readFileSync(join(ROOT, path), "utf8");
 
 const destinations: [string, string][] = [
-  ["/app/dashboard", "dashboard"],
+  ["/app", "dashboard"],
   ["/app/live-classes", "live-classes"],
   ["/app/assignments", "assignments"],
   ["/app/listening", "listening"],

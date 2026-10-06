@@ -33,7 +33,7 @@ test("J1–J4 role policy: student/teacher denied, admin/owner allowed — enfor
   assert.equal(canManageWriting("owner"), true);
   assert.equal(canManageWriting(null), false);
   for (const p of ["src/app/app/(shell)/admin/writing/page.tsx", "src/app/app/(shell)/admin/writing/[kind]/new/page.tsx", "src/app/app/(shell)/admin/writing/[kind]/[id]/page.tsx"]) {
-    assert.match(read(p), /requireAdministrator\(\)[\s\S]*redirect\("\/app\/dashboard"\)/, p);
+    assert.match(read(p), /requireAdministrator\(\)[\s\S]*redirect\("\/app"\)/, p);
   }
   for (const p of ["src/app/api/admin/writing/[kind]/route.ts", "src/app/api/admin/writing/[kind]/[id]/route.ts", "src/app/api/admin/writing-prompts/route.ts"]) {
     assert.match(read(p), /canManageWriting\(user\.role\)[\s\S]*403/, p);

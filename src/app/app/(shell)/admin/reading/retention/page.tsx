@@ -26,7 +26,7 @@ export default async function AdminRetentionPage({ searchParams }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const [administrator, locale, params] = await Promise.all([requireAdministrator(), getLocale(), searchParams]);
-  if (!administrator) redirect("/app/dashboard");
+  if (!administrator) redirect("/app");
   const dict = getDictionary(locale);
   return (
     <div className="flex flex-col gap-4" data-route-usable="retention-admin">
