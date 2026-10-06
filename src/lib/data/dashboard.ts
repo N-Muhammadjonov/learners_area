@@ -5,6 +5,7 @@ import { TIMEZONE, tashkentDayKey } from "@/lib/time";
 import { getCourseRoadmap } from "@/lib/data/roadmap";
 import { isOpen, resolveState, type LessonState } from "@/lib/services/lessons/state";
 import { db } from "@/db/client";
+import { getAttemptTimeline } from "@/lib/data/attempt-timeline";
 import {
   onboardingProfiles,
   writingSubmissions,
@@ -43,32 +44,17 @@ export function getActivityStreak(userId: string): Promise<number> {
   return computeStreak(userId);
 }
 
+/**
+ * Where the student actually stopped.
+ *
+ * The cross-skill enumeration lives in ONE place — `getAttemptTimeline` (§AD) — so the
+ * dashboard cannot drift from the learner's history page: both ask the same projection,
+ * which reads the real attempt rows. Vocabulary is not an attempt, so it keeps its own
+ * probe and the two candidates are compared by when they happened.
+ */
 async function lastActivity(userId: string) {
-  const [writing, reading, listening, speaking, vocabulary] = await Promise.all([
-    db
-      .select({ at: writingSubmissions.updatedAt, id: writingSubmissions.id })
-      .from(writingSubmissions)
-      .where(eq(writingSubmissions.userId, userId))
-      .orderBy(desc(writingSubmissions.updatedAt))
-      .limit(1),
-    db
-      .select({ at: readingAttempts.startedAt, id: readingAttempts.id })
-      .from(readingAttempts)
-      .where(eq(readingAttempts.userId, userId))
-      .orderBy(desc(readingAttempts.startedAt))
-      .limit(1),
-    db
-      .select({ at: listeningAttempts.startedAt, id: listeningAttempts.id })
-      .from(listeningAttempts)
-      .where(eq(listeningAttempts.userId, userId))
-      .orderBy(desc(listeningAttempts.startedAt))
-      .limit(1),
-    db
-      .select({ at: speakingAttempts.createdAt, id: speakingAttempts.id })
-      .from(speakingAttempts)
-      .where(eq(speakingAttempts.userId, userId))
-      .orderBy(desc(speakingAttempts.createdAt))
-      .limit(1),
+  const [attempts, vocabulary] = await Promise.all([
+    getAttemptTimeline(userId, { kinds: ["writing", "reading", "listening", "speaking"], limit: 1 }),
     db
       .select({ at: userVocabulary.createdAt, id: userVocabulary.id })
       .from(userVocabulary)
@@ -78,14 +64,7 @@ async function lastActivity(userId: string) {
   ]);
 
   const candidates = [
-    writing[0] && { module: "writing" as const, at: writing[0].at, href: `/writing/submissions/${writing[0].id}` },
-    reading[0] && { module: "reading" as const, at: reading[0].at, href: `/reading/attempts/${reading[0].id}` },
-    listening[0] && {
-      module: "listening" as const,
-      at: listening[0].at,
-      href: `/listening/attempts/${listening[0].id}`,
-    },
-    speaking[0] && { module: "speaking" as const, at: speaking[0].at, href: "/speaking/history" },
+    ...attempts.map((entry) => ({ module: entry.kind, at: entry.occurredAt, href: entry.href })),
     vocabulary[0] && { module: "vocabulary" as const, at: vocabulary[0].at, href: "/vocabulary" },
   ].filter(Boolean) as { module: string; at: Date; href: string }[];
 
