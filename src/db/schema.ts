@@ -1402,20 +1402,88 @@ export const mockTests = pgTable("mock_tests", {
   id: uuid("id").defaultRandom().primaryKey(),
   courseId: uuid("course_id").notNull().references(() => courses.id, { onDelete: "cascade" }),
   title: varchar("title", { length: 200 }).notNull(),
-  skill: varchar("skill", { length: 20 }).notNull(), // listening | reading | writing | speaking | full
+  /** Kept for the existing catalogue view: listening | reading | writing | speaking | full. */
+  skill: varchar("skill", { length: 20 }).notNull(),
+  description: text("description"),
+  track: varchar("track", { length: 24 }).notNull().default("unspecified"),
+  /** full | sectional | diagnostic | custom */
+  kind: varchar("kind", { length: 24 }).notNull().default("sectional"),
+  timingPolicyId: varchar("timing_policy_id", { length: 40 }),
+  timingPolicyVersion: varchar("timing_policy_version", { length: 24 }),
+  /** Navigation policy (§16): canPause, canResume, sectionLocks, reviewBeforeSubmit… */
+  navigation: jsonb("navigation").$type<Record<string, boolean>>(),
+  /** Which score conversion each skill uses, e.g. { reading: "reading_academic@v1" }. */
+  scorePolicies: jsonb("score_policies").$type<Record<string, string>>(),
+  publicationState: publicationStateEnum("publication_state").notNull().default("draft"),
+  publishAt: timestamp("publish_at", { withTimezone: true }),
+  /** Bumped on every composition change; an attempt records the version it started. */
+  version: integer("version").notNull().default(1),
+  createdByUserId: uuid("created_by_user_id").references(() => users.id, { onDelete: "set null" }),
+  provenance: jsonb("provenance").$type<Record<string, unknown>>(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
+export const mockSections = pgTable(
+  "mock_sections",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    mockTestId: uuid("mock_test_id").notNull().references(() => mockTests.id, { onDelete: "cascade" }),
+    position: integer("position").notNull(),
+    /** listening | reading | writing | speaking — the skill this section assesses. */
+    skill: varchar("skill", { length: 16 }).notNull(),
+    module: varchar("module", { length: 20 }).notNull(),
+    contentType: varchar("content_type", { length: 40 }).notNull(),
+    sourceRef: varchar("source_ref", { length: 80 }).notNull(),
+    /** The exact revision a learner is graded against. Null only for informal sets. */
+    contentVersionId: uuid("content_version_id").references(() => contentVersions.id, { onDelete: "set null" }),
+    label: varchar("label", { length: 120 }),
+    questionCount: integer("question_count"),
+    seconds: integer("seconds"),
+    optional: boolean("optional").notNull().default(false),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("mock_sections_position_idx").on(table.mockTestId, table.position),
+    index("mock_sections_version_idx").on(table.contentVersionId),
+  ],
+);
 
+/** Copied into an attempt at start time; owned by the attempt, not by the mock. */
+export type MockAttemptSnapshot = {
+  title: string;
+  track: string;
+  kind: string;
+  timingPolicyId: string | null;
+  scorePolicies: Record<string, string> | null;
+};
 
 export const mockAttempts = pgTable("mock_attempts", {
   id: uuid("id").defaultRandom().primaryKey(),
   userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
-  mockTestId: uuid("mock_test_id").notNull().references(() => mockTests.id, { onDelete: "cascade" }),
+  /**
+   * set null, not cascade: deleting a mock must not destroy the learner's record
+   * of having taken it (§94, §103). The snapshot below keeps it readable.
+   */
+  mockTestId: uuid("mock_test_id").references(() => mockTests.id, { onDelete: "set null" }),
+  /** What the attempt was taken against, copied at start time (title/track/kind/policy). */
+  mockSnapshot: jsonb("mock_snapshot").$type<MockAttemptSnapshot>(),
+  /** The composition version this attempt started: a later edit never rewrites it (§13). */
+  mockVersion: integer("mock_version"),
+  /** in_progress | submitted | abandoned — a mock in progress is resumable, not lost. */
+  status: varchar("status", { length: 24 }).notNull().default("in_progress"),
   startedAt: timestamp("started_at", { withTimezone: true }),
   finishedAt: timestamp("finished_at", { withTimezone: true }),
   rawScore: real("raw_score"),
   estimatedBand: real("estimated_band"),
+  /** Conversion policy that produced `estimatedBand` (§22). */
+  scorePolicyVersion: varchar("score_policy_version", { length: 24 }),
   skillBreakdown: jsonb("skill_breakdown"),
+  /** Per-section results, each independently inspectable (§21). */
+  sectionResults: jsonb("section_results").$type<
+    { skill: string; sourceRef: string; raw: number | null; total: number | null; band: number | null; contentVersionId: string | null; attemptId: string | null }[]
+  >(),
+  /** section position → content version id, frozen when the attempt started. */
+  contentVersionBindings: jsonb("content_version_bindings").$type<Record<string, string | null>>(),
 });
 
 // Future billing — schema exists, BILLING_ENABLED flag keeps it dark
