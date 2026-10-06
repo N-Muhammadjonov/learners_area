@@ -101,6 +101,27 @@ test("TY3 first valid keystroke creates a server-timed run token and finish is i
   }
 });
 
+test("TY3b completing the whole passage may finish a timed run early even with earlier mistakes", async () => {
+  const { t, db, userId } = await setup();
+  try {
+    const base = 1_800_000_100_000;
+    const prepared = (await prepareTypingRun(userId, { preset: 180 }, { database: db, now: () => base }))!;
+    const runToken = (await startPreparedTypingRun(userId, prepared.token, () => base + 100))!;
+    const typedWords = [...prepared.text.words];
+    typedWords[0] = typedWords[0] + "x";
+    const result = await finishPreparedTypingRun(
+      userId,
+      { runToken, typedWords, samples: [5, 10, 15, 20] },
+      { database: db, now: () => base + 10_100 },
+    );
+    assert.ok(result.ok, JSON.stringify(result));
+    assert.ok(result.result.mistakes > 0);
+    assert.equal(result.result.durationMs, 10_000);
+  } finally {
+    await t.close();
+  }
+});
+
 test("TY4 server derives WPM/accuracy/raw/consistency from canonical words and samples", () => {
   const target = "the quick brown fox jumps over the lazy dog".split(" ");
   const perfect = computeWordTypingMetrics(target, ["the", "quick", "brown", ""], 30, [5, 10, 15, 20, 25, 30]);
