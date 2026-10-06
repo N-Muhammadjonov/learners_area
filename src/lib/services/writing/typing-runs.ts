@@ -583,7 +583,8 @@ export async function recordModelTextRun(
     await tx.insert(typingRunTexts).values({
       runId: run!.id,
       modelTextId: input.modelTextId,
-      typingTextId: null,
+      // Omit typing_text_id entirely: legacy Preview databases do not have the
+      // 0040 column yet, while migrated databases accept the nullable default.
       mistakes: result.mistakes,
       presetSeconds,
     });
