@@ -5,12 +5,12 @@ import { assignmentTargets, assignments, contentVersions, grammarTopics } from "
 import {
   assignmentContent,
   createAssignment,
+  listAssignableContent,
   listAssignmentsCreatedBy,
   listAssignmentsForStudent,
   mayAssignTo,
   mayReadAssignment,
   setAssignmentTargetStatus,
-  type AssignmentActor,
 } from "../src/lib/content/assignments";
 import { publishContentVersion, saveContentDraft, type AuthoringActor } from "../src/lib/content/authoring";
 import { saveTopicPack } from "../src/lib/content/vocabulary-packs";
@@ -349,6 +349,215 @@ test("AS7 grammar topics respect publication, and a grammar attempt can record i
 
     // The grammar attempt column exists and is guarded by a real foreign key.
     await assert.rejects(query(`insert into grammar_attempts (user_id, exercise_id, is_correct, content_version_id) values ($1, $2, true, $3)`, [mineId, "11111111-1111-4111-8111-111111111111", "22222222-2222-4222-8222-222222222222"]));
+  } finally {
+    await database.close();
+  }
+});
+
+test("AS8 the assignable list offers exactly what can be opened — and nothing else", async () => {
+  const database = await createTestDatabase();
+  try {
+    const { db } = database;
+    const { ownerId } = await people(database);
+    const actor = { ...owner, id: ownerId };
+
+    // Four states of the same system, one item each.
+    const published = await db.transaction((tx) =>
+      saveContentDraft(tx, {
+        actor,
+        module: "writing",
+        contentType: "task2",
+        sourceRef: "assignable-published",
+        title: "Published task",
+        payload: { taskType: "task2", category: "education", prompt: "An assignable published prompt, long enough to be real.", targetWordCount: 250 },
+      }),
+    );
+    assert.equal(published.ok, true);
+    if (!published.ok) return;
+    await db.transaction((tx) => publishContentVersion(tx, { actor, versionId: published.version.id, to: "published" }));
+
+    const draft = await db.transaction((tx) =>
+      saveContentDraft(tx, {
+        actor,
+        module: "writing",
+        contentType: "task2",
+        sourceRef: "assignable-draft",
+        title: "Draft only task",
+        payload: { taskType: "task2", category: "education", prompt: "A draft-only prompt that nobody may be given yet.", targetWordCount: 250 },
+      }),
+    );
+    assert.equal(draft.ok, true);
+
+    const archived = await db.transaction((tx) =>
+      saveContentDraft(tx, {
+        actor,
+        module: "writing",
+        contentType: "task2",
+        sourceRef: "assignable-archived",
+        title: "Archived task",
+        payload: { taskType: "task2", category: "education", prompt: "A withdrawn prompt that must not be offered again.", targetWordCount: 250 },
+      }),
+    );
+    assert.equal(archived.ok, true);
+    if (!archived.ok) return;
+    await db.transaction((tx) => publishContentVersion(tx, { actor, versionId: archived.version.id, to: "published" }));
+    await db.transaction((tx) => publishContentVersion(tx, { actor, versionId: archived.version.id, to: "archived" }));
+
+    const scheduled = await db.transaction((tx) =>
+      saveContentDraft(tx, {
+        actor,
+        module: "writing",
+        contentType: "task2",
+        sourceRef: "assignable-scheduled",
+        title: "Scheduled task",
+        payload: { taskType: "task2", category: "education", prompt: "A prompt that opens next month, not now.", targetWordCount: 250 },
+      }),
+    );
+    assert.equal(scheduled.ok, true);
+    if (!scheduled.ok) return;
+    const scheduledAt = new Date(Date.now() + 30 * 24 * 3600 * 1000);
+    const scheduledResult = await db.transaction((tx) =>
+      publishContentVersion(tx, { actor, versionId: scheduled.version.id, to: "scheduled", publishAt: scheduledAt }),
+    );
+    assert.equal(scheduledResult.ok, true);
+
+    const items = await listAssignableContent({ module: "writing" }, db);
+    const refs = items.map((item) => item.sourceRef);
+    assert.ok(refs.includes("assignable-published"), "a published item is offered");
+    assert.ok(!refs.includes("assignable-draft"), "a draft is not offered");
+    assert.ok(!refs.includes("assignable-archived"), "an archived item is not offered");
+    assert.ok(!refs.includes("assignable-scheduled"), "an item that opens later is not offered yet");
+
+    // The item a teacher picks is EXACTLY the revision the service pins.
+    const chosen = items.find((item) => item.sourceRef === "assignable-published")!;
+    const { otherId } = await people(database);
+    const pinned = await db.transaction((tx) =>
+      createAssignment(tx, {
+        actor,
+        title: "From the list",
+        reference: { module: chosen.module, contentType: chosen.contentType, sourceRef: chosen.sourceRef },
+        studentIds: [otherId],
+      }),
+    );
+    assert.equal(pinned.ok, true);
+    if (pinned.ok) assert.equal(pinned.versionId, chosen.versionId, "the offered revision is the one that gets pinned");
+  } finally {
+    await database.close();
+  }
+});
+
+test("AS9 a newer DRAFT revision never displaces the published revision that gets pinned", async () => {
+  const database = await createTestDatabase();
+  try {
+    const { db } = database;
+    const { ownerId, otherId } = await people(database);
+    const actor = { ...owner, id: ownerId };
+
+    const first = await db.transaction((tx) =>
+      saveContentDraft(tx, {
+        actor,
+        module: "writing",
+        contentType: "task2",
+        sourceRef: "assignable-draft-shadow",
+        title: "Version one",
+        payload: { taskType: "task2", category: "education", prompt: "The published revision a learner should receive.", targetWordCount: 250 },
+      }),
+    );
+    assert.equal(first.ok, true);
+    if (!first.ok) return;
+    await db.transaction((tx) => publishContentVersion(tx, { actor, versionId: first.version.id, to: "published" }));
+
+    // Version 2 exists but is only a draft.
+    const second = await db.transaction((tx) =>
+      saveContentDraft(tx, {
+        actor,
+        module: "writing",
+        contentType: "task2",
+        sourceRef: "assignable-draft-shadow",
+        title: "Version two",
+        payload: { taskType: "task2", category: "education", prompt: "A rewritten prompt that is deliberately still a draft.", targetWordCount: 250 },
+      }),
+    );
+    assert.equal(second.ok, true);
+    if (!second.ok) return;
+    assert.equal(second.version.versionNo, 2, "the draft really is revision 2");
+
+    const items = await listAssignableContent({ module: "writing" }, db);
+    const item = items.find((entry) => entry.sourceRef === "assignable-draft-shadow")!;
+    assert.equal(item.versionId, first.version.id, "the published revision is offered");
+    assert.equal(item.versionNo, 1, "not the higher-numbered draft");
+
+    const created = await db.transaction((tx) =>
+      createAssignment(tx, {
+        actor,
+        title: "Pinned to the published revision",
+        reference: { module: "writing", contentType: "task2", sourceRef: "assignable-draft-shadow" },
+        studentIds: [otherId],
+      }),
+    );
+    assert.equal(created.ok, true);
+    if (!created.ok) return;
+    assert.equal(created.versionId, first.version.id, "version 1 is pinned, never the draft");
+    const content = (await assignmentContent(created.assignmentId, db)) as { prompt: string };
+    assert.equal(content.prompt, "The published revision a learner should receive.");
+  } finally {
+    await database.close();
+  }
+});
+
+test("AS10 withdrawing content cannot erase what a learner already did", async () => {
+  const database = await createTestDatabase();
+  try {
+    const { db, query } = database;
+    const { ownerId, otherId } = await people(database);
+    const actor = { ...owner, id: ownerId };
+    const version = await publishedWritingTask(database, actor, "assign-history");
+
+    const created = await db.transaction((tx) =>
+      createAssignment(tx, {
+        actor,
+        title: "History task",
+        reference: { module: "writing", contentType: "task2", sourceRef: "assign-history", versionId: version.id },
+        studentIds: [otherId],
+      }),
+    );
+    assert.equal(created.ok, true);
+    if (!created.ok) return;
+
+    // The learner answers, and their work is recorded against the assignment.
+    await query(`insert into assignment_responses (assignment_id, user_id, content) values ($1, $2, $3)`, [
+      created.assignmentId,
+      otherId,
+      "My synthetic answer to the assigned task.",
+    ]);
+    assert.equal(await db.transaction((tx) => setAssignmentTargetStatus(tx, { assignmentId: created.assignmentId, studentUserId: otherId, status: "completed" })), true);
+    // Idempotent: completing again does not add rows or change the record.
+    assert.equal(await db.transaction((tx) => setAssignmentTargetStatus(tx, { assignmentId: created.assignmentId, studentUserId: otherId, status: "completed" })), true);
+    const targetRows = await query<{ n: number }>(`select count(*)::int as n from assignment_targets where assignment_id = $1`, [created.assignmentId]);
+    assert.equal(targetRows[0]!.n, 1, "one target row per student, no matter how often it is updated");
+    const responses = await query<{ n: number }>(`select count(*)::int as n from assignment_responses where assignment_id = $1`, [created.assignmentId]);
+    assert.equal(responses[0]!.n, 1);
+
+    // Withdraw the whole source: deleting the content row must not reach the
+    // learner's work. Nothing points at a content row by foreign key, by design.
+    await query(`delete from writing_prompts where id = (select target_id from content_versions where id = $1)`, [version.id]);
+
+    const [assignmentRow] = await query<{ n: number }>(`select count(*)::int as n from assignments where id = $1`, [created.assignmentId]);
+    assert.equal(assignmentRow!.n, 1, "the assignment survives its content being withdrawn");
+    const [stillCompleted] = await query<{ status: string; completed_at: Date | null }>(
+      `select status, completed_at from assignment_targets where assignment_id = $1 and student_user_id = $2`,
+      [created.assignmentId, otherId],
+    );
+    assert.equal(stillCompleted!.status, "completed", "the learner's completion is not erased");
+    assert.ok(stillCompleted!.completed_at);
+    const [stillAnswered] = await query<{ n: number }>(`select count(*)::int as n from assignment_responses where assignment_id = $1 and user_id = $2`, [created.assignmentId, otherId]);
+    assert.equal(stillAnswered!.n, 1, "the learner's answer is not erased");
+
+    // And the learner still sees the task, honestly reporting the revision it pinned.
+    const mine = await listAssignmentsForStudent(otherId, db);
+    assert.equal(mine.length, 1);
+    assert.equal(mine[0]!.content.versionId, version.id);
+    assert.equal((await db.select().from(contentVersions).where(eq(contentVersions.id, version.id))).length, 1, "the pinned revision is kept as a snapshot");
   } finally {
     await database.close();
   }

@@ -1,4 +1,4 @@
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, ne } from "drizzle-orm";
 import { db } from "@/db/client";
 import { contentVersions } from "@/db/schema";
 import { AuthoringPayloadError, registerModuleAuthors, resolveModuleAuthor, type PublicationSync } from "@/lib/content/authors";
@@ -298,6 +298,23 @@ export async function publishContentVersion(
     };
   if (synced === "target_missing")
     return { ok: false, issues: [{ code: "no_target", message: "The revision is not attached to any content row." }] };
+
+  // Publishing a revision takes over the publication slot from whichever revision
+  // held it, so at most one revision of an item is published at a time. The older
+  // one is `superseded`, never deleted: attempts bound to it stay readable.
+  if (request.to === "published")
+    await tx
+      .update(contentVersions)
+      .set({ status: "superseded", supersededAt: new Date() })
+      .where(
+        and(
+          eq(contentVersions.module, version.module),
+          eq(contentVersions.contentType, version.contentType),
+          eq(contentVersions.sourceRef, version.sourceRef),
+          eq(contentVersions.status, "published"),
+          ne(contentVersions.id, version.id),
+        ),
+      );
 
   const [updated] = await tx
     .update(contentVersions)

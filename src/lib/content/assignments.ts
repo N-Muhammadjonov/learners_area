@@ -4,6 +4,7 @@ import { assignmentTargets, assignments, contentVersions, teacherStudentLinks, u
 import { contentTypeKey, moduleDescriptor, referenceProblems } from "@/lib/content/taxonomy";
 import { publishedVersion, versionById, versionContent, type VersionReader } from "@/lib/content/versions";
 import { isAdministrator, roleAtLeast } from "@/lib/auth/roles";
+import { registerModuleAuthors, resolveModuleAuthor } from "@/lib/content/authors";
 import type { ImportTransaction } from "@/lib/import/core/dry-run";
 
 /**
@@ -307,6 +308,80 @@ export async function listAssignmentsCreatedBy(actorUserId: string, executor: { 
     byAssignment.set(row.id, entry);
   }
   return [...byAssignment.values()];
+}
+
+export type AssignableItem = {
+  module: string;
+  contentType: string;
+  sourceRef: string;
+  title: string;
+  track: string;
+  /** The revision a new assignment would pin: the newest one a learner could open. */
+  versionId: string;
+  versionNo: number;
+  publicationState: string;
+};
+
+/**
+ * What a teacher may choose from (§24/§41).
+ *
+ * "Assignable" has one meaning, and it is the same meaning `createAssignment`
+ * enforces when a task is actually created: a revision that is PUBLISHED. A draft
+ * is not assignable (nobody could open it), an archived item is not assignable
+ * (it was withdrawn), and a scheduled item is not assignable before its moment
+ * (`publishContentVersion` leaves a scheduled revision in the `draft` version
+ * status, so it is excluded here for the same reason a draft is).
+ *
+ * Per content item the NEWEST published revision wins — a higher-numbered DRAFT
+ * never displaces a published revision, which is exactly the rule
+ * `publishedVersion` applies when the assignment is created. The two are kept in
+ * step deliberately: the list a teacher picks from and the revision that gets
+ * pinned must never disagree, so the tests assert that whatever this returns for
+ * an item is precisely what `createAssignment` pins when asked without a version.
+ *
+ * Foreign/private content is out of scope here by construction: this reads the
+ * shared canonical store, and what a given teacher may set is enforced per student
+ * by `mayAssignTo`.
+ */
+export async function listAssignableContent(
+  filter: { module?: string; contentType?: string } = {},
+  executor: VersionReader = db,
+): Promise<AssignableItem[]> {
+  const rows = await executor
+    .select({
+      module: contentVersions.module,
+      contentType: contentVersions.contentType,
+      sourceRef: contentVersions.sourceRef,
+      title: contentVersions.title,
+      track: contentVersions.track,
+      versionId: contentVersions.id,
+      versionNo: contentVersions.versionNo,
+      publicationState: contentVersions.publicationState,
+    })
+    .from(contentVersions)
+    .where(and(eq(contentVersions.status, "published"), eq(contentVersions.publicationState, "published")))
+    .orderBy(desc(contentVersions.versionNo));
+
+  const byItem = new Map<string, AssignableItem>();
+  for (const row of rows) {
+    if (filter.module && row.module !== filter.module) continue;
+    if (filter.contentType && row.contentType !== filter.contentType) continue;
+    const key = `${contentTypeKey(row.module, row.contentType)}|${row.sourceRef}`;
+    if (byItem.has(key)) continue; // ordered newest-first: the first row is the winner
+    byItem.set(key, {
+      module: row.module,
+      contentType: row.contentType,
+      sourceRef: row.sourceRef,
+      title: row.title,
+      track: row.track,
+      versionId: row.versionId,
+      versionNo: row.versionNo,
+      publicationState: row.publicationState,
+    });
+  }
+  return [...byItem.values()].sort((a, b) =>
+    `${a.module}:${a.contentType}:${a.title}`.localeCompare(`${b.module}:${b.contentType}:${b.title}`),
+  );
 }
 
 export { versionContent };

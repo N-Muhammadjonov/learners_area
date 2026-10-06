@@ -354,8 +354,17 @@ test("AU8 revising a published item creates a new version; the published one is 
     assert.equal(revised.version.versionNo, 2);
     const rows = await versionsOf("writing", "task2", "revise-writing-1", db);
     assert.equal(rows.length, 2, "history is kept, not overwritten");
-    assert.equal(rows.find((row) => row.versionNo === 1)!.status, "superseded");
+    // A DRAFT does not take the publication slot: revision 1 was published and
+    // stays published while revision 2 is only a proposal, so anything set against
+    // it still has something to open. Publication of revision 2 is what supersedes
+    // revision 1 (asserted below).
+    assert.equal(rows.find((row) => row.versionNo === 1)!.status, "published");
     assert.equal(rows.find((row) => row.versionNo === 2)!.publicationState, "draft");
+    const revisedPublisher = await db.transaction((tx) => publishContentVersion(tx, { actor, versionId: revised.version.id, to: "published" }));
+    assert.equal(revisedPublisher.ok, true);
+    const afterPublish = await versionsOf("writing", "task2", "revise-writing-1", db);
+    assert.equal(afterPublish.find((row) => row.versionNo === 1)!.status, "superseded", "publishing revision 2 supersedes revision 1");
+    assert.equal(afterPublish.find((row) => row.versionNo === 2)!.status, "published");
     const items = await listContentItems({ module: "writing" }, db);
     assert.equal(items.filter((item) => item.sourceRef === "revise-writing-1").length, 1, "one ROW per content item");
     assert.equal(items.find((item) => item.sourceRef === "revise-writing-1")!.versions, 2);

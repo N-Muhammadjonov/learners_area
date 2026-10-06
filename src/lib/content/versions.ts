@@ -393,7 +393,15 @@ export async function pinVersion(
   const answerKeyHash = answerKeyHashOf(input.content);
   const published = String(input.publicationState) === "published";
 
-  if (previous && previous.status === "published")
+  // A newer PUBLISHED revision takes over the publication slot, so the older one
+  // becomes `superseded` (kept forever, still readable by anything bound to it).
+  //
+  // A newer DRAFT does NOT: it is a proposal, not a replacement. Superseding on a
+  // draft would leave the item with no published revision at all, so a learner with
+  // work set against it would find nothing to open — and a revision that was live a
+  // moment ago would have silently stopped being live because somebody started
+  // editing. Publication decides who owns the slot; drafting decides nothing.
+  if (previous && previous.status === "published" && published)
     await tx
       .update(contentVersions)
       .set({ status: "superseded", supersededAt: new Date() })
