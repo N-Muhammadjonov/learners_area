@@ -99,8 +99,11 @@ export async function prepareTypingRun(
   if (input.textId) {
     text = all.find((row) => row.id === input.textId);
   } else if (all.length) {
-    const excluded = input.excludeTextId ? all.findIndex((row) => row.id === input.excludeTextId) : -1;
-    text = excluded >= 0 && all.length > 1 ? all[(excluded + 1) % all.length] : all[0];
+    const candidates =
+      input.excludeTextId && all.length > 1
+        ? all.filter((row) => row.id !== input.excludeTextId)
+        : all;
+    text = candidates[Math.floor(Math.random() * candidates.length)] ?? all[0];
   }
   if (!text) return null;
 
