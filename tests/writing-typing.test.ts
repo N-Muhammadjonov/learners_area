@@ -4,6 +4,7 @@ import { readFileSync } from "node:fs";
 import { eq } from "drizzle-orm";
 import { createTestDatabase } from "./support/pglite";
 import {
+  activityEvents,
   typingRunTexts,
   typingRuns,
   users,
@@ -130,11 +131,15 @@ test("TY3 first valid keystroke creates a server-timed run token and finish is i
 
     const rows = await t.db.select().from(typingRuns).where(eq(typingRuns.userId, userId));
     assert.equal(rows.length, 1);
-    const links = await t.db.select().from(typingRunTexts).where(eq(typingRunTexts.runId, rows[0]!.id));
-    assert.equal(links.length, 1);
-    assert.equal(links[0]!.modelTextId, null);
-    assert.equal(links[0]!.typingTextId, prepared.text.id);
-    assert.equal(links[0]!.presetSeconds, 30);
+    const events = await t.db.select().from(activityEvents).where(eq(activityEvents.userId, userId));
+    const typingEvent = events.find((event) => {
+      const payload = event.payload as Record<string, unknown> | null;
+      return event.type === "TYPING_RUN_COMPLETED" && payload?.runId === rows[0]!.id;
+    });
+    assert.ok(typingEvent);
+    const payload = typingEvent!.payload as Record<string, unknown>;
+    assert.equal(payload.typingTextId, prepared.text.id);
+    assert.equal(payload.presetSeconds, 30);
   } finally {
     await t.close();
   }
@@ -186,6 +191,13 @@ test("TY5 forged samples, words and implausible speed are rejected", () => {
   assert.equal(consistencyFromSamples([5, 10]), null);
 });
 
+test("TY5b corrected/backspaced samples remain monotonic and bounded before finish", () => {
+  const source = readFileSync("src/components/writing/TypingTrainer.tsx", "utf8");
+  assert.match(source, /Math\.max\(previous, current\)/);
+  assert.match(source, /\.map\(\(value\) => Math\.min\(value, finalChars\)\)/);
+  assert.match(source, /response\.error === "too_early"/);
+});
+
 test("TY6 visual lines come from measured offsetTop values, never character-count heuristics", () => {
   assert.deepEqual(groupTypingLines([0, 0, 0, 48, 48, 96]), [
     { start: 0, end: 3 },
@@ -207,9 +219,12 @@ test("TY7 client contract has no textarea or Start button and blocks paste/drop"
   assert.match(source, /spellCheck=\{false\}/);
   assert.match(source, /autoCorrect="off"/);
   assert.match(source, /autoCapitalize="off"/);
-  assert.match(source, /const rollingLineIndexes = \[[\s\S]*visibleStart,[\s\S]*visibleStart \+ 1,[\s\S]*visibleStart \+ 2,[\s\S]*visibleStart \+ 3/);
-  assert.match(source, /translateY\(-\\\$\{lineHeight\}px\)/, "whole line stack moves upward");
-  assert.doesNotMatch(source, /typing-word-hide|typing-word-show/, "no per-word fade replacement remains");
+  assert.match(source, /const rollingLineIndexes = \[[\s\S]*windowStart,[\s\S]*windowStart \+ 1,[\s\S]*windowStart \+ 2,[\s\S]*windowStart \+ 3/);
+  assert.match(source, /const fraction = topRange/);
+  assert.match(source, /typing-word-hide/);
+  assert.match(source, /typing-word-show/);
+  assert.match(source, /translateY\(-\\\$\{lineHeight\}px\)/, "only one full visual line shifts upward");
+  assert.match(source, /flushSync\(\(\) => setWindowStart\(nextStart\)\)/, "line-window rebase happens in the same painted frame");
   assert.match(source, /ResizeObserver/);
   assert.match(source, /window\.clearInterval\(timer\.current\)/, "run timer is explicitly cleared");
   assert.match(source, /window\.clearTimeout\(lineTransitionTimer\.current\)/, "line transition timer is cleared");
@@ -222,7 +237,8 @@ test("TY7b timer is above the typing stage and only three visual rows are visibl
   const css = readFileSync("src/app/globals.css", "utf8");
   assert.ok(source.indexOf("data-typing-timer") < source.indexOf("data-typing-stage"));
   assert.match(css, /\.typing-stage \{[\s\S]*height: calc\(var\(--typing-line-height\) \* 3\)/);
-  assert.doesNotMatch(css, /typing-row-top|typing-row-bottom|typing-word-hide|typing-word-show/);
+  assert.match(css, /\.typing-row-top \.typing-word-hide/);
+  assert.match(css, /\.typing-row-bottom \.typing-word-show/);
 });
 
 test("TY7c a persisted run is returned even if history refresh fails", () => {
@@ -279,9 +295,13 @@ test("TY9 legacy model-text history still records beside new typing-text history
     assert.ok(stats.history.some((row) => row.title === newPrepared.text.title));
 
     const links = await t.db.select().from(typingRunTexts);
-    assert.equal(links.length, 2);
-    assert.ok(links.some((row) => row.modelTextId === model!.id && row.typingTextId === null));
-    assert.ok(links.some((row) => row.modelTextId === null && row.typingTextId === newPrepared.text.id));
+    assert.equal(links.length, 1);
+    assert.ok(links.some((row) => row.modelTextId === model!.id));
+    const events = await t.db.select().from(activityEvents).where(eq(activityEvents.userId, userId));
+    assert.ok(events.some((event) => {
+      const payload = event.payload as Record<string, unknown> | null;
+      return event.type === "TYPING_RUN_COMPLETED" && payload?.typingTextId === newPrepared.text.id;
+    }));
   } finally {
     await t.close();
   }
