@@ -2551,6 +2551,8 @@ const uz: Dictionary = {
       presetFull: "To'liq",
       next: "Keyingi matn",
       repeat: "Shu matnni takrorlash",
+      pause: "To'liq rejimni pauza qilish",
+      resume: "To'liq rejimni davom ettirish",
       loading: "Keyingi matn yuklanmoqda…",
       saving: "Natija saqlanmoqda…",
       error: "Natijani saqlab bo'lmadi. Takrorlash yoki Keyingi matnni tanlab yana urinib ko'ring.",
