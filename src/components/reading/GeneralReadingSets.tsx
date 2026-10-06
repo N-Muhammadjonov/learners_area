@@ -21,12 +21,12 @@ export function GeneralReadingSets({ dict, sets, assessment = false }: { dict: D
           <p className="text-xs text-ink-500">{!assessment && t.progress.replace("{checked}", String(set.checked)).replace("{total}", String(set.passages.length))}</p>
           <div className="flex flex-wrap gap-2">
             {!assessment && set.passages.map((passage) => (
-              <Link key={passage.passageNo} prefetch={false} className="btn-secondary" href={`/reading/general/${set.id}?passage=${passage.passageNo}`} data-general-mode={passage.passageNo}>
+              <Link key={passage.passageNo} prefetch={false} className="btn-secondary" href={`/app/reading/general/${set.id}?passage=${passage.passageNo}`} data-general-mode={passage.passageNo}>
                 {t.passageN.replace("{n}", String(passage.passageNo))}
               </Link>
             ))}
             {(assessment ? set.passages.length === 3 : set.passages.length > 1) && (
-              <Link prefetch={false} className="btn-primary" href={assessment ? `/reading/academic/${set.id}` : `/reading/general/${set.id}?passage=full`} data-general-mode="full">{t.full}</Link>
+              <Link prefetch={false} className="btn-primary" href={assessment ? `/app/reading/academic/${set.id}` : `/app/reading/general/${set.id}?passage=full`} data-general-mode="full">{t.full}</Link>
             )}
           </div>
         </li>

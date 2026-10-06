@@ -177,7 +177,7 @@ test("7 revisit route returns to the set and passage", { skip: !enabled }, async
   const g = await generalSet(); const u = await learner();
   const saved = await save(u, "reading", g.ids[3], at(await g.occ(3), P3, "bank")!.id);
   const contexts = await listVocabularyContexts(u.id, saved.ids[0]!);
-  assert.equal(contexts?.contexts[0]?.revisitHref, `/reading/general/${g.setId}?passage=3`);
+  assert.equal(contexts?.contexts[0]?.revisitHref, `/app/reading/general/${g.setId}?passage=3`);
 });
 
 test("8 dedup by learner+sense across General P1 and P3 (one item, two contexts)", { skip: !enabled }, async () => {

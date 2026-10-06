@@ -3,7 +3,7 @@ import test from "node:test";
 import { readFileSync } from "node:fs";
 import { JSDOM } from "jsdom";
 import en from "../../src/lib/i18n/en";
-const dom = new JSDOM('<div id="root"></div>', { url: "http://localhost/video-lessons/v1" });
+const dom = new JSDOM('<div id="root"></div>', { url: "http://localhost/app/video-lessons/v1" });
 for (const key of ["window", "document", "navigator", "HTMLElement", "HTMLInputElement", "HTMLTextAreaElement", "HTMLSelectElement", "HTMLAnchorElement", "Element", "Node", "Event", "MouseEvent", "KeyboardEvent"] as const) Object.defineProperty(globalThis, key, { value: dom.window[key], configurable: true });
 Object.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true, self: dom.window });
 const React = await import("react"); Object.assign(globalThis, { React });
@@ -49,7 +49,8 @@ function mockFetch(respond: (call: Call, index: number) => Promise<Response> | R
   const calls: Call[] = [];
   const original = globalThis.fetch;
   globalThis.fetch = (async (url: unknown, init: RequestInit = {}) => {
-    if (!String(url).includes("/progress")) return Response.json({ ok: true });
+    // API path, not a page URL: the endpoint is /api/video-lessons/<id>/progress.
+    if (!String(url).includes("/api/video-lessons/") || !String(url).endsWith("/progress")) return Response.json({ ok: true });
     const call = { body: JSON.parse(String(init.body)), init };
     calls.push(call);
     return respond(call, calls.length - 1);
@@ -74,8 +75,8 @@ test("R4 course mode still renders authored Comprehension and gap-fill", () => m
   assert.deepEqual(tabIds(), ["comprehension", "gap", "opinion", "summary"]);
 }));
 test("mode is explicit at both call sites and authored data determines question tabs", () => {
-  assert.match(read("src/app/(app)/video-lessons/[id]/page.tsx"), /mode="standalone"/);
-  assert.match(read("src/app/(app)/courses/ielts/lessons/[lessonId]/page.tsx"), /mode="course"/);
+  assert.match(read("src/app/app/(shell)/video-lessons/[id]/page.tsx"), /mode="standalone"/);
+  assert.match(read("src/app/app/(shell)/courses/ielts/lessons/[lessonId]/page.tsx"), /mode="course"/);
   const src = read("src/components/courses/VideoLessonStudio.tsx");
   assert.match(src, /if \(comprehension\.length > 0\) list\.push\("comprehension"\);/);
   assert.match(src, /if \(gapFill\.length > 0\) list\.push\("gap"\);/);
@@ -253,7 +254,7 @@ test("O1-O6 origin resolution is exact, safe and never *", () => {
   assert.equal(resolveEmbedOrigin(H({ host: "real.example", "x-forwarded-host": "evil.example", "x-forwarded-proto": "https" }), null, {}), "https://real.example");
 });
 test("O7/O8 both player routes pass the resolved origin; the player emits it and never *", async () => {
-  for (const page of ["src/app/(app)/video-lessons/[id]/page.tsx", "src/app/(app)/courses/ielts/lessons/[lessonId]/page.tsx"]) {
+  for (const page of ["src/app/app/(shell)/video-lessons/[id]/page.tsx", "src/app/app/(shell)/courses/ielts/lessons/[lessonId]/page.tsx"]) {
     assert.match(read(page), /embedOrigin=\{resolveEmbedOrigin\(/);
   }
   for (const mode of ["standalone", "course"] as const) {
@@ -343,7 +344,7 @@ test("standalone Vocabulary renders the authored sense and saves its occurrence 
   const original = globalThis.fetch;
   const calls: {url: string; body: unknown}[] = [];
   globalThis.fetch = (async (url: unknown, init: RequestInit = {}) => {
-    if (String(url).endsWith('/vocabulary')) calls.push({url: String(url), body: JSON.parse(String(init.body))});
+    if (String(url).endsWith('/video-lessons/v1/vocabulary')) calls.push({url: String(url), body: JSON.parse(String(init.body))});
     return Response.json({ok: true});
   }) as typeof fetch;
   try {

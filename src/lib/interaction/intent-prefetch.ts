@@ -1,6 +1,6 @@
 // Only module landing routes. Never prefetch attempts, answers, admin records,
 // evaluations or arbitrary private identifiers through this policy.
-const LANDINGS = new Set(["/dashboard", "/reading", "/listening", "/writing", "/speaking", "/grammar", "/vocabulary", "/video-lessons", "/progress"]);
+const LANDINGS = new Set(["/app/dashboard", "/app/reading", "/app/listening", "/app/writing", "/app/speaking", "/app/grammar", "/app/vocabulary", "/app/video-lessons", "/app/progress"]);
 export function eligibleIntentTarget(raw: string, origin: string, current: string): string | null {
   try {
     const destination = new URL(raw, origin);

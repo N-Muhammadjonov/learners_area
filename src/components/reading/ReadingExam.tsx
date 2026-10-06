@@ -411,7 +411,7 @@ export function ReadingExam({
           </span>
         </span>
         <SaveBadge dict={dict} state={saveState} savedAt={savedAt} onRetry={() => void save()} />
-        <Link href="/reading" className="btn-secondary" data-practice-exit>
+        <Link href="/app/reading" className="btn-secondary" data-practice-exit>
           <IconBack className="text-[18px]" />
           {t.exit}
         </Link>

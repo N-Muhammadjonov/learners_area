@@ -15,7 +15,7 @@ export function StartStealingButton({ modelTextId, label, errorLabel }: { modelT
       if (!res) return;
     const data = res?.ok ? ((res.ok ? res.data : null) as { id: string }) : null;
     setBusy(false);
-    if (data?.id) router.push(`/writing/language-stealing/${data.id}`); else { setError(true); setBusy(false); }
+    if (data?.id) router.push(`/app/writing/language-stealing/${data.id}`); else { setError(true); setBusy(false); }
   };
   return (
     <span className="flex flex-col">

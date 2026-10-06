@@ -94,8 +94,8 @@ const PAGE_SIZE = 25;
  * as importable-and-validate-only rather than linked to a page that does not exist.
  */
 const IMPORT_PATHS: Record<string, string> = {
-  reading: "/admin/reading/import",
-  listening: "/admin/listening/import",
+  reading: "/app/admin/reading/import",
+  listening: "/app/admin/listening/import",
 };
 
 /** The four states, in workflow order — the same vocabulary `dict.admin.publication` labels. */

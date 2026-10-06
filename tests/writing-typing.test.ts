@@ -282,7 +282,7 @@ test("TY7c a persisted run is returned even if history refresh fails", () => {
 });
 
 test("TY7d learner-facing Typing removes agent-only eyebrow/body copy and Full exposes icon-only pause", () => {
-  const page = readFileSync("src/app/(app)/writing/page.tsx", "utf8");
+  const page = readFileSync("src/app/app/(shell)/writing/page.tsx", "utf8");
   const ui = readFileSync("src/components/writing/TypingTrainer.tsx", "utf8");
   assert.doesNotMatch(page, /\{t\.eyebrow\}/);
   assert.doesNotMatch(page, /\{t\.body\}/);

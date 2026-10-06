@@ -25,7 +25,7 @@ export function FullExamStart({ id, title, dict }: { id: string; title: string; 
       );
       if (!result.ok) throw new Error("start_failed");
       const data = result.data;
-      router.push(`/listening/attempts/${data.id}`);
+      router.push(`/app/listening/attempts/${data.id}`);
     } catch {
       setError(t.failed);
       flight.current = false;
@@ -45,7 +45,7 @@ export function FullExamStart({ id, title, dict }: { id: string; title: string; 
   }
   return (
     <div className="listening-workspace card mx-auto max-w-3xl space-y-5">
-      <BackLink fallbackHref={`/listening/tests/${id}`} label={t.back} />
+      <BackLink fallbackHref={`/app/listening/tests/${id}`} label={t.back} />
       <h1 className="font-display text-2xl">{t.title.replace("{title}", title)}</h1>
       <p>{t.rules}</p>
       <button type="button" className="btn-secondary" onClick={soundCheck}>

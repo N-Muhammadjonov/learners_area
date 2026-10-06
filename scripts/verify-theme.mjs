@@ -42,11 +42,11 @@ console.log(`\nLearners Area — Night Mode and layout against ${BASE}\n`);
 const cookie = await login("demo.student@learnersarea.uz", "Student12345!");
 check("the student can sign in", Boolean(cookie));
 
-const day = await html("/dashboard", cookie);
+const day = await html("/app/dashboard", cookie);
 check("day mode is the default", day.text.includes('data-theme="day"'), "theme attribute missing");
 check("the report control ships with the shell", day.text.includes("data-report-toggle"));
 
-const night = await html("/dashboard", `${cookie}; la_theme=night`);
+const night = await html("/app/dashboard", `${cookie}; la_theme=night`);
 check("the night theme is rendered on the server", night.text.includes('data-theme="night"'));
 check("the server render already carries the night theme (no flash path)", night.status === 200);
 
@@ -86,23 +86,23 @@ check(
 
 // Every private page must survive a 430-wide phone: the shell keeps its menu,
 // and the pages that own a table wrap it in a scroller.
-const pages = ["/dashboard", "/vocabulary", "/reading", "/listening", "/grammar", "/writing", "/speaking", "/progress", "/assignments"];
+const pages = ["/app/dashboard", "/app/vocabulary", "/app/reading", "/app/listening", "/app/grammar", "/app/writing", "/app/speaking", "/app/progress", "/app/assignments"];
 for (const path of pages) {
   const page = await html(path, cookie);
   const width = page.status === 200 ? "" : `status ${page.status}`;
   check(`${path} renders`, page.status === 200, width);
 }
 
-const vocabulary = await html("/vocabulary", cookie);
+const vocabulary = await html("/app/vocabulary", cookie);
 check("the vocabulary studio is a client surface with panels", vocabulary.text.includes("data-vocab-studio") || vocabulary.text.includes("vocabulary"));
 
-const grammar = await html("/grammar", cookie);
+const grammar = await html("/app/grammar", cookie);
 check("the grammar list wraps its scores", grammar.text.includes("data-topic-score="));
 
-const listeningList = await html("/listening", cookie);
+const listeningList = await html("/app/listening", cookie);
 check("the listening list renders cards", listeningList.text.includes("card"));
 
-const dashboard = await html("/dashboard", cookie);
+const dashboard = await html("/app/dashboard", cookie);
 check("the dashboard keeps its navigation on small screens", dashboard.text.includes("data-report-toggle"));
 
 // The mobile drawer is built from the same navigation tree as the desktop rail.
@@ -188,7 +188,7 @@ check(
 
 // The states a theme most often forgets: an empty list, a loading surface and a
 // crash boundary all have to be themed too, or Night Mode flashes a white page.
-check("the error boundary is themed by tokens", read("src/app/(app)/error.tsx").includes("text-ink-900"));
+check("the error boundary is themed by tokens", read("src/app/app/(shell)/error.tsx").includes("text-ink-900"));
 const emptyStates = tsx.filter((f) => /data-[a-z-]*empty/.test(read(f)));
 check(`empty states are rendered with tokens (${emptyStates.length} surfaces)`, emptyStates.length > 0);
 const loadingFiles = sources.filter((f) => f.endsWith("loading.tsx"));

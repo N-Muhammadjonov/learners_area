@@ -120,12 +120,13 @@ test("answers autosave per passage, Check shows learning results with evidence; 
       assert.equal(document.querySelectorAll("input[name='q-q1a']").length, 3);
       await act(async () => radio.click());
       await tick(800);
-      const save = n.calls.find((c) => c.url.includes("/progress"))!;
+      // API path, not a page URL: the endpoint is /api/reading/general/progress.
+      const save = n.calls.find((c) => c.url.includes("/api/reading/general/progress"))!;
       assert.deepEqual(save.body, { passageId: pid(1), answers: { q1a: "true" }, check: false });
       await act(async () => (document.querySelector("input[name='q-q1b'][value='A shop']") as HTMLInputElement).click());
       await act(async () => (document.querySelector("[data-general-check]") as HTMLButtonElement).click());
       await tick();
-      const check = n.calls.filter((c) => c.url.includes("/progress")).at(-1)!;
+      const check = n.calls.filter((c) => c.url.includes("/api/reading/general/progress")).at(-1)!;
       assert.deepEqual(check.body, { passageId: pid(1), answers: { q1a: "true", q1b: "A shop" }, check: true });
       assert.equal(document.querySelectorAll("[data-general-result='correct']").length, 1);
       assert.equal(document.querySelectorAll("[data-general-result='incorrect']").length, 1);
@@ -152,7 +153,7 @@ test("learner-facing text shows no internal ids or enum names (en + uz Latin)", 
   }
   await mount(React.createElement(GeneralReadingSets, { dict: en, sets: [{ id: SET, title: "Set one", description: null, level: "B1", passages: [{ passageNo: 1, title: "A" }, { passageNo: 2, title: "B" }, { passageNo: 3, title: "C" }], started: 0, checked: 0 }] }), async () => {
     const hrefs = Array.from(document.querySelectorAll("a")).map((a) => a.getAttribute("href"));
-    for (const p of ["1", "2", "3", "full"]) assert.ok(hrefs.includes(`/reading/general/${SET}?passage=${p}`), p);
+    for (const p of ["1", "2", "3", "full"]) assert.ok(hrefs.includes(`/app/reading/general/${SET}?passage=${p}`), p);
   });
 });
 

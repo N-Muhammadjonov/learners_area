@@ -47,7 +47,7 @@ declare global {
  *
  * The numbers, and why each one:
  *
- *   max 5                      A `/reading` render needs at most three
+ *   max 5                      A `/app/reading` render needs at most three
  *                              connections at once (identity, counts, list), so
  *                              five leaves room for a second concurrent request
  *                              without letting one instance take ten of a

@@ -28,7 +28,7 @@ export function TranslationStartForm({ dict, sets }: { dict: Dictionary; sets: S
       const res = await request<Record<string, unknown>>("/api/writing/translation", {method: "POST", timeoutMs: 25000, body: payload});
       if (!res) return;
       const data = (res.ok ? res.data : null) as { id?: string } | null;
-      if (res.ok && data?.id) { setBusy(false); router.push(`/writing/translation/${data.id}`); return; }
+      if (res.ok && data?.id) { setBusy(false); router.push(`/app/writing/translation/${data.id}`); return; }
       setError(res.status === 404 ? t.noMatch : t.startError);
     } catch { setError(t.startError); }
     setBusy(false);

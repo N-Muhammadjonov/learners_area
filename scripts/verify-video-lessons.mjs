@@ -161,7 +161,7 @@ try {
   });
 
   await check("the student page renders the lesson inside Learners Area", async () => {
-    const page = await student.request(`/courses/ielts/lessons/${lessonId}`, { raw: true });
+    const page = await student.request(`/app/courses/ielts/lessons/${lessonId}`, { raw: true });
     assert.equal(page.status, 200);
     assert.match(page.text, /data-video-lesson=/, "the studio must be rendered");
     assert.match(page.text, /youtube-nocookie\.com\/embed\/dQw4w9WgXcQ/, "the player is embedded");
@@ -173,19 +173,19 @@ try {
   });
 
   await check("the raw provider link never appears before the video is blocked", async () => {
-    const page = await student.request(`/courses/ielts/lessons/${lessonId}`, { raw: true });
+    const page = await student.request(`/app/courses/ielts/lessons/${lessonId}`, { raw: true });
     const watchLinks = page.text.match(/https:\/\/www\.youtube\.com\/watch/g) ?? [];
     assert.equal(watchLinks.length, 0, "the fallback link only exists once the player reports a failure");
   });
 
   await check("an anonymous visitor cannot reach the lesson", async () => {
-    const res = await anonymous.request(`/courses/ielts/lessons/${lessonId}`, { raw: true });
+    const res = await anonymous.request(`/app/courses/ielts/lessons/${lessonId}`, { raw: true });
     assert.ok(res.status === 307 || res.status === 302, `expected a redirect, got ${res.status}`);
   });
 
   await check("a PENDING applicant cannot reach the lesson", async () => {
     const pending = await new Client().login("pending.student@learnersarea.uz", "Student12345!");
-    const res = await pending.request(`/courses/ielts/lessons/${lessonId}`, { raw: true });
+    const res = await pending.request(`/app/courses/ielts/lessons/${lessonId}`, { raw: true });
     assert.ok(res.status === 307 || res.status === 302, `expected a redirect, got ${res.status}`);
     assert.ok((res.headers.get("location") ?? "").includes("/pending"), res.headers.get("location") ?? "");
   });

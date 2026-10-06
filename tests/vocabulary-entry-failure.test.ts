@@ -7,7 +7,7 @@ const ROOT = new URL("..", import.meta.url).pathname;
 const read = (path: string) => readFileSync(join(ROOT, path), "utf8");
 
 test("Vocabulary route performs only server identity/locale work before the client frame", () => {
-  const page = read("src/app/(app)/vocabulary/page.tsx");
+  const page = read("src/app/app/(shell)/vocabulary/page.tsx");
   const studio = read("src/components/vocabulary/VocabStudio.tsx");
   assert.match(page, /Promise\.all\(\[requireActiveUser\(\), getLocale\(\), searchParams\]\)/);
   assert.doesNotMatch(page, /listLibrary|listDue|listFolders|getStanding|listSentenceBank/);

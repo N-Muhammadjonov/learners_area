@@ -26,7 +26,7 @@ import { timed } from "@/lib/observability/timing";
  * ---------------------------------------------------------------------------
  * Round trips
  * ---------------------------------------------------------------------------
- * The hub used to open `/reading` with twelve queries in five sequential waves,
+ * The hub used to open `/app/reading` with twelve queries in five sequential waves,
  * one of them a full scan of `reading_questions` grouped by passage just to
  * place a number on twenty-four cards. Against a database next door that is
  * invisible; against one 250 ms away it is a page the owner experiences as a

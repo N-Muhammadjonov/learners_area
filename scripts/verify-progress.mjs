@@ -40,7 +40,7 @@ await db.connect();
 
 const cookie = await login("demo.student@learnersarea.uz", "Student12345!");
 const userId = (await db.query("select id from users where email = 'demo.student@learnersarea.uz'")).rows[0].id;
-const progress = await page("/progress", cookie);
+const progress = await page("/app/progress", cookie);
 check("the progress page renders", progress.status === 200, `status ${progress.status}`);
 check("it groups the figures by module", progress.text.includes("data-progress-modules"));
 check("it states the recording/transcript position for Speaking", progress.text.includes("data-progress-note"));
@@ -118,7 +118,7 @@ check(
 
 // A fresh account must see zeros and honest empty values, never invented bands.
 const freshCookie = await login("new.student@learnersarea.uz", "Student12345!");
-const fresh = await page("/progress", freshCookie);
+const fresh = await page("/app/progress", freshCookie);
 check("a fresh account sees the page too", fresh.status === 200);
 // Only what is *rendered* counts — the serialized i18n dictionary in the RSC
 // payload legitimately contains strings like "…opens at 80%…".
@@ -131,7 +131,7 @@ check(
   `rendered text: ${(freshBody.match(/[0-9]{1,3}%|\b[0-9]\.[05]\b/g) ?? []).join(", ")}`
 );
 
-check("an anonymous visitor cannot read progress", (await page("/progress")).status !== 200);
+check("an anonymous visitor cannot read progress", (await page("/app/progress")).status !== 200);
 
 await db.end();
 

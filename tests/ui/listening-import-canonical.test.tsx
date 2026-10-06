@@ -216,7 +216,7 @@ test("UI6 dry run comes first; the Import button only unlocks after it passed, a
     const result = q("[data-canonical-import-result]");
     assert.equal(result.getAttribute("data-canonical-import-result"), "created");
     assert.match(result.textContent ?? "", new RegExp(en.contentImport.createdDraft));
-    assert.equal(q("[data-canonical-import-result] a").getAttribute("href"), "/listening/tests/8f2d0f7e-1c2b-4b3a-9f4e-2f9a6d1b7c33");
+    assert.equal(q("[data-canonical-import-result] a").getAttribute("href"), "/app/listening/tests/8f2d0f7e-1c2b-4b3a-9f4e-2f9a6d1b7c33");
   });
 });
 

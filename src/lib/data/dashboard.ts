@@ -65,7 +65,7 @@ async function lastActivity(userId: string) {
 
   const candidates = [
     ...attempts.map((entry) => ({ module: entry.kind, at: entry.occurredAt, href: entry.href })),
-    vocabulary[0] && { module: "vocabulary" as const, at: vocabulary[0].at, href: "/vocabulary" },
+    vocabulary[0] && { module: "vocabulary" as const, at: vocabulary[0].at, href: "/app/vocabulary" },
   ].filter(Boolean) as { module: string; at: Date; href: string }[];
 
   if (candidates.length === 0) return null;

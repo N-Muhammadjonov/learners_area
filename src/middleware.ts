@@ -17,14 +17,30 @@ import { applySecurityHeaders, buildCsp } from "@/lib/http/security-headers";
  * deliberately *not* the authorization layer. Real authorization happens in the
  * Node runtime on every request:
  *   src/lib/auth/current-user.ts   (role + account status, straight from the DB)
- *   src/app/(app)/layout.tsx       (the private-area gate)
+ *   src/app/app/layout.tsx         (the /app namespace access gate)
  *   every /api route               (requireActiveUser / requireAdministrator …)
  */
 
-/** Areas that require an account at all — the coarse, cookie-level check. */
+/**
+ * Areas that require an account at all — the coarse, cookie-level check.
+ *
+ * `/app` is the canonical authenticated namespace. The historical top-level
+ * module paths stay listed as well: they are redirected to `/app/...` by
+ * next.config.mjs, and the coarse check must run before that redirect so an
+ * anonymous visitor is sent to the login page (with `next`) rather than being
+ * bounced through a redirect to a login prompt they did not ask for.
+ */
 const PROTECTED_PREFIXES = [
-  "/dashboard",
+  // Canonical authenticated namespace.
+  "/app",
+  // Public-but-account-gated surfaces that stay outside /app.
   "/onboarding",
+  "/pending",
+  // Historical top-level module paths. next.config.mjs redirects them to
+  // /app/...; listing them here too means the coarse session check applies
+  // whichever layer sees the request first, so an anonymous visitor reaches
+  // /login?next=… instead of a redirect chain.
+  "/dashboard",
   "/courses",
   "/writing",
   "/vocabulary",
@@ -37,7 +53,6 @@ const PROTECTED_PREFIXES = [
   "/assignments",
   "/progress",
   "/live-classes",
-  "/pending",
   "/teacher",
   "/admin",
   "/owner",

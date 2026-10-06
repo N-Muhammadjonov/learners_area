@@ -177,7 +177,7 @@ await check("a submitted essay is evaluated and labelled with its real evaluator
 });
 
 await check("the submission page repeats the stored evaluator label", async () => {
-  const page = await student.request(`/writing/submissions/${createdSubmissionId}`);
+  const page = await student.request(`/app/writing/submissions/${createdSubmissionId}`);
   assert.equal(page.status, 200);
   assert.match(String(page.data), /data-checked-by="/);
   assert.match(String(page.data), /Checked by/);
@@ -210,14 +210,14 @@ await check("weakness tracking receives the categories the evaluator reported", 
 });
 
 await check("the Coach dashboard renders the evaluated work and its evaluator", async () => {
-  const page = await student.request("/coach");
+  const page = await student.request("/app/coach");
   assert.equal(page.status, 200);
   assert.match(String(page.data), /Checked by/);
   assert.match(String(page.data), /data-checked-by="/);
 });
 
 await check("the Coach recommends the practice the weak signals point at", async () => {
-  const page = await student.request("/coach");
+  const page = await student.request("/app/coach");
   assert.match(String(page.data), /Start practising/, "an open weakness must produce a practice action");
   const cards = String(page.data).split('data-study-recommendation="').slice(1);
   const areas = cards.map((card) => card.slice(0, card.indexOf('"'))).map((area) => area.split("\\")[0]);
@@ -405,7 +405,7 @@ await check("another student cannot attach a transcript to someone else's attemp
 // --- Privacy ----------------------------------------------------------------
 
 await check("no credential or provider secret reaches a rendered page", async () => {
-  const pages = ["/coach", "/assignments", "/dashboard", "/writing/history"];
+  const pages = ["/app/coach", "/app/assignments", "/app/dashboard", "/app/writing/history"];
   const forbidden = ["AUTH_SECRET", "R2_SECRET_ACCESS_KEY", "DATABASE_URL=", "AI_PRIMARY_PROVIDER"];
   for (const path of pages) {
     const res = await student.request(path);
@@ -420,7 +420,7 @@ await check("no credential or provider secret reaches a rendered page", async ()
 await check("a student's submission is not readable through another account", async () => {
   // A teacher is authorized to review, but this endpoint is scoped to the
   // owner, so the row must not exist for them either.
-  const page = await teacher.request(`/writing/submissions/${createdSubmissionId}`);
+  const page = await teacher.request(`/app/writing/submissions/${createdSubmissionId}`);
   assert.equal(page.status, 404, "someone else's submission must not exist for this account");
   const direct = await student2.request(`/api/writing/submissions/${createdSubmissionId}`, {
     method: "PATCH",

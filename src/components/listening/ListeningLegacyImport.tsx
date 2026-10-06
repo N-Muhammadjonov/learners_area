@@ -304,7 +304,7 @@ export function ListeningLegacyImport({ dict }: { dict: Dictionary }) {
       {id && (
         <p role="status">
           {t.saved}{" "}
-          <Link className="btn-secondary" href={`/listening/tests/${id}`}>{t.open}</Link>
+          <Link className="btn-secondary" href={`/app/listening/tests/${id}`}>{t.open}</Link>
         </p>
       )}
     </div>

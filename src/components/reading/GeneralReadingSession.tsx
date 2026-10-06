@@ -84,10 +84,10 @@ export function GeneralReadingSession({ dict, setId, setTitle, passages, initial
   return (
     <div className="mx-auto flex max-w-[1440px] flex-col gap-5" data-general-reading data-general-mode={mode}>
       <header className="flex flex-col gap-2">
-        <Link href="/reading/general" prefetch={false} className="link-inline w-fit text-sm">{t.back}</Link>
+        <Link href="/app/reading/general" prefetch={false} className="link-inline w-fit text-sm">{t.back}</Link>
         <h1 className="section-title">{setTitle}</h1>
         <p className="body-text text-sm" data-learning-note>{t.learningNote}</p>
-        <Link href={`/reading/general/${setId}`} prefetch={false} className="link-inline w-fit text-xs">{t.changeMode}</Link>
+        <Link href={`/app/reading/general/${setId}`} prefetch={false} className="link-inline w-fit text-xs">{t.changeMode}</Link>
       </header>
 
       {mode === "full" && passages.length > 1 && (

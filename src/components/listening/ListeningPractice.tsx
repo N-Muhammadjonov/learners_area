@@ -18,7 +18,7 @@ export function ListeningPractice({ id,title,kind,questions,audioUrl,initial,dic
   catch {setError(dict.common.error);}finally {flight.current=false;setBusy(false);}
  }
  const feedback=result.find(row=>row.number===q?.number);
- return <div className="listening-workspace mx-auto max-w-5xl space-y-5"><Link className="btn-secondary inline-flex" href={`/listening/tests/${id}`}>{dict.fullListeningHub.examStart.back}</Link><h1 className="font-display text-3xl">{title} · {t[kind]}</h1>
+ return <div className="listening-workspace mx-auto max-w-5xl space-y-5"><Link className="btn-secondary inline-flex" href={`/app/listening/tests/${id}`}>{dict.fullListeningHub.examStart.back}</Link><h1 className="font-display text-3xl">{title} · {t[kind]}</h1>
  {audioUrl&&<audio controls ref={player} src={audioUrl} preload="metadata" className="w-full" onTimeUpdate={()=>{if(clipEnd.current!==null&&player.current&&player.current.currentTime>=clipEnd.current){player.current.pause();clipEnd.current=null;}}}/>}
  {!q?<p className="card p-5">{t.weakEmpty}</p>:<section className="card space-y-4 p-5"><p className="text-sm">{index+1} / {questions.length} · Q{q.number}</p><h2 className="text-xl"><ClickableText dict={dict} text={q.text} sourceType="listening" sourceId={id} lexicalAssistance catalogueLookup /></h2><p>{q.instruction}</p>
  {kind==="completion"&&<label className="block">{t.prediction}<input className="input mt-2" value={prediction} onChange={e=>setPrediction(e.target.value)} maxLength={300}/></label>}

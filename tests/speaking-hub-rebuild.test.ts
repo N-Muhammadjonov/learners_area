@@ -9,11 +9,11 @@ import en from "../src/lib/i18n/en";
 import uz from "../src/lib/i18n/uz";
 
 const read = (p: string) => readFileSync(p, "utf8");
-const page = (r: string) => read(`src/app/(app)/${r}/page.tsx`);
+const page = (r: string) => read(`src/app/app/(shell)/${r}/page.tsx`);
 
 test("S1 Speaking hub has exactly four entries in owner order", () => {
   assert.deepEqual(SPEAKING_HUB_CARDS.map((c) => c.key), ["partner", "practice", "ai", "lessons"]);
-  assert.deepEqual(SPEAKING_HUB_CARDS.map((c) => c.href), ["/speaking/live-partner", "/speaking/practice", "/speaking/ai", "/speaking/lessons"]);
+  assert.deepEqual(SPEAKING_HUB_CARDS.map((c) => c.href), ["/app/speaking/live-partner", "/app/speaking/practice", "/app/speaking/ai", "/app/speaking/lessons"]);
   for (const d of [en, uz]) for (const c of SPEAKING_HUB_CARDS) {
     const card = d.speakingHub.cards[c.key];
     for (const v of Object.values(card)) assert.ok(v.trim().length > 0);
@@ -35,21 +35,21 @@ test("S2 the hub has no Shadowing entry, no material feed and no 'No materials' 
 test("S3 Speaking lessons excludes the retired Shadowing entry", () => {
   const lessons = page("speaking/lessons");
   assert.match(lessons, /listActiveMaterialsForEntry\(\)/);
-  assert.doesNotMatch(lessons, /href="\/speaking\/shadowing"/);
+  assert.doesNotMatch(lessons, /href="\/app\/speaking\/shadowing"/);
   assert.match(lessons, /lessonsEmptyTitle/);
-  assert.match(lessons, /<BackLink fallbackHref="\/speaking"/);
-  assert.equal(parentFor("/speaking/shadowing", en)?.href, "/speaking/lessons");
-  assert.match(page("speaking/shadowing"), /redirect\("\/speaking\/lessons"\)/);
+  assert.match(lessons, /<BackLink fallbackHref="\/app\/speaking"/);
+  assert.equal(parentFor("/app/speaking/shadowing", en)?.href, "/app/speaking/lessons");
+  assert.match(page("speaking/shadowing"), /redirect\("\/app\/speaking\/lessons"\)/);
 });
 
 test("S4 Live Partner registers availability in the room and keeps mic preflight and call states", () => {
   const lp = page("speaking/live-partner");
-  assert.match(lp, /<BackLink fallbackHref="\/speaking"/);
+  assert.match(lp, /<BackLink fallbackHref="\/app\/speaking"/);
   assert.match(page("speaking"), /MicrophoneTest/);
   const client = read("src/components/speaking/LivePartnerClient.tsx");
   for (const s of ["offline", "available", "outgoing_invite", "incoming_invite", "connecting", "in_call", "reconnecting"]) assert.ok(client.includes(`"${s}"`), s);
   assert.match(client, /MicStatus = "unknown" \| "checking" \| "ok" \| "denied" \| "missing"/);
-  assert.equal(parentFor("/speaking/live-partner", en)?.href, "/speaking");
+  assert.equal(parentFor("/app/speaking/live-partner", en)?.href, "/app/speaking");
 });
 
 const bank = [
@@ -100,13 +100,13 @@ test("S8 Practice with AI is honest: no client-side transcript, band, or OpenAI 
   assert.match(readiness, /import "server-only"/);
   assert.match(readiness, /isRiwi\(config\.aiPrimaryProvider\) \? null/);
   assert.match(readiness, /requiredSecrets\.every/);
-  assert.match(page("speaking/ai"), /<BackLink fallbackHref="\/speaking"/);
+  assert.match(page("speaking/ai"), /<BackLink fallbackHref="\/app\/speaking"/);
 });
 
 test("S9 Speaking routes have breadcrumbs back to Speaking", () => {
-  for (const r of ["/speaking/ai", "/speaking/lessons", "/speaking/practice", "/speaking/history", "/speaking/live-partner"]) {
+  for (const r of ["/app/speaking/ai", "/app/speaking/lessons", "/app/speaking/practice", "/app/speaking/history", "/app/speaking/live-partner"]) {
     const crumbs = breadcrumbsFor(r, en);
-    assert.equal(crumbs[0]?.href, "/speaking", r);
+    assert.equal(crumbs[0]?.href, "/app/speaking", r);
   }
 });
 

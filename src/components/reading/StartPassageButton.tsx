@@ -45,7 +45,7 @@ export function StartPassageButton({
               body: setId ? { setId } : { passageId },
             });
             if (result.ok && result.data?.id) {
-              navigate(`/reading/attempts/${result.data.id}`);
+              navigate(`/app/reading/attempts/${result.data.id}`);
               return;
             }
             setError(

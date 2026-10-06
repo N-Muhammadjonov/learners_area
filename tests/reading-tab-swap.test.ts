@@ -6,7 +6,7 @@ import { READING_TABS, resolveReadingTab } from "../src/lib/reading/tabs";
 import en from "../src/lib/i18n/en";
 import uz from "../src/lib/i18n/uz";
 
-const page = readFileSync("src/app/(app)/reading/page.tsx", "utf8");
+const page = readFileSync("src/app/app/(shell)/reading/page.tsx", "utf8");
 const panel = (key: string) => {
   const start = page.indexOf(`{tab === "${key}"`);
   assert.ok(start > 0, `panel for ${key}`);
@@ -60,5 +60,5 @@ test("R6 every library link keeps the General Reading tab (filters, pages, type 
   assert.match(page, /tab="general-reading"/);
   assert.match(page, /new URLSearchParams\(\{ tab: "general-reading" \}\)/);
   assert.match(page, /\/reading\?tab=general-reading&type=/);
-  assert.match(page, /href="\/reading\?tab=general-reading" className="btn-secondary" data-reading-empty-reset/);
+  assert.match(page, /href="\/app\/reading\?tab=general-reading" className="btn-secondary" data-reading-empty-reset/);
 });

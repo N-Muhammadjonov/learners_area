@@ -147,8 +147,8 @@ test("10/11 same sense from Reading and Listening → ONE item with TWO contexts
   // 15/16 revisit
   const reading = contexts!.contexts.find((c) => c.sourceType === "reading")!;
   const listening = contexts!.contexts.find((c) => c.sourceType === "listening")!;
-  assert.equal(reading.revisitHref, `/reading/general/${r.setId}?passage=1`);
-  assert.equal(listening.revisitHref, `/listening/tests/${l.testId}/study?section=2`);
+  assert.equal(reading.revisitHref, `/app/reading/general/${r.setId}?passage=1`);
+  assert.equal(listening.revisitHref, `/app/listening/tests/${l.testId}/study?section=2`);
   assert.equal(listening.startMs, null, "no timing exists for this transcript, none is shown");
 });
 
@@ -210,7 +210,7 @@ test("19/20 multi-user isolation: separate items, contexts and SRS per learner",
   assert.notEqual(ra.ids[0], rb.ids[0]);
   assert.equal(await listVocabularyContexts(b.id, ra.ids[0]!), null, "B cannot read A's contexts");
   const bCtx = await listVocabularyContexts(b.id, rb.ids[0]!);
-  assert.equal(bCtx?.contexts[0]?.revisitHref, `/reading/general/${r.setId}?passage=1`, "B revisits the shared General passage without A's attempt");
+  assert.equal(bCtx?.contexts[0]?.revisitHref, `/app/reading/general/${r.setId}?passage=1`, "B revisits the shared General passage without A's attempt");
   await db.update(userVocabulary).set({ nextReviewAt: new Date(Date.now() - 1000) }).where(eq(userVocabulary.id, ra.ids[0]!));
   const reviewed = await applyScheduledReview({ userId: a.id, entryId: ra.ids[0]!, outcome: "correct" });
   assert.ok(reviewed.ok);

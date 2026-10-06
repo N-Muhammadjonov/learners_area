@@ -411,7 +411,7 @@ export function QuestionRecorder({
             <Button variant="secondary" onClick={() => { setPhase({ kind: "idle" }); setAttemptId(null); }}>
               {t.practiceAgain}
             </Button>
-            <Button variant="ghost" onClick={() => navigate("/speaking/history")}>
+            <Button variant="ghost" onClick={() => navigate("/app/speaking/history")}>
               {t.viewHistory}
             </Button>
           </div>

@@ -136,7 +136,7 @@ test("Listening import authorization: student/teacher denied, admin/owner allowe
   const api = readFileSync("src/app/api/admin/listening/import/route.ts", "utf8");
   assert.match(api, /if \(!mayImportListening\(user\.role\)\)/);
   assert.doesNotMatch(api, /isStaff/);
-  assert.match(readFileSync("src/app/(app)/admin/listening/import/page.tsx", "utf8"), /mayImportListening\(administrator\.role\)/);
+  assert.match(readFileSync("src/app/app/(shell)/admin/listening/import/page.tsx", "utf8"), /mayImportListening\(administrator\.role\)/);
 });
 
 test("every error code the import API returns has readable en/uz text", () => {

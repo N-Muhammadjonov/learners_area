@@ -803,17 +803,17 @@ await check("a full recording round-trip: upload, attach, submit, playback, hist
 });
 
 await check("the speaking practice and history pages render for a student", async () => {
-  const practice = await student.request("/speaking/practice");
+  const practice = await student.request("/app/speaking/practice");
   assert.equal(practice.status, 200, `practice page: ${practice.status}`);
   assert.match(String(practice.data), /Speaking practice|Speaking mashqi/);
-  const history = await student.request("/speaking/history");
+  const history = await student.request("/app/speaking/history");
   assert.equal(history.status, 200, `history page: ${history.status}`);
 });
 
 // --- Page rendering --------------------------------------------------------
 
 await check("the teacher speaking page renders with the composer", async () => {
-  const res = await teacher.request("/teacher/speaking");
+  const res = await teacher.request("/app/teacher/speaking");
   assert.equal(res.status, 200, `expected 200, got ${res.status}`);
   const html = String(res.data);
   assert.match(html, /Manage Speaking materials|Speaking materiallarini boshqarish/);
@@ -821,7 +821,7 @@ await check("the teacher speaking page renders with the composer", async () => {
 });
 
 await check("the student speaking page renders", async () => {
-  const res = await student.request("/speaking");
+  const res = await student.request("/app/speaking");
   assert.equal(res.status, 200, `expected 200, got ${res.status}`);
 });
 

@@ -82,7 +82,7 @@ async function makeStudent() {
   const session = await login(studentEmail, password);
   check("a fresh account can sign in", session.status === 200 && session.cookie.length > 0, `status ${session.status}`);
 
-  const pending = await api("/vocabulary", { cookie: session.cookie });
+  const pending = await api("/app/vocabulary", { cookie: session.cookie });
   check(
     "a pending applicant is redirected away from Vocabulary",
     pending.status === 307 || pending.status === 302 || pending.status === 303,
@@ -116,7 +116,7 @@ async function makeStudent() {
   check("the decision reports the applicant it affected", Boolean(studentId));
 
   const student = await login(studentEmail, password);
-  const page = await api("/vocabulary", { cookie: student.cookie });
+  const page = await api("/app/vocabulary", { cookie: student.cookie });
   check("an approved student reaches the Vocabulary page", page.status === 200, `status ${page.status}`);
   for (const probe of ['data-tab="words"', 'data-tab="revision"', 'data-tab="games"', 'data-tab="use"', 'data-tab="board"']) {
     check(`the Vocabulary page renders the ${probe.split("=")[1]} section`, page.text.includes(probe));
@@ -534,7 +534,7 @@ const emptySentence = await api(`/api/vocabulary/${firstWord.id}/use`, {
 check("a too-short sentence is refused", emptySentence.status === 400, `status ${emptySentence.status}`);
 
 // --- suspension removes access immediately ---------------------------------
-const peoplePage = await api("/admin/people", { cookie: ownerSession.cookie });
+const peoplePage = await api("/app/admin/people", { cookie: ownerSession.cookie });
 check(
   "the owner sees the approved student on the people page",
   peoplePage.text.includes(`data-person-id="${studentId}"`),
@@ -551,7 +551,7 @@ check("the owner can suspend the account", suspend.status === 200, `status ${sus
 const blocked = await api("/api/vocabulary/games?set=all", { cookie });
 check("a suspended session loses API access at once", [401, 403].includes(blocked.status), `status ${blocked.status}`);
 
-const blockedPage = await api("/vocabulary", { cookie });
+const blockedPage = await api("/app/vocabulary", { cookie });
 check(
   "a suspended session is pushed out of the Vocabulary page",
   [302, 303, 307].includes(blockedPage.status),
@@ -595,7 +595,7 @@ try {
 // The map is navigation, not decoration: its tiles are counted from the student's
 // own library and each one filters the list.
 {
-  const mapPage = await api("/vocabulary", { cookie });
+  const mapPage = await api("/app/vocabulary", { cookie });
   check("the library carries a word map", mapPage.text.includes("data-word-map"));
   check("the map counts the library by state", mapPage.text.includes("data-word-map-state="));
   check("the map counts where the words came from", mapPage.text.includes("data-word-map-source="));

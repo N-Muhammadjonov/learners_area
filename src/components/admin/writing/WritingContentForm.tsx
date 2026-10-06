@@ -59,7 +59,7 @@ export function WritingContentForm({ dict, kind, id, initial, sources }: { dict:
     const data = res ? ((await res.json().catch(() => null)) as { id?: string; error?: { issues?: string[] } } | null) : null;
     if (!res?.ok || !data?.id) { setIssues(data?.error?.issues?.length ? data.error.issues : ["write_failed"]); return; }
     setSaved(true);
-    if (!id) router.replace(`/admin/writing/${kind}/${data.id}`); else router.refresh();
+    if (!id) router.replace(`/app/admin/writing/${kind}/${data.id}`); else router.refresh();
   }
 
   const text = (k: string, label: string, opts: { rows?: number; required?: boolean; max?: number } = {}) => (

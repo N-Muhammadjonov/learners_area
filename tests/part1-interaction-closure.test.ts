@@ -43,11 +43,11 @@ test("Multiple Choice keeps an unmistakable verdict and then advances by itself,
 
 test("Profile exposes an explicit Edit name control in the menu and on the profile page", () => {
   const menu = read("src/components/shell/ProfileMenu.tsx");
-  assert.match(menu, /href="\/profile\?edit=name"/, "the menu reaches the real edit-name flow");
+  assert.match(menu, /href="\/app\/profile\?edit=name"/, "the menu reaches the real edit-name flow");
   assert.match(menu, /data-profile-menu-edit-name/);
   assert.match(menu, /\{dict\.profile\.editName\}/);
 
-  const page = read("src/app/(app)/profile/page.tsx");
+  const page = read("src/app/app/(shell)/profile/page.tsx");
   assert.match(page, /searchParams: Promise<\{ edit\?: string \}>/);
   assert.match(page, /const editName = \(await searchParams\)\?\.edit === "name"/);
   assert.match(page, /<ProfileNameEditor dict=\{dict\} initialName=\{user\.name\} initiallyEditing=\{editName\} \/>/);
@@ -86,7 +86,7 @@ test("the utility stack is collapsed behind one launcher in both locales", () =>
 });
 
 test("the Reading hub keeps Reading concepts only", () => {
-  const page = read("src/app/(app)/reading/page.tsx");
+  const page = read("src/app/app/(shell)/reading/page.tsx");
   const tabs = page.slice(page.indexOf("const TABS ="), page.indexOf("type Tab ="));
   assert.deepEqual(
     tabs.match(/"[a-z-]+"/g),

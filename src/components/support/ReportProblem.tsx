@@ -34,7 +34,7 @@ export function ReportProblem({ dict, floating = false }: { dict: Dictionary; fl
     setLastError(stored);
   }, []);
 
-  // The first path segment is the module ("/vocabulary/review" → "vocabulary").
+  // The first path segment is the module ("/app/vocabulary/review" → "vocabulary").
   const moduleName = pathname.split("/").filter(Boolean)[0] ?? "app";
 
   async function send() {

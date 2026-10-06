@@ -55,7 +55,7 @@ export async function MockProgressOverview({
               ? "Haqiqiy urinishlaringiz va mavjud testlar."
               : "Your actual attempts and available tests."}
           </p>
-          <Link href="/mocks" className="btn-primary">
+          <Link href="/app/mocks" className="btn-primary">
             {uz ? "Mock testlarni ochish" : "Open mock tests"} →
           </Link>
           {data.catalogueUnavailable ? (

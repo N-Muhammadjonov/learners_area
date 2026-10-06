@@ -107,5 +107,5 @@ test("LS8 practice goes through the shared Coach check (no second AI connector) 
   const svc = readFileSync("src/lib/services/writing/stealing.ts", "utf8");
   assert.match(svc, /runWritingCheck/);
   assert.doesNotMatch(svc, /openai/i);
-  assert.match(readFileSync("src/app/(app)/writing/page.tsx", "utf8"), /tab === "language-stealing"/);
+  assert.match(readFileSync("src/app/app/(shell)/writing/page.tsx", "utf8"), /tab === "language-stealing"/);
 });

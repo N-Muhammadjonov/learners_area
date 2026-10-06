@@ -45,7 +45,7 @@ export function AiExaminerSession({ dict, prompts, readiness, isStaff }: {
           <>
             <p className="font-medium text-ink-900">{t.unavailableTitle}</p>
             <p className="mt-1">{t.unavailableBody}</p>
-            {isStaff && <p className="mt-2 text-xs" data-ai-staff-setup>{t.staffSetup} <Link className="underline" href="/owner/integrations">{t.staffSetupLink}</Link></p>}
+            {isStaff && <p className="mt-2 text-xs" data-ai-staff-setup>{t.staffSetup} <Link className="underline" href="/app/owner/integrations">{t.staffSetupLink}</Link></p>}
           </>
         )}
       </div>
@@ -84,7 +84,7 @@ export function AiExaminerSession({ dict, prompts, readiness, isStaff }: {
           <p className="font-display text-lg text-ink-900">{t.finishedTitle}</p>
           <p className="text-sm text-ink-500">{t.finishedBody.replace("{n}", String(Object.keys(answered).length)).replace("{total}", String(script.length))}</p>
           <div className="flex flex-wrap gap-2">
-            <Link href="/speaking/history" className="btn-primary">{dict.speakingPractice.viewHistory}</Link>
+            <Link href="/app/speaking/history" className="btn-primary">{dict.speakingPractice.viewHistory}</Link>
             <Button variant="ghost" onClick={() => setScript(null)}>{t.again}</Button>
           </div>
         </section>

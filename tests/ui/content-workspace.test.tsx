@@ -199,9 +199,9 @@ test("a staff member without publish permission cannot publish from the UI — a
     // The screen is only a courtesy: the service is the control (§role bypass). The
     // route's own refusal is asserted here on the source, because it is the same
     // permission helper the page uses to decide about the button.
-    const page = read("src/app/(app)/admin/content/workspace/page.tsx");
+    const page = read("src/app/app/(shell)/admin/content/workspace/page.tsx");
     assert.match(page, /requireAdministrator\(\)/);
-    assert.match(page, /redirect\("\/dashboard"\)/);
+    assert.match(page, /redirect\("\/app\/dashboard"\)/);
     const route = read("src/app/api/admin/content/versions/[id]/publication/route.ts");
     assert.match(route, /isStaff\(user\.role\)[\s\S]*status: 403/);
   });

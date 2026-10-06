@@ -119,9 +119,9 @@ test("terminal result shows level, label, finish time, allocated/used time, reca
     assert.equal(query("[data-retention-result-write-used]").getAttribute("data-retention-result-write-used"), "95");
     assert.equal(query("[data-retention-result-words]").getAttribute("data-retention-result-words"), "42");
     assert.match(query("[data-retention-result-finished]").textContent ?? "", /\d{1,2}:\d{2}/);
-    assert.equal(query("[data-retention-result-reading]").getAttribute("href"), "/reading");
+    assert.equal(query("[data-retention-result-reading]").getAttribute("href"), "/app/reading");
     assert.match(query("[data-retention-result-history]").getAttribute("href") ?? "", /retention-history/);
-    assert.equal(query("[data-retention-result-permalink]").getAttribute("href"), `/reading/retention/results/${base.attemptId}`);
+    assert.equal(query("[data-retention-result-permalink]").getAttribute("href"), `/app/reading/retention/results/${base.attemptId}`);
     assert.ok(query("[data-retention-another]"));
   });
 });

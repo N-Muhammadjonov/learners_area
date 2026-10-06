@@ -60,7 +60,7 @@ const liveClassId = target.rows[0].id;
 await db.query("update live_classes set scheduled_at = now() + interval '3 days' where id = $1", [liveClassId]);
 await db.query("delete from live_class_attendance where live_class_id = $1 and user_id = $2", [liveClassId, userId]);
 
-const list = await page("/live-classes", cookie);
+const list = await page("/app/live-classes", cookie);
 check("the student list renders", list.status === 200, `status ${list.status}`);
 check("each class carries its join state", list.text.includes("data-live-state="));
 check("a class scheduled in three days says when the room opens", list.text.includes("data-live-opens-at"));
@@ -113,23 +113,23 @@ await db.query("delete from live_class_attendance where live_class_id = $1 and u
 
 // The staff roster is staff-only and shows the record.
 const teacherCookie = await login("teacher@learnersarea.uz", "Teacher12345!");
-const roster = await page(`/teacher/live-classes/${liveClassId}`, teacherCookie);
+const roster = await page(`/app/teacher/live-classes/${liveClassId}`, teacherCookie);
 check("a teacher can open the class roster", roster.status === 200, `status ${roster.status}`);
 check("the roster shows the attendance count", roster.text.includes("data-attendee-count="));
 check("it reports whether a meeting link is set, never the link itself", roster.text.includes("data-class-has-link="));
 check("it reports whether a recording exists", roster.text.includes("data-class-has-recording="));
 check("it shows the join window's opening time", roster.text.includes("data-class-window="));
 
-const studentRoster = await page(`/teacher/live-classes/${liveClassId}`, cookie);
+const studentRoster = await page(`/app/teacher/live-classes/${liveClassId}`, cookie);
 check("a student cannot open the teacher roster", studentRoster.status !== 200 || !studentRoster.text.includes("data-class-roster"));
-check("an anonymous visitor cannot open it", (await page(`/teacher/live-classes/${liveClassId}`)).status !== 200);
+check("an anonymous visitor cannot open it", (await page(`/app/teacher/live-classes/${liveClassId}`)).status !== 200);
 
 // Attendance is recorded for the roster, so a joined student appears by name.
 await db.query(
   "insert into live_class_attendance (live_class_id, user_id) values ($1, $2)",
   [liveClassId, userId]
 );
-const rosterWithStudent = await page(`/teacher/live-classes/${liveClassId}`, teacherCookie);
+const rosterWithStudent = await page(`/app/teacher/live-classes/${liveClassId}`, teacherCookie);
 check(
   "a student who joined appears in the roster by name",
   /data-attendee="demo\.student@learnersarea\.uz"/.test(rosterWithStudent.text)

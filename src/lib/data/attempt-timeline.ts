@@ -189,7 +189,7 @@ async function readKind(
           occurredAt: row.startedAt ?? row.submittedAt ?? new Date(0),
           completedAt: row.submittedAt,
           title: row.title ?? (row.passageNo ? `Reading passage ${row.passageNo}` : "Reading"),
-          href: `/reading/attempts/${row.id}`,
+          href: `/app/reading/attempts/${row.id}`,
           content: row.versionId ? { versionId: row.versionId, versionNo: null, module: "reading", contentType: null, sourceRef: null } : null,
           facts: facts({ status: row.status, scoreEarned: row.score, scoreTotal: row.total }),
           assignmentId: null,
@@ -223,7 +223,7 @@ async function readKind(
           occurredAt: row.startedAt ?? row.submittedAt ?? new Date(0),
           completedAt: row.submittedAt,
           title: row.title ?? "Listening",
-          href: `/listening/attempts/${row.id}`,
+          href: `/app/listening/attempts/${row.id}`,
           content: row.versionId ? { versionId: row.versionId, versionNo: null, module: "listening", contentType: null, sourceRef: null } : null,
           facts: facts({ status: row.status, scoreEarned: row.score, scoreTotal: row.total }),
           assignmentId: null,
@@ -257,7 +257,7 @@ async function readKind(
           occurredAt: row.submittedAt ?? row.updatedAt,
           completedAt: row.submittedAt,
           title: shorten(row.prompt) ?? "Writing",
-          href: `/writing/submissions/${row.id}`,
+          href: `/app/writing/submissions/${row.id}`,
           content: row.versionId ? { versionId: row.versionId, versionNo: null, module: "writing", contentType: null, sourceRef: null } : null,
           facts: facts({ status: row.status, wordCount: row.wordCount }),
           assignmentId: null,
@@ -293,7 +293,7 @@ async function readKind(
           occurredAt: row.startedAt ?? row.submittedAt ?? new Date(0),
           completedAt: row.submittedAt,
           title: shorten(row.topic ?? row.promptText) ?? (row.part ? `Speaking part ${row.part}` : "Speaking"),
-          href: "/speaking/history",
+          href: "/app/speaking/history",
           content: row.versionId ? { versionId: row.versionId, versionNo: null, module: "speaking", contentType: null, sourceRef: null } : null,
           // The recording stays where it is; the timeline reports only that it exists.
           facts: facts({ status: row.status, durationMs: row.durationMs, hasRecording: Boolean(row.recordingKey) }),
@@ -329,7 +329,7 @@ async function readKind(
           occurredAt: row.attemptedAt,
           completedAt: row.attemptedAt,
           title: row.topicTitle ?? row.prompt ?? "Grammar",
-          href: row.topicId ? `/grammar/${row.topicId}` : "/grammar",
+          href: row.topicId ? `/app/grammar/${row.topicId}` : "/app/grammar",
           content: row.versionId ? { versionId: row.versionId, versionNo: null, module: "grammar", contentType: null, sourceRef: null } : null,
           facts: facts({ status: row.activity ?? "answered", isCorrect: row.isCorrect }),
           assignmentId: null,
@@ -366,7 +366,7 @@ async function readKind(
           completedAt: row.finishedAt,
           // The attempt's own snapshot is the name a learner recognises, even if the mock was later edited.
           title: row.snapshot?.title ?? row.title ?? "Mock test",
-          href: "/mocks",
+          href: "/app/mocks",
           content: boundIds.length > 0 ? { versionId: boundIds[0]!, versionNo: null, module: "mock", contentType: null, sourceRef: null } : null,
           facts: facts({ status: row.status, band: row.estimatedBand, scoreEarned: row.rawScore }),
           assignmentId: null,
@@ -408,7 +408,7 @@ async function readKind(
           occurredAt: row.updatedAt ?? row.createdAt,
           completedAt: row.targetCompletedAt,
           title: row.title ?? "Assignment",
-          href: "/assignments",
+          href: "/app/assignments",
           // The assignment's own tuple is the pinned identity; a compatibility row may
           // carry the tuple without a revision, and then versionNo stays null.
           content:

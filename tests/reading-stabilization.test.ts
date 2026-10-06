@@ -49,8 +49,8 @@ test("an expired Reading submission ignores client answers and grades only saved
 
 test("Reading filter dropdown selection, Escape focus restore, and outside click close", () => {
   const dom = new JSDOM(`
-    <details open><summary>Topic</summary><ul><li><a href="/reading?topic=work">Work</a></li></ul></details>
-    <details open><summary>Type</summary><ul><li><a href="/reading?type=matching">Matching</a></li></ul></details>
+    <details open><summary>Topic</summary><ul><li><a href="/app/reading?topic=work">Work</a></li></ul></details>
+    <details open><summary>Type</summary><ul><li><a href="/app/reading?type=matching">Matching</a></li></ul></details>
     <button id="outside">Outside</button>
   `);
   const { document } = dom.window;

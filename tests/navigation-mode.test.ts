@@ -16,7 +16,10 @@ import { MANAGEMENT_PREFIXES, isManagementRoute } from "../src/lib/nav/mode";
  */
 
 const ROOT = new URL("..", import.meta.url).pathname;
-const APP = join(ROOT, "src/app/(app)");
+/** The physical route tree of the ordinary shell group (URL prefix `/app`). */
+const APP = join(ROOT, "src/app/app/(shell)");
+/** `/app/admin` -> `admin`: the directory name under the shell group. */
+const shellSegment = (prefix: string) => prefix.replace(/^\/app\//, "");
 
 function routeExists(path: string): boolean {
   try {
@@ -37,26 +40,27 @@ function walk(dir: string, out: string[] = []): string[] {
 
 test("management prefixes match the routes that actually exist", () => {
   for (const prefix of MANAGEMENT_PREFIXES) {
-    assert.ok(routeExists(prefix.slice(1)), `${prefix} has no route directory`);
+    assert.ok(routeExists(shellSegment(prefix)), `${prefix} has no route directory`);
   }
 });
 
 test("every management page in the app is recognised as management mode", () => {
   const pages = walk(APP);
   const managementPages = pages.filter((page) =>
-    MANAGEMENT_PREFIXES.some((prefix) => page.startsWith(`${prefix.slice(1)}/`)),
+    MANAGEMENT_PREFIXES.some((prefix) => page.startsWith(`${shellSegment(prefix)}/`)),
   );
 
   assert.ok(managementPages.length >= 10, `expected a real management half, found ${managementPages.length} pages`);
 
   for (const page of managementPages) {
-    const pathname = `/${page.replace(/\/page\.tsx$/, "")}`;
+    // The shell group's URL base is `/app`; the walk is relative to the group.
+    const pathname = `/app/${page.replace(/\/page\.tsx$/, "")}`;
     assert.equal(isManagementRoute(pathname), true, `${pathname} must be in management mode`);
   }
 });
 
 test("learning routes stay in learning mode", () => {
-  for (const pathname of ["/", "/dashboard", "/reading", "/reading/attempts/abc", "/vocabulary", "/progress", "/mocks", "/support"]) {
+  for (const pathname of ["/", "/app/dashboard", "/app/reading", "/app/reading/attempts/abc", "/app/vocabulary", "/app/progress", "/app/mocks", "/app/support"]) {
     assert.equal(isManagementRoute(pathname), false, `${pathname} must stay in learning mode`);
   }
 });
@@ -68,10 +72,10 @@ test("the prefix check respects path boundaries", () => {
   assert.equal(isManagementRoute("/teachers"), false);
   assert.equal(isManagementRoute("/managementplan"), false);
   // The exact hub path and anything under it are.
-  assert.equal(isManagementRoute("/management"), true);
-  assert.equal(isManagementRoute("/management/anything"), true);
-  assert.equal(isManagementRoute("/admin"), true);
-  assert.equal(isManagementRoute("/admin/people"), true);
-  assert.equal(isManagementRoute("/owner/audit"), true);
-  assert.equal(isManagementRoute("/teacher/students"), true);
+  assert.equal(isManagementRoute("/app/management"), true);
+  assert.equal(isManagementRoute("/app/management/anything"), true);
+  assert.equal(isManagementRoute("/app/admin"), true);
+  assert.equal(isManagementRoute("/app/admin/people"), true);
+  assert.equal(isManagementRoute("/app/owner/audit"), true);
+  assert.equal(isManagementRoute("/app/teacher/students"), true);
 });

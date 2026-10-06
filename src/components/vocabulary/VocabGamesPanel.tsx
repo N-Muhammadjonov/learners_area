@@ -90,7 +90,7 @@ export function VocabGamesPanel({
     if (setKey === "folder" && folderId) params.set("folderId", folderId);
     return params.toString();
   };
-  const hrefFor = (game: GameId) => `/vocabulary/games/${game}?${queryString()}`;
+  const hrefFor = (game: GameId) => `/app/vocabulary/games/${game}?${queryString()}`;
   const updateQuery = (next: { set?: GameSetKey; folderId?: string; topicPack?: string } = {}) => {
     const params = new URLSearchParams({ set: next.set ?? setKey });
     const nextSet = next.set ?? setKey;
@@ -98,12 +98,12 @@ export function VocabGamesPanel({
     const nextTopic = next.topicPack ?? topicPack;
     if (nextSet === "topic" && nextTopic) params.set("topicPack", nextTopic);
     if (nextSet === "folder" && nextFolder) params.set("folderId", nextFolder);
-    if (typeof window !== "undefined") window.history.replaceState(null, "", `/vocabulary/games?${params.toString()}`);
+    if (typeof window !== "undefined") window.history.replaceState(null, "", `/app/vocabulary/games?${params.toString()}`);
   };
 
   return (
     <div className="flex flex-col gap-4" data-games-library>
-      <Link href="/vocabulary" prefetch={false} className="btn-ghost w-fit" data-games-back-to-vocabulary>← {dict.nav.vocabulary}</Link>
+      <Link href="/app/vocabulary" prefetch={false} className="btn-ghost w-fit" data-games-back-to-vocabulary>← {dict.nav.vocabulary}</Link>
       <header>
         <h1 className="font-display text-2xl text-ink-900">{t.games.title}</h1>
         <p className="mt-1 text-sm text-ink-500">{t.games.hint}</p>
@@ -236,7 +236,7 @@ export function VocabGameView({
 
   return (
     <div className="mx-auto flex w-full max-w-4xl flex-col gap-4" data-dedicated-game={gameId}>
-      <Link href={`/vocabulary/games?${queryForBack()}`} prefetch={false} className="btn-ghost w-fit" data-game-back>← {t.games.backToGames}</Link>
+      <Link href={`/app/vocabulary/games?${queryForBack()}`} prefetch={false} className="btn-ghost w-fit" data-game-back>← {t.games.backToGames}</Link>
       <header className="flex flex-wrap items-end justify-between gap-3">
         <div><h1 className="font-display text-2xl text-ink-900">{GAME_META[gameId].title(dict)}</h1><p className="mt-1 text-sm text-ink-500" data-game-source>{t.games.source}: {source}</p></div>
         {currentSet && <span className="text-xs text-ink-500">{currentSet.total} {t.packs.words}</span>}

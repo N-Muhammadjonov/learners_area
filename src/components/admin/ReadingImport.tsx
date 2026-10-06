@@ -76,7 +76,7 @@ export function ReadingImport({ dict }: { dict: Dictionary }) {
           onChange={(e) => { const f = e.target.files?.[0]; if (f) void pick(f); }} />
       </label>
       {name && <p className="text-sm">{name}</p>}
-      {source?.kind === "supplemental" && <div role="status" className="space-y-2"><p>{t.supplemental}</p><Link className="btn-secondary" href="/admin/materials">{t.manageMaterials}</Link>{source.textPreview && <pre className="max-h-48 overflow-auto whitespace-pre-wrap text-sm">{source.textPreview}</pre>}</div>}
+      {source?.kind === "supplemental" && <div role="status" className="space-y-2"><p>{t.supplemental}</p><Link className="btn-secondary" href="/app/admin/materials">{t.manageMaterials}</Link>{source.textPreview && <pre className="max-h-48 overflow-auto whitespace-pre-wrap text-sm">{source.textPreview}</pre>}</div>}
       {source?.kind === "structured" && <ReadingTryout dict={dict} key={name} bundle={source.bundle} />}
       {error && <p role="alert" className="text-red-700">{error}</p>}
       <div className="flex flex-wrap gap-2">
@@ -90,7 +90,7 @@ export function ReadingImport({ dict }: { dict: Dictionary }) {
               <li key={p.passageNo}>{t.passageLine.replace("{n}", String(p.passageNo)).replace("{resolved}", String(p.resolved)).replace("{unresolved}", String(p.unresolved))}</li>
             ))}
           </ul>
-          {!result.dryRun && <Link className="btn-secondary" href="/admin/reading">{t.backToList}</Link>}
+          {!result.dryRun && <Link className="btn-secondary" href="/app/admin/reading">{t.backToList}</Link>}
         </div>
       )}
     </div>

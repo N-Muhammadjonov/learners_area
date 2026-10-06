@@ -64,7 +64,7 @@ export function GradeForm({ dict, task1Prompts = [], visuals = {} }: { dict: Dic
       const data = res.ok ? res.data : null;
       if (res.ok && data?.id) {
         try { window.localStorage.removeItem(DRAFT_KEY); } catch { /* ignore */ }
-        router.push(`/writing/grade/${data.id}`);
+        router.push(`/app/writing/grade/${data.id}`);
         return;
       }
       setError(!res.ok && res.error === "too_short" ? t.errors.tooShort.replace("{n}", String(MIN_GRADE_WORDS)) : t.errors.generic);

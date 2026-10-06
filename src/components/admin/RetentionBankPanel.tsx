@@ -122,7 +122,7 @@ export function RetentionBankPanel({
   const busyRef = useRef<string | null>(null);
 
   const levelHref = (nextFilter: string, nextSort = sort, nextPage = 1) =>
-    `/admin/reading/retention?level=${level}&filter=${nextFilter}&sort=${nextSort}${nextPage > 1 ? `&page=${nextPage}` : ""}`;
+    `/app/admin/reading/retention?level=${level}&filter=${nextFilter}&sort=${nextSort}${nextPage > 1 ? `&page=${nextPage}` : ""}`;
 
   async function setActive(row: RetentionBankRow, active: boolean) {
     if (busyRef.current) return;

@@ -119,7 +119,7 @@ check("a question can be authored for it", question.status === 200, `status ${qu
  * one observable answer — it is the fixture's position on page one that is not
  * meaningful, not the publication state.
  */
-const listedForStudent = async () => (await api("/reading", { cookie: student })).text.includes(title);
+const listedForStudent = async () => (await api("/app/reading", { cookie: student })).text.includes(title);
 const startableForStudent = async () =>
   (await api("/api/reading/attempts", { method: "POST", cookie: student, body: { passageId } })).status === 200;
 const listForStudent = async () => (await listedForStudent()) || (await startableForStudent());
@@ -135,7 +135,7 @@ const toDraft = await api(`/api/admin/content/reading/${passageId}/publication`,
   body: { state: "draft" },
 });
 check("an owner can move a passage to draft", toDraft.status === 200 && toDraft.json?.state === "draft", `status ${toDraft.status}`);
-const studentListPage = await api("/reading", { cookie: student });
+const studentListPage = await api("/app/reading", { cookie: student });
 check("the student reading page renders", studentListPage.status === 200, `status ${studentListPage.status}`);
 check("a draft is not listed to students", (await listForStudent()) === false);
 const draftStart = await studentStart();
@@ -203,7 +203,7 @@ const archivedStart = await studentStart();
 check("an archived passage cannot be started", archivedStart.status === 404, `status ${archivedStart.status}`);
 
 if (attemptId) {
-  const history = await api(`/reading/attempts/${attemptId}`, { cookie: student });
+  const history = await api(`/app/reading/attempts/${attemptId}`, { cookie: student });
   check(
     "the student's own attempt is still readable after archiving",
     history.status === 200,
@@ -218,10 +218,10 @@ if (attemptId) {
   // Hiding content from new students must not hide it from the student who
   // already sat it: the attempt stays on their own history list, so a student
   // can always re-read work the centre later took down.
-  const historyList = await api("/reading/history", { cookie: student });
+  const historyList = await api("/app/reading/history", { cookie: student });
   check(
     "the attempt is still on the student's history list after archiving",
-    historyList.status === 200 && historyList.text.includes(`/reading/attempts/${attemptId}`),
+    historyList.status === 200 && historyList.text.includes(`/app/reading/attempts/${attemptId}`),
     `status ${historyList.status}`
   );
 }

@@ -23,11 +23,11 @@ test("W14: the utility stack collapses on an outside pointer press but not on in
 });
 
 test("W09: the durable result route is owner-scoped, terminal-only and learner-safe", () => {
-  const page = read("src/app/(app)/reading/retention/results/[attemptId]/page.tsx");
+  const page = read("src/app/app/(shell)/reading/retention/results/[attemptId]/page.tsx");
   assert.match(page, /requireActiveUser\(\)/);
   assert.match(page, /findAttemptForUser\(\{ attemptId, userId: user\.id \}\)/);
   assert.match(page, /assertLearnerSafe\(built\)/);
-  assert.match(page, /redirect\("\/reading\/retention"\)/);
+  assert.match(page, /redirect\("\/app\/reading\/retention"\)/);
   const history = read("src/components/reading/RetentionHistory.tsx");
   assert.match(history, /\/reading\/retention\/results\/\$\{row\.attemptId\}`\} prefetch=\{false\}/);
   assert.doesNotMatch(history, /slice\(0, 10\)/);

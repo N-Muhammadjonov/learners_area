@@ -1,3 +1,34 @@
+/**
+ * Top-level page modules that moved under the canonical `/app` namespace.
+ * Kept in one list so the redirect table in `redirects()` cannot drift from the
+ * modules it protects. `onboarding`, `pending`, `login`, `register`,
+ * `reset-password` are deliberately absent: they are not application modules.
+ */
+const PRIVATE_MODULE_SEGMENTS = [
+  "dashboard",
+  "courses",
+  "writing",
+  "vocabulary",
+  "listening",
+  "reading",
+  "speaking",
+  "grammar",
+  "mocks",
+  "coach",
+  "assignments",
+  "progress",
+  "live-classes",
+  "video-lessons",
+  "teacher",
+  "admin",
+  "owner",
+  "profile",
+  "notifications",
+  "reports",
+  "support",
+  "management",
+];
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -41,6 +72,36 @@ const nextConfig = {
    * this rewrite serves it from the same canonical place as the PNGs instead of
    * duplicating bytes into the app directory.
    */
+  /**
+   * Historical private URLs stay alive.
+   *
+   * Every module used to live at the root (`/listening`, `/reading/retention`,
+   * `/writing/submissions/<id>`, …). The canonical authenticated namespace is now
+   * `/app/...`, so those old links — bookmarks, notifications already stored in
+   * the database, links teachers pasted into a chat — must not turn into 404s.
+   *
+   * A wildcard per module covers every depth in one rule, and Next preserves the
+   * query string and the path, so `/reading/attempts/<id>?tab=review` becomes
+   * `/app/reading/attempts/<id>?tab=review` with its id and parameters intact.
+   *
+   * These are **temporary (307)** on purpose: the shape of `/app` is still
+   * settling, and a 308 would be cached by browsers for good. Nothing here
+   * touches `/api/*` — the wildcards name page modules only — and no rule can be
+   * reached from another, so there is no redirect loop.
+   */
+  async redirects() {
+    return PRIVATE_MODULE_SEGMENTS.map((segment) => ({
+      source: `/${segment}/:path*`,
+      destination: `/app/${segment}/:path*`,
+      permanent: false,
+    })).concat(
+      PRIVATE_MODULE_SEGMENTS.map((segment) => ({
+        source: `/${segment}`,
+        destination: `/app/${segment}`,
+        permanent: false,
+      })),
+    );
+  },
   async rewrites() {
     const rewrites = [{ source: "/favicon.ico", destination: "/brand/derived/favicon.ico" }];
     const storageEndpoint = (process.env.R2_ENDPOINT || process.env.S3_ENDPOINT || "").replace(/\/+$/, "");

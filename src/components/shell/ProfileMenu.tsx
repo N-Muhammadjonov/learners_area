@@ -97,7 +97,7 @@ export function ProfileMenu({
           </div>
           <div className="p-1.5">
             <Link
-              href="/profile"
+              href="/app/profile"
               role="menuitem"
               onClick={() => setOpen(false)}
               className="flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900"
@@ -105,7 +105,7 @@ export function ProfileMenu({
               {dict.nav.profile}
             </Link>
             <Link
-              href="/profile?edit=name"
+              href="/app/profile?edit=name"
               role="menuitem"
               data-profile-menu-edit-name
               onClick={() => setOpen(false)}
@@ -116,7 +116,7 @@ export function ProfileMenu({
             </Link>
             {isStaff(role) && (
               <Link
-                href="/management"
+                href="/app/management"
                 role="menuitem"
                 onClick={() => setOpen(false)}
                 className="flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900"

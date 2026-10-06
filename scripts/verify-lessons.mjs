@@ -63,7 +63,7 @@ await db.query(
   "delete from lesson_progress where user_id = (select id from users where email = 'new.student@learnersarea.uz')"
 );
 
-const roadmap = await page("/courses/ielts", cookie);
+const roadmap = await page("/app/courses/ielts", cookie);
 check("the roadmap renders", roadmap.status === 200, `status ${roadmap.status}`);
 check("lessons are addressable", roadmap.text.includes("data-lesson="));
 check("an open lesson offers a link", roadmap.text.includes("data-lesson-open="));
@@ -81,14 +81,14 @@ check("the seed has a locked lesson", Boolean(lockedLesson));
 // honestly in both states.
 check("the seed carries no recording (a real state, not an error)", !recorded);
 
-const openPage = await page(`/courses/ielts/lessons/${openLesson.id}`, cookie);
+const openPage = await page(`/app/courses/ielts/lessons/${openLesson.id}`, cookie);
 check("the lesson shell renders", openPage.status === 200, `status ${openPage.status}`);
 check("the state is rendered from the server value", openPage.text.includes(`data-lesson-state="${openLesson.default_state}"`));
 check("the notes pad is present", openPage.text.includes("data-lesson-notes"));
 check("the student can start the lesson", openPage.text.includes("data-lesson-start"));
 
 if (recorded) {
-  const recordedPage = await page(`/courses/ielts/lessons/${recorded.id}`, cookie);
+  const recordedPage = await page(`/app/courses/ielts/lessons/${recorded.id}`, cookie);
   check("the recorded-lesson shell shows the recording", recordedPage.text.includes("data-lesson-recording"));
 } else {
   check(
@@ -97,7 +97,7 @@ if (recorded) {
   );
 }
 
-const lockedPage = await page(`/courses/ielts/lessons/${lockedLesson.id}`, cookie);
+const lockedPage = await page(`/app/courses/ielts/lessons/${lockedLesson.id}`, cookie);
 check("a locked lesson says so", lockedPage.text.includes("data-lesson-closed"));
 check("a locked lesson offers no controls", !lockedPage.text.includes("data-lesson-start"));
 
@@ -159,7 +159,7 @@ const missing = await api("/api/lessons/00000000-0000-0000-0000-000000000000/sta
 check("an unknown lesson is a 404", missing.status === 404, `status ${missing.status}`);
 
 const other = await login("demo.student@learnersarea.uz", "Student12345!");
-const otherPage = await page(`/courses/ielts/lessons/${openLesson.id}`, other);
+const otherPage = await page(`/app/courses/ielts/lessons/${openLesson.id}`, other);
 check(
   "another student's notes are not visible",
   otherPage.status === 200 && !otherPage.text.includes(notesText),

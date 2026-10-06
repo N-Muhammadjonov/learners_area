@@ -23,7 +23,7 @@ export default async function NotFound() {
         <p className="body-text max-w-[46ch]">{t.body}</p>
       </div>
       <div className="flex flex-wrap items-center justify-center gap-3">
-        <Link href="/dashboard" className="btn-primary">
+        <Link href="/app/dashboard" className="btn-primary">
           {t.dashboard}
         </Link>
         <Link href="/" className="btn-secondary">

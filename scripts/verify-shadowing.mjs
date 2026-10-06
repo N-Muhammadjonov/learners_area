@@ -39,17 +39,17 @@ console.log(`\nLearners Area — Shadowing against ${BASE}\n`);
 const cookie = await login("demo.student@learnersarea.uz", "Student12345!");
 check("the student can sign in", Boolean(cookie));
 
-const anon = await page("/speaking/shadowing");
+const anon = await page("/app/speaking/shadowing");
 check(
   "an anonymous visitor is sent to the login page",
   anon.status === 307 || anon.status === 302,
   `status ${anon.status}`
 );
 
-const speaking = await page("/speaking", cookie);
+const speaking = await page("/app/speaking", cookie);
 check("the speaking page links to shadowing", speaking.text.includes("data-shadowing-link"));
 
-const shadowing = await page("/speaking/shadowing", cookie);
+const shadowing = await page("/app/speaking/shadowing", cookie);
 check("the shadowing page renders for a student", shadowing.status === 200, `status ${shadowing.status}`);
 check("the studio or its honest empty state is shown", shadowing.text.includes("data-shadowing-studio") || shadowing.text.includes("data-shadowing-empty"));
 check("the page states that no pronunciation score is produced", shadowing.text.includes("data-shadowing-note"));

@@ -151,7 +151,7 @@ export function evaluateVocabularyWithRiwi(input: VocabularyEvaluationInput): Pr
       {
         kind: "vocabulary",
         label: "Review the due words",
-        href: "/vocabulary/review",
+        href: "/app/vocabulary/review",
         reason: "Recognition still has to be maintained while active use is practised.",
       },
     ],

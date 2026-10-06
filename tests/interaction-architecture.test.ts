@@ -9,28 +9,33 @@ const read = (path: string) => readFileSync(join(process.cwd(), path), "utf8");
 
 test("internal route intent preserves deep links and queries without exposing them in metric route keys", () => {
   const target = internalNavigationTarget(
-    "/reading/attempts/attempt-secret?mode=review&part=2#question-9",
+    "/app/reading/attempts/attempt-secret?mode=review&part=2#question-9",
     "https://learners.example",
-    "/reading?status=all",
+    "/app/reading?status=all",
   );
   assert.deepEqual(target, {
-    href: "/reading/attempts/attempt-secret?mode=review&part=2",
+    href: "/app/reading/attempts/attempt-secret?mode=review&part=2",
     routeKey: "reading",
   });
-  assert.equal(routeLocation("/reading", "?status=all"), "/reading?status=all");
-  assert.equal(workspaceKey("/reading/attempts/private-user-id"), "reading");
+  assert.equal(routeLocation("/app/reading", "?status=all"), "/app/reading?status=all");
+  assert.equal(workspaceKey("/app/reading/attempts/private-user-id"), "reading");
 });
 
 test("route intent never intercepts external, malformed, or same-view hash-only URLs", () => {
   assert.equal(internalNavigationTarget("https://elsewhere.example/a", "https://learners.example", "/"), null);
-  assert.equal(internalNavigationTarget("/reading#section", "https://learners.example", "/reading"), null);
+  assert.equal(internalNavigationTarget("/app/reading#section", "https://learners.example", "/app/reading"), null);
   assert.equal(internalNavigationTarget("http://[invalid", "https://learners.example", "/"), null);
 });
 
 test("persistent private layout keeps server authorization and wraps only its workspace outlet", () => {
-  const layout = read("src/app/(app)/layout.tsx");
-  assert.match(layout, /getCurrentUser\(\)/);
-  assert.match(layout, /hasPrivateAccess\(user\.accountStatus\)/);
+  // The gate is the parent of both /app groups (shell + focus); the shell layout below
+  // it owns chrome only. Splitting them is what lets a focus route avoid the shell
+  // without a second, weaker authorization path.
+  const gate = read("src/app/app/layout.tsx");
+  const layout = read("src/app/app/(shell)/layout.tsx");
+  assert.match(gate, /getCurrentUser\(\)/);
+  assert.match(gate, /hasPrivateAccess\(user\.accountStatus\)/);
+  assert.doesNotMatch(gate, /<Sidebar|<Topbar|InstantWorkspaceOutlet|InstantInteractionProvider/);
   assert.match(layout, /id="main-content"\s+tabIndex=\{-1\}/);
   assert.match(layout, /<InstantInteractionProvider/);
   assert.match(layout, /<InstantWorkspaceOutlet[\s\S]*?\{children\}[\s\S]*?<\/InstantWorkspaceOutlet>/);
@@ -40,7 +45,7 @@ test("persistent private layout keeps server authorization and wraps only its wo
 
 test("sidebar does not launch eager database-backed prefetch; loading boundary stays data-free", () => {
   const links = read("src/components/interaction/InstantLink.tsx");
-  const boundary = read("src/app/(app)/loading.tsx");
+  const boundary = read("src/app/app/(shell)/loading.tsx");
   const frame = read("src/components/interaction/SectionEntryFrame.tsx");
   const sidebar = read("src/components/shell/SidebarNav.tsx");
   assert.match(links, /prefetch=\{prefetch \?\? false\}/);

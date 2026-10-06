@@ -32,7 +32,7 @@ export function NewTopicForm({ dict }: { dict: Dictionary }) {
         flight.current = false;
         if (!res) return;
         setPending(false);
-        if (res.ok && typeof res.data?.id === "string") navigate(`/admin/grammar/${res.data.id}`);
+        if (res.ok && typeof res.data?.id === "string") navigate(`/app/admin/grammar/${res.data.id}`);
         else if (res.ok) setError(dict.apiErrors.generic);
         else setError(apiErrorMessage(res.error, res.status, dict));
       }}

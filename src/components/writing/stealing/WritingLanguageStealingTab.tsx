@@ -15,7 +15,7 @@ export type StealingParams = { task?: string; fn?: string; topic?: string; band?
 function href(base: StealingParams, patch: StealingParams) {
   const q = new URLSearchParams({ tab: "language-stealing" });
   for (const [k, v] of Object.entries({ ...base, ...patch })) if (v) q.set(k, v);
-  return `/writing?${q.toString()}`;
+  return `/app/writing?${q.toString()}`;
 }
 function Pill({ href: h, active, children }: { href: string; active: boolean; children: React.ReactNode }) {
   return <Link href={h} aria-current={active ? "true" : undefined} className={`inline-flex min-h-11 items-center rounded-full border px-4 text-sm ${active ? "border-signal-500 bg-signal-50 font-semibold text-ink-900 dark:bg-signal-950/40" : "border-ink-100 text-ink-700 hover:border-ink-300"}`}>{children}</Link>;
@@ -69,7 +69,7 @@ export async function WritingLanguageStealingTab({ dict, userId, params }: { dic
                   <p className="font-semibold text-ink-900">{s.title}</p>
                   <p className="text-sm text-ink-500">{s.taskType === "task1" ? "Task 1" : "Task 2"} · {s.topic} · Band {s.targetBand} · {t.patternsCount.replace("{n}", String(s.patternCount))}</p>
                 </div>
-                {mine ? <Link href={`/writing/language-stealing/${mine.id}`} className="btn-secondary min-h-11">{mine.completedAt ? t.done : `${t.resume} · ${t.stepOf.replace("{n}", String(mine.step))}`}</Link>
+                {mine ? <Link href={`/app/writing/language-stealing/${mine.id}`} className="btn-secondary min-h-11">{mine.completedAt ? t.done : `${t.resume} · ${t.stepOf.replace("{n}", String(mine.step))}`}</Link>
                   : <StartStealingButton modelTextId={s.id} label={t.start} errorLabel={t.error} />}
               </div>
             );
@@ -80,7 +80,7 @@ export async function WritingLanguageStealingTab({ dict, userId, params }: { dic
           {sessions.length === 0 ? <p className="text-base text-ink-500">—</p> : (
             <ul className="flex flex-col gap-2">{sessions.map((x) => {
               const src = sources.find((s) => s.id === x.modelTextId);
-              return <li key={x.id}><Link href={`/writing/language-stealing/${x.id}`} className="flex min-h-11 items-center justify-between rounded-lg border border-ink-100 px-3 text-base text-ink-800 hover:border-ink-300"><span>{src?.title ?? "—"}</span><span className="text-sm text-ink-500">{x.completedAt ? t.done : t.stepOf.replace("{n}", String(x.step))}</span></Link></li>;
+              return <li key={x.id}><Link href={`/app/writing/language-stealing/${x.id}`} className="flex min-h-11 items-center justify-between rounded-lg border border-ink-100 px-3 text-base text-ink-800 hover:border-ink-300"><span>{src?.title ?? "—"}</span><span className="text-sm text-ink-500">{x.completedAt ? t.done : t.stepOf.replace("{n}", String(x.step))}</span></Link></li>;
             })}</ul>
           )}
         </div>

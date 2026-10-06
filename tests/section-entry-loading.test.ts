@@ -11,18 +11,18 @@ const ROOT = new URL("..", import.meta.url).pathname;
 const read = (path: string) => readFileSync(join(ROOT, path), "utf8");
 
 const destinations: [string, string][] = [
-  ["/dashboard", "dashboard"],
-  ["/live-classes", "live-classes"],
-  ["/assignments", "assignments"],
-  ["/listening", "listening"],
-  ["/video-lessons", "video-lessons"],
-  ["/reading", "reading"],
-  ["/writing", "writing"],
-  ["/speaking", "speaking"],
-  ["/grammar", "grammar"],
-  ["/vocabulary", "vocabulary"],
-  ["/progress", "progress"],
-  ["/mocks", "mocks"],
+  ["/app/dashboard", "dashboard"],
+  ["/app/live-classes", "live-classes"],
+  ["/app/assignments", "assignments"],
+  ["/app/listening", "listening"],
+  ["/app/video-lessons", "video-lessons"],
+  ["/app/reading", "reading"],
+  ["/app/writing", "writing"],
+  ["/app/speaking", "speaking"],
+  ["/app/grammar", "grammar"],
+  ["/app/vocabulary", "vocabulary"],
+  ["/app/progress", "progress"],
+  ["/app/mocks", "mocks"],
 ];
 
 test("all required destinations have localized, route-shaped entry frames", () => {
@@ -44,22 +44,22 @@ test("all required destinations have localized, route-shaped entry frames", () =
   assert.ok(!english.reading?.tabs?.some((tab) => /TED|PODCAST/i.test(tab)));
   assert.ok(!uzbek.reading?.tabs?.some((tab) => /TED|PODCAST/i.test(tab)));
   assert.equal(english.vocabulary?.tabs?.length, 5);
-  assert.equal(workspaceKey("/reading/attempts/private-id"), "reading");
-  assert.equal(workspaceKey("/vocabulary/games/translation"), "vocabulary");
-  assert.equal(workspaceKey("/courses/ielts/lessons/private-id"), "course-roadmap");
-  assert.equal(workspaceKey("/coach"), "coach");
-  assert.equal(workspaceKey("/notifications"), "notifications");
+  assert.equal(workspaceKey("/app/reading/attempts/private-id"), "reading");
+  assert.equal(workspaceKey("/app/vocabulary/games/translation"), "vocabulary");
+  assert.equal(workspaceKey("/app/courses/ielts/lessons/private-id"), "course-roadmap");
+  assert.equal(workspaceKey("/app/coach"), "coach");
+  assert.equal(workspaceKey("/app/notifications"), "notifications");
   assert.ok(english["course-roadmap"]?.title);
   assert.ok(english.coach?.title);
   assert.ok(english.notifications?.title);
   assert.ok(uzbek["course-roadmap"]?.title);
   assert.ok(uzbek.coach?.title);
   assert.ok(uzbek.notifications?.title);
-  assert.equal(workspaceKey("/admin/users/private-id"), "management");
+  assert.equal(workspaceKey("/app/admin/users/private-id"), "management");
 });
 
 test("the private loading fallback is synchronous, route-aware, and performs no data/auth query", () => {
-  const loading = read("src/app/(app)/loading.tsx");
+  const loading = read("src/app/app/(shell)/loading.tsx");
   const routeFallback = read("src/components/interaction/RouteEntryLoading.tsx");
   assert.match(loading, /export default function Loading\(\)/);
   assert.doesNotMatch(loading, /async function Loading|await |fetch\(|db\.|getCurrentUser/);
@@ -73,7 +73,8 @@ test("the private loading fallback is synchronous, route-aware, and performs no 
 test("section frames expose destination identity and a local async region without replacing the product shell", () => {
   const frame = read("src/components/interaction/SectionEntryFrame.tsx");
   const outlet = read("src/components/interaction/InstantWorkspaceOutlet.tsx");
-  const layout = read("src/app/(app)/layout.tsx");
+  const gate = read("src/app/app/layout.tsx"); // the /app namespace gate
+  const layout = read("src/app/app/(shell)/layout.tsx"); // the ordinary shell chrome
   assert.match(frame, /data-entry-frame/);
   assert.match(frame, /data-section-entry-frame=\{routeKey\}/);
   assert.match(frame, /role="status"/);
@@ -84,8 +85,8 @@ test("section frames expose destination identity and a local async region withou
   assert.match(outlet, /currentLocation === navigation\.from/);
   assert.match(outlet, /entryFrames\[navigation\.routeKey\]/);
   assert.match(outlet, /retryNavigation/);
-  assert.match(layout, /Promise\.all\(\[getCurrentUser\(\), getLocale\(\)\]\)/);
-  assert.match(layout, /hasPrivateAccess\(user\.accountStatus\)/);
+  assert.match(gate, /Promise\.all\(\[getCurrentUser\(\), getLocale\(\)\]\)/);
+  assert.match(gate, /hasPrivateAccess\(user\.accountStatus\)/);
   assert.match(layout, /<Sidebar/);
   assert.match(layout, /<Topbar/);
   assert.match(layout, /<InstantWorkspaceOutlet>\{children\}<\/InstantWorkspaceOutlet>/);

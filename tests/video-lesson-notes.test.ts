@@ -52,7 +52,7 @@ test("the admin form authors notes and Management reports whether they exist", (
   assert.match(form, /data-video-notes-input/);
   assert.match(form, /notes: notes\.trim\(\) \|\| null,/);
 
-  const page = read("src/app/(app)/admin/video-lessons/page.tsx");
+  const page = read("src/app/app/(shell)/admin/video-lessons/page.tsx");
   assert.match(page, /data-video-admin-notes=\{videoLesson\.notes \? "yes" : "no"\}/);
 });
 
@@ -69,7 +69,7 @@ test("captions stay inside the player; optional notes retain their reveal contro
   assert.match(studio, /sandbox="allow-scripts allow-same-origin allow-presentation"/);
   assert.doesNotMatch(studio, /watchUrlFor|allow-popups|allow-top-navigation/);
   // The lesson page must pass the stored notes through, never invent them.
-  const page = read("src/app/(app)/courses/ielts/lessons/[lessonId]/page.tsx");
+  const page = read("src/app/app/(shell)/courses/ielts/lessons/[lessonId]/page.tsx");
   assert.match(page, /notes: video\.videoLesson\.notes \?\? null,/);
 });
 

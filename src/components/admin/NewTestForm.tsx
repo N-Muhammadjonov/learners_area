@@ -58,7 +58,7 @@ export function NewTestForm({ dict }: { dict: Dictionary }) {
           body: { title, audioType, ...(sourceMode === "upload" ? { audioUploadId } : { audioUrl }), transcript: transcript || undefined, difficultyLevel }, timeoutMs: 12000,
         });
         setPending(false); submitRef.current = false;
-        if (result.ok) navigate(`/admin/listening/${result.data.id}`);
+        if (result.ok) navigate(`/app/admin/listening/${result.data.id}`);
         else setError(apiErrorMessage(result.error, result.status, dict));
       }}
     >

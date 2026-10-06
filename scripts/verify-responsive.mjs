@@ -81,7 +81,7 @@ check(
 );
 
 // --- Safe areas -------------------------------------------------------------
-const appLayout = read("src/app/(app)/layout.tsx");
+const appLayout = read("src/app/app/(shell)/layout.tsx");
 check("the app shell clears the home indicator", appLayout.includes("env(safe-area-inset-bottom)"));
 check("the app shell clears the notch on both sides", appLayout.includes("env(safe-area-inset-left)") && appLayout.includes("env(safe-area-inset-right)"));
 check("the content column can shrink (no flex overflow)", appLayout.includes("min-w-0"));
@@ -126,7 +126,7 @@ check(
   crowdedForms.join(", ")
 );
 
-const shell = read("src/app/(app)/layout.tsx");
+const shell = read("src/app/app/(shell)/layout.tsx");
 const mobileNav = read("src/components/shell/MobileNav.tsx");
 // The rail element is the shell's aside; below 768px it must not take part in the
 // flex row at all, or the application is squeezed into a ~126px column on a phone.
@@ -159,16 +159,16 @@ async function login(email, password) {
 
 const cookie = await login("demo.student@learnersarea.uz", "Student12345!");
 const pages = [
-  "/dashboard",
-  "/vocabulary",
-  "/reading",
-  "/listening",
-  "/writing",
-  "/speaking",
-  "/grammar",
-  "/progress",
-  "/assignments",
-  "/courses/ielts",
+  "/app/dashboard",
+  "/app/vocabulary",
+  "/app/reading",
+  "/app/listening",
+  "/app/writing",
+  "/app/speaking",
+  "/app/grammar",
+  "/app/progress",
+  "/app/assignments",
+  "/app/courses/ielts",
 ];
 let rendered = 0;
 for (const path of pages) {

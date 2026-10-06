@@ -38,7 +38,7 @@ export function NewPassageForm({ dict }: { dict: Dictionary }) {
         if (!res.ok) {setError(true); return;}
         if (res.ok) {
           const data = await res.json();
-          navigate(`/admin/reading/${data.id}`);
+          navigate(`/app/admin/reading/${data.id}`);
         }
       }}
     >

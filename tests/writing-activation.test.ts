@@ -75,7 +75,7 @@ test("A4 AI unavailable is honest: no verdict invented, UI has an unavailable st
   assert.match(ui, /data-activation-unavailable/);
   assert.match(ui, /\/api\/writing\/activation\/check/);
   assert.doesNotMatch(ui, /openai/i);
-  const page = readFileSync("src/app/(app)/writing/page.tsx", "utf8");
+  const page = readFileSync("src/app/app/(shell)/writing/page.tsx", "utf8");
   assert.match(page, /tab === "activation"/);
 });
 
@@ -192,7 +192,7 @@ test("A13 speaking mode copy and provider instructions never claim audio evaluat
 });
 
 test("Mentor visibility uses the existing teacher student page (staff-guarded)", () => {
-  const page = readFileSync("src/app/(app)/teacher/students/[id]/page.tsx", "utf8");
+  const page = readFileSync("src/app/app/(shell)/teacher/students/[id]/page.tsx", "utf8");
   assert.match(page, /requireStaff/);
   assert.match(page, /activationOverview\(detail\.student\.id\)/);
 });

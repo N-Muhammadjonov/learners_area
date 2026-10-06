@@ -84,7 +84,7 @@ const teacher = await signIn(ACCOUNTS.teacher, "10.10.1.2");
 const student = await signIn(ACCOUNTS.student, "10.10.1.3");
 
 // --- OWNER: learning half ---------------------------------------------------
-for (const path of ["/dashboard", "/reading", "/vocabulary"]) {
+for (const path of ["/app/dashboard", "/app/reading", "/app/vocabulary"]) {
   const page = await get(path, owner);
   check(
     `OWNER ${path} — learning navigation, no management shell`,
@@ -95,15 +95,15 @@ for (const path of ["/dashboard", "/reading", "/vocabulary"]) {
     `http=${page.status}`
   );
 }
-const dashboard = await get("/dashboard", owner);
+const dashboard = await get("/app/dashboard", owner);
 check(
   "OWNER sees one honest way into management mode",
-  has(dashboard.body, LEARNING_MARKER) && has(dashboard.body, "/management"),
+  has(dashboard.body, LEARNING_MARKER) && has(dashboard.body, "/app/management"),
   "switch link present"
 );
 
 // --- OWNER: management half, reached four different ways --------------------
-for (const path of ["/management", "/admin/admissions", "/admin/people", "/owner"]) {
+for (const path of ["/app/management", "/app/admin/admissions", "/app/admin/people", "/app/owner"]) {
   const page = await get(path, owner);
   check(
     `OWNER ${path} (direct = bookmark/refresh) — management mode`,
@@ -126,14 +126,14 @@ for (const path of ["/management", "/admin/admissions", "/admin/people", "/owner
 const entryTarget = (dashboard.body.match(/href="(\/management)"/) ?? [])[1] ?? null;
 check(
   "the management entry points at a real route",
-  entryTarget === "/management",
+  entryTarget === "/app/management",
   `href=${entryTarget ?? "missing"}`
 );
-const navigated = await get("/admin/admissions", owner, {
+const navigated = await get("/app/admin/admissions", owner, {
   RSC: "1",
   "Next-Router-State-Tree":
     "%5B%22%22%2C%7B%22children%22%3A%5B%22(app)%22%2C%7B%22children%22%3A%5B%22dashboard%22%2C%7B%22children%22%3A%5B%22__PAGE__%22%2C%7B%7D%5D%7D%5D%7D%5D%7D%2Cnull%2Cnull%2Ctrue%5D",
-  "Next-Url": "/admin/admissions",
+  "Next-Url": "/app/admin/admissions",
 });
 check(
   "a client-side navigation into management returns the management page",
@@ -142,7 +142,7 @@ check(
 );
 
 // Back out again: the learning half must not inherit the management shell.
-const back = await get("/reading", owner);
+const back = await get("/app/reading", owner);
 check(
   "OWNER returns to learning — the management shell is gone",
   back.status === 200 && !has(back.body, MANAGEMENT_MARKER) && has(back.body, LEARNING_MARKER),
@@ -161,7 +161,7 @@ const localeCookie = (english.headers.getSetCookie?.() ?? [])
   .map((value) => value.split(";")[0])
   .join("; ");
 const englishSession = [owner, localeCookie].filter(Boolean).join("; ");
-const englishPage = await get("/admin/admissions", englishSession);
+const englishPage = await get("/app/admin/admissions", englishSession);
 check(
   "the mode survives a locale switch (EN labels, management shell)",
   english.ok &&
@@ -178,7 +178,7 @@ await fetch(`${BASE}/api/locale`, {
 });
 
 // --- TEACHER: the staff half, without the owner's tools ---------------------
-const teacherPage = await get("/management", teacher);
+const teacherPage = await get("/app/management", teacher);
 check(
   "TEACHER /management — management mode",
   teacherPage.status === 200 && has(teacherPage.body, MANAGEMENT_MARKER),
@@ -186,12 +186,12 @@ check(
 );
 check(
   "TEACHER is not offered the owner's tools",
-  !has(teacherPage.body, "/owner/audit") && !has(teacherPage.body, "/owner/transfer"),
+  !has(teacherPage.body, "/app/owner/audit") && !has(teacherPage.body, "/app/owner/transfer"),
   "no owner-only cards"
 );
 
 // --- STUDENT: refused, not shown an empty shell -----------------------------
-for (const path of ["/management", "/admin/admissions", "/admin/people", "/teacher/students", "/owner"]) {
+for (const path of ["/app/management", "/app/admin/admissions", "/app/admin/people", "/app/teacher/students", "/app/owner"]) {
   const page = await get(path, student);
   const refused = page.status === 307 || page.status === 303 || (page.status === 200 && !has(page.body, MANAGEMENT_MARKER));
   check(
@@ -200,7 +200,7 @@ for (const path of ["/management", "/admin/admissions", "/admin/people", "/teach
     `http=${page.status}${page.location ? ` → ${page.location}` : ""}`
   );
 }
-const studentDashboard = await get("/dashboard", student);
+const studentDashboard = await get("/app/dashboard", student);
 check(
   "STUDENT has no way into management at all",
   studentDashboard.status === 200 && !has(studentDashboard.body, LEARNING_MARKER),

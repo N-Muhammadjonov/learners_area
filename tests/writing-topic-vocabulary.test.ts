@@ -62,7 +62,7 @@ test("No Writing-only lexical store: saving uses the canonical /api/vocabulary e
   assert.match(btn, /request<[\s\S]*?>\("\/api\/vocabulary"/);
   const tab = readFileSync("src/components/writing/topic/WritingTopicVocabularyTab.tsx", "utf8");
   assert.match(tab, /tab=activation&item=/, "Activate in Writing opens Activation Lab with the item");
-  const page = readFileSync("src/app/(app)/writing/page.tsx", "utf8");
+  const page = readFileSync("src/app/app/(shell)/writing/page.tsx", "utf8");
   assert.match(page, /tab === "topic-vocabulary" \?[\s\S]*WritingTopicVocabularyTab/);
 });
 

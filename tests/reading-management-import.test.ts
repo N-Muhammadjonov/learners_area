@@ -18,14 +18,14 @@ test("page and API enforce the same rule; dry run never commits", () => {
   assert.match(api, /if \(!mayImportReading\(user\.role\)\) return NextResponse\.json\(\{ error: "forbidden" \}, \{ status: 403 \}\)/);
   assert.match(api, /if \(body\?\.dryRun === true\) throw new DryRun/);
   assert.match(api, /importGeneralReadingSet\(tx, parsed\.data\)/, "reuses the existing idempotent importer");
-  const page = readFileSync("src/app/(app)/admin/reading/import/page.tsx", "utf8");
+  const page = readFileSync("src/app/app/(shell)/admin/reading/import/page.tsx", "utf8");
   assert.match(page, /mayImportReading\(administrator\.role\)/);
-  assert.match(page, /<BackLink fallbackHref="\/admin\/reading"/);
-  assert.match(readFileSync("src/app/(app)/admin/reading/page.tsx", "utf8"), /href="\/admin\/reading\/import"/);
+  assert.match(page, /<BackLink fallbackHref="\/app\/admin\/reading"/);
+  assert.match(readFileSync("src/app/app/(shell)/admin/reading/page.tsx", "utf8"), /href="\/app\/admin\/reading\/import"/);
 });
 
 test("the learner Reading area carries no staff import/upload/authoring UI", () => {
-  const files = [...walk("src/app/(app)/reading"), ...walk("src/components/reading")].filter((f) => /\.tsx?$/.test(f));
+  const files = [...walk("src/app/app/(shell)/reading"), ...walk("src/components/reading")].filter((f) => /\.tsx?$/.test(f));
   for (const f of files) {
     const src = readFileSync(f, "utf8");
     assert.doesNotMatch(src, /\/admin\/reading|reading\/import|startUpload\(|NewPassageForm|isStaff\(|isAdministrator\(/, f);

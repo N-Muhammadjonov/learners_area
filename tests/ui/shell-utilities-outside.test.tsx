@@ -31,7 +31,7 @@ test("utilities stack: inside presses keep it open, an outside press closes it, 
   try {
     await act(async () => root.render(
       <AppRouterContext.Provider value={router}>
-        <PathnameContext.Provider value="/dashboard">
+        <PathnameContext.Provider value="/app/dashboard">
           <ShellUtilities dict={en} />
         </PathnameContext.Provider>
       </AppRouterContext.Provider>

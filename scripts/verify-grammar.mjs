@@ -61,7 +61,7 @@ await db.connect();
 const cookie = await login("demo.student@learnersarea.uz", "Student12345!");
 check("the student can sign in", Boolean(cookie));
 
-const topicsPage = await page("/grammar", cookie);
+const topicsPage = await page("/app/grammar", cookie);
 check("the grammar page renders", topicsPage.status === 200, `status ${topicsPage.status}`);
 check("each topic shows a real mastery score", topicsPage.text.includes("data-topic-score="));
 check("the topic row is addressable", topicsPage.text.includes("data-topic-row="));
@@ -69,7 +69,7 @@ check("the topic row is addressable", topicsPage.text.includes("data-topic-row="
 const topicId = (topicsPage.text.match(/data-topic-row="([0-9a-f-]{36})"/) ?? [])[1];
 check("a topic id is present", Boolean(topicId));
 
-const topicPage = await page(`/grammar/${topicId}`, cookie);
+const topicPage = await page(`/app/grammar/${topicId}`, cookie);
 check("the topic page renders", topicPage.status === 200, `status ${topicPage.status}`);
 check("the mastery card is shown", topicPage.text.includes("data-topic-mastery="));
 check("the mastery card states its own rule", topicPage.text.includes("80%"));
@@ -169,7 +169,7 @@ const missingExercise = await api(`/api/grammar/exercises/00000000-0000-0000-000
 check("an unknown exercise is refused", missingExercise.status === 404, `status ${missingExercise.status}`);
 
 // --- mastery arithmetic on real rows -------------------------------------
-const masteryPage = await page(`/grammar/${topicId}`, cookie);
+const masteryPage = await page(`/app/grammar/${topicId}`, cookie);
 const scoreMatch = masteryPage.text.match(/data-mastery-score="(\d+)"/);
 check("the mastery score is rendered from real attempts", Boolean(scoreMatch), "no score marker");
 const sessionMatch = masteryPage.text.match(/data-mastery-sessions="(\d+)"/);
@@ -192,7 +192,7 @@ check("the demo history exists to build mastery from", masteredRow.rows[0].n > 0
 
 const otherCookie = await login("new.student@learnersarea.uz", "Student12345!");
 if (otherCookie) {
-  const freshPage = await page(`/grammar/${topicId}`, otherCookie);
+  const freshPage = await page(`/app/grammar/${topicId}`, otherCookie);
   check("a fresh student sees an honest empty mastery", freshPage.text.includes("data-mastery-score=\"0\""));
 }
 

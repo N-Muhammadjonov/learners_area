@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
   if (action !== "assign" && action !== "unassign") return NextResponse.json({ error: "invalid_input" }, { status: 400 });
   const result = await setRosterLink(actor, { teacherId, studentId, assigned: action === "assign" });
   const status = !result.ok ? "failed" : result.changed ? "saved" : "unchanged";
-  const target = new URL("/admin/roster", req.url);
+  const target = new URL("/app/admin/roster", req.url);
   if (/^[0-9a-f-]{36}$/i.test(teacherId)) target.searchParams.set("teacher", teacherId);
   target.searchParams.set("status", status);
   return NextResponse.redirect(target, 303);

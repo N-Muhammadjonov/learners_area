@@ -157,7 +157,7 @@ export function evaluateGrammarWithRiwi(input: GrammarEvaluationInput): Provider
       {
         kind: "grammar",
         label: "Another item on this topic",
-        href: "/grammar",
+        href: "/app/grammar",
         reason: "Same structure, different content, immediately after the correction.",
       },
     ],

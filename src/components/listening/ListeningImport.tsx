@@ -463,7 +463,7 @@ export function ListeningImport({ dict }: { dict: Dictionary }) {
       {result && (
         <p role="status" data-canonical-import-result={result.action}>
           {result.action === "unchanged" ? t.unchanged : result.action === "updated" ? t.updated : result.publicationState === "published" ? t.createdPublished : t.createdDraft}{" "}
-          <Link className="btn-secondary" href={`/listening/tests/${result.targetId}`}>
+          <Link className="btn-secondary" href={`/app/listening/tests/${result.targetId}`}>
             {t.open}
           </Link>
         </p>

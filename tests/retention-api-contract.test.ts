@@ -92,7 +92,7 @@ test("Change always posts a new version and carries the stale-editor guard", () 
 });
 
 test("the old passage-driven drill is gone: the route ignores any passage parameter", () => {
-  const code = stripComments(read("src/app/(app)/reading/retention/page.tsx"));
+  const code = stripComments(read("src/app/app/(shell)/reading/retention/page.tsx"));
   assert.ok(!/searchParams/.test(code), "the retention route must not read any query parameter");
   assert.ok(!/passage/i.test(code), "the old passage-driven path must be gone from the code");
   assert.ok(!code.includes("isUuid"), "no passage id may be validated and rendered any more");
@@ -101,21 +101,21 @@ test("the old passage-driven drill is gone: the route ignores any passage parame
 });
 
 test("the Reading hub no longer carries the TED / PODCAST tab (Part 1 override)", () => {
-  const hub = read("src/app/(app)/reading/page.tsx");
+  const hub = read("src/app/app/(shell)/reading/page.tsx");
   const tabs = hub.match(/const TABS = \[([^\]]+)\]/)![1]!;
   assert.ok(!tabs.includes("videos"), `TABS still contains videos: ${tabs}`);
   assert.ok(!hub.includes("data-reading-videos"));
 });
 
 test("the Management page links to the Retention bank one step below Reading", () => {
-  const reading = read("src/app/(app)/admin/reading/page.tsx");
-  assert.match(reading, /href="\/admin\/reading\/retention"/);
-  const page = read("src/app/(app)/admin/reading/retention/page.tsx");
-  assert.match(page, /(?:h|fallbackH)ref="\/admin\/reading"/); // shared BackLink
+  const reading = read("src/app/app/(shell)/admin/reading/page.tsx");
+  assert.match(reading, /href="\/app\/admin\/reading\/retention"/);
+  const page = read("src/app/app/(shell)/admin/reading/retention/page.tsx");
+  assert.match(page, /(?:h|fallbackH)ref="\/app\/admin\/reading"/); // shared BackLink
   assert.match(page, /requireAdministrator\(\)/);
   const routes = read("src/lib/nav/routes.ts");
-  const retentionIndex = routes.indexOf('prefix: "/admin/reading/retention"');
-  const readingIndex = routes.indexOf('prefix: "/admin/reading"');
+  const retentionIndex = routes.indexOf('prefix: "/app/admin/reading/retention"');
+  const readingIndex = routes.indexOf('prefix: "/app/admin/reading"');
   assert.ok(retentionIndex > -1 && readingIndex > -1 && retentionIndex < readingIndex, "the nested route must be matched before its parent");
 });
 

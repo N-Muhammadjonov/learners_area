@@ -83,10 +83,10 @@ export function ReadingPassageCard({
 
       <div className="mt-auto flex items-center justify-between gap-3 pt-1">
         {passage.setId ? (
-          <Link href={`/reading/general/${passage.setId}?passage=${passage.passageNo}`} className="btn-primary">{passage.status === "in_progress" ? dict.readingHub.actionResume : action}</Link>
+          <Link href={`/app/reading/general/${passage.setId}?passage=${passage.passageNo}`} className="btn-primary">{passage.status === "in_progress" ? dict.readingHub.actionResume : action}</Link>
         ) : passage.status === "in_progress" && passage.lastAttemptId ? (
           <Link
-            href={`/reading/attempts/${passage.lastAttemptId}`}
+            href={`/app/reading/attempts/${passage.lastAttemptId}`}
             className="btn-primary min-h-[var(--control-h)]"
             data-passage-action="resume"
           >
@@ -98,7 +98,7 @@ export function ReadingPassageCard({
 
         {passage.status === "completed" && (
           <Link
-            href="/reading/history"
+            href="/app/reading/history"
             className="inline-flex items-center gap-1 text-[0.875rem] font-medium text-ink-500 hover:text-ink-900"
           >
             {dict.reading.historyTitle}

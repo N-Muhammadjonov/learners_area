@@ -131,7 +131,7 @@ export function FullListeningStudy({
   };
   return (
     <main className="listening-workspace mx-auto max-w-[1600px] space-y-6" data-listening-study>
-      <Link className="btn-secondary" href={`/listening/tests/${id}`}>
+      <Link className="btn-secondary" href={`/app/listening/tests/${id}`}>
         ← Test hub
       </Link>
       <header className="card space-y-3">

@@ -12,7 +12,7 @@ function href(base: Params, patch: Params) {
   const q = new URLSearchParams({ tab: "topic-vocabulary" });
   const merged = { ...base, ...patch };
   for (const [k, v] of Object.entries(merged)) if (v) q.set(k, v);
-  return `/writing?${q.toString()}`;
+  return `/app/writing?${q.toString()}`;
 }
 
 /** Topic Vocabulary (PDF p.13): filters → words, collocations, power phrases, frames — each with model use and actions. */
@@ -71,8 +71,8 @@ export async function WritingTopicVocabularyTab({ dict, userId, locale, params }
                 <p className="rounded-md bg-paper-sunken p-2 text-sm text-ink-700"><span className="font-semibold">{t.inContext}:</span> {w.example}</p>
                 <div className="mt-auto flex flex-wrap gap-2">
                   <SaveWordButton word={w} packId={w.packId} initialSaved={w.saved} labels={saveLabels} />
-                  <Link className="btn-secondary min-h-11" href="/vocabulary/review">{t.practice}</Link>
-                  <Link className="btn-secondary min-h-11" href={`/writing?tab=activation&item=${encodeURIComponent(w.term)}`} data-topic-activate>{t.activate}</Link>
+                  <Link className="btn-secondary min-h-11" href="/app/vocabulary/review">{t.practice}</Link>
+                  <Link className="btn-secondary min-h-11" href={`/app/writing?tab=activation&item=${encodeURIComponent(w.term)}`} data-topic-activate>{t.activate}</Link>
                 </div>
               </li>
             ))}
@@ -113,7 +113,7 @@ function PatternCard({ p, dict }: { p: PatternView; dict: Dictionary }) {
       {p.usageNote && <p className="text-sm text-ink-500"><span className="font-semibold">{t.usage}:</span> {p.usageNote}</p>}
       <div className="mt-auto flex flex-wrap gap-2">
         <SavePatternButton id={p.id} initialSaved={p.saved} labels={{ save: t.savePattern, saved: t.patternSaved, error: t.saveError }} />
-        <Link className="btn-secondary min-h-11" href={`/writing?tab=activation&item=${encodeURIComponent(p.pattern)}`}>{t.activate}</Link>
+        <Link className="btn-secondary min-h-11" href={`/app/writing?tab=activation&item=${encodeURIComponent(p.pattern)}`}>{t.activate}</Link>
       </div>
     </li>
   );

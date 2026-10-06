@@ -198,7 +198,7 @@ test("TL1 all seven skills appear in ONE history, newest first, each referencing
     assert.equal(byKind.get("mock")!.content!.versionId, seed.versions.readingVersion, "a mock binds the composition it started with");
 
     // Each entry names a place the learner can open, and the title is the domain's own.
-    assert.equal(byKind.get("reading")!.href, `/reading/attempts/${seed.ids.reading}`);
+    assert.equal(byKind.get("reading")!.href, `/app/reading/attempts/${seed.ids.reading}`);
     assert.equal(byKind.get("writing")!.title, "Discuss both views about homework.");
     assert.equal(byKind.get("speaking")!.title, "Quiet places");
   } finally {

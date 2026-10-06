@@ -23,12 +23,12 @@ test("W10 tablist ARIA + Left/Right/Home/End keyboard model", () => {
   assert.equal(nextTabIndex(3, "a", 8), null);
   const nav = read("src/components/writing/workspace/WritingNav.tsx");
   for (const s of ['role="tablist"', 'role="tab"', "aria-selected={selected}", 'aria-controls="writing-panel"', "tabIndex={selected ? 0 : -1}"]) assert.ok(nav.includes(s), s);
-  const page = read("src/app/(app)/writing/page.tsx");
+  const page = read("src/app/app/(shell)/writing/page.tsx");
   assert.match(page, /role="tabpanel" id="writing-panel" aria-labelledby=\{`writing-tab-\$\{tab\}`\}/);
 });
 
 test("W11 the Grade result page reads persisted results only and switches feedback language without re-grading", () => {
-  const page = read("src/app/(app)/writing/grade/[id]/page.tsx");
+  const page = read("src/app/app/(shell)/writing/grade/[id]/page.tsx");
   assert.match(page, /getGradeView\(id, user\.id\)/);
   assert.doesNotMatch(page, /runGrade|evaluateAndPersist|resolveEvaluation|openai/i);
   assert.match(page, /\?fl=\$\{other\}/);

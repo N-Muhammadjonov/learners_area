@@ -67,7 +67,7 @@ const cookie = await login("demo.student@learnersarea.uz", "Student12345!");
 const otherCookie = await login("new.student@learnersarea.uz", "Student12345!");
 
 // --- 1. the passage list and a fresh attempt --------------------------------
-const list = await api("/reading", { cookie });
+const list = await api("/app/reading", { cookie });
 check("the reading page renders for an approved student", list.status === 200, `status ${list.status}`);
 check("the passage list marks each passage", /data-passage="/.test(list.text), "no data-passage found");
 
@@ -91,7 +91,7 @@ check("an attempt can be started", started.status === 200 && Boolean(started.jso
 const attemptId = started.json.id;
 
 // --- 2. the exam page carries the new reading aids --------------------------
-const exam = await api(`/reading/attempts/${attemptId}`, { cookie });
+const exam = await api(`/app/reading/attempts/${attemptId}`, { cookie });
 check("the exam renders the passage", exam.status === 200, `status ${exam.status}`);
 check("the passage has the clickable-word layer", exam.text.includes("data-clickable-text"));
 check("the exam offers read-aloud", exam.text.includes("data-read-aloud"));
@@ -154,7 +154,7 @@ const submitted = await api(`/api/reading/attempts/${attemptId}/submit`, {
 });
 check("the attempt can be submitted", submitted.status === 200, `status ${submitted.status}`);
 
-const analysis = await api(`/reading/attempts/${attemptId}`, { cookie });
+const analysis = await api(`/app/reading/attempts/${attemptId}`, { cookie });
 check("the analysis page renders", analysis.status === 200, `status ${analysis.status}`);
 check("the analysis shows the question-type mastery table", analysis.text.includes("data-type-mastery"));
 check("the analysis shows the question type of each item", analysis.text.includes("data-type="));
@@ -178,7 +178,7 @@ check("the checklist records what the student kept, without a score", analysis.t
 check("the clickable word layer is present on the analysis page", analysis.text.includes("data-clickable-text"));
 
 // --- 5. privacy -------------------------------------------------------------
-const stranger = await api(`/reading/attempts/${attemptId}`, { cookie: otherCookie });
+const stranger = await api(`/app/reading/attempts/${attemptId}`, { cookie: otherCookie });
 check(
   "another student cannot open this attempt",
   stranger.status === 404 || stranger.status === 307,
@@ -191,7 +191,7 @@ check("an anonymous caller gets no reading word set", anonymous.status === 401, 
 
 // 7. The retention drill is a reading mode of its own: a student can practise
 //    recall without sitting a test first, and it still claims no score.
-const retentionPage = await api("/reading/retention", { cookie });
+const retentionPage = await api("/app/reading/retention", { cookie });
 check("the retention mode opens for a student", retentionPage.status === 200, `status ${retentionPage.status}`);
 const retentionHtml = retentionPage.text ?? "";
 check("the drill renders its own controls", /data-retention-input/.test(retentionHtml) && /data-retention-passage/.test(retentionHtml));
@@ -199,9 +199,9 @@ check("the passage is open to read first", /data-retention-passage/.test(retenti
 check("the drill states it is not scored", /Nothing is scored|ball qo'yilmaydi/i.test(retentionHtml));
 // The drill is offered by the Reading hub's own Retention tab (the hub is tabbed,
 // so the link is on that tab, not on the default academic listing).
-const retentionTab = await api("/reading?tab=retention", { cookie });
+const retentionTab = await api("/app/reading?tab=retention", { cookie });
 check("the reading hub offers the drill on its Retention tab", /data-retention-mode-link/.test(retentionTab.text ?? ""));
-const defaultTab = await api("/reading", { cookie });
+const defaultTab = await api("/app/reading", { cookie });
 check("the hub's default tab is the academic listing", /data-reading-tab="academic"/.test(defaultTab.text ?? ""));
 
 console.log(`\n# pass ${passed} / fail ${failed}`);

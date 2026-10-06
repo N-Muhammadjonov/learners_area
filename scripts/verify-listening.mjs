@@ -63,7 +63,7 @@ const studentCookie = await login("demo.student@learnersarea.uz", "Student12345!
 check("the student can sign in", Boolean(studentCookie), "no session cookie");
 
 // --- the test list and a fresh attempt ------------------------------------
-const list = await page("/listening", studentCookie);
+const list = await page("/app/listening", studentCookie);
 check("the listening page renders", list.status === 200, `status ${list.status}`);
 
 // The answer key lives in the database, never in the page: the exam HTML must
@@ -86,7 +86,7 @@ const started = await api("/api/listening/attempts", {
 const attemptId = started.json?.id ?? null;
 check("an attempt can be started", Boolean(attemptId), started.text.slice(0, 120));
 
-const attemptPage = await page(`/listening/attempts/${attemptId}`, studentCookie);
+const attemptPage = await page(`/app/listening/attempts/${attemptId}`, studentCookie);
 check("the exam renders", attemptPage.status === 200, `status ${attemptPage.status}`);
 check("the exam shows the audio", /audio|iframe|material/i.test(attemptPage.text));
 // A multiple-choice key is also one of its options, so the bare string is
@@ -137,12 +137,12 @@ const submitted = await api(`/api/listening/attempts/${attemptId}/submit`, {
 });
 check("the attempt can be submitted", submitted.status === 200, submitted.text.slice(0, 120));
 
-const analysis = await page(`/listening/attempts/${attemptId}`, studentCookie);
+const analysis = await page(`/app/listening/attempts/${attemptId}`, studentCookie);
 check("the analysis renders after submitting", analysis.status === 200);
 check("the analysis offers the revision studio", analysis.text.includes("data-revision-link"));
 check("the transcript is interactive in the analysis", analysis.text.includes("data-clickable-text"));
 
-const revision = await page(`/listening/attempts/${attemptId}/revision`, studentCookie);
+const revision = await page(`/app/listening/attempts/${attemptId}/revision`, studentCookie);
 check("the revision studio renders", revision.status === 200, `status ${revision.status}`);
 check("the revision studio shows the mistake map", revision.text.includes("data-mistake-map"));
 check("the mistake map names the weakest type", revision.text.includes("data-weakest-type"));
@@ -242,7 +242,7 @@ check("the drill ends with no next step", reasoned.json?.next === null);
 // --- ownership and score integrity ---------------------------------------
 const otherLogin = await login("new.student@learnersarea.uz", "Student12345!");
 if (otherLogin) {
-  const foreign = await page(`/listening/attempts/${attemptId}/revision`, otherLogin);
+  const foreign = await page(`/app/listening/attempts/${attemptId}/revision`, otherLogin);
   check(
     "another student cannot open this revision studio",
     foreign.status === 404 || foreign.status === 307 || foreign.status === 302,

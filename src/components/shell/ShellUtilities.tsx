@@ -46,14 +46,14 @@ export { FOCUS_STORAGE_KEY };
 
 /** Routes where hiding the chrome genuinely helps. */
 const FOCUS_ROUTES = [
-  "/reading",
-  "/listening",
-  "/writing",
-  "/speaking",
-  "/grammar",
-  "/vocabulary",
-  "/mocks",
-  "/coach",
+  "/app/reading",
+  "/app/listening",
+  "/app/writing",
+  "/app/speaking",
+  "/app/grammar",
+  "/app/vocabulary",
+  "/app/mocks",
+  "/app/coach",
 ];
 
 export function ShellUtilities({ dict }: { dict: Dictionary }) {
@@ -219,9 +219,9 @@ export function ShellUtilities({ dict }: { dict: Dictionary }) {
               <span>{on ? dict.focus.exit : dict.focus.enter}</span>
             </button>
           )}
-          {pathname !== "/coach" && (
+          {pathname !== "/app/coach" && (
             <Link
-              href="/coach"
+              href="/app/coach"
               data-coach-fab
               className="flex min-h-[46px] items-center gap-2 rounded-full border border-gold/45 bg-paper-raised px-4 text-[0.9375rem] font-medium text-ink-700 shadow-card transition-colors hover:bg-paper-sunken hover:text-ink-900"
             >

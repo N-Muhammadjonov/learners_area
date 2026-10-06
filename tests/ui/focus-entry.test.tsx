@@ -73,7 +73,7 @@ test("a real attempt enters Focus once, a manual exit survives a remount, a new 
   try {
     // 1. A Reading attempt opens: Focus turns on without any interaction, and the
     //    learner's stored preference is not rewritten by the automatic entry.
-    await render("/reading/attempts/attempt-1", "attempt-1");
+    await render("/app/reading/attempts/attempt-1", "attempt-1");
     assert.equal(focusState(), "on");
     // The utility stack is collapsed until asked for; one press reveals it.
     assert.equal(q("[data-utilities-launcher]").getAttribute("aria-expanded"), "false");
@@ -89,22 +89,22 @@ test("a real attempt enters Focus once, a manual exit survives a remount, a new 
     await act(async () => q<HTMLElement>("[data-focus-toggle]").click());
     assert.equal(focusState(), "off");
     assert.equal(stored(), "off", "a manual choice is still remembered");
-    await render("/reading/attempts/attempt-1");
-    await render("/reading/attempts/attempt-1", "attempt-1");
+    await render("/app/reading/attempts/attempt-1");
+    await render("/app/reading/attempts/attempt-1", "attempt-1");
     assert.equal(focusState(), "off", "no re-enable loop for the attempt the learner exited");
 
     // 3. A different attempt is a new decision point and focuses itself.
-    await render("/reading/attempts/attempt-2", "attempt-2");
+    await render("/app/reading/attempts/attempt-2", "attempt-2");
     assert.equal(focusState(), "on");
 
     // 4. Ordinary Reading browsing never auto-enables it.
-    await render("/reading");
+    await render("/app/reading");
     assert.equal(focusState(), "off");
-    await render("/reading/retention");
+    await render("/app/reading/retention");
     assert.equal(focusState(), "off");
 
     // 5. A Listening attempt behaves exactly like a Reading one.
-    await render("/listening/attempts/attempt-3", "attempt-3");
+    await render("/app/listening/attempts/attempt-3", "attempt-3");
     assert.equal(focusState(), "on");
   } finally {
     await act(async () => root.unmount());

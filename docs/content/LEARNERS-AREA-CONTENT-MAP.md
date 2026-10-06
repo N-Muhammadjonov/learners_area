@@ -54,7 +54,7 @@ serves it and which table stores it. If a file and this table disagree, the file
 | `/api/admin/content/bank` | the shared content bank: filters, facets, paging, staff-only |
 | `/api/admin/content/versions/[id]/preview` | native preview of one exact revision (drafts included, staff-only) |
 | `/api/history` | the learner's own cross-skill timeline (a projection over the real attempts) |
-| `/api/lessons/[lessonId]`, `/api/lessons/blocks/[blockId]/answer` | learner lesson read + block answer |
+| `/api/lessons/[id]`, `/api/lessons/blocks/[blockId]/answer` | learner lesson read + block answer |
 | `/api/vocabulary/packs` | published lexical packs (DB first, built-in fallback) |
 | `/api/assignments` | assignment list/create over canonical content (staff see what they created; a learner sees their own targets) |
 | `/api/assignments/assignable` | staff-only: canonical items with a published revision that may be set as work |

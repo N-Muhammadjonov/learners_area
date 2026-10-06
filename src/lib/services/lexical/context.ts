@@ -37,16 +37,16 @@ export type VocabularySourceSnapshot = {
 /** Where "go back to this source" leads; null when no learner-reachable page exists. */
 export function sourceRevisitHref(snapshot: Partial<VocabularySourceSnapshot> | null | undefined): string | null {
   if (!snapshot) return null;
-  if (snapshot.sourceType === "video" && snapshot.videoLessonId) return `/video-lessons/${snapshot.videoLessonId}`;
+  if (snapshot.sourceType === "video" && snapshot.videoLessonId) return `/app/video-lessons/${snapshot.videoLessonId}`;
   if (snapshot.sourceType === "listening" && snapshot.listeningTestId) {
     const section = snapshot.sectionNumber && snapshot.sectionNumber >= 1 && snapshot.sectionNumber <= 4 ? `?section=${snapshot.sectionNumber}` : "";
-    return `/listening/tests/${snapshot.listeningTestId}/study${section}`;
+    return `/app/listening/tests/${snapshot.listeningTestId}/study${section}`;
   }
   if (snapshot.sourceType === "reading" && snapshot.generalSetId) {
     const passage = snapshot.passageNo && snapshot.passageNo >= 1 && snapshot.passageNo <= 3 ? `?passage=${snapshot.passageNo}` : "";
-    return `/reading/general/${snapshot.generalSetId}${passage}`;
+    return `/app/reading/general/${snapshot.generalSetId}${passage}`;
   }
-  if (snapshot.attemptId) return `/reading/attempts/${snapshot.attemptId}`;
+  if (snapshot.attemptId) return `/app/reading/attempts/${snapshot.attemptId}`;
   return null;
 }
 

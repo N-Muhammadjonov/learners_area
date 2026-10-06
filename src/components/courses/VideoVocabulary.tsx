@@ -23,7 +23,7 @@ export function VideoVocabulary({id, words, dict}: {id: string; words: VideoWord
     else setError(apiErrorMessage(result.error, result.status, dict));
   }
   return <div className="flex flex-col gap-3" data-video-vocabulary>
-    <p className="text-sm text-ink-500">{t.vocabularyHelp} <Link href="/vocabulary" className="underline">{t.vocabularyPractice}</Link></p>
+    <p className="text-sm text-ink-500">{t.vocabularyHelp} <Link href="/app/vocabulary" className="underline">{t.vocabularyPractice}</Link></p>
     {error && <p role="alert" className="text-band-bad">{error}</p>}
     {words.map(word => <article key={word.occurrenceId} className="card p-4">
       <p className="font-semibold">{word.term} <span className="text-sm text-ink-500">{word.partOfSpeech}</span></p>

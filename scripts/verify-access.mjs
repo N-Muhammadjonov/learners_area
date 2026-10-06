@@ -111,7 +111,7 @@ console.log(`\nLearners Area — access & admission end-to-end against ${BASE}\n
 // ---------------------------------------------------------------------------
 
 await check("an anonymous visitor is redirected from a private page to login", async () => {
-  const res = await get(null, "/dashboard");
+  const res = await get(null, "/app/dashboard");
   assert.equal(res.status, 307);
   assert.match(res.location ?? "", /\/login/);
 });
@@ -140,13 +140,13 @@ await check("registration creates a PENDING account and signs it in", async () =
 });
 
 await check("a PENDING account is sent to the waiting room, not to the dashboard", async () => {
-  const res = await get(applicantCookie, "/dashboard");
+  const res = await get(applicantCookie, "/app/dashboard");
   assert.equal(res.status, 307);
   assert.match(res.location ?? "", /\/pending/);
 });
 
 await check("a PENDING account is redirected away from staff pages to the waiting room", async () => {
-  const res = await get(applicantCookie, "/teacher/students");
+  const res = await get(applicantCookie, "/app/teacher/students");
   assert.equal(res.status, 307);
   assert.match(res.location ?? "", /\/pending/);
 });
@@ -189,7 +189,7 @@ await check("filing the same request twice is idempotent", async () => {
 
 await check("the owners and admins see the request in the queue", async () => {
   for (const cookie of [adminCookie, ownerCookie]) {
-    const res = await get(cookie, "/admin/admissions");
+    const res = await get(cookie, "/app/admin/admissions");
     assert.equal(res.status, 200);
     assert.ok(
       res.html.includes(applicantEmail),
@@ -199,12 +199,12 @@ await check("the owners and admins see the request in the queue", async () => {
 });
 
 await check("a teacher cannot open the admission queue", async () => {
-  const res = await get(teacherCookie, "/admin/admissions");
+  const res = await get(teacherCookie, "/app/admin/admissions");
   assert.ok([307, 404].includes(res.status), `expected a redirect/404, got ${res.status}`);
 });
 
 await check("a teacher cannot open administrator pages", async () => {
-  for (const path of ["/admin/reading", "/admin/grammar", "/admin/writing-prompts"]) {
+  for (const path of ["/app/admin/reading", "/app/admin/grammar", "/app/admin/writing-prompts"]) {
     const res = await get(teacherCookie, path);
     assert.equal(res.status, 307, `${path} must redirect a teacher (got ${res.status})`);
     assert.match(res.location ?? "", /\/dashboard/);
@@ -249,7 +249,7 @@ await check("an administrator approves the request and the account becomes ACTIV
 });
 
 await check("the same cookie that was blocked now reaches the dashboard and the APIs", async () => {
-  const page = await get(applicantCookie, "/dashboard");
+  const page = await get(applicantCookie, "/app/dashboard");
   assert.equal(page.status, 200, `expected 200, got ${page.status}`);
 
   const priv = await api(applicantCookie, "/api/assignments");
@@ -269,7 +269,7 @@ await check("the applicant was notified in-app", async () => {
 // ---------------------------------------------------------------------------
 
 await check("the approved applicant is listed as an active student", async () => {
-  const people = await get(adminCookie, "/admin/people");
+  const people = await get(adminCookie, "/app/admin/people");
   assert.equal(people.status, 200);
   const row = people.html.match(
     new RegExp(`data-person-id="${applicantId}"[^>]*data-person-role="student"[^>]*data-person-status="active"`)
@@ -284,7 +284,7 @@ await check("suspension revokes access on the very next request, old cookie and 
   });
   assert.equal(suspend.status, 200, suspend.text.slice(0, 200));
 
-  const page = await get(applicantCookie, "/dashboard");
+  const page = await get(applicantCookie, "/app/dashboard");
   assert.equal(page.status, 307);
   assert.match(page.location ?? "", /\/pending/);
 
@@ -309,7 +309,7 @@ await check("reactivating the account restores access", async () => {
 });
 
 await check("a student cannot open staff or administrator pages", async () => {
-  for (const path of ["/teacher/students", "/teacher/live-classes", "/admin/reading", "/admin/people"]) {
+  for (const path of ["/app/teacher/students", "/app/teacher/live-classes", "/app/admin/reading", "/app/admin/people"]) {
     const res = await get(applicantCookie, path);
     assert.equal(res.status, 307, `${path} must redirect a student (got ${res.status})`);
     assert.match(res.location ?? "", /\/dashboard/);
@@ -321,7 +321,7 @@ await check("a student cannot open staff or administrator pages", async () => {
 // ---------------------------------------------------------------------------
 
 await check("an admin cannot suspend the owner", async () => {
-  const people = await get(adminCookie, "/admin/people");
+  const people = await get(adminCookie, "/app/admin/people");
   const ownerId = people.html.match(/data-person-id="([0-9a-f-]{36})"[^>]*data-person-role="owner"/)?.[1];
   assert.ok(ownerId, "the owner must be listed");
   const res = await api(adminCookie, `/api/admin/users/${ownerId}/status`, {
@@ -334,7 +334,7 @@ await check("an admin cannot suspend the owner", async () => {
 });
 
 await check("an admin cannot change their own role", async () => {
-  const people = await get(adminCookie, "/admin/people");
+  const people = await get(adminCookie, "/app/admin/people");
   const adminId = people.html.match(/data-person-id="([0-9a-f-]{36})"[^>]*data-person-role="admin"/)?.[1];
   assert.ok(adminId, "the admin must be listed");
   const res = await api(adminCookie, `/api/admin/users/${adminId}/role`, {
@@ -363,7 +363,7 @@ await check("the owner can grant a role, and the change follows the account imme
 
   // The old cookie now reaches teacher-only pages, because the role is read from
   // the database on every request.
-  const teacherPage = await get(applicantCookie, "/teacher/students");
+  const teacherPage = await get(applicantCookie, "/app/teacher/students");
   assert.equal(teacherPage.status, 200, `expected 200, got ${teacherPage.status}`);
 
   const down = await api(ownerCookie, `/api/admin/users/${applicantId}/role`, {
@@ -371,7 +371,7 @@ await check("the owner can grant a role, and the change follows the account imme
     body: JSON.stringify({ role: "student" }),
   });
   assert.equal(down.status, 200);
-  const after = await get(applicantCookie, "/teacher/students");
+  const after = await get(applicantCookie, "/app/teacher/students");
   assert.ok([307, 404].includes(after.status), "a demoted account must lose the teacher shell");
 });
 
@@ -380,13 +380,13 @@ await check("the owner can grant a role, and the change follows the account imme
 // ---------------------------------------------------------------------------
 
 await check("the owner console is reachable by the owner and by nobody else", async () => {
-  const owner = await get(ownerCookie, "/owner");
+  const owner = await get(ownerCookie, "/app/owner");
   assert.equal(owner.status, 200);
 
-  const admin = await get(adminCookie, "/owner");
+  const admin = await get(adminCookie, "/app/owner");
   assert.ok([307, 404].includes(admin.status), `admin must not open /owner (got ${admin.status})`);
 
-  const student = await get(applicantCookie, "/owner");
+  const student = await get(applicantCookie, "/app/owner");
   assert.ok([307, 404].includes(student.status), `student must not open /owner (got ${student.status})`);
 });
 
@@ -425,7 +425,7 @@ await check("a student cannot run the retention job", async () => {
 });
 
 await check("the integration page states limits truthfully", async () => {
-  const res = await get(ownerCookie, "/owner/integrations");
+  const res = await get(ownerCookie, "/app/owner/integrations");
   assert.equal(res.status, 200);
   assert.match(res.html, /data-integration="database"[^>]*data-state="connected"/);
   assert.match(res.html, /data-integration="storage"[^>]*data-state="(connected|unverified)"/);
@@ -442,7 +442,7 @@ await check("no secret value is rendered anywhere in the owner area", async () =
     process.env.AI_PROVIDER_API_KEY,
   ].filter((value) => typeof value === "string" && value.length > 8);
 
-  const pages = ["/owner", "/owner/integrations", "/owner/retention", "/owner/audit", "/owner/transfer"];
+  const pages = ["/app/owner", "/app/owner/integrations", "/app/owner/retention", "/app/owner/audit", "/app/owner/transfer"];
   for (const path of pages) {
     const res = await get(ownerCookie, path);
     assert.equal(res.status, 200, `${path} must render`);
@@ -454,7 +454,7 @@ await check("no secret value is rendered anywhere in the owner area", async () =
 });
 
 await check("the audit trail records the decisions that were made", async () => {
-  const res = await get(ownerCookie, "/owner/audit");
+  const res = await get(ownerCookie, "/app/owner/audit");
   assert.equal(res.status, 200);
   for (const action of ["access.approved", "account.suspended", "role.changed"]) {
     assert.ok(res.html.includes(`data-audit-action="${action}"`), `audit is missing ${action}`);
@@ -475,7 +475,7 @@ await check("night mode is server-rendered, so the theme never flashes", async (
   const cookie = (res.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ");
   const merged = mergeCookies(ownerCookie, cookie);
 
-  const page = await get(merged, "/dashboard");
+  const page = await get(merged, "/app/dashboard");
   assert.equal(page.status, 200);
   assert.match(page.html, /data-theme="night"/);
 
@@ -489,7 +489,7 @@ await check("night mode is server-rendered, so the theme never flashes", async (
     merged,
     (back.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ")
   );
-  const day = await get(dayJar, "/dashboard");
+  const day = await get(dayJar, "/app/dashboard");
   assert.match(day.html, /data-theme="day"/, "the theme must persist back to Day Mode too");
 });
 

@@ -24,10 +24,10 @@ test("Management People search is parameterized in SQL before a fixed, determini
   assert.doesNotMatch(count.sql, / limit | offset /);
   assert.equal(count.params.length, 4);
 
-  const directory = read("src/app/(app)/admin/people/page.tsx");
+  const directory = read("src/app/app/(shell)/admin/people/page.tsx");
   const table = read("src/components/admin/PeopleTable.tsx");
   assert.match(directory, /role: isRole\(rawRole\)[\s\S]*status: isAccountStatus\(rawStatus\)[\s\S]*page: pageNumber/);
-  assert.match(table, /action="\/admin\/people" method="get"/);
+  assert.match(table, /action="\/app\/admin\/people" method="get"/);
   assert.match(table, /peoplePageHref\(filters, page [+-] 1\)/);
   assert.match(table, /router\.refresh\(\)/);
   assert.match(table, /\/api\/admin\/users\/\$\{person\.id\}\/role/);
@@ -46,7 +46,7 @@ test("profile self-edit accepts only a validated display name and binds it to th
   assert.match(route, /\.set\(\{ name: parsed\.data\.name \}\)/);
   assert.match(route, /eq\(users\.id, user\.id\)/);
   assert.doesNotMatch(route, /\.set\(\{[^}]*\b(email|role|accountStatus|isOwner|gender):/);
-  assert.match(menu, /href="\/profile"/);
+  assert.match(menu, /href="\/app\/profile"/);
 });
 
 test("registration declares and persists a canonical gender while keeping legacy and provider users nullable", () => {
@@ -87,11 +87,11 @@ test("reset request and confirmation both retain a localized route back to login
 
 test("floating AI Coach action opens the existing Coach dashboard without an invented chat", () => {
   const utilities = read("src/components/shell/ShellUtilities.tsx");
-  assert.match(utilities, /href="\/coach"/);
+  assert.match(utilities, /href="\/app\/coach"/);
   assert.match(utilities, /data-coach-fab/);
   assert.match(utilities, /IconSparkles/);
   assert.match(utilities, /dict\.nav\.coach/);
-  assert.ok(read("src/app/(app)/coach/page.tsx").includes("CoachPage"));
+  assert.ok(read("src/app/app/(shell)/coach/page.tsx").includes("CoachPage"));
 });
 
 test("TED / PODCAST is the complete learner-facing section identity in both locales", () => {
@@ -105,7 +105,7 @@ test("TED / PODCAST is the complete learner-facing section identity in both loca
   assert.equal(en.videoLessons.title, "TED / PODCAST");
   assert.equal(uz.videoLessons.title, "TED / PODCAST");
 
-  const hub = read("src/app/(app)/reading/page.tsx");
+  const hub = read("src/app/app/(shell)/reading/page.tsx");
   assert.doesNotMatch(hub, /data-reading-videos/);
   assert.doesNotMatch(hub, /tabVideos|videosGoToLibrary|videosEmptyHint/);
   assert.equal(

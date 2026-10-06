@@ -232,11 +232,11 @@ export function VocabStudio({ dict, initialTab, packs }: { dict: Dictionary; ini
 
   const openTab = useCallback((next: TabKey) => {
     if (next === "games") {
-      navigate("/vocabulary/games");
+      navigate("/app/vocabulary/games");
       return;
     }
     setTab(next);
-    const url = next === "words" ? "/vocabulary" : `/vocabulary?tab=${next}`;
+    const url = next === "words" ? "/app/vocabulary" : `/app/vocabulary?tab=${next}`;
     window.history.replaceState(null, "", url);
   }, [navigate]);
 

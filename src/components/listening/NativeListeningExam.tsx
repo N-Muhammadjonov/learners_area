@@ -181,7 +181,7 @@ export function NativeListeningExam({
       try {
         localStorage.removeItem(key);
       } catch {}
-      router.push(`/listening/tests/${testId}/2`);
+      router.push(`/app/listening/tests/${testId}/2`);
     } catch {
       setError(dict.fullListeningHub.examScreen.submitFailed);
       flight.current = false;

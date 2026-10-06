@@ -129,7 +129,7 @@ const ITEMS = [
     successor: "src/lib/content/authors.ts (speaking:material) + src/lib/services/speaking/materials.ts",
   },
   {
-    path: "src/components/speaking/ShadowingStudio.tsx + src/app/(app)/speaking/shadowing",
+    path: "src/components/speaking/ShadowingStudio.tsx + src/app/app/(shell)/speaking/shadowing",
     what: "shadowing studio: a source recording plus the learner's own local take",
     classification: "KEEP",
     reason:

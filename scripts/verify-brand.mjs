@@ -124,7 +124,7 @@ const studentCookie = await signIn("demo.student@learnersarea.uz", "Student12345
 const studentLanding = await page("/", studentCookie);
 check(
   "an approved student is sent to the dashboard",
-  /data-landing-cta-destination="\/dashboard"/.test(studentLanding.text),
+  /data-landing-cta-destination="\/app\/dashboard"/.test(studentLanding.text),
   studentLanding.text.match(/data-landing-cta-destination="([^"]+)"/)?.[1] ?? "topilmadi"
 );
 
@@ -140,7 +140,7 @@ if (pendingCookie) {
 // ---------------------------------------------------------------------------
 // 6..7. The application shell
 // ---------------------------------------------------------------------------
-const dashboard = await page("/dashboard", studentCookie);
+const dashboard = await page("/app/dashboard", studentCookie);
 check("the dashboard renders", dashboard.status === 200, `status ${dashboard.status}`);
 const sidebarBlock = dashboard.text.match(/<aside[\s\S]*?<\/aside>/)?.[0] ?? "";
 check(
@@ -216,7 +216,7 @@ check(
 // 9. The owner's brand preview uses the master artwork
 // ---------------------------------------------------------------------------
 const ownerCookie = await signIn("owner@learnersarea.uz", "Owner12345!");
-const ownerPage = await page("/owner", ownerCookie);
+const ownerPage = await page("/app/owner", ownerCookie);
 if (ownerCookie && ownerPage.status === 200) {
   check(
     "the owner brand preview shows the master artwork",

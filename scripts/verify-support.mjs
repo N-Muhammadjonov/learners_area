@@ -64,7 +64,7 @@ check("the student can sign in", Boolean(studentCookie));
 check("the teacher can sign in", Boolean(teacherCookie));
 
 // The control is reachable from the private shell, on desktop and on mobile.
-const dashboard = await page("/dashboard", studentCookie);
+const dashboard = await page("/app/dashboard", studentCookie);
 check("the private shell offers the report control", dashboard.text.includes("data-report-toggle"));
 check("the report form is contextual", dashboard.text.includes("data-report-form") || dashboard.text.includes("data-report-toggle"));
 
@@ -73,7 +73,7 @@ const created = await api("/api/support/reports", {
   method: "POST",
   cookie: studentCookie,
   body: {
-    route: "/vocabulary?panel=my-words",
+    route: "/app/vocabulary?panel=my-words",
     module: "vocabulary",
     message: marker,
     viewport: "430×932",
@@ -89,7 +89,7 @@ const row = await db.query(
   "select route, module, message, viewport, status from problem_reports where id = $1",
   [created.json?.id]
 );
-check("the report is stored with the page it came from", row.rows[0]?.route === "/vocabulary?panel=my-words");
+check("the report is stored with the page it came from", row.rows[0]?.route === "/app/vocabulary?panel=my-words");
 check("the report is stored open", row.rows[0]?.status === "open");
 check("the message is stored as written", row.rows[0]?.message === marker);
 
@@ -117,19 +117,19 @@ check("an external route is refused", externalRoute.status === 400, `status ${ex
 const short = await api("/api/support/reports", {
   method: "POST",
   cookie: studentCookie,
-  body: { route: "/dashboard", module: "app", message: "x" },
+  body: { route: "/app/dashboard", module: "app", message: "x" },
 });
 check("an empty report is refused", short.status === 400, `status ${short.status}`);
 
 const anon = await api("/api/support/reports", {
   method: "POST",
-  body: { route: "/dashboard", module: "app", message: "hello there" },
+  body: { route: "/app/dashboard", module: "app", message: "hello there" },
 });
 check("an anonymous report is refused", anon.status === 401, `status ${anon.status}`);
 
 // The inbox is staff-only, in the API and on the page.
 check("a student cannot list reports", (await api("/api/support/reports", { cookie: studentCookie })).status === 403);
-const studentInbox = await page("/teacher/support", studentCookie);
+const studentInbox = await page("/app/teacher/support", studentCookie);
 check(
   "a student cannot open the support inbox page",
   ([307, 302, 404].includes(studentInbox.status) ||
@@ -145,7 +145,7 @@ check(
   (teacherList.json?.reports ?? []).some((r) => r.id === created.json?.id && r.reporterRole === "student")
 );
 
-const teacherInbox = await page("/teacher/support", teacherCookie);
+const teacherInbox = await page("/app/teacher/support", teacherCookie);
 check("the inbox page renders for staff", teacherInbox.status === 200, `status ${teacherInbox.status}`);
 check("the inbox shows the report", teacherInbox.text.includes(String(created.json?.id)));
 

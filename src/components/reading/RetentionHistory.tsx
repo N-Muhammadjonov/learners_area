@@ -86,7 +86,7 @@ export function RetentionHistory({ dict, initial }: { dict: Dictionary; initial:
               </span>
               <span className="flex items-center gap-3">
                 <span className="meta-text" data-retention-history-score={row.score ?? "unavailable"}>{row.score ?? "—"} / 100</span>
-                <Link href={`/reading/retention/results/${row.attemptId}`} prefetch={false} className="btn-secondary" data-retention-history-open={row.attemptId}>
+                <Link href={`/app/reading/retention/results/${row.attemptId}`} prefetch={false} className="btn-secondary" data-retention-history-open={row.attemptId}>
                   {t.historyOpen}
                 </Link>
               </span>

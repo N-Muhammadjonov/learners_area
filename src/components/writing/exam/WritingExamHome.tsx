@@ -34,7 +34,7 @@ export async function WritingExamHome({ dict, userId, locale }: { dict: Dictiona
             <p className="font-semibold text-ink-900">{t.resumeTitle} · {t.modeLabel[open.mode]}</p>
             <p className="text-sm text-ink-500">{t.resumeBody} {t.timeLeft}: {formatClock(open.remainingSeconds)}</p>
           </div>
-          <Link href={`/writing/exam/${open.id}`} className="btn-primary min-h-11">{t.resume}</Link>
+          <Link href={`/app/writing/exam/${open.id}`} className="btn-primary min-h-11">{t.resume}</Link>
         </div>
       )}
 
@@ -64,7 +64,7 @@ export async function WritingExamHome({ dict, userId, locale }: { dict: Dictiona
           <ul className="flex flex-col gap-2" data-exam-recent>
             {recent.map((p) => (
               <li key={p.id}>
-                <Link href={`/writing/exam/${p.id}`} className="card flex min-h-11 flex-wrap items-center justify-between gap-2 px-4 py-3 text-sm">
+                <Link href={`/app/writing/exam/${p.id}`} className="card flex min-h-11 flex-wrap items-center justify-between gap-2 px-4 py-3 text-sm">
                   <span className="font-semibold text-ink-900">{t.modeLabel[p.mode]}</span>
                   <span className="text-ink-500">{formatDateTime(p.startedAt, locale as Locale)}</span>
                   <span className="text-ink-500">{p.finalizeReason ? t.reason[p.finalizeReason] : t.inProgress}</span>

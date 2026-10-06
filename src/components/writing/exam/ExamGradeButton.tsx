@@ -23,7 +23,7 @@ export function ExamGradeButton({ taskType, question, essay, idempotencyKey, pro
       const res = await request<Record<string, unknown>>("/api/writing/grade", {method: "POST", timeoutMs: 60000, body: { taskType, question, essay, idempotencyKey, promptId }});
       if (!res) return;
       const data = (res.ok ? res.data : null) as { id?: string; ok?: boolean } | null;
-      if (res.ok && data?.id) { setBusy(false); router.push(`/writing/grade/${data.id}`); return; }
+      if (res.ok && data?.id) { setBusy(false); router.push(`/app/writing/grade/${data.id}`); return; }
       setError(true);
     } catch { setError(true); }
     setBusy(false);

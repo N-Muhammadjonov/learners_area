@@ -100,13 +100,13 @@ export function FullListeningLibrary({ cards, dict, management = false }: { card
               aria-label={fill(t.progressLabel, { title: card.title })}
             />
             <p>{fill(t.completedOf5, { done: card.completed, total: card.activityCount ?? 5 })}</p></>}
-            {card.legacy ? management ? <Link className="btn-primary" href={`/admin/listening/${card.id}`}>{dict.common.continue} →</Link> : <StartTestButton testId={card.id} label={dict.listening.startAttempt} messages={dict.auth} /> : (
+            {card.legacy ? management ? <Link className="btn-primary" href={`/app/admin/listening/${card.id}`}>{dict.common.continue} →</Link> : <StartTestButton testId={card.id} label={dict.listening.startAttempt} messages={dict.auth} /> : (
             <Link
               className="btn-primary mt-auto"
               href={
                 section && !card.authoredRuntime
-                  ? `/listening/tests/${card.id}/study?section=${section}`
-                  : `/listening/tests/${card.id}`
+                  ? `/app/listening/tests/${card.id}/study?section=${section}`
+                  : `/app/listening/tests/${card.id}`
               }
             >
               {section

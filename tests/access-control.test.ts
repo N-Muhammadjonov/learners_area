@@ -207,7 +207,7 @@ test("every private API route rejects anonymous callers with 401", () => {
 });
 
 test("every staff, administrator and owner page guards itself from the database", () => {
-  const pages = walk(join(ROOT, "src/app/(app)"))
+  const pages = walk(join(ROOT, "src/app/app/(shell)"))
     .map((f) => relative(ROOT, f))
     .filter((f) => f.endsWith("page.tsx"));
 
@@ -233,7 +233,7 @@ test("every staff, administrator and owner page guards itself from the database"
 });
 
 test("page-level authorization reads the database, not the session cookie", () => {
-  const pages = walk(join(ROOT, "src/app/(app)"))
+  const pages = walk(join(ROOT, "src/app/app/(shell)"))
     .map((f) => relative(ROOT, f))
     .filter((f) => f.endsWith("page.tsx"));
   const offenders = pages.filter((page) => /getSession\(\)/.test(stripComments(read(page))));

@@ -222,7 +222,7 @@ export function FullListeningActivity({
   if(scriptPart){let cursor=0;for(const gap of scriptPart.gaps){const at=scriptPart.transcript.indexOf(gap.match,cursor);if(at<0)continue;scriptChunks.push({text:scriptPart.transcript.slice(cursor,at),gap});cursor=at+gap.match.length;}scriptChunks.push({text:scriptPart.transcript.slice(cursor)});}
   return (
     <div className="listening-workspace mx-auto max-w-[1600px] space-y-6">
-      <Link className="btn-secondary" href={`/listening/tests/${id}`}>
+      <Link className="btn-secondary" href={`/app/listening/tests/${id}`}>
         ← Test hub
       </Link>
       <h1 className="font-display text-3xl">

@@ -80,7 +80,7 @@ check(
 // 2..4. The signed-in shell
 // ---------------------------------------------------------------------------
 const cookie = await login("demo.student@learnersarea.uz", "Student12345!");
-const dashboard = await page("/dashboard", cookie);
+const dashboard = await page("/app/dashboard", cookie);
 check("the dashboard renders for an ACTIVE student", dashboard.status === 200, `status ${dashboard.status}`);
 
 // Icon-only controls must carry a name. A button whose only child is a glyph is
@@ -107,7 +107,7 @@ check("the current page is announced, not only coloured", /aria-current="page"/.
 check("the theme switch is a labelled button, not a bare glyph", /data-theme-toggle="[^"]+"[^>]*aria-label=|aria-label="[^"]*"[^>]*data-theme-toggle/.test(shellHtml));
 check(
   "the notification control announces its label",
-  /aria-label="[^"]*"[^>]*href="\/notifications"|href="\/notifications"[^>]*aria-label="[^"]*"/.test(shellHtml)
+  /aria-label="[^"]*"[^>]*href="\/app\/notifications"|href="\/app\/notifications"[^>]*aria-label="[^"]*"/.test(shellHtml)
 );
 
 // The drawer is a modal dialog in the source, with a name.
@@ -186,7 +186,7 @@ check("no control takes keyboard order hostage with a positive tabindex", positi
 // ---------------------------------------------------------------------------
 const timeSource = readFile("src/lib/time.ts", "utf8");
 check("one formatter owns the display timezone", /TIMEZONE = "Asia\/Tashkent"/.test(timeSource) && /timeZone: TIMEZONE/.test(timeSource));
-const strayToLocale = ["src/app/(app)/dashboard/page.tsx", "src/app/(app)/live-classes/page.tsx"].filter((file) =>
+const strayToLocale = ["src/app/app/(shell)/dashboard/page.tsx", "src/app/app/(shell)/live-classes/page.tsx"].filter((file) =>
   /toLocaleString\(|toLocaleDateString\(/.test(readFile(file, "utf8"))
 );
 check("no page formats a date with the runtime's timezone", strayToLocale.length === 0, strayToLocale.join(", "));
@@ -203,7 +203,7 @@ const TYPOGRAPHIC = /[\u2018\u2019\u02bb\u02bc\u02b9\u2032]/;
 const CYRILLIC = /[\u0400-\u04ff]/;
 
 const uzStudent = await login("demo.student@learnersarea.uz", "Student12345!");
-for (const path of ["/", "/login", "/register", "/dashboard", "/vocabulary"]) {
+for (const path of ["/", "/login", "/register", "/app/dashboard", "/app/vocabulary"]) {
   const rendered = await page(path, path === "/" || path === "/login" || path === "/register" ? null : uzStudent);
   const body = rendered.text;
   const typographic = body.match(new RegExp(TYPOGRAPHIC.source, "g")) ?? [];

@@ -114,7 +114,7 @@ test("Writing checks go through the Coach resolver with fallback none (no second
 });
 
 test("Translation tab is a real workflow, not the empty placeholder; client code imports server modules as types only", () => {
-  const page = readFileSync("src/app/(app)/writing/page.tsx", "utf8");
+  const page = readFileSync("src/app/app/(shell)/writing/page.tsx", "utf8");
   assert.match(page, /tab === "translation" \?[\s\S]*WritingTranslationTab/);
   for (const f of ["TranslationRunner", "TranslationStartForm", "TranslationResultView"]) {
     const src = readFileSync(`src/components/writing/translation/${f}.tsx`, "utf8");

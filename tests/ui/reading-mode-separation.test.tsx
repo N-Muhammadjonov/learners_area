@@ -89,7 +89,7 @@ test("ACADEMIC_EXAM (active test): the passage reveals nothing — no word targe
 test("ACADEMIC_EXAM: exam component cannot receive lexical data (no occurrences prop, no ClickableText import)", () => {
   const source = readFileSync("src/components/reading/ReadingExam.tsx", "utf8");
   for (const banned of ["ClickableText", "occurrenceSpans", "OccurrenceSpan", "occurrences", "wordSaveHint"]) assert.equal(source.includes(banned), false, banned);
-  const page = readFileSync("src/app/(app)/reading/attempts/[id]/page.tsx", "utf8");
+  const page = readFileSync("src/app/app/(shell)/reading/attempts/[id]/page.tsx", "utf8");
   const examJsx = page.slice(page.indexOf("<ReadingExam"), page.indexOf("/>", page.indexOf("questions={questions.map")));
   assert.equal(examJsx.includes("occurrences"), false, "the page does not send occurrences to the exam");
 });

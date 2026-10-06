@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
   const result = await generateReport({ id: user.id, role: user.role, name: user.name }, raw);
   // Form submissions (ui=1) return to the page with a localised message instead of raw JSON.
   if (!result.ok && q.get("ui") === "1") {
-    return new NextResponse(null, { status: 303, headers: { Location: `/reports?error=${encodeURIComponent(result.code)}`, "Cache-Control": "no-store" } });
+    return new NextResponse(null, { status: 303, headers: { Location: `/app/reports?error=${encodeURIComponent(result.code)}`, "Cache-Control": "no-store" } });
   }
   if (!result.ok) return NextResponse.json({ error: { code: result.code } }, { status: result.status, headers: { "Cache-Control": "no-store" } });
   return new NextResponse(Buffer.from(result.bytes), {
