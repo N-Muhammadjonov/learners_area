@@ -16,9 +16,13 @@ export async function POST(req: NextRequest) {
   if (!parsed.success) {
     return NextResponse.json({ error: { code: "invalid_input", message: "Invalid typing preparation." } }, { status: 400 });
   }
-  const runToken = await startPreparedTypingRun(user.id, parsed.data.token);
+  const startedAt = Date.now();
+  const runToken = await startPreparedTypingRun(user.id, parsed.data.token, () => startedAt);
   if (!runToken) {
     return NextResponse.json({ error: { code: "invalid_token", message: "This typing preparation expired." } }, { status: 403 });
   }
-  return NextResponse.json({ ok: true, runToken }, { headers: { "cache-control": "no-store" } });
+  return NextResponse.json(
+    { ok: true, runToken, startedAt },
+    { headers: { "cache-control": "no-store" } },
+  );
 }
