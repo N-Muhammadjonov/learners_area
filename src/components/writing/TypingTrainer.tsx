@@ -10,9 +10,8 @@ import {
   useRef,
   useState,
 } from "react";
-import { flushSync } from "react-dom";
 import type { Dictionary } from "@/lib/i18n/en";
-import { groupTypingLines, type LineRange } from "@/lib/services/writing/typing-lines";
+import { groupTypingLines, windowRows, type LineRange } from "@/lib/services/writing/typing-lines";
 import type { TypingPreset } from "@/lib/services/writing/typing";
 import { formatDate } from "@/lib/time";
 
@@ -147,7 +146,6 @@ export function TypingTrainer({
   const [focused, setFocused] = useState(true);
   const [paused, setPaused] = useState(false);
   const [pauseBusy, setPauseBusy] = useState(false);
-  const [windowStart, setWindowStart] = useState(0);
   const [history, setHistory] = useState(initialHistory);
   const [summary, setSummary] = useState(initialSummary);
   const [, rerender] = useReducer((value: number) => value + 1, 0);
@@ -167,11 +165,11 @@ export function TypingTrainer({
   const errorSeconds = useRef<number[]>([]);
   const finishing = useRef(false);
   const loadSequence = useRef(0);
-  const lineTransitionTimer = useRef<number | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
   const measureRef = useRef<HTMLDivElement>(null);
   const stackRef = useRef<HTMLDivElement>(null);
+  const prevRow = useRef(0);
 
   const setPhaseSafe = useCallback((next: Phase) => {
     phaseRef.current = next;
@@ -219,15 +217,7 @@ export function TypingTrainer({
     typed.current = { committed: [], buffer: "" };
     samples.current = [];
     errorSeconds.current = [];
-    if (lineTransitionTimer.current !== null) {
-      window.clearTimeout(lineTransitionTimer.current);
-      lineTransitionTimer.current = null;
-    }
-    if (stackRef.current) {
-      stackRef.current.style.transition = "none";
-      stackRef.current.style.transform = "translateY(0)";
-    }
-    setWindowStart(0);
+    prevRow.current = 0;
     setResult(null);
     setGraph(null);
     setRemaining(nextPreset === 0 ? 0 : nextPreset);
@@ -255,10 +245,6 @@ export function TypingTrainer({
     return () => {
       loadSequence.current += 1;
       stopTimer();
-      if (lineTransitionTimer.current !== null) {
-        window.clearTimeout(lineTransitionTimer.current);
-        lineTransitionTimer.current = null;
-      }
     };
   }, [load, stopTimer]);
 
@@ -465,43 +451,21 @@ export function TypingTrainer({
   let activeLine = ranges.findIndex((line) => wordIndex >= line.start && wordIndex < line.end);
   if (activeLine < 0) activeLine = Math.max(0, ranges.length - 1);
 
-  // Latest owner requirement: exactly three visible rows. Row 1 and row 2 are
-  // clear, row 3 is dim. No word-level disappearance. Only after the learner
-  // fully enters the next measured visual line does the inner stack move up by
-  // exactly one line; the old row 1 is then clipped by overflow:hidden.
-  const rollingLineIndexes = [
-    windowStart,
-    windowStart + 1,
-    windowStart + 2,
-    windowStart + 3,
-  ];
-
+  // Uploaded ready-code behavior:
+  // render one clipped previous row, then exactly 3 visible rows:
+  // active = clear, next = clear, third = dim; one lower row is only a buffer.
   useLayoutEffect(() => {
     const element = stackRef.current;
-    if (!element || activeLine <= windowStart || lineTransitionTimer.current !== null) return;
-    const lineHeight = (element.firstElementChild as HTMLElement | null)?.offsetHeight ?? 0;
-    const nextStart = Math.min(windowStart + 1, activeLine);
-    if (!lineHeight) {
-      setWindowStart(nextStart);
-      return;
-    }
-
     const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) {
-      setWindowStart(nextStart);
-      return;
-    }
-
-    element.style.transition = "transform 200ms cubic-bezier(.2,.7,.2,1)";
-    element.style.transform = `translateY(-${lineHeight}px)`;
-    lineTransitionTimer.current = window.setTimeout(() => {
+    if (element && activeLine === prevRow.current + 1 && !reduced) {
       element.style.transition = "none";
-      flushSync(() => setWindowStart(nextStart));
       element.style.transform = "translateY(0)";
       void element.offsetHeight;
-      lineTransitionTimer.current = null;
-    }, 200);
-  }, [activeLine, windowStart]);
+      element.style.transition = "transform 200ms cubic-bezier(.2,.7,.2,1)";
+      element.style.transform = "";
+    }
+    prevRow.current = activeLine;
+  }, [activeLine]);
 
   const renderWord = (index: number) => {
     const target = words[index] ?? "";
@@ -664,14 +628,10 @@ export function TypingTrainer({
             </div>
             <div className="typing-stage typing-font" aria-hidden="true">
               <div className="typing-stack" ref={stackRef}>
-                {rollingLineIndexes.map((lineIndex, row) => {
-                  const line = ranges[lineIndex];
-                  const rowClass =
-                    row === 2 ? "typing-row-third" :
-                    row === 3 ? "typing-row-buffer" :
-                    "typing-row-clear";
+                {windowRows(activeLine).map(({ row, role }) => {
+                  const line = ranges[row];
                   return (
-                    <div key={lineIndex} className={`typing-row ${rowClass}`}>
+                    <div key={row} className={`typing-row typing-row-${role}`}>
                       {line && words.slice(line.start, line.end).map((_, offset) =>
                         renderWord(line.start + offset)
                       )}
