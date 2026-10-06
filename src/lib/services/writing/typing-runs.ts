@@ -262,47 +262,34 @@ export async function finishPreparedTypingRun(
 
   const metrics = computeWordTypingMetrics(target, input.typedWords, seconds, input.samples);
 
+  // Persist every new trainer run through the original typing_runs +
+  // activity_events contract. Those columns exist both before and after
+  // migration 0040, so a Preview database one migration behind cannot reject
+  // an otherwise valid result. Extra trainer metrics live in the event payload
+  // and remain server-derived from the signed canonical text.
   try {
-    const previous = await database
-      .select({
-        id: typingRuns.id,
-        wpm: typingRuns.wpm,
-        rawWpm: typingRuns.rawWpm,
-        accuracy: typingRuns.accuracy,
-        consistency: typingRuns.consistency,
-        charsCorrect: typingRuns.charsCorrect,
-        charsIncorrect: typingRuns.charsIncorrect,
-        charsExtra: typingRuns.charsExtra,
-        charsMissed: typingRuns.charsMissed,
-        typedChars: typingRuns.typedChars,
-        targetChars: typingRuns.targetChars,
-        durationMs: typingRuns.durationMs,
-      })
-      .from(typingRuns)
-      .where(and(eq(typingRuns.runTokenId, jti), eq(typingRuns.userId, userId)))
-      .limit(1);
+    const recentEvents = await database
+      .select({ payload: activityEvents.payload })
+      .from(activityEvents)
+      .where(and(
+        eq(activityEvents.userId, userId),
+        eq(activityEvents.type, "TYPING_RUN_COMPLETED"),
+      ))
+      .orderBy(desc(activityEvents.createdAt))
+      .limit(50);
 
-    if (previous[0]) {
-      const row = previous[0];
+    const existing = recentEvents
+      .map((row) => row.payload as Record<string, unknown> | null)
+      .find((payload) => payload?.runTokenId === jti);
+
+    if (existing && typeof existing.runId === "string") {
       return {
         ok: true,
         result: {
-          runId: row.id,
-          title: text.title,
+          ...metrics,
+          runId: existing.runId,
+          title: typeof existing.title === "string" ? existing.title : text.title,
           presetSeconds: preset === 0 ? null : preset,
-          wpm: Number(row.wpm),
-          rawWpm: Number(row.rawWpm ?? 0),
-          accuracy: Number(row.accuracy),
-          consistency: row.consistency == null ? null : Number(row.consistency),
-          correct: row.charsCorrect ?? 0,
-          incorrect: row.charsIncorrect ?? 0,
-          extra: row.charsExtra ?? 0,
-          missed: row.charsMissed ?? 0,
-          typedChars: row.typedChars,
-          targetChars: row.targetChars,
-          mistakes: (row.charsIncorrect ?? 0) + (row.charsExtra ?? 0) + (row.charsMissed ?? 0),
-          completion: row.targetChars ? Math.round((Math.min(row.typedChars, row.targetChars) / row.targetChars) * 1000) / 10 : 0,
-          durationMs: row.durationMs,
         },
       };
     }
@@ -317,26 +304,10 @@ export async function finishPreparedTypingRun(
           durationMs: metrics.durationMs,
           wpm: metrics.wpm.toFixed(1),
           accuracy: metrics.accuracy.toFixed(1),
-          runTokenId: jti,
-          rawWpm: metrics.rawWpm.toFixed(1),
-          consistency: metrics.consistency == null ? null : metrics.consistency.toFixed(1),
-          charsCorrect: metrics.correct,
-          charsIncorrect: metrics.incorrect,
-          charsExtra: metrics.extra,
-          charsMissed: metrics.missed,
-          startedAt: new Date(startedAt),
-          finishedAt: new Date(now()),
         })
         .returning({ id: typingRuns.id });
       if (!run) throw new Error("typing_run_insert_failed");
 
-      await tx.insert(typingRunTexts).values({
-        runId: run.id,
-        modelTextId: null,
-        typingTextId: text.id,
-        mistakes: metrics.mistakes,
-        presetSeconds: preset === 0 ? null : preset,
-      });
       await tx.insert(activityEvents).values({
         userId,
         type: "TYPING_RUN_COMPLETED",
@@ -352,11 +323,18 @@ export async function finishPreparedTypingRun(
           incorrect: metrics.incorrect,
           extra: metrics.extra,
           missed: metrics.missed,
+          mistakes: metrics.mistakes,
+          completion: metrics.completion,
+          targetChars: metrics.targetChars,
+          typedChars: metrics.typedChars,
           durationMs: metrics.durationMs,
           presetSeconds: preset === 0 ? null : preset,
           typingTextId: text.id,
+          startedAt,
+          finishedAt: now(),
         },
       });
+
       return run.id;
     });
 
@@ -370,89 +348,8 @@ export async function finishPreparedTypingRun(
       },
     };
   } catch (error) {
-    if (!isTypingSchemaUnavailable(error)) {
-      console.error("[writing-typing] failed to persist verified run", error);
-      return { ok: false, code: "conflict" };
-    }
-
-    // Compatibility path for an approved Preview database that has not received
-    // migration 0040 yet. Scores are still computed here on the server from the
-    // signed canonical bundled text. The old typing_runs aggregate table can
-    // store the verified result without mutating the shared Preview schema.
-    try {
-      const [existingEvent] = await database
-        .select({ payload: activityEvents.payload })
-        .from(activityEvents)
-        .where(and(
-          eq(activityEvents.userId, userId),
-          eq(activityEvents.type, "TYPING_RUN_COMPLETED"),
-          sql`${activityEvents.payload}->>'runTokenId' = ${jti}`,
-        ))
-        .limit(1);
-      const existing = existingEvent?.payload as Record<string, unknown> | null | undefined;
-      if (existing?.runId && typeof existing.runId === "string") {
-        return {
-          ok: true,
-          result: {
-            ...metrics,
-            runId: existing.runId,
-            title: typeof existing.title === "string" ? existing.title : text.title,
-            presetSeconds: preset === 0 ? null : preset,
-          },
-        };
-      }
-
-      const runId = await database.transaction(async (tx) => {
-        const [run] = await tx
-          .insert(typingRuns)
-          .values({
-            userId,
-            targetChars: metrics.targetChars,
-            typedChars: metrics.typedChars,
-            durationMs: metrics.durationMs,
-            wpm: metrics.wpm.toFixed(1),
-            accuracy: metrics.accuracy.toFixed(1),
-          })
-          .returning({ id: typingRuns.id });
-        if (!run) throw new Error("typing_run_insert_failed");
-
-        await tx.insert(activityEvents).values({
-          userId,
-          type: "TYPING_RUN_COMPLETED",
-          payload: {
-            runId: run.id,
-            runTokenId: jti,
-            title: text.title,
-            wpm: metrics.wpm,
-            rawWpm: metrics.rawWpm,
-            accuracy: metrics.accuracy,
-            consistency: metrics.consistency,
-            correct: metrics.correct,
-            incorrect: metrics.incorrect,
-            extra: metrics.extra,
-            missed: metrics.missed,
-            durationMs: metrics.durationMs,
-            presetSeconds: preset === 0 ? null : preset,
-            typingTextId: text.id,
-            compatibilityMode: "pre-0040",
-          },
-        });
-        return run.id;
-      });
-
-      return {
-        ok: true,
-        result: {
-          ...metrics,
-          runId,
-          presetSeconds: preset === 0 ? null : preset,
-          title: text.title,
-        },
-      };
-    } catch (fallbackError) {
-      console.error("[writing-typing] compatibility persistence failed", fallbackError);
-      return { ok: false, code: "conflict" };
-    }
+    console.error("[writing-typing] failed to persist verified run", error);
+    return { ok: false, code: "conflict" };
   }
 }
 
@@ -613,83 +510,71 @@ export async function typingStats(userId: string, database: Database = db) {
     .from(typingRuns)
     .where(eq(typingRuns.userId, userId));
 
-  const total = Number(summary?.count ?? 0);
-
-  try {
-    const history = await database
+  const [runs, events, legacyLinks] = await Promise.all([
+    database
       .select({
         id: typingRuns.id,
         createdAt: typingRuns.createdAt,
         wpm: typingRuns.wpm,
         accuracy: typingRuns.accuracy,
         durationMs: typingRuns.durationMs,
-        mistakes: typingRunTexts.mistakes,
-        presetSeconds: typingRunTexts.presetSeconds,
-        title: sql<string>`coalesce(${typingTexts.title}, ${writingModelTexts.title}, 'Typing')`,
       })
       .from(typingRuns)
-      .innerJoin(typingRunTexts, eq(typingRunTexts.runId, typingRuns.id))
-      .leftJoin(typingTexts, eq(typingTexts.id, typingRunTexts.typingTextId))
-      .leftJoin(writingModelTexts, eq(writingModelTexts.id, typingRunTexts.modelTextId))
       .where(eq(typingRuns.userId, userId))
       .orderBy(desc(typingRuns.createdAt))
-      .limit(10);
+      .limit(10),
+    database
+      .select({ payload: activityEvents.payload })
+      .from(activityEvents)
+      .where(and(
+        eq(activityEvents.userId, userId),
+        eq(activityEvents.type, "TYPING_RUN_COMPLETED"),
+      ))
+      .orderBy(desc(activityEvents.createdAt))
+      .limit(50),
+    database
+      .select({
+        runId: typingRunTexts.runId,
+        mistakes: typingRunTexts.mistakes,
+        presetSeconds: typingRunTexts.presetSeconds,
+        title: writingModelTexts.title,
+      })
+      .from(typingRunTexts)
+      .leftJoin(writingModelTexts, eq(writingModelTexts.id, typingRunTexts.modelTextId))
+      .where(eq(typingRuns.userId, userId))
+      .leftJoin(typingRuns, eq(typingRuns.id, typingRunTexts.runId)),
+  ]);
 
-    return {
-      count: total,
-      bestWpm: total && summary?.bestWpm != null ? Number(summary.bestWpm) : null,
-      bestAccuracy: total && summary?.bestAccuracy != null ? Number(summary.bestAccuracy) : null,
-      history: history.map((row) => ({
+  const eventByRun = new Map<string, Record<string, unknown>>();
+  for (const row of events) {
+    const payload = row.payload as Record<string, unknown> | null;
+    if (payload && typeof payload.runId === "string") eventByRun.set(payload.runId, payload);
+  }
+  const legacyByRun = new Map(legacyLinks.map((row) => [row.runId, row] as const));
+  const total = Number(summary?.count ?? 0);
+
+  return {
+    count: total,
+    bestWpm: total && summary?.bestWpm != null ? Number(summary.bestWpm) : null,
+    bestAccuracy: total && summary?.bestAccuracy != null ? Number(summary.bestAccuracy) : null,
+    history: runs.map((row) => {
+      const payload = eventByRun.get(row.id);
+      const legacy = legacyByRun.get(row.id);
+      return {
         ...row,
         createdAt: new Date(row.createdAt).toISOString(),
         wpm: Number(row.wpm),
         accuracy: Number(row.accuracy),
-      })),
-    };
-  } catch (error) {
-    if (!isTypingSchemaUnavailable(error)) throw error;
-
-    const [runs, events] = await Promise.all([
-      database
-        .select({
-          id: typingRuns.id,
-          createdAt: typingRuns.createdAt,
-          wpm: typingRuns.wpm,
-          accuracy: typingRuns.accuracy,
-          durationMs: typingRuns.durationMs,
-        })
-        .from(typingRuns)
-        .where(eq(typingRuns.userId, userId))
-        .orderBy(desc(typingRuns.createdAt))
-        .limit(10),
-      database
-        .select({ payload: activityEvents.payload })
-        .from(activityEvents)
-        .where(and(eq(activityEvents.userId, userId), eq(activityEvents.type, "TYPING_RUN_COMPLETED")))
-        .orderBy(desc(activityEvents.createdAt))
-        .limit(30),
-    ]);
-    const eventByRun = new Map<string, Record<string, unknown>>();
-    for (const event of events) {
-      const payload = event.payload as Record<string, unknown> | null;
-      if (payload && typeof payload.runId === "string") eventByRun.set(payload.runId, payload);
-    }
-    return {
-      count: total,
-      bestWpm: total && summary?.bestWpm != null ? Number(summary.bestWpm) : null,
-      bestAccuracy: total && summary?.bestAccuracy != null ? Number(summary.bestAccuracy) : null,
-      history: runs.map((row) => {
-        const payload = eventByRun.get(row.id);
-        return {
-          ...row,
-          createdAt: new Date(row.createdAt).toISOString(),
-          wpm: Number(row.wpm),
-          accuracy: Number(row.accuracy),
-          mistakes: Number(payload?.incorrect ?? 0) + Number(payload?.extra ?? 0) + Number(payload?.missed ?? 0),
-          presetSeconds: typeof payload?.presetSeconds === "number" ? payload.presetSeconds : null,
-          title: typeof payload?.title === "string" ? payload.title : "Typing",
-        };
-      }),
-    };
-  }
+        mistakes: typeof payload?.mistakes === "number"
+          ? payload.mistakes
+          : legacy?.mistakes ?? 0,
+        presetSeconds: typeof payload?.presetSeconds === "number"
+          ? payload.presetSeconds
+          : legacy?.presetSeconds ?? null,
+        title: typeof payload?.title === "string"
+          ? payload.title
+          : legacy?.title ?? "Typing",
+      };
+    }),
+  };
 }
