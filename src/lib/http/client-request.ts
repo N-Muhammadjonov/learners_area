@@ -58,13 +58,20 @@ type RequestOptions = {
   signal?: AbortSignal;
   /** Includes headers AND body. No automatic retry of a possibly committed write. */
   timeoutMs?: number;
+  /**
+   * Keep the request alive past document teardown (page hide, tab close, hard
+   * navigation). Only the exit path needs it: an exit flush must outlive the page, and
+   * a normal `fetch` is cancelled with it. The body must stay small — browsers cap
+   * keepalive payloads (~64 KB) — which a lesson note is.
+   */
+  keepalive?: boolean;
 };
 
 export async function requestJson<T = unknown>(
   url: string,
   options: RequestOptions = {}
 ): Promise<ApiResult<T>> {
-  const { method = "POST", body, form, signal, timeoutMs = 25_000 } = options;
+  const { method = "POST", body, form, signal, timeoutMs = 25_000, keepalive = false } = options;
   const deadlineMs = Number.isFinite(timeoutMs) && timeoutMs > 0
     ? Math.min(timeoutMs, 2_147_483_647)
     : 25_000;
@@ -93,6 +100,7 @@ export async function requestJson<T = unknown>(
         method,
         signal: controller.signal,
         cache: "no-store",
+        ...(keepalive ? { keepalive: true } : {}),
         // Same-origin API calls need no credentials flag: the session cookie is
         // first-party. Sending `include` would only widen what the browser allows.
         headers: form ? undefined : body === undefined ? undefined : { "Content-Type": "application/json" },

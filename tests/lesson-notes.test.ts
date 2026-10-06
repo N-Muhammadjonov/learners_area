@@ -23,6 +23,15 @@ import { createTestDatabase } from "./support/pglite";
  *   6. the legacy course-note text moved into this table (copy-then-clear), so no
  *      writing was lost and no private text stayed in a progress row.
  *
+ * Ordering — the precise guarantee, so nothing stronger is claimed anywhere:
+ *   The UNIQUE (user_id, lesson_id) index proves ONE ROW per learner and lesson. It does
+ *   NOT prove "latest edit wins". That guarantee is provided by the CLIENT: within one
+ *   mounted `LessonNotesPanel` session, writes are serialized (at most one in flight) and
+ *   coalesced to the latest text, so a stale in-flight request cannot overwrite a later
+ *   edit. Cross-tab and cross-device last-writer ordering is NOT implemented — there is no
+ *   optimistic-concurrency token on the row, so two browsers editing the same lesson
+ *   resolve by arrival order at the server.
+ *
  * PGlite runs the SHIPPED migration files, so this is the real PostgreSQL schema.
  */
 
@@ -219,12 +228,25 @@ test("N7 notes never travel in progress/report/audit payloads, are never kept in
   const panel = readFileSync(join(ROOT, "src/components/notes/LessonNotesPanel.tsx"), "utf8");
   assert.ok(!/localStorage|sessionStorage|indexedDB/.test(panel), "a note is never kept only in the browser");
   assert.match(panel, /\/api\/lessons\/\$\{lessonId\}\/notes/, "the panel writes to the learner-scoped API");
-  // Truthful autosave: "Saved" is set only after the server answered ok, and a failure
-  // keeps the text on screen with a retry action.
-  assert.match(panel, /if \(!result\.ok\) \{\s*\n\s*setState\("failed"\);/);
-  assert.match(panel, /savedText\.current = value;\s*\n\s*setState\("saved"\);/);
-  assert.match(panel, /state === "failed" && !tooLong/);
+  // Truthful autosave: "Saved" is only claimed for the text the server acknowledged
+  // (the render reads it back out of the ref, so a stale render cannot lie), and a
+  // failure keeps the text on screen with a retry action.
+  assert.match(panel, /acknowledgedTextRef\.current = value;/);
+  assert.match(panel, /latestTextRef\.current === value \? "saved" : "unsaved"/);
+  assert.match(panel, /const tooLong = state === "tooLong" \|\| text\.length > maxLength;/);
   assert.match(panel, /data-lesson-notes-retry/);
+
+  // One writer per panel: the ordering guarantee is a serialized pipeline, never
+  // AbortController cancellation (which stops the client waiting, not the server writing).
+  assert.match(panel, /const inFlightRef = useRef\(false\)/);
+  assert.match(panel, /if \(inFlightRef\.current\) return;/);
+  assert.ok(!/import .*useScopedRequest|=\s*useScopedRequest\(/.test(panel), "note writes do not use the abort-previous-request hook");
+
+  // The exit path reads refs, so it can never send a stale render's text: the cleanup
+  // registered once must not close over `text`.
+  const exitEffect = panel.slice(panel.indexOf("const onPageHide"), panel.indexOf("const tooLong"));
+  assert.ok(!/flushLatest\((text|latestTextRef\.current)\)/.test(exitEffect), "the exit effect must not pass a render-scoped value");
+  assert.ok(!/\btext\b/.test(exitEffect.replace(/latestTextRef\.current/g, "").replace(/acknowledgedTextRef\.current/g, "")), "the exit effect reads refs only");
 
   // The activity log and the audit trail record events, never note text.
   const activity = readFileSync(join(ROOT, "src/lib/services/activity.ts"), "utf8");
