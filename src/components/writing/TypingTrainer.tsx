@@ -149,21 +149,26 @@ export function TypingTrainer({
   const measureRef = useRef<HTMLDivElement>(null);
   const stackRef = useRef<HTMLDivElement>(null);
 
-  const setPhaseSafe = (next: Phase) => {
+  const setPhaseSafe = useCallback((next: Phase) => {
     phaseRef.current = next;
     setPhase(next);
-  };
-  const stopTimer = () => {
+  }, []);
+  const stopTimer = useCallback(() => {
     if (timer.current !== null) {
       window.clearInterval(timer.current);
       timer.current = null;
     }
-  };
-  const charsTyped = () =>
-    typed.current.committed.reduce((sum, word) => sum + word.length + 1, 0) +
-    typed.current.buffer.length;
-  const elapsedSeconds = () =>
-    startedAt.current ? Math.max(0, (performance.now() - startedAt.current) / 1000) : 0;
+  }, []);
+  const charsTyped = useCallback(
+    () =>
+      typed.current.committed.reduce((sum, word) => sum + word.length + 1, 0) +
+      typed.current.buffer.length,
+    [],
+  );
+  const elapsedSeconds = useCallback(
+    () => startedAt.current ? Math.max(0, (performance.now() - startedAt.current) / 1000) : 0,
+    [],
+  );
 
   const load = useCallback(async (
     options: { textId?: string; excludeTextId?: string } = {},
@@ -197,7 +202,7 @@ export function TypingTrainer({
     setText(response.data.text);
     setPhaseSafe("ready");
     requestAnimationFrame(() => inputRef.current?.focus());
-  }, []);
+  }, [setPhaseSafe, stopTimer]);
 
   useEffect(() => {
     void load({}, presetRef.current);
@@ -294,7 +299,7 @@ export function TypingTrainer({
     if (response.data.summary) setSummary(response.data.summary);
     if (response.data.history) setHistory(response.data.history);
     setPhaseSafe("result");
-  }, []);
+  }, [charsTyped, elapsedSeconds, setPhaseSafe, stopTimer]);
 
   const tick = useCallback(() => {
     if (!startedAt.current) return;
@@ -313,7 +318,7 @@ export function TypingTrainer({
     } else {
       setRemaining((previous) => previous === seconds ? previous : seconds);
     }
-  }, [finish]);
+  }, [charsTyped, finish]);
 
   const startIfNeeded = () => {
     if (phaseRef.current !== "ready") return;
