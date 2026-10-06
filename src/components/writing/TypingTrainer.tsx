@@ -397,6 +397,13 @@ export function TypingTrainer({
   const fraction = activeRange
     ? Math.max(0, Math.min(1, (wordIndex - activeRange.start) / Math.max(1, activeRange.end - activeRange.start)))
     : 0;
+  // Four rows stay in the DOM, but the first screen starts with three real
+  // visible lines exactly like the supplied trainer/PDF. After line 1, the
+  // previous line becomes row 1 and the fourth line is the fade-in buffer.
+  const rollingLineIndexes =
+    activeLine === 0
+      ? [0, 1, 2, 3]
+      : [activeLine - 1, activeLine, activeLine + 1, activeLine + 2];
 
   useLayoutEffect(() => {
     const element = stackRef.current;
@@ -532,15 +539,12 @@ export function TypingTrainer({
             </div>
             <div className="typing-stage typing-font" aria-hidden="true">
               <div className="typing-stack" ref={stackRef}>
-                {[activeLine - 1, activeLine, activeLine + 1, activeLine + 2].map((lineIndex, row) => {
+                {rollingLineIndexes.map((lineIndex, row) => {
                   const line = ranges[lineIndex];
-                  // At the very first visual line there is no previous row to
-                  // fade out, so expose three real lines immediately. From the
-                  // second line onward row 4 becomes the proportional fade-in.
                   const role =
-                    row === 0 ? "top" :
-                    row === 3 && activeLine > 0 ? "bottom" :
-                    "middle";
+                    activeLine === 0
+                      ? row === 3 ? "bottom" : "middle"
+                      : row === 0 ? "top" : row === 3 ? "bottom" : "middle";
                   return (
                     <div key={lineIndex} className={`typing-row typing-row-${role}`}>
                       {line && words.slice(line.start, line.end).map((_, offset) =>
