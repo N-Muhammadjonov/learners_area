@@ -13,11 +13,17 @@ import {
 import { liveWhere } from "@/lib/services/cms/publication";
 import { BUNDLED_TYPING_TEXTS, bundledTypingTextById } from "@/lib/services/writing/typing-corpus";
 import {
+  activeElapsedMs,
+  countTyped,
+  PAUSE_LIMITS,
+  sanitizeSamples,
+  validateSubmission,
+} from "@/lib/services/writing/typing-metrics";
+import {
   computeTypingResult,
   computeWordTypingMetrics,
   isTypingPreset,
   splitTypingWords,
-  validateTypingSubmission,
   type TypingMetrics,
   type TypingPreset,
   type TypingResult,
@@ -162,7 +168,7 @@ export async function startPreparedTypingRun(
     if (preset === null) return null;
     const at = now();
     const lifetime = preset === 0 ? 24 * 60 * 60_000 : preset * 1000 + 60_000;
-    return new SignJWT({ tt: payload.tt, ps: preset, st: at, pm: 0 })
+    return new SignJWT({ tt: payload.tt, ps: preset, st: at, pm: 0, pc: 0 })
       .setProtectedHeader({ alg: "HS256" })
       .setSubject(userId)
       .setAudience(RUN_AUDIENCE)
@@ -199,27 +205,36 @@ export async function togglePreparedTypingPause(
 
     const pausedMs = typeof payload.pm === "number" && payload.pm >= 0 ? payload.pm : 0;
     const pausedAt = typeof payload.pa === "number" && payload.pa >= payload.st ? payload.pa : null;
+    const pauses = typeof payload.pc === "number" && payload.pc >= 0 ? payload.pc : 0;
 
-    if (action === "pause" && pausedAt !== null) {
-      return { runToken, paused: true, pausedMs };
+    if (action === "pause") {
+      if (pausedAt !== null) return { runToken, paused: true, pausedMs };
+      if (pauses >= PAUSE_LIMITS.count) return null;
+      const nextToken = await new SignJWT({
+        tt: payload.tt, ps: 0, st: payload.st, pm: pausedMs, pa: at, pc: pauses + 1,
+      })
+        .setProtectedHeader({ alg: "HS256" })
+        .setSubject(userId)
+        .setAudience(RUN_AUDIENCE)
+        .setJti(payload.jti)
+        .setIssuedAt(Math.floor(at / 1000))
+        .setExpirationTime(Math.floor((at + 24 * 60 * 60_000) / 1000))
+        .sign(key());
+      return { runToken: nextToken, paused: true, pausedMs };
     }
-    if (action === "resume" && pausedAt === null) {
-      return { runToken, paused: false, pausedMs };
-    }
 
-    const nextPausedMs =
-      action === "resume" && pausedAt !== null
-        ? pausedMs + Math.max(0, at - pausedAt)
-        : pausedMs;
-    const claims: Record<string, number | string> = {
-      tt: payload.tt,
-      ps: 0,
-      st: payload.st,
-      pm: nextPausedMs,
-    };
-    if (action === "pause") claims.pa = at;
+    if (pausedAt === null) return { runToken, paused: false, pausedMs };
 
-    const nextToken = await new SignJWT(claims)
+    const remainingPauseBudget = Math.max(0, PAUSE_LIMITS.total - pausedMs);
+    const thisPause = Math.min(
+      Math.max(0, at - pausedAt),
+      PAUSE_LIMITS.single,
+      remainingPauseBudget,
+    );
+    const nextPausedMs = pausedMs + thisPause;
+    const nextToken = await new SignJWT({
+      tt: payload.tt, ps: 0, st: payload.st, pm: nextPausedMs, pc: pauses,
+    })
       .setProtectedHeader({ alg: "HS256" })
       .setSubject(userId)
       .setAudience(RUN_AUDIENCE)
@@ -228,7 +243,7 @@ export async function togglePreparedTypingPause(
       .setExpirationTime(Math.floor((at + 24 * 60 * 60_000) / 1000))
       .sign(key());
 
-    return { runToken: nextToken, paused: action === "pause", pausedMs: nextPausedMs };
+    return { runToken: nextToken, paused: false, pausedMs: nextPausedMs };
   } catch {
     return null;
   }
@@ -315,24 +330,34 @@ export async function finishPreparedTypingRun(
   if (!text) return { ok: false, code: "not_found" };
 
   const target = splitTypingWords(text.body);
-  const elapsedMs = Math.max(0, now() - startedAt - pausedMs);
+  const elapsedMs = activeElapsedMs(startedAt, now(), pausedMs, null);
   const complete = fullTextCompleted(target, input.typedWords);
-  if (elapsedMs < 3_000) return { ok: false, code: "too_early" };
-  if (preset !== 0 && !complete && elapsedMs < preset * 1000 - 1_500) {
-    return { ok: false, code: "too_early" };
+
+  let seconds: number;
+  if (preset === 0) {
+    if (elapsedMs < 3_000) return { ok: false, code: "too_early" };
+    seconds = elapsedMs / 1000;
+  } else {
+    // Uploaded ready-code rule: serverless /start can finish after the client
+    // has already begun typing. A loose 60% floor proves this was not an
+    // instant forged submit, while every timed run is still scored over the
+    // FULL selected preset, so the tolerance can only lower—not inflate—WPM.
+    if (!complete && elapsedMs < preset * 1000 * 0.6) {
+      return { ok: false, code: "too_early" };
+    }
+    seconds = preset;
   }
 
-  const seconds =
-    preset === 0 || (complete && elapsedMs < preset * 1000)
-      ? elapsedMs / 1000
-      : preset;
-  const invalid = validateTypingSubmission(target, input.typedWords, input.samples, seconds);
-  if (invalid && invalid !== "bad_samples") return { ok: false, code: "bad_submission" };
+  const invalid = validateSubmission(target, input.typedWords, seconds);
+  if (invalid) return { ok: false, code: "bad_submission" };
 
-  // Samples only feed consistency/graph telemetry. If browser sampling becomes
-  // malformed (sleep, correction, timer jitter), keep the authoritative run
-  // and omit consistency rather than rejecting WPM/accuracy persistence.
-  const verifiedSamples = invalid === "bad_samples" ? [] : input.samples;
+  // Uploaded ready code treats graph/consistency samples as optional telemetry:
+  // repair them when possible and never reject an otherwise valid scored run.
+  const verifiedSamples = sanitizeSamples(
+    input.samples,
+    countTyped(input.typedWords),
+    seconds,
+  );
   const metrics = computeWordTypingMetrics(target, input.typedWords, seconds, verifiedSamples);
 
   // Persist every new trainer run through the original typing_runs +
