@@ -8,8 +8,32 @@ import { activeRelease, clearRecentSearches, recentSearches, rememberSearch, row
 
 import { savedSenseIds } from "../src/lib/dictionary/save";
 
-const enabled = process.env.QA2_DATABASE_TESTS === "1";
-test("dictionary recent searches: last five only, duplicates move to top, private clear preserves other learners and vocabulary", { skip: !enabled }, async () => {
+/**
+ * Two distinct preconditions, and the difference between them matters:
+ *
+ *   QA2_DATABASE_TESTS=1        — the isolated real PostgreSQL (learners_qa2) is in use;
+ *   DICTIONARY_RELEASE_TESTS=1  — the FROZEN dictionary catalog has been applied to it.
+ *
+ * The catalog is an owner asset: a checksum-pinned, counts-pinned artifact that is not
+ * in the repository (`scripts/dictionary/bootstrap.ts` refuses any file whose sha256 is
+ * not the verified one, and the release is frozen the moment it is validated). Without
+ * it there are no `dictionary_entries` at all, so recent searches have nothing to be
+ * recent about. Every test in this repository that needs the frozen catalog gates on
+ * `DICTIONARY_RELEASE_TESTS`, and this one now does too: a missing owner asset is a
+ * reported SKIP, never a red gate that nobody can act on.
+ *
+ * The other direction is fail-closed. If the catalog IS requested and is not there —
+ * no release, no validated stable release, an unreadable manifest — the test FAILS with
+ * a precise message. A half-applied or wrongly-applied bootstrap must never be skipped
+ * away.
+ */
+const enabled = process.env.QA2_DATABASE_TESTS === "1" && process.env.DICTIONARY_RELEASE_TESTS === "1";
+const skipReason =
+  process.env.QA2_DATABASE_TESTS !== "1"
+    ? "QA2_DATABASE_TESTS is not 1 (the isolated learners_qa2 database is required)"
+    : "frozen dictionary catalog not available (owner asset): apply it with scripts/dictionary/bootstrap.ts <verified nested.json.gz>, then run with DICTIONARY_RELEASE_TESTS=1";
+
+test("dictionary recent searches: last five only, duplicates move to top, private clear preserves other learners and vocabulary", { skip: enabled ? false : skipReason }, async () => {
   const target = new URL(process.env.DATABASE_URL!);
   assert.ok(["localhost", "127.0.0.1"].includes(target.hostname) && target.pathname === "/learners_qa2");
   const a = randomUUID(), b = randomUUID();
@@ -19,7 +43,13 @@ test("dictionary recent searches: last five only, duplicates move to top, privat
   ]);
   try {
     assert.deepEqual(await savedSenseIds(a, [randomUUID(), randomUUID(), randomUUID()]), [], "opening a multi-sense entry uses a valid parameterized query");
-    const release = await activeRelease();
+    // Requested, therefore required: report precisely instead of surfacing the store's
+    // generic `dictionary_unavailable` from three frames deep.
+    const release = await activeRelease().catch(() => null);
+    assert.ok(
+      release,
+      "DICTIONARY_RELEASE_TESTS=1 was set but no validated stable release is active — the frozen catalog was not applied to this database",
+    );
     const entries = await rows<{ lexeme_id: string }>(sql`select lexeme_id from dictionary_entries where release_id=${release.active_release_id} order by lexeme_id limit 8`);
     assert.equal(entries.length, 8, "requires the locally verified frozen dictionary bootstrap");
     for (let i = 0; i < 8; i++) await rememberSearch(a, `query ${i}`, "EN", entries[i]!.lexeme_id);

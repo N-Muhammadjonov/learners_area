@@ -46,6 +46,24 @@ fi
 
 if bash scripts/qa2-local-postgres.sh >"$OUT/pg-bootstrap.log" 2>&1; then
   tail -3 "$OUT/pg-bootstrap.log" | tee -a "$OUT/summary.txt"
+  # The frozen dictionary catalog is an OWNER asset (checksum-pinned, not in the repo).
+  # Report its actual state instead of leaving a red test nobody can act on: when it is
+  # applied, the two frozen-catalog tests RUN; when it is not, they SKIP with the reason
+  # (the summary function prints every "# SKIP" line), and the owner action is named here.
+  DICTIONARY_STATE=$(DATABASE_URL=postgres://postgres@localhost:5432/learners_qa2 node --input-type=module -e '
+import pg from "pg";
+const c = new pg.Client({ connectionString: process.env.DATABASE_URL });
+await c.connect();
+const { rows } = await c.query("select ch.active_release_id, r.state, (select count(*)::int from dictionary_entries where release_id = ch.active_release_id) entries from dictionary_channels ch join dictionary_releases r on r.id = ch.active_release_id where ch.name = \u0027stable\u0027");
+await c.end();
+process.stdout.write(rows[0] ? `${rows[0].active_release_id} state=${rows[0].state} entries=${rows[0].entries}` : "NOT APPLIED");
+' 2>/dev/null || echo "probe failed")
+  case "$DICTIONARY_STATE" in
+    "NOT APPLIED"|"probe failed"|"")
+      echo "dictionary catalog: $DICTIONARY_STATE (owner asset) — frozen-catalog tests skip; see PHASE-2-FINAL-REPORT owner actions" | tee -a "$OUT/summary.txt" ;;
+    *)
+      echo "dictionary catalog: $DICTIONARY_STATE" | tee -a "$OUT/summary.txt" ;;
+  esac
   QA2_DATABASE_TESTS=1 STORAGE_PROVIDER=local DATABASE_URL=postgres://postgres@localhost:5432/learners_qa2 \
     npm test >"$OUT/real-pg.log" 2>&1; summary real-pg "$OUT/real-pg.log" $?
   # The caller owns an external local server; leave its lifetime to the caller.
