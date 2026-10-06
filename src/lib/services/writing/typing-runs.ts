@@ -166,13 +166,13 @@ export type VerifiedTypingResult = TypingMetrics & {
 };
 
 function fullTextCompleted(target: string[], typedWords: string[]): boolean {
-  if (!target.length || typedWords.length < target.length) return false;
+  if (!target.length) return false;
   const committed = typedWords.slice(0, -1);
   const partial = typedWords.at(-1) ?? "";
-  for (let i = 0; i < target.length - 1; i += 1) {
-    if (committed[i] !== target[i]) return false;
-  }
-  return partial === target.at(-1);
+  // Completion is about reaching the end of the canonical passage, not scoring
+  // perfectly. Earlier wrong words remain mistakes and are scored as such.
+  return committed.length >= target.length ||
+    (committed.length === target.length - 1 && partial === target.at(-1));
 }
 
 /**
