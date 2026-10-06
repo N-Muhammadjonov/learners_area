@@ -16,6 +16,7 @@ import { parseVideoInput, type VideoProvider } from "@/lib/services/video/provid
 import { authorizedMediaOrigin } from "@/lib/config/site";
 import { ingestVideoOccurrences, type AuthoredVocabulary } from "@/lib/services/lexical/reading-occurrences";
 import { isLive, liveWhere } from "@/lib/services/cms/publication";
+import { pinVersion } from "@/lib/content/versions";
 
 /**
  * Public video lessons: storage and the rules that decide what a student sees.
@@ -38,6 +39,10 @@ import { isLive, liveWhere } from "@/lib/services/cms/publication";
 export type VideoLessonInput = {
   /** A roadmap lesson (legacy course-linked video) or null/absent for a standalone item. */
   lessonId?: string | null;
+  /** video | audio. A Podcast episode is an audio lesson (§28). */
+  mediaKind?: "video" | "audio" | null;
+  /** Stable identity; derived from the provider id when omitted, so it stays stable across edits. */
+  sourceRef?: string | null;
   /** Update an existing standalone item in place. */
   videoLessonId?: string | null;
   /** Optional owner-authored plain transcript (no timestamps). */
@@ -228,31 +233,48 @@ export async function listVideoLessonsForStudent(userId: string) {
   }));
 }
 
-export async function createVideoLesson(input: VideoLessonInput, createdByUserId: string) {
+/**
+ * Author or revise a media lesson. `executor` exists so the same code path can be
+ * exercised against a real transactional database in tests — the write itself is
+ * identical in both cases.
+ */
+export async function createVideoLesson(
+  input: VideoLessonInput,
+  createdByUserId: string,
+  executor: typeof db = db,
+) {
   const parsed = parseVideoInput(input.videoUrl, { mediaOrigin: authorizedMediaOrigin });
   if (!parsed.ok) return { ok: false as const, reason: parsed.reason };
+  const mediaKind: "video" | "audio" = input.mediaKind === "audio" ? "audio" : "video";
 
   const lessonId = input.lessonId ?? null;
   let existing: typeof videoLessons.$inferSelect | undefined;
   if (lessonId) {
-    const lesson = await db.query.lessons.findFirst({ where: eq(lessons.id, lessonId) });
+    const lesson = await executor.query.lessons.findFirst({ where: eq(lessons.id, lessonId) });
     if (!lesson) return { ok: false as const, reason: "lesson_not_found" as const };
-    existing = await db.query.videoLessons.findFirst({ where: eq(videoLessons.lessonId, lessonId) });
+    existing = await executor.query.videoLessons.findFirst({ where: eq(videoLessons.lessonId, lessonId) });
   } else if (input.videoLessonId) {
-    existing = await db.query.videoLessons.findFirst({
+    existing = await executor.query.videoLessons.findFirst({
       where: and(eq(videoLessons.id, input.videoLessonId), isNull(videoLessons.lessonId)),
     });
     if (!existing) return { ok: false as const, reason: "video_lesson_not_found" as const };
   }
   // One item per provider video: a second standalone item for the same video
   // would violate the unique index, so it is refused with a clear reason.
-  const duplicate = await db.query.videoLessons.findFirst({
+  const duplicate = await executor.query.videoLessons.findFirst({
     where: and(eq(videoLessons.provider, parsed.provider), eq(videoLessons.videoId, parsed.videoId)),
   });
   if (duplicate && duplicate.id !== existing?.id) return { ok: false as const, reason: "video_exists" as const };
 
+  // Stable identity: provided, or derived from the provider video id — never from
+  // the title, which is allowed to change.
+  const sourceRef =
+    input.sourceRef?.trim() || existing?.sourceRef || `${mediaKind}-${parsed.provider}-${parsed.videoId}`.toLowerCase().replace(/[^a-z0-9._-]+/g, "-").slice(0, 80);
+
   const values = {
     lessonId,
+    mediaKind,
+    sourceRef,
     provider: parsed.provider as VideoProvider,
     videoId: parsed.videoId,
     title: input.title,
@@ -266,7 +288,7 @@ export async function createVideoLesson(input: VideoLessonInput, createdByUserId
     updatedAt: new Date(),
   };
 
-  const videoLessonId = await db.transaction(async (tx) => {
+  const videoLessonId = await executor.transaction(async (tx) => {
     let id = existing?.id;
     if (existing) {
       await tx.update(videoLessons).set(values).where(eq(videoLessons.id, existing.id));
@@ -302,6 +324,33 @@ export async function createVideoLesson(input: VideoLessonInput, createdByUserId
       const body = [values.transcriptText, ...(values.transcript ?? []).map(line => line.text), values.notes].filter(Boolean).join("\n");
       await ingestVideoOccurrences(tx, id!, body, input.vocabulary);
     }
+
+    // The canonical revision: a TED talk and a Podcast episode are content like a
+    // reading passage, so they get the same identity, hashes and history (§29).
+    await pinVersion(tx, {
+      module: "ted",
+      contentType: mediaKind === "audio" ? "audio_lesson" : "video_lesson",
+      sourceRef,
+      title: input.title,
+      track: "unspecified",
+      content: {
+        mediaKind,
+        provider: values.provider,
+        videoId: values.videoId,
+        durationSeconds: values.durationSeconds,
+        beforeYouWatch: values.beforeYouWatch,
+        notes: values.notes,
+        transcriptLines: values.transcript?.length ?? 0,
+        transcriptText: values.transcriptText,
+        questions: (input.questions ?? []).map((question) => ({ stage: question.stage, prompt: question.prompt, acceptedAnswers: question.acceptedAnswers })),
+        vocabulary: (input.vocabulary ?? []).map((entry) => ({ word: entry.word, pos: entry.pos })),
+      },
+      publicationState: "published",
+      targetType: "video_lesson",
+      targetId: id!,
+      actorUserId: createdByUserId,
+      provenance: { origin: "authored", mediaKind, provider: values.provider },
+    });
     return id!;
   });
 

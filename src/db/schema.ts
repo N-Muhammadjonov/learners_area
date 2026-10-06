@@ -1841,6 +1841,13 @@ export const videoLessons = pgTable(
      * its own native URL (/video-lessons/:id). Nullable since 0024.
      */
     lessonId: uuid("lesson_id").references(() => lessons.id, { onDelete: "cascade" }),
+    /**
+     * video | audio — a Podcast episode is an AUDIO lesson, not a video without a
+     * picture. Decides the canonical content type of the item's revision.
+     */
+    mediaKind: varchar("media_kind", { length: 10 }).notNull().default("video"),
+    /** Stable identity of the authored item this row is the version OF (§43). */
+    sourceRef: varchar("source_ref", { length: 80 }),
     /** Provider id, e.g. "youtube". Kept generic so another host can be added. */
     provider: varchar("provider", { length: 30 }).notNull().default("youtube"),
     /** The provider's own video id — validated, never a raw URL or embed HTML. */

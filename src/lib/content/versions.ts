@@ -96,7 +96,24 @@ function semanticProjection(module: string, contentType: string, content: unknow
 
   if (module === "grammar") return pick(["promptText", "options", "correctOption", "targetStructures", "translatePromptUz"]);
   if (module === "vocabulary") return pick(["words", "items", "text"]);
-  if (module === "ted" || module === "media") return pick(["transcript", "questions", "videoId", "timeline"]);
+  // TED / Podcast: what the learner actually receives — the media reference, the
+  // transcript they read, the notes the centre wrote, and the questions that are
+  // graded. Changing the notes changes the material, so it is a new revision.
+  if (module === "ted" || module === "media")
+    return pick([
+      "mediaKind",
+      "provider",
+      "videoId",
+      "durationSeconds",
+      "beforeYouWatch",
+      "notes",
+      "transcript",
+      "transcriptText",
+      "transcriptLines",
+      "questions",
+      "vocabulary",
+      "timeline",
+    ]);
 
   return value;
 }
