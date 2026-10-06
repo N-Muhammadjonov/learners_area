@@ -51,11 +51,13 @@ test("AU1 an authoring capability is declared per content type, and only where a
   assert.equal(canAuthor("writing", "task2"), true);
   assert.equal(canAuthor("speaking", "cue_card"), true);
   assert.equal(canAuthor("grammar", "topic"), true);
+  assert.equal(canAuthor("listening", "section"), true, "a practice section is a content item of its own");
+  assert.equal(canAuthor("reading", "passage"), true, "so is a single passage");
   assert.equal(canAuthor("reading", "full_test"), false, "no author, no silent empty form");
   assert.equal(canAuthor("ted", "video_lesson"), false, "media lessons are authored through the TED/Podcast surface, not here");
   assert.equal(canAuthor("vocabulary", "topic_pack"), true, "a vocabulary pack is canonical content (§31)");
   assert.equal(canAuthor("lesson", "lesson"), true);
-  assert.ok(listRegisteredAuthors().length >= 10);
+  assert.ok(listRegisteredAuthors().length >= 12);
 });
 
 test("AU2 a source reference is a stable slug, and a title-shaped one is refused", async () => {
@@ -572,6 +574,119 @@ test("AU12 a published revision stays readable after the content row moves on", 
     assert.equal(v2.version.answerKeyHash === v1.version.answerKeyHash, false, "the answer-key hash says a key changed");
     // One row per item, still: the second revision updated the same test.
     assert.equal((await db.select().from(listeningTests).where(eq(listeningTests.sourceRef, "snapshot-listening-1"))).length, 1);
+  } finally {
+    await database.close();
+  }
+});
+
+test("AU13 a Listening section is its own content item, small by construction", async () => {
+  const database = await createTestDatabase();
+  try {
+    const { db } = database;
+    const actor = { ...owner, id: await staff(database.query) };
+
+    const section = await db.transaction((tx) =>
+      saveContentDraft(tx, {
+        actor,
+        module: "listening",
+        contentType: "section",
+        sourceRef: "author-section-1",
+        title: "Practice section 2",
+        payload: { ...listeningPayload(), sectionNo: 2 },
+      }),
+    );
+    assert.equal(section.ok, true, JSON.stringify(section.ok ? {} : section.issues));
+    if (!section.ok) return;
+    assert.equal(section.version.contentType, "section");
+    const content = (await versionContent(section.version.id, db)) as { sectionNo: number; questions: unknown[] };
+    assert.equal(content.sectionNo, 2, "the section number is part of what the learner is given");
+    assert.equal(content.questions.length, 1);
+
+    // The same material filed as a full test is a DIFFERENT item, not a revision of
+    // the section: the content type is part of identity.
+    const fullTest = await db.transaction((tx) =>
+      saveContentDraft(tx, { actor, module: "listening", contentType: "full_test", sourceRef: "author-section-1", title: "Same material, full test", payload: listeningPayload() }),
+    );
+    assert.equal(fullTest.ok, true);
+    if (fullTest.ok) {
+      const rows = await db.select().from(contentVersions).where(eq(contentVersions.sourceRef, "author-section-1"));
+      assert.equal(rows.length, 2, "one revision per (content type, source ref)");
+      assert.deepEqual(rows.map((row) => row.contentType).sort(), ["full_test", "section"]);
+    }
+
+    // A section is small by construction: a 40-question section is refused.
+    const tooBig = await db.transaction((tx) =>
+      saveContentDraft(tx, {
+        actor,
+        module: "listening",
+        contentType: "section",
+        sourceRef: "author-section-too-big",
+        title: "Too big",
+        payload: {
+          ...listeningPayload(),
+          questions: Array.from({ length: 20 }, (_, index) => ({
+            type: "multiple_choice",
+            questionText: `Question ${index + 1} about the recording?`,
+            options: ["A", "B", "C"],
+            correctAnswer: "A",
+            explanation: "Stated in the recording.",
+          })),
+        },
+      }),
+    );
+    assert.equal(tooBig.ok, false, "a practice section cannot be a full test in disguise");
+    assert.equal((await db.select().from(contentVersions).where(eq(contentVersions.sourceRef, "author-section-too-big"))).length, 0);
+  } finally {
+    await database.close();
+  }
+});
+
+test("AU14 a Reading passage is exactly one passage, and shares the set's identity rules", async () => {
+  const database = await createTestDatabase();
+  try {
+    const { db } = database;
+    const actor = { ...owner, id: await staff(database.query) };
+    const passage = (title: string, answer: string) => ({
+      title,
+      bodyText: `${title}: a synthetic body written for this test, comfortably longer than the fifty-character minimum the authoring schema requires.`,
+      questions: [{ typeCode: "short_answer", questionText: "What is being described?", correctAnswer: answer, explanation: "Stated in the passage." }],
+    });
+
+    const single = await db.transaction((tx) =>
+      saveContentDraft(tx, {
+        actor,
+        module: "reading",
+        contentType: "passage",
+        sourceRef: "author-passage-1",
+        title: "A single passage",
+        payload: { difficultyLevel: "B2", suggestedMinutes: 20, passages: [passage("One text", "the harbour")] },
+      }),
+    );
+    assert.equal(single.ok, true, JSON.stringify(single.ok ? {} : single.issues));
+    if (!single.ok) return;
+    assert.equal(single.version.contentType, "passage");
+    const stored = await db.select().from(readingPassages).where(eq(readingPassages.sourceRef, "author-passage-1"));
+    assert.equal(stored.length, 1, "one passage row for one passage item");
+
+    // Two passages are refused: that content is a set, not a passage.
+    const two = await db.transaction((tx) =>
+      saveContentDraft(tx, {
+        actor,
+        module: "reading",
+        contentType: "passage",
+        sourceRef: "author-passage-2",
+        title: "Two passages",
+        payload: { difficultyLevel: "B2", suggestedMinutes: 20, passages: [passage("One", "a"), passage("Two", "b")] },
+      }),
+    );
+    assert.equal(two.ok, false, "a passage item holds exactly one passage");
+    assert.equal((await db.select().from(readingPassages).where(eq(readingPassages.sourceRef, "author-passage-2"))).length, 0, "and writes nothing");
+
+    // The revision it pinned resolves for attempt binding, which is what makes a
+    // passage-based attempt version-bound too.
+    const { revisionForReadingPassage } = await import("../src/lib/content/attempt-binding");
+    await db.transaction((tx) => publishContentVersion(tx, { actor, versionId: single.version.id, to: "published" }));
+    assert.equal((await revisionForReadingPassage(stored[0]!.id, db))!.id, single.version.id);
   } finally {
     await database.close();
   }

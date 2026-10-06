@@ -190,81 +190,127 @@ function listeningProjection(parsed: zod.infer<typeof listeningPayload>): { ques
   };
 }
 
+/**
+ * The Listening persist path, shared by the full-test and section content types.
+ *
+ * Both write the SAME domain rows (a test and its questions) and hand the SAME
+ * canonical projection to `pinVersion`; what differs is the content type an item is
+ * filed under, which is what keeps a practice section from being mistaken for a full
+ * test in the catalogue, in a mock composition and in a revision history.
+ */
+async function persistListening(
+  tx: Parameters<ModuleAuthor["persist"]>[0],
+  payload: unknown,
+  context: AuthorContext & { contentLabel: string },
+): Promise<AuthoredTarget> {
+  const parsed = listeningPayload.parse(payload);
+  // Every question type must be one the registry grades; an unknown one is
+  // refused BEFORE any row is written rather than stored and graded by guesswork.
+  for (const [index, question] of parsed.questions.entries())
+    if (!resolveQuestionType(question.type, "listening"))
+      throw new AuthoringPayloadError("listening", new zod.ZodError([
+        { code: zod.ZodIssueCode.custom, path: ["questions", index, "type"], message: `Unknown Listening question type "${question.type}".` },
+      ]));
+
+  // One content ITEM is one row: re-authoring the same source ref revises it,
+  // it does not create a second copy (§43).
+  const [existingTest] = await tx
+    .select({ id: listeningTests.id, publicationState: listeningTests.publicationState })
+    .from(listeningTests)
+    .where(eq(listeningTests.sourceRef, context.sourceRef))
+    .limit(1);
+
+  const [test] = existingTest
+    ? await tx
+        .update(listeningTests)
+        .set({
+          title: context.title,
+          audioType: parsed.audioType,
+          audioUrl: parsed.audioUrl ?? null,
+          transcript: parsed.transcript ?? null,
+          difficultyLevel: parsed.difficultyLevel,
+        })
+        .where(eq(listeningTests.id, existingTest.id))
+        .returning({ id: listeningTests.id })
+    : await tx
+        .insert(listeningTests)
+        .values({
+          createdByUserId: context.actorUserId,
+          title: context.title,
+          audioType: parsed.audioType,
+          audioUrl: parsed.audioUrl ?? null,
+          transcript: parsed.transcript ?? null,
+          sourceRef: context.sourceRef,
+          difficultyLevel: parsed.difficultyLevel,
+          publicationState: "draft",
+        })
+        .returning({ id: listeningTests.id });
+
+  if (existingTest) await tx.delete(listeningQuestions).where(eq(listeningQuestions.testId, test!.id));
+  await tx.insert(listeningQuestions).values(
+    parsed.questions.map((question, index) => {
+      const type = resolveQuestionType(question.type, "listening")!;
+      return {
+        testId: test!.id,
+        order: question.order ?? index + 1,
+        type: (storageTypeFor(type.id, "listening") ?? "short_answer") as "multiple_choice" | "short_answer",
+        typeCode: type.id,
+        questionText: question.questionText,
+        options: question.options ?? null,
+        correctAnswer: question.correctAnswer,
+        explanation: question.explanation,
+        keywords: question.keywords ?? null,
+        paraphrases: question.paraphrase ? [question.paraphrase] : null,
+      };
+    }),
+  );
+
+  return {
+    targetType: "listening_test",
+    targetId: test!.id,
+    content: listeningProjection(parsed),
+    summary: `Listening ${context.contentLabel} with ${parsed.questions.length} question(s)`,
+  };
+}
+
+/** A section is a SHORT practice item: one recording, a handful of questions. */
+const listeningSectionPayload = listeningPayload.extend({
+  questions: zod.array(listeningQuestionPayload).min(1).max(12),
+  sectionNo: zod.number().int().min(1).max(4).default(1),
+});
+
+function listeningSectionProjection(parsed: zod.infer<typeof listeningSectionPayload>) {
+  return { sectionNo: parsed.sectionNo, ...listeningProjection(parsed) };
+}
+
 export const listeningFullTestAuthor: ModuleAuthor = {
   module: "listening",
   contentType: "full_test",
   payloadVersion: 1,
   label: "Listening test",
   payloadSchema: listeningPayload,
+  persist: (tx, payload, context) => persistListening(tx, payload, { ...context, contentLabel: "test" }),
+  async setPublication(tx, version, publication) {
+    if (!version.targetId) return "target_missing";
+    return syncRows(tx, listeningTests, eq(listeningTests.id, version.targetId), publication, true);
+  },
+  async readSchedule(tx, version) {
+    if (!version.targetId) return null;
+    const [row] = await tx.select({ publishAt: listeningTests.publishAt }).from(listeningTests).where(eq(listeningTests.id, version.targetId)).limit(1);
+    return row?.publishAt ?? null;
+  },
+};
+
+export const listeningSectionAuthor: ModuleAuthor = {
+  module: "listening",
+  contentType: "section",
+  payloadVersion: 1,
+  label: "Listening section",
+  payloadSchema: listeningSectionPayload,
   async persist(tx, payload, context) {
-    const parsed = listeningPayload.parse(payload);
-    // Every question type must be one the registry grades; an unknown one is
-    // refused BEFORE any row is written rather than stored and graded by guesswork.
-    for (const [index, question] of parsed.questions.entries())
-      if (!resolveQuestionType(question.type, "listening"))
-        throw new AuthoringPayloadError("listening", new zod.ZodError([
-          { code: zod.ZodIssueCode.custom, path: ["questions", index, "type"], message: `Unknown Listening question type "${question.type}".` },
-        ]));
-
-    // One content ITEM is one row: re-authoring the same source ref revises it,
-    // it does not create a second copy (§43).
-    const [existingTest] = await tx
-      .select({ id: listeningTests.id, publicationState: listeningTests.publicationState })
-      .from(listeningTests)
-      .where(eq(listeningTests.sourceRef, context.sourceRef))
-      .limit(1);
-
-    const [test] = existingTest
-      ? await tx
-          .update(listeningTests)
-          .set({
-            title: context.title,
-            audioType: parsed.audioType,
-            audioUrl: parsed.audioUrl ?? null,
-            transcript: parsed.transcript ?? null,
-            difficultyLevel: parsed.difficultyLevel,
-          })
-          .where(eq(listeningTests.id, existingTest.id))
-          .returning({ id: listeningTests.id })
-      : await tx
-          .insert(listeningTests)
-          .values({
-            createdByUserId: context.actorUserId,
-            title: context.title,
-            audioType: parsed.audioType,
-            audioUrl: parsed.audioUrl ?? null,
-            transcript: parsed.transcript ?? null,
-            sourceRef: context.sourceRef,
-            difficultyLevel: parsed.difficultyLevel,
-            publicationState: "draft",
-          })
-          .returning({ id: listeningTests.id });
-
-    if (existingTest) await tx.delete(listeningQuestions).where(eq(listeningQuestions.testId, test!.id));
-    await tx.insert(listeningQuestions).values(
-      parsed.questions.map((question, index) => {
-        const type = resolveQuestionType(question.type, "listening")!;
-        return {
-          testId: test!.id,
-          order: question.order ?? index + 1,
-          type: (storageTypeFor(type.id, "listening") ?? "short_answer") as "multiple_choice" | "short_answer",
-          typeCode: type.id,
-          questionText: question.questionText,
-          options: question.options ?? null,
-          correctAnswer: question.correctAnswer,
-          explanation: question.explanation,
-          keywords: question.keywords ?? null,
-          paraphrases: question.paraphrase ? [question.paraphrase] : null,
-        };
-      }),
-    );
-
-    return {
-      targetType: "listening_test",
-      targetId: test!.id,
-      content: listeningProjection(parsed),
-      summary: `Listening test with ${parsed.questions.length} question(s)`,
-    };
+    const parsed = listeningSectionPayload.parse(payload);
+    const target = await persistListening(tx, parsed, { ...context, contentLabel: `section ${parsed.sectionNo}` });
+    return { ...target, content: listeningSectionProjection(parsed), summary: `Listening section ${parsed.sectionNo} with ${parsed.questions.length} question(s)` };
   },
   async setPublication(tx, version, publication) {
     if (!version.targetId) return "target_missing";
@@ -316,44 +362,49 @@ function readingStorageType(typeCode: string): "true_false_not_given" | "yes_no_
   return type.storageType === "multiple_choice" ? "multiple_choice" : "short_answer";
 }
 
-export const readingSetAuthor: ModuleAuthor = {
-  module: "reading",
-  contentType: "general_set",
-  payloadVersion: 1,
-  label: "Reading set",
-  payloadSchema: readingPayload,
-  async persist(tx, payload, context) {
-    const parsed = readingPayload.parse(payload);
-    const passageIds: string[] = [];
-    let questionCount = 0;
+/**
+ * The Reading persist path, shared by set-shaped and single-passage content types.
+ * One SET is one content item: re-authoring replaces its passages rather than
+ * creating a second copy, and every passage of the item shares its source ref so
+ * publication moves them together (§41/§43).
+ */
+async function persistReading(
+  tx: Parameters<ModuleAuthor["persist"]>[0],
+  payload: unknown,
+  context: AuthorContext,
+): Promise<AuthoredTarget> {
+  const parsed = readingPayload.parse(payload);
+  const passageIds: string[] = [];
+  let questionCount = 0;
 
-    // Re-authoring the set replaces its passages; the SET is one content item.
-    const existing = await tx.select({ id: readingPassages.id }).from(readingPassages).where(eq(readingPassages.sourceRef, context.sourceRef));
-    if (existing.length) await tx.delete(readingPassages).where(eq(readingPassages.sourceRef, context.sourceRef));
+  const existing = await tx.select({ id: readingPassages.id }).from(readingPassages).where(eq(readingPassages.sourceRef, context.sourceRef));
+  if (existing.length) await tx.delete(readingPassages).where(eq(readingPassages.sourceRef, context.sourceRef));
 
-    for (const [index, passage] of parsed.passages.entries()) {
-      const [row] = await tx
-        .insert(readingPassages)
-        .values({
-          title: passage.title,
-          bodyText: passage.bodyText,
-          difficultyLevel: parsed.difficultyLevel,
-          suggestedMinutes: parsed.suggestedMinutes,
-          publicationState: "draft",
-          // Every passage of the set shares the set's source ref: the SET is the
-          // content item, and publication moves its passages together.
-          sourceRef: context.sourceRef,
-          passageNo: index + 1,
-        })
-        .returning({ id: readingPassages.id });
-      passageIds.push(row!.id);
+  for (const [index, passage] of parsed.passages.entries()) {
+    const [row] = await tx
+      .insert(readingPassages)
+      .values({
+        title: passage.title,
+        bodyText: passage.bodyText,
+        difficultyLevel: parsed.difficultyLevel,
+        suggestedMinutes: parsed.suggestedMinutes,
+        publicationState: "draft",
+        // Every passage of the item shares the item's source ref: the item is the
+        // content unit, and publication moves its passages together.
+        sourceRef: context.sourceRef,
+        passageNo: index + 1,
+      })
+      .returning({ id: readingPassages.id });
+    passageIds.push(row!.id);
+
+    if (passage.questions.length)
       await tx.insert(readingQuestions).values(
         passage.questions.map((question, qIndex) => ({
           passageId: row!.id,
           order: question.order ?? qIndex + 1,
+          questionNo: question.questionNo ?? qIndex + 1,
           type: readingStorageType(question.typeCode),
           typeCode: question.typeCode,
-          questionNo: question.questionNo ?? qIndex + 1,
           questionText: question.questionText,
           options: question.options ?? null,
           correctAnswer: question.correctAnswer,
@@ -361,33 +412,57 @@ export const readingSetAuthor: ModuleAuthor = {
           explanation: question.explanation,
         })),
       );
-      questionCount += passage.questions.length;
-    }
+    questionCount += passage.questions.length;
+  }
 
-    return {
-      targetType: "reading_passage",
-      targetId: passageIds[0]!,
-      content: {
-        passages: parsed.passages.map((passage) => ({
-          title: passage.title,
-          bodyText: passage.bodyText,
-          questions: passage.questions.map((question) => ({ ...question, typeCode: resolveQuestionType(question.typeCode, "reading")?.id ?? question.typeCode })),
-        })),
-        timeLimitMinutes: parsed.suggestedMinutes,
-      },
-      summary: `Reading set with ${passageIds.length} passage(s) and ${questionCount} question(s)`,
-    };
-  },
+  return {
+    targetType: "reading_passage",
+    targetId: passageIds[0]!,
+    content: {
+      passages: parsed.passages.map((passage) => ({
+        title: passage.title,
+        bodyText: passage.bodyText,
+        questions: passage.questions.map((question) => ({ ...question, typeCode: resolveQuestionType(question.typeCode, "reading")?.id ?? question.typeCode })),
+      })),
+      timeLimitMinutes: parsed.suggestedMinutes,
+    },
+    summary: `Reading item with ${passageIds.length} passage(s) and ${questionCount} question(s)`,
+  };
+}
+
+export const readingSetAuthor: ModuleAuthor = {
+  module: "reading",
+  contentType: "general_set",
+  payloadVersion: 1,
+  label: "Reading set",
+  payloadSchema: readingPayload,
+  persist: persistReading,
   async setPublication(tx, version, publication) {
     if (!version.sourceRef) return "target_missing";
     return syncRows(tx, readingPassages, eq(readingPassages.sourceRef, version.sourceRef), publication, true);
   },
   async readSchedule(tx, version) {
-    const [row] = await tx
-      .select({ publishAt: readingPassages.publishAt })
-      .from(readingPassages)
-      .where(eq(readingPassages.sourceRef, version.sourceRef))
-      .limit(1);
+    const [row] = await tx.select({ publishAt: readingPassages.publishAt }).from(readingPassages).where(eq(readingPassages.sourceRef, version.sourceRef)).limit(1);
+    return row?.publishAt ?? null;
+  },
+};
+
+/** One passage is a legitimate item of its own: a teacher practising a single text. */
+const singlePassagePayload = readingPayload.extend({ passages: zod.array(readingPayload.shape.passages.element).length(1) });
+
+export const readingPassageAuthor: ModuleAuthor = {
+  module: "reading",
+  contentType: "passage",
+  payloadVersion: 1,
+  label: "Reading passage",
+  payloadSchema: singlePassagePayload,
+  persist: (tx, payload, context) => persistReading(tx, payload, context),
+  async setPublication(tx, version, publication) {
+    if (!version.targetId) return "target_missing";
+    return syncRows(tx, readingPassages, eq(readingPassages.sourceRef, version.sourceRef), publication, true);
+  },
+  async readSchedule(tx, version) {
+    const [row] = await tx.select({ publishAt: readingPassages.publishAt }).from(readingPassages).where(eq(readingPassages.sourceRef, version.sourceRef)).limit(1);
     return row?.publishAt ?? null;
   },
 };
@@ -775,7 +850,9 @@ let registered = false;
 export function registerModuleAuthors(): void {
   if (registered) return;
   registerModuleAuthor(listeningFullTestAuthor);
+  registerModuleAuthor(listeningSectionAuthor);
   registerModuleAuthor(readingSetAuthor);
+  registerModuleAuthor(readingPassageAuthor);
   registerModuleAuthor(writingAuthor("task1"));
   registerModuleAuthor(writingAuthor("task2"));
   registerModuleAuthor(speakingAuthor("part1_question", "part1"));
