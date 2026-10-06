@@ -1362,12 +1362,15 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
   overflow: hidden;
 }
 .typing-stack {
+  transform: translateY(calc(var(--typing-line-height) * -1));
   will-change: transform;
 }
 .typing-row {
   height: var(--typing-line-height);
   overflow: hidden;
   white-space: nowrap;
+  opacity: 1;
+  transition: opacity 200ms ease-out;
 }
 .typing-word {
   opacity: 1;
@@ -1375,10 +1378,9 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 .typing-row-clear {
   opacity: 1;
 }
-.typing-row-third,
+.typing-row-dim,
 .typing-row-buffer {
-  opacity: .48;
-  transition: opacity 160ms ease-out;
+  opacity: .5;
 }
 .typing-char-future {
   color: rgb(var(--ink-300));
@@ -1636,7 +1638,8 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 }
 @media (prefers-reduced-motion: reduce) {
   .typing-word,
-  .typing-row-third,
+  .typing-row,
+  .typing-row-dim,
   .typing-row-buffer { transition: none; }
   .typing-caret,
   .typing-pause-orb-ring,
