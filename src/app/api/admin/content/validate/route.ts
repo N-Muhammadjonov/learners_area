@@ -4,6 +4,7 @@ import { registerImportDescriptors } from "@/lib/import/capabilities";
 import { parseContentPackage } from "@/lib/import/core/parse";
 import { packageContentHash } from "@/lib/import/core/identity";
 import { peekSourceStatus } from "@/lib/import/core/pipeline";
+import { duplicateCandidates } from "@/lib/content/identity";
 import { mayImportModule } from "@/lib/import/core/permissions";
 import { MAX_PACKAGE_BYTES, issue } from "@/lib/import/core/validation";
 
@@ -45,6 +46,10 @@ export async function POST(req: NextRequest) {
   if (!mayImportModule(user.role, pkg.module))
     return NextResponse.json({ ok: false, error: "forbidden" }, { status: 403 });
   const sourceStatus = await peekSourceStatus(pkg.module, pkg.contentType, pkg.sourceRef, packageContentHash(pkg));
+  // The same material under ANOTHER source ref is a probable duplicate. It is
+  // reported here, before anything is written, and never merged automatically:
+  // only staff can decide which ref is the canonical item (§43).
+  const duplicates = await duplicateCandidates({ module: pkg.module, contentType: pkg.contentType, sourceRef: pkg.sourceRef, content: pkg.content });
   const requirements = descriptor.requiredAssets?.(pkg.content) ?? [];
   const declared = new Map(pkg.assets.map((asset) => [asset.key, asset]));
   const missing = requirements
@@ -77,6 +82,7 @@ export async function POST(req: NextRequest) {
       })),
       missingAssetKeys: missing,
       sourceStatus,
+      duplicates,
       preview,
       issues,
       warnings: warnings.map((entry) => entry.message),
