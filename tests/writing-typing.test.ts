@@ -207,12 +207,22 @@ test("TY7 client contract has no textarea or Start button and blocks paste/drop"
   assert.match(source, /spellCheck=\{false\}/);
   assert.match(source, /autoCorrect="off"/);
   assert.match(source, /autoCapitalize="off"/);
-  assert.match(source, /const rollingLineIndexes/);
-  assert.match(source, /activeLine === 0[\s\S]*\[0, 1, 2, 3\][\s\S]*\[activeLine - 1, activeLine, activeLine \+ 1, activeLine \+ 2\]/);
+  assert.match(source, /const rollingLineIndexes = \[[\s\S]*visibleStart,[\s\S]*visibleStart \+ 1,[\s\S]*visibleStart \+ 2,[\s\S]*visibleStart \+ 3/);
+  assert.match(source, /translateY\(-\\\$\{lineHeight\}px\)/, "whole line stack moves upward");
+  assert.doesNotMatch(source, /typing-word-hide|typing-word-show/, "no per-word fade replacement remains");
   assert.match(source, /ResizeObserver/);
   assert.match(source, /window\.clearInterval\(timer\.current\)/, "run timer is explicitly cleared");
+  assert.match(source, /window\.clearTimeout\(lineTransitionTimer\.current\)/, "line transition timer is cleared");
   assert.match(source, /observer\.disconnect\(\)/, "ResizeObserver is released on unmount");
   assert.match(source, /cancelAnimationFrame\(frame\)/, "pending measurement frame is cancelled");
+});
+
+test("TY7b timer is above the typing stage and only three visual rows are visible", () => {
+  const source = readFileSync("src/components/writing/TypingTrainer.tsx", "utf8");
+  const css = readFileSync("src/app/globals.css", "utf8");
+  assert.ok(source.indexOf("data-typing-timer") < source.indexOf("data-typing-stage"));
+  assert.match(css, /\.typing-stage \{[\s\S]*height: calc\(var\(--typing-line-height\) \* 3\)/);
+  assert.doesNotMatch(css, /typing-row-top|typing-row-bottom|typing-word-hide|typing-word-show/);
 });
 
 test("TY8 prepare API explicitly accepts 30 seconds and rejects 29/31 by schema", () => {
