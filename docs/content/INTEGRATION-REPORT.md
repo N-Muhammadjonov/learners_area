@@ -18,9 +18,15 @@ extrapolated, and skips are reported as skips.
 4. **Integration branch:** `arena/1052c0fd-learners-area` (the fixed Arena session
    branch). Both source histories are preserved: the merge commit has two parents, and
    neither source branch was rewritten, reset or rebased.
-5. **Final SHA:** `8e0b12d650a1eefa3e7f2e8abd0e2116694ec7ef`, pushed and verified:
-   `git ls-remote origin arena/1052c0fd-learners-area` returns exactly that SHA. Commit
-   chain: `9f55bc7` (merge, 22 files, +3708/−641) → `1b17f36` (cp1) → `8e0b12d` (cp2).
+5. **Final SHAs:** the last **code** commit is
+   `8e0b12d650a1eefa3e7f2e8abd0e2116694ec7ef` — every full gate in §11–19 ran on that tree
+   — and this report is the documentation commit on top of it; `git ls-remote origin
+   arena/1052c0fd-learners-area` matches the local tip exactly (verified after each push).
+   Commit chain: `9f55bc7` (merge, 22 files, +3708/−641) → `1b17f36` (checkpoint 1: the
+   Writing Typing line green on both schema states) → `8e0b12d` (checkpoint 2: migrations
+   0040–0048 registered, hash-pinned and both migration paths proven) → this report. Because
+   the report is documentation only, `npx tsc --noEmit`, `npm run lint` and
+   `git diff --check` were re-run on it and stayed green (exit 0).
 
 ## 6. Migration collisions and their resolution
 
@@ -202,7 +208,7 @@ migrated from this environment. The `/app` master prompt has not started.
 
 ## 25. Declaration
 
-Every repository-level gate on the final pushed tree `8e0b12d` is green: typecheck, lint,
+Every repository-level gate on the pushed tree (last code commit `8e0b12d`) is green: typecheck, lint,
 build, `git diff --check`, unit tests, UI tests, real-PostgreSQL tests, the migration gate,
 and the focused Content OS / Writing Typing / Listening / Speaking / Publication / Mocks /
 Assignments / Imports / Dictionary-gating suites. The only non-green items are the owner/
