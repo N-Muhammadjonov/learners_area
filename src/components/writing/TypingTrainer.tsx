@@ -10,6 +10,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { flushSync } from "react-dom";
 import type { Dictionary } from "@/lib/i18n/en";
 import { groupTypingLines, type LineRange } from "@/lib/services/writing/typing-lines";
 import type { TypingPreset } from "@/lib/services/writing/typing";
@@ -491,8 +492,9 @@ export function TypingTrainer({
     element.style.transform = `translateY(-${lineHeight}px)`;
     lineTransitionTimer.current = window.setTimeout(() => {
       element.style.transition = "none";
+      flushSync(() => setWindowStart(nextStart));
       element.style.transform = "translateY(0)";
-      setWindowStart(nextStart);
+      void element.offsetHeight;
       lineTransitionTimer.current = null;
     }, 200);
   }, [activeLine, windowStart]);
