@@ -923,6 +923,8 @@ export const grammarAttempts = pgTable("grammar_attempts", {
   /** The student's own sentence, for translate/activate. Null for multiple choice. */
   responseText: text("response_text"),
   isCorrect: boolean("is_correct").notNull(),
+  /** The grammar topic revision this attempt answered, so history is never regraded (§71). */
+  contentVersionId: uuid("content_version_id").references(() => contentVersions.id, { onDelete: "set null" }),
   attemptedAt: timestamp("attempted_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
@@ -1480,12 +1482,52 @@ export const assignments = pgTable("assignments", {
   title: varchar("title", { length: 200 }).notNull(),
   description: text("description"),
   createdByUserId: uuid("created_by_user_id").notNull().references(() => users.id),
+  /**
+   * The PRIMARY target of the assignment. Kept for compatibility with every
+   * existing reader; `assignment_targets` is what new code writes and reads, so a
+   * task can be set for several students without inventing a second table later.
+   */
   targetUserId: uuid("target_user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  /** COMPATIBILITY ONLY: the canonical reference below is what new code reads. */
   relatedWritingPromptId: uuid("related_writing_prompt_id").references(() => writingPrompts.id),
+  /** Canonical content reference: what the learner is actually given (§24). */
+  module: varchar("module", { length: 20 }),
+  contentType: varchar("content_type", { length: 40 }),
+  sourceRef: varchar("source_ref", { length: 80 }),
+  /** The EXACT revision assigned: a later edit never changes what this task asked for (§71). */
+  contentVersionId: uuid("content_version_id").references(() => contentVersions.id, { onDelete: "set null" }),
+  instructions: text("instructions"),
   status: assignmentStatusEnum("status").notNull().default("not_started"),
   dueAt: timestamp("due_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-});
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => [
+  index("assignments_content_idx").on(table.module, table.contentType, table.sourceRef),
+  index("assignments_version_idx").on(table.contentVersionId),
+]);
+
+/** One row per student an assignment is set for, with its own status. */
+export const assignmentTargets = pgTable(
+  "assignment_targets",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    assignmentId: uuid("assignment_id")
+      .notNull()
+      .references(() => assignments.id, { onDelete: "cascade" }),
+    studentUserId: uuid("student_user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    status: assignmentStatusEnum("status").notNull().default("not_started"),
+    dueAt: timestamp("due_at", { withTimezone: true }),
+    completedAt: timestamp("completed_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("assignment_targets_pair_idx").on(table.assignmentId, table.studentUserId),
+    index("assignment_targets_student_idx").on(table.studentUserId, table.status),
+  ],
+);
 
 /**
  * Explicit teacher -> student roster (migration 0035). The ONLY source of a
