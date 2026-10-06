@@ -2556,6 +2556,8 @@ const en = {
       presetFull: "Full",
       next: "Next text",
       repeat: "Repeat this text",
+      pause: "Pause Full mode",
+      resume: "Resume Full mode",
       loading: "Loading next text…",
       saving: "Saving result…",
       error: "Could not save this run. Choose Repeat or Next and try again.",
