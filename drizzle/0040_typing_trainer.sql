@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS "typing_texts" (
   "difficulty" varchar(20),
   "topic" varchar(160),
   "provenance" varchar(200) NOT NULL,
-  "publication_state" "publication_state" DEFAULT 'published' NOT NULL,
+  "publication_state" "publication_state" DEFAULT 'draft' NOT NULL,
   "publish_at" timestamp with time zone,
   "created_at" timestamp with time zone DEFAULT now() NOT NULL,
   "updated_at" timestamp with time zone DEFAULT now() NOT NULL,
