@@ -1263,17 +1263,22 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
   color: rgb(var(--ink-900));
 }
 .typing-toolbar {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
-  justify-content: space-between;
   gap: .75rem;
-  flex-wrap: wrap;
   margin-bottom: 1rem;
 }
-.typing-toolbar-actions {
+.typing-toolbar-center {
   display: flex;
   align-items: center;
-  gap: .75rem;
+  justify-content: center;
+  gap: .55rem;
+  min-width: 5rem;
+  justify-self: center;
+}
+.typing-next-button {
+  justify-self: end;
 }
 .typing-presets {
   display: flex;
@@ -1366,19 +1371,14 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 }
 .typing-word {
   opacity: 1;
-  transition: opacity 150ms linear;
 }
-.typing-row-top .typing-word {
-  opacity: .45;
+.typing-row-clear {
+  opacity: 1;
 }
-.typing-row-top .typing-word-hide {
-  opacity: 0;
-}
-.typing-row-bottom .typing-word {
-  opacity: 0;
-}
-.typing-row-bottom .typing-word-show {
-  opacity: .72;
+.typing-row-third,
+.typing-row-buffer {
+  opacity: .48;
+  transition: opacity 160ms ease-out;
 }
 .typing-char-future {
   color: rgb(var(--ink-300));
@@ -1436,7 +1436,7 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 .typing-time {
   flex: none;
   min-width: 4.2rem;
-  text-align: right;
+  text-align: center;
   color: rgb(var(--ink-700));
   font-variant-numeric: tabular-nums;
   font-weight: 650;
@@ -1444,6 +1444,51 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 .typing-time-warning {
   color: rgb(var(--band-bad));
   font-weight: 650;
+}
+
+.typing-pause-orb {
+  display: inline-flex;
+  width: 2.45rem;
+  height: 2.45rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(var(--accent) / .32);
+  border-radius: 999px;
+  background: rgb(var(--accent) / .10);
+  color: rgb(var(--accent));
+  box-shadow: 0 8px 20px rgb(var(--accent) / .10);
+  cursor: pointer;
+  transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+}
+.typing-pause-orb:hover:not(:disabled) {
+  transform: translateY(-1px) scale(1.03);
+  background: rgb(var(--accent) / .15);
+  border-color: rgb(var(--accent) / .48);
+}
+.typing-pause-orb:disabled {
+  opacity: .5;
+  cursor: wait;
+}
+.typing-pause-orb-svg {
+  overflow: visible;
+}
+.typing-pause-orb-ring {
+  transform-origin: 12px 12px;
+  animation: typing-orb-breathe 2.4s ease-in-out infinite;
+}
+.typing-pause-orb-dot {
+  transform-origin: 12px 12px;
+  animation: typing-orb-spin 2.8s linear infinite;
+}
+.typing-pause-orb.is-paused .typing-pause-orb-ring {
+  animation-duration: 1.6s;
+}
+@keyframes typing-orb-spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes typing-orb-breathe {
+  0%, 100% { opacity: .45; transform: scale(.96); }
+  50% { opacity: .92; transform: scale(1.04); }
 }
 .typing-error-panel {
   border: 1px solid rgb(var(--band-bad) / .4);
@@ -1567,6 +1612,22 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 
 @media (max-width: 640px) {
   .typing-trainer { --typing-line-height: 2.45rem; }
+  .typing-toolbar {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .typing-presets {
+    grid-column: 1 / -1;
+  }
+  .typing-toolbar-center {
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: center;
+    margin-left: var(--icon-btn);
+  }
+  .typing-next-button {
+    grid-column: 2;
+    grid-row: 2;
+  }
   .typing-result { grid-template-columns: 1fr 1fr; }
   .typing-graph-cell { grid-column: 1 / -1; }
   .typing-stage-wrap { padding: .9rem; }
@@ -1574,7 +1635,11 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
   .typing-font { font-size: 1.08rem; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .typing-word { transition: none; }
-  .typing-caret { animation: none; }
+  .typing-word,
+  .typing-row-third,
+  .typing-row-buffer { transition: none; }
+  .typing-caret,
+  .typing-pause-orb-ring,
+  .typing-pause-orb-dot { animation: none; }
   .typing-stack { transition: none !important; }
 }
