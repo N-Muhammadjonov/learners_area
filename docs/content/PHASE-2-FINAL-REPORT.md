@@ -245,11 +245,15 @@ all three exclusions and that the control item is still offered and still assign
 
 ## V. Role-bound workflows
 
-`PARTIAL`. The rules are implemented and enforced in one place (`mayAssignTo`,
+`DONE`. The rules are implemented and enforced in one place (`mayAssignTo`,
 `mayReadAssignment`, `setAssignmentTargetStatus` via `teacher_student_links`,
-owner/admin bypass, learner refused) and the assignment route delegates to them.
-The **teacher-facing workflow screens** (a roster-aware assignment builder) are not
-built.
+owner/admin bypass, learner refused) and the assignment route delegates to them. The
+teacher-facing builder now exists: on a student's page the assignment form offers
+canonical content from `/api/assignments/assignable`, sends the exact revision
+(module/contentType/sourceRef/contentVersionId), never sends a second reference
+alongside it, and shows the revision that will be pinned. The picker is advisory — the
+service still enforces roster scope, publication and revision identity.
+`tests/ui/teacher-assignment-canonical.test.tsx` asserts the wiring; `test:ui` 224/224.
 
 ## W. Source identity and duplicate detection
 
@@ -465,11 +469,13 @@ timers under exam conditions) has **not** been executed end-to-end (§98 open).
 
 ## AZ. Assignment end-to-end with role boundaries
 
-`PARTIAL`. The service and API level is complete and tested
-(`content-assignments` 7/7: roster boundaries, draft refusal, forged revision
+`DONE`. The service and API level is complete and tested (`content-assignments`
+12/12: roster boundaries, draft refusal and schedule-not-open refusal, forged revision
 refusal, per-student status, learner isolation, archived content still visible to the
-student who was given it). The teacher-facing screens for that flow are not built
-(§99 partially open).
+student who was given it, and "assignable means openable": unknown content types,
+orphaned revisions and non-live rows are not offered). The teacher-facing screen is
+built: a canonical content picker on the student page, which sends the exact revision
+and shows it before saving (§99 closed for this flow).
 
 ## BA. No deployment per content
 
