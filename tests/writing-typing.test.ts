@@ -17,6 +17,7 @@ import {
   prepareTypingRun,
   recordModelTextRun,
   startPreparedTypingRun,
+  togglePreparedTypingPause,
   typingStats,
 } from "../src/lib/services/writing/typing-runs";
 import {
@@ -196,6 +197,8 @@ test("TY5b corrected/backspaced samples remain monotonic and bounded before fini
   assert.match(source, /Math\.max\(previous, current\)/);
   assert.match(source, /\.map\(\(value\) => Math\.min\(value, finalChars\)\)/);
   assert.match(source, /response\.error === "too_early"/);
+  const service = readFileSync("src/lib/services/writing/typing-runs.ts", "utf8");
+  assert.match(service, /invalid === "bad_samples" \? \[\] : input\.samples/);
 });
 
 test("TY6 visual lines come from measured offsetTop values, never character-count heuristics", () => {
@@ -220,11 +223,9 @@ test("TY7 client contract has no textarea or Start button and blocks paste/drop"
   assert.match(source, /autoCorrect="off"/);
   assert.match(source, /autoCapitalize="off"/);
   assert.match(source, /const rollingLineIndexes = \[[\s\S]*windowStart,[\s\S]*windowStart \+ 1,[\s\S]*windowStart \+ 2,[\s\S]*windowStart \+ 3/);
-  assert.match(source, /const fraction = topRange/);
-  assert.match(source, /typing-word-hide/);
-  assert.match(source, /typing-word-show/);
+  assert.doesNotMatch(source, /typing-word-hide|typing-word-show|const fraction = topRange/, "latest owner rule has no per-word disappearance");
   assert.match(source, /translateY\(-\\\$\{lineHeight\}px\)/, "only one full visual line shifts upward");
-  assert.match(source, /flushSync\(\(\) => setWindowStart\(nextStart\)\)/, "line-window rebase happens in the same painted frame");
+  assert.match(source, /setWindowStart\(nextStart\)/, "completed top line is replaced by exactly the next measured line");
   assert.match(source, /ResizeObserver/);
   assert.match(source, /window\.clearInterval\(timer\.current\)/, "run timer is explicitly cleared");
   assert.match(source, /window\.clearTimeout\(lineTransitionTimer\.current\)/, "line transition timer is cleared");
@@ -237,8 +238,10 @@ test("TY7b timer is above the typing stage and only three visual rows are visibl
   const css = readFileSync("src/app/globals.css", "utf8");
   assert.ok(source.indexOf("data-typing-timer") < source.indexOf("data-typing-stage"));
   assert.match(css, /\.typing-stage \{[\s\S]*height: calc\(var\(--typing-line-height\) \* 3\)/);
-  assert.match(css, /\.typing-row-top \.typing-word-hide/);
-  assert.match(css, /\.typing-row-bottom \.typing-word-show/);
+  assert.match(css, /\.typing-toolbar \{[\s\S]*grid-template-columns: minmax\(0, 1fr\) auto minmax\(0, 1fr\)/);
+  assert.match(css, /\.typing-toolbar-center \{[\s\S]*justify-self: center/);
+  assert.match(css, /\.typing-row-third,[\s\S]*opacity: \.48/);
+  assert.doesNotMatch(css, /typing-word-hide|typing-word-show/);
 });
 
 test("TY7c a persisted run is returned even if history refresh fails", () => {
@@ -246,6 +249,50 @@ test("TY7c a persisted run is returned even if history refresh fails", () => {
   assert.match(finishRoute, /const result = await finishPreparedTypingRun/);
   assert.match(finishRoute, /saved run, history refresh unavailable/);
   assert.match(finishRoute, /return NextResponse\.json\(\{ run: result\.result \}\)/);
+});
+
+test("TY7d learner-facing Typing removes agent-only eyebrow/body copy and Full exposes icon-only pause", () => {
+  const page = readFileSync("src/app/(app)/writing/page.tsx", "utf8");
+  const ui = readFileSync("src/components/writing/TypingTrainer.tsx", "utf8");
+  assert.doesNotMatch(page, /\{t\.eyebrow\}/);
+  assert.doesNotMatch(page, /\{t\.body\}/);
+  assert.match(ui, /data-typing-full-pause/);
+  assert.match(ui, /IconPauseOrb/);
+  assert.doesNotMatch(ui, />Pause</);
+});
+
+test("TY7e Full-mode pause/resume is signed and excluded from authoritative elapsed time", async () => {
+  const { t, db, userId } = await setup();
+  try {
+    const base = 1_800_200_000_000;
+    const prepared = (await prepareTypingRun(userId, { preset: 0 }, { database: db, now: () => base }))!;
+    const started = (await startPreparedTypingRun(userId, prepared.token, () => base + 100))!;
+    const paused = await togglePreparedTypingPause(userId, started, "pause", () => base + 5_100);
+    assert.ok(paused);
+    assert.equal(paused.paused, true);
+
+    const stillPaused = await finishPreparedTypingRun(
+      userId,
+      { runToken: paused.runToken, typedWords: [...prepared.text.words.slice(0, 4), ""], samples: [] },
+      { database: db, now: () => base + 20_100 },
+    );
+    assert.deepEqual(stillPaused, { ok: false, code: "paused" });
+
+    const resumed = await togglePreparedTypingPause(userId, paused.runToken, "resume", () => base + 20_100);
+    assert.ok(resumed);
+    assert.equal(resumed.paused, false);
+    assert.equal(resumed.pausedMs, 15_000);
+
+    const finished = await finishPreparedTypingRun(
+      userId,
+      { runToken: resumed.runToken, typedWords: [...prepared.text.words.slice(0, 4), ""], samples: [] },
+      { database: db, now: () => base + 24_100 },
+    );
+    assert.ok(finished.ok, JSON.stringify(finished));
+    assert.equal(finished.result.durationMs, 9_000);
+  } finally {
+    await t.close();
+  }
 });
 
 test("TY8 prepare API explicitly accepts 30 seconds and rejects 29/31 by schema", () => {
