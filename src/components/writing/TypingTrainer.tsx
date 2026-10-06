@@ -534,7 +534,13 @@ export function TypingTrainer({
               <div className="typing-stack" ref={stackRef}>
                 {[activeLine - 1, activeLine, activeLine + 1, activeLine + 2].map((lineIndex, row) => {
                   const line = ranges[lineIndex];
-                  const role = row === 0 ? "top" : row === 3 ? "bottom" : "middle";
+                  // At the very first visual line there is no previous row to
+                  // fade out, so expose three real lines immediately. From the
+                  // second line onward row 4 becomes the proportional fade-in.
+                  const role =
+                    row === 0 ? "top" :
+                    row === 3 && activeLine > 0 ? "bottom" :
+                    "middle";
                   return (
                     <div key={lineIndex} className={`typing-row typing-row-${role}`}>
                       {line && words.slice(line.start, line.end).map((_, offset) =>
