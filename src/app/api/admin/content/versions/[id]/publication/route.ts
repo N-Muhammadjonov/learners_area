@@ -3,6 +3,8 @@ import { db } from "@/db/client";
 import { isStaff, requireActiveUser } from "@/lib/auth/current-user";
 import { mayPublishImportedContent } from "@/lib/import/core/permissions";
 import { publishContentVersion } from "@/lib/content/authoring";
+import { mayAuthorContent } from "@/lib/content/authoring-access";
+import { versionById } from "@/lib/content/versions";
 import { publicationRequestSchema } from "@/lib/validation/content-authoring";
 
 /**
@@ -22,6 +24,17 @@ export async function POST(req: NextRequest, context: { params: Promise<{ id: st
   if (!parsed.success) return NextResponse.json({ error: parsed.error.issues[0]?.message ?? "invalid_input" }, { status: 400 });
 
   const { id } = await context.params;
+  /*
+   * Moving a revision through the workflow is a content decision, so it is bounded by
+   * the same capability as authoring that content: a teacher may shepherd the lessons
+   * they write and may not touch content they could not author in the first place.
+   * Publication itself stays a separate authority, enforced by the service below.
+   */
+  const version = await versionById(id);
+  if (!version) return NextResponse.json({ error: "not_found" }, { status: 404 });
+  if (!mayAuthorContent(user.role, version.module, version.contentType))
+    return NextResponse.json({ error: "forbidden" }, { status: 403 });
+
   const result = await db.transaction((tx) =>
     publishContentVersion(tx, {
       actor: { id: user.id, role: user.role, mayPublish: mayPublishImportedContent(user.role) },

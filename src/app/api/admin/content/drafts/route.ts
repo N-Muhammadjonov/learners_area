@@ -3,6 +3,7 @@ import { db } from "@/db/client";
 import { isStaff, requireActiveUser } from "@/lib/auth/current-user";
 import { mayPublishImportedContent } from "@/lib/import/core/permissions";
 import { saveContentDraft } from "@/lib/content/authoring";
+import { mayAuthorContent } from "@/lib/content/authoring-access";
 import { saveDraftRequestSchema } from "@/lib/validation/content-authoring";
 
 /**
@@ -20,6 +21,17 @@ export async function POST(req: NextRequest) {
   const parsed = saveDraftRequestSchema.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({ error: parsed.error.issues[0]?.message ?? "invalid_input" }, { status: 400 });
 
+  /*
+   * Being staff is not the same as being allowed to author THIS content type.
+   *
+   * A generic route that accepts every registered `module:contentType` from anyone who
+   * passes `isStaff()` hands a teacher the whole content bank — the lesson desk showing
+   * only lesson controls would have been a decoration, not a boundary. The decision
+   * lives in one shared place (`mayAuthorContent`) and is asked per request.
+   */
+  if (!mayAuthorContent(user.role, parsed.data.module, parsed.data.contentType))
+    return NextResponse.json({ error: "forbidden" }, { status: 403 });
+
   const result = await db.transaction((tx) =>
     saveContentDraft(tx, {
       actor: { id: user.id, role: user.role, mayPublish: mayPublishImportedContent(user.role) },
@@ -36,7 +48,16 @@ export async function POST(req: NextRequest) {
 
   if (!result.ok) return NextResponse.json({ ok: false, issues: result.issues }, { status: 422 });
   return NextResponse.json(
-    { ok: true, versionId: result.version.id, versionNo: result.version.versionNo, created: result.created },
+    {
+      ok: true,
+      versionId: result.version.id,
+      versionNo: result.version.versionNo,
+      created: result.created,
+      // The canonical row this revision materializes (a lesson id for lessons). Additive:
+      // it lets a first save navigate straight to the thing it created instead of
+      // reloading a list and guessing.
+      targetId: result.version.targetId ?? null,
+    },
     { status: result.created ? 201 : 200 },
   );
 }
