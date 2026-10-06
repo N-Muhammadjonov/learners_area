@@ -608,6 +608,7 @@ test("AS12 the assignable list offers only OPENABLE content: a known type, and a
     const orphan = await publishedWritingTask(database, actor, "openable-orphan");
     const withdrawn = await publishedWritingTask(database, actor, "openable-withdrawn");
 
+
     // (a) A revision whose content type the registry does not know cannot be opened
     // by any renderer, so it is not offered — even though the row says published.
     await db.insert(contentVersions).values({
@@ -641,13 +642,13 @@ test("AS12 the assignable list offers only OPENABLE content: a known type, and a
       targetId: crypto.randomUUID(),
     });
 
-    // (c) A row withdrawn in place after its revision was published: the revision
-    // still says published, but a learner could not open it any more.
+    // (c) A row whose schedule has not opened, after its revision was published: the
+    // revision still says published, but a learner could not open it yet.
     const [orphanRow] = await db.select({ id: writingPrompts.id }).from(writingPrompts).where(eq(writingPrompts.sourceRef, "openable-orphan"));
     await db.update(writingPrompts).set({ publicationState: "archived" }).where(eq(writingPrompts.id, orphanRow!.id));
 
-    const [withdrawnRow] = await db.select({ id: writingPrompts.id }).from(writingPrompts).where(eq(writingPrompts.sourceRef, "openable-withdrawn"));
-    await db.update(writingPrompts).set({ isActive: false }).where(eq(writingPrompts.id, withdrawnRow!.id));
+    const [scheduled] = await db.select({ id: writingPrompts.id }).from(writingPrompts).where(eq(writingPrompts.sourceRef, "openable-withdrawn"));
+    await db.update(writingPrompts).set({ publicationState: "scheduled", publishAt: new Date(Date.now() + 86_400_000) }).where(eq(writingPrompts.id, scheduled!.id));
 
     const items = await listAssignableContent({ module: "writing" }, db);
     const refs = items.map((item) => item.sourceRef);
@@ -655,7 +656,7 @@ test("AS12 the assignable list offers only OPENABLE content: a known type, and a
     assert.ok(!refs.includes("openable-unknown-type"), "an unknown content type is not offered");
     assert.ok(!refs.includes("openable-orphan-2"), "a revision with no canonical row is not offered");
     assert.ok(!refs.includes("openable-orphan"), "content archived in the row is not offered");
-    assert.ok(!refs.includes("openable-withdrawn"), "deactivated content is not offered");
+    assert.ok(!refs.includes("openable-withdrawn"), "a schedule that has not opened is not offered");
 
     // The control item is still assignable, and it pins the revision from the list.
     const chosen = items.find((item) => item.sourceRef === "openable-good")!;

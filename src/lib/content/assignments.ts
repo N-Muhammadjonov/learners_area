@@ -11,7 +11,9 @@ import {
   speakingPrompts,
   teacherStudentLinks,
   users,
+  generalReadingSets,
   videoLessons,
+  vocabularyTopicPacks,
   writingPrompts,
 } from "@/db/schema";
 import { contentTypeKey, isKnownContentType, isKnownModule, moduleDescriptor, referenceProblems } from "@/lib/content/taxonomy";
@@ -360,10 +362,14 @@ export type AssignableItem = {
 /**
  * The canonical rows behind a revision, resolved per target type.
  *
- * Each entry asks the SAME question the learner read asks: is this row still
- * learner-live? Publication moves the row with the revision, so normally the answer
- * is yes; the check exists for the case where the row moved on its own (a delete, an
- * archive, `is_active` turned off, a schedule that never opened).
+ * Each entry asks the SAME question the learner read asks — is this row live? — and
+ * it asks it with the same rule: `liveWhere` (published, or scheduled and due). There
+ * is deliberately no second visibility rule here: `is_active` is NOT consulted,
+ * because publication is the one answer to "may a learner see this?" and a second
+ * filter would be a second answer (`publication.test.ts` enforces that).
+ *
+ * The check exists for the case where the row moved on its own after the revision was
+ * published: a delete, an archive, or a schedule that never opened.
  */
 const TARGET_LIVENESS: Record<
   string,
@@ -373,22 +379,29 @@ const TARGET_LIVENESS: Record<
     executor
       .select({ id: listeningTests.id })
       .from(listeningTests)
-      .where(and(inArray(listeningTests.id, ids), eq(listeningTests.isActive, true), liveWhere({ publicationState: listeningTests.publicationState, publishAt: listeningTests.publishAt }))),
+      .where(and(inArray(listeningTests.id, ids), liveWhere({ publicationState: listeningTests.publicationState, publishAt: listeningTests.publishAt }))),
   reading_passage: (executor, ids) =>
     executor
       .select({ id: readingPassages.id })
       .from(readingPassages)
-      .where(and(inArray(readingPassages.id, ids), eq(readingPassages.isActive, true), liveWhere({ publicationState: readingPassages.publicationState, publishAt: readingPassages.publishAt }))),
+      .where(and(inArray(readingPassages.id, ids), liveWhere({ publicationState: readingPassages.publicationState, publishAt: readingPassages.publishAt }))),
+  general_reading_set: (executor, ids) =>
+    executor
+      .select({ id: generalReadingSets.id })
+      .from(generalReadingSets)
+      .where(and(inArray(generalReadingSets.id, ids), liveWhere({ publicationState: generalReadingSets.publicationState, publishAt: generalReadingSets.publishAt }))),
   writing_prompt: (executor, ids) =>
     executor
       .select({ id: writingPrompts.id })
       .from(writingPrompts)
-      .where(and(inArray(writingPrompts.id, ids), eq(writingPrompts.isActive, true), liveWhere({ publicationState: writingPrompts.publicationState, publishAt: writingPrompts.publishAt }))),
+      .where(and(inArray(writingPrompts.id, ids), liveWhere({ publicationState: writingPrompts.publicationState, publishAt: writingPrompts.publishAt }))),
   speaking_prompt: (executor, ids) =>
     executor
       .select({ id: speakingPrompts.id })
       .from(speakingPrompts)
-      .where(and(inArray(speakingPrompts.id, ids), eq(speakingPrompts.isActive, true), liveWhere({ publicationState: speakingPrompts.publicationState, publishAt: speakingPrompts.publishAt }))),
+      .where(and(inArray(speakingPrompts.id, ids), liveWhere({ publicationState: speakingPrompts.publicationState, publishAt: speakingPrompts.publishAt }))),
+  // Grammar topics carry no publish moment, so `published` is the whole rule — the
+  // same rule their learner read applies.
   grammar_topic: (executor, ids) =>
     executor
       .select({ id: grammarTopics.id })
@@ -399,11 +412,16 @@ const TARGET_LIVENESS: Record<
       .select({ id: lessons.id })
       .from(lessons)
       .where(and(inArray(lessons.id, ids), liveWhere({ publicationState: lessons.publicationState, publishAt: lessons.publishAt }))),
+  vocabulary_topic_pack: (executor, ids) =>
+    executor
+      .select({ id: vocabularyTopicPacks.id })
+      .from(vocabularyTopicPacks)
+      .where(and(inArray(vocabularyTopicPacks.id, ids), liveWhere({ publicationState: vocabularyTopicPacks.publicationState, publishAt: vocabularyTopicPacks.publishAt }))),
   video_lesson: (executor, ids) =>
     executor
       .select({ id: videoLessons.id })
       .from(videoLessons)
-      .where(and(inArray(videoLessons.id, ids), eq(videoLessons.isActive, true), liveWhere({ publicationState: videoLessons.publicationState, publishAt: videoLessons.publishAt }))),
+      .where(and(inArray(videoLessons.id, ids), liveWhere({ publicationState: videoLessons.publicationState, publishAt: videoLessons.publishAt }))),
 };
 
 async function liveTargetIds(
