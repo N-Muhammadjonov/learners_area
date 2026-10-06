@@ -53,6 +53,8 @@ export type VersionRecord = {
   publicationState: string;
   targetType: string | null;
   targetId: string | null;
+  /** The canonical content as it was at this revision (0043), when recorded. */
+  contentSnapshot?: unknown;
 };
 
 /** A version identity is (module, contentType, sourceRef, versionNo) — nothing else. */
@@ -232,6 +234,13 @@ export type PinVersionResult = {
  */
 export type VersionReader = Pick<typeof db, "select">;
 
+/** The canonical content a revision recorded, or null when it predates snapshots. */
+export async function versionContent(versionId: string, executor: VersionReader = db): Promise<unknown | null> {
+  if (!UUID_PATTERN.test(versionId)) return null;
+  const rows = await executor.select({ contentSnapshot: contentVersions.contentSnapshot }).from(contentVersions).where(eq(contentVersions.id, versionId)).limit(1);
+  return rows[0]?.contentSnapshot ?? null;
+}
+
 export async function latestVersion(
   module: string,
   contentType: string,
@@ -386,6 +395,7 @@ export async function pinVersion(
       contentHash,
       semanticHash,
       answerKeyHash,
+      contentSnapshot: input.content ?? null,
       publicationState: String(input.publicationState),
       targetType: input.targetType ?? null,
       targetId: input.targetId ?? null,

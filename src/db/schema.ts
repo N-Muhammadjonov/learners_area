@@ -387,6 +387,8 @@ export const writingPrompts = pgTable("writing_prompts", {
   category: varchar("category", { length: 60 }).notNull(),
   prompt: text("prompt").notNull(),
   targetWordCount: integer("target_word_count").notNull(),
+  /** Stable identity of the authored source this prompt is the version OF (§43). */
+  sourceRef: varchar("source_ref", { length: 80 }),
   isActive: boolean("is_active").notNull().default(true),
   /**
    * Publication state and the moment a scheduled item opens. Visibility is
@@ -577,7 +579,8 @@ export const readingQuestions = pgTable("reading_questions", {
   groupId: uuid("group_id").references(() => readingQuestionGroups.id, { onDelete: "cascade" }),
   /** Question number as printed in the paper (1–40 within a test). */
   questionNo: integer("question_no"),
-  typeCode: varchar("type_code", { length: 16 }),
+  /** Source code, or the canonical type id for hand-authored material (≤40 since 0043). */
+  typeCode: varchar("type_code", { length: 40 }),
   /** Where the blank/selection sits in the prompt: {{q1}} → an input box. */
   answerSlots: jsonb("answer_slots")
     .$type<{ slotKey: string; token: string; control: string }[]>()
@@ -650,6 +653,8 @@ export const listeningTests = pgTable("listening_tests", {
   /** Nullable for the same reason as speaking_materials.primaryUrl. */
   audioUrl: text("audio_url"),
   transcript: text("transcript"), // optional, shown only in the post-attempt analysis
+  /** Stable identity of the authored/imported source this test is the version OF (§43). */
+  sourceRef: varchar("source_ref", { length: 80 }),
   difficultyLevel: varchar("difficulty_level", { length: 10 }).notNull().default("B2"),
   isActive: boolean("is_active").notNull().default(true),
   /**
@@ -668,6 +673,12 @@ export const listeningQuestions = pgTable("listening_questions", {
   testId: uuid("test_id").notNull().references(() => listeningTests.id, { onDelete: "cascade" }),
   order: integer("order").notNull(),
   type: listeningQuestionTypeEnum("type").notNull(),
+  /**
+   * Canonical question type id (one of the 14 Listening types). The storage enum
+   * cannot express them, so the source/authoring type is kept explicitly and
+   * `readingTypeFromStorage`-style resolution prefers it (§38).
+   */
+  typeCode: varchar("type_code", { length: 40 }),
   questionText: text("question_text").notNull(),
   options: jsonb("options").$type<string[]>(),
   correctAnswer: text("correct_answer").notNull(),
@@ -754,6 +765,10 @@ export const grammarTopics = pgTable("grammar_topics", {
   title: varchar("title", { length: 200 }).notNull(),
   explanation: text("explanation").notNull(),
   order: integer("order").notNull(),
+  /** Stable identity of the authored source this topic is the version OF (§43). */
+  sourceRef: varchar("source_ref", { length: 80 }),
+  /** Authored grammar starts as a draft and becomes visible through publication (§41). */
+  publicationState: publicationStateEnum("publication_state").notNull().default("published"),
 });
 
 export const grammarExercises = pgTable("grammar_exercises", {
@@ -2393,6 +2408,12 @@ export const contentVersions = pgTable(
     semanticHash: varchar("semantic_hash", { length: 64 }).notNull(),
     /** SHA-256 of just the answer keys: an answer-key change is visible without the payload. */
     answerKeyHash: varchar("answer_key_hash", { length: 64 }).notNull(),
+    /**
+     * The canonical content of this revision. A pinned revision must be READABLE,
+     * not merely hashable: composition, review and re-publication need the material
+     * as it was, even after the current row has moved on (§71).
+     */
+    contentSnapshot: jsonb("content_snapshot").$type<unknown>(),
     /** Publication state at the time this version was written. */
     publicationState: varchar("publication_state", { length: 16 }).notNull().default("draft"),
     targetType: varchar("target_type", { length: 40 }),
