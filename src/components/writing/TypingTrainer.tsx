@@ -672,7 +672,7 @@ export function TypingTrainer({
           </div>
           <div className="typing-footer">
             <span>
-              {paused ? t.pause :
+              {paused ? "" :
                phase === "running" && !focused ? t.focus :
                phase === "ready" ? t.typeHint :
                phase === "saving" ? t.saving : ""}
