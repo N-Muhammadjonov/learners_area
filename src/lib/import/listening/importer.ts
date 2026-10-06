@@ -10,6 +10,7 @@ import {
 import { attachClaimedAssets, type ResolvedAsset } from "../core/assets";
 import type { ImportTransaction } from "../core/dry-run";
 import { packageContentHash } from "../core/identity";
+import { pinVersion } from "@/lib/content/versions";
 import { provenanceRecord } from "../core/provenance";
 import { issue, type ImportErrorCode, type ImportIssue } from "../core/validation";
 import type { ListeningPackage } from "@/lib/listening/package";
@@ -185,6 +186,40 @@ async function latestImport(tx: ImportTransaction, sourceRef: string) {
   return rows[0] ?? null;
 }
 
+/**
+ * Pin the canonical revision of a Listening test.
+ *
+ * One writer (`pinVersion`) for imported and authored Listening content alike, so
+ * the same version-bound guarantees hold whichever door the content came through.
+ */
+async function pinListeningRevision(
+  tx: ImportTransaction,
+  input: {
+    sourceRef: string;
+    title: string;
+    content: unknown;
+    state: string;
+    actorUserId: string;
+    targetId: string;
+    contentImportId: string | null;
+    source: string;
+  },
+): Promise<void> {
+  await pinVersion(tx as never, {
+    module: "listening",
+    contentType: LISTENING_CONTENT_TYPE,
+    sourceRef: input.sourceRef,
+    title: input.title,
+    content: input.content,
+    publicationState: input.state,
+    actorUserId: input.actorUserId,
+    targetType: "listening_test",
+    targetId: input.targetId,
+    contentImportId: input.contentImportId,
+    provenance: { origin: "import", source: input.source, importId: input.contentImportId },
+  });
+}
+
 export async function importCanonicalListeningPackage(
   tx: ImportTransaction,
   pkg: ListeningCanonicalPackage,
@@ -309,6 +344,19 @@ export async function importCanonicalListeningPackage(
     // with authored vocabulary that points at no checked sense. A failure here
     // aborts the whole import rather than leaving a half-linked vocabulary.
     const lexical = await ingestListeningOccurrences(tx, existing.testId, payload);
+    // The revision records what the learner is graded against, so a re-import that
+    // changed the material is a NEW revision rather than a silent rewrite: attempts
+    // bound to the previous one stay interpretable (§71/§72).
+    await pinListeningRevision(tx, {
+      sourceRef: payload.testId,
+      title: payload.title,
+      content: payload,
+      state: desiredState === "published" ? "published" : row.test.publicationState,
+      actorUserId: options.actorUserId,
+      targetId: existing.testId,
+      contentImportId: record?.id ?? null,
+      source: pkg.provenance.source,
+    });
     return {
       ok: true,
       action: "updated",
@@ -379,6 +427,17 @@ export async function importCanonicalListeningPackage(
     .returning();
 
   const lexical = await ingestListeningOccurrences(tx, test.id, payload);
+
+  await pinListeningRevision(tx, {
+    sourceRef: payload.testId,
+    title: payload.title,
+    content: payload,
+    state: desiredState,
+    actorUserId: options.actorUserId,
+    targetId: test.id,
+    contentImportId: record?.id ?? null,
+    source: pkg.provenance.source,
+  });
 
   return {
     ok: true,

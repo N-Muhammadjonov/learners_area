@@ -4,6 +4,7 @@ import { importGeneralReadingSet } from "@/lib/services/reading/general-import";
 import type { ImportTransaction } from "../core/dry-run";
 import { packageContentHash } from "../core/identity";
 import { provenanceRecord } from "../core/provenance";
+import { pinVersion } from "@/lib/content/versions";
 import { issue, type ImportErrorCode, type ImportIssue } from "../core/validation";
 import { READING_CONTENT_TYPE, type ReadingCanonicalPackage } from "./canonical";
 
@@ -48,6 +49,30 @@ export async function importCanonicalReadingSet(
 
   const outcome = await importGeneralReadingSet(tx, bundle);
   const contentHash = packageContentHash(pkg);
+
+  /**
+   * Pin the canonical revision for the set this import produced.
+   *
+   * The import ledger records that a package arrived; this records WHAT was
+   * imported as a revision of the content item, which is what an assignment, a
+   * mock or an attempt can point at (§24/§71). It runs inside the importer's
+   * transaction, so a version and its content either both land or neither does.
+   */
+  const pinCanonical = async (targetId: string, contentImportId: string | null, state: string) => {
+    await pinVersion(tx as never, {
+      module: "reading",
+      contentType: READING_CONTENT_TYPE,
+      sourceRef: pkg.sourceRef,
+      title: pkg.title,
+      content: pkg.content,
+      publicationState: state,
+      actorUserId: options.actorUserId,
+      targetType: "general_reading_set",
+      targetId,
+      contentImportId,
+      provenance: { origin: "import", source: pkg.provenance.source, importId: contentImportId },
+    });
+  };
 
   if (!outcome.created) {
     const previous = await tx
@@ -115,6 +140,8 @@ export async function importCanonicalReadingSet(
       createdAt: now,
     })
     .returning();
+
+  await pinCanonical(outcome.setId, record?.id ?? null, publish ? "published" : "draft");
 
   return {
     ok: true,
