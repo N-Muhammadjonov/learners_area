@@ -421,6 +421,8 @@ export const writingSubmissions = pgTable("writing_submissions", {
   id: uuid("id").defaultRandom().primaryKey(),
   userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   promptId: uuid("prompt_id").notNull().references(() => writingPrompts.id),
+  /** The exact prompt revision this submission answered; a later edit never regrades it. */
+  contentVersionId: uuid("content_version_id").references(() => contentVersions.id, { onDelete: "set null" }),
   content: text("content").notNull().default(""),
   wordCount: integer("word_count").notNull().default(0),
   status: writingStatusEnum("status").notNull().default("draft"),
@@ -599,6 +601,10 @@ export const readingAttempts = pgTable("reading_attempts", {
   id: uuid("id").defaultRandom().primaryKey(),
   userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   passageId: uuid("passage_id").notNull().references(() => readingPassages.id),
+  /** The exact revision this attempt was started on; a later edit never regrades it. */
+  contentVersionId: uuid("content_version_id").references(() => contentVersions.id, { onDelete: "set null" }),
+  /** Conversion policy that produced any band for this attempt (§22). */
+  scorePolicyVersion: varchar("score_policy_version", { length: 24 }),
   status: attemptStatusEnum("status").notNull().default("in_progress"),
   score: integer("score"),
   totalQuestions: integer("total_questions"),
@@ -685,6 +691,10 @@ export const listeningAttempts = pgTable("listening_attempts", {
   id: uuid("id").defaultRandom().primaryKey(),
   userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   testId: uuid("test_id").notNull().references(() => listeningTests.id),
+  /** The exact revision this attempt was started on; a later edit never regrades it. */
+  contentVersionId: uuid("content_version_id").references(() => contentVersions.id, { onDelete: "set null" }),
+  /** Conversion policy that produced any band for this attempt (§22). */
+  scorePolicyVersion: varchar("score_policy_version", { length: 24 }),
   status: attemptStatusEnum("status").notNull().default("in_progress"),
   score: integer("score"),
   totalQuestions: integer("total_questions"),
@@ -966,6 +976,8 @@ export const speakingAttempts = pgTable("speaking_attempts", {
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   promptId: uuid("prompt_id").references(() => speakingPrompts.id, { onDelete: "set null" }),
+  /** The exact prompt revision this attempt answered, when it used the canonical bank. */
+  contentVersionId: uuid("content_version_id").references(() => contentVersions.id, { onDelete: "set null" }),
   part: speakingPartEnum("part").notNull(),
   status: speakingAttemptStatusEnum("status").notNull().default("recording"),
   // The recording object itself. Same private-by-default rules as any file.
@@ -2287,6 +2299,52 @@ export const contentImportStatusEnum = pgEnum("content_import_status", [
  * table. `(module, content_type, source_ref, version_no)` is the identity; the
  * row is never updated except to move `status` forward.
  * -------------------------------------------------------------------------- */
+export const contentVersionStatusEnum = pgEnum("content_version_status", [
+  "draft",
+  "published",
+  "superseded",
+  "archived",
+]);
+
+export const contentVersions = pgTable(
+  "content_versions",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    module: varchar("module", { length: 20 }).notNull(),
+    contentType: varchar("content_type", { length: 40 }).notNull(),
+    /** Stable source identity: the same material always maps to the same ref. */
+    sourceRef: varchar("source_ref", { length: 80 }).notNull(),
+    versionNo: integer("version_no").notNull(),
+    status: contentVersionStatusEnum("status").notNull().default("draft"),
+    title: varchar("title", { length: 200 }).notNull(),
+    /** academic | general_training | unspecified */
+    track: varchar("track", { length: 24 }).notNull().default("unspecified"),
+    /** SHA-256 of the whole payload: any change moves it. */
+    contentHash: varchar("content_hash", { length: 64 }).notNull(),
+    /** SHA-256 of the assessment-semantic projection: the part a learner is graded on. */
+    semanticHash: varchar("semantic_hash", { length: 64 }).notNull(),
+    /** SHA-256 of just the answer keys: an answer-key change is visible without the payload. */
+    answerKeyHash: varchar("answer_key_hash", { length: 64 }).notNull(),
+    /** Publication state at the time this version was written. */
+    publicationState: varchar("publication_state", { length: 16 }).notNull().default("draft"),
+    targetType: varchar("target_type", { length: 40 }),
+    targetId: uuid("target_id"),
+    contentImportId: uuid("content_import_id").references(() => contentImports.id, { onDelete: "set null" }),
+    createdByUserId: uuid("created_by_user_id").references(() => users.id, { onDelete: "set null" }),
+    /** created | metadata | semantic | answer_key | composition | converted */
+    changeKind: varchar("change_kind", { length: 24 }).notNull().default("created"),
+    provenance: jsonb("provenance").$type<Record<string, unknown>>(),
+    note: text("note"),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    publishedAt: timestamp("published_at", { withTimezone: true }),
+    supersededAt: timestamp("superseded_at", { withTimezone: true }),
+  },
+  (table) => [
+    uniqueIndex("content_versions_identity_idx").on(table.module, table.contentType, table.sourceRef, table.versionNo),
+    index("content_versions_target_idx").on(table.targetType, table.targetId),
+    index("content_versions_ref_idx").on(table.module, table.contentType, table.sourceRef, table.status),
+  ],
+);
 
 export const contentImports = pgTable(
   "content_imports",
