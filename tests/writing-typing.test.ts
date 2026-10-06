@@ -147,7 +147,7 @@ test("TY3 first valid keystroke creates a server-timed run token and finish is i
   }
 });
 
-test("TY3b completing the whole passage may finish a timed run early even with earlier mistakes", async () => {
+test("TY3b uploaded ready-code scores an early-completed timed passage over the full preset", async () => {
   const { t, db, userId } = await setup();
   try {
     const base = 1_800_000_100_000;
@@ -162,7 +162,7 @@ test("TY3b completing the whole passage may finish a timed run early even with e
     );
     assert.ok(result.ok, JSON.stringify(result));
     assert.ok(result.result.mistakes > 0);
-    assert.equal(result.result.durationMs, 10_000);
+    assert.equal(result.result.durationMs, 180_000);
   } finally {
     await t.close();
   }
