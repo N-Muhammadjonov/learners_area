@@ -1,4 +1,5 @@
 import { and, asc, eq } from "drizzle-orm";
+import { isLearningArea, type LearningArea } from "@/lib/content/learning-areas";
 import { db } from "@/db/client";
 import { lessonBlockResponses, lessonBlocks, lessonProgress, lessons, type LessonBlockSnapshot } from "@/db/schema";
 import { gradeLessonQuiz, validateLessonBlocks, validateLessonForPublication, type LessonBlockInput, type LessonBlockIssue } from "@/lib/content/blocks";
@@ -35,6 +36,13 @@ export type SaveLessonInput = {
   slug: string;
   title: string;
   summary?: string | null;
+  /**
+   * What the lesson is ABOUT. Required at authoring time so every new lesson is
+   * explicitly classified; the column stays nullable for historical rows.
+   */
+  learningArea: LearningArea;
+  /** The centre's own notes for this lesson — lesson metadata, not media metadata. */
+  teacherNotes?: string | null;
   estimatedMinutes?: number | null;
   sourceRef: string;
   order?: number;
@@ -43,9 +51,33 @@ export type SaveLessonInput = {
   lessonId?: string | null;
 };
 
+/**
+ * What one lesson revision records.
+ *
+ * The metadata is part of the revision, not decoration around it: a snapshot that held
+ * only `blocks` would forget what the lesson was about, what its description said and
+ * what the centre's notes were at the moment it was pinned. `lessonAuthor` returns THIS
+ * object to the caller's own pin, so the two revisions the authoring pipeline writes
+ * (the lesson author's and `saveContentDraft`'s) can never spell the snapshot
+ * differently.
+ *
+ * Revisions pinned before migration 0050 hold `{ blocks }` only. They stay readable:
+ * consumers read the metadata fields defensively and fall back to the lesson row.
+ */
+export type LessonVersionContent = {
+  learningArea: LearningArea;
+  summary: string | null;
+  teacherNotes: string | null;
+  estimatedMinutes: number | null;
+  blocks: LessonBlockSnapshot[];
+};
+
 export type SaveLessonResult =
-  | { ok: true; lessonId: string; version: VersionRecord; created: boolean; blockCount: number }
+  | { ok: true; lessonId: string; version: VersionRecord; created: boolean; blockCount: number; content: LessonVersionContent }
   | { ok: false; issues: LessonBlockIssue[] };
+
+/** The same bound the database CHECK constraint enforces on `lessons.teacher_notes`. */
+export const LESSON_TEACHER_NOTES_MAX = 8000;
 
 function slugRef(value: string): string {
   return value
@@ -73,6 +105,12 @@ export async function saveLessonStructure(
   if (!input.unitId) issues.push(lesssonIssue("missing_unit", "A lesson must belong to a unit.", "unitId"));
   if (slugRef(input.sourceRef) !== input.sourceRef)
     issues.push(lesssonIssue("unstable_source_ref", "A source reference must be lower-case a–z, 0–9, dot, dash or underscore.", "sourceRef"));
+  if (!isLearningArea(input.learningArea))
+    issues.push(lesssonIssue("missing_learning_area", "A lesson must name its learning area (listening, reading, writing, speaking, grammar, vocabulary or general).", "learningArea"));
+  // Notes are bounded and never blank: an empty note is stored as NULL, so "has teacher
+  // notes" stays one unambiguous question.
+  if (typeof input.teacherNotes === "string" && input.teacherNotes.length > LESSON_TEACHER_NOTES_MAX)
+    issues.push(lesssonIssue("teacher_notes_too_long", `Teacher notes must stay under ${LESSON_TEACHER_NOTES_MAX} characters.`, "teacherNotes"));
   issues.push(...validateLessonBlocks(input.blocks));
   if (issues.length) return { ok: false, issues };
 
@@ -111,11 +149,14 @@ export async function saveLessonStructure(
       issues: [lesssonIssue("lesson_published", "A published lesson is frozen: archive or schedule it before editing its blocks.")],
     };
 
+  const teacherNotes = typeof input.teacherNotes === "string" && input.teacherNotes.trim().length > 0 ? input.teacherNotes : null;
   const values = {
     unitId: input.unitId,
     slug: input.slug,
     title: input.title.trim(),
     summary: input.summary ?? null,
+    learningArea: input.learningArea,
+    teacherNotes,
     estimatedMinutes: input.estimatedMinutes ?? null,
     sourceRef: input.sourceRef,
     updatedAt: new Date(),
@@ -171,21 +212,33 @@ export async function saveLessonStructure(
     quiz: block.quiz ?? null,
   }));
 
+  // ONE definition of the versioned representation, shared with `lessonAuthor`.
+  // Backward compatibility: revisions pinned before 0050 contain `{ blocks }` only;
+  // reading one must not break, so consumers read these fields defensively and fall
+  // back to the lesson row.
+  const content: LessonVersionContent = {
+    learningArea: input.learningArea,
+    summary: input.summary ?? null,
+    teacherNotes,
+    estimatedMinutes: input.estimatedMinutes ?? null,
+    blocks: snapshot,
+  };
+
   const pinned = await pinVersion(tx, {
     module: "lesson",
     contentType: "lesson",
     sourceRef: input.sourceRef,
     title: input.title.trim(),
     track: "unspecified",
-    content: { blocks: snapshot },
+    content,
     publicationState: "draft",
     targetType: "lesson",
     targetId: lessonId!,
     actorUserId: input.actor.id,
-    provenance: { origin: "authored", blockCount: snapshot.length },
+    provenance: { origin: "authored", blockCount: snapshot.length, learningArea: input.learningArea },
   });
 
-  return { ok: true, lessonId: lessonId!, version: pinned.version, created, blockCount: snapshot.length };
+  return { ok: true, lessonId: lessonId!, version: pinned.version, created, blockCount: snapshot.length, content };
 }
 
 /* -------------------------------------------------------------------------- */

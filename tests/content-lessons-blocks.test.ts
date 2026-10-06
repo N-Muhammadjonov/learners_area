@@ -115,6 +115,7 @@ test("LB5 saving a lesson writes typed blocks and a draft revision, and invalid 
         unitId,
         slug: "bad-lesson",
         title: "Bad",
+        learningArea: "general",
         sourceRef: "lesson-bad-1",
         blocks: [{ type: "link", url: "http://insecure.example" }],
       }),
@@ -129,6 +130,7 @@ test("LB5 saving a lesson writes typed blocks and a draft revision, and invalid 
         unitId,
         slug: "matching-headings",
         title: "Matching headings",
+        learningArea: "general",
         summary: "Strategy first, then practice.",
         estimatedMinutes: 25,
         sourceRef: "lesson-matching-headings",
@@ -165,7 +167,7 @@ test("LB6 a lesson publishing gate needs blocks, live references, and a recorded
     const actor = { ...owner, id: actorId };
 
     const empty = await db.transaction((tx) =>
-      saveLessonStructure(tx, { actor, unitId, slug: "empty", title: "Empty lesson", sourceRef: "lesson-empty-1", blocks: [] }),
+      saveLessonStructure(tx, { actor, unitId, slug: "empty", title: "Empty lesson", learningArea: "general", sourceRef: "lesson-empty-1", blocks: [] }),
     );
     assert.equal(empty.ok, true);
     if (!empty.ok) return;
@@ -203,6 +205,7 @@ test("LB6 a lesson publishing gate needs blocks, live references, and a recorded
         unitId,
         slug: "with-reference",
         title: "With reference",
+        learningArea: "general",
         sourceRef: "lesson-with-reference",
         blocks: [
           { type: "text", text: "Read the passage, then answer." },
@@ -267,6 +270,7 @@ test("LB7 a learner cannot read a draft lesson, and a published one resolves its
         unitId,
         slug: "learner-lesson",
         title: "Learner lesson",
+        learningArea: "general",
         sourceRef: "lesson-learner-1",
         blocks: [
           { type: "text", text: "Read this." },
@@ -311,6 +315,7 @@ test("LB8 answering a quiz block is graded once, kept, and the key is not handed
         unitId,
         slug: "quiz-lesson",
         title: "Quiz lesson",
+        learningArea: "general",
         sourceRef: "lesson-quiz-1",
         blocks: [{ type: "quiz", quiz: { questionType: "mcq_single", prompt: "Which is correct?", options: ["A", "B"], answer: "B", explanation: "B is correct." } }],
       }),

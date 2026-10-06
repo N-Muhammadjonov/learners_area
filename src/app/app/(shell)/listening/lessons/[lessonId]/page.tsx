@@ -6,7 +6,7 @@ import { LessonNotesPanel } from "@/components/notes/LessonNotesPanel";
 import { ListeningLessonBody } from "@/components/listening/ListeningLessonBody";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
-import { loadListeningLesson } from "@/lib/listening/lessons";
+import { loadLessonLibraryDetail, teacherNotesFor } from "@/lib/content/lesson-library";
 import { isUuid } from "@/lib/validation/ids";
 import { resolveDirectMedia } from "@/lib/services/video/direct";
 import { publicBaseUrl } from "@/lib/config/site";
@@ -56,7 +56,7 @@ export default async function ListeningLessonPage({
   if (!user) return null;
   if (!isUuid(lessonId)) notFound();
 
-  const detail = await loadListeningLesson(lessonId, user.id);
+  const detail = await loadLessonLibraryDetail(lessonId, user.id, "listening");
   if (!detail) notFound();
 
   const dict = getDictionary(locale);
@@ -70,7 +70,7 @@ export default async function ListeningLessonPage({
       <div>
         <BackLink fallbackHref="/app/listening/lessons" label={t.backToList} data-listening-lesson-back />
         <h1 className="mt-2 font-display text-2xl text-ink-900">{detail.lesson.title}</h1>
-        <p className="mt-1 text-xs uppercase tracking-wide text-ink-300">{t.source[detail.source]}</p>
+        <p className="mt-1 text-xs uppercase tracking-wide text-ink-300">{t.areaLabel}</p>
       </div>
 
       {/* MAIN CONTENT FIRST: the lesson itself. */}
@@ -144,10 +144,14 @@ export default async function ListeningLessonPage({
 
         {tab === "teacher-notes" && (
           <div className="flex flex-col gap-2">
-            <p className="text-xs text-ink-300">{t.teacherNotesHint}</p>
-            {detail.media?.notes ? (
-              <p className="whitespace-pre-line text-sm leading-relaxed text-ink-700" data-listening-teacher-notes>
-                {detail.media.notes}
+            <p className="text-xs text-ink-300">{detail.teacherNotesSource === "media" ? t.teacherNotesLegacyHint : t.teacherNotesHint}</p>
+            {detail.teacherNotes ? (
+              <p
+                className="whitespace-pre-line text-sm leading-relaxed text-ink-700"
+                data-listening-teacher-notes
+                data-teacher-notes-source={detail.teacherNotesSource ?? "none"}
+              >
+                {detail.teacherNotes}
               </p>
             ) : (
               <p className="text-sm text-ink-500" data-listening-teacher-notes-empty>

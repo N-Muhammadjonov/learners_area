@@ -49,7 +49,7 @@ export type UploadOutcome =
 
 export type StartUploadOptions = {
   purpose: "material_primary" | "material_block" | "speaking_recording";
-  blockKind?: "image" | "audio" | "file";
+  blockKind?: "image" | "audio" | "video" | "file";
   materialId?: string;
   /** Set for purpose="speaking_recording" — the attempt the recording belongs to. */
   speakingAttemptId?: string;

@@ -351,6 +351,13 @@
       "when": 1792200700000,
       "tag": "0049_lesson_notes",
       "breakpoints": true
+    },
+    {
+      "idx": 50,
+      "version": "7",
+      "when": 1792200800000,
+      "tag": "0050_lesson_learning_area",
+      "breakpoints": true
     }
   ]
 }

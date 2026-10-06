@@ -203,10 +203,12 @@ test("N6 notes are readable ONLY through the learner's own id: no staff surface,
       // The state route may receive historical `notes` in its body; it hands them to the
       // private service instead of writing them into the progress row.
       file === "src/app/api/lessons/[id]/state/route.ts" ||
-      // PHASE C Listening → Lessons: a learner surface that renders the caller's OWN
-      // note on a listening lesson (the same private store, the same panel). It is not
-      // a staff prefix, and it reads the note only through readLessonNote(userId, …).
-      file === "src/lib/listening/lessons.ts" ||
+      // PHASE C Listening → Lessons, under the corrected contract: the generic lesson
+      // library reads the caller's OWN note (readLessonNote(userId, …)) and the two
+      // learner routes render it with the same private panel. The media-derived
+      // `src/lib/listening/lessons.ts` module was DELETED — its name must not come back
+      // here, because notes are read once, generically, for every learning area.
+      file === "src/lib/content/lesson-library.ts" ||
       file === "src/app/app/(shell)/listening/lessons/page.tsx" ||
       file === "src/app/app/(shell)/listening/lessons/[lessonId]/page.tsx";
     if (!allowed) offenders.push(file);

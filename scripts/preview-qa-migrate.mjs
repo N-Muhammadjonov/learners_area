@@ -53,7 +53,10 @@ export const ALLOWED_PENDING = ["0025_speaking_bank_identity", "0026_google_iden
   // copy-then-clear backfill of legacy course-lesson notes. Membership means this script knows
   // the migration; --apply still needs the owner-approved fingerprint, server identity and a
   // fresh PREVIEW_QA_BACKUP_REF, and the owner still approves the rollout explicitly.
-  "0049_lesson_notes"];
+  "0049_lesson_notes",
+  // Registered by the LISTENING LESSON SEMANTIC CORRECTION (2026-10-06): two additive
+  // lesson metadata columns (learning area, teacher notes) with a CHECK and an index.
+  "0050_lesson_learning_area"];
 /**
  * SQL hashes of the integration migrations, pinned where they were reviewed. A file that
  * changes after review stops being "the migration we reviewed" and must be re-approved;
@@ -69,6 +72,7 @@ export const REVIEWED_SAFE_STATEMENTS = {
   "0043_authoring_identity": [/^ALTER TABLE "reading_questions" ALTER COLUMN "type_code" TYPE varchar\(40\);/m],
 };
 export const APPROVED_INTEGRATION_SHA256 = {
+  "0050_lesson_learning_area": "ff5d754833e804723c198ab3ebefb0553006ae47e7e6908c06757f3d5865089d",
   // Hand-written (the snapshot chain stops at 0027) and reviewed with the private-notes change.
   "0049_lesson_notes": "5896ddea2edf4916cd7c8c6889b999452a6a0d708dcc0d79b6478ded56f6f841",
   "0040_content_imports": "07061c332c848f89d17fd0510884a097eaabd01a429bf2d1f846e56d02a0a397",

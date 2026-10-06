@@ -68,6 +68,7 @@ test("PV2 a draft previews, identifies its exact revision, and the learner read 
         unitId,
         slug: "preview-me",
         title: "Preview me",
+        learningArea: "listening",
         sourceRef: "preview-lesson-1",
         blocks: [{ type: "text", text: "A lesson body that a learner would read." }],
       }),
@@ -213,6 +214,7 @@ test("PV5 references resolve per block, and a published one shows the revision i
         unitId,
         slug: "preview-refs",
         title: "Refs",
+        learningArea: "listening",
         sourceRef: "preview-refs",
         blocks: [
           { type: "content_reference", ref: { module: "writing", contentType: "task2", sourceRef: "preview-reference-target" } },

@@ -30,7 +30,8 @@ import type { PgTable } from "drizzle-orm/pg-core";
 type UpdateTarget = PgTable;
 import type { ImportTransaction } from "@/lib/import/core/dry-run";
 import { resolveQuestionType, storageTypeFor } from "@/lib/content/question-types";
-import { saveLessonStructure } from "@/lib/content/lessons";
+import { LESSON_TEACHER_NOTES_MAX, saveLessonStructure } from "@/lib/content/lessons";
+import { LEARNING_AREAS } from "@/lib/content/learning-areas";
 import { LESSON_CATEGORIES, MODEL_TEXT_MIN_WORDS } from "@/lib/writing/admin-schemas";
 import { PATTERN_FUNCTIONS } from "@/lib/writing/pattern-functions";
 import { TRANSLATION_BANDS, TRANSLATION_QUESTION_TYPES } from "@/lib/writing/translation-rules";
@@ -1211,7 +1212,15 @@ export const vocabularyTopicPackAuthor: ModuleAuthor = {
 const lessonPayload = zod.object({
   unitId: zod.string().uuid(),
   slug: zod.string().min(2).max(60),
+  /**
+   * What the lesson is about. REQUIRED, and intentionally the first field an author
+   * must answer: the previous revision of this contract had no way to say it, which is
+   * why a lesson's subject could only be guessed from its media or its title.
+   */
+  learningArea: zod.enum(LEARNING_AREAS),
   summary: zod.string().max(2000).optional().nullable(),
+  /** The centre's own notes for the lesson — lesson metadata, independent of media. */
+  teacherNotes: zod.string().max(LESSON_TEACHER_NOTES_MAX).optional().nullable(),
   estimatedMinutes: zod.number().int().min(1).max(600).optional().nullable(),
   order: zod.number().int().min(0).optional(),
   blocks: zod.array(zod.unknown()).default([]),
@@ -1237,6 +1246,8 @@ export const lessonAuthor: ModuleAuthor = {
       slug: parsed.slug,
       title: context.title,
       summary: parsed.summary ?? null,
+      learningArea: parsed.learningArea,
+      teacherNotes: parsed.teacherNotes ?? null,
       estimatedMinutes: parsed.estimatedMinutes ?? null,
       order: parsed.order,
       sourceRef: context.sourceRef,
@@ -1256,9 +1267,11 @@ export const lessonAuthor: ModuleAuthor = {
     return {
       targetType: "lesson",
       targetId: result.lessonId,
-      // saveLessonStructure already pinned the revision; the author returns the
-      // snapshot so the caller's own pin stays identical rather than duplicating it.
-      content: { blocks: parsed.blocks },
+      // saveLessonStructure already pinned the revision; the author returns THAT
+      // snapshot, so the caller's own pin is identical instead of being a second,
+      // poorer spelling of it (which is how a `{ blocks }`-only revision was once
+      // written over a lesson whose metadata had just been authored).
+      content: result.content,
       summary: `Lesson with ${result.blockCount} block(s)`,
     };
   },

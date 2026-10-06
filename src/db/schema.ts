@@ -160,7 +160,7 @@ export const uploadPurposeEnum = pgEnum("upload_purpose", [
   "speaking_recording",
 ]);
 
-export const uploadBlockKindEnum = pgEnum("upload_block_kind", ["image", "audio", "file"]);
+export const uploadBlockKindEnum = pgEnum("upload_block_kind", ["image", "audio", "video", "file"]);
 
 export const uploadStatusEnum = pgEnum("upload_status", [
   "pending", // intent issued, bytes not yet confirmed in storage
@@ -380,6 +380,24 @@ export const lessons = pgTable("lessons", {
   publicationState: publicationStateEnum("publication_state").notNull().default("published"),
   publishAt: timestamp("publish_at", { withTimezone: true }),
   estimatedMinutes: integer("estimated_minutes"),
+  /**
+   * What the lesson is ABOUT (listening / reading / writing / speaking / grammar /
+   * vocabulary / general) — authored, never inferred from media type or title.
+   *
+   * NULL means "not classified yet"; it is NOT a synonym for `general`, which is an
+   * explicit authorial choice. A learner-facing library reads this column, so a lesson
+   * appears under Listening because an author said so, not because it happens to
+   * contain audio. Vocabulary lives in `src/lib/content/learning-areas.ts`, and the
+   * closed set is enforced in the database by `lessons_learning_area_chk`.
+   */
+  learningArea: varchar("learning_area", { length: 20 }),
+  /**
+   * The centre's own notes for this lesson — lesson metadata, independent of the media
+   * type (a video lesson, an audio lesson and a text lesson all carry them the same
+   * way). Staff-authored and learner-readable; the learner's PRIVATE note is a
+   * different thing entirely and lives in `lessonNotes`.
+   */
+  teacherNotes: text("teacher_notes"),
   createdByUserId: uuid("created_by_user_id").references(() => users.id, { onDelete: "set null" }),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });

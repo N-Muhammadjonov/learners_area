@@ -51,7 +51,7 @@ export const UPLOAD_INTENT_TTL_SECONDS = 15 * 60;
 export const READ_URL_TTL_SECONDS = 5 * 60;
 
 export type UploadPurpose = "material_primary" | "material_block" | "speaking_recording";
-export type BlockKind = "image" | "audio" | "file";
+export type BlockKind = "image" | "audio" | "video" | "file";
 
 export type CreateIntentInput = {
   caller: Actor;
