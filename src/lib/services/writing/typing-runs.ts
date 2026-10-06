@@ -161,8 +161,8 @@ export async function startPreparedTypingRun(
     const preset = normalizePreset(payload.ps);
     if (preset === null) return null;
     const at = now();
-    const lifetime = preset === 0 ? 30 * 60_000 : preset * 1000 + 60_000;
-    return new SignJWT({ tt: payload.tt, ps: preset, st: at })
+    const lifetime = preset === 0 ? 24 * 60 * 60_000 : preset * 1000 + 60_000;
+    return new SignJWT({ tt: payload.tt, ps: preset, st: at, pm: 0 })
       .setProtectedHeader({ alg: "HS256" })
       .setSubject(userId)
       .setAudience(RUN_AUDIENCE)
@@ -170,6 +170,65 @@ export async function startPreparedTypingRun(
       .setIssuedAt(Math.floor(at / 1000))
       .setExpirationTime(Math.floor((at + lifetime) / 1000))
       .sign(key());
+  } catch {
+    return null;
+  }
+}
+
+export async function togglePreparedTypingPause(
+  userId: string,
+  runToken: string,
+  action: "pause" | "resume",
+  now: () => number = () => Date.now(),
+): Promise<{ runToken: string; paused: boolean; pausedMs: number } | null> {
+  try {
+    const at = now();
+    const { payload } = await jwtVerify(runToken, key(), {
+      audience: RUN_AUDIENCE,
+      subject: userId,
+      currentDate: new Date(at),
+    });
+    if (
+      typeof payload.tt !== "string" ||
+      typeof payload.st !== "number" ||
+      typeof payload.jti !== "string" ||
+      normalizePreset(payload.ps) !== 0
+    ) {
+      return null;
+    }
+
+    const pausedMs = typeof payload.pm === "number" && payload.pm >= 0 ? payload.pm : 0;
+    const pausedAt = typeof payload.pa === "number" && payload.pa >= payload.st ? payload.pa : null;
+
+    if (action === "pause" && pausedAt !== null) {
+      return { runToken, paused: true, pausedMs };
+    }
+    if (action === "resume" && pausedAt === null) {
+      return { runToken, paused: false, pausedMs };
+    }
+
+    const nextPausedMs =
+      action === "resume" && pausedAt !== null
+        ? pausedMs + Math.max(0, at - pausedAt)
+        : pausedMs;
+    const claims: Record<string, number | string> = {
+      tt: payload.tt,
+      ps: 0,
+      st: payload.st,
+      pm: nextPausedMs,
+    };
+    if (action === "pause") claims.pa = at;
+
+    const nextToken = await new SignJWT(claims)
+      .setProtectedHeader({ alg: "HS256" })
+      .setSubject(userId)
+      .setAudience(RUN_AUDIENCE)
+      .setJti(payload.jti)
+      .setIssuedAt(Math.floor(at / 1000))
+      .setExpirationTime(Math.floor((at + 24 * 60 * 60_000) / 1000))
+      .sign(key());
+
+    return { runToken: nextToken, paused: action === "pause", pausedMs: nextPausedMs };
   } catch {
     return null;
   }
@@ -203,7 +262,7 @@ export async function finishPreparedTypingRun(
   deps: { database?: Database; now?: () => number } = {},
 ): Promise<
   | { ok: true; result: VerifiedTypingResult }
-  | { ok: false; code: "invalid_token" | "not_found" | "too_early" | "bad_submission" | "conflict" }
+  | { ok: false; code: "invalid_token" | "not_found" | "too_early" | "paused" | "bad_submission" | "conflict" }
 > {
   const database = deps.database ?? db;
   const now = deps.now ?? (() => Date.now());
@@ -211,6 +270,8 @@ export async function finishPreparedTypingRun(
   let textId: string;
   let preset: TypingPreset | 0;
   let startedAt: number;
+  let pausedMs = 0;
+  let pausedAt: number | null = null;
   let jti: string;
   try {
     const { payload } = await jwtVerify(input.runToken, key(), {
@@ -226,6 +287,14 @@ export async function finishPreparedTypingRun(
     textId = payload.tt;
     preset = parsedPreset;
     startedAt = payload.st;
+    pausedMs = typeof payload.pm === "number" && payload.pm >= 0 ? payload.pm : 0;
+    pausedAt = typeof payload.pa === "number" && payload.pa >= startedAt ? payload.pa : null;
+    if (preset !== 0 && (pausedMs !== 0 || pausedAt !== null)) {
+      return { ok: false, code: "invalid_token" };
+    }
+    if (pausedAt !== null) {
+      return { ok: false, code: "paused" };
+    }
     jti = payload.jti;
   } catch {
     return { ok: false, code: "invalid_token" };
@@ -246,7 +315,7 @@ export async function finishPreparedTypingRun(
   if (!text) return { ok: false, code: "not_found" };
 
   const target = splitTypingWords(text.body);
-  const elapsedMs = Math.max(0, now() - startedAt);
+  const elapsedMs = Math.max(0, now() - startedAt - pausedMs);
   const complete = fullTextCompleted(target, input.typedWords);
   if (elapsedMs < 3_000) return { ok: false, code: "too_early" };
   if (preset !== 0 && !complete && elapsedMs < preset * 1000 - 1_500) {
@@ -258,9 +327,13 @@ export async function finishPreparedTypingRun(
       ? elapsedMs / 1000
       : preset;
   const invalid = validateTypingSubmission(target, input.typedWords, input.samples, seconds);
-  if (invalid) return { ok: false, code: "bad_submission" };
+  if (invalid && invalid !== "bad_samples") return { ok: false, code: "bad_submission" };
 
-  const metrics = computeWordTypingMetrics(target, input.typedWords, seconds, input.samples);
+  // Samples only feed consistency/graph telemetry. If browser sampling becomes
+  // malformed (sleep, correction, timer jitter), keep the authoritative run
+  // and omit consistency rather than rejecting WPM/accuracy persistence.
+  const verifiedSamples = invalid === "bad_samples" ? [] : input.samples;
+  const metrics = computeWordTypingMetrics(target, input.typedWords, seconds, verifiedSamples);
 
   // Persist every new trainer run through the original typing_runs +
   // activity_events contract. Those columns exist both before and after
@@ -331,6 +404,7 @@ export async function finishPreparedTypingRun(
           presetSeconds: preset === 0 ? null : preset,
           typingTextId: text.id,
           startedAt,
+          pausedMs,
           finishedAt: now(),
         },
       });
