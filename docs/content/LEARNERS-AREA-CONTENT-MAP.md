@@ -74,7 +74,7 @@ serves it and which table stores it. If a file and this table disagree, the file
 | --- | --- |
 | `listening_tests`, `listening_questions`, `listening_mcq_sessions` | COMPATIBILITY ONLY — historical attempts render; new listening content is canonical |
 | `reading_passages`, `reading_questions` (legacy) vs `general_reading_sets` | COMPATIBILITY ONLY for the old rows; the canonical path is `general_reading_sets` |
-| `writing_lessons`, `writing_model_texts`, `writing_language_patterns`, `writing_translation_sets` | COMPATIBILITY ONLY, marked MIGRATE in the inventory |
+| `writing_lessons`, `writing_model_texts`, `writing_language_patterns`, `writing_translation_sets` | COMPATIBILITY ONLY in the inventory (stored rows reference them; nothing new is authored here) |
 | `video_lessons`/`video_lesson_questions` | canonical for the media lesson, kept because they hold the media reference |
 | `src/lib/services/vocabulary/packs.ts` (built-in packs) | COMPATIBILITY ONLY — the fallback before any pack is published |
 | `src/lib/data/reading-library.ts` | COMPATIBILITY ONLY — legacy library view |

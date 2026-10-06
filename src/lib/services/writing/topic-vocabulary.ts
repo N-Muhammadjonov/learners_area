@@ -2,17 +2,24 @@ import "server-only";
 import { and, asc, eq, inArray, sql, type SQL } from "drizzle-orm";
 import { db } from "@/db/client";
 import { lexemes, userVocabulary, writingLanguagePatterns, writingPatternBank } from "@/db/schema";
+import { listTopicPacksForLearner } from "@/lib/content/vocabulary-packs";
 import { liveWhere } from "@/lib/services/cms/publication";
-import { TOPIC_PACKS, type PackWord } from "@/lib/services/vocabulary/packs";
+import type { PackWord } from "@/lib/services/vocabulary/packs";
 import type { PatternFunction } from "@/lib/writing/pattern-functions";
 
 type Database = typeof db;
 
 /**
- * Topic Vocabulary (§43 / PDF p.13). No Writing-only lexical store: words are
- * the canonical authored topic packs (saved through the one vocabulary
- * engine), phrases/frames are published writing_language_patterns, and the
- * saved state is read from the learner's real user_vocabulary and pattern bank.
+ * Topic Vocabulary (§43 / PDF p.13, §76). What this surface shows, and where each
+ * half of it comes from:
+ *
+ *   • WORDS are canonical topic packs — `listTopicPacksForLearner` reads the
+ *     authored packs, whose words ARE `lexemes` rows, and falls back to the
+ *     built-in list only while the database holds no published pack. Writing
+ *     therefore holds no vocabulary of its own: a word shown here is the same
+ *     sense Reading, Listening and TED/Podcast occurrences resolve into.
+ *   • PHRASES/FRAMES are published `writing_language_patterns`.
+ *   • The saved state is the learner's real `user_vocabulary` and pattern bank.
  */
 
 export type TopicFilter = { topic?: string; task?: "task1" | "task2"; fn?: PatternFunction };
@@ -28,13 +35,17 @@ export async function topicVocabulary(userId: string, filter: TopicFilter, datab
   const all = await database.select().from(writingLanguagePatterns).where(and(...conds))
     .orderBy(asc(writingLanguagePatterns.topic), asc(writingLanguagePatterns.function), asc(writingLanguagePatterns.pattern));
 
-  // Topics = authored packs + pattern topics (one list, stable ids).
+  // The canonical packs: authored in the database, falling back to the built-ins
+  // only while nothing is published. One query, one source of truth for words.
+  const canonical = await listTopicPacksForLearner("en", database);
+
+  // Topics = packs + pattern topics (one list, stable ids).
   const topics = new Map<string, { id: string; label: { en: string; uz: string } }>();
-  for (const p of TOPIC_PACKS) topics.set(p.id, { id: p.id, label: p.label });
+  for (const p of canonical) topics.set(p.id, { id: p.id, label: { en: p.label, uz: p.labelUz ?? p.label } });
   for (const p of all) if (p.topic) { const id = slug(p.topic); if (!topics.has(id)) topics.set(id, { id, label: { en: p.topic, uz: p.topic } }); }
 
   const patterns = filter.topic ? all.filter((p) => !p.topic || slug(p.topic) === filter.topic) : all;
-  const packs = filter.topic ? TOPIC_PACKS.filter((p) => p.id === filter.topic) : TOPIC_PACKS;
+  const packs = filter.topic ? canonical.filter((p) => p.id === filter.topic) : canonical;
   // Pack words are general academic vocabulary for both tasks; a Task 1 filter shows Task 1 language (trends, comparison) first.
   const words = filter.fn && filter.fn !== "collocation" ? [] : packs.flatMap((p) => p.words.map((w) => ({ ...w, packId: p.id })));
 

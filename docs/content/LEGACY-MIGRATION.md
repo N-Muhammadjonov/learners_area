@@ -18,8 +18,14 @@ importantly — what has deliberately **not** been done.
 | `REMOVE AFTER MIGRATION` | Superseded once its content is canonical **and** the dependency check is clean. |
 | `MANUAL REVIEW REQUIRED` | Cannot be classified mechanically (ambiguous scope, external provider, copyright question). |
 
-Current inventory: **12 items** — 6 KEEP, 4 COMPATIBILITY ONLY, 1 MIGRATE, 1
+Current inventory: **12 items** — 7 KEEP, 4 COMPATIBILITY ONLY, **0 MIGRATE**, 1
 MANUAL REVIEW REQUIRED, **0 REMOVE AFTER MIGRATION**.
+
+The last `MIGRATE` item was closed in this pass: `topic-vocabulary.ts` no longer
+holds vocabulary of its own. It now projects the canonical topic packs
+(`listTopicPacksForLearner` → `lexemes` rows) and falls back to the built-in list
+only while no pack is published, so a word shown in Writing is the same sense
+Reading, Listening and TED/Podcast occurrences resolve into.
 
 Zero removals is a deliberate, honest result: nothing is yet proven safe to delete,
 and the constraint is explicit — *do not delete legacy content until dependency and
@@ -31,7 +37,7 @@ thing that replaces it, and `inventoryProblems()` fails the inventory if it does
 | Item | Classification | Reason |
 | --- | --- | --- |
 | `src/lib/services/vocabulary/packs.ts` (built-in packs) | COMPATIBILITY ONLY | Learners must see vocabulary before any pack is authored, and stored rows reference pack ids. The DB becomes the source of truth the moment a pack is published; this list must not gain new words. |
-| `src/lib/services/writing/topic-vocabulary.ts` | MIGRATE | Learner-facing vocabulary held outside the lexical system, so a word exists twice. Must become lexeme → sense → occurrence referenced from the writing topic. |
+| `src/lib/services/writing/topic-vocabulary.ts` | KEEP (migrated) | The Writing topic-vocabulary read. Its words come from canonical topic packs (whose words ARE `lexemes` rows), its phrases from published `writing_language_patterns`, its saved state from the learner's real `user_vocabulary`/pattern bank. A read projection, not a content store. |
 | `src/lib/data/reading-library.ts` | COMPATIBILITY ONLY | Historical reading attempts reference those rows and must stay readable. |
 | `src/lib/import/listening/legacy.ts` | COMPATIBILITY ONLY | Exists to convert old shapes; do not add new formats here. |
 | `src/db/seed.ts` | COMPATIBILITY ONLY | Local fixtures only, never a production content source (synthetic data only, §96). |

@@ -146,7 +146,8 @@ per-section reporting.
 `PARTIAL`. `writing:task1` and `writing:task2` are canonical, authored, versioned and
 assignable, with submissions bound to the revision and grading through persisted
 records (no re-grading on read). `lesson`, `model_text`, `pattern`,
-`translation_set` still live on legacy tables (COMPATIBILITY ONLY / MIGRATE).
+`translation_set` still live on legacy tables (COMPATIBILITY ONLY — the inventory
+holds no MIGRATE item; moving them is a named successor away, not a deletion).
 
 ## M. Speaking bank
 
@@ -340,7 +341,7 @@ RIWI.
 
 `PARTIAL`. Retention texts/attempts/rotation exist as their own (legacy) tables;
 they are not yet canonical `vocabulary:retention_text` content and are classified
-COMPATIBILITY ONLY / MIGRATE in the inventory.
+COMPATIBILITY ONLY in the inventory (kept because stored rows reference them).
 
 ## AM. Private assets
 
@@ -394,10 +395,17 @@ concern to its file, route and table, including the legacy/compatibility list (�
 
 ## AU. Legacy inventory
 
-`DONE`. `scripts/content-legacy-inventory.ts` classifies 12 items: 6 KEEP, 4
-COMPATIBILITY ONLY, 1 MIGRATE, 1 MANUAL REVIEW REQUIRED, **0 REMOVE AFTER MIGRATION**
-— because nothing is yet proven safe to delete. A MIGRATE or REMOVE verdict must name
-its successor or the inventory fails. Nothing was deleted (§93/§94).
+`DONE`. `scripts/content-legacy-inventory.ts` classifies 12 items: 7 KEEP, 4
+COMPATIBILITY ONLY, **0 MIGRATE**, 1 MANUAL REVIEW REQUIRED, **0 REMOVE AFTER
+MIGRATION** — because nothing is yet proven safe to delete. A MIGRATE or REMOVE
+verdict must name its successor or the inventory fails. Nothing was deleted (§93/§94).
+
+The final `MIGRATE` item (`src/lib/services/writing/topic-vocabulary.ts`) was closed
+in this pass: the file no longer carries topic vocabulary, it projects the canonical
+topic packs through `listTopicPacksForLearner` (whose words ARE `lexemes` rows) with
+the built-in list kept only as the compatibility fallback. `writing-topic-vocabulary`
+4/4 asserts the fallback, that a draft pack is invisible, and that once a pack is
+published the database is the source of truth.
 
 ## AV. Migration tooling
 

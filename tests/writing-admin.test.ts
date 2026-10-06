@@ -171,7 +171,9 @@ test("J22 Topic Vocabulary stays canonical: no Writing word table; admin section
   const schema = read("src/db/schema.ts");
   assert.doesNotMatch(schema, /writing_topic_words|writingTopicWords/);
   assert.match(read("src/app/(app)/admin/writing/page.tsx"), /data-admin-writing-topic[\s\S]*href="\/vocabulary"/);
-  assert.match(read("src/lib/services/writing/topic-vocabulary.ts"), /TOPIC_PACKS/);
+  const topic = read("src/lib/services/writing/topic-vocabulary.ts");
+  assert.match(topic, /listTopicPacksForLearner/, "words come from the canonical packs, not from a Writing-local list");
+  assert.doesNotMatch(topic, /TOPIC_PACKS/, "and the built-in list is no longer the Writing source");
 });
 
 test("Writing Management screens use the shared BackLink and dictionary strings (UZ/EN parity)", async () => {

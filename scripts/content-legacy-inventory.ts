@@ -38,12 +38,12 @@ const ITEMS = [
   },
   {
     path: "src/lib/services/writing/topic-vocabulary.ts",
-    what: "per-topic vocabulary suggestions attached to writing patterns",
-    classification: "MIGRATE",
+    what: "the Writing topic-vocabulary read: words + phrases + saved state for one learner",
+    classification: "KEEP",
     reason:
-      "topic vocabulary is learner-facing vocabulary held outside the lexical system, which makes a word exist twice (§76). It must become lexeme → sense → occurrence, referenced from the writing topic rather than embedded.",
-    successor: "lexemes/senses with a content_reference from the writing topic",
-    needsMigration: true,
+      "MIGRATED (§76). The words it used to hold are gone: it now projects the canonical topic packs through `listTopicPacksForLearner`, whose words ARE `lexemes` rows, and falls back to the built-in list only while no pack is published — the same compatibility rule every other consumer of the packs follows. Its phrases are published `writing_language_patterns`, and saved state is the learner's real `user_vocabulary` / pattern bank. It is a read projection, not a content store.",
+    successor: "vocabulary_topic_packs (+ lexemes) via listTopicPacksForLearner",
+    convertedBy: "scripts/content-backfill-vocabulary-packs.ts",
   },
   {
     path: "src/lib/data/reading-library.ts",
