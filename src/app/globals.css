@@ -1366,6 +1366,19 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 }
 .typing-word {
   opacity: 1;
+  transition: opacity 150ms linear;
+}
+.typing-row-top .typing-word {
+  opacity: .45;
+}
+.typing-row-top .typing-word-hide {
+  opacity: 0;
+}
+.typing-row-bottom .typing-word {
+  opacity: 0;
+}
+.typing-row-bottom .typing-word-show {
+  opacity: .72;
 }
 .typing-char-future {
   color: rgb(var(--ink-300));
