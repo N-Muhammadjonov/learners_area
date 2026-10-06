@@ -182,6 +182,12 @@ test("SI5 every legacy source is classified and a migration verdict names its su
   assert.ok((summary["COMPATIBILITY ONLY"] ?? 0) >= 3, "legacy reads are explicitly kept, not forgotten");
   assert.ok(Object.keys(summary).every((key) => ["KEEP", "MIGRATE", "COMPATIBILITY ONLY", "REMOVE AFTER MIGRATION", "MANUAL REVIEW REQUIRED"].includes(key)));
 
+  // The legacy HTML runtime is classified, not left implicit (§93).
+  const runtime = items.find((item) => item.path.includes("AuthoredListeningFrame"));
+  assert.ok(runtime, "the authoredRuntime HTML surface is in the inventory");
+  assert.equal(runtime!.classification, "COMPATIBILITY ONLY");
+  assert.match(runtime!.reason, /authoredRuntime/, "and the reason names the contract that refuses new ones");
+
   // The rule bites: stripping a successor from a MIGRATE item is a problem.
   const broken = [{ path: "x", what: "y", classification: "MIGRATE" as const, reason: "no successor" }];
   assert.equal(inventoryProblems(broken).length, 1);

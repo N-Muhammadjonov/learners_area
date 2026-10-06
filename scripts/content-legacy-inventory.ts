@@ -61,6 +61,15 @@ const ITEMS = [
     successor: "src/lib/import/listening/canonical.ts",
   },
   {
+    path:
+      "src/components/listening/AuthoredListeningFrame.tsx + src/app/api/listening/full/[id]/authored, sandbox + src/lib/listening/authored-sandbox.ts",
+    what: "legacy HTML runtime: an imported Listening package's own HTML/JS/CSS, executed for a learner inside an opaque-origin iframe (`authoredRuntime`)",
+    classification: "COMPATIBILITY ONLY",
+    reason:
+      "packages imported before the canonical Listening contract carry their own runtime, and a learner mid-attempt must keep the test they were given. Nothing new may be authored into it: `listeningCanonicalContentSchema` refuses a payload that carries `authoredRuntime`, so every new import is canonical. The execution surface stays an opaque-origin sandbox (`allow-scripts` only, no same-origin), a per-session token, origin-checked postMessage, inert blob media, and never credentials — asserted by `listening-authored-sandbox`.",
+    successor: "canonical Listening packages (src/lib/import/listening/canonical.ts) + typed lesson blocks",
+  },
+  {
     path: "src/lib/import/reading/*",
     what: "reading import + conversion (source, canonical)",
     classification: "KEEP",

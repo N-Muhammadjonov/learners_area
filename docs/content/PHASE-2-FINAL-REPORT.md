@@ -395,10 +395,16 @@ concern to its file, route and table, including the legacy/compatibility list (�
 
 ## AU. Legacy inventory
 
-`DONE`. `scripts/content-legacy-inventory.ts` classifies 12 items: 7 KEEP, 4
+`DONE`. `scripts/content-legacy-inventory.ts` classifies 13 items: 7 KEEP, 5
 COMPATIBILITY ONLY, **0 MIGRATE**, 1 MANUAL REVIEW REQUIRED, **0 REMOVE AFTER
 MIGRATION** — because nothing is yet proven safe to delete. A MIGRATE or REMOVE
 verdict must name its successor or the inventory fails. Nothing was deleted (§93/§94).
+
+The named legacy HTML runtime (`AuthoredListeningFrame` + the `authored`/`sandbox`
+routes) is now classified explicitly rather than left implicit: COMPATIBILITY ONLY,
+because the canonical Listening schema refuses a payload carrying `authoredRuntime`,
+so no new import can become one, and the execution surface is the opaque-origin
+sandbox asserted by `listening-authored-sandbox`.
 
 The final `MIGRATE` item (`src/lib/services/writing/topic-vocabulary.ts`) was closed
 in this pass: the file no longer carries topic vocabulary, it projects the canonical

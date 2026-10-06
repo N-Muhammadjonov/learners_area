@@ -18,7 +18,7 @@ importantly — what has deliberately **not** been done.
 | `REMOVE AFTER MIGRATION` | Superseded once its content is canonical **and** the dependency check is clean. |
 | `MANUAL REVIEW REQUIRED` | Cannot be classified mechanically (ambiguous scope, external provider, copyright question). |
 
-Current inventory: **12 items** — 7 KEEP, 4 COMPATIBILITY ONLY, **0 MIGRATE**, 1
+Current inventory: **13 items** — 7 KEEP, 5 COMPATIBILITY ONLY, **0 MIGRATE**, 1
 MANUAL REVIEW REQUIRED, **0 REMOVE AFTER MIGRATION**.
 
 The last `MIGRATE` item was closed in this pass: `topic-vocabulary.ts` no longer
@@ -40,6 +40,7 @@ thing that replaces it, and `inventoryProblems()` fails the inventory if it does
 | `src/lib/services/writing/topic-vocabulary.ts` | KEEP (migrated) | The Writing topic-vocabulary read. Its words come from canonical topic packs (whose words ARE `lexemes` rows), its phrases from published `writing_language_patterns`, its saved state from the learner's real `user_vocabulary`/pattern bank. A read projection, not a content store. |
 | `src/lib/data/reading-library.ts` | COMPATIBILITY ONLY | Historical reading attempts reference those rows and must stay readable. |
 | `src/lib/import/listening/legacy.ts` | COMPATIBILITY ONLY | Exists to convert old shapes; do not add new formats here. |
+| Legacy HTML runtime (`AuthoredListeningFrame`, the `authored`/`sandbox` routes, `authored-sandbox.ts`) | COMPATIBILITY ONLY | Imports from before the canonical Listening contract carry their own HTML/JS/CSS and learners mid-attempt must keep the test they were given. New imports cannot become this: the canonical schema refuses `authoredRuntime`. Execution stays an opaque-origin sandbox with a per-session token and inert blob media. |
 | `src/db/seed.ts` | COMPATIBILITY ONLY | Local fixtures only, never a production content source (synthetic data only, §96). |
 | `src/lib/import/reading/*`, `src/lib/import/listening/*` (canonical paths) | KEEP | Working import foundation that feeds the canonical store. |
 | `src/lib/content/*` | KEEP | This *is* the canonical system. |
