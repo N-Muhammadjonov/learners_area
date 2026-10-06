@@ -4,8 +4,8 @@ import { BackLink } from "@/components/ui/BackLink";
 import { Card } from "@/components/ui/Card";
 import { LessonAuthoringDesk } from "@/components/lessons/LessonAuthoringDesk";
 import { requireStaff } from "@/lib/auth/current-user";
-import { isAdministrator } from "@/lib/auth/roles";
 import { mayPublishImportedContent } from "@/lib/import/core/permissions";
+import { mayAuthorContent } from "@/lib/content/authoring-access";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { listLessonsForStaff, listUnitOptions } from "@/lib/content/lesson-staff";
 
@@ -39,6 +39,10 @@ export default async function LessonAuthoringPage() {
 
   const dict = getDictionary(locale);
   const t = dict.listening.lessons.authoring;
+  // The desk offers lesson authoring only to a role the SAME capability grants it to —
+  // the page is a control panel, not an authority, and asking the capability means the
+  // panel can never be shown to somebody whose saves the API would refuse.
+  if (!mayAuthorContent(user.role, "lesson", "lesson")) redirect("/app");
   const [lessons, unitOptions] = await Promise.all([listLessonsForStaff("listening"), listUnitOptions()]);
 
   return (
@@ -65,12 +69,14 @@ export default async function LessonAuthoringPage() {
             sourceRef: lesson.sourceRef,
             learningArea: lesson.learningArea,
             publicationState: lesson.publicationState,
-            version: lesson.version,
+            // Which revision the author would be editing, and which one students are
+            // reading — stated in the list so the distinction is visible before opening.
+            draft: lesson.draft,
+            published: lesson.published,
           }))}
           units={unitOptions.map((unit) => ({ id: unit.id, label: unit.label }))}
           locale={locale}
           canPublish={mayPublishImportedContent(user.role)}
-          isAdministrator={isAdministrator(user.role)}
         />
       )}
 

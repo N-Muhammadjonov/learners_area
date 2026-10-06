@@ -34,9 +34,20 @@ export type ApiFailureKind =
   /** A 2xx whose body was not JSON. */
   | "parse";
 
+/**
+ * A validation issue the server itself produced, safe to show a human.
+ *
+ * The API's authoring endpoints answer a rejected payload with `issues: [{code, message,
+ * field}]` — authored sentences such as "A lesson must belong to a unit." Showing them is
+ * the difference between "Save failed" and a sentence the author can act on. They are
+ * only carried through `sanitizeIssues`, which refuses anything resembling a stack trace,
+ * a file path or SQL, so an unexpected server error cannot leak internals into the UI.
+ */
+export type ApiIssue = { code: string; message: string; field?: string };
+
 export type ApiResult<T> =
   | { ok: true; status: number; data: T }
-  | { ok: false; status: number; kind: ApiFailureKind; error: string | null; reason?: string; data?: unknown };
+  | { ok: false; status: number; kind: ApiFailureKind; error: string | null; reason?: string; data?: unknown; issues?: ApiIssue[] };
 
 /**
  * The dictionary entries this helper reads. Every one is optional except the two
@@ -66,6 +77,27 @@ type RequestOptions = {
    */
   keepalive?: boolean;
 };
+
+const ISSUE_CODE = /^[a-z][a-z0-9_]{0,99}$/;
+const ISSUE_FIELD = /^[A-Za-z0-9_.\[\]]{0,80}$/;
+/** One line, no markup, no quotes or backticks, and nothing that looks like internals. */
+const UNSAFE_MESSAGE = /[<>`\r\n]|\b(?:node_modules|\.ts:\d|\.js:\d|Error:|stack)|\b(?:select|insert|update|delete)\b[^.]{0,40}\b(?:from|into|set|where)\b/i;
+
+/** Keep only the issue shapes this app emits, and only when they read as plain sentences. */
+function sanitizeIssues(value: unknown): ApiIssue[] {
+  if (!Array.isArray(value)) return [];
+  const safe: ApiIssue[] = [];
+  for (const entry of value) {
+    if (!entry || typeof entry !== "object") continue;
+    const { code, message, field } = entry as { code?: unknown; message?: unknown; field?: unknown };
+    if (typeof code !== "string" || !ISSUE_CODE.test(code)) continue;
+    if (typeof message !== "string" || message.length === 0 || message.length > 300 || UNSAFE_MESSAGE.test(message)) continue;
+    const cleanField = typeof field === "string" && ISSUE_FIELD.test(field) ? field : undefined;
+    safe.push({ code, message, ...(cleanField ? { field: cleanField } : {}) });
+    if (safe.length >= 8) break;
+  }
+  return safe;
+}
 
 export async function requestJson<T = unknown>(
   url: string,
@@ -158,6 +190,7 @@ export async function requestJson<T = unknown>(
       const object = parsedOk && parsed && typeof parsed === "object" ? parsed as Record<string, unknown> : null;
       const codes = (value: unknown) => Array.isArray(value)
         ? value.filter((code): code is string => typeof code === "string" && /^[a-z][a-z0-9_]{0,99}$/.test(code)).slice(0, 100) : [];
+      const issueDetails = sanitizeIssues(object?.issues);
       const nestedIssues = errorValue && typeof errorValue === "object" ? codes((errorValue as {issues?: unknown}).issues) : [];
       const issues = codes(object?.issues);
       const blockers = Array.isArray(object?.blockers) ? object.blockers.filter((b): b is {kind: string; section: number} =>
@@ -166,7 +199,15 @@ export async function requestJson<T = unknown>(
       const data = nestedIssues.length ? {error: {issues: nestedIssues}}
         : blockers.length ? {error: errorCode, blockers}
         : issues.length ? {error: errorCode, issues} : null;
-      return { ok: false, status: response.status, kind, error: errorCode, ...(reason ? { reason } : {}), ...(data ? {data} : {}) };
+      return {
+        ok: false,
+        status: response.status,
+        kind,
+        error: errorCode,
+        ...(reason ? { reason } : {}),
+        ...(data ? { data } : {}),
+        ...(issueDetails.length ? { issues: issueDetails } : {}),
+      };
     }
 
     if (!parsedOk) {
