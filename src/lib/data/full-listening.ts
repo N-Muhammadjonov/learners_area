@@ -10,9 +10,14 @@ import {
 } from "@/db/schema";
 import { liveWhere, isLive } from "@/lib/services/cms/publication";
 import { isStaff, type Role } from "@/lib/auth/roles";
-export async function fullListeningDetail(testId: string, role: Role) {
-  if (!(await listeningSchemaReady())) return null;
-  const rows = await db
+/**
+ * `database` is an optional executor, so a test can drive the same read against a real
+ * PostgreSQL it owns (the repository-wide convention for pglite/Q2 tests) instead of being
+ * re-implemented by the test.
+ */
+export async function fullListeningDetail(testId: string, role: Role, database: typeof db = db) {
+  if (!(await listeningSchemaReady(database))) return null;
+  const rows = await database
     .select({ test: listeningTests, pkg: listeningPackages })
     .from(listeningPackages)
     .innerJoin(listeningTests, eq(listeningTests.id, listeningPackages.testId))
@@ -20,9 +25,10 @@ export async function fullListeningDetail(testId: string, role: Role) {
   const row = rows[0];
   return row && (isStaff(role) || isLive(row.test)) ? row : null;
 }
-export async function fullListeningProgress(userId: string, testId: string) {
+export async function fullListeningProgress(userId: string, testId: string, database: typeof db = db) {
+  const exec = database;
   const [exam, runs, completed] = await Promise.all([
-    db
+    exec
       .select({
         id: listeningAttempts.id,
         score: listeningAttempts.score,
@@ -38,7 +44,7 @@ export async function fullListeningProgress(userId: string, testId: string) {
       )
       .orderBy(desc(listeningAttempts.submittedAt))
       .limit(1),
-    db
+    exec
       .selectDistinctOn([listeningActivityRuns.activity])
       .from(listeningActivityRuns)
       .where(
@@ -53,7 +59,7 @@ export async function fullListeningProgress(userId: string, testId: string) {
         desc(listeningActivityRuns.createdAt),
       ),
 
-    db
+    exec
       .selectDistinctOn([listeningActivityRuns.activity], {
         activity: listeningActivityRuns.activity,
       })
@@ -201,8 +207,8 @@ export async function listeningExamState(user: { id: string; role: Role }, testI
 }
 
 /** Trainer progress shares the existing practice-run table with an explicit scoped discriminator. */
-export async function listeningPracticeProgress(userId: string, testId: string) {
-  const runs = await db.select().from(listeningActivityRuns).where(and(eq(listeningActivityRuns.userId,userId),eq(listeningActivityRuns.testId,testId),eq(listeningActivityRuns.activity,4),sql`${listeningActivityRuns.answers}->>'_practice' is not null`)).orderBy(desc(listeningActivityRuns.createdAt)).limit(200);
+export async function listeningPracticeProgress(userId: string, testId: string, database: typeof db = db) {
+  const runs = await database.select().from(listeningActivityRuns).where(and(eq(listeningActivityRuns.userId,userId),eq(listeningActivityRuns.testId,testId),eq(listeningActivityRuns.activity,4),sql`${listeningActivityRuns.answers}->>'_practice' is not null`)).orderBy(desc(listeningActivityRuns.createdAt)).limit(200);
   const progress: Record<string, { complete: boolean; latest: typeof listeningActivityRuns.$inferSelect }> = {};
   for (const run of runs) { const kind = run.answers._practice; if (!kind) continue; if (!progress[kind]) progress[kind] = { complete: false, latest: run }; if (run.completed) progress[kind]!.complete = true; }
   return progress;

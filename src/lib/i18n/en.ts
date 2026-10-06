@@ -901,6 +901,61 @@ const en = {
   },
   listening: {
     /**
+     * Listening → Academic Listening: the published canonical catalogue and the per-test
+     * hub. Every string here is shared by the catalogue page and the hub page.
+     */
+    academic: {
+      title: "Academic Listening",
+      subtitle: "The centre's published Academic Listening tests. Open a test to see the activities it genuinely supports.",
+      emptyTitle: "No Academic Listening test has been published yet.",
+      emptyHint: "Nothing is shown here until the centre authors and publishes a canonical Listening test — there are no sample tests on this page.",
+      catalogueCount: "{n} published tests",
+      openTest: "Open the test",
+      minutes: "min",
+      questions: "{n} questions",
+      parts: "{n} sections",
+      activitiesLabel: "{done} / {total} activities completed",
+      noProgress: "Not started",
+      examResult: "Last exam: {score} / {total}",
+      hubBack: "All Academic Listening tests",
+      hubSubtitle: "Choose an activity below. Only what this test genuinely supports appears here.",
+      progressLabel: "Activities completed: {done} / {total}",
+      examScore: "Exam result: {score} / {total}",
+      draftNotice: "This test is a draft: only staff can see it, and learners cannot open it yet.",
+      notFoundTitle: "This test is not available.",
+      notFoundHint: "It may be unpublished or removed. Return to the Academic Listening catalogue.",
+      transcriptYes: "Full transcript available",
+      transcriptNo: "No transcript for this recording",
+      activity: {
+        exam: "Full IELTS Test",
+        examHint: "The timed 40-question test, exactly like the exam day.",
+        review: "Review by Part",
+        reviewHint: "Your answers, the correct answers and the evidence, part by part.",
+        script: "Script Completion",
+        scriptHint: "Fill the strategic words missing from the full transcript.",
+        keyword1: "Keyword Match",
+        keyword1Hint: "Match the key expressions from the recording.",
+        recall: "Recall & Notes",
+        recallHint: "Retrieve the ideas and write your notes before checking.",
+        keyword2: "Keyword Match 2",
+        keyword2Hint: "A second set of key expressions from the recording.",
+        vocab: "Vocabulary & Collocations",
+        vocabHint: "The exact language the recording uses, with meanings.",
+        mcq: "MCQ Mastery",
+        mcqHint: "Staged multiple choice: listen, note, predict, then answer.",
+        matching: "Matching Mastery",
+        matchingHint: "Match the statements to the options with the evidence.",
+        completion: "Form & Note Completion",
+        completionHint: "Complete the notes with the exact words from the recording.",
+        retry: "Retry Weak Areas",
+        retryHint: "Drill only the questions you missed in your last attempt.",
+      },
+      complete: "Completed",
+      latestScore: "Last: {score} / {total}",
+      open: "Open",
+    },
+
+    /**
      * Listening → Lessons: canonical Content OS lessons that carry listening
      * material. The three learner-facing controls are Description, Teacher Notes and
      * the learner's own private Xulosangiz — see src/lib/listening/lessons.ts.

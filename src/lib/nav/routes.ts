@@ -36,6 +36,10 @@ const ENTRIES: Entry[] = [
   { prefix: "/app/reading/attempts", build: (d) => [{ label: d.nav.reading, href: "/app/reading" }, { label: d.reading.analysisTitle, href: "/app/reading" }] },
   { prefix: "/app/reading", exact: true, build: (d) => [{ label: d.nav.reading, href: "/app/reading" }] },
 
+  // Academic Listening: the catalogue, then one test's hub. The hub's last crumb names
+  // the catalogue, so a reader who arrived from a link always has a way back up.
+  { prefix: "/app/listening/academic/", build: (d) => [{ label: d.nav.listening, href: "/app/listening" }, { label: d.listening.academic.title, href: "/app/listening/academic" }] },
+  { prefix: "/app/listening/academic", build: (d) => [{ label: d.nav.listening, href: "/app/listening" }, { label: d.listening.academic.title, href: "/app/listening/academic" }] },
   { prefix: "/app/listening/history", build: (d) => [{ label: d.nav.listening, href: "/app/listening" }, { label: d.listening.historyTitle, href: "/app/listening/history" }] },
   { prefix: "/app/listening/attempts", build: (d) => [{ label: d.nav.listening, href: "/app/listening" }, { label: d.listening.analysisTitle, href: "/app/listening" }] },
   { prefix: "/app/listening", exact: true, build: (d) => [{ label: d.nav.listening, href: "/app/listening" }] },

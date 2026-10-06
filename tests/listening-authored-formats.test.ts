@@ -28,10 +28,19 @@ test("ambiguous embedded audio refuses import rather than assigning the wrong re
 test("two authored HTML families retain their own questions, exercises and transcripts",()=>{
  const first=parse(1),second=parse(2);
  assert.equal(first.questions.length,40);assert.equal(first.keyword1.length,20);
- assert.deepEqual(packageActivities(first),["exam","review","script","mcq","recall","vocab"]);
+ // Review and Retry are LEARNER-GATED: they need a submitted attempt / real weakness.
+ // With that context the two authored families still produce their own, different lists.
+ const learner={examSubmitted:true,missedQuestions:6};
+ // Fixture 1 carries NO transcript anywhere (four empty section transcripts, no script
+ // parts), so Script Completion is genuinely absent — it is never faked from a handful of
+ // sentences. Fixture 2 carries full transcripts and therefore does have it: the two hubs
+ // differ because the two TESTS differ.
+ assert.deepEqual(packageActivities(first,learner),["exam","review","mcq","recall","vocab"]);
+ assert.deepEqual(packageActivities(first),["exam","mcq","recall","vocab"],"no submitted attempt: nothing to review");
  assert.equal(second.testId,"listening-test-2");assert.equal(second.title,"Listening Test 2");assert.equal(second.questions.length,40);assert.equal(second.keyword1.length,60);assert.equal(second.vocabulary.length,20);
  assert.ok(second.sections.every(s=>s.transcript.length>100));
- assert.deepEqual(packageActivities(second),["exam","review","script","mcq","matching","completion","vocab","retry"]);
+ assert.deepEqual(packageActivities(second,learner),["exam","review","script","mcq","matching","completion","vocab","retry"]);
+ assert.deepEqual(packageActivities(second),["exam","script","mcq","matching","completion","vocab"],"no weakness: no Retry card");
  assert.equal(second.questions.filter(q=>q.kind==="matching").length,4);assert.equal(second.questions.filter(q=>q.kind==="mcq").length,16);assert.equal(second.questions.filter(q=>q.kind==="completion").length,20);
  assert.deepEqual(second.questions.find(q=>q.number===31)?.options,["A) a collection was donated","B) the public showed an interest in them","C) an expert decided some of them were valuable"]);
  assert.ok(second.questions[0]!.instruction.includes("ONE WORD"));assert.equal(second.questions[20]!.instruction.includes("THREE WORDS"),true);
@@ -42,7 +51,8 @@ test("two authored HTML families retain their own questions, exercises and trans
 });
 test("the shared schema permits future data-driven test variants without pretending every HTML is known",()=>{
  const p=parse(2);p.studyPack!.activities=["exam","review","completion"];p.vocabulary=[];p.keyword1=[];
- assert.deepEqual(packageActivities(listeningPackageSchema.parse(p)),["exam","review","completion"]);
+ assert.deepEqual(packageActivities(listeningPackageSchema.parse(p),{examSubmitted:true,missedQuestions:2}),["exam","review","completion"],"an authored order is preserved exactly");
+ assert.deepEqual(packageActivities(listeningPackageSchema.parse(p)),["exam","completion"],"…minus the activities the learner has nothing for");
  assert.throws(()=>convertLegacyPackage({"source.html":"<script>window.evil=true</script>"},2000,read,{audioPath:"audio.mp3"}));
  assert.throws(()=>jsonLiteral('const DATA = (() => {throw Error("must not execute")})()',"const DATA ="));
  assert.throws(()=>listeningPackageSchema.parse({...p,questions:[...p.questions,p.questions[0]]}));
