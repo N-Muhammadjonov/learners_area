@@ -30,7 +30,8 @@ import type { PgTable } from "drizzle-orm/pg-core";
 type UpdateTarget = PgTable;
 import type { ImportTransaction } from "@/lib/import/core/dry-run";
 import { resolveQuestionType, storageTypeFor } from "@/lib/content/question-types";
-import { LESSON_TEACHER_NOTES_MAX, saveLessonStructure } from "@/lib/content/lessons";
+import { LESSON_TEACHER_NOTES_MAX, materializeLessonRow, saveLessonStructure } from "@/lib/content/lessons";
+import { versionContent, type VersionRecord } from "@/lib/content/versions";
 import { LEARNING_AREAS } from "@/lib/content/learning-areas";
 import { LESSON_CATEGORIES, MODEL_TEXT_MIN_WORDS } from "@/lib/writing/admin-schemas";
 import { PATTERN_FUNCTIONS } from "@/lib/writing/pattern-functions";
@@ -63,6 +64,12 @@ export type AuthorContext = {
   sourceRef: string;
   title: string;
   track: string;
+  /**
+   * The editable revision the caller is saving into, when it named one. An author that
+   * keeps a working copy (a lesson draft) writes that revision in place instead of
+   * churning a new revision per save; authors that do not care ignore it.
+   */
+  versionId?: string | null;
 };
 
 export type AuthoredTarget = {
@@ -101,6 +108,20 @@ export type ModuleAuthor = {
   ) => Promise<PublicationSync>;
   /** The moment a scheduled revision opens, read from the content row itself. */
   readSchedule: (tx: ImportTransaction, version: { targetId: string | null; sourceRef: string }) => Promise<Date | null>;
+  /**
+   * Write the learner-visible content rows from a revision that is BECOMING LIVE.
+   *
+   * Most content types write their rows when they are authored, because a draft row is
+   * invisible to learners anyway. That is not true of a content type whose row is
+   * SERVED WHILE IT IS LIVE (a lesson): there, a draft revision must not touch the row
+   * at all, and the row has to catch up at the moment the revision is published.
+   *
+   * Optional, because a type that writes its rows up front has nothing to do here.
+   * Called inside the publication transaction, after the revision's state change: if it
+   * cannot write, the whole publication rolls back rather than leaving learners on old
+   * content while the revision claims to be live.
+   */
+  materialize?: (tx: ImportTransaction, input: { version: VersionRecord; content: unknown }) => Promise<void>;
 };
 
 /**
@@ -1210,20 +1231,40 @@ export const vocabularyTopicPackAuthor: ModuleAuthor = {
 /* -------------------------------------------------------------------------- */
 
 const lessonPayload = zod.object({
-  unitId: zod.string().uuid(),
-  slug: zod.string().min(2).max(60),
+  // Every bound carries the sentence an AUTHOR reads. A refusal is shown to the person
+  // who typed it: "String must contain at most 8000 character(s)" is a message about the
+  // schema, not about their lesson, and the desk would have had to blur it.
+  unitId: zod.string({ message: "Choose the unit this lesson belongs to." }).uuid("Choose the unit this lesson belongs to."),
+  slug: zod
+    .string()
+    .min(2, "The slug must be at least two characters.")
+    .max(60, "The slug must stay under 60 characters."),
   /**
    * What the lesson is about. REQUIRED, and intentionally the first field an author
    * must answer: the previous revision of this contract had no way to say it, which is
    * why a lesson's subject could only be guessed from its media or its title.
    */
-  learningArea: zod.enum(LEARNING_AREAS),
-  summary: zod.string().max(2000).optional().nullable(),
+  learningArea: zod.enum(LEARNING_AREAS, { message: "Choose the learning area this lesson is about." }),
+  summary: zod
+    .string()
+    .max(2000, "The description must stay under 2000 characters.")
+    .optional()
+    .nullable(),
   /** The centre's own notes for the lesson — lesson metadata, independent of media. */
-  teacherNotes: zod.string().max(LESSON_TEACHER_NOTES_MAX).optional().nullable(),
-  estimatedMinutes: zod.number().int().min(1).max(600).optional().nullable(),
+  teacherNotes: zod
+    .string()
+    .max(LESSON_TEACHER_NOTES_MAX, `Teacher notes must stay under ${LESSON_TEACHER_NOTES_MAX} characters.`)
+    .optional()
+    .nullable(),
+  estimatedMinutes: zod
+    .number()
+    .int("Estimated minutes must be a whole number.")
+    .min(1, "Estimated minutes must be at least 1.")
+    .max(600, "Estimated minutes must stay under 600.")
+    .optional()
+    .nullable(),
   order: zod.number().int().min(0).optional(),
-  blocks: zod.array(zod.unknown()).default([]),
+  blocks: zod.array(zod.unknown(), { message: "The lesson material could not be read." }).default([]),
 });
 
 /**
@@ -1242,6 +1283,7 @@ export const lessonAuthor: ModuleAuthor = {
     const parsed = lessonPayload.parse(payload);
     const result = await saveLessonStructure(tx as never, {
       actor: { id: context.actorUserId, role: "owner", mayPublish: true },
+      targetVersionId: context.versionId ?? null,
       unitId: parsed.unitId,
       slug: parsed.slug,
       title: context.title,
@@ -1283,6 +1325,18 @@ export const lessonAuthor: ModuleAuthor = {
     if (!version.targetId) return null;
     const [row] = await tx.select({ publishAt: lessons.publishAt }).from(lessons).where(eq(lessons.id, version.targetId)).limit(1);
     return row?.publishAt ?? null;
+  },
+  /**
+   * A lesson row IS what a learner reads, and while the lesson is live the row is left
+   * alone by every draft save (see `saveLessonStructure`). So this is where an edited
+   * revision reaches students — the moment an administrator or the owner publishes it,
+   * and only then. Historical revisions are untouched: they keep their snapshots.
+   */
+  async materialize(tx, { version }) {
+    if (!version.targetId) return;
+    const content = await versionContent(version.id, tx as never);
+    if (!content || typeof content !== "object") return;
+    await materializeLessonRow(tx as never, version.targetId, content as Parameters<typeof materializeLessonRow>[2]);
   },
 };
 

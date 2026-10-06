@@ -1,4 +1,4 @@
-import { and, asc, eq } from "drizzle-orm";
+import { and, asc, eq, inArray } from "drizzle-orm";
 import { isLearningArea, type LearningArea } from "@/lib/content/learning-areas";
 import { db } from "@/db/client";
 import { lessonBlockResponses, lessonBlocks, lessonProgress, lessons, type LessonBlockSnapshot } from "@/db/schema";
@@ -49,6 +49,12 @@ export type SaveLessonInput = {
   blocks: LessonBlockInput[];
   /** Existing lesson id when revising. */
   lessonId?: string | null;
+  /**
+   * The editable draft revision this save continues, when the caller named one. It is
+   * written in place (see `pinVersion`), so an author editing a lesson always saves into
+   * the revision they opened instead of accumulating a new one per save.
+   */
+  targetVersionId?: string | null;
 };
 
 /**
@@ -65,6 +71,17 @@ export type SaveLessonInput = {
  * consumers read the metadata fields defensively and fall back to the lesson row.
  */
 export type LessonVersionContent = {
+  /**
+   * The lesson's own identity as it was when the revision was pinned. It is here
+   * because the lesson ROW is a materialized view of the live revision: when a
+   * revision is published, these values are written back onto the row, so the
+   * snapshot has to carry everything the learner reads (see `materializeLessonRow`).
+   * Revisions pinned before this field existed lack it; materialization then keeps
+   * the row's current value rather than inventing one.
+   */
+  unitId?: string | null;
+  slug?: string | null;
+  order?: number | null;
   learningArea: LearningArea;
   summary: string | null;
   teacherNotes: string | null;
@@ -90,6 +107,164 @@ function slugRef(value: string): string {
 }
 
 const lesssonIssue = (code: string, message: string, field?: string): LessonBlockIssue => ({ code, message, field });
+
+/* -------------------------------------------------------------------------- */
+/* Block rows: written like an editor, not like a bulk replace                 */
+/* -------------------------------------------------------------------------- */
+
+/** The shape a block row is written from. One function, so every writer agrees. */
+function blockRowValues(block: LessonBlockInput, position: number) {
+  return {
+    position,
+    type: block.type as never,
+    textContent: block.text ?? null,
+    linkUrl: block.url ?? null,
+    objectKey: block.objectKey ?? null,
+    originalName: block.originalName ?? null,
+    mimeType: block.mimeType ?? null,
+    size: block.size ?? null,
+    refModule: block.ref?.module ?? null,
+    refContentType: block.ref?.contentType ?? null,
+    refSourceRef: block.ref?.sourceRef ?? null,
+    refContentVersionId: block.ref?.versionId ?? null,
+    quizQuestionType: block.quiz?.questionType ?? null,
+    quizPayload: block.quiz
+      ? { prompt: block.quiz.prompt, options: block.quiz.options ?? null, answer: block.quiz.answer, explanation: block.quiz.explanation ?? null }
+      : null,
+  };
+}
+
+/**
+ * What makes two blocks "the same block" across a save.
+ *
+ * Deliberately content-based and position-free: an author who inserts a paragraph at
+ * the top of a lesson has not changed the quiz below it, and the quiz block's row —
+ * with the id a learner's answer is stored against — must survive that.
+ */
+function signatureOf(values: {
+  type: string;
+  textContent: string | null;
+  linkUrl: string | null;
+  objectKey: string | null;
+  refModule: string | null;
+  refContentType: string | null;
+  refSourceRef: string | null;
+  refContentVersionId: string | null;
+  quizQuestionType: string | null;
+  quizPayload: unknown;
+}): string {
+  return JSON.stringify([
+    values.type,
+    values.textContent,
+    values.linkUrl,
+    values.objectKey,
+    values.refModule,
+    values.refContentType,
+    values.refSourceRef,
+    values.refContentVersionId,
+    values.quizQuestionType,
+    values.quizPayload ?? null,
+  ]);
+}
+
+/**
+ * Write a lesson's block rows so that UNCHANGED blocks keep their row id.
+ *
+ * Why this is not a delete-and-reinsert: `lesson_block_responses.block_id` references
+ * these rows `ON DELETE CASCADE`. A bulk replace therefore destroys every learner's
+ * answers to blocks that were not touched — a data-loss defect that would surface the
+ * first time a teacher fixed a typo in a published lesson's text block. Blocks whose
+ * content is unchanged keep their identity; only genuinely new blocks are inserted and
+ * only genuinely removed ones are deleted.
+ *
+ * Positions are unique per lesson, so the reuse is staged: rows that will keep existing
+ * move to temporary negative positions first, then new rows take their final positions,
+ * then the kept rows move into theirs.
+ */
+async function writeLessonBlocks(
+  tx: ImportTransaction & { insert: typeof db.insert; update: typeof db.update; delete: typeof db.delete },
+  lessonId: string,
+  blocks: LessonBlockInput[],
+): Promise<void> {
+  const existing = await tx
+    .select()
+    .from(lessonBlocks)
+    .where(eq(lessonBlocks.lessonId, lessonId))
+    .orderBy(asc(lessonBlocks.position));
+
+  // A brand-new lesson (or one that had no blocks) is a plain insert.
+  if (existing.length === 0) {
+    if (blocks.length === 0) return;
+    await tx.insert(lessonBlocks).values(blocks.map((block, index) => ({ lessonId, ...blockRowValues(block, index + 1) })));
+    return;
+  }
+
+  const used = new Set<string>();
+  const plan = blocks.map((block, index) => {
+    const signature = signatureOf(blockRowValues(block, index + 1));
+    const match = existing.find((row) => !used.has(row.id) && signatureOf(row) === signature) ?? null;
+    if (match) used.add(match.id);
+    return { block, index, row: match };
+  });
+
+  const dropped = existing.filter((row) => !used.has(row.id));
+  const kept = plan.filter((entry) => entry.row).map((entry) => entry.row!);
+
+  if (dropped.length) await tx.delete(lessonBlocks).where(inArray(lessonBlocks.id, dropped.map((row) => row.id)));
+  for (const [index, row] of kept.entries())
+    await tx.update(lessonBlocks).set({ position: -(index + 1) }).where(eq(lessonBlocks.id, row.id));
+
+  const inserted = plan.filter((entry) => !entry.row);
+  if (inserted.length)
+    await tx.insert(lessonBlocks).values(inserted.map((entry) => ({ lessonId, ...blockRowValues(entry.block, entry.index + 1) })));
+
+  // Step 4: the kept rows move from their staging positions into their final ones. The
+  // plan has exactly one entry per final position, so a kept row can never land on a
+  // position an inserted row already took.
+  for (const entry of plan) {
+    if (!entry.row) continue;
+    await tx
+      .update(lessonBlocks)
+      .set(blockRowValues(entry.block, entry.index + 1))
+      .where(eq(lessonBlocks.id, entry.row.id));
+  }
+}
+
+/**
+ * Make a lesson ROW describe a published revision.
+ *
+ * The row is a materialized view of the live revision: while a lesson is live and a
+ * revision is being edited, the row keeps serving the published content, and this is
+ * what moves it forward — called from the shared publication service the moment a
+ * revision becomes live for learners.
+ *
+ * Values the snapshot does not carry (a revision pinned before the snapshot recorded
+ * the lesson's identity) keep whatever the row already had: nothing is invented and
+ * nothing is blanked.
+ */
+export async function materializeLessonRow(
+  tx: ImportTransaction & { insert: typeof db.insert; update: typeof db.update; delete: typeof db.delete },
+  lessonId: string,
+  content: Partial<LessonVersionContent> & { blocks?: LessonBlockSnapshot[] | null },
+): Promise<void> {
+  const [row] = await tx.select({ id: lessons.id }).from(lessons).where(eq(lessons.id, lessonId)).limit(1);
+  if (!row) return;
+  const blocks = Array.isArray(content.blocks) ? (content.blocks as unknown as LessonBlockInput[]) : null;
+  await tx
+    .update(lessons)
+    .set({
+      ...(typeof content.unitId === "string" && content.unitId ? { unitId: content.unitId } : {}),
+      ...(typeof content.slug === "string" && content.slug ? { slug: content.slug } : {}),
+      ...(typeof content.order === "number" ? { order: content.order } : {}),
+      ...(content.learningArea ? { learningArea: content.learningArea } : {}),
+      summary: content.summary ?? null,
+      teacherNotes: content.teacherNotes ?? null,
+      estimatedMinutes: content.estimatedMinutes ?? null,
+      updatedAt: new Date(),
+    })
+    .where(eq(lessons.id, lessonId));
+  if (blocks) await writeLessonBlocks(tx, lessonId, blocks);
+}
 
 /**
  * Persist a lesson and its blocks, then pin the revision that describes them.
@@ -142,12 +317,21 @@ export async function saveLessonStructure(
   const existingByRef =
     existingById ?? (await tx.select().from(lessons).where(eq(lessons.sourceRef, input.sourceRef)).limit(1))[0];
 
-  // A published lesson is frozen: revise it into a new draft first (§41).
-  if (existingByRef && existingByRef.publicationState === "published")
-    return {
-      ok: false,
-      issues: [lesssonIssue("lesson_published", "A published lesson is frozen: archive or schedule it before editing its blocks.")],
-    };
+  /**
+   * A lesson whose row is LIVE is never rewritten in place.
+   *
+   * Students are reading that row right now (and answering its quiz blocks), so a
+   * save against a live lesson records a REVISION instead: the new content lands in
+   * `content_versions` only, and the row keeps serving the published revision until
+   * an administrator or the owner publishes the new one (`materializeLessonRow`).
+   *
+   * This replaces the old "a published lesson is frozen" refusal. The rule it
+   * protected is intact and stronger: editing a live lesson can no longer change what
+   * a learner sees, and editing can no longer *fail* just because the lesson is live.
+   */
+  const rowIsLive = existingByRef
+    ? isLive({ publicationState: existingByRef.publicationState, publishAt: existingByRef.publishAt })
+    : false;
 
   const teacherNotes = typeof input.teacherNotes === "string" && input.teacherNotes.trim().length > 0 ? input.teacherNotes : null;
   const values = {
@@ -165,8 +349,10 @@ export async function saveLessonStructure(
   let lessonId = existingByRef?.id;
   let created = false;
   if (lessonId) {
-    await tx.update(lessons).set(values).where(eq(lessons.id, lessonId));
-    await tx.delete(lessonBlocks).where(eq(lessonBlocks.lessonId, lessonId));
+    if (!rowIsLive) {
+      await tx.update(lessons).set(values).where(eq(lessons.id, lessonId));
+      await writeLessonBlocks(tx, lessonId, input.blocks);
+    }
   } else {
     const [row] = await tx
       .insert(lessons)
@@ -174,33 +360,8 @@ export async function saveLessonStructure(
       .returning({ id: lessons.id });
     lessonId = row!.id;
     created = true;
+    await writeLessonBlocks(tx, lessonId, input.blocks);
   }
-
-  // A lesson may legitimately be saved with no blocks yet (it is a draft, and the
-  // publication gate is what requires content) — but an empty INSERT is an error,
-  // so it is skipped rather than attempted.
-  if (input.blocks.length > 0)
-    await tx.insert(lessonBlocks).values(
-      input.blocks.map((block, index) => ({
-        lessonId: lessonId!,
-        position: index + 1,
-        type: block.type as never,
-        textContent: block.text ?? null,
-        linkUrl: block.url ?? null,
-        objectKey: block.objectKey ?? null,
-        originalName: block.originalName ?? null,
-        mimeType: block.mimeType ?? null,
-        size: block.size ?? null,
-        refModule: block.ref?.module ?? null,
-        refContentType: block.ref?.contentType ?? null,
-        refSourceRef: block.ref?.sourceRef ?? null,
-        refContentVersionId: block.ref?.versionId ?? null,
-        quizQuestionType: block.quiz?.questionType ?? null,
-        quizPayload: block.quiz
-          ? { prompt: block.quiz.prompt, options: block.quiz.options ?? null, answer: block.quiz.answer, explanation: block.quiz.explanation ?? null }
-          : null,
-      })),
-    );
 
   const snapshot: LessonBlockSnapshot[] = input.blocks.map((block, index) => ({
     position: index + 1,
@@ -208,6 +369,11 @@ export async function saveLessonStructure(
     text: block.text ?? null,
     url: block.url ?? null,
     objectKey: block.objectKey ?? null,
+    // Media metadata travels with the revision: a later revision copies this snapshot,
+    // and a file whose name and size were dropped could not be shown to an author again.
+    originalName: block.originalName ?? null,
+    mimeType: block.mimeType ?? null,
+    size: block.size ?? null,
     ref: block.ref ?? null,
     quiz: block.quiz ?? null,
   }));
@@ -217,6 +383,9 @@ export async function saveLessonStructure(
   // reading one must not break, so consumers read these fields defensively and fall
   // back to the lesson row.
   const content: LessonVersionContent = {
+    unitId: input.unitId,
+    slug: input.slug,
+    order: input.order ?? null,
     learningArea: input.learningArea,
     summary: input.summary ?? null,
     teacherNotes,
@@ -232,6 +401,12 @@ export async function saveLessonStructure(
     track: "unspecified",
     content,
     publicationState: "draft",
+    // A live lesson cannot be edited in place: its revision must be a NEW row, even
+    // when the payload is unchanged (that is exactly what "start a revision" saves).
+    // Editing the draft of a live lesson is different — that draft already EXISTS, and
+    // the save continues it (see `updateVersionId`).
+    forceNewVersion: rowIsLive,
+    updateVersionId: input.targetVersionId ?? null,
     targetType: "lesson",
     targetId: lessonId!,
     actorUserId: input.actor.id,

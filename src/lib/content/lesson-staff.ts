@@ -16,6 +16,9 @@ import { isLearningArea, type LearningArea } from "@/lib/content/learning-areas"
  * into an area yet, which is exactly the work an author has to finish.
  */
 
+/** One revision, as much as a list row needs to state what it is. */
+export type StaffRevision = { id: string; versionNo: number; publicationState: string };
+
 export type StaffLessonRow = {
   id: string;
   title: string;
@@ -23,8 +26,15 @@ export type StaffLessonRow = {
   sourceRef: string;
   learningArea: string | null;
   publicationState: string;
-  /** The newest lesson revision for this lesson, when one exists. */
-  version: { id: string; versionNo: number; publicationState: string } | null;
+  /**
+   * The newest lesson revision, kept for callers that only need "is there one".
+   * The two fields below are what tells an author which revision they would edit.
+   */
+  version: StaffRevision | null;
+  /** The revision an author may edit in place, when one exists. */
+  draft: StaffRevision | null;
+  /** The revision students are being served. */
+  published: StaffRevision | null;
   blockCount: number;
 };
 
@@ -73,13 +83,23 @@ export async function listLessonsForStaff(
           sourceRef: contentVersions.sourceRef,
           versionNo: contentVersions.versionNo,
           publicationState: contentVersions.publicationState,
+          status: contentVersions.status,
         })
         .from(contentVersions)
         .where(and(eq(contentVersions.module, "lesson"), eq(contentVersions.contentType, "lesson"), inArray(contentVersions.sourceRef, refs)))
         .orderBy(desc(contentVersions.versionNo))
     : [];
   const latest = new Map<string, StaffLessonRow["version"]>();
-  for (const version of versions) if (!latest.has(version.sourceRef)) latest.set(version.sourceRef, { id: version.id, versionNo: version.versionNo, publicationState: version.publicationState });
+  const drafts = new Map<string, StaffLessonRow["draft"]>();
+  const published = new Map<string, StaffLessonRow["published"]>();
+  for (const version of versions) {
+    const ref = { id: version.id, versionNo: version.versionNo, publicationState: version.publicationState };
+    if (!latest.has(version.sourceRef)) latest.set(version.sourceRef, ref);
+    // Drafts are newest-first, so the first one seen is the editable revision.
+    if (version.status === "draft" && version.publicationState === "draft" && !drafts.has(version.sourceRef)) drafts.set(version.sourceRef, ref);
+    if (version.status === "published" && version.publicationState === "published" && !published.has(version.sourceRef))
+      published.set(version.sourceRef, ref);
+  }
 
   return areaRows.map((row) => ({
     id: row.id,
@@ -89,6 +109,8 @@ export async function listLessonsForStaff(
     learningArea: row.learningArea,
     publicationState: row.publicationState,
     version: row.sourceRef ? (latest.get(row.sourceRef) ?? null) : null,
+    draft: row.sourceRef ? (drafts.get(row.sourceRef) ?? null) : null,
+    published: row.sourceRef ? (published.get(row.sourceRef) ?? null) : null,
     blockCount: 0,
   }));
 }

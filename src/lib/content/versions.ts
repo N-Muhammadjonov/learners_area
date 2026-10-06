@@ -253,6 +253,31 @@ export type PinVersionInput = {
   note?: string | null;
   /** Set when the change came from a legacy conversion. */
   kind?: ChangeKind;
+  /**
+   * Record a NEW revision even when the payload is unchanged.
+   *
+   * This is the "start a revision" case: an author deliberately opens a copy of the
+   * currently published revision in order to edit it. Reusing the published row would
+   * rewrite what students are reading (and stamp it `draft`), so the caller says so
+   * explicitly and a fresh revision row is written beside the live one.
+   *
+   * Nothing is superseded by this: only PUBLISHING takes the publication slot.
+   */
+  forceNewVersion?: boolean;
+  /**
+   * Write THIS revision in place, when the caller is editing it.
+   *
+   * An authored draft is a working copy, and a desk that saves it repeatedly must keep
+   * writing the SAME revision: opening a lesson must not produce "Draft v4" and the next
+   * save "Draft v5", because an author can never tell which revision is theirs.
+   *
+   * Honoured only when the named revision is the newest revision of this item AND is
+   * still an editable draft AND the pin is itself a draft. Anything else falls through to
+   * the ordinary rules: a published revision is never rewritten (that is what
+   * `forceNewVersion` exists for), and a stale id simply means somebody else has since
+   * moved the item forward.
+   */
+  updateVersionId?: string | null;
 };
 
 export type PinVersionResult = {
@@ -388,7 +413,30 @@ export async function pinVersion(
   });
   const kind: ChangeKind = input.kind ?? change.kind;
 
-  if (previous && !change.requiresNewVersion) {
+  // The one case where an EXISTING revision is rewritten: the caller says "this is the
+  // draft I am editing", and it really is the newest, still-editable draft of this item.
+  // The public identity (version number) is preserved, because the author is continuing
+  // the same revision rather than publishing a new one.
+  if (input.updateVersionId && previous && previous.id === input.updateVersionId && previous.status === "draft" && previous.publicationState === "draft" && String(input.publicationState) === "draft") {
+    const [updated] = await tx
+      .update(contentVersions)
+      .set({
+        title: input.title,
+        track: input.track ?? previous.track,
+        contentHash: contentHashOf(input.module, input.contentType, input.content),
+        semanticHash: semanticHashOf(input.module, input.contentType, input.content),
+        answerKeyHash: answerKeyHashOf(input.content),
+        contentSnapshot: input.content ?? null,
+        changeKind: kind,
+        provenance: input.provenance ?? previous.provenance,
+        ...(input.note !== undefined ? { note: input.note ?? null } : {}),
+      })
+      .where(eq(contentVersions.id, previous.id))
+      .returning();
+    return { version: toRecord(updated!), created: false, change: { ...change, kind } };
+  }
+
+  if (previous && !change.requiresNewVersion && !input.forceNewVersion) {
     // Metadata-only: refresh the descriptive fields on the SAME version.
     const [updated] = await tx
       .update(contentVersions)

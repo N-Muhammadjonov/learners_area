@@ -402,13 +402,24 @@ export const lessons = pgTable("lessons", {
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
-/** The block shape a lesson revision stores — typed, never a rendered page. */
+/**
+ * The block shape a lesson revision stores — typed, never a rendered page.
+ *
+ * The media metadata (`originalName`, `mimeType`, `size`) is part of the snapshot because
+ * a revision must be able to REPRODUCE the lesson it describes: the authoring desk edits
+ * those fields, and copying a revision into the next one would otherwise lose the file's
+ * name and size. Revisions pinned before these fields existed simply lack them, and every
+ * reader treats them as optional rather than inventing values.
+ */
 export type LessonBlockSnapshot = {
   position: number;
   type: string;
   text: string | null;
   url: string | null;
   objectKey: string | null;
+  originalName?: string | null;
+  mimeType?: string | null;
+  size?: number | null;
   ref: { module: string; contentType: string; sourceRef: string; versionId?: string | null } | null;
   quiz: { questionType?: string; prompt?: string; options?: string[] | null; answer?: unknown; explanation?: string | null } | null;
 };

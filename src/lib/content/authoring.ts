@@ -3,7 +3,7 @@ import { db } from "@/db/client";
 import { contentVersions } from "@/db/schema";
 import { AuthoringPayloadError, registerModuleAuthors, resolveModuleAuthor, type PublicationSync } from "@/lib/content/authors";
 import { contentTypeKey, moduleDescriptor, referenceProblems } from "@/lib/content/taxonomy";
-import { pinVersion, type VersionRecord } from "@/lib/content/versions";
+import { pinVersion, versionContent, type VersionRecord } from "@/lib/content/versions";
 
 /** The transaction surface authoring needs: version rows plus the content rows an author writes. */
 export type VersionWriter = Parameters<typeof pinVersion>[0];
@@ -157,6 +157,9 @@ export async function saveContentDraft(tx: ImportTransaction & VersionWriter, in
       sourceRef: input.sourceRef,
       title: input.title.trim(),
       track: input.track ?? "unspecified",
+      // The revision the caller is saving into (already validated as an editable draft
+      // of exactly this item above), so a working copy is written in place.
+      versionId: input.versionId ?? null,
     });
   } catch (error) {
     // A payload the DOMAIN refuses (an unknown question type, an unknown reading
@@ -325,6 +328,17 @@ export async function publishContentVersion(
     })
     .where(eq(contentVersions.id, version.id))
     .returning();
+
+  // A content type whose row is SERVED WHILE IT IS LIVE (a lesson) deliberately leaves
+  // that row alone while a revision is being edited. This is where the revision reaches
+  // learners — the moment it is published, in the same transaction, so a failure here
+  // rolls the whole publication back instead of leaving students on old content while
+  // the revision claims to be live.
+  if (request.to === "published" && author?.materialize)
+    await author.materialize(tx as ImportTransaction, {
+      version: updated as unknown as VersionRecord,
+      content: await versionContent(version.id, tx as never),
+    });
 
   return { ok: true, version: updated as unknown as VersionRecord, state: request.to };
 }
