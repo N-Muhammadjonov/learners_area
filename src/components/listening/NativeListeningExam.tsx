@@ -8,6 +8,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import type { ListeningPackage } from "@/lib/listening/package";
 import type { ListeningInputMode } from "@/lib/listening/question-control";
+import { clearListeningAttemptLocalState, listeningAttemptLocalKeys } from "@/lib/listening/attempt-local-state";
 /** A highlight range over the VISIBLE characters of one text region. */
 export type ListeningTextHighlight = { id: string; start: number; end: number };
 
@@ -121,7 +122,8 @@ export function NativeListeningExam({
   const pos = useRef(audioPosition);
   const startState = useRef(started);
   startState.current = started;
-  const key = `la-listening-draft:${attemptId}`;
+  const localKeys = listeningAttemptLocalKeys(attemptId);
+  const key = localKeys.draft;
   useEffect(() => {
     mounted.current = true;
     try {
@@ -137,7 +139,7 @@ export function NativeListeningExam({
       requests.current.forEach((c) => c.abort());
     };
   }, [key, initial]);
-  const notesKey = `la-listening-notes:${attemptId}`;
+  const notesKey = localKeys.notes;
   useEffect(() => {
     try { setNotes(localStorage.getItem(notesKey)?.slice(0, 12000) ?? ""); } catch {}
   }, [notesKey]);
@@ -154,7 +156,7 @@ export function NativeListeningExam({
    * can already see, and it never touches an answer. A server-persisted highlight store is a
    * separate decision (it needs a table) and is recorded as such in the ledger.
    */
-  const highlightsKey = `la-listening-highlights:${attemptId}`;
+  const highlightsKey = localKeys.highlights;
   useEffect(() => {
     try {
       const raw = localStorage.getItem(highlightsKey);
@@ -279,9 +281,20 @@ export function NativeListeningExam({
         return;
       }
       if (!res.ok) throw new Error();
-      try {
-        localStorage.removeItem(key);
-      } catch {}
+      /*
+       * THE END OF THE ACTIVITY — and the only place it is decided.
+       *
+       * The submission is now confirmed by the server, so this attempt's temporary browser-local
+       * state (the answer draft, the learner's note and their highlights) has served its purpose
+       * and is dropped. Three things matter here and are asserted by tests:
+       *   • it happens AFTER a successful submit — a failed attempt keeps everything, because the
+       *     learner is still working and a retry must find their note and answers intact;
+       *   • it removes ONLY this attempt's keys (`clearListeningAttemptLocalState`) — never
+       *     `localStorage.clear()`, and never another attempt's note;
+       *   • nothing here is permanent student content: it was never on the server, never in
+       *     Progress or Reports, never visible to staff and never in anyone's search.
+       */
+      clearListeningAttemptLocalState(attemptId);
       /*
        * Where the learner goes after submitting.
        *

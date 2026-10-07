@@ -92,6 +92,37 @@ async function typeNote(value: string) {
   return textarea!;
 }
 
+/** Mount the exam with a CAPTURED router, so navigation targets can be asserted. */
+async function renderExamWithRouter(attemptId: string, router: Record<string, unknown>) {
+  document.body.innerHTML = '<div id="root"></div>';
+  const root = createRoot(document.querySelector("#root")!);
+  await act(async () => {
+    root.render(
+      <AppRouterContext.Provider value={router as never}>
+        <NativeListeningExam
+          dict={en}
+          attemptId={attemptId}
+          testId="section-1"
+          title="Fixture section"
+          audioUrl=""
+          imageUrl={null}
+          questions={[QUESTION]}
+          initial={{}}
+          audioPosition={0}
+          audioStartedAt={null}
+          sectionMode
+        />
+      </AppRouterContext.Provider>,
+    );
+  });
+  return root;
+}
+
+const byText = (text: string) =>
+  [...document.querySelectorAll<HTMLButtonElement>("button")].find((button) => button.textContent === text);
+const submitButton = () => byText(en.fullListeningHub.examScreen.submit);
+const confirmButton = () => byText(en.fullListeningHub.examScreen.confirm);
+
 test("N1 the note is the ATTEMPT's own: it survives close/reopen and a reload, and it is keyed by the attempt", async () => {
   globalThis.fetch = (async () => json({})) as typeof fetch;
   dom.window.localStorage.clear();
@@ -189,6 +220,68 @@ test("N3 a highlight is stored per attempt, is removable, and never touches an a
     assert.equal(dom.window.localStorage.getItem("la-listening-highlights:attempt-h1"), dom.window.localStorage.getItem("la-listening-highlights:attempt-h1"));
   } finally {
     for (const root of exams) root.unmount();
+    dom.window.localStorage.clear();
+  }
+});
+
+test("N4 a SUCCESSFUL submit ends the attempt's local state — and only its own keys", async () => {
+  /*
+   * The owner's lifecycle rule, executed rather than described: the note and the highlights belong
+   * to the ATTEMPT, so when the attempt is finished they are dropped — while another open
+   * attempt's note, the lesson's Xulosangiz and unrelated application state all survive.
+   * The clear must also happen AFTER the server confirms, which is why this asserts on the
+   * captured navigation target too: the learner is only sent onward once the keys are gone.
+   */
+  const navigated: string[] = [];
+  const router = { back() {}, forward() {}, refresh() {}, push(target: string) { navigated.push(target); }, replace() {}, prefetch() {} };
+  dom.window.localStorage.clear();
+  dom.window.localStorage.setItem("la-listening-notes:attempt-submit", "Speaker changes answer after the example.");
+  dom.window.localStorage.setItem("la-listening-highlights:attempt-submit", JSON.stringify({ "q-uuid-1:text": [{ id: "s1", start: 0, end: 3 }] }));
+  dom.window.localStorage.setItem("la-listening-draft:attempt-submit", JSON.stringify({ answers: { "q-uuid-1": "twenty" } }));
+  dom.window.localStorage.setItem("la-listening-notes:attempt-open", "another attempt is still being worked on");
+  dom.window.localStorage.setItem("la-lesson-notes:lesson-1", "the lesson's own note");
+  dom.window.localStorage.setItem("la-locale", "en");
+
+  globalThis.fetch = (async () => json({ ok: true })) as typeof fetch;
+  const root = await renderExamWithRouter("attempt-submit", router);
+  try {
+    await act(async () => submitButton()!.click());
+    await act(async () => confirmButton()!.click());
+
+    assert.equal(dom.window.localStorage.getItem("la-listening-notes:attempt-submit"), null, "the finished attempt's note is cleared");
+    assert.equal(dom.window.localStorage.getItem("la-listening-highlights:attempt-submit"), null, "and its highlights");
+    assert.equal(dom.window.localStorage.getItem("la-listening-draft:attempt-submit"), null, "and its answer draft");
+    assert.equal(dom.window.localStorage.getItem("la-listening-notes:attempt-open"), "another attempt is still being worked on", "another open attempt keeps its note");
+    assert.equal(dom.window.localStorage.getItem("la-lesson-notes:lesson-1"), "the lesson's own note", "Xulosangiz is untouched");
+    assert.equal(dom.window.localStorage.getItem("la-locale"), "en", "unrelated state is untouched");
+    assert.deepEqual(navigated, ["/app/listening/general/section-1"], "a section returns to the section's own address, after the cleanup");
+  } finally {
+    root.unmount();
+    dom.window.localStorage.clear();
+  }
+});
+
+test("N5 a FAILED submit keeps every key, so the learner can retry", async () => {
+  const navigated: string[] = [];
+  const router = { back() {}, forward() {}, refresh() {}, push(target: string) { navigated.push(target); }, replace() {}, prefetch() {} };
+  dom.window.localStorage.clear();
+  dom.window.localStorage.setItem("la-listening-notes:attempt-fail", "keep me for the retry");
+  dom.window.localStorage.setItem("la-listening-highlights:attempt-fail", "{}");
+  dom.window.localStorage.setItem("la-listening-draft:attempt-fail", "{}");
+
+  globalThis.fetch = (async () => new Response("{}", { status: 500, headers: { "Content-Type": "application/json" } })) as typeof fetch;
+  const root = await renderExamWithRouter("attempt-fail", router);
+  try {
+    await act(async () => submitButton()!.click());
+    await act(async () => confirmButton()!.click());
+
+    assert.equal(dom.window.localStorage.getItem("la-listening-notes:attempt-fail"), "keep me for the retry", "a failed submit keeps the note");
+    assert.equal(dom.window.localStorage.getItem("la-listening-highlights:attempt-fail"), "{}", "and the highlights");
+    assert.equal(dom.window.localStorage.getItem("la-listening-draft:attempt-fail"), "{}", "and the answers");
+    assert.deepEqual(navigated, [], "the learner is not sent away from a failed submission");
+    assert.ok(document.body.textContent!.includes(en.fullListeningHub.examScreen.submitFailed), "and is told the submission failed");
+  } finally {
+    root.unmount();
     dom.window.localStorage.clear();
   }
 });
