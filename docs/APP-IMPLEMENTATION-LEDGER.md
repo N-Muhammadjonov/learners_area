@@ -576,3 +576,26 @@ Suites: evidence windows 5/5 · import/identity/Test-11/activities 73/73 · Gene
 | the staff preview's MCQ tab lists genuine multiple choice only: a word bank is not a choice question, and a map question never is | the canonical identity replaces `options.length && kind !== "matching"`; P3 |
 
 Suites: UI 265/265 · labels 2/2 · map/activities/hub/Test-11/import 58/58 · typecheck 0 · eslint 0.
+
+## Test 11 recovery turn — full gate on the frozen tree (2026-10-07)
+
+> **Gate `GATE PASS` — `/tmp/qa-out-t11-gate`** (tree `fb81ac1`; docs-only commits after it):
+> unit-pglite **1391 total / 1294 pass / 0 fail / 97 skip** · ui **265 / 265 / 0 / 0** ·
+> real-pg **1391 / 1387 / 0 / 4** · migrations **52 / 52** · fixtures ok ·
+> typecheck 0 · lint 0 · build 0 · `git diff --check` 0 · diff-check-range 0
+> (QA_BASE base `31e10bd` — the pinned base is unavailable in this environment, stated by the gate itself).
+>
+> Skips are OWNER ASSETS, named by the gate as it skips them: the Test 10 source ZIP
+> (2 tests) and the frozen Dictionary catalogue. They are **not** passes.
+>
+> **Shipped in this turn, in order:** canonical question identity for every writer
+> (`c53f2b5`/`0dcdef0`) · the source-validation door returns issues and evidence windows are
+> validated against the recording (`b4a445d`/`ce6a4b1`) · the Map / Plan activity is labelled
+> and the plan follows its questions (`d8da3bf`/`111f2e9`/`71fc243`) · the plan follows the
+> selected part in Review too (`1d70004`, M6) · the Test 11 reference derives its hub from its
+> own facts (`a747cfd`) · the staff preview answers the owner's checklist from the package
+> itself (`fb81ac1`).
+>
+> **Vercel (GitHub commit status, not the Preview Comments check):** every commit from
+> `7b0e07d` onward reports `success — Deployment has completed`; the earlier reds were the
+> commit-author identity, which stays fixed.
