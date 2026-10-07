@@ -566,3 +566,13 @@ Not yet built (Phase C continues): the Listening **Lessons** three-tab surface (
 | an option array is not a question type anywhere in the pipeline, INCLUDING the activity registry: an unproven type is a typed answer, reported for staff review, and derives no MCQ activity | `isMcqQuestion`; the retired "UNKNOWN kind is treated as multiple choice" rule; `tests/listening-authored-formats.test.ts` fixture 1 declares no canonical type at all and therefore derives no MCQ card (the authored runtime is what that learner gets — the hub short-circuits to it and every activity route redirects) |
 
 Suites: evidence windows 5/5 · import/identity/Test-11/activities 73/73 · General + academic hub + revision safety + authoring publication + native gap 48/48 · typecheck 0 · eslint 0 · `git diff --check` clean.
+
+### The Map / Plan activity is labelled, and the plan follows its questions (same recovery turn, §8/§14/§36/§46)
+
+| contract | evidence |
+| --- | --- |
+| an activity the registry can offer ALWAYS has a name and a hint, in both languages — a blank card cannot come back | `tests/listening-activity-labels.test.ts` L1–L2 (asserted over the registry, so a new activity cannot ship without its copy); the fix itself: `map: r.map` in the native hub and in the staff preview |
+| the plan is drawn on the parts that CONTAIN map questions, never on Part 2 by habit, and the map activity is a plan-bearing surface (exam + review + map) | `mapDiagramSections(payload)` in `ListeningTryout`; `tests/ui/listening-preview-map.test.tsx` P2 (map questions in Part 4) |
+| the staff preview's MCQ tab lists genuine multiple choice only: a word bank is not a choice question, and a map question never is | the canonical identity replaces `options.length && kind !== "matching"`; P3 |
+
+Suites: UI 265/265 · labels 2/2 · map/activities/hub/Test-11/import 58/58 · typecheck 0 · eslint 0.
