@@ -18,7 +18,7 @@ import { listeningIdentityReviewNotes, listeningQuestionIdentity } from "@/lib/l
 import { ingestListeningOccurrences } from "@/lib/services/lexical/listening-occurrences";
 import {
   LISTENING_CONTENT_TYPE,
-  normalizeListeningPackage,
+  storedListeningPackageResult,
   type ListeningCanonicalPackage,
 } from "./canonical";
 
@@ -250,7 +250,14 @@ export async function importCanonicalListeningPackage(
   pkg: ListeningCanonicalPackage,
   options: ListeningImportOptions,
 ): Promise<ListeningImportOutcome> {
-  const payload = normalizeListeningPackage(pkg);
+  /*
+   * The stored payload, or the issues that prevent storing one. This is the canonical WRITE path, so it
+   * may not throw either: a package that fails the domain rules must come back as an actionable
+   * failure, not as an exception the route turns into a generic error.
+   */
+  const normalized = storedListeningPackageResult(pkg);
+  if (!normalized.ok) return failure("semantic_invalid", normalized.issues);
+  const payload = normalized.stored;
   const contentHash = packageContentHash(pkg);
   const audio = options.assets.find((asset) => asset.key === pkg.content.audio.assetKey);
   if (!audio)

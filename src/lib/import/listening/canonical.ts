@@ -204,6 +204,37 @@ export function listeningSemanticIssues(pkg: ListeningCanonicalPackage): ImportI
         ),
       );
   }
+  /*
+   * EVIDENCE WINDOWS ARE CHECKED AGAINST THE REAL RECORDING — AND NEVER CLAMPED.
+   *
+   * An authored window that starts after the audio ends, or ends past it, is a defect in the source:
+   * review would offer a segment the learner can never hear, and "play from here" would seek past the
+   * end of the file. The fix belongs to the source, so this is an IMPORT-BLOCKING validation error —
+   * clamping the value would hide the defect behind a plausible-looking number, and substituting a
+   * better one would invent evidence the recording never contained. The duration here is the source's
+   * own statement of the recording, which is why the check can be exact.
+   *
+   * `at: 0` with no `end` is how "no evidence was authored for this question" is stored, so it is not
+   * a window and is never an error.
+   */
+  const duration = pkg.content.audio.durationSec;
+  for (const question of pkg.content.questions) {
+    const { at, end } = question.evidence;
+    if (at <= 0 && end === undefined) continue;
+    const path = `content.questions.${question.number}`;
+    if (end !== undefined && end < at)
+      issues.push(
+        issue(2, "semantic_invalid", `Q${question.number}: its evidence window ends (${end}s) before it starts (${at}s).`, path),
+      );
+    if (at > duration)
+      issues.push(
+        issue(2, "semantic_invalid", `Q${question.number}: its evidence window starts at ${at}s, past the end of the recording (${duration}s).`, path),
+      );
+    if (end !== undefined && end > duration)
+      issues.push(
+        issue(2, "semantic_invalid", `Q${question.number}: its evidence window ends at ${end}s, past the end of the recording (${duration}s).`, path),
+      );
+  }
   const missingTranscript = pkg.content.sections.filter((section) => !section.transcript.trim());
   for (const section of missingTranscript)
     issues.push(
@@ -244,6 +275,31 @@ export function normalizeListeningPackage(pkg: ListeningCanonicalPackage): Liste
 }
 
 /**
+ * The STORED payload of a package — or the issues that prevent storing it, never an exception.
+ *
+ * `normalizeListeningPackage` runs the stored package schema, which is where the domain rules live
+ * (`listeningDomainIssues`: question numbering, pairing, study ranges and evidence against the
+ * recording). Those rules are stricter than the content schema, so a package can be structurally
+ * valid and still fail them — and because the normalizer parses rather than safe-parses, that failure
+ * escaped as a thrown `ZodError` instead of reaching staff as a readable issue. A source-validation
+ * step that can throw is not a validation step: the door must always be able to say WHAT is wrong.
+ *
+ * The thrown error is converted with the same mapper every other schema failure uses, at the same
+ * level (2 = the package's own semantics), so the message a staff member reads is the domain rule's
+ * own wording ("Q1: evidence outside audio") rather than a raw code.
+ */
+export function storedListeningPackageResult(
+  pkg: ListeningCanonicalPackage,
+): { ok: true; stored: ListeningPackage } | { ok: false; issues: ImportIssue[] } {
+  try {
+    return { ok: true, stored: normalizeListeningPackage(pkg) };
+  } catch (error) {
+    if (error instanceof z.ZodError) return { ok: false, issues: issuesFromZodError(error, 2) };
+    throw error;
+  }
+}
+
+/**
  * Validate an already-built canonical object (converter, script or migration
  * tooling) with exactly the rules an uploaded package faces, and return both the
  * canonical package and the stored payload.
@@ -263,7 +319,9 @@ export function validateCanonicalListeningPackage(
     ...executableMarkupIssues(pkg.content, "content"),
   ].filter((entry) => entry.blocking);
   if (issues.length) return { ok: false, issues };
-  return { ok: true, pkg, stored: normalizeListeningPackage(pkg) };
+  const stored = storedListeningPackageResult(pkg);
+  if (!stored.ok) return { ok: false, issues: stored.issues };
+  return { ok: true, pkg, stored: stored.stored };
 }
 
 export function listeningPreview(pkg: ListeningCanonicalPackage) {

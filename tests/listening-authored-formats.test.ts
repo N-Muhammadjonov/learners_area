@@ -35,8 +35,17 @@ test("two authored HTML families retain their own questions, exercises and trans
  // parts), so Script Completion is genuinely absent — it is never faked from a handful of
  // sentences. Fixture 2 carries full transcripts and therefore does have it: the two hubs
  // differ because the two TESTS differ.
- assert.deepEqual(packageActivities(first,learner),["exam","review","mcq","recall","vocab"]);
- assert.deepEqual(packageActivities(first),["exam","mcq","recall","vocab"],"no submitted attempt: nothing to review");
+ //
+ // Fixture 1 declares NO question type: the authored HTML marks its gaps and choices, but nothing in it
+ // says which canonical type each question IS, so the parser reports `kind: undefined` for all forty. A
+ // question whose type the source did not prove is not multiple choice — an option array is not a type —
+ // so no MCQ activity is derived for it. This is the same rule the import applies (an unproven type is
+ // stored as a typed answer and reported for staff review), and it changes no learner surface: a package
+ // with an authored runtime runs the authored frame at the hub and every `/tests/:id/:activity` route
+ // redirects back to it, so these derived lists describe what the SOURCE supports.
+ assert.equal(first.questions.every(q=>q.kind===undefined),true,"fixture 1 declares no canonical question type at all");
+ assert.deepEqual(packageActivities(first,learner),["exam","review","recall","vocab"]);
+ assert.deepEqual(packageActivities(first),["exam","recall","vocab"],"no submitted attempt: nothing to review");
  assert.equal(second.testId,"listening-test-2");assert.equal(second.title,"Listening Test 2");assert.equal(second.questions.length,40);assert.equal(second.keyword1.length,60);assert.equal(second.vocabulary.length,20);
  assert.ok(second.sections.every(s=>s.transcript.length>100));
  assert.deepEqual(packageActivities(second,learner),["exam","review","script","mcq","matching","completion","vocab","retry"]);
