@@ -386,6 +386,31 @@ Not yet built (Phase C continues): the Listening **Lessons** three-tab surface (
 > no package was invented and no classification was guessed (F5).
 
 
+## Listening Test 11 — native Academic integration (owner directive, 2026-10-07)
+
+> The owner supplied `Listening Test 11.zip` as SOURCE MATERIAL for a native Learners Area Academic
+> Listening test — not as an HTML microsite to embed. Its reference bundle is
+> `reference/listening/test-11/`; the original owner ZIP is `ac09de62…10f2a94` and the audio
+> `39dc7e45…a64660`. This section records exactly what is integrated, what is proven, and what only
+> the owner can supply. The full analysis is `docs/LISTENING-TEST-11-INTEGRATION.md`.
+>
+> | checkpoint | state | the evidence that decides it |
+> | --- | --- | --- |
+> | **A — source contract** | **DONE** | `tests/listening-test-11-source-contract.test.ts` T11-01…T11-24 reads the owner's reference package ITSELF through the repository's own safe archive reader (not a transcription): its SHA-256 is the pinned one, the metadata pins the original ZIP and audio fingerprints, and the 16.5 MB MP3 is **provably absent** — the reference is metadata only, and no substitute is invented |
+> | **B — native structural import** | **DONE (support)** | 4 parts / 40 questions, Q1–40 unique and each in a part; every authored type range kept (Completion 20 · Map/Plan 4 · MCQ 11 · Matching 5); the canonical package schema accepts the whole shape, and `importCanonicalListeningPackage` — the existing canonical door — is the one used. No Test-11-specific route, component or table exists |
+> | **C — Map / Plan** | **DONE (new capability)** | Q11–14 are MAP / PLAN, and the canonical model could not previously say so: `kind` was `completion|mcq|matching`, so a plan question could only be filed as MCQ. `map` is now a first-class kind, registry row, graded `PracticeKind` and rendered plan surface; a map question is **never** counted as an MCQ; the plan renders on the parts that CONTAIN map questions (`mapDiagramSections`) with the historical Part 2 placement kept, by name, for packages that predate the kind — `tests/listening-map-plan.test.ts` M1–M7 |
+> | **D — the other activities** | **DONE (already native)** | Script Completion renders the FULL transcript with its authored blanks (6 per part, 24 total) — a transcript without authored blanks is not dressed as one; MCQ Mastery is the existing staged engine, and the server withholds the official options until the reveal **and the key until the learner has chosen** (T11-19); Matching is Matching, never MCQ; Completion stays typed; Vocabulary resolves through the ONE canonical lexical system. No second system of any kind was created |
+> | **E — review / retry / variation** | **DONE** | Review appears only with a submitted attempt and Retry only from genuine misses (T11-20/T11-21); the working exam carries no key, no explanation and no evidence window (T11-18); and the architecture did NOT collapse into "every test looks like Test 11" — `tests/listening-activity-variation.test.ts` V1–V5 shows three unequal fixtures producing three genuinely different hubs, every offered card supported and every omission justified, with a source free to declare more than nine activities |
+> | **F — audio + publication** | **BLOCKED — OWNER BINARY REQUIRED** | the reference deliberately omits the MP3, and nothing fabricates, substitutes or downloads a recording. A card that opens a silent exam is worse than no card, so Test 11 stays **Draft / Owner Action Required** until the exact binary (`39dc7e45…a64660`, 16,509,954 bytes) is ingested through the canonical import + private storage path — never committed to the repository |
+>
+> **What the learner will see once the audio exists.** `/app/listening/academic` → `Listening Test 11`
+> → the native Test 11 hub → the activities the material genuinely supports (Full Test, Script
+> Completion, MCQ / Map-Plan / Matching / Completion Mastery, Vocabulary; Review after a submitted
+> attempt; Retry from real misses). Test 11's nine source concepts are mapped one-for-one onto
+> canonical registry ids, and other tests keep their own smaller or different sets — the SOURCE
+> decides. The source HTML/JS is never executed and never served: only sanitized coordinates and text
+> cross the boundary (`extractMapDiagram`).
+
 ## General Listening V4 — checkpoint acceptance (owner directive, 2026-10-07)
 
 > The owner's product for General Listening is ONE thing: a published standalone section opens
