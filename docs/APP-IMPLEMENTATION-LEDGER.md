@@ -553,3 +553,16 @@ Not yet built (Phase C continues): the Listening **Lessons** three-tab surface (
 > publication 52/52 · typecheck 0 · eslint 0 · `git diff --check` clean. The full gate is NOT run on
 > this tree — the frozen gated tree `7b0e07d` (== `0637f79`) is untouched by this change and its
 > deployment is now green.
+
+### The source-validation door answers with issues (same recovery turn, §31/§33/§34)
+
+| contract | evidence |
+| --- | --- |
+| an evidence window is validated against the recording the package itself declares: a window that ends before it starts, or that reaches past the audio, is an IMPORT-BLOCKING error naming the question and quoting the authored numbers and the real duration | `listeningSemanticIssues` (evidence-window block) · `tests/listening-evidence-windows.test.ts` W1–W3 |
+| nothing is ever clamped or "improved": the refused package still carries exactly what the source wrote, so staff can compare it with the file | W2/W4 assert the untouched values |
+| the boundary is the repo's own, not a relaxed one: a window ENDING exactly at the end of the recording is valid; a window STARTING there is refused by the pre-existing stored domain rule (`evidence.at >= duration`) | W1, W5 |
+| an impossible study clip is refused as a blocking, NAMED issue instead of an exception | W4 (`Clip outside audio`, `listeningDomainIssues`) |
+| the stored-payload step can no longer throw: every domain failure returns readable issues, from both the validation door and the canonical write path | `storedListeningPackageResult`; used by `validateCanonicalListeningPackage` and `importCanonicalListeningPackage` (a failure outcome, not an exception) |
+| an option array is not a question type anywhere in the pipeline, INCLUDING the activity registry: an unproven type is a typed answer, reported for staff review, and derives no MCQ activity | `isMcqQuestion`; the retired "UNKNOWN kind is treated as multiple choice" rule; `tests/listening-authored-formats.test.ts` fixture 1 declares no canonical type at all and therefore derives no MCQ card (the authored runtime is what that learner gets — the hub short-circuits to it and every activity route redirects) |
+
+Suites: evidence windows 5/5 · import/identity/Test-11/activities 73/73 · General + academic hub + revision safety + authoring publication + native gap 48/48 · typecheck 0 · eslint 0 · `git diff --check` clean.
