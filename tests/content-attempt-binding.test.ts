@@ -53,7 +53,17 @@ test("AB1 a Listening attempt binds to the published revision, and an unversione
         contentType: "full_test",
         sourceRef: "bind-listening-1",
         title: "Binding test",
-        content: { questions: [{ number: 1, questionText: "Synthetic", correctAnswer: "yes" }] },
+        // A FORMAL full test: 40 questions, the structure the owner stated. A one-question
+        // drill may not be published as a full test, and this fixture means a real one.
+        content: {
+          questions: Array.from({ length: 40 }, (_, index) => ({
+            number: index + 1,
+            type: "completion",
+            questionText: `Synthetic ${index + 1}`,
+            options: [],
+            correctAnswer: "yes",
+          })),
+        },
         publicationState: "draft",
         actorUserId: ownerId,
         targetType: "listening_test",

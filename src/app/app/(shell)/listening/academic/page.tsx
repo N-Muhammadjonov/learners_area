@@ -18,12 +18,19 @@ export const dynamic = "force-dynamic";
  * questions it has, how many activities it supports for THIS learner, and how many of them
  * they have finished — so the catalogue never promises a fixed ten-card grid.
  */
-export default async function AcademicListeningPage() {
-  const [user, locale] = await Promise.all([requireActiveUser(), getLocale()]);
+export default async function AcademicListeningPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) {
+  const [user, locale, query] = await Promise.all([requireActiveUser(), getLocale(), searchParams]);
   if (!user) return null;
   const dict = getDictionary(locale);
   const t = dict.listening.academic;
-  const cards = await academicListeningCards(user.id);
+  // Paging is a URL parameter, like the rest of the app: a page can be linked, bookmarked and
+  // returned to, and the query stays bounded on the server.
+  const page = Math.max(1, Math.min(10000, Number.parseInt(query.page ?? "1", 10) || 1));
+  const { cards, hasMore, total } = await academicListeningCards(user.id, page);
 
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-6" data-route-usable="listening-academic">
@@ -31,9 +38,9 @@ export default async function AcademicListeningPage() {
         <BackLink fallbackHref="/app/listening" label={dict.listening.practiceTitle} data-listening-academic-back />
         <h1 className="mt-2 font-display text-2xl text-ink-900">🎧 {t.title}</h1>
         <p className="mt-1 text-sm text-ink-500">{t.subtitle}</p>
-        {cards.length > 0 && (
-          <p className="mt-1 text-xs text-ink-300" data-listening-academic-count>
-            {t.catalogueCount.replace("{n}", String(cards.length))}
+        {total > 0 && (
+          <p className="mt-1 text-xs text-ink-300" data-listening-academic-count data-listening-academic-total={total}>
+            {t.catalogueCount.replace("{n}", String(total))}
           </p>
         )}
       </div>
@@ -85,6 +92,28 @@ export default async function AcademicListeningPage() {
             </Card>
           ))}
         </div>
+      )}
+
+      {/* Every published test is reachable: the list is bounded per page and the reader moves
+          through it here, so a catalogue of 125 tests never stops at the first screenful. */}
+      {(page > 1 || hasMore) && (
+        <nav className="flex items-center justify-between gap-3" aria-label={t.paginationLabel} data-listening-academic-pagination>
+          {page > 1 ? (
+            <Link className="btn-secondary" href={page === 2 ? "/app/listening/academic" : `/app/listening/academic?page=${page - 1}`} data-listening-academic-prev>
+              ← {t.previousPage}
+            </Link>
+          ) : (
+            <span />
+          )}
+          <span className="text-xs text-ink-300">{t.pageLabel.replace("{page}", String(page))}</span>
+          {hasMore ? (
+            <Link className="btn-secondary" href={`/app/listening/academic?page=${page + 1}`} data-listening-academic-next>
+              {t.nextPage} →
+            </Link>
+          ) : (
+            <span />
+          )}
+        </nav>
       )}
     </div>
   );

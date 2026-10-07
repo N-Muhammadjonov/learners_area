@@ -58,6 +58,23 @@ const listeningPayload = (questionOverrides: Record<string, unknown> = {}) => ({
   ],
 });
 
+/**
+ * A FORMAL Listening full test: the structure the owner stated (40 questions). Publishing a
+ * one-question drill under `listening:full_test` is refused by the publication validator, so a
+ * test that means "a full test" authors a real one — and `AU13` proves the refusal itself.
+ */
+const formalFullTestPayload = () => ({
+  audioType: "audio" as const,
+  questions: Array.from({ length: 40 }, (_, index) => ({
+    type: "multiple_choice",
+    questionText: `Question ${index + 1}: what does the speaker recommend?`,
+    options: ["A", "B", "C"],
+    correctAnswer: "B",
+    explanation: "The speaker says B explicitly.",
+    keywords: "recommend",
+  })),
+});
+
 test("AU1 an authoring capability is declared per content type, and only where an author exists", () => {
   registerModuleAuthors();
   assert.equal(canAuthor("listening", "full_test"), true);
@@ -290,7 +307,7 @@ test("AU7 publishing is role-gated, and only a published revision is startable c
         sourceRef: "publish-listening-1",
         title: "Publish me",
         track: "academic",
-        payload: listeningPayload(),
+        payload: formalFullTestPayload(),
       }),
     );
     assert.equal(saved.ok, true);
@@ -405,7 +422,7 @@ test("AU9 scheduling needs a moment, and a due schedule opens through the shared
         contentType: "full_test",
         sourceRef: "schedule-listening-1",
         title: "Scheduled",
-        payload: listeningPayload(),
+        payload: formalFullTestPayload(),
       }),
     );
     assert.equal(saved.ok, true);
@@ -547,6 +564,115 @@ test("AU11 a content item is one row across revisions, and every revision keeps 
   }
 });
 
+test("AU13 a five-question drill cannot be published as a formal IELTS Listening full test", async () => {
+  const database = await createTestDatabase();
+  try {
+    const { db, query } = database;
+    const actor = { ...owner, id: await staff(query) };
+    // The drill is a perfectly good draft; it is the PUBLICATION as a full test that the
+    // owner's structure forbids.
+    const draft = await db.transaction((tx) =>
+      saveContentDraft(tx, {
+        actor,
+        module: "listening",
+        contentType: "full_test",
+        sourceRef: "drill-as-full-test-1",
+        title: "Five-question drill",
+        payload: listeningPayload(),
+      }),
+    );
+    assert.equal(draft.ok, true);
+    if (!draft.ok) return;
+
+    const refused = await db.transaction((tx) =>
+      publishContentVersion(tx, { actor, versionId: draft.version.id, to: "published" }),
+    );
+    assert.equal(refused.ok, false, "a five-question drill may not go live as a full test");
+    assert.equal(refused.ok === false && refused.issues[0]?.code, "incomplete_full_test");
+    assert.match(
+      refused.ok === false ? refused.issues[0]!.message : "",
+      /40 questions; this revision has 1/,
+      "the refusal states the real count",
+    );
+    assert.match(refused.ok === false ? refused.issues[0]!.message : "", /Listening section/, "and what to do instead");
+    // Nothing became live: the row is still a draft.
+    const [row] = await query<{ publication_state: string }>(`select publication_state from listening_tests where source_ref = 'drill-as-full-test-1'`);
+    assert.equal(row!.publication_state, "draft");
+
+    // A REFUSAL IS NOT A PUBLICATION: asking whether something may be published must never
+    // publish it. The refused revision is still a draft and, crucially, its content row is
+    // still unreadable for learners.
+    const refusedAgain = await db.transaction((tx) =>
+      publishContentVersion(tx, { actor, versionId: draft.version.id, to: "published" }),
+    );
+    assert.equal(refusedAgain.ok, false);
+    const [stillDraft] = await query<{ publication_state: string }>(
+      `select publication_state from listening_tests where source_ref = 'drill-as-full-test-1'`,
+    );
+    assert.equal(stillDraft!.publication_state, "draft", "a refused publication leaves the row exactly as it was");
+
+    // The SAME material filed as a Listening section publishes: the product offers the
+    // correct classification, not just a refusal.
+    const section = await db.transaction((tx) =>
+      saveContentDraft(tx, {
+        actor,
+        module: "listening",
+        contentType: "section",
+        sourceRef: "drill-as-section-1",
+        title: "Five-question section",
+        payload: { ...listeningPayload(), sectionNo: 2 },
+      }),
+    );
+    assert.equal(section.ok, true);
+    if (!section.ok) return;
+    const published = await db.transaction((tx) =>
+      publishContentVersion(tx, { actor, versionId: section.version.id, to: "published" }),
+    );
+    assert.equal(published.ok, true, "a Listening section publishes normally");
+    const [sectionRow] = await query<{ publication_state: string }>(`select publication_state from listening_tests where source_ref = 'drill-as-section-1'`);
+    assert.equal(sectionRow!.publication_state, "published");
+  } finally {
+    await database.close();
+  }
+});
+
+test("AU13b a content type with no publish moment refuses scheduling without writing the row", async () => {
+  const database = await createTestDatabase();
+  try {
+    const { db, query } = database;
+    const actor = { ...owner, id: await staff(query) };
+    const saved = await db.transaction((tx) =>
+      saveContentDraft(tx, {
+        actor,
+        module: "grammar",
+        contentType: "topic",
+        sourceRef: "schedule-grammar-1",
+        title: "Articles",
+        payload: {
+          title: "Articles",
+          skillArea: "writing",
+          explanation: "A and an.",
+          order: 1,
+          exercises: [{ promptText: "I saw ___ owl.", options: ["a", "an"], correctOption: "an", explanation: "Vowel sound." }],
+        },
+      }),
+    );
+    assert.equal(saved.ok, true);
+    if (!saved.ok) return;
+
+    const scheduled = await db.transaction((tx) =>
+      publishContentVersion(tx, { actor, versionId: saved.version.id, to: "scheduled", publishAt: new Date("2026-06-01T09:00:00Z") }),
+    );
+    assert.equal(scheduled.ok, false, "grammar topics have no publish moment");
+    if (!scheduled.ok) assert.equal(scheduled.issues[0]!.code, "scheduling_unsupported");
+    // The refusal is checked BEFORE the write: the row is untouched, not quietly scheduled.
+    const [row] = await query<{ publication_state: string }>(`select publication_state from grammar_topics where source_ref = 'schedule-grammar-1'`);
+    assert.equal(row!.publication_state, "draft", "a refused schedule leaves the row a draft");
+  } finally {
+    await database.close();
+  }
+});
+
 test("AU12 a published revision stays readable after the content row moves on", async () => {
   const database = await createTestDatabase();
   try {
@@ -560,7 +686,7 @@ test("AU12 a published revision stays readable after the content row moves on", 
         sourceRef: "snapshot-listening-1",
         title: "Snapshot 1",
         track: "academic",
-        payload: listeningPayload(),
+        payload: formalFullTestPayload(),
       }),
     );
     assert.equal(v1.ok, true);

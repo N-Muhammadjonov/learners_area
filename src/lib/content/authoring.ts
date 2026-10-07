@@ -4,6 +4,7 @@ import { contentVersions } from "@/db/schema";
 import { AuthoringPayloadError, registerModuleAuthors, resolveModuleAuthor, type PublicationSync } from "@/lib/content/authors";
 import { contentTypeKey, moduleDescriptor, referenceProblems } from "@/lib/content/taxonomy";
 import { pinVersion, versionContent, type VersionRecord } from "@/lib/content/versions";
+import { fullTestStructureProblem } from "@/lib/listening/product";
 
 /** The transaction surface authoring needs: version rows plus the content rows an author writes. */
 export type VersionWriter = Parameters<typeof pinVersion>[0];
@@ -227,20 +228,21 @@ export async function publicationIssues(
   if (!version.targetId || !version.targetType)
     issues.push({ code: "no_target", message: "The revision is not attached to any content row." });
 
-  if (author && version.targetId) {
-    const state = await author.setPublication(tx, { targetId: version.targetId, sourceRef: version.sourceRef }, {
-      state: to,
-      publishAt: to === "scheduled" ? null : null,
-    });
-    // setPublication is the only way to know whether the row can hold the state;
-    // it is asked here and again (with the real moment) when the write happens.
-    if (state === "unsupported_schedule" && to === "scheduled")
-      issues.push({
-        code: "scheduling_unsupported",
-        message: `${version.module} content cannot hold a publish moment, so it cannot be scheduled — publish it directly.`,
-        field: "publishAt",
-      });
+  // A formal IELTS Listening full test is a specific structure. Publishing a five-question
+  // drill under `listening:full_test` is how a drill ends up looking like an exam in the
+  // Academic catalogue, so the OWNER's structure is enforced here — and the refusal tells the
+  // author what to do instead (file it as a Listening section). Only NEW publications are
+  // judged: content that is already live keeps its state and is never rewritten.
+  if (version.module === "listening" && version.contentType === "full_test" && (to === "published" || to === "scheduled")) {
+    const structure = fullTestStructureProblem(version.contentSnapshot);
+    if (structure) issues.push({ code: "incomplete_full_test", message: structure, field: "questions" });
   }
+
+  // `setPublication` WRITES the content row, so it is deliberately not called from here:
+  // a question about whether something may be published must never publish it. Whether the
+  // row can hold a publish moment is answered by the real write in `publishContentVersion`,
+  // which refuses BEFORE writing anything (`unsupported_schedule`) — so asking the question
+  // and performing the write give the same answer, and only the write can change the row.
   return issues;
 }
 

@@ -2,6 +2,7 @@ import "server-only";
 import { and, asc, eq, sql, type AnyColumn, type SQL } from "drizzle-orm";
 import { db } from "@/db/client";
 import { listeningAttempts, listeningPackages, listeningQuestions, listeningTests } from "@/db/schema";
+import { ACADEMIC_PRODUCT, academicProductSql, productSql, productOfPackage } from "@/lib/listening/product";
 import { liveWhere } from "@/lib/services/cms/publication";
 import { isUuid } from "@/lib/validation/ids";
 import type { Role } from "@/lib/auth/roles";
@@ -38,22 +39,43 @@ import type { ListeningPackage } from "@/lib/listening/package";
  * The rule lives here, once.
  */
 
-/** The most tests one academic catalogue page shows. */
-export const ACADEMIC_LISTENING_PAGE_MAX = 60;
-
-/** `coalesce(payload->>'collection','academic') in ('academic','question_types','mcq')`. */
-const academicCollection = sql`coalesce(${listeningPackages.payload}->>'collection', 'academic') in ('academic','question_types','mcq')`;
+/** How many Academic Listening tests one catalogue page shows. */
+export const ACADEMIC_LISTENING_PAGE_SIZE = 24;
 
 /**
- * The same membership rule in TypeScript, so the catalogue and a test hub can never disagree
- * about whether a test belongs here: a hub URL for a test the catalogue does not list (an
- * Essential recording, or a General Listening test which will get its own catalogue) is not
- * a hub of THIS catalogue.
+ * WHERE THIS CATALOGUE LOGIN IS DECIDED.
+ *
+ * Only a formal Academic Listening FULL TEST belongs here. The owner separated this from the
+ * dedicated practice products, and the rule (with its reasoning and its evidence) lives in
+ * `src/lib/listening/product.ts` — ONE decision table, expressed once for the database and
+ * once for a loaded payload, with an agreement test that fails if the two ever disagree.
+ *
+ * A dedicated MCQ package and a question-type practice package remain exactly what they are
+ * (their canonical identity is NOT relabelled): they are simply not academic full tests, and
+ * their own surfaces will offer them.
  */
-export function isAcademicCollection(collection: string | undefined): boolean {
-  const value = collection ?? "academic";
-  return value === "academic" || value === "question_types" || value === "mcq";
+const academicMembership = academicProductSql({
+  testId: sql`${listeningTests.id}`,
+  payload: sql`${listeningPackages.payload}`,
+  payloadIsNull: sql`false`,
+});
+
+/**
+ * The membership rule for ONE already-loaded package — the hub's half of the same decision
+ * (`productOfPackage`), so a hub URL can never disagree with the catalogue that links to it.
+ */
+export function isAcademicFullTest(pkg: ListeningPackage | undefined, versionContentType?: string | null): boolean {
+  return Boolean(pkg) && productOfPackage(pkg!, versionContentType) === ACADEMIC_PRODUCT;
 }
+
+/** One bounded page of the catalogue, plus what a reader needs to move between pages. */
+export type AcademicListeningPage = {
+  cards: AcademicListeningCard[];
+  page: number;
+  pageSize: number;
+  hasMore: boolean;
+  total: number;
+};
 
 export type AcademicListeningCard = {
   testId: string;
@@ -158,12 +180,21 @@ function mcqCompleteSql(testIdColumn: AnyColumn | SQL, userId: string) {
  */
 export async function academicListeningCards(
   userId: string,
-  limit = ACADEMIC_LISTENING_PAGE_MAX,
+  page = 1,
   /** Optional executor, so a test can drive this exact read against its own real database. */
   database: typeof db = db,
-): Promise<AcademicListeningCard[]> {
+): Promise<AcademicListeningPage> {
   const exec = database;
-  if (!(await listeningSchemaReady(database))) return [];
+  const safePage = Math.max(1, Math.floor(Number(page) || 1));
+  if (!(await listeningSchemaReady(database))) return { cards: [], page: safePage, pageSize: ACADEMIC_LISTENING_PAGE_SIZE, hasMore: false, total: 0 };
+
+  // The membership test and the live-publication test are BOTH predicates, applied before any
+  // bound — never a post-filter on an unrelated cap, which is how a legitimate test disappears
+  // behind newer content on a later page.
+  const membership = and(liveWhere(listeningTests), academicMembership);
+  const [counted] = await exec.select({ total: sql<number>`count(*)::integer` }).from(listeningPackages).innerJoin(listeningTests, eq(listeningTests.id, listeningPackages.testId)).where(membership);
+  const total = Number(counted?.total ?? 0);
+
   const rows = await exec
     .select({
       testId: listeningTests.id,
@@ -187,11 +218,14 @@ export async function academicListeningCards(
     })
     .from(listeningPackages)
     .innerJoin(listeningTests, eq(listeningTests.id, listeningPackages.testId))
-    .where(and(liveWhere(listeningTests), academicCollection))
-    .orderBy(asc(listeningTests.createdAt), asc(listeningTests.sourceRef))
-    .limit(Math.max(1, Math.min(limit, ACADEMIC_LISTENING_PAGE_MAX)));
+    .where(membership)
+    // A TOTAL order, so paging can never repeat or skip a test: the authored sequence, then
+    // the authored source reference, then the row id — all three are stable.
+    .orderBy(asc(listeningTests.createdAt), asc(listeningTests.sourceRef), asc(listeningTests.id))
+    .limit(ACADEMIC_LISTENING_PAGE_SIZE)
+    .offset((safePage - 1) * ACADEMIC_LISTENING_PAGE_SIZE);
 
-  return rows.map((row) => {
+  const cards = rows.map((row) => {
     const payload = row.payload as ListeningPackage;
     const examSubmitted = Boolean(row.examSubmitted);
     const activities = packageActivities(payload, { examSubmitted, missedQuestions: Number(row.missed ?? 0) });
@@ -210,10 +244,32 @@ export async function academicListeningCards(
       orderKey: row.sourceRef ?? row.sourceId,
     };
   });
+
+  return { cards, page: safePage, pageSize: ACADEMIC_LISTENING_PAGE_SIZE, hasMore: safePage * ACADEMIC_LISTENING_PAGE_SIZE < total, total };
 }
 
 function minutesOf(seconds: number | null): number | null {
   return typeof seconds === "number" && Number.isFinite(seconds) && seconds > 0 ? Math.max(1, Math.round(seconds / 60)) : null;
+}
+
+/**
+ * Is this test id offered by THIS catalogue? The catalogue's own membership expression,
+ * evaluated for one row — the hub gate and the listing can never drift apart.
+ */
+async function isAcademicListing(testId: string, database: typeof db = db): Promise<boolean> {
+  if (!(await listeningSchemaReady(database))) return false;
+  const [row] = await database
+    .select({
+      product: productSql({
+        testId: sql`${listeningPackages.testId}`,
+        payload: sql`${listeningPackages.payload}`,
+        payloadIsNull: sql`false`,
+      }),
+    })
+    .from(listeningPackages)
+    .where(eq(listeningPackages.testId, testId))
+    .limit(1);
+  return row?.product === ACADEMIC_PRODUCT;
 }
 
 /**
@@ -236,7 +292,9 @@ export async function academicListeningTest(
   const detail = await fullListeningDetail(testId, user.role, database);
   if (!detail) return null;
   const payload = detail.pkg.payload;
-  if (!isAcademicCollection(payload.collection)) return null;
+  // A8 — the SAME decision the catalogue used, asked of the SAME expression rather than
+  // re-implemented: a hub URL can therefore never disagree with the listing that linked to it.
+  if (!(await isAcademicListing(testId, database))) return null;
   // ONE source of learner truth, shared with the generic hub.
   const { examSubmitted, missedQuestions, progress } = await listeningLearnerFacts(user.id, testId, database);
   const practice = await listeningPracticeProgress(user.id, testId, database);

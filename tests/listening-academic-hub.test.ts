@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { eq } from "drizzle-orm";
 import {
+  contentVersions,
   listeningAnswers,
   listeningAttempts,
   listeningPackages,
@@ -12,6 +13,7 @@ import { listeningPackageSchema, type ListeningPackage } from "../src/lib/listen
 import { academicListeningCards, academicListeningTest } from "../src/lib/data/listening-academic";
 import { createTestDatabase } from "./support/pglite";
 import { listeningLearnerFacts } from "../src/lib/data/full-listening";
+import { listeningProduct, type ListeningProductKind } from "../src/lib/listening/product";
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 
@@ -156,6 +158,43 @@ function fixtureB(): ListeningPackage {
   });
 }
 
+/**
+ * A legacy canonical import with NO `collection` and NO formal structure: it must never be
+ * promoted into the Academic catalogue by guesswork.
+ */
+function legacyDrill(): ListeningPackage {
+  const base = fixtureB();
+  return listeningPackageSchema.parse({
+    ...base,
+    testId: "fixture-legacy-drill",
+    title: "Fixture legacy drill",
+    collection: undefined,
+    sections: [section(1, "")],
+    questions: [question(1, 1, "completion", [], "garden")],
+    studyPack: undefined,
+  });
+}
+
+/**
+ * A legacy canonical import with NO `collection`: the only thing that may keep it in the
+ * Academic catalogue is the structure the owner stated for a formal exam — four parts and
+ * forty questions. (The QA fixture below it has neither, and is never promoted.)
+ */
+function legacyFullTest(): ListeningPackage {
+  const base = fixtureB();
+  return listeningPackageSchema.parse({
+    ...base,
+    testId: "fixture-legacy-full",
+    title: "Fixture legacy full",
+    collection: undefined,
+    sections: [1, 2, 3, 4].map((number) => section(number, "")),
+    questions: Array.from({ length: 40 }, (_, index) =>
+      question(index + 1, Math.min(4, Math.floor(index / 10) + 1), "completion", [], `key${index + 1}`),
+    ),
+    studyPack: undefined,
+  });
+}
+
 async function seed(database: Awaited<ReturnType<typeof createTestDatabase>>) {
   const { db, query } = database;
   await query(`insert into users (id, name, role) values
@@ -167,7 +206,7 @@ async function seed(database: Awaited<ReturnType<typeof createTestDatabase>>) {
   const insert = async (
     payload: ListeningPackage,
     sourceRef: string,
-    publicationState: "published" | "draft",
+    publicationState: "published" | "draft" | "archived",
     collection?: NonNullable<ListeningPackage["collection"]>,
     sourceId = payload.testId,
   ) => {
@@ -199,6 +238,7 @@ async function seed(database: Awaited<ReturnType<typeof createTestDatabase>>) {
     return row!.id;
   };
 
+  const legacyDrillPayload = legacyDrill();
   const a = await insert(fixtureA(), "listening-canonical-1-a", "published");
   const b = await insert(fixtureB(), "listening-canonical-2-b", "published");
   const draft = await insert(fixtureA(), "listening-canonical-3-draft", "draft", undefined, "fixture-a-draft");
@@ -208,7 +248,19 @@ async function seed(database: Awaited<ReturnType<typeof createTestDatabase>>) {
   // catalogue were reading a title or sorting the reference lexicographically, this row
   // would jump to the top. It must stay last, where the centre authored it.
   const late = await insert(fixtureB(), "listening-canonical-0-authored-last", "published", undefined, "fixture-b-authored-last");
-  return { a, b, draft, essential, practice, late };
+  // The dedicated MCQ training package the owner separated from Academic Listening. Its
+  // canonical identity is untouched — it is simply not offered as an Academic full test.
+  const mcq = await insert(fixtureB(), "listening-canonical-6-mcq", "published", "mcq", "fixture-mcq-day12");
+  // A General Listening section (its own catalogue, never an Academic full test).
+  const general = await insert(fixtureB(), "listening-canonical-7-general", "published", "general", "fixture-general-section");
+  // An ARCHIVED academic test: no longer offered.
+  const archived = await insert(fixtureA(), "listening-canonical-8-archived", "archived", undefined, "fixture-a-archived");
+  // A legacy canonical import with NO collection that PROVES the formal structure (four
+  // parts, forty questions): compatibility is preserved for it.
+  const legacyFull = await insert(legacyFullTest(), "listening-canonical-9-legacy-full", "published", undefined, "fixture-legacy-full");
+  // A legacy import with no collection that does NOT prove it: never promoted to Academic.
+  const legacyDrillId = await insert(legacyDrillPayload, "listening-canonical-10-legacy-drill", "published", undefined, "fixture-legacy-drill-row");
+  return { a, b, draft, essential, practice, late, mcq, general, archived, legacyFull, legacyDrill: legacyDrillId };
 }
 
 async function submit(database: Awaited<ReturnType<typeof createTestDatabase>>, testId: string, userId: string, wrong: number[]) {
@@ -229,54 +281,233 @@ async function submit(database: Awaited<ReturnType<typeof createTestDatabase>>, 
   return attempt!.id;
 }
 
-test("AL1/AL2 the catalogue is canonical, published, academic, ordered by the authored sequence and bounded", async () => {
+test("A1–A6 the catalogue offers ONLY formal Academic full tests: category, publication and compatibility", async () => {
   const database = await createTestDatabase();
   try {
     const ids = await seed(database);
-    const cards = await academicListeningCards(LEARNER, undefined, database.db);
-    const byId = new Map(cards.map((card) => [card.testId, card]));
+    const page = await academicListeningCards(LEARNER, 1, database.db);
+    const byId = new Map(page.cards.map((card) => [card.testId, card]));
+
+    // A1 — a published full Academic test appears.
+    assert.ok(byId.has(ids.a), "the published academic full test is listed");
+    // A2 — a dedicated MCQ training package is NOT an Academic full test.
+    assert.equal(byId.has(ids.mcq), false, "a dedicated MCQ package must not appear as an Academic full test");
+    // A3 — question-type practice is not a full test either.
+    assert.equal(byId.has(ids.practice), false, "question-type practice must not appear as an Academic full test");
+    // …and neither is an Essential recording or a General section.
+    assert.equal(byId.has(ids.essential), false);
+    assert.equal(byId.has(ids.general), false, "a General section belongs to the General catalogue");
+    // A4 — a draft is invisible.
+    assert.equal(byId.has(ids.draft), false, "a draft is never listed");
+    // A5 — an archived test is not offered.
+    assert.equal(byId.has(ids.archived), false, "an archived test is not offered as a new test");
+    // A6 — a legacy import that PROVES the formal structure keeps its compatibility…
+    assert.ok(byId.has(ids.legacyFull), "a provable legacy full test stays in the catalogue");
+    assert.equal(byId.get(ids.legacyFull)!.parts, 4);
+    assert.equal(byId.get(ids.legacyFull)!.questions, 40);
+    // …while one that does not prove it is never invented into the catalogue.
+    assert.equal(byId.has(ids.legacyDrill), false, "an unprovable legacy row is not promoted");
 
     assert.deepEqual(
-      cards.map((card) => card.testId),
-      [ids.a, ids.b, ids.practice, ids.late],
-      "only live academic-collection tests, in the order the centre authored them",
+      page.cards.map((card) => card.testId),
+      [ids.a, ids.b, ids.late, ids.legacyFull],
+      "only formal academic full tests, in the authored sequence",
     );
-    assert.equal(byId.has(ids.draft), false, "a draft is invisible in the learner catalogue");
-    assert.equal(byId.has(ids.essential), false, "another collection is not academic listening");
-    assert.equal(byId.get(ids.a)!.orderKey, "listening-canonical-1-a", "the authored reference identifies the row; no title is parsed");
-    // Fixture A authors seven activities, but "Review by Part" needs a submitted attempt:
-    // for a learner who has not sat the test yet the honest count is six, and the seventh
-    // appears the moment there is a result to review (asserted below).
+    assert.equal(page.total, 4);
+    assert.equal(page.hasMore, false);
+
+    // The catalogue keeps the authored ordering facts and never parses a title.
+    assert.equal(byId.get(ids.a)!.orderKey, "listening-canonical-1-a");
+    const last = page.cards[page.cards.length - 1]!;
+    assert.equal(last.testId, ids.legacyFull, "a row authored last with a textually-first reference stays last");
+    assert.equal(byId.get(ids.a)!.minutes, 30);
     assert.equal(byId.get(ids.a)!.activityCount, 6, "fixture A supports six activities before the first attempt");
     assert.equal(byId.get(ids.b)!.activityCount, 2, "fixture B supports two — the catalogue never pads");
-    assert.equal(byId.get(ids.a)!.parts, 4);
-    assert.equal(byId.get(ids.a)!.questions, 4);
-    assert.equal(byId.get(ids.a)!.minutes, 30);
-
-    // Bound: the caller's limit is honoured and can never exceed the endpoint cap.
-    const one = await academicListeningCards(LEARNER, 1, database.db);
-    assert.deepEqual(one.map((card) => card.testId), [ids.a]);
-    const huge = await academicListeningCards(LEARNER, 10_000, database.db);
-    assert.equal(huge.length, 4);
-
-    // A submitted attempt is what turns Review on — and it is this learner's own attempt,
-    // never another learner's: the OTHER learner's submission changes nothing here.
-    await submit(database, ids.a, OTHER, [1, 2]);
-    const stillUntouched = await academicListeningCards(LEARNER, undefined, database.db);
-    assert.deepEqual(stillUntouched.map((card) => card.completed), [0, 0, 0, 0]);
-    assert.equal(stillUntouched[0]!.activityCount, 6);
-    assert.equal(stillUntouched[0]!.started, false, "another learner's attempt does not start my test");
-
-    await submit(database, ids.a, LEARNER, [1]);
-    const mine = await academicListeningCards(LEARNER, undefined, database.db);
-    assert.equal(mine[0]!.started, true);
-    assert.equal(mine[0]!.activityCount, 8, "one submitted attempt with a missed question adds Review and Retry");
-    assert.equal(mine[0]!.completed, 1, "only the exam is finished so far");
-    assert.deepEqual(mine[0]!.exam, { score: 0, total: 1 });
   } finally {
     await database.close();
   }
 });
+
+test("A10 no answer key or hidden explanation is exposed by the catalogue or a hub payload", async () => {
+  const database = await createTestDatabase();
+  try {
+    const ids = await seed(database);
+    const page = await academicListeningCards(LEARNER, 1, database.db);
+    const serializedCatalogue = JSON.stringify(page);
+    for (const leak of ["correctAnswer", "\"key\"", "answers", "explanation", "evidence"]) {
+      assert.equal(serializedCatalogue.includes(leak), false, `the catalogue payload carries ${leak}`);
+    }
+    const hub = (await academicListeningTest(ids.a, { id: LEARNER, role: "student" as const }, database.db))!;
+    const serializedHub = JSON.stringify(hub);
+    for (const leak of ["correctAnswer", "\"key\"", "explanation", "evidence"]) {
+      assert.equal(serializedHub.includes(leak), false, `the hub payload carries ${leak}`);
+    }
+    // The keys really are in the database — so the assertion above is not vacuous.
+    const [row] = await database.query<{ count: number }>(`select count(*)::int as count from listening_questions where test_id = $1 and correct_answer <> ''`, [ids.a]);
+    assert.ok(Number(row!.count) > 0, "the fixture must own answer keys for this test to mean anything");
+  } finally {
+    await database.close();
+  }
+});
+
+test("A7 seventy Academic tests paginate without disappearance or duplication", async () => {
+  const database = await createTestDatabase();
+  try {
+    const ids = await seed(database);
+    const { db, query } = database;
+    const bulk: string[] = [];
+    for (let index = 0; index < 70; index += 1) {
+      const payload = listeningPackageSchema.parse({
+        ...fixtureB(),
+        testId: `fixture-bulk-${String(index).padStart(2, "0")}`,
+        title: `Fixture bulk ${String(index).padStart(2, "0")}`,
+      });
+      const [row] = await db
+        .insert(listeningTests)
+        .values({ title: payload.title, audioType: "audio", sourceRef: `qa2-bulk-${String(index).padStart(2, "0")}`, publicationState: "published", createdByUserId: OWNER, publishAt: new Date() })
+        .returning();
+      await db.insert(listeningPackages).values({ testId: row!.id, sourceId: payload.testId, payload, audioObjectKey: `k/${payload.testId}`, sourceHash: "0".repeat(64), legacyRuntime: false });
+      bulk.push(row!.id);
+    }
+    void query;
+
+    const expected = [ids.a, ids.b, ids.late, ids.legacyFull, ...bulk];
+    const seen: string[] = [];
+    let page = 1;
+    let hasMore = true;
+    while (hasMore && page <= 10) {
+      const result = await academicListeningCards(LEARNER, page, database.db);
+      assert.ok(result.cards.length <= result.pageSize, "a page stays bounded");
+      seen.push(...result.cards.map((card) => card.testId));
+      hasMore = result.hasMore;
+      page += 1;
+    }
+    assert.equal(seen.length, expected.length, `all ${expected.length} tests are reachable`);
+    assert.equal(new Set(seen).size, seen.length, "no test is repeated between pages");
+    assert.deepEqual([...seen].sort(), [...expected].sort(), "no test disappears");
+
+    // A page entirely past the end is empty rather than an error, and says so.
+    const beyond = await academicListeningCards(LEARNER, 99, database.db);
+    assert.deepEqual(beyond.cards, []);
+    assert.equal(beyond.hasMore, false);
+    assert.equal(beyond.total, expected.length);
+  } finally {
+    await database.close();
+  }
+});
+
+test("A8 the catalogue and a hub URL enforce the SAME membership", async () => {
+  const database = await createTestDatabase();
+  try {
+    const ids = await seed(database);
+    const learner = { id: LEARNER, role: "student" as const };
+    const listed = new Set((await academicListeningCards(LEARNER, 1, database.db)).cards.map((card) => card.testId));
+    for (const [name, id] of Object.entries(ids)) {
+      const hub = await academicListeningTest(id as string, learner, database.db);
+      assert.equal(Boolean(hub), listed.has(id as string), `${name}: catalogue membership and hub membership must agree`);
+    }
+  } finally {
+    await database.close();
+  }
+});
+
+test("A9 an Academic full test still offers MCQ Mastery for the MCQ questions it really contains", async () => {
+  const database = await createTestDatabase();
+  try {
+    const ids = await seed(database);
+    const hub = (await academicListeningTest(ids.a, { id: LEARNER, role: "student" as const }, database.db))!;
+    assert.ok(hub.activities.some((activity) => activity.id === "mcq"), "the source test's own MCQ questions become an activity inside ITS hub");
+    assert.ok(hub.activities.some((activity) => activity.id === "matching"));
+    assert.ok(hub.activities.some((activity) => activity.id === "completion"));
+    // The dedicated MCQ package, by contrast, is not a hub of this catalogue at all.
+    assert.equal(await academicListeningTest(ids.mcq, { id: LEARNER, role: "student" as const }, database.db), null);
+  } finally {
+    await database.close();
+  }
+});
+
+test("A11 the classifier and the SQL it is expressed in agree on every case", async () => {
+  // ONE rule, two expressions. Each case below is classified twice: by the TypeScript
+  // classifier (what a loaded payload asks) and by the SQL the catalogue actually runs.
+  const cases: { name: string; facts: Parameters<typeof listeningProduct>[0]; payload: ListeningPackage }[] = [
+    { name: "authored academic collection", facts: { collection: "academic", hasPackage: true, parts: 4, questions: 40 }, payload: pkg("academic", 4, 40) },
+    { name: "authored general collection", facts: { collection: "general", hasPackage: true, parts: 1, questions: 8 }, payload: pkg("general", 1, 8) },
+    { name: "mcq programme", facts: { collection: "mcq", hasPackage: true, parts: 4, questions: 40 }, payload: pkg("mcq", 4, 40) },
+    { name: "question-type practice", facts: { collection: "question_types", hasPackage: true, parts: 1, questions: 6 }, payload: pkg("question_types", 1, 6) },
+    { name: "essential recording", facts: { collection: "essential", hasPackage: true, parts: 1, questions: 10 }, payload: pkg("essential", 1, 10) },
+    { name: "legacy import that proves the exam", facts: { collection: null, hasPackage: true, parts: 4, questions: 40 }, payload: pkg(undefined, 4, 40) },
+    { name: "legacy drill that does not", facts: { collection: null, hasPackage: true, parts: 1, questions: 5 }, payload: pkg(undefined, 1, 5) },
+    { name: "no package at all", facts: { collection: null, hasPackage: false, parts: 0, questions: 0 }, payload: pkg(undefined, 1, 5) },
+    { name: "filed as a full test by the CMS", facts: { versionContentType: "full_test", collection: null, hasPackage: true, parts: 1, questions: 5 }, payload: pkg(undefined, 1, 5) },
+    { name: "filed as a section by the CMS", facts: { versionContentType: "section", collection: "academic", hasPackage: true, parts: 4, questions: 40 }, payload: pkg("academic", 4, 40) },
+    { name: "full-test filing wins over an mcq collection", facts: { versionContentType: "full_test", collection: "mcq", hasPackage: true, parts: 4, questions: 40 }, payload: pkg("mcq", 4, 40) },
+  ];
+
+  const database = await createTestDatabase();
+  try {
+    // The fixture users must exist: `created_by_user_id` is a real foreign key.
+    await seed(database);
+    const { db } = database;
+    const expected: { name: string; product: ListeningProductKind; id: string }[] = [];
+    for (const [index, item] of cases.entries()) {
+      const [row] = await db
+        .insert(listeningTests)
+        .values({ title: item.name, audioType: "audio", sourceRef: `qa2-agree-${index}`, publicationState: "published", createdByUserId: OWNER, publishAt: new Date() })
+        .returning();
+      await db.insert(listeningPackages).values({ testId: row!.id, sourceId: `qa2-agree-${index}`, payload: item.payload, audioObjectKey: `k/${index}`, sourceHash: "0".repeat(64), legacyRuntime: false });
+      if (item.facts.versionContentType)
+        await db.insert(contentVersions).values({
+          module: "listening",
+          contentType: item.facts.versionContentType,
+          sourceRef: `qa2-agree-${index}`,
+          versionNo: 1,
+          status: "published",
+          title: item.name,
+          contentHash: "0".repeat(64),
+          semanticHash: "0".repeat(64),
+          answerKeyHash: "0".repeat(64),
+          targetType: "listening_test",
+          targetId: row!.id,
+          createdByUserId: OWNER,
+        });
+      expected.push({ name: item.name, product: listeningProduct(item.facts), id: row!.id });
+    }
+
+    for (const item of expected) {
+      const [row] = await database.query<{ product: string }>(
+        `select (case
+          when (select v.content_type from content_versions v where v.module='listening' and v.target_id = t.id order by v.version_no desc limit 1) = 'full_test' then 'academic_full_test'
+          when (select v.content_type from content_versions v where v.module='listening' and v.target_id = t.id order by v.version_no desc limit 1) = 'section' then 'general_section'
+          when p.payload->>'collection' = 'academic' then 'academic_full_test'
+          when p.payload->>'collection' = 'general' then 'general_section'
+          when p.payload->>'collection' = 'mcq' then 'mcq_programme'
+          when p.payload->>'collection' = 'question_types' then 'question_type_practice'
+          when p.payload->>'collection' = 'essential' then 'essential_recording'
+          when coalesce(jsonb_array_length(p.payload->'sections'), 0) = 4 and coalesce(jsonb_array_length(p.payload->'questions'), 0) = 40 then 'academic_full_test'
+          else 'unclassified' end) as product
+         from listening_tests t join listening_packages p on p.test_id = t.id where t.id = $1`,
+        [item.id],
+      );
+      assert.equal(row!.product, item.product, `${item.name}: the catalogue's SQL and the payload classifier must agree`);
+    }
+
+    // …and the catalogue itself lists exactly the rows both expressions call academic.
+    const listed = new Set((await academicListeningCards(LEARNER, 1, database.db)).cards.map((card) => card.testId));
+    for (const item of expected) assert.equal(listed.has(item.id), item.product === "academic_full_test", `${item.name}: catalogue membership`);
+  } finally {
+    await database.close();
+  }
+});
+
+function pkg(collection: string | undefined, parts: number, questions: number): ListeningPackage {
+  const base = fixtureB();
+  return {
+    ...base,
+    collection: collection as ListeningPackage["collection"],
+    sections: Array.from({ length: parts }, (_, index) => section(index + 1, "")),
+    questions: Array.from({ length: questions }, (_, index) => question(index + 1, Math.min(4, Math.floor(index / 10) + 1), "completion", [], `k${index}`)),
+  };
+}
 
 test("AL3/AL4/AL5 the two fixtures produce different hubs, and no card is faked", async () => {
   const database = await createTestDatabase();
@@ -354,10 +585,13 @@ test("AL8 the fixtures are removed: the catalogue is empty again and the removal
   const database = await createTestDatabase();
   try {
     const ids = await seed(database);
-    assert.equal((await academicListeningCards(LEARNER, undefined, database.db)).length, 4);
+    assert.equal((await academicListeningCards(LEARNER, 1, database.db)).cards.length, 4, "four fixtures are Academic full tests");
 
-    await database.query(`delete from listening_tests where id in ('${ids.a}','${ids.b}','${ids.draft}','${ids.essential}','${ids.practice}','${ids.late}')`);
-    assert.equal((await academicListeningCards(LEARNER, undefined, database.db)).length, 0);
+    // Every fixture is deleted — including the ones the catalogue never showed, so the
+    // cleanup assertion covers what the seed created, not only what it listed.
+    const all = Object.values(ids);
+    await database.query(`delete from listening_tests where id = any($1::uuid[])`, [all]);
+    assert.equal((await academicListeningCards(LEARNER, 1, database.db)).cards.length, 0, "the catalogue is empty again");
     const remaining = await database.query<{ count: number }>(`select count(*)::integer as count from listening_packages`);
     assert.equal(Number(remaining[0]!.count), 0, "the packages cascade with their tests");
     const questions = await database.query<{ count: number }>(`select count(*)::integer as count from listening_questions`);

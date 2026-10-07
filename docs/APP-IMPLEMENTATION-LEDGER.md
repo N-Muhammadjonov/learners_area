@@ -21,7 +21,7 @@ committed; the remaining phases are open and are being worked in order.
 | LSN-002 | Description | **DONE** | the tab reads authored columns only (`lessons.summary` plus the attached media's `before_you_watch`) and says so when they are empty (LL4 + runtime smoke) |
 | LSN-003 | Teacher Notes | **DONE** | lesson-level Teacher Notes on `lessons.teacher_notes` (0050), authored through the single content pipeline and carried by the pinned revision; the learner page shows the lesson-level notes with the attached media item's `video_lessons.notes` as a read-time COMPATIBILITY fallback that lesson-level notes always win over. Proven by L5–L8 and L16, the authoring-desk hydration tests (E1–E6, plus the desk's own UI case), the built-server smokes 43/43 + 62/62 and the full gate above; the owner accepted the corrected contract on 2026-10-06 |
 | LSN-004 | private Student Notes (Xulosangiz) | **DONE** | the third tab on the listening lesson page renders `LessonNotesPanel` with the learner's own note from `lesson_notes` (0049), keyed by the lesson's stable id — there is no second notes system. Runtime: the author sees the note on their own page, the owner sees an empty box for the same lesson |
-| LSN-005 | Academic catalogue | **DONE** | `/app/listening/academic` lists the canonical PUBLISHED academic tests from `src/lib/data/listening-academic.ts` — the collection is a WHERE clause (`academic` plus the academic practice collections `question_types`/`mcq`, and a missing collection means academic, the same rule the existing library applies), never a post-filter, never a hard-coded list; drafts are invisible. Ordering is the authored sequence (`created_at`, with the authored `source_ref` as the deterministic tiebreak) because `listening_tests` carries NO ordering column — a display title is never parsed and no migration was added. See the Academic Listening checkpoint below |
+| LSN-005 | Academic catalogue | **DONE** | `/app/listening/academic` lists the canonical PUBLISHED Academic FULL TESTS from `src/lib/data/listening-academic.ts`, decided by the ONE product classifier (`src/lib/listening/product.ts`): the authored content-version type, then the authored `collection`, then a package with no collection ONLY when its structure proves a formal full test (4 parts / 40 questions). A dedicated MCQ package and question-type practice are legitimate content that is **NOT** an academic full test and are no longer listed as one (their canonical identity is unchanged in the database) — the older rule that folded `question_types`/`mcq`, and a missing collection, into the catalogue was **superseded by the owner's directive on 2026-10-07** (see the classification & pagination correction below). Membership and `liveWhere` are WHERE clauses applied BEFORE the bound, never a post-filter; drafts are invisible. Ordering is the authored sequence (`created_at`, `source_ref`, `id`) because `listening_tests` carries NO ordering column — a display title is never parsed and no migration was added |
 | LSN-006 | dynamic 5–10 activity hub | **DONE** | `src/lib/listening/activities.ts` is the single authority and BOTH hubs are driven by it: the existing `/app/listening/tests/[id]` and the new `/app/listening/academic/[testId]`. Support is decided from authored facts: a declared activity whose content does not exist is filtered out, Script Completion needs authored blanks across the full transcript, the graded drills need the kind the source authored (which is also the route's own precondition, so no card points at a 404), and Matching is never filed as MCQ; Review needs a submitted attempt and Retry Weak Areas needs genuinely missed questions. Counts follow authoring (2–8 in the fixtures) and are never forced to ten; empty, fake and disabled cards do not exist. See the checkpoint below |
 | LSN-007 | formal exam | NOT STARTED | strong native focus exam already exists under `/app/listening/tests/[id]` (focus group) |
 | LSN-008 | review evidence | NOT STARTED | revision/study surfaces exist |
@@ -221,6 +221,65 @@ Not yet built (Phase C continues): the Listening **Lessons** three-tab surface (
 > the Listening source ZIP and the frozen dictionary catalogue), ui **247/247/0/0**, real-PG **1309 / 1305 pass /
 > 0 fail / 4 skipped** (the same two owner assets), `qa:pg` migrations 51/51 + owner/student fixtures,
 > `typecheck` 0, `lint` 0, `build` 0, `git diff --check` 0.
+
+
+## Academic Listening — classification and pagination correction (V4 owner directive, 2026-10-07)
+
+> **What changed and why.** Two defects were confirmed in the shipped product and corrected at the
+> root, without deleting content, without relabelling any canonical identity, and without a
+> migration:
+>
+> 1. **Misclassification.** The catalogue membership test was
+>    `coalesce(payload->>'collection','academic') in ('academic','question_types','mcq')`, and the
+>    library's tab logic folded `question_types`/`mcq` into the academic tab as well. A dedicated
+>    MCQ training package and question-type practice therefore appeared to a learner as Academic
+>    full tests. The owner's rule is that they do not.
+> 2. **A 60-test cap.** The catalogue read was one clamped `.limit(60)` with no page argument, so
+>    a 61st published test was unreachable no matter what the learner did.
+>
+> **The one classifier.** `src/lib/listening/product.ts` holds ONE decision table, expressed twice
+> (a TypeScript function for a loaded payload and a SQL expression for the catalogue read) and
+> driven by the SAME matrix of cases in test A11, which fails if the two expressions ever
+> disagree. It reads authored facts in a fixed order and never a title:
+> the content version's type (`full_test` → academic, `section` → general) → the package's authored
+> `collection` (`academic`/`general`/`mcq`/`question_types`/`essential`) → a package with no
+> collection ONLY when its structure proves a formal full test (4 parts and 40 questions) →
+> otherwise `unclassified`, offered nowhere.
+>
+> | contract | evidence |
+> | --- | --- |
+> | only a formal Academic full test is in `/app/listening/academic`; a dedicated MCQ package and question-type practice are not, and their `collection` in the database is untouched | `academicProductSql` as the catalogue WHERE clause + `isAcademicFullTest` at the hub guard; A1–A6, A11; real-PG acceptance `scripts/verify-listening-classification.ts` **21/21** (70 + 5 + 3 + 4 + 2 dataset, `mcq`=5 and `question_types`=3 still in the rows) |
+> | MCQ *inside* an academic test still powers that test's own MCQ Mastery hub — classification is not a question-type whitelist | A9 (a formal test containing MCQ keeps its MCQ activity; the dedicated MCQ package has no hub) |
+> | a legacy row is never guessed into the catalogue: no collection AND no provable 4×40 structure stays `unclassified` and is **reported for owner review** instead | A1 (the unprovable fixture is excluded), real-PG acceptance (the unprovable row is `unclassified`), and the read-only triage tool `scripts/listening-classification-report.ts` (run on real PostgreSQL: the academic row is listed, the unprovable row is printed under `REVIEW REQUIRED` with its shape and attempts; nothing is written) |
+> | the same rule is applied on every learner surface that used to collapse the two collections — the library's tab logic no longer presents an MCQ package as academic | `categoryOf` in `FullListeningLibrary.tsx`; new UI case (the academic tab counts 1, the MCQ package appears only under its own tab, nothing deleted or relabelled) |
+> | the catalogue is paged, not capped: filter BEFORE the bound, a TOTAL order (`created_at`, `source_ref`, `id`), 24 per page, `?page=` clamped, Previous/Next, the total stated | `ACADEMIC_LISTENING_PAGE_SIZE = 24`, `ACADEMIC_LISTENING_PAGE_SIZE`-bounded `.limit().offset()`; A7 (70 rows: 3 pages, no repeat, no disappearance), A8 (catalogue membership == hub membership) |
+> | a learner reaching the end can PROVE the cap is gone through the rendered page, not only in a query | built-server smoke `P1–P11`: 63 published tests → page 1/2/3 = 24/24/15, every one reachable exactly once, stable across requests, `?page=99` honest and empty, `?page=-3` clamped — **50/50 checks** |
+> | no whole-catalogue download, no test number fabricated from a title, no ordering migration | one bounded page per request; A7 asserts the bound; the reader's comment records that a persisted ordering column is a separate decision (still none: 0050 is the newest migration, journal 51/51) |
+> | a NEW revision filed as `listening:full_test` cannot be published as a complete IELTS test unless it really has 4 parts / 40 questions — and the refusal tells the author what to do instead (file it as a Listening section, which publishes normally) | `fullTestStructureProblem` + `publicationIssues`; AU13 (a 5-question drill is refused with the real count, the row stays a draft, the same material publishes as a `listening:section`) |
+> | historical content is never re-validated or rewritten: only the moment of publication is judged, and existing live tests keep their state | the check runs for `to = published | scheduled` on the revision being published; AU7/AU9/AU12 fixtures publish formal tests |
+> | accept-dataset behaviour on REAL PostgreSQL, including history | `scripts/verify-listening-classification.ts` **21/21**: 70 academic listed and all reachable in 3 pages, first page bounded at 24, MCQ/question-type/draft/archived excluded, an archived test is `archived` (not deleted) while the learner's attempt on it is still readable |
+> | fixtures are deleted and the removal is proven | the verifier cleans by prefix in FK order and asserts 0 rows + an empty catalogue; the built-server smoke asserts Z1/Z2/Z3 and re-runs clean (twice, 50/50) |
+>
+> **A second, pre-existing defect was found while proving the first one.** The publication
+> validator `publicationIssues` called `author.setPublication` to *ask* whether a row could hold a
+> publication state — but that call WRITES the row. A refused publication therefore left the
+> content row live (in the worst case: learner-visible content whose revision was still a draft).
+> The probe is removed; the question is now answered by the real write, which refuses before
+> writing anything (`unsupported_schedule`), so asking can no longer publish. AU13 (a refused
+> publish leaves the row a draft) and AU13b (a refused schedule on a type with no publish moment
+> leaves the row a draft) both assert the row is untouched.
+>
+> Gates on this tree: unit **1316 tests / 1220 pass / 0 fail / 96 skipped**, ui **248/248/0/0**,
+> real-PG **1316 / 1312 pass / 0 fail / 4 skipped**, `qa:pg` migrations 51/51 + owner/student
+> fixtures, `typecheck` 0, `lint` 0, `build` 0, `git diff --check` 0, `npm run qa:gate` **GATE PASS**
+> (logs `/tmp/qa-gate-cp1-final`). The 96/4 skips are the same owner assets as before (the Listening
+> source ZIP and the frozen dictionary catalogue) — named, never counted as passes.
+>
+> **Not claimed.** General Listening (`/app/listening/general`, its catalogue and its one-section
+> experience) is the next checkpoint; the MCQ day programme is a separate workstream that is not
+> started; no route for dedicated MCQ packages is invented here — until its own surface exists they
+> remain reachable in the library under their own collection tabs, and the owner-review tool lists
+> every row the catalogue deliberately does not classify.
 
 
 ## Lesson authoring safety (owner directive, 2026-10-06 — after the semantic correction)

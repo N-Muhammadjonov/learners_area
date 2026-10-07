@@ -130,6 +130,24 @@ function packageFor(kind) {
   return rich;
 }
 
+/**
+ * A minimal published Academic test, used only to build a catalogue larger than one page.
+ * `collection: academic` is authored classification, so its product is an academic full test.
+ */
+async function createBulkTest(index, ownerId) {
+  const title = `Academic bulk fixture ${String(index).padStart(3, "0")}`;
+  const payload = {
+    schemaVersion: 1,
+    testId: `qa2-academic-bulk-${index}`,
+    title,
+    collection: "academic",
+    sections: [{ sectionNo: 1, title: "Part 1" }],
+    questions: [{ number: 1, kind: "completion", text: "Write one word", options: [], key: "form" }],
+    studyPack: { keywords: [], script: [] },
+  };
+  return createTest(payload, { sourceRef: `qa2-academic-bulk-${String(index).padStart(3, "0")}`, state: "published", ownerId, sourceId: `qa2-academic-bulk-${index}` });
+}
+
 async function createTest(payload, { sourceRef, state, ownerId, sourceId }) {
   const [test] = await q(
     `insert into listening_tests (title, audio_type, source_ref, publication_state, created_by_user_id, publish_at)
@@ -191,6 +209,35 @@ try {
   const secondTitle = catalogue.text.indexOf(completion.title);
   check("C5 the catalogue follows the authored sequence", firstTitle >= 0 && secondTitle > firstTitle, "fixture A must precede fixture B (authored first)");
   check("C5b the catalogue is read from content, not hard-coded", !catalogue.text.includes("qa2-academic-1-rich"), "the page embeds a fixture reference");
+
+  /* ------------------------------------------------- pagination (no 60-test cap) */
+  // 61 more published Academic tests: with the two rich fixtures that is 63 — more than the
+  // old hard cap, so a learner reaching the end can PROVE the catalogue does not stop at 60.
+  for (let index = 1; index <= 61; index += 1) created.push(await createBulkTest(index, owner.id));
+  const pageOne = await get("/app/listening/academic", cookie);
+  const pageOneIds = [...pageOne.text.matchAll(/data-listening-academic-card="([0-9a-f-]{36})"/g)].map((match) => match[1]);
+  const total = Number(/data-listening-academic-total="(\d+)"/.exec(pageOne.text)?.[1] ?? "0");
+  check("P1 the learner-visible catalogue knows every published test", total === 63, `total marker said ${total}`);
+  check("P2 one page is bounded and does not download the catalogue", pageOneIds.length === 24, `page 1 carried ${pageOneIds.length} cards`);
+  check("P3 page 1 offers the way forward", pageOne.text.includes("data-listening-academic-next"), "no Next link");
+  check("P4 there is no Previous link on the first page", !pageOne.text.includes("data-listening-academic-prev"));
+  const pageTwo = await get("/app/listening/academic?page=2", cookie);
+  const pageTwoIds = [...pageTwo.text.matchAll(/data-listening-academic-card="([0-9a-f-]{36})"/g)].map((match) => match[1]);
+  const pageThree = await get("/app/listening/academic?page=3", cookie);
+  const pageThreeIds = [...pageThree.text.matchAll(/data-listening-academic-card="([0-9a-f-]{36})"/g)].map((match) => match[1]);
+  check("P5 the second page carries the next 24", pageTwoIds.length === 24, `page 2 carried ${pageTwoIds.length} cards`);
+  check("P6 the third page carries the remainder", pageThreeIds.length === 15, `page 3 carried ${pageThreeIds.length} cards`);
+  check("P7 the last page offers the way back", pageThree.text.includes("data-listening-academic-prev") && !pageThree.text.includes("data-listening-academic-next"));
+  const allIds = [...pageOneIds, ...pageTwoIds, ...pageThreeIds];
+  check("P8 every published test is reachable exactly once", allIds.length === 63 && new Set(allIds).size === 63, `${allIds.length} cards, ${new Set(allIds).size} distinct`);
+  const repeat = await get("/app/listening/academic", cookie);
+  const repeatIds = [...repeat.text.matchAll(/data-listening-academic-card="([0-9a-f-]{36})"/g)].map((match) => match[1]);
+  check("P9 the order is stable across requests", repeatIds.join() === pageOneIds.join());
+  const beyondPage = await get("/app/listening/academic?page=99", cookie);
+  const beyondIds = [...beyondPage.text.matchAll(/data-listening-academic-card="([0-9a-f-]{36})"/g)].map((match) => match[1]);
+  check("P10 an empty page is honest, not an error", beyondPage.status === 200 && beyondIds.length === 0, `status ${beyondPage.status}`);
+  const junkPage = await get("/app/listening/academic?page=-3", cookie);
+  check("P11 a nonsense page argument falls back to the first page", junkPage.text.includes(pageOneIds[0]), "clamping is not applied");
 
   /* --------------------------------------------------------------------- hubs */
   const hubRich = await get(`/app/listening/academic/${richId}`, cookie);

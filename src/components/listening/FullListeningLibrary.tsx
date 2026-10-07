@@ -5,7 +5,15 @@ import { ListeningTestActions } from "./ListeningTestActions";
 import { useState } from "react";
 import type { Dictionary } from "@/lib/i18n/en";
 
-const collections = ["essential", "academic", "general"] as const;
+/**
+ * Every collection the library can show, INCLUDING the two practice products.
+ *
+ * `question_types` and `mcq` used to be folded into the academic tab, which presented a
+ * dedicated MCQ training package as if it were a formal Academic full test. A card is listed
+ * under its OWN collection: a practice package is visible under its own name and never
+ * counted as an academic test. The labels for both collections already exist in the dictionary.
+ */
+const collections = ["essential", "academic", "general", "question_types", "mcq"] as const;
 const fill = (t: string, v: Record<string, string | number>) => t.replace(/\{(\w+)\}/g, (_, k: string) => String(v[k] ?? ""));
 type Card = {
   id: string;
@@ -24,7 +32,9 @@ export function FullListeningLibrary({ cards, dict, management = false }: { card
   const [search, setSearch] = useState("");
   const [collection, setCollection] = useState("academic");
   const [section, setSection] = useState(0);
-  const categoryOf = (card: Card) => ["question_types", "mcq"].includes(card.collection ?? "") ? "academic" : card.collection ?? "academic";
+  // The card's own collection decides its tab. Nothing is reclassified here: the catalogue
+  // membership rule lives in `src/lib/listening/product.ts` and is read by the server.
+  const categoryOf = (card: Card) => card.collection ?? "academic";
   const categoryCards = cards.filter(
     (c) => categoryOf(c) === collection,
   );
