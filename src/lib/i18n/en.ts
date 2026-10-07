@@ -993,6 +993,16 @@ const en = {
     },
 
     /**
+     * Listening hub — the four destinations, and the statement that they are not mixed.
+     * Each destination's own title and subtitle come from its own group below.
+     */
+    hub: {
+      title: "Listening",
+      subtitle: "Four separate destinations: authored lessons, Academic tests, General sections, and the MCQ day programme. Nothing is mixed between them.",
+      open: "Open",
+    },
+
+    /**
      * Listening → MCQ: the dedicated 30-day programme. Chrome only — the questions
      * themselves are the owner's authored content and are never translated (or generated).
      */

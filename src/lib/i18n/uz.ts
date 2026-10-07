@@ -994,6 +994,13 @@ const uz: Dictionary = {
     backToCatalogue: "General Listening ro'yxatiga qaytish",
     },
 
+    /** Listening markazi — to'rt yo'nalish va ular aralashtirilmasligi haqidagi izoh. */
+    hub: {
+      title: "Listening",
+      subtitle: "To'rt alohida yo'nalish: darslar, Academic testlar, General bo'limlar va MCQ kunlik dasturi. Ular bir-biriga aralashtirilmaydi.",
+      open: "Ochish",
+    },
+
     /** Listening → MCQ: 30 kunlik dastur uchun interfeys matnlari (kontent tarjima qilinmaydi). */
     mcqProgram: {
       title: "Listening MCQ",
