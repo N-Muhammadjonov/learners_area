@@ -11,6 +11,7 @@ import {
 } from "@/db/schema";
 import { liveWhere, isLive } from "@/lib/services/cms/publication";
 import { isStaff, type Role } from "@/lib/auth/roles";
+import { collectionTabSql } from "@/lib/listening/product";
 /**
  * `database` is an optional executor, so a test can drive the same read against a real
  * PostgreSQL it owns (the repository-wide convention for pglite/Q2 tests) instead of being
@@ -87,15 +88,22 @@ export async function fullListeningProgress(userId: string, testId: string, data
   };
 }
 /** Only small card metadata and SQL aggregate progress are loaded. No MP3 or full source payload. */
-export async function fullListeningCards(userId: string, page = 1, management = false) {
-  if (!(await listeningSchemaReady())) return { rows: [], hasMore: false, unavailable: true };
-  const rows = await db
+export async function fullListeningCards(userId: string, page = 1, management = false, database: typeof db = db) {
+  if (!(await listeningSchemaReady(database))) return { rows: [], hasMore: false, unavailable: true };
+  const rows = await database
     .select({
       id: listeningTests.id,
       title: listeningTests.title,
       sourceId: listeningPackages.sourceId,
       authoredRuntime: sql<boolean>`${listeningPackages.payload}->'authoredRuntime' is not null`,
-      collection: sql<string>`coalesce(${listeningPackages.payload}->>'collection', 'academic')`,
+      // The tab comes from the ONE classifier (`product.ts`), never from
+      // `coalesce(collection, 'academic')`: a package with no collection that does not prove a
+      // formal full test is NOT academic, and the library says so.
+      collection: collectionTabSql({
+        testId: sql`${listeningTests.id}`,
+        payload: sql`${listeningPackages.payload}`,
+        payloadIsNull: sql`${listeningPackages.payload} is null`,
+      }),
       activityCount: sql<number>`case when ${listeningPackages.payload}->'studyPack'->'activities' is not null then jsonb_array_length(${listeningPackages.payload}->'studyPack'->'activities') when ${listeningPackages.payload}->'studyPack' is not null then 6 else 2 + case when jsonb_array_length(${listeningPackages.payload}->'keyword1') > 0 then 1 else 0 end + case when jsonb_array_length(${listeningPackages.payload}->'keyword2') > 0 then 1 else 0 end + case when jsonb_array_length(${listeningPackages.payload}->'vocabulary') > 0 then 1 else 0 end end`,
       sectionNumbers: sql<number[]>`(select jsonb_agg((s->>'number')::integer) from jsonb_array_elements(${listeningPackages.payload}->'sections') s)`,
       duration: sql<number>`(${listeningPackages.payload}->'audio'->>'durationSec')::real`,

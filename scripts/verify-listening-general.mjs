@@ -154,8 +154,17 @@ try {
   const mcqId = await createSection({ sourceRef: "qa2-general-5-mcq", title: "MCQ fixture: training package", state: "published", collection: "mcq", ownerId: owner.id, contentType: "full_test" });
   created.push(sectionId, nativeId, draftId, academicId, mcqId);
 
+  /* ------------------------------------------------------------------ navigation */
+  const modulePage = await get("/app/listening", cookie);
+  check("L0 the Listening module page offers the owner's destinations", modulePage.status === 200 && ["data-listening-lessons-entry", "data-listening-academic-entry", "data-listening-general-entry"].every((marker) => modulePage.text.includes(marker)), `status ${modulePage.status}`);
   /* ------------------------------------------------------------------ catalogue */
   const catalogue = await get("/app/listening/general", cookie);
+  // Count RENDERED anchors, not substrings: Next.js also serializes the same props into the
+  // RSC flight payload, where the marker appears once more in escaped JSON. Counting raw
+  // occurrences would report a second breadcrumb that the learner never sees.
+  const backLinks = (html) => (html.match(/<a [^>]*data-listening-general-back="true"[^>]*>/g) ?? []).length;
+  const backLinkHref = /<a [^>]*data-listening-general-back="true"[^>]*href="\/app\/listening"[^>]*>/;
+  check("L0b the General catalogue has exactly ONE way back, and it goes to Listening", backLinks(catalogue.text) === 1 && backLinkHref.test(catalogue.text), `${backLinks(catalogue.text)} rendered back link(s)`);
   check("L1 the General Listening catalogue renders for a signed-in learner", catalogue.status === 200, `status ${catalogue.status}`);
   check("L1b a published section is listed", catalogue.text.includes("Section fixture: booking a tour"), "the section is missing");
   check("L1c a natively authored section (no package) is listed too", catalogue.text.includes("Native fixture: campus tour"), "a section must not require a four-part test");
@@ -217,6 +226,7 @@ try {
   // "Full Exam" legitimately exist. What matters is which controls were rendered.
   check("L5g it is NOT presented as the four-part exam", attempt.text.includes('data-listening-attempt-mode="section"') && !attempt.text.includes("data-listening-exam-sections"), "the four-part exam framing was used for a single section");
   check("L5h it is not an activity hub", !attempt.text.includes("data-listening-academic-activity"));
+  check("L5h2 the attempt does not add a SECOND way back (one navigation pair, not two)", !/<a [^>]*data-(listening-general|listening-academic)-back="true"/.test(attempt.text), "a second breadcrumb was rendered inside the attempt");
   check("L5i the reading text is the canonical vocabulary surface", attempt.text.includes("data-clickable-text"), "the learner cannot look up a word in the section");
   check("L5j highlight is offered on that text", attempt.text.includes('data-highlight-surface="true"'), "highlight is not available in the section");
   check("L6 no answer key or hidden explanation reaches the section attempt", !attempt.text.includes(SECRET_KEY) && !attempt.text.includes(HIDDEN), "a key or explanation leaked");

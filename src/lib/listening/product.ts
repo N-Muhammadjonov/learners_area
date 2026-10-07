@@ -217,6 +217,52 @@ export function generalProductSql(input: { testId: SQL | unknown; payload: SQL |
   return sql`${productSql(input)} = ${GENERAL_PRODUCT}`;
 }
 
+/* -------------------------------------------------------------------------- */
+/* The library tab a card is filed under                                      */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * The tabs the Listening library can show — INCLUDING `uncatalogued`.
+ *
+ * The distinction matters: a row the classifier cannot prove is NOT an academic full test, and
+ * the library used to label every such row `coalesce(collection, 'academic')`. That is the same
+ * invented classification the owner forbade for the catalogue, in a second place. A card is
+ * filed under the product the source actually IS, and a source that proves nothing lands in an
+ * honest `uncatalogued` tab (which is only rendered when such a card exists).
+ */
+export const COLLECTION_TABS = ["essential", "academic", "general", "question_types", "mcq", "uncatalogued"] as const;
+export type CollectionTab = (typeof COLLECTION_TABS)[number];
+
+/** The ONE product → tab mapping, next to the ONE decision table above. */
+export function collectionTabOf(product: ListeningProductKind): CollectionTab {
+  switch (product) {
+    case "academic_full_test":
+      return "academic";
+    case "general_section":
+      return "general";
+    case "mcq_programme":
+      return "mcq";
+    case "question_type_practice":
+      return "question_types";
+    case "essential_recording":
+      return "essential";
+    default:
+      return "uncatalogued";
+  }
+}
+
+/** The same mapping, expressed for a catalogue read (never a hard-coded collection). */
+export function collectionTabSql(input: { testId: SQL | unknown; payload: SQL | unknown; payloadIsNull: SQL | unknown }): SQL<string> {
+  return sql`case ${productSql(input)}
+    when 'academic_full_test' then 'academic'
+    when 'general_section' then 'general'
+    when 'mcq_programme' then 'mcq'
+    when 'question_type_practice' then 'question_types'
+    when 'essential_recording' then 'essential'
+    else 'uncatalogued'
+  end`;
+}
+
 /** Named for the reader: the collections that never mean "Academic full test". */
 export const nonAcademicCollections = NON_ACADEMIC_COLLECTIONS;
 

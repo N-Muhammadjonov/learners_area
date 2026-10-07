@@ -8,6 +8,7 @@ import {
   listeningMcqSessions,
 } from "@/db/schema";
 import { isLive, liveWhere } from "@/lib/services/cms/publication";
+import { collectionTabSql } from "@/lib/listening/product";
 
 export async function listActiveTests() {
   const { listeningSchemaReady } = await import("./listening-schema-ready");
@@ -200,9 +201,39 @@ export async function getOwnedMcqSession(userId: string, sessionId: string) {
   );
 }
 
-/** Legacy tests remain visible beside imported packages in the shared catalogue. */
-export async function legacyListeningCards(userId:string,management=false) {
+/**
+ * Tests that carry NO canonical package, shown beside the packages in the shared library.
+ *
+ * Two corrections live here, both the same mistake in a second place — a card must never STATE
+ * something untrue about its content:
+ *
+ *   1. The collection was hard-coded `'academic'`, so a Listening SECTION authored through the
+ *      CMS was presented as Academic Listening. It is now read from the ONE classifier the
+ *      catalogues use, which files a package-less row by the revision the CMS authored
+ *      (`listening:full_test` → academic, `listening:section` → general) and leaves anything
+ *      unprovable honestly `uncatalogued`.
+ *   2. Every row claimed `40 questions`. A row with no package has whatever questions its
+ *      canonical rows hold, so the card now states the REAL count.
+ *
+ * The attempt flags were also silently broken: the fragments interpolated a bare column, which
+ * the database resolves INSIDE the subquery (`a.test_id = a.id`, i.e. never true), so a learner
+ * with a finished attempt on a package-less test was never shown as having started it. The
+ * references are qualified now.
+ */
+export async function legacyListeningCards(userId:string,management=false,database:typeof db=db) {
  const { listeningSchemaReady } = await import("./listening-schema-ready");
- const ready=await listeningSchemaReady();
- return db.select({id:listeningTests.id,title:listeningTests.title,duration:sql<number>`0`,activityCount:sql<number>`1`,completed:sql<number>`case when exists(select 1 from listening_attempts a where a.test_id=${listeningTests.id} and a.user_id=${userId} and a.status='completed') then 1 else 0 end`,started:sql<boolean>`exists(select 1 from listening_attempts a where a.test_id=${listeningTests.id} and a.user_id=${userId})`,collection:sql<string>`'academic'`,legacy:sql<boolean>`true`}).from(listeningTests).where(and(management?sql`${listeningTests.publicationState} <> 'archived'`:liveWhere(listeningTests),ready?sql`not exists(select 1 from listening_packages p where p.test_id=${listeningTests.id})`:undefined)).orderBy(asc(listeningTests.createdAt)).limit(200);
+ const ready=await listeningSchemaReady(database);
+ // Qualified on purpose: an unqualified `id` inside the subqueries binds to the ATTEMPT row.
+ const testId=sql.raw('"listening_tests"."id"');
+ return database.select({
+  id:listeningTests.id,
+  title:listeningTests.title,
+  duration:sql<number>`0`,
+  activityCount:sql<number>`1`,
+  completed:sql<number>`case when exists(select 1 from listening_attempts a where a.test_id=${testId} and a.user_id=${userId} and a.status='completed') then 1 else 0 end`,
+  started:sql<boolean>`exists(select 1 from listening_attempts a where a.test_id=${testId} and a.user_id=${userId})`,
+  collection:collectionTabSql({testId,payload:sql`null::jsonb`,payloadIsNull:sql`true`}),
+  questions:sql<number>`(select count(*)::int from listening_questions q where q.test_id=${testId})`,
+  legacy:sql<boolean>`true`,
+ }).from(listeningTests).where(and(management?sql`${listeningTests.publicationState} <> 'archived'`:liveWhere(listeningTests),ready?sql`not exists(select 1 from listening_packages p where p.test_id=${testId})`:undefined)).orderBy(asc(listeningTests.createdAt)).limit(200);
 }

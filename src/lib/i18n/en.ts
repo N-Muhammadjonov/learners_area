@@ -3241,6 +3241,9 @@ const en = {
       start: "▶ Start",
       empty: "No matching published tests in this collection.",
       previous: "Previous tests",
+      uncatalogued: "❔ Uncategorised",
+      questionsMeta: "{n} questions",
+      legacyMeta: "Published on its own, outside a package.",
     },
     examScreen: {
       noteTaking: "Note taking",

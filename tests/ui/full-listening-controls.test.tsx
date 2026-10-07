@@ -222,6 +222,10 @@ test("Library search and category filters operate locally without reloading or f
           duration: 1645,
           completed: 2,
           started: true,
+          // This card is a package card, so it is filed under a collection. Without one it is
+          // honestly UNCATEGORISED (the library no longer falls back to "academic"), which is
+          // the correct tab for a row that proves nothing — asserted in its own test.
+          collection: "academic",
         },
       ],
     }),
