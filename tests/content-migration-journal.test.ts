@@ -39,8 +39,8 @@ function planned(appliedCount: number): { apply: string[]; skip: string[] } {
   return { apply, skip };
 }
 
-test("J1 the journal is well-formed: 51 entries, idx equals position, unique tags, strictly increasing when", () => {
-  assert.equal(journal.entries.length, 51, "0000…0050 — the 48 Content OS migrations, the typing trainer, private lesson notes, and the lesson learning area + Teacher Notes");
+test("J1 the journal is well-formed: 52 entries, idx equals position, unique tags, strictly increasing when", () => {
+  assert.equal(journal.entries.length, 52, "0000…0051 — the 48 Content OS migrations, the typing trainer, private lesson notes, the lesson learning area + Teacher Notes, and the Listening question revision set");
   journal.entries.forEach((entry, index) => {
     assert.equal(entry.idx, index, `${entry.tag}: idx must equal its position in the journal`);
     assert.equal(entry.version, "7");
@@ -60,7 +60,7 @@ test("J2 the collision is resolved exactly once, and the migration that keeps 00
 
   assert.equal(journal.entries[40]!.tag, "0040_content_imports");
   assert.equal(journal.entries[48]!.tag, "0048_typing_trainer");
-  assert.equal(journal.entries.filter((e) => e.breakpoints).length, 51);
+  assert.equal(journal.entries.filter((e) => e.breakpoints).length, 52);
 
   // The kept entry keeps its ORIGINAL `when` — that value is recorded in every database
   // that applied it, so changing it would make the migrator re-apply (or skip) it.
@@ -104,10 +104,10 @@ test("J4 the two source lines' own states stay safe under the merged journal", (
 
   const after0039 = planned(40);
   assert.equal(after0039.apply[0], "0040_content_imports", "the next step after 0039 is the import ledger");
-  assert.equal(after0039.apply.length, 11, "0040…0050 are pending");
+  assert.equal(after0039.apply.length, 12, "0040…0051 are pending");
 
   const after0047 = planned(48);
-  assert.deepEqual(after0047.apply, ["0048_typing_trainer", "0049_lesson_notes", "0050_lesson_learning_area"], "the accepted schema needs the typing trainer, the private notes table, then the lesson learning area");
+  assert.deepEqual(after0047.apply, ["0048_typing_trainer", "0049_lesson_notes", "0050_lesson_learning_area", "0051_listening_question_revision"], "the accepted schema needs the typing trainer, the private notes table, the lesson learning area, then the Listening question-set revision column");
 
   // 0049 is hand-written too (the snapshot chain stops at 0027) and it is additive in
   // BOTH directions: it creates a table, and its backfill COPIES text into it before
@@ -132,6 +132,17 @@ test("J4 the two source lines' own states stay safe under the merged journal", (
   assert.doesNotMatch(areaSql, /\bUPDATE\s+("?lessons"?)\s+SET\b/i, "0050 must not rewrite historical lesson rows");
   assert.doesNotMatch(areaSql, /\bDELETE\s+FROM\b/i, "0050 must not delete anything");
   assert.doesNotMatch(areaSql, /DROP\s+COLUMN/i, "0050 must not drop a column");
+
+  // 0051 is hand-written in the same style and is ADDITIVE ONLY: it adds one NULLABLE column,
+  // its index and its foreign key, then backfills NOTHING. Every historical question row keeps
+  // its identity and stays unversioned, which is what lets a historical attempt keep reading the
+  // rows its answers were recorded against (§9, §10, §41).
+  const revisionSql = readFileSync("drizzle/0051_listening_question_revision.sql", "utf8");
+  assert.match(revisionSql, /ADD COLUMN IF NOT EXISTS "content_version_id" uuid/);
+  assert.match(revisionSql, /CREATE INDEX IF NOT EXISTS "listening_questions_version_set_idx"/);
+  assert.match(revisionSql, /ON DELETE set null/i, "deleting a revision must never delete a question");
+  assert.doesNotMatch(revisionSql, /\bUPDATE\s+"?listening_questions"?\s+SET\b/i, "0051 must not rewrite an existing question row");
+  assert.doesNotMatch(revisionSql, /\bDELETE\s+FROM\b/i, "0051 must not delete anything");
 
   // The learners-area-next line's accepted states are its prefixes up to 0039 (0040 is not
   // in ANY approved apply list, which is why the typing trainer ships with a bundled

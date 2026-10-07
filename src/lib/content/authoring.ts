@@ -295,7 +295,20 @@ export async function publishContentVersion(
   let synced: PublicationSync = "ok";
   const author = resolveModuleAuthor(version.module, version.contentType);
   if (author && version.targetId)
-    synced = await author.setPublication(tx, { targetId: version.targetId, sourceRef: version.sourceRef }, { state: request.to, publishAt });
+    // The revision identity travels with the call: a content type whose live content is
+    // materialized FROM the revision (Listening) writes exactly this version's material, and
+    // types that only flip a flag ignore the extra fields.
+    synced = await author.setPublication(
+      tx,
+      {
+        targetId: version.targetId,
+        sourceRef: version.sourceRef,
+        versionId: version.id,
+        contentSnapshot: version.contentSnapshot,
+        title: version.title,
+      },
+      { state: request.to, publishAt },
+    );
   if (synced === "unsupported_schedule")
     return {
       ok: false,

@@ -6,6 +6,7 @@ import { listeningPackages, activityEvents, listeningAnswers, listeningAttempts,
 import { gradePackage } from "@/lib/listening/package";
 import { gradeAnswer } from "@/lib/services/listening/grading";
 import { revisionForListeningTest } from "@/lib/content/attempt-binding";
+import { listeningQuestionsForAttempt } from "@/lib/listening/question-set";
 
 /** Serialize starts for one authenticated account; retries resume an existing attempt. */
 export async function startListeningAttempt(userId: string, testId: string, database = db) {
@@ -31,7 +32,9 @@ export async function submitListeningAttempt(userId: string, id: string, answers
     const [attempt] = await tx.select().from(listeningAttempts).where(and(eq(listeningAttempts.id, id), eq(listeningAttempts.userId, userId))).for("update");
     if (!attempt) return { error: "not_found" as const };
     if (attempt.status !== "in_progress") return { error: "already_submitted" as const };
-    const questions = await tx.query.listeningQuestions.findMany({ where: eq(listeningQuestions.testId, attempt.testId) });
+    // The SAME set the learner was given. Grading against another revision's questions would
+    // mark a correct answer wrong (or leak a later key) the moment an item is revised.
+    const questions = await listeningQuestionsForAttempt(attempt, tx as never);
     const allowed = new Set(questions.map((q) => q.id));
     const answerByQuestion = new Map(answers.map((a) => [a.questionId, a.answer]));
     if (answerByQuestion.size !== answers.length || answers.some((a) => !allowed.has(a.questionId))) return { error: "invalid_input" as const };

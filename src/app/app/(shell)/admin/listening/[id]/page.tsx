@@ -2,9 +2,10 @@ import { BackLink } from "@/components/ui/BackLink";
 import { notFound } from "next/navigation";
 import { redirect } from "next/navigation";
 import { requireAdministrator } from "@/lib/auth/current-user";
-import { asc, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
-import { listeningTests, listeningQuestions } from "@/db/schema";
+import { listeningTests } from "@/db/schema";
+import { listeningQuestionsForLiveTest } from "@/lib/listening/question-set";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { Card } from "@/components/ui/Card";
 import { MaterialPlayer } from "@/components/speaking/MaterialPlayer";
@@ -23,10 +24,9 @@ export default async function AdminTestDetailPage({ params }: { params: Promise<
   const dict = getDictionary(await getLocale());
   const test = await db.query.listeningTests.findFirst({ where: eq(listeningTests.id, id) });
   if (!test) notFound();
-  const questions = await db.query.listeningQuestions.findMany({
-    where: eq(listeningQuestions.testId, id),
-    orderBy: asc(listeningQuestions.order),
-  });
+  // The desk shows THE SET LEARNERS GET (the live revision's set, else the legacy set), so staff
+  // review and drill in exactly what a learner would meet — not the union of every revision.
+  const questions = await listeningQuestionsForLiveTest(id);
 
   return (
     <div className="listening-workspace mx-auto flex max-w-3xl flex-col gap-4">

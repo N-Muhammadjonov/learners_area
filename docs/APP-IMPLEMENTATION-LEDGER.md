@@ -405,3 +405,41 @@ Not yet built (Phase C continues): the Listening **Lessons** three-tab surface (
 | id | requirement | status | evidence |
 | --- | --- | --- | --- |
 | LSN-024 | **Safe lesson authoring**: an author opens an existing lesson, sees its whole editable content, changes one thing and saves it without erasing anything; a live lesson is revised, never overwritten | **DONE** | `tests/lesson-authoring-revision.test.ts` E1–E6, R1–R7, A1–A7, N1–N4 (24 tests, real PostgreSQL); built-server human scenario `scripts/verify-lesson-authoring-safety.mjs` **62/62** (hydration, revision, single-field save, publication, Xulosangiz, capability boundary, honest errors, cleanup verified); the earlier acceptance re-run at **43/43**. Gates on this tree: `tsc` 0 · lint clean · build 120/120 · `npm test` 1303 tests / 0 fail · `test:ui` 242/242 · `qa:pg` 51/51 · migration proofs 25/25 + 3/3 unchanged |
+| LSN-025 | **A draft revision may not touch published content** (the §9 data-safety defect: a draft save rewrote the live row and DELETE+INSERTed its questions, destroying historical per-question review through the `listening_answers` cascade) | **IMPLEMENTED — awaiting the full gate on this tree** | `tests/listening-revision-safety.test.ts` R1–R7 (real PostgreSQL, residue asserted 0) + the updated AU3 + J1–J5; focused suites 40/40 and the Listening suites 112/112 (2 by-design skips); fresh migration 52/52; accepted-state upgrade rehearsal `scripts/verify-listening-revision-migration.mjs` **10/10**; typecheck 0, lint 0. Remaining before DONE: the full gate (`npm test`/`test:ui`/`qa:gate`) and the built-server scenario on this tree |
+
+## Data safety — a draft revision may not touch published content (V4 owner directive §9–§11, §10, §41/G8 — 2026-10-07)
+
+> **The defect, proven before it was fixed.** `saveContentDraft` for `listening:full_test` /
+> `listening:section` called `persistListening`, which projected every save straight into the
+> canonical row: it UPDATED `listening_tests` (title, audio, transcript) and then
+> `DELETE`d + re-`INSERT`ed the item's `listening_questions`. Because
+> `listening_answers.question_id` is `ON DELETE CASCADE`, editing a PUBLISHED item destroyed the
+> per-question review of every attempt ever made on it, and a learner who was mid-attempt resumed
+> into a different question set (the draft's) the next time an answer was saved. Publishing wrote
+> no question rows at all — it only flipped visibility — so the author's edits reached learners by
+> way of the destructive path or not at all. `saveContentDraft` already refused to rewrite a
+> published REVISION (`published_is_immutable`); it never refused to rewrite what learners were
+> reading. The binding machinery (`listening_attempts.content_version_id`, `attempt-binding.ts`)
+> already existed — the content path simply did not use it.
+>
+> | contract | evidence |
+> | --- | --- |
+> | a draft save writes NO canonical question rows and leaves the live row alone; the authored content lives in the revision snapshot, which is what preview reads | `persistListening` (`src/lib/content/authors.ts`); `tests/listening-revision-safety.test.ts` R1 (title, state and question ids unchanged after a v2 save); `tests/content-authoring-publication.test.ts` AU3 (a draft writes zero canonical rows, the snapshot carries the canonical type id) |
+> | the live set is materialized at PUBLICATION and nowhere else | `materializeListeningRevision` + both listening authors' `setPublication`; R2 (a draft has no rows and is invisible), R3, R6 |
+> | publishing a revision never deletes another revision's rows, so historical answers keep pointing at real questions | materialization replaces only rows stamped with ITS OWN version id; R3 (v1's rows are still there, v2's rows are NEW ids), R7 (no orphaned answer) |
+> | an in-progress attempt keeps the questions it started with, a finished attempt keeps its score, and a NEW attempt gets the published revision | R4, R5, R6 (a third learner is used for the new-attempt case because `start` correctly RESUMES an open attempt for the same learner) |
+> | the catalogue states the LIVE set's size — never the sum of every revision's rows | `listeningQuestionCountForLiveTest`; R2 (`2`) and R6 (`2` after both sets exist) |
+> | an item whose canonical set came from a canonical writer (the import pipeline, the admin desk, the seed) keeps that set: re-keying it into a revision's rows would strand every historical answer | `listeningCanonicalSetOwnership` → `"none" \| "revision" \| "legacy"`; publication materializes only when the item is not `legacy` |
+> | a question row added by a staff append cannot silently do nothing on a live item, and the authoring desk shows the set learners actually get | `POST /api/admin/listening/tests/:id/questions` refuses a published/scheduled item with `revision_managed` (409, localized EN + UZ); the desk reads `listeningQuestionsForLiveTest` |
+> | the MCQ Mastery drill only ever opens questions of the CURRENT set | `listeningQuestionIsLive` in `POST /api/listening/mcq` and both handlers of `/api/listening/mcq/:id` |
+> | "questions missed" counts THE ATTEMPT'S OWN SET — a v1 attempt is never told it missed questions that did not exist when it was answered | `missedForAttempt` (`src/lib/data/full-listening.ts`) resolves the attempt's bound set first |
+> | the schema change is additive, one nullable column, hash-pinned, and rewrites nothing | `drizzle/0051_listening_question_revision.sql` (`content_version_id` uuid NULL, FK `ON DELETE set null`, index `(test_id, content_version_id)`, every statement `IF NOT EXISTS`); journal idx 51; `ALLOWED_PENDING` + `APPROVED_INTEGRATION_SHA256` in `scripts/preview-qa-migrate.mjs`; J1–J5 assert the shape and that 0051 contains no `UPDATE`/`DELETE` |
+> | the upgrade is rehearsed against an ACCEPTED-STATE database, not only a fresh one | `scripts/verify-listening-revision-migration.mjs` — builds the pre-0051 schema on real PostgreSQL, loads a published test with 2 legacy questions, an attempt and 2 answers, applies the real file, then proves: 10/10 checks (column/index/FK present; no row created or destroyed; every existing question stays unversioned; no orphaned answer; deleting a revision NULLs the column instead of cascading; the question's answers survive; re-apply is a no-op) |
+> | 0051 applies cleanly to a fresh database too | `npm run -s qa:pg` → `migrations ok: 52 / 52` |
+> | the revision snapshot carries the whole item — audio fields and the authored explanation included — so publication can rebuild the set and preview shows what publication will write | `listeningProjection`; `questionRowsFromSnapshot` maps `explanation ?? ""` (recording that none was authored, never inventing one) |
+>
+> **Deliberate non-changes, recorded so they are not "fixed" later.** The import pipeline, the admin
+> append route (for draft items) and the seed remain canonical writers: they insert legacy
+> (unversioned) rows deliberately, and the ownership rule above protects exactly those items. A
+> formal `listening:full_test` authored natively still has no canonical package — already an
+> OWNER-REVIEW item, unchanged here.

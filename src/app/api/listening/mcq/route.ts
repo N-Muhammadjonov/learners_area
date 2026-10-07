@@ -4,6 +4,7 @@ import { z } from "zod";
 import { and, eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { listeningQuestions, listeningMcqSessions } from "@/db/schema";
+import { listeningQuestionIsLive } from "@/lib/listening/question-set";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { buildMcqPayload } from "@/lib/services/listening/mcq-payload";
 
@@ -31,6 +32,9 @@ export async function POST(req: NextRequest) {
   }
   const access = await mcqAccess(user, question.testId);
   if (access !== "ok") return NextResponse.json({ error: access }, { status: access === "not_found" ? 404 : 409 });
+  // Drills always use the CURRENT set: a replaced revision's question is history, not practice.
+  if (!(await listeningQuestionIsLive(question.id, question.testId)))
+    return NextResponse.json({ error: "not_found" }, { status: 404 });
 
 
   const existing = await db.query.listeningMcqSessions.findFirst({

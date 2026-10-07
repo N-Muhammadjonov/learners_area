@@ -10,6 +10,7 @@ import {
 } from "@/db/schema";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { isUuid } from "@/lib/validation/ids";
+import { listeningQuestionsForAttempt } from "@/lib/listening/question-set";
 const schema = z.object({
   answers: z.record(z.string().uuid(), z.string().max(500)),
   audioPosition: z.number().min(0).max(7200),
@@ -57,10 +58,7 @@ export async function PUT(
     const authoredDuration = pkg?.payload.audio.durationSec;
     if (typeof authoredDuration === "number" && parsed.data.audioPosition > authoredDuration)
       return { error: "invalid_input" };
-    const qs = await tx
-      .select({ id: listeningQuestions.id })
-      .from(listeningQuestions)
-      .where(eq(listeningQuestions.testId, a.testId));
+    const qs = await listeningQuestionsForAttempt(a, tx as never);
     const allowed = new Set(qs.map((q) => q.id));
     if (Object.keys(parsed.data.answers).some((id) => !allowed.has(id)))
       return { error: "invalid_input" };

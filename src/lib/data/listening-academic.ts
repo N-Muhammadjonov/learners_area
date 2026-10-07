@@ -1,7 +1,7 @@
 import "server-only";
 import { and, asc, eq, sql, type AnyColumn, type SQL } from "drizzle-orm";
 import { db } from "@/db/client";
-import { listeningAttempts, listeningPackages, listeningQuestions, listeningTests } from "@/db/schema";
+import { listeningAttempts, listeningPackages, listeningTests } from "@/db/schema";
 import { ACADEMIC_PRODUCT, academicProductSql, productSql, productOfPackage } from "@/lib/listening/product";
 import { liveWhere } from "@/lib/services/cms/publication";
 import { isUuid } from "@/lib/validation/ids";

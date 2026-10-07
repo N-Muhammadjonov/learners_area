@@ -120,7 +120,7 @@ test("AU2 a source reference is a stable slug, and a title-shaped one is refused
   }
 });
 
-test("AU3 creating a listening test from scratch writes the rows AND the draft revision, invisible to students", async () => {
+test("AU3 creating a listening test from scratch writes the item and its revision — and NO canonical rows until publication", async () => {
   const database = await createTestDatabase();
   try {
     const { db, query } = database;
@@ -150,11 +150,25 @@ test("AU3 creating a listening test from scratch writes the rows AND the draft r
     );
     assert.equal(tests.length, 1);
     assert.equal(tests[0]!.publication_state, "draft");
+    /*
+     * A draft writes NO canonical rows. The live question set is materialized at PUBLICATION and
+     * nowhere else (§9, §10, §41): that is what makes "a draft edit cannot touch published
+     * content" true, because until the draft is published there is nothing canonical to touch.
+     */
     const questions = await db.select().from(listeningQuestions).where(eq(listeningQuestions.testId, tests[0]!.id));
-    assert.equal(questions.length, 1);
-    assert.equal(questions[0]!.typeCode, "mcq_single", "the canonical type id is recorded (the alias `multiple_choice` resolves to it)");
-    assert.equal(questions[0]!.type, "multiple_choice");
-    assert.equal(questions[0]!.keywords, "recommend");
+    assert.equal(questions.length, 0, "a draft revision writes no canonical question rows");
+
+    // Nothing is lost: the authored question is in the revision's own snapshot, with its canonical
+    // type id (the alias `multiple_choice` resolves to it) — which is what publication materializes.
+    const snapshot = (await db
+      .select()
+      .from(contentVersions)
+      .where(eq(contentVersions.id, saved.version.id)))[0]!.contentSnapshot as {
+      questions: { type: string; keywords?: string }[];
+    };
+    assert.equal(snapshot.questions.length, 1);
+    assert.equal(snapshot.questions[0]!.type, "mcq_single", "the canonical type id is recorded in the revision");
+    assert.equal(snapshot.questions[0]!.keywords, "recommend");
   } finally {
     await database.close();
   }

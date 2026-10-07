@@ -858,6 +858,17 @@ export const listeningTests = pgTable("listening_tests", {
 export const listeningQuestions = pgTable("listening_questions", {
   id: uuid("id").defaultRandom().primaryKey(),
   testId: uuid("test_id").notNull().references(() => listeningTests.id, { onDelete: "cascade" }),
+  /**
+   * WHICH QUESTION SET this row belongs to (0051).
+   *
+   * The set a PUBLISHED revision declared, or NULL for the legacy set written before question
+   * sets were version-bound. A revision's set is materialized at publication and only rows of
+   * that same revision are ever replaced, so a superseded revision's questions — and the
+   * `listening_answers` that reference them — are never deleted.
+   *
+   * `ON DELETE SET NULL`: deleting a revision must never delete a question.
+   */
+  contentVersionId: uuid("content_version_id").references(() => contentVersions.id, { onDelete: "set null" }),
   order: integer("order").notNull(),
   type: listeningQuestionTypeEnum("type").notNull(),
   /**

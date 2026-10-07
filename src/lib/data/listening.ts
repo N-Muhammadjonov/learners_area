@@ -8,6 +8,7 @@ import {
   listeningMcqSessions,
 } from "@/db/schema";
 import { isLive, liveWhere } from "@/lib/services/cms/publication";
+import { listeningQuestionsForAttempt, listeningQuestionsForLiveTest } from "@/lib/listening/question-set";
 import { collectionTabSql } from "@/lib/listening/product";
 
 export async function listActiveTests() {
@@ -51,13 +52,20 @@ export async function getAttemptDetail(attemptId: string, userId: string) {
   });
   if (!attempt) return null;
 
-  const [testData, answers] = await Promise.all([
-    getTestWithQuestions(attempt.testId),
+  /*
+   * The questions come from THIS attempt's own set — the revision it was bound to when it
+   * started, or the legacy set for an unbound attempt. Reading every row of the item would mix
+   * sets once an item has been revised, and would show a learner mid-attempt the questions of a
+   * revision they never started.
+   */
+  const [test, questions, answers] = await Promise.all([
+    db.query.listeningTests.findFirst({ where: eq(listeningTests.id, attempt.testId) }),
+    listeningQuestionsForAttempt(attempt),
     db.query.listeningAnswers.findMany({ where: eq(listeningAnswers.attemptId, attemptId) }),
   ]);
-  if (!testData) return null;
+  if (!test) return null;
 
-  return { attempt, test: testData.test, questions: testData.questions, answers };
+  return { attempt, test, questions, answers };
 }
 
 export function listUserAttempts(userId: string) {
@@ -174,11 +182,9 @@ export function listSubmittedAttempts(userId: string, testId: string) {
 }
 
 /** The multiple-choice questions of a test, in order — used by MCQ Mastery. */
-export function listMcqQuestions(testId: string) {
-  return db.query.listeningQuestions.findMany({
-    where: and(eq(listeningQuestions.testId, testId), eq(listeningQuestions.type, "multiple_choice")),
-    orderBy: asc(listeningQuestions.order),
-  });
+export async function listMcqQuestions(testId: string) {
+  // Of the LIVE set: practising a revised item must drill the questions it currently asks.
+  return (await listeningQuestionsForLiveTest(testId)).filter((question) => question.type === "multiple_choice");
 }
 
 /**

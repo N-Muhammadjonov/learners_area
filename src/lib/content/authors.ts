@@ -30,6 +30,11 @@ import type { PgTable } from "drizzle-orm/pg-core";
 type UpdateTarget = PgTable;
 import type { ImportTransaction } from "@/lib/import/core/dry-run";
 import { resolveQuestionType, storageTypeFor } from "@/lib/content/question-types";
+import {
+  applyListeningRevisionToRow,
+  listeningCanonicalSetOwnership,
+  materializeListeningRevision,
+} from "@/lib/listening/question-set";
 import { LESSON_TEACHER_NOTES_MAX, materializeLessonRow, saveLessonStructure } from "@/lib/content/lessons";
 import { versionContent, type VersionRecord } from "@/lib/content/versions";
 import { LEARNING_AREAS } from "@/lib/content/learning-areas";
@@ -103,7 +108,20 @@ export type ModuleAuthor = {
    */
   setPublication: (
     tx: ImportTransaction,
-    version: { targetId: string | null; sourceRef: string },
+    version: {
+      targetId: string | null;
+      sourceRef: string;
+      /**
+       * The revision being moved. A content type whose live CONTENT is materialized FROM the
+       * revision (Listening) needs it to write the right version's material; a type that only
+       * flips a flag ignores it. Optional so no other author must change.
+       */
+      versionId?: string | null;
+      /** The revision's authored payload, for the same reason. */
+      contentSnapshot?: unknown;
+      /** The revision's authored title, when the live row should follow it. */
+      title?: string | null;
+    },
     publication: PublicationPoint,
   ) => Promise<PublicationSync>;
   /** The moment a scheduled revision opens, read from the content row itself. */
@@ -205,8 +223,22 @@ const listeningPayload = zod.object({
  * import pipeline produces, so `semanticHashOf`/`gradeForType` behave identically
  * for a test that was typed into a form and one that arrived as a package (§44).
  */
-function listeningProjection(parsed: zod.infer<typeof listeningPayload>): { questions: Record<string, unknown>[] } {
+function listeningProjection(parsed: zod.infer<typeof listeningPayload>) {
   return {
+    /*
+     * The audio fields and the explanation are part of the revision ON PURPOSE.
+     *
+     * A revision snapshot is the record a learner's attempt is bound to, so it must describe the
+     * whole item: publication materializes the question set from it (`materializeListeningRevision`)
+     * and the item's live audio fields follow it. Without `explanation` the set could not be
+     * rebuilt (the column is NOT NULL), and without the audio fields publishing a revision would
+     * blank the recording a section plays. Preview reads the same snapshot, so an author sees
+     * exactly what publication will write.
+     */
+    audioType: parsed.audioType,
+    audioUrl: parsed.audioUrl ?? null,
+    transcript: parsed.transcript ?? null,
+    difficultyLevel: parsed.difficultyLevel,
     questions: parsed.questions.map((question, index) => {
       const type = resolveQuestionType(question.type, "listening");
       return {
@@ -216,6 +248,7 @@ function listeningProjection(parsed: zod.infer<typeof listeningPayload>): { ques
         questionText: question.questionText,
         options: question.options ?? null,
         correctAnswer: question.correctAnswer,
+        explanation: question.explanation,
         ...(question.keywords ? { keywords: question.keywords } : {}),
         ...(question.paraphrase ? { paraphrases: [question.paraphrase] } : {}),
       };
@@ -253,18 +286,41 @@ async function persistListening(
     .where(eq(listeningTests.sourceRef, context.sourceRef))
     .limit(1);
 
+  /*
+   * SAVING A DRAFT MUST NOT CHANGE PUBLISHED CONTENT.
+   *
+   * This used to project every save straight into the canonical row — updating the live
+   * title/audio/transcript and REPLACING the live question set (DELETE + INSERT). Because
+   * `listening_answers.question_id` cascades on delete, revising a published item destroyed the
+   * per-question review of every attempt ever made on it, and a learner who was mid-attempt
+   * resumed into different questions. The owner's contract: a draft edit is a draft edit.
+   *
+   * The rule now:
+   *   • a row that is already LIVE is left completely alone here — its title, audio and question
+   *     set keep serving learners exactly as they are;
+   *   • a row that is NOT live may be described by its draft (nothing published depends on it),
+   *     but its QUESTIONS are not written at all: a revision's question set is materialized at
+   *     PUBLICATION (`materializeListeningRevision`), the moment it becomes what learners see;
+   *   • a missing row is created as a draft, so the revision has a stable identity to attach to.
+   *
+   * Nothing authored is lost: `pinVersion` stores the payload in the revision snapshot, which is
+   * what preview reads and what publication materializes.
+   */
+  const live = Boolean(existingTest && (existingTest.publicationState === "published" || existingTest.publicationState === "scheduled"));
   const [test] = existingTest
-    ? await tx
-        .update(listeningTests)
-        .set({
-          title: context.title,
-          audioType: parsed.audioType,
-          audioUrl: parsed.audioUrl ?? null,
-          transcript: parsed.transcript ?? null,
-          difficultyLevel: parsed.difficultyLevel,
-        })
-        .where(eq(listeningTests.id, existingTest.id))
-        .returning({ id: listeningTests.id })
+    ? live
+      ? [{ id: existingTest.id }]
+      : await tx
+          .update(listeningTests)
+          .set({
+            title: context.title,
+            audioType: parsed.audioType,
+            audioUrl: parsed.audioUrl ?? null,
+            transcript: parsed.transcript ?? null,
+            difficultyLevel: parsed.difficultyLevel,
+          })
+          .where(eq(listeningTests.id, existingTest.id))
+          .returning({ id: listeningTests.id })
     : await tx
         .insert(listeningTests)
         .values({
@@ -278,25 +334,6 @@ async function persistListening(
           publicationState: "draft",
         })
         .returning({ id: listeningTests.id });
-
-  if (existingTest) await tx.delete(listeningQuestions).where(eq(listeningQuestions.testId, test!.id));
-  await tx.insert(listeningQuestions).values(
-    parsed.questions.map((question, index) => {
-      const type = resolveQuestionType(question.type, "listening")!;
-      return {
-        testId: test!.id,
-        order: question.order ?? index + 1,
-        type: (storageTypeFor(type.id, "listening") ?? "short_answer") as "multiple_choice" | "short_answer",
-        typeCode: type.id,
-        questionText: question.questionText,
-        options: question.options ?? null,
-        correctAnswer: question.correctAnswer,
-        explanation: question.explanation,
-        keywords: question.keywords ?? null,
-        paraphrases: question.paraphrase ? [question.paraphrase] : null,
-      };
-    }),
-  );
 
   return {
     targetType: "listening_test",
@@ -325,6 +362,30 @@ export const listeningFullTestAuthor: ModuleAuthor = {
   persist: (tx, payload, context) => persistListening(tx, payload, { ...context, contentLabel: "test" }),
   async setPublication(tx, version, publication) {
     if (!version.targetId) return "target_missing";
+    // The revision becomes the item's live CONTENT at this moment and only this moment: its
+    // question set is materialized (appending a NEW set — another revision's rows, and the
+    // answers that reference them, are never deleted) and the row's descriptive fields follow it.
+    if (publication.state === "published" || publication.state === "scheduled") {
+      if (!version.versionId) return "target_missing";
+      /*
+       * Only an item whose content IS its revisions may have its live set rewritten here. An item
+       * whose canonical set came from a canonical writer (the import pipeline) keeps that set:
+       * existing attempts and their answers are anchored to those rows, so re-keying them into a
+       * revision's rows would strand every historical answer behind a set no attempt resolves to.
+       */
+      if ((await listeningCanonicalSetOwnership(version.targetId, tx as never)) !== "legacy") {
+        await materializeListeningRevision(tx, {
+          targetId: version.targetId,
+          versionId: version.versionId,
+          snapshot: version.contentSnapshot,
+        });
+        await applyListeningRevisionToRow(tx, {
+          targetId: version.targetId,
+          snapshot: (version.contentSnapshot ?? {}) as { audioType?: string; audioUrl?: string; transcript?: string; difficultyLevel?: string },
+          title: version.title ?? null,
+        });
+      }
+    }
     return syncRows(tx, listeningTests, eq(listeningTests.id, version.targetId), publication, true);
   },
   async readSchedule(tx, version) {
@@ -347,6 +408,30 @@ export const listeningSectionAuthor: ModuleAuthor = {
   },
   async setPublication(tx, version, publication) {
     if (!version.targetId) return "target_missing";
+    // The revision becomes the item's live CONTENT at this moment and only this moment: its
+    // question set is materialized (appending a NEW set — another revision's rows, and the
+    // answers that reference them, are never deleted) and the row's descriptive fields follow it.
+    if (publication.state === "published" || publication.state === "scheduled") {
+      if (!version.versionId) return "target_missing";
+      /*
+       * Only an item whose content IS its revisions may have its live set rewritten here. An item
+       * whose canonical set came from a canonical writer (the import pipeline) keeps that set:
+       * existing attempts and their answers are anchored to those rows, so re-keying them into a
+       * revision's rows would strand every historical answer behind a set no attempt resolves to.
+       */
+      if ((await listeningCanonicalSetOwnership(version.targetId, tx as never)) !== "legacy") {
+        await materializeListeningRevision(tx, {
+          targetId: version.targetId,
+          versionId: version.versionId,
+          snapshot: version.contentSnapshot,
+        });
+        await applyListeningRevisionToRow(tx, {
+          targetId: version.targetId,
+          snapshot: (version.contentSnapshot ?? {}) as { audioType?: string; audioUrl?: string; transcript?: string; difficultyLevel?: string },
+          title: version.title ?? null,
+        });
+      }
+    }
     return syncRows(tx, listeningTests, eq(listeningTests.id, version.targetId), publication, true);
   },
   async readSchedule(tx, version) {

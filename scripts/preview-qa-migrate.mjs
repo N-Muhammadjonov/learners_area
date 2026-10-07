@@ -56,7 +56,13 @@ export const ALLOWED_PENDING = ["0025_speaking_bank_identity", "0026_google_iden
   "0049_lesson_notes",
   // Registered by the LISTENING LESSON SEMANTIC CORRECTION (2026-10-06): two additive
   // lesson metadata columns (learning area, teacher notes) with a CHECK and an index.
-  "0050_lesson_learning_area"];
+  "0050_lesson_learning_area",
+  // Registered by the GENERAL LISTENING revision-safety correction (2026-10-07): one additive
+  // nullable column + index on `listening_questions`, so a revision's question SET has an
+  // identity and replacing it can no longer cascade into historical answers. Membership means
+  // this script knows the migration; --apply still needs the owner-approved fingerprint, server
+  // identity and a fresh PREVIEW_QA_BACKUP_REF, and the owner still approves the rollout.
+  "0051_listening_question_revision"];
 /**
  * SQL hashes of the integration migrations, pinned where they were reviewed. A file that
  * changes after review stops being "the migration we reviewed" and must be re-approved;
@@ -72,6 +78,9 @@ export const REVIEWED_SAFE_STATEMENTS = {
   "0043_authoring_identity": [/^ALTER TABLE "reading_questions" ALTER COLUMN "type_code" TYPE varchar\(40\);/m],
 };
 export const APPROVED_INTEGRATION_SHA256 = {
+  // Reviewed with the General Listening revision-safety correction: one nullable column, one
+  // FK (ON DELETE SET NULL) and one index. Additive; no row rewritten.
+  "0051_listening_question_revision": "f5b7a259f2643de8155cf66188d3d8b7a7313ca804ceb9920bebe306bb9ec26c",
   "0050_lesson_learning_area": "ff5d754833e804723c198ab3ebefb0553006ae47e7e6908c06757f3d5865089d",
   // Hand-written (the snapshot chain stops at 0027) and reviewed with the private-notes change.
   "0049_lesson_notes": "5896ddea2edf4916cd7c8c6889b999452a6a0d708dcc0d79b6478ded56f6f841",

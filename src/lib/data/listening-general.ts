@@ -6,6 +6,7 @@ import { GENERAL_PRODUCT, generalProductSql, productOfPackage } from "@/lib/list
 import { liveWhere } from "@/lib/services/cms/publication";
 import { isUuid } from "@/lib/validation/ids";
 import { listeningSchemaReady } from "./listening-schema-ready";
+import { listeningQuestionsForLiveTest } from "@/lib/listening/question-set";
 import type { ListeningPackage } from "@/lib/listening/package";
 
 /**
@@ -84,9 +85,36 @@ const durationSql = sql<number | null>`
      from listening_packages p
     where p.test_id = ${listeningTests.id})`;
 
-/** How many questions the section really has — the question rows are the authority. */
+/**
+ * How many questions the section really has — the questions a learner STARTING NOW is given.
+ *
+ * That is the published revision's set; when a revision has no materialized set yet (legacy
+ * content) it is the NULL set. Counting every row of the test would sum the sets of every
+ * revision the item ever had, so a revised section would report a number that no learner can
+ * ever see.
+ */
 const questionCountSql = sql<number>`(
-  select count(*)::integer from listening_questions q where q.test_id = ${listeningTests.id}
+  select count(*)::integer from listening_questions q
+   where q.test_id = ${listeningTests.id}
+     and (
+       q.content_version_id = (
+         select v.id from content_versions v
+          where v.module = 'listening' and v.target_type = 'listening_test' and v.target_id = ${listeningTests.id} and v.status = 'published'
+          order by v.version_no desc limit 1
+       )
+       or (
+         q.content_version_id is null
+         and not exists (
+           select 1 from listening_questions b
+            where b.test_id = ${listeningTests.id}
+              and b.content_version_id = (
+                select v.id from content_versions v
+                 where v.module = 'listening' and v.target_type = 'listening_test' and v.target_id = ${listeningTests.id} and v.status = 'published'
+                 order by v.version_no desc limit 1
+              )
+         )
+       )
+     )
 )`;
 
 export async function generalListeningCards(
@@ -211,11 +239,9 @@ export async function getOpenableSection(
       : null;
   if (product !== GENERAL_PRODUCT) return null;
 
-  const questions = await database
-    .select()
-    .from(listeningQuestions)
-    .where(eq(listeningQuestions.testId, testId))
-    .orderBy(asc(listeningQuestions.order));
+  // The set a learner opening this section is given: the published revision's, or the legacy
+  // set. The attempt created right after this binds to that same revision.
+  const questions = await listeningQuestionsForLiveTest(testId, database);
   if (!questions.length) return null;
 
   return { test: row.test, package: pkg, imageObjectKey: row.imageObjectKey ?? null, questions };

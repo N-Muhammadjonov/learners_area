@@ -5,6 +5,7 @@ import { z } from "zod";
 import { and, eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { listeningQuestions, listeningMcqSessions } from "@/db/schema";
+import { listeningQuestionIsLive } from "@/lib/listening/question-set";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getOwnedMcqSession } from "@/lib/data/listening";
 import { advance, type McqStage } from "@/lib/services/listening/mcq-mastery";
@@ -30,6 +31,10 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
   if (!question) return NextResponse.json({ error: "not_found" }, { status: 404 });
   const access = await mcqAccess(user, question.testId);
   if (access !== "ok") return NextResponse.json({ error: access }, { status: access === "not_found" ? 404 : 409 });
+  // A session on a question that has since been replaced stops here rather than advancing the
+  // drill against rows no learner can be given any more.
+  if (!(await listeningQuestionIsLive(question.id, question.testId)))
+    return NextResponse.json({ error: "not_found" }, { status: 404 });
 
 
   return NextResponse.json(buildMcqPayload(session, question), { headers: { "Cache-Control": "private, no-store" } });
@@ -54,6 +59,10 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   if (!question) return NextResponse.json({ error: "not_found" }, { status: 404 });
   const access = await mcqAccess(user, question.testId);
   if (access !== "ok") return NextResponse.json({ error: access }, { status: access === "not_found" ? 404 : 409 });
+  // A session on a question that has since been replaced stops here rather than advancing the
+  // drill against rows no learner can be given any more.
+  if (!(await listeningQuestionIsLive(question.id, question.testId)))
+    return NextResponse.json({ error: "not_found" }, { status: 404 });
 
 
   const result = advance(session.stage as McqStage, {

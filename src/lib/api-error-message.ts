@@ -30,6 +30,8 @@ export function apiErrorMessage(
       return t.conflict;
     case "upload_not_owned_or_finalized":
       return t.uploadNotReady;
+    case "revision_managed":
+      return t.revisionManaged;
   }
   if (status === 401) return t.unauthenticated;
   if (status === 403) return t.forbidden;

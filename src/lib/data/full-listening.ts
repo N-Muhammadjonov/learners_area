@@ -4,14 +4,15 @@ import { and, desc, eq, inArray, isNull, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import {
   listeningActivityRuns,
+  listeningAnswers,
   listeningAttempts,
   listeningPackages,
-  listeningQuestions,
   listeningTests,
 } from "@/db/schema";
 import { liveWhere, isLive } from "@/lib/services/cms/publication";
 import { isStaff, type Role } from "@/lib/auth/roles";
 import { collectionTabSql } from "@/lib/listening/product";
+import { listeningQuestionsForAttempt } from "@/lib/listening/question-set";
 /**
  * `database` is an optional executor, so a test can drive the same read against a real
  * PostgreSQL it owns (the repository-wide convention for pglite/Q2 tests) instead of being
@@ -215,23 +216,28 @@ export async function listeningExamState(user: { id: string; role: Role }, testI
   };
 }
 
-/** Questions of one submitted attempt that have no correct answer — wrong or blank. */
+/**
+ * Questions of one submitted attempt that have no correct answer — wrong or blank.
+ *
+ * Counted against THE ATTEMPT'S OWN SET. Counting every row of the test would count a later
+ * revision's questions too: a v1 attempt reading a v2-published test would be told it missed
+ * questions that did not exist when it was answered (and that it was never shown).
+ */
 export async function missedForAttempt(attemptId: string, testId: string, database: typeof db = db): Promise<number> {
-  const [row] = await database
-    .select({ missed: sql<number>`count(*)::integer` })
-    .from(listeningQuestions)
-    .where(
-      and(
-        eq(listeningQuestions.testId, testId),
-        sql`not exists (
-          select 1 from listening_answers ans
-          where ans.attempt_id = ${attemptId}
-            and ans.question_id = ${listeningQuestions.id}
-            and ans.is_correct = true
-        )`,
-      ),
-    );
-  return Number(row?.missed ?? 0);
+  const [attempt] = await database
+    .select({ contentVersionId: listeningAttempts.contentVersionId })
+    .from(listeningAttempts)
+    .where(and(eq(listeningAttempts.id, attemptId), eq(listeningAttempts.testId, testId)))
+    .limit(1);
+  if (!attempt) return 0;
+  const questions = await listeningQuestionsForAttempt({ testId, contentVersionId: attempt.contentVersionId }, database);
+  if (questions.length === 0) return 0;
+  const rows = await database
+    .select({ questionId: listeningAnswers.questionId, isCorrect: listeningAnswers.isCorrect })
+    .from(listeningAnswers)
+    .where(eq(listeningAnswers.attemptId, attemptId));
+  const correct = new Set(rows.filter((row) => row.isCorrect === true).map((row) => row.questionId));
+  return questions.filter((question) => !correct.has(question.id)).length;
 }
 
 /**
