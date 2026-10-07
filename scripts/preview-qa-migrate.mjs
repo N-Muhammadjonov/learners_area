@@ -62,7 +62,13 @@ export const ALLOWED_PENDING = ["0025_speaking_bank_identity", "0026_google_iden
   // identity and replacing it can no longer cascade into historical answers. Membership means
   // this script knows the migration; --apply still needs the owner-approved fingerprint, server
   // identity and a fresh PREVIEW_QA_BACKUP_REF, and the owner still approves the rollout.
-  "0051_listening_question_revision"];
+  "0051_listening_question_revision",
+  // Registered by the DEDICATED MCQ PROGRAMME (2026-10-07): two additive nullable columns and
+  // three guarded constraints on `listening_tests`, so a Listening item can belong to a programme
+  // at an explicit ordinal (DAY 1 → DAY 30). No row rewritten, nothing backfilled. Membership
+  // means this script knows the migration; --apply still needs the owner-approved fingerprint,
+  // server identity and a fresh PREVIEW_QA_BACKUP_REF, and the owner still approves the rollout.
+  "0052_listening_mcq_program_days"];
 /**
  * SQL hashes of the integration migrations, pinned where they were reviewed. A file that
  * changes after review stops being "the migration we reviewed" and must be re-approved;
@@ -81,6 +87,9 @@ export const APPROVED_INTEGRATION_SHA256 = {
   // Reviewed with the General Listening revision-safety correction: one nullable column, one
   // FK (ON DELETE SET NULL) and one index. Additive; no row rewritten.
   "0051_listening_question_revision": "f5b7a259f2643de8155cf66188d3d8b7a7313ca804ceb9920bebe306bb9ec26c",
+  // Reviewed with the dedicated MCQ programme: two nullable columns, both-or-neither and
+  // ordinal >= 1 checks, one partial unique index. Additive; no row rewritten.
+  "0052_listening_mcq_program_days": "ebb72044b2474bf3f22fd2f6e3be88591a5d24db9c66800fdec3f18c6cd8f742",
   "0050_lesson_learning_area": "ff5d754833e804723c198ab3ebefb0553006ae47e7e6908c06757f3d5865089d",
   // Hand-written (the snapshot chain stops at 0027) and reviewed with the private-notes change.
   "0049_lesson_notes": "5896ddea2edf4916cd7c8c6889b999452a6a0d708dcc0d79b6478ded56f6f841",

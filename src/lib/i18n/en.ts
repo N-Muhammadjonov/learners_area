@@ -993,6 +993,39 @@ const en = {
     },
 
     /**
+     * Listening → MCQ: the dedicated 30-day programme. Chrome only — the questions
+     * themselves are the owner's authored content and are never translated (or generated).
+     */
+    mcqProgram: {
+      title: "Listening MCQ",
+      subtitle: "A thirty-day multiple-choice programme, five questions a day. Every question is staged: listen, note, commit, then answer.",
+      daysPublished: "{published} of {target} days published",
+      daysCompleted: "Days completed: {done} of {available}",
+      dayLabel: "Day {n}",
+      questions: "{n} questions",
+      questionOf: "Question {n} of {total}",
+      dayProgress: "Day progress: {done} / {total}",
+      start: "Start",
+      continue: "Continue",
+      review: "Review",
+      completed: "Completed",
+      inProgress: "In progress",
+      notStarted: "Not started",
+      practiceComplete: "Practice complete",
+      backToDays: "Back to MCQ Days",
+      emptyTitle: "No MCQ day has been published yet.",
+      emptyHint: "Nothing is shown here until the centre publishes a day of five multiple-choice questions — there are no sample days on this page.",
+      draftNotice: "This day is a draft: only staff can see it, and learners cannot open it yet.",
+      notFoundTitle: "This day is not available.",
+      notFoundHint: "It may be unpublished or removed. Return to the MCQ Days list.",
+      publishRequiresFive: "Publish requires exactly 5 questions",
+      questionNavLabel: "Questions in this day",
+      practiceOnly: "Practice only: nothing here changes an exam score or the SRS schedule.",
+      targetNote: "The programme targets {target} days of {perDay} questions. Days appear here as the centre publishes them.",
+      staffHint: "Days are authored and published from the Listening authoring desk; a day becomes visible here only after it holds exactly five multiple-choice questions.",
+    },
+
+    /**
      * Listening → Lessons: canonical Content OS lessons that carry listening
      * material. The three learner-facing controls are Description, Teacher Notes and
      * the learner's own private Xulosangiz — see src/lib/listening/lessons.ts.

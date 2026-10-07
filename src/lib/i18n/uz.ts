@@ -994,6 +994,36 @@ const uz: Dictionary = {
     backToCatalogue: "General Listening ro'yxatiga qaytish",
     },
 
+    /** Listening → MCQ: 30 kunlik dastur uchun interfeys matnlari (kontent tarjima qilinmaydi). */
+    mcqProgram: {
+      title: "Listening MCQ",
+      subtitle: "O'ttiz kunlik test dasturi: har kuni beshta savol. Har bir savol bosqichma-bosqich: tinglash, izoh, qaror, keyin javob.",
+      daysPublished: "{target} kundan {published} kuni chop etilgan",
+      daysCompleted: "Tugatilgan kunlar: {available} kundan {done}",
+      dayLabel: "{n}-KUN",
+      questions: "{n} savol",
+      questionOf: "{total} savoldan {n}-savol",
+      dayProgress: "Kun jarayoni: {done} / {total}",
+      start: "Boshlash",
+      continue: "Davom etish",
+      review: "Ko'rib chiqish",
+      completed: "Tugatilgan",
+      inProgress: "Davom etmoqda",
+      notStarted: "Boshlanmagan",
+      practiceComplete: "Mashq tugadi",
+      backToDays: "MCQ kunlariga qaytish",
+      emptyTitle: "Hozircha birorta MCQ kuni chop etilmagan.",
+      emptyHint: "Markaz beshta savoldan iborat kunni chop etmaguncha bu yerda hech narsa ko'rinmaydi — bu sahifada namuna kunlar yo'q.",
+      draftNotice: "Bu kun qoralama: uni faqat xodimlar ko'radi, o'quvchilar hozircha ocholmaydi.",
+      notFoundTitle: "Bu kun mavjud emas.",
+      notFoundHint: "U chop etilmagan yoki olib tashlangan bo'lishi mumkin. MCQ kunlari ro'yxatiga qayting.",
+      publishRequiresFive: "Chop etish uchun aynan 5 ta savol kerak",
+      questionNavLabel: "Bu kundagi savollar",
+      practiceOnly: "Faqat mashq: bu yerda hech narsa imtihon ballini yoki SRS jadvalini o'zgartirmaydi.",
+      targetNote: "Dastur {target} kun va har kunda {perDay} savolni mo'ljallaydi. Kunlar markaz chop etgan sari ko'rinadi.",
+      staffHint: "Kunlar Listening mualliflik stolida yoziladi va chop etiladi; kun faqat aynan beshta test savoli bo'lgach shu yerda ko'rinadi.",
+    },
+
     /** Listening → Lessons (o'quvchi uchun: Tavsif / O'qituvchi izohlari / Xulosangiz). */
     lessons: {
       title: "Listening darslari",

@@ -853,7 +853,28 @@ export const listeningTests = pgTable("listening_tests", {
   publicationState: publicationStateEnum("publication_state").notNull().default("published"),
   publishAt: timestamp("publish_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-});
+  /**
+   * THE PROGRAMME RELATION (0052).
+   *
+   * A Listening item may belong to a programme — the dedicated MCQ programme is DAY 1 → DAY 30 —
+   * at an EXPLICIT ordinal. NULL means "not part of a programme", which is every Academic full
+   * test and every General section: nothing that exists today changes.
+   *
+   * The day number is stored, never parsed back out of a title, and the pair is what a learner's
+   * "DAY 6" is resolved by. The day's membership is its own canonical questions in their authored
+   * `order`, so there is one ordering truth in the product, not two.
+   */
+  programRef: varchar("program_ref", { length: 80 }),
+  programOrdinal: integer("program_ordinal"),
+}, (t) => ({
+  /** A programme reference and its position are one statement: both, or neither. */
+  programPair: check("listening_tests_program_pair_check", sql`(${t.programRef} is null) = (${t.programOrdinal} is null)`),
+  programOrdinalPositive: check("listening_tests_program_ordinal_positive_check", sql`${t.programOrdinal} is null or ${t.programOrdinal} >= 1`),
+  /** One item per day per programme: a duplicated import cannot create two Day 6s. */
+  programDayUnique: uniqueIndex("listening_tests_program_ordinal_idx")
+    .on(t.programRef, t.programOrdinal)
+    .where(sql`${t.programRef} is not null and ${t.programOrdinal} is not null`),
+}));
 
 export const listeningQuestions = pgTable("listening_questions", {
   id: uuid("id").defaultRandom().primaryKey(),

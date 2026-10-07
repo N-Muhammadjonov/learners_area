@@ -39,8 +39,8 @@ function planned(appliedCount: number): { apply: string[]; skip: string[] } {
   return { apply, skip };
 }
 
-test("J1 the journal is well-formed: 52 entries, idx equals position, unique tags, strictly increasing when", () => {
-  assert.equal(journal.entries.length, 52, "0000…0051 — the 48 Content OS migrations, the typing trainer, private lesson notes, the lesson learning area + Teacher Notes, and the Listening question revision set");
+test("J1 the journal is well-formed: 53 entries, idx equals position, unique tags, strictly increasing when", () => {
+  assert.equal(journal.entries.length, 53, "0000…0052 — the 48 Content OS migrations, the typing trainer, private lesson notes, the lesson learning area + Teacher Notes, the Listening question revision set, and the dedicated MCQ programme's day relation");
   journal.entries.forEach((entry, index) => {
     assert.equal(entry.idx, index, `${entry.tag}: idx must equal its position in the journal`);
     assert.equal(entry.version, "7");
@@ -60,7 +60,7 @@ test("J2 the collision is resolved exactly once, and the migration that keeps 00
 
   assert.equal(journal.entries[40]!.tag, "0040_content_imports");
   assert.equal(journal.entries[48]!.tag, "0048_typing_trainer");
-  assert.equal(journal.entries.filter((e) => e.breakpoints).length, 52);
+  assert.equal(journal.entries.filter((e) => e.breakpoints).length, 53);
 
   // The kept entry keeps its ORIGINAL `when` — that value is recorded in every database
   // that applied it, so changing it would make the migrator re-apply (or skip) it.
@@ -104,10 +104,12 @@ test("J4 the two source lines' own states stay safe under the merged journal", (
 
   const after0039 = planned(40);
   assert.equal(after0039.apply[0], "0040_content_imports", "the next step after 0039 is the import ledger");
-  assert.equal(after0039.apply.length, 12, "0040…0051 are pending");
+  // 0040…0052 — the MCQ programme's relation (0052) is additive on top of the accepted line and
+  // never rewrites an earlier migration.
+  assert.equal(after0039.apply.length, 13, "0040…0052 are pending");
 
   const after0047 = planned(48);
-  assert.deepEqual(after0047.apply, ["0048_typing_trainer", "0049_lesson_notes", "0050_lesson_learning_area", "0051_listening_question_revision"], "the accepted schema needs the typing trainer, the private notes table, the lesson learning area, then the Listening question-set revision column");
+  assert.deepEqual(after0047.apply, ["0048_typing_trainer", "0049_lesson_notes", "0050_lesson_learning_area", "0051_listening_question_revision", "0052_listening_mcq_program_days"], "the accepted schema needs the typing trainer, the private notes table, the lesson learning area, the Listening question-set revision column, then the MCQ programme's day relation");
 
   // 0049 is hand-written too (the snapshot chain stops at 0027) and it is additive in
   // BOTH directions: it creates a table, and its backfill COPIES text into it before
