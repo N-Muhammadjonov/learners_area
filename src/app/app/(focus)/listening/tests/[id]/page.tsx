@@ -24,7 +24,7 @@ export default async function Hub({ params }: { params: Promise<{ id: string }> 
   const t = dict.fullListeningHub, r = t.research, modern = !!detail.pkg.payload.studyPack;
   const [questions, sessions, practice] = await Promise.all([listMcqQuestions(id), listMcqSessions(user.id, id), listeningPracticeProgress(user.id, id)]);
   const mcqComplete = questions.length > 0 && questions.every(q => sessions.get(q.id)?.stage === "reasoned");
-  const names: Record<string, string> = { exam: modern ? r.full : t.activities[0]!, review: modern ? r.review : t.activities[1]!, script:r.script, keyword1:t.activities[2]!, keyword2:t.activities[3]!,recall:r.recall,vocab:modern ? r.vocabulary : t.activities[4]!,mcq:r.mcq,matching:r.matching,completion:r.completion,retry:r.retry };
+  const names: Record<string, string> = { exam: modern ? r.full : t.activities[0]!, review: modern ? r.review : t.activities[1]!, script:r.script, keyword1:t.activities[2]!, keyword2:t.activities[3]!,recall:r.recall,vocab:modern ? r.vocabulary : t.activities[4]!,mcq:r.mcq,matching:r.matching,completion:r.completion,map:r.map,retry:r.retry };
   const cards = packageActivities(detail.pkg.payload, { examSubmitted, missedQuestions }).map(key => {
     const path = activityPath[key]!, n = Number(path), base = progress.activities.find(a => a.activity === n);
     return { path, activity: n, name: names[key]!, tag: key === "exam" ? r.examTag : key === "vocab" ? r.vocabTag : key === "mcq" ? r.mcqTag : r.reviewTag, complete: key === "mcq" ? mcqComplete : practice[key]?.complete ?? base?.complete ?? false, latest: practice[key]?.latest ?? base?.latest ?? null };
