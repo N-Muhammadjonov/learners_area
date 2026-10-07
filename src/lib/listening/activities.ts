@@ -1,4 +1,5 @@
 import type { ListeningPackage, ListeningSourceActivityId } from "./package";
+import { listeningQuestionIdentity } from "./question-identity";
 
 /**
  * THE LISTENING ACTIVITY REGISTRY — the single authority for the question
@@ -90,20 +91,20 @@ export type ListeningActivityDescriptor = {
 };
 
 /**
- * UNKNOWN kind is treated as multiple choice (that is how the importer stores it), but a
- * MATCHING question is never an MCQ even though it carries an option pool — the single
- * most tempting mistake in this area.
+ * Is this question a GENUINE multiple choice — the only thing that may feed MCQ Mastery?
+ *
+ * Decided by the same canonical identity the storage layer uses, so the card a learner is offered and
+ * the questions the drill can actually serve can never disagree: an offered-but-empty MCQ card is
+ * precisely the blank surface this product forbids.
+ *
+ * The tempting shortcuts are all refused here, once: an option pool does not make a question an MCQ
+ * (`matching`, `map`/`plan` and a completion carrying a word bank all present options — filing any of
+ * them as MCQ is the owner's named mistake), and a question that declares NO type is not an MCQ
+ * either, because options alone never prove a type; such material is reported for review by the
+ * import instead.
  */
 function isMcqQuestion(question: ListeningPackage["questions"][number]): boolean {
-  return (
-    question.options.length >= 2 &&
-    question.kind !== "matching" &&
-    question.kind !== "completion" &&
-    // A MAP question carries a label pool too. Treating it as MCQ would both inflate the MCQ
-    // mastery set with questions that are not multiple choice and hide the map activity the
-    // source actually authored — the same mistake as filing Matching as MCQ.
-    question.kind !== "map"
-  );
+  return listeningQuestionIdentity(question).storageType === "multiple_choice";
 }
 
 /** Read the authored/structural facts once, so every predicate sees the same truth. */

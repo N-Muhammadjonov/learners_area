@@ -3,6 +3,7 @@ import { and, asc, eq, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { contentVersions, listeningQuestions, listeningTests } from "@/db/schema";
 import { publishedVersionForTarget } from "@/lib/content/attempt-binding";
+import { listeningQuestionIdentity } from "@/lib/listening/question-identity";
 
 /**
  * WHICH QUESTIONS A LISTENING ATTEMPT IS ANSWERING — one resolver, one place.
@@ -138,27 +139,43 @@ function questionRowsFromSnapshot(testId: string, versionId: string, snapshot: u
   const questions = Array.isArray((snapshot as { questions?: unknown })?.questions)
     ? ((snapshot as { questions: SnapshotQuestion[] }).questions)
     : [];
-  return questions.map((question, index) => ({
-    testId,
-    contentVersionId: versionId,
-    order: question.order ?? index + 1,
-    // The storage type is derived from the authored one by the same resolver the author uses;
-    // an unknown authored type is refused at draft time, so reaching here means it is known.
-    type: (question.type === "multiple_choice" || question.type === "mcq" ? "multiple_choice" : "short_answer") as
-      | "multiple_choice"
-      | "short_answer",
-    typeCode: question.type ?? null,
-    questionText: question.questionText,
-    options: question.options ?? null,
-    correctAnswer: question.correctAnswer,
-    // NOT a fabricated explanation: an empty string records that the revision authored none, and
-    // review renders authored evidence only. Older snapshots (pinned before `explanation` became a
-    // required payload field) reach publication without one, and refusing them here would block a
-    // publication over a field the review screen can simply leave out.
-    explanation: question.explanation ?? "",
-    keywords: question.keywords ?? null,
-    paraphrases: question.paraphrase ? [question.paraphrase] : null,
-  }));
+  return questions.map((question, index) => {
+    /*
+     * THE SAME IDENTITY DECISION AS THE IMPORT. An authored question must materialize into exactly
+     * the row an imported one would — otherwise the two writers drift, and the drift is invisible
+     * until a learner is offered an MCQ drill whose question set is empty.
+     *
+     * This used to compare the authored spelling against the two literals "multiple_choice" and
+     * "mcq". A snapshot written by authoring carries the CANONICAL id (`mcq_single`), so an authored
+     * single-choice question was stored as a typed answer while the registry called it multiple
+     * choice. The identity decides it now, once: only `mcq_single`/`mcq_multi` store
+     * `multiple_choice`, and everything else — a completion carrying a word bank, a matching
+     * question, a map/plan — stores a typed answer.
+     *
+     * `type_code` keeps the canonical id when the registry knows the spelling (an alias such as
+     * "mcq" converges to `mcq_single`), and otherwise the authored spelling itself, which is what the
+     * column is for; an unknown authored type is refused at draft time, so this is a fallback, not a
+     * guess.
+     */
+    const identity = listeningQuestionIdentity({ typeCode: question.type });
+    return {
+      testId,
+      contentVersionId: versionId,
+      order: question.order ?? index + 1,
+      type: identity.storageType,
+      typeCode: identity.typeCode ?? question.type ?? null,
+      questionText: question.questionText,
+      options: question.options ?? null,
+      correctAnswer: question.correctAnswer,
+      // NOT a fabricated explanation: an empty string records that the revision authored none, and
+      // review renders authored evidence only. Older snapshots (pinned before `explanation` became a
+      // required payload field) reach publication without one, and refusing them here would block a
+      // publication over a field the review screen can simply leave out.
+      explanation: question.explanation ?? "",
+      keywords: question.keywords ?? null,
+      paraphrases: question.paraphrase ? [question.paraphrase] : null,
+    };
+  });
 }
 
 /**

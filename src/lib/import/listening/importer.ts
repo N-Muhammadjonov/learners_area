@@ -14,6 +14,7 @@ import { pinVersion } from "@/lib/content/versions";
 import { provenanceRecord } from "../core/provenance";
 import { issue, type ImportErrorCode, type ImportIssue } from "../core/validation";
 import type { ListeningPackage } from "@/lib/listening/package";
+import { listeningIdentityReviewNotes, listeningQuestionIdentity } from "@/lib/listening/question-identity";
 import { ingestListeningOccurrences } from "@/lib/services/lexical/listening-occurrences";
 import {
   LISTENING_CONTENT_TYPE,
@@ -109,19 +110,36 @@ function answerKeyOf(payload: ListeningPackage) {
     .join("\n");
 }
 
+/**
+ * The canonical rows of a package's questions, WITH their canonical identity.
+ *
+ * The storage type and the stored `type_code` both come from `listeningQuestionIdentity`, so a
+ * question is filed as what it IS: a completion that carries a word bank stays a typed answer, a
+ * map stays a map instead of becoming an MCQ, and a source that named its own type keeps it. The
+ * review notes the identity reports are returned with the rows, because an under-specified source
+ * must reach the staff who can confirm it rather than being silently smoothed over.
+ */
 async function questionRowsFor(testId: string, payload: ListeningPackage) {
-  return payload.questions.map((question) => ({
-    testId,
-    order: question.number,
-    type:
-      question.options.length && question.kind !== "matching"
-        ? ("multiple_choice" as const)
-        : ("short_answer" as const),
-    questionText: question.text,
-    options: question.options,
-    correctAnswer: question.options.find((option) => option === question.key || option.startsWith(`${question.key} `)) ?? question.key,
-    explanation: question.evidence.why,
-  }));
+  const rows = payload.questions.map((question) => {
+    const identity = listeningQuestionIdentity({ kind: question.kind, typeCode: question.typeCode });
+    return {
+      testId,
+      order: question.number,
+      type: identity.storageType,
+      typeCode: identity.typeCode,
+      questionText: question.text,
+      options: question.options,
+      correctAnswer: question.options.find((option) => option === question.key || option.startsWith(`${question.key} `)) ?? question.key,
+      explanation: question.evidence.why,
+      review: identity.review,
+    };
+  });
+  return rows;
+}
+
+/** The review notes of a payload's questions — the same implementation the staff preview uses. */
+export function listeningReviewNotes(payload: ListeningPackage): string[] {
+  return listeningIdentityReviewNotes(payload.questions);
 }
 
 /**
@@ -133,27 +151,31 @@ export async function reconcileListeningQuestions(
   tx: ImportTransaction,
   testId: string,
   payload: ListeningPackage,
-): Promise<void> {
+): Promise<string[]> {
   const existing = await tx.select().from(listeningQuestions).where(eq(listeningQuestions.testId, testId));
   const byOrder = new Map<number, (typeof existing)[number]>(existing.map((row) => [row.order, row]));
   const next = await questionRowsFor(testId, payload);
   const keep = new Set<string>();
 
   for (const row of next) {
+    const { review: _review, ...stored } = row;
     const current = byOrder.get(row.order);
     if (!current) {
-      await tx.insert(listeningQuestions).values(row);
+      await tx.insert(listeningQuestions).values(stored);
       continue;
     }
     keep.add(current.id);
     await tx
       .update(listeningQuestions)
       .set({
-        type: row.type,
-        questionText: row.questionText,
-        options: row.options,
-        correctAnswer: row.correctAnswer,
-        explanation: row.explanation,
+        type: stored.type,
+        // The identity converges on re-import too: a row that was stored before its type could be
+        // expressed is corrected to the canonical id rather than keeping a NULL for ever.
+        typeCode: stored.typeCode,
+        questionText: stored.questionText,
+        options: stored.options,
+        correctAnswer: stored.correctAnswer,
+        explanation: stored.explanation,
       })
       .where(eq(listeningQuestions.id, current.id));
   }
@@ -168,6 +190,9 @@ export async function reconcileListeningQuestions(
     if (used.length) continue; // never drop a question that learner history can point at
     await tx.delete(listeningQuestions).where(eq(listeningQuestions.id, row.id));
   }
+
+  // What the source did not prove, for the staff who can confirm it.
+  return listeningReviewNotes(payload);
 }
 
 async function latestImport(tx: ImportTransaction, sourceRef: string) {
@@ -328,7 +353,7 @@ export async function importCanonicalListeningPackage(
         legacyRuntime: false,
       })
       .where(eq(listeningPackages.testId, existing.testId));
-    await reconcileListeningQuestions(tx, existing.testId, payload);
+    warnings.push(...(await reconcileListeningQuestions(tx, existing.testId, payload)));
     await attachClaimedAssets(tx, options.assets);
     const [record] = await tx
       .insert(contentImports)
@@ -397,7 +422,9 @@ export async function importCanonicalListeningPackage(
   });
 
   const rows = await questionRowsFor(test.id, payload);
-  if (rows.length) await tx.insert(listeningQuestions).values(rows);
+  if (rows.length) await tx.insert(listeningQuestions).values(rows.map(({ review: _review, ...stored }) => stored));
+  // What the source did not prove goes to the staff who can confirm it (Q numbers included).
+  warnings.push(...listeningReviewNotes(payload));
 
   await tx.insert(resourceBlocks).values(
     options.assets.map((asset, position) => ({

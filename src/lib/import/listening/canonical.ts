@@ -10,6 +10,14 @@ import {
   listeningVocabularyEntrySchema,
   type ListeningPackage,
 } from "@/lib/listening/package";
+import {
+  canonicalListeningTypeId,
+  listeningIdentityReviewNotes,
+  listeningKindOfType,
+  listeningQuestionIdentity,
+  listeningTypeSummary,
+} from "@/lib/listening/question-identity";
+import { questionType } from "@/lib/content/question-types";
 import { contentEnvelopeSchema, type CanonicalPackage } from "../core/envelope";
 import { defineContentType, type AssetRequirement, type ContentTypeDescriptor } from "../core/registry";
 import { executableMarkupIssues, issue, issuesFromZodError, type ImportIssue } from "../core/validation";
@@ -53,6 +61,23 @@ function normalizeQuestionAliases(value: unknown): unknown {
   if (row.kind === undefined && row.type !== undefined) row.kind = row.type;
   delete row.answer;
   delete row.type;
+  /*
+   * A SOURCE THAT NAMES A SPECIFIC TYPE KEEPS IT.
+   *
+   * The envelope's vocabulary is the coarse shape, so a package that says "note_completion" used
+   * to be given `kind: "note_completion"` — which is not a shape, so the payload was REFUSED and
+   * the material could not be imported at all. Now the named type is resolved through the same two
+   * registry doors the rest of the product uses: the canonical id is preserved in `typeCode`, and
+   * `kind` receives the coarse bucket that type belongs to, so the activity registry still sees the
+   * right shape. A source that states only a coarse shape ("completion") is untouched here and is
+   * reported for review by the import itself rather than guessed at.
+   */
+  const named = canonicalListeningTypeId(typeof row.kind === "string" ? row.kind : undefined);
+  const specific = listeningKindOfType(named ?? "");
+  if (named && specific) {
+    row.kind = specific;
+    row.typeCode = row.typeCode ?? named;
+  }
   if (row.evidence && typeof row.evidence === "object") {
     const evidence = { ...(row.evidence as Record<string, unknown>) };
     if (evidence.at === undefined && evidence.timestamp !== undefined) evidence.at = evidence.timestamp;
@@ -149,15 +174,31 @@ export function listeningSemanticIssues(pkg: ListeningCanonicalPackage): ImportI
           false,
         ),
       );
-    // `matching` legitimately presents a list to choose from (the tryout renders
-    // it as a select), so the "options without mcq" advice covers mcq-authored
-    // material only.
-    if (question.kind && question.kind !== "mcq" && question.kind !== "matching" && question.options.length >= 2)
+    /*
+     * AN OPTION POOL IS NOT A QUESTION TYPE.
+     *
+     * This advisory used to tell staff that options beside a non-mcq type were a mistake and that the
+     * fix was to call the question "mcq". That is the one instruction this product must never give:
+     * a map/plan carries an A–I label pool, a matching question carries its list, and a completion
+     * question may legitimately carry a word bank ("choose ONE WORD from the box") — converting any of
+     * them into multiple choice would both destroy the activity the source authored and put questions
+     * into MCQ Mastery that are not multiple choice. Measured against the owner's own material, the old
+     * text fired on the Q11–14 map and advised exactly that.
+     *
+     * What remains useful: a question whose answer model genuinely cannot use the pool it carries.
+     * The identity decides that — a type whose answer model is a typed answer (`short_answer` storage)
+     * is the case where the pool is either a legitimate word bank or a typing mistake, and it is
+     * reported as something to CONFIRM, never as something to re-type into MCQ.
+     */
+    const identity = listeningQuestionIdentity(question);
+    const descriptor = identity.typeCode ? questionType(identity.typeCode, "listening") : undefined;
+    const typedAnswer = descriptor?.accessibility === "labelled_text_input" && identity.typeCode !== "short_answer";
+    if (typedAnswer && question.options.length >= 2)
       issues.push(
         issue(
           2,
           "semantic_invalid",
-          `Q${question.number}: options are present but the type is ${question.kind ?? "unset"}; set "type": "mcq" or remove the options.`,
+          `Q${question.number}: this ${identity.typeCode} question also carries a list of ${question.options.length} options — allowed as a word bank, but confirm whether the learner types the answer or chooses from the list.`,
           `content.questions.${question.number}`,
           false,
         ),
@@ -227,11 +268,15 @@ export function validateCanonicalListeningPackage(
 
 export function listeningPreview(pkg: ListeningCanonicalPackage) {
   const content = pkg.content;
-  const kinds = content.questions.reduce<Record<string, number>>((acc, question) => {
-    const kind = question.kind ?? (question.options.length >= 2 ? "mcq" : "completion");
-    acc[kind] = (acc[kind] ?? 0) + 1;
-    return acc;
-  }, {});
+  /*
+   * The type summary states the CANONICAL types (Completion, Map, MCQ, Matching…) rather than a
+   * shape guessed from the option array. This is the line a staff member reads to decide whether a
+   * package is what its source claims, and printing "mcq" for a completion that carries a word bank
+   * — or for a map — would be a false statement at the door where it matters most. A question whose
+   * specific type the source did not prove is summarised by its coarse kind and ALSO reported,
+   * so the summary never reads more certain than the source is.
+   */
+  const kinds = listeningTypeSummary(content.questions);
   const transcripts = content.sections.filter((section) => section.transcript.trim()).length;
   const withEvidence = content.questions.filter((question) => question.evidence.at > 0).length;
   return {
@@ -243,9 +288,7 @@ export function listeningPreview(pkg: ListeningCanonicalPackage) {
       { label: "Questions", value: String(content.questions.length) },
       {
         label: "Question types",
-        value: Object.entries(kinds)
-          .map(([kind, count]) => `${kind}: ${count}`)
-          .join(" · ") || "none",
+        value: kinds.map(({ typeId, count }) => `${typeId}: ${count}`).join(" · ") || "none",
       },
       { label: "Transcripts", value: `${transcripts}/${content.sections.length} parts` },
       { label: "Evidence timestamps", value: `${withEvidence}/${content.questions.length} questions` },
@@ -261,6 +304,8 @@ export function listeningPreview(pkg: ListeningCanonicalPackage) {
     warnings: [
       ...(content.image ? ["A map/diagram image is required by this package."] : []),
       ...(content.sections.some((section) => !section.transcript.trim()) ? ["Some parts have no transcript."] : []),
+      // What the source did not prove. The preview is where staff decide, so it may not be silent.
+      ...listeningIdentityReviewNotes(content.questions),
     ],
   };
 }

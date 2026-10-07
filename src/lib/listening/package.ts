@@ -93,6 +93,21 @@ export const listeningQuestionSchema = z.object({
    * mis-grade it and hand it to the wrong mastery activity.
    */
   kind: z.enum(["completion", "mcq", "matching", "map"]).optional(),
+  /**
+   * THE SOURCE'S OWN CANONICAL QUESTION TYPE, when it names one.
+   *
+   * `kind` is a coarse shape (completion / mcq / matching / map). It cannot say whether a
+   * completion item is a form, note, table, flow-chart, summary or sentence completion, nor
+   * whether a drawing is a map or a plan — and the registry distinguishes all of those, because
+   * they carry different review and evidence expectations. Without this field the import layer had
+   * to guess from `options.length`, which is how a completion question with a word bank became
+   * "multiple choice" and a map became an MCQ.
+   *
+   * Additive and optional: a payload written before this field existed keeps parsing, and a source
+   * that states only the coarse kind is still imported — reported for review rather than guessed
+   * at (see `question-identity.ts`).
+   */
+  typeCode: z.string().trim().min(3).max(40).optional(),
   options: z.array(z.string().max(2000)).max(12),
   key: text,
   alternatives: z.array(z.string().max(500)).max(20),
