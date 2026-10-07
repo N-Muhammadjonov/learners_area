@@ -210,6 +210,19 @@ test("M6 the learner surfaces render the plan where the map questions are", () =
     assert.doesNotMatch(code, /section === 2 && mapDiagram/, `${file} must not place the plan by a hard-coded part`);
     assert.match(code, /\(mapSections \?\? \[HISTORICAL_MAP_PART\]\)\.includes\(section\)/, `${file} places it by the test's own map parts`);
   }
+  /*
+   * Review is part-scoped too, so the plan must follow the part the learner selected: showing Part 2's
+   * drawing above Part 1's questions is the same mistake as pinning it to a part number. A package
+   * without per-part study data lists every question at once, and for that shape the plan stays visible.
+   */
+  const review = strip(readFileSync("src/components/listening/FullListeningActivity.tsx", "utf8"));
+  assert.doesNotMatch(review, /activity === 2 && data\.mapDiagram && </, "review must not show the plan unconditionally");
+  assert.match(review, /\(mapSections \?\? \[HISTORICAL_MAP_PART\]\)\.includes\(reviewPart\)/, "review places it by the test's own map parts");
+  assert.match(
+    strip(readFileSync("src/app/app/(focus)/listening/tests/[id]/[activity]/page.tsx", "utf8")),
+    /mapSections=\{mapDiagramSections\(/,
+    "and the activity page derives those parts from the package",
+  );
   // The pages that know the package pass the derived parts in.
   for (const file of [
     "src/app/app/(focus)/listening/attempts/[id]/page.tsx",

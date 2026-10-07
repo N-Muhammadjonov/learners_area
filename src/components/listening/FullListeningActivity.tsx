@@ -1,6 +1,7 @@
 "use client";
 import { useScopedResponse } from "@/lib/http/use-scoped-response";
 import { ListeningMap } from "./ListeningMap";
+import { HISTORICAL_MAP_PART } from "@/lib/listening/activities";
 import Image from "next/image";
 import Link from "next/link";
 import { ListeningSpeedPractice } from "./ListeningSpeedPractice";
@@ -47,6 +48,7 @@ export function FullListeningActivity({
   occurrences = {},
   segmentOccurrences = {},
   lexicalAssistance = false,
+  mapSections,
 }: {
   id: string;
   userId: string;
@@ -57,6 +59,12 @@ export function FullListeningActivity({
   imageUrl?: string | null;
   initial: Record<string, string>;
   dict: Dictionary;
+  /**
+   * The parts that CONTAIN map/plan questions, derived by the page from the package itself
+   * (`mapDiagramSections`) — never a hard-coded part number. Review is part-scoped for a modern
+   * package, so the plan belongs on the parts that ask about it and nowhere else.
+   */
+  mapSections?: number[];
   occurrences?: Record<number, OccurrenceSpan[]>;
   segmentOccurrences?: Record<string, OccurrenceSpan[]>;
   /** Server decision from the Listening lexical policy (Review & Revision only). */
@@ -228,7 +236,16 @@ export function FullListeningActivity({
       <h1 className="font-display text-3xl">
         {title} · {data.studyPack ? activity === 3 ? dict.fullListeningHub.research.script : activity === 4 ? dict.fullListeningHub.research.recall : dict.fullListeningHub.activities[activity - 1] : dict.fullListeningHub.activities[activity - 1]}
       </h1>
-      {activity === 2 && data.mapDiagram && <ListeningMap diagram={data.mapDiagram} />}
+      {/*
+        Review shows the plan on the parts that contain map questions. A package without per-part
+        study data lists every question at once, so for that shape the plan stays visible — the
+        historical behaviour — rather than being hidden behind a part selection that does not exist.
+      */}
+      {activity === 2 &&
+        data.mapDiagram &&
+        (!data.studyPack || (mapSections ?? [HISTORICAL_MAP_PART]).includes(reviewPart)) && (
+          <ListeningMap diagram={data.mapDiagram} />
+        )}
       {activity !== 5 && audioUrl && (
         <audio
           ref={audio}

@@ -19,6 +19,7 @@ import {
   allowedListeningSpeeds,
 } from "@/lib/data/full-listening";
 import { isUuid } from "@/lib/validation/ids";
+import { mapDiagramSections } from "@/lib/listening/activities";
 import { FullListeningActivity } from "@/components/listening/FullListeningActivity";
 import { FullExamStart } from "@/components/listening/FullExamStart";
 import { getDictionary, getLocale } from "@/lib/i18n";
@@ -107,6 +108,7 @@ export default async function Activity({
       title={detail.test.title}
       activity={n}
       data={data}
+      mapSections={mapDiagramSections(detail.pkg.payload)}
       imageUrl={n === 2 && detail.pkg.imageObjectKey ? `/api/resources/${detail.pkg.imageObjectKey}` : null}
       audioUrl={n === 5 ? null : detail.test.audioUrl}
       initial={progress.activities[n - 1]?.latest?.answers ?? {}}
