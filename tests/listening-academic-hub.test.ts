@@ -430,7 +430,14 @@ test("A9 an Academic full test still offers MCQ Mastery for the MCQ questions it
 test("A11 the classifier and the SQL it is expressed in agree on every case", async () => {
   // ONE rule, two expressions. Each case below is classified twice: by the TypeScript
   // classifier (what a loaded payload asks) and by the SQL the catalogue actually runs.
-  const cases: { name: string; facts: Parameters<typeof listeningProduct>[0]; payload: ListeningPackage; insertPackage?: boolean }[] = [
+  const cases: {
+    name: string;
+    facts: Parameters<typeof listeningProduct>[0];
+    payload: ListeningPackage;
+    insertPackage?: boolean;
+    /** The 0052 relation, when the case is a programme day. */
+    programme?: { ref: string; day: number };
+  }[] = [
     { name: "authored academic collection", facts: { collection: "academic", hasPackage: true, parts: 4, questions: 40 }, payload: pkg("academic", 4, 40) },
     { name: "authored general collection", facts: { collection: "general", hasPackage: true, parts: 1, questions: 8 }, payload: pkg("general", 1, 8) },
     { name: "mcq programme", facts: { collection: "mcq", hasPackage: true, parts: 4, questions: 40 }, payload: pkg("mcq", 4, 40) },
@@ -449,6 +456,25 @@ test("A11 the classifier and the SQL it is expressed in agree on every case", as
     { name: "an imported general section (stamped full_test)", facts: { versionContentType: "full_test", collection: "general", hasPackage: true, parts: 1, questions: 8 }, payload: pkg("general", 1, 8) },
     { name: "an imported mcq package (stamped full_test)", facts: { versionContentType: "full_test", collection: "mcq", hasPackage: true, parts: 4, questions: 40 }, payload: pkg("mcq", 4, 40) },
     { name: "an imported package with no collection (stamped full_test)", facts: { versionContentType: "full_test", collection: null, hasPackage: true, parts: 1, questions: 5 }, payload: pkg(undefined, 1, 5) },
+    /*
+     * PROGRAMME DAYS (0052). The relation outranks every label, because the labels are exactly the
+     * ones that would put a day in the wrong place: a canonically imported day is stamped
+     * `full_test`, and a natively authored day carries a `full_test` revision. Neither is an
+     * Academic full test, and both expressions must say so.
+     */
+    {
+      name: "a DAY authored natively (a full_test revision, no package)",
+      insertPackage: false,
+      programme: { ref: "listening-mcq-program", day: 1 },
+      facts: { inProgramme: true, versionContentType: "full_test", collection: null, hasPackage: false, parts: 0, questions: 0 },
+      payload: pkg(undefined, 1, 5),
+    },
+    {
+      name: "an imported DAY whose package declares its programme",
+      programme: { ref: "listening-mcq-program", day: 2 },
+      facts: { inProgramme: true, versionContentType: "full_test", collection: "mcq", hasPackage: true, parts: 1, questions: 5 },
+      payload: { ...pkg("mcq", 1, 5), programme: { ref: "listening-mcq-program", day: 2 } },
+    },
   ];
 
   const database = await createTestDatabase();
@@ -460,7 +486,16 @@ test("A11 the classifier and the SQL it is expressed in agree on every case", as
     for (const [index, item] of cases.entries()) {
       const [row] = await db
         .insert(listeningTests)
-        .values({ title: item.name, audioType: "audio", sourceRef: `qa2-agree-${index}`, publicationState: "published", createdByUserId: OWNER, publishAt: new Date() })
+        .values({
+          title: item.name,
+          audioType: "audio",
+          sourceRef: `qa2-agree-${index}`,
+          publicationState: "published",
+          createdByUserId: OWNER,
+          publishAt: new Date(),
+          programRef: item.programme?.ref ?? null,
+          programOrdinal: item.programme?.day ?? null,
+        })
         .returning();
       // A natively authored item has no package at all — that absence is part of the case.
       if (item.insertPackage !== false)
@@ -490,6 +525,8 @@ test("A11 the classifier and the SQL it is expressed in agree on every case", as
         testId: sql.raw("t.id"),
         payload: sql.raw("p.payload"),
         payloadIsNull: sql.raw("p.payload is null"),
+        // The catalogue's own expression, programme fact included (0052).
+        inProgramme: sql.raw("t.program_ref is not null"),
       });
       const compiled = new PgDialect().sqlToQuery(
         sql`select ${productExpression} as product from listening_tests t left join listening_packages p on p.test_id = t.id where t.id = ${item.id}`,

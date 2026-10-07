@@ -2,7 +2,7 @@ import "server-only";
 import { and, asc, eq, sql, type AnyColumn, type SQL } from "drizzle-orm";
 import { db } from "@/db/client";
 import { listeningAttempts, listeningPackages, listeningTests } from "@/db/schema";
-import { ACADEMIC_PRODUCT, academicProductSql, productSql, productOfPackage } from "@/lib/listening/product";
+import { ACADEMIC_PRODUCT, academicProductSql, inProgrammeSql, productSql, productOfPackage } from "@/lib/listening/product";
 import { liveWhere } from "@/lib/services/cms/publication";
 import { isUuid } from "@/lib/validation/ids";
 import type { Role } from "@/lib/auth/roles";
@@ -59,6 +59,8 @@ const academicMembership = academicProductSql({
   testId: sql`${listeningTests.id}`,
   payload: sql`${listeningPackages.payload}`,
   payloadIsNull: sql`false`,
+  // A programme DAY is never an Academic full test, however its package is stamped (0052).
+  inProgramme: inProgrammeSql(sql`${listeningTests.programRef}`),
 });
 
 /**
@@ -266,12 +268,14 @@ async function isAcademicListing(testId: string, database: typeof db = db): Prom
   const [row] = await database
     .select({
       product: productSql({
-        testId: sql`${listeningPackages.testId}`,
+        testId: sql`${listeningTests.id}`,
         payload: sql`${listeningPackages.payload}`,
         payloadIsNull: sql`false`,
+        inProgramme: inProgrammeSql(sql`${listeningTests.programRef}`),
       }),
     })
     .from(listeningPackages)
+    .innerJoin(listeningTests, eq(listeningTests.id, listeningPackages.testId))
     .where(eq(listeningPackages.testId, testId))
     .limit(1);
   return row?.product === ACADEMIC_PRODUCT;

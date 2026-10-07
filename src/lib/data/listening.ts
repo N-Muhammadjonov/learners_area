@@ -9,7 +9,7 @@ import {
 } from "@/db/schema";
 import { isLive, liveWhere } from "@/lib/services/cms/publication";
 import { listeningQuestionsForAttempt, listeningQuestionsForLiveTest } from "@/lib/listening/question-set";
-import { collectionTabSql } from "@/lib/listening/product";
+import { collectionTabSql, inProgrammeSql } from "@/lib/listening/product";
 
 export async function listActiveTests() {
   const { listeningSchemaReady } = await import("./listening-schema-ready");
@@ -238,7 +238,7 @@ export async function legacyListeningCards(userId:string,management=false,databa
   activityCount:sql<number>`1`,
   completed:sql<number>`case when exists(select 1 from listening_attempts a where a.test_id=${testId} and a.user_id=${userId} and a.status='completed') then 1 else 0 end`,
   started:sql<boolean>`exists(select 1 from listening_attempts a where a.test_id=${testId} and a.user_id=${userId})`,
-  collection:collectionTabSql({testId,payload:sql`null::jsonb`,payloadIsNull:sql`true`}),
+  collection:collectionTabSql({testId,payload:sql`null::jsonb`,payloadIsNull:sql`true`,inProgramme:inProgrammeSql(sql`(select t.program_ref from listening_tests t where t.id=${testId})`)}),
   questions:sql<number>`(select count(*)::int from listening_questions q where q.test_id=${testId})`,
   legacy:sql<boolean>`true`,
  }).from(listeningTests).where(and(management?sql`${listeningTests.publicationState} <> 'archived'`:liveWhere(listeningTests),ready?sql`not exists(select 1 from listening_packages p where p.test_id=${testId})`:undefined)).orderBy(asc(listeningTests.createdAt)).limit(200);

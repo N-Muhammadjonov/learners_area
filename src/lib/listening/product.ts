@@ -64,6 +64,13 @@ export const GENERAL_PRODUCT: ListeningProductKind = "general_section";
 
 /** Everything the classifier needs, all of it authored or structural. */
 export type ListeningProductFacts = {
+  /**
+   * Does this item belong to a PROGRAMME (0052)? A programme DAY is `mcq_programme` whatever else it
+   * might look like: the canonical importer stamps its package `full_test`, and an item authored
+   * natively as a day carries a `full_test` revision — neither is an Academic full test, and a day
+   * must never be offered at the Academic hub.
+   */
+  inProgramme?: boolean;
   /** The content version's type for this item, when a version exists. */
   versionContentType?: string | null;
   /** The package's authored collection, when a package exists. */
@@ -105,6 +112,11 @@ const NON_ACADEMIC_COLLECTIONS = ["general", "mcq", "question_types", "essential
 export function listeningProduct(facts: ListeningProductFacts): ListeningProductKind {
   const collection = facts.collection ?? "";
 
+  // 0. The PROGRAMME RELATION outranks every label. A day is a day: it belongs to its own
+  //    destination, and the importer's blanket `full_test` stamp (or a natively authored
+  //    `full_test` revision) must not put it in the Academic catalogue.
+  if (facts.inProgramme) return "mcq_programme";
+
   // 1. An explicit practice identity is what the package IS. The importer's blanket
   //    `full_test` stamp must not promote a drill into the Academic catalogue.
   if (PRACTICE_COLLECTIONS[collection]) return PRACTICE_COLLECTIONS[collection]!;
@@ -134,6 +146,8 @@ export function listeningProduct(facts: ListeningProductFacts): ListeningProduct
 /** The facts of a LOADED package, with the version type resolved by the caller. */
 export function packageProductFacts(p: ListeningPackage, versionContentType?: string | null): ListeningProductFacts {
   return {
+    // A package that declares its programme is a DAY, whatever collection it also carries.
+    inProgramme: Boolean(p.programme),
     versionContentType,
     collection: p.collection ?? null,
     hasPackage: true,
@@ -189,12 +203,18 @@ export function productSql(input: {
   testId: SQL | unknown;
   payload: SQL | unknown;
   payloadIsNull: SQL | unknown;
+  /**
+   * Is the item part of a programme (0052)? Required, not defaulted: every caller must state the
+   * fact it has, so no read can silently classify a day as an Academic test.
+   */
+  inProgramme: SQL | unknown;
 }): SQL<string> {
   const version = versionTypeSql(input.testId);
   const collection = collectionSql(input.payload);
   const parts = partsSql(input.payload);
   const questions = questionsSql(input.payload);
   return sql`case
+    when ${input.inProgramme} then 'mcq_programme'
     when ${collection} = 'mcq' then 'mcq_programme'
     when ${collection} = 'question_types' then 'question_type_practice'
     when ${collection} = 'essential' then 'essential_recording'
@@ -207,13 +227,21 @@ export function productSql(input: {
   end`;
 }
 
+/**
+ * The programme fragment every caller passes: "this item belongs to a programme". Stated once, so a
+ * catalogue, a hub and a single-row reader cannot each write it slightly differently.
+ */
+export function inProgrammeSql(programRef: SQL | unknown): SQL {
+  return sql`${programRef} is not null`;
+}
+
 /** `where` fragment: this row is an Academic Listening full test. */
-export function academicProductSql(input: { testId: SQL | unknown; payload: SQL | unknown; payloadIsNull: SQL | unknown }): SQL {
+export function academicProductSql(input: { testId: SQL | unknown; payload: SQL | unknown; payloadIsNull: SQL | unknown; inProgramme: SQL | unknown }): SQL {
   return sql`${productSql(input)} = ${ACADEMIC_PRODUCT}`;
 }
 
 /** `where` fragment: this row is a standalone General Listening section. */
-export function generalProductSql(input: { testId: SQL | unknown; payload: SQL | unknown; payloadIsNull: SQL | unknown }): SQL {
+export function generalProductSql(input: { testId: SQL | unknown; payload: SQL | unknown; payloadIsNull: SQL | unknown; inProgramme: SQL | unknown }): SQL {
   return sql`${productSql(input)} = ${GENERAL_PRODUCT}`;
 }
 
@@ -252,7 +280,12 @@ export function collectionTabOf(product: ListeningProductKind): CollectionTab {
 }
 
 /** The same mapping, expressed for a catalogue read (never a hard-coded collection). */
-export function collectionTabSql(input: { testId: SQL | unknown; payload: SQL | unknown; payloadIsNull: SQL | unknown }): SQL<string> {
+export function collectionTabSql(input: {
+  testId: SQL | unknown;
+  payload: SQL | unknown;
+  payloadIsNull: SQL | unknown;
+  inProgramme: SQL | unknown;
+}): SQL<string> {
   return sql`case ${productSql(input)}
     when 'academic_full_test' then 'academic'
     when 'general_section' then 'general'

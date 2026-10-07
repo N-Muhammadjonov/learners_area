@@ -11,7 +11,7 @@ import {
 } from "@/db/schema";
 import { liveWhere, isLive } from "@/lib/services/cms/publication";
 import { isStaff, type Role } from "@/lib/auth/roles";
-import { collectionTabSql } from "@/lib/listening/product";
+import { collectionTabSql, inProgrammeSql } from "@/lib/listening/product";
 import { listeningQuestionsForAttempt } from "@/lib/listening/question-set";
 /**
  * `database` is an optional executor, so a test can drive the same read against a real
@@ -104,6 +104,8 @@ export async function fullListeningCards(userId: string, page = 1, management = 
         testId: sql`${listeningTests.id}`,
         payload: sql`${listeningPackages.payload}`,
         payloadIsNull: sql`${listeningPackages.payload} is null`,
+        // A programme day is its own tab, not an Academic full test.
+        inProgramme: inProgrammeSql(sql`${listeningTests.programRef}`),
       }),
       activityCount: sql<number>`case when ${listeningPackages.payload}->'studyPack'->'activities' is not null then jsonb_array_length(${listeningPackages.payload}->'studyPack'->'activities') when ${listeningPackages.payload}->'studyPack' is not null then 6 else 2 + case when jsonb_array_length(${listeningPackages.payload}->'keyword1') > 0 then 1 else 0 end + case when jsonb_array_length(${listeningPackages.payload}->'keyword2') > 0 then 1 else 0 end + case when jsonb_array_length(${listeningPackages.payload}->'vocabulary') > 0 then 1 else 0 end end`,
       sectionNumbers: sql<number[]>`(select jsonb_agg((s->>'number')::integer) from jsonb_array_elements(${listeningPackages.payload}->'sections') s)`,

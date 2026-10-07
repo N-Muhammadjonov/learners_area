@@ -21,6 +21,7 @@ import pg from "pg";
 import { PgDialect } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 import {
+  inProgrammeSql,
   partsSql,
   productSql,
   questionsSql,
@@ -72,6 +73,7 @@ try {
              testId: sql.raw("t.id"),
              payload: sql.raw("p.payload"),
              payloadIsNull: sql.raw("p.payload is null"),
+             inProgramme: inProgrammeSql(sql.raw("t.program_ref")),
            })} as product,
            (t.publication_state in ('published','scheduled')
              and t.is_active

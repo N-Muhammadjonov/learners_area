@@ -1,7 +1,7 @@
 import "server-only";
 import { sql } from "drizzle-orm";
 import { db } from "@/db/client";
-import { productSql, type ListeningProductKind } from "@/lib/listening/product";
+import { inProgrammeSql, productSql, type ListeningProductKind } from "@/lib/listening/product";
 
 /**
  * The product ONE Listening test is, read from the database.
@@ -17,6 +17,7 @@ export async function listeningProductOf(testId: string, database = db): Promise
       testId: sql.raw("t.id"),
       payload: sql.raw("p.payload"),
       payloadIsNull: sql.raw("p.payload is null"),
+      inProgramme: inProgrammeSql(sql.raw("t.program_ref")),
     })} as product
     from listening_tests t
     left join listening_packages p on p.test_id = t.id

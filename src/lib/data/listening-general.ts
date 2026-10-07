@@ -2,7 +2,7 @@ import "server-only";
 import { and, asc, eq, sql, type SQL } from "drizzle-orm";
 import { db } from "@/db/client";
 import { listeningAttempts, listeningPackages, listeningQuestions, listeningTests } from "@/db/schema";
-import { GENERAL_PRODUCT, generalProductSql, productOfPackage } from "@/lib/listening/product";
+import { GENERAL_PRODUCT, generalProductSql, inProgrammeSql, productOfPackage } from "@/lib/listening/product";
 import { liveWhere } from "@/lib/services/cms/publication";
 import { isUuid } from "@/lib/validation/ids";
 import { listeningSchemaReady } from "./listening-schema-ready";
@@ -133,10 +133,12 @@ export async function generalListeningCards(
   // silently hide every section the centre author.
   const membership = and(
     liveWhere(listeningTests),
+    // A programme DAY is never a General section either: the relation outranks every label.
     generalProductSql({
       testId: sql`${listeningTests.id}`,
       payload: sql`${listeningPackages.payload}`,
       payloadIsNull: sql`${listeningPackages.payload} is null`,
+      inProgramme: inProgrammeSql(sql`${listeningTests.programRef}`),
     }),
   );
 
@@ -291,4 +293,5 @@ export const generalMembershipSql: SQL = generalProductSql({
   testId: sql`${listeningTests.id}`,
   payload: sql`${listeningPackages.payload}`,
   payloadIsNull: sql`${listeningPackages.payload} is null`,
+  inProgramme: inProgrammeSql(sql`${listeningTests.programRef}`),
 });

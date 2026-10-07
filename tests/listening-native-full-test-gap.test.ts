@@ -7,7 +7,7 @@ import { resolveModuleAuthor, canAuthor, registerModuleAuthors } from "../src/li
 import { academicListeningCards, academicListeningTest } from "../src/lib/data/listening-academic";
 import { generalListeningCards } from "../src/lib/data/listening-general";
 import { fullListeningCards } from "../src/lib/data/full-listening";
-import { productSql, versionTypeSql } from "../src/lib/listening/product";
+import { inProgrammeSql, productSql, versionTypeSql } from "../src/lib/listening/product";
 import { createTestDatabase } from "./support/pglite";
 
 /**
@@ -206,6 +206,7 @@ test("F5 the gap is an OWNER DECISION: the classifier calls it academic, every c
           testId: sql`${listeningTests.id}`,
           payload: sql`null::jsonb`,
           payloadIsNull: sql`true`,
+          inProgramme: inProgrammeSql(sql`${listeningTests.programRef}`),
         }),
         revisionType: versionTypeSql(sql`${listeningTests.id}`),
       })
