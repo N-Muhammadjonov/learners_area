@@ -335,6 +335,45 @@ Not yet built (Phase C continues): the Listening **Lessons** three-tab surface (
 > next checkpoint; the MCQ day programme is a separate workstream that is NOT started.
 
 
+## The module library states each card's real identity (same defect, second place — 2026-10-07)
+
+> **Why this section exists.** The owner's rule is that a card must never STATE something untrue
+> about its content. The Academic catalogue was corrected first; the SAME mistake lived in a
+> second place — `/app/listening`, the module library — and was found while writing the test that
+> was supposed to cover it.
+>
+> | what was wrong | what it is now |
+> | --- | --- |
+> | `fullListeningCards` filed every package as `coalesce(payload->>'collection', 'academic')`, so a package that proves nothing (no collection, no 4-part / 40-question structure) was presented under the Academic tab | the tab comes from the ONE classifier (`collectionTabSql` beside the ONE decision table in `parse/src/lib/listening/product.ts`); a row that proves nothing lands in an honest `uncatalogued` tab, rendered only when such a card exists |
+> | `legacyListeningCards` hard-coded `collection: 'academic'` and `40 questions` for EVERY row without a package, so a Listening SECTION authored through the CMS appeared as an Academic full test and a two-question item claimed forty | the row is filed by the revision the CMS authored (`listening:full_test` → academic, `listening:section` → general, nothing → `uncatalogued`) and the card states its REAL question count |
+> | the attempt flags on those cards never worked: the subquery fragments interpolated a bare column, which the database resolves INSIDE the subquery (`a.test_id = a.id`, i.e. never true), so a learner with a finished attempt on a package-less test was never shown as having started it | the references are qualified (`sql.raw('"listening_tests"."id"')`). Measured on a real engine before and after: the unqualified form returns 0, the qualified form 1; test L4 asserts started/completed per learner AND that another account's progress is never adopted |
+> | `null->>'collection'` is invalid SQL on the package-less path | the payload side of the classifier is `null::jsonb` |
+>
+> **A method lesson, recorded so it is not repeated.** Counting marker substrings is not evidence
+> of what a learner sees: Next.js also serializes the same props into the RSC flight payload, so
+> `data-listening-general-back` appeared twice for ONE rendered link. The navigation contract is
+> therefore asserted on RENDERED ANCHORS — `<a ... data-listening-general-back="true" ...
+> href="/app/listening">` — one way back on the catalogue, and no second breadcrumb inside the
+> attempt. The first version of the check failed on exactly that artifact and was fixed by
+> measuring the page, not by relaxing the assertion.
+>
+> **Evidence.** NEW `tests/listening-library-tabs.test.ts` L1–L5 (the mapping; "a package that
+> proves nothing is NOT academic"; a package-less row filed by its authored revision; the real
+> counts 2/1/0; the attempt flags per learner; and the removal of its own fixtures with residue
+> proven zero). Built server on real PostgreSQL: General smoke **40/40** (+L0/L0b navigation,
+> +L5h2), role/journey scenario **59/59**, Academic smoke **50/50**, listening unit **104/104**,
+> ui **252/252** (two fixtures updated to state the collection they represent — the assertions
+> were NOT weakened). Full gate on this tree: unit **1327 / 1230 pass / 0 fail / 97 skipped**,
+> ui **252/252/0/0**, real-PG **1327 / 1323 pass / 0 fail / 4 skipped**, typecheck/lint/build/
+> diff-check 0, `npm run qa:gate` **GATE PASS** (logs `/tmp/qa-out-cp2-gate3`).
+>
+> **Resolved by this correction** (the earlier owner-review note about the module library's
+> `collection: 'academic'` fallback is CLOSED — nothing was deleted or relabelled; the canonical
+> `collection` in the database is untouched and the tab is derived from it). Still an OWNER-REVIEW
+> item and unchanged here: a full test authored natively as `listening:full_test` has no canonical
+> package, so it has no hub to open and the Academic catalogue does not offer it.
+
+
 ## Lesson authoring safety (owner directive, 2026-10-06 — after the semantic correction)
 
 > **The defect this closes.** The staff authoring desk hydrated itself from the LESSON LIST:
