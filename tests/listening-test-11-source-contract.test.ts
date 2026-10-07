@@ -439,3 +439,58 @@ test("T11-24 the separately pinned Test 10 source contract is untouched", () => 
   }
   assert.equal(readFileSync("docs/LISTENING-SOURCE-ZIP-CONTRACT.md", "utf8").includes("39dc7e45"), false, "the Test 10 contract carries no Test 11 fingerprint");
 });
+
+test("T11-25 the reference's own facts derive exactly the activities it supports — and no others", () => {
+  const pkg = test11Shape();
+
+  /*
+   * The golden hub, stated by the owner: a NEW learner sees the seven activities this source genuinely
+   * supports; Review appears only after a submitted attempt; Retry only after real misses. These are
+   * DERIVED from the package's facts — the assertions below remove one fact at a time and watch the card
+   * go with it, which is what proves the registry is source-driven rather than a fixed list of nine.
+   */
+  const fresh = packageActivities(pkg);
+  assert.deepEqual(fresh, ["exam", "script", "mcq", "map", "matching", "completion", "vocab"], "a new learner sees the seven supported activities");
+  assert.deepEqual(
+    packageActivities(pkg, { examSubmitted: true, missedQuestions: 0 }),
+    ["exam", "review", "script", "mcq", "map", "matching", "completion", "vocab"],
+    "a submitted, perfect attempt adds Review",
+  );
+  assert.deepEqual(
+    packageActivities(pkg, { examSubmitted: true, missedQuestions: 3 }),
+    ["exam", "review", "script", "mcq", "map", "matching", "completion", "vocab", "retry"],
+    "and genuine misses add Retry",
+  );
+  assert.equal(fresh.length, 7, "which is seven, not nine: the two learner-gated activities are absent");
+
+  // Each capability traces to a fact in the reference, not to the source's list of activity names.
+  const facts = summary.question_type_counts;
+  assert.deepEqual(facts, { Completion: 20, "Map / Plan": 4, MCQ: 11, Matching: 5 }, "the reference's own type counts");
+  assert.equal(pkg.questions.filter((q) => q.kind === "map").length, facts["Map / Plan"], "the map card comes from real map questions");
+  assert.equal(pkg.questions.filter((q) => q.kind === "mcq").length, facts.MCQ, "the MCQ card comes from real MCQ");
+  assert.equal(pkg.questions.filter((q) => q.kind === "matching").length, facts.Matching, "Matching stays Matching");
+  assert.equal(pkg.questions.filter((q) => q.kind === "completion").length, facts.Completion, "and the completion family is counted as itself");
+  assert.equal(pkg.studyPack!.scriptParts!.length, 4, "Script Completion comes from four authored transcripts");
+
+  // Take a fact away and its card goes — the activity list is never hard-coded.
+  const withoutMap = { ...pkg, questions: pkg.questions.filter((q) => q.kind !== "map") };
+  assert.equal(packageActivities(withoutMap).includes("map"), false, "no map questions → no Map / Plan activity");
+  assert.equal(packageActivities({ ...pkg, vocabulary: [] }).includes("vocab"), false, "no vocabulary → no Vocabulary Builder");
+  assert.equal(
+    packageActivities({ ...pkg, studyPack: { ...pkg.studyPack!, scriptParts: undefined } }).includes("script"),
+    false,
+    "no authored script parts → no Script Completion",
+  );
+  const withoutMcq = { ...pkg, questions: pkg.questions.filter((q) => q.kind !== "mcq") };
+  assert.equal(packageActivities(withoutMcq).includes("mcq"), false, "no MCQ questions → no MCQ Mastery");
+
+  /*
+   * And a source that declares NOTHING still gets the activities its material proves on its own — the
+   * declaration ADDS the practice drills, it is never the only reason a card exists.
+   */
+  const undeclared = testActivities({ ...pkg, studyPack: { ...pkg.studyPack!, activities: undefined } });
+  assert.deepEqual(undeclared, ["exam", "script", "vocab", "mcq"], "an undeclared source keeps what its content proves");
+
+  // The staff preview derives the same set as a learner with no state, so the two cannot disagree.
+  assert.deepEqual(testActivities(pkg), fresh, "staff preview and the fresh-learner hub offer the same activities");
+});
