@@ -233,7 +233,7 @@ test("0038 and 0039 Preview closure approval is hash-pinned and additive", () =>
 });
 
 // ---- integration registration (CONTROLLED CONTENT-OS -> INTEGRATION review, 2026-10-06) ----
-test("real journal: the frozen Preview state (through 0039) leaves exactly 0040-0050 pending, all registered and hash-pinned", () => {
+test("real journal: the frozen Preview state (through 0039) leaves exactly 0040-0051 pending, all registered and hash-pinned", () => {
   const realJournal = JSON.parse(readFileSync("drizzle/meta/_journal.json", "utf8")) as { entries: { tag: string; when: number }[] };
   const readSql = (tag: string) => readFileSync(`drizzle/${tag}.sql`, "utf8");
   const hash = (tag: string) => createHash("sha256").update(readSql(tag)).digest("hex");
@@ -250,7 +250,7 @@ test("real journal: the frozen Preview state (through 0039) leaves exactly 0040-
     frozenPreview.pending,
     ["0040_content_imports", "0041_content_versions", "0042_mock_composition", "0043_authoring_identity",
       "0044_lesson_blocks", "0045_media_lessons", "0046_vocabulary_topic_packs", "0047_assignments_canonical",
-      "0048_typing_trainer", "0049_lesson_notes", "0050_lesson_learning_area"],
+      "0048_typing_trainer", "0049_lesson_notes", "0050_lesson_learning_area", "0051_listening_question_revision"],
   );
 
   // Fully applied: pending nothing, problems none — the planner is a no-op on a current DB.

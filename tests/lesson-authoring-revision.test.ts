@@ -744,11 +744,23 @@ test("A7 the desk derives its controls from the capability, never from decoratio
 /* N1–N4: NO SECOND SYSTEM, NO FAKE ERRORS                                    */
 /* -------------------------------------------------------------------------- */
 
-test("N1 the correction added no migration: 0050 is still the newest", () => {
+test("N1 the lesson-authoring correction added no migration of its own", () => {
+  /*
+   * This correction (hydration, authorization, revisioning of lessons) needed no new column:
+   * every migration the repository has shipped at this point was added by another workstream, and
+   * 0051 belongs to the GENERAL LISTENING revision-safety correction (the question-set revision
+   * column that keeps a published item's questions — and the answers referencing them — intact
+   * when a draft is saved). It is additive and rewrites no lesson row, so it changes nothing this
+   * suite asserts; the assertion below is what makes that claim checkable rather than assumed.
+   */
   const files = readdirSync(join(ROOT, "drizzle")).filter((name) => name.endsWith(".sql")).sort();
-  assert.equal(files.length, 51, "51 shipped migrations, exactly as before this correction");
-  assert.ok(files.at(-1)!.startsWith("0050"), `newest migration is ${files.at(-1)}`);
-  assert.ok(!files.some((name) => name.startsWith("0051")), "hydration, authorization and revisioning needed no new column");
+  assert.equal(files.length, 52, "52 shipped migrations");
+  assert.ok(files.at(-1)!.startsWith("0051"), `newest migration is ${files.at(-1)}`);
+  assert.ok(files.some((name) => name.startsWith("0050")), "the lesson learning-area migration is still shipped");
+  const listeningRevision = readFileSync(join(ROOT, "drizzle/0051_listening_question_revision.sql"), "utf8");
+  assert.match(listeningRevision, /ADD COLUMN IF NOT EXISTS "content_version_id" uuid/);
+  assert.doesNotMatch(listeningRevision, /\bUPDATE\s+"?lessons"?\s+SET\b/i, "0051 must not touch a lesson row");
+  assert.doesNotMatch(listeningRevision, /\bDELETE\s+FROM\b/i, "0051 must not delete anything");
 });
 
 test("N2 an inserted block reuses the rows around it, so learner answers survive", async () => {

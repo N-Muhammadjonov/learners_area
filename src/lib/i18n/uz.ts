@@ -987,9 +987,9 @@ const uz: Dictionary = {
       questionInstruction: "Savolga javob bering",
       highlight: "Belgilash",
       clearHighlight: "Belgini olib tashlash",
-    retake: "Bu bo‘limni qaytadan topshirish",
-    reviewSection: "Bu bo‘limni ko‘rib chiqish",
-    backToCatalogue: "General Listening ro‘yxatiga qaytish",
+    retake: "Bu bo'limni qaytadan topshirish",
+    reviewSection: "Bu bo'limni ko'rib chiqish",
+    backToCatalogue: "General Listening ro'yxatiga qaytish",
     },
 
     /** Listening → Lessons (o'quvchi uchun: Tavsif / O'qituvchi izohlari / Xulosangiz). */
@@ -3331,7 +3331,7 @@ const uz: Dictionary = {
     rateLimited: "Urinishlar juda ko'p. Biroz kutib, qayta urinib ko'ring.",
     conflict: "Buni boshqa foydalanuvchi allaqachon o'zgartirgan. Sahifani yangilang.",
     uploadNotReady: "Yuklangan fayl tayyor emas. Uni qayta yuklab, keyin saqlang.",
-    revisionManaged: "Bu material jonli, shuning uchun savollari faqat chop etilgan nusxa orqali o‘zgaradi. Tinglash mualliflik stolida nusxa yarating.",
+    revisionManaged: "Bu material jonli, shuning uchun savollari faqat chop etilgan nusxa orqali o'zgaradi. Tinglash mualliflik stolida nusxa yarating.",
     invalid: "Ba'zi maydonlar bo'sh yoki noto'g'ri. Tekshirib, qayta urinib ko'ring.",
     generic: "Saqlab bo'lmadi. Kiritganlaringiz saqlanib qoldi — qayta urinib ko'ring.",
   },
