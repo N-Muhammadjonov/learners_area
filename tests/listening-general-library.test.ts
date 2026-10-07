@@ -271,12 +271,12 @@ test("G5 a card states this learner's own truth, and nobody else's", async () =>
   }
 });
 
-test("G4 seventy sections paginate without disappearance or duplication, and the page stays bounded", async () => {
+test("G4 seventy-five sections paginate without disappearance or duplication, and the page stays bounded", async () => {
   const database = await createTestDatabase();
   try {
     const { db, query } = database;
     await seed(database);
-    for (let index = 1; index <= 68; index += 1) {
+    for (let index = 1; index <= 73; index += 1) {
       const [row] = await db
         .insert(listeningTests)
         .values({ title: `Bulk section ${String(index).padStart(2, "0")}`, audioType: "audio", sourceRef: `listening-general-bulk-${String(index).padStart(2, "0")}`, publicationState: "published", createdByUserId: OWNER, publishAt: new Date() })
@@ -300,7 +300,7 @@ test("G4 seventy sections paginate without disappearance or duplication, and the
     }
 
     const first = await generalListeningCards(LEARNER, 1, db);
-    assert.equal(first.total, 70, "two authored sections plus sixty-eight bulk rows");
+    assert.equal(first.total, 75, "two authored sections plus seventy-three bulk rows");
     assert.equal(first.cards.length, 24, "one page is bounded");
     assert.equal(first.pageSize, 24);
     assert.equal(first.hasMore, true);
@@ -313,9 +313,9 @@ test("G4 seventy sections paginate without disappearance or duplication, and the
       if (!current.hasMore) break;
       page += 1;
     }
-    assert.equal(page, 3, "the catalogue is three pages");
-    assert.equal(seen.length, 70, "every published section is reachable");
-    assert.equal(new Set(seen).size, 70, "and none is listed twice");
+    assert.equal(page, 4, "75 sections at 24 per page is four pages");
+    assert.equal(seen.length, 75, "every published section is reachable");
+    assert.equal(new Set(seen).size, 75, "and none is listed twice");
 
     const again = await generalListeningCards(LEARNER, 1, db);
     assert.deepEqual(again.cards.map((card) => card.testId), first.cards.map((card) => card.testId), "the order is stable across requests");
@@ -323,7 +323,7 @@ test("G4 seventy sections paginate without disappearance or duplication, and the
     // The membership filter runs in SQL, on the same rows the bound then cuts: a page that
     // carried an excluded row would have fewer than its size.
     const [counted] = await query<{ total: number }>(`select count(*)::integer as total from listening_tests where publication_state = 'published'`);
-    assert.ok(Number(counted!.total) > 70, "there are more published rows than sections (the bulk set is not the whole table)");
+    assert.ok(Number(counted!.total) > 75, "there are more published rows than sections (the bulk set is not the whole table)");
   } finally {
     await database.close();
   }

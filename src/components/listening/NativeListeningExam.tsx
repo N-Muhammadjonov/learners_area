@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import type { ListeningPackage } from "@/lib/listening/package";
+import type { ListeningInputMode } from "@/lib/listening/question-control";
 /** A highlight range over the VISIBLE characters of one text region. */
 export type ListeningTextHighlight = { id: string; start: number; end: number };
 
@@ -27,7 +28,15 @@ export type ListeningTextSurface = (props: ListeningTextSurfaceProps) => ReactNo
 export type ListeningExamQuestion = Omit<
   ListeningPackage["questions"][number],
   "key" | "alternatives" | "pair" | "evidence"
-> & { id: string };
+> & {
+  id: string;
+  /**
+   * The control the CANONICAL REGISTRY says this question needs
+   * (`listeningInputModeFor`). Absent means "this caller did not resolve a type code" — the
+   * package path — and the exam keeps its historical options-based mapping for it.
+   */
+  input?: ListeningInputMode;
+};
 
 /** The internal name this file uses for the same shape. */
 type Question = ListeningExamQuestion;
@@ -273,7 +282,17 @@ export function NativeListeningExam({
       try {
         localStorage.removeItem(key);
       } catch {}
-      router.push(`/app/listening/tests/${testId}/2`);
+      /*
+       * Where the learner goes after submitting.
+       *
+       * A GENERAL SECTION goes to the SECTION'S OWN address, where its own result is shown
+       * (`/app/listening/general/<sectionId>`). It must never be sent to `/app/listening/tests/:id/2`:
+       * that is the four-part Academic test's hub activity, and a section that happens to carry a
+       * canonical package would land there — the presentation would depend on how the centre
+       * authored the section, which is exactly what the owner's product forbids. A graded full
+       * exam keeps its existing destination unchanged.
+       */
+      router.push(sectionMode ? `/app/listening/general/${testId}` : `/app/listening/tests/${testId}/2`);
     } catch {
       setError(dict.fullListeningHub.examScreen.submitFailed);
       flight.current = false;
@@ -404,7 +423,14 @@ export function NativeListeningExam({
       )}
       {questions
         .filter((q) => sectionMode || q.section === section)
-        .map((q) => (
+        .map((q) => {
+          /*
+           * The control comes from the SHARED model whenever the caller resolved a canonical type
+           * code for this question (`listeningInputModeFor`). Without one — the package path —
+           * the historical options-based mapping stands, so no accepted exam screen changes.
+           */
+          const mode: ListeningInputMode = q.input ?? (q.options.some((option) => option.trim()) ? "select" : "text");
+          return (
           <div
             id={`question-${q.number}`}
             key={q.id}
@@ -414,10 +440,11 @@ export function NativeListeningExam({
             <label className="block font-medium" htmlFor={`answer-${q.id}`}>
               Q{q.number}. <ReadingText text={q.text} textKey={`${q.id}:text`} />
             </label>
-            {q.options.length ? (
+            {mode === "select" ? (
               <select
                 className="input"
                 id={`answer-${q.id}`}
+                data-listening-answer-control="select"
                 value={answers[q.id] ?? ""}
                 onChange={(e) => change(q.id, e.target.value)}
               >
@@ -433,10 +460,32 @@ export function NativeListeningExam({
                   );
                 })}
               </select>
+            ) : mode === "multi" ? (
+              /* Choose-two/three: every choice is its own control, and the answer is the set the
+                 learner picked — graded by the registry's `multi_all`, never by "first letter". */
+              <fieldset className="flex flex-col gap-1" data-listening-answer-control="multi" id={`answer-${q.id}`}>
+                {q.options.map((o, i) => {
+                  const letter = /^[A-Z](?:\s|$)/.test(o) ? o[0]! : String.fromCharCode(65 + i);
+                  const chosen = (answers[q.id] ?? "").split(",").map((entry) => entry.trim()).filter(Boolean);
+                  return (
+                    <label key={o} className="flex items-center gap-2 text-sm text-ink-700">
+                      <input
+                        type="checkbox"
+                        checked={chosen.includes(letter)}
+                        onChange={() =>
+                          change(q.id, chosen.includes(letter) ? chosen.filter((entry) => entry !== letter).join(",") : [...chosen, letter].join(","))
+                        }
+                      />
+                      {o}
+                    </label>
+                  );
+                })}
+              </fieldset>
             ) : (
               <input
                 id={`answer-${q.id}`}
                 className="input"
+                data-listening-answer-control="text"
                 maxLength={500}
                 value={answers[q.id] ?? ""}
                 autoComplete="off"
@@ -444,7 +493,8 @@ export function NativeListeningExam({
               />
             )}
           </div>
-        ))}
+          );
+        })}
       <nav className="listening-question-nav" aria-label={dict.fullListeningHub.examScreen.questionNav}>
         {questions.map((q) => (
           <button

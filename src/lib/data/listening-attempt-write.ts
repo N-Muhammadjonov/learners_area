@@ -5,6 +5,7 @@ import { db } from "@/db/client";
 import { listeningPackages, activityEvents, listeningAnswers, listeningAttempts, listeningQuestions, users } from "@/db/schema";
 import { gradePackage } from "@/lib/listening/package";
 import { gradeAnswer } from "@/lib/services/listening/grading";
+import { gradeForType, questionType, resolveQuestionType } from "@/lib/content/question-types";
 import { revisionForListeningTest } from "@/lib/content/attempt-binding";
 import { listeningQuestionsForAttempt } from "@/lib/listening/question-set";
 
@@ -26,6 +27,41 @@ export async function startListeningAttempt(userId: string, testId: string, data
   });
 }
 
+/**
+ * Grade one canonical Listening row.
+ *
+ * When the row states its canonical type code, the REGISTRY grades it (`gradeByTypeId`), so a
+ * choice answer accepts the label or the option text, a completion answer honours the type's word
+ * limit, and a choose-two question requires both — one model for the importer, the renderer, the
+ * review and the score. A row written before type codes existed keeps the historical
+ * normalised-exact rule, so no historical result changes meaning.
+ */
+function gradeListeningQuestion(
+  question: { type: "multiple_choice" | "short_answer"; typeCode: string | null; correctAnswer: string; options: string[] | null },
+  userAnswer: string,
+): boolean {
+  if (question.typeCode) {
+    const descriptor = questionType(question.typeCode, "listening") ?? resolveQuestionType(question.typeCode, "listening");
+    if (descriptor) {
+      /*
+       * A choose-two/three question is stored as ONE comma-joined key ("A,B") because that is what
+       * the canonical package format carries, while the registry's `multi_all` rule expects the
+       * individual keys. Splitting them here — driven by the registry's own answer model — is what
+       * lets a two-part answer be graded by the same rule the importer and the review use.
+       */
+      const multi = descriptor.answerModel.kind === "choice_multi";
+      const graded = gradeForType(descriptor, {
+        answer: userAnswer,
+        key: question.correctAnswer,
+        ...(multi ? { keys: question.correctAnswer.split(/[,;]/).map((entry) => entry.trim()).filter(Boolean) } : {}),
+        options: question.options ?? [],
+      });
+      return graded.correct;
+    }
+  }
+  return gradeAnswer(question.type, userAnswer, question.correctAnswer);
+}
+
 /** No answer key leaves this writer. The locked owned attempt is the write authority. */
 export async function submitListeningAttempt(userId: string, id: string, answers: { questionId: string; answer: string }[], database = db) {
   return database.transaction(async (tx) => {
@@ -44,7 +80,9 @@ export async function submitListeningAttempt(userId: string, id: string, answers
     let score = 0;
     const rows = questions.map((q) => {
       const userAnswer = answerByQuestion.get(q.id) ?? "";
-      const isCorrect = fullResults ? fullResults.find(r => r.number === q.order)!.correct : gradeAnswer(q.type, userAnswer, q.correctAnswer);
+      const isCorrect = fullResults
+        ? fullResults.find(r => r.number === q.order)!.correct
+        : gradeListeningQuestion(q, userAnswer);
       if (isCorrect) score++;
       return { attemptId: id, questionId: q.id, userAnswer, isCorrect };
     });

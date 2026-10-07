@@ -4,10 +4,12 @@ import { db } from "@/db/client";
 import { listeningAnswers, listeningAttempts, listeningDrafts, listeningQuestions } from "@/db/schema";
 import { lexicalAssistanceAllowed } from "@/lib/listening/lexical-policy";
 import { listeningExamState } from "@/lib/data/full-listening";
+import { listeningQuestionsForAttempt } from "@/lib/listening/question-set";
 import { authoredSectionNumber, getOpenableSection } from "@/lib/data/listening-general";
 import { startListeningAttempt } from "@/lib/data/listening-attempt-write";
 import type { ListeningExamQuestion } from "@/components/listening/NativeListeningExam";
 import type { MapDiagram } from "@/lib/listening/map-diagram";
+import { listeningInputModeFor } from "@/lib/listening/question-control";
 import type { Dictionary } from "@/lib/i18n/en";
 import type { Role } from "@/lib/auth/roles";
 
@@ -109,7 +111,15 @@ export async function loadSectionExercise(
   if (!attempt) return null;
 
   if (attempt.status !== "in_progress") {
-    const answers = await database.query.listeningAnswers.findMany({ where: eq(listeningAnswers.attemptId, attempt.id) });
+    /*
+     * The review reads THIS attempt's own set and its authored evidence — the questions the
+     * learner actually answered, with the explanations the centre wrote for them. A later
+     * revision's questions and evidence are not this learner's result.
+     */
+    const [answers, reviewQuestions] = await Promise.all([
+      database.query.listeningAnswers.findMany({ where: eq(listeningAnswers.attemptId, attempt.id) }),
+      listeningQuestionsForAttempt(attempt, database),
+    ]);
     return {
       kind: "result",
       attemptId: attempt.id,
@@ -117,10 +127,24 @@ export async function loadSectionExercise(
       title: section.test.title,
       score: attempt.score,
       total: attempt.totalQuestions,
-      questions: section.questions,
+      questions: reviewQuestions.length ? reviewQuestions : section.questions,
       answers,
     };
   }
+
+  /*
+   * THE ATTEMPT'S OWN SET, never the live one.
+   *
+   * `getOpenableSection` answers "is this section open, and would a learner starting now get
+   * questions?" — but the questions a learner RENDERS must be the ones their attempt was bound to
+   * when it started. Reading the live set here would swap a v1 attempt onto v2's questions the
+   * moment a revision is published: the learner's saved answers would point at rows they can no
+   * longer see, and their score would be computed against a set they never answered. The attempt's
+   * bound set is therefore resolved separately, with the live set only as the fallback for an
+   * attempt that has no questions of its own (an unbound, legacy item).
+   */
+  const attemptQuestions = await listeningQuestionsForAttempt(attempt, database);
+  const questions = attemptQuestions.length ? attemptQuestions : section.questions;
 
   const draft = await database.query.listeningDrafts.findFirst({ where: eq(listeningDrafts.attemptId, attempt.id) });
   /*
@@ -140,13 +164,16 @@ export async function loadSectionExercise(
     imageUrl: section.imageObjectKey ? `/api/resources/${section.imageObjectKey}` : null,
     mapDiagram: section.package?.mapDiagram,
     duration: section.package?.audio.durationSec,
-    questions: section.questions.map((row) => ({
+    questions: questions.map((row) => ({
       id: row.id,
       number: row.order,
       section: sectionNo ?? 1,
       text: row.questionText,
       instruction: dict.listening.general.questionInstruction,
       options: row.options ?? [],
+      // The control is the CANONICAL model's decision (§14/§15): the row states a type code, the
+      // registry states its answer model, and this is the only place the two are put together.
+      input: listeningInputModeFor({ typeCode: row.typeCode, options: row.options }),
     })),
     initial: draft?.answers ?? {},
     audioPosition: draft?.audioPosition ?? 0,

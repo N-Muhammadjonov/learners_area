@@ -47,7 +47,7 @@ test("H1–H3 a stored highlight paints exactly those characters and nothing els
   globalThis.fetch = (async () => json({ results: [] })) as typeof fetch;
   const text = "The tour lasts forty minutes today.";
   const spans = [{ id: "h1", start: 4, end: 8 }, { id: "h2", start: 22, end: 26 }];
-  const root = await render(<ClickableText dict={en} text={text} sourceType="listening_section" sourceId="attempt-1" highlights={spans} />);
+  const root = await render(<ClickableText dict={en} text={text} sourceType="listening" sourceId="attempt-1" highlights={spans} />);
   try {
     const painted = marks();
     assert.equal(painted.length, 2, "both ranges are painted");
@@ -84,7 +84,7 @@ test("H2b a selection inside the text offers the small control, and choosing it 
   const text = "The museum opens at nine.";
   const reported: { start: number; end: number }[] = [];
   const root = await render(
-    <ClickableText dict={en} text={text} sourceType="listening_section" sourceId="attempt-2" onHighlightRange={(range) => reported.push(range)} />,
+    <ClickableText dict={en} text={text} sourceType="listening" sourceId="attempt-2" onHighlightRange={(range) => reported.push(range)} />,
   );
   try {
     const region = document.querySelector<HTMLElement>("[data-clickable-text]")!;

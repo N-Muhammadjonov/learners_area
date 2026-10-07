@@ -49,7 +49,18 @@ export function ListeningAnalysis({
                 {dict.listening.correctAnswer}: <span className="text-ink-900">{q.correctAnswer}</span>
               </p>
             )}
-            <p className="mt-1 text-xs text-ink-500">{q.explanation}</p>
+            {/*
+              * EVIDENCE ONLY WHEN IT WAS AUTHORED (§28). The row carries whatever the centre
+              * wrote — and nothing when the centre wrote nothing — so an empty explanation is
+              * left out instead of rendering a blank line that looks like evidence. This is not
+              * a stylistic choice: a review may never imply that something was explained when
+              * nobody explained it, and generated wording in a review would be fabrication.
+              */}
+            {q.explanation.trim() ? (
+              <p className="mt-1 text-xs text-ink-500" data-listening-analysis-evidence>
+                {q.explanation}
+              </p>
+            ) : null}
           </Card>
         );
       })}
