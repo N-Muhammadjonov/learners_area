@@ -3,7 +3,8 @@ import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import { and, eq, sql } from "drizzle-orm";
 import { db } from "../src/db/client";
-import { lexemes, lexicalOccurrences, listeningAttempts, lexicalUnitPronunciations, userVocabulary, userVocabularyContexts, users, generalReadingSets, generalReadingPassages, vocabularyUsages } from "../src/db/schema";
+import { lexemes, lexicalOccurrences, listeningAttempts, listeningPackages, listeningTests, lexicalUnitPronunciations, userVocabulary, userVocabularyContexts, users, generalReadingSets, generalReadingPassages, vocabularyUsages } from "../src/db/schema";
+import { inArray } from "drizzle-orm";
 import { lexicalDetailFor, resolveOccurrence, type VocabularySourceSnapshot } from "../src/lib/services/lexical/context";
 import { ingestListeningOccurrences } from "../src/lib/services/lexical/listening-occurrences";
 import { addVocabularyBatch, applyScheduledReview, listVocabularyContexts, recordGameAnswer, recordSentenceUse } from "../src/lib/services/vocabulary/engine";
@@ -52,10 +53,10 @@ async function readingFixture(userId: string, status: "completed" | "in_progress
 }
 
 /** A live Listening test with a package; authored vocabulary ingested exactly as the import route does. */
-async function listeningFixture(authorId: string, transcript: string, vocabulary: Vocab[], section = 2) {
+async function listeningFixture(authorId: string, transcript: string, vocabulary: Vocab[], section = 2, collection?: "general" | "academic") {
   const tag = randomUUID().slice(0, 8);
   const [testRow] = await db.execute<{ id: string }>(sql`insert into listening_tests (created_by_user_id, title, audio_type, audio_url) values (${authorId}, ${`QA2 listening ${tag}`}, 'audio', '/api/resources/qa2') returning id`).then((r) => r.rows);
-  const payload = { testId: `qa2-${tag}`, sections: [{ number: section, title: "QA2", transcript }], vocabulary, questions: [] };
+  const payload = { ...(collection ? { schemaVersion: 1, collection, category: "full", provenance: "QA2 fixture", audio: { path: "audio.mp3", durationSec: 600 }, imagePath: null, keyword1: [], keyword2: [] } : {}), testId: `qa2-${tag}`, sections: [{ number: section, title: "QA2", transcript }], vocabulary, questions: [] };
   await db.execute(sql`insert into listening_packages (test_id, source_id, payload, audio_object_key, source_hash) values (${testRow!.id}, ${`qa2-${tag}`}, ${JSON.stringify(payload)}::jsonb, 'qa2-audio', ${"0".repeat(64)})`);
   const lexical = await db.transaction((tx) => ingestListeningOccurrences(tx, testRow!.id, payload as never));
   const occurrences = await db.select().from(lexicalOccurrences).where(and(eq(lexicalOccurrences.listeningTestId, testRow!.id), eq(lexicalOccurrences.segmentKey, `s${section}`))).orderBy(lexicalOccurrences.startChar);
@@ -265,7 +266,7 @@ test("14 an unresolved Listening occurrence cannot be saved under a sense; 24 mi
 // Listening mode separation (FULL_EXAM vs REVIEW_CONTROL vs VOCABULARY_STUDY).
 // ---------------------------------------------------------------------------
 import { readFileSync } from "node:fs";
-import { lexicalAssistanceAllowed, modeForActivity } from "../src/lib/listening/lexical-policy";
+import { lexicalAssistanceAllowed, modeForActivity, modeForListeningProduct } from "../src/lib/listening/lexical-policy";
 import { listeningExamState } from "../src/lib/data/full-listening";
 import { listeningVocabularySession } from "../src/lib/services/lexical/listening-occurrences";
 
@@ -289,6 +290,45 @@ test("M21 Full Exam reveals nothing: exam components carry no lexical code or tr
   assert.equal(during?.status, "locked", "…but revealing it is not permitted (permission)");
   assert.equal(during?.lexeme, null);
   assert.equal(during?.snapshot, null);
+});
+
+test("M21b a General section is a LEARNING activity: its own open attempt does not lock its vocabulary, while the Academic full exam stays sealed", { skip: !enabled }, async () => {
+  // The mode comes from what the source IS — the same product classifier the catalogues use —
+  // so a section's word lookup is permitted while the learner is working in it, and an Academic
+  // full test with an attempt in progress is still locked.
+  assert.equal(modeForListeningProduct("general_section"), "SECTION_PRACTICE");
+  assert.equal(modeForListeningProduct("academic_full_test"), "REVIEW_CONTROL");
+  assert.equal(modeForListeningProduct("mcq_programme"), "REVIEW_CONTROL", "a practice package is not a section");
+  assert.equal(lexicalAssistanceAllowed("SECTION_PRACTICE", { submitted: false, examInProgress: true, staff: false }), true);
+  assert.equal(lexicalAssistanceAllowed("REVIEW_CONTROL", { submitted: false, examInProgress: true, staff: false }), false, "the exam seat rule is unchanged");
+  assert.equal(lexicalAssistanceAllowed("FULL_EXAM", { submitted: true, examInProgress: false, staff: true }), false, "the timed exam never reveals lexical data");
+
+  isolated();
+  const author = await learner("admin");
+  const student = await learner();
+  const section = await listeningFixture(author.id, "The tour guide met us at the harbour.", [vocab("harbour", "n", `A place where boats moor ${randomUUID()}`, "The tour guide met us at the harbour.")], 2, "general");
+  const academic = await listeningFixture(author.id, "I opened an account at the bank.", [vocab("bank", "n", `An institution that keeps money ${randomUUID()}`, "I opened an account at the bank.")], 2, "academic");
+  try {
+    await examAttempt(student.id, section.testId, "in_progress");
+    await examAttempt(student.id, academic.testId, "in_progress");
+    const inSection = await resolveOccurrence(student, "listening", section.testId, section.occurrences[0]!.id);
+    assert.notEqual(inSection?.status, "locked", "a learner working in a section may look a word up");
+    const inExam = await resolveOccurrence(student, "listening", academic.testId, academic.occurrences[0]!.id);
+    assert.equal(inExam?.status, "locked", "…and the running full exam is still sealed");
+  } finally {
+    // This test's fixtures are REMOVED, and the removal itself is asserted: a section the centre
+    // can still see in the General catalogue after a test run would be residue, not a fixture.
+    const ids = [section.testId, academic.testId];
+    await db.delete(listeningAttempts).where(inArray(listeningAttempts.testId, ids));
+    await db.delete(listeningPackages).where(inArray(listeningPackages.testId, ids));
+    await db.delete(lexicalOccurrences).where(inArray(lexicalOccurrences.listeningTestId, ids));
+    await db.delete(listeningTests).where(inArray(listeningTests.id, ids));
+    const residue = await db.execute<{ tests: number; packages: number; occurrences: number }>(sql`
+      select (select count(*)::integer from listening_tests where id = ${ids[0]} or id = ${ids[1]}) as tests,
+             (select count(*)::integer from listening_packages where test_id = ${ids[0]} or test_id = ${ids[1]}) as packages,
+             (select count(*)::integer from lexical_occurrences where listening_test_id = ${ids[0]} or listening_test_id = ${ids[1]}) as occurrences`);
+    assert.deepEqual(residue.rows[0], { tests: 0, packages: 0, occurrences: 0 }, "no fixture row remains");
+  }
 });
 
 test("M22 independent study: never-taken → resolved; exam open → locked; submitted → locked; a NEW open attempt re-locks", { skip: !enabled }, async () => {

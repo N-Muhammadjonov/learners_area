@@ -1,17 +1,36 @@
 "use client";
 import { ListeningMap } from "./ListeningMap";
-import { ClickableText } from "@/components/vocabulary/ClickableText";
 import type { MapDiagram } from "@/lib/listening/map-diagram";
 import type { Dictionary } from "@/lib/i18n/en";
 import { requestJson } from "@/lib/http/client-request";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import type { ListeningPackage } from "@/lib/listening/package";
-type Question = Omit<
+/** A highlight range over the VISIBLE characters of one text region. */
+export type ListeningTextHighlight = { id: string; start: number; end: number };
+
+/** What an injected text surface is given; it draws the text and reports a chosen range. */
+export type ListeningTextSurfaceProps = {
+  text: string;
+  textKey: string;
+  className?: string;
+  highlights: ListeningTextHighlight[];
+  onHighlightRange: (range: { start: number; end: number }) => void;
+  onRemoveHighlight: (id: string) => void;
+};
+
+/** A caller-composed text surface (a plain function of its props). */
+export type ListeningTextSurface = (props: ListeningTextSurfaceProps) => ReactNode;
+
+/** One question as an exam screen renders it: the package shape WITHOUT its answer key. */
+export type ListeningExamQuestion = Omit<
   ListeningPackage["questions"][number],
   "key" | "alternatives" | "pair" | "evidence"
 > & { id: string };
+
+/** The internal name this file uses for the same shape. */
+type Question = ListeningExamQuestion;
 export function NativeListeningExam({
   dict,
   attemptId,
@@ -29,15 +48,22 @@ export function NativeListeningExam({
    * SECTION mode — the General Listening presentation of ONE standalone section.
    *
    * The owner's product design: a section is ONE listening activity, never the four-part
-   * combined exam. So the header does not call itself "Full Exam", the four-part navigation
-   * is absent, and — because a section is a LEARNING surface, not the timed exam — the
-   * learner may look a word up and highlight what they are reading. The Academic full exam
-   * keeps every one of those restrictions: this flag defaults to false, so nothing about the
-   * existing exam changes.
+   * combined exam. So the header does not call itself "Full Exam" and the four-part
+   * navigation is absent.
    */
   sectionMode = false,
-  /** Vocabulary assistance inside THIS activity (never true for a graded full exam). */
-  lexicalAssistance = false,
+  /**
+   * The surface that renders the activity's reading text, INJECTED by the caller.
+   *
+   * This component is used by the graded Academic exam, which must reveal nothing: no word
+   * lookup, no meaning, no pronunciation, and it must therefore hold no lexical knowledge of
+   * its own (a protection test enforces exactly that on this file). So the text is rendered by
+   * whatever the caller passes in: the General section composes the canonical learning text
+   * surface, and every exam screen passes nothing and gets plain text, byte for byte as
+   * before. The highlight bookkeeping the surface reports is kept here, scoped to THIS
+   * attempt, and never touches an answer.
+   */
+  textSurface,
 }: {
   dict: Dictionary;
   attemptId: string;
@@ -46,14 +72,14 @@ export function NativeListeningExam({
   audioUrl: string;
   imageUrl: string | null;
   mapDiagram?: MapDiagram;
-  questions: Question[];
+  questions: ListeningExamQuestion[];
   initial: Record<string, string>;
   audioPosition: number;
   audioStartedAt: string | null;
   /** The authored length, when the section states one; the audio element is the fallback. */
   duration?: number;
   sectionMode?: boolean;
-  lexicalAssistance?: boolean;
+  textSurface?: ListeningTextSurface;
 }) {
   const router = useRouter();
   const audio = useRef<HTMLAudioElement>(null);
@@ -138,27 +164,21 @@ export function NativeListeningExam({
     saveTexts({ ...texts, [textKey]: (texts[textKey] ?? []).filter((highlight) => highlight.id !== id) });
   }
   /**
-   * ONE renderer for the reading text. When lexical assistance is allowed (a General
-   * LEARNING section) the canonical `ClickableText` renders it, so a word lookup uses the
-   * single Dictionary architecture and the learner can highlight what they select. When it is
-   * not (the Academic exam) the text is rendered plain, exactly as before.
+   * ONE renderer for the reading text of this activity. Without an injected surface the text
+   * is plain — which is what every graded screen gets — and with one the caller's surface
+   * draws it and may report a highlight range back, which is stored for this attempt only.
    */
   function ReadingText({ text, textKey, className }: { text: string; textKey: string; className?: string }) {
     if (!text) return null;
-    if (!lexicalAssistance) return <span className={className}>{text}</span>;
-    return (
-      <ClickableText
-        dict={dict}
-        text={text}
-        inline
-        className={className}
-        sourceType="listening_section"
-        sourceId={attemptId}
-        highlights={texts[textKey] ?? []}
-        onHighlightRange={(range) => addHighlight(textKey, range)}
-        onRemoveHighlight={(id) => removeHighlight(textKey, id)}
-      />
-    );
+    if (!textSurface) return <span className={className}>{text}</span>;
+    return textSurface({
+      text,
+      textKey,
+      className,
+      highlights: texts[textKey] ?? [],
+      onHighlightRange: (range) => addHighlight(textKey, range),
+      onRemoveHighlight: (id) => removeHighlight(textKey, id),
+    });
   }
   async function save(startAudio = false) {
     if (saving.current) return;

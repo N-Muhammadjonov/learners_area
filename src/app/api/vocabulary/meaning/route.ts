@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { fullListeningDetail, listeningExamState } from "@/lib/data/full-listening";
-import { lexicalAssistanceAllowed } from "@/lib/listening/lexical-policy";
+import { lexicalAssistanceAllowed, modeForListeningProduct } from "@/lib/listening/lexical-policy";
+import { listeningProductOf } from "@/lib/data/listening-product";
 import { isUuid } from "@/lib/validation/ids";
 const headers = { "Cache-Control": "private, no-store" };
 /**
@@ -21,7 +22,10 @@ export async function GET(req: NextRequest) {
   try {
     const detail = await fullListeningDetail(sourceId, user.role);
     if (!detail) return NextResponse.json({ error: "source_not_found" }, { status: 404, headers });
-    if (!lexicalAssistanceAllowed("REVIEW_CONTROL", await listeningExamState(user, sourceId))) return NextResponse.json({ error: "lexical_assistance_locked" }, { status: 403, headers });
+    // The source's own product decides the mode: a General section is a learning activity, an
+    // Academic full test with an attempt in progress stays sealed.
+    if (!lexicalAssistanceAllowed(modeForListeningProduct((await listeningProductOf(sourceId)) ?? "unclassified"), await listeningExamState(user, sourceId)))
+      return NextResponse.json({ error: "lexical_assistance_locked" }, { status: 403, headers });
     return NextResponse.json({ status: "unresolved", contextual: null }, { headers });
   } catch {
     return NextResponse.json({ error: "temporarily_unavailable" }, { status: 503, headers });

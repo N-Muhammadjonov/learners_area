@@ -29,12 +29,12 @@ committed; the remaining phases are open and are being worked in order.
 | LSN-010 | MCQ Mastery reuse | **IN PROGRESS** | server-authoritative staged engine already exists (`src/lib/services/listening/mcq-{access,payload,mastery}.ts`, `McqMastery.tsx`); the day program must reuse it, not duplicate it |
 | LSN-011 | Matching practice | NOT STARTED | the graded route (`/app/listening/tests/[id]/matching` → `POST /api/listening/full/:id/practice`) exists and is now offered on a hub ONLY when the source authored `matching` into its study pack (proven in the Academic checkpoint). Acceptance of the practice itself has not been performed, so the row stays NOT STARTED |
 | LSN-012 | Completion practice | NOT STARTED | the graded route (`.../completion`) exists and is now offered only for an authored `completion`, and the hub draws on real question types (Matching/Completion/MCQ) only. Acceptance pending, as with LSN-011 |
-| LSN-013 | Listening vocabulary (canonical lexical) | NOT STARTED | |
+| LSN-013 | Listening vocabulary (canonical lexical) | **IN PROGRESS** | the ONE canonical lexical architecture is now reachable from a General section: the section asks the canonical API with the canonical `listening` source identity, and a lookup in a section is answered while the learner works in it (`SECTION_PRACTICE`), while a running Academic full exam stays sealed (M21 unchanged, M21b, smoke L9/L9b). No table, no second dictionary, no pre-submission answer material. The persisted cross-device vocabulary work and the owner's frozen dictionary catalog are still owed, so the row is not DONE |
 | LSN-014 | Retry weak areas | NOT STARTED | Retry now appears ONLY for a learner with genuinely missed questions in their latest submitted attempt (per-question misses read from the submitted answers; proven by tests and the built-server scenario), and its route already filters to those questions. The human acceptance of the drill itself is still owed |
-| LSN-015 | General Listening is section-only (no full mode, no hub) | NOT STARTED | |
-| LSN-016 | General Listening note-taking | NOT STARTED | |
-| LSN-017 | General Listening highlight | NOT STARTED | |
-| LSN-018 | General Listening vocabulary | NOT STARTED | |
+| LSN-015 | General Listening is section-only (no full mode, no hub) | **IN PROGRESS** | `/app/listening/general` lists published SECTIONS only (packaged and natively authored) and a section opens DIRECTLY into ONE Listening activity — no hub, no four-part exam, no Script/MCQ/Matching cards (G1–G3/G7, smoke 37/37, role/journey scenario 59/59). The human browser pass is EXTERNALLY UNVERIFIED (HTTP + real sessions + real PostgreSQL was performed; jsdom is not browser evidence), so the row is not DONE |
+| LSN-016 | General Listening note-taking | **IN PROGRESS** | a section attempt carries the EXISTING Listening note-taking (never the lesson's Xulosangiz), scoped to the attempt; asserted structurally in the journey scenario (J8/J9) and by the built-server smoke. Cross-device persistence is the next checkpoint, so the row is not DONE |
+| LSN-017 | General Listening highlight | **IN PROGRESS** | highlight is a narrow, opt-in extension of the ONE canonical text surface (character offsets over the visible text, per learner per attempt, `data-highlight-surface`), proven by H1–H5 + G9 + smoke L5i/L5j. A server-persisted store needs a table and is a separately recorded decision (none added), so the row is not DONE |
+| LSN-018 | General Listening vocabulary | **IN PROGRESS** | vocabulary inside a section uses the canonical Dictionary/lexical architecture and the canonical Listening source identity; the spelling-only lookup is answered for a section and refused for a running full exam (M21b, G10, smoke L9/L9b). The owner's frozen dictionary catalog is still external, so meanings are honestly "not checked yet" where no sense exists |
 | LSN-019 | MCQ Day architecture (program → day → 5 questions) | NOT STARTED | new schema required |
 | LSN-020 | exactly 5 valid MCQs per published Day | NOT STARTED | |
 | LSN-021 | 30-day / 150-item corpus support without hard-coding 150 | NOT STARTED | |
@@ -280,6 +280,59 @@ Not yet built (Phase C continues): the Listening **Lessons** three-tab surface (
 > started; no route for dedicated MCQ packages is invented here — until its own surface exists they
 > remain reachable in the library under their own collection tabs, and the owner-review tool lists
 > every row the catalogue deliberately does not classify.
+
+
+## General Listening — the standalone section catalogue and its ONE activity (V4 owner directive, 2026-10-07)
+
+> **The product this implements.** `/app/listening/general` lists the centre's published standalone
+> SECTIONS, and a section opens DIRECTLY into the familiar Listening interface — audio, questions,
+> question navigation, note-taking, highlight, vocabulary, submit. There is no per-section activity
+> hub, no four-part General exam, no separate Script / MCQ / Matching cards: a section's
+> multiple-choice questions are answered inside that one attempt. Nothing is inferred from a title
+> or from media; membership comes from the same classifier the Academic catalogue uses.
+>
+> | contract | evidence |
+> | --- | --- |
+> | the catalogue lists PUBLISHED SECTIONS only — a package-backed one and one authored through the CMS with NO package at all — and lists no academic full test, no dedicated MCQ package, no question-type practice, no Essential recording, no draft and no archived item | `generalListeningCards` reads `generalProductSql` (filter BEFORE the bound) over a LEFT JOIN so a package-less section is not hidden; `tests/listening-general-library.test.ts` **G1 8/8** (G1–G3, G7); built-server `L1`/`L1c`/`L2`/`L2b`/`L2c` |
+> | the read is bounded, paged and stably ordered, a nonsense page argument clamps to the first page, and every section is reachable exactly once | `GENERAL_LISTENING_PAGE_SIZE = 24`; `G4` (70 sections: 3 pages, no repeat, no disappearance); smoke `L4`–`L4e` (24 + 7 across two pages, identical order on a repeat request) |
+> | a card states the section's authored identity (section number from the revision, the real question count, the authored duration only when one exists) and the LEARNER'S OWN truth — nothing before they open it, "In progress" for their own open attempt, their own last result after submitting, never another learner's | `G5`, `G6`; smoke `L3b`–`L3f`, `L7`; human journey `J2`–`J4`, `J17`, `J18` |
+> | opening a section is a SINGLE Listening activity: one attempt, the audio, the questions, question navigation, note-taking; the four-part exam framing is ABSENT (asserted structurally, never by searching for words that also exist in the dictionary payload) | `SectionListeningActivity` → `NativeListeningExam` with `sectionMode`; markers `data-listening-attempt-mode="section"` / no `data-listening-exam-sections`; `G7`; smoke `L5`–`L5h`; human `student6`–`student10` |
+> | a FINISHED section shows its own result. **Defect closed here:** a section that carries a canonical package was redirected to `/app/listening/tests/:id/2` — the four-part Academic result screen — while a natively authored one showed its own result, so the presentation depended on HOW the centre authored it | `if (!section && pkg)` in the attempt page; smoke `L8`/`L8b`/`L8c` (submit → the section's own page, never a redirect); human `J13`–`J16` |
+> | notes are the EXISTING Listening attempt note-taking, scoped to the attempt — never the lesson's Xulosangiz | the attempt's own `listening-exam-notes` control; human `J8`, `J9` (asserted on the lesson-notes panel marker, so the dictionary payload cannot fake the result) |
+> | highlight is a NARROW extension of the ONE canonical text surface: opt-in (every other surface is byte-for-byte unchanged), character offsets over the VISIBLE text, stored per learner per attempt, and it can never read an answer or a key | `ClickableText` props `highlights`/`onHighlightRange`/`onRemoveHighlight` + `data-highlight-surface`; `tests/ui/listening-section-highlight.test.tsx` H1–H5; `G9`; smoke `L5i`/`L5j` |
+> | vocabulary is the ONE canonical Dictionary/lexical architecture — no new tables, no duplicate lexemes, no pre-submission answer material. The section asks the canonical lexical API with the canonical Listening source identity, and its lookup is ANSWERED while the learner is working in the section, while a RUNNING Academic full exam stays sealed | `lexicalAssistanceAllowed("SECTION_PRACTICE", …)` in `src/lib/listening/lexical-policy.ts` + `modeForListeningProduct` driven by `listeningProductOf` (the same classifier the catalogues use) → `resolveListeningOccurrence` and `/api/vocabulary/meaning`; smoke `L9`/`L9b`; `M21b` (21/21) proves both directions on real PostgreSQL; `G10` proves the reader agrees with the classifier for every case |
+> | the graded exam screen still holds NO lexical knowledge: the section composes the canonical surface and INJECTS it, so the protection test that seals the full exam is intact rather than relaxed | `M21` unchanged and passing; `G9` now also asserts `NativeListeningExam.tsx` contains no vocabulary component and that the section wrapper composes the canonical one |
+> | a section authored through the CMS persists the learner's answers in progress. **Defect closed here:** the draft route required a canonical package, so a natively authored section kept answers only in the learner's browser and would have been refused server-side | `PUT /api/listening/attempts/:id/draft` falls back to the canonical question rows when no package exists and bounds the position by the authored length only when one is stated; human `owner6`, `owner7` (stored on the server), `owner7b`, `J6`, `J7`, `J7b` |
+> | authoring goes through the one Content OS: the owner authors a `listening:section` and publishes it; a TEACHER cannot author a Listening section at all; and a five-question item filed as `listening:full_test` cannot be published as a formal IELTS test — the refusal states the real count and tells the author to file it as a section, and nothing is written | human `owner1`–`owner5`, `owner8`, `teacher3`, `teacher4`, `admin1`–`admin5` (422 `incomplete_full_test`, the row still a draft, absent from both catalogues) |
+> | security at the boundaries: anonymous visitors are sent to sign in and refused by the API (401) without leaking anything; a learner cannot open another account's attempt; no key or hidden explanation reaches the catalogue or the attempt; a draft is invisible to learners and to staff alike | human `anon1`–`anon5`, `student5`, `student9`, `student11`, `teacher2` |
+> | fixtures are deleted and the removal is PROVEN | `G8` + `G10` self-cleanup; smoke `Z1`–`Z3`; human `Z1`–`Z5` (rows, revisions, the scenario's own teacher/admin identities, both catalogues clean) |
+>
+> **Two process lessons, recorded so they are not repeated.** (1) A whole-page regex is not evidence:
+> the attempt page carries the entire dictionary, where "Full Exam" appears three times, so the
+> structural markers above are the assertion. (2) A test that seeds product-visible rows MUST delete
+> them: the new classifier test initially left `collection: general/academic` fixtures in QA2, which
+> silently inflated the catalogue totals the smoke asserts. The test now removes its rows in a
+> `finally` block and asserts zero residue — and the residue it had already written was deleted and
+> re-proved (catalogue totals back to the fixtures' own counts).
+>
+> Gates on this tree: unit **1325 tests / 1228 pass / 0 fail / 97 skipped**, ui **252/252/0/0**,
+> real-PG **1325 / 1321 pass / 0 fail / 4 skipped**, `typecheck` 0, `lint` 0, `build` 0,
+> `git diff --check` 0, `npm run qa:gate` **GATE PASS** (logs `/tmp/qa-out-cp2-gate2`). Checkpoint 1
+> was RE-PROVED after the classifier reorder: classification dataset **21/21**, Academic
+> built-server **50/50**, General built-server **37/37**, role/journey scenario **59/59**.
+>
+> **Not claimed / owner actions.** (1) The §25 human scenario was performed over real HTTP against
+> the built server with real PostgreSQL and real sessions — NOT in a browser: drawing a text
+> selection with a pointer and the popover's paint are therefore **EXTERNALLY UNVERIFIED** (the DOM
+> test covers the range logic and is not browser evidence). (2) A highlight that survives a
+> different device needs a persisted store — that is a TABLE, i.e. a separately recorded decision,
+> and none was added (journal is still 51/51; the store is per learner per attempt in the browser).
+> (3) A full test authored natively as `listening:full_test` (no canonical package) has no hub to
+> open, so the Academic catalogue does not offer it — an authoring-path gap recorded for OWNER
+> REVIEW, asserted in both directions by `A11`, never patched by inventing a hub. (4) The Dictionary
+> catalog remains the owner's frozen asset (skips), and the dedicated 30-day MCQ corpus is still the
+> owner's. (5) Notes/highlight persistence across devices and the per-activity note scoping are the
+> next checkpoint; the MCQ day programme is a separate workstream that is NOT started.
 
 
 ## Lesson authoring safety (owner directive, 2026-10-06 — after the semantic correction)

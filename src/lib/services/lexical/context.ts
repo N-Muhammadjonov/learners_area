@@ -5,7 +5,8 @@ import { generalMembership } from "@/lib/data/general-reading";
 import { db } from "@/db/client";
 import { lexicalOccurrences, lexemes, lexicalUnitPronunciations, lexicalUnits, readingAttempts, readingPassages } from "@/db/schema";
 import { fullListeningDetail, listeningExamState } from "@/lib/data/full-listening";
-import { lexicalAssistanceAllowed } from "@/lib/listening/lexical-policy";
+import { lexicalAssistanceAllowed, modeForListeningProduct } from "@/lib/listening/lexical-policy";
+import { listeningProductOf } from "@/lib/data/listening-product";
 import { sentenceAt } from "./listening-occurrences";
 import { isStaff, type Role } from "@/lib/auth/roles";
 import { readingLexicalAssistanceAllowed, type ReadingExamState, type ReadingMode } from "@/lib/reading/lexical-policy";
@@ -94,8 +95,15 @@ export type OccurrenceResolution =
 export async function resolveListeningOccurrence(user: { id: string; role: Role }, testId: string, occurrenceId: string): Promise<OccurrenceResolution | null> {
   const detail = await fullListeningDetail(testId, user.role);
   if (!detail) return null;
-  // Exam integrity: occurrence data may exist before the exam; revealing it may not.
-  if (!lexicalAssistanceAllowed("REVIEW_CONTROL", await listeningExamState(user, testId))) return { status: "locked", lexeme: null, snapshot: null };
+  /*
+   * Exam integrity: occurrence data may exist before the exam; revealing it may not.
+   *
+   * The mode comes from what the source IS: a standalone General section is a learning
+   * activity whose own open attempt must not lock its vocabulary, while an Academic full test
+   * with an attempt in progress stays sealed.
+   */
+  if (!lexicalAssistanceAllowed(modeForListeningProduct((await listeningProductOf(testId)) ?? "unclassified"), await listeningExamState(user, testId)))
+    return { status: "locked", lexeme: null, snapshot: null };
   const occurrence = await db.query.lexicalOccurrences.findFirst({
     where: and(eq(lexicalOccurrences.id, occurrenceId), eq(lexicalOccurrences.listeningTestId, testId), eq(lexicalOccurrences.sourceType, "listening")),
   });

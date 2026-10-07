@@ -223,6 +223,48 @@ try {
   const catalogueAgain = await get("/app/listening/general", cookie);
   check("L7 the catalogue now shows this learner's real status", Boolean(cardOf(catalogueAgain.text, sectionId)?.includes("In progress")), "status did not follow the learner's own attempt");
 
+  /*
+   * Can the learner actually USE the vocabulary the section offers?
+   *
+   * The surface existing is not enough: the canonical lexical API decides per request, and it
+   * used to lock a word lookup whenever an attempt for the same test was open — which, for a
+   * section, is ALWAYS (the learner is working in it). So the section's own lookup is asked
+   * for real here, and the Academic seal is re-proved in the same breath.
+   */
+  const spellingOnly = await get(`/api/vocabulary/meaning?sourceId=${sectionId}&q=tour`, cookie);
+  check("L9 a word lookup inside the section is answered, not locked out", !(spellingOnly.status === 403 && spellingOnly.text.includes("lexical_assistance_locked")), `status ${spellingOnly.status} ${spellingOnly.text.slice(0, 120)}`);
+  const academicAttempt = await fetch(`${BASE}/api/listening/attempts`, {
+    method: "POST",
+    headers: { cookie, "content-type": "application/json" },
+    body: JSON.stringify({ testId: academicId }),
+  });
+  const academicStarted = await academicAttempt.json().catch(() => ({}));
+  const academicLookup = await get(`/api/vocabulary/meaning?sourceId=${academicId}&q=tour`, cookie);
+  check("L9b the running Academic full test still reveals nothing", academicLookup.status === 403 && academicLookup.text.includes("lexical_assistance_locked"), `status ${academicLookup.status} ${academicLookup.text.slice(0, 120)}`);
+  if (typeof academicStarted.id === "string") await fetch(`${BASE}/api/listening/attempts/${academicStarted.id}/submit`, { method: "POST", headers: { cookie, "content-type": "application/json" }, body: JSON.stringify({ answers: [] }) });
+
+  /*
+   * A FINISHED section must keep being a section.
+   *
+   * This is the regression that makes the difference between "a section opens as one activity"
+   * and "a section opens as one activity until you submit it": a section that carries a
+   * canonical package used to be redirected to `/app/listening/tests/:id/2` — the four-part
+   * Academic result screen — while a natively authored one showed its own result. The
+   * presentation cannot depend on how the centre authored the section.
+   */
+  const questionRows = await q(`select id from listening_questions where test_id = $1 order by "order"`, [sectionId]);
+  const submitted = await fetch(`${BASE}/api/listening/attempts/${attemptId}/submit`, {
+    method: "POST",
+    headers: { cookie, "content-type": "application/json" },
+    body: JSON.stringify({ answers: questionRows.map((row) => ({ questionId: row.id, answer: "A" })) }),
+  });
+  check("L8 the section submits", submitted.status === 200, `status ${submitted.status}`);
+  const finished = await get(`/app/listening/attempts/${attemptId}`, cookie);
+  check("L8b a finished section shows its own result, never the four-part Academic screen",
+    finished.status === 200 && !finished.text.includes("data-listening-exam-sections") && !finished.text.includes("data-listening-academic-activity"),
+    finished.status === 307 || finished.status === 302 ? `redirected to ${finished.location}` : `status ${finished.status}`);
+  check("L8c the finished result is this section's own score", finished.status === 200 && !/\/app\/listening\/tests\//.test(finished.location ?? ""));
+
   /* ------------------------------------------------------------------- cleanup */
   check("Z1 nothing was left in another catalogue", !(await get("/app/listening/academic", cookie)).text.includes("Section fixture: booking a tour"));
 } finally {

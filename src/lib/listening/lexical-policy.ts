@@ -1,3 +1,5 @@
+import type { ListeningProductKind } from "./product";
+
 /**
  * Listening runtime modes and whether contextual vocabulary assistance is allowed.
  *
@@ -14,6 +16,7 @@ export const LISTENING_MODES = [
   "REVIEW_CONTROL", // activity 2 review & revision, attempt revision, controlled practice
   "KEYWORD_PRACTICE", // activities 3–4 — paraphrase training; interaction unchanged
   "VOCABULARY_STUDY", // activity 5 — dedicated vocabulary session
+  "SECTION_PRACTICE", // a General Listening standalone section — the learner's own activity
 ] as const;
 export type ListeningMode = (typeof LISTENING_MODES)[number];
 
@@ -40,6 +43,25 @@ export type ListeningExamState = {
  */
 export function lexicalAssistanceAllowed(mode: ListeningMode, state: ListeningExamState): boolean {
   if (mode === "FULL_EXAM") return false;
+  /*
+   * A standalone General section is not a timed exam: looking a word up IS part of the one
+   * activity the owner designed for it, so its own open attempt must not lock it. The
+   * `examInProgress` rule below exists so a second tab cannot turn a RUNNING FULL EXAM into a
+   * dictionary — it is kept for every mode where an exam can be running for the same test.
+   */
+  if (mode === "SECTION_PRACTICE") return true;
   if (state.examInProgress) return false;
   return true;
+}
+
+/**
+ * The mode of a Listening source, from the product the source actually IS.
+ *
+ * One decision, two readers: the section page (does this activity show the text surface?) and
+ * the lexical API routes (may this learner's lookup be answered?). Asking `product.ts` — the
+ * same classifier the catalogues use — is what keeps a section from being locked out of the
+ * vocabulary it exists to teach, while the Academic full exam stays sealed.
+ */
+export function modeForListeningProduct(product: ListeningProductKind): ListeningMode {
+  return product === "general_section" ? "SECTION_PRACTICE" : "REVIEW_CONTROL";
 }

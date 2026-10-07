@@ -9,6 +9,8 @@ import {
 } from "../src/db/schema";
 import { listeningPackageSchema, type ListeningPackage } from "../src/lib/listening/package";
 import { generalListeningCards, getOpenableSection } from "../src/lib/data/listening-general";
+import { listeningProductOf } from "../src/lib/data/listening-product";
+import { readFileSync } from "node:fs";
 import { createTestDatabase } from "./support/pglite";
 
 /**
@@ -360,10 +362,18 @@ test("G9 the section reading text is decorated by the canonical surface, and the
   // ONE text surface: the section renders its reading text through the canonical component,
   // and highlight is offered only because the CALLER asked for it.
   assert.ok(exam.includes("ReadingText"), "the section must render its text through one renderer");
-  assert.ok(exam.includes("<ClickableText"), "which is the canonical vocabulary surface");
+  assert.ok(exam.includes("textSurface"), "and that renderer is the surface the CALLER injected");
+  // The exam screen is shared with the graded Academic test, which must reveal nothing, so it
+  // must hold no lexical knowledge of its own. The learning surface is composed by the section
+  // wrapper instead — and the exam is asserted here to have no way to draw one by itself.
+  assert.ok(!exam.includes("ClickableText") && !exam.includes("WordPopover"), "the exam component must know nothing about vocabulary");
+  assert.ok(exam.includes("if (!textSurface) return <span"), "without an injected surface the text is plain, exactly as before");
   assert.ok(exam.includes("sectionMode ? title : `${title} · Full Exam`"), "the section must not present itself as the full exam");
   assert.ok(exam.includes("{!sectionMode && ("), "the four-part navigation must be hidden for a section");
-  assert.ok(exam.includes("lexicalAssistance = false"), "lexical help is opt-in, so the graded exam keeps it off");
+  const wrapper = readFileSync("src/components/listening/SectionListeningActivity.tsx", "utf8");
+  assert.ok(wrapper.includes("<ClickableText"), "the section composes the ONE canonical vocabulary surface");
+  assert.ok(wrapper.includes('sourceType="listening"') && wrapper.includes("sourceId={exam.testId}"), "a word saved from a section is filed against the canonical listening source");
+  assert.ok(wrapper.includes("lexicalAssistance"), "the decision to allow the surface is passed in, never assumed");
 
   // Highlight is OPTIONAL in the canonical surface, so every existing surface is untouched.
   assert.ok(text.includes("highlights?: TextHighlight[]"), "highlight ranges must be an optional prop");
@@ -392,6 +402,24 @@ test("G8 the fixtures are removed: the catalogue is empty again and the removal 
              (select count(*)::integer from listening_questions) as questions,
              (select count(*)::integer from content_versions where source_ref like 'listening-general-%') as versions`);
     assert.deepEqual(residue[0], { tests: 0, packages: 0, questions: 0, versions: 0 }, "no fixture row remains");
+  } finally {
+    await database.close();
+  }
+});
+
+test("G10 the product reader the pages and the lexical API share agrees with the classifier", async () => {
+  const database = await createTestDatabase();
+  try {
+    const ids = await seed(database);
+    // The section page and the lexical API routes ask THIS reader, so a section can never be
+    // treated as a full test (or the reverse) by one of them and not the other.
+    assert.equal(await listeningProductOf(ids.packaged, database.db), "general_section", "a packaged section");
+    assert.equal(await listeningProductOf(ids.native, database.db), "general_section", "a natively authored section with no package");
+    assert.equal(await listeningProductOf(ids.academic, database.db), "academic_full_test", "an academic full test");
+    assert.equal(await listeningProductOf(ids.mcq, database.db), "mcq_programme", "a dedicated MCQ package is neither");
+    assert.equal(await listeningProductOf(ids.questionTypes, database.db), "question_type_practice");
+    assert.equal(await listeningProductOf(ids.draft, database.db), "general_section", "the product is a fact about the item, not its publication state");
+    assert.equal(await listeningProductOf("44444444-4444-4444-8444-444444444444", database.db), null, "an id that does not exist has no product");
   } finally {
     await database.close();
   }

@@ -3,6 +3,9 @@ import { db } from "@/db/client";
 import { eq } from "drizzle-orm";
 import { listeningPackages, listeningDrafts } from "@/db/schema";
 import { NativeListeningExam } from "@/components/listening/NativeListeningExam";
+import { SectionListeningActivity } from "@/components/listening/SectionListeningActivity";
+import { listeningExamState } from "@/lib/data/full-listening";
+import { lexicalAssistanceAllowed } from "@/lib/listening/lexical-policy";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -50,14 +53,20 @@ export default async function ListeningAttemptPage({ params }: { params: Promise
   if (section && attempt.status === "in_progress") {
     const draft = await db.query.listeningDrafts.findFirst({ where: eq(listeningDrafts.attemptId, id) });
     const audioUrl = test.audioUrl;
+    /*
+     * May this learner look a word up? The SAME policy the lexical API routes ask, with the
+     * mode the source's own product implies — so the surface and the server always agree, and
+     * a section (a learning activity) is not locked out of its own vocabulary the way a
+     * running full exam is.
+     */
+    const lexicalAssistance = lexicalAssistanceAllowed("SECTION_PRACTICE", await listeningExamState(user, test.id));
     return (
-      <NativeListeningExam
+      <SectionListeningActivity
         dict={dict}
         attemptId={id}
         testId={test.id}
         title={test.title}
-        sectionMode
-        lexicalAssistance
+        lexicalAssistance={lexicalAssistance}
         audioUrl={audioUrl ?? ""}
         mapDiagram={section.package?.mapDiagram}
         imageUrl={section.imageObjectKey ? `/api/resources/${section.imageObjectKey}` : null}
@@ -76,7 +85,15 @@ export default async function ListeningAttemptPage({ params }: { params: Promise
       />
     );
   }
-  if (pkg) {
+  /*
+   * `!section` is load-bearing: a GENERAL section must never fall into this branch. It used
+   * to: a finished SECTION that happens to carry a canonical package was redirected to
+   * `/app/listening/tests/:id/2` — the four-part Academic result screen — while a section
+   * authored natively (no package) correctly showed its own result. The presentation a
+   * learner gets must not depend on HOW the centre authored the section, so the Academic
+   * branch is now only for content that is not a section at all.
+   */
+  if (!section && pkg) {
     if (attempt.status === "completed") redirect(`/app/listening/tests/${test.id}/2`);
     const draft = await db.query.listeningDrafts.findFirst({ where: eq(listeningDrafts.attemptId, id) });
     return <NativeListeningExam dict={dict} attemptId={id} testId={test.id} title={test.title} audioUrl={test.audioUrl!}

@@ -41,11 +41,21 @@ export async function PUT(
       .for("update");
     if (!a) return { error: "not_found" };
     if (a.status !== "in_progress") return { error: "already_submitted" };
+    /*
+     * A section the centre authored through the CMS has NO canonical package: its identity
+     * comes from its revision and its questions from the canonical rows (that is how the
+     * General catalogue lists it and how the attempt renders it). Saving an answer in
+     * progress must therefore not depend on a package either — otherwise the learner's work
+     * survives only in their own browser, and a section authored today behaves differently
+     * from an imported one. The canonical rows are the authority in both cases; the authored
+     * recording length is used when the package states one, and otherwise the schema's own
+     * bound is the only honest limit.
+     */
     const pkg = await tx.query.listeningPackages.findFirst({
       where: eq(listeningPackages.testId, a.testId),
     });
-    if (!pkg) return { error: "not_found" };
-    if (parsed.data.audioPosition > pkg.payload.audio.durationSec)
+    const authoredDuration = pkg?.payload.audio.durationSec;
+    if (typeof authoredDuration === "number" && parsed.data.audioPosition > authoredDuration)
       return { error: "invalid_input" };
     const qs = await tx
       .select({ id: listeningQuestions.id })
