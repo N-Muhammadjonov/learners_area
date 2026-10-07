@@ -985,6 +985,9 @@ const en = {
       questionInstruction: "Answer the question",
       highlight: "Highlight",
       clearHighlight: "Remove highlight",
+    retake: "Retake this section",
+    reviewSection: "Review this section",
+    backToCatalogue: "Back to General Listening",
     },
 
     /**

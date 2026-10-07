@@ -987,6 +987,9 @@ const uz: Dictionary = {
       questionInstruction: "Savolga javob bering",
       highlight: "Belgilash",
       clearHighlight: "Belgini olib tashlash",
+    retake: "Bu bo‘limni qaytadan topshirish",
+    reviewSection: "Bu bo‘limni ko‘rib chiqish",
+    backToCatalogue: "General Listening ro‘yxatiga qaytish",
     },
 
     /** Listening → Lessons (o'quvchi uchun: Tavsif / O'qituvchi izohlari / Xulosangiz). */

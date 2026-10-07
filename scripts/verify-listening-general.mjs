@@ -207,8 +207,25 @@ try {
   check("L4e a nonsense page argument falls back to the first page", idsOf(junk.text)[0] === one[0]);
 
   /* ------------------------------------------------------- one section, one activity */
-  const sectionAttempt = await get(`/app/listening/general/${sectionId}`, cookie);
-  check("L5 there is no per-section activity hub", sectionAttempt.status === 404 || !sectionAttempt.text.includes("data-listening-academic-activity"), `status ${sectionAttempt.status}`);
+  /*
+   * THE SECTION'S OWN ADDRESS is what the card links to: `/app/listening/general/<sectionId>`.
+   * It must serve the ONE exercise itself — audio, questions, navigation, note-taking — with no
+   * activity hub, and the learner must never have to know an attempt id. The attempt URL stays
+   * internal, so the catalogue is asserted NOT to link it.
+   */
+  const sectionAddress = await get(`/app/listening/general/${sectionId}`, cookie);
+  check("L5 the section's own address opens the section", sectionAddress.status === 200, `status ${sectionAddress.status}`);
+  check(
+    "L5a2 the address IS the exercise: the one activity, not a hub and not the four-part exam",
+    sectionAddress.text.includes(`data-listening-section-page="${sectionId}"`) &&
+      sectionAddress.text.includes('data-listening-section-mode="exercise"') &&
+      !sectionAddress.text.includes("data-listening-academic-activity") &&
+      !sectionAddress.text.includes("data-listening-exam-sections"),
+    `status ${sectionAddress.status}`,
+  );
+  check("L5a3 the catalogue links the section address, never the internal attempt URL", !pageOne.text.includes("/app/listening/attempts/") && new RegExp(`href="/app/listening/general/${sectionId}"`).test(pageOne.text));
+  const sectionAddressAgain = await get(`/app/listening/general/${sectionId}`, cookie);
+  check("L5a4 reloading the address keeps the learner in the same section", sectionAddressAgain.text.includes(`data-listening-section-page="${sectionId}"`));
   const start = await fetch(`${BASE}/api/listening/attempts`, {
     method: "POST",
     headers: { cookie, "content-type": "application/json" },
@@ -217,6 +234,8 @@ try {
   const started = await start.json().catch(() => ({}));
   check("L5b opening a section starts ONE Listening attempt", start.status === 200 && typeof started.id === "string", `status ${start.status}`);
   const attemptId = started.id;
+  const attemptCount = await q(`select count(*)::int as count from listening_attempts where test_id = $1`, [sectionId]);
+  check("L5b2 loading the section address did not pile up attempts", Number(attemptCount[0].count) === 1, `${attemptCount[0].count} attempts exist`);
   const attempt = await get(`/app/listening/attempts/${attemptId}`, cookie);
   check("L5c the attempt renders the familiar Listening interface", attempt.status === 200, `status ${attempt.status}`);
   check("L5d it carries the audio and the questions", /<audio/.test(attempt.text) && attempt.text.includes("Where does the speaker suggest meeting?"));
@@ -274,6 +293,17 @@ try {
     finished.status === 200 && !finished.text.includes("data-listening-exam-sections") && !finished.text.includes("data-listening-academic-activity"),
     finished.status === 307 || finished.status === 302 ? `redirected to ${finished.location}` : `status ${finished.status}`);
   check("L8c the finished result is this section's own score", finished.status === 200 && !/\/app\/listening\/tests\//.test(finished.location ?? ""));
+  const sectionAfterSubmit = await get(`/app/listening/general/${sectionId}`, cookie);
+  check(
+    "L8d the section's own address now shows ITS result, with this section's evidence and no new attempt",
+    sectionAfterSubmit.status === 200 &&
+      sectionAfterSubmit.text.includes('data-listening-section-mode="result"') &&
+      sectionAfterSubmit.text.includes("data-listening-section-result") &&
+      !sectionAfterSubmit.text.includes("data-listening-exam-sections"),
+    `status ${sectionAfterSubmit.status}`,
+  );
+  const afterResult = await q(`select count(*)::int as count from listening_attempts where test_id = $1`, [sectionId]);
+  check("L8e re-opening a finished section does not silently start another attempt", Number(afterResult[0].count) === 1, `${afterResult[0].count} attempts exist`);
 
   /* ------------------------------------------------------------------- cleanup */
   check("Z1 nothing was left in another catalogue", !(await get("/app/listening/academic", cookie)).text.includes("Section fixture: booking a tour"));

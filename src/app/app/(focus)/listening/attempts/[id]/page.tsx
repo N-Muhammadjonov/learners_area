@@ -17,6 +17,7 @@ import { ListeningAnalysis } from "@/components/listening/ListeningAnalysis";
 import { ClickableText } from "@/components/vocabulary/ClickableText";
 import { isUuid } from "@/lib/validation/ids";
 import { authoredSectionNumber, getOpenableSection } from "@/lib/data/listening-general";
+import { loadSectionExercise } from "@/lib/listening/section-exercise";
 import { OwnerMaterialBlocks } from "@/components/resources/OwnerMaterialBlocks";
 
 export default async function ListeningAttemptPage({ params }: { params: Promise<{ id: string }> }) {
@@ -51,39 +52,32 @@ export default async function ListeningAttemptPage({ params }: { params: Promise
 
   const pkg = await listeningSchemaReady() ? await db.query.listeningPackages.findFirst({ where: eq(listeningPackages.testId, test.id) }) : null;
   if (section && attempt.status === "in_progress") {
-    const draft = await db.query.listeningDrafts.findFirst({ where: eq(listeningDrafts.attemptId, id) });
-    const audioUrl = test.audioUrl;
     /*
-     * May this learner look a word up? The SAME policy the lexical API routes ask, with the
-     * mode the source's own product implies — so the surface and the server always agree, and
-     * a section (a learning activity) is not locked out of its own vocabulary the way a
-     * running full exam is.
+     * ONE section, ONE renderer: the internal attempt address and the section's own public
+     * address (`/app/listening/general/<sectionId>`) both go through `loadSectionExercise`, so
+     * a learner cannot get a different exercise — or a different set of questions — depending on
+     * which of the two they happen to be looking at.
      */
-    const lexicalAssistance = lexicalAssistanceAllowed("SECTION_PRACTICE", await listeningExamState(user, test.id));
-    return (
-      <SectionListeningActivity
-        dict={dict}
-        attemptId={id}
-        testId={test.id}
-        title={test.title}
-        lexicalAssistance={lexicalAssistance}
-        audioUrl={audioUrl ?? ""}
-        mapDiagram={section.package?.mapDiagram}
-        imageUrl={section.imageObjectKey ? `/api/resources/${section.imageObjectKey}` : null}
-        duration={section.package?.audio.durationSec}
-        initial={draft?.answers ?? {}}
-        audioPosition={draft?.audioPosition ?? 0}
-        audioStartedAt={draft?.audioStartedAt?.toISOString() ?? null}
-        questions={section.questions.map((row) => ({
-          id: row.id,
-          number: row.order,
-          section: sectionNo ?? 1,
-          text: row.questionText,
-          instruction: dict.listening.general.questionInstruction,
-          options: row.options ?? [],
-        }))}
-      />
-    );
+    const view = await loadSectionExercise(test.id, user, dict);
+    if (view?.kind === "exercise") {
+      return (
+        <SectionListeningActivity
+          dict={dict}
+          attemptId={view.attemptId}
+          testId={view.testId}
+          title={view.title}
+          lexicalAssistance={view.lexicalAssistance}
+          audioUrl={view.audioUrl}
+          mapDiagram={view.mapDiagram}
+          imageUrl={view.imageUrl}
+          duration={view.duration}
+          initial={view.initial}
+          audioPosition={view.audioPosition}
+          audioStartedAt={view.audioStartedAt}
+          questions={view.questions}
+        />
+      );
+    }
   }
   /*
    * `!section` is load-bearing: a GENERAL section must never fall into this branch. It used

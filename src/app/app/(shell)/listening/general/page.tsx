@@ -1,6 +1,5 @@
 import { BackLink } from "@/components/ui/BackLink";
 import Link from "next/link";
-import { StartTestButton } from "@/components/listening/StartTestButton";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { generalListeningCards } from "@/lib/data/listening-general";
@@ -78,14 +77,21 @@ export default async function GeneralListeningPage({
                     ? t.inProgress
                     : t.notStarted}
               </p>
+              {/*
+                * ONE address per section, whatever state the learner is in: it is the section
+                * itself, so reload, back, forward and a bookmark all land on the same exercise
+                * (or on its result once it is finished). The attempt's own URL is internal —
+                * the catalogue never needs to know an attempt id to open a section.
+                */}
               <div className="mt-auto">
-                {card.openAttemptId ? (
-                  <Link className="btn-primary" href={`/app/listening/attempts/${card.openAttemptId}`} data-listening-general-continue>
-                    {t.continueSection}
-                  </Link>
-                ) : (
-                  <StartTestButton testId={card.testId} label={t.openSection} messages={dict.auth} />
-                )}
+                <Link
+                  className="btn-primary"
+                  href={`/app/listening/general/${card.testId}`}
+                  data-listening-general-open
+                  data-listening-general-action={card.completed ? "review" : card.started ? "continue" : "open"}
+                >
+                  {card.completed ? t.reviewSection : card.started ? t.continueSection : t.openSection}
+                </Link>
               </div>
             </section>
           ))}
