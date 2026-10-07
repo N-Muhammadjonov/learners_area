@@ -351,6 +351,25 @@ export function listeningPreview(pkg: ListeningCanonicalPackage) {
       { label: "Transcripts", value: `${transcripts}/${content.sections.length} parts` },
       { label: "Evidence timestamps", value: `${withEvidence}/${content.questions.length} questions` },
       { label: "Recording", value: `${Math.round(content.audio.durationSec / 60)} min` },
+      /*
+       * The staff checklist the owner described, answered from the package itself. These are the facts a
+       * reviewer has to check by hand otherwise — and a MISSING map or a short Script Completion is
+       * exactly what makes a package look complete while it is not.
+       */
+      {
+        label: "Map / Plan visual",
+        value: content.mapDiagram
+          ? `present (${content.mapDiagram.shapes.length} shapes)`
+          : content.image
+            ? "an image asset is required"
+            : "not in this package",
+      },
+      {
+        label: "Script Completion",
+        value: content.studyPack?.scriptParts?.length
+          ? content.studyPack.scriptParts.map((part) => `${part.gaps.length} gaps (Part ${part.part})`).join(" · ")
+          : "no authored gaps",
+      },
       { label: "Vocabulary", value: String(content.vocabulary.length) },
       {
         label: "Activities",

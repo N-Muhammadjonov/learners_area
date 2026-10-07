@@ -404,3 +404,58 @@ test("PV7 a lesson previews its metadata from the revision, and a pre-0050 { blo
     await database.close();
   }
 });
+
+
+test("PV8 the Listening preview answers the owner's staff checklist from the package itself", async () => {
+  /*
+   * The import screen is the last place a gap can be caught before learners see the material, so the
+   * preview states what the package DOES and does not contain: parts, questions, CANONICAL question
+   * types (never a shape guessed from an option array), transcripts, Script Completion gap counts, the
+   * map/plan stimulus, vocabulary size and evidence coverage.
+   */
+  const { listeningPreview, listeningCanonicalContentSchema, listeningExample } = await import("../src/lib/import/listening/canonical");
+  const raw = listeningExample() as { content: unknown };
+  const example = listeningCanonicalContentSchema.parse(raw.content);
+  const content = listeningCanonicalContentSchema.parse({
+    ...example,
+    mapDiagram: {
+      viewBox: [0, 0, 240, 160],
+      label: "Plan of the park",
+      shapes: [
+        { tag: "rect", x: 10, y: 10, width: 90, height: 60, stroke: "#333333", strokeWidth: 2 },
+        { tag: "text", x: 20, y: 30, text: "A Entrance", fontSize: 12 },
+      ],
+    },
+    studyPack: {
+      ...example.studyPack!,
+      scriptParts: [1, 2, 3, 4].map((part) => ({
+        part,
+        transcript: `Part ${part} full transcript for the preview fixture.`,
+        gaps: Array.from({ length: 6 }, (_, gap) => ({ q: (part - 1) * 10 + gap + 1, match: `chunk ${gap + 1}`, answer: `answer ${gap + 1}` })),
+      })),
+    },
+  });
+  const preview = listeningPreview({ ...(raw as Record<string, unknown>), content } as never);
+  const line = (label: string) => preview.lines.find((entry) => entry.label === label)?.value;
+
+  assert.equal(line("Parts"), "4");
+  assert.equal(line("Questions"), String(content.questions.length));
+  assert.match(line("Question types") ?? "", /mcq_single|short_answer/, "the summary states canonical type ids");
+  assert.equal(line("Map / Plan visual"), "present (2 shapes)", "the plan is reported present");
+  assert.equal(line("Script Completion"), "6 gaps (Part 1) · 6 gaps (Part 2) · 6 gaps (Part 3) · 6 gaps (Part 4)", "and so are the six authored gaps per part");
+  assert.equal(line("Vocabulary"), String(content.vocabulary.length));
+  assert.match(line("Transcripts") ?? "", /^4\/4 parts$/, "four parts, four transcripts");
+  assert.match(line("Evidence timestamps") ?? "", /^\d+\/\d+ questions$/, "evidence coverage is a real count");
+
+  // A package without a map or without authored gaps says so honestly rather than staying silent.
+  const bare = listeningPreview({ ...(raw as Record<string, unknown>), content: { ...content, mapDiagram: undefined, studyPack: { ...content.studyPack!, scriptParts: undefined } } } as never);
+  const bareLine = (label: string) => bare.lines.find((entry) => entry.label === label)?.value;
+  // This fixture still declares an image asset, so losing the vector plan means the reviewer is told an
+  // image is required — the honest answer, and the one that explains why the package is not finished.
+  assert.equal(bareLine("Map / Plan visual"), "an image asset is required");
+  assert.equal(bareLine("Script Completion"), "no authored gaps");
+
+  // A package with neither says exactly that.
+  const neither = listeningPreview({ ...(raw as Record<string, unknown>), content: { ...content, image: null, imagePath: null, mapDiagram: undefined } } as never);
+  assert.equal(neither.lines.find((entry) => entry.label === "Map / Plan visual")?.value, "not in this package");
+});
