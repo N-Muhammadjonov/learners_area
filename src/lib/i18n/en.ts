@@ -1019,6 +1019,7 @@ const en = {
       notFoundTitle: "This day is not available.",
       notFoundHint: "It may be unpublished or removed. Return to the MCQ Days list.",
       publishRequiresFive: "Publish requires exactly 5 questions",
+      publishHolds: "This day holds {present} of {required} questions.",
       questionNavLabel: "Questions in this day",
       practiceOnly: "Practice only: nothing here changes an exam score or the SRS schedule.",
       targetNote: "The programme targets {target} days of {perDay} questions. Days appear here as the centre publishes them.",

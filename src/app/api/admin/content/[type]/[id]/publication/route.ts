@@ -17,6 +17,7 @@ import {
 import { requireAdministrator } from "@/lib/auth/current-user";
 import { isUuid } from "@/lib/validation/ids";
 import { recordAudit } from "@/lib/data/audit";
+import { mcqDayPublicationBlock } from "@/lib/listening/publication-guards";
 import { changeWritingPublication } from "@/lib/services/writing/admin";
 import type { WritingAdminKind } from "@/lib/writing/admin-schemas";
 
@@ -143,6 +144,16 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ typ
   if (problem) return NextResponse.json({ error: problem }, { status: 400 });
 
   if (type === "listening" && (state === "published" || state === "scheduled") && await listeningSchemaReady()) {
+    /*
+     * A PROGRAMME DAY has its own rule, and it is checked FIRST and on its own terms: a
+     * learner-visible day holds exactly five valid multiple-choice questions, with a recording. Four
+     * questions are refused (the fifth is never invented), six are refused (the sixth is never
+     * dropped), a Matching or Map/Plan question wearing an option pool is refused, and a day nobody
+     * could hear is refused. This is the same rule the staff surface states, enforced at the one
+     * endpoint that publishes anything.
+     */
+    const dayBlock = await mcqDayPublicationBlock(id);
+    if (dayBlock) return NextResponse.json(dayBlock, { status: 409 });
     const pkg = await db.query.listeningPackages.findFirst({ where: eq(listeningPackages.testId, id) });
     if (pkg) {
       const issues = publicationIssues(pkg.payload);

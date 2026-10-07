@@ -1018,6 +1018,7 @@ const uz: Dictionary = {
       notFoundTitle: "Bu kun mavjud emas.",
       notFoundHint: "U chop etilmagan yoki olib tashlangan bo'lishi mumkin. MCQ kunlari ro'yxatiga qayting.",
       publishRequiresFive: "Chop etish uchun aynan 5 ta savol kerak",
+      publishHolds: "Bu kunda {required} savoldan {present} tasi bor.",
       questionNavLabel: "Bu kundagi savollar",
       practiceOnly: "Faqat mashq: bu yerda hech narsa imtihon ballini yoki SRS jadvalini o'zgartirmaydi.",
       targetNote: "Dastur {target} kun va har kunda {perDay} savolni mo'ljallaydi. Kunlar markaz chop etgan sari ko'rinadi.",

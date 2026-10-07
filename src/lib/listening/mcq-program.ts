@@ -64,6 +64,8 @@ export type McqDayQuestion = {
   storageType?: string | null;
   options?: readonly string[] | null;
   correctAnswer?: string | null;
+  /** The question's own prompt, when the caller has it, so a duplicated import is visible. */
+  questionText?: string | null;
 };
 
 export type McqDayProblem = { question?: number; message: string };
@@ -88,6 +90,7 @@ export function mcqDayProblems(questions: readonly McqDayQuestion[]): McqDayProb
     });
 
   const seen = new Set<number>();
+  const seenContent = new Map<string, number>();
   for (const question of questions) {
     if (seen.has(question.number))
       problems.push({ question: question.number, message: `Question ${question.number} appears twice in this day.` });
@@ -114,6 +117,22 @@ export function mcqDayProblems(questions: readonly McqDayQuestion[]): McqDayProb
       problems.push({ question: question.number, message: `Question ${question.number} has ${options.length} usable option(s); multiple choice needs at least two.` });
     if (!(question.correctAnswer ?? "").trim())
       problems.push({ question: question.number, message: `Question ${question.number} has no correct answer, so it could never be graded.` });
+
+    /*
+     * The same question twice in one day — a duplicated import, most often. It is not "duplicate
+     * membership" (a question row belongs to exactly one item, and positions are already checked);
+     * it is the same CONTENT counted twice, which would give one learner two shots at one question
+     * and call it five. Both the prompt and the option list must match, so two genuinely different
+     * questions that happen to share a lead-in are never refused.
+     */
+    const prompt = (question.questionText ?? "").trim().toLowerCase();
+    if (prompt) {
+      const signature = `${prompt}\u0000${options.join("\u0001")}`;
+      const already = seenContent.get(signature);
+      if (already !== undefined)
+        problems.push({ question: question.number, message: `Question ${question.number} repeats question ${already} in this day.` });
+      else seenContent.set(signature, question.number);
+    }
   }
 
   // The authored sequence: positions 1…5 with no gap and no re-use. A day the learner walks
