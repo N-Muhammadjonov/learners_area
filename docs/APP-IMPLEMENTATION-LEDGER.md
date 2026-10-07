@@ -510,3 +510,46 @@ Not yet built (Phase C continues): the Listening **Lessons** three-tab surface (
 > (unversioned) rows deliberately, and the ownership rule above protects exactly those items. A
 > formal `listening:full_test` authored natively still has no canonical package — already an
 > OWNER-REVIEW item, unchanged here.
+
+## Canonical question identity — a source alias is not a canonical id (recovery turn, 2026-10-07)
+
+> **The defect, measured before it was fixed.** The canonical Listening import wrote NO `type_code`
+> and chose the two-value storage enum with `options.length && kind !== "matching"`. Measured on the
+> real importer: a completion question carrying a word bank → `multiple_choice`; a MAP carrying its
+> A–I label pool → `multiple_choice`; a matching question → `short_answer` by luck. Because
+> `listMcqQuestions` selects on exactly `multiple_choice`, a map or a matching question would be
+> served by MCQ Mastery — the owner's named forbidden outcome — and with `type_code` NULL nothing
+> downstream could recover the truth. The authored-material path had the mirror-image defect: it
+> compared the authored spelling against the two literals `"multiple_choice" | "mcq"`, so a snapshot
+> written by authoring (which carries the CANONICAL id, `mcq_single`) was stored as a typed answer.
+>
+> | contract | evidence |
+> | --- | --- |
+> | a source that names its type KEEPS it — resolved through the same two registry doors the product uses (canonical id first, source alias second); canonical storage always converges onto the canonical id, so `mcq` is never a stored identity | `question-identity.ts` (`canonicalListeningTypeId`); I2, I5 (`Q9`'s alias `SC` is stored as `sentence_completion`), I7 |
+> | a source that only GROUPS its type is NOT guessed at: `completion` proves no specific completion kind, so the row becomes a typed answer (the answer model every completion kind shares) and is REPORTED for staff review | `listeningQuestionIdentity`; I4; I5/I6 assert the note, its `Q` numbers, and that a confirmed subtype stops being reported |
+> | only `mcq_single` / `mcq_multi` may ever store `multiple_choice`, so a label pool (map/plan, matching) or a word bank can never reach the MCQ surfaces | `MCQ_TYPES`; I3 over all 14 registered Listening types; I5 (`mcqOrders === [7, 8, 10]` of a mixed ten) |
+> | the kind table cannot silently escape a newly registered type | I1: `KIND_BY_TYPE` is asserted EXHAUSTIVE against `questionTypesFor("listening")` (14 ids) |
+> | the import writes the identity on insert AND on re-import, so a row never keeps a NULL for ever, and the same row keeps its id (learner history keeps pointing at it) | `reconcileListeningQuestions`; I6 |
+> | the AUTHORING writer files an authored question exactly as the import does | `questionRowsFromSnapshot`; I7 (canonical id, both legacy spellings, an alias, and an unknown spelling preserved as-is — never promoted into multiple choice) |
+> | the activity registry's MCQ predicate is the SAME decision, so an offered MCQ card can never be empty | `isMcqQuestion` → `listeningQuestionIdentity(...).storageType === "multiple_choice"`; V1–V5, M1–M7, T11-20/21 still green |
+> | the staff type summary states the canonical types and the staff preview prints what the source did not prove | `listeningTypeSummary` + `listeningIdentityReviewNotes` in `listeningPreview` (and as import `warnings`) |
+>
+> **Deliberate non-changes, recorded so they are not "fixed" later.** `questionType(id)` (canonical ids
+> only) and `resolveQuestionType(alias)` (source spellings only) stay two doors — neither is taught
+> the other's job, and `resolveQuestionType("completion") → none` is correct: the registry has no
+> generic `completion` type and none may be added. `Map / Plan` stays an ACTIVITY with
+> `map_labeling`/`plan_labeling` types (never `map_plan`); `mcq_multi` is only ever stored when the
+> source says so; Matching never becomes MCQ because it shows options.
+>
+> **Retired instruction.** `listeningSemanticIssues` used to advise, for any non-`mcq` type carrying
+> options, `set "type": "mcq" or remove the options` — measured against the owner's own material it
+> fired on the Q11–14 map and advised exactly the conversion the product forbids. It now reports only
+> that a typed-answer type also carries a list (a legitimate word bank) and asks staff to CONFIRM,
+> never to re-type the question into multiple choice.
+>
+> **Suites after the change:** `listening-question-identity` 7/7 (new) · activity-variation + map-plan
+> + Test 11 source contract + content-import-versions 31/31 · General contract/section/library/
+> sequence + academic hub + library tabs + revision safety + native full-test gap + authoring
+> publication 52/52 · typecheck 0 · eslint 0 · `git diff --check` clean. The full gate is NOT run on
+> this tree — the frozen gated tree `7b0e07d` (== `0637f79`) is untouched by this change and its
+> deployment is now green.
