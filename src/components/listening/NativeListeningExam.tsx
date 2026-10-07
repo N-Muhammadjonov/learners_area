@@ -1,5 +1,6 @@
 "use client";
 import { ListeningMap } from "./ListeningMap";
+import { HISTORICAL_MAP_PART } from "@/lib/listening/activities";
 import type { MapDiagram } from "@/lib/listening/map-diagram";
 import type { Dictionary } from "@/lib/i18n/en";
 import { requestJson } from "@/lib/http/client-request";
@@ -49,6 +50,7 @@ export function NativeListeningExam({
   audioUrl,
   imageUrl,
   mapDiagram,
+  mapSections,
   questions,
   initial,
   audioPosition,
@@ -82,6 +84,13 @@ export function NativeListeningExam({
   audioUrl: string;
   imageUrl: string | null;
   mapDiagram?: MapDiagram;
+  /**
+   * The parts whose plan/map this drawing illustrates. A full test keeps ONE plan drawing, and the
+   * parts that need it are the parts that contain map/plan questions (`mapDiagramSections` reads
+   * them from the questions). The default preserves the historical placement for a package that
+   * predates the `map` question kind, so nothing that used to show its plan stops showing it.
+   */
+  mapSections?: number[];
   questions: ListeningExamQuestion[];
   initial: Record<string, string>;
   audioPosition: number;
@@ -421,7 +430,7 @@ export function NativeListeningExam({
         ))}
       </nav>
       )}
-      {section === 2 && mapDiagram && <ListeningMap diagram={mapDiagram} />}
+      {(mapSections ?? [HISTORICAL_MAP_PART]).includes(section) && mapDiagram && <ListeningMap diagram={mapDiagram} />}
       {section === 2 && imageUrl && (
         <div className="card">
           <Image

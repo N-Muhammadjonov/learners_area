@@ -14,6 +14,7 @@ import {
   packageActivities,
   practiceKindOf,
   type ListeningActivityId,
+  type PracticeKind,
 } from "@/lib/listening/activities";
 import type { ListeningPackage } from "@/lib/listening/package";
 
@@ -104,8 +105,12 @@ export type AcademicActivity = {
   id: ListeningActivityId;
   /** The route segment that runs it, under `/app/listening/tests/:id/`. */
   path: string;
-  /** A graded practice activity (matching / completion / retry), otherwise exam or study. */
-  practice: "matching" | "completion" | "retry" | null;
+  /**
+   * A graded practice activity (matching / completion / map / retry), otherwise exam or study.
+   * The type IS `PracticeKind` rather than a hand-copied list, so adding a practice activity to
+   * the registry cannot leave this hub behind.
+   */
+  practice: PracticeKind | null;
   /** Has this learner finished it? */
   complete: boolean;
   /** The most recent graded result of this activity, when it has been graded at all. */

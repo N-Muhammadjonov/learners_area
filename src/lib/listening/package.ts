@@ -38,9 +38,36 @@ export const listeningQuizSchema = z
   })
   .refine((v) => v.correct < v.options.length, "Invalid quiz key");
 
+/**
+ * THE CANONICAL ACTIVITY IDS A SOURCE MAY DECLARE — declared once, here, because this is the
+ * contract a SOURCE PACKAGE signs when it says what its own material supports.
+ *
+ * Two rules this constant exists to keep:
+ *   • the count is NOT fixed. The old `max(9)` hard-coded the number of activities one particular
+ *     owner test happened to have; the bound is now the size of this list, so adding a genuinely
+ *     new activity type raises the ceiling with it and no test is ever squeezed into a shape it
+ *     does not have.
+ *   • `map` is a first-class activity, not a flavour of MCQ. A map/plan question is answered by
+ *     choosing a letter from a plan, and the owner's rule is that Q11–14 of a map test are
+ *     Map / Plan — so the SOURCE can say so and the registry can offer Map / Plan Mastery.
+ */
+export const LISTENING_ACTIVITY_IDS = [
+  "exam",
+  "review",
+  "script",
+  "mcq",
+  "recall",
+  "vocab",
+  "matching",
+  "completion",
+  "map",
+  "retry",
+] as const;
+export type ListeningSourceActivityId = (typeof LISTENING_ACTIVITY_IDS)[number];
+
 export const listeningStudyPackSchema = z.object({
   kind: z.literal("research-practice"),
-  activities: z.array(z.enum(["exam", "review", "script", "mcq", "recall", "vocab", "matching", "completion", "retry"])).min(1).max(9).optional(),
+  activities: z.array(z.enum(LISTENING_ACTIVITY_IDS)).min(1).max(LISTENING_ACTIVITY_IDS.length).optional(),
   partRanges: z.record(z.tuple([z.number().nonnegative(), z.number().positive()])),
   scriptParts: z.array(z.object({part:z.number().int().min(1).max(4),transcript:text,gaps:z.array(z.object({q:z.number().int().min(1).max(200),match:text,answer:text})).max(200)})).max(4).optional(),
   recall: z.array(z.object({ part: z.number().int().min(1).max(4), title: text, points: z.array(text).min(1).max(20) })).max(4).default([]),
@@ -60,7 +87,12 @@ export const listeningQuestionSchema = z.object({
   section: z.number().int().min(1).max(4),
   text,
   instruction: z.string().max(2000),
-  kind: z.enum(["completion", "mcq", "matching"]).optional(),
+  /**
+   * The question's SHAPE, as the source authored it. `map` is its own kind: a map/plan question
+   * carries a shared A–I label pool and is graded as a label, so filing it as `mcq` would both
+   * mis-grade it and hand it to the wrong mastery activity.
+   */
+  kind: z.enum(["completion", "mcq", "matching", "map"]).optional(),
   options: z.array(z.string().max(2000)).max(12),
   key: text,
   alternatives: z.array(z.string().max(500)).max(20),

@@ -31,7 +31,7 @@ export default async function Activity({
   if (!user) return null;
   const { id, activity } = await params;
   const n = Number(activity);
-  const practiceKind = ["matching","completion","retry"].includes(activity) ? activity as PracticeKind : null;
+  const practiceKind = ["matching","completion","retry","map"].includes(activity) ? activity as PracticeKind : null;
   if (!isUuid(id) || (!practiceKind && (!Number.isInteger(n) || n < 1 || n > 5))) notFound();
   const detail = await fullListeningDetail(id, user.role);
   if (!detail) notFound();
@@ -48,7 +48,9 @@ export default async function Activity({
       questions = detail.pkg.payload.questions.filter(q=>missed.has(q.number));
     }
     const progress = await listeningPracticeProgress(user.id,id);
-    return <ListeningPractice id={id} title={detail.test.title} kind={practiceKind} audioUrl={detail.test.audioUrl} initial={progress[practiceKind]?.latest.answers ?? {}} dict={dict} questions={questions.map(q=>({number:q.number,text:q.text,instruction:q.instruction,options:q.options,at:q.evidence.at,end:q.evidence.end}))}/>;
+    // Map / Plan Mastery needs the drawing itself as well as the questions: the learner answers
+    // by locating things on the plan, so the plan is part of the exercise, not decoration.
+    return <ListeningPractice id={id} title={detail.test.title} kind={practiceKind} mapDiagram={practiceKind === "map" ? detail.pkg.payload.mapDiagram : undefined} audioUrl={detail.test.audioUrl} initial={progress[practiceKind]?.latest.answers ?? {}} dict={dict} questions={questions.map(q=>({number:q.number,text:q.text,instruction:q.instruction,options:q.options,at:q.evidence.at,end:q.evidence.end}))}/>;
   }
 
   if (n === 1) return <FullExamStart id={id} title={detail.test.title} dict={getDictionary(await getLocale())} />;

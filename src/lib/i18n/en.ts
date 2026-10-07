@@ -947,6 +947,8 @@ const en = {
         matchingHint: "Match the statements to the options with the evidence.",
         completion: "Form & Note Completion",
         completionHint: "Complete the notes with the exact words from the recording.",
+        map: "Map / Plan Mastery",
+        mapHint: "Label the plan by following the speaker through the recording.",
         retry: "Retry Weak Areas",
         retryHint: "Drill only the questions you missed in your last attempt.",
       },
@@ -3199,7 +3201,7 @@ const en = {
   },
   fullListeningHub: {
     research: {
-      matching: "Matching Mastery", completion: "Form & Note Completion", retry: "Retry Weak Areas", examLocked: "Submit your current exam before opening study help.", weakEmpty: "No missed questions in your latest submitted test. Complete a test first, or review all questions.", prediction: "Predict the answer before listening", previous: "Previous question", next: "Next question", finish: "Save completed practice",
+      matching: "Matching Mastery", completion: "Form & Note Completion", map: "Map / Plan Mastery", retry: "Retry Weak Areas", yourLocation: "Your location", examLocked: "Submit your current exam before opening study help.", weakEmpty: "No missed questions in your latest submitted test. Complete a test first, or review all questions.", prediction: "Predict the answer before listening", previous: "Previous question", next: "Next question", finish: "Save completed practice",
 
       script: "Script Completion",
       recall: "Recall & Notes",

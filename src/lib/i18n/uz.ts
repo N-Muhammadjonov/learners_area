@@ -949,6 +949,8 @@ const uz: Dictionary = {
         matchingHint: "Fikrlarni dalillar bilan variantlarga moslang.",
         completion: "Shakl va izohlarni to'ldirish",
         completionHint: "Izohlarni yozuvdagi aniq so'zlar bilan to'ldiring.",
+        map: "Map / Plan mashqi",
+        mapHint: "Rejadagi joylarni tinglab, ularni to'g'ri belgilang.",
         retry: "Xatolarni qayta mashq qilish",
         retryHint: "Faqat oxirgi urinishda xato qilgan savollaringizni mashq qiling.",
       },
@@ -3187,7 +3189,7 @@ const uz: Dictionary = {
   },
   fullListeningHub: {
     research: {
-      matching: "Matching mashqi", completion: "Form va Note Completion", retry: "Xato savollarni qayta ishlash", examLocked: "Mashqlarga kirishdan oldin joriy imtihonni yakunlang.", weakEmpty: "Oxirgi yakunlangan testda xato savollar yo'q. Avval testni bajaring yoki barcha savollarni takrorlang.", prediction: "Tinglashdan oldin javobni taxmin qiling", previous: "Oldingi savol", next: "Keyingi savol", finish: "Bajarilgan mashqni saqlash",
+      matching: "Matching mashqi", completion: "Form va Note Completion", map: "Map / Plan mashqi", retry: "Xato savollarni qayta ishlash", yourLocation: "Siz tanlagan joy", examLocked: "Mashqlarga kirishdan oldin joriy imtihonni yakunlang.", weakEmpty: "Oxirgi yakunlangan testda xato savollar yo'q. Avval testni bajaring yoki barcha savollarni takrorlang.", prediction: "Tinglashdan oldin javobni taxmin qiling", previous: "Oldingi savol", next: "Keyingi savol", finish: "Bajarilgan mashqni saqlash",
 
       script: "Skriptni to'ldirish",
       recall: "Eslab qolish va qaydlar",

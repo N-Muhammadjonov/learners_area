@@ -4,6 +4,7 @@ import { listeningOccurrenceSpans, listeningSegmentSpans } from "@/lib/services/
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { fullListeningDetail, listeningExamState } from "@/lib/data/full-listening";
 import { lexicalAssistanceAllowed } from "@/lib/listening/lexical-policy";
+import { mapDiagramSections } from "@/lib/listening/activities";
 import { isUuid } from "@/lib/validation/ids";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { FullListeningStudy } from "@/components/listening/FullListeningStudy";
@@ -31,6 +32,7 @@ export default async function Study({
       title={detail.test.title}
       audioUrl={detail.test.audioUrl!}
       mapDiagram={p.mapDiagram}
+      mapSections={mapDiagramSections(p)}
       imageUrl={
         detail.pkg.imageObjectKey
           ? `/api/resources/${detail.pkg.imageObjectKey}`

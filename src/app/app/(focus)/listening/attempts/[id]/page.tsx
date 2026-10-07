@@ -17,6 +17,7 @@ import { ListeningAnalysis } from "@/components/listening/ListeningAnalysis";
 import { ClickableText } from "@/components/vocabulary/ClickableText";
 import { isUuid } from "@/lib/validation/ids";
 import { authoredSectionNumber, getOpenableSection } from "@/lib/data/listening-general";
+import { mapDiagramSections } from "@/lib/listening/activities";
 import { loadSectionExercise } from "@/lib/listening/section-exercise";
 import { OwnerMaterialBlocks } from "@/components/resources/OwnerMaterialBlocks";
 
@@ -92,6 +93,7 @@ export default async function ListeningAttemptPage({ params }: { params: Promise
     const draft = await db.query.listeningDrafts.findFirst({ where: eq(listeningDrafts.attemptId, id) });
     return <NativeListeningExam dict={dict} attemptId={id} testId={test.id} title={test.title} audioUrl={test.audioUrl!}
       mapDiagram={pkg.payload.mapDiagram}
+      mapSections={mapDiagramSections(pkg.payload)}
       imageUrl={pkg.imageObjectKey ? `/api/resources/${pkg.imageObjectKey}` : null}
       duration={pkg.payload.audio.durationSec} initial={draft?.answers ?? {}} audioPosition={draft?.audioPosition ?? 0}
       audioStartedAt={draft?.audioStartedAt?.toISOString() ?? null}

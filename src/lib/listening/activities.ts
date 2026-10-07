@@ -1,4 +1,4 @@
-import type { ListeningPackage } from "./package";
+import type { ListeningPackage, ListeningSourceActivityId } from "./package";
 
 /**
  * THE LISTENING ACTIVITY REGISTRY — the single authority for the question
@@ -26,21 +26,10 @@ import type { ListeningPackage } from "./package";
  * all ask the same question and cannot drift.
  */
 
-export type ListeningActivityId =
-  | "exam"
-  | "review"
-  | "script"
-  | "keyword1"
-  | "keyword2"
-  | "recall"
-  | "vocab"
-  | "mcq"
-  | "matching"
-  | "completion"
-  | "retry";
+export type ListeningActivityId = ListeningSourceActivityId | "keyword1" | "keyword2";
 
 /** The practice activities whose answers are graded as a practice run. */
-export type PracticeKind = "matching" | "completion" | "retry";
+export type PracticeKind = "matching" | "completion" | "retry" | "map";
 
 /** What is true about the learner looking at the test right now. */
 export type ListeningLearner = {
@@ -56,6 +45,8 @@ export type ListeningActivityFacts = {
   full: boolean;
   /** There is at least one genuine multiple-choice question (options, and not matching). */
   mcq: boolean;
+  /** There is at least one map/plan question (answered from a plan's shared label pool). */
+  map: boolean;
   /** There is at least one matching question. */
   matching: boolean;
   /** There is at least one form/note completion question. */
@@ -104,7 +95,15 @@ export type ListeningActivityDescriptor = {
  * most tempting mistake in this area.
  */
 function isMcqQuestion(question: ListeningPackage["questions"][number]): boolean {
-  return question.options.length >= 2 && question.kind !== "matching" && question.kind !== "completion";
+  return (
+    question.options.length >= 2 &&
+    question.kind !== "matching" &&
+    question.kind !== "completion" &&
+    // A MAP question carries a label pool too. Treating it as MCQ would both inflate the MCQ
+    // mastery set with questions that are not multiple choice and hide the map activity the
+    // source actually authored — the same mistake as filing Matching as MCQ.
+    question.kind !== "map"
+  );
 }
 
 /** Read the authored/structural facts once, so every predicate sees the same truth. */
@@ -116,6 +115,7 @@ export function activityFacts(p: ListeningPackage): ListeningActivityFacts {
   return {
     full: true,
     mcq: questions.some(isMcqQuestion),
+    map: questions.some((question) => question.kind === "map"),
     matching: questions.some((question) => question.kind === "matching"),
     completion: questions.some((question) => question.kind === "completion"),
     transcript:
@@ -168,6 +168,10 @@ export const LISTENING_ACTIVITIES: readonly ListeningActivityDescriptor[] = [
   // kind the source AUTHORED into its study pack, so the card is offered only then.
   { id: "matching", path: "matching", practice: "matching", learnerGated: null, supported: (facts) => facts.matching && authoredKind(facts, "matching") },
   { id: "completion", path: "completion", practice: "completion", learnerGated: null, supported: (facts) => facts.completion && authoredKind(facts, "completion") },
+  // Map / Plan Mastery: offered when the test genuinely contains map/plan questions AND the
+  // source declared the activity — the same precondition its route asks, so the card and the
+  // route can never disagree.
+  { id: "map", path: "map", practice: "map", learnerGated: null, supported: (facts) => facts.map && authoredKind(facts, "map") },
   {
     id: "retry",
     path: "retry",
@@ -190,6 +194,30 @@ const BY_ID = new Map(LISTENING_ACTIVITIES.map((activity) => [activity.id, activ
 export const activityPath: Record<string, string> = Object.fromEntries(
   LISTENING_ACTIVITIES.map((activity) => [activity.id, activity.path]),
 );
+
+/** The part of a full test whose plan/map this package's single `mapDiagram` belongs to. */
+export const HISTORICAL_MAP_PART = 2;
+
+/**
+ * WHICH PARTS RENDER THE `mapDiagram`.
+ *
+ * The package carries ONE plan/map drawing, and the parts that need it are the parts that actually
+ * contain map/plan questions — read from the questions themselves, so a test whose plan sits in a
+ * different part, or in more than one, renders it in the right place without a hard-coded part
+ * number.
+ *
+ * A package that predates the `map` kind declares its map questions as `mcq` (the old importer had
+ * only three kinds), so deriving strictly from `kind` would make the plan vanish from tests that
+ * have been showing it all along. That is why an empty answer falls back to the historical
+ * placement — Part 2 — which is where such a package's plan has always been rendered. The fallback
+ * is named, not inlined, so it is visible and testable rather than a magic number.
+ */
+export function mapDiagramSections(p: ListeningPackage): number[] {
+  const sections = [...new Set((p.questions ?? []).filter((question) => question.kind === "map").map((question) => question.section))].sort(
+    (a, b) => a - b,
+  );
+  return sections.length ? sections : [HISTORICAL_MAP_PART];
+}
 
 /** The registry row for an activity id, or null when the id is not an activity. */
 export function activityDescriptor(id: string): ListeningActivityDescriptor | null {
