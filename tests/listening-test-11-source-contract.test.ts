@@ -68,6 +68,8 @@ type Summary = {
   vocabulary_count: number;
   audio: { path_in_owner_zip: string; duration_seconds: number; bytes: number; sha256: string };
   original_owner_zip: { filename: string; sha256: string };
+  /** Per-file fingerprints for the source files the reference deliberately does not ship. */
+  source_file_hashes: Record<string, string>;
 };
 
 const archive = readSafeArchive(new Uint8Array(readFileSync(REFERENCE_ZIP)));
