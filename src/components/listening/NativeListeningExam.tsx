@@ -1,5 +1,6 @@
 "use client";
 import { ListeningMap } from "./ListeningMap";
+import { ClickableText } from "@/components/vocabulary/ClickableText";
 import type { MapDiagram } from "@/lib/listening/map-diagram";
 import type { Dictionary } from "@/lib/i18n/en";
 import { requestJson } from "@/lib/http/client-request";
@@ -24,6 +25,19 @@ export function NativeListeningExam({
   audioPosition,
   audioStartedAt,
   duration,
+  /**
+   * SECTION mode — the General Listening presentation of ONE standalone section.
+   *
+   * The owner's product design: a section is ONE listening activity, never the four-part
+   * combined exam. So the header does not call itself "Full Exam", the four-part navigation
+   * is absent, and — because a section is a LEARNING surface, not the timed exam — the
+   * learner may look a word up and highlight what they are reading. The Academic full exam
+   * keeps every one of those restrictions: this flag defaults to false, so nothing about the
+   * existing exam changes.
+   */
+  sectionMode = false,
+  /** Vocabulary assistance inside THIS activity (never true for a graded full exam). */
+  lexicalAssistance = false,
 }: {
   dict: Dictionary;
   attemptId: string;
@@ -36,7 +50,10 @@ export function NativeListeningExam({
   initial: Record<string, string>;
   audioPosition: number;
   audioStartedAt: string | null;
-  duration: number;
+  /** The authored length, when the section states one; the audio element is the fallback. */
+  duration?: number;
+  sectionMode?: boolean;
+  lexicalAssistance?: boolean;
 }) {
   const router = useRouter();
   const audio = useRef<HTMLAudioElement>(null);
@@ -48,6 +65,11 @@ export function NativeListeningExam({
   const dirty = useRef(false);
   const [answers, setAnswers] = useState(initial);
   const [section, setSection] = useState(1);
+  // A natively authored section may carry no authored length at all. The RECORDING is then
+  // the authority: the browser reports it as soon as metadata arrives, and until then the
+  // clock simply shows nothing rather than a made-up duration.
+  const [mediaDuration, setMediaDuration] = useState(duration ?? 0);
+  const [texts, setTexts] = useState<Record<string, { start: number; end: number; id: string }[]>>({});
   const [started, setStarted] = useState(!!audioStartedAt);
   const [position, setPosition] = useState(audioPosition);
   const [error, setError] = useState("");
@@ -87,6 +109,56 @@ export function NativeListeningExam({
   function updateNotes(value: string) {
     setNotes(value);
     try { localStorage.setItem(notesKey, value); } catch {}
+  }
+  /**
+   * The learner's own HIGHLIGHTS on the text of this activity.
+   *
+   * Same shape as the note-taking above and for the same reason: this is the learner's own
+   * study layer over ONE attempt, it is scoped to that attempt (so it can never leak into
+   * another section, another learner or a staff surface), it decorates only text the learner
+   * can already see, and it never touches an answer. A server-persisted highlight store is a
+   * separate decision (it needs a table) and is recorded as such in the ledger.
+   */
+  const highlightsKey = `la-listening-highlights:${attemptId}`;
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(highlightsKey);
+      if (raw) setTexts(JSON.parse(raw));
+    } catch {}
+  }, [highlightsKey]);
+  function saveTexts(next: Record<string, { id: string; start: number; end: number }[]>) {
+    setTexts(next);
+    try { localStorage.setItem(highlightsKey, JSON.stringify(next)); } catch {}
+  }
+  function addHighlight(textKey: string, range: { start: number; end: number }) {
+    const existing = texts[textKey] ?? [];
+    saveTexts({ ...texts, [textKey]: [...existing, { id: `${textKey}:${range.start}:${range.end}`, ...range }] });
+  }
+  function removeHighlight(textKey: string, id: string) {
+    saveTexts({ ...texts, [textKey]: (texts[textKey] ?? []).filter((highlight) => highlight.id !== id) });
+  }
+  /**
+   * ONE renderer for the reading text. When lexical assistance is allowed (a General
+   * LEARNING section) the canonical `ClickableText` renders it, so a word lookup uses the
+   * single Dictionary architecture and the learner can highlight what they select. When it is
+   * not (the Academic exam) the text is rendered plain, exactly as before.
+   */
+  function ReadingText({ text, textKey, className }: { text: string; textKey: string; className?: string }) {
+    if (!text) return null;
+    if (!lexicalAssistance) return <span className={className}>{text}</span>;
+    return (
+      <ClickableText
+        dict={dict}
+        text={text}
+        inline
+        className={className}
+        sourceType="listening_section"
+        sourceId={attemptId}
+        highlights={texts[textKey] ?? []}
+        onHighlightRange={(range) => addHighlight(textKey, range)}
+        onRemoveHighlight={(id) => removeHighlight(textKey, id)}
+      />
+    );
   }
   async function save(startAudio = false) {
     if (saving.current) return;
@@ -140,7 +212,7 @@ export function NativeListeningExam({
     }
   }
   async function play() {
-    if (!audio.current || pos.current >= duration - 0.5) return;
+    if (!audio.current || (mediaDuration > 0 && pos.current >= mediaDuration - 0.5)) return;
     setError("");
     try {
       await audio.current.play();
@@ -193,17 +265,23 @@ export function NativeListeningExam({
     <div
       ref={container}
       className="listening-workspace mx-auto max-w-5xl space-y-5 bg-paper p-4 overflow-auto"
+      data-listening-attempt-mode={sectionMode ? "section" : "full_exam"}
     >
       <header className="card flex flex-wrap items-center gap-4">
-        <h1 className="font-display text-2xl">{title} · Full Exam</h1>
+        <h1 className="font-display text-2xl">{sectionMode ? title : `${title} · Full Exam`}</h1>
         <span>
           {answered} / {questions.length} answered
         </span>
         <span>
           {Math.floor(position / 60)}:
-          {String(Math.floor(position % 60)).padStart(2, "0")} /{" "}
-          {Math.floor(duration / 60)}:
-          {String(Math.floor(duration % 60)).padStart(2, "0")}
+          {String(Math.floor(position % 60)).padStart(2, "0")}
+          {mediaDuration > 0 && (
+            <>
+              {" / "}
+              {Math.floor(mediaDuration / 60)}:
+              {String(Math.floor(mediaDuration % 60)).padStart(2, "0")}
+            </>
+          )}
         </span>
         <button type="button" className="btn-secondary" aria-expanded={notesOpen} aria-controls="listening-exam-notes" onClick={() => setNotesOpen(open => !open)}>{dict.fullListeningHub.examScreen.noteTaking}</button>
         <label>
@@ -243,7 +321,10 @@ export function NativeListeningExam({
         src={audioUrl}
         preload="none"
         onLoadedMetadata={() => {
-          if (audio.current) audio.current.currentTime = audioPosition;
+          if (audio.current) {
+            audio.current.currentTime = audioPosition;
+            if (duration === undefined && Number.isFinite(audio.current.duration)) setMediaDuration(audio.current.duration);
+          }
         }}
         onRateChange={() => {
           if (audio.current) audio.current.playbackRate = 1;
@@ -263,7 +344,7 @@ export function NativeListeningExam({
         type="button"
         className="btn-primary"
         onClick={() => void play()}
-        disabled={busy || position >= duration - 0.5}
+        disabled={busy || (mediaDuration > 0 && position >= mediaDuration - 0.5)}
       >
         {started
           ? dict.fullListeningHub.examScreen.resume
@@ -271,7 +352,10 @@ export function NativeListeningExam({
       </button>
       <p role="status">{saved}</p>
       {error && <p role="alert">{error}</p>}
-      <nav className="flex flex-wrap gap-2" aria-label={dict.fullListeningHub.examScreen.sections}>
+      {/* A standalone section has no parts to switch between: the four-part navigation is
+          the FULL EXAM's, and showing it here would misrepresent one recording as four. */}
+      {!sectionMode && (
+      <nav className="flex flex-wrap gap-2" aria-label={dict.fullListeningHub.examScreen.sections} data-listening-exam-sections>
         {[1, 2, 3, 4].map((s) => (
           <button
             type="button"
@@ -284,6 +368,7 @@ export function NativeListeningExam({
           </button>
         ))}
       </nav>
+      )}
       {section === 2 && mapDiagram && <ListeningMap diagram={mapDiagram} />}
       {section === 2 && imageUrl && (
         <div className="card">
@@ -298,16 +383,16 @@ export function NativeListeningExam({
         </div>
       )}
       {questions
-        .filter((q) => q.section === section)
+        .filter((q) => sectionMode || q.section === section)
         .map((q) => (
           <div
             id={`question-${q.number}`}
             key={q.id}
             className="card space-y-3"
           >
-            <p className="text-sm">{q.instruction}</p>
+            {q.instruction && <ReadingText text={q.instruction} textKey={`${q.id}:instruction`} className="text-sm" />}
             <label className="block font-medium" htmlFor={`answer-${q.id}`}>
-              Q{q.number}. {q.text}
+              Q{q.number}. <ReadingText text={q.text} textKey={`${q.id}:text`} />
             </label>
             {q.options.length ? (
               <select

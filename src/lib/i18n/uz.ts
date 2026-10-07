@@ -961,6 +961,34 @@ const uz: Dictionary = {
       open: "Ochish",
     },
 
+    /**
+     * Listening → General Listening: alohida BO'LIMLAR. Bitta bo'lim to'g'ridan-to'g'ri
+     * Listening urinish interfeysida ochiladi — bu yerda faoliyat markazi ham, to'rt qismli
+     * imtihon ham, alohida faoliyat kartalari ham yo'q (mahsulot dizayni shunday).
+     */
+    general: {
+      title: "General Listening",
+      subtitle: "Bir vaqtda bitta e'lon qilingan bo'lim. Bo'limni oching va bitta mashg'ulotda javob bering — audio, savollar, izohlar, belgilash va lug'at.",
+      emptyTitle: "Hozircha birorta General Listening bo'limi chop etilmagan.",
+      emptyHint: "Markaz alohida Listening bo'limini yozib, chop etmaguncha bu yerda hech narsa ko'rinmaydi — bu sahifada namuna bo'limlar yo'q.",
+      catalogueCount: "{n} ta chop etilgan bo'lim",
+      sectionLabel: "{n}-bo'lim",
+      minutes: "daq",
+      questions: "{n} savol",
+      openSection: "▶ Bo'limni ochish",
+      continueSection: "▶ Davom etish",
+      notStarted: "Boshlanmagan",
+      inProgress: "Davom etmoqda",
+      lastResult: "Oxirgi natija: {score} / {total}",
+      previousPage: "Oldingi bo'limlar",
+      nextPage: "Keyingi bo'limlar",
+      pageLabel: "{page}-sahifa",
+      paginationLabel: "General Listening sahifalari",
+      questionInstruction: "Savolga javob bering",
+      highlight: "Belgilash",
+      clearHighlight: "Belgini olib tashlash",
+    },
+
     /** Listening → Lessons (o'quvchi uchun: Tavsif / O'qituvchi izohlari / Xulosangiz). */
     lessons: {
       title: "Listening darslari",

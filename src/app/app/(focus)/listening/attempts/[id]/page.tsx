@@ -13,6 +13,7 @@ import { ListeningExam } from "@/components/listening/ListeningExam";
 import { ListeningAnalysis } from "@/components/listening/ListeningAnalysis";
 import { ClickableText } from "@/components/vocabulary/ClickableText";
 import { isUuid } from "@/lib/validation/ids";
+import { authoredSectionNumber, getOpenableSection } from "@/lib/data/listening-general";
 import { OwnerMaterialBlocks } from "@/components/resources/OwnerMaterialBlocks";
 
 export default async function ListeningAttemptPage({ params }: { params: Promise<{ id: string }> }) {
@@ -27,7 +28,54 @@ export default async function ListeningAttemptPage({ params }: { params: Promise
   if (!detail) notFound();
   const { attempt, test, questions, answers } = detail;
 
+  /*
+   * GENERAL LISTENING — one standalone section, served as ONE activity.
+   *
+   * The owner's product design is explicit: a General section opens DIRECTLY into the
+   * familiar Listening interface — audio, questions, navigation, note-taking, highlights,
+   * vocabulary and submit — with NO activity hub, NO four-part exam and no Script / MCQ /
+   * Matching cards. Its multiple-choice questions are answered inside that one attempt.
+   *
+   * Which presentation an attempt gets is decided by the SAME classifier the catalogues
+   * use, from authored facts: a section is a section whether the centre imported it as a
+   * canonical package or authored it natively (in which case there is no package at all and
+   * the questions come from the canonical rows).
+   */
+  const section = await getOpenableSection(test.id, user.id);
+  const sectionNo = section?.package
+    ? (section.package.sections[0]?.number ?? 1)
+    : await authoredSectionNumber(test.id);
+
   const pkg = await listeningSchemaReady() ? await db.query.listeningPackages.findFirst({ where: eq(listeningPackages.testId, test.id) }) : null;
+  if (section && attempt.status === "in_progress") {
+    const draft = await db.query.listeningDrafts.findFirst({ where: eq(listeningDrafts.attemptId, id) });
+    const audioUrl = test.audioUrl;
+    return (
+      <NativeListeningExam
+        dict={dict}
+        attemptId={id}
+        testId={test.id}
+        title={test.title}
+        sectionMode
+        lexicalAssistance
+        audioUrl={audioUrl ?? ""}
+        mapDiagram={section.package?.mapDiagram}
+        imageUrl={section.imageObjectKey ? `/api/resources/${section.imageObjectKey}` : null}
+        duration={section.package?.audio.durationSec}
+        initial={draft?.answers ?? {}}
+        audioPosition={draft?.audioPosition ?? 0}
+        audioStartedAt={draft?.audioStartedAt?.toISOString() ?? null}
+        questions={section.questions.map((row) => ({
+          id: row.id,
+          number: row.order,
+          section: sectionNo ?? 1,
+          text: row.questionText,
+          instruction: dict.listening.general.questionInstruction,
+          options: row.options ?? [],
+        }))}
+      />
+    );
+  }
   if (pkg) {
     if (attempt.status === "completed") redirect(`/app/listening/tests/${test.id}/2`);
     const draft = await db.query.listeningDrafts.findFirst({ where: eq(listeningDrafts.attemptId, id) });
@@ -41,7 +89,11 @@ export default async function ListeningAttemptPage({ params }: { params: Promise
 
   return (
     <div className="mx-auto max-w-3xl">
-      {attempt.status === "in_progress" ? (
+      {section ? (
+        /* A finished section shows its OWN result: the learner's answers and the correct
+           answers for this section. It is never presented as an Academic test result. */
+        <ListeningAnalysis dict={dict} score={attempt.score} total={attempt.totalQuestions} questions={questions} answers={answers} />
+      ) : attempt.status === "in_progress" ? (
         <ListeningExam
           dict={dict}
           attemptId={attempt.id}

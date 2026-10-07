@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
+import { PgDialect } from "drizzle-orm/pg-core";
 import {
   contentVersions,
   listeningAnswers,
@@ -13,7 +14,7 @@ import { listeningPackageSchema, type ListeningPackage } from "../src/lib/listen
 import { academicListeningCards, academicListeningTest } from "../src/lib/data/listening-academic";
 import { createTestDatabase } from "./support/pglite";
 import { listeningLearnerFacts } from "../src/lib/data/full-listening";
-import { listeningProduct, type ListeningProductKind } from "../src/lib/listening/product";
+import { listeningProduct, productSql, type ListeningProductKind } from "../src/lib/listening/product";
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 
@@ -429,7 +430,7 @@ test("A9 an Academic full test still offers MCQ Mastery for the MCQ questions it
 test("A11 the classifier and the SQL it is expressed in agree on every case", async () => {
   // ONE rule, two expressions. Each case below is classified twice: by the TypeScript
   // classifier (what a loaded payload asks) and by the SQL the catalogue actually runs.
-  const cases: { name: string; facts: Parameters<typeof listeningProduct>[0]; payload: ListeningPackage }[] = [
+  const cases: { name: string; facts: Parameters<typeof listeningProduct>[0]; payload: ListeningPackage; insertPackage?: boolean }[] = [
     { name: "authored academic collection", facts: { collection: "academic", hasPackage: true, parts: 4, questions: 40 }, payload: pkg("academic", 4, 40) },
     { name: "authored general collection", facts: { collection: "general", hasPackage: true, parts: 1, questions: 8 }, payload: pkg("general", 1, 8) },
     { name: "mcq programme", facts: { collection: "mcq", hasPackage: true, parts: 4, questions: 40 }, payload: pkg("mcq", 4, 40) },
@@ -437,10 +438,17 @@ test("A11 the classifier and the SQL it is expressed in agree on every case", as
     { name: "essential recording", facts: { collection: "essential", hasPackage: true, parts: 1, questions: 10 }, payload: pkg("essential", 1, 10) },
     { name: "legacy import that proves the exam", facts: { collection: null, hasPackage: true, parts: 4, questions: 40 }, payload: pkg(undefined, 4, 40) },
     { name: "legacy drill that does not", facts: { collection: null, hasPackage: true, parts: 1, questions: 5 }, payload: pkg(undefined, 1, 5) },
-    { name: "no package at all", facts: { collection: null, hasPackage: false, parts: 0, questions: 0 }, payload: pkg(undefined, 1, 5) },
-    { name: "filed as a full test by the CMS", facts: { versionContentType: "full_test", collection: null, hasPackage: true, parts: 1, questions: 5 }, payload: pkg(undefined, 1, 5) },
-    { name: "filed as a section by the CMS", facts: { versionContentType: "section", collection: "academic", hasPackage: true, parts: 4, questions: 40 }, payload: pkg("academic", 4, 40) },
-    { name: "full-test filing wins over an mcq collection", facts: { versionContentType: "full_test", collection: "mcq", hasPackage: true, parts: 4, questions: 40 }, payload: pkg("mcq", 4, 40) },
+    // No package: the item was authored natively, so the revision's content type is the
+    // specific thing its author chose. The payload column is empty either way.
+    { name: "authored natively as a full test", insertPackage: false, facts: { versionContentType: "full_test", collection: null, hasPackage: false, parts: 0, questions: 0 }, payload: pkg(undefined, 1, 5) },
+    { name: "authored natively as a section", insertPackage: false, facts: { versionContentType: "section", collection: null, hasPackage: false, parts: 0, questions: 0 }, payload: pkg(undefined, 1, 5) },
+    // The canonical IMPORTER stamps every imported package `full_test`
+    // (src/lib/import/listening/canonical.ts). The stamp therefore cannot be allowed to
+    // classify: an imported package says what it is through its own collection, and a
+    // package with no collection must PROVE the formal structure or stay out.
+    { name: "an imported general section (stamped full_test)", facts: { versionContentType: "full_test", collection: "general", hasPackage: true, parts: 1, questions: 8 }, payload: pkg("general", 1, 8) },
+    { name: "an imported mcq package (stamped full_test)", facts: { versionContentType: "full_test", collection: "mcq", hasPackage: true, parts: 4, questions: 40 }, payload: pkg("mcq", 4, 40) },
+    { name: "an imported package with no collection (stamped full_test)", facts: { versionContentType: "full_test", collection: null, hasPackage: true, parts: 1, questions: 5 }, payload: pkg(undefined, 1, 5) },
   ];
 
   const database = await createTestDatabase();
@@ -448,13 +456,15 @@ test("A11 the classifier and the SQL it is expressed in agree on every case", as
     // The fixture users must exist: `created_by_user_id` is a real foreign key.
     await seed(database);
     const { db } = database;
-    const expected: { name: string; product: ListeningProductKind; id: string }[] = [];
+    const expected: { name: string; product: ListeningProductKind; id: string; insertPackage: boolean }[] = [];
     for (const [index, item] of cases.entries()) {
       const [row] = await db
         .insert(listeningTests)
         .values({ title: item.name, audioType: "audio", sourceRef: `qa2-agree-${index}`, publicationState: "published", createdByUserId: OWNER, publishAt: new Date() })
         .returning();
-      await db.insert(listeningPackages).values({ testId: row!.id, sourceId: `qa2-agree-${index}`, payload: item.payload, audioObjectKey: `k/${index}`, sourceHash: "0".repeat(64), legacyRuntime: false });
+      // A natively authored item has no package at all — that absence is part of the case.
+      if (item.insertPackage !== false)
+        await db.insert(listeningPackages).values({ testId: row!.id, sourceId: `qa2-agree-${index}`, payload: item.payload, audioObjectKey: `k/${index}`, sourceHash: "0".repeat(64), legacyRuntime: false });
       if (item.facts.versionContentType)
         await db.insert(contentVersions).values({
           module: "listening",
@@ -470,30 +480,40 @@ test("A11 the classifier and the SQL it is expressed in agree on every case", as
           targetId: row!.id,
           createdByUserId: OWNER,
         });
-      expected.push({ name: item.name, product: listeningProduct(item.facts), id: row!.id });
+      expected.push({ name: item.name, product: listeningProduct(item.facts), id: row!.id, insertPackage: item.insertPackage !== false });
     }
 
     for (const item of expected) {
-      const [row] = await database.query<{ product: string }>(
-        `select (case
-          when (select v.content_type from content_versions v where v.module='listening' and v.target_id = t.id order by v.version_no desc limit 1) = 'full_test' then 'academic_full_test'
-          when (select v.content_type from content_versions v where v.module='listening' and v.target_id = t.id order by v.version_no desc limit 1) = 'section' then 'general_section'
-          when p.payload->>'collection' = 'academic' then 'academic_full_test'
-          when p.payload->>'collection' = 'general' then 'general_section'
-          when p.payload->>'collection' = 'mcq' then 'mcq_programme'
-          when p.payload->>'collection' = 'question_types' then 'question_type_practice'
-          when p.payload->>'collection' = 'essential' then 'essential_recording'
-          when coalesce(jsonb_array_length(p.payload->'sections'), 0) = 4 and coalesce(jsonb_array_length(p.payload->'questions'), 0) = 40 then 'academic_full_test'
-          else 'unclassified' end) as product
-         from listening_tests t join listening_packages p on p.test_id = t.id where t.id = $1`,
-        [item.id],
+      // The REAL expression the catalogue runs — compiled from the module, never a copy of
+      // it. A copy would only prove that two written-down rules agree today.
+      const productExpression = productSql({
+        testId: sql.raw("t.id"),
+        payload: sql.raw("p.payload"),
+        payloadIsNull: sql.raw("p.payload is null"),
+      });
+      const compiled = new PgDialect().sqlToQuery(
+        sql`select ${productExpression} as product from listening_tests t left join listening_packages p on p.test_id = t.id where t.id = ${item.id}`,
       );
+      const [row] = await database.query<{ product: string }>(compiled.sql, compiled.params);
       assert.equal(row!.product, item.product, `${item.name}: the catalogue's SQL and the payload classifier must agree`);
     }
 
-    // …and the catalogue itself lists exactly the rows both expressions call academic.
+    // …and the catalogue lists exactly the rows both expressions call academic AND that can
+    // actually be OPENED. An Academic test is offered at its activity HUB, and that hub is
+    // served from the canonical package (`src/lib/data/full-listening.ts`): a card for an
+    // item with no package would lead nowhere, which is the one thing a card must never do.
+    //
+    // A row authored natively as `listening:full_test` (no package) is therefore classified
+    // academic but NOT offered. That asymmetry is recorded in the ledger as an OWNER-REVIEW
+    // item — it is an authoring-path gap, not a catalogue lie — and it is asserted here so the
+    // behaviour cannot change silently in either direction.
     const listed = new Set((await academicListeningCards(LEARNER, 1, database.db)).cards.map((card) => card.testId));
-    for (const item of expected) assert.equal(listed.has(item.id), item.product === "academic_full_test", `${item.name}: catalogue membership`);
+    for (const item of expected) {
+      const openable = item.product === "academic_full_test" && item.insertPackage;
+      assert.equal(listed.has(item.id), openable, `${item.name}: catalogue membership`);
+    }
+    const nativeFullTest = expected.find((item) => item.name === "authored natively as a full test")!;
+    assert.equal(listed.has(nativeFullTest.id), false, "a full test with no canonical package opens no hub, so the catalogue does not offer it (ledger: owner-review item)");
   } finally {
     await database.close();
   }

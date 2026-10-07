@@ -19,14 +19,23 @@ import type { ListeningPackage } from "./package";
  *
  * Classification reads authored facts in a fixed order, and never a title:
  *
- *   1. the CONTENT VERSION's content type — the canonical CMS classification, written when
- *      the item was authored (`listening:full_test` vs `listening:section`);
- *   2. the package's authored `collection` (`academic` / `general` / `mcq` /
- *      `question_types` / `essential`);
+ *   1. the package's EXPLICIT practice identity — `mcq`, `question_types` or `essential`.
+ *      These are deliberate product labels, and they outrank everything else: a dedicated
+ *      MCQ training package is an MCQ training package even though the canonical importer
+ *      stamps every imported package with `contentType: full_test` (see below);
+ *   2. the package's authored `academic` / `general` collection — the canonical product
+ *      label of a package, and the only thing that separates an imported ACADEMIC test from
+ *      an imported GENERAL section (`src/lib/import/listening/canonical.ts` stamps both as
+ *      `full_test`, so the stamp alone cannot tell them apart);
  *   3. a package with NO collection — a legacy canonical import. Compatibility is preserved
  *      only when its structure reliably proves a formal full test (four parts and forty
- *      questions); anything else is NOT classified by guesswork;
- *   4. nothing else is knowable → `unclassified`. Such a row is offered nowhere and is
+ *      questions); anything else is NOT classified by guesswork. The version stamp is
+ *      deliberately ignored here: it is a generic import label, not proof of structure;
+ *   4. NO package at all — the item was authored natively through the CMS, and the content
+ *      type of its revision is the specific thing the author chose to file it as:
+ *      `full_test` → an Academic full test, `section` → a General section (and the
+ *      publication gate refuses a `full_test` revision that is not a complete test);
+ *   5. nothing else is knowable → `unclassified`. Such a row is offered nowhere and is
  *      listed for owner review by `scripts/listening-classification-report.ts`.
  *
  * TWO EXPRESSIONS, ONE RULE. The catalogue reads run in SQL (a correlated subquery for the
@@ -67,13 +76,21 @@ export type ListeningProductFacts = {
   questions?: number | null;
 };
 
-/** The decision table, as data: collections that mean each product. */
-const COLLECTION_PRODUCTS: Record<string, ListeningProductKind> = {
-  academic: "academic_full_test",
-  general: "general_section",
+/**
+ * Collections that state an explicit PRACTICE identity. They are decided before anything
+ * else, because they are the most specific thing a package can say about itself.
+ */
+const PRACTICE_COLLECTIONS: Record<string, ListeningProductKind> = {
   mcq: "mcq_programme",
   question_types: "question_type_practice",
   essential: "essential_recording",
+};
+
+/** The academic/general axis, as data: what a package's own label means. */
+const COLLECTION_PRODUCTS: Record<string, ListeningProductKind> = {
+  academic: "academic_full_test",
+  general: "general_section",
+  ...PRACTICE_COLLECTIONS,
 };
 
 /** How a version's content type maps to a product. */
@@ -86,24 +103,31 @@ const VERSION_PRODUCTS: Record<string, ListeningProductKind> = {
 const NON_ACADEMIC_COLLECTIONS = ["general", "mcq", "question_types", "essential"];
 
 export function listeningProduct(facts: ListeningProductFacts): ListeningProductKind {
-  // 1. The canonical CMS classification wins: it is what the author chose when they filed
-  //    the item, and it is what a mock composition or a revision history reads too.
-  const byVersion = VERSION_PRODUCTS[facts.versionContentType ?? ""];
-  if (byVersion) return byVersion;
+  const collection = facts.collection ?? "";
 
-  // 2. The package's authored collection.
-  const byCollection = COLLECTION_PRODUCTS[facts.collection ?? ""];
-  if (byCollection) return byCollection;
+  // 1. An explicit practice identity is what the package IS. The importer's blanket
+  //    `full_test` stamp must not promote a drill into the Academic catalogue.
+  if (PRACTICE_COLLECTIONS[collection]) return PRACTICE_COLLECTIONS[collection]!;
+
+  // 2. The package's own academic/general label: the only authored fact that distinguishes
+  //    an imported academic test from an imported general section.
+  if (collection === "academic") return "academic_full_test";
+  if (collection === "general") return "general_section";
 
   // 3. A legacy canonical import without a collection: only a structure that proves the
-  //    formal exam keeps its compatibility. A five-question drill is not promoted.
+  //    formal exam keeps its compatibility. A five-question drill is not promoted, and a
+  //    generic import stamp is not proof.
   if (facts.hasPackage) {
     const formal =
       Number(facts.parts) === FORMAL_FULL_TEST_PARTS && Number(facts.questions) === FORMAL_FULL_TEST_QUESTIONS;
     return formal ? "academic_full_test" : "unclassified";
   }
 
-  // 4. No version, no package: nothing about this row is authored classification.
+  // 4. No package: the revision's own content type, chosen by whoever authored the item.
+  const byVersion = VERSION_PRODUCTS[facts.versionContentType ?? ""];
+  if (byVersion) return byVersion;
+
+  // 5. Nothing about this row is authored classification.
   return "unclassified";
 }
 
@@ -171,14 +195,14 @@ export function productSql(input: {
   const parts = partsSql(input.payload);
   const questions = questionsSql(input.payload);
   return sql`case
-    when ${version} = 'full_test' then 'academic_full_test'
-    when ${version} = 'section' then 'general_section'
-    when ${collection} = 'academic' then 'academic_full_test'
-    when ${collection} = 'general' then 'general_section'
     when ${collection} = 'mcq' then 'mcq_programme'
     when ${collection} = 'question_types' then 'question_type_practice'
     when ${collection} = 'essential' then 'essential_recording'
+    when ${collection} = 'academic' then 'academic_full_test'
+    when ${collection} = 'general' then 'general_section'
     when not (${input.payloadIsNull}) and ${parts} = ${FORMAL_FULL_TEST_PARTS} and ${questions} = ${FORMAL_FULL_TEST_QUESTIONS} then 'academic_full_test'
+    when ${input.payloadIsNull} and ${version} = 'full_test' then 'academic_full_test'
+    when ${input.payloadIsNull} and ${version} = 'section' then 'general_section'
     else 'unclassified'
   end`;
 }

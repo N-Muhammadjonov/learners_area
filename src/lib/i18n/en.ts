@@ -960,6 +960,34 @@ const en = {
     },
 
     /**
+     * Listening → General Listening: standalone SECTIONS. One section opens directly into
+     * the Listening attempt interface — there is no activity hub, no four-part exam and no
+     * per-activity cards here, by the owner's product design.
+     */
+    general: {
+      title: "General Listening",
+      subtitle: "One published section at a time. Open a section and answer it in one activity — audio, questions, notes, highlights and vocabulary.",
+      emptyTitle: "No General Listening section has been published yet.",
+      emptyHint: "Nothing is shown here until the centre authors and publishes a standalone Listening section — there are no sample sections on this page.",
+      catalogueCount: "{n} published sections",
+      sectionLabel: "Section {n}",
+      minutes: "min",
+      questions: "{n} questions",
+      openSection: "▶ Open Section",
+      continueSection: "▶ Continue",
+      notStarted: "Not started",
+      inProgress: "In progress",
+      lastResult: "Last result: {score} / {total}",
+      previousPage: "Previous sections",
+      nextPage: "More sections",
+      pageLabel: "Page {page}",
+      paginationLabel: "General Listening pages",
+      questionInstruction: "Answer the question",
+      highlight: "Highlight",
+      clearHighlight: "Remove highlight",
+    },
+
+    /**
      * Listening → Lessons: canonical Content OS lessons that carry listening
      * material. The three learner-facing controls are Description, Teacher Notes and
      * the learner's own private Xulosangiz — see src/lib/listening/lessons.ts.

@@ -85,6 +85,9 @@ export default async function ListeningPage({
           <Link href="/app/listening/academic" className="btn-secondary" data-listening-academic-entry>
             {dict.listening.academic.title} →
           </Link>
+          <Link href="/app/listening/general" className="btn-secondary" data-listening-general-entry>
+            {dict.listening.general.title} →
+          </Link>
           <Link href="/app/listening/lessons" className="btn-secondary" data-listening-lessons-entry>
             {dict.listening.lessons.title} →
           </Link>
