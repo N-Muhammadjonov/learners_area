@@ -18,6 +18,7 @@ import {
   listeningTypeSummary,
 } from "@/lib/listening/question-identity";
 import { questionType } from "@/lib/content/question-types";
+import { MCQ_DAY_QUESTION_COUNT, MCQ_PROGRAM_REF } from "@/lib/listening/mcq-program";
 import { contentEnvelopeSchema, type CanonicalPackage } from "../core/envelope";
 import { defineContentType, type AssetRequirement, type ContentTypeDescriptor } from "../core/registry";
 import { executableMarkupIssues, issue, issuesFromZodError, type ImportIssue } from "../core/validation";
@@ -92,6 +93,20 @@ const canonicalQuestionSchema = z.preprocess(normalizeQuestionAliases, listening
 export const listeningCanonicalContentSchema = z
   .object({
     collection: z.enum(["essential", "academic", "general", "question_types", "mcq"]).default("academic"),
+    /**
+     * A DAY OF THE DEDICATED MCQ PROGRAMME (0052), when this package is one.
+     *
+     * `day` is the authored day number and `ref` is the programme's stable identity — never a display
+     * title, and never a number a reader would have to parse back out of one. Omitted for every other
+     * Listening package, so nothing else about the canonical shape changes.
+     */
+    programme: z
+      .object({
+        ref: z.string().regex(/^[a-z0-9][a-z0-9-]{0,79}$/).default(MCQ_PROGRAM_REF),
+        day: z.number().int().min(1).max(400),
+      })
+      .strict()
+      .optional(),
     audio: z
       .object({
         durationSec: z.number().min(60).max(7200),
@@ -157,12 +172,60 @@ export function listeningSemanticIssues(pkg: ListeningCanonicalPackage): ImportI
         "sourceRef",
       ),
     );
-  if (!pkg.content.questions.length)
+  const day = pkg.content.programme;
+  if (!pkg.content.questions.length && !day)
     issues.push(issue(2, "semantic_invalid", "A Listening test needs at least one question.", "content.questions"));
-  if (pkg.content.sections.length !== 4)
+  if (!day && pkg.content.sections.length !== 4)
     issues.push(
       issue(2, "semantic_invalid", "A full Listening test normally has 4 parts.", "content.sections", false),
     );
+
+  /*
+   * THE DAY RULES, at the import door.
+   *
+   * A day of the MCQ programme differs from a full test in exactly two ways, and both are stated here
+   * so staff learn them before they hit the publication gate:
+   *
+   *   • it is an MCQ item (`collection: "mcq"`), never filed as an Academic test or a General section
+   *     — the destination is a fact about the package, not something a reader infers later;
+   *   • it is publishable with EXACTLY five questions. A draft may carry fewer (or none) while staff
+   *     are authoring — refusing a partial draft here would force five questions to be invented to
+   *     save any work at all — so the count is reported, and publication is where it is enforced.
+   */
+  if (day) {
+    if (pkg.content.collection !== "mcq")
+      issues.push(
+        issue(
+          2,
+          "semantic_invalid",
+          `A day of the MCQ programme is authored as an MCQ item (collection "mcq"); this package says "${pkg.content.collection}".`,
+          "content.collection",
+        ),
+      );
+    const count = pkg.content.questions.length;
+    if (count !== MCQ_DAY_QUESTION_COUNT)
+      issues.push(
+        issue(
+          2,
+          "semantic_invalid",
+          `A published day holds exactly ${MCQ_DAY_QUESTION_COUNT} questions; this package carries ${count}, so it will import as a draft that cannot be published yet.`,
+          "content.questions",
+          false,
+        ),
+      );
+    // A day is one recording with its own five questions: extra parts are almost certainly a
+    // full test filed as a day, which is the mix-up this product must not make.
+    if (pkg.content.sections.length > 1)
+      issues.push(
+        issue(
+          2,
+          "semantic_invalid",
+          `Day ${day.day} declares ${pkg.content.sections.length} parts; a day is one recording with its own five questions.`,
+          "content.sections",
+          false,
+        ),
+      );
+  }
   for (const question of pkg.content.questions) {
     if (question.kind === "mcq" && question.options.length < 2)
       issues.push(
@@ -259,6 +322,7 @@ export function normalizeListeningPackage(pkg: ListeningCanonicalPackage): Liste
     legacyRuntime: false,
     studyPack: content.studyPack,
     collection: content.collection,
+    programme: content.programme,
     testId: pkg.sourceRef,
     title: pkg.title,
     category: "full",
@@ -334,14 +398,39 @@ export function listeningPreview(pkg: ListeningCanonicalPackage) {
    * specific type the source did not prove is summarised by its coarse kind and ALSO reported,
    * so the summary never reads more certain than the source is.
    */
+  const audioMinutes = Math.max(1, Math.round(content.audio.durationSec / 60));
   const kinds = listeningTypeSummary(content.questions);
   const transcripts = content.sections.filter((section) => section.transcript.trim()).length;
   const withEvidence = content.questions.filter((question) => question.evidence.at > 0).length;
+  /*
+   * THE PROGRAMME DAY CHECKLIST (owner §26): the facts a staff member would otherwise have to count
+   * by hand before publishing a day — how many questions there are against the five the day needs,
+   * how many options each carries, whether every question has an answer and an evidence moment, and
+   * where the recording comes from. Answered from the package itself, so the preview cannot claim
+   * more than the material contains.
+   */
+  const day = content.programme;
+  const dayLines = day
+    ? [
+        { label: "Programme day", value: `${day.ref} · DAY ${day.day}` },
+        { label: `Questions (needs ${MCQ_DAY_QUESTION_COUNT})`, value: String(content.questions.length) },
+        {
+          label: "Options per question",
+          value: content.questions.map((question) => (question.options?.length ?? 0)).join(" · ") || "none",
+        },
+        {
+          label: "Answers present",
+          value: `${content.questions.filter((question) => question.key.trim().length > 0).length}/${content.questions.length}`,
+        },
+        { label: "Recording source", value: `${content.audio.path ?? content.audio.assetKey} (${audioMinutes} min)` },
+      ]
+    : [];
   return {
     title: pkg.title,
     lines: [
       { label: "Source identity", value: pkg.sourceRef },
       { label: "Collection", value: content.collection },
+      ...dayLines,
       { label: "Parts", value: String(content.sections.length) },
       { label: "Questions", value: String(content.questions.length) },
       {
@@ -350,7 +439,7 @@ export function listeningPreview(pkg: ListeningCanonicalPackage) {
       },
       { label: "Transcripts", value: `${transcripts}/${content.sections.length} parts` },
       { label: "Evidence timestamps", value: `${withEvidence}/${content.questions.length} questions` },
-      { label: "Recording", value: `${Math.round(content.audio.durationSec / 60)} min` },
+      { label: "Recording", value: `${audioMinutes} min` },
       /*
        * The staff checklist the owner described, answered from the package itself. These are the facts a
        * reviewer has to check by hand otherwise — and a MISSING map or a short Script Completion is
@@ -379,6 +468,15 @@ export function listeningPreview(pkg: ListeningCanonicalPackage) {
       { label: "Provenance", value: describeProvenance(pkg) },
     ],
     warnings: [
+      ...(day && content.questions.length !== MCQ_DAY_QUESTION_COUNT
+        ? [`A published day holds exactly ${MCQ_DAY_QUESTION_COUNT} questions; this package carries ${content.questions.length}.`]
+        : []),
+      ...(day && content.questions.some((question) => !question.key.trim())
+        ? ["Some questions have no answer, so the day could not be graded."]
+        : []),
+      ...(day && content.questions.some((question) => question.evidence.at <= 0)
+        ? ["Some questions carry no evidence moment, so review cannot point at the recording."]
+        : []),
       ...(content.image ? ["A map/diagram image is required by this package."] : []),
       ...(content.sections.some((section) => !section.transcript.trim()) ? ["Some parts have no transcript."] : []),
       // What the source did not prove. The preview is where staff decide, so it may not be silent.

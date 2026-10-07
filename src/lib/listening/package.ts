@@ -211,6 +211,16 @@ export const listeningPackageSchema = z
     legacyRuntime: z.boolean().optional(),
     studyPack: listeningStudyPackSchema.optional(),
     collection: z.enum(["essential", "academic", "general", "question_types", "mcq"]).optional(),
+    /**
+     * THE PROGRAMME RELATION (0052). A package that IS a day of the dedicated MCQ programme states
+     * which programme and which DAY it is — an explicit authored number, never something a reader
+     * would have to parse out of a title. Absent for every other Listening package, so Academic
+     * tests, General sections and question-type practice are completely unaffected.
+     */
+    programme: z
+      .object({ ref: z.string().regex(/^[a-z0-9][a-z0-9-]{0,79}$/), day: z.number().int().min(1).max(400) })
+      .strict()
+      .optional(),
     testId: z.string().regex(/^[a-z0-9-]{1,80}$/),
     title: z.string().trim().min(1).max(200),
     category: z.literal("full"),

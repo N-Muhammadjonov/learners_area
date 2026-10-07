@@ -1,4 +1,4 @@
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, ne } from "drizzle-orm";
 import {
   contentImports,
   listeningAttempts,
@@ -269,6 +269,53 @@ export async function importCanonicalListeningPackage(
   const existing = await tx.query.listeningPackages.findFirst({ where: eq(listeningPackages.sourceId, payload.testId) });
   const previous = await latestImport(tx, payload.testId);
 
+  /*
+   * A DAY BELONGS TO ONE ITEM. 0052 refuses a second row for the same (programme, day), and this
+   * check turns that database refusal into a sentence staff can act on instead of a raw constraint
+   * error — with the existing day named, so "which item already claims DAY 6?" has an answer.
+   *
+   * An update of the SAME item is not a duplicate: the day relation may be corrected in place, and
+   * `existing.testId` is excluded so a re-import of day 6 does not collide with itself.
+   */
+  const programme = payload.programme;
+  if (programme) {
+    /*
+     * A day IS an MCQ item. The canonical validator already says so at the door staff use, and this
+     * repeats it in the writer itself so no caller — a direct import, a script, a future route — can
+     * create a day filed as an Academic test or a General section. The destination is a fact about
+     * the package, never something a reader guesses later.
+     */
+    if (payload.collection !== "mcq")
+      return failure("semantic_invalid", [
+        issue(
+          2,
+          "semantic_invalid",
+          `A day of the MCQ programme is authored as an MCQ item (collection "mcq"); this package says "${payload.collection ?? "academic"}".`,
+          "content.collection",
+        ),
+      ]);
+    const [claimed] = await tx
+      .select({ id: listeningTests.id, title: listeningTests.title })
+      .from(listeningTests)
+      .where(
+        and(
+          eq(listeningTests.programRef, programme.ref),
+          eq(listeningTests.programOrdinal, programme.day),
+          existing ? ne(listeningTests.id, existing.testId) : undefined,
+        ),
+      )
+      .limit(1);
+    if (claimed)
+      return failure("source_conflict", [
+        issue(
+          4,
+          "source_conflict",
+          `Day ${programme.day} of ${programme.ref} is already item "${claimed.title}". Import this material under another day, or update the day it belongs to.`,
+          "content.programme.day",
+        ),
+      ]);
+  }
+
   if (existing && previous?.contentHash === contentHash) {
     const [current] = await tx
       .select({ publicationState: listeningTests.publicationState })
@@ -346,6 +393,11 @@ export async function importCanonicalListeningPackage(
         title: payload.title,
         transcript: payload.sections.map((section) => section.transcript).join("\n\n"),
         audioUrl: `/api/resources/${audio.objectKey}`,
+        /*
+         * The programme relation is written when the package states one, and otherwise LEFT AS IT IS:
+         * an import that does not mention the programme must never silently detach an authored day.
+         */
+        ...(programme ? { programRef: programme.ref, programOrdinal: programme.day } : {}),
         // A published test is never silently unpublished by an import.
         publicationState: desiredState === "published" ? "published" : row.test.publicationState,
       })
@@ -414,6 +466,9 @@ export async function importCanonicalListeningPackage(
       publicationState: desiredState,
       transcript: payload.sections.map((section) => section.transcript).join("\n\n"),
       audioUrl: `/api/resources/${audio.objectKey}`,
+      // The programme relation, when the package IS a day (0052). NULL for everything else.
+      programRef: programme?.ref ?? null,
+      programOrdinal: programme?.day ?? null,
     })
     .returning();
   if (!test) return failure("unknown", [issue(4, "unknown", "The Listening test row could not be created.")]);
@@ -502,6 +557,16 @@ export async function importLegacyListeningRuntime(
 ): Promise<ListeningImportOutcome> {
   if (!payload.authoredRuntime)
     return failure("invalid_input", [issue(1, "invalid_input", "This is not a legacy authored package.")]);
+  /*
+   * A programme DAY is native material: its five questions are canonical rows the staged drill and
+   * the day's navigation read. Importing one through the legacy authored-runtime path would create a
+   * day whose questions live in an HTML bundle, so it is refused in words rather than quietly
+   * stripped of its programme relation.
+   */
+  if (payload.programme)
+    return failure("invalid_input", [
+      issue(1, "invalid_input", "A day of the MCQ programme is imported as a canonical package, not as legacy authored material.", "content.programme"),
+    ]);
   const audio = options.assets.find((asset) => asset.role === "audio");
   if (!audio)
     return failure("asset_missing", [
