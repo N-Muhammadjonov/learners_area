@@ -43,21 +43,31 @@ export async function academicOnlyClause() {
   return sql`not exists (select 1 from general_reading_passages g where g.passage_id = ${readingPassages.id})`;
 }
 
-export async function listGeneralSets(userId: string) {
-  if (!(await generalReadingSchemaReady())) return [];
-  const sets = await db.select().from(generalReadingSets)
-    .where(liveWhere({ publicationState: generalReadingSets.publicationState, publishAt: generalReadingSets.publishAt }))
-    .orderBy(asc(generalReadingSets.createdAt));
+export async function listGeneralSets(userId: string, options: { page?: number; academic?: boolean } = {}, executor: typeof db = db) {
+  if (!(await generalReadingSchemaReady(executor))) return [];
+  const validPassages = sql`not exists (select 1 from general_reading_passages g join reading_passages p on p.id=g.passage_id where g.set_id=${generalReadingSets.id} and not (p.publication_state='published' or (p.publication_state='scheduled' and p.publish_at<=now())))`;
+  const formal = options.academic ? sql`(select count(*) from general_reading_passages g where g.set_id=${generalReadingSets.id})=3
+    and not exists (select 1 from general_reading_passages g where g.set_id=${generalReadingSets.id} and g.passage_no not in (1,2,3))
+    and not exists (select 1 from general_reading_passages g where g.set_id=${generalReadingSets.id} and not exists (select 1 from reading_questions q where q.passage_id=g.passage_id))` : undefined;
+  const sets = await executor.select().from(generalReadingSets)
+    .where(and(liveWhere({ publicationState: generalReadingSets.publicationState, publishAt: generalReadingSets.publishAt }), validPassages, formal))
+    .orderBy(asc(generalReadingSets.createdAt), asc(generalReadingSets.id))
+    .limit(25).offset((Math.max(1, Math.min(10000, Math.floor(options.page ?? 1) || 1)) - 1) * 24);
   if (!sets.length) return [];
   const ids = sets.map((set) => set.id);
   const [slots, progress] = await Promise.all([
-    db.select({ setId: generalReadingPassages.setId, passageNo: generalReadingPassages.passageNo, title: readingPassages.title })
+    executor.select({ setId: generalReadingPassages.setId, passageNo: generalReadingPassages.passageNo, title: readingPassages.title })
       .from(generalReadingPassages).innerJoin(readingPassages, eq(readingPassages.id, generalReadingPassages.passageId))
       .where(inArray(generalReadingPassages.setId, ids)).orderBy(asc(generalReadingPassages.passageNo)),
-    db.select({ setId: generalReadingProgress.setId, checkedAt: generalReadingProgress.checkedAt })
+    executor.select({ setId: generalReadingProgress.setId, checkedAt: generalReadingProgress.checkedAt })
       .from(generalReadingProgress).where(and(eq(generalReadingProgress.userId, userId), inArray(generalReadingProgress.setId, ids))),
   ]);
+  const academicStates = options.academic ? (await executor.execute<{ set_id: string; id: string; status: string }>(sql`
+    select distinct on (a.set_id) a.set_id,r.id,r.status from reading_assessments a join reading_attempts r on r.id=a.attempt_id
+    where r.user_id=${userId}::uuid and a.set_id in (${sql.join(ids.map(id => sql`${id}::uuid`), sql`,`)})
+    order by a.set_id, r.started_at desc, r.id desc`)).rows : [];
   return sets.map((set) => ({
+    ...(options.academic ? { assessmentStatus: academicStates.find(row => row.set_id === set.id)?.status ?? "not_started", attemptId: academicStates.find(row => row.set_id === set.id)?.id ?? null } : {}),
     id: set.id, title: set.title, description: set.description, level: set.difficultyLevel,
     passages: slots.filter((slot) => slot.setId === set.id).map((slot) => ({ passageNo: slot.passageNo, title: slot.title })),
     started: progress.filter((row) => row.setId === set.id).length,
@@ -74,7 +84,7 @@ export async function generalSetDetail(setId: string, role: Role) {
   const passages = [];
   for (const slot of slots) {
     const data = await getPassageWithQuestions(slot.passageId);
-    if (data) passages.push({ passageNo: slot.passageNo, ...data });
+    if (data && (isLive(data.passage) || isStaff(role))) passages.push({ passageNo: slot.passageNo, ...data });
   }
   return { set, passages };
 }

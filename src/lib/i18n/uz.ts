@@ -218,6 +218,8 @@ const uz: Dictionary = {
     notFound: "Bu General Reading to'plami mavjud emas.",
   },
   readingV4: {
+    review: "Natijani koʻrish",
+    wholePassage: "Butun matn ochiladi; savollar faqat shu tur bilan cheklanmaydi.",
     lessonBack: "Barcha Reading darslari",
     subtitle: "Reading mashg'ulotini tanlang.", open: "Ochish", selectType: "Savol turini tanlang",
     requestedType: "Tanlangan savol turi", lessonsEmpty: "Hozircha Reading darslari nashr etilmagan.",

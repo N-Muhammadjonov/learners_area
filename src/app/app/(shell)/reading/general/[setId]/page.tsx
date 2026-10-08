@@ -1,3 +1,4 @@
+import { questionType } from "@/lib/content/question-types";
 import { BackLink } from "@/components/ui/BackLink";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -15,9 +16,9 @@ import { GeneralReadingSession, type GeneralPassage } from "@/components/reading
  */
 export default async function GeneralReadingSetPage({ params, searchParams }: {
   params: Promise<{ setId: string }>;
-  searchParams: Promise<{ passage?: string }>;
+  searchParams: Promise<{ passage?: string; type?:string }>;
 }) {
-  const [{ setId }, { passage }] = await Promise.all([params, searchParams]);
+  const [{ setId }, { passage, type }] = await Promise.all([params, searchParams]);
   if (!isUuid(setId)) notFound();
   const user = await requireActiveUser();
   if (!user) return null;
@@ -74,5 +75,5 @@ export default async function GeneralReadingSetPage({ params, searchParams }: {
     occurrences: p.occurrences,
   }));
   const initialProgress = Object.fromEntries(progress.map((row) => [row.passageId, { answers: row.answers, score: row.score, total: row.total, checked: Boolean(row.checkedAt) }]));
-  return <GeneralReadingSession dict={dict} setId={setId} setTitle={detail.set.title} passages={passages} initialProgress={initialProgress} mode={mode} />;
+  return <>{type && questionType(type,"reading") && <p className="body-text" data-requested-reading-type={type}>{dict.readingV4.requestedType}: {questionType(type,"reading")!.label}. {dict.readingV4.wholePassage}</p>}<GeneralReadingSession dict={dict} setId={setId} setTitle={detail.set.title} passages={passages} initialProgress={initialProgress} mode={mode} /></>;
 }

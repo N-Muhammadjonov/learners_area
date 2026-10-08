@@ -216,6 +216,8 @@ const en = {
     notFound: "This General Reading set is not available.",
   },
   readingV4: {
+    review: "Review",
+    wholePassage: "The whole passage opens; questions are not restricted to this type.",
     lessonBack: "All Reading lessons",
     subtitle: "Choose how you want to study Reading.", open: "Open", selectType: "Choose a question type",
     requestedType: "Requested question type", lessonsEmpty: "No Reading lessons are published yet.",
