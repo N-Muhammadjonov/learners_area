@@ -298,7 +298,7 @@ test("RP14 teacher snapshot numbers cover ONLY explicitly linked students (real 
   await database.query(`insert into users (id, email, name, role, account_status, created_at) values ($1, $2, 'Teacher Two', 'teacher', 'active', '2026-01-01') on conflict do nothing`, [TCH2, `${TCH2}@example.test`]);
   await database.query(`delete from teacher_student_links`);
   // Roster of TCH = {S2}. Weak signals (an assignment from TCH to S1) must NOT grant reach.
-  await database.query(`insert into teacher_student_links (teacher_user_id, student_user_id) values ($1, $2)`, [TCH, S2]);
+  await database.query(`insert into teacher_student_links (teacher_user_id, student_user_id, created_at) values ($1, $2, $3)`, [TCH, S2, IN]);
   await database.query(`insert into assignments (title, created_by_user_id, target_user_id) values ('weak', $1, $2)`, [TCH, S1]);
   const mine = await buildReportSnapshot(database.db, { scope: { kind: "teacher", teacherId: TCH }, period: week(), actor: { userId: TCH, role: "teacher" }, now: NOW });
   assert.equal(metric(mine, "reading.completed")!.value, 1, "only S2's attempt");
@@ -323,7 +323,7 @@ test("RP14 teacher snapshot numbers cover ONLY explicitly linked students (real 
 
 test("RP15 teacher IDOR through generateReport: rostered → file; unrostered and missing → identical 404; audit stores ids only", async () => {
   await database.query(`delete from teacher_student_links`);
-  await database.query(`insert into teacher_student_links (teacher_user_id, student_user_id) values ($1, $2)`, [TCH, S2]);
+  await database.query(`insert into teacher_student_links (teacher_user_id, student_user_id, created_at) values ($1, $2, $3)`, [TCH, S2, IN]);
   const deps = { database: database.db, lookup, now: () => NOW }; // default roster check runs real SQL
   const ok = await generateReport(people[TCH]!, { scope: "student", subject: S2, period: "weekly", format: "json" }, deps);
   assert.ok(ok.ok);

@@ -85,6 +85,9 @@ const serverId = mig.serverIdentityHash({ system_identifier: "730000000000000000
 const goodEnv = { DATABASE_URL: QA, PREVIEW_QA_DB_FINGERPRINT: mig.fingerprint(QA), PREVIEW_QA_PROJECT_REF: "qa", PREVIEW_QA_SERVER_IDENTITY: serverId };
 const allApplied = Object.keys(sql).map(h);
 const healthy = (q: string) => (
+  q.includes("dictionary_releases',") ? 9 :
+  q.includes("dictionary_entries_immutable") ? 3 :
+  q.includes("reading_assessments',") ? 2 :
   q.includes("user_profile_photos") ? 4 :
   q.includes("study_support") ? 1 :
   q.includes("lexical_units','") ? 2 :
@@ -131,7 +134,7 @@ test("CLI run: healthy plan passes; every verification query is scoped to schema
   const { client, queries } = fakeClient({ applied: allApplied, verifyN: healthy });
   const r = await mig.run({ ...base, env: goodEnv, connect: () => client });
   assert.equal(r.code, 0, JSON.stringify(r.receipt.result));
-  for (const [, q] of mig.VERIFY) assert.match(q as string, /table_schema='public'|schemaname='public'|public\./);
+  for (const [, q] of mig.VERIFY) assert.match(q as string, /table_schema='public'|event_object_schema='public'|schemaname='public'|public\./);
   assert.ok(queries.some((q) => q.includes("pg_control_system")), "server identity is read after connecting");
 });
 
