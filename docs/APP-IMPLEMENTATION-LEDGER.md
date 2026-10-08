@@ -38,7 +38,7 @@ committed; the remaining phases are open and are being worked in order.
 | LSN-019 | MCQ Day architecture (program → day → 5 questions) | NOT STARTED | new schema required |
 | LSN-020 | exactly 5 valid MCQs per published Day | NOT STARTED | |
 | LSN-021 | 30-day / 150-item corpus support without hard-coding 150 | NOT STARTED | |
-| LSN-022 | safe HTML conversion (inert parse, never execute) | **IN PROGRESS** | canonical importer + review screen already exist (`src/lib/import/listening/*`, `ListeningImport.tsx`, `ListeningLegacyImport.tsx`); the V4 activity extraction and full-transcript script exercise still have to land |
+| LSN-022 | safe HTML conversion (inert parse, never execute) | **DONE — repository semantics** | `structuredQuestionType` preserves explicit families/subtypes; unknown types and missing/incompatible map stimuli block staff import; inert SVG extraction and fact-derived activities verified by SP-MAP-01–15. New unsupported owner formats still require their actual source, not a guessed converter. See 2026-10-08 closure. |
 | RDG-001 | Reading Lessons | NOT STARTED | |
 | RDG-002 | Academic 3-passage full tests | NOT STARTED | academic sets exist (`/app/reading/academic/[setId]`) |
 | RDG-003 | Academic review evidence | NOT STARTED | |
@@ -682,3 +682,7 @@ catalogue and Test 10 ZIP remain owner assets. Real-browser pointer acceptance a
 
 **TEST 11 REPOSITORY WORK COMPLETE** (the scoped repository contract above; not published content,
 not external browser acceptance, and not completion of any dedicated MCQ corpus).
+
+## Remaining Listening work — checkpoint A (2026-10-08)
+
+Baseline `98b9595` already contains the generic safe-import closure (`37fcb60`). No parser or Test 11 architecture was reopened. Re-ran structured-map and canonical-identity suites: 22/22, no failures/skips. The original Listening LSN-022 row is reconciled above (later lesson-workstream rows reuse that label for a different requirement). Explicit Map/Plan and supported subtypes survive; unknown source labels are refused for staff review; missing or conflicting visuals are refused; no source script is executed. No migration. Owner-source dependency applies only to genuinely unsupported future formats.
