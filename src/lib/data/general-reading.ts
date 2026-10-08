@@ -91,8 +91,48 @@ export async function generalSetDetail(setId: string, role: Role) {
   return { set, passages };
 }
 
-export async function generalProgress(userId: string, setId: string) {
-  return db.select().from(generalReadingProgress).where(and(eq(generalReadingProgress.userId, userId), eq(generalReadingProgress.setId, setId)));
+export async function generalProgress(userId: string, setId: string, executor: typeof db = db) {
+  return executor.select().from(generalReadingProgress).where(and(eq(generalReadingProgress.userId, userId), eq(generalReadingProgress.setId, setId)));
+}
+
+export type GeneralCheckRow = {
+  questionId: string;
+  isCorrect: boolean;
+  correctAnswer: string;
+  acceptedAnswers: string[];
+  evidenceQuote: string | null;
+  explanation: string | null;
+};
+
+/** Server-owned Check projection, also used to restore an already checked result. */
+function generalCheckRows(
+  questions: (typeof readingQuestions.$inferSelect)[],
+  groups: (typeof readingQuestionGroups.$inferSelect)[],
+  answers: Record<string, string>,
+): GeneralCheckRow[] {
+  return questions.map(question => ({
+    questionId: question.id,
+    isCorrect: gradeReadingQuestion(answers[question.id] ?? "", question, groups.find(group => group.id === question.groupId)?.sharedChoices),
+    correctAnswer: question.correctAnswer,
+    acceptedAnswers: question.acceptedAnswers ?? [],
+    evidenceQuote: question.evidenceQuote ?? null,
+    explanation: question.explanation?.trim() ? question.explanation : null,
+  }));
+}
+
+/** Call only with the authenticated learner's persisted progress, never client flags.
+ * A read does not perform Check or write progress. Unchecked/edited drafts get no key. */
+export function restoredGeneralCheck(
+  progress: typeof generalReadingProgress.$inferSelect | undefined,
+  questions: (typeof readingQuestions.$inferSelect)[],
+  groups: (typeof readingQuestionGroups.$inferSelect)[],
+): GeneralCheckRow[] | null {
+  if (!progress?.checkedAt || progress.total !== questions.length) return null;
+  if (questions.some(question => question.passageId !== progress.passageId)) return null;
+  const rows = generalCheckRows(questions, groups, progress.answers);
+  // If grading disagrees with the persisted Check, require a fresh explicit Check.
+  if (rows.filter(row => row.isCorrect).length !== progress.score) return null;
+  return rows;
 }
 
 /**
@@ -109,17 +149,11 @@ export async function saveGeneralProgress(input: { userId: string; role: Role; p
   const questions = await executor.query.readingQuestions.findMany({ where: eq(readingQuestions.passageId, input.passageId) });
   const allowed = new Set(questions.map((question) => question.id));
   const answers = Object.fromEntries(Object.entries(input.answers).filter(([id, value]) => allowed.has(id) && typeof value === "string").map(([id, value]) => [id, value.slice(0, 500)]));
-  let result: { questionId: string; isCorrect: boolean; correctAnswer: string; evidenceQuote: string | null; explanation: string | null }[] | null = null;
+  let result: GeneralCheckRow[] | null = null;
   let score: number | null = null;
   if (input.check) {
     const groups=await executor.query.readingQuestionGroups.findMany({where:eq(readingQuestionGroups.passageId,input.passageId)});
-    result = questions.map((question) => ({
-      questionId: question.id,
-      isCorrect: gradeReadingQuestion(answers[question.id] ?? "", question, groups.find(g=>g.id===question.groupId)?.sharedChoices),
-      correctAnswer: question.correctAnswer,
-      evidenceQuote: question.evidenceQuote ?? null,
-      explanation: question.explanation?.trim() ? question.explanation : null,
-    }));
+    result = generalCheckRows(questions, groups, answers);
     score = result.filter((row) => row.isCorrect).length;
   }
   const now = new Date();

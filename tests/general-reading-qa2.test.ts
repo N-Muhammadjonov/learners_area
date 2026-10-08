@@ -23,6 +23,16 @@ function isolated() {
   const url = new URL(process.env.DATABASE_URL!);
   assert.ok(["localhost", "127.0.0.1"].includes(url.hostname) && url.pathname === "/learners_qa2");
 }
+/** The real catalogue is paginated; repeated QA runs may put this fixture after page one. */
+async function listedSet(userId: string, setId: string) {
+  for (let page = 1; page <= 10000; page += 1) {
+    const rows = await listGeneralSets(userId, {page});
+    assert.ok(rows.length <= 25, "the production read remains bounded, including lookahead");
+    const own = rows.find(row => row.id === setId);
+    if (own || rows.length < 25) return own;
+  }
+  throw new Error("QA catalogue exceeded the supported page range");
+}
 type User = { id: string; role: "student" | "admin" };
 async function learner(role: User["role"] = "student"): Promise<User> {
   const id = randomUUID();
@@ -294,7 +304,7 @@ test("17 draft sets are invisible to learners and locked; staff can preview", { 
   const g = await generalSet(false); const u = await learner(); const staff = await learner("admin");
   assert.equal(await generalSetDetail(g.setId, "student"), null);
   assert.ok(await generalSetDetail(g.setId, "admin"));
-  assert.ok(!(await listGeneralSets(u.id)).some((s) => s.id === g.setId));
+  assert.equal(await listedSet(u.id,g.setId),undefined);
   const bank = at(await g.occ(1), P1, "bank")!;
   const denied = await resolveOccurrence(u, "reading", g.ids[1], bank.id);
   assert.ok(denied === null || denied.status === "locked", "a learner gets no help (and no existence signal) on a draft");
@@ -357,7 +367,8 @@ test("22 Full Reading keeps progress of all 3 passages independently", { skip: !
   assert.equal(by[g.ids[1]]!.answers[d.passages[0]!.questions[0]!.id], "TRUE");
   assert.equal(by[g.ids[3]]!.score, 1);
   assert.ok(by[g.ids[3]]!.checkedAt);
-  const list = (await listGeneralSets(u.id)).find((s) => s.id === g.setId)!;
+  const list = await listedSet(u.id,g.setId);
+  assert.ok(list,"the fixture is present on its actual catalogue page");
   assert.equal(list.started, 3);
   assert.equal(list.checked, 1);
 });

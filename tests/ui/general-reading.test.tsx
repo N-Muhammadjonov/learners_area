@@ -188,3 +188,29 @@ test("VD-003 XSS: HTML-like source, question and popup strings render as literal
     });
   } finally { globalThis.fetch = original; }
 });
+
+test("checked reload restores authored feedback without another Check request; editing removes it immediately", async () => {
+  const n = net();
+  try {
+    await mount(React.createElement(GeneralReadingSession, {
+      userId:'test-user',dict:en,setId:SET,setTitle:'Set one',passages,mode:'full',
+      initialProgress:{[pid(1)]:{answers:{q1a:'true'},score:1,total:2,checked:true,result:[
+        {questionId:'q1a',isCorrect:true,correctAnswer:'TRUE',acceptedAnswers:['true'],evidenceQuote:'The bank approved the loan.',explanation:'Authored explanation on reload'},
+        {questionId:'q1b',isCorrect:false,correctAnswer:'A marathon',evidenceQuote:null,explanation:null},
+      ]}},
+    }),async()=>{
+      assert.equal(document.querySelectorAll('[data-general-result]').length,2);
+      assert.ok(document.querySelector('[data-general-explanation]')?.textContent?.includes('Authored explanation on reload'));
+      assert.ok(document.querySelector('[data-general-accepted]')?.textContent?.includes('true'));
+      assert.ok(document.querySelector('[data-general-explanation-missing]'));
+      assert.equal(n.calls.filter(call=>call.url.includes('/api/reading/general/progress')).length,0,'reload does not perform Check');
+      await act(async()=> (document.querySelector("[data-question='q1a'] [data-answer-option='false']") as HTMLButtonElement).click());
+      assert.equal(document.querySelector('[data-general-result]'),null);
+      assert.equal(document.querySelector('[data-general-score]'),null,'old checked score is not shown for edited answers');
+      await tick(800);
+      const saved = n.calls.filter(call=>call.url.includes('/api/reading/general/progress'));
+      assert.equal(saved.length,1);
+      assert.equal((saved[0]!.body as {check:boolean}).check,false,'an edit saves a draft, not an automatic Check');
+    });
+  } finally { n.restore(); }
+});

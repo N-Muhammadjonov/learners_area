@@ -29,8 +29,8 @@ export type GeneralPassage = {
   groups?:ExamGroup[];
   occurrences: OccurrenceSpan[];
 };
-export type GeneralProgressView = { answers: Record<string, string>; score: number | null; total: number | null; checked: boolean };
-type CheckRow = { questionId: string; isCorrect: boolean; correctAnswer: string; evidenceQuote: string | null; explanation: string | null };
+export type GeneralProgressView = { answers: Record<string, string>; score: number | null; total: number | null; checked: boolean; result?:CheckRow[]|null };
+type CheckRow = { questionId: string; isCorrect: boolean; correctAnswer: string; acceptedAnswers?:string[]; evidenceQuote: string | null; explanation: string | null };
 
 export function GeneralReadingSession({ dict, setId, setTitle, passages, initialProgress, mode, userId }: {
   dict: Dictionary;
@@ -49,7 +49,11 @@ export function GeneralReadingSession({ dict, setId, setTitle, passages, initial
   const [answers, setAnswers] = useState<Record<string, Record<string, string>>>(() =>
     Object.fromEntries(passages.map((p) => [p.passageId, initialProgress[p.passageId]?.answers ?? {}])));
   const [status, setStatus] = useState<Record<string, "idle" | "saving" | "saved" | "error" | "checking">>({});
-  const [checks, setChecks] = useState<Record<string, { rows: CheckRow[]; score: number | null; total: number | null }>>({});
+  const [checks, setChecks] = useState<Record<string, { rows: CheckRow[]; score: number | null; total: number | null }>>(() =>
+    Object.fromEntries(passages.flatMap(p => {
+      const saved = initialProgress[p.passageId];
+      return saved?.checked && saved.result ? [[p.passageId, { rows:saved.result, score:saved.score, total:saved.total }]] : [];
+    })));
   const [errors, setErrors] = useState<Record<string, string | null>>({});
   const timers = useRef<Record<string, ReturnType<typeof setTimeout>>>({});
   const revisions=useRef<Record<string,number>>({});
@@ -164,6 +168,7 @@ export function GeneralReadingSession({ dict, setId, setTitle, passages, initial
                   {row && (
                     <div className={`rounded-sm p-2 text-xs ${row.isCorrect ? "bg-signal-50 text-ink-900" : "bg-paper-sunken text-ink-700"}`} data-general-result={row.isCorrect ? "correct" : "incorrect"}>
                       <p>{row.isCorrect ? "✓" : "✗"} {t.correctAnswer.replace("{answer}", row.correctAnswer)}</p>
+                      {Boolean(row.acceptedAnswers?.length) && <p data-general-accepted>{dict.readingPractice.acceptedAnswers}: {row.acceptedAnswers!.join(" / ")}</p>}
                       {/* Evidence is answer support, rendered as plain text: it never becomes a vocabulary target or selects a sense. */}
                       {row.evidenceQuote ? <p className="mt-1 italic" data-general-evidence>{t.evidence} {row.evidenceQuote}</p> : <p data-general-evidence-missing>{dict.readingV4.evidenceMissing}</p>}
                       {row.explanation ? <p className="mt-1" data-general-explanation>{dict.reading.explanation}: {row.explanation}</p> : <p data-general-explanation-missing>{dict.readingV4.explanationMissing}</p>}

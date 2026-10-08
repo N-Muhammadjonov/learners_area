@@ -168,3 +168,33 @@ Prior checkpoint 9dd8a6d: actual GitHub Vercel status verified success.
 Scheduled activation/binding, checked-detail reload, active-help audit, runtime
 HTTP/roles, final gate and ledger closure remain outstanding. No completion or
 browser-pointer/viewport claim is made.
+
+## General checked-detail restoration checkpoint
+
+A learner's persisted Check now restores the same server-owned correct answer,
+accepted alternatives, authored evidence/explanation and missing-source states
+on reload. It does not perform another Check, write progress, or unlock an
+unchecked draft. An edit immediately removes displayed feedback and score; its
+existing autosave clears persisted checked state. The restored projection refuses
+mismatched passage/question counts or a score inconsistent with persisted answers.
+Existing answers/checkedAt/score/total are sufficient: no migration or new store.
+General requested-type labels now use localized canonical identity and only show
+when that type is actually present in the selected passage(s).
+
+Fresh focused checks (overlapping, not summed):
+- V4/history/import/tab/stabilization: 45 total / 45 pass / 0 fail / 0 skip.
+- Reading/General/shared-highlight DOM: 33 total / 33 pass / 0 fail / 0 skip.
+- Native PostgreSQL Academic + General final rerun: 27 total / 27 pass / 0 fail /
+  0 skip. An earlier rerun was 27 / 26 / 1 / 0: a QA assertion assumed every new
+  fixture was on catalogue page one. It now follows bounded pages, asserts the
+  25-row lookahead limit, and checks the actual fixture ID; production pagination
+  was not widened, assertions were not removed, and the database was not reset.
+- New checked-review SQL case: 1/1/0/0 (included in the 45-test batch).
+- General DOM alone: 6/6/0/0 (included in the 33-test batch).
+- Typecheck/lint/diff-check pass. e612aa1 actual Vercel status: success.
+
+This closes the implementation/component/SQL reload gap, not built-server HTTP
+reload acceptance. Scheduled activation/binding and formal publication policy,
+active-help audit, real lookup/save HTTP/roles/Retention journeys, final gate and
+ledger closure remain open. Real pointer/highlight and 390/768/1440 acceptance
+remain EXTERNALLY UNVERIFIED. Background/Night Mode: NOT STARTED—DEFERRED BY OWNER.
