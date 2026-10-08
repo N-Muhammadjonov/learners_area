@@ -214,3 +214,52 @@ test("checked reload restores authored feedback without another Check request; e
     });
   } finally { n.restore(); }
 });
+
+test("GEN-06 a late Check response that was overtaken by an edit cannot restore stale feedback", async () => {
+  // The learner presses Check, then edits an answer BEFORE the server replies.
+  // The in-flight reply describes answers that no longer exist, so it must be
+  // discarded: showing it would tell the learner their current answer is graded.
+  const original = globalThis.fetch;
+  let releaseCheck!: () => void;
+  const held = new Promise<void>((resolve) => { releaseCheck = resolve; });
+  const calls: { url: string; body: { check?: boolean } }[] = [];
+  globalThis.fetch = (async (url: string, init?: RequestInit) => {
+    const body = init?.body ? JSON.parse(String(init.body)) : {};
+    calls.push({ url: String(url), body });
+    const json = (value: unknown) => new Response(JSON.stringify(value), { headers: { "Content-Type": "application/json" } });
+    if (String(url).includes("folders")) return json({ folders: [] });
+    if (String(url).includes("/api/reading/general/progress")) {
+      if (body.check) {
+        await held; // the Check reply arrives only after the learner has edited
+        return json({ ok: true, score: 1, total: 2, result: [
+          { questionId: "q1a", isCorrect: true, correctAnswer: "TRUE", evidenceQuote: "The bank approved the loan.", explanation: "Stale authored explanation" },
+          { questionId: "q1b", isCorrect: false, correctAnswer: "A marathon", evidenceQuote: null, explanation: null },
+        ] });
+      }
+      return json({ ok: true, score: null, total: null, result: null });
+    }
+    return json({});
+  }) as typeof fetch;
+  try {
+    await mount(React.createElement(GeneralReadingSession, {
+      userId: "test-user", dict: en, setId: SET, setTitle: "Set one", passages, mode: "full", initialProgress: {},
+    }), async () => {
+      await act(async () => (document.querySelector("[data-question='q1a'] [data-answer-option='true']") as HTMLButtonElement).click());
+      await tick(800);
+      const checkButton = Array.from(document.querySelectorAll("button")).find((b) => /check/i.test(b.textContent ?? ""))!;
+      assert.ok(checkButton, "the explicit Check control exists");
+      await act(async () => checkButton.click());
+      assert.equal(document.querySelector("[data-general-result]"), null, "nothing is shown while the Check is in flight");
+
+      // The learner changes their mind while the Check is still in flight.
+      await act(async () => (document.querySelector("[data-question='q1a'] [data-answer-option='false']") as HTMLButtonElement).click());
+      releaseCheck();
+      await tick(900);
+
+      assert.equal(document.querySelector("[data-general-result]"), null, "the overtaken Check reply is discarded");
+      assert.equal(document.querySelector("[data-general-score]"), null, "no stale score is restored");
+      assert.equal(document.body.textContent!.includes("Stale authored explanation"), false, "no stale authored explanation is painted");
+      assert.ok(calls.some((c) => c.body.check === true), "a real Check request was actually issued");
+    });
+  } finally { globalThis.fetch = original; }
+});
