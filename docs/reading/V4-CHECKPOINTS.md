@@ -293,3 +293,74 @@ removed in f3641ac; no behaviour changed.
 The 97 unit skips are isolated-database tests that RUN in the real-pg leg. The 4
 real-pg skips are owner assets only: the frozen dictionary catalogue (2) and the
 Listening source ZIP (2). Skipped is never counted as passed.
+
+## Final closure round — publication truth and the exam seal
+
+### Scheduled activation (PUB-01…PUB-15)
+
+`tests/reading-v4-scheduled-activation.test.ts` drives `activateReadingSchedules`
+with a CONTROLLED clock (`now`), never a sleep towards a real moment:
+
+- before T the live revision is still startable and the future one is neither
+  visible in the catalogue nor startable (PUB-02, PUB-14);
+- at T the one activation authority publishes it, and the catalogue, the set
+  start and the attempt binding all agree (PUB-03, PUB-04);
+- a learner who began before T keeps their questions and is graded on their own
+  keys after T (PUB-05, PUB-06), while a learner starting after T receives a pure
+  newer set with not one older question in it (PUB-07, PUB-08);
+- nothing is deleted and the submitted review still reads its own revision
+  (PUB-09, PUB-10); the superseded revision refuses a new start (PUB-13);
+- a schedule with no moment is refused, and a stray moment on a non-scheduled
+  transition is normalised to null rather than stored (PUB-12);
+- a draft is invisible to learners while its rows stay readable for staff (PUB-15);
+- PUB-11 runs on REAL PostgreSQL with separate pooled connections: eight
+  concurrent activations and starts produce exactly one published revision and no
+  partial membership.
+
+`tests/reading-v4-history-invariants.test.ts` adds the replay, legacy-binding,
+unrelated-source and concurrency invariants (RV-HIST-09, 11, 12, 14). A replayed
+publication is a SAFE REFUSED NO-OP: the shared CMS contract rejects a `from === to`
+transition for every module, and the refusal changes no membership, no catalogue
+row and no bound attempt. RV-HIST-14 races four autosaves, a publication and four
+submits on real PostgreSQL: exactly one submit grades, on the attempt's own keys.
+
+### SEC-12 — a real active-exam bypass, found and closed
+
+Migration 0030 pins every `general_reading_passages.reading_mode` to
+`'general_practice'` by CHECK, and an Academic formal test is built from those same
+canonical rows. A `reading_attempts` row stores only its FIRST passage — positions
+two and three exist solely in `reading_assessment_passages`. So a learner sitting an
+open three-passage assessment could ask for the very same passage by its PASSAGE id
+and be served Dictionary meanings as "General learning", including through an older
+submitted attempt of that passage.
+
+`readingLexicalAccess` now checks exam integrity BEFORE product classification: if
+the learner has an open attempt whose assessment membership contains this passage,
+the mode is `ACADEMIC_EXAM`. Only a formal assessment seals — a standalone passage
+attempt and ordinary General learning are untouched, and everything re-opens once
+the assessment is submitted.
+
+Proof: `tests/reading-v4-exam-seal.test.ts` (fails without the fix, verified by
+restoring the pre-fix file), and nine new built-server checks A16.1/2/3 + b + c,
+which seal the passage-id route, the attempt-id route and the vocabulary save at
+all three positions. Two older assertions that encoded the weaker policy
+(`reading-v4-review-access`, `academic-reading-qa2`) were updated to the tightened
+contract, with the re-opening after submission asserted in both.
+
+### General Check (GEN-01…GEN-12)
+
+GEN-06 is now proven directly: `tests/ui/general-reading.test.tsx` holds a Check
+response in flight, edits an answer before it lands and asserts the overtaken reply
+paints no result, no score and no stale authored explanation.
+
+### Runtime acceptance on the frozen tree
+
+- Built-server HTTP `scripts/verify-reading-v4.mjs`: **93 checks, 93 pass, 0 fail**,
+  residue 0.
+- REAL Chromium `scripts/verify-reading-browser.mjs`: **35 checks, 35 pass, 0 fail**,
+  residue 0.
+
+`scripts/verify-reading.mjs` is PRE-V4 and is marked superseded in its own header:
+it is in no gate and no npm script, and its expectations (tabbed hub, read-aloud in
+the attempt, spelling lookup from a passage) contradict the approved V4 contract.
+It was not satisfied by weakening any product rule.
