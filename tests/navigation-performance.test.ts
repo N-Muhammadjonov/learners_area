@@ -101,8 +101,8 @@ test("Reading streams counts, facets, and the selected library through independe
   assert.match(page, /data-route-usable="reading"/);
   assert.match(page, /<ReadingWorkspace userId=\{user\.id\}/);
   assert.match(page, /const countsPromise = captureRegion\(readingHubCounts\(userId\)\)/);
-  assert.match(page, /captureRegion\(listLibraryFacets\(\)\)/);
-  assert.match(page, /captureRegion\(listLibrary\(userId, filter\)\)/);
+  assert.match(page, /captureRegion\(listLibraryFacets\(true\)\)/);
+  assert.match(page, /captureRegion\(listLearningLibrary\(userId, filter\)\)/);
   assert.match(page, /data-async-loading="reading-hub-counts"/);
   assert.match(page, /data-async-loading="reading-library-facets"/);
   assert.match(page, /data-async-loading="reading-library"/);

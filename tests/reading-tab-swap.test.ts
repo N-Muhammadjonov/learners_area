@@ -23,7 +23,7 @@ test("R2 the passage library (search, filters, pages) is rendered and queried un
   const general = panel("general-reading");
   assert.match(general, /data-reading-library/);
   assert.match(general, /ReadingFiltersRegion/);
-  assert.match(page, /tab === "general-reading"\s*\?\s*captureRegion\(listLibrary\(userId, filter\)\)/);
+  assert.match(page, /tab === "general-reading"\s*\?\s*captureRegion\(listLearningLibrary\(userId, filter\)\)/);
   assert.doesNotMatch(panel("academic"), /ReadingFiltersRegion|listLibrary/);
 });
 
