@@ -10,7 +10,8 @@ export const dynamic = "force-dynamic";
  *   • Lessons            — authored lessons that carry listening material;
  *   • Academic Listening — the centre's published four-part Academic tests;
  *   • General Listening  — standalone General sections, one section per exercise;
- *   • Listening MCQ      — the dedicated 30-day programme, five staged questions a day.
+ *   • Listening MCQ      — the dedicated day-by-day programme (no fixed number of days),
+ *                          five staged questions per published day.
  *
  * The four are different products, so this page is a DOORWAY and not a catalogue: it lists no
  * content, so it can neither file a day under Academic Listening, nor offer a full test inside the
