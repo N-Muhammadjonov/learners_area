@@ -48,3 +48,11 @@ test("R6 filters/pagination/reset stay on General without a redundant tab round 
  assert.match(library,/`\/app\/reading\/general\?\$\{search.toString\(\)\}`/);
  assert.doesNotMatch(library,/tab="general-reading"/);
 });
+
+test("R-V4-13 the withdrawn General Training product leaves no learner-facing copy, while historical IELTS meaning is preserved", () => {
+  for (const file of ["src/lib/i18n/en.ts", "src/lib/i18n/uz.ts"])
+    assert.doesNotMatch(readFileSync(file, "utf8"), /General Training/,
+      `${file} still ships withdrawn learner copy into the client dictionary`);
+  // Provenance is NOT renamed: the scoring policy still names the real IELTS paper.
+  assert.match(readFileSync("src/lib/content/score-policy.ts", "utf8"), /General Training Reading \(40 questions\)/);
+});

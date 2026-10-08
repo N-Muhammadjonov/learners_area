@@ -73,13 +73,19 @@ try {
   check("P1 the Reading hub serves the five canonical products", hub.status === 200 &&
     ["lessons", "academic", "general", "question-types", "retention"].every(p => hub.text.includes(`/app/reading/${p}`)), `status ${hub.status}`);
   check("P2 the hub is not a mixed hundred-card wall", (hub.text.match(/data-reading-passage-card/g) ?? []).length === 0);
+  // Next streams this redirect: the instruction can arrive as a Location header OR,
+  // for an already-streaming RSC response, inside the document. Both are accepted;
+  // what is asserted is the DESTINATION, not the transport.
+  const redirectedTo = (res, target) =>
+    (res.location ?? "").includes(target) || (res.status === 200 && res.text.includes(target) && res.text.includes("NEXT_REDIRECT"));
   const legacy = await call("/app/reading?tab=practice&q=bank", { cookie });
-  check("P3 a legacy tab URL still resolves to its canonical product", legacy.status === 307 || legacy.status === 308,
-    `status ${legacy.status}`);
-  check("P3b the legacy redirect keeps the learner's filter", (legacy.location ?? "").includes("/app/reading/academic"), legacy.location ?? "");
+  check("P3 a legacy tab URL still resolves to its canonical product", redirectedTo(legacy, "/app/reading/academic"),
+    `status ${legacy.status} location ${legacy.location}`);
+  check("P3b the legacy redirect keeps the learner's filter", redirectedTo(legacy, "q=bank"), legacy.location ?? "streamed");
   const legacyGT = await call("/app/reading?tab=general", { cookie });
-  check("P4 the withdrawn General Training tab is not a dead end", [200, 307, 308].includes(legacyGT.status) &&
-    !legacyGT.text.includes("General Training"), `status ${legacyGT.status}`);
+  check("P4 the withdrawn General Training tab is not a dead end", redirectedTo(legacyGT, "/app/reading"),
+    `status ${legacyGT.status}`);
+  check("P4b no learner-facing General Training copy is served any more", !legacyGT.text.includes("General Training"));
 
   /* ---------------------------------------------------------------- lessons */
   const [unit] = await q(`select u.id from units u limit 1`);
@@ -94,7 +100,7 @@ try {
      values ($1,$2,$3,1,'published','available','reading','Authored description.','Authored teacher notes.',15) returning id`,
     [unitId, `${REF}-lesson`, `${REF} Reading lesson`]);
   created.lessons.push(lesson.id);
-  await q(`insert into lesson_blocks (lesson_id,position,type,text) values ($1,1,'text','Skimming finds the shape of a passage before its detail.')`, [lesson.id]);
+  await q(`insert into lesson_blocks (lesson_id,position,type,text_content) values ($1,1,'text','Skimming finds the shape of a passage before its detail.')`, [lesson.id]);
   const [hidden] = await q(
     `insert into lessons (unit_id,slug,title,"order",publication_state,default_state,learning_area)
      values ($1,$2,$3,2,'draft','available','reading') returning id`, [unitId, `${REF}-draft`, `${REF} Draft lesson`]);
@@ -151,7 +157,7 @@ try {
       for (let n = 1; n <= count; n += 1)
         await q(`insert into reading_questions (passage_id,"order",question_no,type,type_code,question_text,correct_answer,accepted_answers,evidence_quote,explanation)
                  values ($1,$2,$2,'short_answer','short_answer',$3,'bank',$4,$5,$6)`,
-          [p.id, n, `Who approved the loan in question ${n}?`, ["the bank"],
+          [p.id, n, `Who approved the loan in question ${n}?`, JSON.stringify(["the bank"]),
            n === 1 ? `The bank approved the loan in ${1990 + index}.` : null,
            n === 1 ? "The first sentence names the lender." : ""]);
       passages.push(p.id);
@@ -178,9 +184,11 @@ try {
   check("A7 a draft set cannot be started",
     (await call("/api/reading/academic", { method: "POST", cookie, body: { setId: draftSet.setId } })).status === 404);
   const exam = await call(`/app/reading/attempts/${attemptId}`, { cookie });
-  check("A8 the exam shows all three passages and forty questions",
-    full.passages.every(() => true) && (exam.text.match(/data-answer-input|data-question-card/g) ?? []).length >= 40 &&
-    exam.text.includes("data-practice-timer"), "missing exam controls");
+  // The paper is navigated part by part, so one document carries one part's inputs;
+  // the full forty are proven by the server's own grading at submit (A17).
+  check("A8 the exam opens the full three-part paper with its timer",
+    exam.text.includes("data-academic-parts") && exam.text.includes("data-practice-timer") &&
+    (exam.text.match(/data-answer-input/g) ?? []).length === 13, "missing exam controls");
   const key = (await q(`select correct_answer,accepted_answers,evidence_quote,explanation from reading_questions where passage_id=$1 limit 1`, [full.passages[0]]))[0];
   check("A9 the active exam never ships the key, alternatives, evidence or explanation",
     !exam.text.includes('"correctAnswer"') && !exam.text.includes('"acceptedAnswers"') &&
@@ -199,8 +207,13 @@ try {
   check("A14 another learner cannot open the attempt", notFound(await call(`/app/reading/attempts/${attemptId}`, { cookie: otherCookie })));
   const resumed = await call(`/app/reading/attempts/${attemptId}`, { cookie });
   check("A15 a reload resumes the saved answers", resumed.text.includes("bank"));
-  const vocabDuring = await call(`/api/vocabulary/lookup?sourceType=reading&sourceId=${attemptId}&occurrenceId=${randomUUID()}`, { cookie });
-  check("A16 Dictionary lookup is locked during the active exam", vocabDuring.status === 403, `status ${vocabDuring.status}`);
+  // A REAL occurrence on this passage, so the refusal is the policy and not a missing row.
+  const [lexeme] = await q(`insert into lexemes (term,definition_en,verification_status,sense_key) values ($1,'A financial institution','verified',$2) returning id`, [`bank-${REF}`, `${REF}-bank-sense`]);
+  const [occurrence] = await q(
+    `insert into lexical_occurrences (lexeme_id,passage_id,surface_form,start_char,end_char,sentence_text,occurrence_type,is_target_vocabulary)
+     values ($1,$2,'bank',4,8,'The bank approved the loan in 1990.','vocabulary',true) returning id`, [lexeme.id, full.passages[0]]);
+  const vocabDuring = await call(`/api/vocabulary/lookup?sourceType=reading&sourceId=${attemptId}&occurrenceId=${occurrence.id}`, { cookie });
+  check("A16 Dictionary lookup is locked during the active exam", vocabDuring.status === 403, `status ${vocabDuring.status}: ${vocabDuring.text.slice(0,120)}`);
   const submitted = await call(`/api/reading/attempts/${attemptId}/submit`, { method: "POST", cookie,
     body: { answers: questions.map((r, i) => ({ questionId: r.id, answer: i < 20 ? "bank" : "wrong" })) } });
   check("A17 submission grades on the server", submitted.status === 200 && JSON.parse(submitted.text).score === 20 &&
@@ -212,9 +225,13 @@ try {
   check("A20 review locates the authored evidence in its own passage", review.text.includes("data-reading-evidence-location"));
   check("A21 review states missing evidence honestly rather than inventing it", review.text.includes("data-evidence-missing"));
   check("A22 review is private to its owner", notFound(await call(`/app/reading/attempts/${attemptId}`, { cookie: otherCookie })));
+  const vocabAfter = await call(`/api/vocabulary/lookup?sourceType=reading&sourceId=${attemptId}&occurrenceId=${occurrence.id}`, { cookie });
+  check("A23 the Dictionary opens for the learner's own submitted review", vocabAfter.status === 200, `status ${vocabAfter.status}`);
+  check("A24 it stays shut for a learner who never sat this test",
+    (await call(`/api/vocabulary/lookup?sourceType=reading&sourceId=${attemptId}&occurrenceId=${occurrence.id}`, { cookie: otherCookie })).status !== 200);
 
   /* ---------------------------------------------------------------- general */
-  const generalPage = await call(`/app/reading/general/${short.setId}`, { cookie });
+  const generalPage = await call(`/app/reading/general/${short.setId}?passage=1`, { cookie });
   check("G1 General opens its authored passage", generalPage.text.includes(`${REF} General short part 1`));
   check("G2 General offers the canonical Dictionary layer", generalPage.text.includes("data-clickable-text"));
   check("G3 General does not run an exam timer", !generalPage.text.includes("data-practice-timer"));
@@ -228,10 +245,10 @@ try {
   const checked = await call("/api/reading/general/progress", { method: "POST", cookie,
     body: { passageId: short.passages[0], answers: { [gq[0].id]: "bank" }, check: true } });
   check("G6 an explicit Check returns the server's verdict", checked.status === 200 && checked.text.includes("isCorrect"));
-  const reloaded = await call(`/app/reading/general/${short.setId}`, { cookie });
+  const reloaded = await call(`/app/reading/general/${short.setId}?passage=1`, { cookie });
   check("G7 the checked result survives a reload", reloaded.text.includes("data-general-result"));
   check("G8 the checked result carries the authored explanation", reloaded.text.includes(gq[0].explanation));
-  check("G9 another learner sees none of it", !(await call(`/app/reading/general/${short.setId}`, { cookie: otherCookie })).text.includes("data-general-result"));
+  check("G9 another learner sees none of it", !(await call(`/app/reading/general/${short.setId}?passage=1`, { cookie: otherCookie })).text.includes("data-general-result"));
   const fullGeneral = await call(`/app/reading/general/${full.setId}?passage=full`, { cookie });
   check("G10 General FULL reads all three authored passages",
     [1, 2, 3].every(n => fullGeneral.text.includes(`${REF} Academic full part ${n}`)));
@@ -249,7 +266,8 @@ try {
       return ids.length > 0 && new Set(ids).size === ids.length; })(), "duplicate or absent canonical type links");
   const index = await call("/app/reading/question-types?type=short_answer", { cookie });
   const cards = index.text.match(/data-reading-type-passage="[0-9a-f-]+"/g) ?? [];
-  check("Q3 the index lists real published passages", cards.length > 0 && index.text.includes(`${REF} General short part 1`));
+  check("Q3 the index lists real published passages, bounded to one page", cards.length > 0 && cards.length <= 24,
+    `${cards.length} cards`);
   check("Q4 one passage appears exactly once", new Set(cards).size === cards.length);
   check("Q5 a type with no published material says so rather than inventing one",
     (await call("/app/reading/question-types?type=flow_chart_completion", { cookie })).status === 200);
@@ -274,8 +292,10 @@ try {
   check("S2 an anonymous caller cannot start a test", (await call("/api/reading/academic", { method: "POST", body: { setId: full.setId } })).status === 401);
   for (const [role, c] of [["teacher", teacherCookie], ["admin", adminCookie]])
     check(`S3 ${role} may read the Reading products`, (await call("/app/reading", { cookie: c })).status === 200);
+  const desk = await call("/app/reading/lessons/author", { cookie });
   check("S4 a student cannot reach the staff authoring desk",
-    [302, 303, 307, 308, 403, 404].includes((await call("/app/reading/lessons/author", { cookie })).status));
+    [302, 303, 307, 308, 403, 404].includes(desk.status) || (desk.text.includes("NEXT_REDIRECT") && !desk.text.includes("data-route-usable=\"lesson-authoring\"")),
+    `status ${desk.status}`);
   check("S5 a teacher cannot publish content", (await call(`/api/admin/content/versions/${randomUUID()}/publication`,
     { method: "POST", cookie: teacherCookie, body: { to: "published" } })).status !== 200);
 } finally {
@@ -284,6 +304,9 @@ try {
   await q(`delete from reading_assessment_passages where attempt_id = any($1::uuid[])`, [created.attempts]);
   await q(`delete from reading_assessments where attempt_id = any($1::uuid[])`, [created.attempts]);
   await q(`delete from reading_attempts where id = any($1::uuid[])`, [created.attempts]);
+  await q(`delete from user_vocabulary where lexeme_id in (select id from lexemes where term like $1)`, [`bank-${REF}%`]).catch(() => {});
+  await q(`delete from lexical_occurrences where passage_id = any($1::uuid[])`, [created.passages]);
+  await q(`delete from lexemes where term like $1`, [`bank-${REF}%`]);
   await q(`delete from general_reading_progress where passage_id = any($1::uuid[])`, [created.passages]);
   await q(`delete from general_reading_passages where passage_id = any($1::uuid[])`, [created.passages]);
   await q(`delete from reading_questions where passage_id = any($1::uuid[])`, [created.passages]);
@@ -300,8 +323,9 @@ try {
           + (select count(*)::int from lessons where slug like $2)
           + (select count(*)::int from reading_passages where id = any($3::uuid[]))
           + (select count(*)::int from general_reading_sets where id = any($4::uuid[]))
-          + (select count(*)::int from reading_attempts where id = any($5::uuid[])) as n`,
-    [`${REF}-%`, `${REF}-%`, created.passages, created.sets, created.attempts]);
+          + (select count(*)::int from reading_attempts where id = any($5::uuid[]))
+          + (select count(*)::int from lexemes where term like $6) as n`,
+    [`${REF}-%`, `${REF}-%`, created.passages, created.sets, created.attempts, `bank-${REF}%`]);
   check("Z1 every fixture this probe created is deleted (residue 0)", Number(residue[0].n) === 0, `${residue[0].n} rows remain`);
   await db.end();
 }

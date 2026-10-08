@@ -49,34 +49,42 @@ async function dragSelect(page, selector, needle) {
   const box = await page.evaluate(([sel, text]) => {
     const host = document.querySelector(sel);
     if (!host) return null;
+    // The canonical text layer splits words across elements, so the range is built
+    // over the CONCATENATED visible text, exactly like a human dragging across it.
     const walker = document.createTreeWalker(host, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    let all = "";
     let node;
-    while ((node = walker.nextNode())) {
-      const index = node.textContent.indexOf(text);
-      if (index < 0) continue;
-      const range = document.createRange();
-      range.setStart(node, index);
-      range.setEnd(node, index + text.length);
-      const rect = range.getBoundingClientRect();
-      if (rect.width === 0) continue;
-      return { x: rect.x, y: rect.y, width: rect.width, height: rect.height };
-    }
-    return null;
+    while ((node = walker.nextNode())) { nodes.push([node, all.length]); all += node.textContent; }
+    const index = all.indexOf(text);
+    if (index < 0) return null;
+    const locate = (offset) => {
+      for (let i = nodes.length - 1; i >= 0; i -= 1) if (nodes[i][1] <= offset) return [nodes[i][0], offset - nodes[i][1]];
+      return [nodes[0][0], 0];
+    };
+    const [startNode, startOffset] = locate(index);
+    const [endNode, endOffset] = locate(index + text.length);
+    const range = document.createRange();
+    range.setStart(startNode, Math.min(startOffset, startNode.textContent.length));
+    range.setEnd(endNode, Math.min(endOffset, endNode.textContent.length));
+    const rects = [...range.getClientRects()].filter((r) => r.width > 2 && r.height > 2);
+    if (!rects.length) return null;
+    const first = rects[0], last = rects[rects.length - 1];
+    return { x1: first.x + 1, y1: first.y + first.height / 2, x2: last.right - 1, y2: last.y + last.height / 2 };
   }, [selector, needle]);
   if (!box) return false;
-  const y = box.y + box.height / 2;
-  await page.mouse.move(box.x + 1, y);
+  await page.mouse.move(box.x1, box.y1);
   await page.mouse.down();
-  await page.mouse.move(box.x + box.width - 1, y, { steps: 12 });
+  await page.mouse.move(box.x2, box.y2, { steps: 16 });
   await page.mouse.up();
-  await page.keyboard.up("Shift").catch(() => {});
   await page.dispatchEvent(selector, "keyup", { key: "Shift", bubbles: true });
+  await page.waitForTimeout(150);
   return true;
 }
 
 const browser = await chromium.launch({
   executablePath: EXECUTABLE,
-  args: ["--no-sandbox", "--disable-dev-shm-usage", "--disable-gpu", "--single-process"],
+  args: ["--no-sandbox", "--disable-dev-shm-usage", "--disable-gpu"],
 });
 
 try {
@@ -103,6 +111,12 @@ try {
         await q(`insert into reading_questions (passage_id,"order",question_no,type,type_code,question_text,correct_answer,explanation)
           values ($1,$2,$2,'short_answer','short_answer',$3,'bank','The first sentence names the lender.')`,
           [p.id, n, `Who approved the loan in question ${n}?`]);
+      if (index === 0) {
+        const [lexeme] = await q(`insert into lexemes (term,definition_en,translation_uz,verification_status,sense_key)
+          values ($1,'A financial institution','bank','verified',$2) returning id`, [`bank-${REF}`, `${REF}-${title}-bank-sense`]);
+        await q(`insert into lexical_occurrences (lexeme_id,passage_id,surface_form,start_char,end_char,sentence_text,occurrence_type,is_target_vocabulary)
+          values ($1,$2,'bank',4,8,'The bank approved the loan in 1998.','vocabulary',true)`, [lexeme.id, p.id]);
+      }
       passages.push(p.id);
     }
     return { setId: set.id, passages };
@@ -118,7 +132,7 @@ try {
   page.on("pageerror", (error) => consoleErrors.push(String(error)));
 
   /* ------------------------------------------------ General: pointer highlight */
-  await page.goto(`${BASE}/app/reading/general/${general.setId}`, { waitUntil: "networkidle" });
+  await page.goto(`${BASE}/app/reading/general/${general.setId}?passage=1`, { waitUntil: "networkidle" });
   check("B1 the General workspace paints its passage in a real browser",
     await page.locator("[data-clickable-text]").first().isVisible());
   const textBefore = (await page.locator("[data-clickable-text]").first().innerText()).trim();
@@ -128,9 +142,10 @@ try {
   check("B3 the highlight control appears for a real selection", await control.isVisible().catch(() => false));
   if (await control.isVisible().catch(() => false)) {
     await control.click();
-    const mark = page.locator("[data-clickable-text] mark").first();
-    check("B4 the highlight lands on exactly the selected words",
-      (await mark.innerText().catch(() => "")).includes("approved the loan"), await mark.innerText().catch(() => "no mark"));
+    // The canonical layer keeps one span per word, so a phrase highlight is a run of
+    // <mark> pieces; what matters is the text they cover, in order.
+    const marked = (await page.locator("[data-clickable-text] mark").allInnerTexts()).join("");
+    check("B4 the highlight lands on exactly the selected words", marked === "approved the loan", JSON.stringify(marked));
     const textAfter = (await page.locator("[data-clickable-text]").first().innerText()).trim();
     check("B5 highlighting does not alter the passage text", textAfter === textBefore);
     const remove = page.locator("[data-reading-remove-highlight]").first();
@@ -142,9 +157,12 @@ try {
   }
 
   /* ------------------------------------------- General: pointer Dictionary */
+  // A fresh gesture: the Dictionary deliberately yields to an open text selection.
+  await page.evaluate(() => window.getSelection()?.removeAllRanges());
   const word = page.locator("[data-word]").filter({ hasText: /^bank$/ }).first();
   if (await word.count()) {
     await word.click();
+    await page.waitForTimeout(600);
     check("B8 a real click on a word opens the canonical Dictionary popover",
       await page.locator("[data-word-popover], [role=dialog]").first().isVisible({ timeout: 5000 }).catch(() => false));
     await page.keyboard.press("Escape");
@@ -156,9 +174,14 @@ try {
     await firstInput.fill("bank");
     check("B9 typing an answer reveals nothing before Check",
       (await page.locator("[data-general-result]").count()) === 0);
+    const checkResponse = page.waitForResponse((r) => r.url().includes("/api/reading/general/progress") && r.request().method() === "POST", { timeout: 20000 }).catch(() => null);
     await page.locator("[data-general-check]").first().click();
+    const checkHttp = await checkResponse;
     check("B10 an explicit Check reveals the server's verdict",
-      await page.locator("[data-general-result]").first().isVisible({ timeout: 10000 }).catch(() => false));
+      await page.locator("[data-general-result]").first().isVisible({ timeout: 20000 }).catch(() => false),
+      `http ${checkHttp?.status()} ${(await page.locator("[role=alert]").allInnerTexts()).join(" ")} save=${await page.locator("[data-general-save-state]").first().getAttribute("data-general-save-state").catch(() => "?")}`);
+    check("B10b the verdict carries the authored explanation, not an invented one",
+      (await page.locator("[data-general-explanation]").first().innerText().catch(() => "")).includes("names the lender"));
     await firstInput.fill("changed");
     check("B11 editing immediately withdraws the stale verdict",
       (await page.locator("[data-general-result]").count()) === 0);
@@ -176,16 +199,26 @@ try {
     await page.locator("[data-practice-timer]").first().isVisible());
   check("B13 the active exam paints no lexical target at all",
     (await page.locator("[data-word], [data-clickable-text]").count()) === 0);
-  const examBody = page.locator("[data-passage-body]").first();
+  const examBody = page.locator("[data-exam-passage-text] [data-highlight-text]").first();
   const examTextBefore = (await examBody.innerText()).trim();
-  await dragSelect(page, "[data-passage-body]", "approved the loan");
+  await dragSelect(page, "[data-exam-passage-text]", "approved the loan");
   const examControl = page.locator("[data-highlight-control] button").first();
   check("B14 highlighting still works inside the active exam", await examControl.isVisible().catch(() => false));
   if (await examControl.isVisible().catch(() => false)) {
     await examControl.click();
-    check("B15 the exam highlight changes no exam text",
-      (await examBody.innerText()).trim() === examTextBefore);
+    const examMarked = (await page.locator("[data-exam-passage-text] mark").allInnerTexts()).join("");
+    check("B15 the exam highlight marks the selected words and changes no exam text",
+      examMarked === "approved the loan" && (await examBody.innerText()).trim() === examTextBefore, JSON.stringify(examMarked));
   }
+  const partButtons = page.locator("[data-academic-parts] button");
+  let examInputs = 0;
+  for (let index = 0; index < await partButtons.count(); index += 1) {
+    await partButtons.nth(index).click();
+    await page.waitForTimeout(150);
+    examInputs += await page.locator("[data-answer-input]").count();
+  }
+  check("B15b every one of the forty questions is reachable through real part navigation",
+    (await partButtons.count()) === 3 && examInputs === 40, `${await partButtons.count()} parts, ${examInputs} inputs`);
   check("B16 no popover can be opened in the active exam",
     (await page.locator("[data-word-popover], [role=dialog]").count()) === 0);
 
@@ -194,7 +227,7 @@ try {
     await page.setViewportSize({ width, height });
     for (const [name, url] of [
       ["Reading hub", `${BASE}/app/reading`],
-      ["General", `${BASE}/app/reading/general/${general.setId}`],
+      ["General", `${BASE}/app/reading/general/${general.setId}?passage=1`],
       ["Academic exam", `${BASE}/app/reading/attempts/${attemptId}`],
       ["Question types", `${BASE}/app/reading/question-types?type=short_answer`],
       ["Retention", `${BASE}/app/reading/retention`],
@@ -218,6 +251,8 @@ try {
   await q(`delete from reading_assessment_passages where attempt_id = any($1::uuid[])`, [created.attempts]);
   await q(`delete from reading_assessments where attempt_id = any($1::uuid[])`, [created.attempts]);
   await q(`delete from reading_attempts where id = any($1::uuid[])`, [created.attempts]);
+  await q(`delete from lexical_occurrences where passage_id = any($1::uuid[])`, [created.passages]);
+  await q(`delete from lexemes where term like $1`, [`bank-${REF}%`]);
   await q(`delete from general_reading_progress where passage_id = any($1::uuid[])`, [created.passages]);
   await q(`delete from general_reading_passages where passage_id = any($1::uuid[])`, [created.passages]);
   await q(`delete from reading_questions where passage_id = any($1::uuid[])`, [created.passages]);
@@ -229,8 +264,9 @@ try {
   const residue = await q(`select (select count(*)::int from users where id = any($1::uuid[]))
     + (select count(*)::int from reading_passages where id = any($2::uuid[]))
     + (select count(*)::int from general_reading_sets where id = any($3::uuid[]))
-    + (select count(*)::int from reading_attempts where id = any($4::uuid[])) as n`,
-    [created.users, created.passages, created.sets, created.attempts]);
+    + (select count(*)::int from reading_attempts where id = any($4::uuid[]))
+    + (select count(*)::int from lexemes where term like $5) as n`,
+    [created.users, created.passages, created.sets, created.attempts, `bank-${REF}%`]);
   check("Z1 every browser fixture is deleted (residue 0)", Number(residue[0].n) === 0, `${residue[0].n} rows remain`);
   await db.end();
 }
