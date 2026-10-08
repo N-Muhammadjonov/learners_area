@@ -201,3 +201,48 @@ test("L2/L3/L4 the module library files each row by what it proves, and states t
     await database.close();
   }
 });
+
+/**
+ * CAP-01 — UNLIMITED CAPACITY: the staff legacy catalogue must not hide real content.
+ *
+ * The owner's rule is that no section which is supposed to keep accepting content may carry an
+ * artificial maximum. `/app/admin/listening` renders `fullListeningCards` (paginated) together
+ * with `legacyListeningCards`. The legacy reader took no page at all and ended in `.limit(200)`,
+ * so a centre with more than 200 legacy listening tests could never see or manage the rest —
+ * and the same 200 rows were re-rendered on every page.
+ *
+ * A bounded PAGE is fine. An unreachable REMAINDER is not.
+ */
+test("CAP-01 every legacy listening test stays reachable through paging, beyond any fixed ceiling", async () => {
+  const database = await createTestDatabase();
+  const { db, query } = database;
+  try {
+    const OWNER = "00000000-0000-4000-8000-0000000000c1";
+    await query(`insert into users (id, name, role) values ('${OWNER}', 'Capacity owner', 'owner')`);
+    await db.insert(listeningTests).values(
+      Array.from({ length: 205 }, (_, index) => ({
+        id: `00000000-0000-4000-8000-${String(900000000000 + index)}`,
+        title: `Legacy ${String(index + 1).padStart(3, "0")}`,
+        createdByUserId: OWNER,
+        audioType: "audio" as const,
+        audioUrl: `https://example.invalid/legacy-${index + 1}.mp3`,
+        publicationState: "published" as const,
+        createdAt: new Date(Date.UTC(2024, 0, 1) + index * 1000),
+      })),
+    );
+
+    // Walk every page the staff surface can actually reach.
+    const seen = new Set<string>();
+    for (let page = 1; page <= 40; page += 1) {
+      const rows = await legacyListeningCards(OWNER, true, db, page);
+      if (!rows.length) break;
+      for (const row of rows) seen.add(row.title);
+    }
+
+    assert.equal(seen.size, 205, `every authored legacy test must be reachable, saw ${seen.size}`);
+    assert.ok(seen.has("Legacy 205"), "the 205th legacy test must be reachable beyond the old 200 ceiling");
+    assert.ok(seen.has("Legacy 201"), "the 201st legacy test must be reachable beyond the old 200 ceiling");
+  } finally {
+    await database.close();
+  }
+});

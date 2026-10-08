@@ -226,7 +226,31 @@ export async function getOwnedMcqSession(userId: string, sessionId: string) {
  * with a finished attempt on a package-less test was never shown as having started it. The
  * references are qualified now.
  */
-export async function legacyListeningCards(userId:string,management=false,database:typeof db=db) {
+/**
+ * How many legacy cards one staff/learner page carries. A bounded PAGE is a performance bound,
+ * not a content cap: `legacyListeningCardsPage` reports `hasMore` so every authored test beyond
+ * this page stays reachable. There is deliberately NO ceiling on how many legacy tests may exist.
+ */
+export const LEGACY_LISTENING_PAGE_SIZE = 100;
+
+/**
+ * One page of the legacy (package-less) listening catalogue, plus whether another page follows.
+ *
+ * This previously ended in a bare `.limit(200)` with no offset, which silently made legacy test
+ * #201 and beyond unreachable on `/app/admin/listening` — and re-rendered the same 200 rows on
+ * every page, because the page number was ignored. Reads one row past the page to detect `hasMore`.
+ */
+export async function legacyListeningCardsPage(userId:string,management=false,database:typeof db=db,page=1) {
+ const safePage=Math.max(1,Math.min(10_000,Math.floor(page)||1));
+ const rows=await legacyListeningQuery(userId,management,database,safePage);
+ return { rows: rows.slice(0,LEGACY_LISTENING_PAGE_SIZE), hasMore: rows.length>LEGACY_LISTENING_PAGE_SIZE };
+}
+
+export async function legacyListeningCards(userId:string,management=false,database:typeof db=db,page=1) {
+ return (await legacyListeningCardsPage(userId,management,database,page)).rows;
+}
+
+async function legacyListeningQuery(userId:string,management:boolean,database:typeof db,page:number) {
  const { listeningSchemaReady } = await import("./listening-schema-ready");
  const ready=await listeningSchemaReady(database);
  // Qualified on purpose: an unqualified `id` inside the subqueries binds to the ATTEMPT row.
@@ -241,5 +265,5 @@ export async function legacyListeningCards(userId:string,management=false,databa
   collection:collectionTabSql({testId,payload:sql`null::jsonb`,payloadIsNull:sql`true`,inProgramme:inProgrammeSql(sql`(select t.program_ref from listening_tests t where t.id=${testId})`)}),
   questions:sql<number>`(select count(*)::int from listening_questions q where q.test_id=${testId})`,
   legacy:sql<boolean>`true`,
- }).from(listeningTests).where(and(management?sql`${listeningTests.publicationState} <> 'archived'`:liveWhere(listeningTests),ready?sql`not exists(select 1 from listening_packages p where p.test_id=${testId})`:undefined)).orderBy(asc(listeningTests.createdAt)).limit(200);
+ }).from(listeningTests).where(and(management?sql`${listeningTests.publicationState} <> 'archived'`:liveWhere(listeningTests),ready?sql`not exists(select 1 from listening_packages p where p.test_id=${testId})`:undefined)).orderBy(asc(listeningTests.createdAt),asc(listeningTests.id)).limit(LEGACY_LISTENING_PAGE_SIZE+1).offset((page-1)*LEGACY_LISTENING_PAGE_SIZE);
 }
