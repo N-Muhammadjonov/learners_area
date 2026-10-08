@@ -35,7 +35,7 @@ committed; the remaining phases are open and are being worked in order.
 | LSN-016 | **General Listening note-taking** — V4 inventory row (distinct from the Listening-LESSON rows of the same number) | **DONE (real-browser acceptance EXTERNALLY UNVERIFIED)** | the note IS the existing attempt note: key `la-listening-notes:<attemptId>`, in-browser, never sent to the server, never on a staff surface, never Xulosangiz, never teacher notes, never visible in Progress, Reports or search. Exact lifetime EXECUTED, not described: close/reopen the panel → kept; reload the same attempt → kept; a different attempt → empty; writing a note never changes an answer (N1–N5, real component + real localStorage) — and the boundary is now fixed: submitting successfully drops only this attempt's note (N4/L2), a failed submit keeps it for the retry (N5), `localStorage.clear()` is never called (L4). Attempt-scoped and browser-local is the OWNER'S stated requirement; cross-device persistence was never requested and is not claimed |
 | LSN-017 | **General Listening highlight** — V4 inventory row (distinct from the Listening-LESSON rows of the same number) | **DONE (real-browser acceptance EXTERNALLY UNVERIFIED)** | character offsets over the VISIBLE text of the ONE canonical surface (no second architecture, no DOM corruption), attempt-scoped, removable, cannot read or corrupt an answer, cannot interfere with vocabulary and cannot appear in another attempt (`tests/ui/listening-section-highlight.test.tsx` H1–H5, mounting the production source type `listening`; G9; per-attempt isolation N3). The last blocker — the activity boundary — is fixed and executed: a confirmed submit clears `la-listening-highlights:<attemptId>` and nothing else (N4/L2/L5), while a failed submit keeps it (N5). What remains is evidence, not implementation: real pointer-driven selection has only been observed in jsdom, so the interaction is EXTERNALLY UNVERIFIED |
 | LSN-018 | **General Listening vocabulary** — V4 inventory row (distinct from the Listening-LESSON rows of the same number) | **DONE (integration) · dataset OWNER DEPENDENCY** | the SYSTEM INTEGRATION is complete and correct: a section's lookup uses the ONE canonical Dictionary/lexical architecture and the canonical Listening source identity (`sourceType="listening"`, `sourceId` = the test), is ANSWERED while the learner works in a section and REFUSED for a running full exam (`lexicalAssistanceAllowed("SECTION_PRACTICE", …)`; smoke `L9`/`L9b`; G10 agrees with the classifier), saves through the canonical vocabulary system, creates no second dictionary, no new table and no pre-submission answer material, and never leaks a key. Separately, DICTIONARY DATASET COMPLETENESS is the OWNER DEPENDENCY: the frozen catalog is not applied, so a meaning honestly reads "Meaning not checked yet". The integration decides this row; the missing owner asset does not |
-| LSN-019 | MCQ Day architecture (program → day → 5 questions) | NOT STARTED | new schema required |
+| LSN-019 | MCQ Day architecture (program → day → 5 questions) | **DONE — architecture; OWNER CORPUS REQUIRED** | Stable programme identity + explicit day ordinal on canonical Listening items (existing 0052); live canonical question positions 1–5; existing private staged sessions; exactly-five publication guard. No content duplication or second engine. |
 | LSN-020 | exactly 5 valid MCQs per published Day | NOT STARTED | |
 | LSN-021 | 30-day / 150-item corpus support without hard-coding 150 | NOT STARTED | |
 | LSN-022 | safe HTML conversion (inert parse, never execute) | **DONE — repository semantics** | `structuredQuestionType` preserves explicit families/subtypes; unknown types and missing/incompatible map stimuli block staff import; inert SVG extraction and fact-derived activities verified by SP-MAP-01–15. New unsupported owner formats still require their actual source, not a guessed converter. See 2026-10-08 closure. |
@@ -686,3 +686,26 @@ not external browser acceptance, and not completion of any dedicated MCQ corpus)
 ## Remaining Listening work — checkpoint A (2026-10-08)
 
 Baseline `98b9595` already contains the generic safe-import closure (`37fcb60`). No parser or Test 11 architecture was reopened. Re-ran structured-map and canonical-identity suites: 22/22, no failures/skips. The original Listening LSN-022 row is reconciled above (later lesson-workstream rows reuse that label for a different requirement). Explicit Map/Plan and supported subtypes survive; unknown source labels are refused for staff review; missing or conflicting visuals are refused; no source script is executed. No migration. Owner-source dependency applies only to genuinely unsupported future formats.
+
+## Remaining Listening work — checkpoint B (2026-10-08)
+
+The already-shipped programme architecture is retained. The golden built-server journey now runs
+against isolated QA2: **116/116** checks, including two reasoned questions / Q3 committed / Q4–Q5
+untouched, re-entry at Q3, completion, another learner fresh, product separation, staged secrecy
+and deletion of every scenario fixture. Earlier script failures were real mismatches in the new
+unrun harness: a letter instead of the engine's full option value, replaying completed steps,
+case/spacing, and streamed Next not-found responses. These were corrected, not hidden.
+
+Product inspection also closed genuine gaps: valid key/option correspondence is now enforced;
+explicit `mcq_multi` uses checkbox selections encoded in the existing session text field and
+set-equal grading through the same engine; single-choice keeps radio semantics. No new session
+or history table. Completed Day questions expose Next (or Back to Days), retain the result and
+refresh server-derived progress. Existing tests with impossible keys were corrected to real option
+keys; authored multi fixtures now contain two answers rather than one.
+
+Focused MCQ suites: **62/62**, UI radio/checkbox + Day navigation: **2/2**, typecheck/lint/build pass.
+0052 rehearsals: fresh → apply → verify → branch → diverge → fresh → apply → verify → fixture cleanup,
+all green; cleanup residue **0**. Migration bytes/journal unchanged. Existing import preview and
+admin/owner publication authorization are reused. Teacher prepares, student cannot author.
+Owner MCQ corpus is not available: **0 owner Days / 0 owner MCQs supplied by this work; 0 fabricated
+production questions**. Production database was not queried. Full final gates follow checkpoint C.

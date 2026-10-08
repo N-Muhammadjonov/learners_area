@@ -140,6 +140,7 @@ export default async function ListeningMcqDayPage({
             key={active.id}
             dict={dict}
             questions={[{ id: active.id, order: activeIndex + 1, questionText: active.questionText, stage: (active.stage ?? "listen") as McqStage }]}
+            dayNavigation={{currentHref: `/app/listening/mcq/day/${day.day}?q=${activeIndex + 1}`, nextHref: activeIndex + 1 < questions.length ? `/app/listening/mcq/day/${day.day}?q=${activeIndex + 2}` : null}}
             audioUrl={day.audioUrl}
           />
 

@@ -266,7 +266,36 @@ if (MODE === "fresh") {
   const applied = (await q(`select count(*)::int n from "drizzle"."__drizzle_migrations"`))[0].n;
   gate("diverge: the journal count matches the entries applied", applied === journal.findIndex((e) => e.tag === TAG_0052) + 1, `${applied}`);
   console.log(JSON.stringify({ mode: "diverge", ...ids, applied }));
-} else if (MODE === "verify") {
+} else if (MODE === "clean") {
+  await openClient();
+  /*
+   * REMOVE THE PROBE'S OWN FIXTURE. The probe writes a historical test, an attempt, a package, a
+   * revision, a staged session and two accounts, and it MUTATES the historical test by putting it
+   * into the programme. That is disposable QA data on an isolated database: this mode deletes it in
+   * foreign-key order and proves zero residue, so the next scenario starts from a database that
+   * holds only what it wrote itself.
+   */
+  const probeTests = `select id from listening_tests where source_ref = 'probe-0052-full' or title in ('Probe day two claimant', 'Probe other programme day one')`;
+  const probeUsers = `select id from users where name in ('0052 probe owner', '0052 probe learner')`;
+  await q(`delete from listening_mcq_sessions where user_id in (${probeUsers}) or test_id in (${probeTests})`);
+  await q(`delete from listening_attempts where user_id in (${probeUsers}) or test_id in (${probeTests})`);
+  await q(`delete from listening_questions where test_id in (${probeTests})`);
+  await q(`delete from listening_packages where test_id in (${probeTests})`);
+  await q(`delete from content_versions where source_ref = 'probe-0052-full'`);
+  await q(`delete from listening_tests where id in (${probeTests})`);
+  await q(`delete from users where id in (${probeUsers})`);
+  const residue = (
+    await q(
+      `select (select count(*)::int from listening_tests where source_ref = 'probe-0052-full' or title like 'Probe %')
+            + (select count(*)::int from users where name like '0052 probe %')
+            + (select count(*)::int from content_versions where source_ref = 'probe-0052-full') as n`,
+    )
+  )[0].n;
+  await client.query("drop table if exists qa0052_probe");
+  gate("clean: probe residue is zero", residue === 0, String(residue));
+  console.log(JSON.stringify({ mode: "clean", residue }));
+}
+else if (MODE === "verify") {
   await openClient();
   const [{ before: rawBefore }] = await q(`select before from qa0052_probe limit 1`);
   const before = rawBefore;

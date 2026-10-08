@@ -69,6 +69,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     step: parsed.data.step,
     text: parsed.data.text,
     options: question.options ?? [],
+    multi: question.typeCode === "mcq_multi",
   });
   if (!result.ok) {
     const status = result.error === "not_in_options" ? 400 : 409;

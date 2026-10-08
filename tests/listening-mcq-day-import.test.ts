@@ -31,7 +31,7 @@ import { createTestDatabase } from "./support/pglite";
  */
 
 const OWNER = "11111111-1111-4111-8111-111111111111";
-const KEY = "QASECRETKEY-MUSEUM";
+const KEY = "A";
 
 type TestDatabase = Awaited<ReturnType<typeof createTestDatabase>>;
 

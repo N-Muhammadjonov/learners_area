@@ -1,3 +1,4 @@
+import { mcqKeyOptions } from "./mcq-choice";
 import { listeningQuestionIdentity } from "./question-identity";
 
 /**
@@ -117,6 +118,11 @@ export function mcqDayProblems(questions: readonly McqDayQuestion[]): McqDayProb
       problems.push({ question: question.number, message: `Question ${question.number} has ${options.length} usable option(s); multiple choice needs at least two.` });
     if (!(question.correctAnswer ?? "").trim())
       problems.push({ question: question.number, message: `Question ${question.number} has no correct answer, so it could never be graded.` });
+
+    if (question.correctAnswer?.trim() && !mcqKeyOptions(question.correctAnswer, options, identity.typeCode === "mcq_multi"))
+      problems.push({question: question.number, message: `Question ${question.number} has an answer key that does not identify valid options.`});
+    if (new Set(options).size !== options.length)
+      problems.push({question: question.number, message: `Question ${question.number} repeats an option.`});
 
     /*
      * The same question twice in one day — a duplicated import, most often. It is not "duplicate

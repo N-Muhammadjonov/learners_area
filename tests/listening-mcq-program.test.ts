@@ -95,7 +95,7 @@ test("only genuine MCQ may enter a day — Matching, Map/Plan and completion que
   assert.ok(mcqDayProblems(legacyEnumOnly).some((problem) => /not a multiple-choice question/.test(problem.message)));
 
   // Both canonical MCQ identities are accepted — and only those two.
-  assert.deepEqual(mcqDayProblems([1, 2, 3, 4, 5].map((number) => valid(number, { typeCode: "mcq_multi" }))), []);
+  assert.deepEqual(mcqDayProblems([1, 2, 3, 4, 5].map((number) => valid(number, { typeCode: "mcq_multi", correctAnswer: "A,B" }))), []);
 });
 
 test("an ungradable or unanswerable question is refused", () => {
