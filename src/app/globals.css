@@ -1408,3 +1408,203 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
     background-color: rgba(3, 8, 39, 0.18);
   }
 }
+
+
+/* LEARNERS AREA DAY-ONLY / CYAN-WAVE v1; separately authorized 2026-10-08. */
+[data-theme="day"]:not([data-focus="on"]) [data-shell] {
+  --la-day-wave-paper: #D9FBFF;
+  --la-day-nav-bg: rgba(8, 32, 68, 0.62);
+  --la-day-nav-border: rgba(58, 172, 232, 0.40);
+  --la-day-nav-hover-bg: rgba(12, 51, 98, 0.76);
+  --la-day-nav-active-bg: rgba(20, 47, 77, 0.78);
+  --la-day-nav-active-border: rgba(230, 185, 79, 0.60);
+  --la-day-card-bg: rgba(255, 255, 255, 0.88);
+  --la-day-card-border: rgba(32, 92, 145, 0.22);
+  --la-day-header-bg: rgba(255, 255, 255, 0.82);
+  --la-day-label: #172B45;
+  --la-day-muted: #4F6077;
+  --la-day-gold: #E6B94F;
+  --la-day-nav-radius: 11px;
+  --la-day-nav-row-height: 46px;
+  --la-day-nav-row-gap: 7px;
+  --la-day-blur: 8px;
+
+  background-color: var(--la-day-wave-paper);
+  --la-day-wallpaper: url("/images/day/LA_DAY_DESKTOP_BACKGROUND_SOURCE.png");
+  background-image: var(--la-day-wallpaper);
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* One wallpaper lives on persistent shell only; no wall/surface duplication. */
+[data-theme="day"]:not([data-focus="on"]) [data-shell-sidebar],
+[data-theme="day"]:not([data-focus="on"]) [data-shell-main] {
+  background: transparent;
+}
+[data-theme="day"]:not([data-focus="on"]) [data-shell-sidebar] {
+  border-color: rgba(32, 92, 145, 0.10);
+}
+[data-theme="day"]:not([data-focus="on"]) [data-shell-topbar] {
+  background-color: var(--la-day-header-bg);
+  border-color: var(--la-day-card-border);
+}
+
+/* The heading is text only: not a button, capsule, or dark slab. */
+[data-theme="day"]:not([data-focus="on"]) [data-shell] .sidebar-group {
+  background: none;
+  border: 0;
+  box-shadow: none;
+  border-radius: 0;
+  opacity: 1;
+  color: var(--la-day-label);
+  font-weight: 800;
+  font-size: 12px;
+}
+
+/* COMMON rectangle style: each link has its OWN translucent rectangle. */
+[data-theme="day"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"]) .sidebar-link {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
+  height: var(--la-day-nav-row-height);
+  min-height: var(--la-day-nav-row-height);
+  border: 1px solid var(--la-day-nav-border);
+  border-radius: var(--la-day-nav-radius);
+  background-color: var(--la-day-nav-bg);
+  color: #F3EEE5;
+  opacity: 1; /* NEVER fade icons/text using parent opacity */
+  padding-inline: 10px 12px;
+  gap: 10px;
+  backdrop-filter: blur(var(--la-day-blur));
+  -webkit-backdrop-filter: blur(var(--la-day-blur));
+}
+[data-theme="day"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"]) .sidebar-link:hover {
+  background-color: var(--la-day-nav-hover-bg);
+}
+[data-theme="day"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"]) .sidebar-link-active {
+  background-color: var(--la-day-nav-active-bg);
+  border-color: var(--la-day-nav-active-border);
+  color: #F3EEE5;
+}
+
+/* Gold icon stays fully opaque in its OWN little framed square. */
+[data-theme="day"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"]) .sidebar-link-icon {
+  display: inline-flex;
+  flex: 0 0 36px;
+  height: 36px;
+  width: 36px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(230, 185, 79, 0.27);
+  border-radius: 10px;
+  background-color: rgba(36, 48, 70, 0.35);
+  color: var(--la-day-gold);
+  opacity: 1;
+}
+[data-theme="day"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"]) .sidebar-link-label {
+  flex: 1 1 auto;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: #F3EEE5;
+  opacity: 1;
+}
+
+/* The category has no common rectangle behind all links.
+   Set separate rectangular gaps, not contiguous borders. */
+[data-theme="day"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"]) .sidebar-group + ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--la-day-nav-row-gap);
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+[data-theme="day"]:not([data-focus="on"]) [data-shell-sidebar] nav,
+[data-theme="day"]:not([data-focus="on"]) [data-shell-sidebar] nav > div {
+  background: transparent;
+}
+
+/* Dashboard card glass. Keep native grid, data, buttons and focus mechanisms. */
+[data-theme="day"]:not([data-focus="on"]) [data-shell-main] .card,
+[data-theme="day"]:not([data-focus="on"]) [data-shell-main] .panel {
+  background-color: var(--la-day-card-bg);
+  border-color: var(--la-day-card-border);
+  backdrop-filter: blur(var(--la-day-blur));
+  -webkit-backdrop-filter: blur(var(--la-day-blur));
+}
+
+/* Compact devices inherit the orientation-specific Day wallpaper. */
+@media (max-width: 767.98px) {
+  [data-theme="day"]:not([data-focus="on"]) [data-shell] {
+    background-image: var(--la-day-wallpaper);
+    background-position: center bottom;
+    background-size: cover;
+  }
+  /* Mobile drawer is an overlay, not a permanently exposed desktop sidebar. */
+  [data-theme="day"]:not([data-focus="on"]) #mobile-nav-drawer {
+    background: transparent;
+    border-color: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+/* All rules above are restricted to Day outside focus mode. */
+
+/* The existing module symbol already has a frame; retain only the outer frame. */
+[data-theme="day"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"]) .sidebar-link-icon .module-emoji {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* Mobile links sit directly on one continuous wallpaper, without a drawer slab. */
+@media (max-width: 767.98px) {
+  [data-theme="day"]:not([data-focus="on"]) [data-mobile-nav-overlay] {
+    background: var(--la-day-wave-paper) var(--la-day-wallpaper) center bottom / cover no-repeat;
+  }
+  [data-theme="day"]:not([data-focus="on"]) [data-mobile-nav-overlay] > button {
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+}
+
+/* Named image roles: portrait/landscape compact devices; desktop otherwise. */
+@media (max-width: 1024px), (max-width: 1366px) and (hover: none) and (pointer: coarse) {
+  [data-theme="day"]:not([data-focus="on"]) [data-shell] {
+    --la-day-wallpaper: url("/images/day/LA_DAY_PORTRAIT_BACKGROUND_SOURCE.png");
+    background-position: center bottom;
+  }
+}
+@media (max-width: 1024px) and (orientation: landscape), (max-width: 1366px) and (hover: none) and (pointer: coarse) and (orientation: landscape) {
+  [data-theme="day"]:not([data-focus="on"]) [data-shell] {
+    --la-day-wallpaper: url("/images/day/LA_DAY_LANDSCAPE_BACKGROUND_SOURCE.png");
+  }
+}
+/* Plain headings remain readable over both cyan and navy portions, without boxes. */
+[data-theme="day"]:not([data-focus="on"]) [data-shell] .sidebar-group,
+[data-theme="day"]:not([data-focus="on"]) [data-shell-main] > div > div > h1 {
+  text-shadow: 0 1px 3px rgba(255,255,255,.95), 0 0 6px rgba(255,255,255,.9);
+}
+
+/* Day actions use blue glass, with brighter borders for active/primary actions.
+   Keep disabled opacity, focus rings and native control behavior. */
+[data-theme="day"]:not([data-focus="on"]) [data-shell] :is(.btn, .btn-primary, .btn-secondary, .btn-ghost, .btn-gold, .btn-gold-solid),
+[data-theme="day"]:not([data-focus="on"]) [data-shell-topbar] :is(button, a[href="/notifications"]):not([data-mobile-nav-overlay] > button) {
+  background-color: rgba(8, 48, 96, 0.72);
+  color: #F3EEE5;
+  border: 1px solid rgba(58, 172, 232, 0.40);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+[data-theme="day"]:not([data-focus="on"]) [data-shell] :is(.btn, .btn-primary, .btn-secondary, .btn-ghost, .btn-gold, .btn-gold-solid):hover,
+[data-theme="day"]:not([data-focus="on"]) [data-shell-topbar] :is(button, a[href="/notifications"]):not([data-mobile-nav-overlay] > button):hover {
+  background-color: rgba(12, 51, 98, 0.84);
+}
+[data-theme="day"]:not([data-focus="on"]) [data-shell] :is(.btn-primary, .btn-gold-solid, .btn[aria-pressed="true"], .btn[aria-selected="true"]) {
+  border-color: rgba(230, 185, 79, 0.60);
+}
