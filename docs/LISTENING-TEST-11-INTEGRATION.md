@@ -86,3 +86,26 @@ sha256sum "Listening Test 11.zip"   # must be ac09de62c60085185ccb540cb9baa1674d
 ```
 
 Nothing in this repository fabricates, substitutes or downloads a replacement recording.
+
+## Final repository verification — 2026-10-08
+
+**Repository-side work complete; publication still blocked on the exact owner audio binary.**
+
+The remaining structured-source and legacy visual gaps were closed in `37fcb60`:
+- Authored Map/Plan labels retain the `map` family; explicit subtype evidence is preserved.
+- Unknown types block for staff review, never become completion or MCQ by default.
+- PARTS SVG extraction is inert and sanitized. Missing required maps and incompatible multiple
+  drawings block rather than inventing a visual or silently choosing the first.
+- Map activity comes from actual map content. Review SVG/image, native exam image and Study image
+  follow the same source-derived map sections, preserving approved legacy fallback.
+
+The frozen code/test tree `8b23dfe` passed the full gate: unit **1452/1355/0/97**, UI
+**271/271/0/0**, real PostgreSQL **1452/1448/0/4** (total/pass/fail/skip), typecheck, lint,
+production build and both diff checks. Existing migrations: **53/53**; none added or modified here.
+The prompt's 52-migration anchor predates already-committed work that was preserved.
+Final-build HTTP smokes: Academic **50/50**, General **46/46**, General human journey **59/59**;
+classification **21/21**, with each script's fixture cleanup verified.
+
+See `APP-IMPLEMENTATION-LEDGER.md` for initial failures and corrections, exact scope, skip reasons,
+QA2 residue, preserved unrelated worktree edits and owner/external dependencies. This is repository
+and DOM/HTTP evidence, not real-browser pointer/mobile acceptance or proof of the absent owner ZIP.

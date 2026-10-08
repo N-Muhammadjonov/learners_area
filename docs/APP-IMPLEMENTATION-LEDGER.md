@@ -599,3 +599,86 @@ Suites: UI 265/265 · labels 2/2 · map/activities/hub/Test-11/import 58/58 · t
 > **Vercel (GitHub commit status, not the Preview Comments check):** every commit from
 > `7b0e07d` onward reports `success — Deployment has completed`; the earlier reds were the
 > commit-author identity, which stays fixed.
+
+## Test 11 final repository closure — structured Map/Plan and all map stimuli (2026-10-08)
+
+**Test 11 repository-solvable P0: NONE. P1: NONE. Publication remains BLOCKED — OWNER AUDIO BINARY REQUIRED.**
+
+The prompt anchor was `71fc243`; the actual preserved remote baseline was `b26ad95`.
+The restored Git metadata initially pointed at `31e10bd`, while the worktree contained the later
+work. Recovery used fetch → compare → update-ref → read-tree (no worktree checkout, reset,
+rebase, stash, clean, branch switch, or discarded work). Existing 0052 and the later Listening
+hub were preserved. This closure added **no migration**, changed no journal/hash, and did not
+continue the 30-day MCQ programme.
+
+Production checkpoint: `37fcb60` — structured source types use one conservative classifier;
+explicit Map/Plan stays broad `map`, while proven map/plan and completion subtypes retain their
+canonical code. Unknown/overlapping/missing source type declarations block with a staff-review
+message, never infer MCQ from options and never fall through to completion. Source PARTS are
+read inertly; map SVGs become sanitized coordinates/text. Missing map stimulus blocks; incompatible
+multiple maps block; identical repeated drawings are deduplicated. Map activity follows real content.
+
+Review now uses the canonical map-section helper even when called with a partial package. Its
+`image.map` asset follows the same rule as its SVG. The image-only Part-2 conditions found in native
+Exam and Study were corrected too. Historical helper-owned fallback and unpartitioned legacy
+Review remain supported. Canonical question identity and the corrected ListeningTryout were not changed.
+
+Evidence: SP-MAP-01–15; real component REVIEW-MAP-01–03 and CROSS-MAP-01–03 (one parsed Part-3
+fixture across native exam, staff preview, legacy Review and Map Mastery; maps excluded from MCQ).
+Focused requested Test 11 / identity / activity / evidence / General suites: **75/75**; focused UI
+(including General): **32/32**. Typecheck and lint pass.
+
+`8b23dfe` corrects stale QA assumptions only: an older lesson test expected 52 migrations, and
+navigation tests / two HTTP smoke checks expected the retired catalogue-style Listening hub.
+The actual four-destination doorway and its links are now asserted. The initial full unit run was
+**1452 total / 1352 pass / 3 fail / 97 skip**; the failures were not hidden or waived.
+
+### Final frozen code/test tree: `8b23dfe` — GATE PASS
+
+`QA2_PG_EXTERNAL=1 QA_OUT=/tmp/qa-out-t11-final-closure npm run qa:gate`
+
+| Gate | Total | Pass | Fail | Skip |
+| --- | ---: | ---: | ---: | ---: |
+| Unit / PGlite | 1452 | 1355 | 0 | 97 |
+| UI | 271 | 271 | 0 | 0 |
+| Real PostgreSQL | 1452 | 1448 | 0 | 4 |
+
+Typecheck, lint, production build, working-tree diff-check and committed-range diff-check: **exit 0**.
+The gate disclosed fallback comparison base `31e10bd`; no silent base substitution.
+Migration application: **53/53**, not the stale prompt's 52/52. No migration changed in this closure.
+0051 SHA-256 remains `f5b7a259f2643de8155cf66188d3d8b7a7313ca804ceb9920bebe306bb9ec26c`;
+0052 remains `ebb72044b2474bf3f22fd2f6e3be88591a5d24db9c66800fdec3f18c6cd8f742`.
+Unit skips include real-PG-only cases; real-PG skips are two owner Test-10 source-ZIP tests and
+two frozen Dictionary catalogue tests. Skips are not passes. The speaking bank was hash-verified
+(880 rows). No Production or Preview database was touched.
+
+On a restarted server using the final build and isolated QA2:
+- Academic HTTP smoke: **50/50**.
+- General HTTP smoke: **46/46**.
+- General role boundaries / human journey: **59/59**.
+- Classification / pagination: **21/21**.
+
+All four scripts proved removal of their own fixtures. Read-only inventory after the gate/smokes
+found **13 other real-PG suite Listening fixtures** (12 `QA2 listening …`, one `QA2 gl …`, all
+`source_ref = null`); these were retained, not arbitrarily deleted. The QA database is not empty.
+The Test 11 parser/UI fixtures are synthetic, in-memory QA only, never imported as owner content.
+
+Vercel commit statuses for `71fc243`, `37fcb60`, and `8b23dfe`: **SUCCESS — Deployment has completed**.
+Preview Comments is a separate check, not deployment proof. This ledger-only follow-up needs its
+own deployment status; do not inherit a production checkpoint's status for it.
+
+The final docs commit changes no gated code/tests. Two unrelated local MCQ script edits from the
+previous workstream remain deliberately uncommitted: `scripts/qa2-listening-mcq-0052-upgrade.mjs`
+and `scripts/verify-listening-mcq-human.mjs`. Only a trailing whitespace defect was removed from
+the former. Thus the Test 11 changes are durable, but the whole worktree must not be called CLEAN.
+
+Owner action: exact Test 11 audio, **16,509,954 bytes**, SHA-256
+`39dc7e45666d43585fc5841afed3d33d3ef2e3788b42e28e5693a7c769a64660`, for private ingest and validated
+publication; original owner ZIP `ac09de62c60085185ccb540cb9baa1674d58ffc1cf8beaa8656e7ea1910f2a94`.
+No substitute audio, source search, fabricated production content or silent publication.
+Unsupported mistake/trap/paraphrase study metadata remains an owner decision. Frozen Dictionary
+catalogue and Test 10 ZIP remain owner assets. Real-browser pointer acceptance and mobile
+390/768/1440 remain **EXTERNALLY UNVERIFIED**; DOM component tests are not browser/paint evidence.
+
+**TEST 11 REPOSITORY WORK COMPLETE** (the scoped repository contract above; not published content,
+not external browser acceptance, and not completion of any dedicated MCQ corpus).
