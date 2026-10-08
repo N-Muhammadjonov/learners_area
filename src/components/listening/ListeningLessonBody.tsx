@@ -1,3 +1,4 @@
+import { ReadingLessonText } from "@/components/reading/ReadingHighlights";
 import Link from "next/link";
 import type { ResolvedLessonBlock } from "@/lib/content/lessons";
 import type { Dictionary } from "@/lib/i18n/en";
@@ -27,7 +28,7 @@ function isMediaReference(block: ResolvedLessonBlock): boolean {
  * Nothing here is a placeholder: a block type that has no learner renderer yet is
  * reported as such rather than drawn as an empty card.
  */
-export function ListeningLessonBody({ dict, blocks }: { dict: Dictionary; blocks: ResolvedLessonBlock[] }) {
+export function ListeningLessonBody({ dict, blocks, highlightScope }: { dict: Dictionary; blocks: ResolvedLessonBlock[]; highlightScope?:string }) {
   const t = dict.listening.lessons;
   if (blocks.length === 0) {
     return (
@@ -43,7 +44,7 @@ export function ListeningLessonBody({ dict, blocks }: { dict: Dictionary; blocks
           {block.type === "text" && block.text && (
             <div className="flex flex-col gap-3 text-sm leading-relaxed text-ink-700">
               {block.text.split(/\n{2,}/).map((paragraph, position) => (
-                <p key={position}>{paragraph}</p>
+                highlightScope ? <ReadingLessonText key={position} dict={dict} text={paragraph} scope={`${highlightScope}:${block.blockId}:${index}:${position}`} /> : <p key={position}>{paragraph}</p>
               ))}
             </div>
           )}

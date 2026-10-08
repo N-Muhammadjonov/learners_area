@@ -22,12 +22,14 @@ export function LessonWorkspace({
   state,
   initialNotes,
   completedAt,
+  showNotes = true,
 }: {
   dict: Dictionary;
   lessonId: string;
   state: string;
   initialNotes: string;
   completedAt: string | null;
+  showNotes?: boolean;
 }) {
   const requestResponse = useScopedResponse(25000);
 
@@ -44,8 +46,8 @@ export function LessonWorkspace({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ state: next }),
     });
-    if (!res) return;
     setBusy(false);
+    if (!res) { setError(dict.common.error); return; }
     if (!res.ok) {
       const body = await res.json().catch(() => ({}));
       setError(
@@ -89,9 +91,9 @@ export function LessonWorkspace({
         </p>
       )}
 
-      <div className="mt-4">
+      {showNotes && <div className="mt-4">
         <LessonNotesPanel dict={dict} lessonId={lessonId} initialNotes={initialNotes} />
-      </div>
+      </div>}
     </Card>
   );
 }

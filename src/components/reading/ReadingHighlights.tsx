@@ -34,3 +34,10 @@ export function ReadingHighlightedText(props:Parameters<typeof ClickableText>[0]
     </ul>}
   </div>;
 }
+
+/** Optional text-block adapter for the existing lesson renderer, not a new lesson engine. */
+export function ReadingLessonText({scope, text, dict}:{scope:string;text:string;dict:Parameters<typeof ClickableText>[0]['dict']}) {
+  const highlights = useReadingHighlights(scope);
+  return <ReadingHighlightedText {...highlights('body',text)} dict={dict} text={text}
+    sourceType="reading" sourceId={scope} lexicalAssistance={false} className="whitespace-pre-line text-sm leading-relaxed text-ink-700" />;
+}

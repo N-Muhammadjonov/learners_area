@@ -94,7 +94,7 @@ export async function getAttemptDetail(attemptId: string, userId: string, execut
   let offset = 0;
   const numbered = data.map((section) => {
     const numbers = new Map(section.questions.map((question, index) => [question.questionNo ?? question.order, offset + index + 1]));
-    const questions = section.questions.map((question, index) => ({ ...question, order: offset + index + 1, questionNo: scope.title ? offset + index + 1 : question.questionNo }));
+    const questions = section.questions.map((question, index) => ({ ...question, sourceQuestionNo: question.questionNo, order: offset + index + 1, questionNo: scope.title ? offset + index + 1 : question.questionNo }));
     const groups = section.groups.map((group) => ({ ...group,
       fromQuestionNo: scope.title ? numbers.get(group.fromQuestionNo ?? -1) ?? group.fromQuestionNo : group.fromQuestionNo,
       toQuestionNo: scope.title ? numbers.get(group.toQuestionNo ?? -1) ?? group.toQuestionNo : group.toQuestionNo,

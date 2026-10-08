@@ -8,7 +8,6 @@ import { getAttemptDetail } from "@/lib/data/reading";
 import { ReadingExam } from "@/components/reading/ReadingExam";
 import { ReadingAnalysis } from "@/components/reading/ReadingAnalysis";
 import { isUuid } from "@/lib/validation/ids";
-import { listResourceBlocks, toResourceBlockView } from "@/lib/data/resources";
 
 export default async function ReadingAttemptPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams:Promise<{type?:string}> }) {
   const [{ id },query] = await Promise.all([params,searchParams]);
@@ -22,11 +21,6 @@ export default async function ReadingAttemptPage({ params, searchParams }: { par
   const detail = await getAttemptDetail(id, user.id);
   if (!detail) notFound();
   const { attempt, passage, questions, groups, paragraphs, answers, occurrences } = detail;
-
-  // Anything an administrator attached to this passage — via the universal
-  // composer — is shown inside the workspace, so a summary or an audio version
-  // sits next to the text it belongs to.
-  const materials = toResourceBlockView(await listResourceBlocks("reading", passage.id));
 
   // "Test 2, Passage 3" is only claimed when the passage really came from a
   // numbered test; a hand-written passage shows its title alone.
@@ -49,7 +43,6 @@ export default async function ReadingAttemptPage({ params, searchParams }: { par
           passageTitle={passage.title}
           passageBody={passage.bodyText}
           passageMeta={passageMeta}
-          materials={materials}
           parts={detail.sections.length > 1 ? detail.sections.map(section => ({
             title: section.passage.title, body: section.passage.bodyText,
             paragraphs: section.paragraphs.map(p => ({ id: p.id, position: p.position, label: p.label, text: p.text, isFootnote: p.isFootnote })),
@@ -83,6 +76,7 @@ export default async function ReadingAttemptPage({ params, searchParams }: { par
             id: q.id,
             order: q.order,
             questionNo: q.questionNo,
+            sourceQuestionNo: q.sourceQuestionNo,
             type: q.type,
             typeCode: q.typeCode,
             groupId: q.groupId,
@@ -95,6 +89,7 @@ export default async function ReadingAttemptPage({ params, searchParams }: { par
       ) : (
         <ReadingAnalysis
           dict={dict}
+          passages={detail.sections.map(s=>({id:s.passage.id,title:s.passage.title,body:s.passage.bodyText}))}
           occurrences={occurrences}
           score={attempt.score}
           total={attempt.totalQuestions}

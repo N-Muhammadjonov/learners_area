@@ -1,3 +1,4 @@
+import { activateReadingSchedules } from "@/lib/services/reading/schedules";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { and, eq, sql } from "drizzle-orm";
@@ -20,6 +21,7 @@ export async function POST(req: NextRequest) {
   // A passage that is a draft, not yet due, or archived is not startable — and
   // the answer is the same 404 as a passage that does not exist, so a withdrawn
   // name cannot be probed for. An attempt that already exists stays readable.
+  await activateReadingSchedules();
   const outcome = await db.transaction(async tx => {
   await tx.execute(sql`select pg_advisory_xact_lock(hashtext(${user.id + ":" + parsed.data.passageId}))`);
   await tx.select({id:readingPassages.id}).from(readingPassages).where(eq(readingPassages.id,parsed.data.passageId)).for("share");

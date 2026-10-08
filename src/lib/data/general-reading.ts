@@ -1,3 +1,4 @@
+import { activateReadingSchedules } from "@/lib/services/reading/schedules";
 import "server-only";
 import { and, asc, eq, inArray, sql } from "drizzle-orm";
 import { db } from "@/db/client";
@@ -45,6 +46,7 @@ export async function academicOnlyClause() {
 
 export async function listGeneralSets(userId: string, options: { page?: number; academic?: boolean } = {}, executor: typeof db = db) {
   if (!(await generalReadingSchemaReady(executor))) return [];
+  await activateReadingSchedules(executor);
   const validPassages = sql`not exists (select 1 from general_reading_passages g join reading_passages p on p.id=g.passage_id where g.set_id=${generalReadingSets.id} and not (p.publication_state='published' or (p.publication_state='scheduled' and p.publish_at<=now())))`;
   const formal = options.academic ? sql`(select count(*) from general_reading_passages g where g.set_id=${generalReadingSets.id})=3
     and not exists (select 1 from general_reading_passages g where g.set_id=${generalReadingSets.id} and g.passage_no not in (1,2,3))
@@ -78,6 +80,7 @@ export async function listGeneralSets(userId: string, options: { page?: number; 
 
 /** One set with its (up to three) passages, questions, paragraphs and occurrence offsets. */
 export async function generalSetDetail(setId: string, role: Role) {
+  await activateReadingSchedules();
   if (!(await generalReadingSchemaReady())) return null;
   const set = await db.query.generalReadingSets.findFirst({ where: eq(generalReadingSets.id, setId) });
   if (!set || (!isLive(set) && !isStaff(role))) return null;

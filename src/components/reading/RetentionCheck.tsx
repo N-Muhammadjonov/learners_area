@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Card } from "@/components/ui/Card";
 import { occurrenceSpans, type OccurrenceSpan } from "@/lib/services/lexical/occurrence-spans";
-import { ClickableText } from "@/components/vocabulary/ClickableText";
+import { ReadingHighlightedText, useReadingHighlights } from "@/components/reading/ReadingHighlights";
 import type { Dictionary } from "@/lib/i18n/en";
 
 /**
@@ -40,6 +40,7 @@ export function RetentionCheck({
   /** Review permission is enforced again by the canonical lookup/save API. */
   lexicalAssistance?:boolean;
 }) {
+  const highlights = useReadingHighlights(sourceId);
   const [revealed, setRevealed] = useState(startOpen);
   const [kept, setKept] = useState<Record<string, boolean>>({});
 
@@ -106,7 +107,7 @@ export function RetentionCheck({
       */}
       <div className={`rounded-sm bg-paper-sunken p-3 ${revealed ? "" : "hidden"}`} data-retention-passage>
         <p className="mb-1 text-xs font-medium text-ink-500">{passageTitle}</p>
-        <ClickableText lexicalAssistance={lexicalAssistance}
+        <ReadingHighlightedText {...highlights("review",passageBody)} lexicalAssistance={lexicalAssistance}
           dict={dict}
           text={passageBody}
           occurrences={occurrenceSpans(passageBody, passageBody, occurrences)}

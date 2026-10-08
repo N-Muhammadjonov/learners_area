@@ -39,3 +39,14 @@ test('shared authored stimulus renders once with both reachable blanks in the re
  assert.equal(document.querySelectorAll('input').length,2);assert.equal(document.body.textContent?.split('The museum opens').length,2);
  }finally{await act(async()=>root.unmount());}
 });
+
+test('full assessment preserves local authored blanks while displaying global numbers',async()=>{
+ document.body.innerHTML='<div id="root"></div>';const root=createRoot(document.querySelector('#root')!);
+ const questions=[1,2].map(n=>({id:`p2q${n}`,order:n+13,questionNo:n+13,sourceQuestionNo:n,type:'short_answer' as const,typeCode:'note_completion',questionText:'The museum opens at 1 ____ and closes at 2 ____.',groupId:'g2',renderMode:'shared_stimulus_slot',answerConstraint:null,options:null}));
+ try{
+  await act(async()=>root.render(<GroupQuestions dict={en} group={{id:'g2',position:1,typeCode:'NOTE',displayTitle:null,instructionsText:null,fromQuestionNo:14,toQuestionNo:15,sharedChoices:[]}} questions={questions} answers={{p2q1:'nine',p2q2:'five'}} onChange={()=>{}}/>));
+  assert.equal(document.querySelectorAll('input').length,2);
+  assert.equal(document.querySelector<HTMLInputElement>('[aria-label="Your answer 14"]')?.value,'nine');
+  assert.equal(document.querySelector<HTMLInputElement>('[aria-label="Your answer 15"]')?.value,'five');
+ }finally{await act(async()=>root.unmount());}
+});

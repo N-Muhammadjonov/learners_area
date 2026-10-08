@@ -7,10 +7,8 @@ import { useRouter } from "next/navigation";
 import { useScopedResponse } from "@/lib/http/use-scoped-response";
 import { Button } from "@/components/ui/Button";
 import { readingQuestionType, readingOption } from "@/lib/reading/question-model";
-import { ReadAloud } from "@/components/reading/ReadAloud";
 import { useFocusEntry } from "@/lib/interaction/focus-entry";
 import { IconBack, IconCheck, IconTarget } from "@/components/ui/icons";
-import { ResourceBlocks } from "@/components/resources/ResourceBlocks";
 import {
   buildSharedStimulus,
   isSharedStimulusRow,
@@ -49,6 +47,7 @@ type QuestionType =
   | "short_answer";
 
 export type ExamQuestion = {
+  sourceQuestionNo?: number | null;
   id: string;
   order: number;
   questionNo: number | null;
@@ -159,7 +158,6 @@ export function ReadingExam({
   savedAnswers,
   startedAt,
   suggestedMinutes,
-  materials = [],
   parts = [],
 }: {
   dict: Dictionary;
@@ -464,7 +462,7 @@ export function ReadingExam({
         >
           <div className="flex flex-wrap items-center justify-between gap-2 border-b border-ink-100 pb-3">
             <h2 className="font-display text-base text-ink-900">{shownTitle}</h2>
-            <ReadAloud dict={dict} text={`${shownTitle}. ${shownBody}`} />
+
           </div>
 
           <div className="flex flex-col gap-4 lg:max-h-[70vh] lg:overflow-y-auto lg:pr-2" data-passage-body>
@@ -493,7 +491,7 @@ export function ReadingExam({
             )}
           </div>
 
-          <ResourceBlocks dict={dict} blocks={materials} lexicalAssistance={false} />
+
         </section>
 
         <section
@@ -680,16 +678,16 @@ export function GroupQuestions({
   onChange: (questionId: string, value: string) => void;
 }) {
   const shared = useMemo(() => questions.filter((question) => isSharedStimulusRow(question)), [questions]);
-  const stimulus = useMemo(() => (shared.length > 0 ? buildSharedStimulus(shared) : null), [shared]);
+  const stimulus = useMemo(() => (shared.length > 0 ? buildSharedStimulus(shared.map(q=>({...q,questionNo:q.sourceQuestionNo??q.questionNo}))) : null), [shared]);
   const byNumber = useMemo(() => {
     const map = new Map<number, ExamQuestion>();
-    for (const question of questions) if (question.questionNo !== null) map.set(question.questionNo, question);
+    for (const question of questions) if (question.questionNo !== null) map.set(question.sourceQuestionNo??question.questionNo, question);
     return map;
   }, [questions]);
 
   const covered = new Set(stimulus?.numbers ?? []);
   const cards = questions.filter(
-    (question) => !isSharedStimulusRow(question) || question.questionNo === null || !covered.has(question.questionNo)
+    (question) => !isSharedStimulusRow(question) || question.questionNo === null || !covered.has(question.sourceQuestionNo??question.questionNo)
   );
 
   return (
@@ -760,21 +758,21 @@ function StimulusCard({
               <span
                 key={index}
                 className="whitespace-nowrap"
-                data-answer-slot={segment.questionNo}
+                data-answer-slot={question.questionNo}
                 data-answered={value.trim() ? "true" : "false"}
               >
                 <span
                   className="mr-1 align-baseline text-xs font-semibold text-ink-500"
-                  data-stimulus-number={segment.questionNo}
+                  data-stimulus-number={question.questionNo}
                 >
-                  {segment.questionNo}
+                  {question.questionNo}
                 </span>
                 <input
                   id={`answer-${question.id}`}
                   value={value}
                   onChange={(event) => onChange(question.id, event.target.value.slice(0, 200))}
                   placeholder={dict.reading.yourAnswer}
-                  aria-label={`${dict.reading.yourAnswer} ${segment.questionNo}`}
+                  aria-label={`${dict.reading.yourAnswer} ${question.questionNo}`}
                   autoComplete="off"
                   spellCheck={false}
                   data-answer-input={question.id}

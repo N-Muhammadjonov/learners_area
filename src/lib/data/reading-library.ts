@@ -1,3 +1,4 @@
+import { activateReadingSchedules } from "@/lib/services/reading/schedules";
 import { readingCanonicalTypeSql } from "@/lib/data/reading-type-index";
 import { readingQuestionType } from "@/lib/reading/question-model";
 import { and, asc, count, desc, eq, ilike, inArray, sql } from "drizzle-orm";
@@ -80,6 +81,7 @@ function text(value: string | undefined): string | undefined {
 
 /** The publication window: a draft, an archive or a not-yet-due schedule is invisible. */
 async function liveClause() {
+  await activateReadingSchedules();
   // The Academic library: live AND not a General Reading (learning) passage (0030).
   return and(liveWhere({
     publicationState: readingPassages.publicationState,
@@ -266,6 +268,7 @@ export async function listLibrary(
  * page slow.
  */
 export async function listLibraryFacets(learning = false) {
+  await activateReadingSchedules();
   return timed("reading.facets", async () => {
     const live = learning ? and(liveWhere({publicationState:readingPassages.publicationState,publishAt:readingPassages.publishAt}),sql`exists(select 1 from general_reading_passages g join general_reading_sets s on s.id=g.set_id where g.passage_id=${readingPassages.id} and (s.publication_state='published' or (s.publication_state='scheduled' and s.publish_at<=now())))`) : await liveClause();
 
@@ -327,6 +330,7 @@ export async function readingHubCounts(userId: string) {
 /** General learning cards use the same published passages as full Academic sets,
  * but read per-passage learning progress and always link into the General session. */
 export async function listLearningLibrary(userId: string, filter: ReadingLibraryFilter = {}) {
+  await activateReadingSchedules();
   const clauses = [sql`(p.publication_state='published' or (p.publication_state='scheduled' and p.publish_at<=now()))`,sql`(s.publication_state='published' or (s.publication_state='scheduled' and s.publish_at<=now()))`];
   const number = {passage1:1,passage2:2,passage3:3}[filter.status ?? ""];
   if(number)clauses.push(sql`g.passage_no=${number}`);

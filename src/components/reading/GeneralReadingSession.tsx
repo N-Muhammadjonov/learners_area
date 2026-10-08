@@ -1,5 +1,6 @@
 "use client";
 
+import { ReadingEvidence } from "@/components/reading/ReadingEvidence";
 import Link from "next/link";
 import { useFocusEntry } from "@/lib/interaction/focus-entry";
 import { useEffect, useRef, useState } from "react";
@@ -171,6 +172,7 @@ export function GeneralReadingSession({ dict, setId, setTitle, passages, initial
                       {Boolean(row.acceptedAnswers?.length) && <p data-general-accepted>{dict.readingPractice.acceptedAnswers}: {row.acceptedAnswers!.join(" / ")}</p>}
                       {/* Evidence is answer support, rendered as plain text: it never becomes a vocabulary target or selects a sense. */}
                       {row.evidenceQuote ? <p className="mt-1 italic" data-general-evidence>{t.evidence} {row.evidenceQuote}</p> : <p data-general-evidence-missing>{dict.readingV4.evidenceMissing}</p>}
+                      {row.evidenceQuote && <ReadingEvidence dict={dict} body={passage.body} title={passage.title} quote={row.evidenceQuote} />}
                       {row.explanation ? <p className="mt-1" data-general-explanation>{dict.reading.explanation}: {row.explanation}</p> : <p data-general-explanation-missing>{dict.readingV4.explanationMissing}</p>}
                     </div>
                   )}

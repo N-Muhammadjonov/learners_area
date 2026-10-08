@@ -1,4 +1,5 @@
 "use client";
+import { ReadingEvidence } from "@/components/reading/ReadingEvidence";
 
 import { questionTypeLabel } from "@/lib/reading-labels";
 import { readingQuestionType } from "@/lib/reading/question-model";
@@ -42,6 +43,7 @@ export function ReadingAnalysis({
   passageLevel,
   locale,
   occurrences = [],
+  passages = [],
 }: {
   dict: Dictionary;
   score: number | null;
@@ -58,6 +60,7 @@ export function ReadingAnalysis({
   /** The reader's language, decided by the request (cookie), never guessed. */
   locale: "en" | "uz";
   occurrences?: OccurrenceSpan[];
+  passages?: {id:string;title:string;body:string}[];
 }) {
   const answerByQuestion = useMemo(
     () => new Map(answers.map((a) => [a.questionId, a])),
@@ -161,6 +164,7 @@ export function ReadingAnalysis({
       )}
 
       {ordered.map((q, index) => {
+        const evidencePassage = passages.find(p=>p.id===q.passageId);
         const a = answerByQuestion.get(q.id);
         const group = q.groupId ? groupById.get(q.groupId) : undefined;
         const isNewGroup = !!group && ordered[index - 1]?.groupId !== group.id;
@@ -222,6 +226,7 @@ export function ReadingAnalysis({
                 )}
               </div>
             )}
+            {q.evidenceQuote && evidencePassage && <ReadingEvidence dict={dict} body={evidencePassage.body} title={evidencePassage.title} quote={q.evidenceQuote} />}
             {!q.evidenceQuote && <p className="text-xs text-ink-500" data-evidence-missing>{dict.readingV4.evidenceMissing}</p>}
             {q.explanation && (
               <div className="mt-1 text-xs text-ink-500">

@@ -462,7 +462,7 @@ const readingQuestionPayload = zod.object({
   options: zod.array(zod.string().min(1)).min(2).max(6).optional(),
   correctAnswer: zod.string().min(1),
   evidenceQuote: zod.string().optional(),
-  explanation: zod.string().min(1),
+  explanation: zod.string().default(""),
   questionNo: zod.number().int().min(1).optional(),
 });
 

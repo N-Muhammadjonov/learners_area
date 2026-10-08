@@ -1,3 +1,4 @@
+import { activateReadingSchedules } from "@/lib/services/reading/schedules";
 import "server-only";
 import { sql } from "drizzle-orm";
 import { db } from "@/db/client";
@@ -19,7 +20,8 @@ const live = sql`p.publication_state = 'published' or (p.publication_state = 'sc
 const accessible = sql`(${live}) and not exists (
   select 1 from general_reading_passages gp join general_reading_sets gs on gs.id=gp.set_id
   where gp.passage_id=p.id and not (gs.publication_state='published' or (gs.publication_state='scheduled' and gs.publish_at<=now())))`;
-export async function readingTypeFacets(executor: Pick<typeof db, "execute"> = db) {
+export async function readingTypeFacets(executor: typeof db = db) {
+  await activateReadingSchedules(executor);
   const result = await executor.execute<{ type: string; count: number }>(sql`
     select ${readingCanonicalTypeSql()} as type, count(distinct p.id)::int as count
     from reading_passages p join reading_questions q on q.passage_id=p.id
@@ -29,8 +31,9 @@ export async function readingTypeFacets(executor: Pick<typeof db, "execute"> = d
     return count > 0 ? [{ ...type, count }] : [];
   });
 }
-export async function readingTypePassages(type: string, page = 1, executor: Pick<typeof db, "execute"> = db) {
+export async function readingTypePassages(type: string, page = 1, executor: typeof db = db) {
   if (!questionType(type, "reading")) return [];
+  await activateReadingSchedules(executor);
   const offset = (Math.max(1, Math.min(10000, Math.floor(page) || 1)) - 1) * READING_TYPE_PAGE_SIZE;
   const result = await executor.execute<{ id: string; title: string; set_id: string | null; passage_no: number | null }>(sql`
     select p.id,p.title,g.set_id,g.passage_no from reading_passages p

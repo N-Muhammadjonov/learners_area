@@ -1,3 +1,4 @@
+import { LessonWorkspace } from "@/components/courses/LessonWorkspace";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BackLink } from "@/components/ui/BackLink";
@@ -78,8 +79,10 @@ export default async function ReadingLessonPage({
           </p>
         )}
 
-        <ListeningLessonBody dict={dict} blocks={detail.blocks} />
+        <ListeningLessonBody dict={dict} blocks={detail.blocks} highlightScope={`${user.id}:${detail.lesson.id}`} />
       </Card>
+
+      <LessonWorkspace dict={dict} lessonId={detail.lesson.id} state={detail.progress.state} completedAt={detail.progress.completedAt?.toISOString() ?? null} initialNotes="" showNotes={false} />
 
       {/* Then exactly the three approved controls. */}
       <div className="flex flex-wrap gap-2" role="tablist" data-reading-lesson-tabs>

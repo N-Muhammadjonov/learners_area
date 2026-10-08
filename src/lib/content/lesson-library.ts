@@ -116,6 +116,7 @@ export async function listLessonLibrary(query: LessonLibraryQuery, executor?: { 
 }
 
 export type LessonLibraryDetail = {
+  progress: { state: string; completedAt: Date | null };
   lesson: { id: string; title: string; summary: string | null; estimatedMinutes: number | null; learningArea: string | null };
   blocks: ResolvedLessonBlock[];
   /** Canonical lesson-level notes, or the documented media compatibility fallback. */
@@ -187,6 +188,7 @@ export async function loadLessonLibraryDetail(
       estimatedMinutes: loaded.lesson.estimatedMinutes,
       learningArea: loaded.lesson.learningArea,
     },
+    progress: loaded.progress ?? {state: loaded.lesson.defaultState, completedAt: null},
     blocks: loaded.blocks,
     teacherNotes: notes.teacherNotes,
     teacherNotesSource: notes.source,

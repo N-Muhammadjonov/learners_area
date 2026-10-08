@@ -198,3 +198,41 @@ reload acceptance. Scheduled activation/binding and formal publication policy,
 active-help audit, real lookup/save HTTP/roles/Retention journeys, final gate and
 ledger closure remain open. Real pointer/highlight and 390/768/1440 acceptance
 remain EXTERNALLY UNVERIFIED. Background/Night Mode: NOT STARTED—DEFERRED BY OWNER.
+
+## Final product continuation — lifecycle and source fidelity
+
+Initial local Git metadata reported 31e10bd while the remote was e7a0e13. Every
+one of e7a0e13's 1,558 tracked files matched its Git blob exactly. Only after that
+proof, branch/index metadata was advanced to e7a0e13 without writing worktree
+files. No reset, checkout, stash, clean or branch switch occurred.
+
+Reading-only scheduled activation now calls the existing Content OS publisher
+in bounded 100-revision transactions before catalogue/start reads. Future
+schedules stay closed; newest due revisions win; obsolete due schedules are
+archived; old attempts keep immutable rows; new starts bind published revisions.
+Legacy unversioned schedules retain their publication-window contract.
+
+Formal admission policy: a published, same-set, three-passage structure with all
+three nonempty question sets and exactly 40 actual questions is required by
+Academic catalogue/detail/start. General learning publication remains valid for
+smaller authored sets; source track or title is not treated as a new formal-test
+flag. No synthetic padding or ban on legitimate partial General materials.
+
+Active Academic exams no longer receive unrestricted attachment blocks or
+read-aloud help. Authored shared-stimulus identities stay passage-local while
+full-test displayed numbers are global. Exact authored evidence is located only
+within its question's source passage; a missing match remains explicitly missing.
+Reading lesson text and submitted review reuse the existing Reading highlight
+adapter. Annotation lifetime remains mounted owner/source only, never a new
+cross-device persistence claim.
+
+Reading Lessons reuse LessonWorkspace's progress controls without a duplicate
+note pad. Shared state API publication checks now reject drafts, and per-user
+lesson transitions serialize inside a transaction. Existing private notes remain
+separate; other LessonWorkspace callers keep their previous note UI by default.
+Native Reading authoring allows an absent explanation rather than requiring an
+invented rationale.
+
+Checkpoint: focused Reading/authoring/private-note SQL 54/54/0/0; focused DOM
+41/41/0/0; typecheck/lint/diff-check pass. Migration count remains 53. Full gate
+and built-server acceptance follow this production-code checkpoint.

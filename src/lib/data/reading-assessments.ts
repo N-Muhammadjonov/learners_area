@@ -1,3 +1,4 @@
+import { activateReadingSchedules } from "@/lib/services/reading/schedules";
 import "server-only";
 import { publishedVersionForTarget } from "@/lib/content/attempt-binding";
 import { eq, sql, inArray } from "drizzle-orm";
@@ -47,6 +48,7 @@ export async function assessmentScope(
   };
 }
 export async function startAcademicSet(userId: string, setId: string, executor: typeof db = db) {
+  await activateReadingSchedules(executor);
   return executor.transaction(async (tx) => {
     await tx.execute(
       sql`select pg_advisory_xact_lock(hashtext(${userId + ":" + setId}))`,

@@ -69,8 +69,8 @@ test("ACADEMIC_EXAM (active test): the passage reveals nothing — no word targe
       assert.ok(passage.querySelector("[data-exam-passage-text]"));
       for (const selector of ["[data-clickable-text]", "[data-word]", "[data-token]", "[data-word-popover]", "[data-word-save]", "[role=dialog]"])
         assert.equal(document.querySelector(selector), null, `no ${selector} in the active exam`);
-      // Attached material text inside the exam is plain as well.
-      assert.ok(document.querySelector("[data-resource-blocks] [data-plain-text]"));
+      // Unrestricted attachments are not assessment material and can contain keys.
+      assert.equal(document.querySelector("[data-resource-blocks]"),null);
       assert.equal(document.body.textContent?.includes(en.readingPractice.wordSaveHint), false, "no 'click a word to save' hint");
       // Reading V4: one keyboard-reachable annotation surface, but no lexical target.
       assert.equal(passage.querySelectorAll("[tabindex]").length, 1, "highlight has a keyboard-reachable text region");
