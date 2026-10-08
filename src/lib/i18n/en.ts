@@ -216,6 +216,8 @@ const en = {
     notFound: "This General Reading set is not available.",
   },
   readingV4: {
+    evidenceMissing: "No evidence was supplied by the author.",
+    explanationMissing: "No explanation was supplied by the author.",
     review: "Review",
     wholePassage: "The whole passage opens; questions are not restricted to this type.",
     lessonBack: "All Reading lessons",

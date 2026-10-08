@@ -29,9 +29,9 @@ export async function generalReadingSchemaReady(database = db) {
 }
 
 /** The authoritative mode classification of one passage (server-side truth; never a client flag). */
-export async function generalMembership(passageId: string) {
-  if (!(await generalReadingSchemaReady())) return null;
-  const [row] = await db.select({ setId: generalReadingPassages.setId, passageNo: generalReadingPassages.passageNo, readingMode: generalReadingPassages.readingMode, set: generalReadingSets })
+export async function generalMembership(passageId: string, executor: typeof db = db) {
+  if (!(await generalReadingSchemaReady(executor))) return null;
+  const [row] = await executor.select({ setId: generalReadingPassages.setId, passageNo: generalReadingPassages.passageNo, readingMode: generalReadingPassages.readingMode, set: generalReadingSets })
     .from(generalReadingPassages).innerJoin(generalReadingSets, eq(generalReadingSets.id, generalReadingPassages.setId))
     .where(eq(generalReadingPassages.passageId, passageId));
   return row && row.readingMode === "general_practice" ? row : null;
@@ -99,13 +99,15 @@ export async function generalProgress(userId: string, setId: string) {
  * a passage solved alone is already done when the learner later opens Full Reading.
  * Only question ids of THIS passage are accepted; grading uses the Academic grader.
  */
-export async function saveGeneralProgress(input: { userId: string; role: Role; passageId: string; answers: Record<string, string>; check: boolean }) {
-  const membership = await generalMembership(input.passageId);
+export async function saveGeneralProgress(input: { userId: string; role: Role; passageId: string; answers: Record<string, string>; check: boolean }, executor: typeof db = db) {
+  const membership = await generalMembership(input.passageId, executor);
   if (!membership || (!isLive(membership.set) && !isStaff(input.role))) return null;
-  const questions = await db.query.readingQuestions.findMany({ where: eq(readingQuestions.passageId, input.passageId) });
+  const passage = await executor.query.readingPassages.findFirst({ where: eq(readingPassages.id,input.passageId) });
+  if (!passage || (!isLive(passage) && !isStaff(input.role))) return null;
+  const questions = await executor.query.readingQuestions.findMany({ where: eq(readingQuestions.passageId, input.passageId) });
   const allowed = new Set(questions.map((question) => question.id));
   const answers = Object.fromEntries(Object.entries(input.answers).filter(([id, value]) => allowed.has(id) && typeof value === "string").map(([id, value]) => [id, value.slice(0, 500)]));
-  let result: { questionId: string; isCorrect: boolean; correctAnswer: string; evidenceQuote: string | null }[] | null = null;
+  let result: { questionId: string; isCorrect: boolean; correctAnswer: string; evidenceQuote: string | null; explanation: string | null }[] | null = null;
   let score: number | null = null;
   if (input.check) {
     result = questions.map((question) => ({
@@ -113,13 +115,14 @@ export async function saveGeneralProgress(input: { userId: string; role: Role; p
       isCorrect: gradeAnswer(answers[question.id] ?? "", question.correctAnswer, question.acceptedAnswers),
       correctAnswer: question.correctAnswer,
       evidenceQuote: question.evidenceQuote ?? null,
+      explanation: question.explanation?.trim() ? question.explanation : null,
     }));
     score = result.filter((row) => row.isCorrect).length;
   }
   const now = new Date();
   const values = { userId: input.userId, setId: membership.setId, passageId: input.passageId, answers, updatedAt: now,
     ...(input.check ? { score, total: questions.length, checkedAt: now } : {}) };
-  const [row] = await db.insert(generalReadingProgress).values(values)
+  const [row] = await executor.insert(generalReadingProgress).values(values)
     .onConflictDoUpdate({ target: [generalReadingProgress.userId, generalReadingProgress.passageId], set: values }).returning();
   return { progress: row!, result };
 }

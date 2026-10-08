@@ -29,7 +29,7 @@ export type GeneralPassage = {
   occurrences: OccurrenceSpan[];
 };
 export type GeneralProgressView = { answers: Record<string, string>; score: number | null; total: number | null; checked: boolean };
-type CheckRow = { questionId: string; isCorrect: boolean; correctAnswer: string; evidenceQuote: string | null };
+type CheckRow = { questionId: string; isCorrect: boolean; correctAnswer: string; evidenceQuote: string | null; explanation: string | null };
 
 export function GeneralReadingSession({ dict, setId, setTitle, passages, initialProgress, mode }: {
   dict: Dictionary;
@@ -160,7 +160,8 @@ export function GeneralReadingSession({ dict, setId, setTitle, passages, initial
                     <div className={`rounded-sm p-2 text-xs ${row.isCorrect ? "bg-signal-50 text-ink-900" : "bg-paper-sunken text-ink-700"}`} data-general-result={row.isCorrect ? "correct" : "incorrect"}>
                       <p>{row.isCorrect ? "✓" : "✗"} {t.correctAnswer.replace("{answer}", row.correctAnswer)}</p>
                       {/* Evidence is answer support, rendered as plain text: it never becomes a vocabulary target or selects a sense. */}
-                      {row.evidenceQuote && <p className="mt-1 italic" data-general-evidence>{t.evidence} {row.evidenceQuote}</p>}
+                      {row.evidenceQuote ? <p className="mt-1 italic" data-general-evidence>{t.evidence} {row.evidenceQuote}</p> : <p data-general-evidence-missing>{dict.readingV4.evidenceMissing}</p>}
+                      {row.explanation ? <p className="mt-1" data-general-explanation>{dict.reading.explanation}: {row.explanation}</p> : <p data-general-explanation-missing>{dict.readingV4.explanationMissing}</p>}
                     </div>
                   )}
                 </li>

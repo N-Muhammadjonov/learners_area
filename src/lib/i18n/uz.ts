@@ -218,6 +218,8 @@ const uz: Dictionary = {
     notFound: "Bu General Reading to'plami mavjud emas.",
   },
   readingV4: {
+    evidenceMissing: "Muallif dalil keltirmagan.",
+    explanationMissing: "Muallif izoh keltirmagan.",
     review: "Natijani koʻrish",
     wholePassage: "Butun matn ochiladi; savollar faqat shu tur bilan cheklanmaydi.",
     lessonBack: "Barcha Reading darslari",

@@ -55,8 +55,8 @@ function net() {
     if (String(url).includes("/api/reading/general/progress")) {
       const body = JSON.parse(String(init!.body));
       return json({ ok: true, score: body.check ? 1 : null, total: body.check ? 2 : null, result: body.check ? [
-        { questionId: "q1a", isCorrect: true, correctAnswer: "TRUE", evidenceQuote: "The bank approved the loan." },
-        { questionId: "q1b", isCorrect: false, correctAnswer: "A marathon", evidenceQuote: null },
+        { questionId: "q1a", isCorrect: true, correctAnswer: "TRUE", evidenceQuote: "The bank approved the loan.", explanation: "The source explicitly confirms approval." },
+        { questionId: "q1b", isCorrect: false, correctAnswer: "A marathon", evidenceQuote: null, explanation: null },
       ] : null });
     }
     return json({});
@@ -128,6 +128,8 @@ test("answers autosave per passage, Check shows learning results with evidence; 
       await tick();
       const check = n.calls.filter((c) => c.url.includes("/api/reading/general/progress")).at(-1)!;
       assert.deepEqual(check.body, { passageId: pid(1), answers: { q1a: "true", q1b: "A shop" }, check: true });
+      assert.equal(document.querySelector("[data-general-explanation]")?.textContent?.includes("The source explicitly confirms approval."),true);
+      assert.equal(document.querySelectorAll("[data-general-explanation-missing]").length,1);
       assert.equal(document.querySelectorAll("[data-general-result='correct']").length, 1);
       assert.equal(document.querySelectorAll("[data-general-result='incorrect']").length, 1);
       assert.equal(document.querySelector("[data-general-evidence]")?.textContent?.includes("The bank approved the loan."), true);
