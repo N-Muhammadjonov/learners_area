@@ -144,6 +144,7 @@ export function MockBandPanel({
       {points.length > 0 && (
         <details>
           <summary>{uz ? "Jadvalni ko'rsatish" : "Show as table"}</summary>
+          <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr>
@@ -162,6 +163,7 @@ export function MockBandPanel({
               ))}
             </tbody>
           </table>
+          </div>
         </details>
       )}
     </section>
