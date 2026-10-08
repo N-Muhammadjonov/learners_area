@@ -184,9 +184,14 @@ deployment unblock.
 
 ### §08 archive+replace — **CONTENT_BLOCKED_OWNER**
 
-0052's unique index ignores `publication_state`, so an archived ordinal can never be reused
-(`23505`, proven). Minimal additive remedy — a partial unique index excluding archived rows — is
-**not applied**; approval was requested twice and not given, so no migration 0053 exists.
+**SUPERSEDED BY OWNER CLARIFICATION — NOT REQUIRED, NOT A BLOCKER.**
+
+0052's unique index ignores `publication_state`, so an archived ordinal cannot be reused
+(`23505`, proven). The owner has since clarified that **same-ordinal reuse is not a product
+requirement**: an archived item may be replaced by a NEW identity/ordinal and **gaps are
+acceptable**. Migration 0053 was therefore **never created and must not be created for ordinal
+reuse**. The real requirement — no artificial maximum on how much content a section accepts — is
+audited in `docs/UNLIMITED-CAPACITY-AUDIT.md`.
 
 ---
 
@@ -214,8 +219,10 @@ deployment unblock.
 
 **Branch integration remains `EXTERNAL_ACCEPTANCE_REQUIRED`:** no common ancestor, 186 RIWI-only
 commits, migrations 0000–0035 identical but **0036–0048 collide** (13 ordinals). The only sound
-unblock is owner authorization of an integration branch re-sequencing RIWI additively to **0053+**.
-Never a direct merge. Detail: `docs/WEBSITE-RIWI-BRANCH-COMPARISON.md`.
+unblock is owner authorization of an integration branch re-sequencing RIWI **additively, starting
+after the website migration tip current at integration time** (tip `0052` today → `0053+`; tip
+`0055` → `0056+` — re-measure, never hard-code). Never a direct merge, never rewrite an applied
+migration on either side. Detail: `docs/WEBSITE-RIWI-BRANCH-COMPARISON.md`.
 
 ---
 
@@ -225,9 +232,9 @@ Never a direct merge. Detail: `docs/WEBSITE-RIWI-BRANCH-COMPARISON.md`.
 |---|---|---|---|
 | A | Listening source ZIP absent → 2 tests skip | EXTERNAL REQUIRED | owner supplies exact package per `docs/LISTENING-SOURCE-ZIP-CONTRACT.md`; checksum match, no substitute |
 | B | Dictionary catalogue not applied → frozen-catalog tests skip | EXTERNAL REQUIRED | owner supplies frozen catalogue |
-| C | §08 archive+replace cannot reuse an archived ordinal | OWNER REQUIRED | authorize additive migration 0053 (partial unique index) |
+| C | ~~§08 archive+replace cannot reuse an archived ordinal~~ | **NOT REQUIRED — SUPERSEDED** | owner clarified same-ordinal reuse is not a requirement; new identities and ordinal gaps are acceptable; no 0053 |
 | D | ~~Vercel "Deployment was blocked"~~ | **RESOLVED** | root cause was commit author identity; repo-identity commit `281c8b6` deployed **success** |
-| E | RIWI D-01..D-08 + E-01..E-04 unanswered | OWNER + EXTERNAL REQUIRED | owner answers the decision register; external parties supply receipts |
+| E | RIWI D-01..D-08 + E-01..E-04 unanswered | **NOT ARENA'S SCOPE** | RIWI is executed by GPT Work in a separate workspace; Arena verifies only website-side public-interface boundaries |
 
 ---
 

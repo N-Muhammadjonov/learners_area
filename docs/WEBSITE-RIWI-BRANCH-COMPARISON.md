@@ -67,8 +67,17 @@ deleting existing migration history, and both sets are already applied to real a
 **Status: `EXTERNAL_ACCEPTANCE_REQUIRED` / owner decision.** Per §B, if branch transfer is ever
 approved it must go through *"a reviewed staging/integration branch and verified non-overlapping
 migration paths"*. The concrete unblock action for the owner is to authorize a dedicated
-integration branch on which the RIWI migrations are re-sequenced to `0053+` (additively, with
-fresh-install and upgrade proof on both accepted databases) — not a merge of these two branches.
+integration branch on which the RIWI migrations are re-sequenced **additively, beginning after the
+website migration tip that is current AT INTEGRATION TIME** (with fresh-install and upgrade proof on
+both accepted databases) — not a merge of these two branches.
+
+> **Integration numbering rule (owner, binding — do NOT hard-code a number).**
+> RIWI additive integration migrations must begin **after the current website migration tip at
+> integration time**, whatever it is then. If the website still ends at `0052`, RIWI starts at
+> `0053+`; if the website has advanced to `0055`, RIWI starts at `0056+`. The tip must be
+> re-measured at integration time. **Never rewrite an already-applied migration on either side.**
+> At the time of writing the website tip is `0052` (53 migrations, `0000`–`0052`), but that figure
+> is a measurement, not the rule.
 
 ## Scope note
 
