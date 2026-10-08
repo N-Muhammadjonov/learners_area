@@ -204,7 +204,7 @@ export function McqMastery({
                           <input type={payload.multiple ? "checkbox" : "radio"} name={`choice-${q.id}`}
                             data-mcq-option={option}
                             disabled={payload.session.stage !== "revealed"}
-                            checked={payload.multiple ? (() => { try { return (JSON.parse(text || payload.session.chosenAnswer || "[]") as string[]).includes(option); } catch { return false; } })() : (text || payload.session.chosenAnswer) === option}
+                            checked={payload.multiple ? (() => { try { return (JSON.parse((payload.session.stage === "revealed" ? text : payload.session.chosenAnswer) || "[]") as string[]).includes(option); } catch { return false; } })() : (payload.session.stage === "revealed" ? text : payload.session.chosenAnswer) === option}
                             onChange={() => {
                               if (!payload.multiple) { setText(option); return; }
                               let selected: string[] = []; try { selected = JSON.parse(text || "[]"); } catch { /* Fresh selection. */ }

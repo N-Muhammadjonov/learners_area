@@ -24,3 +24,15 @@ for(const multiple of [false,true])test(`MCQ DOM ${multiple ? "checkbox" : "radi
   assert.equal(document.querySelector("[data-mcq-next]")?.getAttribute("href"),"/app/listening/mcq/day/1?q=2");
  }finally{await act(async()=>root.unmount());globalThis.fetch=original;}
 });
+
+test("committed choices stay checked while the learner writes reasoning",async()=>{
+ const original=globalThis.fetch;globalThis.fetch=async()=>Response.json({session:{id:"s",stage:"chosen",chosenAnswer:'["A) One","B) Two"]'},question:{id:"q",order:1,questionText:"Prompt"},options:["A) One","B) Two"],multiple:true,next:{to:"reasoned",field:"reasoning",minLength:10}});
+ const root=createRoot(document.getElementById("root")!);
+ try{
+  await act(async()=>root.render(<AppRouterContext.Provider value={{back(){},forward(){},refresh(){},push(){},replace(){},prefetch(){}}}><McqMastery dict={en} questions={[{id:"q",order:1,questionText:"Prompt",stage:"chosen"}]}/></AppRouterContext.Provider>));
+  await act(async()=>document.querySelector<HTMLButtonElement>("[data-mcq-open]")!.click());
+  const textarea=document.querySelector<HTMLTextAreaElement>("[data-mcq-input]")!;
+  await act(async()=>{Object.getOwnPropertyDescriptor(dom.window.HTMLTextAreaElement.prototype,"value")!.set!.call(textarea,"My authored reasoning, not a selection");textarea.dispatchEvent(new dom.window.Event("input",{bubbles:true}));});
+  assert.equal([...document.querySelectorAll<HTMLInputElement>('input[type="checkbox"]')].filter(c=>c.checked).length,2);
+ }finally{await act(async()=>root.unmount());globalThis.fetch=original;}
+});
