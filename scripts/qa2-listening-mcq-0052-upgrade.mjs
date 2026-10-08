@@ -7,6 +7,7 @@
  *   node scripts/qa2-listening-mcq-0052-upgrade.mjs apply    # applies 0052 only
  *   node scripts/qa2-listening-mcq-0052-upgrade.mjs verify   # hard gates
  *   node scripts/qa2-listening-mcq-0052-upgrade.mjs branch   # accepted 0039 → 0052 (integrated branch)
+ *   node scripts/qa2-listening-mcq-0052-upgrade.mjs clean    # only recorded probe IDs; residue=0
  *   node scripts/qa2-listening-mcq-0052-upgrade.mjs diverge  # 0039 → 0051 (accepted line) → 0052
  *
  * Why not the drizzle migrator for the partial states: the journal is the source of truth for
@@ -199,11 +200,11 @@ async function seedHistory(minimal = false) {
   return { owner: owner.id, learner: learner.id, test: test.id, attempt: attempt.id, question: question.id };
 }
 
-async function storeSnapshot(tables, options) {
+async function storeSnapshot(tables, options, ids) {
   const before = await snapshotRows(tables, options);
-  await client.query("create table if not exists qa0052_probe (before jsonb)");
+  await client.query("create table if not exists qa0052_probe (before jsonb, fixture jsonb not null)");
   await client.query("delete from qa0052_probe");
-  await client.query("insert into qa0052_probe (before) values ($1)", [JSON.stringify(before)]);
+  await client.query("insert into qa0052_probe (before, fixture) values ($1, $2)", [JSON.stringify(before), JSON.stringify({ ...ids, extraTests: [] })]);
   return before;
 }
 
@@ -211,7 +212,7 @@ if (MODE === "fresh") {
   await recreate();
   await applyThrough(THROUGH_0051);
   const ids = await seedHistory();
-  const before = await storeSnapshot();
+  const before = await storeSnapshot(undefined, undefined, ids);
   console.log(JSON.stringify({ mode: "fresh", ...ids, rows: Object.fromEntries(Object.entries(before).map(([table, rows]) => [table, rows.length])) }));
 } else if (MODE === "apply") {
   await openClient();
@@ -226,7 +227,7 @@ if (MODE === "fresh") {
   const ids = await seedHistory(true);
   const tables = ["listening_tests", "listening_questions"];
   const columnSet = await columnsOf(tables);
-  const before = await storeSnapshot(tables, { columns: columnSet });
+  const before = await storeSnapshot(tables, { columns: columnSet }, ids);
   await applyTag(TAG_0052);
   const after = await snapshotRows(Object.keys(before), { columns: columnSet });
   for (const table of Object.keys(before)) {
@@ -249,7 +250,7 @@ if (MODE === "fresh") {
   const ids = await seedHistory(true);
   const tables = ["listening_tests", "listening_questions"];
   const columnSet = await columnsOf(tables);
-  const before = await storeSnapshot(tables, { columns: columnSet });
+  const before = await storeSnapshot(tables, { columns: columnSet }, ids);
   // The accepted line first (through 0051), then the programme relation: a database that already
   // carries the new question-set column accepts 0052 without conflict.
   const from = journal.findIndex((entry) => entry.tag === THROUGH_0039) + 1;
@@ -268,36 +269,41 @@ if (MODE === "fresh") {
   console.log(JSON.stringify({ mode: "diverge", ...ids, applied }));
 } else if (MODE === "clean") {
   await openClient();
-  /*
-   * REMOVE THE PROBE'S OWN FIXTURE. The probe writes a historical test, an attempt, a package, a
-   * revision, a staged session and two accounts, and it MUTATES the historical test by putting it
-   * into the programme. That is disposable QA data on an isolated database: this mode deletes it in
-   * foreign-key order and proves zero residue, so the next scenario starts from a database that
-   * holds only what it wrote itself.
-   */
-  const probeTests = `select id from listening_tests where source_ref = 'probe-0052-full' or title in ('Probe day two claimant', 'Probe other programme day one')`;
-  const probeUsers = `select id from users where name in ('0052 probe owner', '0052 probe learner')`;
-  await q(`delete from listening_mcq_sessions where user_id in (${probeUsers}) or test_id in (${probeTests})`);
-  await q(`delete from listening_attempts where user_id in (${probeUsers}) or test_id in (${probeTests})`);
-  await q(`delete from listening_questions where test_id in (${probeTests})`);
-  await q(`delete from listening_packages where test_id in (${probeTests})`);
-  await q(`delete from content_versions where source_ref = 'probe-0052-full'`);
-  await q(`delete from listening_tests where id in (${probeTests})`);
-  await q(`delete from users where id in (${probeUsers})`);
-  const residue = (
-    await q(
-      `select (select count(*)::int from listening_tests where source_ref = 'probe-0052-full' or title like 'Probe %')
-            + (select count(*)::int from users where name like '0052 probe %')
-            + (select count(*)::int from content_versions where source_ref = 'probe-0052-full') as n`,
-    )
-  )[0].n;
-  await client.query("drop table if exists qa0052_probe");
-  gate("clean: probe residue is zero", residue === 0, String(residue));
-  console.log(JSON.stringify({ mode: "clean", residue }));
+  // A missing manifest is an error, never permission to guess ownership from names/titles.
+  const [{ fixture }] = await q(`select fixture from qa0052_probe`);
+  const tests = [fixture.test, ...fixture.extraTests];
+  const users = [fixture.owner, fixture.learner];
+  const predicates = {
+    listening_mcq_sessions: ["test_id = any($1::uuid[]) or user_id = any($2::uuid[])", [tests, users]],
+    listening_attempts: ["test_id = any($1::uuid[]) or user_id = any($2::uuid[])", [tests, users]],
+    listening_questions: ["test_id = any($1::uuid[])", [tests]],
+    listening_packages: ["test_id = any($1::uuid[])", [tests]],
+    content_versions: ["target_type = 'listening_test' and target_id = any($1::uuid[]) and created_by_user_id = $2", [tests, fixture.owner]],
+    listening_tests: ["id = any($1::uuid[])", [tests]],
+    users: ["id = any($1::uuid[])", [users]],
+  };
+  await q("begin");
+  try {
+    let residue = 0;
+    for (const [table, [where, args]] of Object.entries(predicates)) {
+      // The branch probe deliberately stops at 0039 + 0052: later tables may not exist.
+      if (!(await q("select to_regclass($1) present", [table]))[0].present) continue;
+      await q(`delete from ${table} where ${where}`, args);
+      residue += (await q(`select count(*)::int n from ${table} where ${where}`, args))[0].n;
+    }
+    if (residue !== 0) throw new Error(`probe residue: ${residue}`);
+    await q("drop table qa0052_probe");
+    await q("commit");
+    gate("clean: probe residue is zero", residue === 0);
+    console.log(JSON.stringify({ mode: "clean", residue }));
+  } catch (error) {
+    await q("rollback");
+    throw error;
+  }
 }
 else if (MODE === "verify") {
   await openClient();
-  const [{ before: rawBefore }] = await q(`select before from qa0052_probe limit 1`);
+  const [{ before: rawBefore, fixture }] = await q(`select before, fixture from qa0052_probe limit 1`);
   const before = rawBefore;
 
   /*
@@ -306,8 +312,8 @@ else if (MODE === "verify") {
    * test is returned to "not in a programme". Nothing else is touched — a re-run must not be able
    * to hide a real change to the history.
    */
-  await q(`delete from listening_tests where title in ('Probe day two claimant', 'Probe other programme day one')`);
-  await q(`update listening_tests set program_ref = null, program_ordinal = null where source_ref = 'probe-0052-full'`);
+  await q(`delete from listening_tests where id = any($1::uuid[])`, [fixture.extraTests]);
+  await q(`update listening_tests set program_ref = null, program_ordinal = null where id = $1`, [fixture.test]);
 
   // 1. The schema arrived, exactly as authored.
   const columns = await q(`select column_name, data_type, character_maximum_length, is_nullable from information_schema.columns where table_name = 'listening_tests' and column_name in ('program_ref','program_ordinal') order by column_name`);
@@ -334,7 +340,7 @@ else if (MODE === "verify") {
   }
 
   // 3. The relation is closed and honest.
-  const [{ test: testId, learner: learnerId, owner: ownerId }] = await q(`select id test, (select id from users where name = '0052 probe learner') learner, (select id from users where name = '0052 probe owner') owner from listening_tests where source_ref = 'probe-0052-full'`);
+  const { test: testId, learner: learnerId, owner: ownerId } = fixture;
   gate("the historical test is present", Boolean(testId));
   gate("every pre-existing row is still NOT in a programme", (await q(`select count(*)::int n from listening_tests where program_ref is not null`))[0].n === 0);
   gate("a programme without a day is refused by the database", await expectReject(`update listening_tests set program_ref = $1 where id = $2`, [PROGRAMME, testId]));
@@ -347,11 +353,15 @@ else if (MODE === "verify") {
     [ownerId, PROGRAMME],
   ).catch(() => [null]);
   gate("a SECOND item claiming the same day is refused by the unique index", second === null || second === undefined);
-  gate("the same ordinal in ANOTHER programme is allowed", !(await expectReject(
+  if (second) fixture.extraTests.push(second.id);
+  const [other] = await q(
     `insert into listening_tests (created_by_user_id, title, audio_type, publication_state, program_ref, program_ordinal)
-     values ($1, 'Probe other programme day one', 'audio', 'draft', 'other-programme', 1)`,
+     values ($1, 'Probe other programme day one', 'audio', 'draft', 'other-programme', 1) returning id`,
     [ownerId],
-  )));
+  ).catch(() => [null]);
+  gate("the same ordinal in ANOTHER programme is allowed", Boolean(other));
+  if (other) fixture.extraTests.push(other.id);
+  await q(`update qa0052_probe set fixture = $1`, [JSON.stringify(fixture)]);
   gate("a learner's staged work is untouched and still readable", (await q(`select stage, notes from listening_mcq_sessions where user_id = $1 and stage = 'reasoned'`, [learnerId])).length === 1);
 
   // 4. Re-applying 0052 is a no-op: a retried migration cannot fail or lose data.
@@ -380,3 +390,5 @@ else if (MODE === "verify") {
 }
 
 if (client) await client.end();
+
+process.exitCode = failures.length ? 1 : 0;

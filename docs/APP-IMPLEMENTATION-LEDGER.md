@@ -799,3 +799,42 @@ exit, late-grant/unmount safety, and no audio upload/storage calls; they are not
 real recorded audio. Frozen Dictionary catalogue and Test 10 owner ZIP remain explicit owner assets.
 
 **DO NOT CLAIM 150 QUESTIONS COMPLETE UNTIL 150 OWNER-SUPPLIED VALID MCQs EXIST.**
+
+### Recovery follow-up — exact checkout preserved; MCQ evidence strengthened (2026-10-08)
+
+The recovery prompt's `b26ad958` stop point was stale. Independently fetched actual remote
+`cc23fc44442dbc166756f59342a12a642582bf0f`; compared all **1533 tracked files byte-for-byte**
+against the local worktree before repairing recreated Git metadata with update-ref/read-tree
+(without `-u`). No worktree reset, checkout, stash, clean, overwrite or implementation restart.
+The recovered worktree was clean. Vercel for both `b26ad958` and actual `cc23fc4`: **SUCCESS**.
+All MCQ architecture, safe-import and TED voice checkpoints are preserved. Migration 0052 and
+all migration hashes/history are unchanged. LSN-019/020 stay DONE; LSN-021 remains
+ARCHITECTURE DONE / OWNER CORPUS REQUIRED; LSN-022 stays DONE.
+
+Extended the existing golden HTTP script in place, not regenerated. Added runtime anonymous
+protection, exact destination/card/position cardinality, explicit Academic/General/other-programme
+exclusion fixtures, reversed title/creation/insertion ordering, 1/5 then 2/5 reasoned-only progress,
+non-completion on session creation/reveal, exact resume states, Student B's private-field absence,
+and byte-for-byte Academic/General history preservation. All fixtures now use a unique run
+namespace and captured IDs. Direct-ID residue checks cannot be masked by a join to deleted users;
+a before/after inventory proves unrelated QA rows are unchanged. **155/155 checks PASS.**
+One interim 137/138 run exposed an incomplete Academic fixture (no canonical package); the fixture
+was corrected to the existing catalogue contract, without changing production code.
+
+Hardened the existing 0052 probe's clean/verify paths to use recorded fixture IDs, not display
+names/titles/source references. The disposable probe manifest is not an application migration.
+Cleanup is transactional, handles the intentionally partial branch schema, and refuses a missing
+manifest instead of guessing ownership. Failed branch/divergence assertions now return a nonzero
+process exit. Exercised fresh → apply → verify → branch → clean → diverge → clean → fresh →
+apply → verify → clean; all PASS, cleanup residue **0**. Repeated verify also passes.
+New `verify-listening-mcq-probe-clean.mjs`: **12/12 PASS**, deliberately colliding unrelated
+users/titles/source-ref version survive byte-for-byte; all captured probe IDs and the regression's
+own collision fixtures are removed.
+
+Focused MCQ/programme/DB/day/publication/import/hub/choice, classifier agreement, migration
+journal/planner/reconciliation and safe-import suites: **108 total / 108 pass / 0 fail / 0 skip**.
+Focused MCQ + both TED voice DOM surfaces: **20 / 20 / 0 / 0**. Typecheck/lint/diff-check PASS.
+A rebuilt QA server on 3100 (PID 3563 at launch) uses the unchanged `cc23fc4` application code and
+only localhost `learners_qa2`; no secrets recorded here. Full fresh gate and restarted-build
+regression smokes follow the QA-only checkpoint. Existing real-device/browser limitations and
+owner corpus absence remain unchanged; these are not new implementation or content claims.

@@ -29,6 +29,7 @@
  * measurable through HTTP. Those remain EXTERNALLY UNVERIFIED here.
  */
 import pg from "pg";
+import { randomUUID } from "node:crypto";
 import { SignJWT } from "jose";
 import { assertIsolatedTarget } from "./qa2-seed-fixtures.mjs";
 
@@ -55,13 +56,23 @@ const q = async (sql, args = []) => (await db.query(sql, args)).rows;
  * The scenario's own namespace. Everything it writes carries this prefix so the cleanup can prove
  * it removed every row it wrote — and nothing that was already there.
  */
-const PREFIX = "qa2-mcqhuman-";
+const PREFIX = `qa2-mcqhuman-${randomUUID()}-`;
+const owned = { tests: [], questions: [], versions: [], users: [] };
+const auditTables = ["listening_tests", "listening_questions", "listening_packages", "content_versions", "listening_attempts", "listening_mcq_sessions", "users"];
+async function inventory() {
+  const result = {};
+  for (const table of auditTables) result[table] = await q(`select md5(to_jsonb(t)::text) hash from ${table} t order by hash`);
+  return JSON.stringify(result);
+}
+const initialInventory = await inventory();
+const formalHistory = async () => JSON.stringify(await q(`select to_jsonb(a) row from listening_attempts a where user_id = $1 order by id`, [learnerId]));
+let historyBefore;
 const PROGRAMME = "listening-mcq-program";
 const OWNER_EMAIL = `${PREFIX}owner@learners-qa.invalid`;
 const LEARNER_EMAIL = `${PREFIX}learner@learners-qa.invalid`;
 const OTHER_EMAIL = `${PREFIX}other@learners-qa.invalid`;
 
-/** Five authored MCQs per day: the owner's material, here plainly QA material. */
+/** Five synthetic QA MCQs per day. Never owner corpus or production content. */
 const QUESTIONS = [
   { text: "Which platform does the train leave from?", options: ["A) Platform 2", "B) Platform 7"], key: "B", why: "The announcement names platform seven." },
   { text: "How long is the delay?", options: ["A) Ten minutes", "B) Twenty minutes"], key: "A", why: "Ten minutes is stated twice." },
@@ -106,26 +117,47 @@ const cardOf = (html, day) => {
  * authored order, a live revision and an audio address. This is the shape the import door writes,
  * stated here so the journey does not depend on the door's own convenience.
  */
-async function createDay({ day, state = "published", title }) {
+async function createDay({ day, state = "published", title, program = PROGRAMME, count = 5, contentType = "full_test" }) {
   const [test] = await q(
     `insert into listening_tests (created_by_user_id, title, audio_type, audio_url, source_ref, publication_state, publish_at, program_ref, program_ordinal)
      values ($1, $2, 'audio', $3, $4, $5::publication_state, now(), $6, $7) returning id`,
-    [ownerId, title, `qa2/${PREFIX}day-${day}.mp3`, `${PREFIX}day-${day}`, state, PROGRAMME, day],
+    [ownerId, title, `qa2/${PREFIX}day-${day}.mp3`, `${PREFIX}day-${day}`, state, program, program ? day : null],
   );
+  owned.tests.push(test.id);
   const questionIds = [];
-  for (const [index, question] of QUESTIONS.entries()) {
+  // Reverse insertion order deliberately: only stored positions may determine question order.
+  for (const index of Array.from({ length: count }, (_, i) => i).reverse()) {
+    const question = QUESTIONS[index % QUESTIONS.length];
     const [row] = await q(
       `insert into listening_questions (test_id, "order", question_text, correct_answer, explanation, type, options, type_code)
        values ($1, $2, $3, $4, $5, 'multiple_choice', $6::jsonb, 'mcq_single') returning id`,
       [test.id, index + 1, question.text, question.key, question.why, JSON.stringify(question.options)],
     );
-    questionIds.push(row.id);
+    questionIds[index] = row.id;
+    owned.questions.push(row.id);
   }
-  await q(
+  const [version] = await q(
     `insert into content_versions (module, content_type, source_ref, version_no, status, title, content_snapshot, content_hash, semantic_hash, answer_key_hash, target_type, target_id, created_by_user_id)
-     values ('listening', 'full_test', $1, 1, 'published', $2, $3::jsonb, $4, $4, $4, 'listening_test', $5, $6)`,
-    [`${PREFIX}day-${day}`, title, JSON.stringify({ questions: QUESTIONS.length }), "0".repeat(64), test.id, ownerId],
+     values ('listening', $7, $1, 1, 'published', $2, $3::jsonb, $4, $4, $4, 'listening_test', $5, $6) returning id`,
+    [`${PREFIX}day-${day}`, title, JSON.stringify({ questions: count }), "0".repeat(64), test.id, ownerId, contentType],
   );
+  if (program === null && contentType === "full_test") {
+    // Academic's existing catalogue reads canonical packages, not bare CMS test rows.
+    const payload = {
+      schemaVersion: 1, collection: "academic", testId: `${PREFIX}day-${day}`, title,
+      category: "full", provenance: "isolated QA fixture, not owner corpus",
+      audio: { path: "fixture.mp3", durationSec: 1800 }, imagePath: null,
+      sections: Array.from({ length: 4 }, (_, i) => ({ number: i + 1, title: `Part ${i + 1}`, transcript: "QA transcript", reviewRequired: false })),
+      questions: Array.from({ length: count }, (_, i) => ({
+        number: i + 1, section: Math.floor(i / 10) + 1, text: QUESTIONS[i % 5].text,
+        instruction: "Choose one answer", kind: "mcq", options: QUESTIONS[i % 5].options,
+        key: QUESTIONS[i % 5].key, alternatives: [], pair: [], evidence: { why: QUESTIONS[i % 5].why },
+      })), keyword1: [], keyword2: [], vocabulary: [],
+    };
+    await q(`insert into listening_packages (test_id, source_id, payload, audio_object_key, source_hash, legacy_runtime)
+      values ($1, $2, $3::jsonb, $4, $5, false)`, [test.id, payload.testId, JSON.stringify(payload), "qa2/fixture.mp3", "0".repeat(64)]);
+  }
+  owned.versions.push(version.id);
   return { testId: test.id, questionIds };
 }
 
@@ -134,12 +166,15 @@ async function createDay({ day, state = "published", title }) {
  * server's own secrecy at every stage. Returns the question's final stage.
  */
 async function drill(question, cookie, { stopAt = "reasoned", from = "listen" } = {}) {
+  const progressBefore = (await get("/app/listening/mcq/day/1", cookie)).text.match(/data-listening-mcq-day-progress="([^"]+)"/)?.[1];
   const opened = await send("POST", "/api/listening/mcq", { questionId: question.id }, cookie);
   if (opened.status !== 200 || !opened.body?.session?.id) {
     check(`drill ${question.order} opens a session`, false, `status ${opened.status} ${JSON.stringify(opened.body)}`);
     return null;
   }
   const sessionId = opened.body.session.id;
+  const progressAfterOpen = (await get("/app/listening/mcq/day/1", cookie)).text.match(/data-listening-mcq-day-progress="([^"]+)"/)?.[1];
+  check(`drill ${question.order} session opening is not completion`, progressBefore !== undefined && progressAfterOpen === progressBefore);
   check(`drill ${question.order} resumes at expected stage with nothing shown yet`, opened.body.session.stage === from && (from === "reasoned" || (opened.body.options === null && opened.body.correctAnswer === null && opened.body.explanation === null && opened.body.outcome === null)), JSON.stringify({ stage: opened.body.session.stage, options: opened.body.options, key: opened.body.correctAnswer }));
 
   let payload = opened.body;
@@ -169,6 +204,8 @@ async function drill(question, cookie, { stopAt = "reasoned", from = "listen" } 
       check(`drill ${question.order} hides the outcome until a choice is made`, payload.outcome === null && payload.explanation === null);
     }
     if (move.step === "revealed") {
+      const progress = (await get("/app/listening/mcq/day/1", cookie)).text.match(/data-listening-mcq-day-progress="([^"]+)"/)?.[1];
+      check(`drill ${question.order} revealing options is not completion`, progress === progressBefore);
       check(`drill ${question.order} reveals the real options at the reveal`, Array.isArray(payload.options) && payload.options.length === 2 && payload.correctAnswer === null, JSON.stringify({ options: payload.options, key: payload.correctAnswer }));
     }
     if (move.step === "chosen") {
@@ -189,12 +226,14 @@ let dayTwo = null;
 let dayThree = null;
 
 async function cleanup() {
-  // FK order: staged work, then the questions and their revisions, then the days themselves.
-  await q(`delete from listening_mcq_sessions where user_id = any($1::uuid[]) or test_id = any($2::uuid[])`, [[learnerId, otherId].filter(Boolean), [dayOne?.testId, dayTwo?.testId, dayThree?.testId].filter(Boolean)]);
-  await q(`delete from listening_questions where test_id = any($1::uuid[])`, [[dayOne?.testId, dayTwo?.testId, dayThree?.testId].filter(Boolean)]);
-  await q(`delete from content_versions where source_ref like $1`, [`${PREFIX}%`]);
-  await q(`delete from listening_tests where source_ref like $1`, [`${PREFIX}%`]);
-  await q(`delete from users where email like $1`, [`${PREFIX}%@learners-qa.invalid`]);
+  // Exact captured IDs, including partial fixture construction; never another run's namespace.
+  await q(`delete from listening_mcq_sessions where user_id = any($1::uuid[]) or test_id = any($2::uuid[])`, [owned.users, owned.tests]);
+  await q(`delete from listening_attempts where user_id = any($1::uuid[]) or test_id = any($2::uuid[])`, [owned.users, owned.tests]);
+  await q(`delete from listening_packages where test_id = any($1::uuid[])`, [owned.tests]);
+  await q(`delete from listening_questions where test_id = any($1::uuid[])`, [owned.tests]);
+  await q(`delete from content_versions where id = any($1::uuid[])`, [owned.versions]);
+  await q(`delete from listening_tests where id = any($1::uuid[])`, [owned.tests]);
+  await q(`delete from users where id = any($1::uuid[])`, [owned.users]);
 }
 
 try {
@@ -205,33 +244,50 @@ try {
     `insert into users (name, email, role, account_status) values ('QA MCQ owner', $1, 'owner', 'active') returning id`,
     [OWNER_EMAIL],
   );
+  owned.users.push(owner.id);
   const [learner] = await q(
     `insert into users (name, email, role, account_status) values ('QA MCQ learner', $1, 'student', 'active') returning id`,
     [LEARNER_EMAIL],
   );
+  owned.users.push(learner.id);
   const [other] = await q(
     `insert into users (name, email, role, account_status) values ('QA MCQ other learner', $1, 'student', 'active') returning id`,
     [OTHER_EMAIL],
   );
+  owned.users.push(other.id);
   ownerId = owner.id;
   learnerId = learner.id;
   otherId = other.id;
   learnerCookie = await cookieFor({ id: learner.id, role: "student", name: "QA MCQ learner" });
   otherCookie = await cookieFor({ id: other.id, role: "student", name: "QA MCQ other learner" });
-  dayOne = await createDay({ day: 1, title: `${PREFIX}Day 1 — station announcements` });
-  dayTwo = await createDay({ day: 2, title: `${PREFIX}Day 2 — travel plans` });
+  dayTwo = await createDay({ day: 2, title: `${PREFIX}A — travel plans` });
+  dayOne = await createDay({ day: 1, title: `${PREFIX}Z — station announcements` });
   dayThree = await createDay({ day: 3, title: `${PREFIX}Day 3 — not published yet`, state: "draft" });
+  const academicFixture = await createDay({ day: 11, title: `${PREFIX}ACADEMIC`, program: null, count: 40 });
+  const generalFixture = await createDay({ day: 12, title: `${PREFIX}GENERAL`, program: null, contentType: "section" });
+  await createDay({ day: 13, title: `${PREFIX}OTHER-PROGRAMME`, program: `${PREFIX}other` });
+  for (const fixture of [academicFixture, generalFixture]) {
+    await q(`insert into listening_attempts (user_id, test_id, status, started_at) values ($1, $2, 'completed', now())`, [learnerId, fixture.testId]);
+  }
+  historyBefore = await formalHistory();
+  const anonymous = await get("/app/listening/mcq");
+  check("F3 programme home requires authentication", [302, 303, 307, 308].includes(anonymous.status) && anonymous.location?.includes("/login"));
   check("F1 two published days carry five questions each", dayOne.questionIds.length === 5 && dayTwo.questionIds.length === 5);
   check("F2 the days are in the programme by authored ordinal", (await q(`select count(*)::int n from listening_tests where program_ref = $1 and program_ordinal in (1,2,3)`, [PROGRAMME]))[0].n === 3);
 
   step(2, "Listening → the fourth destination");
   const hub = await get("/app/listening", learnerCookie);
   check("J1 the Listening hub offers the owner's four destinations", hub.status === 200 && ["lessons", "academic", "general", "mcq"].every((key) => hub.text.includes(`data-listening-destination="${key}"`)), `status ${hub.status}`);
-  check("J2 the hub lists no content of its own", !hub.text.includes(`${PREFIX}Day 1`), "the hub rendered a day card");
+  check("H1 exactly four destinations, not merely four among others", (hub.text.match(/data-listening-destination="[^"]+"/g) ?? []).length === 4);
+  check("J2 the hub lists no content of its own", !hub.text.includes(`${PREFIX}Z — station announcements`), "the hub rendered a day card");
   const mcqHome = await get("/app/listening/mcq", learnerCookie);
   check("J3 the MCQ destination opens the programme home", mcqHome.status === 200 && mcqHome.text.includes('data-route-usable="listening-mcq"'));
 
   step(3, "the programme home states only what is true");
+  const dayCards = [...mcqHome.text.matchAll(/data-listening-mcq-card="(\d+)"/g)].map(match => Number(match[1]));
+  check("H2 exactly the two published Days in authored order despite reversed title/creation order", JSON.stringify(dayCards) === "[1,2]");
+  for (const label of ["ACADEMIC", "GENERAL", "OTHER-PROGRAMME"]) check(`H3 ${label} is not a programme Day`, !mcqHome.text.includes(`${PREFIX}${label}`));
+  check("H4 no claim of 150 available questions", !/150\s+(?:questions?\s+available|available\s+questions?)/i.test(mcqHome.text));
   check("J4 the home lists the published days", Boolean(cardOf(mcqHome.text, 1) && cardOf(mcqHome.text, 2)));
   check("J5 the draft day is not rendered as a card", !mcqHome.text.includes('data-listening-mcq-card="3"'), "a draft day reached a learner");
   check("J6 the home never claims thirty days of content", !/Day (9|1[0-9]|2[0-9]|30)\b/.test(mcqHome.text.replace(/30 days|thirty/gi, "")), "a day nobody authored was rendered");
@@ -243,6 +299,8 @@ try {
   check("J9 the day page opens DAY 1", dayPage.status === 200 && dayPage.text.includes('data-listening-mcq-day="1"'), `status ${dayPage.status}`);
   check("J10 the day starts at 0/5", dayPage.text.includes('data-listening-mcq-day-progress="0/5"') && dayPage.text.includes("Question 1 of 5"), "the day did not start honestly");
   check("J11 the day's own navigation offers positions 1…5", [1, 2, 3, 4, 5].every((position) => dayPage.text.includes(`data-listening-mcq-day-step="${position}"`)));
+  const positions = [...dayPage.text.matchAll(/data-listening-mcq-day-step="(\d+)"/g)].map(match => Number(match[1]));
+  check("H5 exactly positions 1 to 5, without duplicates or 0/6", JSON.stringify(positions) === "[1,2,3,4,5]");
   check("J12 the navigation states positions, never the questions behind them", !dayPage.text.includes(QUESTIONS[1].text) && !dayPage.text.includes(QUESTIONS[4].text), "a question leaked from the day's navigation");
   check("J13 the page carries no option and no key", QUESTIONS.every((question) => question.options.every((option) => !dayPage.text.includes(option))) && !dayPage.text.includes("The announcement names platform seven"), "the rendered page leaked an option or a key");
   check("J14 the authored audio address reaches the drill (player opens with the session)", dayPage.text.includes(`qa2/${PREFIX}day-1.mp3`));
@@ -250,9 +308,15 @@ try {
   // The exact owner resume scenario: two reasoned, third committed, fourth/fifth untouched.
   for (let index = 0; index < 3; index++) {
     await drill({id: dayOne.questionIds[index], order: index+1, ...QUESTIONS[index]}, learnerCookie, {stopAt: index === 2 ? "committed" : "reasoned"});
+    const progress = await get("/app/listening/mcq/day/1", learnerCookie);
+    check(`H6 genuine reasoned progress after question ${index + 1}`, progress.text.includes(`data-listening-mcq-day-progress="${Math.min(index + 1, 2)}/5"`));
   }
   const atThree = await get("/app/listening/mcq/day/1", learnerCookie);
   check("R1 two finished; Q3 resumes committed; Q4/Q5 untouched", atThree.text.includes('data-listening-mcq-day-progress="2/5"') && atThree.text.includes("Question 3 of 5") && (await q(`select stage from listening_mcq_sessions where user_id=$1 order by (select \"order\" from listening_questions q where q.id=question_id)`,[learnerId])).map(r=>r.stage).join(",") === "reasoned,reasoned,committed");
+  const resumeStates = [...atThree.text.matchAll(/data-listening-mcq-day-step="(\d+)" data-listening-mcq-day-step-state="([^"]+)"/g)].map(match => `${match[1]}:${match[2]}`);
+  check("R2 exact per-question resume states", resumeStates.join(",") === "1:completed,2:completed,3:in_progress,4:not_started,5:not_started");
+  const resumeCard = cardOf((await get("/app/listening/mcq", learnerCookie)).text, 1);
+  check("R3 home reflects In progress 2/5 before canonical resume", Boolean(resumeCard && /In progress/.test(resumeCard) && /2\s*\/\s*5/.test(resumeCard)));
   step(5, "walk four questions through the drill, leave the fifth committed mid-drill");
   const stages = [];
   for (const [index, questionId] of dayOne.questionIds.entries()) {
@@ -291,11 +355,14 @@ try {
   const academic = await get("/app/listening/academic", learnerCookie);
   const general = await get("/app/listening/general", learnerCookie);
   check("J28 the Academic catalogue still opens", academic.status === 200 && academic.text.includes('data-route-usable="listening-academic"'), `status ${academic.status}`);
-  check("J29 an MCQ day is not filed as an Academic test", !academic.text.includes(`${PREFIX}Day 1`));
+  check("J29 an MCQ day is not filed as an Academic test", !academic.text.includes(`${PREFIX}Z — station announcements`));
   check("J30 the General catalogue still opens", general.status === 200 && general.text.includes('data-route-usable="listening-general"'), `status ${general.status}`);
-  check("J31 an MCQ day is not offered as a General section", !general.text.includes(`${PREFIX}Day 1`));
+  check("J31 an MCQ day is not offered as a General section", !general.text.includes(`${PREFIX}Z — station announcements`));
   check("J32 the day page stays inside the programme", !dayPage.text.includes('data-listening-academic-activity') && !dayPage.text.includes("data-listening-exam-sections") && !dayPage.text.includes("data-part-"), "a day was presented as an exam");
 
+  check("H7 unrelated Academic and General formal history unchanged byte-for-byte; no new formal attempt", await formalHistory() === historyBefore);
+  check("H8 the explicit Academic fixture is still in Academic", academic.text.includes(`${PREFIX}ACADEMIC`));
+  check("H9 the explicit General fixture is still in General", general.text.includes(`${PREFIX}GENERAL`));
   step(9, "another learner opens the same day fresh");
   const otherHome = await get("/app/listening/mcq", otherCookie);
   check("J33 the other learner's card is 'Not started', not this learner's 5/5", Boolean(cardOf(otherHome.text, 1)?.includes("Not started") && !cardOf(otherHome.text, 1)?.includes("5/5")), cardOf(otherHome.text, 1)?.slice(0, 200));
@@ -309,6 +376,7 @@ try {
   const foreignQuestion = await send("POST", "/api/listening/mcq", { questionId: fifthQuestion[0].id }, otherCookie);
   check("J38 the other learner may start their OWN session on the same question", foreignQuestion.status === 200 && foreignQuestion.body?.session?.stage === "listen" && foreignQuestion.body?.options === null, `status ${foreignQuestion.status} ${JSON.stringify(foreignQuestion.body?.session)}`);
 
+  check("H10 Student B receives no Student A fields", ["notes", "ownAnswer", "chosenAnswer", "reasoning"].every(key => foreignQuestion.body?.session?.[key] === null));
   step(10, "a day the centre has not published stays invisible to a learner");
   const draftForLearner = await get("/app/listening/mcq/day/3", learnerCookie);
   check("J39 a draft day is not a learner's page (404)", (draftForLearner.status === 404 || (draftForLearner.text.includes("NEXT_HTTP_ERROR_FALLBACK;404") && !draftForLearner.text.includes('data-listening-mcq-day="3"'))), `status ${draftForLearner.status}`);
@@ -324,6 +392,16 @@ try {
   check("Z2 every fixture revision is deleted", Number(residueRevisions[0].n) === 0, `${residueRevisions[0].n} revisions remain`);
   check("Z3 the scenario's own accounts are deleted", Number(residueUsers[0].n) === 0, `${residueUsers[0].n} accounts remain`);
   check("Z4 the staged work went with them", Number(residueSessions[0].n) === 0, `${residueSessions[0].n} sessions remain`);
+  for (const [table, where, args] of [
+    ["listening_tests", "id = any($1::uuid[])", [owned.tests]],
+    ["listening_questions", "id = any($1::uuid[]) or test_id = any($2::uuid[])", [owned.questions, owned.tests]],
+    ["listening_packages", "test_id = any($1::uuid[])", [owned.tests]],
+    ["content_versions", "id = any($1::uuid[])", [owned.versions]],
+    ["users", "id = any($1::uuid[])", [owned.users]],
+    ["listening_mcq_sessions", "test_id = any($1::uuid[]) or user_id = any($2::uuid[])", [owned.tests, owned.users]],
+    ["listening_attempts", "test_id = any($1::uuid[]) or user_id = any($2::uuid[])", [owned.tests, owned.users]],
+  ]) check(`Z5 ${table}: direct-ID residue zero (no join masking)`, (await q(`select count(*)::int n from ${table} where ${where}`, args))[0].n === 0);
+  check("Z6 every unrelated QA row preserved byte-for-byte", await inventory() === initialInventory);
   await db.end();
 }
 
