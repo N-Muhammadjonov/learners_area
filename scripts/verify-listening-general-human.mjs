@@ -275,7 +275,7 @@ try {
 
   step(5, "walk from Listening to General Listening");
   const listening = await get("/app/listening", studentCookie);
-  check("J1 the Listening module page offers both catalogues", listening.status === 200 && listening.text.includes("data-listening-general-entry") && listening.text.includes("data-listening-academic-entry"), `status ${listening.status}`);
+  check("J1 the Listening module page offers both catalogues", listening.status === 200 && ["general", "academic"].every((key) => listening.text.includes(`data-listening-destination-open="${key}"`) && listening.text.includes(`href="/app/listening/${key}"`)), `status ${listening.status}`);
 
   step(6, "read the catalogue card");
   const catalogue = await get("/app/listening/general", studentCookie);

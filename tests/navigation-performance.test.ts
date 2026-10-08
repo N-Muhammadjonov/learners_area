@@ -135,17 +135,16 @@ test("Writing streams the entry header before its learner-summary reads", () => 
   assert.match(page, /<TypingTrainer/);
 });
 
-test("Listening and Speaking stream useful module headers before catalogue reads", () => {
+test("Listening doorway has no catalogue read; Speaking streams its material catalogue", () => {
   const listening = read("src/app/app/(shell)/listening/page.tsx");
-  // The Speaking material catalogue moved from the hub to Speaking lessons
-  // (owner spec §26–28); the streaming invariant follows the catalogue.
+  assert.match(listening, /Promise\.all\(\[requireActiveUser\(\), getLocale\(\), searchParams\]\)/);
+  assert.match(listening, /data-route-usable="listening"/);
+  assert.match(listening, /data-listening-destinations/);
+  assert.doesNotMatch(listening, /from ["']@\/lib\/data\//, "doorway must not wait on a content catalogue");
   const speaking = read("src/app/app/(shell)/speaking/lessons/page.tsx");
-  for (const page of [listening, speaking]) {
-    assert.match(page, /Promise\.all\(\[requireActiveUser\(\), getLocale\(\)\]\)/);
-    assert.match(page, /data-route-usable=/);
-    assert.match(page, /<Suspense fallback=/);
-  }
-  assert.match(listening, /<ActiveListeningTests/);
+  assert.match(speaking, /Promise\.all\(\[requireActiveUser\(\), getLocale\(\)\]\)/);
+  assert.match(speaking, /data-route-usable=/);
+  assert.match(speaking, /<Suspense fallback=/);
   assert.match(speaking, /<SpeakingMaterials/);
 });
 

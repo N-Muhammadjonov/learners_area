@@ -156,7 +156,7 @@ try {
 
   /* ------------------------------------------------------------------ navigation */
   const modulePage = await get("/app/listening", cookie);
-  check("L0 the Listening module page offers the owner's destinations", modulePage.status === 200 && ["data-listening-lessons-entry", "data-listening-academic-entry", "data-listening-general-entry"].every((marker) => modulePage.text.includes(marker)), `status ${modulePage.status}`);
+  check("L0 the Listening module page offers the owner's destinations", modulePage.status === 200 && ["lessons", "academic", "general", "mcq"].every((key) => modulePage.text.includes(`data-listening-destination-open="${key}"`) && modulePage.text.includes(`href="/app/listening/${key}"`)), `status ${modulePage.status}`);
   /* ------------------------------------------------------------------ catalogue */
   const catalogue = await get("/app/listening/general", cookie);
   // Count RENDERED anchors, not substrings: Next.js also serializes the same props into the

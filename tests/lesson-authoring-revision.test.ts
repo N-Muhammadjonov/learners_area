@@ -754,9 +754,12 @@ test("N1 the lesson-authoring correction added no migration of its own", () => {
    * suite asserts; the assertion below is what makes that claim checkable rather than assumed.
    */
   const files = readdirSync(join(ROOT, "drizzle")).filter((name) => name.endsWith(".sql")).sort();
-  assert.equal(files.length, 52, "52 shipped migrations");
-  assert.ok(files.at(-1)!.startsWith("0051"), `newest migration is ${files.at(-1)}`);
+  assert.equal(files.length, 53, "53 shipped migrations (0052 predates this closure)");
+  assert.ok(files.at(-1)!.startsWith("0052"), `newest migration is ${files.at(-1)}`);
   assert.ok(files.some((name) => name.startsWith("0050")), "the lesson learning-area migration is still shipped");
+  // The already-shipped programme relation is unrelated to lesson revisioning.
+  const programme = readFileSync(join(ROOT, "drizzle/0052_listening_mcq_program_days.sql"), "utf8");
+  assert.doesNotMatch(programme, /\b(?:UPDATE|DELETE FROM|ALTER TABLE)\s+"?lessons"?\b/i);
   const listeningRevision = readFileSync(join(ROOT, "drizzle/0051_listening_question_revision.sql"), "utf8");
   assert.match(listeningRevision, /ADD COLUMN IF NOT EXISTS "content_version_id" uuid/);
   assert.doesNotMatch(listeningRevision, /\bUPDATE\s+"?lessons"?\s+SET\b/i, "0051 must not touch a lesson row");

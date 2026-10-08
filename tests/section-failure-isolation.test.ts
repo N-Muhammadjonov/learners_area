@@ -186,7 +186,14 @@ test("Listening and Video entry reads are server-authorized, published, and limi
   const videoData = read("src/lib/data/video-lessons.ts");
   assert.match(listeningPage, /requireActiveUser\(\)/);
   assert.match(listeningPage, /data-route-usable="listening"/);
-  assert.match(listeningPage, /<Suspense fallback=\{<ListeningTestsSkeleton \/>\}>/);
+  assert.match(listeningPage, /data-listening-destinations/);
+  assert.doesNotMatch(listeningPage, /from ["']@\/lib\/data\//, "a doorway has no catalogue request to fail");
+  for (const [route, reader] of [["academic", "academicListeningCards"], ["general", "generalListeningCards"]]) {
+    const page = read(`src/app/app/(shell)/listening/${route}/page.tsx`);
+    assert.match(page, /requireActiveUser\(\)/);
+    assert.ok(page.indexOf("if (!user) return null") < page.indexOf(`await ${reader}(user.id, page)`));
+    assert.match(page, /Math\.min\(10000/);
+  }
   assert.match(listeningData, /id: listeningTests\.id,[\s\S]*title: listeningTests\.title,[\s\S]*difficultyLevel: listeningTests\.difficultyLevel/);
   assert.match(listeningData, /liveWhere\(/);
   assert.match(videoPage, /requireActiveUser\(\)/);
