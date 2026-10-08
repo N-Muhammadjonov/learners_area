@@ -738,3 +738,64 @@ The new built-server smoke complements DOM tests with both native surfaces, writ
 reload/other-user isolation and fixture cleanup; it does NOT claim microphone hardware or audible
 playback verification. Final frozen gates follow this checkpoint. Real-browser/mobile acceptance
 remains external. No migration; no Reading product changes; Test 11 stays closed.
+
+## Listening remaining work + TED voice — final frozen verification (2026-10-08)
+
+**Repository implementation COMPLETE. Repository-solvable P0: NONE. P1: NONE.**
+Test 11 remains closed; Reading V4 was not started. Actual starting tree: `98b9595` (the prompt's
+`05c642b` anchor was older). Checkpoint A `3bc511c`, B `a00f73c`, C `5ce8553` are pushed.
+Follow-ups: `29792d9` keeps chosen options visibly selected while writing reasoning;
+`0c3ada3` preserves historical stored-letter grading and the repository's ASCII Uzbek apostrophe
+convention. These corrections do not weaken stage validation or Test 11's unchanged contract tests.
+
+The first gate was stopped after review found the option-display bug. The next full unit run
+reported **1458 total / 1358 pass / 3 fail / 97 skip**: two Uzbek-copy guards and the historical
+single-letter verdict regression. All were fixed in production code, not waived. A new full gate
+ran on the corrected, frozen **`0c3ada3`** tree:
+
+`QA2_PG_EXTERNAL=1 QA_OUT=/tmp/qa-out-listening-remaining-final3 npm run qa:gate`
+
+| Gate | Total | Pass | Fail | Skip |
+| --- | ---: | ---: | ---: | ---: |
+| Unit / PGlite | 1458 | 1361 | 0 | 97 |
+| UI | 291 | 291 | 0 | 0 |
+| Real PostgreSQL | 1458 | 1454 | 0 | 4 |
+
+**GATE PASS.** Typecheck, lint, production build, working-tree diff-check and committed-range
+check all exited 0. The range check disclosed its fallback base `31e10bd`. Unit skips include
+real-PG-only cases; the four remaining real-PG skips are two Test 10 owner-ZIP tests and two
+frozen Dictionary catalogue tests. Skips are not passes. Speaking reference bank SHA verified,
+880 rows. Existing migrations applied **53/53**; no migration added or changed in this workstream.
+0051 hash: `f5b7a259f2643de8155cf66188d3d8b7a7313ca804ceb9920bebe306bb9ec26c`.
+0052 hash: `ebb72044b2474bf3f22fd2f6e3be88591a5d24db9c66800fdec3f18c6cd8f742`.
+
+On a restarted server using that final build and isolated QA2:
+- MCQ golden HTTP scenario **116/116**.
+- TED Summary HTTP complement **22/22** (both surfaces, written persistence, fresh-request and
+  other-learner isolation; deliberately NOT a microphone-hardware test).
+- Academic HTTP **50/50**; General HTTP **46/46**; General human/role scenario **59/59**.
+- Classification/pagination **21/21**.
+
+Every smoke proved removal of its own fixtures. Read-only final QA2 inventory: programme rows **0**,
+TED voice-smoke fixture rows **0**; **13** unrelated real-PG Listening suite fixtures remain
+(12 `QA2 listening …`, one `QA2 gl …`) and were not arbitrarily deleted. No Production/Preview
+DB was queried or changed. The 0052 probe's own cleanup separately proved residue **0**.
+
+Local = remote was verified after each checkpoint/fix; the worktree was clean before this docs-only
+follow-up. Vercel deployment commit statuses for `3bc511c`, `a00f73c`, `5ce8553`, `29792d9`,
+and `0c3ada3` report **SUCCESS — Deployment has completed** (not inferred from Preview Comments).
+The final docs SHA requires its own live status check. This docs update changes no gated code.
+
+**Owner content:** no dedicated owner MCQ corpus has been supplied/verified here: **0 real owner
+Days / 0 real owner MCQs supplied by this work; fabricated production MCQs = 0**. Production counts
+were not inspected. Architecture readiness is not 150-question content completion. Owner must
+supply the 30 × 5 valid MCQs, their real audio and authored answer/evidence material. Test 11's
+separate owner-audio dependency remains unchanged and was not worked around.
+
+**External acceptance:** real microphone/device permission and audible playback, actual browser
+pointer interaction, and mobile 390/768/1440 remain to be exercised by browser QA. DOM tests prove
+controls, local Blob playback URLs, recording bounds, tab retention, re-record cleanup, route/lesson
+exit, late-grant/unmount safety, and no audio upload/storage calls; they are not a claim of hearing
+real recorded audio. Frozen Dictionary catalogue and Test 10 owner ZIP remain explicit owner assets.
+
+**DO NOT CLAIM 150 QUESTIONS COMPLETE UNTIL 150 OWNER-SUPPLIED VALID MCQs EXIST.**
