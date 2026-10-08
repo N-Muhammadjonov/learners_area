@@ -78,3 +78,34 @@ or created; the existing version target/snapshot capability needs a safe Reading
 materialization design and a real draft/publish/old-attempt proof before closure.
 Academic review Dictionary, registry-complete import/rendering, HTTP and fresh
 full-gate verification remain open. Nothing here declares the repository frozen.
+
+## Continuation from e21eb70 — non-destructive Reading revisions
+
+Current checkout metadata initially named 31e10bd. All 1,550 tracked files matched
+remote e21eb70 exactly before guarded metadata-only recovery; no worktree replacement.
+
+Reading authoring now retains canonical passage/question rows per revision. The
+existing content_versions target and contentSnapshot carry exact passage/set IDs;
+logical sourceRef/provenance stays intact. New revisions create draft targets in the
+EXISTING tables. Publication withdraws the prior revision without deletion. Existing
+attempt membership and question foreign keys therefore remain valid for read/grade.
+No shadow content table, second exam, schema change, or migration was introduced.
+
+The native question editor only appends to unused, non-version-owned drafts. Native
+passage creation is draft-first. Standalone starts serialize with editing/publication;
+formal starts capture the published revision and lock the set against withdrawal.
+New formal entries require exactly three real slots and 40 actual questions. Learning
+sets and historical attempts are not rewritten to meet the formal-entry contract.
+
+The existing atomic submit moved into a testable service used by the SAME API. A
+secondary activity-refresh failure cannot falsely report a committed grade as failed.
+
+PGlite journey exercises real authoring/publication/start/read/autosave/submit code:
+V1 start + resume + 40 drafts; V2 draft leaves V1 unchanged; V2 publication withdraws
+old starts, keeps A's rows, and gives B new rows/binding; cross-user denial; editor
+refusal; forced SQL failure rolls back grade/answer replacement; retry grades V1;
+repeat submit/autosave cannot alter the completed result. Both question sets remain.
+
+Authoring + history + timer-lock regression batch: 24 total / 24 pass / 0 fail / 0 skip.
+Reading V4 + binding + timer-lock batch: 18 total / 18 pass / 0 fail / 0 skip.
+Typecheck/lint pass. Batches overlap. This is not a full gate or built-server proof.

@@ -180,6 +180,8 @@ export async function saveContentDraft(tx: ImportTransaction & VersionWriter, in
     module: input.module,
     contentType: input.contentType,
     sourceRef: input.sourceRef,
+    // Reading drafts own new immutable canonical targets, even for identical text.
+    forceNewVersion: input.module === "reading",
     title: input.title.trim(),
     track: input.track ?? "unspecified",
     content: target.content,

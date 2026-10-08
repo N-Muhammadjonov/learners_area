@@ -13,6 +13,6 @@ export async function POST(req: NextRequest) {
   const parsed = createPassageSchema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: parsed.error.issues[0]?.message ?? "invalid_input" }, { status: 400 });
 
-  const [created] = await db.insert(readingPassages).values(parsed.data).returning();
+  const [created] = await db.insert(readingPassages).values({...parsed.data,publicationState:"draft"}).returning();
   return NextResponse.json({ ok: true, id: created!.id });
 }

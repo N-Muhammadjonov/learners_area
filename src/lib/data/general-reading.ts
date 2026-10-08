@@ -48,7 +48,8 @@ export async function listGeneralSets(userId: string, options: { page?: number; 
   const validPassages = sql`not exists (select 1 from general_reading_passages g join reading_passages p on p.id=g.passage_id where g.set_id=${generalReadingSets.id} and not (p.publication_state='published' or (p.publication_state='scheduled' and p.publish_at<=now())))`;
   const formal = options.academic ? sql`(select count(*) from general_reading_passages g where g.set_id=${generalReadingSets.id})=3
     and not exists (select 1 from general_reading_passages g where g.set_id=${generalReadingSets.id} and g.passage_no not in (1,2,3))
-    and not exists (select 1 from general_reading_passages g where g.set_id=${generalReadingSets.id} and not exists (select 1 from reading_questions q where q.passage_id=g.passage_id))` : undefined;
+    and not exists (select 1 from general_reading_passages g where g.set_id=${generalReadingSets.id} and not exists (select 1 from reading_questions q where q.passage_id=g.passage_id))
+    and (select count(*) from reading_questions q join general_reading_passages g on g.passage_id=q.passage_id where g.set_id=${generalReadingSets.id})=40` : undefined;
   const sets = await executor.select().from(generalReadingSets)
     .where(and(liveWhere({ publicationState: generalReadingSets.publicationState, publishAt: generalReadingSets.publishAt }), validPassages, formal))
     .orderBy(asc(generalReadingSets.createdAt), asc(generalReadingSets.id))

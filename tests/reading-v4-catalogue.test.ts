@@ -14,7 +14,7 @@ test("READ-ACADEMIC real SQL gates complete published three-passage sets before 
         const [passage] = await env.query<{id:string}>("insert into reading_passages(title,body_text,publication_state) values ($1,'Body',$2) returning id",[title,hidden && i===n ? 'draft':'published']);
         ids.push(passage!.id);
         await env.query("insert into general_reading_passages(passage_id,set_id,passage_no) values ($1,$2,$3)",[passage!.id,set!.id,i]);
-        if(!empty) await env.query("insert into reading_questions(passage_id,\"order\",type,question_text,correct_answer,explanation) values($1,1,'short_answer','Question','answer','Authored')",[passage!.id]);
+        if(!empty) for(let q=1;q<=(n===3 ? (i===3 ? 14 : 13):1);q++) await env.query("insert into reading_questions(passage_id,\"order\",type,question_text,correct_answer,explanation) values($1,$2,'short_answer','Question','answer','Authored')",[passage!.id,q]);
       }
       return {id:set!.id,ids};
     };

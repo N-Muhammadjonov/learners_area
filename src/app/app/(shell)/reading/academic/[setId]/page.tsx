@@ -13,7 +13,7 @@ export default async function AcademicSetPage({ params }: { params: Promise<{ se
   if (!user) return null;
   const dict = getDictionary(await getLocale());
   const detail = await generalSetDetail(setId, user.role);
-  if (!detail || detail.passages.length !== 3 || detail.passages.some((p, i) => p.passageNo !== i + 1 || p.questions.length === 0)) notFound();
+  if (!detail || detail.passages.reduce((n,p)=>n+p.questions.length,0) !== 40 || detail.passages.length !== 3 || detail.passages.some((p, i) => p.passageNo !== i + 1 || p.questions.length === 0)) notFound();
   return <div className="mx-auto flex max-w-[960px] flex-col gap-6" data-academic-reading-start>
     <BackLink fallbackHref="/app/reading/academic" label={dict.common.back} />
     <h1 className="page-title">{detail.set.title}</h1>

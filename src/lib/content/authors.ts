@@ -2,6 +2,8 @@ import type { z } from "zod";
 import { z as zod } from "zod";
 import {
   contentVersions,
+  generalReadingSets,
+  generalReadingPassages,
   grammarExercises,
   grammarTopics,
   lessons,
@@ -19,7 +21,7 @@ import {
   writingTranslationSentences,
   writingTranslationSets,
 } from "@/db/schema";
-import { and, desc, eq, type SQL } from "drizzle-orm";
+import { and, desc, eq, inArray, ne, sql, type SQL } from "drizzle-orm";
 import type { PgTable } from "drizzle-orm/pg-core";
 
 /**
@@ -29,7 +31,7 @@ import type { PgTable } from "drizzle-orm/pg-core";
  */
 type UpdateTarget = PgTable;
 import type { ImportTransaction } from "@/lib/import/core/dry-run";
-import { resolveQuestionType, storageTypeFor } from "@/lib/content/question-types";
+import { questionType, resolveQuestionType, storageTypeFor } from "@/lib/content/question-types";
 import {
   applyListeningRevisionToRow,
   listeningCanonicalSetOwnership,
@@ -472,7 +474,7 @@ const readingPayload = zod.object({
 });
 
 function readingStorageType(typeCode: string): "true_false_not_given" | "yes_no_not_given" | "multiple_choice" | "short_answer" {
-  const type = resolveQuestionType(typeCode, "reading");
+  const type = questionType(typeCode, "reading") ?? resolveQuestionType(typeCode, "reading");
   if (!type) throw new AuthoringPayloadError("reading", new zod.ZodError([
     { code: zod.ZodIssueCode.custom, path: ["questions", "typeCode"], message: `Unknown Reading question type "${typeCode}".` },
   ]));
@@ -482,21 +484,28 @@ function readingStorageType(typeCode: string): "true_false_not_given" | "yes_no_
 
 /**
  * The Reading persist path, shared by set-shaped and single-passage content types.
- * One SET is one content item: re-authoring replaces its passages rather than
- * creating a second copy, and every passage of the item shares its source ref so
- * publication moves them together (§41/§43).
+ * Each revision owns canonical rows. Published rows are NEVER deleted/replaced:
+ * the version target and snapshot identify this revision, while existing attempts
+ * keep their original passage/question foreign keys. No second content store.
  */
 async function persistReading(
   tx: Parameters<ModuleAuthor["persist"]>[0],
   payload: unknown,
   context: AuthorContext,
+  asSet = false,
 ): Promise<AuthoredTarget> {
+  await tx.execute(sql`select pg_advisory_xact_lock(hashtext(${"reading-version:" + context.sourceRef}))`);
   const parsed = readingPayload.parse(payload);
+  // Reject invalid identities before the first canonical insert.
+  for (const passage of parsed.passages) for (const question of passage.questions) readingStorageType(question.typeCode);
   const passageIds: string[] = [];
   let questionCount = 0;
 
-  const existing = await tx.select({ id: readingPassages.id }).from(readingPassages).where(eq(readingPassages.sourceRef, context.sourceRef));
-  if (existing.length) await tx.delete(readingPassages).where(eq(readingPassages.sourceRef, context.sourceRef));
+  // The logical source identity lives on content_versions. A physical revision's
+  // set has no competing import sourceRef (that column is an import idempotency key).
+  const set = asSet ? (await tx.insert(generalReadingSets).values({
+    title: context.title, difficultyLevel: parsed.difficultyLevel, publicationState: "draft",
+  }).returning())[0]! : null;
 
   for (const [index, passage] of parsed.passages.entries()) {
     const [row] = await tx
@@ -507,13 +516,13 @@ async function persistReading(
         difficultyLevel: parsed.difficultyLevel,
         suggestedMinutes: parsed.suggestedMinutes,
         publicationState: "draft",
-        // Every passage of the item shares the item's source ref: the item is the
-        // content unit, and publication moves its passages together.
+        // Keep provenance; publication uses exact revision targets, never this selector.
         sourceRef: context.sourceRef,
         passageNo: index + 1,
       })
       .returning({ id: readingPassages.id });
     passageIds.push(row!.id);
+    if (set) await tx.insert(generalReadingPassages).values({setId:set.id,passageId:row!.id,passageNo:index+1});
 
     if (passage.questions.length)
       await tx.insert(readingQuestions).values(
@@ -522,7 +531,7 @@ async function persistReading(
           order: question.order ?? qIndex + 1,
           questionNo: question.questionNo ?? qIndex + 1,
           type: readingStorageType(question.typeCode),
-          typeCode: question.typeCode,
+          typeCode: (questionType(question.typeCode,"reading") ?? resolveQuestionType(question.typeCode,"reading"))!.id,
           questionText: question.questionText,
           options: question.options ?? null,
           correctAnswer: question.correctAnswer,
@@ -534,13 +543,15 @@ async function persistReading(
   }
 
   return {
-    targetType: "reading_passage",
-    targetId: passageIds[0]!,
+    targetType: set ? "general_reading_set" : "reading_passage",
+    targetId: set?.id ?? passageIds[0]!,
     content: {
+      canonicalPassageIds: passageIds,
+      canonicalSetId: set?.id ?? null,
       passages: parsed.passages.map((passage) => ({
         title: passage.title,
         bodyText: passage.bodyText,
-        questions: passage.questions.map((question) => ({ ...question, typeCode: resolveQuestionType(question.typeCode, "reading")?.id ?? question.typeCode })),
+        questions: passage.questions.map((question) => ({ ...question, typeCode: (questionType(question.typeCode,"reading") ?? resolveQuestionType(question.typeCode, "reading"))?.id ?? question.typeCode })),
       })),
       timeLimitMinutes: parsed.suggestedMinutes,
     },
@@ -548,39 +559,61 @@ async function persistReading(
   };
 }
 
+/** Publication touches the exact revision targets, never every row sharing a source.
+ * Older versions remain readable through their attempt IDs after withdrawal. */
+const readingTargets = zod.object({canonicalPassageIds:zod.array(zod.string().uuid()).min(1),canonicalSetId:zod.string().uuid().nullable()});
+const legacyReadingRows = (sourceRef:string) => and(eq(readingPassages.sourceRef,sourceRef),sql`not exists (
+  select 1 from content_versions v where v.module='reading' and v.content_snapshot->'canonicalPassageIds' @> jsonb_build_array(${readingPassages.id}::text))`);
+const publishReading: ModuleAuthor["setPublication"] = async (tx, version, publication) => {
+  await tx.execute(sql`select pg_advisory_xact_lock(hashtext(${"reading-version:" + version.sourceRef}))`);
+  const targets = readingTargets.safeParse(version.contentSnapshot);
+  if (!targets.success) {
+    // Pre-V4 revisions keep their materialization, excluding explicit newer targets.
+    if (!version.targetId) return "target_missing";
+    return syncRows(tx,readingPassages,legacyReadingRows(version.sourceRef),publication,true);
+  }
+  const ids=targets.data.canonicalPassageIds;
+  const rows=await tx.select({id:readingPassages.id}).from(readingPassages).where(inArray(readingPassages.id,ids));
+  if(rows.length!==ids.length) return "target_missing";
+  if (publication.state === "published") {
+    const previous=await tx.select().from(contentVersions).where(and(eq(contentVersions.module,"reading"),eq(contentVersions.sourceRef,version.sourceRef),eq(contentVersions.status,"published"),ne(contentVersions.id,version.versionId!)));
+    for(const old of previous) {
+      const oldTargets=readingTargets.safeParse(old.contentSnapshot);
+      if(oldTargets.success) {
+        await syncRows(tx,readingPassages,inArray(readingPassages.id,oldTargets.data.canonicalPassageIds),{state:"archived",publishAt:null},true);
+        if(oldTargets.data.canonicalSetId) await syncRows(tx,generalReadingSets,eq(generalReadingSets.id,oldTargets.data.canonicalSetId),{state:"archived",publishAt:null},true);
+      } else {
+        await syncRows(tx,readingPassages,legacyReadingRows(old.sourceRef),{state:"archived",publishAt:null},true);
+        await syncRows(tx,generalReadingSets,eq(generalReadingSets.sourceRef,old.sourceRef),{state:"archived",publishAt:null},true);
+      }
+    }
+  }
+  await syncRows(tx,readingPassages,inArray(readingPassages.id,ids),publication,true);
+  if(targets.data.canonicalSetId) return syncRows(tx,generalReadingSets,eq(generalReadingSets.id,targets.data.canonicalSetId),publication,true);
+  return "ok";
+};
+
 export const readingSetAuthor: ModuleAuthor = {
-  module: "reading",
-  contentType: "general_set",
-  payloadVersion: 1,
-  label: "Reading set",
+  module: "reading", contentType: "general_set", payloadVersion: 1, label: "Reading set",
   payloadSchema: readingPayload,
-  persist: persistReading,
-  async setPublication(tx, version, publication) {
-    if (!version.sourceRef) return "target_missing";
-    return syncRows(tx, readingPassages, eq(readingPassages.sourceRef, version.sourceRef), publication, true);
-  },
-  async readSchedule(tx, version) {
-    const [row] = await tx.select({ publishAt: readingPassages.publishAt }).from(readingPassages).where(eq(readingPassages.sourceRef, version.sourceRef)).limit(1);
-    return row?.publishAt ?? null;
+  persist: (tx,payload,context)=>persistReading(tx,payload,context,true),
+  setPublication: publishReading,
+  async readSchedule(tx,version) {
+    const [set]=await tx.select({publishAt:generalReadingSets.publishAt}).from(generalReadingSets).where(eq(generalReadingSets.id,version.targetId!)).limit(1);
+    if(set) return set.publishAt;
+    const [legacy]=await tx.select({publishAt:readingPassages.publishAt}).from(readingPassages).where(eq(readingPassages.id,version.targetId!)).limit(1);
+    return legacy?.publishAt ?? null;
   },
 };
 
-/** One passage is a legitimate item of its own: a teacher practising a single text. */
 const singlePassagePayload = readingPayload.extend({ passages: zod.array(readingPayload.shape.passages.element).length(1) });
-
 export const readingPassageAuthor: ModuleAuthor = {
-  module: "reading",
-  contentType: "passage",
-  payloadVersion: 1,
-  label: "Reading passage",
+  module: "reading", contentType: "passage", payloadVersion: 1, label: "Reading passage",
   payloadSchema: singlePassagePayload,
-  persist: (tx, payload, context) => persistReading(tx, payload, context),
-  async setPublication(tx, version, publication) {
-    if (!version.targetId) return "target_missing";
-    return syncRows(tx, readingPassages, eq(readingPassages.sourceRef, version.sourceRef), publication, true);
-  },
-  async readSchedule(tx, version) {
-    const [row] = await tx.select({ publishAt: readingPassages.publishAt }).from(readingPassages).where(eq(readingPassages.sourceRef, version.sourceRef)).limit(1);
+  persist: (tx,payload,context)=>persistReading(tx,payload,context),
+  setPublication: publishReading,
+  async readSchedule(tx,version) {
+    const [row]=await tx.select({publishAt:readingPassages.publishAt}).from(readingPassages).where(eq(readingPassages.id,version.targetId!)).limit(1);
     return row?.publishAt ?? null;
   },
 };

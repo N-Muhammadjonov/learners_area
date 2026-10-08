@@ -84,16 +84,16 @@ test("Reading dropdown positioning is right-aligned and constrained to the viewp
 
 test("Reading draft saves and final submission serialize against the attempt row", () => {
   const data = readFileSync(new URL("../src/lib/data/reading.ts", import.meta.url), "utf8");
-  const submit = readFileSync(new URL("../src/app/api/reading/attempts/[id]/submit/route.ts", import.meta.url), "utf8");
+  const submit = readFileSync(new URL("../src/lib/services/reading/submit.ts", import.meta.url), "utf8");
   const saveDraft = data.slice(data.indexOf("export async function saveDraftAnswers"));
-  assert.match(saveDraft, /db\.transaction\(async \(tx\)/);
+  assert.match(saveDraft, /executor\.transaction\(async \(tx\)/);
   assert.match(saveDraft, /\.for\("update", \{ of: readingAttempts \}\)/);
   assert.match(saveDraft, /readingAttemptExpired\(attempt\.startedAt, duration\)/);
   assert.match(saveDraft, /isNull\(readingAnswers\.isCorrect\)/);
   assert.match(saveDraft, /rowsByQuestion\.set\(entry\.questionId/);
-  assert.match(submit, /db\.transaction\(async \(tx\)/);
+  assert.match(submit, /executor\.transaction\(async \(tx\)/);
   assert.match(submit, /\.for\("update", \{ of: readingAttempts \}\)/);
   assert.match(submit, /const submittedAt = new Date\(\)/);
-  assert.match(submit, /readingAnswersForSubmission\(timedOut, parsed\.data\.answers, savedDrafts\)/);
+  assert.match(submit, /readingAnswersForSubmission\(timedOut, entries, savedDrafts\)/);
   assert.match(submit, /eq\(readingAttempts\.status, "in_progress"\)/);
 });
