@@ -112,7 +112,7 @@ test("ACADEMIC_EXAM: exam component cannot receive lexical data (no occurrences 
   assert.equal(examJsx.includes("occurrences"), false, "the page does not send occurrences to the exam");
 });
 
-test("ACADEMIC_REVIEW remains vocabulary-free after submission", async () => {
+test("ACADEMIC_REVIEW uses canonical occurrence lookup after submission; server permission remains authoritative", async () => {
   const net = recordFetch();
   try {
     await mount(React.createElement(ReadingAnalysis, { dict: en, score: 0, total: 0, questions: [], answers: [], passageBody: body, passageTitle: "Banks", attemptId: examProps.attemptId, locale: "en", occurrences }), async () => {
@@ -120,15 +120,15 @@ test("ACADEMIC_REVIEW remains vocabulary-free after submission", async () => {
       await act(async () => show.click());
       const region = document.querySelector("[data-retention-passage]") as HTMLElement;
       assert.ok(region.textContent?.includes(body));
-      assert.equal(region.querySelector("[data-clickable-text],[data-word],[tabindex]"), null);
-      await act(async () => region.dispatchEvent(new dom.window.MouseEvent("click", { bubbles: true })));
-      assert.equal(document.querySelector("[role=dialog]"), null);
-      assert.equal(net.urls.some((url) => url.includes("/api/vocabulary")), false);
+      assert.ok(region.querySelector("[data-clickable-text],[data-word],[tabindex]"));
+      await act(async () => region.querySelector("[data-word=bank]")!.dispatchEvent(new dom.window.MouseEvent("click", { bubbles: true, detail:0 })));
+      assert.ok(document.querySelector("[role=dialog]"));
+      assert.ok(net.urls.some((url) => url.includes("occurrenceId=occ-bank")));
     });
   } finally { net.restore(); }
 });
 
-test("Reading policy table: Academic never, General always", () => {
+test("Reading policy table: active exam never; review only after submission with no active exam; General learning unchanged", () => {
   const states = [
     { submitted: false, examInProgress: false, staff: false },
     { submitted: true, examInProgress: false, staff: false },
@@ -136,7 +136,7 @@ test("Reading policy table: Academic never, General always", () => {
     { submitted: true, examInProgress: true, staff: true },
   ];
   assert.deepEqual(states.map((s) => readingLexicalAssistanceAllowed("ACADEMIC_EXAM", s)), [false, false, false, false]);
-  assert.deepEqual(states.map((s) => readingLexicalAssistanceAllowed("ACADEMIC_REVIEW", s)), [false, false, false, false]);
+  assert.deepEqual(states.map((s) => readingLexicalAssistanceAllowed("ACADEMIC_REVIEW", s)), [false, true, false, false]);
   assert.deepEqual(states.map((s) => readingLexicalAssistanceAllowed("GENERAL_READING", s)), [true, true, true, true]);
 });
 

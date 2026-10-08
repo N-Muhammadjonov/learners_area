@@ -197,13 +197,13 @@ test("9 same sense shared across passages: P1/P2/P3 'bank' point at ONE canonica
   assert.equal((await db.select().from(lexemes).where(eq(lexemes.definitionEn, g.money))).length, 1);
 });
 
-test("10 Academic review remains locked; the General saved item is preserved", { skip: !enabled }, async () => {
+test("10 submitted Academic review is eligible; the General saved item is preserved", { skip: !enabled }, async () => {
   isolated();
   const g = await generalSet(); const u = await learner();
   const bank = at(await g.occ(1), P1, "bank")!;
   const academic = await academicPassage(bank.lexemeId!, { userId: u.id, status: "completed" });
   const a = await save(u, "reading", g.ids[1], bank.id);
-  assert.equal((await resolveOccurrence(u, "reading", academic.attemptId!, academic.occurrenceId))?.status, "locked");
+  assert.equal((await resolveOccurrence(u, "reading", academic.attemptId!, academic.occurrenceId))?.status, "resolved");
   assert.equal((await db.select().from(userVocabulary).where(eq(userVocabulary.userId,u.id))).length,1);
   assert.ok(a.ids[0]);
 });
@@ -401,7 +401,7 @@ test("25 existing ids unchanged: adding General content never touches existing A
   assert.equal(await snap(), before);
 });
 
-test("26 VD-001 occurrence-less Reading save gate: active exam locked, forged source not found, General allowed and Academic review locked", { skip: !enabled }, async () => {
+test("26 VD-001 occurrence-less Reading save gate: active exam locked, forged source not found, General allowed and submitted Academic review eligible", { skip: !enabled }, async () => {
   isolated();
   const g = await generalSet(); const u = await learner(); const other = await learner();
   const lex = at(await g.occ(1), P1, "bank")!.lexemeId!;
@@ -411,7 +411,7 @@ test("26 VD-001 occurrence-less Reading save gate: active exam locked, forged so
   assert.equal(await readingSourceAccess(u, exam.passageId), "locked", "passage-id bypass");
   assert.equal(await readingSourceAccess(u, randomUUID()), "not_found", "forged source id");
   assert.equal(await readingSourceAccess(other, done.attemptId!), "not_found", "another learner's attempt id is not a source for them (IDOR)");
-  assert.equal(await readingSourceAccess(u, done.attemptId!), "locked");
+  assert.equal(await readingSourceAccess(u, done.attemptId!), "allowed");
   assert.equal(await readingSourceAccess(u, g.ids[2]), "allowed", "General passage");
   const draft = await generalSet(false);
   assert.equal(await readingSourceAccess(u, draft.ids[1]), "not_found", "draft General is invisible to a learner");

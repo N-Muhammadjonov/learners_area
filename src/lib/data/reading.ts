@@ -113,7 +113,10 @@ export async function getAttemptDetail(attemptId: string, userId: string, execut
     questions: numbered.flatMap(section => section.questions),
     groups: numbered.flatMap(section => section.groups),
     paragraphs: first.paragraphs,
-    occurrences: scope.title ? [] : first.occurrences,
+    occurrences: scope.title ? numbered.flatMap((section,index)=>{
+      const prefix=numbered.slice(0,index).reduce((n,s)=>n+s.passage.title.length+2+s.passage.bodyText.length+2,0)+section.passage.title.length+2;
+      return section.occurrences.map(row=>({...row,startChar:row.startChar+prefix,endChar:row.endChar+prefix}));
+    }) : first.occurrences,
     answers,
   };
 }

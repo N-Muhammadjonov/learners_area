@@ -43,7 +43,7 @@ test("Academic full set captures all three passages, resumes one private timed a
   assert.equal((await saveDraftAnswers(first,userId,[])).reason,"expired");
   assert.equal((await db.select().from(readingAnswers).where(eq(readingAnswers.attemptId,first))).length,40,"late autosave cannot erase draft");
   await db.update(readingAttempts).set({status:"completed",submittedAt:new Date()}).where(eq(readingAttempts.id,first));
-  assert.equal(await readingSourceAccess({id:userId,role:"student"},first),"locked","Academic review also forbids vocabulary");
+  assert.equal(await readingSourceAccess({id:userId,role:"student"},first),"allowed","Successful own Academic review permits canonical vocabulary");
   assert.equal((await saveDraftAnswers(first,userId,[])).reason,"already_submitted");
   await db.delete(users).where(eq(users.id,userId)); await db.delete(users).where(eq(users.id,strangerId));
 });

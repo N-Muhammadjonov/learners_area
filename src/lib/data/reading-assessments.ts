@@ -61,8 +61,8 @@ export async function startAcademicSet(userId: string, setId: string, executor: 
       slots.rows.some((p, i) => p.passage_no !== i + 1)
     )
       return null;
-    const questions = await tx.select({id:readingQuestions.id}).from(readingQuestions).where(inArray(readingQuestions.passageId,slots.rows.map(s=>s.passage_id)));
-    if(questions.length !== 40) return null;
+    const questions = await tx.select({id:readingQuestions.id,passageId:readingQuestions.passageId}).from(readingQuestions).where(inArray(readingQuestions.passageId,slots.rows.map(s=>s.passage_id)));
+    if(questions.length !== 40 || slots.rows.some(slot=>!questions.some(q=>q.passageId===slot.passage_id))) return null;
     for (const slot of slots.rows) {
       const passage = await tx.query.readingPassages.findFirst({
         where: eq(readingPassages.id, slot.passage_id),

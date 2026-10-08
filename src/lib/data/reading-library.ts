@@ -1,3 +1,5 @@
+import { readingCanonicalTypeSql } from "@/lib/data/reading-type-index";
+import { readingQuestionType } from "@/lib/reading/question-model";
 import { and, asc, count, desc, eq, ilike, inArray, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { readingAttempts, readingPassages, readingQuestions } from "@/db/schema";
@@ -330,7 +332,10 @@ export async function listLearningLibrary(userId: string, filter: ReadingLibrary
   if(number)clauses.push(sql`g.passage_no=${number}`);
   if(text(filter.query))clauses.push(sql`p.title ilike ${`%${text(filter.query)!.replace(/[%_\\]/g,m=>"\\"+m)}%`}`);
   if(text(filter.topic))clauses.push(sql`p.topic_code=${text(filter.topic)}`);
-  if(text(filter.type))clauses.push(sql`exists(select 1 from reading_questions q where q.passage_id=p.id and q.type_code=${text(filter.type)})`);
+  if(text(filter.type)) {
+    const canonical=readingQuestionType(text(filter.type)!);
+    clauses.push(canonical ? sql`exists(select 1 from reading_questions q where q.passage_id=p.id and ${readingCanonicalTypeSql()}=${canonical.id})` : sql`exists(select 1 from reading_questions q where q.passage_id=p.id and q.type_code=${text(filter.type)})`);
+  }
   if(filter.status==='completed')clauses.push(sql`r.checked_at is not null`);
   if(filter.status==='in_progress')clauses.push(sql`r.passage_id is not null and r.checked_at is null`);
   if(filter.status==='not_started')clauses.push(sql`r.passage_id is null`);

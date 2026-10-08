@@ -156,6 +156,7 @@ export function ReadingAnalysis({
           passageLevel={passageLevel}
           sourceId={attemptId}
           occurrences={occurrences}
+          lexicalAssistance
         />
       )}
 

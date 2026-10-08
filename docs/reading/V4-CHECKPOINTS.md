@@ -133,3 +133,38 @@ Editing clears the current result and server checked state on autosave.
 Focused Reading/registry/authoring/import batch: 57 total / 57 pass / 0 fail / 0 skip.
 Registry controls + General + Academic separation DOM batch: 27 total / 27 pass /
 0 fail / 0 skip. Typecheck/lint pass. No Reading full-gate/HTTP closure claim yet.
+
+## Submitted-review Dictionary scope checkpoint
+
+Own submitted Academic reviews use the existing canonical Dictionary. Server
+lookup and save-source policy validate immutable assessment membership for all
+three passages; an active overlapping assessment still locks that review. Foreign
+attempts/occurrences are rejected. Archived rows remain usable through an owned
+submitted attempt, not a bare archived passage ID. Explicit published General
+learning stays independent. No new vocabulary store or schema was added.
+
+Combined review occurrence offsets match the actual title/body separators. The
+review component enables existing ClickableText; active ReadingExam receives no
+occurrences. Question-type entry retains the requested canonical type and clearly
+identifies whole-passage practice. General canonical type filtering remains an
+EXISTS query. Formal start additionally rejects an empty-question passage, and a
+partially unpublished General set is not served as a complete student detail.
+
+Evidence (overlapping batches, not summed):
+- Focused V4/history/import/tab/stabilization: 44 total / 44 pass / 0 fail / 0 skip.
+- Reading/General/shared-highlight DOM: 32 total / 32 pass / 0 fail / 0 skip.
+- Native PostgreSQL Academic + General: 27 total / 27 pass / 0 fail / 0 skip.
+- New SQL-backed review-membership case: 1 total / 1 pass / 0 fail / 0 skip,
+  included in the 44-test batch; covers all three occurrences, ownership,
+  overlapping retake denial, preserved General learning and archived review.
+- Typecheck, lint and diff-check pass. Migration journal remains 53/53.
+
+A fresh isolated QA2 PostgreSQL was bootstrapped after confirming no server was
+reachable; this is not a claim that fixtures from a previous ephemeral runtime
+survived. No production/preview database was used. Native integration tests are
+not the still-pending exact-ID-cleaned built-server HTTP acceptance.
+
+Prior checkpoint 9dd8a6d: actual GitHub Vercel status verified success.
+Scheduled activation/binding, checked-detail reload, active-help audit, runtime
+HTTP/roles, final gate and ledger closure remain outstanding. No completion or
+browser-pointer/viewport claim is made.

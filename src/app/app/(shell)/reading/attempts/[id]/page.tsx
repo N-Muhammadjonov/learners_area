@@ -1,4 +1,5 @@
-import { publicReadingConstraint } from "@/lib/reading/question-model";
+import { questionTypeLabel } from "@/lib/reading-labels";
+import { publicReadingConstraint, readingQuestionType } from "@/lib/reading/question-model";
 import { BackLink } from "@/components/ui/BackLink";
 import { notFound } from "next/navigation";
 import { requireActiveUser } from "@/lib/auth/current-user";
@@ -9,8 +10,8 @@ import { ReadingAnalysis } from "@/components/reading/ReadingAnalysis";
 import { isUuid } from "@/lib/validation/ids";
 import { listResourceBlocks, toResourceBlockView } from "@/lib/data/resources";
 
-export default async function ReadingAttemptPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
+export default async function ReadingAttemptPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams:Promise<{type?:string}> }) {
+  const [{ id },query] = await Promise.all([params,searchParams]);
   const user = await requireActiveUser();
   if (!user) return null;
   const locale = await getLocale();
@@ -39,6 +40,7 @@ export default async function ReadingAttemptPage({ params }: { params: Promise<{
   return (
     <div className="mx-auto max-w-[1440px]">
       <BackLink fallbackHref="/app/reading/history" label={dict.common.back} />
+      {query.type && questions.some(q=>readingQuestionType(q.typeCode??q.type)?.id===query.type) && <p className="body-text" data-requested-reading-type={query.type}>{dict.readingV4.requestedType}: {questionTypeLabel(query.type,locale)}. {dict.readingV4.wholePassage}</p>}
       {attempt.status === "in_progress" ? (
         // ACADEMIC_EXAM: no occurrence/sense data is sent to the active passage.
         <ReadingExam

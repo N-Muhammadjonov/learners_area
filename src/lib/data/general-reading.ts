@@ -87,6 +87,7 @@ export async function generalSetDetail(setId: string, role: Role) {
     const data = await getPassageWithQuestions(slot.passageId);
     if (data && (isLive(data.passage) || isStaff(role))) passages.push({ passageNo: slot.passageNo, ...data });
   }
+  if(!isStaff(role) && passages.length!==slots.length) return null;
   return { set, passages };
 }
 

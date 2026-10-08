@@ -31,7 +31,7 @@ export default async function ReadingTypesPage({ searchParams }: { searchParams:
       {!rows.length && <p className="body-text">{dict.readingHub.noResults}</p>}
       <div className="grid gap-4 sm:grid-cols-2">{rows.slice(0, READING_TYPE_PAGE_SIZE).map(p => <article className="card p-5" key={p.id} data-reading-type-passage={p.id}>
         <h3 className="card-title">{p.title}</h3><p className="meta-text">{t.requestedType}: {questionTypeLabel(selected.id,locale)}</p>
-        {p.set_id ? <Link className="btn-primary" href={`/app/reading/general/${p.set_id}?passage=${p.passage_no}&type=${selected.id}`}>{t.open}</Link> : <StartPassageButton passageId={p.id} label={t.open} />}
+        {p.set_id ? <Link className="btn-primary" href={`/app/reading/general/${p.set_id}?passage=${p.passage_no}&type=${selected.id}`}>{t.open}</Link> : <StartPassageButton passageId={p.id} label={t.open} requestedType={selected.id} />}
       </article>)}</div>
       <nav className="flex gap-3" aria-label={dict.readingHub.page}>
         {page > 1 && <Link href={`?type=${selected.id}&page=${page - 1}`}>{dict.readingHub.prevPage}</Link>}
