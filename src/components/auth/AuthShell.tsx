@@ -1,4 +1,7 @@
 import Link from "next/link";
+import { getDictionary, getLocale } from "@/lib/i18n";
+import { ThemeToggle } from "@/components/shell/ThemeToggle";
+import { LocaleSwitcher } from "@/components/shell/LocaleSwitcher";
 import { BrandBlock } from "@/components/shell/BrandBlock";
 
 /**
@@ -10,7 +13,7 @@ import { BrandBlock } from "@/components/shell/BrandBlock";
  * only branding on the page: no second logo, no repeated name beside the
  * wordmark, and the form stays the first thing a reader interacts with.
  */
-export function AuthShell({
+export async function AuthShell({
   title,
   subtitle,
   children,
@@ -21,8 +24,14 @@ export function AuthShell({
   children: React.ReactNode;
   footer?: React.ReactNode;
 }) {
+  const locale = await getLocale();
+  const dict = getDictionary(locale);
   return (
-    <div className="flex min-h-dvh items-center justify-center bg-paper-sunken p-4">
+    <div data-shell data-auth-shell className="relative flex min-h-dvh items-center justify-center bg-paper-sunken px-4 pb-6 pt-24">
+      <header data-auth-controls className="absolute inset-x-0 top-0 flex flex-wrap items-center justify-end gap-3 p-4">
+        <ThemeToggle nightLabel={dict.theme.night} dayLabel={dict.theme.day} currentLabel={dict.theme.toggle} errorLabel={dict.common.error} />
+        <LocaleSwitcher locale={locale} dict={dict} />
+      </header>
       <div className="w-full max-w-sm">
         {/*
           Mark plus the name as real text — not the horizontal wordmark file.
