@@ -36,7 +36,11 @@ test("Academic full set captures all three passages, resumes one private timed a
   const sameContent = await generalSetDetail(imported.setId,"student"); assert.ok(sameContent);
   assert.deepEqual(sameContent.passages.map(p=>p.passage.id),scope.passageIds);
   assert.equal(await readingSourceAccess({id:userId,role:"student"},first),"locked");
-  assert.equal(await readingSourceAccess({id:userId,role:"student"},scope.passageIds[1]!),"allowed","same text is learning only through General source");
+  // SEC-12: the formal assessment is OPEN over these exact rows, so position two is
+  // sealed by its passage id as well. The same canonical passage carries both products,
+  // so serving it as "General learning" mid-exam would be a bypass. It re-opens below,
+  // after submission, which is where the two products genuinely separate again.
+  assert.equal(await readingSourceAccess({id:userId,role:"student"},scope.passageIds[1]!),"locked","an open formal assessment seals position two by passage id");
   const saved = await saveDraftAnswers(first,userId,[...detail.questions.map(q=>({questionId:q.id,answer:"answer"})),{questionId:randomUUID(),answer:"forged"}]);
   assert.equal(saved.saved,40); assert.equal((await db.select().from(readingAnswers).where(eq(readingAnswers.attemptId,first))).length,40);
   await db.update(readingAttempts).set({startedAt:new Date(Date.now()-61*60_000)}).where(eq(readingAttempts.id,first));
@@ -44,6 +48,7 @@ test("Academic full set captures all three passages, resumes one private timed a
   assert.equal((await db.select().from(readingAnswers).where(eq(readingAnswers.attemptId,first))).length,40,"late autosave cannot erase draft");
   await db.update(readingAttempts).set({status:"completed",submittedAt:new Date()}).where(eq(readingAttempts.id,first));
   assert.equal(await readingSourceAccess({id:userId,role:"student"},first),"allowed","Successful own Academic review permits canonical vocabulary");
+  assert.equal(await readingSourceAccess({id:userId,role:"student"},scope.passageIds[1]!),"allowed","and with nothing open, the General learning source is a separate authorized product again");
   assert.equal((await saveDraftAnswers(first,userId,[])).reason,"already_submitted");
   await db.delete(users).where(eq(users.id,userId)); await db.delete(users).where(eq(users.id,strangerId));
 });
