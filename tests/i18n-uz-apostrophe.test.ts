@@ -79,7 +79,8 @@ test("Uzbek strings outside the dictionary use the ASCII apostrophe too", () => 
     ["src/lib/auth/account-status.ts", "Ko'rib chiqilmoqda"],
     ["src/lib/auth/account-status.ts", "To'xtatilgan"],
     ["src/lib/auth/roles.ts", "O'qituvchi"],
-    ["src/components/reading/ReadingAnalysis.tsx", "Ko'p tanlovli"],
+    // The Reading type label moved to the canonical registry-backed label module.
+    ["src/lib/reading-labels.ts", "Ko'p tanlovli"],
     ["src/lib/services/vocabulary/packs.ts", "nojo'ya ta'sir"],
     ["src/db/seed.ts", "o'zlari"],
   ];

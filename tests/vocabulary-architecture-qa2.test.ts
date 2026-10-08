@@ -455,7 +455,7 @@ test("R23 ACADEMIC_EXAM: occurrence data exists, but an open attempt reveals not
   assert.equal(rows.length, 1, "backend data is not removed to satisfy the UI rule");
 });
 
-test("R27 Academic transition: never taken → locked; open → locked; submitted → locked; a retake re-locks (also the old attempt id)", { skip: !enabled }, async () => {
+test("R27 Academic transition: never taken → locked; open → locked; own submitted review → resolved; a retake re-locks (also the old attempt id)", { skip: !enabled }, async () => {
   isolated();
   const user = await learner();
   const p = await passageWith("The bank approved the loan.", [{ term: "bank", def: `A financial institution ${randomUUID()}`, surface: "bank" }], false);
@@ -464,10 +464,16 @@ test("R27 Academic transition: never taken → locked; open → locked; submitte
   const first = await readingAttempt(user.id, p.passageId, "in_progress");
   assert.equal((await resolveOccurrence(user, "reading", first.id, occ))?.status, "locked");
   await db.update(readingAttempts).set({ status: "completed", submittedAt: new Date() }).where(eq(readingAttempts.id, first.id));
-  assert.equal((await resolveOccurrence(user, "reading", first.id, occ))?.status, "locked");
-  assert.equal((await resolveOccurrence(user, "reading", p.passageId, occ))?.status, "locked");
+  // Reading V4: a SUCCESSFULLY SUBMITTED own attempt is review, and review is where
+  // the canonical Dictionary belongs. The lock that matters is the active exam, which
+  // the assertions above and below still prove: the passage id is never a dictionary,
+  // and an open retake re-locks the old attempt.
+  assert.equal((await resolveOccurrence(user, "reading", first.id, occ))?.status, "resolved", "own submitted review may look a word up");
+  assert.equal((await resolveOccurrence(user, "reading", p.passageId, occ))?.status, "resolved", "the same passage is review material for a learner who has submitted it");
   await readingAttempt(user.id, p.passageId, "in_progress");
   assert.equal((await resolveOccurrence(user, "reading", first.id, occ))?.status, "locked", "the old review cannot assist the open retake");
+  assert.equal((await resolveOccurrence(user, "reading", p.passageId, occ))?.status, "locked", "nor can the passage id while the retake is open");
+  assert.equal((await resolveOccurrence(await learner(), "reading", p.passageId, occ))?.status, "locked", "a learner who never submitted it gets nothing");
   assert.equal((await resolveOccurrence(await learner("admin"), "reading", p.passageId, occ))?.status, "locked", "Academic assistance remains disabled");
 });
 

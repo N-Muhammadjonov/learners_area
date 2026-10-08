@@ -220,7 +220,7 @@ const uz: Dictionary = {
   readingV4: {
     evidenceMissing: "Muallif dalil keltirmagan.",
     explanationMissing: "Muallif izoh keltirmagan.",
-    review: "Natijani koʻrish",
+    review: "Natijani ko'rish",
     wholePassage: "Butun matn ochiladi; savollar faqat shu tur bilan cheklanmaydi.",
     lessonBack: "Barcha Reading darslari",
     subtitle: "Reading mashg'ulotini tanlang.", open: "Ochish", selectType: "Savol turini tanlang",

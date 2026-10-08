@@ -65,7 +65,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   // note table, never to this progress row: writing them here would put learner
   // text back into a payload that ordinary progress reads enumerate.
   if (parsed.data.notes !== undefined) {
-    await saveLessonNote({ userId: user.id, lessonId: lesson.id, body: parsed.data.notes }, tx);
+    await saveLessonNote({ userId: user.id, lessonId: lesson.id, body: parsed.data.notes, executor: tx });
   }
 
   // Finishing a lesson is real work; merely opening it is not.

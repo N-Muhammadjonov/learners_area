@@ -22,6 +22,8 @@ export default async function ReadingTypesPage({ searchParams }: { searchParams:
   }
   const page = Math.max(1, Math.min(10000, Number.parseInt(query.page ?? "1", 10) || 1));
   const [types, rows] = await Promise.all([readingTypeFacets(), selected ? readingTypePassages(selected.id, page) : Promise.resolve([])]);
+  // One extra row is fetched to know whether a next page exists; it is never rendered.
+  const hasNextPage = rows.length > READING_TYPE_PAGE_SIZE;
   return <div className="flex flex-col gap-5" data-route-usable="reading-question-types">
     <Link className="link-inline" href="/app/reading">{dict.common.back}</Link>
     <h1 className="page-title">{t.selectType}</h1>
@@ -35,7 +37,7 @@ export default async function ReadingTypesPage({ searchParams }: { searchParams:
       </article>)}</div>
       <nav className="flex gap-3" aria-label={dict.readingHub.page}>
         {page > 1 && <Link href={`?type=${selected.id}&page=${page - 1}`}>{dict.readingHub.prevPage}</Link>}
-        {rows.length > READING_TYPE_PAGE_SIZE && <Link href={`?type=${selected.id}&page=${page + 1}`}>{dict.readingHub.nextPage}</Link>}
+        {hasNextPage && <Link href={`?type=${selected.id}&page=${page + 1}`}>{dict.readingHub.nextPage}</Link>}
       </nav>
     </>}
   </div>;

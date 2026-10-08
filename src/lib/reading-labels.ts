@@ -31,8 +31,8 @@ const TOPICS: Record<string, Record<Lang, string>> = {
 
 const QUESTION_TYPES: Record<string, Record<Lang, string>> = {
   sentence_completion:{en:"Sentence completion",uz:"Gapni tugatish"},
-  summary_completion:{en:"Summary completion",uz:"Xulosani toʻldirish"},
-  table_completion:{en:"Table completion",uz:"Jadvalni toʻldirish"},
+  summary_completion:{en:"Summary completion",uz:"Xulosani to'ldirish"},
+  table_completion:{en:"Table completion",uz:"Jadvalni to'ldirish"},
   classification:{en:"Classification",uz:"Tasniflash"},
   TFNG: { uz: "True / False / Not Given", en: "True / False / Not Given" },
   YNNG: { uz: "Yes / No / Not Given", en: "Yes / No / Not Given" },
