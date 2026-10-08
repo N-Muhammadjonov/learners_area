@@ -270,3 +270,26 @@ Defects this round found and fixed, each in its own commit:
 
 Browser binary: Chromium 1248 via `@sparticuz/chromium` with its AL2023 libraries,
 driven by `playwright-core`. Pass `CHROMIUM_PATH` to reproduce.
+
+## Independent re-verification (commit f3641ac)
+
+The whole acceptance set was re-executed from a clean checkout in a later session,
+after `npm ci`, with no inherited build or database state.
+
+- Full gate, `QA_OUT=/tmp/rv4-gate-f3641ac`: unit-pglite 1489 total / 1392 pass /
+  0 fail / 97 skipped; ui 313 / 313 / 0 / 0; real-pg 1489 / 1485 / 0 fail / 4
+  skipped; typecheck, lint, build, diff-check and diff-check-range all exit 0 —
+  **GATE PASS**. Migrations 53 / 53, unchanged.
+- Built-server HTTP journeys: 78 / 78, 0 fail, residue 0.
+- REAL Chromium: 35 / 35, 0 fail, residue 0.
+
+One genuine defect surfaced by the re-run: `ReadingLearningLibrary.tsx` ended with
+a blank line at EOF, which `git diff --check <pinned base> HEAD` rejects. The
+pinned base commit is not present in every clone; when it is missing the gate
+falls back to a different base and the range check can silently change meaning.
+Fetch the pinned base before trusting `diff-check-range`. The trailing line is
+removed in f3641ac; no behaviour changed.
+
+The 97 unit skips are isolated-database tests that RUN in the real-pg leg. The 4
+real-pg skips are owner assets only: the frozen dictionary catalogue (2) and the
+Listening source ZIP (2). Skipped is never counted as passed.
