@@ -2,6 +2,7 @@ import { and, desc, eq, ne } from "drizzle-orm";
 import {
   contentImports,
   listeningAttempts,
+  listeningMcqSessions,
   listeningPackages,
   listeningQuestions,
   listeningTests,
@@ -180,6 +181,7 @@ export async function reconcileListeningQuestions(
       .where(eq(listeningQuestions.id, current.id));
   }
 
+  const retained: number[] = [];
   for (const row of existing) {
     if (keep.has(row.id)) continue;
     const used = await tx
@@ -188,11 +190,31 @@ export async function reconcileListeningQuestions(
       .where(eq(listeningAttempts.testId, testId))
       .limit(1);
     if (used.length) continue; // never drop a question that learner history can point at
+    /* A dedicated MCQ DAY never creates a `listening_attempts` row: the drill's history lives
+     * ONLY in `listening_mcq_sessions`, whose `question_id` foreign key is ON DELETE CASCADE.
+     * The attempts check above therefore saw nothing and the delete below silently erased a
+     * learner's completed Day. Ask the table that actually holds the work. */
+    const staged = await tx
+      .select({ id: listeningMcqSessions.id })
+      .from(listeningMcqSessions)
+      .where(eq(listeningMcqSessions.questionId, row.id))
+      .limit(1);
+    if (staged.length) {
+      retained.push(row.order);
+      continue;
+    }
     await tx.delete(listeningQuestions).where(eq(listeningQuestions.id, row.id));
   }
 
   // What the source did not prove, for the staff who can confirm it.
-  return listeningReviewNotes(payload);
+  const notes = listeningReviewNotes(payload);
+  // Staff are TOLD what was kept and why, rather than discovering a silent survivor later. The
+  // retained rows are superseded content, not part of the published set a learner is given.
+  if (retained.length)
+    notes.push(
+      `Question ${retained.sort((a, b) => a - b).join(", ")} ${retained.length === 1 ? "was" : "were"} not in this package but ${retained.length === 1 ? "is" : "are"} kept because learners have completed work recorded against ${retained.length === 1 ? "it" : "them"}. The superseded question is retained for history and is not served to new learners.`,
+    );
+  return notes;
 }
 
 async function latestImport(tx: ImportTransaction, sourceRef: string) {
