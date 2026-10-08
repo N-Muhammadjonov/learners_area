@@ -838,3 +838,39 @@ A rebuilt QA server on 3100 (PID 3563 at launch) uses the unchanged `cc23fc4` ap
 only localhost `learners_qa2`; no secrets recorded here. Full fresh gate and restarted-build
 regression smokes follow the QA-only checkpoint. Existing real-device/browser limitations and
 owner corpus absence remain unchanged; these are not new implementation or content claims.
+
+### Recovery final frozen gate — PASS (2026-10-08)
+
+Frozen QA checkpoint: `d90715e6b6086c5f42c693c3e287e53350868532`.
+`QA2_PG_EXTERNAL=1 QA_OUT=/tmp/qa-out-listening-recovery-final npm run qa:gate` exited **0**:
+
+| Suite | Total | Pass | Fail | Skip |
+| --- | ---: | ---: | ---: | ---: |
+| Unit / PGlite | 1458 | 1361 | 0 | 97 |
+| UI | 291 | 291 | 0 | 0 |
+| Real PostgreSQL | 1458 | 1454 | 0 | 4 |
+
+Typecheck, lint, production build, worktree and committed-range diff checks: **PASS**.
+Range check disclosed fallback base `31e10bd91667`. Migration bootstrap: **53/53**;
+`npm run qa:pg` was also run separately against the same isolated target. No migration changed.
+The four real-PG skips remain the two owner Test 10 ZIP tests and two frozen Dictionary catalogue
+tests. Speaking bank SHA verified, 880 rows. No skip is counted as a pass.
+
+Restarted the server on the gate's final build: port **3100**, actual Next PID **33725**, app tree
+`d90715e` (application source identical to `cc23fc4`), local isolated `learners_qa2` only.
+Fresh final-build smokes: MCQ golden **155/155**, TED Summary **22/22**, Academic **50/50**,
+General **46/46**, General human/role **59/59**, classification **21/21**. All passed their cleanup
+checks. The MCQ script additionally compares the entire relevant pre/post fixture inventory,
+proving unrelated QA rows survive unchanged, and proves direct-ID residue zero for every owned
+user/test/question/package/version/formal attempt/staged session. No production content touched.
+
+QA checkpoint pushed; local/remote equality and clean worktree verified. Exact `d90715e` Vercel
+commit status: **SUCCESS — Deployment has completed**. This subsequent evidence commit changes
+only this ledger and needs its own final status lookup; no gated implementation or QA script changes.
+
+Repository-solvable P0: **NONE**. P1: **NONE**. MCQ + generic safe-import + temporary TED voice
+implementation remains complete. Owner corpus supplied/verified here: **0 Days / 0 MCQs**;
+fabricated production questions: **0**; production counts unqueried. Real device microphone,
+audible playback, pointer interaction and 390/768/1440 viewport acceptance remain external—not
+claimed from DOM/HTTP tests. Written Summary persistence is preserved; audio never persists.
+Test 11 remains closed and Reading V4 was not started.
