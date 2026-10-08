@@ -343,3 +343,54 @@ test("I7 the fixtures are removed: no imported day remains", async () => {
     await database.close();
   }
 });
+
+test("I8 an already-published day cannot be degraded below five questions by a re-import", async () => {
+  const { database, importDay } = await seed();
+  try {
+    // A genuine, complete, PUBLISHED day: five valid MCQs and a recording.
+    const first = await importDay(dayPackage({ day: 12 }), true);
+    assert.equal(first.ok, true, first.ok ? "" : JSON.stringify(first));
+    if (!first.ok) return;
+    await database.db
+      .update(listeningTests)
+      .set({ publicationState: "published" })
+      .where(eq(listeningTests.id, first.targetId));
+    assert.equal(
+      await mcqDayPublicationBlock(first.targetId, database.db),
+      null,
+      "the day is live and valid before the degrading import",
+    );
+
+    /* THE DEFECT THIS PINS. mcqDayPublicationBlock runs at the publish TRANSITION only. Re-importing
+     * the same day with four questions used to succeed: the row stayed `published`, the catalogue
+     * kept listing it, and the learner was served a FOUR-question Day — behind the gate that exists
+     * precisely to make that impossible. §08 requires a published day to hold exactly five. */
+    const degraded = await importDay(dayPackage({ day: 12, count: 4 }));
+    assert.equal(degraded.ok, false, "re-importing a live day with four questions is refused");
+    if (degraded.ok) return;
+    assert.equal(degraded.code, "semantic_invalid");
+    const text = degraded.report.issues.map((entry) => entry.message).join(" ");
+    assert.ok(/currently published/.test(text), `the refusal names the live state: ${text}`);
+    assert.ok(/exactly 5/.test(text), `the refusal states the rule: ${text}`);
+    assert.ok(/Withdraw the day first/.test(text), `the refusal is actionable: ${text}`);
+
+    // NOTHING changed: the live day still holds its five real questions and is still published.
+    const questions = await database.db
+      .select({ order: listeningQuestions.order })
+      .from(listeningQuestions)
+      .where(eq(listeningQuestions.testId, first.targetId));
+    assert.equal(questions.length, 5, "the published day keeps all five questions");
+    const [row] = await database.db
+      .select({ state: listeningTests.publicationState })
+      .from(listeningTests)
+      .where(eq(listeningTests.id, first.targetId));
+    assert.equal(row?.state, "published", "the day was not silently withdrawn either");
+    assert.equal(await mcqDayPublicationBlock(first.targetId, database.db), null, "and it is still valid");
+
+    // A DRAFT day may still be incomplete while it is being authored — the rule is about PUBLISHED.
+    const draft = await importDay(dayPackage({ day: 13, count: 4, sourceRef: "qa-mcq-day-13" }));
+    assert.equal(draft.ok, true, "an incomplete DRAFT day is still allowed to be authored");
+  } finally {
+    await database.close();
+  }
+});

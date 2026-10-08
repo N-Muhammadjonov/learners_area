@@ -16,6 +16,7 @@ import { provenanceRecord } from "../core/provenance";
 import { issue, type ImportErrorCode, type ImportIssue } from "../core/validation";
 import type { ListeningPackage } from "@/lib/listening/package";
 import { listeningIdentityReviewNotes, listeningQuestionIdentity } from "@/lib/listening/question-identity";
+import { MCQ_DAY_QUESTION_COUNT, mcqDayProblems } from "@/lib/listening/mcq-program";
 import { ingestListeningOccurrences } from "@/lib/services/lexical/listening-occurrences";
 import {
   LISTENING_CONTENT_TYPE,
@@ -336,6 +337,54 @@ export async function importCanonicalListeningPackage(
           "content.programme.day",
         ),
       ]);
+
+    /*
+     * A LIVE DAY MAY NOT BE DEGRADED BEHIND THE PUBLICATION GATE.
+     *
+     * `mcqDayPublicationBlock` enforces "exactly five valid MCQs with a recording" at the publish
+     * TRANSITION. It is never consulted again, so an update could walk a day that is already
+     * published down to four questions: the row stayed `published`, the catalogue kept listing it,
+     * and learners were served a four-question Day. The publication rule is about what a PUBLISHED
+     * day holds, not merely about the moment it was published.
+     *
+     * The incoming payload is therefore judged BEFORE anything is written, and only when the target
+     * day is currently live. Refusing (rather than silently withdrawing the day) is the behaviour
+     * §08 asks for — the owner gets "an exact actionable reason" and the live content, the learner's
+     * view and the publication state are all left exactly as they were.
+     */
+    if (existing) {
+      const [live] = await tx
+        .select({ publicationState: listeningTests.publicationState })
+        .from(listeningTests)
+        .where(eq(listeningTests.id, existing.testId))
+        .limit(1);
+      if (live?.publicationState === "published" || live?.publicationState === "scheduled") {
+        const problems = mcqDayProblems(
+          payload.questions.map((question) => {
+            const identity = listeningQuestionIdentity({ kind: question.kind, typeCode: question.typeCode });
+            return {
+              number: question.number,
+              typeCode: identity.typeCode,
+              storageType: identity.storageType,
+              options: question.options,
+              correctAnswer: question.key,
+              questionText: question.text,
+            };
+          }),
+        );
+        if (problems.length)
+          return failure("semantic_invalid", [
+            issue(
+              2,
+              "semantic_invalid",
+              `Day ${programme.day} is currently ${live.publicationState} and a published day must hold exactly ${MCQ_DAY_QUESTION_COUNT} valid multiple-choice questions. This package would leave it invalid: ${problems
+                .map((problem) => problem.message)
+                .join(" ")} Withdraw the day first, or import a complete package.`,
+              "content.questions",
+            ),
+          ]);
+      }
+    }
   }
 
   if (existing && previous?.contentHash === contentHash) {
