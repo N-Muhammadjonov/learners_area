@@ -214,6 +214,29 @@ try {
      values ($1,$2,'bank',4,8,'The bank approved the loan in 1990.','vocabulary',true) returning id`, [lexeme.id, full.passages[0]]);
   const vocabDuring = await call(`/api/vocabulary/lookup?sourceType=reading&sourceId=${attemptId}&occurrenceId=${occurrence.id}`, { cookie });
   check("A16 Dictionary lookup is locked during the active exam", vocabDuring.status === 403, `status ${vocabDuring.status}: ${vocabDuring.text.slice(0,120)}`);
+  // SEC-12/SEC-15: the exam must be sealed at EVERY passage position and through the
+  // PASSAGE id too. An attempt row stores only its first passage, and the same canonical
+  // rows can also be General learning, so "ask for it by passage id" was a real bypass.
+  const positions = [];
+  for (const [index, passageId] of full.passages.entries()) {
+    if (index === 0) { positions.push({ no: 1, passageId, occurrenceId: occurrence.id }); continue; }
+    const [sense] = await q(`insert into lexemes (term,definition_en,verification_status,sense_key) values ($1,'A financial institution','verified',$2) returning id`,
+      [`bank-${REF}-p${index + 1}`, `${REF}-bank-sense-p${index + 1}`]);
+    const [row] = await q(
+      `insert into lexical_occurrences (lexeme_id,passage_id,surface_form,start_char,end_char,sentence_text,occurrence_type,is_target_vocabulary)
+       values ($1,$2,'bank',4,8,'The bank approved the loan in 1990.','vocabulary',true) returning id`, [sense.id, passageId]);
+    positions.push({ no: index + 1, passageId, occurrenceId: row.id });
+  }
+  for (const position of positions) {
+    const byPassage = await call(`/api/vocabulary/lookup?sourceType=reading&sourceId=${position.passageId}&occurrenceId=${position.occurrenceId}`, { cookie });
+    check(`A16.${position.no} the passage-id route is sealed during the active exam (passage ${position.no})`,
+      byPassage.status === 403, `status ${byPassage.status}: ${byPassage.text.slice(0, 120)}`);
+    const byAttempt = await call(`/api/vocabulary/lookup?sourceType=reading&sourceId=${attemptId}&occurrenceId=${position.occurrenceId}`, { cookie });
+    check(`A16.${position.no}b the attempt-id route is sealed at passage ${position.no}`, byAttempt.status === 403, `status ${byAttempt.status}`);
+    const save = await call(`/api/vocabulary`, { method: "POST", cookie,
+      body: { sourceType: "reading", sourceId: position.passageId, occurrenceId: position.occurrenceId } });
+    check(`A16.${position.no}c saving vocabulary from passage ${position.no} is refused during the exam`, save.status !== 200 && save.status !== 201, `status ${save.status}`);
+  }
   const submitted = await call(`/api/reading/attempts/${attemptId}/submit`, { method: "POST", cookie,
     body: { answers: questions.map((r, i) => ({ questionId: r.id, answer: i < 20 ? "bank" : "wrong" })) } });
   check("A17 submission grades on the server", submitted.status === 200 && JSON.parse(submitted.text).score === 20 &&
@@ -229,6 +252,15 @@ try {
   check("A23 the Dictionary opens for the learner's own submitted review", vocabAfter.status === 200, `status ${vocabAfter.status}`);
   check("A24 it stays shut for a learner who never sat this test",
     (await call(`/api/vocabulary/lookup?sourceType=reading&sourceId=${attemptId}&occurrenceId=${occurrence.id}`, { cookie: otherCookie })).status !== 200);
+  for (const position of positions) {
+    const after = await call(`/api/vocabulary/lookup?sourceType=reading&sourceId=${attemptId}&occurrenceId=${position.occurrenceId}`, { cookie });
+    check(`A24.${position.no} after submission the owner's review opens at passage ${position.no}`, after.status === 200, `status ${after.status}`);
+    // Another learner is refused through the OWNER's review. (The same published rows
+    // are also a General learning source, so reading their dictionary directly by
+    // passage id is the General product, not a leak of this learner's assessment.)
+    check(`A24.${position.no}b another learner cannot borrow the owner's review at passage ${position.no}`,
+      (await call(`/api/vocabulary/lookup?sourceType=reading&sourceId=${attemptId}&occurrenceId=${position.occurrenceId}`, { cookie: otherCookie })).status !== 200);
+  }
 
   /* ---------------------------------------------------------------- general */
   const generalPage = await call(`/app/reading/general/${short.setId}?passage=1`, { cookie });
