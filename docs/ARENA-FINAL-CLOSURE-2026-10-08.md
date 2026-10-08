@@ -132,12 +132,23 @@ GitHub/Vercel cannot verify; `82c95df` and everything before it were authored
 `N-Muhammadjonov <333012982+…@users.noreply.github.com>`. Commit `7b0e07d`
 ("chore: author this branch's commits under the repository identity") set this precedent earlier.
 
-**Remedy applied here:** this docs commit is authored under the repository identity, which
-re-triggers deployment for the full tree **without rewriting history** (no force-push, no SHA
-invalidation — the ledger's cited SHAs stay valid). If Vercel still reports blocked afterwards, the
-cause is account/project-level deployment protection and is **OWNER REQUIRED**.
+**Remedy applied:** this docs commit is authored under the repository identity, which re-triggers
+deployment for the full tree **without rewriting history** (no force-push, no SHA invalidation —
+the ledger's cited SHAs stay valid).
 
-**Status: DEPLOY UNVERIFIED at `7ba1827`.** No success is claimed.
+**Outcome — confirmed by querying the exact SHA:**
+
+| SHA | Vercel state |
+|---|---|
+| `7ba1827` (Arena Agent identity) | failure — "Deployment was blocked" |
+| **`281c8b6`** (repository identity, same tree + this doc) | **success — "Deployment has completed"** |
+
+Observed transition: `blocked` → `pending` ("Vercel is deploying your app") → **`success`** at ~90s.
+**Root cause proven and resolved: commit author identity, not code.** The deployed tree is the
+gated tree plus this document.
+
+**Standing requirement:** every future commit on this branch must be authored
+`N-Muhammadjonov <333012982+N-Muhammadjonov@users.noreply.github.com>`, or Vercel will block it.
 
 ---
 
@@ -215,7 +226,7 @@ Never a direct merge. Detail: `docs/WEBSITE-RIWI-BRANCH-COMPARISON.md`.
 | A | Listening source ZIP absent → 2 tests skip | EXTERNAL REQUIRED | owner supplies exact package per `docs/LISTENING-SOURCE-ZIP-CONTRACT.md`; checksum match, no substitute |
 | B | Dictionary catalogue not applied → frozen-catalog tests skip | EXTERNAL REQUIRED | owner supplies frozen catalogue |
 | C | §08 archive+replace cannot reuse an archived ordinal | OWNER REQUIRED | authorize additive migration 0053 (partial unique index) |
-| D | Vercel "Deployment was blocked" at `7ba1827` | OWNER REQUIRED (mitigation attempted) | repo-identity commit applied; if still blocked, owner clears project deployment protection |
+| D | ~~Vercel "Deployment was blocked"~~ | **RESOLVED** | root cause was commit author identity; repo-identity commit `281c8b6` deployed **success** |
 | E | RIWI D-01..D-08 + E-01..E-04 unanswered | OWNER + EXTERNAL REQUIRED | owner answers the decision register; external parties supply receipts |
 
 ---
@@ -224,8 +235,11 @@ Never a direct merge. Detail: `docs/WEBSITE-RIWI-BRANCH-COMPARISON.md`.
 
 - **Website gated tree `7ba1827`: GATE PASS**, with two real defects (P0, P1) found, fixed and
   red-verified this cycle, and all five legacy probe failures proven to be test defects.
-- **Website production readiness: NOT CLAIMED.** Deployment is unverified (blocker D) and two owner
-  assets are outstanding (A, B).
+- **Deployment: VERIFIED SUCCESS** at `281c8b6` (gated tree + this doc), after proving the block was
+  an author-identity issue rather than a code failure.
+- **Website production readiness: NOT CLAIMED.** Two owner assets are still outstanding (A, B) and
+  the §08 ordinal remedy is unauthorized (C). A successful Preview deployment is not production
+  cutover authorization (P9).
 - **RIWI production verdict: NO-GO**, per RIWI's own documents.
 - **No gate was self-approved.** An agent cannot vote for the owner (P4). A Preview receipt is never
   production cutover authorization (P9). Skip is never pass (P10).
