@@ -1,8 +1,8 @@
 import "server-only";
 import { and, asc, eq, inArray, sql } from "drizzle-orm";
 import { db } from "@/db/client";
-import { generalReadingPassages, generalReadingProgress, generalReadingSets, readingPassages, readingQuestions } from "@/db/schema";
-import { gradeAnswer } from "@/lib/services/reading/grading";
+import { generalReadingPassages, generalReadingProgress, generalReadingSets, readingPassages, readingQuestions, readingQuestionGroups } from "@/db/schema";
+import { gradeReadingQuestion } from "@/lib/reading/question-model";
 import { isLive, liveWhere } from "@/lib/services/cms/publication";
 import { isStaff, type Role } from "@/lib/auth/roles";
 import { getPassageWithQuestions } from "@/lib/data/reading";
@@ -111,9 +111,10 @@ export async function saveGeneralProgress(input: { userId: string; role: Role; p
   let result: { questionId: string; isCorrect: boolean; correctAnswer: string; evidenceQuote: string | null; explanation: string | null }[] | null = null;
   let score: number | null = null;
   if (input.check) {
+    const groups=await executor.query.readingQuestionGroups.findMany({where:eq(readingQuestionGroups.passageId,input.passageId)});
     result = questions.map((question) => ({
       questionId: question.id,
-      isCorrect: gradeAnswer(answers[question.id] ?? "", question.correctAnswer, question.acceptedAnswers),
+      isCorrect: gradeReadingQuestion(answers[question.id] ?? "", question, groups.find(g=>g.id===question.groupId)?.sharedChoices),
       correctAnswer: question.correctAnswer,
       evidenceQuote: question.evidenceQuote ?? null,
       explanation: question.explanation?.trim() ? question.explanation : null,
@@ -122,7 +123,7 @@ export async function saveGeneralProgress(input: { userId: string; role: Role; p
   }
   const now = new Date();
   const values = { userId: input.userId, setId: membership.setId, passageId: input.passageId, answers, updatedAt: now,
-    ...(input.check ? { score, total: questions.length, checkedAt: now } : {}) };
+    ...(input.check ? { score, total: questions.length, checkedAt: now } : { score:null,total:null,checkedAt:null }) };
   const [row] = await executor.insert(generalReadingProgress).values(values)
     .onConflictDoUpdate({ target: [generalReadingProgress.userId, generalReadingProgress.passageId], set: values }).returning();
   return { progress: row!, result };

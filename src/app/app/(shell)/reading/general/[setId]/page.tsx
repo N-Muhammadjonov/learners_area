@@ -1,3 +1,4 @@
+import { publicReadingConstraint } from "@/lib/reading/question-model";
 import { questionType } from "@/lib/content/question-types";
 import { BackLink } from "@/components/ui/BackLink";
 import Link from "next/link";
@@ -70,8 +71,9 @@ export default async function GeneralReadingSetPage({ params, searchParams }: {
     title: p.passage.title,
     body: p.passage.bodyText,
     paragraphs: p.paragraphs.map((paragraph) => ({ id: paragraph.id, label: paragraph.label, text: paragraph.text, isFootnote: paragraph.isFootnote })),
+    groups:p.groups.map(g=>({id:g.id,position:g.position,typeCode:g.typeCode,displayTitle:g.displayTitle,instructionsText:g.instructionsText,fromQuestionNo:g.fromQuestionNo,toQuestionNo:g.toQuestionNo,sharedChoices:g.sharedChoices})),
     // The answer key never reaches the browser before "Check answers".
-    questions: p.questions.map((q) => ({ id: q.id, questionNo: q.questionNo, order: q.order, type: q.type, questionText: q.questionText, options: q.options ?? null })),
+    questions: p.questions.map((q) => ({ id: q.id, questionNo: q.questionNo, order: q.order, type: q.type, typeCode:q.typeCode, groupId:q.groupId, renderMode:q.renderMode, answerConstraint:publicReadingConstraint(q.answerConstraint), questionText: q.questionText, options: q.options ?? null })),
     occurrences: p.occurrences,
   }));
   const initialProgress = Object.fromEntries(progress.map((row) => [row.passageId, { answers: row.answers, score: row.score, total: row.total, checked: Boolean(row.checkedAt) }]));

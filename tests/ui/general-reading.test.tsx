@@ -115,15 +115,15 @@ test("answers autosave per passage, Check shows learning results with evidence; 
   const n = net();
   try {
     await mount(React.createElement(GeneralReadingSession, { userId: "test-user", dict: en, setId: SET, setTitle: "Set one", passages, initialProgress: { [pid(3)]: { answers: { q3a: "false" }, score: null, total: null, checked: false } }, mode: "full" }), async () => {
-      const radio = document.querySelector("input[name='q-q1a'][value='true']") as HTMLInputElement;
+      const radio = document.querySelector("[data-question='q1a'] [data-answer-option='true']") as HTMLInputElement;
       assert.ok(radio, "TFNG offers TRUE/FALSE/NOT GIVEN");
-      assert.equal(document.querySelectorAll("input[name='q-q1a']").length, 3);
+      assert.equal(document.querySelectorAll("[data-question='q1a'] [role='radio']").length, 3);
       await act(async () => radio.click());
       await tick(800);
       // API path, not a page URL: the endpoint is /api/reading/general/progress.
       const save = n.calls.find((c) => c.url.includes("/api/reading/general/progress"))!;
       assert.deepEqual(save.body, { passageId: pid(1), answers: { q1a: "true" }, check: false });
-      await act(async () => (document.querySelector("input[name='q-q1b'][value='A shop']") as HTMLInputElement).click());
+      await act(async () => (document.querySelector("input[name='answer-q1b'][value='A shop']") as HTMLInputElement).click());
       await act(async () => (document.querySelector("[data-general-check]") as HTMLButtonElement).click());
       await tick();
       const check = n.calls.filter((c) => c.url.includes("/api/reading/general/progress")).at(-1)!;
@@ -138,9 +138,9 @@ test("answers autosave per passage, Check shows learning results with evidence; 
       // Switch to P3: its restored answer is intact; back to P1 keeps P1's answers.
       const tabs = Array.from(document.querySelectorAll("[data-general-passage-tab]")) as HTMLButtonElement[];
       await act(async () => tabs[2]!.click());
-      assert.equal((document.querySelector("input[name='q-q3a'][value='false']") as HTMLInputElement).checked, true);
+      assert.equal((document.querySelector("[data-question='q3a'] [data-answer-option='false']") as HTMLElement).getAttribute("aria-checked"), "true");
       await act(async () => tabs[0]!.click());
-      assert.equal((document.querySelector("input[name='q-q1a'][value='true']") as HTMLInputElement).checked, true);
+      assert.equal((document.querySelector("[data-question='q1a'] [data-answer-option='true']") as HTMLElement).getAttribute("aria-checked"), "true");
     });
   } finally { n.restore(); }
 });

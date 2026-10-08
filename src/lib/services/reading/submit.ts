@@ -1,11 +1,11 @@
 import "server-only";
 import { and, eq, inArray, isNull } from "drizzle-orm";
 import { db } from "@/db/client";
-import { readingAttempts, readingPassages, readingQuestions, readingAnswers, activityEvents } from "@/db/schema";
+import { readingAttempts, readingPassages, readingQuestions, readingAnswers, readingQuestionGroups, activityEvents } from "@/db/schema";
 import { assessmentScope } from "@/lib/data/reading-assessments";
 import { readingAttemptExpired } from "@/lib/reading/timer";
 import { readingAnswersForSubmission } from "@/lib/reading/submission";
-import { gradeAnswer } from "@/lib/services/reading/grading";
+import { gradeReadingQuestion } from "@/lib/reading/question-model";
 
 
 /** Existing atomic submit, shared by the HTTP adapter and database acceptance tests. */
@@ -48,10 +48,11 @@ export async function submitReadingAttempt(id:string,userId:string,entries:{ques
       : [];
     const answerByQuestion = readingAnswersForSubmission(timedOut, entries, savedDrafts);
 
+    const groups=await tx.query.readingQuestionGroups.findMany({where:inArray(readingQuestionGroups.passageId,scope.passageIds)});
     let score = 0;
     const rows = questions.map((question) => {
       const userAnswer = answerByQuestion.get(question.id) ?? "";
-      const isCorrect = gradeAnswer(userAnswer, question.correctAnswer, question.acceptedAnswers);
+      const isCorrect = gradeReadingQuestion(userAnswer, question, groups.find(g=>g.id===question.groupId)?.sharedChoices);
       if (isCorrect) score += 1;
       return { attemptId: attempt.id, questionId: question.id, userAnswer, isCorrect };
     });

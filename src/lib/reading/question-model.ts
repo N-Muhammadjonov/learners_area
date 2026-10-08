@@ -1,0 +1,60 @@
+import { countWords, gradeForType, questionType, resolveQuestionType } from "@/lib/content/question-types";
+
+/** Canonical identity first; old source aliases are a compatibility boundary only. */
+export function readingQuestionType(code:string) {
+  return questionType(code,"reading") ?? resolveQuestionType(code,"reading");
+}
+export function readingStorageType(code:string):"true_false_not_given"|"yes_no_not_given"|"multiple_choice"|"short_answer" {
+  const descriptor=readingQuestionType(code);
+  if(!descriptor) throw Error("unknown_reading_question_type");
+  if(descriptor.id==='true_false_not_given'||descriptor.id==='yes_no_not_given')return descriptor.id;
+  return descriptor.storageType;
+}
+export function readingOption(choice:string,index:number) {
+  const match=/^((?:[ivx]+|[a-z]))\s*[)—–.:\-]\s*(.+)$/i.exec(choice.trim());
+  if(match)return {letter:match[1]!,text:match[2]!};
+  if(/^(?:[ivx]+|[a-z])$/i.test(choice.trim()))return {letter:choice.trim(),text:choice.trim()};
+  return {letter:String.fromCharCode(65+index),text:choice};
+}
+/** One registry grader, with Reading's exact authored selection/word constraints.
+ * The extra-selection guard is Reading-local; frozen Listening rules are untouched. */
+export function gradeReadingQuestion(answer:string,q:{type:string;typeCode?:string|null;correctAnswer:string;acceptedAnswers?:string[];options?:string[]|null;answerConstraint?:Record<string,unknown>|null},sharedChoices:string[]=[]):boolean {
+  const descriptor=readingQuestionType(q.typeCode??q.type);
+  if(!descriptor)return false;
+  const constraint=q.answerConstraint??{};
+  const limit=constraint.max_words??constraint.maxWords;
+  if(typeof limit==='number' && countWords(answer)>limit)return false;
+  const options=(q.options?.length?q.options:sharedChoices).map((value,index)=>{const option=readingOption(value,index);return `${option.letter}) ${option.text}`;});
+  if(descriptor.answerModel.kind==='choice_multi') {
+    const split=(value:string)=>value.split(/[,;]|\s+and\s+/i).map(v=>v.trim()).filter(Boolean);
+    const provided=split(answer);
+    return [q.correctAnswer,...(q.acceptedAnswers??[])].some(key=>{
+      const keys=split(key), expected=constraint.selection_count??keys.length;
+      return keys.length===expected && provided.length===expected && new Set(provided.map(v=>v.toLowerCase())).size===provided.length
+        && gradeForType(descriptor,{answer,key,keys,options}).correct;
+    });
+  }
+  // Explicit source limits override a registry's general default, without inventing keys.
+  const type=typeof limit==='number' && descriptor.answerModel.kind==='text'
+    ? {...descriptor,answerModel:{...descriptor.answerModel,wordLimit:limit}} : descriptor;
+  return gradeForType(type,{answer,key:q.correctAnswer,accepted:q.acceptedAnswers,options}).correct;
+}
+
+/** Groups retain the schema's source-code field (16 chars); canonical identity
+ * remains on each question. All values come from the same registry aliases. */
+export function readingGroupCode(code:string):string {
+  const descriptor=readingQuestionType(code);
+  const alias=descriptor?.importShapes.find(value=>value.length<=16);
+  if(!alias)throw Error("unsupported_reading_group_code");
+  return alias;
+}
+
+/** Explicit learner projection: never forward arbitrary JSON metadata as props. */
+export function publicReadingConstraint(value:Record<string,unknown>|null|undefined) {
+  if(!value)return null;
+  const result:Record<string,unknown>={};
+  for(const key of ['max_words','maxWords','selection_count'])if(typeof value[key]==='number')result[key]=value[key];
+  if(typeof value.number_allowed==='boolean')result.number_allowed=value.number_allowed;
+  if(Array.isArray(value.allowed_values))result.allowed_values=value.allowed_values.filter(v=>typeof v==='string').slice(0,30);
+  return result;
+}

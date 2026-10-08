@@ -5,7 +5,7 @@ import { useFocusEntry } from "@/lib/interaction/focus-entry";
 import { useEffect, useRef, useState } from "react";
 import { ReadingHighlightedText, useReadingHighlights } from "@/components/reading/ReadingHighlights";
 import { ReadAloud } from "@/components/reading/ReadAloud";
-import { choiceSetFor } from "@/lib/reading-choices";
+import { GroupHeading, GroupQuestions, QuestionCard, type ExamGroup, type ExamQuestion } from "@/components/reading/ReadingExam";
 import { failureMessage, requestJson } from "@/lib/http/client-request";
 import { occurrenceSpans, type OccurrenceSpan } from "@/lib/services/lexical/occurrence-spans";
 import type { Dictionary } from "@/lib/i18n/en";
@@ -18,7 +18,7 @@ import type { Dictionary } from "@/lib/i18n/en";
  * server re-derives the mode from the passage's persisted classification.
  */
 
-export type GeneralQuestion = { id: string; questionNo: number | null; order: number; type: string; questionText: string; options: string[] | null };
+export type GeneralQuestion = { id: string; questionNo: number | null; order: number; type: string; questionText: string; options: string[] | null; typeCode?:string|null; groupId?:string|null; renderMode?:string|null; answerConstraint?:Record<string,unknown>|null };
 export type GeneralPassage = {
   passageNo: number;
   passageId: string;
@@ -26,6 +26,7 @@ export type GeneralPassage = {
   body: string;
   paragraphs: { id: string; label: string | null; text: string; isFootnote: boolean }[];
   questions: GeneralQuestion[];
+  groups?:ExamGroup[];
   occurrences: OccurrenceSpan[];
 };
 export type GeneralProgressView = { answers: Record<string, string>; score: number | null; total: number | null; checked: boolean };
@@ -51,16 +52,25 @@ export function GeneralReadingSession({ dict, setId, setTitle, passages, initial
   const [checks, setChecks] = useState<Record<string, { rows: CheckRow[]; score: number | null; total: number | null }>>({});
   const [errors, setErrors] = useState<Record<string, string | null>>({});
   const timers = useRef<Record<string, ReturnType<typeof setTimeout>>>({});
+  const revisions=useRef<Record<string,number>>({});
+  const queues=useRef<Record<string,Promise<void>>>({});
   useEffect(() => () => Object.values(timers.current).forEach(clearTimeout), []);
 
   const passage = passages.find((p) => p.passageNo === active) ?? passages[0];
   if (!passage) return null;
 
   async function persist(passageId: string, nextAnswers: Record<string, string>, check: boolean) {
+    const revision=revisions.current[passageId]??0;
+    const previous=queues.current[passageId]??Promise.resolve();
+    let release!:()=>void;
+    queues.current[passageId]=new Promise<void>(resolve=>{release=resolve;});
+    await previous;
+    try {
     setStatus((s) => ({ ...s, [passageId]: check ? "checking" : "saving" }));
     const result = await requestJson<{ ok: boolean; score: number | null; total: number | null; result: CheckRow[] | null }>("/api/reading/general/progress", {
       method: "POST", body: { passageId, answers: nextAnswers, check },
     });
+    if(revision!==(revisions.current[passageId]??0)) return;
     if (!result.ok) {
       setStatus((s) => ({ ...s, [passageId]: "error" }));
       setErrors((e) => ({ ...e, [passageId]: failureMessage(result, dict.auth) || t.saveFailed }));
@@ -69,9 +79,12 @@ export function GeneralReadingSession({ dict, setId, setTitle, passages, initial
     setErrors((e) => ({ ...e, [passageId]: null }));
     setStatus((s) => ({ ...s, [passageId]: "saved" }));
     if (check && result.data.result) setChecks((c) => ({ ...c, [passageId]: { rows: result.data.result!, score: result.data.score, total: result.data.total } }));
+    } finally {release();}
   }
 
   function setAnswer(passageId: string, questionId: string, value: string) {
+    revisions.current[passageId]=(revisions.current[passageId]??0)+1;
+    setChecks(c=>{const next={...c};delete next[passageId];return next;});
     const next = { ...(answers[passageId] ?? {}), [questionId]: value };
     setAnswers((a) => ({ ...a, [passageId]: next }));
     clearTimeout(timers.current[passageId]);
@@ -81,7 +94,7 @@ export function GeneralReadingSession({ dict, setId, setTitle, passages, initial
 
   const check = checks[passage.passageId];
   const initial = initialProgress[passage.passageId];
-  const shownScore = check ? { score: check.score, total: check.total } : initial?.checked ? { score: initial.score, total: initial.total } : null;
+  const shownScore = check ? { score: check.score, total: check.total } : initial?.checked && !revisions.current[passage.passageId] ? { score: initial.score, total: initial.total } : null;
 
   return (
     <div className="mx-auto flex max-w-[1440px] flex-col gap-5" data-general-reading data-general-mode={mode}>
@@ -134,30 +147,20 @@ export function GeneralReadingSession({ dict, setId, setTitle, passages, initial
             </span>
           </div>
           {passage.questions.length === 0 && <p className="body-text text-sm">{t.noQuestions}</p>}
+          <div className="flex flex-col gap-4">
+            {(passage.groups??[]).map(group=><section key={group.id} className="flex flex-col gap-3">
+              <GroupHeading dict={dict} group={group}/>
+              <GroupQuestions dict={dict} group={group} questions={passage.questions.filter(q=>q.groupId===group.id).map(examQuestion)}
+                answers={answers[passage.passageId]??{}} onChange={(id,value)=>setAnswer(passage.passageId,id,value)}/>
+            </section>)}
+            {passage.questions.filter(q=>!q.groupId || !passage.groups?.some(g=>g.id===q.groupId)).map(q=><QuestionCard key={q.id} dict={dict} question={examQuestion(q)} group={null}
+              inputId={`answer-${q.id}`} value={answers[passage.passageId]?.[q.id]??""} onChange={value=>setAnswer(passage.passageId,q.id,value)}/>)}
+          </div>
           <ol className="flex flex-col gap-4">
             {passage.questions.map((question) => {
-              const value = answers[passage.passageId]?.[question.id] ?? "";
               const row = check?.rows.find((r) => r.questionId === question.id);
-              const name = `q-${question.id}`;
-              const choices = question.type === "true_false_not_given" || question.type === "yes_no_not_given"
-                ? Object.values(choiceSetFor(question.type)).map((c) => ({ value: c.value, label: c.label }))
-                : question.type === "multiple_choice" && question.options?.length ? question.options.map((o) => ({ value: o, label: o })) : null;
               return (
                 <li key={question.id} className="flex flex-col gap-2" data-general-question={question.id}>
-                  <p className="text-sm text-ink-900"><span className="mr-2 font-semibold">{question.questionNo ?? question.order}</span>{question.questionText}</p>
-                  {choices ? (
-                    <div className="flex flex-wrap gap-3" role="radiogroup">
-                      {choices.map((choice) => (
-                        <label key={choice.value} className="flex items-center gap-2 text-sm">
-                          <input type="radio" name={name} value={choice.value} checked={value === choice.value} onChange={() => setAnswer(passage.passageId, question.id, choice.value)} />
-                          {choice.label}
-                        </label>
-                      ))}
-                    </div>
-                  ) : (
-                    <input className="input max-w-sm" maxLength={500} value={value} aria-label={String(question.questionNo ?? question.order)}
-                      onChange={(event) => setAnswer(passage.passageId, question.id, event.target.value)} />
-                  )}
                   {row && (
                     <div className={`rounded-sm p-2 text-xs ${row.isCorrect ? "bg-signal-50 text-ink-900" : "bg-paper-sunken text-ink-700"}`} data-general-result={row.isCorrect ? "correct" : "incorrect"}>
                       <p>{row.isCorrect ? "✓" : "✗"} {t.correctAnswer.replace("{answer}", row.correctAnswer)}</p>
@@ -186,4 +189,8 @@ export function GeneralReadingSession({ dict, setId, setTitle, passages, initial
       </div>
     </div>
   );
+}
+
+function examQuestion(q:GeneralQuestion):ExamQuestion {
+  return {...q,type:q.type as ExamQuestion["type"],typeCode:q.typeCode??null,groupId:q.groupId??null,renderMode:q.renderMode??null,answerConstraint:q.answerConstraint??null};
 }

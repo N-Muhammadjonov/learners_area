@@ -1,3 +1,4 @@
+import { publicReadingConstraint } from "@/lib/reading/question-model";
 import { BackLink } from "@/components/ui/BackLink";
 import { notFound } from "next/navigation";
 import { requireActiveUser } from "@/lib/auth/current-user";
@@ -86,7 +87,7 @@ export default async function ReadingAttemptPage({ params }: { params: Promise<{
             renderMode: q.renderMode,
             questionText: q.questionText,
             options: q.options ?? null,
-            answerConstraint: (q.answerConstraint ?? null) as Record<string, unknown> | null,
+            answerConstraint: publicReadingConstraint(q.answerConstraint),
           }))}
         />
       ) : (

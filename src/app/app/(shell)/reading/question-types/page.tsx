@@ -1,3 +1,4 @@
+import { questionTypeLabel } from "@/lib/reading-labels";
 import Link from "next/link";
 import { redirect, notFound } from "next/navigation";
 import { requireActiveUser } from "@/lib/auth/current-user";
@@ -24,12 +25,12 @@ export default async function ReadingTypesPage({ searchParams }: { searchParams:
   return <div className="flex flex-col gap-5" data-route-usable="reading-question-types">
     <Link className="link-inline" href="/app/reading">{dict.common.back}</Link>
     <h1 className="page-title">{t.selectType}</h1>
-    <nav className="flex flex-wrap gap-2" aria-label={t.selectType}>{types.map(type => <Link className="btn-secondary" aria-current={type.id === selected?.id ? "page" : undefined} key={type.id} href={`/app/reading/question-types?type=${type.id}`} data-reading-type={type.id}>{type.label} ({type.count})</Link>)}</nav>
+    <nav className="flex flex-wrap gap-2" aria-label={t.selectType}>{types.map(type => <Link className="btn-secondary" aria-current={type.id === selected?.id ? "page" : undefined} key={type.id} href={`/app/reading/question-types?type=${type.id}`} data-reading-type={type.id}>{questionTypeLabel(type.id,locale)} ({type.count})</Link>)}</nav>
     {!types.length && <p className="body-text">{dict.readingHub.typesEmpty}</p>}
-    {selected && <><h2 className="section-title">{selected.label}</h2>
+    {selected && <><h2 className="section-title">{questionTypeLabel(selected.id,locale)}</h2>
       {!rows.length && <p className="body-text">{dict.readingHub.noResults}</p>}
       <div className="grid gap-4 sm:grid-cols-2">{rows.slice(0, READING_TYPE_PAGE_SIZE).map(p => <article className="card p-5" key={p.id} data-reading-type-passage={p.id}>
-        <h3 className="card-title">{p.title}</h3><p className="meta-text">{t.requestedType}: {selected.label}</p>
+        <h3 className="card-title">{p.title}</h3><p className="meta-text">{t.requestedType}: {questionTypeLabel(selected.id,locale)}</p>
         {p.set_id ? <Link className="btn-primary" href={`/app/reading/general/${p.set_id}?passage=${p.passage_no}&type=${selected.id}`}>{t.open}</Link> : <StartPassageButton passageId={p.id} label={t.open} />}
       </article>)}</div>
       <nav className="flex gap-3" aria-label={dict.readingHub.page}>

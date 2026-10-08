@@ -6,7 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useScopedResponse } from "@/lib/http/use-scoped-response";
 import { Button } from "@/components/ui/Button";
-import { choiceSetFor } from "@/lib/reading-choices";
+import { readingQuestionType, readingOption } from "@/lib/reading/question-model";
 import { ReadAloud } from "@/components/reading/ReadAloud";
 import { useFocusEntry } from "@/lib/interaction/focus-entry";
 import { IconBack, IconCheck, IconTarget } from "@/components/ui/icons";
@@ -86,9 +86,7 @@ const SAVE_DEBOUNCE_MS = 900;
 const LABELLED_OPTION = /^([A-Z])\s*[—–-]\s*(\S.*)$/;
 
 function optionLetter(choice: string, index: number): { letter: string; text: string } {
-  const match = LABELLED_OPTION.exec(choice);
-  if (match) return { letter: match[1]!, text: match[2]! };
-  return { letter: String.fromCharCode(65 + index), text: choice };
+  return readingOption(choice,index);
 }
 
 function lettersOnly(choices: string[]): boolean {
@@ -103,7 +101,12 @@ type Constraint = {
 };
 
 function constraintOf(question: ExamQuestion): Constraint {
-  return (question.answerConstraint ?? {}) as Constraint;
+  const raw=question.answerConstraint??{};
+  const descriptor=readingQuestionType(question.typeCode??question.type);
+  return {...raw,
+    max_words: (raw.max_words??raw.maxWords??(descriptor?.grading==='text_word_limit' && descriptor.answerModel.kind==='text'?descriptor.answerModel.wordLimit:undefined)) as number|undefined,
+    selection_count:(raw.selection_count??(descriptor?.answerModel.kind==='choice_multi'?descriptor.answerModel.count:undefined)) as number|undefined,
+  } as Constraint;
 }
 
 /**
@@ -119,9 +122,8 @@ function ternaryChoices(question: ExamQuestion): { value: string; label: string 
       label: value,
     }));
   }
-  return Object.values(choiceSetFor(question.type as "true_false_not_given" | "yes_no_not_given")).map(
-    (choice) => ({ value: choice.value, label: choice.label })
-  );
+  const model=readingQuestionType(question.typeCode??question.type)?.answerModel;
+  return model?.kind==='ternary' ? model.choices.map(label=>({value:label.toLowerCase().replace(/\s+/g,"_"),label})) : [];
 }
 
 function constraintLabel(constraint: Constraint, dict: Dictionary): string | null {
@@ -619,7 +621,7 @@ function SaveBadge({
 }
 
 /** The instruction block a group of questions belongs to. */
-function GroupHeading({ dict, group }: { dict: Dictionary; group: ExamGroup }) {
+export function GroupHeading({ dict, group }: { dict: Dictionary; group: ExamGroup }) {
   const range = group.displayTitle
     ? null
     : group.fromQuestionNo && group.toQuestionNo
@@ -664,7 +666,7 @@ function GroupHeading({ dict, group }: { dict: Dictionary; group: ExamGroup }) {
  * any shared row whose blank the reconstruction could not find — stay as normal
  * cards, so nothing is ever shown twice and nothing is dropped.
  */
-function GroupQuestions({
+export function GroupQuestions({
   dict,
   group,
   questions,
@@ -790,7 +792,7 @@ function StimulusCard({
   );
 }
 
-function QuestionCard({
+export function QuestionCard({
   dict,
   question,
   group,
@@ -807,11 +809,13 @@ function QuestionCard({
 }) {
   const t = dict.readingPractice;
   const constraint = constraintOf(question);
-  const isTernary = question.type === "true_false_not_given" || question.type === "yes_no_not_given";
-  const isText = question.type === "short_answer" && !isTernary;
+  const model=readingQuestionType(question.typeCode??question.type)?.answerModel;
+  const isTernary=model?.kind==='ternary';
+  const isMulti=model?.kind==='choice_multi';
+  const isText=model?.kind==='text';
   const choices = question.options && question.options.length > 0 ? question.options : (group?.sharedChoices ?? []);
-  const showFullChoices = !isTernary && choices.length > 0 && !lettersOnly(choices);
-  const showLetterChips = !isTernary && choices.length > 0 && lettersOnly(choices);
+  const showFullChoices = !isTernary && !isMulti && !isText && choices.length > 0 && !lettersOnly(choices);
+  const showLetterChips = !isTernary && !isMulti && !isText && choices.length > 0 && lettersOnly(choices);
   const hint = constraintLabel(constraint, dict);
   const number = question.questionNo ?? question.order;
 
@@ -826,6 +830,7 @@ function QuestionCard({
   return (
     <div
       className={`card p-4 ${value.trim() ? "border-signal-600/40" : ""}`}
+      data-reading-type={readingQuestionType(question.typeCode??question.type)?.id}
       data-question={question.id}
       data-question-no={number}
       data-answered={value.trim() ? "true" : "false"}
@@ -888,6 +893,17 @@ function QuestionCard({
         </div>
       )}
 
+      {isMulti && <fieldset className="flex flex-col gap-2" aria-label={`${dict.reading.yourAnswer} ${number}`}>
+        <legend className="sr-only">{question.questionText}</legend>
+        {choices.map((choice,index)=>{
+          const {letter,text}=optionLetter(choice,index);
+          const selected=value.split(/[,;]/).map(v=>v.trim()).filter(Boolean);
+          const checked=selected.includes(letter);
+          return <label key={choice} className="flex min-h-[44px] items-center gap-2 text-sm"><input type="checkbox" value={letter} checked={checked}
+            onChange={()=>onChange((checked?selected.filter(v=>v!==letter):[...selected,letter]).join(", "))}/>{letter}: {text}</label>;
+        })}
+      </fieldset>}
+
       {showLetterChips && (
         <div className="flex flex-wrap gap-2" role="radiogroup" aria-label={`${dict.reading.yourAnswer} ${number}`}>
           {choices.map((choice, index) => {
@@ -928,6 +944,7 @@ function QuestionCard({
                     id={id}
                     type="radio"
                     name={inputId}
+                    value={choice}
                     checked={value === choice}
                     onChange={() => onChange(choice)}
                   />
@@ -942,7 +959,7 @@ function QuestionCard({
         </ul>
       )}
 
-      {isText && !inline && (
+      {(isText || (!isTernary && !choices.length)) && !inline && (
         <input
           id={inputId}
           value={value}

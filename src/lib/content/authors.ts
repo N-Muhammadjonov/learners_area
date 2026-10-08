@@ -1,3 +1,5 @@
+import { readingGroupCode } from "@/lib/reading/question-model";
+import { readingTypeCode, readingGroup, readingConstraint } from "@/lib/reading/import-schema";
 import type { z } from "zod";
 import { z as zod } from "zod";
 import {
@@ -12,6 +14,7 @@ import {
   listeningTests,
   readingPassages,
   readingQuestions,
+  readingQuestionGroups,
   speakingMaterials,
   speakingPrompts,
   writingLanguagePatterns,
@@ -450,7 +453,11 @@ export const listeningSectionAuthor: ModuleAuthor = {
 const readingQuestionPayload = zod.object({
   order: zod.number().int().min(1).optional(),
   /** Canonical Reading type id or an alias the registry knows. */
-  typeCode: zod.string().min(3).max(40),
+  typeCode: readingTypeCode,
+  groupKey:zod.string().max(40).optional(),
+  answerConstraint:readingConstraint.optional(),
+  renderMode:zod.enum(["shared_stimulus_slot","inline","standalone"]).optional(),
+  acceptedAnswers:zod.array(zod.string()).max(30).optional(),
   questionText: zod.string().min(3),
   options: zod.array(zod.string().min(1)).min(2).max(6).optional(),
   correctAnswer: zod.string().min(1),
@@ -467,7 +474,12 @@ const readingPayload = zod.object({
       zod.object({
         title: zod.string().min(3).max(200),
         bodyText: zod.string().min(50),
+        groups:zod.array(readingGroup).max(40).optional(),
         questions: zod.array(readingQuestionPayload).min(1),
+      }).superRefine((p,ctx)=>{
+        const keys=(p.groups??[]).map(g=>g.key);
+        if(new Set(keys).size!==keys.length)ctx.addIssue({code:zod.ZodIssueCode.custom,message:"Duplicate group key"});
+        for(const q of p.questions)if(q.groupKey && !keys.includes(q.groupKey))ctx.addIssue({code:zod.ZodIssueCode.custom,message:"Unknown question group"});
       }),
     )
     .min(1),
@@ -524,6 +536,11 @@ async function persistReading(
     passageIds.push(row!.id);
     if (set) await tx.insert(generalReadingPassages).values({setId:set.id,passageId:row!.id,passageNo:index+1});
 
+    const groupIds=new Map<string,string>();
+    for(const [position,g] of (passage.groups??[]).entries()) {
+      const [group]=await tx.insert(readingQuestionGroups).values({passageId:row!.id,position:position+1,typeCode:readingGroupCode(g.typeCode),displayTitle:g.displayTitle,instructionsText:g.instructionsText,sharedChoices:g.sharedChoices??[],fromQuestionNo:g.fromQuestionNo,toQuestionNo:g.toQuestionNo}).returning();
+      groupIds.set(g.key,group!.id);
+    }
     if (passage.questions.length)
       await tx.insert(readingQuestions).values(
         passage.questions.map((question, qIndex) => ({
@@ -535,6 +552,8 @@ async function persistReading(
           questionText: question.questionText,
           options: question.options ?? null,
           correctAnswer: question.correctAnswer,
+          groupId:question.groupKey?groupIds.get(question.groupKey):undefined,
+          acceptedAnswers:question.acceptedAnswers??[],answerConstraint:question.answerConstraint,renderMode:question.renderMode,
           evidenceQuote: question.evidenceQuote ?? null,
           explanation: question.explanation,
         })),
@@ -551,6 +570,7 @@ async function persistReading(
       passages: parsed.passages.map((passage) => ({
         title: passage.title,
         bodyText: passage.bodyText,
+        groups:passage.groups??[],
         questions: passage.questions.map((question) => ({ ...question, typeCode: (questionType(question.typeCode,"reading") ?? resolveQuestionType(question.typeCode, "reading"))?.id ?? question.typeCode })),
       })),
       timeLimitMinutes: parsed.suggestedMinutes,

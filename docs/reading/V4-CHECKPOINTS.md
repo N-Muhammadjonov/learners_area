@@ -109,3 +109,27 @@ repeat submit/autosave cannot alter the completed result. Both question sets rem
 Authoring + history + timer-lock regression batch: 24 total / 24 pass / 0 fail / 0 skip.
 Reading V4 + binding + timer-lock batch: 18 total / 18 pass / 0 fail / 0 skip.
 Typecheck/lint pass. Batches overlap. This is not a full gate or built-server proof.
+
+## Registry convergence (Reading-only)
+
+The canonical registry now drives Reading answer models and grading on BOTH
+existing engines. General reuses ReadingExam's question/group/stimulus presentation;
+there is no General copy of the type switch. All 16 types are exercised through the
+real importer, canonical tables and General Check, and through rendered controls.
+Multi-select rejects extra/duplicate selections in the Reading adapter without
+changing frozen Listening grading. Authored constraints and alternatives are kept.
+
+Bundle and Content OS authoring retain groups/instructions/options/constraints.
+Question rows hold canonical IDs; the existing 16-character group source-code field
+uses registered aliases, resolving back to the same registry. No column widening,
+new question tables or migration is needed. Learner constraint props are explicitly
+projected rather than forwarding arbitrary JSON. Review type identity and missing
+source support are explicit; correct answers are shown even when answered correctly.
+
+General retains independent per-passage queues/debounce. Check and autosaves are
+serialized per passage; a stale response cannot paint a newer answer as checked.
+Editing clears the current result and server checked state on autosave.
+
+Focused Reading/registry/authoring/import batch: 57 total / 57 pass / 0 fail / 0 skip.
+Registry controls + General + Academic separation DOM batch: 27 total / 27 pass /
+0 fail / 0 skip. Typecheck/lint pass. No Reading full-gate/HTTP closure claim yet.

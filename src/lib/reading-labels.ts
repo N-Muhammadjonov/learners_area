@@ -1,3 +1,4 @@
+import { readingQuestionType } from "@/lib/reading/question-model";
 /**
  * Names for the source's topic and question-type codes.
  *
@@ -29,6 +30,10 @@ const TOPICS: Record<string, Record<Lang, string>> = {
 };
 
 const QUESTION_TYPES: Record<string, Record<Lang, string>> = {
+  sentence_completion:{en:"Sentence completion",uz:"Gapni tugatish"},
+  summary_completion:{en:"Summary completion",uz:"Xulosani toʻldirish"},
+  table_completion:{en:"Table completion",uz:"Jadvalni toʻldirish"},
+  classification:{en:"Classification",uz:"Tasniflash"},
   TFNG: { uz: "True / False / Not Given", en: "True / False / Not Given" },
   YNNG: { uz: "Yes / No / Not Given", en: "Yes / No / Not Given" },
   MCQ: { uz: "Ko'p tanlovli savol", en: "Multiple choice" },
@@ -52,6 +57,11 @@ export function topicLabel(code: string | null | undefined, lang: Lang): string 
 
 export function questionTypeLabel(code: string | null | undefined, lang: Lang): string | null {
   if (!code) return null;
+  const type=readingQuestionType(code);
+  if(type) {
+    const label=[type.id,...type.importShapes].map(key=>QUESTION_TYPES[key]?.[lang]).find(Boolean);
+    return label ?? type.label;
+  }
   return QUESTION_TYPES[code]?.[lang] ?? code;
 }
 
