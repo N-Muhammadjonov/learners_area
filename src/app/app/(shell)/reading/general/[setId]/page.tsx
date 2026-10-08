@@ -75,5 +75,5 @@ export default async function GeneralReadingSetPage({ params, searchParams }: {
     occurrences: p.occurrences,
   }));
   const initialProgress = Object.fromEntries(progress.map((row) => [row.passageId, { answers: row.answers, score: row.score, total: row.total, checked: Boolean(row.checkedAt) }]));
-  return <>{type && questionType(type,"reading") && <p className="body-text" data-requested-reading-type={type}>{dict.readingV4.requestedType}: {questionType(type,"reading")!.label}. {dict.readingV4.wholePassage}</p>}<GeneralReadingSession dict={dict} setId={setId} setTitle={detail.set.title} passages={passages} initialProgress={initialProgress} mode={mode} /></>;
+  return <>{type && questionType(type,"reading") && <p className="body-text" data-requested-reading-type={type}>{dict.readingV4.requestedType}: {questionType(type,"reading")!.label}. {dict.readingV4.wholePassage}</p>}<GeneralReadingSession key={`${user.id}:${setId}`} userId={user.id} dict={dict} setId={setId} setTitle={detail.set.title} passages={passages} initialProgress={initialProgress} mode={mode} /></>;
 }

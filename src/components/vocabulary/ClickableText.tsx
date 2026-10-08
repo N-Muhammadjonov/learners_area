@@ -19,7 +19,7 @@ export function ClickableText(props: {
   catalogueLookup?: boolean;
   /**
    * False where the Listening mode forbids lexical help (src/lib/listening/lexical-policy.ts):
-   * plain text only — no word buttons, no keyboard stop, no popup, no vocabulary styling.
+   * no word targets, lookup or vocabulary styling. Highlighting is independently opt-in.
    */
   lexicalAssistance?: boolean;
   /**
@@ -39,12 +39,12 @@ export function ClickableText(props: {
   onRemoveHighlight?: (id: string) => void;
 }) {
   const Plain = props.inline ? "span" : "div";
-  if (props.lexicalAssistance === false) return <Plain className={`whitespace-pre-line ${props.className ?? ""}`} data-plain-text>{props.text}</Plain>;
+  if (props.lexicalAssistance === false && !props.onHighlightRange && !props.highlights?.length) return <Plain className={`whitespace-pre-line ${props.className ?? ""}`} data-plain-text>{props.text}</Plain>;
   // A changed source/text cannot keep an anchor or an async form from the old text.
   return <LexicalText key={JSON.stringify([props.sourceType, props.sourceId, props.text])} {...props} />;
 }
 
-function LexicalText({ dict, text, sourceType, sourceId, className = "", inline = false, occurrences = [], catalogueLookup = false, highlights = [], onHighlightRange, onRemoveHighlight }: Parameters<typeof ClickableText>[0]) {
+function LexicalText({ dict, text, sourceType, sourceId, className = "", inline = false, occurrences = [], catalogueLookup = false, lexicalAssistance = true, highlights = [], onHighlightRange, onRemoveHighlight }: Parameters<typeof ClickableText>[0]) {
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
   const [active, setActive] = useState<number | null>(null);
   const [cursor, setCursor] = useState<number | null>(null);
@@ -79,6 +79,7 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "", inline 
   }, [active]);
 
   function open(index: number) {
+    if (!lexicalAssistance) return;
     const word = wrapperRef.current?.querySelector<HTMLElement>(`[data-token="${index}"]`);
     if (!word) return;
     setAnchor(word);
@@ -87,8 +88,8 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "", inline 
 
   // --- the learner's own highlights -----------------------------------------------------
   // A range is stored as plain character offsets, so it survives re-rendering, a reload and
-  // any later layout: nothing about it depends on the DOM. Highlighting is only offered when
-  // the caller asked for it (a learning surface), never on a graded exam.
+  // any later layout: nothing about it depends on the DOM. Highlight permission is
+  // separate from lexical permission; an exam can annotate already-visible text.
   const [selection, setSelection] = useState<{ start: number; end: number; box: { left: number; top: number } } | null>(null);
   const highlightAt = (start: number, end: number) =>
     highlights.find((highlight) => start < highlight.end && end > highlight.start) ?? null;
@@ -96,19 +97,57 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "", inline 
   const contextualHits = selected ? occurrences.filter((row) => row.startChar <= selected.start && row.endChar >= selected.end) : [];
   const occurrence = contextualHits.length === 1 ? contextualHits[0] : undefined;
 
+  function captureSelection() {
+    // A selection the learner made INSIDE this text is a highlight candidate. The
+    // ranges are character offsets in the ORIGINAL string (never DOM nodes), so they
+    // survive a re-render and a reload unchanged.
+    if (!onHighlightRange) return;
+    const block = wrapperRef.current;
+    const native = window.getSelection();
+    if (!block || !native || native.isCollapsed || native.rangeCount === 0) {
+      setSelection(null);
+      return;
+    }
+    const range = native.getRangeAt(0);
+    if (!block.contains(range.startContainer) || !block.contains(range.endContainer)) {
+      setSelection(null);
+      return;
+    }
+    const start = offsetWithin(block, range.startContainer, range.startOffset);
+    const end = offsetWithin(block, range.endContainer, range.endOffset);
+    if (start === null || end === null) return;
+    const [from, to] = start <= end ? [start, end] : [end, start];
+    if (to - from < 1 || to > text.length) return;
+    // Some engines (and jsdom) do not implement Range.getBoundingClientRect; the
+    // control then simply sits at the top of the viewport instead of failing.
+    let left = 8;
+    let top = 8;
+    try {
+      const rect = range.getBoundingClientRect?.();
+      if (rect) {
+        left = rect.left + rect.width / 2;
+        top = rect.top;
+      }
+    } catch {
+      /* the placement is cosmetic; the range itself is already computed */
+    }
+    setSelection({ start: from, end: to, box: { left, top } });
+  }
+
   const Region = inline ? "span" : "div";
   return (
     <Region className={className}>
-      <span id={hintId} className="sr-only">{dict.vocabulary.textLookupHint}</span>
+      {lexicalAssistance && <span id={hintId} className="sr-only">{dict.vocabulary.textLookupHint}</span>}
       <Region
         ref={node => { wrapperRef.current = node; }}
         className="relative whitespace-pre-line outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal-600"
-        data-clickable-text
+        data-clickable-text={lexicalAssistance ? "true" : undefined}
+        data-highlight-text={!lexicalAssistance ? "true" : undefined}
         data-highlight-surface={onHighlightRange ? "true" : undefined}
         role="group"
-        tabIndex={words.length ? 0 : undefined}
-        aria-label={dict.vocabulary.textLookup}
-        aria-describedby={hintId}
+        tabIndex={words.length || onHighlightRange ? 0 : undefined}
+        aria-label={lexicalAssistance ? dict.vocabulary.textLookup : dict.listening.general.highlight}
+        aria-describedby={lexicalAssistance ? hintId : undefined}
         onPointerDown={(event) => {
           if (pendingClick.current) clearTimeout(pendingClick.current);
           setActive(null);
@@ -121,6 +160,7 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "", inline 
         onPointerCancel={() => { if (gesture.current) gesture.current.cancelled = true; }}
         onContextMenu={() => { if (gesture.current) gesture.current.cancelled = true; }}
         onClick={(event) => {
+          if (!lexicalAssistance) return;
           const start = gesture.current;
           gesture.current = null;
           if (event.detail > 1 || (start && (start.cancelled || Date.now() - start.started >= 500))) return;
@@ -137,47 +177,14 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "", inline 
             }, 240);
           }
         }}
-        onMouseUp={() => {
-          // A selection the learner made INSIDE this text is a highlight candidate. The
-          // ranges are character offsets in the ORIGINAL string (never DOM nodes), so they
-          // survive a re-render and a reload unchanged.
-          if (!onHighlightRange) return;
-          const block = wrapperRef.current;
-          const native = window.getSelection();
-          if (!block || !native || native.isCollapsed || native.rangeCount === 0) {
-            setSelection(null);
-            return;
-          }
-          const range = native.getRangeAt(0);
-          if (!block.contains(range.startContainer) || !block.contains(range.endContainer)) {
-            setSelection(null);
-            return;
-          }
-          const start = offsetWithin(block, range.startContainer, range.startOffset);
-          const end = offsetWithin(block, range.endContainer, range.endOffset);
-          if (start === null || end === null) return;
-          const [from, to] = start <= end ? [start, end] : [end, start];
-          if (to - from < 1 || to > text.length) return;
-          // Some engines (and jsdom) do not implement Range.getBoundingClientRect; the
-          // control then simply sits at the top of the viewport instead of failing.
-          let left = 8;
-          let top = 8;
-          try {
-            const rect = range.getBoundingClientRect?.();
-            if (rect) {
-              left = rect.left + rect.width / 2;
-              top = rect.top;
-            }
-          } catch {
-            /* the placement is cosmetic; the range itself is already computed */
-          }
-          setSelection({ start: from, end: to, box: { left, top } });
-        }}
+        onMouseUp={captureSelection}
+        onKeyUp={onHighlightRange ? captureSelection : undefined}
         onKeyDown={(event) => {
           if (event.key === "Escape" && selection) {
             setSelection(null);
             return;
           }
+          if (!lexicalAssistance) return;
           if (event.target !== event.currentTarget || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
           if (["ArrowRight", "ArrowLeft", "Home", "End"].includes(event.key)) {
             event.preventDefault();
@@ -210,7 +217,7 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "", inline 
             : token.value;
           // A word keeps its own span (the popover finds it by `data-token`) even when it is
           // partly highlighted; the pieces above only choose the colours.
-          return token.isWord ? (
+          return lexicalAssistance && token.isWord ? (
             <span key={index} data-word={token.clean} data-token={index}
               className={active === index || cursor === index ? "rounded-sm bg-signal-50 text-ink-900" : undefined}>
               {body}
@@ -225,7 +232,7 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "", inline 
         <span
           data-highlight-control
           role="group"
-          aria-label={dict.vocabulary.textLookup}
+          aria-label={lexicalAssistance ? dict.vocabulary.textLookup : dict.listening.general.highlight}
           className="fixed z-50 flex -translate-x-1/2 items-center gap-1 rounded-lg border border-ink-100 bg-paper px-2 py-1 shadow-lg"
           style={{ left: selection.box.left, top: Math.max(8, selection.box.top - 44) }}
         >
@@ -259,7 +266,7 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "", inline 
           )}
         </span>
       )}
-      {active !== null && anchor && <WordPopover key={`${sourceType}:${sourceId}:${active}:${occurrence?.id ?? ""}`}
+      {lexicalAssistance && active !== null && anchor && <WordPopover key={`${sourceType}:${sourceId}:${active}:${occurrence?.id ?? ""}`}
         anchor={anchor} dict={dict} word={occurrence?.surfaceForm ?? tokens[active]!.clean} sourceType={sourceType} sourceId={sourceId} occurrenceId={occurrence?.id} catalogueLookup={catalogueLookup}
         onClose={() => close(true)} />}
     </Region>

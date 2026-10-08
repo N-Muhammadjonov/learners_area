@@ -10,7 +10,7 @@ import en from "../../src/lib/i18n/en";
  * Academic exam and in the post-submission Academic review: only the mode differs.
  */
 const dom = new JSDOM('<html><body><div id="root"></div></body></html>', { url: "http://localhost/reading" });
-for (const k of ["window", "document", "navigator", "HTMLElement", "HTMLButtonElement", "HTMLInputElement", "HTMLSelectElement", "HTMLTextAreaElement", "HTMLAnchorElement", "Element", "Node", "Event", "MouseEvent", "KeyboardEvent", "localStorage", "sessionStorage", "getComputedStyle"] as const)
+for (const k of ["window", "document", "navigator", "HTMLElement", "HTMLButtonElement", "HTMLInputElement", "HTMLSelectElement", "HTMLTextAreaElement", "HTMLAnchorElement", "Element", "Node", "NodeFilter", "Event", "MouseEvent", "KeyboardEvent", "localStorage", "sessionStorage", "getComputedStyle"] as const)
   Object.defineProperty(globalThis, k, { value: dom.window[k], configurable: true });
 Object.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true, self: globalThis, ResizeObserver: class { observe() {} disconnect() {} } });
 dom.window.HTMLElement.prototype.scrollIntoView = () => {};
@@ -72,8 +72,9 @@ test("ACADEMIC_EXAM (active test): the passage reveals nothing — no word targe
       // Attached material text inside the exam is plain as well.
       assert.ok(document.querySelector("[data-resource-blocks] [data-plain-text]"));
       assert.equal(document.body.textContent?.includes(en.readingPractice.wordSaveHint), false, "no 'click a word to save' hint");
-      // Visual integrity: nothing in the passage is a focus stop or styled as interactive vocabulary.
-      assert.equal(passage.querySelectorAll("[tabindex],button,a").length, 0, "no keyboard stop in the passage");
+      // Reading V4: one keyboard-reachable annotation surface, but no lexical target.
+      assert.equal(passage.querySelectorAll("[tabindex]").length, 1, "highlight has a keyboard-reachable text region");
+      assert.equal(passage.querySelectorAll("[data-word],a").length,0);
       const classes = Array.from(passage.querySelectorAll("*")).map((el) => el.getAttribute("class") ?? "").join(" ");
       for (const banned of ["cursor-pointer", "underline", "decoration-", "bg-signal", "hover:"]) assert.equal(classes.includes(banned), false, `no ${banned} on passage text`);
       // Interaction attempts: click and keyboard on the passage produce no lookup.
@@ -82,6 +83,23 @@ test("ACADEMIC_EXAM (active test): the passage reveals nothing — no word targe
       await act(async () => { text.dispatchEvent(new dom.window.KeyboardEvent("keydown", { key: "Enter", bubbles: true })); });
       assert.equal(document.querySelector("[role=dialog]"), null);
       assert.deepEqual(net.urls.filter((url) => url.includes("/api/vocabulary")), []);
+      const surface=passage.querySelector("[data-highlight-text]") as HTMLElement;
+      const walker=document.createTreeWalker(surface,dom.window.NodeFilter.SHOW_TEXT);
+      let node:Node|null; let position=0; const range=document.createRange();
+      while((node=walker.nextNode())) { const length=node.textContent!.length;
+        if(position<=4 && position+length>4) range.setStart(node,4-position);
+        if(position<8 && position+length>=8) {range.setEnd(node,8-position);break;} position+=length;
+      }
+      window.getSelection()!.removeAllRanges();window.getSelection()!.addRange(range);
+      await act(async()=>surface.dispatchEvent(new dom.window.KeyboardEvent("keyup",{key:"Shift",bubbles:true})));
+      await act(async()=> (document.querySelector("[data-highlight-control] button") as HTMLButtonElement).click());
+      assert.equal(surface.querySelector("mark")?.textContent,"bank");
+      assert.equal(surface.textContent,body,"highlight does not change text offsets");
+      await act(async()=> (document.querySelector("[data-reading-remove-highlight]") as HTMLButtonElement).click());
+      assert.equal(surface.querySelector("mark"),null);
+      assert.equal(surface.textContent,body,"removal never deletes text");
+      assert.deepEqual(net.urls.filter(url=>url.includes("/api/vocabulary")),[]);
+
     });
   } finally { net.restore(); }
 });

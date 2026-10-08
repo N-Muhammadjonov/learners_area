@@ -75,7 +75,7 @@ async function openWord(region: HTMLElement) {
 test("General single passage: vocabulary is ON immediately — click resolves by occurrence id with the passage id, Add to Vocabulary shown, no timer", async () => {
   const n = net();
   try {
-    await mount(React.createElement(GeneralReadingSession, { dict: en, setId: SET, setTitle: "Set one", passages: [passages[0]!], initialProgress: {}, mode: 1 }), async () => {
+    await mount(React.createElement(GeneralReadingSession, { userId: "test-user", dict: en, setId: SET, setTitle: "Set one", passages: [passages[0]!], initialProgress: {}, mode: 1 }), async () => {
       const region = document.querySelector("[data-general-passage='1'] [data-clickable-text]") as HTMLElement;
       assert.ok(region, "the General passage is vocabulary-interactive from the start");
       assert.equal(document.querySelector("[data-exam-passage-text]"), null, "not the exam's plain text");
@@ -94,7 +94,7 @@ test("General single passage: vocabulary is ON immediately — click resolves by
 test("Full Reading: all three passages reachable by tabs and vocabulary stays ON in each (P3 resolves with P3's passage id)", async () => {
   const n = net();
   try {
-    await mount(React.createElement(GeneralReadingSession, { dict: en, setId: SET, setTitle: "Set one", passages, initialProgress: {}, mode: "full" }), async () => {
+    await mount(React.createElement(GeneralReadingSession, { userId: "test-user", dict: en, setId: SET, setTitle: "Set one", passages, initialProgress: {}, mode: "full" }), async () => {
       const tabs = Array.from(document.querySelectorAll("[data-general-passage-tab]")) as HTMLButtonElement[];
       assert.deepEqual(tabs.map((t) => t.textContent), ["Passage 1", "Passage 2", "Passage 3"].map((s) => en.generalReading.passageN.replace("{n}", s.slice(-1))));
       for (const no of [2, 3]) {
@@ -114,7 +114,7 @@ test("Full Reading: all three passages reachable by tabs and vocabulary stays ON
 test("answers autosave per passage, Check shows learning results with evidence; Full mode keeps each passage's answers", async () => {
   const n = net();
   try {
-    await mount(React.createElement(GeneralReadingSession, { dict: en, setId: SET, setTitle: "Set one", passages, initialProgress: { [pid(3)]: { answers: { q3a: "false" }, score: null, total: null, checked: false } }, mode: "full" }), async () => {
+    await mount(React.createElement(GeneralReadingSession, { userId: "test-user", dict: en, setId: SET, setTitle: "Set one", passages, initialProgress: { [pid(3)]: { answers: { q3a: "false" }, score: null, total: null, checked: false } }, mode: "full" }), async () => {
       const radio = document.querySelector("input[name='q-q1a'][value='true']") as HTMLInputElement;
       assert.ok(radio, "TFNG offers TRUE/FALSE/NOT GIVEN");
       assert.equal(document.querySelectorAll("input[name='q-q1a']").length, 3);
@@ -147,7 +147,7 @@ test("answers autosave per passage, Check shows learning results with evidence; 
 
 test("learner-facing text shows no internal ids or enum names (en + uz Latin)", async () => {
   for (const dict of [en, uz]) {
-    await mount(React.createElement(GeneralReadingSession, { dict, setId: SET, setTitle: "Set one", passages, initialProgress: {}, mode: "full" }), async () => {
+    await mount(React.createElement(GeneralReadingSession, { userId: "test-user", dict, setId: SET, setTitle: "Set one", passages, initialProgress: {}, mode: "full" }), async () => {
       const text = document.body.textContent ?? "";
       for (const banned of [SET, pid(1), "occ-1", "general_practice", "GENERAL_PRACTICE", "ACADEMIC", "true_false_not_given", "multiple_choice", "q1a"]) assert.equal(text.includes(banned), false, banned);
       assert.equal(/[\u0400-\u04FF]/.test(text), false, "no Cyrillic");
@@ -169,7 +169,7 @@ test("VD-003 XSS: HTML-like source, question and popup strings render as literal
     : { status: "resolved", contextual: { definitionEn: "<img src=y onerror=alert(2)>money place", translationUz: "<i>bank</i>", verificationStatus: "verified", partOfSpeech: "noun", lexicalType: "word", ipa: null }, known: null }),
     { headers: { "Content-Type": "application/json" } })) as typeof fetch;
   try {
-    await mount(React.createElement(GeneralReadingSession, { dict: en, setId: SET, setTitle: "<i>S</i>", passages: [xssPassage], initialProgress: {}, mode: 1 }), async () => {
+    await mount(React.createElement(GeneralReadingSession, { userId: "test-user", dict: en, setId: SET, setTitle: "<i>S</i>", passages: [xssPassage], initialProgress: {}, mode: 1 }), async () => {
       for (const tag of ["img", "script", "svg", "b", "i"]) assert.equal(document.querySelector(`[data-general-reading] ${tag}`), null, `no <${tag}> element from data`);
       assert.ok(document.body.textContent!.includes('<img src=x onerror="globalThis.__xss=1">'), "source text kept verbatim, not stripped");
       assert.ok(document.body.textContent!.includes("<svg onload=alert(1)>Q</svg>"));

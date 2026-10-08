@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useFocusEntry } from "@/lib/interaction/focus-entry";
 import { useEffect, useRef, useState } from "react";
-import { ClickableText } from "@/components/vocabulary/ClickableText";
+import { ReadingHighlightedText, useReadingHighlights } from "@/components/reading/ReadingHighlights";
 import { ReadAloud } from "@/components/reading/ReadAloud";
 import { choiceSetFor } from "@/lib/reading-choices";
 import { failureMessage, requestJson } from "@/lib/http/client-request";
@@ -31,8 +31,9 @@ export type GeneralPassage = {
 export type GeneralProgressView = { answers: Record<string, string>; score: number | null; total: number | null; checked: boolean };
 type CheckRow = { questionId: string; isCorrect: boolean; correctAnswer: string; evidenceQuote: string | null; explanation: string | null };
 
-export function GeneralReadingSession({ dict, setId, setTitle, passages, initialProgress, mode }: {
+export function GeneralReadingSession({ dict, setId, setTitle, passages, initialProgress, mode, userId }: {
   dict: Dictionary;
+  userId: string;
   setId: string;
   setTitle: string;
   passages: GeneralPassage[];
@@ -42,6 +43,7 @@ export function GeneralReadingSession({ dict, setId, setTitle, passages, initial
 }) {
   useFocusEntry(`general-reading:${setId}:${mode}`);
   const t = dict.generalReading;
+  const highlightsFor=useReadingHighlights(`${userId}:${setId}`);
   const [active, setActive] = useState(passages[0]?.passageNo ?? 1);
   const [answers, setAnswers] = useState<Record<string, Record<string, string>>>(() =>
     Object.fromEntries(passages.map((p) => [p.passageId, initialProgress[p.passageId]?.answers ?? {}])));
@@ -113,12 +115,12 @@ export function GeneralReadingSession({ dict, setId, setTitle, passages, initial
             {passage.paragraphs.length > 0 ? passage.paragraphs.map((paragraph) => (
               <div key={paragraph.id} className="flex gap-3">
                 {paragraph.label ? <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-paper-sunken text-xs font-semibold text-ink-700">{paragraph.label}</span> : null}
-                <ClickableText dict={dict} text={paragraph.text} occurrences={occurrenceSpans(passage.body, paragraph.text, passage.occurrences)}
+                <ReadingHighlightedText {...highlightsFor(paragraph.id,paragraph.text)} dict={dict} text={paragraph.text} occurrences={occurrenceSpans(passage.body, paragraph.text, passage.occurrences)}
                   sourceType="reading" sourceId={passage.passageId} lexicalAssistance
                   className={`academic-text text-sm leading-relaxed text-ink-700 ${paragraph.isFootnote ? "italic" : ""}`} />
               </div>
             )) : (
-              <ClickableText dict={dict} text={passage.body} occurrences={occurrenceSpans(passage.body, passage.body, passage.occurrences)}
+              <ReadingHighlightedText {...highlightsFor(passage.passageId,passage.body)} dict={dict} text={passage.body} occurrences={occurrenceSpans(passage.body, passage.body, passage.occurrences)}
                 sourceType="reading" sourceId={passage.passageId} lexicalAssistance className="academic-text text-sm leading-relaxed text-ink-700" />
             )}
           </div>

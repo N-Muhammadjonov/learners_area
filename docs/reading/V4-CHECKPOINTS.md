@@ -42,3 +42,39 @@ registry-complete rendering/import, and Retention direct-entry audit remain open
 No Reading production freeze, fresh full gate, QA2 HTTP campaign, or Reading Vercel
 release claim has been made. Prior Listening/TED full-gate results are not Reading
 V4 evidence. Pointer/highlight and 390/768/1440 rendering: externally unverified.
+
+## General Check: df23a15
+
+Server returns authored explanation and evidence only on explicit Check; UI renders
+both as plain support text and labels missing source rather than inventing it.
+Check/save also gates the individual passage's publication, not only its parent set.
+PGlite behavioral test: 1/1 pass, no fail/skip. General DOM suite: 5/5 pass,
+no fail/skip. Typecheck/lint/diff check pass. Remote equality verified; Vercel
+status success, Deployment has completed (checked separately).
+
+## Shared highlight integration
+
+Academic and General use the existing ClickableText offset renderer. Lexical-off
+text can explicitly opt into highlighting without word targets, popup, lookup,
+or occurrence props. Native-selection offsets and removal keep text unchanged;
+keyboard selection can expose the highlight control. General retains Dictionary
+and occurrence-based lookup. Reading highlight state is mounted owner/attempt
+memory only: passage tabs retain it, leaving/reload clears it; no storage/schema
+or cross-device persistence is claimed.
+
+Reading/General/shared highlight DOM suite: 15 total, 15 pass, 0 fail, 0 skip.
+Listening controls/section highlights/notes/results and TED closure/UX/voice DOM
+regressions: 95 total, 95 pass, 0 fail, 0 skip. Reading V4 focused unit/SQL group:
+8 total, 8 pass, 0 fail, 0 skip. Typecheck/lint/diff check pass. Real pointer and
+viewport painting remain externally unverified. These suites overlap earlier
+checkpoint suites and must not be summed as a full-gate total.
+
+The open-blocker list above is historical at the discovery checkpoint: General
+explanation and highlight implementation now exist with this focused evidence.
+Academic V1/V2 history remains P0: `persistReading` in `content/authors.ts` deletes
+existing passages by sourceRef; attempt foreign keys can block draft creation,
+and question answer rows have cascading deletion. No migration has been proposed
+or created; the existing version target/snapshot capability needs a safe Reading
+materialization design and a real draft/publish/old-attempt proof before closure.
+Academic review Dictionary, registry-complete import/rendering, HTTP and fresh
+full-gate verification remain open. Nothing here declares the repository frozen.

@@ -1,4 +1,5 @@
 "use client";
+import { ReadingHighlightedText, useReadingHighlights } from "@/components/reading/ReadingHighlights";
 
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -190,6 +191,7 @@ export function ReadingExam({
   // A real Reading attempt is exactly the place Focus mode is for: entering one
   // turns it on once, and the shell still honours a manual exit.
   useFocusEntry(attemptId);
+  const highlightsFor=useReadingHighlights(attemptId);
 
   const [answers, setAnswers] = useState<Record<string, string>>(savedAnswers);
   const [pane, setPane] = useState<"passage" | "questions">("passage");
@@ -477,15 +479,15 @@ export function ReadingExam({
                   ) : (
                     <span className="w-7 shrink-0" aria-hidden />
                   )}
-                  <ExamPassageText
+                  <div data-exam-passage-text><ReadingHighlightedText dict={dict} sourceType="reading" sourceId={attemptId} lexicalAssistance={false} {...highlightsFor(paragraph.id,paragraph.text)}
                     text={paragraph.text}
                     className={`academic-text text-sm leading-relaxed text-ink-700 ${paragraph.isFootnote ? "italic" : ""}`}
-                  />
+                  /></div>
                 </div>
               ))
             ) : (
               // A passage that was stored as one block of text still renders.
-              <ExamPassageText text={shownBody} className="academic-text text-sm leading-relaxed text-ink-700" />
+              <div data-exam-passage-text><ReadingHighlightedText dict={dict} sourceType="reading" sourceId={attemptId} lexicalAssistance={false} {...highlightsFor(`part:${activePart}`,shownBody)} text={shownBody} className="academic-text text-sm leading-relaxed text-ink-700" /></div>
             )}
           </div>
 
@@ -955,14 +957,4 @@ function QuestionCard({
       )}
     </div>
   );
-}
-
-/**
- * The active IELTS Academic passage (mode ACADEMIC_EXAM, src/lib/reading/lexical-policy.ts).
- * Plain text by design: no word buttons, no keyboard word cursor, no pointer, no
- * vocabulary styling and no lexical data in the props — whatever lexical rows exist
- * in the database. Native selection/copy still works.
- */
-function ExamPassageText({ text, className }: { text: string; className: string }) {
-  return <div className={`whitespace-pre-line ${className}`} data-exam-passage-text>{text}</div>;
 }
