@@ -100,17 +100,20 @@ test("Progress streams the module destination before learner-owned summary queri
   assert.match(page, /<ProgressContent userId=\{user\.id\}/);
 });
 
-test("Reading streams counts, facets, and the selected library through independent loading regions", () => {
-  const page = read("src/app/app/(shell)/reading/page.tsx");
-  assert.match(page, /data-route-usable="reading"/);
-  assert.match(page, /<ReadingWorkspace userId=\{user\.id\}/);
-  assert.match(page, /const countsPromise = captureRegion\(readingHubCounts\(userId\)\)/);
-  assert.match(page, /captureRegion\(listLibraryFacets\(true\)\)/, "the facets read is captured (and only the tabs that show facets read it)");
-  assert.match(page, /captureRegion\(listLearningLibrary\(userId, filter\)\)/, "the selected library read is captured as its own region");
-  assert.match(page, /data-async-loading="reading-hub-counts"/);
-  assert.match(page, /data-async-loading="reading-library-facets"/);
-  assert.match(page, /data-async-loading="reading-library"/);
-  assert.doesNotMatch(page, /Promise\.allSettled/);
+test("Reading doorway needs no catalogue reads; General library keeps independent loading/failure regions", () => {
+  const root=read("src/app/app/(shell)/reading/page.tsx");
+  assert.match(root,/data-route-usable="reading"/);
+  assert.doesNotMatch(root,/readingHubCounts|listLibrary|listLearningLibrary|listLibraryFacets/);
+  const page=read("src/components/reading/ReadingLearningLibrary.tsx");
+  assert.match(page,/const facetsPromise = captureRegion\(listLibraryFacets\(true\)\)/);
+  assert.match(page,/const libraryPromise = captureRegion\(listLearningLibrary\(userId,\s*filter\)\)/);
+  assert.match(page,/<Suspense fallback=\{<ReadingFiltersSkeleton dict=\{dict\} \/>\}>[\s\S]*ReadingFiltersRegion[\s\S]*facetsPromise=\{facetsPromise\}/);
+  assert.match(page,/<Suspense fallback=\{<ReadingLibrarySkeleton \/>\}>[\s\S]*ReadingLibraryRegion[\s\S]*libraryPromise=\{libraryPromise\}/);
+  assert.match(page,/RegionFailureNotice[\s\S]*reading-library-facets/);
+  assert.match(page,/RegionFailureNotice[\s\S]*reading-library/);
+  assert.match(page,/data-async-loading="reading-library-facets"/);
+  assert.match(page,/data-async-loading="reading-library"/);
+  assert.doesNotMatch(page,/Promise\.allSettled/);
 });
 
 test("Vocabulary streams its destination frame before authenticated, selected-view panel data resolves", () => {

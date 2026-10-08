@@ -86,21 +86,20 @@ test("Live Classes exposes core classes while optional teacher and resource quer
   assert.doesNotMatch(page, /select\(\{ liveClass: liveClasses \}/);
 });
 
-test("Reading streams counts, facets, and selected library independently with local failure notices", () => {
-  const page = read("src/app/app/(shell)/reading/page.tsx");
-  assert.match(page, /const countsPromise = captureRegion\(readingHubCounts\(userId\)\)/);
-  // The accepted base already reads facets with the learning-library flag and streams
-  // the learning library itself; the invariant under test is that EACH region is its
-  // own captured promise, so the assertions name the calls the page really makes.
-  assert.match(page, /tab === "general-reading" \|\| tab === "types"[\s\S]*captureRegion\(listLibraryFacets\(true\)\)/);
-  assert.match(page, /tab === "general-reading"[\s\S]*captureRegion\(listLearningLibrary\(userId, filter\)\)/);
-  assert.match(page, /<Suspense fallback=\{<ReadingCountsSkeleton dict=\{dict\} \/>\}>[\s\S]*ReadingCountsRegion countsPromise=\{countsPromise\}/);
-  assert.match(page, /<Suspense fallback=\{<ReadingFiltersSkeleton dict=\{dict\} \/>\}>[\s\S]*ReadingFiltersRegion[\s\S]*facetsPromise=\{facetsPromise\}/);
-  assert.match(page, /<Suspense fallback=\{<ReadingLibrarySkeleton \/>\}>[\s\S]*ReadingLibraryRegion[\s\S]*libraryPromise=\{libraryPromise\}/);
-  assert.match(page, /RegionFailureNotice[\s\S]*reading-hub-counts/);
-  assert.match(page, /RegionFailureNotice[\s\S]*reading-library-facets/);
-  assert.match(page, /RegionFailureNotice[\s\S]*reading-library/);
-  assert.doesNotMatch(page, /Promise\.allSettled/);
+test("Reading doorway needs no catalogue reads; General library keeps independent loading/failure regions", () => {
+  const root=read("src/app/app/(shell)/reading/page.tsx");
+  assert.match(root,/data-route-usable="reading"/);
+  assert.doesNotMatch(root,/readingHubCounts|listLibrary|listLearningLibrary|listLibraryFacets/);
+  const page=read("src/components/reading/ReadingLearningLibrary.tsx");
+  assert.match(page,/const facetsPromise = captureRegion\(listLibraryFacets\(true\)\)/);
+  assert.match(page,/const libraryPromise = captureRegion\(listLearningLibrary\(userId,\s*filter\)\)/);
+  assert.match(page,/<Suspense fallback=\{<ReadingFiltersSkeleton dict=\{dict\} \/>\}>[\s\S]*ReadingFiltersRegion[\s\S]*facetsPromise=\{facetsPromise\}/);
+  assert.match(page,/<Suspense fallback=\{<ReadingLibrarySkeleton \/>\}>[\s\S]*ReadingLibraryRegion[\s\S]*libraryPromise=\{libraryPromise\}/);
+  assert.match(page,/RegionFailureNotice[\s\S]*reading-library-facets/);
+  assert.match(page,/RegionFailureNotice[\s\S]*reading-library/);
+  assert.match(page,/data-async-loading="reading-library-facets"/);
+  assert.match(page,/data-async-loading="reading-library"/);
+  assert.doesNotMatch(page,/Promise\.allSettled/);
 });
 
 test("Writing prompt entry does not wait for typing stats; the typing region catches and retries locally", () => {

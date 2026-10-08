@@ -24,11 +24,17 @@ test("page and API enforce the same rule; dry run never commits", () => {
   assert.match(readFileSync("src/app/app/(shell)/admin/reading/page.tsx", "utf8"), /href="\/app\/admin\/reading\/import"/);
 });
 
-test("the learner Reading area carries no staff import/upload/authoring UI", () => {
+test("Reading import stays Management-only; lesson authoring is independently staff-gated", () => {
   const files = [...walk("src/app/app/(shell)/reading"), ...walk("src/components/reading")].filter((f) => /\.tsx?$/.test(f));
   for (const f of files) {
     const src = readFileSync(f, "utf8");
-    assert.doesNotMatch(src, /\/admin\/reading|reading\/import|startUpload\(|NewPassageForm|isStaff\(|isAdministrator\(/, f);
+    assert.doesNotMatch(src, /\/admin\/reading|reading\/import|startUpload\(|NewPassageForm|isAdministrator\(/, f);
+    if(f.endsWith("reading/lessons/page.tsx")) assert.match(src,/isStaff\(user.role\) && <Link[^>]*href="\/app\/reading\/lessons\/author"/);
+    else assert.doesNotMatch(src,/isStaff\(/,f);
+    if(f.endsWith("reading/lessons/author/page.tsx")) {
+      assert.match(src,/requireStaff\(\)/);assert.match(src,/if \(!user\) redirect/);
+      assert.match(src,/if \(!mayAuthorContent\(user.role, "lesson", "lesson"\)\) redirect/);
+    }
   }
 });
 

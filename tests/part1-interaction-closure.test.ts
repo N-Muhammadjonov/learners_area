@@ -87,13 +87,9 @@ test("the utility stack is collapsed behind one launcher in both locales", () =>
 
 test("the Reading hub keeps Reading concepts only", () => {
   const page = read("src/app/app/(shell)/reading/page.tsx");
-  const tabs = page.slice(page.indexOf("const TABS ="), page.indexOf("type Tab ="));
-  assert.deepEqual(
-    tabs.match(/"[a-z-]+"/g),
-    // Owner swap (2026-10-02): "academic" = guided reading sets, "general-reading"
-    // = the passage library, "general" = General Training. All Reading concepts.
-    ['"academic"', '"general-reading"', '"general"', '"types"', '"retention"'],
-  );
+  const destinations=read("src/lib/reading/destinations.ts");
+  assert.match(destinations,/READING_DESTINATIONS = \["lessons", "academic", "general", "question-types", "retention"\]/);
+  assert.match(page,/READING_DESTINATIONS.map/);
   // A comment records why the tab left; no code may reintroduce it.
   assert.doesNotMatch(code(page), /video/i);
   assert.doesNotMatch(code(page), /data-reading-videos/);

@@ -17,7 +17,7 @@ export default async function ReadingPage({ searchParams }: { searchParams: Prom
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2" data-reading-destinations>
       {READING_DESTINATIONS.map(key => <section key={key} className="card flex flex-col gap-2 p-5" data-reading-destination={key}>
         <h2 className="card-title">{t.products[key].title}</h2><p className="body-text">{t.products[key].hint}</p>
-        <Link className="btn-primary mt-auto self-start" href={`/app/reading/${key}`}>{t.open}</Link>
+        <Link className="btn-primary mt-auto self-start" href={`/app/reading/${key}`} prefetch={false}>{t.open}</Link>
       </section>)}
     </div>
     <Link className="link-inline w-fit" href="/app/reading/history" data-reading-history-entry>{dict.reading.historyTitle}</Link>

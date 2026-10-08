@@ -102,8 +102,9 @@ test("the old passage-driven drill is gone: the route ignores any passage parame
 
 test("the Reading hub no longer carries the TED / PODCAST tab (Part 1 override)", () => {
   const hub = read("src/app/app/(shell)/reading/page.tsx");
-  const tabs = hub.match(/const TABS = \[([^\]]+)\]/)![1]!;
-  assert.ok(!tabs.includes("videos"), `TABS still contains videos: ${tabs}`);
+  const destinations = read("src/lib/reading/destinations.ts");
+  assert.match(destinations,/READING_DESTINATIONS = \["lessons", "academic", "general", "question-types", "retention"\]/);
+  assert.ok(!destinations.includes("videos"));
   assert.ok(!hub.includes("data-reading-videos"));
 });
 
