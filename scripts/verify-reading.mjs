@@ -1,5 +1,17 @@
 #!/usr/bin/env node
 /**
+ * SUPERSEDED — this script describes the PRE-V4 Reading architecture and is not
+ * part of any gate or npm script. It still expects the old tabbed Reading hub, a
+ * read-aloud control inside the attempt surface and spelling-based vocabulary
+ * lookup from a passage, none of which are the approved Reading V4 contract (the
+ * active Academic exam now carries no read-aloud and refuses Dictionary lookup at
+ * every passage position, by attempt id AND by passage id).
+ *
+ * Reading V4 acceptance is `scripts/verify-reading-v4.mjs` (built-server HTTP) and
+ * `scripts/verify-reading-browser.mjs` (real Chromium), both of which create their
+ * own uniquely named fixtures and prove residue 0. Do not relax a product contract
+ * to make this older script pass; it is kept only as historical provenance.
+ *
  * End-to-end verification of the Reading upgrades over real HTTP.
  *
  * Proves, in order:
