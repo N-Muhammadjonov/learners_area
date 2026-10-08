@@ -14,20 +14,36 @@ export const dynamic = "force-dynamic";
  * The owner's fourth destination is a training programme, not a test library. Each card is one
  * authored DAY holding exactly five multiple-choice questions, and it states only what is true: the
  * day number the centre authored, how many questions it really holds, and THIS learner's status.
- * A day that has not been published is not rendered as an empty card, and the programme's target of
- * thirty days is never presented as available content.
+ * A day that has not been published is not rendered as an empty card, and NO target day count is
+ * claimed: the programme has no maximum number of days, so the only figure shown is how many days
+ * genuinely exist. Days are read one bounded page at a time, so a programme of a thousand days
+ * stays reachable and no page streams an unbounded result set.
  *
  * The chrome is English and Uzbek; the questions themselves are the owner's material and are never
  * translated or generated.
  */
-export default async function ListeningMcqPage() {
-  const [user, locale] = await Promise.all([requireActiveUser(), getLocale()]);
+export default async function ListeningMcqPage({
+  searchParams,
+}: {
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const [user, locale, params] = await Promise.all([
+    requireActiveUser(),
+    getLocale(),
+    searchParams ?? Promise.resolve({} as Record<string, string | string[] | undefined>),
+  ]);
   if (!user) return null;
 
   const dict = getDictionary(locale);
   const t = dict.listening.mcqProgram;
   const staff = isStaff(user.role);
-  const { days, progress } = await mcqProgramDays(user, { includeDrafts: staff });
+  // A hostile or mistyped ?page= is normalised, never trusted: a non-number is page 1.
+  const rawPage = Array.isArray(params.page) ? params.page[0] : params.page;
+  const requestedPage = Number.parseInt(String(rawPage ?? "1"), 10);
+  const { days, progress, page, hasNextPage, visibleDays, pageSize } = await mcqProgramDays(user, {
+    includeDrafts: staff,
+    page: Number.isFinite(requestedPage) ? requestedPage : 1,
+  });
 
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-6" data-route-usable="listening-mcq">
@@ -38,7 +54,7 @@ export default async function ListeningMcqPage() {
         {/* Truthful arithmetic: published days first, the authored target stated separately. */}
         <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-ink-300">
           <span data-listening-mcq-days-published={progress.daysPublished}>
-            {t.daysPublished.replace("{published}", String(progress.daysPublished)).replace("{target}", String(progress.dayTarget))}
+            {t.daysPublished.replace("{published}", String(progress.daysPublished))}
           </span>
           {progress.daysPublished > 0 && (
             <span data-listening-mcq-days-completed={progress.daysCompleted}>
@@ -98,11 +114,34 @@ export default async function ListeningMcqPage() {
         </div>
       )}
 
-      <p className="text-xs text-ink-300">
-        {t.targetNote
-          .replace("{target}", String(progress.dayTarget))
-          .replace("{perDay}", String(MCQ_DAY_QUESTION_COUNT))}
-      </p>
+      {/* Pagination is rendered ONLY when more than one page of days really exists, and each
+          control is a real address: reload, back, forward and a bookmark all work. */}
+      {(hasNextPage || page > 1) && (
+        <nav className="flex items-center justify-between gap-3" data-listening-mcq-pagination={page}>
+          {page > 1 ? (
+            <Link className="btn-ghost" href={`/app/listening/mcq?page=${page - 1}`} data-listening-mcq-prev>
+              {t.previousPage}
+            </Link>
+          ) : (
+            <span />
+          )}
+          <span className="text-xs text-ink-300" data-listening-mcq-page-range>
+            {t.pageRange
+              .replace("{from}", String((page - 1) * pageSize + 1))
+              .replace("{to}", String((page - 1) * pageSize + days.length))
+              .replace("{total}", String(visibleDays))}
+          </span>
+          {hasNextPage ? (
+            <Link className="btn-ghost" href={`/app/listening/mcq?page=${page + 1}`} data-listening-mcq-next>
+              {t.nextPage}
+            </Link>
+          ) : (
+            <span />
+          )}
+        </nav>
+      )}
+
+      <p className="text-xs text-ink-300">{t.targetNote.replace("{perDay}", String(MCQ_DAY_QUESTION_COUNT))}</p>
     </div>
   );
 }

@@ -29,11 +29,16 @@ import {
  */
 
 /**
- * A runaway guard, not a pagination scheme: the programme is authored as thirty days, so this
- * bound cannot cut honest content. It exists so a malformed catalogue can never stream an
- * unbounded result set into a page.
+ * REAL pagination, not a runaway guard.
+ *
+ * The programme has no maximum number of days: a centre may publish a hundred or a thousand. A
+ * fixed read ceiling would therefore silently HIDE honest content (day 201 of 1000 would simply
+ * not exist for the learner), so one bounded page of days is read per request, ordered by the
+ * authored ordinal, with the real total counted in SQL.
  */
-const MCQ_DAY_READ_LIMIT = 200;
+const MCQ_DAY_PAGE_SIZE = 24;
+/** A hostile `?page=` cannot ask the database to seek past this many pages. */
+const MCQ_DAY_MAX_PAGE = 10_000;
 
 /**
  * Is migration 0052's programme relation present?
@@ -64,6 +69,12 @@ export type McqDayCard = {
 export type McqProgramPage = {
   days: McqDayCard[];
   progress: ReturnType<typeof mcqProgramProgress>;
+  /** 1-based page actually read, the page size, and whether another page of days exists. */
+  page: number;
+  pageSize: number;
+  hasNextPage: boolean;
+  /** Days visible to THIS reader (published, plus drafts when staff preview). */
+  visibleDays: number;
 };
 
 /** Membership is the authored relation, and a day carries a real ordinal. */
@@ -84,12 +95,17 @@ function programMembership(): SQL {
  */
 export async function mcqProgramDays(
   user: { id: string; role: Role },
-  options: { includeDrafts?: boolean } = {},
+  options: { includeDrafts?: boolean; page?: number } = {},
   database: typeof db = db,
 ): Promise<McqProgramPage> {
+  const page = Math.max(1, Math.min(MCQ_DAY_MAX_PAGE, Math.floor(options.page ?? 1) || 1));
   const empty: McqProgramPage = {
     days: [],
     progress: mcqProgramProgress({ publishedDays: 0, completedDays: 0, completedQuestions: 0 }),
+    page,
+    pageSize: MCQ_DAY_PAGE_SIZE,
+    hasNextPage: false,
+    visibleDays: 0,
   };
   if (!(await listeningSchemaReady(database))) return empty;
   if (!(await mcqProgramReady(database))) return empty;
@@ -98,7 +114,7 @@ export async function mcqProgramDays(
   const live = liveWhere(listeningTests);
   const visibleWhere = staff ? programMembership() : (and(programMembership(), live) as SQL);
 
-  const [rows, [publishedCount]] = await Promise.all([
+  const [rows, [publishedCount], [visibleCount]] = await Promise.all([
     database
       .select({
         testId: listeningTests.id,
@@ -111,15 +127,26 @@ export async function mcqProgramDays(
       .where(visibleWhere)
       // The AUTHORED day order: the stored ordinal, ascending. Not created_at, not a title.
       .orderBy(asc(listeningTests.programOrdinal))
-      .limit(MCQ_DAY_READ_LIMIT),
+      // One bounded page, plus a single lookahead row that answers "is there a next page?"
+      // without a second count query.
+      .limit(MCQ_DAY_PAGE_SIZE + 1)
+      .offset((page - 1) * MCQ_DAY_PAGE_SIZE),
     // How many days are really published — the headline number, counted in SQL so it can never be
     // an artefact of what this page happened to read or of a draft a member of staff previewed.
     database.select({ total: count() }).from(listeningTests).where(and(programMembership(), live) as SQL),
+    database.select({ total: count() }).from(listeningTests).where(visibleWhere),
   ]);
 
-  const days = rows.filter((row) => row.day !== null);
+  const hasNextPage = rows.length > MCQ_DAY_PAGE_SIZE;
+  const days = rows.slice(0, MCQ_DAY_PAGE_SIZE).filter((row) => row.day !== null);
+  const visibleDays = Number(visibleCount?.total ?? 0);
   if (!days.length)
-    return { ...empty, progress: mcqProgramProgress({ publishedDays: Number(publishedCount?.total ?? 0), completedDays: 0, completedQuestions: 0 }) };
+    return {
+      ...empty,
+      progress: mcqProgramProgress({ publishedDays: Number(publishedCount?.total ?? 0), completedDays: 0, completedQuestions: 0 }),
+      hasNextPage: false,
+      visibleDays,
+    };
 
   // One resolver, the same one the drill uses: the LIVE set of each day, so a card can never state
   // questions a learner would not be given.
@@ -172,6 +199,10 @@ export async function mcqProgramDays(
       completedDays,
       completedQuestions,
     }),
+    page,
+    pageSize: MCQ_DAY_PAGE_SIZE,
+    hasNextPage,
+    visibleDays,
   };
 }
 

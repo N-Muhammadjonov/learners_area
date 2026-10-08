@@ -300,8 +300,8 @@ test("C2/C3 the day is read in its AUTHORED order with the learner's own stages,
     assert.equal(catalogue.progress.daysPublished, 2);
     assert.equal(catalogue.progress.daysCompleted, 0, "no day is finished yet");
     assert.equal(catalogue.progress.questionsPublished, 10, "two published days of five");
-    assert.equal(catalogue.progress.dayTarget, 30, "the target is reported as a target");
-    assert.notEqual(catalogue.progress.questionsPublished, 150, "150 is never claimed before thirty days exist");
+    assert.ok(!("dayTarget" in catalogue.progress), "no fabricated day target is reported");
+    assert.notEqual(catalogue.progress.questionsPublished, 150, "150 is never claimed before the days exist");
   } finally {
     await fixtures.database.close();
   }

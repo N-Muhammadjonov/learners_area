@@ -3,7 +3,6 @@ import assert from "node:assert/strict";
 import {
   MCQ_DAY_QUESTION_COUNT,
   MCQ_FINAL_STAGE,
-  MCQ_PROGRAM_DAY_TARGET,
   MCQ_PROGRAM_REF,
   isMcqDayRow,
   mcqDayProblems,
@@ -121,9 +120,15 @@ test("an ungradable or unanswerable question is refused", () => {
 
 test("the programme identity and its authored shape are stable constants, never parsed text", () => {
   assert.equal(MCQ_PROGRAM_REF, "listening-mcq-program");
-  assert.equal(MCQ_PROGRAM_DAY_TARGET, 30);
   assert.ok(isMcqDayRow({ programRef: MCQ_PROGRAM_REF, programOrdinal: 1 }), "day 1 belongs to the programme");
   assert.ok(isMcqDayRow({ programRef: MCQ_PROGRAM_REF, programOrdinal: 30 }), "so does day 30");
+  // GOLDEN-04 There is NO maximum day. Day 31, day 100 and day 4096 are ordinary programme days:
+  // the old thirty-day cap must not survive anywhere as a membership rule.
+  for (const ordinal of [31, 100, 365, 4096, 100_000])
+    assert.ok(
+      isMcqDayRow({ programRef: MCQ_PROGRAM_REF, programOrdinal: ordinal }),
+      `day ${ordinal} is a programme day: the programme has no day limit`,
+    );
   for (const row of [
     { programRef: null, programOrdinal: 3 },
     { programRef: MCQ_PROGRAM_REF, programOrdinal: null },
@@ -180,19 +185,26 @@ test("day status is derived: the owner's example — Q1/Q2 reasoned, Q3 committe
   assert.equal(mcqDayStatus(mcqDayStates(ids, [{ questionId: "someone-else", stage: "reasoned" }])).completed, 0);
 });
 
-test("the programme never claims questions that do not exist", () => {
-  // A target of thirty days is metadata: with eight published days the honest figure is eight.
+test("the programme never claims questions that do not exist, and never claims a target", () => {
+  // With eight published days the honest figure is eight — and nothing is divided by an intention.
   const partial = mcqProgramProgress({ publishedDays: 8, completedDays: 3, completedQuestions: 12 });
   assert.equal(partial.daysPublished, 8);
   assert.equal(partial.daysCompleted, 3);
   assert.equal(partial.questionsPublished, 40, "eight days of five");
-  assert.notEqual(partial.questionsPublished, 150, "150 is not claimed before thirty days exist");
-  assert.equal(partial.dayTarget, 30, "the target is reported separately, as a target");
+  assert.notEqual(partial.questionsPublished, 150, "150 is not claimed before the days exist");
+  // GOLDEN-04 No day target is reported at all: a fixed target becomes a lie ("100 of 30") the
+  // moment the centre publishes past it, so the figure simply does not exist.
+  assert.ok(!("dayTarget" in partial), "no fabricated day target is reported to any caller");
 
   const empty = mcqProgramProgress({ publishedDays: 0, completedDays: 0, completedQuestions: 0 });
   assert.equal(empty.questionsPublished, 0);
   assert.equal(empty.daysPublished, 0);
 
-  const full = mcqProgramProgress({ publishedDays: 30, completedDays: 30, completedQuestions: 150 });
-  assert.equal(full.questionsPublished, MCQ_PROGRAM_DAY_TARGET * MCQ_DAY_QUESTION_COUNT);
+  // GOLDEN-04 A hundred published days is a hundred published days: five hundred questions, with
+  // no ceiling applied anywhere in the arithmetic.
+  const hundred = mcqProgramProgress({ publishedDays: 100, completedDays: 100, completedQuestions: 500 });
+  assert.equal(hundred.daysPublished, 100, "a programme may exceed thirty days");
+  assert.equal(hundred.questionsPublished, 100 * MCQ_DAY_QUESTION_COUNT, "five questions per published day, uncapped");
+  const thousand = mcqProgramProgress({ publishedDays: 1000, completedDays: 7, completedQuestions: 35 });
+  assert.equal(thousand.questionsPublished, 5000, "a thousand days is not truncated to thirty");
 });

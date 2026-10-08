@@ -4,8 +4,11 @@ import { listeningQuestionIdentity } from "./question-identity";
 /**
  * THE DEDICATED MCQ PROGRAMME — DAYS, AND WHAT MAKES ONE PUBLISHABLE.
  *
- * The owner's fourth Listening destination is a 30-day MCQ training programme: DAY 1 → DAY 30,
- * EXACTLY five multiple-choice questions per day, 150 in total. It is NOT an Academic full test,
+ * The owner's fourth Listening destination is a DAY-BY-DAY MCQ training programme: DAY 1, DAY 2,
+ * DAY n — EXACTLY five multiple-choice questions per published day, and NO maximum number of days.
+ * The centre may publish thirty days, a hundred, a thousand, archive old ones and publish new ones;
+ * the only invariants are a positive authored ordinal and exactly five real questions per published
+ * day. It is NOT an Academic full test,
  * NOT a General section, and NOT the MCQ card inside one test — those three keep their own
  * products, and this module deliberately shares nothing with their classification.
  *
@@ -37,13 +40,16 @@ import { listeningQuestionIdentity } from "./question-identity";
 export const MCQ_PROGRAM_REF = "listening-mcq-program";
 
 /**
- * The programme's authored shape: how many days it targets, and how many questions each day holds.
+ * How many questions one published day holds. This IS a product rule: a day with four or six
+ * questions cannot be published.
  *
- * The target is METADATA for staff (and for honest "12 / 30" arithmetic on published content). It is
- * never a licence to render a Day that does not exist: the learner catalogue lists published days
- * only, and a target of 30 with 8 published days shows exactly 8.
+ * There is deliberately NO day-count constant. A fixed target was previously exported here and
+ * rendered to learners as "{published} of {target} days", which becomes a lie the moment the centre
+ * publishes more days than the target ("100 of 30"). The honest headline is the number of days that
+ * genuinely exist, so the catalogue reports published days and nothing else. If the centre ever
+ * wants a planning target it belongs to authored staff metadata, never to a code constant and never
+ * to a publication gate.
  */
-export const MCQ_PROGRAM_DAY_TARGET = 30;
 export const MCQ_DAY_QUESTION_COUNT = 5;
 
 /**
@@ -232,9 +238,8 @@ export function mcqActivePosition(
 /**
  * The programme's headline numbers, from PUBLISHED content only.
  *
- * `days` is how many days exist (published and therefore learner-visible), not the target, so
- * "12 / 30" can never be claimed from an intention. When the corpus is partial the honest figure is
- * the partial one, and the target is reported separately for staff.
+ * `days` is how many days exist (published and therefore learner-visible). There is no target to
+ * divide by: an intention is not content, so the only figure reported is the real one.
  */
 export function mcqProgramProgress(input: { publishedDays: number; completedDays: number; completedQuestions: number }) {
   return {
@@ -242,7 +247,5 @@ export function mcqProgramProgress(input: { publishedDays: number; completedDays
     daysCompleted: input.completedDays,
     questionsPublished: input.publishedDays * MCQ_DAY_QUESTION_COUNT,
     questionsCompleted: input.completedQuestions,
-    /** The authored target — for staff context, never presented as available content. */
-    dayTarget: MCQ_PROGRAM_DAY_TARGET,
   };
 }

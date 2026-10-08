@@ -1022,11 +1022,11 @@ const uz: Dictionary = {
       open: "Ochish",
     },
 
-    /** Listening → MCQ: 30 kunlik dastur uchun interfeys matnlari (kontent tarjima qilinmaydi). */
+    /** Listening → MCQ: kunma-kun dastur uchun interfeys matnlari (kunlar soni cheklanmagan; kontent tarjima qilinmaydi). */
     mcqProgram: {
       title: "Listening MCQ",
-      subtitle: "O'ttiz kunlik test dasturi: har kuni beshta savol. Har bir savol bosqichma-bosqich: tinglash, izoh, qaror, keyin javob.",
-      daysPublished: "{target} kundan {published} kuni chop etilgan",
+      subtitle: "Kunma-kun test dasturi: har kuni beshta savol. Har bir savol bosqichma-bosqich: tinglash, izoh, qaror, keyin javob.",
+      daysPublished: "{published} kun chop etilgan",
       daysCompleted: "Tugatilgan kunlar: {available} kundan {done}",
       dayLabel: "{n}-KUN",
       questions: "{n} savol",
@@ -1049,7 +1049,10 @@ const uz: Dictionary = {
       publishHolds: "Bu kunda {required} savoldan {present} tasi bor.",
       questionNavLabel: "Bu kundagi savollar",
       practiceOnly: "Faqat mashq: bu yerda hech narsa imtihon ballini yoki SRS jadvalini o'zgartirmaydi.",
-      targetNote: "Dastur {target} kun va har kunda {perDay} savolni mo'ljallaydi. Kunlar markaz chop etgan sari ko'rinadi.",
+      targetNote: "Har bir chop etilgan kunda aniq {perDay} ta savol bo'ladi. Kunlar markaz chop etgan sari ko'rinadi.",
+      previousPage: "Oldingi kunlar",
+      nextPage: "Yana kunlar",
+      pageRange: "{total} kundan {from}–{to}",
       staffHint: "Kunlar Listening mualliflik stolida yoziladi va chop etiladi; kun faqat aynan beshta test savoli bo'lgach shu yerda ko'rinadi.",
     },
 
