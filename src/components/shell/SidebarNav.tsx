@@ -39,10 +39,10 @@ import {
 
 type NavItem = { href: string; label: string; icon: React.ReactNode };
 
-function Group({ title, items, pathname, loading }: { title: string; items: NavItem[]; pathname: string; loading: string }) {
+function Group({ title, items, pathname, loading, groupKey }: { groupKey?: "main" | "modules" | "progress" | "support"; title: string; items: NavItem[]; pathname: string; loading: string }) {
   if (items.length === 0) return null;
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1" data-sidebar-group={groupKey}>
       <p className="sidebar-group">{title}</p>
       <ul className="flex flex-col gap-0.5">
         {items.map((item) => {
@@ -150,14 +150,14 @@ export function SidebarNav({ dict, role, email }: { dict: Dictionary; role: Role
         </div>
       ) : (
         <div className="flex flex-col gap-6 pb-4">
-          <Group title={nav.groupMain} items={learning} pathname={activePath} loading={dict.common.loading} />
-          <Group title={nav.groupModules} items={modules} pathname={activePath} loading={dict.common.loading} />
-          <Group title={nav.groupProgress} items={progress} pathname={activePath} loading={dict.common.loading} />
+          <Group groupKey="main" title={nav.groupMain} items={learning} pathname={activePath} loading={dict.common.loading} />
+          <Group groupKey="modules" title={nav.groupModules} items={modules} pathname={activePath} loading={dict.common.loading} />
+          <Group groupKey="progress" title={nav.groupProgress} items={progress} pathname={activePath} loading={dict.common.loading} />
         </div>
       )}
 
-      <div className="mt-auto flex flex-col gap-3 border-t border-ink-100 pt-4">
-        <Group title={dict.shell.support} items={[{ href: "/support", label: nav.support, icon: <IconSupport /> }]} pathname={activePath} loading={dict.common.loading} />
+      <div className="mt-auto flex flex-col gap-3 border-t border-ink-100 pt-4" data-sidebar-group="support">
+        <Group groupKey="support" title={dict.shell.support} items={[{ href: "/support", label: nav.support, icon: <IconSupport /> }]} pathname={activePath} loading={dict.common.loading} />
         {staff && !management && (
           <InstantLink href="/management" className="sidebar-link sidebar-link-management" data-sidebar-management-entry>
             <span aria-hidden className="sidebar-link-icon">

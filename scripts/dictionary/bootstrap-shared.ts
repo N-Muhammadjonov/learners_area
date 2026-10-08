@@ -48,6 +48,7 @@ import {
   refuseProduction,
   serverIdentityHash,
   urlIdentity,
+// @ts-expect-error plain ESM operational script
 } from "../preview-qa-migrate.mjs";
 
 const EXPECTED = {
