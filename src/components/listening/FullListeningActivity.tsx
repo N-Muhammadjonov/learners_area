@@ -1,7 +1,7 @@
 "use client";
 import { useScopedResponse } from "@/lib/http/use-scoped-response";
 import { ListeningMap } from "./ListeningMap";
-import { HISTORICAL_MAP_PART } from "@/lib/listening/activities";
+import { mapDiagramSections } from "@/lib/listening/activities";
 import Image from "next/image";
 import Link from "next/link";
 import { ListeningSpeedPractice } from "./ListeningSpeedPractice";
@@ -224,6 +224,9 @@ export function FullListeningActivity({
       setError(dict.fullListeningHub.activity.vocabSaveFailed);
     } finally { setVocabSaving(false); }
   }
+  // imageUrl is the package's image.map asset (not a generic illustration). Both forms
+  // of that stimulus share the package helper's placement and historical compatibility.
+  const showReviewMap = !data.studyPack || (mapSections ?? mapDiagramSections(data)).includes(reviewPart);
   const q = data.questions?.find((x) => x.number === selected);
   const scriptPart=data.studyPack?.scriptParts?.find(part=>part.part===reviewPart);
   const scriptChunks: {text:string;gap?:{q:number;answer:string}}[]=[];
@@ -243,7 +246,7 @@ export function FullListeningActivity({
       */}
       {activity === 2 &&
         data.mapDiagram &&
-        (!data.studyPack || (mapSections ?? [HISTORICAL_MAP_PART]).includes(reviewPart)) && (
+        showReviewMap && (
           <ListeningMap diagram={data.mapDiagram} />
         )}
       {activity !== 5 && audioUrl && (
@@ -293,7 +296,7 @@ export function FullListeningActivity({
               </button>
             ))}
           </nav>
-          {imageUrl && (!data.studyPack || reviewPart === 2) && <Image src={imageUrl} alt={dict.importPreview.image} width={1000} height={600} unoptimized className="h-auto max-h-96 w-auto max-w-full" />}
+          {imageUrl && showReviewMap && <Image src={imageUrl} alt={dict.importPreview.image} width={1000} height={600} unoptimized className="h-auto max-h-96 w-auto max-w-full" />}
           <div className="listening-review-grid">
             <section className="card space-y-4">
               {q && (

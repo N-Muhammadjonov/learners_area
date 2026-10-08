@@ -182,7 +182,7 @@ export function FullListeningStudy({
       <div className="listening-review-grid">
         <section className="card academic-text space-y-6">
           {(mapSections ?? [HISTORICAL_MAP_PART]).includes(section) && mapDiagram && <ListeningMap diagram={mapDiagram} />}
-      {section === 2 && imageUrl && (
+      {(mapSections ?? [HISTORICAL_MAP_PART]).includes(section) && imageUrl && (
             <Image
               src={imageUrl}
               alt={dict.formCopy.listeningMap}

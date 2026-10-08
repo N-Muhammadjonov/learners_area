@@ -217,7 +217,7 @@ test("M6 the learner surfaces render the plan where the map questions are", () =
    */
   const review = strip(readFileSync("src/components/listening/FullListeningActivity.tsx", "utf8"));
   assert.doesNotMatch(review, /activity === 2 && data\.mapDiagram && </, "review must not show the plan unconditionally");
-  assert.match(review, /\(mapSections \?\? \[HISTORICAL_MAP_PART\]\)\.includes\(reviewPart\)/, "review places it by the test's own map parts");
+  assert.match(review, /\(mapSections \?\? mapDiagramSections\(data\)\)\.includes\(reviewPart\)/, "review places it by the test's own map parts");
   assert.match(
     strip(readFileSync("src/app/app/(focus)/listening/tests/[id]/[activity]/page.tsx", "utf8")),
     /mapSections=\{mapDiagramSections\(/,

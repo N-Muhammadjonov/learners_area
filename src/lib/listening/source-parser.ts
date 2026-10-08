@@ -1,3 +1,4 @@
+import { canonicalListeningTypeId, listeningKindOfType } from "./question-identity";
 import { extractMapDiagram } from "./map-diagram";
 import { listeningPackageSchema, type ListeningPackage } from "./package";
 import { discoverTranscripts, ListeningImportProblem, textFile } from "./discover";
@@ -229,6 +230,20 @@ function convertResearchPractice(html: string, durationSec: number, options: Leg
   });
 }
 
+/** Authored semantics only: options and question numbers never establish a type. */
+export function structuredQuestionType(label: string) {
+  const normalized = label.trim().toLowerCase().replace(/[_-]+/g, " ").replace(/\s+/g, " ");
+  // These prove the family, but NOT which canonical map/plan subtype the owner meant.
+  if (/^(?:map|plan|map\s*\/\s*plan)$/.test(normalized)) return { kind: "map" as const };
+  if (normalized === "completion") return { kind: "completion" as const };
+  if (normalized === "single answer mcq") return { kind: "mcq" as const, typeCode: "mcq_single" };
+  const stated = normalized.replace(/labelling/g, "labeling").replace(/ /g, "_");
+  const typeCode = canonicalListeningTypeId(stated) ?? canonicalListeningTypeId(normalized);
+  const kind = typeCode ? listeningKindOfType(typeCode) : null;
+  if (!kind || !typeCode) return null;
+  return { kind, typeCode };
+}
+
 /** A second authored HTML family. Inputs are JSON and inert DOM; executable HTML is never trusted. */
 function convertStructuredPractice(html: string, durationSec: number, options: LegacyOptions, read: HtmlDocumentReader): ListeningPackage {
   const source = jsonLiteral(html, "const DATA =") as {
@@ -241,19 +256,40 @@ function convertStructuredPractice(html: string, durationSec: number, options: L
     activities: string[];
   };
   const parts = jsonLiteral(html, "const PARTS =") as Record<string, string>;
-  const kindOf = (n: number): "completion" | "mcq" | "matching" => {
-    const authored = Object.entries(source.question_types).find(([range]) => { const [a,b] = range.split("-").map(Number); return n >= a! && n <= (b ?? a!); })?.[1] ?? "";
-    return /matching/i.test(authored) ? "matching" : /mcq/i.test(authored) ? "mcq" : "completion";
+  const typeOf = (n: number) => {
+    const labels = Object.entries(source.question_types).filter(([range]) => { const [a,b] = range.split("-").map(Number); return n >= a! && n <= (b ?? a!); });
+    const identity = labels.length === 1 ? structuredQuestionType(labels[0]![1]) : null;
+    if (!identity) throw new ListeningImportProblem("package_invalid", {
+      info: `Q${n}: source type not canonically proven (${labels.map(([, label]) => label).join(", ") || "missing"}); staff review required`,
+    });
+    return identity;
   };
+  const documents = Object.fromEntries(Object.entries(parts).map(([part, html]) => [part, read(html)]));
   const questions = Object.values(source.questions).sort((a,b) => a.q-b.q).map(row => {
-    const document = read(parts[String(row.part)] ?? "");
+    const document = documents[String(row.part)] ?? read("");
     const control = document.getElementById(`q${row.q}`);
     const instruction = control?.closest(".task-card")?.querySelector(".instructions-block")?.textContent?.replace(/\s+/g," ").trim() ?? "";
-    return { number: row.q, section: row.part, text: row.prompt, instruction, kind: kindOf(row.q), options: row.options?.map(o => o.text.match(new RegExp(`^${o.code}[).\\s]`)) ? o.text : `${o.code}) ${o.text}`) ?? [], key: row.answer, alternatives: source.alternatives[String(row.q)] ?? [], pair: [], evidence: { at: row.timeStart, end: row.timeEnd, why: [row.why, row.trap].filter(Boolean).join("\n") } };
+    return { number: row.q, section: row.part, text: row.prompt, instruction, ...typeOf(row.q), options: row.options?.map(o => o.text.match(new RegExp(`^${o.code}[).\\s]`)) ? o.text : `${o.code}) ${o.text}`) ?? [], key: row.answer, alternatives: source.alternatives[String(row.q)] ?? [], pair: [], evidence: { at: row.timeStart, end: row.timeEnd, why: [row.why, row.trap].filter(Boolean).join("\n") } };
   });
-  const activities: ("exam"|"review"|"script"|"mcq"|"matching"|"completion"|"vocab"|"retry")[] = ["exam", "review"];
+  // Only source SVGs in map-question parts or explicitly marked map/plan SVGs are stimuli.
+  // The inert reader and extractor retain coordinates/text, never scripts or event handlers.
+  const mapParts = new Set(questions.filter(q => q.kind === "map").map(q => q.section));
+  const diagrams = Object.entries(documents).flatMap(([part, document]) =>
+    [...document.querySelectorAll("svg")].filter(svg => mapParts.has(Number(part)) ||
+      svg.matches(".la-map, [data-map], [data-plan]") || /\b(map|plan)\b/i.test(svg.getAttribute("aria-label") ?? ""))
+      .map(svg => extractMapDiagram(svg)));
+  const distinct = new Map(diagrams.map(diagram => [JSON.stringify([diagram.viewBox, diagram.shapes]), diagram]));
+  if (distinct.size > 1) throw new ListeningImportProblem("package_invalid", {
+    info: "Multiple different map/plan visuals cannot be represented by this package; staff review required",
+  });
+  const mapDiagram = distinct.values().next().value;
+  if (mapParts.size && !mapDiagram) throw new ListeningImportProblem("map_missing", {
+    info: "Map/Plan questions require an authored visual; no supported source SVG was found",
+  });
+  const activities: ("exam"|"review"|"script"|"mcq"|"matching"|"completion"|"map"|"vocab"|"retry")[] = ["exam", "review"];
   if (source.script_completion?.length) activities.push("script");
   if (questions.some(q => q.kind === "mcq")) activities.push("mcq");
+  if (questions.some(q => q.kind === "map") && mapDiagram) activities.push("map");
   if (questions.some(q => q.kind === "matching")) activities.push("matching");
   if (questions.some(q => q.kind === "completion")) activities.push("completion");
   if (source.vocabulary?.length) activities.push("vocab");
@@ -272,7 +308,7 @@ function convertStructuredPractice(html: string, durationSec: number, options: L
   return listeningPackageSchema.parse({
     schemaVersion: 1, testId: slugTestId(source.test_id || options.fallbackTestId || source.title), title: source.title,
     category: "full", collection: "academic", provenance: "Owner-provided structured practice HTML; authored transcript, question types, evidence and activities; no scripts executed",
-    audio: { path: options.audioPath, durationSec }, imagePath: null,
+    audio: { path: options.audioPath, durationSec }, imagePath: null, mapDiagram,
     sections: source.sections.map((title, index) => ({ number: index+1, title, transcript: source.transcript[String(index+1)] ?? "", reviewRequired: false })), questions,
     keyword1: gaps, keyword2: [],
     vocabulary: source.vocabulary.map(row => ({ word: row.headword, pos: /collocation/i.test(row.type) ? "collocation" : row.type.split("·")[0]!.trim(), def: row.definition, uz: row.uzbek, ex: row.context, also: row.paraphrases ?? [] })),

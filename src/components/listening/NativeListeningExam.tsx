@@ -431,7 +431,7 @@ export function NativeListeningExam({
       </nav>
       )}
       {(mapSections ?? [HISTORICAL_MAP_PART]).includes(section) && mapDiagram && <ListeningMap diagram={mapDiagram} />}
-      {section === 2 && imageUrl && (
+      {(mapSections ?? [HISTORICAL_MAP_PART]).includes(section) && imageUrl && (
         <div className="card">
           <Image
             width={560}

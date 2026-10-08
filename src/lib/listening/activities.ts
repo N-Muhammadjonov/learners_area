@@ -213,7 +213,7 @@ export const HISTORICAL_MAP_PART = 2;
  * placement — Part 2 — which is where such a package's plan has always been rendered. The fallback
  * is named, not inlined, so it is visible and testable rather than a magic number.
  */
-export function mapDiagramSections(p: ListeningPackage): number[] {
+export function mapDiagramSections(p: Partial<Pick<ListeningPackage, "questions">>): number[] {
   const sections = [...new Set((p.questions ?? []).filter((question) => question.kind === "map").map((question) => question.section))].sort(
     (a, b) => a - b,
   );
