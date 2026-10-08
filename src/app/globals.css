@@ -1741,3 +1741,9 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 [data-theme="day"]:not([data-focus="on"]) [data-shell-main] :is(.card, .panel, .input, .btn, .tab, .chip, .badge, .link-inline, [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-signal-50"], [role="dialog"], button, table, pre, code) {
   -webkit-text-stroke: 0;
 }
+
+/* Only muted text outside cards and controls follows the Night heading color.
+   Preserve every card/control palette, Day styling and focus mode. */
+[data-theme="night"]:not([data-focus="on"]) [data-shell] :is(.page-subtitle, .body-text, .text-ink-700, .text-ink-500, .text-ink-300, .brand-tagline):not(:is(.card, .panel, .input, .btn, .tab, .chip, .badge, .link-inline, button, [role="dialog"], [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-white"], [class~="bg-amber-50"], [class~="bg-yellow-50"])):not(:is(.card, .panel, .input, .btn, .tab, .chip, .badge, .link-inline, button, [role="dialog"], [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-white"], [class~="bg-amber-50"], [class~="bg-yellow-50"]) *) {
+  color: #F3EEE5;
+}
