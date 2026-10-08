@@ -236,3 +236,37 @@ invented rationale.
 Checkpoint: focused Reading/authoring/private-note SQL 54/54/0/0; focused DOM
 41/41/0/0; typecheck/lint/diff-check pass. Migration count remains 53. Full gate
 and built-server acceptance follow this production-code checkpoint.
+
+## Reading V4 final acceptance
+
+Runtime proof, not source inspection:
+
+- Built-server HTTP journeys, `scripts/verify-reading-v4.mjs`: **78 checks, 78 pass,
+  0 fail**, residue 0. Five products, legacy URLs, lessons + private notes, an
+  Academic full test end to end (start → autosave → secrecy → submit → review),
+  General 1/2/3/FULL with explicit Check, the type index, direct Retention,
+  history, cross-user isolation and four roles.
+- REAL Chromium acceptance, `scripts/verify-reading-browser.mjs`: **35 checks, 35
+  pass, 0 fail**, residue 0. Pointer-drag highlighting at the right offsets, text
+  unchanged, removal, the Dictionary popover on a real click, no lexical target in
+  an active exam, all forty questions reachable through real part navigation, and
+  390 / 768 / 1440 CSS px with no horizontal overflow and no console error.
+  Reading highlight/pointer/viewport behaviour is therefore EXECUTED, not inferred.
+
+Defects this round found and fixed, each in its own commit:
+- `activateReadingSchedules` — due Reading revisions were never activated; old
+  attempts keep their rows, new starts bind the newest due revision, superseded
+  schedules archive. Reading-only, bounded, through the existing publisher.
+- The active Academic exam shipped unrestricted attachment blocks and a
+  read-aloud control; both are gone from the exam path.
+- Shared-stimulus blanks used global full-test numbers, so a three-passage paper
+  could not match its authored slots; authored identity is preserved separately.
+- Lesson progress accepted a draft lesson and raced per learner.
+- Three Uzbek Reading labels used typographic apostrophes; withdrawn "General
+  Training" copy still shipped to the browser.
+- An older vocabulary assertion still demanded that a SUBMITTED own attempt stay
+  locked, contradicting the accepted review-Dictionary contract; reconciled and
+  strengthened (retake and never-submitted locks now both asserted).
+
+Browser binary: Chromium 1248 via `@sparticuz/chromium` with its AL2023 libraries,
+driven by `playwright-core`. Pass `CHROMIUM_PATH` to reproduce.
