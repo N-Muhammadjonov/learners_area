@@ -215,6 +215,18 @@ const en = {
     evidence: "In the text:",
     notFound: "This General Reading set is not available.",
   },
+  readingV4: {
+    lessonBack: "All Reading lessons",
+    subtitle: "Choose how you want to study Reading.", open: "Open", selectType: "Choose a question type",
+    requestedType: "Requested question type", lessonsEmpty: "No Reading lessons are published yet.",
+    products: {
+      lessons: { title: "Lessons", hint: "Reading lessons and your private notes." },
+      academic: { title: "Academic Reading", hint: "One assessment over three authored passages." },
+      general: { title: "General Reading", hint: "Learn with Passage 1, 2, 3 or the full set." },
+      "question-types": { title: "Question Types", hint: "Find real passages by their question type." },
+      retention: { title: "Retention", hint: "Practise remembering what you read." },
+    },
+  },
   readingHub: {
     academicExamHint: "Three passages · 60 minutes · one exam. Dictionary and vocabulary assistance are unavailable in Academic Reading.",
     title: "Reading",

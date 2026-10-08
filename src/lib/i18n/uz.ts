@@ -217,6 +217,18 @@ const uz: Dictionary = {
     evidence: "Matnda:",
     notFound: "Bu General Reading to'plami mavjud emas.",
   },
+  readingV4: {
+    lessonBack: "Barcha Reading darslari",
+    subtitle: "Reading mashg'ulotini tanlang.", open: "Ochish", selectType: "Savol turini tanlang",
+    requestedType: "Tanlangan savol turi", lessonsEmpty: "Hozircha Reading darslari nashr etilmagan.",
+    products: {
+      lessons: { title: "Darslar", hint: "Reading darslari va shaxsiy qaydlaringiz." },
+      academic: { title: "Academic Reading", hint: "Uchta matndan iborat yagona sinov." },
+      general: { title: "General Reading", hint: "1-, 2-, 3-matn yoki to'liq to'plam bilan o'rganing." },
+      "question-types": { title: "Savol turlari", hint: "Savol turiga mos haqiqiy matnlarni toping." },
+      retention: { title: "Retention", hint: "O'qiganingizni eslab qolishni mashq qiling." },
+    },
+  },
   readingHub: {
     academicExamHint: "Uchta passage · 60 daqiqa · bitta imtihon. Academic Reading'da lug'at va vocabulary yordami ishlamaydi.",
     title: "Reading",
