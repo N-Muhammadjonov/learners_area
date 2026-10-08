@@ -1418,9 +1418,9 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
   --la-day-nav-hover-bg: rgba(12, 51, 98, 0.76);
   --la-day-nav-active-bg: rgba(20, 47, 77, 0.78);
   --la-day-nav-active-border: rgba(230, 185, 79, 0.60);
-  --la-day-card-bg: rgba(255, 255, 255, 0.88);
-  --la-day-card-border: rgba(32, 92, 145, 0.22);
-  --la-day-header-bg: rgba(255, 255, 255, 0.82);
+  --la-day-card-bg: var(--la-day-nav-bg);
+  --la-day-card-border: var(--la-day-nav-border);
+  --la-day-header-bg: rgba(8, 32, 68, 0.62);
   --la-day-label: #172B45;
   --la-day-muted: #4F6077;
   --la-day-gold: #E6B94F;
@@ -1595,7 +1595,7 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
    Keep disabled opacity, focus rings and native control behavior. */
 [data-theme="day"]:not([data-focus="on"]) [data-shell] :is(.btn, .btn-primary, .btn-secondary, .btn-ghost, .btn-gold, .btn-gold-solid),
 [data-theme="day"]:not([data-focus="on"]) [data-shell-topbar] :is(button, a[href="/notifications"]):not([data-mobile-nav-overlay] > button) {
-  background-color: rgba(8, 48, 96, 0.72);
+  background-color: var(--la-day-nav-bg);
   color: #F3EEE5;
   border: 1px solid rgba(58, 172, 232, 0.40);
   backdrop-filter: blur(8px);
@@ -1603,8 +1603,141 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 }
 [data-theme="day"]:not([data-focus="on"]) [data-shell] :is(.btn, .btn-primary, .btn-secondary, .btn-ghost, .btn-gold, .btn-gold-solid):hover,
 [data-theme="day"]:not([data-focus="on"]) [data-shell-topbar] :is(button, a[href="/notifications"]):not([data-mobile-nav-overlay] > button):hover {
-  background-color: rgba(12, 51, 98, 0.84);
+  background-color: var(--la-day-nav-hover-bg);
 }
 [data-theme="day"]:not([data-focus="on"]) [data-shell] :is(.btn-primary, .btn-gold-solid, .btn[aria-pressed="true"], .btn[aria-selected="true"]) {
   border-color: rgba(230, 185, 79, 0.60);
+}
+
+/* Unified glass surfaces throughout the app and authentication screens.
+   Focus mode retains its original tokens and all original surfaces. */
+[data-theme="day"]:not([data-focus="on"]) {
+  --paper-raised: 8 32 68;
+  --paper-sunken: 12 51 98;
+  --accent-soft: 20 47 77;
+}
+[data-theme]:not([data-focus="on"]) {
+  --la-surface-glass: rgba(8, 32, 68, .62);
+  --la-surface-border: rgba(58, 172, 232, .40);
+}
+[data-theme="night"]:not([data-focus="on"]) {
+  --la-surface-glass: rgba(8, 32, 68, .40);
+  --la-surface-border: rgba(58, 172, 232, .24);
+}
+[data-theme]:not([data-focus="on"]) :is(.card, .panel, [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-paper"], [class~="bg-signal-50"], .input, [role="dialog"]):not([data-shell]):not([data-shell-sidebar]):not([data-shell-main]):not([data-mobile-nav-overlay]):not(#mobile-nav-drawer) {
+  background-color: var(--la-surface-glass);
+  border-color: var(--la-surface-border);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+[data-theme]:not([data-focus="on"]) :is([data-shell-main], [data-auth-shell]) :is(.card, .panel) {
+  background-color: var(--la-surface-glass);
+  border-color: var(--la-surface-border);
+}
+[data-theme]:not([data-focus="on"]) :is(.btn, .btn-primary, .btn-secondary, .btn-ghost, .btn-gold, .btn-gold-solid, .theme-btn, [data-locale-switcher] button, [data-auth-controls] button) {
+  background-color: var(--la-surface-glass);
+  color: #F3EEE5;
+  border: 1px solid var(--la-surface-border);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+[data-theme]:not([data-focus="on"]) :is(.btn, .btn-primary, .btn-secondary, .btn-ghost, .btn-gold, .btn-gold-solid, .theme-btn, [data-locale-switcher] button):hover {
+  background-color: rgba(12, 51, 98, .76);
+}
+[data-theme]:not([data-focus="on"]) :is(.btn-primary, .btn-gold-solid, [data-theme-option][aria-pressed="true"], [data-locale-switcher] button[aria-pressed="true"]) {
+  border-color: rgba(230, 185, 79, .60);
+}
+[data-theme]:not([data-focus="on"]) .input::placeholder {
+  color: rgb(var(--ink-500));
+}
+[data-theme]:not([data-focus="on"]) [data-auth-controls] {
+  background: transparent;
+}
+[data-theme]:not([data-focus="on"]) :is([data-auth-brand], [data-auth-shell] > div > div:last-child) {
+  color: #F3EEE5;
+  text-shadow: 0 1px 3px #082044;
+}
+[data-theme="day"]:not([data-focus="on"]) [data-shell-main] > div > div > h1 {
+  text-shadow: 0 1px 3px #082044;
+}
+
+/* Dark text on the bright Day wallpaper; light text inside blue glass.
+   Local text tokens follow each surface, including nested metadata and forms. */
+[data-theme]:not([data-focus="on"]) :is(.card, .panel, [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-paper"], [class~="bg-signal-50"], .input, [role="dialog"], [data-shell-topbar]):not([data-shell]):not([data-shell-sidebar]):not([data-shell-main]):not([data-mobile-nav-overlay]):not(#mobile-nav-drawer) {
+  --ink-900: 243 238 229;
+  --ink-700: 234 239 247;
+  --ink-500: 225 233 243;
+  --ink-300: 205 223 237;
+  --ink-100: 58 105 151;
+  color: rgb(var(--ink-900));
+}
+[data-theme="day"]:not([data-focus="on"]) :is([data-sidebar-brand], [data-auth-brand]) {
+  --ink-900: 16 39 64;
+  --ink-500: 30 56 82;
+  --ink-300: 30 56 82;
+  color: rgb(var(--ink-900));
+  text-shadow: 0 1px 2px rgba(255,255,255,.65);
+}
+[data-theme]:not([data-focus="on"]) .brand-tagline {
+  font-weight: 500;
+  opacity: 1;
+}
+[data-theme="day"]:not([data-focus="on"]) [data-shell-main] :is(.page-title, [data-section-entry-frame] h1) {
+  color: #102740;
+  text-shadow: 0 1px 2px rgba(255,255,255,.65);
+}
+[data-theme]:not([data-focus="on"]) [data-auth-controls] [data-locale-switcher] button {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+[data-theme="night"]:not([data-focus="on"]) [data-sidebar-brand] {
+  --ink-300: 205 223 237;
+}
+[data-theme]:not([data-focus="on"]) .brand-tagline {
+  font-size: .8125rem;
+  line-height: 1.45;
+}
+
+/* Keep wallpaper text crisp: no glow or shadow around small UI labels. */
+[data-theme]:not([data-focus="on"]) :is(.sidebar-group, [data-sidebar-brand], [data-auth-brand], [data-auth-shell] > div > div:last-child),
+[data-theme]:not([data-focus="on"]) [data-shell-main] :is(.page-title, [data-section-entry-frame] h1),
+[data-theme]:not([data-focus="on"]) [data-shell-main] > div > div > h1 {
+  text-shadow: none;
+}
+[data-theme="day"]:not([data-focus="on"]) [data-shell-main] {
+  --ink-900: 16 39 64;
+  --ink-700: 24 47 73;
+  --ink-500: 30 56 82;
+  --ink-300: 40 64 90;
+  color: rgb(var(--ink-900));
+}
+
+[data-theme]:not([data-focus="on"]) .link-inline {
+  color: #F3EEE5;
+  background-color: var(--la-surface-glass);
+  border-color: var(--la-surface-border);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Keep the existing dark Day lettering without a contour or glow.
+   Keep glass contents and focus mode in their existing typography palettes. */
+[data-theme="day"]:not([data-focus="on"]) [data-shell] [data-shell-main] :is(h1, h2, h3, h4, h5, h6, p, span, div, label, li, dt, dd, a, small, strong, em):not(:is(.card, .panel, .input, .btn, .tab, .chip, .badge, .link-inline, [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-paper"], [class~="bg-signal-50"], [role="dialog"], button, table, pre, code)):not(:is(.card, .panel, .input, .btn, .tab, .chip, .badge, .link-inline, [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-signal-50"], [role="dialog"], button, table, pre, code) *),
+[data-theme="day"]:not([data-focus="on"]) [data-shell] :is(.sidebar-group, .brand-name, .brand-tagline),
+[data-theme="day"]:not([data-focus="on"]) [data-auth-shell] > div > div:last-child {
+  color: #102740;
+  -webkit-text-stroke: 0;
+  text-shadow: none;
+}
+@media (forced-colors: active) {
+  [data-theme="day"]:not([data-focus="on"]) [data-shell] :is(h1, h2, h3, h4, h5, h6, p, span, label, li, dt, dd, a, small, strong, em),
+  [data-theme="day"]:not([data-focus="on"]) [data-auth-shell] > div > div:last-child {
+    -webkit-text-stroke: 0;
+  }
+}
+
+/* Never inherit an outline into rectangular controls. */
+[data-theme="day"]:not([data-focus="on"]) [data-shell-main] :is(.card, .panel, .input, .btn, .tab, .chip, .badge, .link-inline, [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-signal-50"], [role="dialog"], button, table, pre, code) {
+  -webkit-text-stroke: 0;
 }
