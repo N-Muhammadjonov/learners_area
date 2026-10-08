@@ -84,7 +84,7 @@ export type Recorder = {
  * stopped on stop()/cancel() — leaving a microphone indicator light on after
  * recording is both a privacy bug and a battery drain.
  */
-export async function createRecorder(options: {signal?: AbortSignal; permissionTimeoutMs?: number} = {}): Promise<Recorder> {
+export async function createRecorder(options: {signal?: AbortSignal; permissionTimeoutMs?: number; onError?: (error: RecorderError) => void} = {}): Promise<Recorder> {
   if (!isRecordingSupported()) {
     throw new RecorderError("unsupported", "This browser cannot record audio.");
   }
@@ -133,6 +133,12 @@ export async function createRecorder(options: {signal?: AbortSignal; permissionT
   function releaseStream() {
     for (const track of stream.getTracks()) track.stop();
   }
+
+  recorder.addEventListener("error", () => {
+    releaseStream();
+    try { if (recorder.state !== "inactive") recorder.stop(); } catch { /* Already failed. */ }
+    options.onError?.(new RecorderError("unknown", "The audio recorder failed."));
+  });
 
   return {
     async start() {

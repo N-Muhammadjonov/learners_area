@@ -516,6 +516,16 @@ const en = {
     minutes: "{n} min",
   },
   videoLesson: {
+    voiceSummary: {
+      record: "Record summary", recording: "Recording", stop: "Stop", again: "Record again",
+      listen: "Listen to your recording", temporary: "Temporary recording",
+      notSaved: "Audio is not saved. Only you can play it here; it disappears when you leave this lesson.",
+      limit: "Maximum 3 minutes per recording.", requesting: "Waiting for microphone permission…",
+      preparing: "Preparing your recording…", unavailable: "Microphone unavailable in this browser or device.",
+      permissionDenied: "Microphone permission denied. You can still write and save your summary.",
+      failed: "Recording failed or the microphone request timed out. Try again, or write your summary.",
+      noAudio: "No audio was captured. Try recording again.",
+    },
     studyPack: {"title": "TED study practice", "source": "Exercises from Learners Area TED Study Pack, Volume 1. Your responses are saved with this lesson.", "official": "Official TED talk and transcript", "response": "Your response", "key": "Show / hide answer guide", "model": "Use this guide to compare meaning. Open answers are not automatically scored.", "tooLong": "Keep the total response below 4,000 characters before saving.", "glossary": "Vocabulary and collocations"},
     vocabularyHelp: "Words from this lesson use your shared vocabulary library.",
     vocabularyPractice: "Revision, flashcards and games",

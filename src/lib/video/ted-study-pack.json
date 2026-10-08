@@ -36,6 +36,7 @@
       },
       "H": {
         "name": "Summary writing",
+        "kind": "summary",
         "prompt": "Write an 80-120 word summary. Include: (1) the central claim, (2) two important supporting ideas/examples, and (3) the practical implication. Do not copy sentences from the transcript."
       },
       "I": {
@@ -82,6 +83,7 @@
       },
       "H": {
         "name": "Summary writing",
+        "kind": "summary",
         "prompt": "Write an 80-120 word summary. Include: (1) the central claim, (2) two important supporting ideas/examples, and (3) the practical implication. Do not copy sentences from the transcript."
       },
       "I": {
@@ -128,6 +130,7 @@
       },
       "H": {
         "name": "Summary writing",
+        "kind": "summary",
         "prompt": "Write an 80-120 word summary. Include: (1) the central claim, (2) two important supporting ideas/examples, and (3) the practical implication. Do not copy sentences from the transcript."
       },
       "I": {
@@ -174,6 +177,7 @@
       },
       "H": {
         "name": "Summary writing",
+        "kind": "summary",
         "prompt": "Write an 80-120 word summary. Include: (1) the central claim, (2) two important supporting ideas/examples, and (3) the practical implication. Do not copy sentences from the transcript."
       },
       "I": {
@@ -220,6 +224,7 @@
       },
       "H": {
         "name": "Summary writing",
+        "kind": "summary",
         "prompt": "Write an 80-120 word summary. Include: (1) the central claim, (2) two important supporting ideas/examples, and (3) the practical implication. Do not copy sentences from the transcript."
       },
       "I": {
@@ -266,6 +271,7 @@
       },
       "H": {
         "name": "Summary writing",
+        "kind": "summary",
         "prompt": "Write an 80-120 word summary. Include: (1) the central claim, (2) two important supporting ideas/examples, and (3) the practical implication. Do not copy sentences from the transcript."
       },
       "I": {
@@ -312,6 +318,7 @@
       },
       "H": {
         "name": "Summary writing",
+        "kind": "summary",
         "prompt": "Write an 80-120 word summary. Include: (1) the central claim, (2) two important supporting ideas/examples, and (3) the practical implication. Do not copy sentences from the transcript."
       },
       "I": {
@@ -358,6 +365,7 @@
       },
       "H": {
         "name": "Summary writing",
+        "kind": "summary",
         "prompt": "Write an 80-120 word summary. Include: (1) the central claim, (2) two important supporting ideas/examples, and (3) the practical implication. Do not copy sentences from the transcript."
       },
       "I": {
@@ -404,6 +412,7 @@
       },
       "H": {
         "name": "Summary writing",
+        "kind": "summary",
         "prompt": "Write an 80-120 word summary. Include: (1) the central claim, (2) two important supporting ideas/examples, and (3) the practical implication. Do not copy sentences from the transcript."
       },
       "I": {
@@ -450,6 +459,7 @@
       },
       "H": {
         "name": "Summary writing",
+        "kind": "summary",
         "prompt": "Write an 80-120 word summary. Include: (1) the central claim, (2) two important supporting ideas/examples, and (3) the practical implication. Do not copy sentences from the transcript."
       },
       "I": {

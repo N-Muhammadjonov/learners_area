@@ -709,3 +709,32 @@ all green; cleanup residue **0**. Migration bytes/journal unchanged. Existing im
 admin/owner publication authorization are reused. Teacher prepares, student cannot author.
 Owner MCQ corpus is not available: **0 owner Days / 0 owner MCQs supplied by this work; 0 fabricated
 production questions**. Production database was not queried. Full final gates follow checkpoint C.
+
+## Remaining Listening work — checkpoint C: temporary TED/PODCAST voice (2026-10-08)
+
+`LocalReflectionRecorder` uses the existing `createRecorder` foundation. Both genuine Summary
+presentations host it: generic VideoLessonStudio and TedStudyPractice. Ten authored study packs
+now declare `kind: "summary"` on their existing Summary task; display text is not runtime logic.
+No Speaking refactor, no audio API, no DB/R2/S3/web-storage recording, no transcript/AI/score.
+
+Voice exists only as a Blob-backed ObjectURL while that lesson is mounted. Re-record revokes the
+old URL before requesting a new microphone. Unmount, lesson-key change and pagehide revoke the
+URL, pause/detach playback, abort pending permission and cancel/release the recorder. Late grants
+and stop/unmount races cannot resurrect audio. Internal tabs retain playback; leaving the Summary
+surface stops active recording/playback without deleting its local result. Hidden browser pages
+also stop recording. Three minutes is a memory/privacy safety limit for a reflection, not IELTS
+assessment timing. Permission request limit is 15 seconds. Shared recorder runtime errors now
+release tracks and optionally notify the caller; existing Speaking callers remain compatible.
+
+The generic animated tab panel remounts on each tab change. A real component test exposed losing
+voice on that transition; recorder ownership was moved outside that keyed panel (still visible
+only on Summary). Written summary/response state and the existing response endpoint are unchanged.
+EN/UZ localized controls, statuses, accessible playback and alert errors are provided. Microphone
+failure leaves writing and Save usable.
+
+Focused voice UI: **17/17**; existing TED/PODCAST + initial voice UI sweep **69/69** (before adding
+three edge-case tests); unit/privacy/microphone/video regression **26/26**. Typecheck/lint/build pass.
+The new built-server smoke complements DOM tests with both native surfaces, written persistence,
+reload/other-user isolation and fixture cleanup; it does NOT claim microphone hardware or audible
+playback verification. Final frozen gates follow this checkpoint. Real-browser/mobile acceptance
+remains external. No migration; no Reading product changes; Test 11 stays closed.
