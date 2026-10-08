@@ -19,6 +19,8 @@ export function mcqSelectedOptions(text: string, options: readonly string[], mul
 }
 export function mcqChoiceCorrect(text: string, key: string, options: readonly string[], multi: boolean) {
   const expected = mcqKeyOptions(key, options, multi);
-  const selected = mcqSelectedOptions(text, options, multi);
+  // Historical single-choice sessions may store the letter, not the full displayed option.
+  // This is read-time grading compatibility; advance() still validates new option submissions.
+  const selected = mcqSelectedOptions(text, options, multi) ?? (!multi ? mcqKeyOptions(text, options, false) : null);
   return !!expected && !!selected && expected.length === selected.length && expected.every(o => selected.includes(o));
 }

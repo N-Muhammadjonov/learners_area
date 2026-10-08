@@ -14,6 +14,8 @@ test("multi grading is set-equal, not order-dependent or single-choice",()=>{
  assert.ok(mcqChoiceCorrect(JSON.stringify([options[2],options[0]]),"A,C",options,true));
  assert.equal(mcqChoiceCorrect(JSON.stringify([options[0]]),"A,C",options,true),false);
  assert.equal(mcqChoiceCorrect(JSON.stringify(options),"A,C",options,true),false);
+ assert.ok(mcqChoiceCorrect("A","A",options,false), "historical stored letter remains correct");
+ assert.equal(advance("revealed",{step:"chosen",text:"A",options}).ok,false,"new submissions still use actual option values");
  for(const key of ["A","one","A) one"])assert.ok(mcqChoiceCorrect(options[0]!,key,options,false));
 });
 test("publication rejects ungradeable/duplicate keys, permits proven multi-answer keys",()=>{
