@@ -227,3 +227,91 @@ test("a malformed cursor is refused rather than silently ignored", async () => {
     await close();
   }
 });
+
+/**
+ * C-OPEN-01, remaining requirement list.
+ *
+ * A broad term that matches more than one page must still be walkable to the end, and
+ * walking it must never leak a non-matching unit or mislabel which course a unit
+ * belongs to. Picking the wrong course is the quiet failure here: the desk shows only
+ * a label, so a cursor that lost its course ordering would let staff author a lesson
+ * into another centre's curriculum without any visible error.
+ */
+test("a broad search matching more than one page is walkable without leaks or mislabels", async () => {
+  const database = await createTestDatabase();
+  const { db, query, close } = database as unknown as {
+    db: { select: typeof import("../src/db/client").db.select };
+    query: <T>(sql: string, params?: unknown[]) => Promise<T[]>;
+    close: () => Promise<void>;
+  };
+  try {
+    // Three courses so the ordering key actually has to carry the course component,
+    // and a decoy course whose units must never appear for this term.
+    const courseNames = ["Alpha Centre", "Beta Centre", "Gamma Centre"];
+    const expected: { id: string; course: string }[] = [];
+
+    for (const [c, courseTitle] of courseNames.entries()) {
+      const [course] = await query<{ id: string }>(
+        "insert into courses(title,slug)values($1,$2)returning id",
+        [courseTitle, `course-${c}`],
+      );
+      const [module] = await query<{ id: string }>(
+        `insert into course_modules(course_id,title,slug,"order")values($1,'Module','module',1)returning id`,
+        [course!.id],
+      );
+      for (let u = 1; u <= 210; u += 1) {
+        const [unit] = await query<{ id: string }>(
+          `insert into units(module_id,title,slug,"order")values($1,$2,$3,$4)returning id`,
+          [module!.id, "Shared Listening Unit", `unit-${c}-${u}`, u],
+        );
+        expected.push({ id: unit!.id, course: courseTitle });
+      }
+    }
+
+    const [decoy] = await query<{ id: string }>(
+      "insert into courses(title,slug)values('Decoy Centre','decoy')returning id",
+    );
+    const [decoyModule] = await query<{ id: string }>(
+      `insert into course_modules(course_id,title,slug,"order")values($1,'Module','module',1)returning id`,
+      [decoy!.id],
+    );
+    await query(`insert into units(module_id,title,slug,"order")values($1,'Reading Only','reading-only',1)`, [
+      decoyModule!.id,
+    ]);
+
+    // 630 matches across three courses: more than one bounded page.
+    const seen: { id: string; course: string; label: string }[] = [];
+    let cursor: string | null = null;
+    let pages = 0;
+    do {
+      const page = await listUnitOptions(db, { search: "Shared Listening", ...(cursor ? { cursor } : {}) });
+      assert.ok(page.options.length <= page.pageSize, "a page must stay bounded");
+      seen.push(...page.options.map((o) => ({ id: o.id, course: o.course, label: o.label })));
+      cursor = page.nextCursor;
+      pages += 1;
+      assert.ok(pages <= 10, "the walk must terminate");
+    } while (cursor);
+
+    assert.ok(pages > 1, "630 matches must not fit in one page, or this proves nothing");
+    assert.equal(seen.length, expected.length, "every matching unit must be reachable");
+    assert.equal(new Set(seen.map((u) => u.id)).size, expected.length, "no unit may be served twice");
+
+    // No leak: the decoy unit never appears.
+    assert.ok(!seen.some((u) => u.label.includes("Reading Only")), "a non-matching unit must not appear");
+
+    // No wrong-course selection: each id keeps the course it was created under, and
+    // the label agrees with the reported course.
+    const courseById = new Map(expected.map((u) => [u.id, u.course]));
+    for (const unit of seen) {
+      assert.equal(unit.course, courseById.get(unit.id), `unit ${unit.id} reported the wrong course`);
+      assert.ok(unit.label.startsWith(`${unit.course} ›`), `label must name the owning course: ${unit.label}`);
+    }
+
+    // Courses stay grouped in order across the page boundary.
+    const order = seen.map((u) => u.course);
+    assert.deepEqual([...new Set(order)], courseNames, "courses must stay in a stable total order across pages");
+    assert.deepEqual(order, [...order].sort((a, b) => a.localeCompare(b)), "course grouping must not interleave");
+  } finally {
+    await close();
+  }
+});
