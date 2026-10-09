@@ -107,12 +107,46 @@ const lockedStart = await api(`/api/lessons/${lockedLesson.id}/state`, {
   body: { state: "completed" },
 });
 check("a locked lesson cannot be completed", lockedStart.status === 403, `status ${lockedStart.status}`);
+// Notes are a PRIVATE SCRATCHPAD gated on publication, not on the unlock ladder: a
+// learner may annotate any published lesson, including one the centre still shows as
+// locked (tests/lesson-authoring-revision.test.ts R5 asserts exactly that, and the note
+// is keyed to the learner so nothing leaks). The real negative control is an
+// UNPUBLISHED lesson, which must never accept a note.
 const lockedNotes = await api(`/api/lessons/${lockedLesson.id}/notes`, {
   method: "POST",
   cookie,
-  body: { notes: "should not be stored" },
+  body: { notes: "allowed on a published lesson" },
 });
-check("notes cannot be written on a locked lesson", lockedNotes.status === 403, `status ${lockedNotes.status}`);
+check(
+  "a published lesson accepts the learner's private note even while locked",
+  lockedNotes.status === 200,
+  `status ${lockedNotes.status}`
+);
+
+const draftRow = await db.query(
+  "select id from lessons where publication_state <> 'published' order by \"order\" limit 1"
+);
+const draftLessonId = draftRow.rows[0]?.id;
+if (draftLessonId) {
+  const draftNotes = await api(`/api/lessons/${draftLessonId}/notes`, {
+    method: "POST",
+    cookie,
+    body: { notes: "must never be stored" },
+  });
+  check(
+    "an unpublished lesson refuses notes",
+    draftNotes.status === 403 || draftNotes.status === 404,
+    `status ${draftNotes.status}`
+  );
+  const leaked = await db.query("select count(*)::int as n from lesson_notes where lesson_id = $1", [draftLessonId]);
+  check("no note was persisted against an unpublished lesson", leaked.rows[0]?.n === 0, `rows ${leaked.rows[0]?.n}`);
+}
+const missingNotes = await api(`/api/lessons/00000000-0000-4000-8000-000000000000/notes`, {
+  method: "POST",
+  cookie,
+  body: { notes: "nowhere" },
+});
+check("a note for a nonexistent lesson is refused", missingNotes.status === 404, `status ${missingNotes.status}`);
 
 const started = await api(`/api/lessons/${openLesson.id}/state`, { method: "POST", cookie, body: { state: "in_progress" } });
 check("an open lesson can be started", started.status === 200 && started.json?.state === "in_progress");
@@ -128,11 +162,19 @@ check(
 const notesText = `verification notes ${Date.now()}`;
 const notes = await api(`/api/lessons/${openLesson.id}/notes`, { method: "POST", cookie, body: { notes: notesText } });
 check("notes can be saved on an open lesson", notes.status === 200);
+// Private notes live in their own `lesson_notes` table, keyed by (user, lesson) — not
+// in the legacy lesson_progress.notes column the old probe read, which is why this
+// looked broken while production was correct.
 const stored = await db.query(
-  "select notes from lesson_progress where lesson_id = $1 and user_id = (select id from users where email = 'new.student@learnersarea.uz')",
+  "select body from lesson_notes where lesson_id = $1 and user_id = (select id from users where email = 'new.student@learnersarea.uz')",
   [openLesson.id]
 );
-check("the notes are stored verbatim", stored.rows[0]?.notes === notesText);
+check("the notes are stored verbatim", stored.rows[0]?.body === notesText, `stored ${JSON.stringify(stored.rows[0])}`);
+const foreign = await db.query(
+  "select count(*)::int as n from lesson_notes where lesson_id = $1 and user_id <> (select id from users where email = 'new.student@learnersarea.uz')",
+  [openLesson.id]
+);
+check("a note belongs to exactly one learner", foreign.rows[0]?.n === 0, `foreign rows ${foreign.rows[0]?.n}`);
 
 const completed = await api(`/api/lessons/${openLesson.id}/state`, {
   method: "POST",
@@ -144,11 +186,15 @@ const twice = await api(`/api/lessons/${openLesson.id}/state`, { method: "POST",
 check("a lesson cannot be completed twice", twice.status === 409, `status ${twice.status}`);
 
 const afterRow = await db.query(
-  "select state, completed_at, notes from lesson_progress where lesson_id = $1 and user_id = (select id from users where email = 'new.student@learnersarea.uz')",
+  "select state, completed_at from lesson_progress where lesson_id = $1 and user_id = (select id from users where email = 'new.student@learnersarea.uz')",
   [openLesson.id]
 );
 check("completion records a real timestamp", afterRow.rows[0]?.state === "completed" && Boolean(afterRow.rows[0]?.completed_at));
-check("notes survive a state change", afterRow.rows[0]?.notes === notesText);
+const afterNote = await db.query(
+  "select body from lesson_notes where lesson_id = $1 and user_id = (select id from users where email = 'new.student@learnersarea.uz')",
+  [openLesson.id]
+);
+check("notes survive a state change", afterNote.rows[0]?.body === notesText, `after ${JSON.stringify(afterNote.rows[0])}`);
 
 check("an anonymous caller cannot set state", (await api(`/api/lessons/${openLesson.id}/state`, { method: "POST", body: { state: "completed" } })).status === 401);
 const missing = await api("/api/lessons/00000000-0000-0000-0000-000000000000/state", {
