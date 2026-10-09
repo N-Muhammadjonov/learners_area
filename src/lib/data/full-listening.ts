@@ -259,10 +259,44 @@ export async function listeningLearnerFacts(userId: string, testId: string, data
   return { examSubmitted: Boolean(progress.exam), missedQuestions, progress };
 }
 
-/** Trainer progress shares the existing practice-run table with an explicit scoped discriminator. */
+/**
+ * Trainer progress shares the existing practice-run table with an explicit scoped discriminator.
+ *
+ * Completion is aggregated in SQL across the learner's WHOLE history for this test. An earlier
+ * version read only the 200 newest runs and folded them in memory, so a practice kind the learner
+ * had genuinely finished was forgotten once 200 newer runs existed — the hub then re-offered
+ * completed work and dropped its graded score. Both reads below are grouped/deduplicated by kind,
+ * so each returns at most one row per practice kind no matter how long the history grows.
+ */
 export async function listeningPracticeProgress(userId: string, testId: string, database: typeof db = db) {
-  const runs = await database.select().from(listeningActivityRuns).where(and(eq(listeningActivityRuns.userId,userId),eq(listeningActivityRuns.testId,testId),eq(listeningActivityRuns.activity,4),sql`${listeningActivityRuns.answers}->>'_practice' is not null`)).orderBy(desc(listeningActivityRuns.createdAt)).limit(200);
+  const scope = and(
+    eq(listeningActivityRuns.userId, userId),
+    eq(listeningActivityRuns.testId, testId),
+    eq(listeningActivityRuns.activity, 4),
+    sql`${listeningActivityRuns.answers}->>'_practice' is not null`,
+  );
+  const kindExpr = sql<string>`${listeningActivityRuns.answers}->>'_practice'`;
+
+  // One row per kind: did ANY run in all of history complete it?
+  const completion = await database
+    .select({ kind: kindExpr, complete: sql<boolean>`bool_or(${listeningActivityRuns.completed})` })
+    .from(listeningActivityRuns)
+    .where(scope)
+    .groupBy(kindExpr);
+
+  // One row per kind: the most recent run, for resuming answers and showing the last score.
+  const latestRuns = await database
+    .selectDistinctOn([kindExpr])
+    .from(listeningActivityRuns)
+    .where(scope)
+    .orderBy(kindExpr, desc(listeningActivityRuns.createdAt));
+
+  const completeByKind = new Map(completion.map((row) => [row.kind, Boolean(row.complete)]));
   const progress: Record<string, { complete: boolean; latest: typeof listeningActivityRuns.$inferSelect }> = {};
-  for (const run of runs) { const kind = run.answers._practice; if (!kind) continue; if (!progress[kind]) progress[kind] = { complete: false, latest: run }; if (run.completed) progress[kind]!.complete = true; }
+  for (const run of latestRuns) {
+    const kind = run.answers._practice;
+    if (!kind) continue;
+    progress[kind] = { complete: completeByKind.get(kind) ?? false, latest: run };
+  }
   return progress;
 }
