@@ -64,7 +64,7 @@ await admin.query("drop database if exists learners_qa2 with (force)");
 await admin.query("create database learners_qa2");
 await admin.end();
 JS
-DATABASE_URL="$QA2_DATABASE_URL" npx drizzle-kit migrate >"$DIR/migrate.log" 2>&1 || { cat "$DIR/migrate.log"; exit 1; }
+DATABASE_URL="$QA2_DATABASE_URL" npm run db:migrate >"$DIR/migrate.log" 2>&1 || { cat "$DIR/migrate.log"; exit 1; }
 DATABASE_URL="$QA2_DATABASE_URL" node --input-type=module - <<'JS'
 import pg from "pg";
 import { readFileSync } from "node:fs";

@@ -33,7 +33,7 @@ major, so it is recorded here rather than forced.
 ```bash
 cp .env.example .env        # fill in DATABASE_URL and a real AUTH_SECRET
 npm install
-npm run db:migrate          # apply the SQL migrations in drizzle/ (0000…0016)
+npm run db:migrate          # apply the SQL migrations in drizzle/ in journal order
 npm run db:seed             # demo data — safe to run once on a fresh DB
 npm run dev                 # http://localhost:3000
 ```
@@ -698,7 +698,7 @@ Not attempted from this environment. In outline:
 3. Migrate the cloud database — see [Migrating the production
    database](#migrating-the-production-database) below. The repository ships
    ordered SQL migrations (`drizzle/0000…0016`) applied through
-   `drizzle-kit migrate`, which is the production path. `npm run db:push` still
+   `npm run db:migrate`, which applies pending SQL hashes in journal order. `npm run db:push` still
    exists for a throwaway database, but it is not how a real deployment is
    brought up.
 4. Register a Telegram bot and set its login-widget domain to the real domain.
@@ -964,3 +964,14 @@ Ownership is a role in the database, never an email address in the code.
   opaque 500 — the app says what is wrong instead of pretending.
 - `users.is_owner` is a historical column; authorization reads `role`, and the
   OWNER role is managed through `/owner/transfer`.
+
+
+### Migration timestamp ordering repair (2026-10-09)
+
+Use `npm run db:migrate` for the canonical application chain. It uses `scripts/migrate-chain.mjs`, not the timestamp-based Drizzle migrator. The immutable SQL hash and recorded journal timestamp identify applied migrations. Pending files execute in journal index order under one transaction and advisory lock. Existing migration SQL, journal timestamps and applied history rows are preserved.
+
+This fixes upgrading a database already at 0045 when 0046–0048 have smaller timestamps. The specifically recognized layout with 0000–0045 and 0049 recorded but 0046–0048 missing is repaired by executing those three missing SQL files. Other gaps, unknown/duplicate hashes, changed recorded timestamps and populated schemas without history are refused. Failed SQL rolls back the pending SQL and new history together.
+
+`scripts/migrate-production.mjs` keeps its inspection and approval flow, delegates to this runner, and verifies hash history. The native isolated QA bootstrap also uses the canonical command. Preview-specific allowlists and authorization remain unchanged. Direct `npx drizzle-kit migrate` bypasses this repair. Do not use it for this chain.
+
+No shared database was migrated as part of this source change. Native PostgreSQL concurrency and shared-target upgrade acceptance remain separate checks. Details: `docs/RIWI-STEP-05-MIGRATION-ORDER-2026-10-09.md`.

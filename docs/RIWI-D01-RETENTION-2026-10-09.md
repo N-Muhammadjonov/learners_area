@@ -36,3 +36,7 @@ Remaining scale work: removing the count cap exposes full transcript/scope reads
 The unrestricted full-suite run was interrupted during the last Writing files while sharing resources with build/typecheck. Its partial result was 1,213 tests: 1,117 passed, 4 failed, 1 cancelled, 91 skipped. Three failures were local socket `listen EPERM`; one was the provider-lab timeout assertion. This is not full-suite PASS. The affected non-socket files are rerun sequentially, and native Terminal publication requires a fresh full-suite run with bounded test concurrency. Native PostgreSQL checks remain distinct from PGlite.
 
 Sequential recheck of provider-lab and the three interrupted Writing files: 35 passed, 0 failed, 0 skipped. Typecheck, lint, production build and diff check passed. Drizzle metadata check exited successfully, but warned about the pre-existing 0046–0048 journal timestamps; those warnings remain an explicit deployment blocker. New 0049 timestamp ordering is covered by the focused regression test.
+
+## Step-05 follow-up
+
+The 0046–0048 timestamp skip is repaired in the canonical migration runner without changing historical journal entries. See `RIWI-STEP-05-MIGRATION-ORDER-2026-10-09.md`. Shared-target and native PostgreSQL acceptance remain open.

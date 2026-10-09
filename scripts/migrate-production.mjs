@@ -26,6 +26,8 @@
  * Exit codes: 0 = inspection/report fine, 1 = refused or failed, 2 = applied.
  */
 
+import { createHash } from "node:crypto";
+import { planMigrationHistory } from "./migration-chain.mjs";
 import { readFileSync, readdirSync } from "node:fs";
 import { spawn } from "node:child_process";
 import { createRequire } from "node:module";
@@ -98,7 +100,7 @@ function verifyChain() {
         fail(`${expectedName} deletes rows with no WHERE clause — that would empty a table in production.`);
       }
     }
-    entries.push({ idx: entry.idx, tag: entry.tag, when: entry.when, file: expectedName, sql });
+    entries.push({ idx: entry.idx, tag: entry.tag, when: entry.when, file: expectedName, sql, hash: createHash("sha256").update(sql).digest("hex") });
   }
   return entries;
 }
@@ -205,8 +207,9 @@ async function inspect(client, entries) {
   info.historyRows = 0;
   info.historyTimestamps = [];
   if (info.historyExists) {
-    const rows = await client.query("select created_at from drizzle.__drizzle_migrations order by created_at");
+    const rows = await client.query("select hash, created_at from drizzle.__drizzle_migrations order by id");
     info.historyRows = rows.rowCount;
+    info.history = rows.rows;
     info.historyTimestamps = rows.rows.map((r) => Number(r.created_at));
   }
 
@@ -238,39 +241,26 @@ async function inspect(client, entries) {
  * What may we do, given what we found?
  *
  * "resume" is the only state in which the chain is executed, and it requires the
- * recorded history to be an exact prefix of this repository's journal — the same
- * migrations, in the same order, with the same timestamps.
+ * recorded history to match immutable SQL hashes and journal timestamps.
+ * Prefixes and the explicitly recognized 0046–0048 timestamp-skip layout can resume.
  */
-function decide(info, entries) {
-  const expectedTimestamps = entries.map((e) => e.when);
+export function decide(info, entries) {
 
   if (info.historyExists && info.historyRows > 0) {
-    const recorded = info.historyTimestamps;
-    const prefixMatches = recorded.every((ts, i) => ts === expectedTimestamps[i]);
-
-    if (!prefixMatches) {
-      return {
-        verdict: "divergent",
-        reason:
-          "drizzle.__drizzle_migrations holds timestamps that do not match this repository's journal. " +
-          "Migrating on top of an unknown schema is how data is lost. Compare the two before doing anything.",
-        expected: expectedTimestamps,
-        recorded,
-      };
-    }
-    if (recorded.length === expectedTimestamps.length) {
-      return { verdict: "up-to-date", reason: `all ${expectedTimestamps.length} migrations are already recorded as applied.` };
-    }
+    let pending;
+    try { pending = planMigrationHistory(entries, info.history); }
+    catch (error) { return { verdict: "divergent", reason: error.message }; }
+    if (!pending.length) return { verdict: "up-to-date", reason: `all ${entries.length} migrations are already recorded as applied.` };
     if (info.unknown.length > 0) {
       return {
         verdict: "divergent",
-        reason: `history resumes at ${recorded.length}/${expectedTimestamps.length} but the database also holds ${info.unknown.length} table(s) this chain does not create: ${info.unknown.join(", ")}`,
+        reason: `history resumes at ${info.historyRows}/${entries.length} but the database also holds ${info.unknown.length} table(s) this chain does not create: ${info.unknown.join(", ")}`,
       };
     }
     return {
       verdict: "resume",
-      reason: `${recorded.length}/${expectedTimestamps.length} migrations are recorded; the remaining ${expectedTimestamps.length - recorded.length} would run next.`,
-      from: recorded.length,
+      reason: `${info.historyRows}/${entries.length} migrations are recorded; the remaining ${pending.length} would run next.`,
+      from: info.historyRows,
     };
   }
 
@@ -303,10 +293,10 @@ function decide(info, entries) {
 
 function runMigrations(url) {
   return new Promise((resolve) => {
-    // The repository's documented command is `npm run db:migrate` (drizzle-kit
-    // migrate). The URL is passed through the environment, never argv: process
+    // The repository's documented command is `npm run db:migrate` (hash-based
+    // journal order). The URL is passed through the environment, never argv: process
     // arguments are visible to every other process on the host and land in logs.
-    const child = spawn(process.execPath, [join(ROOT, "node_modules", "drizzle-kit", "bin.cjs"), "migrate"], {
+    const child = spawn(process.execPath, [join(ROOT, "scripts", "migrate-chain.mjs")], {
       cwd: ROOT,
       env: { ...process.env, DATABASE_URL: url, NODE_ENV: "production" },
       stdio: ["ignore", "pipe", "pipe"],
@@ -497,7 +487,7 @@ async function main() {
   console.log(bold("\nApplying"));
   const result = await runMigrations(url);
   if (result.code !== 0) {
-    console.error(red(`\ndrizzle-kit migrate exited with ${result.code}. Nothing further was attempted.`));
+    console.error(red(`\nMigration runner exited with ${result.code}. Nothing further was attempted.`));
     console.error("The schema may be partially migrated; re-run the inspection to see exactly where it stopped.\n");
     await pool.end();
     process.exit(1);
@@ -541,6 +531,6 @@ async function prompt(question) {
   });
 }
 
-main().catch((error) => {
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) main().catch((error) => {
   fail(`unexpected error: ${error?.message ?? error}`);
 });
