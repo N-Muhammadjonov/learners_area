@@ -13,7 +13,6 @@ export async function runPortableImportCommand(input: { request: unknown; sessio
   const session = await verifySessionToken(input.sessionToken);
   if (!session) throw new Error("portable_owner_required");
   if (request.expectedScope === "riwi" && input.identityMapping === undefined) throw new Error("portable_identity_mapping_required");
-  if (request.expectedScope !== "riwi" && input.identityMapping !== undefined) throw new Error("portable_identity_map_unsupported");
   const identityMap = input.identityMapping === undefined ? new Map<string, string>() : portableIdentityMap(input.identityMapping);
   const client = await input.pool.connect();
   try {
@@ -26,6 +25,6 @@ export async function runPortableImportCommand(input: { request: unknown; sessio
     const plan = await importPortableArchive({ manifest, archive, dryRun: request.dryRun, identityMap,
       destination: createPostgresImportDestination(input.pool, undefined, { ownerId: session.sub, dryRun: request.dryRun, scope: request.expectedScope, identityMap }) });
     return { ...plan, manifestSha256: manifest.manifestSha256,
-      ...(request.expectedScope === "riwi" ? { identityMappingHash: sha256(stableJson([...identityMap].sort(([a], [b]) => a.localeCompare(b)))) } : {}) };
+      ...(input.identityMapping !== undefined ? { identityMappingHash: sha256(stableJson([...identityMap].sort(([a], [b]) => a.localeCompare(b)))) } : {}) };
   });
 }

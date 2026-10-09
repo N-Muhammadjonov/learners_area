@@ -40,7 +40,7 @@ Mode B import dry-run (the default):
 node --conditions=react-server --import tsx scripts/riwi-portable-import.ts --source /private/riwi.lap --expected-scope riwi --dry-run --destination-fingerprint reviewed-destination --session-file /private/session.jwt --key-file /private/key.bin --identity-map-file /private/identity-map.json
 ```
 
-Review the plan and identities before replacing `--dry-run` with explicit `--apply`. A/C use the matching expected scope without an identity-map file. The receipt prints the manifest hash and, for B, the normalized mapping hash without actor IDs. Keep the reviewed map privately with the encrypted archive and recovery checkpoint. Source/destination fingerprints must differ.
+Review the plan and identities before replacing `--dry-run` with explicit `--apply`. Since Step 14, A/C use the matching expected scope with an optional one-entry bootstrap owner map when source and destination owner UUIDs differ; see `RIWI-STEP-14-BOOTSTRAP-OWNER.md`. Same-UUID imports need no map. The receipt prints the manifest hash and, for every explicitly mapped mode, the normalized mapping hash without actor IDs. Keep the reviewed map privately with the encrypted archive and recovery checkpoint. Source/destination fingerprints must differ.
 
 On pre-commit failure, the transaction rolls back. On an uncertain COMMIT, stop and reconcile exact destination state before any retry; do not overwrite or automatically retry. Objects and deployment data must be reconciled separately. Do not restore over production as a rehearsal.
 

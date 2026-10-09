@@ -1,0 +1,50 @@
+{
+  "base_commit": "423383914d468b6b7c419f9aaa2254d12c4f89f5",
+  "status": "LOCAL_QA_VERIFIED_NATIVE_AND_REMOTE_PENDING",
+  "scope": "D03 single-bootstrap-owner A/C identity reconciliation",
+  "progress_earned_percentage_points": 0,
+  "checks": {
+    "focused": {
+      "log": "/tmp/riwi-step14-repair-focused.log",
+      "sha256": "428fec4ba45e5a111438a3887e9939d7a75f6dec4587ad6390f81f6b11b23604",
+      "tests": 38,
+      "pass": 37,
+      "fail": 0,
+      "skipped": 1
+    },
+    "encrypted": {
+      "log": "/tmp/riwi-step14-encrypted.log",
+      "sha256": "b127fab8826b3e6cfcf38985884016c3ca4e7d6bd6115d26ecab611f1b76f06a",
+      "tests": 3,
+      "pass": 3,
+      "fail": 0,
+      "skipped": 0
+    },
+    "typecheck": {
+      "log": "/tmp/riwi-step14-repair-typecheck.log",
+      "sha256": "ac19c29fd7dbdd2d0a0bb9f56b2a514ef5788b0a705cec89218a7a23d833d062",
+      "result": "PASS"
+    },
+    "lint": {
+      "log": "/tmp/riwi-step14-repair-lint.log",
+      "sha256": "b4d1173af97e919cdcf5e1f2bc959f7b0c283ac1010456dfb977bf2d1a71adf4",
+      "result": "PASS"
+    }
+  },
+  "no_build_rerun": true,
+  "limits": [
+    "One native PostgreSQL test skipped without isolated destination credentials.",
+    "Synthetic source/target rehearsals do not establish native PostgreSQL concurrency or app boot.",
+    "A/C supports only a single explicit bootstrap owner mapping to the initiating active destination owner; unrelated users retain their IDs and roles.",
+    "Private object lifecycle, wider multi-owner restores and final build acceptance remain open."
+  ],
+  "pre_repair_native_failure": {
+    "log": "/tmp/riwi-step14-native-qa-kzanBe/backend-1.log",
+    "sha256": "e0347e21c65aaa8b07d5a53ec310ee5880b3f1d7f69f9bf0ec41087f7971e3f2",
+    "tests": 1296,
+    "pass": 1203,
+    "fail": 2,
+    "skipped": 91,
+    "cause": "Random source user UUID order selected a different correct authorization rejection before the expected student-role guard. Both orders are now explicit fixtures with exact expected errors and zero-write assertions. Product authorization code is unchanged by this repair."
+  }
+}

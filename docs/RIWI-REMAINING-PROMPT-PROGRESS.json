@@ -1,7 +1,7 @@
 {
   "source": "RIWI_REMAINING_WORK_EXECUTION_PROMPT.txt",
   "source_sha256": "daf36b256a990b7fa5379fd121810991bad552f638c776e8d9b55dcb22847979",
-  "verified_remote_base": "7b27a653e0c2dadebb09e2abef96c9f587e37d08",
+  "verified_remote_base": "423383914d468b6b7c419f9aaa2254d12c4f89f5",
   "method": "Equal-weight full-group acceptance: CLOSED / all 34 original R/B/C/D groups. Partial implementation receives no full-group credit. This is a verified closure metric, not a measure of development effort or existing product functionality.",
   "closed": 11,
   "total": 34,
@@ -190,7 +190,7 @@
       "id": "D03",
       "requirement": "Review tri-mode PostgreSQL source/destination projection and identity reconciliation. Mode B strips site/private data and maps governance identities explicitly to authorized target actors; Mode C excludes all RIWI intelligence/conversations; Mode A preserves allowed full data. Validate foreign keys, composite keys, nullable self references, cycles, duplicate/conflicting rows, rollback, serialized mutations and uncertain COMMIT outcomes. Do not disable constraints to pass imports.",
       "status": "PARTIAL",
-      "evidence_and_remaining": "Published Mode B identity mapping, primary-key checks and serialization. Step 13 candidate adds metadata-derived nullable cycle staging, exact post-checksum link restoration and dry-run FK validation. Wider A/C identity reconciliation and real native concurrency/restore acceptance remain open; this group is still PARTIAL."
+      "evidence_and_remaining": "Step 13 nullable cycle/FK validation published and independently verified: exact tree and 7 blobs, two native non-build rounds each 1203 backend passes, 91 skips and 252 UI passes. Step 14 candidate explicitly reconciles a single active source bootstrap owner to the initiating destination owner in A/C, including schema-declared user references and user-backed primary keys. Broader multi-owner reconciliation and native PostgreSQL concurrency/restore acceptance remain open; no full-group credit."
     },
     {
       "id": "D04",
@@ -238,12 +238,12 @@
     }
   ],
   "pending_batch": {
-    "step": 13,
+    "step": 14,
     "groups": [
       "D03"
     ],
     "currently_credited": false,
     "earned_percentage_points": 0,
-    "condition": "D03 remains partial. Nullable-cycle and relationship subrequirements do not earn full-group credit. Final native non-build QA and remote publication pending."
+    "condition": "Single-bootstrap-owner A/C mapping is locally verified; native QA and remote publication pending. D03 stays PARTIAL pending wider identity and native acceptance."
   }
 }

@@ -112,8 +112,26 @@ export function createPostgresImportDestination(pool: PgPool, copyObject?: (obje
     const checkedActors = new Set<string>();
     const project = async (table: PortableTable, row: PortableRow, identityMap: ReadonlyMap<string, string>) => {
       if (authorization?.scope !== "riwi") {
-        if (identityMap.size) throw new Error("portable_identity_map_unsupported");
-        return row;
+        // A/C may reconcile only the initiating bootstrap owner. The archive
+        // must itself contain that active owner row; a foreign-key claim alone
+        // cannot prove the source identity's authority.
+        if (!identityMap.size) return row;
+        if (!authorization) throw new Error("portable_identity_map_unsupported");
+        if (identityMap.size !== 1 || [...identityMap.values()][0] !== authorization?.ownerId.toLowerCase()) throw new Error("portable_bootstrap_owner_mapping_required");
+        const mapped = { ...row };
+        if (table === "users" && typeof row.id === "string") {
+          const sourceId = row.id.toLowerCase();
+          const target = identityMap.get(sourceId);
+          if (target) {
+            if (row.role !== "owner" || row.accountStatus !== "active") throw new Error("portable_identity_source_owner_required");
+            mapped.id = target;
+            usedIdentities.add(sourceId);
+          }
+        }
+        for (const field of tableMeta(table).actorFields) {
+          if (typeof mapped[field] === "string") mapped[field] = identityMap.get((mapped[field] as string).toLowerCase()) ?? mapped[field];
+        }
+        return mapped;
       }
       if (!tablesForScope("riwi").includes(table)) throw new Error("portable_table_scope_mismatch");
       if (table === "riwi_knowledge_sources" && (row.scope !== "global" && row.scope !== "role" || row.scopeUserId != null)) throw new Error("portable_riwi_private_source");
@@ -172,7 +190,7 @@ export function createPostgresImportDestination(pool: PgPool, copyObject?: (obje
         if (values.every(value => value != null)) references.push({ ref, values });
       }
       if (authorization && table === "users" && row.role === "owner") {
-        if (row.id !== authorization.ownerId) throw new Error("portable_owner_identity_reconciliation_required");
+        if (typeof row.id !== "string" || row.id.toLowerCase() !== authorization.ownerId.toLowerCase()) throw new Error("portable_owner_identity_reconciliation_required");
         return "skip";
       }
       const where = meta.primaryKeys.map((key, index) => `${quote(meta.columns.get(key)!)} = $${index + 1}`).join(" and ");
@@ -241,7 +259,7 @@ export function createPostgresImportDestination(pool: PgPool, copyObject?: (obje
         }
         const usedIdentities = new Set<string>();
         const value = await work(forClient(client, usedIdentities));
-        if (authorization?.scope === "riwi" && [...authorization.identityMap?.keys() ?? []].some(id => !usedIdentities.has(id))) throw new Error("portable_identity_mapping_unused");
+        if ([...authorization?.identityMap?.keys() ?? []].some(id => !usedIdentities.has(id))) throw new Error("portable_identity_mapping_unused");
         commitAttempted = !authorization?.dryRun;
         await client.query(authorization?.dryRun ? "rollback" : "commit");
         return value;
