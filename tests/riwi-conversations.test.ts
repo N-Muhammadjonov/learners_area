@@ -5,7 +5,6 @@ import { eq } from "drizzle-orm";
 import { users, readingAttempts, readingPassages, riwiConversationMessages, riwiConversations, teacherStudentLinks } from "../src/db/schema";
 import { createTestDatabase } from "./support/pglite";
 import {
-  RIWI_CONVERSATION_STORAGE_MAX_MESSAGES,
   appendRiwiTurn,
   deleteRiwiConversation,
   getRiwiConversationHistory,
@@ -296,7 +295,7 @@ test("teacher roster reports retain only a safe placeholder, never the old aggre
   }
 });
 
-test("conversation idle expiry and transactional storage cap preserve only the latest bounded transcript", async () => {
+test("conversation idle expiry preserves every recent message without a count cap", async () => {
   const database = await createTestDatabase();
   const studentId = randomUUID();
   await seedUsers(database, [studentId]);
@@ -313,12 +312,11 @@ test("conversation idle expiry and transactional storage cap preserve only the l
     }
 
     const stored = await database.db.select().from(riwiConversationMessages).where(eq(riwiConversationMessages.conversationId, conversation.id));
-    assert.equal(RIWI_CONVERSATION_STORAGE_MAX_MESSAGES, 60);
-    assert.equal(stored.length, RIWI_CONVERSATION_STORAGE_MAX_MESSAGES);
+    assert.equal(stored.length, 70);
     const transcript = await getRiwiConversationTranscript({ actor, conversationId: conversation.id, now: new Date(start.getTime() + 40_000) }, database.db);
-    assert.equal(transcript.length, 60);
-    assert.equal(transcript[0]?.content, "question-5");
-    assert.equal(transcript[1]?.content, "answer-5");
+    assert.equal(transcript.length, 70);
+    assert.equal(transcript[0]?.content, "question-0");
+    assert.equal(transcript[1]?.content, "answer-0");
     assert.equal(transcript.at(-2)?.content, "question-34");
     assert.equal(transcript.at(-1)?.content, "answer-34");
     const history = await getRiwiConversationHistory({ actor, conversationId: conversation.id, now: new Date(start.getTime() + 40_000) }, database.db);

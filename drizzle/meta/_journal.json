@@ -344,6 +344,13 @@
       "when": 1791203272356,
       "tag": "0048_condemned_pyro",
       "breakpoints": true
+    },
+    {
+      "idx": 49,
+      "version": "7",
+      "when": 1791500000011,
+      "tag": "0049_riwi_online_activity_baseline",
+      "breakpoints": true
     }
   ]
 }

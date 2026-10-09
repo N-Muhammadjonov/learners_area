@@ -6,6 +6,7 @@ import { hasPrivateAccess } from "@/lib/auth/account-status";
 import { getLocale, getDictionary } from "@/lib/i18n";
 import { Sidebar } from "@/components/shell/Sidebar";
 import { Topbar } from "@/components/shell/Topbar";
+import { OnlineActivity } from "@/components/shell/OnlineActivity";
 import { ShellUtilities } from "@/components/shell/ShellUtilities";
 import { InstantInteractionProvider } from "@/components/interaction/InstantInteractionProvider";
 import { InstantWorkspaceOutlet } from "@/components/interaction/InstantWorkspaceOutlet";
@@ -75,6 +76,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     >
       {/* Private client read cache is bound to the DB-verified user id only. */}
       <PrivateResourceScope scope={user.id} />
+      <OnlineActivity />
       <div className="flex h-dvh overflow-hidden bg-paper" data-shell>
         {diagnostics && <PerformanceDiagnostics />}
         {/*

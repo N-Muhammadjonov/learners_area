@@ -180,6 +180,8 @@ test("every private API route rejects anonymous callers with 401", () => {
     // public answer to "which commit is this alias serving?", which has to be
     // checkable from outside without a session.
     "src/app/api/version/",
+    // This exact scheduler endpoint authenticates a machine bearer secret.
+    "src/app/api/cron/riwi-chat-retention/route.ts",
   ];
   // Every Retention route answers its refusal through the shared helpers in
   // `src/lib/retention/http.ts` instead of an inline `NextResponse`. The helper
@@ -197,6 +199,11 @@ test("every private API route rejects anonymous callers with 401", () => {
   assert.match(riwiOwnerGuard, /authorizeCapability\([\s\S]*riwi\.knowledge\.review/);
   assert.match(riwiOwnerGuard, /401/);
   assert.match(riwiOwnerGuard, /403/);
+  const cronRoute = stripComments(read("src/app/api/cron/riwi-chat-retention/route.ts"));
+  assert.match(cronRoute, /validRetentionAuthorization\(request\.headers\.get\("authorization"\), process\.env\.CRON_SECRET\)/);
+  assert.match(cronRoute, /timingSafeEqual/);
+  assert.match(cronRoute, /secret\.length < 32/);
+  assert.match(cronRoute, /status: 401/);
   const RETENTION_ROUTES = /^src\/app\/api\/(admin\/)?retention\//;
   const RIWI_OWNER_ROUTES = /^src\/app\/api\/riwi\/owner\//;
   const riwiGateway = stripComments(read("src/lib/services/riwi/gateway.ts"));

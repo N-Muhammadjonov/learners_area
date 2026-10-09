@@ -1,3 +1,4 @@
+import { RIWI_CONVERSATION_TTL_DAYS } from "@/lib/services/riwi/contracts";
 import type { ExportScope } from "./types";
 
 export type DataClass = "riwi-core" | "site-private" | "site-content" | "governance-private";
@@ -154,8 +155,14 @@ export function assertPortableFields(table: PortableTable, row: Readonly<Record<
   if ((table === "riwi_conversations" || table === "riwi_conversation_messages") && "deletedAt" in row && row.deletedAt == null) return;
 }
 
-export function shouldExportPrivateRow(row: Readonly<Record<string, unknown>>, now = new Date()): boolean {
+export function shouldExportPrivateRow(row: Readonly<Record<string, unknown>>, now = new Date(), table?: PortableTable): boolean {
   if (row.deletedAt != null || row.retentionState === "deleted" || row.retentionState === "expired") return false;
+  if (table === "riwi_conversation_messages") {
+    const createdAt = row.createdAt;
+    if (!(typeof createdAt === "string" || createdAt instanceof Date)) return false;
+    const timestamp = new Date(createdAt).getTime();
+    if (!Number.isFinite(timestamp) || timestamp < now.getTime() - RIWI_CONVERSATION_TTL_DAYS * 86_400_000) return false;
+  }
   const expiresAt = row.expiresAt;
   return !(typeof expiresAt === "string" || expiresAt instanceof Date) || new Date(expiresAt).getTime() > now.getTime();
 }

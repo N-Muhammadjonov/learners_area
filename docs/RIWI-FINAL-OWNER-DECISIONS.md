@@ -1,15 +1,14 @@
 # RIWI final owner decisions
 
-Status: **AWAITING OWNER**. These decisions are not inferred. Selecting an option does not authorize Production cutover.
+Status: **D-01 OWNER APPROVED; D-02–D-08 AWAITING OWNER**. These decisions are not inferred. Selecting an option does not authorize Production cutover.
 
 ## D-01 — RIWI conversation destructive retention
 
-- **A:** Accept the implemented 30-day expiry and latest-60-message cap.
-- **B:** Keep 30 days and provide a different cap.
-- **C:** Provide replacement expiry and cap values.
-- **Recommended:** A, because it preserves the tested privacy-bounded implementation.
-- **Consequences:** Data outside either boundary is irreversibly pruned after backup expiry; increasing retention later cannot restore it.
-- **Blocks:** final destructive-retention acceptance.
+Owner selected a custom policy on 2026-10-08: retain all messages from the last 30 days without a message-count cap. Delete users' RIWI chats after strictly more than seven elapsed days offline (day eight). Applies to all authenticated roles; accounts and academic records are not deleted by this rule.
+
+Online use is an authenticated site request or visible connected tab heartbeat. Returning users lose overdue chats before their online timestamp is refreshed. Older-than-30-day messages are excluded from reads and pruned on append or a scheduled sweep. External provider context remains limited to six eligible messages.
+
+Local implementation/test evidence is separate from deployed acceptance. The hourly cron requires deployed scheduling and a configured CRON_SECRET. No Production cutover is authorized by this decision.
 
 ## D-02 — Speaking audio/transcript retention
 
@@ -67,7 +66,7 @@ Status: **AWAITING OWNER**. These decisions are not inferred. Selecting an optio
 
 ## D-08 — Assessment-policy workflow
 
-- **A:** Accept the immutable 68-contract hard core and exact-hash owner-overlay candidate/preview/approve/version/rollback boundaries.
+- **A:** Accept the immutable 105-contract registry (68 legacy contracts preserved, 37 added source contracts) and exact-hash owner-overlay candidate/preview/approve/version/rollback boundaries.
 - **B:** Request a precise overlay-field change.
 - **C:** Defer acceptance.
 - **Recommended:** A.

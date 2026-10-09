@@ -3,6 +3,7 @@ import { cache } from "react";
 import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { users } from "@/db/schema";
+import { recordRiwiOnlineActivity } from "@/lib/services/riwi/conversation-retention";
 import { getSession } from "./session";
 import { timed } from "@/lib/observability/timing";
 import { hasPrivateAccess, type AccountStatus } from "./account-status";
@@ -54,10 +55,16 @@ export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
         locale: true,
         onboardingCompletedAt: true,
         statusReason: true,
+        lastActiveAt: true,
       },
     })
   );
   if (!row) return null;
+
+  const now = new Date();
+  if (row.lastActiveAt.getTime() <= now.getTime() - 60_000) {
+    await recordRiwiOnlineActivity(row.id, now);
+  }
 
   return {
     id: row.id,

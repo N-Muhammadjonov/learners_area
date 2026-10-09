@@ -6,7 +6,7 @@
 
 ## Why
 
-- Owner decisions D-01 through D-08 are unanswered.
+- D-01 has an explicit owner policy (2026-10-08); deployed retention acceptance remains open. Owner decisions D-02 through D-08 are unanswered.
 - Exact Listening package tests remain externally blocked.
 - No real provider, R2/S3, full-data A/B/C, backup/PITR, restore drill or authenticated Preview browser evidence exists.
 - Shared Preview and Production are not authorized.

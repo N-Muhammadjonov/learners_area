@@ -1,18 +1,17 @@
 import "server-only";
-import { and, desc, eq, gt, inArray, isNull, notInArray } from "drizzle-orm";
+import { and, desc, eq, gt, gte, inArray, isNull, lt } from "drizzle-orm";
 import { db } from "@/db/client";
 import { riwiConversationMessages, riwiConversations, teacherStudentLinks, users } from "@/db/schema";
 import type { Role } from "@/lib/auth/roles";
 import type { Locale } from "@/lib/i18n";
 import { recordRiwiAudit } from "./audit";
 import type { RiwiConversationTurn } from "@/lib/services/coach/types";
-import { RIWI_CONVERSATION_STORAGE_MAX_MESSAGES, RIWI_PROVENANCE, type RiwiProvenance } from "./contracts";
-export { RIWI_CONVERSATION_STORAGE_MAX_MESSAGES } from "./contracts";
+import { RIWI_CONVERSATION_TTL_DAYS, RIWI_PROVENANCE, type RiwiProvenance } from "./contracts";
+export { RIWI_CONVERSATION_TTL_DAYS } from "./contracts";
 import { reportSnapshotSchema, type ValidatedReportSnapshot } from "@/lib/reporter/snapshot-schema";
 import { isAuthorizedRiwiCourseLesson } from "./course-lessons";
 import { hasOpenExam, resolveDictionaryOccurrence } from "./dictionary";
 
-export const RIWI_CONVERSATION_TTL_DAYS = 30;
 export const RIWI_CONVERSATION_HISTORY_MAX = 6;
 export const RIWI_CONVERSATION_MESSAGE_MAX = 6000;
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -116,8 +115,7 @@ async function storedCourseLessonScope(
 ): Promise<RiwiCourseLessonScope | null> {
   const rows = await database.select({ role: riwiConversationMessages.role, metadata: riwiConversationMessages.metadata })
     .from(riwiConversationMessages).where(eq(riwiConversationMessages.conversationId, conversationId))
-    .orderBy(desc(riwiConversationMessages.createdAt), desc(riwiConversationMessages.id))
-    .limit(RIWI_CONVERSATION_STORAGE_MAX_MESSAGES);
+    .orderBy(desc(riwiConversationMessages.createdAt), desc(riwiConversationMessages.id));
   let resolved: RiwiCourseLessonScope | null = null;
   for (const row of rows) {
     const metadata = metadataOf(row.metadata);
@@ -176,8 +174,7 @@ async function storedDictionaryScope(
 ): Promise<RiwiDictionaryConversationScope | null> {
   const rows = await database.select({ role: riwiConversationMessages.role, metadata: riwiConversationMessages.metadata })
     .from(riwiConversationMessages).where(eq(riwiConversationMessages.conversationId, conversationId))
-    .orderBy(desc(riwiConversationMessages.createdAt), desc(riwiConversationMessages.id))
-    .limit(RIWI_CONVERSATION_STORAGE_MAX_MESSAGES);
+    .orderBy(desc(riwiConversationMessages.createdAt), desc(riwiConversationMessages.id));
   let resolved: RiwiDictionaryConversationScope | null = null;
   for (const row of rows) {
     const metadata = metadataOf(row.metadata);
@@ -189,6 +186,10 @@ async function storedDictionaryScope(
   }
   if (resolved && !await dictionaryScopeAuthorized(actor, resolved, database)) throw new RiwiConversationError("not_found");
   return resolved;
+}
+
+function messageCutoff(now: Date): Date {
+  return new Date(now.getTime() - RIWI_CONVERSATION_TTL_DAYS * dayMs);
 }
 
 function expiresInThirtyDays(now: Date): Date {
@@ -263,8 +264,9 @@ export async function getRiwiConversationHistory(input: {
   await storedCourseLessonScope(conversation.id, input.actor, database);
   await storedDictionaryScope(conversation.id, input.actor, database);
   const rows = await database.select({ role: riwiConversationMessages.role, content: riwiConversationMessages.content, metadata: riwiConversationMessages.metadata })
-    .from(riwiConversationMessages).where(eq(riwiConversationMessages.conversationId, conversation.id))
-    .orderBy(desc(riwiConversationMessages.createdAt), desc(riwiConversationMessages.id)).limit(RIWI_CONVERSATION_STORAGE_MAX_MESSAGES);
+    .from(riwiConversationMessages).where(and(eq(riwiConversationMessages.conversationId, conversation.id),
+      gte(riwiConversationMessages.createdAt, messageCutoff(now))))
+    .orderBy(desc(riwiConversationMessages.createdAt), desc(riwiConversationMessages.id));
   await storedCourseLessonScope(conversation.id, input.actor, database);
   await storedDictionaryScope(conversation.id, input.actor, database);
   // Only educational turns may cross an external-provider boundary. Progress,
@@ -433,12 +435,9 @@ export async function appendRiwiTurn(input: {
         ...(resolvedDictionaryScope ? { dictionaryScope: resolvedDictionaryScope } : {}),
       } },
     ]);
-    const retainedMessages = tx.select({ id: riwiConversationMessages.id }).from(riwiConversationMessages)
-      .where(eq(riwiConversationMessages.conversationId, conversation.id))
-      .orderBy(desc(riwiConversationMessages.createdAt), desc(riwiConversationMessages.id))
-      .limit(RIWI_CONVERSATION_STORAGE_MAX_MESSAGES);
     await tx.delete(riwiConversationMessages).where(and(
-      eq(riwiConversationMessages.conversationId, conversation.id), notInArray(riwiConversationMessages.id, retainedMessages),
+      eq(riwiConversationMessages.conversationId, conversation.id),
+      lt(riwiConversationMessages.createdAt, messageCutoff(now)),
     ));
     await tx.update(riwiConversations).set({ expiresAt: expiresInThirtyDays(now), updatedAt: now })
       .where(and(eq(riwiConversations.id, conversation.id), eq(riwiConversations.userId, input.actor.id)));
@@ -460,8 +459,9 @@ export async function getRiwiConversationTranscript(input: {
   const conversationCourseScope = await storedCourseLessonScope(conversation.id, input.actor, database);
   const conversationDictionaryScope = await storedDictionaryScope(conversation.id, input.actor, database);
   const rows = await database.select({ role: riwiConversationMessages.role, content: riwiConversationMessages.content, metadata: riwiConversationMessages.metadata, createdAt: riwiConversationMessages.createdAt })
-    .from(riwiConversationMessages).where(eq(riwiConversationMessages.conversationId, conversation.id))
-    .orderBy(desc(riwiConversationMessages.createdAt), desc(riwiConversationMessages.id)).limit(RIWI_CONVERSATION_STORAGE_MAX_MESSAGES);
+    .from(riwiConversationMessages).where(and(eq(riwiConversationMessages.conversationId, conversation.id),
+      gte(riwiConversationMessages.createdAt, messageCutoff(now))))
+    .orderBy(desc(riwiConversationMessages.createdAt), desc(riwiConversationMessages.id));
   await storedCourseLessonScope(conversation.id, input.actor, database);
   if (conversationDictionaryScope && !await dictionaryScopeAuthorized(input.actor, conversationDictionaryScope, database)) throw new RiwiConversationError("not_found");
   const orderedRows = rows.reverse();

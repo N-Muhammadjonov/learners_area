@@ -11,12 +11,23 @@
         "B": "Keep 30 days but change the message cap; provide the exact cap.",
         "C": "Provide replacement expiry and cap values; implementation and tests must change."
       },
-      "recommended": "A",
-      "technicalConsequence": "A preserves the currently tested pruning implementation; B/C require code and boundary-test changes.",
+      "recommended": null,
+      "technicalConsequence": "Replace count pruning with rolling message age retention; delete chats after more than 7 days offline.",
       "securityConsequence": "Short bounded retention reduces private conversation exposure.",
       "dataLossConsequence": "Messages beyond either accepted boundary are deleted and cannot be recovered without an eligible backup.",
       "rollbackConsequence": "Changing to a longer policy cannot recover rows already pruned.",
-      "blocker": "Final destructive-retention acceptance and ledger closure."
+      "blocker": "Final destructive-retention acceptance and ledger closure.",
+      "status": "OWNER_APPROVED_CUSTOM_POLICY",
+      "ownerDecision": {
+        "recordedAt": "2026-10-08",
+        "verbatim": "so'nggi 30 kunlik barcha xabar saqlanadi 7 kundan ko'proq offline bo'lgan students/usersning chatlari 8-kuni o'chib ketadi",
+        "messageWindowDays": 30,
+        "messageCountCap": null,
+        "offlineDays": 7,
+        "appliesTo": "all authenticated user roles",
+        "offlineBoundary": "strictly more than 7 elapsed days since last authenticated online use",
+        "productionGo": false
+      }
     },
     {
       "id": "D-02",

@@ -47,7 +47,7 @@ function fixture(scope: ExportScope, objectMode: "keep-r2" | "move-objects" = "k
     riwi_assessment_policies: [{ id: "policy-1", state: "approved", candidateHash: "p".repeat(64) }],
     speaking_attempts: [{ id: "attempt-1", userId: "user-0", transcript: "PRIVATE_SPEAKING_CANARY" }],
     riwi_conversations: [{ id: "conversation-1", userId: "user-0" }],
-    riwi_conversation_messages: [{ id: "message-1", conversationId: "conversation-1", content: "PRIVATE_RIWI_CONVERSATION_CANARY" }],
+    riwi_conversation_messages: [{ id: "message-1", conversationId: "conversation-1", createdAt: "2026-10-05T00:00:00Z", content: "PRIVATE_RIWI_CONVERSATION_CANARY" }],
   };
   const objects: PortableObject[] = [
     { objectClass: "riwi-knowledge-source", sourceKey: "riwi/source.pdf", destinationKey: objectMode === "move-objects" ? "riwi/source.pdf" : null, ownerId: null, scope: "global", retentionState: "active", sha256: sha256("pdf"), byteLength: 3, mimeType: "application/pdf" },
@@ -192,9 +192,10 @@ test("expired conversation messages and orphan messages cannot leave the private
         { id: "expired", expiresAt: "2026-10-08T00:00:00Z" },
       ];
       if (table === "riwi_conversation_messages") yield [
-        { id: "a", conversationId: "active", content: "ACTIVE_CONVERSATION" },
-        { id: "e", conversationId: "expired", content: "EXPIRED_PRIVATE_CANARY" },
-        { id: "o", conversationId: "orphan", content: "ORPHAN_PRIVATE_CANARY" },
+        { id: "a", conversationId: "active", createdAt: now.toISOString(), content: "ACTIVE_CONVERSATION" },
+        { id: "e", conversationId: "expired", createdAt: now.toISOString(), content: "EXPIRED_PRIVATE_CANARY" },
+        { id: "o", conversationId: "orphan", createdAt: now.toISOString(), content: "ORPHAN_PRIVATE_CANARY" },
+        { id: "old", conversationId: "active", createdAt: "2026-09-01T00:00:00Z", content: "OLDER_THAN_30_DAYS_CANARY" },
       ];
     },
     async *objects() {},
@@ -206,7 +207,7 @@ test("expired conversation messages and orphan messages cannot leave the private
   };
   await exportPortableArchive({ scope: "full-system", objectMode: "keep-r2", sourceFingerprint: "retention-fixture", source, sink, createdAt: now });
   assert.match(sink.files.get("tables/riwi_conversation_messages.jsonl")!, /ACTIVE_CONVERSATION/);
-  assert.doesNotMatch([...sink.files.values()].join(""), /EXPIRED_PRIVATE_CANARY|ORPHAN_PRIVATE_CANARY/);
+  assert.doesNotMatch([...sink.files.values()].join(""), /EXPIRED_PRIVATE_CANARY|ORPHAN_PRIVATE_CANARY|OLDER_THAN_30_DAYS_CANARY/);
   assert.doesNotMatch(sink.files.get("tables/riwi_conversations.jsonl")!, /"expired"/);
   const { activeConversationIds: _proof, ...withoutProof } = source;
   await assert.rejects(() => exportPortableArchive({ scope: "full-system", objectMode: "keep-r2", sourceFingerprint: "retention-fixture", source: withoutProof, sink: new MemorySink(), createdAt: now }), /conversation_retention_proof_required/);

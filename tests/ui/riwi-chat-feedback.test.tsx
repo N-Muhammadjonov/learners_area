@@ -3,7 +3,6 @@ import test from "node:test";
 import { JSDOM } from "jsdom";
 import en from "../../src/lib/i18n/en";
 import uz from "../../src/lib/i18n/uz";
-import { RIWI_CONVERSATION_STORAGE_MAX_MESSAGES } from "../../src/lib/services/riwi/contracts";
 
 const dom = new JSDOM("<!doctype html><html><body><div id=\"root\"></div></body></html>", { url: "http://localhost/riwi" });
 for (const key of ["window", "self", "document", "navigator", "HTMLElement", "HTMLTextAreaElement", "HTMLButtonElement", "Element", "Event"] as const) {
@@ -106,7 +105,7 @@ test("student RIWI surface declares self-only scope and renders no learner selec
   const scope: ScopeSurface = { status: "ready", role: "student", scope: "self", targetOptions: [], nextCursor: null };
   await renderChat(async () => { throw new Error("student self scope does not fetch a client-controlled target list"); }, async () => {
     assert.equal(query<HTMLElement>("[data-riwi-role-scope='self']").textContent?.includes("another learner cannot be selected"), true);
-    assert.ok(document.body.textContent?.includes(`Only the latest ${RIWI_CONVERSATION_STORAGE_MAX_MESSAGES} messages are retained; older messages are automatically deleted.`));
+    assert.ok(document.body.textContent?.includes("All messages from the last 30 days are retained. After more than 7 days offline, your chats are deleted on day 8."));
     assert.equal(document.querySelector("#riwi-target-user"), null);
     for (const workspace of ["/writing", "/speaking", "/grammar", "/vocabulary", "/reports"]) {
       assert.ok(document.querySelector(`a[href="${workspace}"]`), `RIWI hands off to the existing ${workspace} workspace`);
@@ -114,12 +113,11 @@ test("student RIWI surface declares self-only scope and renders no learner selec
   }, "student", scope);
 });
 
-test("Uzbek RIWI copy discloses the destructive conversation retention cap", async () => {
+test("Uzbek RIWI copy discloses rolling retention and offline deletion", async () => {
   const scope: ScopeSurface = { status: "ready", role: "student", scope: "self", targetOptions: [], nextCursor: null };
   await renderChat(async () => { throw new Error("student self scope does not fetch a client-controlled target list"); }, async () => {
     const note = document.body.textContent ?? "";
-    assert.ok(note.includes("Suhbat 30 kundan so'ng tugaydi."));
-    assert.ok(note.includes(`Faqat oxirgi ${RIWI_CONVERSATION_STORAGE_MAX_MESSAGES} ta xabar saqlanadi; eski xabarlar avtomatik o'chiriladi.`));
+    assert.ok(note.includes("So'nggi 30 kunlik barcha xabarlar saqlanadi. 7 kundan ko'proq offline bo'lsangiz, 8-kuni chatlaringiz o'chiriladi."));
   }, "student", scope, "uz");
 });
 

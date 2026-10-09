@@ -239,7 +239,7 @@ export const users = pgTable("users", {
   accountStatus: accountStatusEnum("account_status").notNull().default("pending"),
   statusUpdatedAt: timestamp("status_updated_at", { withTimezone: true }).defaultNow().notNull(),
   statusReason: text("status_reason"),
-  /** Drives the inactivity half of the retention policy (see retention.ts). */
+  /** Last authenticated online site use; drives RIWI chat offline retention. */
   lastActiveAt: timestamp("last_active_at", { withTimezone: true }).defaultNow().notNull(),
   /**
    * Last time the student did real learning work — submitted an attempt, had an
@@ -254,6 +254,7 @@ export const users = pgTable("users", {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 }, (table) => ({
   statusIdx: index("users_account_status_idx").on(table.accountStatus),
+  onlineActivityIdx: index("users_online_activity_idx").on(table.lastActiveAt, table.id),
   riwiActiveStudentTargetIdx: index("users_riwi_active_student_target_idx")
     .on(sql`lower(trim(${table.name}))`, table.id)
     .where(sql`${table.role} = 'student' AND ${table.accountStatus} = 'active'`),

@@ -7,7 +7,7 @@ import { IconSparkles } from "@/components/ui/icons";
 import type { Role } from "@/lib/auth/roles";
 import type { Locale } from "@/lib/i18n";
 import type { Dictionary } from "@/lib/i18n/en";
-import { assessRiwiIntent, RIWI_CONVERSATION_STORAGE_MAX_MESSAGES, RIWI_PROVENANCE, RIWI_TARGET_CURSOR_MAX_LENGTH, riwiChatResponseSchema, type RiwiChatResponse, type RiwiRoleSurface } from "@/lib/services/riwi/contracts";
+import { assessRiwiIntent, RIWI_PROVENANCE, RIWI_TARGET_CURSOR_MAX_LENGTH, riwiChatResponseSchema, type RiwiChatResponse, type RiwiRoleSurface } from "@/lib/services/riwi/contracts";
 import { reportSnapshotSchema } from "@/lib/reporter/snapshot-schema";
 
 const targetPageSchema = z.object({
@@ -25,7 +25,7 @@ const transcriptSchema = z.object({
     provider: z.object({ id: z.string().max(60), model: z.string().max(120).nullable() }).strict().nullable(),
     citations: z.array(z.object({ source: z.string().max(120), version: z.number().int().positive().nullable() }).strict()).max(8),
     reportSnapshot: reportSnapshotSchema.nullable(),
-  }).strict()).max(RIWI_CONVERSATION_STORAGE_MAX_MESSAGES),
+  }).strict()),
 }).strict();
 
 type RiwiLabelCopy = Pick<Dictionary["riwiLab"], "riwi" | "schema" | "sqlProvenance">;
@@ -86,8 +86,8 @@ function copy(locale: Locale, role: Role, labels: RiwiLabelCopy) {
     deleteFailed: uz ? "Suhbat o'chirilmadi. Qayta urinib ko'ring." : "The conversation was not deleted. Please try again.",
     maxLength: uz ? "Maksimal 4 000 belgi" : "Maximum 4,000 characters",
     note: uz
-      ? `Tashqi provayder yoqilgan bo'lsa, faqat vazifa uchun zarur bo'lgan, shaxsiy identifikatorlardan tozalangan matn yuboriladi. Suhbat 30 kundan so'ng tugaydi. Faqat oxirgi ${RIWI_CONVERSATION_STORAGE_MAX_MESSAGES} ta xabar saqlanadi; eski xabarlar avtomatik o'chiriladi.`
-      : `When external AI is enabled, only task-minimized text is sent after direct identifiers are redacted. Conversations expire after 30 days. Only the latest ${RIWI_CONVERSATION_STORAGE_MAX_MESSAGES} messages are retained; older messages are automatically deleted.`,
+      ? `Tashqi provayder yoqilgan bo'lsa, faqat vazifa uchun zarur bo'lgan, shaxsiy identifikatorlardan tozalangan matn yuboriladi. So'nggi 30 kunlik barcha xabarlar saqlanadi. 7 kundan ko'proq offline bo'lsangiz, 8-kuni chatlaringiz o'chiriladi.`
+      : `When external AI is enabled, only task-minimized text is sent after direct identifiers are redacted. All messages from the last 30 days are retained. After more than 7 days offline, your chats are deleted on day 8.`,
     provider: uz ? "Tashqi provayder" : "External provider",
     dictionary: uz ? "Markaz lug'ati" : "Canonical dictionary",
     grammar: uz ? "Tasdiqlangan grammatika mavzusi" : "Authored Grammar topic",

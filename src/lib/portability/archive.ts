@@ -50,7 +50,8 @@ export type ExportSource = {
   rows(table: PortableTable, batchSize: number): AsyncIterable<readonly PortableRow[]>;
   objects(scope: ExportScope): AsyncIterable<PortableObject>;
   /** Resolve this bounded batch against authorized, non-deleted parent
-   * conversations whose expiry is strictly after the export snapshot.
+   * conversations whose expiry is strictly after the export snapshot and whose
+   * owner has not been offline for more than seven days.
    * Required whenever private conversation messages are exported. */
   activeConversationIds?(ids: readonly string[], at: Date): Promise<readonly string[]>;
 };
@@ -88,7 +89,7 @@ export async function exportPortableArchive(input: {
       }
       for (const row of batch) {
         assertPortableFields(table, row);
-        if (!shouldExportPrivateRow(row, snapshotAt)) continue;
+        if (!shouldExportPrivateRow(row, snapshotAt, table)) continue;
         if (activeConversations && !activeConversations.has(row.conversationId as string)) continue;
         const line = `${stableJson(row)}\n`;
         hash.update(line);

@@ -123,3 +123,8 @@ The corrected integrated 26-file red-team suite on tested checkpoint `9be6c16afb
 ## Acceptance conclusion
 
 Source/test checkpoint `9be6c16afbf0eb5491d9b5cef237e22688ed06f9` has two independent green full gates, the corrected 196-test integrated red team, the Reporter historical-roster cutoff regression, the tested 409 error-mapper contract, and a read-only migration consistency pass. Local implementation is substantially complete. Final overall acceptance remains **OPEN** until the BLOCKED/EXTERNALLY UNVERIFIED/OWNER ACTION REQUIRED items above are resolved or explicitly accepted by the owner. No skipped test is counted as PASS; no Preview/Production change, live-provider call, authenticated browser QA, global no-leak proof or owner acceptance is claimed.
+
+
+## D-01 superseding policy — 2026-10-09
+
+Historical 30-day/60-message policy and pending D-01 owner-decision statements above are superseded by the recorded custom owner decision. The policy is rolling 30-day message retention with no count cap and chat deletion after strictly more than seven elapsed days offline, for all roles. Local implementation and current QA are recorded in `RIWI-D01-RETENTION-2026-10-09.md`; deployed scheduler, browser and native PostgreSQL acceptance remain open. This update does not turn those outstanding checks into PASS.

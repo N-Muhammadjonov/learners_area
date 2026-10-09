@@ -17,6 +17,7 @@ import {
 import { recordAudit } from "@/lib/data/audit";
 import { cleanupAbandonedUploads } from "@/lib/data/uploads";
 import { hasRecentLearningActivity } from "@/lib/services/activity";
+import { sweepRiwiConversationsOn } from "@/lib/services/riwi/conversation-retention";
 import { getStorageService } from "@/lib/services/storage";
 
 /**
@@ -206,8 +207,14 @@ async function runRetentionOn(options: RetentionOptions | undefined, db: Retenti
     }
   }
 
+    const riwiChats = await sweepRiwiConversationsOn(db, { now, dryRun, batchSize: config.batchSize });
+    results.push({ rule: "riwi_chat_offline", affected: riwiChats.offlineChats, applied: riwiChats.applied });
+    results.push({ rule: "riwi_chat_messages_30_days", affected: riwiChats.oldMessages, applied: riwiChats.applied });
+    results.push({ rule: "riwi_chat_expired", affected: riwiChats.expiredChats, applied: riwiChats.applied,
+      note: riwiChats.complete ? "sweep complete; locked rows may be retried" : "run budget reached; retry required" });
+
     // 1. These rows are learning history (vocabulary reviews, evaluated work),
-    // not raw RIWI messages. The latter has no persisted table in this phase.
+    // separate from RIWI chat messages.
     const rawCutoff = monthsAgo(config.rawEventMonths, now);
     const structuredCutoff = monthsAgo(config.structuredResultMonths, now);
     const learningHistory = await deleteBatched({
