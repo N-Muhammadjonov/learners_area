@@ -144,29 +144,87 @@ export type UnitOptionPage = {
   pageSize: number;
 };
 
-/** Encode/decode the ordering key. Opaque to callers; validated on the way back in. */
-function encodeUnitCursor(row: { course: string; moduleOrder: number; unitOrder: number; id: string }): string {
-  return Buffer.from(JSON.stringify([row.course, row.moduleOrder, row.unitOrder, row.id]), "utf8").toString("base64url");
+/**
+ * Encode/decode the ordering key. Opaque to callers; validated on the way back in.
+ *
+ * NOT AUTHENTICATED, and deliberately not described as such. This is base64url of
+ * JSON: a caller can read it and can forge one. That is acceptable because the cursor
+ * only chooses a POSITION in an ordering the caller is already authorized to read — it
+ * grants no access, and every row it can reach is a row the same caller could reach by
+ * paging. What it must never do is widen access, crash the query, or silently restart
+ * the walk, which is what the validation below enforces.
+ *
+ * VERSIONED and FILTER-BOUND. The tuple is only meaningful for the search term it was
+ * minted under: replaying page 2 of "algebra" against a search for "biology" would
+ * resume at an unrelated position and skip rows the caller never saw. The term is
+ * therefore carried in the cursor and must match the request.
+ */
+const UNIT_CURSOR_VERSION = 1;
+/** A sane ceiling: a legitimate cursor is ~100 bytes. Refuse anything absurd unparsed. */
+const UNIT_CURSOR_MAX_CHARS = 1024;
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+function encodeUnitCursor(
+  row: { course: string; moduleOrder: number; unitOrder: number; id: string },
+  term: string,
+): string {
+  const payload = [UNIT_CURSOR_VERSION, term, row.course, row.moduleOrder, row.unitOrder, row.id];
+  return Buffer.from(JSON.stringify(payload), "utf8").toString("base64url");
 }
 
-function decodeUnitCursor(raw: string): { course: string; moduleOrder: number; unitOrder: number; id: string } {
-  if (raw.trim() === "") throw new Error("invalid unit cursor");
+function decodeUnitCursor(
+  raw: string,
+  term: string,
+): { course: string; moduleOrder: number; unitOrder: number; id: string } {
+  // A malformed cursor must not quietly fall back to page 1: that would silently
+  // restart the walk and re-serve rows the caller has already seen. It must also never
+  // reach the database as a bad literal and surface as a 500.
+  const reject = () => new Error("invalid unit cursor");
+  if (typeof raw !== "string" || raw.trim() === "") throw reject();
+  if (raw.length > UNIT_CURSOR_MAX_CHARS) throw reject();
+  if (!/^[A-Za-z0-9_-]+$/.test(raw)) throw reject();
+
   let parsed: unknown;
   try {
     parsed = JSON.parse(Buffer.from(raw, "base64url").toString("utf8"));
   } catch {
-    throw new Error("invalid unit cursor");
+    throw reject();
   }
-  if (
-    !Array.isArray(parsed) || parsed.length !== 4 ||
-    typeof parsed[0] !== "string" || typeof parsed[1] !== "number" ||
-    typeof parsed[2] !== "number" || typeof parsed[3] !== "string"
-  ) {
-    // A malformed cursor must not quietly fall back to page 1: that would silently
-    // restart the walk and re-serve rows the caller has already seen.
-    throw new Error("invalid unit cursor");
+  if (!Array.isArray(parsed) || parsed.length !== 6) throw reject();
+
+  const [version, cursorTerm, course, moduleOrder, unitOrder, id] = parsed as unknown[];
+  if (version !== UNIT_CURSOR_VERSION) throw reject();
+  if (typeof cursorTerm !== "string" || cursorTerm !== term) throw reject();
+  if (typeof course !== "string" || course.length > 400) throw reject();
+  // Ordering keys are column values, not arbitrary numbers: integers, in range, and
+  // never NaN/Infinity, which JSON.parse cannot produce but a hand-built payload can
+  // imply through a float that Postgres would then reject.
+  for (const value of [moduleOrder, unitOrder]) {
+    if (typeof value !== "number" || !Number.isInteger(value)) throw reject();
+    if (value < -2_147_483_648 || value > 2_147_483_647) throw reject();
   }
-  return { course: parsed[0], moduleOrder: parsed[1], unitOrder: parsed[2], id: parsed[3] };
+  if (typeof id !== "string" || !UUID_RE.test(id)) throw reject();
+
+  return {
+    course,
+    moduleOrder: moduleOrder as number,
+    unitOrder: unitOrder as number,
+    id,
+  };
+}
+
+/**
+ * The label an author actually chooses between.
+ *
+ * "Course › Module › Unit" is ambiguous the moment a module holds several units with
+ * the same title — and 620 identically titled units was the exact capacity case this
+ * picker had to survive. The unit's ORDER inside its module is a real curriculum
+ * field (units.order, the sequence the centre authored), not an invented identifier,
+ * and it is already the third component of the listing order, so the number a reader
+ * sees matches the position they are scrolling through.
+ */
+function unitOptionLabel(row: { course: string; module: string; unit: string; unitOrder: number }): string {
+  return `${row.course} › ${row.module} › ${row.unitOrder}. ${row.unit}`;
 }
 
 export async function listUnitOptions(
@@ -185,7 +243,7 @@ export async function listUnitOptions(
   // the last row the caller saw, in one index-friendly predicate.
   // `!= null`, not truthiness: an empty-string cursor is a malformed cursor the caller
   // actually sent, and must be refused rather than falling through to page 1.
-  const after = opts.cursor != null ? decodeUnitCursor(opts.cursor) : null;
+  const after = opts.cursor != null ? decodeUnitCursor(opts.cursor, term) : null;
   const keyset = after
     ? sql`(${courses.title}, ${courseModules.order}, ${units.order}, ${units.id}) > (${after.course}, ${after.moduleOrder}, ${after.unitOrder}, ${after.id})`
     : undefined;
@@ -221,12 +279,45 @@ export async function listUnitOptions(
 
   const last = page[page.length - 1];
   return {
-    options: page.map((row) => ({ id: row.id, label: `${row.course} › ${row.module} › ${row.unit}`, course: row.course })),
+    options: page.map((row) => ({ id: row.id, label: unitOptionLabel(row), course: row.course })),
     hasMore,
     nextCursor: hasMore && last
-      ? encodeUnitCursor({ course: last.course, moduleOrder: last.moduleOrder, unitOrder: last.unitOrder, id: last.id })
+      ? encodeUnitCursor({ course: last.course, moduleOrder: last.moduleOrder, unitOrder: last.unitOrder, id: last.id }, term)
       : null,
     matching,
     pageSize: UNIT_PAGE,
   };
+}
+
+/**
+ * Resolve specific units by id.
+ *
+ * The desk shows one bounded page, so a lesson already authored into unit #620 has no
+ * label to show when it is reopened: the unit is in neither the first page nor the
+ * current search. Rather than loading the whole corpus to find one row, the desk asks
+ * for exactly the ids it needs.
+ *
+ * Bounded on purpose: this is a label lookup, not a second listing endpoint.
+ */
+export const UNIT_RESOLVE_MAX = 50;
+
+export async function resolveUnitOptions(
+  executor: { select: typeof db.select } = db,
+  ids: string[] = [],
+): Promise<UnitOption[]> {
+  const wanted = [...new Set(ids.filter((id) => UUID_RE.test(id)))].slice(0, UNIT_RESOLVE_MAX);
+  if (wanted.length === 0) return [];
+  const rows = await executor
+    .select({
+      id: units.id,
+      unit: units.title,
+      module: courseModules.title,
+      course: courses.title,
+      unitOrder: units.order,
+    })
+    .from(units)
+    .innerJoin(courseModules, eq(units.moduleId, courseModules.id))
+    .innerJoin(courses, eq(courseModules.courseId, courses.id))
+    .where(inArray(units.id, wanted));
+  return rows.map((row) => ({ id: row.id, label: unitOptionLabel(row), course: row.course }));
 }

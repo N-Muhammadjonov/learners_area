@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireStaff } from "@/lib/auth/current-user";
-import { listUnitOptions } from "@/lib/content/lesson-staff";
+import { listUnitOptions, resolveUnitOptions, UNIT_RESOLVE_MAX } from "@/lib/content/lesson-staff";
 
 /**
  * Unit typeahead for the lesson authoring desk.
@@ -26,6 +26,17 @@ export async function GET(req: NextRequest) {
   // cursor instead. A cursor the server did not mint is refused with 400 rather than
   // silently restarting the walk at page 1 and re-serving rows already seen.
   const cursor = req.nextUrl.searchParams.get("cursor");
+
+  // Label lookup for an already-chosen unit. A lesson authored into unit #620 is in
+  // neither the first page nor the author's current search, so reopening it would
+  // leave the picker showing a selection it cannot name. The desk asks for the exact
+  // ids it needs instead of loading the corpus.
+  const rawIds = req.nextUrl.searchParams.get("ids");
+  if (rawIds !== null) {
+    const ids = rawIds.split(",").map((id) => id.trim()).filter(Boolean).slice(0, UNIT_RESOLVE_MAX);
+    const options = await resolveUnitOptions(undefined, ids);
+    return NextResponse.json({ options }, { headers: { "cache-control": "no-store" } });
+  }
 
   try {
     const page = await listUnitOptions(undefined, {

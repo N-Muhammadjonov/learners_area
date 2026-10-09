@@ -197,61 +197,119 @@ export function LessonAuthoringDesk({
   const [unitCursor, setUnitCursor] = useState<string | null>(null);
   const [unitFailed, setUnitFailed] = useState(false);
   const [unitAttempt, setUnitAttempt] = useState(0);
+  // The unit the author actually chose, remembered independently of whatever the
+  // search box is currently showing. See `unitOptions` below for why.
+  const [selectedUnit, setSelectedUnit] = useState<{ id: string; label: string } | null>(null);
   const unitRequest = useRef(0);
+  const unitAbort = useRef<AbortController | null>(null);
 
-  const fetchUnits = useCallback(async (term: string, cursor: string | null) => {
-    // Every request takes a ticket. Only the newest ticket may write state, so an
-    // in-flight reply for an abandoned term is discarded instead of being presented
-    // as this term's results.
-    const ticket = ++unitRequest.current;
+  /**
+   * Abandon every unit request in flight and open a new generation.
+   *
+   * This is called the moment the QUERY INTENT changes — a keystroke, a clear, a
+   * load-more, a retry — NOT when the debounced fetch finally starts. Incrementing
+   * only at fetch time leaves a window: the reply for the previous term can land
+   * while the next term is still inside its debounce, and because no newer ticket
+   * exists yet it is accepted and rendered as that next term's results.
+   */
+  const invalidateUnitRequests = useCallback(() => {
+    unitAbort.current?.abort();
+    unitAbort.current = null;
+    unitRequest.current += 1;
+    return unitRequest.current;
+  }, []);
+
+  const fetchUnits = useCallback(async (term: string, cursor: string | null, generation: number) => {
+    // Only the newest generation may write state, so an in-flight reply for an
+    // abandoned term is discarded instead of being presented as this term's results.
+    if (generation !== unitRequest.current) return;
+    const controller = new AbortController();
+    unitAbort.current = controller;
     setUnitSearching(true);
     setUnitFailed(false);
     try {
       const params = new URLSearchParams();
       if (term) params.set("q", term);
       if (cursor) params.set("cursor", cursor);
-      const res = await fetch(`/api/lessons/units?${params.toString()}`);
-      if (ticket !== unitRequest.current) return;
+      const res = await fetch(`/api/lessons/units?${params.toString()}`, { signal: controller.signal });
+      if (generation !== unitRequest.current) return;
       if (!res.ok) { setUnitFailed(true); return; }
       const data = (await res.json()) as {
         options?: { id: string; label: string }[];
         nextCursor?: string | null;
       };
-      if (ticket !== unitRequest.current) return;
+      if (generation !== unitRequest.current) return;
       const batch = data.options ?? [];
       // Appending on a cursor walk, replacing on a fresh term.
       setUnitResults((previous) => (cursor && previous ? [...previous, ...batch] : batch));
       setUnitCursor(data.nextCursor ?? null);
     } catch {
-      if (ticket === unitRequest.current) setUnitFailed(true);
+      // An abort is this component cancelling itself, not a failure to report.
+      if (generation === unitRequest.current && !controller.signal.aborted) setUnitFailed(true);
     } finally {
-      if (ticket === unitRequest.current) setUnitSearching(false);
+      if (generation === unitRequest.current) setUnitSearching(false);
     }
   }, []);
 
   useEffect(() => {
     const term = unitQuery.trim();
+    // Invalidate HERE, on the intent change itself, before the debounce window opens.
+    const generation = invalidateUnitRequests();
     if (!term) {
-      // Abandon anything in flight so a late reply cannot repopulate a cleared box.
-      unitRequest.current += 1;
       setUnitResults(null);
       setUnitCursor(null);
       setUnitSearching(false);
       setUnitFailed(false);
       return;
     }
-    const timer = setTimeout(() => { void fetchUnits(term, null); }, 250);
+    const timer = setTimeout(() => { void fetchUnits(term, null, generation); }, 250);
     return () => clearTimeout(timer);
-  }, [unitQuery, unitAttempt, fetchUnits]);
-  // The chosen unit must survive any later search. If it is not in the visible page the
-  // option is re-appended, otherwise typing would silently repoint the lesson.
+  }, [unitQuery, unitAttempt, fetchUnits, invalidateUnitRequests]);
+
+  /**
+   * Keep the chosen unit nameable.
+   *
+   * A unit picked after a cursor walk (say #620) lives in neither the first page the
+   * server rendered nor the next search the author types, so once the results are
+   * REPLACED there is nothing left to label it with. The desk therefore remembers the
+   * chosen option, and asks the server for that one id when it has never seen it —
+   * reopening a saved lesson is exactly that case.
+   */
+  useEffect(() => {
+    const chosen = form?.unitId;
+    if (!chosen) { setSelectedUnit(null); return; }
+    if (selectedUnit?.id === chosen) return;
+    const known = unitResults?.find((unit) => unit.id === chosen) ?? units.find((unit) => unit.id === chosen);
+    if (known) { setSelectedUnit({ id: known.id, label: known.label }); return; }
+    let cancelled = false;
+    void (async () => {
+      try {
+        const res = await fetch(`/api/lessons/units?ids=${encodeURIComponent(chosen)}`);
+        if (!res.ok || cancelled) return;
+        const data = (await res.json()) as { options?: { id: string; label: string }[] };
+        const found = data.options?.find((unit) => unit.id === chosen);
+        if (found && !cancelled) setSelectedUnit({ id: found.id, label: found.label });
+      } catch {
+        // A label lookup that fails leaves the selection intact and unnamed; it must
+        // never clear form.unitId, which is the thing being saved.
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [form?.unitId, unitResults, units, selectedUnit?.id]);
+
+  // The chosen unit must survive any later search. A <select> whose value matches no
+  // option silently displays the FIRST option, so the author would read one unit and
+  // save another. The selection is pinned to the top of the list instead.
   const unitOptions = useMemo(() => {
     const visible = unitResults ?? units;
     const chosen = form?.unitId;
     if (!chosen || visible.some((unit) => unit.id === chosen)) return visible;
-    const known = units.find((unit) => unit.id === chosen) ?? unitResults?.find((unit) => unit.id === chosen);
-    return known ? [...visible, known] : visible;
-  }, [form?.unitId, unitResults, units]);
+    const known =
+      (selectedUnit?.id === chosen ? selectedUnit : undefined) ??
+      units.find((unit) => unit.id === chosen) ??
+      unitResults?.find((unit) => unit.id === chosen);
+    return known ? [{ id: known.id, label: known.label, course: "" }, ...visible] : visible;
+  }, [form?.unitId, unitResults, units, selectedUnit]);
 
   const areaLabel = useCallback((value: LearningArea) => LEARNING_AREA_LABELS[value][locale], [locale]);
 
@@ -674,7 +732,11 @@ export function LessonAuthoringDesk({
                   id="lesson-unit"
                   className="input"
                   value={form.unitId}
-                  onChange={(event) => patchForm({ unitId: event.target.value })}
+                  onChange={(event) => {
+                    const picked = unitOptions.find((unit) => unit.id === event.target.value);
+                    if (picked) setSelectedUnit({ id: picked.id, label: picked.label });
+                    patchForm({ unitId: event.target.value });
+                  }}
                   data-lesson-authoring-unit
                 >
                   {unitOptions.map((unit) => (
@@ -706,7 +768,7 @@ export function LessonAuthoringDesk({
                   <button
                     type="button"
                     className="mt-1 text-xs underline"
-                    onClick={() => { void fetchUnits(unitQuery.trim(), unitCursor); }}
+                    onClick={() => { void fetchUnits(unitQuery.trim(), unitCursor, invalidateUnitRequests()); }}
                     data-lesson-unit-more
                   >
                     {t.fieldUnitMore}
