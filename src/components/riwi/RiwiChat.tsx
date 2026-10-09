@@ -61,17 +61,17 @@ function copy(locale: Locale, role: Role, labels: RiwiLabelCopy) {
   };
   const welcome: Record<Role, string> = {
     student: uz
-      ? "Lug'at, shaxsiy rivojlanish va aniq hisobot haqida so'rang. Tashqi AI ishlatilsa, provayder ochiq ko'rsatiladi. Vaqtli Reading yoki Listening urinishi davomida RIWI yordam bermaydi."
-      : "Ask about the canonical dictionary, your own progress, or a deterministic personal report. If an external provider is used, RIWI shows its provenance. Help is paused during timed Reading or Listening attempts.",
+      ? "Salom! 👋 Lug'at, shaxsiy rivojlanish va aniq hisobot haqida so'rang. Tashqi AI ishlatilsa, provayder ochiq ko'rsatiladi. Vaqtli Reading yoki Listening urinishi davomida RIWI yordam bermaydi."
+      : "Hello! 👋 Ask about the canonical dictionary, your own progress, or a deterministic personal report. If an external provider is used, RIWI shows its provenance. Help is paused during timed Reading or Listening attempts.",
     teacher: uz
-      ? "O'zingizning aniq biriktirilgan guruhingiz bo'yicha hisobot so'rang yoki o'quv mavzusini tushuntiring. Boshqa guruhlar ma'lumoti ochilmaydi."
-      : "Ask for a report over your explicitly assigned roster or an educational explanation. Other rosters are outside your scope.",
+      ? "Salom! 👋 O'zingizning aniq biriktirilgan guruhingiz bo'yicha hisobot so'rang yoki o'quv mavzusini tushuntiring. Boshqa guruhlar ma'lumoti ochilmaydi."
+      : "Hello! 👋 Ask for a report over your explicitly assigned roster or an educational explanation. Other rosters are outside your scope.",
     admin: uz
-      ? "Markaz kohorti bo'yicha ruxsat etilgan hisobotlar va o'quv izohlarini so'rang. Owner darajasidagi provayder kalitlari yoki audit boshqaruvi bu yerda ochilmaydi."
-      : "Ask for reports within the admin cohort policy or educational explanations. Owner-only provider secrets and audit controls are not exposed here.",
+      ? "Salom! 👋 Markaz kohorti bo'yicha ruxsat etilgan hisobotlar va o'quv izohlarini so'rang. Owner darajasidagi provayder kalitlari yoki audit boshqaruvi bu yerda ochilmaydi."
+      : "Hello! 👋 Ask for reports within the admin cohort policy or educational explanations. Owner-only provider secrets and audit controls are not exposed here.",
     owner: uz
-      ? "Markaz hisoboti va o'quv izohlaridan foydalaning. Bilim bazasi, provayder sinovlari va auditni boshqarish uchun RIWI boshqaruv paneliga o'ting."
-      : "Use the centre report or educational explanations. Open the RIWI control room for governed knowledge, provider evaluation, and audit review.",
+      ? "Salom! 👋 Markaz hisoboti va o'quv izohlaridan foydalaning. Bilim bazasi, provayder sinovlari va auditni boshqarish uchun RIWI boshqaruv paneliga o'ting."
+      : "Hello! 👋 Use the centre report or educational explanations. Open the RIWI control room for governed knowledge, provider evaluation, and audit review.",
   };
   return {
     uz,
