@@ -225,3 +225,100 @@ test("an unpublished saved pattern never appears in the saved-only library", asy
     await close();
   }
 });
+
+/**
+ * PACKAGE C1.
+ *
+ * Telling the learner "showing 300 of 320" was honest but incomplete: the other 20
+ * patterns were still unreachable, and in the SAVED bank those 20 are the learner's
+ * own saved work. A bounded page is fine; an unreachable tail is not.
+ */
+test("C1: every matching pattern past the first page is reachable by continuation", async () => {
+  const database = await createTestDatabase();
+  const { db, query, close } = database as unknown as {
+    db: Parameters<typeof stealingLibrary>[2];
+    query: <T>(sql: string, params?: unknown[]) => Promise<T[]>;
+    close: () => Promise<void>;
+  };
+  try {
+    const [user] = await query<{ id: string }>(
+      "insert into users(name,role)values('Stealing C1','student')returning id",
+    );
+    const [other] = await query<{ id: string }>(
+      "insert into users(name,role)values('Stealing C1 other','student')returning id",
+    );
+
+    const total = 320;
+    const ids: string[] = [];
+    for (let i = 0; i < total; i += 1) {
+      const [row] = await query<{ id: string }>(
+        `insert into writing_language_patterns
+           (pattern,"function",task_type,topic,target_band,example,provenance,publication_state,publish_at)
+         values($1,'concession','task2','Work',8,$2,'qa-fixture','published',now() - interval '1 day')
+         returning id`,
+        [`pattern ${String(i).padStart(4, "0")}`, `example ${i}`],
+      );
+      ids.push(row!.id);
+    }
+    // The learner saved ALL of them, so the saved-only view is the 320-row case too.
+    for (const id of ids) {
+      await query("insert into writing_pattern_bank(user_id,pattern_id)values($1,$2)", [user!.id, id]);
+    }
+    // Somebody else's bank, which must never appear in this learner's saved view.
+    await query("insert into writing_pattern_bank(user_id,pattern_id)values($1,$2)", [other!.id, ids[0]]);
+
+    for (const [label, filter] of [
+      ["all patterns", { fn: "concession" as const, topic: "Work", band: 8 }],
+      ["saved only", { fn: "concession" as const, topic: "Work", band: 8, saved: true }],
+    ] as const) {
+      const seen: string[] = [];
+      let cursor: string | undefined;
+      let pages = 0;
+      do {
+        const page = await stealingLibrary(user!.id, { ...filter, ...(cursor ? { cursor } : {}) }, db);
+        pages += 1;
+        assert.ok(page.patterns.length <= page.pageSize, `${label}: page not bounded`);
+        assert.equal(page.matching, total, `${label}: matching must describe the filter, not the remaining tail`);
+        seen.push(...page.patterns.map((p) => p.id));
+        cursor = page.nextCursor ?? undefined;
+        assert.ok(pages < 10, `${label}: the walk is not terminating`);
+      } while (cursor);
+
+      // THE POINT: all 320, not 300.
+      assert.equal(seen.length, total, `${label}: only ${seen.length} of ${total} were reachable`);
+      assert.equal(new Set(seen).size, total, `${label}: the walk duplicated rows`);
+      assert.deepEqual([...seen].sort(), [...ids].sort(), `${label}: the walk and the truth disagree`);
+      assert.equal(pages, 2, `${label}: expected exactly two bounded pages, walked ${pages}`);
+    }
+
+    // A cursor minted for one filter must not be replayed under another.
+    const first = await stealingLibrary(user!.id, { fn: "concession", topic: "Work", band: 8 }, db);
+    assert.ok(first.nextCursor, "precondition: the first page must continue");
+    await assert.rejects(
+      () => stealingLibrary(user!.id, { fn: "concession", topic: "Work", band: 8, saved: true, cursor: first.nextCursor! }, db),
+      /cursor/i,
+      "a cursor replayed under a different filter must be refused",
+    );
+    // ...and not under another USER's saved view either, since that is a different set.
+    const savedFirst = await stealingLibrary(user!.id, { fn: "concession", topic: "Work", band: 8, saved: true }, db);
+    await assert.rejects(
+      () => stealingLibrary(other!.id, { fn: "concession", topic: "Work", band: 8, saved: true, cursor: savedFirst.nextCursor! }, db),
+      /cursor/i,
+      "one learner's saved-view cursor must not resume another learner's saved view",
+    );
+
+    // Malformed cursors fail closed rather than silently restarting. NOTE: each of
+    // these is caught by the JSON parse or the field checks; the length and charset
+    // guards in keyset-cursor.ts are deliberately redundant pre-parse filters and are
+    // NOT claimed to be proved by these inputs.
+    for (const bad of ["", "   ", "!!!", "A".repeat(5000), Buffer.from("{nope").toString("base64url")]) {
+      await assert.rejects(
+        () => stealingLibrary(user!.id, { fn: "concession", topic: "Work", band: 8, cursor: bad }, db),
+        /cursor/i,
+        `a malformed cursor (${JSON.stringify(bad.slice(0, 12))}) must be refused`,
+      );
+    }
+  } finally {
+    await close();
+  }
+});

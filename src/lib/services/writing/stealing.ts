@@ -7,6 +7,7 @@ import { runWritingCheck, type CheckOutcome, type CheckResult } from "@/lib/serv
 import type { WritingCheckInput } from "@/lib/services/coach/types";
 import type { PatternFunction } from "@/lib/writing/pattern-functions";
 import { activationMatchKey, activationTokens } from "@/lib/writing/activation-rules";
+import { decodeCursor, encodeCursor, filterFingerprint } from "@/lib/data/keyset-cursor";
 import {
   FALLBACK_TOPICS, MIN_ADAPTATION_BAND, MIN_BRAINSTORM_WORDS, MIN_COMPARE_WORDS, MIN_DRAFT_WORDS, REWRITE_DELAY_DAYS,
   nearCopy, patternsUsed, wordCount, type CopyCheck,
@@ -30,7 +31,13 @@ const liveText = () => liveWhere({ publicationState: writingModelTexts.publicati
 /** One bounded page of the pattern library. */
 const STEALING_PAGE = 300;
 
-export type StealingFilter = { task?: "task1" | "task2"; fn?: PatternFunction; topic?: string; band?: number; saved?: boolean };
+export type StealingFilter = { task?: "task1" | "task2"; fn?: PatternFunction; topic?: string; band?: number; saved?: boolean; cursor?: string };
+
+/**
+ * The listing order, which is TOTAL (function, pattern, id), so a keyset cursor walks
+ * it exactly once: no duplicates, no omissions, no OFFSET rescan.
+ */
+const STEALING_CURSOR_KINDS = ["text", "text", "uuid"] as const;
 export type LibraryPattern = { id: string; pattern: string; fn: PatternFunction; taskType: "task1" | "task2"; topic: string | null; targetBand: number | null; example: string; usageNote: string | null; saved: boolean };
 
 export async function stealingLibrary(userId: string, filter: StealingFilter, database: Database = db) {
@@ -53,28 +60,59 @@ export async function stealingLibrary(userId: string, filter: StealingFilter, da
          and ${writingPatternBank.userId} = ${userId}
     )`);
   }
+  // CONTINUATION, not just a confession. Telling the learner "showing 300 of 320" is
+  // honest but still leaves 20 saved patterns unreachable — and the saved library is
+  // the one list a learner builds themselves, so losing the tail of it is losing their
+  // own work. The read stays bounded; the caller walks it with a keyset cursor over
+  // the same total order. The cursor is bound to the filter it was minted under, so a
+  // page-2 cursor cannot be replayed against a different filter and skip rows.
+  // Snapshot the filter-only predicates before the keyset is appended.
+  const countConds = [...conds];
+  const fingerprint = filterFingerprint({
+    task: filter.task ?? null,
+    fn: filter.fn ?? null,
+    topic: filter.topic ? filter.topic.toLowerCase() : null,
+    band: filter.band ?? null,
+    saved: filter.saved ? true : null,
+    userId: filter.saved ? userId : null,
+  });
+  if (filter.cursor != null) {
+    const [afterFn, afterPattern, afterId] = decodeCursor(filter.cursor, STEALING_CURSOR_KINDS, fingerprint);
+    // Row-value comparison against the exact ordering tuple: everything strictly after
+    // the last row the caller saw, in one index-friendly predicate.
+    conds.push(sql`(${writingLanguagePatterns.function}, ${writingLanguagePatterns.pattern}, ${writingLanguagePatterns.id}) > (${afterFn}, ${afterPattern}, ${afterId})`);
+  }
+
   // Bounded read with a +1 lookahead: we never load an unbounded list into one response,
   // but a filter combination holding more than STEALING_PAGE live patterns must not be
-  // truncated SILENTLY — the caller is told so the UI can ask for narrower filters.
+  // truncated SILENTLY — the caller is told, and can continue.
   const windowRows = await database.select({
     id: writingLanguagePatterns.id, pattern: writingLanguagePatterns.pattern, fn: writingLanguagePatterns.function, taskType: writingLanguagePatterns.taskType,
     topic: writingLanguagePatterns.topic, targetBand: writingLanguagePatterns.targetBand, example: writingLanguagePatterns.example, usageNote: writingLanguagePatterns.usageNote,
   }).from(writingLanguagePatterns).where(and(...conds)).orderBy(asc(writingLanguagePatterns.function), asc(writingLanguagePatterns.pattern), asc(writingLanguagePatterns.id)).limit(STEALING_PAGE + 1);
   const hasMore = windowRows.length > STEALING_PAGE;
   const rows = hasMore ? windowRows.slice(0, STEALING_PAGE) : windowRows;
+  // `matching` describes the FILTER, so it must exclude the keyset predicate —
+  // otherwise the total would shrink on every page and the UI would report nonsense.
   const [{ matching = 0 } = {}] = await database
     .select({ matching: sql<number>`count(*)::int` })
     .from(writingLanguagePatterns)
-    .where(and(...conds));
+    .where(and(...countConds));
   const saved = new Set((await database.select({ id: writingPatternBank.patternId }).from(writingPatternBank).where(eq(writingPatternBank.userId, userId))).map((r) => r.id));
   // No post-limit filtering: `conds` already encodes saved-only when it was requested.
   const patterns = rows.map((r): LibraryPattern => ({ ...r, fn: r.fn as PatternFunction, saved: saved.has(r.id) }));
   const allTopics = await database.selectDistinct({ topic: writingLanguagePatterns.topic }).from(writingLanguagePatterns).where(livePattern());
   const bands = await database.selectDistinct({ band: writingLanguagePatterns.targetBand }).from(writingLanguagePatterns).where(livePattern());
+  const last = rows[rows.length - 1];
   return {
     patterns,
     /** True when more live patterns match this filter than were returned. */
     hasMore,
+    /**
+     * Opaque keyset cursor for the next page, or null at the end. Feed it back as
+     * `cursor` with the SAME filter to reach everything past this page.
+     */
+    nextCursor: hasMore && last ? encodeCursor(STEALING_CURSOR_KINDS, fingerprint, [last.fn, last.pattern, last.id]) : null,
     /** How many live patterns match the filter in total, so the UI can be specific. */
     matching,
     /** The page size the read was bounded to. */

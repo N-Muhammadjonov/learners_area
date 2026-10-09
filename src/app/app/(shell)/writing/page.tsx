@@ -74,7 +74,7 @@ function TypingRegionSkeleton() {
   return <div aria-hidden="true" className="h-48 animate-pulse rounded-xl bg-ink-50" data-async-loading="writing-typing-summary" />;
 }
 
-export default async function WritingPage({ searchParams }: { searchParams: Promise<{ tab?: string; view?: string; topic?: string; task?: string; fn?: string; item?: string; band?: string; bank?: string }> }) {
+export default async function WritingPage({ searchParams }: { searchParams: Promise<{ tab?: string; view?: string; topic?: string; task?: string; fn?: string; item?: string; band?: string; bank?: string; cursor?: string }> }) {
   const [user, locale] = await Promise.all([requireActiveUser(), getLocale()]);
   const sp = await searchParams;
   if (!user) return null;
@@ -108,7 +108,7 @@ export default async function WritingPage({ searchParams }: { searchParams: Prom
         ) : tab === "activation" ? (
           <Suspense fallback={<WritingActivitiesSkeleton />}><WritingActivationTab dict={dict} userId={user.id} item={sp.item} locale={locale} /></Suspense>
         ) : tab === "language-stealing" ? (
-          <Suspense fallback={<WritingActivitiesSkeleton />}><WritingLanguageStealingTab dict={dict} userId={user.id} params={{ task: sp.task, fn: sp.fn, topic: sp.topic, band: sp.band, bank: sp.bank }} /></Suspense>
+          <Suspense fallback={<WritingActivitiesSkeleton />}><WritingLanguageStealingTab dict={dict} userId={user.id} params={{ task: sp.task, fn: sp.fn, topic: sp.topic, band: sp.band, bank: sp.bank, cursor: sp.cursor }} /></Suspense>
         ) : tab === "lessons" ? (
           <Suspense fallback={<WritingActivitiesSkeleton />}><WritingLessonsTab dict={dict} userId={user.id} /></Suspense>
         ) : (
