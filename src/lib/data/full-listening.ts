@@ -291,12 +291,36 @@ export async function listeningPracticeProgress(userId: string, testId: string, 
     .where(scope)
     .orderBy(kindExpr, desc(listeningActivityRuns.createdAt));
 
+  // One row per kind: the most recent COMPLETED run. Completion, resume state and the
+  // earned grade are three different questions. `latest` answers "what do I resume",
+  // but reading the GRADE from it meant that starting a second run of a kind and
+  // abandoning it blanked the score the learner had already earned — they were left
+  // with complete = true and no result. `latestCompleted` answers "what did they last
+  // actually score", and is null when they have never finished the kind.
+  const latestCompletedRuns = await database
+    .selectDistinctOn([kindExpr])
+    .from(listeningActivityRuns)
+    .where(and(scope, eq(listeningActivityRuns.completed, true)))
+    // id breaks ties so two runs sharing a timestamp still give one deterministic answer.
+    .orderBy(kindExpr, desc(listeningActivityRuns.createdAt), desc(listeningActivityRuns.id));
+
   const completeByKind = new Map(completion.map((row) => [row.kind, Boolean(row.complete)]));
-  const progress: Record<string, { complete: boolean; latest: typeof listeningActivityRuns.$inferSelect }> = {};
+  const completedByKind = new Map(
+    latestCompletedRuns.map((run) => [run.answers._practice, run] as const).filter(([kind]) => Boolean(kind)),
+  );
+  const progress: Record<string, {
+    complete: boolean;
+    latest: typeof listeningActivityRuns.$inferSelect;
+    latestCompleted: typeof listeningActivityRuns.$inferSelect | null;
+  }> = {};
   for (const run of latestRuns) {
     const kind = run.answers._practice;
     if (!kind) continue;
-    progress[kind] = { complete: completeByKind.get(kind) ?? false, latest: run };
+    progress[kind] = {
+      complete: completeByKind.get(kind) ?? false,
+      latest: run,
+      latestCompleted: completedByKind.get(kind) ?? null,
+    };
   }
   return progress;
 }

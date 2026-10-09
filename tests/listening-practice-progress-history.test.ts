@@ -94,3 +94,162 @@ test("a completed practice kind survives beyond the 200 most recent runs", async
     await (database as unknown as { close: () => Promise<void> }).close();
   }
 });
+
+/**
+ * C-OPEN-04 second edge: a newer UNFINISHED run of the SAME kind must not erase the
+ * score the learner already earned.
+ *
+ * `bool_or(completed)` fixed "did they ever finish it", but the hub read the grade from
+ * `latest`, which is the most recent run regardless of completion. Starting a second
+ * "map" run and abandoning it therefore left the learner with
+ * `complete = true` and a blank score: the result they had earned disappeared.
+ *
+ * Completion, resume state and the earned grade are three different questions, so the
+ * reader now answers all three: `complete` (ever finished), `latest` (what to resume)
+ * and `latestCompleted` (the last finished, graded run).
+ */
+test("a newer unfinished run of the same kind does not erase the earned score", async () => {
+  const database = await createTestDatabase();
+  const { db, query, close } = database as unknown as {
+    db: Parameters<typeof listeningPracticeProgress>[2];
+    query: <T>(sql: string, params?: unknown[]) => Promise<T[]>;
+    close: () => Promise<void>;
+  };
+  try {
+    const [user] = await query<{ id: string }>(
+      "insert into users(name,role)values('Grade QA','student')returning id",
+    );
+    const [testRow] = await query<{ id: string }>(
+      "insert into listening_tests(created_by_user_id,title,audio_type,publication_state)values($1,'Grade test','audio','draft')returning id",
+      [user!.id],
+    );
+    await query(
+      "insert into listening_packages(test_id,source_id,payload,audio_object_key,source_hash)values($1,$2,$3,'fixture/audio.mp3',$4)",
+      [testRow!.id, testRow!.id, JSON.stringify({ questions: [] }), "1".repeat(64)],
+    );
+
+    const base = Date.now() - 400 * 60_000;
+    const at = (i: number) => new Date(base + i * 60_000).toISOString();
+
+    // An old, COMPLETED and graded "map" run.
+    await query(
+      `insert into listening_activity_runs(user_id,test_id,activity,answers,score,total,completed,created_at)
+       values($1,$2,4,$3,9,10,true,$4)`,
+      [user!.id, testRow!.id, JSON.stringify({ _practice: "map", "1": "a" }), at(0)],
+    );
+    // 250 newer UNFINISHED runs of the SAME kind.
+    for (let i = 1; i <= 250; i += 1) {
+      await query(
+        `insert into listening_activity_runs(user_id,test_id,activity,answers,score,total,completed,created_at)
+         values($1,$2,4,$3,null,null,false,$4)`,
+        [user!.id, testRow!.id, JSON.stringify({ _practice: "map", "1": "b" }), at(i)],
+      );
+    }
+
+    const progress = await listeningPracticeProgress(user!.id, testRow!.id, db);
+    const map = progress.map;
+    assert.ok(map, "the map practice must be reported");
+    assert.equal(map!.complete, true, "it was completed once, so it stays complete");
+    assert.equal(map!.latest.completed, false, "the newest attempt is the unfinished one, for resuming");
+    assert.ok(map!.latestCompleted, "the last COMPLETED run must still be reachable");
+    assert.equal(map!.latestCompleted!.score, 9, "the earned score must survive");
+    assert.equal(map!.latestCompleted!.total, 10);
+  } finally {
+    await close();
+  }
+});
+
+test("a kind that was never completed reports no completed run", async () => {
+  const database = await createTestDatabase();
+  const { db, query, close } = database as unknown as {
+    db: Parameters<typeof listeningPracticeProgress>[2];
+    query: <T>(sql: string, params?: unknown[]) => Promise<T[]>;
+    close: () => Promise<void>;
+  };
+  try {
+    const [user] = await query<{ id: string }>(
+      "insert into users(name,role)values('NoGrade QA','student')returning id",
+    );
+    const [testRow] = await query<{ id: string }>(
+      "insert into listening_tests(created_by_user_id,title,audio_type,publication_state)values($1,'NoGrade test','audio','draft')returning id",
+      [user!.id],
+    );
+    await query(
+      "insert into listening_packages(test_id,source_id,payload,audio_object_key,source_hash)values($1,$2,$3,'fixture/audio.mp3',$4)",
+      [testRow!.id, testRow!.id, JSON.stringify({ questions: [] }), "2".repeat(64)],
+    );
+    await query(
+      `insert into listening_activity_runs(user_id,test_id,activity,answers,score,total,completed,created_at)
+       values($1,$2,4,$3,null,null,false,now())`,
+      [user!.id, testRow!.id, JSON.stringify({ _practice: "map" })],
+    );
+    const progress = await listeningPracticeProgress(user!.id, testRow!.id, db);
+    assert.equal(progress.map!.complete, false);
+    assert.equal(progress.map!.latestCompleted, null, "no completed run means no graded result");
+  } finally {
+    await close();
+  }
+});
+
+test("the last completed run is the newest completed one, with a deterministic tie-break", async () => {
+  const database = await createTestDatabase();
+  const { db, query, close } = database as unknown as {
+    db: Parameters<typeof listeningPracticeProgress>[2];
+    query: <T>(sql: string, params?: unknown[]) => Promise<T[]>;
+    close: () => Promise<void>;
+  };
+  try {
+    const [user] = await query<{ id: string }>(
+      "insert into users(name,role)values('Tie QA','student')returning id",
+    );
+    const [testRow] = await query<{ id: string }>(
+      "insert into listening_tests(created_by_user_id,title,audio_type,publication_state)values($1,'Tie test','audio','draft')returning id",
+      [user!.id],
+    );
+    await query(
+      "insert into listening_packages(test_id,source_id,payload,audio_object_key,source_hash)values($1,$2,$3,'fixture/audio.mp3',$4)",
+      [testRow!.id, testRow!.id, JSON.stringify({ questions: [] }), "3".repeat(64)],
+    );
+    const stamp = new Date(Date.now() - 60_000).toISOString();
+    // Two completed runs at the SAME instant: the result must still be deterministic.
+    for (const score of [5, 7]) {
+      await query(
+        `insert into listening_activity_runs(user_id,test_id,activity,answers,score,total,completed,created_at)
+         values($1,$2,4,$3,$4,10,true,$5)`,
+        [user!.id, testRow!.id, JSON.stringify({ _practice: "map" }), score, stamp],
+      );
+    }
+    const a = await listeningPracticeProgress(user!.id, testRow!.id, db);
+    const b = await listeningPracticeProgress(user!.id, testRow!.id, db);
+    assert.ok(a.map!.latestCompleted);
+    assert.equal(a.map!.latestCompleted!.id, b.map!.latestCompleted!.id, "same answer every time");
+  } finally {
+    await close();
+  }
+});
+
+test("an empty history reports nothing at all", async () => {
+  const database = await createTestDatabase();
+  const { db, query, close } = database as unknown as {
+    db: Parameters<typeof listeningPracticeProgress>[2];
+    query: <T>(sql: string, params?: unknown[]) => Promise<T[]>;
+    close: () => Promise<void>;
+  };
+  try {
+    const [user] = await query<{ id: string }>(
+      "insert into users(name,role)values('Empty QA','student')returning id",
+    );
+    const [testRow] = await query<{ id: string }>(
+      "insert into listening_tests(created_by_user_id,title,audio_type,publication_state)values($1,'Empty test','audio','draft')returning id",
+      [user!.id],
+    );
+    await query(
+      "insert into listening_packages(test_id,source_id,payload,audio_object_key,source_hash)values($1,$2,$3,'fixture/audio.mp3',$4)",
+      [testRow!.id, testRow!.id, JSON.stringify({ questions: [] }), "4".repeat(64)],
+    );
+    const progress = await listeningPracticeProgress(user!.id, testRow!.id, db);
+    assert.deepEqual(progress, {});
+  } finally {
+    await close();
+  }
+});
