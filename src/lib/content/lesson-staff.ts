@@ -1,5 +1,5 @@
 import "server-only";
-import { and, asc, desc, eq, inArray, isNull, or, sql } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, isNull, or, sql, type SQL } from "drizzle-orm";
 import { db } from "@/db/client";
 import { contentVersions, courseModules, courses, lessons, units } from "@/db/schema";
 import { isLearningArea, type LearningArea } from "@/lib/content/learning-areas";
@@ -128,15 +128,50 @@ export type UnitOptionPage = {
   options: UnitOption[];
   /** True when more units match than were returned. */
   hasMore: boolean;
+  /**
+   * Opaque keyset cursor for the next page, or null at the end.
+   *
+   * Search alone cannot guarantee reachability: 620 units sharing one title inside one
+   * module leave nothing to type that narrows below the page size, so everything past
+   * the first page would be unselectable. The listing order
+   * (course title, module order, unit order, id) is TOTAL, so a keyset cursor walks it
+   * exactly once — no duplicates, no omissions, and no OFFSET rescan.
+   */
+  nextCursor: string | null;
   /** How many units match in total, so the desk can be specific. */
   matching: number;
   /** The page size this read was bounded to. */
   pageSize: number;
 };
 
+/** Encode/decode the ordering key. Opaque to callers; validated on the way back in. */
+function encodeUnitCursor(row: { course: string; moduleOrder: number; unitOrder: number; id: string }): string {
+  return Buffer.from(JSON.stringify([row.course, row.moduleOrder, row.unitOrder, row.id]), "utf8").toString("base64url");
+}
+
+function decodeUnitCursor(raw: string): { course: string; moduleOrder: number; unitOrder: number; id: string } {
+  if (raw.trim() === "") throw new Error("invalid unit cursor");
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(Buffer.from(raw, "base64url").toString("utf8"));
+  } catch {
+    throw new Error("invalid unit cursor");
+  }
+  if (
+    !Array.isArray(parsed) || parsed.length !== 4 ||
+    typeof parsed[0] !== "string" || typeof parsed[1] !== "number" ||
+    typeof parsed[2] !== "number" || typeof parsed[3] !== "string"
+  ) {
+    // A malformed cursor must not quietly fall back to page 1: that would silently
+    // restart the walk and re-serve rows the caller has already seen.
+    throw new Error("invalid unit cursor");
+  }
+  return { course: parsed[0], moduleOrder: parsed[1], unitOrder: parsed[2], id: parsed[3] };
+}
+
 export async function listUnitOptions(
   executor: { select: typeof db.select } = db,
-  opts: { search?: string } = {},
+  opts: { search?: string; cursor?: string } = {},
 ): Promise<UnitOptionPage> {
   // A bare limit made unit #501+ silently unselectable once a centre grew past one page.
   // The read stays bounded, but a server-side search over the full corpus keeps every
@@ -146,13 +181,31 @@ export async function listUnitOptions(
     ? sql`(${units.title} ilike ${`%${term}%`} or ${courseModules.title} ilike ${`%${term}%`} or ${courses.title} ilike ${`%${term}%`})`
     : undefined;
 
+  // Row-value comparison against the exact ordering tuple: everything strictly after
+  // the last row the caller saw, in one index-friendly predicate.
+  // `!= null`, not truthiness: an empty-string cursor is a malformed cursor the caller
+  // actually sent, and must be refused rather than falling through to page 1.
+  const after = opts.cursor != null ? decodeUnitCursor(opts.cursor) : null;
+  const keyset = after
+    ? sql`(${courses.title}, ${courseModules.order}, ${units.order}, ${units.id}) > (${after.course}, ${after.moduleOrder}, ${after.unitOrder}, ${after.id})`
+    : undefined;
+  const conds = [where, keyset].filter(Boolean) as SQL[];
+  const scope = conds.length === 0 ? undefined : conds.length === 1 ? conds[0] : and(...conds);
+
   const base = executor
-    .select({ id: units.id, unit: units.title, module: courseModules.title, course: courses.title })
+    .select({
+      id: units.id,
+      unit: units.title,
+      module: courseModules.title,
+      course: courses.title,
+      moduleOrder: courseModules.order,
+      unitOrder: units.order,
+    })
     .from(units)
     .innerJoin(courseModules, eq(units.moduleId, courseModules.id))
     .innerJoin(courses, eq(courseModules.courseId, courses.id));
 
-  const rows = await (where ? base.where(where) : base)
+  const rows = await (scope ? base.where(scope) : base)
     .orderBy(asc(courses.title), asc(courseModules.order), asc(units.order), asc(units.id))
     .limit(UNIT_PAGE + 1);
 
@@ -166,9 +219,13 @@ export async function listUnitOptions(
     .innerJoin(courses, eq(courseModules.courseId, courses.id));
   const [{ matching = 0 } = {}] = await (where ? countBase.where(where) : countBase);
 
+  const last = page[page.length - 1];
   return {
     options: page.map((row) => ({ id: row.id, label: `${row.course} › ${row.module} › ${row.unit}`, course: row.course })),
     hasMore,
+    nextCursor: hasMore && last
+      ? encodeUnitCursor({ course: last.course, moduleOrder: last.moduleOrder, unitOrder: last.unitOrder, id: last.id })
+      : null,
     matching,
     pageSize: UNIT_PAGE,
   };

@@ -185,31 +185,74 @@ export function LessonAuthoringDesk({
   const fileInput = useRef<HTMLInputElement>(null);
   const uploadTarget = useRef<string | null>(null);
 
-  // The desk receives one bounded page of units. Once a centre authors more units than
-  // fit that page, the rest are only reachable by asking the server — otherwise unit
-  // #501+ would be silently unselectable. Typing here searches the whole curriculum.
+  // The desk receives one bounded page of units. Searching the corpus server-side is
+  // necessary but NOT sufficient: when many units share a title inside one module there
+  // is no term that narrows below the page size, so the tail is only reachable by
+  // walking a keyset cursor. Requests are sequenced so a slow reply for an older term
+  // can never overwrite a newer one, and a failure is surfaced with a retry rather than
+  // being swallowed into a stale list.
   const [unitQuery, setUnitQuery] = useState("");
   const [unitResults, setUnitResults] = useState<{ id: string; label: string }[] | null>(null);
   const [unitSearching, setUnitSearching] = useState(false);
-  const unitOptions = unitResults ?? units;
+  const [unitCursor, setUnitCursor] = useState<string | null>(null);
+  const [unitFailed, setUnitFailed] = useState(false);
+  const [unitAttempt, setUnitAttempt] = useState(0);
+  const unitRequest = useRef(0);
+
+  const fetchUnits = useCallback(async (term: string, cursor: string | null) => {
+    // Every request takes a ticket. Only the newest ticket may write state, so an
+    // in-flight reply for an abandoned term is discarded instead of being presented
+    // as this term's results.
+    const ticket = ++unitRequest.current;
+    setUnitSearching(true);
+    setUnitFailed(false);
+    try {
+      const params = new URLSearchParams();
+      if (term) params.set("q", term);
+      if (cursor) params.set("cursor", cursor);
+      const res = await fetch(`/api/lessons/units?${params.toString()}`);
+      if (ticket !== unitRequest.current) return;
+      if (!res.ok) { setUnitFailed(true); return; }
+      const data = (await res.json()) as {
+        options?: { id: string; label: string }[];
+        nextCursor?: string | null;
+      };
+      if (ticket !== unitRequest.current) return;
+      const batch = data.options ?? [];
+      // Appending on a cursor walk, replacing on a fresh term.
+      setUnitResults((previous) => (cursor && previous ? [...previous, ...batch] : batch));
+      setUnitCursor(data.nextCursor ?? null);
+    } catch {
+      if (ticket === unitRequest.current) setUnitFailed(true);
+    } finally {
+      if (ticket === unitRequest.current) setUnitSearching(false);
+    }
+  }, []);
 
   useEffect(() => {
     const term = unitQuery.trim();
-    if (!term) { setUnitResults(null); setUnitSearching(false); return; }
-    let cancelled = false;
-    setUnitSearching(true);
-    const timer = setTimeout(async () => {
-      try {
-        const res = await fetch(`/api/lessons/units?q=${encodeURIComponent(term)}`);
-        if (!res.ok) return;
-        const data = (await res.json()) as { options?: { id: string; label: string }[] };
-        if (!cancelled) setUnitResults(data.options ?? []);
-      } finally {
-        if (!cancelled) setUnitSearching(false);
-      }
-    }, 250);
-    return () => { cancelled = true; clearTimeout(timer); };
-  }, [unitQuery]);
+    if (!term) {
+      // Abandon anything in flight so a late reply cannot repopulate a cleared box.
+      unitRequest.current += 1;
+      setUnitResults(null);
+      setUnitCursor(null);
+      setUnitSearching(false);
+      setUnitFailed(false);
+      return;
+    }
+    const timer = setTimeout(() => { void fetchUnits(term, null); }, 250);
+    return () => clearTimeout(timer);
+  }, [unitQuery, unitAttempt, fetchUnits]);
+  // The chosen unit must survive any later search. If it is not in the visible page the
+  // option is re-appended, otherwise typing would silently repoint the lesson.
+  const unitOptions = useMemo(() => {
+    const visible = unitResults ?? units;
+    const chosen = form?.unitId;
+    if (!chosen || visible.some((unit) => unit.id === chosen)) return visible;
+    const known = units.find((unit) => unit.id === chosen) ?? unitResults?.find((unit) => unit.id === chosen);
+    return known ? [...visible, known] : visible;
+  }, [form?.unitId, unitResults, units]);
+
   const areaLabel = useCallback((value: LearningArea) => LEARNING_AREA_LABELS[value][locale], [locale]);
 
   /** Render an issue: the centre's own wording for a known code, the server's sentence otherwise. */
@@ -643,10 +686,32 @@ export function LessonAuthoringDesk({
                 <p className="mt-1 text-xs text-ink-300" role="status" data-lesson-unit-status>
                   {unitSearching
                     ? t.fieldUnitSearching
-                    : unitResults
-                      ? t.fieldUnitResults.replace("{n}", String(unitResults.length))
-                      : ""}
+                    : unitFailed
+                      ? t.fieldUnitFailed
+                      : unitResults
+                        ? t.fieldUnitResults.replace("{n}", String(unitResults.length))
+                        : ""}
                 </p>
+                {unitFailed && !unitSearching ? (
+                  <button
+                    type="button"
+                    className="mt-1 text-xs underline"
+                    onClick={() => setUnitAttempt((n) => n + 1)}
+                    data-lesson-unit-retry
+                  >
+                    {t.fieldUnitRetry}
+                  </button>
+                ) : null}
+                {unitCursor && !unitSearching && !unitFailed ? (
+                  <button
+                    type="button"
+                    className="mt-1 text-xs underline"
+                    onClick={() => { void fetchUnits(unitQuery.trim(), unitCursor); }}
+                    data-lesson-unit-more
+                  >
+                    {t.fieldUnitMore}
+                  </button>
+                ) : null}
               </div>
               <div>
                 <Label htmlFor="lesson-minutes">{t.fieldMinutes}</Label>

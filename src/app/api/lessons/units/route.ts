@@ -21,6 +21,22 @@ export async function GET(req: NextRequest) {
   // A long free-text term is pointless and only widens the ILIKE; cap it.
   const search = raw.trim().slice(0, 120);
 
-  const page = await listUnitOptions(undefined, search ? { search } : {});
-  return NextResponse.json(page, { headers: { "cache-control": "no-store" } });
+  // Search narrows; it does not guarantee reachability. When many units share a title
+  // under one module there is nothing left to type, so the page is walked with a keyset
+  // cursor instead. A cursor the server did not mint is refused with 400 rather than
+  // silently restarting the walk at page 1 and re-serving rows already seen.
+  const cursor = req.nextUrl.searchParams.get("cursor");
+
+  try {
+    const page = await listUnitOptions(undefined, {
+      ...(search ? { search } : {}),
+      ...(cursor === null ? {} : { cursor }),
+    });
+    return NextResponse.json(page, { headers: { "cache-control": "no-store" } });
+  } catch (error) {
+    if (error instanceof Error && /cursor/i.test(error.message)) {
+      return NextResponse.json({ error: "invalid_cursor" }, { status: 400 });
+    }
+    throw error;
+  }
 }
