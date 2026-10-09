@@ -230,3 +230,57 @@ test("a malformed live-partner cursor is refused rather than silently returning 
     await close();
   }
 });
+
+/**
+ * Cursor precision: rows written inside the same millisecond must still be walkable.
+ *
+ * The cursor carried `createdAt.toISOString()`, which truncates to MILLISECONDS,
+ * while Postgres stores timestamptz to the MICROSECOND. A row written at .670005
+ * produced a cursor saying .670, so `created_at > '...670Z'` was true for that row
+ * itself and the keyset never advanced: every "next page" returned the SAME first
+ * page with hasMore still true. Nothing past page one was reachable, and a client
+ * following nextCursor looped forever.
+ *
+ * A single bulk INSERT is enough to trigger it, because now() is fixed per statement
+ * — which is exactly how a real import loads a bank.
+ */
+test("a bank inserted in ONE statement is still fully walkable by cursor", async () => {
+  const database = await createTestDatabase();
+  const { db, query, close } = database as unknown as {
+    db: typeof import("../src/db/client").db;
+    query: <T>(sql: string, params?: unknown[]) => Promise<T[]>;
+    close: () => Promise<void>;
+  };
+  try {
+    const total = 1200;
+    // ONE statement: every row shares now(), so only the id breaks the tie.
+    await query(
+      `insert into speaking_prompts (part, category, prompt_text, topic, publication_state, available_in)
+       select 'part1', 'general', 'Bulk prompt ' || g, 'Bulk topic ' || g, 'published', '["live_partner"]'::jsonb
+       from generate_series(1, $1) g`,
+      [total],
+    );
+
+    const seen = new Set<string>();
+    let cursor: string | null | undefined;
+    let pages = 0;
+    do {
+      const page = await listLivePartnerQuestions({ search: "Bulk prompt", cursor: cursor ?? undefined }, db);
+      assert.ok(page.questions.length > 0, "a page that claims more must deliver more");
+      const before = seen.size;
+      for (const question of page.questions) seen.add(question.id);
+      assert.equal(
+        seen.size,
+        before + page.questions.length,
+        "a page repeated prompts the walk had already returned — the cursor is not advancing",
+      );
+      cursor = page.nextCursor;
+      pages += 1;
+      assert.ok(pages <= 10, "the cursor walk does not terminate");
+    } while (cursor);
+
+    assert.equal(seen.size, total, "every prompt in the bank must be reachable");
+  } finally {
+    await close();
+  }
+});

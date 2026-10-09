@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * REAL-BROWSER responsive verification at 390 / 768 / 1440 px.
+ * REAL-BROWSER responsive verification at 320 / 390 / 768 / 1440 px.
  *
  * Why this exists (owner correction, item 5): the static probe reads JSX and can only
  * prove that *source* wraps each <table> in something with `overflow-x-auto`. It cannot
@@ -39,6 +39,10 @@ import chromium from "@sparticuz/chromium";
 const BASE = process.env.BASE_URL ?? "http://127.0.0.1:3000";
 
 const VIEWPORTS = [
+  // 320px is the smallest supported width (iPhone SE 1st gen / small Android). It is
+  // where a fixed min-width, a long Uzbek label or an unwrapped table shows up first,
+  // so it is tested before the sizes that forgive those mistakes.
+  { name: "mobile 320", width: 320, height: 568, deviceScaleFactor: 2, isMobile: true },
   { name: "mobile 390", width: 390, height: 844, deviceScaleFactor: 2, isMobile: true },
   { name: "tablet 768", width: 768, height: 1024, deviceScaleFactor: 2, isMobile: true },
   { name: "desktop 1440", width: 1440, height: 900, deviceScaleFactor: 1, isMobile: false },

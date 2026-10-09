@@ -75,6 +75,55 @@ const typeSearch = async (page, term) => {
   if (got !== (term ?? "")) throw new Error(`search box holds ${JSON.stringify(got)}, expected ${JSON.stringify(term)}`);
 };
 
+// FIXTURE OWNERSHIP. This probe used to ASSUME a >500-prompt bank already existed,
+// which was true only because an earlier ad-hoc step had left one behind. After a
+// clean re-seed it failed closed with "0 matching prompts" — correct behaviour, but a
+// probe that cannot run twice on a fresh database is not a probe. It now builds its
+// own corpus under a unique tag and removes it in a finally block, through the shared
+// rails in scripts/lib/fixture-safety.mjs.
+const { assertMutableDatabase, fixtureTag } = await import("../lib/fixture-safety.mjs");
+assertMutableDatabase(process.env.DATABASE_URL);
+const FIXTURE_TAG = fixtureTag("lp-search");
+
+async function createCorpus() {
+  // 620 published, live-partner-visible prompts that all match "scenario", so a broad
+  // search genuinely exceeds the 500-row page and continuation has to work.
+  const values = [];
+  const params = [];
+  for (let i = 0; i < 620; i += 1) {
+    const base = i * 4;
+    // part1 on purpose: topicCount()/topicLabels() measure the part1 list, and each
+    // prompt gets its OWN topic so 620 prompts really are 620 selectable topics
+    // rather than 7 groups that would never exceed a page in the UI.
+    values.push(`($${base + 1}, $${base + 2}, $${base + 3}, $${base + 4}, 'published', '["live_partner"]'::jsonb)`);
+    params.push("part1", "general", `Scenario ${String(i).padStart(5, "0")} ${FIXTURE_TAG}`, `Scenario topic ${String(i).padStart(5, "0")} ${FIXTURE_TAG}`);
+  }
+  await db.query(
+    `insert into speaking_prompts (part, category, prompt_text, topic, publication_state, available_in) values ${values.join(",")}`,
+    params
+  );
+  // One DRAFT that also matches, so "a draft must never leak into a learner search"
+  // is a real test rather than a search over published-only data.
+  // The leak assertion below looks for the literal label "Secret QA topic", so the
+  // draft has to carry it, and must also match the search term to be a real test.
+  await db.query(
+    `insert into speaking_prompts (part, category, prompt_text, topic, publication_state, available_in)
+     values ('part1','general',$1,$2,'draft','["live_partner"]'::jsonb)`,
+    [`Scenario DRAFT ${FIXTURE_TAG}`, `Secret QA topic ${FIXTURE_TAG}`]
+  );
+}
+
+async function dropCorpus() {
+  await db.query("delete from speaking_prompts where prompt_text like $1 or topic like $1", [`%${FIXTURE_TAG}%`]);
+  const { rows } = await db.query(
+    "select count(*)::int n from speaking_prompts where prompt_text like $1 or topic like $1",
+    [`%${FIXTURE_TAG}%`]
+  );
+  if (rows[0].n !== 0) throw new Error(`fixture residue for ${FIXTURE_TAG}: ${rows[0].n} rows`);
+}
+
+await createCorpus();
+
 try {
   // POSITIVE CONTROL: without a bank bigger than one page, every reachability
   // assertion below would be vacuously true.
@@ -259,6 +308,14 @@ try {
 
   await context.close();
 } finally {
+  // Cleanup runs whatever happened above, and asserts zero residue for THIS run's
+  // tag only, so a crashed parallel run is never reported as this run's mess.
+  try {
+    await dropCorpus();
+  } catch (error) {
+    console.error(`  !! fixture cleanup FAILED: ${error instanceof Error ? error.message : String(error)}`);
+    process.exitCode = 1;
+  }
   await browser.close();
   await db.end();
 }

@@ -61,10 +61,21 @@ type LivePartnerCursor = {
 function encodeLivePartnerCursor(row: {
   part: SpeakingPart;
   externalId: string | null;
-  createdAt: Date;
+  /**
+   * MICROSECOND-precise, as text straight from Postgres.
+   *
+   * This used to be a JS Date, and `Date.toISOString()` truncates to
+   * MILLISECONDS. Postgres stores timestamptz to the microsecond, so a row written
+   * at .670005 produced the cursor .670, and `created_at > '...670Z'` was then TRUE
+   * for that very row. The keyset never advanced: every "next page" returned the
+   * SAME 500 rows with hasMore still true — an infinite walk in which nothing past
+   * page one was reachable. Any bulk insert makes rows share a millisecond, so this
+   * was reproducible with one statement.
+   */
+  createdAtText: string;
   id: string;
 }): string {
-  const payload = [row.part, row.externalId === null, row.externalId ?? "", row.createdAt.toISOString(), row.id];
+  const payload = [row.part, row.externalId === null, row.externalId ?? "", row.createdAtText, row.id];
   return Buffer.from(JSON.stringify(payload), "utf8").toString("base64url");
 }
 
@@ -127,7 +138,17 @@ export async function listLivePartnerQuestions(
     : where;
 
   const rows = await database
-    .select({ id: speakingPrompts.id, part: speakingPrompts.part, topic: speakingPrompts.topic, promptText: speakingPrompts.promptText, cueCard: speakingPrompts.cueCard, externalId: speakingPrompts.externalId, createdAt: speakingPrompts.createdAt })
+    .select({
+      id: speakingPrompts.id,
+      part: speakingPrompts.part,
+      topic: speakingPrompts.topic,
+      promptText: speakingPrompts.promptText,
+      cueCard: speakingPrompts.cueCard,
+      externalId: speakingPrompts.externalId,
+      createdAt: speakingPrompts.createdAt,
+      // Full microsecond precision for the cursor; a JS Date would round it away.
+      createdAtText: sql<string>`to_char(${speakingPrompts.createdAt} at time zone 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS.US"Z"')`,
+    })
     .from(speakingPrompts)
     .where(scope)
     .orderBy(
@@ -149,7 +170,7 @@ export async function listLivePartnerQuestions(
   const last = page[page.length - 1];
   return {
     // The ordering columns are an implementation detail of paging, not room data.
-    questions: page.map(({ externalId: _externalId, createdAt: _createdAt, ...question }) => question),
+    questions: page.map(({ externalId: _externalId, createdAt: _createdAt, createdAtText: _createdAtText, ...question }) => question),
     hasMore,
     nextCursor: hasMore && last ? encodeLivePartnerCursor(last) : null,
     matching,
