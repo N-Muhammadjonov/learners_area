@@ -35,6 +35,9 @@ const check = (name, ok, detail = "") => {
 };
 
 async function withAdmin(fn) {
+  // This probe writes fixtures. Refuse any database that is not disposable QA.
+  const { assertMutableDatabase: __assertMutableDb } = await import("./lib/fixture-safety.mjs");
+  __assertMutableDb(ADMIN);
   const client = new pg.Client({ connectionString: ADMIN });
   await client.connect();
   try {

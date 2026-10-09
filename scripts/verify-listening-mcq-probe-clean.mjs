@@ -12,6 +12,9 @@ import { assertIsolatedTarget } from "./qa2-seed-fixtures.mjs";
 
 const url = process.env.DATABASE_URL ?? "postgres://postgres@localhost:5432/learners_qa2";
 assertIsolatedTarget(url);
+// This probe writes fixtures. Refuse any database that is not disposable QA.
+const { assertMutableDatabase: __assertMutableDb } = await import("./lib/fixture-safety.mjs");
+__assertMutableDb(url);
 const db = new pg.Client({ connectionString: url });
 await db.connect();
 const q = async (sql, args = []) => (await db.query(sql, args)).rows;

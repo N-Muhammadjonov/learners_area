@@ -10,6 +10,9 @@ import {SignJWT} from 'jose';
 import {assertIsolatedTarget} from './qa2-seed-fixtures.mjs';
 const DB=process.env.DATABASE_URL, BASE=process.env.BASE_URL ?? 'http://127.0.0.1:3100', SECRET=process.env.AUTH_SECRET;
 assertIsolatedTarget(DB);assert.ok(SECRET?.length>=16,'server AUTH_SECRET required');
+// This probe writes fixtures. Refuse any database that is not disposable QA.
+const { assertMutableDatabase: __assertMutableDb } = await import("./lib/fixture-safety.mjs");
+__assertMutableDb(DB);
 const c=new pg.Client({connectionString:DB});await c.connect();
 const marker=`qa2-voice-${randomUUID().slice(0,8)}`, ids=[], videos=[];
 let pass=0,fail=0;

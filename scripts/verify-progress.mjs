@@ -33,9 +33,17 @@ async function page(path, cookie) {
 console.log(`\nLearners Area — Progress page against ${BASE}\n`);
 
 const { default: pg } = await import("pg");
-const db = new pg.Client({
-  connectionString: (process.env.DATABASE_URL || "postgres://postgres@127.0.0.1:5433/learners_area"),
-});
+const { assertMutableDatabase, fixtureTag, withFixtures } = await import("./lib/fixture-safety.mjs");
+
+const CONNECTION = (process.env.DATABASE_URL || "postgres://postgres@127.0.0.1:5433/learners_area");
+// This probe INSERTS a graded mock attempt. Refuse outright unless the target is a
+// disposable QA database: a leaked fixture here is a fabricated IELTS band on a real
+// learner's account.
+const target = assertMutableDatabase(CONNECTION);
+const TAG = fixtureTag("progress");
+console.log(`  fixtures: db=${target.name} tag=${TAG}`);
+
+const db = new pg.Client({ connectionString: CONNECTION });
 await db.connect();
 
 const cookie = await login("demo.student@learnersarea.uz", "Student12345!");
@@ -178,9 +186,9 @@ let fixtureAttemptId = null;
 if (courseId) {
   const mk = await db.query(
     `insert into mock_tests(course_id,title,skill,track,kind,publication_state,publish_at)
-     values($1,'QA full mock (positive control)','full','academic','full','published',now() - interval '1 day')
+     values($1,$2,'full','academic','full','published',now() - interval '1 day')
      returning id`,
-    [courseId]
+    [courseId, `QA full mock (positive control) ${TAG}`]
   );
   fixtureMockId = mk.rows[0]?.id ?? null;
   if (fixtureMockId) {
@@ -194,6 +202,12 @@ if (courseId) {
     fixtureAttemptId = at.rows[0]?.id ?? null;
   }
 }
+// Everything from here until cleanup runs inside withFixtures(): if ANY assertion
+// below throws, the graded attempt is still removed. Previously the DELETEs sat ~80
+// lines after the INSERTs with no protection, so a single throw left a fabricated
+// band 6.5 on the seeded learner permanently.
+await withFixtures(async () => {
+
 // Re-read the panel now that real graded history exists.
 const progressGraded = await page("/app/progress", cookie);
 
@@ -264,13 +278,33 @@ check(
   `data-latest-band=${seededBand}`
 );
 
-// --- fixture cleanup: the suite must leave no residue ----------------------
-if (fixtureAttemptId) await db.query("delete from mock_attempts where id = $1", [fixtureAttemptId]);
-if (fixtureMockId) await db.query("delete from mock_tests where id = $1", [fixtureMockId]);
-const residue = await db.query(
-  "select count(*)::int as n from mock_tests where title = 'QA full mock (positive control)'"
-);
-check("the positive-control fixture is cleaned up", residue.rows[0]?.n === 0, `residue ${residue.rows[0]?.n}`);
+// A deliberate mid-test failure, to prove the finally block actually runs. Enabled
+// only by QA_FORCE_FIXTURE_FAILURE, so the normal run is unaffected.
+if (process.env.QA_FORCE_FIXTURE_FAILURE === "1") {
+  throw new Error("deliberate mid-test failure (QA_FORCE_FIXTURE_FAILURE)");
+}
+
+}, async () => {
+  // --- fixture cleanup: ALWAYS runs, including on a thrown assertion ---------
+  if (fixtureAttemptId) await db.query("delete from mock_attempts where id = $1", [fixtureAttemptId]);
+  if (fixtureMockId) await db.query("delete from mock_tests where id = $1", [fixtureMockId]);
+  // Residue is checked for THIS run's tag: a concurrent run's fixture is not ours to
+  // judge, and a crashed earlier run must not be reported as our leak.
+  const residue = await db.query(
+    "select count(*)::int as n from mock_tests where title like $1",
+    [`%${TAG}%`]
+  );
+  const orphanAttempts = await db.query(
+    `select count(*)::int as n from mock_attempts a
+      join mock_tests t on t.id = a.mock_test_id where t.title like $1`,
+    [`%${TAG}%`]
+  );
+  check(
+    "the positive-control fixture is cleaned up",
+    residue.rows[0]?.n === 0 && orphanAttempts.rows[0]?.n === 0,
+    `mock residue ${residue.rows[0]?.n}, attempt residue ${orphanAttempts.rows[0]?.n}`
+  );
+});
 
 check("an anonymous visitor cannot read progress", (await page("/app/progress")).status !== 200);
 

@@ -42,6 +42,9 @@ async function post(path, cookie) {
 console.log(`\nLearners Area — Live classes against ${BASE}\n`);
 
 const { default: pg } = await import("pg");
+// This probe writes fixtures. Refuse any database that is not disposable QA.
+const { assertMutableDatabase: __assertMutableDb } = await import("./lib/fixture-safety.mjs");
+__assertMutableDb((process.env.DATABASE_URL || "postgres://postgres@127.0.0.1:5433/learners_area"));
 const db = new pg.Client({
   connectionString: (process.env.DATABASE_URL || "postgres://postgres@127.0.0.1:5433/learners_area"),
 });

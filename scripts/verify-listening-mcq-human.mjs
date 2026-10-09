@@ -48,6 +48,12 @@ const check = (name, ok, detail = "") => {
 };
 const step = (n, text) => console.log(`\n— step ${n}: ${text}`);
 
+// This probe writes fixtures. Refuse any database that is not disposable QA.
+
+const { assertMutableDatabase: __assertMutableDb } = await import("./lib/fixture-safety.mjs");
+
+__assertMutableDb(DATABASE_URL);
+
 const db = new pg.Client({ connectionString: DATABASE_URL });
 await db.connect();
 const q = async (sql, args = []) => (await db.query(sql, args)).rows;

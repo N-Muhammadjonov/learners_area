@@ -17,6 +17,9 @@ import assert from "node:assert/strict";
 import pg from "pg";
 
 const BASE = process.argv[2] ?? "http://127.0.0.1:3000";
+// This probe writes fixtures. Refuse any database that is not disposable QA.
+const { assertMutableDatabase: __assertMutableDb } = await import("./lib/fixture-safety.mjs");
+__assertMutableDb(process.env.DATABASE_URL);
 const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
 const EMAIL = "race.applicant@example.test";
 
