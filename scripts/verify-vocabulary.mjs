@@ -161,7 +161,12 @@ const batch = await api("/api/vocabulary", {
 check("bulk add returns a result", batch.status === 200, `status ${batch.status}`);
 check("the same sense pasted twice is stored once, two senses stay apart", batch.json?.added === 3, `added ${batch.json?.added}`);
 check("the collapsed duplicate is reported", batch.json?.duplicates === 1, `duplicates ${batch.json?.duplicates}`);
-check("each genuinely new word earns 2 points", batch.json?.points === 6, `points ${batch.json?.points}`);
+// SCORING MODEL (src/lib/services/vocabulary/points.ts): newWord is 0 — "legacy ledger
+// kind retained for history only; new saves do not emit it". Merely collecting words is
+// deliberately NOT progress; only recall is (revision 1, gameAnswer 1, sentence 2).
+// The old expectation of 2 points per saved word encoded a scoring model the product
+// has removed, and would have masked a real points-farming regression.
+check("saving words is not itself scored", batch.json?.points === 0, `points ${batch.json?.points}`);
 
 const replay = await api("/api/vocabulary", {
   method: "POST",
@@ -183,7 +188,9 @@ const farm = await api("/api/vocabulary", {
 check("a client-supplied points value is ignored", farm.json?.points === 0, `points ${farm.json?.points}`);
 
 const board = await api("/api/vocabulary/leaderboard", { cookie });
-check("the leaderboard reports the ledger total", board.json?.points === 6, `points ${board.json?.points}`);
+check("the leaderboard reports the ledger total", board.json?.points === 0, `points ${board.json?.points}`);
+// and collecting words can never move the leaderboard on its own
+check("hoarding words cannot climb the leaderboard", (board.json?.points ?? 0) === 0, `points ${board.json?.points}`);
 check("the leaderboard ranks the caller", board.json?.rank >= 1, `rank ${board.json?.rank}`);
 
 // --- the official ladder ----------------------------------------------------
@@ -238,8 +245,13 @@ check(
 );
 check("a word reviewed today is not in the due set", !dueTerms.includes("resilient"), `due: ${dueTerms.join(", ")}`);
 
-const allSet = await api("/api/vocabulary/games?set=all", { cookie });
-check("the all-words set returns the whole library", allSet.json?.count === 3, `count ${allSet.json?.count}`);
+// The games endpoint returns WORDS only when a concrete game is named
+// (`selected = gameId ? ... : []`); without &game= it reports availability counts only.
+// Querying it bare therefore proved nothing about the library.
+const allSetBare = await api("/api/vocabulary/games?set=all", { cookie });
+check("the bare set reports availability without handing out words", allSetBare.json?.total >= 3 && (allSetBare.json?.words ?? []).length === 0, `total ${allSetBare.json?.total}`);
+const allSet = await api("/api/vocabulary/games?set=all&game=translation", { cookie });
+check("the all-words set returns the whole library", allSet.json?.count >= 3, `count ${allSet.json?.count}`);
 
 // The server grades the answer itself. A request that only CLAIMS success must
 // not be accepted at all — this is the shape the old client used to send.
