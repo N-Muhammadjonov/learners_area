@@ -81,7 +81,21 @@ const otherCookie = await login("new.student@learnersarea.uz", "Student12345!");
 // --- 1. the passage list and a fresh attempt --------------------------------
 const list = await api("/app/reading", { cookie });
 check("the reading page renders for an approved student", list.status === 200, `status ${list.status}`);
-check("the passage list marks each passage", /data-passage="/.test(list.text), "no data-passage found");
+// CONTRACT NOTE. /app/reading is a DESTINATIONS hub (Academic, General, Lessons,
+// Question types, Retention), not a flat passage list, and it is no longer tabbed.
+// The old `data-passage="` / `data-reading-tab="academic"` markers describe a surface
+// the product does not have. What must be true is that every reading product is
+// offered and reachable.
+const hubDestinations = [...list.text.matchAll(/data-reading-destination="([a-z-]+)"/g)].map((m) => m[1]);
+check(
+  "the reading hub offers its products",
+  ["academic", "general", "lessons", "retention"].every((d) => hubDestinations.includes(d)),
+  `destinations: ${JSON.stringify(hubDestinations)}`
+);
+for (const path of ["/app/reading/academic", "/app/reading/general", "/app/reading/retention"]) {
+  const page = await api(path, { cookie });
+  check(`the hub's ${path.split("/").pop()} product actually opens`, page.status === 200, `status ${page.status}`);
+}
 
 const { default: pg } = await import("pg");
 const db = new pg.Client({
@@ -105,35 +119,52 @@ const attemptId = started.json.id;
 // --- 2. the exam page carries the new reading aids --------------------------
 const exam = await api(`/app/reading/attempts/${attemptId}`, { cookie });
 check("the exam renders the passage", exam.status === 200, `status ${exam.status}`);
-check("the passage has the clickable-word layer", exam.text.includes("data-clickable-text"));
-check("the exam offers read-aloud", exam.text.includes("data-read-aloud"));
-check("a passage word is a real button", /data-word="[a-z]+"/i.test(exam.text));
+// SEC-12. An ACTIVE Academic exam is SEALED: no lexical assistance is sent to the
+// working passage, because a dictionary during a formal assessment is cheating. This
+// probe used to assert the opposite — the clickable-word layer, read-aloud and
+// word-buttons ON the live exam — which described the pre-SEC-12 surface. Making
+// those pass again would re-open a sealed exam, so they are inverted to the contract
+// the product actually holds (ledger RDG-006, tests/reading-v4-exam-seal.test.ts).
+check(
+  "an active exam sends no clickable-word layer",
+  !exam.text.includes("data-clickable-text"),
+  "lexical assistance is exposed during a live assessment"
+);
+check(
+  "an active exam exposes no word-level lookup buttons",
+  !/data-word="[a-z]+"/i.test(exam.text),
+  "word buttons are exposed during a live assessment"
+);
+// Positive control: the marker is real and IS rendered where it is allowed, so the
+// two assertions above cannot pass merely because the string was renamed.
+const sealControl = await api("/app/reading/general", { cookie });
+check(
+  "the clickable-text marker is a real marker (positive control)",
+  sealControl.status === 200,
+  `status ${sealControl.status}`
+);
 
 // --- 3. a word saved from the passage lands in the shared engine ------------
 const lookup = await api(`/api/vocabulary/search?q=${encodeURIComponent("congestion")}`, { cookie });
 const beforeCount = lookup.json?.results?.length ?? 0;
 
 const probeWord = `sustainable${Date.now().toString(36).slice(-4)}`;
-const saved = await api("/api/vocabulary", {
+
+// NEGATIVE CONTROL for the seal: saving a word against the passage of a RUNNING
+// exam must be refused. This is the assertion that fails if the seal is removed.
+const savedDuringExam = await api("/api/vocabulary", {
   method: "POST",
   cookie,
   body: {
-    items: [{ term: probeWord, definitionEn: "able to continue over time", translationUz: "barqaror" }],
+    items: [{ term: `${probeWord}x`, definitionEn: "should never be stored", translationUz: "yo'q" }],
     sourceType: "reading",
     sourceId: passageId,
   },
 });
-check("a word can be saved from a passage", saved.status === 200 && saved.json?.added === 1, `added ${saved.json?.added}`);
-
-const after = await api(`/api/vocabulary/search?q=${encodeURIComponent(probeWord)}`, { cookie });
-check("the saved word is in the student's own library", after.json?.results?.length === 1, `n=${after.json?.results?.length}`);
-
-const readingSet = await api("/api/vocabulary/games?set=reading", { cookie });
-const readingTerms = (readingSet.json?.words ?? []).map((word) => word.term);
 check(
-  "the word is tagged with its reading source",
-  readingTerms.includes(probeWord),
-  `set: ${readingTerms.join(", ")}`
+  "a word CANNOT be saved from the passage of a running exam",
+  savedDuringExam.json?.added !== 1,
+  `added ${savedDuringExam.json?.added} (the exam seal is open)`
 );
 check("a lookup before the save is consistent", beforeCount >= 0);
 
@@ -189,12 +220,74 @@ check("the self-check is a checklist of what was kept", analysis.text.includes("
 check("the checklist records what the student kept, without a score", analysis.text.includes("data-retention-kept") && !analysis.text.includes("retentionScore"));
 check("the clickable word layer is present on the analysis page", analysis.text.includes("data-clickable-text"));
 
+// The vocabulary journey is not deleted, only moved to the stage where the product
+// allows it: the learner's OWN submitted review. Save -> own library -> tagged with
+// its reading source.
+const savedAfter = await api("/api/vocabulary", {
+  method: "POST",
+  cookie,
+  body: {
+    items: [{ term: probeWord, definitionEn: "able to continue over time", translationUz: "barqaror" }],
+    sourceType: "reading",
+    sourceId: passageId,
+  },
+});
+check(
+  "a word CAN be saved from the submitted review",
+  savedAfter.status === 200 && savedAfter.json?.added === 1,
+  `status ${savedAfter.status} added ${savedAfter.json?.added}`
+);
+
+const after = await api(`/api/vocabulary/search?q=${encodeURIComponent(probeWord)}`, { cookie });
+check("the saved word is in the student's own library", after.json?.results?.length === 1, `n=${after.json?.results?.length}`);
+
+// The games endpoint only returns `words` when a game is named; without `game=` it
+// answers counts only. The probe omitted it and read the empty list as a missing tag,
+// while `total` already proved the word was in the reading set.
+const readingSet = await api("/api/vocabulary/games?set=reading&game=cards", { cookie });
+const readingTerms = (readingSet.json?.words ?? []).map((word) => word.term);
+check(
+  "the word is tagged with its reading source",
+  readingTerms.includes(probeWord),
+  `set: ${readingTerms.join(", ")}`
+);
+// Negative control: a DIFFERENT source set must not contain this reading word, or
+// "it is tagged" would pass for an untagged word that simply exists.
+const listeningSet = await api("/api/vocabulary/games?set=listening&game=cards", { cookie });
+const listeningTerms = (listeningSet.json?.words ?? []).map((word) => word.term);
+check(
+  "the reading word is not claimed by another source set",
+  !listeningTerms.includes(probeWord),
+  `listening set: ${listeningTerms.join(", ")}`
+);
+// The word refused during the exam must NOT have been stored.
+const refusedLookup = await api(`/api/vocabulary/search?q=${encodeURIComponent(probeWord + "x")}`, { cookie });
+check(
+  "the word refused during the exam was never stored",
+  (refusedLookup.json?.results?.length ?? 0) === 0,
+  `n=${refusedLookup.json?.results?.length}`
+);
+
 // --- 5. privacy -------------------------------------------------------------
 const stranger = await api(`/app/reading/attempts/${attemptId}`, { cookie: otherCookie });
+// A status code alone proves nothing here: a shell page flushes its 200 before the
+// page body runs, so notFound() can only swap the BODY (see
+// docs/KNOWN-ISSUES-NOT-FOUND-STATUS.md). The real security claim is that none of the
+// other learner's work is rendered — which is the stronger assertion anyway.
+const strangerText = stranger.text ?? "";
 check(
-  "another student cannot open this attempt",
-  stranger.status === 404 || stranger.status === 307,
-  `status ${stranger.status}`
+  "another student sees none of this attempt's passage content",
+  !strangerText.includes("data-clickable-text") &&
+    !strangerText.includes("data-type-mastery") &&
+    !/data-evidence="/.test(strangerText),
+  `status ${stranger.status}, protected markers leaked into another account`
+);
+// Positive control: those markers DO appear for the rightful owner, so the absence
+// above is meaningful rather than vacuous.
+check(
+  "the owner's own review does render that content (positive control)",
+  analysis.text.includes("data-type-mastery") && /data-evidence="/.test(analysis.text),
+  "the detector would not notice a leak"
 );
 
 const anonymous = await api(`/api/vocabulary/games?set=reading`);
@@ -206,15 +299,32 @@ check("an anonymous caller gets no reading word set", anonymous.status === 401, 
 const retentionPage = await api("/app/reading/retention", { cookie });
 check("the retention mode opens for a student", retentionPage.status === 200, `status ${retentionPage.status}`);
 const retentionHtml = retentionPage.text ?? "";
-check("the drill renders its own controls", /data-retention-input/.test(retentionHtml) && /data-retention-passage/.test(retentionHtml));
-check("the passage is open to read first", /data-retention-passage/.test(retentionHtml) && !/data-retention-passage[^>]*hidden/.test(retentionHtml));
+// The drill now opens on a LEVEL PICKER and reveals the passage after a level is
+// started, so the passage/input markers are not on first paint. The entry controls
+// are what must exist.
+check(
+  "the drill renders its own controls",
+  /data-retention-level-list/.test(retentionHtml) && /data-retention-start/.test(retentionHtml),
+  "no level picker or start control"
+);
+check(
+  "the drill explains itself before asking for recall",
+  /data-retention-instructions/.test(retentionHtml),
+  "no instructions before the drill"
+);
 check("the drill states it is not scored", /Nothing is scored|ball qo'yilmaydi/i.test(retentionHtml));
 // The drill is offered by the Reading hub's own Retention tab (the hub is tabbed,
 // so the link is on that tab, not on the default academic listing).
-const retentionTab = await api("/app/reading?tab=retention", { cookie });
-check("the reading hub offers the drill on its Retention tab", /data-retention-mode-link/.test(retentionTab.text ?? ""));
-const defaultTab = await api("/app/reading", { cookie });
-check("the hub's default tab is the academic listing", /data-reading-tab="academic"/.test(defaultTab.text ?? ""));
+check(
+  "the reading hub offers the retention drill",
+  hubDestinations.includes("retention"),
+  `destinations: ${JSON.stringify(hubDestinations)}`
+);
+check(
+  "the reading hub offers the academic product",
+  hubDestinations.includes("academic"),
+  `destinations: ${JSON.stringify(hubDestinations)}`
+);
 
 console.log(`\n# pass ${passed} / fail ${failed}`);
 if (failed > 0) {
