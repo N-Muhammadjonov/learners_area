@@ -26,6 +26,8 @@ function fixture(scope: ExportScope, objectMode: "keep-r2" | "move-objects" = "k
     riwi_knowledge_units: [{ id: "unit-1", sourceId: "knowledge-1", content: "approved fact" }],
     riwi_assessment_policies: [{ id: "policy-1", state: "approved", candidateHash: "p".repeat(64) }],
     speaking_attempts: [{ id: "attempt-1", userId: "user-0", transcript: "PRIVATE_SPEAKING_CANARY" }],
+    riwi_conversations: [{ id: "conversation-1", userId: "user-0" }],
+    riwi_conversation_messages: [{ id: "message-1", conversationId: "conversation-1", content: "PRIVATE_RIWI_CONVERSATION_CANARY" }],
   };
   const objects: PortableObject[] = [
     { objectClass: "riwi-knowledge-source", sourceKey: "riwi/source.pdf", destinationKey: objectMode === "move-objects" ? "riwi/source.pdf" : null, ownerId: null, scope: "global", retentionState: "active", sha256: sha256("pdf"), byteLength: 3, mimeType: "application/pdf" },
@@ -75,10 +77,12 @@ test("MODE A/B/C exports are deterministic and enforce privacy canaries", async 
       assert.doesNotMatch(archive, /private\.test|PRIVATE_SPEAKING_CANARY|user-0/);
       assert.match(archive, /approved fact/);
     } else if (scope === "learners-area") {
-      assert.doesNotMatch(archive, /approved fact|policy-1/);
+      assert.doesNotMatch(archive, /approved fact|policy-1|PRIVATE_RIWI_CONVERSATION_CANARY/);
+      assert.equal(first.manifest.tables.some((entry) => entry.table.startsWith("riwi_")), false);
       assert.match(archive, /PRIVATE_SPEAKING_CANARY/);
     } else {
       assert.match(archive, /approved fact/); assert.match(archive, /PRIVATE_SPEAKING_CANARY/);
+      assert.match(archive, /PRIVATE_RIWI_CONVERSATION_CANARY/);
     }
   }
 });
@@ -101,13 +105,13 @@ test(">1,000 rows export/import without cap, dry-run has no apply, and retry rol
   const archive = { async *readRows(path: string) { for (const line of (value.sink.files.get(path) ?? "").split("\n").filter(Boolean)) yield line; }, async readObject() { return new Uint8Array(); } };
   const destination = { transaction: async <T>(work: (tx: any) => Promise<T>) => work({ planRow: async () => "create", applyRow: async () => { applied += 1; }, copyObject: async () => {} }) };
   const plan = await importPortableArchive({ manifest: value.manifest, archive, dryRun: true, destination });
-  assert.equal(plan.creates, 1210); assert.equal(applied, 0);
+  assert.equal(plan.creates, 1212); assert.equal(applied, 0);
   let committed = 0;
   const atomicDestination = { transaction: async <T>(work: (tx: any) => Promise<T>) => { let staged = 0; const result = await work({ planRow: async () => "create", applyRow: async () => { staged += 1; if (staged === 600) throw new Error("injected_failure"); }, copyObject: async () => {} }); committed += staged; return result; } };
   await assert.rejects(() => importPortableArchive({ manifest: value.manifest, archive, dryRun: false, destination: atomicDestination }), /injected_failure/);
   assert.equal(committed, 0);
   const result = await importPortableArchive({ manifest: value.manifest, archive, dryRun: false, destination });
-  assert.equal(result.creates, 1210); assert.equal(applied, 1210);
+  assert.equal(result.creates, 1212); assert.equal(applied, 1212);
 });
 
 test("O1 keeps object references and O2 verifies bytes before copy", async () => {

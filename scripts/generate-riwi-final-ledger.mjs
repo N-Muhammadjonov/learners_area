@@ -1,12 +1,14 @@
 import { createHash } from "node:crypto";
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { execFileSync } from "node:child_process";
+import { join } from "node:path";
 
+const sourceDirectory = process.env.RIWI_SOURCE_DIR ?? "/tmp";
 const sources = [
-  ["A", "/tmp/RIWI_SOURCE_A.txt", "FULL_RIWI_SUPER_MASTER_PROMPT_ARENA_2026-10-03.txt"],
-  ["B", "/tmp/RIWI_SOURCE_B.txt", "LEARNERS_AREA_RIWI_PROMPT_BASE_BOOK_FINAL.txt"],
-  ["C", "/tmp/RIWI_SOURCE_C.txt", "LEARNERS_AREA_RIWI_SPEAKING_PRACTICE_WITH_AI_MASTER_PROMPT.txt"],
-  ["D", "/tmp/RIWI_SOURCE_D.txt", "RIWI_SECURITY_PROMPT_FINAL_V2.txt"],
+  ["A", join(sourceDirectory, "RIWI_SOURCE_A.txt"), "FULL_RIWI_SUPER_MASTER_PROMPT_ARENA_2026-10-03.txt"],
+  ["B", join(sourceDirectory, "RIWI_SOURCE_B.txt"), "LEARNERS_AREA_RIWI_PROMPT_BASE_BOOK_FINAL.txt"],
+  ["C", join(sourceDirectory, "RIWI_SOURCE_C.txt"), "LEARNERS_AREA_RIWI_SPEAKING_PRACTICE_WITH_AI_MASTER_PROMPT.txt"],
+  ["D", join(sourceDirectory, "RIWI_SOURCE_D.txt"), "RIWI_SECURITY_PROMPT_FINAL_V2.txt"],
 ];
 const normative = /\b(?:must|must not|required|do not|never|only|should|needs? to|required invariant|acceptance|test|proof|owner action|fail closed|preserve|exclude|include|support|deny|audit|verify|implement|create|build|run|read|store|keep|treat|reject|allow|ensure|use)\b/i;
 const external = /(?:live provider|live verify|real provider (?:call|test|verification)|real preview|preview browser qa|run (?:owner|admin|teacher|student) browser qa|browser qa:|checkcard 105|production deployment|external credential|authenticated browser|backup\/pitr (?:receipt|evidence|status)|independent restore evidence|restore drill|real restore|listening zip|real r2|real s3|full-data.*destination|three (?:isolated|fresh).*(?:database|destination)|real destination rehearsal|clean-instance rehearsal)/i;
@@ -40,11 +42,12 @@ for (const [source, path, name] of sources) {
     const statusVocabulary = /^(?:FINAL STATUS:|Allowed statuses:|OWNER ACTION REQUIRED:?$)/i.test(item.text);
     const historicalNoContact = /^-?\s*No shared Preview or Production database was contacted or changed\.?$/i.test(item.text);
     const isNormative = !statusVocabulary && (normative.test(item.text) || /^(?:[-*]|\d+[.)]|\[.?\])\s+/.test(item.text));
-    let status = "PASS"; let notes = statusVocabulary ? "Status vocabulary/template; not an owner decision." : "Context/example/template retained for complete source coverage; non-normative.";
+    let status = statusVocabulary || historicalNoContact ? "NOT APPLICABLE — PROVEN" : "EXTERNALLY UNVERIFIED";
+    let notes = statusVocabulary ? "Literal status vocabulary/template, not an executable requirement or owner decision." : historicalNoContact ? "Historical source statement, not a current executable requirement or proof of present environment safety." : "Source fragment retained for coverage; classification and requirement-specific evidence need review. A keyword heuristic does not prove non-applicability.";
     let files = []; let tests = [];
     if (isNormative) {
-      status = "UNVERIFIED"; notes = "Requires repository/evidence audit; no historical report alone is accepted.";
-      if (historicalNoContact) { status = "PASS"; notes = "Historical safety statement; no shared environment was touched during that closure."; }
+      status = "EXTERNALLY UNVERIFIED"; notes = "Requires repository/evidence audit; no historical report alone is accepted.";
+      if (historicalNoContact) { status = "NOT APPLICABLE — PROVEN"; notes = "Historical source statement, not a current executable requirement or proof of present environment safety."; }
       else if (owner.test(item.text) && !/^WHY:/i.test(item.text) && !/replay old owner approval/i.test(item.text)) { status = "OWNER ACTION REQUIRED"; notes = "Consequential owner approval/decision is not inferred."; }
       else if (external.test(item.text)) { status = "EXTERNAL REQUIRED"; notes = "Requires credential/provider/deployment/real-browser evidence."; }
       else if (source === "D" && portabilityPass.test(item.text)) { status = "PASS"; files = implementation.portability; tests = ["node --conditions=react-server --import tsx --test tests/riwi-portability-v2.test.ts tests/riwi-portability-postgres.test.ts"]; notes = "Implemented by closed tri-mode portability core and provider-independent PostgreSQL destination adapter."; }
@@ -52,6 +55,13 @@ for (const [source, path, name] of sources) {
       else if (source === "B") { status = "PASS"; files = implementation.prompt; tests = ["node --conditions=react-server --import tsx --test tests/coach-assessment-contracts.test.ts"]; notes = "Mapped to accepted canonical 68-contract architecture; final rerun required."; }
       else if (source === "C") { status = "PASS"; files = implementation.speaking; tests = ["node --conditions=react-server --import tsx --test tests/speaking-ai-practice.test.ts"]; notes = "Mapped to accepted Speaking implementation; final rerun required."; }
       else if (source === "A") { status = "PASS"; files = implementation.riwi; tests = ["npm test"]; notes = "Mapped to accepted RIWI implementation; final forensic rerun required."; }
+    }
+    // A source/category match gives a review target, never an execution receipt.
+    // Keep implementation and command hints, but do not mark unexecuted
+    // normative requirements PASS or bind them to a caller-supplied SHA.
+    if (isNormative && status === "PASS" && !historicalNoContact) {
+      status = "EXTERNALLY UNVERIFIED";
+      notes = "Implementation mapping only; requirement-specific exact-SHA test/runtime evidence has not been verified by this generator.";
     }
     const digest = createHash("sha256").update(`${source}:${item.line}:${item.text}`).digest("hex").slice(0, 12);
     records.push({
@@ -70,11 +80,11 @@ for (const [source, path, name] of sources) {
       browser_evidence: null,
       external_dependency: status === "EXTERNAL REQUIRED" ? item.text : null,
       owner_action: status === "OWNER ACTION REQUIRED" ? item.text : null,
-      last_verified_sha: process.env.RIWI_VERIFIED_SHA ?? "WORKTREE-PENDING",
+      last_verified_sha: null,
       notes,
     });
   }
 }
-writeFileSync("docs/RIWI-FINAL-REQUIREMENT-LEDGER.jsonl", `${records.map((record) => JSON.stringify(record)).join("\n")}\n`);
+writeFileSync(process.env.RIWI_LEDGER_OUT ?? "docs/RIWI-FINAL-REQUIREMENT-LEDGER.jsonl", `${records.map((record) => JSON.stringify(record)).join("\n")}\n`);
 const counts = records.reduce((all, row) => (all[row.status] = (all[row.status] ?? 0) + 1, all), {});
 console.log(JSON.stringify({ total: records.length, counts }, null, 2));
