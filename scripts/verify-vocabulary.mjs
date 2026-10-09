@@ -269,7 +269,7 @@ check(
 const wrongAnswer = await api("/api/vocabulary/games", {
   method: "POST",
   cookie,
-  body: { entryId: firstWord.id, set: "all", submission: { kind: "spelling", text: "definitely-not-the-word" } },
+  body: { entryId: firstWord.id, set: "all", gameId: "gap", submission: { kind: "spelling", text: "definitely-not-the-word" } },
 });
 check(
   "a wrong answer is marked wrong by the server even on a due word",
@@ -283,7 +283,9 @@ const rightAnswer = await api("/api/vocabulary/games", {
   body: {
     entryId: firstWord.id,
     set: "all",
-    eligible: true,
+    // `eligible` was a legacy client-asserted field; answerSchema is .strict() and
+    // requires gameId, so the old payload was rejected 400 and read back as undefined.
+    gameId: "gap",
     submission: { kind: "spelling", text: `  ${firstWord.term.toUpperCase()}.  ` },
   },
 });
@@ -298,7 +300,7 @@ check(
 const selfClaim = await api("/api/vocabulary/games", {
   method: "POST",
   cookie,
-  body: { entryId: firstWord.id, set: "all", submission: { kind: "self", known: true } },
+  body: { entryId: firstWord.id, set: "all", gameId: "cards", submission: { kind: "self", known: true } },
 });
 check(
   "a self-assessment is recorded as practice and never earns a point",
@@ -316,6 +318,7 @@ const foreignGame = await api("/api/vocabulary/games", {
   body: {
     entryId: "00000000-0000-4000-8000-000000000000",
     set: "all",
+    gameId: "gap",
     submission: { kind: "spelling", text: "resilient" },
   },
 });
