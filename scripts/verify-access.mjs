@@ -24,6 +24,24 @@ import { randomUUID } from "node:crypto";
 
 const BASE = process.argv[2] ?? "http://127.0.0.1:3000";
 
+/**
+ * DETERMINISM: every run gets its own abuse-limiter bucket.
+ *
+ * The limiter is keyed by `clientKey(req)`, which prefers `x-forwarded-for`. Repeated
+ * acceptance sweeps from one host therefore shared a bucket, and an in-memory counter
+ * that survives database reseeds eventually answered 429 — registrations failed, their
+ * responses read back as `undefined`, and unrelated assertions cascaded. The gate must
+ * not depend on how many times it has been run before.
+ *
+ * This isolates the HARNESS, it does not weaken the product: no rule, limit or window is
+ * changed, the limiter still runs on every request, and in production `x-forwarded-for`
+ * is set by the platform rather than the caller. Checks that deliberately exercise the
+ * limiter keep their own fixed key so they still trip it.
+ */
+const RUN_IP = process.env.QA_RUN_IP
+  ?? `10.${Math.floor(Math.random() * 254) + 1}.${Math.floor(Math.random() * 254) + 1}.${Math.floor(Math.random() * 254) + 1}`;
+
+
 let passed = 0;
 const failures = [];
 
@@ -55,7 +73,7 @@ function mergeCookies(...jars) {
 async function login(email, password) {
   const res = await fetch(`${BASE}/api/auth/login`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", "x-forwarded-for": RUN_IP },
     body: JSON.stringify({ email, password }),
   });
   assert.equal(res.status, 200, `login failed for ${email} (${res.status})`);
@@ -64,7 +82,7 @@ async function login(email, password) {
 
 async function get(cookie, pathname) {
   const res = await fetch(`${BASE}${pathname}`, {
-    headers: cookie ? { Cookie: cookie } : {},
+    headers: { "x-forwarded-for": RUN_IP, ...(cookie ? { Cookie: cookie } : {}) },
     redirect: "manual",
   });
   return {
@@ -79,6 +97,7 @@ async function api(cookie, pathname, init = {}) {
     ...init,
     headers: {
       "Content-Type": "application/json",
+      "x-forwarded-for": RUN_IP,
       ...(cookie ? { Cookie: cookie } : {}),
       ...(init.headers ?? {}),
     },
@@ -278,6 +297,35 @@ await check("a teacher cannot open administrator pages", async () => {
   }
 });
 
+await check("the abuse limiter is still live despite per-run IP isolation", async () => {
+  // POSITIVE CONTROL for the RUN_IP technique above: isolating the harness must not be
+  // confusable with disabling the limiter.
+  //
+  // Password reset is used rather than registration because it creates no account — 10
+  // throwaway registrations would otherwise push real fixtures off the paginated people
+  // list and break unrelated checks. The key is unique PER RUN for the same reason
+  // RUN_IP is: a fixed key keeps its counter for the whole window, so a second run in
+  // the same hour would start already exhausted and report a false failure.
+  const probeIp = `198.51.100.${Math.floor(Math.random() * 250) + 1}`;
+  const statuses = [];
+  for (let i = 0; i < 9; i += 1) {
+    const res = await fetch(`${BASE}/api/auth/reset/request`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "x-forwarded-for": probeIp },
+      body: JSON.stringify({ email: `reset-probe-${i}-${Date.now()}@example.test` }),
+    });
+    statuses.push(res.status);
+  }
+  assert.ok(
+    statuses.includes(429),
+    `password reset never rate-limited after 9 attempts: ${statuses.join(",")}`
+  );
+  assert.ok(
+    statuses.filter((code) => code !== 429).length >= 3,
+    `limiter fired too early to be a real window: ${statuses.join(",")}`
+  );
+});
+
 await check("the applicant cannot approve their own request", async () => {
   const res = await api(applicantCookie, `/api/admin/admission/${requestId}/decide`, {
     method: "POST",
@@ -407,9 +455,12 @@ await check("a student receives no staff or administrator content", async () => 
 // ---------------------------------------------------------------------------
 
 await check("an admin cannot suspend the owner", async () => {
-  const people = await get(adminCookie, "/app/admin/people");
+  // Search for the account instead of trusting page 1 of a paginated list: any extra
+  // accounts (another fixture, a previous sweep) would otherwise push the owner off the
+  // first page and fail this check for a reason unrelated to the invariant.
+  const people = await get(adminCookie, "/app/admin/people?q=owner%40learnersarea.uz");
   const ownerId = people.html.match(/data-person-id="([0-9a-f-]{36})"[^>]*data-person-role="owner"/)?.[1];
-  assert.ok(ownerId, "the owner must be listed");
+  assert.ok(ownerId, `the owner must be findable by search (http=${people.status})`);
   const res = await api(adminCookie, `/api/admin/users/${ownerId}/status`, {
     method: "POST",
     body: JSON.stringify({ status: "suspended", reason: "should not work" }),
@@ -420,9 +471,10 @@ await check("an admin cannot suspend the owner", async () => {
 });
 
 await check("an admin cannot change their own role", async () => {
-  const people = await get(adminCookie, "/app/admin/people");
+  // Same reason as above: find the row, do not depend on where it happens to sort.
+  const people = await get(adminCookie, "/app/admin/people?q=admin%40learnersarea.uz");
   const adminId = people.html.match(/data-person-id="([0-9a-f-]{36})"[^>]*data-person-role="admin"/)?.[1];
-  assert.ok(adminId, "the admin must be listed");
+  assert.ok(adminId, "the admin must be findable by search");
   const res = await api(adminCookie, `/api/admin/users/${adminId}/role`, {
     method: "PATCH",
     body: JSON.stringify({ role: "student" }),
