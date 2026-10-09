@@ -89,3 +89,25 @@ curl -s -o /dev/null -w '%{http_code}\n' -H "Cookie: $SESSION" \
   http://127.0.0.1:3000/app/reading/attempts/00000000-0000-0000-0000-000000000000
 # => 200, with 404 content in the body
 ```
+
+## Second consequence: privacy probes that assert on status look like failures
+
+`verify-reading` asserts that another student cannot open someone else's attempt by
+checking for `404`/`307`. It reports `status 200` and therefore FAILS.
+
+That failure is **not** an IDOR. Measured directly against the database, with a real
+second student (`new.student@learnersarea.uz`) reading five attempts owned by
+`demo.student@learnersarea.uz`:
+
+```
+owner=demo.student  -> OTHER student status 200, leaks passage content? false   (x5)
+```
+
+`getAttemptDetail(id, user.id)` is correctly scoped to the caller, returns null for the
+stranger, and the page calls `notFound()`. The authorization holds and no passage, no
+answers and no analysis are rendered — only the status code is wrong, for the reason
+above.
+
+The lesson for the suites: **a status code alone is not proof of either direction
+here.** Any privacy assertion on a shell page must also assert that the protected
+content is absent from the body, which is the stronger claim anyway.
