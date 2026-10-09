@@ -1,6 +1,4 @@
 import "server-only";
-import { resolvePronunciationAssessment } from "./pronunciation";
-import { providerRegistry } from "./registry";
 import { evaluateAndPersist, type ServiceOutcome } from "./service";
 import type { SpeakingPart } from "./types";
 import { speakingContractKey } from "./contracts/registry";
@@ -19,6 +17,7 @@ export type SpeakingEvaluationRequest = {
   transcriptOrigin: "stt" | "manual" | "browser_stt" | null;
   durationMs: number | null;
   language: "uz" | "en";
+  persist?: Parameters<typeof evaluateAndPersist>[0]["persist"];
 };
 
 /**
@@ -39,14 +38,7 @@ export async function evaluateSpeakingAttempt(
     return { ok: false, error: "transcript_unavailable" };
   }
 
-  // Pronunciation is decided in one place (PronunciationEvaluationService):
-  // only a provider that really declares audio analysis can judge it. With none
-  // registered, the criterion comes back explicitly limited and band-less
-  // rather than guessed — see providers/riwi/speaking.ts.
-  const pronunciation = resolvePronunciationAssessment(
-    providerRegistry.idsWithCapability("pronunciation")
-  );
-  const pronunciationAvailable = pronunciation.assessed;
+  // No acoustic evidence enters this transcript-only request. Registry capability alone is not assessment.
 
   return evaluateAndPersist({
     userId: input.userId,
@@ -54,17 +46,15 @@ export async function evaluateSpeakingAttempt(
     sourceType: "speaking_attempt",
     sourceId: input.attemptId,
     language: input.language,
-    request: {
-      evaluationType: "speaking",
-      assessmentContractKey: speakingContractKey(input.part),
-      input: {
-        part: input.part,
-        promptText: input.promptText,
-        transcript: input.transcript,
-        transcriptOrigin: input.transcriptOrigin,
-        durationMs: input.durationMs,
-        pronunciationAvailable,
-      },
-    },
+    persist: input.persist,
+    request: speakingEvaluationRequest(input),
   });
+}
+
+
+/** Transcript-only requests never assert that a registry capability assessed these bytes. */
+export function speakingEvaluationRequest(input: SpeakingEvaluationRequest) {
+  return { evaluationType: "speaking" as const, assessmentContractKey: speakingContractKey(input.part), input: {
+    part: input.part, promptText: input.promptText, transcript: input.transcript, transcriptOrigin: input.transcriptOrigin, durationMs: input.durationMs, pronunciationAvailable: false,
+  } };
 }

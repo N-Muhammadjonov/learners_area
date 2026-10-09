@@ -57,9 +57,11 @@ export async function completeSpeakingAiItem(database: typeof db, userId: string
     if (item.ordinal !== session.currentItemIndex + 1) return { ok: false as const, error: "stale_session_position", status: 409 };
     if (body.action === "answered") {
       const attempt = await tx.query.speakingAttempts.findFirst({ where: and(eq(speakingAttempts.id, body.attemptId), eq(speakingAttempts.userId, userId)) });
-      if (!attempt || attempt.status === "recording" || attempt.promptId !== item.promptId || attempt.aiSessionId !== id || attempt.aiSessionItemId !== itemId) {
+      if (!attempt || attempt.evaluationClaimToken || attempt.status === "recording" || attempt.promptId !== item.promptId || attempt.aiSessionId !== id || attempt.aiSessionItemId !== itemId) {
         return { ok: false as const, error: "invalid_attempt", status: 409 };
       }
+      const latest = await tx.query.speakingAttempts.findFirst({ where: and(eq(speakingAttempts.userId, userId), eq(speakingAttempts.aiSessionItemId, itemId)), orderBy: [desc(speakingAttempts.createdAt), desc(speakingAttempts.id)] });
+      if (latest?.id !== attempt.id) return { ok: false as const, error: "stale_answer_generation", status: 409 };
     }
     const [updatedItem] = await tx.update(speakingAiSessionItems).set({ status: body.action, attemptId }).where(eq(speakingAiSessionItems.id, item.id)).returning();
     const total = await tx.$count(speakingAiSessionItems, eq(speakingAiSessionItems.sessionId, id));

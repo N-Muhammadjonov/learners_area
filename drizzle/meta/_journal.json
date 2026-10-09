@@ -351,6 +351,13 @@
       "when": 1791500000011,
       "tag": "0049_riwi_online_activity_baseline",
       "breakpoints": true
+    },
+    {
+      "idx": 50,
+      "version": "7",
+      "when": 1791500000012,
+      "tag": "0050_speaking_fenced_evaluation",
+      "breakpoints": true
     }
   ]
 }

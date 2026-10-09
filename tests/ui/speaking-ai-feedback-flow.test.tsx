@@ -49,7 +49,7 @@ test("explicit Send preserves feedback in the session, deduplicates clicks, and 
     if (path === "/api/uploads/finalize" || path === "/api/speaking/attempts/attempt") return Response.json({ ok: true });
     if (path === "/api/speaking/attempts/attempt/submit") return Response.json({ evaluated: true, evaluation: { id: "evaluation", checkedBy: "RIWI", fallbackUsed: false, overallEstimate: null, criteria: [], strengths: ["Your answer explains a clear interest."], weaknesses: [], issues: [], nextActions: [] } });
     if (path.endsWith("/items/item/complete")) return Response.json({ ok: true });
-    if (path.endsWith("/session/complete")) return Response.json({ summary: { answered: 1, skipped: 0, totalDurationMs: 1, textBasedEstimate: null, criteria: [], strengths: [], weaknesses: [], recurringWeaknesses: [] } });
+    if (path.endsWith("/session/complete")) return Response.json({ summary: { answered: 1, skipped: 0, evaluated: 1, unevaluated: 0, completeEvidence: true, totalDurationMs: 1, textBasedEstimate: null, criteria: [], strengths: [], weaknesses: [], recurringWeaknesses: [] } });
     assert.fail(`Unexpected request ${path}`);
   }) as typeof fetch;
   const root = createRoot(document.getElementById("root")!);
@@ -70,4 +70,26 @@ test("explicit Send preserves feedback in the session, deduplicates clicks, and 
     assert.deepEqual(calls.find(call => call.url.endsWith("/items/item/complete"))!.body, { action: "answered", attemptId: "attempt" });
     assert.ok(document.querySelector("[data-ai-finished]"));
   } finally { await act(async () => root.unmount()); }
+});
+
+test("unmount during explicit Send ignores a late evaluation and never advances the detached session", async () => {
+ const { AiQuestionRecorder } = await import("../../src/components/speaking/AiQuestionRecorder");
+ let resolve!: (response:Response)=>void;let evaluated=0;let submitCount=0;
+ globalThis.fetch=(async(url)=>{
+  const path=String(url);
+  if(path==='/api/live-partner')return Response.json({ok:true});
+  if(path==='/api/speaking/attempts')return Response.json({attempt:{id:'attempt'}});
+  if(path==='/api/uploads/intent')return Response.json({uploadId:'upload',objectKey:'private/recording',mode:'direct',uploadUrl:'https://upload.test.invalid',contentType:'audio/webm'});
+  if(path==='/api/uploads/finalize'||path==='/api/speaking/attempts/attempt')return Response.json({ok:true});
+  if(path.endsWith('/submit')){submitCount++;return new Promise<Response>(done=>{resolve=done;});}
+  assert.fail(path);
+ }) as typeof fetch;
+ const root=createRoot(document.getElementById('root')!);
+ try{
+  await act(async()=>root.render(<AiQuestionRecorder dict={en} prompt={{id:'prompt',part:'part1',answerSeconds:45,promptText:'Question',cueCard:null} as React.ComponentProps<typeof AiQuestionRecorder>['prompt']} sessionId='session' itemId='item' index={1} onEvaluated={()=>evaluated++} onNext={()=>assert.fail('detached Next')} />));
+  await act(async()=>button(en.speakingAi.startAnswer).click());await act(async()=>button(en.speakingAi.stop).click());
+  await act(async()=>button(en.speakingAi.sendToRiwi).click());assert.equal(submitCount,1);
+  await act(async()=>root.unmount());await act(async()=>resolve(Response.json({evaluation:{id:'eval',strengths:[],weaknesses:[],issues:[],criteria:[],nextActions:[]}})));
+  assert.equal(evaluated,0);
+ }finally{await act(async()=>root.unmount());}
 });

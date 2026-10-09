@@ -97,6 +97,8 @@ export async function evaluateAndPersist(params: {
   policy?: ResolvePolicy;
   /** Last check before persisting; null rejects the result (nothing is saved). */
   normalize?: (result: EvaluationResult) => EvaluationResult | null;
+  /** Source-specific atomic fencing around the authoritative result write. */
+  persist?: (result: EvaluationResult) => Promise<{ record: EvaluationRecord; created: boolean }>;
 }): Promise<ServiceOutcome> {
   // 1. One authoritative evaluation per submission. An existing row is reused,
   //    so a retry never pays a provider twice and never produces a second,
@@ -125,13 +127,13 @@ export async function evaluateAndPersist(params: {
 
   // 3. Persist the result together with the identity of the evaluator that
   //    actually produced it.
-  const { record, created } = await saveEvaluation({
+  const { record, created } = await (params.persist ? params.persist(result) : saveEvaluation({
     userId: params.userId,
     evaluationType: params.evaluationType,
     sourceType: params.sourceType,
     sourceId: params.sourceId,
     result,
-  });
+  }));
 
   if (created) {
     // Real work was produced and recorded: the retention clock cares about this,

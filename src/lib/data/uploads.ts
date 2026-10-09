@@ -450,6 +450,7 @@ export async function attachRecordingToAttempt(input: {
   uploadId: string;
   durationMs?: number;
 }): Promise<{ ok: true; objectKey: string } | { ok: false; status: number; error: string }> {
+  if (input.durationMs !== undefined && (!Number.isInteger(input.durationMs) || input.durationMs < 1 || input.durationMs > 3_600_000)) return { ok: false, status: 400, error: "invalid_input" };
   return db.transaction(async (tx) => {
     // Resolve the lifecycle lock before locking the attempt. Pending/aborted
     // cleanup must not wait on an attempt held by a caller waiting on its intent.
@@ -471,7 +472,7 @@ export async function attachRecordingToAttempt(input: {
     if (!attempt || attempt.userId !== input.userId) {
       return { ok: false as const, status: 404, error: "attempt_not_found" };
     }
-    if (attempt.status !== "recording") {
+    if (attempt.status !== "recording" || attempt.evaluationClaimToken) {
       return { ok: false as const, status: 409, error: "attempt_already_submitted" };
     }
     const [account] = await tx.select({ status: users.accountStatus }).from(users)

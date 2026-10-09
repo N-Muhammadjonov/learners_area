@@ -17,7 +17,7 @@ type Session = { id: string; mode: AiMode; status: string; currentItemIndex: num
 type Item = { id: string; ordinal: number; topicKey: string; topicPosition: number; questionPosition: number; status: string; attemptId: string | null; prompt: Prompt | null };
 type SessionPayload = { session: Session | null; items: Item[] };
 type SessionSummary = {
-  answered: number; skipped: number; totalDurationMs: number; textBasedEstimate: number | null;
+  answered: number; skipped: number; evaluated: number; unevaluated: number; completeEvidence: boolean; totalDurationMs: number; textBasedEstimate: number | null;
   criteria: Array<{ key: string; label: string; estimate: number; evidenceCount: number }>;
   strengths: string[]; weaknesses: string[]; recurringWeaknesses: Array<{ category: string; count: number }>;
 };
@@ -160,6 +160,7 @@ export function AiExaminerSession({ dict, prompts, readiness, isStaff }: {
       <p className="text-sm text-ink-700">{t.finishedBody.replace("{n}", String(summary?.answered ?? items.filter((item) => item.status === "answered").length)).replace("{total}", String(items.length))}</p>
       <p className="text-sm text-ink-500">{t.summaryHonesty}</p>
       {summary && <>
+        <p className="text-sm text-ink-500" data-ai-summary-coverage>{t.summaryCoverage.replace("{evaluated}", String(summary.evaluated)).replace("{answered}", String(summary.answered))}</p>
         {summary.textBasedEstimate !== null && <div className="text-center"><p className="text-xs uppercase tracking-wide text-ink-500">{t.textBasedEstimate}</p><p className="font-display text-4xl text-ink-900">{summary.textBasedEstimate.toFixed(1)}</p></div>}
         {summary.criteria.length > 0 && <div className="divide-y divide-ink-100 rounded-md border border-ink-100">{summary.criteria.map((criterion) => <div key={criterion.key} className="flex justify-between gap-3 p-3 text-sm"><span>{criterion.label}</span><strong>{criterion.estimate.toFixed(1)}</strong></div>)}</div>}
         <div className="grid gap-3 sm:grid-cols-2">

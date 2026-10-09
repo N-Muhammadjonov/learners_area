@@ -1,10 +1,11 @@
+import { learnerSpeakingAttempt } from "@/lib/speaking/attempt-projection";
 import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { speakingAttempts } from "@/db/schema";
 import { isStaff, requireActiveUser } from "@/lib/auth/current-user";
-import { deleteEvaluationsForSource } from "@/lib/data/evaluations";
+import { discardSpeakingAttempt } from "@/lib/data/speaking-submission";
 import { attachRecordingToAttempt } from "@/lib/data/uploads";
 import { getStorageService } from "@/lib/services/storage";
 
@@ -29,7 +30,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
 
-  return NextResponse.json({ ok: true, attempt });
+  return NextResponse.json({ ok: true, attempt: isReviewer ? attempt : learnerSpeakingAttempt(attempt) });
 }
 
 /**
@@ -43,21 +44,9 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   const user = await requireActiveUser();
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
-  const attempt = await db.query.speakingAttempts.findFirst({
-    where: eq(speakingAttempts.id, id),
-  });
-  if (!attempt) return NextResponse.json({ error: "not_found" }, { status: 404 });
-  if (attempt.userId !== user.id) return NextResponse.json({ error: "forbidden" }, { status: 403 });
-  if (attempt.status !== "recording") {
-    return NextResponse.json({ error: "attempt_already_submitted" }, { status: 409 });
-  }
-
-  const key = attempt.recordingObjectKey;
-  // An evaluation's sourceId is polymorphic and therefore has no cascade, so the
-  // evaluation of a discarded attempt is removed explicitly.
-  await deleteEvaluationsForSource({ sourceType: "speaking_attempt", sourceId: id });
-  await db.delete(speakingAttempts).where(eq(speakingAttempts.id, id));
-
+  const result = await discardSpeakingAttempt(db, user.id, id);
+  if (!result.ok) return NextResponse.json({ error: result.error }, { status: result.status });
+  const key = result.objectKey;
   if (key) {
     const storage = getStorageService();
     await storage.delete(key).catch((err) => console.warn(`Failed to delete recording ${key}:`, err));

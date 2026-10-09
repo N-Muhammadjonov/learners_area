@@ -2216,6 +2216,7 @@ const en = {
     topicComplete: "Topic complete",
     topicCompleteBody: "RIWI will now move to the next topic or part.",
     summaryTitle: "Speaking Practice Summary",
+    summaryCoverage: "Assessed answers: {evaluated}/{answered}. Answers without an assessment are excluded.",
     summaryHonesty: "Per-answer feedback is based on the assessed textual criteria. This is not a complete IELTS Speaking band.",
     textBasedEstimate: "Text-based speaking estimate",
     newSession: "New session",

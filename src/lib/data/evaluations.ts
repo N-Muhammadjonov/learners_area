@@ -128,8 +128,8 @@ function toRecord(row: EvaluationRow): EvaluationRecord {
 export async function findEvaluation(params: {
   sourceType: string;
   sourceId: string;
-}): Promise<EvaluationRecord | null> {
-  const row = await db.query.evaluations.findFirst({
+}, database: Pick<typeof db, "query"> = db): Promise<EvaluationRecord | null> {
+  const row = await database.query.evaluations.findFirst({
     where: and(eq(evaluations.sourceType, params.sourceType), eq(evaluations.sourceId, params.sourceId)),
   });
   return row ? toRecord(row) : null;
@@ -158,9 +158,9 @@ export async function deleteEvaluationsForSource(params: {
 export async function findEvaluationsForSources(params: {
   sourceType: string;
   sourceIds: string[];
-}): Promise<Map<string, EvaluationRecord>> {
+}, database: Pick<typeof db, "query"> = db): Promise<Map<string, EvaluationRecord>> {
   if (params.sourceIds.length === 0) return new Map();
-  const rows = await db.query.evaluations.findMany({
+  const rows = await database.query.evaluations.findMany({
     where: and(
       eq(evaluations.sourceType, params.sourceType),
       inArray(evaluations.sourceId, params.sourceIds)
@@ -321,15 +321,15 @@ export async function saveEvaluation(params: {
   sourceType: string;
   sourceId: string;
   result: EvaluationResult;
-}): Promise<{ record: EvaluationRecord; created: boolean }> {
+}, database: Pick<typeof db, "query" | "insert"> = db): Promise<{ record: EvaluationRecord; created: boolean }> {
   const { result } = params;
   const existing = await findEvaluation({
     sourceType: params.sourceType,
     sourceId: params.sourceId,
-  });
+  }, database);
   if (existing) return { record: existing, created: false };
 
-  const inserted = await db
+  const inserted = await database
     .insert(evaluations)
     .values({
       userId: params.userId,
@@ -370,7 +370,7 @@ export async function saveEvaluation(params: {
   if (row) return { record: toRecord(row), created: true };
 
   // Lost a race with a concurrent evaluation of the same source.
-  const raced = await findEvaluation({ sourceType: params.sourceType, sourceId: params.sourceId });
+  const raced = await findEvaluation({ sourceType: params.sourceType, sourceId: params.sourceId }, database);
   if (!raced) throw new Error("evaluation_write_failed");
   return { record: raced, created: false };
 }

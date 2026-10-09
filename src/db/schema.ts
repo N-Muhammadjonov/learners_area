@@ -1320,6 +1320,10 @@ export const speakingAttempts = pgTable("speaking_attempts", {
   recordingMimeType: varchar("recording_mime_type", { length: 120 }),
   recordingSize: integer("recording_size"), // bytes
   recordingDurationMs: integer("recording_duration_ms"),
+  recordingSha256: varchar("recording_sha256", { length: 64 }),
+  /** Fenced, expiring provider work; never hold a DB connection across a model call. */
+  evaluationClaimToken: uuid("evaluation_claim_token"),
+  evaluationClaimExpiresAt: timestamp("evaluation_claim_expires_at", { withTimezone: true }),
   // Null until a transcript exists. Never a guess.
   transcript: text("transcript"),
   transcriptProvider: varchar("transcript_provider", { length: 60 }),
@@ -1341,7 +1345,10 @@ export const speakingAttempts = pgTable("speaking_attempts", {
   startedAt: timestamp("started_at", { withTimezone: true }).defaultNow().notNull(),
   submittedAt: timestamp("submitted_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-});
+}, (table) => [
+  check("speaking_recording_sha256_check", sql`${table.recordingSha256} is null or ${table.recordingSha256} ~ '^[a-f0-9]{64}$'`),
+  check("speaking_evaluation_claim_pair_check", sql`(${table.evaluationClaimToken} is null) = (${table.evaluationClaimExpiresAt} is null)`),
+]);
 
 /** Immutable examiner plans. Prompt text remains canonical in speaking_prompts. */
 export const speakingAiSessions = pgTable("speaking_ai_sessions", {

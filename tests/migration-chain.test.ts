@@ -54,7 +54,7 @@ test("populated prefix through 0045 upgrades in journal order without skipping l
   } finally { await client.close(); }
 });
 
-test("fresh hash migration applies all 50 entries and a second run is a no-op", async () => {
+test("fresh hash migration applies the complete current chain and a second run is a no-op", async () => {
   const client = new PGlite();
   try {
     assert.equal((await applyMigrationChain(migrationClient(client), chain)).length, chain.length);
@@ -101,4 +101,13 @@ test("production inspection accepts valid hashes in application order and refuse
   assert.equal(decide({ ...info, history: [{ hash: "0".repeat(64), created_at: 1 }] }, chain).verdict, "divergent");
   const skipped = [...prefix, rows[49]!];
   assert.equal(decide({ ...info, historyRows: skipped.length, history: skipped }, chain).verdict, "resume");
+});
+
+
+test("timestamp-skip recovery permits only the same three omissions and a contiguous hash-verified later suffix", () => {
+ const row=(entry:Entry)=>({hash:entry.hash,created_at:entry.when});
+ const suffix=chain.slice(49);
+ assert.deepEqual(planMigrationHistory(chain,[...chain.slice(0,46),...suffix].map(row)).map((entry:Entry)=>entry.tag),chain.slice(46,49).map(entry=>entry.tag));
+ const sql="select 51";const extended=[...chain,{idx:chain.length,tag:"0051_test",when:1791500000013,sql,hash:hash(sql)}];
+ assert.throws(()=>planMigrationHistory(extended,[...chain.slice(0,46),chain[49]!,extended.at(-1)!].map(row)),/gap/);
 });

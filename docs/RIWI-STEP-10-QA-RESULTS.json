@@ -1,0 +1,114 @@
+{
+  "base_commit": "985ade6983e7efbdb900f852ab9216996bcd0d2f",
+  "target_branch": "arena/01a10bac-learners-area",
+  "code_sha256": {
+    "drizzle/0050_speaking_fenced_evaluation.sql": "c604e05123b3b5bd8293809e843ddd2f78e43af6923a7158ddaf3ac8765cd953",
+    "drizzle/meta/0050_snapshot.json": "f6b6ae0c2a3b369123b5947d8fca4d65874e95e0e5a650757e4bf343e1f95c71",
+    "drizzle/meta/_journal.json": "e30255b873e8d3461f5b093b58fa1b9a024047c607e8784788000a5877634d04",
+    "scripts/migration-chain.mjs": "6888e57bd8cb3f3fc031434de2782300fe3afc93d24281e334baad670cb99e46",
+    "src/app/api/speaking/ai/sessions/[id]/complete/route.ts": "62be86cfcb24588c6c03b8ed19ae8db4404edae77d56b46008dd92501e27fc06",
+    "src/app/api/speaking/attempts/[id]/route.ts": "9b2f3db0ea4152a497a2b92ca0b17701fc3d2a03a68e81247ae024dd9d865523",
+    "src/app/api/speaking/attempts/[id]/submit/route.ts": "8c65042727fb29047f7b8fccccef54125839a8d34a61bad8833235131a29888c",
+    "src/app/api/speaking/attempts/route.ts": "646fe88c5ab5a02d530a0227b6ffbf8752e27eabada2b6d8f6117fd3104e864a",
+    "src/components/speaking/AiExaminerSession.tsx": "7d4e90e6f50403e8e3c9de96ed912fce8683a3eb037383afedf0d53db73893dd",
+    "src/components/speaking/AiQuestionRecorder.tsx": "f24252404194adeb798df873d253d1f519672221986802ec10dcabbf152eb789",
+    "src/db/schema.ts": "a2585b4e96ed115ea7627206a4788db9c810666353a26bde369c247b0afa61b4",
+    "src/lib/data/evaluations.ts": "e545778af7de0261d3960c24b9bede3d1a4240c6e61d4c8d88359f2705d38a3c",
+    "src/lib/data/speaking-ai-sessions.ts": "941f06c9b6eacd2619f1214d39ed19d9d059a63c5c495b9c881dbae21bbe5651",
+    "src/lib/data/speaking-session-summary.ts": "73ddceb766c16c2774f42f3c081be3e4d59b957ccec0b7fba8daf88ff27560b6",
+    "src/lib/data/speaking-submission.ts": "6da4743ed863a336d6a7e575e66b8538138bdd265f46915182a97730fdd57bc1",
+    "src/lib/data/uploads.ts": "0404abbc77968ed16504080631326a326b5581592e86af0bd4e1dec81064a3dd",
+    "src/lib/i18n/en.ts": "6f2f95bab5d098a485573f359395a98fb4f1c0936097b2094a85d5bc84437ac7",
+    "src/lib/i18n/uz.ts": "939c31d1d799ec5c0315abc1e5a396f48ee439952ac79650cd3df29399e7009a",
+    "src/lib/services/coach/service.ts": "0c03814d6ce3d2acafa345b48ec1998e032597b3c247c0ae03ae41da3e2b408b",
+    "src/lib/services/coach/speaking.ts": "c157f038a75c721c29f74d13e2f44cb4caff50509455389b49bef9386ab1331d",
+    "src/lib/speaking/attempt-projection.ts": "3f7c1888671c6aef15e462c6c9ad244e34aa4d8a8f193d38ef5c3a3a38ba1ef4",
+    "tests/migration-chain.test.ts": "a4d80c5d078d61ae4256719f1b54514d838fb0f9d74eb8f75331bde5c9e98f76",
+    "tests/speaking-contract-boundaries.test.ts": "d7c08093a2f5a670f4965fc5524a5470c939096b6d4ed5ab5a542eb8faa62a80",
+    "tests/speaking-private-recording.test.ts": "91454cbdb41df4fea345492f2f420ad5d42058a4cc8c0fa32a7853dd89de5aa2",
+    "tests/speaking-submission-retry.test.ts": "993d677fe028c7fc09192546fef8351d28aa15f529adf5f0f6c72fc948e53615",
+    "tests/speaking-summary-evidence.test.ts": "7e8a15645ba5e907e7d026a46a9a41b53aa42485b0b82940cc3a2c29980830d1",
+    "tests/ui/speaking-ai-feedback-flow.test.tsx": "c2f68ac9166e22768fed321d7e732a263cdb5c845f8d13cd02779f82f17a130d",
+    "tests/ui/speaking-microphone-boundaries.test.tsx": "edaaa4de4feb6a1953b752c449369115e02e09ce14c71e35fabf3adb8ac916c2"
+  },
+  "logs": {
+    "backend": {
+      "filename": "riwi-step10-backend-publish.log",
+      "sha256": "a6dc6c59e9f1183092089c15c64581c173e2c8467330188330eb25bdeb75b29f"
+    },
+    "ui": {
+      "filename": "riwi-step10-ui-final.log",
+      "sha256": "3cb692b22fb02d856992fd811fd684b08cf310f64a0e535e20620a66653bd030"
+    },
+    "typecheck": {
+      "filename": "riwi-step10-typecheck-publish.log",
+      "sha256": "5d67ea7ba0cdcb67cf34b4b132066d5cd00b857a31cc804006ed533f4aab0717"
+    },
+    "lint": {
+      "filename": "riwi-step10-lint-publish.log",
+      "sha256": "63b6b500220f93347722b6b4ab90d1bc1f5a32bfe848b62f2565bcb75b5b71a6"
+    },
+    "build": {
+      "filename": "riwi-step10-build-release.log",
+      "sha256": "5b0071f0f53d7ea86a44946335ba695fd03c8da2a0de5e9d34e722628d8788aa"
+    }
+  },
+  "full_backend": {
+    "command": "node --max-old-space-size=2048 --conditions=react-server --import tsx --test --test-concurrency=1 tests/*.test.ts",
+    "tests": 1257,
+    "passed": 1163,
+    "failed": 3,
+    "skipped": 91,
+    "duration_ms": 281269.783084,
+    "exit_code": 1,
+    "status": "NATIVE_GATE_PENDING",
+    "failures": [
+      {
+        "file": "tests/live-partner-call-engine.test.ts",
+        "cause": "local socket bind listen EPERM",
+        "native_rerun_required": true
+      },
+      {
+        "file": "tests/live-signal-service.test.ts",
+        "cause": "local socket bind listen EPERM",
+        "native_rerun_required": true
+      },
+      {
+        "file": "tests/ssrf-pinning.test.ts",
+        "cause": "local socket bind listen EPERM",
+        "native_rerun_required": true
+      }
+    ],
+    "skips_are_pass": false
+  },
+  "full_ui": {
+    "command": "npm run test:ui",
+    "tests": 250,
+    "passed": 250,
+    "failed": 0,
+    "skipped": 0,
+    "exit_code": 0
+  },
+  "typecheck": {
+    "command": "npm run typecheck",
+    "exit_code": 0
+  },
+  "lint": {
+    "command": "npm run lint",
+    "exit_code": 0
+  },
+  "production_build": {
+    "command": "npm run build",
+    "exit_code": 0
+  },
+  "acceptance_boundaries": [
+    "No native PostgreSQL concurrency receipt for this patch; PGlite tests are not native PostgreSQL proof.",
+    "Private URL SDK signature and five-minute TTL verified; real expired R2 HTTP request not executed.",
+    "Provider adapters use deterministic fixtures; not live provider acceptance.",
+    "React/JSDOM lifecycle is not real microphone/SpeechRecognition browser acceptance.",
+    "0050 migration not applied to any live database; deploy only after authorized target migration and operational QA.",
+    "91 source/environment skips remain unverified."
+  ],
+  "closure_credit_for_this_batch": 0,
+  "remote_verification": "PENDING native QA and push, then exact GitHub blob verification"
+}

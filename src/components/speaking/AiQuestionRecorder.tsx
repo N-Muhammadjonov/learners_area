@@ -59,7 +59,7 @@ export function AiQuestionRecorder({ dict, prompt, sessionId, itemId, index, ret
 
   const stopTimer = useCallback(() => { if (timerRef.current) clearInterval(timerRef.current); timerRef.current = null; }, []);
   const cleanup = useCallback(() => {
-    generationRef.current++; acquiringRef.current = false; stoppingRef.current = false;
+    generationRef.current++; acquiringRef.current = false; stoppingRef.current = false; submittingRef.current = false;
     microphoneRequest.current?.abort(); microphoneRequest.current = null;
     stopTimer(); uploadRef.current?.cancel(); uploadRef.current = null;
     recorderRef.current?.cancel(); recorderRef.current = null; resetStt();
@@ -162,13 +162,13 @@ export function AiQuestionRecorder({ dict, prompt, sessionId, itemId, index, ret
   }
 
   async function clear(deleteAttempt = true) {
-    cleanup(); recordingAttachedRef.current = false; setSubmissionAttempted(false); setRecording(null); setPlaybackUrl(null); setRawTranscript(""); setTranscript(""); setEdited(false); setEvaluation(null); setElapsed(0); setPhase("idle");
-    if (deleteAttempt && attemptId) {
-      await fetch(`/api/speaking/attempts/${attemptId}`, { method: "DELETE", signal: AbortSignal.timeout(5000) }).catch(() => {});
-    } else if (!deleteAttempt && attemptId) {
-      retryParentRef.current = attemptId;
+    const discardedId = attemptId;
+    cleanup(); setAttemptId(null); recordingAttachedRef.current = false; setSubmissionAttempted(false); setRecording(null); setPlaybackUrl(null); setRawTranscript(""); setTranscript(""); setEdited(false); setEvaluation(null); setElapsed(0); setPhase("idle");
+    if (deleteAttempt && discardedId) {
+      await fetch(`/api/speaking/attempts/${discardedId}`, { method: "DELETE", signal: AbortSignal.timeout(5000) }).catch(() => {});
+    } else if (!deleteAttempt && discardedId) {
+      retryParentRef.current = discardedId;
     }
-    setAttemptId(null);
   }
 
   async function send() {
@@ -177,6 +177,8 @@ export function AiQuestionRecorder({ dict, prompt, sessionId, itemId, index, ret
     // Server STT may be used only when no reviewed text exists; manual/browser text is explicit otherwise.
     if (reviewed.length < 10) { setError(t.transcriptRequired); return; }
     submittingRef.current = true; setError("");
+    const generation = generationRef.current;
+    const current = () => alive.current && generationRef.current === generation;
     try {
       if (!recordingAttachedRef.current) {
         const file = new File([recording.blob], `speaking-${Date.now()}.${extensionForMime(recording.mimeType)}`, { type: recording.mimeType });
@@ -186,9 +188,11 @@ export function AiQuestionRecorder({ dict, prompt, sessionId, itemId, index, ret
         const handle = startUpload(file, { purpose: "speaking_recording", speakingAttemptId: attemptId });
         uploadRef.current = handle;
         const outcome = await handle.promise;
+        if (!current()) return;
         uploadRef.current = null;
         if (!outcome.ok) { setError(practice.uploadFailed); setPhase("review"); return; }
         const attach = await request(`/api/speaking/attempts/${attemptId}`, { method: "PATCH", body: { uploadId: outcome.uploadId, durationMs: recording.durationMs } });
+        if (!current()) return;
         if (!attach?.ok) { setError(attach ? apiErrorMessage(attach.error, attach.status, dict) : practice.errors.unknown); setPhase("review"); return; }
         recordingAttachedRef.current = true;
       }
@@ -198,11 +202,13 @@ export function AiQuestionRecorder({ dict, prompt, sessionId, itemId, index, ret
         ? { durationMs: recording.durationMs, browserTranscript: reviewed, browserTranscriptRaw: rawTranscript, browserTranscriptEdited: edited }
         : { durationMs: recording.durationMs, manualTranscript: reviewed };
       const result = await request<{ evaluation: Evaluation | null }>(`/api/speaking/attempts/${attemptId}/submit`, { body, timeoutMs: 60_000 });
+      if (!current()) return;
       if (!result?.ok) { setError(result ? apiErrorMessage(result.error, result.status, dict) : practice.errors.unknown); setPhase("review"); return; }
-      setEvaluation(result.data?.evaluation ?? null);
+      if (!result.data?.evaluation) { setError(t.feedbackUnavailable); setPhase("review"); return; }
+      setEvaluation(result.data.evaluation);
       setPhase("feedback"); onEvaluated(attemptId);
-    } catch { setError(practice.errors.unknown); setPhase("review"); }
-    finally { submittingRef.current = false; }
+    } catch { if (current()) { setError(practice.errors.unknown); setPhase("review"); } }
+    finally { if (current()) submittingRef.current = false; }
   }
 
   if (!isRecordingSupported()) return <Card><p className="text-sm text-band-bad">{practice.unsupportedBody}</p></Card>;

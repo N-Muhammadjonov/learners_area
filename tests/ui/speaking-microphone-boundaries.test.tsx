@@ -135,3 +135,15 @@ test("unmount during asynchronous recorder Stop releases tracks and the pending 
     deadlines.clear(); intervals.clear();
   }
 });
+
+test("Part 2 preparation keeps the microphone off; early Start and timer limit only enter review", async () => {
+ const now = Date.now; let clock = now(); Date.now = () => clock;
+ try {
+  await fixture(<AiQuestionRecorder dict={en} prompt={{...prompt,part:"part2",cueCard:"Describe a book."}} sessionId="session" itemId="item" index={1} onEvaluated={()=>assert.fail("no implicit send")} onNext={()=>{}} />,async()=>{
+   await act(async()=>button(en.speakingAi.startAnswer).click());assert.equal(starts,0);assert.equal(document.querySelector('[data-ai-answer-phase]')!.getAttribute('data-ai-answer-phase'),'preparing');
+   await act(async()=>button(en.speakingAi.startEarly).click());assert.equal(starts,1);assert.equal(intervals.size,1,"preparation clock is removed before recording");
+   clock+=120_001;await act(async()=>[...intervals.values()].forEach(fn=>fn()));
+   assert.equal(document.querySelector('[data-ai-answer-phase]')!.getAttribute('data-ai-answer-phase'),'review');assert.equal(stopped,1);assert.ok(document.querySelector('textarea'));assert.equal(intervals.size,0);
+  });
+ }finally { Date.now=now; }
+});

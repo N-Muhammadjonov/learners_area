@@ -1,3 +1,5 @@
+import { isLive } from "@/lib/services/cms/publication";
+import { learnerSpeakingAttempt } from "@/lib/speaking/attempt-projection";
 import { NextRequest, NextResponse } from "next/server";
 import { and, desc, eq } from "drizzle-orm";
 import { db } from "@/db/client";
@@ -32,7 +34,7 @@ export async function POST(req: NextRequest) {
     const prompt = await db.query.speakingPrompts.findFirst({
       where: eq(speakingPrompts.id, data.promptId),
     });
-    if (!prompt || !prompt.isActive) {
+    if (!prompt || !isLive(prompt) || !prompt.availableIn.includes("practice_alone") || prompt.part !== data.part) {
       return NextResponse.json({ error: "prompt_not_found" }, { status: 404 });
     }
   }
@@ -69,7 +71,7 @@ export async function POST(req: NextRequest) {
     })
     .returning();
 
-  return NextResponse.json({ ok: true, attempt: created });
+  return NextResponse.json({ ok: true, attempt: learnerSpeakingAttempt(created!) });
 }
 
 export async function GET(_req: NextRequest) {

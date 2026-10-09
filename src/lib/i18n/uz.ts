@@ -2211,6 +2211,7 @@ const uz: Dictionary = {
     topicComplete: "Mavzu tugadi",
     topicCompleteBody: "RIWI endi keyingi mavzu yoki qismga o'tadi.",
     summaryTitle: "Speaking mashqi xulosasi",
+    summaryCoverage: "Baholangan javoblar: {evaluated}/{answered}. Baholanmagan javoblar hisobga kiritilmaydi.",
     summaryHonesty: "Har bir javob fikri baholangan matn mezonlariga asoslangan. Bu to'liq IELTS Speaking bandi emas.",
     textBasedEstimate: "Matnga asoslangan speaking bahosi",
     newSession: "Yangi sessiya",

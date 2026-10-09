@@ -30,12 +30,16 @@ export function planMigrationHistory(chain, rows) {
   const firstMissing = chain.findIndex((entry) => !applied.has(entry.hash));
   if (firstMissing !== -1 && chain.slice(firstMissing).some((entry) => applied.has(entry.hash))) {
     // Only the observed timestamp-skip defect is recoverable automatically:
-    // 0000–0045 were applied, 0046–0048 missing, 0049 already applied.
+    // 0000–0045 applied, only 0046–0048 missing, a contiguous verified suffix
+    // starting at 0049 already applied. No other gap is accepted.
+    const suffix = chain.slice(49);
+    const suffixMissing = suffix.findIndex((entry) => !applied.has(entry.hash));
+    const suffixIsPrefix = suffixMissing === -1 || suffix.slice(suffixMissing).every((entry) => !applied.has(entry.hash));
     const recoverable = firstMissing === 46 && chain.slice(0, 46).every((entry) => applied.has(entry.hash))
       && chain.slice(46, 49).every((entry) => !applied.has(entry.hash))
       && chain[46]?.tag === "0046_tiny_george_stacy" && chain[47]?.tag === "0047_bent_bulldozer"
       && chain[48]?.tag === "0048_condemned_pyro" && chain[49]?.tag === "0049_riwi_online_activity_baseline"
-      && chain.slice(49).filter((entry) => applied.has(entry.hash)).length === 1 && applied.has(chain[49].hash);
+      && suffixIsPrefix && applied.has(chain[49].hash);
     if (!recoverable) throw new Error("migration_history_gap");
   }
   return chain.filter((entry) => !applied.has(entry.hash));

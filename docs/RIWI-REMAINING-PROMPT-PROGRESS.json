@@ -1,11 +1,11 @@
 {
   "source": "RIWI_REMAINING_WORK_EXECUTION_PROMPT.txt",
   "source_sha256": "daf36b256a990b7fa5379fd121810991bad552f638c776e8d9b55dcb22847979",
-  "verified_remote_base": "98e51799576d288175e2349e913e5ff4506ca1ee",
+  "verified_remote_base": "985ade6983e7efbdb900f852ab9216996bcd0d2f",
   "method": "Equal-weight full-group acceptance: CLOSED / all 34 original R/B/C/D groups. Partial implementation receives no full-group credit. This is a verified closure metric, not a measure of development effort or existing product functionality.",
-  "closed": 2,
+  "closed": 7,
   "total": 34,
-  "verified_closure_percent": 5.88,
+  "verified_closure_percent": 20.59,
   "riwi_overall_percent": null,
   "project_overall_percent": null,
   "overall_unknown_reason": "No fully reconciled requirement denominator with current evidence for the entire RIWI or website project.",
@@ -74,8 +74,9 @@
     {
       "id": "B02",
       "requirement": "Wire task-specific contracts from server-loaded canonical metadata. Review the inherited objective-runtime candidate in Reading submit and Listening attempt write. Ensure every authored subtype/MCQ selection count has correct canonical mapping and official grading remains unchanged. Unknown or unsupported metadata must fail safely without corrupting a submission.",
-      "status": "QA_READY_PENDING_NATIVE_GATES_AND_REMOTE",
-      "evidence_and_remaining": "Step 09 code and local regression evidence: RIWI-STEP-09-LIFECYCLE-CANONICAL-RUNTIME-2026-10-09.md. Requires full native Terminal gates and independent remote changed-blob verification before CLOSED. Real browser/source/deployment acceptance is separately open in R05/R06/C08/C09."
+      "status": "CLOSED",
+      "commit": "985ade6983e7efbdb900f852ab9216996bcd0d2f",
+      "evidence": "Step 09 code-level group acceptance: QA report and lifecycle/canonical runtime evidence; user reported successful completion of mandatory native publication script. Independently checked GitHub ref and all 27 changed Git blobs. External original-source/live-browser/deployment acceptance remains separately open in R05/R06/C08/C09."
     },
     {
       "id": "B03",
@@ -92,8 +93,8 @@
     {
       "id": "B05",
       "requirement": "Validate all provider/local paths against the same contracts. Writing uses exactly four unique criteria, supported half-bands and server overall; evidence quotes must occur in source text. Speaking quotes must occur in reviewed transcript and pronunciation is Not assessed without real acoustic evidence. Grammar has no IELTS essay band. Test correct answers, acceptable alternatives, empty and malformed inputs, injections, provider schema drift, model fallback and persisted provenance.",
-      "status": "OPEN_UNVERIFIED",
-      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+      "status": "QA_READY_PENDING_NATIVE_GATES_AND_REMOTE",
+      "evidence_and_remaining": "Speaking parts use shared canonical reviewed-text contracts, supported unique half-bands, grounded quotes and server overall; transcript-only requests refuse pronunciation bands. Existing provider/local/Writing/Grammar contract regressions included in full backend gate. Native gate and applicable live-provider evidence still pending."
     },
     {
       "id": "B06",
@@ -111,44 +112,48 @@
     {
       "id": "C01",
       "requirement": "Review and finish inherited microphone/STT lifecycle changes. Current stop() detaches recognition handlers immediately and reads only finalRef; final results delivered asynchronously after SpeechRecognition.stop() can be discarded. Reproduce late-final events, no-speech end, interim/final replacement, duplicate events, denied permission, start failure, natural end, unmount and rapid retry. Keep review editable and no automatic server submission. Stop/reset/unmount must release listeners, recorder tracks, meters, timers and Blob URLs; discard stale callbacks without discarding a valid final result from the stopped recording.",
-      "status": "QA_READY_PENDING_NATIVE_GATES_AND_REMOTE",
-      "evidence_and_remaining": "Step 09 code and local regression evidence: RIWI-STEP-09-LIFECYCLE-CANONICAL-RUNTIME-2026-10-09.md. Requires full native Terminal gates and independent remote changed-blob verification before CLOSED. Real browser/source/deployment acceptance is separately open in R05/R06/C08/C09."
+      "status": "CLOSED",
+      "commit": "985ade6983e7efbdb900f852ab9216996bcd0d2f",
+      "evidence": "Step 09 code-level group acceptance: QA report and lifecycle/canonical runtime evidence; user reported successful completion of mandatory native publication script. Independently checked GitHub ref and all 27 changed Git blobs. External original-source/live-browser/deployment acceptance remains separately open in R05/R06/C08/C09."
     },
     {
       "id": "C02",
       "requirement": "Recorder lifecycle: cancellation while permission is pending, late getUserMedia resolution, aborted signal before/after allocation, constructor/start/stop errors, no stop event, repeated stop, zero bytes, real MIME and accurate elapsed recording time. Check every consuming component passes cancellation and releases pending requests, rather than testing the utility alone.",
-      "status": "QA_READY_PENDING_NATIVE_GATES_AND_REMOTE",
-      "evidence_and_remaining": "Step 09 code and local regression evidence: RIWI-STEP-09-LIFECYCLE-CANONICAL-RUNTIME-2026-10-09.md. Requires full native Terminal gates and independent remote changed-blob verification before CLOSED. Real browser/source/deployment acceptance is separately open in R05/R06/C08/C09."
+      "status": "CLOSED",
+      "commit": "985ade6983e7efbdb900f852ab9216996bcd0d2f",
+      "evidence": "Step 09 code-level group acceptance: QA report and lifecycle/canonical runtime evidence; user reported successful completion of mandatory native publication script. Independently checked GitHub ref and all 27 changed Git blobs. External original-source/live-browser/deployment acceptance remains separately open in R05/R06/C08/C09."
     },
     {
       "id": "C03",
       "requirement": "Verify microphone check uses non-zero audio energy and releases tracks; browser recording continues when STT is unsupported. Supported browser STT is an explicit capability, not guaranteed free universal transcription. Browser/vendor recognition does not prove acoustic pronunciation assessment.",
-      "status": "QA_READY_PENDING_NATIVE_GATES_AND_REMOTE",
-      "evidence_and_remaining": "Step 09 code and local regression evidence: RIWI-STEP-09-LIFECYCLE-CANONICAL-RUNTIME-2026-10-09.md. Requires full native Terminal gates and independent remote changed-blob verification before CLOSED. Real browser/source/deployment acceptance is separately open in R05/R06/C08/C09."
+      "status": "CLOSED",
+      "commit": "985ade6983e7efbdb900f852ab9216996bcd0d2f",
+      "evidence": "Step 09 code-level group acceptance: QA report and lifecycle/canonical runtime evidence; user reported successful completion of mandatory native publication script. Independently checked GitHub ref and all 27 changed Git blobs. External original-source/live-browser/deployment acceptance remains separately open in R05/R06/C08/C09."
     },
     {
       "id": "C04",
       "requirement": "Verify canonical stable randomized examiner plan: part selection, same-topic clusters, stable refresh/resume, no duplicates where enough bank entries exist, related Part 2/3, no client question substitution, insufficient-bank handling. Preserve Practice on Your Own.",
-      "status": "QA_READY_PENDING_NATIVE_GATES_AND_REMOTE",
-      "evidence_and_remaining": "Step 09 code and local regression evidence: RIWI-STEP-09-LIFECYCLE-CANONICAL-RUNTIME-2026-10-09.md. Requires full native Terminal gates and independent remote changed-blob verification before CLOSED. Real browser/source/deployment acceptance is separately open in R05/R06/C08/C09."
+      "status": "CLOSED",
+      "commit": "985ade6983e7efbdb900f852ab9216996bcd0d2f",
+      "evidence": "Step 09 code-level group acceptance: QA report and lifecycle/canonical runtime evidence; user reported successful completion of mandatory native publication script. Independently checked GitHub ref and all 27 changed Git blobs. External original-source/live-browser/deployment acceptance remains separately open in R05/R06/C08/C09."
     },
     {
       "id": "C05",
       "requirement": "Verify Stop -> transcript review/edit/playback/re-record -> explicit Send to RIWI -> pending -> evidence-based feedback -> Try again/Next. Test no send on Stop/timer, no partial transcript upload, duplicate send idempotency, provider timeout/retry and route/unmount cleanup. Bind attempt to persisted session item/question and latest valid answer generation.",
-      "status": "PARTIAL",
-      "evidence_and_remaining": "Step 09 repairs disappearing feedback and duplicate advance/create; React explicit-send/feedback/Next journey passes. Provider timeout/retry and full browser/route cleanup acceptance remains open."
+      "status": "QA_READY_PENDING_NATIVE_GATES_AND_REMOTE",
+      "evidence_and_remaining": "Explicit Send remains required; unmount invalidates callbacks, delayed discard cannot erase a new attempt. Committed evaluation leases fence stale workers; retries preserve reviewed text and reuse one result. Native gate and remote blob verification pending; actual browser/provider journeys remain unverified."
     },
     {
       "id": "C06",
       "requirement": "Verify audio/raw/reviewed transcript provenance, original-vs-edited distinction, transcriptChanged, provider/model/fallback truth, recording duration/MIME/size/hash and history linkage. Do not overwrite the raw source when the user edits. Keep audio private and test foreign attempt/object IDs and expired signed URLs.",
-      "status": "OPEN_UNVERIFIED",
-      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+      "status": "QA_READY_PENDING_NATIVE_GATES_AND_REMOTE",
+      "evidence_and_remaining": "Owned private bytes establish SHA256; raw/reviewed transcript and edited state remain distinct and immutable on evaluation retry. Internal worker/STT provenance excluded from learner projection. SDK signed GET key/300-second TTL and owned/foreign object authorization tested. Real expired R2 HTTP denial is still UNVERIFIED, so full-group closure is conditional on that evidence."
     },
     {
       "id": "C07",
       "requirement": "Verify Part 2 preparation keeps mic off, early-start behavior, recording limit and manual review. Session summary only aggregates supported evidence; transcript-only pronunciation remains Not assessed and incomplete coverage cannot produce a fabricated official score. Verify recurring-weakness/learning signals with consent and privacy rules.",
-      "status": "OPEN_UNVERIFIED",
-      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+      "status": "QA_READY_PENDING_NATIVE_GATES_AND_REMOTE",
+      "evidence_and_remaining": "Part 2 preparation has no microphone; early start and recording-limit review tested in React. Summary aggregates owned grounded evaluations, counts recurrence across distinct answers, and withholds overall for incomplete evidence. Pronunciation remains unassessed. Real browser and learning-signal consent/privacy acceptance remain separate mandatory checks."
     },
     {
       "id": "C08",
@@ -225,24 +230,17 @@
     }
   ],
   "pending_batch": {
-    "step": 9,
+    "step": 10,
     "groups": [
-      "B02",
-      "C01",
-      "C02",
-      "C03",
-      "C04"
+      "C05",
+      "C06",
+      "C07",
+      "B05"
     ],
-    "new_groups": [
-      "B02",
-      "C02",
-      "C03",
-      "C04"
-    ],
-    "new_group_percentage_points": 11.76,
-    "previous_partial_group_completed": "C01",
-    "conditional_closed_after_native_qa_and_remote_verification": 7,
-    "conditional_percent": 20.59,
-    "currently_credited": false
+    "group_scope_percent": 11.76,
+    "currently_credited": false,
+    "maximum_conditional_closed": 11,
+    "maximum_conditional_percent": 32.35,
+    "condition": "This is a scope target, not earned completion. Credit requires native gates, exact remote publication and every applicable group acceptance receipt. Remote push alone cannot close missing real URL expiry/browser/provider/privacy evidence."
   }
 }
