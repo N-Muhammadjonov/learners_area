@@ -13,7 +13,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { NextRequest } from "next/server";
-import { RULES, clientKey, consume, isBlocked, resetAll } from "../src/lib/http/rate-limit";
+import { RULES, clientKey, consume, isBlocked, resetAll, type RateLimitRule } from "../src/lib/http/rate-limit";
 
 function reqWith(headers: Record<string, string>): NextRequest {
   return new NextRequest("https://learnersarea.uz/api/auth/login", { headers });
@@ -64,7 +64,7 @@ test("a bucket key is always an IP literal, never arbitrary attacker text", () =
 
 test("header rotation can no longer defeat a per-IP limit end to end", () => {
   resetAll();
-  const rule = { name: "test_spoof", limit: 3, windowMs: 60_000 } satisfies typeof RULES.loginByIp;
+  const rule = { name: "test_spoof", limit: 3, windowMs: 60_000 } satisfies RateLimitRule;
 
   // One real client behind the proxy, rotating the forged prefix on every attempt.
   for (let i = 0; i < 3; i += 1) {
@@ -80,7 +80,7 @@ test("header rotation can no longer defeat a per-IP limit end to end", () => {
 
 test("genuinely different clients still get independent buckets", () => {
   resetAll();
-  const rule = { name: "test_distinct", limit: 2, windowMs: 60_000 } satisfies typeof RULES.loginByIp;
+  const rule = { name: "test_distinct", limit: 2, windowMs: 60_000 } satisfies RateLimitRule;
 
   const a = clientKey(reqWith({ "x-forwarded-for": "203.0.113.9" }));
   const b = clientKey(reqWith({ "x-forwarded-for": "203.0.113.10" }));

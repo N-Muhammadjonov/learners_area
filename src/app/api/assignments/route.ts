@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { desc, eq } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/db/client";
-import { activityEvents, assignments } from "@/db/schema";
+import { activityEvents, assignmentTargets, assignments } from "@/db/schema";
 import { listAssignmentsCreatedBy, listAssignmentsForStudent } from "@/lib/content/assignments";
 import { isStaff, requireActiveUser } from "@/lib/auth/current-user";
 import { createAssignment } from "@/lib/content/assignments";
@@ -94,17 +94,35 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true, assignment: { id: result.assignmentId } , contentVersionId: result.versionId }, { status: 201 });
   }
 
-  const [created] = await db
-    .insert(assignments)
-    .values({
-      title: parsed.data.title,
-      description: parsed.data.description ?? null,
-      createdByUserId: user.id,
-      targetUserId: parsed.data.targetUserId,
-      relatedWritingPromptId: parsed.data.relatedWritingPromptId ?? null,
+  // DEFECT FIXED HERE. This legacy path wrote the `assignments` row and nothing
+  // else, but the learner's list (listAssignmentsForStudent) reads through an INNER
+  // JOIN on `assignment_targets`. A writing-prompt assignment therefore returned 200
+  // to the teacher and was never visible to the student — assigned work that
+  // silently reached nobody. The target row is part of creating an assignment, not
+  // an extra the canonical path happens to do, so both paths now write it, and both
+  // do it in ONE transaction so an assignment can never exist without its target.
+  const created = await db.transaction(async (tx) => {
+    const [row] = await tx
+      .insert(assignments)
+      .values({
+        title: parsed.data.title,
+        description: parsed.data.description ?? null,
+        instructions: parsed.data.instructions ?? null,
+        createdByUserId: user.id,
+        targetUserId: parsed.data.targetUserId,
+        relatedWritingPromptId: parsed.data.relatedWritingPromptId ?? null,
+        dueAt: parsed.data.dueAt ? new Date(parsed.data.dueAt) : null,
+      })
+      .returning();
+
+    await tx.insert(assignmentTargets).values({
+      assignmentId: row!.id,
+      studentUserId: parsed.data.targetUserId,
       dueAt: parsed.data.dueAt ? new Date(parsed.data.dueAt) : null,
-    })
-    .returning();
+    });
+
+    return row;
+  });
 
   await db.insert(activityEvents).values({
     userId: parsed.data.targetUserId,

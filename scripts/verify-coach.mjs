@@ -163,7 +163,11 @@ await check("a submitted essay is evaluated and labelled with its real evaluator
   });
   assert.equal(submitted.status, 200, `submit failed: ${JSON.stringify(submitted.data)}`);
   assert.ok(submitted.data.checkedBy, "the response must name the evaluator");
-  assert.ok(["riwi", "internal"].includes(submitted.data.providerId) || submitted.data.providerId);
+  // The submit response deliberately returns the human LABEL (checkedBy) and not the
+  // internal provider id; the id is persisted and asserted against the database rows
+  // below, which is the authoritative place for it. The probe used to require a
+  // `providerId` field the API has never returned, which failed before any of the
+  // real evaluation assertions could run and took four more checks down with it.
   assert.equal(submitted.data.fallbackUsed, false, "RIWI is the configured provider, so no fallback is needed");
   createdEvaluationId = submitted.data.evaluationId;
 
@@ -173,6 +177,15 @@ await check("a submitted essay is evaluated and labelled with its real evaluator
   );
   assert.equal(rows.length, 1, "the evaluation must be persisted");
   assert.equal(rows[0].checked_by_name, rows[0].provider_display_name, "the label must match the stored provider");
+  // The provider identity IS asserted — against the stored row, and against the label
+  // the learner was shown, so the two can never drift apart silently.
+  assert.ok(rows[0].provider_id, "the evaluation must record which provider produced it");
+  assert.equal(
+    rows[0].checked_by_name,
+    submitted.data.checkedBy,
+    "the label returned to the learner must be the label that was stored"
+  );
+  assert.equal(rows[0].fallback_used, false, "no fallback was reported, so none may be recorded");
   assert.ok(rows[0].criteria.length >= 4, "the four writing criteria must be stored");
 });
 
@@ -227,7 +240,9 @@ await check("the Coach recommends the practice the weak signals point at", async
   assert.equal(new Set(areas).size, areas.length, "each practice area may be recommended once");
   for (const card of cards) {
     const body = card.slice(0, card.indexOf("</div></div>"));
-    assert.match(body, /href="\/(grammar|writing|speaking|vocabulary)/, "every recommendation must link at a practice page");
+    // The canonical authenticated namespace is /app/* since the route-tree migration;
+    // this regex still required the pre-migration top-level paths.
+    assert.match(body, /href="\/app\/(grammar|writing|speaking|vocabulary)/, "every recommendation must link at a practice page");
   }
 
   const resolvedOnly = await dbRows(
@@ -280,12 +295,36 @@ await check("a teacher can assign follow-up work and a student cannot", async ()
   });
   assert.equal(forbidden.status, 403, "a student must not be able to assign work");
 
+  // An assignment must POINT AT real content: either a canonical
+  // module/contentType/sourceRef triple or a writing prompt. The probe used to post
+  // only a title, which the API now refuses with missing_content_reference — a
+  // deliberate rule that stops dangling tasks, not a defect. Keep the rule under
+  // test rather than working around it.
+  const danglingPrompt = await teacher.request("/api/assignments", {
+    method: "POST",
+    body: {
+      title: "Assignment that points at nothing",
+      description: "Should be refused.",
+      targetUserId: studentId,
+    },
+  });
+  assert.equal(
+    danglingPrompt.status,
+    400,
+    "an assignment with no content reference must be refused"
+  );
+  assert.equal(danglingPrompt.data?.error, "missing_content_reference");
+
+  const promptRows = await dbRows("select id from writing_prompts order by created_at limit 1");
+  assert.ok(promptRows.length > 0, "seeded writing prompts are required");
+
   const created = await teacher.request("/api/assignments", {
     method: "POST",
     body: {
       title: "Rewrite your introduction with a clear position",
       description: "Focus on the first two sentences only.",
       targetUserId: studentId,
+      relatedWritingPromptId: promptRows[0].id,
     },
   });
   assert.equal(created.status, 200, `assignment creation failed: ${JSON.stringify(created.data)}`);
@@ -420,8 +459,29 @@ await check("no credential or provider secret reaches a rendered page", async ()
 await check("a student's submission is not readable through another account", async () => {
   // A teacher is authorized to review, but this endpoint is scoped to the
   // owner, so the row must not exist for them either.
+  // A status code alone proves nothing on a shell page: the shell flushes its 200
+  // before the page body runs, so notFound() can only swap the BODY (see
+  // docs/KNOWN-ISSUES-NOT-FOUND-STATUS.md). Assert that the essay and its evaluation
+  // are genuinely absent — the stronger claim, and the one that matters.
   const page = await teacher.request(`/app/writing/submissions/${createdSubmissionId}`);
-  assert.equal(page.status, 404, "someone else's submission must not exist for this account");
+  const leaked = String(page.data);
+  assert.ok(
+    !leaked.includes("Paragraph 1. Many students believe"),
+    "another account was served the learner's essay text"
+  );
+  assert.ok(!leaked.includes('data-checked-by="'), "another account was served the evaluation");
+
+  // Positive control, so the absence above is a real finding rather than a page that
+  // renders nothing for anyone. The essay body itself is hydrated into the editor
+  // rather than present in the server HTML, so the evaluation marker is the thing
+  // that is provably rendered for the owner and must never be rendered for anyone
+  // else.
+  const owner = await student.request(`/app/writing/submissions/${createdSubmissionId}`);
+  assert.equal(owner.status, 200, "the owner must be able to open their own submission");
+  assert.ok(
+    String(owner.data).includes('data-checked-by="'),
+    "the detector is vacuous: the owner does not see the evaluation either"
+  );
   const direct = await student2.request(`/api/writing/submissions/${createdSubmissionId}`, {
     method: "PATCH",
     body: { content: "Someone else trying to overwrite this draft." },
