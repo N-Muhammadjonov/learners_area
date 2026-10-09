@@ -1,0 +1,71 @@
+{
+  "commit": "e11872b24932908f936d9849565e405df0580cfa",
+  "parent": "c133f97cabc086fdd14b9acb7f60c46a1cc92419",
+  "branch": "arena/01a10bac-learners-area",
+  "tree": "741e9ce9ef85a4112d116b543deec702b8dfd6eb",
+  "remote_ref_verified": true,
+  "remote_tree_truncated": false,
+  "remote_tree_entries": 1924,
+  "expected_blobs": 63,
+  "matched_blobs": 63,
+  "mismatches": [],
+  "native_logs_directory": "/tmp/riwi-step11-native-qa-HkgUJp",
+  "checks": {
+    "backend-1.log": {
+      "sha256": "3b57b33f329c8ea75538d4d086c1d9eda531b1dc77841c5324870d2a2f1a2d89",
+      "tests": 1288,
+      "pass": 1197,
+      "fail": 0,
+      "skipped": 91
+    },
+    "backend-2.log": {
+      "sha256": "45d600244205fead5bdb852503e453657c6a6a37bcc8c85cb9f0413554398409",
+      "tests": 1288,
+      "pass": 1197,
+      "fail": 0,
+      "skipped": 91
+    },
+    "lint-1.log": {
+      "sha256": "63b6b500220f93347722b6b4ab90d1bc1f5a32bfe848b62f2565bcb75b5b71a6"
+    },
+    "lint-2.log": {
+      "sha256": "63b6b500220f93347722b6b4ab90d1bc1f5a32bfe848b62f2565bcb75b5b71a6"
+    },
+    "state.txt": {
+      "sha256": "a9c8b594c19c7c4ee28b9a75fb690f870cbe6855d78012104aad9ee878a14fb7"
+    },
+    "typecheck-1.log": {
+      "sha256": "5d67ea7ba0cdcb67cf34b4b132066d5cd00b857a31cc804006ed533f4aab0717"
+    },
+    "typecheck-2.log": {
+      "sha256": "5d67ea7ba0cdcb67cf34b4b132066d5cd00b857a31cc804006ed533f4aab0717"
+    },
+    "ui-1.log": {
+      "sha256": "3db3023c27b9ec01134286575529e204e22f84b452ba6cb509ca48e5bf081ef0",
+      "tests": 252,
+      "pass": 252,
+      "fail": 0,
+      "skipped": 0
+    },
+    "ui-2.log": {
+      "sha256": "64362ebb036b60ae6d63672927d071bf972e19acf8215f00f9437c70bb203567",
+      "tests": 252,
+      "pass": 252,
+      "fail": 0,
+      "skipped": 0
+    }
+  },
+  "closed_groups": [
+    "B03",
+    "D06",
+    "D07"
+  ],
+  "remaining_partial": [
+    "D02"
+  ],
+  "remaining_open": [
+    "D09"
+  ],
+  "no_build_rerun": true,
+  "no_production_GO": true
+}

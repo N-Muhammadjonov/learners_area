@@ -1,11 +1,11 @@
 {
   "source": "RIWI_REMAINING_WORK_EXECUTION_PROMPT.txt",
   "source_sha256": "daf36b256a990b7fa5379fd121810991bad552f638c776e8d9b55dcb22847979",
-  "verified_remote_base": "c133f97cabc086fdd14b9acb7f60c46a1cc92419",
+  "verified_remote_base": "e11872b24932908f936d9849565e405df0580cfa",
   "method": "Equal-weight full-group acceptance: CLOSED / all 34 original R/B/C/D groups. Partial implementation receives no full-group credit. This is a verified closure metric, not a measure of development effort or existing product functionality.",
-  "closed": 7,
+  "closed": 10,
   "total": 34,
-  "verified_closure_percent": 20.59,
+  "verified_closure_percent": 29.41,
   "riwi_overall_percent": null,
   "project_overall_percent": null,
   "overall_unknown_reason": "No fully reconciled requirement denominator with current evidence for the entire RIWI or website project.",
@@ -81,8 +81,9 @@
     {
       "id": "B03",
       "requirement": "Implement/verify the book's post-submission Reading/Listening explanation flow. Current Reading contract says explanations may be routed 'if ever'; registration and grade provenance alone do not implement an explanation endpoint. Load an authorized submitted attempt, canonical question/official result and bounded relevant passage/transcript evidence. Active exams deny hidden answer/transcript access. Return strict explanation DTO with contract/prompt/rubric/provider provenance. Never mutate isCorrect, correctAnswer or scores. Test foreign/stale/deleted IDs and injection.",
-      "status": "LOCAL_QA_VERIFIED_NATIVE_AND_REMOTE_PENDING",
-      "evidence_and_remaining": "Strict owned post-submission Reading/Listening endpoint and explicit UI; original authored-source explanation, immutable official score, submission source fingerprint, exam denial, bounded DTO and transactional metadata audit. Eight backend/integration tests and two additional UI tests passed. Native final gates and remote publication pending."
+      "status": "CLOSED",
+      "commit": "e11872b24932908f936d9849565e405df0580cfa",
+      "evidence": "Step 11: two native non-build rounds each 1197 backend passes, zero failures, 91 skips; 252 UI passes, typecheck/lint passed. Exact commit/tree and all 63 changed blobs independently verified against GitHub. Group-specific local tests and detailed limits are in the Step 11 QA report. Applicable original-source/provider/browser/deployed acceptance remains separately open in R05/R06 and D03-D05."
     },
     {
       "id": "B04",
@@ -181,20 +182,20 @@
     {
       "id": "D02",
       "requirement": "Finish operational export/import tooling. Low-level bundle/object-copy files and tests exist only as uncommitted candidates; no administrative command/route currently calls exportEncryptedPostgresBundle. Expose an explicit scope-required, authenticated owner-safe command/workflow with dry-run, private encrypted artifact, safe key handling, deterministic manifest/hashes and documented recovery. Reject default/full scope, invalid identity mapping and destination scope mismatch.",
-      "status": "PARTIAL",
-      "evidence_and_remaining": "Explicit signed owner CLI, dry-run, exclusive encrypted artifact publication, bounded authenticated archive reader, fresh-destination import and bootstrap owner preservation locally tested. Scope B identity reconciliation, O2, FK cycles and native/R2 rehearsals remain open; operational support is deliberately A/C + O1 only."
+      "status": "LOCAL_QA_VERIFIED_NATIVE_AND_REMOTE_PENDING",
+      "evidence_and_remaining": "Explicit signed owner A/B/C encrypted export/import commands and recovery runbook; B filters user-private source descendants and validates private one-to-one mappings against persisted active destination owners. Source approvals stage as candidate. All three operational command paths rehearsed in isolated PGlite; 35 focused tests passed, one native test skipped. Exact final native non-build gates and remote blobs pending. O2/native restore/real R2 acceptance remain separately open."
     },
     {
       "id": "D03",
       "requirement": "Review tri-mode PostgreSQL source/destination projection and identity reconciliation. Mode B strips site/private data and maps governance identities explicitly to authorized target actors; Mode C excludes all RIWI intelligence/conversations; Mode A preserves allowed full data. Validate foreign keys, composite keys, nullable self references, cycles, duplicate/conflicting rows, rollback, serialized mutations and uncertain COMMIT outcomes. Do not disable constraints to pass imports.",
       "status": "PARTIAL",
-      "evidence_and_remaining": "Dependency-ordered full-system import published; Mode B/C projection, identity reconciliation and cycles remain open."
+      "evidence_and_remaining": "Full-system dependency ordering retained. B governance mappings, duplicate primary-key detection, required primary keys, transaction-level import serialization and uncertain COMMIT safeguards implemented/tested. Wider A/C identity reconciliation, nullable self-reference/cyclic projection and real native concurrency acceptance remain open."
     },
     {
       "id": "D04",
       "requirement": "Review object inventory and copy lifecycle. Prove source scope/owner/retention against DB, stable keys, MIME/size/SHA, O1 no-copy access and O2 immutable destination read-back. Roll back newly staged objects on pre-commit failure; preserve objects on uncertain DB commit for reconciliation. Handle duplicate hashes, partial copy, corrupt bytes, missing objects and cleanup failure. Real R2/S3 proof is still required.",
-      "status": "OPEN_UNVERIFIED",
-      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+      "status": "PARTIAL",
+      "evidence_and_remaining": "B O1 object metadata is bound to an eligible global/role source in the repeatable-read snapshot; private/missing source keys and rehashed private-object manifests rejected. Real R2 access/retention proof, O2 immutable copy/read-back and staged-object cleanup remain open."
     },
     {
       "id": "D05",
@@ -205,14 +206,16 @@
     {
       "id": "D06",
       "requirement": "Verify portable RIWI core/site adapter boundary with a fake site adapter and actual capability denial; inspect imports for direct feature-table coupling. Verify version compatibility and post-import regression before activation.",
-      "status": "LOCAL_QA_VERIFIED_NATIVE_AND_REMOTE_PENDING",
-      "evidence_and_remaining": "Fake site with real broker denials, transitive AST boundary audit, version compatibility and destination-fingerprint-fenced post-import regression. No automatic activation. Native final gates and remote publication pending; real destination rehearsal is tracked separately in D05."
+      "status": "CLOSED",
+      "commit": "e11872b24932908f936d9849565e405df0580cfa",
+      "evidence": "Step 11: two native non-build rounds each 1197 backend passes, zero failures, 91 skips; 252 UI passes, typecheck/lint passed. Exact commit/tree and all 63 changed blobs independently verified against GitHub. Group-specific local tests and detailed limits are in the Step 11 QA report. Applicable original-source/provider/browser/deployed acceptance remains separately open in R05/R06 and D03-D05."
     },
     {
       "id": "D07",
       "requirement": "Verify security-learning pipeline and hard boundaries: sanitized/deduplicated attempted attacks -> trusted review -> regression -> approved rule, never automatic executable policy. Recheck injection, role escalation, tool/schema injection, SSRF/pinning, secrets, knowledge poisoning, active-exam bypass, replay, TOCTOU, policy downgrade, Speaking IDOR and raw/provider content policy injection. Validate DB constraints and transaction-bound audit; never store private source text in signals.",
-      "status": "LOCAL_QA_VERIFIED_NATIVE_AND_REMOTE_PENDING",
-      "evidence_and_remaining": "Persisted owner authority, deduplication, registered server-run regressions, same-owner preview proof, stale/replay rejection and transaction-bound metadata-only audit; 56 adversarial/security tests passed. Final native/source publication pending; external operational/live proof remains separate."
+      "status": "CLOSED",
+      "commit": "e11872b24932908f936d9849565e405df0580cfa",
+      "evidence": "Step 11: two native non-build rounds each 1197 backend passes, zero failures, 91 skips; 252 UI passes, typecheck/lint passed. Exact commit/tree and all 63 changed blobs independently verified against GitHub. Group-specific local tests and detailed limits are in the Step 11 QA report. Applicable original-source/provider/browser/deployed acceptance remains separately open in R05/R06 and D03-D05."
     },
     {
       "id": "D08",
@@ -234,17 +237,16 @@
     }
   ],
   "pending_batch": {
-    "step": 11,
+    "step": 12,
     "groups": [
-      "B03",
-      "D02",
-      "D06",
-      "D07",
-      "D09"
+      "D02"
     ],
-    "group_scope_percent": 14.71,
+    "related_partial_groups": [
+      "D03",
+      "D04"
+    ],
     "currently_credited": false,
     "earned_percentage_points": 0,
-    "condition": "Scope is not earned completion. D02 remains partial and D09 remains open; no promise of an 11-point increase without full applicable acceptance."
+    "condition": "D02 credit requires final native gates and exact remote publication. Partial D03/D04 changes receive no full-group credit. This is not an 11-point completion claim."
   }
 }

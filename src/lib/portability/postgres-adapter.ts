@@ -6,11 +6,12 @@ import { PORTABILITY_TABLES, tablesForScope, type PortableTable } from "./classi
 import { RIWI_CONVERSATION_OFFLINE_DAYS, RIWI_CONVERSATION_TTL_DAYS } from "@/lib/services/riwi/contracts";
 import type { ExportSource, ImportDestination, ImportTransaction } from "./archive";
 import type { ExportScope, PortableObject, PortableRow, RowFileManifest } from "./types";
+import { stableJson } from "./archive";
 
 type QueryResult = { rows: Record<string, unknown>[] };
 type PgClient = { query(text: string, values?: unknown[]): Promise<QueryResult>; release?: () => void };
 export type PgPool = { connect(): Promise<PgClient> };
-type TableMetadata = { sqlName: string; columns: Map<string, string>; primaryKeys: string[]; dependencies: string[] };
+type TableMetadata = { sqlName: string; columns: Map<string, string>; primaryKeys: string[]; dependencies: string[]; actorFields: string[] };
 const IDENTIFIER = /^[a-z][a-z0-9_]*$/;
 const metadata = new Map<PortableTable, TableMetadata>();
 const schemaTables = new Map<string, Parameters<typeof getTableColumns>[0]>();
@@ -36,7 +37,12 @@ for (const tableName of Object.keys(PORTABILITY_TABLES) as PortableTable[]) {
   }
   const dependencies = config.foreignKeys
     .map((key) => getTableName(key.reference().foreignTable)).filter((name) => name !== tableName);
-  metadata.set(tableName, { sqlName: tableName, columns: mapped, primaryKeys, dependencies });
+  const actorFields = config.foreignKeys.flatMap(key => {
+    const reference = key.reference();
+    return getTableName(reference.foreignTable) === "users"
+      ? reference.columns.map(column => [...mapped].find(([, name]) => name === column.name)![0]) : [];
+  });
+  metadata.set(tableName, { sqlName: tableName, columns: mapped, primaryKeys, dependencies, actorFields });
 }
 function quote(identifier: string) { if (!IDENTIFIER.test(identifier)) throw new Error("portable_identifier_invalid"); return `"${identifier}"`; }
 function decode(value: unknown): unknown {
@@ -72,26 +78,72 @@ function orderPostgresTables(tables: readonly RowFileManifest[]): readonly RowFi
 }
 
 /** Fresh-destination PostgreSQL adapter. Dynamic identifiers come only from the closed schema map. */
-export function createPostgresImportDestination(pool: PgPool, copyObject?: (object: PortableObject, bytes: Uint8Array) => Promise<void>, authorization?: { ownerId: string; dryRun: boolean; scope: ExportScope }): ImportDestination {
-  const forClient = (client: PgClient): ImportTransaction => ({
+export function createPostgresImportDestination(pool: PgPool, copyObject?: (object: PortableObject, bytes: Uint8Array) => Promise<void>, authorization?: { ownerId: string; dryRun: boolean; scope: ExportScope; identityMap?: ReadonlyMap<string, string> }): ImportDestination {
+  const forClient = (client: PgClient, usedIdentities: Set<string>): ImportTransaction => {
+    const seen = new Set<string>();
+    const checkedActors = new Set<string>();
+    const project = async (table: PortableTable, row: PortableRow, identityMap: ReadonlyMap<string, string>) => {
+      if (authorization?.scope !== "riwi") {
+        if (identityMap.size) throw new Error("portable_identity_map_unsupported");
+        return row;
+      }
+      if (!tablesForScope("riwi").includes(table)) throw new Error("portable_table_scope_mismatch");
+      if (table === "riwi_knowledge_sources" && (row.scope !== "global" && row.scope !== "role" || row.scopeUserId != null)) throw new Error("portable_riwi_private_source");
+      const mapped = { ...row };
+      for (const field of tableMeta(table).actorFields) {
+        if (mapped[field] == null) continue;
+        if (typeof mapped[field] !== "string") throw new Error("portable_identity_reference_invalid");
+        const sourceId = (mapped[field] as string).toLowerCase();
+        const target = identityMap.get(sourceId);
+        if (!target) throw new Error("portable_identity_mapping_required");
+        usedIdentities.add(sourceId);
+        if (!checkedActors.has(target)) {
+          const actor = await client.query("select id from users where id=$1 and role='owner' and account_status='active' for share", [target]);
+          if (!actor.rows.length) throw new Error("portable_identity_target_owner_required");
+          checkedActors.add(target);
+        }
+        mapped[field] = target;
+      }
+      // Source approvals do not authorize execution on a different site.
+      if (table === "riwi_knowledge_sources") {
+        if (mapped.state === "active" || mapped.state === "approved") mapped.state = "candidate";
+        for (const field of ["approvedAt", "activatedAt", "reviewedByUserId", "regressionFixtureId", "regressionEvidenceHash", "regressionPassedAt"]) mapped[field] = null;
+      } else if (table === "riwi_assessment_policies") {
+        mapped.activeVersion = null;
+      } else if (table === "riwi_assessment_policy_versions") {
+        if (mapped.state === "approved") mapped.state = "candidate";
+        for (const field of ["approvedAt", "reviewedByUserId", "regressionFixtureId", "regressionEvidenceHash", "regressionPassedAt"]) mapped[field] = null;
+      } else if (table === "riwi_security_signals") {
+        if (mapped.state === "approved_regression") mapped.state = "candidate";
+        for (const field of ["reviewedAt", "reviewedByUserId", "regressionFixtureId", "regressionEvidenceHash"]) mapped[field] = null;
+      } else if (table === "riwi_knowledge_conflicts") {
+        if (mapped.state === "accepted" || mapped.state === "resolved") mapped.state = "open";
+        for (const field of ["resolvedAt", "resolvedByUserId", "resolutionNote"]) mapped[field] = null;
+      }
+      return mapped;
+    };
+    return {
     async planRow(table, row, identityMap) {
       const checked = tableMeta(table);
       if (!row || typeof row !== "object" || Array.isArray(row) || !Object.keys(row).length || Object.keys(row).some(key => !checked.columns.has(key))) throw new Error("portable_row_fields_invalid");
-      if (identityMap.size) throw new Error("portable_identity_map_unsupported");
+      row = await project(table, row, identityMap);
+      const meta = tableMeta(table);
+      if (!meta.primaryKeys.length) return "create";
+      const values = meta.primaryKeys.map((key) => row[key]);
+      if (values.some((value) => value === undefined || value === null)) throw new Error("portable_primary_key_required");
+      const identity = `${table}:${stableJson(values)}`;
+      if (seen.has(identity)) return "conflict";
+      seen.add(identity);
       if (authorization && table === "users" && row.role === "owner") {
         if (row.id !== authorization.ownerId) throw new Error("portable_owner_identity_reconciliation_required");
         return "skip";
       }
-      const meta = tableMeta(table);
-      if (!meta.primaryKeys.length) return "create";
-      const values = meta.primaryKeys.map((key) => row[key]);
-      if (values.some((value) => value === undefined || value === null)) return "create";
       const where = meta.primaryKeys.map((key, index) => `${quote(meta.columns.get(key)!)} = $${index + 1}`).join(" and ");
       const result = await client.query(`select 1 as present from ${quote(meta.sqlName)} where ${where} limit 1`, values.map(decode));
       return result.rows.length ? "conflict" : "create";
     },
     async applyRow(table, row: PortableRow, identityMap) {
-      if (identityMap.size) throw new Error("portable_identity_map_unsupported");
+      row = await project(table, row, identityMap);
       const meta = tableMeta(table);
       if (!row || typeof row !== "object" || Array.isArray(row) || Object.keys(row).some(key => !meta.columns.has(key))) throw new Error("portable_row_fields_invalid");
       const entries = Object.entries(row);
@@ -101,7 +153,8 @@ export function createPostgresImportDestination(pool: PgPool, copyObject?: (obje
       await client.query(`insert into ${quote(meta.sqlName)} (${names}) values (${parameters})`, entries.map(([, value]) => decode(value)));
     },
     async copyObject(object, bytes) { if (!copyObject) throw new Error("portable_object_adapter_required"); await copyObject(object, bytes); },
-  });
+    };
+  };
   return {
     orderTables: orderPostgresTables,
     async transaction<T>(work: (transaction: ImportTransaction) => Promise<T>) {
@@ -110,8 +163,16 @@ export function createPostgresImportDestination(pool: PgPool, copyObject?: (obje
       try {
         await client.query("begin");
         if (authorization) {
+          // One restore at a time, including different initiating owners.
+          // Acquire the relation lock before actor rows to avoid reversed lock order.
+          const anchor = authorization.scope === "riwi" ? "riwi_knowledge_sources" : "users";
+          await client.query(`lock table ${quote(anchor)} in share row exclusive mode`);
           const owner = await client.query("select id from users where id=$1 and role='owner' and account_status='active' for share", [authorization.ownerId]);
           if (!owner.rows.length) throw new Error("portable_owner_required");
+          for (const target of new Set(authorization.identityMap?.values())) {
+            const actor = await client.query("select id from users where id=$1 and role='owner' and account_status='active' for share", [target]);
+            if (!actor.rows.length) throw new Error("portable_identity_target_owner_required");
+          }
           for (const table of tablesForScope(authorization.scope)) {
             const populated = table === "users"
               ? await client.query("select 1 from users where id <> $1 limit 1", [authorization.ownerId])
@@ -119,7 +180,9 @@ export function createPostgresImportDestination(pool: PgPool, copyObject?: (obje
             if (populated.rows.length) throw new Error("portable_fresh_destination_required");
           }
         }
-        const value = await work(forClient(client));
+        const usedIdentities = new Set<string>();
+        const value = await work(forClient(client, usedIdentities));
+        if (authorization?.scope === "riwi" && [...authorization.identityMap?.keys() ?? []].some(id => !usedIdentities.has(id))) throw new Error("portable_identity_mapping_unused");
         commitAttempted = !authorization?.dryRun;
         await client.query(authorization?.dryRun ? "rollback" : "commit");
         return value;
@@ -146,7 +209,7 @@ export async function withPostgresExportSource<T>(
   if (!Number.isFinite(options.snapshotAt.getTime())) throw new Error("portable_snapshot_invalid");
   const snapshotAt = new Date(options.snapshotAt);
   const scope = options.scope ?? "full-system";
-  if (scope !== "full-system" && scope !== "learners-area") throw new Error("portable_riwi_projection_requires_identity_reconciliation");
+  if (!tablesForScope(scope).length) throw new Error("portable_scope_invalid");
   const offlineCutoff = new Date(snapshotAt.getTime() - RIWI_CONVERSATION_OFFLINE_DAYS * 86_400_000);
   const messageCutoff = new Date(snapshotAt.getTime() - RIWI_CONVERSATION_TTL_DAYS * 86_400_000);
   const client = await pool.connect();
@@ -156,18 +219,30 @@ export async function withPostgresExportSource<T>(
   const activeParentSql = `c.deleted_at is null and c.expires_at > $1 and u.last_active_at >= $2`;
   const source: ExportSource = {
     snapshotAt: snapshotAt.toISOString(),
-    // RIWI-only still requires explicit governance identity reconciliation.
     scope,
     async *rows(table, batchSize) {
       requireOpen();
       if (!Number.isSafeInteger(batchSize) || batchSize < 1 || batchSize > 5000) throw new Error("portable_batch_size_invalid");
       if (!tablesForScope(scope).includes(table)) throw new Error("portable_table_scope_mismatch");
       const meta = tableMeta(table);
-      const columns = [...meta.columns].map(([property, column]) => `t.${quote(column)} as "${property}"`).join(",");
+      const columns = [...meta.columns].map(([property, column]) => {
+        if (scope === "riwi" && table === "riwi_knowledge_sources" && property === "supersedesSourceId") {
+          return `case when exists (select 1 from riwi_knowledge_sources previous where previous.id=t.${quote(column)} and previous.scope in ('global','role') and previous.scope_user_id is null) then t.${quote(column)} else null end as "${property}"`;
+        }
+        return `t.${quote(column)} as "${property}"`;
+      }).join(",");
       let from = `${quote(meta.sqlName)} t`;
       let where = "";
       const values: unknown[] = [];
-      if (table === "riwi_conversations") {
+      if (scope === "riwi" && table === "riwi_knowledge_sources") {
+        where = " where t.scope in ('global','role') and t.scope_user_id is null";
+      } else if (scope === "riwi" && table === "riwi_knowledge_units") {
+        from += " join riwi_knowledge_sources ks on ks.id = t.source_id";
+        where = " where ks.scope in ('global','role') and ks.scope_user_id is null";
+      } else if (scope === "riwi" && table === "riwi_knowledge_conflicts") {
+        from += " join riwi_knowledge_sources ks on ks.id = t.candidate_source_id join riwi_knowledge_sources ka on ka.id = t.active_source_id";
+        where = " where ks.scope in ('global','role') and ks.scope_user_id is null and ka.scope in ('global','role') and ka.scope_user_id is null";
+      } else if (table === "riwi_conversations") {
         from += " join riwi_conversations c on c.id = t.id join users u on u.id = c.user_id";
         where = ` where ${activeParentSql}`;
         values.push(snapshotAt, offlineCutoff);
@@ -197,7 +272,15 @@ export async function withPostgresExportSource<T>(
     async *objects(requestedScope) {
       requireOpen();
       if (requestedScope !== scope) throw new Error("portable_source_scope_mismatch");
-      for await (const object of options.objects(scope)) { requireOpen(); yield object; }
+      for await (const object of options.objects(scope)) {
+        requireOpen();
+        if (scope === "riwi") {
+          if (object.objectClass !== "riwi-knowledge-source" || object.scope === "user" || object.ownerId != null) throw new Error("portable_riwi_private_object");
+          const source = await client.query("select id from riwi_knowledge_sources where source_object_key=$1 and scope in ('global','role') and scope_user_id is null and state <> 'rejected' limit 1", [object.sourceKey]);
+          if (!source.rows.length) throw new Error("portable_object_source_required");
+        }
+        yield object;
+      }
     },
     async activeConversationIds(ids, at) {
       requireOpen();

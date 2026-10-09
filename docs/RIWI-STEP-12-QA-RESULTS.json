@@ -1,0 +1,48 @@
+{
+  "base_commit": "e11872b24932908f936d9849565e405df0580cfa",
+  "branch": "arena/01a10bac-learners-area",
+  "status": "LOCAL_QA_VERIFIED_NATIVE_AND_REMOTE_PENDING",
+  "scope": [
+    "D02",
+    "D03 identity/dedup/serialization subrequirements",
+    "D04 object source-authorization subrequirements"
+  ],
+  "newly_accepted_groups": [],
+  "earned_percentage_points": 0,
+  "checks": {
+    "focused": {
+      "tests": 36,
+      "pass": 35,
+      "fail": 0,
+      "skipped": 1
+    },
+    "typecheck": "PASS",
+    "lint": "PASS",
+    "build": "NOT_RERUN_OWNER_INSTRUCTION",
+    "native_full": "PENDING",
+    "ui": "NO_UI_CHANGE_FINAL_NATIVE_ROUNDS_PENDING"
+  },
+  "logs": {
+    "portability-final": {
+      "path": "/tmp/riwi-step12-portability-final.log",
+      "sha256": "7e9a853672d3bb87e8b0ff381a926b234e2b3b307c1d359d4a7ada8effe46f62"
+    },
+    "final-typecheck": {
+      "path": "/tmp/riwi-step12-final-typecheck.log",
+      "sha256": "5d67ea7ba0cdcb67cf34b4b132066d5cd00b857a31cc804006ed533f4aab0717"
+    },
+    "final-lint": {
+      "path": "/tmp/riwi-step12-final-lint.log",
+      "sha256": "63b6b500220f93347722b6b4ab90d1bc1f5a32bfe848b62f2565bcb75b5b71a6"
+    }
+  },
+  "limits": [
+    "Isolated PGlite/fixture command rehearsals are not native PostgreSQL restore acceptance.",
+    "One native PostgreSQL test skipped because PORTABILITY_DATABASE_URL was not provided.",
+    "O1 object references only; real R2 access and O2 copy/read-back/cleanup remain unverified.",
+    "Mode B stages candidate knowledge/policies/security; destination regression and owner approval remain required.",
+    "Full A/C owner reconciliation beyond the matching bootstrap owner and wider nullable/cyclic FK projections remain separately open in D03.",
+    "Native concurrency acceptance remains open despite relation-lock implementation and transaction tests.",
+    "D09 full last-source build gates remain open under no-rebuild instruction."
+  ]
+}

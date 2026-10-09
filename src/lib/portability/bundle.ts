@@ -28,7 +28,6 @@ export async function exportEncryptedPostgresBundle(input: {
 }) {
   if (input.key.byteLength !== 32) throw new Error("portable_encryption_key_must_be_32_bytes");
   if (!input.ownerId) throw new Error("portable_owner_required");
-  if (input.scope !== "full-system" && input.scope !== "learners-area") throw new Error("portable_riwi_projection_requires_identity_reconciliation");
   const staging = await mkdtemp(join(tmpdir(), "riwi-portable-"));
   const plain = join(staging, "archive.zip");
   const handle = await open(plain, "wx", 0o600).catch(async (error) => { await rm(staging, { recursive: true, force: true }); throw error; });

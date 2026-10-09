@@ -5,6 +5,8 @@ import {
   PORTABLE_SCHEMA_VERSION,
   RIWI_CORE_VERSION,
   SPEAKING_DATA_SCHEMA_VERSION,
+  EXPORT_SCOPES,
+  OBJECT_MODES,
   type ExportScope,
   type ImportPlan,
   type ObjectMode,
@@ -116,7 +118,7 @@ export async function exportPortableArchive(input: {
   const objects: PortableObject[] = [];
   for await (const object of input.source.objects(input.scope)) {
     if (object.retentionState !== "active") continue;
-    if (input.scope === "riwi" && object.objectClass !== "riwi-knowledge-source") {
+    if (input.scope === "riwi" && (object.objectClass !== "riwi-knowledge-source" || object.ownerId != null || !["global", "role"].includes(object.scope))) {
       throw new Error(`riwi_private_object:${object.objectClass}`);
     }
     if (input.scope === "learners-area" && object.objectClass === "riwi-knowledge-source") {
@@ -147,6 +149,8 @@ export async function exportPortableArchive(input: {
 }
 
 export function verifyManifest(manifest: PortableManifest): void {
+  if (!EXPORT_SCOPES.includes(manifest.scope) || !OBJECT_MODES.includes(manifest.objectMode)) throw new Error("portable_manifest_mode_invalid");
+  if (!Array.isArray(manifest.tables) || !Array.isArray(manifest.objects)) throw new Error("portable_manifest_inventory_invalid");
   if (manifest.format !== "learners-area-portable") throw new Error("unsupported_format");
   if (manifest.portableSchemaVersion !== PORTABLE_SCHEMA_VERSION) throw new Error(`unsupported_portable_schema:${manifest.portableSchemaVersion}`);
   if (manifest.riwiCoreVersion !== RIWI_CORE_VERSION) throw new Error(`unsupported_riwi_core:${manifest.riwiCoreVersion}`);
@@ -174,8 +178,18 @@ export function verifyManifest(manifest: PortableManifest): void {
   const expected = new Set(tablesForScope(manifest.scope));
   for (const table of manifest.tables) {
     if (!expected.delete(table.table as PortableTable)) throw new Error(`unexpected_or_duplicate_table:${table.table}`);
+    if (table.file !== `tables/${table.table}.jsonl` || !Number.isSafeInteger(table.rowCount) || table.rowCount < 0
+      || !Number.isSafeInteger(table.byteLength) || table.byteLength < 0 || !/^[a-f0-9]{64}$/.test(table.sha256)) throw new Error("portable_manifest_table_invalid");
   }
   if (expected.size) throw new Error(`missing_table:${[...expected][0]}`);
+  for (const object of manifest.objects) {
+    if (!["riwi-knowledge-source", "speaking-audio", "site-private"].includes(object.objectClass)
+      || !["global", "role", "user"].includes(object.scope) || object.retentionState !== "active"
+      || typeof object.sourceKey !== "string" || !object.sourceKey.length || object.sourceKey.length > 2048
+      || !Number.isSafeInteger(object.byteLength) || object.byteLength < 0 || !/^[a-f0-9]{64}$/.test(object.sha256)) throw new Error("portable_manifest_object_invalid");
+    if (manifest.scope === "riwi" && (object.objectClass !== "riwi-knowledge-source" || object.scope === "user" || object.ownerId != null)) throw new Error("portable_riwi_private_object");
+    if (manifest.scope === "learners-area" && object.objectClass === "riwi-knowledge-source") throw new Error("site_export_riwi_object");
+  }
 }
 
 export type ImportArchive = {

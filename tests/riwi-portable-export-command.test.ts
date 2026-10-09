@@ -26,7 +26,10 @@ test("explicit owner export supports zero-write dry-run and private encrypted si
     assert.equal(portableExportCommandSchema.safeParse({ dryRun: true, sourceFingerprint: "fixture" }).success, false, "no implicit full-system scope");
     await assert.rejects(runPortableExportCommand({ ...input, sessionToken: "forged" }), /portable_owner_required/);
     await assert.rejects(runPortableExportCommand({ ...input, sessionToken: await token(student) }), /portable_owner_required/, "JWT presentation role is not authority");
-    await assert.rejects(runPortableExportCommand({ ...input, request: { ...request, scope: "riwi" } }), /identity_reconciliation/);
+    const riwi = await runPortableExportCommand({ ...input, request: { ...request, scope: "riwi" } });
+    verifyManifest(riwi);
+    assert.ok(riwi.assessmentContracts?.length);
+    assert.ok(riwi.tables.every(item => item.table.startsWith("riwi_")));
     const dry = await runPortableExportCommand(input);
     assert.equal(dry.scope, "learners-area"); verifyManifest(dry);
     assert.equal(dry.assessmentContracts, undefined);

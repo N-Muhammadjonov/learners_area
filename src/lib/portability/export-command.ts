@@ -22,7 +22,6 @@ export async function runPortableExportCommand(input: {
   const request = portableExportCommandSchema.parse(input.request);
   const session = await verifySessionToken(input.sessionToken);
   if (!session) throw new Error("portable_owner_required");
-  if (request.scope === "riwi") throw new Error("portable_riwi_projection_requires_identity_reconciliation");
   const snapshotAt = new Date();
   if (request.dryRun) {
     return withPostgresExportSource(input.pool, { scope: request.scope, ownerId: session.sub, snapshotAt, objects: input.objects }, source =>
