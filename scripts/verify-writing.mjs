@@ -124,7 +124,15 @@ const forgedFinish = await api("/api/writing/typing/finish", {
 });
 check("a finish cannot dictate its own WPM or duration", forgedFinish.status === 400, `status ${forgedFinish.status}`);
 
-await new Promise((r) => setTimeout(r, 6000));
+// Wait long enough that submitting the WHOLE passage is physically plausible. The
+// server now refuses a full-text submission that could not have been typed in the time
+// it observed, so a 6 s sleep followed by 1000+ characters is indistinguishable from the
+// forgery tested in INVARIANT 5 — and should be refused. This keeps the honest run a
+// genuinely honest one rather than relaxing the rule to suit the probe.
+const honestChars = prepWords.join(" ").length;
+const MAX_HUMAN_WPM = 250; // mirrors the server-side forgery ceiling
+const honestWaitMs = Math.ceil((honestChars / 5 / MAX_HUMAN_WPM) * 60_000) + 3_000;
+await new Promise((r) => setTimeout(r, honestWaitMs));
 const honest = await api("/api/writing/typing/finish", {
   method: "POST",
   cookie: studentCookie,
@@ -152,11 +160,48 @@ check(
 );
 
 // INVARIANT 3 — the stored row matches what the server computed, not any client claim.
-const stored = await db.query("select wpm, accuracy, user_id from typing_runs order by created_at desc limit 1");
+//
+// Query the EXACT run the API returned. "order by created_at desc limit 1" could be
+// satisfied by an unrelated row written by another fixture, another student or a
+// parallel probe, so it proved nothing about this run and could even pass while this
+// run was stored wrongly.
+const honestRunId = honest.json?.run?.runId;
+check("the finish response names the run it created", Boolean(honestRunId), `runId=${honestRunId}`);
+const studentRow = await db.query("select id from users where email = 'demo.student@learnersarea.uz'");
+const expectedUserId = studentRow.rows[0]?.id;
+const stored = await db.query(
+  `select id, user_id, wpm, accuracy, duration_ms, run_token_id, target_chars, typed_chars
+     from typing_runs where id = $1`,
+  [honestRunId]
+);
+const run = stored.rows[0];
+check("the run the API returned exists in the database", Boolean(run), `id=${honestRunId}`);
 check(
-  "the database stores the server's computed run",
-  Math.abs(Number(stored.rows[0]?.wpm) - serverWpm) < 0.05 && Number(stored.rows[0]?.wpm) !== 999,
-  JSON.stringify(stored.rows[0])
+  "the stored run belongs to the student who typed it",
+  run?.user_id === expectedUserId,
+  `stored=${run?.user_id} expected=${expectedUserId}`
+);
+check(
+  "the database stores the server's computed wpm",
+  Math.abs(Number(run?.wpm) - serverWpm) < 0.05 && Number(run?.wpm) !== 999,
+  JSON.stringify(run)
+);
+check(
+  "the database stores the server's computed accuracy",
+  Math.abs(Number(run?.accuracy) - Number(honest.json?.run?.accuracy)) < 0.05,
+  `stored=${run?.accuracy} api=${honest.json?.run?.accuracy}`
+);
+check(
+  "the database stores the server-fixed duration, not a client claim",
+  Number(run?.duration_ms) === 60_000,
+  `duration_ms=${run?.duration_ms}`
+);
+// The run-token identity is what makes replay protection a database guarantee rather
+// than a bounded lookup, so its presence is part of the contract on this schema.
+check(
+  "the run carries its authoritative run-token identity",
+  typeof run?.run_token_id === "string" && run.run_token_id.length > 0,
+  `run_token_id=${run?.run_token_id}`
 );
 
 // INVARIANT 4 — replaying a finished run must not mint a SECOND run. The server is
@@ -176,11 +221,14 @@ check(
   `rows ${runsBeforeReplay.rows[0].n}->${runsAfterReplay.rows[0].n}, status ${replay.status}`
 );
 
-// INVARIANT 5 — an instant forged submit is refused. A COMPLETE text is deliberately
-// exempt from the elapsed floor (it is scored over the full preset, which can only
-// LOWER the WPM, and /start may legitimately land after typing began on serverless).
-// The anti-forgery invariant therefore applies to an INCOMPLETE run: finishing one
-// immediately must be rejected, in both timed and untimed modes.
+// INVARIANT 5 — an instant forged submit is refused, COMPLETE OR NOT.
+//
+// /prepare hands the client the canonical words, so submitting all of them is not
+// evidence of typing: a script can prepare, start and post the whole passage back in one
+// tick. Scoring over the full preset caps the WPM such a run can claim but still lets it
+// fabricate a completed performance, so completeness is no longer an exemption. The
+// server requires the submission to have been physically typeable in the time it
+// observed, which leaves the serverless latency tolerance for genuine runs intact.
 for (const preset of [60, 0]) {
   const prepX = await api("/api/writing/typing/prepare", { method: "POST", cookie: studentCookie, body: { preset } });
   const startX = await api("/api/writing/typing/start", { method: "POST", cookie: studentCookie, body: { token: prepX.json?.token } });
@@ -193,6 +241,27 @@ for (const preset of [60, 0]) {
     `an instant partial run is refused (preset ${preset || "untimed"})`,
     instant.status === 409 && instant.json?.error === "too_early",
     `status ${instant.status} ${JSON.stringify(instant.json)}`
+  );
+
+  // The forgery the old contract allowed: replay the canonical words immediately.
+  const prepFull = await api("/api/writing/typing/prepare", { method: "POST", cookie: studentCookie, body: { preset } });
+  const startFull = await api("/api/writing/typing/start", { method: "POST", cookie: studentCookie, body: { token: prepFull.json?.token } });
+  const before = await db.query("select count(*)::int as n from typing_runs");
+  const instantFull = await api("/api/writing/typing/finish", {
+    method: "POST",
+    cookie: studentCookie,
+    body: { runToken: startFull.json?.runToken, typedWords: prepFull.json?.text?.words ?? [], samples: [] },
+  });
+  const after = await db.query("select count(*)::int as n from typing_runs");
+  check(
+    `an instant FULL-TEXT run is refused (preset ${preset || "untimed"})`,
+    instantFull.status === 409 && instantFull.json?.error === "too_early",
+    `status ${instantFull.status} ${JSON.stringify(instantFull.json)}`
+  );
+  check(
+    `a refused instant full-text run persists nothing (preset ${preset || "untimed"})`,
+    after.rows[0].n === before.rows[0].n,
+    `rows ${before.rows[0].n}->${after.rows[0].n}`
   );
 }
 
