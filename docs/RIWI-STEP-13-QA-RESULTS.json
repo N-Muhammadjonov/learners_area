@@ -1,0 +1,32 @@
+{
+  "base_commit": "7b27a653e0c2dadebb09e2abef96c9f587e37d08",
+  "status": "LOCAL_QA_VERIFIED_NATIVE_AND_REMOTE_PENDING",
+  "scope": "D03 nullable cycles and relationship validation subrequirements",
+  "progress_earned_percentage_points": 0,
+  "checks": {
+    "focused": {
+      "tests": 37,
+      "pass": 36,
+      "fail": 0,
+      "skipped": 1,
+      "log": "/tmp/riwi-step13-final.log"
+    },
+    "last_cycle_test": {
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "skipped": 0,
+      "log": "/tmp/riwi-step13-cycle-final.log"
+    },
+    "typecheck": "PASS",
+    "lint": "PASS",
+    "build": "NOT_RERUN_OWNER_INSTRUCTION",
+    "native_full": "PENDING"
+  },
+  "limits": [
+    "Synthetic relational fixtures do not establish native PostgreSQL concurrency or real destination rehearsal.",
+    "Non-nullable dependency cycles fail closed rather than disabling constraints.",
+    "Broader A/C identity reconciliation and operational restores remain open.",
+    "No 11-point increase or production GO claimed."
+  ]
+}

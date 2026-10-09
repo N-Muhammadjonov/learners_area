@@ -11,7 +11,8 @@ import { stableJson } from "./archive";
 type QueryResult = { rows: Record<string, unknown>[] };
 type PgClient = { query(text: string, values?: unknown[]): Promise<QueryResult>; release?: () => void };
 export type PgPool = { connect(): Promise<PgClient> };
-type TableMetadata = { sqlName: string; columns: Map<string, string>; primaryKeys: string[]; dependencies: string[]; actorFields: string[] };
+type ForeignReference = { table: PortableTable; fields: string[]; targetFields: string[]; nullableFields: string[]; deferred: boolean };
+type TableMetadata = { sqlName: string; columns: Map<string, string>; primaryKeys: string[]; dependencies: string[]; actorFields: string[]; references: ForeignReference[] };
 const IDENTIFIER = /^[a-z][a-z0-9_]*$/;
 const metadata = new Map<PortableTable, TableMetadata>();
 const schemaTables = new Map<string, Parameters<typeof getTableColumns>[0]>();
@@ -42,7 +43,30 @@ for (const tableName of Object.keys(PORTABILITY_TABLES) as PortableTable[]) {
     return getTableName(reference.foreignTable) === "users"
       ? reference.columns.map(column => [...mapped].find(([, name]) => name === column.name)![0]) : [];
   });
-  metadata.set(tableName, { sqlName: tableName, columns: mapped, primaryKeys, dependencies, actorFields });
+  const references = config.foreignKeys.map(key => {
+    const ref = key.reference(); const targetColumns = getTableColumns(ref.foreignTable);
+    return { table: getTableName(ref.foreignTable) as PortableTable,
+      fields: ref.columns.map(column => [...mapped].find(([, name]) => name === column.name)![0]),
+      targetFields: ref.foreignColumns.map(column => Object.entries(targetColumns).find(([, c]) => c.name === column.name)![0]),
+      nullableFields: ref.columns.filter(column => !column.notNull).map(column => [...mapped].find(([, name]) => name === column.name)![0]), deferred: false };
+  });
+  metadata.set(tableName, { sqlName: tableName, columns: mapped, primaryKeys, dependencies, actorFields, references });
+}
+function reaches(from: PortableTable, to: PortableTable, seen = new Set<string>()): boolean {
+  if (from === to) return true;
+  if (seen.has(from)) return false;
+  seen.add(from);
+  return metadata.get(from)?.references.some(ref => reaches(ref.table, to, seen)) ?? false;
+}
+for (const [table, meta] of metadata) {
+  for (const ref of meta.references) ref.deferred = ref.nullableFields.length > 0 && reaches(ref.table, table);
+  meta.dependencies = meta.references.filter(ref => !ref.deferred).map(ref => ref.table);
+}
+const incoming = new Map<PortableTable, string[][]>();
+for (const meta of metadata.values()) for (const ref of meta.references) {
+  const tuples = incoming.get(ref.table) ?? [];
+  if (!tuples.some(fields => stableJson(fields) === stableJson(ref.targetFields))) tuples.push(ref.targetFields);
+  incoming.set(ref.table, tuples);
 }
 function quote(identifier: string) { if (!IDENTIFIER.test(identifier)) throw new Error("portable_identifier_invalid"); return `"${identifier}"`; }
 function decode(value: unknown): unknown {
@@ -81,6 +105,10 @@ function orderPostgresTables(tables: readonly RowFileManifest[]): readonly RowFi
 export function createPostgresImportDestination(pool: PgPool, copyObject?: (object: PortableObject, bytes: Uint8Array) => Promise<void>, authorization?: { ownerId: string; dryRun: boolean; scope: ExportScope; identityMap?: ReadonlyMap<string, string> }): ImportDestination {
   const forClient = (client: PgClient, usedIdentities: Set<string>): ImportTransaction => {
     const seen = new Set<string>();
+    const parents = new Set<string>();
+    const references: Array<{ ref: ForeignReference; values: unknown[] }> = [];
+    const deferred: Array<{ table: PortableTable; keys: unknown[]; links: Record<string, unknown> }> = [];
+    const referenceKey = (table: PortableTable, fields: string[], values: unknown[]) => `${table}:${stableJson(fields)}:${stableJson(values)}`;
     const checkedActors = new Set<string>();
     const project = async (table: PortableTable, row: PortableRow, identityMap: ReadonlyMap<string, string>) => {
       if (authorization?.scope !== "riwi") {
@@ -134,6 +162,15 @@ export function createPostgresImportDestination(pool: PgPool, copyObject?: (obje
       const identity = `${table}:${stableJson(values)}`;
       if (seen.has(identity)) return "conflict";
       seen.add(identity);
+      for (const fields of incoming.get(table) ?? []) {
+        const values = fields.map(field => row[field]);
+        if (values.every(value => value != null)) parents.add(referenceKey(table, fields, values));
+      }
+      for (const ref of meta.references) {
+        const values = ref.fields.map(field => row[field]);
+        // PostgreSQL MATCH SIMPLE: any NULL releases this FK check.
+        if (values.every(value => value != null)) references.push({ ref, values });
+      }
       if (authorization && table === "users" && row.role === "owner") {
         if (row.id !== authorization.ownerId) throw new Error("portable_owner_identity_reconciliation_required");
         return "skip";
@@ -146,13 +183,35 @@ export function createPostgresImportDestination(pool: PgPool, copyObject?: (obje
       row = await project(table, row, identityMap);
       const meta = tableMeta(table);
       if (!row || typeof row !== "object" || Array.isArray(row) || Object.keys(row).some(key => !meta.columns.has(key))) throw new Error("portable_row_fields_invalid");
-      const entries = Object.entries(row);
+      const staged = { ...row }; const links: Record<string, unknown> = {};
+      for (const ref of meta.references) if (ref.deferred && ref.fields.every(field => row[field] != null)) {
+        for (const field of ref.nullableFields) { links[field] = row[field]; staged[field] = null; }
+      }
+      if (Object.keys(links).length) deferred.push({ table, keys: meta.primaryKeys.map(key => row[key]), links });
+      const entries = Object.entries(staged);
       if (!entries.length) throw new Error(`portable_row_empty:${table}`);
       const names = entries.map(([property]) => quote(meta.columns.get(property)!)).join(",");
       const parameters = entries.map((_, index) => `$${index + 1}`).join(",");
       await client.query(`insert into ${quote(meta.sqlName)} (${names}) values (${parameters})`, entries.map(([, value]) => decode(value)));
     },
     async copyObject(object, bytes) { if (!copyObject) throw new Error("portable_object_adapter_required"); await copyObject(object, bytes); },
+    async finalize(dryRun) {
+      for (const { ref, values } of references) {
+        if (parents.has(referenceKey(ref.table, ref.targetFields, values))) continue;
+        const target = tableMeta(ref.table);
+        const where = ref.targetFields.map((field, i) => `${quote(target.columns.get(field)!)} = $${i + 1}`).join(" and ");
+        const found = await client.query(`select 1 from ${quote(target.sqlName)} where ${where} limit 1`, values.map(decode));
+        if (!found.rows.length) throw new Error("portable_foreign_reference_missing");
+      }
+      if (dryRun) return;
+      for (const item of deferred) {
+        const meta = tableMeta(item.table); const entries = Object.entries(item.links);
+        const set = entries.map(([field], i) => `${quote(meta.columns.get(field)!)} = $${i + 1}`).join(",");
+        const where = meta.primaryKeys.map((field, i) => `${quote(meta.columns.get(field)!)} = $${entries.length + i + 1}`).join(" and ");
+        const updated = await client.query(`update ${quote(meta.sqlName)} set ${set} where ${where} returning ${quote(meta.columns.get(meta.primaryKeys[0]!)!)}`, [...entries.map(([, value]) => decode(value)), ...item.keys.map(decode)]);
+        if (updated.rows.length !== 1) throw new Error("portable_deferred_reference_update_failed");
+      }
+    },
     };
   };
   return {

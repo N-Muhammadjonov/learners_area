@@ -1,0 +1,62 @@
+{
+  "commit": "7b27a653e0c2dadebb09e2abef96c9f587e37d08",
+  "parent": "e11872b24932908f936d9849565e405df0580cfa",
+  "branch": "arena/01a10bac-learners-area",
+  "tree": "0bbc9739e8dff3f1cc765d189cd0659613afe52c",
+  "remote_ref_verified": true,
+  "remote_tree_truncated": false,
+  "remote_tree_entries": 1932,
+  "expected_blobs": 16,
+  "matched_blobs": 16,
+  "mismatches": [],
+  "checks": {
+    "backend-1.log": {
+      "sha256": "79a1f4c1835e7495db8fe4e3530c416b40c2787dc934ba0e46db66a9bfcc782f",
+      "tests": 1293,
+      "pass": 1202,
+      "fail": 0,
+      "skipped": 91
+    },
+    "backend-2.log": {
+      "sha256": "508980ae1bb55112805a1b0ebc3873d13a07fe506e9590ebd80d3ebbd54569df",
+      "tests": 1293,
+      "pass": 1202,
+      "fail": 0,
+      "skipped": 91
+    },
+    "lint-1.log": {
+      "sha256": "63b6b500220f93347722b6b4ab90d1bc1f5a32bfe848b62f2565bcb75b5b71a6"
+    },
+    "lint-2.log": {
+      "sha256": "63b6b500220f93347722b6b4ab90d1bc1f5a32bfe848b62f2565bcb75b5b71a6"
+    },
+    "state.txt": {
+      "sha256": "cb8aa8bb5cfb52437082bef7e18de61accda02ecf971e93e42bd3a58a4fc14bb"
+    },
+    "typecheck-1.log": {
+      "sha256": "5d67ea7ba0cdcb67cf34b4b132066d5cd00b857a31cc804006ed533f4aab0717"
+    },
+    "typecheck-2.log": {
+      "sha256": "5d67ea7ba0cdcb67cf34b4b132066d5cd00b857a31cc804006ed533f4aab0717"
+    },
+    "ui-1.log": {
+      "sha256": "9d3df12ea0d895e3791fef8110e91fe92101a6e7ff4598b5fd61f66341e591c3",
+      "tests": 252,
+      "pass": 252,
+      "fail": 0,
+      "skipped": 0
+    },
+    "ui-2.log": {
+      "sha256": "c77b1b6f94b9689d9f1b295baebd663b7b30dade60c305b772e760288764a878",
+      "tests": 252,
+      "pass": 252,
+      "fail": 0,
+      "skipped": 0
+    }
+  },
+  "closed_groups": [
+    "D02"
+  ],
+  "no_build_rerun": true,
+  "production_GO": false
+}

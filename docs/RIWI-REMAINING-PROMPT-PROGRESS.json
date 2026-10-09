@@ -1,11 +1,11 @@
 {
   "source": "RIWI_REMAINING_WORK_EXECUTION_PROMPT.txt",
   "source_sha256": "daf36b256a990b7fa5379fd121810991bad552f638c776e8d9b55dcb22847979",
-  "verified_remote_base": "e11872b24932908f936d9849565e405df0580cfa",
+  "verified_remote_base": "7b27a653e0c2dadebb09e2abef96c9f587e37d08",
   "method": "Equal-weight full-group acceptance: CLOSED / all 34 original R/B/C/D groups. Partial implementation receives no full-group credit. This is a verified closure metric, not a measure of development effort or existing product functionality.",
-  "closed": 10,
+  "closed": 11,
   "total": 34,
-  "verified_closure_percent": 29.41,
+  "verified_closure_percent": 32.35,
   "riwi_overall_percent": null,
   "project_overall_percent": null,
   "overall_unknown_reason": "No fully reconciled requirement denominator with current evidence for the entire RIWI or website project.",
@@ -182,14 +182,15 @@
     {
       "id": "D02",
       "requirement": "Finish operational export/import tooling. Low-level bundle/object-copy files and tests exist only as uncommitted candidates; no administrative command/route currently calls exportEncryptedPostgresBundle. Expose an explicit scope-required, authenticated owner-safe command/workflow with dry-run, private encrypted artifact, safe key handling, deterministic manifest/hashes and documented recovery. Reject default/full scope, invalid identity mapping and destination scope mismatch.",
-      "status": "LOCAL_QA_VERIFIED_NATIVE_AND_REMOTE_PENDING",
-      "evidence_and_remaining": "Explicit signed owner A/B/C encrypted export/import commands and recovery runbook; B filters user-private source descendants and validates private one-to-one mappings against persisted active destination owners. Source approvals stage as candidate. All three operational command paths rehearsed in isolated PGlite; 35 focused tests passed, one native test skipped. Exact final native non-build gates and remote blobs pending. O2/native restore/real R2 acceptance remain separately open."
+      "status": "CLOSED",
+      "commit": "7b27a653e0c2dadebb09e2abef96c9f587e37d08",
+      "evidence": "Step 12: explicit signed owner tri-mode commands, private identity mapping, source-bound B object references and staged approvals; local synthetic A/B/C command rehearsals and two native rounds each 1202 backend passes, 91 skips, zero failures, 252 UI passes plus typecheck/lint. All 16 changed remote blobs and exact QA tree independently verified. D03-D05 retain broader identity/native restore/object lifecycle acceptance."
     },
     {
       "id": "D03",
       "requirement": "Review tri-mode PostgreSQL source/destination projection and identity reconciliation. Mode B strips site/private data and maps governance identities explicitly to authorized target actors; Mode C excludes all RIWI intelligence/conversations; Mode A preserves allowed full data. Validate foreign keys, composite keys, nullable self references, cycles, duplicate/conflicting rows, rollback, serialized mutations and uncertain COMMIT outcomes. Do not disable constraints to pass imports.",
       "status": "PARTIAL",
-      "evidence_and_remaining": "Full-system dependency ordering retained. B governance mappings, duplicate primary-key detection, required primary keys, transaction-level import serialization and uncertain COMMIT safeguards implemented/tested. Wider A/C identity reconciliation, nullable self-reference/cyclic projection and real native concurrency acceptance remain open."
+      "evidence_and_remaining": "Published Mode B identity mapping, primary-key checks and serialization. Step 13 candidate adds metadata-derived nullable cycle staging, exact post-checksum link restoration and dry-run FK validation. Wider A/C identity reconciliation and real native concurrency/restore acceptance remain open; this group is still PARTIAL."
     },
     {
       "id": "D04",
@@ -237,16 +238,12 @@
     }
   ],
   "pending_batch": {
-    "step": 12,
+    "step": 13,
     "groups": [
-      "D02"
-    ],
-    "related_partial_groups": [
-      "D03",
-      "D04"
+      "D03"
     ],
     "currently_credited": false,
     "earned_percentage_points": 0,
-    "condition": "D02 credit requires final native gates and exact remote publication. Partial D03/D04 changes receive no full-group credit. This is not an 11-point completion claim."
+    "condition": "D03 remains partial. Nullable-cycle and relationship subrequirements do not earn full-group credit. Final native non-build QA and remote publication pending."
   }
 }

@@ -200,6 +200,9 @@ export type ImportTransaction = {
   planRow(table: PortableTable, row: PortableRow, identityMap: ReadonlyMap<string, string>): Promise<"create" | "update" | "skip" | "conflict">;
   applyRow(table: PortableTable, row: PortableRow, identityMap: ReadonlyMap<string, string>): Promise<void>;
   copyObject(object: PortableObject, bytes: Uint8Array): Promise<void>;
+  /** Validate all relationships after signed rows have been checked; restore
+   * nullable cycle links only on apply, within the same transaction. */
+  finalize?(dryRun: boolean): Promise<void>;
 };
 export type ImportDestination = {
   /** A database destination may order inserts by its declared foreign keys. */
@@ -245,6 +248,7 @@ export async function importPortableArchive(input: {
       }
     }
     if (conflicts.length) throw new Error(`import_conflicts:${conflicts.length}`);
+    await tx.finalize?.(input.dryRun);
     if (input.manifest.objectMode === "move-objects") {
       for (const object of input.manifest.objects) {
         const bytes = await input.archive.readObject(object);
