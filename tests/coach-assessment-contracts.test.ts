@@ -8,13 +8,13 @@ import { assessmentOwnerOverlaySchema } from "../src/lib/services/coach/contract
 import { providerEvaluationOutputSchema } from "../src/lib/services/coach/schema";
 import { ASSESSMENT_CONTRACT_KEYS, OWNER_OVERLAY_FIELDS_BY_DOMAIN } from "../src/lib/services/coach/contracts/types";
 
-test("AC1 the complete 68-key inventory is unique, versioned per task, and has no oversized provenance labels", () => {
-  assert.equal(ASSESSMENT_CONTRACT_KEYS.length, 68);
-  assert.equal(new Set(ASSESSMENT_CONTRACT_KEYS).size, 68);
-  assert.equal(assessmentContracts.length, 68);
+test("AC1 the complete registry inventory is unique, versioned per task, and has no oversized provenance labels", () => {
+  assert.equal(ASSESSMENT_CONTRACT_KEYS.length, assessmentContracts.length);
+  assert.equal(new Set(ASSESSMENT_CONTRACT_KEYS).size, ASSESSMENT_CONTRACT_KEYS.length);
+  assert.equal(assessmentContracts.length, ASSESSMENT_CONTRACT_KEYS.length);
   assert.deepEqual(new Set(assessmentContracts.map((contract) => contract.key)), new Set(ASSESSMENT_CONTRACT_KEYS));
-  assert.equal(new Set(assessmentContracts.map((contract) => contract.version)).size, 68);
-  assert.equal(new Set(assessmentContracts.map((contract) => contract.rubricVersion)).size, 68);
+  assert.equal(new Set(assessmentContracts.map((contract) => contract.version)).size, ASSESSMENT_CONTRACT_KEYS.length);
+  assert.equal(new Set(assessmentContracts.map((contract) => contract.rubricVersion)).size, ASSESSMENT_CONTRACT_KEYS.length);
   for (const key of ASSESSMENT_CONTRACT_KEYS) {
     const contract = getAssessmentContract(key);
     assert.ok(contract, `missing ${key}`);

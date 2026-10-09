@@ -14,6 +14,17 @@ import {
   type RowFileManifest,
 } from "./types";
 import { assertPortableFields, shouldExportPrivateRow, tablesForScope, type PortableTable } from "./classification";
+import { assessmentContracts } from "../services/coach/contracts/registry";
+
+/** Export code compatibility as hashes, never executable source or learner data. */
+function assessmentContractManifest() {
+  return assessmentContracts.map((contract) => ({
+    key: contract.key,
+    promptVersion: contract.version,
+    rubricVersion: contract.rubricVersion,
+    sha256: sha256(stableJson(contract)),
+  })).sort((left, right) => left.key.localeCompare(right.key));
+}
 
 export function sha256(value: string | Uint8Array): string {
   return createHash("sha256").update(value).digest("hex");
@@ -118,6 +129,7 @@ export async function exportPortableArchive(input: {
     sourceFingerprint: input.sourceFingerprint,
     tables: tables.sort((a, b) => a.table.localeCompare(b.table)),
     objects: objects.sort((a, b) => a.sourceKey.localeCompare(b.sourceKey)),
+    ...(input.scope === "learners-area" ? {} : { assessmentContracts: assessmentContractManifest() }),
   };
   return { ...unsigned, manifestSha256: sha256(stableJson(unsigned)) };
 }
@@ -131,6 +143,22 @@ export function verifyManifest(manifest: PortableManifest): void {
   if (manifest.speakingDataSchemaVersion !== SPEAKING_DATA_SCHEMA_VERSION) throw new Error("unsupported_speaking_schema");
   const { manifestSha256, ...unsigned } = manifest;
   if (sha256(stableJson(unsigned)) !== manifestSha256) throw new Error("manifest_checksum_mismatch");
+  if (manifest.scope === "learners-area") {
+    if (manifest.assessmentContracts !== undefined) throw new Error("site_export_riwi_contracts");
+  } else {
+    // Older archives without code compatibility metadata cannot silently acquire
+    // the destination's current rubric. Require explicit legacy reconciliation.
+    const required = manifest.assessmentContracts;
+    if (!Array.isArray(required) || !required.length || required.length > 1_000) throw new Error("assessment_contract_manifest_required");
+    const available = new Map(assessmentContractManifest().map((contract) => [contract.key, contract]));
+    const seen = new Set<string>();
+    for (const contract of required) {
+      const local = available.get(contract.key);
+      if (seen.has(contract.key) || !local || stableJson(local) !== stableJson(contract)) throw new Error("assessment_contract_incompatible");
+      seen.add(contract.key);
+    }
+    if (seen.size !== available.size) throw new Error("assessment_contract_manifest_incomplete");
+  }
   const expected = new Set(tablesForScope(manifest.scope));
   for (const table of manifest.tables) {
     if (!expected.delete(table.table as PortableTable)) throw new Error(`unexpected_or_duplicate_table:${table.table}`);

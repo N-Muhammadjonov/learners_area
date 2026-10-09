@@ -1,5 +1,6 @@
 import type { EvaluationRequest } from "../resolver";
 import type { GrammarEvaluationInput, SpeakingEvaluationInput, VocabularyEvaluationInput, WritingEvaluationInput } from "../types";
+import { promptBookAdditionalContracts, promptBookTaskInventory } from "./prompt-book";
 import { assignmentContracts } from "./assignment";
 import { coachingContracts } from "./coaching";
 import { grammarContracts } from "./grammar";
@@ -23,6 +24,7 @@ export const assessmentContracts: readonly AssessmentContractDefinition[] = Obje
   ...assignmentContracts,
   ...reportingContracts,
   ...coachingContracts,
+  ...promptBookAdditionalContracts,
 ]);
 
 const contractMap = new Map<AssessmentContractKey, AssessmentContractDefinition>();
@@ -47,6 +49,30 @@ export function isAssessmentContractKey(value: string): value is AssessmentContr
   return contractMap.has(value as AssessmentContractKey);
 }
 
+/** Internal source-to-runtime mapping; never an authorization or client task selector. */
+export function promptBookContractKey(sourceKey: string): AssessmentContractKey | null {
+  return promptBookTaskInventory.find((task) => task.sourceKey === sourceKey)?.contractKey ?? null;
+}
+
+/** Resolve only canonical question metadata loaded by the server, never answer text.
+ * Unknown types fail closed. Legacy MCQ metadata without a selection count keeps
+ * its legacy generic contract rather than guessing single versus multiple.
+ */
+export function objectiveContractKeyForMetadata(
+  domain: "reading" | "listening",
+  metadata: { questionType: string; requiredSelections?: number },
+): AssessmentContractKey | null {
+  const type = metadata.questionType.trim().toLowerCase().replace(/[ -]+/g, "_");
+  if (type === "multiple_choice") {
+    if (metadata.requiredSelections === undefined) return `${domain}.multiple-choice`;
+    if (!Number.isSafeInteger(metadata.requiredSelections) || metadata.requiredSelections < 1) return null;
+    return promptBookContractKey(`${domain}.${metadata.requiredSelections === 1 ? "mcq_single" : "mcq_multiple"}`);
+  }
+  const canonicalType = type === "true_false_not_given" ? "tfng"
+    : type === "yes_no_not_given" ? "ynng" : type;
+  return promptBookContractKey(`${domain}.${canonicalType}`);
+}
+
 function normalizedCategory(category: string | null | undefined): string {
   return (category ?? "").trim().toLowerCase().replace(/[_\s]+/g, "-").replace(/-+/g, "-");
 }
@@ -66,6 +92,7 @@ const TASK2_CATEGORY_KEYS: Readonly<Record<string, AssessmentContractKey>> = {
   "advantages-disadvantages": "writing.task2.advantages-disadvantages", "advantage-disadvantage": "writing.task2.advantages-disadvantages", "pros-cons": "writing.task2.advantages-disadvantages",
   "problem-solution": "writing.task2.problem-solution", "problems-solutions": "writing.task2.problem-solution",
   "two-part": "writing.task2.two-part", "double-question": "writing.task2.two-part", "two-question": "writing.task2.two-part",
+  "positive-negative": "writing.task2.positive-negative", "positive-negative-development": "writing.task2.positive-negative",
   "cause-effect": "writing.task2.cause-effect", "causes-effects": "writing.task2.cause-effect",
 };
 
@@ -149,4 +176,10 @@ export function assessmentPolicyScopeMatches(scope: AssessmentPolicyScope, key: 
 
 export function assessmentContractsForScope(scope: AssessmentPolicyScope): AssessmentContractDefinition[] {
   return assessmentContracts.filter((contract) => assessmentPolicyScopeMatches(scope, contract.key));
+}
+
+/** Assessment overlays apply to evaluator paths only. Wildcards never grant
+ * policy authority over objective graders, reports or instruction catalogs. */
+export function ownerPolicyContractsForScope(scope: AssessmentPolicyScope): AssessmentContractDefinition[] {
+  return assessmentContractsForScope(scope).filter((contract) => contract.execution === "coach_evaluation");
 }

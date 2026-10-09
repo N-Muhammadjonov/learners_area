@@ -3,7 +3,7 @@
  * accepted from a learner request; services select them from persisted task
  * metadata and the resolver validates them again before provider dispatch.
  */
-export const ASSESSMENT_CONTRACT_KEYS = [
+export const LEGACY_ASSESSMENT_CONTRACT_KEYS = [
   "writing.task1.generic",
   "writing.task1.line-chart",
   "writing.task1.bar-chart",
@@ -74,6 +74,47 @@ export const ASSESSMENT_CONTRACT_KEYS = [
   "coaching.error-pattern-review",
 ] as const;
 
+export const ASSESSMENT_CONTRACT_KEYS = [
+  ...LEGACY_ASSESSMENT_CONTRACT_KEYS,
+  "writing.task2.positive-negative",
+  "reading.matching-headings",
+  "reading.matching-information",
+  "reading.matching-features",
+  "reading.matching-sentence-endings",
+  "reading.mcq-single",
+  "reading.mcq-multiple",
+  "reading.sentence-completion",
+  "reading.summary-completion",
+  "reading.note-completion",
+  "reading.table-completion",
+  "reading.flowchart-completion",
+  "reading.diagram-label",
+  "listening.mcq-single",
+  "listening.mcq-multiple",
+  "listening.form-completion",
+  "listening.note-completion",
+  "listening.table-completion",
+  "listening.flowchart-completion",
+  "listening.sentence-completion",
+  "listening.map-plan-label",
+  "listening.matching",
+  "grammar.transformation",
+  "grammar.fill-gap",
+  "grammar.free-production",
+  "grammar.explanation",
+  "grammar.retention",
+  "vocabulary.meaning",
+  "vocabulary.contextual-meaning",
+  "vocabulary.translation",
+  "vocabulary.synonym-choice",
+  "vocabulary.paraphrase",
+  "retention.reading-recall",
+  "retention.vocabulary-recall",
+  "retention.error-pattern",
+  "tutoring.simple-explanation",
+  "tutoring.compare-concepts",
+] as const;
+
 export type AssessmentContractKey = (typeof ASSESSMENT_CONTRACT_KEYS)[number];
 export type ContractDomain =
   | "writing"
@@ -84,7 +125,9 @@ export type ContractDomain =
   | "listening"
   | "assignment"
   | "reporting"
-  | "coaching";
+  | "coaching"
+  | "retention"
+  | "tutoring";
 export type ContractExecution =
   | "coach_evaluation"
   | "objective_local"
@@ -173,6 +216,8 @@ export const ASSESSMENT_POLICY_SCOPES = [
   "assignment.*",
   "reporting.*",
   "coaching.*",
+  "retention.*",
+  "tutoring.*",
 ] as const;
 export type AssessmentPolicyScope = (typeof ASSESSMENT_POLICY_SCOPES)[number];
 
@@ -197,6 +242,8 @@ export const OWNER_OVERLAY_FIELDS_BY_DOMAIN: Readonly<Record<ContractDomain, rea
     "maxNextActions", "exampleCount", "useMiniIllustrations", "evidenceRequired",
     "includeCorrections", "includeReusableRule",
   ],
+  retention: ["feedbackStyle", "explanationDepth", "learnerTone", "exampleCount", "useMiniIllustrations"],
+  tutoring: ["feedbackStyle", "explanationDepth", "learnerTone", "exampleCount", "useMiniIllustrations"],
   reading: [],
   listening: [],
   assignment: ["feedbackStyle", "explanationDepth", "learnerTone", "maxStrengths", "maxWeaknesses", "maxNextActions"],

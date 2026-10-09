@@ -41,6 +41,14 @@ export type PortableManifest = Readonly<{
   sourceFingerprint: string;
   tables: readonly RowFileManifest[];
   objects: readonly PortableObject[];
+  /** Code-bundled behavior required by RIWI imports. Optional in historical
+   * files only; imports with RIWI scope reject missing compatibility proof. */
+  assessmentContracts?: readonly Readonly<{
+    key: string;
+    promptVersion: string;
+    rubricVersion: string;
+    sha256: string;
+  }>[];
   manifestSha256: string;
 }>;
 

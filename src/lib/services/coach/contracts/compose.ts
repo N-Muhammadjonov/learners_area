@@ -1,5 +1,6 @@
 import { deriveOverall, normalizeWritingCriteria, criteriaFor, toHalfBand } from "@/lib/writing/grade-criteria";
 import type { ProviderEvaluationOutput } from "../schema";
+import { RETENTION_DOMAIN_RULES, TUTORING_DOMAIN_RULES } from "./prompt-book";
 import { ASSIGNMENT_DOMAIN_RULES } from "./assignment";
 import { COACHING_DOMAIN_RULES } from "./coaching";
 import { GRAMMAR_DOMAIN_RULES } from "./grammar";
@@ -24,6 +25,8 @@ const DOMAIN_RULES = {
   assignment: ASSIGNMENT_DOMAIN_RULES,
   reporting: REPORTING_DOMAIN_RULES,
   coaching: COACHING_DOMAIN_RULES,
+  retention: RETENTION_DOMAIN_RULES,
+  tutoring: TUTORING_DOMAIN_RULES,
 } as const;
 
 export type AssessmentPromptOptions = {

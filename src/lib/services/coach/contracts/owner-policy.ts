@@ -16,7 +16,7 @@ import {
 import { providerEvaluationOutputSchema } from "../schema";
 import { composeAssessmentPrompt, filterOwnerOverlay, promptInvariantSnapshot } from "./compose";
 import { HARD_CORE_RULES, GLOBAL_TEACHING_RULES, STRICT_OUTPUT_RULES } from "./core";
-import { assessmentContracts, assessmentContractsForScope, assessmentPolicyScopeMatches, getAssessmentContract } from "./registry";
+import { assessmentContracts, ownerPolicyContractsForScope, assessmentPolicyScopeMatches, getAssessmentContract } from "./registry";
 import {
   assessmentOwnerOverlaySchema,
   assessmentPolicyCandidateSchema,
@@ -120,7 +120,7 @@ function stableZodShape(schema: z.ZodTypeAny): unknown {
 }
 
 function validatePolicyScopeOverlay(scope: AssessmentPolicyScope, overlay: AssessmentOwnerOverlay): boolean {
-  const contracts = assessmentContractsForScope(scope);
+  const contracts = ownerPolicyContractsForScope(scope);
   if (contracts.length === 0) return false;
   const fields = Object.keys(overlay) as (keyof AssessmentOwnerOverlay)[];
   if (fields.length === 0) return false;
@@ -365,7 +365,7 @@ export function runAssessmentPolicyRegression(
   overlayValue: unknown,
 ): AssessmentPolicyRegression {
   const candidate = validateCandidateInput(scopeValue, overlayValue);
-  const affected = assessmentContractsForScope(candidate.scope);
+  const affected = ownerPolicyContractsForScope(candidate.scope);
   const outputKeys = Object.keys(providerEvaluationOutputSchema.shape).sort();
   const filteredOverlays = affected.map((contract) => filterOwnerOverlay(contract, candidate.overlay));
   const snapshots = affected.map((contract) => promptInvariantSnapshot(contract.key, candidate.overlay));
