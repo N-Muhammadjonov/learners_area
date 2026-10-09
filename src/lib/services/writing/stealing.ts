@@ -39,6 +39,20 @@ export async function stealingLibrary(userId: string, filter: StealingFilter, da
   if (filter.fn) conds.push(eq(writingLanguagePatterns.function, filter.fn));
   if (filter.topic) conds.push(sql`lower(${writingLanguagePatterns.topic}) = ${filter.topic.toLowerCase()}`);
   if (filter.band) conds.push(eq(writingLanguagePatterns.targetBand, filter.band));
+  // The saved-only filter is user-specific, but it is still a FILTER: it has to sit
+  // beside publication and the rest, before the limit. It used to be applied in
+  // JavaScript to the already-paginated page, so a learner whose saved patterns all
+  // sorted beyond row 300 saw an empty saved library while those patterns existed, and
+  // `matching`/`hasMore` described the unfiltered set instead of the returned one.
+  // As a SQL predicate, returned rows, matching, hasMore and ordering all describe the
+  // same effective filter. It is scoped to this user, so nobody else's bank leaks.
+  if (filter.saved) {
+    conds.push(sql`exists (
+      select 1 from ${writingPatternBank}
+       where ${writingPatternBank.patternId} = ${writingLanguagePatterns.id}
+         and ${writingPatternBank.userId} = ${userId}
+    )`);
+  }
   // Bounded read with a +1 lookahead: we never load an unbounded list into one response,
   // but a filter combination holding more than STEALING_PAGE live patterns must not be
   // truncated SILENTLY — the caller is told so the UI can ask for narrower filters.
@@ -53,7 +67,8 @@ export async function stealingLibrary(userId: string, filter: StealingFilter, da
     .from(writingLanguagePatterns)
     .where(and(...conds));
   const saved = new Set((await database.select({ id: writingPatternBank.patternId }).from(writingPatternBank).where(eq(writingPatternBank.userId, userId))).map((r) => r.id));
-  const patterns = rows.map((r): LibraryPattern => ({ ...r, fn: r.fn as PatternFunction, saved: saved.has(r.id) })).filter((p) => !filter.saved || p.saved);
+  // No post-limit filtering: `conds` already encodes saved-only when it was requested.
+  const patterns = rows.map((r): LibraryPattern => ({ ...r, fn: r.fn as PatternFunction, saved: saved.has(r.id) }));
   const allTopics = await database.selectDistinct({ topic: writingLanguagePatterns.topic }).from(writingLanguagePatterns).where(livePattern());
   const bands = await database.selectDistinct({ band: writingLanguagePatterns.targetBand }).from(writingLanguagePatterns).where(livePattern());
   return {
