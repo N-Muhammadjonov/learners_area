@@ -4,8 +4,8 @@ import { speakingAttempts, speakingPrompts } from "@/db/schema";
 import { isLive, liveWhere } from "@/lib/services/cms/publication";
 
 /** Prompts a student may practise against, in a stable order. */
-export async function listActivePrompts() {
-  return db.query.speakingPrompts.findMany({
+export async function listActivePrompts(database: typeof db = db) {
+  return database.query.speakingPrompts.findMany({
     where: and(
       liveWhere({ publicationState: speakingPrompts.publicationState, publishAt: speakingPrompts.publishAt }),
       sql`${speakingPrompts.availableIn} @> '["practice_alone"]'::jsonb`,

@@ -51,10 +51,16 @@ export function AiQuestionRecorder({ dict, prompt, sessionId, itemId, index, ret
   const recordingAttachedRef = useRef(false);
   const retryParentRef = useRef<string | null>(retryOfAttemptId ?? null);
   const alive = useRef(true);
+  const generationRef = useRef(0);
+  const acquiringRef = useRef(false);
+  const stoppingRef = useRef(false);
+  const microphoneRequest = useRef<AbortController | null>(null);
   const answerLimit = prompt.part === "part2" ? 120 : prompt.answerSeconds;
 
   const stopTimer = useCallback(() => { if (timerRef.current) clearInterval(timerRef.current); timerRef.current = null; }, []);
   const cleanup = useCallback(() => {
+    generationRef.current++; acquiringRef.current = false; stoppingRef.current = false;
+    microphoneRequest.current?.abort(); microphoneRequest.current = null;
     stopTimer(); uploadRef.current?.cancel(); uploadRef.current = null;
     recorderRef.current?.cancel(); recorderRef.current = null; resetStt();
   }, [stopTimer, resetStt]);
@@ -65,43 +71,59 @@ export function AiQuestionRecorder({ dict, prompt, sessionId, itemId, index, ret
   }, [phase, stt.liveTranscript]);
 
   async function acquireAndRecord() {
-    if (phase === "starting" || phase === "recording") return;
+    if (acquiringRef.current || recorderRef.current || phase === "stopping") return;
+    acquiringRef.current = true;
+    const generation = generationRef.current;
+    const current = () => alive.current && generationRef.current === generation;
     stopTimer(); setPhase("starting"); setError(""); setElapsed(0);
     try {
-      const presence = await fetch("/api/live-partner", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ action: "practice_started" }), signal: AbortSignal.timeout(5000) });
-      if (presence.status === 409) { setError(practice.errors.liveCallActive); setPhase("idle"); return; }
-    } catch { /* best-effort presence update; active calls still return 409 when reachable */ }
+      try {
+        const presence = await fetch("/api/live-partner", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ action: "practice_started" }), signal: AbortSignal.timeout(5000) });
+        if (!current()) return;
+        if (presence.status === 409) { setError(practice.errors.liveCallActive); setPhase("idle"); return; }
+      } catch { /* best-effort presence update; active calls still return 409 when reachable */ }
 
-    let id = attemptId;
-    if (!id) {
-      const created = await request<{ attempt: { id: string } }>("/api/speaking/attempts", { body: {
-        promptId: prompt.id, part: prompt.part, sessionId, sessionItemId: itemId, ...(retryParentRef.current ? { retryOfAttemptId: retryParentRef.current } : {}),
-      }});
-      if (!created) { setError(practice.errors.unknown); setPhase("idle"); return; }
-      if (!created.ok) { setError(apiErrorMessage(created.error, created.status, dict)); setPhase("idle"); return; }
-      if (!created.data?.attempt.id) { setError(practice.errors.unknown); setPhase("idle"); return; }
-      id = created.data.attempt.id; setAttemptId(id);
-    }
-    try {
-      const recorder = await createRecorder();
-      recorderRef.current = recorder;
-      await recorder.start();
-      stt.reset();
-      stt.start(); // Optional: recording remains valid if recognition is unsupported/fails.
-      const startedAt = Date.now();
-      setPhase("recording");
-      timerRef.current = setInterval(() => {
-        const ms = Date.now() - startedAt;
-        setElapsed(ms);
-        if (ms >= answerLimit * 1000) void stopRecording();
-      }, 200);
-    } catch {
-      stt.reset(); recorderRef.current?.cancel(); recorderRef.current = null;
-      setError(practice.errors.unknown); setPhase("idle");
-    }
+      if (!current()) return;
+      let id = attemptId;
+      if (!id) {
+        const created = await request<{ attempt: { id: string } }>("/api/speaking/attempts", { body: {
+          promptId: prompt.id, part: prompt.part, sessionId, sessionItemId: itemId, ...(retryParentRef.current ? { retryOfAttemptId: retryParentRef.current } : {}),
+        }});
+        if (!current()) return;
+        if (!created) { setError(practice.errors.unknown); setPhase("idle"); return; }
+        if (!created.ok) { setError(apiErrorMessage(created.error, created.status, dict)); setPhase("idle"); return; }
+        if (!created.data?.attempt.id) { setError(practice.errors.unknown); setPhase("idle"); return; }
+        id = created.data.attempt.id; setAttemptId(id);
+      }
+      try {
+        const acquisition = new AbortController();
+        microphoneRequest.current = acquisition;
+        const recorder = await createRecorder({ signal: acquisition.signal });
+        if (microphoneRequest.current === acquisition) microphoneRequest.current = null;
+        if (!current()) { recorder.cancel(); return; }
+        recorderRef.current = recorder;
+        await recorder.start();
+        if (!current()) { recorder.cancel(); return; }
+        stt.reset();
+        stt.start(); // Optional: recording remains valid if recognition is unsupported/fails.
+        const startedAt = Date.now();
+        setPhase("recording");
+        timerRef.current = setInterval(() => {
+          const ms = Date.now() - startedAt;
+          setElapsed(ms);
+          if (ms >= answerLimit * 1000) void stopRecording();
+        }, 200);
+      } catch {
+        if (!current()) return;
+        microphoneRequest.current = null;
+        stt.reset(); recorderRef.current?.cancel(); recorderRef.current = null;
+        setError(practice.errors.unknown); setPhase("idle");
+      }
+    } finally { if (current()) acquiringRef.current = false; }
   }
 
   function begin() {
+    if (timerRef.current || acquiringRef.current || recorderRef.current) return;
     if (prompt.part !== "part2") { void acquireAndRecord(); return; }
     setPhase("preparing"); setPrepLeft(60);
     const ends = Date.now() + 60_000;
@@ -115,13 +137,14 @@ export function AiQuestionRecorder({ dict, prompt, sessionId, itemId, index, ret
   async function stopRecording() {
     stopTimer();
     const recorder = recorderRef.current;
-    if (!recorder) return;
-    recorderRef.current = null;
+    if (!recorder || stoppingRef.current) return;
+    stoppingRef.current = true;
     setPhase("stopping");
+    const generation = generationRef.current;
     const transcriptReady = stt.stop();
     try {
       const [result, raw] = await Promise.all([recorder.stop(), transcriptReady]);
-      if (!alive.current) return;
+      if (!alive.current || generationRef.current !== generation) return;
       if (!result) { stt.reset(); setError(practice.errors.unknown); setPhase("idle"); return; }
       setRecording(result);
       setPlaybackUrl(URL.createObjectURL(result.blob));
@@ -129,7 +152,13 @@ export function AiQuestionRecorder({ dict, prompt, sessionId, itemId, index, ret
       setTranscript(raw);
       setEdited(false);
       setPhase("review"); // Deliberately no upload and no submit here.
-    } catch { recorder.cancel(); stt.reset(); if (alive.current) { setError(practice.errors.unknown); setPhase("idle"); } }
+    } catch { recorder.cancel(); if (alive.current && generationRef.current === generation) { stt.reset(); setError(practice.errors.unknown); setPhase("idle"); } }
+    finally {
+      if (generationRef.current === generation) {
+        if (recorderRef.current === recorder) recorderRef.current = null;
+        stoppingRef.current = false;
+      }
+    }
   }
 
   async function clear(deleteAttempt = true) {

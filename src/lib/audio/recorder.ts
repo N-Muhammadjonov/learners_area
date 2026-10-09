@@ -79,20 +79,8 @@ export type Recorder = {
   readonly elapsedMs: () => number;
 };
 
-/**
- * Creates a recorder bound to a fresh getUserMedia stream. The stream is
- * stopped on stop()/cancel() — leaving a microphone indicator light on after
- * recording is both a privacy bug and a battery drain.
- */
-export async function createRecorder(options: {signal?: AbortSignal; permissionTimeoutMs?: number} = {}): Promise<Recorder> {
-  if (!isRecordingSupported()) {
-    throw new RecorderError("unsupported", "This browser cannot record audio.");
-  }
-  const chosen = pickMimeType();
-  if (!chosen) {
-    throw new RecorderError("unsupported", "No supported audio container in this browser.");
-  }
-
+/** Cancellable permission acquisition shared by recording and local microphone checks. */
+export async function acquireMicrophoneStream(options: { signal?: AbortSignal; permissionTimeoutMs?: number } = {}): Promise<MediaStream> {
   let stream: MediaStream;
   try {
     stream = await new Promise<MediaStream>((resolve, reject) => {
@@ -119,63 +107,87 @@ export async function createRecorder(options: {signal?: AbortSignal; permissionT
     throw new RecorderError("unknown", "Could not start the microphone.");
   }
 
-  let recorder: MediaRecorder;
-  try {recorder = new MediaRecorder(stream, chosen.mimeType ? { mimeType: chosen.mimeType } : undefined);}
-  catch {for (const track of stream.getTracks()) track.stop(); throw new RecorderError("unknown", "Could not create the audio recorder.");}
-  const chunks: Blob[] = [];
-  const startedAt = Date.now();
-  let stoppedAt: number | null = null;
+  return stream;
+}
 
-  recorder.addEventListener("dataavailable", (e) => {
-    if (e.data && e.data.size > 0) chunks.push(e.data);
-  });
-
-  function releaseStream() {
-    for (const track of stream.getTracks()) track.stop();
+/**
+ * Creates a recorder bound to a fresh getUserMedia stream. The stream is
+ * stopped on stop()/cancel() — leaving a microphone indicator light on after
+ * recording is both a privacy bug and a battery drain.
+ */
+export async function createRecorder(options: {signal?: AbortSignal; permissionTimeoutMs?: number} = {}): Promise<Recorder> {
+  if (!isRecordingSupported()) {
+    throw new RecorderError("unsupported", "This browser cannot record audio.");
   }
+  const chosen = pickMimeType();
+  if (!chosen) {
+    throw new RecorderError("unsupported", "No supported audio container in this browser.");
+  }
+
+  const stream = await acquireMicrophoneStream(options);
+
+  if (options.signal?.aborted) {
+    for (const track of stream.getTracks()) track.stop();
+    throw new RecorderError("unknown", "Microphone request was cancelled.");
+  }
+  let recorder: MediaRecorder;
+  try { recorder = new window.MediaRecorder(stream, chosen.mimeType ? { mimeType: chosen.mimeType } : undefined); }
+  catch { for (const track of stream.getTracks()) track.stop(); throw new RecorderError("unknown", "Could not create the audio recorder."); }
+  const chunks: Blob[] = [];
+  let startedAt: number | null = null;
+  let stoppedAt: number | null = null;
+  let closed = false;
+  let deadline: ReturnType<typeof setTimeout> | null = null;
+  let stopPromise: Promise<RecordingResult | null> | null = null;
+  let settleStop: ((value: RecordingResult | null) => void) | null = null;
+
+  const elapsedMs = () => startedAt === null ? 0 : Math.max(0, (stoppedAt ?? Date.now()) - startedAt);
+  const finish = (keep: boolean) => {
+    if (closed) return;
+    closed = true;
+    stoppedAt ??= Date.now();
+    const blob = keep && chunks.length ? new Blob(chunks, { type: recorder.mimeType || chosen.mimeType || "audio/webm" }) : null;
+    const result = blob ? { blob, mimeType: blob.type, durationMs: elapsedMs(), size: blob.size } : null;
+    if (deadline !== null) clearTimeout(deadline);
+    deadline = null;
+    recorder.removeEventListener("dataavailable", onData);
+    recorder.removeEventListener("stop", onStop);
+    recorder.removeEventListener("error", onError);
+    options.signal?.removeEventListener("abort", cancel);
+    try { if (recorder.state !== "inactive") recorder.stop(); } catch { /* release tracks even if the native recorder fails */ }
+    for (const track of stream.getTracks()) track.stop();
+    chunks.length = 0;
+    settleStop?.(result); settleStop = null;
+    stopPromise ??= Promise.resolve(result);
+  };
+  function onData(event: BlobEvent) { if (!closed && event.data?.size) chunks.push(event.data); }
+  function onStop() { finish(true); }
+  function onError() { finish(false); }
+  function cancel() { finish(false); }
+  recorder.addEventListener("dataavailable", onData);
+  recorder.addEventListener("stop", onStop);
+  recorder.addEventListener("error", onError);
+  options.signal?.addEventListener("abort", cancel, { once: true });
+  if (options.signal?.aborted) cancel();
 
   return {
     async start() {
-      // 250ms timeslice so a long recording produces several chunks rather
-      // than one giant buffer held entirely in memory.
-      recorder.start(250);
+      if (closed || startedAt !== null) throw new RecorderError("unknown", "Recording cannot be started again.");
+      startedAt = Date.now();
+      try { recorder.start(250); }
+      catch { finish(false); throw new RecorderError("unknown", "Could not start the audio recorder."); }
     },
     stop(): Promise<RecordingResult | null> {
-      if (recorder.state === "inactive") {
-        releaseStream();
-        return Promise.resolve(null);
-      }
-      return new Promise<RecordingResult | null>((resolve) => {
-        const deadline = setTimeout(() => {releaseStream(); resolve(null);}, 5_000);
-        recorder.addEventListener(
-          "stop",
-          () => {
-            clearTimeout(deadline);
-            stoppedAt = Date.now();
-            releaseStream();
-            if (chunks.length === 0) {
-              resolve(null);
-              return;
-            }
-            const blob = new Blob(chunks, { type: recorder.mimeType || chosen.mimeType || "audio/webm" });
-            resolve({
-              blob,
-              mimeType: blob.type,
-              durationMs: (stoppedAt ?? Date.now()) - startedAt,
-              size: blob.size,
-            });
-          },
-          { once: true }
-        );
-        try {recorder.stop();} catch {clearTimeout(deadline); releaseStream(); resolve(null);}
-      });
+      if (stopPromise) return stopPromise;
+      stopPromise = new Promise((resolve) => { settleStop = resolve; });
+      stoppedAt = Date.now();
+      if (startedAt === null || recorder.state === "inactive") { finish(false); return stopPromise; }
+      deadline = setTimeout(() => finish(false), 5_000);
+      try { recorder.stop(); } catch { finish(false); }
+      return stopPromise;
     },
-    cancel() {
-      try {if (recorder.state !== "inactive") recorder.stop();}
-      catch { /* Track release must still succeed if the recorder has failed. */ }
-      finally {releaseStream();}
-    },
-    elapsedMs: () => (stoppedAt ?? Date.now()) - startedAt,
+    cancel,
+    elapsedMs,
   };
 }
 

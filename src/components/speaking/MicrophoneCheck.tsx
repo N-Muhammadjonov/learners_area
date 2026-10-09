@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { Dictionary } from "@/lib/i18n/en";
 import { Button } from "@/components/ui/Button";
+import { acquireMicrophoneStream } from "@/lib/audio/recorder";
 import { Card } from "@/components/ui/Card";
 
 export type MicrophoneCheckState = "idle" | "requesting" | "checking" | "passed" | "denied" | "unsupported" | "error";
@@ -17,8 +18,12 @@ export function MicrophoneCheck({ dict, onContinue }: { dict: Dictionary; onCont
   const frameRef = useRef<number | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const peakRef = useRef(0);
+  const epoch = useRef(0);
+  const permissionRef = useRef<AbortController | null>(null);
 
   const release = useCallback(() => {
+    epoch.current++;
+    permissionRef.current?.abort(); permissionRef.current = null;
     if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     frameRef.current = null;
@@ -31,6 +36,7 @@ export function MicrophoneCheck({ dict, onContinue }: { dict: Dictionary; onCont
   useEffect(() => release, [release]);
 
   const test = useCallback(async () => {
+    if (permissionRef.current || streamRef.current) return;
     release();
     peakRef.current = 0;
     setLevel(0);
@@ -39,17 +45,25 @@ export function MicrophoneCheck({ dict, onContinue }: { dict: Dictionary; onCont
       return;
     }
     setState("requesting");
+    const generation = epoch.current;
+    const permission = new AbortController();
+    permissionRef.current = permission;
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const stream = await acquireMicrophoneStream({ signal: permission.signal });
+      if (generation !== epoch.current) { stream.getTracks().forEach(track => track.stop()); return; }
+      permissionRef.current = null;
       streamRef.current = stream;
       const context = new AudioContext();
       contextRef.current = context;
+      if (context.state === "suspended") await context.resume();
+      if (generation !== epoch.current) return;
       const analyser = context.createAnalyser();
       analyser.fftSize = 256;
       context.createMediaStreamSource(stream).connect(analyser);
       const samples = new Uint8Array(analyser.frequencyBinCount);
       setState("checking");
       const measure = () => {
+        if (generation !== epoch.current) return;
         analyser.getByteTimeDomainData(samples);
         let sum = 0;
         for (const sample of samples) { const normalized = (sample - 128) / 128; sum += normalized * normalized; }
@@ -60,14 +74,16 @@ export function MicrophoneCheck({ dict, onContinue }: { dict: Dictionary; onCont
       };
       measure();
       timeoutRef.current = setTimeout(() => {
+        if (generation !== epoch.current) return;
         const heard = peakRef.current >= 0.02;
         release();
         setLevel(heard ? 1 : 0);
         setState(heard ? "passed" : "error");
       }, 2500);
     } catch (error) {
+      if (generation !== epoch.current) return;
       release();
-      setState(error instanceof DOMException && (error.name === "NotAllowedError" || error.name === "SecurityError") ? "denied" : "error");
+      setState(((error as { code?: string })?.code === "permission_denied" || (error instanceof DOMException && (error.name === "NotAllowedError" || error.name === "SecurityError"))) ? "denied" : "error");
     }
   }, [release]);
 

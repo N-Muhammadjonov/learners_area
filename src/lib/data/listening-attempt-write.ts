@@ -4,6 +4,7 @@ import { and, eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { listeningPackages, activityEvents, listeningAnswers, listeningAttempts, listeningQuestions, users } from "@/db/schema";
 import { gradePackage } from "@/lib/listening/package";
+import { objectiveAssessmentEvidence } from "@/lib/services/coach/contracts/objective-runtime";
 import { gradeAnswer } from "@/lib/services/listening/grading";
 
 /** Serialize starts for one authenticated account; retries resume an existing attempt. */
@@ -31,6 +32,16 @@ export async function submitListeningAttempt(userId: string, id: string, answers
     const ready = await tx.execute(sql`select to_regclass('public.listening_packages') is not null as ready`);
     const pkg = ready.rows[0]?.ready ? await tx.query.listeningPackages.findFirst({ where: eq(listeningPackages.testId, attempt.testId) }) : null;
     const fullResults = pkg ? gradePackage(pkg.payload, Object.fromEntries(questions.map(q => [q.order, answerByQuestion.get(q.id) ?? ""]))) : null;
+    let assessmentContracts;
+    try {
+      assessmentContracts = questions.map(q => {
+        const canonical = pkg?.payload.questions.find(question => question.number === q.order);
+        return { questionId: q.id, ...objectiveAssessmentEvidence("listening", {
+          type: canonical ? (canonical.options.length ? "multiple_choice" : "short_answer") : q.type,
+          requiredSelections: canonical?.options.length ? canonical.pair.length + 1 : undefined,
+        }) };
+      });
+    } catch { return { error: "assessment_metadata_unsupported" as const }; }
     let score = 0;
     const rows = questions.map((q) => {
       const userAnswer = answerByQuestion.get(q.id) ?? "";
@@ -40,7 +51,7 @@ export async function submitListeningAttempt(userId: string, id: string, answers
     });
     if (rows.length) await tx.insert(listeningAnswers).values(rows);
     await tx.update(listeningAttempts).set({ status: "completed", score, totalQuestions: questions.length, submittedAt: new Date() }).where(eq(listeningAttempts.id, id));
-    await tx.insert(activityEvents).values({ userId, type: "LISTENING_ATTEMPT_COMPLETED", payload: { attemptId: id, score, totalQuestions: questions.length } });
+    await tx.insert(activityEvents).values({ userId, type: "LISTENING_ATTEMPT_COMPLETED", payload: { attemptId: id, score, totalQuestions: questions.length, assessmentContracts } });
     return { score, totalQuestions: questions.length };
   });
 }

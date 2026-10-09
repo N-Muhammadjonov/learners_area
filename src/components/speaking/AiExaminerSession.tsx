@@ -39,6 +39,8 @@ export function AiExaminerSession({ dict, prompts, readiness, isStaff }: {
   const [summary, setSummary] = useState<SessionSummary | null>(null);
   const summaryRequested = useRef<string | null>(null);
   const resumed = useRef(false);
+  const startingRef = useRef(false);
+  const advancingRef = useRef(false);
 
   // Refresh resumes the immutable active plan. It does not create or reshuffle it.
   useEffect(() => {
@@ -55,41 +57,51 @@ export function AiExaminerSession({ dict, prompts, readiness, isStaff }: {
   }, [request]);
 
   const start = useCallback(async (mode: AiMode) => {
-    if (starting) return;
+    if (startingRef.current) return;
+    startingRef.current = true;
     setStarting(true); setError("");
     const result = await request<SessionPayload>("/api/speaking/ai/sessions", { body: { mode } });
+    startingRef.current = false;
     setStarting(false);
     if (!result?.ok || !result.data?.session) { setError(t.startFailed); return; }
     setSession(result.data.session); setItems(result.data.items); setStep(0); setLastAttemptId(null); setGate("session");
-  }, [request, starting, t.startFailed]);
+  }, [request, t.startFailed]);
 
   async function advance() {
     const item = items[step];
     if (!session || !item || !lastAttemptId) return;
-    const result = await request(`/api/speaking/ai/sessions/${session.id}/items/${item.id}/complete`, { body: { action: "answered", attemptId: lastAttemptId } });
-    if (!result?.ok) { setError(t.advanceFailed); return; }
-    const next = items[step + 1];
-    setItems((current) => current.map((value) => value.id === item.id ? { ...value, status: "answered", attemptId: lastAttemptId } : value));
-    setSession((current) => current ? { ...current, currentItemIndex: item.ordinal, ...(next ? {} : { status: "completed" }) } : current);
-    setLastAttemptId(null);
-    if (next && next.topicPosition !== item.topicPosition) setTransition(true);
-    else setStep((value) => value + 1);
+    if (advancingRef.current) return;
+    advancingRef.current = true;
+    try {
+      const result = await request(`/api/speaking/ai/sessions/${session.id}/items/${item.id}/complete`, { body: { action: "answered", attemptId: lastAttemptId } });
+      if (!result?.ok) { setError(t.advanceFailed); return; }
+      const next = items[step + 1];
+      setItems((current) => current.map((value) => value.id === item.id ? { ...value, status: "answered", attemptId: lastAttemptId } : value));
+      setSession((current) => current ? { ...current, currentItemIndex: item.ordinal, ...(next ? {} : { status: "completed" }) } : current);
+      setLastAttemptId(null);
+      if (next && next.topicPosition !== item.topicPosition) setTransition(true);
+      else setStep((value) => value + 1);
+    } finally { advancingRef.current = false; }
   }
 
   async function skip() {
     const item = items[step];
     if (!session || !item) return;
-    const result = await request(`/api/speaking/ai/sessions/${session.id}/items/${item.id}/complete`, { body: { action: "skipped" } });
-    if (!result?.ok) { setError(t.advanceFailed); return; }
-    const next = items[step + 1];
-    setItems((current) => current.map((value) => value.id === item.id ? { ...value, status: "skipped" } : value));
-    setSession((current) => current ? { ...current, currentItemIndex: item.ordinal, ...(next ? {} : { status: "completed" }) } : current);
-    if (next && next.topicPosition !== item.topicPosition) setTransition(true);
-    else setStep((value) => value + 1);
+    if (advancingRef.current) return;
+    advancingRef.current = true;
+    try {
+      const result = await request(`/api/speaking/ai/sessions/${session.id}/items/${item.id}/complete`, { body: { action: "skipped" } });
+      if (!result?.ok) { setError(t.advanceFailed); return; }
+      const next = items[step + 1];
+      setItems((current) => current.map((value) => value.id === item.id ? { ...value, status: "skipped" } : value));
+      setSession((current) => current ? { ...current, currentItemIndex: item.ordinal, ...(next ? {} : { status: "completed" }) } : current);
+      if (next && next.topicPosition !== item.topicPosition) setTransition(true);
+      else setStep((value) => value + 1);
+    } finally { advancingRef.current = false; }
   }
 
   function newSession() {
-    setSession(null); setItems([]); setStep(0); setLastAttemptId(null); setTransition(false); setError(""); setGate("mode");
+    setSession(null); setItems([]); setStep(0); setLastAttemptId(null); setTransition(false); setError(""); setSummary(null); summaryRequested.current = null; setGate("mode");
   }
 
   const current = items[step];
@@ -138,14 +150,14 @@ export function AiExaminerSession({ dict, prompts, readiness, isStaff }: {
         <div className="h-full bg-signal-500" style={{ width: `${items.length ? (step / items.length) * 100 : 0}%` }} />
       </div>
       <p className="text-sm font-medium text-ink-700">{t.examinerSays}</p>
-      <AiQuestionRecorder key={`${current.id}:${lastAttemptId ?? "new"}`} dict={dict} prompt={current.prompt} sessionId={session.id} itemId={current.id} index={step + 1}
+      <AiQuestionRecorder key={current.id} dict={dict} prompt={current.prompt} sessionId={session.id} itemId={current.id} index={step + 1}
         onEvaluated={setLastAttemptId} onNext={() => void advance()} />
       {!lastAttemptId && <Button variant="ghost" className="self-start" onClick={() => void skip()}>{t.skip}</Button>}
     </section>}
 
     {finished && <Card className="flex flex-col gap-4 p-6" data-ai-finished>
       <div><p className="text-sm font-medium text-signal-700">{t.checkedByRiwi}</p><h2 className="mt-1 font-display text-2xl text-ink-900">{t.summaryTitle}</h2></div>
-      <p className="text-sm text-ink-700">{t.finishedBody.replace("{n}", String(items.filter((item) => item.status === "answered").length || session.currentItemIndex)).replace("{total}", String(items.length))}</p>
+      <p className="text-sm text-ink-700">{t.finishedBody.replace("{n}", String(summary?.answered ?? items.filter((item) => item.status === "answered").length)).replace("{total}", String(items.length))}</p>
       <p className="text-sm text-ink-500">{t.summaryHonesty}</p>
       {summary && <>
         {summary.textBasedEstimate !== null && <div className="text-center"><p className="text-xs uppercase tracking-wide text-ink-500">{t.textBasedEstimate}</p><p className="font-display text-4xl text-ink-900">{summary.textBasedEstimate.toFixed(1)}</p></div>}

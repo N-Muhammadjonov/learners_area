@@ -1,0 +1,93 @@
+{
+  "base_commit": "98e51799576d288175e2349e913e5ff4506ca1ee",
+  "target_branch": "arena/01a10bac-learners-area",
+  "code_sha256": {
+    "src/app/api/reading/attempts/[id]/submit/route.ts": "0f406eb8a1b040fa9c12d640aa54b356242c514470f0a8d39a6e85953aeec102",
+    "src/app/api/speaking/ai/sessions/[id]/items/[itemId]/complete/route.ts": "a70788b913fedda621a6198218aae9505421f7ab7e86c7f6292b8591cf5d384c",
+    "src/app/api/speaking/ai/sessions/[id]/route.ts": "9b3e4d42c72ef41992757dd747e240044785de60391ff3efaeb616942720a67f",
+    "src/app/api/speaking/ai/sessions/route.ts": "05303e5226925f0c363918bd097714db9601d5ea728ea276a31e34152c1d435c",
+    "src/app/api/speaking/attempts/route.ts": "9819c60c8ff5a506f9d3958f97bf9ac3aff6fc594f2d5a613811f1bf6d40666e",
+    "src/components/speaking/AiExaminerSession.tsx": "dbe55b3632ee0dc0fce8f25f8490a8aa4f79dfcb73b62dbf0358bb9f2f25cb77",
+    "src/components/speaking/AiQuestionRecorder.tsx": "bc8bea1755059e9c2887e1a57d3abbcc06f4ea15b07ba2a54908d385c7fa45ec",
+    "src/components/speaking/MicrophoneCheck.tsx": "343f3d1f7d6013813c507a5e820785f8293e34bed23f83e4e093dfb1dbe1800a",
+    "src/components/speaking/ShadowingStudio.tsx": "d9852c31d2769dde25d886676ec7e2839fd0c2ce7f94cda1d13938bac2661469",
+    "src/lib/audio/recorder.ts": "d1635d44230942fdca31fc02ccf3e2745f0ad20fcda3e32ce47ac4eb94e5204c",
+    "src/lib/data/listening-attempt-write.ts": "3f2c0e00468969c8f5148e48b28e28a81aa1f7ae362b3c036303426f3d00b3d2",
+    "src/lib/data/reading-attempt-write.ts": "98def0efb9080243b22e0d6d91e7ae52d220cb4f05213e538adc61da1a532370",
+    "src/lib/data/speaking-ai-sessions.ts": "5d0f97db15eec443ba5b109f75c6301d3da0c8c9d2306fd9246cf6f0ef52faaa",
+    "src/lib/data/speaking-practice.ts": "cbd068ba58e1025b2a3182d740f144e897b4b02e1447def44a41b4248688d76d",
+    "src/lib/services/coach/contracts/objective-runtime.ts": "b5c08428f2326e043d3f20b507c249f11cf8c7c9abf391b0c97c8551751b57e4",
+    "src/lib/speaking/ai-session.ts": "408c70b799facd1174b2637140e712e0c84c681aa193fe28cf0a05c103eab8e4",
+    "tests/audio-recorder-lifecycle.test.ts": "129359747b5cb3e73e026f9cdb6370b0b1fd3ce5e3a9d473ac76ef6a0b64f790",
+    "tests/reading-stabilization.test.ts": "d7b94fc6fc90d82df13c947aff33abc0b3a10a5ead87bdbeb8097664c9115873",
+    "tests/riwi-objective-runtime.test.ts": "86b711b6c2ec51bf6879402789b5c8b96920f55e616800853da2d01dd54589a6",
+    "tests/riwi-objective-write-db.test.ts": "62181e3341ad51afeb5341db151102e33647658f85a35f7a70b15d10e7d93092",
+    "tests/speaking-ai-practice.test.ts": "18c2e666fc3d6fea5d902931d1148dcab334e87593021f717b3280ee8394a537",
+    "tests/speaking-ai-session-integration.test.ts": "0471b5d0c5027435c2e8ce2b420e480ad817bbda50a048dcfc69ad08f4a1e5ec",
+    "tests/ui/speaking-ai-feedback-flow.test.tsx": "def0e09626560e077ea755a9034f1593c6f8820f10a1dff6a8d8b52898377b35",
+    "tests/ui/speaking-microphone-boundaries.test.tsx": "33a54865aef63b63797f56086322ae1d679f3c8e79dea435e9279478e387f83f"
+  },
+  "environment": "restricted Mac execution; local socket binding prohibited",
+  "full_backend": {
+    "command": "node --conditions=react-server --import tsx --test --test-concurrency=2 tests/*.test.ts",
+    "exit_code": 1,
+    "tests": 1246,
+    "passed": 1152,
+    "failed": 3,
+    "skipped": 91,
+    "failures": [
+      {
+        "file": "tests/live-partner-call-engine.test.ts",
+        "cause": "listen EPERM 127.0.0.1",
+        "native_rerun_required": true
+      },
+      {
+        "file": "tests/live-signal-service.test.ts",
+        "cause": "listen EPERM 127.0.0.1",
+        "native_rerun_required": true
+      },
+      {
+        "file": "tests/ssrf-pinning.test.ts",
+        "cause": "listen EPERM 127.0.0.1",
+        "native_rerun_required": true
+      }
+    ],
+    "status": "NATIVE_GATE_PENDING",
+    "skips_are_pass": false
+  },
+  "full_ui": {
+    "command": "npm run test:ui",
+    "exit_code": 0,
+    "tests": 248,
+    "passed": 248,
+    "failed": 0,
+    "skipped": 0
+  },
+  "focused_backend": {
+    "tests": 53,
+    "passed": 52,
+    "failed": 0,
+    "skipped": 1,
+    "skip_reason": "Original Reading source absent; not a canonical-source acceptance"
+  },
+  "core": {
+    "tests": 21,
+    "passed": 21,
+    "failed": 0,
+    "skipped": 0
+  },
+  "typecheck": {
+    "command": "npm run typecheck",
+    "exit_code": 0
+  },
+  "lint": {
+    "command": "npm run lint",
+    "exit_code": 0
+  },
+  "production_build": {
+    "command": "npm run build",
+    "exit_code": 0
+  },
+  "remote_verification": "PENDING after user native gate/push",
+  "closure_credit_for_this_batch": 0
+}

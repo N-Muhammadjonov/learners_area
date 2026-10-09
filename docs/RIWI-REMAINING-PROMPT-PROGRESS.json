@@ -1,7 +1,7 @@
 {
   "source": "RIWI_REMAINING_WORK_EXECUTION_PROMPT.txt",
   "source_sha256": "daf36b256a990b7fa5379fd121810991bad552f638c776e8d9b55dcb22847979",
-  "verified_remote_base": "ce282f09ebc50071b18c9b54933e532d11feb2d5",
+  "verified_remote_base": "98e51799576d288175e2349e913e5ff4506ca1ee",
   "method": "Equal-weight full-group acceptance: CLOSED / all 34 original R/B/C/D groups. Partial implementation receives no full-group credit. This is a verified closure metric, not a measure of development effort or existing product functionality.",
   "closed": 2,
   "total": 34,
@@ -74,8 +74,8 @@
     {
       "id": "B02",
       "requirement": "Wire task-specific contracts from server-loaded canonical metadata. Review the inherited objective-runtime candidate in Reading submit and Listening attempt write. Ensure every authored subtype/MCQ selection count has correct canonical mapping and official grading remains unchanged. Unknown or unsupported metadata must fail safely without corrupting a submission.",
-      "status": "OPEN_UNVERIFIED",
-      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+      "status": "QA_READY_PENDING_NATIVE_GATES_AND_REMOTE",
+      "evidence_and_remaining": "Step 09 code and local regression evidence: RIWI-STEP-09-LIFECYCLE-CANONICAL-RUNTIME-2026-10-09.md. Requires full native Terminal gates and independent remote changed-blob verification before CLOSED. Real browser/source/deployment acceptance is separately open in R05/R06/C08/C09."
     },
     {
       "id": "B03",
@@ -111,32 +111,32 @@
     {
       "id": "C01",
       "requirement": "Review and finish inherited microphone/STT lifecycle changes. Current stop() detaches recognition handlers immediately and reads only finalRef; final results delivered asynchronously after SpeechRecognition.stop() can be discarded. Reproduce late-final events, no-speech end, interim/final replacement, duplicate events, denied permission, start failure, natural end, unmount and rapid retry. Keep review editable and no automatic server submission. Stop/reset/unmount must release listeners, recorder tracks, meters, timers and Blob URLs; discard stale callbacks without discarding a valid final result from the stopped recording.",
-      "status": "PARTIAL",
-      "evidence_and_remaining": "Step 08 STT finalization and recorder review regression ready for QA-gated publication; browser acceptance is tracked separately in C09."
+      "status": "QA_READY_PENDING_NATIVE_GATES_AND_REMOTE",
+      "evidence_and_remaining": "Step 09 code and local regression evidence: RIWI-STEP-09-LIFECYCLE-CANONICAL-RUNTIME-2026-10-09.md. Requires full native Terminal gates and independent remote changed-blob verification before CLOSED. Real browser/source/deployment acceptance is separately open in R05/R06/C08/C09."
     },
     {
       "id": "C02",
       "requirement": "Recorder lifecycle: cancellation while permission is pending, late getUserMedia resolution, aborted signal before/after allocation, constructor/start/stop errors, no stop event, repeated stop, zero bytes, real MIME and accurate elapsed recording time. Check every consuming component passes cancellation and releases pending requests, rather than testing the utility alone.",
-      "status": "OPEN_UNVERIFIED",
-      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+      "status": "QA_READY_PENDING_NATIVE_GATES_AND_REMOTE",
+      "evidence_and_remaining": "Step 09 code and local regression evidence: RIWI-STEP-09-LIFECYCLE-CANONICAL-RUNTIME-2026-10-09.md. Requires full native Terminal gates and independent remote changed-blob verification before CLOSED. Real browser/source/deployment acceptance is separately open in R05/R06/C08/C09."
     },
     {
       "id": "C03",
       "requirement": "Verify microphone check uses non-zero audio energy and releases tracks; browser recording continues when STT is unsupported. Supported browser STT is an explicit capability, not guaranteed free universal transcription. Browser/vendor recognition does not prove acoustic pronunciation assessment.",
-      "status": "OPEN_UNVERIFIED",
-      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+      "status": "QA_READY_PENDING_NATIVE_GATES_AND_REMOTE",
+      "evidence_and_remaining": "Step 09 code and local regression evidence: RIWI-STEP-09-LIFECYCLE-CANONICAL-RUNTIME-2026-10-09.md. Requires full native Terminal gates and independent remote changed-blob verification before CLOSED. Real browser/source/deployment acceptance is separately open in R05/R06/C08/C09."
     },
     {
       "id": "C04",
       "requirement": "Verify canonical stable randomized examiner plan: part selection, same-topic clusters, stable refresh/resume, no duplicates where enough bank entries exist, related Part 2/3, no client question substitution, insufficient-bank handling. Preserve Practice on Your Own.",
-      "status": "OPEN_UNVERIFIED",
-      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+      "status": "QA_READY_PENDING_NATIVE_GATES_AND_REMOTE",
+      "evidence_and_remaining": "Step 09 code and local regression evidence: RIWI-STEP-09-LIFECYCLE-CANONICAL-RUNTIME-2026-10-09.md. Requires full native Terminal gates and independent remote changed-blob verification before CLOSED. Real browser/source/deployment acceptance is separately open in R05/R06/C08/C09."
     },
     {
       "id": "C05",
       "requirement": "Verify Stop -> transcript review/edit/playback/re-record -> explicit Send to RIWI -> pending -> evidence-based feedback -> Try again/Next. Test no send on Stop/timer, no partial transcript upload, duplicate send idempotency, provider timeout/retry and route/unmount cleanup. Bind attempt to persisted session item/question and latest valid answer generation.",
-      "status": "OPEN_UNVERIFIED",
-      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+      "status": "PARTIAL",
+      "evidence_and_remaining": "Step 09 repairs disappearing feedback and duplicate advance/create; React explicit-send/feedback/Next journey passes. Provider timeout/retry and full browser/route cleanup acceptance remains open."
     },
     {
       "id": "C06",
@@ -223,5 +223,26 @@
       "status": "OPEN_UNVERIFIED",
       "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
     }
-  ]
+  ],
+  "pending_batch": {
+    "step": 9,
+    "groups": [
+      "B02",
+      "C01",
+      "C02",
+      "C03",
+      "C04"
+    ],
+    "new_groups": [
+      "B02",
+      "C02",
+      "C03",
+      "C04"
+    ],
+    "new_group_percentage_points": 11.76,
+    "previous_partial_group_completed": "C01",
+    "conditional_closed_after_native_qa_and_remote_verification": 7,
+    "conditional_percent": 20.59,
+    "currently_credited": false
+  }
 }

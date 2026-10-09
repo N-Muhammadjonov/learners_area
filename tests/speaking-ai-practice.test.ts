@@ -46,3 +46,21 @@ test("AI recorder keeps Stop local and submits only from explicit Send", () => {
   assert.match(source, /browserTranscriptRaw/);
   assert.match(source, /browserTranscriptEdited/);
 });
+
+test("full sessions choose a related Part 2/3 pair whenever the bank provides one", () => {
+  const bank = [...prompts, { id: "cue-unrelated", part: "part2", topic: "Unrelated" }];
+  for (let index = 0; index < 100; index++) {
+    const plan = buildAiSessionPlan(bank, "full", { seed: `pair-${index}` });
+    const cue = plan.items.find(item => item.prompt.part === "part2")!;
+    const discussion = plan.items.find(item => item.prompt.part === "part3")!;
+    assert.equal(cue.topicKey, discussion.topicKey);
+  }
+});
+
+test("plan reproducibility does not depend on database row order and missing coverage stays explicit", () => {
+  assert.deepEqual(buildAiSessionPlan(prompts, "full", { seed: "stable" }), buildAiSessionPlan([...prompts].reverse(), "full", { seed: "stable" }));
+  const incomplete = buildAiSessionPlan([{ id: "cue", part: "part2", topic: "Only" }, { id: "other", part: "part3", topic: "Other" }], "full", { seed: "small" });
+  assert.ok(incomplete.limitations.includes("missing:part1"));
+  assert.ok(incomplete.limitations.includes("unrelated_part3:only"));
+  assert.throws(() => buildAiSessionPlan([{ id: "dup", part: "part1", topic: "A" }, { id: "dup", part: "part1", topic: "A" }], "part1"), /duplicate_prompt_id/);
+});

@@ -19,7 +19,7 @@ export type AiPlanItem<P extends BrowsablePrompt = BrowsablePrompt> = {
 };
 
 export type AiSessionPlan<P extends BrowsablePrompt = BrowsablePrompt> = {
-  version: 1;
+  version: 2;
   mode: AiMode;
   seed: string;
   limitations: string[];
@@ -65,6 +65,9 @@ export function buildAiSessionPlan<P extends BrowsablePrompt>(
   mode: AiMode,
   options: { seed?: string; recentPromptIds?: readonly string[] } = {},
 ): AiSessionPlan<P> {
+  if (new Set(prompts.map(prompt => prompt.id)).size !== prompts.length) throw new Error("duplicate_prompt_id");
+  // Stable ordering makes seed replay independent of SQL tie/order changes.
+  prompts = [...prompts].sort((a, b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
   const seed = options.seed ?? crypto.randomUUID();
   const random = seededRandom(seed);
   const recent = new Set(options.recentPromptIds ?? []);
@@ -93,7 +96,8 @@ export function buildAiSessionPlan<P extends BrowsablePrompt>(
   }
   if (mode === "full" || mode === "part2") {
     const groups = shuffled(groupByTopic(prompts, "part2"), random);
-    const group = groups[0];
+    const discussionTopics = new Set(groupByTopic(prompts, "part3").map(group => group.key));
+    const group = mode === "full" ? groups.find(group => discussionTopics.has(group.key)) ?? groups[0] : groups[0];
     if (group) {
       topicPosition += 1;
       const candidates = [...shuffled(group.prompts.filter((p) => !recent.has(p.id)), random), ...shuffled(group.prompts.filter((p) => recent.has(p.id)), random)];
@@ -108,11 +112,16 @@ export function buildAiSessionPlan<P extends BrowsablePrompt>(
     const groups = shuffled(groupByTopic(prompts, "part3"), random);
     const matching = cueTopic ? groups.find((group) => group.key === cueTopic) : undefined;
     const group = matching ?? groups[0];
+    if (cueTopic && group && !matching) limitations.push(`unrelated_part3:${cueTopic}`);
     if (group) appendGroup(group);
   }
 
+  for (const part of ["part1", "part2", "part3"] as const) {
+    if ((mode === "full" || mode === part) && !selected.some(item => item.prompt.part === part)) limitations.push(`missing:${part}`);
+  }
+
   return {
-    version: 1,
+    version: 2,
     mode,
     seed,
     limitations,

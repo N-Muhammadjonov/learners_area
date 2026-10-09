@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
     const item = await db.query.speakingAiSessionItems.findFirst({
       where: and(eq(speakingAiSessionItems.id, data.sessionItemId), eq(speakingAiSessionItems.sessionId, data.sessionId)),
     });
-    if (!session || session.status !== "active" || !item || item.status !== "pending" || item.promptId !== data.promptId || item.part !== data.part) {
+    if (!session || session.status !== "active" || !item || item.status !== "pending" || item.ordinal !== session.currentItemIndex + 1 || item.promptId !== data.promptId || item.part !== data.part) {
       return NextResponse.json({ error: "invalid_session_item" }, { status: 409 });
     }
   }

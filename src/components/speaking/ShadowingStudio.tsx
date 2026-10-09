@@ -30,7 +30,7 @@ type Track = { id: string; title: string; url: string; category: string };
 export function ShadowingStudio({ dict, tracks }: { dict: Dictionary; tracks: Track[] }) {
   const t = dict.speakingShadowing;
   const [selected, setSelected] = useState<Track | null>(tracks[0] ?? null);
-  const [phase, setPhase] = useState<"idle" | "recording" | "recorded">("idle");
+  const [phase, setPhase] = useState<"idle" | "requesting" | "recording" | "recorded">("idle");
   const [elapsed, setElapsed] = useState(0);
   const [take, setTake] = useState<{ url: string; durationMs: number } | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -40,6 +40,9 @@ export function ShadowingStudio({ dict, tracks }: { dict: Dictionary; tracks: Tr
   const recorderRef = useRef<Recorder | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const takeUrlRef = useRef<string | null>(null);
+  const epoch = useRef(0);
+  const microphoneRequest = useRef<AbortController | null>(null);
+  const pendingRef = useRef(false);
 
   useEffect(() => {
     setSupported(isRecordingSupported());
@@ -47,6 +50,8 @@ export function ShadowingStudio({ dict, tracks }: { dict: Dictionary; tracks: Tr
 
   useEffect(
     () => () => {
+      epoch.current++;
+      microphoneRequest.current?.abort();
       if (timerRef.current) clearInterval(timerRef.current);
       if (takeUrlRef.current) URL.revokeObjectURL(takeUrlRef.current);
       void recorderRef.current?.cancel();
@@ -55,21 +60,33 @@ export function ShadowingStudio({ dict, tracks }: { dict: Dictionary; tracks: Tr
   );
 
   async function start() {
+    if (pendingRef.current || recorderRef.current) return;
+    pendingRef.current = true;
+    const generation = epoch.current;
+    setPhase("requesting");
     setError(null);
     try {
-      const recorder = await createRecorder();
+      const controller = new AbortController();
+      microphoneRequest.current = controller;
+      const recorder = await createRecorder({ signal: controller.signal });
+      if (microphoneRequest.current === controller) microphoneRequest.current = null;
+      if (generation !== epoch.current) { recorder.cancel(); return; }
       recorderRef.current = recorder;
       await recorder.start();
+      if (generation !== epoch.current) { recorder.cancel(); return; }
       setPhase("recording");
       setElapsed(0);
-      timerRef.current = setInterval(() => setElapsed((value) => value + 1000), 1000);
+      timerRef.current = setInterval(() => setElapsed(recorder.elapsedMs()), 200);
     } catch (cause) {
+      if (generation !== epoch.current) return;
+      recorderRef.current?.cancel(); recorderRef.current = null;
+      setPhase("idle");
       setError(
         cause instanceof RecorderError && cause.code === "permission_denied"
           ? t.permissionDenied
           : t.recordFailed
       );
-    }
+    } finally { if (generation === epoch.current) pendingRef.current = false; }
   }
 
   async function stop() {
@@ -77,8 +94,11 @@ export function ShadowingStudio({ dict, tracks }: { dict: Dictionary; tracks: Tr
     timerRef.current = null;
     const recorder = recorderRef.current;
     if (!recorder) return;
+    const generation = epoch.current;
     const result = await recorder.stop();
-    if (!result) return;
+    if (generation !== epoch.current) return;
+    recorderRef.current = null;
+    if (!result) { setError(t.recordFailed); setPhase("idle"); return; }
     if (takeUrlRef.current) URL.revokeObjectURL(takeUrlRef.current);
     const url = URL.createObjectURL(result.blob);
     takeUrlRef.current = url;
@@ -113,9 +133,12 @@ export function ShadowingStudio({ dict, tracks }: { dict: Dictionary; tracks: Tr
           id="shadowing-track"
           className="input"
           data-shadowing-picker
+          disabled={phase === "recording" || phase === "requesting"}
           value={selected?.id ?? ""}
           onChange={(e) => {
             setSelected(tracks.find((track) => track.id === e.target.value) ?? null);
+            if (takeUrlRef.current) URL.revokeObjectURL(takeUrlRef.current);
+            takeUrlRef.current = null;
             setTake(null);
             setPhase("idle");
             setOriginalFailed(false);
@@ -164,7 +187,7 @@ export function ShadowingStudio({ dict, tracks }: { dict: Dictionary; tracks: Tr
                     {t.stop} · {formatDuration(elapsed)}
                   </Button>
                 ) : (
-                  <Button variant="secondary" onClick={() => void start()} data-shadowing-start>
+                  <Button variant="secondary" disabled={phase === "requesting"} onClick={() => void start()} data-shadowing-start>
                     {phase === "recorded" ? t.again : t.record}
                   </Button>
                 )}
