@@ -43,8 +43,28 @@ export const NON_UUID_PARAM_NAMES = {
   activity: "activity ordinal, an integer",
 };
 
-/** Literal values a uuid slot also owns, which must not be rejected by shape. */
-export const RESERVED_ID_WORDS = ["new", "preview"];
+/**
+ * STATIC page routes that a dynamic route pattern would ALSO match.
+ *
+ * Next resolves a literal segment before a dynamic one, so `/app/listening/lessons/author`
+ * is the authoring desk, NOT `[lessonId]` with the id "author". Middleware runs before
+ * that resolution and therefore has to know the same thing: without this list the shape
+ * check 404s five real pages — both lesson authoring desks and three admin pages.
+ *
+ * A hand-kept word list was the original mistake here. "new" and "preview" were listed
+ * as magic ids, which happened to save `/app/admin/writing/[kind]/new` while saying
+ * nothing about the five routes below. This list is DERIVED from the real route tree
+ * and tests/uuid-page-routes.test.ts recomputes it, so a new static sibling cannot
+ * silently become a 404. ("preview" needed no entry: it is an id literal only on
+ * /api/listening/full/[id]/sandbox, and API routes answer their own status codes.)
+ */
+export const STATIC_PAGE_ROUTES_OVERRIDING_DYNAMIC = [
+  "/app/admin/listening/import",
+  "/app/admin/reading/import",
+  "/app/admin/reading/retention",
+  "/app/listening/lessons/author",
+  "/app/reading/lessons/author",
+];
 
 /**
  * Every dynamic PAGE route under /app, as Next resolves it.
@@ -107,17 +127,31 @@ function compile(route) {
   return { route, names, regex: new RegExp(`^/${source}$`) };
 }
 
+/** How many literal (non-parameter) segments a route has — Next's specificity. */
+function literalWeight(route) {
+  return route.split("/").filter(Boolean).filter((segment) => !segment.startsWith("[")).length;
+}
+
 const COMPILED = DYNAMIC_PAGE_ROUTES
   .map(compile)
-  // Longest first: `/app/listening/tests/[id]/mcq` must win over
-  // `/app/listening/tests/[id]/[activity]`, which would otherwise swallow it.
-  .sort((a, b) => b.route.split("/").length - a.route.split("/").length || b.route.length - a.route.length);
+  // Next prefers a LITERAL segment over a parameter, so `/app/listening/tests/[id]/mcq`
+  // and `/app/admin/writing/[kind]/new` must win over the `[activity]` / `[id]` routes
+  // that would otherwise swallow them. Sorting by string length happened to get `mcq`
+  // right and `new` wrong, which is why "new" had to be special-cased as a magic word.
+  .sort(
+    (a, b) =>
+      b.route.split("/").length - a.route.split("/").length ||
+      literalWeight(b.route) - literalWeight(a.route) ||
+      b.route.length - a.route.length,
+  );
 
 /**
  * True when `pathname` matches a dynamic page route and a parameter that must be a
  * uuid is not one. Shape only — "valid uuid, no such row" still needs a database read.
  */
 export function isMalformedIdPath(pathname) {
+  // A real static page wins outright: it is not a dynamic route at all.
+  if (STATIC_PAGE_ROUTES_OVERRIDING_DYNAMIC.includes(pathname)) return false;
   for (const { names, regex } of COMPILED) {
     const match = regex.exec(pathname);
     if (!match) continue;
@@ -129,7 +163,6 @@ export function isMalformedIdPath(pathname) {
       } catch {
         return true; // undecodable is certainly not a uuid
       }
-      if (RESERVED_ID_WORDS.includes(id)) continue;
       if (!UUID_RE.test(id)) return true;
     }
     return false;

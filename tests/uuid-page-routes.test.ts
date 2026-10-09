@@ -36,6 +36,64 @@ function discoverDynamicPageRoutes(dir: string, segments: string[] = []): string
   return out;
 }
 
+/** Every STATIC page route under /app (route groups removed). */
+function discoverStaticPageRoutes(dir: string, segments: string[] = []): string[] {
+  const out: string[] = [];
+  for (const entry of readdirSync(dir)) {
+    const full = join(dir, entry);
+    if (!statSync(full).isDirectory()) continue;
+    const isGroup = entry.startsWith("(") && entry.endsWith(")");
+    const next = isGroup ? segments : [...segments, entry];
+    if (existsSync(join(full, "page.tsx")) && !next.some((s) => s.startsWith("["))) {
+      out.push(`/app/${next.join("/")}`);
+    }
+    out.push(...discoverStaticPageRoutes(full, next));
+  }
+  return out;
+}
+
+/**
+ * REGRESSION. The shape check 404'd five REAL pages — both lesson authoring desks and
+ * three admin pages — because middleware matched `/app/listening/lessons/author`
+ * against `[lessonId]` and judged "author" to be a malformed uuid. Next resolves a
+ * literal segment BEFORE a dynamic one, so those are static routes, not bad ids.
+ *
+ * The original guard was a hand-written word list ("new", "preview"), which is exactly
+ * the kind of thing that drifts. This test recomputes the set from the real tree, so
+ * adding a new static sibling next to an `[id]` route can never silently 404 it.
+ */
+test("a static page that a dynamic route would also match is never treated as a bad id", async () => {
+  const { STATIC_PAGE_ROUTES_OVERRIDING_DYNAMIC, DYNAMIC_PAGE_ROUTES, isMalformedIdPath } = await mod();
+
+  const toRegExp = (route: string) =>
+    new RegExp(
+      `^${route
+        .split("/")
+        .filter(Boolean)
+        .map((segment) => (segment.startsWith("[") ? "([^/]+)" : segment.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")))
+        .map((part) => `/${part}`)
+        .join("")}$`,
+    );
+
+  const dynamic = (DYNAMIC_PAGE_ROUTES as string[]).map(toRegExp);
+  const shadowed = discoverStaticPageRoutes(APP_ROOT)
+    .filter((route) => dynamic.some((pattern) => pattern.test(route)))
+    .sort();
+
+  assert.ok(shadowed.length > 0, "route discovery found no shadowed static routes; the walker is broken");
+  assert.deepEqual(
+    [...(STATIC_PAGE_ROUTES_OVERRIDING_DYNAMIC as string[])].sort(),
+    shadowed,
+    "a static page is shadowed by a dynamic route pattern and is not exempted from the shape check",
+  );
+
+  // The five pages themselves must be reachable.
+  for (const route of shadowed) {
+    assert.equal(isMalformedIdPath(route), false, `${route} is a real page and must not be 404'd by shape`);
+  }
+  assert.ok(shadowed.includes("/app/listening/lessons/author"), "the lesson authoring desk must be among them");
+});
+
 test("every dynamic page route is classified, so none silently inherits 200-for-missing", async () => {
   const { DYNAMIC_PAGE_ROUTES, UUID_PARAM_NAMES, NON_UUID_PARAM_NAMES } = await mod();
 
