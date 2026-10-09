@@ -47,6 +47,10 @@ export type ExportSink = {
   endFile(): Promise<void>;
 };
 export type ExportSource = {
+  /** Timestamp bound to a database snapshot, when the source provides one. */
+  readonly snapshotAt?: string;
+  /** An adapter bound to one mode cannot be reused for another mode. */
+  readonly scope?: ExportScope;
   rows(table: PortableTable, batchSize: number): AsyncIterable<readonly PortableRow[]>;
   objects(scope: ExportScope): AsyncIterable<PortableObject>;
   /** Resolve this bounded batch against authorized, non-deleted parent
@@ -65,8 +69,15 @@ export async function exportPortableArchive(input: {
   createdAt?: Date;
   batchSize?: number;
 }): Promise<PortableManifest> {
+  const batchSize = input.batchSize ?? 250;
+  if (!Number.isSafeInteger(batchSize) || batchSize < 1 || batchSize > 5000) throw new Error("portable_batch_size_invalid");
+  if (input.source.scope && input.source.scope !== input.scope) throw new Error("portable_source_scope_mismatch");
   if (!input.sourceFingerprint.trim()) throw new Error("source_fingerprint_required");
-  const snapshotAt = input.createdAt ?? new Date();
+  const snapshotAt = input.createdAt ?? (input.source.snapshotAt ? new Date(input.source.snapshotAt) : new Date());
+  if (!Number.isFinite(snapshotAt.getTime())) throw new Error("portable_snapshot_invalid");
+  if (input.source.snapshotAt && input.source.snapshotAt !== snapshotAt.toISOString()) {
+    throw new Error("portable_snapshot_time_mismatch");
+  }
   const tables: RowFileManifest[] = [];
   for (const table of tablesForScope(input.scope)) {
     const file = `tables/${table}.jsonl`;
@@ -74,8 +85,8 @@ export async function exportPortableArchive(input: {
     const hash = createHash("sha256");
     let byteLength = 0;
     let rowCount = 0;
-    for await (const batch of input.source.rows(table, input.batchSize ?? 250)) {
-      if (batch.length > (input.batchSize ?? 250)) throw new Error(`unbounded_batch:${table}`);
+    for await (const batch of input.source.rows(table, batchSize)) {
+      if (batch.length > batchSize) throw new Error(`unbounded_batch:${table}`);
       let activeConversations: Set<string> | undefined;
       if (table === "riwi_conversation_messages" && batch.length) {
         if (!input.source.activeConversationIds) throw new Error("conversation_retention_proof_required");
@@ -176,7 +187,11 @@ export type ImportTransaction = {
   applyRow(table: PortableTable, row: PortableRow, identityMap: ReadonlyMap<string, string>): Promise<void>;
   copyObject(object: PortableObject, bytes: Uint8Array): Promise<void>;
 };
-export type ImportDestination = { transaction<T>(work: (tx: ImportTransaction) => Promise<T>): Promise<T> };
+export type ImportDestination = {
+  /** A database destination may order inserts by its declared foreign keys. */
+  orderTables?(tables: readonly RowFileManifest[]): readonly RowFileManifest[];
+  transaction<T>(work: (tx: ImportTransaction) => Promise<T>): Promise<T>;
+};
 
 export async function importPortableArchive(input: {
   manifest: PortableManifest;
@@ -187,10 +202,15 @@ export async function importPortableArchive(input: {
 }): Promise<ImportPlan> {
   verifyManifest(input.manifest);
   const identityMap = input.identityMap ?? new Map<string, string>();
+  const orderedTables = input.destination.orderTables?.(input.manifest.tables) ?? input.manifest.tables;
+  if (orderedTables.length !== input.manifest.tables.length || new Set(orderedTables).size !== orderedTables.length
+    || orderedTables.some((entry) => !input.manifest.tables.includes(entry))) {
+    throw new Error("portable_import_order_invalid");
+  }
   let creates = 0; let updates = 0; let skips = 0; let objectCopies = 0;
   const conflicts: string[] = [];
   return input.destination.transaction(async (tx) => {
-    for (const entry of input.manifest.tables) {
+    for (const entry of orderedTables) {
       const table = entry.table as PortableTable;
       const hash = createHash("sha256");
       let byteLength = 0; let rowCount = 0;

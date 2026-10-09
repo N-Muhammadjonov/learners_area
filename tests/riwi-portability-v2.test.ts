@@ -212,3 +212,34 @@ test("expired conversation messages and orphan messages cannot leave the private
   const { activeConversationIds: _proof, ...withoutProof } = source;
   await assert.rejects(() => exportPortableArchive({ scope: "full-system", objectMode: "keep-r2", sourceFingerprint: "retention-fixture", source: withoutProof, sink: new MemorySink(), createdAt: now }), /conversation_retention_proof_required/);
 });
+
+
+test("destination insert ordering cannot drop, duplicate, or rewrite signed table metadata", async () => {
+  const value = await build("riwi");
+  let transactions = 0;
+  const archive = { async *readRows() {}, async readObject() { return new Uint8Array(); } };
+  for (const ordered of [
+    value.manifest.tables.slice(1),
+    value.manifest.tables.map((entry, index) => index === 0 ? value.manifest.tables[1]! : entry),
+    value.manifest.tables.map((entry, index) => index === 0 ? { ...entry, sha256: "a".repeat(64) } : entry),
+  ]) {
+    await assert.rejects(() => importPortableArchive({ manifest: value.manifest, archive, dryRun: false, destination: {
+      orderTables: () => ordered,
+      async transaction() { transactions++; throw new Error("must_not_begin"); },
+    } }), /portable_import_order_invalid/);
+  }
+  assert.equal(transactions, 0);
+});
+
+
+test("invalid export batch sizes are rejected before starting any archive file", async () => {
+  const value = fixture("riwi");
+  let starts = 0;
+  for (const batchSize of [0, -1, 1.5, 5001, Number.NaN, Number.POSITIVE_INFINITY]) {
+    await assert.rejects(() => exportPortableArchive({ scope: "riwi", objectMode: "keep-r2", sourceFingerprint: "batch-preflight",
+      source: { async *rows() {}, async *objects() {} }, batchSize,
+      sink: { ...value.sink, async beginFile() { starts++; }, async write() {}, async endFile() {} },
+    }), /portable_batch_size_invalid/);
+  }
+  assert.equal(starts, 0);
+});
