@@ -38,6 +38,10 @@ export type ExportSink = {
 export type ExportSource = {
   rows(table: PortableTable, batchSize: number): AsyncIterable<readonly PortableRow[]>;
   objects(scope: ExportScope): AsyncIterable<PortableObject>;
+  /** Resolve this bounded batch against authorized, non-deleted parent
+   * conversations whose expiry is strictly after the export snapshot.
+   * Required whenever private conversation messages are exported. */
+  activeConversationIds?(ids: readonly string[], at: Date): Promise<readonly string[]>;
 };
 
 export async function exportPortableArchive(input: {
@@ -50,6 +54,7 @@ export async function exportPortableArchive(input: {
   batchSize?: number;
 }): Promise<PortableManifest> {
   if (!input.sourceFingerprint.trim()) throw new Error("source_fingerprint_required");
+  const snapshotAt = input.createdAt ?? new Date();
   const tables: RowFileManifest[] = [];
   for (const table of tablesForScope(input.scope)) {
     const file = `tables/${table}.jsonl`;
@@ -59,9 +64,21 @@ export async function exportPortableArchive(input: {
     let rowCount = 0;
     for await (const batch of input.source.rows(table, input.batchSize ?? 250)) {
       if (batch.length > (input.batchSize ?? 250)) throw new Error(`unbounded_batch:${table}`);
+      let activeConversations: Set<string> | undefined;
+      if (table === "riwi_conversation_messages" && batch.length) {
+        if (!input.source.activeConversationIds) throw new Error("conversation_retention_proof_required");
+        const ids = [...new Set(batch.map((row) => {
+          if (typeof row.conversationId !== "string" || !row.conversationId) throw new Error("conversation_reference_invalid");
+          return row.conversationId;
+        }))];
+        const active = await input.source.activeConversationIds(ids, snapshotAt);
+        if (active.some((id) => !ids.includes(id))) throw new Error("conversation_retention_proof_invalid");
+        activeConversations = new Set(active);
+      }
       for (const row of batch) {
         assertPortableFields(table, row);
-        if (!shouldExportPrivateRow(row)) continue;
+        if (!shouldExportPrivateRow(row, snapshotAt)) continue;
+        if (activeConversations && !activeConversations.has(row.conversationId as string)) continue;
         const line = `${stableJson(row)}\n`;
         hash.update(line);
         byteLength += Buffer.byteLength(line);
@@ -97,7 +114,7 @@ export async function exportPortableArchive(input: {
     speakingDataSchemaVersion: SPEAKING_DATA_SCHEMA_VERSION,
     scope: input.scope,
     objectMode: input.objectMode,
-    createdAt: (input.createdAt ?? new Date()).toISOString(),
+    createdAt: snapshotAt.toISOString(),
     sourceFingerprint: input.sourceFingerprint,
     tables: tables.sort((a, b) => a.table.localeCompare(b.table)),
     objects: objects.sort((a, b) => a.sourceKey.localeCompare(b.sourceKey)),

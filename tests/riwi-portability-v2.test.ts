@@ -45,6 +45,7 @@ function fixture(scope: ExportScope, objectMode: "keep-r2" | "move-objects" = "k
         yield object;
       }
     },
+    async activeConversationIds(ids: readonly string[]) { return ids.filter((id) => id === "conversation-1"); },
   };
   return { sink, source, objectBytes: new Map([["riwi/source.pdf", Buffer.from("pdf")], ["speaking/private.webm", Buffer.from("audio")]]) };
 }
@@ -159,4 +160,34 @@ test("portable canonical JSON handles timestamps/bytes and remains stable", () =
   assert.equal(stableJson({ b: 2, a: 1 }), '{"a":1,"b":2}');
   assert.match(stableJson({ values: [3, 2, 1] }), /3,2,1/);
   assert.equal(stableJson(new Date("2026-10-05T00:00:00Z")), '"2026-10-05T00:00:00.000Z"');
+});
+
+test("expired conversation messages and orphan messages cannot leave the private archive", async () => {
+  const sink = new MemorySink();
+  const now = new Date("2026-10-08T00:00:00Z");
+  const source = {
+    async *rows(table: PortableTable) {
+      if (table === "riwi_conversations") yield [
+        { id: "active", expiresAt: "2026-10-09T00:00:00Z" },
+        { id: "expired", expiresAt: "2026-10-08T00:00:00Z" },
+      ];
+      if (table === "riwi_conversation_messages") yield [
+        { id: "a", conversationId: "active", content: "ACTIVE_CONVERSATION" },
+        { id: "e", conversationId: "expired", content: "EXPIRED_PRIVATE_CANARY" },
+        { id: "o", conversationId: "orphan", content: "ORPHAN_PRIVATE_CANARY" },
+      ];
+    },
+    async *objects() {},
+    async activeConversationIds(ids: readonly string[], at: Date) {
+      assert.equal(at.toISOString(), now.toISOString());
+      assert.deepEqual(ids, ["active", "expired", "orphan"]);
+      return ["active"];
+    },
+  };
+  await exportPortableArchive({ scope: "full-system", objectMode: "keep-r2", sourceFingerprint: "retention-fixture", source, sink, createdAt: now });
+  assert.match(sink.files.get("tables/riwi_conversation_messages.jsonl")!, /ACTIVE_CONVERSATION/);
+  assert.doesNotMatch([...sink.files.values()].join(""), /EXPIRED_PRIVATE_CANARY|ORPHAN_PRIVATE_CANARY/);
+  assert.doesNotMatch(sink.files.get("tables/riwi_conversations.jsonl")!, /"expired"/);
+  const { activeConversationIds: _proof, ...withoutProof } = source;
+  await assert.rejects(() => exportPortableArchive({ scope: "full-system", objectMode: "keep-r2", sourceFingerprint: "retention-fixture", source: withoutProof, sink: new MemorySink(), createdAt: now }), /conversation_retention_proof_required/);
 });
