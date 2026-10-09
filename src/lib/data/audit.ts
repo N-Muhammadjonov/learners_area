@@ -68,7 +68,9 @@ export type AuditAction =
   | "riwi.assessment.policy.previewed"
   | "riwi.assessment.policy.regression.passed"
   | "riwi.assessment.policy.approved"
-  | "riwi.assessment.policy.rejected";
+  | "riwi.assessment.policy.rejected"
+  | "riwi.security.regression.previewed"
+  | "riwi.security.reviewed";
 
 export async function recordAudit(input: {
   actorUserId: string | null;

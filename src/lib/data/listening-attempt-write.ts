@@ -2,15 +2,16 @@ import { sql } from "drizzle-orm";
 import "server-only";
 import { and, eq } from "drizzle-orm";
 import { db } from "@/db/client";
-import { listeningPackages, activityEvents, listeningAnswers, listeningAttempts, listeningQuestions, users } from "@/db/schema";
+import { listeningTests, listeningPackages, activityEvents, listeningAnswers, listeningAttempts, listeningQuestions, users } from "@/db/schema";
 import { gradePackage } from "@/lib/listening/package";
+import { objectiveSourceFingerprint } from "@/lib/services/coach/contracts/objective-source";
 import { objectiveAssessmentEvidence } from "@/lib/services/coach/contracts/objective-runtime";
 import { gradeAnswer } from "@/lib/services/listening/grading";
 
 /** Serialize starts for one authenticated account; retries resume an existing attempt. */
 export async function startListeningAttempt(userId: string, testId: string, database = db) {
   return database.transaction(async (tx) => {
-    const [user] = await tx.select({ id: users.id }).from(users).where(eq(users.id, userId)).for("update");
+    const [user] = await tx.select({ id: users.id }).from(users).where(and(eq(users.id, userId), eq(users.accountStatus, "active"))).for("update");
     if (!user) return null;
     const existing = await tx.query.listeningAttempts.findFirst({ where: and(eq(listeningAttempts.userId, userId), eq(listeningAttempts.testId, testId), eq(listeningAttempts.status, "in_progress")) });
     if (existing) return existing.id;
@@ -32,6 +33,7 @@ export async function submitListeningAttempt(userId: string, id: string, answers
     const ready = await tx.execute(sql`select to_regclass('public.listening_packages') is not null as ready`);
     const pkg = ready.rows[0]?.ready ? await tx.query.listeningPackages.findFirst({ where: eq(listeningPackages.testId, attempt.testId) }) : null;
     const fullResults = pkg ? gradePackage(pkg.payload, Object.fromEntries(questions.map(q => [q.order, answerByQuestion.get(q.id) ?? ""]))) : null;
+    const source = await tx.query.listeningTests.findFirst({ where: eq(listeningTests.id, attempt.testId), columns: { transcript: true } });
     let assessmentContracts;
     try {
       assessmentContracts = questions.map(q => {
@@ -39,7 +41,7 @@ export async function submitListeningAttempt(userId: string, id: string, answers
         return { questionId: q.id, ...objectiveAssessmentEvidence("listening", {
           type: canonical ? (canonical.options.length ? "multiple_choice" : "short_answer") : q.type,
           requiredSelections: canonical?.options.length ? canonical.pair.length + 1 : undefined,
-        }) };
+        }), sourceHash: objectiveSourceFingerprint("listening", q, source?.transcript ?? null, pkg?.payload ?? null) };
       });
     } catch { return { error: "assessment_metadata_unsupported" as const }; }
     let score = 0;

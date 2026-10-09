@@ -69,7 +69,7 @@ export default async function ListeningAttemptPage({ params }: { params: Promise
               {dict.listening.revisionStudio} →
             </Link>
           </div>
-          <ListeningAnalysis dict={dict} score={attempt.score} total={attempt.totalQuestions} questions={questions} answers={answers} />
+          <ListeningAnalysis attemptId={attempt.id} dict={dict} score={attempt.score} total={attempt.totalQuestions} questions={questions} answers={answers} />
           {test.transcript && (
             <div className="card mt-4" data-interactive-transcript>
               <h3 className="mb-2 font-display text-base text-ink-900">{dict.listening.transcript}</h3>

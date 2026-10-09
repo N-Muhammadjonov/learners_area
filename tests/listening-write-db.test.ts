@@ -6,7 +6,7 @@ import { startListeningAttempt, submitListeningAttempt } from "../src/lib/data/l
 test("Listening start retries resume; submission is owned and cannot write grades/events twice", async () => {
   const d = await createTestDatabase();
   try {
-    const [owner] = await d.query<{ id: string }>("insert into users(name,role) values ('QA','student') returning id");
+    const [owner] = await d.query<{ id: string }>("insert into users(name,role,account_status) values ('QA','student','active') returning id");
     const [other] = await d.query<{ id: string }>("insert into users(name,role) values ('Other','student') returning id");
     const [testRow] = await d.query<{ id: string }>("insert into listening_tests(created_by_user_id,title,audio_type) values ($1,'QA audio','audio') returning id", [owner!.id]);
     const [q] = await d.query<{ id: string }>("insert into listening_questions(test_id,\"order\",type,question_text,correct_answer,explanation) values ($1,1,'short_answer','Test?','work','QA') returning id", [testRow!.id]);

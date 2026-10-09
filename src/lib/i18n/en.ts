@@ -1,4 +1,14 @@
 const en = {
+  objectiveExplanation: {
+    "load": "Explain this answer",
+    "loading": "Checking the source…",
+    "authored": "Source-authored explanation",
+    "missing": "The source does not provide enough evidence for a complete explanation.",
+    "unavailable": "A verified explanation is not available for this attempt.",
+    "changed": "The source has changed since submission. A new explanation cannot be verified.",
+    "locked": "Explanations are unavailable during an active exam.",
+    "evidence": "Source evidence"
+},
   roles: {
     student: "Student",
     teacher: "Teacher",
@@ -2098,7 +2108,7 @@ const en = {
   speakingHub: {
     intro: "Choose how you want to practise speaking today.",
     lessonsTitle: "Speaking lessons",
-    lessonsBody: "Videos, materials, structures and shadowing for structured speaking study.",
+    lessonsBody: "Videos, materials and structures for structured speaking study.",
     lessonsEmptyTitle: "No speaking lessons are published yet",
     lessonsEmptyBody: "Your teacher has not published lessons here yet. Practice on your own and Practice with AI are available now.",
     cards: {
@@ -2123,7 +2133,7 @@ const en = {
       lessons: {
         eyebrow: "Lessons",
         title: "Speaking lessons",
-        body: "Videos, materials and structured speaking study, including shadowing.",
+        body: "Videos, materials and structured speaking study.",
         cta: "Open lessons",
       },
     },

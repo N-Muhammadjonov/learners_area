@@ -1,0 +1,133 @@
+{
+  "base_commit": "c133f97cabc086fdd14b9acb7f60c46a1cc92419",
+  "status": "LOCAL_CANDIDATE_NATIVE_QA_REQUIRED_NOT_PUSHED",
+  "scope": {
+    "target_groups": [
+      "B03",
+      "D02",
+      "D06",
+      "D07",
+      "D09"
+    ],
+    "target_percentage_points": 14.71,
+    "newly_accepted_groups": [],
+    "earned_percentage_points": 0,
+    "extra_owner_change": "Remove learner-facing shadowing section and redirect old bookmarks"
+  },
+  "checks": {
+    "focused_backend_and_integration": {
+      "tests": 32,
+      "pass": 32,
+      "fail": 0,
+      "skip": 0,
+      "log": "/tmp/riwi-step11-focused.log"
+    },
+    "ui": {
+      "tests": 252,
+      "pass": 252,
+      "fail": 0,
+      "skip": 0,
+      "log": "/tmp/riwi-step11-current-ui.log"
+    },
+    "typecheck": "PASS /tmp/riwi-step11-native-fix-typecheck.log",
+    "lint": "PASS /tmp/riwi-step11-native-fix-lint.log",
+    "build": {
+      "status": "EARLIER_CANDIDATE_PASS_NOT_RERUN",
+      "limitation": "Owner instructed no rebuild. This is not last-source build evidence."
+    },
+    "diff_check": "PASS",
+    "full_backend_parallel": {
+      "status": "INTERRUPTED_NOT_PASS",
+      "log": "/tmp/riwi-step11-backend.log",
+      "observed_failures": [
+        "live-partner-call-engine: listen EPERM",
+        "live-signal-service: listen EPERM",
+        "provider-lab timeout/abort under concurrent load; full serial/native result required"
+      ]
+    },
+    "native_full_suite": {
+      "tests": 1274,
+      "pass": 1183,
+      "fail": 0,
+      "skip": 91,
+      "log_directory": "/tmp/riwi-step11-native-qa-hmlVkA",
+      "user_reported_gates_passed": true,
+      "independently_read_logs": true,
+      "scope": "Candidate before B03 edits; later source changes require new final gates."
+    },
+    "browser_http_shadowing_retirement": "NOT_RUN",
+    "native_ui": {
+      "tests": 250,
+      "pass": 250,
+      "fail": 0,
+      "skip": 0
+    },
+    "objective_explanation_final": {
+      "tests": 8,
+      "pass": 8,
+      "fail": 0,
+      "skip": 0,
+      "log": "/tmp/riwi-step11-b03-final-tests.log"
+    },
+    "portability_final": {
+      "tests": 15,
+      "pass": 15,
+      "fail": 0,
+      "skip": 0,
+      "log": "/tmp/riwi-step11-portability-final-tests.log"
+    },
+    "security_matrix": {
+      "tests": 56,
+      "pass": 56,
+      "fail": 0,
+      "skip": 0,
+      "log": "/tmp/riwi-step11-security-matrix.log"
+    },
+    "listening_start_regression": {
+      "tests": 2,
+      "pass": 1,
+      "fail": 0,
+      "skip": 1,
+      "log": "/tmp/riwi-step11-listening-regression.log",
+      "skip_reason": "Actual canonical source ZIP unavailable; no synthetic substitution credited."
+    },
+    "native_final_round_1_before_correction": {
+      "tests": 1288,
+      "pass": 1194,
+      "fail": 3,
+      "skip": 91,
+      "log": "/tmp/riwi-step11-native-qa-iXMtXt/backend-1.log",
+      "independently_read_logs": true,
+      "failures": [
+        "delegated explanation route not covered by access-control source audit; anonymous response was 403",
+        "two Uzbek ASCII apostrophe assertions failed"
+      ],
+      "status": "FAIL_NOT_ACCEPTED"
+    },
+    "correction_focused": {
+      "tests": 32,
+      "pass": 32,
+      "fail": 0,
+      "skip": 0,
+      "log": "/tmp/riwi-step11-native-fix-focused.log"
+    }
+  },
+  "remaining_before_batch_acceptance": [
+    "Final native non-build gates on exact patched tree; no build rerun under owner instruction",
+    "D02 scope B identity reconciliation/O2/cycles and D03-D05 external rehearsals remain open",
+    "Independently verify the remote commit and every changed blob after non-force push",
+    "D09 last-source full build acceptance remains open; do not inflate progress or production GO"
+  ],
+  "implementation_limits": [
+    "Historical database category/rows and legacy assessment catalog remain for compatibility; learner shadowing route no longer opens a recorder. No destructive migration or data deletion performed.",
+    "Site-adapter authority checks fail closed and bound actor lookup; handlers must still enforce their own transaction/write authorization.",
+    "Security approval executes registered deterministic fixtures and binds evidence to the current signal and same persisted owner; it does not activate executable policy."
+  ],
+  "progress": {
+    "current_prompt_accepted": 7,
+    "current_prompt_total": 34,
+    "current_prompt_percentage": 20.59,
+    "overall_riwi_percentage": null,
+    "overall_project_percentage": null
+  }
+}

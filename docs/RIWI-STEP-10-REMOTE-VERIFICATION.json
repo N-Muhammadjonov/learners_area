@@ -1,0 +1,71 @@
+{
+  "commit": "c133f97cabc086fdd14b9acb7f60c46a1cc92419",
+  "branch": "arena/01a10bac-learners-area",
+  "github_ref_matches": true,
+  "github_tree_truncated": false,
+  "matched_blobs": 32,
+  "mismatches": [],
+  "expected_changed_blobs": {
+    "docs/RIWI-REMAINING-PROMPT-PROGRESS.json": "f7637a4e3951d8dae319031c81b81802a16aa171",
+    "docs/RIWI-STEP-09-REMOTE-VERIFICATION.json": "cb9ad85a7ed9521f74fa26bfbadb58750ca1b817",
+    "docs/RIWI-STEP-10-QA-RESULTS.json": "351f27599e0f178442ac23a99e6078b0f08ad7c9",
+    "docs/RIWI-STEP-10-SPEAKING-RETRY-EVIDENCE-2026-10-09.md": "a870e8346833d625c2151c6cbfbc037eee19509f",
+    "drizzle/0050_speaking_fenced_evaluation.sql": "28ef8df36c92a836922cdb239adabbb2ca54ab03",
+    "drizzle/meta/0050_snapshot.json": "be28915d92f5dc8d3e36522209aa6238ac5f19aa",
+    "drizzle/meta/_journal.json": "a643deb4c6f17a787d1ae0b3a070885a48b3d453",
+    "scripts/migration-chain.mjs": "3b08762af547b3a1086fe90093a0e7bed2d4735d",
+    "src/app/api/speaking/ai/sessions/[id]/complete/route.ts": "5d568ed1f1eddb625cd93a23e0234b106f72a980",
+    "src/app/api/speaking/attempts/[id]/route.ts": "61f78fe3ac94be0c4651d94d8d1fbec397eaea82",
+    "src/app/api/speaking/attempts/[id]/submit/route.ts": "45332d565e362789a91b4342ebf45d31a7d7121b",
+    "src/app/api/speaking/attempts/route.ts": "238f268a2f1ce3808044b6cccec76cbba97bae04",
+    "src/components/speaking/AiExaminerSession.tsx": "ea81e9363fd9b1050cddbf2245132738f753c61a",
+    "src/components/speaking/AiQuestionRecorder.tsx": "fcc974ceb382171e577cb61d45ad316f565c5eee",
+    "src/db/schema.ts": "01f9a53411f6697acd4873dbc7e25398ad035b6c",
+    "src/lib/data/evaluations.ts": "e28660aa9e9c398169e68411b3642fecd8b5d1db",
+    "src/lib/data/speaking-ai-sessions.ts": "fb5f1468008847420bf1b2e1001e6bbc0d5b0bee",
+    "src/lib/data/speaking-session-summary.ts": "1dd0dd3d745e4bcd897313236f4b3245383bfa4c",
+    "src/lib/data/speaking-submission.ts": "97b690bc231072505c0add308fd5467c5b80b9ff",
+    "src/lib/data/uploads.ts": "ffb4f6de2b126e2d2683ade25aeea93405ecf056",
+    "src/lib/i18n/en.ts": "02828b03557fe60acd61ef08d842496283a3e3eb",
+    "src/lib/i18n/uz.ts": "d4c2c7252b6e44ba2b9d5a468e567902e1b14a51",
+    "src/lib/services/coach/service.ts": "334314dcd78de837b564589b27daa99881cd8d3e",
+    "src/lib/services/coach/speaking.ts": "f035f106063afc3a82171bee161ac27969dc3151",
+    "src/lib/speaking/attempt-projection.ts": "04e36a4d4ff870c90ed6d6e9a1ecca4dbe660cc1",
+    "tests/migration-chain.test.ts": "945fdfe12f17b932edb1b20c248d2fda3436df43",
+    "tests/speaking-contract-boundaries.test.ts": "6369792aa5457ae1fa4e73f50d892058e5be6634",
+    "tests/speaking-private-recording.test.ts": "61a1a071454add22dc40b0a3f6263b96fb18d5c9",
+    "tests/speaking-submission-retry.test.ts": "09b2e2c2fc4f158e77ff5dbfa3b3a7d6f1521f79",
+    "tests/speaking-summary-evidence.test.ts": "3df279ed3423c8a4abc9d4a78e28c9fcfb6c5252",
+    "tests/ui/speaking-ai-feedback-flow.test.tsx": "7df4f74f90a23c34ae1dd426ec8ea516f9102ada",
+    "tests/ui/speaking-microphone-boundaries.test.tsx": "ce54003c6fd5db34a165e01a23e76d45cee69e44"
+  },
+  "native_qa": {
+    "log_directory": "/tmp/riwi-step10-native-qa-YpMRNS",
+    "backend": {
+      "tests": 1263,
+      "passed": 1172,
+      "failed": 0,
+      "skipped": 91
+    },
+    "ui": {
+      "tests": 250,
+      "passed": 250,
+      "failed": 0,
+      "skipped": 0
+    },
+    "typecheck": "PASS",
+    "lint": "PASS",
+    "production_build": "PASS",
+    "native_clone_clean": true,
+    "skips_are_pass": false
+  },
+  "progress": {
+    "closed": 7,
+    "total": 34,
+    "percent": 20.59,
+    "batch_published": true,
+    "full_group_credit_pending": "Real R2 expiry/browser/provider/privacy acceptance remains unverified as recorded in Step 10; publication alone gives no additional closure credit.",
+    "riwi_overall_percent": null,
+    "project_overall_percent": null
+  }
+}

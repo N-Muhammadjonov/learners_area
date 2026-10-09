@@ -34,68 +34,17 @@ async function login(email, password) {
   return (res.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ");
 }
 
-console.log(`\nLearners Area — Shadowing against ${BASE}\n`);
-
+console.log(`Learners Area retired activity checks against ${BASE}`);
 const cookie = await login("demo.student@learnersarea.uz", "Student12345!");
-check("the student can sign in", Boolean(cookie));
-
+check("student signs in", Boolean(cookie));
 const anon = await page("/speaking/shadowing");
-check(
-  "an anonymous visitor is sent to the login page",
-  anon.status === 307 || anon.status === 302,
-  `status ${anon.status}`
-);
-
-const speaking = await page("/speaking", cookie);
-check("the speaking page links to shadowing", speaking.text.includes("data-shadowing-link"));
-
-const shadowing = await page("/speaking/shadowing", cookie);
-check("the shadowing page renders for a student", shadowing.status === 200, `status ${shadowing.status}`);
-check("the studio or its honest empty state is shown", shadowing.text.includes("data-shadowing-studio") || shadowing.text.includes("data-shadowing-empty"));
-check("the page states that no pronunciation score is produced", shadowing.text.includes("data-shadowing-note"));
-// Two honest states, and the checks follow the one the page is in. The seed ships
-// no audio material (a demo file nobody recorded would be fake content), so the
-// empty state is the expected state here — and it must say what is missing.
-if (shadowing.text.includes("data-shadowing-studio")) {
-  check("the picker is present when recordings exist", shadowing.text.includes("data-shadowing-picker"));
-  check("the original is playable", shadowing.text.includes("data-shadowing-original"));
-  check("the record control is offered", shadowing.text.includes("data-shadowing-start") || shadowing.text.includes("data-shadowing-unsupported"));
-  check("the privacy of a take is stated", shadowing.text.includes("data-shadowing-privacy"));
-} else {
-  check("with no audio material the page says so instead of offering a dead recorder", shadowing.text.includes("data-shadowing-empty"));
-  check("the empty state explains where a recording comes from", /Speaking material/i.test(shadowing.text));
-  check("no recorder is offered without something to shadow", !shadowing.text.includes("data-shadowing-start"));
-  check("no pronunciation score is offered in the empty state", !shadowing.text.includes("data-shadowing-score"));
+check("anonymous bookmark requires login", [302, 307].includes(anon.status) && Boolean(anon.location?.includes("/login")));
+const retired = await page("/speaking/shadowing", cookie);
+check("authenticated bookmark redirects to lessons", [302, 307].includes(retired.status) && retired.location === "/speaking/lessons");
+for (const path of ["/speaking", "/speaking/lessons"]) {
+  const result = await page(path, cookie);
+  check(`${path} renders`, result.status === 200);
+  check(`${path} has no retired entry or recorder`, !/data-shadowing-(link|studio|start)|href="\/speaking\/shadowing"/.test(result.text));
 }
-
-// Honesty: no fabricated judgement anywhere on the surface.
-const body = shadowing.text;
-const forbidden = [
-  /band score/i,
-  /pronunciation score of/i,
-  /accuracy: \d+%/i,
-  /fluency score/i,
-];
-const claims = forbidden.filter((pattern) => pattern.test(body));
-check("the page makes no invented pronunciation claim", claims.length === 0, claims.join(", "));
-check(
-  "no score is rendered as a number out of nine",
-  !/[\s>]\d(\.\d)?[\s<]*\/[\s<]*9\b/.test(body),
-  "a band-like figure is on the page"
-);
-
-// The take never leaves the browser: no upload endpoint is called from the page.
-const clientChunk = (await import("node:fs")).readFileSync(
-  "src/components/speaking/ShadowingStudio.tsx",
-  "utf8"
-);
-check("the take is not uploaded anywhere", !clientChunk.includes("/api/uploads") && !clientChunk.includes("preflight("));
-check("the take is an object URL in this tab", clientChunk.includes("createObjectURL"));
-check("the studio releases the microphone on unmount", clientChunk.includes("cancel()"));
-
-console.log(`\n# pass ${pass} / fail ${failures.length}`);
-if (failures.length) {
-  console.log("# failures:");
-  for (const f of failures) console.log(`  - ${f}`);
-}
+console.log(`# pass ${pass} / fail ${failures.length}`);
 process.exit(failures.length ? 1 : 0);

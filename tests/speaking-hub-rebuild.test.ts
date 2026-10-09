@@ -32,14 +32,16 @@ test("S2 the hub has no Shadowing entry, no material feed and no 'No materials' 
   assert.match(hub, /motion-reduce:/);
 });
 
-test("S3 Speaking lessons is its own page carrying the materials and Shadowing", () => {
+test("S3 Speaking lessons excludes retired Shadowing and old bookmarks redirect", () => {
   const lessons = page("speaking/lessons");
   assert.match(lessons, /listActiveMaterialsForEntry\(\)/);
-  assert.match(lessons, /href="\/speaking\/shadowing"/);
+  assert.doesNotMatch(lessons, /href="\/speaking\/shadowing"|ShadowingStudio/);
+  assert.match(lessons, /category !== "shadowing"/);
   assert.match(lessons, /lessonsEmptyTitle/);
   assert.match(lessons, /<BackLink fallbackHref="\/speaking"/);
-  assert.equal(parentFor("/speaking/shadowing", en)?.href, "/speaking/lessons");
-  assert.match(page("speaking/shadowing"), /<BackLink fallbackHref="\/speaking\/lessons"/);
+  assert.match(page("speaking/shadowing"), /redirect\("\/speaking\/lessons"\)/);
+  assert.doesNotMatch(page("speaking/shadowing"), /ShadowingStudio|listActiveMaterials/);
+  for (const dict of [en, uz]) assert.doesNotMatch(JSON.stringify(dict.speakingHub), /shadowing/i);
 });
 
 test("S4 Live Partner keeps OFFLINE-on-open, mic preflight, the state machine, and gains Back", () => {

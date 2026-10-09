@@ -1,7 +1,7 @@
 import "server-only";
 import { createHash } from "node:crypto";
 import { ROLE_CAPABILITIES, authorizeCapability } from "../capabilities";
-import { canonicalDictionaryStatus } from "../dictionary";
+import { canonicalDictionaryStatus } from "../dictionary-status";
 import { knowledgeScopeMatches } from "../knowledge-policy";
 import { guardExternalPayload } from "../outbound-guard";
 import { riwiAnswerSchema } from "@/lib/services/coach/schema";

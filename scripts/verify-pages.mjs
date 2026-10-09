@@ -225,8 +225,9 @@ await check("the speaking module leads to both speaking modes and they are reach
   // from the module page — and both must actually answer, not merely be linked.
   const hub = await get(cookie, "/speaking");
   assert.match(hub.html, /href="\/speaking\/practice"/);
-  assert.match(hub.html, /href="\/speaking\/shadowing"/);
-  for (const path of ["/speaking/practice", "/speaking/history", "/speaking/shadowing"]) {
+  assert.match(hub.html, /href="\/speaking\/lessons"/);
+  assert.doesNotMatch(hub.html, /href="\/speaking\/shadowing"/);
+  for (const path of ["/speaking/practice", "/speaking/history", "/speaking/lessons"]) {
     const page = await get(cookie, path);
     assert.equal(page.status, 200, `${path} is not reachable`);
   }

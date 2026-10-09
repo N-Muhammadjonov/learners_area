@@ -2,6 +2,7 @@ import "server-only";
 import { z, type ZodTypeAny } from "zod";
 import type { Role } from "@/lib/auth/roles";
 import { authorizeCapability, isRiwiCapability, type RiwiActor, type RiwiCapability, type ScopeDecision } from "./capabilities";
+import { assertRiwiSiteAdapterCompatibility, currentAdapterActor, type RiwiSiteAdapter } from "./site-adapter";
 export type RiwiRiskClass = "read-only" | "reversible-write" | "high-impact-write" | "outbound";
 export type RiwiToolAuditEvent = {
   actorUserId: string | null;
@@ -87,7 +88,9 @@ function validateContract<I extends ZodTypeAny, O extends ZodTypeAny>(contract: 
 export class RiwiToolBroker {
   private readonly registrations = new Map<string, Registration>();
 
-  constructor(private readonly writeAudit: RiwiToolAuditWriter) {}
+  constructor(private readonly writeAudit: RiwiToolAuditWriter, private readonly siteAdapter?: RiwiSiteAdapter) {
+    if (siteAdapter) assertRiwiSiteAdapterCompatibility(siteAdapter);
+  }
 
   register<I extends ZodTypeAny, O extends ZodTypeAny>(contract: RiwiToolContract<I, O>, handler: RiwiToolHandler<I, O>): void {
     validateContract(contract);
@@ -111,6 +114,10 @@ export class RiwiToolBroker {
       return { ok: false, code: "riwi_tool_not_found" };
     }
     const { contract, handler } = registration;
+    if (this.siteAdapter && !await currentAdapterActor(this.siteAdapter, input.actor, contract.timeoutMs, input.signal)) {
+      await this.auditDenied(input.actor, input.correlationId, contract);
+      return { ok: false, code: "riwi_permission_denied" };
+    }
     const policy = authorizeCapability(input.actor, contract.capability);
     if (!policy.allowed || !contract.allowedRoles.includes(input.actor.role)) {
       await this.auditDenied(input.actor, input.correlationId, contract);
@@ -168,9 +175,17 @@ export class RiwiToolBroker {
     try {
       const handlerPromise = Promise.resolve().then(() => {
         if (controller.signal.aborted) throw new Error("riwi_request_cancelled");
-        return handler(parsed.data, { actor: input.actor, correlationId: input.correlationId, signal: controller.signal, scope });
+        return (async () => {
+          if (this.siteAdapter && !await currentAdapterActor(this.siteAdapter, input.actor, contract.timeoutMs, controller.signal)) throw new Error("riwi_actor_revoked");
+          if (controller.signal.aborted) throw new Error("riwi_request_cancelled");
+          return handler(parsed.data, { actor: input.actor, correlationId: input.correlationId, signal: controller.signal, scope });
+        })();
       });
       const rawResult = await Promise.race([handlerPromise, timeout, cancelled]);
+      if (this.siteAdapter && !await currentAdapterActor(this.siteAdapter, input.actor, contract.timeoutMs, controller.signal)) {
+        await this.auditDenied(input.actor, input.correlationId, contract);
+        return { ok: false, code: "riwi_permission_denied" };
+      }
       const output = contract.outputSchema.safeParse(rawResult);
       if (!output.success) {
         if (contract.auditMode === "required") await this.auditFailure(input.actor, input.correlationId, contract, "invalid_output", Date.now() - started);
@@ -182,8 +197,19 @@ export class RiwiToolBroker {
             metadata: { correlationId: input.correlationId, role: input.actor.role, capability: contract.capability, toolName: contract.name, riskClass: contract.riskClass, scopeKind: scope.kind, durationMs: Date.now() - started, status: "succeeded" } });
         } catch { return { ok: false, code: "riwi_tool_failed" }; }
       }
+      // Success auditing is asynchronous: revocation while it runs must still
+      // suppress the returned data. Adapter lookups also honor cancellation.
+      if (this.siteAdapter && !await currentAdapterActor(this.siteAdapter, input.actor, contract.timeoutMs, controller.signal)) {
+        await this.auditDenied(input.actor, input.correlationId, contract);
+        return { ok: false, code: "riwi_permission_denied" };
+      }
+      if (controller.signal.aborted) return { ok: false, code: requestCancelled ? "riwi_tool_failed" : "riwi_tool_timeout" };
       return { ok: true, value: output.data };
-    } catch {
+    } catch (error) {
+      if (!requestCancelled && !timeoutHit && error instanceof Error && error.message === "riwi_actor_revoked") {
+        await this.auditDenied(input.actor, input.correlationId, contract);
+        return { ok: false, code: "riwi_permission_denied" };
+      }
       const code = timeoutHit || (controller.signal.aborted && !requestCancelled) ? "riwi_tool_timeout" : "riwi_tool_failed";
       const auditCode = requestCancelled ? "request_cancelled" : code;
       if (contract.auditMode !== "none") await this.auditFailure(input.actor, input.correlationId, contract, auditCode, Date.now() - started).catch(() => {});

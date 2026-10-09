@@ -49,7 +49,6 @@ const ENTRIES: Entry[] = [
   { prefix: "/speaking/ai", build: (d) => [{ label: d.nav.speaking, href: "/speaking" }, { label: d.speakingHub.cards.ai.title, href: "/speaking/ai" }] },
   { prefix: "/speaking/lessons", build: (d) => [{ label: d.nav.speaking, href: "/speaking" }, { label: d.speakingHub.lessonsTitle, href: "/speaking/lessons" }] },
   { prefix: "/speaking/live-partner", build: (d) => [{ label: d.nav.speaking, href: "/speaking" }, { label: d.livePartner.title, href: "/speaking/live-partner" }] },
-  { prefix: "/speaking/shadowing", build: (d) => [{ label: d.nav.speaking, href: "/speaking" }, { label: d.speakingHub.lessonsTitle, href: "/speaking/lessons" }, { label: d.speakingShadowing.title, href: "/speaking/shadowing" }] },
   { prefix: "/speaking", exact: true, build: (d) => [{ label: d.nav.speaking, href: "/speaking" }] },
 
   { prefix: "/grammar", exact: true, build: (d) => [{ label: d.nav.grammar, href: "/grammar" }] },

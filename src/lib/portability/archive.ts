@@ -224,7 +224,7 @@ export async function importPortableArchive(input: {
         else if (decision === "update") updates += 1;
         else if (decision === "skip") skips += 1;
         else conflicts.push(`${table}:${String(row.id ?? row.key ?? rowCount)}`);
-        if (!input.dryRun && decision !== "conflict") await tx.applyRow(table, row, identityMap);
+        if (!input.dryRun && (decision === "create" || decision === "update")) await tx.applyRow(table, row, identityMap);
       }
       if (rowCount !== entry.rowCount || byteLength !== entry.byteLength || hash.digest("hex") !== entry.sha256) {
         throw new Error(`table_checksum_mismatch:${table}`);

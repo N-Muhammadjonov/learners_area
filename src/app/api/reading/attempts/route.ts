@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { and, eq } from "drizzle-orm";
-import { db } from "@/db/client";
-import { readingAttempts } from "@/db/schema";
+import { startReadingAttempt } from "@/lib/data/reading-attempt-write";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getStartablePassage } from "@/lib/data/reading";
 
@@ -22,19 +20,7 @@ export async function POST(req: NextRequest) {
   const passage = await getStartablePassage(parsed.data.passageId);
   if (!passage) return NextResponse.json({ error: "not_found" }, { status: 404 });
 
-  const existing = await db.query.readingAttempts.findFirst({
-    where: and(
-      eq(readingAttempts.userId, user.id),
-      eq(readingAttempts.passageId, parsed.data.passageId),
-      eq(readingAttempts.status, "in_progress")
-    ),
-  });
-  if (existing) return NextResponse.json({ id: existing.id });
-
-  const [created] = await db
-    .insert(readingAttempts)
-    .values({ userId: user.id, passageId: parsed.data.passageId })
-    .returning();
-
-  return NextResponse.json({ id: created!.id });
+  const id = await startReadingAttempt(user.id, parsed.data.passageId);
+  if (!id) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  return NextResponse.json({ id });
 }

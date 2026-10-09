@@ -4,7 +4,7 @@ import { readFileSync } from "node:fs";
 import { randomUUID } from "node:crypto";
 import { eq } from "drizzle-orm";
 import { riwiSecuritySignals, users } from "../src/db/schema";
-import { buildSecuritySignal, listSecuritySignals, recordSecuritySignal, reviewSecuritySignal, RIWI_SECURITY_SIGNAL_TYPES } from "../src/lib/services/riwi/security-learning";
+import { buildSecuritySignal, listSecuritySignals, recordSecuritySignal, previewSecuritySignal, reviewSecuritySignal, RIWI_SECURITY_SIGNAL_TYPES } from "../src/lib/services/riwi/security-learning";
 import { createTestDatabase } from "./support/pglite";
 
 test("security learning creates stable bounded fingerprints without raw attack/audio/transcript", () => {
@@ -41,7 +41,8 @@ test("blocked signals deduplicate and only an active persisted owner can review 
     await assert.rejects(listSecuritySignals({ id: studentId, role: "student", accountStatus: "active" }, database.db as never), /not_found/);
     await assert.rejects(reviewSecuritySignal({ actor: owner, signalId: first.id, decision: "approve_regression" }, database.db as never));
     await assert.rejects(reviewSecuritySignal({ actor: owner, signalId: first.id, decision: "approve_regression", regressionFixtureId: "fixture-1", regressionEvidenceHash: "bad" }, database.db as never));
-    const approved = await reviewSecuritySignal({ actor: owner, signalId: first.id, decision: "approve_regression", regressionFixtureId: "fixture-1", regressionEvidenceHash: "a".repeat(64) }, database.db as never);
+    const preview = await previewSecuritySignal(owner, first.id, database.db);
+    const approved = await reviewSecuritySignal({ actor: owner, signalId: first.id, decision: "approve_regression", regressionFixtureId: "policy-deny-default-v1", regressionEvidenceHash: preview.evidenceHash }, database.db);
     assert.equal(approved.state, "approved_regression");
     await assert.rejects(reviewSecuritySignal({ actor: owner, signalId: first.id, decision: "reject" }, database.db as never), /stale_or_not_found/);
     assert.equal((await listSecuritySignals(owner, database.db as never))[0]?.count, 2);

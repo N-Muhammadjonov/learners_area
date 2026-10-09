@@ -25,7 +25,7 @@ test(
     const d = await createTestDatabase();
     try {
       const [u] = await d.query<{ id: string }>(
-        "insert into users(name,role)values('Import QA','student')returning id",
+        "insert into users(name,role,account_status)values('Import QA','student','active')returning id",
       );
       const [t] = await d.query<{ id: string }>(
         "insert into listening_tests(created_by_user_id,title,audio_type,publication_state)values($1,'Source test','audio','draft')returning id",

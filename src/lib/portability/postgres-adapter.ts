@@ -2,14 +2,14 @@ import "server-only";
 import { getTableConfig } from "drizzle-orm/pg-core";
 import { getTableColumns, getTableName } from "drizzle-orm";
 import * as schema from "@/db/schema";
-import { PORTABILITY_TABLES, type PortableTable } from "./classification";
+import { PORTABILITY_TABLES, tablesForScope, type PortableTable } from "./classification";
 import { RIWI_CONVERSATION_OFFLINE_DAYS, RIWI_CONVERSATION_TTL_DAYS } from "@/lib/services/riwi/contracts";
 import type { ExportSource, ImportDestination, ImportTransaction } from "./archive";
 import type { ExportScope, PortableObject, PortableRow, RowFileManifest } from "./types";
 
 type QueryResult = { rows: Record<string, unknown>[] };
 type PgClient = { query(text: string, values?: unknown[]): Promise<QueryResult>; release?: () => void };
-type PgPool = { connect(): Promise<PgClient> };
+export type PgPool = { connect(): Promise<PgClient> };
 type TableMetadata = { sqlName: string; columns: Map<string, string>; primaryKeys: string[]; dependencies: string[] };
 const IDENTIFIER = /^[a-z][a-z0-9_]*$/;
 const metadata = new Map<PortableTable, TableMetadata>();
@@ -72,10 +72,16 @@ function orderPostgresTables(tables: readonly RowFileManifest[]): readonly RowFi
 }
 
 /** Fresh-destination PostgreSQL adapter. Dynamic identifiers come only from the closed schema map. */
-export function createPostgresImportDestination(pool: PgPool, copyObject?: (object: PortableObject, bytes: Uint8Array) => Promise<void>): ImportDestination {
+export function createPostgresImportDestination(pool: PgPool, copyObject?: (object: PortableObject, bytes: Uint8Array) => Promise<void>, authorization?: { ownerId: string; dryRun: boolean; scope: ExportScope }): ImportDestination {
   const forClient = (client: PgClient): ImportTransaction => ({
     async planRow(table, row, identityMap) {
+      const checked = tableMeta(table);
+      if (!row || typeof row !== "object" || Array.isArray(row) || !Object.keys(row).length || Object.keys(row).some(key => !checked.columns.has(key))) throw new Error("portable_row_fields_invalid");
       if (identityMap.size) throw new Error("portable_identity_map_unsupported");
+      if (authorization && table === "users" && row.role === "owner") {
+        if (row.id !== authorization.ownerId) throw new Error("portable_owner_identity_reconciliation_required");
+        return "skip";
+      }
       const meta = tableMeta(table);
       if (!meta.primaryKeys.length) return "create";
       const values = meta.primaryKeys.map((key) => row[key]);
@@ -86,7 +92,9 @@ export function createPostgresImportDestination(pool: PgPool, copyObject?: (obje
     },
     async applyRow(table, row: PortableRow, identityMap) {
       if (identityMap.size) throw new Error("portable_identity_map_unsupported");
-      const meta = tableMeta(table); const entries = Object.entries(row).filter(([property]) => meta.columns.has(property));
+      const meta = tableMeta(table);
+      if (!row || typeof row !== "object" || Array.isArray(row) || Object.keys(row).some(key => !meta.columns.has(key))) throw new Error("portable_row_fields_invalid");
+      const entries = Object.entries(row);
       if (!entries.length) throw new Error(`portable_row_empty:${table}`);
       const names = entries.map(([property]) => quote(meta.columns.get(property)!)).join(",");
       const parameters = entries.map((_, index) => `$${index + 1}`).join(",");
@@ -98,8 +106,29 @@ export function createPostgresImportDestination(pool: PgPool, copyObject?: (obje
     orderTables: orderPostgresTables,
     async transaction<T>(work: (transaction: ImportTransaction) => Promise<T>) {
       const client = await pool.connect();
-      try { await client.query("begin"); const value = await work(forClient(client)); await client.query("commit"); return value; }
-      catch (error) { await client.query("rollback").catch(() => {}); throw error; }
+      let commitAttempted = false;
+      try {
+        await client.query("begin");
+        if (authorization) {
+          const owner = await client.query("select id from users where id=$1 and role='owner' and account_status='active' for share", [authorization.ownerId]);
+          if (!owner.rows.length) throw new Error("portable_owner_required");
+          for (const table of tablesForScope(authorization.scope)) {
+            const populated = table === "users"
+              ? await client.query("select 1 from users where id <> $1 limit 1", [authorization.ownerId])
+              : await client.query(`select 1 from ${quote(table)} limit 1`);
+            if (populated.rows.length) throw new Error("portable_fresh_destination_required");
+          }
+        }
+        const value = await work(forClient(client));
+        commitAttempted = !authorization?.dryRun;
+        await client.query(authorization?.dryRun ? "rollback" : "commit");
+        return value;
+      }
+      catch (error) {
+        await client.query("rollback").catch(() => {});
+        if (commitAttempted) throw new Error("portable_import_commit_uncertain", { cause: error });
+        throw error;
+      }
       finally { client.release?.(); }
     },
   };
@@ -111,11 +140,13 @@ export function createPostgresImportDestination(pool: PgPool, copyObject?: (obje
  * and object-store lifecycle checks. No deployment credentials are read here. */
 export async function withPostgresExportSource<T>(
   pool: PgPool,
-  options: { snapshotAt: Date; objects: (scope: ExportScope) => AsyncIterable<PortableObject> },
+  options: { snapshotAt: Date; scope?: ExportScope; ownerId?: string; objects: (scope: ExportScope) => AsyncIterable<PortableObject> },
   work: (source: ExportSource) => Promise<T>,
 ): Promise<T> {
   if (!Number.isFinite(options.snapshotAt.getTime())) throw new Error("portable_snapshot_invalid");
   const snapshotAt = new Date(options.snapshotAt);
+  const scope = options.scope ?? "full-system";
+  if (scope !== "full-system" && scope !== "learners-area") throw new Error("portable_riwi_projection_requires_identity_reconciliation");
   const offlineCutoff = new Date(snapshotAt.getTime() - RIWI_CONVERSATION_OFFLINE_DAYS * 86_400_000);
   const messageCutoff = new Date(snapshotAt.getTime() - RIWI_CONVERSATION_TTL_DAYS * 86_400_000);
   const client = await pool.connect();
@@ -125,12 +156,12 @@ export async function withPostgresExportSource<T>(
   const activeParentSql = `c.deleted_at is null and c.expires_at > $1 and u.last_active_at >= $2`;
   const source: ExportSource = {
     snapshotAt: snapshotAt.toISOString(),
-    // RIWI-only/site-only database projections require separate privacy and
-    // identity reconciliation; this adapter accepts only full-system backup.
-    scope: "full-system",
+    // RIWI-only still requires explicit governance identity reconciliation.
+    scope,
     async *rows(table, batchSize) {
       requireOpen();
       if (!Number.isSafeInteger(batchSize) || batchSize < 1 || batchSize > 5000) throw new Error("portable_batch_size_invalid");
+      if (!tablesForScope(scope).includes(table)) throw new Error("portable_table_scope_mismatch");
       const meta = tableMeta(table);
       const columns = [...meta.columns].map(([property, column]) => `t.${quote(column)} as "${property}"`).join(",");
       let from = `${quote(meta.sqlName)} t`;
@@ -163,8 +194,9 @@ export async function withPostgresExportSource<T>(
         if (open) await client.query(`close ${cursor}`).catch(() => {});
       }
     },
-    async *objects(scope) {
+    async *objects(requestedScope) {
       requireOpen();
+      if (requestedScope !== scope) throw new Error("portable_source_scope_mismatch");
       for await (const object of options.objects(scope)) { requireOpen(); yield object; }
     },
     async activeConversationIds(ids, at) {
@@ -181,6 +213,10 @@ export async function withPostgresExportSource<T>(
   };
   try {
     await client.query("begin isolation level repeatable read read only");
+    if (options.ownerId) {
+      const owner = await client.query("select id from users where id=$1 and role='owner' and account_status='active'", [options.ownerId]);
+      if (!owner.rows.length) throw new Error("portable_owner_required");
+    }
     const result = await work(source);
     open = false;
     await client.query("commit");

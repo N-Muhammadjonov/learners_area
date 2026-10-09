@@ -3,8 +3,10 @@ import { createHash } from "node:crypto";
 import { and, desc, eq, sql } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/db/client";
-import { riwiSecuritySignals, users } from "@/db/schema";
+import { auditLog, riwiSecuritySignals, users } from "@/db/schema";
 import type { RiwiActor } from "./capabilities";
+import { recordRiwiAudit } from "./audit";
+import { isRiwiRegressionFixture, runRiwiRegressionSuite } from "./golden/fixtures";
 
 export const RIWI_SECURITY_SIGNAL_TYPES = [
   "prompt_injection", "role_spoof", "idor", "tool_injection", "provider_injection", "ssrf",
@@ -13,7 +15,9 @@ export const RIWI_SECURITY_SIGNAL_TYPES = [
 ] as const;
 export type RiwiSecuritySignalType = (typeof RIWI_SECURITY_SIGNAL_TYPES)[number];
 const typeSchema = z.enum(RIWI_SECURITY_SIGNAL_TYPES);
-const routeClassSchema = z.string().regex(/^[a-z0-9_.:/-]{1,120}$/);
+export const RIWI_SECURITY_ROUTE_CLASSES = ["riwi.chat", "speaking.submit"] as const;
+const routeClassSchema = z.enum(RIWI_SECURITY_ROUTE_CLASSES);
+const actorRoleSchema = z.enum(["student", "teacher", "admin", "owner"]);
 const tagSchema = z.array(z.enum(["direct", "encoded", "unicode", "document", "provider", "speaking", "repeated"])).max(5);
 
 function digest(value: string) { return createHash("sha256").update(value).digest("hex"); }
@@ -36,10 +40,11 @@ export function buildSecuritySignal(input: {
 }) {
   const type = typeSchema.parse(input.type);
   const routeClass = routeClassSchema.parse(input.routeClass);
-  const tags = [...tagSchema.parse(input.tags ?? [])].sort();
-  const fingerprint = digest(JSON.stringify([type, input.actorRole ?? null, routeClass, tags]));
+  const tags = [...new Set(tagSchema.parse(input.tags ?? []))].sort();
+  const actorRole = input.actorRole === undefined ? null : actorRoleSchema.parse(input.actorRole);
+  const fingerprint = digest(JSON.stringify([type, actorRole, routeClass, tags]));
   return {
-    type, actorRole: input.actorRole ?? null, routeClass, tags, fingerprint,
+    type, actorRole: actorRole, routeClass, tags, fingerprint,
     sanitizedEvidence: `${type}; route=${routeClass}; traits=${tags.join(",") || "none"}`,
   } as const;
 }
@@ -69,6 +74,28 @@ export async function listSecuritySignals(actor: RiwiActor, database: typeof db 
   }).from(riwiSecuritySignals).orderBy(desc(riwiSecuritySignals.lastSeenAt), desc(riwiSecuritySignals.id)).limit(200);
 }
 
+function regressionFor(signal: typeof riwiSecuritySignals.$inferSelect) {
+  // Bind proof to this exact signal revision; repeated observations invalidate an old preview.
+  const target = digest(JSON.stringify([signal.id, signal.fingerprint, signal.occurrenceCount, signal.lastSeenAt.toISOString()]));
+  return runRiwiRegressionSuite(target);
+}
+
+export async function previewSecuritySignal(actor: RiwiActor, signalId: string, database: typeof db = db) {
+  if (actor.role !== "owner" || actor.accountStatus !== "active") throw new Error("not_found");
+  const id = z.string().uuid().parse(signalId);
+  return database.transaction(async tx => {
+    const [stored] = await tx.select({ role: users.role, accountStatus: users.accountStatus }).from(users)
+      .where(eq(users.id, actor.id)).limit(1).for("share");
+    if (stored?.role !== "owner" || stored.accountStatus !== "active") throw new Error("not_found");
+    const [signal] = await tx.select().from(riwiSecuritySignals).where(and(eq(riwiSecuritySignals.id, id), eq(riwiSecuritySignals.state, "candidate"))).for("share");
+    if (!signal) throw new Error("stale_or_not_found");
+    const regression = regressionFor(signal);
+    await recordRiwiAudit({ actorUserId: actor.id, action: "riwi.security.regression.previewed", targetType: "riwi_security_signal", targetId: id,
+      metadata: { role: actor.role, signalId: id, inputHash: regression.evidenceHash, status: regression.passed ? "passed" : "failed", resultCount: regression.checks.length } }, tx);
+    return { signalId: id, ...regression };
+  });
+}
+
 export async function reviewSecuritySignal(input: {
   actor: RiwiActor; signalId: string;
   decision: "reject" | "developer_action_required" | "approve_regression";
@@ -76,20 +103,30 @@ export async function reviewSecuritySignal(input: {
 }, database: typeof db = db) {
   if (input.actor.role !== "owner" || input.actor.accountStatus !== "active") throw new Error("not_found");
   const id = z.string().uuid().parse(input.signalId);
-  const approved = input.decision === "approve_regression";
+  const decision = z.enum(["reject", "developer_action_required", "approve_regression"]).parse(input.decision);
+  const approved = decision === "approve_regression";
   const fixture = approved ? z.string().min(1).max(120).parse(input.regressionFixtureId) : null;
   const evidenceHash = approved ? z.string().regex(/^[a-f0-9]{64}$/).parse(input.regressionEvidenceHash) : null;
-  const state = input.decision === "reject" ? "rejected" : input.decision === "developer_action_required" ? "developer_action_required" : "approved_regression";
-  return database.transaction(async (tx) => {
+  if (approved && !isRiwiRegressionFixture(fixture!)) throw new Error("regression_required");
+  const state = decision === "reject" ? "rejected" : decision === "developer_action_required" ? "developer_action_required" : "approved_regression";
+  return database.transaction(async tx => {
     const [stored] = await tx.select({ role: users.role, accountStatus: users.accountStatus }).from(users)
-      .where(eq(users.id, input.actor.id)).limit(1).for("update");
+      .where(eq(users.id, input.actor.id)).limit(1).for("share");
     if (stored?.role !== "owner" || stored.accountStatus !== "active") throw new Error("not_found");
-    const [row] = await tx.update(riwiSecuritySignals).set({
-      state, regressionFixtureId: fixture, regressionEvidenceHash: evidenceHash,
-      reviewedByUserId: input.actor.id, reviewedAt: new Date(),
-    }).where(and(eq(riwiSecuritySignals.id, id), eq(riwiSecuritySignals.state, "candidate")))
-      .returning({ id: riwiSecuritySignals.id, state: riwiSecuritySignals.state });
+    const [signal] = await tx.select().from(riwiSecuritySignals).where(and(eq(riwiSecuritySignals.id, id), eq(riwiSecuritySignals.state, "candidate"))).for("update");
+    if (!signal) throw new Error("stale_or_not_found");
+    if (approved) {
+      const regression = regressionFor(signal);
+      if (!regression.passed || regression.evidenceHash !== evidenceHash || !regression.checks.some(check => check.fixtureId === fixture && check.passed)) throw new Error("regression_required");
+      // A genuine server preview must have been recorded for this revision by this owner.
+      const previews = await tx.select({ metadata: auditLog.metadata }).from(auditLog).where(and(eq(auditLog.actorUserId, input.actor.id), eq(auditLog.action, "riwi.security.regression.previewed"), eq(auditLog.targetId, id))).orderBy(desc(auditLog.createdAt)).limit(20);
+      if (!previews.some(p => p.metadata && typeof p.metadata === "object" && (p.metadata as Record<string, unknown>).inputHash === evidenceHash && (p.metadata as Record<string, unknown>).status === "passed")) throw new Error("regression_required");
+    }
+    const [row] = await tx.update(riwiSecuritySignals).set({ state, regressionFixtureId: fixture, regressionEvidenceHash: evidenceHash, reviewedByUserId: input.actor.id, reviewedAt: new Date() })
+      .where(eq(riwiSecuritySignals.id, id)).returning({ id: riwiSecuritySignals.id, state: riwiSecuritySignals.state });
     if (!row) throw new Error("stale_or_not_found");
+    await recordRiwiAudit({ actorUserId: input.actor.id, action: "riwi.security.reviewed", targetType: "riwi_security_signal", targetId: id,
+      metadata: { role: input.actor.role, signalId: id, decision, status: state, ...(approved ? { inputHash: evidenceHash!, regressionFixtureId: fixture! } : {}) } }, tx);
     return row;
   });
 }

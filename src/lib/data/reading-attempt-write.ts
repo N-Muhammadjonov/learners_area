@@ -1,10 +1,23 @@
 import { and, eq, isNull } from "drizzle-orm";
 import { db } from "@/db/client";
-import { readingAttempts, readingPassages, readingQuestions, readingAnswers, activityEvents } from "@/db/schema";
+import { readingAttempts, readingPassages, readingQuestions, readingAnswers, activityEvents, users } from "@/db/schema";
 import { readingAttemptExpired } from "@/lib/reading/timer";
 import { readingAnswersForSubmission } from "@/lib/reading/submission";
 import { gradeAnswer } from "@/lib/services/reading/grading";
+import { objectiveSourceFingerprint } from "@/lib/services/coach/contracts/objective-source";
 import { objectiveAssessmentEvidence } from "@/lib/services/coach/contracts/objective-runtime";
+
+/** Serialize starts against other starts and post-submission explanation reads. */
+export async function startReadingAttempt(userId: string, passageId: string, database = db) {
+  return database.transaction(async tx => {
+    const [user] = await tx.select({ id: users.id }).from(users).where(and(eq(users.id, userId), eq(users.accountStatus, "active"))).for("update");
+    if (!user) return null;
+    const existing = await tx.query.readingAttempts.findFirst({ where: and(eq(readingAttempts.userId, userId), eq(readingAttempts.passageId, passageId), eq(readingAttempts.status, "in_progress")) });
+    if (existing) return existing.id;
+    const [created] = await tx.insert(readingAttempts).values({ userId, passageId }).returning({ id: readingAttempts.id });
+    return created!.id;
+  });
+}
 
 /** Owned row lock, deadline/draft rule and deterministic grading stay authoritative. */
 export async function submitReadingAttempt(userId: string, id: string, answers: { questionId: string; answer: string }[], database = db) {
@@ -16,6 +29,7 @@ export async function submitReadingAttempt(userId: string, id: string, answers: 
         startedAt: readingAttempts.startedAt,
         status: readingAttempts.status,
         suggestedMinutes: readingPassages.suggestedMinutes,
+        bodyText: readingPassages.bodyText,
       })
       .from(readingAttempts)
       .innerJoin(readingPassages, eq(readingAttempts.passageId, readingPassages.id))
@@ -43,7 +57,7 @@ export async function submitReadingAttempt(userId: string, id: string, answers: 
     const answerByQuestion = readingAnswersForSubmission(timedOut, answers, savedDrafts);
 
     let assessmentContracts;
-    try { assessmentContracts = questions.map(question => ({ questionId: question.id, ...objectiveAssessmentEvidence("reading", question) })); }
+    try { assessmentContracts = questions.map(question => ({ questionId: question.id, ...objectiveAssessmentEvidence("reading", question), sourceHash: objectiveSourceFingerprint("reading", question, attempt.bodyText) })); }
     catch { return { ok: false as const, status: 409 as const, error: "assessment_metadata_unsupported" as const }; }
     let score = 0;
     const rows = questions.map((question) => {

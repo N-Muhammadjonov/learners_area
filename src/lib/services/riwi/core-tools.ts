@@ -18,6 +18,7 @@ import { buildRiwiReport, riwiReportResultSchema, type RiwiReportRequest } from 
 import { RiwiToolBroker, type RiwiRiskClass, type RiwiToolHandler } from "./tool-broker";
 import { RIWI_AUDIT_ACTIONS, recordRiwiAudit } from "./audit";
 import { registerRiwiEvaluationTools, type RiwiEvaluationServices } from "./evaluation-tools";
+import { PORTABLE_SCHEMA_VERSION, RIWI_CORE_VERSION } from "@/lib/portability/types";
 
 const UUID = z.string().uuid();
 const actorRoles: readonly Role[] = ["student", "teacher", "admin", "owner"];
@@ -42,7 +43,14 @@ export function createRiwiCoreTools(database: typeof db = db, evaluationServices
     },
     isAssigned: (teacherId, studentId) => isOnRoster(teacherId, studentId, database),
   };
-  const riwiToolBroker = new RiwiToolBroker((input) => recordRiwiAudit(input, database));
+  const riwiToolBroker = new RiwiToolBroker((input) => recordRiwiAudit(input, database), {
+    portableSchemaVersion: PORTABLE_SCHEMA_VERSION,
+    riwiCoreVersion: RIWI_CORE_VERSION,
+    async resolveActor(userId) {
+      const actor = await database.query.users.findFirst({ where: eq(users.id, userId), columns: { id: true, role: true, accountStatus: true } });
+      return actor ?? null;
+    },
+  });
 
   function register<I extends ZodTypeAny, O extends ZodTypeAny>(input: {
     name: string;

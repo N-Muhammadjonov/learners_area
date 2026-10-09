@@ -228,6 +228,16 @@ test("every private API route rejects anonymous callers with 401", () => {
       assert.match(source, /handleRiwiTargetsGet\(request\)/, "every page delegates to the authenticated, reauthorizing target handler");
       continue;
     }
+    if (route === "src/app/api/riwi/objective-explanation/route.ts") {
+      assert.match(source, /handleObjectiveExplanation\(request\)/, "explanation delegates to the authenticated HTTP boundary");
+      const handler = stripComments(read("src/lib/services/riwi/objective-explanation-http.ts"));
+      assert.match(handler, /getUser: requireActiveUser/);
+      assert.match(handler, /const user = await deps\.getUser\(\)/);
+      assert.match(handler, /if \(!user\) return json\([^\n]*401\)/);
+      assert.match(handler, /user\.accountStatus !== "active"/);
+      assert.match(handler, /deps\.explain\(user, input\.data/);
+      continue;
+    }
     if (route === "src/app/api/riwi/conversations/[id]/route.ts") {
       assert.match(source, /if \(!user\) return unavailable\(401\)/, "anonymous transcript and delete requests use the 401 branch");
       assert.match(source, /function unavailable\(status: number\)[\s\S]*status/);

@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { occurrenceSpans, type OccurrenceSpan } from "@/lib/services/lexical/occurrence-spans";
 import { ClickableText } from "@/components/vocabulary/ClickableText";
+import { ObjectiveExplanation } from "@/components/riwi/ObjectiveExplanation";
 import { Card } from "@/components/ui/Card";
 import { RetentionCheck } from "@/components/reading/RetentionCheck";
 import { ternaryLabel } from "@/lib/reading-choices";
@@ -230,6 +231,7 @@ export function ReadingAnalysis({
                 {attemptId ? <ClickableText dict={dict} text={q.explanation} sourceType="reading" sourceId={attemptId} /> : q.explanation}
               </div>
             )}
+            {attemptId && <ObjectiveExplanation domain="reading" attemptId={attemptId} questionId={q.id} dict={dict} />}
             </Card>
           </div>
         );

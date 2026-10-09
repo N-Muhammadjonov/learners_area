@@ -1,3 +1,4 @@
+import { ObjectiveExplanation } from "@/components/riwi/ObjectiveExplanation";
 import { Card } from "@/components/ui/Card";
 import type { Dictionary } from "@/lib/i18n/en";
 import type { listeningQuestions, listeningAnswers } from "@/db/schema";
@@ -11,12 +12,14 @@ export function ListeningAnalysis({
   total,
   questions,
   answers,
+  attemptId,
 }: {
   dict: Dictionary;
   score: number | null;
   total: number | null;
   questions: Question[];
   answers: Answer[];
+  attemptId?: string;
 }) {
   const answerByQuestion = new Map(answers.map((a) => [a.questionId, a]));
 
@@ -50,6 +53,7 @@ export function ListeningAnalysis({
               </p>
             )}
             <p className="mt-1 text-xs text-ink-500">{q.explanation}</p>
+            {attemptId && <ObjectiveExplanation domain="listening" attemptId={attemptId} questionId={q.id} dict={dict} />}
           </Card>
         );
       })}

@@ -39,7 +39,7 @@ test("Reading submission records every authored subtype from server metadata whi
 test("Listening choose-TWO metadata comes from the canonical package, not the legacy question enum or caller", async () => {
   const d = await createTestDatabase();
   try {
-    const [user] = await d.query<{ id: string }>("insert into users(name,role)values('Listening metadata fixture','student')returning id");
+    const [user] = await d.query<{ id: string }>("insert into users(name,role,account_status)values('Listening metadata fixture','student','active')returning id");
     const [testRow] = await d.query<{ id: string }>("insert into listening_tests(created_by_user_id,title,audio_type)values($1,'Fixture','audio')returning id", [user!.id]);
     const payload = listeningPackageSchema.parse({ schemaVersion: 1, testId: 'metadata-fixture', title: 'Owner-authored metadata fixture', category: 'full', provenance: 'Synthetic test fixture, not source-bank acceptance', audio: { path: 'audio/fixture.mp3', durationSec: 100 }, imagePath: null,
       sections: Array.from({ length: 4 }, (_, i) => ({ number: i+1, title: `Section ${i+1}` })),
@@ -58,5 +58,8 @@ test("Listening choose-TWO metadata comes from the canonical package, not the le
     const byId = new Map(event!.payload.assessmentContracts.map(proof => [proof.questionId,proof.key]));
     assert.equal(byId.get(answers[0]!.questionId), 'listening.mcq-multiple'); assert.equal(byId.get(answers[1]!.questionId), 'listening.mcq-multiple');
     assert.equal(byId.get(answers[2]!.questionId), 'listening.mcq-single'); assert.equal(byId.get(answers[3]!.questionId), 'listening.short-answer');
+    await d.query("update users set account_status='pending' where id=$1", [user!.id]);
+    assert.equal(await startListeningAttempt(user!.id, testRow!.id, d.db), null);
+    assert.equal((await d.query<{ n: number }>("select count(*)::int n from listening_attempts where user_id=$1", [user!.id]))[0]!.n, 1);
   } finally { await d.close(); }
 });

@@ -1,4 +1,6 @@
 import "server-only";
+import { canonicalDictionaryStatus } from "./dictionary-status";
+export { canonicalDictionaryStatus } from "./dictionary-status";
 import { and, eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { lexemes, listeningAttempts, readingAttempts } from "@/db/schema";
@@ -22,11 +24,6 @@ export async function hasOpenExam(actor: DictionaryActor, database: Pick<typeof 
   const [listening] = await database.select({ id: listeningAttempts.id }).from(listeningAttempts)
     .where(and(eq(listeningAttempts.userId, actor.id), eq(listeningAttempts.status, "in_progress"))).limit(1);
   return Boolean(listening);
-}
-
-/** Canonical catalogue lookup only; no model or third-party source may invent a definition. */
-export function canonicalDictionaryStatus(entry: unknown | null | undefined): "resolved" | "unresolved" {
-  return entry === null || entry === undefined ? "unresolved" : "resolved";
 }
 
 export async function lookupCanonicalDictionary(term: string, actor: DictionaryActor, database: typeof db = db): Promise<DictionaryLookup> {

@@ -1,6 +1,16 @@
 import type { Dictionary } from "./en";
 
 const uz: Dictionary = {
+  objectiveExplanation: {
+    "load": "Javobni tushuntirish",
+    "loading": "Manba tekshirilmoqda…",
+    "authored": "Manbada berilgan tushuntirish",
+    "missing": "To'liq tushuntirish uchun manba dalili yetarli emas.",
+    "unavailable": "Bu urinish uchun tekshirilgan tushuntirish mavjud emas.",
+    "changed": "Topshirilgandan keyin manba o'zgargan. Yangi tushuntirishni tasdiqlab bo'lmaydi.",
+    "locked": "Faol imtihon vaqtida tushuntirish ochilmaydi.",
+    "evidence": "Manba dalili"
+},
   roles: {
     student: "O'quvchi",
     teacher: "O'qituvchi",
@@ -2093,7 +2103,7 @@ const uz: Dictionary = {
   speakingHub: {
     intro: "Bugun gapirishni qanday mashq qilmoqchisiz, tanlang.",
     lessonsTitle: "Speaking darslari",
-    lessonsBody: "Tizimli speaking o'rganish uchun videolar, materiallar, strukturalar va shadowing.",
+    lessonsBody: "Tizimli speaking o'rganish uchun videolar, materiallar va strukturalar.",
     lessonsEmptyTitle: "Hozircha speaking darslari e'lon qilinmagan",
     lessonsEmptyBody: "O'qituvchingiz bu yerga hali dars joylamagan. Mustaqil mashq va AI bilan mashq hozir mavjud.",
     cards: {
@@ -2118,7 +2128,7 @@ const uz: Dictionary = {
       lessons: {
         eyebrow: "Darslar",
         title: "Speaking darslari",
-        body: "Videolar, materiallar va tizimli speaking o'rganish, shu jumladan shadowing.",
+        body: "Videolar, materiallar va tizimli speaking o'rganish.",
         cta: "Darslarni ochish",
       },
     },

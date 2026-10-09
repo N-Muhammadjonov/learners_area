@@ -1,0 +1,251 @@
+{
+  "window": "2026-10-02 through 2026-10-09, Asia/Tashkent",
+  "library_inventory_items": 617,
+  "prompt_texts_retrieved": 30,
+  "coverage": "Available saved prompt files and uploaded prior chat only; exhaustive all-chat history unavailable. User selected continuing with available sources.",
+  "sources": [
+    {
+      "library_file_id": "libfile_92e6f3ad807c8191b0a032a5d68daeba",
+      "name": "Phase 7 B024 Continuation Prompt.md",
+      "created_at": "2026-10-02T06:13:01.140579Z",
+      "complete_text_retrieved": true,
+      "total_lines": 660
+    },
+    {
+      "library_file_id": "libfile_f2b42fdd9bf48191979f230b5ac15405",
+      "name": "LEARNERS_AREA_ALL_REMAINING_WORK_FINAL_MASTER_PROMPT_2026-10-02.txt",
+      "created_at": "2026-10-02T12:01:49.419956Z",
+      "complete_text_retrieved": true,
+      "total_lines": 3183
+    },
+    {
+      "library_file_id": "libfile_50556879b70c81919006bbabe248c81b",
+      "name": "LEARNERS_AREA_ARENA_MASTER_PROMPT_V2_ULTRA_STRICT.txt",
+      "created_at": "2026-10-02T14:26:36.280362Z",
+      "complete_text_retrieved": true,
+      "total_lines": 3530
+    },
+    {
+      "library_file_id": "libfile_b810a9d8cb0c8191b11834133f0c55ce",
+      "name": "FULL_RIWI_SUPER_MASTER_PROMPT_ARENA_2026-10-03.txt",
+      "created_at": "2026-10-03T18:35:46.356977Z",
+      "complete_text_retrieved": true,
+      "total_lines": 4961
+    },
+    {
+      "library_file_id": "libfile_b5530f9731888191891747b3c581aae1",
+      "name": "Learners_Area_Listening_REFERENCE_FIDELITY_MASTER_PROMPT.docx",
+      "created_at": "2026-10-04T07:50:04.391014Z",
+      "complete_text_retrieved": true,
+      "total_lines": 1461
+    },
+    {
+      "library_file_id": "libfile_d812aae507c88191bff1346bbb6616c0",
+      "name": "RIWI_FINAL_PORTABILITY_SECURITY_LEARNING_ZERO_GAP_META_PROMPT.txt",
+      "created_at": "2026-10-04T08:29:38.300551Z",
+      "complete_text_retrieved": true,
+      "total_lines": 3072
+    },
+    {
+      "library_file_id": "libfile_21b2b71788a081918697052a3bc9312e",
+      "name": "RIWI_SECURITY_PROMPT_FINAL_V2.txt",
+      "created_at": "2026-10-04T08:48:44.164589Z",
+      "complete_text_retrieved": true,
+      "total_lines": 5669
+    },
+    {
+      "library_file_id": "libfile_a800b63c475c819195e1e1ececa133db",
+      "name": "LEARNERS_AREA_RIWI_SPEAKING_PRACTICE_WITH_AI_MASTER_PROMPT.txt",
+      "created_at": "2026-10-04T15:55:31.194845Z",
+      "complete_text_retrieved": true,
+      "total_lines": 3274
+    },
+    {
+      "library_file_id": "libfile_e064733aab788191960b7e0e4a77f5c6",
+      "name": "LEARNERS_AREA_RIWI_PROMPT_BASE_BOOK_FINAL.txt",
+      "created_at": "2026-10-04T18:30:33.893706Z",
+      "complete_text_retrieved": true,
+      "total_lines": 3909
+    },
+    {
+      "library_file_id": "libfile_a7796144bcd0819195bd874316de9432",
+      "name": "RIWI_SECURITY_PROMPT.txt",
+      "created_at": "2026-10-05T05:16:57.931707Z",
+      "complete_text_retrieved": true,
+      "total_lines": 5538
+    },
+    {
+      "library_file_id": "libfile_2ab26a4881148191855e8884c1056b27",
+      "name": "LEARNERS_AREA_FULL_APP_CONVERSION_SUPER_MASTER_META_PROMPT_V3.txt",
+      "created_at": "2026-10-05T20:31:54.613007Z",
+      "complete_text_retrieved": true,
+      "total_lines": 15508
+    },
+    {
+      "library_file_id": "libfile_78358ca65b8c819198eb41b8841031ac",
+      "name": "LEARNERS_AREA_BEST_OF_BOTH_APP_LISTENING_READING_FINAL_MASTER_META_PROMPT_V4.txt",
+      "created_at": "2026-10-06T08:58:01.730250Z",
+      "complete_text_retrieved": true,
+      "total_lines": 16602
+    },
+    {
+      "library_file_id": "libfile_9ed98e2cd6f48191b3df1b9e36d4c911",
+      "name": "ARENA_NIGHT_DESIGN_SUPER_MASTER_PROMPT.txt",
+      "created_at": "2026-10-08T05:26:57.284977Z",
+      "complete_text_retrieved": true,
+      "total_lines": 111
+    },
+    {
+      "library_file_id": "libfile_a7a6bf0b8c18819195cb0ff37995ebd9",
+      "name": "ARENA_NIGHT_DESIGN_SUPER_MASTER_PROMPT_COMPLETE_V2.txt",
+      "created_at": "2026-10-08T05:40:55.111897Z",
+      "complete_text_retrieved": true,
+      "total_lines": 637
+    },
+    {
+      "library_file_id": "libfile_9800f33464248191a1bac87d4e9467d2",
+      "name": "ARENA_NIGHT_DESIGN_SUPER_MASTER_PROMPT_COMPLETE_V3.txt",
+      "created_at": "2026-10-08T06:30:35.892962Z",
+      "complete_text_retrieved": true,
+      "total_lines": 721
+    },
+    {
+      "library_file_id": "libfile_5561077618188191a33ea1decf10b38d",
+      "name": "ARENA_NIGHT_DESIGN_SUPER_MASTER_PROMPT_ALL_ZIP_AND_CODE_V4.txt",
+      "created_at": "2026-10-08T08:14:14.188701Z",
+      "complete_text_retrieved": true,
+      "total_lines": 818
+    },
+    {
+      "library_file_id": "libfile_f19e52f2ca6081919e7edcfd678ca431",
+      "name": "LEARNERS_AREA_READING_V4_CONTINUE_FROM_E21EB7_MASTER_PROMPT.txt",
+      "created_at": "2026-10-08T08:16:54.485662Z",
+      "complete_text_retrieved": true,
+      "total_lines": 423
+    },
+    {
+      "library_file_id": "libfile_42011c7073088191834e392de756302e",
+      "name": "LEARNERS_AREA_READING_V4_CONTINUE_FROM_E21EB7_MASTER_PROMPT(1).txt",
+      "created_at": "2026-10-08T08:17:05.676732Z",
+      "complete_text_retrieved": true,
+      "total_lines": 423
+    },
+    {
+      "library_file_id": "libfile_c194c43ee5c881918d4eadecbdc28ad7",
+      "name": "RIWI_26_TO_100_GPT_WORK_SUPER_MASTER_META_PROMPT_2026-10-08.txt",
+      "created_at": "2026-10-08T08:57:16.783547Z",
+      "complete_text_retrieved": true,
+      "total_lines": 1444
+    },
+    {
+      "library_file_id": "libfile_f4228002eac481918e53bb52cbd379f8",
+      "name": "RIWI_26_TO_100_GPT_WORK_SUPER_MASTER_META_PROMPT_2026-10-08(1).txt",
+      "created_at": "2026-10-08T08:57:24.736160Z",
+      "complete_text_retrieved": true,
+      "total_lines": 1444
+    },
+    {
+      "library_file_id": "libfile_f5f56b2cfa488191814d6bee658bdc8e",
+      "name": "LEARNERS_AREA_FINAL_100_PERCENT_PRODUCTION_READY_ARENA_SUPER_MASTER_META_PROMPT.txt",
+      "created_at": "2026-10-08T11:13:24.379649Z",
+      "complete_text_retrieved": true,
+      "total_lines": 992
+    },
+    {
+      "library_file_id": "libfile_f692a79776fc8191b053c0ff92f295e9",
+      "name": "LEARNERS_AREA_FINAL_100_PERCENT_PRODUCTION_READY_ARENA_SUPER_MASTER_META_PROMPT(1).txt",
+      "created_at": "2026-10-08T11:13:29.884761Z",
+      "complete_text_retrieved": true,
+      "total_lines": 992
+    },
+    {
+      "library_file_id": "libfile_bdf50b099910819194cb5010f4f5f082",
+      "name": "LEARNERS_AREA_ARENA_COMPLETE_NO_BACKGROUND_RIWI_SUPER_MASTER_META_PROMPT_2026_10_08.txt",
+      "created_at": "2026-10-08T13:25:44.482903Z",
+      "complete_text_retrieved": true,
+      "total_lines": 29368
+    },
+    {
+      "library_file_id": "libfile_4254281f33208191a3aadf815ff377cd",
+      "name": "RIWI_PROMPT_AUDIT_UZ.md",
+      "created_at": "2026-10-08T17:02:26.433468Z",
+      "complete_text_retrieved": true,
+      "total_lines": 37
+    },
+    {
+      "library_file_id": "libfile_34e98909d2d48191a90edc2f09de2602",
+      "name": "LEARNERS_AREA_RIWI_PROMPT_BASE_BOOK_FINAL(1).txt",
+      "created_at": "2026-10-09T01:58:22.298658Z",
+      "complete_text_retrieved": true,
+      "total_lines": 3909
+    },
+    {
+      "library_file_id": "libfile_a2fca2bc0cf48191902315210a3db590",
+      "name": "LEARNERS_AREA_RIWI_SPEAKING_PRACTICE_WITH_AI_MASTER_PROMPT(1).txt",
+      "created_at": "2026-10-09T01:58:26.937945Z",
+      "complete_text_retrieved": true,
+      "total_lines": 3274
+    },
+    {
+      "library_file_id": "libfile_6fb8e8ea69888191ba3c15128a79a31b",
+      "name": "RIWI_SECURITY_PROMPT_FINAL_V2(1).txt",
+      "created_at": "2026-10-09T01:58:33.190484Z",
+      "complete_text_retrieved": true,
+      "total_lines": 5669
+    },
+    {
+      "library_file_id": "libfile_6e98ccfe3e9c8191848b6d861696210c",
+      "name": "prompt yaratish uchun prompt.rtf",
+      "created_at": "2026-10-09T02:01:53.114074Z",
+      "complete_text_retrieved": true,
+      "total_lines": 1343
+    },
+    {
+      "library_file_id": "libfile_757361f27a888191a894bfb5b2099f1a",
+      "name": "RIWI_REMAINING_WORK_EXECUTION_PROMPT.txt",
+      "created_at": "2026-10-09T02:10:19.335358Z",
+      "complete_text_retrieved": true,
+      "total_lines": 2122
+    },
+    {
+      "library_file_id": "libfile_9d80f87f53b08191935bacc8726d8f1a",
+      "name": "RIWI_STEP_03_PROMPT_BOOK_FIX.patch",
+      "created_at": "2026-10-09T02:32:59.972833Z",
+      "complete_text_retrieved": true,
+      "total_lines": 2659
+    }
+  ],
+  "latest_remote": "c133f97cabc086fdd14b9acb7f60c46a1cc92419",
+  "accepted_current_constraints": [
+    "No reset/rebase/stash/clean/force or automatic branch/main merge.",
+    "Preserve completed Reading V4 and current site/theming work.",
+    "Current direct user mandate authorizes this RIWI branch continuation despite changing historic executor assignments.",
+    "Retain ALL rolling 30-day chat messages; no 60-message cap; delete chats after strictly >7 offline days across authenticated roles.",
+    "Speaking retention has no recorded final duration selection; no silent destructive policy.",
+    "RIWI warm UZ/EN conversational tone and relevant limited emojis.",
+    "Native QA then branch push then independent remote verification before next batch.",
+    "Current prompt has 34 equal-weight groups; no partial/full group inflation, SKIP/mock is not real acceptance.",
+    "User requests batch scope at least 11%; four groups correspond to 11.76 percentage points only after applicable acceptance.",
+    "Do not implement or expand shadowing; user confirmed section removal in available Progress variantini tanlash excerpt."
+  ],
+  "pending_next_batch_candidate_groups": [
+    "B03",
+    "D02",
+    "D06",
+    "D07"
+  ],
+  "priority_chat_sources": {
+    "titles": [
+      "Progress variantini tanlash",
+      "Chatni davom ettishi",
+      "Progress"
+    ],
+    "full_text_available": false,
+    "retrieval_result": "Conversation search returned an error; exact Library title searches returned no exports; shared ChatGPT URL fetch failed. User authorized continuation with found information.",
+    "available_excerpt_decisions": [
+      "No shadowing section; user explicitly agreed to removal in Progress variantini tanlash.",
+      "Show full prompt text in chat when delivering prompts.",
+      "Chatni davom ettirish excerpt confirms all rolling 30-day messages and strictly more than seven offline days deletion."
+    ]
+  }
+}
