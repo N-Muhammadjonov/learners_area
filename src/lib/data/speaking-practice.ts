@@ -1,4 +1,4 @@
-import { and, asc, desc, eq, sql } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { speakingAttempts, speakingPrompts } from "@/db/schema";
 import { isLive, liveWhere } from "@/lib/services/cms/publication";
@@ -189,16 +189,21 @@ export type AttemptWithPrompt = typeof speakingAttempts.$inferSelect & {
  * a single attempt; without it, every attempt for the caller is returned
  * newest-first.
  */
-export async function listAttempts(options: {
-  userId?: string;
-  attemptId?: string;
-}): Promise<AttemptWithPrompt[]> {
+export async function listAttempts(
+  options: {
+    userId?: string;
+    attemptId?: string;
+  },
+  // Injectable executor, matching listLivePartnerQuestions above, so the read this
+  // function performs can be exercised directly by a test.
+  database: typeof db = db,
+): Promise<AttemptWithPrompt[]> {
   const rows = options.attemptId
-    ? await db.query.speakingAttempts.findMany({
+    ? await database.query.speakingAttempts.findMany({
         where: eq(speakingAttempts.id, options.attemptId),
         limit: 1,
       })
-    : await db.query.speakingAttempts.findMany({
+    : await database.query.speakingAttempts.findMany({
         where: options.userId ? eq(speakingAttempts.userId, options.userId) : undefined,
         orderBy: [desc(speakingAttempts.startedAt)],
         limit: 100,
@@ -206,10 +211,16 @@ export async function listAttempts(options: {
 
   if (rows.length === 0) return [];
 
-  // One query for all referenced prompts rather than one per attempt.
+  // One query for all referenced prompts rather than one per attempt — RESTRICTED to
+  // the ids actually referenced. `where: undefined` read the WHOLE prompt bank to
+  // resolve at most 100 attempts: on a bank of a few thousand prompts the learner's
+  // history page transferred the entire table (including every draft and archived
+  // prompt) on every load, and the cost grew with the bank rather than with the
+  // learner's history. The attempt list is already bounded at 100, so this read is
+  // bounded by it.
   const promptIds = [...new Set(rows.map((r) => r.promptId).filter((id): id is string => Boolean(id)))];
   const prompts = promptIds.length
-    ? await db.query.speakingPrompts.findMany({ where: undefined })
+    ? await database.query.speakingPrompts.findMany({ where: inArray(speakingPrompts.id, promptIds) })
     : [];
   const byId = new Map(prompts.map((p) => [p.id, p]));
 
