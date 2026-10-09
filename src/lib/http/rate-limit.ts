@@ -105,18 +105,69 @@ export function reset(rule: RateLimitRule, key: string): void {
   buckets.get(rule.name)?.delete(key);
 }
 
+/** An IPv4/IPv6 literal, so a bucket key can never be arbitrary attacker text. */
+function asIpAddress(value: string | undefined | null): string | null {
+  const candidate = value?.trim();
+  if (!candidate) return null;
+  // Strip an optional :port from IPv4, and [..] brackets from IPv6.
+  const bare = candidate.startsWith("[")
+    ? candidate.slice(1, candidate.indexOf("]") === -1 ? undefined : candidate.indexOf("]"))
+    : candidate.split(":").length === 2
+      ? candidate.split(":")[0]!
+      : candidate;
+  const v4 = /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/.exec(bare);
+  if (v4) {
+    return v4.slice(1).every((part) => Number(part) <= 255) ? bare : null;
+  }
+  // Deliberately permissive about IPv6 shape, strict about its alphabet.
+  if (/^[0-9a-f:]+$/i.test(bare) && bare.includes(":")) return bare.toLowerCase();
+  return null;
+}
+
 /**
- * A stable client key.
+ * A stable client key that an untrusted caller cannot choose.
  *
- * Behind a proxy the left-most `x-forwarded-for` entry is the real client; when
- * the header is absent the request is local, and every local caller shares one
- * bucket on purpose (a local caller is not an internet attacker).
+ * THE TRUST BOUNDARY. `x-forwarded-for` is attacker-controlled input. Anything the
+ * client sends arrives intact at the first proxy, which APPENDS rather than
+ * sanitises, so the LEFT-most entry is whatever the caller typed. Keying the limiter
+ * on it let any caller mint unlimited independent rate-limit identities — rotate the
+ * header, get a fresh bucket, and every per-IP limit (failed sign-ins included)
+ * stops existing.
+ *
+ * The order below prefers values a client cannot forge:
+ *
+ *  1. `x-vercel-forwarded-for` — written by Vercel's proxy. Vercel documents that it
+ *     overwrites `x-forwarded-for` to prevent spoofing, and this header additionally
+ *     survives an upstream proxy overwriting XFF.
+ *  2. `x-real-ip` — the single client address Vercel's proxy calculates.
+ *  3. `x-forwarded-for`, read RIGHT to LEFT. The right-most entry was appended by the
+ *     hop closest to this server; everything to its left may be spoofed. This is the
+ *     standard guidance and it is also what keeps a non-Vercel reverse proxy working.
+ *
+ * Each candidate must parse as an IP literal, so a forged header full of text cannot
+ * become a bucket key either.
+ *
+ * IMPORTANT, and deliberately not papered over: headers 1 and 2 are only trustworthy
+ * because the origin is reached through the platform proxy. If this app is ever
+ * exposed directly to the internet, no header is trustworthy and per-IP limiting must
+ * move to the edge. Per-ACCOUNT limits (`loginByAccount`, keyed on the email) do not
+ * depend on any of this and remain effective regardless.
  */
 export function clientKey(req: NextRequest): string {
+  const vercel = asIpAddress(req.headers.get("x-vercel-forwarded-for"));
+  if (vercel) return vercel;
+
+  const real = asIpAddress(req.headers.get("x-real-ip"));
+  if (real) return real;
+
   const forwarded = req.headers.get("x-forwarded-for");
   if (forwarded) {
-    const first = forwarded.split(",")[0]?.trim();
-    if (first) return first;
+    const hops = forwarded.split(",");
+    // Right to left: the first parseable address nearest this server.
+    for (let i = hops.length - 1; i >= 0; i -= 1) {
+      const ip = asIpAddress(hops[i]);
+      if (ip) return ip;
+    }
   }
   return "local";
 }
