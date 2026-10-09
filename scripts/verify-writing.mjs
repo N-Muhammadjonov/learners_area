@@ -61,7 +61,9 @@ await db.connect();
 const studentCookie = await login("demo.student@learnersarea.uz", "Student12345!");
 check("the student can sign in", Boolean(studentCookie));
 
-const writingPage = await page("/app/writing", studentCookie);
+// Writing is tabbed (WRITING_TABS, default "lessons"); the typing trainer lives on
+// ?tab=typing. Requesting the bare page tested the default tab, not the trainer.
+const writingPage = await page("/app/writing?tab=typing", studentCookie);
 check("the writing page renders", writingPage.status === 200, `status ${writingPage.status}`);
 check("the typing trainer is on the page", writingPage.text.includes("data-typing-trainer"));
 check("the trainer offers real targets", writingPage.text.includes("data-typing-target"));

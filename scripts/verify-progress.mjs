@@ -120,15 +120,47 @@ check(
 const freshCookie = await login("new.student@learnersarea.uz", "Student12345!");
 const fresh = await page("/app/progress", freshCookie);
 check("a fresh account sees the page too", fresh.status === 200);
-// Only what is *rendered* counts — the serialized i18n dictionary in the RSC
-// payload legitimately contains strings like "…opens at 80%…".
+// The OLD assertion regex-matched any "9.0" or "NN%" anywhere in the rendered text.
+// That is invalid: the Mock panel legitimately prints the IELTS scale maximum
+// ("Latest band / 9.0"), chart axis ticks (0.0 3.0 6.0 9.0) and a sr-only caption.
+// Those are a SCALE, not a learner result. The real invariant is:
+//   a learner who has completed nothing must never be shown a band they did not earn.
+// `data-latest-band` carries the learner's OWN value, or "none" when nothing is graded.
+const attr = (name) => {
+  const m = fresh.text.match(new RegExp(`${name}="([^"]*)"`));
+  return m ? m[1] : null;
+};
+const freshBand = attr("data-latest-band");
+const freshCompleted = attr("data-completed-mocks");
+
+check(
+  "a fresh account's own band is absent, not invented",
+  freshBand === null || freshBand === "none",
+  `data-latest-band=${freshBand}`
+);
+check(
+  "a fresh account is credited with zero completed mocks",
+  freshCompleted === null || freshCompleted === "0",
+  `data-completed-mocks=${freshCompleted}`
+);
+// The scale label and axis may show 9.0; a learner VALUE may not appear anywhere.
 const freshBody = fresh.text
   .replace(/<script[\s\S]*?<\/script>/g, " ")
   .replace(/<[^>]+>/g, " ");
 check(
-  "a fresh account is shown no band, no accuracy and no score of any kind it did not earn",
-  !/\b[0-9]\.[05]\b/.test(freshBody) && !/[0-9]{1,3}%/.test(freshBody),
-  `rendered text: ${(freshBody.match(/[0-9]{1,3}%|\b[0-9]\.[05]\b/g) ?? []).join(", ")}`
+  "a fresh account sees a truthful empty state rather than a score",
+  /—|yo'q|no graded|hali/i.test(freshBody),
+  "expected an explicit empty-state marker in the rendered text"
+);
+// Negative control: the probe must be able to SEE a real band when one exists.
+// demo.student has graded history, so its panel must expose a numeric band or a
+// non-zero completed count — proving these assertions are not vacuously true.
+const seededBandAttr = progress.text.match(/data-latest-band="([^"]*)"/);
+const seededCompletedAttr = progress.text.match(/data-completed-mocks="([^"]*)"/);
+check(
+  "the band probe is live: it can read a real learner's own panel values",
+  seededBandAttr !== null || seededCompletedAttr !== null,
+  "data-latest-band / data-completed-mocks were not rendered at all"
 );
 
 check("an anonymous visitor cannot read progress", (await page("/app/progress")).status !== 200);

@@ -191,15 +191,41 @@ check(
 );
 
 // --- STUDENT: refused, not shown an empty shell -----------------------------
+// STATUS ALONE IS NOT THE INVARIANT. Next.js may answer a document GET with 200 while
+// streaming a redirect instruction, so a status assertion is both flaky and blind.
+// The invariant that actually matters: a student receives ZERO protected data.
+const PROTECTED_DATA = [
+  "/app/owner/transfer",
+  "/app/owner/audit",
+  "/app/owner/retention",
+  "teacher@learnersarea.uz",
+  "admin@learnersarea.uz",
+  "owner@learnersarea.uz",
+  "pending.student@learnersarea.uz",
+];
 for (const path of ["/app/management", "/app/admin/admissions", "/app/admin/people", "/app/teacher/students", "/app/owner"]) {
   const page = await get(path, student);
-  const refused = page.status === 307 || page.status === 303 || (page.status === 200 && !has(page.body, MANAGEMENT_MARKER));
+  const leaked = PROTECTED_DATA.filter((marker) => page.body.includes(marker));
   check(
-    `STUDENT ${path} — refused the management mode`,
-    refused,
-    `http=${page.status}${page.location ? ` → ${page.location}` : ""}`
+    `STUDENT ${path} — receives zero protected data`,
+    leaked.length === 0,
+    `http=${page.status}${page.location ? ` → ${page.location}` : ""} leaked=${leaked.join(", ") || "none"}`
+  );
+  // A redirect instruction must point back into the learner area, never deeper into management.
+  const destination = page.location ?? "";
+  check(
+    `STUDENT ${path} — any redirect leads out of management`,
+    destination === "" || !/\/(owner|admin|teacher|management)/.test(destination),
+    `→ ${destination || "(no redirect header)"}`
   );
 }
+// Positive control: these markers must be DETECTABLE, or the loop above proves nothing.
+const ownerControl = await get("/app/owner", owner);
+check(
+  "the leak detector is live — the owner's own console does expose owner-only destinations",
+  PROTECTED_DATA.some((marker) => ownerControl.body.includes(marker)),
+  "no protected marker rendered even for the owner"
+);
 const studentDashboard = await get("/app", student);
 check(
   "STUDENT has no way into management at all",

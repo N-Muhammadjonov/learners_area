@@ -106,7 +106,16 @@ check(
 
 // --- Wide content scrolls in its own container ------------------------------
 const tableFiles = tsx.filter((f) => read(f).includes("<table"));
-const unwrapped = tableFiles.filter((f) => !read(f).includes("overflow-x-auto"));
+// A table may be wrapped in a Tailwind utility OR in a project CSS class that sets
+// overflow-x (e.g. .typing-history-scroll { overflow-x: auto }). Honour both, but
+// require the CSS class to really declare overflow-x in globals.css.
+const globalCss = read("src/app/globals.css");
+const scrollingClasses = [...globalCss.matchAll(/\.([a-zA-Z0-9_-]+)\s*\{[^}]*overflow-x:\s*(auto|scroll)/g)].map((m) => m[1]);
+const unwrapped = tableFiles.filter((f) => {
+  const body = read(f);
+  if (body.includes("overflow-x-auto") || body.includes("overflow-x-scroll")) return false;
+  return !scrollingClasses.some((cls) => body.includes(cls));
+});
 check("every table scrolls horizontally instead of moving the page", unwrapped.length === 0, unwrapped.join(", "));
 
 // --- Breakpoint hygiene -----------------------------------------------------

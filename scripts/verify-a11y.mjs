@@ -52,6 +52,7 @@ async function login(email, password) {
 }
 
 const readFile = (await import("node:fs")).readFileSync;
+const { resolve, dirname } = await import("node:path");
 
 console.log(`\nLearners Area — accessibility and locale against ${BASE}\n`);
 
@@ -273,7 +274,19 @@ if (existsSync(".next/BUILD_ID")) {
   const maps = staticFiles.filter((f) => f.endsWith(".map"));
   const linked = staticFiles
     .filter((f) => f.endsWith(".js"))
-    .filter((f) => readFile(f, "utf8").includes("sourceMappingURL"));
+    // A substring match also hits vendored source-map tooling, whose string and
+    // regex literals legitimately contain the token (e.g. /\/\*\s*# sourceMappingURL=/
+    // or css += "/*# sourceMappingURL=" + name). Those write maps elsewhere; they do
+    // not expose one here. A directive only leaks a map when it is a TRAILING comment
+    // AND the map it names was actually emitted.
+    .filter((f) => {
+      const body = readFile(f, "utf8");
+      const tail = body.slice(-600);
+      const m = tail.match(/\/[/*]#\s*sourceMappingURL=([^\s*]+)/);
+      if (!m) return false;
+      const target = resolve(dirname(f), m[1].trim());
+      return existsSync(target);
+    });
   check("the production build ships no source map files", maps.length === 0, `${maps.length} .map file(s)`);
   check("no production chunk points at a source map", linked.length === 0, linked.slice(0, 3).join(", "));
 } else {

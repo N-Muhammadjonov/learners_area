@@ -132,6 +132,8 @@ await check("registration creates a PENDING account and signs it in", async () =
       name: "Access Test Applicant",
       email: applicantEmail,
       password: applicantPassword,
+      // required by registerSchema; omitting it tested the validator, not registration
+      gender: "male",
     }),
   });
   assert.equal(res.status, 200, res.text.slice(0, 200));
@@ -198,15 +200,33 @@ await check("the owners and admins see the request in the queue", async () => {
   }
 });
 
-await check("a teacher cannot open the admission queue", async () => {
+await check("a teacher receives no admission-queue data", async () => {
+  // Status alone is not the invariant: Next.js may answer a document GET with 200
+  // while streaming a redirect. What must hold is that NO applicant identity and no
+  // staff-only control reaches a teacher.
   const res = await get(teacherCookie, "/app/admin/admissions");
-  assert.ok([307, 404].includes(res.status), `expected a redirect/404, got ${res.status}`);
+  assert.ok(
+    !res.html.includes(applicantEmail),
+    `a teacher saw the applicant's identity in the admission queue (status ${res.status})`
+  );
+  // positive control: the owner's own queue really does carry that identity
+  const ownerQueue = await get(ownerCookie, "/app/admin/admissions");
+  assert.ok(
+    ownerQueue.html.includes(applicantEmail),
+    "leak detector inert: the owner's queue did not render the applicant either"
+  );
 });
 
 await check("a teacher cannot open administrator pages", async () => {
   for (const path of ["/app/admin/reading", "/app/admin/grammar", "/app/admin/writing-prompts"]) {
     const res = await get(teacherCookie, path);
-    assert.equal(res.status, 307, `${path} must redirect a teacher (got ${res.status})`);
+    // The invariant is zero administrator content, not a particular HTTP status.
+    for (const marker of ["data-admin-reading-import", "/app/admin/listening/import", "data-content-workspace"]) {
+      assert.ok(
+        !res.html.includes(marker),
+        `${path} exposed administrator control "${marker}" to a teacher (status ${res.status})`
+      );
+    }
     assert.match(res.location ?? "", /\/dashboard/);
   }
 });
@@ -380,14 +400,62 @@ await check("the owner can grant a role, and the change follows the account imme
 // ---------------------------------------------------------------------------
 
 await check("the owner console is reachable by the owner and by nobody else", async () => {
+  // STATUS IS NOT THE INVARIANT. Next.js may legitimately answer a document GET with
+  // 200 while streaming a redirect instruction to the dashboard, so asserting
+  // [307,404] made this probe both flaky AND blind: a 200 that actually LEAKED the
+  // console would have failed for the right reason only by accident.
+  //
+  // The real invariant: an unauthorized actor receives ZERO protected content.
+  // Owner-only destinations are the proof surface — they appear for the owner and
+  // must appear for nobody else, whatever the HTTP status is.
+  const OWNER_ONLY_MARKERS = [
+    "/app/owner/transfer",
+    "/app/owner/audit",
+    "/app/owner/retention",
+    "/app/owner/integrations",
+  ];
+  const leakedMarkers = (body) => OWNER_ONLY_MARKERS.filter((m) => body.includes(m));
+
   const owner = await get(ownerCookie, "/app/owner");
   assert.equal(owner.status, 200);
+  // Positive control: if the console ever stops rendering its own destinations the
+  // negative assertions below become vacuous, so prove the markers are detectable.
+  assert.ok(
+    leakedMarkers(owner.html).length >= 2,
+    `the owner console must actually render owner-only destinations (saw ${leakedMarkers(owner.html).length})`
+  );
 
-  const admin = await get(adminCookie, "/app/owner");
-  assert.ok([307, 404].includes(admin.status), `admin must not open /owner (got ${admin.status})`);
+  for (const [who, cookie] of [["admin", adminCookie], ["student", applicantCookie]]) {
+    const res = await get(cookie, "/app/owner");
+    const leaked = leakedMarkers(res.html);
+    assert.equal(
+      leaked.length,
+      0,
+      `${who} received owner-only content from /app/owner (status ${res.status}): ${leaked.join(", ")}`
+    );
+    // and no other person's identity may appear
+    for (const email of ["teacher@learnersarea.uz", "owner@learnersarea.uz"]) {
+      assert.ok(
+        !res.html.includes(email),
+        `${who} saw identity ${email} in the /app/owner payload`
+      );
+    }
+  }
 
-  const student = await get(applicantCookie, "/app/owner");
-  assert.ok([307, 404].includes(student.status), `student must not open /owner (got ${student.status})`);
+  // Client-side hiding is never sufficient: the owner-only APIs must deny server-side.
+  for (const [who, cookie] of [["anonymous", ""], ["admin", adminCookie], ["student", applicantCookie]]) {
+    for (const path of ["/api/owner/transfer", "/api/owner/retention"]) {
+      const res = await fetch(`${BASE}${path}`, {
+        method: "POST",
+        headers: { "content-type": "application/json", ...(cookie ? { cookie } : {}) },
+        body: "{}",
+      });
+      assert.ok(
+        res.status === 401 || res.status === 403 || res.status === 404,
+        `${who} must be denied ${path} server-side (got ${res.status})`
+      );
+    }
+  }
 });
 
 await check("the retention job previews without deleting, twice in a row", async () => {

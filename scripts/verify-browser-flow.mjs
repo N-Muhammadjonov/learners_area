@@ -282,7 +282,7 @@ const applicantEmail = `flow.test.${randomUUID().slice(0, 8)}@learnersarea.uz`;
 const applicant = new Jar();
 const registered = await visit("/api/auth/register", applicant, {
   method: "POST",
-  body: { name: "Flow Test Applicant", email: applicantEmail, password: "FlowTest12345!" },
+  body: { name: "Flow Test Applicant", email: applicantEmail, password: "FlowTest12345!", gender: "male" },
 });
 check("a new visitor can register and is signed in", registered.status === 200, `status ${registered.status}`);
 

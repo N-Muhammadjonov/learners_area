@@ -75,7 +75,9 @@ let studentId = null;
 async function makeStudent() {
   const register = await api("/api/auth/register", {
     method: "POST",
-    body: { name: "Vocab QA", email: studentEmail, password },
+    // `gender` became a required field of registerSchema; a probe that omits it
+    // tests the validator, not registration. Send a complete, realistic payload.
+    body: { name: "Vocab QA", email: studentEmail, password, gender: "female" },
   });
   check("registration of a new student succeeds", register.status === 200 || register.status === 201, `status ${register.status}`);
 
@@ -323,7 +325,7 @@ check("an unmatched query returns nothing rather than everything", searchEmpty.j
 const otherEmail = `${unique}.b@learnersarea.uz`;
 const otherRegister = await api("/api/auth/register", {
   method: "POST",
-  body: { name: "Vocab QA B", email: otherEmail, password },
+  body: { name: "Vocab QA B", email: otherEmail, password, gender: "male" },
 });
 const ownerSession = await login("owner@learnersarea.uz", "Owner12345!");
 const otherFiled = await api("/api/admission/request", {
