@@ -1,0 +1,227 @@
+{
+  "source": "RIWI_REMAINING_WORK_EXECUTION_PROMPT.txt",
+  "source_sha256": "daf36b256a990b7fa5379fd121810991bad552f638c776e8d9b55dcb22847979",
+  "verified_remote_base": "ce282f09ebc50071b18c9b54933e532d11feb2d5",
+  "method": "Equal-weight full-group acceptance: CLOSED / all 34 original R/B/C/D groups. Partial implementation receives no full-group credit. This is a verified closure metric, not a measure of development effort or existing product functionality.",
+  "closed": 2,
+  "total": 34,
+  "verified_closure_percent": 5.88,
+  "riwi_overall_percent": null,
+  "project_overall_percent": null,
+  "overall_unknown_reason": "No fully reconciled requirement denominator with current evidence for the entire RIWI or website project.",
+  "additional_feature": {
+    "id": "warm-conversation",
+    "commit": "ce282f09ebc50071b18c9b54933e532d11feb2d5",
+    "status": "CODE_QA_REMOTE_VERIFIED",
+    "outside_original_34_groups": true,
+    "live_provider_acceptance": "UNVERIFIED"
+  },
+  "groups": [
+    {
+      "id": "R01",
+      "requirement": "Recover and publish the preserved candidate correctly. GitHub still has fd0dc498 while the local candidate contains five additional logical commits plus working-tree changes. Verify every changed blob against the remote base and each local diff. The historical 11,263,730-byte requirement-ledger blob is missing locally. Preserve its remote SHA reference, do not fabricate it or overwrite it merely to make Git work. Publish reviewed changes through a base-tree patch if ordinary Git cannot transfer the complete history. Use a non-force compare-and-swap ref update.",
+      "status": "PARTIAL",
+      "evidence_and_remaining": "Reviewed publication checkpoints exist; inherited candidate changes remain unpublished."
+    },
+    {
+      "id": "R02",
+      "requirement": "Reconcile current RIWI/website divergence and migrations. Compare exact current SHAs, journal entries, SQL/snapshots and schema. Prepare a conflict-specific integration patch/runbook without merging or renumbering migrations blindly. Current website state is newer than the historical chat checkpoint.",
+      "status": "PARTIAL",
+      "evidence_and_remaining": "Hash-ordered migration repair published; website divergence/integration packet remains open."
+    },
+    {
+      "id": "R03",
+      "requirement": "Rebuild evidence-based requirement status. The remote generator maps broad source keywords to PASS without executing the alleged evidence. The local fix removes this automatic acceptance. Test with representative real requirements and maintain source file, source line, exact requirement, implementation, command, observed result, state SHA and applicable external evidence. Counts of text lines are not completion percentages.",
+      "status": "PARTIAL",
+      "evidence_and_remaining": "False PASS generator fixed; full requirement-specific current-state evidence remains open."
+    },
+    {
+      "id": "R04",
+      "requirement": "Finish deployed chat retention acceptance after reviewing the preserved local implementation. Test exact 30-day and seven-day boundaries, >60 eligible messages, late returning users, all four roles, inactive/closed tabs, concurrent heartbeat/sweep, missed cron run, cascade deletion, dry-run and secret denial. Apply migrations only to an identified authorized environment. Verify scheduler support and actual successful cron executions. Do not equate code presence with physical deletion in deployment.",
+      "status": "PARTIAL",
+      "evidence_and_remaining": "30-day/all-message and strict seven-day inactivity code tested and published; deployed scheduler/deletion proof remains open."
+    },
+    {
+      "id": "R05",
+      "requirement": "Close current-source test skips honestly: native PostgreSQL fresh/upgrade/concurrency, canonical Listening and Speaking bank sources, and portability destination checks. Confirm source identity/content rather than substituting a similarly named ZIP. Historical booster.zip was non-equivalent.",
+      "status": "OPEN_UNVERIFIED",
+      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+    },
+    {
+      "id": "R06",
+      "requirement": "Complete live AI provider fixtures and four-role authenticated browser QA on the exact target deployment. Test timeout, malformed output, fallback, revocation, CSRF, IDOR, replay, owner-only panels, back/forward/refresh and private URL expiry. Mock transport is not live-provider proof.",
+      "status": "OPEN_UNVERIFIED",
+      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+    },
+    {
+      "id": "R07",
+      "requirement": "Prove real backup/PITR and restore. Record secret-free environment fingerprint, safety point, retention, actual isolated restore, row/FK/hash checks, app boot, measured RTO and observed RPO. Select contractual objectives only when the owner has chosen them. Do not restore over Production.",
+      "status": "OPEN_UNVERIFIED",
+      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+    },
+    {
+      "id": "R08",
+      "requirement": "Produce final evidence and GO/NO-GO only after exact-source gates and operational checks. Prepare reviewable integration/cutover/rollback packets before requesting any still-required consequential owner decision. No missing mandatory evidence can become 100%.",
+      "status": "OPEN_UNVERIFIED",
+      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+    },
+    {
+      "id": "B01",
+      "requirement": "Publish and verify 68-source-task coverage. Remote registry has 68 historical entries, but that count is not parity with the 68 source tasks. Preserved local code adds 37 missing contracts and maps all 68 original task keys to 105 runtime entries, while preserving historical entries and versions. Rerun coverage, duplicate-key, unknown-task, deterministic composition and legacy snapshot regressions. Verify every source task's actual semantics, not only key existence.",
+      "status": "PARTIAL",
+      "evidence_and_remaining": "All 68 source task keys covered by 105 compatible runtime registry entries; all-task behavioral acceptance remains open."
+    },
+    {
+      "id": "B02",
+      "requirement": "Wire task-specific contracts from server-loaded canonical metadata. Review the inherited objective-runtime candidate in Reading submit and Listening attempt write. Ensure every authored subtype/MCQ selection count has correct canonical mapping and official grading remains unchanged. Unknown or unsupported metadata must fail safely without corrupting a submission.",
+      "status": "OPEN_UNVERIFIED",
+      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+    },
+    {
+      "id": "B03",
+      "requirement": "Implement/verify the book's post-submission Reading/Listening explanation flow. Current Reading contract says explanations may be routed 'if ever'; registration and grade provenance alone do not implement an explanation endpoint. Load an authorized submitted attempt, canonical question/official result and bounded relevant passage/transcript evidence. Active exams deny hidden answer/transcript access. Return strict explanation DTO with contract/prompt/rubric/provider provenance. Never mutate isCorrect, correctAnswer or scores. Test foreign/stale/deleted IDs and injection.",
+      "status": "OPEN_UNVERIFIED",
+      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+    },
+    {
+      "id": "B04",
+      "requirement": "Verify executable Grammar/Vocabulary/retention/tutoring/reporting task routes for all listed tasks. Catalog entries are not implemented runtime behavior. Reuse existing tools/services. Distinguish unavailable capability from supported deterministic behavior. Vocabulary meaning/sense comes from canonical authority. Reporter numbers remain deterministic.",
+      "status": "OPEN_UNVERIFIED",
+      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+    },
+    {
+      "id": "B05",
+      "requirement": "Validate all provider/local paths against the same contracts. Writing uses exactly four unique criteria, supported half-bands and server overall; evidence quotes must occur in source text. Speaking quotes must occur in reviewed transcript and pronunciation is Not assessed without real acoustic evidence. Grammar has no IELTS essay band. Test correct answers, acceptable alternatives, empty and malformed inputs, injections, provider schema drift, model fallback and persisted provenance.",
+      "status": "OPEN_UNVERIFIED",
+      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+    },
+    {
+      "id": "B06",
+      "requirement": "Verify owner overlay lifecycle in real runtime: persisted owner authority; candidate -> exact preview/regression hash -> approval -> version activation -> rollback; changed/stale/replayed preview denial; immutable hard-core rejection; no learner/upload/provider text as policy. Preserve historical evaluations. Verify all UZ/EN states.",
+      "status": "OPEN_UNVERIFIED",
+      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+    },
+    {
+      "id": "B07",
+      "requirement": "Validate archive contract compatibility: Mode A/B manifest includes exact portable contract/version/hash requirements; Mode C excludes RIWI intelligence. Old archives without the required manifest fail explicitly or pass only a reviewed explicit migration path. Never silently regrade old attempts.",
+      "status": "CLOSED",
+      "commit": "e50a2a944f092c695711792b63dbfcf154739c65",
+      "evidence": "Exact contract/version/hash export manifests and absent/incompatible/duplicate/incomplete import rejection; step-03 QA and changed blobs verified."
+    },
+    {
+      "id": "C01",
+      "requirement": "Review and finish inherited microphone/STT lifecycle changes. Current stop() detaches recognition handlers immediately and reads only finalRef; final results delivered asynchronously after SpeechRecognition.stop() can be discarded. Reproduce late-final events, no-speech end, interim/final replacement, duplicate events, denied permission, start failure, natural end, unmount and rapid retry. Keep review editable and no automatic server submission. Stop/reset/unmount must release listeners, recorder tracks, meters, timers and Blob URLs; discard stale callbacks without discarding a valid final result from the stopped recording.",
+      "status": "PARTIAL",
+      "evidence_and_remaining": "Step 08 STT finalization and recorder review regression ready for QA-gated publication; browser acceptance is tracked separately in C09."
+    },
+    {
+      "id": "C02",
+      "requirement": "Recorder lifecycle: cancellation while permission is pending, late getUserMedia resolution, aborted signal before/after allocation, constructor/start/stop errors, no stop event, repeated stop, zero bytes, real MIME and accurate elapsed recording time. Check every consuming component passes cancellation and releases pending requests, rather than testing the utility alone.",
+      "status": "OPEN_UNVERIFIED",
+      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+    },
+    {
+      "id": "C03",
+      "requirement": "Verify microphone check uses non-zero audio energy and releases tracks; browser recording continues when STT is unsupported. Supported browser STT is an explicit capability, not guaranteed free universal transcription. Browser/vendor recognition does not prove acoustic pronunciation assessment.",
+      "status": "OPEN_UNVERIFIED",
+      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+    },
+    {
+      "id": "C04",
+      "requirement": "Verify canonical stable randomized examiner plan: part selection, same-topic clusters, stable refresh/resume, no duplicates where enough bank entries exist, related Part 2/3, no client question substitution, insufficient-bank handling. Preserve Practice on Your Own.",
+      "status": "OPEN_UNVERIFIED",
+      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+    },
+    {
+      "id": "C05",
+      "requirement": "Verify Stop -> transcript review/edit/playback/re-record -> explicit Send to RIWI -> pending -> evidence-based feedback -> Try again/Next. Test no send on Stop/timer, no partial transcript upload, duplicate send idempotency, provider timeout/retry and route/unmount cleanup. Bind attempt to persisted session item/question and latest valid answer generation.",
+      "status": "OPEN_UNVERIFIED",
+      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+    },
+    {
+      "id": "C06",
+      "requirement": "Verify audio/raw/reviewed transcript provenance, original-vs-edited distinction, transcriptChanged, provider/model/fallback truth, recording duration/MIME/size/hash and history linkage. Do not overwrite the raw source when the user edits. Keep audio private and test foreign attempt/object IDs and expired signed URLs.",
+      "status": "OPEN_UNVERIFIED",
+      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+    },
+    {
+      "id": "C07",
+      "requirement": "Verify Part 2 preparation keeps mic off, early-start behavior, recording limit and manual review. Session summary only aggregates supported evidence; transcript-only pronunciation remains Not assessed and incomplete coverage cannot produce a fabricated official score. Verify recurring-weakness/learning signals with consent and privacy rules.",
+      "status": "OPEN_UNVERIFIED",
+      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+    },
+    {
+      "id": "C08",
+      "requirement": "Separate Speaking audio/transcript retention from D-01. Prepare the exact proposed lifecycle and dry-run outcomes; do not enable irreversible deletion before a specific recorded owner policy exists. Real R2 storage/lifecycle and browser mic/STT behavior still require actual environment/browser receipts.",
+      "status": "OPEN_UNVERIFIED",
+      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+    },
+    {
+      "id": "C09",
+      "requirement": "Complete desktop/tablet/mobile, UZ/EN, day/night, keyboard/focus and active-session failure journeys. JSDOM lifecycle tests are useful but not microphone/SpeechRecognition/browser acceptance.",
+      "status": "OPEN_UNVERIFIED",
+      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+    },
+    {
+      "id": "D01",
+      "requirement": "Publish the privacy fixes first. Remote Mode C includes RIWI conversations/messages and the remote exporter lacks the newer parent-retention evidence gate. Preserved local fixes classify chat as full-system only and exclude expired/offline parents and stale messages. Test all three scope manifests with canaries before publishing.",
+      "status": "CLOSED",
+      "commit": "9d2acf3c60f65e88d556779979490d4a467d160e",
+      "evidence": "Mode C excludes RIWI chat intelligence and private-message export requires parent-retention proof; steps 01/02 QA and remote verification."
+    },
+    {
+      "id": "D02",
+      "requirement": "Finish operational export/import tooling. Low-level bundle/object-copy files and tests exist only as uncommitted candidates; no administrative command/route currently calls exportEncryptedPostgresBundle. Expose an explicit scope-required, authenticated owner-safe command/workflow with dry-run, private encrypted artifact, safe key handling, deterministic manifest/hashes and documented recovery. Reject default/full scope, invalid identity mapping and destination scope mismatch.",
+      "status": "PARTIAL",
+      "evidence_and_remaining": "Bounded full-system snapshot exporter published; operational encrypted owner workflow remains open."
+    },
+    {
+      "id": "D03",
+      "requirement": "Review tri-mode PostgreSQL source/destination projection and identity reconciliation. Mode B strips site/private data and maps governance identities explicitly to authorized target actors; Mode C excludes all RIWI intelligence/conversations; Mode A preserves allowed full data. Validate foreign keys, composite keys, nullable self references, cycles, duplicate/conflicting rows, rollback, serialized mutations and uncertain COMMIT outcomes. Do not disable constraints to pass imports.",
+      "status": "PARTIAL",
+      "evidence_and_remaining": "Dependency-ordered full-system import published; Mode B/C projection, identity reconciliation and cycles remain open."
+    },
+    {
+      "id": "D04",
+      "requirement": "Review object inventory and copy lifecycle. Prove source scope/owner/retention against DB, stable keys, MIME/size/SHA, O1 no-copy access and O2 immutable destination read-back. Roll back newly staged objects on pre-commit failure; preserve objects on uncertain DB commit for reconciliation. Handle duplicate hashes, partial copy, corrupt bytes, missing objects and cleanup failure. Real R2/S3 proof is still required.",
+      "status": "OPEN_UNVERIFIED",
+      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+    },
+    {
+      "id": "D05",
+      "requirement": "Run independent A/B/C clean-destination rehearsals using canonical migrations; include >1,000 permitted rows, checksums, counts, constraints, identities, relationships, timestamps, retention/exclusion canaries, zero-write dry-run, rollback and representative app boot. PGlite relational tests do not prove full native PostgreSQL or production-data migration acceptance.",
+      "status": "OPEN_UNVERIFIED",
+      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+    },
+    {
+      "id": "D06",
+      "requirement": "Verify portable RIWI core/site adapter boundary with a fake site adapter and actual capability denial; inspect imports for direct feature-table coupling. Verify version compatibility and post-import regression before activation.",
+      "status": "OPEN_UNVERIFIED",
+      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+    },
+    {
+      "id": "D07",
+      "requirement": "Verify security-learning pipeline and hard boundaries: sanitized/deduplicated attempted attacks -> trusted review -> regression -> approved rule, never automatic executable policy. Recheck injection, role escalation, tool/schema injection, SSRF/pinning, secrets, knowledge poisoning, active-exam bypass, replay, TOCTOU, policy downgrade, Speaking IDOR and raw/provider content policy injection. Validate DB constraints and transaction-bound audit; never store private source text in signals.",
+      "status": "OPEN_UNVERIFIED",
+      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+    },
+    {
+      "id": "D08",
+      "requirement": "Reconcile provider-dependent DB/services, canonical migrations, private object data, allowlist classification, backup and rollback. Record all required schema object classes or prove N/A. Do not infer PostgreSQL portability from row-only fixtures.",
+      "status": "PARTIAL",
+      "evidence_and_remaining": "Canonical migration-order repair published; complete object/schema/dependency reconciliation remains open."
+    },
+    {
+      "id": "D09",
+      "requirement": "Rerun required two final gates after last source change and record their state identity, exact results/skips, commands and artifacts. The remote ledger's 16,978 PASS labels are classification output, not 16,978 independently passing tests.",
+      "status": "OPEN_UNVERIFIED",
+      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+    },
+    {
+      "id": "D10",
+      "requirement": "Provide the final simple owner handoff, full manual/runtime matrix and actionable remaining boundaries. Identify which tasks are code complete, locally verified, remotely published, deployed, operationally accepted or owner/external blocked.",
+      "status": "OPEN_UNVERIFIED",
+      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+    }
+  ]
+}

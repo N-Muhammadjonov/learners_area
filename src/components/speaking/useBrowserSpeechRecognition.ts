@@ -30,6 +30,7 @@ export type BrowserSttState =
   | { kind: "idle" }
   | { kind: "starting" }
   | { kind: "listening"; interim: string; final: string }
+  | { kind: "stopping"; final: string; interim: string }
   | { kind: "stopped"; rawTranscript: string }
   | { kind: "error"; code: string; rawTranscript: string };
 
@@ -41,51 +42,62 @@ export function useBrowserSpeechRecognition(language = "en-US") {
   const [state, setState] = useState<BrowserSttState>(supported ? { kind: "idle" } : { kind: "unsupported" });
   const recognitionRef = useRef<Recognition | null>(null);
   const finalRef = useRef("");
-  const stoppingRef = useRef(false);
+  const pendingStopRef = useRef<{ promise: Promise<string>; resolve: (text: string) => void; timer: number } | null>(null);
 
   const cleanup = useCallback((abort: boolean) => {
     const recognition = recognitionRef.current;
     recognitionRef.current = null;
-    if (!recognition) return;
-    recognition.onresult = null;
-    recognition.onerror = null;
-    recognition.onend = null;
-    try { abort ? recognition.abort() : recognition.stop(); } catch { /* already stopped */ }
+    if (recognition) {
+      recognition.onresult = null;
+      recognition.onerror = null;
+      recognition.onend = null;
+      if (abort) try { recognition.abort(); } catch { /* already ended */ }
+    }
+    const pending = pendingStopRef.current;
+    pendingStopRef.current = null;
+    if (pending) { window.clearTimeout(pending.timer); pending.resolve(finalRef.current); }
   }, []);
 
   const start = useCallback(() => {
     const Constructor = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!Constructor || recognitionRef.current) return false;
-    stoppingRef.current = false;
     finalRef.current = "";
     setState({ kind: "starting" });
-    const recognition = new Constructor();
-    recognitionRef.current = recognition;
-    recognition.lang = language;
-    recognition.continuous = true;
-    recognition.interimResults = true;
-    recognition.onresult = (event) => {
-      let interim = "";
-      for (let i = event.resultIndex; i < event.results.length; i++) {
-        const result = event.results[i];
-        const text = result?.[0]?.transcript ?? "";
-        if (result?.isFinal) finalRef.current = join(finalRef.current, text);
-        else interim = join(interim, text);
-      }
-      setState({ kind: "listening", final: finalRef.current, interim });
-    };
-    recognition.onerror = (event) => {
-      const rawTranscript = finalRef.current;
-      cleanup(true);
-      setState({ kind: "error", code: event.error || "recognition_error", rawTranscript });
-    };
-    recognition.onend = () => {
-      recognitionRef.current = null;
-      if (!stoppingRef.current) setState({ kind: "error", code: "recognition_ended", rawTranscript: finalRef.current });
-    };
     try {
-      recognition.start();
+      const recognition = new Constructor();
+      recognitionRef.current = recognition;
+      recognition.lang = language;
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.onresult = (event) => {
+        if (recognitionRef.current !== recognition) return;
+        // The browser supplies a complete current result snapshot. Rebuild by
+        // index so repeated finals and interim replacements never append twice.
+        let final = ""; let interim = "";
+        for (let i = 0; i < event.results.length; i++) {
+          const result = event.results[i];
+          const text = result?.[0]?.transcript ?? "";
+          if (result?.isFinal) final = join(final, text);
+          else interim = join(interim, text);
+        }
+        finalRef.current = final;
+        setState({ kind: pendingStopRef.current ? "stopping" : "listening", final, interim });
+      };
+      recognition.onerror = (event) => {
+        if (recognitionRef.current !== recognition) return;
+        const rawTranscript = finalRef.current;
+        cleanup(true);
+        setState({ kind: "error", code: event.error || "recognition_error", rawTranscript });
+      };
+      recognition.onend = () => {
+        if (recognitionRef.current !== recognition) return;
+        const rawTranscript = finalRef.current;
+        cleanup(false);
+        setState(rawTranscript ? { kind: "stopped", rawTranscript }
+          : { kind: "error", code: "no_speech", rawTranscript });
+      };
       setState({ kind: "listening", final: "", interim: "" });
+      recognition.start();
       return true;
     } catch {
       cleanup(true);
@@ -94,27 +106,38 @@ export function useBrowserSpeechRecognition(language = "en-US") {
     }
   }, [cleanup, language]);
 
-  const stop = useCallback(() => {
-    stoppingRef.current = true;
-    const rawTranscript = finalRef.current;
-    cleanup(false);
-    setState({ kind: "stopped", rawTranscript });
-    return rawTranscript;
+  const stop = useCallback((): Promise<string> => {
+    if (pendingStopRef.current) return pendingStopRef.current.promise;
+    const recognition = recognitionRef.current;
+    if (!recognition) return Promise.resolve(finalRef.current);
+    let resolve!: (text: string) => void;
+    const promise = new Promise<string>((done) => { resolve = done; });
+    const timer = window.setTimeout(() => {
+      if (recognitionRef.current !== recognition) return;
+      const rawTranscript = finalRef.current;
+      cleanup(true);
+      setState({ kind: "error", code: "stop_timeout", rawTranscript });
+    }, 2000);
+    pendingStopRef.current = { promise, resolve, timer };
+    setState({ kind: "stopping", final: finalRef.current, interim: "" });
+    try { recognition.stop(); }
+    catch {
+      const rawTranscript = finalRef.current;
+      cleanup(true);
+      setState({ kind: "error", code: "stop_failed", rawTranscript });
+    }
+    return promise;
   }, [cleanup]);
 
   const reset = useCallback(() => {
-    stoppingRef.current = true;
     cleanup(true);
     finalRef.current = "";
     setState(supported ? { kind: "idle" } : { kind: "unsupported" });
   }, [cleanup, supported]);
 
-  useEffect(() => () => {
-    stoppingRef.current = true;
-    cleanup(true);
-  }, [cleanup]);
+  useEffect(() => () => { cleanup(true); }, [cleanup]);
 
-  const liveTranscript = state.kind === "listening" ? join(state.final, state.interim)
+  const liveTranscript = state.kind === "listening" || state.kind === "stopping" ? join(state.final, state.interim)
     : state.kind === "stopped" || state.kind === "error" ? state.rawTranscript : "";
   return { state, supported, liveTranscript, start, stop, reset };
 }

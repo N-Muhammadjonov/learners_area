@@ -20,7 +20,7 @@ type Evaluation = {
   nextActions: string[];
 };
 type Recording = { blob: Blob; mimeType: string; durationMs: number; size: number };
-type Phase = "idle" | "preparing" | "starting" | "recording" | "review" | "uploading" | "evaluating" | "feedback";
+type Phase = "idle" | "preparing" | "starting" | "recording" | "stopping" | "review" | "uploading" | "evaluating" | "feedback";
 
 export function AiQuestionRecorder({ dict, prompt, sessionId, itemId, index, retryOfAttemptId, onEvaluated, onNext }: {
   dict: Dictionary; prompt: Prompt; sessionId: string; itemId: string; index: number;
@@ -117,17 +117,19 @@ export function AiQuestionRecorder({ dict, prompt, sessionId, itemId, index, ret
     const recorder = recorderRef.current;
     if (!recorder) return;
     recorderRef.current = null;
-    const raw = stt.stop() || stt.liveTranscript;
+    setPhase("stopping");
+    const transcriptReady = stt.stop();
     try {
-      const result = await recorder.stop();
-      if (!alive.current || !result) return;
+      const [result, raw] = await Promise.all([recorder.stop(), transcriptReady]);
+      if (!alive.current) return;
+      if (!result) { stt.reset(); setError(practice.errors.unknown); setPhase("idle"); return; }
       setRecording(result);
       setPlaybackUrl(URL.createObjectURL(result.blob));
       setRawTranscript(raw);
       setTranscript(raw);
       setEdited(false);
       setPhase("review"); // Deliberately no upload and no submit here.
-    } catch { recorder.cancel(); setError(practice.errors.unknown); setPhase("idle"); }
+    } catch { recorder.cancel(); stt.reset(); if (alive.current) { setError(practice.errors.unknown); setPhase("idle"); } }
   }
 
   async function clear(deleteAttempt = true) {
@@ -186,7 +188,7 @@ export function AiQuestionRecorder({ dict, prompt, sessionId, itemId, index, ret
     {!stt.supported && <p className="rounded-md border border-amber-300 bg-amber-50 p-3 text-sm text-ink-700 dark:bg-amber-950/30">{t.sttUnsupported}</p>}
     {phase === "idle" && <Button className="min-h-11 self-center" onClick={begin}>{t.startAnswer}</Button>}
     {phase === "preparing" && <div className="flex flex-wrap items-center gap-3"><span role="status">{t.preparing.replace("{n}", String(prepLeft))}</span><Button onClick={() => void acquireAndRecord()}>{t.startEarly}</Button></div>}
-    {phase === "starting" && <p role="status">{dict.common.loading}</p>}
+    {(phase === "starting" || phase === "stopping") && <p role="status">{dict.common.loading}</p>}
     {phase === "recording" && <>
       <p role="status" aria-live="polite" className="text-sm font-medium text-band-bad">● {t.recording} {formatDuration(elapsed)} / {formatDuration(answerLimit * 1000)}</p>
       <div className="min-h-36 rounded-md border border-ink-100 bg-paper-sunken p-4" aria-live="polite">
