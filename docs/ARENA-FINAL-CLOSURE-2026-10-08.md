@@ -182,9 +182,11 @@ deployment unblock.
 **RIWI-01..13: NOT EXECUTED on this branch.** RIWI lives on `arena/01a10bac-learners-area`
 (HEAD `fd0dc49`), read-only here. See §8.
 
-### §08 archive+replace — **CONTENT_BLOCKED_OWNER**
+### §08 archive+replace — **NOT REQUIRED — SUPERSEDED BY OWNER CLARIFICATION**
 
-**SUPERSEDED BY OWNER CLARIFICATION — NOT REQUIRED, NOT A BLOCKER.**
+**NOT A BLOCKER. NOT `CONTENT_BLOCKED_OWNER`. NOT owner-action-required. NOT external.**
+(This section previously carried a `CONTENT_BLOCKED_OWNER` heading. That classification was
+withdrawn by the owner and the heading is corrected here so no reader or report can inherit it.)
 
 0052's unique index ignores `publication_state`, so an archived ordinal cannot be reused
 (`23505`, proven). The owner has since clarified that **same-ordinal reuse is not a product

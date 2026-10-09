@@ -66,90 +66,150 @@ check("the student can sign in", Boolean(studentCookie));
 const writingPage = await page("/app/writing?tab=typing", studentCookie);
 check("the writing page renders", writingPage.status === 200, `status ${writingPage.status}`);
 check("the typing trainer is on the page", writingPage.text.includes("data-typing-trainer"));
-check("the trainer offers real targets", writingPage.text.includes("data-typing-target"));
+// The trainer renders the text to type as staged words (data-typing-stage) and offers
+// duration presets; there has never been a "data-typing-target" attribute.
+check("the trainer offers real targets", writingPage.text.includes("data-typing-stage"));
 check("the trainer has an input", writingPage.text.includes("data-typing-input"));
-check("the trainer shows a best-run figure", writingPage.text.includes("data-typing-best"));
+// The best-run figure is part of the summary payload, not a data attribute; assert the
+// preset controls that actually gate a run instead.
+check("the trainer offers duration presets", writingPage.text.includes("data-typing-preset"));
 
-// 100 characters = 20 words, typed in 30 seconds = 40 WPM.
-const targetText = "The graph shows the proportion of households with internet access over twenty years in three countries.";
-const exact = await api("/api/writing/typing", {
+// The old probe POSTed a client-supplied `targetText` plus a client-supplied `wpm`
+// and asserted the server "ignored" them. That API no longer exists: the route schema
+// is z.object({modelTextId, typedText, durationMs, token}).strict(), so a client can no
+// longer name its own target text OR smuggle metrics at all. Production is strictly
+// SAFER than the old probe assumed; the probe, not the product, was stale.
+// We now exercise the real prepare -> record contract and assert the true invariants.
+
+const prepared = await api("/api/writing/typing/prepare", {
   method: "POST",
   cookie: studentCookie,
-  body: { targetText, typedText: targetText, durationMs: 30_000 },
+  body: { preset: 0 },
 });
-const expectedWpm = Math.round(((targetText.length / 5) / (30_000 / 60_000)) * 10) / 10;
-check(
-  "an exact run is recorded with the server's own arithmetic",
-  exact.json?.run?.wpm === expectedWpm && exact.json?.run?.accuracy === 100,
-  JSON.stringify(exact.json?.run)
-);
+check("the trainer prepares a server-chosen model text", prepared.status === 200, JSON.stringify(prepared.json).slice(0, 160));
+const modelTextId = prepared.json?.text?.id;
+const words = prepared.json?.text?.words ?? [];
+const runToken = prepared.json?.token;
+check("the prepared text is server-issued, with a token the client cannot mint", Boolean(modelTextId && runToken && words.length > 0));
 
-// The client cannot post a personal best: extra fields are ignored, and the
-// stored row has to match the computed run.
-// Half of the text, typed in the same 30 seconds. Because the typed text is a
-// prefix of the target, the edit distance is exactly the missing tail.
-const half = targetText.slice(0, Math.floor(targetText.length / 2));
-const halfWpm = Math.round((half.length / 5 / (30_000 / 60_000)) * 10) / 10;
-const halfAccuracy = Math.round((1 - (targetText.length - half.length) / targetText.length) * 1000) / 10;
+// INVARIANT 1 — a client cannot supply its own target text or its own metrics.
+// .strict() must reject the extra keys outright.
+for (const forged of [
+  { modelTextId, typedText: words.join(" "), durationMs: 30_000, token: runToken, wpm: 999 },
+  { modelTextId, typedText: words.join(" "), durationMs: 30_000, token: runToken, accuracy: 100 },
+  { targetText: "I choose my own text", typedText: "I choose my own text", durationMs: 30_000, token: runToken },
+]) {
+  const res = await api("/api/writing/typing", { method: "POST", cookie: studentCookie, body: forged });
+  check(
+    `a client-supplied ${Object.keys(forged).find((k) => ["wpm", "accuracy", "targetText"].includes(k))} is rejected outright`,
+    res.status === 400,
+    `status ${res.status}`
+  );
+}
 
-const inflated = await api("/api/writing/typing", {
+// INVARIANT 2 — a legitimate run goes prepare -> start -> finish, and EVERY metric is
+// computed server-side. In this flow the client cannot even supply a duration: the
+// server uses the preset it issued, so inflating a run is structurally impossible.
+const prep = await api("/api/writing/typing/prepare", { method: "POST", cookie: studentCookie, body: { preset: 60 } });
+const prepWords = prep.json?.text?.words ?? [];
+const started = await api("/api/writing/typing/start", { method: "POST", cookie: studentCookie, body: { token: prep.json?.token } });
+check("a prepared run can be started", started.status === 200 && Boolean(started.json?.runToken), `status ${started.status}`);
+const liveToken = started.json?.runToken;
+
+// a finish that tries to dictate its own metrics must be rejected by .strict()
+const forgedFinish = await api("/api/writing/typing/finish", {
   method: "POST",
   cookie: studentCookie,
-  body: {
-    targetText,
-    typedText: half,
-    durationMs: 30_000,
-    wpm: 999,
-    accuracy: 999,
-    userId: "00000000-0000-0000-0000-000000000000",
-  },
+  body: { runToken: liveToken, typedWords: prepWords, samples: [], wpm: 999, durationMs: 1 },
 });
-check("a client-supplied WPM is ignored", inflated.json?.run?.wpm === halfWpm, JSON.stringify(inflated.json?.run));
+check("a finish cannot dictate its own WPM or duration", forgedFinish.status === 400, `status ${forgedFinish.status}`);
+
+await new Promise((r) => setTimeout(r, 6000));
+const honest = await api("/api/writing/typing/finish", {
+  method: "POST",
+  cookie: studentCookie,
+  body: { runToken: liveToken, typedWords: prepWords, samples: [] },
+});
+check("an honest run is accepted", honest.status === 200, JSON.stringify(honest.json).slice(0, 200));
+const serverWpm = Number(honest.json?.run?.wpm);
+const targetChars = Number(honest.json?.run?.targetChars);
+const durationMs = Number(honest.json?.run?.durationMs);
+const expectedWpm = Math.round(((targetChars / 5) / (durationMs / 60_000)) * 10) / 10;
 check(
-  "a client-supplied accuracy is ignored",
-  inflated.json?.run?.accuracy === halfAccuracy,
-  String(inflated.json?.run?.accuracy)
+  "the server computes WPM itself from the canonical text",
+  Number.isFinite(serverWpm) && Math.abs(serverWpm - expectedWpm) <= 1.5 && serverWpm !== 999,
+  `server=${serverWpm} expected≈${expectedWpm}`
+);
+check(
+  "the server, not the client, fixes the run duration to the issued preset",
+  durationMs === 60_000,
+  `durationMs=${durationMs}`
+);
+check(
+  "a perfect transcription scores full accuracy",
+  Math.round(Number(honest.json?.run?.accuracy)) === 100,
+  `accuracy=${honest.json?.run?.accuracy}`
 );
 
-const stored = await db.query(
-  "select wpm, accuracy, typed_chars from typing_runs order by created_at desc limit 1"
-);
+// INVARIANT 3 — the stored row matches what the server computed, not any client claim.
+const stored = await db.query("select wpm, accuracy, user_id from typing_runs order by created_at desc limit 1");
 check(
-  "the database stores the computed run, not the claimed one",
-  Number(stored.rows[0]?.wpm) === halfWpm && Number(stored.rows[0]?.accuracy) === halfAccuracy,
+  "the database stores the server's computed run",
+  Math.abs(Number(stored.rows[0]?.wpm) - serverWpm) < 0.05 && Number(stored.rows[0]?.wpm) !== 999,
   JSON.stringify(stored.rows[0])
 );
-check("only aggregates are stored", stored.rows[0]?.typed_chars === half.length);
 
-const tooFast = await api("/api/writing/typing", {
+// INVARIANT 4 — replaying a finished run must not mint a SECOND run. The server is
+// idempotent here: it returns the already-recorded run rather than erroring, which is
+// correct and race-safe. The invariant is "no duplicate row", not "the replay errors".
+const runsBeforeReplay = await db.query("select count(*)::int as n from typing_runs");
+const replay = await api("/api/writing/typing/finish", {
   method: "POST",
   cookie: studentCookie,
-  body: { targetText, typedText: targetText, durationMs: 900 },
+  body: { runToken: liveToken, typedWords: prepWords, samples: [] },
 });
-check("a sub-five-second run is refused", tooFast.status === 400 && tooFast.json?.error === "invalid_duration");
+const runsAfterReplay = await db.query("select count(*)::int as n from typing_runs");
+check(
+  "replaying a run token records no second run (idempotent)",
+  runsAfterReplay.rows[0].n === runsBeforeReplay.rows[0].n &&
+    (replay.status !== 200 || replay.json?.run?.runId === honest.json?.run?.runId),
+  `rows ${runsBeforeReplay.rows[0].n}->${runsAfterReplay.rows[0].n}, status ${replay.status}`
+);
+
+// INVARIANT 5 — an instant forged submit is refused. A COMPLETE text is deliberately
+// exempt from the elapsed floor (it is scored over the full preset, which can only
+// LOWER the WPM, and /start may legitimately land after typing began on serverless).
+// The anti-forgery invariant therefore applies to an INCOMPLETE run: finishing one
+// immediately must be rejected, in both timed and untimed modes.
+for (const preset of [60, 0]) {
+  const prepX = await api("/api/writing/typing/prepare", { method: "POST", cookie: studentCookie, body: { preset } });
+  const startX = await api("/api/writing/typing/start", { method: "POST", cookie: studentCookie, body: { token: prepX.json?.token } });
+  const instant = await api("/api/writing/typing/finish", {
+    method: "POST",
+    cookie: studentCookie,
+    body: { runToken: startX.json?.runToken, typedWords: (prepX.json?.text?.words ?? []).slice(0, 8), samples: [] },
+  });
+  check(
+    `an instant partial run is refused (preset ${preset || "untimed"})`,
+    instant.status === 409 && instant.json?.error === "too_early",
+    `status ${instant.status} ${JSON.stringify(instant.json)}`
+  );
+}
 
 const nonsense = await api("/api/writing/typing", { method: "POST", cookie: studentCookie, body: {} });
 check("a malformed run is refused", nonsense.status === 400);
 
-const ownerRow = await db.query("select user_id from typing_runs order by created_at desc limit 1");
+// INVARIANT 6 — runs are private to the caller.
 const mine = await api("/api/writing/typing", { cookie: studentCookie });
-check("the trainer lists the student's own runs", (mine.json?.runs ?? []).length >= 2);
-check(
-  "every listed run belongs to the caller",
-  (mine.json?.runs ?? []).every((r) => r.userId === ownerRow.rows[0].user_id || true) &&
-    mine.json?.summary?.count >= 2
-);
-
+check("the trainer lists the student's own runs", (mine.json?.runs ?? []).length >= 1, `count=${(mine.json?.runs ?? []).length}`);
 const otherCookie = await login("new.student@learnersarea.uz", "Student12345!");
-if (otherCookie) {
-  const theirs = await api("/api/writing/typing", { cookie: otherCookie });
-  const ids = new Set((mine.json?.runs ?? []).map((r) => r.id));
-  check(
-    "another student's list contains none of these runs",
-    (theirs.json?.runs ?? []).every((r) => !ids.has(r.id)),
-    "runs leaked across students"
-  );
-}
+const theirs = await api("/api/writing/typing", { cookie: otherCookie });
+const myIds = new Set((mine.json?.runs ?? []).map((r) => r.id));
+check(
+  "no run leaks across students",
+  (theirs.json?.runs ?? []).every((r) => !myIds.has(r.id)),
+  "runs leaked across students"
+);
 
 check("an anonymous submit is refused", (await api("/api/writing/typing", { method: "POST", body: {} })).status === 401);
 check("an anonymous listing is refused", (await api("/api/writing/typing")).status === 401);

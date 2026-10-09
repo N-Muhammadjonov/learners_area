@@ -204,7 +204,7 @@ export function ContentWorkspace({ dict, canPublish }: { dict: Dictionary; canPu
 
       <Card>
         <h2 className="text-sm font-semibold">{t.bankTitle}</h2>
-        <div className="mt-3 grid grid-cols-2 gap-3 md:grid-cols-4">
+        <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4">
           <Field label={t.filterModule}>
             <select className="w-full" data-bank-module value={filters.module} onChange={(event) => setFilter({ module: event.target.value, contentType: "" })}>
               <option value="">{t.any}</option>
@@ -589,7 +589,7 @@ function NewItemButton({ dict, modules, onCreated }: { dict: Dictionary; modules
       {open ? (
         <div className="mt-3 w-full rounded border border-border p-3" data-new-item-panel>
           <p className="text-xs text-muted">{t.newHint}</p>
-          <div className="mt-2 grid grid-cols-2 gap-3 md:grid-cols-4">
+          <div className="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4">
             <Field label={t.newModule}>
               <select className="w-full" data-new-module value={module} onChange={(event) => { setModule(event.target.value); setContentType(""); }}>
                 <option value="">—</option>
