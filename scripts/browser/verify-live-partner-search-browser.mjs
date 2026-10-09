@@ -304,6 +304,67 @@ try {
       return (panel.querySelector("p.whitespace-pre-line")?.textContent ?? "").trim().length === 0;
     });
     check("a later search never leaves an open prompt panel blank", !panelBlank, `panelPresent=${stillThere}`);
+
+    /*
+     * THE ACTUAL SELECTION CONTRACT (section 08 E1).
+     *
+     * This room CLEARS the selection when the query changes — `onChange` on the search
+     * box calls setSelectedTopic(null) — and it does NOT preserve it. That is stated
+     * here as the measured behaviour rather than dressed up as preservation.
+     *
+     * "Not blank" is too weak to describe it: that assertion passes whether the panel
+     * is gone or still open with text. The contract is asserted in both directions
+     * below, because the dangerous failure is the opposite one — a panel that stays
+     * open showing a prompt that is no longer part of the current result set, i.e. a
+     * selection silently repointed by a search. Topic identity here is (part, topic),
+     * not a prompt id, so a preserved selection across a changed pool COULD resolve to
+     * a different question; clearing is what makes that unreachable.
+     */
+    check(
+      "changing the query clears the selection outright, rather than leaving a stale prompt open",
+      stillThere === false,
+      `panel still present after the query changed: ${stillThere}`,
+    );
+    const stalePromptText = await page.evaluate(
+      (text) => (text ? document.body.innerText.includes(text) : false),
+      chosen,
+    );
+    check(
+      "the previously selected prompt text is not left anywhere on the page",
+      !stalePromptText,
+      "the cleared prompt is still rendered somewhere",
+    );
+
+    /*
+     * The other half of the contract: CONTINUATION must not cost the learner their
+     * place. Load more does not change the query, so a selection made before it must
+     * survive it — otherwise reaching a late prompt and keeping it would be impossible.
+     */
+    await typeSearch(page, "scenario");
+    await page.evaluate(() => new Promise((r) => setTimeout(r, 1500)));
+    const continuationTopic = await page.$('[data-practice-part="part1"] li button');
+    if (continuationTopic) {
+      await continuationTopic.click();
+      await page.waitForSelector("[data-partner-topic-question]", { timeout: 15000 }).catch(() => {});
+      const beforeMore = await page.evaluate(
+        () => document.querySelector("[data-partner-topic-question] p.whitespace-pre-line")?.textContent?.trim() ?? null,
+      );
+      const moreButton = await page.$("[data-partner-search-more]");
+      check("precondition: a second page is available to continue onto", Boolean(moreButton));
+      if (moreButton && beforeMore) {
+        await moreButton.click();
+        await page.evaluate(() => new Promise((r) => setTimeout(r, 2500)));
+        const afterMore = await page.evaluate(
+          () => document.querySelector("[data-partner-topic-question] p.whitespace-pre-line")?.textContent?.trim() ?? null,
+        );
+        check("loading more questions keeps the open prompt open", afterMore !== null, "the panel closed on Load more");
+        check(
+          "loading more questions does not repoint the open prompt to a different question",
+          afterMore === beforeMore,
+          `was ${JSON.stringify(beforeMore)}, now ${JSON.stringify(afterMore)}`,
+        );
+      }
+    }
   }
 
   await context.close();

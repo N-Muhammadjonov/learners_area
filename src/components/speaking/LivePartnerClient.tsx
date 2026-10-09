@@ -378,6 +378,16 @@ export function LivePartnerClient({ dict, me, questions }: {
           <h2 id="lp-q" className="text-xs font-semibold uppercase tracking-wide text-ink-500">{t.questions}</h2>
           <p className="text-xs text-ink-500">{t.questionsOptional}</p>
           <label className="text-sm"><span className="sr-only">{t.search}</span>
+            {/*
+              SELECTION CONTRACT (verified in scripts/browser/verify-live-partner-search-browser.mjs):
+              changing the query CLEARS the open topic. It is not preserved, and must
+              not be described as preserved. Topic identity here is (part, topic), not
+              a prompt id, so keeping a selection across a changed result pool could
+              resolve it to a different question — clearing is what makes that
+              unreachable. Continuation (Load more) does NOT change the query and
+              deliberately keeps the open prompt, so reaching a late prompt and
+              staying on it works.
+            */}
             <input type="search" value={query} onChange={(e) => { setQuery(e.target.value); setSelectedTopic(null); }} placeholder={t.search} className="w-full rounded-sm border border-ink-200 px-3 py-2" />
           </label>
           <p className="text-xs text-ink-500" role="status" aria-live="polite" data-partner-search-state={searchState}>
