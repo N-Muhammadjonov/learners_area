@@ -218,19 +218,63 @@ await check("a teacher receives no admission-queue data", async () => {
 });
 
 await check("a teacher cannot open administrator pages", async () => {
+  // A single shared marker set across different admin screens is a false-negative path:
+  // a leaked Grammar or Writing console uses different controls than Reading. Derive the
+  // protected marker set PER ROUTE from the authorized administrator's own render, minus
+  // what a teacher legitimately sees in their own area, and require a positive control.
+  const surfaceOf = (html) => new Set([
+    ...[...html.matchAll(/\b(data-[a-z0-9-]+)/g)].map((m) => m[1]),
+    ...[...html.matchAll(/href="(\/app\/admin\/[^"?#]*)"/g)].map((m) => m[1]),
+  ]);
+  // The baseline must cover GENERIC APP CHROME, not just one page. Suspense fallbacks and
+  // layout frames (data-entry-frame, data-private-loading-boundary, data-async-loading…)
+  // appear on admin routes but not on a single teacher page, so a one-page baseline
+  // misclassifies them as protected data. Subtracting the UNION of several routes the
+  // teacher is genuinely authorized for removes shared chrome without being circular:
+  // the baseline never includes the admin route under test.
+  const teacherBaseline = new Set();
+  for (const base of ["/app", "/app/teacher/students", "/app/lessons", "/app/progress"]) {
+    for (const m of surfaceOf((await get(teacherCookie, base)).html)) teacherBaseline.add(m);
+  }
+
   for (const path of ["/app/admin/reading", "/app/admin/grammar", "/app/admin/writing-prompts"]) {
+    const authed = await get(ownerCookie, path);
+    assert.equal(authed.status, 200, `${path} must render for an administrator`);
+    const routeMarkers = [...surfaceOf(authed.html)].filter((m) => !teacherBaseline.has(m));
+
+    // POSITIVE CONTROL: a negative check without a detector proves nothing. The surviving
+    // markers must include a route-SPECIFIC administrator control, not only generic
+    // chrome, so require at least one marker naming this console's own domain.
+    // The shell renders a breadcrumb "back" link derived from the REQUESTED URL itself
+    // (/app/admin/writing-prompts -> /app/admin/writing). That is not leaked data: the
+    // caller already supplied the path. Ancestors of the route under test are therefore
+    // excluded, while a link to any OTHER admin console still counts as a leak.
+    const isAncestorOfRoute = (m) => m.startsWith("/app/") && path.startsWith(m);
+    const domain = path.split("/").pop().split("-")[0];
+    const specific = routeMarkers.filter(
+      (m) =>
+        !isAncestorOfRoute(m) &&
+        (m.includes(domain) || m.startsWith("/app/admin/") || /admin|manage|publish|moderat/.test(m))
+    );
+    assert.ok(
+      specific.length > 0,
+      `${path} exposes no administrator-specific marker, so the leak detector is inert ` +
+        `(derived: ${routeMarkers.slice(0, 8).join(", ")})`
+    );
+
     const res = await get(teacherCookie, path);
-    // The invariant is zero administrator content, not a particular HTTP status.
-    for (const marker of ["data-admin-reading-import", "/app/admin/listening/import", "data-content-workspace"]) {
-      assert.ok(
-        !res.html.includes(marker),
-        `${path} exposed administrator control "${marker}" to a teacher (status ${res.status})`
-      );
+    const leaked = specific.filter((m) => res.html.includes(m));
+    assert.equal(
+      leaked.length,
+      0,
+      `${path} exposed administrator controls to a teacher (status ${res.status}): ${leaked.slice(0, 6).join(", ")}`
+    );
+
+    // A redirect header, when present, must lead out of staff space. Its ABSENCE proves
+    // nothing (Next.js may stream the redirect), so it is not treated as evidence.
+    if (res.location) {
+      assert.doesNotMatch(res.location, /\/app\/(admin|owner)/, `${path} redirected a teacher deeper into staff space`);
     }
-    // If the framework DID issue a redirect header it must lead out of the admin area;
-    // a 200 that streams the redirect instruction is legitimate and already proven
-    // content-free by the marker assertions above, so absence of a header is not a leak.
-    if (res.location) assert.doesNotMatch(res.location, /\/app\/(admin|owner)/, `${path} redirected a teacher deeper into staff space`);
   }
 });
 

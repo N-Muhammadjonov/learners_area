@@ -117,18 +117,49 @@ check(
 );
 
 // --- Wide content scrolls in its own container ------------------------------
-const tableFiles = tsx.filter((f) => read(f).includes("<table"));
-// A table may be wrapped in a Tailwind utility OR in a project CSS class that sets
-// overflow-x (e.g. .typing-history-scroll { overflow-x: auto }). Honour both, but
-// require the CSS class to really declare overflow-x in globals.css.
+// PER-TABLE, not per-file. Matching `overflow-x-auto` anywhere in a file let every
+// other table in that same file escape the check — a real false-negative path. For each
+// <table> we reconstruct the stack of elements still open at that point and require one
+// of its ANCESTORS to actually own the horizontal scroll.
 const globalCss = read("src/app/globals.css");
-const scrollingClasses = [...globalCss.matchAll(/\.([a-zA-Z0-9_-]+)\s*\{[^}]*overflow-x:\s*(auto|scroll)/g)].map((m) => m[1]);
-const unwrapped = tableFiles.filter((f) => {
-  const body = read(f);
-  if (body.includes("overflow-x-auto") || body.includes("overflow-x-scroll")) return false;
-  return !scrollingClasses.some((cls) => body.includes(cls));
-});
-check("every table scrolls horizontally instead of moving the page", unwrapped.length === 0, unwrapped.join(", "));
+const scrollingClasses = new Set(
+  [...globalCss.matchAll(/\.([a-zA-Z0-9_-]+)\s*\{[^}]*overflow-x:\s*(auto|scroll)/g)].map((m) => m[1])
+);
+const ownsScroll = (attrs) => {
+  const cls = (attrs.match(/className=(?:"([^"]*)"|\{`([^`]*)`\})/) ?? [])[1]
+    ?? (attrs.match(/className=\{`([^`]*)`\}/) ?? [])[1]
+    ?? "";
+  if (/overflow-x-(auto|scroll)/.test(cls)) return true;
+  if (/overflow-x:\s*(auto|scroll)/.test(attrs)) return true;
+  return cls.split(/[\s$]+/).some((token) => scrollingClasses.has(token));
+};
+/** Elements still open at `index` — i.e. the table's ancestors. */
+const openStackAt = (src, index) => {
+  const stack = [];
+  for (const m of src.slice(0, index).matchAll(/<(\/?)([A-Za-z][\w.]*)\b([^>]*?)(\/?)>/g)) {
+    const [, closing, name, attrs, selfClosing] = m;
+    if (selfClosing === "/") continue;
+    if (closing === "/") { while (stack.length && stack.pop().name !== name); }
+    else stack.push({ name, attrs });
+  }
+  return stack;
+};
+const unwrappedTables = [];
+for (const f of tsx) {
+  const src = read(f);
+  for (const m of src.matchAll(/<table\b/g)) {
+    const idx = m.index ?? 0;
+    const ancestors = openStackAt(src, idx);
+    if (!ancestors.some((a) => ownsScroll(a.attrs))) {
+      unwrappedTables.push(`${f}:${src.slice(0, idx).split("\n").length}`);
+    }
+  }
+}
+check(
+  "every table scrolls horizontally instead of moving the page",
+  unwrappedTables.length === 0,
+  unwrappedTables.join(", ")
+);
 
 // --- Breakpoint hygiene -----------------------------------------------------
 // Two compact tiles fit a 320px screen; a form control in a multi-column grid does

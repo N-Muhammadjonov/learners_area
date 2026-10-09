@@ -88,8 +88,11 @@ check("the dashboard renders for an ACTIVE student", dashboard.status === 200, `
 // unusable with a screen reader.
 const shellHtml = dashboard.text;
 const iconButtons = [...shellHtml.matchAll(/<button\b[^>]*>([\s\S]*?)<\/button>/g)];
-const unnamed = iconButtons.filter(([, inner]) => {
-  const tag = iconButtons.find((m) => m[1] === inner)?.[0] ?? "";
+const unnamed = iconButtons.filter(([fullTag, inner]) => {
+  // Use THIS match's own element. Looking the tag up again by inner markup made two
+  // buttons with identical glyphs collapse onto the first match, so an unlabelled
+  // button could inherit a labelled sibling's tag and pass. Never re-find by content.
+  const tag = fullTag;
   const hasLabel = /aria-label=/.test(tag) || /title=/.test(tag);
   const text = inner.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
   // Real words (even a two-letter language code) are a name; a bare glyph is not.
@@ -161,9 +164,31 @@ check(
 // ---------------------------------------------------------------------------
 // 7..8. Stylesheet rules and keyboard order
 // ---------------------------------------------------------------------------
-const cssHref = dashboard.text.match(/href="(\/_next\/static\/css\/[^"]+)"/)?.[1];
-if (cssHref) {
-  const css = await (await fetch(`${BASE}${cssHref}`)).text();
+// A page links MORE THAN ONE stylesheet (a global sheet plus per-route chunks), and the
+// order is a build detail. Reading only the first href made these assertions depend on
+// which chunk happened to come first: a build that emitted a small route sheet first
+// turned three real checks into failures against a file that was never supposed to carry
+// the rules. Concatenate every stylesheet the page actually loads, and prove at least
+// one was fetched so the block cannot be skipped silently.
+const cssHrefs = [...new Set([...dashboard.text.matchAll(/href="(\/_next\/static\/css\/[^"]+)"/g)].map((m) => m[1]))];
+check("the dashboard links at least one compiled stylesheet", cssHrefs.length > 0, `${cssHrefs.length} found`);
+if (cssHrefs.length > 0) {
+  // Fetching a stale hash returns 404 HTML, whose body contains none of the rules below
+  // — that would report three confident failures about a file that was never read. Make
+  // a non-200 an explicit, named failure instead.
+  const fetched = await Promise.all(
+    cssHrefs.map(async (h) => {
+      const r = await fetch(`${BASE}${h}`);
+      return { h, status: r.status, body: r.ok ? await r.text() : "" };
+    })
+  );
+  const unreadable = fetched.filter((f) => f.status !== 200);
+  check(
+    "every stylesheet the dashboard links is actually served",
+    unreadable.length === 0,
+    unreadable.map((f) => `${f.h} -> ${f.status}`).join(", ")
+  );
+  const css = fetched.map((f) => f.body).join("\n");
   check("a reduced-motion preference is honoured in the compiled CSS", /prefers-reduced-motion:reduce/.test(css.replace(/\s+/g, "")));
   check("a visible focus ring is defined", /:focus-visible\s*\{\s*outline:\s*2px solid/.test(css));
   check("focus rings are not removed without replacement", !/outline:\s*none/.test(css) || /:focus-visible/.test(css));
@@ -272,21 +297,41 @@ if (existsSync(".next/BUILD_ID")) {
   };
   const staticFiles = walkFiles(".next/static");
   const maps = staticFiles.filter((f) => f.endsWith(".map"));
-  const linked = staticFiles
-    .filter((f) => f.endsWith(".js"))
-    // A substring match also hits vendored source-map tooling, whose string and
-    // regex literals legitimately contain the token (e.g. /\/\*\s*# sourceMappingURL=/
-    // or css += "/*# sourceMappingURL=" + name). Those write maps elsewhere; they do
-    // not expose one here. A directive only leaks a map when it is a TRAILING comment
-    // AND the map it names was actually emitted.
-    .filter((f) => {
-      const body = readFile(f, "utf8");
-      const tail = body.slice(-600);
-      const m = tail.match(/\/[/*]#\s*sourceMappingURL=([^\s*]+)/);
-      if (!m) return false;
-      const target = resolve(dirname(f), m[1].trim());
-      return existsSync(target);
-    });
+  // Classify every trailing sourceMappingURL directive explicitly. The release invariant
+  // is that production exposes NO browser-accessible source map or source content, so
+  // "the named file is not on disk" is not by itself a pass — an inline data: map needs
+  // no file at all, and an absolute URL can serve one from elsewhere.
+  const inlineMaps = [];
+  const shippedMaps = [];
+  const externalMaps = [];
+  const staleComments = [];
+  for (const f of staticFiles.filter((f) => f.endsWith(".js") || f.endsWith(".css"))) {
+    const body = readFile(f, "utf8");
+    // Only a TRAILING directive is a real link; the token also appears inside vendored
+    // source-map tooling as string/regex literals that merely WRITE maps elsewhere.
+    const m = body.slice(-600).match(/\/[/*]#\s*sourceMappingURL=([^\s*]+)/);
+    if (!m) continue;
+    const target = m[1].trim();
+    if (/^data:/i.test(target)) inlineMaps.push(f);                       // map embedded in the bundle
+    else if (/^https?:\/\//i.test(target)) externalMaps.push(`${f} -> ${target}`); // served from elsewhere
+    else if (existsSync(resolve(dirname(f), target))) shippedMaps.push(f); // map really shipped
+    else staleComments.push(f);                                            // points at nothing
+  }
+  check("no production bundle embeds an inline source map", inlineMaps.length === 0, inlineMaps.slice(0, 3).join(", "));
+  check("no production bundle links an external source map", externalMaps.length === 0, externalMaps.slice(0, 3).join(", "));
+  const linked = shippedMaps;
+  // A directive pointing at a file that was never emitted exposes nothing, but it is
+  // still reported so it cannot hide a real regression behind a familiar message.
+  if (staleComments.length > 0) {
+    console.log(`(-- ${staleComments.length} stale sourceMappingURL comment(s) with no shipped map: ${staleComments.slice(0, 2).join(", ")})`);
+  }
+  // Defence in depth: the build flag must also be off.
+  const nextConfig = readFile("next.config.mjs", "utf8");
+  check(
+    "the build disables browser source maps",
+    /productionBrowserSourceMaps:\s*false/.test(nextConfig) || !/productionBrowserSourceMaps/.test(nextConfig),
+    "productionBrowserSourceMaps is enabled"
+  );
   check("the production build ships no source map files", maps.length === 0, `${maps.length} .map file(s)`);
   check("no production chunk points at a source map", linked.length === 0, linked.slice(0, 3).join(", "));
 } else {

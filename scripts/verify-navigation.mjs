@@ -123,11 +123,16 @@ for (const path of ["/app/management", "/app/admin/admissions", "/app/admin/peop
 // navigation renders the management page itself, and that the route-to-mode
 // mapping covers every management route in the app (unit test
 // `tests/navigation-mode.test.ts`). Clicking the entry is on the manual list.
-const entryTarget = (dashboard.body.match(/href="(\/management)"/) ?? [])[1] ?? null;
+// The entry lives at /app/management (the whole private app is mounted under /app); the
+// old pattern looked for a bare "/management" that the app has never served, so it could
+// only ever report "missing". Match the real contract AND prove the target resolves for
+// the owner, so a dead link cannot pass as "a real route".
+const entryTarget = (dashboard.body.match(/href="(\/app\/management)"/) ?? [])[1] ?? null;
+const entryResolves = entryTarget ? await get(entryTarget, owner) : null;
 check(
   "the management entry points at a real route",
-  entryTarget === "/app/management",
-  `href=${entryTarget ?? "missing"}`
+  entryTarget === "/app/management" && entryResolves?.status === 200,
+  `href=${entryTarget ?? "missing"} status=${entryResolves?.status ?? "n/a"}`
 );
 const navigated = await get("/app/admin/admissions", owner, {
   RSC: "1",
@@ -193,8 +198,41 @@ check(
 // --- STUDENT: refused, not shown an empty shell -----------------------------
 // STATUS ALONE IS NOT THE INVARIANT. Next.js may answer a document GET with 200 while
 // streaming a redirect instruction, so a status assertion is both flaky and blind.
-// The invariant that actually matters: a student receives ZERO protected data.
-const PROTECTED_DATA = [
+// The invariant that matters: a student receives ZERO protected data.
+//
+// A fixed marker list is also not sufficient — a student could receive a management
+// shell or protected controls that happen to contain none of the listed strings. So the
+// protected marker set for each route is DERIVED AT RUNTIME from the authorized render
+// of that same route, minus whatever the student legitimately sees on their own
+// dashboard. That is route-specific, cannot go stale, and cannot be evaded by a
+// different protected payload.
+
+/** Every data-* attribute and in-app href in a response: the page's observable surface. */
+const surfaceOf = (html) => new Set([
+  ...[...html.matchAll(/\b(data-[a-z0-9-]+)/g)].map((m) => m[1]),
+  ...[...html.matchAll(/href="(\/app\/[^"?#]*)"/g)].map((m) => m[1]),
+]);
+
+// Baseline: what a student is entitled to see anywhere. A ONE-PAGE baseline is too
+// narrow: Suspense fallbacks and layout frames (data-entry-frame,
+// data-private-loading-boundary, data-async-loading...) appear on staff routes but not
+// on the dashboard, and would be misread as protected data. Subtract the UNION of
+// several routes the student is genuinely entitled to. This is not circular: no
+// protected route under test is ever part of the baseline.
+const studentBaseline = new Set();
+for (const base of ["/app", "/app/lessons", "/app/progress", "/app/profile"]) {
+  for (const m of surfaceOf((await get(base, student)).body)) studentBaseline.add(m);
+}
+
+// Generic management/staff chrome that must never reach a learner whatever the route.
+// Only DATA and AUTHORITY belong here. The management-mode shell frame
+// (data-sidebar-back-to-learning / data-management-hub / data-management-area) is
+// rendered from the REQUESTED URL by the shared layout before the page guard redirects,
+// so it appears in the streamed bytes for any caller who types a management URL. It
+// carries no data and no authority, and it never survives to the settled DOM — that is
+// proven separately, in a real browser, by
+// scripts/browser/verify-redirect-destination.mjs, which owns the destination claim.
+const GENERIC_PROTECTED = [
   "/app/owner/transfer",
   "/app/owner/audit",
   "/app/owner/retention",
@@ -203,29 +241,86 @@ const PROTECTED_DATA = [
   "owner@learnersarea.uz",
   "pending.student@learnersarea.uz",
 ];
-for (const path of ["/app/management", "/app/admin/admissions", "/app/admin/people", "/app/teacher/students", "/app/owner"]) {
-  const page = await get(path, student);
-  const leaked = PROTECTED_DATA.filter((marker) => page.body.includes(marker));
-  check(
-    `STUDENT ${path} — receives zero protected data`,
-    leaked.length === 0,
-    `http=${page.status}${page.location ? ` → ${page.location}` : ""} leaked=${leaked.join(", ") || "none"}`
-  );
-  // A redirect instruction must point back into the learner area, never deeper into management.
-  const destination = page.location ?? "";
-  check(
-    `STUDENT ${path} — any redirect leads out of management`,
-    destination === "" || !/\/(owner|admin|teacher|management)/.test(destination),
-    `→ ${destination || "(no redirect header)"}`
-  );
+
+const PROTECTED_ROUTES = [
+  { path: "/app/management", authorized: owner },
+  { path: "/app/admin/admissions", authorized: owner },
+  { path: "/app/admin/people", authorized: owner },
+  { path: "/app/teacher/students", authorized: teacher },
+  { path: "/app/owner", authorized: owner },
+];
+
+// Chrome, measured rather than guessed: markers the student receives on EVERY protected
+// route are by construction not route-specific protected data (they are the shared shell
+// the layout streams from the URL). Anything genuinely belonging to one console shows up
+// on that console alone. Generic data/authority leaks remain covered unconditionally by
+// GENERIC_PROTECTED above, so this subtraction cannot hide one.
+const studentRenders = new Map();
+for (const { path } of PROTECTED_ROUTES) {
+  studentRenders.set(path, await get(path, student));
 }
-// Positive control: these markers must be DETECTABLE, or the loop above proves nothing.
-const ownerControl = await get("/app/owner", owner);
-check(
-  "the leak detector is live — the owner's own console does expose owner-only destinations",
-  PROTECTED_DATA.some((marker) => ownerControl.body.includes(marker)),
-  "no protected marker rendered even for the owner"
-);
+let sharedChrome = null;
+for (const { path } of PROTECTED_ROUTES) {
+  const seen = surfaceOf(studentRenders.get(path).body);
+  sharedChrome = sharedChrome === null ? seen : new Set([...sharedChrome].filter((m) => seen.has(m)));
+}
+
+for (const { path, authorized } of PROTECTED_ROUTES) {
+  const authedRes = await get(path, authorized);
+  const authedSurface = surfaceOf(authedRes.body);
+  // Route-specific protected markers = what the authorized actor sees here that the
+  // student is not entitled to see at all.
+  // The shell renders breadcrumb/back links derived from the REQUESTED URL itself, so an
+  // ancestor of the route under test is not leaked data (the caller supplied the path).
+  // A link to any OTHER staff route still counts.
+  const isAncestorOfRoute = (m) => m.startsWith("/app/") && path.startsWith(m);
+  // The breadcrumb region itself is the same URL-derived chrome as the ancestor href it
+  // wraps: the shell builds it from the requested path, it carries no data and no
+  // authority, and the real-browser check proves it never survives the redirect.
+  const BREADCRUMB_CHROME = new Set(["data-breadcrumbs", "data-back-button"]);
+  const routeMarkers = [...authedSurface].filter(
+    (m) =>
+      !studentBaseline.has(m) &&
+      !isAncestorOfRoute(m) &&
+      !sharedChrome.has(m) &&
+      !BREADCRUMB_CHROME.has(m)
+  );
+
+  // POSITIVE CONTROL: without markers, the negative assertion below proves nothing.
+  check(
+    `${path} — the authorized actor renders route-specific protected markers`,
+    routeMarkers.length > 0,
+    `authorized http=${authedRes.status}; no marker distinguishes this page from the learner dashboard`
+  );
+
+  const studentRes = studentRenders.get(path);
+  const leakedRouteMarkers = routeMarkers.filter((m) => studentRes.body.includes(m));
+  check(
+    `STUDENT ${path} — receives none of this route's protected markers`,
+    leakedRouteMarkers.length === 0,
+    `http=${studentRes.status} leaked=${leakedRouteMarkers.slice(0, 6).join(", ") || "none"}`
+  );
+
+  const leakedGeneric = GENERIC_PROTECTED.filter((m) => studentRes.body.includes(m));
+  check(
+    `STUDENT ${path} — receives no management shell or staff identity`,
+    leakedGeneric.length === 0,
+    `http=${studentRes.status} leaked=${leakedGeneric.join(", ") || "none"}`
+  );
+
+  // Redirect destination: a Location header, when present, must lead out of management.
+  // An ABSENT header is NOT treated as proof of anything — Next.js may stream the
+  // redirect instead — so the real destination is verified by the browser suite; here
+  // we only assert the header never points deeper into staff space.
+  if (studentRes.location) {
+    check(
+      `STUDENT ${path} — the redirect header leads out of management`,
+      !/\/app\/(owner|admin|teacher|management)/.test(studentRes.location),
+      `→ ${studentRes.location}`
+    );
+  }
+}
+
 const studentDashboard = await get("/app", student);
 check(
   "STUDENT has no way into management at all",

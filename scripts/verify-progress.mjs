@@ -126,23 +126,32 @@ check("a fresh account sees the page too", fresh.status === 200);
 // Those are a SCALE, not a learner result. The real invariant is:
 //   a learner who has completed nothing must never be shown a band they did not earn.
 // `data-latest-band` carries the learner's OWN value, or "none" when nothing is graded.
-const attr = (name) => {
-  const m = fresh.text.match(new RegExp(`${name}="([^"]*)"`));
+const attrFrom = (html, name) => {
+  const m = html.match(new RegExp(`${name}="([^"]*)"`));
   return m ? m[1] : null;
 };
-const freshBand = attr("data-latest-band");
-const freshCompleted = attr("data-completed-mocks");
+const freshBand = attrFrom(fresh.text, "data-latest-band");
+const freshCompleted = attrFrom(fresh.text, "data-completed-mocks");
 
+// The truth surface must EXIST. Accepting null here made the probe vacuous: if the
+// data attributes were ever dropped, a fresh learner could be shown anything at all and
+// this suite would still pass.
+check(
+  "the fresh account's mock truth surface is rendered at all",
+  freshBand !== null && freshCompleted !== null,
+  `data-latest-band=${freshBand} data-completed-mocks=${freshCompleted}`
+);
 check(
   "a fresh account's own band is absent, not invented",
-  freshBand === null || freshBand === "none",
+  freshBand === "none",
   `data-latest-band=${freshBand}`
 );
 check(
   "a fresh account is credited with zero completed mocks",
-  freshCompleted === null || freshCompleted === "0",
+  freshCompleted === "0",
   `data-completed-mocks=${freshCompleted}`
 );
+
 // The scale label and axis may show 9.0; a learner VALUE may not appear anywhere.
 const freshBody = fresh.text
   .replace(/<script[\s\S]*?<\/script>/g, " ")
@@ -152,16 +161,116 @@ check(
   /—|yo'q|no graded|hali/i.test(freshBody),
   "expected an explicit empty-state marker in the rendered text"
 );
-// Negative control: the probe must be able to SEE a real band when one exists.
-// demo.student has graded history, so its panel must expose a numeric band or a
-// non-zero completed count — proving these assertions are not vacuously true.
-const seededBandAttr = progress.text.match(/data-latest-band="([^"]*)"/);
-const seededCompletedAttr = progress.text.match(/data-completed-mocks="([^"]*)"/);
+
+// ---------------------------------------------------------------------------
+// POSITIVE-CONTROL FIXTURE
+//
+// The seed ships no full mock and no graded attempt, so without this the band detector
+// would never be exercised at all and every "no band" assertion above would be
+// trivially satisfiable. We create ONE graded full mock for the seeded learner, prove
+// the panel reports it truthfully, then remove it so the suite leaves no residue.
+// ---------------------------------------------------------------------------
+const FIXTURE_BAND = 6.5;
+const courseRow = await db.query("select id from courses order by title limit 1");
+const courseId = courseRow.rows[0]?.id;
+let fixtureMockId = null;
+let fixtureAttemptId = null;
+if (courseId) {
+  const mk = await db.query(
+    `insert into mock_tests(course_id,title,skill,track,kind,publication_state,publish_at)
+     values($1,'QA full mock (positive control)','full','academic','full','published',now() - interval '1 day')
+     returning id`,
+    [courseId]
+  );
+  fixtureMockId = mk.rows[0]?.id ?? null;
+  if (fixtureMockId) {
+    const at = await db.query(
+      `insert into mock_attempts(user_id,mock_test_id,status,started_at,finished_at,estimated_band,mock_snapshot)
+       values((select id from users where email='demo.student@learnersarea.uz'),$1,'submitted',
+              now() - interval '2 hours', now() - interval '1 hour', $2, '{"kind":"full"}'::jsonb)
+       returning id`,
+      [fixtureMockId, FIXTURE_BAND]
+    );
+    fixtureAttemptId = at.rows[0]?.id ?? null;
+  }
+}
+// Re-read the panel now that real graded history exists.
+const progressGraded = await page("/app/progress", cookie);
+
+// ---------------------------------------------------------------------------
+// POSITIVE CONTROL — the detector must recognise a REAL graded result.
+//
+// Proving the attributes merely exist is not enough: if the seeded learner also read
+// none/0, every negative assertion above would be trivially satisfiable. So we require
+// the seeded learner to exhibit at least one genuine graded condition AND cross-check
+// the rendered values against authoritative database state.
+// ---------------------------------------------------------------------------
+const seededBand = attrFrom(progressGraded.text, "data-latest-band");
+const seededCompleted = attrFrom(progressGraded.text, "data-completed-mocks");
 check(
-  "the band probe is live: it can read a real learner's own panel values",
-  seededBandAttr !== null || seededCompletedAttr !== null,
-  "data-latest-band / data-completed-mocks were not rendered at all"
+  "the seeded learner's mock truth surface is rendered at all",
+  seededBand !== null && seededCompleted !== null,
+  `data-latest-band=${seededBand} data-completed-mocks=${seededCompleted}`
 );
+
+// Authoritative state. `skill` is not a column on mock_attempts: it comes from the
+// catalogue row (mock_tests.skill), falling back to the snapshot kind captured at start
+// time, exactly as src/lib/data/mocks.ts resolves it.
+const dbTruth = await db.query(
+  `with graded as (
+     select a.id,
+            a.finished_at,
+            a.estimated_band,
+            a.mock_test_id,
+            coalesce(t.skill, a.mock_snapshot->>'kind') as skill
+     from mock_attempts a
+     join users u on u.id = a.user_id
+     left join mock_tests t on t.id = a.mock_test_id
+     where u.email = 'demo.student@learnersarea.uz'
+       and a.finished_at is not null
+   )
+   select
+     (select count(distinct mock_test_id)::int from graded
+        where skill = 'full' and mock_test_id in (select id from mock_tests)) as completed_catalogue,
+     (select estimated_band from graded
+        where skill = 'full' and estimated_band is not null
+        order by finished_at desc, id desc limit 1) as latest_band`
+);
+const row = dbTruth.rows[0] ?? {};
+const dbCompleted = Number(row.completed_catalogue ?? 0);
+const dbBand = row.latest_band === null || row.latest_band === undefined ? null : Number(row.latest_band);
+
+// The control FAILS if the seeded learner is itself empty — then nothing proves the
+// detector can tell a real result from an empty one.
+check(
+  "the positive control is meaningful: the seeded learner really has graded mock history",
+  dbCompleted > 0 || dbBand !== null,
+  `db completed=${dbCompleted} latest_band=${dbBand} (seed has no graded full mock, so the band detector is unproven)`
+);
+check(
+  "the rendered completed-mock count matches authoritative database state",
+  String(dbCompleted) === seededCompleted,
+  `rendered=${seededCompleted} db=${dbCompleted}`
+);
+check(
+  "the rendered band matches authoritative database state",
+  dbBand === null ? seededBand === "none" : Math.abs(Number(seededBand) - dbBand) < 0.05,
+  `rendered=${seededBand} db=${dbBand}`
+);
+// And the detector must distinguish a real learner value from the 9.0 scale maximum.
+check(
+  "a rendered band is a real learner value, not the scale maximum echoed back",
+  seededBand === "none" || (Number.isFinite(Number(seededBand)) && Number(seededBand) >= 0 && Number(seededBand) <= 9),
+  `data-latest-band=${seededBand}`
+);
+
+// --- fixture cleanup: the suite must leave no residue ----------------------
+if (fixtureAttemptId) await db.query("delete from mock_attempts where id = $1", [fixtureAttemptId]);
+if (fixtureMockId) await db.query("delete from mock_tests where id = $1", [fixtureMockId]);
+const residue = await db.query(
+  "select count(*)::int as n from mock_tests where title = 'QA full mock (positive control)'"
+);
+check("the positive-control fixture is cleaned up", residue.rows[0]?.n === 0, `residue ${residue.rows[0]?.n}`);
 
 check("an anonymous visitor cannot read progress", (await page("/app/progress")).status !== 200);
 
