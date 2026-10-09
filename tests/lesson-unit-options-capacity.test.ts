@@ -315,3 +315,106 @@ test("a broad search matching more than one page is walkable without leaks or mi
     await close();
   }
 });
+
+/**
+ * B3 extension: the same unit title repeated ACROSS courses and modules.
+ *
+ * The single-module case above proves reachability. This proves IDENTITY: when 620
+ * units all read "Unit", spread over several courses and modules, the picker must
+ * still let an author select the right one and must show which course and module it
+ * belongs to. A label that cannot distinguish two options is a picker that silently
+ * files lessons into the wrong part of the curriculum.
+ */
+test("identically titled units across courses and modules stay individually selectable", async () => {
+  const database = await createTestDatabase();
+  const { db, query, close } = database as unknown as {
+    db: { select: typeof import("../src/db/client").db.select };
+    query: <T>(sql: string, params?: unknown[]) => Promise<T[]>;
+    close: () => Promise<void>;
+  };
+  try {
+    // 4 courses x 2 modules x 78 units = 624 units, every one titled "Unit".
+    const courses = 4;
+    const modulesPer = 2;
+    const unitsPer = 78;
+    const expected = new Map<string, { course: string; module: string }>();
+
+    for (let c = 1; c <= courses; c += 1) {
+      const courseTitle = `Course ${c}`;
+      const [course] = await query<{ id: string }>(
+        "insert into courses(slug,title,publication_state)values($1,$2,'published')returning id",
+        [`collide-course-${c}`, courseTitle],
+      );
+      for (let m = 1; m <= modulesPer; m += 1) {
+        const moduleTitle = `Module ${m}`;
+        const [module] = await query<{ id: string }>(
+          `insert into course_modules(course_id,slug,title,"order")values($1,$2,$3,$4)returning id`,
+          [course!.id, `collide-module-${c}-${m}`, moduleTitle, m],
+        );
+        for (let u = 1; u <= unitsPer; u += 1) {
+          const [unit] = await query<{ id: string }>(
+            `insert into units(module_id,slug,title,"order")values($1,$2,'Unit',$3)returning id`,
+            [module!.id, `collide-unit-${c}-${m}-${u}`, u],
+          );
+          expected.set(unit!.id, { course: courseTitle, module: moduleTitle });
+        }
+      }
+    }
+    const total = courses * modulesPer * unitsPer;
+    assert.equal(expected.size, total, "fixture did not build the intended corpus");
+
+    // Walk every page of a search that matches all of them.
+    const seen: string[] = [];
+    const labels = new Map<string, string>();
+    let cursor: string | null | undefined;
+    let pages = 0;
+    do {
+      const page = await listUnitOptions(db, { search: "Unit", cursor: cursor ?? undefined });
+      assert.ok(page.options.length > 0, "a page that claims more must deliver more");
+      assert.ok(page.options.length <= 500, "a page must stay bounded");
+      for (const option of page.options) {
+        seen.push(option.id);
+        labels.set(option.id, option.label);
+      }
+      cursor = page.nextCursor;
+      pages += 1;
+      assert.ok(pages < 10, "pagination must terminate");
+    } while (cursor);
+
+    assert.equal(seen.length, total, "every unit must be reachable across courses");
+    assert.equal(new Set(seen).size, total, "no duplicates across pages");
+    assert.deepEqual(
+      new Set(seen),
+      new Set(expected.keys()),
+      "the walk returned a different set of units than was created",
+    );
+
+    // IDENTITY: every option names its own course and module, so two same-titled
+    // units in different places are distinguishable rather than interchangeable.
+    for (const [id, where] of expected) {
+      const label = labels.get(id);
+      assert.ok(label, `unit ${id} was never offered`);
+      assert.ok(
+        label!.includes(where.course),
+        `label "${label}" does not name its course "${where.course}"`,
+      );
+      assert.ok(
+        label!.includes(where.module),
+        `label "${label}" does not name its module "${where.module}"`,
+      );
+    }
+
+    // Narrowing by course name must return only that course's units.
+    const oneCourse = await listUnitOptions(db, { search: "Course 3" });
+    assert.ok(oneCourse.options.length > 0, "a course-scoped search found nothing");
+    for (const option of oneCourse.options) {
+      assert.equal(
+        expected.get(option.id)?.course,
+        "Course 3",
+        `a search for "Course 3" returned a unit from ${expected.get(option.id)?.course}`,
+      );
+    }
+  } finally {
+    await close();
+  }
+});
