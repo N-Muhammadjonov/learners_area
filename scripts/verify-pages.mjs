@@ -225,11 +225,17 @@ await check("the speaking module leads to both speaking modes and they are reach
   // from the module page — and both must actually answer, not merely be linked.
   const hub = await get(cookie, "/app/speaking");
   assert.match(hub.html, /href="\/app\/speaking\/practice"/);
-  assert.match(hub.html, /href="\/app\/speaking\/shadowing"/);
-  for (const path of ["/app/speaking/practice", "/app/speaking/history", "/app/speaking/shadowing"]) {
+  // Shadowing is a CATEGORY of speaking material, not a fifth hub card (owner spec
+  // §26-29): /app/speaking/shadowing redirects to the lessons page, where the studio is
+  // mounted. Asserting a hub link here described a surface the product no longer has.
+  assert.match(hub.html, /href="\/app\/speaking\/lessons"/);
+  for (const path of ["/app/speaking/practice", "/app/speaking/history", "/app/speaking/lessons"]) {
     const page = await get(cookie, path);
     assert.equal(page.status, 200, `${path} is not reachable`);
   }
+  // The drill itself must be reachable from where the legacy URL lands.
+  const lessons = await get(cookie, "/app/speaking/lessons");
+  assert.match(lessons.html, /data-shadowing-section/, "the shadowing studio is not mounted on the lessons page");
 });
 
 await check("the Coach dashboard names the evaluator that produced each result", async () => {

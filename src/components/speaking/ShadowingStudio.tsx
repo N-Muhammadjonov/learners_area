@@ -89,7 +89,15 @@ export function ShadowingStudio({ dict, tracks }: { dict: Dictionary; tracks: Tr
   if (tracks.length === 0) {
     return (
       <Card data-shadowing-empty>
-        <h2 className="font-display text-lg text-ink-900">{t.title}</h2>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h2 className="font-display text-lg text-ink-900">{t.title}</h2>
+          {/* The "no pronunciation score" promise belongs in BOTH states. A learner who
+              only ever sees the empty state would otherwise never be told, and the
+              absence of a score would look like something still loading. */}
+          <span className="text-xs text-ink-300" data-shadowing-note>
+            {t.noScore}
+          </span>
+        </div>
         <p className="mt-1 text-sm text-ink-500">{t.empty}</p>
       </Card>
     );
