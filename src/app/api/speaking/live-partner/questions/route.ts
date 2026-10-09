@@ -15,6 +15,21 @@ export async function GET(req: NextRequest) {
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
   const search = (req.nextUrl.searchParams.get("q") ?? "").trim().slice(0, 120);
-  const page = await listLivePartnerQuestions(search ? { search } : {});
-  return NextResponse.json(page, { headers: { "cache-control": "no-store" } });
+  // One broad term can match more prompts than fit a page, so the room continues the
+  // walk with a keyset cursor. A cursor the server did not mint is refused with 400
+  // rather than silently restarting at page 1 and re-serving prompts already shown.
+  const cursor = req.nextUrl.searchParams.get("cursor");
+
+  try {
+    const page = await listLivePartnerQuestions({
+      ...(search ? { search } : {}),
+      ...(cursor === null ? {} : { cursor }),
+    });
+    return NextResponse.json(page, { headers: { "cache-control": "no-store" } });
+  } catch (error) {
+    if (error instanceof Error && /cursor/i.test(error.message)) {
+      return NextResponse.json({ error: "invalid_cursor" }, { status: 400 });
+    }
+    throw error;
+  }
 }

@@ -59,27 +59,69 @@ export function LivePartnerClient({ dict, me, questions }: {
   const [partnerMuted, setPartnerMuted] = useState(false);
   // The room receives one bounded page of prompts. Filtering only that page in the
   // browser would hide every prompt past it, so a typed query is answered by the server
-  // against the whole published bank; an empty query falls back to the initial page.
+  // against the whole published bank. Search alone is not enough either: one broad term
+  // can match more prompts than fit a page, so the result is walked with a keyset
+  // cursor. Requests are sequenced, failures are shown with a retry rather than being
+  // swallowed into a stale list, and an empty result is distinguished from "not asked".
   const [remoteQuestions, setRemoteQuestions] = useState<QuestionRow[] | null>(null);
+  const [searchState, setSearchState] = useState<"idle" | "loading" | "success" | "empty" | "error">("idle");
+  const [searchCursor, setSearchCursor] = useState<string | null>(null);
+  const [searchAttempt, setSearchAttempt] = useState(0);
+  const searchTicket = useRef(0);
+
+  const runQuestionSearch = useCallback(async (term: string, cursor: string | null) => {
+    // Every request takes a ticket; only the newest may write state. A slow reply for an
+    // abandoned term can therefore never be presented as this term's results, and can
+    // never overwrite a newer response that already landed.
+    const ticket = ++searchTicket.current;
+    setSearchState("loading");
+    try {
+      const params = new URLSearchParams({ q: term });
+      if (cursor) params.set("cursor", cursor);
+      const res = await fetch(`/api/speaking/live-partner/questions?${params.toString()}`);
+      if (ticket !== searchTicket.current) return;
+      if (!res.ok) { setSearchState("error"); return; }
+      const payload = (await res.json()) as { questions?: QuestionRow[]; nextCursor?: string | null };
+      if (ticket !== searchTicket.current) return;
+      const batch = payload.questions ?? [];
+      const merged = cursor && remoteQuestions ? [...remoteQuestions, ...batch] : batch;
+      setRemoteQuestions(merged);
+      setSearchCursor(payload.nextCursor ?? null);
+      setSearchState(merged.length === 0 ? "empty" : "success");
+    } catch {
+      if (ticket === searchTicket.current) setSearchState("error");
+    }
+  }, [remoteQuestions]);
+
   useEffect(() => {
     const term = query.trim();
-    if (!term) { setRemoteQuestions(null); return; }
-    let cancelled = false;
-    const timer = setTimeout(async () => {
-      try {
-        const res = await fetch(`/api/speaking/live-partner/questions?q=${encodeURIComponent(term)}`);
-        if (!res.ok) return;
-        const data = (await res.json()) as { questions?: QuestionRow[] };
-        if (!cancelled) setRemoteQuestions(data.questions ?? []);
-      } catch { /* keep the local page on a transient failure */ }
-    }, 250);
-    return () => { cancelled = true; clearTimeout(timer); };
-  }, [query]);
+    if (!term) {
+      // Abandon anything in flight so a late reply cannot repopulate a cleared box.
+      searchTicket.current += 1;
+      setRemoteQuestions(null);
+      setSearchCursor(null);
+      setSearchState("idle");
+      return;
+    }
+    const timer = setTimeout(() => { void runQuestionSearch(term, null); }, 250);
+    return () => clearTimeout(timer);
+    // runQuestionSearch is intentionally excluded: it changes identity whenever the
+    // accumulated results change, which would restart the search mid-walk.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query, searchAttempt]);
 
   const pool = remoteQuestions ?? questions;
   const grouped = useMemo(() => filterQuestions(pool, query), [pool, query]);
 
-  const topicQuestions = selectedTopic ? pool.filter(q => q.part === selectedTopic.part && q.topic === selectedTopic.topic) : [];
+  // A chosen topic must survive a later search. The questions behind it are kept from
+  // whichever pool they were chosen in, so typing cannot blank an open prompt.
+  const topicQuestions = selectedTopic
+    ? (() => {
+        const fromPool = pool.filter(q => q.part === selectedTopic.part && q.topic === selectedTopic.topic);
+        if (fromPool.length > 0) return fromPool;
+        return questions.filter(q => q.part === selectedTopic.part && q.topic === selectedTopic.topic);
+      })()
+    : [];
   const selectedQuestion = topicQuestions[Math.min(questionIndex, Math.max(0, topicQuestions.length - 1))];
 
   // ---- request discipline -------------------------------------------------
@@ -338,6 +380,22 @@ export function LivePartnerClient({ dict, me, questions }: {
           <label className="text-sm"><span className="sr-only">{t.search}</span>
             <input type="search" value={query} onChange={(e) => { setQuery(e.target.value); setSelectedTopic(null); }} placeholder={t.search} className="w-full rounded-sm border border-ink-200 px-3 py-2" />
           </label>
+          <p className="text-xs text-ink-500" role="status" aria-live="polite" data-partner-search-state={searchState}>
+            {searchState === "loading" ? t.searchSearching
+              : searchState === "error" ? t.searchFailed
+              : searchState === "empty" ? t.noQuestions
+              : ""}
+          </p>
+          {searchState === "error" ? (
+            <button type="button" className="btn-ghost btn-sm self-start" data-partner-search-retry onClick={() => setSearchAttempt((n) => n + 1)}>
+              {t.searchRetry}
+            </button>
+          ) : null}
+          {searchCursor && searchState === "success" ? (
+            <button type="button" className="btn-ghost btn-sm self-start" data-partner-search-more onClick={() => { void runQuestionSearch(query.trim(), searchCursor); }}>
+              {t.searchMore}
+            </button>
+          ) : null}
           {selectedTopic && selectedQuestion ? <div className="flex min-h-80 flex-col gap-5 rounded-2xl border border-ink-100 bg-paper-raised p-5" data-partner-topic-question>
             <button type="button" className="btn-secondary self-start" onClick={() => setSelectedTopic(null)}>← {dict.common.back}</button>
             <div><p className="text-xs font-semibold uppercase tracking-widest text-signal-600">{t.parts[selectedTopic.part]}</p><h3 className="mt-2 font-display text-xl">{selectedTopic.topic ?? dict.speakingStudy.topic}</h3></div>

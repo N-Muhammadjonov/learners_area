@@ -31,14 +31,74 @@ export type LivePartnerQuestionPage = {
   }[];
   /** True when more published prompts match than were returned. */
   hasMore: boolean;
+  /**
+   * Opaque keyset cursor for the next page, or null at the end.
+   *
+   * Search narrows the bank but does not make it reachable: one broad term can match
+   * every prompt a centre has authored, and a bounded page with no continuation would
+   * strand everything after the first one. The listing order
+   * (part, external-id-nulls-last, external id, created at, id) is TOTAL, so a cursor
+   * walks it exactly once — no duplicates, no omissions, and no unbounded response.
+   */
+  nextCursor: string | null;
   /** How many published prompts match in total. */
   matching: number;
   /** The page size this read was bounded to. */
   pageSize: number;
 };
 
+const SPEAKING_PARTS = ["part1", "part2", "part3", "general"] as const;
+type SpeakingPart = (typeof SPEAKING_PARTS)[number];
+
+type LivePartnerCursor = {
+  part: SpeakingPart;
+  externalIsNull: boolean;
+  externalId: string;
+  createdAt: string;
+  id: string;
+};
+
+function encodeLivePartnerCursor(row: {
+  part: SpeakingPart;
+  externalId: string | null;
+  createdAt: Date;
+  id: string;
+}): string {
+  const payload = [row.part, row.externalId === null, row.externalId ?? "", row.createdAt.toISOString(), row.id];
+  return Buffer.from(JSON.stringify(payload), "utf8").toString("base64url");
+}
+
+function decodeLivePartnerCursor(raw: string): LivePartnerCursor {
+  // A malformed cursor is refused. Falling back to page 1 would silently restart the
+  // walk and re-serve prompts the room has already shown.
+  const reject = () => new Error("invalid live-partner cursor");
+  if (raw.trim() === "") throw reject();
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(Buffer.from(raw, "base64url").toString("utf8"));
+  } catch {
+    throw reject();
+  }
+  if (
+    !Array.isArray(parsed) || parsed.length !== 5 ||
+    typeof parsed[0] !== "string" || !(SPEAKING_PARTS as readonly string[]).includes(parsed[0]) ||
+    typeof parsed[1] !== "boolean" || typeof parsed[2] !== "string" ||
+    typeof parsed[3] !== "string" || Number.isNaN(Date.parse(parsed[3])) ||
+    typeof parsed[4] !== "string"
+  ) {
+    throw reject();
+  }
+  return {
+    part: parsed[0] as SpeakingPart,
+    externalIsNull: parsed[1],
+    externalId: parsed[2],
+    createdAt: parsed[3],
+    id: parsed[4],
+  };
+}
+
 export async function listLivePartnerQuestions(
-  opts: { search?: string } = {},
+  opts: { search?: string; cursor?: string } = {},
   database: typeof db = db,
 ): Promise<LivePartnerQuestionPage> {
   // The room used to ship the whole bank to the browser and filter it there, so prompts
@@ -53,11 +113,30 @@ export async function listLivePartnerQuestions(
     ? and(channel, sql`(${speakingPrompts.promptText} ilike ${`%${term}%`} or ${speakingPrompts.topic} ilike ${`%${term}%`})`)
     : channel;
 
+  // `external_id` is NULL for hand-authored prompts, and NULL breaks a naive row-value
+  // comparison (it yields NULL, not true, so rows vanish). The null-ness flag is sorted
+  // explicitly, which reproduces Postgres' default NULLS LAST for ascending order, and
+  // coalesce keeps the compared value non-null.
+  const sortKey = sql`(${speakingPrompts.part}, (${speakingPrompts.externalId} is null), coalesce(${speakingPrompts.externalId}, ''), ${speakingPrompts.createdAt}, ${speakingPrompts.id})`;
+  const after = opts.cursor != null ? decodeLivePartnerCursor(opts.cursor) : null;
+  const scope = after
+    ? and(
+        where,
+        sql`${sortKey} > (${after.part}::speaking_part, ${after.externalIsNull}, ${after.externalId}, ${after.createdAt}::timestamptz, ${after.id}::uuid)`,
+      )
+    : where;
+
   const rows = await database
-    .select({ id: speakingPrompts.id, part: speakingPrompts.part, topic: speakingPrompts.topic, promptText: speakingPrompts.promptText, cueCard: speakingPrompts.cueCard })
+    .select({ id: speakingPrompts.id, part: speakingPrompts.part, topic: speakingPrompts.topic, promptText: speakingPrompts.promptText, cueCard: speakingPrompts.cueCard, externalId: speakingPrompts.externalId, createdAt: speakingPrompts.createdAt })
     .from(speakingPrompts)
-    .where(where)
-    .orderBy(asc(speakingPrompts.part), asc(speakingPrompts.externalId), asc(speakingPrompts.createdAt), asc(speakingPrompts.id))
+    .where(scope)
+    .orderBy(
+      asc(speakingPrompts.part),
+      sql`(${speakingPrompts.externalId} is null) asc`,
+      sql`coalesce(${speakingPrompts.externalId}, '') asc`,
+      asc(speakingPrompts.createdAt),
+      asc(speakingPrompts.id),
+    )
     .limit(LIVE_PARTNER_PAGE + 1);
 
   const hasMore = rows.length > LIVE_PARTNER_PAGE;
@@ -66,9 +145,13 @@ export async function listLivePartnerQuestions(
     .from(speakingPrompts)
     .where(where);
 
+  const page = hasMore ? rows.slice(0, LIVE_PARTNER_PAGE) : rows;
+  const last = page[page.length - 1];
   return {
-    questions: hasMore ? rows.slice(0, LIVE_PARTNER_PAGE) : rows,
+    // The ordering columns are an implementation detail of paging, not room data.
+    questions: page.map(({ externalId: _externalId, createdAt: _createdAt, ...question }) => question),
     hasMore,
+    nextCursor: hasMore && last ? encodeLivePartnerCursor(last) : null,
     matching,
     pageSize: LIVE_PARTNER_PAGE,
   };
