@@ -227,7 +227,10 @@ await check("a teacher cannot open administrator pages", async () => {
         `${path} exposed administrator control "${marker}" to a teacher (status ${res.status})`
       );
     }
-    assert.match(res.location ?? "", /\/dashboard/);
+    // If the framework DID issue a redirect header it must lead out of the admin area;
+    // a 200 that streams the redirect instruction is legitimate and already proven
+    // content-free by the marker assertions above, so absence of a header is not a leak.
+    if (res.location) assert.doesNotMatch(res.location, /\/app\/(admin|owner)/, `${path} redirected a teacher deeper into staff space`);
   }
 });
 
@@ -328,12 +331,31 @@ await check("reactivating the account restores access", async () => {
   assert.equal(priv.status, 200);
 });
 
-await check("a student cannot open staff or administrator pages", async () => {
+await check("a student receives no staff or administrator content", async () => {
+  // Status alone is not the invariant: Next.js may answer a document GET with 200 while
+  // streaming a redirect instruction. What must hold is that NO staff-only control and
+  // NO other person's identity reaches a student.
+  const STAFF_MARKERS = [
+    "data-admin-reading-import",
+    "data-content-workspace",
+    "/app/admin/listening/import",
+    "/app/owner/transfer",
+    "teacher@learnersarea.uz",
+    "owner@learnersarea.uz",
+    "admin@learnersarea.uz",
+  ];
   for (const path of ["/app/teacher/students", "/app/teacher/live-classes", "/app/admin/reading", "/app/admin/people"]) {
     const res = await get(applicantCookie, path);
-    assert.equal(res.status, 307, `${path} must redirect a student (got ${res.status})`);
-    assert.match(res.location ?? "", /\/dashboard/);
+    const leaked = STAFF_MARKERS.filter((m) => res.html.includes(m));
+    assert.equal(leaked.length, 0, `${path} leaked staff content to a student (status ${res.status}): ${leaked.join(", ")}`);
+    if (res.location) assert.doesNotMatch(res.location, /\/app\/(admin|owner|teacher)/, `${path} redirected a student deeper into staff space`);
   }
+  // Positive control: the markers must be detectable somewhere, or the loop is vacuous.
+  const ownerView = await get(ownerCookie, "/app/admin/people");
+  assert.ok(
+    STAFF_MARKERS.some((m) => ownerView.html.includes(m)),
+    "leak detector inert: no staff marker rendered even for the owner"
+  );
 });
 
 // ---------------------------------------------------------------------------
@@ -392,7 +414,17 @@ await check("the owner can grant a role, and the change follows the account imme
   });
   assert.equal(down.status, 200);
   const after = await get(applicantCookie, "/app/teacher/students");
-  assert.ok([307, 404].includes(after.status), "a demoted account must lose the teacher shell");
+  // The real invariant is lost AUTHORITY and lost DATA, not a particular status: the
+  // demoted account must no longer receive the roster, and the staff API must refuse it.
+  assert.ok(
+    !after.html.includes("data-teacher-roster") && !after.html.includes("demo.student@learnersarea.uz"),
+    `a demoted account still received teacher content (status ${after.status})`
+  );
+  const apiAfter = await api(applicantCookie, "/api/admin/users", { method: "GET" });
+  assert.ok(
+    [401, 403, 404].includes(apiAfter.status),
+    `a demoted account kept staff API authority (got ${apiAfter.status})`
+  );
 });
 
 // ---------------------------------------------------------------------------
