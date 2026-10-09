@@ -21,7 +21,13 @@ import path from "node:path";
 import pg from "pg";
 
 const BASE = process.argv[2] ?? "http://127.0.0.1:3000";
-const UPLOAD_ROOT = path.join(process.cwd(), ".data", "uploads");
+// Mirror src/lib/services/storage/local-provider.ts exactly. This was hardcoded to
+// `.data/uploads`, so whenever the server ran with STORAGE_LOCAL_DIR set (as the QA
+// recipe requires) every on-disk assertion looked in the wrong directory and reported
+// "missing object on disk" for objects that had been written correctly.
+const UPLOAD_ROOT = process.env.STORAGE_LOCAL_DIR
+  ? path.resolve(process.env.STORAGE_LOCAL_DIR)
+  : path.join(process.cwd(), ".data", "uploads");
 
 const ACCOUNTS = {
   admin: { email: "admin@learnersarea.uz", password: "Admin12345!" },
@@ -86,8 +92,45 @@ const teacher2 = new Client("teacher2");
 const student = new Client("student");
 const anonymous = new Client("anonymous");
 
+/**
+ * Bytes that really look like the extension claims.
+ *
+ * The server verifies the STORED bytes against the filename
+ * (src/lib/uploads/signature.ts) and refuses a mismatch with 422
+ * upload_type_mismatch. This probe used to upload the literal string
+ * "contents of lesson-guide.pdf" for every file, so finalize correctly rejected the
+ * very first material and 21 downstream assertions failed on the cascade. The
+ * detector was right; the fixture was fake.
+ *
+ * These are minimal but genuine headers. Nothing here weakens the check — the
+ * mismatch negative control below still uploads bytes that do NOT match its name and
+ * still has to be refused.
+ */
+const MAGIC = {
+  ".pdf": [0x25, 0x50, 0x44, 0x46, 0x2d, 0x31, 0x2e, 0x34],            // %PDF-1.4
+  ".png": [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a],
+  ".jpg": [0xff, 0xd8, 0xff, 0xe0],
+  ".jpeg": [0xff, 0xd8, 0xff, 0xe0],
+  ".gif": [0x47, 0x49, 0x46, 0x38, 0x39, 0x61],                        // GIF89a
+  ".mp3": [0xff, 0xfb, 0x90, 0x00],
+  ".zip": [0x50, 0x4b, 0x03, 0x04],
+  ".docx": [0x50, 0x4b, 0x03, 0x04],
+};
+
+function magicFor(name) {
+  const dot = name.lastIndexOf(".");
+  const ext = dot === -1 ? "" : name.slice(dot).toLowerCase();
+  const magic = MAGIC[ext];
+  if (magic) {
+    // Pad past the header so the file is not pathologically short.
+    return new Uint8Array([...magic, ...new TextEncoder().encode(` padding for ${name} `)]);
+  }
+  // .txt/.csv/.md and friends only have to be non-binary text.
+  return new TextEncoder().encode(`contents of ${name}`);
+}
+
 function fileBlob(name, type, contents) {
-  return new File([contents ?? `contents of ${name}`], name, { type });
+  return new File([contents ?? magicFor(name)], name, { type });
 }
 
 async function uploadThrough(client, file, { purpose, blockKind, materialId }) {
@@ -327,6 +370,57 @@ await check("stored metadata comes from the server-side intent, not the request 
   assert.equal(rows[0].mime_type, "text/plain");
   assert.equal(rows[0].object_key, upload.objectKey);
   await dbRows("DELETE FROM speaking_materials WHERE id = $1", [res.data.id]);
+});
+
+await check("bytes that do not match the declared extension are refused at finalize (422)", async () => {
+  // NEGATIVE CONTROL for the stored-bytes signature check.
+  //
+  // Every other upload assertion here passes a file whose bytes match its name, so
+  // all 44 of them still passed with verifySignature() stubbed to return ok — the
+  // property was never actually tested. A renamed executable or a disguised payload
+  // is exactly what that check exists to stop, so it gets its own control.
+  //
+  // The intent is obtained honestly (a .pdf, declared as a pdf) and only the BYTES
+  // lie: a PNG header under a .pdf name. The server reads what landed in storage and
+  // must refuse, regardless of what the client declared.
+  const disguised = new File(
+    [new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0x00, 0x01, 0x02, 0x03])],
+    "looks-like.pdf",
+    { type: "application/pdf" }
+  );
+  const intent = await teacher.request("/api/uploads/intent", {
+    method: "POST",
+    body: {
+      purpose: "material_block",
+      blockKind: "file",
+      filename: disguised.name,
+      contentType: disguised.type,
+      size: disguised.size,
+    },
+  });
+  assert.equal(intent.status, 200, `intent failed: ${JSON.stringify(intent.data)}`);
+
+  const form = new FormData();
+  form.set("uploadId", intent.data.uploadId);
+  form.set("file", disguised, disguised.name);
+  const put = await teacher.request("/api/uploads", { method: "POST", form });
+  assert.ok(put.status < 500, `proxy upload errored: ${put.status}`);
+
+  const finalized = await teacher.request("/api/uploads/finalize", {
+    method: "POST",
+    body: { uploadId: intent.data.uploadId },
+  });
+  assert.equal(
+    finalized.status,
+    422,
+    `disguised bytes were accepted (status ${finalized.status}): ${JSON.stringify(finalized.data)}`
+  );
+  assert.equal(finalized.data.error, "upload_type_mismatch", JSON.stringify(finalized.data));
+
+  // The rejected object must not be left lying in storage, and the intent must be
+  // aborted so it can never be claimed later.
+  const intentRows = await dbRows("SELECT status FROM upload_intents WHERE id = $1", [intent.data.uploadId]);
+  assert.equal(intentRows[0]?.status, "aborted", "a refused intent must not stay pending");
 });
 
 await check("an arbitrary object key cannot be registered as a resource (400)", async () => {
