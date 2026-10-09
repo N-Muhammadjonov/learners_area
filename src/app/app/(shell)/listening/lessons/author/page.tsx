@@ -53,7 +53,7 @@ export default async function LessonAuthoringPage() {
         <p className="mt-1 text-sm text-ink-500">{t.subtitle}</p>
       </div>
 
-      {unitOptions.length === 0 ? (
+      {unitOptions.options.length === 0 ? (
         <Card data-lesson-authoring-no-structure>
           <h2 className="font-display text-lg text-ink-900">{t.noUnitsTitle}</h2>
           <p className="mt-1 text-sm text-ink-500">{t.noUnitsHint}</p>
@@ -74,7 +74,7 @@ export default async function LessonAuthoringPage() {
             draft: lesson.draft,
             published: lesson.published,
           }))}
-          units={unitOptions.map((unit) => ({ id: unit.id, label: unit.label }))}
+          units={unitOptions.options.map((unit) => ({ id: unit.id, label: unit.label }))}
           locale={locale}
           canPublish={mayPublishImportedContent(user.role)}
         />

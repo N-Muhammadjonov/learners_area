@@ -1,5 +1,5 @@
 import "server-only";
-import { and, asc, desc, eq, inArray, isNull, or } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, isNull, or, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { contentVersions, courseModules, courses, lessons, units } from "@/db/schema";
 import { isLearningArea, type LearningArea } from "@/lib/content/learning-areas";
@@ -121,13 +121,55 @@ export type UnitOption = { id: string; label: string; course: string };
  * Where a lesson may live. A lesson belongs to a unit, so the desk has to offer the
  * curriculum that exists — a lesson cannot be created into nowhere.
  */
-export async function listUnitOptions(executor: { select: typeof db.select } = db): Promise<UnitOption[]> {
-  const rows = await executor
+/** One bounded page of unit options. The desk never loads the whole curriculum at once. */
+const UNIT_PAGE = 500;
+
+export type UnitOptionPage = {
+  options: UnitOption[];
+  /** True when more units match than were returned. */
+  hasMore: boolean;
+  /** How many units match in total, so the desk can be specific. */
+  matching: number;
+  /** The page size this read was bounded to. */
+  pageSize: number;
+};
+
+export async function listUnitOptions(
+  executor: { select: typeof db.select } = db,
+  opts: { search?: string } = {},
+): Promise<UnitOptionPage> {
+  // A bare limit made unit #501+ silently unselectable once a centre grew past one page.
+  // The read stays bounded, but a server-side search over the full corpus keeps every
+  // unit reachable, and the caller is told when a page is not the whole truth.
+  const term = (opts.search ?? "").trim();
+  const where = term
+    ? sql`(${units.title} ilike ${`%${term}%`} or ${courseModules.title} ilike ${`%${term}%`} or ${courses.title} ilike ${`%${term}%`})`
+    : undefined;
+
+  const base = executor
     .select({ id: units.id, unit: units.title, module: courseModules.title, course: courses.title })
     .from(units)
     .innerJoin(courseModules, eq(units.moduleId, courseModules.id))
-    .innerJoin(courses, eq(courseModules.courseId, courses.id))
-    .orderBy(asc(courses.title), asc(courseModules.order), asc(units.order))
-    .limit(500);
-  return rows.map((row) => ({ id: row.id, label: `${row.course} › ${row.module} › ${row.unit}`, course: row.course }));
+    .innerJoin(courses, eq(courseModules.courseId, courses.id));
+
+  const rows = await (where ? base.where(where) : base)
+    .orderBy(asc(courses.title), asc(courseModules.order), asc(units.order), asc(units.id))
+    .limit(UNIT_PAGE + 1);
+
+  const hasMore = rows.length > UNIT_PAGE;
+  const page = hasMore ? rows.slice(0, UNIT_PAGE) : rows;
+
+  const countBase = executor
+    .select({ matching: sql<number>`count(*)::int` })
+    .from(units)
+    .innerJoin(courseModules, eq(units.moduleId, courseModules.id))
+    .innerJoin(courses, eq(courseModules.courseId, courses.id));
+  const [{ matching = 0 } = {}] = await (where ? countBase.where(where) : countBase);
+
+  return {
+    options: page.map((row) => ({ id: row.id, label: `${row.course} › ${row.module} › ${row.unit}`, course: row.course })),
+    hasMore,
+    matching,
+    pageSize: UNIT_PAGE,
+  };
 }

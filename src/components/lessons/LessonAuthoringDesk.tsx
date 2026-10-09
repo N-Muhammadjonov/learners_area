@@ -185,7 +185,31 @@ export function LessonAuthoringDesk({
   const fileInput = useRef<HTMLInputElement>(null);
   const uploadTarget = useRef<string | null>(null);
 
-  const unitOptions = units;
+  // The desk receives one bounded page of units. Once a centre authors more units than
+  // fit that page, the rest are only reachable by asking the server — otherwise unit
+  // #501+ would be silently unselectable. Typing here searches the whole curriculum.
+  const [unitQuery, setUnitQuery] = useState("");
+  const [unitResults, setUnitResults] = useState<{ id: string; label: string }[] | null>(null);
+  const [unitSearching, setUnitSearching] = useState(false);
+  const unitOptions = unitResults ?? units;
+
+  useEffect(() => {
+    const term = unitQuery.trim();
+    if (!term) { setUnitResults(null); setUnitSearching(false); return; }
+    let cancelled = false;
+    setUnitSearching(true);
+    const timer = setTimeout(async () => {
+      try {
+        const res = await fetch(`/api/lessons/units?q=${encodeURIComponent(term)}`);
+        if (!res.ok) return;
+        const data = (await res.json()) as { options?: { id: string; label: string }[] };
+        if (!cancelled) setUnitResults(data.options ?? []);
+      } finally {
+        if (!cancelled) setUnitSearching(false);
+      }
+    }, 250);
+    return () => { cancelled = true; clearTimeout(timer); };
+  }, [unitQuery]);
   const areaLabel = useCallback((value: LearningArea) => LEARNING_AREA_LABELS[value][locale], [locale]);
 
   /** Render an issue: the centre's own wording for a known code, the server's sentence otherwise. */
@@ -593,6 +617,16 @@ export function LessonAuthoringDesk({
               </div>
               <div>
                 <Label htmlFor="lesson-unit">{t.fieldUnit}</Label>
+                <input
+                  type="search"
+                  className="input mb-2"
+                  value={unitQuery}
+                  onChange={(event) => setUnitQuery(event.target.value)}
+                  placeholder={t.fieldUnitSearch}
+                  aria-label={t.fieldUnitSearch}
+                  aria-controls="lesson-unit"
+                  data-lesson-unit-search
+                />
                 <select
                   id="lesson-unit"
                   className="input"
@@ -606,6 +640,13 @@ export function LessonAuthoringDesk({
                     </option>
                   ))}
                 </select>
+                <p className="mt-1 text-xs text-ink-300" role="status" data-lesson-unit-status>
+                  {unitSearching
+                    ? t.fieldUnitSearching
+                    : unitResults
+                      ? t.fieldUnitResults.replace("{n}", String(unitResults.length))
+                      : ""}
+                </p>
               </div>
               <div>
                 <Label htmlFor="lesson-minutes">{t.fieldMinutes}</Label>
