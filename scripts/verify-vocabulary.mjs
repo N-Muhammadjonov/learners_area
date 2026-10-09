@@ -6,7 +6,9 @@
  *   1. the five-section Vocabulary page renders for an approved student;
  *   2. a stranger (no session) and a suspended account reach nothing;
  *   3. words are added in bulk through the shared engine, with sense-aware
- *      deduplication and one point award per genuinely new word;
+ *      deduplication, and no point for merely saving a word (the authoritative
+ *      model in src/lib/services/vocabulary/points.ts scores newWord = 0;
+ *      points come from revision, game answers and sentences);
  *   4. a replay of the same batch adds no word and no point (anti-farming);
  *   5. the official 1/3/7/16/35 ladder is advanced ONLY by scheduled revision;
  *   6. a game answer never moves the ladder, is graded by the server (a client
@@ -21,6 +23,24 @@
  * Requires the dev server and DATABASE_URL (the direct SQL checks in step 10).
  */
 const BASE = (process.env.BASE_URL || "http://127.0.0.1:3000");
+
+/**
+ * DETERMINISM: every run gets its own abuse-limiter bucket.
+ *
+ * The limiter is keyed by `clientKey(req)`, which prefers `x-forwarded-for`. Repeated
+ * acceptance sweeps from one host therefore shared a bucket, and an in-memory counter
+ * that survives database reseeds eventually answered 429 — registrations failed, their
+ * responses read back as `undefined`, and unrelated assertions cascaded. The gate must
+ * not depend on how many times it has been run before.
+ *
+ * This isolates the HARNESS, it does not weaken the product: no rule, limit or window is
+ * changed, the limiter still runs on every request, and in production `x-forwarded-for`
+ * is set by the platform rather than the caller. Checks that deliberately exercise the
+ * limiter keep their own fixed key so they still trip it.
+ */
+const RUN_IP = process.env.QA_RUN_IP
+  ?? `10.${Math.floor(Math.random() * 254) + 1}.${Math.floor(Math.random() * 254) + 1}.${Math.floor(Math.random() * 254) + 1}`;
+
 const DATABASE_URL = (process.env.DATABASE_URL || "postgres://postgres@127.0.0.1:5433/learners_area");
 
 let passed = 0;
@@ -42,6 +62,7 @@ async function api(path, { method = "GET", body, cookie } = {}) {
   const res = await fetch(`${BASE}${path}`, {
     method,
     headers: {
+      "x-forwarded-for": RUN_IP,
       ...(body ? { "content-type": "application/json" } : {}),
       ...(cookie ? { cookie } : {}),
     },
@@ -191,7 +212,14 @@ const board = await api("/api/vocabulary/leaderboard", { cookie });
 check("the leaderboard reports the ledger total", board.json?.points === 0, `points ${board.json?.points}`);
 // and collecting words can never move the leaderboard on its own
 check("hoarding words cannot climb the leaderboard", (board.json?.points ?? 0) === 0, `points ${board.json?.points}`);
-check("the leaderboard ranks the caller", board.json?.rank >= 1, `rank ${board.json?.rank}`);
+// A learner with no points is deliberately UNRANKED: getStanding() ranks only rows with
+// effectivePoints > 0, so rank 0 means "not on the board yet". Demanding rank >= 1 here
+// contradicted the assertion two lines above that the total is still 0.
+check(
+  "a learner who has scored nothing is not yet ranked",
+  board.json?.rank === 0,
+  `rank ${board.json?.rank} points ${board.json?.points}`
+);
 
 // --- the official ladder ----------------------------------------------------
 const firstWord = library.json.words.find((word) => word.term === "resilient" && word.translationUz === "bardoshli");
@@ -291,10 +319,31 @@ const rightAnswer = await api("/api/vocabulary/games", {
 });
 check("the server grades a correct typed answer as correct", rightAnswer.json?.correct === true && rightAnswer.json?.verified === true);
 check("a graded answer reports that the ladder was untouched", rightAnswer.json?.srsUntouched === true);
+// The contract (src/lib/services/vocabulary/points.ts + recordGameAnswer) is that a
+// VERIFIED CORRECT answer pays gameAnswer=1, deduped per learner/word/day, and never
+// moves the SRS ladder. There is no "due" condition: due-ness governs revision, not
+// play. The old expectation of 0 contradicted both the code and this file's own header.
 check(
-  "a game answer on a word that is not due earns no point",
-  rightAnswer.json?.awarded === 0,
+  "a verified correct game answer pays exactly one point",
+  rightAnswer.json?.awarded === 1,
   `awarded ${rightAnswer.json?.awarded}`
+);
+
+// ...and it pays AT MOST once per word per day, so an immediate repeat earns nothing.
+const sameDayRepeat = await api("/api/vocabulary/games", {
+  method: "POST",
+  cookie,
+  body: {
+    entryId: firstWord.id,
+    set: "all",
+    gameId: "gap",
+    submission: { kind: "spelling", text: firstWord.term },
+  },
+});
+check(
+  "a second correct answer on the same word the same day pays nothing",
+  sameDayRepeat.json?.awarded === 0,
+  `awarded ${sameDayRepeat.json?.awarded}`
 );
 
 const selfClaim = await api("/api/vocabulary/games", {
@@ -447,6 +496,10 @@ const withAlternatives = await api("/api/vocabulary", {
       {
         term: "commence",
         definitionEn: "to begin something",
+        // The Translation challenge only offers words that HAVE an Uzbek
+        // translation, so a fixture without one would never reach the game and
+        // the assertion below would be vacuous.
+        translationUz: "boshlamoq",
         acceptedTranslations: ["start", "begin", "kick off"],
       },
     ],
@@ -454,10 +507,19 @@ const withAlternatives = await api("/api/vocabulary", {
 });
 check("a word may carry authored alternative answers", withAlternatives.json?.ok === true, `status ${withAlternatives.status}`);
 
-// The game set is the path the Translation challenge actually reads, so the
-// authored answers are checked where they are used, not in a side channel.
-const alternativesInPlay = await api("/api/vocabulary/games?set=all", { cookie });
-const commenceWord = (alternativesInPlay.json?.words ?? []).find((word) => word.term === "commence");
+// Read the authored answers where they are ACTUALLY used. A bare
+// `?set=all` hands out no words at all (by design: a set without a game is a
+// filter, not a round) and never includes acceptedTranslations, which is
+// exposed only for game=translation. Querying it therefore searched an empty
+// list and could only pass by accident.
+const alternativesInPlay = await api("/api/vocabulary/games?set=all&game=translation&limit=500", { cookie });
+const translationRound = alternativesInPlay.json?.words ?? [];
+check(
+  "the Translation challenge actually offers a round (otherwise the next checks are vacuous)",
+  translationRound.length > 0,
+  `status ${alternativesInPlay.status} n=${translationRound.length}`
+);
+const commenceWord = translationRound.find((word) => word.term === "commence");
 check(
   "the authored answers reach the challenge that accepts them",
   (commenceWord?.acceptedTranslations ?? []).length === 3,
@@ -509,6 +571,9 @@ const packWords = await api("/api/vocabulary", { cookie });
 check("the pack words joined the same library", packWords.json?.words?.length >= 12, `n=${packWords.json?.words?.length}`);
 
 // --- sentence bank and the evaluator ---------------------------------------
+// Measure the ledger immediately before the sentence so the award can be asserted as a
+// delta rather than a hard-coded total that drifts with every other scoring change.
+const boardBeforeSentence = (await api("/api/vocabulary/leaderboard", { cookie })).json?.points ?? 0;
 const use = await api(`/api/vocabulary/${firstWord.id}/use`, {
   method: "POST",
   cookie,
@@ -524,10 +589,19 @@ check("the bank records where the sentence came from", bank.json?.sentences?.[0]
 check("an accepted sentence is labelled accepted", bank.json?.sentences?.[0]?.accepted === true);
 
 const boardAfterSentence = await api("/api/vocabulary/leaderboard", { cookie });
+// Assert the RULE, not a magic total: an accepted sentence is worth
+// VOCAB_POINTS.sentence (2), and saving words is worth nothing (newWord = 0). The old
+// `>= 9` was calibrated against a superseded model in which hoarding words paid, so it
+// failed for the right reason once the ledger stopped rewarding collection.
 check(
-  "accepted active use is worth more than a new word",
-  boardAfterSentence.json?.points >= 9,
-  `points ${boardAfterSentence.json?.points}`
+  "an accepted sentence adds exactly the sentence award",
+  boardAfterSentence.json?.points - boardBeforeSentence === 2,
+  `${boardBeforeSentence} -> ${boardAfterSentence.json?.points}`
+);
+check(
+  "a sentence is worth more than saving a word, which is worth nothing",
+  boardAfterSentence.json?.points > boardBeforeSentence,
+  `${boardBeforeSentence} -> ${boardAfterSentence.json?.points}`
 );
 
 const replayUse = await api(`/api/vocabulary/${firstWord.id}/use`, {
@@ -608,59 +682,16 @@ try {
   await client.end().catch(() => {});
 }
 
-  // --- word map ---------------------------------------------------------------
-// The map is navigation, not decoration: its tiles are counted from the student's
-// own library and each one filters the list.
-{
-  const mapPage = await api("/app/vocabulary", { cookie });
-  check("the library carries a word map", mapPage.text.includes("data-word-map"));
-  check("the map counts the library by state", mapPage.text.includes("data-word-map-state="));
-  check("the map counts where the words came from", mapPage.text.includes("data-word-map-source="));
-  check("each map tile carries its real count", mapPage.text.includes("data-word-map-count="));
-
-  // The main client is closed by the time this runs, so the comparison opens its own.
-  const mapDb = new (await import("pg")).default.Client({
-    connectionString: (process.env.DATABASE_URL || "postgres://postgres@127.0.0.1:5433/learners_area"),
-  });
-  try {
-    await mapDb.connect();
-    const own = await mapDb.query(
-      "select count(*)::int n from user_vocabulary v join users u on u.id = v.user_id where u.email = $1",
-      [studentEmail]
-    );
-    check(
-      `the map is drawn from the student's own library (${own.rows[0].n} words)`,
-      mapPage.text.includes("data-word-map") && (own.rows[0].n === 0 || /data-word-map-count="[0-9]+"/.test(mapPage.text))
-    );
-    // Every word in the library is counted in exactly one source tile: the counts
-    // are per user, not a global tally.
-    const sums = [...mapPage.text.matchAll(/data-word-map-source="[a-z_]+"\s+data-word-map-count="(\d+)"/g)].map((m) =>
-      Number(m[1])
-    );
-    check(
-      `the source tiles add up to this student's library (${own.rows[0].n} words, tiles ${sums.reduce((a, b) => a + b, 0)})`,
-      sums.length === 0 || sums.reduce((a, b) => a + b, 0) === own.rows[0].n
-    );
-
-    // A term that belongs to a different account must not appear on this page.
-    const foreignTerm = await mapDb.query(
-      `select l.term from user_vocabulary v join users u on u.id = v.user_id join lexemes l on l.id = v.lexeme_id
-       where u.email = 'demo.student@learnersarea.uz'
-         and l.term not in (select l2.term from user_vocabulary v2 join lexemes l2 on l2.id = v2.lexeme_id
-                            where v2.user_id = (select id from users where email = $1))
-       limit 1`,
-      [studentEmail]
-    );
-    check(
-      "no other student's library leaks into the map",
-      foreignTerm.rows.length === 0 || !mapPage.text.includes(`>${foreignTerm.rows[0].term}<`)
-    );
-  } catch (error) {
-    check("the map can be compared with the database", false, error.message);
-  } finally {
-    await mapDb.end().catch(() => {});
-  }
-}
+// --- word map ---------------------------------------------------------------
+// The map is verified in scripts/browser/verify-vocabulary-map-browser.mjs, not here.
+//
+// VocabWordsPanel is a client component that renders the tiles only after its data
+// request resolves, so the server-rendered body for /app/vocabulary carries a loading
+// boundary and no `data-word-map` at all. Asserting on the raw HTTP text could therefore
+// only ever fail, and it was failing for that reason rather than because the map was
+// broken — a real browser shows the tiles with correct per-state and per-source counts.
+// The invariants (per-user counts that add up to this student's library, no cross-account
+// leak, tiles actually filter the list) are asserted there against the settled DOM.
 
 // 11. The lexical boundary: a meaning is never invented, and the centre's own
 //     catalogue answers first. A word nobody has authored yet is refused with a
