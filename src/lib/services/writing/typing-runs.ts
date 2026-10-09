@@ -159,16 +159,101 @@ function isMissingRunTokenColumn(error: unknown): boolean {
  * insert would leave no usable transaction to run the legacy fallback in.
  */
 async function hasRunTokenColumn(database: Database): Promise<boolean> {
-  try {
-    const { rows } = await database.execute<{ n: number }>(sql`
-      select count(*)::int as n
-      from information_schema.columns
-      where table_name = 'typing_runs' and column_name = 'run_token_id'
-    `);
-    return Number(rows[0]?.n ?? 0) > 0;
-  } catch {
-    return false;
+  // NO CATCH-ALL. The previous `catch { return false }` conflated a genuinely
+  // pre-0048 database with a transient outage, a permission error, a driver fault or
+  // any other failure to inspect the schema — and every one of those silently selected
+  // the weaker legacy write path on a fully migrated database, where the unique index
+  // is the only thing standing between a replay and a duplicate run.
+  //
+  // Downgrading an integrity guarantee is not an acceptable response to "I could not
+  // tell". The only answer that means "no column" is a query that SUCCEEDED and
+  // returned zero. Anything else propagates to the caller's handler, which fails the
+  // request closed with `conflict` rather than writing through the weaker path.
+  const { rows } = await database.execute<{ n: number }>(sql`
+    select count(*)::int as n
+    from information_schema.columns
+    where table_name = 'typing_runs' and column_name = 'run_token_id'
+  `);
+  return Number(rows[0]?.n ?? 0) > 0;
+}
+
+/**
+ * The canonical, already-persisted result for a run — the only thing a replay may
+ * return.
+ *
+ * Replay used to answer `{ ...metrics, runId: existingRun }`, where `metrics` was
+ * recomputed from the CURRENT request body. The database stayed idempotent, but a
+ * second POST carrying different typedWords under the same run token received a
+ * DIFFERENT score attached to the SAME run id — an answer that disagreed with the
+ * stored history the learner can read on the very next screen.
+ *
+ * The completion event is written inside the same transaction as the run row (both
+ * paths), so it is the authoritative record of what was scored.
+ */
+async function loadCanonicalRunResult(
+  database: Database,
+  userId: string,
+  runId: string,
+): Promise<VerifiedTypingResult | null> {
+  const rows = await database
+    .select({ payload: activityEvents.payload })
+    .from(activityEvents)
+    .where(and(
+      eq(activityEvents.userId, userId),
+      eq(activityEvents.type, "TYPING_RUN_COMPLETED"),
+    ))
+    .orderBy(desc(activityEvents.createdAt))
+    .limit(200);
+
+  const payload = rows
+    .map((row) => row.payload as Record<string, unknown> | null)
+    .find((candidate) => candidate?.runId === runId);
+  if (!payload) return null;
+
+  const num = (key: string): number | null => {
+    const value = payload[key];
+    return typeof value === "number" && Number.isFinite(value) ? value : null;
+  };
+
+  // Every scored field must be present. A partially readable payload is not a
+  // canonical result, and filling the gaps from the current request is precisely the
+  // invention this function exists to prevent.
+  //
+  // `consistency` is excluded on purpose: TypingMetrics declares it `number | null`
+  // and a run with too few keystroke samples legitimately stores null. Treating that
+  // as corruption turned an ordinary short run's replay into a 409 — caught by TI4.
+  const required = [
+    "wpm", "rawWpm", "accuracy", "correct", "incorrect",
+    "extra", "missed", "mistakes", "completion", "targetChars", "typedChars", "durationMs",
+  ] as const;
+  const values: Record<string, number> = {};
+  for (const key of required) {
+    const value = num(key);
+    if (value === null) return null;
+    values[key] = value;
   }
+  const consistency = payload.consistency === null ? null : num("consistency");
+  if (consistency === null && payload.consistency !== null) return null;
+
+  const storedPreset = payload.presetSeconds;
+  return {
+    wpm: values.wpm,
+    rawWpm: values.rawWpm,
+    accuracy: values.accuracy,
+    consistency,
+    correct: values.correct,
+    incorrect: values.incorrect,
+    extra: values.extra,
+    missed: values.missed,
+    mistakes: values.mistakes,
+    completion: values.completion,
+    targetChars: values.targetChars,
+    typedChars: values.typedChars,
+    durationMs: values.durationMs,
+    runId,
+    presetSeconds: isTypingPreset(storedPreset) ? storedPreset : null,
+    title: typeof payload.title === "string" ? payload.title : "",
+  } as VerifiedTypingResult;
 }
 
 /**
@@ -605,15 +690,10 @@ export async function finishPreparedTypingRun(
         .find((payload) => payload?.runTokenId === jti);
 
       if (existing && typeof existing.runId === "string") {
-        return {
-          ok: true,
-          result: {
-            ...metrics,
-            runId: existing.runId,
-            title: typeof existing.title === "string" ? existing.title : text.title,
-            presetSeconds: preset === 0 ? null : preset,
-          },
-        };
+        // Same invariant as the modern path: replay returns the persisted result.
+        const canonical = await loadCanonicalRunResult(database, userId, existing.runId);
+        if (!canonical) return { ok: false, code: "conflict" };
+        return { ok: true, result: canonical };
       }
 
       const legacyRunId = await database.transaction(async (tx) => {
@@ -642,17 +722,15 @@ export async function finishPreparedTypingRun(
 
     const existingRun = await findRunByToken(database, userId, jti);
     if (existingRun) {
-      return {
-        ok: true,
-        result: {
-          ...metrics,
-          runId: existingRun,
-          title: text.title,
-          presetSeconds: preset === 0 ? null : preset,
-        },
-      };
+      // ONE RUN TOKEN = ONE PERSISTED RESULT = ONE CANONICAL REPLAY RESULT.
+      // Answer with what was actually stored, never with a score recomputed from this
+      // request's body.
+      const canonical = await loadCanonicalRunResult(database, userId, existingRun);
+      if (!canonical) return { ok: false, code: "conflict" };
+      return { ok: true, result: canonical };
     }
 
+    let insertedRunId: string | null = null;
     const runId = await database.transaction(async (tx) => {
       const id = await insertTypingRunWithToken(tx, {
         userId,
@@ -665,6 +743,7 @@ export async function finishPreparedTypingRun(
       });
       if (id === null) throw new Error("typing_run_token_column_vanished");
       await writeCompletionEvent(tx, id);
+      insertedRunId = id;
       return id;
     }).catch(async (error) => {
       // The index is the final guard: a concurrent finish got there first.
@@ -675,6 +754,16 @@ export async function finishPreparedTypingRun(
     // A duplicate that we then cannot read back means the row vanished between the
     // violation and the re-read; report conflict rather than invent a run id.
     if (!runId) return { ok: false, code: "conflict" };
+
+    if (runId !== insertedRunId) {
+      // We LOST a concurrent race: the surviving row was written by the other finish,
+      // so the authoritative numbers are its numbers, not the ones just computed from
+      // this request. Returning `metrics` here is the same defect as the replay branch
+      // and was caught by the concurrent-conflicting-finish regression test.
+      const canonical = await loadCanonicalRunResult(database, userId, runId);
+      if (!canonical) return { ok: false, code: "conflict" };
+      return { ok: true, result: canonical };
+    }
 
     return {
       ok: true,
