@@ -60,18 +60,21 @@ programme may contain only 30 Days" is **forbidden** (C).
 - Academic reading set = 3 passages / 40 questions.
 - Field-level validators (`EXAM_MAX_CHARS`, `LESSON_NOTE_MAX`, `RETENTION_BODY_MAX_CHARS`, …).
 
-### C-minor / borderline — **OPEN, NOT FIXED, NOT counted as pass**
+### C-minor / borderline — **ALL FOUR CLOSED (C-OPEN-01 … C-OPEN-04)**
 
-These do not lose learner content today and all have large headroom, but each is a bounded read
-without a true continuation path. Each needs a UX decision (paginate vs. typeahead vs. disclose),
-so none was changed speculatively.
+All four were investigated, reproduced with a RED test, fixed with the smallest correct
+change, and proven GREEN. None was closed by raising a number. Every read stays bounded —
+the fix in each case is a real continuation/narrowing path, not a bigger ceiling.
 
-| location | cap | why it is borderline | recommended fix |
-|---|---|---|---|
-| `src/lib/content/lesson-staff.ts:131` | `.limit(500)` units | staff lesson-placement picker; unit #501 cannot be chosen, **silently** | server-filtered typeahead, or disclose + search like the roster |
-| `src/lib/services/writing/stealing.ts:42` | `.limit(300)` patterns | four filter dimensions (task/function/topic/band) + full distinct topic & band lists give a real narrowing path, so content is reachable *in practice*; a single over-300 filtered combination would still truncate | add `hasMore` + a "refine your filter" notice |
-| `src/lib/data/speaking-practice.ts:30` | `.limit(1500)` prompts | live-partner question pool loaded whole, no paging | paginate or disclose |
-| `src/lib/data/full-listening.ts:264` | `.limit(200)` practice runs | **latent correctness**, not a content cap: `listeningPracticeProgress` reads a user's 200 most recent runs for one test, so a `completed` flag older than 200 runs on the same test could be missed | aggregate per `_practice` kind in SQL |
+| id | location | was | resolution | commit | regression test |
+|---|---|---|---|---|---|
+| C-OPEN-01 | `src/lib/content/lesson-staff.ts` | `.limit(500)` units, plain `<select>`; unit #501+ **silently unselectable** | `listUnitOptions` returns `{options,hasMore,matching,pageSize}` with +1 lookahead, exact count, id tiebreak, and optional **server-side search** over unit/module/course titles; new staff-only `GET /api/lessons/units?q=` typeahead (403 for non-staff); desk gained a debounced search box (EN+UZ) | `b3072f1` | `tests/lesson-unit-options-capacity.test.ts` — 620 units; unit 501 and the final unit findable; bounded, duplicate-free, stable order; no-match is honest |
+| C-OPEN-02 | `src/lib/services/writing/stealing.ts` | `.limit(300)` patterns; one over-300 filter combination truncated **silently** | +1 lookahead sets `hasMore`, exact `count(*)` reports `matching`, id tiebreak for deterministic pages, and the tab renders a truthful "showing first N of M — narrow the filters" notice (EN+UZ) | `0b34e50` | `tests/writing-stealing-capacity.test.ts` — 320 matching patterns; bounded, `hasMore` true, true total, no duplicates, stable order, small result never claims truncation |
+| C-OPEN-03 | `src/lib/data/speaking-practice.ts` | `.limit(1500)` prompts loaded whole and filtered **in the browser**; prompt #1501+ never reached the client, so search could not see it | narrowing moved to the server: `listLivePartnerQuestions({search})` returns a bounded 500-row page with `hasMore`/`matching`, publication rules inside the query; new `GET /api/speaking/live-partner/questions?q=`; room debounces to it and falls back to its initial page | `c0b96ca` | `tests/speaking-live-partner-capacity.test.ts` — 1620 published + 1 draft; prompt 1601 and final findable; draft never surfaces in page or search; bounded, duplicate-free, stable |
+| C-OPEN-04 | `src/lib/data/full-listening.ts` | `.limit(200)` recent runs — **latent correctness defect**, not a cap: a completed practice kind older than the 200th newest run was forgotten | completion aggregated in SQL across whole history (`bool_or(completed)` grouped by kind) + `selectDistinctOn(kind)` for the latest run; both return ≤1 row per kind, so the response stays bounded as history grows | `0bffad4` | `tests/listening-practice-progress-history.test.ts` — completion buried under 250 newer runs still reported with its score; unfinished stays false; no cross-user/cross-test contamination; empty history → `{}` |
+
+Deliberately **not** "fixed" by enlarging the limit: C-OPEN-04 would have remained wrong at
+any number, because the defect was truncation of the window used to decide completion.
 
 ---
 
