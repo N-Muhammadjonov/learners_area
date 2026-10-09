@@ -21,7 +21,7 @@ test("native Practice and Partner return the same saved question IDs, but Partne
   try {
     await db.insert(speakingPrompts).values(ids.map((id, i) => ({ id, part: "part1" as const, category: "part1" as const, topic: "Isolated shared-bank QA", promptText: `Shared question ${i}?`, availableIn: [i ? "live_partner" : "practice_alone"], studySupport: { vocabularyHtml: "PRIVATE PRACTICE HELPER", modelAnswerHtml: "SAMPLE", ideasHtml: "IDEAS", vocabulary: [] }, publicationState: "published" as const })));
     const practice = (await listActivePrompts()).filter(p => ids.includes(p.id));
-    const partner = (await listLivePartnerQuestions()).filter(p => ids.includes(p.id));
+    const partner = (await listLivePartnerQuestions()).questions.filter(p => ids.includes(p.id));
     assert.deepEqual(new Set(practice.map(p => p.id)), new Set(ids));
     assert.deepEqual(new Set(partner.map(p => p.id)), new Set(ids));
     assert.ok(practice.every(p => p.studySupport.vocabularyHtml === "PRIVATE PRACTICE HELPER"));

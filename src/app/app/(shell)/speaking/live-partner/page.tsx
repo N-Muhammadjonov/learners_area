@@ -20,7 +20,7 @@ export default async function LivePartnerPage() {
         <h1 className="font-display text-2xl text-ink-900">{dict.livePartner.title}</h1>
         <p className="text-sm text-ink-500">{dict.livePartner.intro}</p>
       </div>
-      <LivePartnerClient dict={dict} me={{ userId: user.id, name: user.name, ...profile }} questions={questions} />
+      <LivePartnerClient dict={dict} me={{ userId: user.id, name: user.name, ...profile }} questions={questions.questions} />
     </div>
   );
 }

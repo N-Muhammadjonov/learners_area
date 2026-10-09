@@ -60,7 +60,7 @@ test("QA2 real PostgreSQL: imported drafts are invisible to Practice and Live Pa
     assert.deepEqual(await publicationCounts(pool), { draft: 880, notDraft: 0 });
     const imported = new Set((await pool.query("select id from speaking_prompts where external_id is not null")).rows.map((r) => r.id));
     assert.equal((await listActivePrompts()).filter((p) => imported.has(p.id)).length, 0, "no imported draft reaches Practice");
-    assert.equal((await listLivePartnerQuestions()).filter((p) => imported.has(p.id)).length, 0, "no imported draft reaches Live Partner");
+    assert.equal((await listLivePartnerQuestions()).questions.filter((p) => imported.has(p.id)).length, 0, "no imported draft reaches Live Partner");
     // Publishing is an explicit owner action; simulate it for ONE row on the isolated QA DB, then restore.
     const { rows: [one] } = await pool.query("select id from speaking_prompts where external_id = 'P1-001'");
     await pool.query("update speaking_prompts set publication_state = 'published' where id = $1", [one.id]);

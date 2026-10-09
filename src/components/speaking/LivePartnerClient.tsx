@@ -57,9 +57,29 @@ export function LivePartnerClient({ dict, me, questions }: {
   const [callStatus, setCallStatus] = useState<CallStatus | null>(null);
   const [micMuted, setMicMuted] = useState(false);
   const [partnerMuted, setPartnerMuted] = useState(false);
-  const grouped = useMemo(() => filterQuestions(questions, query), [questions, query]);
+  // The room receives one bounded page of prompts. Filtering only that page in the
+  // browser would hide every prompt past it, so a typed query is answered by the server
+  // against the whole published bank; an empty query falls back to the initial page.
+  const [remoteQuestions, setRemoteQuestions] = useState<QuestionRow[] | null>(null);
+  useEffect(() => {
+    const term = query.trim();
+    if (!term) { setRemoteQuestions(null); return; }
+    let cancelled = false;
+    const timer = setTimeout(async () => {
+      try {
+        const res = await fetch(`/api/speaking/live-partner/questions?q=${encodeURIComponent(term)}`);
+        if (!res.ok) return;
+        const data = (await res.json()) as { questions?: QuestionRow[] };
+        if (!cancelled) setRemoteQuestions(data.questions ?? []);
+      } catch { /* keep the local page on a transient failure */ }
+    }, 250);
+    return () => { cancelled = true; clearTimeout(timer); };
+  }, [query]);
 
-  const topicQuestions = selectedTopic ? questions.filter(q => q.part === selectedTopic.part && q.topic === selectedTopic.topic) : [];
+  const pool = remoteQuestions ?? questions;
+  const grouped = useMemo(() => filterQuestions(pool, query), [pool, query]);
+
+  const topicQuestions = selectedTopic ? pool.filter(q => q.part === selectedTopic.part && q.topic === selectedTopic.topic) : [];
   const selectedQuestion = topicQuestions[Math.min(questionIndex, Math.max(0, topicQuestions.length - 1))];
 
   // ---- request discipline -------------------------------------------------

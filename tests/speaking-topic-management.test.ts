@@ -33,9 +33,9 @@ test("native topic authoring publishes one bank, edits atomically, removes and r
     assert.equal(removed?.publicationState,"archived"); assert.equal(removed?.topic,topic);
     await manageSpeakingTopic({archive:original});
     assert.equal((await listActivePrompts()).filter(q => ids.includes(q.id)).length,0);
-    assert.equal((await listLivePartnerQuestions()).filter(q => ids.includes(q.id)).length,0);
+    assert.equal((await listLivePartnerQuestions()).questions.filter(q => ids.includes(q.id)).length,0);
     await manageSpeakingTopic(speakingTopicDraft.parse({original,questions:rows.map(q => ({...question(topic),id:q.id,promptText:q.promptText}))}));
-    const partner = (await listLivePartnerQuestions()).filter(q => ids.includes(q.id));
+    const partner = (await listLivePartnerQuestions()).questions.filter(q => ids.includes(q.id));
     assert.equal(partner.length,2);assert.ok(partner.every(q => !("studySupport" in q)));
     for (const part of ["part2","part3"] as const) {
       const q = await manageSpeakingTopic(speakingTopicDraft.parse({questions:[question(`${topic} ${part}`,part)]}));ids.push(q[0]!.id);
