@@ -214,7 +214,23 @@ const revealed = await api(`/api/listening/mcq/${sessionId}`, {
   body: { step: "revealed" },
 });
 check("the reveal step exposes the options", Array.isArray(revealed.json?.options) && revealed.json.options.length > 0);
-check("the key is exposed only now", typeof revealed.json?.correctAnswer === "string");
+// THE KEY IS NOT EXPOSED HERE, DELIBERATELY. The drill has two separate gates:
+// optionsVisible() opens at `revealed` so the learner can see the menu, and
+// outcomeVisible() opens only at `chosen` so the answer is judged AFTER a commitment.
+// This probe asserted correctAnswer was a string at `revealed` — i.e. it required the
+// key to be handed over before the learner had chosen, which would make the drill
+// pointless and leak the answer to anyone who simply advanced a step. It now asserts
+// the real contract; the key's appearance after the choice is asserted below.
+check(
+  "the key is still withheld when the options appear",
+  revealed.json?.correctAnswer === null || revealed.json?.correctAnswer === undefined,
+  `correctAnswer leaked before the choice: ${JSON.stringify(revealed.json?.correctAnswer)}`
+);
+check(
+  "the explanation is also withheld before the choice",
+  revealed.json?.explanation === null || revealed.json?.explanation === undefined,
+  `explanation leaked before the choice`
+);
 
 const badChoice = await api(`/api/listening/mcq/${sessionId}`, {
   method: "PATCH",

@@ -141,7 +141,13 @@ try {
     await pool.query("update users set account_status = 'active' where id = $1", [tempId]);
   });
 
-  await check("a real transfer swaps both rows, is recorded and is audited", async () => {
+  // Baseline: the owner set BEFORE any transfer, so the round trip can be proved
+// net-neutral on whatever environment this runs against.
+const ownersBefore = (await pool.query(
+  "select email from users where role = 'owner' and account_status = 'active' order by email"
+)).rows.map((row) => row.email);
+
+await check("a real transfer swaps both rows, is recorded and is audited", async () => {
     const res = await owner.request("/api/owner/transfer", {
       method: "POST",
       body: { email: tempEmail, password: "Owner12345!", keepRole: "admin" },
@@ -185,10 +191,26 @@ try {
   });
 
   await check("the centre still has exactly the owners it should", async () => {
+    // The invariant that matters is that a transfer round trip is NET NEUTRAL: it
+    // must leave exactly the owner set it started with, and must not leave the
+    // temporary account holding ownership. Asserting a hardcoded global "1" instead
+    // made this fail on any environment that legitimately bootstraps its own owner
+    // (the QA database seeds qa2-owner@learners-qa.invalid alongside the product
+    // owner), which says nothing about the transfer logic under test.
     const { rows } = await pool.query(
-      "select count(*)::int as n from users where role = 'owner' and account_status = 'active'"
+      "select email from users where role = 'owner' and account_status = 'active' order by email"
     );
-    assert.equal(rows[0].n, 1, "one live owner after the round trip");
+    const after = rows.map((row) => row.email);
+    assert.deepEqual(
+      after,
+      ownersBefore,
+      `the round trip changed the owner set: before=${JSON.stringify(ownersBefore)} after=${JSON.stringify(after)}`
+    );
+    assert.ok(
+      !after.includes(tempEmail),
+      "the temporary transfer account must not still be an owner"
+    );
+    assert.ok(after.includes("owner@learnersarea.uz"), "the product owner must hold ownership again");
   });
 } finally {
   await pool.query("delete from ownership_transfers where to_user_id = $1 or from_user_id = $1", [tempId]);

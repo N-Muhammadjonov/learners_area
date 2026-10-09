@@ -27,6 +27,7 @@ import {
   materialBlocks,
   listeningTests,
   listeningQuestions,
+  teacherStudentLinks,
 } from "./schema";
 import { hashPassword } from "../lib/auth/password";
 import { legacySenseKeyOf as senseKeyOf } from "../lib/services/vocabulary/dedupe";
@@ -133,6 +134,17 @@ async function main() {
       locale: "uz",
     })
     .returning();
+
+  // A teacher with an empty roster is not a realistic fixture: /app/teacher/students
+  // lists only the students actually linked to the signed-in teacher
+  // (teacher_student_links), so without these rows every teacher journey — opening a
+  // student, assigning follow-up work, reviewing their writing — dead-ends on an
+  // empty state that looks like a product defect. The second teacher is deliberately
+  // left with a DIFFERENT roster so the ownership boundary stays testable.
+  await db.insert(teacherStudentLinks).values([
+    { teacherUserId: teacher!.id, studentUserId: demoStudent!.id, assignedByUserId: owner!.id },
+    { teacherUserId: teacher!.id, studentUserId: newStudent!.id, assignedByUserId: owner!.id },
+  ]);
 
   if (!owner || !admin || !teacher || !teacher2 || !demoStudent || !newStudent || !pendingApplicant) {
     throw new Error("User seeding failed");
