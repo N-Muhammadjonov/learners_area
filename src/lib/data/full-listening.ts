@@ -1,6 +1,6 @@
 import "server-only";
 import { listeningSchemaReady } from "./listening-schema-ready";
-import { and, desc, eq, inArray, isNull, sql } from "drizzle-orm";
+import { and, desc, eq, inArray, isNotNull, isNull, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import {
   listeningActivityRuns,
@@ -304,14 +304,38 @@ export async function listeningPracticeProgress(userId: string, testId: string, 
     // id breaks ties so two runs sharing a timestamp still give one deterministic answer.
     .orderBy(kindExpr, desc(listeningActivityRuns.createdAt), desc(listeningActivityRuns.id));
 
+  // One row per kind: the most recent run that actually CARRIES A GRADE.
+  //
+  // Completed and graded are not the same state. `score` is nullable and a completed
+  // run can legitimately be written without one — the activity route stores
+  // `score = null` for a study-pack activity that is finished but not marked. Reading
+  // the displayed grade from the latest COMPLETED run therefore had the same shape of
+  // bug that latestCompleted was introduced to fix: finishing an ungraded run would
+  // blank a score the learner had already earned, leaving a completed activity
+  // showing no result.
+  //
+  // So three questions, three answers: `latest` is what we resume, `latestCompleted`
+  // is whether the kind has been finished, `latestGraded` is the last earned score.
+  // A grade is never invented: when no run was ever graded this stays null.
+  const latestGradedRuns = await database
+    .selectDistinctOn([kindExpr])
+    .from(listeningActivityRuns)
+    .where(and(scope, eq(listeningActivityRuns.completed, true), isNotNull(listeningActivityRuns.score)))
+    .orderBy(kindExpr, desc(listeningActivityRuns.createdAt), desc(listeningActivityRuns.id));
+
   const completeByKind = new Map(completion.map((row) => [row.kind, Boolean(row.complete)]));
   const completedByKind = new Map(
     latestCompletedRuns.map((run) => [run.answers._practice, run] as const).filter(([kind]) => Boolean(kind)),
+  );
+  const gradedByKind = new Map(
+    latestGradedRuns.map((run) => [run.answers._practice, run] as const).filter(([kind]) => Boolean(kind)),
   );
   const progress: Record<string, {
     complete: boolean;
     latest: typeof listeningActivityRuns.$inferSelect;
     latestCompleted: typeof listeningActivityRuns.$inferSelect | null;
+    /** The last run that earned a score. Null when the kind has never been graded. */
+    latestGraded: typeof listeningActivityRuns.$inferSelect | null;
   }> = {};
   for (const run of latestRuns) {
     const kind = run.answers._practice;
@@ -320,6 +344,7 @@ export async function listeningPracticeProgress(userId: string, testId: string, 
       complete: completeByKind.get(kind) ?? false,
       latest: run,
       latestCompleted: completedByKind.get(kind) ?? null,
+      latestGraded: gradedByKind.get(kind) ?? null,
     };
   }
   return progress;

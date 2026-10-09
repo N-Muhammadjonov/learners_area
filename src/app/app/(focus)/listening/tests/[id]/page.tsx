@@ -27,7 +27,7 @@ export default async function Hub({ params }: { params: Promise<{ id: string }> 
   const names: Record<string, string> = { exam: modern ? r.full : t.activities[0]!, review: modern ? r.review : t.activities[1]!, script:r.script, keyword1:t.activities[2]!, keyword2:t.activities[3]!,recall:r.recall,vocab:modern ? r.vocabulary : t.activities[4]!,mcq:r.mcq,matching:r.matching,completion:r.completion,map:r.map,retry:r.retry };
   const cards = packageActivities(detail.pkg.payload, { examSubmitted, missedQuestions }).map(key => {
     const path = activityPath[key]!, n = Number(path), base = progress.activities.find(a => a.activity === n);
-    return { path, activity: n, name: names[key]!, tag: key === "exam" ? r.examTag : key === "vocab" ? r.vocabTag : key === "mcq" ? r.mcqTag : r.reviewTag, complete: key === "mcq" ? mcqComplete : practice[key]?.complete ?? base?.complete ?? false, latest: practice[key]?.latestCompleted ?? base?.latest ?? null };
+    return { path, activity: n, name: names[key]!, tag: key === "exam" ? r.examTag : key === "vocab" ? r.vocabTag : key === "mcq" ? r.mcqTag : r.reviewTag, complete: key === "mcq" ? mcqComplete : practice[key]?.complete ?? base?.complete ?? false, latest: practice[key]?.latestGraded ?? base?.latest ?? null };
   });
   return <div className="listening-workspace listening-hub w-full space-y-6">
     <p className="listening-eyebrow">{r.badge}</p>

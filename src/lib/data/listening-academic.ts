@@ -312,10 +312,14 @@ export async function academicListeningTest(
     const kind = practiceKindOf(id);
     const run = kind ? practice[kind] : undefined;
     const legacy = progress.activities.find((entry) => String(entry.activity) === activityPath[id]);
-    // The displayed grade comes from the last COMPLETED run, not simply the newest one:
-    // starting a fresh attempt and abandoning it must not blank a result the learner
-    // already earned. `run.latest` remains what the activity page resumes from.
-    const gradedRun = run?.latestCompleted ?? null;
+    // The displayed grade comes from the last run that actually EARNED a score — not
+    // the newest run, and not merely the newest completed one. Starting a fresh
+    // attempt and abandoning it must not blank a result the learner already earned,
+    // and neither must finishing a run that carries no grade (score is nullable, and
+    // a completed study-pack activity can be stored ungraded). `run.latest` remains
+    // what the activity page resumes from; `run.latestCompleted` remains whether the
+    // kind has been finished at all.
+    const gradedRun = run?.latestGraded ?? null;
     const graded = gradedRun
       ? { score: gradedRun.score ?? null, total: gradedRun.total ?? null }
       : legacy?.latest

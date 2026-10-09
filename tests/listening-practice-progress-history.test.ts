@@ -253,3 +253,81 @@ test("an empty history reports nothing at all", async () => {
     await close();
   }
 });
+
+/**
+ * Section 06 C4: latest attempt, latest completed, latest graded, last earned score
+ * and resumable are FIVE different questions, and the hub must not confuse them.
+ *
+ * `latestCompleted` fixed the case where a newer UNFINISHED run blanked an earned
+ * score. It left the same bug one step along: `score` is nullable and a completed run
+ * can legitimately carry no grade (the activity route stores score = null for a
+ * finished study-pack activity), so finishing an UNGRADED run would blank the score
+ * too — a completed activity showing no result.
+ */
+test("a newer completed-but-UNGRADED run does not erase the last earned grade", async () => {
+  const database = await createTestDatabase();
+  const { db, query, close } = database as unknown as {
+    db: Parameters<typeof listeningPracticeProgress>[2];
+    query: <T>(sql: string, params?: unknown[]) => Promise<T[]>;
+    close: () => Promise<void>;
+  };
+  try {
+    const [user] = await query<{ id: string }>(
+      "insert into users(name,role)values('Ungraded QA','student')returning id",
+    );
+    const [testRow] = await query<{ id: string }>(
+      "insert into listening_tests(created_by_user_id,title,audio_type,publication_state)values($1,'Ungraded test','audio','draft')returning id",
+      [user!.id],
+    );
+    await query(
+      "insert into listening_packages(test_id,source_id,payload,audio_object_key,source_hash)values($1,$2,$3,'fixture/audio.mp3',$4)",
+      [testRow!.id, testRow!.id, JSON.stringify({ questions: [] }), "2".repeat(64)],
+    );
+
+    const base = Date.now() - 400 * 60_000;
+    const at = (i: number) => new Date(base + i * 60_000).toISOString();
+    const run = (kind: string, i: number, score: number | null, total: number | null, completed: boolean) =>
+      query(
+        `insert into listening_activity_runs(user_id,test_id,activity,answers,score,total,completed,created_at)
+         values($1,$2,4,$3,$4,$5,$6,$7)`,
+        [user!.id, testRow!.id, JSON.stringify({ _practice: kind, "1": "a" }), score, total, completed, at(i)],
+      );
+
+    // Earned 9/10, then finished a later run that carries NO grade.
+    await run("map", 0, 9, 10, true);
+    await run("map", 5, null, null, true);
+    // A third kind that has only ever been completed without a grade.
+    await run("gap", 1, null, null, true);
+    // A fourth kind: graded once, then an unfinished newer attempt (the earlier fix).
+    await run("mcq", 0, 7, 10, true);
+    await run("mcq", 9, null, null, false);
+
+    const progress = await listeningPracticeProgress(user!.id, testRow!.id, db);
+
+    const map = progress.map;
+    assert.ok(map, "the map practice must be reported");
+    assert.equal(map!.complete, true, "it was completed, so it stays complete");
+    // THE POINT: the displayed grade is the last EARNED one, not the latest completed.
+    assert.ok(map!.latestGraded, "the last graded run must still be reachable");
+    assert.equal(map!.latestGraded!.score, 9, "the earned score was erased by an ungraded completion");
+    assert.equal(map!.latestGraded!.total, 10);
+    // ...while the other two questions keep their own, different answers.
+    assert.equal(map!.latestCompleted!.score, null, "latestCompleted must still mean the newest completed run");
+    assert.equal(map!.latest.completed, true, "latest must still mean the newest run of any state");
+
+    // Never completed with a grade => no grade is invented.
+    const gap = progress.gap;
+    assert.ok(gap, "the gap practice must be reported");
+    assert.equal(gap!.complete, true, "it was completed");
+    assert.equal(gap!.latestGraded, null, "a grade must never be invented for an ungraded kind");
+    assert.ok(gap!.latestCompleted, "but it is still a completed run");
+
+    // The earlier contract still holds alongside the new one.
+    const mcq = progress.mcq;
+    assert.ok(mcq, "the mcq practice must be reported");
+    assert.equal(mcq!.latest.completed, false, "the newest attempt is the unfinished one, for resuming");
+    assert.equal(mcq!.latestGraded!.score, 7, "an unfinished newer run must not erase the earned score either");
+  } finally {
+    await close();
+  }
+});
