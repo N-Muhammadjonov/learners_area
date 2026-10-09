@@ -10,16 +10,22 @@ import { ReadingAnalysis } from "@/components/reading/ReadingAnalysis";
 import { isUuid } from "@/lib/validation/ids";
 
 export default async function ReadingAttemptPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams:Promise<{type?:string}> }) {
-  const [{ id },query] = await Promise.all([params,searchParams]);
+  // ORDER MATTERS. `searchParams` is a dynamic API: awaiting it begins the dynamic
+  // render, and once the response has started streaming the 200 status is already
+  // committed — a later notFound() then renders the 404 BODY with a 200 STATUS. The id
+  // is therefore validated, and the row resolved, before searchParams is touched.
+  const { id } = await params;
   const user = await requireActiveUser();
   if (!user) return null;
-  const locale = await getLocale();
-  const dict = getDictionary(locale);
 
   // Shakli noto'g'ri id hech qachon bazaga yetib bormaydi: javob 500 emas, 404.
   if (!isUuid(id)) notFound();
   const detail = await getAttemptDetail(id, user.id);
   if (!detail) notFound();
+
+  const query = await searchParams;
+  const locale = await getLocale();
+  const dict = getDictionary(locale);
   const { attempt, passage, questions, groups, paragraphs, answers, occurrences } = detail;
 
   // "Test 2, Passage 3" is only claimed when the passage really came from a

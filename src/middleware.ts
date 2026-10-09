@@ -4,6 +4,7 @@ import { SESSION_COOKIE } from "@/lib/auth/session";
 import { checkRequestOrigin } from "@/lib/http/request-origin";
 import { applySecurityHeaders, buildCsp } from "@/lib/http/security-headers";
 import { ACCOUNT_GATED_PATHS, APP_HOME, PRIVATE_MODULE_SEGMENTS } from "@/lib/nav/private-modules.mjs";
+import { isMalformedIdPath } from "@/lib/nav/uuid-page-routes.mjs";
 
 /**
  * Edge middleware: transport-level concerns only.
@@ -89,6 +90,26 @@ export async function middleware(req: NextRequest) {
     return applySecurityHeaders(NextResponse.redirect(target), headerOptions);
   }
 
+  // 2b. A malformed id in a `[id]` page segment is answered 404 HERE.
+  //
+  // Why here and not in the page: `src/app/app/(shell)/loading.tsx` puts a Suspense
+  // boundary above every shell page, so Next flushes the shell with HTTP 200 before the
+  // page body runs. A later notFound() can then only swap the BODY — the status stays
+  // 200. Proven by experiment: removing that loading.tsx makes the very same routes
+  // answer 404. Deleting it would cost the route-entry skeleton on 81 pages that have
+  // no Suspense of their own, so the shape check moves in front of the boundary
+  // instead, where it costs nothing and cannot reach the database.
+  //
+  // Shape only. "Valid uuid but no such row" still needs a database read inside the
+  // page, and still returns the 404 body with a 200 status; that residual is recorded
+  // in docs/KNOWN-ISSUES-NOT-FOUND-STATUS.md.
+  if (isMalformedIdPath(pathname)) {
+    return applySecurityHeaders(
+      new NextResponse(null, { status: 404 }),
+      headerOptions
+    );
+  }
+
   // 3. Security headers, on every response shape (page, API, 404).
   //
   // The policy travels on the *request* headers too: that is how Next.js learns
@@ -109,6 +130,7 @@ export async function middleware(req: NextRequest) {
   }
   return secured;
 }
+
 
 export const config = {
   matcher: [
