@@ -3199,6 +3199,7 @@ const uz: Dictionary = {
       mySessions: "Mening ish jarayonlarim",
       libraryTitle: "Qoliplar kutubxonasi",
       noPatterns: "Bu filtrlarga mos e'lon qilingan qolip yo'q.",
+      truncated: "{matching} ta mos namunadan dastlabki {shown} tasi ko'rsatilmoqda. Qolganini ko'rish uchun filtrlarni toraytiring.",
       task: "Topshiriq",
       allTasks: "Barcha topshiriqlar",
       fn: "Vazifa",

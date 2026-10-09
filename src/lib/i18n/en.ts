@@ -3217,6 +3217,7 @@ const en = {
       mySessions: "My workflows",
       libraryTitle: "Pattern library",
       noPatterns: "No published patterns match these filters.",
+      truncated: "Showing the first {shown} of {matching} matching patterns. Narrow the filters to see the rest.",
       task: "Task",
       allTasks: "All tasks",
       fn: "Function",

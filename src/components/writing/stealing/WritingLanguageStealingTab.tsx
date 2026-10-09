@@ -111,6 +111,11 @@ export async function WritingLanguageStealingTab({ dict, userId, params }: { dic
         </Row>
       </div>
 
+      {lib.hasMore ? (
+        <p role="status" className="rounded-md bg-paper-sunken p-3 text-sm text-ink-700" data-stealing-truncated>
+          {t.truncated.replace("{shown}", String(lib.patterns.length)).replace("{matching}", String(lib.matching))}
+        </p>
+      ) : null}
       {lib.patterns.length === 0 ? <p role="status" className="rounded-md bg-paper-sunken p-3 text-base text-ink-700" data-stealing-empty>{t.noPatterns}</p> : (
         <ul className="grid gap-4 md:grid-cols-2">
           {lib.patterns.map((p) => (

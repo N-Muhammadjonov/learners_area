@@ -27,6 +27,9 @@ export const PATTERN_PRACTICE_EVENT = "WRITING_PATTERN_PRACTICE";
 const livePattern = () => liveWhere({ publicationState: writingLanguagePatterns.publicationState, publishAt: writingLanguagePatterns.publishAt });
 const liveText = () => liveWhere({ publicationState: writingModelTexts.publicationState, publishAt: writingModelTexts.publishAt });
 
+/** One bounded page of the pattern library. */
+const STEALING_PAGE = 300;
+
 export type StealingFilter = { task?: "task1" | "task2"; fn?: PatternFunction; topic?: string; band?: number; saved?: boolean };
 export type LibraryPattern = { id: string; pattern: string; fn: PatternFunction; taskType: "task1" | "task2"; topic: string | null; targetBand: number | null; example: string; usageNote: string | null; saved: boolean };
 
@@ -36,16 +39,31 @@ export async function stealingLibrary(userId: string, filter: StealingFilter, da
   if (filter.fn) conds.push(eq(writingLanguagePatterns.function, filter.fn));
   if (filter.topic) conds.push(sql`lower(${writingLanguagePatterns.topic}) = ${filter.topic.toLowerCase()}`);
   if (filter.band) conds.push(eq(writingLanguagePatterns.targetBand, filter.band));
-  const rows = await database.select({
+  // Bounded read with a +1 lookahead: we never load an unbounded list into one response,
+  // but a filter combination holding more than STEALING_PAGE live patterns must not be
+  // truncated SILENTLY — the caller is told so the UI can ask for narrower filters.
+  const windowRows = await database.select({
     id: writingLanguagePatterns.id, pattern: writingLanguagePatterns.pattern, fn: writingLanguagePatterns.function, taskType: writingLanguagePatterns.taskType,
     topic: writingLanguagePatterns.topic, targetBand: writingLanguagePatterns.targetBand, example: writingLanguagePatterns.example, usageNote: writingLanguagePatterns.usageNote,
-  }).from(writingLanguagePatterns).where(and(...conds)).orderBy(asc(writingLanguagePatterns.function), asc(writingLanguagePatterns.pattern)).limit(300);
+  }).from(writingLanguagePatterns).where(and(...conds)).orderBy(asc(writingLanguagePatterns.function), asc(writingLanguagePatterns.pattern), asc(writingLanguagePatterns.id)).limit(STEALING_PAGE + 1);
+  const hasMore = windowRows.length > STEALING_PAGE;
+  const rows = hasMore ? windowRows.slice(0, STEALING_PAGE) : windowRows;
+  const [{ matching = 0 } = {}] = await database
+    .select({ matching: sql<number>`count(*)::int` })
+    .from(writingLanguagePatterns)
+    .where(and(...conds));
   const saved = new Set((await database.select({ id: writingPatternBank.patternId }).from(writingPatternBank).where(eq(writingPatternBank.userId, userId))).map((r) => r.id));
   const patterns = rows.map((r): LibraryPattern => ({ ...r, fn: r.fn as PatternFunction, saved: saved.has(r.id) })).filter((p) => !filter.saved || p.saved);
   const allTopics = await database.selectDistinct({ topic: writingLanguagePatterns.topic }).from(writingLanguagePatterns).where(livePattern());
   const bands = await database.selectDistinct({ band: writingLanguagePatterns.targetBand }).from(writingLanguagePatterns).where(livePattern());
   return {
     patterns,
+    /** True when more live patterns match this filter than were returned. */
+    hasMore,
+    /** How many live patterns match the filter in total, so the UI can be specific. */
+    matching,
+    /** The page size the read was bounded to. */
+    pageSize: STEALING_PAGE,
     topics: allTopics.map((t) => t.topic).filter((t): t is string => Boolean(t)).sort(),
     bands: bands.map((b) => b.band).filter((b): b is number => b != null).sort(),
     savedCount: saved.size,
