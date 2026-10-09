@@ -147,6 +147,18 @@ test("TY3 first valid keystroke creates a server-timed run token and finish is i
   }
 });
 
+/**
+ * The INTENT of this test — an early-completed timed passage is still scored over the
+ * full preset — is unchanged and still asserted below.
+ *
+ * What changed is its elapsed time. It used to finish a ~180-word passage 10.1 s after
+ * the server-stamped start, i.e. at over 1000 wpm, and that is precisely the forgery the
+ * trainer now refuses: /prepare hands the client the canonical words, so submitting all
+ * of them instantly proved no typing had happened. Scoring over the full preset caps the
+ * WPM such a submission can claim but does not stop it fabricating a completed run.
+ * The timing is therefore raised to a speed a person can actually reach; the assertion
+ * about preset-based scoring is untouched.
+ */
 test("TY3b uploaded ready-code scores an early-completed timed passage over the full preset", async () => {
   const { t, db, userId } = await setup();
   try {
@@ -155,10 +167,12 @@ test("TY3b uploaded ready-code scores an early-completed timed passage over the 
     const runToken = (await startPreparedTypingRun(userId, prepared.token, () => base + 100))!;
     const typedWords = [...prepared.text.words];
     typedWords[0] = typedWords[0] + "x";
+    // Finished early, but at ~90 wpm rather than instantly.
+    const plausibleMs = Math.ceil((typedWords.length / 90) * 60_000);
     const result = await finishPreparedTypingRun(
       userId,
       { runToken, typedWords, samples: [5, 10, 15, 20] },
-      { database: db, now: () => base + 10_100 },
+      { database: db, now: () => base + 100 + plausibleMs },
     );
     assert.ok(result.ok, JSON.stringify(result));
     assert.ok(result.result.mistakes > 0);

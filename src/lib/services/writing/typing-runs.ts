@@ -61,6 +61,20 @@ const typingLive = () =>
 type Tx = Parameters<Parameters<Database["transaction"]>[0]>[0];
 
 /**
+ * The fastest sustained typing speed a human being is known to reach, rounded up
+ * generously. The documented record is ~216 wpm; 250 leaves headroom so no real typist is
+ * ever refused. It is a FORGERY ceiling, not a performance expectation: anything above it
+ * means the text was pasted or replayed rather than typed.
+ */
+const MAX_HUMAN_WPM = 250;
+
+/**
+ * Clock slack between the server-stamped start and the submission: the start timestamp is
+ * taken when /start is handled, so a little real typing can precede it.
+ */
+const ELAPSED_GRACE_MS = 1_500;
+
+/**
  * Write a typing run naming ONLY the columns migration 0008 created.
  *
  * This is not a style preference. drizzle lists every column of a table in an INSERT — the
@@ -84,6 +98,104 @@ async function insertTypingRunLegacy(
   const id = rows[0]?.id;
   if (!id) throw new Error("typing_run_insert_failed");
   return id;
+}
+
+/**
+ * Write a typing run WITH its authoritative run-token identity.
+ *
+ * `typing_runs.run_token_id` and the partial unique index
+ * `typing_runs_run_token_uq` have existed since migration 0048, but the trainer never
+ * wrote the column, so the database invariant protected nothing and replay detection
+ * rested entirely on a bounded scan of recent activity events. Writing the JTI here makes
+ * the uniqueness guarantee real and race-safe: two concurrent finishes race into the
+ * index and exactly one wins.
+ *
+ * Returns `null` when the column does not exist, which happens only on a database that
+ * has not applied 0048. The caller then falls back to the legacy path — kept separate and
+ * explicitly degraded rather than allowed to weaken this one.
+ */
+async function insertTypingRunWithToken(
+  tx: Tx,
+  values: {
+    userId: string;
+    targetChars: number;
+    typedChars: number;
+    durationMs: number;
+    wpm: string;
+    accuracy: string;
+    runTokenId: string;
+  },
+): Promise<string | null> {
+  try {
+    const { rows } = await tx.execute<{ id: string }>(sql`
+      insert into "typing_runs" ("user_id", "target_chars", "typed_chars", "duration_ms", "wpm", "accuracy", "run_token_id")
+      values (${values.userId}, ${values.targetChars}, ${values.typedChars}, ${values.durationMs}, ${values.wpm}, ${values.accuracy}, ${values.runTokenId})
+      returning "id"
+    `);
+    const id = rows[0]?.id;
+    if (!id) throw new Error("typing_run_insert_failed");
+    return id;
+  } catch (error) {
+    if (isMissingRunTokenColumn(error)) return null;
+    throw error;
+  }
+}
+
+/** Only the absent column, never a constraint violation, may trigger the legacy path. */
+function isMissingRunTokenColumn(error: unknown): boolean {
+  const value = error as { code?: string; cause?: { code?: string }; message?: string };
+  const code = value?.cause?.code ?? value?.code;
+  if (code === "23505") return false;
+  // drizzle rewraps driver errors as "Failed query: <sql>", which keeps the column name
+  // but can drop the SQLSTATE, so accept either signal.
+  return code === "42703" || /column .*run_token_id.* does not exist/i.test(value?.message ?? "");
+}
+
+/**
+ * Does this database carry `typing_runs.run_token_id` (migration 0048)?
+ *
+ * Probed BEFORE opening the transaction on purpose: in PostgreSQL a failed statement
+ * aborts the surrounding transaction, so discovering the missing column by attempting the
+ * insert would leave no usable transaction to run the legacy fallback in.
+ */
+async function hasRunTokenColumn(database: Database): Promise<boolean> {
+  try {
+    const { rows } = await database.execute<{ n: number }>(sql`
+      select count(*)::int as n
+      from information_schema.columns
+      where table_name = 'typing_runs' and column_name = 'run_token_id'
+    `);
+    return Number(rows[0]?.n ?? 0) > 0;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * The authoritative replay lookup: the run row carrying this token, if any.
+ *
+ * Scoped to the owning user so one learner's token can never resolve to another's run.
+ * Returns null on a pre-0048 database, where the column does not exist.
+ */
+async function findRunByToken(database: Database, userId: string, jti: string): Promise<string | null> {
+  try {
+    const { rows } = await database.execute<{ id: string }>(sql`
+      select "id" from "typing_runs"
+      where "run_token_id" = ${jti} and "user_id" = ${userId}
+      limit 1
+    `);
+    return rows[0]?.id ?? null;
+  } catch (error) {
+    if (isMissingRunTokenColumn(error)) return null;
+    throw error;
+  }
+}
+
+/** A unique-violation on the run-token index: someone else already stored this run. */
+function isDuplicateRunToken(error: unknown): boolean {
+  const value = error as { code?: string; cause?: { code?: string }; message?: string };
+  const code = value?.cause?.code ?? value?.code;
+  return code === "23505" || /typing_runs_run_token_uq|duplicate key/i.test(value?.message ?? "");
 }
 
 /**
@@ -376,19 +488,43 @@ export async function finishPreparedTypingRun(
   const elapsedMs = activeElapsedMs(startedAt, now(), pausedMs, null);
   const complete = fullTextCompleted(target, input.typedWords);
 
+  // ---------------------------------------------------------------------
+  // Elapsed-time authenticity.
+  //
+  // `/prepare` hands the client the canonical words, so "I typed all of them"
+  // is NOT evidence of work: a script can prepare, start and post the whole
+  // passage back in one tick. The previous rule skipped the floor whenever the
+  // submission was complete (`!complete && ...`), which made exactly that
+  // forgery a valid completed run. Scoring it over the full preset limits the
+  // WPM it can claim, but it still fabricates a performance that never
+  // happened, so "the number is not inflated" is not a sufficient answer.
+  //
+  // The floor below is the smallest rule that closes it: whatever was
+  // submitted must have been PHYSICALLY TYPEABLE in the time the server itself
+  // observed. It is derived from the submitted character count rather than the
+  // preset, so it does not re-impose a full-preset requirement and does not
+  // disturb the deliberate serverless latency tolerance.
+  const typedCharCount = countTyped(input.typedWords);
+  const plausibleMs = Math.ceil((typedCharCount / 5 / MAX_HUMAN_WPM) * 60_000);
+
   let seconds: number;
   if (preset === 0) {
     if (elapsedMs < 3_000) return { ok: false, code: "too_early" };
     seconds = elapsedMs / 1000;
   } else {
-    // Uploaded ready-code rule: serverless /start can finish after the client
-    // has already begun typing. A loose 60% floor proves this was not an
-    // instant forged submit, while every timed run is still scored over the
-    // FULL selected preset, so the tolerance can only lower—not inflate—WPM.
+    // Serverless /start can land after the client has already begun typing, so
+    // an incomplete timed run keeps the loose 60% floor. Every timed run is
+    // still scored over the FULL preset, so the tolerance can only lower WPM.
     if (!complete && elapsedMs < preset * 1000 * 0.6) {
       return { ok: false, code: "too_early" };
     }
     seconds = preset;
+  }
+
+  // Applies to every shape of submission, complete or not, timed or untimed:
+  // COMPLETE must never mean zero elapsed protection.
+  if (elapsedMs + ELAPSED_GRACE_MS < plausibleMs) {
+    return { ok: false, code: "too_early" };
   }
 
   const invalid = validateSubmission(target, input.typedWords, seconds);
@@ -408,73 +544,137 @@ export async function finishPreparedTypingRun(
   // migration 0048, so a Preview database one migration behind cannot reject
   // an otherwise valid result. Extra trainer metrics live in the event payload
   // and remain server-derived from the signed canonical text.
+  // The completion event keeps carrying the full trainer payload (including the JTI, so
+  // existing history readers are unaffected); the run row now carries the identity that
+  // the uniqueness guarantee is actually built on.
+  const writeCompletionEvent = async (tx: Tx, runId: string) => {
+    await tx.insert(activityEvents).values({
+      userId,
+      type: "TYPING_RUN_COMPLETED",
+      payload: {
+        runId,
+        runTokenId: jti,
+        title: text.title,
+        wpm: metrics.wpm,
+        rawWpm: metrics.rawWpm,
+        accuracy: metrics.accuracy,
+        consistency: metrics.consistency,
+        correct: metrics.correct,
+        incorrect: metrics.incorrect,
+        extra: metrics.extra,
+        missed: metrics.missed,
+        mistakes: metrics.mistakes,
+        completion: metrics.completion,
+        targetChars: metrics.targetChars,
+        typedChars: metrics.typedChars,
+        durationMs: metrics.durationMs,
+        presetSeconds: preset === 0 ? null : preset,
+        typingTextId: text.id,
+        startedAt,
+        pausedMs,
+        finishedAt: now(),
+      },
+    });
+  };
+
   try {
-    const recentEvents = await database
-      .select({ payload: activityEvents.payload })
-      .from(activityEvents)
-      .where(and(
-        eq(activityEvents.userId, userId),
-        eq(activityEvents.type, "TYPING_RUN_COMPLETED"),
-      ))
-      .orderBy(desc(activityEvents.createdAt))
-      .limit(50);
+    // --- replay detection -------------------------------------------------
+    // Authoritative and UNBOUNDED on the current schema: one run-token JTI maps to at
+    // most one typing_runs row, enforced by typing_runs_run_token_uq. The previous
+    // implementation searched only the newest 50 TYPING_RUN_COMPLETED events, so a
+    // still-valid token pushed out of that window by later activity minted a SECOND row.
+    const tokenColumn = await hasRunTokenColumn(database);
 
-    const existing = recentEvents
-      .map((row) => row.payload as Record<string, unknown> | null)
-      .find((payload) => payload?.runTokenId === jti);
+    if (!tokenColumn) {
+      // PRE-0048 COMPATIBILITY PATH — explicitly weaker, and reached only when the column
+      // genuinely does not exist. Without the column there is nothing for the unique
+      // index to protect, so replay can only be detected by the bounded event scan. This
+      // is stated plainly rather than presented as the same guarantee.
+      const recentEvents = await database
+        .select({ payload: activityEvents.payload })
+        .from(activityEvents)
+        .where(and(
+          eq(activityEvents.userId, userId),
+          eq(activityEvents.type, "TYPING_RUN_COMPLETED"),
+        ))
+        .orderBy(desc(activityEvents.createdAt))
+        .limit(50);
 
-    if (existing && typeof existing.runId === "string") {
+      const existing = recentEvents
+        .map((row) => row.payload as Record<string, unknown> | null)
+        .find((payload) => payload?.runTokenId === jti);
+
+      if (existing && typeof existing.runId === "string") {
+        return {
+          ok: true,
+          result: {
+            ...metrics,
+            runId: existing.runId,
+            title: typeof existing.title === "string" ? existing.title : text.title,
+            presetSeconds: preset === 0 ? null : preset,
+          },
+        };
+      }
+
+      const legacyRunId = await database.transaction(async (tx) => {
+        const id = await insertTypingRunLegacy(tx, {
+          userId,
+          targetChars: metrics.targetChars,
+          typedChars: metrics.typedChars,
+          durationMs: metrics.durationMs,
+          wpm: metrics.wpm.toFixed(1),
+          accuracy: metrics.accuracy.toFixed(1),
+        });
+        await writeCompletionEvent(tx, id);
+        return id;
+      });
+
       return {
         ok: true,
         result: {
           ...metrics,
-          runId: existing.runId,
-          title: typeof existing.title === "string" ? existing.title : text.title,
+          runId: legacyRunId,
+          presetSeconds: preset === 0 ? null : preset,
+          title: text.title,
+        },
+      };
+    }
+
+    const existingRun = await findRunByToken(database, userId, jti);
+    if (existingRun) {
+      return {
+        ok: true,
+        result: {
+          ...metrics,
+          runId: existingRun,
+          title: text.title,
           presetSeconds: preset === 0 ? null : preset,
         },
       };
     }
 
     const runId = await database.transaction(async (tx) => {
-      const runId = await insertTypingRunLegacy(tx, {
+      const id = await insertTypingRunWithToken(tx, {
         userId,
         targetChars: metrics.targetChars,
         typedChars: metrics.typedChars,
         durationMs: metrics.durationMs,
         wpm: metrics.wpm.toFixed(1),
         accuracy: metrics.accuracy.toFixed(1),
+        runTokenId: jti,
       });
-
-      await tx.insert(activityEvents).values({
-        userId,
-        type: "TYPING_RUN_COMPLETED",
-        payload: {
-          runId,
-          runTokenId: jti,
-          title: text.title,
-          wpm: metrics.wpm,
-          rawWpm: metrics.rawWpm,
-          accuracy: metrics.accuracy,
-          consistency: metrics.consistency,
-          correct: metrics.correct,
-          incorrect: metrics.incorrect,
-          extra: metrics.extra,
-          missed: metrics.missed,
-          mistakes: metrics.mistakes,
-          completion: metrics.completion,
-          targetChars: metrics.targetChars,
-          typedChars: metrics.typedChars,
-          durationMs: metrics.durationMs,
-          presetSeconds: preset === 0 ? null : preset,
-          typingTextId: text.id,
-          startedAt,
-          pausedMs,
-          finishedAt: now(),
-        },
-      });
-
-      return runId;
+      if (id === null) throw new Error("typing_run_token_column_vanished");
+      await writeCompletionEvent(tx, id);
+      return id;
+    }).catch(async (error) => {
+      // The index is the final guard: a concurrent finish got there first.
+      if (!isDuplicateRunToken(error)) throw error;
+      return await findRunByToken(database, userId, jti);
     });
+
+    // A duplicate that we then cannot read back means the row vanished between the
+    // violation and the re-read; report conflict rather than invent a run id.
+    if (!runId) return { ok: false, code: "conflict" };
 
     return {
       ok: true,
