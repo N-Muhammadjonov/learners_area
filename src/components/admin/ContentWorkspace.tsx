@@ -439,6 +439,7 @@ function ItemPanel({ dict, canPublish, item, onClose, onChanged }: { dict: Dicti
       {error ? <p className="mt-2 text-sm text-red-600" data-item-error>{error}</p> : null}
 
       <h3 className="mt-4 text-xs font-semibold uppercase text-muted">{t.versionsTitle}</h3>
+      <div className="overflow-x-auto">
       <table className="mt-2 w-full text-sm" data-item-versions>
         <tbody>
           {(versions ?? []).map((version) => (
@@ -460,6 +461,7 @@ function ItemPanel({ dict, canPublish, item, onClose, onChanged }: { dict: Dicti
           {versions !== null && versions.length === 0 ? <tr><td className="py-3 text-sm text-muted">{t.noVersions}</td></tr> : null}
         </tbody>
       </table>
+      </div>
 
       {canPublish ? (
         <label className="mt-3 block text-xs text-muted">
