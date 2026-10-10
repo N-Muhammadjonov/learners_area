@@ -8,7 +8,6 @@ import {
   lessons,
   listeningTests,
   readingPassages,
-  speakingMaterials,
   speakingPrompts,
   teacherStudentLinks,
   users,
@@ -401,26 +400,6 @@ const TARGET_LIVENESS: Record<
       .select({ id: speakingPrompts.id })
       .from(speakingPrompts)
       .where(and(inArray(speakingPrompts.id, ids), liveWhere({ publicationState: speakingPrompts.publicationState, publishAt: speakingPrompts.publishAt }))),
-  /*
-   * Speaking materials were the one authored type missing from this map, and the omission was not
-   * neutral. `speaking:material` is a known content type, POST /api/assignments accepts it and pins
-   * the revision it is given (HTTP 201), and a teacher can author one through a supported surface —
-   * but this picker never listed it, because an undeclared target type is deliberately left out
-   * rather than assumed live. The result was a capability the API had and the product never showed:
-   * a published resource a teacher could not select as work.
-   *
-   * The rule is the SAME one the learner read applies — src/lib/data/speaking.ts
-   * listLiveMaterialRows() filters on liveWhere(publicationState, publishAt) and nothing else — so
-   * the picker offers exactly what a learner could open, and withdraws a resource that was
-   * unpublished or scheduled after its revision was pinned. `is_active` is deliberately not part of
-   * it: the learner read does not consult it, and adding it here would hide material that is
-   * reachable, which is the opposite failure.
-   */
-  speaking_material: (executor, ids) =>
-    executor
-      .select({ id: speakingMaterials.id })
-      .from(speakingMaterials)
-      .where(and(inArray(speakingMaterials.id, ids), liveWhere({ publicationState: speakingMaterials.publicationState, publishAt: speakingMaterials.publishAt }))),
   // Grammar topics carry no publish moment, so `published` is the whole rule — the
   // same rule their learner read applies.
   grammar_topic: (executor, ids) =>
