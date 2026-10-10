@@ -2,13 +2,14 @@ import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
 import { PUBLIC_CHECKED_BY } from "@/lib/services/coach/attribution";
 import { and, eq } from "drizzle-orm";
-import { z } from "zod";
 import { db } from "@/db/client";
-import { activityEvents, lexemes, userVocabulary } from "@/db/schema";
+import { lexemes, userVocabulary } from "@/db/schema";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getLocale } from "@/lib/i18n";
 import { evaluateVocabularyUsage } from "@/lib/services/coach";
 import { confirmSentenceUse, recordSentenceUse } from "@/lib/services/vocabulary/engine";
+import { vocabularyUseHttpSchema } from "@/lib/services/vocabulary/sentence-input";
+import { vocabularyEvaluationMatchesUsage } from "@/lib/services/vocabulary/evaluation-binding";
 
 /**
  * POST /api/vocabulary/:id/use — use the word in a sentence.
@@ -23,7 +24,7 @@ import { confirmSentenceUse, recordSentenceUse } from "@/lib/services/vocabulary
  * This handler never touches the spaced-repetition ladder: recognition and
  * production are separate signals.
  */
-const schema = z.object({ sentence: z.string().min(3).max(1000) });
+const schema = vocabularyUseHttpSchema;
 
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -48,7 +49,9 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     entryId: entry.id,
     sentence: parsed.data.sentence,
   });
-  if (!stored.ok) return NextResponse.json({ error: stored.error }, { status: 404 });
+  if (!stored.ok) return NextResponse.json({ error: stored.error }, {
+    status: stored.error === "unauthenticated" ? 401 : stored.error === "invalid_input" ? 400 : 404,
+  });
 
   const outcome = await evaluateVocabularyUsage({
     userId: user.id,
@@ -66,6 +69,10 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       { status: 502 }
     );
   }
+  if (!vocabularyEvaluationMatchesUsage(outcome.evaluation, user.id, stored.usageId)) {
+    return NextResponse.json({ error: "invalid_evaluation", usageId: stored.usageId,
+      origin: "manual", accepted: false, points: 0 }, { status: 502 });
+  }
 
   const accepted = outcome.evaluation.verdict === "correct";
   const confirmed = await confirmSentenceUse({
@@ -73,12 +80,11 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     usageId: stored.usageId,
     accepted,
     evaluationId: outcome.evaluation.id,
+    verdict: outcome.evaluation.verdict,
   });
-
-  await db.insert(activityEvents).values({
-    userId: user.id,
-    type: "VOCABULARY_USED",
-    payload: { lexemeId: lexeme.id, verdict: outcome.evaluation.verdict, accepted },
+  if (!confirmed.ok) return NextResponse.json({ error: confirmed.error, usageId: stored.usageId }, {
+    status: confirmed.error === "unauthenticated" ? 401 : confirmed.error === "not_found" ? 404
+      : confirmed.error === "invalid_input" ? 400 : 409,
   });
 
   return NextResponse.json({
@@ -87,7 +93,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     verdict: outcome.evaluation.verdict,
     accepted,
     checkedBy: PUBLIC_CHECKED_BY,
-    mastery: confirmed.ok ? confirmed.mastery : null,
-    points: confirmed.ok ? confirmed.points : 0,
+    mastery: confirmed.mastery,
+    points: confirmed.points,
   });
 }

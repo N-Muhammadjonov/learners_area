@@ -3,6 +3,8 @@ import { resolveEvaluation, type ResolveOutcome } from "@/lib/services/coach/res
 import type { WritingCheckInput } from "@/lib/services/coach/types";
 import type { CoachConfig } from "@/lib/services/coach/config";
 import { effectiveCoachConfig } from "@/lib/services/coach/owner-control";
+import { db } from "@/db/client";
+import { saveEvaluation } from "@/lib/data/evaluations";
 
 export type CheckVerdict = "correct" | "acceptable" | "needs_revision";
 export type CheckResult = {
@@ -30,7 +32,12 @@ type Resolve = (...args: Parameters<typeof resolveEvaluation>) => Promise<Resolv
  * fallback "none": RIWI is never asked, and anything that is not an external,
  * non-fallback result is discarded — so nothing rule-based is shown as AI.
  */
-export async function runWritingCheck(userId: string, language: "uz" | "en", check: WritingCheckInput, deps: { resolve?: Resolve; control?: () => Promise<Partial<CoachConfig>> } = {}): Promise<CheckOutcome> {
+export async function runWritingCheck(userId: string, language: "uz" | "en", check: WritingCheckInput, deps: {
+  resolve?: Resolve;
+  control?: () => Promise<Partial<CoachConfig>>;
+  /** Server-created Activation event identity, never supplied by the learner. */
+  persist?: { sourceId: string; database: typeof db };
+} = {}): Promise<CheckOutcome> {
   const resolve = deps.resolve ?? resolveEvaluation;
   let outcome: ResolveOutcome;
   try {
@@ -46,6 +53,26 @@ export async function runWritingCheck(userId: string, language: "uz" | "en", che
   if (!outcome.ok) return { ok: false, reason: outcome.error === "external_required" ? "unavailable" : "failed" };
   const r = outcome.result;
   if (r.providerType !== "external" || r.fallbackUsed) return { ok: false, reason: "unavailable" };
+  if (deps.persist) {
+    if (check.kind !== "activation" || r.evaluationType !== "writing" || r.overallEstimate !== null
+      || r.assessmentContractKey !== `writing.check.activation-${check.mode}` || r.verdict === null) {
+      return { ok: false, reason: "failed" };
+    }
+    try {
+      const { record } = await saveEvaluation({ userId, evaluationType: "writing",
+        sourceType: "writing_activation", sourceId: deps.persist.sourceId, result: r,
+      }, deps.persist.database);
+      if (record.userId !== userId || record.evaluationType !== "writing"
+        || record.providerType !== "external" || record.fallbackUsed
+        || record.sourceType !== "writing_activation" || record.sourceId !== deps.persist.sourceId
+        || record.overallEstimate !== null || record.assessmentContractKey !== r.assessmentContractKey) {
+        return { ok: false, reason: "failed" };
+      }
+      return { ok: true, result: normalizeCheck(check.kind, { ...record, evaluationId: record.id }) };
+    } catch {
+      return { ok: false, reason: "failed" };
+    }
+  }
   return { ok: true, result: normalizeCheck(check.kind, r) };
 }
 

@@ -39,6 +39,7 @@ import { sourceRevisitHref } from "@/lib/services/lexical/context";
 import { gradeSentence, gradeSpelling, shouldAwardGamePoint, submissionMatchesGame, type GameSubmission } from "./grading";
 import { searchRows } from "./search";
 import { findPack } from "./packs";
+import { sentenceConfirmationSchema, sentenceUseInputSchema } from "./sentence-input";
 
 /**
  * The Vocabulary Learning Engine.
@@ -867,39 +868,28 @@ export async function recordSentenceUse(input: {
   entryId: string;
   sentence: string;
 }, database: typeof db = db) {
-  const entry = await database.query.userVocabulary.findFirst({
-    where: and(
-      eq(userVocabulary.id, input.entryId),
-      eq(userVocabulary.userId, input.userId),
-    ),
-  });
-  if (!entry) return { ok: false as const, error: "not_found" };
-
-  // This first write is always manual and unevaluated. Only confirmSentenceUse,
-  // called after the RIWI evaluator returns, may mark it accepted or award points.
-  const pointsAwarded = 0;
-
-  const [usage] = await database
-    .insert(vocabularyUsages)
-    .values({
-      userId: input.userId,
+  const parsed = sentenceUseInputSchema.safeParse(input);
+  if (!parsed.success) return { ok: false as const, error: "invalid_input" as const };
+  const value = parsed.data;
+  return database.transaction(async tx => {
+    const [actor] = await tx.select({ id: users.id }).from(users)
+      .where(and(eq(users.id, value.userId), eq(users.accountStatus, "active"))).for("share");
+    if (!actor) return { ok: false as const, error: "unauthenticated" as const };
+    const [entry] = await tx.select().from(userVocabulary)
+      .where(and(eq(userVocabulary.id, value.entryId), eq(userVocabulary.userId, value.userId))).for("share");
+    if (!entry) return { ok: false as const, error: "not_found" as const };
+    // Store the learner's work even when a semantic evaluator is unavailable.
+    const [usage] = await tx.insert(vocabularyUsages).values({
+      userId: value.userId,
       userVocabularyId: entry.id,
-      sentence: input.sentence,
+      sentence: value.sentence,
       origin: "manual",
       riwiAccepted: false,
       evaluationId: null,
-      pointsAwarded,
-    })
-    .returning();
-
-
-
-  return {
-    ok: true as const,
-    usageId: usage!.id,
-    mastery: entry.mastery,
-    points: pointsAwarded,
-  };
+      pointsAwarded: 0,
+    }).returning();
+    return { ok: true as const, usageId: usage!.id, mastery: entry.mastery, points: 0 };
+  });
 }
 
 /**
@@ -917,70 +907,60 @@ export async function confirmSentenceUse(input: {
   accepted: boolean;
   evaluationId: string;
   now?: Date;
-  /** Who judged the sentence: RIWI (Vocabulary "use") or the external AI (Writing Activation Lab). */
+  /** Who judged the sentence: RIWI or the Writing Activation evaluator. */
   origin?: "riwi" | "external_ai";
+  /** Optional actual evaluator verdict; do not infer one from an accepted flag. */
+  verdict?: "correct" | "mostly_correct" | "needs_correction" | null;
 }, database: typeof db = db) {
-  const now = input.now ?? new Date();
-  const origin = input.origin ?? "riwi";
-  const usage = await database.query.vocabularyUsages.findFirst({
-    where: and(
-      eq(vocabularyUsages.id, input.usageId),
-      eq(vocabularyUsages.userId, input.userId),
-    ),
-  });
-  if (!usage) return { ok: false as const, error: "not_found" };
-  if (usage.origin !== "manual")
-    return { ok: false as const, error: "already_evaluated" };
-
-  const entry = await database.query.userVocabulary.findFirst({
-    where: eq(userVocabulary.id, usage.userVocabularyId),
-  });
-  if (!entry) return { ok: false as const, error: "not_found" };
-
-  // The evaluator result is authoritative, but the point identity is derived
-  // from the learner's exact normalized sentence and word, not a fresh usage id.
-  // Re-posting the same sentence therefore cannot create a second award.
-  const sentenceHash = sentenceDedupeHash(usage.sentence);
-  const inserted = input.accepted
-    ? await awardPoints({
-        userId: input.userId,
-        kind: "sentence",
-        dedupeKey: dedupeKeys.sentence(input.userId, entry.id, sentenceHash),
-        refType: "vocabulary_usage",
-        refId: usage.id,
-      }, database)
-    : false;
-  const pointsAwarded = inserted ? VOCAB_POINTS.sentence : 0;
-  const activeUseCount = entry.activeUseCount + (inserted ? 1 : 0);
-  const mastery = masteryAfterUse({
-    srsStage: entry.srsStage,
-    correctCount: entry.correctCount,
-    incorrectCount: entry.incorrectCount,
-    activeUseCount,
-  });
-
-  await database
-    .update(vocabularyUsages)
-    .set({
-      origin,
-      riwiAccepted: input.accepted,
-      evaluationId: input.evaluationId,
-      pointsAwarded,
-    })
-    .where(eq(vocabularyUsages.id, usage.id));
-
-  if (inserted) {
-    await database
-      .update(userVocabulary)
-      .set({
-        activeUseCount,
-        mastery,
+  const parsed = sentenceConfirmationSchema.safeParse(input);
+  if (!parsed.success) return { ok: false as const, error: "invalid_input" as const };
+  const value = parsed.data;
+  const now = value.now ?? new Date();
+  const origin = value.origin ?? "riwi";
+  return database.transaction(async tx => {
+    const [actor] = await tx.select({ id: users.id }).from(users)
+      .where(and(eq(users.id, value.userId), eq(users.accountStatus, "active"))).for("share");
+    if (!actor) return { ok: false as const, error: "unauthenticated" as const };
+    // A single usage has one committed verdict. A later worker cannot replace it.
+    const [usage] = await tx.select().from(vocabularyUsages)
+      .where(and(eq(vocabularyUsages.id, value.usageId), eq(vocabularyUsages.userId, value.userId))).for("update");
+    if (!usage) return { ok: false as const, error: "not_found" as const };
+    if (usage.origin !== "manual" || usage.evaluationId !== null) {
+      return { ok: false as const, error: "already_evaluated" as const };
+    }
+    // Serialize all accepted sentences for one saved word, including different usages.
+    const [entry] = await tx.select().from(userVocabulary)
+      .where(and(eq(userVocabulary.id, usage.userVocabularyId), eq(userVocabulary.userId, value.userId))).for("update");
+    if (!entry) return { ok: false as const, error: "not_found" as const };
+    const sentenceHash = sentenceDedupeHash(usage.sentence);
+    const inserted = value.accepted
+      ? await awardPoints({ userId: value.userId, kind: "sentence",
+        dedupeKey: dedupeKeys.sentence(value.userId, entry.id, sentenceHash),
+        refType: "vocabulary_usage", refId: usage.id }, tx)
+      : false;
+    const pointsAwarded = inserted ? VOCAB_POINTS.sentence : 0;
+    const activeUseCount = entry.activeUseCount + (inserted ? 1 : 0);
+    const mastery = inserted ? masteryAfterUse({
+      srsStage: entry.srsStage, correctCount: entry.correctCount,
+      incorrectCount: entry.incorrectCount, activeUseCount,
+    }) : entry.mastery;
+    await tx.update(vocabularyUsages).set({
+      origin, riwiAccepted: value.accepted, evaluationId: value.evaluationId, pointsAwarded,
+    }).where(eq(vocabularyUsages.id, usage.id));
+    if (inserted) {
+      await tx.update(userVocabulary).set({ activeUseCount, mastery,
         masteredAt: mastery === "mastered" ? now : entry.masteredAt,
-      })
-      .where(eq(userVocabulary.id, entry.id));
-  }
-
-  return { ok: true as const, mastery, points: pointsAwarded };
+      }).where(eq(userVocabulary.id, entry.id));
+    }
+    // Confirmation, point identity, mastery and activity evidence succeed together.
+    await tx.insert(activityEvents).values({
+      userId: value.userId,
+      type: "VOCABULARY_USED",
+      payload: { lexemeId: entry.lexemeId, usageId: usage.id, evaluationId: value.evaluationId,
+        accepted: value.accepted, origin, ...(value.verdict ? { verdict: value.verdict } : {}) },
+    });
+    return { ok: true as const, mastery, points: pointsAwarded };
+  });
 }
 
 export async function listSentenceBank(userId: string, limit = 50) {

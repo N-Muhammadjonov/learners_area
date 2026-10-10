@@ -165,7 +165,9 @@ test("Phase 12 feature integration uses the authenticated route, real broker, sh
       },
       evaluateVocabularyUsage: async (input) => {
         observedEvaluations.vocabulary.push(input);
-        return { ok: true, evaluation: evaluationRecords.vocabulary, reused: false };
+        return { ok: true, evaluation: { ...evaluationRecords.vocabulary,
+          sourceType: "vocabulary_usage", sourceId: input.usageId,
+        }, reused: false };
       },
     };
     const toolBroker = createRiwiCoreTools(database, evaluationServices);

@@ -27,6 +27,7 @@ import { getRiwiConversationTranscript } from "../src/lib/services/riwi/conversa
 import type { CurrentUser } from "../src/lib/auth/current-user";
 import type { RiwiRollout } from "../src/lib/services/riwi/rollout";
 import type { ServiceOutcome } from "../src/lib/services/coach/service";
+import { recordSentenceUse } from "../src/lib/services/vocabulary/engine";
 import { createTestDatabase } from "./support/pglite";
 
 function evaluationRecord(type: EvaluationRecord["evaluationType"], userId: string): EvaluationRecord {
@@ -48,6 +49,37 @@ function evaluationRecord(type: EvaluationRecord["evaluationType"], userId: stri
 function success(record: EvaluationRecord, reused = false): ServiceOutcome {
   return { ok: true, evaluation: record, reused };
 }
+
+test("RIWI vocabulary handoff rejects foreign or incorrectly bound evaluations before any credit", async () => {
+  const database = await createTestDatabase();
+  const learner = randomUUID();
+  const lexemeId = randomUUID();
+  const entryId = randomUUID();
+  try {
+    await database.db.insert(users).values({ id: learner, name: "Bound vocabulary learner", role: "student", accountStatus: "active" });
+    await database.db.insert(lexemes).values({ id: lexemeId, term: "resilient", definitionEn: "Able to recover after difficulty.", senseKey: randomUUID(), verificationStatus: "verified" });
+    await database.db.insert(userVocabulary).values({ id: entryId, userId: learner, lexemeId });
+    const saved = await recordSentenceUse({ userId: learner, entryId, sentence: "Resilient people recover after setbacks." }, database.db);
+    assert.ok(saved.ok);
+    const valid = { ...evaluationRecord("vocabulary", learner), sourceType: "vocabulary_usage", sourceId: saved.usageId };
+    let returned: EvaluationRecord = valid;
+    const broker = createRiwiCoreTools(database.db, { ...canonicalRiwiEvaluationServices,
+      evaluateVocabularyUsage: async () => success(returned),
+    });
+    for (const changes of [{ userId: randomUUID() }, { sourceId: randomUUID() },
+      { sourceType: "writing_activation" }, { evaluationType: "grammar" as const },
+      { overallEstimate: 7 }, { verdict: null }]) {
+      returned = { ...valid, ...changes };
+      assert.deepEqual(await callTool(broker, "riwi.coach.vocabulary.evaluateLatestSelf", learner), { status: "unavailable", reason: "evaluation_unavailable" });
+    }
+    assert.deepEqual(await database.query("select origin,riwi_accepted,points_awarded from vocabulary_usages where id=$1", [saved.usageId]), [{ origin: "manual", riwi_accepted: false, points_awarded: 0 }]);
+    assert.deepEqual(await database.query("select count(*)::int n from vocab_point_events"), [{ n: 0 }]);
+    returned = valid;
+    assert.equal((await callTool(broker, "riwi.coach.vocabulary.evaluateLatestSelf", learner)).status, "resolved");
+    assert.deepEqual(await database.query("select riwi_accepted,points_awarded from vocabulary_usages where id=$1", [saved.usageId]), [{ riwi_accepted: true, points_awarded: 2 }]);
+    assert.deepEqual(await database.query("select count(*)::int n from activity_events where type='VOCABULARY_USED'"), [{ n: 1 }]);
+  } finally { await database.close(); }
+});
 
 async function callTool(broker: ReturnType<typeof createRiwiCoreTools>, name: string, userId: string) {
   const result = await broker.call(name, { language: "en" }, {
@@ -167,7 +199,7 @@ test("evaluation tools select only the caller's latest canonical work and delega
       evaluateVocabularyUsage: async (input) => {
         observed.vocabulary.push(input);
         const evaluation = observed.vocabulary.length === 1 ? records.vocabulary : evaluationRecord("vocabulary", learnerId);
-        return success(evaluation);
+        return success({ ...evaluation, sourceType: "vocabulary_usage", sourceId: input.usageId });
       },
       // Keep the canonical Vocabulary engine's idempotent confirmation path;
       // the evaluation tool must not invent a second entry or point ledger.

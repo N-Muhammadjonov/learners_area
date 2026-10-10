@@ -1,0 +1,99 @@
+{
+  "status": "NATIVE_NON_BUILD_QA_AND_REMOTE_TREE_BLOBS_VERIFIED_OPERATIONAL_ACCEPTANCE_PENDING",
+  "branch": "refs/heads/arena/01a10bac-learners-area",
+  "commit": "6f125f7dd21fafcce4f7ab089b0e26569600b3b5",
+  "parent": "147305642fc60470fd7097ec68349e66527b6ae4",
+  "tree": "af2c6a4f03b2e4d6226ce29533e0f29d1706afed",
+  "tree_truncated": false,
+  "tree_entries": 2024,
+  "reviewed_patch_paths_verified": 81,
+  "source_files_verified": 1208,
+  "source_state_sha256": "9c356c510d274970c07fc792b768e383601c9d30a728f513884552ae6c488a60",
+  "patch_sha256": "f12cc79caa9f8549e448fbb25f3979b3cfeb71b7944a6230684001abc343904c",
+  "native_receipt_sha256": "655538fa061a2319b8a87e7f12f97cea06095875502369b9220eee371082f851",
+  "qa_rounds": [
+    {
+      "backend": {
+        "exit_code": 0,
+        "log_sha256": "def254f66d0cf5f8098d5e461bdda5094ad2337b49aa1f836a722d329c1969e3",
+        "counts": {
+          "tests": 1328,
+          "pass": 1237,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 91,
+          "todo": 0
+        }
+      },
+      "ui": {
+        "exit_code": 0,
+        "log_sha256": "155a23fb9989d7728202ee0f5e0d1df86f0d715e01254d12b09db3342cef898d",
+        "counts": {
+          "tests": 260,
+          "pass": 260,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        }
+      },
+      "typecheck": {
+        "exit_code": 0,
+        "log_sha256": "5d67ea7ba0cdcb67cf34b4b132066d5cd00b857a31cc804006ed533f4aab0717"
+      },
+      "lint": {
+        "exit_code": 0,
+        "log_sha256": "63b6b500220f93347722b6b4ab90d1bc1f5a32bfe848b62f2565bcb75b5b71a6"
+      }
+    },
+    {
+      "backend": {
+        "exit_code": 0,
+        "log_sha256": "d6f581d90d50c050f153d2b6e6c617d1085ca3fff479243fdf74897419298f75",
+        "counts": {
+          "tests": 1328,
+          "pass": 1237,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 91,
+          "todo": 0
+        }
+      },
+      "ui": {
+        "exit_code": 0,
+        "log_sha256": "7e5e1bc3f18a28a051cee62856eeca50721b5a3af8489ab1fd9501b321edec56",
+        "counts": {
+          "tests": 260,
+          "pass": 260,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        }
+      },
+      "typecheck": {
+        "exit_code": 0,
+        "log_sha256": "5d67ea7ba0cdcb67cf34b4b132066d5cd00b857a31cc804006ed533f4aab0717"
+      },
+      "lint": {
+        "exit_code": 0,
+        "log_sha256": "63b6b500220f93347722b6b4ab90d1bc1f5a32bfe848b62f2565bcb75b5b71a6"
+      }
+    }
+  ],
+  "build_rerun": false,
+  "progress": {
+    "closed": 17,
+    "total": 34,
+    "percent": 50,
+    "new_full_groups": 0,
+    "riwi_overall_percent": null,
+    "project_overall_percent": null
+  },
+  "limits": [
+    "91 skipped backend tests receive no PASS credit.",
+    "Native terminal execution does not imply native PostgreSQL/source-asset/live-provider/browser/deployed retention/R2/PITR acceptance.",
+    "No new full-group closure from publication; original six-new-groups batch acceptance remains unmet."
+  ],
+  "verified_at": "2026-10-10T04:39:39.350Z"
+}

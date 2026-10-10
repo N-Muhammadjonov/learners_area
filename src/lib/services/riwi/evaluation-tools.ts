@@ -3,7 +3,6 @@ import { and, desc, eq, isNull } from "drizzle-orm";
 import { z, type ZodTypeAny } from "zod";
 import { db } from "@/db/client";
 import {
-  activityEvents,
   grammarAttempts,
   grammarExercises,
   grammarTopics,
@@ -29,6 +28,7 @@ import {
 } from "@/lib/services/coach";
 import { countWords } from "@/lib/services/writing-evaluation/heuristics";
 import { confirmSentenceUse } from "@/lib/services/vocabulary/engine";
+import { vocabularyEvaluationMatchesUsage } from "@/lib/services/vocabulary/evaluation-binding";
 import { liveWhere } from "@/lib/services/cms/publication";
 import { lexicalDetailFor } from "@/lib/services/lexical/context";
 import { riwiEvaluationSchema, type RiwiEvaluation } from "./contracts";
@@ -258,22 +258,22 @@ export function registerRiwiEvaluationTools(
         language,
       });
       if (!outcome.ok) return notEvaluated("evaluation_unavailable");
+      if (!vocabularyEvaluationMatchesUsage(outcome.evaluation, actor.id, usage.usage.id)) return notEvaluated("evaluation_unavailable");
       const confirmed = await services.confirmSentenceUse({
         userId: actor.id,
         usageId: usage.usage.id,
         accepted: outcome.evaluation.verdict === "correct",
         evaluationId: outcome.evaluation.id,
         origin: "riwi",
+        verdict: outcome.evaluation.verdict,
       }, database);
       if (!confirmed.ok) {
-        const current = await database.query.vocabularyUsages.findFirst({ where: eq(vocabularyUsages.id, usage.usage.id) });
-        if (!current || current.origin !== "riwi" || current.evaluationId !== outcome.evaluation.id) return notEvaluated("persistence_unavailable");
-      } else {
-        await database.insert(activityEvents).values({
-          userId: actor.id,
-          type: "VOCABULARY_USED",
-          payload: { lexemeId: usage.lexeme.id, verdict: outcome.evaluation.verdict, accepted: outcome.evaluation.verdict === "correct" },
+        const current = await database.query.vocabularyUsages.findFirst({
+          where: and(eq(vocabularyUsages.id, usage.usage.id), eq(vocabularyUsages.userId, actor.id)),
         });
+        if (confirmed.error !== "already_evaluated" || !current || current.origin !== "riwi"
+          || current.evaluationId !== outcome.evaluation.id
+          || current.riwiAccepted !== (outcome.evaluation.verdict === "correct")) return notEvaluated("persistence_unavailable");
       }
       const lexicalType = lexical?.lexicalType;
       const sourceLabel = `Vocabulary ${usage.lexeme.term}${lexicalType ? ` (${lexicalType})` : ""} sentence`;

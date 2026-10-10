@@ -478,8 +478,14 @@ test("provider-lab timeout and in-flight abort are bounded, propagated, and safe
   const registry = new ProviderRegistry();
   let timeoutCalls = 0;
   let timeoutAbortObserved = false;
+  const timeoutEpoch = Date.now();
+  let timeoutStartedAt: number | null = null;
+  // This scenario exercises an in-flight timeout. Database/audit setup must not
+  // consume its 15ms provider budget before the provider has even entered.
+  const timeoutNow = () => new Date(timeoutEpoch + (timeoutStartedAt === null ? 0 : Date.now() - timeoutStartedAt));
   registry.register(fakeProvider(async (context) => {
     timeoutCalls++;
+    timeoutStartedAt = Date.now();
     await new Promise<void>((resolve) => context.signal!.addEventListener("abort", () => {
       timeoutAbortObserved = true;
       resolve();
@@ -492,12 +498,24 @@ test("provider-lab timeout and in-flight abort are bounded, propagated, and safe
     const actor = { id: ownerId, role: "owner" as const, accountStatus: "active" as const };
     const timeoutResult = await runRiwiProviderExperiment({
       actor, fixtureId: RIWI_PROVIDER_LAB_FIXTURES[0]!.id, providerIds: ["lab-stub"], idempotencyKey: randomUUID(),
-    }, { database: database.db, registry, externalEnabled: async () => true, timeoutMs: 15, writeAudit: async () => {} });
+    }, { database: database.db, registry, externalEnabled: async () => true, timeoutMs: 15, now: timeoutNow, writeAudit: async () => {} });
     assert.equal(timeoutCalls, 1);
     assert.equal(timeoutAbortObserved, true);
     assert.equal(timeoutResult.experiment.results[0]?.state, "timeout");
     assert.equal(timeoutResult.experiment.results[0]?.normalizedResult, null);
     assert.ok(timeoutResult.experiment.results[0]!.durationMs >= 0);
+
+    // Setup can exhaust the experiment deadline in production. In that case
+    // skipping the provider is correct; verify that boundary independently.
+    let deadlineReads = 0;
+    const expired = await runRiwiProviderExperiment({
+      actor, fixtureId: RIWI_PROVIDER_LAB_FIXTURES[0]!.id, providerIds: ["lab-stub"], idempotencyKey: randomUUID(),
+    }, { database: database.db, registry, externalEnabled: async () => true, timeoutMs: 15,
+      now: () => new Date(timeoutEpoch + (deadlineReads++ === 0 ? 0 : 16)), writeAudit: async () => {} });
+    assert.equal(timeoutCalls, 1, "an exhausted setup deadline must never invoke the provider");
+    assert.equal(expired.experiment.results[0]?.state, "timeout");
+    assert.equal(expired.experiment.results[0]?.safeErrorCode, "experiment_timeout");
+    assert.equal(expired.experiment.results[0]?.normalizedResult, null);
 
     let resolveStarted!: () => void;
     let cancelSignalObserved = false;

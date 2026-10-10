@@ -1,0 +1,115 @@
+{
+  "status": "LOCAL_NON_BUILD_GATES_VERIFIED_MANDATORY_ACCEPTANCE_OPEN",
+  "base_commit": "6f125f7dd21fafcce4f7ab089b0e26569600b3b5",
+  "source_state_sha256": "ffe10915281f07847035619143f2fae29f2449f775720c7163869a347f8be9cb",
+  "source_files": 1211,
+  "source_state_manifest": "docs/RIWI-BATCH-17-VOCABULARY-SOURCE-STATE.json",
+  "source_state_before_after_match": true,
+  "checks": {
+    "backend": {
+      "kind": "backend",
+      "exit_code": 0,
+      "log": "/tmp/riwi-batch17-verified-backend.log",
+      "sha256": "4a10d4e07147a3802f120f9b2143217d3953104ce066f3670d0d75ea130099de",
+      "source_sha256": "ffe10915281f07847035619143f2fae29f2449f775720c7163869a347f8be9cb",
+      "build_rerun": false,
+      "counts": {
+        "tests": 1342,
+        "pass": 1250,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 92,
+        "todo": 0
+      }
+    },
+    "ui": {
+      "kind": "ui",
+      "exit_code": 0,
+      "log": "/tmp/riwi-batch17-verified-ui.log",
+      "sha256": "9f9ec3724b3bc67a9e78a4d066f7ff9ece421ac4f8e8c26532d875b86817da21",
+      "source_sha256": "ffe10915281f07847035619143f2fae29f2449f775720c7163869a347f8be9cb",
+      "build_rerun": false,
+      "counts": {
+        "tests": 260,
+        "pass": 260,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    "typecheck": {
+      "kind": "typecheck",
+      "exit_code": 0,
+      "log": "/tmp/riwi-batch17-verified-typecheck.log",
+      "sha256": "5d67ea7ba0cdcb67cf34b4b132066d5cd00b857a31cc804006ed533f4aab0717",
+      "source_sha256": "ffe10915281f07847035619143f2fae29f2449f775720c7163869a347f8be9cb",
+      "build_rerun": false
+    },
+    "lint": {
+      "kind": "lint",
+      "exit_code": 0,
+      "log": "/tmp/riwi-batch17-verified-lint.log",
+      "sha256": "63b6b500220f93347722b6b4ab90d1bc1f5a32bfe848b62f2565bcb75b5b71a6",
+      "source_sha256": "ffe10915281f07847035619143f2fae29f2449f775720c7163869a347f8be9cb",
+      "build_rerun": false
+    }
+  },
+  "build_rerun": false,
+  "baseline_failure_evidence": [
+    {
+      "log": "riwi-batch17-vocabulary-before.log",
+      "tests": 4,
+      "pass": 0,
+      "fail": 4,
+      "sha256": "8c3cc48d68ac9bb62c57345142769c19a9938ef63595625f10ded58aa7e8adb3"
+    },
+    {
+      "log": "riwi-batch17-activation-unpersisted-before.log",
+      "tests": 1,
+      "pass": 0,
+      "fail": 1,
+      "source_sha256": "87c1ff6c02da714ff5a78d020015e4d21e64fa603197e935dcc78254efe276f2",
+      "sha256": "fa9dfa65b5cf94056ca25201ba708998b9715eb730f3afc49a14c0c111fa142c"
+    }
+  ],
+  "superseded_gate": {
+    "source_sha256": "e1342ddad68ee62dfba24aaf342a197376afdbf7a06acc0cc305464472948f30",
+    "tests": 1342,
+    "pass": 1249,
+    "fail": 1,
+    "skipped": 92,
+    "reason": "Integration fixture returned an unrelated Vocabulary source ID. Fixture corrected to bind its canonical usage without changing assertions or weakening the source guard."
+  },
+  "native_postgresql_acceptance": "UNVERIFIED",
+  "live_provider_acceptance": "UNVERIFIED",
+  "authenticated_browser_acceptance": "UNVERIFIED",
+  "operational_acceptance": "UNVERIFIED",
+  "skipped_tests": 92,
+  "new_native_concurrency_test": "tests/vocabulary-points-db.test.ts",
+  "skips_count_as_pass": false,
+  "fixture_results_count_as_live_provider_proof": false,
+  "new_complete_groups_accepted": 0,
+  "progress": {
+    "closed": 17,
+    "total": 34,
+    "prompt_percent": 50,
+    "riwi_percent": null,
+    "project_percent": null
+  },
+  "minimum_new_complete_groups": 6,
+  "publication_ready": false,
+  "published": false,
+  "focused_regression": {
+    "counts": {
+      "tests": 49,
+      "pass": 44,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 5,
+      "todo": 0
+    },
+    "source_sha256": "e1342ddad68ee62dfba24aaf342a197376afdbf7a06acc0cc305464472948f30",
+    "note": "Production source identical to final state; final delta corrects only the separate integration fixture."
+  }
+}

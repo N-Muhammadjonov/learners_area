@@ -201,3 +201,39 @@ test("HTTP contracts reject client score/correctness claims and award only the e
   assert.match(sentenceRoute, /const accepted = outcome\.evaluation\.verdict === "correct"/);
   assert.doesNotMatch(sentenceRoute.slice(sentenceRoute.indexOf("const schema"), sentenceRoute.indexOf("export async function POST")), /accepted|points|evaluationId/);
 });
+
+test("native PostgreSQL serializes competing vocabulary confirmations and independent accepted answers", { skip: !enabled }, async () => {
+  isolated();
+  const userId = randomUUID();
+  const term = `qa2-atomic-${randomUUID()}`;
+  await db.insert(users).values({ id: userId, name: "QA2 active-use concurrency", role: "student", accountStatus: "active" });
+  try {
+    const saved = await addVocabularyBatch({ userId, items: [{ term, definitionEn: "Native concurrency fixture" }] });
+    assert.ok(saved.ok);
+    const entryId = saved.ids[0]!;
+    const first = await recordSentenceUse({ userId, entryId, sentence: "A resilient team can recover quickly." });
+    assert.ok(first.ok);
+    const competing = await Promise.all(Array.from({ length: 8 }, (_, index) => confirmSentenceUse({
+      userId, usageId: first.usageId, accepted: index % 2 === 0, evaluationId: randomUUID(),
+    })));
+    assert.equal(competing.filter(result => result.ok).length, 1, "one committed verdict per usage across pool connections");
+    const usages = [];
+    for (const sentence of ["People learn from difficult experiences.", "Our team returned after a long break."]) {
+      const stored = await recordSentenceUse({ userId, entryId, sentence });
+      assert.ok(stored.ok);
+      usages.push(stored.usageId);
+    }
+    const results = await Promise.all(usages.map(usageId => confirmSentenceUse({ userId, usageId, accepted: true, evaluationId: randomUUID() })));
+    assert.ok(results.every(result => result.ok));
+    const [entry] = await db.select().from(userVocabulary).where(eq(userVocabulary.id, entryId));
+    const ledger = await db.select().from(vocabPointEvents).where(and(eq(vocabPointEvents.userId, userId), eq(vocabPointEvents.kind, "sentence")));
+    assert.equal(entry!.activeUseCount, ledger.length, "entry counters retain both independently awarded answers");
+    assert.ok(entry!.activeUseCount >= 2);
+    const { activityEvents } = await import("../src/db/schema");
+    const activity = await db.select().from(activityEvents).where(and(eq(activityEvents.userId, userId), eq(activityEvents.type, "VOCABULARY_USED")));
+    assert.equal(activity.length, 3, "one activity event per committed usage, including a rejected winner");
+  } finally {
+    await db.delete(users).where(eq(users.id, userId));
+    await db.delete(lexemes).where(eq(lexemes.term, term));
+  }
+});

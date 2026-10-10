@@ -1,15 +1,16 @@
 import "server-only";
 import { and, desc, eq, sql } from "drizzle-orm";
 import { db } from "@/db/client";
-import { activityEvents, lexemes, userVocabulary } from "@/db/schema";
-import { runWritingCheck, type CheckOutcome, type CheckResult } from "@/lib/services/writing/check";
+import { activityEvents, lexemes, users, userVocabulary } from "@/db/schema";
+import { runWritingCheck, type CheckResult, normalizeCheck } from "@/lib/services/writing/check";
+import { findEvaluation } from "@/lib/data/evaluations";
 import { confirmSentenceUse, recordSentenceUse } from "@/lib/services/vocabulary/engine";
-import type { WritingCheckInput } from "@/lib/services/coach/types";
 import { activationMatchKey, activationScore, cleanCustomItem, containsItem, type ActivationLevel, type ActivationMode } from "@/lib/writing/activation-rules";
 import { dayKey, streakFromDays } from "@/lib/services/vocabulary/points";
+import { isUuid } from "@/lib/validation/ids";
 
 type Database = typeof db;
-type Check = (userId: string, language: "uz" | "en", check: WritingCheckInput) => Promise<CheckOutcome>;
+type Check = typeof runWritingCheck;
 export const ACTIVATION_EVENT = "WRITING_ACTIVATION_CHECK";
 
 /**
@@ -91,37 +92,77 @@ export async function checkActivation(userId: string, language: "uz" | "en", inp
 
   let result: CheckResult | null = null;
   let verdict: CheckResult["verdict"];
+  const eventId = crypto.randomUUID();
+  const pendingPayload = { sessionId: input.sessionId, entryId: item.entryId, term: item.term,
+    answer, mode: input.mode, targetLevel: input.targetLevel, status: "pending" };
+  const started = await database.transaction(async tx => {
+    const [actor] = await tx.select({ id: users.id }).from(users)
+      .where(and(eq(users.id, userId), eq(users.accountStatus, "active"))).for("update");
+    if (!actor) return false;
+    await tx.insert(activityEvents).values({ id: eventId, userId, type: ACTIVATION_EVENT, payload: pendingPayload });
+    return true;
+  });
+  if (!started) return { ok: false, code: "failed" };
+  const unavailable = async () => {
+    await database.update(activityEvents).set({ payload: { ...pendingPayload, status: "unavailable" } })
+      .where(and(eq(activityEvents.id, eventId), eq(activityEvents.userId, userId)));
+  };
   const itemMissing = !containsItem(answer, item.term);
   if (itemMissing) {
     verdict = "needs_revision"; // Not used at all: no AI call, no evidence.
   } else {
-    const check = deps.check ?? ((u, l, c) => runWritingCheck(u, l, c));
+    const check = deps.check ?? runWritingCheck;
     const outcome = await check(userId, language, {  // Uzbek cue only when a trusted canonical translation exists.
       kind: "activation", item: item.term, meaningHint: item.definitionEn, mode: input.mode, targetLevel: input.targetLevel,
       uzbekPrompt: input.uzbekPrompt ? item.translationUz : null, upgradeFrom: input.upgradeFrom?.trim() || null, answer,
-    });
-    if (!outcome.ok) return { ok: false, code: outcome.reason };
+    }, { persist: { sourceId: eventId, database } });
+    if (!outcome.ok) { await unavailable(); return { ok: false, code: outcome.reason }; }
     result = outcome.result;
+    if (result.evaluationId && isUuid(result.evaluationId)) {
+      const record = await findEvaluation({ sourceType: "writing_activation", sourceId: eventId }, database);
+      if (!record || record.id !== result.evaluationId || record.userId !== userId
+        || record.evaluationType !== "writing" || record.providerType !== "external"
+        || record.fallbackUsed || record.overallEstimate !== null
+        || record.assessmentContractKey !== `writing.check.activation-${input.mode}`) {
+        // Preserve the submitted answer without exposing or awarding an unbound result.
+        await unavailable();
+        return { ok: false, code: "failed" };
+      }
+      result = normalizeCheck("activation", { ...record, evaluationId: record.id });
+    }
     verdict = result.verdict;
   }
 
   const uzbekApplied = input.uzbekPrompt && Boolean(item.translationUz);
   const score = activationScore(result?.bands);
-  let usageRecorded = false;
-  if (item.entryId && result && verdict !== "needs_revision") {
-    const stored = await recordSentenceUse({ userId, entryId: item.entryId, sentence: answer }, database);
-    if (stored.ok) {
-      const confirmed = await confirmSentenceUse({ userId, usageId: stored.usageId, accepted: true, evaluationId: result.evaluationId ?? crypto.randomUUID(), origin: "external_ai" }, database);
-      usageRecorded = confirmed.ok;
+  return database.transaction(async tx => {
+    const writer = tx as unknown as Database;
+    const [actor] = await tx.select({ id: users.id }).from(users)
+      .where(and(eq(users.id, userId), eq(users.accountStatus, "active"))).for("update");
+    if (!actor) {
+      await tx.update(activityEvents).set({ payload: { ...pendingPayload, status: "unavailable" } })
+        .where(and(eq(activityEvents.id, eventId), eq(activityEvents.userId, userId)));
+      return { ok: false as const, code: "failed" as const };
     }
-  }
+    let usageRecorded = false;
+    const evaluationId = result?.evaluationId;
+    // A made-up reference is not persisted evaluation evidence.
+    if (item.entryId && evaluationId && isUuid(evaluationId) && verdict !== "needs_revision") {
+      const stored = await recordSentenceUse({ userId, entryId: item.entryId, sentence: answer }, writer);
+      if (stored.ok) {
+        const confirmed = await confirmSentenceUse({ userId, usageId: stored.usageId, accepted: true, evaluationId, origin: "external_ai" }, writer);
+        usageRecorded = confirmed.ok;
+      }
+    }
 
-  await database.insert(activityEvents).values({ userId, type: ACTIVATION_EVENT, payload: {
-    sessionId: input.sessionId, term: item.term, entryId: item.entryId, mode: input.mode, targetLevel: input.targetLevel,
-    verdict, itemMissing, bands: result?.bands ?? null, usageRecorded, activationScore: score, uzbekApplied,
-    answer, feedback: result?.feedback ?? null, improved: result?.improved ?? null, fixes: result?.fixes.slice(0, 3) ?? [],
-  } });
-  return { ok: true, verdict, result, itemMissing, usageRecorded, activationScore: score, uzbekApplied, stats: await activationSessionStats(userId, input.sessionId, database) };
+    await tx.update(activityEvents).set({ payload: {
+      sessionId: input.sessionId, term: item.term, entryId: item.entryId, mode: input.mode, targetLevel: input.targetLevel,
+      verdict, itemMissing, bands: result?.bands ?? null, usageRecorded, activationScore: score, uzbekApplied,
+      status: "completed", evaluationId: result?.evaluationId ?? null,
+      answer, feedback: result?.feedback ?? null, improved: result?.improved ?? null, fixes: result?.fixes.slice(0, 3) ?? [],
+    } }).where(and(eq(activityEvents.id, eventId), eq(activityEvents.userId, userId)));
+    return { ok: true as const, verdict, result, itemMissing, usageRecorded, activationScore: score, uzbekApplied, stats: await activationSessionStats(userId, input.sessionId, writer) };
+  });
 }
 
 type EventPayload = { sessionId: string; term: string; entryId: string | null; verdict: string; bands: Record<string, number | null> | null; usageRecorded: boolean; activationScore?: number | null };

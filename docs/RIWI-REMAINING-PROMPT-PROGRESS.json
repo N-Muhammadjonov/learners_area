@@ -1,7 +1,7 @@
 {
   "source": "RIWI_REMAINING_WORK_EXECUTION_PROMPT.txt",
   "source_sha256": "daf36b256a990b7fa5379fd121810991bad552f638c776e8d9b55dcb22847979",
-  "verified_remote_base": "147305642fc60470fd7097ec68349e66527b6ae4",
+  "verified_remote_base": "6f125f7dd21fafcce4f7ab089b0e26569600b3b5",
   "method": "Equal-weight full-group acceptance: CLOSED / all 34 original R/B/C/D groups. Partial implementation receives no full-group credit. This is a verified closure metric, not a measure of development effort or existing product functionality.",
   "closed": 17,
   "total": 34,
@@ -74,7 +74,8 @@
       "requirement": "Publish and verify 68-source-task coverage. Remote registry has 68 historical entries, but that count is not parity with the 68 source tasks. Preserved local code adds 37 missing contracts and maps all 68 original task keys to 105 runtime entries, while preserving historical entries and versions. Rerun coverage, duplicate-key, unknown-task, deterministic composition and legacy snapshot regressions. Verify every source task's actual semantics, not only key existence.",
       "status": "PARTIAL",
       "evidence_and_remaining": "All 68 source task keys covered by 105 compatible runtime registry entries; all-task behavioral acceptance remains open.",
-      "current_candidate": "All original 68 legacy definitions match the frozen fixture by exact JSON bytes and SHA256. The original 68 source tasks and 37 additions remain intact; the separate assessed translation runtime makes 106 registry entries. Shared Grammar/RIWI handoff and legacy regressions passed at the current source state; all-task semantic acceptance remains open."
+      "current_candidate": "All original 68 legacy definitions match the frozen fixture by exact JSON bytes and SHA256. The original 68 source tasks and 37 additions remain intact; the separate assessed translation runtime makes 106 registry entries. Shared Grammar/RIWI handoff and legacy regressions passed at the current source state; all-task semantic acceptance remains open.",
+      "latest_code_publication": "6f125f7dd21fafcce4f7ab089b0e26569600b3b5"
     },
     {
       "id": "B02",
@@ -95,7 +96,9 @@
       "requirement": "Verify executable Grammar/Vocabulary/retention/tutoring/reporting task routes for all listed tasks. Catalog entries are not implemented runtime behavior. Reuse existing tools/services. Distinguish unavailable capability from supported deterministic behavior. Vocabulary meaning/sense comes from canonical authority. Reporter numbers remain deterministic.",
       "status": "PARTIAL",
       "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group.",
-      "current_candidate": "Existing Grammar objective submission, production practice and RIWI Grammar handoff now use canonical activity prompts, strict assessment coverage and diagnostic-only phrase matching. Duplicate/foreign/forged objective batches fail before writes; attempt/event failure rolls back. Grammar translation requires the shared configured semantic evaluator with fallback none. Remaining Grammar/Vocabulary/retention/tutoring/reporting tasks still require individual runtime acceptance."
+      "current_candidate": "Existing Grammar objective submission, production practice and RIWI Grammar handoff now use canonical activity prompts, strict assessment coverage and diagnostic-only phrase matching. Duplicate/foreign/forged objective batches fail before writes; attempt/event failure rolls back. Grammar translation requires the shared configured semantic evaluator with fallback none. Remaining Grammar/Vocabulary/retention/tutoring/reporting tasks still require individual runtime acceptance.",
+      "latest_code_publication": "6f125f7dd21fafcce4f7ab089b0e26569600b3b5",
+      "current_batch17_candidate": "Unpublished Vocabulary input/source/transaction repair and source-bound Writing Activation evaluation persistence. Exact-source local non-build QA verified in docs/RIWI-BATCH-17-PUSH-HANDOFF.json. Mandatory external/native acceptance and all-task semantics remain open; no full-group credit."
     },
     {
       "id": "B05",
@@ -103,7 +106,9 @@
       "status": "REMOTE_PUBLISHED_APPLICABLE_EXTERNAL_ACCEPTANCE_PENDING",
       "evidence_and_remaining": "Speaking parts use shared canonical reviewed-text contracts, supported unique half-bands, grounded quotes and server overall; transcript-only requests refuse pronunciation bands. Existing provider/local/Writing/Grammar contract regressions included in full backend gate. Native gate and applicable live-provider evidence still pending. Step 10 native gates and all 32 changed remote blobs were independently verified. Applicable live provider/browser/private URL evidence still remains; no full group credit.",
       "commit": "c133f97cabc086fdd14b9acb7f60c46a1cc92419",
-      "current_local_candidate": "Batch16 and continuation enforce nonempty inputs and same-source Writing checks; direct adapters now validate shared task domains/output/evidence without erasing unsupported claims. Local QA is recorded per current source in docs/RIWI-BATCH-16-CONTINUATION-QA-RESULTS.json. Applicable live provider acceptance remains open; no full-group credit."
+      "current_local_candidate": "Batch16 and continuation enforce nonempty inputs and same-source Writing checks; direct adapters now validate shared task domains/output/evidence without erasing unsupported claims. Local QA is recorded per current source in docs/RIWI-BATCH-16-CONTINUATION-QA-RESULTS.json. Applicable live provider acceptance remains open; no full-group credit.",
+      "latest_code_publication": "6f125f7dd21fafcce4f7ab089b0e26569600b3b5",
+      "current_batch17_candidate": "Unpublished Vocabulary input/source/transaction repair and source-bound Writing Activation evaluation persistence. Exact-source local non-build QA verified in docs/RIWI-BATCH-17-PUSH-HANDOFF.json. Mandatory external/native acceptance and all-task semantics remain open; no full-group credit."
     },
     {
       "id": "B06",
@@ -167,7 +172,8 @@
       "status": "REMOTE_PUBLISHED_APPLICABLE_EXTERNAL_ACCEPTANCE_PENDING",
       "evidence_and_remaining": "Part 2 preparation has no microphone; early start and recording-limit review tested in React. Summary aggregates owned grounded evaluations, counts recurrence across distinct answers, and withholds overall for incomplete evidence. Pronunciation remains unassessed. Real browser and learning-signal consent/privacy acceptance remain separate mandatory checks. Step 10 native gates and all 32 changed remote blobs were independently verified. Applicable live provider/browser/private URL evidence still remains; no full group credit.",
       "commit": "c133f97cabc086fdd14b9acb7f60c46a1cc92419",
-      "current_local_candidate": "Speaking summary now validates saved part/contract, valid attempt state, grounded teaching/issue quotations and unsupported pronunciation. Active/incomplete coverage cannot create an overall. Legacy null-contract rows require valid grounded evidence. Actual browser and learning-signal consent/privacy acceptance remain open."
+      "current_local_candidate": "Speaking summary now validates saved part/contract, valid attempt state, grounded teaching/issue quotations and unsupported pronunciation. Active/incomplete coverage cannot create an overall. Legacy null-contract rows require valid grounded evidence. Actual browser and learning-signal consent/privacy acceptance remain open.",
+      "latest_code_publication": "6f125f7dd21fafcce4f7ab089b0e26569600b3b5"
     },
     {
       "id": "C08",
@@ -239,7 +245,9 @@
       "requirement": "Rerun required two final gates after last source change and record their state identity, exact results/skips, commands and artifacts. The remote ledger's 16,978 PASS labels are classification output, not 16,978 independently passing tests.",
       "status": "PARTIAL",
       "evidence_and_remaining": "Original native full gate passed before later edits. Final non-build gates pending. Owner explicitly instructed no rebuild; last-source build verification is NOT claimed, and this group remains open.",
-      "current_candidate": "Two local non-build backend/UI/typecheck/lint gates passed against source-state 9c356c51; each backend retains 91 declared skips. No full-group credit until applicable mandatory/native/operational final gates are resolved. Raw receipts: docs/RIWI-BATCH-16-PUSH-HANDOFF.json."
+      "current_candidate": "Two owner-terminal non-build backend/UI/typecheck/lint gates independently verified against source-state 9c356c51 and published tree af2c6a4f. Each backend retains 91 declared skips. Applicable mandatory native PostgreSQL/source/live/operational acceptance remains open; no full-group credit.",
+      "latest_code_publication": "6f125f7dd21fafcce4f7ab089b0e26569600b3b5",
+      "current_batch17_candidate": "Unpublished Vocabulary input/source/transaction repair and source-bound Writing Activation evaluation persistence. Exact-source local non-build QA verified in docs/RIWI-BATCH-17-PUSH-HANDOFF.json. Mandatory external/native acceptance and all-task semantics remain open; no full-group credit."
     },
     {
       "id": "D10",
@@ -289,9 +297,9 @@
     "commit": "147305642fc60470fd7097ec68349e66527b6ae4"
   },
   "next_batch_baseline_closed": 17,
-  "progress_record_publication": "Post-publication reconciliation prepared locally for the next qualifying batch; verified source commit remains 1473056.",
+  "progress_record_publication": "Post-publication reconciliation prepared locally for a future qualifying batch; verified source commit remains 6f125f7.",
   "pending_batch16": {
-    "status": "LOCAL_GRAMMAR_QA_PASSED_SIX_GROUP_ACCEPTANCE_NOT_MET",
+    "status": "REMOTE_PUBLISHED_NATIVE_NON_BUILD_QA_VERIFIED_OPERATIONAL_ACCEPTANCE_PENDING",
     "baseline_closed": 17,
     "minimum_additional_full_groups": 6,
     "accepted_delta": 0,
@@ -307,6 +315,30 @@
     "source_state_manifest": "docs/RIWI-BATCH-16-GRAMMAR-SOURCE-STATE.json",
     "previous_evidence_manifest": "docs/RIWI-BATCH-17-EVIDENCE-MANIFEST.json",
     "terminal_handoff_report": "docs/RIWI-BATCH-16-PUSH-HANDOFF.json",
-    "local_code_package_ready": true
+    "local_code_package_ready": true,
+    "published_commit": "6f125f7dd21fafcce4f7ab089b0e26569600b3b5",
+    "remote_verification_report": "docs/RIWI-BATCH-16-REMOTE-VERIFICATION.json",
+    "native_terminal_qa_rounds_verified": 2,
+    "published": true,
+    "full_batch_size_acceptance_met": false,
+    "publication_note": "Owner published the current code-fix packet. Exact parent/tree, 81 reviewed paths and 1208 source files independently verified. Publication does not earn six-new-group acceptance or close operational requirements."
+  },
+  "pending_batch17": {
+    "status": "CURRENT_CODE_PACKAGE_READY_FOR_OWNER_TERMINAL_QA_AND_COMMIT",
+    "base_commit": "6f125f7dd21fafcce4f7ab089b0e26569600b3b5",
+    "source_state_sha256": "c629ad51e49f41df314e7673fc283b7e87dc991c2d60f6fc0fa43e29160a0fee",
+    "qa_report": "docs/RIWI-BATCH-17-PUSH-HANDOFF.json",
+    "audit": "docs/RIWI-BATCH-17-VOCABULARY-EVIDENCE.md",
+    "accepted_delta": 0,
+    "minimum_additional_full_groups": 6,
+    "publication_ready": false,
+    "published": false,
+    "full_batch_size_acceptance_met": false,
+    "code_package_ready": true,
+    "owner_requested_current_packet_publication": true,
+    "owner_handoff_report": "docs/RIWI-BATCH-17-PUSH-HANDOFF.json",
+    "local_non_build_qa_rounds": 2,
+    "previous_checkpoint_source_state_sha256": "ffe10915281f07847035619143f2fae29f2449f775720c7163869a347f8be9cb",
+    "previous_checkpoint_qa_report": "docs/RIWI-BATCH-17-VOCABULARY-QA-RESULTS.json"
   }
 }

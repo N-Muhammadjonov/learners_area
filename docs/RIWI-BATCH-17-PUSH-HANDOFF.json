@@ -1,0 +1,147 @@
+{
+  "status": "CURRENT_CODE_PACKAGE_READY_FOR_OWNER_TERMINAL_QA_AND_COMMIT",
+  "base_commit": "6f125f7dd21fafcce4f7ab089b0e26569600b3b5",
+  "source_state_sha256": "c629ad51e49f41df314e7673fc283b7e87dc991c2d60f6fc0fa43e29160a0fee",
+  "source_files": 1211,
+  "local_qa_rounds": [
+    {
+      "backend": {
+        "kind": "backend",
+        "exit_code": 0,
+        "log": "/tmp/riwi-batch17-handoff-round1-backend.log",
+        "sha256": "820f4b0ecdf0c3e8b9274d38ad159deeb19e1d4e41daf6f7804d9b7ff376d8eb",
+        "source_sha256": "c629ad51e49f41df314e7673fc283b7e87dc991c2d60f6fc0fa43e29160a0fee",
+        "build_rerun": false,
+        "counts": {
+          "tests": 1342,
+          "pass": 1250,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 92,
+          "todo": 0
+        }
+      },
+      "ui": {
+        "kind": "ui",
+        "exit_code": 0,
+        "log": "/tmp/riwi-batch17-handoff-round1-ui.log",
+        "sha256": "7548791a2532ac08047edd354bad868fdfbf692ad9141bc1200de8f748927652",
+        "source_sha256": "c629ad51e49f41df314e7673fc283b7e87dc991c2d60f6fc0fa43e29160a0fee",
+        "build_rerun": false,
+        "counts": {
+          "tests": 260,
+          "pass": 260,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        }
+      },
+      "typecheck": {
+        "kind": "typecheck",
+        "exit_code": 0,
+        "log": "/tmp/riwi-batch17-handoff-round1-typecheck.log",
+        "sha256": "5d67ea7ba0cdcb67cf34b4b132066d5cd00b857a31cc804006ed533f4aab0717",
+        "source_sha256": "c629ad51e49f41df314e7673fc283b7e87dc991c2d60f6fc0fa43e29160a0fee",
+        "build_rerun": false
+      },
+      "lint": {
+        "kind": "lint",
+        "exit_code": 0,
+        "log": "/tmp/riwi-batch17-handoff-round1-lint.log",
+        "sha256": "63b6b500220f93347722b6b4ab90d1bc1f5a32bfe848b62f2565bcb75b5b71a6",
+        "source_sha256": "c629ad51e49f41df314e7673fc283b7e87dc991c2d60f6fc0fa43e29160a0fee",
+        "build_rerun": false
+      }
+    },
+    {
+      "backend": {
+        "kind": "backend",
+        "exit_code": 0,
+        "log": "/tmp/riwi-batch17-handoff-round2-backend.log",
+        "sha256": "b43ae4f521e1a0bcd0e3ff7baaa51168db3f093f65b028f3f9f2ee68a82a8df4",
+        "source_sha256": "c629ad51e49f41df314e7673fc283b7e87dc991c2d60f6fc0fa43e29160a0fee",
+        "build_rerun": false,
+        "counts": {
+          "tests": 1342,
+          "pass": 1250,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 92,
+          "todo": 0
+        }
+      },
+      "ui": {
+        "kind": "ui",
+        "exit_code": 0,
+        "log": "/tmp/riwi-batch17-handoff-round2-ui.log",
+        "sha256": "7f37d228cab4fd300d6eac476794435212b3db4a7d37689ce65e17fad83e1c87",
+        "source_sha256": "c629ad51e49f41df314e7673fc283b7e87dc991c2d60f6fc0fa43e29160a0fee",
+        "build_rerun": false,
+        "counts": {
+          "tests": 260,
+          "pass": 260,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        }
+      },
+      "typecheck": {
+        "kind": "typecheck",
+        "exit_code": 0,
+        "log": "/tmp/riwi-batch17-handoff-round2-typecheck.log",
+        "sha256": "5d67ea7ba0cdcb67cf34b4b132066d5cd00b857a31cc804006ed533f4aab0717",
+        "source_sha256": "c629ad51e49f41df314e7673fc283b7e87dc991c2d60f6fc0fa43e29160a0fee",
+        "build_rerun": false
+      },
+      "lint": {
+        "kind": "lint",
+        "exit_code": 0,
+        "log": "/tmp/riwi-batch17-handoff-round2-lint.log",
+        "sha256": "63b6b500220f93347722b6b4ab90d1bc1f5a32bfe848b62f2565bcb75b5b71a6",
+        "source_sha256": "c629ad51e49f41df314e7673fc283b7e87dc991c2d60f6fc0fa43e29160a0fee",
+        "build_rerun": false
+      }
+    }
+  ],
+  "source_before_after_match": true,
+  "build_rerun": false,
+  "published": false,
+  "owner_requested_current_packet_publication": true,
+  "owner_instruction": "unda push qilishga tayyor holatga keltirib ber men push qilaman",
+  "scope_exception": "Owner requested publication readiness for the current repair packet. This does not waive mandatory operational acceptance or earn six complete groups.",
+  "code_package_ready": true,
+  "full_batch_size_acceptance_met": false,
+  "new_complete_groups_accepted": 0,
+  "progress": {
+    "closed": 17,
+    "total": 34,
+    "prompt_percent": 50,
+    "riwi_percent": null,
+    "project_percent": null
+  },
+  "native_postgresql_acceptance": "UNVERIFIED",
+  "live_provider_acceptance": "UNVERIFIED",
+  "authenticated_browser_acceptance": "UNVERIFIED",
+  "operational_acceptance": "UNVERIFIED",
+  "skip_count": 92,
+  "skip_counts_as_pass": false,
+  "owner_terminal_protocol": "Exact base and source guards; two new non-build QA rounds; stage only reviewed paths; commit; separate explicit non-force push with receipt.",
+  "historical_checkpoint": "RIWI_BATCH_17_VOCABULARY_WORKING_CHECKPOINT.json remains unchanged and records the earlier six-group publication rule.",
+  "source_state_manifest": "docs/RIWI-BATCH-17-PUSH-SOURCE-STATE.json",
+  "deadline_regression": {
+    "failed_prior_source_sha256": "ffe10915281f07847035619143f2fae29f2449f775720c7163869a347f8be9cb",
+    "failed_log": "riwi-batch17-round2-backend.log",
+    "failed_log_sha256": "1b1d835625abcaffd2e39c7ceb79b87af93880e60dab7425d083c5bb2e41855a",
+    "failed_backend_counts": {
+      "tests": 1342,
+      "pass": 1249,
+      "fail": 1,
+      "skipped": 92
+    },
+    "repair": "The 15ms in-flight timeout test now uses the existing clock seam to exclude database setup before provider entry. It additionally proves an exhausted setup deadline skips the provider. Production deadline logic and existing assertions remain unchanged.",
+    "focused_test_log": "riwi-batch17-provider-deadline-focused.log",
+    "focused_test_sha256": "4b3911391cddafd633a0270c92f37b7c50d47952ef440d6f65faea82e315c1b6"
+  }
+}
