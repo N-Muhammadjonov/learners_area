@@ -1277,6 +1277,8 @@ const en = {
     correct: "Correct",
     incorrect: "Incorrect",
     correctAnswer: "Correct answer",
+    notGraded: "Not graded",
+    unanswered: "Not answered",
     transcript: "Transcript",
     transcriptHint: "Every word is clickable — look it up or save it to your own words.",
     explanation: "Explanation",

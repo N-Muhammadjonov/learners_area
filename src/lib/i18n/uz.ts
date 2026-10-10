@@ -1261,6 +1261,8 @@ const uz: Dictionary = {
     correct: "To'g'ri",
     incorrect: "Noto'g'ri",
     correctAnswer: "To'g'ri javob",
+    notGraded: "Baholanmagan",
+    unanswered: "Javob berilmagan",
     transcriptHint: "Har bir so'z bosiladi — ma'nosini ko'ring yoki lug'atingizga saqlang.",
     transcript: "Matn (transkript)",
     explanation: "Tushuntirish",
