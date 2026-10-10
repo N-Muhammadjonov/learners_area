@@ -266,10 +266,10 @@ try {
 
   // RESUME: a fresh read of the attempt must return the saved answers, not an empty sheet.
   const resumedPage = await actors.STUDENT_A.get(`/app/reading/attempts/${attemptId}`);
-  const attemptRow = await one("select score, submitted_at, expires_at from reading_attempts where id=$1", [attemptId]);
+  const attemptRow = await one("select score, submitted_at, status from reading_attempts where id=$1", [attemptId]);
   step(e1, "resume: the attempt is still open, unscored, and holds the saved answers", {
     ok: resumedPage.status === 200 && attemptRow && !attemptRow.submitted_at && attemptRow.score === null && draftRows === partial.length,
-    note: `page HTTP ${resumedPage.status}; submitted_at=${attemptRow?.submitted_at ?? "null"}; score=${attemptRow?.score ?? "null"}; saved answers=${draftRows}`,
+    note: `page HTTP ${resumedPage.status}; status=${attemptRow?.status}; submitted_at=${attemptRow?.submitted_at ?? "null"}; score=${attemptRow?.score ?? "null"}; saved answers=${draftRows}`,
     http: resumedPage.status, db: `reading_answers=${draftRows}`,
   });
 
@@ -334,7 +334,9 @@ try {
     http: created.status, db: `writing_submissions=${await count("select count(*)::int n from writing_submissions where id=$1", [submissionId])}`,
   });
 
-  const draftText = `[${tag}] Draft one. ${M.studentA} The city should limit cars because the air quality improves.`;
+  // The submit route refuses anything under 20 words (too_short), so the draft must be a real
+  // essay. Writing 14 words here measured my fixture, not the product.
+  const draftText = `[${tag}] Draft one. ${M.studentA} The city should limit private cars in the centre because air quality improves measurably, streets become safer for children walking to school, and public transport becomes a more attractive option for commuters who currently have no realistic alternative to driving.`;
   const autosaved = await actors.STUDENT_A.request("PATCH", `/api/writing/submissions/${submissionId}`, { body: { content: draftText } });
   const storedDraft = await one("select content, status from writing_submissions where id=$1", [submissionId]);
   step(e5, "autosave the draft body", {
@@ -441,28 +443,53 @@ try {
     http: teacherView.status, db: "read-only",
   });
 
-  const lessonRow = await one("select id, title, publication_state from lessons where id=$1", [F.lessonIds[0]]);
+  // A lesson the student may actually work in. The fixture's first lesson takes the column
+  // default `default_state = 'locked'`, and POST /api/lessons/:id/state refuses a locked lesson
+  // with 403 by design, so pointing the progress journey at it measured the lock, not progress.
+  const lessonRow = await one("select id, title, publication_state, default_state from lessons where id=$1", [F.lessonAvailable]);
+  assert.ok(lessonRow, "the open fixture lesson must exist before the progress journey can claim anything");
   const lessonPage = await actors.STUDENT_A.get(`/app/courses/ielts/lessons/${lessonRow?.id}`);
   step(e4, "a published lesson opens for the learner", {
     ok: lessonPage.status === 200 && lessonPage.body.includes(`[${tag}]`),
-    note: `HTTP ${lessonPage.status}; the fixture lesson title is rendered=${lessonPage.body.includes(`[${tag}]`)}; state=${lessonRow?.publication_state}`,
+    note: `HTTP ${lessonPage.status}; the fixture lesson title is rendered=${lessonPage.body.includes(`[${tag}]`)}; state=${lessonRow?.publication_state}; default_state=${lessonRow?.default_state}`,
     http: lessonPage.status, db: `lessons.publication_state=${lessonRow?.publication_state}`,
   });
-  const draftLesson = await one("select id from lessons where id=$1", [F.lessonDraft]);
-  const draftPage = await actors.STUDENT_A.get(`/app/courses/ielts/lessons/${draftLesson?.id}`);
+  // The draft id must be a REAL row, otherwise "the draft content is absent" is true of any 404
+  // and the control proves nothing.
+  const draftLesson = await one("select id, title, publication_state from lessons where id=$1", [F.lessonDraft]);
+  assert.ok(draftLesson && draftLesson.publication_state === "draft", "the draft fixture lesson must exist and be a draft");
+  const draftMarker = `[${tag}] Lesson 2 (draft)`;
+  const draftPage = await actors.STUDENT_A.get(`/app/courses/ielts/lessons/${draftLesson.id}`);
+  // Positive control for the control: the same marker IS rendered by the published lesson's own
+  // page shape, so its absence here is evidence about publication state and not about routing.
   step(e4, "NEGATIVE CONTROL: a draft lesson does not render its content to a learner", {
-    ok: !draftPage.body.includes(`[${tag}] DRAFT lesson`),
-    note: `HTTP ${draftPage.status}; draft content present=${draftPage.body.includes(`[${tag}] DRAFT lesson`)}`,
-    http: draftPage.status, db: "read-only",
+    ok: !draftPage.body.includes(draftMarker) && draftLesson.title.includes(draftMarker),
+    note: `HTTP ${draftPage.status}; the row really is a draft titled with the marker=${draftLesson.title.includes(draftMarker)}; marker rendered to the learner=${draftPage.body.includes(draftMarker)}`,
+    http: draftPage.status, db: `lessons.publication_state=${draftLesson.publication_state}`,
   });
 
   const progressBefore = await one("select count(*)::int n from lesson_progress where user_id=$1", [actors.STUDENT_A_ID]);
-  const stateRes = await actors.STUDENT_A.post(`/api/lessons/${lessonRow?.id}/state`, { completed: true });
+  // POST /api/lessons/:id/state validates {state:"in_progress"|"completed", notes?}. Sending
+  // {completed:true} produced 400 invalid_input, which is the route behaving correctly.
+  const stateRes = await actors.STUDENT_A.post(`/api/lessons/${lessonRow?.id}/state`, { state: "completed", notes: `[${tag}] progress note` });
   const progressAfter = await one("select count(*)::int n from lesson_progress where user_id=$1", [actors.STUDENT_A_ID]);
-  step(e4, "lesson progress persists for the learner", {
-    ok: stateRes.status < 400,
-    note: `HTTP ${stateRes.status} ${stateRes.json?.error ?? ""}; lesson_progress rows ${progressBefore?.n} → ${progressAfter?.n}`,
-    http: stateRes.status, db: `lesson_progress=${progressAfter?.n}`,
+  const progressRow = await one("select state, completed_at, notes from lesson_progress where user_id=$1 and lesson_id=$2", [actors.STUDENT_A_ID, lessonRow?.id]);
+  step(e4, "lesson progress persists for the learner, with the state the server decided", {
+    ok: stateRes.status < 400 && progressRow?.state === "completed" && Boolean(progressRow?.completed_at),
+    note: `HTTP ${stateRes.status} ${stateRes.json?.error ?? ""}; lesson_progress rows ${progressBefore?.n} → ${progressAfter?.n}; stored state=${progressRow?.state}; completed_at set=${Boolean(progressRow?.completed_at)}`,
+    http: stateRes.status, db: `lesson_progress.state=${progressRow?.state}`,
+  });
+  // Completing twice must not move completedAt: it is defined as the moment the work finished.
+  const again = await actors.STUDENT_A.post(`/api/lessons/${lessonRow?.id}/state`, { state: "completed" });
+  const progressRow2 = await one("select state, completed_at from lesson_progress where user_id=$1 and lesson_id=$2", [actors.STUDENT_A_ID, lessonRow?.id]);
+  // Asserting only "completed_at unchanged" would also pass when BOTH requests were refused,
+  // which is what happened before the fixture lesson was opened. The refusal itself is the
+  // contract: transition() answers wrong_direction (409) for a second completion, because
+  // completedAt has to keep meaning the moment the work was actually finished.
+  step(e4, "NEGATIVE CONTROL: a second completion is refused and the finish time is not re-stamped", {
+    ok: again.status === 409 && again.json?.error === "wrong_direction" && String(progressRow2?.completed_at ?? "") === String(progressRow?.completed_at ?? ""),
+    note: `second POST → HTTP ${again.status} ${again.json?.error ?? ""}; completed_at unchanged=${String(progressRow2?.completed_at ?? "") === String(progressRow?.completed_at ?? "")}`,
+    http: again.status, db: `completed_at=${progressRow2?.completed_at}`,
   });
 
   /* ================================================================ E2
@@ -544,6 +571,15 @@ try {
   writeFileSync("docs/JOURNEY-MATRIX.md", `${lines.join("\n")}\n`);
   console.log(`\n${lines[6]}`);
   for (const j of journeys) console.log(`  ${j.id}: ${j.steps.filter((s) => s.ok).length}/${j.steps.length} steps${j.blocked ? " (BLOCKED)" : j.failed ? " (FAILED)" : ""}`);
+  // A run that is not fully green must say WHY it is not green. "Blocked by a missing owner
+  // asset" and "the product did the wrong thing" are different facts and must not share an
+  // undifferentiated nonzero exit.
+  if (exitCode) {
+    const real = journeys.filter((j) => j.failed && !j.blocked);
+    console.log(real.length
+      ? `\nEXIT 1 REASON: ${real.length} journey/journeys measured a real product failure: ${real.map((j) => j.id).join(", ")}.`
+      : `\nEXIT 1 REASON: no product failure was measured. The run is not fully green solely because ${blocked.map((j) => j.id).join(", ")} ${blocked.length === 1 ? "is" : "are"} blocked by a missing owner asset — an unverifiable requirement is not a passing one.`);
+  }
 }
 
 process.exit(exitCode || process.exitCode === 1 ? 1 : 0);

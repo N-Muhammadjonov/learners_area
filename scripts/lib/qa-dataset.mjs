@@ -378,6 +378,17 @@ async function buildDataset({ client, tag, actors, sizes = {} }) {
     );
     lessonIds.push(id);
   }
+  // A lesson a student may actually work in. The three above take the column's default
+  // `default_state`, which is `locked`, and POST /api/lessons/:id/state refuses a locked lesson
+  // with 403 by design — so a progress journey needs one published lesson that is open. Adding it
+  // here rather than changing the others keeps every existing consumer's expectations intact.
+  const lessonAvailable = randomUUID();
+  await q(
+    `insert into lessons (id, unit_id, slug, title, "order", publication_state, default_state)
+     values ($1,$2,$3,$4,$5,$6,$7)`,
+    [lessonAvailable, unit.id, `${tag}-lesson-open`, `[${tag}] Lesson open ${markers.teacher}`, 903, "published", "available"],
+  );
+  lessonIds.push(lessonAvailable);
   note("lessons", lessonIds);
 
   /* ------------------------------------------------------------ ASSIGNMENTS */
@@ -412,7 +423,7 @@ async function buildDataset({ client, tag, actors, sizes = {} }) {
       listeningPublished, listeningDraft,
       writingPublished, writingDraft, subA, subB, draftA, draftB,
       lexemeIds, folderA1, folderA2, folderB1, vocabIds,
-      lessonIds, assignmentIds, unitId,
+      lessonIds, lessonAvailable, lessonDraft: lessonIds[2], unitId,
     },
   };
 }
