@@ -135,6 +135,11 @@ export async function createAssignment(
   if (version.status !== "published")
     return { ok: false, issues: [issue("version_not_published", "Only a published revision can be assigned to a learner.", "reference")] };
 
+  // Published is not the same as openable. The picker applies this rule already; applying it here
+  // too is what stops the API from accepting a reference the catalogue would never offer.
+  const targetProblem = await assignableTargetProblem(version, tx as unknown as VersionReader);
+  if (targetProblem) return { ok: false, issues: [targetProblem] };
+
   for (const studentId of input.studentIds) {
     const verdict = await mayAssignTo(input.actor, studentId, tx as never);
     if (!verdict.allowed)
@@ -423,6 +428,48 @@ const TARGET_LIVENESS: Record<
       .from(videoLessons)
       .where(and(inArray(videoLessons.id, ids), liveWhere({ publicationState: videoLessons.publicationState, publishAt: videoLessons.publishAt }))),
 };
+
+/**
+ * Can a learner actually open this revision's canonical content right now?
+ *
+ * One rule, read from the same TARGET_LIVENESS map the picker uses, so the catalogue a teacher
+ * chooses from and the reference `createAssignment` is willing to pin cannot disagree. They did
+ * disagree: the picker deliberately omits a target type it does not know (speaking material is
+ * authored and versioned but is NOT assignable — there is no canonical assignment target for it,
+ * and the registry refuses rather than invents one), while `createAssignment` accepted exactly that
+ * reference with HTTP 201 because it only checked that the content type was known and the revision
+ * published. A teacher could therefore set work by hand-crafted request that no picker would ever
+ * offer.
+ *
+ * The second half matters as much: a revision stays published after the row behind it is withdrawn,
+ * archived, or scheduled for later, and `createAssignment` never looked at the row. Assigning that
+ * hands a learner a task they cannot start — the same failure the picker's liveness check exists to
+ * prevent.
+ *
+ * A revision with no target at all has no canonical row to be stale, so there is nothing to check;
+ * that mirrors the picker, which only excludes rows that name a target they cannot prove live.
+ */
+export async function assignableTargetProblem(
+  version: { targetType: string | null; targetId: string | null },
+  executor: VersionReader,
+): Promise<AssignmentIssue | null> {
+  if (!version.targetType || !version.targetId) return null;
+  const query = TARGET_LIVENESS[version.targetType];
+  if (!query)
+    return issue(
+      "content_not_assignable",
+      `That content has no assignment target (${version.targetType}), so it cannot be set as work.`,
+      "reference",
+    );
+  const live = await query(executor, [version.targetId]);
+  if (live.length === 0)
+    return issue(
+      "content_not_live",
+      "That content is not open to learners, so it cannot be set as work.",
+      "reference",
+    );
+  return null;
+}
 
 async function liveTargetIds(
   rows: { targetType: string | null; targetId: string | null }[],

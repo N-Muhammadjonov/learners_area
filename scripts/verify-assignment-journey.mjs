@@ -32,6 +32,7 @@ assertMutableDatabase(DATABASE_URL, { probe: "verify-assignment-journey" });
 const { launchBrowser, createSession } = await import("./lib/browser-qa.mjs");
 const pg = (await import("pg")).default;
 
+const OWNER = ["owner@learnersarea.uz", "Owner12345!"];
 const TEACHER = ["teacher@learnersarea.uz", "Teacher12345!"];
 const TEACHER_B = ["teacher2@learnersarea.uz", "Teacher12345!"]; // no teacher_student_links row
 const STUDENT_A = ["demo.student@learnersarea.uz", "Student12345!"]; // on TEACHER's roster
@@ -40,6 +41,7 @@ const STUDENT_B = ["new.student@learnersarea.uz", "Student12345!"]; // also on T
 const SWEEP_TABLES = [
   "assignment_responses", "writing_feedback", "evaluations", "assignment_targets",
   "assignments", "activity_events", "content_versions", "material_blocks", "speaking_materials",
+  "writing_prompts",
 ];
 
 const failures = [];
@@ -63,6 +65,7 @@ const MARKER = `qa6-journey-${Date.now()}`;
 const RESPONSE_TEXT = `This is the learner's own response to ${MARKER}, long enough to pass the twenty character floor.`;
 
 const browser = await launchBrowser();
+let ownerSession = null;
 let teacherSession = null;
 let learnerSession = null;
 
@@ -80,24 +83,132 @@ try {
     !links.some((l) => l.teacher_user_id === teacherB.id && l.student_user_id === studentA.id),
     "so a refusal below is attributable to the roster rule, not to a missing row");
 
-  /* ------------------------------------------- 1. teacher authors curriculum content */
-  step("1 · the teacher authors curriculum content through the product's own endpoint");
+  /* ------------------------------- 1. curriculum content is authored and published */
+  /*
+   * Through the product's own authoring endpoints, in the order the product requires, and by the
+   * actors the product allows. This is not a shortcut around a fixture gap: it is the real chain, and
+   * each step is a separate product decision that the journey has to respect.
+   *
+   *   POST /api/admin/content/drafts                       owner  → a draft revision + the canonical row
+   *   POST /api/admin/content/versions/:id/publication     owner  → the REVISION becomes published
+   *   POST /api/admin/content/writing/:id/publication      owner  → the canonical ROW becomes published
+   *
+   * Both publications are needed and they are not the same thing: the picker requires a published
+   * revision whose target row is still live. A teacher is refused (403) on both writing publication
+   * calls — teachers author lessons and speaking resources, owners publish writing content — so the
+   * journey uses the owner here and the teacher for the assignment, which is how the product splits
+   * the work.
+   */
+  step("1 · curriculum content is authored and published through the product's own endpoints");
+  ownerSession = await createSession(browser, { base: BASE, email: OWNER[0], password: OWNER[1], viewport: 1440, locale: "en" });
+  ownerSession.page.on("dialog", async (d) => { await d.accept(); });
   teacherSession = await createSession(browser, { base: BASE, email: TEACHER[0], password: TEACHER[1], viewport: 1440, locale: "en" });
   teacherSession.page.on("dialog", async (d) => { await d.accept(); });
-  const materialTitle = `${MARKER} speaking resource`;
-  const authored = await teacherSession.page.evaluate(async (payload) => {
+
+  const contentRef = `${MARKER}-task2`;
+  const authored = await ownerSession.page.evaluate(async (payload) => {
+    const post = async (url, body) => {
+      const res = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+      return { status: res.status, body: await res.json().catch(() => null) };
+    };
+    const draft = await post("/api/admin/content/drafts", payload.draft);
+    if (draft.status >= 300) return { draft };
+    const { versionId, targetId } = draft.body;
+    const version = await post(`/api/admin/content/versions/${versionId}/publication`, { to: "published" });
+    const row = await post(`/api/admin/content/writing/${targetId}/publication`, { state: "published" });
+    return { draft, version, row, versionId, targetId };
+  }, {
+    draft: {
+      module: "writing", contentType: "task2", sourceRef: contentRef, title: `${MARKER} essay`,
+      payload: { taskType: "task2", category: "qa6", prompt: `Discuss ${MARKER} in your own words.`, targetWordCount: 250 },
+    },
+  });
+  check("the owner can author the curriculum content", authored.draft?.status === 201 && Boolean(authored.targetId),
+    `HTTP ${authored.draft?.status} target=${authored.targetId?.slice(0, 8) ?? "none"}`);
+  check("and publish the REVISION, which is what the picker requires",
+    authored.version?.status === 200 && authored.version?.body?.publicationState === "published",
+    `HTTP ${authored.version?.status} ${authored.version?.body?.publicationState ?? JSON.stringify(authored.version?.body ?? {}).slice(0, 80)}`);
+  check("and publish the canonical ROW, which is what liveness requires",
+    authored.row?.status === 200 && authored.row?.body?.state === "published",
+    `HTTP ${authored.row?.status} ${authored.row?.body?.state ?? JSON.stringify(authored.row?.body ?? {}).slice(0, 80)}`);
+
+  const revision = await one(
+    "select id, module, content_type, source_ref, status, publication_state, target_type, target_id from content_versions where id=$1",
+    [authored.versionId]);
+  check("the revision is published and names a live canonical target",
+    revision?.publication_state === "published" && revision?.status === "published" && revision?.target_type === "writing_prompt",
+    revision ? `${revision.module}:${revision.content_type} status=${revision.status}/${revision.publication_state} target=${revision.target_type}` : "no revision row");
+
+  /* ------- 1b. the assignability rule: the API must refuse what the picker will not offer ------- */
+  /*
+   * Speaking material is authored, versioned and previewed, and is deliberately NOT assignable —
+   * there is no canonical assignment target for it, and the registry refuses rather than invents one
+   * (tests/speaking-canonical-identity.test.ts SP4). The picker has always honoured that by omission.
+   * createAssignment did not: it checked only that the content type was known and the revision
+   * published, both true here, so POST /api/assignments pinned it and answered 201. A teacher could
+   * set work by hand-crafted request that no picker would ever offer. Both halves now read one rule.
+   */
+  step("1b · content that is not assignable is refused by the API, not just hidden by the picker");
+  const material = await teacherSession.page.evaluate(async (payload) => {
     const res = await fetch("/api/speaking/materials", {
       method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload),
     });
     return { status: res.status, body: await res.json().catch(() => null) };
-  }, { title: materialTitle, category: "part1", primary: { mode: "link", primaryType: "link", primaryUrl: "https://example.edu/qa6-journey" } });
-  check("the teacher can author a speaking resource", authored.status === 200 && authored.body?.ok === true,
-    `HTTP ${authored.status} id=${authored.body?.id?.slice(0, 8) ?? "none"}`);
-  const materialId = authored.body?.id;
+  }, { title: `${MARKER} speaking resource`, category: "part1", primary: { mode: "link", primaryType: "link", primaryUrl: "https://example.edu/qa6-journey" } });
+  const materialId = material.body?.id;
+  const materialRevision = await one(
+    "select id, module, content_type, source_ref, publication_state, target_type from content_versions where target_id=$1", [materialId]);
+  check("the teacher can author and publish a speaking resource",
+    material.status === 200 && materialRevision?.publication_state === "published",
+    `HTTP ${material.status}; revision ${materialRevision?.module}:${materialRevision?.content_type} published=${materialRevision?.publication_state}`);
 
-  const revision = await one("select id, module, content_type, source_ref, publication_state, target_type, target_id from content_versions where target_id=$1", [materialId]);
-  check("authoring pinned a published revision", revision?.publication_state === "published",
-    revision ? `${revision.module}:${revision.content_type} target=${revision.target_type} v=${revision.id.slice(0, 8)}` : "no revision row");
+  const refused = await teacherSession.page.evaluate(async (payload) => {
+    const items = await (await fetch("/api/assignments/assignable")).json();
+    const offered = (items.items ?? []).some((item) => item.sourceRef === payload.sourceRef);
+    const res = await fetch("/api/assignments", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title: `${payload.marker} refused`, description: null, targetUserId: payload.studentId,
+        module: payload.module, contentType: payload.contentType, sourceRef: payload.sourceRef,
+        contentVersionId: payload.versionId,
+      }),
+    });
+    return { offered, status: res.status, body: await res.json().catch(() => null) };
+  }, { marker: MARKER, sourceRef: materialRevision?.source_ref, module: materialRevision?.module,
+       contentType: materialRevision?.content_type, versionId: materialRevision?.id, studentId: studentA.id });
+  check("the picker does not offer it", refused.offered === false, `offered=${refused.offered}`);
+  check("and the API refuses the same reference instead of accepting it",
+    refused.status === 422 && refused.body?.issues?.[0]?.code === "content_not_assignable",
+    `HTTP ${refused.status} ${JSON.stringify(refused.body?.issues?.map((i) => i.code) ?? refused.body ?? {}).slice(0, 90)}`);
+  const refusedRows = await one("select count(*)::int n from assignments where title=$1", [`${MARKER} refused`]);
+  check("the refused reference wrote no assignment and no target", (refusedRows?.n ?? 0) === 0,
+    `${refusedRows?.n} row(s)`);
+  // The positive control is step 3: the SAME endpoint, the SAME actor and the SAME student, with a
+  // reference the picker does offer, is accepted with 201. Without that, a refusal caused by anything
+  // else — a broken route, a bad payload — would look like this rule working.
+
+  /* ---- 1c. content withdrawn after its revision was published is refused for a different reason ---- */
+  const withdrawn = await (async () => {
+    await admin.query("update writing_prompts set publication_state='draft' where id=$1", [authored.targetId]);
+    const res = await teacherSession.page.evaluate(async (payload) => {
+      const r = await fetch("/api/assignments", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: `${payload.marker} withdrawn`, description: null, targetUserId: payload.studentId,
+          module: "writing", contentType: "task2", sourceRef: payload.sourceRef, contentVersionId: payload.versionId,
+        }),
+      });
+      return { status: r.status, body: await r.json().catch(() => null) };
+    }, { marker: MARKER, sourceRef: contentRef, versionId: authored.versionId, studentId: studentA.id });
+    // Restore it: the rest of the journey needs this content live.
+    await admin.query("update writing_prompts set publication_state='published' where id=$1", [authored.targetId]);
+    return res;
+  })();
+  check("a published revision whose canonical row was withdrawn cannot be assigned",
+    withdrawn.status === 422 && withdrawn.body?.issues?.[0]?.code === "content_not_live",
+    `HTTP ${withdrawn.status} ${JSON.stringify(withdrawn.body?.issues?.map((i) => i.code) ?? withdrawn.body ?? {}).slice(0, 90)}`);
+  const withdrawnRows = await one("select count(*)::int n from assignments where title=$1", [`${MARKER} withdrawn`]);
+  check("and that refusal also wrote nothing", (withdrawnRows?.n ?? 0) === 0, `${withdrawnRows?.n} row(s)`);
 
   /* ------------------------------------ 2. the picker offers what a learner can open */
   step("2 · the assignment picker offers that content in the real UI");
@@ -129,7 +240,7 @@ try {
       hint: document.querySelector('[data-assignment-content-hint]')?.textContent.trim() ?? null,
     };
   });
-  const canonicalValue = `speaking:material:${revision?.source_ref}`;
+  const canonicalValue = `writing:task2:${revision?.source_ref}`;
   const offered = picker.options.find((o) => o.value === canonicalValue);
   check("the picker lists the resource the teacher just published",
     Boolean(offered),
@@ -346,10 +457,16 @@ try {
   // A teacher with no roster link: the page itself must 404, and the API must refuse without writing.
   const teacherBSession = await createSession(browser, { base: BASE, email: TEACHER_B[0], password: TEACHER_B[1], viewport: 1440, locale: "en" });
   teacherBSession.page.on("dialog", async (d) => { await d.accept(); });
-  // A real published revision, so the payload is well-formed and the refusal can only be about the
-  // roster. Then the identical payload is sent by the authorized teacher as a positive control: if
-  // both were refused, the negative control would be proving nothing.
-  const reference = await one("select module, content_type, source_ref, id from content_versions where publication_state='published' order by created_at desc limit 1");
+  /*
+   * The reference here MUST be one the picker offers. Picking "the latest published revision" instead
+   * silently broke this control: by this point the newest revision is the speaking material from step
+   * 1b, which is not assignable, so createAssignment refused it on the reference rule BEFORE it ever
+   * reached the roster rule. Both teachers were then refused, the positive control failed, and the
+   * negative control proved nothing about the roster — a refusal for an unrelated reason looks exactly
+   * like the rule working. Reference validation legitimately precedes the roster check (as it already
+   * did for unknown_content_type and version_not_published), so the fix is to control the reference.
+   */
+  const reference = { module: revision.module, content_type: revision.content_type, source_ref: revision.source_ref, id: revision.id };
   const offRosterTitle = `${MARKER}-offroster`;
   const onRosterTitle = `${MARKER}-onroster`;
   const offRoster = await teacherBSession.page.evaluate(async ({ studentId, studentName, studentEmail, payload }) => {
@@ -434,7 +551,7 @@ try {
   console.error("\nJOURNEY ABORTED:", error?.message ?? error);
   failures.push(`aborted: ${error?.message ?? error}`);
 } finally {
-  for (const session of [teacherSession, learnerSession]) await session?.close?.().catch?.(() => {});
+  for (const session of [ownerSession, teacherSession, learnerSession]) await session?.close?.().catch?.(() => {});
   await browser.close().catch(() => {});
   const result = await sweeper.sweep().catch((e) => ({ error: e.message }));
   console.log(`\n  cleanup: removed ${JSON.stringify(result?.removed ?? result?.error)}`);
