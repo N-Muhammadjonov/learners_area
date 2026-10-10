@@ -100,31 +100,47 @@ try {
   for (const path of surfaces) {
     const res = await a.goto(path);
     await new Promise((r) => setTimeout(r, 1500));
-    const dom = await a.page.evaluate((testId) => {
+    const dom = await a.page.evaluate((payload) => {
       const main = document.querySelector("main") ?? document.body;
       const clickable = Array.from(main.querySelectorAll("button, a[href]"));
-      return {
-        // A learner-facing start control: a button or link that starts an attempt or opens a test run.
-        startControls: clickable.filter((el) => /start|attempt|begin/i.test(`${el.textContent} ${el.getAttribute("aria-label") ?? ""}`)).length,
-        testRunLinks: main.querySelectorAll(`a[href*="/app/listening/tests/${testId}"]`).length,
-        mentionsTest: main.innerText.includes("library study room"),
-        emptyState: main.querySelector("[data-listening-academic-empty]") !== null,
+      /*
+       * TEST-SCOPED ONLY. An earlier revision counted any control whose text matched
+       * /start|attempt|begin/i, which matched generic hub copy on /app/listening and reported the
+       * test as reachable when no control on that page has anything to do with it. Reachability has
+       * to mean "a control that starts or opens THIS test", so the href must carry this test id, or
+       * the control must sit inside a card that names this test.
+       */
+      const namesThis = (el) => {
+        const card = el.closest("[data-listening-academic-card], section, article, li, div.card");
+        return Boolean(card && card.innerText.includes(payload.titleFragment));
       };
-    }, test.id);
+      const scoped = clickable.filter((el) => {
+        const href = el.getAttribute("href") ?? "";
+        return href.includes(payload.testId) || namesThis(el);
+      });
+      return {
+        scopedControls: scoped.length,
+        scopedDetail: scoped.map((el) => `${el.tagName}:${(el.getAttribute("href") ?? el.textContent.trim()).slice(0, 46)}`).slice(0, 4),
+        testRunLinks: main.querySelectorAll(`a[href*="/app/listening/tests/${payload.testId}"]`).length,
+        attemptLinks: main.querySelectorAll(`a[href*="${payload.testId}"]`).length,
+        mentionsTest: main.innerText.includes(payload.titleFragment),
+        emptyState: main.querySelector("[data-listening-academic-empty]") !== null,
+        // Recorded for contrast: the loose count that produced the earlier false positive.
+        looseTextMatches: clickable.filter((el) => /start|attempt|begin/i.test(`${el.textContent} ${el.getAttribute("aria-label") ?? ""}`)).length,
+      };
+    }, { testId: test.id, titleFragment: "library study room" });
     survey.push({ path, status: res.status, ...dom });
   }
-  const reachable = survey.some((s) => s.startControls > 0 || s.testRunLinks > 0 || s.mentionsTest);
+  const reachable = survey.some((s) => s.scopedControls > 0 || s.testRunLinks > 0 || s.attemptLinks > 0);
   step("learner-facing listening surfaces were surveyed for a way to start this published test", {
     ok: true, // recorded as measured, not asserted: the finding is the measurement itself
-    note: `${survey.length} surfaces visited — ${survey.map((s) => `${s.path} HTTP ${s.status} start=${s.startControls} testRunLinks=${s.testRunLinks} mentionsTest=${s.mentionsTest}${s.emptyState ? " EMPTY-STATE" : ""}`).join(" · ")}. The published test "${test.title}" (${test.questions} questions) is ${reachable ? "reachable" : "NOT offered by any learner-facing surface"}.`,
+    note: `${survey.length} surfaces visited — ${survey.map((s) => `${s.path} HTTP ${s.status} scoped=${s.scopedControls} looseText=${s.looseTextMatches} testRunLinks=${s.testRunLinks} mentionsTest=${s.mentionsTest}${s.emptyState ? " EMPTY-STATE" : ""}`).join(" · ")}. Reachability counts only controls scoped to THIS test (href carries the id, or the control sits in a card naming it); the loose text match is reported beside it because it is what produced an earlier false positive. The published test "${test.title}" (${test.questions} questions) is ${reachable ? "reachable" : "NOT offered by any learner-facing surface"}.`,
     browser: surfaces.join(", "), db: `listening_tests=1 published, listening_questions=${test.questions}`,
   });
   if (!reachable) {
-    step("FINDING: a published, startable listening test has no learner-facing start control", {
-      ok: false,
-      note: `POST /api/listening/attempts accepts {testId} for this test with no role restriction (getStartableTest requires only a live test with >=1 question), and StartTestButton exists — but it is rendered only by FullListeningLibrary, whose only caller is /app/admin/listening with management=true, where legacy cards get an admin "Continue" link instead. So the API path a learner is authorised to use is not reachable from any listening screen. The Academic catalogue lists only tests that have a row in listening_packages, which this test does not.`,
-      browser: `${survey.length} surfaces, 0 start controls for this test`, db: `listening_packages=0`,
-    });
+    blocker("FINDING: a published, startable listening test has no learner-facing start control",
+      `POST /api/listening/attempts accepts {testId} for this test with no role restriction (getStartableTest requires only a live test with at least one question), and StartTestButton exists to call it — but StartTestButton is rendered only by FullListeningLibrary, whose only caller is /app/admin/listening with management=true, where legacy cards get an admin "Continue" link instead. So the API path a learner is authorised to use is not reachable from any listening screen, and StartTestButton is dead code for learners. The Academic catalogue lists only tests that have a row in listening_packages (it inner-joins that table), which this test does not. Whether a published, package-less test SHOULD be learner-startable is a product decision — adding a button here would be an unauthorised change to the canonical package model, so this is recorded as OWNER_DECISION_REQUIRED rather than "fixed".`,
+      { browser: `${survey.length} learner surfaces surveyed, ${survey.reduce((n, s) => n + s.scopedControls, 0)} controls scoped to this test`, db: "listening_packages=0" });
   }
 
   /* ------------------------------------------------------- 3. start attempt */
