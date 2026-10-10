@@ -103,6 +103,9 @@ function orderPostgresTables(tables: readonly RowFileManifest[]): readonly RowFi
 
 /** Fresh-destination PostgreSQL adapter. Dynamic identifiers come only from the closed schema map. */
 export function createPostgresImportDestination(pool: PgPool, copyObject?: (object: PortableObject, bytes: Uint8Array) => Promise<void>, authorization?: { ownerId: string; dryRun: boolean; scope: ExportScope; identityMap?: ReadonlyMap<string, string> }): ImportDestination {
+  // Existing bootstrap credentials stay authoritative. Extra owners are allowed
+  // only as explicit mapping targets, checked against active persisted owners.
+  const retainedOwnerIds = new Set(authorization ? [authorization.ownerId.toLowerCase(), ...[...authorization.identityMap?.values() ?? []].map(id => id.toLowerCase())] : []);
   const forClient = (client: PgClient, usedIdentities: Set<string>): ImportTransaction => {
     const seen = new Set<string>();
     const parents = new Set<string>();
@@ -112,12 +115,12 @@ export function createPostgresImportDestination(pool: PgPool, copyObject?: (obje
     const checkedActors = new Set<string>();
     const project = async (table: PortableTable, row: PortableRow, identityMap: ReadonlyMap<string, string>) => {
       if (authorization?.scope !== "riwi") {
-        // A/C may reconcile only the initiating bootstrap owner. The archive
-        // must itself contain that active owner row; a foreign-key claim alone
+        // A/C reconcile explicit pre-provisioned owners. Each mapped source
+        // must itself contain an active owner row; a foreign-key claim alone
         // cannot prove the source identity's authority.
         if (!identityMap.size) return row;
         if (!authorization) throw new Error("portable_identity_map_unsupported");
-        if (identityMap.size !== 1 || [...identityMap.values()][0] !== authorization?.ownerId.toLowerCase()) throw new Error("portable_bootstrap_owner_mapping_required");
+        if ([...identityMap.values()].some(id => !retainedOwnerIds.has(id.toLowerCase()))) throw new Error("portable_bootstrap_owner_mapping_required");
         const mapped = { ...row };
         if (table === "users" && typeof row.id === "string") {
           const sourceId = row.id.toLowerCase();
@@ -190,7 +193,7 @@ export function createPostgresImportDestination(pool: PgPool, copyObject?: (obje
         if (values.every(value => value != null)) references.push({ ref, values });
       }
       if (authorization && table === "users" && row.role === "owner") {
-        if (typeof row.id !== "string" || row.id.toLowerCase() !== authorization.ownerId.toLowerCase()) throw new Error("portable_owner_identity_reconciliation_required");
+        if (typeof row.id !== "string" || !retainedOwnerIds.has(row.id.toLowerCase())) throw new Error("portable_owner_identity_reconciliation_required");
         return "skip";
       }
       const where = meta.primaryKeys.map((key, index) => `${quote(meta.columns.get(key)!)} = $${index + 1}`).join(" and ");
@@ -252,7 +255,7 @@ export function createPostgresImportDestination(pool: PgPool, copyObject?: (obje
           }
           for (const table of tablesForScope(authorization.scope)) {
             const populated = table === "users"
-              ? await client.query("select 1 from users where id <> $1 limit 1", [authorization.ownerId])
+              ? await client.query("select 1 from users where not (id = any($1::uuid[])) limit 1", [[...retainedOwnerIds]])
               : await client.query(`select 1 from ${quote(table)} limit 1`);
             if (populated.rows.length) throw new Error("portable_fresh_destination_required");
           }

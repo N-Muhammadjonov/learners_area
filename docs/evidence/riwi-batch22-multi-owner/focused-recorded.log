@@ -1,0 +1,214 @@
+TAP version 13
+# Subtest: portable archive imports transactionally into fresh real PostgreSQL and duplicate retry rolls back
+ok 1 - portable archive imports transactionally into fresh real PostgreSQL and duplicate retry rolls back # SKIP
+  ---
+  duration_ms: 0.473167
+  type: 'test'
+  ...
+# Subtest: PostgreSQL export uses bounded cursors and a read-only snapshot and excludes overdue chats and old messages
+ok 2 - PostgreSQL export uses bounded cursors and a read-only snapshot and excludes overdue chats and old messages
+  ---
+  duration_ms: 4733.122917
+  type: 'test'
+  ...
+# Subtest: export sink failure rolls back and releases the snapshot without replacing the original error
+ok 3 - export sink failure rolls back and releases the snapshot without replacing the original error
+  ---
+  duration_ms: 1304.759167
+  type: 'test'
+  ...
+# Subtest: an import rollback error cannot hide the original failure or leak the connection
+ok 4 - an import rollback error cannot hide the original failure or leak the connection
+  ---
+  duration_ms: 1.547708
+  type: 'test'
+  ...
+# Subtest: the full-system destination rejects unsupported identity reconciliation before executing row queries
+ok 5 - the full-system destination rejects unsupported identity reconciliation before executing row queries
+  ---
+  duration_ms: 0.369208
+  type: 'test'
+  ...
+# Subtest: RIWI archives bind code-bundled contracts; missing or incompatible metadata fails before import
+ok 6 - RIWI archives bind code-bundled contracts; missing or incompatible metadata fails before import
+  ---
+  duration_ms: 23.404
+  type: 'test'
+  ...
+# Subtest: schema classification is closed over every Drizzle table and tri-mode has no unsafe default
+ok 7 - schema classification is closed over every Drizzle table and tri-mode has no unsafe default
+  ---
+  duration_ms: 1.219667
+  type: 'test'
+  ...
+# Subtest: MODE A/B/C exports are deterministic and enforce privacy canaries
+ok 8 - MODE A/B/C exports are deterministic and enforce privacy canaries
+  ---
+  duration_ms: 10.400459
+  type: 'test'
+  ...
+# Subtest: manifest and truncated/tampered table archives fail before accepted import
+ok 9 - manifest and truncated/tampered table archives fail before accepted import
+  ---
+  duration_ms: 2.541583
+  type: 'test'
+  ...
+# Subtest: >1,000 rows export/import without cap, dry-run has no apply, and retry rolls back
+ok 10 - >1,000 rows export/import without cap, dry-run has no apply, and retry rolls back
+  ---
+  duration_ms: 30.587375
+  type: 'test'
+  ...
+# Subtest: O1 keeps object references and O2 verifies bytes before copy
+ok 11 - O1 keeps object references and O2 verifies bytes before copy
+  ---
+  duration_ms: 5.458875
+  type: 'test'
+  ...
+# Subtest: private archive encryption streams AES-GCM, uses fresh IVs, removes plaintext, and rejects corruption
+ok 12 - private archive encryption streams AES-GCM, uses fresh IVs, removes plaintext, and rejects corruption
+  ---
+  duration_ms: 65.403042
+  type: 'test'
+  ...
+# Subtest: portable canonical JSON handles timestamps/bytes and remains stable
+ok 13 - portable canonical JSON handles timestamps/bytes and remains stable
+  ---
+  duration_ms: 0.225542
+  type: 'test'
+  ...
+# Subtest: expired conversation messages and orphan messages cannot leave the private archive
+ok 14 - expired conversation messages and orphan messages cannot leave the private archive
+  ---
+  duration_ms: 3.102333
+  type: 'test'
+  ...
+# Subtest: destination insert ordering cannot drop, duplicate, or rewrite signed table metadata
+ok 15 - destination insert ordering cannot drop, duplicate, or rewrite signed table metadata
+  ---
+  duration_ms: 7.812666
+  type: 'test'
+  ...
+# Subtest: invalid export batch sizes are rejected before starting any archive file
+ok 16 - invalid export batch sizes are rejected before starting any archive file
+  ---
+  duration_ms: 0.346333
+  type: 'test'
+  ...
+# Subtest: full-system (owner first): explicit bootstrap owner reconciliation preserves credentials and owner/learner references; unauthorized mappings roll back
+ok 17 - full-system (owner first): explicit bootstrap owner reconciliation preserves credentials and owner/learner references; unauthorized mappings roll back
+  ---
+  duration_ms: 4016.14525
+  type: 'test'
+  ...
+# Subtest: full-system (learner first): explicit bootstrap owner reconciliation preserves credentials and owner/learner references; unauthorized mappings roll back
+ok 18 - full-system (learner first): explicit bootstrap owner reconciliation preserves credentials and owner/learner references; unauthorized mappings roll back
+  ---
+  duration_ms: 4090.530458
+  type: 'test'
+  ...
+# Subtest: learners-area (owner first): explicit bootstrap owner reconciliation preserves credentials and owner/learner references; unauthorized mappings roll back
+ok 19 - learners-area (owner first): explicit bootstrap owner reconciliation preserves credentials and owner/learner references; unauthorized mappings roll back
+  ---
+  duration_ms: 3651.730083
+  type: 'test'
+  ...
+# Subtest: learners-area (learner first): explicit bootstrap owner reconciliation preserves credentials and owner/learner references; unauthorized mappings roll back
+ok 20 - learners-area (learner first): explicit bootstrap owner reconciliation preserves credentials and owner/learner references; unauthorized mappings roll back
+  ---
+  duration_ms: 2578.198
+  type: 'test'
+  ...
+# Subtest: portable authority broker and regression anchors never import feature tables or the app database
+ok 21 - portable authority broker and regression anchors never import feature tables or the app database
+  ---
+  duration_ms: 46.668667
+  type: 'test'
+  ...
+# Subtest: registered regressions execute and bind receipt to the destination state identity
+ok 22 - registered regressions execute and bind receipt to the destination state identity
+  ---
+  duration_ms: 2.521916
+  type: 'test'
+  ...
+# Subtest: real Speaking schema cycles and forward retry references restore without disabling constraints; dry-run rejects missing parents
+ok 23 - real Speaking schema cycles and forward retry references restore without disabling constraints; dry-run rejects missing parents
+  ---
+  duration_ms: 1623.029334
+  type: 'test'
+  ...
+# Subtest: duplicate primary keys inside a valid archive fail both zero-write dry-run and apply, with transactional rollback
+ok 24 - duplicate primary keys inside a valid archive fail both zero-write dry-run and apply, with transactional rollback
+  ---
+  duration_ms: 1443.732
+  type: 'test'
+  ...
+# Subtest: explicit owner export supports zero-write dry-run and private encrypted site-only delivery
+ok 25 - explicit owner export supports zero-write dry-run and private encrypted site-only delivery
+  ---
+  duration_ms: 1716.677084
+  type: 'test'
+  ...
+# Subtest: explicit encrypted Mode A preserves site and RIWI rows without replacing destination owner credentials
+ok 26 - explicit encrypted Mode A preserves site and RIWI rows without replacing destination owner credentials
+  ---
+  duration_ms: 2902.089792
+  type: 'test'
+  ...
+# Subtest: RIWI-only export excludes private source descendants; mapped import stays inactive and preserves destination identities
+ok 27 - RIWI-only export excludes private source descendants; mapped import stays inactive and preserves destination identities
+  ---
+  duration_ms: 2748.387542
+  type: 'test'
+  ...
+# Subtest: identity mapping rejects malformed, extra, duplicated and many-to-one actors without trusting a supplied role
+ok 28 - identity mapping rejects malformed, extra, duplicated and many-to-one actors without trusting a supplied role
+  ---
+  duration_ms: 1.002833
+  type: 'test'
+  ...
+# Subtest: owner import validates scope/freshness, dry-run leaves no rows, apply preserves bootstrap owner, and retries do not overwrite
+ok 29 - owner import validates scope/freshness, dry-run leaves no rows, apply preserves bootstrap owner, and retries do not overwrite
+  ---
+  duration_ms: 2721.415333
+  type: 'test'
+  ...
+# Subtest: even rehashed manifests cannot smuggle private objects, unknown modes or invalid row metadata past import preflight
+ok 30 - even rehashed manifests cannot smuggle private objects, unknown modes or invalid row metadata past import preflight
+  ---
+  duration_ms: 21.5375
+  type: 'test'
+  ...
+# Subtest: pglite full-system: two explicit owner mappings preserve destination credentials and distinct dependent identities
+ok 31 - pglite full-system: two explicit owner mappings preserve destination credentials and distinct dependent identities
+  ---
+  duration_ms: 3742.880333
+  type: 'test'
+  ...
+# Subtest: pglite learners-area: two explicit owner mappings preserve destination credentials and distinct dependent identities
+ok 32 - pglite learners-area: two explicit owner mappings preserve destination credentials and distinct dependent identities
+  ---
+  duration_ms: 4190.254667
+  type: 'test'
+  ...
+# Subtest: native full-system: two explicit owner mappings preserve destination credentials and distinct dependent identities
+ok 33 - native full-system: two explicit owner mappings preserve destination credentials and distinct dependent identities # SKIP set PORTABILITY_DATABASE_URL and the private RIWI_QA_DATA_DIR
+  ---
+  duration_ms: 0.510375
+  type: 'test'
+  ...
+# Subtest: native learners-area: two explicit owner mappings preserve destination credentials and distinct dependent identities
+ok 34 - native learners-area: two explicit owner mappings preserve destination credentials and distinct dependent identities # SKIP set PORTABILITY_DATABASE_URL and the private RIWI_QA_DATA_DIR
+  ---
+  duration_ms: 0.040041
+  type: 'test'
+  ...
+1..34
+# tests 34
+# suites 0
+# pass 31
+# fail 0
+# cancelled 0
+# skipped 3
+# todo 0
+# duration_ms 48045.825542

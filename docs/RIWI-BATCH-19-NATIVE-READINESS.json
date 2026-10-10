@@ -1,0 +1,42 @@
+{
+  "status": "OWNER_TERMINAL_SCOPED_NATIVE_QA_VERIFIED",
+  "source_state_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905",
+  "earlier_execution_environment_attempt": {
+    "status": "BLOCKED_NATIVE_INITDB_IPC_PERMISSION",
+    "source_state_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905",
+    "distribution": {
+      "package": "@embedded-postgres/darwin-arm64@16.14.0-beta.17",
+      "integrity": "sha512-CB1DFZ08zfmNapx231rAJW74UZfs1jQmeGLwbQSaAIRVs2uqEdMhVNLwVlztFG3ZPSeuCsgTn/0yeYDmKF67og==",
+      "archive_sha256": "2f34fdd389258e6d79fbce1ea97928b88ce01c8178d77d2bb4c28ddc5ee13d22",
+      "root": "/tmp/riwi-batch19-postgres16-onzw7to7",
+      "scripts_executed": false
+    },
+    "server_version_observed": "postgres (PostgreSQL) 16.14",
+    "package_version_is_prerelease": true,
+    "use_scope": "Isolated QA only",
+    "integrity_matches_registry_and_archive": true,
+    "npm_install_scripts_executed": false,
+    "initdb_exit_code": 1,
+    "initdb_log_sha256": "de02f38c6884432373f2b849cc099bd3fcb0ed9c69f10b00e88768be194b3661",
+    "database_created": false,
+    "server_started": false,
+    "native_tests_run": false,
+    "existing_database_reset": false,
+    "production_modified": false,
+    "kernel_operation_denied": "shmget: Operation not permitted",
+    "official_ipc_reference": "https://www.postgresql.org/docs/16/kernel-resources.html",
+    "owner_terminal_runner": "RIWI_BATCH_19_NATIVE_VOCABULARY_QA.py"
+  },
+  "owner_terminal_verification_report": "docs/RIWI-BATCH-19-NATIVE-VERIFICATION.json",
+  "owner_terminal_result": {
+    "postgres_version": "postgres (PostgreSQL) 16.14",
+    "database_created_in_new_private_cluster": true,
+    "native_rounds_passed": 2,
+    "cases_per_round": 6,
+    "failures": 0,
+    "skips": 0,
+    "stop_verified": true,
+    "existing_database_reset": false,
+    "full_native_requirement_acceptance": false
+  }
+}

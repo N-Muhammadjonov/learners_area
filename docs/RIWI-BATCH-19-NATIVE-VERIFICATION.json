@@ -1,0 +1,178 @@
+{
+  "status": "VERIFIED_TWO_NATIVE_VOCABULARY_ROUNDS",
+  "verified_at_utc": "2026-10-10T08:46:01.429437+00:00",
+  "source_state_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905",
+  "source_inventory_count": 1215,
+  "source_manifest_byte_sha256": "ed2ef22485c8eb919f8a5533c3a150161cc9be2999eebf363993ee266feeecf5",
+  "source_inventory_and_all_file_hashes_match": true,
+  "postgres_version": "postgres (PostgreSQL) 16.14",
+  "archive_sha256": "4694b7908e57920720df8c2154488ddce3fe9c19363f0937c4f9a5905c2bc28e",
+  "archive_all_members_equal_owner_local_logs": true,
+  "receipt_checks_exit_codes_and_hashes_verified": true,
+  "rounds": [
+    {
+      "exit_code": 0,
+      "sha256": "0f0d2e9942bcefab356c214a1889b2b7bc9bc6195136f199b427167acb9b81cb",
+      "log": "/tmp/riwi-batch19-native-review-xm8_tnwv/review-round-1.log",
+      "counts": {
+        "tests": 6,
+        "pass": 6,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "exit_code": 0,
+      "sha256": "853dfc851834b0bd25a4b7db0e0438d4b2cd4197df3c66df0e8007c8992f43ef",
+      "log": "/tmp/riwi-batch19-native-review-xm8_tnwv/review-round-2.log",
+      "counts": {
+        "tests": 6,
+        "pass": 6,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    }
+  ],
+  "fresh_migration_chain": {
+    "applied_count": 51,
+    "first": "0000_upload_intents",
+    "last": "0050_speaking_fenced_evaluation",
+    "upgrade_from_populated_database_verified": false
+  },
+  "isolated_cluster_identity_verified_before_create_database": true,
+  "server_stop_log_verified": true,
+  "postmaster_pid_absent_after_stop": true,
+  "password_file_absent": true,
+  "existing_databases_reset": false,
+  "build_rerun": false,
+  "native_checkout_head": "0524512a40f24a1d38e26f1728e247248916107b",
+  "native_checkout_clean": true,
+  "native_checkout_modified": false,
+  "commit_performed": false,
+  "push_performed": false,
+  "scope": "Vocabulary game, point, scheduled-review and accepted-sentence native regression only. Five existing skipped cases gained native evidence. The sixth HTTP contract case already passed in the non-build backend gate. Two rounds are repeated validation, not twelve unique tests.",
+  "previous_full_gate_counts_unchanged": true,
+  "prior_declared_skips_proven_in_scoped_native_run": [
+    "ok 1229 - new saves earn zero; verified game answers award once; wrong/self/forged modes earn zero; leaderboard sums ledger # SKIP",
+    "ok 1230 - effective leaderboard remaps legacy values and collapses historical game modes per word/day # SKIP",
+    "ok 1231 - each genuinely scheduled revision earns one point, and the same due occurrence cannot replay # SKIP",
+    "ok 1232 - RIWI acceptance is authoritative and a repeated accepted sentence under a new usage id pays once # SKIP",
+    "ok 1234 - native PostgreSQL serializes competing vocabulary confirmations and independent accepted answers # SKIP"
+  ],
+  "remaining_prior_declared_skips_without_this_native_proof": 87,
+  "files": [
+    {
+      "path": "docs/evidence/riwi-batch19-native/createdb.log",
+      "sha256": "5befc50650bb0effd8ff0f4063c1476e3c76183494d89c8983bd5f738c1c4893",
+      "size_bytes": 53
+    },
+    {
+      "path": "docs/evidence/riwi-batch19-native/initdb.log",
+      "sha256": "957e20543c2072648918c83814dbce32700d9c5370a411972271a922788dcb32",
+      "size_bytes": 917
+    },
+    {
+      "path": "docs/evidence/riwi-batch19-native/migrations.log",
+      "sha256": "1d1294aa78848717cc5a1e630ddb980b0fbd8ed8e0fbb1e10bb7d87f1c5c5d97",
+      "size_bytes": 1446
+    },
+    {
+      "path": "docs/evidence/riwi-batch19-native/receipt.json",
+      "sha256": "55e6651ed6ccc3da28659fcffa73ec518dcc3bf7ad2e4d487ad09184970aa3c9",
+      "size_bytes": 1917
+    },
+    {
+      "path": "docs/evidence/riwi-batch19-native/review-round-1.log",
+      "sha256": "0f0d2e9942bcefab356c214a1889b2b7bc9bc6195136f199b427167acb9b81cb",
+      "size_bytes": 1702
+    },
+    {
+      "path": "docs/evidence/riwi-batch19-native/review-round-2.log",
+      "sha256": "853dfc851834b0bd25a4b7db0e0438d4b2cd4197df3c66df0e8007c8992f43ef",
+      "size_bytes": 1703
+    },
+    {
+      "path": "docs/evidence/riwi-batch19-native/start.log",
+      "sha256": "66afd0411ccc09366e99fdd99b85f21899c8d2d064f5835126859618802153ad",
+      "size_bytes": 52
+    },
+    {
+      "path": "docs/evidence/riwi-batch19-native/stop.log",
+      "sha256": "ca19178a35ab4153b75b494963b66ce8243e1b94c173107c87b44d09db23652d",
+      "size_bytes": 56
+    }
+  ],
+  "receipt": {
+    "source_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905",
+    "postgres_version": "postgres (PostgreSQL) 16.14",
+    "isolated_new_cluster": true,
+    "existing_databases_reset": false,
+    "build_rerun": false,
+    "scope": "Vocabulary native game/point/review tests only. Other native, restore, source-bank, provider and operational acceptance remain open.",
+    "checks": {
+      "initdb": {
+        "exit_code": 0,
+        "sha256": "957e20543c2072648918c83814dbce32700d9c5370a411972271a922788dcb32",
+        "log": "/tmp/riwi-batch19-native-review-xm8_tnwv/initdb.log"
+      },
+      "start": {
+        "exit_code": 0,
+        "sha256": "66afd0411ccc09366e99fdd99b85f21899c8d2d064f5835126859618802153ad",
+        "log": "/tmp/riwi-batch19-native-review-xm8_tnwv/start.log"
+      },
+      "createdb": {
+        "exit_code": 0,
+        "sha256": "5befc50650bb0effd8ff0f4063c1476e3c76183494d89c8983bd5f738c1c4893",
+        "log": "/tmp/riwi-batch19-native-review-xm8_tnwv/createdb.log"
+      },
+      "migrations": {
+        "exit_code": 0,
+        "sha256": "1d1294aa78848717cc5a1e630ddb980b0fbd8ed8e0fbb1e10bb7d87f1c5c5d97",
+        "log": "/tmp/riwi-batch19-native-review-xm8_tnwv/migrations.log"
+      },
+      "review-round-1": {
+        "exit_code": 0,
+        "sha256": "0f0d2e9942bcefab356c214a1889b2b7bc9bc6195136f199b427167acb9b81cb",
+        "log": "/tmp/riwi-batch19-native-review-xm8_tnwv/review-round-1.log",
+        "counts": {
+          "tests": 6,
+          "pass": 6,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        }
+      },
+      "review-round-2": {
+        "exit_code": 0,
+        "sha256": "853dfc851834b0bd25a4b7db0e0438d4b2cd4197df3c66df0e8007c8992f43ef",
+        "log": "/tmp/riwi-batch19-native-review-xm8_tnwv/review-round-2.log",
+        "counts": {
+          "tests": 6,
+          "pass": 6,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        }
+      }
+    }
+  },
+  "original_groups_newly_closed": 0,
+  "current_prompt_closed": 17,
+  "current_prompt_total": 34,
+  "current_prompt_percent": 50,
+  "riwi_percent": null,
+  "project_percent": null,
+  "publication_ready": false,
+  "remaining_acceptance": [
+    "Other native skips, populated migration upgrade, canonical Listening/Speaking sources and portability destinations",
+    "Live AI provider and authenticated four-role browser QA",
+    "Backup/PITR, isolated full restore and operational receipts",
+    "Six newly complete original groups before the next qualifying publication"
+  ]
+}

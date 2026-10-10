@@ -1,7 +1,7 @@
 {
   "source": "RIWI_REMAINING_WORK_EXECUTION_PROMPT.txt",
   "source_sha256": "daf36b256a990b7fa5379fd121810991bad552f638c776e8d9b55dcb22847979",
-  "verified_remote_base": "6f125f7dd21fafcce4f7ab089b0e26569600b3b5",
+  "verified_remote_base": "0524512a40f24a1d38e26f1728e247248916107b",
   "method": "Equal-weight full-group acceptance: CLOSED / all 34 original R/B/C/D groups. Partial implementation receives no full-group credit. This is a verified closure metric, not a measure of development effort or existing product functionality.",
   "closed": 17,
   "total": 34,
@@ -43,13 +43,17 @@
       "requirement": "Finish deployed chat retention acceptance after reviewing the preserved local implementation. Test exact 30-day and seven-day boundaries, >60 eligible messages, late returning users, all four roles, inactive/closed tabs, concurrent heartbeat/sweep, missed cron run, cascade deletion, dry-run and secret denial. Apply migrations only to an identified authorized environment. Verify scheduler support and actual successful cron executions. Do not equate code presence with physical deletion in deployment.",
       "status": "PARTIAL",
       "evidence_and_remaining": "30-day/all-message and strict seven-day inactivity code tested and published; deployed scheduler/deletion proof remains open.",
-      "current_external_observation": "GitHub Vercel status for 1473056 is failure and links to Hobby cron limits; current config is hourly. Project plan/logs and successful executions remain unverified. No schedule or retention-policy change made."
+      "current_external_observation": "Vercel Hobby plan observed on 2026-10-10. Latest commit status failed and links to official Hobby cron limits. Owner deferred hosting work due to planned migration. No schedule or retention policy changed. Deployment acceptance remains unverified."
     },
     {
       "id": "R05",
       "requirement": "Close current-source test skips honestly: native PostgreSQL fresh/upgrade/concurrency, canonical Listening and Speaking bank sources, and portability destination checks. Confirm source identity/content rather than substituting a similarly named ZIP. Historical booster.zip was non-equivalent.",
-      "status": "OPEN_UNVERIFIED",
-      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+      "status": "QA_VERIFIED_PUBLICATION_PENDING",
+      "evidence_and_remaining": "Batch22 current1217-file sourcefb827f12 independently verified in two full non-build rounds, each1362backend pass and260UI pass with0fail/skip, typecheck/lint0. All29 ZIP members match owner files,26gate hashes and1217source hashes match, exact originals match, both privatePG16.14clusters stop cleanly. Publication and independent remote tree/blob acceptance remain pending. No group percentage credit yet.",
+      "current_scoped_native_evidence": "Batch22 current1217-file sourcefb827f12 independently verified in two full non-build rounds, each1362backend pass and260UI pass with0fail/skip, typecheck/lint0. All29 ZIP members match owner files,26gate hashes and1217source hashes match, exact originals match, both privatePG16.14clusters stop cleanly. Publication and independent remote tree/blob acceptance remain pending. No group percentage credit yet.",
+      "current_original_source_evidence": "Batch22 full backend supplies the exact original Listening ZIP and880-row Speaking JSONL. All formerly skipped source/native cases pass in each full round. Applicable cases use native PostgreSQL or PGlite as declared.",
+      "predecessor_native_evidence": "Batch20 exact-source full native backend and UI gates passed twice, independently verified against all29 archive files and26 log hashes. Each backend1354pass/4original-source skips/0fail, UI260pass, typecheck/lint0. Two fresh PostgreSQL16.14 clusters, both51-migration chains, populated0019→0020 upgrade, native concurrency and fresh portability dry-run/apply/rollback tests verified. All88 formerly skipped source-independent cases pass in each round. Four original Listening/Speaking source cases remain unverified. Mock/PGlite and fixture portability are not live provider, real R2 movement or full operational restore proof. No full-group credit. Successor Batch21 exact original-source receipts were independently verified in docs/RIWI-BATCH-21-NATIVE-VERIFICATION.json. Historical four-skip Batch20 records are unchanged.",
+      "predecessor_original_source_evidence": "Both Batch21 focused rounds pass all13 cases without skips/failures. All21 uploaded ZIP members match owner-local files, all18 gate log hashes match, two fresh PostgreSQL16.14 clusters each apply51 migrations and stop cleanly. All1215 source hashes and both original input hashes match. Speaking880-row re-import/draft visibility cases run on native PostgreSQL; Listening write uses PGlite. This is supplemental proof, not a full1358-case zero-skip rerun. Current candidate publication remains pending."
     },
     {
       "id": "R06",
@@ -205,7 +209,9 @@
       "id": "D03",
       "requirement": "Review tri-mode PostgreSQL source/destination projection and identity reconciliation. Mode B strips site/private data and maps governance identities explicitly to authorized target actors; Mode C excludes all RIWI intelligence/conversations; Mode A preserves allowed full data. Validate foreign keys, composite keys, nullable self references, cycles, duplicate/conflicting rows, rollback, serialized mutations and uncertain COMMIT outcomes. Do not disable constraints to pass imports.",
       "status": "PARTIAL",
-      "evidence_and_remaining": "Step 13 nullable-cycle staging and FK validation and Step 14 single-bootstrap-owner A/C mapping are remotely verified. Step 14 exact tree and all 8 blobs match; two native non-build rounds each 1207 backend passes, 91 skips, zero failures, 252 UI passes plus typecheck/lint. Broader multi-owner reconciliation and native PostgreSQL concurrency/restore acceptance remain open. D03 is PARTIAL; no full-group credit."
+      "evidence_and_remaining": "Step 13 nullable-cycle staging and FK validation and Step 14 single-bootstrap-owner A/C mapping are remotely verified. Step 14 exact tree and all 8 blobs match; two native non-build rounds each 1207 backend passes, 91 skips, zero failures, 252 UI passes plus typecheck/lint. Broader multi-owner reconciliation and native PostgreSQL concurrency/restore acceptance remain open. D03 is PARTIAL; no full-group credit.",
+      "current_candidate": "Batch22 reproduces and fixes the A/C single-bootstrap-owner restriction. Two explicit active target owners preserve destination credentials and distinct dependent references. Denial/dry-run/rollback regressions pass locally. Native variants are prepared, not executed. Broader concurrency/uncertain COMMIT acceptance remains open. Successor Batch22 native A/C variants now pass in both full rounds atfb827f12. Broader serialization/uncertain COMMIT and operational restore acceptance remains open.",
+      "qa_report": "docs/RIWI-BATCH-22-QA-RESULTS.json"
     },
     {
       "id": "D04",
@@ -247,7 +253,8 @@
       "evidence_and_remaining": "Original native full gate passed before later edits. Final non-build gates pending. Owner explicitly instructed no rebuild; last-source build verification is NOT claimed, and this group remains open.",
       "current_candidate": "Two owner-terminal non-build backend/UI/typecheck/lint gates independently verified against source-state 9c356c51 and published tree af2c6a4f. Each backend retains 91 declared skips. Applicable mandatory native PostgreSQL/source/live/operational acceptance remains open; no full-group credit.",
       "latest_code_publication": "6f125f7dd21fafcce4f7ab089b0e26569600b3b5",
-      "current_batch17_candidate": "Unpublished Vocabulary input/source/transaction repair and source-bound Writing Activation evaluation persistence. Exact-source local non-build QA verified in docs/RIWI-BATCH-17-PUSH-HANDOFF.json. Mandatory external/native acceptance and all-task semantics remain open; no full-group credit."
+      "current_batch17_candidate": "Published 0524512. Exact tree, 20 packet blobs and all 1211 source blobs independently verified. Two owner-terminal non-build rounds each 1250 backend pass/92 skip/0 fail, UI260 pass. External/native and last-source build acceptance remain open.",
+      "current_source_gates": "Two full current-source non-build rounds independently verified atfb827f12. Each1362backend and260UI pass withzero skips/failures, typecheck/lint0. Last-source build remains unclaimed under owner no-rebuild instruction. Publication/operational acceptance still pending."
     },
     {
       "id": "D10",
@@ -297,7 +304,7 @@
     "commit": "147305642fc60470fd7097ec68349e66527b6ae4"
   },
   "next_batch_baseline_closed": 17,
-  "progress_record_publication": "Post-publication reconciliation prepared locally for a future qualifying batch; verified source commit remains 6f125f7.",
+  "progress_record_publication": "Batch17 post-publication reconciliation prepared in the preserved Batch18 candidate. No new full groups accepted.",
   "pending_batch16": {
     "status": "REMOTE_PUBLISHED_NATIVE_NON_BUILD_QA_VERIFIED_OPERATIONAL_ACCEPTANCE_PENDING",
     "baseline_closed": 17,
@@ -324,7 +331,7 @@
     "publication_note": "Owner published the current code-fix packet. Exact parent/tree, 81 reviewed paths and 1208 source files independently verified. Publication does not earn six-new-group acceptance or close operational requirements."
   },
   "pending_batch17": {
-    "status": "CURRENT_CODE_PACKAGE_READY_FOR_OWNER_TERMINAL_QA_AND_COMMIT",
+    "status": "REMOTE_TREE_BLOBS_AND_OWNER_NON_BUILD_QA_VERIFIED",
     "base_commit": "6f125f7dd21fafcce4f7ab089b0e26569600b3b5",
     "source_state_sha256": "c629ad51e49f41df314e7673fc283b7e87dc991c2d60f6fc0fa43e29160a0fee",
     "qa_report": "docs/RIWI-BATCH-17-PUSH-HANDOFF.json",
@@ -332,13 +339,122 @@
     "accepted_delta": 0,
     "minimum_additional_full_groups": 6,
     "publication_ready": false,
-    "published": false,
+    "published": true,
     "full_batch_size_acceptance_met": false,
     "code_package_ready": true,
     "owner_requested_current_packet_publication": true,
     "owner_handoff_report": "docs/RIWI-BATCH-17-PUSH-HANDOFF.json",
     "local_non_build_qa_rounds": 2,
     "previous_checkpoint_source_state_sha256": "ffe10915281f07847035619143f2fae29f2449f775720c7163869a347f8be9cb",
-    "previous_checkpoint_qa_report": "docs/RIWI-BATCH-17-VOCABULARY-QA-RESULTS.json"
+    "previous_checkpoint_qa_report": "docs/RIWI-BATCH-17-VOCABULARY-QA-RESULTS.json",
+    "published_commit": "0524512a40f24a1d38e26f1728e247248916107b",
+    "remote_verification_report": "docs/RIWI-BATCH-17-REMOTE-VERIFICATION.json",
+    "native_terminal_qa_rounds_verified": 2
+  },
+  "pending_batch18": {
+    "status": "TWO_LOCAL_NON_BUILD_GATES_PASSED_FULL_GROUP_ACCEPTANCE_OPEN",
+    "base_commit": "0524512a40f24a1d38e26f1728e247248916107b",
+    "source_state_sha256": "906a14389b04e0569119de3d35f7d0d0f3aced6c0772b28f719a7c1c3e83afe9",
+    "accepted_delta": 0,
+    "publication_ready": false,
+    "published": false,
+    "minimum_additional_full_groups": 6,
+    "hosting_work_deferred_by_owner": true,
+    "build_rerun": false,
+    "native_postgresql_acceptance": "UNVERIFIED",
+    "qa_report": "docs/RIWI-BATCH-18-QA-RESULTS.json",
+    "local_non_build_qa_rounds": 2,
+    "code_repair_qa_complete": true,
+    "full_batch_size_acceptance_met": false,
+    "scheduled_review_native_evidence_at_successor_source": "docs/RIWI-BATCH-19-NATIVE-VERIFICATION.json (9ab8ab6f successor source, not a rerun of historical 906a1438 source)"
+  },
+  "pending_batch19": {
+    "status": "TWO_NON_BUILD_AND_TWO_SCOPED_NATIVE_GATES_PASSED_FULL_GROUP_ACCEPTANCE_OPEN",
+    "base_commit": "0524512a40f24a1d38e26f1728e247248916107b",
+    "parent_candidate_source_sha256": "906a14389b04e0569119de3d35f7d0d0f3aced6c0772b28f719a7c1c3e83afe9",
+    "source_state_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905",
+    "source_files": 1215,
+    "accepted_delta": 0,
+    "minimum_additional_full_groups": 6,
+    "publication_ready": false,
+    "published": false,
+    "hosting_work_deferred_by_owner": true,
+    "build_rerun": false,
+    "native_postgresql_acceptance": "VERIFIED_VOCABULARY_GAME_POINT_REVIEW_SCOPE_ONLY",
+    "preserved_checkpoint": "RIWI_BATCH_18_CONTINUATION_906a1438.zip",
+    "superseded_source_sha256": "19a2be3c84776b83f81788f99ccccdd97386fe0243c0b499c0a552bea4c139a7",
+    "native_readiness_report": "docs/RIWI-BATCH-19-NATIVE-READINESS.json",
+    "qa_report": "docs/RIWI-BATCH-19-QA-RESULTS.json",
+    "local_non_build_qa_rounds": 2,
+    "code_repair_qa_complete": true,
+    "full_batch_size_acceptance_met": false,
+    "native_verification_report": "docs/RIWI-BATCH-19-NATIVE-VERIFICATION.json",
+    "native_rounds_passed": 2
+  },
+  "pending_batch20": {
+    "status": "VERIFIED_TWO_FULL_NATIVE_ROUNDS_FOUR_ORIGINAL_SOURCE_CASES_PENDING",
+    "source_state_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905",
+    "source_files": 1215,
+    "accepted_delta": 0,
+    "publication_ready": false,
+    "published": false,
+    "minimum_additional_full_groups": 6,
+    "native_full_execution": "VERIFIED_TWO_ROUNDS_FOUR_ORIGINAL_SOURCE_CASES_PENDING",
+    "code_source_changed": false,
+    "readiness_report": "docs/RIWI-BATCH-20-NATIVE-FULL-READINESS.json",
+    "native_batch19_evidence_preserved": true,
+    "source_dependent_skips": 4,
+    "source_independent_skips_pending": 0,
+    "hosting_work_deferred_by_owner": true,
+    "build_rerun": false,
+    "verification_report": "docs/RIWI-BATCH-20-NATIVE-VERIFICATION.json",
+    "native_rounds_verified": 2,
+    "backend_pass_per_round": 1354,
+    "ui_pass_per_round": 260,
+    "both_cluster_stops_verified": true
+  },
+  "pending_batch21": {
+    "status": "TWO_ORIGINAL_SOURCE_NATIVE_ROUNDS_INDEPENDENTLY_VERIFIED_PUBLICATION_PENDING",
+    "source_state_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905",
+    "source_files": 1215,
+    "code_source_changed": false,
+    "source_recovery_report": "docs/RIWI-BATCH-21-SOURCE-RECOVERY.json",
+    "previously_skipped_listening_source_cases_now_pass": 2,
+    "speaking_native_source_cases_pending": 0,
+    "native_source_rounds_verified": 2,
+    "accepted_delta": 0,
+    "minimum_additional_full_groups": 6,
+    "publication_ready": false,
+    "published": false,
+    "build_rerun": false,
+    "hosting_work_deferred_by_owner": true,
+    "native_verification_report": "docs/RIWI-BATCH-21-NATIVE-VERIFICATION.json",
+    "original_source_cases_pending": 0,
+    "qa_ready_group": "R05",
+    "qa_ready_additional_groups": 1,
+    "progress_if_published_and_accepted": 52.94117647058823,
+    "remote_base_rechecked": "0524512a40f24a1d38e26f1728e247248916107b"
+  },
+  "pending_batch22": {
+    "status": "TWO_FULL_CURRENT_SOURCE_NATIVE_NON_BUILD_ROUNDS_INDEPENDENTLY_VERIFIED_PUBLICATION_PENDING",
+    "source_state_sha256": "fb827f12a6fee4a3eddf397e20df384957f3a95adea61e6b593cf26fd5c582c6",
+    "parent_source_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905",
+    "source_files": 1217,
+    "qa_report": "docs/RIWI-BATCH-22-QA-RESULTS.json",
+    "accepted_delta": 0,
+    "minimum_additional_full_groups": 6,
+    "publication_ready": false,
+    "published": false,
+    "native_full_rounds_executed": 2,
+    "build_rerun": false,
+    "reset_performed": false,
+    "hosting_work_deferred_by_owner": true,
+    "native_full_rounds_verified": 2,
+    "native_verification_report": "docs/RIWI-BATCH-22-NATIVE-VERIFICATION.json",
+    "code_snapshot_ready_for_publication": true,
+    "full_six_group_batch_acceptance": false,
+    "qa_ready_group": "R05",
+    "qa_ready_additional_groups": 1,
+    "progress_if_published_and_accepted": 52.94117647058824
   }
 }

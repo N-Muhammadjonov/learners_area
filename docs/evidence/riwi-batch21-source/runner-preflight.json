@@ -1,0 +1,15 @@
+{
+  "runner_sha256": "781c09a4f46e57eee947f345fdafd56c7aa46d2982902b6dfbdd416e78ab909c",
+  "checks": {
+    "python_ast": true,
+    "all_1215_current_source_hashes_and_inventory": true,
+    "both_original_input_hashes": true,
+    "non_equivalent_source_rejected_before_cluster_creation": true,
+    "cluster_identity_js_syntax": true,
+    "cli_help": true,
+    "native_execution_performed": false
+  },
+  "source_state_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905",
+  "expected_selected_cases_per_round": 13,
+  "expectation_is_not_execution_evidence": true
+}

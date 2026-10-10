@@ -1,0 +1,22 @@
+TAP version 13
+# Subtest: full-system: two explicit owner mappings preserve destination credentials and distinct dependent identities
+ok 1 - full-system: two explicit owner mappings preserve destination credentials and distinct dependent identities
+  ---
+  duration_ms: 3691.024916
+  type: 'test'
+  ...
+# Subtest: learners-area: two explicit owner mappings preserve destination credentials and distinct dependent identities
+ok 2 - learners-area: two explicit owner mappings preserve destination credentials and distinct dependent identities
+  ---
+  duration_ms: 2918.187167
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7379.138542

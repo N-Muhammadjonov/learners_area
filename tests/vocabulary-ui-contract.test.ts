@@ -51,10 +51,13 @@ test("Typing Race has an answer-first timer, authoritative result, reveal, skip,
 test("Matching Pairs sends both selected identities for server-side verification", () => {
   const panel = read("src/components/vocabulary/VocabGamesPanel.tsx");
   const engine = read("src/lib/services/vocabulary/engine.ts");
+  const game = engine.slice(engine.indexOf("export async function recordGameAnswer"), engine.indexOf("export async function loadSelfAssessments"));
   assert.match(panel, /kind: "pair", pairEntryId: word\.id/);
-  assert.match(engine, /input\.submission\.pairEntryId/);
-  assert.match(engine, /correct = entry\.id === pairedEntry\.id/);
-  assert.match(engine, /await isEntryInGameSet\([\s\S]*?entry: pairedEntry/);
+  assert.match(game, /gameAnswerInputSchema\.safeParse\(input\)/);
+  assert.match(game, /const value = parsed\.data/);
+  assert.match(game, /value\.submission\.pairEntryId/);
+  assert.match(game, /correct = entry\.id === pairedEntry\.id/);
+  assert.match(game, /await isEntryInGameSet\([\s\S]*?entry: pairedEntry/);
 });
 
 test("definition-first flashcards keep answers hidden in the queue, reveal them accessibly, and award no mastery", () => {

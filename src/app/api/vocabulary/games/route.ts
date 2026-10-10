@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { gameSet, loadSelfAssessments, recordGameAnswer } from "@/lib/services/vocabulary/engine";
 import { uniqueGameRound } from "@/lib/services/vocabulary/game-round";
 import { isGameId } from "@/lib/services/vocabulary/game-routes";
+import { VOCAB_GAME_SETS, vocabularyGameAnswerHttpSchema } from "@/lib/services/vocabulary/game-input";
 
 /**
  * The casual games API.
@@ -20,7 +20,7 @@ import { isGameId } from "@/lib/services/vocabulary/game-routes";
  * set and word membership are re-derived on the server; client score flags and
  * point values are never accepted.
  */
-const SETS = ["all", "due", "weak", "reading", "listening", "topic", "folder", "assigned"] as const;
+const SETS = VOCAB_GAME_SETS;
 
 export async function GET(req: NextRequest) {
   const user = await requireActiveUser();
@@ -76,26 +76,7 @@ export async function GET(req: NextRequest) {
  * accepted, so a client that has not been updated cannot keep asserting its own
  * score.
  */
-const submissionSchema = z.discriminatedUnion("kind", [
-  // An empty answer is allowed and simply graded wrong: a student who presses
-  // "check" on an empty box should see the same verdict the browser shows, not
-  // an error.
-  z.object({ kind: z.literal("spelling"), text: z.string().max(300) }).strict(),
-  z.object({ kind: z.literal("sentence"), text: z.string().max(600) }).strict(),
-  z.object({ kind: z.literal("pair"), pairEntryId: z.string().uuid() }).strict(),
-  z.object({ kind: z.literal("self"), known: z.boolean() }).strict(),
-]);
-
-const answerSchema = z
-  .object({
-    entryId: z.string().uuid(),
-    set: z.enum(SETS),
-    gameId: z.enum(["cards", "choice", "match", "gap", "race", "translation", "builder"]),
-    folderId: z.string().uuid().optional(),
-    topicPack: z.string().max(100).optional(),
-    submission: submissionSchema,
-  })
-  .strict();
+const answerSchema = vocabularyGameAnswerHttpSchema;
 
 export async function POST(req: NextRequest) {
   const user = await requireActiveUser();
@@ -114,7 +95,9 @@ export async function POST(req: NextRequest) {
     folderId: parsed.data.folderId,
     topicPack: parsed.data.topicPack,
   });
-  if (!result.ok) return NextResponse.json({ error: result.error }, { status: 404 });
+  if (!result.ok) return NextResponse.json({ error: result.error }, {
+    status: result.error === "unauthenticated" ? 401 : result.error === "invalid_input" ? 400 : 404,
+  });
 
   return NextResponse.json(result);
 }

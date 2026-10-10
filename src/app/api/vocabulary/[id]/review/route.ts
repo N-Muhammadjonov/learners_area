@@ -1,8 +1,8 @@
 import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { applyScheduledReview } from "@/lib/services/vocabulary/engine";
+import { vocabularyReviewHttpSchema } from "@/lib/services/vocabulary/review-input";
 
 /**
  * POST /api/vocabulary/:id/review — one scheduled revision.
@@ -10,9 +10,9 @@ import { applyScheduledReview } from "@/lib/services/vocabulary/engine";
  * This is the ONLY endpoint that moves the official ladder. The student reports
  * whether they recalled the word; the server applies the 1/3/7/16/35 schedule,
  * recomputes mastery, and writes one point to the ledger (idempotently, keyed by
- * the stage it moves to).
+ * the scheduled due slot).
  */
-const schema = z.object({ outcome: z.enum(["correct", "incorrect"]) });
+const schema = vocabularyReviewHttpSchema;
 
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -36,7 +36,9 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
         { status: 409 }
       );
     }
-    return NextResponse.json({ error: result.error }, { status: 404 });
+    return NextResponse.json({ error: result.error }, {
+      status: result.error === "unauthenticated" ? 401 : result.error === "invalid_input" ? 400 : 404,
+    });
   }
 
   return NextResponse.json({

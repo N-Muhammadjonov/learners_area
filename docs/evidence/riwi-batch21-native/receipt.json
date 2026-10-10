@@ -1,0 +1,163 @@
+{
+  "status": "PASSED_TWO_ORIGINAL_SOURCE_ROUNDS_NO_SKIPS",
+  "source_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905",
+  "source_files": 1215,
+  "original_inputs": {
+    "LISTENING_SOURCE_ZIP": {
+      "path": "/Users/macbookair/Documents/Codex/2026-10-09/new-chat-4/work/source-inputs-batch21/LEARNERS_AREA_LISTENING_TEST_1_FINAL.zip",
+      "sha256": "5c3cdfffe029b3a7c948f34b2be2d17201c760eae1678f6d83e2853073a90c77"
+    },
+    "SPEAKING_BANK_SOURCE": {
+      "path": "/Users/macbookair/Documents/Codex/2026-10-09/new-chat-4/work/source-inputs-batch21/speaking_master_880_original.jsonl",
+      "sha256": "209e1161dd71ef3553ee3e3fe189cdc092b71d8d7f1a5e48c6dbb53ba9dc9f16"
+    }
+  },
+  "rounds": [
+    {
+      "round": 1,
+      "status": "PASSED",
+      "source_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905",
+      "postgres_version": "postgres (PostgreSQL) 16.14",
+      "private_root": "/tmp/riwi-batch21-native-source-dz2xf6zx/round-1-3tn347e0",
+      "checks": {
+        "initdb": {
+          "exit_code": 0,
+          "sha256": "0ee012ffc180182229388c4e512d2b14d6a9fcc4ce630bc7ed279d4b4265aaa8",
+          "log": "/tmp/riwi-batch21-native-source-dz2xf6zx/round-1-3tn347e0/initdb.log"
+        },
+        "start": {
+          "exit_code": 0,
+          "sha256": "66afd0411ccc09366e99fdd99b85f21899c8d2d064f5835126859618802153ad",
+          "log": "/tmp/riwi-batch21-native-source-dz2xf6zx/round-1-3tn347e0/start.log"
+        },
+        "createdb": {
+          "exit_code": 0,
+          "sha256": "5befc50650bb0effd8ff0f4063c1476e3c76183494d89c8983bd5f738c1c4893",
+          "log": "/tmp/riwi-batch21-native-source-dz2xf6zx/round-1-3tn347e0/createdb.log"
+        },
+        "migrations-qa": {
+          "exit_code": 0,
+          "sha256": "1d1294aa78848717cc5a1e630ddb980b0fbd8ed8e0fbb1e10bb7d87f1c5c5d97",
+          "log": "/tmp/riwi-batch21-native-source-dz2xf6zx/round-1-3tn347e0/migrations-qa.log"
+        },
+        "fixtures": {
+          "exit_code": 0,
+          "sha256": "78b48596134330e2c4094cb8e9963d8f3685c12acd4fe9e131cbda3ecae0cc9d",
+          "log": "/tmp/riwi-batch21-native-source-dz2xf6zx/round-1-3tn347e0/fixtures.log"
+        },
+        "identity-before-tests": {
+          "exit_code": 0,
+          "sha256": "5befc50650bb0effd8ff0f4063c1476e3c76183494d89c8983bd5f738c1c4893",
+          "log": "/tmp/riwi-batch21-native-source-dz2xf6zx/round-1-3tn347e0/identity-before-tests.log"
+        },
+        "original-source-tests": {
+          "exit_code": 0,
+          "sha256": "b81e22e20bdd0a03ee628f892b9abd14317685437d5456908d35b447f1c07f7e",
+          "log": "/tmp/riwi-batch21-native-source-dz2xf6zx/round-1-3tn347e0/original-source-tests.log",
+          "counts": {
+            "tests": 13,
+            "pass": 13,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          }
+        },
+        "identity-after-tests": {
+          "exit_code": 0,
+          "sha256": "5befc50650bb0effd8ff0f4063c1476e3c76183494d89c8983bd5f738c1c4893",
+          "log": "/tmp/riwi-batch21-native-source-dz2xf6zx/round-1-3tn347e0/identity-after-tests.log"
+        },
+        "stop": {
+          "exit_code": 0,
+          "sha256": "ca19178a35ab4153b75b494963b66ce8243e1b94c173107c87b44d09db23652d",
+          "log": "/tmp/riwi-batch21-native-source-dz2xf6zx/round-1-3tn347e0/stop.log"
+        }
+      },
+      "cluster_stopped": true,
+      "backend_files": [
+        "tests/full-listening-package.test.ts",
+        "tests/full-listening-write-db.test.ts",
+        "tests/qa2-speaking-bank-import.test.ts"
+      ],
+      "password_file_removed": true
+    },
+    {
+      "round": 2,
+      "status": "PASSED",
+      "source_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905",
+      "postgres_version": "postgres (PostgreSQL) 16.14",
+      "private_root": "/tmp/riwi-batch21-native-source-dz2xf6zx/round-2-9n6mb0kf",
+      "checks": {
+        "initdb": {
+          "exit_code": 0,
+          "sha256": "61d32e0c5c75e9ceda3dc9bf4a42e3777681498f5ce125f816e3d340dce1e04c",
+          "log": "/tmp/riwi-batch21-native-source-dz2xf6zx/round-2-9n6mb0kf/initdb.log"
+        },
+        "start": {
+          "exit_code": 0,
+          "sha256": "66afd0411ccc09366e99fdd99b85f21899c8d2d064f5835126859618802153ad",
+          "log": "/tmp/riwi-batch21-native-source-dz2xf6zx/round-2-9n6mb0kf/start.log"
+        },
+        "createdb": {
+          "exit_code": 0,
+          "sha256": "5befc50650bb0effd8ff0f4063c1476e3c76183494d89c8983bd5f738c1c4893",
+          "log": "/tmp/riwi-batch21-native-source-dz2xf6zx/round-2-9n6mb0kf/createdb.log"
+        },
+        "migrations-qa": {
+          "exit_code": 0,
+          "sha256": "1d1294aa78848717cc5a1e630ddb980b0fbd8ed8e0fbb1e10bb7d87f1c5c5d97",
+          "log": "/tmp/riwi-batch21-native-source-dz2xf6zx/round-2-9n6mb0kf/migrations-qa.log"
+        },
+        "fixtures": {
+          "exit_code": 0,
+          "sha256": "78b48596134330e2c4094cb8e9963d8f3685c12acd4fe9e131cbda3ecae0cc9d",
+          "log": "/tmp/riwi-batch21-native-source-dz2xf6zx/round-2-9n6mb0kf/fixtures.log"
+        },
+        "identity-before-tests": {
+          "exit_code": 0,
+          "sha256": "5befc50650bb0effd8ff0f4063c1476e3c76183494d89c8983bd5f738c1c4893",
+          "log": "/tmp/riwi-batch21-native-source-dz2xf6zx/round-2-9n6mb0kf/identity-before-tests.log"
+        },
+        "original-source-tests": {
+          "exit_code": 0,
+          "sha256": "1150d4c5119144cb9e53dcd720208d8a29878fee282b50d093fef81f300c61a9",
+          "log": "/tmp/riwi-batch21-native-source-dz2xf6zx/round-2-9n6mb0kf/original-source-tests.log",
+          "counts": {
+            "tests": 13,
+            "pass": 13,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          }
+        },
+        "identity-after-tests": {
+          "exit_code": 0,
+          "sha256": "5befc50650bb0effd8ff0f4063c1476e3c76183494d89c8983bd5f738c1c4893",
+          "log": "/tmp/riwi-batch21-native-source-dz2xf6zx/round-2-9n6mb0kf/identity-after-tests.log"
+        },
+        "stop": {
+          "exit_code": 0,
+          "sha256": "ca19178a35ab4153b75b494963b66ce8243e1b94c173107c87b44d09db23652d",
+          "log": "/tmp/riwi-batch21-native-source-dz2xf6zx/round-2-9n6mb0kf/stop.log"
+        }
+      },
+      "cluster_stopped": true,
+      "backend_files": [
+        "tests/full-listening-package.test.ts",
+        "tests/full-listening-write-db.test.ts",
+        "tests/qa2-speaking-bank-import.test.ts"
+      ],
+      "password_file_removed": true
+    }
+  ],
+  "existing_databases_reset": false,
+  "each_round_new_private_cluster": true,
+  "storage": "fresh private local directory only",
+  "build_rerun": false,
+  "commit_performed": false,
+  "push_performed": false,
+  "source_skips_count_as_pass": false,
+  "original_group_acceptance_automatic": false
+}

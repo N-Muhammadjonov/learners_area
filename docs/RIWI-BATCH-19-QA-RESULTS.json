@@ -1,0 +1,301 @@
+{
+  "status": "TWO_NON_BUILD_AND_TWO_SCOPED_NATIVE_GATES_PASSED_FULL_GROUP_ACCEPTANCE_OPEN",
+  "base_commit": "0524512a40f24a1d38e26f1728e247248916107b",
+  "source_state_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905",
+  "source_files": 1215,
+  "source_before_after_match": true,
+  "source_state_manifest": "docs/RIWI-BATCH-19-SOURCE-STATE.json",
+  "rounds": [
+    {
+      "backend": {
+        "kind": "backend",
+        "exit_code": 0,
+        "log": "/tmp/riwi-batch19-verified-round1-backend.log",
+        "sha256": "474744d7c759df691d9c7659f36392ba048e50dae3136f6a18096556b8c8bcbe",
+        "source_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905",
+        "build_rerun": false,
+        "counts": {
+          "tests": 1358,
+          "pass": 1266,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 92,
+          "todo": 0
+        }
+      },
+      "ui": {
+        "kind": "ui",
+        "exit_code": 0,
+        "log": "/tmp/riwi-batch19-verified-round1-ui.log",
+        "sha256": "f0d9eaaf05ccd5d42ebc865e762727f13aa764a1e1743a8c50a164bf872259e5",
+        "source_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905",
+        "build_rerun": false,
+        "counts": {
+          "tests": 260,
+          "pass": 260,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        }
+      },
+      "typecheck": {
+        "kind": "typecheck",
+        "exit_code": 0,
+        "log": "/tmp/riwi-batch19-verified-round1-typecheck.log",
+        "sha256": "5d67ea7ba0cdcb67cf34b4b132066d5cd00b857a31cc804006ed533f4aab0717",
+        "source_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905",
+        "build_rerun": false
+      },
+      "lint": {
+        "kind": "lint",
+        "exit_code": 0,
+        "log": "/tmp/riwi-batch19-verified-round1-lint.log",
+        "sha256": "63b6b500220f93347722b6b4ab90d1bc1f5a32bfe848b62f2565bcb75b5b71a6",
+        "source_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905",
+        "build_rerun": false
+      }
+    },
+    {
+      "backend": {
+        "kind": "backend",
+        "exit_code": 0,
+        "log": "/tmp/riwi-batch19-verified-round2-backend.log",
+        "sha256": "7dfff7c246c142ea0155cccdaef90c279e50208154afc68c141390e1ebb12ed4",
+        "source_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905",
+        "build_rerun": false,
+        "counts": {
+          "tests": 1358,
+          "pass": 1266,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 92,
+          "todo": 0
+        }
+      },
+      "ui": {
+        "kind": "ui",
+        "exit_code": 0,
+        "log": "/tmp/riwi-batch19-verified-round2-ui.log",
+        "sha256": "6fe3cdebf477e2f1e078f296c2d233ff362593e77cb2ff593a69216bc85420bd",
+        "source_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905",
+        "build_rerun": false,
+        "counts": {
+          "tests": 260,
+          "pass": 260,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        }
+      },
+      "typecheck": {
+        "kind": "typecheck",
+        "exit_code": 0,
+        "log": "/tmp/riwi-batch19-verified-round2-typecheck.log",
+        "sha256": "5d67ea7ba0cdcb67cf34b4b132066d5cd00b857a31cc804006ed533f4aab0717",
+        "source_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905",
+        "build_rerun": false
+      },
+      "lint": {
+        "kind": "lint",
+        "exit_code": 0,
+        "log": "/tmp/riwi-batch19-verified-round2-lint.log",
+        "sha256": "63b6b500220f93347722b6b4ab90d1bc1f5a32bfe848b62f2565bcb75b5b71a6",
+        "source_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905",
+        "build_rerun": false
+      }
+    }
+  ],
+  "baseline": {
+    "counts": {
+      "tests": 7,
+      "pass": 4,
+      "fail": 3,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "sha256": "06684772d5b481e1c60741e76da1191cb6e042ec33ae9ecc4b27d1b98244bab1",
+    "source_sha256": "decc4ba37ff1b2e7568c97629121a9ba6c9e03bea67942b171573302e34b1d29",
+    "note": "Published behavior with an explicit isolated-database seam. Not the byte-identical published source. Three failures reproduced before repair."
+  },
+  "focused": {
+    "counts": {
+      "tests": 62,
+      "pass": 57,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 5,
+      "todo": 0
+    },
+    "sha256": "d2e1ebc8ebd6e4bc234bdfb48b4901c60c41253e35df78d690e718f30af72c66",
+    "source_sha256": "19a2be3c84776b83f81788f99ccccdd97386fe0243c0b499c0a552bea4c139a7",
+    "note": "Broader focused run before the final pair assertion refinement. Production bytes unchanged afterward."
+  },
+  "current_pair_focused": {
+    "counts": {
+      "tests": 23,
+      "pass": 23,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "sha256": "acd5a04b2f8ee3d6912471a4f996ecf046a4210412b17da7b2b57326dc19b159",
+    "source_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905"
+  },
+  "superseded_full_backend": {
+    "counts": {
+      "tests": 1358,
+      "pass": 1265,
+      "fail": 1,
+      "cancelled": 0,
+      "skipped": 92,
+      "todo": 0
+    },
+    "sha256": "0c76540afd538a0c623652b04126b8d04f21755cd91e4c47135920ff49873263",
+    "source_sha256": "19a2be3c84776b83f81788f99ccccdd97386fe0243c0b499c0a552bea4c139a7",
+    "reason": "Matching Pairs structural selector referred to the old raw-input variable. Validation/pair assertions retained and strengthened. Added correct/incorrect owned-pair runtime assertions. Only two test files changed before new final gates."
+  },
+  "intermediate_typecheck": {
+    "status": "FAILED_MISSING_ADJACENT_EXPORT_RESTORED_BEFORE_FINAL_GATES",
+    "log": "riwi-batch19-focused-typecheck.log",
+    "sha256": "f7853e55e5f003a963cba8050a42e9ef5f423933536a2cd5de14650a7d7024e2"
+  },
+  "intermediate_focused": {
+    "status": "FAILED_STALE_STRUCTURAL_SELECTOR_UPDATED_WITHOUT_REMOVING_NO_CREDIT_ASSERTIONS",
+    "log": "riwi-batch19-final-focused.log",
+    "sha256": "5b31a3121533dbe5ea747beb3b073090b30f7d890f71f34800f4ed5325b19ba7",
+    "counts": {
+      "tests": 62,
+      "pass": 56,
+      "fail": 1,
+      "cancelled": 0,
+      "skipped": 5,
+      "todo": 0
+    }
+  },
+  "native_postgresql_acceptance": "VERIFIED_VOCABULARY_GAME_POINT_REVIEW_SCOPE_ONLY",
+  "native_runner": "RIWI_BATCH_19_NATIVE_VOCABULARY_QA.py",
+  "native_runner_execution": "OWNER_TERMINAL_TWO_ROUNDS_PASSED_INDEPENDENT_RECEIPT_AND_LOG_VERIFICATION",
+  "native_readiness_report": "docs/RIWI-BATCH-19-NATIVE-READINESS.json",
+  "native_runner_validation": "All eight archive files matched local owner logs. Six receipt checks have exit zero and matching SHA256. Both rounds have six passes, no failures/skips. All 1215 current source file hashes and inventory match pinned source. Cluster identity, 51 fresh migrations and successful isolated server stop verified. Five previously skipped cases gain scoped native evidence. Other requirements remain open.",
+  "live_provider_acceptance": "UNVERIFIED",
+  "authenticated_browser_acceptance": "UNVERIFIED",
+  "operational_acceptance": "UNVERIFIED",
+  "hosting_work_deferred_by_owner": true,
+  "build_rerun": false,
+  "published": false,
+  "new_complete_groups_accepted": 0,
+  "minimum_new_complete_groups": 6,
+  "full_batch_size_acceptance_met": false,
+  "publication_ready": false,
+  "code_repair_qa_complete": true,
+  "skips_count_as_pass": false,
+  "progress": {
+    "closed": 17,
+    "total": 34,
+    "prompt_percent": 50,
+    "riwi_percent": null,
+    "project_percent": null
+  },
+  "declared_skips": [
+    "ok 164 - Uploaded owner source: counts, no fabricated transcript and valid source parsing # SKIP",
+    "ok 167 - Actual uploaded source grades all 40 answers including swapped choose-TWO; repeat submit remains immutable # SKIP",
+    "ok 168 - 1 mode is persisted data: General membership row with reading_mode general_practice; Academic passages have none # SKIP",
+    "ok 169 - 2 General passage resolves immediately with no attempt (sourceId = passage id) # SKIP",
+    "ok 170 - 3 one-meaning trap: the river 'bank' outside the authored example stays unresolved (Meaning not checked yet) # SKIP",
+    "ok 171 - 4 MWE: longest occurrence wins — 'took the cost into account' is one phrase occurrence, not 'account' alone # SKIP",
+    "ok 172 - 5 inflections resolve to the lemma sense: runs/ran (P1), bought (P2) # SKIP",
+    "ok 173 - 6 save from General: canonical sense id, context with set/passage/occurrence/sentence/mode, no attempt id # SKIP",
+    "ok 174 - 7 revisit route returns to the set and passage # SKIP",
+    "ok 175 - 8 dedup by learner+sense across General P1 and P3 (one item, two contexts) # SKIP",
+    "ok 176 - 9 same sense shared across passages: P1/P2/P3 'bank' point at ONE canonical lexeme (no duplicate senses) # SKIP",
+    "ok 177 - 10 dedup General + Academic review: one item when the same sense is saved from both # SKIP",
+    "ok 178 - 11 dedup General + Listening: an identically authored Listening sense is the same canonical item # SKIP",
+    "ok 179 - 12 SRS is not reset when the same sense is saved again from another General passage # SKIP",
+    "ok 180 - 13 Academic exam lock unchanged: an open Academic attempt is locked while General works for the same learner # SKIP",
+    "ok 181 - 14 forged General: an Academic passage id or occurrence cannot borrow General permission # SKIP",
+    "ok 182 - 15 retake stays locked: completed + new in-progress Academic attempt, General unaffected # SKIP",
+    "ok 183 - 16 Academic surfaces exclude General passages (library count, facets-free list, active list, start) # SKIP",
+    "ok 184 - 17 draft sets are invisible to learners and locked; staff can preview # SKIP",
+    "ok 185 - 18 question evidence stays separate: evidence quotes create no sense and do not resolve the river 'bank' # SKIP",
+    "ok 186 - 19 function words are not vocabulary targets # SKIP",
+    "ok 187 - 20 per-passage progress persists answers without grading; reload returns them # SKIP",
+    "ok 188 - 21 learning results: Check grades with correct answer and evidence; foreign question ids are dropped # SKIP",
+    "ok 189 - 22 Full Reading keeps progress of all 3 passages independently # SKIP",
+    "ok 190 - 23 progress is per learner and cannot target Academic passages # SKIP",
+    "ok 191 - 24 import is idempotent on sourceRef and canonical ids are stable on re-run # SKIP",
+    "ok 192 - 25 existing ids unchanged: adding General content never touches existing Academic rows or learner items # SKIP",
+    "ok 193 - 26 VD-001 occurrence-less Reading save gate: active exam locked, forged source not found, General and review allowed # SKIP",
+    "ok 216 - essay-derived Grammar stays private before and after source expiry # SKIP",
+    "ok 255 - 0020 upgrades populated 0019 without rewriting rows; full migration chain also works from empty # SKIP",
+    "ok 376 - notification acknowledgements are owned, selective and idempotent # SKIP set QA2_DATABASE_TESTS=1 for the isolated database",
+    "ok 384 - the last active owner cannot lose the role # SKIP DATABASE_URL is not set",
+    "ok 385 - a student is not an owner, so removing the role is always allowed # SKIP DATABASE_URL is not set",
+    "ok 386 - a non-existent user cannot break the invariant # SKIP DATABASE_URL is not set",
+    "ok 462 - QA2 real PostgreSQL: parallel Google callbacks for one new identity create exactly one pending account # SKIP set QA2_DATABASE_TESTS=1 with an isolated QA database",
+    "ok 463 - QA2 real PostgreSQL: concurrent invites/accepts on separate connections — one call wins, no deadlock # SKIP set QA2_DATABASE_TESTS=1",
+    "ok 464 - N07 on real PostgreSQL: 8 concurrent finish requests on separate connections → one transition, one deadline # SKIP set QA2_DATABASE_TESTS=1",
+    "ok 465 - N08 on real PostgreSQL: SQL executes, users are isolated, unfinished work excluded, no join multiplication # SKIP set QA2_DATABASE_TESTS=1",
+    "ok 466 - PS1 1 205 band estimates in one week: exact count and pooled mean (no truncation) # SKIP set QA2_DATABASE_TESTS=1",
+    "ok 467 - PS2 streak counts Tashkent days, not a 400-event window: 3 busy days of 500 events each = 3 # SKIP set QA2_DATABASE_TESTS=1",
+    "ok 468 - PS3 own-library search finds the 2 101st word of a library (no 2 000-row cap; last in heap order) # SKIP set QA2_DATABASE_TESTS=1",
+    "ok 470 - QA2 real PostgreSQL: re-import is a no-op and never disturbs an attempt's prompt # SKIP set QA2_DATABASE_TESTS=1 and SPEAKING_BANK_SOURCE=<bank.jsonl>",
+    "ok 472 - QA2 real PostgreSQL: imported drafts are invisible to Practice and Live Partner until published # SKIP set QA2_DATABASE_TESTS=1 and SPEAKING_BANK_SOURCE=<bank.jsonl>",
+    "ok 476 - reading cards count their own questions; live search and clear preserve order # SKIP requires isolated QA database",
+    "ok 560 - active vocabulary and listening learners survive stale activity clocks and old attempt start dates # SKIP",
+    "ok 561 - retention owns a transaction lock; a concurrent runner does no work # SKIP",
+    "ok 562 - a freshly attached recording on an old draft survives cleanup and duplicate attachment has one winner # SKIP",
+    "ok 563 - cleanup during a blocked audio attachment preserves the fresh object and commits one intact relationship # SKIP",
+    "ok 564 - real SRS and wrong game answers count as activity; games cannot advance SRS or preserve stale accounts forever # SKIP",
+    "ok 565 - retention keeps failed object references and 18-month learning history, then retries safely # SKIP",
+    "ok 786 - portable archive imports transactionally into fresh real PostgreSQL and duplicate retry rolls back # SKIP",
+    "ok 1099 - guard: only the isolated local QA2 database # SKIP set QA2_DATABASE_TESTS=1 for the isolated database",
+    "ok 1100 - S7 authored standalone and course questions are both stored # SKIP set QA2_DATABASE_TESTS=1 for the isolated database",
+    "ok 1101 - S8 authored standalone questions gate completion and an explicit edit replaces them # SKIP set QA2_DATABASE_TESTS=1 for the isolated database",
+    "ok 1102 - C1/C2 standalone known duration: 79% in progress, 80% completed # SKIP set QA2_DATABASE_TESTS=1 for the isolated database",
+    "ok 1103 - C4/C5 standalone unknown duration: opinion alone does not complete; a trusted end does, durably # SKIP set QA2_DATABASE_TESTS=1 for the isolated database",
+    "ok 1104 - unknown duration: an end report with nothing watched cannot complete # SKIP set QA2_DATABASE_TESTS=1 for the isolated database",
+    "ok 1105 - known duration: an end report does not bypass the 80% threshold # SKIP set QA2_DATABASE_TESTS=1 for the isolated database",
+    "ok 1106 - R1/R2/S9 course-linked: questions still gate completion (wrong -> not done, all correct -> done) # SKIP set QA2_DATABASE_TESTS=1 for the isolated database",
+    "ok 1107 - R3 course-linked without questions: threshold, or a written response when duration is unknown (unchanged) # SKIP set QA2_DATABASE_TESTS=1 for the isolated database",
+    "ok 1134 - 1 Reading click: each occurrence resolves to ITS sense, server-validated, with a revisit snapshot # SKIP",
+    "ok 1135 - 2/3 Listening click: authored place resolves; the same spelling in another sense is UNRESOLVED (no meaning) # SKIP",
+    "ok 1136 - 2b a draft Listening test is not resolvable by a student; staff may # SKIP",
+    "ok 1137 - 10/11 same sense from Reading and Listening → ONE item with TWO contexts; replays add nothing; SRS untouched # SKIP",
+    "ok 1138 - 12 two senses of one spelling are two separate items for one learner # SKIP",
+    "ok 1139 - 18 concurrent duplicate saves of one occurrence: one item, one context (real row locks) # SKIP",
+    "ok 1140 - 19/20 multi-user isolation: separate items, contexts and SRS per learner # SKIP",
+    "ok 1141 - 21 games do not move SRS; 22 RIWI V1 sentence use is tied to the exact saved sense # SKIP",
+    "ok 1142 - 14 an unresolved Listening occurrence cannot be saved under a sense; 24 missing pronunciation stays null # SKIP",
+    "ok 1143 - M21 Full Exam reveals nothing: exam components carry no lexical code or transcript; policy and server lock while the exam is open # SKIP",
+    "ok 1144 - M22 mode transition: never-taken → locked; exam open → locked; submitted → resolved; a NEW open attempt re-locks # SKIP",
+    "ok 1145 - M23/M24 after submission, financial vs river bank: the money place resolves, the river place stays UNRESOLVED (one-meaning trap) # SKIP",
+    "ok 1146 - M25/M26 save from review keeps the Listening source context; the same sense from Reading is ONE item with TWO contexts # SKIP",
+    "ok 1147 - M27 Vocabulary Session: canonical sense wins over a conflicting package definition; order kept for index grading # SKIP",
+    "ok 1148 - M28 question evidence is independent of vocabulary occurrences: ingestion ignores evidence, evidence never creates a sense # SKIP",
+    "ok 1149 - R23 ACADEMIC_EXAM: occurrence data exists, but an open attempt reveals nothing — by attempt id AND by the passage-id bypass # SKIP",
+    "ok 1150 - R27 Academic transition: never taken → locked; open → locked; submitted → resolved; a retake re-locks (also the old attempt id) # SKIP",
+    "ok 1151 - R28/R29 bank polysemy by occurrence identity; one-meaning trap: an unlinked river 'bank' has NO occurrence, so no meaning is served # SKIP",
+    "ok 1152 - R30/R13 save from review: one sense-level item, source occurrence + passage in context; same sense in a 2nd passage → SAME item, 2 contexts; canonical not copied # SKIP",
+    "ok 1153 - R31/R32 MWE resolves the whole expression; inflections run/runs/running/ran share one sense → ONE item, four distinct occurrences # SKIP",
+    "ok 1222 - concurrent saves share one canonical sense and one learner entry with one award # SKIP",
+    "ok 1223 - failed vocabulary batches cannot leave canonical rows, points or partial learner entries # SKIP",
+    "ok 1224 - source deletion removes only its occurrences, preserving shared senses and both learners' saved words # SKIP",
+    "ok 1225 - foreign or deleted folder fails before any lexical write or award; own and unfiled saves stay idempotent # SKIP",
+    "ok 1226 - contextual bank saves preserve the exact sense, ownership and encounter after source deletion # SKIP",
+    "ok 1227 - legacy IDs stay stable while distinct parenthetical meanings and POS get separate new senses # SKIP",
+    "ok 1229 - new saves earn zero; verified game answers award once; wrong/self/forged modes earn zero; leaderboard sums ledger # SKIP",
+    "ok 1230 - effective leaderboard remaps legacy values and collapses historical game modes per word/day # SKIP",
+    "ok 1231 - each genuinely scheduled revision earns one point, and the same due occurrence cannot replay # SKIP",
+    "ok 1232 - RIWI acceptance is authoritative and a repeated accepted sentence under a new usage id pays once # SKIP",
+    "ok 1234 - native PostgreSQL serializes competing vocabulary confirmations and independent accepted answers # SKIP",
+    "ok 1320 - Writing works with no learner typing attempts and with a prompt resource joined by UUID # SKIP"
+  ],
+  "native_runner_previous_execution": "INITDB_ATTEMPT_BLOCKED_BY_ENVIRONMENT_IPC_PERMISSION",
+  "native_runner_previous_validation": "Python parse/help, missing-binary and tampered-manifest fail-closed checks only. Pinned distribution downloaded with scripts disabled and integrity verified. Native initdb was attempted but could not initialize a cluster because shmget was denied. No server/database started and no native tests ran.",
+  "native_verification_report": "docs/RIWI-BATCH-19-NATIVE-VERIFICATION.json",
+  "successor_full_native_verification_report": "docs/RIWI-BATCH-20-NATIVE-VERIFICATION.json"
+}

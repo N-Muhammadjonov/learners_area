@@ -1,0 +1,91 @@
+{
+  "verified_at_utc": "2026-10-10T11:40:09.135Z",
+  "status": "TWO_FULL_CURRENT_SOURCE_NATIVE_NON_BUILD_ROUNDS_INDEPENDENTLY_VERIFIED_PUBLICATION_PENDING",
+  "source_sha256": "fb827f12a6fee4a3eddf397e20df384957f3a95adea61e6b593cf26fd5c582c6",
+  "source_files": 1217,
+  "archive": {
+    "file_id": "file_00000000dc708210b1ea42b47aed03d6",
+    "library_file_id": null,
+    "sha256": "f2984b0eb6e3ada8c5598dcd88ccdd653a238eed48a0cdf6b23f00c03fb89748",
+    "members": 29,
+    "all_member_bytes_match_owner_logs": true
+  },
+  "rounds": [
+    {
+      "round": 1,
+      "postgres_version": "postgres (PostgreSQL) 16.14",
+      "backend": {
+        "tests": 1362,
+        "pass": 1362,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "ui": {
+        "tests": 260,
+        "pass": 260,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "typecheck_exit": 0,
+      "lint_exit": 0,
+      "all13_gate_log_hashes_match": true,
+      "cluster_stopped": true,
+      "password_removed": true
+    },
+    {
+      "round": 2,
+      "postgres_version": "postgres (PostgreSQL) 16.14",
+      "backend": {
+        "tests": 1362,
+        "pass": 1362,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "ui": {
+        "tests": 260,
+        "pass": 260,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "typecheck_exit": 0,
+      "lint_exit": 0,
+      "all13_gate_log_hashes_match": true,
+      "cluster_stopped": true,
+      "password_removed": true
+    }
+  ],
+  "source_inventory_verified": true,
+  "original_inputs": {
+    "LISTENING_SOURCE_ZIP": {
+      "path": "/Users/macbookair/Documents/Codex/2026-10-09/new-chat-4/work/source-inputs-batch21/LEARNERS_AREA_LISTENING_TEST_1_FINAL.zip",
+      "sha256": "5c3cdfffe029b3a7c948f34b2be2d17201c760eae1678f6d83e2853073a90c77"
+    },
+    "SPEAKING_BANK_SOURCE": {
+      "path": "/Users/macbookair/Documents/Codex/2026-10-09/new-chat-4/work/source-inputs-batch21/speaking_master_880_original.jsonl",
+      "sha256": "209e1161dd71ef3553ee3e3fe189cdc092b71d8d7f1a5e48c6dbb53ba9dc9f16"
+    }
+  },
+  "raw_evidence_directory": "docs/evidence/riwi-batch22-native",
+  "remote_base_rechecked": "0524512a40f24a1d38e26f1728e247248916107b",
+  "engine_scope": "Suite includes native-enabled PostgreSQL cases and PGlite/mock cases. It does not prove live provider, real R2/PITR or browser/microphone behavior.",
+  "build_rerun": false,
+  "commit_performed": false,
+  "push_performed": false,
+  "accepted_closed": 17,
+  "total": 34,
+  "current_percent": 50,
+  "qa_ready_groups": [
+    "R05"
+  ],
+  "candidate_closed_after_publication_and_independent_acceptance": 18,
+  "candidate_percent_after_publication_and_independent_acceptance": 52.94117647058824,
+  "full_six_group_batch_acceptance": false
+}

@@ -1,0 +1,172 @@
+{
+  "batch": 22,
+  "status": "TWO_FULL_CURRENT_SOURCE_NATIVE_NON_BUILD_ROUNDS_INDEPENDENTLY_VERIFIED_PUBLICATION_PENDING",
+  "created_at_utc": "2026-10-10T11:06:42.355Z",
+  "base_commit": "0524512a40f24a1d38e26f1728e247248916107b",
+  "parent_source_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905",
+  "source_sha256": "fb827f12a6fee4a3eddf397e20df384957f3a95adea61e6b593cf26fd5c582c6",
+  "source_files": 1217,
+  "source_manifest": "docs/RIWI-BATCH-22-SOURCE-STATE.json",
+  "source_manifest_sha256": "c6e6aa88875f4b0400b050f8ca4be4ed80e970a36819f0eedce07a7b9098d0e8",
+  "changed_paths": [
+    {
+      "path": "src/lib/portability/postgres-adapter.ts",
+      "change": "modified",
+      "sha256": "c77cbb17cd08fb0087dbf1d3fb961ee4ccc32d0111ee8d2ea16d48776096f7e3"
+    },
+    {
+      "path": "tests/riwi-portable-multi-owner.test.ts",
+      "change": "added",
+      "sha256": "ad5e33f61aabd6c98f62eb9915e97d82a2b47003bae241f8f173d72d0031765b"
+    },
+    {
+      "path": "tests/support/riwi-portability-database.ts",
+      "change": "added",
+      "sha256": "51ac6070c60683f33799a6c99c84d29dc0985af2aab64cb3a7a36efc9288b084"
+    }
+  ],
+  "scope": "D03 explicit multi-owner identity reconciliation in Mode A/full-system and C/learners-area",
+  "local_qa": {
+    "focused_portability": {
+      "exit_code": 0,
+      "source_sha256": "fb827f12a6fee4a3eddf397e20df384957f3a95adea61e6b593cf26fd5c582c6",
+      "log": "/Users/macbookair/Documents/Codex/2026-10-09/new-chat-4/work/qa-eleventh/docs/evidence/riwi-batch22-multi-owner/focused-recorded.log",
+      "sha256": "6bb082fa3ad8c908f9b133a7b474fdba0d042431111a80a4152e49da421eb007",
+      "counts": {
+        "tests": 34,
+        "pass": 31,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 3,
+        "todo": 0
+      },
+      "command": [
+        "/Users/macbookair/.nvm/versions/node/v24.21.0/bin/node",
+        "--conditions=react-server",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-reporter=tap",
+        "--test-concurrency=1",
+        "tests/riwi-portability-postgres.test.ts",
+        "tests/riwi-portability-source.test.ts",
+        "tests/riwi-portability-v2.test.ts",
+        "tests/riwi-portable-bootstrap-owner.test.ts",
+        "tests/riwi-portable-boundary.test.ts",
+        "tests/riwi-portable-cycle.test.ts",
+        "tests/riwi-portable-dry-run-conflict.test.ts",
+        "tests/riwi-portable-export-command.test.ts",
+        "tests/riwi-portable-full-command.test.ts",
+        "tests/riwi-portable-identity.test.ts",
+        "tests/riwi-portable-import-command.test.ts",
+        "tests/riwi-portable-manifest-scope.test.ts",
+        "tests/riwi-portable-multi-owner.test.ts"
+      ]
+    },
+    "typecheck": {
+      "exit_code": 0,
+      "signal": null,
+      "log": "docs/evidence/riwi-batch22-multi-owner/typecheck-recorded.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_sha256": "fb827f12a6fee4a3eddf397e20df384957f3a95adea61e6b593cf26fd5c582c6"
+    },
+    "lint": {
+      "exit_code": 0,
+      "signal": null,
+      "log": "docs/evidence/riwi-batch22-multi-owner/lint-recorded.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_sha256": "fb827f12a6fee4a3eddf397e20df384957f3a95adea61e6b593cf26fd5c582c6"
+    },
+    "runner_preflight": {
+      "python_ast": "PASS",
+      "source_inventory": 1217,
+      "source_hashes": "PASS",
+      "original_inputs": "PASS",
+      "wrong_manifest_refused": true,
+      "wrong_original_input_refused": true,
+      "native_server_started": false,
+      "repo_mutation": false
+    }
+  },
+  "regression_history": {
+    "before_fix": {
+      "log": "docs/evidence/riwi-batch22-multi-owner/before-fix.log",
+      "tests": 2,
+      "pass": 0,
+      "fail": 2,
+      "expected_failure": true
+    },
+    "after_fix": {
+      "log": "docs/evidence/riwi-batch22-multi-owner/after-fix.log",
+      "tests": 2,
+      "pass": 2,
+      "fail": 0
+    },
+    "previous_related_run": {
+      "log": "docs/evidence/riwi-batch22-multi-owner/related-portability.log",
+      "tests": 37,
+      "pass": 34,
+      "fail": 0,
+      "skipped": 3,
+      "exit_code": null,
+      "note": "Parent tool timed out before exit capture. Final TAP summary exists. Recorded focused gate supersedes exit proof for its 13 files."
+    }
+  },
+  "native_full_qa": {
+    "status": "VERIFIED_TWO_FULL_NATIVE_ROUNDS_NO_SKIPS",
+    "runner": "RIWI_BATCH_22_NATIVE_FULL_QA.py",
+    "runner_sha256": "5f6f9aeb6db8df897f2435792489e1187f86bab8ac4f5cec5396c0a716424131",
+    "rounds_required": 2,
+    "backend_expected_per_round": {
+      "tests": 1362,
+      "pass": 1362,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "ui_expected_per_round": {
+      "tests": 260,
+      "pass": 260,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "private_clusters_only": true,
+    "original_inputs_required": true,
+    "mixed_engine_suite_note": "Native-enabled cases use private PostgreSQL. Other relational cases use PGlite. Passing full gates does not mean every test uses native PostgreSQL.",
+    "previous_status": "NOT_EXECUTED_FOR_CURRENT_SOURCE",
+    "verification_report": "docs/RIWI-BATCH-22-NATIVE-VERIFICATION.json",
+    "rounds_verified": 2
+  },
+  "predecessor_evidence": {
+    "batch20": "docs/RIWI-BATCH-20-NATIVE-VERIFICATION.json",
+    "batch21": "docs/RIWI-BATCH-21-NATIVE-VERIFICATION.json",
+    "source_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905",
+    "historical_receipts_unchanged": true
+  },
+  "accepted_closed": 17,
+  "total": 34,
+  "verified_closure_percent": 50,
+  "accepted_delta": 0,
+  "partial_groups_earn_credit": false,
+  "publication_ready": false,
+  "published": false,
+  "commit_performed": false,
+  "push_performed": false,
+  "build_rerun": false,
+  "reset_performed": false,
+  "native_checkout_mutated": false,
+  "hosting_deferred_by_owner": true,
+  "remaining": [
+    "D03 broader serialization/concurrency and uncertain COMMIT acceptance",
+    "Six new fully accepted groups required for a qualifying 17.65-point batch",
+    "Live provider and authenticated responsive/microphone browser acceptance",
+    "Real private R2 lifecycle/object movement and backup/PITR restore",
+    "All source-task semantics and final operational GO"
+  ],
+  "previous_status": "LOCAL_REGRESSION_QA_PASSED_CURRENT_SOURCE_NATIVE_FULL_GATES_PENDING",
+  "code_snapshot_ready_for_publication": true,
+  "full_six_group_batch_acceptance": false
+}

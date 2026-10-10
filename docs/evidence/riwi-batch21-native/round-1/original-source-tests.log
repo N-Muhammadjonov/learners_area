@@ -1,0 +1,88 @@
+TAP version 13
+# Subtest: Legacy HTML is data only: malicious code is never evaluated
+ok 1 - Legacy HTML is data only: malicious code is never evaluated
+  ---
+  duration_ms: 1.384833
+  type: 'test'
+  ...
+# Subtest: Forty logical questions and four independent sections; optional transcripts preserve authored questions
+ok 2 - Forty logical questions and four independent sections; optional transcripts preserve authored questions
+  ---
+  duration_ms: 347.061417
+  type: 'test'
+  ...
+# Subtest: Unsafe asset paths, out-of-range clips and foreign section are refused
+ok 3 - Unsafe asset paths, out-of-range clips and foreign section are refused
+  ---
+  duration_ms: 743.696708
+  type: 'test'
+  ...
+# Subtest: Choose TWO supports swapped letters without double-credit for a repeated letter
+ok 4 - Choose TWO supports swapped letters without double-credit for a repeated letter
+  ---
+  duration_ms: 274.759916
+  type: 'test'
+  ...
+# Subtest: ZIP path traversal refused before reading package data
+ok 5 - ZIP path traversal refused before reading package data
+  ---
+  duration_ms: 1.222625
+  type: 'test'
+  ...
+# Subtest: Uploaded owner source: counts, no fabricated transcript and valid source parsing
+ok 6 - Uploaded owner source: counts, no fabricated transcript and valid source parsing
+  ---
+  duration_ms: 1288.4875
+  type: 'test'
+  ...
+# Subtest: Duplicate filenames in ZIP headers cannot overwrite a validated asset
+ok 7 - Duplicate filenames in ZIP headers cannot overwrite a validated asset
+  ---
+  duration_ms: 1.08225
+  type: 'test'
+  ...
+# Subtest: Absent canonical transcript fields default to empty without changing Script Completion
+ok 8 - Absent canonical transcript fields default to empty without changing Script Completion
+  ---
+  duration_ms: 263.883292
+  type: 'test'
+  ...
+# Subtest: Actual uploaded source grades all 40 answers including swapped choose-TWO; repeat submit remains immutable
+ok 9 - Actual uploaded source grades all 40 answers including swapped choose-TWO; repeat submit remains immutable
+  ---
+  duration_ms: 3632.316584
+  type: 'test'
+  ...
+# Subtest: write-target guard: only localhost/learners_qa2 unless the exact database is confirmed
+ok 10 - write-target guard: only localhost/learners_qa2 unless the exact database is confirmed
+  ---
+  duration_ms: 10.272458
+  type: 'test'
+  ...
+# Subtest: QA2 real PostgreSQL: re-import is a no-op and never disturbs an attempt's prompt
+ok 11 - QA2 real PostgreSQL: re-import is a no-op and never disturbs an attempt's prompt
+  ---
+  duration_ms: 299.1005
+  type: 'test'
+  ...
+# Subtest: N11 receipt: source hash and database name only — never a URL or password
+ok 12 - N11 receipt: source hash and database name only — never a URL or password
+  ---
+  duration_ms: 0.493375
+  type: 'test'
+  ...
+# Subtest: QA2 real PostgreSQL: imported drafts are invisible to Practice and Live Partner until published
+ok 13 - QA2 real PostgreSQL: imported drafts are invisible to Practice and Live Partner until published
+  ---
+  duration_ms: 474.907166
+  type: 'test'
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 9693.034417

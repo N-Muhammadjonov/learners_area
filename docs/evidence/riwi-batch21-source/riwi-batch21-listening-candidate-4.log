@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: Legacy HTML is data only: malicious code is never evaluated
+ok 1 - Legacy HTML is data only: malicious code is never evaluated
+  ---
+  duration_ms: 1.900916
+  type: 'test'
+  ...
+# Subtest: Forty logical questions and four independent sections; optional transcripts preserve authored questions
+ok 2 - Forty logical questions and four independent sections; optional transcripts preserve authored questions
+  ---
+  duration_ms: 462.5555
+  type: 'test'
+  ...
+# Subtest: Unsafe asset paths, out-of-range clips and foreign section are refused
+ok 3 - Unsafe asset paths, out-of-range clips and foreign section are refused
+  ---
+  duration_ms: 1409.955083
+  type: 'test'
+  ...
+# Subtest: Choose TWO supports swapped letters without double-credit for a repeated letter
+ok 4 - Choose TWO supports swapped letters without double-credit for a repeated letter
+  ---
+  duration_ms: 394.872875
+  type: 'test'
+  ...
+# Subtest: ZIP path traversal refused before reading package data
+ok 5 - ZIP path traversal refused before reading package data
+  ---
+  duration_ms: 4.769792
+  type: 'test'
+  ...
+# Subtest: Uploaded owner source: counts, no fabricated transcript and valid source parsing
+ok 6 - Uploaded owner source: counts, no fabricated transcript and valid source parsing
+  ---
+  duration_ms: 2167.203292
+  type: 'test'
+  ...
+# Subtest: Duplicate filenames in ZIP headers cannot overwrite a validated asset
+ok 7 - Duplicate filenames in ZIP headers cannot overwrite a validated asset
+  ---
+  duration_ms: 0.707792
+  type: 'test'
+  ...
+# Subtest: Absent canonical transcript fields default to empty without changing Script Completion
+ok 8 - Absent canonical transcript fields default to empty without changing Script Completion
+  ---
+  duration_ms: 279.543417
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6119.814458

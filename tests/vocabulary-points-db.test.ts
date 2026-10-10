@@ -42,7 +42,10 @@ test("new saves earn zero; verified game answers award once; wrong/self/forged m
 
     const [first, second] = saved.ids;
     assert.ok(first && second);
-    const correct = await recordGameAnswer({ userId, entryId: first, setKey: "all", gameId: "race", submission: { kind: "spelling", text: terms[0]! } });
+    const competingGames = await Promise.all(Array.from({ length: 8 }, () => recordGameAnswer({ userId, entryId: first, setKey: "all", gameId: "race", submission: { kind: "spelling", text: terms[0]! } })));
+    assert.ok(competingGames.every(result => result.ok && result.correct && result.verified));
+    assert.equal(competingGames.reduce((sum, result) => sum + (result.ok ? result.awarded : 0), 0), 1, "independent pool connections commit exactly one word-day award");
+    const correct = competingGames.find(result => result.ok && result.awarded === 1)!;
     assert.ok(correct.ok);
     assert.equal(correct.correct, true);
     assert.equal(correct.verified, true);
@@ -193,10 +196,13 @@ test("RIWI acceptance is authoritative and a repeated accepted sentence under a 
 
 test("HTTP contracts reject client score/correctness claims and award only the evaluator verdict", () => {
   const gameRoute = read("src/app/api/vocabulary/games/route.ts");
+  const gameSchema = read("src/lib/services/vocabulary/game-input.ts");
   const sentenceRoute = read("src/app/api/vocabulary/[id]/use/route.ts");
-  assert.match(gameRoute, /\.object\([\s\S]*?\)\s*\.strict\(\)/);
-  assert.match(gameRoute, /gameId: z\.enum/);
-  assert.match(gameRoute, /kind: z\.literal\("pair"\), pairEntryId: z\.string\(\)\.uuid\(\)/);
+  assert.match(gameRoute, /const answerSchema = vocabularyGameAnswerHttpSchema/);
+  assert.match(gameSchema, /\.object\([\s\S]*?\)\s*\.strict\(\)/);
+  assert.match(gameSchema, /gameId: z\.enum/);
+  assert.match(gameSchema, /kind: z\.literal\("pair"\), pairEntryId: z\.string\(\)\.uuid\(\)/);
+  assert.doesNotMatch(gameSchema, /correct:|points:/, "shared game schema has no client verdict or point fields");
   assert.doesNotMatch(gameRoute.slice(gameRoute.indexOf("const answerSchema"), gameRoute.indexOf("export async function POST")), /correct:|points:/, "game schema has no client verdict or point fields");
   assert.match(sentenceRoute, /const accepted = outcome\.evaluation\.verdict === "correct"/);
   assert.doesNotMatch(sentenceRoute.slice(sentenceRoute.indexOf("const schema"), sentenceRoute.indexOf("export async function POST")), /accepted|points|evaluationId/);
@@ -232,6 +238,29 @@ test("native PostgreSQL serializes competing vocabulary confirmations and indepe
     const { activityEvents } = await import("../src/db/schema");
     const activity = await db.select().from(activityEvents).where(and(eq(activityEvents.userId, userId), eq(activityEvents.type, "VOCABULARY_USED")));
     assert.equal(activity.length, 3, "one activity event per committed usage, including a rejected winner");
+
+    const now = new Date();
+    await db.update(userVocabulary).set({ srsStage: 3, correctCount: 4, incorrectCount: 0,
+      intervalDays: 16, nextReviewAt: now, mastery: "active" }).where(eq(userVocabulary.id, entryId));
+    const finalUsage = await recordSentenceUse({ userId, entryId, sentence: "A resilient learner develops through scheduled practice." });
+    assert.ok(finalUsage.ok);
+    const [reviews, confirmation] = await Promise.all([
+      Promise.all(Array.from({ length: 8 }, () => applyScheduledReview({ userId, entryId, outcome: "correct", now }))),
+      confirmSentenceUse({ userId, usageId: finalUsage.usageId, accepted: true, evaluationId: randomUUID() }),
+    ]);
+    assert.equal(reviews.filter(result => result.ok).length, 1, "only one pool connection consumes the due slot");
+    assert.equal(reviews.filter(result => !result.ok && result.error === "not_due").length, 7);
+    assert.ok(confirmation.ok);
+    const [finalEntry] = await db.select().from(userVocabulary).where(eq(userVocabulary.id, entryId));
+    assert.equal(finalEntry!.srsStage, 4);
+    assert.equal(finalEntry!.correctCount, 5);
+    assert.equal(finalEntry!.activeUseCount, entry!.activeUseCount + 1);
+    assert.equal(finalEntry!.mastery, "mastered", "recall and production evidence both survive either connection order");
+    const revisionEvents = await db.select().from(activityEvents).where(and(eq(activityEvents.userId, userId), eq(activityEvents.type, "VOCAB_REVIEWED")));
+    const revisionPoints = await db.select().from(vocabPointEvents).where(and(eq(vocabPointEvents.userId, userId), eq(vocabPointEvents.kind, "revision")));
+    assert.equal(revisionEvents.length, 1);
+    assert.equal(revisionPoints.length, 1);
+    assert.equal(revisionPoints[0]!.points, 1);
   } finally {
     await db.delete(users).where(eq(users.id, userId));
     await db.delete(lexemes).where(eq(lexemes.term, term));

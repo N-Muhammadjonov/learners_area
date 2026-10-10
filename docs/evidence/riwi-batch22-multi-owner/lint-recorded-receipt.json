@@ -1,0 +1,7 @@
+{
+  "exit_code": 0,
+  "signal": null,
+  "log": "docs/evidence/riwi-batch22-multi-owner/lint-recorded.log",
+  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "source_sha256": "fb827f12a6fee4a3eddf397e20df384957f3a95adea61e6b593cf26fd5c582c6"
+}

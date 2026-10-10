@@ -105,9 +105,9 @@ test("self-assessment can never award a leaderboard point", () => {
     3,
     "only the three server-checkable submissions may ever be marked verified",
   );
-  const selfBranch = engine.slice(engine.indexOf("} else {\n    correct = input.submission.known;"));
-  assert.match(selfBranch.slice(0, 120), /correct = input\.submission\.known/);
-  assert.doesNotMatch(selfBranch.slice(0, 120), /verified\s*=\s*true/);
+  const selfBranch = engine.match(/else if \(compatibleMode && value\.submission\.kind === "self"\) \{([^}]*)\}/)?.[1] ?? "";
+  assert.match(selfBranch, /correct = value\.submission\.known/);
+  assert.doesNotMatch(selfBranch, /verified\s*=\s*true/);
 });
 
 test("the durable marks are wired into the flashcard deck and no other game", () => {

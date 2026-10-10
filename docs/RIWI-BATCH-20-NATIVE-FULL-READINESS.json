@@ -1,0 +1,125 @@
+{
+  "status": "VERIFIED_TWO_FULL_NATIVE_ROUNDS_FOUR_ORIGINAL_SOURCE_CASES_PENDING",
+  "source_state_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905",
+  "earlier_preparation_and_environment_attempt": {
+    "status": "PREPARED_FULL_NATIVE_RUNNER_EXECUTION_BLOCKED_BY_ENVIRONMENT_IPC",
+    "created_at_utc": "2026-10-10T08:53:43.222916+00:00",
+    "source_state_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905",
+    "source_files": 1215,
+    "source_changes": 0,
+    "preserved_native_acceptance": "docs/RIWI-BATCH-19-NATIVE-VERIFICATION.json",
+    "preserved_native_rounds": 2,
+    "preserved_native_cases_per_round": 6,
+    "prior_full_backend_declared_skips": 92,
+    "prior_skips_with_verified_batch19_native_evidence": 5,
+    "remaining_declared_skips": 87,
+    "source_dependent_cases": [
+      "ok 164 - Uploaded owner source: counts, no fabricated transcript and valid source parsing # SKIP",
+      "ok 167 - Actual uploaded source grades all 40 answers including swapped choose-TWO; repeat submit remains immutable # SKIP",
+      "ok 470 - QA2 real PostgreSQL: re-import is a no-op and never disturbs an attempt's prompt # SKIP set QA2_DATABASE_TESTS=1 and SPEAKING_BANK_SOURCE=<bank.jsonl>",
+      "ok 472 - QA2 real PostgreSQL: imported drafts are invisible to Practice and Live Partner until published # SKIP set QA2_DATABASE_TESTS=1 and SPEAKING_BANK_SOURCE=<bank.jsonl>"
+    ],
+    "remaining_source_independent_cases_without_native_proof": 83,
+    "runner": "outputs/RIWI_BATCH_20_NATIVE_FULL_QA.py",
+    "runner_sha256": "e486989aa60a66927a85307c313c6b414d0ce1a91cb1c7619b4af9b0ce8bc9e4",
+    "runner_scope": [
+      "All existing 1358 backend cases, including fresh/native/populated upgrade, lexical ownership, retention/concurrency, General Reading and separate portability database",
+      "Each round has a newly-created private cluster and fresh local object directory",
+      "Both isolated databases use the canonical migration chain, then canonical QA owner/student fixtures",
+      "260 UI tests, typecheck and lint per round",
+      "Exact pinned source inventory and file hashes checked before and after gates",
+      "Successful shutdown is included in the receipt before a PASS result can be recorded"
+    ],
+    "required_backend_counts_per_round": {
+      "tests": 1358,
+      "pass": 1354,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 4,
+      "todo": 0
+    },
+    "required_counts_are_expectations_not_observations": true,
+    "allowed_skips_are_exact_original_source_cases_only": true,
+    "runner_checks_passed": [
+      "Python AST and help",
+      "Current 1215 source inventory and file SHA256 checks",
+      "Incomplete and duplicate TAP summary rejection",
+      "Exact four missing-source skip names matched existing backend declarations",
+      "Tampered manifest refused before cluster creation",
+      "Missing native binary refused before cluster creation"
+    ],
+    "local_execution_attempt": {
+      "status": "FAILED_OR_INCOMPLETE",
+      "source_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905",
+      "source_files": 1215,
+      "rounds": [
+        {
+          "round": 1,
+          "status": "FAILED",
+          "source_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905",
+          "postgres_version": "postgres (PostgreSQL) 16.14",
+          "private_root": "/tmp/riwi-batch20-native-full-lu94w9bx/round-1-fwt3f3a3",
+          "checks": {
+            "initdb": {
+              "exit_code": 1,
+              "sha256": "972721833df62f073fdf480906462dfe10054f967822a0422127abeefe2659fa",
+              "log": "/tmp/riwi-batch20-native-full-lu94w9bx/round-1-fwt3f3a3/initdb.log"
+            }
+          },
+          "cluster_stopped": false,
+          "error": "initdb failed. Inspect private log: /tmp/riwi-batch20-native-full-lu94w9bx/round-1-fwt3f3a3/initdb.log",
+          "password_file_removed": true
+        }
+      ],
+      "existing_databases_reset": false,
+      "each_round_new_private_cluster": true,
+      "storage": "fresh private local directory only",
+      "build_rerun": false,
+      "commit_performed": false,
+      "push_performed": false,
+      "source_skips_count_as_pass": false,
+      "original_group_acceptance_automatic": false
+    },
+    "local_native_cases_executed": 0,
+    "local_blocker": "initdb shmget: Operation not permitted",
+    "unexpected_blocker_was_not_bypassed": true,
+    "build_rerun": false,
+    "native_checkout_modified": false,
+    "commit_performed": false,
+    "push_performed": false,
+    "new_complete_groups_accepted": 0,
+    "publication_ready": false,
+    "current_prompt_percent": 50,
+    "riwi_percent": null,
+    "project_percent": null,
+    "remaining_final_acceptance": [
+      "Owner Terminal execution and independent verification of full-native receipts",
+      "Verified original Listening source ZIP and Speaking bank JSONL for four source-dependent cases",
+      "All-task semantic acceptance, live-provider and authenticated four-role browser evidence",
+      "Real isolated backup/PITR/restore, object movement and operational acceptance",
+      "Owner-selected contractual/destructive policies where the original prompt requires a choice",
+      "Six newly complete original groups before a qualifying publication. Hosting work remains deferred."
+    ]
+  },
+  "owner_terminal_verification_report": "docs/RIWI-BATCH-20-NATIVE-VERIFICATION.json",
+  "owner_terminal_result": {
+    "rounds": 2,
+    "backend_per_round": {
+      "tests": 1358,
+      "pass": 1354,
+      "fail": 0,
+      "skipped": 4
+    },
+    "ui_per_round": {
+      "tests": 260,
+      "pass": 260,
+      "fail": 0,
+      "skipped": 0
+    },
+    "typecheck_exit_code": 0,
+    "lint_exit_code": 0,
+    "both_clusters_shutdown_verified": true,
+    "original_source_acceptance": false,
+    "remaining_source_skips": 4
+  }
+}

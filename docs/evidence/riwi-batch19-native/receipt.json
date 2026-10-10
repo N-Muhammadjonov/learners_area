@@ -1,0 +1,56 @@
+{
+  "source_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905",
+  "postgres_version": "postgres (PostgreSQL) 16.14",
+  "isolated_new_cluster": true,
+  "existing_databases_reset": false,
+  "build_rerun": false,
+  "scope": "Vocabulary native game/point/review tests only. Other native, restore, source-bank, provider and operational acceptance remain open.",
+  "checks": {
+    "initdb": {
+      "exit_code": 0,
+      "sha256": "957e20543c2072648918c83814dbce32700d9c5370a411972271a922788dcb32",
+      "log": "/tmp/riwi-batch19-native-review-xm8_tnwv/initdb.log"
+    },
+    "start": {
+      "exit_code": 0,
+      "sha256": "66afd0411ccc09366e99fdd99b85f21899c8d2d064f5835126859618802153ad",
+      "log": "/tmp/riwi-batch19-native-review-xm8_tnwv/start.log"
+    },
+    "createdb": {
+      "exit_code": 0,
+      "sha256": "5befc50650bb0effd8ff0f4063c1476e3c76183494d89c8983bd5f738c1c4893",
+      "log": "/tmp/riwi-batch19-native-review-xm8_tnwv/createdb.log"
+    },
+    "migrations": {
+      "exit_code": 0,
+      "sha256": "1d1294aa78848717cc5a1e630ddb980b0fbd8ed8e0fbb1e10bb7d87f1c5c5d97",
+      "log": "/tmp/riwi-batch19-native-review-xm8_tnwv/migrations.log"
+    },
+    "review-round-1": {
+      "exit_code": 0,
+      "sha256": "0f0d2e9942bcefab356c214a1889b2b7bc9bc6195136f199b427167acb9b81cb",
+      "log": "/tmp/riwi-batch19-native-review-xm8_tnwv/review-round-1.log",
+      "counts": {
+        "tests": 6,
+        "pass": 6,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    "review-round-2": {
+      "exit_code": 0,
+      "sha256": "853dfc851834b0bd25a4b7db0e0438d4b2cd4197df3c66df0e8007c8992f43ef",
+      "log": "/tmp/riwi-batch19-native-review-xm8_tnwv/review-round-2.log",
+      "counts": {
+        "tests": 6,
+        "pass": 6,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    }
+  }
+}

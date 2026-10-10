@@ -1,5 +1,4 @@
 import "server-only";
-import { touchMeaningfulActivity } from "@/lib/services/activity";
 import { and, asc, desc, eq, gt, inArray, lte, or, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import {
@@ -40,6 +39,8 @@ import { gradeSentence, gradeSpelling, shouldAwardGamePoint, submissionMatchesGa
 import { searchRows } from "./search";
 import { findPack } from "./packs";
 import { sentenceConfirmationSchema, sentenceUseInputSchema } from "./sentence-input";
+import { scheduledReviewInputSchema } from "./review-input";
+import { gameAnswerInputSchema } from "./game-input";
 
 /**
  * The Vocabulary Learning Engine.
@@ -522,84 +523,54 @@ export async function applyScheduledReview(input: {
   entryId: string;
   outcome: ReviewOutcome;
   now?: Date;
-}) {
-  const now = input.now ?? new Date();
-  const entry = await db.query.userVocabulary.findFirst({
-    where: and(
-      eq(userVocabulary.id, input.entryId),
-      eq(userVocabulary.userId, input.userId),
-    ),
-  });
-  if (!entry) return { ok: false as const, error: "not_found" };
+}, database: typeof db = db) {
+  const parsed = scheduledReviewInputSchema.safeParse(input);
+  if (!parsed.success) return { ok: false as const, error: "invalid_input" as const };
+  const value = parsed.data;
+  const now = value.now ?? new Date();
+  return database.transaction(async tx => {
+    // Lock the actor before the word, as in other vocabulary writers. An
+    // exclusive lock also avoids upgrading concurrent shared actor locks when
+    // advancing the activity clock below.
+    const [actor] = await tx.select({ id: users.id }).from(users)
+      .where(and(eq(users.id, value.userId), eq(users.accountStatus, "active"))).for("update");
+    if (!actor) return { ok: false as const, error: "unauthenticated" as const };
+    const [entry] = await tx.select().from(userVocabulary)
+      .where(and(eq(userVocabulary.id, value.entryId), eq(userVocabulary.userId, value.userId))).for("update");
+    if (!entry) return { ok: false as const, error: "not_found" as const };
 
-  // The schedule is only worth trusting if it is enforced. A word that is not
-  // due yet cannot be reviewed early, so nobody can climb 1/3/7/16/35 in one
-  // sitting by clicking repeatedly — the student simply has to come back.
-  if (entry.nextReviewAt.getTime() > now.getTime()) {
-    return {
-      ok: false as const,
-      error: "not_due",
-      nextReviewAt: entry.nextReviewAt,
-    };
-  }
-
-  const result = applyReview(
-    {
-      srsStage: entry.srsStage,
-      correctCount: entry.correctCount,
-      incorrectCount: entry.incorrectCount,
-      activeUseCount: entry.activeUseCount,
-    },
-    input.outcome,
-    now,
-  );
-
-  await db
-    .update(userVocabulary)
-    .set({
-      srsStage: result.srsStage,
-      mastery: result.mastery,
-      correctCount: result.correctCount,
-      incorrectCount: result.incorrectCount,
-      intervalDays: result.intervalDays,
-      nextReviewAt: result.nextReviewAt,
+    // Read the due slot after locking. A duplicate worker observes the new due
+    // date, rather than advancing from an obsolete snapshot.
+    if (entry.nextReviewAt.getTime() > now.getTime()) {
+      return { ok: false as const, error: "not_due" as const, nextReviewAt: entry.nextReviewAt };
+    }
+    const result = applyReview(entry, value.outcome, now);
+    await tx.update(userVocabulary).set({
+      srsStage: result.srsStage, mastery: result.mastery,
+      correctCount: result.correctCount, incorrectCount: result.incorrectCount,
+      intervalDays: result.intervalDays, nextReviewAt: result.nextReviewAt,
       lastReviewedAt: result.lastReviewedAt,
       masteredAt: result.mastery === "mastered" ? now : entry.masteredAt,
-      state:
-        result.mastery === "new"
-          ? "new"
-          : result.mastery === "learning"
-            ? "learning"
-            : "review",
-    })
-    .where(eq(userVocabulary.id, entry.id));
-
-  await touchMeaningfulActivity(input.userId);
-  await db.insert(activityEvents).values({
-    userId: input.userId,
-    type: "VOCAB_REVIEWED",
-    payload: { id: entry.id, outcome: input.outcome, stage: result.srsStage },
+      state: result.mastery === "new" ? "new" : result.mastery === "learning" ? "learning" : "review",
+    }).where(eq(userVocabulary.id, entry.id));
+    await tx.update(users).set({
+      lastMeaningfulActivityAt: sql`greatest(${users.lastMeaningfulActivityAt}, ${now})`,
+    }).where(eq(users.id, value.userId));
+    await tx.insert(activityEvents).values({
+      userId: value.userId, type: "VOCAB_REVIEWED",
+      payload: { id: entry.id, outcome: value.outcome, stage: result.srsStage },
+    });
+    // Both recall outcomes earn the existing one-point scheduled-work award.
+    // Schedule, activity and ledger commit together, including failed retries.
+    const awarded = await awardPoints({
+      userId: value.userId, kind: "revision",
+      dedupeKey: dedupeKeys.revision(value.userId, entry.id, entry.nextReviewAt),
+      refType: "user_vocabulary", refId: entry.id,
+    }, tx);
+    return { ok: true as const, mastery: result.mastery, srsStage: result.srsStage,
+      intervalDays: result.intervalDays, nextReviewAt: result.nextReviewAt,
+      points: awarded ? VOCAB_POINTS.revision : 0 };
   });
-
-  // A revision earns a point whether or not the recall was correct: the student
-  // did the scheduled work, which is what the ledger rewards. Progress is what
-  // the stage records.
-  const awarded = await awardPoints({
-    userId: input.userId,
-    kind: "revision",
-    dedupeKey: dedupeKeys.revision(input.userId, entry.id, entry.nextReviewAt),
-    refType: "user_vocabulary",
-    refId: entry.id,
-  });
-
-  return {
-    ok: true as const,
-    mastery: result.mastery,
-    srsStage: result.srsStage,
-    intervalDays: result.intervalDays,
-    nextReviewAt: result.nextReviewAt,
-    points: awarded ? VOCAB_POINTS.revision : 0,
-  };
 }
 
 // ---------------------------------------------------------------------------
@@ -662,7 +633,7 @@ async function isEntryInGameSet(input: {
   folderId?: string;
   topicPack?: string;
   now: Date;
-}): Promise<boolean> {
+}, database: Pick<typeof db, "select">): Promise<boolean> {
   const { entry, setKey, now } = input;
   if (setKey === "all") return true;
   if (setKey === "due") return entry.nextReviewAt.getTime() <= now.getTime();
@@ -671,10 +642,8 @@ async function isEntryInGameSet(input: {
   if (setKey === "listening") return entry.sourceType === "listening";
   if (setKey === "assigned") return entry.sourceType === "assignment";
   if (setKey === "folder" && input.folderId) {
-    const folder = await db.query.vocabFolders.findFirst({
-      where: and(eq(vocabFolders.id, input.folderId), eq(vocabFolders.userId, input.userId)),
-      columns: { id: true },
-    });
+    const [folder] = await database.select({ id: vocabFolders.id }).from(vocabFolders)
+      .where(and(eq(vocabFolders.id, input.folderId), eq(vocabFolders.userId, input.userId))).for("share");
     return Boolean(folder && entry.folderId === folder.id);
   }
   if (setKey === "topic") {
@@ -707,102 +676,69 @@ export async function recordGameAnswer(input: {
   topicPack?: string;
   submission: GameSubmission;
   now?: Date;
-}): Promise<
-  | { ok: false; error: "not_found" | "not_in_set" }
+}, database: typeof db = db): Promise<
+  | { ok: false; error: "not_found" | "not_in_set" | "invalid_input" | "unauthenticated" }
   | { ok: true; correct: boolean; verified: boolean; awarded: number; srsUntouched: true }
 > {
-  const now = input.now ?? new Date();
+  const parsed = gameAnswerInputSchema.safeParse(input);
+  if (!parsed.success) return { ok: false, error: "invalid_input" };
+  const value = parsed.data;
+  const now = value.now ?? new Date();
+  return database.transaction(async tx => {
+    // The same actor-before-word order as scheduled review. Updating the
+    // activity clock requires an exclusive actor lock, without lock upgrades.
+    const [actor] = await tx.select({ id: users.id }).from(users)
+      .where(and(eq(users.id, value.userId), eq(users.accountStatus, "active"))).for("update");
+    if (!actor) return { ok: false as const, error: "unauthenticated" as const };
+    const [entry] = await tx.select().from(userVocabulary)
+      .where(and(eq(userVocabulary.id, value.entryId), eq(userVocabulary.userId, value.userId))).for("update");
+    if (!entry) return { ok: false as const, error: "not_found" as const };
+    const membership = { userId: value.userId, setKey: value.setKey,
+      folderId: value.folderId, topicPack: value.topicPack, now };
+    if (!(await isEntryInGameSet({ ...membership, entry }, tx))) {
+      return { ok: false as const, error: "not_in_set" as const };
+    }
+    const [lexeme] = await tx.select().from(lexemes).where(eq(lexemes.id, entry.lexemeId)).for("share");
+    if (!lexeme) return { ok: false as const, error: "not_found" as const };
 
-  // Ownership first: another student's word is not a word this student can play.
-  const entry = await db.query.userVocabulary.findFirst({
-    where: and(
-      eq(userVocabulary.id, input.entryId),
-      eq(userVocabulary.userId, input.userId),
-    ),
-  });
-  if (!entry) return { ok: false as const, error: "not_found" };
+    let correct = false;
+    let verified = false;
+    const compatibleMode = submissionMatchesGame(value.gameId, value.submission.kind);
+    if (compatibleMode && value.submission.kind === "spelling") {
+      correct = gradeSpelling({ term: lexeme.term, acceptedTranslations: lexeme.acceptedTranslations }, value.submission.text);
+      verified = true;
+    } else if (compatibleMode && value.submission.kind === "sentence") {
+      correct = gradeSentence(lexeme.exampleSentence ?? lexeme.definitionEn, value.submission.text);
+      verified = true;
+    } else if (compatibleMode && value.submission.kind === "pair") {
+      const [pairedEntry] = await tx.select().from(userVocabulary)
+        .where(and(eq(userVocabulary.id, value.submission.pairEntryId), eq(userVocabulary.userId, value.userId))).for("share");
+      if (!pairedEntry || !(await isEntryInGameSet({ ...membership, entry: pairedEntry }, tx))) {
+        return { ok: false as const, error: "not_in_set" as const };
+      }
+      correct = entry.id === pairedEntry.id;
+      verified = true;
+    } else if (compatibleMode && value.submission.kind === "self") {
+      correct = value.submission.known;
+    }
 
-  const inSet = await isEntryInGameSet({
-    userId: input.userId,
-    entry,
-    setKey: input.setKey,
-    folderId: input.folderId,
-    topicPack: input.topicPack,
-    now,
-  });
-  if (!inSet) return { ok: false as const, error: "not_in_set" };
-
-  const lexeme = await db.query.lexemes.findFirst({
-    where: eq(lexemes.id, entry.lexemeId),
-  });
-  if (!lexeme) return { ok: false as const, error: "not_found" };
-
-  let correct = false;
-  let verified = false;
-  const compatibleMode = submissionMatchesGame(input.gameId, input.submission.kind);
-  if (!compatibleMode) {
-    correct = false;
-    verified = false;
-  } else if (input.submission.kind === "spelling") {
-    correct = gradeSpelling(
-      { term: lexeme.term, acceptedTranslations: lexeme.acceptedTranslations },
-      input.submission.text,
-    );
-    verified = true;
-  } else if (input.submission.kind === "sentence") {
-    // The sentence builder assembles the example sentence; a word without an
-    // example is practised against its definition, exactly as the browser shows.
-    correct = gradeSentence(
-      lexeme.exampleSentence ?? lexeme.definitionEn,
-      input.submission.text,
-    );
-    verified = true;
-  } else if (input.submission.kind === "pair") {
-    const pairedEntry = await db.query.userVocabulary.findFirst({
-      where: and(
-        eq(userVocabulary.id, input.submission.pairEntryId),
-        eq(userVocabulary.userId, input.userId),
-      ),
+    // Every valid practice counts as activity, including a wrong answer. No
+    // branch updates the word's SRS or promotes a self-assessment to evidence.
+    await tx.update(users).set({
+      lastMeaningfulActivityAt: sql`greatest(${users.lastMeaningfulActivityAt}, ${now})`,
+    }).where(eq(users.id, value.userId));
+    await tx.insert(activityEvents).values({
+      userId: value.userId, type: "VOCAB_GAME_PRACTICED",
+      payload: { entryId: entry.id, kind: value.submission.kind, correct, verified },
     });
-    if (!pairedEntry || !(await isEntryInGameSet({
-      userId: input.userId,
-      entry: pairedEntry,
-      setKey: input.setKey,
-      folderId: input.folderId,
-      topicPack: input.topicPack,
-      now,
-    }))) return { ok: false as const, error: "not_in_set" };
-    correct = entry.id === pairedEntry.id;
-    verified = true;
-  } else {
-    correct = input.submission.known;
-  }
-
-  // Practice counts as activity, including an incorrect answer; never as SRS.
-  await db.insert(activityEvents).values({
-    userId: input.userId,
-    type: "VOCAB_GAME_PRACTICED",
-    payload: { entryId: entry.id, kind: input.submission.kind, correct, verified },
-  });
-  await touchMeaningfulActivity(input.userId);
-  const awarded =
-    shouldAwardGamePoint({ gameId: input.gameId, kind: input.submission.kind, verified, correct })
-      ? await awardPoints({
-          userId: input.userId,
-          kind: "game_answer",
-          dedupeKey: dedupeKeys.gameAnswer(input.userId, input.entryId, dayKey(now)),
-          refType: "user_vocabulary",
-          refId: input.entryId,
-        })
+    const awarded = shouldAwardGamePoint({ gameId: value.gameId, kind: value.submission.kind, verified, correct })
+      ? await awardPoints({ userId: value.userId, kind: "game_answer",
+        dedupeKey: dedupeKeys.gameAnswer(value.userId, entry.id, dayKey(now)),
+        refType: "user_vocabulary", refId: entry.id }, tx)
       : false;
-
-  return {
-    ok: true as const,
-    correct,
-    verified,
-    awarded: awarded ? VOCAB_POINTS.gameAnswer : 0,
-    srsUntouched: true as const,
-  };
+    return { ok: true as const, correct, verified,
+      awarded: awarded ? VOCAB_POINTS.gameAnswer : 0, srsUntouched: true as const };
+  });
 }
 
 /**

@@ -1,0 +1,302 @@
+{
+  "status": "SOURCE_RECOVERED_LISTENING_TWO_CASES_VERIFIED_SPEAKING_NATIVE_PENDING",
+  "verified_at_utc": "2026-10-10T10:16:55.182904+00:00",
+  "source_state_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905",
+  "source_files": 1215,
+  "code_source_changed": false,
+  "runtime_or_test_assertions_changed": false,
+  "original_archives": [
+    {
+      "filename": "LEARNERS_AREA_LISTENING_TEST_1_FINAL.zip",
+      "library_file_id": "libfile_719130566d948191ab89cc8f6f5f90e6",
+      "bytes": 16355141,
+      "sha256": "5c3cdfffe029b3a7c948f34b2be2d17201c760eae1678f6d83e2853073a90c77",
+      "selected": true
+    },
+    {
+      "filename": "learners_area_speaking_master_2026_v2.zip",
+      "library_file_id": "libfile_ee91ef628c3881919b6c68d8f7ba8c70",
+      "bytes": 169791,
+      "sha256": "1fcf2ea6f06b8968c602f0aecbae62ae260054f61c9a24b3a874ecc9d93ed9f0",
+      "selected": true
+    },
+    {
+      "filename": "learners_area_ielts_speaking_sep_dec_2026.zip",
+      "library_file_id": "libfile_0cd23663ab4481919e6839aa4a9e254b",
+      "bytes": 77301,
+      "sha256": "1286930787626427cfd74eb8a7b3781aba0e5b3719bd65e4b9b1eb50ce699bea",
+      "selected": false
+    },
+    {
+      "filename": "Listening_Test_1_ONLY.zip",
+      "library_file_id": "libfile_39fae2966e2c819194752902d684ee04",
+      "bytes": 16518882,
+      "sha256": "0cdebe17f912566306f9d87fda482dd64cfbbb2f5d4f0cd8c1cb87d263fa6064",
+      "selected": false
+    },
+    {
+      "filename": "LEARNERS_AREA_LISTENING_TEST_1_FINAL_V4_FIXED.zip",
+      "library_file_id": "libfile_8edac4970c108191b83a54913aa14d11",
+      "bytes": 16394569,
+      "sha256": "d2b7de992f25b90a2f41d60c08a1148f8c300dc917bad6224ae26caa026a95c5",
+      "selected": false
+    },
+    {
+      "filename": "LEARNERS_AREA_LISTENING_TEST_1_IMPORTER_COMPATIBLE.zip",
+      "library_file_id": "libfile_3d9ea6b40a688191a30f0e6e07baeac9",
+      "bytes": 16401529,
+      "sha256": "98190dab5c5527437b3507420c77fc3f3a44b2f35d05d3431b44b7e14d059456",
+      "selected": false
+    },
+    {
+      "filename": "LEARNERS_AREA_LISTENING_TEST_1_REFERENCE_MATCH_FINAL.zip",
+      "library_file_id": "libfile_ba38696116f88191bca17f0c1ed11eaf",
+      "bytes": 16368360,
+      "sha256": "efe0dfd94838119f9d5ec1e5a7ee88656fca95acb211f28165c21fb6c36961a6",
+      "selected": false
+    }
+  ],
+  "listening": {
+    "selected_archive": "LEARNERS_AREA_LISTENING_TEST_1_FINAL.zip",
+    "test_id": "listening-test-1",
+    "question_count": 40,
+    "sections": 4,
+    "activity_count": 5,
+    "keyword_1_count": 20,
+    "keyword_2_count": 20,
+    "vocabulary_count": 20,
+    "publication_issues": 0,
+    "audio_bytes": 16450918,
+    "audio_sha256": "c8d072e719dd00f53df9cc8fa916f35343d21ddffb0336c768e2a3f33aa1b34f",
+    "parser_test_duration_seconds": 1645.061224,
+    "duration_is_test_input_not_new_audio_measurement": true,
+    "package_tests": {
+      "log": "docs/evidence/riwi-batch21-source/riwi-batch21-listening-candidate-4.log",
+      "sha256": "499f534839d6fb51b092ecb438f7d82a582d0524cf05bd482d05966e8ab350a7",
+      "counts": {
+        "tests": 8,
+        "pass": 8,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    "write_test": {
+      "log": "docs/evidence/riwi-batch21-source/riwi-batch21-listening-original-write.log",
+      "sha256": "a4cd3d219080faaf6e10f74bf4d6b0edf660d9eab885806c9e7caa00a8d05fd1",
+      "counts": {
+        "tests": 1,
+        "pass": 1,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    "write_test_database": "PGlite",
+    "previously_skipped_original_source_cases_now_pass": 2,
+    "native_grade_database_evidence_claimed": false
+  },
+  "speaking": {
+    "selected_archive": "learners_area_speaking_master_2026_v2.zip",
+    "original_member": "speaking_master_bank.jsonl",
+    "extracted_path": "work/source-inputs-batch21/speaking_master_880_original.jsonl",
+    "extracted_sha256": "209e1161dd71ef3553ee3e3fe189cdc092b71d8d7f1a5e48c6dbb53ba9dc9f16",
+    "extracted_bytes": 490463,
+    "member_byte_identity_verified": true,
+    "rows": 880,
+    "unique_ids": 880,
+    "unique_question_texts": 880,
+    "by_part": {
+      "1": 285,
+      "2": 85,
+      "3": 510
+    },
+    "dry_run": {
+      "total": 880,
+      "uniqueIds": 880,
+      "byPart": {
+        "1": 285,
+        "2": 85,
+        "3": 510
+      },
+      "errors": [],
+      "sourceClasses": [
+        "public-current-topic-rewrite",
+        "public-current-theme-rewrite",
+        "current-theme-derived-practice"
+      ]
+    },
+    "dry_run_log": {
+      "log": "docs/evidence/riwi-batch21-source/riwi-batch21-speaking-original-plan.log",
+      "sha256": "0d8fb924bbf98f4a21aa60819884685759a4518836e4210f04a42d4433da4e3c"
+    },
+    "native_source_cases_executed": false,
+    "native_source_cases_pending": 2,
+    "bank_published_to_product": false,
+    "practice_bank_not_verified_live_exam_pool": true
+  },
+  "alternative_sources": [
+    {
+      "filename": "Listening_Test_1_ONLY.zip",
+      "decision": "NOT_EQUIVALENT",
+      "reason": "One HTML file, not the required five-activity package."
+    },
+    {
+      "filename": "learners_area_ielts_speaking_sep_dec_2026.zip",
+      "decision": "NOT_EQUIVALENT",
+      "rows": 404,
+      "by_part": {
+        "1": 144,
+        "2": 52,
+        "3": 208
+      }
+    },
+    {
+      "filename": "LEARNERS_AREA_LISTENING_TEST_1_FINAL_V4_FIXED.zip",
+      "decision": "NOT_SELECTED_LEGACY_CONTRACT_MISMATCH",
+      "observed_error": "Missing const PAIR_OF=",
+      "test_result": {
+        "log": "docs/evidence/riwi-batch21-source/riwi-batch21-listening-candidate-1.log",
+        "sha256": "ad70b1f94de2754a03e1600c2fabf7edf0afa2508553cf6349431706c41c9756",
+        "counts": {
+          "tests": 8,
+          "pass": 7,
+          "fail": 1,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        }
+      }
+    },
+    {
+      "filename": "LEARNERS_AREA_LISTENING_TEST_1_IMPORTER_COMPATIBLE.zip",
+      "decision": "NOT_SELECTED_LEGACY_CONTRACT_MISMATCH",
+      "observed_error": "Missing const DATA=",
+      "test_result": {
+        "log": "docs/evidence/riwi-batch21-source/riwi-batch21-listening-candidate-2.log",
+        "sha256": "8c094e7d212b8d7a7008495eb175b3f8b4c653833cb2f44eabe6d8f7299210a4",
+        "counts": {
+          "tests": 8,
+          "pass": 7,
+          "fail": 1,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        }
+      }
+    },
+    {
+      "filename": "LEARNERS_AREA_LISTENING_TEST_1_REFERENCE_MATCH_FINAL.zip",
+      "decision": "NOT_SELECTED_LEGACY_CONTRACT_MISMATCH",
+      "observed_error": "Missing const DATA=",
+      "test_result": {
+        "log": "docs/evidence/riwi-batch21-source/riwi-batch21-listening-candidate-3.log",
+        "sha256": "cd5810859e72b80cfcd2165ad43aa8bf9c258e23202ece196f551f2bf22ca618",
+        "counts": {
+          "tests": 8,
+          "pass": 7,
+          "fail": 1,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        }
+      }
+    }
+  ],
+  "all_raw_logs": {
+    "listening_candidate_1": {
+      "log": "docs/evidence/riwi-batch21-source/riwi-batch21-listening-candidate-1.log",
+      "sha256": "ad70b1f94de2754a03e1600c2fabf7edf0afa2508553cf6349431706c41c9756",
+      "counts": {
+        "tests": 8,
+        "pass": 7,
+        "fail": 1,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    "listening_candidate_2": {
+      "log": "docs/evidence/riwi-batch21-source/riwi-batch21-listening-candidate-2.log",
+      "sha256": "8c094e7d212b8d7a7008495eb175b3f8b4c653833cb2f44eabe6d8f7299210a4",
+      "counts": {
+        "tests": 8,
+        "pass": 7,
+        "fail": 1,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    "listening_candidate_3": {
+      "log": "docs/evidence/riwi-batch21-source/riwi-batch21-listening-candidate-3.log",
+      "sha256": "cd5810859e72b80cfcd2165ad43aa8bf9c258e23202ece196f551f2bf22ca618",
+      "counts": {
+        "tests": 8,
+        "pass": 7,
+        "fail": 1,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    "listening_candidate_4": {
+      "log": "docs/evidence/riwi-batch21-source/riwi-batch21-listening-candidate-4.log",
+      "sha256": "499f534839d6fb51b092ecb438f7d82a582d0524cf05bd482d05966e8ab350a7",
+      "counts": {
+        "tests": 8,
+        "pass": 8,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    "riwi-batch21-listening-original-write.log": {
+      "log": "docs/evidence/riwi-batch21-source/riwi-batch21-listening-original-write.log",
+      "sha256": "a4cd3d219080faaf6e10f74bf4d6b0edf660d9eab885806c9e7caa00a8d05fd1",
+      "counts": {
+        "tests": 1,
+        "pass": 1,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    "riwi-batch21-speaking-original-plan.log": {
+      "log": "docs/evidence/riwi-batch21-source/riwi-batch21-speaking-original-plan.log",
+      "sha256": "0d8fb924bbf98f4a21aa60819884685759a4518836e4210f04a42d4433da4e3c"
+    }
+  },
+  "native_handoff": {
+    "runner": "outputs/RIWI_BATCH_21_NATIVE_SOURCE_QA.py",
+    "runner_sha256": "781c09a4f46e57eee947f345fdafd56c7aa46d2982902b6dfbdd416e78ab909c",
+    "preflight_report": "docs/evidence/riwi-batch21-source/runner-preflight.json",
+    "expected_rounds": 2,
+    "expected_selected_cases_per_round": 13,
+    "expectation_is_not_execution_evidence": true,
+    "native_execution_performed_here": false,
+    "reason": "Existing execution sandbox native IPC restriction. Use the normal owner Terminal with the already installed PostgreSQL16.14 binaries.",
+    "full_backend_ui_typecheck_lint_not_rerun": "Exact unchanged source already verified twice in Batch20; Batch21 covers only new original input cases."
+  },
+  "preserved_prior_evidence": "docs/RIWI-BATCH-20-NATIVE-VERIFICATION.json",
+  "historical_batch20_four_skips_not_rewritten": true,
+  "progress": {
+    "closed": 17,
+    "total": 34,
+    "percent": 50,
+    "accepted_delta": 0,
+    "minimum_additional_groups_for_15_plus_points": 6,
+    "riwi_overall_percent": null,
+    "project_overall_percent": null
+  },
+  "commit_performed": false,
+  "push_performed": false,
+  "build_rerun": false,
+  "publication_ready": false,
+  "successor_native_verification": "docs/RIWI-BATCH-21-NATIVE-VERIFICATION.json",
+  "historical_pre_native_status_preserved": true
+}

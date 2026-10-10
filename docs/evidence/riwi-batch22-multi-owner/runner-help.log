@@ -1,0 +1,16 @@
+usage: RIWI_BATCH_22_NATIVE_FULL_QA.py [-h] --repo REPO
+                                       --source-manifest SOURCE_MANIFEST
+                                       --pg-bin PG_BIN
+                                       --listening-source LISTENING_SOURCE
+                                       --speaking-bank-source SPEAKING_BANK_SOURCE
+
+Pinned full native QA in two fresh private clusters. No downloads or Git
+writes.
+
+options:
+  -h, --help            show this help message and exit
+  --repo REPO
+  --source-manifest SOURCE_MANIFEST
+  --pg-bin PG_BIN
+  --listening-source LISTENING_SOURCE
+  --speaking-bank-source SPEAKING_BANK_SOURCE

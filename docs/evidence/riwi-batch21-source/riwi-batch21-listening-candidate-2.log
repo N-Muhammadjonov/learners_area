@@ -1,0 +1,72 @@
+TAP version 13
+# Subtest: Legacy HTML is data only: malicious code is never evaluated
+ok 1 - Legacy HTML is data only: malicious code is never evaluated
+  ---
+  duration_ms: 2.763417
+  type: 'test'
+  ...
+# Subtest: Forty logical questions and four independent sections; optional transcripts preserve authored questions
+ok 2 - Forty logical questions and four independent sections; optional transcripts preserve authored questions
+  ---
+  duration_ms: 926.447
+  type: 'test'
+  ...
+# Subtest: Unsafe asset paths, out-of-range clips and foreign section are refused
+ok 3 - Unsafe asset paths, out-of-range clips and foreign section are refused
+  ---
+  duration_ms: 1643.143625
+  type: 'test'
+  ...
+# Subtest: Choose TWO supports swapped letters without double-credit for a repeated letter
+ok 4 - Choose TWO supports swapped letters without double-credit for a repeated letter
+  ---
+  duration_ms: 608.037125
+  type: 'test'
+  ...
+# Subtest: ZIP path traversal refused before reading package data
+ok 5 - ZIP path traversal refused before reading package data
+  ---
+  duration_ms: 8.283292
+  type: 'test'
+  ...
+# Subtest: Uploaded owner source: counts, no fabricated transcript and valid source parsing
+not ok 6 - Uploaded owner source: counts, no fabricated transcript and valid source parsing
+  ---
+  duration_ms: 1013.255875
+  type: 'test'
+  location: '/Users/macbookair/Documents/Codex/2026-10-09/new-chat-4/work/qa-eleventh/tests/full-listening-package.test.ts:1:3210'
+  failureType: 'testCodeFailure'
+  error: 'Missing source data: const DATA ='
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    jsonLiteral (/Users/macbookair/Documents/Codex/2026-10-09/new-chat-4/work/qa-eleventh/src/lib/listening/source-parser.ts:12:21)
+    convertLegacyPackage (/Users/macbookair/Documents/Codex/2026-10-09/new-chat-4/work/qa-eleventh/src/lib/listening/source-parser.ts:98:31)
+    TestContext.<anonymous> (/Users/macbookair/Documents/Codex/2026-10-09/new-chat-4/work/qa-eleventh/tests/full-listening-package.test.ts:159:15)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1402:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+    Test.postRun (node:internal/test_runner/test:1542:19)
+    Test.run (node:internal/test_runner/test:1467:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: Duplicate filenames in ZIP headers cannot overwrite a validated asset
+ok 7 - Duplicate filenames in ZIP headers cannot overwrite a validated asset
+  ---
+  duration_ms: 0.667833
+  type: 'test'
+  ...
+# Subtest: Absent canonical transcript fields default to empty without changing Script Completion
+ok 8 - Absent canonical transcript fields default to empty without changing Script Completion
+  ---
+  duration_ms: 504.343584
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 7
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6014.61325

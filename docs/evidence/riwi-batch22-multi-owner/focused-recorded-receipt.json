@@ -1,0 +1,36 @@
+{
+  "exit_code": 0,
+  "source_sha256": "fb827f12a6fee4a3eddf397e20df384957f3a95adea61e6b593cf26fd5c582c6",
+  "log": "/Users/macbookair/Documents/Codex/2026-10-09/new-chat-4/work/qa-eleventh/docs/evidence/riwi-batch22-multi-owner/focused-recorded.log",
+  "sha256": "6bb082fa3ad8c908f9b133a7b474fdba0d042431111a80a4152e49da421eb007",
+  "counts": {
+    "tests": 34,
+    "pass": 31,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 3,
+    "todo": 0
+  },
+  "command": [
+    "/Users/macbookair/.nvm/versions/node/v24.21.0/bin/node",
+    "--conditions=react-server",
+    "--import",
+    "tsx",
+    "--test",
+    "--test-reporter=tap",
+    "--test-concurrency=1",
+    "tests/riwi-portability-postgres.test.ts",
+    "tests/riwi-portability-source.test.ts",
+    "tests/riwi-portability-v2.test.ts",
+    "tests/riwi-portable-bootstrap-owner.test.ts",
+    "tests/riwi-portable-boundary.test.ts",
+    "tests/riwi-portable-cycle.test.ts",
+    "tests/riwi-portable-dry-run-conflict.test.ts",
+    "tests/riwi-portable-export-command.test.ts",
+    "tests/riwi-portable-full-command.test.ts",
+    "tests/riwi-portable-identity.test.ts",
+    "tests/riwi-portable-import-command.test.ts",
+    "tests/riwi-portable-manifest-scope.test.ts",
+    "tests/riwi-portable-multi-owner.test.ts"
+  ]
+}

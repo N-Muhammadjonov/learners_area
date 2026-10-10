@@ -1,0 +1,85 @@
+{
+  "status": "VERIFIED_TWO_ORIGINAL_SOURCE_ROUNDS_NO_SKIPS",
+  "verified_at_utc": "2026-10-10T10:43:53.727Z",
+  "library_file_id": "libfile_68aef36e3bfc8191a262476fd31d3b70",
+  "file_id": "file_00000000f8c881f4acf33ea9e57f1d85",
+  "archive_sha256": "c40b9086b20c65e5e20d6af9a4bb38dcc0615d13df51ad751c6a53490c2c247b",
+  "archive_crc_verified": true,
+  "all_21_archive_members_match_owner_local_files": true,
+  "all_18_gate_log_hashes_and_exit_codes_verified": true,
+  "source_state_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905",
+  "source_files": 1215,
+  "source_inventory_and_all_file_hashes_match": true,
+  "original_inputs": {
+    "LISTENING_SOURCE_ZIP": {
+      "path": "/Users/macbookair/Documents/Codex/2026-10-09/new-chat-4/work/source-inputs-batch21/LEARNERS_AREA_LISTENING_TEST_1_FINAL.zip",
+      "sha256": "5c3cdfffe029b3a7c948f34b2be2d17201c760eae1678f6d83e2853073a90c77"
+    },
+    "SPEAKING_BANK_SOURCE": {
+      "path": "/Users/macbookair/Documents/Codex/2026-10-09/new-chat-4/work/source-inputs-batch21/speaking_master_880_original.jsonl",
+      "sha256": "209e1161dd71ef3553ee3e3fe189cdc092b71d8d7f1a5e48c6dbb53ba9dc9f16"
+    }
+  },
+  "rounds": [
+    {
+      "round": 1,
+      "original_source_tests": {
+        "tests": 13,
+        "pass": 13,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "native_version": "16.14",
+      "migration_count": 51,
+      "all_log_hashes_match": true,
+      "identity_before_after_verified": true,
+      "stopped_and_pid_absent": true,
+      "password_file_removed": true
+    },
+    {
+      "round": 2,
+      "original_source_tests": {
+        "tests": 13,
+        "pass": 13,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "native_version": "16.14",
+      "migration_count": 51,
+      "all_log_hashes_match": true,
+      "identity_before_after_verified": true,
+      "stopped_and_pid_absent": true,
+      "password_file_removed": true
+    }
+  ],
+  "two_distinct_private_clusters": true,
+  "previously_unverified_original_source_cases_now_pass": 4,
+  "remaining_original_source_skips": 0,
+  "listening_write_database": "PGlite",
+  "speaking_import_database": "native PostgreSQL16.14",
+  "full_1358_case_zero_skip_rerun_claimed": false,
+  "full_non_build_gates_at_same_source": "docs/RIWI-BATCH-20-NATIVE-VERIFICATION.json",
+  "code_source_changed": false,
+  "build_rerun": false,
+  "commit_performed": false,
+  "push_performed": false,
+  "remote_observation": {
+    "branch": "arena/01a10bac-learners-area",
+    "head": "0524512a40f24a1d38e26f1728e247248916107b",
+    "observed_at_utc": "2026-10-10T10:48:34.576Z",
+    "native_checkout_clean": true
+  },
+  "group_acceptance": {
+    "R05": "QA_VERIFIED_PUBLICATION_PENDING",
+    "accepted_full_group_delta": 0,
+    "closed_remote_verified_groups": 17,
+    "total_groups": 34,
+    "verified_closure_percent": 50,
+    "qa_ready_additional_group": "R05",
+    "candidate_after_publication_percent": 52.94117647058823
+  }
+}
