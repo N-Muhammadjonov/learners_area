@@ -9,6 +9,7 @@ import { isAdministrator, requireActiveUser } from "@/lib/auth/current-user";
 import { canManageContent } from "@/lib/auth/ownership";
 import { getLocale } from "@/lib/i18n";
 import { saveAssignmentResponse } from "@/lib/data/coach-artifacts";
+import { setAssignmentTargetStatus } from "@/lib/content/assignments";
 import { classifyAssignment, evaluateAssignment, evaluateWritingSubmission } from "@/lib/services/coach";
 
 /**
@@ -25,6 +26,34 @@ import { classifyAssignment, evaluateAssignment, evaluateWritingSubmission } fro
  * already correct, and sending it to a model would only add cost and error.
  */
 const schema = z.object({ response: z.string().min(20).max(20000).optional() });
+
+/**
+ * Completion is TWO facts and they have to move together.
+ *
+ * `assignments.status` is the assignment-level record. `assignment_targets.status` is the per-learner
+ * record — and it is the one people actually read: /app/assignments builds every learner's card from
+ * the TARGETS table ("one assignment can be set for several students: reading
+ * assignments.target_user_id would hide every task from everyone except the first student it was set
+ * for"), and the teacher's view of who has finished comes from the same rows.
+ *
+ * This route used to write only the first one. So a learner who typed a response, submitted it, and
+ * got `ok: true` with an evaluation id still had a card reading "Not started" — forever — and the
+ * teacher never saw the work as done. `setAssignmentTargetStatus` existed for exactly this and had no
+ * callers anywhere in src. Both writes are in one transaction so the two statuses cannot diverge.
+ *
+ * A missing target row is not an error: rows created before the targets table existed have none, and
+ * such an assignment is invisible to every learner anyway (the board reads the targets table), so
+ * failing the evaluation would strand work nobody can see. The return value says which happened.
+ */
+async function markCompleted(assignmentId: string, studentUserId: string): Promise<{ targetMoved: boolean }> {
+  return db.transaction(async (tx) => {
+    await tx.update(assignments).set({ status: "completed" }).where(eq(assignments.id, assignmentId));
+    const targetMoved = await setAssignmentTargetStatus(tx as never, {
+      assignmentId, studentUserId, status: "completed",
+    });
+    return { targetMoved };
+  });
+}
 
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -93,10 +122,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     });
     if (!outcome.ok) return NextResponse.json({ error: outcome.error }, { status: 502 });
 
-    await db
-      .update(assignments)
-      .set({ status: "completed" })
-      .where(eq(assignments.id, assignment.id));
+    await markCompleted(assignment.id, assignment.targetUserId);
 
     return NextResponse.json({
       ok: true,
@@ -126,7 +152,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   });
   if (!outcome.ok) return NextResponse.json({ error: outcome.error }, { status: 502 });
 
-  await db.update(assignments).set({ status: "completed" }).where(eq(assignments.id, assignment.id));
+  await markCompleted(assignment.id, assignment.targetUserId);
 
   return NextResponse.json({
     ok: true,
