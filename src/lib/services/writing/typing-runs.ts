@@ -1,7 +1,7 @@
 import "server-only";
 import { randomUUID } from "node:crypto";
 import { SignJWT, jwtVerify } from "jose";
-import { and, asc, count, desc, eq, isNull, lte, max, or, sql } from "drizzle-orm";
+import { and, asc, count, desc, eq, inArray, isNull, lte, max, or, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import {
   activityEvents,
@@ -959,7 +959,7 @@ export async function typingStats(userId: string, database: Database = db) {
     .from(typingRuns)
     .where(eq(typingRuns.userId, userId));
 
-  const [runs, events, legacyLinks] = await Promise.all([
+  const [runs, events] = await Promise.all([
     database
       .select({
         id: typingRuns.id,
@@ -981,18 +981,30 @@ export async function typingStats(userId: string, database: Database = db) {
       ))
       .orderBy(desc(activityEvents.createdAt))
       .limit(50),
-    database
-      .select({
-        runId: typingRunTexts.runId,
-        mistakes: typingRunTexts.mistakes,
-        presetSeconds: typingRunTexts.presetSeconds,
-        title: writingModelTexts.title,
-      })
-      .from(typingRunTexts)
-      .innerJoin(typingRuns, eq(typingRuns.id, typingRunTexts.runId))
-      .leftJoin(writingModelTexts, eq(writingModelTexts.id, typingRunTexts.modelTextId))
-      .where(eq(typingRuns.userId, userId)),
   ]);
+
+  // RESTRICTED to the runs actually returned above, exactly as listAttempts() restricts its prompt
+  // read to the ids its attempts reference. This query used to run in the same Promise.all with no
+  // where clause beyond the user, so it read EVERY typing_run_texts row the learner had ever
+  // produced — joined to typing_runs and left-joined to writing_model_texts — in order to build a
+  // Map from which at most 10 keys are ever read (`legacyByRun.get(row.id)`, row ∈ runs). The cost
+  // therefore grew with the learner's lifetime typing history while the useful result stayed at 10
+  // rows. It is sequenced after `runs` rather than parallel with it because bounding it correctly
+  // requires the ids; one extra round trip that reads 10 rows is cheaper than a parallel one that
+  // reads the whole history.
+  const legacyLinks = runs.length
+    ? await database
+        .select({
+          runId: typingRunTexts.runId,
+          mistakes: typingRunTexts.mistakes,
+          presetSeconds: typingRunTexts.presetSeconds,
+          title: writingModelTexts.title,
+        })
+        .from(typingRunTexts)
+        .innerJoin(typingRuns, eq(typingRuns.id, typingRunTexts.runId))
+        .leftJoin(writingModelTexts, eq(writingModelTexts.id, typingRunTexts.modelTextId))
+        .where(and(eq(typingRuns.userId, userId), inArray(typingRunTexts.runId, runs.map((run) => run.id))))
+    : [];
 
   const eventByRun = new Map<string, Record<string, unknown>>();
   for (const row of events) {
