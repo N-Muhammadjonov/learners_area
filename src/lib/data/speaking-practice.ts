@@ -189,6 +189,16 @@ export type AttemptWithPrompt = typeof speakingAttempts.$inferSelect & {
  * a single attempt; without it, every attempt for the caller is returned
  * newest-first.
  */
+/**
+ * How many attempts one history read returns.
+ *
+ * Exported so a caller can report the bound instead of inferring that it received the whole
+ * history. The read is bounded because an attempt history only ever grows: without a limit the
+ * payload and the rows scanned grow with the learner's lifetime usage, and for a staff caller
+ * with every learner's usage.
+ */
+export const ATTEMPT_HISTORY_LIMIT = 100;
+
 export async function listAttempts(
   options: {
     userId?: string;
@@ -206,7 +216,7 @@ export async function listAttempts(
     : await database.query.speakingAttempts.findMany({
         where: options.userId ? eq(speakingAttempts.userId, options.userId) : undefined,
         orderBy: [desc(speakingAttempts.startedAt)],
-        limit: 100,
+        limit: ATTEMPT_HISTORY_LIMIT,
       });
 
   if (rows.length === 0) return [];
