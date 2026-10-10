@@ -101,19 +101,85 @@ try {
   }
 
   // ---- staff cannot author NEW shadowing material ----------------------------
+  /*
+   * PAIRED PAYLOADS THAT DIFFER ONLY IN `category`.
+   *
+   * This check used to send { category:"shadowing", title, primaryType:"audio" } — a body with no
+   * `primary` object at all. `createMaterialSchema` requires `primary` (a discriminated union of
+   * upload/link), so that request answered 400 for EVERY category: it demonstrated that the payload
+   * was malformed, not that Shadowing is retired. A refusal that would have happened anyway is not
+   * a negative control, and it let the real question — does the enum exclusion actually gate
+   * authoring? — go untested.
+   *
+   * So the supported category is sent FIRST and must SUCCEED for an authorized staff actor. That is
+   * what makes the identical Shadowing payload's refusal meaningful: same actor, same title, same
+   * primary, same blocks, one field different. The row the positive control creates is then deleted,
+   * along with every row the route writes beside it (blocks, the pinned content version, and the
+   * SPEAKING_MATERIAL_POSTED event), so the probe leaves nothing behind.
+   */
   const teacher = await login(TEACHER);
-  const authored = await fetch(`${BASE}/api/speaking/materials`, {
+  const primary = { mode: "link", primaryType: "link", primaryUrl: "https://qa.invalid/primary-control" };
+  const controlTitle = `QA paired-category control ${Date.now().toString(36)}`;
+  const postMaterial = (category) => fetch(`${BASE}/api/speaking/materials`, {
     method: "POST",
     headers: { "content-type": "application/json", cookie: teacher },
-    body: JSON.stringify({ category: "shadowing", title: "QA attempt to author shadowing", primaryType: "audio" }),
+    body: JSON.stringify({ category, title: controlTitle, primary, blocks: [] }),
   });
-  check("staff cannot publish a NEW shadowing material", authored.status >= 400,
-    `status ${authored.status}`);
+
+  const supported = await postMaterial("part1");
+  const supportedBody = await supported.json().catch(() => null);
+  const createdId = supportedBody?.id ?? null;
+  check("POSITIVE CONTROL: the identical payload with a SUPPORTED category succeeds for staff",
+    supported.status < 300 && Boolean(createdId),
+    `status ${supported.status}, id ${String(createdId).slice(0, 8) || "none"}`);
+
+  const { rows: [createdRow] } = await db.query(
+    "select id, category, title, primary_type, primary_url from speaking_materials where id = $1",
+    [createdId ?? "00000000-0000-0000-0000-000000000000"],
+  );
+  check("the positive control wrote exactly the row it claimed, in the supported category",
+    createdRow?.category === "part1" && createdRow?.title === controlTitle,
+    createdRow
+      ? `category=${createdRow.category} primary_type=${createdRow.primary_type} primary_url=${createdRow.primary_url}`
+      : "no row was written",
+  );
+
+  const authored = await postMaterial("shadowing");
+  const authoredBody = await authored.text().catch(() => "");
+  check("staff cannot publish a NEW shadowing material (same payload, category alone differs)",
+    authored.status >= 400,
+    `status ${authored.status}, body "${authoredBody.slice(0, 90)}"`);
+
   const { rows: after } = await db.query(
     "select count(*)::int n from speaking_materials where category = 'shadowing'",
   );
-  check("the refused authoring attempt wrote nothing", after[0].n === legacy.length,
+  check("the refused shadowing attempt wrote no shadowing row", after[0].n === legacy.length,
     `${legacy.length} before, ${after[0].n} after`);
+  // Stronger than the category count: the refused payload must not have written a row under ANY
+  // category. Both payloads share one title, so exactly one row may carry it — the positive control.
+  const { rows: [byTitle] } = await db.query(
+    "select count(*)::int n from speaking_materials where title = $1", [controlTitle],
+  );
+  check("the refused shadowing payload wrote nothing under any category", byTitle.n === 1,
+    `${byTitle.n} row(s) carry the shared title; 1 is the positive control, 2 would mean shadowing was accepted under another label`);
+
+  // ---- cleanup of the positive control, and proof that it happened ------------
+  if (createdId) {
+    await db.query("delete from activity_events where type = 'SPEAKING_MATERIAL_POSTED' and payload->>'materialId' = $1", [createdId]);
+    await db.query("delete from content_versions where target_id = $1", [createdId]);
+    await db.query("delete from material_blocks where material_id = $1", [createdId]);
+    await db.query("delete from speaking_materials where id = $1", [createdId]);
+  }
+  const { rows: [leftover] } = await db.query(
+    "select count(*)::int n from speaking_materials where title = $1", [controlTitle],
+  );
+  const { rows: [leftoverVersions] } = await db.query(
+    "select count(*)::int n from content_versions where target_id = $1", [createdId ?? "00000000-0000-0000-0000-000000000000"],
+  );
+  check("the positive-control material and every row written beside it were removed",
+    leftover.n === 0 && leftoverVersions.n === 0,
+    `materials with that title left=${leftover.n}, pinned content versions left=${leftoverVersions.n}`,
+  );
 
   // ---- NEGATIVE CONTROL: the rest of Speaking still works --------------------
   // Removing a feature must not quietly remove its neighbours, so each supported
