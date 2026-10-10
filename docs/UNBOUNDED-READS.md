@@ -9,19 +9,19 @@ and instrumented PostgreSQL with a tagged corpus built and destroyed by this pro
 
 | surface | corpus | published bank | HTTP | queries | rows read | db ms | median ms | bytes | prompts rendered |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Speaking Practice | 100 | 106 | 200 | 2 | 107 | 0.47 | 86.7 | 278257 | 100 |
-| Speaking AI | 100 | 106 | 200 | 3 | 107 | 0.45 | 71.2 | 277229 | 100 |
-| Speaking Practice | 1000 | 1006 | 200 | 2 | 1007 | 5.4 | 100.4 | 811466 | 1000 |
-| Speaking AI | 1000 | 1006 | 200 | 3 | 1007 | 3.1 | 102.1 | 810029 | 1000 |
-| Speaking Practice | 10000 | 10006 | 200 | 2 | 10007 | 39.08 | 650.2 | 6148467 | 10000 |
-| Speaking AI | 10000 | 10006 | 200 | 3 | 10007 | 39.75 | 649.9 | 6147029 | 10000 |
+| Speaking Practice | 100 | 106 | 200 | 2 | 107 | 0.55 | 47.4 | 278897 | 100 |
+| Speaking AI | 100 | 106 | 200 | 3 | 107 | 0.71 | 54.6 | 277363 | 100 |
+| Speaking Practice | 1000 | 1006 | 200 | 2 | 1007 | 5.88 | 131.2 | 811698 | 1000 |
+| Speaking AI | 1000 | 1006 | 200 | 3 | 1007 | 6.16 | 102.7 | 810163 | 1000 |
+| Speaking Practice | 10000 | 10006 | 200 | 2 | 10007 | 86.38 | 822.7 | 6148699 | 10000 |
+| Speaking AI | 10000 | 10006 | 200 | 3 | 10007 | 51.48 | 586.5 | 6147163 | 10000 |
 
 ## Growth and verdict
 
 | surface | corpus | rows read | bytes | prompts rendered | median ms | queries | verdict |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Speaking Practice | 100→10000 | 107→10007 (×93.523) | 278257→6148467 (×22.096) | 100→10000 (×100) | 86.7→650.2 (×7.499) | 2→2 | UNBOUNDED |
-| Speaking AI | 100→10000 | 107→10007 (×93.523) | 277229→6147029 (×22.173) | 100→10000 (×100) | 71.2→649.9 (×9.128) | 3→3 | UNBOUNDED |
+| Speaking Practice | 100→10000 | 107→10007 (×93.523) | 278897→6148699 (×22.046) | 100→10000 (×100) | 47.4→822.7 (×17.357) | 2→2 | UNBOUNDED |
+| Speaking AI | 100→10000 | 107→10007 (×93.523) | 277363→6147163 (×22.163) | 100→10000 (×100) | 54.6→586.5 (×10.742) | 3→3 | UNBOUNDED |
 | writing.listActivePrompts / listAllPrompts / listActivePromptsWithResources | n/a | NOT OBSERVED | NOT OBSERVED | NOT OBSERVED | NOT OBSERVED | NOT OBSERVED | NOT OBSERVED — no caller in src/app or src/components, so no request exercises them |
 
 A read is called BOUNDED only when the rows it fetches and the bytes it ships stop growing with
@@ -50,16 +50,16 @@ bank every visit to either page reads the whole bank and ships several megabytes
 
 ## Slowest statements observed
 
-- Speaking Practice @100: 0.45 ms over 1 call(s), 106 rows — `select "id", "part", "category", "prompt_text", "cue_card", "prep_seconds", "answer_seconds", "follow_ups", "study_support", "exte`
+- Speaking Practice @100: 0.53 ms over 1 call(s), 106 rows — `select "id", "part", "category", "prompt_text", "cue_card", "prep_seconds", "answer_seconds", "follow_ups", "study_support", "exte`
 - Speaking Practice @100: 0.02 ms over 1 call(s), 1 rows — `select "id", "name", "email", "role", "account_status", "locale", "onboarding_completed_at", "status_reason" from "users" "users" `
-- Speaking AI @100: 0.42 ms over 1 call(s), 106 rows — `select "id", "part", "category", "prompt_text", "cue_card", "prep_seconds", "answer_seconds", "follow_ups", "study_support", "exte`
+- Speaking AI @100: 0.67 ms over 1 call(s), 106 rows — `select "id", "part", "category", "prompt_text", "cue_card", "prep_seconds", "answer_seconds", "follow_ups", "study_support", "exte`
 - Speaking AI @100: 0.03 ms over 1 call(s), 1 rows — `select "id", "name", "email", "role", "account_status", "locale", "onboarding_completed_at", "status_reason" from "users" "users" `
-- Speaking Practice @1000: 5.37 ms over 1 call(s), 1006 rows — `select "id", "part", "category", "prompt_text", "cue_card", "prep_seconds", "answer_seconds", "follow_ups", "study_support", "exte`
+- Speaking Practice @1000: 5.85 ms over 1 call(s), 1006 rows — `select "id", "part", "category", "prompt_text", "cue_card", "prep_seconds", "answer_seconds", "follow_ups", "study_support", "exte`
 - Speaking Practice @1000: 0.03 ms over 1 call(s), 1 rows — `select "id", "name", "email", "role", "account_status", "locale", "onboarding_completed_at", "status_reason" from "users" "users" `
-- Speaking AI @1000: 3.06 ms over 1 call(s), 1006 rows — `select "id", "part", "category", "prompt_text", "cue_card", "prep_seconds", "answer_seconds", "follow_ups", "study_support", "exte`
-- Speaking AI @1000: 0.04 ms over 1 call(s), 1 rows — `select "id", "name", "email", "role", "account_status", "locale", "onboarding_completed_at", "status_reason" from "users" "users" `
-- Speaking Practice @10000: 39.06 ms over 1 call(s), 10006 rows — `select "id", "part", "category", "prompt_text", "cue_card", "prep_seconds", "answer_seconds", "follow_ups", "study_support", "exte`
+- Speaking AI @1000: 6.08 ms over 1 call(s), 1006 rows — `select "id", "part", "category", "prompt_text", "cue_card", "prep_seconds", "answer_seconds", "follow_ups", "study_support", "exte`
+- Speaking AI @1000: 0.07 ms over 1 call(s), 1 rows — `select "id", "name", "email", "role", "account_status", "locale", "onboarding_completed_at", "status_reason" from "users" "users" `
+- Speaking Practice @10000: 86.36 ms over 1 call(s), 10006 rows — `select "id", "part", "category", "prompt_text", "cue_card", "prep_seconds", "answer_seconds", "follow_ups", "study_support", "exte`
 - Speaking Practice @10000: 0.03 ms over 1 call(s), 1 rows — `select "id", "name", "email", "role", "account_status", "locale", "onboarding_completed_at", "status_reason" from "users" "users" `
-- Speaking AI @10000: 39.7 ms over 1 call(s), 10006 rows — `select "id", "part", "category", "prompt_text", "cue_card", "prep_seconds", "answer_seconds", "follow_ups", "study_support", "exte`
+- Speaking AI @10000: 51.44 ms over 1 call(s), 10006 rows — `select "id", "part", "category", "prompt_text", "cue_card", "prep_seconds", "answer_seconds", "follow_ups", "study_support", "exte`
 - Speaking AI @10000: 0.03 ms over 1 call(s), 1 rows — `select "id", "name", "email", "role", "account_status", "locale", "onboarding_completed_at", "status_reason" from "users" "users" `
 
