@@ -113,6 +113,8 @@ export const riwiRoleSurfaceSchema = z.object({
 }).strict();
 export type RiwiRoleSurface = z.infer<typeof riwiRoleSurfaceSchema>;
 
+import { teachingContractSchema } from "@/lib/services/coach/contracts/instruction-schema";
+
 export const riwiChatResponseSchema = z.object({
   ok: z.boolean(),
   correlationId: z.string().uuid(),
@@ -127,6 +129,7 @@ export const riwiChatResponseSchema = z.object({
   reportSnapshot: reportSnapshotSchema.optional(),
   evaluation: riwiEvaluationSchema.optional(),
   dictionaryEntry: riwiDictionaryResultSchema.optional(),
+  teachingContract: teachingContractSchema.optional(),
   errorCode: z.string().max(80).nullable(),
 }).strict();
 export type RiwiChatResponse = z.infer<typeof riwiChatResponseSchema>;

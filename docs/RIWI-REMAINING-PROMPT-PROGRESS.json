@@ -1,11 +1,11 @@
 {
   "source": "RIWI_REMAINING_WORK_EXECUTION_PROMPT.txt",
   "source_sha256": "daf36b256a990b7fa5379fd121810991bad552f638c776e8d9b55dcb22847979",
-  "verified_remote_base": "da164c24390e475dc380fde013ef6d2574aed9cc",
+  "verified_remote_base": "b9007d68c82b27d02d615ae7c1d0f1546aa83393",
   "method": "Equal-weight full-group acceptance: CLOSED / all 34 original R/B/C/D groups. Partial implementation receives no full-group credit. This is a verified closure metric, not a measure of development effort or existing product functionality.",
-  "closed": 18,
+  "closed": 19,
   "total": 34,
-  "verified_closure_percent": 52.94117647058824,
+  "verified_closure_percent": 55.88235294117647,
   "riwi_overall_percent": null,
   "project_overall_percent": null,
   "overall_unknown_reason": "No fully reconciled requirement denominator with current evidence for the entire RIWI or website project.",
@@ -104,7 +104,17 @@
       "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group.",
       "current_candidate": "Existing Grammar objective submission, production practice and RIWI Grammar handoff now use canonical activity prompts, strict assessment coverage and diagnostic-only phrase matching. Duplicate/foreign/forged objective batches fail before writes; attempt/event failure rolls back. Grammar translation requires the shared configured semantic evaluator with fallback none. Remaining Grammar/Vocabulary/retention/tutoring/reporting tasks still require individual runtime acceptance.",
       "latest_code_publication": "6f125f7dd21fafcce4f7ab089b0e26569600b3b5",
-      "current_batch17_candidate": "Unpublished Vocabulary input/source/transaction repair and source-bound Writing Activation evaluation persistence. Exact-source local non-build QA verified in docs/RIWI-BATCH-17-PUSH-HANDOFF.json. Mandatory external/native acceptance and all-task semantics remain open; no full-group credit."
+      "current_batch17_candidate": "Unpublished Vocabulary input/source/transaction repair and source-bound Writing Activation evaluation persistence. Exact-source local non-build QA verified in docs/RIWI-BATCH-17-PUSH-HANDOFF.json. Mandatory external/native acceptance and all-task semantics remain open; no full-group credit.",
+      "batch24_candidate": {
+        "source_tasks": [
+          "tutoring.simple_explanation",
+          "tutoring.compare_concepts",
+          "reporting.progress_explanation"
+        ],
+        "status": "IMPLEMENTED_TWO_ASSISTANT_AFFECTED_ROUNDS_PASSED_LOCAL_CHECKPOINT",
+        "evidence": "docs/RIWI-BATCH-24-TUTORING-REPORTING.md",
+        "full_group_closed": false
+      }
     },
     {
       "id": "B05",
@@ -210,10 +220,12 @@
     {
       "id": "D03",
       "requirement": "Review tri-mode PostgreSQL source/destination projection and identity reconciliation. Mode B strips site/private data and maps governance identities explicitly to authorized target actors; Mode C excludes all RIWI intelligence/conversations; Mode A preserves allowed full data. Validate foreign keys, composite keys, nullable self references, cycles, duplicate/conflicting rows, rollback, serialized mutations and uncertain COMMIT outcomes. Do not disable constraints to pass imports.",
-      "status": "PARTIAL",
-      "evidence_and_remaining": "Step 13 nullable-cycle staging and FK validation and Step 14 single-bootstrap-owner A/C mapping are remotely verified. Step 14 exact tree and all 8 blobs match; two native non-build rounds each 1207 backend passes, 91 skips, zero failures, 252 UI passes plus typecheck/lint. Broader multi-owner reconciliation and native PostgreSQL concurrency/restore acceptance remain open. D03 is PARTIAL; no full-group credit.",
+      "status": "CLOSED",
+      "evidence_and_remaining": "Seven D03 requirement blocks independently reviewed against 36 exact passing TAP assertions across both Batch23 full native-enabled rounds and all 43 remotely published blobs. Native scope/identity/concurrency/uniqueness cases and canonical SQL cycle/uncertain-commit fault-injection tests are explicitly distinguished. D04 object-store proof and D05 application boot remain separately open.",
       "current_candidate": "Batch22 reproduces and fixes the A/C single-bootstrap-owner restriction. Two explicit active target owners preserve destination credentials and distinct dependent references. Denial/dry-run/rollback regressions pass locally. Native variants are prepared, not executed. Broader concurrency/uncertain COMMIT acceptance remains open. Successor Batch22 native A/C variants now pass in both full rounds atfb827f12. Broader serialization/uncertain COMMIT and operational restore acceptance remains open.",
-      "qa_report": "docs/RIWI-BATCH-22-QA-RESULTS.json"
+      "qa_report": "docs/RIWI-BATCH-22-QA-RESULTS.json",
+      "commit": "b9007d68c82b27d02d615ae7c1d0f1546aa83393",
+      "evidence": "docs/RIWI-D03-ACCEPTANCE-b9007d6.json"
     },
     {
       "id": "D04",
@@ -309,8 +321,8 @@
     "verification_record": "docs/RIWI-BATCH-15-REMOTE-VERIFICATION.json",
     "commit": "147305642fc60470fd7097ec68349e66527b6ae4"
   },
-  "next_batch_baseline_closed": 18,
-  "progress_record_publication": "Batch17 post-publication reconciliation prepared in the preserved Batch18 candidate. No new full groups accepted.",
+  "next_batch_baseline_closed": 19,
+  "progress_record_publication": "Batch24: independently accepted D03 at b9007d6 yields 19/34. Additional tutoring/report explanation code receives no full-group credit.",
   "pending_batch16": {
     "status": "REMOTE_PUBLISHED_NATIVE_NON_BUILD_QA_VERIFIED_OPERATIONAL_ACCEPTANCE_PENDING",
     "baseline_closed": 17,
@@ -487,5 +499,18 @@
       "D03": "Native lock, overlap, uniqueness and tri-mode cases pass in both rounds. Independent original-group acceptance remains separate from publishing this checkpoint.",
       "D05": "Native A/B/C encrypted command rehearsals pass with >1000 rows in both rounds. Representative current-source application boot and operational acceptance remain open."
     }
+  },
+  "pending_batch24": {
+    "status": "TWO_ASSISTANT_AFFECTED_ROUNDS_PASSED_PUSH_PENDING",
+    "baseline_commit": "b9007d68c82b27d02d615ae7c1d0f1546aa83393",
+    "source_sha256": "aa73ffbf7b8d698322e3961ea13298446f99a794a1f82d3929296452a58c7407",
+    "accepted_closed": 19,
+    "total": 34,
+    "new_implementation_full_groups_accepted": 0,
+    "full_four_group_batch_acceptance": false,
+    "native_current_source_acceptance": false,
+    "build_rerun": false,
+    "push_performed": false,
+    "qa_receipt": "docs/evidence/riwi-batch24-assistant/receipt.json"
   }
 }

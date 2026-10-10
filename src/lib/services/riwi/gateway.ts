@@ -44,8 +44,11 @@ import { routeRiwiAnswer, type RoutedRiwiAnswer } from "./provider-router";
 import { createRiwiCoreTools, riwiToolBroker } from "./core-tools";
 import { formatRiwiEvaluation, riwiEvaluationToolResultSchema } from "./evaluation-tools";
 import { riwiReportResultSchema } from "./reports";
+import { explainReportMetric, reportExplanationBoundary } from "./report-explanation";
 import type { ValidatedReportSnapshot } from "@/lib/reporter/snapshot-schema";
 import type { RiwiRiskClass, RiwiToolBroker, ToolCallResult } from "./tool-broker";
+import { selectInstructionTask, instructionContractTrace } from "@/lib/services/coach/contracts/instruction-runtime";
+import { teachingContractSchema, type InstructionTaskKey } from "@/lib/services/coach/contracts/instruction-schema";
 
 const MIN_INTENT_CONFIDENCE = 0.7;
 const NO_CITATIONS: RiwiChatResponse["citations"] = [];
@@ -103,6 +106,7 @@ const routedAnswerSchema = z.discriminatedUnion("status", [
     status: z.literal("external_success"), answer: z.string().min(1).max(6000), uncertainty: z.string().max(600).nullable(),
     citations: z.array(z.string().regex(/^K[1-5]$/)).max(5), providerId: z.string().max(60),
     model: z.string().max(120).nullable(), durationMs: z.number().int().nonnegative(),
+    teachingContract: teachingContractSchema.optional(),
   }).strict(),
   z.object({
     status: z.literal("external_unavailable"),
@@ -136,7 +140,7 @@ export type RiwiGatewayDependencies = {
   getHistory: typeof getRiwiConversationHistory;
   appendTurn: typeof appendRiwiTurn;
   retrieveKnowledge: (query: string, actor: RiwiActor) => Promise<RetrievedKnowledge[]>;
-  routeProvider: (input: { actor: { id: string; role: Role }; correlationId: string; payload: RiwiProviderInput; profile: "riwi_chat"; signal?: AbortSignal }) => Promise<RoutedRiwiAnswer>;
+  routeProvider: (input: { actor: { id: string; role: Role }; correlationId: string; payload: RiwiProviderInput; profile: "riwi_chat"; signal?: AbortSignal; instructionTask?: InstructionTaskKey }) => Promise<RoutedRiwiAnswer>;
   createCandidateSignal: typeof createLearningSignal;
   externalEnabled: () => Promise<boolean>;
 };
@@ -233,6 +237,7 @@ function answerBody(input: {
   reportSnapshot?: RiwiChatResponse["reportSnapshot"];
   evaluation?: RiwiChatResponse["evaluation"];
   dictionaryEntry?: RiwiChatResponse["dictionaryEntry"];
+  teachingContract?: RiwiChatResponse["teachingContract"];
   errorCode?: RiwiErrorCode | null;
 }): RiwiChatResponse {
   return riwiChatResponseSchema.parse({
@@ -249,6 +254,7 @@ function answerBody(input: {
     ...(input.reportSnapshot ? { reportSnapshot: input.reportSnapshot } : {}),
     ...(input.evaluation ? { evaluation: input.evaluation } : {}),
     ...(input.dictionaryEntry ? { dictionaryEntry: input.dictionaryEntry } : {}),
+    ...(input.teachingContract ? { teachingContract: input.teachingContract } : {}),
     errorCode: input.errorCode ?? null,
   });
 }
@@ -361,10 +367,9 @@ function formatReport(snapshot: ValidatedReportSnapshot, actor: RiwiActor, targe
   lines.push(`${uz ? "Yaratilgan" : "Generated"}: ${snapshot.generatedAt}`);
   lines.push(`${uz ? "Manba so'rovlari" : "Source query IDs"}: ${sourceQueryIds.length ? sourceQueryIds.join(", ") : "—"}`);
   for (const metric of snapshot.metrics) {
-    const display = metric.value === null ? "—" : metric.unit === "ratio" ? `${(metric.value * 100).toFixed(1)}%`
-      : metric.unit === "count" ? String(Math.round(metric.value)) : metric.value.toFixed(2);
-    lines.push(`${metric.label[locale]}: ${display}`);
+    lines.push(explainReportMetric(metric, locale));
   }
+  lines.push(...reportExplanationBoundary(locale));
   return { answer: lines.join("\n"), snapshot };
 }
 
@@ -987,10 +992,11 @@ export async function runRiwiGateway(request: Request, overrides: Partial<RiwiGa
                   response = answerBody({ ok: false, correlationId, conversationId, intent, answer: riwiErrorMessage("riwi_provider_invalid_response", locale), errorCode: "riwi_provider_invalid_response", provenance: "unavailable" });
                 } else {
                   externalEligible = true;
+                  const instructionTask = selectInstructionTask(parsed.data.message);
                   let routed: RoutedRiwiAnswer;
                   try {
                     routed = await deps.routeProvider({ actor: { id: actor.id, role: actor.role }, correlationId,
-                      payload: guarded.payload, profile: "riwi_chat", signal: request.signal });
+                      payload: guarded.payload, profile: "riwi_chat", signal: request.signal, instructionTask });
                   } catch { routed = { status: "external_unavailable", reason: "provider_error", providerId: null, model: null, durationMs: 0 }; }
                   const parsedRoute = routedAnswerSchema.safeParse(routed);
                   if (!parsedRoute.success) {
@@ -1009,7 +1015,9 @@ export async function runRiwiGateway(request: Request, overrides: Partial<RiwiGa
                   } else {
                     let registeredProvider = false;
                     try { registeredProvider = deps.isRegisteredProvider(parsedRoute.data.providerId); } catch { /* Fail closed. */ }
-                    if (!registeredProvider) {
+                    const teachingTraceMatches = !parsedRoute.data.teachingContract
+                      || JSON.stringify(parsedRoute.data.teachingContract) === JSON.stringify(instructionContractTrace(instructionTask));
+                    if (!registeredProvider || !teachingTraceMatches) {
                       await candidateFailureSignal(deps, actor, correlationId, intent, "provider_failure", "unregistered_provider");
                       response = answerBody({ ok: false, correlationId, conversationId, intent,
                         answer: riwiErrorMessage("riwi_provider_invalid_response", locale), errorCode: "riwi_provider_invalid_response", provenance: "unavailable" });
@@ -1026,6 +1034,7 @@ export async function runRiwiGateway(request: Request, overrides: Partial<RiwiGa
                       } else {
                         response = answerBody({ ok: true, correlationId, conversationId, intent,
                           answer: parsedRoute.data.answer, uncertainty: parsedRoute.data.uncertainty,
+                          ...(parsedRoute.data.teachingContract ? { teachingContract: parsedRoute.data.teachingContract } : {}),
                           citations, provenance: "external_provider", provider: { id: parsedRoute.data.providerId, model: parsedRoute.data.model } });
                       }
                     }
@@ -1050,6 +1059,7 @@ export async function runRiwiGateway(request: Request, overrides: Partial<RiwiGa
         ...(response.evaluation ? { evaluationId: response.evaluation.evaluationId,
           evaluationType: response.evaluation.evaluationType, evaluationValidationStatus: "validated" as const } : {}),
         reportSnapshot: response.reportSnapshot ?? null,
+        ...(response.teachingContract ? { teachingContract: response.teachingContract } : {}),
         scopeKind: courseLessonScope ? "course_lesson" : scopeKind ?? null,
         scopeTargetUserId: courseLessonScope ? null : scopeKind === "self" ? actor.id
           : "targetUserId" in plan && typeof plan.targetUserId === "string" ? plan.targetUserId : null,

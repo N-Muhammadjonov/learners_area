@@ -11,6 +11,8 @@ export { RIWI_CONVERSATION_TTL_DAYS } from "./contracts";
 import { reportSnapshotSchema, type ValidatedReportSnapshot } from "@/lib/reporter/snapshot-schema";
 import { isAuthorizedRiwiCourseLesson } from "./course-lessons";
 import { hasOpenExam, resolveDictionaryOccurrence } from "./dictionary";
+import { teachingContractSchema, type TeachingContract } from "@/lib/services/coach/contracts/instruction-schema";
+import { instructionContractTrace } from "@/lib/services/coach/contracts/instruction-runtime";
 
 export const RIWI_CONVERSATION_HISTORY_MAX = 6;
 export const RIWI_CONVERSATION_MESSAGE_MAX = 6000;
@@ -297,6 +299,7 @@ export async function appendRiwiTurn(input: {
     evaluationType?: "writing" | "speaking" | "grammar" | "vocabulary" | null;
     evaluationValidationStatus?: "validated" | null;
     reportSnapshot?: ValidatedReportSnapshot | null;
+    teachingContract?: TeachingContract;
     /** Server-resolved scope metadata; targets are never accepted from the transcript client. */
     scopeKind?: RiwiConversationScopeKind | null;
     scopeTargetUserId?: string | null;
@@ -329,8 +332,14 @@ export async function appendRiwiTurn(input: {
   const rawReportSnapshot = input.metadata.reportSnapshot ?? null;
   const parsedReportSnapshot = rawReportSnapshot === null ? null : reportSnapshotSchema.safeParse(rawReportSnapshot);
   const reportSnapshot = parsedReportSnapshot?.success ? parsedReportSnapshot.data : null;
+  const rawTeaching = input.metadata.teachingContract;
+  const parsedTeaching = rawTeaching === undefined ? null : teachingContractSchema.safeParse(rawTeaching);
+  const teachingContract = parsedTeaching?.success ? parsedTeaching.data : null;
   if (!userMessage || !assistantMessage || !UUID.test(input.metadata.correlationId)
     || !validEvaluationTrace
+    || (rawTeaching !== undefined && (!teachingContract || input.metadata.provenance !== "external_provider"
+      || !input.metadata.externalEligible || !input.metadata.providerId
+      || JSON.stringify(teachingContract) !== JSON.stringify(instructionContractTrace(teachingContract.key))))
     || (hasRawDictionaryScope && !parsedDictionaryScope)
     || (resolvedDictionaryScope && input.metadata.provenance !== "canonical_dictionary")
     || (resolvedScopeKind === "course_lesson" && resolvedDictionaryScope)
@@ -430,6 +439,7 @@ export async function appendRiwiTurn(input: {
         ...(resolvedScopeKind === "course_lesson" ? { scopeCourseId, scopeLessonId } : {}),
         citations: input.metadata.citations.slice(0, 8).map((citation) => ({ source: citation.source.slice(0, 120), version: citation.version })),
         ...(reportSnapshot && resolvedScopeKind !== "roster" ? { reportSnapshot } : {}),
+        ...(teachingContract ? { teachingContract } : {}),
         ...(evaluationId && evaluationType && evaluationValidationStatus
           ? { evaluationId, evaluationType, evaluationValidationStatus } : {}),
         ...(resolvedDictionaryScope ? { dictionaryScope: resolvedDictionaryScope } : {}),
@@ -546,6 +556,9 @@ export async function getRiwiConversationTranscript(input: {
         : null,
       citations: row.role === "assistant" && !redacted ? citations : [],
       reportSnapshot: !redacted && row.role === "assistant" && parsedReportSnapshot?.success ? parsedReportSnapshot.data : null,
+      ...(!redacted && row.role === "assistant" && provenance === "external_provider"
+        && teachingContractSchema.safeParse(metadata.teachingContract).success
+        ? { teachingContract: teachingContractSchema.parse(metadata.teachingContract) } : {}),
     };
   });
   await storedCourseLessonScope(conversation.id, input.actor, database);

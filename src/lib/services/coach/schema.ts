@@ -23,6 +23,7 @@ export const providerCapabilitySchema = z.enum([
   "vision",
   "structured-output",
   "riwi-assistant",
+  "instruction-teaching",
 ]);
 
 export const providerTypeSchema = z.enum(["internal", "external"]);

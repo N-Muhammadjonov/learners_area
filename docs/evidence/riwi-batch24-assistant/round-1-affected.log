@@ -1,0 +1,975 @@
+TAP version 13
+# Subtest: AC1 the complete registry inventory is unique, versioned per task, and has no oversized provenance labels
+ok 1 - AC1 the complete registry inventory is unique, versioned per task, and has no oversized provenance labels
+  ---
+  duration_ms: 2.435666
+  type: 'test'
+  ...
+# Subtest: AC2 server-owned metadata resolves writing categories and speaking parts without caller text
+ok 2 - AC2 server-owned metadata resolves writing categories and speaking parts without caller text
+  ---
+  duration_ms: 0.165958
+  type: 'test'
+  ...
+# Subtest: AC3 the canonical composer preserves hard-core, teaching, domain/task, approved overlay, strict-output order
+ok 3 - AC3 the canonical composer preserves hard-core, teaching, domain/task, approved overlay, strict-output order
+  ---
+  duration_ms: 0.829917
+  type: 'test'
+  ...
+# Subtest: AC4 overlays are strict presentation fields and are filtered again for each affected task
+ok 4 - AC4 overlays are strict presentation fields and are filtered again for each affected task
+  ---
+  duration_ms: 0.398917
+  type: 'test'
+  ...
+# Subtest: AC5 output overlays cannot alter scores, criteria, verdict, task keys, or invent evidence and destinations
+ok 5 - AC5 output overlays cannot alter scores, criteria, verdict, task keys, or invent evidence and destinations
+  ---
+  duration_ms: 0.586833
+  type: 'test'
+  ...
+# Subtest: AC6 task validators retain source-grounded evidence and transcript-only pronunciation limits
+ok 6 - AC6 task validators retain source-grounded evidence and transcript-only pronunciation limits
+  ---
+  duration_ms: 0.432958
+  type: 'test'
+  ...
+# Subtest: AC7 exact task contracts reject mismatches and normalize only safe task-specific output
+ok 7 - AC7 exact task contracts reject mismatches and normalize only safe task-specific output
+  ---
+  duration_ms: 0.883084
+  type: 'test'
+  ...
+# Subtest: AC8 an approved evidence-required overlay fails closed when a provider supplies no grounded excerpt
+ok 8 - AC8 an approved evidence-required overlay fails closed when a provider supplies no grounded excerpt
+  ---
+  duration_ms: 0.166166
+  type: 'test'
+  ...
+# Subtest: RIWI is the default evaluator and no external provider is called
+ok 9 - RIWI is the default evaluator and no external provider is called
+  ---
+  duration_ms: 15.732833
+  type: 'test'
+  ...
+# Subtest: RIWI's bounded evidence excerpts remain exact source quotes under contract validation
+ok 10 - RIWI's bounded evidence excerpts remain exact source quotes under contract validation
+  ---
+  duration_ms: 3.027917
+  type: 'test'
+  ...
+# Subtest: a configured external provider that succeeds is the only evaluator
+ok 11 - a configured external provider that succeeds is the only evaluator
+  ---
+  duration_ms: 3.327292
+  type: 'test'
+  ...
+# [coach] provider test-external did not produce an evaluation for writing: provider_error (test provider configured to fail)
+# Subtest: an external failure falls back to RIWI and says so
+ok 12 - an external failure falls back to RIWI and says so
+  ---
+  duration_ms: 204.729333
+  type: 'test'
+  ...
+# [coach] provider test-external did not produce an evaluation for writing: invalid_response (test-external returned a response that does not match the task assessment contract)
+# [coach] provider test-external did not produce an evaluation for writing: invalid_response (test-external returned a response that does not match the task assessment contract)
+# Subtest: a malformed provider response is rejected and RIWI takes over
+ok 13 - a malformed provider response is rejected and RIWI takes over
+  ---
+  duration_ms: 3.372916
+  type: 'test'
+  ...
+# [coach] provider test-llm-speaking did not produce an evaluation for speaking: invalid_response (Evaluation does not match its task or source evidence)
+# Subtest: an external LLM pronunciation score is rejected instead of being hidden before validation
+ok 14 - an external LLM pronunciation score is rejected instead of being hidden before validation
+  ---
+  duration_ms: 12.501542
+  type: 'test'
+  ...
+# [coach] provider text-only did not produce an evaluation for writing: capability_missing (text-only does not declare writing-evaluation)
+# Subtest: a provider without the required capability is not called
+ok 15 - a provider without the required capability is not called
+  ---
+  duration_ms: 1.276708
+  type: 'test'
+  ...
+# [coach] provider test-external did not produce an evaluation for writing: timeout (test-external exceeded 120ms)
+# Subtest: a hanging provider times out and RIWI evaluates instead
+ok 16 - a hanging provider times out and RIWI evaluates instead
+  ---
+  duration_ms: 122.973791
+  type: 'test'
+  ...
+# Subtest: a transient failure is retried once before falling back
+ok 17 - a transient failure is retried once before falling back
+  ---
+  duration_ms: 3.309417
+  type: 'test'
+  ...
+# Subtest: a configured but unregistered provider degrades to RIWI, truthfully
+ok 18 - a configured but unregistered provider degrades to RIWI, truthfully
+  ---
+  duration_ms: 2.809125
+  type: 'test'
+  ...
+# [coach] provider test-external did not produce an evaluation for writing: not_configured (AI_EXTERNAL_ENABLED is false)
+# Subtest: AI_EXTERNAL_ENABLED=false keeps every evaluation internal
+ok 19 - AI_EXTERNAL_ENABLED=false keeps every evaluation internal
+  ---
+  duration_ms: 1.182416
+  type: 'test'
+  ...
+# [coach] provider riwi did not produce an evaluation for writing: provider_error (stub riwi failure)
+# Subtest: RIWI failing produces a truthful error instead of a loop
+ok 20 - RIWI failing produces a truthful error instead of a loop
+  ---
+  duration_ms: 0.696666
+  type: 'test'
+  ...
+# [coach] provider test-external did not produce an evaluation for writing: provider_error (test provider configured to fail)
+# Subtest: a fallback never recurses back into the external provider
+ok 21 - a fallback never recurses back into the external provider
+  ---
+  duration_ms: 0.998209
+  type: 'test'
+  ...
+# Subtest: external adapters never receive local user identity
+ok 22 - external adapters never receive local user identity
+  ---
+  duration_ms: 1.1135
+  type: 'test'
+  ...
+# Subtest: provider version metadata is recorded on every result
+ok 23 - provider version metadata is recorded on every result
+  ---
+  duration_ms: 0.901542
+  type: 'test'
+  ...
+# Subtest: RIWI reports pronunciation as limited instead of inventing a score
+ok 24 - RIWI reports pronunciation as limited instead of inventing a score
+  ---
+  duration_ms: 0.848833
+  type: 'test'
+  ...
+# Subtest: RIWI refuses to evaluate a speaking attempt with no transcript
+ok 25 - RIWI refuses to evaluate a speaking attempt with no transcript
+  ---
+  duration_ms: 0.095875
+  type: 'test'
+  ...
+# Subtest: the evaluation contract rejects vendor-shaped output
+ok 26 - the evaluation contract rejects vendor-shaped output
+  ---
+  duration_ms: 0.146375
+  type: 'test'
+  ...
+# Subtest: speech-to-text is provider-independent and never the evaluator
+ok 27 - speech-to-text is provider-independent and never the evaluator
+  ---
+  duration_ms: 0.930417
+  type: 'test'
+  ...
+# Subtest: assignment evaluation dispatches by task type rather than guessing
+ok 28 - assignment evaluation dispatches by task type rather than guessing
+  ---
+  duration_ms: 0.083208
+  type: 'test'
+  ...
+# Subtest: weakness categories stay inside the canonical vocabulary
+ok 29 - weakness categories stay inside the canonical vocabulary
+  ---
+  duration_ms: 0.083541
+  type: 'test'
+  ...
+# Subtest: every registered provider satisfies the adapter interface
+ok 30 - every registered provider satisfies the adapter interface
+  ---
+  duration_ms: 0.067667
+  type: 'test'
+  ...
+# Subtest: RP1 periods are last COMPLETED periods in the centre timezone, half-open, reproducible
+ok 31 - RP1 periods are last COMPLETED periods in the centre timezone, half-open, reproducible
+  ---
+  duration_ms: 1515.944958
+  type: 'test'
+  ...
+# Subtest: RP2 custom ranges are validated: real dates, ordered, ≤366 days, not in the future
+ok 32 - RP2 custom ranges are validated: real dates, ordered, ≤366 days, not in the future
+  ---
+  duration_ms: 0.795708
+  type: 'test'
+  ...
+# Subtest: RP3 access matrix: students only see themselves; staff cannot reach owner scope; unknown, non-student or malformed subjects are 404
+ok 33 - RP3 access matrix: students only see themselves; staff cannot reach owner scope; unknown, non-student or malformed subjects are 404
+  ---
+  duration_ms: 0.340417
+  type: 'test'
+  ...
+# Subtest: RP4 numbers come from SQL over the window and scope; empty = null, never a silent 0
+ok 34 - RP4 numbers come from SQL over the window and scope; empty = null, never a silent 0
+  ---
+  duration_ms: 26.556625
+  type: 'test'
+  ...
+# Subtest: RP5 every number carries its exact source query, window, scope and generatedAt — and re-running the recorded query reproduces it
+ok 35 - RP5 every number carries its exact source query, window, scope and generatedAt — and re-running the recorded query reproduces it
+  ---
+  duration_ms: 9.859208
+  type: 'test'
+  ...
+# Subtest: RP6 every format renders the same snapshot; spreadsheet formula injection is neutralised
+ok 36 - RP6 every format renders the same snapshot; spreadsheet formula injection is neutralised
+  ---
+  duration_ms: 19.48475
+  type: 'test'
+  ...
+# Subtest: RP7 ZIP bundle: every format plus a manifest whose hashes match the files and the snapshot
+ok 37 - RP7 ZIP bundle: every format plus a manifest whose hashes match the files and the snapshot
+  ---
+  duration_ms: 9.729417
+  type: 'test'
+  ...
+# Subtest: RP8 generateReport audits generation and download (hash, never contents); refused requests write nothing
+ok 38 - RP8 generateReport audits generation and download (hash, never contents); refused requests write nothing
+  ---
+  duration_ms: 9.84925
+  type: 'test'
+  ...
+# Subtest: RP9 an optional AI narrative may only restate snapshot numbers; links, markup and invented numbers are refused
+ok 39 - RP9 an optional AI narrative may only restate snapshot numbers; links, markup and invented numbers are refused
+  ---
+  duration_ms: 4.910125
+  type: 'test'
+  ...
+# Subtest: RP10 structure: separate private route (not /api/support/reports), DB-backed auth, no AI import in the number path, no-store downloads
+ok 40 - RP10 structure: separate private route (not /api/support/reports), DB-backed auth, no AI import in the number path, no-store downloads
+  ---
+  duration_ms: 1.219417
+  type: 'test'
+  ...
+# Subtest: RP11 the recorded query binds the subject as a parameter (no string interpolation of ids)
+ok 41 - RP11 the recorded query binds the subject as a parameter (no string interpolation of ids)
+  ---
+  duration_ms: 0.204083
+  type: 'test'
+  ...
+# Subtest: RP12 Grammar and video metrics are included; audit records AI-narrative provenance (none used); file names are fixed-pattern
+ok 42 - RP12 Grammar and video metrics are included; audit records AI-narrative provenance (none used); file names are fixed-pattern
+  ---
+  duration_ms: 17.852625
+  type: 'test'
+  ...
+# Subtest: RP13 role matrix is explicit: admin policy is declared, teacher reach is roster-only, roster failure fails closed
+ok 43 - RP13 role matrix is explicit: admin policy is declared, teacher reach is roster-only, roster failure fails closed
+  ---
+  duration_ms: 0.328875
+  type: 'test'
+  ...
+# Subtest: RP14 teacher snapshot uses explicit roster as of report-window end; later links cannot reveal historical rows (real schema)
+ok 44 - RP14 teacher snapshot uses explicit roster as of report-window end; later links cannot reveal historical rows (real schema)
+  ---
+  duration_ms: 50.488375
+  type: 'test'
+  ...
+# Subtest: RP15 teacher IDOR through generateReport: rostered → file; unrostered and missing → identical 404; audit stores ids only
+ok 45 - RP15 teacher IDOR through generateReport: rostered → file; unrostered and missing → identical 404; audit stores ids only
+  ---
+  duration_ms: 15.102666
+  type: 'test'
+  ...
+# Subtest: RP16 roster changes: owner/admin only, teacher→student roles enforced, idempotent, audited
+ok 46 - RP16 roster changes: owner/admin only, teacher→student roles enforced, idempotent, audited
+  ---
+  duration_ms: 8.043666
+  type: 'test'
+  ...
+# Subtest: RP17 migration 0035 is additive and journalled directly after 0034
+ok 47 - RP17 migration 0035 is additive and journalled directly after 0034
+  ---
+  duration_ms: 1.344375
+  type: 'test'
+  ...
+# Subtest: RP18 the student-name filter matches typed text literally (LIKE wildcards escaped) on a real database
+ok 48 - RP18 the student-name filter matches typed text literally (LIKE wildcards escaped) on a real database
+  ---
+  duration_ms: 12.408459
+  type: 'test'
+  ...
+# Subtest: offline sweep previews without mutation, preserves day 7, deletes on day 8 for every user role, and cascades messages
+ok 49 - offline sweep previews without mutation, preserves day 7, deletes on day 8 for every user role, and cascades messages
+  ---
+  duration_ms: 1309.192166
+  type: 'test'
+  ...
+# Subtest: returning online deletes overdue chats before refreshing activity and cannot resurrect them
+ok 50 - returning online deletes overdue chats before refreshing activity and cannot resurrect them
+  ---
+  duration_ms: 972.988834
+  type: 'test'
+  ...
+# Subtest: rolling 30-day window excludes old messages before sweep, retains boundary and every recent message, and keeps provider context bounded
+ok 51 - rolling 30-day window excludes old messages before sweep, retains boundary and every recent message, and keeps provider context bounded
+  ---
+  duration_ms: 930.933833
+  type: 'test'
+  ...
+# Subtest: rollout migration initializes previously untracked online clocks without deleting chat or academic data
+ok 52 - rollout migration initializes previously untracked online clocks without deleting chat or academic data
+  ---
+  duration_ms: 922.787375
+  type: 'test'
+  ...
+# Subtest: 0049 retention migration cannot be skipped because of an earlier journal timestamp
+ok 53 - 0049 retention migration cannot be skipped because of an earlier journal timestamp
+  ---
+  duration_ms: 0.774583
+  type: 'test'
+  ...
+# Subtest: conversation ownership, creation-role binding, metadata projection, and deletion are enforced in PostgreSQL
+ok 54 - conversation ownership, creation-role binding, metadata projection, and deletion are enforced in PostgreSQL
+  ---
+  duration_ms: 1327.059417
+  type: 'test'
+  ...
+# Subtest: validated evaluation identity is stored in private conversation metadata and omitted from the learner transcript
+ok 55 - validated evaluation identity is stored in private conversation metadata and omitted from the learner transcript
+  ---
+  duration_ms: 960.613625
+  type: 'test'
+  ...
+# Subtest: canonical Dictionary scope persists and is re-authorized on transcript reads and appends
+ok 56 - canonical Dictionary scope persists and is re-authorized on transcript reads and appends
+  ---
+  duration_ms: 916.969875
+  type: 'test'
+  ...
+# Subtest: assigned learner answers are re-authorized on transcript read and storage; role changes fail closed
+ok 57 - assigned learner answers are re-authorized on transcript read and storage; role changes fail closed
+  ---
+  duration_ms: 899.664541
+  type: 'test'
+  ...
+# Subtest: teacher roster reports retain only a safe placeholder, never the old aggregate
+ok 58 - teacher roster reports retain only a safe placeholder, never the old aggregate
+  ---
+  duration_ms: 906.026666
+  type: 'test'
+  ...
+# Subtest: conversation idle expiry preserves every recent message without a count cap
+ok 59 - conversation idle expiry preserves every recent message without a count cap
+  ---
+  duration_ms: 995.161375
+  type: 'test'
+  ...
+# Subtest: direct calls across all five domains validate work before transport and refuse cross-domain context
+ok 60 - direct calls across all five domains validate work before transport and refuse cross-domain context
+  ---
+  duration_ms: 1.373625
+  type: 'test'
+  ...
+# Subtest: direct providers derive canonical scores and reject task drift or invented source evidence
+ok 61 - direct providers derive canonical scores and reject task drift or invented source evidence
+  ---
+  duration_ms: 4.019458
+  type: 'test'
+  ...
+# Subtest: all evaluation domains refuse absent/blank/oversized work before provider dispatch and after output validation
+ok 62 - all evaluation domains refuse absent/blank/oversized work before provider dispatch and after output validation
+  ---
+  duration_ms: 1.398625
+  type: 'test'
+  ...
+# Subtest: all three sentence-check families reach the shared external resolver with zero essay word-count target
+ok 63 - all three sentence-check families reach the shared external resolver with zero essay word-count target
+  ---
+  duration_ms: 10.059542
+  type: 'test'
+  ...
+# Subtest: chat wire contracts are bounded, strict, and contain no caller-selected authority
+ok 64 - chat wire contracts are bounded, strict, and contain no caller-selected authority
+  ---
+  duration_ms: 1.692542
+  type: 'test'
+  ...
+# Subtest: finite intents route supported English, Uzbek and Russian requests without exposing tools
+ok 65 - finite intents route supported English, Uzbek and Russian requests without exposing tools
+  ---
+  duration_ms: 4.0565
+  type: 'test'
+  ...
+# Subtest: rollout defaults off and each role/side effect needs its own server flag
+ok 66 - rollout defaults off and each role/side effect needs its own server flag
+  ---
+  duration_ms: 0.462625
+  type: 'test'
+  ...
+# Subtest: state-changing RIWI routes reject cross-origin requests and tolerate same-origin proxy requests
+ok 67 - state-changing RIWI routes reject cross-origin requests and tolerate same-origin proxy requests
+  ---
+  duration_ms: 2.211666
+  type: 'test'
+  ...
+# Subtest: bounded request reader checks content type, streamed byte size, UTF-8 and JSON without trusting Content-Length
+ok 68 - bounded request reader checks content type, streamed byte size, UTF-8 and JSON without trusting Content-Length
+  ---
+  duration_ms: 4.141709
+  type: 'test'
+  ...
+# Subtest: tutoring.simple-explanation: actual adapter executes the source teaching method and renders validated steps
+ok 69 - tutoring.simple-explanation: actual adapter executes the source teaching method and renders validated steps
+  ---
+  duration_ms: 2.757084
+  type: 'test'
+  ...
+# Subtest: tutoring.compare-concepts: actual adapter executes the source teaching method and renders validated steps
+ok 70 - tutoring.compare-concepts: actual adapter executes the source teaching method and renders validated steps
+  ---
+  duration_ms: 0.744959
+  type: 'test'
+  ...
+# Subtest: teaching refuses missing retrieval check instead of accepting a generic answer
+ok 71 - teaching refuses missing retrieval check instead of accepting a generic answer
+  ---
+  duration_ms: 0.41275
+  type: 'test'
+  ...
+# Subtest: teaching refuses another task's output instead of accepting a generic answer
+ok 72 - teaching refuses another task's output instead of accepting a generic answer
+  ---
+  duration_ms: 0.176917
+  type: 'test'
+  ...
+# Subtest: teaching refuses invented assessment fields instead of accepting a generic answer
+ok 73 - teaching refuses invented assessment fields instead of accepting a generic answer
+  ---
+  duration_ms: 0.167209
+  type: 'test'
+  ...
+# Subtest: teaching refuses empty example instead of accepting a generic answer
+ok 74 - teaching refuses empty example instead of accepting a generic answer
+  ---
+  duration_ms: 0.125375
+  type: 'test'
+  ...
+# Subtest: teaching refuses missing illustration instead of accepting a generic answer
+ok 75 - teaching refuses missing illustration instead of accepting a generic answer
+  ---
+  duration_ms: 0.114375
+  type: 'test'
+  ...
+# Subtest: teaching refuses oversized explanation instead of accepting a generic answer
+ok 76 - teaching refuses oversized explanation instead of accepting a generic answer
+  ---
+  duration_ms: 0.124541
+  type: 'test'
+  ...
+# Subtest: comparison needs two distinct concepts and cannot fabricate a second from a one-concept response
+ok 77 - comparison needs two distinct concepts and cannot fabricate a second from a one-concept response
+  ---
+  duration_ms: 0.268958
+  type: 'test'
+  ...
+# Subtest: learner selectors, assessment contracts and unsupported instruction tasks never reach transport
+ok 78 - learner selectors, assessment contracts and unsupported instruction tasks never reach transport
+  ---
+  duration_ms: 0.4785
+  type: 'test'
+  ...
+# Subtest: router refuses undeclared teaching capability and never upgrades a generic assistant into a task executor
+ok 79 - router refuses undeclared teaching capability and never upgrades a generic assistant into a task executor
+  ---
+  duration_ms: 0.616959
+  type: 'test'
+  ...
+# Subtest: English, Uzbek and Russian requests select only the server-owned teaching formats
+ok 80 - English, Uzbek and Russian requests select only the server-owned teaching formats
+  ---
+  duration_ms: 0.517
+  type: 'test'
+  ...
+# Subtest: router validates teaching steps even when an adapter declares the capability; usage cannot bypass validation
+ok 81 - router validates teaching steps even when an adapter declares the capability; usage cannot bypass validation
+  ---
+  duration_ms: 1.665125
+  type: 'test'
+  ...
+# Subtest: tutoring.simple-explanation / student: authenticated gateway, real SQL conversation and restored history preserve exact server provenance
+ok 82 - tutoring.simple-explanation / student: authenticated gateway, real SQL conversation and restored history preserve exact server provenance
+  ---
+  duration_ms: 1424.379416
+  type: 'test'
+  ...
+# Subtest: tutoring.simple-explanation / teacher: authenticated gateway, real SQL conversation and restored history preserve exact server provenance
+ok 83 - tutoring.simple-explanation / teacher: authenticated gateway, real SQL conversation and restored history preserve exact server provenance
+  ---
+  duration_ms: 1057.608542
+  type: 'test'
+  ...
+# Subtest: tutoring.simple-explanation / admin: authenticated gateway, real SQL conversation and restored history preserve exact server provenance
+ok 84 - tutoring.simple-explanation / admin: authenticated gateway, real SQL conversation and restored history preserve exact server provenance
+  ---
+  duration_ms: 967.873292
+  type: 'test'
+  ...
+# Subtest: tutoring.simple-explanation / owner: authenticated gateway, real SQL conversation and restored history preserve exact server provenance
+ok 85 - tutoring.simple-explanation / owner: authenticated gateway, real SQL conversation and restored history preserve exact server provenance
+  ---
+  duration_ms: 966.8435
+  type: 'test'
+  ...
+# Subtest: tutoring.compare-concepts / student: authenticated gateway, real SQL conversation and restored history preserve exact server provenance
+ok 86 - tutoring.compare-concepts / student: authenticated gateway, real SQL conversation and restored history preserve exact server provenance
+  ---
+  duration_ms: 958.31775
+  type: 'test'
+  ...
+# Subtest: tutoring.compare-concepts / teacher: authenticated gateway, real SQL conversation and restored history preserve exact server provenance
+ok 87 - tutoring.compare-concepts / teacher: authenticated gateway, real SQL conversation and restored history preserve exact server provenance
+  ---
+  duration_ms: 1133.534833
+  type: 'test'
+  ...
+# Subtest: tutoring.compare-concepts / admin: authenticated gateway, real SQL conversation and restored history preserve exact server provenance
+ok 88 - tutoring.compare-concepts / admin: authenticated gateway, real SQL conversation and restored history preserve exact server provenance
+  ---
+  duration_ms: 978.92375
+  type: 'test'
+  ...
+# Subtest: tutoring.compare-concepts / owner: authenticated gateway, real SQL conversation and restored history preserve exact server provenance
+ok 89 - tutoring.compare-concepts / owner: authenticated gateway, real SQL conversation and restored history preserve exact server provenance
+  ---
+  duration_ms: 1025.562083
+  type: 'test'
+  ...
+# Subtest: local Grammar cannot infer target structure from prompt tokens or certify an unsupported topic
+ok 90 - local Grammar cannot infer target structure from prompt tokens or certify an unsupported topic
+  ---
+  duration_ms: 3.5525
+  type: 'test'
+  ...
+# Subtest: an authored short reference is accepted, while a different valid construction is limited without a fabricated structure error
+ok 91 - an authored short reference is accepted, while a different valid construction is limited without a fabricated structure error
+  ---
+  duration_ms: 0.241292
+  type: 'test'
+  ...
+# Subtest: local Vocabulary does not invent copying or active-use mastery from a short sentence or an inflection
+ok 92 - local Vocabulary does not invent copying or active-use mastery from a short sentence or an inflection
+  ---
+  duration_ms: 0.6575
+  type: 'test'
+  ...
+# Subtest: collocation checks respect word boundaries and preserve the original source quote
+ok 93 - collocation checks respect word boundaries and preserve the original source quote
+  ---
+  duration_ms: 0.349959
+  type: 'test'
+  ...
+# [coach] provider riwi did not produce an evaluation for vocabulary: capability_missing (riwi_vocabulary_semantics_unassessed)
+# [coach] provider riwi did not produce an evaluation for vocabulary: capability_missing (riwi_vocabulary_semantics_unassessed)
+# Subtest: real local resolver declines unsupported semantics without granting credit or inventing a fallback result
+ok 94 - real local resolver declines unsupported semantics without granting credit or inventing a fallback result
+  ---
+  duration_ms: 7.18975
+  type: 'test'
+  ...
+# Subtest: the original 68 task references each resolve; added coverage does not replace historical contracts
+ok 95 - the original 68 task references each resolve; added coverage does not replace historical contracts
+  ---
+  duration_ms: 2.042792
+  type: 'test'
+  ...
+# Subtest: new task rules retain source focus, teaching method and hard constraint
+ok 96 - new task rules retain source focus, teaching method and hard constraint
+  ---
+  duration_ms: 0.227333
+  type: 'test'
+  ...
+# Subtest: canonical metadata distinguishes single/multiple MCQ and question subtypes without inspecting learner answers
+ok 97 - canonical metadata distinguishes single/multiple MCQ and question subtypes without inspecting learner answers
+  ---
+  duration_ms: 0.31275
+  type: 'test'
+  ...
+# Subtest: catalog and objective additions cannot become LLM grading paths
+ok 98 - catalog and objective additions cannot become LLM grading paths
+  ---
+  duration_ms: 0.432542
+  type: 'test'
+  ...
+# Subtest: owner provider lab is fixture-only, capability-bounded, audited, normalized, and idempotent in PostgreSQL
+ok 99 - owner provider lab is fixture-only, capability-bounded, audited, normalized, and idempotent in PostgreSQL
+  ---
+  duration_ms: 1413.537958
+  type: 'test'
+  ...
+# Subtest: provider agreement and disagreement become deduplicated candidate evidence, never active knowledge
+ok 100 - provider agreement and disagreement become deduplicated candidate evidence, never active knowledge
+  ---
+  duration_ms: 977.049583
+  type: 'test'
+  ...
+# Subtest: provider lab denies an adapter with no registered safe model identifier before dispatch
+ok 101 - provider lab denies an adapter with no registered safe model identifier before dispatch
+  ---
+  duration_ms: 980.6115
+  type: 'test'
+  ...
+# Subtest: provider experiments, histories, and idempotency keys are isolated per owner
+ok 102 - provider experiments, histories, and idempotency keys are isolated per owner
+  ---
+  duration_ms: 1226.603
+  type: 'test'
+  ...
+# Subtest: owner provider-lab rate limit is four calls per account per hour
+ok 103 - owner provider-lab rate limit is four calls per account per hour
+  ---
+  duration_ms: 0.625667
+  type: 'test'
+  ...
+# Subtest: database-backed provider-lab run budget caps distinct experiments at four per owner per hour
+ok 104 - database-backed provider-lab run budget caps distinct experiments at four per owner per hour
+  ---
+  duration_ms: 1013.818625
+  type: 'test'
+  ...
+# Subtest: database-backed global experiment budget caps distinct runs at twelve per hour across owners
+ok 105 - database-backed global experiment budget caps distinct runs at twelve per hour across owners
+  ---
+  duration_ms: 1068.036833
+  type: 'test'
+  ...
+# Subtest: database admission lock enforces a global two-experiment concurrency ceiling across owners
+ok 106 - database admission lock enforces a global two-experiment concurrency ceiling across owners
+  ---
+  duration_ms: 1010.422208
+  type: 'test'
+  ...
+# Subtest: provider-lab stores only safe provider-failure codes, never raw provider details
+ok 107 - provider-lab stores only safe provider-failure codes, never raw provider details
+  ---
+  duration_ms: 973.290375
+  type: 'test'
+  ...
+# Subtest: provider-lab timeout and in-flight abort are bounded, propagated, and safely persisted
+ok 108 - provider-lab timeout and in-flight abort are bounded, propagated, and safely persisted
+  ---
+  duration_ms: 977.167167
+  type: 'test'
+  ...
+# Subtest: the experiment-wide provider deadline is shared across two sequential calls
+ok 109 - the experiment-wide provider deadline is shared across two sequential calls
+  ---
+  duration_ms: 1315.286459
+  type: 'test'
+  ...
+# Subtest: provider lab comparisons report literal normalized-text matching only, not semantic quality
+ok 110 - provider lab comparisons report literal normalized-text matching only, not semantic quality
+  ---
+  duration_ms: 934.141333
+  type: 'test'
+  ...
+# Subtest: owner provider-lab route derives an active owner from the server and rejects caller-selected authority
+ok 111 - owner provider-lab route derives an active owner from the server and rejects caller-selected authority
+  ---
+  duration_ms: 0.976125
+  type: 'test'
+  ...
+# Subtest: provider-lab pre-call audit failure is persisted as a safe failure and never reaches the provider
+ok 112 - provider-lab pre-call audit failure is persisted as a safe failure and never reaches the provider
+  ---
+  duration_ms: 934.46475
+  type: 'test'
+  ...
+# Subtest: completion-audit failure withholds the normalized answer and persists only a safe failure state
+ok 113 - completion-audit failure withholds the normalized answer and persists only a safe failure state
+  ---
+  duration_ms: 959.401041
+  type: 'test'
+  ...
+# Subtest: provider lab will not call a provider when required audit cannot be written
+ok 114 - provider lab will not call a provider when required audit cannot be written
+  ---
+  duration_ms: 902.81275
+  type: 'test'
+  ...
+# Subtest: router sends one minimized request to the configured registered assistant and validates the normalized answer
+ok 115 - router sends one minimized request to the configured registered assistant and validates the normalized answer
+  ---
+  duration_ms: 2.744292
+  type: 'test'
+  ...
+# Subtest: rollout, owner policy, registry, capability, secret and task-profile gates all fail before provider execution
+ok 116 - rollout, owner policy, registry, capability, secret and task-profile gates all fail before provider execution
+  ---
+  duration_ms: 0.845667
+  type: 'test'
+  ...
+# Subtest: disabled rollout is evaluated before provider or owner configuration is read
+ok 117 - disabled rollout is evaluated before provider or owner configuration is read
+  ---
+  duration_ms: 0.111625
+  type: 'test'
+  ...
+# Subtest: request-audit failure blocks the external call, while usage/audit failure stays bounded and safe
+ok 118 - request-audit failure blocks the external call, while usage/audit failure stays bounded and safe
+  ---
+  duration_ms: 0.362833
+  type: 'test'
+  ...
+# Subtest: runtime adapter outputs are schema-checked and citations must belong to the exact guarded context
+ok 119 - runtime adapter outputs are schema-checked and citations must belong to the exact guarded context
+  ---
+  duration_ms: 0.386833
+  type: 'test'
+  ...
+# Subtest: router bounds timeouts, aborts transport, propagates caller cancellation, and fails closed on policy errors
+ok 120 - router bounds timeouts, aborts transport, propagates caller cancellation, and fails closed on policy errors
+  ---
+  duration_ms: 11.68675
+  type: 'test'
+  ...
+# Subtest: report explanation preserves canonical display for all units; missing values never become zero
+ok 121 - report explanation preserves canonical display for all units; missing values never become zero
+  ---
+  duration_ms: 0.542
+  type: 'test'
+  ...
+# Subtest: historical snapshot basis is distinct from activity windows and no unsupported growth is claimed
+ok 122 - historical snapshot basis is distinct from activity windows and no unsupported growth is claimed
+  ---
+  duration_ms: 0.082083
+  type: 'test'
+  ...
+# Subtest: gateway authenticates server identity, ignores/rejects client authority, and returns correlated audited self responses
+ok 123 - gateway authenticates server identity, ignores/rejects client authority, and returns correlated audited self responses
+  ---
+  duration_ms: 12.153708
+  type: 'test'
+  ...
+# Subtest: required request audit failure blocks all tool execution
+ok 124 - required request audit failure blocks all tool execution
+  ---
+  duration_ms: 0.575042
+  type: 'test'
+  ...
+# Subtest: failed transcript persistence cannot create feedback-eligible success evidence
+ok 125 - failed transcript persistence cannot create feedback-eligible success evidence
+  ---
+  duration_ms: 1.942625
+  type: 'test'
+  ...
+# Subtest: gateway routes bounded failure observations to candidate-only learning signals
+ok 126 - gateway routes bounded failure observations to candidate-only learning signals
+  ---
+  duration_ms: 3.124375
+  type: 'test'
+  ...
+# Subtest: course lesson handoff is server-scoped, outbound-minimized, injection-safe, and citation-bound
+ok 127 - course lesson handoff is server-scoped, outbound-minimized, injection-safe, and citation-bound
+  ---
+  duration_ms: 1.114292
+  type: 'test'
+  ...
+# Subtest: student cross-row targeting is denied while a teacher's assigned target passes the gateway scope step
+ok 128 - student cross-row targeting is denied while a teacher's assigned target passes the gateway scope step
+  ---
+  duration_ms: 2.363375
+  type: 'test'
+  ...
+# Subtest: role capabilities deny admin provider status, allow owner global report, and reject inactive actors
+ok 129 - role capabilities deny admin provider status, allow owner global report, and reject inactive actors
+  ---
+  duration_ms: 2.106875
+  type: 'test'
+  ...
+# Subtest: unknown, unsupported, and low-confidence intents clarify without selecting tools or providers
+ok 130 - unknown, unsupported, and low-confidence intents clarify without selecting tools or providers
+  ---
+  duration_ms: 0.443833
+  type: 'test'
+  ...
+# Subtest: Writing, Speaking, Grammar, and Vocabulary evaluation intents call only their registered self tools
+ok 131 - Writing, Speaking, Grammar, and Vocabulary evaluation intents call only their registered self tools
+  ---
+  duration_ms: 0.58225
+  type: 'test'
+  ...
+# Subtest: evaluation result is correlated to the authorized request and records validated internal identity without exposing provider metadata
+ok 132 - evaluation result is correlated to the authorized request and records validated internal identity without exposing provider metadata
+  ---
+  duration_ms: 0.7205
+  type: 'test'
+  ...
+# Subtest: only registered deterministic plans execute; provider output cannot inject a second tool call
+ok 133 - only registered deterministic plans execute; provider output cannot inject a second tool call
+  ---
+  duration_ms: 1.729583
+  type: 'test'
+  ...
+# Subtest: external provider context is minimized and direct identifiers are redacted before truncation
+ok 134 - external provider context is minimized and direct identifiers are redacted before truncation
+  ---
+  duration_ms: 0.351917
+  type: 'test'
+  ...
+# Subtest: provider citation references resolve only to retrieved knowledge titles and versions
+ok 135 - provider citation references resolve only to retrieved knowledge titles and versions
+  ---
+  duration_ms: 0.411417
+  type: 'test'
+  ...
+# Subtest: provider-policy read failures map to a safe unavailable response
+ok 136 - provider-policy read failures map to a safe unavailable response
+  ---
+  duration_ms: 0.150166
+  type: 'test'
+  ...
+# Subtest: rollout disables provider calls before routing and unregistered provider results are refused
+ok 137 - rollout disables provider calls before routing and unregistered provider results are refused
+  ---
+  duration_ms: 0.2665
+  type: 'test'
+  ...
+# Subtest: exam policy denies student help before tools or providers and response scope prevents cross-role report leakage
+ok 138 - exam policy denies student help before tools or providers and response scope prevents cross-role report leakage
+  ---
+  duration_ms: 1.743667
+  type: 'test'
+  ...
+# Subtest: security learning creates stable bounded fingerprints without raw attack/audio/transcript
+ok 139 - security learning creates stable bounded fingerprints without raw attack/audio/transcript
+  ---
+  duration_ms: 0.852875
+  type: 'test'
+  ...
+# Subtest: security learning rejects arbitrary types, route payloads and tags
+ok 140 - security learning rejects arbitrary types, route payloads and tags
+  ---
+  duration_ms: 0.511166
+  type: 'test'
+  ...
+# Subtest: blocked signals deduplicate and only an active persisted owner can review with regression evidence
+ok 141 - blocked signals deduplicate and only an active persisted owner can review with regression evidence
+  ---
+  duration_ms: 1326.168084
+  type: 'test'
+  ...
+# Subtest: database independently rejects approved regression rows without complete evidence
+ok 142 - database independently rejects approved regression rows without complete evidence
+  ---
+  duration_ms: 1265.760792
+  type: 'test'
+  ...
+# Subtest: security signal promotion is regression-gated in schema and runtime has no self-modifying primitive
+ok 143 - security signal promotion is regression-gated in schema and runtime has no self-modifying primitive
+  ---
+  duration_ms: 2.182708
+  type: 'test'
+  ...
+# Subtest: 0048 upgrades a populated pre-0048 database and enforces security-signal constraints
+ok 144 - 0048 upgrades a populated pre-0048 database and enforces security-signal constraints
+  ---
+  duration_ms: 1516.8725
+  type: 'test'
+  ...
+# Subtest: 0048 generated SQL and Drizzle schema retain the same named constraints
+ok 145 - 0048 generated SQL and Drizzle schema retain the same named constraints
+  ---
+  duration_ms: 1.193041
+  type: 'test'
+  ...
+# Subtest: a supplied SHA and invented fixture cannot approve a security regression
+ok 146 - a supplied SHA and invented fixture cannot approve a security regression
+  ---
+  duration_ms: 1314.856875
+  type: 'test'
+  ...
+# Subtest: route and actor metadata cannot carry arbitrary private text into security learning
+ok 147 - route and actor metadata cannot carry arbitrary private text into security learning
+  ---
+  duration_ms: 0.824875
+  type: 'test'
+  ...
+# Subtest: new observations invalidate an old preview and approvals are owner-bound, replay-safe and audited
+ok 148 - new observations invalidate an old preview and approvals are owner-bound, replay-safe and audited
+  ---
+  duration_ms: 1050.367708
+  type: 'test'
+  ...
+# Subtest: audit failure rolls back the security review instead of leaving an unaudited approval
+ok 149 - audit failure rolls back the security review instead of leaving an unaudited approval
+  ---
+  duration_ms: 935.90175
+  type: 'test'
+  ...
+# Subtest: RIWI capabilities are deny-by-default and role powers are explicit
+ok 150 - RIWI capabilities are deny-by-default and role powers are explicit
+  ---
+  duration_ms: 0.818667
+  type: 'test'
+  ...
+# Subtest: student and teacher row scopes reject forged ids and fail closed on roster lookup
+ok 151 - student and teacher row scopes reject forged ids and fail closed on roster lookup
+  ---
+  duration_ms: 0.358375
+  type: 'test'
+  ...
+# Subtest: RIWI chat accepts only a bounded message and opaque conversation id
+ok 152 - RIWI chat accepts only a bounded message and opaque conversation id
+  ---
+  duration_ms: 0.805584
+  type: 'test'
+  ...
+# Subtest: finite classifier routes dangerous requests to a static refusal without naming tools
+ok 153 - finite classifier routes dangerous requests to a static refusal without naming tools
+  ---
+  duration_ms: 2.706958
+  type: 'test'
+  ...
+# Subtest: outbound chat DTO rejects application objects and redacts likely identifiers
+ok 154 - outbound chat DTO rejects application objects and redacts likely identifiers
+  ---
+  duration_ms: 1.058
+  type: 'test'
+  ...
+# Subtest: every evaluation task has a strict outbound DTO and identifiers are redacted before truncation
+ok 155 - every evaluation task has a strict outbound DTO and identifiers are redacted before truncation
+  ---
+  duration_ms: 0.654292
+  type: 'test'
+  ...
+# Subtest: knowledge parsing treats markup as inert text and chunks deterministically
+ok 156 - knowledge parsing treats markup as inert text and chunks deterministically
+  ---
+  duration_ms: 0.579542
+  type: 'test'
+  ...
+# Subtest: knowledge overlap is a review signal only and the fixture registry is finite
+ok 157 - knowledge overlap is a review signal only and the fixture registry is finite
+  ---
+  duration_ms: 0.470042
+  type: 'test'
+  ...
+# Subtest: tool broker rejects unsafe or mutable registrations and redacts unknown tool names
+ok 158 - tool broker rejects unsafe or mutable registrations and redacts unknown tool names
+  ---
+  duration_ms: 0.715375
+  type: 'test'
+  ...
+# Subtest: tool broker enforces schema/capability/scope, validates outputs, requires audit, and races timeouts
+ok 159 - tool broker enforces schema/capability/scope, validates outputs, requires audit, and races timeouts
+  ---
+  duration_ms: 18.910083
+  type: 'test'
+  ...
+1..159
+# tests 159
+# suites 0
+# pass 159
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 51306.759041

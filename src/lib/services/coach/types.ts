@@ -6,6 +6,7 @@ import type {
   RiwiAnswer,
 } from "./schema";
 import type { AssessmentContractKey, AssessmentOwnerOverlay, AssessmentPolicyScope } from "./contracts/types";
+import type { InstructionTaskKey, InstructionTeaching } from "./contracts/instruction-schema";
 
 /**
  * What a provider is asked to evaluate.
@@ -34,6 +35,8 @@ export type EvaluationContext = {
   model?: string;
   /** Server-resolved machine metadata; never read from a learner payload. */
   assessmentContract?: ResolvedAssessmentContract;
+  /** Server-selected teaching format, independent of grading contracts. */
+  instructionTask?: InstructionTaskKey;
 };
 
 export type WritingTaskType = "task1" | "task2";
@@ -124,7 +127,7 @@ export type RiwiKnowledgeContext = { ref: string; text: string; authority: numbe
 export type RiwiProviderInput = { language: "uz" | "en"; message: string; history: RiwiConversationTurn[]; knowledge: RiwiKnowledgeContext[] };
 /** Provider-reported usage only; null/absent means unknown, never zero. */
 export type RiwiProviderUsage = { inputTokens: number | null; outputTokens: number | null };
-export type RiwiProviderResult = { ok: true; answer: RiwiAnswer; usage?: RiwiProviderUsage } | { ok: false; failure: ProviderFailure; usage?: RiwiProviderUsage };
+export type RiwiProviderResult = { ok: true; answer: RiwiAnswer; teaching?: InstructionTeaching; usage?: RiwiProviderUsage } | { ok: false; failure: ProviderFailure; usage?: RiwiProviderUsage };
 
 const ok = (output: ProviderEvaluationOutput): ProviderSuccess => ({ ok: true, output });
 const fail = (

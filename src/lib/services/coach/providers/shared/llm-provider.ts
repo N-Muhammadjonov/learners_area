@@ -16,6 +16,8 @@ import {
   type WritingEvaluationInput,
 } from "../../types";
 import { guardExternalPayload } from "@/lib/services/riwi/outbound-guard";
+import { composeInstructionPrompt, formatInstructionTeaching } from "../../contracts/instruction-runtime";
+import { instructionTeachingSchema } from "../../contracts/instruction-schema";
 
 /**
  * One validated evaluation pipeline for every LLM adapter.
@@ -45,7 +47,7 @@ export function normalizeCompletionUsage(inputTokens: unknown, outputTokens: unk
 
 export const TEXT_CAPABILITIES: readonly ProviderCapability[] = [
   "text-evaluation", "writing-evaluation", "speaking-evaluation", "grammar-evaluation",
-  "vocabulary-evaluation", "assignment-evaluation", "structured-output", "riwi-assistant",
+  "vocabulary-evaluation", "assignment-evaluation", "structured-output", "riwi-assistant", "instruction-teaching",
 ];
 
 export const MAX_INPUT_CHARS = 60_000;
@@ -166,6 +168,13 @@ export function createLlmEvaluationProvider(def: LlmProviderDefinition): Evaluat
 
   async function respondToRiwi(ctx: EvaluationContext, input: RiwiProviderInput): Promise<RiwiProviderResult> {
     if (!capabilities.includes("riwi-assistant")) return providerFail("capability_missing", "RIWI assistant capability is not registered");
+    let taskInstructions: string | null = null;
+    if (ctx.assessmentContract) return providerFail("capability_missing", "Assessment cannot run through assistant chat");
+    if (ctx.instructionTask !== undefined) {
+      if (!capabilities.includes("instruction-teaching")) return providerFail("capability_missing", "Task teaching capability is not registered");
+      try { taskInstructions = composeInstructionPrompt(ctx.instructionTask); }
+      catch { return providerFail("capability_missing", "Teaching task is not supported"); }
+    }
     if (!def.model() || def.requiredSecrets().some((name) => !process.env[name]?.trim())) {
       return providerFail("not_configured", `${def.displayName} key and evaluation model are required`);
     }
@@ -173,7 +182,7 @@ export function createLlmEvaluationProvider(def: LlmProviderDefinition): Evaluat
     if (!guarded.ok) return providerFail("invalid_response", "RIWI assistant request was rejected by the outbound data guard");
     const safeInput = guarded.payload;
     const system = [
-      "You are RIWI, the Learners Area learning assistant. Return only a JSON object with exactly: answer, uncertainty, citations.",
+      `You are RIWI, the Learners Area learning assistant. Return only a JSON object with exactly: answer, uncertainty, citations${taskInstructions ? ", teaching" : ""}.`,
       "Speak in the requested language with a warm, respectful, supportive conversational tone. Keep explanations clear and concise; ground encouragement in the learner's actual work rather than invented achievements.",
       "Use a small number of context-appropriate emojis in the answer when they help convey warmth (usually one or two). Choose emojis that fit the response; do not decorate every sentence or add unrelated emoji badges. Keep exact quotations, citations, code, scores, and source facts unchanged. Avoid playful emojis in serious or sensitive responses.",
       "Never reveal private data, secrets, hidden reasoning, or claim to have used a tool. You have no tools and cannot take actions.",
@@ -181,7 +190,8 @@ export function createLlmEvaluationProvider(def: LlmProviderDefinition): Evaluat
       "Use canonical/approved excerpts only for source-specific facts. For a course lesson request, use only the single authorized lesson excerpt supplied; never expand to another lesson, course, learner, or private record. Cite only the supplied K1-K5 reference labels. Do not invent dictionary facts, learner metrics, or centre policy.",
       "If evidence is missing or conflicting, state that clearly in uncertainty. Give a concise useful educational explanation where possible.",
       "Do not include provider metadata in the learner-facing answer.",
-    ].join(" ");
+      ...(taskInstructions ? [taskInstructions] : []),
+    ].join("\n\n");
     const user = JSON.stringify({ task: "riwi_assistant", ...safeInput });
     if (user.length > 12_000) return providerFail("provider_error", "RIWI assistant context is too large");
     const model = ctx.model ?? def.model()!;
@@ -201,13 +211,23 @@ export function createLlmEvaluationProvider(def: LlmProviderDefinition): Evaluat
     if (completion.text.length > 12_000) return failWithUsage("RIWI assistant response is too large");
     let output: unknown;
     try { output = extractJson(completion.text); } catch { return failWithUsage("RIWI assistant response format is invalid"); }
-    const parsed = riwiAnswerSchema.safeParse(output);
+    const parsed = taskInstructions
+      ? riwiAnswerSchema.extend({ teaching: instructionTeachingSchema }).strict().safeParse(output)
+      : riwiAnswerSchema.safeParse(output);
     if (!parsed.success) return failWithUsage("RIWI assistant response format is invalid");
     const allowedRefs = new Set(safeInput.knowledge.map((item) => item.ref));
     if (parsed.data.citations.some((citation) => !allowedRefs.has(citation))) {
       return failWithUsage("RIWI assistant cited a source outside its authorized context");
     }
-    return { ok: true, answer: parsed.data, ...(completion.usage ? { usage: completion.usage } : {}) };
+    const teaching = taskInstructions ? instructionTeachingSchema.safeParse("teaching" in parsed.data ? parsed.data.teaching : null) : null;
+    if (teaching && !teaching.success) return failWithUsage("Required teaching steps are invalid");
+    const answer = ctx.instructionTask
+      ? formatInstructionTeaching(ctx.instructionTask, teaching?.success ? teaching.data : null, ctx.language)
+      : parsed.data.answer;
+    if (!answer) return failWithUsage("Required teaching steps do not match the requested task");
+    return { ok: true, answer: { answer, uncertainty: parsed.data.uncertainty, citations: parsed.data.citations },
+      ...(teaching?.success ? { teaching: teaching.data } : {}),
+      ...(completion.usage ? { usage: completion.usage } : {}) };
   }
 
   const has = (c: ProviderCapability) => capabilities.includes(c);

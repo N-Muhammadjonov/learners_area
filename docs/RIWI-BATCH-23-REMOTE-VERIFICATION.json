@@ -1,0 +1,185 @@
+{
+  "status": "REMOTE_TREE_AND_ALL_PUBLISHED_BLOBS_VERIFIED",
+  "commit": "b9007d68c82b27d02d615ae7c1d0f1546aa83393",
+  "parent": "da164c24390e475dc380fde013ef6d2574aed9cc",
+  "tree": "a91086373f32da203ee9ffa4107f0afa8045b9ce",
+  "recursive_tree_truncated": false,
+  "published_paths": 43,
+  "blobs": [
+    {
+      "path": "docs/RIWI-BATCH-22-REMOTE-VERIFICATION.json",
+      "git_blob": "6a40ac31ab5094c1ad2eb956b28d3020b60b7292"
+    },
+    {
+      "path": "docs/RIWI-BATCH-23-NATIVE-VERIFICATION.json",
+      "git_blob": "00d4fc4523ed63f9ee3f42d919432312b5642aa7"
+    },
+    {
+      "path": "docs/RIWI-BATCH-23-QA-RESULTS.json",
+      "git_blob": "29fc0f24657a297680ac2a77896e2b2c5bf85ede"
+    },
+    {
+      "path": "docs/RIWI-BATCH-23-SOURCE-STATE.json",
+      "git_blob": "acc9a4e7b4a54d5f26a6ab11d99d33588ba5ee85"
+    },
+    {
+      "path": "docs/RIWI-BATCH-23-TASK-SEMANTIC-AUDIT.json",
+      "git_blob": "1f89f6e0592aa29810d8795b6a4df79c237335ec"
+    },
+    {
+      "path": "docs/RIWI-REMAINING-PROMPT-PROGRESS.json",
+      "git_blob": "8ba1ae1fcc75f890760c6c6d0886524267c3eb97"
+    },
+    {
+      "path": "docs/evidence/riwi-batch23-native/receipt.json",
+      "git_blob": "56e639df63d899225980c0e5f499db525d335ba8"
+    },
+    {
+      "path": "docs/evidence/riwi-batch23-native/round-1/backend.log",
+      "git_blob": "fff39ebc2b50b5efcf14fc406edc548ed1a175bf"
+    },
+    {
+      "path": "docs/evidence/riwi-batch23-native/round-1/createdb.log",
+      "git_blob": "245949a47f511d3c7d43b9a63d26d6e4d105809f"
+    },
+    {
+      "path": "docs/evidence/riwi-batch23-native/round-1/fixtures.log",
+      "git_blob": "d63632bb0e7fed8fd9f8f553a79e9f3087f69b04"
+    },
+    {
+      "path": "docs/evidence/riwi-batch23-native/round-1/identity-after-tests.log",
+      "git_blob": "245949a47f511d3c7d43b9a63d26d6e4d105809f"
+    },
+    {
+      "path": "docs/evidence/riwi-batch23-native/round-1/identity-before-tests.log",
+      "git_blob": "245949a47f511d3c7d43b9a63d26d6e4d105809f"
+    },
+    {
+      "path": "docs/evidence/riwi-batch23-native/round-1/initdb.log",
+      "git_blob": "a542a38230a89f16bb89e8f11983393e84f3f1e7"
+    },
+    {
+      "path": "docs/evidence/riwi-batch23-native/round-1/lint.log",
+      "git_blob": "6b4593287705f9f8c222f917577a382fcbb23757"
+    },
+    {
+      "path": "docs/evidence/riwi-batch23-native/round-1/migrations-portability.log",
+      "git_blob": "383b5d8f60f15790065b3ebdbf1c3c3888678342"
+    },
+    {
+      "path": "docs/evidence/riwi-batch23-native/round-1/migrations-qa.log",
+      "git_blob": "383b5d8f60f15790065b3ebdbf1c3c3888678342"
+    },
+    {
+      "path": "docs/evidence/riwi-batch23-native/round-1/receipt.json",
+      "git_blob": "8aee99fd1e522e46c0ee3430e6e3a42eca7926b4"
+    },
+    {
+      "path": "docs/evidence/riwi-batch23-native/round-1/start.log",
+      "git_blob": "0fb0b9795fb4884c3f9d88d91ebb6492510e4ee5"
+    },
+    {
+      "path": "docs/evidence/riwi-batch23-native/round-1/stop.log",
+      "git_blob": "bdc448af42aa24144e661f647c52557f2e0d9b3c"
+    },
+    {
+      "path": "docs/evidence/riwi-batch23-native/round-1/typecheck.log",
+      "git_blob": "068374b71cc3a8df2cc2848fe1a78b6cb7646543"
+    },
+    {
+      "path": "docs/evidence/riwi-batch23-native/round-1/ui.log",
+      "git_blob": "33346fb58f0bd5367470a81a2657c6f77b7dd2e2"
+    },
+    {
+      "path": "docs/evidence/riwi-batch23-native/round-2/backend.log",
+      "git_blob": "2f4fc57e29137119f47bec479588003e517cab55"
+    },
+    {
+      "path": "docs/evidence/riwi-batch23-native/round-2/createdb.log",
+      "git_blob": "245949a47f511d3c7d43b9a63d26d6e4d105809f"
+    },
+    {
+      "path": "docs/evidence/riwi-batch23-native/round-2/fixtures.log",
+      "git_blob": "d63632bb0e7fed8fd9f8f553a79e9f3087f69b04"
+    },
+    {
+      "path": "docs/evidence/riwi-batch23-native/round-2/identity-after-tests.log",
+      "git_blob": "245949a47f511d3c7d43b9a63d26d6e4d105809f"
+    },
+    {
+      "path": "docs/evidence/riwi-batch23-native/round-2/identity-before-tests.log",
+      "git_blob": "245949a47f511d3c7d43b9a63d26d6e4d105809f"
+    },
+    {
+      "path": "docs/evidence/riwi-batch23-native/round-2/initdb.log",
+      "git_blob": "f71f9db87f77e4b2f77eb77420231803cdb643e6"
+    },
+    {
+      "path": "docs/evidence/riwi-batch23-native/round-2/lint.log",
+      "git_blob": "6b4593287705f9f8c222f917577a382fcbb23757"
+    },
+    {
+      "path": "docs/evidence/riwi-batch23-native/round-2/migrations-portability.log",
+      "git_blob": "383b5d8f60f15790065b3ebdbf1c3c3888678342"
+    },
+    {
+      "path": "docs/evidence/riwi-batch23-native/round-2/migrations-qa.log",
+      "git_blob": "383b5d8f60f15790065b3ebdbf1c3c3888678342"
+    },
+    {
+      "path": "docs/evidence/riwi-batch23-native/round-2/receipt.json",
+      "git_blob": "d5b506c23fd2726baa54b022e1cceba8f368089b"
+    },
+    {
+      "path": "docs/evidence/riwi-batch23-native/round-2/start.log",
+      "git_blob": "0fb0b9795fb4884c3f9d88d91ebb6492510e4ee5"
+    },
+    {
+      "path": "docs/evidence/riwi-batch23-native/round-2/stop.log",
+      "git_blob": "bdc448af42aa24144e661f647c52557f2e0d9b3c"
+    },
+    {
+      "path": "docs/evidence/riwi-batch23-native/round-2/typecheck.log",
+      "git_blob": "068374b71cc3a8df2cc2848fe1a78b6cb7646543"
+    },
+    {
+      "path": "docs/evidence/riwi-batch23-native/round-2/ui.log",
+      "git_blob": "91f422361d9b2f796d3e3e1be340cc0fafa9a0cd"
+    },
+    {
+      "path": "src/lib/portability/postgres-adapter.ts",
+      "git_blob": "c67612000d6aeaa3ba05a7ab0c5dca6bffeb291b"
+    },
+    {
+      "path": "src/lib/services/coach/providers/riwi/index.ts",
+      "git_blob": "aa9b32857cbf83891b50e6d1f25b3e55b6190b8d"
+    },
+    {
+      "path": "tests/riwi-portable-concurrency.test.ts",
+      "git_blob": "94764accb0ec9ff138ac985a814fddb8971b557b"
+    },
+    {
+      "path": "tests/riwi-portable-transaction-outcome.test.ts",
+      "git_blob": "bed38b750dfac5ba4beed5ed901e187f1220d6c8"
+    },
+    {
+      "path": "tests/riwi-portable-tri-mode-rehearsal.test.ts",
+      "git_blob": "8b77cdf516529ecddf7d647f2e4c5cede01edf80"
+    },
+    {
+      "path": "tests/riwi-portable-unique-planning.test.ts",
+      "git_blob": "47829bd4d73d926c75ca9c0ee95b1faa90d09655"
+    },
+    {
+      "path": "tests/riwi-task-semantic-boundary.test.ts",
+      "git_blob": "f4b320d5efddfa03b8a59aa630fc69744dd8de6d"
+    },
+    {
+      "path": "tests/support/riwi-portability-database.ts",
+      "git_blob": "64527a7a67fd91b9fda63a6c25efd724e272de06"
+    }
+  ],
+  "source_sha256": "62cba147591859e0ace157e4ab799fa120d1b184bcb72361f8efa9f7ddaecd48",
+  "source_files": 1222,
+  "group_credit_from_push_alone": 0
+}

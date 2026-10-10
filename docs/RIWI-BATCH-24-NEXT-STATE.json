@@ -1,0 +1,95 @@
+{
+  "baseline_commit": "b9007d68c82b27d02d615ae7c1d0f1546aa83393",
+  "source_sha256": "aa73ffbf7b8d698322e3961ea13298446f99a794a1f82d3929296452a58c7407",
+  "accepted_groups": 19,
+  "total_groups": 34,
+  "accepted_percent": 55.88235294117647,
+  "overall_riwi_percent": null,
+  "overall_project_percent": null,
+  "new_source_tasks_implemented": [
+    "tutoring.simple_explanation",
+    "tutoring.compare_concepts",
+    "reporting.progress_explanation"
+  ],
+  "implementation_full_group_credit": 0,
+  "remaining": [
+    {
+      "id": "R04",
+      "requirement": "Finish deployed chat retention acceptance after reviewing the preserved local implementation. Test exact 30-day and seven-day boundaries, >60 eligible messages, late returning users, all four roles, inactive/closed tabs, concurrent heartbeat/sweep, missed cron run, cascade deletion, dry-run and secret denial. Apply migrations only to an identified authorized environment. Verify scheduler support and actual successful cron executions. Do not equate code presence with physical deletion in deployment.",
+      "boundary": "Target hosting and actual scheduler/deletion receipt pending; owner defers hosting migration."
+    },
+    {
+      "id": "R06",
+      "requirement": "Complete live AI provider fixtures and four-role authenticated browser QA on the exact target deployment. Test timeout, malformed output, fallback, revocation, CSRF, IDOR, replay, owner-only panels, back/forward/refresh and private URL expiry. Mock transport is not live-provider proof.",
+      "boundary": "Exact-target live provider and authenticated four-role browser evidence pending."
+    },
+    {
+      "id": "R07",
+      "requirement": "Prove real backup/PITR and restore. Record secret-free environment fingerprint, safety point, retention, actual isolated restore, row/FK/hash checks, app boot, measured RTO and observed RPO. Select contractual objectives only when the owner has chosen them. Do not restore over Production.",
+      "boundary": "Actual provider backup/PITR isolated restore, application boot and measured recovery evidence pending; RPO/RTO choice not recorded."
+    },
+    {
+      "id": "R08",
+      "requirement": "Produce final evidence and GO/NO-GO only after exact-source gates and operational checks. Prepare reviewable integration/cutover/rollback packets before requesting any still-required consequential owner decision. No missing mandatory evidence can become 100%.",
+      "boundary": "Final exact-source and operational acceptance cannot close while mandatory groups remain open."
+    },
+    {
+      "id": "B01",
+      "requirement": "Publish and verify 68-source-task coverage. Remote registry has 68 historical entries, but that count is not parity with the 68 source tasks. Preserved local code adds 37 missing contracts and maps all 68 original task keys to 105 runtime entries, while preserving historical entries and versions. Rerun coverage, duplicate-key, unknown-task, deterministic composition and legacy snapshot regressions. Verify every source task's actual semantics, not only key existence.",
+      "boundary": "All 68 source tasks need actual semantic execution evidence; registry coverage is insufficient."
+    },
+    {
+      "id": "B04",
+      "requirement": "Verify executable Grammar/Vocabulary/retention/tutoring/reporting task routes for all listed tasks. Catalog entries are not implemented runtime behavior. Reuse existing tools/services. Distinguish unavailable capability from supported deterministic behavior. Vocabulary meaning/sense comes from canonical authority. Reporter numbers remain deterministic.",
+      "boundary": "Three tutoring/report tasks implemented in this checkpoint; additional Grammar/Vocabulary/retention task execution remains open."
+    },
+    {
+      "id": "B05",
+      "requirement": "Validate all provider/local paths against the same contracts. Writing uses exactly four unique criteria, supported half-bands and server overall; evidence quotes must occur in source text. Speaking quotes must occur in reviewed transcript and pronunciation is Not assessed without real acoustic evidence. Grammar has no IELTS essay band. Test correct answers, acceptable alternatives, empty and malformed inputs, injections, provider schema drift, model fallback and persisted provenance.",
+      "boundary": "All applicable provider/local contracts need shared validation and actual applicable provider evidence."
+    },
+    {
+      "id": "C05",
+      "requirement": "Verify Stop -> transcript review/edit/playback/re-record -> explicit Send to RIWI -> pending -> evidence-based feedback -> Try again/Next. Test no send on Stop/timer, no partial transcript upload, duplicate send idempotency, provider timeout/retry and route/unmount cleanup. Bind attempt to persisted session item/question and latest valid answer generation.",
+      "boundary": "Actual Speaking provider journeys and examiner/feedback provenance acceptance remain open."
+    },
+    {
+      "id": "C06",
+      "requirement": "Verify audio/raw/reviewed transcript provenance, original-vs-edited distinction, transcriptChanged, provider/model/fallback truth, recording duration/MIME/size/hash and history linkage. Do not overwrite the raw source when the user edits. Keep audio private and test foreign attempt/object IDs and expired signed URLs.",
+      "boundary": "Real private-object access, expiry and acoustic provenance evidence pending."
+    },
+    {
+      "id": "C07",
+      "requirement": "Verify Part 2 preparation keeps mic off, early-start behavior, recording limit and manual review. Session summary only aggregates supported evidence; transcript-only pronunciation remains Not assessed and incomplete coverage cannot produce a fabricated official score. Verify recurring-weakness/learning signals with consent and privacy rules.",
+      "boundary": "Actual authenticated browser and consent/learning journeys pending."
+    },
+    {
+      "id": "C08",
+      "requirement": "Separate Speaking audio/transcript retention from D-01. Prepare the exact proposed lifecycle and dry-run outcomes; do not enable irreversible deletion before a specific recorded owner policy exists. Real R2 storage/lifecycle and browser mic/STT behavior still require actual environment/browser receipts.",
+      "boundary": "Owner destructive Speaking retention duration selection and real object expiry proof pending."
+    },
+    {
+      "id": "C09",
+      "requirement": "Complete desktop/tablet/mobile, UZ/EN, day/night, keyboard/focus and active-session failure journeys. JSDOM lifecycle tests are useful but not microphone/SpeechRecognition/browser acceptance.",
+      "boundary": "Actual responsive/browser microphone/STT acceptance pending."
+    },
+    {
+      "id": "D04",
+      "requirement": "Review object inventory and copy lifecycle. Prove source scope/owner/retention against DB, stable keys, MIME/size/SHA, O1 no-copy access and O2 immutable destination read-back. Roll back newly staged objects on pre-commit failure; preserve objects on uncertain DB commit for reconciliation. Handle duplicate hashes, partial copy, corrupt bytes, missing objects and cleanup failure. Real R2/S3 proof is still required.",
+      "boundary": "Real isolated R2 O2 copy/read-back/cleanup proof pending."
+    },
+    {
+      "id": "D05",
+      "requirement": "Run independent A/B/C clean-destination rehearsals using canonical migrations; include >1,000 permitted rows, checksums, counts, constraints, identities, relationships, timestamps, retention/exclusion canaries, zero-write dry-run, rollback and representative app boot. PGlite relational tests do not prove full native PostgreSQL or production-data migration acceptance.",
+      "boundary": "Canonical native A/B/C command rehearsals already passed; representative restored current-source application boot still pending."
+    },
+    {
+      "id": "D09",
+      "requirement": "Rerun required two final gates after last source change and record their state identity, exact results/skips, commands and artifacts. The remote ledger's 16,978 PASS labels are classification output, not 16,978 independently passing tests.",
+      "boundary": "Current checkpoint has affected assistant QA only; final exact-source full native and operational gates remain open. Build not rerun under owner instruction."
+    }
+  ],
+  "production_go": false,
+  "destructive_speaking_values_selected": false,
+  "owner_push_required": true
+}

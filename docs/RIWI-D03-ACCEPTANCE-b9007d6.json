@@ -1,0 +1,423 @@
+{
+  "group": "D03",
+  "status": "ACCEPTED",
+  "accepted_commit": "b9007d68c82b27d02d615ae7c1d0f1546aa83393",
+  "tested_source_sha256": "62cba147591859e0ace157e4ab799fa120d1b184bcb72361f8efa9f7ddaecd48",
+  "implementation_and_test_fingerprints": [
+    {
+      "path": "src/lib/portability/archive.ts",
+      "sha256": "8fb6028baea25d2ae20b7d669d0dd7e2d0a6ec2d788055ff02d346cde643fbb3"
+    },
+    {
+      "path": "src/lib/portability/bundle.ts",
+      "sha256": "9e931b7e9ba1618271851565f6fcc4e39985344f43e817934747944b499eee40"
+    },
+    {
+      "path": "src/lib/portability/classification.ts",
+      "sha256": "4f56b9b5251708192372bd83cc1b25628a8544759834e29220de23a4c261e0fb"
+    },
+    {
+      "path": "src/lib/portability/encrypted-archive.ts",
+      "sha256": "58f2480ad5b9272094d871bd44695e86aa1fcf0ccabfdbaa51e628091a719f5b"
+    },
+    {
+      "path": "src/lib/portability/encryption.ts",
+      "sha256": "7ecbc434c1bb51c3081dd68adc9bd32a27232ea1dedf32d61345962d83268589"
+    },
+    {
+      "path": "src/lib/portability/export-command.ts",
+      "sha256": "d09a7c4e48c7dd1a4fc7a37f587dcb66539aed92d1c076788d7188dada8723ef"
+    },
+    {
+      "path": "src/lib/portability/identity-mapping.ts",
+      "sha256": "76bf6318ca427058fa44f0c6904eda837ce423868faa1cea92b9dfb9fe3c2624"
+    },
+    {
+      "path": "src/lib/portability/import-command.ts",
+      "sha256": "872a6aa6c59dee44c32bdd5729774c5fde99fed6284e50351e1550688d773471"
+    },
+    {
+      "path": "src/lib/portability/post-import-regression.ts",
+      "sha256": "4e2bdc03ac83ed32d87fe63870ac409d322c1069d99bd0f92a89457e47c3ee1f"
+    },
+    {
+      "path": "src/lib/portability/postgres-adapter.ts",
+      "sha256": "fa37cbf282527022563cd0b14544042ba2d1674ea22a3690fc15c1ca9c695301"
+    },
+    {
+      "path": "src/lib/portability/types.ts",
+      "sha256": "e07f44a36f42e406a330d610ee78a35a425278bfd0d0cb7c4b7196ebdc8b2612"
+    },
+    {
+      "path": "tests/riwi-portable-bootstrap-owner.test.ts",
+      "sha256": "1ad987a307bcf2d0a242e4dd2b52bfe5688d4184fe81602b1a127dfdaedfa44f"
+    },
+    {
+      "path": "tests/riwi-portable-boundary.test.ts",
+      "sha256": "65dbfe5eb6a89d866f8767095571aabcb18db6238f38a02836a330b2dc394ade"
+    },
+    {
+      "path": "tests/riwi-portable-concurrency.test.ts",
+      "sha256": "c320f299f07376f4f1512289b6f4cc1f3dde8f991dc6406a1d8f870d52cc3b58"
+    },
+    {
+      "path": "tests/riwi-portable-cycle.test.ts",
+      "sha256": "611b1f695e082469c5dc10f98c4a2a6ab6b4d68c65565d9e561e9a6987ee06c5"
+    },
+    {
+      "path": "tests/riwi-portable-dry-run-conflict.test.ts",
+      "sha256": "e0e3438f93f50a366543ed94ca16061b77b47568913a06273def6e8146938d83"
+    },
+    {
+      "path": "tests/riwi-portable-export-command.test.ts",
+      "sha256": "2ebac3f9f6bc6a795d4e0942af9dd8683fd5e00604a732aceb7957440c5e8c9c"
+    },
+    {
+      "path": "tests/riwi-portable-full-command.test.ts",
+      "sha256": "1d7f2572b445fc87ee29e1b4c695949b0a09d89a1b6d57f65364e94f6e69d897"
+    },
+    {
+      "path": "tests/riwi-portable-identity.test.ts",
+      "sha256": "6610be8cd9e888f304c83c64ef020cb20db5ec4843eba86f7fc4317ed92e0a1d"
+    },
+    {
+      "path": "tests/riwi-portable-import-command.test.ts",
+      "sha256": "fd51bed8858a40a0a4939bfaf46d2d680700aa3cac869e8d1fa80d56803315af"
+    },
+    {
+      "path": "tests/riwi-portable-manifest-scope.test.ts",
+      "sha256": "1a93ab53bff3f31ce94f0fe0b728cab6c84155072a304f99fd58d54b1ac101dc"
+    },
+    {
+      "path": "tests/riwi-portable-multi-owner.test.ts",
+      "sha256": "ad5e33f61aabd6c98f62eb9915e97d82a2b47003bae241f8f173d72d0031765b"
+    },
+    {
+      "path": "tests/riwi-portable-transaction-outcome.test.ts",
+      "sha256": "38aec7221ef407ef5a04e9334dd65d0614f31f473e208f4589b1932175353905"
+    },
+    {
+      "path": "tests/riwi-portable-tri-mode-rehearsal.test.ts",
+      "sha256": "e343e4734ffd03267072e1429ca4058343efa80da1a3445a13b3c30c2b0eff33"
+    },
+    {
+      "path": "tests/riwi-portable-unique-planning.test.ts",
+      "sha256": "00ff8e6b8ae75ffde7fc5209afeaa70f48e758a80dadb7581992434d682c2267"
+    },
+    {
+      "path": "tests/support/riwi-portability-database.ts",
+      "sha256": "39a1c5434c9c2c1b9f0f2f8a2a4a29e05accf8f02effb4d471111e35e341aad8"
+    }
+  ],
+  "requirements": [
+    {
+      "requirement": "A/full allowed rows and preserved destination credentials",
+      "status": "PASS",
+      "evidence": [
+        {
+          "round": 1,
+          "test": "explicit encrypted Mode A preserves site and RIWI rows without replacing destination owner credentials",
+          "tap_number": 814,
+          "log": "docs/evidence/riwi-batch23-native/round-1/backend.log",
+          "log_sha256": "2b8747475ba1042ddbfb561281fe3366ead0d808555dc8dc792de7c8d726c3d3"
+        },
+        {
+          "round": 1,
+          "test": "native full-system: two explicit owner mappings preserve destination credentials and distinct dependent identities",
+          "tap_number": 821,
+          "log": "docs/evidence/riwi-batch23-native/round-1/backend.log",
+          "log_sha256": "2b8747475ba1042ddbfb561281fe3366ead0d808555dc8dc792de7c8d726c3d3"
+        },
+        {
+          "round": 2,
+          "test": "explicit encrypted Mode A preserves site and RIWI rows without replacing destination owner credentials",
+          "tap_number": 814,
+          "log": "docs/evidence/riwi-batch23-native/round-2/backend.log",
+          "log_sha256": "9aa6cc6fb4185595bff0e525ff6566dea7f1980ec6d0d97d70ab31d5f106978f"
+        },
+        {
+          "round": 2,
+          "test": "native full-system: two explicit owner mappings preserve destination credentials and distinct dependent identities",
+          "tap_number": 821,
+          "log": "docs/evidence/riwi-batch23-native/round-2/backend.log",
+          "log_sha256": "9aa6cc6fb4185595bff0e525ff6566dea7f1980ec6d0d97d70ab31d5f106978f"
+        }
+      ]
+    },
+    {
+      "requirement": "B/private/site exclusion, authorized governance mappings and staged approvals",
+      "status": "PASS",
+      "evidence": [
+        {
+          "round": 1,
+          "test": "RIWI-only export excludes private source descendants; mapped import stays inactive and preserves destination identities",
+          "tap_number": 815,
+          "log": "docs/evidence/riwi-batch23-native/round-1/backend.log",
+          "log_sha256": "2b8747475ba1042ddbfb561281fe3366ead0d808555dc8dc792de7c8d726c3d3"
+        },
+        {
+          "round": 1,
+          "test": "identity mapping rejects malformed, extra, duplicated and many-to-one actors without trusting a supplied role",
+          "tap_number": 816,
+          "log": "docs/evidence/riwi-batch23-native/round-1/backend.log",
+          "log_sha256": "2b8747475ba1042ddbfb561281fe3366ead0d808555dc8dc792de7c8d726c3d3"
+        },
+        {
+          "round": 1,
+          "test": "native riwi: encrypted >1000-row command rehearsal preserves scope, relationships, timestamps, dry-run and rollback",
+          "tap_number": 831,
+          "log": "docs/evidence/riwi-batch23-native/round-1/backend.log",
+          "log_sha256": "2b8747475ba1042ddbfb561281fe3366ead0d808555dc8dc792de7c8d726c3d3"
+        },
+        {
+          "round": 2,
+          "test": "RIWI-only export excludes private source descendants; mapped import stays inactive and preserves destination identities",
+          "tap_number": 815,
+          "log": "docs/evidence/riwi-batch23-native/round-2/backend.log",
+          "log_sha256": "9aa6cc6fb4185595bff0e525ff6566dea7f1980ec6d0d97d70ab31d5f106978f"
+        },
+        {
+          "round": 2,
+          "test": "identity mapping rejects malformed, extra, duplicated and many-to-one actors without trusting a supplied role",
+          "tap_number": 816,
+          "log": "docs/evidence/riwi-batch23-native/round-2/backend.log",
+          "log_sha256": "9aa6cc6fb4185595bff0e525ff6566dea7f1980ec6d0d97d70ab31d5f106978f"
+        },
+        {
+          "round": 2,
+          "test": "native riwi: encrypted >1000-row command rehearsal preserves scope, relationships, timestamps, dry-run and rollback",
+          "tap_number": 831,
+          "log": "docs/evidence/riwi-batch23-native/round-2/backend.log",
+          "log_sha256": "9aa6cc6fb4185595bff0e525ff6566dea7f1980ec6d0d97d70ab31d5f106978f"
+        }
+      ]
+    },
+    {
+      "requirement": "C/no RIWI intelligence or conversations",
+      "status": "PASS",
+      "evidence": [
+        {
+          "round": 1,
+          "test": "MODE A/B/C exports are deterministic and enforce privacy canaries",
+          "tap_number": 793,
+          "log": "docs/evidence/riwi-batch23-native/round-1/backend.log",
+          "log_sha256": "2b8747475ba1042ddbfb561281fe3366ead0d808555dc8dc792de7c8d726c3d3"
+        },
+        {
+          "round": 1,
+          "test": "native learners-area: encrypted >1000-row command rehearsal preserves scope, relationships, timestamps, dry-run and rollback",
+          "tap_number": 832,
+          "log": "docs/evidence/riwi-batch23-native/round-1/backend.log",
+          "log_sha256": "2b8747475ba1042ddbfb561281fe3366ead0d808555dc8dc792de7c8d726c3d3"
+        },
+        {
+          "round": 2,
+          "test": "MODE A/B/C exports are deterministic and enforce privacy canaries",
+          "tap_number": 793,
+          "log": "docs/evidence/riwi-batch23-native/round-2/backend.log",
+          "log_sha256": "9aa6cc6fb4185595bff0e525ff6566dea7f1980ec6d0d97d70ab31d5f106978f"
+        },
+        {
+          "round": 2,
+          "test": "native learners-area: encrypted >1000-row command rehearsal preserves scope, relationships, timestamps, dry-run and rollback",
+          "tap_number": 832,
+          "log": "docs/evidence/riwi-batch23-native/round-2/backend.log",
+          "log_sha256": "9aa6cc6fb4185595bff0e525ff6566dea7f1980ec6d0d97d70ab31d5f106978f"
+        }
+      ]
+    },
+    {
+      "requirement": "FK/composite/nullable self references/cycles with constraints enabled",
+      "status": "PASS",
+      "evidence": [
+        {
+          "round": 1,
+          "test": "real Speaking schema cycles and forward retry references restore without disabling constraints; dry-run rejects missing parents",
+          "tap_number": 811,
+          "log": "docs/evidence/riwi-batch23-native/round-1/backend.log",
+          "log_sha256": "2b8747475ba1042ddbfb561281fe3366ead0d808555dc8dc792de7c8d726c3d3"
+        },
+        {
+          "round": 1,
+          "test": "native: dry-run and apply agree on normalized primary, secondary, composite and partial unique conflicts",
+          "tap_number": 834,
+          "log": "docs/evidence/riwi-batch23-native/round-1/backend.log",
+          "log_sha256": "2b8747475ba1042ddbfb561281fe3366ead0d808555dc8dc792de7c8d726c3d3"
+        },
+        {
+          "round": 2,
+          "test": "real Speaking schema cycles and forward retry references restore without disabling constraints; dry-run rejects missing parents",
+          "tap_number": 811,
+          "log": "docs/evidence/riwi-batch23-native/round-2/backend.log",
+          "log_sha256": "9aa6cc6fb4185595bff0e525ff6566dea7f1980ec6d0d97d70ab31d5f106978f"
+        },
+        {
+          "round": 2,
+          "test": "native: dry-run and apply agree on normalized primary, secondary, composite and partial unique conflicts",
+          "tap_number": 834,
+          "log": "docs/evidence/riwi-batch23-native/round-2/backend.log",
+          "log_sha256": "9aa6cc6fb4185595bff0e525ff6566dea7f1980ec6d0d97d70ab31d5f106978f"
+        }
+      ]
+    },
+    {
+      "requirement": "Duplicates/conflicts, zero-write planning and full transactional rollback",
+      "status": "PASS",
+      "evidence": [
+        {
+          "round": 1,
+          "test": "duplicate primary keys inside a valid archive fail both zero-write dry-run and apply, with transactional rollback",
+          "tap_number": 812,
+          "log": "docs/evidence/riwi-batch23-native/round-1/backend.log",
+          "log_sha256": "2b8747475ba1042ddbfb561281fe3366ead0d808555dc8dc792de7c8d726c3d3"
+        },
+        {
+          "round": 1,
+          "test": "native full-system: encrypted >1000-row command rehearsal preserves scope, relationships, timestamps, dry-run and rollback",
+          "tap_number": 830,
+          "log": "docs/evidence/riwi-batch23-native/round-1/backend.log",
+          "log_sha256": "2b8747475ba1042ddbfb561281fe3366ead0d808555dc8dc792de7c8d726c3d3"
+        },
+        {
+          "round": 2,
+          "test": "duplicate primary keys inside a valid archive fail both zero-write dry-run and apply, with transactional rollback",
+          "tap_number": 812,
+          "log": "docs/evidence/riwi-batch23-native/round-2/backend.log",
+          "log_sha256": "9aa6cc6fb4185595bff0e525ff6566dea7f1980ec6d0d97d70ab31d5f106978f"
+        },
+        {
+          "round": 2,
+          "test": "native full-system: encrypted >1000-row command rehearsal preserves scope, relationships, timestamps, dry-run and rollback",
+          "tap_number": 830,
+          "log": "docs/evidence/riwi-batch23-native/round-2/backend.log",
+          "log_sha256": "9aa6cc6fb4185595bff0e525ff6566dea7f1980ec6d0d97d70ab31d5f106978f"
+        }
+      ]
+    },
+    {
+      "requirement": "Serialized mutations and overlapping scope restores",
+      "status": "PASS",
+      "evidence": [
+        {
+          "round": 1,
+          "test": "native restore fences a non-anchor table writer and an owner demotion until COMMIT",
+          "tap_number": 808,
+          "log": "docs/evidence/riwi-batch23-native/round-1/backend.log",
+          "log_sha256": "2b8747475ba1042ddbfb561281fe3366ead0d808555dc8dc792de7c8d726c3d3"
+        },
+        {
+          "round": 1,
+          "test": "native overlapping A/B restores serialize across different scopes, first=full-system",
+          "tap_number": 809,
+          "log": "docs/evidence/riwi-batch23-native/round-1/backend.log",
+          "log_sha256": "2b8747475ba1042ddbfb561281fe3366ead0d808555dc8dc792de7c8d726c3d3"
+        },
+        {
+          "round": 1,
+          "test": "native overlapping A/B restores serialize across different scopes, first=riwi",
+          "tap_number": 810,
+          "log": "docs/evidence/riwi-batch23-native/round-1/backend.log",
+          "log_sha256": "2b8747475ba1042ddbfb561281fe3366ead0d808555dc8dc792de7c8d726c3d3"
+        },
+        {
+          "round": 2,
+          "test": "native restore fences a non-anchor table writer and an owner demotion until COMMIT",
+          "tap_number": 808,
+          "log": "docs/evidence/riwi-batch23-native/round-2/backend.log",
+          "log_sha256": "9aa6cc6fb4185595bff0e525ff6566dea7f1980ec6d0d97d70ab31d5f106978f"
+        },
+        {
+          "round": 2,
+          "test": "native overlapping A/B restores serialize across different scopes, first=full-system",
+          "tap_number": 809,
+          "log": "docs/evidence/riwi-batch23-native/round-2/backend.log",
+          "log_sha256": "9aa6cc6fb4185595bff0e525ff6566dea7f1980ec6d0d97d70ab31d5f106978f"
+        },
+        {
+          "round": 2,
+          "test": "native overlapping A/B restores serialize across different scopes, first=riwi",
+          "tap_number": 810,
+          "log": "docs/evidence/riwi-batch23-native/round-2/backend.log",
+          "log_sha256": "9aa6cc6fb4185595bff0e525ff6566dea7f1980ec6d0d97d70ab31d5f106978f"
+        }
+      ]
+    },
+    {
+      "requirement": "Uncertain COMMIT and failed rollback never produce success or reuse a broken connection",
+      "status": "PASS",
+      "evidence": [
+        {
+          "round": 1,
+          "test": "lost COMMIT response discards the connection and refuses a success receipt, committed=false",
+          "tap_number": 823,
+          "log": "docs/evidence/riwi-batch23-native/round-1/backend.log",
+          "log_sha256": "2b8747475ba1042ddbfb561281fe3366ead0d808555dc8dc792de7c8d726c3d3"
+        },
+        {
+          "round": 1,
+          "test": "lost COMMIT response discards the connection and refuses a success receipt, committed=true",
+          "tap_number": 824,
+          "log": "docs/evidence/riwi-batch23-native/round-1/backend.log",
+          "log_sha256": "2b8747475ba1042ddbfb561281fe3366ead0d808555dc8dc792de7c8d726c3d3"
+        },
+        {
+          "round": 1,
+          "test": "failed rollback discards the connection while preserving the original import error",
+          "tap_number": 825,
+          "log": "docs/evidence/riwi-batch23-native/round-1/backend.log",
+          "log_sha256": "2b8747475ba1042ddbfb561281fe3366ead0d808555dc8dc792de7c8d726c3d3"
+        },
+        {
+          "round": 1,
+          "test": "a known rollback allows safe connection reuse and never converts failure into success",
+          "tap_number": 826,
+          "log": "docs/evidence/riwi-batch23-native/round-1/backend.log",
+          "log_sha256": "2b8747475ba1042ddbfb561281fe3366ead0d808555dc8dc792de7c8d726c3d3"
+        },
+        {
+          "round": 2,
+          "test": "lost COMMIT response discards the connection and refuses a success receipt, committed=false",
+          "tap_number": 823,
+          "log": "docs/evidence/riwi-batch23-native/round-2/backend.log",
+          "log_sha256": "9aa6cc6fb4185595bff0e525ff6566dea7f1980ec6d0d97d70ab31d5f106978f"
+        },
+        {
+          "round": 2,
+          "test": "lost COMMIT response discards the connection and refuses a success receipt, committed=true",
+          "tap_number": 824,
+          "log": "docs/evidence/riwi-batch23-native/round-2/backend.log",
+          "log_sha256": "9aa6cc6fb4185595bff0e525ff6566dea7f1980ec6d0d97d70ab31d5f106978f"
+        },
+        {
+          "round": 2,
+          "test": "failed rollback discards the connection while preserving the original import error",
+          "tap_number": 825,
+          "log": "docs/evidence/riwi-batch23-native/round-2/backend.log",
+          "log_sha256": "9aa6cc6fb4185595bff0e525ff6566dea7f1980ec6d0d97d70ab31d5f106978f"
+        },
+        {
+          "round": 2,
+          "test": "a known rollback allows safe connection reuse and never converts failure into success",
+          "tap_number": 826,
+          "log": "docs/evidence/riwi-batch23-native/round-2/backend.log",
+          "log_sha256": "9aa6cc6fb4185595bff0e525ff6566dea7f1980ec6d0d97d70ab31d5f106978f"
+        }
+      ]
+    }
+  ],
+  "evidence_levels": {
+    "identity_scope_uniqueness_concurrency": "two isolated native PostgreSQL 16.14 full QA rounds",
+    "nullable_cycles": "canonical SQL constraints exercised under PGlite in both full rounds",
+    "uncertain_commit": "PGlite transaction fault injection for both real commit outcomes, with explicit connection-discard observation; no claim of a live PostgreSQL wire-cut test"
+  },
+  "does_not_accept": [
+    "D04 real object store readback",
+    "D05 representative restored application boot",
+    "R07 production backup/PITR",
+    "D09 future final source gates"
+  ],
+  "independent_remote_proof": "docs/RIWI-BATCH-23-REMOTE-VERIFICATION.json",
+  "accepted_groups_after": 19,
+  "total_groups": 34,
+  "accepted_prompt_percent": 55.88235294117647
+}

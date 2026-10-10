@@ -1,0 +1,19 @@
+{
+  "status": "PASSED_TWO_ASSISTANT_AFFECTED_ROUNDS_NO_SKIPS",
+  "source_sha256": "aa73ffbf7b8d698322e3961ea13298446f99a794a1f82d3929296452a58c7407",
+  "source_files": 1227,
+  "rounds": 2,
+  "backend_each": 159,
+  "ui_each": 260,
+  "total_test_executions": 838,
+  "failures": 0,
+  "skips": 0,
+  "typecheck_each": "PASS",
+  "lint_each": "PASS",
+  "evidence": "docs/evidence/riwi-batch24-assistant/receipt.json",
+  "native_current_source_acceptance": false,
+  "live_provider_acceptance": false,
+  "build_rerun": false,
+  "source_unchanged_after_qa": true,
+  "production_contacted": false
+}

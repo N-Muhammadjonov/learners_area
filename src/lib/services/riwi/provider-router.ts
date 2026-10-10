@@ -11,6 +11,8 @@ import { guardExternalPayload, redactExternalText } from "./outbound-guard";
 import { recordRiwiAudit } from "./audit";
 import { readRiwiRollout, type RiwiRollout } from "./rollout";
 import { z } from "zod";
+import { instructionTaskSchema, instructionTeachingSchema, type InstructionTaskKey, type TeachingContract } from "@/lib/services/coach/contracts/instruction-schema";
+import { instructionContractTrace, formatInstructionTeaching } from "@/lib/services/coach/contracts/instruction-runtime";
 
 export const RIWI_TASK_PROFILES = [
   "riwi_chat", "writing_high_stakes", "speaking_feedback", "grammar_feedback", "vocabulary_explanation",
@@ -22,7 +24,7 @@ const ROUTER_SUPPORTED_PROFILES = new Set<RiwiTaskProfile>(["riwi_chat"]);
 export const RIWI_ROUTER_TIMEOUT_MS = 25_000;
 
 export type RoutedRiwiAnswer =
-  | { status: "external_success"; answer: string; uncertainty: string | null; citations: string[]; providerId: string; model: string | null; durationMs: number }
+  | { status: "external_success"; answer: string; uncertainty: string | null; citations: string[]; providerId: string; model: string | null; durationMs: number; teachingContract?: TeachingContract }
   | { status: "external_unavailable"; reason: "disabled" | "policy_unavailable" | "not_configured" | "capability_missing" | "invalid_request" | "timeout" | "cancelled" | "invalid_response" | "provider_error"; providerId: string | null; model: string | null; durationMs: number };
 
 type UsageInput = {
@@ -47,6 +49,7 @@ export type RiwiProviderRouterDependencies = {
   timeoutMs: number;
 };
 
+const usageSchema = z.object({ inputTokens: z.number().int().nonnegative().nullable(), outputTokens: z.number().int().nonnegative().nullable() }).strict();
 const providerFailureSchema = z.object({
   ok: z.literal(false),
   failure: z.object({
@@ -57,9 +60,10 @@ const providerFailureSchema = z.object({
     detail: z.string().max(500),
     retryable: z.boolean(),
   }).strict(),
+  usage: usageSchema.optional(),
 }).strict();
 const providerResultSchema = z.discriminatedUnion("ok", [
-  z.object({ ok: z.literal(true), answer: riwiAnswerSchema }).strict(),
+  z.object({ ok: z.literal(true), answer: riwiAnswerSchema, teaching: instructionTeachingSchema.optional(), usage: usageSchema.optional() }).strict(),
   providerFailureSchema,
 ]);
 
@@ -127,6 +131,7 @@ export async function routeRiwiAnswer(
     payload: RiwiProviderInput;
     profile?: RiwiTaskProfile;
     signal?: AbortSignal;
+    instructionTask?: InstructionTaskKey;
   },
   overrides: Partial<RiwiProviderRouterDependencies> = {},
 ): Promise<RoutedRiwiAnswer> {
@@ -134,6 +139,9 @@ export async function routeRiwiAnswer(
   const started = dependencies.now();
   const parsedProfile = taskProfileSchema.safeParse(input.profile ?? "riwi_chat");
   const profile: RiwiTaskProfile = parsedProfile.success ? parsedProfile.data : "riwi_chat";
+  if (input.instructionTask !== undefined && !instructionTaskSchema.safeParse(input.instructionTask).success) {
+    return unavailable({ dependencies, ...input, started, profile, reason: "capability_missing", providerId: null, model: null });
+  }
   if (!parsedProfile.success) {
     return unavailable({ dependencies, ...input, started, profile, reason: "invalid_request", providerId: null, model: null });
   }
@@ -162,6 +170,9 @@ export async function routeRiwiAnswer(
     return unavailable({ dependencies, ...input, started, profile, reason: "not_configured", providerId, model });
   }
   if (!provider.capabilities.includes("riwi-assistant") || !provider.respondToRiwi) {
+    return unavailable({ dependencies, ...input, started, profile, reason: "capability_missing", providerId, model });
+  }
+  if (input.instructionTask && !provider.capabilities.includes("instruction-teaching")) {
     return unavailable({ dependencies, ...input, started, profile, reason: "capability_missing", providerId, model });
   }
   let secretsReady: boolean;
@@ -206,6 +217,7 @@ export async function routeRiwiAnswer(
       return provider.respondToRiwi!({
         userId: "external-anonymous", language: guarded.payload.language,
         model: model ?? undefined, signal: controller.signal,
+        ...(input.instructionTask ? { instructionTask: input.instructionTask } : {}),
       }, guarded.payload);
     });
     outcome = await Promise.race([call, timeout, cancelled]);
@@ -235,7 +247,13 @@ export async function routeRiwiAnswer(
   if (citations.length !== parsedOutcome.data.answer.citations.length) {
     return unavailable({ dependencies, ...input, started, profile, reason: "invalid_response", providerId, model });
   }
-  const answer = safeAnswer(parsedOutcome.data.answer.answer);
+  // Validate steps here too. An adapter's capability declaration alone cannot
+  // turn an arbitrary answer into proof that the selected task was executed.
+  const teachingAnswer = input.instructionTask
+    ? formatInstructionTeaching(input.instructionTask, parsedOutcome.data.teaching, guarded.payload.language)
+    : parsedOutcome.data.teaching ? null : parsedOutcome.data.answer.answer;
+  if (!teachingAnswer) return unavailable({ dependencies, ...input, started, profile, reason: "invalid_response", providerId, model });
+  const answer = safeAnswer(teachingAnswer);
   if (!answer) return unavailable({ dependencies, ...input, started, profile, reason: "invalid_response", providerId, model });
   try {
     await dependencies.writeAudit({ actorUserId: input.actor.id, action: "riwi.external.succeeded", targetType: "riwi_provider", targetId: providerId,
@@ -250,5 +268,6 @@ export async function routeRiwiAnswer(
     status: "external_success", answer,
     uncertainty: parsedOutcome.data.answer.uncertainty ? safeAnswer(parsedOutcome.data.answer.uncertainty, 600) : null,
     citations, providerId, model, durationMs,
+    ...(input.instructionTask ? { teachingContract: instructionContractTrace(input.instructionTask) } : {}),
   };
 }
