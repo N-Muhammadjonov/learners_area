@@ -4,18 +4,18 @@ Rendered in Chromium against `http://127.0.0.1:3000`. Every measurement is taken
 none is inferred from source text. Viewports 320 / 390 / 768 / 1440; locales en and uz.
 The protected theme and background design were not modified — this probe only reads.
 
-**84 PASS / 6 NOT-PASS** across 90 rows — FAIL 0, a11y defects 3, i18n defects 0, perf defects 3, not measurable 0.
+**86 PASS / 4 NOT-PASS** across 90 rows — FAIL 0, a11y defects 2, i18n defects 0, perf defects 2, not measurable 0.
 
   Reading: 12/12
   Listening: 12/12
   Writing: 6/7
-  Speaking: 18/20
+  Speaking: 19/20
   Vocabulary: 9/11
   Lessons: 6/6
   Assignments: 3/3
   Progress: 3/3
   Notifications: 3/3
-  Profile: 3/4
+  Profile: 4/4
   Staff admin: 9/9
 
 | id | area | actor | locale | action | expected | actual | verdict |
@@ -65,7 +65,7 @@ The protected theme and background design were not modified — this probe only 
 | WR1-UZ | Writing | STUDENT_A | uz | `/app/writing rendered in Uzbek and compared with its English render` | the visible text differs from EN (the dictionary is applied), the document language is set, no Cyrillic leaks into a Latin UI, and 320 px still does not overflow | text 765→798 chars; changed=true; lang=uz; cyrillic=0; untranslated markers=none; 320px overflow=none | **PASS** |
 | WR2-UZ | Writing | STUDENT_A | uz | `/app/writing/history rendered in Uzbek and compared with its English render` | the visible text differs from EN (the dictionary is applied), the document language is set, no Cyrillic leaks into a Latin UI, and 320 px still does not overflow | text 448→481 chars; changed=true; lang=uz; cyrillic=0; untranslated markers=none; 320px overflow=none | **PASS** |
 | SP1-UZ | Speaking | STUDENT_A | uz | `/app/speaking rendered in Uzbek and compared with its English render` | the visible text differs from EN (the dictionary is applied), the document language is set, no Cyrillic leaks into a Latin UI, and 320 px still does not overflow | text 981→1013 chars; changed=true; lang=uz; cyrillic=0; untranslated markers=none; 320px overflow=none | **PASS** |
-| SP2-UZ | Speaking | STUDENT_A | uz | `/app/speaking/practice rendered in Uzbek and compared with its English render` | the visible text differs from EN (the dictionary is applied), the document language is set, no Cyrillic leaks into a Latin UI, and 320 px still does not overflow | text 664→722 chars; changed=true; lang=uz; cyrillic=0; untranslated markers=none; 320px overflow=none | **PASS** |
+| SP2-UZ | Speaking | STUDENT_A | uz | `/app/speaking/practice rendered in Uzbek and compared with its English render` | the visible text differs from EN (the dictionary is applied), the document language is set, no Cyrillic leaks into a Latin UI, and 320 px still does not overflow | text 679→738 chars; changed=true; lang=uz; cyrillic=0; untranslated markers=none; 320px overflow=none | **PASS** |
 | SP3-UZ | Speaking | STUDENT_A | uz | `/app/speaking/live-partner rendered in Uzbek and compared with its English render` | the visible text differs from EN (the dictionary is applied), the document language is set, no Cyrillic leaks into a Latin UI, and 320 px still does not overflow | text 1046→1126 chars; changed=true; lang=uz; cyrillic=0; untranslated markers=none; 320px overflow=none | **PASS** |
 | SP4-UZ | Speaking | STUDENT_A | uz | `/app/speaking/ai rendered in Uzbek and compared with its English render` | the visible text differs from EN (the dictionary is applied), the document language is set, no Cyrillic leaks into a Latin UI, and 320 px still does not overflow | text 943→989 chars; changed=true; lang=uz; cyrillic=0; untranslated markers=none; 320px overflow=none | **PASS** |
 | SP5-UZ | Speaking | STUDENT_A | uz | `/app/speaking/history rendered in Uzbek and compared with its English render` | the visible text differs from EN (the dictionary is applied), the document language is set, no Cyrillic leaks into a Latin UI, and 320 px still does not overflow | text 478→516 chars; changed=true; lang=uz; cyrillic=0; untranslated markers=none; 320px overflow=none | **PASS** |
@@ -96,8 +96,8 @@ The protected theme and background design were not modified — this probe only 
 | WR1-RT | Writing | STUDENT_A | en | `/app/writing: live regions, duplicate product requests and console errors at 390px` | no product GET issued twice for the same URL; no console errors; a status region exists wherever the page fetches asynchronously and changes state | async work=true; live regions at rest=0; after interaction=0 (interacted=true); duplicated product GETs=none; console errors=0 | **A11Y_DEFECT** |
 | WR2-RT | Writing | STUDENT_A | en | `/app/writing/history: live regions, duplicate product requests and console errors at 390px` | no product GET issued twice for the same URL; no console errors; a status region exists wherever the page fetches asynchronously and changes state | async work=true; live regions at rest=0; after interaction=0 (interacted=false); duplicated product GETs=none; console errors=0 | **PASS** |
 | SP1-RT | Speaking | STUDENT_A | en | `/app/speaking: live regions, duplicate product requests and console errors at 390px` | no product GET issued twice for the same URL; no console errors; a status region exists wherever the page fetches asynchronously and changes state | async work=true; live regions at rest=0; after interaction=1 (interacted=true); duplicated product GETs=none; console errors=0 | **PASS** |
-| SP2-RT | Speaking | STUDENT_A | en | `/app/speaking/practice: live regions, duplicate product requests and console errors at 390px` | no product GET issued twice for the same URL; no console errors; a status region exists wherever the page fetches asynchronously and changes state | async work=true; live regions at rest=0; after interaction=0 (interacted=true); duplicated product GETs=none; console errors=0 | **A11Y_DEFECT** |
-| SP3-RT | Speaking | STUDENT_A | en | `/app/speaking/live-partner: live regions, duplicate product requests and console errors at 390px` | no product GET issued twice for the same URL; no console errors; a status region exists wherever the page fetches asynchronously and changes state | async work=true; live regions at rest=2; after interaction=2 (interacted=false); duplicated product GETs=/api/profile/photo/9a10440e-2d21-4488-af98-2ff4c463a074×2; console errors=2 | **PERF_DEFECT** |
+| SP2-RT | Speaking | STUDENT_A | en | `/app/speaking/practice: live regions, duplicate product requests and console errors at 390px` | no product GET issued twice for the same URL; no console errors; a status region exists wherever the page fetches asynchronously and changes state | async work=true; live regions at rest=1; after interaction=1 (interacted=false); duplicated product GETs=none; console errors=0 | **PASS** |
+| SP3-RT | Speaking | STUDENT_A | en | `/app/speaking/live-partner: live regions, duplicate product requests and console errors at 390px` | no product GET issued twice for the same URL; no console errors; a status region exists wherever the page fetches asynchronously and changes state | async work=true; live regions at rest=2; after interaction=2 (interacted=false); duplicated product GETs=none; console errors=1 | **PERF_DEFECT** |
 | SP4-RT | Speaking | STUDENT_A | en | `/app/speaking/ai: live regions, duplicate product requests and console errors at 390px` | no product GET issued twice for the same URL; no console errors; a status region exists wherever the page fetches asynchronously and changes state | async work=true; live regions at rest=1; after interaction=1 (interacted=false); duplicated product GETs=none; console errors=0 | **PASS** |
 | SP5-RT | Speaking | STUDENT_A | en | `/app/speaking/history: live regions, duplicate product requests and console errors at 390px` | no product GET issued twice for the same URL; no console errors; a status region exists wherever the page fetches asynchronously and changes state | async work=true; live regions at rest=0; after interaction=0 (interacted=false); duplicated product GETs=none; console errors=0 | **PASS** |
 | SP6-RT | Speaking | STUDENT_A | en | `/app/speaking/lessons: live regions, duplicate product requests and console errors at 390px` | no product GET issued twice for the same URL; no console errors; a status region exists wherever the page fetches asynchronously and changes state | async work=true; live regions at rest=0; after interaction=0 (interacted=false); duplicated product GETs=none; console errors=0 | **PASS** |
@@ -109,7 +109,7 @@ The protected theme and background design were not modified — this probe only 
 | AS1-RT | Assignments | STUDENT_A | en | `/app/assignments: live regions, duplicate product requests and console errors at 390px` | no product GET issued twice for the same URL; no console errors; a status region exists wherever the page fetches asynchronously and changes state | async work=true; live regions at rest=0; after interaction=0 (interacted=false); duplicated product GETs=none; console errors=0 | **PASS** |
 | PR1-RT | Progress | STUDENT_A | en | `/app/progress: live regions, duplicate product requests and console errors at 390px` | no product GET issued twice for the same URL; no console errors; a status region exists wherever the page fetches asynchronously and changes state | async work=true; live regions at rest=0; after interaction=0 (interacted=false); duplicated product GETs=none; console errors=0 | **PASS** |
 | NT1-RT | Notifications | STUDENT_A | en | `/app/notifications: live regions, duplicate product requests and console errors at 390px` | no product GET issued twice for the same URL; no console errors; a status region exists wherever the page fetches asynchronously and changes state | async work=true; live regions at rest=0; after interaction=0 (interacted=false); duplicated product GETs=none; console errors=0 | **PASS** |
-| PF1-RT | Profile | STUDENT_A | en | `/app/profile: live regions, duplicate product requests and console errors at 390px` | no product GET issued twice for the same URL; no console errors; a status region exists wherever the page fetches asynchronously and changes state | async work=true; live regions at rest=0; after interaction=1 (interacted=true); duplicated product GETs=/api/profile/photo/9a10440e-2d21-4488-af98-2ff4c463a074?v=0×2; console errors=2 | **PERF_DEFECT** |
+| PF1-RT | Profile | STUDENT_A | en | `/app/profile: live regions, duplicate product requests and console errors at 390px` | no product GET issued twice for the same URL; no console errors; a status region exists wherever the page fetches asynchronously and changes state | async work=true; live regions at rest=0; after interaction=1 (interacted=true); duplicated product GETs=none; console errors=0 | **PASS** |
 
 ## Defects and observations
 
@@ -128,8 +128,7 @@ The protected theme and background design were not modified — this probe only 
 - LS4 /app/listening/history: no live region at rest (no interactive control available to trigger one) — observation, not counted as a defect
 - WR2 /app/writing/history: no live region at rest (no interactive control available to trigger one) — observation, not counted as a defect
 - SP1 /app/speaking: no live region at rest (and none after an interaction that changed state) — observation, not counted as a defect
-- SP3 /app/speaking/live-partner: 1 duplicated product GET(s) — /api/profile/photo/9a10440e-2d21-4488-af98-2ff4c463a074×2
-- SP3 /app/speaking/live-partner: 2 browser console error(s) — Failed to load resource: the server responded with a status of 404 (Not Found) | Failed to load resource: the server responded with a status of 404 (Not Found)
+- SP3 /app/speaking/live-partner: 1 browser console error(s) — Failed to load resource: the server responded with a status of 404 (Not Found)
 - SP5 /app/speaking/history: no live region at rest (no interactive control available to trigger one) — observation, not counted as a defect
 - SP6 /app/speaking/lessons: no live region at rest (no interactive control available to trigger one) — observation, not counted as a defect
 - VC2 /app/vocabulary/review: 3 duplicated product GET(s) — /brand/derived/mark-night-cutout-192.png×2, /brand/derived/owner-v11-night-192.png×2, /api/notifications?count=1×2
@@ -139,6 +138,4 @@ The protected theme and background design were not modified — this probe only 
 - PR1 /app/progress: no live region at rest (no interactive control available to trigger one) — observation, not counted as a defect
 - NT1 /app/notifications: no live region at rest (no interactive control available to trigger one) — observation, not counted as a defect
 - PF1 /app/profile: no live region at rest (and none after an interaction that changed state) — observation, not counted as a defect
-- PF1 /app/profile: 1 duplicated product GET(s) — /api/profile/photo/9a10440e-2d21-4488-af98-2ff4c463a074?v=0×2
-- PF1 /app/profile: 2 browser console error(s) — Failed to load resource: the server responded with a status of 404 (Not Found) | Failed to load resource: the server responded with a status of 404 (Not Found)
 

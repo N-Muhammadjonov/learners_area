@@ -1755,6 +1755,8 @@ const en = {
     partTitle: { part1: "Interview", part2: "Cue card", part3: "Discussion" },
     partBody: { part1: "Short questions · ~30s", part2: "1 min prep · 2 min talk", part3: "Deeper questions · ~45s" },
     questionCount: "{n} questions",
+    topicCount: "{n} topics",
+    topicCountOne: "{n} topic",
     noQuestionsInPart: "No questions are published for this part yet.",
     bankEmpty: "No speaking questions are published yet.",
     title: "Speaking practice",

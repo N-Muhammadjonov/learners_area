@@ -1740,6 +1740,8 @@ const uz: Dictionary = {
     partTitle: { part1: "Suhbat", part2: "Mavzu kartochkasi", part3: "Muhokama" },
     partBody: { part1: "Qisqa savollar · ~30 soniya", part2: "1 daqiqa tayyorlanish · 2 daqiqa gapirish", part3: "Chuqurroq savollar · ~45 soniya" },
     questionCount: "{n} ta savol",
+    topicCount: "{n} ta mavzu",
+    topicCountOne: "{n} ta mavzu",
     noQuestionsInPart: "Bu qism uchun hali savollar e'lon qilinmagan.",
     bankEmpty: "Hozircha speaking savollari e'lon qilinmagan.",
     title: "Speaking mashqi",

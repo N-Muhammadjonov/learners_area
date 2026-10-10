@@ -51,8 +51,35 @@ export function PracticeStudio({ dict, prompts }: { dict: Dictionary; prompts: P
   const selected = topic?.prompts.find(p => p.id === selectedId) ?? topic?.prompts[0];
   const step = !part ? "part" : !topic ? "topic" : "questions";
 
+  // The topics actually on screen after filtering — the same predicate the list uses, so the status
+  // region can never announce a count that disagrees with what is rendered.
+  const visibleTopicCount = step === "topic" && part
+    ? groups.filter(g => (g.title ?? t.untitledTopic).toLowerCase().includes(search.toLowerCase())).length
+    : 0;
+
+  /*
+   * Status region (WCAG 4.1.3). Every step change here replaces the whole content region through
+   * history.pushState, and the topic list re-filters on each keystroke. Neither causes a server
+   * navigation or moves focus, so a screen reader announces nothing: a learner who activated
+   * "Part 2" got silence while the entire visible page was swapped out. The browser matrix measured
+   * this — async work on the page, an interaction performed, and zero live regions before or after.
+   *
+   * The message is composed only from strings the dictionary already carries in BOTH locales plus
+   * the new topicCount key, so nothing can be announced in a language the dictionary lacks. It is
+   * visually hidden, which keeps the protected theme and layout exactly as they were.
+   */
+  const statusMessage =
+    step === "part" ? t.choosePart
+    : step === "topic"
+      // Singular and plural are the dictionary's business, not the component's: English distinguishes
+      // them, Uzbek does not pluralize after a numeral and carries the same string for both.
+      ? `${part ? t.part[part] : ""} — ${(visibleTopicCount === 1 ? t.topicCountOne : t.topicCount).replace("{n}", String(visibleTopicCount))}`
+      : `${topic?.title ?? t.untitledTopic} — ${t.questionCount.replace("{n}", String(topic?.prompts.length ?? 0))}`;
+
   return (
     <div className="flex flex-col gap-5" data-practice-step={step}>
+      <p role="status" aria-live="polite" className="sr-only" data-practice-status>{statusMessage}</p>
+
       <nav aria-label={t.stepsLabel} className="flex flex-wrap items-center gap-2 text-sm text-ink-500">
         <button type="button" className="min-h-11 rounded-md px-2 hover:text-ink-900 disabled:opacity-50" disabled={locked} onClick={() => go(null, null)} data-practice-crumb="part">{t.choosePart}</button>
         {part && <><span aria-hidden>›</span><button type="button" className="min-h-11 rounded-md px-2 hover:text-ink-900 disabled:opacity-50" disabled={locked} onClick={() => go(part, null)} data-practice-crumb="topic">{t.part[part]}</button></>}
