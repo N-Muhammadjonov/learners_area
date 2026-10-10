@@ -7,7 +7,7 @@ import { filterQuestions, type QuestionRow } from "@/lib/live-partner/questions"
 import { LIVE_PARTNER_RULES_VERSION } from "@/lib/live-partner/rules";
 import { LivePartnerCall, type CallStatus, type CallTokenResponse } from "@/lib/live-partner/call-engine";
 
-type Person = { userId: string; name: string; avatar: "a" | "b"; speakingScore: number | null };
+type Person = { userId: string; name: string; avatar: "a" | "b"; speakingScore: number | null; hasPhoto?: boolean };
 type Payload = {
   state: "offline" | "available" | "outgoing_invite" | "incoming_invite" | "connecting" | "in_call" | "reconnecting";
   rulesAccepted: boolean; sessionId: string | null; partner: Person | null;
@@ -24,10 +24,19 @@ const REQUEST_TIMEOUT_MS = 8_000;
 const score = (s: number | null) => (s == null ? "S —" : `S ${s.toFixed(1)}`);
 const json = (body: unknown) => ({ method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
 
-function Avatar({ kind, label, large = false, userId }: { kind: "a" | "b"; label: string; large?: boolean; userId?: string }) {
+function Avatar({ kind, label, large = false, userId, hasPhoto }: { kind: "a" | "b"; label: string; large?: boolean; userId?: string; hasPhoto?: boolean }) {
   const [failed, setFailed] = useState(false);
+  /*
+   * `hasPhoto` comes from the server, which is the only place that knows. When it says false the
+   * image is not requested at all: a learner with no photo used to produce a 404 and a browser
+   * console error on every render of this avatar, and having no photo is the common case. The
+   * default follows the convention ProfilePhoto already set with `initialPresent` — a caller that
+   * has not been given the answer behaves exactly as before and still recovers through onError,
+   * which stays as the safety net for a photo deleted mid-session.
+   */
+  const showPhoto = Boolean(userId) && hasPhoto !== false && !failed;
   return <span role="img" aria-label={label} className={`flex ${large ? "h-36 w-36 text-6xl" : "h-10 w-10 text-lg"} shrink-0 overflow-hidden items-center justify-center rounded-full ${kind === "b" ? "bg-rose-100" : "bg-sky-100"}`}>
-    {userId && !failed ? <Image src={`/api/profile/photo/${userId}`} alt={label} width={large ? 144 : 40} height={large ? 144 : 40} unoptimized className="h-full w-full object-cover" onError={() => setFailed(true)} /> : kind === "b" ? "👩‍🎓" : "👨‍🎓"}
+    {showPhoto ? <Image src={`/api/profile/photo/${userId}`} alt={label} width={large ? 144 : 40} height={large ? 144 : 40} unoptimized className="h-full w-full object-cover" onError={() => setFailed(true)} /> : kind === "b" ? "👩‍🎓" : "👨‍🎓"}
   </span>;
 }
 
@@ -40,7 +49,7 @@ function micErrorStatus(error: unknown): MicStatus {
 
 export function LivePartnerClient({ dict, me, questions }: {
   dict: Dictionary;
-  me: { userId?: string; name: string; avatar: "a" | "b"; hasGender: boolean; speakingScore: number | null };
+  me: { userId?: string; name: string; avatar: "a" | "b"; hasGender: boolean; speakingScore: number | null; hasPhoto?: boolean };
   questions: QuestionRow[];
 }) {
   const t = dict.livePartner;
@@ -349,7 +358,7 @@ export function LivePartnerClient({ dict, me, questions }: {
       {data && !data.realtime.ready ? <p className="rounded-sm border border-amber-200 bg-amber-50 p-2 text-sm text-amber-900" data-realtime-unavailable>{t.realtimeMissing}</p> : null}
       {data?.incoming ? (
         <div role="alertdialog" aria-label={t.incomingTitle} className="flex flex-wrap items-center gap-3 rounded-lg border border-ink-200 bg-paper p-3">
-          <Avatar userId={data.incoming.from.userId} kind={data.incoming.from.avatar} label={t.avatar} />
+          <Avatar userId={data.incoming.from.userId} kind={data.incoming.from.avatar} label={t.avatar} hasPhoto={data.incoming.from.hasPhoto} />
           <p className="flex-1 text-sm"><strong>{data.incoming.from.name}</strong> · {score(data.incoming.from.speakingScore)} — {t.incomingBody}</p>
           <button type="button" disabled={busy} className="btn-primary" onClick={() => act({ action: "accept", inviteId: data.incoming!.id })}>{t.accept}</button>
           <button type="button" disabled={busy} className="btn-secondary" onClick={() => act({ action: "decline", inviteId: data.incoming!.id })}>{t.decline}</button>
@@ -362,7 +371,7 @@ export function LivePartnerClient({ dict, me, questions }: {
         <section aria-labelledby="lp-you" className="lp-panel lp-self flex flex-col gap-3 rounded-lg border border-ink-100 bg-paper p-4">
           <h2 id="lp-you" className="text-xs font-semibold uppercase tracking-wide text-ink-500">{t.you}</h2>
           <div className="flex flex-col items-center gap-4 py-6 text-center">
-            <Avatar userId={me.userId} kind={me.avatar} label={t.avatar} large />
+            <Avatar userId={me.userId} kind={me.avatar} label={t.avatar} large hasPhoto={me.hasPhoto} />
             <div><p className="font-medium text-ink-900">{me.name}</p><p className="font-mono text-sm text-ink-600">{score(me.speakingScore)}</p></div>
           </div>
           <p className="text-xs text-ink-500">{t.micStatus}: {t.mic[mic]}</p>
@@ -429,7 +438,7 @@ export function LivePartnerClient({ dict, me, questions }: {
         {inCall && data?.partner ? (
           <section aria-labelledby="lp-partner" className="lp-panel lp-peer flex flex-col gap-3 rounded-lg border border-ink-100 bg-paper p-4">
             <h2 id="lp-partner" className="text-xs font-semibold uppercase tracking-wide text-ink-500">{t.partner}</h2>
-            <div className="flex flex-col items-center gap-4 py-6 text-center"><Avatar userId={data.partner.userId} kind={data.partner.avatar} label={t.avatar} large /><div><p className="font-medium">{data.partner.name}</p><p className="font-mono text-sm">{score(data.partner.speakingScore)}</p></div></div>
+            <div className="flex flex-col items-center gap-4 py-6 text-center"><Avatar userId={data.partner.userId} kind={data.partner.avatar} label={t.avatar} large hasPhoto={data.partner.hasPhoto} /><div><p className="font-medium">{data.partner.name}</p><p className="font-mono text-sm">{score(data.partner.speakingScore)}</p></div></div>
             <p className="text-sm" aria-live="polite" data-call-status={callStatus ?? "connecting"}>{callLabel}</p>
             <button type="button" aria-pressed={partnerMuted} className="btn-secondary" onClick={() => setPartnerMuted((m) => !m)}>{partnerMuted ? t.unmutePartner : t.mutePartner}</button>
             <button type="button" disabled={busy} className="btn-primary" onClick={() => endCall()}>{t.choosePartner}</button>
@@ -442,7 +451,7 @@ export function LivePartnerClient({ dict, me, questions }: {
               <ul className="flex flex-col gap-2">
                 {data.online.map((p) => (
                   <li key={p.userId} className="flex items-center gap-2">
-                    <Avatar userId={p.userId} kind={p.avatar} label={t.avatar} />
+                    <Avatar userId={p.userId} kind={p.avatar} label={t.avatar} hasPhoto={p.hasPhoto} />
                     <div className="flex-1"><p className="text-sm font-medium">{p.name}</p><p className="font-mono text-xs text-ink-600">{score(p.speakingScore)}</p></div>
                     <button type="button" disabled={busy || state !== "available"} className="btn-secondary btn-sm" onClick={() => act({ action: "invite", toUserId: p.userId })}>{t.invite}</button>
                   </li>

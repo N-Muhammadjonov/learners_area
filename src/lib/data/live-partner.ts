@@ -265,7 +265,29 @@ async function speakingScores(tx: Tx | Database, ids: string[]) {
   return new Map((rows.rows as { user_id: string; overall_estimate: number }[]).map((r) => [r.user_id, Number(r.overall_estimate)]));
 }
 
-export type OnlineUser = { userId: string; name: string; avatar: "a" | "b"; speakingScore: number | null };
+/**
+ * Which of these users have a servable profile photo, using exactly the predicate the photo route
+ * uses: the table exists, a photo row exists, and the account is active.
+ *
+ * The client avatar used to mount an <img> for every user id it was given and recover through
+ * onError. That looks fine visually, but having no photo is the common case — the QA baseline has
+ * none at all — and a 404 on an <img> is written to the browser console every single time. The
+ * browser matrix measured exactly one such error on /app/speaking/live-partner at rest, for the
+ * signed-in learner's own id. Whether a photo exists is server knowledge, so the server states it;
+ * and it is batched the way speakingScores is, so a room of 100 online learners costs one extra
+ * query rather than 100 requests that were always going to fail.
+ */
+async function photoPresence(tx: Tx | Database, ids: string[]) {
+  if (!ids.length) return new Set<string>();
+  const ready = await tx.execute(sql`select to_regclass('public.user_profile_photos') as ready`);
+  if (!(ready.rows as { ready: string | null }[])[0]?.ready) return new Set<string>();
+  const rows = await tx.execute(sql`
+    select p.user_id from user_profile_photos p join users u on u.id = p.user_id
+     where u.account_status = 'active' and p.user_id = any(${`{${ids.join(",")}}`}::uuid[])`);
+  return new Set((rows.rows as { user_id: string }[]).map((r) => r.user_id));
+}
+
+export type OnlineUser = { userId: string; name: string; avatar: "a" | "b"; speakingScore: number | null; hasPhoto: boolean };
 
 /** Only AVAILABLE, fresh, non-blocked, other accounts — once each; never IN_CALL/practice/stale. */
 export async function listOnline(viewerId: string, now = new Date(), connection: Database = db): Promise<OnlineUser[]> {
@@ -277,7 +299,8 @@ export async function listOnline(viewerId: string, now = new Date(), connection:
      order by u.name limit 100`);
   const list = rows.rows as { id: string; name: string; gender: string | null }[];
   const scores = await speakingScores(connection, list.map((r) => r.id));
-  return list.map((r) => ({ userId: r.id, name: r.name, avatar: r.gender === "female" ? "b" : "a", speakingScore: scores.get(r.id) ?? null }));
+  const photos = await photoPresence(connection, list.map((r) => r.id));
+  return list.map((r) => ({ userId: r.id, name: r.name, avatar: r.gender === "female" ? "b" : "a", speakingScore: scores.get(r.id) ?? null, hasPhoto: photos.has(r.id) }));
 }
 
 async function getStateTx(tx: Tx | Database, userId: string, now: Date) {
@@ -294,17 +317,19 @@ async function getStateTx(tx: Tx | Database, userId: string, now: Date) {
     if (otherId) {
       const [u] = await tx.select({ name: users.name, gender: users.gender }).from(users).where(eq(users.id, otherId));
       const scores = await speakingScores(tx, [otherId]);
-      partner = { userId: otherId, name: u?.name ?? "", avatar: u?.gender === "female" ? "b" : "a", speakingScore: scores.get(otherId) ?? null };
+      const photos = await photoPresence(tx, [otherId]);
+      partner = { userId: otherId, name: u?.name ?? "", avatar: u?.gender === "female" ? "b" : "a", speakingScore: scores.get(otherId) ?? null, hasPhoto: photos.has(otherId) };
     }
   }
   const inScores = incoming[0] ? await speakingScores(tx, [incoming[0].fromUserId]) : new Map<string, number>();
+  const inPhotos = incoming[0] ? await photoPresence(tx, [incoming[0].fromUserId]) : new Set<string>();
   const stateValue = (row?.state ?? "offline") as LivePartnerState;
   return {
     state: stateValue === "available" && !fresh(row?.heartbeatAt ?? null, now) ? ("offline" as const) : stateValue,
     rulesAccepted: row?.rulesVersion === LIVE_PARTNER_RULES_VERSION,
     sessionId: row?.sessionId ?? null,
     partner,
-    incoming: incoming[0] ? { id: incoming[0].id, from: { userId: incoming[0].fromUserId, name: incoming[0].name, avatar: incoming[0].gender === "female" ? ("b" as const) : ("a" as const), speakingScore: inScores.get(incoming[0].fromUserId) ?? null }, expiresAt: incoming[0].expiresAt.toISOString() } : null,
+    incoming: incoming[0] ? { id: incoming[0].id, from: { userId: incoming[0].fromUserId, name: incoming[0].name, avatar: incoming[0].gender === "female" ? ("b" as const) : ("a" as const), speakingScore: inScores.get(incoming[0].fromUserId) ?? null, hasPhoto: inPhotos.has(incoming[0].fromUserId) }, expiresAt: incoming[0].expiresAt.toISOString() } : null,
     outgoing: outgoing[0] ? { id: outgoing[0].id, toUserId: outgoing[0].toUserId, expiresAt: outgoing[0].expiresAt.toISOString() } : null,
     serverNow: now.toISOString(),
   };
@@ -319,7 +344,8 @@ export type LivePartnerStatePayload = Awaited<ReturnType<typeof getState>>;
 export async function getLivePartnerProfile(userId: string, connection: Database = db) {
   const [u] = await connection.select({ gender: users.gender }).from(users).where(eq(users.id, userId));
   const scores = await speakingScores(connection, [userId]);
-  return { avatar: u?.gender === "female" ? ("b" as const) : ("a" as const), hasGender: Boolean(u?.gender), speakingScore: scores.get(userId) ?? null };
+  const photos = await photoPresence(connection, [userId]);
+  return { avatar: u?.gender === "female" ? ("b" as const) : ("a" as const), hasGender: Boolean(u?.gender), speakingScore: scores.get(userId) ?? null, hasPhoto: photos.has(userId) };
 }
 
 /** Participant view of a LIVE session for the realtime token; throws for others/ended. */
