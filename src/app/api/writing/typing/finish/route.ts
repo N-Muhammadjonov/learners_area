@@ -7,6 +7,7 @@ export const dynamic = "force-dynamic";
 const body = z.object({
   runToken: z.string().min(20).max(2500),
   typedWords: z.array(z.string().max(80)).min(1).max(1000),
+  keystrokes: z.array(z.string().length(1)).max(50000).optional(),
   samples: z.array(z.number().int().min(0).max(100000)).max(1900),
 }).strict();
 

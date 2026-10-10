@@ -74,7 +74,7 @@ export type BrandAssets = {
 
 /** One canonical directory for approved brand artwork. */
 export const BRAND_ASSET_DIR = "/brand";
-export const INTRO_VIDEO = `${BRAND_ASSET_DIR}/Learners_Area_2K_Clean_Background_v16_FINAL.mp4`;
+export const INTRO_VIDEO = `${BRAND_ASSET_DIR}/Learners_Area_intro_optimized_v17.mp4`;
 
 /**
  * Runtime derivatives of the approved artwork.

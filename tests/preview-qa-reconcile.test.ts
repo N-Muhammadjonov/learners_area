@@ -7,7 +7,6 @@ import { join } from "node:path";
 import { createTestDatabase } from "./support/pglite";
 // @ts-expect-error inspected local ESM utility
 import { assess, readEvidence, verifyBackup, reconcile, TARGET } from "../scripts/preview-qa-reconcile-0021.mjs";
-// @ts-expect-error inspected local ESM utility
 import { fingerprint, serverIdentityHash, qaConnectionOptions, ALLOWED_PENDING } from "../scripts/preview-qa-migrate.mjs";
 const fullJournal=JSON.parse(readFileSync("drizzle/meta/_journal.json","utf8")) as {entries:{tag:string;when:number;idx:number}[]};
 // The 0021 repair is evaluated against the journal the Preview QA guard is approved
@@ -22,6 +21,7 @@ const column={udt_schema:"public",udt_name:"gender",is_nullable:"YES",column_def
 const evidence={labels:["male","female"],column,history};
 test("QA TLS verifies certificates and hostname; URL options cannot replace strict TLS",()=>{
  const opts=qaConnectionOptions("postgres://qa:fake@pooler.example:5432/postgres",{});
+ assert.ok(opts.ssl && typeof opts.ssl === "object");
  assert.equal(opts.ssl.rejectUnauthorized,true);assert.equal(opts.ssl.servername,"pooler.example");
  assert.throws(()=>qaConnectionOptions("postgres://qa:fake@pooler.example/db?sslmode=no-verify",{}),/SSL parameters/);
  assert.throws(()=>qaConnectionOptions("postgres://qa:fake@pooler.example/db",{PREVIEW_QA_CA_FILE:"/missing-ca-file"}),/ENOENT/);

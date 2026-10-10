@@ -12,6 +12,7 @@ export function DesktopIntro({ destination, children }: { destination: string; c
   const video = useRef<HTMLVideoElement>(null);
   const redirected = useRef(false);
   const [desktop, setDesktop] = useState(false);
+  const [unavailable, setUnavailable] = useState(false);
 
   useEffect(() => {
     const media = window.matchMedia(DESKTOP_INTRO_QUERY);
@@ -30,19 +31,21 @@ export function DesktopIntro({ destination, children }: { destination: string; c
     };
     const el = video.current;
     // Bounds stalled download/playback as well as rejected autoplay.
-    const timeout = window.setTimeout(continueToApp, 20_000);
-    el?.play().catch(continueToApp);
+    const fallback = () => setUnavailable(true);
+    const timeout = window.setTimeout(fallback, 20_000);
     el?.addEventListener("ended", continueToApp);
-    el?.addEventListener("error", continueToApp);
+    el?.addEventListener("error", fallback);
+    // Install listeners before play: an immediate rejection/error is observable.
+    el?.play().catch(fallback);
     return () => {
       window.clearTimeout(timeout);
       el?.removeEventListener("ended", continueToApp);
-      el?.removeEventListener("error", continueToApp);
+      el?.removeEventListener("error", fallback);
       el?.pause();
     };
   }, [desktop, destination, router]);
 
-  return <div data-root-entry>{desktop ? (
+  return <div data-root-entry>{desktop && !unavailable ? (
     <main className="flex min-h-dvh items-center justify-center bg-black" data-desktop-intro>
       <video ref={video} src={INTRO_VIDEO} autoPlay muted playsInline preload="auto"
         aria-hidden="true" tabIndex={-1} className="h-dvh w-full object-contain" />

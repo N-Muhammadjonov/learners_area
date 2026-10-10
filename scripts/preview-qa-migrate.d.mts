@@ -18,7 +18,7 @@ export type PreviewQaServerIdentity = {
 
 export function qaConnectionOptions(
   url: string,
-  env?: NodeJS.ProcessEnv,
+  env?: Record<string, string | undefined>,
 ): ClientConfig;
 
 export function urlIdentity(url: string): PreviewQaUrlIdentity;
@@ -29,14 +29,20 @@ export function serverIdentityHash(row: PreviewQaServerIdentity): string;
 
 export function refuseProduction(
   url: string,
-  env?: NodeJS.ProcessEnv,
+  env?: Record<string, string | undefined>,
 ): string | null;
 
 export function identityProblems(
   url: string,
-  env?: NodeJS.ProcessEnv,
+  env?: Record<string, string | undefined>,
 ): string[];
 
 export function readServerIdentity(
   client: Pick<ClientBase, "query">,
 ): Promise<PreviewQaServerIdentity>;
+
+export const ALLOWED_PENDING: readonly string[];
+export function plan(journal: { entries: {tag: string; when: number; idx?: number}[] }, appliedHashes: string[], readSql: (tag: string) => string | undefined): { applied: string[]; pending: string[]; problems: string[] };
+
+export const VERIFY: readonly (readonly [string, string, number])[];
+export function run(options: Record<string, unknown>): Promise<{ code: number; receipt: { result?: { pass: boolean; failures: string[] }; refused?: string; verifySkipped?: string; verify?: unknown } }>;

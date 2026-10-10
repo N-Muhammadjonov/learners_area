@@ -1,10 +1,12 @@
 import "server-only";
+import { replayTypingAccuracy } from "@/lib/services/writing/typing-keystrokes";
 import { randomUUID } from "node:crypto";
 import { SignJWT, jwtVerify } from "jose";
-import { and, asc, count, desc, eq, isNull, lte, max, or } from "drizzle-orm";
+import { and, asc, count, desc, eq, isNull, lte, max, or, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import {
   activityEvents,
+  users,
   typingRunTexts,
   typingRuns,
   typingTexts,
@@ -273,7 +275,7 @@ function fullTextCompleted(target: string[], typedWords: string[]): boolean {
  */
 export async function finishPreparedTypingRun(
   userId: string,
-  input: { runToken: string; typedWords: string[]; samples: number[] },
+  input: { runToken: string; typedWords: string[]; samples: number[]; keystrokes?: string[] },
   deps: { database?: Database; now?: () => number } = {},
 ): Promise<
   | { ok: true; result: VerifiedTypingResult }
@@ -360,50 +362,50 @@ export async function finishPreparedTypingRun(
   );
   const metrics = computeWordTypingMetrics(target, input.typedWords, seconds, verifiedSamples);
 
+  if (input.keystrokes !== undefined) {
+    const historical = replayTypingAccuracy(target, input.typedWords, input.keystrokes, metrics.missed);
+    if (!historical) return { ok: false, code: "bad_submission" };
+    metrics.accuracy = historical.accuracy;
+    metrics.mistakes = historical.mistakes;
+  }
+
   // Persist every new trainer run through the original typing_runs +
   // activity_events contract. Those columns exist both before and after
   // migration 0040, so a Preview database one migration behind cannot reject
   // an otherwise valid result. Extra trainer metrics live in the event payload
   // and remain server-derived from the signed canonical text.
   try {
-    const recentEvents = await database
-      .select({ payload: activityEvents.payload })
-      .from(activityEvents)
-      .where(and(
-        eq(activityEvents.userId, userId),
-        eq(activityEvents.type, "TYPING_RUN_COMPLETED"),
-      ))
-      .orderBy(desc(activityEvents.createdAt))
-      .limit(50);
-
-    const existing = recentEvents
-      .map((row) => row.payload as Record<string, unknown> | null)
-      .find((payload) => payload?.runTokenId === jti);
-
-    if (existing && typeof existing.runId === "string") {
-      return {
-        ok: true,
-        result: {
-          ...metrics,
-          runId: existing.runId,
-          title: typeof existing.title === "string" ? existing.title : text.title,
-          presetSeconds: preset === 0 ? null : preset,
-        },
-      };
-    }
-
-    const runId = await database.transaction(async (tx) => {
-      const [run] = await tx
-        .insert(typingRuns)
-        .values({
-          userId,
-          targetChars: metrics.targetChars,
-          typedChars: metrics.typedChars,
-          durationMs: metrics.durationMs,
-          wpm: metrics.wpm.toFixed(1),
-          accuracy: metrics.accuracy.toFixed(1),
-        })
-        .returning({ id: typingRuns.id });
+    const result = await database.transaction(async (tx) => {
+      // Serialize finishes per learner on an existing row, including databases
+      // before 0040. The event check and both writes share this transaction.
+      await tx.select({ id: users.id }).from(users).where(eq(users.id, userId)).for("update");
+      const [existingEvent] = await tx.select({ payload: activityEvents.payload })
+        .from(activityEvents).where(and(
+          eq(activityEvents.userId, userId),
+          eq(activityEvents.type, "TYPING_RUN_COMPLETED"),
+          sql`${activityEvents.payload}->>'runTokenId' = ${jti}`,
+        )).limit(1);
+      if (existingEvent) {
+        // Return the original server-derived result, never rescored replay input.
+        const saved = existingEvent.payload as Record<string, unknown>;
+        const fields = ["wpm", "rawWpm", "accuracy", "correct", "incorrect", "extra", "missed", "mistakes", "completion", "targetChars", "typedChars", "durationMs"] as const;
+        if (typeof saved.runId !== "string" || typeof saved.title !== "string" || fields.some((field) => typeof saved[field] !== "number")) {
+          throw new Error("typing_saved_result_invalid");
+        }
+        return Object.fromEntries([
+          ...fields.map((field) => [field, saved[field]]),
+          ["runId", saved.runId], ["title", saved.title],
+          ["consistency", saved.consistency ?? null], ["presetSeconds", saved.presetSeconds ?? null],
+        ]) as TypingMetrics & { runId: string; title: string; presetSeconds: TypingPreset | null };
+      }
+      // Drizzle insert(table) emits DEFAULT for every mapped column, even when
+      // omitted in values. Explicit legacy columns keep pre-0040 Preview valid.
+      const inserted = await tx.execute(sql`
+        insert into typing_runs (user_id, target_chars, typed_chars, duration_ms, wpm, accuracy)
+        values (${userId}, ${metrics.targetChars}, ${metrics.typedChars}, ${metrics.durationMs}, ${metrics.wpm.toFixed(1)}, ${metrics.accuracy.toFixed(1)})
+        returning id
+      `);
+      const run = inserted.rows[0] as { id: string } | undefined;
       if (!run) throw new Error("typing_run_insert_failed");
 
       await tx.insert(activityEvents).values({
@@ -434,18 +436,10 @@ export async function finishPreparedTypingRun(
         },
       });
 
-      return run.id;
+      return { ...metrics, runId: run.id, presetSeconds: preset === 0 ? null : preset, title: text.title };
     });
+    return { ok: true, result };
 
-    return {
-      ok: true,
-      result: {
-        ...metrics,
-        runId,
-        presetSeconds: preset === 0 ? null : preset,
-        title: text.title,
-      },
-    };
   } catch (error) {
     console.error("[writing-typing] failed to persist verified run", error);
     return { ok: false, code: "conflict" };

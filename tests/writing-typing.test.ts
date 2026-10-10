@@ -232,11 +232,9 @@ test("TY7 client uses uploaded ready-code one-line window with no word-level dis
   assert.match(source, /\/api\/writing\/typing\/prepare/);
   assert.match(source, /\/api\/writing\/typing\/start/);
   assert.match(source, /\/api\/writing\/typing\/finish/);
-  assert.match(source, /windowRows\(activeLine\)/);
-  assert.match(source, /activeLine === prevRow\.current \+ 1/);
-  assert.match(source, /transform = "translateY\(0\)"/);
-  assert.doesNotMatch(source, /typing-word-hide|typing-word-show|fraction|crossed/);
-  assert.match(css, /\.typing-stack \{[\s\S]*translateY\(calc\(var\(--typing-line-height\) \* -1\)\)/);
+  assert.match(source, /const topLine = Math.max\(0, activeLine - 1\)/);
+  assert.match(source, /ranges.map\(\(line, row\)/);
+  assert.match(css, /transition: transform 120ms ease-out/);
   assert.match(css, /\.typing-row-clear \{[\s\S]*opacity: 1/);
   assert.match(css, /\.typing-row-dim,[\s\S]*opacity: \.5/);
   assert.match(source, /ResizeObserver/);
@@ -382,4 +380,44 @@ test("TY9 legacy model-text history still records beside new typing-text history
   } finally {
     await t.close();
   }
+});
+
+test("finish replay after 50 later events returns the original metrics, including altered replay input", async () => {
+  const { t, db, userId } = await setup();
+  try {
+    const base = 1_800_000_100_000;
+    const prepared = (await prepareTypingRun(userId, { preset: 0 }, { database: db, now: () => base }))!;
+    const runToken = (await startPreparedTypingRun(userId, prepared.token, () => base))!;
+    const first = await finishPreparedTypingRun(userId, {runToken, typedWords: [prepared.text.words[0]!, ""], samples: []}, {database: db, now: () => base + 10_000});
+    assert.ok(first.ok);
+    await t.db.insert(activityEvents).values(Array.from({length: 51}, () => ({userId, type: "TYPING_RUN_COMPLETED", payload: {runTokenId: "later"}})));
+    const replay = await finishPreparedTypingRun(userId, {runToken, typedWords: ["changed", ""], samples: []}, {database: db, now: () => base + 20_000});
+    assert.deepEqual(replay, first);
+    const [row] = await t.query<{n:number}>('select count(*)::int as n from typing_runs');
+    assert.equal(row!.n, 1);
+  } finally { await t.close(); }
+});
+
+test("historical accuracy is verified, persisted and replayed without losing corrected errors", async () => {
+  const { t, db, userId } = await setup();
+  try {
+    const base = 1_800_000_200_000;
+    const prepared = (await prepareTypingRun(userId, {preset: 0}, {database: db, now: () => base}))!;
+    const runToken = (await startPreparedTypingRun(userId, prepared.token, () => base))!;
+    const word = prepared.text.words[0]!;
+    const keys = ["~", "\b", ...word, " "];
+    const input = {runToken, typedWords: [word, ""], samples: [], keystrokes: keys};
+    const deps = {database: db, now: () => base + 10_000};
+    const forged = await finishPreparedTypingRun(userId, {...input, keystrokes: [..."wrong "]}, deps);
+    assert.deepEqual(forged, {ok: false, code: "bad_submission"});
+    const first = await finishPreparedTypingRun(userId, input, deps);
+    assert.ok(first.ok, JSON.stringify(first));
+    const expected = Math.round((word.length + 1) / (word.length + 2) * 1000) / 10;
+    assert.equal(first.result.accuracy, expected);
+    assert.equal(first.result.mistakes, 1);
+    const [saved] = await t.query<{accuracy: string}>("select accuracy from typing_runs");
+    assert.equal(Number(saved!.accuracy), expected);
+    const replay = await finishPreparedTypingRun(userId, {...input, keystrokes: [...word, " "]}, deps);
+    assert.deepEqual(replay, first);
+  } finally {await t.close();}
 });

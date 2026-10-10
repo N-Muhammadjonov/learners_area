@@ -1,7 +1,6 @@
 import test from "node:test";
 import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
-// @ts-expect-error plain ESM script
 import { plan, fingerprint, refuseProduction } from "../scripts/preview-qa-migrate.mjs";
 
 const journal = { entries: ["0023_a", "0024_b", "0025_speaking_bank_identity", "0026_google_identity", "0027_live_partner"].map((tag, i) => ({ tag, when: i })) };
@@ -28,7 +27,6 @@ test("identity guard: fingerprint hides the host; production refused", () => {
 });
 
 // ---- identity hardening (audit of fd73eed) ----
-// @ts-expect-error plain ESM script
 const mig = await import("../scripts/preview-qa-migrate.mjs");
 test("0036 approval permits only the exact reviewed SQL; altered widening and destructive SQL remain refused", async () => {
   const { readFileSync } = await import("node:fs");
@@ -111,7 +109,7 @@ test("Connection construction, socket and identity errors produce FAIL receipts 
     return {...client, connect: async()=>{if(stage === "socket") throw error;}, query: async()=>{throw error;}};
    }, writeReceipt: (r: unknown)=>{written=JSON.stringify(r);return null;},
   });
-  assert.equal(result.code,1);assert.equal(result.receipt.result.pass,false);
+  assert.equal(result.code,1);assert.equal(result.receipt.result!.pass,false);
   assert.match(written,/ECONNRESET/);assert.ok(!written.includes("fake"));assert.ok(!written.includes("postgres:\/\/"));
  }
 });
@@ -120,8 +118,8 @@ test("CLI run: a failed verification exits non-zero (receipt pass:false is no lo
   const { client } = fakeClient({ applied: allApplied, verifyN: () => 0 });
   const r = await mig.run({ ...base, mode: "--plan", env: goodEnv, connect: () => client });
   assert.equal(r.code, 1);
-  assert.equal(r.receipt.result.pass, false);
-  assert.match(r.receipt.result.failures.join(), /verification failed: live_partner tables/);
+  assert.equal(r.receipt.result!.pass, false);
+  assert.match(r.receipt.result!.failures.join(), /verification failed: live_partner tables/);
 });
 
 test("CLI run: a query error during verification exits non-zero", async () => {
@@ -143,7 +141,7 @@ test("CLI run: server identity mismatch refuses before any plan or migration", a
   const { client, queries } = fakeClient({ applied: allApplied, verifyN: healthy });
   const r = await mig.run({ ...base, mode: "--apply", env: { ...goodEnv, PREVIEW_QA_SERVER_IDENTITY: "0".repeat(64), PREVIEW_QA_BACKUP_REF: "snap-1" }, connect: () => client, runMigrations: async () => { migrated = true; } });
   assert.equal(r.code, 1);
-  assert.match(r.receipt.refused, /server identity does not match/);
+  assert.match(r.receipt.refused!, /server identity does not match/);
   assert.equal(migrated, false);
   assert.ok(!queries.some((q) => q.includes("__drizzle_migrations order by")));
 });
@@ -151,10 +149,10 @@ test("CLI run: server identity mismatch refuses before any plan or migration", a
 test("CLI run: apply that leaves pending migrations is a failure; apply needs a backup ref", async () => {
   const two = [h("0023_a"), h("0024_b")];
   const noBackup = await mig.run({ ...base, mode: "--apply", env: goodEnv, connect: () => fakeClient({ applied: two, verifyN: healthy }).client });
-  assert.equal(noBackup.code, 1); assert.match(noBackup.receipt.refused, /PREVIEW_QA_BACKUP_REF/);
+  assert.equal(noBackup.code, 1); assert.match(noBackup.receipt.refused!, /PREVIEW_QA_BACKUP_REF/);
   const stuck = await mig.run({ ...base, mode: "--apply", env: { ...goodEnv, PREVIEW_QA_BACKUP_REF: "snap-1" }, connect: () => fakeClient({ applied: two, verifyN: healthy }).client });
   assert.equal(stuck.code, 1);
-  assert.match(stuck.receipt.result.failures.join(), /still pending 0025_speaking_bank_identity/);
+  assert.match(stuck.receipt.result!.failures.join(), /still pending 0025_speaking_bank_identity/);
 });
 
 test("CLI run: receipts and logs never contain the password or full URL", async () => {
@@ -174,7 +172,7 @@ test("CLI process: a refused run exits non-zero without connecting", async () =>
 test("CLI run: --plan with pending migrations reports them and skips (not fakes) verification", async () => {
   const r = await mig.run({ ...base, mode: "--plan", env: goodEnv, connect: () => fakeClient({ applied: [h("0023_a"), h("0024_b")], verifyN: () => 0 }).client });
   assert.equal(r.code, 0);
-  assert.match(r.receipt.verifySkipped, /pending migrations not applied yet: 0025/);
+  assert.match(r.receipt.verifySkipped!, /pending migrations not applied yet: 0025/);
   assert.equal(r.receipt.verify, undefined);
 });
 

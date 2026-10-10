@@ -11,8 +11,9 @@ import {
   useState,
 } from "react";
 import type { Dictionary } from "@/lib/i18n/en";
-import { groupTypingLines, windowRows, type LineRange } from "@/lib/services/writing/typing-lines";
+import { groupTypingLines, type LineRange } from "@/lib/services/writing/typing-lines";
 import type { TypingPreset } from "@/lib/services/writing/typing";
+import { applyTypingKeystroke, BACKSPACE, DELETE_WORD } from "@/lib/services/writing/typing-keystrokes";
 import { formatDate } from "@/lib/time";
 
 type Preset = 0 | TypingPreset;
@@ -54,7 +55,7 @@ type RunResult = {
   completion: number;
   durationMs: number;
 };
-type Graph = { chars: number[]; errors: number[] };
+type Graph = { chars: number[]; correct: number[]; errors: number[] };
 
 const PRESETS: Array<{ value: Preset; label: string; key: "s30" | "m1" | "m2" | "m3" | "presetFull" }> = [
   { value: 30, label: "30s", key: "s30" },
@@ -162,14 +163,16 @@ export function TypingTrainer({
   const pausedTotalMs = useRef(0);
   const timer = useRef<number | null>(null);
   const samples = useRef<number[]>([]);
+  const keystrokes = useRef<string[]>([]);
+  const correctSamples = useRef<number[]>([]);
   const errorSeconds = useRef<number[]>([]);
   const finishing = useRef(false);
+  const pendingFinish = useRef<{ runToken: string; typedWords: string[]; samples: number[]; keystrokes: string[] } | null>(null);
   const loadSequence = useRef(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
   const measureRef = useRef<HTMLDivElement>(null);
   const stackRef = useRef<HTMLDivElement>(null);
-  const prevRow = useRef(0);
 
   const setPhaseSafe = useCallback((next: Phase) => {
     phaseRef.current = next;
@@ -193,6 +196,12 @@ export function TypingTrainer({
     // Backspace may reduce the visible text length. Samples represent typing
     // activity over time, so never let a later sample move backwards.
     samples.current.push(Math.max(previous, current));
+    const target = textRef.current?.words ?? [];
+    let correct = 0;
+    typed.current.committed.forEach((word, index) => { if (word === target[index]) correct += word.length + 1; });
+    const currentTarget = target[typed.current.committed.length] ?? "";
+    for (let index = 0; index < typed.current.buffer.length && typed.current.buffer[index] === currentTarget[index]; index += 1) correct += 1;
+    correctSamples.current.push(correct);
   }, [charsTyped]);
   const elapsedSeconds = useCallback(() => {
     if (!startedAt.current) return 0;
@@ -208,6 +217,7 @@ export function TypingTrainer({
     const seq = ++loadSequence.current;
     stopTimer();
     finishing.current = false;
+    pendingFinish.current = null;
     runPromise.current = null;
     runTokenRef.current = "";
     pausedAtPerf.current = null;
@@ -216,8 +226,9 @@ export function TypingTrainer({
     setPauseBusy(false);
     typed.current = { committed: [], buffer: "" };
     samples.current = [];
+    keystrokes.current = [];
+    correctSamples.current = [];
     errorSeconds.current = [];
-    prevRow.current = 0;
     setResult(null);
     setGraph(null);
     setRemaining(nextPreset === 0 ? 0 : nextPreset);
@@ -313,7 +324,7 @@ export function TypingTrainer({
     const graphSamples = samples.current
       .slice(0, Math.max(1, Math.ceil(scoringSeconds)))
       .map((value) => Math.min(value, finalChars));
-    setGraph({ chars: graphSamples, errors: [...errorSeconds.current] });
+    setGraph({ chars: graphSamples, correct: correctSamples.current.slice(0, graphSamples.length), errors: [...errorSeconds.current] });
 
     const initialRunToken = await runPromise.current;
     const runToken = runTokenRef.current || initialRunToken;
@@ -325,7 +336,9 @@ export function TypingTrainer({
       runToken,
       typedWords: [...typed.current.committed, typed.current.buffer],
       samples: graphSamples,
+      keystrokes: [...keystrokes.current],
     };
+    pendingFinish.current = payload;
     let response = await postJson<{
       run: RunResult;
       summary?: Summary;
@@ -344,11 +357,25 @@ export function TypingTrainer({
       return;
     }
 
+    pendingFinish.current = null;
     setResult(response.data.run);
     if (response.data.summary) setSummary(response.data.summary);
     if (response.data.history) setHistory(response.data.history);
     setPhaseSafe("result");
   }, [charsTyped, elapsedSeconds, pushSample, setPhaseSafe, stopTimer]);
+
+  const retrySave = async () => {
+    const payload = pendingFinish.current;
+    if (!payload || phaseRef.current !== "error") return;
+    setPhaseSafe("saving");
+    const response = await postJson<{ run: RunResult; summary?: Summary; history?: HistoryRow[] }>("/api/writing/typing/finish", payload);
+    if (!response.ok) { setPhaseSafe("error"); return; }
+    pendingFinish.current = null;
+    setResult(response.data.run);
+    if (response.data.summary) setSummary(response.data.summary);
+    if (response.data.history) setHistory(response.data.history);
+    setPhaseSafe("result");
+  };
 
   const tick = useCallback(() => {
     if (!startedAt.current || pausedAtPerf.current !== null) return;
@@ -394,30 +421,22 @@ export function TypingTrainer({
     if (!currentText || !["ready", "running"].includes(phaseRef.current) || pausedAtPerf.current !== null) return;
 
     const nextValue = event.target.value;
+    // Reconcile mobile edits/replacements as well as ordinary appended input.
+    // Record only the changed suffix, preserving mistakes removed by deletion.
     const previous = current.buffer;
-    if (nextValue.length <= previous.length || !nextValue.startsWith(previous)) {
-      current.buffer = nextValue.replace(/ /g, "").slice(0, 80);
-      rerender();
-      return;
+    let shared = 0;
+    while (shared < previous.length && shared < nextValue.length && previous[shared] === nextValue[shared]) shared++;
+    for (let index = previous.length; index > shared; index--) {
+      applyTypingKeystroke(currentText.words, current, BACKSPACE);
+      keystrokes.current.push(BACKSPACE);
     }
-
-    for (const character of nextValue.slice(previous.length)) {
+    for (const character of nextValue.slice(shared)) {
       if (current.committed.length >= currentText.words.length) break;
-      if (character === " ") {
-        if (!current.buffer) continue;
-        startIfNeeded();
-        current.committed.push(current.buffer);
-        current.buffer = "";
-      } else {
-        startIfNeeded();
-        const target = currentText.words[current.committed.length] ?? "";
-        if (current.buffer.length < target.length + 20) {
-          if (target[current.buffer.length] !== character) {
-            errorSeconds.current.push(Math.max(0, Math.floor(elapsedSeconds())));
-          }
-          current.buffer += character;
-        }
-      }
+      const scored = applyTypingKeystroke(currentText.words, current, character);
+      if (scored === null) continue;
+      startIfNeeded();
+      keystrokes.current.push(character);
+      if (!scored) errorSeconds.current.push(Math.max(0, Math.floor(elapsedSeconds())));
     }
 
     rerender();
@@ -435,19 +454,13 @@ export function TypingTrainer({
     }
     const currentText = textRef.current;
     const current = typed.current;
-    if (
-      event.key === "Backspace" &&
-      current.buffer === "" &&
-      current.committed.length > 0 &&
-      currentText &&
-      phaseRef.current === "running"
-    ) {
-      const index = current.committed.length - 1;
-      const previousWord = current.committed[index]!;
-      if (previousWord !== currentText.words[index]) {
-        current.buffer = current.committed.pop() ?? "";
-        rerender();
-      }
+    if (event.key === "Backspace" && currentText && phaseRef.current === "running") {
+      // Exactly one deletion per key: prevent a second native input mutation.
+      event.preventDefault();
+      const key = event.ctrlKey || event.metaKey ? DELETE_WORD : BACKSPACE;
+      applyTypingKeystroke(currentText.words, current, key);
+      keystrokes.current.push(key);
+      rerender();
     }
   };
 
@@ -456,21 +469,9 @@ export function TypingTrainer({
   let activeLine = ranges.findIndex((line) => wordIndex >= line.start && wordIndex < line.end);
   if (activeLine < 0) activeLine = Math.max(0, ranges.length - 1);
 
-  // Uploaded ready-code behavior:
-  // render one clipped previous row, then exactly 3 visible rows:
-  // active = clear, next = clear, third = dim; one lower row is only a buffer.
-  useLayoutEffect(() => {
-    const element = stackRef.current;
-    const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-    if (element && activeLine === prevRow.current + 1 && !reduced) {
-      element.style.transition = "none";
-      element.style.transform = "translateY(0)";
-      void element.offsetHeight;
-      element.style.transition = "transform 200ms cubic-bezier(.2,.7,.2,1)";
-      element.style.transform = "";
-    }
-    prevRow.current = activeLine;
-  }, [activeLine]);
+  // The reference keeps the active line in the middle after the first line.
+  // Preserve stable row nodes and move the whole text by exactly one line.
+  const topLine = Math.max(0, activeLine - 1);
 
   const renderWord = (index: number) => {
     const target = words[index] ?? "";
@@ -633,11 +634,10 @@ export function TypingTrainer({
               {measureChildren}
             </div>
             <div className="typing-stage typing-font" aria-hidden="true">
-              <div className="typing-stack" ref={stackRef}>
-                {windowRows(activeLine).map(({ row, role }) => {
-                  const line = ranges[row];
+              <div className="typing-stack" ref={stackRef} style={{ transform: `translateY(calc(var(--typing-line-height) * -${topLine}))` }}>
+                {ranges.map((line, row) => {
                   return (
-                    <div key={row} className={`typing-row typing-row-${role}`}>
+                    <div key={row} className="typing-row" data-typing-line={row}>
                       {line && words.slice(line.start, line.end).map((_, offset) =>
                         renderWord(line.start + offset)
                       )}
@@ -692,6 +692,7 @@ export function TypingTrainer({
       ) : (
         <div className="typing-error-panel" role="alert">
           <p>{t.error}</p>
+          {pendingFinish.current && <button type="button" className="btn-primary" onClick={() => void retrySave()}>{dict.errorPage.retry}</button>}
           <div className="typing-result-actions">
             <button type="button" className="typing-icon-button typing-icon-primary" aria-label={t.repeat} title={t.repeat} onClick={repeat}>
               <IconRepeat />
@@ -731,7 +732,8 @@ function ResultView({
     const windowSize = Math.min(3, index + 1);
     return ((value - (chars[index - windowSize] ?? 0)) / windowSize) * 12;
   });
-  const ceiling = Math.max(20, Math.ceil(Math.max(0, ...raw) / 20) * 20);
+  const wpm = graph.correct.map((value, index) => value * 12 / (index + 1));
+  const ceiling = Math.max(20, Math.ceil(Math.max(0, ...raw, ...wpm) / 20) * 20);
   const width = 600;
   const height = 200;
   const left = 38;
@@ -758,9 +760,11 @@ function ResultView({
           {count > 1 && (
             <polyline
               fill="none"
+              className="typing-raw-line"
               points={raw.map((value, index) => `${x(index)},${y(value)}`).join(" ")}
             />
           )}
+          {count > 1 && <polyline fill="none" points={wpm.map((value, index) => `${x(index)},${y(value)}`).join(" ")} />}
           {graph.errors.map((second, index) => {
             const point = Math.max(0, Math.min(count - 1, second));
             if (count === 0) return null;
@@ -769,9 +773,11 @@ function ResultView({
             return <path key={index} className="typing-error-marker" d={`M${px - 4} ${py - 4}l8 8m0-8l-8 8`} />;
           })}
         </svg>
+        <div className="typing-chart-legend"><span>{t.wpm}</span><span>{t.rawWpm}</span></div>
       </div>
 
       <div className="typing-result-stats">
+        <div><span>{t.duration}</span><strong>{result.presetSeconds === null ? "Full" : `${result.presetSeconds}s`}</strong></div>
         <div><span>{t.rawWpm}</span><strong>{Math.round(result.rawWpm)}</strong></div>
         <div>
           <span>{t.characters} ({t.correct}/{t.incorrect}/{t.extra}/{t.missed})</span>

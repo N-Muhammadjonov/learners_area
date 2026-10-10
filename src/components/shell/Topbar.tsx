@@ -47,7 +47,7 @@ export function Topbar({
   return (
     <header
       data-shell-topbar
-      className="grid shrink-0 grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-2 border-b border-ink-100 bg-paper-raised px-3 py-2 md:px-5 lg:flex lg:gap-3 lg:py-0"
+      className="relative z-50 grid shrink-0 grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-2 border-b border-ink-100 bg-paper-raised px-3 py-2 md:px-5 lg:flex lg:gap-3 lg:py-0"
       style={{ minHeight: "var(--shell-topbar-h)" }}
     >
       <div className="flex min-w-0 flex-1 items-center gap-2">
