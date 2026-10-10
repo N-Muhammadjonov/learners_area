@@ -15,15 +15,28 @@ Status labels used: `IMPLEMENTED_AND_VERIFIED` · `IMPLEMENTED_NOT_RUNTIME_VERIF
 | --- | --- |
 | Branch | `arena/1052c0fd-learners-area` |
 | Starting SHA (session base) | `31e10bd91667c6f8940e16834d7f7bc3e011b1f5` |
-| Final SHA (local HEAD) | `94af2af13340712a888c89572b4dadfe3f6c9f0b` |
-| Remote SHA (`origin`) | `94af2af13340712a888c89572b4dadfe3f6c9f0b` |
-| Tree SHA | `c0d91b1a41c965ad1d66b6ce4071971f1aa186b1` |
+| Final SHA (local HEAD) | `f22574b2b847e5c54f004e427aefe81cf88b2c87` |
+| Remote SHA (`origin`) | `f22574b2b847e5c54f004e427aefe81cf88b2c87` |
+| Tree SHA | `5b74877ab35cc5dadbbca0f91203d74579bb2a66` |
 | Local == remote | yes, verified by `git rev-parse` on both after every push |
 | Worktree | clean — 0 modified, 0 untracked |
-| Commits this session | 266 on top of the base |
+| Commits this session | 273 on top of the base |
 | Migrations on disk | 53 (`drizzle/meta/_journal.json`), tip `drizzle/0052` |
 | Migrations applied to QA database | 53 of 53, verified by counting `drizzle.__drizzle_migrations` |
-| Build identity of the last verified build | `uLUE4BHcrTUUgZYQHOJ3V` |
+| Build identity of the last verified build | `FwLszMeiBqBxnBZn4q_kP` |
+| Mutant build used to kill the reading-seal mutation test | `k_fNBk6tzzGtgxjjcbS23` (source restored byte-exact afterwards) |
+
+Commits added since the previous revision of this dossier, each pushed normally and verified with
+`git rev-parse` on both local and remote:
+
+| SHA | package |
+| --- | --- |
+| `eb0180c` | §4 real-browser Academic Reading journey, PostgreSQL evidence per step |
+| `8860d08` | §11 mutation test that kills the reading attempt seal |
+| `f6c9b60` | §5 Listening journey plus the `Score: null/null` fix (EN and UZ) |
+| `492da8b` | §15 verifier-quality fix: the listening reachability survey could report a false PASS |
+| `0129a5b` | §7 security fix: a teacher could rewrite any other teacher's live class, plus the attendance N+1 |
+| `f22574b` | §10 measurement: both learner-facing speaking prompt reads are unbounded at 10 000 prompts |
 
 No pushed commit was amended or rewritten at any point in this round. Every fix to an earlier
 commit message was made by a new ordinary commit followed by a normal push and a remote-HEAD
@@ -47,7 +60,14 @@ not Preview Comments (which are not deployment evidence).
 | `c23fc08d1bf25b2d76dd045b6fe8d8d16d63d3b4` | success |
 | `5da07dcba6bb21b389e5aa3160c89b3e4ca6e384` | success |
 | `b4c4be6b16b9a3843c93c3a130b54a24f403f1eb` | success |
-| `94af2af13340712a888c89572b4dadfe3f6c9f0b` (HEAD) | **pending** at the time of writing |
+| `94af2af13340712a888c89572b4dadfe3f6c9f0b` | success (was **pending** when first queried) |
+| `9e14b1bd6bf9d58776a0eb545eaec0d9ecc62684` | success |
+| `eb0180ceb0537db125efa6c81556a0774475ab7f` | success |
+| `8860d0825986c8cff8185a57899b3f4b81be377c` | success |
+| `f6c9b60ea2242b365ceaa1fa424d642e055bf71f` | success |
+| `492da8bb7cafbfb3349f74292901bd6328bdf3e0` | success |
+| `0129a5b55c82d5fcd104da0595e85f479a989b47` | success |
+| `f22574b2b847e5c54f004e427aefe81cf88b2c87` (HEAD) | success |
 
 Vercel `success` does not authorise cutover, and none of the above is offered as cutover evidence.
 
