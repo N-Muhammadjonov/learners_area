@@ -55,6 +55,28 @@ const { assertMutableDatabase: __assertMutableDb } = await import("./lib/fixture
 __assertMutableDb(DATABASE_URL);
 
 const db = new pg.Client({ connectionString: DATABASE_URL });
+
+/*
+ * QA SAFETY (section 03.4). Measured residue: +2 activity_events per run. The probe
+ * already cleans up the listening rows it creates, but the activity the PRODUCT
+ * records in response carries no fixture tag, so nothing removed it. Differential
+ * sweep: snapshot before the first mutation, delete exactly what appeared, verify.
+ */
+const { createRowSweeper, installSweepHandlers } = await import("./lib/fixture-safety.mjs");
+// A SEPARATE connection: the probe connects `db` itself further down, and a pg Client
+// cannot be connected twice.
+const sweepClient = new pg.Client({ connectionString: DATABASE_URL });
+await sweepClient.connect();
+const __sweeper = createRowSweeper({
+  client: sweepClient,
+  probe: "verify-listening-general",
+  tables: ["activity_events"],
+});
+const finalSweep = installSweepHandlers(__sweeper, {
+  probe: "verify-listening-general",
+  onDone: () => sweepClient.end().catch(() => {}),
+});
+await __sweeper.capture();
 await db.connect();
 const q = async (sql, args = []) => (await db.query(sql, args)).rows;
 
@@ -329,7 +351,9 @@ try {
 }
 
 console.log(`\n${failures.length === 0 ? "PASS" : "FAIL"} — ${pass}/${pass + failures.length} checks`);
+await finalSweep("end of run");
 if (failures.length) {
   console.log(`failed: ${failures.join(", ")}`);
   process.exit(1);
 }
+process.exit(process.exitCode === 1 ? 1 : 0);

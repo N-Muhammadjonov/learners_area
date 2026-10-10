@@ -154,3 +154,101 @@ test("withFixtures: cleanup runs after a PARTIAL setup failure, leaving no resid
   );
   assert.equal(store.size, 0, "the half-created fixture was left behind");
 });
+
+/*
+ * createRowSweeper / createRowBorrower.
+ *
+ * A fake client, deliberately: the point is the DECISION logic — which ids are deleted
+ * and which are not — and that is exactly what a real database would hide behind a
+ * passing run. The real behaviour is measured separately by
+ * scripts/audit-probe-residue.mjs, which counts rows around an actual probe.
+ */
+function fakeClient(tables: Record<string, string[]>) {
+  const rowsIn = (table: string) => tables[table] ?? [];
+  const queries: string[] = [];
+  return {
+    queries,
+    tables,
+    async query(sql: string, params?: unknown[]) {
+      queries.push(sql.replace(/\s+/g, " ").trim());
+      const select = /select id from (\w+)/.exec(sql);
+      if (select) return { rows: rowsIn(select[1]!).map((id: string) => ({ id })) };
+      const del = /delete from (\w+)/.exec(sql);
+      if (del) {
+        const ids = new Set((params?.[0] as string[]) ?? []);
+        tables[del[1]!] = rowsIn(del[1]!).filter((id: string) => !ids.has(id));
+        return { rows: [] };
+      }
+      const selectStar = /select \* from (\w+)/.exec(sql);
+      if (selectStar) return { rows: [] };
+      return { rows: [] };
+    },
+  };
+}
+
+test("the sweeper deletes only the rows that appeared during the run", async () => {
+  const { createRowSweeper } = await mod();
+  const client = fakeClient({ widgets: ["seed-1", "seed-2"] });
+  const sweeper = createRowSweeper({ client: client as never, tables: ["widgets"], probe: "t" });
+  await sweeper.capture();
+
+  (client.tables.widgets ?? []).push("fixture-1", "fixture-2");
+  const { removed, residue } = await sweeper.sweep();
+
+  assert.deepEqual(removed, ["widgets: 2"]);
+  assert.deepEqual(residue, [], "and it verifies they are gone");
+  assert.deepEqual(client.tables.widgets ?? [], ["seed-1", "seed-2"], "pre-existing rows are untouched");
+});
+
+test("the sweeper reports residue when a delete does not take effect", async () => {
+  const { createRowSweeper } = await mod();
+  const client = fakeClient({ widgets: ["seed-1"] });
+  const sweeper = createRowSweeper({ client: client as never, tables: ["widgets"], probe: "t" });
+  await sweeper.capture();
+  (client.tables.widgets ?? []).push("stubborn");
+  // A delete that silently does nothing is the realistic failure: a trigger, an FK, a
+  // permission. The sweep must notice rather than report success.
+  client.query = (async (sql: string) => {
+    if (/^delete/i.test(sql.trim())) return { rows: [] };
+    if (/select id from (\w+)/.test(sql)) {
+      return { rows: (client.tables.widgets ?? []).map((id) => ({ id })) };
+    }
+    return { rows: [] };
+  }) as never;
+
+  const { removed, residue } = await sweeper.sweep();
+  assert.deepEqual(removed, ["widgets: 1"]);
+  assert.deepEqual(residue, ["widgets: 1"], "an unverified sweep proves nothing");
+});
+
+test("the sweeper refuses to run without a baseline", async () => {
+  const { createRowSweeper } = await mod();
+  const client = fakeClient({ widgets: ["seed-1"] });
+  const sweeper = createRowSweeper({ client: client as never, tables: ["widgets"], probe: "t" });
+  // Without capture() every existing row looks new, so a sweep would delete the seed.
+  await assert.rejects(() => sweeper.sweep(), /without capture/);
+  assert.deepEqual(client.tables.widgets ?? [], ["seed-1"]);
+});
+
+test("a borrower gives back the rows a probe clears, with their original ids", async () => {
+  const { createRowBorrower } = await mod();
+  const held = [{ id: "seed-1", state: "completed" }];
+  const store: Record<string, unknown>[] = [...held];
+  const client = {
+    async query(sql: string, params?: unknown[]) {
+      if (/^select \* from/i.test(sql.trim())) return { rows: held };
+      if (/^insert into/i.test(sql.trim())) {
+        store.push({ id: (params as unknown[])[0], state: (params as unknown[])[1] });
+        return { rows: [] };
+      }
+      return { rows: [] };
+    },
+  };
+  const borrower = createRowBorrower({ client: client as never, table: "lesson_progress", probe: "t" });
+
+  assert.equal(await borrower.borrow("user_id = $1", ["u"]), 1);
+  store.length = 0; // the probe deletes them
+  assert.equal(await borrower.restore(), 1);
+  assert.deepEqual(store, [{ id: "seed-1", state: "completed" }]);
+  assert.equal(await borrower.restore(), 0, "restoring twice is a no-op, not a duplicate");
+});

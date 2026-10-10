@@ -31,6 +31,41 @@ const ACCOUNTS = {
 
 const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
 
+/*
+ * QA SAFETY (section 03.4). This probe mutates and, until now, never cleaned up.
+ * It drives real grammar and vocabulary activity so the coach has something to react
+ * to, and the weaknesses, evaluations and attempts it generates were all left behind —
+ * which also means the coach's own input data grew with every run.
+ *
+ * Measured, not assumed: scripts/audit-probe-residue.mjs counts every row in every
+ * table before and after a run. Cleanup is differential — snapshot the owned tables
+ * before the first mutation, delete exactly the ids that appeared, then re-query to
+ * prove they are gone. A pre-existing row is never touched.
+ */
+const SWEEP_DB_URL = process.env.DATABASE_URL;
+const { assertMutableDatabase, createRowSweeper, installSweepHandlers } =
+  await import("./lib/fixture-safety.mjs");
+let finalSweep = async () => {};
+if (SWEEP_DB_URL) {
+  assertMutableDatabase(SWEEP_DB_URL, { probe: "verify-coach" });
+  const sweepDb = new (await import("pg")).default.Client({ connectionString: SWEEP_DB_URL });
+  await sweepDb.connect();
+  const sweeper = createRowSweeper({
+    client: sweepDb,
+    probe: "verify-coach",
+    tables: ["vocab_point_events", "vocabulary_usages", "coach_weaknesses", "evaluations", "grammar_attempts", "activity_events"],
+  });
+  finalSweep = installSweepHandlers(sweeper, {
+    probe: "verify-coach",
+    onDone: () => sweepDb.end().catch(() => {}),
+  });
+  await sweeper.capture();
+} else {
+  // Honest about the gap rather than silently skipping it: without a connection this
+  // run WILL leave rows behind, and the operator should know before it starts.
+  console.warn("  !! DATABASE_URL is not set — fixtures created by this run cannot be cleaned up");
+}
+
 let passed = 0;
 const failures = [];
 
@@ -514,4 +549,5 @@ if (failures.length > 0) {
   for (const f of failures) console.log(`  - ${f.name}: ${f.err.message}`);
   process.exitCode = 1;
 }
+await finalSweep("end of run");
 await pool.end();

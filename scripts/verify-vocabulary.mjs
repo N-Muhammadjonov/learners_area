@@ -85,6 +85,52 @@ async function login(email, password) {
   return { cookie: res.setCookie, status: res.status };
 }
 
+/*
+ * QA SAFETY (section 03.4). This probe registers REAL accounts and authors REAL
+ * catalogue entries. It tagged its fixtures uniquely but never removed them, so every
+ * run left two users, a folder and a dozen lexemes behind permanently: measured at
+ * +2 users, +14 lexemes, +13 lexical_units, +21 lexical_unit_forms, +14 user_vocabulary
+ * and more per run. That is not only untidy — accumulated accounts and catalogue rows
+ * silently change what later probes count, and an account that outlives its run is
+ * exactly the kind of residue a re-seed is supposed to make impossible.
+ *
+ * Same pattern as verify-uploads: the rows are created over HTTP, so there is no single
+ * insertion point to tag. Snapshot the owned tables BEFORE the first mutation, then
+ * delete exactly the ids that appeared and re-query to PROVE nothing is left. An id
+ * absent from the baseline and present at the end was created by this run.
+ */
+const { default: sweepPg } = await import("pg");
+const { assertMutableDatabase, createRowSweeper, installSweepHandlers } =
+  await import("./lib/fixture-safety.mjs");
+
+// Fails closed: a probe that creates and deletes accounts must never be pointed at a
+// database it does not own.
+assertMutableDatabase(DATABASE_URL, { probe: "verify-vocabulary" });
+
+const sweepDb = new sweepPg.Client({ connectionString: DATABASE_URL });
+await sweepDb.connect();
+
+/*
+ * Children before parents. Audit rows are swept too: in this disposable database the
+ * audit_log and activity_events entries describing a fixture action ARE fixture data,
+ * and the guard above guarantees this can never run against a real deployment.
+ */
+const sweeper = createRowSweeper({
+  client: sweepDb,
+  probe: "verify-vocabulary",
+  tables: [
+    "vocab_point_events", "vocabulary_usages", "evaluations", "notifications",
+    "access_requests", "activity_events", "audit_log", "user_vocabulary",
+    "vocab_folders", "lexical_unit_forms", "lexemes", "lexical_units", "users",
+  ],
+});
+const finalSweep = installSweepHandlers(sweeper, {
+  probe: "verify-vocabulary",
+  onDone: () => sweepDb.end().catch(() => {}),
+});
+
+await sweeper.capture();
+
 const unique = `vocab.qa.${Date.now().toString(36)}`;
 const studentEmail = `${unique}@learnersarea.uz`;
 const password = "Student12345!";
@@ -757,4 +803,9 @@ if (failed > 0) {
   console.log("# failures:");
   for (const failure of failures) console.log(`  - ${failure}`);
 }
-process.exit(failed > 0 ? 1 : 0);
+
+// process.exit() does NOT run beforeExit handlers, so the sweep is awaited here on the
+// normal path. A cleanup failure or any residue fails the run even if every assertion
+// passed: a probe that cannot clean up after itself has not proven it is rerunnable.
+await finalSweep("end of run");
+process.exit(failed > 0 || process.exitCode === 1 ? 1 : 0);

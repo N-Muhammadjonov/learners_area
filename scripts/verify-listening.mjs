@@ -8,6 +8,49 @@
  */
 const BASE = (process.env.BASE_URL || "http://127.0.0.1:3000");
 
+/*
+ * QA SAFETY (section 03.4). This probe mutates and did not clean up after itself.
+ * It completes a real listening attempt, which then counts towards that student's history.
+ *
+ * Measured by scripts/audit-probe-residue.mjs, which counts every row in every table
+ * around a run. Cleanup is differential: snapshot the owned tables before the first
+ * mutation, delete exactly the ids that appeared, then re-query to prove they are
+ * gone. A row that existed before the run is never touched.
+ */
+const SWEEP_DB_URL = process.env.DATABASE_URL;
+const { assertMutableDatabase, createRowBorrower, createRowSweeper, installSweepHandlers } =
+  await import("./lib/fixture-safety.mjs");
+let finalSweep = async () => {};
+let sessionBorrower = null;
+if (SWEEP_DB_URL) {
+  assertMutableDatabase(SWEEP_DB_URL, { probe: "verify-listening" });
+  const sweepClient = new (await import("pg")).default.Client({ connectionString: SWEEP_DB_URL });
+  await sweepClient.connect();
+  const sweeper = createRowSweeper({
+    client: sweepClient,
+    probe: "verify-listening",
+    tables: ["listening_answers", "listening_attempts", "listening_mcq_sessions", "activity_events"],
+  });
+  // The probe clears this test's MCQ sessions as setup. They are pre-existing rows, so
+  // they are borrowed and given back — measured as listening_mcq_sessions -1 per run
+  // before this, i.e. the probe was quietly destroying state it did not create.
+  sessionBorrower = createRowBorrower({
+    client: sweepClient,
+    table: "listening_mcq_sessions",
+    probe: "verify-listening",
+  });
+  finalSweep = installSweepHandlers(sweeper, {
+    probe: "verify-listening",
+    onDone: async () => {
+      await sessionBorrower.restore();
+      await sweepClient.end().catch(() => {});
+    },
+  });
+  await sweeper.capture();
+} else {
+  console.warn("  !! DATABASE_URL is not set — fixtures created by this run cannot be cleaned up");
+}
+
 let pass = 0;
 const failures = [];
 function check(name, ok, detail = "") {
@@ -160,6 +203,7 @@ check(
 // --- MCQ Mastery: the options must not exist before the reveal ------------
 // A drill that reached `reasoned` is finished for good, so a re-run has to start
 // from a clean slate; the deletion is test-side setup, not application logic.
+if (sessionBorrower) await sessionBorrower.borrow("test_id = $1", [testId]);
 await db.query("delete from listening_mcq_sessions where test_id = $1", [testId]);
 
 const mcqQuestionId = (revision.text.match(/data-mcq-question="([0-9a-f-]{36})"/) ?? [])[1];
@@ -294,4 +338,7 @@ if (failures.length) {
   console.log("# failures:");
   for (const f of failures) console.log(`  - ${f}`);
 }
-process.exit(failures.length ? 1 : 0);
+
+// process.exit() skips beforeExit, so the sweep is awaited here on the normal path.
+await finalSweep("end of run");
+process.exit(failures.length || process.exitCode === 1 ? 1 : 0);

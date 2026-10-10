@@ -8,6 +8,37 @@
  */
 const BASE = (process.env.BASE_URL || "http://127.0.0.1:3000");
 
+/*
+ * QA SAFETY (section 03.4). This probe mutates and did not clean up after itself.
+ * It submits real grammar attempts, which then count towards that student's history.
+ *
+ * Measured by scripts/audit-probe-residue.mjs, which counts every row in every table
+ * around a run. Cleanup is differential: snapshot the owned tables before the first
+ * mutation, delete exactly the ids that appeared, then re-query to prove they are
+ * gone. A row that existed before the run is never touched.
+ */
+const SWEEP_DB_URL = process.env.DATABASE_URL;
+const { assertMutableDatabase, createRowSweeper, installSweepHandlers } =
+  await import("./lib/fixture-safety.mjs");
+let finalSweep = async () => {};
+if (SWEEP_DB_URL) {
+  assertMutableDatabase(SWEEP_DB_URL, { probe: "verify-grammar" });
+  const sweepClient = new (await import("pg")).default.Client({ connectionString: SWEEP_DB_URL });
+  await sweepClient.connect();
+  const sweeper = createRowSweeper({
+    client: sweepClient,
+    probe: "verify-grammar",
+    tables: ["grammar_attempts", "evaluations", "activity_events"],
+  });
+  finalSweep = installSweepHandlers(sweeper, {
+    probe: "verify-grammar",
+    onDone: () => sweepClient.end().catch(() => {}),
+  });
+  await sweeper.capture();
+} else {
+  console.warn("  !! DATABASE_URL is not set — fixtures created by this run cannot be cleaned up");
+}
+
 let pass = 0;
 const failures = [];
 function check(name, ok, detail = "") {
@@ -203,4 +234,7 @@ if (failures.length) {
   console.log("# failures:");
   for (const f of failures) console.log(`  - ${f}`);
 }
-process.exit(failures.length ? 1 : 0);
+
+// process.exit() skips beforeExit, so the sweep is awaited here on the normal path.
+await finalSweep("end of run");
+process.exit(failures.length || process.exitCode === 1 ? 1 : 0);

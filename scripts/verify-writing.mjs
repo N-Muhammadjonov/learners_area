@@ -8,6 +8,40 @@
  */
 const BASE = (process.env.BASE_URL || "http://127.0.0.1:3000");
 
+/*
+ * QA SAFETY (section 03.4). This probe mutates and, until now, never cleaned up.
+ * It records a real typing run for the demo student, which is part of that student's
+ * visible history and of any later measurement of it.
+ *
+ * Measured, not assumed: scripts/audit-probe-residue.mjs counts every row in every
+ * table before and after a run. Cleanup is differential — snapshot the owned tables
+ * before the first mutation, delete exactly the ids that appeared, then re-query to
+ * prove they are gone. A pre-existing row is never touched.
+ */
+const SWEEP_DB_URL = process.env.DATABASE_URL;
+const { assertMutableDatabase, createRowSweeper, installSweepHandlers } =
+  await import("./lib/fixture-safety.mjs");
+let finalSweep = async () => {};
+if (SWEEP_DB_URL) {
+  assertMutableDatabase(SWEEP_DB_URL, { probe: "verify-writing" });
+  const sweepDb = new (await import("pg")).default.Client({ connectionString: SWEEP_DB_URL });
+  await sweepDb.connect();
+  const sweeper = createRowSweeper({
+    client: sweepDb,
+    probe: "verify-writing",
+    tables: ["typing_runs", "activity_events"],
+  });
+  finalSweep = installSweepHandlers(sweeper, {
+    probe: "verify-writing",
+    onDone: () => sweepDb.end().catch(() => {}),
+  });
+  await sweeper.capture();
+} else {
+  // Honest about the gap rather than silently skipping it: without a connection this
+  // run WILL leave rows behind, and the operator should know before it starts.
+  console.warn("  !! DATABASE_URL is not set — fixtures created by this run cannot be cleaned up");
+}
+
 let pass = 0;
 const failures = [];
 function check(name, ok, detail = "") {
@@ -290,4 +324,7 @@ if (failures.length) {
   console.log("# failures:");
   for (const f of failures) console.log(`  - ${f}`);
 }
-process.exit(failures.length ? 1 : 0);
+
+// process.exit() skips beforeExit, so the sweep is awaited here on the normal path.
+await finalSweep("end of run");
+process.exit(failures.length || process.exitCode === 1 ? 1 : 0);

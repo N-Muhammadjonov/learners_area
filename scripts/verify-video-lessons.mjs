@@ -21,6 +21,37 @@ import assert from "node:assert/strict";
 import pg from "pg";
 
 const BASE = process.argv[2] ?? "http://127.0.0.1:3000";
+
+/*
+ * QA SAFETY (section 03.4). This probe mutates and did not clean up after itself.
+ * It authors a real content version, which stayed in the authoring history.
+ *
+ * Measured by scripts/audit-probe-residue.mjs, which counts every row in every table
+ * around a run. Cleanup is differential: snapshot the owned tables before the first
+ * mutation, delete exactly the ids that appeared, then re-query to prove they are
+ * gone. A row that existed before the run is never touched.
+ */
+const SWEEP_DB_URL = process.env.DATABASE_URL;
+const { assertMutableDatabase, createRowSweeper, installSweepHandlers } =
+  await import("./lib/fixture-safety.mjs");
+let finalSweep = async () => {};
+if (SWEEP_DB_URL) {
+  assertMutableDatabase(SWEEP_DB_URL, { probe: "verify-video-lessons" });
+  const sweepClient = new (await import("pg")).default.Client({ connectionString: SWEEP_DB_URL });
+  await sweepClient.connect();
+  const sweeper = createRowSweeper({
+    client: sweepClient,
+    probe: "verify-video-lessons",
+    tables: ["content_versions", "audit_log", "activity_events"],
+  });
+  finalSweep = installSweepHandlers(sweeper, {
+    probe: "verify-video-lessons",
+    onDone: () => sweepClient.end().catch(() => {}),
+  });
+  await sweeper.capture();
+} else {
+  console.warn("  !! DATABASE_URL is not set — fixtures created by this run cannot be cleaned up");
+}
 // This probe writes fixtures. Refuse any database that is not disposable QA.
 const { assertMutableDatabase: __assertMutableDb } = await import("./lib/fixture-safety.mjs");
 __assertMutableDb(process.env.DATABASE_URL);
@@ -288,6 +319,7 @@ try {
 
 console.log(`\n# pass ${pass} / fail ${failures.length}`);
 if (failures.length) for (const f of failures) console.log(`  - ${f}`);
+await finalSweep("end of run");
 console.log(
   "\nEslatma: sandboxda tashqi internet yo'q, shuning uchun YouTube pleerining\n" +
     "o'zi ochilishi EXTERNALLY UNVERIFIED — CSP ruxsati va oqim esa shu yerda tekshirildi."

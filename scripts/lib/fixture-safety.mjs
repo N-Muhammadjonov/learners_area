@@ -117,3 +117,161 @@ export async function withFixtures(body, cleanup) {
   if (cleanupError) throw cleanupError;
   return result;
 }
+
+/**
+ * A row-level fixture sweeper for probes that create their data over HTTP.
+ *
+ * withFixtures() is the right tool when a probe knows what it created. Several probes
+ * do not: they drive the real API, so rows appear in tables they never name, and there
+ * is no single insertion point to tag. For those, the only honest cleanup is
+ * differential — snapshot the owned tables BEFORE the first mutation, then remove
+ * exactly the ids that appeared and re-query to prove they are gone.
+ *
+ * Why differential rather than "delete where email like 'qa%'": a tag only covers the
+ * rows a probe creates deliberately. The rows the PRODUCT creates in response (the
+ * notification, the audit entry, the activity event) carry no tag, and those are the
+ * ones that quietly accumulate. An id absent from the baseline and present at the end
+ * was created during this run, whoever inserted it.
+ *
+ * What it will not do: it never touches a row that existed before the run, so a probe
+ * cannot destroy another suite's data or the seed.
+ *
+ * `tables` must be ordered children-before-parents; deletion follows that order so a
+ * foreign key never blocks the sweep.
+ */
+export function createRowSweeper({ client, tables, probe = "probe" }) {
+  if (!client) throw new Error("createRowSweeper requires a connected pg client");
+  if (!Array.isArray(tables) || tables.length === 0) {
+    throw new Error("createRowSweeper requires a non-empty, child-first `tables` list");
+  }
+
+  const baseline = new Map();
+  let captured = false;
+  let swept = false;
+
+  async function idsOf(table) {
+    const { rows } = await client.query(`select id from ${table}`);
+    return rows.map((row) => row.id);
+  }
+
+  return {
+    get swept() {
+      return swept;
+    },
+
+    /** Must be called before the first mutation; a later baseline would adopt fixtures as pre-existing. */
+    async capture() {
+      for (const table of tables) baseline.set(table, new Set(await idsOf(table)));
+      captured = true;
+    },
+
+    /** Remove this run's rows and VERIFY. Cleanup that is not checked proves nothing. */
+    async sweep() {
+      if (!captured) {
+        throw new Error(`${probe}: sweep() called without capture() — no baseline, so nothing can be swept safely`);
+      }
+      swept = true;
+      const removed = [];
+      for (const table of tables) {
+        const before = baseline.get(table) ?? new Set();
+        const created = (await idsOf(table)).filter((id) => !before.has(id));
+        if (created.length === 0) continue;
+        removed.push(`${table}: ${created.length}`);
+        await client.query(`delete from ${table} where id = any($1)`, [created]);
+      }
+      const residue = [];
+      for (const table of tables) {
+        const before = baseline.get(table) ?? new Set();
+        const remaining = (await idsOf(table)).filter((id) => !before.has(id));
+        if (remaining.length) residue.push(`${table}: ${remaining.length}`);
+      }
+      return { removed, residue };
+    },
+  };
+}
+
+/**
+ * Install the sweeper on every exit path a probe actually takes.
+ *
+ * A tail-of-script sweep covers the happy path only. These probes also die on a throw,
+ * and most of them end with process.exit(), which does NOT run `beforeExit`. Residue is
+ * an acceptance failure, so a cleanup failure or any surviving row sets a non-zero exit
+ * code even when every assertion passed.
+ *
+ * Returns `finalSweep(reason)`, which is idempotent: call it on the normal path too.
+ */
+export function installSweepHandlers(sweeper, { probe = "probe", onDone } = {}) {
+  let done = false;
+
+  async function finalSweep(reason) {
+    if (done || sweeper.swept) return;
+    done = true;
+    try {
+      const { removed, residue } = await sweeper.sweep();
+      if (removed.length) console.log(`\n  fixture sweep (${reason}) removed — ${removed.join(", ")}`);
+      if (residue.length) {
+        console.error(`  !! ${probe}: fixture residue remains — ${residue.join(", ")}`);
+        process.exitCode = 1;
+      }
+    } catch (error) {
+      console.error(`  !! ${probe}: fixture sweep FAILED (${reason}): ${error?.message ?? error}`);
+      process.exitCode = 1;
+    }
+    if (onDone) await onDone();
+  }
+
+  process.on("beforeExit", () => void finalSweep("beforeExit"));
+  for (const fatal of ["uncaughtException", "unhandledRejection"]) {
+    process.on(fatal, async (error) => {
+      console.error(`  !! ${probe}: ${fatal} — ${error?.message ?? error}`);
+      await finalSweep(fatal);
+      process.exit(1);
+    });
+  }
+  return finalSweep;
+}
+
+/**
+ * Borrow rows a probe needs to clear, and give them back.
+ *
+ * Several probes delete pre-existing rows as SETUP — "clear this student's progress so
+ * the state machine can be walked from the start". Those rows are seed data, not
+ * fixtures. Deleting them makes the probe net-destructive: the database ends each run
+ * poorer than it started, and the loss is invisible because a differential sweep only
+ * looks for rows that APPEARED.
+ *
+ * A probe may borrow state. It must put it back, with the original ids, so anything
+ * referencing those rows still resolves.
+ */
+export function createRowBorrower({ client, table, probe = "probe" }) {
+  if (!client) throw new Error("createRowBorrower requires a connected pg client");
+  if (!table) throw new Error("createRowBorrower requires a table");
+  const held = [];
+
+  return {
+    /** Save the rows matching `where` before the probe deletes them. Returns the count. */
+    async borrow(where, params = []) {
+      const { rows } = await client.query(`select * from ${table} where ${where}`, params);
+      held.push(...rows);
+      return rows.length;
+    },
+
+    /** Put them back. Idempotent, and safe to call when nothing was borrowed. */
+    async restore() {
+      if (held.length === 0) return 0;
+      for (const row of held) {
+        const columns = Object.keys(row);
+        const placeholders = columns.map((_, index) => `$${index + 1}`);
+        await client.query(
+          `insert into ${table} (${columns.map((c) => `"${c}"`).join(", ")})
+           values (${placeholders.join(", ")}) on conflict (id) do nothing`,
+          columns.map((c) => row[c]),
+        );
+      }
+      const count = held.length;
+      held.length = 0;
+      console.log(`  ${probe}: restored ${count} borrowed ${table} row(s)`);
+      return count;
+    },
+  };
+}

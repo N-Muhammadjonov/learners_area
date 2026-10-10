@@ -105,7 +105,7 @@ const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
  * present at the end was created by this process in a database the guard above has
  * already established is disposable.
  */
-const OWNED_TABLES = ["material_blocks", "speaking_materials", "speaking_attempts", "upload_intents"];
+const OWNED_TABLES = ["material_blocks", "speaking_materials", "speaking_attempts", "upload_intents", "content_versions", "activity_events"];
 const baseline = new Map();
 
 async function captureBaseline() {

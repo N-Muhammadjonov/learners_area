@@ -4,6 +4,54 @@
  */
 const BASE = (process.env.BASE_URL || "http://127.0.0.1:3000");
 
+/*
+ * QA SAFETY (section 03.4). This probe mutates and, until now, never cleaned up.
+ * It writes real lesson notes and progress for the demo student, which then show up
+ * in that student's lesson surfaces on every later run and measurement.
+ *
+ * Measured, not assumed: scripts/audit-probe-residue.mjs counts every row in every
+ * table before and after a run. Cleanup is differential — snapshot the owned tables
+ * before the first mutation, delete exactly the ids that appeared, then re-query to
+ * prove they are gone. A pre-existing row is never touched.
+ */
+const SWEEP_DB_URL = process.env.DATABASE_URL;
+let sweepClient = null;
+let progressBorrower = null;
+const { assertMutableDatabase, createRowBorrower, createRowSweeper, installSweepHandlers } =
+  await import("./lib/fixture-safety.mjs");
+let finalSweep = async () => {};
+if (SWEEP_DB_URL) {
+  assertMutableDatabase(SWEEP_DB_URL, { probe: "verify-lessons" });
+  sweepClient = new (await import("pg")).default.Client({ connectionString: SWEEP_DB_URL });
+  await sweepClient.connect();
+  const sweeper = createRowSweeper({
+    client: sweepClient,
+    probe: "verify-lessons",
+    tables: ["lesson_notes", "lesson_progress", "activity_events"],
+  });
+  finalSweep = installSweepHandlers(sweeper, {
+    probe: "verify-lessons",
+    // Restoring borrowed rows is part of cleanup, so it runs on every exit path the
+    // sweep runs on — including a throw.
+    onDone: async () => {
+      await progressBorrower.restore();
+      await sweepClient.end().catch(() => {});
+    },
+  });
+  progressBorrower = createRowBorrower({
+    client: sweepClient,
+    table: "lesson_progress",
+    probe: "verify-lessons",
+  });
+  await sweeper.capture();
+}
+
+if (!SWEEP_DB_URL) {
+  // Honest about the gap rather than silently skipping it: without a connection this
+  // run WILL leave rows behind, and the operator should know before it starts.
+  console.warn("  !! DATABASE_URL is not set — fixtures created by this run cannot be cleaned up");
+}
+
 let pass = 0;
 const failures = [];
 function check(name, ok, detail = "") {
@@ -57,8 +105,16 @@ await db.connect();
 const cookie = await login("new.student@learnersarea.uz", "Student12345!");
 check("a fresh student can sign in", Boolean(cookie));
 
-// Test-side setup: this student's lesson progress is cleared so the state
-// machine can be walked from the start on every run. Nothing else is touched.
+// Test-side setup: this student's lesson progress is cleared so the state machine can
+// be walked from the start on every run. The rows are SAVED first and put back during
+// cleanup — they are seed data, and a probe that consumes them leaves the database
+// poorer than it found it.
+if (progressBorrower) {
+  await progressBorrower.borrow(
+    "user_id = (select id from users where email = $1)",
+    ["new.student@learnersarea.uz"],
+  );
+}
 await db.query(
   "delete from lesson_progress where user_id = (select id from users where email = 'new.student@learnersarea.uz')"
 );
@@ -219,4 +275,7 @@ if (failures.length) {
   console.log("# failures:");
   for (const f of failures) console.log(`  - ${f}`);
 }
-process.exit(failures.length ? 1 : 0);
+
+// process.exit() skips beforeExit, so the sweep is awaited here on the normal path.
+await finalSweep("end of run");
+process.exit(failures.length || process.exitCode === 1 ? 1 : 0);

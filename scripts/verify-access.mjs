@@ -24,6 +24,37 @@ import { randomUUID } from "node:crypto";
 
 const BASE = process.argv[2] ?? "http://127.0.0.1:3000";
 
+/*
+ * QA SAFETY (section 03.4). This probe mutates and did not clean up after itself.
+ * It registers a real account to exercise the approval flow; that account, its request and its notifications were kept forever.
+ *
+ * Measured by scripts/audit-probe-residue.mjs, which counts every row in every table
+ * around a run. Cleanup is differential: snapshot the owned tables before the first
+ * mutation, delete exactly the ids that appeared, then re-query to prove they are
+ * gone. A row that existed before the run is never touched.
+ */
+const SWEEP_DB_URL = process.env.DATABASE_URL;
+const { assertMutableDatabase, createRowSweeper, installSweepHandlers } =
+  await import("./lib/fixture-safety.mjs");
+let finalSweep = async () => {};
+if (SWEEP_DB_URL) {
+  assertMutableDatabase(SWEEP_DB_URL, { probe: "verify-access" });
+  const sweepClient = new (await import("pg")).default.Client({ connectionString: SWEEP_DB_URL });
+  await sweepClient.connect();
+  const sweeper = createRowSweeper({
+    client: sweepClient,
+    probe: "verify-access",
+    tables: ["access_requests", "notifications", "audit_log", "activity_events", "users"],
+  });
+  finalSweep = installSweepHandlers(sweeper, {
+    probe: "verify-access",
+    onDone: () => sweepClient.end().catch(() => {}),
+  });
+  await sweeper.capture();
+} else {
+  console.warn("  !! DATABASE_URL is not set — fixtures created by this run cannot be cleaned up");
+}
+
 /**
  * DETERMINISM: every run gets its own abuse-limiter bucket.
  *
@@ -690,7 +721,9 @@ await check("night mode is server-rendered, so the theme never flashes", async (
 });
 
 console.log(`\n${passed} passed, ${failures.length} failed\n`);
+await finalSweep("end of run");
 if (failures.length > 0) {
   for (const f of failures) console.log(`  - ${f.name}: ${f.err.message}`);
   process.exit(1);
 }
+process.exit(process.exitCode === 1 ? 1 : 0);

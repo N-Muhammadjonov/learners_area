@@ -8,6 +8,37 @@
  */
 const BASE = (process.env.BASE_URL || "http://127.0.0.1:3000");
 
+/*
+ * QA SAFETY (section 03.4). This probe mutates and did not clean up after itself.
+ * It files a real problem report, which stayed in the staff inbox after the run.
+ *
+ * Measured by scripts/audit-probe-residue.mjs, which counts every row in every table
+ * around a run. Cleanup is differential: snapshot the owned tables before the first
+ * mutation, delete exactly the ids that appeared, then re-query to prove they are
+ * gone. A row that existed before the run is never touched.
+ */
+const SWEEP_DB_URL = process.env.DATABASE_URL;
+const { assertMutableDatabase, createRowSweeper, installSweepHandlers } =
+  await import("./lib/fixture-safety.mjs");
+let finalSweep = async () => {};
+if (SWEEP_DB_URL) {
+  assertMutableDatabase(SWEEP_DB_URL, { probe: "verify-support" });
+  const sweepClient = new (await import("pg")).default.Client({ connectionString: SWEEP_DB_URL });
+  await sweepClient.connect();
+  const sweeper = createRowSweeper({
+    client: sweepClient,
+    probe: "verify-support",
+    tables: ["problem_reports", "audit_log"],
+  });
+  finalSweep = installSweepHandlers(sweeper, {
+    probe: "verify-support",
+    onDone: () => sweepClient.end().catch(() => {}),
+  });
+  await sweeper.capture();
+} else {
+  console.warn("  !! DATABASE_URL is not set — fixtures created by this run cannot be cleaned up");
+}
+
 let pass = 0;
 const failures = [];
 function check(name, ok, detail = "") {
@@ -63,10 +94,32 @@ const teacherCookie = await login("teacher@learnersarea.uz", "Teacher12345!");
 check("the student can sign in", Boolean(studentCookie));
 check("the teacher can sign in", Boolean(teacherCookie));
 
-// The control is reachable from the private shell, on desktop and on mobile.
+/*
+ * REACHABILITY, measured for what it actually is.
+ *
+ * These two checks used to grep the dashboard HTML for `data-report-toggle` and
+ * `data-report-form`. Both are invisible to server HTML by design and the checks were
+ * simply failing:
+ *   - on /app the report control lives inside the utilities stack, which is collapsed
+ *     until the student opens the launcher, so only `data-utilities-launcher` is
+ *     server-rendered;
+ *   - `data-report-form` is behind the component's `open` state on EVERY surface, so no
+ *     page has ever served it.
+ * The product is right and the probe was wrong, so the assertions now measure the
+ * entry points that really exist: the launcher in the shell, and the dedicated support
+ * page that renders the toggle directly.
+ *
+ * LIMIT, stated rather than papered over: this proves the control is reachable, not
+ * that the expanded form carries the route and module. That is client state and needs
+ * a real browser. The contextual payload is proven below at the API level instead —
+ * a report is posted with a route and module and read back from the database.
+ */
 const dashboard = await page("/app", studentCookie);
-check("the private shell offers the report control", dashboard.text.includes("data-report-toggle"));
-check("the report form is contextual", dashboard.text.includes("data-report-form") || dashboard.text.includes("data-report-toggle"));
+check("the private shell offers a way to reach the report control",
+  dashboard.text.includes("data-utilities-launcher"));
+const supportPage = await page("/app/support", studentCookie);
+check("the support page renders the report control itself",
+  supportPage.text.includes("data-report-toggle"));
 
 const marker = `verification report ${Date.now()}`;
 const created = await api("/api/support/reports", {
@@ -186,4 +239,7 @@ if (failures.length) {
   console.log("# failures:");
   for (const f of failures) console.log(`  - ${f}`);
 }
-process.exit(failures.length ? 1 : 0);
+
+// process.exit() skips beforeExit, so the sweep is awaited here on the normal path.
+await finalSweep("end of run");
+process.exit(failures.length || process.exitCode === 1 ? 1 : 0);

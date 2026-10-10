@@ -19,6 +19,41 @@
  */
 const BASE = (process.env.BASE_URL || "http://127.0.0.1:3000");
 
+/*
+ * QA SAFETY (section 03.4). This probe mutates and, until now, never cleaned up.
+ * It publishes a real reading passage through the authoring API. That passage, its
+ * questions and the attempt made against it were never removed, so every run added a
+ * learner-visible passage to the catalogue.
+ *
+ * Measured, not assumed: scripts/audit-probe-residue.mjs counts every row in every
+ * table before and after a run. Cleanup is differential — snapshot the owned tables
+ * before the first mutation, delete exactly the ids that appeared, then re-query to
+ * prove they are gone. A pre-existing row is never touched.
+ */
+const SWEEP_DB_URL = process.env.DATABASE_URL;
+const { assertMutableDatabase, createRowSweeper, installSweepHandlers } =
+  await import("./lib/fixture-safety.mjs");
+let finalSweep = async () => {};
+if (SWEEP_DB_URL) {
+  assertMutableDatabase(SWEEP_DB_URL, { probe: "verify-publication" });
+  const sweepDb = new (await import("pg")).default.Client({ connectionString: SWEEP_DB_URL });
+  await sweepDb.connect();
+  const sweeper = createRowSweeper({
+    client: sweepDb,
+    probe: "verify-publication",
+    tables: ["reading_answers", "reading_attempts", "reading_questions", "reading_passages", "activity_events", "audit_log"],
+  });
+  finalSweep = installSweepHandlers(sweeper, {
+    probe: "verify-publication",
+    onDone: () => sweepDb.end().catch(() => {}),
+  });
+  await sweeper.capture();
+} else {
+  // Honest about the gap rather than silently skipping it: without a connection this
+  // run WILL leave rows behind, and the operator should know before it starts.
+  console.warn("  !! DATABASE_URL is not set — fixtures created by this run cannot be cleaned up");
+}
+
 let passed = 0;
 let failed = 0;
 const failures = [];
@@ -358,4 +393,7 @@ if (failed > 0) {
   console.log("# failures:");
   for (const failure of failures) console.log(`  - ${failure}`);
 }
-process.exit(failed > 0 ? 1 : 0);
+
+// process.exit() skips beforeExit, so the sweep is awaited here on the normal path.
+await finalSweep("end of run");
+process.exit(failed > 0 || process.exitCode === 1 ? 1 : 0);

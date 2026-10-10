@@ -26,6 +26,37 @@
  */
 const BASE = (process.env.BASE_URL || "http://127.0.0.1:3000");
 
+/*
+ * QA SAFETY (section 03.4). This probe mutates and did not clean up after itself.
+ * It completes a real reading attempt and saves a word to the learner's vocabulary, so both the attempt and the catalogue entry survived the run.
+ *
+ * Measured by scripts/audit-probe-residue.mjs, which counts every row in every table
+ * around a run. Cleanup is differential: snapshot the owned tables before the first
+ * mutation, delete exactly the ids that appeared, then re-query to prove they are
+ * gone. A row that existed before the run is never touched.
+ */
+const SWEEP_DB_URL = process.env.DATABASE_URL;
+const { assertMutableDatabase, createRowSweeper, installSweepHandlers } =
+  await import("./lib/fixture-safety.mjs");
+let finalSweep = async () => {};
+if (SWEEP_DB_URL) {
+  assertMutableDatabase(SWEEP_DB_URL, { probe: "verify-reading" });
+  const sweepClient = new (await import("pg")).default.Client({ connectionString: SWEEP_DB_URL });
+  await sweepClient.connect();
+  const sweeper = createRowSweeper({
+    client: sweepClient,
+    probe: "verify-reading",
+    tables: ["reading_answers", "reading_attempts", "vocab_point_events", "vocabulary_usages", "user_vocabulary", "vocab_folders", "lexical_unit_forms", "lexemes", "lexical_units", "activity_events"],
+  });
+  finalSweep = installSweepHandlers(sweeper, {
+    probe: "verify-reading",
+    onDone: () => sweepClient.end().catch(() => {}),
+  });
+  await sweeper.capture();
+} else {
+  console.warn("  !! DATABASE_URL is not set — fixtures created by this run cannot be cleaned up");
+}
+
 let passed = 0;
 let failed = 0;
 const failures = [];
@@ -331,4 +362,7 @@ if (failed > 0) {
   console.log("# failures:");
   for (const failure of failures) console.log(`  - ${failure}`);
 }
-process.exit(failed > 0 ? 1 : 0);
+
+// process.exit() skips beforeExit, so the sweep is awaited here on the normal path.
+await finalSweep("end of run");
+process.exit(failed > 0 || process.exitCode === 1 ? 1 : 0);
