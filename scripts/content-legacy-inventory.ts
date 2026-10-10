@@ -131,9 +131,9 @@ const ITEMS = [
   {
     path: "src/components/speaking/ShadowingStudio.tsx + src/app/app/(shell)/speaking/shadowing",
     what: "shadowing studio: a source recording plus the learner's own local take",
-    classification: "KEEP",
+    classification: "RETIRED",
     reason:
-      "the source is a `speaking_materials` row whose category is `shadowing` — canonical content with identity, not a store — and the take is deliberately never uploaded (an object URL in the tab), so there is no shadowing content store and nothing to bind (§6).",
+      "RETIRED BY OWNER DECISION — Shadowing is not part of the Learners Area product. The component is deleted and the route is a redirect issued from middleware (308 → /app/speaking/lessons) so the status is honest in front of the (shell) Suspense boundary. Nothing is destructively removed underneath it: the `shadowing` database enum value and every historical `speaking_materials` row are preserved, and `scripts/verify-shadowing.mjs` is now an ABSENCE suite that fails if any of this regresses. Previously classified KEEP, which was wrong the moment the feature was retired.",
   },
   {
     path: "src/lib/speaking/manage-topic.ts (+ src/lib/speaking/topic-draft.ts)",
@@ -274,7 +274,14 @@ export function inventoryCoverageProblems(schemaSource?: string): string[] {
   return problems;
 }
 
-export type LegacyClassification = "KEEP" | "MIGRATE" | "COMPATIBILITY ONLY" | "REMOVE AFTER MIGRATION" | "MANUAL REVIEW REQUIRED";
+/**
+ * "RETIRED" is distinct from "REMOVE AFTER MIGRATION" on purpose: the latter means the
+ * code is still live and must be converted before it can go, the former means an owner
+ * decision already took the feature out of the product. A retired item keeps its entry
+ * here so the inventory still accounts for the historical data underneath it, and its
+ * reason must say what was preserved rather than only what was deleted.
+ */
+export type LegacyClassification = "KEEP" | "MIGRATE" | "COMPATIBILITY ONLY" | "REMOVE AFTER MIGRATION" | "MANUAL REVIEW REQUIRED" | "RETIRED";
 
 export type LegacyItem = {
   path: string;

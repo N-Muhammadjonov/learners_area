@@ -88,8 +88,9 @@ export const MODULE_DESCRIPTORS: ModuleDescriptor[] = [
      *   • a "topic set" is the `topic` grouping over canonical `speaking_prompts`,
      *     managed by `manage-topic` against one bank — declaring a type for it would
      *     invite a second store for prompts that already have one;
-     *   • `shadowing` is a CATEGORY of `speaking:material` (a row whose category is
-     *     `shadowing`), read by the shadowing studio from the same table.
+     *   • `shadowing` is a retired CATEGORY of `speaking:material`. Shadowing was
+     *     removed from the product by owner decision, so nothing reads it; declaring a
+     *     content type for a retired category would re-advertise it as supported.
      */
     contentTypes: ["part1_question", "cue_card", "part3_question", "material"],
   },

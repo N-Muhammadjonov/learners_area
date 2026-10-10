@@ -27,18 +27,25 @@ export async function POST(req: NextRequest) {
   });
   if (!submission) return NextResponse.json({ error: "not_found" }, { status: 404 });
 
-  await db.insert(writingFeedback).values({
-    submissionId: submission.id,
-    source: "teacher",
-    overallBand: parsed.data.overallBand,
-    comment: parsed.data.comment,
-    teacherId: user.id,
-  });
+  // One transaction (B3, same defect class as POST /api/assignments): the feedback row
+  // and the learner's notification used to be two independent writes. A failing event
+  // left committed feedback behind a 500, and the teacher's retry added a SECOND band
+  // and comment to the same submission — the learner then saw two conflicting verdicts
+  // for one piece of work.
+  await db.transaction(async (tx) => {
+    await tx.insert(writingFeedback).values({
+      submissionId: submission.id,
+      source: "teacher",
+      overallBand: parsed.data.overallBand,
+      comment: parsed.data.comment,
+      teacherId: user.id,
+    });
 
-  await db.insert(activityEvents).values({
-    userId: submission.userId,
-    type: "TEACHER_FEEDBACK_RECEIVED",
-    payload: { submissionId: submission.id, teacherId: user.id },
+    await tx.insert(activityEvents).values({
+      userId: submission.userId,
+      type: "TEACHER_FEEDBACK_RECEIVED",
+      payload: { submissionId: submission.id, teacherId: user.id },
+    });
   });
 
   return NextResponse.json({ ok: true });

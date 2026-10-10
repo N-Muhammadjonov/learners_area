@@ -7,8 +7,8 @@ import type { ImportTransaction } from "@/lib/import/core/dry-run";
 /**
  * SPEAKING MATERIALS: CANONICAL IDENTITY (§6).
  *
- * `speaking_materials` is a real store with real learner surfaces — the Practice hub,
- * Speaking lessons, the shadowing studio — but it had no canonical identity: no
+ * `speaking_materials` is a real store with real learner surfaces — the Practice hub
+ * and Speaking lessons — but it had no canonical identity: no
  * `source_ref`, no revision, nothing the bank or a pinned reference could name. That is
  * how a table becomes a parallel content store by accident.
  *
@@ -23,9 +23,11 @@ import type { ImportTransaction } from "@/lib/import/core/dry-run";
  *   • the version snapshot never contains an object key. Files live in private storage
  *     and reach a material only through upload-intent → upload → finalize → claim; a
  *     revision records that a primary exists and what it is, not how to fetch it.
- *   • `shadowing` is not a separate store. It is a material CATEGORY (a row whose
- *     `category` is `shadowing`) that the studio reads; shadowing takes are
- *     local-only by design, so there is no shadowing attempt to bind.
+ *   • `shadowing` is not a separate store. It is a material CATEGORY, and a RETIRED
+ *     one: Shadowing was removed from the product by owner decision, so no surface
+ *     reads that category any more and no new row may be authored into it. The
+ *     historical database enum value and the existing rows are preserved untouched —
+ *     retired means unreachable, not deleted.
  */
 
 export const SPEAKING_MATERIAL_TARGET_TYPE = "speaking_material";

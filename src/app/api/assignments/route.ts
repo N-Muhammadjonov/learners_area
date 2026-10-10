@@ -66,8 +66,20 @@ export async function POST(req: NextRequest) {
   // resolved against the version store, the roster rule is enforced, and the
   // assignment records exactly what the learner will be given.
   if (canonical) {
-    const result = await db.transaction((tx) =>
-      createAssignment(tx, {
+    // ATOMICITY (B3). The `ASSIGNMENT_CREATED` event used to be written AFTER this
+    // transaction committed. That made the API's answer disagree with the database
+    // whenever the event write failed: the assignment and its target were committed,
+    // the request still threw, the teacher saw a 500 — and a retry, which is exactly
+    // what a 500 invites, created a SECOND assignment for the same work. Assigned work
+    // is not idempotent under a client-generated key, so "committed but reported as
+    // failed" is a duplicate-creation defect, not a logging gap.
+    //
+    // The event is part of creating the assignment (it is what puts the work in the
+    // learner's activity feed), so it belongs in the same transaction: either the
+    // whole operation lands or none of it does, and a retry after a failure is safe
+    // because there is nothing to duplicate.
+    const result = await db.transaction(async (tx) => {
+      const created = await createAssignment(tx, {
         actor: { id: user.id, role: user.role },
         title: parsed.data.title,
         description: parsed.data.description ?? null,
@@ -80,17 +92,21 @@ export async function POST(req: NextRequest) {
         },
         studentIds: [parsed.data.targetUserId],
         dueAt: parsed.data.dueAt ? new Date(parsed.data.dueAt) : null,
-      }),
-    );
+      });
+      // A validation refusal is not a failure: it commits nothing and must keep its
+      // 403/422 answer rather than being flattened into a 500.
+      if (!created.ok) return created;
+      await tx.insert(activityEvents).values({
+        userId: parsed.data.targetUserId,
+        type: "ASSIGNMENT_CREATED",
+        payload: { assignmentId: created.assignmentId, teacherId: user.id, contentVersionId: created.versionId },
+      });
+      return created;
+    });
     if (!result.ok) {
       const forbidden = result.issues.some((issue) => issue.code.startsWith("assign_forbidden"));
       return NextResponse.json({ ok: false, issues: result.issues }, { status: forbidden ? 403 : 422 });
     }
-    await db.insert(activityEvents).values({
-      userId: parsed.data.targetUserId,
-      type: "ASSIGNMENT_CREATED",
-      payload: { assignmentId: result.assignmentId, teacherId: user.id, contentVersionId: result.versionId },
-    });
     return NextResponse.json({ ok: true, assignment: { id: result.assignmentId } , contentVersionId: result.versionId }, { status: 201 });
   }
 
@@ -121,13 +137,16 @@ export async function POST(req: NextRequest) {
       dueAt: parsed.data.dueAt ? new Date(parsed.data.dueAt) : null,
     });
 
-    return row;
-  });
+    // Same atomicity rule as the canonical path (B3), and the same reason: an event
+    // written after commit could fail and leave a committed assignment behind a 500,
+    // so the teacher's retry created a second one.
+    await tx.insert(activityEvents).values({
+      userId: parsed.data.targetUserId,
+      type: "ASSIGNMENT_CREATED",
+      payload: { assignmentId: row!.id, teacherId: user.id },
+    });
 
-  await db.insert(activityEvents).values({
-    userId: parsed.data.targetUserId,
-    type: "ASSIGNMENT_CREATED",
-    payload: { assignmentId: created?.id, teacherId: user.id },
+    return row;
   });
 
   return NextResponse.json({ ok: true, assignment: created });

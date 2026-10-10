@@ -189,6 +189,22 @@ async function hasRunTokenColumn(database: Database): Promise<boolean> {
  *
  * The completion event is written inside the same transaction as the run row (both
  * paths), so it is the authoritative record of what was scored.
+ *
+ * DEFECT FIXED HERE (B1): the lookup then read the newest 200 `TYPING_RUN_COMPLETED`
+ * events and searched them in JavaScript. That is a bounded history scan wearing the
+ * clothes of an authoritative lookup, and it disagreed with the replay detection above
+ * it — `findRunByToken` is UNBOUNDED (one JTI maps to at most one run row, enforced by
+ * `typing_runs_run_token_uq`), so the service could correctly decide "this is a replay
+ * of run X" for a run of ANY age and then fail to find run X's numbers. Past ~200 later
+ * completion events the answer became `{ ok: false, code: "conflict" }`: an ordinary
+ * duplicate POST — a flaky retry, a double submit — started failing permanently for a
+ * run that is sitting in the database with its score intact.
+ *
+ * The run identity is now an EXACT database predicate on the same column the event was
+ * written to. `activity_events` has no `run_id` column, so the predicate is on the jsonb
+ * payload, which is the actual schema; `limit 1` replaces the window rather than a bigger
+ * window replacing it. This is not a performance optimisation and is not load-bearing on
+ * one: it is the difference between "I could not find it" and "it is not there".
  */
 async function loadCanonicalRunResult(
   database: Database,
@@ -201,13 +217,16 @@ async function loadCanonicalRunResult(
     .where(and(
       eq(activityEvents.userId, userId),
       eq(activityEvents.type, "TYPING_RUN_COMPLETED"),
+      // Exact run identity in SQL. A null payload yields null here, which never
+      // equals `runId`, so an unparseable event is simply not this run.
+      sql`${activityEvents.payload}->>'runId' = ${runId}`,
     ))
+    // Deterministic if a duplicate event ever existed: newest wins, and only one
+    // row crosses the wire instead of a window of them.
     .orderBy(desc(activityEvents.createdAt))
-    .limit(200);
+    .limit(1);
 
-  const payload = rows
-    .map((row) => row.payload as Record<string, unknown> | null)
-    .find((candidate) => candidate?.runId === runId);
+  const payload = rows[0]?.payload as Record<string, unknown> | null;
   if (!payload) return null;
 
   const num = (key: string): number | null => {
@@ -672,22 +691,27 @@ export async function finishPreparedTypingRun(
 
     if (!tokenColumn) {
       // PRE-0048 COMPATIBILITY PATH — explicitly weaker, and reached only when the column
-      // genuinely does not exist. Without the column there is nothing for the unique
-      // index to protect, so replay can only be detected by the bounded event scan. This
-      // is stated plainly rather than presented as the same guarantee.
+      // genuinely does not exist. What remains weaker is stated precisely, because it is
+      // NOT the lookup: without the column there is no unique index, so two finishes
+      // arriving at the same instant can both read "no run yet" and both insert. That
+      // race is unfixable here and is the honest cost of the older schema.
+      //
+      // The lookup itself is no longer bounded. It used to scan the newest 50 events and
+      // match `runTokenId` in JavaScript — the exact defect TI1 was written about — so a
+      // still-valid token pushed out of that window by later activity minted a second run
+      // row on a pre-0048 database. The JTI is matched in SQL instead.
       const recentEvents = await database
         .select({ payload: activityEvents.payload })
         .from(activityEvents)
         .where(and(
           eq(activityEvents.userId, userId),
           eq(activityEvents.type, "TYPING_RUN_COMPLETED"),
+          sql`${activityEvents.payload}->>'runTokenId' = ${jti}`,
         ))
         .orderBy(desc(activityEvents.createdAt))
-        .limit(50);
+        .limit(1);
 
-      const existing = recentEvents
-        .map((row) => row.payload as Record<string, unknown> | null)
-        .find((payload) => payload?.runTokenId === jti);
+      const existing = recentEvents[0]?.payload as Record<string, unknown> | null;
 
       if (existing && typeof existing.runId === "string") {
         // Same invariant as the modern path: replay returns the persisted result.

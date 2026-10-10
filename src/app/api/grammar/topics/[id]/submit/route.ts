@@ -29,7 +29,10 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   }
 
   const results: { exerciseId: string; isCorrect: boolean; correctOption: string; explanation: string }[] = [];
-  const rows = [];
+  // Explicit element type: `const rows = []` relied on TypeScript's evolving-array
+  // inference, which stops at a function boundary. The insert now happens inside a
+  // transaction callback, so the array has to name its own type.
+  const rows: (typeof grammarAttempts.$inferInsert)[] = [];
 
   for (const a of parsed.data.answers) {
     const ex = exerciseById.get(a.exerciseId);
@@ -45,11 +48,18 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   }
 
   if (rows.length > 0) {
-    await db.insert(grammarAttempts).values(rows);
-    await db.insert(activityEvents).values({
-      userId: user.id,
-      type: "GRAMMAR_TOPIC_ATTEMPTED",
-      payload: { topicId: id, correct: results.filter((r) => r.isCorrect).length, total: results.length },
+    // One transaction, for the same reason as POST /api/assignments (B3): the attempts
+    // and the event used to be two independent writes, so a failing event left the
+    // attempts committed behind a 500. A grammar submission has no natural key, so the
+    // retry a 500 invites recorded the whole topic a SECOND time — duplicated attempt
+    // rows and a doubled score contribution.
+    await db.transaction(async (tx) => {
+      await tx.insert(grammarAttempts).values(rows);
+      await tx.insert(activityEvents).values({
+        userId: user.id,
+        type: "GRAMMAR_TOPIC_ATTEMPTED",
+        payload: { topicId: id, correct: results.filter((r) => r.isCorrect).length, total: results.length },
+      });
     });
   }
 

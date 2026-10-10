@@ -1071,15 +1071,16 @@ function speakingAuthor(contentType: string, part: "part1" | "part2" | "part3"):
 /*
  * Speaking materials (`speaking:material`).
  *
- * These rows are the Practice hub's lesson resources and the shadowing studio's
- * sources. The author owns the DESCRIPTIVE contract — a title, a category, a link
+ * These rows are the Practice hub's lesson resources. The author owns the
+ * DESCRIPTIVE contract — a title, a category, a link
  * primary and the text of the material. It deliberately does not accept a file: an
  * attachment reaches a material only through the verified upload pipeline
  * (upload-intent → upload → finalize → claim), so there is no payload field for an
  * object key, and a payload that carries one is refused rather than stored.
  *
- * `shadowing` is one of the categories, not a second store: a shadowing material is
- * a material whose category is `shadowing`, read by the studio like any other.
+ * `shadowing` is NOT one of the categories. Shadowing was removed from the product by
+ * owner decision; it survives only as a historical database enum value and as rows
+ * already written, which no surface reads and which authoring must never recreate.
  */
 // "shadowing" is omitted on purpose: the feature is retired and no new material may be
 // authored into it. The historical database enum value is left untouched.

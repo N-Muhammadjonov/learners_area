@@ -1,5 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { existsSync } from "node:fs";
+import { resolve } from "node:path";
 import {
   classifyIncoming,
   duplicateCandidates,
@@ -179,14 +181,14 @@ test("SI5 every legacy source is classified and a migration verdict names its su
   for (const item of items) {
     assert.ok(item.reason.length > 20, `${item.path} needs a real reason, not a label`);
     assert.ok(
-      ["KEEP", "MIGRATE", "COMPATIBILITY ONLY", "REMOVE AFTER MIGRATION", "MANUAL REVIEW REQUIRED"].includes(item.classification),
+      ["KEEP", "MIGRATE", "COMPATIBILITY ONLY", "REMOVE AFTER MIGRATION", "MANUAL REVIEW REQUIRED", "RETIRED"].includes(item.classification),
       `${item.path} has an unknown classification`,
     );
   }
   assert.deepEqual(inventoryProblems(items), [], "the inventory is internally consistent");
   const summary = inventorySummary(items);
   assert.ok((summary["COMPATIBILITY ONLY"] ?? 0) >= 3, "legacy reads are explicitly kept, not forgotten");
-  assert.ok(Object.keys(summary).every((key) => ["KEEP", "MIGRATE", "COMPATIBILITY ONLY", "REMOVE AFTER MIGRATION", "MANUAL REVIEW REQUIRED"].includes(key)));
+  assert.ok(Object.keys(summary).every((key) => ["KEEP", "MIGRATE", "COMPATIBILITY ONLY", "REMOVE AFTER MIGRATION", "MANUAL REVIEW REQUIRED", "RETIRED"].includes(key)));
 
   // The legacy HTML runtime is classified, not left implicit (§93).
   const runtime = items.find((item) => item.path.includes("AuthoredListeningFrame"));
@@ -197,6 +199,19 @@ test("SI5 every legacy source is classified and a migration verdict names its su
   // The rule bites: stripping a successor from a MIGRATE item is a problem.
   const broken = [{ path: "x", what: "y", classification: "MIGRATE" as const, reason: "no successor" }];
   assert.equal(inventoryProblems(broken).length, 1);
+
+  // A retired feature is accounted for, and the accounting is checked rather than
+  // trusted: the Shadowing entry must stay classified RETIRED (not silently deleted
+  // from the inventory, and not left as KEEP now that the component is gone) and its
+  // reason must state what historical data was preserved.
+  const shadowing = items.find((item) => item.path.includes("ShadowingStudio"));
+  assert.ok(shadowing, "the retired Shadowing surface stays in the inventory");
+  assert.equal(shadowing!.classification, "RETIRED");
+  assert.match(shadowing!.reason, /preserved/i, "a retirement must say what was kept, not only what was removed");
+  assert.ok(
+    !existsSync(resolve(process.cwd(), "src/components/speaking/ShadowingStudio.tsx")),
+    "RETIRED means the component is actually gone",
+  );
 });
 
 test("SI6 no table is unclassified, and the coverage check can fail in both directions", () => {
