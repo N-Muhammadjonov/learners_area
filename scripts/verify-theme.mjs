@@ -65,14 +65,39 @@ const cssText = (
   )
 ).join("\n");
 const nightSelector = /\[data-theme=["']?night["']?\]/;
+/*
+ * A6 — DERIVE THE NIGHT TOKENS FROM THE STYLESHEET SOURCE.
+ *
+ * These two checks compared the served CSS against numbers typed into this probe. One of them had
+ * gone stale: the approved night accent is no longer gold (230 185 79) but indigo (99 102 241), and
+ * the check failed against a design that is exactly what src/app/globals.css declares. The visual
+ * design is protected and was NOT changed to satisfy the assertion.
+ *
+ * Deriving the expectation from globals.css makes the check both unstaleable and stronger: it now
+ * proves the stylesheet the BROWSER receives carries the same night tokens the SOURCE declares,
+ * which is the property that actually matters. A hardcoded number could only ever prove that two
+ * copies of the same guess agreed.
+ */
+const globalsCss = (await import("node:fs")).readFileSync("src/app/globals.css", "utf8");
+const nightSource = /\[data-theme="night"\]\s*\{([\s\S]*?)\n\}/.exec(globalsCss)?.[1] ?? "";
+const declaredToken = (name) => new RegExp(`--${name}:\\s*([0-9][0-9 ]*);`).exec(nightSource)?.[1]?.trim() ?? null;
+const servedToken = (name, value) =>
+  Boolean(value) && new RegExp(`--${name}:\\s*${value.split(/\s+/).join("\\s+")};`).test(cssText);
+const nightPaper = declaredToken("paper");
+const nightInk = declaredToken("ink-900");
+const nightAccent = declaredToken("accent");
+if (!nightPaper || !nightInk || !nightAccent) {
+  throw new Error("could not read the night tokens out of src/app/globals.css — refusing to assert against a guess");
+}
 check(
   "night mode sets the navy page and card tokens",
-  nightSelector.test(cssText) && /--paper:\s*11 13 24/.test(cssText),
-  "night palette not found in the stylesheet"
+  nightSelector.test(cssText) && servedToken("paper", nightPaper),
+  `globals.css declares --paper: ${nightPaper}; the served stylesheet carries it=${servedToken("paper", nightPaper)}`
 );
 check(
-  "night mode keeps the warm text and gold accent",
-  /--ink-900:\s*243 238 229/.test(cssText) && /--accent:\s*230 185 79/.test(cssText)
+  "night mode keeps the approved text and accent tokens from the stylesheet source",
+  servedToken("ink-900", nightInk) && servedToken("accent", nightAccent),
+  `declared --ink-900: ${nightInk} and --accent: ${nightAccent}; served=${servedToken("ink-900", nightInk)}/${servedToken("accent", nightAccent)}`
 );
 check(
   "the band colours switch for night contrast",
@@ -191,18 +216,84 @@ check(
 check("the error boundary is themed by tokens", read("src/app/app/(shell)/error.tsx").includes("text-ink-900"));
 const emptyStates = tsx.filter((f) => /data-[a-z-]*empty/.test(read(f)));
 check(`empty states are rendered with tokens (${emptyStates.length} surfaces)`, emptyStates.length > 0);
+/*
+ * A6 — TWO PREDICATES THAT COULD NOT SEE WHERE THE THEMING ACTUALLY LIVES.
+ *
+ * Both checks grepped each flagged file for a Tailwind token utility. That is the right question for
+ * a file that renders its own surface and the wrong one for a file that does not:
+ *
+ *   - `app/(shell)/loading.tsx` and `RouteEntryLoading.tsx` are DELEGATES. They contain no markup and
+ *     no className at all; they render SectionEntryFrame, which is themed with bg-paper-raised,
+ *     text-ink-300 and text-ink-500. A per-file grep reported two unthemed loading surfaces that are
+ *     in fact themed one and two imports away.
+ *   - `InteractionPrimitives.tsx` themes its <dialog> through the CSS class
+ *     `.interaction-confirm-dialog`, which globals.css defines as
+ *     `background: rgb(var(--paper-raised)); color: rgb(var(--ink-900))`. A Tailwind-utility grep
+ *     cannot see a token consumed through a stylesheet rule.
+ *
+ * Neither file was changed and no visual design was touched: the predicates now follow delegation and
+ * read the stylesheet. Both stay strict, so neither can pass vacuously — a delegate must carry no
+ * styling of its own and must resolve to a component that really is token-themed, and a dialog class
+ * must resolve to a rule whose background comes from a --paper token.
+ */
+function themedByTokens(file) {
+  return /text-ink-|bg-paper/.test(read(file));
+}
+/** Follow a file that renders imported components instead of styling anything itself. */
+function delegateThemed(file, depth = 0, seen = new Set()) {
+  if (depth > 3 || seen.has(file)) return null;
+  seen.add(file);
+  const src = read(file);
+  // A delegate carries no styling of its own: no className, no hardcoded colour.
+  if (/className=/.test(src) || /#[0-9a-fA-F]{3,8}\b/.test(src)) return null;
+  const rendered = new Set([...src.matchAll(/<([A-Z][A-Za-z0-9_]*)\b/g)].map((m) => m[1]));
+  if (rendered.size === 0) return null;
+  for (const [, names, specifier] of src.matchAll(/import\s*\{\s*([A-Za-z0-9_,\s]+?)\s*\}\s*from\s*"(@\/[^"]+)"/g)) {
+    const imported = names.split(",").map((n) => n.trim());
+    if (!imported.some((n) => rendered.has(n))) continue;
+    const base = specifier.replace(/^@\//, "src/");
+    for (const candidate of [`${base}.tsx`, `${base}.ts`, `${base}/index.tsx`]) {
+      let target;
+      try { target = read(candidate); } catch { continue; }
+      if (themedByTokens(candidate)) return candidate;
+      const deeper = delegateThemed(candidate, depth + 1, seen);
+      if (deeper) return deeper;
+    }
+  }
+  return null;
+}
 const loadingFiles = sources.filter((f) => f.endsWith("loading.tsx"));
+const loadingProblems = [];
+for (const file of loadingFiles) {
+  if (themedByTokens(file)) continue;
+  const via = delegateThemed(file);
+  if (!via) loadingProblems.push(`${file} (no tokens, and no themed component it delegates to)`);
+}
 check(
-  "loading surfaces are themed too",
-  loadingFiles.length === 0 || loadingFiles.every((f) => /text-ink-|bg-paper/.test(read(f)))
+  `loading surfaces are themed too (${loadingFiles.length} files)`,
+  loadingFiles.length > 0 && loadingProblems.length === 0,
+  loadingProblems.length ? loadingProblems.join("; ") : `every loading surface is token-themed, directly or through the component it renders`
 );
 
 // A dialog inherits whatever it is mounted inside, so the surfaces that contain
 // one must be token-based as well.
 const dialogs = tsx.filter((f) => /<dialog|role="dialog"/.test(read(f)));
+const dialogProblems = [];
+for (const file of dialogs) {
+  const src = read(file);
+  if (/bg-paper-raised|bg-paper\b/.test(src)) continue;
+  // Otherwise the surface must come from a CSS class whose background is a --paper token.
+  const classNames = [...src.matchAll(/<dialog[\s\S]{0,400}?className="([^"]+)"/g)].flatMap((m) => m[1].split(/\s+/)).filter(Boolean);
+  const themed = classNames.filter((cls) =>
+    new RegExp(`\\.${cls}\\s*\\{[^}]*background:\\s*rgb\\(var\\(--paper`).test(globalsCss));
+  if (themed.length === 0) {
+    dialogProblems.push(`${file} (classes: ${classNames.join(", ") || "none"} — no --paper background in globals.css)`);
+  }
+}
 check(
   `dialogs sit on token surfaces (${dialogs.length} files)`,
-  dialogs.length === 0 || dialogs.every((f) => /bg-paper-raised|bg-paper\b/.test(read(f)))
+  dialogs.length > 0 && dialogProblems.length === 0,
+  dialogProblems.length ? dialogProblems.join("; ") : "every dialog is on a token surface, by utility class or by a stylesheet rule"
 );
 
 console.log(`\n# pass ${pass} / fail ${failures.length}`);

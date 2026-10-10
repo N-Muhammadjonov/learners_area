@@ -25,12 +25,22 @@ import { dirname, join } from "node:path";
 
 const require = createRequire(import.meta.url);
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-/**
- * Migrations this release ships. Production was at 17 when the Reading library
- * and the material blocks were added, so this is 19 — the checklist is meant to
- * be run *after* `scripts/migrate-production.mjs` reports 19/19 there.
+/*
+ * A6. There used to be a constant here:
+ *
+ *   const EXPECTED_MIGRATIONS = 19;   // "production was at 17 when the Reading library landed"
+ *
+ * The chain has since grown to 53, and the failure mode was the dangerous one. This is the script
+ * that verifies a PRODUCTION schema, so a stale constant makes it reject a correctly migrated
+ * database — and the tempting repairs are both worse than the bug: bumping the number by hand
+ * leaves the next migration to break it again, while relaxing the check would let a PARTIALLY
+ * migrated production database pass as complete.
+ *
+ * So the expectation is derived from the repository's own two sources of truth — the migration
+ * files on disk and the drizzle journal. They must agree with each other, and the database must
+ * have applied every entry the journal declares. Nothing is left to go stale, and a repository that
+ * ships one more migration is verified against that migration automatically.
  */
-const EXPECTED_MIGRATIONS = 19;
 
 const pass = (s) => `\u001b[32m${s}\u001b[0m`;
 const failText = (s) => `\u001b[31m${s}\u001b[0m`;
@@ -104,9 +114,14 @@ async function main() {
   }
   const journal = JSON.parse(readFileSync(join(ROOT, "drizzle", "meta", "_journal.json"), "utf8"));
   const localFiles = readdirSync(join(ROOT, "drizzle")).filter((f) => f.endsWith(".sql"));
-  check("the chain on disk is complete and ordered", localFiles.length === EXPECTED_MIGRATIONS && journal.entries.length === EXPECTED_MIGRATIONS,
-    `${localFiles.length} files, ${journal.entries.length} journal entries`);
-  check(`all ${EXPECTED_MIGRATIONS} migrations are recorded as applied`, recorded === EXPECTED_MIGRATIONS, `recorded ${recorded}`);
+  // Derived, not hardcoded — and guarded against deriving nothing. If both sources were empty the
+  // equality would hold and a database with no migrations at all would look complete.
+  const declared = journal.entries.length;
+  check("the chain on disk is complete and ordered",
+    localFiles.length > 0 && declared > 0 && localFiles.length === declared,
+    `${localFiles.length} files, ${declared} journal entries`);
+  check(`all ${declared} migrations are recorded as applied`,
+    declared > 0 && recorded === declared, `recorded ${recorded} of ${declared} declared`);
   check(
     "the recorded migrations are this repository's chain, in order",
     recorded > 0 && timestamps.every((ts, i) => ts === journal.entries[i].when),

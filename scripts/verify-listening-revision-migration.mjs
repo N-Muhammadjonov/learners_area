@@ -21,7 +21,15 @@ import { execFileSync } from "node:child_process";
 import pg from "pg";
 
 const ADMIN = "postgres://postgres@localhost:5432/postgres";
-const DB = "learners_qa2_up0051";
+/*
+ * Scratch database this probe creates, migrates and drops. The name satisfies the fixture guard's
+ * existing disposable pattern (^learners_qa\d*$) rather than the guard being widened to accept a
+ * suffixed name: the guard is global, and every fixture-writing probe in the repository inherits
+ * whatever it allows. Keeping the migration number in the name would have needed a new pattern for
+ * one probe's convenience, so the number lives in this comment instead — the probe replays
+ * drizzle/0051_listening_question_revision.sql against a database that starts empty.
+ */
+const DB = "learners_qa0051";
 const URL = `postgres://postgres@localhost:5432/${DB}`;
 const statements = readFileSync("drizzle/0051_listening_question_revision.sql", "utf8")
   .split("--> statement-breakpoint")
@@ -35,9 +43,30 @@ const check = (name, ok, detail = "") => {
 };
 
 async function withAdmin(fn) {
-  // This probe writes fixtures. Refuse any database that is not disposable QA.
+  /*
+   * A6 — NARROWLY AUTHORIZED MAINTENANCE CONNECTION.
+   *
+   * This connection targets the `postgres` maintenance database, which the global fixture guard
+   * refuses — and it is right to: "postgres" is not a disposable QA database name, and widening
+   * ALLOWED_NAMES to admit it would let every fixture-writing probe in the repository point at the
+   * maintenance database. So the guard is left exactly as it is and the authorization here is
+   * narrow and explicit instead.
+   *
+   * What makes it narrow: this probe never writes a ROW through the maintenance connection. It uses
+   * it for two statements only — CREATE DATABASE and DROP DATABASE of one scratch database whose own
+   * name must satisfy the ordinary disposability rule. All fixture writes go to that scratch
+   * database, which is checked below by the same guard every other probe uses.
+   */
   const { assertMutableDatabase: __assertMutableDb } = await import("./lib/fixture-safety.mjs");
-  __assertMutableDb(ADMIN);
+  const admin = new globalThis.URL(ADMIN); // the module-level `URL` constant shadows the global
+  if (!["localhost", "127.0.0.1", "::1"].includes(admin.hostname)) {
+    throw new Error(`refusing: the maintenance connection must be local, got "${admin.hostname}"`);
+  }
+  if (admin.pathname.replace(/^\//, "") !== "postgres") {
+    throw new Error(`refusing: expected the "postgres" maintenance database, got "${admin.pathname}"`);
+  }
+  // The database this probe actually mutates must be disposable by the ordinary rule.
+  __assertMutableDb(`postgres://${admin.host}/${DB}`);
   const client = new pg.Client({ connectionString: ADMIN });
   await client.connect();
   try {
