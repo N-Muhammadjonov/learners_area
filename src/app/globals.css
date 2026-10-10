@@ -1670,7 +1670,7 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
   --la-night-blur: 8px;
 
   background-color: var(--la-night-wave-paper);
-  background-image: url('/images/night/LA_NIGHT_DESKTOP_BACKGROUND.webp');
+  background-image: url("/images/night/LA_NIGHT_DESKTOP_BACKGROUND.8458b14681fa.webp"), url("data:image/webp;base64,UklGRiACAABXRUJQVlA4IBQCAAAwDgCdASpgADYAPt1mrE+opaQiJXgMYRAbiWoAzUYg3F5mUocYNG23h58XTSd6FOz8fEBdGcXcV2hDby2ZXxZVQn6z3ddlistKx8LT+/a+Lhak43m60XI5S/eUMs4k2fRy8J1e50l/J8XMHgEvSTn/GckMRP92vcBkAAD+9Vi50JX77DGjRKp4+iNpJ1IGQ+Ybr7ektzH9YQJw83XyHdbjViiHkv811UFDfP1LEg85f2vIUzE04NlzI6jEeb5jHga9cS/9MhPAcxcQwOrq7OttkkUAl+AKM6B19+m2nR3Ocrbz8ZT9PQOHNxxg40POB7iNA69R0SlSWOa+iJc12P8LbbJlE/+H1sSF0Rxeb+EziDbUx01y/h7AHSub+7ziYaeGXH0MKshB6g8OrwYya3+JDlci68AYtoL8KE2AfuugsowjGXdMLImr7gh8WNy+FGZP+0lb1hrBRgYTlIU0N4U5dWplujUcnveoYwVhpZj0vbEU2bL1b3/8Mh0f8sQbek/ACTCDyGS9BifuBpNMDt1JCCBGZUXBiNQNRq6skjh8mbxdYMpO1JOzZyKx0H3aCEc+WFQrZrbuIDkMHhF//O7H8BAxZGr5DNSGhQHT0C2sUcsQiIbuWdlDerD+hmZQFP5Ehx+T/GjkL/bPkgvodP66CaP2/CDAHmuqLvxDxH1uuHUG6/ZIF7GaqUBcumzs6eN5y8AA");
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -1778,7 +1778,7 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 /* Below md the source is the approved 1080x1920 mobile wallpaper. */
 @media (max-width: 767.98px) {
   [data-theme="night"]:not([data-focus="on"]) [data-shell] {
-    background-image: url('/images/night/LA_NIGHT_MOBILE_BACKGROUND.webp');
+    background-image: url("/images/night/LA_NIGHT_MOBILE_BACKGROUND.05afe51af964.webp"), url("data:image/webp;base64,UklGRuoDAABXRUJQVlA4IN4DAAAwGwCdASpgAKoAPt1mrVEopT+iptErY/AbiWQA0bRDDbycri30xIENvcSXcBvQB2YcwHwQfnXYwqZ1+aMIGopB/AAf/5cwNGB1eMxeUy4Kj2I5l7npO31RDiesl8IWGZWScRG86aLno3Be6GKVx3b/C5J6eCqSAPiV3fRZxObCnQg1VK8UzbpmmM5KMgemtvnKuDh+ECrESgqtj7uhbp1wi6UxHtLCaBpMt8lA7bjnXYZ4++l/0yHt3fEwjMc8l2oVE9AQEF5pIUxqFcG2vvRtMbsr1lvkl/i7tDhXBRHzt6AAAP70iIek2n70tNq5a3RoUnW2OPOigPQ0aDrnmBk4IBUtl5SP+EjmzlpbzonR9DSZip/oMqH8XPBV8Vu91RNgOTqrb4gM0rZE8j/m/yQU6yTr1SQ7E3kK5dBix39UvVxuXyDLrxP4R/fxUgBaNBIGI963ccAdtvO9cW9d94onk6ncCuhXqeI+4FnKr7l5XdZ5jzHu6BCgUo/y1hic+N9XHpAFNkUKM7oGozbzyU9OfEqLtfXIAbjALEXn272MTUPX/Z0kTov3dif6lwoLp1ZIEQ/ymLpzBhRcPkYzqZVPKhKsYgLZLn1qffTVL8boF5C/AfzaLHerD8PVRVmaRbWokgun3nS/wU7Xd9dhiCupl/KR47yBxMJct6qD222Ih7BO9A8mUMP8krUgl4VjDA86dEFEwUisivJQxTfvfO4U7h46rYZ2+va6U74g2Qg3QkS++/N5EHZrk88getmslTBWm29mo5zwJrvgm0rm0ho7qevr38lk21//fv4z9nwcfnz5IwqlT8LGy6EEPx/97GO7cRA7nQJMBV6+impoNyDTOXLyn8bExCR3qYJyLb337Mo36/tS4l0MdTOzUjIUuwwPwR5RacSoiTNSzs2PKBBaXHPFhDQ5+KOhEHDF1gNSmnwwV6rWXRV3xhv+9qDRy9LqxS/P/PgyyF4re+IWyS5Dxz7F/qyhtnmopPxLhzGMYpfCFIgpfkwCD6wOcLbMuI43MKh6nT+dLP4UZ48XA9tRiU/qoYpK5l/5P8+S6YhGq0DcY4Q8H3A+fn+By4UCWu8Cq1wAKZ/HlkWZk0hq8NDNCKfLzZNJu0DH0KZ0Rb98O2j4bo7y8Lfv3CFfzu1gHCWxZW2GPOkIvKCT+NHD3pwgDHYhhqnyIfV+h65kF33TiC+YOcBYqHhd0EGJZxO5FHvmQddUEScMWMiqnlTqaX3ezxVLBTpKoPMPLhYt8BdE/YT1H+M+brnzQFtNnlL8PpQv8iQ4JV9OD7krj+zQO0NDWQk/zcLcgFvV0XWAAAA=");
     background-position: center bottom;
     background-size: cover;
   }
@@ -1805,7 +1805,7 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 /* Mobile links sit directly on one continuous wallpaper, without a drawer slab. */
 @media (max-width: 767.98px) {
   [data-theme="night"]:not([data-focus="on"]) [data-mobile-nav-overlay] {
-    background: var(--la-night-wave-paper) url("/images/night/LA_NIGHT_MOBILE_BACKGROUND.webp") center bottom / cover no-repeat;
+    background: var(--la-night-wave-paper) url("/images/night/LA_NIGHT_MOBILE_BACKGROUND.05afe51af964.webp"), url("data:image/webp;base64,UklGRuoDAABXRUJQVlA4IN4DAAAwGwCdASpgAKoAPt1mrVEopT+iptErY/AbiWQA0bRDDbycri30xIENvcSXcBvQB2YcwHwQfnXYwqZ1+aMIGopB/AAf/5cwNGB1eMxeUy4Kj2I5l7npO31RDiesl8IWGZWScRG86aLno3Be6GKVx3b/C5J6eCqSAPiV3fRZxObCnQg1VK8UzbpmmM5KMgemtvnKuDh+ECrESgqtj7uhbp1wi6UxHtLCaBpMt8lA7bjnXYZ4++l/0yHt3fEwjMc8l2oVE9AQEF5pIUxqFcG2vvRtMbsr1lvkl/i7tDhXBRHzt6AAAP70iIek2n70tNq5a3RoUnW2OPOigPQ0aDrnmBk4IBUtl5SP+EjmzlpbzonR9DSZip/oMqH8XPBV8Vu91RNgOTqrb4gM0rZE8j/m/yQU6yTr1SQ7E3kK5dBix39UvVxuXyDLrxP4R/fxUgBaNBIGI963ccAdtvO9cW9d94onk6ncCuhXqeI+4FnKr7l5XdZ5jzHu6BCgUo/y1hic+N9XHpAFNkUKM7oGozbzyU9OfEqLtfXIAbjALEXn272MTUPX/Z0kTov3dif6lwoLp1ZIEQ/ymLpzBhRcPkYzqZVPKhKsYgLZLn1qffTVL8boF5C/AfzaLHerD8PVRVmaRbWokgun3nS/wU7Xd9dhiCupl/KR47yBxMJct6qD222Ih7BO9A8mUMP8krUgl4VjDA86dEFEwUisivJQxTfvfO4U7h46rYZ2+va6U74g2Qg3QkS++/N5EHZrk88getmslTBWm29mo5zwJrvgm0rm0ho7qevr38lk21//fv4z9nwcfnz5IwqlT8LGy6EEPx/97GO7cRA7nQJMBV6+impoNyDTOXLyn8bExCR3qYJyLb337Mo36/tS4l0MdTOzUjIUuwwPwR5RacSoiTNSzs2PKBBaXHPFhDQ5+KOhEHDF1gNSmnwwV6rWXRV3xhv+9qDRy9LqxS/P/PgyyF4re+IWyS5Dxz7F/qyhtnmopPxLhzGMYpfCFIgpfkwCD6wOcLbMuI43MKh6nT+dLP4UZ48XA9tRiU/qoYpK5l/5P8+S6YhGq0DcY4Q8H3A+fn+By4UCWu8Cq1wAKZ/HlkWZk0hq8NDNCKfLzZNJu0DH0KZ0Rb98O2j4bo7y8Lfv3CFfzu1gHCWxZW2GPOkIvKCT+NHD3pwgDHYhhqnyIfV+h65kF33TiC+YOcBYqHhd0EGJZxO5FHvmQddUEScMWMiqnlTqaX3ezxVLBTpKoPMPLhYt8BdE/YT1H+M+brnzQFtNnlL8PpQv8iQ4JV9OD7krj+zQO0NDWQk/zcLcgFvV0XWAAAA=") center bottom / cover no-repeat;
   }
   [data-theme="night"]:not([data-focus="on"]) [data-mobile-nav-overlay] > button {
     background-color: rgba(3, 8, 39, 0.18);
@@ -1833,8 +1833,9 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
   --la-day-blur: 8px;
 
   background-color: var(--la-day-wave-paper);
-  --la-day-wallpaper: url("/images/day/LA_DAY_DESKTOP_BACKGROUND.webp");
-  background-image: var(--la-day-wallpaper);
+  --la-day-wallpaper: url("/images/day/LA_DAY_DESKTOP_BACKGROUND.61b34a5a3a32.webp");
+    --la-day-wallpaper-preview: url("data:image/webp;base64,UklGRuYBAABXRUJQVlA4INoBAADQDACdASpgADYAPt1mq1AopaOiprM8MRAbiWYAxygOFXA1PIYX+Tn42UKfZYC9f6y9h7RxrU8xZCNjy4MEdx02mraNJtjy26jQ0BoXHRKh/9elxLAf0qVAT2Pqy8F0/yrfUxL+lMG25OhfyIkBxDwA/upJukH/zN72e9eP//r0f/89H//PR/PMPSXs8Z+aswkUeE3hBrMDpSNepYJfl3UL1eZYYVTna/3hyCHCznCqlNWe3yGX8qXNnydZcFzQu7/BwRW6CeIr9uLZGCtzyLG+NAcBpkNby5bBi1A0w+Rns6yrMfzj+BfDXgf/SopCRb6nOw0HogrvHIETKQrNw6tgCAeAbp71jkSqDfjClDCLyMQYhYH+Q61HtUUj+O27ZZMJyOEeX7pn7XFyWkyL4zk67tGfkEWmNVSHLEHBWraLHQ+lHJ8rGl4VeXuCCdp+++CdGXFZyc+42k5GXU4KV099ICqmPkMoXtufqFKTTDtjKTZxbBl3EqVeLReVwuv2qwbvN7hXJje79tD+Z+sEYgCXGwjZ1qxVlzw4m107Q0Jwh/+lvY5kUkqFj1fnTRRBQKLn2SY4XUM1XTwKyBOCjC7ncmx7ANUqb3NFS4Ym1vVcObVda1atBqIAAAA=");
+  background-image: var(--la-day-wallpaper), var(--la-day-wallpaper-preview);
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -1942,7 +1943,7 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 /* Compact devices inherit the orientation-specific Day wallpaper. */
 @media (max-width: 767.98px) {
   [data-theme="day"]:not([data-focus="on"]) [data-shell] {
-    background-image: var(--la-day-wallpaper);
+    background-image: var(--la-day-wallpaper), var(--la-day-wallpaper-preview);
     background-position: center bottom;
     background-size: cover;
   }
@@ -1969,7 +1970,11 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 /* Mobile links sit directly on one continuous wallpaper, without a drawer slab. */
 @media (max-width: 767.98px) {
   [data-theme="day"]:not([data-focus="on"]) [data-mobile-nav-overlay] {
-    background: var(--la-day-wave-paper) var(--la-day-wallpaper) center bottom / cover no-repeat;
+    background-color: var(--la-day-wave-paper);
+    background-image: var(--la-day-wallpaper), var(--la-day-wallpaper-preview);
+    background-position: center bottom;
+    background-size: cover;
+    background-repeat: no-repeat;
   }
   [data-theme="day"]:not([data-focus="on"]) [data-mobile-nav-overlay] > button {
     background-color: rgba(255, 255, 255, 0.08);
@@ -1979,13 +1984,15 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 /* Named image roles: portrait/landscape compact devices; desktop otherwise. */
 @media (max-width: 1024px), (max-width: 1366px) and (hover: none) and (pointer: coarse) {
   [data-theme="day"]:not([data-focus="on"]) [data-shell] {
-    --la-day-wallpaper: url("/images/day/LA_DAY_PORTRAIT_BACKGROUND.webp");
+    --la-day-wallpaper: url("/images/day/LA_DAY_PORTRAIT_BACKGROUND.322ba8eda1f7.webp");
+    --la-day-wallpaper-preview: url("data:image/webp;base64,UklGRigEAABXRUJQVlA4IBwEAACQGQCdASpgAKsAPt1mrVAopbKxKTG6ulAbiWQAzQST1IfN+ddc3ChFA3E/PoaaBvPbATXsZAHNRFH80iVHH3yYqLj2WT51rBwhlR+5juqqnXKplxRUBg5UOhJpVkKc3i5nIZSVvmHBHi7TH/d1Vn3OplchROAenItUYCRQ62/zhQNx4/JDTEKHaBoHBmbcZq/UzpVaDkEwUuStvR9BmG5t9kDPjldylO4jhYYHNRJZtOAp1AlAR/e27YUOd8dzfGTc5lyqTqso5VpbBZmdUNKuLoR2mgAA/uaeJ/w4t6dar//U4/9Tj/1OP0kgGML93PVsV1rHTCcXJ+jgIAAAACCzhfr4wmzWABLczq5QeE6vtdVK6XmwG3DIYPrsLOkP8UopUlGj/zyqyfCgVamz4l3kkr3XKIscbp1EYu8FeNcNUeaOwYW5J25hpjhp7X51QEQt3uhyq0x8HVCTJ2DF3EnRAJwuIQ7BlY62Q3LHKktWeQptHFTJt4G7ZY5x0s+r3fs/knR2XJmoZDQiSOtCCY+BYacfPyAbM2nxEnTH8SFRw9OM8AMVDon4RpOqh9Pr0jVYFmufdzbRRVy0kwABmfG0qCUYX//Xe9TbnCq1nQGEF4ulvoGEqQUuBoGQBSsGjVWq3YZz9xk5N/NK9zC+sbRgBnOq2vwNSpp7MKSpBXrcaqW3dhQ3RwbqvEAVwWWx0AcQCYl8C2EHETn/oKwyvDzVAfcBV9J3JaRlRb6aRPpQSjrTUxeeS9+60+YPXXwdPp/qnMzkC+ySpcbXTGsL1wF8QTvFqWPK51XOsC8eg+RzS7w0AfRnulBSLYqMe4Uge4mZ9Wmb7WovnfUuGI3T9G3uyFYD1vuoF2C3PxCVGOi9JX89fhf1Fa5jhiQ78NIb4LTPOVkf1wL9u9m7pHMy62oJZDRp1o2RLZyjHNolYtfx41TRbKXQ0wADm8iW/Zg7+LqWwIqv0R52/K0lxMWga6kJn6fJW4nA+aPdIgVY3JrfAxdkXTnQd/edlSkh5QSBEeeg8QZ76IZmWaFQtdw+WZuvKHkulvWyI/pdHWZpWkx76xck2b6Ix6r0inDeTYgFEODnaL8YRSvPMoq/xrXreexXI7elduwdOj3acEEv5Tl25icOnafHP1q7HEZovv2Uc946DLwRznI4+oFBnt6WorQ/XgKogqfZfbMzZLfGXOIHzLMCCwqOU7BK43HdvALeu8HVmStEgRhmgjr4fgQJMpwn0KzUes092HvS0qP6DfH4eXGo+SAV9yFESs5qKDqAKZQNLFFrVbQSCXyEijBzIVHZk0HL/jTRbKi5bau+bHP3wzyvCHnxMR4ch/LXRW5Yo2vEQ+eUq92HTlTcWEMyhvstllrENtgoKh+3GOOq55l8pMVyYVTGa6P18YAAAA==");
     background-position: center bottom;
   }
 }
 @media (max-width: 1024px) and (orientation: landscape), (max-width: 1366px) and (hover: none) and (pointer: coarse) and (orientation: landscape) {
   [data-theme="day"]:not([data-focus="on"]) [data-shell] {
-    --la-day-wallpaper: url("/images/day/LA_DAY_LANDSCAPE_BACKGROUND.webp");
+    --la-day-wallpaper: url("/images/day/LA_DAY_LANDSCAPE_BACKGROUND.2c17bc511a25.webp");
+    --la-day-wallpaper-preview: url("data:image/webp;base64,UklGRggCAABXRUJQVlA4IPwBAAAwDQCdASpgADYAPt1kq1AopSOipBVdURAbiWYAwYgwD0GPyho4BONjl8gTXprI/1DIVNPPiKT7Gd6WyA71D0WpS2mJTqgC4OBqV9IvrTtZk01bKQYY0DVfovqDrFL/I4+HK3h67UTTi6ELg8Vk/xhNuAAA/uPaKl/+q+dfiBsb/9NI/9ZX/+Tj9fY769huhz2VXpu6m/100nVt7hdVPOiwmuWWTFfBS7uv5vLq3al7sRc1MbbzbfIMs9zjs46Bv6oDl4JyZFAHiKf6iMGaa9LDmY6sUTKb8kLvsL29+/SE+RPy+s0rJwD4JHtrois7DmgC4obN7p5/D9tKvXGQk1dqmaPzKBWr+EPGiuK8MKA8E/rJRgk8cfpuTs5gTxtdrX48UjEfXLrqctBuuIFXC9EMzjaZFJivo2vI5HMEcIxNGmPBLHD9rIdTJJ8qEzTAivr38Y2teVhXursVLHxzg/zBwajG+1vD4DGFVSTNmrGG/fOCdBYPSyFbsMfPx4vgQDN38FcVuUhL/NK9PhQdBZNpBE0vTFHtHjGLC3mJiSVO9qAaMgPlAiJdhWQZWcsEpkL9gpoKu4QU8VUtaezZHTyE4kqkVR8sRzQTIKtI8ntJvPTjybwDvqtmgGLYNVTccxIeYJDcM8PPPB26NSUqkRTvlPxjLLteGbRIwAAA");
   }
 }
 /* Plain headings remain readable over both cyan and navy portions, without boxes. */
@@ -2154,7 +2161,7 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 /* Approved replacement: dedicated tablet Night wallpaper. */
 @media (min-width: 768px) and (max-width: 1023.98px) {
   [data-theme="night"]:not([data-focus="on"]) [data-shell] {
-    background-image: url('/images/night/LA_NIGHT_TABLET_BACKGROUND.webp');
+    background-image: url("/images/night/LA_NIGHT_TABLET_BACKGROUND.eb7a5b8ca300.webp"), url("data:image/webp;base64,UklGRq4CAABXRUJQVlA4IKICAABwEgCdASpgAEgAPt1mqk6opa0iKJYMuaAbiWoAyB4m2j6BUXknZDkK7cB+YDz1ejA6mvekV/dPid1OZexmMRhRJCduV8p/smdzWHjZVdFLJHaG89aaxCPSBVIne9ORvF1wMLBU4kOEwuNzqbUpdZBrh6gtvIsuO3lCdPRiU/KEalpSUZFFdCzqjIlYCUaE4IqzaNjGMIWeKaoXgAAA/vW9oramUls9iiESQ6YLXyTbDo3XgqO/PBV16pHe/LtAL8nuPG+p/OiGUg2BVAgfasP2BXwep+FzKBRUiUsIJUTIKyYWtDBeKJmYmBRumtw/iPlTArOp/zI4Z/abrMzBJGLDX0O/pfplzH8XXTt0Slwl94mKpraKKSiMgPtoD2ErtaBb3w4XDKF24GVB2NFW2juHxbkCt4bTH42+M5ifsjOUWqYDPyB0NeVg8Ll3NOIWy7oFWbwXNyeuRCAsMp7CKK0B9bN0vrdlBoqtpYY0bkWGSegfwUSVuJuUCvNxvIB68zOc9Vn/5XCKNaztO89ofrIoOb+Vt1q+MxoHfD6X8g4RF2SkkAwjU4OjfXMT4tt7MOEYFlct7RV9sX4f6lnBQNty/tPDo1s+6nhPC7k9mUvd4rrFODWYocWu2j17wR4KTfodlvxcVTIcbGmfqX2Fl/CY0GPFaodW4kZ0y/fpSkRHhPumOum9zmD2VZvoj2O4fyuLUQBV6sxHTPKM1HnN8yvMHnsTEVYR9II8raIUQvs0O2ofHIudFK/KmPJXtGGCfXsRmHKbEFrDP9mHL6tS3doS3Y3qstHALRijiv1ffaBvP9QY1KZq5tajTfH5EOrKJliR0UweZqWxXaB59h+r9HL0gcpbQrrfTl+9Qr2/RQymFATEVWzaAn2McA/k8M/SUmAAAA==");
   }
 }
 
