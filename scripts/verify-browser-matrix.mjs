@@ -271,6 +271,33 @@ try {
    */
   console.log("\nPHASE 5 — status announcements and duplicate requests");
   const noLiveRegion = [];
+
+  /**
+   * Make the page change state, so a conditionally rendered live region has a reason to exist.
+   *
+   * Only controls INSIDE <main> are used, and navigation is never followed: clicking a tab, a
+   * filter, a disclosure or a "show more" is a state change, while clicking a link would measure
+   * a different page. Returns false when the surface owns no such control, which the caller must
+   * record as "not measurable" rather than as a defect.
+   */
+  async function triggerStateChange(page) {
+    const clicked = await page.evaluate(() => {
+      const candidates = Array.from(
+        document.querySelectorAll('main button:not([disabled]), main [role=tab], main [role=button], main [aria-expanded], main input[type=checkbox], main input[type=radio], main select'),
+      ).filter((el) => {
+        if (el.closest("a[href]")) return false;
+        const r = el.getBoundingClientRect();
+        return r.width > 0 && r.height > 0 && r.top >= 0 && r.top < window.innerHeight * 2;
+      });
+      const target = candidates[0];
+      if (!target) return false;
+      target.click();
+      return true;
+    });
+    if (!clicked) return false;
+    await new Promise((resolve) => setTimeout(resolve, 900));
+    return true;
+  }
   for (const surface of LEARNER_SURFACES) {
     const session = await createSession(browser, { base: BASE, email: STUDENT[0], password: STUDENT[1], viewport: 390, locale: "en" });
     try {
@@ -283,7 +310,25 @@ try {
       // A live region is required only where the page performs asynchronous work of its own. A
       // server-rendered hub that never fetches has no state change to announce, and demanding a
       // region from it flagged 20 pages that were behaving correctly.
-      if (audit.liveRegions === 0 && asyncWork) noLiveRegion.push(surface.path);
+      //
+      // Even that is not enough. In this product a status region is CONDITIONALLY rendered:
+      // /app/profile's photo panel owns `<p role="status">` but only once a save has produced a
+      // message, and the dictionary word popover owns `role="alert"` only once a lookup fails. So
+      // an at-rest count of 0 describes pages that implement announcements correctly. The honest
+      // test makes the page change state and measures again; only a page that still owns no region
+      // after a real interaction is a defect, and a page with no interactive control at all is
+      // recorded as an observation rather than counted as a failure.
+      let liveAfter = audit.liveRegions;
+      let interacted = false;
+      if (audit.liveRegions === 0 && asyncWork) {
+        interacted = await triggerStateChange(session.page);
+        if (interacted) liveAfter = (await auditPage(session.page)).liveRegions;
+      }
+      const regionMissing = asyncWork && interacted && liveAfter === 0;
+      if (regionMissing) noLiveRegion.push(surface.path);
+      else if (audit.liveRegions === 0 && asyncWork) {
+        notes.push(`${surface.id} ${surface.path}: no live region at rest (${interacted ? "and none after an interaction that changed state" : "no interactive control available to trigger one"}) — observation, not counted as a defect`);
+      }
       if (dupes.length) {
         notes.push(`${surface.id} ${surface.path}: ${dupes.length} duplicated product GET(s) — ${dupes.slice(0, 3).map((d) => `${d.url}×${d.count}`).join(", ")}`);
       }
@@ -293,10 +338,10 @@ try {
       row({
         id: `${surface.id}-RT`, area: surface.area, actor: "STUDENT_A", locale: "en",
         action: `${surface.path}: live regions, duplicate product requests and console errors at 390px`,
-        expected: "no product GET issued twice for the same URL; no console errors; a status region exists wherever the page fetches asynchronously",
-        actual: `async work=${asyncWork}; live regions=${audit.liveRegions}; duplicated product GETs=${dupes.length ? dupes.map((d) => `${d.url.replace(/^https?:\/\/[^/]+/, "")}×${d.count}`).join(", ") : "none"}; console errors=${session.consoleErrors.length}`,
+        expected: "no product GET issued twice for the same URL; no console errors; a status region exists wherever the page fetches asynchronously and changes state",
+        actual: `async work=${asyncWork}; live regions at rest=${audit.liveRegions}; after interaction=${liveAfter} (interacted=${interacted}); duplicated product GETs=${dupes.length ? dupes.map((d) => `${d.url.replace(/^https?:\/\/[^/]+/, "")}×${d.count}`).join(", ") : "none"}; console errors=${session.consoleErrors.length}`,
         verdict: dupes.length || session.consoleErrors.length ? "PERF_DEFECT"
-          : audit.liveRegions === 0 && asyncWork ? "A11Y_DEFECT" : "PASS",
+          : regionMissing ? "A11Y_DEFECT" : "PASS",
       });
     } finally {
       await session.close();
