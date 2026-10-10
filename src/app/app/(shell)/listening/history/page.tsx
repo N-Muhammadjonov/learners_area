@@ -30,7 +30,12 @@ export default async function ListeningHistoryPage() {
               <p className="text-sm font-medium text-ink-900">{test.title}</p>
               <p className="text-xs text-ink-300">
                 {attempt.status === "completed"
-                  ? `${dict.listening.score}: ${attempt.score}/${attempt.totalQuestions}`
+                  ? /* A completed attempt is not necessarily a graded one: score and
+                       total_questions stay NULL until grading runs. Interpolating them
+                       printed "Score: null/null" — an invented result. Say the truth. */
+                    attempt.score === null || attempt.totalQuestions === null
+                    ? `${dict.listening.score}: ${dict.listening.notGradedYet}`
+                    : `${dict.listening.score}: ${attempt.score}/${attempt.totalQuestions}`
                   : dict.listening.resumeAttempt}
               </p>
             </div>

@@ -25,7 +25,8 @@ export function ListeningAnalysis({
       <Card className="flex flex-col items-center gap-1 py-6 text-center">
         <span className="text-xs uppercase tracking-wide text-ink-300">{dict.listening.score}</span>
         <span className="font-display text-4xl text-ink-900">
-          {score}/{total}
+          {/* Finished but never graded is a real state: show it, do not print "/" or invent 0. */}
+          {score === null || total === null ? dict.listening.notGradedYet : `${score}/${total}`}
         </span>
       </Card>
 

@@ -1262,6 +1262,13 @@ const en = {
     questions: "questions",
     startAttempt: "Start",
     resumeAttempt: "Resume",
+    /*
+     * An attempt can be finished without ever being graded: `listening_attempts.status`
+     * reaches `completed` while `score` stays NULL. Rendering that as a number would
+     * invent a result the centre never gave, and interpolating it into a template
+     * literal printed "null/null" to the learner. This says what is actually true.
+     */
+    notGradedYet: "Not graded yet",
     submit: "Submit answers",
     submitConfirm: "Submitting locks your answers and shows the analysis. Continue?",
     yourAnswer: "Your answer",

@@ -1252,6 +1252,7 @@ const uz: Dictionary = {
     questions: "savol",
     startAttempt: "Boshlash",
     resumeAttempt: "Davom ettirish",
+    notGradedYet: "Hali baholanmagan",
     submit: "Javoblarni yuborish",
     submitConfirm: "Yuborish javoblaringizni yakunlaydi va tahlilni ko'rsatadi. Davom etamizmi?",
     yourAnswer: "Javobingiz",
