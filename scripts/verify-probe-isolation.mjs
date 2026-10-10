@@ -29,6 +29,7 @@ if (!DATABASE_URL) {
 const { assertMutableDatabase, createRowSweeper } = await import("./lib/fixture-safety.mjs");
 assertMutableDatabase(DATABASE_URL, { probe: "verify-probe-isolation" });
 const pg = (await import("pg")).default;
+const { spawnSync } = await import("node:child_process");
 
 const connect = async () => { const c = new pg.Client({ connectionString: DATABASE_URL }); await c.connect(); return c; };
 let pass = 0;
@@ -181,6 +182,112 @@ try {
     completedClean,
     completed[0]?.stdout.trim().slice(0, 160) ?? "no completing process",
   );
+
+  /* =======================================================================
+   * FAILURE PATHS. Everything above proves the lock works when capture() succeeds. A lock taken and
+   * never given back is worse than no lock: it wedges every other probe that shares the database.
+   * So the interesting cases are the ones where capture() cannot finish.
+   * ======================================================================= */
+
+  /* ---- A1: coverage that was asked for and not delivered is a failure, not a warning ---- */
+  {
+    const client = await connect();
+    const before = await countLabelled(admin);
+    const strict = createRowSweeper({ client, tables: ["users", "no_such_table_a1"], probe: "A1-strict" });
+    let threw = null;
+    try { await strict.capture(); } catch (e) { threw = e.message; }
+    check("A1: an unusable requested table is fatal, so cleanup coverage cannot shrink silently",
+      threw !== null && /refusing to mutate/i.test(threw ?? ""), threw ? threw.slice(0, 70) : "capture() succeeded on a table that does not exist");
+    const afterThrow = await countLabelled(admin);
+    check("A1: it is fatal BEFORE the first mutation, so nothing is written that cannot be cleaned",
+      afterThrow === before, `labelled rows ${before} → ${afterThrow}`);
+
+    // A genuinely optional table is the caller's claim to make, in writing, at the call site.
+    const lenient = createRowSweeper({
+      client, tables: ["users", "no_such_table_a1"], probe: "A1-optional",
+      optionalTables: ["no_such_table_a1"], // declared absent: no migration creates it in this suite
+    });
+    let lenientErr = null;
+    try { await lenient.capture(); await lenient.sweep(); } catch (e) { lenientErr = e.message; }
+    check("A1: a table the caller explicitly declared optional does not block the run",
+      lenientErr === null, lenientErr ?? "captured and swept with the optional table excluded");
+    await client.end();
+  }
+
+  /* ---- A2: a capture that fails must not leave the session holding the lock ---- */
+  {
+    const client = await connect();
+    const holderPid = Number((await client.query("select pg_backend_pid()::int pid")).rows[0].pid);
+    const leaky = createRowSweeper({ client, tables: ["users", "no_such_table_a2"], probe: "A2-leaky" });
+    try { await leaky.capture(); } catch { /* a probe reports the failure instead of crashing — and keeps its connection */ }
+
+    const still = await admin.query(
+      "select pid from pg_locks where locktype='advisory' and classid=$1 and objid=$2", [0x51a2f3, 1]);
+    check("A2: pg_locks shows no isolation lock left behind by the failed capture",
+      still.rows.length === 0, still.rows.length ? `still held by pid ${still.rows[0].pid}` : "none held");
+
+    // The victim is not this connection — pg_advisory_lock is re-entrant inside a session, so a
+    // same-connection retry would pass and hide the leak. The victim is any OTHER process.
+    const child = spawnSync(process.execPath, ["--input-type=module", "-e", `
+      import pg from "pg";
+      const { createRowSweeper } = await import(${JSON.stringify(new URL("./lib/fixture-safety.mjs", import.meta.url).href)});
+      const c = new pg.Client({ connectionString: process.env.DATABASE_URL });
+      await c.connect();
+      const s = createRowSweeper({ client: c, tables: ["users"], probe: "A2-other-process" });
+      try { await s.capture(); await s.sweep(); } catch (e) { console.log("REFUSED " + e.message); process.exit(3); }
+      await c.end();
+    `], { encoding: "utf8", env: { ...process.env, DATABASE_URL }, timeout: 60_000 });
+    check("A2: an unrelated process is not wedged by a capture that failed on another connection",
+      child.status === 0 && !/REFUSED/.test(child.stdout + child.stderr),
+      child.status === 0 ? "the other process captured and swept normally"
+        : `exit=${child.status} ${(child.stdout + child.stderr).trim().slice(0, 110)}`);
+    const samePid = Number((await client.query("select pg_backend_pid()::int pid")).rows[0].pid);
+    check("A2: the connection whose capture failed is still alive and unchanged",
+      samePid === holderPid, `pid ${holderPid} → ${samePid}`);
+    await client.end();
+  }
+
+  /* ---- A3: release is verified against the database, not assumed ---- */
+  {
+    const client = await connect();
+    const ok = createRowSweeper({ client, tables: ["activity_events"], probe: "A3-release" });
+    await ok.capture();
+    const duringLock = await admin.query(
+      "select pid from pg_locks where locktype='advisory' and classid=$1 and objid=$2", [0x51a2f3, 1]);
+    check("A3: the lock is really held while the sweeper is working", duringLock.rows.length === 1,
+      `holders=${duringLock.rows.length}`);
+    const result = await ok.sweep();
+    check("A3: sweep() reports how the lock was released rather than saying nothing",
+      result.lockReleased === "unlocked", `lockReleased=${result.lockReleased ?? "absent"}`);
+    const after = await admin.query(
+      "select pid from pg_locks where locktype='advisory' and classid=$1 and objid=$2", [0x51a2f3, 1]);
+    check("A3: pg_locks confirms the release — no holder remains", after.rows.length === 0,
+      after.rows.length ? `still held by pid ${after.rows[0].pid}` : "none held");
+
+    // A dead session cannot hold a session-scoped lock; the sweeper must say so accurately
+    // instead of throwing a misleading cleanup error at a connection that is already gone.
+    const dying = await connect();
+    const s2 = createRowSweeper({ client: dying, tables: ["activity_events"], probe: "A3-dead-session" });
+    await s2.capture();
+    const pid = Number((await dying.query("select pg_backend_pid()::int pid")).rows[0].pid);
+    // A server-side termination makes pg emit an async 'error' on the client. That error is the
+    // expected outcome of this check, so it is listened for; the query promise still rejects and is
+    // what gets judged below. Without a listener the process would die before any assertion ran.
+    dying.on("error", () => {});
+    await admin.query("select pg_terminate_backend($1)", [pid]);
+    await new Promise((r) => setTimeout(r, 500));
+    let deadErr = null;
+    try { await s2.sweep(); } catch (e) { deadErr = e.message; }
+    check("A3: a terminated session is not misreported as a stuck lock",
+      deadErr === null || /session-ended|connection|terminated|closed/i.test(deadErr ?? ""),
+      deadErr ?? "sweep recognised the session had ended");
+    const afterKill = await admin.query(
+      "select pid from pg_locks where locktype='advisory' and classid=$1 and objid=$2", [0x51a2f3, 1]);
+    check("A3: once the session dies the database holds no lock for it", afterKill.rows.length === 0,
+      afterKill.rows.length ? `holder pid ${afterKill.rows[0].pid}` : "none held");
+    await dying.end().catch(() => {});
+    await client.end();
+  }
 
   /* ------------------------------------------------------- final state */
   const leftLabelled = await countLabelled(admin);

@@ -166,9 +166,18 @@ test("withFixtures: cleanup runs after a PARTIAL setup failure, leaving no resid
 function fakeClient(tables: Record<string, string[]>) {
   const rowsIn = (table: string) => tables[table] ?? [];
   const queries: string[] = [];
+  /*
+   * The isolation lock is modelled with real STATE rather than a constant "yes". releaseIsolation()
+   * now verifies its own success — it asks pg_locks whether this backend still holds the lock — so a
+   * stub that answered "held" forever would make every sweep look like a leak, and a stub that
+   * answered "unlocked: true" unconditionally would let a sweeper that never released anything pass.
+   * Tracking the flag means these tests fail if the release is skipped.
+   */
+  let lockHeld = false;
   return {
     queries,
     tables,
+    get lockHeld() { return lockHeld; },
     async query(sql: string, params?: unknown[]) {
       queries.push(sql.replace(/\s+/g, " ").trim());
       const select = /select id from (\w+)/.exec(sql);
@@ -193,9 +202,17 @@ function fakeClient(tables: Record<string, string[]>) {
        * holds the lock" and every sweeper test would be refused for the wrong reason. These answers
        * model one probe running alone, which is what each of these tests is.
        */
-      if (/pg_try_advisory_lock/.test(sql)) return { rows: [{ ok: true }] };
-      if (/pg_advisory_unlock/.test(sql)) return { rows: [{ ok: true }] };
-      if (/from pg_locks/.test(sql)) return { rows: [{ n: 1, pid: 4242 }] };
+      if (/pg_try_advisory_lock/.test(sql)) {
+        const granted = !lockHeld;
+        lockHeld = true;
+        return { rows: [{ ok: granted }] };
+      }
+      if (/pg_advisory_unlock/.test(sql)) {
+        const wasHeld = lockHeld;
+        lockHeld = false;
+        return { rows: [{ unlocked: wasHeld }] };
+      }
+      if (/from pg_locks/.test(sql)) return { rows: [{ n: lockHeld ? 1 : 0, pid: 4242 }] };
       return { rows: [] };
     },
   };
@@ -231,7 +248,11 @@ test("the sweeper reports residue when a delete does not take effect", async () 
     // Replacing client.query replaces the whole contract, including the isolation ownership check
     // sweep() now makes. Without this the test would fail for "lost the lock" instead of testing
     // the thing it is about, which is a delete that silently does nothing.
-    if (/pg_advisory_unlock/.test(sql)) return { rows: [{ ok: true }] };
+    if (/pg_advisory_unlock/.test(sql)) return { rows: [{ unlocked: true }] };
+    // This pg_locks query IS the ownership check sweep() makes (it filters on pg_backend_pid()), so
+    // it must answer "still held": n:0 here would refuse the sweep for the wrong reason. It is
+    // matched before the generic pg_backend_pid() case below because it contains both patterns.
+    if (/from pg_locks/.test(sql)) return { rows: [{ n: 1 }] };
     if (/pg_backend_pid\(\)/.test(sql)) return { rows: [{ n: 1 }] };
     return { rows: [] };
   }) as never;
@@ -284,12 +305,14 @@ test("the sweeper fails closed when schema introspection answers nothing", async
       const select = /select id from (\w+)/.exec(sql);
       if (select) return { rows: [{ id: "leaked-row" }] };
       if (/pg_try_advisory_lock/.test(sql)) return { rows: [{ ok: true }] };
-      if (/pg_advisory_unlock/.test(sql)) return { rows: [{ ok: true }] };
-      if (/from pg_locks/.test(sql)) return { rows: [{ n: 1, pid: 4242 }] };
+      if (/pg_advisory_unlock/.test(sql)) return { rows: [{ unlocked: true }] };
+      if (/from pg_locks/.test(sql)) return { rows: [{ n: 0, pid: 4242 }] };
       return { rows: [] };
     },
   };
   const sweeper = createRowSweeper({ client: client as never, tables: ["widgets"], probe: "blind" });
+  // A2: the CAUSE must survive the cleanup. capture() gives the lock back on the way out, and a
+  // release that reports a problem must not replace the reason the capture failed.
   await assert.rejects(() => sweeper.capture(), /refusing to sweep blind/);
 });
 
@@ -304,13 +327,45 @@ test("the sweeper names the tables it cannot cover instead of failing on a raw S
   // `audit_log` is not in the stub's known tables, so both extras are reported by name.
   const unusable = await sweeper.validateTables();
   assert.deepEqual(unusable, ["not_a_real_table (no such table)", "audit_log (no such table)"]);
-  // The usable table is still covered: a typo must not disable the whole sweep.
+});
+
+/*
+ * A1. The test above used to continue from that point: it dropped the unusable names and swept the
+ * rest, which is how a typo in a table list silently reduced cleanup coverage while the run still
+ * reported zero residue. Asking for a table to be cleaned and not cleaning it is a failure, so
+ * capture() now refuses — before any mutation — unless the caller states the table is optional.
+ */
+test("a requested table that cannot be swept is fatal rather than quietly dropped", async () => {
+  const { createRowSweeper } = await mod();
+  const client = fakeClient({ widgets: ["pre-existing"] });
+  const sweeper = createRowSweeper({
+    client: client as never,
+    tables: ["widgets", "not_a_real_table"],
+    probe: "typo",
+  });
+  await assert.rejects(() => sweeper.capture(), /refusing to mutate[\s\S]*not_a_real_table/);
+  assert.deepEqual(client.tables.widgets, ["pre-existing"], "nothing was written before the refusal");
+  assert.equal(client.lockHeld, false, "and the isolation lock was given back on the way out (A2)");
+});
+
+test("a table the caller declares optional is excluded without blocking the run", async () => {
+  const { createRowSweeper } = await mod();
+  const client = fakeClient({ widgets: ["pre-existing"] });
+  const sweeper = createRowSweeper({
+    client: client as never,
+    tables: ["widgets", "not_a_real_table"],
+    probe: "declared",
+    optionalTables: ["not_a_real_table"],
+  });
   await sweeper.capture();
   client.tables.widgets = ["pre-existing", "created-during-run"];
   const result = await sweeper.sweep();
+  // The declared-optional table is excluded, but the usable one is still covered in full: a
+  // declaration narrows coverage deliberately and visibly, it never disables the sweep.
   assert.deepEqual(result.removed, ["widgets: 1"]);
   assert.deepEqual(result.residue, []);
   assert.deepEqual(client.tables.widgets, ["pre-existing"], "the pre-existing row is never touched");
+  assert.equal(client.lockHeld, false, "the lock is released after a normal sweep");
 });
 
 /*

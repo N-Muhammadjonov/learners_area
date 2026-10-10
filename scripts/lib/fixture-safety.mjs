@@ -158,14 +158,30 @@ export async function withFixtures(body, cleanup) {
  * because that is the defect being fixed. The refusal names the backend holding the lock so the
  * operator can see which run is still in flight.
  *
- * CONTRACT this relies on, and the reason one global lock is enough: any probe that writes fixtures
- * must write them through a sweeper. A writer that creates rows without one is outside the contract
- * and no locking scheme short of a database per probe could attribute its rows.
+ * WHAT THIS DOES AND DOES NOT GUARANTEE — read this before trusting a "no residue" result.
+ *
+ * The lock is a COOPERATION PROTOCOL, not isolation. It guarantees that two probes which both use a
+ * sweeper cannot have overlapping mutation windows. It guarantees nothing at all about a writer that
+ * does not participate: such a writer never attempts the lock, so it is never refused, and its rows
+ * land inside the difference set exactly like the probe's own.
+ *
+ * That is not a theoretical gap. scripts/verify-probe-isolation.mjs demonstrates it as its first
+ * check, labelled HAZARD: with sweeper A holding the lock, a foreign session inserts one row, and
+ * A's sweep() would delete two — its own plus the foreign one — because attribution by difference
+ * cannot tell whose row is whose. The check passes by proving the hazard is real, not by preventing
+ * it. No advisory lock, lease, or tagging scheme can close it while the rows are unattributable.
+ *
+ * The only sound isolation is therefore ownership of the database: one disposable database per probe
+ * run. Until that exists, the enforceable rule is operational — never run two fixture-writing probes
+ * against the same database at the same time, and never point a probe at a database that anything
+ * else is writing to. `assertMutableDatabase()` is the guard that keeps that database disposable;
+ * the lock is the guard that keeps cooperating probes out of each other's windows. Neither one makes
+ * a shared database safe against a stranger.
  */
 const SWEEPER_LOCK_CLASS = 0x51a2f3; // "row sweeper"
 const SWEEPER_LOCK_OBJ = 1; // one lock for the database, not one per table set: probes overlap on activity_events
 
-export function createRowSweeper({ client, tables: requestedTables, probe = "probe" }) {
+export function createRowSweeper({ client, tables: requestedTables, probe = "probe", optionalTables = [] }) {
   let tables = requestedTables;
   if (!client) throw new Error("createRowSweeper requires a connected pg client");
   if (!Array.isArray(tables) || tables.length === 0) {
@@ -214,10 +230,37 @@ export function createRowSweeper({ client, tables: requestedTables, probe = "pro
     return Number(rows[0]?.n ?? 0) === 1;
   }
 
+  /*
+   * A3. Release is verified, not assumed. This used to swallow every error from the unlock call, so
+   * a sweeper could report a clean run while still holding the lock — and "cleanup succeeded" would
+   * then be a claim about the rows only, with the next probe silently blocked. Two outcomes are
+   * legitimate and one is not:
+   *
+   *   - the unlock returns true: we held it and no longer do;
+   *   - the connection is gone: a closed session cannot hold a session-scoped lock, so the lock is
+   *     released by definition, and saying so is accurate rather than optimistic;
+   *   - the unlock fails or returns false while the session is alive: the lock may still be held, and
+   *     that is reported as a failure instead of being hidden.
+   */
   async function releaseIsolation() {
-    if (!lockHeld) return;
+    if (!lockHeld) return { released: true, how: "not-held" };
     lockHeld = false;
-    await client.query("select pg_advisory_unlock($1, $2)", [SWEEPER_LOCK_CLASS, SWEEPER_LOCK_OBJ]).catch(() => {});
+    try {
+      const { rows } = await client.query("select pg_advisory_unlock($1, $2) as unlocked", [
+        SWEEPER_LOCK_CLASS, SWEEPER_LOCK_OBJ,
+      ]);
+      if (rows[0]?.unlocked === true) return { released: true, how: "unlocked" };
+      // false means this session did not hold it — already released, or taken over by a reconnect.
+      // Confirm against pg_locks rather than trusting the boolean alone.
+      if (!(await isolationStillHeld())) return { released: true, how: "already-released" };
+      throw new Error("pg_advisory_unlock returned false but pg_locks still grants it to this backend");
+    } catch (error) {
+      // A dead connection cannot hold a session-scoped lock. Anything else is a real failure.
+      if (/connection|terminated|closed|ECONNRESET|EPIPE/i.test(String(error?.message ?? error))) {
+        return { released: true, how: "session-ended" };
+      }
+      throw new Error(`${probe}: could not release the fixture-isolation lock: ${error?.message ?? error}`);
+    }
   }
 
   async function idsOf(table) {
@@ -261,10 +304,25 @@ export function createRowSweeper({ client, tables: requestedTables, probe = "pro
       else if (!have.get(table)) unusable.push(`${table} (no "id" column)`);
     }
     if (unusable.length) {
-      console.warn(`  !! ${probe}: sweeper cannot cover: ${unusable.join(", ")}`);
-      for (const entry of unusable) {
-        const name = entry.split(" ")[0];
-        tables = tables.filter((table) => table !== name);
+      /*
+       * A1. This used to warn and drop the unusable names, then carry on. That is the unsafe
+       * direction: the caller asked for those tables to be cleaned, and a sweep that quietly covers
+       * fewer tables than requested still reports "residue: none" — so a probe could leave rows
+       * behind in a table it believed was covered, and the run would look clean. Coverage that was
+       * asked for and not delivered is a failure, not a warning.
+       *
+       * A table may legitimately be absent — an optional feature table, or one that only exists
+       * after a later migration — but that is the CALLER's claim to make, by naming it in
+       * `optionalTables` where the reason is written down. Anything not declared is fatal, and it is
+       * fatal here, before the first mutation, so nothing is written that cannot be cleaned up.
+       */
+      // A table the caller declared optional is dropped from coverage here, loudly, so the run
+      // states what it is not cleaning. Everything else is reported and left for capture() to
+      // enforce: this function answers a question, it does not decide whether the run may proceed.
+      const declared = unusable.filter((entry) => optionalTables.includes(entry.split(" ")[0]));
+      for (const entry of declared) {
+        console.warn(`  !! ${probe}: optional table not swept (declared by the caller): ${entry}`);
+        tables = tables.filter((table) => table !== entry.split(" ")[0]);
       }
     }
     return unusable;
@@ -282,11 +340,46 @@ export function createRowSweeper({ client, tables: requestedTables, probe = "pro
       // Lock first: a baseline taken outside isolation could adopt rows another probe is about to
       // delete, and would then attribute that probe's next inserts to this run.
       await acquireIsolation();
-      // Validating here rather than only on demand: a probe that forgets to call
-      // validateTables() still gets an accurate baseline instead of a raw SQL throw.
-      await validateTables();
-      for (const table of tables) baseline.set(table, new Set(await idsOf(table)));
-      captured = true;
+      /*
+       * A2. Everything after the lock can throw — validateTables() deliberately throws when the
+       * schema cannot be introspected or when a requested table cannot be swept, and any SELECT can
+       * fail on a dropped connection. If it did, capture() exited with the lock held and
+       * `captured` still false, so sweep() refused with "called without capture" and
+       * releaseIsolation() was never reached. The session then sat on the lock: every later probe
+       * sharing that connection was refused, and a caller that caught the error and kept going held
+       * it for the rest of the process. A failed capture must leave no lock behind.
+       */
+      try {
+        // Validating here rather than only on demand: a probe that forgets to call
+        // validateTables() still gets an accurate baseline instead of a raw SQL throw.
+        const unusable = await validateTables();
+        // A1. Enforced at the mutation gate, before a single baseline read: a table the caller asked
+        // to have cleaned and that cannot be cleaned is a failure, not a warning to carry on from.
+        const undeclared = unusable.filter((entry) => !optionalTables.includes(entry.split(" ")[0]));
+        if (undeclared.length) {
+          throw new Error(
+            `${probe}: refusing to mutate — the sweeper cannot cover ${undeclared.join(", ")}. ` +
+            `Fix the table name, or declare it in optionalTables with the reason, so that cleanup ` +
+            `coverage is a stated contract rather than a silent reduction.`,
+          );
+        }
+        for (const table of tables) baseline.set(table, new Set(await idsOf(table)));
+        captured = true;
+      } catch (error) {
+        // Give the lock back, but never let the release hide the cause. A caller that sees only
+        // "could not release the lock" would go looking in the wrong place; a caller that sees only
+        // the original error would not know the session is still holding the lock. Both matter.
+        let releaseError = null;
+        try { await releaseIsolation(); } catch (e) { releaseError = e; }
+        baseline.clear();
+        if (releaseError) {
+          throw new Error(
+            `${probe}: capture() failed — ${error?.message ?? error} — AND the isolation lock could ` +
+            `not be released: ${releaseError?.message ?? releaseError}. This session may still hold it.`,
+          );
+        }
+        throw error;
+      }
     },
 
     /** Remove this run's rows and VERIFY. Cleanup that is not checked proves nothing. */
@@ -317,9 +410,26 @@ export function createRowSweeper({ client, tables: requestedTables, probe = "pro
           const remaining = (await idsOf(table)).filter((id) => !before.has(id));
           if (remaining.length) residue.push(`${table}: ${remaining.length}`);
         }
-        return { removed, residue };
-      } finally {
-        await releaseIsolation();
+        // A3: a release failure is a cleanup failure. It must not be masked by a successful delete,
+        // and it must not be reported as though the run were clean.
+        const release = await releaseIsolation();
+        if (!release.released) {
+          throw new Error(`${probe}: rows were removed but the isolation lock was not released (${release.how})`);
+        }
+        return { removed, residue, lockReleased: release.how };
+      } catch (error) {
+        // The delete path failed: still give the lock back, then let the original error propagate so
+        // the caller sees the real cause rather than a cleanup message. A release failure is
+        // reported alongside it rather than swallowing either one.
+        let releaseError = null;
+        try { await releaseIsolation(); } catch (e) { releaseError = e; }
+        if (releaseError) {
+          throw new Error(
+            `${probe}: sweep() failed — ${error?.message ?? error} — AND the isolation lock could ` +
+            `not be released: ${releaseError?.message ?? releaseError}. This session may still hold it.`,
+          );
+        }
+        throw error;
       }
     },
   };
