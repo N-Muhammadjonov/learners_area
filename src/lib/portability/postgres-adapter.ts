@@ -1,5 +1,5 @@
 import "server-only";
-import { getTableConfig } from "drizzle-orm/pg-core";
+import { getTableConfig, PgDialect } from "drizzle-orm/pg-core";
 import { getTableColumns, getTableName } from "drizzle-orm";
 import * as schema from "@/db/schema";
 import { PORTABILITY_TABLES, tablesForScope, type PortableTable } from "./classification";
@@ -9,10 +9,11 @@ import type { ExportScope, PortableObject, PortableRow, RowFileManifest } from "
 import { stableJson } from "./archive";
 
 type QueryResult = { rows: Record<string, unknown>[] };
-type PgClient = { query(text: string, values?: unknown[]): Promise<QueryResult>; release?: () => void };
+type PgClient = { query(text: string, values?: unknown[]): Promise<QueryResult>; release?: (error?: Error | boolean) => void };
 export type PgPool = { connect(): Promise<PgClient> };
 type ForeignReference = { table: PortableTable; fields: string[]; targetFields: string[]; nullableFields: string[]; deferred: boolean };
-type TableMetadata = { sqlName: string; columns: Map<string, string>; primaryKeys: string[]; dependencies: string[]; actorFields: string[]; references: ForeignReference[] };
+type UniqueTuple = { fields: string[]; nullsNotDistinct: boolean; predicate?: { sql: string; params: unknown[] } };
+type TableMetadata = { sqlName: string; columns: Map<string, string>; defaults: Record<string, unknown>; uniqueTuples: UniqueTuple[]; primaryKeys: string[]; dependencies: string[]; actorFields: string[]; references: ForeignReference[] };
 const IDENTIFIER = /^[a-z][a-z0-9_]*$/;
 const metadata = new Map<PortableTable, TableMetadata>();
 const schemaTables = new Map<string, Parameters<typeof getTableColumns>[0]>();
@@ -30,6 +31,19 @@ for (const tableName of Object.keys(PORTABILITY_TABLES) as PortableTable[]) {
     mapped.set(property, column.name); if (column.primary) primaryKeys.push(property);
   }
   const config = getTableConfig(table as Parameters<typeof getTableConfig>[0]);
+  const defaults = Object.fromEntries(Object.entries(columns).filter(([, column]) => ["string", "number", "boolean"].includes(typeof column.default)).map(([field, column]) => [field, column.default]));
+  const uniqueTuples: UniqueTuple[] = Object.entries(columns).filter(([, column]) => column.isUnique).map(([field, column]) => ({ fields: [field], nullsNotDistinct: column.uniqueType === "not distinct" }));
+  const propertyFor = (name: string) => [...mapped].find(([, column]) => column === name)?.[0];
+  for (const constraint of config.uniqueConstraints) {
+    uniqueTuples.push({ fields: constraint.columns.map(column => propertyFor(column.name)!), nullsNotDistinct: constraint.nullsNotDistinct });
+  }
+  for (const index of config.indexes.filter(index => index.config.unique)) {
+    const fields = index.config.columns.map(column => "name" in column && column.name ? propertyFor(column.name) : undefined);
+    // Never silently drop a future expression index from dry-run validation.
+    if (fields.some(field => !field)) throw new Error(`portable_unique_expression_unsupported:${tableName}`);
+    uniqueTuples.push({ fields: fields as string[], nullsNotDistinct: false,
+      ...(index.config.where ? { predicate: new PgDialect().sqlToQuery(index.config.where) } : {}) });
+  }
   for (const key of config.primaryKeys) {
     for (const column of key.columns) {
       const property = [...mapped].find(([, name]) => name === column.name)?.[0];
@@ -50,7 +64,7 @@ for (const tableName of Object.keys(PORTABILITY_TABLES) as PortableTable[]) {
       targetFields: ref.foreignColumns.map(column => Object.entries(targetColumns).find(([, c]) => c.name === column.name)![0]),
       nullableFields: ref.columns.filter(column => !column.notNull).map(column => [...mapped].find(([, name]) => name === column.name)![0]), deferred: false };
   });
-  metadata.set(tableName, { sqlName: tableName, columns: mapped, primaryKeys, dependencies, actorFields, references });
+  metadata.set(tableName, { sqlName: tableName, columns: mapped, defaults, uniqueTuples, primaryKeys, dependencies, actorFields, references });
 }
 function reaches(from: PortableTable, to: PortableTable, seen = new Set<string>()): boolean {
   if (from === to) return true;
@@ -108,6 +122,7 @@ export function createPostgresImportDestination(pool: PgPool, copyObject?: (obje
   const retainedOwnerIds = new Set(authorization ? [authorization.ownerId.toLowerCase(), ...[...authorization.identityMap?.values() ?? []].map(id => id.toLowerCase())] : []);
   const forClient = (client: PgClient, usedIdentities: Set<string>): ImportTransaction => {
     const seen = new Set<string>();
+    const uniqueSeen = new Set<string>();
     const parents = new Set<string>();
     const references: Array<{ ref: ForeignReference; values: unknown[] }> = [];
     const deferred: Array<{ table: PortableTable; keys: unknown[]; links: Record<string, unknown> }> = [];
@@ -178,6 +193,22 @@ export function createPostgresImportDestination(pool: PgPool, copyObject?: (obje
       row = await project(table, row, identityMap);
       const meta = tableMeta(table);
       if (!meta.primaryKeys.length) return "create";
+      // Let PostgreSQL normalize UUIDs, numbers, timestamps and partial-index
+      // predicates without inserting anything. Archive spelling is not SQL
+      // identity, and dry-run must detect secondary/composite unique conflicts.
+      const effective = { ...meta.defaults, ...row };
+      const parameters: unknown[] = [JSON.stringify(Object.fromEntries(Object.entries(effective).map(([field, value]) => [meta.columns.get(field)!, decode(value)])))];
+      const predicates = meta.uniqueTuples.map((tuple, i) => {
+        if (!tuple.predicate) return `true as "eligible_${i}"`;
+        const offset = parameters.length;
+        const sql = tuple.predicate.sql.replace(/\$(\d+)/g, (_, n: string) => `$${Number(n) + offset}`);
+        parameters.push(...tuple.predicate.params);
+        return `(${sql}) is true as "eligible_${i}"`;
+      });
+      const normalized = (await client.query(`select to_jsonb(${quote(table)}) as candidate${predicates.length ? "," + predicates.join(",") : ""} from jsonb_populate_record(null::${quote(table)},$1::jsonb) as ${quote(table)}`, parameters)).rows[0];
+      if (!normalized?.candidate || typeof normalized.candidate !== "object") throw new Error("portable_row_normalization_failed");
+      const candidate = normalized.candidate as Record<string, unknown>;
+      row = Object.fromEntries(Object.keys(row).map(field => [field, candidate[meta.columns.get(field)!]]));
       const values = meta.primaryKeys.map((key) => row[key]);
       if (values.some((value) => value === undefined || value === null)) throw new Error("portable_primary_key_required");
       const identity = `${table}:${stableJson(values)}`;
@@ -196,8 +227,24 @@ export function createPostgresImportDestination(pool: PgPool, copyObject?: (obje
         if (typeof row.id !== "string" || !retainedOwnerIds.has(row.id.toLowerCase())) throw new Error("portable_owner_identity_reconciliation_required");
         return "skip";
       }
-      const where = meta.primaryKeys.map((key, index) => `${quote(meta.columns.get(key)!)} = $${index + 1}`).join(" and ");
-      const result = await client.query(`select 1 as present from ${quote(meta.sqlName)} where ${where} limit 1`, values.map(decode));
+      const comparisons = [meta.primaryKeys.map((key, index) => `${quote(meta.columns.get(key)!)} = $${index + 1}`).join(" and ")];
+      const comparedValues = values.map(decode);
+      for (const [index, tuple] of meta.uniqueTuples.entries()) {
+        const tupleValues = tuple.fields.map(field => candidate[meta.columns.get(field)!]);
+        if (!normalized[`eligible_${index}`] || !tuple.nullsNotDistinct && tupleValues.some(value => value == null)) continue;
+        const identity = `${table}:${index}:${stableJson(tupleValues)}`;
+        if (uniqueSeen.has(identity)) return "conflict";
+        uniqueSeen.add(identity);
+        let comparison = tuple.fields.map((field, i) => `${quote(meta.columns.get(field)!)} ${tuple.nullsNotDistinct ? "is not distinct from" : "="} $${comparedValues.length + i + 1}`).join(" and ");
+        comparedValues.push(...tupleValues.map(decode));
+        if (tuple.predicate) {
+          const offset = comparedValues.length;
+          comparison += ` and (${tuple.predicate.sql.replace(/\$(\d+)/g, (_, n: string) => `$${Number(n) + offset}`)})`;
+          comparedValues.push(...tuple.predicate.params);
+        }
+        comparisons.push(comparison);
+      }
+      const result = await client.query(`select 1 as present from ${quote(meta.sqlName)} where ${comparisons.map(comparison => `(${comparison})`).join(" or ")} limit 1`, comparedValues);
       return result.rows.length ? "conflict" : "create";
     },
     async applyRow(table, row: PortableRow, identityMap) {
@@ -240,13 +287,15 @@ export function createPostgresImportDestination(pool: PgPool, copyObject?: (obje
     async transaction<T>(work: (transaction: ImportTransaction) => Promise<T>) {
       const client = await pool.connect();
       let commitAttempted = false;
+      let discardConnection: Error | undefined;
       try {
         await client.query("begin");
         if (authorization) {
-          // One restore at a time, including different initiating owners.
-          // Acquire the relation lock before actor rows to avoid reversed lock order.
-          const anchor = authorization.scope === "riwi" ? "riwi_knowledge_sources" : "users";
-          await client.query(`lock table ${quote(anchor)} in share row exclusive mode`);
+          // Fence ordinary writes as well as other restores until validation and
+          // commit finish. A single anchor cannot protect the other empty tables.
+          // Shared scopes acquire every relation in the same global order.
+          const relations = [...tablesForScope(authorization.scope)].sort();
+          await client.query(`lock table ${relations.map(quote).join(",")} in share row exclusive mode`);
           const owner = await client.query("select id from users where id=$1 and role='owner' and account_status='active' for share", [authorization.ownerId]);
           if (!owner.rows.length) throw new Error("portable_owner_required");
           for (const target of new Set(authorization.identityMap?.values())) {
@@ -268,11 +317,19 @@ export function createPostgresImportDestination(pool: PgPool, copyObject?: (obje
         return value;
       }
       catch (error) {
-        await client.query("rollback").catch(() => {});
-        if (commitAttempted) throw new Error("portable_import_commit_uncertain", { cause: error });
+        try { await client.query("rollback"); }
+        catch (rollbackError) {
+          discardConnection = rollbackError instanceof Error ? rollbackError : new Error("portable_import_rollback_failed", { cause: rollbackError });
+        }
+        if (commitAttempted) {
+          // A lost COMMIT response cannot be repaired by retrying the archive or
+          // by returning this session to the pool, even if ROLLBACK responds.
+          discardConnection = new Error("portable_import_commit_uncertain", { cause: error });
+          throw discardConnection;
+        }
         throw error;
       }
-      finally { client.release?.(); }
+      finally { client.release?.(discardConnection); }
     },
   };
 }

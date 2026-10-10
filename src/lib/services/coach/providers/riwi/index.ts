@@ -81,7 +81,11 @@ export class RiwiProvider implements EvaluationProvider {
     }
   }
 
-  async evaluateGrammar(_ctx: EvaluationContext, input: GrammarEvaluationInput) {
+  async evaluateGrammar(ctx: EvaluationContext, input: GrammarEvaluationInput) {
+    const task = ctx.assessmentContract?.key;
+    if (task && task !== "grammar.correct-it" && task !== "grammar.activate-it") {
+      return providerFail("capability_missing", "riwi_grammar_task_semantics_unsupported");
+    }
     try {
       const output = evaluateGrammarWithRiwi(input);
       if (!output.issues.length && output.criteria.some(c => c.key === "target_structure" && c.limited)) {
@@ -93,7 +97,11 @@ export class RiwiProvider implements EvaluationProvider {
     }
   }
 
-  async evaluateVocabulary(_ctx: EvaluationContext, input: VocabularyEvaluationInput) {
+  async evaluateVocabulary(ctx: EvaluationContext, input: VocabularyEvaluationInput) {
+    const task = ctx.assessmentContract?.key;
+    if (task && task !== "vocabulary.use-in-sentence" && task !== "vocabulary.activation") {
+      return providerFail("capability_missing", "riwi_vocabulary_task_semantics_unsupported");
+    }
     try {
       const output = evaluateVocabularyWithRiwi(input);
       if (!output.issues.length) return providerFail("capability_missing", "riwi_vocabulary_semantics_unassessed");

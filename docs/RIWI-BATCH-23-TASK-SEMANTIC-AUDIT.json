@@ -1,0 +1,1246 @@
+{
+  "source_sha256": "62cba147591859e0ace157e4ab799fa120d1b184bcb72361f8efa9f7ddaecd48",
+  "source_tasks": 68,
+  "contract_mapping_is_runtime_acceptance": false,
+  "acceptance_credit": 0,
+  "remaining_groups": [
+    "B01",
+    "B04"
+  ],
+  "tasks": [
+    {
+      "number": 1,
+      "sourceKey": "writing.task1.line_graph",
+      "contractKey": "writing.task1.line-chart",
+      "sourceLine": 753,
+      "purpose": "Writing Task 1 — Line Graph",
+      "focus": "overview; major trends; significant features; meaningful comparisons; data accuracy; trend vocabulary",
+      "method": "OVERVIEW → KEY FEATURES → COMPARISONS → LANGUAGE → GRAMMAR",
+      "guard": "Do not reward reporting every number. Do not invent data.",
+      "execution": "coach_evaluation",
+      "scoringMode": "writing_band_estimate",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/writing.ts",
+        "src/lib/services/writing/check.ts"
+      ],
+      "runtime_boundary": "canonical Writing evaluation or short-check service; source-task semantics still require separate acceptance",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 2,
+      "sourceKey": "writing.task1.bar_chart",
+      "contractKey": "writing.task1.bar-chart",
+      "sourceLine": 794,
+      "purpose": "Writing Task 1 — Bar Chart",
+      "focus": "overview; highest/lowest; grouping; comparisons; numerical language",
+      "method": "OVERVIEW → GROUPS → COMPARISONS → LANGUAGE",
+      "guard": "Do not narrate every bar mechanically.",
+      "execution": "coach_evaluation",
+      "scoringMode": "writing_band_estimate",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/writing.ts",
+        "src/lib/services/writing/check.ts"
+      ],
+      "runtime_boundary": "canonical Writing evaluation or short-check service; source-task semantics still require separate acceptance",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 3,
+      "sourceKey": "writing.task1.pie_chart",
+      "contractKey": "writing.task1.pie-chart",
+      "sourceLine": 835,
+      "purpose": "Writing Task 1 — Pie Chart",
+      "focus": "largest/smallest shares; proportions; changes across charts; significant comparisons",
+      "method": "OVERVIEW → PROPORTIONS → CHANGES → LANGUAGE",
+      "guard": "Do not list every slice without synthesis.",
+      "execution": "coach_evaluation",
+      "scoringMode": "writing_band_estimate",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/writing.ts",
+        "src/lib/services/writing/check.ts"
+      ],
+      "runtime_boundary": "canonical Writing evaluation or short-check service; source-task semantics still require separate acceptance",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 4,
+      "sourceKey": "writing.task1.table",
+      "contractKey": "writing.task1.table",
+      "sourceLine": 876,
+      "purpose": "Writing Task 1 — Table",
+      "focus": "patterns in dense data; grouping; overview; units; exceptions",
+      "method": "OVERVIEW → GROUP ROWS/COLUMNS → COMPARE → CHECK UNITS",
+      "guard": "Do not convert table row-by-row into prose.",
+      "execution": "coach_evaluation",
+      "scoringMode": "writing_band_estimate",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/writing.ts",
+        "src/lib/services/writing/check.ts"
+      ],
+      "runtime_boundary": "canonical Writing evaluation or short-check service; source-task semantics still require separate acceptance",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 5,
+      "sourceKey": "writing.task1.mixed",
+      "contractKey": "writing.task1.mixed",
+      "sourceLine": 917,
+      "purpose": "Writing Task 1 — Mixed Charts",
+      "focus": "one integrated overview; relationship between visuals; selective reporting; units",
+      "method": "INTEGRATED OVERVIEW → LINK VISUALS → KEY FEATURES",
+      "guard": "Do not write disconnected mini-reports.",
+      "execution": "coach_evaluation",
+      "scoringMode": "writing_band_estimate",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/writing.ts",
+        "src/lib/services/writing/check.ts"
+      ],
+      "runtime_boundary": "canonical Writing evaluation or short-check service; source-task semantics still require separate acceptance",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 6,
+      "sourceKey": "writing.task1.process",
+      "contractKey": "writing.task1.process",
+      "sourceLine": 958,
+      "purpose": "Writing Task 1 — Process",
+      "focus": "start/end; sequence; essential stages; overview; natural passive voice",
+      "method": "START → STAGES → END → LANGUAGE",
+      "guard": "Do not demand trend vocabulary or invent cause/effect.",
+      "execution": "coach_evaluation",
+      "scoringMode": "writing_band_estimate",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/writing.ts",
+        "src/lib/services/writing/check.ts"
+      ],
+      "runtime_boundary": "canonical Writing evaluation or short-check service; source-task semantics still require separate acceptance",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 7,
+      "sourceKey": "writing.task1.map",
+      "contractKey": "writing.task1.map",
+      "sourceLine": 999,
+      "purpose": "Writing Task 1 — Maps",
+      "focus": "overall transformation; spatial language; added/removed/relocated/expanded features",
+      "method": "OVERVIEW → AREA/GROUP CHANGES → COMPARE",
+      "guard": "Do not invent locations not visible in source.",
+      "execution": "coach_evaluation",
+      "scoringMode": "writing_band_estimate",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/writing.ts",
+        "src/lib/services/writing/check.ts"
+      ],
+      "runtime_boundary": "canonical Writing evaluation or short-check service; source-task semantics still require separate acceptance",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 8,
+      "sourceKey": "writing.task2.opinion",
+      "contractKey": "writing.task2.opinion",
+      "sourceLine": 1040,
+      "purpose": "Writing Task 2 — Opinion",
+      "focus": "clear position; maintained stance; relevant reasons; developed support",
+      "method": "POSITION → REASONS → DEVELOPMENT → EVIDENCE",
+      "guard": "Unclear position is a major Task Response issue.",
+      "execution": "coach_evaluation",
+      "scoringMode": "writing_band_estimate",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/writing.ts",
+        "src/lib/services/writing/check.ts"
+      ],
+      "runtime_boundary": "canonical Writing evaluation or short-check service; source-task semantics still require separate acceptance",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 9,
+      "sourceKey": "writing.task2.discussion",
+      "contractKey": "writing.task2.discussion",
+      "sourceLine": 1081,
+      "purpose": "Writing Task 2 — Discuss Both Views",
+      "focus": "both views explained; own opinion; balanced development",
+      "method": "VIEW A → VIEW B → OWN POSITION → SUPPORT",
+      "guard": "Do not reduce either view to a strawman.",
+      "execution": "coach_evaluation",
+      "scoringMode": "writing_band_estimate",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/writing.ts",
+        "src/lib/services/writing/check.ts"
+      ],
+      "runtime_boundary": "canonical Writing evaluation or short-check service; source-task semantics still require separate acceptance",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 10,
+      "sourceKey": "writing.task2.advantages_disadvantages",
+      "contractKey": "writing.task2.advantages-disadvantages",
+      "sourceLine": 1122,
+      "purpose": "Writing Task 2 — Advantages/Disadvantages",
+      "focus": "both required sides; relative weight if asked; consequences/examples",
+      "method": "REQUIREMENTS → ADVANTAGES → DISADVANTAGES → JUDGEMENT",
+      "guard": "Do not ignore one required side.",
+      "execution": "coach_evaluation",
+      "scoringMode": "writing_band_estimate",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/writing.ts",
+        "src/lib/services/writing/check.ts"
+      ],
+      "runtime_boundary": "canonical Writing evaluation or short-check service; source-task semantics still require separate acceptance",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 11,
+      "sourceKey": "writing.task2.problem_solution",
+      "contractKey": "writing.task2.problem-solution",
+      "sourceLine": 1163,
+      "purpose": "Writing Task 2 — Problems/Causes/Solutions",
+      "focus": "exact requested components; cause/problem-solution fit; development",
+      "method": "IDENTIFY REQUEST → PROBLEM/CAUSE → SOLUTION LINK",
+      "guard": "Generic unrelated solutions are weak.",
+      "execution": "coach_evaluation",
+      "scoringMode": "writing_band_estimate",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/writing.ts",
+        "src/lib/services/writing/check.ts"
+      ],
+      "runtime_boundary": "canonical Writing evaluation or short-check service; source-task semantics still require separate acceptance",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 12,
+      "sourceKey": "writing.task2.two_part",
+      "contractKey": "writing.task2.two-part",
+      "sourceLine": 1204,
+      "purpose": "Writing Task 2 — Two-Part Questions",
+      "focus": "both explicit questions answered and developed",
+      "method": "QUESTION 1 → QUESTION 2 → CHECK BOTH",
+      "guard": "One missing part is a major Task Response limitation.",
+      "execution": "coach_evaluation",
+      "scoringMode": "writing_band_estimate",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/writing.ts",
+        "src/lib/services/writing/check.ts"
+      ],
+      "runtime_boundary": "canonical Writing evaluation or short-check service; source-task semantics still require separate acceptance",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 13,
+      "sourceKey": "writing.task2.positive_negative",
+      "contractKey": "writing.task2.positive-negative",
+      "sourceLine": 1245,
+      "purpose": "Writing Task 2 — Positive/Negative Development",
+      "focus": "explicit judgement; criteria for judgement; developed reasons",
+      "method": "JUDGEMENT → REASONS → SUPPORT → CONSISTENCY",
+      "guard": "Do not automatically treat as simple pros/cons.",
+      "execution": "coach_evaluation",
+      "scoringMode": "writing_band_estimate",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/writing.ts",
+        "src/lib/services/writing/check.ts"
+      ],
+      "runtime_boundary": "canonical Writing evaluation or short-check service; source-task semantics still require separate acceptance",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 14,
+      "sourceKey": "writing.check.translation",
+      "contractKey": "writing.check.translation",
+      "sourceLine": 1286,
+      "purpose": "Writing Translation Check",
+      "focus": "meaning preservation; grammar; natural vocabulary/collocation; omitted/added meaning",
+      "method": "SOURCE → LEARNER VERSION → MEANING → CORRECTION → RULE",
+      "guard": "Reference answer is one good answer, not the only answer. No IELTS essay band.",
+      "execution": "coach_evaluation",
+      "scoringMode": "verdict",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/writing.ts",
+        "src/lib/services/writing/check.ts"
+      ],
+      "runtime_boundary": "canonical Writing evaluation or short-check service; source-task semantics still require separate acceptance",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 15,
+      "sourceKey": "writing.check.activation",
+      "contractKey": "writing.check.activation-writing",
+      "sourceLine": 1327,
+      "purpose": "Writing Vocabulary Activation",
+      "focus": "target meaning; form; collocation; natural context; grammar",
+      "method": "TARGET ITEM → USE → WHY → BETTER USE",
+      "guard": "String presence alone is not mastery. No essay band.",
+      "execution": "coach_evaluation",
+      "scoringMode": "verdict",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/writing.ts",
+        "src/lib/services/writing/check.ts"
+      ],
+      "runtime_boundary": "canonical Writing evaluation or short-check service; source-task semantics still require separate acceptance",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 16,
+      "sourceKey": "writing.check.pattern",
+      "contractKey": "writing.check.pattern-adaptation",
+      "sourceLine": 1368,
+      "purpose": "Writing Pattern Adaptation",
+      "focus": "grammar; meaning; target pattern; adaptation to new topic",
+      "method": "PATTERN → STUDENT USE → ADAPTATION → NEW EXAMPLE",
+      "guard": "Near-copy gets low adaptation.",
+      "execution": "coach_evaluation",
+      "scoringMode": "verdict",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/writing.ts",
+        "src/lib/services/writing/check.ts"
+      ],
+      "runtime_boundary": "canonical Writing evaluation or short-check service; source-task semantics still require separate acceptance",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 17,
+      "sourceKey": "speaking.part1",
+      "contractKey": "speaking.part1",
+      "sourceLine": 1409,
+      "purpose": "Speaking Part 1",
+      "focus": "direct relevance; natural short development; transcript-supported fluency; vocabulary; grammar",
+      "method": "ANSWER → REASON → SMALL EXAMPLE",
+      "guard": "Per-answer feedback concise. No fake full band. No pronunciation without acoustic evidence.",
+      "execution": "coach_evaluation",
+      "scoringMode": "speaking_band_estimate",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/speaking.ts"
+      ],
+      "runtime_boundary": "canonical transcript-only Speaking evaluation; live task journeys remain unaccepted",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 18,
+      "sourceKey": "speaking.part2",
+      "contractKey": "speaking.part2",
+      "sourceLine": 1450,
+      "purpose": "Speaking Part 2",
+      "focus": "cue coverage; sustained development; organization; lexical range; grammar; duration",
+      "method": "OPEN → DEVELOP → DETAIL/EXAMPLE → NATURAL CLOSE",
+      "guard": "Do not require cue bullets in exact order. No text-only pronunciation.",
+      "execution": "coach_evaluation",
+      "scoringMode": "speaking_band_estimate",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/speaking.ts"
+      ],
+      "runtime_boundary": "canonical transcript-only Speaking evaluation; live task journeys remain unaccepted",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 19,
+      "sourceKey": "speaking.part3",
+      "contractKey": "speaking.part3",
+      "sourceLine": 1491,
+      "purpose": "Speaking Part 3",
+      "focus": "abstract reasoning; cause/effect; comparison; qualification; justification; examples",
+      "method": "CLAIM → WHY → EXAMPLE/CONSEQUENCE → QUALIFICATION",
+      "guard": "Flag grammatically fine but off-topic answers.",
+      "execution": "coach_evaluation",
+      "scoringMode": "speaking_band_estimate",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/speaking.ts"
+      ],
+      "runtime_boundary": "canonical transcript-only Speaking evaluation; live task journeys remain unaccepted",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 20,
+      "sourceKey": "speaking.full_mock",
+      "contractKey": "speaking.mock",
+      "sourceLine": 1532,
+      "purpose": "Speaking Full Mock",
+      "focus": "evidence across Parts 1–3; recurring strengths/weaknesses; assessed criteria",
+      "method": "PART EVIDENCE → CRITERIA → RECURRING PATTERNS → NEXT FOCUS",
+      "guard": "If pronunciation unavailable, call result text-based/assessed-criteria estimate, not complete official band.",
+      "execution": "coach_evaluation",
+      "scoringMode": "speaking_band_estimate",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/speaking.ts"
+      ],
+      "runtime_boundary": "canonical transcript-only Speaking evaluation; live task journeys remain unaccepted",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 21,
+      "sourceKey": "speaking.coach_answer",
+      "contractKey": "speaking.general",
+      "sourceLine": 1573,
+      "purpose": "Speaking Coach Answer",
+      "focus": "relevance; strongest point; highest-value improvement; evidence; better version",
+      "method": "ANSWERED? → STRENGTH → ONE FIX → BETTER VERSION → NEXT TRY",
+      "guard": "Keep short enough for repeated practice.",
+      "execution": "coach_evaluation",
+      "scoringMode": "speaking_band_estimate",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/speaking.ts"
+      ],
+      "runtime_boundary": "canonical transcript-only Speaking evaluation; live task journeys remain unaccepted",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 22,
+      "sourceKey": "reading.tfng",
+      "contractKey": "reading.true-false-not-given",
+      "sourceLine": 1614,
+      "purpose": "Reading TRUE/FALSE/NOT GIVEN",
+      "focus": "agreement vs contradiction vs missing information",
+      "method": "EVIDENCE → PARAPHRASE → COMPARE → DECISION → TRAP",
+      "guard": "TRUE=same; FALSE=opposite; NOT GIVEN=insufficient. Official key deterministic.",
+      "execution": "objective_local",
+      "scoringMode": "objective_exact_match",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/contracts/objective-runtime.ts",
+        "src/lib/services/coach/contracts/objective-source.ts"
+      ],
+      "runtime_boundary": "server-owned canonical objective metadata and exact-match runtime; task-specific explanation acceptance remains separate",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 23,
+      "sourceKey": "reading.ynng",
+      "contractKey": "reading.yes-no-not-given",
+      "sourceLine": 1655,
+      "purpose": "Reading YES/NO/NOT GIVEN",
+      "focus": "writer viewpoint agreement/contradiction/missing view",
+      "method": "WRITER VIEW → STATEMENT → COMPARE → DECISION",
+      "guard": "Use for opinions/claims; distinguish from factual TFNG.",
+      "execution": "objective_local",
+      "scoringMode": "objective_exact_match",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/contracts/objective-runtime.ts",
+        "src/lib/services/coach/contracts/objective-source.ts"
+      ],
+      "runtime_boundary": "server-owned canonical objective metadata and exact-match runtime; task-specific explanation acceptance remains separate",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 24,
+      "sourceKey": "reading.matching_headings",
+      "contractKey": "reading.matching-headings",
+      "sourceLine": 1696,
+      "purpose": "Reading Matching Headings",
+      "focus": "paragraph main idea, not detail/keyword matching",
+      "method": "SUMMARIZE PARAGRAPH → IGNORE DETAILS → COMPARE HEADINGS → ELIMINATE",
+      "guard": "Heading must cover whole paragraph.",
+      "execution": "objective_local",
+      "scoringMode": "objective_exact_match",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/contracts/objective-runtime.ts",
+        "src/lib/services/coach/contracts/objective-source.ts"
+      ],
+      "runtime_boundary": "server-owned canonical objective metadata and exact-match runtime; task-specific explanation acceptance remains separate",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 25,
+      "sourceKey": "reading.matching_information",
+      "contractKey": "reading.matching-information",
+      "sourceLine": 1737,
+      "purpose": "Reading Matching Information",
+      "focus": "find paragraph containing requested detail",
+      "method": "IDENTIFY INFO TYPE → PARAPHRASE → LOCATE → CONFIRM",
+      "guard": "Do not confuse with main-idea heading task.",
+      "execution": "objective_local",
+      "scoringMode": "objective_exact_match",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/contracts/objective-runtime.ts",
+        "src/lib/services/coach/contracts/objective-source.ts"
+      ],
+      "runtime_boundary": "server-owned canonical objective metadata and exact-match runtime; task-specific explanation acceptance remains separate",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 26,
+      "sourceKey": "reading.matching_features",
+      "contractKey": "reading.matching-features",
+      "sourceLine": 1778,
+      "purpose": "Reading Matching Features",
+      "focus": "match statement to person/place/category evidence",
+      "method": "STATEMENT → CANDIDATES → EVIDENCE → ELIMINATE → MATCH",
+      "guard": "Respect option reuse rules.",
+      "execution": "objective_local",
+      "scoringMode": "objective_exact_match",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/contracts/objective-runtime.ts",
+        "src/lib/services/coach/contracts/objective-source.ts"
+      ],
+      "runtime_boundary": "server-owned canonical objective metadata and exact-match runtime; task-specific explanation acceptance remains separate",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 27,
+      "sourceKey": "reading.matching_sentence_endings",
+      "contractKey": "reading.matching-sentence-endings",
+      "sourceLine": 1819,
+      "purpose": "Reading Matching Sentence Endings",
+      "focus": "grammar + passage meaning + logical completion",
+      "method": "STEM → EVIDENCE → ENDINGS → MEANING CHECK",
+      "guard": "Grammar alone is insufficient.",
+      "execution": "objective_local",
+      "scoringMode": "objective_exact_match",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/contracts/objective-runtime.ts",
+        "src/lib/services/coach/contracts/objective-source.ts"
+      ],
+      "runtime_boundary": "server-owned canonical objective metadata and exact-match runtime; task-specific explanation acceptance remains separate",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 28,
+      "sourceKey": "reading.mcq_single",
+      "contractKey": "reading.mcq-single",
+      "sourceLine": 1860,
+      "purpose": "Reading MCQ Single",
+      "focus": "question focus; evidence; distractor elimination",
+      "method": "FOCUS → EVIDENCE → PARAPHRASE → ELIMINATE DISTRACTORS",
+      "guard": "Explain too broad/too narrow/true-detail-but-not-answer traps.",
+      "execution": "objective_local",
+      "scoringMode": "objective_exact_match",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/contracts/objective-runtime.ts",
+        "src/lib/services/coach/contracts/objective-source.ts"
+      ],
+      "runtime_boundary": "server-owned canonical objective metadata and exact-match runtime; task-specific explanation acceptance remains separate",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 29,
+      "sourceKey": "reading.mcq_multiple",
+      "contractKey": "reading.mcq-multiple",
+      "sourceLine": 1901,
+      "purpose": "Reading MCQ Multiple",
+      "focus": "evaluate every option; exact required number",
+      "method": "FOCUS → EVIDENCE → OPTION-BY-OPTION → SELECT REQUIRED COUNT",
+      "guard": "Do not stop after first plausible option.",
+      "execution": "objective_local",
+      "scoringMode": "objective_exact_match",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/contracts/objective-runtime.ts",
+        "src/lib/services/coach/contracts/objective-source.ts"
+      ],
+      "runtime_boundary": "server-owned canonical objective metadata and exact-match runtime; task-specific explanation acceptance remains separate",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 30,
+      "sourceKey": "reading.sentence_completion",
+      "contractKey": "reading.sentence-completion",
+      "sourceLine": 1942,
+      "purpose": "Reading Sentence Completion",
+      "focus": "predict grammar; locate evidence; word limit; exact passage wording",
+      "method": "PREDICT FORM → LOCATE → FILL → WORD LIMIT → GRAMMAR CHECK",
+      "guard": "Never exceed word limit.",
+      "execution": "objective_local",
+      "scoringMode": "objective_exact_match",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/contracts/objective-runtime.ts",
+        "src/lib/services/coach/contracts/objective-source.ts"
+      ],
+      "runtime_boundary": "server-owned canonical objective metadata and exact-match runtime; task-specific explanation acceptance remains separate",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 31,
+      "sourceKey": "reading.summary_completion",
+      "contractKey": "reading.summary-completion",
+      "sourceLine": 1983,
+      "purpose": "Reading Summary Completion",
+      "focus": "overall summary meaning; part-of-speech prediction; paraphrase mapping",
+      "method": "SUMMARY → PREDICT GAP → LOCATE → PARAPHRASE → VERIFY",
+      "guard": "Explain paraphrase relationship.",
+      "execution": "objective_local",
+      "scoringMode": "objective_exact_match",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/contracts/objective-runtime.ts",
+        "src/lib/services/coach/contracts/objective-source.ts"
+      ],
+      "runtime_boundary": "server-owned canonical objective metadata and exact-match runtime; task-specific explanation acceptance remains separate",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 32,
+      "sourceKey": "reading.note_completion",
+      "contractKey": "reading.note-completion",
+      "sourceLine": 2024,
+      "purpose": "Reading Note Completion",
+      "focus": "heading/bullet context; semantic category; word limit",
+      "method": "NOTE CONTEXT → PREDICT TYPE → LOCATE → FILL",
+      "guard": "Keep answer minimal.",
+      "execution": "objective_local",
+      "scoringMode": "objective_exact_match",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/contracts/objective-runtime.ts",
+        "src/lib/services/coach/contracts/objective-source.ts"
+      ],
+      "runtime_boundary": "server-owned canonical objective metadata and exact-match runtime; task-specific explanation acceptance remains separate",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 33,
+      "sourceKey": "reading.table_completion",
+      "contractKey": "reading.table-completion",
+      "sourceLine": 2065,
+      "purpose": "Reading Table Completion",
+      "focus": "row/column labels; units; adjacent values",
+      "method": "HEADERS → ROW/COLUMN → LOCATE → CHECK UNIT",
+      "guard": "Do not mix adjacent rows.",
+      "execution": "objective_local",
+      "scoringMode": "objective_exact_match",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/contracts/objective-runtime.ts",
+        "src/lib/services/coach/contracts/objective-source.ts"
+      ],
+      "runtime_boundary": "server-owned canonical objective metadata and exact-match runtime; task-specific explanation acceptance remains separate",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 34,
+      "sourceKey": "reading.flowchart_completion",
+      "contractKey": "reading.flowchart-completion",
+      "sourceLine": 2106,
+      "purpose": "Reading Flow-chart Completion",
+      "focus": "process sequence; stage logic; word type",
+      "method": "SEQUENCE → STAGE → LOCATE → FILL",
+      "guard": "Use arrows/stage order.",
+      "execution": "objective_local",
+      "scoringMode": "objective_exact_match",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/contracts/objective-runtime.ts",
+        "src/lib/services/coach/contracts/objective-source.ts"
+      ],
+      "runtime_boundary": "server-owned canonical objective metadata and exact-match runtime; task-specific explanation acceptance remains separate",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 35,
+      "sourceKey": "reading.diagram_label",
+      "contractKey": "reading.diagram-label",
+      "sourceLine": 2147,
+      "purpose": "Reading Diagram Label",
+      "focus": "spatial/structural clues + passage evidence",
+      "method": "DIAGRAM POSITION → PASSAGE EVIDENCE → LABEL",
+      "guard": "Do not infer from world knowledge.",
+      "execution": "objective_local",
+      "scoringMode": "objective_exact_match",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/contracts/objective-runtime.ts",
+        "src/lib/services/coach/contracts/objective-source.ts"
+      ],
+      "runtime_boundary": "server-owned canonical objective metadata and exact-match runtime; task-specific explanation acceptance remains separate",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 36,
+      "sourceKey": "reading.short_answer",
+      "contractKey": "reading.short-answer",
+      "sourceLine": 2188,
+      "purpose": "Reading Short Answer",
+      "focus": "exact question; passage evidence; word limit",
+      "method": "QUESTION → LOCATE → MINIMUM ANSWER → LIMIT CHECK",
+      "guard": "Avoid unnecessary words.",
+      "execution": "objective_local",
+      "scoringMode": "objective_exact_match",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/contracts/objective-runtime.ts",
+        "src/lib/services/coach/contracts/objective-source.ts"
+      ],
+      "runtime_boundary": "server-owned canonical objective metadata and exact-match runtime; task-specific explanation acceptance remains separate",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 37,
+      "sourceKey": "listening.mcq_single",
+      "contractKey": "listening.mcq-single",
+      "sourceLine": 2229,
+      "purpose": "Listening MCQ Single",
+      "focus": "final spoken meaning; corrections; distractors",
+      "method": "QUESTION → LISTEN FOR CONTRAST/CORRECTION → OPTION EVIDENCE",
+      "guard": "Official key deterministic. Post-attempt explanation only.",
+      "execution": "objective_local",
+      "scoringMode": "objective_exact_match",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/contracts/objective-runtime.ts",
+        "src/lib/services/coach/contracts/objective-source.ts"
+      ],
+      "runtime_boundary": "server-owned canonical objective metadata and exact-match runtime; task-specific explanation acceptance remains separate",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 38,
+      "sourceKey": "listening.mcq_multiple",
+      "contractKey": "listening.mcq-multiple",
+      "sourceLine": 2270,
+      "purpose": "Listening MCQ Multiple",
+      "focus": "each option independently; final stated meaning",
+      "method": "OPTION-BY-OPTION → FINAL MEANING → REQUIRED COUNT",
+      "guard": "Track corrections and speaker changes.",
+      "execution": "objective_local",
+      "scoringMode": "objective_exact_match",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/contracts/objective-runtime.ts",
+        "src/lib/services/coach/contracts/objective-source.ts"
+      ],
+      "runtime_boundary": "server-owned canonical objective metadata and exact-match runtime; task-specific explanation acceptance remains separate",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 39,
+      "sourceKey": "listening.form_completion",
+      "contractKey": "listening.form-completion",
+      "sourceLine": 2311,
+      "purpose": "Listening Form Completion",
+      "focus": "answer type; spelling; numbers/dates; corrections",
+      "method": "PREDICT TYPE → LISTEN → CAPTURE FINAL FORM → LIMIT CHECK",
+      "guard": "Watch spelling and corrected details.",
+      "execution": "objective_local",
+      "scoringMode": "objective_exact_match",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/contracts/objective-runtime.ts",
+        "src/lib/services/coach/contracts/objective-source.ts"
+      ],
+      "runtime_boundary": "server-owned canonical objective metadata and exact-match runtime; task-specific explanation acceptance remains separate",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 40,
+      "sourceKey": "listening.note_completion",
+      "contractKey": "listening.note-completion",
+      "sourceLine": 2352,
+      "purpose": "Listening Note Completion",
+      "focus": "note hierarchy; semantic category; paraphrase",
+      "method": "NOTE CONTEXT → PREDICT → LISTEN FOR PARAPHRASE → FILL",
+      "guard": "Respect word limit.",
+      "execution": "objective_local",
+      "scoringMode": "objective_exact_match",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/contracts/objective-runtime.ts",
+        "src/lib/services/coach/contracts/objective-source.ts"
+      ],
+      "runtime_boundary": "server-owned canonical objective metadata and exact-match runtime; task-specific explanation acceptance remains separate",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 41,
+      "sourceKey": "listening.table_completion",
+      "contractKey": "listening.table-completion",
+      "sourceLine": 2393,
+      "purpose": "Listening Table Completion",
+      "focus": "headers; row/column focus; units",
+      "method": "HEADERS → ACTIVE ROW → LISTEN → CHECK UNIT",
+      "guard": "Do not drift to adjacent row.",
+      "execution": "objective_local",
+      "scoringMode": "objective_exact_match",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/contracts/objective-runtime.ts",
+        "src/lib/services/coach/contracts/objective-source.ts"
+      ],
+      "runtime_boundary": "server-owned canonical objective metadata and exact-match runtime; task-specific explanation acceptance remains separate",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 42,
+      "sourceKey": "listening.flowchart_completion",
+      "contractKey": "listening.flowchart-completion",
+      "sourceLine": 2434,
+      "purpose": "Listening Flow-chart Completion",
+      "focus": "sequence markers and process order",
+      "method": "FIRST → THEN → AFTER → FINALLY",
+      "guard": "Use sequence to recover context.",
+      "execution": "objective_local",
+      "scoringMode": "objective_exact_match",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/contracts/objective-runtime.ts",
+        "src/lib/services/coach/contracts/objective-source.ts"
+      ],
+      "runtime_boundary": "server-owned canonical objective metadata and exact-match runtime; task-specific explanation acceptance remains separate",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 43,
+      "sourceKey": "listening.sentence_completion",
+      "contractKey": "listening.sentence-completion",
+      "sourceLine": 2475,
+      "purpose": "Listening Sentence Completion",
+      "focus": "grammatical form + paraphrase + limit",
+      "method": "PREDICT FORM → LISTEN → INSERT → GRAMMAR CHECK",
+      "guard": "Respect word limit.",
+      "execution": "objective_local",
+      "scoringMode": "objective_exact_match",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/contracts/objective-runtime.ts",
+        "src/lib/services/coach/contracts/objective-source.ts"
+      ],
+      "runtime_boundary": "server-owned canonical objective metadata and exact-match runtime; task-specific explanation acceptance remains separate",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 44,
+      "sourceKey": "listening.short_answer",
+      "contractKey": "listening.short-answer",
+      "sourceLine": 2516,
+      "purpose": "Listening Short Answer",
+      "focus": "exact asked detail; minimal words/numbers",
+      "method": "QUESTION → LISTEN → MINIMUM ANSWER",
+      "guard": "No unnecessary words.",
+      "execution": "objective_local",
+      "scoringMode": "objective_exact_match",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/contracts/objective-runtime.ts",
+        "src/lib/services/coach/contracts/objective-source.ts"
+      ],
+      "runtime_boundary": "server-owned canonical objective metadata and exact-match runtime; task-specific explanation acceptance remains separate",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 45,
+      "sourceKey": "listening.map_plan_label",
+      "contractKey": "listening.map-plan-label",
+      "sourceLine": 2557,
+      "purpose": "Listening Map/Plan Labelling",
+      "focus": "orientation; starting point; directions; landmarks",
+      "method": "START → ORIENT → FOLLOW ROUTE → LANDMARK → LABEL",
+      "guard": "Use small ASCII map after attempt if helpful. Never invent route evidence.",
+      "execution": "objective_local",
+      "scoringMode": "objective_exact_match",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/contracts/objective-runtime.ts",
+        "src/lib/services/coach/contracts/objective-source.ts"
+      ],
+      "runtime_boundary": "server-owned canonical objective metadata and exact-match runtime; task-specific explanation acceptance remains separate",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 46,
+      "sourceKey": "listening.matching",
+      "contractKey": "listening.matching",
+      "sourceLine": 2598,
+      "purpose": "Listening Matching",
+      "focus": "items/speakers and final choices/opinions",
+      "method": "TRACK ENTITY → INITIAL IDEA → FINAL DECISION → MATCH",
+      "guard": "Distinguish suggestion from final choice.",
+      "execution": "objective_local",
+      "scoringMode": "objective_exact_match",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/contracts/objective-runtime.ts",
+        "src/lib/services/coach/contracts/objective-source.ts"
+      ],
+      "runtime_boundary": "server-owned canonical objective metadata and exact-match runtime; task-specific explanation acceptance remains separate",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 47,
+      "sourceKey": "grammar.error_correction",
+      "contractKey": "grammar.correct-it",
+      "sourceLine": 2639,
+      "purpose": "Grammar Error Correction",
+      "focus": "error span; category; reason; correction; reusable rule",
+      "method": "ORIGINAL → ERROR → WHY → CORRECT → RULE → MINI EXAMPLE",
+      "guard": "If correct, do not invent error.",
+      "execution": "coach_evaluation",
+      "scoringMode": "verdict",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/grammar.ts",
+        "src/lib/services/riwi/evaluation-tools.ts",
+        "src/lib/services/coach/providers/riwi/index.ts"
+      ],
+      "runtime_boundary": "canonical produced Grammar service; supported local checks remain bounded",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 48,
+      "sourceKey": "grammar.transformation",
+      "contractKey": "grammar.transformation",
+      "sourceLine": 2680,
+      "purpose": "Grammar Sentence Transformation",
+      "focus": "meaning preserved; required structure; correctness",
+      "method": "ORIGINAL MEANING → REQUIRED STRUCTURE → NEW SENTENCE → VERIFY",
+      "guard": "Accept valid alternatives.",
+      "execution": "coach_evaluation",
+      "scoringMode": "verdict",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/grammar.ts",
+        "src/lib/services/riwi/evaluation-tools.ts",
+        "src/lib/services/coach/providers/riwi/index.ts"
+      ],
+      "runtime_boundary": "catalog task has no complete dedicated authored task handoff; local semantics cannot substitute for it",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 49,
+      "sourceKey": "grammar.fill_gap",
+      "contractKey": "grammar.fill-gap",
+      "sourceLine": 2721,
+      "purpose": "Grammar Fill Gap",
+      "focus": "grammatical clue; correct form; distractor reason",
+      "method": "CLUE → RULE → ANSWER → WHY DISTRACTOR FAILS",
+      "guard": "Keep concise.",
+      "execution": "instruction_catalog",
+      "scoringMode": "instruction_only",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/grammar.ts",
+        "src/lib/services/riwi/evaluation-tools.ts",
+        "src/lib/services/coach/providers/riwi/index.ts"
+      ],
+      "runtime_boundary": "catalog task has no complete dedicated authored task handoff; local semantics cannot substitute for it",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 50,
+      "sourceKey": "grammar.controlled_production",
+      "contractKey": "grammar.activate-it",
+      "sourceLine": 2762,
+      "purpose": "Grammar Controlled Production",
+      "focus": "target structure present; coherent meaning; completeness; grammar",
+      "method": "TARGET → STUDENT SENTENCE → CHECK → CORRECT/IMPROVE",
+      "guard": "Mentioning rule label is not usage.",
+      "execution": "coach_evaluation",
+      "scoringMode": "verdict",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/grammar.ts",
+        "src/lib/services/riwi/evaluation-tools.ts",
+        "src/lib/services/coach/providers/riwi/index.ts"
+      ],
+      "runtime_boundary": "canonical produced Grammar service; supported local checks remain bounded",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 51,
+      "sourceKey": "grammar.free_production",
+      "contractKey": "grammar.free-production",
+      "sourceLine": 2803,
+      "purpose": "Grammar Free Production",
+      "focus": "meaning; target form; surrounding grammar; naturalness",
+      "method": "MEANING → TARGET FORM → CONTEXT → FEEDBACK",
+      "guard": "Give corrected + one fresh example.",
+      "execution": "coach_evaluation",
+      "scoringMode": "verdict",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/grammar.ts",
+        "src/lib/services/riwi/evaluation-tools.ts",
+        "src/lib/services/coach/providers/riwi/index.ts"
+      ],
+      "runtime_boundary": "catalog task has no complete dedicated authored task handoff; local semantics cannot substitute for it",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 52,
+      "sourceKey": "grammar.explanation",
+      "contractKey": "grammar.explanation",
+      "sourceLine": 2844,
+      "purpose": "Grammar Rule Explanation",
+      "focus": "simple rule; contrast; examples; common mistake; check question",
+      "method": "RULE → CONTRAST → EXAMPLES → COMMON ERROR → MINI CHECK",
+      "guard": "Teach learner, not linguistics paper.",
+      "execution": "instruction_catalog",
+      "scoringMode": "instruction_only",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/grammar.ts",
+        "src/lib/services/riwi/evaluation-tools.ts",
+        "src/lib/services/coach/providers/riwi/index.ts"
+      ],
+      "runtime_boundary": "catalog task has no complete dedicated authored task handoff; local semantics cannot substitute for it",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 53,
+      "sourceKey": "grammar.retention",
+      "contractKey": "grammar.retention",
+      "sourceLine": 2885,
+      "purpose": "Grammar Retention Review",
+      "focus": "remembered vs decayed; recurring error; retrieval practice",
+      "method": "RECALL → GAP → RECURRING PATTERN → ONE RETRIEVAL DRILL",
+      "guard": "Prefer active recall.",
+      "execution": "instruction_catalog",
+      "scoringMode": "instruction_only",
+      "inspected_runtime_files": [
+        "src/lib/services/coach/grammar.ts",
+        "src/lib/services/riwi/evaluation-tools.ts",
+        "src/lib/services/coach/providers/riwi/index.ts"
+      ],
+      "runtime_boundary": "catalog task has no complete dedicated authored task handoff; local semantics cannot substitute for it",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 54,
+      "sourceKey": "vocabulary.meaning",
+      "contractKey": "vocabulary.meaning",
+      "sourceLine": 2926,
+      "purpose": "Vocabulary Meaning",
+      "focus": "canonical sense; plain meaning; example; confusion",
+      "method": "CANONICAL SENSE → SIMPLE MEANING → EXAMPLE",
+      "guard": "Dictionary authority wins.",
+      "execution": "instruction_catalog",
+      "scoringMode": "instruction_only",
+      "inspected_runtime_files": [
+        "src/lib/services/riwi/dictionary.ts",
+        "src/lib/services/coach/vocabulary.ts",
+        "src/lib/services/coach/providers/riwi/index.ts"
+      ],
+      "runtime_boundary": "canonical Dictionary and authorized occurrence lookup; no dictionary invention",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 55,
+      "sourceKey": "vocabulary.contextual_meaning",
+      "contractKey": "vocabulary.contextual-meaning",
+      "sourceLine": 2967,
+      "purpose": "Vocabulary Contextual Meaning",
+      "focus": "context clue; canonical sense; sibling-sense elimination",
+      "method": "CONTEXT → SENSE → WHY THIS SENSE → WHY NOT OTHERS",
+      "guard": "Use source occurrence.",
+      "execution": "instruction_catalog",
+      "scoringMode": "instruction_only",
+      "inspected_runtime_files": [
+        "src/lib/services/riwi/dictionary.ts",
+        "src/lib/services/coach/vocabulary.ts",
+        "src/lib/services/coach/providers/riwi/index.ts"
+      ],
+      "runtime_boundary": "canonical Dictionary and authorized occurrence lookup; no dictionary invention",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 56,
+      "sourceKey": "vocabulary.translation",
+      "contractKey": "vocabulary.translation",
+      "sourceLine": 3008,
+      "purpose": "Vocabulary Translation",
+      "focus": "canonical EN-UZ sense translation",
+      "method": "SENSE → CONTEXTUAL TRANSLATION → EXAMPLE",
+      "guard": "Do not collapse all senses.",
+      "execution": "instruction_catalog",
+      "scoringMode": "instruction_only",
+      "inspected_runtime_files": [
+        "src/lib/services/riwi/dictionary.ts",
+        "src/lib/services/coach/vocabulary.ts",
+        "src/lib/services/coach/providers/riwi/index.ts"
+      ],
+      "runtime_boundary": "canonical Dictionary and authorized occurrence lookup; no dictionary invention",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 57,
+      "sourceKey": "vocabulary.collocation",
+      "contractKey": "vocabulary.collocation",
+      "sourceLine": 3049,
+      "purpose": "Vocabulary Collocation",
+      "focus": "natural combination; canonical evidence; better phrase",
+      "method": "LEARNER PHRASE → NATURAL? → BETTER COLLOCATION → EXAMPLE",
+      "guard": "Provider cannot invent lexical truth.",
+      "execution": "coach_evaluation",
+      "scoringMode": "verdict",
+      "inspected_runtime_files": [
+        "src/lib/services/riwi/dictionary.ts",
+        "src/lib/services/coach/vocabulary.ts",
+        "src/lib/services/coach/providers/riwi/index.ts"
+      ],
+      "runtime_boundary": "dedicated task handoff remains incomplete; generic local active-use verdict is refused for incompatible tasks",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 58,
+      "sourceKey": "vocabulary.word_form",
+      "contractKey": "vocabulary.word-form",
+      "sourceLine": 3090,
+      "purpose": "Vocabulary Word Form",
+      "focus": "noun/verb/adjective/adverb form; inflection; role",
+      "method": "ROLE → REQUIRED FORM → CORRECTION → WORD FAMILY",
+      "guard": "Only relevant forms.",
+      "execution": "coach_evaluation",
+      "scoringMode": "verdict",
+      "inspected_runtime_files": [
+        "src/lib/services/riwi/dictionary.ts",
+        "src/lib/services/coach/vocabulary.ts",
+        "src/lib/services/coach/providers/riwi/index.ts"
+      ],
+      "runtime_boundary": "dedicated task handoff remains incomplete; generic local active-use verdict is refused for incompatible tasks",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 59,
+      "sourceKey": "vocabulary.synonym_choice",
+      "contractKey": "vocabulary.synonym-choice",
+      "sourceLine": 3131,
+      "purpose": "Vocabulary Synonym Choice",
+      "focus": "meaning; register; collocation; strength; grammar",
+      "method": "COMPARE A/B → CONTEXT → BEST CHOICE",
+      "guard": "Synonyms are not automatically interchangeable.",
+      "execution": "coach_evaluation",
+      "scoringMode": "verdict",
+      "inspected_runtime_files": [
+        "src/lib/services/riwi/dictionary.ts",
+        "src/lib/services/coach/vocabulary.ts",
+        "src/lib/services/coach/providers/riwi/index.ts"
+      ],
+      "runtime_boundary": "dedicated task handoff remains incomplete; generic local active-use verdict is refused for incompatible tasks",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 60,
+      "sourceKey": "vocabulary.paraphrase",
+      "contractKey": "vocabulary.paraphrase",
+      "sourceLine": 3172,
+      "purpose": "Vocabulary Paraphrase",
+      "focus": "meaning equivalence; nuance; grammar",
+      "method": "ORIGINAL → PARAPHRASE → MEANING CHECK → NUANCE",
+      "guard": "Surface synonym replacement is insufficient.",
+      "execution": "coach_evaluation",
+      "scoringMode": "verdict",
+      "inspected_runtime_files": [
+        "src/lib/services/riwi/dictionary.ts",
+        "src/lib/services/coach/vocabulary.ts",
+        "src/lib/services/coach/providers/riwi/index.ts"
+      ],
+      "runtime_boundary": "dedicated task handoff remains incomplete; generic local active-use verdict is refused for incompatible tasks",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 61,
+      "sourceKey": "vocabulary.activation",
+      "contractKey": "vocabulary.activation",
+      "sourceLine": 3213,
+      "purpose": "Vocabulary Activation",
+      "focus": "meaning; form; collocation; naturalness; grammar",
+      "method": "TARGET → STUDENT USE → ISSUE → BETTER USE",
+      "guard": "Copied phrase weaker than learner-owned sentence.",
+      "execution": "coach_evaluation",
+      "scoringMode": "verdict",
+      "inspected_runtime_files": [
+        "src/lib/services/riwi/dictionary.ts",
+        "src/lib/services/coach/vocabulary.ts",
+        "src/lib/services/coach/providers/riwi/index.ts"
+      ],
+      "runtime_boundary": "dedicated task handoff remains incomplete; generic local active-use verdict is refused for incompatible tasks",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 62,
+      "sourceKey": "vocabulary.productive_use",
+      "contractKey": "vocabulary.use-in-sentence",
+      "sourceLine": 3254,
+      "purpose": "Vocabulary Productive Use",
+      "focus": "correct sense; form; collocation; meaningful context",
+      "method": "SENSE → USE → NATURALNESS → NEXT CONTEXT",
+      "guard": "If correct, give harder context rather than invented correction.",
+      "execution": "coach_evaluation",
+      "scoringMode": "verdict",
+      "inspected_runtime_files": [
+        "src/lib/services/riwi/dictionary.ts",
+        "src/lib/services/coach/vocabulary.ts",
+        "src/lib/services/coach/providers/riwi/index.ts"
+      ],
+      "runtime_boundary": "canonical persisted usage handoff and vocabulary engine; no string-match mastery",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 63,
+      "sourceKey": "retention.reading_recall",
+      "contractKey": "retention.reading-recall",
+      "sourceLine": 3295,
+      "purpose": "Retention Reading Recall",
+      "focus": "main ideas; important details; false additions; omissions",
+      "method": "REMEMBERED → MISSED → DISTORTED → RETRIEVAL CUE",
+      "guard": "Do not punish wording differences.",
+      "execution": "instruction_catalog",
+      "scoringMode": "instruction_only",
+      "inspected_runtime_files": [
+        "src/lib/services/riwi/gateway.ts",
+        "src/lib/services/riwi/core-tools.ts"
+      ],
+      "runtime_boundary": "instruction catalog or generic chat availability does not prove a source-task executor",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 64,
+      "sourceKey": "retention.vocabulary_recall",
+      "contractKey": "retention.vocabulary-recall",
+      "sourceLine": 3336,
+      "purpose": "Retention Vocabulary Recall",
+      "focus": "recognition vs meaning recall vs productive use",
+      "method": "RECOGNITION → MEANING → CONTEXT → PRODUCTIVE USE",
+      "guard": "Recognition alone is not mastery.",
+      "execution": "instruction_catalog",
+      "scoringMode": "instruction_only",
+      "inspected_runtime_files": [
+        "src/lib/services/riwi/gateway.ts",
+        "src/lib/services/riwi/core-tools.ts"
+      ],
+      "runtime_boundary": "instruction catalog or generic chat availability does not prove a source-task executor",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 65,
+      "sourceKey": "retention.error_pattern",
+      "contractKey": "retention.error-pattern",
+      "sourceLine": 3377,
+      "purpose": "Retention Error Pattern",
+      "focus": "recurrence; improvement; remaining pattern; drill",
+      "method": "EVIDENCE ACROSS ATTEMPTS → PATTERN → CHANGE → DRILL",
+      "guard": "One error is not a stable weakness.",
+      "execution": "instruction_catalog",
+      "scoringMode": "instruction_only",
+      "inspected_runtime_files": [
+        "src/lib/services/riwi/gateway.ts",
+        "src/lib/services/riwi/core-tools.ts"
+      ],
+      "runtime_boundary": "instruction catalog or generic chat availability does not prove a source-task executor",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 66,
+      "sourceKey": "tutoring.simple_explanation",
+      "contractKey": "tutoring.simple-explanation",
+      "sourceLine": 3418,
+      "purpose": "General Simple Explanation",
+      "focus": "one-sentence answer; simple explanation; example; mini illustration; quick check",
+      "method": "ANSWER → EXPLAIN → EXAMPLE → ILLUSTRATE → CHECK",
+      "guard": "Simple but accurate.",
+      "execution": "instruction_catalog",
+      "scoringMode": "instruction_only",
+      "inspected_runtime_files": [
+        "src/lib/services/riwi/gateway.ts",
+        "src/lib/services/riwi/core-tools.ts"
+      ],
+      "runtime_boundary": "instruction catalog or generic chat availability does not prove a source-task executor",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 67,
+      "sourceKey": "tutoring.compare_concepts",
+      "contractKey": "tutoring.compare-concepts",
+      "sourceLine": 3459,
+      "purpose": "General Compare Concepts",
+      "focus": "side-by-side differences and examples",
+      "method": "A vs B → KEY DIFFERENCE → EXAMPLES → COMMON CONFUSION",
+      "guard": "ASCII table encouraged.",
+      "execution": "instruction_catalog",
+      "scoringMode": "instruction_only",
+      "inspected_runtime_files": [
+        "src/lib/services/riwi/gateway.ts",
+        "src/lib/services/riwi/core-tools.ts"
+      ],
+      "runtime_boundary": "instruction catalog or generic chat availability does not prove a source-task executor",
+      "original_group_semantic_acceptance": "OPEN"
+    },
+    {
+      "number": 68,
+      "sourceKey": "reporting.progress_explanation",
+      "contractKey": "reporting.progress-explanation",
+      "sourceLine": 3500,
+      "purpose": "Progress/Report Explanation",
+      "focus": "explain deterministic metrics; supported patterns; next action",
+      "method": "METRIC → MEANING → CHANGE/PATTERN → NEXT ACTION",
+      "guard": "Never recalculate or invent numbers.",
+      "execution": "deterministic_report",
+      "scoringMode": "deterministic_metrics",
+      "inspected_runtime_files": [
+        "src/lib/services/riwi/reports.ts"
+      ],
+      "runtime_boundary": "canonical deterministic Reporter metrics exist; source-book explanatory task acceptance remains separate",
+      "original_group_semantic_acceptance": "OPEN"
+    }
+  ]
+}

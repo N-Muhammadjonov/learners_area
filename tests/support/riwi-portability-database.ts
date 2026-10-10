@@ -3,9 +3,10 @@ import { randomUUID } from "node:crypto";
 import { readFile, realpath } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import pg from "pg";
+import type { PgPool } from "../../src/lib/portability/postgres-adapter";
 import { createTestDatabase, type TestDatabase } from "./pglite";
 
-export type PortableTestDatabase = Pick<TestDatabase, "query" | "close">;
+export type PortableTestDatabase = Pick<TestDatabase, "query" | "close"> & { pool?: PgPool };
 export const nativePortableTestsEnabled = Boolean(process.env.PORTABILITY_DATABASE_URL && process.env.RIWI_QA_DATA_DIR);
 
 /** Native cases use new databases only inside the QA runner's identified private
@@ -23,6 +24,7 @@ export async function createPortableTestDatabase(kind: "pglite" | "native"): Pro
   assert.match(database, /^riwi_multi_owner_[a-f0-9]{32}$/);
   let created = false;
   let client: pg.Client | undefined;
+  let pool: pg.Pool | undefined;
   try {
     await admin.connect();
     const identity = (await admin.query<{ data_dir: string; version: number }>("select current_setting('data_directory') data_dir,current_setting('server_version_num')::int version")).rows[0]!;
@@ -42,16 +44,21 @@ export async function createPortableTestDatabase(kind: "pglite" | "native"): Pro
       for (const statement of sql.split("--> statement-breakpoint").map(item => item.trim()).filter(Boolean)) await client.query(statement);
     }
     const connection = client;
+    pool = new pg.Pool({ connectionString: url.toString(), max: 5 });
+    const connections = pool;
     return {
+      pool: connections,
       query: async <T = Record<string, unknown>>(sql: string, params: unknown[] = []) => (await connection.query(sql, params)).rows as T[],
       async close() {
         try {
+          await connections.end();
           await connection.end();
           await admin.query('drop database "' + database + '"');
         } finally { await admin.end(); }
       },
     };
   } catch (error) {
+    await pool?.end().catch(() => {});
     await client?.end().catch(() => {});
     if (created) await admin.query('drop database "' + database + '"').catch(() => {});
     await admin.end().catch(() => {});

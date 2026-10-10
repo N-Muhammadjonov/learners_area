@@ -1,0 +1,149 @@
+{
+  "status": "INDEPENDENT_BYTES_AND_SOURCE_VERIFIED",
+  "source_sha256": "62cba147591859e0ace157e4ab799fa120d1b184bcb72361f8efa9f7ddaecd48",
+  "source_files": 1222,
+  "native_evidence_sha256": "bedf0d291543471b275d51aa07bf01e662d730e52eb69671ce33bf3dec775eb0",
+  "native_evidence_bytes": 178768,
+  "rounds": 2,
+  "backend_per_round": 1380,
+  "ui_per_round": 260,
+  "failures": 0,
+  "skips": 0,
+  "gate_logs_verified": [
+    {
+      "round": 1,
+      "gate": "initdb",
+      "sha256": "d38656e42f5cdcfe6ec7439a6584860f5b659d5ccb66ede49398fa8042f65f3c"
+    },
+    {
+      "round": 1,
+      "gate": "start",
+      "sha256": "66afd0411ccc09366e99fdd99b85f21899c8d2d064f5835126859618802153ad"
+    },
+    {
+      "round": 1,
+      "gate": "createdb",
+      "sha256": "5befc50650bb0effd8ff0f4063c1476e3c76183494d89c8983bd5f738c1c4893"
+    },
+    {
+      "round": 1,
+      "gate": "migrations-qa",
+      "sha256": "1d1294aa78848717cc5a1e630ddb980b0fbd8ed8e0fbb1e10bb7d87f1c5c5d97"
+    },
+    {
+      "round": 1,
+      "gate": "migrations-portability",
+      "sha256": "1d1294aa78848717cc5a1e630ddb980b0fbd8ed8e0fbb1e10bb7d87f1c5c5d97"
+    },
+    {
+      "round": 1,
+      "gate": "fixtures",
+      "sha256": "78b48596134330e2c4094cb8e9963d8f3685c12acd4fe9e131cbda3ecae0cc9d"
+    },
+    {
+      "round": 1,
+      "gate": "identity-before-tests",
+      "sha256": "5befc50650bb0effd8ff0f4063c1476e3c76183494d89c8983bd5f738c1c4893"
+    },
+    {
+      "round": 1,
+      "gate": "backend",
+      "sha256": "2b8747475ba1042ddbfb561281fe3366ead0d808555dc8dc792de7c8d726c3d3"
+    },
+    {
+      "round": 1,
+      "gate": "ui",
+      "sha256": "058014e45a89d486b6e1b6864cb7ada627c85c33817179e19695a51dc727e725"
+    },
+    {
+      "round": 1,
+      "gate": "typecheck",
+      "sha256": "5d67ea7ba0cdcb67cf34b4b132066d5cd00b857a31cc804006ed533f4aab0717"
+    },
+    {
+      "round": 1,
+      "gate": "lint",
+      "sha256": "63b6b500220f93347722b6b4ab90d1bc1f5a32bfe848b62f2565bcb75b5b71a6"
+    },
+    {
+      "round": 1,
+      "gate": "identity-after-tests",
+      "sha256": "5befc50650bb0effd8ff0f4063c1476e3c76183494d89c8983bd5f738c1c4893"
+    },
+    {
+      "round": 1,
+      "gate": "stop",
+      "sha256": "ca19178a35ab4153b75b494963b66ce8243e1b94c173107c87b44d09db23652d"
+    },
+    {
+      "round": 2,
+      "gate": "initdb",
+      "sha256": "a61a6b9538a133d355f3402fecd03fc9170e3c667a8403abe7f9ec240c1f9042"
+    },
+    {
+      "round": 2,
+      "gate": "start",
+      "sha256": "66afd0411ccc09366e99fdd99b85f21899c8d2d064f5835126859618802153ad"
+    },
+    {
+      "round": 2,
+      "gate": "createdb",
+      "sha256": "5befc50650bb0effd8ff0f4063c1476e3c76183494d89c8983bd5f738c1c4893"
+    },
+    {
+      "round": 2,
+      "gate": "migrations-qa",
+      "sha256": "1d1294aa78848717cc5a1e630ddb980b0fbd8ed8e0fbb1e10bb7d87f1c5c5d97"
+    },
+    {
+      "round": 2,
+      "gate": "migrations-portability",
+      "sha256": "1d1294aa78848717cc5a1e630ddb980b0fbd8ed8e0fbb1e10bb7d87f1c5c5d97"
+    },
+    {
+      "round": 2,
+      "gate": "fixtures",
+      "sha256": "78b48596134330e2c4094cb8e9963d8f3685c12acd4fe9e131cbda3ecae0cc9d"
+    },
+    {
+      "round": 2,
+      "gate": "identity-before-tests",
+      "sha256": "5befc50650bb0effd8ff0f4063c1476e3c76183494d89c8983bd5f738c1c4893"
+    },
+    {
+      "round": 2,
+      "gate": "backend",
+      "sha256": "9aa6cc6fb4185595bff0e525ff6566dea7f1980ec6d0d97d70ab31d5f106978f"
+    },
+    {
+      "round": 2,
+      "gate": "ui",
+      "sha256": "d7cd7b9b0ed826c7a9e6dc995bb897e9fb6b6b8bbff3a55770edd91201ea1ecf"
+    },
+    {
+      "round": 2,
+      "gate": "typecheck",
+      "sha256": "5d67ea7ba0cdcb67cf34b4b132066d5cd00b857a31cc804006ed533f4aab0717"
+    },
+    {
+      "round": 2,
+      "gate": "lint",
+      "sha256": "63b6b500220f93347722b6b4ab90d1bc1f5a32bfe848b62f2565bcb75b5b71a6"
+    },
+    {
+      "round": 2,
+      "gate": "identity-after-tests",
+      "sha256": "5befc50650bb0effd8ff0f4063c1476e3c76183494d89c8983bd5f738c1c4893"
+    },
+    {
+      "round": 2,
+      "gate": "stop",
+      "sha256": "ca19178a35ab4153b75b494963b66ce8243e1b94c173107c87b44d09db23652d"
+    }
+  ],
+  "zip_members_verified": 29,
+  "private_clusters_stopped": true,
+  "build_rerun": false,
+  "accepted_group_delta": 0,
+  "verification_only_no_gate_rerun": true
+}

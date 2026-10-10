@@ -1,0 +1,344 @@
+{
+  "status": "TWO_FULL_NATIVE_ROUNDS_INDEPENDENTLY_VERIFIED_CODE_CHECKPOINT",
+  "baseline_commit": "da164c24390e475dc380fde013ef6d2574aed9cc",
+  "source_sha256": "62cba147591859e0ace157e4ab799fa120d1b184bcb72361f8efa9f7ddaecd48",
+  "closed_groups": 18,
+  "total_groups": 34,
+  "accepted_prompt_percent": 52.94117647058824,
+  "batch_target_groups": [
+    "B01",
+    "B04",
+    "D03",
+    "D05"
+  ],
+  "required_complete_groups_before_push": 4,
+  "target_delta_percentage_points": 11.76470588235294,
+  "target_after_four_complete_groups_percent": 64.70588235294117,
+  "accepted_group_delta": 0,
+  "ready_for_push": true,
+  "riwi_overall_percent": null,
+  "project_overall_percent": null,
+  "implemented": [
+    "Restore locks every scoped relation in one global order, protecting freshness against ordinary concurrent writes and overlapping restores.",
+    "Lost COMMIT responses always produce uncertainty, never retry or success; uncertain/failed-rollback connections are discarded.",
+    "Zero-write dry-run normalizes SQL identities and checks secondary/composite/partial uniqueness including default pending status and NULL-distinct semantics.",
+    "Generic local Grammar/Vocabulary heuristics refuse incompatible task semantics rather than substituting a different verdict.",
+    "Encrypted A/B/C command rehearsals cover >1000 rows, all-table dry-run fingerprints, injected rollback, identities, timestamps, relationships and retention/scope canaries."
+  ],
+  "remaining": {
+    "B01": "68-task mapping exists; complete source-task execution and semantic acceptance remain open. See the individual task audit.",
+    "B04": "Dedicated additional Grammar/Vocabulary/retention/tutoring/reporting handoffs and task-specific evidence still require completion; unavailable semantics receive no credit.",
+    "D03": "Native lock, overlap, uniqueness and tri-mode cases pass in both rounds. Independent original-group acceptance remains separate from publishing this checkpoint.",
+    "D05": "Native A/B/C encrypted command rehearsals pass with >1000 rows in both rounds. Representative current-source application boot and operational acceptance remain open."
+  },
+  "qa": {
+    "checks": [
+      {
+        "round": 1,
+        "name": "focused",
+        "exit_code": 0,
+        "sha256": "074475a923cffd9759008eaaed818f0a9fa0c32fefdd7bac3f6e0bc1297371c8",
+        "log": "/Users/macbookair/Documents/Codex/2026-10-09/new-chat-4/work/riwi-batch23-local-qa-ivyctp5r/round-1-focused.log",
+        "counts": {
+          "tests": 93,
+          "pass": 83,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 10,
+          "todo": 0
+        }
+      },
+      {
+        "round": 1,
+        "name": "ui",
+        "exit_code": 0,
+        "sha256": "004d8c78a3b0fd12c7701f58a86878dca4f9b4260cb78b1d1e8bb716683b314c",
+        "log": "/Users/macbookair/Documents/Codex/2026-10-09/new-chat-4/work/riwi-batch23-local-qa-ivyctp5r/round-1-ui.log",
+        "counts": {
+          "tests": 260,
+          "pass": 260,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        }
+      },
+      {
+        "round": 1,
+        "name": "typecheck",
+        "exit_code": 0,
+        "sha256": "ac19c29fd7dbdd2d0a0bb9f56b2a514ef5788b0a705cec89218a7a23d833d062",
+        "log": "/Users/macbookair/Documents/Codex/2026-10-09/new-chat-4/work/riwi-batch23-local-qa-ivyctp5r/round-1-typecheck.log"
+      },
+      {
+        "round": 1,
+        "name": "lint",
+        "exit_code": 0,
+        "sha256": "ab66019ac2aac05de2eb19b396ec726ab117ce6b8a6e397b661ba0fb1827f0b7",
+        "log": "/Users/macbookair/Documents/Codex/2026-10-09/new-chat-4/work/riwi-batch23-local-qa-ivyctp5r/round-1-lint.log"
+      },
+      {
+        "round": 2,
+        "name": "focused",
+        "exit_code": 0,
+        "sha256": "e2d182aa04897fb697b359b1815aeac559440398060cfac5e6fe6c62bd8ca53a",
+        "log": "/Users/macbookair/Documents/Codex/2026-10-09/new-chat-4/work/riwi-batch23-local-qa-ivyctp5r/round-2-focused.log",
+        "counts": {
+          "tests": 93,
+          "pass": 83,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 10,
+          "todo": 0
+        }
+      },
+      {
+        "round": 2,
+        "name": "ui",
+        "exit_code": 0,
+        "sha256": "6aee45dc3cc7032a8b88f3a20f539ea2a49d809f65f8a3972b8de6a563537f08",
+        "log": "/Users/macbookair/Documents/Codex/2026-10-09/new-chat-4/work/riwi-batch23-local-qa-ivyctp5r/round-2-ui.log",
+        "counts": {
+          "tests": 260,
+          "pass": 260,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        }
+      },
+      {
+        "round": 2,
+        "name": "typecheck",
+        "exit_code": 0,
+        "sha256": "ac19c29fd7dbdd2d0a0bb9f56b2a514ef5788b0a705cec89218a7a23d833d062",
+        "log": "/Users/macbookair/Documents/Codex/2026-10-09/new-chat-4/work/riwi-batch23-local-qa-ivyctp5r/round-2-typecheck.log"
+      },
+      {
+        "round": 2,
+        "name": "lint",
+        "exit_code": 0,
+        "sha256": "ab66019ac2aac05de2eb19b396ec726ab117ce6b8a6e397b661ba0fb1827f0b7",
+        "log": "/Users/macbookair/Documents/Codex/2026-10-09/new-chat-4/work/riwi-batch23-local-qa-ivyctp5r/round-2-lint.log"
+      }
+    ],
+    "test_files": [
+      "tests/coach-assessment-contracts.test.ts",
+      "tests/coach-providers.test.ts",
+      "tests/riwi-direct-provider-contracts.test.ts",
+      "tests/riwi-evaluation-input-boundaries.test.ts",
+      "tests/riwi-evaluation-tools.test.ts",
+      "tests/riwi-portability-postgres.test.ts",
+      "tests/riwi-portability-source.test.ts",
+      "tests/riwi-portability-v2.test.ts",
+      "tests/riwi-portable-bootstrap-owner.test.ts",
+      "tests/riwi-portable-boundary.test.ts",
+      "tests/riwi-portable-concurrency.test.ts",
+      "tests/riwi-portable-cycle.test.ts",
+      "tests/riwi-portable-dry-run-conflict.test.ts",
+      "tests/riwi-portable-export-command.test.ts",
+      "tests/riwi-portable-full-command.test.ts",
+      "tests/riwi-portable-identity.test.ts",
+      "tests/riwi-portable-import-command.test.ts",
+      "tests/riwi-portable-manifest-scope.test.ts",
+      "tests/riwi-portable-multi-owner.test.ts",
+      "tests/riwi-portable-transaction-outcome.test.ts",
+      "tests/riwi-portable-tri-mode-rehearsal.test.ts",
+      "tests/riwi-portable-unique-planning.test.ts",
+      "tests/riwi-prompt-book-coverage.test.ts",
+      "tests/riwi-task-semantic-boundary.test.ts"
+    ],
+    "native_acceptance": false,
+    "build_rerun": false
+  },
+  "source_files_changed": [
+    {
+      "path": "src/lib/portability/postgres-adapter.ts",
+      "sha256": "fa37cbf282527022563cd0b14544042ba2d1674ea22a3690fc15c1ca9c695301"
+    },
+    {
+      "path": "src/lib/services/coach/providers/riwi/index.ts",
+      "sha256": "c7a7af7840b765ade53fd6861125ca281a2b834c3ebbb6899c55c8e2f475a572"
+    },
+    {
+      "path": "tests/riwi-portable-concurrency.test.ts",
+      "sha256": "c320f299f07376f4f1512289b6f4cc1f3dde8f991dc6406a1d8f870d52cc3b58"
+    },
+    {
+      "path": "tests/riwi-portable-transaction-outcome.test.ts",
+      "sha256": "38aec7221ef407ef5a04e9334dd65d0614f31f473e208f4589b1932175353905"
+    },
+    {
+      "path": "tests/riwi-portable-tri-mode-rehearsal.test.ts",
+      "sha256": "e343e4734ffd03267072e1429ca4058343efa80da1a3445a13b3c30c2b0eff33"
+    },
+    {
+      "path": "tests/riwi-portable-unique-planning.test.ts",
+      "sha256": "00ff8e6b8ae75ffde7fc5209afeaa70f48e758a80dadb7581992434d682c2267"
+    },
+    {
+      "path": "tests/riwi-task-semantic-boundary.test.ts",
+      "sha256": "155a5e3e7430fc1497bc739bae34b0c7c58b6947785811e66d5e2528c430343a"
+    },
+    {
+      "path": "tests/support/riwi-portability-database.ts",
+      "sha256": "39a1c5434c9c2c1b9f0f2f8a2a4a29e05accf8f02effb4d471111e35e341aad8"
+    }
+  ],
+  "build_rerun": false,
+  "reset_restart_performed": false,
+  "commit_performed": false,
+  "push_performed": false,
+  "qualifying_four_group_batch": false,
+  "native_verification": {
+    "status": "INDEPENDENT_BYTES_AND_SOURCE_VERIFIED",
+    "source_sha256": "62cba147591859e0ace157e4ab799fa120d1b184bcb72361f8efa9f7ddaecd48",
+    "source_files": 1222,
+    "native_evidence_sha256": "bedf0d291543471b275d51aa07bf01e662d730e52eb69671ce33bf3dec775eb0",
+    "native_evidence_bytes": 178768,
+    "rounds": 2,
+    "backend_per_round": 1380,
+    "ui_per_round": 260,
+    "failures": 0,
+    "skips": 0,
+    "gate_logs_verified": [
+      {
+        "round": 1,
+        "gate": "initdb",
+        "sha256": "d38656e42f5cdcfe6ec7439a6584860f5b659d5ccb66ede49398fa8042f65f3c"
+      },
+      {
+        "round": 1,
+        "gate": "start",
+        "sha256": "66afd0411ccc09366e99fdd99b85f21899c8d2d064f5835126859618802153ad"
+      },
+      {
+        "round": 1,
+        "gate": "createdb",
+        "sha256": "5befc50650bb0effd8ff0f4063c1476e3c76183494d89c8983bd5f738c1c4893"
+      },
+      {
+        "round": 1,
+        "gate": "migrations-qa",
+        "sha256": "1d1294aa78848717cc5a1e630ddb980b0fbd8ed8e0fbb1e10bb7d87f1c5c5d97"
+      },
+      {
+        "round": 1,
+        "gate": "migrations-portability",
+        "sha256": "1d1294aa78848717cc5a1e630ddb980b0fbd8ed8e0fbb1e10bb7d87f1c5c5d97"
+      },
+      {
+        "round": 1,
+        "gate": "fixtures",
+        "sha256": "78b48596134330e2c4094cb8e9963d8f3685c12acd4fe9e131cbda3ecae0cc9d"
+      },
+      {
+        "round": 1,
+        "gate": "identity-before-tests",
+        "sha256": "5befc50650bb0effd8ff0f4063c1476e3c76183494d89c8983bd5f738c1c4893"
+      },
+      {
+        "round": 1,
+        "gate": "backend",
+        "sha256": "2b8747475ba1042ddbfb561281fe3366ead0d808555dc8dc792de7c8d726c3d3"
+      },
+      {
+        "round": 1,
+        "gate": "ui",
+        "sha256": "058014e45a89d486b6e1b6864cb7ada627c85c33817179e19695a51dc727e725"
+      },
+      {
+        "round": 1,
+        "gate": "typecheck",
+        "sha256": "5d67ea7ba0cdcb67cf34b4b132066d5cd00b857a31cc804006ed533f4aab0717"
+      },
+      {
+        "round": 1,
+        "gate": "lint",
+        "sha256": "63b6b500220f93347722b6b4ab90d1bc1f5a32bfe848b62f2565bcb75b5b71a6"
+      },
+      {
+        "round": 1,
+        "gate": "identity-after-tests",
+        "sha256": "5befc50650bb0effd8ff0f4063c1476e3c76183494d89c8983bd5f738c1c4893"
+      },
+      {
+        "round": 1,
+        "gate": "stop",
+        "sha256": "ca19178a35ab4153b75b494963b66ce8243e1b94c173107c87b44d09db23652d"
+      },
+      {
+        "round": 2,
+        "gate": "initdb",
+        "sha256": "a61a6b9538a133d355f3402fecd03fc9170e3c667a8403abe7f9ec240c1f9042"
+      },
+      {
+        "round": 2,
+        "gate": "start",
+        "sha256": "66afd0411ccc09366e99fdd99b85f21899c8d2d064f5835126859618802153ad"
+      },
+      {
+        "round": 2,
+        "gate": "createdb",
+        "sha256": "5befc50650bb0effd8ff0f4063c1476e3c76183494d89c8983bd5f738c1c4893"
+      },
+      {
+        "round": 2,
+        "gate": "migrations-qa",
+        "sha256": "1d1294aa78848717cc5a1e630ddb980b0fbd8ed8e0fbb1e10bb7d87f1c5c5d97"
+      },
+      {
+        "round": 2,
+        "gate": "migrations-portability",
+        "sha256": "1d1294aa78848717cc5a1e630ddb980b0fbd8ed8e0fbb1e10bb7d87f1c5c5d97"
+      },
+      {
+        "round": 2,
+        "gate": "fixtures",
+        "sha256": "78b48596134330e2c4094cb8e9963d8f3685c12acd4fe9e131cbda3ecae0cc9d"
+      },
+      {
+        "round": 2,
+        "gate": "identity-before-tests",
+        "sha256": "5befc50650bb0effd8ff0f4063c1476e3c76183494d89c8983bd5f738c1c4893"
+      },
+      {
+        "round": 2,
+        "gate": "backend",
+        "sha256": "9aa6cc6fb4185595bff0e525ff6566dea7f1980ec6d0d97d70ab31d5f106978f"
+      },
+      {
+        "round": 2,
+        "gate": "ui",
+        "sha256": "d7cd7b9b0ed826c7a9e6dc995bb897e9fb6b6b8bbff3a55770edd91201ea1ecf"
+      },
+      {
+        "round": 2,
+        "gate": "typecheck",
+        "sha256": "5d67ea7ba0cdcb67cf34b4b132066d5cd00b857a31cc804006ed533f4aab0717"
+      },
+      {
+        "round": 2,
+        "gate": "lint",
+        "sha256": "63b6b500220f93347722b6b4ab90d1bc1f5a32bfe848b62f2565bcb75b5b71a6"
+      },
+      {
+        "round": 2,
+        "gate": "identity-after-tests",
+        "sha256": "5befc50650bb0effd8ff0f4063c1476e3c76183494d89c8983bd5f738c1c4893"
+      },
+      {
+        "round": 2,
+        "gate": "stop",
+        "sha256": "ca19178a35ab4153b75b494963b66ce8243e1b94c173107c87b44d09db23652d"
+      }
+    ],
+    "zip_members_verified": 29,
+    "private_clusters_stopped": true,
+    "build_rerun": false,
+    "accepted_group_delta": 0,
+    "verification_only_no_gate_rerun": true
+  },
+  "publication_scope": "Owner-requested code checkpoint. No new original group is counted as accepted.",
+  "assistant_gate_execution": "Existing owner-run native gates were independently verified byte-for-byte; they were not rerun or attributed to assistant execution."
+}
