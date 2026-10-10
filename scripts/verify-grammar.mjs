@@ -36,7 +36,17 @@ if (SWEEP_DB_URL) {
   });
   await sweeper.capture();
 } else {
-  console.warn("  !! DATABASE_URL is not set — fixtures created by this run cannot be cleaned up");
+  /*
+   * FAIL CLOSED. This probe mutates through HTTP, and the sweep above is the only thing that removes
+   * what it creates. Warning and continuing meant the mutations still happened against a database
+   * that was never verified as disposable — and several of these probes then connected through a
+   * hardcoded fallback (postgres://postgres@127.0.0.1:5433/learners_area) that no guard had ever
+   * seen, so the run could write fixtures into an unverified database and clean up nothing. Without
+   * a verified cleanup connection there is no safe run, so there is no run. Exit 2, not 1: this is a
+   * misconfigured invocation, not a product failure.
+   */
+  console.error("  !! DATABASE_URL is not set — refusing to mutate: fixtures could neither be cleaned up nor verified as disposable");
+  process.exit(2);
 }
 
 let pass = 0;
@@ -85,7 +95,7 @@ console.log(`\nLearners Area — Grammar activities against ${BASE}\n`);
 
 const { default: pg } = await import("pg");
 const db = new pg.Client({
-  connectionString: (process.env.DATABASE_URL || "postgres://postgres@127.0.0.1:5433/learners_area"),
+  connectionString: process.env.DATABASE_URL,
 });
 await db.connect();
 

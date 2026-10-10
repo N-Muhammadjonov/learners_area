@@ -35,7 +35,7 @@ console.log(`\nLearners Area — Progress page against ${BASE}\n`);
 const { default: pg } = await import("pg");
 const { assertMutableDatabase, fixtureTag, withFixtures } = await import("./lib/fixture-safety.mjs");
 
-const CONNECTION = (process.env.DATABASE_URL || "postgres://postgres@127.0.0.1:5433/learners_area");
+const CONNECTION = process.env.DATABASE_URL;
 // This probe INSERTS a graded mock attempt. Refuse outright unless the target is a
 // disposable QA database: a leaked fixture here is a fabricated IELTS band on a real
 // learner's account.

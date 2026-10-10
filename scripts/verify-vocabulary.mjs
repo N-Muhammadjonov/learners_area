@@ -41,7 +41,7 @@ const BASE = (process.env.BASE_URL || "http://127.0.0.1:3000");
 const RUN_IP = process.env.QA_RUN_IP
   ?? `10.${Math.floor(Math.random() * 254) + 1}.${Math.floor(Math.random() * 254) + 1}.${Math.floor(Math.random() * 254) + 1}`;
 
-const DATABASE_URL = (process.env.DATABASE_URL || "postgres://postgres@127.0.0.1:5433/learners_area");
+const DATABASE_URL = process.env.DATABASE_URL;
 
 let passed = 0;
 let failed = 0;
@@ -758,7 +758,7 @@ try {
   );
 
   const lexiconDb = new (await import("pg")).default.Client({
-    connectionString: (process.env.DATABASE_URL || "postgres://postgres@127.0.0.1:5433/learners_area"),
+    connectionString: process.env.DATABASE_URL,
   });
   try {
     await lexiconDb.connect();
