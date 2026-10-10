@@ -18,6 +18,19 @@
  *     a row, or update one in place. Updates are invisible to a row count. What a
  *     non-zero delta DOES prove is a real, reproducible leak.
  *
+ * A5. Two results are reported for every probe and they are NOT collapsed into one:
+ *
+ *   - whether the probe itself passed, and
+ *   - whether it left residue behind.
+ *
+ * A probe that FAILED but cleaned up after itself is a FAILED probe. Reporting it as clean because
+ * the row counts matched would turn this audit into a way of laundering a broken probe, and the
+ * residue number is the less important of the two. The exit code is non-zero if either is wrong.
+ *
+ * The database is verified as disposable BEFORE any probe is launched, because this harness is what
+ * launches them: pointing it at a database the fixture guard would refuse means the probes it runs
+ * would mutate somewhere no sweeper was ever allowed to check.
+ *
  * Usage: node scripts/audit-probe-residue.mjs [probe ...]
  */
 import { execFile } from "node:child_process";
@@ -25,9 +38,19 @@ import { promisify } from "node:util";
 import pg from "pg";
 
 const run = promisify(execFile);
+const { assertMutableDatabase } = await import("./lib/fixture-safety.mjs");
 const DB = process.env.DATABASE_URL;
 if (!DB) {
   console.error("DATABASE_URL is required");
+  process.exit(2);
+}
+// Fail closed before launching anything. assertMutableDatabase throws on an unparseable URL and on
+// any database that does not look disposable, so a misconfigured audit cannot start a probe run
+// that writes fixtures somewhere they will never be swept.
+try {
+  assertMutableDatabase(DB, { probe: "audit-probe-residue" });
+} catch (error) {
+  console.error(`refusing to launch probes: ${error.message}`);
   process.exit(2);
 }
 
@@ -78,15 +101,27 @@ for (const probe of probes) {
     if (d !== 0) deltas.push(`${table} ${d > 0 ? "+" : ""}${d}`);
   }
   const seconds = ((Date.now() - started) / 1000).toFixed(0);
-  summary.push({ probe, status, deltas, seconds });
-  const verdict = deltas.length === 0 ? "CLEAN" : "RESIDUE";
+  // Two independent results. `probeOk` is about the probe; `residue` is about the database.
+  const probeOk = status === "ok";
+  const residue = deltas.length === 0 ? "CLEAN" : "RESIDUE";
+  const verdict = probeOk && residue === "CLEAN" ? "PASSED" : "FAILED";
+  summary.push({ probe, status, deltas, seconds, probeOk, residue, verdict });
   console.log(
-    `${verdict.padEnd(8)} ${probe.padEnd(40)} ${status.padEnd(9)} ${seconds}s  ${deltas.join(", ")}`,
+    `${verdict.padEnd(7)} ${probe.padEnd(40)} probe=${status.padEnd(9)} residue=${residue.padEnd(8)} ${String(seconds).padStart(4)}s  ${deltas.join(", ")}`,
   );
 }
 
 await client.end();
 
-const dirty = summary.filter((s) => s.deltas.length > 0);
-console.log(`\n${summary.length - dirty.length} clean, ${dirty.length} leaving residue`);
-process.exit(dirty.length === 0 ? 0 : 1);
+const dirty = summary.filter((s) => s.residue === "RESIDUE");
+const brokenProbes = summary.filter((s) => !s.probeOk);
+const passed = summary.filter((s) => s.verdict === "PASSED");
+console.log(
+  `\n${passed.length} passed, ${summary.length - passed.length} failed` +
+  ` — probe failures: ${brokenProbes.length}${brokenProbes.length ? ` (${brokenProbes.map((s) => `${s.probe} ${s.status}`).join(", ")})` : ""}` +
+  `, leaving residue: ${dirty.length}${dirty.length ? ` (${dirty.map((s) => s.probe).join(", ")})` : ""}`,
+);
+if (brokenProbes.length) {
+  console.log("A failed probe with zero residue is still FAILED: it did not prove what it claims to.");
+}
+process.exit(passed.length === summary.length ? 0 : 1);
