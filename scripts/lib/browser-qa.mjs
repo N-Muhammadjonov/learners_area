@@ -46,8 +46,26 @@ export const VIEWPORTS = {
   1440: { width: 1440, height: 900, isMobile: false, hasTouch: false, deviceScaleFactor: 1 },
 };
 
+/**
+ * Resolve puppeteer-core from the project, falling back to a side-installed prefix.
+ *
+ * The browser dependency is deliberately NOT a project dependency (it is installed with
+ * --no-save / into a separate prefix), so a `npm ci` or an environment reset removes it while
+ * leaving package.json honest about what the product itself needs. Resolving from a list of
+ * candidates means an environment rebuild does not silently turn a real-browser package into a
+ * skipped one — it either finds a browser or says so loudly.
+ */
+function loadPuppeteer() {
+  const candidates = ["puppeteer-core", "/tmp/browserdeps/node_modules/puppeteer-core"];
+  const failures = [];
+  for (const candidate of candidates) {
+    try { return require(candidate); } catch (error) { failures.push(`${candidate}: ${error.code ?? error.message}`); }
+  }
+  throw new Error(`puppeteer-core is not installed. Tried ${failures.join(" | ")}. Install it with: npm i --prefix /tmp/browserdeps puppeteer-core @sparticuz/chromium`);
+}
+
 export async function launchBrowser() {
-  const puppeteer = require("puppeteer-core");
+  const puppeteer = loadPuppeteer();
   return puppeteer.launch({
     executablePath: CHROMIUM_PATH,
     args: CHROMIUM_ARGS,
@@ -178,19 +196,26 @@ export async function auditPage(page, { minTouchTarget = 44 } = {}) {
     });
 
     const smallTargets = [];
+    let advisoryTargets = 0;
     const unnamed = [];
     for (const element of interactive) {
       const rect = element.getBoundingClientRect();
       const tag = element.tagName.toLowerCase();
       const isFormControl = ["input", "select", "textarea"].includes(tag);
       // A mouse-only desktop control is not a touch target; only flag them where touch is real.
-      if (!isFormControl && (rect.height < minTarget || rect.width < minTarget)) {
+      // TWO thresholds, because one number cannot be both honest and useful. WCAG 2.5.8 (AA)
+      // requires 24 CSS px, with adequate spacing as an accepted alternative; 44 px is the
+      // enhanced figure. Treating every sub-44px control as a defect fails pages that meet AA,
+      // so 24 is the hard floor and the 44 figure is recorded as an advisory count.
+      if (!isFormControl && (rect.height < 24 || rect.width < 24)) {
         smallTargets.push({
           tag,
           w: Math.round(rect.width),
           h: Math.round(rect.height),
           text: (element.textContent || element.getAttribute("aria-label") || "").trim().slice(0, 40),
         });
+      } else if (!isFormControl && (rect.height < minTarget || rect.width < minTarget)) {
+        advisoryTargets += 1;
       }
       const name = (
         element.getAttribute("aria-label") ||
@@ -244,6 +269,8 @@ export async function auditPage(page, { minTouchTarget = 44 } = {}) {
       interactiveCount: interactive.length,
       smallTargets: smallTargets.slice(0, 12),
       smallTargetCount: smallTargets.length,
+      /** Controls between the WCAG AA floor (24px) and the enhanced 44px target. Advisory only. */
+      advisoryTargetCount: advisoryTargets,
       unnamed,
       imagesWithoutAlt,
       liveRegions,
@@ -253,6 +280,21 @@ export async function auditPage(page, { minTouchTarget = 44 } = {}) {
       cyrillicCount: cyrillic,
       untranslatedMarkers,
       textLength: bodyText.length,
+      /**
+       * A stable hash of the normalised visible text, for the locale DIFFERENCE test.
+       * Comparing raw text is brittle: a render can differ only by a timestamp or a count,
+       * which would make two locales look "translated" when the dictionary never ran.
+       * Whitespace is collapsed so the comparison is about words, not layout.
+       */
+      bodyHash: (() => {
+        const normalized = bodyText.replace(/\s+/g, " ").trim();
+        let h1 = 0x811c9dc5;
+        for (let i = 0; i < normalized.length; i += 1) {
+          h1 ^= normalized.charCodeAt(i);
+          h1 = Math.imul(h1, 0x01000193) >>> 0;
+        }
+        return h1.toString(16).padStart(8, "0");
+      })(),
       // Empty state vs populated state: a page that renders nothing may be an empty state or a
       // silent failure, and the only way to tell them apart is whether the page SAYS it is empty.
       hasEmptyStateCopy: /(no |none|empty|nothing|hali|yo'q|topilmadi|mavjud emas)/i.test(bodyText),
@@ -275,6 +317,7 @@ export async function auditKeyboard(page, { tabs = 12 } = {}) {
       if (!element || element === document.body) return null;
       const rect = element.getBoundingClientRect();
       const style = getComputedStyle(element);
+      const main = document.querySelector("main");
       return {
         tag: element.tagName.toLowerCase(),
         type: element.getAttribute("type") ?? "",
@@ -282,6 +325,10 @@ export async function auditKeyboard(page, { tabs = 12 } = {}) {
         visible: rect.width > 0 && rect.height > 0,
         outline: style.outlineStyle !== "none" || style.boxShadow !== "none",
         outlineWidth: style.outlineWidth,
+        // Whether focus has reached the page's real content. Testing for a stop ON a heading was
+        // wrong: headings are not focusable unless an author adds a tabindex, so Tab never lands
+        // on them and every page "failed" a check that described correct behaviour.
+        insideMain: Boolean(main && main.contains(element)),
       };
     });
     if (stop) stops.push(stop);
@@ -329,10 +376,23 @@ export function attachRequestRecorder(page) {
   page.on("request", listener);
   return {
     requests,
+    /**
+     * Whether the page did asynchronous work of its own. A page that never fetches has no async
+     * state change to announce, so demanding a live region from it is a false defect; a page that
+     * does fetch and has no live region is a real gap for a screen-reader user.
+     */
+    sawAsync() {
+      return requests.some((r) => r.resourceType === "fetch" || r.resourceType === "xhr");
+    },
     duplicates() {
       const seen = new Map();
       for (const request of requests) {
         if (request.method !== "GET") continue;
+        // Next.js hashed build assets (JS, CSS, fonts) are routinely requested twice — once by a
+        // preload hint and once by the consumer. Counting them makes every page look wasteful and
+        // buries the duplicates that are actually the product's own doing.
+        if (request.url.includes("/_next/static/")) continue;
+        if (["font", "stylesheet", "script"].includes(request.resourceType)) continue;
         const key = request.url;
         seen.set(key, (seen.get(key) ?? 0) + 1);
       }
