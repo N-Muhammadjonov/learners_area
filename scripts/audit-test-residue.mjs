@@ -35,6 +35,31 @@ if (!DATABASE_URL || !/localhost|127\.0\.0\.1/.test(DATABASE_URL)) {
   process.exit(2);
 }
 
+/**
+ * The QA2 acceptance environment. Several gated tests assert their own preconditions before doing
+ * any work — tests/retention-db.test.ts:16 is `assert.equal(process.env.STORAGE_PROVIDER, "local")`
+ * — and that guard is correct: the test refuses to run rather than silently exercising the wrong
+ * storage backend. But an auditor that runs the file WITHOUT those variables reports the refusal as
+ * "test-failed", which is worse than useless: it hides a guard that is working and it makes the
+ * file's residue unmeasurable, because a test that threw on line 16 wrote nothing and cleaned
+ * nothing. So the audit fails closed and names what is missing instead of proceeding.
+ */
+const REQUIRED_ENV = {
+  STORAGE_PROVIDER: "local",
+  STORAGE_LOCAL_DIR: "/tmp/qa2-uploads",
+  AUTH_SECRET: "qa2-closure-acceptance-secret-0123456789",
+  QA2_BASE_URL: "http://127.0.0.1:3000",
+};
+const missingEnv = Object.keys(REQUIRED_ENV).filter((name) => !process.env[name]);
+if (missingEnv.length) {
+  console.error(`Refusing to run: the gated tests assert their own preconditions, and running them`);
+  console.error(`without these would report a correct refusal as a test failure and measure no`);
+  console.error(`residue at all. Missing from the environment: ${missingEnv.join(", ")}`);
+  console.error(`Export them (the values this repository's QA2 acceptance run uses are:`);
+  for (const [name, value] of Object.entries(REQUIRED_ENV)) console.error(`  ${name}=${value}`);
+  process.exit(2);
+}
+
 const pg = (await import("pg")).default;
 
 /** Every table in the public schema with its row count. */

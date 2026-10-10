@@ -111,3 +111,61 @@ above.
 The lesson for the suites: **a status code alone is not proof of either direction
 here.** Any privacy assertion on a shell page must also assert that the protected
 content is absent from the body, which is the stronger claim anyway.
+
+## Re-measured during the Package D/E round: the split is deterministic, not a race
+
+Confirmed again against build `Fh3lRwK2omvHbpt6d-BE3`, with the port verified free and a real
+authenticated learner session, because the two readings above were only trustworthy once a stale
+server was ruled out:
+
+| Request | status | body | repeats |
+| --- | --- | --- | --- |
+| `/app/reading/attempts/not-a-uuid` | **404** | 0 bytes | 12 / 12 identical |
+| `/app/reading/attempts/<valid uuid, no row>` | **200** | 210 499 bytes, contains the not-found body | 12 / 12 identical |
+| `/app/writing/submissions/not-a-uuid` | **404** | 0 bytes | — |
+| `/app/writing/submissions/<valid uuid, no row>` | **200** | 208 986 bytes | — |
+| `/app/courses/ielts/lessons/<valid uuid, no row>` | **200** | 209 464 bytes | — |
+
+Two things this adds to the earlier finding.
+
+First, the malformed/valid split is **stable across repeats**, so it is structural rather than a
+timing race between `notFound()` and the shell flushing. Twelve consecutive identical results in
+each direction rules out the flakiness that would otherwise make this unfixable-by-construction.
+
+Second, `/app/courses/ielts/lessons/{id}` behaves the same way, and its page has no `searchParams`
+in its signature at all. That is a third independent disproof of the `searchParams` hypothesis and
+shows the behaviour is a property of the `(shell)` group boundary, not of any one page's data
+access. The ~209 KB figure is the streamed shell: the learner receives a full authenticated
+skeleton and then a not-found body inside it.
+
+An earlier reading in this round appeared to show `/app/courses/ielts/lessons/{id}` answering 404
+for a *draft* lesson. It did not: that request was for the literal path segment `undefined`, which
+is a malformed id and takes the middleware shape path. Corrected here so the table above is not
+contradicted by a journey log.
+
+## §11 verdict: OWNER_DECISION_REQUIRED, with the evidence the decision needs
+
+The narrow solution §11 asks for does not exist under §11's own constraints, and this is now
+measured rather than assumed:
+
+* Deleting `src/app/app/(shell)/loading.tsx` yields the correct 404 (proven in the table earlier in
+  this document) but is forbidden, and it would remove route-entry loading from all 97 shell pages.
+* The shape check already lives in `src/middleware.ts`, which is why malformed ids are correct.
+  Extending middleware to the existence check would require a **database dependency in global
+  middleware on every request**, which §11 forbids inventing and which would put a DB round trip in
+  front of every authenticated navigation.
+* A page-level fix cannot work: the page throws `notFound()` correctly and in the right order
+  (`reading/attempts/[id]/page.tsx` documents the ordering constraint in a comment), but the status
+  is committed by the group's Suspense boundary before the page body runs. There is no API by which
+  a child segment opts out of a parent `loading.tsx`.
+
+What is **not** at risk, and is separately verified: authorization holds and nothing protected is
+rendered. `docs/SECURITY-MATRIX.md` rows R09b, W02 and W07 record these as `STATUS_DEFECT` with
+`privacy=OK` — deliberately not as IDOR, because the payload was inspected and the protected
+content is absent. The defect is the status code and the 209 KB of shell that accompanies it.
+
+The decision the owner has to make is therefore a real trade-off, not a missing fix: keep
+route-entry loading on 97 pages and accept `200` with not-found content for a valid-but-absent id,
+or give up the shared loading boundary (or accept a middleware DB lookup) to obtain the correct
+status. Both options are implementable; neither is free, and choosing between them is a product
+decision.
