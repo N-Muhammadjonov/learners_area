@@ -89,8 +89,26 @@ export async function PUT(
       });
     return { ok: true };
   });
+  // Report the status that matches what actually happened.
+  //
+  // This used to collapse every failure into 409 Conflict. The dominant failure here is
+  // "this attempt does not exist, or it is not yours" — the ownership check at line 39 returns
+  // `not_found` for both, deliberately, so that a non-owner cannot tell an existing attempt from
+  // a nonexistent one. Answering that with 409 is a privacy-safe status that still says the wrong
+  // thing: a client, a monitor and an audit all read "conflict" where the truth is "not here".
+  //
+  // The reading sibling (`/api/reading/attempts/[id]`) already maps not_found → 404 and
+  // invalid_input → 400; this brings the two in line instead of leaving one route guessing.
+  // The only caller (NativeListeningExam) branches on `res.ok`, so no client behaviour changes.
   return NextResponse.json(result, {
-    status: "error" in result ? 409 : 200,
+    status:
+      "error" in result
+        ? result.error === "not_found"
+          ? 404
+          : result.error === "invalid_input"
+            ? 400
+            : 409
+        : 200,
     headers: { "Cache-Control": "private, no-store" },
   });
 }

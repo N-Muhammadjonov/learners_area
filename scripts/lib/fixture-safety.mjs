@@ -139,7 +139,8 @@ export async function withFixtures(body, cleanup) {
  * `tables` must be ordered children-before-parents; deletion follows that order so a
  * foreign key never blocks the sweep.
  */
-export function createRowSweeper({ client, tables, probe = "probe" }) {
+export function createRowSweeper({ client, tables: requestedTables, probe = "probe" }) {
+  let tables = requestedTables;
   if (!client) throw new Error("createRowSweeper requires a connected pg client");
   if (!Array.isArray(tables) || tables.length === 0) {
     throw new Error("createRowSweeper requires a non-empty, child-first `tables` list");
@@ -154,13 +155,63 @@ export function createRowSweeper({ client, tables, probe = "probe" }) {
     return rows.map((row) => row.id);
   }
 
+  /**
+   * Check the table list against the real schema BEFORE the first mutation.
+   *
+   * A sweeper that is handed a table which does not exist — or which has no `id` column —
+   * throws a raw SQL error from inside `capture()`, which is easy to misread as a database
+   * outage. Worse, the natural "fix" is to swallow it, and then the sweeper quietly stops
+   * covering the tables that were mistyped. Reporting the exact unusable names up front makes
+   * the mistake obvious and keeps the sweep honest about what it can and cannot reach.
+   *
+   * Returns the names that had to be dropped; the caller decides whether that is fatal.
+   */
+  async function validateTables() {
+    const { rows } = await client.query(`
+      select table_name,
+             exists (
+               select 1 from information_schema.columns c
+               where c.table_schema = 'public' and c.table_name = t.table_name and c.column_name = 'id'
+             ) as has_id
+      from information_schema.tables t
+      where t.table_schema = 'public'
+    `);
+    // FAIL CLOSED. An empty result here does not mean "every table is missing" — it means the
+    // introspection itself did not answer (a role without information_schema access, a wrong
+    // search_path, a driver that swallowed the statement). Treating that as "no tables to cover"
+    // would drop the whole list, sweep nothing, and report zero residue: a green cleanup that
+    // cleaned nothing. "I could not tell" must never be recorded as "there was nothing to do".
+    if (rows.length === 0) {
+      throw new Error(`${probe}: could not introspect the schema (information_schema returned no tables) — refusing to sweep blind`);
+    }
+    const have = new Map(rows.map((row) => [row.table_name, row.has_id]));
+    const unusable = [];
+    for (const table of tables) {
+      if (!have.has(table)) unusable.push(`${table} (no such table)`);
+      else if (!have.get(table)) unusable.push(`${table} (no "id" column)`);
+    }
+    if (unusable.length) {
+      console.warn(`  !! ${probe}: sweeper cannot cover: ${unusable.join(", ")}`);
+      for (const entry of unusable) {
+        const name = entry.split(" ")[0];
+        tables = tables.filter((table) => table !== name);
+      }
+    }
+    return unusable;
+  }
+
   return {
     get swept() {
       return swept;
     },
 
+    validateTables,
+
     /** Must be called before the first mutation; a later baseline would adopt fixtures as pre-existing. */
     async capture() {
+      // Validating here rather than only on demand: a probe that forgets to call
+      // validateTables() still gets an accurate baseline instead of a raw SQL throw.
+      await validateTables();
       for (const table of tables) baseline.set(table, new Set(await idsOf(table)));
       captured = true;
     },

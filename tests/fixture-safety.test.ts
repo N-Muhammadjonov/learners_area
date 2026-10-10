@@ -181,6 +181,12 @@ function fakeClient(tables: Record<string, string[]>) {
       }
       const selectStar = /select \* from (\w+)/.exec(sql);
       if (selectStar) return { rows: [] };
+      // Schema introspection: the sweeper validates its table list before capturing a
+      // baseline, and fails closed if this returns nothing. The stub has to answer it with
+      // the tables it actually knows about, every one of them carrying an `id`.
+      if (/information_schema\.tables/.test(sql)) {
+        return { rows: Object.keys(tables).map((table_name) => ({ table_name, has_id: true })) };
+      }
       return { rows: [] };
     },
   };
@@ -251,4 +257,41 @@ test("a borrower gives back the rows a probe clears, with their original ids", a
   assert.equal(await borrower.restore(), 1);
   assert.deepEqual(store, [{ id: "seed-1", state: "completed" }]);
   assert.equal(await borrower.restore(), 0, "restoring twice is a no-op, not a duplicate");
+});
+
+test("the sweeper fails closed when schema introspection answers nothing", async () => {
+  const { createRowSweeper } = await mod();
+  // A role without information_schema access, a wrong search_path, or a driver that swallowed
+  // the statement all look like "zero tables". Recorded as "nothing to cover", that would drop
+  // every table, sweep nothing, and report ZERO RESIDUE — a green cleanup that cleaned nothing.
+  const client = {
+    async query(sql: string) {
+      if (/information_schema\.tables/.test(sql)) return { rows: [] };
+      const select = /select id from (\w+)/.exec(sql);
+      if (select) return { rows: [{ id: "leaked-row" }] };
+      return { rows: [] };
+    },
+  };
+  const sweeper = createRowSweeper({ client: client as never, tables: ["widgets"], probe: "blind" });
+  await assert.rejects(() => sweeper.capture(), /refusing to sweep blind/);
+});
+
+test("the sweeper names the tables it cannot cover instead of failing on a raw SQL error", async () => {
+  const { createRowSweeper } = await mod();
+  const client = fakeClient({ widgets: ["pre-existing"] });
+  const sweeper = createRowSweeper({
+    client: client as never,
+    tables: ["widgets", "not_a_real_table", "audit_log"],
+    probe: "typo",
+  });
+  // `audit_log` is not in the stub's known tables, so both extras are reported by name.
+  const unusable = await sweeper.validateTables();
+  assert.deepEqual(unusable, ["not_a_real_table (no such table)", "audit_log (no such table)"]);
+  // The usable table is still covered: a typo must not disable the whole sweep.
+  await sweeper.capture();
+  client.tables.widgets = ["pre-existing", "created-during-run"];
+  const result = await sweeper.sweep();
+  assert.deepEqual(result.removed, ["widgets: 1"]);
+  assert.deepEqual(result.residue, []);
+  assert.deepEqual(client.tables.widgets, ["pre-existing"], "the pre-existing row is never touched");
 });
