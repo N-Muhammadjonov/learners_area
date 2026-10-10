@@ -67,3 +67,90 @@ test("cleanup runs even when the body throws, and never masks the original error
   assert.equal(value, 42);
   assert.equal(cleanedHappy, true);
 });
+
+/**
+ * Section 03: a cleanup failure must FAIL acceptance.
+ *
+ * withFixtures used to wrap cleanup in its own try/catch that logged and swallowed the
+ * error, so a probe whose assertions passed but whose cleanup failed exited 0 while
+ * leaving rows behind. "Zero residue" was being asserted by a function that could not
+ * detect the residue it had failed to remove.
+ */
+test("withFixtures: body ok and cleanup ok resolves with the body's value", async () => {
+  const { withFixtures } = await import("../scripts/lib/fixture-safety.mjs" as string);
+  let cleaned = false;
+  const value = await withFixtures(
+    async () => "the result",
+    async () => { cleaned = true; },
+  );
+  assert.equal(value, "the result");
+  assert.equal(cleaned, true, "cleanup must run on the happy path");
+});
+
+test("withFixtures: a failing body throws the BODY error, and cleanup still runs", async () => {
+  const { withFixtures } = await import("../scripts/lib/fixture-safety.mjs" as string);
+  let cleaned = false;
+  await assert.rejects(
+    () => withFixtures(
+      async () => { throw new Error("BODY FAILED"); },
+      async () => { cleaned = true; },
+    ),
+    /BODY FAILED/,
+    "the body error is the diagnosis and must surface",
+  );
+  assert.equal(cleaned, true, "cleanup must run even when the body throws");
+});
+
+test("withFixtures: a failing cleanup FAILS the run even when the body succeeded", async () => {
+  const { withFixtures } = await import("../scripts/lib/fixture-safety.mjs" as string);
+  await assert.rejects(
+    () => withFixtures(
+      async () => "assertions all passed",
+      async () => { throw new Error("CLEANUP FAILED"); },
+    ),
+    /CLEANUP FAILED/,
+    "a successful body must not mask residue left by a failed cleanup",
+  );
+});
+
+test("withFixtures: when both fail, both errors are kept and the body error is primary", async () => {
+  const { withFixtures } = await import("../scripts/lib/fixture-safety.mjs" as string);
+  await assert.rejects(
+    () => withFixtures(
+      async () => { throw new Error("BODY FAILED"); },
+      async () => { throw new Error("CLEANUP FAILED"); },
+    ),
+    (error: unknown) => {
+      assert.ok(error instanceof AggregateError, "both failures must be reported together");
+      const messages = error.errors.map((e: Error) => e.message);
+      assert.deepEqual(messages, ["BODY FAILED", "CLEANUP FAILED"], "body error first, neither dropped");
+      assert.match(error.message, /BODY FAILED/, "the primary cause belongs in the message");
+      assert.match(error.message, /residue/i, "the operator must be told the database may be dirty");
+      return true;
+    },
+  );
+});
+
+/**
+ * Section 3.2: the protected scope must start BEFORE the first mutation.
+ *
+ * If setup creates row 1, then row 2 fails, and only then does the protected block
+ * begin, row 1 is orphaned. Putting the mutations inside the body means cleanup runs
+ * for a partially-created fixture too — and cleanup therefore has to tolerate that.
+ */
+test("withFixtures: cleanup runs after a PARTIAL setup failure, leaving no residue", async () => {
+  const { withFixtures } = await import("../scripts/lib/fixture-safety.mjs" as string);
+  const store = new Set<string>();
+
+  await assert.rejects(
+    () => withFixtures(
+      async () => {
+        store.add("row-1");            // first mutation succeeds
+        throw new Error("second insert failed");  // setup dies half way
+      },
+      async () => { for (const row of [...store]) store.delete(row); },
+    ),
+    /second insert failed/,
+  );
+  assert.equal(store.size, 0, "the half-created fixture was left behind");
+});

@@ -66,19 +66,54 @@ export function fixtureTag(prefix = "qa") {
 }
 
 /**
- * Run `body`, then ALWAYS run `cleanup` — including when `body` throws.
+ * Run `body`, then ALWAYS run `cleanup` — including when `body` throws — and let a
+ * cleanup failure FAIL the run.
  *
- * Cleanup failures are reported but never mask the original error, because the
- * original error is what the operator needs to see first.
+ * THE BUG THIS FIXES. Cleanup used to be wrapped in its own try/catch that logged and
+ * swallowed the error. A probe whose assertions all passed but whose cleanup failed
+ * therefore exited 0, leaving fixture rows behind while reporting success. "Zero
+ * residue" was being claimed by a function that could not detect residue it had
+ * failed to remove. A cleanup failure is an acceptance failure.
+ *
+ * THE CONTRACT, all four cases:
+ *   body ok   + cleanup ok   -> resolve with the body's value
+ *   body FAIL + cleanup ok   -> throw the BODY error (what the operator must see)
+ *   body ok   + cleanup FAIL -> throw the CLEANUP error (residue was left behind)
+ *   body FAIL + cleanup FAIL -> throw AggregateError, BODY error first, both kept
+ *
+ * WHERE SETUP BELONGS. Everything that mutates must happen INSIDE `body`, not before
+ * the call. Creating a row, then creating a second one that throws, then entering the
+ * protected scope leaves the first row orphaned, because cleanup never started. Put
+ * the inserts in `body`: cleanup then runs even when setup fails half way, and
+ * `cleanup` must tolerate being called when nothing, or only part, was created.
  */
 export async function withFixtures(body, cleanup) {
+  let result;
+  let bodyError;
   try {
-    return await body();
-  } finally {
-    try {
-      await cleanup();
-    } catch (cleanupError) {
-      console.error(`  !! fixture cleanup FAILED: ${cleanupError?.message ?? cleanupError}`);
-    }
+    result = await body();
+  } catch (error) {
+    bodyError = error ?? new Error("fixture body threw a falsy value");
   }
+
+  let cleanupError;
+  try {
+    await cleanup();
+  } catch (error) {
+    cleanupError = error ?? new Error("fixture cleanup threw a falsy value");
+    console.error(`  !! fixture cleanup FAILED: ${cleanupError?.message ?? cleanupError}`);
+  }
+
+  if (bodyError && cleanupError) {
+    // Both are real and both matter: the body error is the diagnosis, the cleanup
+    // error means the database was left dirty. Neither may be dropped, and the body
+    // error stays first so the operator reads the cause before the consequence.
+    throw new AggregateError(
+      [bodyError, cleanupError],
+      `fixture body failed AND cleanup failed — residue may remain: ${bodyError?.message ?? bodyError}`,
+    );
+  }
+  if (bodyError) throw bodyError;
+  if (cleanupError) throw cleanupError;
+  return result;
 }

@@ -29,6 +29,23 @@ const UPLOAD_ROOT = process.env.STORAGE_LOCAL_DIR
   ? path.resolve(process.env.STORAGE_LOCAL_DIR)
   : path.join(process.cwd(), ".data", "uploads");
 
+// Safety net: if an unexpected throw skips the normal sweep, clean up anyway rather
+// than leaving the database dirty and the operator unaware.
+process.on("beforeExit", async () => {
+  if (swept) return;
+  try {
+    const result = await sweepFixtures();
+    if (result.swept.length) console.error(`  !! emergency fixture sweep: ${result.swept.join(", ")}`);
+    if (result.residue.length) {
+      console.error(`  !! fixture residue remains: ${result.residue.join(", ")}`);
+      process.exitCode = 1;
+    }
+  } catch (error) {
+    console.error(`  !! emergency fixture sweep FAILED: ${error?.message ?? error}`);
+    process.exitCode = 1;
+  }
+});
+
 const ACCOUNTS = {
   admin: { email: "admin@learnersarea.uz", password: "Admin12345!" },
   teacher: { email: "teacher@learnersarea.uz", password: "Teacher12345!" },
@@ -37,7 +54,92 @@ const ACCOUNTS = {
   student2: { email: "new.student@learnersarea.uz", password: "Student12345!" },
 };
 
+/*
+ * QA SAFETY (section 03.3). This probe creates real database rows AND real storage
+ * objects, and until now it ran with no disposable-database guard and no top-level
+ * cleanup: every DELETE sat inline after the assertions it belonged to, so the first
+ * failed assertion left everything created up to that point behind.
+ *
+ * Three guards now sit in front of it:
+ *   1. the shared disposable-database rail, so it cannot point at production;
+ *   2. an isolated storage-root check, so it cannot sweep a real upload directory;
+ *   3. a baseline + exception-safe sweep below, so residue is removed and VERIFIED
+ *      whatever happens — pass, assertion failure, or unexpected throw.
+ */
+const { assertMutableDatabase } = await import("./lib/fixture-safety.mjs");
+assertMutableDatabase(process.env.DATABASE_URL);
+
+/**
+ * The storage root must be a disposable, probe-owned directory.
+ *
+ * A database name alone proves nothing about the filesystem: pointing DATABASE_URL at
+ * a scratch database while STORAGE_LOCAL_DIR still points at a real upload tree would
+ * let the sweep below delete somebody's files. So the root must be explicitly set and
+ * must not be the repository's own .data/uploads, which is a developer's real store.
+ */
+function assertDisposableStorageRoot(root) {
+  if (!process.env.STORAGE_LOCAL_DIR) {
+    throw new Error(
+      "verify-uploads refuses to run without STORAGE_LOCAL_DIR: it would write into, and sweep, the default .data/uploads store.",
+    );
+  }
+  const repoStore = path.join(process.cwd(), ".data", "uploads");
+  if (root === repoStore) {
+    throw new Error(`verify-uploads refuses to use the repository upload store at ${root}.`);
+  }
+  if (root === "/" || root === path.parse(root).root || root.split(path.sep).filter(Boolean).length < 2) {
+    throw new Error(`verify-uploads refuses to use ${root} as a storage root: too close to the filesystem root.`);
+  }
+}
+assertDisposableStorageRoot(UPLOAD_ROOT);
+
 const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
+
+/**
+ * Rows this run is responsible for.
+ *
+ * The probe creates rows through the HTTP API, so there is no single insertion point
+ * to tag. Instead the tables it owns are snapshotted BEFORE anything runs, and the
+ * sweep removes exactly the ids that appeared during the run — never a pre-existing
+ * row, and never another suite's data, because an id absent from the baseline and
+ * present at the end was created by this process in a database the guard above has
+ * already established is disposable.
+ */
+const OWNED_TABLES = ["material_blocks", "speaking_materials", "speaking_attempts", "upload_intents"];
+const baseline = new Map();
+
+async function captureBaseline() {
+  for (const table of OWNED_TABLES) {
+    const { rows } = await pool.query(`select id from ${table}`);
+    baseline.set(table, new Set(rows.map((r) => r.id)));
+  }
+}
+
+let swept = false;
+
+/** Remove everything this run created, then PROVE nothing is left. Never throws past the report. */
+async function sweepFixtures() {
+  swept = true;
+  const leaked = [];
+  // Child rows first: material_blocks references speaking_materials.
+  for (const table of OWNED_TABLES) {
+    const before = baseline.get(table) ?? new Set();
+    const { rows } = await pool.query(`select id from ${table}`);
+    const created = rows.map((r) => r.id).filter((id) => !before.has(id));
+    if (created.length === 0) continue;
+    leaked.push(`${table}: ${created.length}`);
+    await pool.query(`delete from ${table} where id = any($1)`, [created]);
+  }
+  // Residue verification: the sweep is only trustworthy if it is checked.
+  const residue = [];
+  for (const table of OWNED_TABLES) {
+    const before = baseline.get(table) ?? new Set();
+    const { rows } = await pool.query(`select id from ${table}`);
+    const remaining = rows.map((r) => r.id).filter((id) => !before.has(id));
+    if (remaining.length) residue.push(`${table}: ${remaining.length}`);
+  }
+  return { swept: leaked, residue };
+}
 
 let passed = 0;
 const failures = [];
@@ -164,6 +266,10 @@ async function dbRows(sql, params) {
 // ---------------------------------------------------------------------------
 
 console.log(`\nLearners Area — upload/resource E2E verification against ${BASE}\n`);
+
+// The baseline must be taken BEFORE the first mutation, or the sweep cannot tell
+// what this run created.
+await captureBaseline();
 
 await check("seeded accounts can log in", async () => {
   await teacher.login("teacher");
@@ -922,10 +1028,27 @@ await check("the student speaking page renders", async () => {
 // ---------------------------------------------------------------------------
 
 console.log(`\n${passed} passed, ${failures.length} failed\n`);
+
+// CLEANUP RUNS WHATEVER HAPPENED ABOVE, and its own failure is an acceptance failure:
+// a probe that leaves rows behind has not passed, however many assertions did.
+let cleanupFailed = null;
+try {
+  const result = await sweepFixtures();
+  if (result.swept.length) {
+    console.log(`  fixture sweep removed rows left behind by this run — ${result.swept.join(", ")}`);
+  }
+  if (result.residue.length) {
+    cleanupFailed = `fixture residue remains after the sweep — ${result.residue.join(", ")}`;
+    console.error(`  !! ${cleanupFailed}`);
+  }
+} catch (error) {
+  cleanupFailed = `fixture cleanup threw: ${error?.message ?? error}`;
+  console.error(`  !! ${cleanupFailed}`);
+}
 await pool.end();
 
 if (failures.length > 0) {
   console.log("Failures:");
   for (const f of failures) console.log(`  - ${f.name}: ${f.err.message}`);
-  process.exit(1);
 }
+if (failures.length > 0 || cleanupFailed) process.exit(1);
