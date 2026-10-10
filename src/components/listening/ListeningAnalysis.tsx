@@ -57,13 +57,24 @@ export function ListeningAnalysis({
           : a.isCorrect ? "correct"
           : "incorrect";
 
-        // Neutral ink tokens for the two states that are not failures. `band-bad` would assert a
-        // wrong answer and `band-warn` would assert a warning; neither was issued. These are tokens
-        // the theme already defines, so Night/Day both follow and no colour is introduced.
+        /*
+         * Neutral tokens for the two states that are not failures. `band-bad` would assert a wrong
+         * answer and `band-warn` would assert a warning; neither was issued.
+         *
+         * The first attempt here used `bg-ink-50`, which does not exist: the theme's ink palette is
+         * 950/900/700/500/300/100, so Tailwind generated no rule at all and the badge rendered with
+         * NO background — the label sitting bare on the card while its correct/incorrect neighbours
+         * kept their pill. Measured in the browser, the badge's computed background was
+         * rgba(0,0,0,0). A class name that looks like a token is not a token.
+         *
+         * `bg-ink-100 text-ink-700` is generated, and its contrast was computed from the theme's own
+         * values in both palettes rather than assumed: 9.36:1 in Day Mode and 10.03:1 in Night Mode,
+         * against the 4.5:1 WCAG AA threshold for text this size.
+         */
         const tone =
           verdict === "correct" ? { card: "border-band-good/40", badge: "bg-band-good/10 text-band-good" }
           : verdict === "incorrect" ? { card: "border-band-bad/40", badge: "bg-band-bad/10 text-band-bad" }
-          : { card: "border-ink-100", badge: "bg-ink-50 text-ink-500" };
+          : { card: "border-ink-100", badge: "bg-ink-100 text-ink-700" };
 
         const label =
           verdict === "correct" ? dict.listening.correct

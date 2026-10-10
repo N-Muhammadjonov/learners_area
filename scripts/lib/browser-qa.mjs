@@ -43,6 +43,9 @@ export const VIEWPORTS = {
   320: { width: 320, height: 720, isMobile: true, hasTouch: true, deviceScaleFactor: 2 },
   390: { width: 390, height: 844, isMobile: true, hasTouch: true, deviceScaleFactor: 3 },
   768: { width: 768, height: 1024, isMobile: true, hasTouch: true, deviceScaleFactor: 2 },
+  // A tablet in landscape and a small laptop sit between the two mobile presets and the desktop
+  // one; a surface that only ever gets checked at 390 and 1440 can break in between them.
+  1024: { width: 1024, height: 768, isMobile: true, hasTouch: true, deviceScaleFactor: 2 },
   1440: { width: 1440, height: 900, isMobile: false, hasTouch: false, deviceScaleFactor: 1 },
 };
 
