@@ -16,6 +16,7 @@ import {
 import { providerEvaluationOutputSchema } from "../schema";
 import { composeAssessmentPrompt, filterOwnerOverlay, promptInvariantSnapshot } from "./compose";
 import { HARD_CORE_RULES, GLOBAL_TEACHING_RULES, STRICT_OUTPUT_RULES } from "./core";
+import { ownerOverlayBehaviorFixtures } from "./owner-policy-fixtures";
 import { assessmentContracts, ownerPolicyContractsForScope, assessmentPolicyScopeMatches, getAssessmentContract } from "./registry";
 import {
   assessmentOwnerOverlaySchema,
@@ -33,10 +34,12 @@ import {
 
 export type AssessmentPolicyState = "candidate" | "approved" | "superseded" | "rejected";
 export const ASSESSMENT_POLICY_STATES = ["candidate", "approved", "superseded", "rejected"] as const satisfies readonly AssessmentPolicyState[];
-export const ASSESSMENT_POLICY_REGRESSION_FIXTURE = "assessment-owner-overlay-invariants-v2";
+export const ASSESSMENT_POLICY_REGRESSION_FIXTURE = "assessment-owner-overlay-invariants-v3";
+const HISTORICAL_REGRESSION_FIXTURE = "assessment-owner-overlay-invariants-v2";
 
 type PolicyActor = Pick<CurrentUser, "id" | "role" | "accountStatus">;
 type Database = typeof db;
+type PolicyTransaction = Parameters<Parameters<Database["transaction"]>[0]>[0];
 
 export type AssessmentPolicyErrorCode =
   | "forbidden"
@@ -71,6 +74,7 @@ export type AssessmentPolicyRegression = {
     noRawMessageOrPolicyTextExecutable: boolean;
     pronunciationLimitationRetained: boolean;
     objectiveAndReporterContractsUnaffected: boolean;
+    runtimeGoldenFixturesPassed?: boolean;
   };
   affectedTaskKeys: AssessmentContractKey[];
 };
@@ -142,15 +146,16 @@ export function parseOwnerAssessmentPolicyMessage(message: string): ParsedAssess
   if (raw.length < 8 || raw.length > 2000) return null;
   const text = raw.normalize("NFKC").toLowerCase().replace(/[\u2018\u2019]/g, "'").replace(/\s+/g, " ");
   const prohibited = /(?:\b(?:ignore|disregard|forget|bypass|disable|override|replace|rewrite|change|redefine)\b.{0,100}\b(?:security|safety|hard core|schema|answer key|official score|band|rubric|pronunciation|reporter|metric|tool|url|endpoint|credential|secret|prompt|instructions?)\b)|(?:\b(?:reveal|expose|print|repeat|leak|execute|run)\b.{0,80}\b(?:hidden|system|developer|prompt|instructions?|secret|credential|password|api[_ -]?key|answer key|sql|shell|filesystem|endpoint|url)\b)|(?:\b(?:system[\s_-]?prompt|prompt\s+(?:field|text|body|override)|raw\s+instructions?)\b)|(?:https?:\/\/|\b(?:api[_ -]?key|password|credential|secret|shell|raw sql|filesystem)\b)/i;
-  if (prohibited.test(text)) return null;
+  const prohibitedUz = /(?:xavfsizlik|javob kaliti|rasmiy (?:ball(?:ni|ini)?|baho(?:ni|sini)?)|talaffuz|provayder|maxfiy|parol|tizim prompti|sql|shell).{0,80}(?:o'chir|o'zgartir|chetlab|almashtir|oshkor|ko'rsat|bajar)|(?:o'chir|o'zgartir|chetlab|almashtir|oshkor|bajar).{0,80}(?:xavfsizlik|javob kaliti|rasmiy (?:ball(?:ni|ini)?|baho(?:ni|sini)?)|talaffuz|provayder|maxfiy|parol|tizim prompti|sql|shell)/i;
+  if (prohibited.test(text) || prohibitedUz.test(text)) return null;
 
   const candidates: ParsedAssessmentPolicyMessage[] = [];
   if (
     /\bwriting\s+task\s*2\b/.test(text)
-    && /\bthree\s+(?:biggest|most important)\s+weakness(?:es)?\b/.test(text)
-    && /\b(?:quote|cite)\s+(?:the\s+)?evidence\b/.test(text)
-    && /\bcorrection\b/.test(text)
-    && /\breusable\s+rule\b/.test(text)
+    && /\b(?:three\s+(?:biggest|most important)\s+weakness(?:es)?|uchta eng (?:katta|muhim) zaiflik(?:ni|larni)?)\b/.test(text)
+    && /\b(?:(?:quote|cite)\s+(?:the\s+)?evidence|dalil(?:ni)?)\b/.test(text)
+    && /\b(?:correction|tuzatish)\b/.test(text)
+    && /\b(?:reusable\s+rule|qayta ishlatiladigan qoida)\b/.test(text)
   ) {
     candidates.push({
       scope: "writing.task2.*",
@@ -166,9 +171,9 @@ export function parseOwnerAssessmentPolicyMessage(message: string): ParsedAssess
   }
   if (
     /\bspeaking\s+part\s*1\b/.test(text)
-    && /\bper[- ]answer\s+scores?\b/.test(text)
-    && /\btopic\s+summary\b/.test(text)
-    && /\bthree\s+weakness(?:es)?\b/.test(text)
+    && /\b(?:per[- ]answer\s+scores?|har bir javob (?:uchun )?ball(?:ni|ini)?)\b/.test(text)
+    && /\b(?:topic\s+summary|mavzu xulosasi)\b/.test(text)
+    && /\b(?:three\s+weakness(?:es)?|uchta zaiflik(?:ni|larni)?)\b/.test(text)
   ) {
     candidates.push({
       scope: "speaking.part1",
@@ -183,9 +188,9 @@ export function parseOwnerAssessmentPolicyMessage(message: string): ParsedAssess
     });
   }
   if (
-    /\bgrammar\b/.test(text)
-    && /\btwo\s+mini[- ]illustrations\b/.test(text)
-    && /\b(?:wrong\s+form|why\s+it\s+sounds\s+unnatural)\b/.test(text)
+    /\b(?:grammar|grammatika)\b/.test(text)
+    && /\b(?:two\s+mini[- ]illustrations|ikkita kichik chizma)\b/.test(text)
+    && /\b(?:wrong\s+form|why\s+it\s+sounds\s+unnatural|noto'g'ri shakl|nega tabiiy emas)\b/.test(text)
   ) {
     candidates.push({
       scope: "grammar.*",
@@ -219,6 +224,19 @@ async function requireOwnerInTransaction(actor: PolicyActor, tx: Parameters<Para
   const [row] = await tx.select({ role: users.role, accountStatus: users.accountStatus })
     .from(users).where(eq(users.id, actor.id)).limit(1).for("update");
   if (row?.role !== "owner" || row.accountStatus !== "active") throw new AssessmentPolicyError("forbidden");
+}
+
+/** Every policy writer locks the parent before the version, including different owners. */
+async function lockPolicyVersion(candidateId: string, tx: PolicyTransaction) {
+  const [reference] = await tx.select({ policyId: riwiAssessmentPolicyVersions.policyId })
+    .from(riwiAssessmentPolicyVersions).where(eq(riwiAssessmentPolicyVersions.id, candidateId)).limit(1);
+  if (!reference) throw new AssessmentPolicyError("not_found");
+  const [policy] = await tx.select().from(riwiAssessmentPolicies)
+    .where(eq(riwiAssessmentPolicies.id, reference.policyId)).limit(1).for("update");
+  const [version] = await tx.select().from(riwiAssessmentPolicyVersions)
+    .where(eq(riwiAssessmentPolicyVersions.id, candidateId)).limit(1).for("update");
+  if (!policy || !version || version.policyId !== policy.id) throw new AssessmentPolicyError("not_found");
+  return { policy, version };
 }
 
 function validateCandidateInput(scopeValue: unknown, overlayValue: unknown) {
@@ -302,6 +320,43 @@ export async function createAssessmentPolicyCandidate(
   });
 }
 
+/** Rollback is a fresh candidate copied from a verified historical approval.
+ * It never rewrites history or activates an old preview automatically. */
+export async function createAssessmentPolicyRollbackCandidate(
+  actor: PolicyActor,
+  versionId: string,
+  database: Database = db,
+): Promise<{ candidate: ReturnType<typeof safeVersionView>; replay: boolean }> {
+  await requireActiveOwner(actor, database);
+  if (!z.string().uuid().safeParse(versionId).success) throw new AssessmentPolicyError("invalid_input");
+  return database.transaction(async (tx) => {
+    await requireOwnerInTransaction(actor, tx);
+    const { policy, version: source } = await lockPolicyVersion(versionId, tx);
+    if (source.state !== "superseded" || !source.approvedAt || !policy.activeVersion || source.version >= policy.activeVersion) throw new AssessmentPolicyError("invalid_state");
+    const checked = validateCandidateInput(policy.scope, source.overlay);
+    const regression = policyRegression(checked.scope, checked.overlay, source.regressionFixtureId === HISTORICAL_REGRESSION_FIXTURE);
+    if (!regression.passed || regression.fixtureId !== source.regressionFixtureId || regression.evidenceHash !== source.regressionEvidenceHash) throw new AssessmentPolicyError("regression_required");
+    const sourceMessageHash = digestJson({ rollbackVersionId: source.id, activeVersion: policy.activeVersion, overlay: checked.overlay });
+    const [existing] = await tx.select().from(riwiAssessmentPolicyVersions).where(and(
+      eq(riwiAssessmentPolicyVersions.policyId, policy.id), eq(riwiAssessmentPolicyVersions.sourceMessageHash, sourceMessageHash),
+    )).limit(1);
+    if (existing) return { candidate: safeVersionView(existing, policy.scope, policy.activeVersion), replay: true };
+    const [latest] = await tx.select({ version: sql<number>`coalesce(max(${riwiAssessmentPolicyVersions.version}), 0)::int` })
+      .from(riwiAssessmentPolicyVersions).where(eq(riwiAssessmentPolicyVersions.policyId, policy.id));
+    const version = Number(latest?.version ?? 0) + 1;
+    if (!Number.isSafeInteger(version) || version < 1 || version > 1_000_000) throw new AssessmentPolicyError("invalid_state");
+    const [created] = await tx.insert(riwiAssessmentPolicyVersions).values({
+      policyId: policy.id, version, state: "candidate", overlay: checked.overlay, sourceMessageHash, createdByUserId: actor.id,
+    }).returning();
+    if (!created) throw new AssessmentPolicyError("unavailable");
+    await tx.update(riwiAssessmentPolicies).set({ updatedAt: new Date() }).where(eq(riwiAssessmentPolicies.id, policy.id));
+    await recordRiwiAudit({ actorUserId: actor.id, action: "riwi.assessment.policy.candidate", targetType: "riwi_assessment_policy_version", targetId: created.id,
+      metadata: { taskProfile: checked.scope, version, decision: "rollback_candidate", sourceId: source.id, inputHash: sourceMessageHash, contentHash: digestJson(checked.overlay) },
+    }, tx);
+    return { candidate: safeVersionView(created, policy.scope, policy.activeVersion), replay: false };
+  });
+}
+
 function scoreScope(scope: AssessmentPolicyScope, key: AssessmentContractKey): number {
   if (scope === key) return 3;
   const parts = key.split(".");
@@ -335,6 +390,8 @@ export async function getApprovedOwnerPolicyForContract(
       if (!version) continue;
       const overlay = assessmentOwnerOverlaySchema.safeParse(version.overlay);
       if (!overlay.success || !validatePolicyScopeOverlay(scope.data, overlay.data)) continue;
+      const integrity = policyRegression(scope.data, overlay.data, version.regressionFixtureId === HISTORICAL_REGRESSION_FIXTURE);
+      if (!version.approvedAt || !version.regressionPassedAt || integrity.fixtureId !== version.regressionFixtureId || integrity.evidenceHash !== version.regressionEvidenceHash) continue;
       const filtered = filterOwnerOverlay(contract, overlay.data);
       if (!filtered) continue;
       return { scope: scope.data, version: version.version, overlay: filtered };
@@ -364,6 +421,10 @@ export function runAssessmentPolicyRegression(
   scopeValue: unknown,
   overlayValue: unknown,
 ): AssessmentPolicyRegression {
+  return policyRegression(scopeValue, overlayValue, false);
+}
+
+function policyRegression(scopeValue: unknown, overlayValue: unknown, historical: boolean): AssessmentPolicyRegression {
   const candidate = validateCandidateInput(scopeValue, overlayValue);
   const affected = ownerPolicyContractsForScope(candidate.scope);
   const outputKeys = Object.keys(providerEvaluationOutputSchema.shape).sort();
@@ -373,6 +434,9 @@ export function runAssessmentPolicyRegression(
     contract, overlay: candidate.overlay,
     detailedWritingAnalysis: contract.key.startsWith("writing.grade."),
   }));
+  const behavior = ownerOverlayBehaviorFixtures(affected, candidate.overlay);
+  if (!behavior.passed) throw new AssessmentPolicyError("regression_failed");
+  const fixtureId = historical ? HISTORICAL_REGRESSION_FIXTURE : ASSESSMENT_POLICY_REGRESSION_FIXTURE;
   const checks = {
     scopeContainsOnlyCoachContracts: affected.length > 0 && affected.every((contract) => contract.execution === "coach_evaluation"),
     overlayFieldsAreAllowlisted: filteredOverlays.every((value) => value !== null)
@@ -389,9 +453,10 @@ export function runAssessmentPolicyRegression(
     pronunciationLimitationRetained: HARD_CORE_RULES.includes("Pronunciation, accent, intonation, stress, pauses, and prosody cannot be inferred from a transcript"),
     objectiveAndReporterContractsUnaffected: affected.every((contract) => contract.domain !== "reading" && contract.domain !== "listening" && contract.domain !== "reporting")
       && assessmentContracts.filter((contract) => contract.domain === "reporting").every((contract) => contract.execution === "deterministic_report"),
+    ...(!historical ? { runtimeGoldenFixturesPassed: behavior.passed } : {}),
   };
   const fixture = {
-    fixtureId: ASSESSMENT_POLICY_REGRESSION_FIXTURE,
+    fixtureId,
     scope: candidate.scope,
     overlayHash: digestJson(candidate.overlay),
     affectedTaskKeys: affected.map((contract) => contract.key),
@@ -405,9 +470,10 @@ export function runAssessmentPolicyRegression(
     outputSchemaHash: digestJson(stableZodShape(providerEvaluationOutputSchema)),
     outputKeys,
     checks,
+    ...(!historical ? { behaviorFixtureDigest: behavior.digest } : {}),
   };
   return {
-    fixtureId: ASSESSMENT_POLICY_REGRESSION_FIXTURE,
+    fixtureId,
     passed: Object.values(checks).every(Boolean),
     evidenceHash: digestJson(fixture),
     checks,
@@ -433,12 +499,8 @@ export async function previewAssessmentPolicyCandidate(
 
   return database.transaction(async (tx) => {
     await requireOwnerInTransaction(actor, tx);
-    const [current] = await tx.select({ version: riwiAssessmentPolicyVersions, policy: riwiAssessmentPolicies })
-      .from(riwiAssessmentPolicyVersions)
-      .innerJoin(riwiAssessmentPolicies, eq(riwiAssessmentPolicyVersions.policyId, riwiAssessmentPolicies.id))
-      .where(and(eq(riwiAssessmentPolicyVersions.id, candidateId), eq(riwiAssessmentPolicyVersions.state, "candidate")))
-      .limit(1).for("update");
-    if (!current || current.version.sourceMessageHash !== joined.version.sourceMessageHash) throw new AssessmentPolicyError("invalid_state");
+    const current = await lockPolicyVersion(candidateId, tx);
+    if (current.version.state !== "candidate" || current.policy.scope !== joined.policy.scope || current.version.sourceMessageHash !== joined.version.sourceMessageHash || digestJson(current.version.overlay) !== digestJson(joined.version.overlay)) throw new AssessmentPolicyError("invalid_state");
     const now = new Date();
     const [updated] = await tx.update(riwiAssessmentPolicyVersions).set({
       regressionFixtureId: regression.fixtureId,
@@ -467,21 +529,22 @@ export async function previewAssessmentPolicyCandidate(
 export async function approveAssessmentPolicyCandidate(
   actor: PolicyActor,
   candidateId: string,
+  expectedEvidenceHash: string,
   database: Database = db,
 ): Promise<{ candidate: ReturnType<typeof safeVersionView>; replay: boolean }> {
   await requireActiveOwner(actor, database);
-  if (!z.string().uuid().safeParse(candidateId).success) throw new AssessmentPolicyError("invalid_input");
+  if (!z.string().uuid().safeParse(candidateId).success || !z.string().regex(/^[a-f0-9]{64}$/).safeParse(expectedEvidenceHash).success) throw new AssessmentPolicyError("invalid_input");
   return database.transaction(async (tx) => {
     await requireOwnerInTransaction(actor, tx);
-    const [candidate] = await tx.select({ version: riwiAssessmentPolicyVersions, policy: riwiAssessmentPolicies })
-      .from(riwiAssessmentPolicyVersions)
-      .innerJoin(riwiAssessmentPolicies, eq(riwiAssessmentPolicyVersions.policyId, riwiAssessmentPolicies.id))
-      .where(eq(riwiAssessmentPolicyVersions.id, candidateId)).limit(1).for("update");
-    if (!candidate) throw new AssessmentPolicyError("not_found");
+    const candidate = await lockPolicyVersion(candidateId, tx);
+    if (candidate.version.regressionEvidenceHash !== expectedEvidenceHash) throw new AssessmentPolicyError("regression_required");
     if (candidate.version.state === "approved" && candidate.policy.activeVersion === candidate.version.version) {
+      const integrity = policyRegression(candidate.policy.scope, candidate.version.overlay, candidate.version.regressionFixtureId === HISTORICAL_REGRESSION_FIXTURE);
+      if (integrity.fixtureId !== candidate.version.regressionFixtureId || integrity.evidenceHash !== expectedEvidenceHash) throw new AssessmentPolicyError("regression_required");
       return { candidate: safeVersionView(candidate.version, candidate.policy.scope, candidate.policy.activeVersion), replay: true };
     }
     if (candidate.version.state !== "candidate") throw new AssessmentPolicyError("invalid_state");
+    if (candidate.policy.activeVersion && candidate.version.version <= candidate.policy.activeVersion) throw new AssessmentPolicyError("invalid_state");
     if (!candidate.version.regressionFixtureId || !candidate.version.regressionEvidenceHash || !candidate.version.regressionPassedAt) {
       throw new AssessmentPolicyError("regression_required");
     }
@@ -529,11 +592,9 @@ export async function rejectAssessmentPolicyCandidate(
   if (!z.string().uuid().safeParse(candidateId).success || reason.trim().length > 500) throw new AssessmentPolicyError("invalid_input");
   return database.transaction(async (tx) => {
     await requireOwnerInTransaction(actor, tx);
-    const [joined] = await tx.select({ version: riwiAssessmentPolicyVersions, scope: riwiAssessmentPolicies.scope })
-      .from(riwiAssessmentPolicyVersions).innerJoin(riwiAssessmentPolicies, eq(riwiAssessmentPolicyVersions.policyId, riwiAssessmentPolicies.id))
-      .where(and(eq(riwiAssessmentPolicyVersions.id, candidateId), eq(riwiAssessmentPolicyVersions.state, "candidate")))
-      .limit(1).for("update");
-    if (!joined) throw new AssessmentPolicyError("not_found");
+    const locked = await lockPolicyVersion(candidateId, tx);
+    if (locked.version.state !== "candidate") throw new AssessmentPolicyError("not_found");
+    const joined = { version: locked.version, scope: locked.policy.scope };
     await tx.update(riwiAssessmentPolicyVersions).set({ state: "rejected", reviewedByUserId: actor.id })
       .where(and(eq(riwiAssessmentPolicyVersions.id, candidateId), eq(riwiAssessmentPolicyVersions.state, "candidate")));
     await recordRiwiAudit({

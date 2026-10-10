@@ -5,6 +5,15 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { execFileSync } from "node:child_process";
 
+test("legacy generator refuses its implicit or explicit historical ledger target before reading sources", () => {
+  for (const output of [undefined, "docs/RIWI-FINAL-REQUIREMENT-LEDGER.jsonl"]) {
+    const env = { ...process.env };
+    delete env.RIWI_LEDGER_OUT;
+    if (output) env.RIWI_LEDGER_OUT = output;
+    assert.throws(() => execFileSync(process.execPath, ["scripts/generate-riwi-final-ledger.mjs"], { env, stdio: "pipe" }), /historical_ledger_write_denied/);
+  }
+});
+
 test("ledger generation cannot turn an unimplemented requirement or supplied SHA into PASS", () => {
   const directory = mkdtempSync(join(tmpdir(), "riwi-ledger-proof-"));
   try {

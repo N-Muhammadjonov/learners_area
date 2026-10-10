@@ -1,0 +1,168 @@
+{
+  "checkpoint": "Batch15 candidate",
+  "base_commit": "7f805af85705906f6c37710a3030f3eb357e90c0",
+  "source_state_sha256": "cb2859c83a69639fa6bf186c48787a1c196a17605e760005aaa0c6498a564324",
+  "receipts": {
+    "focused": {
+      "command": "node --conditions=react-server --import tsx --test (15 explicitly listed affected test files)",
+      "artifact": "docs/RIWI-BATCH-15-QA-FOCUSED.txt",
+      "sha256": "2daca22a84ad7070a4b4c27148da2eae8c107ba798c2318efca63995e2234975",
+      "exit_code": 0,
+      "counts": {
+        "tests": 76,
+        "pass": 76,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    "ui": {
+      "command": "npm run test:ui",
+      "artifact": "docs/RIWI-BATCH-15-QA-UI.txt",
+      "sha256": "4fbc8619702d6b85f0ab22268ca19c6552ff122b3cb947b0d4f95a57aeb0d94e",
+      "exit_code": 0,
+      "counts": {
+        "tests": 257,
+        "pass": 257,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    "typecheck": {
+      "command": "npm run typecheck",
+      "artifact": "docs/RIWI-BATCH-15-QA-TYPECHECK.txt",
+      "sha256": "0139e16a8ee56c9e0492eba8ec8ff60d872f481a482463b99c6eb01f358f6af2",
+      "exit_code": 0,
+      "raw_log_sha256": "ac19c29fd7dbdd2d0a0bb9f56b2a514ef5788b0a705cec89218a7a23d833d062",
+      "artifact_normalization": "Trailing empty lines removed; raw log identity retained."
+    },
+    "lint": {
+      "command": "npm run lint",
+      "artifact": "docs/RIWI-BATCH-15-QA-LINT.txt",
+      "sha256": "66c59d33cdfe7b2f80df69952506e007747439d7012fdb46d42dd7c9e087fac6",
+      "exit_code": 0,
+      "raw_log_sha256": "b4d1173af97e919cdcf5e1f2bc959f7b0c283ac1010456dfb977bf2d1a71adf4",
+      "artifact_normalization": "Trailing empty lines removed; raw log identity retained."
+    }
+  },
+  "fresh_requirement_receipts": [
+    {
+      "id": "6adf10eae73e",
+      "command": "node --conditions=react-server --import tsx --test --test-reporter=tap tests/riwi-security.test.ts",
+      "artifact": "docs/RIWI-BATCH-15-EVIDENCE-6adf10eae73e.txt",
+      "artifact_sha256": "4b13cad2237312185860dd7c349927fe5d480947926dafe5b7023da0ecb858f0",
+      "source_state_sha256": "cb2859c83a69639fa6bf186c48787a1c196a17605e760005aaa0c6498a564324",
+      "exit_code": 0,
+      "counts": {
+        "tests": 10,
+        "pass": 10,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "verified": true
+    },
+    {
+      "id": "a8336625b65e",
+      "command": "node --conditions=react-server --import tsx --test --test-reporter=tap tests/assessment-owner-policy.test.ts tests/assessment-policy-rollback.test.ts",
+      "artifact": "docs/RIWI-BATCH-15-EVIDENCE-a8336625b65e.txt",
+      "artifact_sha256": "3b1b6dd88b4728f4a0b966fc0aae6cd48ea96f5bc72ddd3d0ecd565dc243ba4b",
+      "source_state_sha256": "cb2859c83a69639fa6bf186c48787a1c196a17605e760005aaa0c6498a564324",
+      "exit_code": 0,
+      "counts": {
+        "tests": 10,
+        "pass": 10,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "verified": true
+    },
+    {
+      "id": "ea4e0a8f5a94",
+      "command": "node --conditions=react-server --import tsx --test --test-reporter=tap tests/speaking-contract-boundaries.test.ts tests/speaking-summary-evidence.test.ts",
+      "artifact": "docs/RIWI-BATCH-15-EVIDENCE-ea4e0a8f5a94.txt",
+      "artifact_sha256": "7f1c86ecc9d1b275a44384cd37797d091d05eaa0678f5aa314d1870b47d0b054",
+      "source_state_sha256": "cb2859c83a69639fa6bf186c48787a1c196a17605e760005aaa0c6498a564324",
+      "exit_code": 0,
+      "counts": {
+        "tests": 4,
+        "pass": 4,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "verified": true
+    },
+    {
+      "id": "d270107ac759",
+      "command": "node --conditions=react-server --import tsx --test --test-reporter=tap tests/riwi-portability-v2.test.ts tests/riwi-portable-manifest-scope.test.ts",
+      "artifact": "docs/RIWI-BATCH-15-EVIDENCE-d270107ac759.txt",
+      "artifact_sha256": "e57a8807e7289c49161b77b3c9a8d59f36ba82b3627d3e886806ede9a2cec8b1",
+      "source_state_sha256": "cb2859c83a69639fa6bf186c48787a1c196a17605e760005aaa0c6498a564324",
+      "exit_code": 0,
+      "counts": {
+        "tests": 12,
+        "pass": 12,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "verified": true
+    }
+  ],
+  "canonical_inventory": {
+    "riwi_migrations": 51,
+    "riwi_tables": 113,
+    "website_migrations": 53,
+    "website_tables": 119,
+    "deployment": "UNVERIFIED",
+    "report": "docs/RIWI-BATCH-15-SCHEMA-INVENTORY.json"
+  },
+  "groups_prepared": [
+    "R01",
+    "R02",
+    "R03",
+    "B06",
+    "D08",
+    "D10"
+  ],
+  "group_credit_now": 0,
+  "proposed_group_credit_after_native_gates_and_remote_blobs": 6,
+  "baseline_closed": 11,
+  "denominator": 34,
+  "verified_percent_now": 32.35,
+  "proposed_percent_if_accepted": 50,
+  "proposed_delta_percentage_points": 17.65,
+  "unresolved_operational_groups": [
+    "R04",
+    "R05",
+    "R06",
+    "R07",
+    "R08",
+    "B01",
+    "B04",
+    "B05",
+    "C05",
+    "C06",
+    "C07",
+    "C08",
+    "C09",
+    "D03",
+    "D04",
+    "D05",
+    "D09"
+  ],
+  "native_full_gates": "PENDING_OWNER_TERMINAL_EXECUTION; two backend/UI/typecheck/lint rounds required",
+  "build": "NOT_RERUN_UNDER_OWNER_INSTRUCTION",
+  "remote_publication": "NOT_YET_PERFORMED",
+  "production_GO": false,
+  "initial_local_reproduction": "UZ placeholder was unrecognized because English-only parser and inflected Uzbek suffixes were missing. Reproducing fixture failed; repaired parser and hostile/mixed UZ tests pass in final source."
+}

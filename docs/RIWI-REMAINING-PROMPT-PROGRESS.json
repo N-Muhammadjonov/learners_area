@@ -1,7 +1,7 @@
 {
   "source": "RIWI_REMAINING_WORK_EXECUTION_PROMPT.txt",
   "source_sha256": "daf36b256a990b7fa5379fd121810991bad552f638c776e8d9b55dcb22847979",
-  "verified_remote_base": "423383914d468b6b7c419f9aaa2254d12c4f89f5",
+  "verified_remote_base": "7f805af85705906f6c37710a3030f3eb357e90c0",
   "method": "Equal-weight full-group acceptance: CLOSED / all 34 original R/B/C/D groups. Partial implementation receives no full-group credit. This is a verified closure metric, not a measure of development effort or existing product functionality.",
   "closed": 11,
   "total": 34,
@@ -21,19 +21,19 @@
       "id": "R01",
       "requirement": "Recover and publish the preserved candidate correctly. GitHub still has fd0dc498 while the local candidate contains five additional logical commits plus working-tree changes. Verify every changed blob against the remote base and each local diff. The historical 11,263,730-byte requirement-ledger blob is missing locally. Preserve its remote SHA reference, do not fabricate it or overwrite it merely to make Git work. Publish reviewed changes through a base-tree patch if ordinary Git cannot transfer the complete history. Use a non-force compare-and-swap ref update.",
       "status": "PARTIAL",
-      "evidence_and_remaining": "Reviewed publication checkpoints exist; inherited candidate changes remain unpublished."
+      "evidence_and_remaining": "All 1482 published source blobs and 38 original annex paths reconciled at 7f805af; original archival ledger recovered byte-identically. Inherited source is already published. Batch15 preservation report and new changes await native package QA/publication verification."
     },
     {
       "id": "R02",
       "requirement": "Reconcile current RIWI/website divergence and migrations. Compare exact current SHAs, journal entries, SQL/snapshots and schema. Prepare a conflict-specific integration patch/runbook without merging or renumbering migrations blindly. Current website state is newer than the historical chat checkpoint.",
       "status": "PARTIAL",
-      "evidence_and_remaining": "Hash-ordered migration repair published; website divergence/integration packet remains open."
+      "evidence_and_remaining": "Batch15 exact current branch trees, 15 SQL/journal prefix collisions, independent canonical catalogs, schema/snapshot differences and conflict-specific runbook prepared; review packet awaits native package gates/remote durability. No merge or shared migration applied."
     },
     {
       "id": "R03",
       "requirement": "Rebuild evidence-based requirement status. The remote generator maps broad source keywords to PASS without executing the alleged evidence. The local fix removes this automatic acceptance. Test with representative real requirements and maintain source file, source line, exact requirement, implementation, command, observed result, state SHA and applicable external evidence. Counts of text lines are not completion percentages.",
       "status": "PARTIAL",
-      "evidence_and_remaining": "False PASS generator fixed; full requirement-specific current-state evidence remains open."
+      "evidence_and_remaining": "Exact four original prompt sources recovered from 5133e1; new content-state evidence ledger retains every nonempty source line. Five explicit real requirements have freshly executed scoped local receipts; all other lines remain REVIEW_REQUIRED. Legacy ledger preserved/protected. Package durability pending."
     },
     {
       "id": "R04",
@@ -102,7 +102,7 @@
       "id": "B06",
       "requirement": "Verify owner overlay lifecycle in real runtime: persisted owner authority; candidate -> exact preview/regression hash -> approval -> version activation -> rollback; changed/stale/replayed preview denial; immutable hard-core rejection; no learner/upload/provider text as policy. Preserve historical evaluations. Verify all UZ/EN states.",
       "status": "OPEN_UNVERIFIED",
-      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+      "evidence_and_remaining": "Batch15 inert rollback candidates, exact preview hash approval, runtime golden validators, v2 compatibility, approved-row integrity, UZ/EN parsing/UI and persisted authority implemented. Historical evaluations unchanged in DB tests. Final native gates/remote durability pending; target browser proof remains R06."
     },
     {
       "id": "B07",
@@ -190,7 +190,7 @@
       "id": "D03",
       "requirement": "Review tri-mode PostgreSQL source/destination projection and identity reconciliation. Mode B strips site/private data and maps governance identities explicitly to authorized target actors; Mode C excludes all RIWI intelligence/conversations; Mode A preserves allowed full data. Validate foreign keys, composite keys, nullable self references, cycles, duplicate/conflicting rows, rollback, serialized mutations and uncertain COMMIT outcomes. Do not disable constraints to pass imports.",
       "status": "PARTIAL",
-      "evidence_and_remaining": "Step 13 nullable cycle/FK validation published and independently verified: exact tree and 7 blobs, two native non-build rounds each 1203 backend passes, 91 skips and 252 UI passes. Step 14 candidate explicitly reconciles a single active source bootstrap owner to the initiating destination owner in A/C, including schema-declared user references and user-backed primary keys. Broader multi-owner reconciliation and native PostgreSQL concurrency/restore acceptance remain open; no full-group credit."
+      "evidence_and_remaining": "Step 13 nullable-cycle staging and FK validation and Step 14 single-bootstrap-owner A/C mapping are remotely verified. Step 14 exact tree and all 8 blobs match; two native non-build rounds each 1207 backend passes, 91 skips, zero failures, 252 UI passes plus typecheck/lint. Broader multi-owner reconciliation and native PostgreSQL concurrency/restore acceptance remain open. D03 is PARTIAL; no full-group credit."
     },
     {
       "id": "D04",
@@ -222,7 +222,7 @@
       "id": "D08",
       "requirement": "Reconcile provider-dependent DB/services, canonical migrations, private object data, allowlist classification, backup and rollback. Record all required schema object classes or prove N/A. Do not infer PostgreSQL portability from row-only fixtures.",
       "status": "PARTIAL",
-      "evidence_and_remaining": "Canonical migration-order repair published; complete object/schema/dependency reconciliation remains open."
+      "evidence_and_remaining": "Batch15 complete canonical non-row catalog/classes, 113/113 classification parity, independent website comparison, private-object/service/backup/rollback reconciliation prepared. Real native destination/PITR/R2 proofs remain R05/R07/D03-D05; package gates/durability pending."
     },
     {
       "id": "D09",
@@ -234,16 +234,44 @@
       "id": "D10",
       "requirement": "Provide the final simple owner handoff, full manual/runtime matrix and actionable remaining boundaries. Identify which tasks are code complete, locally verified, remotely published, deployed, operationally accepted or owner/external blocked.",
       "status": "OPEN_UNVERIFIED",
-      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+      "evidence_and_remaining": "Batch15 simple owner handoff, 576 manual/runtime cases with missing deployed receipts explicitly marked, all remaining boundaries and 91 named inherited skips prepared. Final native gates/publication durability pending; no final GO claim."
     }
   ],
-  "pending_batch": {
-    "step": 14,
-    "groups": [
-      "D03"
+  "publication_policy": {
+    "requested_at": "2026-10-09T21:23:36+05:00",
+    "minimum_new_percentage_points": 15,
+    "minimum_additional_full_groups": 6,
+    "expected_minimum_delta_percentage_points": 17.65,
+    "baseline_closed": 11,
+    "denominator": 34,
+    "priority_order": [
+      "safety",
+      "quality",
+      "speed"
     ],
-    "currently_credited": false,
-    "earned_percentage_points": 0,
-    "condition": "Single-bootstrap-owner A/C mapping is locally verified; native QA and remote publication pending. D03 stays PARTIAL pending wider identity and native acceptance."
+    "partial_groups_earn_credit": false,
+    "publish_only_after_independent_task_checks_and_package_QA": true,
+    "no_reset_or_rebuild": true,
+    "no_force_push": true,
+    "pending_partial_work_must_be_preserved": true
+  },
+  "pending_batch15": {
+    "target_groups": [
+      "R01",
+      "R02",
+      "R03",
+      "B06",
+      "D08",
+      "D10"
+    ],
+    "baseline_closed": 11,
+    "candidate_additional_groups": 6,
+    "candidate_delta_percentage_points": 17.65,
+    "candidate_total_if_fully_accepted": 17,
+    "candidate_percent_if_fully_accepted": 50.0,
+    "status": "PENDING_FINAL_NATIVE_QA_AND_REMOTE_BLOB_VERIFICATION",
+    "accepted_delta": 0,
+    "no_credit_from_document_line_counts": true,
+    "full_product_operational_acceptance": false
   }
 }

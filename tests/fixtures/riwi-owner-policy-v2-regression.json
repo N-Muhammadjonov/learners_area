@@ -1,0 +1,104 @@
+{
+  "sourceCommit": "7f805af85705906f6c37710a3030f3eb357e90c0",
+  "fixtures": [
+    {
+      "scope": "writing.task2.*",
+      "overlay": {
+        "feedbackStyle": "step_by_step",
+        "maxWeaknesses": 3,
+        "prioritizeBandLimitingIssues": true,
+        "evidenceRequired": true,
+        "includeCorrections": true,
+        "includeReusableRule": true
+      },
+      "regression": {
+        "fixtureId": "assessment-owner-overlay-invariants-v2",
+        "passed": true,
+        "evidenceHash": "9560ff97bdb4a8188a0713c1218c89086b9264a06f57bfb1314d0e80ad7dd4db",
+        "checks": {
+          "scopeContainsOnlyCoachContracts": true,
+          "overlayFieldsAreAllowlisted": true,
+          "immutableCorePreserved": true,
+          "sectionOrderPreserved": true,
+          "outputSchemaUnchanged": true,
+          "taskAndRubricVersionsRetained": true,
+          "noRawMessageOrPolicyTextExecutable": true,
+          "pronunciationLimitationRetained": true,
+          "objectiveAndReporterContractsUnaffected": true
+        },
+        "affectedTaskKeys": [
+          "writing.task2.generic",
+          "writing.task2.opinion",
+          "writing.task2.discussion",
+          "writing.task2.advantages-disadvantages",
+          "writing.task2.problem-solution",
+          "writing.task2.two-part",
+          "writing.task2.cause-effect",
+          "writing.task2.positive-negative"
+        ]
+      }
+    },
+    {
+      "scope": "speaking.part1",
+      "overlay": {
+        "feedbackStyle": "concise",
+        "maxWeaknesses": 3,
+        "showPerAnswerScore": false,
+        "topicSummary": true,
+        "topicSummaryMaxWeaknesses": 3,
+        "feedbackUnit": "per_topic"
+      },
+      "regression": {
+        "fixtureId": "assessment-owner-overlay-invariants-v2",
+        "passed": true,
+        "evidenceHash": "063138c4fd6ed90a0073e291baa9ec06f99d685f66f6a458f7066d03e8afce80",
+        "checks": {
+          "scopeContainsOnlyCoachContracts": true,
+          "overlayFieldsAreAllowlisted": true,
+          "immutableCorePreserved": true,
+          "sectionOrderPreserved": true,
+          "outputSchemaUnchanged": true,
+          "taskAndRubricVersionsRetained": true,
+          "noRawMessageOrPolicyTextExecutable": true,
+          "pronunciationLimitationRetained": true,
+          "objectiveAndReporterContractsUnaffected": true
+        },
+        "affectedTaskKeys": [
+          "speaking.part1"
+        ]
+      }
+    },
+    {
+      "scope": "grammar.*",
+      "overlay": {
+        "explanationDepth": "detailed",
+        "learnerTone": "coach_explanatory",
+        "exampleCount": 2,
+        "useMiniIllustrations": true
+      },
+      "regression": {
+        "fixtureId": "assessment-owner-overlay-invariants-v2",
+        "passed": true,
+        "evidenceHash": "ea5f5db4409bd683857bd1b60e193d23d83350ab1404ea9a7b972ea2165b2180",
+        "checks": {
+          "scopeContainsOnlyCoachContracts": true,
+          "overlayFieldsAreAllowlisted": true,
+          "immutableCorePreserved": true,
+          "sectionOrderPreserved": true,
+          "outputSchemaUnchanged": true,
+          "taskAndRubricVersionsRetained": true,
+          "noRawMessageOrPolicyTextExecutable": true,
+          "pronunciationLimitationRetained": true,
+          "objectiveAndReporterContractsUnaffected": true
+        },
+        "affectedTaskKeys": [
+          "grammar.correct-it",
+          "grammar.translate-it",
+          "grammar.activate-it",
+          "grammar.transformation",
+          "grammar.free-production"
+        ]
+      }
+    }
+  ]
+}

@@ -58,6 +58,8 @@ function copy(locale: Locale) {
     previewing: uz ? "Tekshirilmoqda…" : "Checking…",
     approve: uz ? "Tasdiqlash va faollashtirish" : "Approve and activate",
     approving: uz ? "Tasdiqlanmoqda…" : "Approving…",
+    rollback: uz ? "Oldingi sozlamalardan nomzod yaratish" : "Create rollback candidate",
+    rollbackPending: uz ? "Oldingi sozlamalar nomzodga ko'chirildi. Yangi preview va alohida tasdiq kerak." : "Historical settings copied to a candidate. A fresh preview and separate approval are required.",
     reject: uz ? "Rad etish" : "Reject",
     rejected: uz ? "Rad etildi." : "Rejected.",
     state: uz ? "Holat" : "State",
@@ -106,6 +108,7 @@ export function OwnerAssessmentPolicyPanel({ locale }: { locale: Locale }) {
   const mounted = useRef(true);
   const requestSequence = useRef(0);
   const historyLock = useRef(false);
+  const mutationLock = useRef(false);
   const selected = versions.find((version) => version.id === selectedId) ?? null;
 
   useEffect(() => {
@@ -116,8 +119,15 @@ export function OwnerAssessmentPolicyPanel({ locale }: { locale: Locale }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  function discardRevokedHistory(response: Response): boolean {
+    if (response.status !== 401 && response.status !== 403) return false;
+    setVersions([]); setNextCursor(null); setVersionCount(0); setSelectedId(null); setRegression(null);
+    setNotice(""); setError(text.error);
+    return true;
+  }
+
   async function loadPage(cursor: string | null, append: boolean) {
-    if (historyLock.current) return;
+    if (historyLock.current || mutationLock.current) return;
     historyLock.current = true;
     const requestId = ++requestSequence.current;
     setLoadingHistory(true);
@@ -127,7 +137,7 @@ export function OwnerAssessmentPolicyPanel({ locale }: { locale: Locale }) {
       if (cursor) query.set("cursor", cursor);
       const response = await requestResponse(`/api/riwi/owner/assessment-policies?${query.toString()}`, { method: "GET", headers: { Accept: "application/json" } });
       if (!response || !mounted.current || requestSequence.current !== requestId) return;
-      if (response.status === 401 || response.status === 403) { setVersions([]); setNextCursor(null); setVersionCount(0); setError(text.error); return; }
+      if (discardRevokedHistory(response)) return;
       const parsed = pageSchema.safeParse(await response.json().catch(() => null));
       if (!response.ok || !parsed.success) { setPageFailed(true); setError(text.error); return; }
       setVersions((current) => append ? appendUnique(current, parsed.data.versions) : parsed.data.versions);
@@ -144,13 +154,15 @@ export function OwnerAssessmentPolicyPanel({ locale }: { locale: Locale }) {
 
   async function submitCandidate(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (busy || !message.trim()) return;
+    if (mutationLock.current || !message.trim()) return;
+    mutationLock.current = true;
     setBusy(true); setError(""); setNotice(""); setRegression(null);
     try {
       const response = await requestResponse("/api/riwi/owner/assessment-policies", {
         method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify({ message }),
       });
       if (!response || !mounted.current) return;
+      if (discardRevokedHistory(response)) return;
       const body = await response.json().catch(() => null);
       const parsed = candidateSchema.safeParse(body);
       if (!response.ok || !parsed.success) {
@@ -162,59 +174,85 @@ export function OwnerAssessmentPolicyPanel({ locale }: { locale: Locale }) {
       setMessage("");
       setNotice(parsed.data.replay ? text.replay : text.regressionNeeded);
     } catch { if (mounted.current) setError(text.error); }
-    finally { if (mounted.current) setBusy(false); }
+    finally { mutationLock.current = false; if (mounted.current) setBusy(false); }
   }
 
   async function previewSelected() {
-    if (!selected || busy || selected.state !== "candidate") return;
+    if (!selected || mutationLock.current || selected.state !== "candidate") return;
+    mutationLock.current = true;
     setBusy(true); setError(""); setNotice(""); setRegression(null);
     try {
       const response = await requestResponse(`/api/riwi/owner/assessment-policies/${selected.id}/preview`, {
         method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: "{}",
       });
       if (!response || !mounted.current) return;
+      if (discardRevokedHistory(response)) return;
       const parsed = previewSchema.safeParse(await response.json().catch(() => null));
       if (!response.ok || !parsed.success) { setError(text.error); return; }
       setRegression(parsed.data.regression);
       setVersions((current) => current.map((item) => item.id === parsed.data.candidate.id ? parsed.data.candidate : item));
       setNotice(parsed.data.regression.passed ? text.confirmed : text.error);
     } catch { if (mounted.current) setError(text.error); }
-    finally { if (mounted.current) setBusy(false); }
+    finally { mutationLock.current = false; if (mounted.current) setBusy(false); }
   }
 
   async function approveSelected() {
-    if (!selected || busy || selected.state !== "candidate" || !regression?.passed || regression.evidenceHash !== selected.regressionEvidenceHash) return;
+    if (!selected || mutationLock.current || selected.state !== "candidate" || !regression?.passed || regression.evidenceHash !== selected.regressionEvidenceHash) return;
+    mutationLock.current = true;
     setBusy(true); setError(""); setNotice("");
     try {
       const response = await requestResponse(`/api/riwi/owner/assessment-policies/${selected.id}/approve`, {
-        method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify({ confirmRegression: true }),
+        method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify({ confirmRegression: true, evidenceHash: regression.evidenceHash }),
       });
       if (!response || !mounted.current) return;
+      if (discardRevokedHistory(response)) return;
       const parsed = approveSchema.safeParse(await response.json().catch(() => null));
       if (!response.ok || !parsed.success) { setError(text.error); return; }
       setVersions((current) => [parsed.data.candidate, ...current.filter((item) => item.id !== parsed.data.candidate.id).map((item) => item.policyId === parsed.data.candidate.policyId && item.active ? { ...item, active: false, state: "superseded" as const } : item)]);
       setRegression(null);
       setNotice(parsed.data.replay ? text.replay : text.active);
     } catch { if (mounted.current) setError(text.error); }
-    finally { if (mounted.current) setBusy(false); }
+    finally { mutationLock.current = false; if (mounted.current) setBusy(false); }
+  }
+
+  async function rollbackSelected() {
+    if (!selected || mutationLock.current || selected.state !== "superseded" || !selected.approvedAt) return;
+    mutationLock.current = true;
+    setBusy(true); setError(""); setNotice(""); setRegression(null);
+    try {
+      const response = await requestResponse(`/api/riwi/owner/assessment-policies/${selected.id}/rollback`, {
+        method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify({ confirmRollback: true }),
+      });
+      if (!response || !mounted.current) return;
+      if (discardRevokedHistory(response)) return;
+      const parsed = candidateSchema.safeParse(await response.json().catch(() => null));
+      if (!response.ok || !parsed.success) { setError(text.error); return; }
+      setVersions((current) => [parsed.data.candidate, ...current.filter((item) => item.id !== parsed.data.candidate.id)]);
+      setSelectedId(parsed.data.candidate.id);
+      setNotice(text.rollbackPending);
+    } catch { if (mounted.current) setError(text.error); }
+    finally { mutationLock.current = false; if (mounted.current) setBusy(false); }
   }
 
   async function rejectSelected() {
-    if (!selected || busy || selected.state !== "candidate") return;
+    if (!selected || mutationLock.current || selected.state !== "candidate") return;
+    mutationLock.current = true;
     setBusy(true); setError(""); setNotice("");
     try {
       const response = await requestResponse(`/api/riwi/owner/assessment-policies/${selected.id}/reject`, {
         method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify({ reason: "Owner rejected during explicit assessment-policy review." }),
       });
       if (!response || !mounted.current) return;
+      if (discardRevokedHistory(response)) return;
       if (!response.ok) { setError(text.error); return; }
       setVersions((current) => current.map((item) => item.id === selected.id ? { ...item, state: "rejected", active: false, reviewedByUserId: item.reviewedByUserId } : item));
       setRegression(null); setNotice(text.rejected);
     } catch { if (mounted.current) setError(text.error); }
-    finally { if (mounted.current) setBusy(false); }
+    finally { mutationLock.current = false; if (mounted.current) setBusy(false); }
   }
 
   function selectVersion(version: PolicyVersion) {
+    if (mutationLock.current) return;
     setSelectedId(version.id);
     // A fresh preview is required in this UI session so the owner sees the
     // actual current invariant checks before the separate approval action.
@@ -247,7 +285,7 @@ export function OwnerAssessmentPolicyPanel({ locale }: { locale: Locale }) {
           <ul className="mt-3 max-h-[28rem] space-y-2 overflow-y-auto" aria-label={text.history}>
             {versions.map((version) => (
               <li key={version.id}>
-                <button type="button" onClick={() => selectVersion(version)} aria-current={selectedId === version.id ? "true" : undefined} className={`w-full rounded-xl border p-3 text-left ${selectedId === version.id ? "border-signal-600 bg-signal-50" : "border-ink-100 hover:bg-ink-50"}`}>
+                <button type="button" disabled={busy} onClick={() => selectVersion(version)} aria-current={selectedId === version.id ? "true" : undefined} className={`w-full rounded-xl border p-3 text-left ${selectedId === version.id ? "border-signal-600 bg-signal-50" : "border-ink-100 hover:bg-ink-50"}`}>
                   <span className="block truncate text-sm font-medium text-ink-900">{version.scope}</span>
                   <span className="mt-1 block text-xs text-ink-500">{text.version} {version.version} · {version.state}{version.active ? ` · ${text.active}` : ""}</span>
                 </button>
@@ -255,7 +293,7 @@ export function OwnerAssessmentPolicyPanel({ locale }: { locale: Locale }) {
             ))}
           </ul>
           {pageFailed && <p className="mt-2 text-sm text-band-bad" role="alert">{text.error}</p>}
-          {nextCursor && <button type="button" disabled={loadingHistory} onClick={() => void loadPage(nextCursor, true)} className="mt-3 rounded-lg border border-ink-200 px-3 py-2 text-sm text-ink-700 disabled:opacity-50">{loadingHistory ? text.loading : text.loadMore}</button>}
+          {nextCursor && <button type="button" disabled={busy || loadingHistory} onClick={() => void loadPage(nextCursor, true)} className="mt-3 rounded-lg border border-ink-200 px-3 py-2 text-sm text-ink-700 disabled:opacity-50">{loadingHistory ? text.loading : text.loadMore}</button>}
         </div>
 
         <div className="rounded-xl border border-ink-100 bg-ink-50/50 p-4">
@@ -266,6 +304,7 @@ export function OwnerAssessmentPolicyPanel({ locale }: { locale: Locale }) {
                 <h3 className="font-semibold text-ink-900">{selected.scope} · v{selected.version}</h3>
                 <p className="mt-1 text-xs text-ink-500">{text.state}: {selected.state}{selected.active ? ` · ${text.active}` : ""}</p>
               </div>
+              {selected.state === "superseded" && selected.approvedAt && <button type="button" disabled={busy} onClick={() => void rollbackSelected()} className="rounded-lg border border-signal-600 px-3 py-2 text-sm text-signal-800 disabled:opacity-50">{text.rollback}</button>}
               {selected.state === "candidate" && <div className="flex flex-wrap gap-2">
                 <button type="button" disabled={busy} onClick={() => void previewSelected()} className="rounded-lg border border-signal-600 px-3 py-2 text-sm font-medium text-signal-800 disabled:opacity-50">{busy ? text.previewing : text.preview}</button>
                 <button type="button" disabled={busy || !regression?.passed || regression.evidenceHash !== selected.regressionEvidenceHash} onClick={() => void approveSelected()} className="rounded-lg bg-band-good px-3 py-2 text-sm font-semibold text-white disabled:opacity-50">{busy ? text.approving : text.approve}</button>

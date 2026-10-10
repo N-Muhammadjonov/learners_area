@@ -1,7 +1,10 @@
 import { createHash } from "node:crypto";
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { execFileSync } from "node:child_process";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
+
+const ledgerOutput = process.env.RIWI_LEDGER_OUT;
+if (!ledgerOutput || resolve(ledgerOutput) === resolve("docs/RIWI-FINAL-REQUIREMENT-LEDGER.jsonl")) throw new Error("historical_ledger_write_denied");
 
 const sourceDirectory = process.env.RIWI_SOURCE_DIR ?? "/tmp";
 const sources = [
@@ -85,6 +88,6 @@ for (const [source, path, name] of sources) {
     });
   }
 }
-writeFileSync(process.env.RIWI_LEDGER_OUT ?? "docs/RIWI-FINAL-REQUIREMENT-LEDGER.jsonl", `${records.map((record) => JSON.stringify(record)).join("\n")}\n`);
+writeFileSync(ledgerOutput, `${records.map((record) => JSON.stringify(record)).join("\n")}\n`);
 const counts = records.reduce((all, row) => (all[row.status] = (all[row.status] ?? 0) + 1, all), {});
 console.log(JSON.stringify({ total: records.length, counts }, null, 2));
