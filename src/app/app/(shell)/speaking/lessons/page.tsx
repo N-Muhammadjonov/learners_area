@@ -8,7 +8,6 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { MaterialPlayer } from "@/components/speaking/MaterialPlayer";
 import { BlockRenderer } from "@/components/speaking/BlockRenderer";
 import { RegionFailureNotice } from "@/components/interaction/RegionFailureNotice";
-import { ShadowingStudio } from "@/components/speaking/ShadowingStudio";
 
 const ORDER = ["part1", "part2", "part3", "general", "top_structures"] as const;
 type SpeakingEntryMaterials = Awaited<ReturnType<typeof listActiveMaterialsForEntry>>;
@@ -50,21 +49,12 @@ function SpeakingBlocksSkeleton() {
 
 async function SpeakingMaterials({ dict }: { dict: ReturnType<typeof getDictionary> }) {
   const { rows: materials, blocksPromise } = await listActiveMaterialsForEntry();
-  // Shadowing is a CATEGORY of speaking material, not a separate store, and it is
-  // deliberately not a fifth hub card (owner spec §26-29). It is split out of the
-  // ordinary category list because it is a drill, not a document: it gets the studio
-  // below rather than a player card. Filtering it out here while nothing else mounted
-  // the studio is what made the drill unreachable — /app/speaking/shadowing redirects
-  // here, so this page is where it has to live.
+  // SHADOWING IS A RETIRED PRODUCT FEATURE (owner decision). `shadowing` survives as a
+  // historical CATEGORY value in speaking_materials so existing rows are preserved,
+  // but it must not reach a learner: no studio, no card, no player. This filter is the
+  // guard that keeps legacy rows from re-enabling the feature, and it is asserted by
+  // scripts/verify-shadowing.mjs, which is now an ABSENCE suite.
   const rows = materials.filter(row => row.material.category !== "shadowing");
-  const shadowingTracks = materials
-    .filter((row) => row.material.category === "shadowing" && row.material.primaryUrl)
-    .map((row) => ({
-      id: row.material.id,
-      title: row.material.title,
-      url: row.material.primaryUrl as string,
-      category: row.material.category,
-    }));
   const byCategory = new Map<string, typeof rows>();
   for (const row of rows) {
     const list = byCategory.get(row.material.category) ?? [];
@@ -77,7 +67,7 @@ async function SpeakingMaterials({ dict }: { dict: ReturnType<typeof getDictiona
       <Suspense fallback={<SpeakingBlocksSkeleton />}>
         <SpeakingBlocksStatus blocksPromise={blocksPromise} dict={dict} />
       </Suspense>
-      {rows.length === 0 && shadowingTracks.length === 0 && <EmptyState icon="🎙" title={dict.speakingHub.lessonsEmptyTitle} body={dict.speakingHub.lessonsEmptyBody} />}
+      {rows.length === 0 && <EmptyState icon="🎙" title={dict.speakingHub.lessonsEmptyTitle} body={dict.speakingHub.lessonsEmptyBody} />}
       {ORDER.filter((cat) => byCategory.has(cat)).map((cat) => (
         <div key={cat} className="mb-8">
           <h2 className="mb-3 font-display text-lg text-ink-900">{dict.speaking.category[cat]}</h2>
@@ -99,12 +89,6 @@ async function SpeakingMaterials({ dict }: { dict: ReturnType<typeof getDictiona
           </div>
         </div>
       ))}
-      <section className="mb-8" data-shadowing-section>
-        <h2 className="mb-3 font-display text-lg text-ink-900">{dict.speakingShadowing.title}</h2>
-        {/* The studio renders its own honest empty state when no shadowing material is
-            published, rather than offering a recorder with nothing to shadow. */}
-        <ShadowingStudio dict={dict} tracks={shadowingTracks} />
-      </section>
     </div>
   );
 }

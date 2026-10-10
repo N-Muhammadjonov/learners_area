@@ -57,7 +57,6 @@ const ENTRIES: Entry[] = [
   { prefix: "/app/speaking/ai", build: (d) => [{ label: d.nav.speaking, href: "/app/speaking" }, { label: d.speakingHub.cards.ai.title, href: "/app/speaking/ai" }] },
   { prefix: "/app/speaking/lessons", build: (d) => [{ label: d.nav.speaking, href: "/app/speaking" }, { label: d.speakingHub.lessonsTitle, href: "/app/speaking/lessons" }] },
   { prefix: "/app/speaking/live-partner", build: (d) => [{ label: d.nav.speaking, href: "/app/speaking" }, { label: d.livePartner.title, href: "/app/speaking/live-partner" }] },
-  { prefix: "/app/speaking/shadowing", build: (d) => [{ label: d.nav.speaking, href: "/app/speaking" }, { label: d.speakingHub.lessonsTitle, href: "/app/speaking/lessons" }, { label: d.speakingShadowing.title, href: "/app/speaking/shadowing" }] },
   { prefix: "/app/speaking", exact: true, build: (d) => [{ label: d.nav.speaking, href: "/app/speaking" }] },
 
   { prefix: "/app/grammar", exact: true, build: (d) => [{ label: d.nav.grammar, href: "/app/grammar" }] },

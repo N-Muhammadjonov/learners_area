@@ -103,6 +103,24 @@ export async function middleware(req: NextRequest) {
   // Shape only. "Valid uuid but no such row" still needs a database read inside the
   // page, and still returns the 404 body with a 200 status; that residual is recorded
   // in docs/KNOWN-ISSUES-NOT-FOUND-STATUS.md.
+  // 2b. RETIRED ROUTES.
+  //
+  // Shadowing was removed from the product (owner decision). The URL is kept as a
+  // redirect so old links and bookmarks land somewhere sensible, and the redirect is
+  // issued HERE rather than from the page because `(shell)/loading.tsx` puts a
+  // Suspense boundary above every shell page: a redirect() inside the page flushes a
+  // 200 first and only then swaps the body, so the retired URL answered "200 OK".
+  // Middleware runs in front of that boundary, so the status is honest.
+  //
+  // Narrow on purpose: one exact pathname, no database access, and the global
+  // route-entry skeleton is untouched.
+  if (pathname === "/app/speaking/shadowing") {
+    return applySecurityHeaders(
+      NextResponse.redirect(new URL("/app/speaking/lessons", req.url), 308),
+      headerOptions
+    );
+  }
+
   if (isMalformedIdPath(pathname)) {
     return applySecurityHeaders(
       new NextResponse(null, { status: 404 }),

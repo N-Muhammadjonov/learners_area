@@ -1,12 +1,14 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { eq } from "drizzle-orm";
 import { contentVersions, speakingAttempts, speakingMaterials } from "../src/db/schema";
 import { saveContentDraft, publishContentVersion, type AuthoringActor } from "../src/lib/content/authoring";
 import { MODULE_DESCRIPTORS, isKnownContentType } from "../src/lib/content/taxonomy";
 import { previewContentVersion, previewInventory } from "../src/lib/content/preview";
 import { listRegisteredAuthors, registerModuleAuthors } from "../src/lib/content/authors";
+import { createMaterialSchema } from "../src/lib/validation/speaking";
 import { speakingAttemptIdentity, startSpeakingAttempt } from "../src/lib/services/speaking/attempts";
 import { sourceRefForSpeakingMaterial, speakingMaterialSnapshot } from "../src/lib/services/speaking/materials";
 import { createTestDatabase } from "./support/pglite";
@@ -156,9 +158,9 @@ test("SP3 speaking materials are authored, versioned, published and previewed li
         actor: author,
         module: "speaking",
         contentType: "material",
-        sourceRef: "sp3-shadowing-model",
-        title: "Shadowing: a model Part 1 answer",
-        payload: { title: "Shadowing: a model Part 1 answer", category: "shadowing", primaryType: "link", primaryUrl: "https://example.org/model-answer.mp3" },
+        sourceRef: "sp3-material-model",
+        title: "Model answer for Part 1",
+        payload: { title: "Model answer for Part 1", category: "part1", primaryType: "link", primaryUrl: "https://example.org/model-answer.mp3" },
       }),
     );
     assert.equal(created.ok, true, "the material author exists");
@@ -166,8 +168,8 @@ test("SP3 speaking materials are authored, versioned, published and previewed li
     assert.equal(created.version.targetType, "speaking_material");
 
     const [row] = await database.db.select().from(speakingMaterials).where(eq(speakingMaterials.id, created.version.targetId!));
-    assert.equal(row?.title, "Shadowing: a model Part 1 answer");
-    assert.equal(row?.category, "shadowing", "shadowing is a CATEGORY of material, not a second store");
+    assert.equal(row?.title, "Model answer for Part 1");
+    assert.equal(row?.category, "part1", "a material is a CATEGORY within one store, not a second store");
     assert.equal(row?.publicationState, "draft", "a new material is not learner-facing");
 
     // Revising keeps ONE row and adds a revision: identity, not a duplicate.
@@ -176,17 +178,17 @@ test("SP3 speaking materials are authored, versioned, published and previewed li
         actor: author,
         module: "speaking",
         contentType: "material",
-        sourceRef: "sp3-shadowing-model",
-        title: "Shadowing: a model Part 1 answer (v2)",
+        sourceRef: "sp3-material-model",
+        title: "Model answer for Part 1 (v2)",
         versionId: created.version.id,
-        payload: { title: "Shadowing: a model Part 1 answer (v2)", category: "shadowing", primaryType: "link", primaryUrl: "https://example.org/model-answer-v2.mp3" },
+        payload: { title: "Model answer for Part 1 (v2)", category: "part1", primaryType: "link", primaryUrl: "https://example.org/model-answer-v2.mp3" },
       }),
     );
     assert.equal(revised.ok, true);
     if (!revised.ok) return;
     const rows = await database.db.select().from(speakingMaterials);
     assert.equal(rows.length, 1, "one material, two revisions — never a duplicate row");
-    assert.equal(rows[0]!.title, "Shadowing: a model Part 1 answer (v2)");
+    assert.equal(rows[0]!.title, "Model answer for Part 1 (v2)");
 
     // Publishing moves the material row, which is what learner reads trust.
     await database.db.transaction((tx) => publishContentVersion(tx, { actor: author, versionId: revised.version.id, to: "published" }));
@@ -194,11 +196,27 @@ test("SP3 speaking materials are authored, versioned, published and previewed li
     assert.equal(published?.publicationState, "published");
 
     // The material identifies itself by its own ref, and the preview is truthful.
-    assert.equal(await sourceRefForSpeakingMaterial(created.version.targetId!, database.db as never), "sp3-shadowing-model");
+    assert.equal(await sourceRefForSpeakingMaterial(created.version.targetId!, database.db as never), "sp3-material-model");
     const preview = await previewContentVersion(revised.version.id, database.db as never);
     assert.equal(preview?.status, "PREVIEW_READY");
-    assert.deepEqual(preview?.identity.versionIdentity, "speaking:material:sp3-shadowing-model@v2");
-    assert.equal(preview?.parts.find((part) => part.key === "category")?.value, "shadowing");
+    assert.deepEqual(preview?.identity.versionIdentity, "speaking:material:sp3-material-model@v2");
+    assert.equal(preview?.parts.find((part) => part.key === "category")?.value, "part1");
+
+    // The RETIRED category cannot be authored. Shadowing was removed from the product,
+    // so the author must refuse it outright rather than quietly writing a material that
+    // no surface can ever render.
+    const retired = await database.db.transaction((tx) =>
+      saveContentDraft(tx, {
+        actor: author,
+        module: "speaking",
+        contentType: "material",
+        sourceRef: "sp3-retired-shadowing",
+        title: "Shadowing attempt",
+        payload: { title: "Shadowing attempt", category: "shadowing", primaryType: "link", primaryUrl: "https://example.org/x.mp3" },
+      }),
+    );
+    assert.equal(retired.ok, false, "the retired shadowing category is refused by the author");
+    assert.equal((await database.db.select().from(speakingMaterials)).length, 1, "and no shadowing row was written");
 
     // An attachment may not ride in on a payload: the strict schema rejects it, and the
     // authoring service reports the refusal instead of writing half an item.
@@ -246,12 +264,37 @@ test("SP4 topic_set, shadowing and material are MAPPED — no unmapped speaking 
   assert.match(read("src/lib/speaking/manage-topic.ts"), /speakingPrompts/, "the topic grouping writes the canonical bank");
   assert.equal(read("src/db/schema.ts").includes("topicSet"), false, "and there is no topic-set table");
 
-  // shadowing: a material category, read from the same table, with no attempt by design.
+  // shadowing: RETIRED from the product by owner decision. It is not a content type,
+  // not a material category any author will accept, and it has no studio component.
+  // The database enum value and the historical rows are deliberately left alone — the
+  // feature is withdrawn, the past is not rewritten.
   assert.equal(isKnownContentType("speaking", "shadowing"), false);
   assert.deepEqual(speaking.contentTypes, ["part1_question", "cue_card", "part3_question", "material"]);
-  const studio = read("src/components/speaking/ShadowingStudio.tsx");
-  assert.match(studio, /takes (stay|stays)|never uploaded/i, "shadowing takes are local-only, which is why nothing binds them");
-  assert.equal(/insert\(speakingAttempts\)/.test(studio), false);
+  assert.equal(
+    existsSync(resolve(process.cwd(), "src/components/speaking/ShadowingStudio.tsx")),
+    false,
+    "the shadowing studio component is gone",
+  );
+  // Asserted behaviourally, not by grep: the word still appears in that file in a
+  // comment explaining the retirement, so only a real parse proves the refusal.
+  assert.equal(
+    createMaterialSchema.safeParse({
+      category: "shadowing",
+      title: "Shadowing attempt",
+      primary: { mode: "link", primaryType: "link", primaryUrl: "https://example.org/x.mp3" },
+    }).success,
+    false,
+    "the authoring schema refuses the retired category",
+  );
+  assert.equal(
+    createMaterialSchema.safeParse({
+      category: "part1",
+      title: "A supported material",
+      primary: { mode: "link", primaryType: "link", primaryUrl: "https://example.org/x.mp3" },
+    }).success,
+    true,
+    "positive control: a surviving category still parses",
+  );
 
   // material: authored, versioned and previewed — and never assignable, because there
   // is no canonical assignment target for it (the registry refuses rather than invents).

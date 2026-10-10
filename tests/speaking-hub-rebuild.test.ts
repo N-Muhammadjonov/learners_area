@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { SPEAKING_HUB_CARDS } from "../src/lib/speaking/hub";
 import { groupByTopic, partCounts, parsePart, resolveTopic, UNTITLED_TOPIC } from "../src/lib/speaking/practice-browse";
 import { buildExaminerScript, PART1_QUESTIONS } from "../src/lib/speaking/ai-session";
@@ -38,8 +39,18 @@ test("S3 Speaking lessons excludes the retired Shadowing entry", () => {
   assert.doesNotMatch(lessons, /href="\/app\/speaking\/shadowing"/);
   assert.match(lessons, /lessonsEmptyTitle/);
   assert.match(lessons, /<BackLink fallbackHref="\/app\/speaking"/);
-  assert.equal(parentFor("/app/speaking/shadowing", en)?.href, "/app/speaking/lessons");
-  assert.match(page("speaking/shadowing"), /redirect\("\/app\/speaking\/lessons"\)/);
+  // The retired URL has no breadcrumb entry any more: a withdrawn feature is not a
+  // place in the product, so it must not appear in the navigation map at all.
+  assert.ok(!parentFor("/app/speaking/shadowing", en), "no breadcrumb for a retired route");
+
+  // It still answers, so old links and bookmarks are not dead ends — but it is a real
+  // HTTP redirect issued from middleware, in FRONT of the (shell)/loading.tsx Suspense
+  // boundary. Redirecting from the page itself would flush a 200 before the redirect
+  // ran (see docs/KNOWN-ISSUES-NOT-FOUND-STATUS.md), i.e. the retired URL would look
+  // like a working page.
+  const middleware = readFileSync(resolve(process.cwd(), "src/middleware.ts"), "utf8");
+  assert.match(middleware, /pathname === "\/app\/speaking\/shadowing"/);
+  assert.match(middleware, /NextResponse\.redirect\(new URL\("\/app\/speaking\/lessons", req\.url\), 308\)/);
 });
 
 test("S4 Live Partner registers availability in the room and keeps mic preflight and call states", () => {

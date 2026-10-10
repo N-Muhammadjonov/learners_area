@@ -645,8 +645,14 @@ async function main() {
     ]);
   }
 
-  // --- Shadowing recordings (placeholder audio links, same convention as the
-  // listening test: the drill is wired end-to-end, the file is swap-in) -----
+  // --- LEGACY shadowing material -------------------------------------------
+  // Shadowing is a RETIRED product feature (owner decision). This row is seeded on
+  // purpose and must NOT be removed: it is the positive control for the absence
+  // regressions. A centre's database can still hold rows in the historical
+  // `shadowing` category, and the product has to keep them out of every learner
+  // surface. Without a real legacy row present, "shadowing is absent" would pass
+  // vacuously because there would be nothing that could leak.
+  // scripts/verify-shadowing.mjs asserts this row exists AND never reaches a learner.
   const [shadowingMaterial] = await db
     .insert(speakingMaterials)
     .values({

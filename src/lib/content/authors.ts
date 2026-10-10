@@ -1081,7 +1081,9 @@ function speakingAuthor(contentType: string, part: "part1" | "part2" | "part3"):
  * `shadowing` is one of the categories, not a second store: a shadowing material is
  * a material whose category is `shadowing`, read by the studio like any other.
  */
-const speakingMaterialCategories = ["part1", "part2", "part3", "general", "shadowing", "top_structures"] as const;
+// "shadowing" is omitted on purpose: the feature is retired and no new material may be
+// authored into it. The historical database enum value is left untouched.
+const speakingMaterialCategories = ["part1", "part2", "part3", "general", "top_structures"] as const;
 
 /** Refused explicitly: a storage key may not ride in on an authoring payload. */
 const FORBIDDEN_MATERIAL_KEYS = ["primaryObjectKey", "objectKey", "uploadId", "blocks"] as const;
