@@ -139,6 +139,32 @@ export async function withFixtures(body, cleanup) {
  * `tables` must be ordered children-before-parents; deletion follows that order so a
  * foreign key never blocks the sweep.
  */
+/**
+ * A3 — PROBE ISOLATION.
+ *
+ * A sweeper attributes rows by difference: any id that was not in the baseline it captured is
+ * treated as this probe's fixture. That is sound only while nothing else is writing. Two probes
+ * overlapping in the same database made the first one delete the second one's fixtures mid-run —
+ * corrupting the second probe's results, and then reporting "no residue" while doing it.
+ *
+ * The smallest correct fix is to serialize the window in which the assumption has to hold. Every
+ * probe that creates fixtures creates a sweeper, so the sweeper is the single place a lock can cover
+ * all of them: a SESSION-level advisory lock is taken in capture() and held until sweep() finishes.
+ * Session scope is what makes it safe to rely on — if a probe is killed, PostgreSQL drops the
+ * connection and releases the lock, so one crashed run cannot wedge every later one.
+ *
+ * A probe that cannot take the lock REFUSES. It does not wait, because silently serializing a suite
+ * that was written to run in parallel changes what its timeouts mean; and it does not sweep anyway,
+ * because that is the defect being fixed. The refusal names the backend holding the lock so the
+ * operator can see which run is still in flight.
+ *
+ * CONTRACT this relies on, and the reason one global lock is enough: any probe that writes fixtures
+ * must write them through a sweeper. A writer that creates rows without one is outside the contract
+ * and no locking scheme short of a database per probe could attribute its rows.
+ */
+const SWEEPER_LOCK_CLASS = 0x51a2f3; // "row sweeper"
+const SWEEPER_LOCK_OBJ = 1; // one lock for the database, not one per table set: probes overlap on activity_events
+
 export function createRowSweeper({ client, tables: requestedTables, probe = "probe" }) {
   let tables = requestedTables;
   if (!client) throw new Error("createRowSweeper requires a connected pg client");
@@ -149,6 +175,50 @@ export function createRowSweeper({ client, tables: requestedTables, probe = "pro
   const baseline = new Map();
   let captured = false;
   let swept = false;
+  let lockHeld = false;
+
+  /** Which backend holds the lock, so a refusal can name the run still in flight. */
+  async function lockHolderPid() {
+    const { rows } = await client.query(
+      `select pid from pg_locks
+        where locktype = 'advisory' and classid = $1 and objid = $2 and granted
+        limit 1`,
+      [SWEEPER_LOCK_CLASS, SWEEPER_LOCK_OBJ],
+    ).catch(() => ({ rows: [] }));
+    return rows[0]?.pid ?? null;
+  }
+
+  async function acquireIsolation() {
+    const { rows } = await client.query("select pg_try_advisory_lock($1, $2) as ok", [
+      SWEEPER_LOCK_CLASS, SWEEPER_LOCK_OBJ,
+    ]);
+    if (!rows[0]?.ok) {
+      const holder = await lockHolderPid();
+      throw new Error(
+        `${probe}: another probe holds the fixture-isolation lock (backend pid ${holder ?? "unknown"}) — ` +
+        `refusing to run concurrently, because rows that run creates would be attributed to this one and deleted. ` +
+        `Wait for it to finish, or point this probe at its own disposable database.`,
+      );
+    }
+    lockHeld = true;
+  }
+
+  /** Ownership is verified, not assumed: is the lock still granted to THIS backend? */
+  async function isolationStillHeld() {
+    const { rows } = await client.query(
+      `select count(*)::int n from pg_locks
+        where locktype = 'advisory' and classid = $1 and objid = $2
+          and pid = pg_backend_pid() and granted`,
+      [SWEEPER_LOCK_CLASS, SWEEPER_LOCK_OBJ],
+    );
+    return Number(rows[0]?.n ?? 0) === 1;
+  }
+
+  async function releaseIsolation() {
+    if (!lockHeld) return;
+    lockHeld = false;
+    await client.query("select pg_advisory_unlock($1, $2)", [SWEEPER_LOCK_CLASS, SWEEPER_LOCK_OBJ]).catch(() => {});
+  }
 
   async function idsOf(table) {
     const { rows } = await client.query(`select id from ${table}`);
@@ -209,6 +279,9 @@ export function createRowSweeper({ client, tables: requestedTables, probe = "pro
 
     /** Must be called before the first mutation; a later baseline would adopt fixtures as pre-existing. */
     async capture() {
+      // Lock first: a baseline taken outside isolation could adopt rows another probe is about to
+      // delete, and would then attribute that probe's next inserts to this run.
+      await acquireIsolation();
       // Validating here rather than only on demand: a probe that forgets to call
       // validateTables() still gets an accurate baseline instead of a raw SQL throw.
       await validateTables();
@@ -221,22 +294,33 @@ export function createRowSweeper({ client, tables: requestedTables, probe = "pro
       if (!captured) {
         throw new Error(`${probe}: sweep() called without capture() — no baseline, so nothing can be swept safely`);
       }
+      if (!(await isolationStillHeld())) {
+        // Without the lock the difference set is not attributable to this run, and deleting it
+        // would destroy another probe's fixtures while reporting a clean sweep.
+        throw new Error(
+          `${probe}: this session no longer holds the fixture-isolation lock — refusing to sweep rows that cannot be attributed to this run`,
+        );
+      }
       swept = true;
-      const removed = [];
-      for (const table of tables) {
-        const before = baseline.get(table) ?? new Set();
-        const created = (await idsOf(table)).filter((id) => !before.has(id));
-        if (created.length === 0) continue;
-        removed.push(`${table}: ${created.length}`);
-        await client.query(`delete from ${table} where id = any($1)`, [created]);
+      try {
+        const removed = [];
+        for (const table of tables) {
+          const before = baseline.get(table) ?? new Set();
+          const created = (await idsOf(table)).filter((id) => !before.has(id));
+          if (created.length === 0) continue;
+          removed.push(`${table}: ${created.length}`);
+          await client.query(`delete from ${table} where id = any($1)`, [created]);
+        }
+        const residue = [];
+        for (const table of tables) {
+          const before = baseline.get(table) ?? new Set();
+          const remaining = (await idsOf(table)).filter((id) => !before.has(id));
+          if (remaining.length) residue.push(`${table}: ${remaining.length}`);
+        }
+        return { removed, residue };
+      } finally {
+        await releaseIsolation();
       }
-      const residue = [];
-      for (const table of tables) {
-        const before = baseline.get(table) ?? new Set();
-        const remaining = (await idsOf(table)).filter((id) => !before.has(id));
-        if (remaining.length) residue.push(`${table}: ${remaining.length}`);
-      }
-      return { removed, residue };
     },
   };
 }

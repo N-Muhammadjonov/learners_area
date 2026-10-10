@@ -187,6 +187,15 @@ function fakeClient(tables: Record<string, string[]>) {
       if (/information_schema\.tables/.test(sql)) {
         return { rows: Object.keys(tables).map((table_name) => ({ table_name, has_id: true })) };
       }
+      /*
+       * Fixture isolation (A3). The sweeper takes a session advisory lock in capture() and verifies
+       * it still holds it in sweep(), so a stub that answered nothing would look like "another probe
+       * holds the lock" and every sweeper test would be refused for the wrong reason. These answers
+       * model one probe running alone, which is what each of these tests is.
+       */
+      if (/pg_try_advisory_lock/.test(sql)) return { rows: [{ ok: true }] };
+      if (/pg_advisory_unlock/.test(sql)) return { rows: [{ ok: true }] };
+      if (/from pg_locks/.test(sql)) return { rows: [{ n: 1, pid: 4242 }] };
       return { rows: [] };
     },
   };
@@ -219,6 +228,11 @@ test("the sweeper reports residue when a delete does not take effect", async () 
     if (/select id from (\w+)/.test(sql)) {
       return { rows: (client.tables.widgets ?? []).map((id) => ({ id })) };
     }
+    // Replacing client.query replaces the whole contract, including the isolation ownership check
+    // sweep() now makes. Without this the test would fail for "lost the lock" instead of testing
+    // the thing it is about, which is a delete that silently does nothing.
+    if (/pg_advisory_unlock/.test(sql)) return { rows: [{ ok: true }] };
+    if (/pg_backend_pid\(\)/.test(sql)) return { rows: [{ n: 1 }] };
     return { rows: [] };
   }) as never;
 
@@ -269,6 +283,9 @@ test("the sweeper fails closed when schema introspection answers nothing", async
       if (/information_schema\.tables/.test(sql)) return { rows: [] };
       const select = /select id from (\w+)/.exec(sql);
       if (select) return { rows: [{ id: "leaked-row" }] };
+      if (/pg_try_advisory_lock/.test(sql)) return { rows: [{ ok: true }] };
+      if (/pg_advisory_unlock/.test(sql)) return { rows: [{ ok: true }] };
+      if (/from pg_locks/.test(sql)) return { rows: [{ n: 1, pid: 4242 }] };
       return { rows: [] };
     },
   };
@@ -294,4 +311,57 @@ test("the sweeper names the tables it cannot cover instead of failing on a raw S
   assert.deepEqual(result.removed, ["widgets: 1"]);
   assert.deepEqual(result.residue, []);
   assert.deepEqual(client.tables.widgets, ["pre-existing"], "the pre-existing row is never touched");
+});
+
+/*
+ * A3 — PROBE ISOLATION.
+ *
+ * A sweeper attributes rows by difference from its baseline, which is only sound while nothing else
+ * is writing. These two tests are what fail if the lock is ever removed or widened: without them a
+ * regression would show up only as one probe silently deleting another's fixtures, which looks like
+ * a clean sweep from the inside. The end-to-end proof — two real processes started together, one
+ * completing and one refused — is scripts/verify-probe-isolation.mjs.
+ */
+test("the sweeper refuses to capture while another session holds the isolation lock", async () => {
+  const { createRowSweeper } = await mod();
+  const client = {
+    async query(sql: string) {
+      // Another probe's session holds it, and pg_locks says which backend that is.
+      if (/pg_try_advisory_lock/.test(sql)) return { rows: [{ ok: false }] };
+      if (/from pg_locks/.test(sql)) return { rows: [{ pid: 999 }] };
+      if (/information_schema\.tables/.test(sql)) return { rows: [{ table_name: "widgets", has_id: true }] };
+      const select = /select id from (\w+)/.exec(sql);
+      if (select) return { rows: [{ id: "seed-1" }] };
+      return { rows: [] };
+    },
+  };
+  const sweeper = createRowSweeper({ client: client as never, tables: ["widgets"], probe: "second" });
+  // Refusing is the point: sweeping anyway is the defect, and waiting would silently serialize a
+  // suite written to run in parallel. The holder is named so the refusal is actionable.
+  await assert.rejects(() => sweeper.capture(), /isolation lock/);
+  await assert.rejects(() => sweeper.capture(), /999/);
+});
+
+test("the sweeper refuses to sweep once it no longer holds the isolation lock", async () => {
+  const { createRowSweeper } = await mod();
+  let held = true;
+  const client = {
+    async query(sql: string) {
+      if (/pg_try_advisory_lock/.test(sql)) return { rows: [{ ok: true }] };
+      if (/pg_advisory_unlock/.test(sql)) return { rows: [{ ok: true }] };
+      // Ownership is verified against pg_backend_pid(), not assumed from a local flag.
+      if (/pg_backend_pid\(\)/.test(sql)) return { rows: [{ n: held ? 1 : 0 }] };
+      if (/from pg_locks/.test(sql)) return { rows: [{ pid: 4242 }] };
+      if (/information_schema\.tables/.test(sql)) return { rows: [{ table_name: "widgets", has_id: true }] };
+      const select = /select id from (\w+)/.exec(sql);
+      if (select) return { rows: [{ id: "seed-1" }, ...(held ? [] : [{ id: "someone-elses-row" }])] };
+      return { rows: [] };
+    },
+  };
+  const sweeper = createRowSweeper({ client: client as never, tables: ["widgets"], probe: "lost-lock" });
+  await sweeper.capture();
+  held = false; // the session lost the lock, and another probe has since written a row
+  // Deleting here would destroy that row and then report no residue, which is the exact failure the
+  // ownership check exists to prevent.
+  await assert.rejects(() => sweeper.sweep(), /no longer holds the fixture-isolation lock/);
 });
