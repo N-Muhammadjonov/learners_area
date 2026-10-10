@@ -2,7 +2,7 @@ import Link from "next/link";
 import { db } from "@/db/client";
 import { redirect } from "next/navigation";
 import { requireStaff } from "@/lib/auth/current-user";
-import { eq } from "drizzle-orm";
+import { count, inArray } from "drizzle-orm";
 import { liveClassAttendance } from "@/db/schema";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { listAllForTeacher } from "@/lib/data/live-classes";
@@ -18,13 +18,22 @@ export default async function TeacherLiveClassesPage() {
   if (!staff) redirect("/app");
   const locale = await getLocale();
   const dict = getDictionary(locale);
-  const classes = await listAllForTeacher();
+  const classes = await listAllForTeacher(staff);
 
-  const counts = new Map<string, number>();
-  for (const c of classes) {
-    const rows = await db.query.liveClassAttendance.findMany({ where: eq(liveClassAttendance.liveClassId, c.id) });
-    counts.set(c.id, rows.length);
-  }
+  /*
+   * One grouped COUNT instead of one `findMany()` per class. The loop fetched every attendance row
+   * for every class purely to take `.length`, so both the query count and the rows read scaled with
+   * the timetable — measured at 3 attendance queries for 3 classes. The rendered numbers are the
+   * same, they just come from a single statement.
+   */
+  const attendanceCounts = classes.length
+    ? await db
+        .select({ liveClassId: liveClassAttendance.liveClassId, attendees: count() })
+        .from(liveClassAttendance)
+        .where(inArray(liveClassAttendance.liveClassId, classes.map((c) => c.id)))
+        .groupBy(liveClassAttendance.liveClassId)
+    : [];
+  const counts = new Map<string, number>(attendanceCounts.map((r) => [r.liveClassId, Number(r.attendees)]));
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-4">
