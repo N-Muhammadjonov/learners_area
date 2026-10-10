@@ -1,0 +1,166 @@
+{
+  "verified_at": "2026-10-10T00:51:26.686Z",
+  "commit": "147305642fc60470fd7097ec68349e66527b6ae4",
+  "parent": "7f805af85705906f6c37710a3030f3eb357e90c0",
+  "branch": "arena/01a10bac-learners-area",
+  "tree": "15bb820aaaf71252e9f865e92665047846361899",
+  "remote_ref_verified": true,
+  "remote_tree_truncated": false,
+  "remote_tree_entries": 1977,
+  "expected_blobs": 43,
+  "matched_blobs": 43,
+  "mismatches": [],
+  "verified_blobs": {
+    "docs/RIWI-BATCH-15-BRANCH-DIVERGENCE.json": "410fa70ddae5d9784fab1b666a8ec7c14396527a",
+    "docs/RIWI-BATCH-15-CURRENT-EVIDENCE.jsonl": "515abae952b0998c7478ab0c4b4a82010ca6de33",
+    "docs/RIWI-BATCH-15-DEPENDENCIES.md": "7a8aa9c07cc01495496c54286fe08f459b687c0a",
+    "docs/RIWI-BATCH-15-EVIDENCE-6adf10eae73e.txt": "a61043a7a0d77ae5e76d9e7607ee2c80bbfb180a",
+    "docs/RIWI-BATCH-15-EVIDENCE-MANIFEST.json": "bc71ffd474cb54f111710871e0b8909bc2d39e24",
+    "docs/RIWI-BATCH-15-EVIDENCE-a8336625b65e.txt": "8b6d2cc580788a25a08ba06bae5020ce46f3e24c",
+    "docs/RIWI-BATCH-15-EVIDENCE-d270107ac759.txt": "cfb97e906b6d1f4e9076a9ebccc5d339a35872f0",
+    "docs/RIWI-BATCH-15-EVIDENCE-ea4e0a8f5a94.txt": "6a0d599c459c59b401e81b19057068898a52a736",
+    "docs/RIWI-BATCH-15-INHERITED-SKIPS.json": "1b929a4571bd592f4dc8e22e7896a615506adfbe",
+    "docs/RIWI-BATCH-15-INTEGRATION-RUNBOOK.md": "93f9417983c63e2ece53d7bbfd9528f034a9a14e",
+    "docs/RIWI-BATCH-15-MIGRATION-CONFLICTS.json": "8004cdb4fd00059a062ba967c7331b84b18f610d",
+    "docs/RIWI-BATCH-15-OWNER-HANDOFF.md": "71341f0fb99d52b8f69c4ec90730e2cb329c3c10",
+    "docs/RIWI-BATCH-15-OWNER-POLICY.md": "4a43b6b3cc956ef13d9f1e75e9a051b4231f2959",
+    "docs/RIWI-BATCH-15-PRESERVATION-RECONCILIATION.json": "c1dd0096ef5bb0a34679f3735318e5eabefa3ee4",
+    "docs/RIWI-BATCH-15-QA-FOCUSED.txt": "555cfe7c5634954140cf3c4da03d4544467dd0f1",
+    "docs/RIWI-BATCH-15-QA-LINT.txt": "4ce2049b734fd2a92e5302427381854cad1b2333",
+    "docs/RIWI-BATCH-15-QA-RESULTS.json": "cfab5e163f59a2dd81a342efa07584c6701928ea",
+    "docs/RIWI-BATCH-15-QA-TYPECHECK.txt": "a1a6504c56a30cc81203e5cb51d9422e6cac4841",
+    "docs/RIWI-BATCH-15-QA-UI.txt": "7f0dcd9cae528e8e7132348646a4ac96776e33c7",
+    "docs/RIWI-BATCH-15-RUNTIME-MATRIX.csv": "e3a1cbd59d2c070ae152a9b31d83681fbd65bd15",
+    "docs/RIWI-BATCH-15-RUNTIME-MATRIX.json": "a7bb7ca3afdcb70d21f53760b182f75b1d96c45b",
+    "docs/RIWI-BATCH-15-SCHEMA-INVENTORY.json": "afd8fe13bc9a56382256b48f34b0a3a8ade4953b",
+    "docs/RIWI-REMAINING-PROMPT-PROGRESS.json": "f0fa16d42c9913c90b09aea2e05ff80d84b9243a",
+    "docs/RIWI-STEP-14-REMOTE-VERIFICATION.json": "f005c87006e6aa3b742c63cb25ff63d9d596af5e",
+    "scripts/generate-riwi-final-ledger.mjs": "7fb12dd30c8e648f0c9e7c949beb94418695cc9d",
+    "scripts/lib/riwi-current-evidence.mjs": "f11bad3f487fb07990b81b179bbb2f968e50a6c8",
+    "scripts/lib/riwi-schema-inventory.ts": "8d3932450ca7853fa69631cc4220eee2cfe5e8b5",
+    "scripts/qa-riwi-batch15-native.sh": "7333cd14ef5152950645cfbe247e1ab52cc08263",
+    "scripts/riwi-current-evidence.mjs": "7d4d276d4eb3006c256c1fd2bac79908d1691793",
+    "scripts/riwi-schema-inventory.ts": "a3ae320b22c4747f1bc113f46e0b2c96a7f60283",
+    "src/app/api/riwi/owner/assessment-policies/[id]/approve/route.ts": "919f0420d165ee34e82821f19d67bf4845f5eeac",
+    "src/app/api/riwi/owner/assessment-policies/[id]/rollback/route.ts": "805cc03a0c51d9e49ee87ba2852d6bb95c936841",
+    "src/components/riwi/OwnerAssessmentPolicyPanel.tsx": "92a64ca741183597774fdb56a689b2e184332dad",
+    "src/lib/services/coach/contracts/owner-policy-fixtures.ts": "f54d6b056ebf417d308d1c0491620b0533466360",
+    "src/lib/services/coach/contracts/owner-policy.ts": "248c1eed45877e7d09203d810f5795abd97ba9d8",
+    "tests/assessment-owner-policy.test.ts": "7838152cbe01a7972fa85005884201ded03b2dde",
+    "tests/assessment-policy-rollback.test.ts": "ab37d640c713d454d35d89030012649ec233114a",
+    "tests/fixtures/riwi-owner-policy-v2-regression.json": "3d8d7e63f56b4b249fd4b87a498234560e980e59",
+    "tests/riwi-batch15-reconciliation.test.ts": "f69af2ea97cd2b9a656dffdaa83bb6cd22d27644",
+    "tests/riwi-current-evidence.test.ts": "c2fe026af9a3c9131ec1bd7c43e63d5d83ab6033",
+    "tests/riwi-ledger-evidence.test.ts": "fe3fe7321129fe99d08949cfd4b08c4a661663b6",
+    "tests/riwi-schema-inventory.test.ts": "574dfb2dd950ea876f7c3bf3b10407ceacde9d81",
+    "tests/ui/owner-policy-rollback.test.tsx": "440918c6678b846acd5d56bff97156bbdf359ff1"
+  },
+  "source_snapshot": {
+    "candidate_sha256": "cb2859c83a69639fa6bf186c48787a1c196a17605e760005aaa0c6498a564324",
+    "native_sha256": "cb2859c83a69639fa6bf186c48787a1c196a17605e760005aaa0c6498a564324",
+    "source_files": 1200
+  },
+  "native_verification": {
+    "working_blobs_matched": 43,
+    "logs": {
+      "backend-1.log": {
+        "sha256": "fc18f06dc7dc4c02558b04d5a241a6045ab39b1c1f8302d6864c3d0a221e421c",
+        "results": {
+          "tests": 1310,
+          "suites": 2,
+          "pass": 1219,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 91,
+          "todo": 0
+        }
+      },
+      "backend-2.log": {
+        "sha256": "1189afb0c0e2ee594e118984cf32f85466645a87cbd84724145293c3242d74a3",
+        "results": {
+          "tests": 1310,
+          "suites": 2,
+          "pass": 1219,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 91,
+          "todo": 0
+        }
+      },
+      "lint-1.log": {
+        "sha256": "63b6b500220f93347722b6b4ab90d1bc1f5a32bfe848b62f2565bcb75b5b71a6",
+        "content": "> learners-area@0.1.0 lint\n> eslint . --ext .ts,.tsx --max-warnings=0"
+      },
+      "lint-2.log": {
+        "sha256": "63b6b500220f93347722b6b4ab90d1bc1f5a32bfe848b62f2565bcb75b5b71a6",
+        "content": "> learners-area@0.1.0 lint\n> eslint . --ext .ts,.tsx --max-warnings=0"
+      },
+      "state.txt": {
+        "sha256": "2960d25502459f309ae49e0ecc831c39d6c00600d0cab4077aa1c9da666ed515",
+        "content": "Verified candidate tree: 15bb820aaaf71252e9f865e92665047846361899"
+      },
+      "typecheck-1.log": {
+        "sha256": "5d67ea7ba0cdcb67cf34b4b132066d5cd00b857a31cc804006ed533f4aab0717",
+        "content": "> learners-area@0.1.0 typecheck\n> tsc --noEmit"
+      },
+      "typecheck-2.log": {
+        "sha256": "5d67ea7ba0cdcb67cf34b4b132066d5cd00b857a31cc804006ed533f4aab0717",
+        "content": "> learners-area@0.1.0 typecheck\n> tsc --noEmit"
+      },
+      "ui-1.log": {
+        "sha256": "203df098fdada6cca8fc3cac5ae2edbefd9cca29cf05101e9c69376191dbad3b",
+        "results": {
+          "tests": 257,
+          "suites": 0,
+          "pass": 257,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        }
+      },
+      "ui-2.log": {
+        "sha256": "b1287291693f0dd2dbbfd1c66fb89061d20a3851fd886bfdbe04f9494ca15cd2",
+        "results": {
+          "tests": 257,
+          "suites": 0,
+          "pass": 257,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        }
+      }
+    },
+    "native_head": "147305642fc60470fd7097ec68349e66527b6ae4",
+    "native_tree": "15bb820aaaf71252e9f865e92665047846361899",
+    "native_status": ""
+  },
+  "closed_groups": [
+    "R01",
+    "R02",
+    "R03",
+    "B06",
+    "D08",
+    "D10"
+  ],
+  "acceptance_scope": "Original prompt group closure at code, reconciliation and handoff scope. Deployed/provider/browser/native-concurrency/PITR/private-object acceptance remains in the separate open groups. No production GO or full product acceptance.",
+  "progress": {
+    "baseline_closed": 11,
+    "accepted_additional": 6,
+    "closed": 17,
+    "total": 34,
+    "delta_percentage_points": 17.65,
+    "verified_closure_percent": 50,
+    "riwi_overall_percent": null,
+    "project_overall_percent": null
+  },
+  "no_build_rerun": true,
+  "production_GO": false,
+  "publication_note": "This verification record and updated progress are prepared after publication. They are not part of commit 1473056 and are preserved for the next qualifying batch; no additional small push was performed.",
+  "sources": [
+    "https://api.github.com/repos/N-Muhammadjonov/learners_area/git/ref/heads/arena/01a10bac-learners-area",
+    "https://api.github.com/repos/N-Muhammadjonov/learners_area/git/commits/147305642fc60470fd7097ec68349e66527b6ae4",
+    "https://api.github.com/repos/N-Muhammadjonov/learners_area/git/trees/15bb820aaaf71252e9f865e92665047846361899?recursive=1"
+  ]
+}

@@ -1,11 +1,11 @@
 {
   "source": "RIWI_REMAINING_WORK_EXECUTION_PROMPT.txt",
   "source_sha256": "daf36b256a990b7fa5379fd121810991bad552f638c776e8d9b55dcb22847979",
-  "verified_remote_base": "7f805af85705906f6c37710a3030f3eb357e90c0",
+  "verified_remote_base": "147305642fc60470fd7097ec68349e66527b6ae4",
   "method": "Equal-weight full-group acceptance: CLOSED / all 34 original R/B/C/D groups. Partial implementation receives no full-group credit. This is a verified closure metric, not a measure of development effort or existing product functionality.",
-  "closed": 11,
+  "closed": 17,
   "total": 34,
-  "verified_closure_percent": 32.35,
+  "verified_closure_percent": 50,
   "riwi_overall_percent": null,
   "project_overall_percent": null,
   "overall_unknown_reason": "No fully reconciled requirement denominator with current evidence for the entire RIWI or website project.",
@@ -20,26 +20,30 @@
     {
       "id": "R01",
       "requirement": "Recover and publish the preserved candidate correctly. GitHub still has fd0dc498 while the local candidate contains five additional logical commits plus working-tree changes. Verify every changed blob against the remote base and each local diff. The historical 11,263,730-byte requirement-ledger blob is missing locally. Preserve its remote SHA reference, do not fabricate it or overwrite it merely to make Git work. Publish reviewed changes through a base-tree patch if ordinary Git cannot transfer the complete history. Use a non-force compare-and-swap ref update.",
-      "status": "PARTIAL",
-      "evidence_and_remaining": "All 1482 published source blobs and 38 original annex paths reconciled at 7f805af; original archival ledger recovered byte-identically. Inherited source is already published. Batch15 preservation report and new changes await native package QA/publication verification."
+      "status": "CLOSED",
+      "commit": "147305642fc60470fd7097ec68349e66527b6ae4",
+      "evidence": "All 1482 prior published blobs and 38 original annex paths reconciled; archival ledger byte-identical and preserved. Batch15 reviewed package passed two native non-build QA rounds; exact GitHub parent/tree and all 43 expected blobs independently verified."
     },
     {
       "id": "R02",
       "requirement": "Reconcile current RIWI/website divergence and migrations. Compare exact current SHAs, journal entries, SQL/snapshots and schema. Prepare a conflict-specific integration patch/runbook without merging or renumbering migrations blindly. Current website state is newer than the historical chat checkpoint.",
-      "status": "PARTIAL",
-      "evidence_and_remaining": "Batch15 exact current branch trees, 15 SQL/journal prefix collisions, independent canonical catalogs, schema/snapshot differences and conflict-specific runbook prepared; review packet awaits native package gates/remote durability. No merge or shared migration applied."
+      "status": "CLOSED",
+      "commit": "147305642fc60470fd7097ec68349e66527b6ae4",
+      "evidence": "Current RIWI and website trees, all 15 SQL/journal prefix collisions, canonical catalogs and schema/snapshot differences reconciled with a conflict-specific integration runbook. Package QA and remote durability verified at 1473056. No merge or shared migration applied; future integration and deployed acceptance remain separate."
     },
     {
       "id": "R03",
       "requirement": "Rebuild evidence-based requirement status. The remote generator maps broad source keywords to PASS without executing the alleged evidence. The local fix removes this automatic acceptance. Test with representative real requirements and maintain source file, source line, exact requirement, implementation, command, observed result, state SHA and applicable external evidence. Counts of text lines are not completion percentages.",
-      "status": "PARTIAL",
-      "evidence_and_remaining": "Exact four original prompt sources recovered from 5133e1; new content-state evidence ledger retains every nonempty source line. Five explicit real requirements have freshly executed scoped local receipts; all other lines remain REVIEW_REQUIRED. Legacy ledger preserved/protected. Package durability pending."
+      "status": "CLOSED",
+      "commit": "147305642fc60470fd7097ec68349e66527b6ae4",
+      "evidence": "Exact four original prompt sources recovered; content-state evidence retains source lines and only five scoped requirements earn fresh executed local receipts. Legacy ledger protected, all other lines remain REVIEW_REQUIRED. Evidence generator regressions passed; exact package source-state and remote blobs verified. Source line counts do not earn percentage credit."
     },
     {
       "id": "R04",
       "requirement": "Finish deployed chat retention acceptance after reviewing the preserved local implementation. Test exact 30-day and seven-day boundaries, >60 eligible messages, late returning users, all four roles, inactive/closed tabs, concurrent heartbeat/sweep, missed cron run, cascade deletion, dry-run and secret denial. Apply migrations only to an identified authorized environment. Verify scheduler support and actual successful cron executions. Do not equate code presence with physical deletion in deployment.",
       "status": "PARTIAL",
-      "evidence_and_remaining": "30-day/all-message and strict seven-day inactivity code tested and published; deployed scheduler/deletion proof remains open."
+      "evidence_and_remaining": "30-day/all-message and strict seven-day inactivity code tested and published; deployed scheduler/deletion proof remains open.",
+      "current_external_observation": "GitHub Vercel status for 1473056 is failure and links to Hobby cron limits; current config is hourly. Project plan/logs and successful executions remain unverified. No schedule or retention-policy change made."
     },
     {
       "id": "R05",
@@ -69,7 +73,8 @@
       "id": "B01",
       "requirement": "Publish and verify 68-source-task coverage. Remote registry has 68 historical entries, but that count is not parity with the 68 source tasks. Preserved local code adds 37 missing contracts and maps all 68 original task keys to 105 runtime entries, while preserving historical entries and versions. Rerun coverage, duplicate-key, unknown-task, deterministic composition and legacy snapshot regressions. Verify every source task's actual semantics, not only key existence.",
       "status": "PARTIAL",
-      "evidence_and_remaining": "All 68 source task keys covered by 105 compatible runtime registry entries; all-task behavioral acceptance remains open."
+      "evidence_and_remaining": "All 68 source task keys covered by 105 compatible runtime registry entries; all-task behavioral acceptance remains open.",
+      "current_candidate": "All original 68 legacy definitions match the frozen fixture by exact JSON bytes and SHA256. The original 68 source tasks and 37 additions remain intact; the separate assessed translation runtime makes 106 registry entries. Shared Grammar/RIWI handoff and legacy regressions passed at the current source state; all-task semantic acceptance remains open."
     },
     {
       "id": "B02",
@@ -88,21 +93,24 @@
     {
       "id": "B04",
       "requirement": "Verify executable Grammar/Vocabulary/retention/tutoring/reporting task routes for all listed tasks. Catalog entries are not implemented runtime behavior. Reuse existing tools/services. Distinguish unavailable capability from supported deterministic behavior. Vocabulary meaning/sense comes from canonical authority. Reporter numbers remain deterministic.",
-      "status": "OPEN_UNVERIFIED",
-      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+      "status": "PARTIAL",
+      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group.",
+      "current_candidate": "Existing Grammar objective submission, production practice and RIWI Grammar handoff now use canonical activity prompts, strict assessment coverage and diagnostic-only phrase matching. Duplicate/foreign/forged objective batches fail before writes; attempt/event failure rolls back. Grammar translation requires the shared configured semantic evaluator with fallback none. Remaining Grammar/Vocabulary/retention/tutoring/reporting tasks still require individual runtime acceptance."
     },
     {
       "id": "B05",
       "requirement": "Validate all provider/local paths against the same contracts. Writing uses exactly four unique criteria, supported half-bands and server overall; evidence quotes must occur in source text. Speaking quotes must occur in reviewed transcript and pronunciation is Not assessed without real acoustic evidence. Grammar has no IELTS essay band. Test correct answers, acceptable alternatives, empty and malformed inputs, injections, provider schema drift, model fallback and persisted provenance.",
       "status": "REMOTE_PUBLISHED_APPLICABLE_EXTERNAL_ACCEPTANCE_PENDING",
       "evidence_and_remaining": "Speaking parts use shared canonical reviewed-text contracts, supported unique half-bands, grounded quotes and server overall; transcript-only requests refuse pronunciation bands. Existing provider/local/Writing/Grammar contract regressions included in full backend gate. Native gate and applicable live-provider evidence still pending. Step 10 native gates and all 32 changed remote blobs were independently verified. Applicable live provider/browser/private URL evidence still remains; no full group credit.",
-      "commit": "c133f97cabc086fdd14b9acb7f60c46a1cc92419"
+      "commit": "c133f97cabc086fdd14b9acb7f60c46a1cc92419",
+      "current_local_candidate": "Batch16 and continuation enforce nonempty inputs and same-source Writing checks; direct adapters now validate shared task domains/output/evidence without erasing unsupported claims. Local QA is recorded per current source in docs/RIWI-BATCH-16-CONTINUATION-QA-RESULTS.json. Applicable live provider acceptance remains open; no full-group credit."
     },
     {
       "id": "B06",
       "requirement": "Verify owner overlay lifecycle in real runtime: persisted owner authority; candidate -> exact preview/regression hash -> approval -> version activation -> rollback; changed/stale/replayed preview denial; immutable hard-core rejection; no learner/upload/provider text as policy. Preserve historical evaluations. Verify all UZ/EN states.",
-      "status": "OPEN_UNVERIFIED",
-      "evidence_and_remaining": "Batch15 inert rollback candidates, exact preview hash approval, runtime golden validators, v2 compatibility, approved-row integrity, UZ/EN parsing/UI and persisted authority implemented. Historical evaluations unchanged in DB tests. Final native gates/remote durability pending; target browser proof remains R06."
+      "status": "CLOSED",
+      "commit": "147305642fc60470fd7097ec68349e66527b6ae4",
+      "evidence": "Persisted-owner lifecycle, inert rollback candidates, exact preview hash approval, stale/replayed/tampered policy denial, runtime validator fixtures, v2 compatibility and UZ/EN service/UI flows verified. Historical evaluations preserved. Two native QA rounds and exact remote blobs verified. Live provider/deployed authenticated browser and independent native concurrency acceptance remain R05/R06."
     },
     {
       "id": "B07",
@@ -158,7 +166,8 @@
       "requirement": "Verify Part 2 preparation keeps mic off, early-start behavior, recording limit and manual review. Session summary only aggregates supported evidence; transcript-only pronunciation remains Not assessed and incomplete coverage cannot produce a fabricated official score. Verify recurring-weakness/learning signals with consent and privacy rules.",
       "status": "REMOTE_PUBLISHED_APPLICABLE_EXTERNAL_ACCEPTANCE_PENDING",
       "evidence_and_remaining": "Part 2 preparation has no microphone; early start and recording-limit review tested in React. Summary aggregates owned grounded evaluations, counts recurrence across distinct answers, and withholds overall for incomplete evidence. Pronunciation remains unassessed. Real browser and learning-signal consent/privacy acceptance remain separate mandatory checks. Step 10 native gates and all 32 changed remote blobs were independently verified. Applicable live provider/browser/private URL evidence still remains; no full group credit.",
-      "commit": "c133f97cabc086fdd14b9acb7f60c46a1cc92419"
+      "commit": "c133f97cabc086fdd14b9acb7f60c46a1cc92419",
+      "current_local_candidate": "Speaking summary now validates saved part/contract, valid attempt state, grounded teaching/issue quotations and unsupported pronunciation. Active/incomplete coverage cannot create an overall. Legacy null-contract rows require valid grounded evidence. Actual browser and learning-signal consent/privacy acceptance remain open."
     },
     {
       "id": "C08",
@@ -221,20 +230,23 @@
     {
       "id": "D08",
       "requirement": "Reconcile provider-dependent DB/services, canonical migrations, private object data, allowlist classification, backup and rollback. Record all required schema object classes or prove N/A. Do not infer PostgreSQL portability from row-only fixtures.",
-      "status": "PARTIAL",
-      "evidence_and_remaining": "Batch15 complete canonical non-row catalog/classes, 113/113 classification parity, independent website comparison, private-object/service/backup/rollback reconciliation prepared. Real native destination/PITR/R2 proofs remain R05/R07/D03-D05; package gates/durability pending."
+      "status": "CLOSED",
+      "commit": "147305642fc60470fd7097ec68349e66527b6ae4",
+      "evidence": "Canonical schema object classes inventoried in isolated PostgreSQL engine; 113/113 schema/classification parity and independent website catalog comparison verified. Private object/service/provider/backup/rollback dependencies and remaining boundaries recorded. Package QA and remote durability verified. Real native destination, PITR and R2 proofs remain R05/R07/D03-D05."
     },
     {
       "id": "D09",
       "requirement": "Rerun required two final gates after last source change and record their state identity, exact results/skips, commands and artifacts. The remote ledger's 16,978 PASS labels are classification output, not 16,978 independently passing tests.",
-      "status": "OPEN_UNVERIFIED",
-      "evidence_and_remaining": "Original native full gate passed before later edits. Final non-build gates pending. Owner explicitly instructed no rebuild; last-source build verification is NOT claimed, and this group remains open."
+      "status": "PARTIAL",
+      "evidence_and_remaining": "Original native full gate passed before later edits. Final non-build gates pending. Owner explicitly instructed no rebuild; last-source build verification is NOT claimed, and this group remains open.",
+      "current_candidate": "Two local non-build backend/UI/typecheck/lint gates passed against source-state 9c356c51; each backend retains 91 declared skips. No full-group credit until applicable mandatory/native/operational final gates are resolved. Raw receipts: docs/RIWI-BATCH-16-PUSH-HANDOFF.json."
     },
     {
       "id": "D10",
       "requirement": "Provide the final simple owner handoff, full manual/runtime matrix and actionable remaining boundaries. Identify which tasks are code complete, locally verified, remotely published, deployed, operationally accepted or owner/external blocked.",
-      "status": "OPEN_UNVERIFIED",
-      "evidence_and_remaining": "Batch15 simple owner handoff, 576 manual/runtime cases with missing deployed receipts explicitly marked, all remaining boundaries and 91 named inherited skips prepared. Final native gates/publication durability pending; no final GO claim."
+      "status": "CLOSED",
+      "commit": "147305642fc60470fd7097ec68349e66527b6ae4",
+      "evidence": "Simple owner handoff, full 576-case role/viewport/locale/theme/journey matrix, named 91 inherited skips and actionable remaining boundaries delivered and remotely verified. Missing deployed receipts explicitly unverified; no final GO or full product acceptance claimed."
     }
   ],
   "publication_policy": {
@@ -268,10 +280,33 @@
     "candidate_additional_groups": 6,
     "candidate_delta_percentage_points": 17.65,
     "candidate_total_if_fully_accepted": 17,
-    "candidate_percent_if_fully_accepted": 50.0,
-    "status": "PENDING_FINAL_NATIVE_QA_AND_REMOTE_BLOB_VERIFICATION",
-    "accepted_delta": 0,
+    "candidate_percent_if_fully_accepted": 50,
+    "status": "NATIVE_QA_AND_REMOTE_BLOBS_VERIFIED",
+    "accepted_delta": 6,
     "no_credit_from_document_line_counts": true,
-    "full_product_operational_acceptance": false
+    "full_product_operational_acceptance": false,
+    "verification_record": "docs/RIWI-BATCH-15-REMOTE-VERIFICATION.json",
+    "commit": "147305642fc60470fd7097ec68349e66527b6ae4"
+  },
+  "next_batch_baseline_closed": 17,
+  "progress_record_publication": "Post-publication reconciliation prepared locally for the next qualifying batch; verified source commit remains 1473056.",
+  "pending_batch16": {
+    "status": "LOCAL_GRAMMAR_QA_PASSED_SIX_GROUP_ACCEPTANCE_NOT_MET",
+    "baseline_closed": 17,
+    "minimum_additional_full_groups": 6,
+    "accepted_delta": 0,
+    "source_state_sha256": "9c356c510d274970c07fc792b768e383601c9d30a728f513884552ae6c488a60",
+    "qa_report": "docs/RIWI-BATCH-16-GRAMMAR-QA-RESULTS.json",
+    "deployment_report": "docs/RIWI-BATCH-16-DEPLOYMENT-BLOCKER.json",
+    "publication_ready": false,
+    "no_partial_group_credit": true,
+    "previous_source_state_sha256": "558ffebe124f68a1ad941ab23a67a9ef56f771d81db0b76aae8ba9795d2c96a4",
+    "original_checkpoint_preserved": true,
+    "original_uploaded_patch_verified": true,
+    "original_source_state_sha256": "c6faf3529485aefe80b9069102278a29de9a8b56d648cc991c10516c1e15ffd9",
+    "source_state_manifest": "docs/RIWI-BATCH-16-GRAMMAR-SOURCE-STATE.json",
+    "previous_evidence_manifest": "docs/RIWI-BATCH-17-EVIDENCE-MANIFEST.json",
+    "terminal_handoff_report": "docs/RIWI-BATCH-16-PUSH-HANDOFF.json",
+    "local_code_package_ready": true
   }
 }

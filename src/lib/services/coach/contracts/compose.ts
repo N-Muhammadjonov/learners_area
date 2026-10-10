@@ -3,7 +3,7 @@ import type { ProviderEvaluationOutput } from "../schema";
 import { RETENTION_DOMAIN_RULES, TUTORING_DOMAIN_RULES } from "./prompt-book";
 import { ASSIGNMENT_DOMAIN_RULES } from "./assignment";
 import { COACHING_DOMAIN_RULES } from "./coaching";
-import { GRAMMAR_DOMAIN_RULES } from "./grammar";
+import { GRAMMAR_DOMAIN_RULES, GRAMMAR_TRANSLATION_DOMAIN_RULES } from "./grammar";
 import { LISTENING_DOMAIN_RULES } from "./listening";
 import { READING_DOMAIN_RULES } from "./reading";
 import { REPORTING_DOMAIN_RULES } from "./reporting";
@@ -44,6 +44,7 @@ export function composeAssessmentPrompt(options: AssessmentPromptOptions): strin
   const { contract } = options;
   if (contract.execution !== "coach_evaluation") throw new Error("assessment_contract_not_provider_executable");
   const overlay = filterOwnerOverlay(contract, options.overlay ?? null);
+  const domainRules = contract.key === "grammar.translate-assessed" ? GRAMMAR_TRANSLATION_DOMAIN_RULES : DOMAIN_RULES[contract.domain];
   const task = [
     `TASK CONTRACT: ${contract.key}`,
     `TASK CONTRACT VERSION: ${contract.version}`,
@@ -55,7 +56,7 @@ export function composeAssessmentPrompt(options: AssessmentPromptOptions): strin
   const sections = [
     `[IMMUTABLE HARD CORE]\n${HARD_CORE_RULES}`,
     `[GLOBAL TEACHING AND EVIDENCE]\n${GLOBAL_TEACHING_RULES}`,
-    `[${contract.domain.toUpperCase()} DOMAIN CONTRACT]\n${DOMAIN_RULES[contract.domain]}`,
+    `[${contract.domain.toUpperCase()} DOMAIN CONTRACT]\n${domainRules}`,
     `[TASK-SPECIFIC CONTRACT]\n${task}`,
     `[APPROVED OWNER PRESENTATION OVERLAY]\n${overlay ? JSON.stringify({ version: options.policyVersion, fields: overlay }) : "No approved owner overlay is active."}`,
     `[STRICT OUTPUT RULES]\n${STRICT_OUTPUT_RULES}`,
@@ -98,6 +99,21 @@ function sourceTextForInput(task: string, input: unknown): string | null {
   return candidates.find((candidate): candidate is string => typeof candidate === "string") ?? null;
 }
 
+/** Empty or oversized work is not evidence, even when a provider returns a
+ * well-shaped score with no quotations. Apply before dispatch and again after
+ * provider output, including internal/fallback evaluators. */
+export function validateAssessmentInput(task: string, input: unknown): boolean {
+  const limits: Record<string, number> = { writing: 20_000, writing_check: 20_000, speaking: 20_000, grammar: 10_000, vocabulary: 5000, assignment: 20_000 };
+  const source = sourceTextForInput(task, input);
+  if (!limits[task] || !source?.trim() || source.length > limits[task]!) return false;
+  if (task === "writing" && input && typeof input === "object") {
+    const value = input as Record<string, unknown>;
+    // The provider grades check.answer; persistence must refer to that same work.
+    if (value.check && value.content !== source) return false;
+  }
+  return true;
+}
+
 function exactEvidenceQuote(excerpt: string, source: string | null): boolean {
   if (!source) return false;
   const normalize = (text: string) => text.toLowerCase().replace(/\s+/g, " ").trim();
@@ -108,9 +124,9 @@ function exactEvidenceQuote(excerpt: string, source: string | null): boolean {
 function evidenceIsGrounded(task: string, input: unknown, output: ProviderEvaluationOutput): boolean {
   const source = sourceTextForInput(task, input);
   const allExcerpts = [
-    ...output.issues.flatMap((issue) => issue.excerpt ? [issue.excerpt] : []),
+    ...output.issues.flatMap((issue) => issue.excerpt != null ? [issue.excerpt] : []),
     ...(output.teachingFeedback?.evidence.map((item) => item.excerpt) ?? []),
-    ...(output.teachingFeedback?.examples.flatMap((item) => item.before ? [item.before] : []) ?? []),
+    ...(output.teachingFeedback?.examples.flatMap((item) => item.before !== null ? [item.before] : []) ?? []),
     ...(output.writingAnalysis?.criterionNarratives.flatMap((item) => item.evidence) ?? []),
     ...(output.writingAnalysis?.topFixes.flatMap((item) => item.examples) ?? []),
   ];
@@ -226,7 +242,7 @@ export function validateAssessmentOutput(
   output: ProviderEvaluationOutput,
   overlay: AssessmentOwnerOverlay | null = null,
 ): ProviderEvaluationOutput | null {
-  if (contract.execution !== "coach_evaluation" || contract.domain !== task) return null;
+  if (contract.execution !== "coach_evaluation" || contract.domain !== task || !validateAssessmentInput(task, input)) return null;
   let normalized = output;
   if (contract.domain === "writing") {
     const writing = normalizedWritingOutput(contract, input, output);
@@ -239,6 +255,11 @@ export function validateAssessmentOutput(
   } else if (["grammar", "vocabulary", "assignment"].includes(contract.domain)) {
     if (output.overallEstimate !== null || output.verdict === null || output.writingAnalysis
       || output.criteria.some((criterion) => criterion.band !== null)) return null;
+    if (contract.key === "grammar.translate-assessed") {
+      const expected = ["meaning", "grammar", "target_structure"];
+      if (output.criteria.length !== expected.length || new Set(output.criteria.map(criterion => criterion.key)).size !== expected.length
+        || expected.some(key => !output.criteria.some(criterion => criterion.key === key && !criterion.limited))) return null;
+    }
   } else {
     return null;
   }

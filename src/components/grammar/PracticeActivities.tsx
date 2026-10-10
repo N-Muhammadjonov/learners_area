@@ -22,7 +22,7 @@ type Result = {
   checkedBy: string | null;
   used: string[];
   missing: string[];
-  sampleAnswer: string;
+  sampleAnswer: string | null;
   explanation: string;
   issues: string[];
 };
@@ -30,10 +30,8 @@ type Result = {
 /**
  * Translate With It and Activate It.
  *
- * The verdict is reported with the structure checklist that produced it: the
- * student sees which required structure did not appear, instead of a bare mark
- * and a guess. When a written answer is judged by the text evaluator, the
- * evaluator is named — an unattributed judgement is worse than none.
+ * The evaluator supplies the verdict. Phrase matches are supporting diagnostics,
+ * and never a substitute for checking meaning or accepting valid alternatives.
  */
 export function PracticeActivities({
   dict,
@@ -60,7 +58,7 @@ export function PracticeActivities({
     if (!res) return;
     setBusy(null);
     if (!res.ok) { setError(apiErrorMessage(res.error, res.status, dict)); return; }
-    const data = res.data as { verdict?: string; checkedBy?: string; structures?: { used?: string[]; missing?: string[] }; sampleAnswer?: string; explanation?: string; issues?: string[] };
+    const data = res.data as { verdict?: string; checkedBy?: string; structures?: { used?: string[]; missing?: string[] }; sampleAnswer?: string | null; explanation?: string; issues?: string[] };
     setResults((prev) => ({
       ...prev,
       [key]: {
@@ -68,7 +66,7 @@ export function PracticeActivities({
         checkedBy: data.checkedBy ?? null,
         used: data.structures?.used ?? [],
         missing: data.structures?.missing ?? [],
-        sampleAnswer: String(data.sampleAnswer ?? ""),
+        sampleAnswer: data.sampleAnswer ?? null,
         explanation: String(data.explanation ?? ""),
         issues: Array.isArray(data.issues) ? (data.issues as string[]) : [],
       },
@@ -135,11 +133,9 @@ export function PracticeActivities({
                       {busy === key ? dict.common.saving : t.checkMine}
                     </Button>
                     {result && (
-                      <span
-                        className={result.verdict === "correct" ? "text-sm text-band-good" : "text-sm text-ink-700"}
-                        data-translate-verdict={result.verdict}
-                      >
-                        {verdictText(result.verdict)}
+                      <span className="flex flex-wrap items-center gap-2 text-sm" data-translate-verdict={result.verdict}>
+                        <span className={result.verdict === "correct" ? "text-band-good" : "text-ink-700"}>{verdictText(result.verdict)}</span>
+                        {result.checkedBy && <span className="text-xs text-ink-300" data-practice-checked-by={result.checkedBy}>{dict.coach.checkedBy} {result.checkedBy}</span>}
                       </span>
                     )}
                   </div>
@@ -155,9 +151,8 @@ export function PracticeActivities({
                           {t.structuresMissing}: {result.missing.join(", ")}
                         </p>
                       )}
-                      <p className="mt-1 text-ink-300">
-                        {t.sampleAnswer}: {result.sampleAnswer}
-                      </p>
+                      {result.issues.length > 0 && <ul className="list-inside list-disc">{result.issues.map((issue, index) => <li key={index}>{issue}</li>)}</ul>}
+                      {result.sampleAnswer && <p className="mt-1 text-ink-300">{t.sampleAnswer}: {result.sampleAnswer}</p>}
                       <p className="text-ink-300">{result.explanation}</p>
                     </div>
                   )}

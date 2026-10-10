@@ -113,6 +113,7 @@ export const ASSESSMENT_CONTRACT_KEYS = [
   "retention.error-pattern",
   "tutoring.simple-explanation",
   "tutoring.compare-concepts",
+  "grammar.translate-assessed",
 ] as const;
 
 export type AssessmentContractKey = (typeof ASSESSMENT_CONTRACT_KEYS)[number];

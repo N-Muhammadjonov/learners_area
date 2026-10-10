@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: every Speaking part uses reviewed text and refuses invented quotes or acoustic scores
+ok 1 - every Speaking part uses reviewed text and refuses invented quotes or acoustic scores
+  ---
+  duration_ms: 1.926125
+  type: 'test'
+  ...
+# Subtest: learner attempt projection retains original/reviewed/hash metadata without internal worker claims
+ok 2 - learner attempt projection retains original/reviewed/hash metadata without internal worker claims
+  ---
+  duration_ms: 1.542125
+  type: 'test'
+  ...
+# Subtest: summary counts recurrence across distinct answers and derives only the three supported textual criteria
+ok 3 - summary counts recurrence across distinct answers and derives only the three supported textual criteria
+  ---
+  duration_ms: 2.862
+  type: 'test'
+  ...
+# Subtest: summary refuses unsupported pronunciation, empty quotes, ungrounded teaching examples and mismatched part contracts
+ok 4 - summary refuses unsupported pronunciation, empty quotes, ungrounded teaching examples and mismatched part contracts
+  ---
+  duration_ms: 1.695459
+  type: 'test'
+  ...
+# Subtest: grounded teaching evidence and legitimate legacy rows remain eligible without using stored overall as authority
+ok 5 - grounded teaching evidence and legitimate legacy rows remain eligible without using stored overall as authority
+  ---
+  duration_ms: 0.219792
+  type: 'test'
+  ...
+# Subtest: missing, skipped and limited coverage cannot manufacture an overall; foreign or ungrounded evidence is excluded
+ok 6 - missing, skipped and limited coverage cannot manufacture an overall; foreign or ungrounded evidence is excluded
+  ---
+  duration_ms: 0.715292
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 659.086875

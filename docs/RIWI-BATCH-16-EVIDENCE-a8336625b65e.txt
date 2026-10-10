@@ -1,0 +1,70 @@
+TAP version 13
+# Subtest: AP1 candidate parsing is deterministic, allowlisted, and refuses mixed or injected instructions
+ok 1 - AP1 candidate parsing is deterministic, allowlisted, and refuses mixed or injected instructions
+  ---
+  duration_ms: 4.598084
+  type: 'test'
+  ...
+# Subtest: AP2 regression preview freezes hard-core/schema/rubric invariants for each allowlisted scope
+ok 2 - AP2 regression preview freezes hard-core/schema/rubric invariants for each allowlisted scope
+  ---
+  duration_ms: 7.765959
+  type: 'test'
+  ...
+# Subtest: UZ owner examples use the same allowlisted overlays and reject mixed scopes or forbidden changes
+ok 3 - UZ owner examples use the same allowlisted overlays and reject mixed scopes or forbidden changes
+  ---
+  duration_ms: 0.783459
+  type: 'test'
+  ...
+# Subtest: AP3 owner-only candidate → preview → approve lifecycle is idempotent, audited, versioned, and policy-only
+ok 4 - AP3 owner-only candidate → preview → approve lifecycle is idempotent, audited, versioned, and policy-only
+  ---
+  duration_ms: 2739.300292
+  type: 'test'
+  ...
+# Subtest: AP3b approval cannot be replayed after a previewed candidate is modified
+ok 5 - AP3b approval cannot be replayed after a previewed candidate is modified
+  ---
+  duration_ms: 2385.4965
+  type: 'test'
+  ...
+# Subtest: AP4 owner-history pagination is stable, bounded, filter-bound, retryable, and reaches every policy version
+ok 6 - AP4 owner-history pagination is stable, bounded, filter-bound, retryable, and reaches every policy version
+  ---
+  duration_ms: 2024.334666
+  type: 'test'
+  ...
+# Subtest: rollback creates a fresh inert candidate with new preview/approval; old versions remain immutable and retries are scoped to activation
+ok 7 - rollback creates a fresh inert candidate with new preview/approval; old versions remain immutable and retries are scoped to activation
+  ---
+  duration_ms: 2636.615417
+  type: 'test'
+  ...
+# Subtest: approval binds the exact preview the owner reviewed even after another valid preview replaces it
+ok 8 - approval binds the exact preview the owner reviewed even after another valid preview replaces it
+  ---
+  duration_ms: 2234.5505
+  type: 'test'
+  ...
+# Subtest: published v2 policies remain readable and rollback copies them into v3 candidates with fresh behavior fixtures
+ok 9 - published v2 policies remain readable and rollback copies them into v3 candidates with fresh behavior fixtures
+  ---
+  duration_ms: 1862.098917
+  type: 'test'
+  ...
+# Subtest: a still-pending older candidate cannot downgrade a newer activation using a previously valid preview
+ok 10 - a still-pending older candidate cannot downgrade a newer activation using a previously valid preview
+  ---
+  duration_ms: 1443.515833
+  type: 'test'
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 8871.889

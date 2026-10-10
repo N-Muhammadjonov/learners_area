@@ -1,0 +1,141 @@
+{
+  "status": "LOCAL_CODE_PACKAGE_VERIFIED_OWNER_TERMINAL_QA_PENDING",
+  "base_commit": "147305642fc60470fd7097ec68349e66527b6ae4",
+  "branch": "arena/01a10bac-learners-area",
+  "source_state_sha256": "9c356c510d274970c07fc792b768e383601c9d30a728f513884552ae6c488a60",
+  "source_file_count": 1208,
+  "local_code_package_ready": true,
+  "published": false,
+  "overall_prompt_acceptance": {
+    "closed": 17,
+    "total": 34,
+    "percent": 50,
+    "accepted_new_groups": 0,
+    "original_minimum_new_groups": 6,
+    "original_batch_size_requirement_met": false
+  },
+  "rounds": [
+    {
+      "kind": "LOCAL_NON_BUILD_GATE",
+      "report": "docs/RIWI-BATCH-16-GRAMMAR-QA-RESULTS.json",
+      "checks": {
+        "backend": {
+          "command": "node --max-old-space-size=2048 --conditions=react-server --import tsx --test --test-reporter=tap --test-concurrency=2 tests/*.test.ts",
+          "exit_code": 0,
+          "artifact": "docs/RIWI-BATCH-16-GRAMMAR-QA-BACKEND.txt",
+          "artifact_sha256": "149d644ccf6df147db2e462b51b111a888939ed3515e4361b1a5f471e40a771b",
+          "counts": {
+            "tests": 1328,
+            "suites": 2,
+            "pass": 1237,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 91,
+            "todo": 0
+          }
+        },
+        "ui": {
+          "command": "TSX_TSCONFIG_PATH=tests/ui/tsconfig.json node --import tsx --test --test-concurrency=1 tests/ui/*.test.tsx",
+          "exit_code": 0,
+          "artifact": "docs/RIWI-BATCH-16-GRAMMAR-QA-UI.txt",
+          "artifact_sha256": "3eb5dd80692b35a7424de206915eb3bba8a457410e25a1163cdcd8ad328fe986",
+          "counts": {
+            "tests": 260,
+            "suites": 0,
+            "pass": 260,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          }
+        },
+        "typecheck": {
+          "command": "npm run typecheck",
+          "exit_code": 0,
+          "artifact": "docs/RIWI-BATCH-16-GRAMMAR-QA-TYPECHECK.txt",
+          "artifact_sha256": "ac19c29fd7dbdd2d0a0bb9f56b2a514ef5788b0a705cec89218a7a23d833d062"
+        },
+        "lint": {
+          "command": "npm run lint",
+          "exit_code": 0,
+          "artifact": "docs/RIWI-BATCH-16-GRAMMAR-QA-LINT.txt",
+          "artifact_sha256": "b4d1173af97e919cdcf5e1f2bc959f7b0c283ac1010456dfb977bf2d1a71adf4"
+        }
+      }
+    },
+    {
+      "kind": "LOCAL_NON_BUILD_GATE",
+      "checks": {
+        "backend": {
+          "command": "node --max-old-space-size=2048 --conditions=react-server --import tsx --test --test-reporter=tap --test-concurrency=2 tests/*.test.ts",
+          "exit_code": 0,
+          "artifact": "docs/RIWI-BATCH-16-PUSH-QA-ROUND2-BACKEND.txt",
+          "artifact_sha256": "d1ff08d1f798c70531f71643075a7b07dbadb6aaf79df5c6a1b67f9702b1d4fe",
+          "counts": {
+            "tests": 1328,
+            "pass": 1237,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 91,
+            "todo": 0
+          }
+        },
+        "ui": {
+          "command": "TSX_TSCONFIG_PATH=tests/ui/tsconfig.json node --import tsx --test --test-reporter=tap --test-concurrency=1 tests/ui/*.test.tsx",
+          "exit_code": 0,
+          "artifact": "docs/RIWI-BATCH-16-PUSH-QA-ROUND2-UI.txt",
+          "artifact_sha256": "f7cb4a0cb8fc4d76917f5725cd7cb81819c59c234afd68b208392184e3e84785",
+          "counts": {
+            "tests": 260,
+            "pass": 260,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          }
+        },
+        "typecheck": {
+          "command": "npm run typecheck",
+          "exit_code": 0,
+          "artifact": "docs/RIWI-BATCH-16-PUSH-QA-ROUND2-TYPECHECK.txt",
+          "artifact_sha256": "ac19c29fd7dbdd2d0a0bb9f56b2a514ef5788b0a705cec89218a7a23d833d062"
+        },
+        "lint": {
+          "command": "npm run lint",
+          "exit_code": 0,
+          "artifact": "docs/RIWI-BATCH-16-PUSH-QA-ROUND2-LINT.txt",
+          "artifact_sha256": "b4d1173af97e919cdcf5e1f2bc959f7b0c283ac1010456dfb977bf2d1a71adf4"
+        }
+      }
+    }
+  ],
+  "terminal_helper_selfcheck": {
+    "status": "PASS",
+    "checks": [
+      "declared skips retained",
+      "truncated receipt",
+      "wrong passing count",
+      "failed receipt",
+      "final reporter counts only",
+      "exact source accepted",
+      "source mutation",
+      "unreviewed extra source",
+      "missing source",
+      "symlink escape",
+      "path traversal",
+      "website branch untouched",
+      "wrong origin",
+      "remote advancement"
+    ],
+    "count": 14,
+    "git_mutations": 0
+  },
+  "limits": [
+    "91 backend skips remain unverified, including conditional native/source checks.",
+    "No optimized build, live provider, authenticated browser, deployed retention, object-store rehearsal or backup/PITR acceptance.",
+    "This is the current code-fix handoff requested for owner terminal execution; it does not satisfy the prior six-new-full-groups / +17.65 percentage-point requirement.",
+    "No native checkout mutation, commit or push performed by the assistant.",
+    "GitHub ref remains at the verified base; independent remote tree/blob verification is required after owner publication."
+  ],
+  "generated_at": "2026-10-10T04:22:06.743998+00:00"
+}

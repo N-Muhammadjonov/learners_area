@@ -1,0 +1,70 @@
+TAP version 13
+# Subtest: RIWI capabilities are deny-by-default and role powers are explicit
+ok 1 - RIWI capabilities are deny-by-default and role powers are explicit
+  ---
+  duration_ms: 0.868458
+  type: 'test'
+  ...
+# Subtest: student and teacher row scopes reject forged ids and fail closed on roster lookup
+ok 2 - student and teacher row scopes reject forged ids and fail closed on roster lookup
+  ---
+  duration_ms: 0.404667
+  type: 'test'
+  ...
+# Subtest: RIWI chat accepts only a bounded message and opaque conversation id
+ok 3 - RIWI chat accepts only a bounded message and opaque conversation id
+  ---
+  duration_ms: 1.008666
+  type: 'test'
+  ...
+# Subtest: finite classifier routes dangerous requests to a static refusal without naming tools
+ok 4 - finite classifier routes dangerous requests to a static refusal without naming tools
+  ---
+  duration_ms: 2.829834
+  type: 'test'
+  ...
+# Subtest: outbound chat DTO rejects application objects and redacts likely identifiers
+ok 5 - outbound chat DTO rejects application objects and redacts likely identifiers
+  ---
+  duration_ms: 1.123375
+  type: 'test'
+  ...
+# Subtest: every evaluation task has a strict outbound DTO and identifiers are redacted before truncation
+ok 6 - every evaluation task has a strict outbound DTO and identifiers are redacted before truncation
+  ---
+  duration_ms: 0.701333
+  type: 'test'
+  ...
+# Subtest: knowledge parsing treats markup as inert text and chunks deterministically
+ok 7 - knowledge parsing treats markup as inert text and chunks deterministically
+  ---
+  duration_ms: 0.631542
+  type: 'test'
+  ...
+# Subtest: knowledge overlap is a review signal only and the fixture registry is finite
+ok 8 - knowledge overlap is a review signal only and the fixture registry is finite
+  ---
+  duration_ms: 0.47675
+  type: 'test'
+  ...
+# Subtest: tool broker rejects unsafe or mutable registrations and redacts unknown tool names
+ok 9 - tool broker rejects unsafe or mutable registrations and redacts unknown tool names
+  ---
+  duration_ms: 0.744083
+  type: 'test'
+  ...
+# Subtest: tool broker enforces schema/capability/scope, validates outputs, requires audit, and races timeouts
+ok 10 - tool broker enforces schema/capability/scope, validates outputs, requires audit, and races timeouts
+  ---
+  duration_ms: 19.474917
+  type: 'test'
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 716.672292

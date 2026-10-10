@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { readFileSync, readdirSync } from "node:fs";
+import { readFileSync, readdirSync, lstatSync } from "node:fs";
 import { resolve, join, relative } from "node:path";
 
 export const AUTHORITATIVE_SOURCES = [
@@ -14,7 +14,16 @@ export function verifySource(source, text) {
   if (sha256(bytes) !== source.sha256 || createHash("sha1").update(`blob ${bytes.length}\0`).update(bytes).digest("hex") !== source.blob) throw new Error(`source_identity_mismatch:${source.id}`);
 }
 export function assertNewEvidenceOutput(path) {
-  if (resolve(path) === resolve("docs/RIWI-FINAL-REQUIREMENT-LEDGER.jsonl") || !/RIWI-BATCH-15-CURRENT-EVIDENCE\.jsonl$/.test(path)) throw new Error("historical_ledger_write_denied");
+  if (resolve(path) === resolve("docs/RIWI-FINAL-REQUIREMENT-LEDGER.jsonl") || !/(?:^|\/)RIWI-BATCH-[1-9][0-9]*-CURRENT-EVIDENCE\.jsonl$/.test(path)) throw new Error("historical_ledger_write_denied");
+  assertUnusedEvidencePath(path);
+}
+export function assertUnusedEvidencePath(path) {
+  try { lstatSync(path); } catch (e) { if (e.code === "ENOENT") return; throw e; }
+  throw new Error("existing_evidence_write_denied");
+}
+export function evidenceArtifactPaths(output, receiptIds) {
+  const prefix = output.replace(/-CURRENT-EVIDENCE\.jsonl$/, "");
+  return { manifest: `${prefix}-EVIDENCE-MANIFEST.json`, receipts: receiptIds.map(id => `${prefix}-EVIDENCE-${id}.txt`) };
 }
 export function snapshotSource(root) {
   const files = [];
@@ -33,7 +42,9 @@ export function snapshotSource(root) {
   return { sha256: sha256(JSON.stringify(files)), files };
 }
 export function parseTestReceipt(stdout, status) {
-  const number = name => Number(stdout.match(new RegExp(`^# ${name} (\\d+)$`, "m"))?.[1] ?? NaN);
+  // A transcript may contain nested fixtures that print their own summaries.
+  // Only the actual reporter's final counts are authoritative.
+  const number = name => Number([...stdout.matchAll(new RegExp(`^# ${name} (\\d+)$`, "gm"))].at(-1)?.[1] ?? NaN);
   const counts = Object.fromEntries(["tests", "pass", "fail", "cancelled", "skipped", "todo"].map(name => [name, number(name)]));
   const verified = status === 0 && counts.tests > 0 && counts.pass === counts.tests && counts.fail === 0 && counts.cancelled === 0 && counts.skipped === 0 && counts.todo === 0;
   return { exit_code: status, counts, verified };

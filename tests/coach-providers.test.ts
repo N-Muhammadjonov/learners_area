@@ -395,7 +395,7 @@ test("provider version metadata is recorded on every result", async () => {
   if (!outcome.ok) return;
   const contract = getAssessmentContract("writing.task2.generic");
   assert.ok(contract);
-  assert.equal(outcome.result.providerVersion, "1.0.0");
+  assert.equal(outcome.result.providerVersion, "1.1.0");
   assert.equal(outcome.result.promptVersion, contract.version);
   assert.equal(outcome.result.rubricVersion, contract.rubricVersion);
   assert.ok(outcome.result.processedInMs >= 0);
@@ -452,8 +452,8 @@ test("RIWI refuses to evaluate a speaking attempt with no transcript", async () 
   );
   assert.equal(outcome.ok, false);
   if (outcome.ok) return;
-  assert.equal(outcome.error, "evaluation_unavailable");
-  assert.equal(outcome.attempts[0]?.failure?.reason, "not_configured");
+  assert.equal(outcome.error, "invalid_evaluation");
+  assert.deepEqual(outcome.attempts, [], "missing work is rejected before any evaluator call");
 });
 
 test("the evaluation contract rejects vendor-shaped output", () => {

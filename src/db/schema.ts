@@ -1113,9 +1113,9 @@ export const grammarExercises = pgTable("grammar_exercises", {
    */
   translatePromptUz: text("translate_prompt_uz"),
   /**
-   * The structures the translation must actually use. These are what the answer
-   * is checked against — never the whole sentence, because two different correct
-   * translations can share almost no words.
+   * Authored target cues for practice. Phrase presence is diagnostic; produced
+   * translations also require meaning and grammar evaluation. Equivalent valid
+   * wording is not rejected solely because it lacks a literal cue.
    */
   targetStructures: jsonb("target_structures").$type<string[]>(),
   /** "Activate It": a short task that forces the structure into free writing. */

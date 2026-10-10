@@ -1,0 +1,34 @@
+{
+  "checked_at": "2026-10-10T01:14:21.189Z",
+  "source_commit": "147305642fc60470fd7097ec68349e66527b6ae4",
+  "github_status": {
+    "context": "Vercel",
+    "state": "failure",
+    "description": "Deployment failed.",
+    "target_url": "https://vercel.link/3Fpeeb1",
+    "created_at": "2026-10-10T00:46:11Z"
+  },
+  "observed_redirect": "https://vercel.com/docs/cron-jobs/usage-and-pricing",
+  "repository_cron": {
+    "path": "/api/cron/riwi-chat-retention",
+    "schedule": "0 * * * *"
+  },
+  "official_source": "https://vercel.com/docs/cron-jobs/usage-and-pricing",
+  "official_constraint": "Hobby cron jobs may run once per day; hourly expressions fail deployment. Hobby invocation timing may vary by up to 59 minutes.",
+  "inference": "The failed status points directly to Hobby cron scheduling limits and the exact hourly expression is present. This strongly indicates a scheduling-plan incompatibility; project billing plan and private deployment logs have not been independently read.",
+  "project_plan_verified": false,
+  "private_deployment_log_verified": false,
+  "configuration_changed": false,
+  "deployed_cron_execution_verified": false,
+  "chat_policy_preserved": "All eligible messages from last 30 days, with no 60-message cap; strict more-than-seven-day authenticated inactivity. Speaking retention remains separate and unselected.",
+  "reviewable_resolution": {
+    "preserve_hourly_requirement": "Keep the current schedule only on an identified environment that supports it, or use an authorized external hourly scheduler with a fixed target and secret-gated endpoint; verify actual dry-run/execution and missed-run behavior.",
+    "daily_alternative": "A daily Vercel schedule avoids the Hobby frequency error but changes invocation latency; do not silently adopt it as proof of the owner's day-eight deletion requirement.",
+    "required_next_evidence": [
+      "Identified isolated RIWI target and current hosting plan",
+      "Authorized scheduler target and actual dry-run/execution receipts",
+      "Exact deployed source identity and four-role sessions"
+    ]
+  },
+  "progress_credit": 0
+}

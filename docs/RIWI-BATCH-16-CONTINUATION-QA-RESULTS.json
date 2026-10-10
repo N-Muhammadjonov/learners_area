@@ -1,0 +1,160 @@
+{
+  "status": "LOCAL_CONTINUATION_QA_PASSED_NOT_PUBLISHED",
+  "base_commit": "147305642fc60470fd7097ec68349e66527b6ae4",
+  "original_checkpoint_patch_sha256": "f3e26bed9557467817c8355a0b65ee4c6012552a35ae73978a7db1d168cf3b03",
+  "previous_source_state_sha256": "c6faf3529485aefe80b9069102278a29de9a8b56d648cc991c10516c1e15ffd9",
+  "source_state_sha256": "558ffebe124f68a1ad941ab23a67a9ef56f771d81db0b76aae8ba9795d2c96a4",
+  "source_file_count": 1203,
+  "checks": {
+    "focused": {
+      "command": "node --conditions=react-server --import tsx --test tests/riwi-direct-provider-contracts.test.ts tests/riwi-evaluation-input-boundaries.test.ts tests/speaking-summary-evidence.test.ts tests/openai-adapters.test.ts tests/universal-ai-providers.test.ts tests/provider-matrix.test.ts",
+      "exit_code": 0,
+      "artifact": "docs/RIWI-BATCH-16-CONTINUATION-QA-FOCUSED.txt",
+      "artifact_sha256": "8163b2ef8f9f3050e92d6b711f5fe9769fdfd57126eb2f10a9da956bf6cf8852",
+      "counts": {
+        "tests": 48,
+        "pass": 48,
+        "fail": 0,
+        "skipped": 0
+      }
+    },
+    "ui": {
+      "command": "npm run test:ui",
+      "exit_code": 0,
+      "artifact": "docs/RIWI-BATCH-16-CONTINUATION-QA-UI.txt",
+      "artifact_sha256": "183bf849080fe0f0f6a1f843ca6a08d5da42fd92505bff0ad4364f96a52f77e8",
+      "counts": {
+        "tests": 257,
+        "pass": 257,
+        "fail": 0,
+        "skipped": 0
+      }
+    },
+    "typecheck": {
+      "command": "npm run typecheck",
+      "exit_code": 0,
+      "artifact": "docs/RIWI-BATCH-16-CONTINUATION-QA-TYPECHECK.txt",
+      "artifact_sha256": "ac19c29fd7dbdd2d0a0bb9f56b2a514ef5788b0a705cec89218a7a23d833d062"
+    },
+    "lint": {
+      "command": "npm run lint",
+      "exit_code": 0,
+      "artifact": "docs/RIWI-BATCH-16-CONTINUATION-QA-LINT.txt",
+      "artifact_sha256": "b4d1173af97e919cdcf5e1f2bc959f7b0c283ac1010456dfb977bf2d1a71adf4"
+    },
+    "backend": {
+      "command": "node --max-old-space-size=2048 --conditions=react-server --import tsx --test --test-reporter=tap --test-concurrency=1 tests/*.test.ts",
+      "exit_code": 0,
+      "counts": {
+        "tests": 1324,
+        "pass": 1233,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 91,
+        "todo": 0
+      },
+      "artifact": "docs/RIWI-BATCH-16-CONTINUATION-QA-BACKEND.txt",
+      "artifact_sha256": "6c4896ae44f6eea69c97fdcf0fa7a6da0452ca874ea40dc232ad437749de1363"
+    }
+  },
+  "scoped_receipts": [
+    {
+      "id": "6adf10eae73e",
+      "command": "node --conditions=react-server --import tsx --test --test-reporter=tap tests/riwi-security.test.ts",
+      "artifact": "docs/RIWI-BATCH-17-EVIDENCE-6adf10eae73e.txt",
+      "artifact_sha256": "61220923b45ac1ae154601b5efed1084d34f3c0816342f731da74f46b9de31bb",
+      "source_state_sha256": "558ffebe124f68a1ad941ab23a67a9ef56f771d81db0b76aae8ba9795d2c96a4",
+      "exit_code": 0,
+      "counts": {
+        "tests": 10,
+        "pass": 10,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "verified": true
+    },
+    {
+      "id": "a8336625b65e",
+      "command": "node --conditions=react-server --import tsx --test --test-reporter=tap tests/assessment-owner-policy.test.ts tests/assessment-policy-rollback.test.ts",
+      "artifact": "docs/RIWI-BATCH-17-EVIDENCE-a8336625b65e.txt",
+      "artifact_sha256": "ed35722fc7099b51a7422e13f8190955fd3a7b4ef00e0323c93ec863cda2d2a8",
+      "source_state_sha256": "558ffebe124f68a1ad941ab23a67a9ef56f771d81db0b76aae8ba9795d2c96a4",
+      "exit_code": 0,
+      "counts": {
+        "tests": 10,
+        "pass": 10,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "verified": true
+    },
+    {
+      "id": "ea4e0a8f5a94",
+      "command": "node --conditions=react-server --import tsx --test --test-reporter=tap tests/speaking-contract-boundaries.test.ts tests/speaking-summary-evidence.test.ts",
+      "artifact": "docs/RIWI-BATCH-17-EVIDENCE-ea4e0a8f5a94.txt",
+      "artifact_sha256": "ebd4e8f4beb1fa5dcce7b8283cc7f855da1acf469d04b96aa2196fbdfc2555b4",
+      "source_state_sha256": "558ffebe124f68a1ad941ab23a67a9ef56f771d81db0b76aae8ba9795d2c96a4",
+      "exit_code": 0,
+      "counts": {
+        "tests": 6,
+        "pass": 6,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "verified": true
+    },
+    {
+      "id": "d270107ac759",
+      "command": "node --conditions=react-server --import tsx --test --test-reporter=tap tests/riwi-portability-v2.test.ts tests/riwi-portable-manifest-scope.test.ts",
+      "artifact": "docs/RIWI-BATCH-17-EVIDENCE-d270107ac759.txt",
+      "artifact_sha256": "79a15bd2ba680521e85e1fc4a8b92e024433851162e0c8019e68526d1fdf59d6",
+      "source_state_sha256": "558ffebe124f68a1ad941ab23a67a9ef56f771d81db0b76aae8ba9795d2c96a4",
+      "exit_code": 0,
+      "counts": {
+        "tests": 12,
+        "pass": 12,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "verified": true
+    }
+  ],
+  "evidence_manifest": "docs/RIWI-BATCH-17-EVIDENCE-MANIFEST.json",
+  "receipt_set_number_is_not_a_publication_or_progress_claim": true,
+  "original_batch16_proofs_preserved": true,
+  "original_groups_closed": 17,
+  "original_groups_total": 34,
+  "verified_prompt_percent": 50,
+  "accepted_new_original_groups": 0,
+  "publication_ready": false,
+  "minimum_additional_full_groups": 6,
+  "riwi_overall_percent": null,
+  "project_overall_percent": null,
+  "native_publication_two_rounds_complete": false,
+  "build_rerun": false,
+  "deployment_changed": false,
+  "production_GO": false,
+  "changes": [
+    "Direct LLM adapters enforce the same nonempty work, task domain, score, evidence and output contracts as resolver calls.",
+    "Nested Writing check input cannot discard a different outer content before validation.",
+    "Unsupported pronunciation and duplicate criteria are rejected rather than hidden by normalization.",
+    "Empty provided source quotes are refused; null/omitted quotations remain distinct.",
+    "Speaking summaries verify the saved part contract, reviewed submission state, evidence/teaching quotes, and supported criteria; incomplete or active sessions have no overall.",
+    "Legacy null contract metadata remains eligible only with grounded valid evidence; stored overall is not scoring authority.",
+    "Compatible transport Grade My Work fixture now returns four grounded Writing criteria/analysis instead of a Grammar verdict."
+  ],
+  "remaining": [
+    "All 68 task semantics and canonical runtime route bindings (B01/B04).",
+    "Real provider, authenticated browser and R2 evidence; native DB/restore/PITR acceptance.",
+    "Six full additional original groups before publishing; no credit from test or source-line counts."
+  ],
+  "backend_preliminary_run": "Stopped after focused QA exposed a transport fixture returning a Grammar verdict for Writing. Fixture corrected to valid grounded Writing output, then focused QA and full final gate passed. Preliminary run is not acceptance evidence."
+}

@@ -3,12 +3,12 @@ import { isUuid } from "@/lib/validation/ids";
 import { PUBLIC_CHECKED_BY } from "@/lib/services/coach/attribution";
 import { NextRequest, NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
-import { z } from "zod";
 import { db } from "@/db/client";
 import { activityEvents, grammarAttempts, grammarTopics } from "@/db/schema";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getLocale } from "@/lib/i18n";
-import { checkStructures, structureVerdict } from "@/lib/services/grammar/mastery";
+import { checkStructures } from "@/lib/services/grammar/mastery";
+import { grammarPracticeSchema, grammarPracticeEvidence } from "@/lib/services/grammar/production";
 import { evaluateGrammarProduction } from "@/lib/services/coach";
 
 /**
@@ -16,29 +16,22 @@ import { evaluateGrammarProduction } from "@/lib/services/coach";
  *
  * The two written activities of a grammar topic:
  *
- *   - `translate_it` — a sentence in the student's own language to render in
- *     English. Graded by a *structure checklist*, not by comparing whole
- *     sentences: two correct translations rarely share their words, so string
- *     equality would mark good work wrong. The student is told exactly which
- *     structure did not appear.
+ *   - `translate_it` — translation of the authored Uzbek prompt. The shared
+ *     evaluator must check meaning, grammar and the target structure. A phrase
+ *     checklist provides diagnostics only; it cannot grant translation credit.
  *   - `activate_it` — free writing that forces the structure out of the student,
  *     judged by the text evaluator (RIWI), whose name is reported back.
  *
  * The attempt row is written first so the evaluation can point at it, and is
  * removed if nothing could be produced — no attempt with an invented result.
  */
-const schema = z.object({
-  activity: z.enum(["translate_it", "activate_it"]),
-  answer: z.string().min(2).max(2000),
-});
-
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   if (!isUuid(id)) return NextResponse.json({ error: "not_found" }, { status: 404 });
   const user = await requireActiveUser();
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
-  const parsed = schema.safeParse(await req.json().catch(() => null));
+  const parsed = grammarPracticeSchema.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({ error: "invalid_input" }, { status: 400 });
 
   const exercise = await getGrammarExerciseForUser(id, user.id);
@@ -50,7 +43,8 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
 
   const structures = exercise.targetStructures ?? [];
   const check = checkStructures(parsed.data.answer, structures);
-  const verdict = structureVerdict(check, structures.length > 0);
+  const evidence = grammarPracticeEvidence(exercise, parsed.data.activity, topic?.title ?? null);
+  if (!evidence) return NextResponse.json({ error: "assessment_metadata_unsupported" }, { status: 409 });
 
   const [attempt] = await db
     .insert(grammarAttempts)
@@ -60,49 +54,17 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       activity: parsed.data.activity,
       selectedOption: "",
       responseText: parsed.data.answer,
-      // The structure checklist is deterministic, so it can decide. When no
-      // structures were authored the row is provisional and only the evaluator's
-      // verdict may set it — until then it is not counted as correct.
-      isCorrect: verdict === "correct",
+      // Only the evaluator's result can grant credit for produced language.
+      isCorrect: false,
     })
     .returning();
   if (!attempt) return NextResponse.json({ error: "attempt_write_failed" }, { status: 500 });
 
-  // Activate It is about production, which no checklist can judge: the text
-  // evaluator reads the whole response. Translate It stays deterministic unless
-  // the topic has no authored structures to check against.
-  const needsEvaluator = parsed.data.activity === "activate_it" || verdict === "undetermined";
-
-  if (!needsEvaluator) {
-    await db.insert(activityEvents).values({
-      userId: user.id,
-      type: "GRAMMAR_PRACTICE_SUBMITTED",
-      payload: { exerciseId: exercise.id, activity: parsed.data.activity, verdict },
-    });
-
-    return NextResponse.json({
-      ok: true,
-      attemptId: attempt.id,
-      activity: parsed.data.activity,
-      verdict,
-      checkedBy: null,
-      structures: check,
-      sampleAnswer: exercise.correctOption,
-      explanation: exercise.explanation,
-      issues: [],
-    });
-  }
-
   const outcome = await evaluateGrammarProduction({
     userId: user.id,
     attemptId: attempt.id,
-    promptText:
-      parsed.data.activity === "translate_it"
-        ? exercise.translatePromptUz ?? exercise.promptText
-        : exercise.activationPrompt ?? exercise.promptText,
+    ...evidence,
     studentAnswer: parsed.data.answer,
-    targetStructure: topic?.title ?? null,
-    sampleAnswer: exercise.correctOption,
     activity: parsed.data.activity,
     language: await getLocale(),
   });
@@ -114,15 +76,14 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   }
 
   const finalVerdict = outcome.evaluation.verdict;
-  await db
-    .update(grammarAttempts)
-    .set({ isCorrect: finalVerdict === "correct" })
-    .where(eq(grammarAttempts.id, attempt.id));
-
-  await db.insert(activityEvents).values({
-    userId: user.id,
-    type: "GRAMMAR_PRACTICE_SUBMITTED",
-    payload: { exerciseId: exercise.id, activity: parsed.data.activity, verdict: finalVerdict },
+  await db.transaction(async tx => {
+    await tx.update(grammarAttempts).set({ isCorrect: finalVerdict === "correct" })
+      .where(eq(grammarAttempts.id, attempt.id));
+    await tx.insert(activityEvents).values({
+      userId: user.id,
+      type: "GRAMMAR_PRACTICE_SUBMITTED",
+      payload: { exerciseId: exercise.id, activity: parsed.data.activity, verdict: finalVerdict },
+    });
   });
 
   return NextResponse.json({
@@ -132,7 +93,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     verdict: finalVerdict,
     checkedBy: PUBLIC_CHECKED_BY,
     structures: check,
-    sampleAnswer: exercise.correctOption,
+    sampleAnswer: null,
     explanation: exercise.explanation,
     issues: outcome.evaluation.issues.map((issue) => issue.message),
   });

@@ -46,10 +46,15 @@ test("start is one synchronous flight and is cancelled on leave", async () => {
 });
 test("start deadline stops the spinner and requires an authoritative read before another write", async () => {
  const old=globalThis.fetch;const timeout=window.setTimeout;let calls=0;const reads:string[]=[];const writes:string[]=[];
- window.setTimeout=((handler:TimerHandler,ms?:number,...args:unknown[])=>timeout(handler,ms===12000?15:ms,...args)) as typeof window.setTimeout;
+ let fireDeadline:()=>void=()=>{throw new Error("start deadline was not registered");};
+ window.setTimeout=((handler:TimerHandler,ms?:number,...args:unknown[])=>{
+  if(ms===12000){fireDeadline=()=>{if(typeof handler!=="function")throw new Error("unexpected string timer");handler(...args);};return timeout(()=>{},ms);}
+  return timeout(handler,ms,...args);
+ }) as typeof window.setTimeout;
  globalThis.fetch=(async (url,init)=> { if ((init?.method ?? "GET").toUpperCase()==="GET") reads.push(String(url)); else { calls++; writes.push(`${(init?.method ?? "").toUpperCase()} ${String(url)}`); }const signal=init?.signal;return await new Promise<Response>((_resolve,reject)=>signal?.addEventListener("abort",()=>reject(new DOMException("aborted","AbortError")),{once:true})); }) as typeof fetch;
  try { await render(React.createElement(RetentionSession,{dict:en,initial:null}),async()=>{
-  await act(async()=>query<HTMLButtonElement>("[data-retention-start]").click());await wait(40);
+  await act(async()=>query<HTMLButtonElement>("[data-retention-start]").click());
+  await act(async()=>fireDeadline());await wait(0);
   assert.equal(query<HTMLButtonElement>("[data-retention-start]").disabled,true);
   assert.match(query("[data-retention-error]").textContent ?? "",/already have started/);
   assert.ok(query("[data-retention-recover-start]"));assert.equal(calls,1,"exactly one start POST; never auto-retried");assert.deepEqual(writes,["POST /api/retention/attempts"],"the single write is the start POST");

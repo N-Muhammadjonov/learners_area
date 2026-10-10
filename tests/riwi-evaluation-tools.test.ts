@@ -200,9 +200,13 @@ test("evaluation tools select only the caller's latest canonical work and delega
     assert.equal(observed.grammar[0]?.attemptId, latestGrammarId);
     assert.equal(observed.grammar[0]?.studentAnswer, "I have learned to plan carefully.");
     assert.equal(observed.grammar[0]?.targetStructure, "Present Perfect");
-    assert.equal(observed.grammar[0]?.sampleAnswer, "has finished");
+    assert.equal(observed.grammar[0]?.sampleAnswer, null, "the correction option is not an Activate It reference");
+    assert.equal(observed.grammar[0]?.promptText, "Describe something you have learned.");
     assert.doesNotMatch(JSON.stringify(grammar), /UNRELATED PRIVATE|has finished/,
-      "the authored answer key is passed only into the canonical Coach service, not the public RIWI result");
+      "an unrelated correction key is absent from the Activate It request and public result");
+    await database.db.update(grammarExercises).set({ activationPrompt: null }).where(eq(grammarExercises.id, grammarExerciseId));
+    assert.deepEqual(await callTool(broker, "riwi.coach.grammar.evaluateLatestSelf", learnerId), { status: "unavailable", reason: "source_unavailable" });
+    assert.equal(observed.grammar.length, 1, "missing activation metadata must not be replaced with the correction prompt");
 
     const vocabulary = await callTool(broker, "riwi.coach.vocabulary.evaluateLatestSelf", learnerId);
     assert.equal(vocabulary.status, "resolved");
@@ -318,7 +322,8 @@ test("chat request resolves to the real authorized Grammar tool, validates the C
     assert.equal(captured[0]?.userId, learnerId);
     assert.equal(captured[0]?.attemptId, attemptId);
     assert.equal(captured[0]?.studentAnswer, "I have learned to plan carefully.");
-    assert.equal(captured[0]?.sampleAnswer, "has finished");
+    assert.equal(captured[0]?.sampleAnswer, null);
+    assert.equal(captured[0]?.promptText, "Describe something you have learned.");
 
     const conversationId = response.body.conversationId;
     assert.ok(conversationId);

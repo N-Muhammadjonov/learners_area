@@ -160,10 +160,16 @@ test("UA4 compatible transport: posts to the configured path with a server-side 
     assert.equal(invalidInput.ok, false);
     assert.equal(seen!.body, bodyBeforeInvalid, "strict task guard rejects extra authority before transport");
 
+    const writingKeys = ["TaskResponse", "CoherenceCohesion", "LexicalResource", "GrammaticalRangeAccuracy"];
+    const writingReply = { ...validOutput, overallEstimate: 6, verdict: null,
+      criteria: writingKeys.map(key => ({ key, label: key, band: 6, limited: false, note: null })),
+      writingAnalysis: { examinerComment: { en: "Fixture", uz: "Sinov" },
+        criterionNarratives: writingKeys.map(key => ({ key, narrative: { en: "Fixture", uz: "Sinov" }, evidence: ["A short essay"] })),
+        sentenceFeedback: [], topFixes: [] } };
     const writing = createCompatibleProvider(entry, {
       request: async (_url, _headers, body) => {
         seen = { url: "", headers: {}, body, allowHosts: undefined };
-        return reply;
+        return { status: 200, contentType: "application/json", text: JSON.stringify({ choices: [{ finish_reason: "stop", message: { content: JSON.stringify(writingReply) } }] }) };
       },
     });
     const grade = await writing.evaluateWriting!(ctx, {

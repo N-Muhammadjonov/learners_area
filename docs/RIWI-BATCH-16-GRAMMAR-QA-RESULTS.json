@@ -1,0 +1,98 @@
+{
+  "status": "LOCAL_GRAMMAR_QA_PASSED_WITH_DECLARED_SKIPS_NOT_PUBLISHED",
+  "base_commit": "147305642fc60470fd7097ec68349e66527b6ae4",
+  "source_state_sha256": "9c356c510d274970c07fc792b768e383601c9d30a728f513884552ae6c488a60",
+  "source_file_count": 1208,
+  "previous_source_state_sha256": "558ffebe124f68a1ad941ab23a67a9ef56f771d81db0b76aae8ba9795d2c96a4",
+  "closed": 17,
+  "total": 34,
+  "percent": 50,
+  "accepted_new_groups": 0,
+  "minimum_new_groups": 6,
+  "publication_ready": false,
+  "checks": {
+    "focused": {
+      "command": "node --conditions=react-server --import tsx --test --test-concurrency=1 tests/assessment-owner-policy.test.ts tests/assessment-policy-rollback.test.ts tests/riwi-feature-integration.test.ts tests/riwi-evaluation-tools.test.ts tests/riwi-prompt-book-coverage.test.ts tests/coach-assessment-contracts.test.ts tests/grammar-objective-write.test.ts tests/grammar-production-evidence.test.ts tests/riwi-portability-v2.test.ts",
+      "exit_code": 0,
+      "artifact": "docs/RIWI-BATCH-16-GRAMMAR-QA-FOCUSED.txt",
+      "artifact_sha256": "b4d42b362b7d54f665a824aca7dacbc0e268faa51ecfbfe585e4cb5efdc48f9b",
+      "counts": {
+        "tests": 40,
+        "suites": 0,
+        "pass": 40,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    "backend": {
+      "command": "node --max-old-space-size=2048 --conditions=react-server --import tsx --test --test-reporter=tap --test-concurrency=2 tests/*.test.ts",
+      "exit_code": 0,
+      "artifact": "docs/RIWI-BATCH-16-GRAMMAR-QA-BACKEND.txt",
+      "artifact_sha256": "149d644ccf6df147db2e462b51b111a888939ed3515e4361b1a5f471e40a771b",
+      "counts": {
+        "tests": 1328,
+        "suites": 2,
+        "pass": 1237,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 91,
+        "todo": 0
+      }
+    },
+    "ui": {
+      "command": "TSX_TSCONFIG_PATH=tests/ui/tsconfig.json node --import tsx --test --test-concurrency=1 tests/ui/*.test.tsx",
+      "exit_code": 0,
+      "artifact": "docs/RIWI-BATCH-16-GRAMMAR-QA-UI.txt",
+      "artifact_sha256": "3eb5dd80692b35a7424de206915eb3bba8a457410e25a1163cdcd8ad328fe986",
+      "counts": {
+        "tests": 260,
+        "suites": 0,
+        "pass": 260,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    "typecheck": {
+      "command": "npm run typecheck",
+      "exit_code": 0,
+      "artifact": "docs/RIWI-BATCH-16-GRAMMAR-QA-TYPECHECK.txt",
+      "artifact_sha256": "ac19c29fd7dbdd2d0a0bb9f56b2a514ef5788b0a705cec89218a7a23d833d062"
+    },
+    "lint": {
+      "command": "npm run lint",
+      "exit_code": 0,
+      "artifact": "docs/RIWI-BATCH-16-GRAMMAR-QA-LINT.txt",
+      "artifact_sha256": "b4d1173af97e919cdcf5e1f2bc959f7b0c283ac1010456dfb977bf2d1a71adf4"
+    }
+  },
+  "limits": [
+    "Backend includes conditionally skipped native/source/operational checks; these receive no PASS credit.",
+    "Transport fixtures do not prove live provider semantic accuracy.",
+    "No optimized build or deployment run.",
+    "No native publication QA rounds, commit or push.",
+    "B01/B04 remain partially verified; registry count and test count do not earn full-group progress."
+  ],
+  "historical_compatibility": "All original 68 v1 contract definitions remain byte-equivalent. Original 68 source task inventory and 37 added book contracts remain intact; the independent assessed translation runtime makes 106 entries. Published v2 owner evidence hashes remain readable; rollback is inert until current preview/approval. A prior v3 grammar scope preview covering fewer runtime contracts must be previewed again for the expanded scope.",
+  "repaired_findings": [
+    "Literal phrase presence cannot establish translation meaning.",
+    "Correction-item options are not translation/activation references, including RIWI chat handoffs.",
+    "Duplicate choices, foreign/private items, non-authored options and corrupt canonical keys fail before writes or answer-key release.",
+    "Objective attempts and activity events commit or roll back together.",
+    "Owner presentation overlays cannot remove required translation coverage or grant scores.",
+    "UI shows evaluator feedback and retains the answer when evaluation is unavailable.",
+    "Recovery deadline test drives the actual timer callback deterministically instead of assuming a short wall-clock wait."
+  ],
+  "generated_at": "2026-10-10T04:08:09.248Z",
+  "legacy_contracts": {
+    "status": "PASS",
+    "count": 68,
+    "serialized_metadata_sha256": "a348e3a799e75988b142e0d0cbad207b3f2f78b0bdbc659fa9bd6a5c775238e0",
+    "comparison": "Exact UTF-8 JSON serialization of the frozen fixture and runtime legacy definitions; original fixture unchanged."
+  },
+  "qa_iterations": "Earlier runs exposed missing owner-fixture coverage, a wall-clock-dependent recovery assertion, accidental legacy contract replacement and stale inventory-count assertions. Those findings were repaired. Failed/interrupted receipts were not counted as PASS. The final checks above all ran against the exact current source state.",
+  "portability_limit": "The new translation contract is required in current RIWI/full-system manifests. Existing 105-contract archives require their matching code bundle or a separately reviewed compatibility migration; missing contract metadata is not silently accepted."
+}

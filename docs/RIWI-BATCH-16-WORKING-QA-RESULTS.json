@@ -1,0 +1,153 @@
+{
+  "status": "LOCAL_CANDIDATE_QA_PASSED_NOT_PUBLISHED",
+  "verified_remote_base": "147305642fc60470fd7097ec68349e66527b6ae4",
+  "source_state_sha256": "c6faf3529485aefe80b9069102278a29de9a8b56d648cc991c10516c1e15ffd9",
+  "checks": {
+    "backend": {
+      "command": "node --max-old-space-size=2048 --conditions=react-server --import tsx --test --test-reporter=tap --test-concurrency=1 tests/*.test.ts",
+      "exit_code": 0,
+      "counts": {
+        "tests": 1320,
+        "pass": 1229,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 91,
+        "todo": 0
+      },
+      "artifact": "docs/RIWI-BATCH-16-QA-BACKEND.txt",
+      "artifact_sha256": "d6e093c29a9b7ecb5eedd6dd7c46e0039bf214badd51b2733d3d9485799ab054"
+    },
+    "ui": {
+      "command": "npm run test:ui",
+      "exit_code": 0,
+      "counts": {
+        "tests": 257,
+        "pass": 257,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "artifact": "docs/RIWI-BATCH-16-QA-UI.txt",
+      "artifact_sha256": "c103a7d512e3e06fab648cb4c9a8f9c49623727dfa0276b6ab764c83bcde04b1"
+    },
+    "typecheck": {
+      "command": "npm run typecheck",
+      "exit_code": 0,
+      "evidence": "Observed tool execution session 26007 completed successfully; no raw artifact captured."
+    },
+    "lint": {
+      "command": "npm run lint",
+      "exit_code": 0,
+      "evidence": "Observed tool execution session 8181 completed successfully; no raw artifact captured."
+    }
+  },
+  "scoped_requirement_receipts": [
+    {
+      "id": "6adf10eae73e",
+      "command": "node --conditions=react-server --import tsx --test --test-reporter=tap tests/riwi-security.test.ts",
+      "artifact": "docs/RIWI-BATCH-16-EVIDENCE-6adf10eae73e.txt",
+      "artifact_sha256": "2fa90fa037658157b9c7e4aa9fa175485e0edaa4d82e88c569604bf6abcec5ef",
+      "source_state_sha256": "c6faf3529485aefe80b9069102278a29de9a8b56d648cc991c10516c1e15ffd9",
+      "exit_code": 0,
+      "counts": {
+        "tests": 10,
+        "pass": 10,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "verified": true
+    },
+    {
+      "id": "a8336625b65e",
+      "command": "node --conditions=react-server --import tsx --test --test-reporter=tap tests/assessment-owner-policy.test.ts tests/assessment-policy-rollback.test.ts",
+      "artifact": "docs/RIWI-BATCH-16-EVIDENCE-a8336625b65e.txt",
+      "artifact_sha256": "8cc724ed33fbed63b71b548503f8753686c18db406293357c65017fce5cdbab5",
+      "source_state_sha256": "c6faf3529485aefe80b9069102278a29de9a8b56d648cc991c10516c1e15ffd9",
+      "exit_code": 0,
+      "counts": {
+        "tests": 10,
+        "pass": 10,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "verified": true
+    },
+    {
+      "id": "ea4e0a8f5a94",
+      "command": "node --conditions=react-server --import tsx --test --test-reporter=tap tests/speaking-contract-boundaries.test.ts tests/speaking-summary-evidence.test.ts",
+      "artifact": "docs/RIWI-BATCH-16-EVIDENCE-ea4e0a8f5a94.txt",
+      "artifact_sha256": "ff3d65e245b8a4f7ab05108551dd464c275362cdcdf7d4e688b72ef76cb98105",
+      "source_state_sha256": "c6faf3529485aefe80b9069102278a29de9a8b56d648cc991c10516c1e15ffd9",
+      "exit_code": 0,
+      "counts": {
+        "tests": 4,
+        "pass": 4,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "verified": true
+    },
+    {
+      "id": "d270107ac759",
+      "command": "node --conditions=react-server --import tsx --test --test-reporter=tap tests/riwi-portability-v2.test.ts tests/riwi-portable-manifest-scope.test.ts",
+      "artifact": "docs/RIWI-BATCH-16-EVIDENCE-d270107ac759.txt",
+      "artifact_sha256": "96ff300d54b29973000a4e16beb77efecc2d41176042545b9aa29e0a47e89cf6",
+      "source_state_sha256": "c6faf3529485aefe80b9069102278a29de9a8b56d648cc991c10516c1e15ffd9",
+      "exit_code": 0,
+      "counts": {
+        "tests": 12,
+        "pass": 12,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "verified": true
+    }
+  ],
+  "accepted_additional_original_groups": 0,
+  "verified_prompt_percent": 50.0,
+  "riwi_overall_percent": null,
+  "project_overall_percent": null,
+  "minimum_publication_additional_groups": 6,
+  "publication_ready": false,
+  "no_build_rerun": true,
+  "production_GO": false,
+  "native_postgres_browser_live_provider_R2_PITR_acceptance": "UNVERIFIED",
+  "changes": [
+    "Reject blank/non-text/oversized work before any evaluator call and again during output validation.",
+    "Permit zero essay word-count targets for Writing sentence checks; refuse mismatched content/answer and preserve positive essay targets.",
+    "Local Grammar no longer guesses target structure from prompt tokens; accepts a short authored reference without invented punctuation error; unsupported semantics cannot be certified.",
+    "Local Vocabulary does not invent copying, infer active-use mastery or award credit from word presence; phrase checks use word boundaries and original evidence quotes.",
+    "Unsupported local semantic results return capability_missing instead of creating an authoritative result. Internal provider version is 1.1.0; historical rows are not regraded.",
+    "Evidence generator preserves existing ledger/manifest/receipt files and dangling links; new batches get separate names and exclusive writes.",
+    "Receipt parser uses final reporter counts; Batch15 proof remains linked to its published historical snapshot, not newer work."
+  ],
+  "remaining_original_groups": [
+    "R04",
+    "R05",
+    "R06",
+    "R07",
+    "R08",
+    "B01",
+    "B04",
+    "B05",
+    "C05",
+    "C06",
+    "C07",
+    "C08",
+    "C09",
+    "D03",
+    "D04",
+    "D05",
+    "D09"
+  ],
+  "limit": "Two native publication QA rounds and six full-group closures remain necessary. Local suite skips are inherited external fixtures; no group credit from test counts or source lines."
+}

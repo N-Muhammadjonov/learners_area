@@ -22,7 +22,8 @@ test("the original 68 task references each resolve; added coverage does not repl
   assert.equal(LEGACY_ASSESSMENT_CONTRACT_KEYS.length, 68);
   assert.deepEqual(LEGACY_ASSESSMENT_CONTRACT_KEYS.map(getAssessmentContract), baseline,
     "historical v1 definitions, rules, versions and overlay fields must stay byte-equivalent");
-  assert.equal(assessmentContracts.length, 105);
+  assert.equal(assessmentContracts.length, 106);
+  assert.ok(getAssessmentContract("grammar.translate-assessed"), "the assessed translation runtime is added separately from the frozen historical contracts");
 });
 
 test("new task rules retain source focus, teaching method and hard constraint", () => {

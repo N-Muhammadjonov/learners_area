@@ -360,7 +360,7 @@ test("Phase 12 feature integration uses the authenticated route, real broker, sh
     assert.equal(grammarEvaluation.evaluation?.evaluationId, evaluationRecords.grammar.id);
     assert.equal(grammarEvaluation.evaluation?.evaluationType, "grammar");
     assert.equal(observedEvaluations.grammar[0]?.attemptId, grammarAttempt!.id);
-    assert.equal(observedEvaluations.grammar[0]?.sampleAnswer, "has finished", "the canonical key is passed only to the Coach evaluator");
+    assert.equal(observedEvaluations.grammar[0]?.sampleAnswer, null, "a correction key is not an Activate It reference");
     assert.doesNotMatch(JSON.stringify(grammarEvaluation), /has finished|I have learned/);
 
     const vocabularyResponse = await handleRiwiChatPost(request("Evaluate my saved Vocabulary sentence."), routeDependencies);

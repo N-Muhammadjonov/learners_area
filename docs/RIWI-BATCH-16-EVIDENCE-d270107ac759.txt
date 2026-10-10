@@ -1,0 +1,82 @@
+TAP version 13
+# Subtest: RIWI archives bind code-bundled contracts; missing or incompatible metadata fails before import
+ok 1 - RIWI archives bind code-bundled contracts; missing or incompatible metadata fails before import
+  ---
+  duration_ms: 29.543959
+  type: 'test'
+  ...
+# Subtest: schema classification is closed over every Drizzle table and tri-mode has no unsafe default
+ok 2 - schema classification is closed over every Drizzle table and tri-mode has no unsafe default
+  ---
+  duration_ms: 1.404708
+  type: 'test'
+  ...
+# Subtest: MODE A/B/C exports are deterministic and enforce privacy canaries
+ok 3 - MODE A/B/C exports are deterministic and enforce privacy canaries
+  ---
+  duration_ms: 10.380583
+  type: 'test'
+  ...
+# Subtest: manifest and truncated/tampered table archives fail before accepted import
+ok 4 - manifest and truncated/tampered table archives fail before accepted import
+  ---
+  duration_ms: 3.217875
+  type: 'test'
+  ...
+# Subtest: >1,000 rows export/import without cap, dry-run has no apply, and retry rolls back
+ok 5 - >1,000 rows export/import without cap, dry-run has no apply, and retry rolls back
+  ---
+  duration_ms: 28.14125
+  type: 'test'
+  ...
+# Subtest: O1 keeps object references and O2 verifies bytes before copy
+ok 6 - O1 keeps object references and O2 verifies bytes before copy
+  ---
+  duration_ms: 8.842458
+  type: 'test'
+  ...
+# Subtest: private archive encryption streams AES-GCM, uses fresh IVs, removes plaintext, and rejects corruption
+ok 7 - private archive encryption streams AES-GCM, uses fresh IVs, removes plaintext, and rejects corruption
+  ---
+  duration_ms: 81.747583
+  type: 'test'
+  ...
+# Subtest: portable canonical JSON handles timestamps/bytes and remains stable
+ok 8 - portable canonical JSON handles timestamps/bytes and remains stable
+  ---
+  duration_ms: 0.202708
+  type: 'test'
+  ...
+# Subtest: expired conversation messages and orphan messages cannot leave the private archive
+ok 9 - expired conversation messages and orphan messages cannot leave the private archive
+  ---
+  duration_ms: 2.670042
+  type: 'test'
+  ...
+# Subtest: destination insert ordering cannot drop, duplicate, or rewrite signed table metadata
+ok 10 - destination insert ordering cannot drop, duplicate, or rewrite signed table metadata
+  ---
+  duration_ms: 6.194958
+  type: 'test'
+  ...
+# Subtest: invalid export batch sizes are rejected before starting any archive file
+ok 11 - invalid export batch sizes are rejected before starting any archive file
+  ---
+  duration_ms: 0.263834
+  type: 'test'
+  ...
+# Subtest: even rehashed manifests cannot smuggle private objects, unknown modes or invalid row metadata past import preflight
+ok 12 - even rehashed manifests cannot smuggle private objects, unknown modes or invalid row metadata past import preflight
+  ---
+  duration_ms: 33.74275
+  type: 'test'
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 12
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 332.60225

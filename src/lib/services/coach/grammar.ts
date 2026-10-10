@@ -36,6 +36,8 @@ export async function evaluateGrammarProduction(
     sourceType: "grammar_attempt",
     sourceId: input.attemptId,
     language: input.language,
+    // Local phrase/form heuristics cannot certify a translation's meaning.
+    policy: input.activity === "translate_it" ? { fallback: "none" } : undefined,
     request: {
       evaluationType: "grammar",
       assessmentContractKey: grammarContractKey(input.activity ?? "activate_it"),
@@ -43,7 +45,8 @@ export async function evaluateGrammarProduction(
         promptText: input.promptText,
         studentAnswer: input.studentAnswer,
         targetStructure: input.targetStructure,
-        sampleAnswer: input.sampleAnswer,
+        // A correction option is an authored reference only for Correct It.
+        sampleAnswer: input.activity === "correct_it" ? input.sampleAnswer : null,
       },
     },
   });

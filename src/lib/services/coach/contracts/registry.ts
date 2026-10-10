@@ -107,7 +107,7 @@ export function speakingContractKey(part: "part1" | "part2" | "part3" | "general
 }
 
 export function grammarContractKey(activity: "correct_it" | "translate_it" | "activate_it"): AssessmentContractKey {
-  return activity === "translate_it" ? "grammar.translate-it"
+  return activity === "translate_it" ? "grammar.translate-assessed"
     : activity === "correct_it" ? "grammar.correct-it" : "grammar.activate-it";
 }
 
@@ -146,7 +146,7 @@ export function assessmentContractKeyForRequest(request: EvaluationRequest): Ass
     case "grammar": {
       const input = request.input as GrammarEvaluationInput & { activity?: string };
       if (!isGrammarInput(input)) return "grammar.activate-it";
-      if (input.activity === "translate_it") return "grammar.translate-it";
+      if (input.activity === "translate_it") return grammarContractKey("translate_it");
       if (input.activity === "correct_it") return "grammar.correct-it";
       return "grammar.activate-it";
     }

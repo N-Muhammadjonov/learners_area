@@ -1369,7 +1369,7 @@ const en = {
     practiceTitle: "Practise it",
     practiceEmpty: "This topic has no written practice authored yet.",
     translateTitle: "Translate with it",
-    translateHint: "Say it in English so the structure has to appear. You are shown which required structures were found.",
+    translateHint: "Translate the meaning into natural English. RIWI checks meaning, grammar and the target structure. Phrase matches are shown separately.",
     targetStructures: "Required structures",
     structuresUsed: "Found",
     structuresMissing: "Not found",

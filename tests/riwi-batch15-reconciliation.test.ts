@@ -2,8 +2,6 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
-// @ts-expect-error audited ESM helper has no generated declarations
-import { snapshotSource } from "../scripts/lib/riwi-current-evidence.mjs";
 
 const read = (path: string) => JSON.parse(readFileSync(path, "utf8"));
 const sha256 = (data: string | Buffer) => createHash("sha256").update(data).digest("hex");
@@ -21,9 +19,13 @@ test("branch packet covers every collision with immutable SQL identities and can
   assert.match(report.execution, /READ_ONLY_RECONCILIATION/);
 });
 
-test("current requirement receipts bind executed tests to unchanged code and raw transcript artifacts, without accepting unmapped source text", () => {
+test("published Batch 15 receipts bind their historical source snapshot and raw artifacts, without accepting unmapped text or newer code", () => {
   const manifest = read("docs/RIWI-BATCH-15-EVIDENCE-MANIFEST.json");
-  assert.equal(snapshotSource(process.cwd()).sha256, manifest.source_state.sha256);
+  const verification = read("docs/RIWI-BATCH-15-REMOTE-VERIFICATION.json");
+  assert.equal(sha256(JSON.stringify(manifest.source_state.files)), manifest.source_state.sha256);
+  assert.equal(manifest.source_state.sha256, verification.source_snapshot.native_sha256);
+  const raw = readFileSync("docs/RIWI-BATCH-15-EVIDENCE-MANIFEST.json");
+  assert.equal(createHash("sha1").update(`blob ${raw.length}\0`).update(raw).digest("hex"), verification.verified_blobs["docs/RIWI-BATCH-15-EVIDENCE-MANIFEST.json"]);
   assert.equal(manifest.legacy_ledger.usable_as_current_acceptance, false);
   for (const receipt of manifest.receipts) {
     assert.equal(receipt.verified, true);

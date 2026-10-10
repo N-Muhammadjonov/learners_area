@@ -3,7 +3,7 @@ import { guardExternalPayload } from "@/lib/services/riwi/outbound-guard";
 import { RIWI_PROVIDER_ID, readCoachConfig, type CoachConfig } from "./config";
 import { providerRegistry } from "./registry";
 import { assessmentContractForRequest, assessmentContractKeyForRequest, getAssessmentContract } from "./contracts/registry";
-import { applyOwnerOverlayToOutput, validateAssessmentOutput } from "./contracts/compose";
+import { applyOwnerOverlayToOutput, validateAssessmentInput, validateAssessmentOutput } from "./contracts/compose";
 import { getApprovedOwnerPolicyForContract } from "./contracts/owner-policy";
 import type { AssessmentContractKey } from "./contracts/types";
 import {
@@ -354,6 +354,10 @@ export async function resolveEvaluation(
   overrides?: Partial<CoachConfig>,
   policy: ResolvePolicy = { fallback: "riwi" },
 ): Promise<ResolveOutcome> {
+  // Reject invalid work before metadata resolution, policy lookup or any call.
+  if (!validateAssessmentInput(request.evaluationType, request.input)) {
+    return { ok: false, error: "invalid_evaluation", attempts: [] };
+  }
   // Undefined override fields never erase configuration.
   const defined = Object.fromEntries(Object.entries(overrides ?? {}).filter(([, value]) => value !== undefined)) as Partial<CoachConfig>;
   const config: CoachConfig = { ...readCoachConfig(), ...defined };

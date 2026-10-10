@@ -1,9 +1,9 @@
 import "server-only";
 import { providerEvaluationOutputSchema, riwiAnswerSchema, type ProviderCapability } from "../../schema";
-import { composeAssessmentPrompt } from "@/lib/services/coach/contracts/compose";
+import { composeAssessmentPrompt, validateAssessmentInput, validateAssessmentOutput } from "@/lib/services/coach/contracts/compose";
 import { assessmentPolicyScopeMatches, getAssessmentContract } from "@/lib/services/coach/contracts/registry";
 import { assessmentContractContextSchema } from "@/lib/services/coach/contracts/schema";
-import type { AssessmentContractKey } from "@/lib/services/coach/contracts/types";
+import type { AssessmentContractDefinition, AssessmentContractKey } from "@/lib/services/coach/contracts/types";
 import {
   providerFail,
   providerOk,
@@ -93,40 +93,42 @@ function contractKeyForDirectCall(task: string, input: unknown): AssessmentContr
   return null;
 }
 
-function assessmentSystemPrompt(ctx: EvaluationContext, task: string, input: unknown): string | null {
+function directAssessmentContract(ctx: EvaluationContext, task: string, input: unknown): AssessmentContractDefinition | null {
   const supplied = ctx.assessmentContract ? assessmentContractContextSchema.safeParse(ctx.assessmentContract) : null;
   if (supplied && !supplied.success) return null;
   const assessment = supplied?.success ? supplied.data : null;
   const key = assessment?.key ?? contractKeyForDirectCall(task, input);
   if (!key) return null;
   const contract = getAssessmentContract(key);
-  if (!contract || contract.execution !== "coach_evaluation") return null;
+  if (!contract || contract.execution !== "coach_evaluation" || contract.domain !== (task === "writing-check" ? "writing" : task)) return null;
   if (assessment && (
     assessment.version !== contract.version || assessment.rubricVersion !== contract.rubricVersion
     || (assessment.policyScope === null && (assessment.policyVersion !== null || assessment.overlay !== null))
     || (assessment.policyScope !== null && (assessment.policyVersion === null || assessment.overlay === null || !assessmentPolicyScopeMatches(assessment.policyScope, key)))
   )) return null;
-  return composeAssessmentPrompt({
-    contract,
-    overlay: assessment?.overlay ?? null,
-    policyVersion: assessment?.policyVersion ?? null,
-    detailedWritingAnalysis: task === "writing" && Boolean(input && typeof input === "object" && (input as { detailedAnalysis?: unknown }).detailedAnalysis === true),
-  });
+  return contract;
 }
 
 export function createLlmEvaluationProvider(def: LlmProviderDefinition): EvaluationProvider {
   const capabilities = (def.capabilities ?? TEXT_CAPABILITIES).filter((c) => TEXT_CAPABILITIES.includes(c));
 
   async function evaluate(task: string, ctx: EvaluationContext, input: unknown, maxOutputTokens = 2500): Promise<ProviderResult> {
+    const outboundTask = task === "writing-check" ? "writing_check" : task;
+    if (!validateAssessmentInput(outboundTask, input)) return providerFail("invalid_response", "Evaluation work is absent or outside its permitted bounds");
     if (!def.model() || def.requiredSecrets().some((name) => !process.env[name]?.trim())) {
       return providerFail("not_configured", `${def.displayName} key and evaluation model are required`);
     }
-    const system = assessmentSystemPrompt(ctx, task, input);
-    if (!system) return providerFail("invalid_response", "No registered executable task contract is available");
+    const contract = directAssessmentContract(ctx, task, input);
+    if (!contract) return providerFail("invalid_response", "No registered executable task contract is available");
+    const system = composeAssessmentPrompt({
+      contract,
+      overlay: ctx.assessmentContract?.overlay ?? null,
+      policyVersion: ctx.assessmentContract?.policyVersion ?? null,
+      detailedWritingAnalysis: task === "writing" && Boolean(input && typeof input === "object" && (input as { detailedAnalysis?: unknown }).detailedAnalysis === true),
+    });
     // Strict task DTO + central direct-identifier redaction are required for
     // every external evaluation, not only RIWI chat. Never serialize the raw
     // adapter input across the provider boundary.
-    const outboundTask = task === "writing-check" ? "writing_check" : task;
     const guarded = guardExternalPayload(outboundTask, input);
     if (!guarded.ok) return providerFail("invalid_response", "Evaluation input was rejected by the outbound data guard");
     const user = JSON.stringify({ task, language: ctx.language, input: guarded.payload });
@@ -152,21 +154,14 @@ export function createLlmEvaluationProvider(def: LlmProviderDefinition): Evaluat
     // Vendors cannot create clickable destinations. The shared resolver validates
     // pronunciation and all other task-specific output without masking bad claims.
     parsed.data.recommendedExercises = [];
-    // Only Grade My Work asks for the analysis; anything else drops it.
-    if (task !== "writing" || !input || typeof input !== "object" || (input as { detailedAnalysis?: unknown }).detailedAnalysis !== true) delete parsed.data.writingAnalysis;
-    if (task === "speaking") {
-      const pronunciation = parsed.data.criteria.filter((criterion) => /pronunciation/i.test(`${criterion.key} ${criterion.label}`));
-      if (pronunciation.some((criterion) => criterion.band !== null || criterion.limited !== true)) {
-        return providerFail("invalid_response", "Speaking output cannot score pronunciation from transcript text");
-      }
-      const scored = parsed.data.criteria.filter((criterion) => !/pronunciation/i.test(`${criterion.key} ${criterion.label}`));
-      if (scored.length >= 12) return providerFail("invalid_response", "Speaking output exceeds the task criterion limit");
-      parsed.data.criteria = [
-        ...scored,
-        { key: "pronunciation", label: "Pronunciation", band: null, limited: true, note: "Audio pronunciation was not evaluated" },
-      ];
-    }
-    return providerOk(parsed.data);
+    // Direct adapter callers receive the same task validation as resolver callers.
+    // Unsupported criteria or analysis must be refused, never erased into a pass.
+    const validationInput = task === "writing-check"
+      ? { taskType: "task2", content: (guarded.payload as { answer: string }).answer, targetWordCount: 0, check: guarded.payload }
+      : guarded.payload;
+    const validated = validateAssessmentOutput(contract, contract.domain, validationInput, parsed.data, ctx.assessmentContract?.overlay ?? null);
+    if (!validated) return providerFail("invalid_response", "Evaluation does not match its task or source evidence");
+    return providerOk(validated);
   }
 
   async function respondToRiwi(ctx: EvaluationContext, input: RiwiProviderInput): Promise<RiwiProviderResult> {
@@ -229,7 +224,9 @@ export function createLlmEvaluationProvider(def: LlmProviderDefinition): Evaluat
     versionsFor: () => null,
     ...(has("riwi-assistant") ? { respondToRiwi } : {}),
     ...(has("writing-evaluation") ? {
-      evaluateWriting: (ctx: EvaluationContext, input: WritingEvaluationInput) => input.check
+      evaluateWriting: (ctx: EvaluationContext, input: WritingEvaluationInput) => !validateAssessmentInput("writing", input)
+        ? Promise.resolve(providerFail("invalid_response", "Writing work does not match its submitted source"))
+        : input.check
         ? evaluate("writing-check", ctx, input.check, 1500)
         : input.detailedAnalysis
           ? evaluate("writing", ctx, input, 5000)

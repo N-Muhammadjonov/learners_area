@@ -2,7 +2,6 @@ import type { Criterion, ProviderEvaluationOutput } from "../../schema";
 import type { GrammarEvaluationInput } from "../../types";
 import {
   analyseText,
-  containsWordForm,
   looksLikeCompleteSentence,
   verdictFromIssues,
   type DetectedIssue,
@@ -11,27 +10,26 @@ import {
 /**
  * RIWI — Grammar production.
  *
- * A correct answer does not have to be the sample answer, so nothing here
- * compares whole strings. What is checked: whether the target structure is
- * actually present in the student's sentence, whether the sentence is
- * complete (subject, finite verb, capital letter, terminal punctuation), and
- * whether the pattern detectors fire inside the produced sentence.
+ * Inspect sentence form and known error patterns. An exact authored reference
+ * is one accepted answer. Other valid constructions need a semantic check;
+ * topic names and prompt tokens cannot prove the target structure or meaning.
  *
  * There is no band: a grammar item is graded as correct / mostly correct /
  * needs correction, which is what a learner can act on.
  */
 export function evaluateGrammarWithRiwi(input: GrammarEvaluationInput): ProviderEvaluationOutput {
-  const { promptText, studentAnswer, targetStructure, sampleAnswer } = input;
+  const { studentAnswer, targetStructure, sampleAnswer } = input;
   const signals = analyseText(studentAnswer);
   const sentence = studentAnswer.trim();
-
-  const issues: DetectedIssue[] = [...signals.issues, ...signals.punctuationIssues];
+  const referenceMatch = Boolean(sampleAnswer?.trim() && sentence === sampleAnswer.trim());
+  const referencePhrase = referenceMatch && signals.wordCount <= 6;
+  const issues: DetectedIssue[] = [...signals.issues, ...(referencePhrase ? [] : signals.punctuationIssues)];
   const strengths: string[] = [];
   const weaknesses: string[] = [];
   const nextActions: string[] = [];
 
   const isComplete = looksLikeCompleteSentence(sentence);
-  const tooShort = signals.wordCount < 4;
+  const tooShort = signals.wordCount < 4 && !referenceMatch;
   /**
    * Many grammar items are answered with a phrase rather than a sentence
    * ("does not go"). Demanding sentence completeness for a five-word answer
@@ -40,58 +38,27 @@ export function evaluateGrammarWithRiwi(input: GrammarEvaluationInput): Provider
    */
   const expectsSentence = signals.wordCount > 6;
 
-  let critical = false;
-
   if (tooShort) {
-    critical = true;
-    weaknesses.push("The answer is too short to show the structure in use.");
-    nextActions.push("Write one full sentence — a full sentence is what proves the structure is under control.");
+    weaknesses.push("The short answer limits local checks of the target structure.");
+    nextActions.push("Write one full sentence so the structure can be checked in context.");
   } else if (expectsSentence && !isComplete) {
-    critical = true;
-    weaknesses.push("The sentence looks incomplete (missing capital letter, finite verb or terminal punctuation).");
+    weaknesses.push("Sentence completeness could not be verified locally.");
     nextActions.push("Check three things: capital letter, a finite verb, and a full stop at the end.");
   } else if (isComplete) {
     strengths.push("Complete sentence with a subject and a finite verb.");
   } else {
-    strengths.push("Phrase-level answer, which is accepted for this kind of item.");
+    strengths.push("Phrase-level answer; sentence completeness was not confirmed.");
   }
 
-  // Target structure: structural words from the prompt (do/does/wh-words,
-  // auxiliaries, prepositions) plus the explicit target label are looked for in
-  // the produced sentence. Absent that, the answer is only compared loosely.
-  const structuralTokens = promptText
-    .toLowerCase()
-    .replace(/[^a-z\s]/g, " ")
-    .split(/\s+/)
-    .filter((w) => w.length > 2 && ["does", "do", "did", "is", "are", "was", "were", "has", "have", "had", "the", "a", "an", "to", "of", "in", "on", "at", "not", "will", "would"].includes(w));
+  // Prompt keywords and a free-text topic name cannot prove correct structure
+  // or meaning. A reference match is one accepted answer, never the only one.
+  if (!referenceMatch) nextActions.push("The target structure and intended meaning need a semantic check; local checks only inspect sentence form and known error patterns.");
 
-  let structurePresent = true;
-  if (structuralTokens.length > 0) {
-    const missing = structuralTokens.filter((token) => !containsWordForm(signals.lower, token));
-    // At least one key structural token has to appear, otherwise the student
-    // answered something unrelated to the item.
-    structurePresent = missing.length < structuralTokens.length;
-    if (!structurePresent) {
-      critical = true;
-      weaknesses.push("The expected structure does not appear in the answer.");
-      nextActions.push("Rebuild the sentence around the structure shown in the explanation.");
-    }
-  }
-
-  if (sampleAnswer) {
-    const overlap = signals.contentWords.filter((w) => sampleAnswer.toLowerCase().includes(w));
-    if (overlap.length === 0 && structurePresent) {
-      // Not an error — a rewrite can legitimately share no vocabulary. It only
-      // lowers RIWI's confidence, and the note says exactly that.
-      weaknesses.push("Your wording shares almost no vocabulary with the sample answer — that is allowed, but it makes the structure harder to verify automatically.");
-    }
-  }
-
-  const meaningful = issues.filter((i) => !(tooShort || (expectsSentence && !isComplete)));
-  const verdict = verdictFromIssues(meaningful, critical);
+  const detectedVerdict = verdictFromIssues(issues, false);
+  const verdict = detectedVerdict === "correct" && !referenceMatch ? "mostly_correct" : detectedVerdict;
 
   const limitingSignals: string[] = [
-    "Target structure present in the produced sentence.",
+    referenceMatch ? "Matches the authored reference answer." : "Target structure and meaning not verified by local checks.",
     `${signals.wordCount} words, ${signals.sentenceCount} sentence(s).`,
   ];
   if (expectsSentence && !isComplete && !tooShort) limitingSignals.push("Completeness check failed.");
@@ -112,19 +79,21 @@ export function evaluateGrammarWithRiwi(input: GrammarEvaluationInput): Provider
       key: "sentence_completeness",
       label: "Sentence completeness",
       band: null,
+      limited: !isComplete && !referenceMatch,
       note: isComplete
         ? "Subject and finite verb present."
         : expectsSentence
-          ? "Could not confirm a subject + finite verb."
-          : "Short answer: judged on the target structure only.",
+          ? "Could not confirm a subject + finite verb; this is not proof of an error."
+          : "Short answer: sentence completeness was not assessed.",
     },
     {
       key: "target_structure",
       label: targetStructure ? `Target: ${targetStructure}` : "Target structure",
       band: null,
-      note: structurePresent
-        ? "The expected structure appears in your sentence."
-        : "The expected structure was not found.",
+      limited: !referenceMatch,
+      note: referenceMatch
+        ? "Matches the authored reference answer; other valid answers are also possible."
+        : "The target structure and intended meaning were not assessed locally.",
     },
   ];
 

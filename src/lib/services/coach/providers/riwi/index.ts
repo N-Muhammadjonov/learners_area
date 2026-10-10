@@ -46,7 +46,7 @@ export class RiwiProvider implements EvaluationProvider {
   readonly id = "riwi";
   readonly displayName = RIWI_DISPLAY_NAME;
   readonly type = "internal" as const;
-  readonly version = "1.0.0";
+  readonly version = "1.1.0";
   readonly model = null;
   readonly capabilities: readonly ProviderCapability[] = [
     "text-evaluation",
@@ -83,7 +83,11 @@ export class RiwiProvider implements EvaluationProvider {
 
   async evaluateGrammar(_ctx: EvaluationContext, input: GrammarEvaluationInput) {
     try {
-      return providerOk(evaluateGrammarWithRiwi(input));
+      const output = evaluateGrammarWithRiwi(input);
+      if (!output.issues.length && output.criteria.some(c => c.key === "target_structure" && c.limited)) {
+        return providerFail("capability_missing", "riwi_grammar_semantics_unassessed");
+      }
+      return providerOk(output);
     } catch {
       return providerFail("provider_error", "riwi_grammar_failed");
     }
@@ -91,7 +95,9 @@ export class RiwiProvider implements EvaluationProvider {
 
   async evaluateVocabulary(_ctx: EvaluationContext, input: VocabularyEvaluationInput) {
     try {
-      return providerOk(evaluateVocabularyWithRiwi(input));
+      const output = evaluateVocabularyWithRiwi(input);
+      if (!output.issues.length) return providerFail("capability_missing", "riwi_vocabulary_semantics_unassessed");
+      return providerOk(output);
     } catch {
       return providerFail("provider_error", "riwi_vocabulary_failed");
     }

@@ -6,10 +6,10 @@ import { analyseText, containsWordForm, looksLikeCompleteSentence } from "./text
  * RIWI — Vocabulary in active use.
  *
  * The rule this service is built around: a sentence is NOT credited because the
- * target string appears in it. The target has to be used as a word in a
- * complete sentence, in a plausible form, and without a known-wrong pattern
- * attached to it. Recognition (the review queue) and active use (this) stay
- * separate signals and are stored separately.
+ * target string appears in it. Local checks detect word form, completeness and
+ * known-wrong patterns. Meaning and natural use remain unassessed, so these
+ * checks cannot return the "correct" verdict that awards active-use credit.
+ * Recognition and productive use remain separate deterministic signals.
  */
 
 /** Wrong patterns attached to particular words, checked as strings. */
@@ -36,7 +36,6 @@ export function evaluateVocabularyWithRiwi(input: VocabularyEvaluationInput): Pr
   const issues: ProviderEvaluationOutput["issues"] = [];
 
   const used = containsWordForm(sentence, targetWord);
-  const exact = sentence.toLowerCase().includes(targetWord.toLowerCase().trim());
   const complete = looksLikeCompleteSentence(sentence);
   const tooShort = signals.wordCount < 4;
 
@@ -53,35 +52,21 @@ export function evaluateVocabularyWithRiwi(input: VocabularyEvaluationInput): Pr
     });
     nextActions.push(`Re-read the definition (${definition}) and produce one sentence of your own.`);
   } else if (tooShort) {
-    critical = true;
-    weaknesses.push("The sentence is too short to show the word in use.");
+    weaknesses.push("The short sentence limits local context checks.");
     nextActions.push("One full sentence with a subject, a verb and a reason is enough for the word to count as used.");
   } else if (!complete) {
-    critical = true;
-    weaknesses.push("The word appears, but not inside a complete sentence.");
-    issues.push({
-      category: "VOCAB_WRONG_FORM",
-      message: "Incomplete sentence around the target word.",
-      severity: "medium",
-      suggestion: "Add a finite verb and finish the sentence with a full stop.",
-    });
+    weaknesses.push("Sentence completeness could not be verified locally; this is not proof of a form error.");
   } else {
-    strengths.push(`"${targetWord}" is used inside a complete sentence.`);
-  }
-
-  if (used && !exact) {
-    strengths.push("Used in an inflected form rather than copied verbatim — that is real active use.");
-  }
-  if (used && exact && signals.wordCount <= 6) {
-    // Copying the example sentence is not active use.
-    weaknesses.push("The sentence is very close to a copied phrase — try to express something of your own.");
+    strengths.push(`"${targetWord}" appears inside a complete sentence.`);
   }
 
   for (const [wrong, right, explanation] of WRONG_USAGE) {
-    if (!signals.lower.includes(wrong)) continue;
+    const match = sentence.match(new RegExp(`\\b${wrong.replaceAll(" ", "\\s+")}\\b`, "i"));
+    if (!match) continue;
     issues.push({
       category: "VOCAB_COLLOCATION",
       message: `Collocation pattern: "${wrong}"`,
+      excerpt: match[0],
       severity: "medium",
       suggestion: `${explanation} — try "${right}".`,
     });
@@ -105,23 +90,17 @@ export function evaluateVocabularyWithRiwi(input: VocabularyEvaluationInput): Pr
       ? "needs_correction"
       : issues.length > 0
         ? "mostly_correct"
-        : "correct";
+        : "mostly_correct";
 
-  if (verdict === "correct") {
-    nextActions.push("Use the same word in tomorrow's writing task to push it from recognition into active use.");
-  } else {
+  if (critical || issues.length > 0) {
     nextActions.push("Rewrite the sentence once, fixing the point above, then submit again.");
   }
+  nextActions.push("Meaning and natural use need a semantic check against the canonical definition; local word and sentence checks do not establish active-use mastery.");
 
   const criteria: Criterion[] = [
     {
       key: "verdict",
-      label:
-        verdict === "correct"
-          ? "Correct"
-          : verdict === "mostly_correct"
-            ? "Mostly correct"
-            : "Needs correction",
+      label: verdict === "mostly_correct" ? "Mostly correct" : "Needs correction",
       band: null,
       note: used ? `Target word found (${signals.wordCount} words).` : "Target word not found.",
     },
@@ -129,19 +108,21 @@ export function evaluateVocabularyWithRiwi(input: VocabularyEvaluationInput): Pr
       key: "active_use",
       label: "Active use",
       band: null,
-      note: used ? "The word appears in the student's own sentence." : "Recognition only — not yet used.",
+      limited: true,
+      note: used ? "Word form found; intended meaning, natural use and authorship were not verified locally." : "Target word not found; active use not established.",
     },
     {
       key: "sentence_completeness",
       label: "Sentence completeness",
       band: null,
+      limited: !complete,
       note: complete ? "Complete sentence." : "Sentence completeness could not be confirmed.",
     },
   ];
 
   return {
     overallEstimate: null,
-    confidence: verdict === "correct" ? 0.65 : 0.6,
+    confidence: 0.6,
     criteria,
     strengths: strengths.slice(0, 4),
     weaknesses: weaknesses.slice(0, 4),

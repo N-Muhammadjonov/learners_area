@@ -1372,7 +1372,7 @@ const uz: Dictionary = {
     practiceTitle: "Mashq qilish",
     practiceEmpty: "Bu mavzu uchun hali yozma mashqlar kiritilmagan.",
     translateTitle: "Shu tuzilma bilan tarjima qiling",
-    translateHint: "Ingliz tilida shunday aytingki, tuzilma albatta ishlatilsin. Qaysi tuzilmalar topilgani ko'rsatiladi.",
+    translateHint: "Ma'noni tabiiy ingliz tiliga tarjima qiling. RIWI ma'no, grammatika va kerakli tuzilmani tekshiradi. Iboralar mosligi alohida ko'rsatiladi.",
     targetStructures: "Kerakli tuzilmalar",
     structuresUsed: "Topildi",
     structuresMissing: "Topilmadi",

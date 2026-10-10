@@ -17,6 +17,7 @@ import {
   writingSubmissions,
 } from "@/db/schema";
 import { grammarVisibleTo } from "@/lib/data/grammar";
+import { grammarPracticeEvidence } from "@/lib/services/grammar/production";
 import { PUBLIC_CHECKED_BY } from "@/lib/services/coach/attribution";
 import type { ServiceOutcome } from "@/lib/services/coach/service";
 import type { EvaluationRecord } from "@/lib/data/evaluations";
@@ -216,14 +217,13 @@ export function registerRiwiEvaluationTools(
         ))
         .orderBy(desc(grammarAttempts.attemptedAt)).limit(1);
       if (!attempt?.attempt.responseText?.trim()) return notEvaluated("no_saved_work");
-      const promptText = attempt.exercise.activationPrompt?.trim() || attempt.exercise.promptText;
+      const evidence = grammarPracticeEvidence(attempt.exercise, "activate_it", attempt.topic.title);
+      if (!evidence) return notEvaluated("source_unavailable");
       const outcome = await services.evaluateGrammarProduction({
         userId: actor.id,
         attemptId: attempt.attempt.id,
-        promptText,
+        ...evidence,
         studentAnswer: attempt.attempt.responseText,
-        targetStructure: attempt.topic.title,
-        sampleAnswer: attempt.exercise.correctOption,
         activity: "activate_it",
         language,
       });

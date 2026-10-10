@@ -12,7 +12,8 @@ import { decryptPortableFile, encryptPortableFile } from "../src/lib/portability
 
 test("RIWI archives bind code-bundled contracts; missing or incompatible metadata fails before import", async () => {
   const { manifest } = await build("riwi");
-  assert.equal(manifest.assessmentContracts?.length, 105);
+  assert.equal(manifest.assessmentContracts?.length, 106);
+  assert.ok(manifest.assessmentContracts?.some(contract => contract.key === "grammar.translate-assessed"));
   assert.ok(manifest.assessmentContracts?.every((contract) => /^[a-f0-9]{64}$/.test(contract.sha256)));
   assert.equal(verifyManifest(manifest), undefined);
   const resign = (value: Omit<PortableManifest, "manifestSha256">): PortableManifest => ({ ...value, manifestSha256: sha256(stableJson(value)) });
@@ -22,6 +23,8 @@ test("RIWI archives bind code-bundled contracts; missing or incompatible metadat
   assert.throws(() => verifyManifest(resign(incompatible)), /assessment_contract_incompatible/);
   const incomplete = { ...withoutProof, assessmentContracts: assessmentContracts!.slice(1) };
   assert.throws(() => verifyManifest(resign(incomplete)), /assessment_contract_manifest_incomplete/);
+  const missingTranslation = { ...withoutProof, assessmentContracts: assessmentContracts!.filter(contract => contract.key !== "grammar.translate-assessed") };
+  assert.throws(() => verifyManifest(resign(missingTranslation)), /assessment_contract_manifest_incomplete/);
   const duplicate = { ...withoutProof, assessmentContracts: [...assessmentContracts!, assessmentContracts![0]!] };
   assert.throws(() => verifyManifest(resign(duplicate)), /assessment_contract_incompatible/);
   const { manifest: site } = await build("learners-area");

@@ -29,10 +29,14 @@ export function ownerOverlayBehaviorFixtures(contracts: AssessmentContractDefini
       keys = ["fluency", "lexical", "grammar"]; scored = true;
     } else if (["grammar", "vocabulary", "assignment"].includes(contract.domain)) {
       input = { studentAnswer: text, studentSentence: text, studentResponse: text }; keys = [];
+      if (contract.key === "grammar.translate-assessed") {
+        input = { promptText: "Men kitob o'qishni yoqtiraman.", studentAnswer: text, targetStructure: "Present Simple", sampleAnswer: null };
+        keys = ["meaning", "grammar", "target_structure"];
+      }
     } else return { key: contract.key, passed: false };
     const evidence = { excerpt: "I enjoy reading", point: "Fixture quote", correction: null };
     const value = providerEvaluationOutputSchema.parse({ overallEstimate: scored ? 9 : null, confidence: 0.8, verdict: scored ? null : "correct",
-      criteria: keys.map(key => ({ key, label: key, band: 6, limited: false, note: null })),
+      criteria: keys.map(key => ({ key, label: key, band: contract.key === "grammar.translate-assessed" ? null : 6, limited: false, note: null })),
       strengths: ["A", "B"], weaknesses: ["A", "B"], issues: [], nextActions: ["A", "B"], recommendedExercises: [],
       teachingFeedback: { simpleExplanation: "Fixture", evidence: [evidence], steps: [], examples: [], illustration: null },
       ...(input.detailedAnalysis ? { writingAnalysis: { examinerComment: { en: "Fixture", uz: "Sinov" }, criterionNarratives: [keys[0], "coherence_cohesion", "lexical_resource", "grammatical_range_accuracy"].map(key => ({ key, narrative: { en: "Fixture", uz: "Sinov" }, evidence: [text] })), sentenceFeedback: [], topFixes: [] } } : {}),
@@ -46,6 +50,8 @@ export function ownerOverlayBehaviorFixtures(contracts: AssessmentContractDefini
     const passed = scoreIdentity(normalized) === scoreIdentity(displayed)
       && validateAssessmentOutput(contract, contract.domain, input, fabricated, overlay) === null
       && validateAssessmentOutput(contract, contract.domain, input, invalidScore, overlay) === null
+      && (contract.key !== "grammar.translate-assessed" || (validateAssessmentOutput(contract, contract.domain, input, { ...value, criteria: value.criteria.filter(criterion => criterion.key !== "meaning") }, overlay) === null
+        && validateAssessmentOutput(contract, contract.domain, input, { ...value, criteria: value.criteria.map(criterion => ({ ...criterion, limited: true })) }, overlay) === null))
       && (contract.domain !== "speaking" || displayed.criteria.some(c => c.key === "pronunciation" && c.band === null && c.limited === true));
     return { key: contract.key, passed, inputHash: createHash("sha256").update(JSON.stringify(input)).digest("hex"), outputHash: createHash("sha256").update(JSON.stringify(displayed)).digest("hex") };
   });

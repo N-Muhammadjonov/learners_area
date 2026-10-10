@@ -426,7 +426,11 @@ export function runAssessmentPolicyRegression(
 
 function policyRegression(scopeValue: unknown, overlayValue: unknown, historical: boolean): AssessmentPolicyRegression {
   const candidate = validateCandidateInput(scopeValue, overlayValue);
-  const affected = ownerPolicyContractsForScope(candidate.scope);
+  const current = ownerPolicyContractsForScope(candidate.scope);
+  // Verify published v2 approvals against their immutable contract text. Their
+  // presentation fields still pass the current runtime fixtures and validator;
+  // rollback requires a fresh preview against the current contracts.
+  const affected = historical ? current.filter(contract => contract.key !== "grammar.translate-assessed") : current;
   const outputKeys = Object.keys(providerEvaluationOutputSchema.shape).sort();
   const filteredOverlays = affected.map((contract) => filterOwnerOverlay(contract, candidate.overlay));
   const snapshots = affected.map((contract) => promptInvariantSnapshot(contract.key, candidate.overlay));
@@ -434,7 +438,7 @@ function policyRegression(scopeValue: unknown, overlayValue: unknown, historical
     contract, overlay: candidate.overlay,
     detailedWritingAnalysis: contract.key.startsWith("writing.grade."),
   }));
-  const behavior = ownerOverlayBehaviorFixtures(affected, candidate.overlay);
+  const behavior = ownerOverlayBehaviorFixtures(current, candidate.overlay);
   if (!behavior.passed) throw new AssessmentPolicyError("regression_failed");
   const fixtureId = historical ? HISTORICAL_REGRESSION_FIXTURE : ASSESSMENT_POLICY_REGRESSION_FIXTURE;
   const checks = {
