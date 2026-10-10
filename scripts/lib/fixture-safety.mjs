@@ -391,21 +391,66 @@ export function createRowBorrower({ client, table, probe = "probe" }) {
       return rows.length;
     },
 
-    /** Put them back. Idempotent, and safe to call when nothing was borrowed. */
+    /**
+     * Put them back, and PROVE they came back.
+     *
+     * A4. This used to be `on conflict (id) do nothing` followed by a count of the rows it had
+     * tried to write. Both halves were wrong in the same direction: if a row with that id already
+     * existed carrying DIFFERENT values — a partial delete, a trigger that re-inserted a default,
+     * another probe recreating the id — the insert was skipped and restore() still announced
+     * "restored N borrowed rows". A zero row-count delta then hid a row whose content had been
+     * quietly changed, which is a destructive change to pre-existing data reported as a clean run.
+     *
+     * So: upsert every column back to the borrowed value, then re-read the rows and compare them
+     * column by column. The count returned is the number VERIFIED, and a mismatch throws rather
+     * than being logged, because a borrower that cannot put data back exactly as it found it has
+     * damaged something that was not its to change.
+     */
     async restore() {
       if (held.length === 0) return 0;
       for (const row of held) {
         const columns = Object.keys(row);
         const placeholders = columns.map((_, index) => `$${index + 1}`);
+        const others = columns.filter((column) => column !== "id");
+        // A table whose only column is its key has nothing to update, and `do update set` with an
+        // empty list is a syntax error rather than a no-op.
+        const conflict = others.length
+          ? `do update set ${others.map((column) => `"${column}" = excluded."${column}"`).join(", ")}`
+          : "do nothing";
         await client.query(
           `insert into ${table} (${columns.map((c) => `"${c}"`).join(", ")})
-           values (${placeholders.join(", ")}) on conflict (id) do nothing`,
+           values (${placeholders.join(", ")}) on conflict (id) ${conflict}`,
           columns.map((c) => row[c]),
+        );
+      }
+
+      const ids = held.map((row) => row.id);
+      const { rows } = await client.query(`select * from ${table} where id = any($1)`, [ids]);
+      const found = new Map(rows.map((row) => [row.id, row]));
+      const format = (value) =>
+        value === null || value === undefined ? String(value)
+        : value instanceof Date ? value.toISOString()
+        : typeof value === "object" ? JSON.stringify(value)
+        : String(value);
+      const mismatched = [];
+      for (const row of held) {
+        const back = found.get(row.id);
+        if (!back) { mismatched.push(`${row.id}: row is missing after restore`); continue; }
+        for (const column of Object.keys(row)) {
+          if (format(back[column]) !== format(row[column])) {
+            mismatched.push(`${row.id}.${column}: borrowed ${format(row[column])}, found ${format(back[column])}`);
+          }
+        }
+      }
+      if (mismatched.length) {
+        // held is deliberately NOT cleared: the caller may retry, and the evidence must survive.
+        throw new Error(
+          `${probe}: restore did not put ${table} back exactly as borrowed — ${mismatched.join("; ")}`,
         );
       }
       const count = held.length;
       held.length = 0;
-      console.log(`  ${probe}: restored ${count} borrowed ${table} row(s)`);
+      console.log(`  ${probe}: restored and verified ${count} borrowed ${table} row(s)`);
       return count;
     },
   };

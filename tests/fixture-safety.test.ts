@@ -365,3 +365,91 @@ test("the sweeper refuses to sweep once it no longer holds the isolation lock", 
   // ownership check exists to prevent.
   await assert.rejects(() => sweeper.sweep(), /no longer holds the fixture-isolation lock/);
 });
+
+/*
+ * A4 — RESTORING PRE-EXISTING DATA.
+ *
+ * A zero row-count delta does not prove the rows that were there came back unchanged. These tests
+ * use a client that emulates the two conflict behaviours faithfully, because the difference between
+ * `do nothing` and `do update set` is invisible to a stub that answers every insert with "fine".
+ */
+function upsertClient(initial: Record<string, unknown>[], { writesBlocked = false } = {}) {
+  const store = new Map<string, Record<string, unknown>>(initial.map((r) => [String(r.id), { ...r }]));
+  const queries: string[] = [];
+  return {
+    store,
+    queries,
+    async query(sql: string, params?: unknown[]) {
+      const flat = sql.replace(/\s+/g, " ").trim();
+      queries.push(flat);
+      if (/^select \* from \w+ where id = any\(/i.test(flat)) {
+        const ids = (params?.[0] as string[]) ?? [];
+        return { rows: ids.map((id) => store.get(id)).filter(Boolean).map((r) => ({ ...r })) };
+      }
+      if (/^select \* from/i.test(flat)) return { rows: [...store.values()].map((r) => ({ ...r })) };
+      if (/^insert into/i.test(flat)) {
+        if (writesBlocked) return { rows: [] }; // a trigger, a permission, a locked table
+        const values = (params ?? []) as unknown[];
+        const incoming: Record<string, unknown> = {};
+        // The column list appears first; `do update set` repeats names as "col" = excluded."col".
+        const listPart = flat.slice(0, flat.indexOf(" values ("));
+        const listCols = [...listPart.matchAll(/"([a-z_]+)"/g)].map((m) => m[1]).filter((c): c is string => Boolean(c));
+        listCols.forEach((c, i) => { incoming[c] = values[i]; });
+        const id = String(incoming.id);
+        const existing = store.get(id);
+        if (!existing) store.set(id, incoming);
+        else if (/do update set/i.test(flat)) store.set(id, { ...existing, ...incoming });
+        // ...and `do nothing` leaves the WRONG row in place, which is exactly the defect.
+        return { rows: [] };
+      }
+      return { rows: [] };
+    },
+  };
+}
+
+test("restore corrects a row that reappeared with the wrong values instead of skipping it", async () => {
+  const { createRowBorrower } = await mod();
+  const client = upsertClient([{ id: "r1", state: "completed", notes: "the original note" }]);
+  const borrower = createRowBorrower({ client: client as never, table: "lesson_progress", probe: "a4" });
+
+  assert.equal(await borrower.borrow("id = $1", ["r1"]), 1);
+  client.store.delete("r1"); // the probe clears it
+  // Something puts the id back carrying different values — a trigger, a default, another probe.
+  client.store.set("r1", { id: "r1", state: "in_progress", notes: null });
+
+  assert.equal(await borrower.restore(), 1);
+  assert.deepEqual(client.store.get("r1"), { id: "r1", state: "completed", notes: "the original note" },
+    "the borrowed values must win; ON CONFLICT DO NOTHING would have left state=in_progress");
+  assert.ok(client.queries.some((q) => /do update set/i.test(q)),
+    "restore must upsert, not skip: a skipped conflict is a silent change to pre-existing data");
+});
+
+test("restore fails loudly when a borrowed row cannot be put back at all", async () => {
+  const { createRowBorrower } = await mod();
+  const client = upsertClient([{ id: "r1", state: "completed", notes: "n" }], { writesBlocked: true });
+  const borrower = createRowBorrower({ client: client as never, table: "lesson_progress", probe: "blocked" });
+
+  await borrower.borrow("id = $1", ["r1"]);
+  client.store.delete("r1"); // the probe cleared it, and now writes are blocked
+  await assert.rejects(() => borrower.restore(), /did not put lesson_progress back exactly as borrowed/);
+  // The evidence survives a failure: held rows are not cleared, so a retry is possible and a
+  // second call reports the same problem instead of a comfortable zero.
+  await assert.rejects(() => borrower.restore(), /missing after restore/);
+});
+
+test("restore compares every column, so an unchanged row COUNT cannot hide a changed value", async () => {
+  const { createRowBorrower } = await mod();
+  const client = upsertClient([{ id: "r1", state: "completed", notes: "original" }]);
+  const borrower = createRowBorrower({ client: client as never, table: "lesson_progress", probe: "columns" });
+
+  await borrower.borrow("id = $1", ["r1"]);
+  // Same id, same number of rows — one column silently different. A count-based check passes this.
+  const originalInsert = client.query;
+  client.query = (async (sql: string, params?: unknown[]) => {
+    const out = await originalInsert.call(client, sql, params);
+    if (/^insert into/i.test(sql.replace(/\s+/g, " ").trim())) client.store.set("r1", { id: "r1", state: "completed", notes: "tampered" });
+    return out;
+  }) as never;
+
+  await assert.rejects(() => borrower.restore(), /notes: borrowed original, found tampered/);
+});
