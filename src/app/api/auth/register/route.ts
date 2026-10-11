@@ -1,3 +1,4 @@
+import { telegramOnlyAuthEnabled } from "@/lib/auth/telegram-only";
 import { NextRequest, NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
@@ -11,6 +12,9 @@ import { classifyDatabaseError, databaseUnavailableResponse } from "@/lib/http/d
 import { createAccessRequest } from "@/lib/data/admission";
 
 export async function POST(req: NextRequest) {
+  if (telegramOnlyAuthEnabled()) {
+    return NextResponse.json({ error: "telegram_only_auth" }, { status: 403 });
+  }
   // Mass registration is the cheapest abuse there is; a private centre admits a
   // handful of people a month, never a burst from one address.
   const limited = enforce(RULES.register, clientKey(req));
