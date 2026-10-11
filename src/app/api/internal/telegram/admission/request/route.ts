@@ -23,8 +23,15 @@ export async function POST(req: NextRequest) {
   });
 
   if (!result.ok) {
-    const status = result.error === "invalid_actor" || result.error === "invalid_input" ? 400 : result.error === "not_requestable" ? 409 : 500;
-    return NextResponse.json({ error: result.error }, { status });
+    const status =
+      result.error === "invalid_actor" || result.error === "invalid_input" ? 400 :
+      result.error === "phone_required" || result.error === "not_subscribed" ? 403 :
+      result.error === "membership_unavailable" ? 503 :
+      result.error === "not_requestable" ? 409 : 500;
+    return NextResponse.json({
+      error: result.error,
+      ...("requiredChannels" in result ? { requiredChannels: result.requiredChannels } : {}),
+    }, { status });
   }
   return NextResponse.json({
     success: true,
