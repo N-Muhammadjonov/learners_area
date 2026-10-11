@@ -39,3 +39,5 @@ jobs:
         run: npm ci
       - name: Typecheck Next.js and Telegram API
         run: npx tsc --noEmit
+      - name: Verify staged admission flag semantics
+        run: node --conditions=react-server --import tsx --test tests/telegram-access-gates.test.ts
