@@ -2,6 +2,8 @@ import { and, asc, desc, eq, inArray, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { speakingAttempts, speakingPrompts } from "@/db/schema";
 import { isLive, liveWhere } from "@/lib/services/cms/publication";
+import { topicKey } from "@/lib/speaking/practice-browse";
+import { PART1_QUESTIONS, PART3_QUESTIONS, type AiMode } from "@/lib/speaking/ai-session";
 
 /** Prompts a student may practise against, in a stable order. */
 export async function listActivePrompts(channel: "practice_alone" | "ai" = "practice_alone") {
@@ -296,14 +298,30 @@ function channelScope(channel: SpeakingChannel) {
  */
 const TOPIC_KEY = sql`case when ${speakingPrompts.topic} is null or btrim(${speakingPrompts.topic}) = '' then '__untitled__' else lower(btrim(${speakingPrompts.topic})) end`;
 
+/**
+ * The fields a learner-facing speaking screen actually renders.
+ *
+ * §5.1: `QuestionRecorder` depends on `prepSeconds` and `answerSeconds` to run its preparation and
+ * answer timers, and the first version of the paged response omitted both — which would have made the
+ * bounded page unusable by the very component it was meant to feed, or silently reset a recorder's
+ * timers to defaults. The contract is reconciled here rather than in the component: a paged prompt
+ * carries everything the recorder needs, so a page response and a full row are interchangeable for it.
+ *
+ * `studySupport` is deliberately NOT here. It is the heaviest field on the row and is fetched on demand
+ * for the one question a learner selects.
+ */
+export type PagedSpeakingPrompt = {
+  id: string;
+  part: typeof speakingPrompts.$inferSelect["part"];
+  topic: string | null;
+  promptText: string;
+  cueCard: string | null;
+  prepSeconds: number;
+  answerSeconds: number;
+};
+
 export type SpeakingPromptPage = {
-  prompts: {
-    id: string;
-    part: typeof speakingPrompts.$inferSelect["part"];
-    topic: string | null;
-    promptText: string;
-    cueCard: string | null;
-  }[];
+  prompts: PagedSpeakingPrompt[];
   /** True when more published prompts match than were returned. */
   hasMore: boolean;
   /** Opaque keyset cursor for the next page, or null at the end. */
@@ -358,6 +376,8 @@ export async function listSpeakingPromptPage(
       topic: speakingPrompts.topic,
       promptText: speakingPrompts.promptText,
       cueCard: speakingPrompts.cueCard,
+      prepSeconds: speakingPrompts.prepSeconds,
+      answerSeconds: speakingPrompts.answerSeconds,
       externalId: speakingPrompts.externalId,
       createdAtText: sql<string>`to_char(${speakingPrompts.createdAt} at time zone 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS.US"Z"')`,
     })
@@ -542,4 +562,140 @@ export async function findPublishedPromptSupport(
     .where(and(eq(speakingPrompts.id, promptId), channelScope(channel)))
     .limit(1);
   return rows[0] ?? null;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════════════════════
+ * §05 — BOUNDED, SERVER-AUTHORITATIVE EXAM QUESTION SELECTION for Speaking Practice with AI.
+ *
+ * `AiExaminerSession` used to build its script with `buildExaminerScript(prompts, mode)` over the
+ * complete published bank held in the browser. The obvious "fix" — selecting from the first bounded
+ * page instead — is explicitly forbidden, and rightly so: it would bias every exam toward whichever
+ * prompts happen to sort first and make later ones unreachable, turning a performance defect into a
+ * fairness defect. A learner's Part 2 cue card must be drawn from the whole corpus.
+ *
+ * So selection moved here, and stays UNBIASED while every response stays BOUNDED. Each step asks the
+ * database for one aggregate or at most `PART1_QUESTIONS` rows, never for the corpus:
+ *
+ *   - a topic is chosen uniformly among the part's topic GROUPS (`GROUP BY key ORDER BY random()
+ *     LIMIT 1`), which is exactly what `pick(groups)` did in memory;
+ *   - Part 1 and Part 3 then take the first N prompts of that topic in listing order, matching
+ *     `.prompts.slice(0, N)`;
+ *   - Part 2 draws one prompt uniformly WITHIN the chosen topic, matching `pick(group.prompts)`.
+ *
+ * The two-stage shape is preserved on purpose. Picking uniformly over prompts instead of uniformly
+ * over topics and then within a topic would silently re-weight the exam toward topics that happen to
+ * hold more questions — a behaviour change nobody asked for.
+ *
+ * Part 3 still prefers the Part 2 cue card's own topic, falling back to a random Part 3 topic only when
+ * the corpus has no Part 3 questions on it. Nothing is invented, no draft can appear (publication and
+ * channel eligibility are in every predicate), and a part with no published prompts is simply absent
+ * from the script — the same contract as before.
+ *
+ * `ORDER BY random()` scans the part's rows to draw one key. That is a deliberate trade and it is
+ * honest to name it: the alternative is biasing selection to the first page, which is the thing this
+ * must not do. It runs once per exam start and returns one row.
+ * ══════════════════════════════════════════════════════════════════════════════════════════════ */
+
+const EXAM_COLUMNS = {
+  id: speakingPrompts.id,
+  part: speakingPrompts.part,
+  topic: speakingPrompts.topic,
+  promptText: speakingPrompts.promptText,
+  cueCard: speakingPrompts.cueCard,
+  prepSeconds: speakingPrompts.prepSeconds,
+  answerSeconds: speakingPrompts.answerSeconds,
+};
+
+type ExamPart = "part1" | "part2" | "part3";
+
+/**
+ * Draw the examiner's script for one mode, from the whole published corpus, without ever loading it.
+ * Returns the same shape `buildExaminerScript` produced, so the session component and `QuestionRecorder`
+ * are unaffected apart from where the questions come from.
+ */
+export async function selectExaminerScript(
+  opts: { mode: AiMode; channel?: SpeakingChannel },
+  database: typeof db = db,
+): Promise<PagedSpeakingPrompt[]> {
+  const base = channelScope(opts.channel ?? "ai");
+  const inPart = (part: ExamPart) => and(base, eq(speakingPrompts.part, part));
+
+  const partHasQuestions = async (part: ExamPart) => {
+    const rows = await database
+      .select({ n: sql<number>`count(*)::int` })
+      .from(speakingPrompts)
+      .where(inPart(part));
+    return (rows[0]?.n ?? 0) > 0;
+  };
+
+  /** One topic key drawn uniformly among the part's topic groups. */
+  const randomTopicKey = async (part: ExamPart) => {
+    const rows = await database
+      .select({ key: sql<string>`${TOPIC_KEY}` })
+      .from(speakingPrompts)
+      .where(inPart(part))
+      .groupBy(sql`${TOPIC_KEY}`)
+      .orderBy(sql`random()`)
+      .limit(1);
+    return rows[0]?.key ?? null;
+  };
+
+  const topicExists = async (part: ExamPart, key: string) => {
+    const rows = await database
+      .select({ id: speakingPrompts.id })
+      .from(speakingPrompts)
+      .where(and(inPart(part), sql`${TOPIC_KEY} = ${key}`))
+      .limit(1);
+    return rows.length > 0;
+  };
+
+  /** The first `limit` prompts of one topic, in the same listing order the in-memory version used. */
+  const firstInTopic = async (part: ExamPart, key: string, limit: number) =>
+    database
+      .select(EXAM_COLUMNS)
+      .from(speakingPrompts)
+      .where(and(inPart(part), sql`${TOPIC_KEY} = ${key}`))
+      .orderBy(asc(speakingPrompts.createdAt), asc(speakingPrompts.id))
+      .limit(limit);
+
+  /** One prompt drawn uniformly within a topic — Part 2's cue card. */
+  const randomInTopic = async (part: ExamPart, key: string) =>
+    database
+      .select(EXAM_COLUMNS)
+      .from(speakingPrompts)
+      .where(and(inPart(part), sql`${TOPIC_KEY} = ${key}`))
+      .orderBy(sql`random()`)
+      .limit(1);
+
+  const { mode } = opts;
+  const script: PagedSpeakingPrompt[] = [];
+  let cueTopic: string | null = null;
+
+  if ((mode === "full" || mode === "part1") && (await partHasQuestions("part1"))) {
+    const key = await randomTopicKey("part1");
+    if (key) script.push(...(await firstInTopic("part1", key, PART1_QUESTIONS)));
+  }
+
+  if ((mode === "full" || mode === "part2") && (await partHasQuestions("part2"))) {
+    const key = await randomTopicKey("part2");
+    if (key) {
+      const [cue] = await randomInTopic("part2", key);
+      if (cue) {
+        cueTopic = topicKey(cue.topic);
+        script.push(cue);
+      }
+    }
+  }
+
+  if ((mode === "full" || mode === "part3") && (await partHasQuestions("part3"))) {
+    // Prefer the cue card's own topic, exactly as the in-memory version did; fall back only when the
+    // corpus holds no Part 3 questions on it.
+    const key =
+      cueTopic !== null && (await topicExists("part3", cueTopic))
+        ? cueTopic
+        : await randomTopicKey("part3");
+    if (key) script.push(...(await firstInTopic("part3", key, PART3_QUESTIONS)));
+  }
+
+  return script;
 }
