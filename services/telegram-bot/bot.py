@@ -15,6 +15,7 @@ from commands import install_commands
 from config import config
 from html_text import esc as _esc
 from handlers.admission import admission_router
+from handlers.channels import channels_router
 from handlers.auth import auth_router
 from handlers.menu import menu_router
 from handlers.owner import owner_router
@@ -50,6 +51,7 @@ def build_dispatcher() -> Dispatcher:
     dp.callback_query.outer_middleware(AuthMiddleware())
     dp.include_router(auth_router)
     dp.include_router(owner_router)
+    dp.include_router(channels_router)
     dp.include_router(menu_router)
     dp.include_router(admission_router)
     dp.include_router(support_router)
