@@ -63,3 +63,59 @@ bank every visit to either page reads the whole bank and ships several megabytes
 - Speaking AI @10000: 51.44 ms over 1 call(s), 10006 rows — `select "id", "part", "category", "prompt_text", "cue_card", "prep_seconds", "answer_seconds", "follow_ups", "study_support", "exte`
 - Speaking AI @10000: 0.03 ms over 1 call(s), 1 rows — `select "id", "name", "email", "role", "account_status", "locale", "onboarding_completed_at", "status_reason" from "users" "users" `
 
+## Correction: the 6.15 MB above is a LOWER BOUND, not the production cost
+
+The table was produced by `scripts/measure-unbounded-reads.mjs`, whose 10 000-prompt fixture
+inserts only these columns:
+
+```sql
+insert into speaking_prompts (id, part, category, prompt_text, publication_state, is_active, created_at)
+```
+
+So every measured row carried the **default empty** `study_support`
+(`{vocabularyHtml:"",modelAnswerHtml:"",ideasHtml:"",vocabulary:[]}`) and the default empty
+`follow_ups` (`[]`). The 6 148 699 bytes at 10 000 prompts is therefore the cost of the browse
+metadata and prompt text **with no study support in the bank at all** — the two largest fields the
+section above correctly identifies as "the ones in use" were empty when it was measured.
+
+Composition of that fixture, measured with `pg_column_size` over 10 000 rows:
+
+| column group | bytes at 10 000 rows | per row | share |
+| --- | --- | --- | --- |
+| `prompt_text` | 1 073 kB | ~107 B | 34% |
+| `study_support` **while empty** | 869 kB | ~87 B | **28%** |
+| `id`, `part`, `category`, `available_in`, `publication_state`, `created_at`, `is_active`, `source_class` | 713 kB | ~71 B | 23% |
+| `follow_ups` **while empty** | 49 kB | ~5 B | 2% |
+| whole row | 3 135 kB | ~314 B | 100% |
+
+Two things follow, and they point in opposite directions:
+
+- **28% of every row is an empty skeleton carrying no information.** That is 869 kB shipped to the
+  browser for nothing at 10 000 prompts, before a single model answer exists.
+- **The remaining 72% is what a populated bank adds to.** Real study support is prose HTML —
+  vocabulary, a model answer, ideas — so the production payload is the 6.15 MB above *plus* roughly
+  the per-prompt study-support size times 10 000. The recorded figure understates the cost of doing
+  nothing.
+
+**No populated figure is quoted here, deliberately.** To estimate one I inserted 10 000 rows with a
+synthetic filler of a known byte size, and the result is not usable: filler of 2 048 B per prompt
+stored *smaller* than filler of 512 B per prompt (1 172 kB versus 5 898 kB across 10 000 rows),
+because repetitive text crosses the TOAST threshold and compresses roughly 17×, while prose HTML
+would not. Any number derived from it would be a fabricated benchmark. The real magnitude needs the
+owner's canonical speaking bank, which is an owner-asset blocker and is not invented here.
+
+What this changes for the decision, not the decision itself. The option already recorded as
+OWNER_DECISION_REQUIRED — move Part/Topic grouping server-side behind a keyset cursor the way
+`listLivePartnerQuestions` does — now has a second, smaller variant worth pricing alongside it:
+
+1. **Page the bank server-side** (as recorded above). Bounded regardless of how large study support
+   grows. Changes what the Part/Topic steps request and render.
+2. **Ship browse columns only, and fetch `study_support` / `follow_ups` / `cue_card` when a question
+   is selected.** Keeps the current client-side browsing and search intact, removes the 28%-empty
+   skeleton and the heavy per-prompt fields from the initial payload, and makes the payload grow with
+   the number of *questions listed* rather than the weight of every question's study material. The
+   cost is a fetch and a loading state at selection time, which is a learner-visible change to a
+   protected surface — so it is the owner's call, not a measurement probe's.
+
+Neither is applied here. The status stays `OWNER_DECISION_REQUIRED`, now with the correction that the
+previously recorded cost was measured against an empty study-support bank and is a floor.
