@@ -88,7 +88,7 @@ export async function removeContactFromBot(telegramUserId: string) {
   const now = new Date();
   const [row] = await db
     .update(telegramContacts)
-    .set({ removedAt: now, updatedAt: now })
+    .set({ removedAt: now, phoneNumber: null, phoneVerifiedAt: null, updatedAt: now })
     .where(eq(telegramContacts.telegramUserId, telegramUserId))
     .returning();
   return row ?? null;
