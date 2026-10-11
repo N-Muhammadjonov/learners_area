@@ -375,8 +375,25 @@ export async function auditDialog(page, selector, { nameContains = "" } = {}) {
  */
 export function attachRequestRecorder(page) {
   const requests = [];
-  const listener = (request) => requests.push({ method: request.method(), url: request.url(), resourceType: request.resourceType() });
+  const listener = (request) => requests.push({ method: request.method(), url: request.url(), resourceType: request.resourceType(), status: undefined });
   page.on("request", listener);
+  /*
+   * Response statuses are recorded so a 304 can be told from a 200. That distinction is the whole
+   * difference between "the product asked for this twice" and "the browser revalidated a cached
+   * asset": a 304 transfers no body and costs the product nothing, so counting it as a duplicate
+   * product GET turns an ordinary legacy redirect into a fake performance defect.
+   */
+  const responseListener = (response) => {
+    const url = response.url();
+    const method = response.request().method();
+    for (let i = requests.length - 1; i >= 0; i--) {
+      if (requests[i].url === url && requests[i].method === method && requests[i].status === undefined) {
+        requests[i].status = response.status();
+        return;
+      }
+    }
+  };
+  page.on("response", responseListener);
   return {
     requests,
     /**
@@ -396,11 +413,25 @@ export function attachRequestRecorder(page) {
         // buries the duplicates that are actually the product's own doing.
         if (request.url.includes("/_next/static/")) continue;
         if (["font", "stylesheet", "script"].includes(request.resourceType)) continue;
+        if (request.status === 304) continue; // revalidated from cache, reported by revalidations()
         const key = request.url;
         seen.set(key, (seen.get(key) ?? 0) + 1);
       }
       return [...seen.entries()].filter(([, n]) => n > 1).map(([url, n]) => ({ url: url.replace(/^https?:\/\/[^/]+/, ""), count: n }));
     },
-    detach() { page.off("request", listener); },
+    /** What duplicates() deliberately did not count, so the exclusion is visible rather than silent. */
+    revalidations() {
+      const seen = new Map();
+      for (const request of requests) {
+        if (request.method !== "GET" || request.status !== 304) continue;
+        if (request.url.includes("/_next/static/")) continue;
+        if (["font", "stylesheet", "script"].includes(request.resourceType)) continue;
+        const key = request.url;
+        seen.set(key, (seen.get(key) ?? 0) + 1);
+      }
+      return [...seen.entries()].filter(([, n]) => n > 0)
+        .map(([url, n]) => ({ url: url.replace(/^https?:\/\/[^/]+/, ""), count: n }));
+    },
+    detach() { page.off("request", listener); page.off("response", responseListener); },
   };
 }

@@ -280,32 +280,96 @@ try {
    * a different page. Returns false when the surface owns no such control, which the caller must
    * record as "not measurable" rather than as a defect.
    */
-  async function triggerStateChange(page) {
-    const clicked = await page.evaluate(() => {
-      const candidates = Array.from(
-        document.querySelectorAll('main button:not([disabled]), main [role=tab], main [role=button], main [aria-expanded], main input[type=checkbox], main input[type=radio], main select'),
-      ).filter((el) => {
-        if (el.closest("a[href]")) return false;
-        const r = el.getBoundingClientRect();
-        return r.width > 0 && r.height > 0 && r.top >= 0 && r.top < window.innerHeight * 2;
-      });
-      const target = candidates[0];
-      if (!target) return false;
-      target.click();
-      return true;
-    });
-    if (!clicked) return false;
-    await new Promise((resolve) => setTimeout(resolve, 900));
-    return true;
+  const CANDIDATE_SELECTOR = 'main button:not([disabled]), main [role=tab], main [role=button], main [aria-expanded], main input[type=checkbox], main input[type=radio], main select';
+
+  /** A fingerprint of the state a screen reader would perceive, used to tell a real change from a no-op. */
+  const stateSignature = (page) => page.evaluate(() => ({
+    tabs: [...document.querySelectorAll('[role=tab]')].map((t) => t.getAttribute("aria-selected")).join(","),
+    expanded: [...document.querySelectorAll("[aria-expanded]")].map((e) => e.getAttribute("aria-expanded")).join(","),
+    checked: [...document.querySelectorAll('main input[type=checkbox], main input[type=radio]')].map((i) => i.checked).join(","),
+    chosen: [...document.querySelectorAll("main select")].map((sel) => sel.value).join(","),
+    text: (document.querySelector("main")?.innerText ?? "").replace(/\s+/g, " ").length,
+  }));
+
+  /*
+   * Make the page change state — and PROVE it changed.
+   *
+   * This used to click the first eligible control and return true unconditionally. `interacted=true`
+   * therefore meant only "a click was dispatched", so a page whose first control is a search box was
+   * judged as having changed state when nothing happened at all, and was then failed for owning no
+   * live region. Two of the four standing NOT-PASS rows were that artifact.
+   *
+   * So candidates are tried in order until one produces an observable change — aria-selected,
+   * aria-expanded, a checked flag, a select value, the length of the main text, or a fetch the click
+   * itself caused. The control that worked is reported, because WHICH control changed state decides
+   * which accessible mechanism is owed: switching a `role=tab` is communicated by the tabs pattern
+   * (aria-controls plus a labelled role=tabpanel), not by a live region, while a disclosure or a
+   * submit that fetches is owed a status announcement.
+   */
+  async function triggerStateChange(page, recorder) {
+    const total = await page.evaluate((selector) => Array.from(document.querySelectorAll(selector)).filter((el) => {
+      if (el.closest("a[href]")) return false;
+      const r = el.getBoundingClientRect();
+      return r.width > 0 && r.height > 0 && r.top >= 0 && r.top < window.innerHeight * 2;
+    }).length, CANDIDATE_SELECTOR);
+
+    for (let index = 0; index < Math.min(total, 6); index++) {
+      const before = await stateSignature(page);
+      const requestsBefore = recorder.requests.length;
+      const clicked = await page.evaluate(({ selector, index }) => {
+        const list = Array.from(document.querySelectorAll(selector)).filter((el) => {
+          if (el.closest("a[href]")) return false;
+          const r = el.getBoundingClientRect();
+          return r.width > 0 && r.height > 0 && r.top >= 0 && r.top < window.innerHeight * 2;
+        });
+        const target = list[index];
+        if (!target) return null;
+        target.click();
+        return {
+          tag: target.tagName.toLowerCase(),
+          role: target.getAttribute("role") ?? "",
+          text: (target.innerText || target.value || target.getAttribute("aria-label") || "").replace(/\s+/g, " ").trim().slice(0, 40),
+        };
+      }, { selector: CANDIDATE_SELECTOR, index });
+      if (!clicked) break;
+      await new Promise((resolve) => setTimeout(resolve, 900));
+
+      const after = await stateSignature(page);
+      const asyncFromClick = recorder.requests.slice(requestsBefore)
+        .filter((r) => r.resourceType === "fetch" || r.resourceType === "xhr").length;
+      const changed =
+        after.tabs !== before.tabs || after.expanded !== before.expanded ||
+        after.checked !== before.checked || after.chosen !== before.chosen ||
+        Math.abs(after.text - before.text) > 24 || asyncFromClick > 0;
+      if (changed) return { interacted: true, stateChanged: true, clicked, asyncFromClick, index };
+    }
+    return { interacted: total > 0, stateChanged: false, clicked: null, asyncFromClick: 0, index: -1 };
   }
+
+  /**
+   * Is the tabs pattern wired correctly? The selected tab must name a panel that exists, and that
+   * panel must name the tab back. `aria-selected` on its own announces a choice whose consequence a
+   * screen reader cannot reach, which is exactly what made /app/vocabulary a real defect rather than
+   * a false one.
+   */
+  const tabsPattern = (page) => page.evaluate(() => {
+    const selected = document.querySelector('[role=tab][aria-selected="true"]');
+    if (!selected) return { present: false, reason: "no selected tab" };
+    const controls = selected.getAttribute("aria-controls");
+    if (!controls) return { present: false, reason: "the selected tab has no aria-controls" };
+    const panel = document.getElementById(controls);
+    if (!panel) return { present: false, reason: `aria-controls points at #${controls}, which does not exist` };
+    if (panel.getAttribute("role") !== "tabpanel") return { present: false, reason: `#${controls} is not a role=tabpanel` };
+    const labelledby = panel.getAttribute("aria-labelledby");
+    if (labelledby !== selected.id) return { present: false, reason: `the panel is labelled by "${labelledby}", not by the selected tab "${selected.id}"` };
+    return { present: true, reason: `tab#${selected.id} → panel#${controls}` };
+  });
   for (const surface of LEARNER_SURFACES) {
     const session = await createSession(browser, { base: BASE, email: STUDENT[0], password: STUDENT[1], viewport: 390, locale: "en" });
     try {
       const recorder = attachRequestRecorder(session.page);
       await session.goto(surface.path);
       const audit = await auditPage(session.page);
-      const dupes = recorder.duplicates();
-      recorder.detach();
       const asyncWork = recorder.sawAsync();
       // A live region is required only where the page performs asynchronous work of its own. A
       // server-rendered hub that never fetches has no state change to announce, and demanding a
@@ -320,17 +384,37 @@ try {
       // recorded as an observation rather than counted as a failure.
       let liveAfter = audit.liveRegions;
       let interacted = false;
+      let stateChanged = false;
+      let clickedWhat = "nothing";
+      let mechanism = { present: audit.liveRegions > 0, reason: `${audit.liveRegions} live region(s) at rest` };
       if (audit.liveRegions === 0 && asyncWork) {
-        interacted = await triggerStateChange(session.page);
-        if (interacted) liveAfter = (await auditPage(session.page)).liveRegions;
+        const interaction = await triggerStateChange(session.page, recorder);
+        interacted = interaction.interacted;
+        stateChanged = interaction.stateChanged;
+        clickedWhat = interaction.clicked ? `<${interaction.clicked.tag}${interaction.clicked.role ? ` role=${interaction.clicked.role}` : ""}> "${interaction.clicked.text}"` : "no control produced a state change";
+        if (stateChanged) {
+          liveAfter = (await auditPage(session.page)).liveRegions;
+          // Which mechanism is owed depends on which control changed the state.
+          if (interaction.clicked?.role === "tab") {
+            mechanism = await tabsPattern(session.page);
+          } else {
+            mechanism = { present: liveAfter > 0, reason: liveAfter > 0 ? `${liveAfter} live region(s) after the interaction` : "no live region after a state change" };
+          }
+        }
       }
-      const regionMissing = asyncWork && interacted && liveAfter === 0;
+      const regionMissing = asyncWork && stateChanged && !mechanism.present;
       if (regionMissing) noLiveRegion.push(surface.path);
       else if (audit.liveRegions === 0 && asyncWork) {
-        notes.push(`${surface.id} ${surface.path}: no live region at rest (${interacted ? "and none after an interaction that changed state" : "no interactive control available to trigger one"}) — observation, not counted as a defect`);
+        notes.push(`${surface.id} ${surface.path}: no live region at rest (${stateChanged ? `state changed via ${clickedWhat}, communicated by ${mechanism.reason}` : "no control on the page produced a state change"}) — observation, not counted as a defect`);
       }
+      const dupes = recorder.duplicates();
+      const revalidated = recorder.revalidations();
+      recorder.detach();
       if (dupes.length) {
         notes.push(`${surface.id} ${surface.path}: ${dupes.length} duplicated product GET(s) — ${dupes.slice(0, 3).map((d) => `${d.url}×${d.count}`).join(", ")}`);
+      }
+      if (revalidated.length) {
+        notes.push(`${surface.id} ${surface.path}: ${revalidated.length} cached asset(s) revalidated (HTTP 304, no body transferred) — ${revalidated.slice(0, 3).map((d) => `${d.url}×${d.count}`).join(", ")} — not counted as a duplicate product GET`);
       }
       if (session.consoleErrors.length) {
         notes.push(`${surface.id} ${surface.path}: ${session.consoleErrors.length} browser console error(s) — ${session.consoleErrors.slice(0, 2).join(" | ").slice(0, 200)}`);
@@ -339,7 +423,7 @@ try {
         id: `${surface.id}-RT`, area: surface.area, actor: "STUDENT_A", locale: "en",
         action: `${surface.path}: live regions, duplicate product requests and console errors at 390px`,
         expected: "no product GET issued twice for the same URL; no console errors; a status region exists wherever the page fetches asynchronously and changes state",
-        actual: `async work=${asyncWork}; live regions at rest=${audit.liveRegions}; after interaction=${liveAfter} (interacted=${interacted}); duplicated product GETs=${dupes.length ? dupes.map((d) => `${d.url.replace(/^https?:\/\/[^/]+/, "")}×${d.count}`).join(", ") : "none"}; console errors=${session.consoleErrors.length}`,
+        actual: `async work=${asyncWork}; live regions at rest=${audit.liveRegions}; after interaction=${liveAfter} (interacted=${interacted}, state changed=${stateChanged}, via ${clickedWhat}); announcement mechanism=${mechanism.present ? "present" : `ABSENT — ${mechanism.reason}`}; duplicated product GETs=${dupes.length ? dupes.map((d) => `${d.url.replace(/^https?:\/\/[^/]+/, "")}×${d.count}`).join(", ") : "none"}; cached revalidations (304)=${revalidated.length ? revalidated.map((d) => `${d.url.replace(/^https?:\/\/[^/]+/, "")}×${d.count}`).join(", ") : "none"}; console errors=${session.consoleErrors.length}`,
         verdict: dupes.length || session.consoleErrors.length ? "PERF_DEFECT"
           : regionMissing ? "A11Y_DEFECT" : "PASS",
       });
