@@ -1,3 +1,4 @@
+import { telegramOnlyAuthEnabled } from "@/lib/auth/telegram-only";
 import { NextRequest, NextResponse } from "next/server";
 import { randomBytes, createHash } from "node:crypto";
 import { eq } from "drizzle-orm";
@@ -14,6 +15,9 @@ import { RULES, accountKey, clientKey, enforce } from "@/lib/http/rate-limit";
  * flow is actually testable end to end without an inbox.
  */
 export async function POST(req: NextRequest) {
+  if (telegramOnlyAuthEnabled()) {
+    return NextResponse.json({ error: "telegram_only_auth" }, { status: 403 });
+  }
   const body = await req.json().catch(() => null);
   const parsed = requestResetSchema.safeParse(body);
   if (!parsed.success) {
