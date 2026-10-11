@@ -1,0 +1,47 @@
+name: Telegram live health check
+on:
+  push:
+    branches:
+      - codex/telegram-live-health-20261011
+
+permissions:
+  contents: read
+
+jobs:
+  read-only-health:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify Railway bot and Vercel internal API independently
+        shell: bash
+        run: |
+          node <<'NODE'
+          const checks = [
+            { url: "https://learnersarea-production.up.railway.app/health", expected: 200 },
+            { url: "https://learnersarea-production.up.railway.app/ready", expected: 200 },
+            { url: "https://learners-area.vercel.app/api/internal/telegram/ready", expected: 401 },
+            { url: "https://learners-area.vercel.app/api/internal/telegram/required-channels", expected: 401 },
+            { url: "https://learners-area.vercel.app/api/internal/telegram/contacts/1", expected: 401 },
+            { url: "https://learners-area.vercel.app/api/internal/telegram/contacts/phone", expected: 405 },
+          ];
+          const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+          for (const check of checks) {
+            let status = null, result = "";
+            for (let attempt=0; attempt<5; attempt++) {
+              try {
+                const r = await fetch(check.url, {
+                  cache:"no-store",
+                  redirect:"manual",
+                  signal:AbortSignal.timeout(12000),
+                  headers: {Accept:"application/json"},
+                });
+                status = r.status;
+                if (status === check.expected) break;
+              } catch (err) {result = err?.name || "unavailable";}
+              await sleep(4000);
+            }
+            const ok = status === check.expected;
+            console.log(`${ok ? "PASS" : "FAIL"} ${new URL(check.url).pathname}: HTTP ${status ?? result}, expected ${check.expected}`);
+            if(!ok) process.exitCode = 1;
+          }
+          console.log("READ-ONLY. PASS proves endpoint responsiveness, NOT exact deployed Railway commit, Telegram phone save, or user-channel flows.");
+          NODE
