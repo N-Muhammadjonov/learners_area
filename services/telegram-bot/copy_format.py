@@ -1,7 +1,22 @@
 from i18n import t
+from html_text import esc
 
 
 def admission_text(lang: str, raw: object) -> str:
+    if isinstance(raw, dict) and raw.get("error"):
+        key = {
+            "phone_required": "phone_required",
+            "not_subscribed": "channels_required",
+            "membership_unavailable": "channels_error",
+        }.get(raw["error"], "error")
+        text = t(lang, key)
+        if raw["error"] == "not_subscribed":
+            for channel in raw.get("requiredChannels") or []:
+                if isinstance(channel, dict):
+                    title, url = channel.get("title"), channel.get("url")
+                    if isinstance(title, str) and isinstance(url, str):
+                        text += f"\\n• {esc(title)}: {esc(url)}"
+        return text
     status = raw.get("status") if isinstance(raw, dict) else "pending"
     key = {
         "pending": "apply_ok",
