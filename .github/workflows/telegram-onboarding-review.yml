@@ -41,3 +41,5 @@ jobs:
         run: npx tsc --noEmit
       - name: Verify staged admission flag semantics
         run: node --conditions=react-server --import tsx --test tests/telegram-access-gates.test.ts
+      - name: Lint changed Telegram backend and auth code
+        run: npx eslint src/lib/telegram/access-gates.ts src/lib/telegram/required-channels.ts src/lib/telegram/admission-bridge.ts src/lib/auth/telegram-exchange.ts src/lib/auth/telegram-only.ts src/lib/telegram/contacts.ts src/lib/telegram/directory.ts src/app/api/internal/telegram/contacts/phone/route.ts 'src/app/api/internal/telegram/contacts/[telegramUserId]/route.ts' src/app/api/internal/telegram/required-channels/route.ts src/app/api/auth/login/route.ts src/app/api/auth/register/route.ts src/app/api/auth/reset/request/route.ts src/app/api/auth/reset/confirm/route.ts src/app/api/auth/telegram/intent/exchange/route.ts src/components/auth/LoginForm.tsx src/app/login/page.tsx src/app/register/page.tsx tests/telegram-access-gates.test.ts --max-warnings=0
