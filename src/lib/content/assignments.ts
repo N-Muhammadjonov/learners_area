@@ -65,6 +65,29 @@ export type SaveAssignmentResult =
 
 const issue = (code: string, message: string, field?: string): AssignmentIssue => ({ code, message, field });
 
+/**
+ * The refusal an actor gets when they may not set work for this learner.
+ *
+ * Stated once, here, because POST /api/assignments has TWO creation paths and both have to answer
+ * identically. A message written out at each call site is exactly how the two paths drifted apart
+ * before: the canonical path enforced `mayAssignTo` and the legacy `relatedWritingPromptId` path
+ * enforced nothing but `isStaff`, so the same teacher, the same student and the same title were
+ * accepted or refused depending only on which reference field the request happened to use.
+ */
+export function assignRefusalIssue(
+  verdict: { allowed: boolean; reason?: "not_staff" | "not_a_student" | "outside_roster" },
+): AssignmentIssue {
+  return issue(
+    `assign_forbidden_${verdict.reason ?? "unknown"}`,
+    verdict.reason === "outside_roster"
+      ? "A teacher may only set work for students on their roster."
+      : verdict.reason === "not_a_student"
+        ? "Work can only be assigned to a student."
+        : "Only staff can assign work.",
+    "studentIds",
+  );
+}
+
 /** May this actor set work for this student? The rule lives in one place. */
 export async function mayAssignTo(
   actor: AssignmentActor,
@@ -145,17 +168,7 @@ export async function createAssignment(
     if (!verdict.allowed)
       return {
         ok: false,
-        issues: [
-          issue(
-            `assign_forbidden_${verdict.reason}`,
-            verdict.reason === "outside_roster"
-              ? "A teacher may only set work for students on their roster."
-              : verdict.reason === "not_a_student"
-                ? "Work can only be assigned to a student."
-                : "Only staff can assign work.",
-            "studentIds",
-          ),
-        ],
+        issues: [assignRefusalIssue(verdict)],
       };
   }
 

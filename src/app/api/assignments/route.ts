@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { desc, eq } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/db/client";
-import { activityEvents, assignmentTargets, assignments } from "@/db/schema";
-import { listAssignmentsCreatedBy, listAssignmentsForStudent } from "@/lib/content/assignments";
+import { activityEvents, assignmentTargets, assignments, writingPrompts } from "@/db/schema";
+import { assignRefusalIssue, listAssignmentsCreatedBy, listAssignmentsForStudent, mayAssignTo } from "@/lib/content/assignments";
 import { isStaff, requireActiveUser } from "@/lib/auth/current-user";
 import { createAssignment } from "@/lib/content/assignments";
+import { liveWhere } from "@/lib/services/cms/publication";
 
 /**
  * GET  /api/assignments  — the caller's own assignments (students), or the ones
@@ -118,6 +119,56 @@ export async function POST(req: NextRequest) {
   // an extra the canonical path happens to do, so both paths now write it, and both
   // do it in ONE transaction so an assignment can never exist without its target.
   const created = await db.transaction(async (tx) => {
+    /*
+     * THE SAME AUTHORITY RULE AS THE CANONICAL PATH.
+     *
+     * This branch used to check nothing but `isStaff(user.role)`, which the route already checked
+     * before branching. So it never asked the question the canonical path asks through
+     * `mayAssignTo()` — may THIS actor set work for THIS learner — and the answer differed by path
+     * alone:
+     *
+     *   a teacher with no roster link to the student   canonical 403 outside_roster, legacy 200 + rows
+     *   a targetUserId that is not a student at all    canonical 403 not_a_student,  legacy 200 + rows
+     *
+     * Both wrote the assignment, the target and the ASSIGNMENT_CREATED event, so this was not a
+     * harmless difference in status code: an off-roster teacher could put work into a learner's feed,
+     * and a teacher could "assign" work to another teacher. The transaction was never the problem —
+     * it committed exactly what it was told to.
+     *
+     * The check runs INSIDE the transaction, on the same `tx`, so authorization is evaluated against
+     * the rows this transaction can see and a refusal commits nothing.
+     */
+    const verdict = await mayAssignTo({ id: user.id, role: user.role }, parsed.data.targetUserId, tx as never);
+    if (!verdict.allowed) return { ok: false as const, issues: [assignRefusalIssue(verdict)] };
+
+    /*
+     * AND THE SAME CONTENT RULE. `relatedWritingPromptId` was validated only as a UUID shape, so a
+     * request could name a prompt that does not exist — which reached the insert and answered 500 on
+     * a foreign-key violation — or one that is a draft, which succeeded and handed the learner work
+     * they cannot open. The canonical path refuses both ("you cannot set work nobody can open"), so
+     * the legacy path applies the same liveness rule the learner read applies.
+     */
+    const [prompt] = await tx
+      .select({ id: writingPrompts.id })
+      .from(writingPrompts)
+      .where(and(
+        eq(writingPrompts.id, parsed.data.relatedWritingPromptId!),
+        liveWhere({
+          publicationState: writingPrompts.publicationState,
+          publishAt: writingPrompts.publishAt,
+        }),
+      ))
+      .limit(1);
+    if (!prompt)
+      return {
+        ok: false as const,
+        issues: [{
+          code: "content_not_live",
+          message: "That writing prompt does not exist or is not open to learners, so it cannot be set as work.",
+          field: "relatedWritingPromptId",
+        }],
+      };
+
     const [row] = await tx
       .insert(assignments)
       .values({
@@ -146,8 +197,14 @@ export async function POST(req: NextRequest) {
       payload: { assignmentId: row!.id, teacherId: user.id },
     });
 
-    return row;
+    return { ok: true as const, assignment: row };
   });
 
-  return NextResponse.json({ ok: true, assignment: created });
+  // A refusal keeps the canonical path's answer shape and status, so a caller cannot tell which
+  // branch it reached — which is the point: the two paths now enforce one rule.
+  if (!created.ok) {
+    const forbidden = created.issues.some((issue) => issue.code.startsWith("assign_forbidden"));
+    return NextResponse.json({ ok: false, issues: created.issues }, { status: forbidden ? 403 : 422 });
+  }
+  return NextResponse.json({ ok: true, assignment: created.assignment });
 }
