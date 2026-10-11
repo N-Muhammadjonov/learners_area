@@ -917,3 +917,59 @@ on `(live_class_id, user_id)` — only its primary key — so two simultaneous j
 existence check and both insert. A transaction does not make a check-then-insert atomic against another
 transaction; closing this needs a unique index, which is a migration and therefore owner-authorised
 work. It is named here rather than papered over with a green probe.
+
+### 9.11 §06 Speaking — server layer implemented and proven; UI wiring is the remaining half
+
+The owner's decision is recorded as `OWNER_APPROVED` / `IMPLEMENTATION_REQUIRED`, and the status was
+corrected in all three places it appeared. What follows is what was actually built, and precisely what
+was not.
+
+**DONE — the server side, which is where the measured defect lives.** Both pages called
+`listActivePrompts`, a read with no `LIMIT`: 10 007 rows and 6.15 MB at 10 000 prompts, growing with the
+corpus. Added to `lib/data/speaking-practice.ts`:
+
+| function | what it replaces |
+| --- | --- |
+| `listSpeakingPromptPage()` | the unbounded whole-bank read; a bounded keyset page narrowed by channel, part, topic and search |
+| `speakingFacets()` | the browser computing `partCounts` / `groupByTopic` over a shipped array; corpus-wide aggregates instead |
+| `findPublishedPromptSupport()` | `study_support` HTML being shipped for every prompt when a learner reads one question's support at a time |
+
+Plus `GET /api/speaking/practice/questions`, `GET /api/speaking/practice/facets` and
+`GET /api/speaking/prompts/:id/support`.
+
+The paging is deliberately the design already proven in this file for Live Partner, including its
+hard-won details, not a new invention: a TOTAL order `(part, external-id-nulls-last, external id,
+created at, id)`; `created_at` carried as **microsecond text** straight from Postgres, because a JS
+`Date` rounds to milliseconds and the keyset then never advances past a row written at `.670005`; and a
+cursor the server did not mint is **refused**, not silently reset to page 1. Eligibility is untouched —
+`channelScope()` is the same `availableIn` predicate `listActivePrompts` always used, and publication
+rules stay in the query.
+
+**Proven, real PostgreSQL 18.4** (`tests/speaking-pagination-qa2.test.ts`, 13/13). 10 000 synthetic
+prompts, inserted and deleted by the test. The fixture is built to break the wrong implementation:
+`created_at` offsets of 7, 20, 33 … µs are not representable in JS milliseconds, and rows `i` and
+`i+5000` share a timestamp, so ordering ties are real. Two arrange assertions verify the fixture really
+has both properties — without them the walk would pass vacuously. The walk then reaches **every one of
+the 10 000 exactly once**, in exactly `ceil(matching / pageSize)` pages, with no duplicates and no
+omissions; the paged read is **eligibility-equivalent** to the unbounded `listActivePrompts` it replaces
+(the same id set, nothing missing, nothing extra); a draft is unreachable on every page and its study
+support is refused by id; discovery reports corpus-wide counts; a broad term matching all 10 000 still
+reaches every match through the continuation; and a search for prompt `009999` — the tail of the corpus
+— finds it. Also verified over HTTP on the production build: 9/9, including `invalid_channel` and
+`invalid_cursor` both refused with 400.
+
+**These are synthetic questions in a disposable QA database.** They prove reachability and paging
+correctness at scale. They are **not** a measurement of the owner's canonical bank, and no performance
+figure for a populated production corpus is claimed anywhere in this section. The canonical speaking
+bank JSONL remains an owner asset: `OWNER_ASSET_REQUIRED`.
+
+**NOT DONE — the UI wiring.** `PracticeStudio` and `AiExaminerSession` still receive the full bank from
+their server pages, so the learner-visible unbounded payload is **still present** and this item is
+`IMPLEMENTATION_REQUIRED`, not closed. The two components are small (143 and 94 lines) and the API they
+need now exists. What the wiring must preserve is the reason it was not rushed into this round: the
+Part → Topic → Questions flow driven by `?part=&topic=`, the `aria-live` status region that the browser
+matrix specifically measured (a learner activating "Part 2" used to get silence while the whole content
+region was swapped), every `data-practice-*` hook the matrix asserts on, the protected theme and layout,
+both locales, and the per-question recorder's one-microphone-at-a-time lock. Rewriting that surface
+without re-running the browser matrix against it would trade a measured performance defect for an
+unmeasured accessibility one.
