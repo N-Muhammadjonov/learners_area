@@ -1,3 +1,4 @@
+import { telegramOnlyAuthEnabled } from "@/lib/auth/telegram-only";
 import { NextRequest, NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
@@ -9,6 +10,9 @@ import { RULES, accountKey, blockIfOver, clientKey, consume, reset } from "@/lib
 import { classifyDatabaseError, databaseUnavailableResponse } from "@/lib/http/database-errors";
 
 export async function POST(req: NextRequest) {
+  if (telegramOnlyAuthEnabled()) {
+    return NextResponse.json({ error: "telegram_only_auth" }, { status: 403 });
+  }
   const body = await req.json().catch(() => null);
   const parsed = loginSchema.safeParse(body);
   if (!parsed.success) {
