@@ -14,10 +14,12 @@ export function LoginForm({
   dict,
   telegramConfigured,
   telegramBotUsername,
+  telegramOnly = false,
 }: {
   dict: Dictionary;
   telegramConfigured: boolean;
   telegramBotUsername?: string;
+  telegramOnly?: boolean;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -63,6 +65,7 @@ export function LoginForm({
 
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-4">
+      {!telegramOnly && <>
       <div>
         <Label htmlFor="email">{dict.auth.email}</Label>
         <Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -84,6 +87,7 @@ export function LoginForm({
         <span className="relative bg-paper-raised px-2">or</span>
         <div className="absolute inset-x-0 top-1/2 -z-10 h-px bg-ink-100" />
       </div>
+      </>}
       <TelegramIntentLogin
         dict={dict}
         configured={telegramConfigured}
