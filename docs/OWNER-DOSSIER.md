@@ -413,27 +413,42 @@ battery and must be run on the frozen candidate rather than carried forward from
   confirm the submission exists. `scripts/verify-teacher-feedback-authority.mjs` 10/10.
   `IMPLEMENTED_AND_VERIFIED`.
 * **`activity_events` has no indexes and no `run_id`.** `NOT_YET_EXECUTED`.
-* **Non-transactional `activityEvents` writers.** B3 made assignment creation atomic; the same defect
-  class existed elsewhere. `activation.ts` is now **CLOSED** — see section 9.8. The rest are triaged
-  by whether the event is *read back*, which is what separates a correctness defect from an
-  inconsistency in a feed. Only five files read `activityEvents` at all (`dashboard.ts`,
-  `retention.ts`, `vocabulary/engine.ts`, `writing/activation.ts`, `writing/typing-runs.ts`), and
-  `dashboard.ts` reads every type unfiltered to compute the streak:
+* **Non-transactional write units — corrected triage.** B3 made assignment creation atomic.
+  `activation.ts` (9.8) and `recordGameAnswer` (9.9) are **CLOSED**: those were the only two writers
+  whose `activity_events` rows are read back *by type* to derive learner state.
 
-  | writer | event type | read back by type? | severity | status |
+  The first triage of the remainder was done by counting `.insert(`/`.update(`/`.delete(` per **file**,
+  which is not sound: a file count conflates separate functions and mutually exclusive branches, and it
+  counts `Set.delete` as a database write. Every candidate below has now been re-examined per
+  **write unit** — the writes that actually execute together on one request path — and per unit the
+  question is (a) is there more than one write, (b) does an external call sit between them, and
+  (c) is any of the written data read back. Three earlier entries were wrong and are corrected here.
+
+  | write unit | writes that execute together | external call between them? | read back? | verdict |
   | --- | --- | --- | --- | --- |
-  | `writing/activation.ts` | `WRITING_ACTIVATION_CHECK` | yes — the *only* source of the learner's activation statistics | HIGH | **CLOSED**, section 9.8 |
-  | `writing/typing-runs.ts` | `TYPING_RUN_COMPLETED` | yes — history and replay | HIGH | already transactional (B1 wrote it against a `tx`) |
-  | `vocabulary/engine.ts` `recordGameAnswer` | `VOCAB_GAME_PRACTICED` | yes — `loadSelfAssessments` restores Learned / Not yet from these rows, `dashboard.ts` counts every type for the streak | MEDIUM→HIGH once the point desync was measured | **CLOSED**, section 9.9 |
-  | `grammar/exercises/[id]/practice` (5 writes, no transaction) | `GRAMMAR_PRACTICE_SUBMITTED` | no | MEDIUM — affects the streak only | `REPRODUCED_DEFECT` by inspection, not yet fixed |
-  | `data/evaluations.ts` (6 writes, no transaction) | `COACH_EVALUATION_COMPLETED`, `COACH_PROVIDER_FALLBACK` | no | MEDIUM | `REPRODUCED_DEFECT` by inspection, not yet fixed |
-  | `writing/stealing.ts` (4 writes, no transaction) | `WRITING_PATTERN_PRACTICE` | no — written and never read | LOW | `REPRODUCED_DEFECT` by inspection, not yet fixed |
-  | `live-classes/[id]/join` (2 writes, no transaction) | `LIVE_CLASS_ATTENDED` | no | LOW | `REPRODUCED_DEFECT` by inspection, not yet fixed |
-  | `vocabulary/[id]/use` | `VOCABULARY_USED` | no | LOW | `REPRODUCED_DEFECT` by inspection, not yet fixed |
+  | `lib/services/coach/service.ts:124-152` | 4 — `saveEvaluation`, `recordWeaknessesFromEvaluation`, `recordEvaluationEvent`, conditional `recordFallbackEvent` (plus best-effort `touchMeaningfulActivity`) | **no** — `resolveEvaluation` completes entirely before `saveEvaluation` | yes — `coach-dashboard.ts:31-33` reads `coach_weaknesses` | **OPEN, HIGH** — see below |
+  | `api/vocabulary/[id]/use` | 2 — `recordSentenceUse` (one `vocabulary_usages` row; it awards no points) then the `VOCABULARY_USED` event, adjacent | no | event: no. usage row: yes | **OPEN, MEDIUM-LOW** — cheapest remaining fix: `recordSentenceUse` already accepts the `VocabularyExecutor` widened in 9.8 |
+  | `api/live-classes/[id]/join:42-43` | 2 — attendance row then `LIVE_CLASS_ATTENDED`, adjacent | no | event: no. attendance: yes | **OPEN, LOW-MEDIUM** |
+  | `api/grammar/exercises/[id]/practice`, deterministic branch | 2 — attempt row then `GRAMMAR_PRACTICE_SUBMITTED`, adjacent | no | event: never read by type | **OPEN, LOW** — streak only |
+  | `api/grammar/exercises/[id]/practice`, evaluator branch; `.../produce:49-82` | attempt insert, then the AI call, then **either** a compensating delete **or** an update+event | **yes** — `evaluateGrammarProduction` sits between the writes | attempt: yes | **NOT FIXABLE BY A TRANSACTION** — grouping them would hold a pooled connection across an external call. The honest residual risk is the compensating delete at `produce:73`: if it also fails, a provisional `isCorrect: false` attempt survives and misreports good work. Deferring the attempt insert until after evaluation would fix it, but `evaluateGrammarProduction` takes `attemptId`, so that is an architecture change and is not undertaken here |
+  | `lib/services/writing/stealing.ts` | **1 per function** — `submitPractice:175`, `startStealing:235`, `advanceStealing:302` each execute exactly one write | n/a | `WRITING_PATTERN_PRACTICE`: never read | **CORRECTION — NOT A DEFECT.** Previously listed as a MEDIUM non-transactional writer. A single statement is already atomic; there is no unit to group. The earlier count included line 133, which is a `Set.delete`, not SQL. This also closes the open item "stealing.ts continuation past 300": line 302 is one `UPDATE` |
+  | `api/grammar/topics/[id]/submit:57-58` | 2, already inside `db.transaction` | no | attempt: yes | **CORRECTION — already correct.** Listed for completeness so it is not "fixed" |
+  | `lib/data/evaluations.ts` | its five exported helpers each perform **one** write | n/a | n/a | **CORRECTION — misfiled.** The 6-write count was six separate helpers, not a unit. The real unit is their caller, `coach/service.ts`, row 1 above |
 
-  Write counts are measured (`grep -c` on `.insert(`, `.update(`, `.delete(` and `.transaction(`);
-  none of the six unfixed writers uses a transaction. Each needs its own fault-injection test before
-  a fix can be claimed, which is why they are recorded rather than asserted green.
+  **Why `coach/service.ts` is HIGH and not the MEDIUM recorded earlier.** Step 1 is a dedupe read:
+  `findEvaluation` returns an existing row and the function returns `{ reused: true }` before any
+  write. That is correct and deliberate — a retry must never pay a provider twice or produce a second
+  competing verdict. But it also means a partial failure in steps 3-4 is **unrecoverable by retry**:
+  once `saveEvaluation` has committed, every later attempt short-circuits at step 1, so the weakness
+  rows and the completion event are permanently missing. The learner sees a verdict, while
+  `coach-dashboard.ts` shows a weakness profile that never recorded it. Unlike the two closed writers,
+  no retry can heal this, which is what raises it above them in priority.
+
+  Steps 3-4 contain no external call, so they can be grouped exactly as 9.8 and 9.9 did, with
+  `touchMeaningfulActivity` left outside for the same documented reason.
+
+  Each open row still needs its own fault-injection test before a fix can be claimed. None is asserted
+  green here, and no production source was changed on the strength of this analysis.
 * **`stealing.ts` continuation past 300 is still missing.** `NOT_YET_EXECUTED`.
 * **Valid-UUID-no-row answers 200**, per section 5 §11. `OWNER_DECISION_REQUIRED`.
 * ~~The QA2 test suite leaks — 8 files, 1 155 rows~~ — **CLOSED** in `6f2276a` (Package C). The leak
@@ -694,7 +709,7 @@ No P0 is open. The P1s:
 | Rate limiting is per-instance (in-memory `Map`) | `OWNER_DECISION_REQUIRED` if the deployment contract requires distributed enforcement; Redis refused as unjustified |
 | Valid-UUID-no-row answers 200 | `OWNER_DECISION_REQUIRED`; deleting `src/app/app/(shell)/loading.tsx` is forbidden, and inventing a global middleware DB dependency to obtain a status code is not warranted |
 | `bg-ink-50` generates no CSS — 38 sites / 21 files, every loading skeleton including the shared `SectionEntryFrame` and 2 `role="progressbar"` tracks | `REPRODUCED_DEFECT`, documented in `docs/DEFECT-bg-ink-50-invisible-skeletons.md`; the fix changes rendered appearance of protected surfaces |
-| Non-transactional `activityEvents` writers outside assignments | `activation.ts` **CLOSED** (9.8) and `recordGameAnswer` **CLOSED** (9.9) — the only two whose events are read back to derive learner state. The five remaining are feed/streak-only and are triaged per writer in the section 6 table; `REPRODUCED_DEFECT` by inspection, each still needing its own fault-injection test before a fix can be claimed |
+| Non-transactional write units outside assignments | `activation.ts` **CLOSED** (9.8), `recordGameAnswer` **CLOSED** (9.9). Re-triaged per write unit in section 6: **one HIGH remains** (`coach/service.ts`, whose partial write is unrecoverable by retry), three MEDIUM-LOW/LOW are cheap and fixable, one is **not fixable by a transaction** because an AI call sits between the writes, and three earlier entries were **wrong** — `stealing.ts` and `grammar/topics/[id]/submit` are not defects and `data/evaluations.ts` was misfiled. `REPRODUCED_DEFECT` by inspection; each open row still needs its own fault-injection test before a fix can be claimed |
 | Off-roster `/app/teacher/students/[id]` answers 200 with not-found content | not IDOR — no name, email or form is leaked; the status code alone is tracked as `STATUS_DEFECT` |
 
 Owner-asset blockers are unchanged and listed in section 7. No educational content, listening package,
