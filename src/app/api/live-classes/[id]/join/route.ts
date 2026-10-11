@@ -39,11 +39,25 @@ export async function POST(_req: Request, { params }: { params: Promise<{ id: st
     where: and(eq(liveClassAttendance.liveClassId, id), eq(liveClassAttendance.userId, user.id)),
   });
   if (!existing) {
-    await db.insert(liveClassAttendance).values({ liveClassId: id, userId: user.id });
-    await db.insert(activityEvents).values({
-      userId: user.id,
-      type: "LIVE_CLASS_ATTENDED",
-      payload: { liveClassId: id },
+    /*
+     * Attendance and the event that records it are ONE write unit: split, a failure between them
+     * left a learner marked as attended with no event, or an event for an attendance row that does
+     * not exist.
+     *
+     * NOT claimed here: concurrent first-joins. The existence check above is a read, and
+     * `live_class_attendance` has no unique index on (live_class_id, user_id) — only its primary key
+     * — so two simultaneous joins can both pass the check and both insert. Closing that needs a
+     * unique index, which is a migration and therefore owner-authorised work; a transaction alone
+     * does not make the check-then-insert atomic against another transaction. Recorded rather than
+     * papered over.
+     */
+    await db.transaction(async (tx) => {
+      await tx.insert(liveClassAttendance).values({ liveClassId: id, userId: user.id });
+      await tx.insert(activityEvents).values({
+        userId: user.id,
+        type: "LIVE_CLASS_ATTENDED",
+        payload: { liveClassId: id },
+      });
     });
   }
 
