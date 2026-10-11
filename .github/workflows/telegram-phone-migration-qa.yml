@@ -1,0 +1,70 @@
+name: Telegram phone migration QA
+on:
+  push:
+    branches:
+      - codex/telegram-onboarding-channels-20261011
+
+permissions:
+  contents: read
+
+jobs:
+  isolated-postgres:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_PASSWORD: local-test-only
+          POSTGRES_USER: postgres
+          POSTGRES_DB: telegram_migration_qa
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: "5432"
+      PGUSER: postgres
+      PGPASSWORD: local-test-only
+      PGDATABASE: telegram_migration_qa
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify owner-manually-applied SQL followed by migration and repeat
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql -v ON_ERROR_STOP=1 -c 'CREATE TABLE public.telegram_contacts (id uuid PRIMARY KEY);'
+          psql -v ON_ERROR_STOP=1 -c 'ALTER TABLE public.telegram_contacts ADD COLUMN IF NOT EXISTS phone_number VARCHAR(32), ADD COLUMN IF NOT EXISTS phone_verified_at TIMESTAMPTZ;'
+          psql -v ON_ERROR_STOP=1 -f drizzle/0023_telegram_contact_phone.sql
+          psql -v ON_ERROR_STOP=1 -f drizzle/0023_telegram_contact_phone.sql
+          psql -v ON_ERROR_STOP=1 <<'SQL'
+          DO $$
+          DECLARE
+            columns_ok boolean;
+          BEGIN
+            SELECT (
+              (SELECT format_type(a.atttypid, a.atttypmod) FROM pg_attribute a
+               WHERE a.attrelid = 'public.telegram_contacts'::regclass
+                 AND a.attname = 'phone_number' AND a.attnum > 0 AND NOT a.attisdropped)
+                 = 'character varying(32)'
+              AND
+              (SELECT format_type(a.atttypid, a.atttypmod) FROM pg_attribute a
+               WHERE a.attrelid = 'public.telegram_contacts'::regclass
+                 AND a.attname = 'phone_verified_at' AND a.attnum > 0 AND NOT a.attisdropped)
+                 = 'timestamp with time zone'
+            ) INTO columns_ok;
+            IF columns_ok IS DISTINCT FROM TRUE THEN
+              RAISE EXCEPTION 'Telegram phone column types mismatch';
+            END IF;
+          END $$;
+          SQL
+      - name: Verify migration also works on a fresh Telegram table
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql -v ON_ERROR_STOP=1 -c 'DROP TABLE public.telegram_contacts; CREATE TABLE public.telegram_contacts (id uuid PRIMARY KEY);'
+          psql -v ON_ERROR_STOP=1 -f drizzle/0023_telegram_contact_phone.sql
+          test "$(psql -At -c "SELECT count(*) FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'telegram_contacts' AND column_name IN ('phone_number', 'phone_verified_at')")" = "2"
