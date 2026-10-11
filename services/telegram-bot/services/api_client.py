@@ -84,7 +84,7 @@ class ApiClient:
     async def create_access_request(self, telegram_user_id: str, name: str, message: str | None = None, **extra: Any) -> Any:
         payload = {"telegramUserId": telegram_user_id, "name": name, "message": message, **extra}
         status, data = await self._request("POST", "/admission/request", json=payload)
-        if status == 200:
+        if status in {200, 403, 409, 503} and isinstance(data, dict):
             return data
         raise RuntimeError(f"admission request failed: {status}")
 
