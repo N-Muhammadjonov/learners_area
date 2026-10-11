@@ -8,6 +8,7 @@ import { recordAudit } from "@/lib/data/audit";
 import type { ExchangeOutcome } from "@/lib/telegram/intent-purpose";
 import { isTelegramUserId } from "@/lib/telegram/ids";
 import { checkRequiredSubscriptions } from "@/lib/telegram/required-channels";
+import { telegramApplicationGatesEnabled } from "@/lib/telegram/access-gates";
 
 type UserRow = typeof users.$inferSelect;
 
@@ -37,7 +38,7 @@ export async function prepareIntentExchange(intentId: string, browserNonce: stri
     ),
     columns: { telegramUserId: true, purpose: true },
   });
-  if (preflight?.purpose === "register" && preflight.telegramUserId) {
+  if (telegramApplicationGatesEnabled() && preflight?.purpose === "register" && preflight.telegramUserId) {
     const contact = await db.query.telegramContacts.findFirst({
       where: eq(telegramContacts.telegramUserId, preflight.telegramUserId),
       columns: { phoneNumber: true, phoneVerifiedAt: true },
