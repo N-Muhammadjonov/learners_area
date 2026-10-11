@@ -162,6 +162,13 @@
       "when": 1790650000000,
       "tag": "0022_telegram_owner_authority",
       "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1791760000000,
+      "tag": "0023_telegram_contact_phone",
+      "breakpoints": true
     }
   ]
 }
