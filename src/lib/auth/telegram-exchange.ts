@@ -7,11 +7,12 @@ import { createAccessRequest, findOpenRequestForUser } from "@/lib/data/admissio
 import { recordAudit } from "@/lib/data/audit";
 import type { ExchangeOutcome } from "@/lib/telegram/intent-purpose";
 import { isTelegramUserId } from "@/lib/telegram/ids";
+import { checkRequiredSubscriptions } from "@/lib/telegram/required-channels";
 
 type UserRow = typeof users.$inferSelect;
 
 export type ExchangeResult =
-  | { ok: false; error: "intent_not_confirmed" | "expired" | "already_consumed" | "no_linked_account" | "conflict" | "missing_user" }
+  | { ok: false; error: "intent_not_confirmed" | "expired" | "already_consumed" | "no_linked_account" | "conflict" | "missing_user" | "phone_required" | "not_subscribed" | "membership_unavailable" }
   | { ok: true; user: UserRow; outcome: ExchangeOutcome };
 
 function clipName(value: string | null | undefined) {
@@ -26,6 +27,27 @@ function clipName(value: string | null | undefined) {
  */
 export async function prepareIntentExchange(intentId: string, browserNonce: string): Promise<ExchangeResult> {
   const nonceHash = hashToken(browserNonce);
+  // The website registration path must enforce the SAME admission prerequisites
+  // as the bot's /apply API; otherwise applicants could bypass the channel gate.
+  const preflight = await db.query.telegramLoginIntents.findFirst({
+    where: and(
+      eq(telegramLoginIntents.id, intentId),
+      eq(telegramLoginIntents.browserNonceHash, nonceHash),
+      eq(telegramLoginIntents.status, "confirmed"),
+    ),
+    columns: { telegramUserId: true, purpose: true },
+  });
+  if (preflight?.purpose === "register" && preflight.telegramUserId) {
+    const contact = await db.query.telegramContacts.findFirst({
+      where: eq(telegramContacts.telegramUserId, preflight.telegramUserId),
+      columns: { phoneNumber: true, phoneVerifiedAt: true },
+    });
+    if (!contact?.phoneNumber || !contact.phoneVerifiedAt) {
+      return { ok: false, error: "phone_required" };
+    }
+    const membership = await checkRequiredSubscriptions(preflight.telegramUserId);
+    if (!membership.ok) return { ok: false, error: membership.error };
+  }
   const prepared = await db.transaction(async (tx) => {
     const [intent] = await tx
       .select()
