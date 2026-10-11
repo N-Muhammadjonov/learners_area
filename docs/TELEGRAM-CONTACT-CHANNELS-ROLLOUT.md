@@ -27,11 +27,16 @@ It is intentionally NOT the Railway tracked branch.
   the directory card, and only via an owner-authorized internal endpoint.
 - Primary owner can add/remove **up to four** required channels. Bot must be a
   channel administrator with a usable Telegram join URL.
-- `POST /api/internal/telegram/admission/request` checks a verified phone and
+- When `TELEGRAM_ACCESS_GATES_ENABLED=1` is deliberately activated,
+  `POST /api/internal/telegram/admission/request` checks a verified phone and
   freshly calls Telegram `getChatMember` for all configured channels **before
   creating any user or application rows**. Unavailable checks fail closed.
-- Website Telegram *registration* exchange enforces the same prerequisites,
-  preventing a bypass of the bot's `/apply` action.
+- Website Telegram *registration* exchange uses the very same flag, preventing
+  a bypass of the bot's `/apply` action when gates are enabled.
+- `TELEGRAM_ACCESS_GATES_ENABLED` is **OFF by default** to keep existing users'
+  access-request workflow working while the backend is deployed before the
+  new bot. This is a temporary transitional release state, NOT full policy
+  enforcement. After smoke tests, explicitly enable it on the website backend.
 - Owner contact removal/account anonymization clears phone PII.
 - `AUTH_TELEGRAM_ONLY=1` or `true` disables email/password login, email
   registration, and password-reset APIs, hides those form controls and displays
@@ -51,31 +56,67 @@ Required prerequisites in the target environment must be reconciled with its
 migration history; existing bot branches include 0021/0022 and the website's
 production branch can differ considerably.
 
-## Owner acceptance sequence (before any release)
+## Coordinated release order — NO incompatible half-deployment
 
-1. Confirm existing website OWNER login through Telegram and account linking
-   BEFORE enabling `AUTH_TELEGRAM_ONLY`.
-2. Prepare a dedicated **staging** app/backend and compatible migration state;
-   never point a review worker at live production writable DB for QA.
-3. Execute Python bot pytest, TypeScript typecheck, native PostgreSQL integration
-   tests and Telegram sandbox interaction checks.
-4. Test `/start` own contact, forwarded/other contact, missing `user_id`,
-   forged service request and retry after backend outage.
-5. Test zero/one/four required channels, fifth-channel refusal, invalid channel,
-   bot without administrator rights, member/left/kicked user, membership API
-   outage, and concurrent owner add calls.
-6. Verify browser Telegram registration cannot bypass channel/phone gates.
-7. Verify delegated bot admins and users CANNOT read phone numbers; primary
-   owner can see Telegram numeric ID, username and verified phone.
-8. Verify contact removal and account anonymization clear phone PII.
-9. Verify EN/UZ, mobile, original owner roles, existing sessions and account
-   data. Verify no change to website academic results.
-10. Only after all green checks and owner's explicit approval: integrate the
-    reviewed bot code into Railway's source branch using a normal PR; separately
-    port the appropriate website auth/API changes forward onto the **actual
-    current website production tree**. Preserve newer website work.
-11. Record rollback deployment SHA, ensure `/health` and `/ready`, monitor
-    webhook processing, and only then enable `AUTH_TELEGRAM_ONLY` in Vercel.
+**Live unauthenticated route-presence check, 2026-10-11:**
+
+- `/api/internal/telegram/ready` returns HTTP 401 (route present).
+- `/api/internal/telegram/required-channels` returns HTTP 404 (absent).
+- `/api/internal/telegram/contacts/1` returns HTTP 404 (absent).
+- `/api/internal/telegram/contacts/phone` returns HTTP 404 (absent).
+
+Source: GitHub Actions `Telegram live backend compatibility`. This is
+anonymous, read-only evidence and NOT a test of secrets or DB schema.
+
+1. **Rotate the exposed Telegram token first.** The user-provided screenshot
+   disclosed credential characters. Update Railway and Vercel with the
+   newly issued token. Never paste the new value into issues or chat.
+2. Identify the **real Vercel production deployment** and its exact SHA;
+   the GitHub production-tracking branch alone may not describe the active
+   aliased deployment. Preserve newer real website features.
+3. On an isolated **staging database**, verify existing migration history,
+   then apply the nullable `0023_telegram_contact_phone.sql`. Reconcile
+   with the actual production migration lineage before any production write.
+4. Test bot and website in staging (own contact, forged contact, channels
+   0/1/4/5, membership failures, owner phone access, anonymous callers,
+   EN/UZ, website login and registration). Confirm all blocked paths have
+   zero unauthorized DB writes.
+5. With deployment permission, apply the reviewed, compatible, nullable DB
+   migration to the correct website database first. Make a backup beforehand.
+   Do NOT reset the database.
+6. Deploy the new website backend API **with**
+   `TELEGRAM_ACCESS_GATES_ENABLED=0` and `AUTH_TELEGRAM_ONLY=0`. The old
+   Railway bot and email login must still work at this point.
+7. Re-run the public **read-only** live-route-presence check; then run a
+   secure server-to-server authenticated integration check using secrets
+   stored only in hosting settings. Verify phone storage, owner view and
+   channel registry; check `/ready` health and DB migration compatibility.
+8. Update Railway's `feature/telegram-access-bot` via reviewed fast-forward
+   changes. Verify `/start` self-contact, owner panel, error handling,
+   Telegram webhook, `/health` and `/ready`.
+9. Only after the bot and backend work together, set
+   `TELEGRAM_ACCESS_GATES_ENABLED=1` on Vercel and redeploy. Verify
+   application denials for unverified phone, unsubscribed users, and
+   membership-provider failures; verify successful authorized application.
+10. Confirm the existing owner can authenticate **via Telegram**, then set
+    `AUTH_TELEGRAM_ONLY=1` and redeploy. Confirm email/password login,
+    registration and reset endpoints all refuse requests and Google is not
+    presented. Keep prior sessions and academic data intact.
+11. Record exact website and Railway deployment SHAs, DB migration receipt,
+    acceptance evidence and a rollback/disable-flags plan. No new token or
+    `BOT_SERVICE_SECRET` may appear in logs or reports.
+
+## Owner acceptance prerequisites
+
+- A successful bot `pytest` and website typecheck are necessary but not
+  sufficient; run real PostgreSQL migration and end-to-end Telegram checks.
+- Test bot admin versus primary owner phone-number access.
+- Test exact `Contact.user_id === Message.from_user.id` binding;
+  forwarded/anonymous/other-account contacts must be refused.
+- Test bot-admin rights and Telegram `getChatMember` membership for 4 channels.
+- Confirm older bot behavior remains working while gates are OFF.
+- Do not automatically deploy or merge a bot branch into the divergent
+  website production tree.
 
 ## Important boundaries
 
