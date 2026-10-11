@@ -1357,6 +1357,13 @@ const uz: Dictionary = {
       games: "O'yinlar",
       use: "Ishlatish",
       board: "Reyting",
+      /*
+       * "Umumiy lug'at" — the term this file already uses for the global dictionary ("Bu dars so'zlari
+       * umumiy lug'atingizga saqlanadi"), not an invented one. Plain "Lug'at" would collide with the
+       * section title, which uz already renders as "Lug'at", and this tab is the published global
+       * dictionary rather than the learner's own word list.
+       */
+      dictionary: "Umumiy lug'at",
     },
     search: {
       title: "So'zlaringizdan qidirish",

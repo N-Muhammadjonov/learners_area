@@ -1373,6 +1373,9 @@ const en = {
       games: "Games",
       use: "Use it",
       board: "Leaderboard",
+      // Was a hardcoded "Dictionary" literal inside VocabStudio's tabLabel, the only one of the six
+      // not read from the dictionary — so Uzbek rendered five translated tabs and one English word.
+      dictionary: "Dictionary",
     },
     search: {
       title: "Search your words",
