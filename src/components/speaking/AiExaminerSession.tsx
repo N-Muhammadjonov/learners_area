@@ -45,6 +45,13 @@ export function AiExaminerSession({ dict, readiness, isStaff }: {
   const [busyId, setBusyId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [failed, setFailed] = useState(false);
+  /*
+   * §02 — WHICH request failed has to be remembered, or it cannot be retried. The Retry button used to
+   * call `setFailed(false)`, which only hid the message and dropped the learner back on the mode grid:
+   * the failed draw was never re-issued, so the button labelled "Try again" did not try again. Keeping
+   * the mode lets Retry repeat the exact request that failed.
+   */
+  const [failedMode, setFailedMode] = useState<AiMode | null>(null);
 
   /*
    * Two guards, because one is not enough. `requestRef` rejects a response that is no longer the newest
@@ -65,6 +72,7 @@ export function AiExaminerSession({ dict, readiness, isStaff }: {
     const token = ++requestRef.current;
     setLoading(true);
     setFailed(false);
+    setFailedMode(null);
     try {
       const response = await fetch(`/api/speaking/ai/script?mode=${encodeURIComponent(mode)}`, { cache: "no-store" });
       if (!response.ok) throw new Error(`script ${response.status}`);
@@ -76,7 +84,10 @@ export function AiExaminerSession({ dict, readiness, isStaff }: {
       setAnswered({});
       phaseRef.current = "running";
     } catch {
-      if (token === requestRef.current && phaseRef.current === "choose") setFailed(true);
+      if (token === requestRef.current && phaseRef.current === "choose") {
+        setFailed(true);
+        setFailedMode(mode);
+      }
     } finally {
       if (token === requestRef.current) setLoading(false);
     }
@@ -91,6 +102,7 @@ export function AiExaminerSession({ dict, readiness, isStaff }: {
     setAnswered({});
     setLoading(false);
     setFailed(false);
+    setFailedMode(null);
   }, []);
 
   const finished = script !== null && step >= script.length;
@@ -126,7 +138,10 @@ export function AiExaminerSession({ dict, readiness, isStaff }: {
           {failed && !loading && (
             <p className="text-sm text-ink-500" data-ai-error>
               {dict.common.error}{" "}
-              <button type="button" className="min-h-11 rounded-md underline" onClick={() => setFailed(false)} data-ai-retry>{dict.errorPage.retry}</button>
+              {/* A genuine retry: the same mode, the same request. Disabled when the mode is somehow
+                  unknown rather than silently doing nothing. */}
+              <button type="button" className="min-h-11 rounded-md underline" disabled={failedMode === null}
+                onClick={() => { if (failedMode !== null) void start(failedMode); }} data-ai-retry>{dict.errorPage.retry}</button>
             </p>
           )}
         </>

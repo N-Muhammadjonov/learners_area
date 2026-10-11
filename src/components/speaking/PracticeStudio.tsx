@@ -97,6 +97,25 @@ export function PracticeStudio({ dict }: { dict: Dictionary }) {
   const [promptsFailed, setPromptsFailed] = useState(false);
   const [loadingPrompts, setLoadingPrompts] = useState(false);
 
+  /*
+   * §02 — RETRY HAS TO BE A REAL STATE CHANGE.
+   *
+   * Each fetch is driven by an effect keyed on its own inputs, so a retry must change one of those
+   * inputs or nothing happens. The topics Retry button used to call `setSearch((s) => s)`: an identity
+   * updater is not a state change, React bails out of the render, the effect never re-runs, and the
+   * button was inert — the learner saw "Try again", pressed it, and nothing happened. A full
+   * `window.location.reload()` for the parts failure did recover, but at the cost of the whole screen:
+   * the selected part and topic, every page already loaded, and any recording in progress.
+   *
+   * These counters are the honest mechanism. Bumping one re-runs exactly the effect that failed and
+   * nothing else, so a retry recovers the request without discarding the learner's place — which is the
+   * entire reason the data is fetched in bounded pages rather than in one unbounded payload.
+   */
+  const [retryNonce, setRetryNonce] = useState({ parts: 0, topics: 0, prompts: 0 });
+  const retryParts = useCallback(() => setRetryNonce((n) => ({ ...n, parts: n.parts + 1 })), []);
+  const retryTopics = useCallback(() => setRetryNonce((n) => ({ ...n, topics: n.topics + 1 })), []);
+  const retryPrompts = useCallback(() => setRetryNonce((n) => ({ ...n, prompts: n.prompts + 1 })), []);
+
   const [support, setSupport] = useState<SupportResponse | null>(null);
   const [supportFailed, setSupportFailed] = useState(false);
   const [loadingSupport, setLoadingSupport] = useState(false);
@@ -139,7 +158,7 @@ export function PracticeStudio({ dict }: { dict: Dictionary }) {
         setPartsFailed(true);
       });
     return () => controller.abort();
-  }, []);
+  }, [retryNonce.parts]);
 
   // Topic discovery for the chosen part, narrowed by the server-side search. Reset only when the part
   // or the search term genuinely changes — §4.1: not resetting would show the wrong part's topics, and
@@ -180,7 +199,7 @@ export function PracticeStudio({ dict }: { dict: Dictionary }) {
         setLoadingTopics(false);
       });
     return () => controller.abort();
-  }, [part, debouncedSearch]);
+  }, [part, debouncedSearch, retryNonce.topics]);
 
   // One bounded page of questions for the chosen part+topic.
   useEffect(() => {
@@ -218,7 +237,7 @@ export function PracticeStudio({ dict }: { dict: Dictionary }) {
         setLoadingPrompts(false);
       });
     return () => controller.abort();
-  }, [part, topicKey]);
+  }, [part, topicKey, retryNonce.prompts]);
 
   const go = useCallback((nextPart: PracticePart | null, nextTopic: string | null) => {
     setSearch(""); setSelectedId(null);
@@ -242,7 +261,15 @@ export function PracticeStudio({ dict }: { dict: Dictionary }) {
    * unknown or empty topic resolves to "no topic chosen" — the same behaviour `resolveTopic` had when it
    * returned null for a key that was not in the groups.
    */
-  const topicResolved = topicKey !== null && (prompts === null ? !promptsFailed : promptTotal > 0);
+  /*
+   * §02 — a null page means "no answer yet", whether that is still loading or has failed, and in both
+   * cases the learner must stay on the topic they opened. The previous condition treated a failure as
+   * "not resolved", which dropped `step` back to "topic": a learner who deep-linked to
+   * ?part=part1&topic=hometown was silently thrown back to the topic list with no error and no retry,
+   * and a network failure became indistinguishable from an empty topic. Only a *successful* empty page
+   * should fall back, because that genuinely means the topic key is unknown.
+   */
+  const topicResolved = topicKey !== null && (prompts === null ? true : promptTotal > 0);
   const step = !part ? "part" : !topicResolved ? "topic" : "questions";
 
   // Study support for the selected question only, fetched when it is selected. §4.3: never prefetched
@@ -386,6 +413,9 @@ export function PracticeStudio({ dict }: { dict: Dictionary }) {
     step === "part" ? t.choosePart
     : step === "topic"
       ? `${part ? t.part[part] : ""} — ${(visibleTopicCount === 1 ? t.topicCountOne : t.topicCount).replace("{n}", String(visibleTopicCount))}`
+      // `dict.common.error` rather than `errorLabel`: statusMessage is computed above those label
+      // constants, so referencing one here is a use-before-declaration.
+      : prompts === null && promptsFailed ? dict.common.error
       : `${topicTitle ?? t.untitledTopic} — ${t.questionCount.replace("{n}", String(promptTotal))}`;
 
   const loadingLabel = dict.common.loading;
@@ -406,7 +436,7 @@ export function PracticeStudio({ dict }: { dict: Dictionary }) {
         partsFailed ? (
           <p className="text-sm text-ink-500" data-practice-error="parts">
             {errorLabel}{" "}
-            <button type="button" className="min-h-11 rounded-md underline" onClick={() => window.location.reload()}>{retryLabel}</button>
+            <button type="button" className="min-h-11 rounded-md underline" onClick={retryParts} data-practice-retry="parts">{retryLabel}</button>
           </p>
         ) : (
           <div className="motion-enter-stagger grid grid-cols-[repeat(auto-fit,minmax(min(100%,260px),1fr))] gap-4" data-practice-parts>
@@ -431,7 +461,7 @@ export function PracticeStudio({ dict }: { dict: Dictionary }) {
         topicsFailed && topics === null ? (
           <p className="text-sm text-ink-500" data-practice-error="topics">
             {errorLabel}{" "}
-            <button type="button" className="min-h-11 rounded-md underline" onClick={() => setSearch((s) => s)}>{retryLabel}</button>
+            <button type="button" className="min-h-11 rounded-md underline" onClick={retryTopics} data-practice-retry="topics">{retryLabel}</button>
           </p>
         ) : (
           <div className="space-y-4">
@@ -466,11 +496,26 @@ export function PracticeStudio({ dict }: { dict: Dictionary }) {
                     {loadingTopics ? loadingLabel : `${dict.common.continue} · ${t.topicCount.replace("{n}", String(Math.max(topicTotal - topics.length, 0)))}`}
                   </button>
                 )}
-                {topicsFailed && <p className="text-sm text-ink-500" data-practice-error="topics-more">{errorLabel}</p>}
+                {topicsFailed && (
+                  <p className="text-sm text-ink-500" data-practice-error="topics-more">
+                    {errorLabel}{" "}
+                    {/* The cursor survives a failed continuation, so re-running it resumes from the same
+                        place — this is a retry of page N, not a restart from page 1. */}
+                    <button type="button" className="min-h-11 rounded-md underline" disabled={loadingTopics}
+                      onClick={() => void loadMoreTopics()} data-practice-retry="topics-more">{retryLabel}</button>
+                  </p>
+                )}
               </>
             )}
           </div>
         )
+      )}
+
+      {step === "questions" && prompts === null && promptsFailed && (
+        <p className="text-sm text-ink-500" data-practice-error="questions">
+          {errorLabel}{" "}
+          <button type="button" className="min-h-11 rounded-md underline" onClick={retryPrompts} data-practice-retry="questions">{retryLabel}</button>
+        </p>
       )}
 
       {step === "questions" && selected && (
@@ -497,7 +542,13 @@ export function PracticeStudio({ dict }: { dict: Dictionary }) {
                     {loadingPrompts ? loadingLabel : `${dict.common.continue} · ${t.questionCount.replace("{n}", String(Math.max(promptTotal - prompts.length, 0)))}`}
                   </button>
                 )}
-                {promptsFailed && <p className="text-sm text-ink-500" data-practice-error="questions-more">{errorLabel}</p>}
+                {promptsFailed && (
+                  <p className="text-sm text-ink-500" data-practice-error="questions-more">
+                    {errorLabel}{" "}
+                    <button type="button" className="min-h-11 rounded-md underline" disabled={loadingPrompts}
+                      onClick={() => void loadMoreQuestions()} data-practice-retry="questions-more">{retryLabel}</button>
+                  </p>
+                )}
               </>
             )}
           </section>
