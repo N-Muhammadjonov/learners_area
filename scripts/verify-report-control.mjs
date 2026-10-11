@@ -35,21 +35,52 @@ function check(name, ok, detail = "") {
   }
 }
 
-async function countReports() {
+async function withClient(run) {
   const client = new pg.Client({ connectionString: DATABASE_URL });
   client.on("error", () => {});
   try {
     await client.connect();
-    return (await client.query("select count(*)::int as n from problem_reports")).rows[0].n;
+    return await run(client);
   } finally {
     await client.end().catch(() => {});
   }
 }
 
+const countReports = () =>
+  withClient((c) => c.query("select count(*)::int as n from problem_reports")).then((r) => r.rows[0].n);
+
+/**
+ * Every row in every base table, so "cleaned up" can mean the database is unchanged rather than
+ * "the one row I remembered to delete is gone".
+ *
+ * This probe originally deleted its problem_reports row and asserted the delete count matched. That
+ * check passed while the run still left a row behind: filing a report also writes an audit_log entry
+ * (`action = support.reported`), which nothing removed. A cleanup assertion scoped to the table the
+ * probe happens to know about cannot see that, so the scope has to be the whole database.
+ */
+const totalRows = () =>
+  withClient(async (c) => {
+    const tables = (
+      await c.query(
+        `select table_name from information_schema.tables
+          where table_schema = 'public' and table_type = 'BASE TABLE' order by table_name`,
+      )
+    ).rows.map((r) => r.table_name);
+    let total = 0;
+    for (const table of tables) {
+      total += (await c.query(`select count(*)::int as n from "${table}"`)).rows[0].n;
+    }
+    return { total, tables: tables.length };
+  });
+
 console.log(`\nLearners Area — report control reachability against ${BASE} at 320px\n`);
 
 const browser = await launchBrowser();
 let filed = 0;
+const rowsBefore = await totalRows();
+console.log(
+  `info - database before the probe: ${rowsBefore.total} rows across ${rowsBefore.tables} base tables`,
+);
 try {
   const session = await createSession(browser, {
     base: BASE,
@@ -240,23 +271,45 @@ try {
   );
   await uz.close();
 } finally {
-  // Leave the database as it was: delete only the row this probe filed.
+  // Leave the database as it was. Filing a report writes more than the report: it also writes an
+  // audit_log entry, so the audit rows are removed first (children before parents) and the proof
+  // that the probe is clean is the whole-database row total, not a delete count from one table.
   try {
-    const client = new pg.Client({ connectionString: DATABASE_URL });
-    client.on("error", () => {});
-    await client.connect();
-    const deleted = await client.query(
-      "delete from problem_reports where message like $1",
-      [`${MARKER}%`],
-    );
-    await client.end().catch(() => {});
+    const removed = await withClient(async (c) => {
+      const reports = (
+        await c.query("select id from problem_reports where message like $1", [`${MARKER}%`])
+      ).rows.map((r) => r.id);
+      const audit = reports.length
+        ? await c.query(
+            // Cast the column, not the parameter: target_id is a uuid and `uuid = text` has no operator.
+            `delete from audit_log
+              where target_type = 'problem_report' and target_id::text = any($1::text[])`,
+            [reports],
+          )
+        : { rowCount: 0 };
+      const reports_deleted = await c.query("delete from problem_reports where message like $1", [
+        `${MARKER}%`,
+      ]);
+      return { ids: reports.length, audit: audit.rowCount, reports: reports_deleted.rowCount };
+    });
     check(
-      "the probe removed its own database row",
-      deleted.rowCount === Math.max(filed, 0),
-      `filed ${filed}, deleted ${deleted.rowCount}`,
+      "the probe removed the report it filed",
+      removed.reports === Math.max(filed, 0),
+      `filed ${filed}, deleted ${removed.reports}`,
+    );
+    check(
+      "the probe removed the audit trail that filing the report wrote",
+      removed.audit === removed.ids,
+      `${removed.ids} report(s), ${removed.audit} audit_log row(s)`,
+    );
+    const rowsAfter = await totalRows();
+    check(
+      "the database is back to the row count the probe started from",
+      rowsAfter.total === rowsBefore.total,
+      `${rowsBefore.total} -> ${rowsAfter.total} rows across ${rowsAfter.tables} base tables`,
     );
   } catch (error) {
-    check("the probe removed its own database row", false, String(error?.message ?? error));
+    check("the probe left the database unchanged", false, String(error?.message ?? error));
   }
   await browser.close();
 }
