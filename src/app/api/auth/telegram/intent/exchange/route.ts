@@ -24,7 +24,10 @@ export async function POST(req: NextRequest) {
 
     const prepared = await prepareIntentExchange(intentId, browserNonce);
     if (!prepared.ok) {
-      const status = prepared.error === "no_linked_account" ? 404 : prepared.error === "conflict" ? 409 : prepared.error === "already_consumed" ? 409 : 400;
+      const status = prepared.error === "no_linked_account" ? 404 :
+        ["phone_required", "not_subscribed"].includes(prepared.error) ? 403 :
+        prepared.error === "membership_unavailable" ? 503 :
+        prepared.error === "conflict" || prepared.error === "already_consumed" ? 409 : 400;
       const error = prepared.error === "conflict" ? "telegram_already_linked" : prepared.error;
       return NextResponse.json({ error }, { status });
     }
