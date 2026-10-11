@@ -12,4 +12,6 @@ export const APP_HOME_ALIASES: string[];
 export function canonicalHomeRedirects(): { source: string; destination: string; permanent: boolean }[];
 export const PRIVATE_MODULE_SEGMENTS: string[];
 export const ACCOUNT_GATED_PATHS: string[];
+export const APP_LEGACY_ALIASES: { source: string; destination: string }[];
+export function appLegacyAliasRedirects(): { source: string; destination: string; permanent: boolean }[];
 export function legacyModuleRedirects(): { source: string; destination: string; permanent: boolean }[];

@@ -1,4 +1,4 @@
-import { canonicalHomeRedirects, legacyModuleRedirects } from "./src/lib/nav/private-modules.mjs";
+import { appLegacyAliasRedirects, canonicalHomeRedirects, legacyModuleRedirects } from "./src/lib/nav/private-modules.mjs";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -70,6 +70,9 @@ const nextConfig = {
       // duplicate page — the alias only ever redirects.
       ...canonicalHomeRedirects(),
       ...legacyModuleRedirects(),
+      // Intra-`/app` legacy aliases. At the config layer a hard navigation is redirected before any
+      // document renders, so the shell mounts once instead of twice — see APP_LEGACY_ALIASES.
+      ...appLegacyAliasRedirects(),
     ];
   },
   async rewrites() {

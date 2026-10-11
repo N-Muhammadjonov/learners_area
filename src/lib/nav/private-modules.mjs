@@ -64,6 +64,28 @@ export const PRIVATE_MODULE_SEGMENTS = PRIVATE_MODULES.map((m) => m.segment);
  */
 export const ACCOUNT_GATED_PATHS = ["/onboarding", "/pending"];
 
+/**
+ * Legacy aliases INSIDE `/app`: a path that used to be its own page and is now a view of another.
+ *
+ * Declared here rather than left to a page-level `redirect()` for a measured reason. A page inside the
+ * `(shell)` layout answers 200, renders and streams the shell, and only THEN navigates client-side —
+ * so the shell mounts twice. On `/app/vocabulary/review` that was observable: the notification bell
+ * polled `/api/notifications?count=1` twice and both brand marks revalidated twice, on a route whose
+ * entire job is to send the learner somewhere else. At the config layer the browser follows the 307
+ * before any document is rendered, so the shell mounts once and the bell polls once.
+ *
+ * This is not a dead-bookmark concern: the path is linked from product UI (the Coach page, Writing's
+ * Topic Vocabulary "Practice" button, coach categories and the breadcrumb table), so a hard navigation
+ * to it is an ordinary learner action.
+ *
+ * Temporary (307) for the same reason as the module aliases above — a 308 would be cached by browsers
+ * for good, and the shape of `/app` is still settling. The page-level `redirect()` is deliberately
+ * KEPT as a fallback so the path still resolves if this table is ever bypassed.
+ */
+export const APP_LEGACY_ALIASES = [
+  { source: "/app/vocabulary/review", destination: "/app/vocabulary?tab=revision" },
+];
+
 /** Alias → canonical Home, so no second dashboard can exist. */
 export function canonicalHomeRedirects() {
   return APP_HOME_ALIASES.map((source) => ({ source, destination: APP_HOME, permanent: false }));
@@ -74,6 +96,10 @@ export function canonicalHomeRedirects() {
  * the same table. Two rules per module: the module root and every deeper path.
  * Nothing here can match `/api/*` — the segments are page modules only.
  */
+export function appLegacyAliasRedirects() {
+  return APP_LEGACY_ALIASES.map(({ source, destination }) => ({ source, destination, permanent: false }));
+}
+
 export function legacyModuleRedirects() {
   return PRIVATE_MODULES.flatMap(({ segment, destination }) => [
     { source: `/${segment}`, destination, permanent: false },
