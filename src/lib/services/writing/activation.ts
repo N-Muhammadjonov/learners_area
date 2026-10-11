@@ -108,19 +108,29 @@ export async function checkActivation(userId: string, language: "uz" | "en", inp
   const uzbekApplied = input.uzbekPrompt && Boolean(item.translationUz);
   const score = activationScore(result?.bands);
   let usageRecorded = false;
-  if (item.entryId && result && verdict !== "needs_revision") {
-    const stored = await recordSentenceUse({ userId, entryId: item.entryId, sentence: answer }, database);
-    if (stored.ok) {
-      const confirmed = await confirmSentenceUse({ userId, usageId: stored.usageId, accepted: true, evaluationId: result.evaluationId ?? crypto.randomUUID(), origin: "external_ai" }, database);
-      usageRecorded = confirmed.ok;
-    }
-  }
 
-  await database.insert(activityEvents).values({ userId, type: ACTIVATION_EVENT, payload: {
-    sessionId: input.sessionId, term: item.term, entryId: item.entryId, mode: input.mode, targetLevel: input.targetLevel,
-    verdict, itemMissing, bands: result?.bands ?? null, usageRecorded, activationScore: score, uzbekApplied,
-    answer, feedback: result?.feedback ?? null, improved: result?.improved ?? null, fixes: result?.fixes.slice(0, 3) ?? [],
-  } });
+  // One learner action, one unit of work: the sentence use it records, and the event that is the only
+  // evidence the attempt ever happened. `statsFromEvents` counts these rows directly — `attempts` is
+  // the row count, `wordsActivated` the rows claiming `usageRecorded` — so writing the event outside
+  // the transaction meant a failed insert left a confirmed `vocabulary_usages` row with no record of
+  // the activation, and the payload's own `usageRecorded` claim could not be trusted either way.
+  // The AI check stays OUTSIDE the transaction: holding one open across an external call is a defect
+  // of its own, and by here the verdict is already decided.
+  await database.transaction(async (tx) => {
+    if (item.entryId && result && verdict !== "needs_revision") {
+      const stored = await recordSentenceUse({ userId, entryId: item.entryId, sentence: answer }, tx);
+      if (stored.ok) {
+        const confirmed = await confirmSentenceUse({ userId, usageId: stored.usageId, accepted: true, evaluationId: result.evaluationId ?? crypto.randomUUID(), origin: "external_ai" }, tx);
+        usageRecorded = confirmed.ok;
+      }
+    }
+
+    await tx.insert(activityEvents).values({ userId, type: ACTIVATION_EVENT, payload: {
+      sessionId: input.sessionId, term: item.term, entryId: item.entryId, mode: input.mode, targetLevel: input.targetLevel,
+      verdict, itemMissing, bands: result?.bands ?? null, usageRecorded, activationScore: score, uzbekApplied,
+      answer, feedback: result?.feedback ?? null, improved: result?.improved ?? null, fixes: result?.fixes.slice(0, 3) ?? [],
+    } });
+  });
   return { ok: true, verdict, result, itemMissing, usageRecorded, activationScore: score, uzbekApplied, stats: await activationSessionStats(userId, input.sessionId, database) };
 }
 

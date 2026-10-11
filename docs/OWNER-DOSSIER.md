@@ -403,10 +403,27 @@ battery and must be run on the frozen candidate rather than carried forward from
   confirm the submission exists. `scripts/verify-teacher-feedback-authority.mjs` 10/10.
   `IMPLEMENTED_AND_VERIFIED`.
 * **`activity_events` has no indexes and no `run_id`.** `NOT_YET_EXECUTED`.
-* **Non-transactional `activityEvents` writers remain** in `grammar/exercises/[id]/{practice,produce}`,
-  `live-classes/[id]/join`, `vocabulary/[id]/use`, `data/evaluations.ts`, `stealing.ts` and
-  `activation.ts`. B3 made assignment creation atomic; the same defect class is unremediated
-  elsewhere. `REPRODUCED_DEFECT` by inspection, not yet measured per-writer.
+* **Non-transactional `activityEvents` writers.** B3 made assignment creation atomic; the same defect
+  class existed elsewhere. `activation.ts` is now **CLOSED** — see section 9.8. The rest are triaged
+  by whether the event is *read back*, which is what separates a correctness defect from an
+  inconsistency in a feed. Only five files read `activityEvents` at all (`dashboard.ts`,
+  `retention.ts`, `vocabulary/engine.ts`, `writing/activation.ts`, `writing/typing-runs.ts`), and
+  `dashboard.ts` reads every type unfiltered to compute the streak:
+
+  | writer | event type | read back by type? | severity | status |
+  | --- | --- | --- | --- | --- |
+  | `writing/activation.ts` | `WRITING_ACTIVATION_CHECK` | yes — the *only* source of the learner's activation statistics | HIGH | **CLOSED**, section 9.8 |
+  | `writing/typing-runs.ts` | `TYPING_RUN_COMPLETED` | yes — history and replay | HIGH | already transactional (B1 wrote it against a `tx`) |
+  | `vocabulary/engine.ts:804` | `VOCAB_GAME_PRACTICED` | yes — `entryPracticeState` derives known/notYet, `activity.ts` derives meaningful activity | MEDIUM — derived state is last-write-wins per entry, so a phantom row does not corrupt it | `REPRODUCED_DEFECT` by inspection, not yet fixed |
+  | `grammar/exercises/[id]/practice` (5 writes, no transaction) | `GRAMMAR_PRACTICE_SUBMITTED` | no | MEDIUM — affects the streak only | `REPRODUCED_DEFECT` by inspection, not yet fixed |
+  | `data/evaluations.ts` (6 writes, no transaction) | `COACH_EVALUATION_COMPLETED`, `COACH_PROVIDER_FALLBACK` | no | MEDIUM | `REPRODUCED_DEFECT` by inspection, not yet fixed |
+  | `writing/stealing.ts` (4 writes, no transaction) | `WRITING_PATTERN_PRACTICE` | no — written and never read | LOW | `REPRODUCED_DEFECT` by inspection, not yet fixed |
+  | `live-classes/[id]/join` (2 writes, no transaction) | `LIVE_CLASS_ATTENDED` | no | LOW | `REPRODUCED_DEFECT` by inspection, not yet fixed |
+  | `vocabulary/[id]/use` | `VOCABULARY_USED` | no | LOW | `REPRODUCED_DEFECT` by inspection, not yet fixed |
+
+  Write counts are measured (`grep -c` on `.insert(`, `.update(`, `.delete(` and `.transaction(`);
+  none of the six unfixed writers uses a transaction. Each needs its own fault-injection test before
+  a fix can be claimed, which is why they are recorded rather than asserted green.
 * **`stealing.ts` continuation past 300 is still missing.** `NOT_YET_EXECUTED`.
 * **Valid-UUID-no-row answers 200**, per section 5 §11. `OWNER_DECISION_REQUIRED`.
 * ~~The QA2 test suite leaks — 8 files, 1 155 rows~~ — **CLOSED** in `6f2276a` (Package C). The leak
@@ -667,9 +684,77 @@ No P0 is open. The P1s:
 | Rate limiting is per-instance (in-memory `Map`) | `OWNER_DECISION_REQUIRED` if the deployment contract requires distributed enforcement; Redis refused as unjustified |
 | Valid-UUID-no-row answers 200 | `OWNER_DECISION_REQUIRED`; deleting `src/app/app/(shell)/loading.tsx` is forbidden, and inventing a global middleware DB dependency to obtain a status code is not warranted |
 | `bg-ink-50` generates no CSS — 38 sites / 21 files, every loading skeleton including the shared `SectionEntryFrame` and 2 `role="progressbar"` tracks | `REPRODUCED_DEFECT`, documented in `docs/DEFECT-bg-ink-50-invisible-skeletons.md`; the fix changes rendered appearance of protected surfaces |
-| Non-transactional `activityEvents` writers outside assignments | `REPRODUCED_DEFECT` by inspection, not measured per writer |
+| Non-transactional `activityEvents` writers outside assignments | `activation.ts` **CLOSED** (9.8); the other six are now triaged per writer by whether the event is read back — section 6 table. `REPRODUCED_DEFECT` by inspection, each still needing its own fault-injection test before a fix can be claimed |
 | Off-roster `/app/teacher/students/[id]` answers 200 with not-found content | not IDOR — no name, email or form is leaked; the status code alone is tracked as `STATUS_DEFECT` |
 
 Owner-asset blockers are unchanged and listed in section 7. No educational content, listening package,
 reading set, dictionary catalogue or speaking bank was fabricated at any point, and no AI or external
 provider response was invented.
+
+### 9.8 Activation Lab: the usage row and its only evidence now commit together — CLOSED
+
+**Defect.** `src/lib/services/writing/activation.ts` wrote the learner's confirmed sentence use and
+then inserted the `WRITING_ACTIVATION_CHECK` event as two separate statements. The event is not an
+audit nicety here: `activationSessionStats` and `activationOverview` derive the learner's attempt
+count, band and activated-word set from those rows and nothing else. So any failure between the two
+writes left a `vocabulary_usages` row the Lab had no evidence for — the learner's Vocabulary would
+show a confirmed use that their Activation history could never explain. `REPRODUCED_DEFECT`, HIGH.
+
+**RED.** `tests/writing-activation-atomicity-qa2.test.ts` (new, 9 subtests) installs a real
+PostgreSQL `BEFORE INSERT` trigger on `activity_events` scoped to the fixture learner, so the second
+statement fails inside the application's own pooled connection. First run: **3 pass / 6 fail**, with
+the failure message `1 vocabulary_usages row(s) survived a rolled-back activation: the learner's
+Vocabulary records a confirmed sentence use that the Activation Lab has no evidence for`. The test
+carries a positive control — `not_found` and `needs_revision` verdicts legitimately skip the usage
+write — so it cannot pass vacuously.
+
+**Root cause.** No transaction boundary. The helpers were also typed `database: typeof db`, and a
+drizzle transaction handle is not assignable to that, which is why the writes could not be grouped
+without a signature change.
+
+**Minimal safe fix.**
+* `src/lib/services/vocabulary/engine.ts`: added an exported `type VocabularyExecutor = typeof db | SaveTx`
+  and widened `recordSentenceUse` and `confirmSentenceUse` to accept it. Default unchanged (`= db`), so
+  every existing caller is untouched.
+* `src/lib/services/writing/activation.ts`: the usage write and the event insert are now one
+  `await database.transaction(async (tx) => …)`. The AI `check` stays **outside** the transaction —
+  an external call must never hold a connection open — and the statistics read stays **after** commit,
+  so it observes committed rows only.
+
+**GREEN and checks.** 9/9; `npx tsc --noEmit` exit 0; eslint `--max-warnings=0` clean; regression
+`writing-activation` + `vocabulary-points-db` + `vocabulary-architecture-qa2` = 40/40/0; DATABASE
+CHECK 128 rows (baseline), 0 leftover `qa_fault%` triggers, 0 armed faults; build
+`3IoGxDpBUDChGMLMjjyYp`.
+
+**Browser leg — `EXTERNAL_ACCEPTANCE_REQUIRED`, recorded not worked around.** `scripts/verify-activation-lab.mjs`
+(new, 12 checks, real Chromium at 1440 and 390) proves the Lab renders, serves the learner's own
+vocabulary, and that a refusal writes **nothing anywhere** (events, usages, whole-DB total). It
+cannot reach the transactional path: `POST /api/writing/activation/check` returns 503 `unavailable`
+at `check/route.ts:17` on `writingAiReady()` before `checkActivation` is ever called, because no AI
+provider is configured in this environment. Fabricating a provider response to get past that gate is
+forbidden, so the atomicity proof is the fault-injection test above, not a click-through.
+
+**A fourth defect, found in my own new test file.** It created `qa_fault` — a scratch table shared by
+convention with `tests/assignment-atomicity-qa2.test.ts` — and only deleted its rows, never dropping
+the table. Three standalone runs therefore left the table behind; on the next full `test:qa2`,
+`assignment-atomicity-qa2` captured it in its residue baseline, its own `finally` dropped it, and
+`sweep()` threw `relation "qa_fault" does not exist`, failing that file in its `after` hook. Suite
+total at that point: 1636 tests / 1629 pass / **1 fail** / 6 skipped.
+
+Residue is not only rows — it is schema objects too, and the row-level guard did not cover DDL. Two
+fixes, because both halves were real:
+* **Prevent the condition.** The file now owns `qa_fault_activation_tbl` exclusively, drops it in
+  `finally`, and *asserts the drop* so it cannot regress silently.
+* **Close the hole the crash exposed.** `tests/support/qa2-residue.ts`: a table present at
+  `capture()` and gone by `sweep()` is schema churn, not residue. The previous behaviour was strictly
+  worse than tolerating it — the throw aborted the sweep, so **every table after the dropped one went
+  unchecked**, which is how a genuine leak would hide. `sweep()` now re-reads the catalog, filters
+  vanished tables out, keeps sweeping the rest, and reports them as
+  `NOTE <probe>: N table(s) present at capture were dropped during the run: …`. Reported, never
+  silently skipped, so a file dropping something it should not is still visible.
+
+**Verification of both halves.** Reproduced the failing precondition deliberately by creating
+`qa_fault` before running `assignment-atomicity-qa2`: it now passes **10/10** and prints the NOTE.
+My file alone: 9/9, removed 9 fixture rows across 6 tables, and **0 leftover `qa_fault*` tables, 0
+leftover triggers**. Both files serialized in one run: **19/19, 0 fail** — the interaction that broke
+the suite is gone.

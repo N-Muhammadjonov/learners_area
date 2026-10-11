@@ -49,6 +49,8 @@ export type SweepResult = {
   residue: string[];
   lockReleased: boolean;
   uncovered: string[];
+  /** Tables that existed at capture() and were dropped before sweep(). Reported, never silently skipped. */
+  vanished: string[];
 };
 
 export type ResidueGuard = {
@@ -208,8 +210,31 @@ export async function createResidueGuard(probe: string): Promise<ResidueGuard> {
       if (!captured) throw new Error(`${probe}: sweep() called without a successful capture()`);
       const removed: Record<string, number> = {};
       const residue: string[] = [];
+      const vanished: string[] = [];
       let releaseError: unknown = null;
       try {
+        /*
+         * A table that existed at capture() and was dropped during the run is schema churn, not row
+         * residue: a file that creates its own scratch table and drops it in `finally` is behaving
+         * correctly. Crashing on it was strictly worse than tolerating it, because the throw aborted
+         * the sweep and every table after the dropped one went unchecked — which is exactly how a
+         * real leak would hide. So filter the vanished tables out, keep sweeping everything else,
+         * and report them in the summary rather than failing or forgetting.
+         */
+        const present = new Set(
+          (
+            await client.query(
+              `select table_name from information_schema.tables
+                where table_schema = 'public' and table_type = 'BASE TABLE'`,
+            )
+          ).rows.map((row) => row.table_name as string),
+        );
+        for (const entry of keyMap) if (!present.has(entry.table)) vanished.push(entry.table);
+        if (vanished.length > 0) {
+          keyMap = keyMap.filter((entry) => present.has(entry.table));
+          for (const table of vanished) baseline.delete(table);
+        }
+
         for (const table of order) {
           const entry = keyMap.find((candidate) => candidate.table === table);
           if (!entry) continue;
@@ -275,7 +300,7 @@ export async function createResidueGuard(probe: string): Promise<ResidueGuard> {
       if (releaseError) {
         throw new Error(`${probe}: sweep() failed — ${String((releaseError as Error)?.message ?? releaseError)}`);
       }
-      return { removed, residue, lockReleased: !locked, uncovered };
+      return { removed, residue, lockReleased: !locked, uncovered, vanished };
     },
 
     async end() {
@@ -329,6 +354,11 @@ export async function finishResidueGuard(probe: string, guard: ResidueGuard): Pr
     // Not a failure: a table with no primary key has no stable row identity to diff. Recorded so the
     // gap is visible rather than hidden behind a clean result.
     console.log(`  NOTE ${probe}: ${result.uncovered.length} table(s) have no primary key and cannot be diffed: ${result.uncovered.join(", ")}`);
+  }
+  if (result.vanished.length > 0) {
+    // Not residue, and not a failure: the table was dropped during the run. Named so that a file
+    // dropping something it should not is visible in the run output instead of passing quietly.
+    console.log(`  NOTE ${probe}: ${result.vanished.length} table(s) present at capture were dropped during the run: ${result.vanished.join(", ")}`);
   }
   const total = Object.values(result.removed).reduce((sum, n) => sum + n, 0);
   if (total > 0) console.log(`  ${probe}: removed ${total} fixture row(s) across ${Object.keys(result.removed).length} table(s)`);

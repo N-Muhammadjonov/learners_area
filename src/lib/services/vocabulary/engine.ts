@@ -292,6 +292,17 @@ export type NewWordInput = {
 type SaveTx = Parameters<Parameters<typeof db.transaction>[0]>[0];
 
 /**
+ * Anything these helpers can run against: the pool, or an open transaction from it.
+ *
+ * Callers that write more than one row for a single learner action need to pass their transaction
+ * down, so the whole unit commits or rolls back together. `checkActivation` is one: it stores a
+ * sentence use and then the `WRITING_ACTIVATION_CHECK` event that is the only record the learner's
+ * activation statistics are computed from. Narrowing these parameters to `typeof db` forced that
+ * caller to write outside any transaction at all.
+ */
+export type VocabularyExecutor = typeof db | SaveTx;
+
+/**
  * Record where a saved sense was met. One row per (item, occurrence): a replayed
  * save is a no-op, a new place adds a row and bumps seen_count / last_seen_at.
  * Only server-resolved snapshots reach here (routes build them from occurrences).
@@ -889,7 +900,7 @@ export async function recordSentenceUse(input: {
   userId: string;
   entryId: string;
   sentence: string;
-}, database: typeof db = db) {
+}, database: VocabularyExecutor = db) {
   const entry = await database.query.userVocabulary.findFirst({
     where: and(
       eq(userVocabulary.id, input.entryId),
@@ -942,7 +953,7 @@ export async function confirmSentenceUse(input: {
   now?: Date;
   /** Who judged the sentence: RIWI (Vocabulary "use") or the external AI (Writing Activation Lab). */
   origin?: "riwi" | "external_ai";
-}, database: typeof db = db) {
+}, database: VocabularyExecutor = db) {
   const now = input.now ?? new Date();
   const origin = input.origin ?? "riwi";
   const usage = await database.query.vocabularyUsages.findFirst({
