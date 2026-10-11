@@ -8,6 +8,28 @@ import pg from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { migrate } from "drizzle-orm/node-postgres/migrator";
 
+import { after, before } from "node:test";
+import { createResidueGuard, finishResidueGuard, type ResidueGuard } from "./support/qa2-residue";
+
+/*
+ * Fixtures this file creates are removed when it finishes, exception-safely, and only rows that did
+ * not exist when it started can be removed — so seeded records are unreachable by construction.
+ * The QA2 database is shared by every gated file, so one file’s leftovers change what the next one
+ * observes; this is what makes two consecutive runs against the same database meaningful.
+ */
+const QA2_RESIDUE_GUARD = process.env.QA2_DATABASE_TESTS === "1";
+let qa2ResidueGuard: ResidueGuard | null = null;
+before(async () => {
+  if (!QA2_RESIDUE_GUARD) return;
+  qa2ResidueGuard = await createResidueGuard("lexical-migration-db");
+  await qa2ResidueGuard.capture();
+});
+after(async () => {
+  if (!qa2ResidueGuard) return;
+  await finishResidueGuard("lexical-migration-db", qa2ResidueGuard);
+  qa2ResidueGuard = null;
+});
+
 const enabled = process.env.QA2_DATABASE_TESTS === "1";
 test("0020 upgrades populated 0019 without rewriting rows; full migration chain also works from empty", { skip: !enabled }, async () => {
   const target = new URL(process.env.DATABASE_URL!);

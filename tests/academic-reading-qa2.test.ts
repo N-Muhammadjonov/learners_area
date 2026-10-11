@@ -10,6 +10,27 @@ import { getAttemptDetail, saveDraftAnswers } from "../src/lib/data/reading";
 import { listLearningLibrary } from "../src/lib/data/reading-library";
 import { generalSetDetail } from "../src/lib/data/general-reading";
 import { readingSourceAccess } from "../src/lib/services/lexical/context";
+import { after, before } from "node:test";
+import { createResidueGuard, finishResidueGuard, type ResidueGuard } from "./support/qa2-residue";
+
+/*
+ * Fixtures this file creates are removed when it finishes, exception-safely, and only rows that did
+ * not exist when it started can be removed — so seeded records are unreachable by construction.
+ * Before this hook the file leaked its fixtures into the shared QA database, which changed what later
+ * files observed: retention-db.test.ts failed outright once the residue from earlier files accumulated.
+ */
+const QA2_RESIDUE_GUARD = process.env.QA2_DATABASE_TESTS === "1";
+let qa2ResidueGuard: ResidueGuard | null = null;
+before(async () => {
+  if (!QA2_RESIDUE_GUARD) return;
+  qa2ResidueGuard = await createResidueGuard("academic-reading-qa2");
+  await qa2ResidueGuard.capture();
+});
+after(async () => {
+  if (!qa2ResidueGuard) return;
+  await finishResidueGuard("academic-reading-qa2", qa2ResidueGuard);
+  qa2ResidueGuard = null;
+});
 
 test("Academic full set captures all three passages, resumes one private timed assessment, and saves every part without enabling vocabulary", { skip: process.env.QA2_DATABASE_TESTS !== "1" }, async () => {
   const target = new URL(process.env.DATABASE_URL!);

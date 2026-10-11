@@ -10,6 +10,27 @@ import { getProgressTrends } from "../src/lib/data/progress-trends";
 import { RetentionError } from "../src/lib/retention/errors";
 import { RETENTION_LEVEL_CONFIG } from "../src/lib/retention/levels";
 import { bodyOfWords, simpleStructure } from "./support/pglite";
+import { after, before } from "node:test";
+import { createResidueGuard, finishResidueGuard, type ResidueGuard } from "./support/qa2-residue";
+
+/*
+ * Fixtures this file creates are removed when it finishes, exception-safely, and only rows that did
+ * not exist when it started can be removed — so seeded records are unreachable by construction.
+ * Before this hook the file leaked its fixtures into the shared QA database, which changed what later
+ * files observed: retention-db.test.ts failed outright once the residue from earlier files accumulated.
+ */
+const QA2_RESIDUE_GUARD = process.env.QA2_DATABASE_TESTS === "1";
+let qa2ResidueGuard: ResidueGuard | null = null;
+before(async () => {
+  if (!QA2_RESIDUE_GUARD) return;
+  qa2ResidueGuard = await createResidueGuard("qa2-postgres-n07-n08");
+  await qa2ResidueGuard.capture();
+});
+after(async () => {
+  if (!qa2ResidueGuard) return;
+  await finishResidueGuard("qa2-postgres-n07-n08", qa2ResidueGuard);
+  qa2ResidueGuard = null;
+});
 
 /**
  * Real PostgreSQL (multi-connection pool) gates for N07/N08. Guarded exactly

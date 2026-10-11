@@ -7,6 +7,28 @@ import { speakingPrompts } from "../src/db/schema";
 import { speakingTopicDraft } from "../src/lib/speaking/topic-draft";
 import { manageSpeakingTopic, SpeakingTopicConflict } from "../src/lib/speaking/manage-topic";
 import { listActivePrompts, listLivePartnerQuestions } from "../src/lib/data/speaking-practice";
+import { after, before } from "node:test";
+import { createResidueGuard, finishResidueGuard, type ResidueGuard } from "./support/qa2-residue";
+
+/*
+ * Fixtures this file creates are removed when it finishes, exception-safely, and only rows that did
+ * not exist when it started can be removed — so seeded records are unreachable by construction.
+ * The QA2 database is shared by every gated file, so one file’s leftovers change what the next one
+ * observes; this is what makes two consecutive runs against the same database meaningful.
+ */
+const QA2_RESIDUE_GUARD = process.env.QA2_DATABASE_TESTS === "1";
+let qa2ResidueGuard: ResidueGuard | null = null;
+before(async () => {
+  if (!QA2_RESIDUE_GUARD) return;
+  qa2ResidueGuard = await createResidueGuard("speaking-topic-management");
+  await qa2ResidueGuard.capture();
+});
+after(async () => {
+  if (!qa2ResidueGuard) return;
+  await finishResidueGuard("speaking-topic-management", qa2ResidueGuard);
+  qa2ResidueGuard = null;
+});
+
 const question = (topic: string, part: "part1" | "part2" | "part3" = "part1") => ({part,topic,promptText:"What do you enjoy?",cueCard:"who this person is\nhow you met\nPart 3 – Making friends",availableIn:["practice_alone" as const],studySupport:{vocabularyHtml:"<b>PRIVATE HELPER</b><script>alert(1)</script>",modelAnswerHtml:"<i>Sample</i>",ideasHtml:"<mark>Ideas</mark>",vocabulary:[]}});
 test("topic batches reject mixed topics, multiple cue cards, duplicate and unrelated IDs", () => {
   const a = question("Work");
