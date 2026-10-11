@@ -1,0 +1,11 @@
+Private PITR logs: /private/tmp/riwi-r07-pitr-clh1ow3p
+initdb passed
+start-source passed
+migrations passed
+fixtures passed
+seed-restored-app-canary passed
+basebackup passed
+start-restored passed
+stop-restored passed
+stop-source passed
+{"status": "LOCAL_REHEARSAL_PASSED_NOT_PROVIDER_ACCEPTANCE", "receipt": "/private/tmp/riwi-r07-pitr-clh1ow3p/receipt.json", "cleanup": {"app_stopped": true, "restored_stopped": true, "source_stopped": true}}

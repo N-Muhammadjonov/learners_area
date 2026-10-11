@@ -1,0 +1,20 @@
+{
+  "verified": true,
+  "scope": "LOCAL_NATIVE_PHYSICAL_BACKUP_AND_PITR_ONLY",
+  "source_sha256": "bbd0186cbd749a0cbf23969ea84b102e874b110aafa01453826a3998a71255bf",
+  "source_files": 1258,
+  "tables_compared": 115,
+  "foreign_keys": 181,
+  "before_target_canaries_restored": 5,
+  "after_target_canaries_absent": 3,
+  "raw_gates_verified": 9,
+  "frozen_QA_tools_verified": 4,
+  "physical_backup_WAL_rehashed_now": true,
+  "restored_owner_login_and_knowledge_verified": true,
+  "anonymous_denied": true,
+  "app_and_two_clusters_stopped": true,
+  "provider_acceptance": false,
+  "contractual_RPO_RTO_selected": false,
+  "local_observed_RPO_seconds": 14.42559,
+  "local_RTO_to_app_verified_seconds": 25.37653125
+}

@@ -1,0 +1,1 @@
+{"reason": "Harness expected literal /tmp but macOS canonical path is /private/tmp. Guard now accepts only these equivalent owned prefixes.", "canonical_code_changed": false, "counts_as_PITR_pass": false, "cluster_stopped": true}

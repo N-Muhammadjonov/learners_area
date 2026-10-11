@@ -1,0 +1,38 @@
+{
+  "status": "HTTP_PASSED_MANUAL_BROWSER_HOLD_RELEASED",
+  "source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+  "source_files": 1256,
+  "private_root": "/tmp/riwi-final-browser-aw5wmkx2",
+  "new_private_cluster": true,
+  "production_touched": false,
+  "full_suite_rerun": false,
+  "actual_browser_verified": false,
+  "checks": {
+    "initdb": {
+      "exit_code": 0,
+      "log": "/tmp/riwi-final-browser-aw5wmkx2/initdb.log",
+      "sha256": "da4c52825ec27b25be14d28630e465c30848e6adf5f824b84143c3cddbfd4101"
+    },
+    "start": {
+      "exit_code": 0,
+      "log": "/tmp/riwi-final-browser-aw5wmkx2/start.log",
+      "sha256": "66afd0411ccc09366e99fdd99b85f21899c8d2d064f5835126859618802153ad"
+    },
+    "identity-create": {
+      "exit_code": 0,
+      "log": "/tmp/riwi-final-browser-aw5wmkx2/identity-create.log",
+      "sha256": "5befc50650bb0effd8ff0f4063c1476e3c76183494d89c8983bd5f738c1c4893"
+    },
+    "r06-http": {
+      "exit_code": 0,
+      "log": "/tmp/riwi-final-browser-aw5wmkx2/r06-http.log",
+      "sha256": "03deb0ad934cc3c25938fe02959072e38eac015d2d188b931efe6d8db2ef208b"
+    },
+    "stop": {
+      "exit_code": 0,
+      "log": "/tmp/riwi-final-browser-aw5wmkx2/stop.log",
+      "sha256": "ca19178a35ab4153b75b494963b66ce8243e1b94c173107c87b44d09db23652d"
+    }
+  },
+  "cluster_stopped": true
+}

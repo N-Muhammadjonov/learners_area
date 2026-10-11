@@ -1,0 +1,13 @@
+{
+  "verified": true,
+  "source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+  "raw_log_hashes_verified": 5,
+  "r06_http": 53,
+  "appProcessGroupStopped": true,
+  "privateDatabaseRemoved": true,
+  "cluster_stopped": true,
+  "private_db_config_removed": true,
+  "actual_browser_observation": "../chrome-observations.json",
+  "four_roles_basic_local_UI": true,
+  "full_R06_operational_acceptance": false
+}

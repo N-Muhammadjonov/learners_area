@@ -124,7 +124,7 @@ export async function submitSpeakingAttempt(database: typeof db, userId: string,
     }).where(and(eq(speakingAttempts.id, id), eq(speakingAttempts.evaluationClaimToken, token))).returning();
     if (!updated) return fail("evaluation_in_progress");
     const prompt = updated.promptId ? await database.query.speakingPrompts.findFirst({ where: (p, { eq: equals }) => equals(p.id, updated.promptId!) }) : null;
-    const outcome = await dependencies.evaluate({ userId, attemptId: id, part: updated.part, promptText: prompt?.promptText ?? null, transcript, transcriptOrigin,
+    const outcome = await dependencies.evaluate({ userId, attemptId: id, part: updated.part, promptText: prompt?.promptText ?? null, transcript, transcriptOrigin, transcriptEdited: updated.transcriptEdited,
       durationMs: updated.recordingDurationMs, language, persist: result => persistSpeakingEvaluation(database, userId, id, token, result) });
     if (!outcome.ok) return fail(outcome.error, 503);
     return { ok: true as const, attempt: { ...updated, evaluationClaimToken: null, evaluationClaimExpiresAt: null }, evaluation: outcome.evaluation, reused: outcome.reused };

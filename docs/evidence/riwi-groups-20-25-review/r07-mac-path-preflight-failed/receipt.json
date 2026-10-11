@@ -1,0 +1,28 @@
+{
+  "kind": "LOCAL_NATIVE_PITR_REHEARSAL",
+  "status": "FAILED",
+  "source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+  "provider_verified": false,
+  "production_touched": false,
+  "contractual_rpo_rto_selected": false,
+  "private_root": "/private/tmp/riwi-r07-pitr-2ik9m3n_",
+  "checks": {
+    "initdb": {
+      "exit_code": 0,
+      "sha256": "ba829d4db3767d33ab3608f795ab337a3f21738f76a2784a97e99156998dc772"
+    },
+    "start-source": {
+      "exit_code": 0,
+      "sha256": "66afd0411ccc09366e99fdd99b85f21899c8d2d064f5835126859618802153ad"
+    },
+    "stop-source": {
+      "exit_code": 0,
+      "sha256": "34825e03037f264d35622670dcddeb4e46626fd09ae03b6dc3f0ed0584808cd7"
+    }
+  },
+  "cleanup": {
+    "restored_stopped": true,
+    "source_stopped": true
+  },
+  "error": "local SQL failed (diagnostics withheld)"
+}

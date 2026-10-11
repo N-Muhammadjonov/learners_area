@@ -1,0 +1,6 @@
+Private QA logs: /tmp/riwi-final-browser-o2jhjzuq
+initdb
+start
+identity-create
+r06-http
+{"status": "FAILED_OR_INCOMPLETE", "receipt": "/tmp/riwi-final-browser-o2jhjzuq/receipt.json", "cluster_stopped": true}

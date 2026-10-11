@@ -1,5 +1,5 @@
 import "server-only";
-import { and, desc, eq, isNull } from "drizzle-orm";
+import { and, desc, eq, inArray, isNull } from "drizzle-orm";
 import { z, type ZodTypeAny } from "zod";
 import { db } from "@/db/client";
 import {
@@ -202,7 +202,7 @@ export function registerRiwiEvaluationTools(
 
   registerEvaluation({
     name: "riwi.coach.grammar.evaluateLatestSelf",
-    description: "Evaluate the authenticated user's latest visible Activate It Grammar attempt with the canonical GrammarEvaluationService; the authored answer key is never returned.",
+    description: "Evaluate the authenticated user's latest visible saved Grammar correction, translation or activation attempt with the canonical GrammarEvaluationService; the authored answer key is never returned.",
     handler: async (actor, language) => {
       const [attempt] = await database.select({
         attempt: grammarAttempts,
@@ -212,14 +212,16 @@ export function registerRiwiEvaluationTools(
         .innerJoin(grammarExercises, eq(grammarExercises.id, grammarAttempts.exerciseId))
         .innerJoin(grammarTopics, eq(grammarTopics.id, grammarExercises.topicId))
         .where(and(
-          eq(grammarAttempts.userId, actor.id), eq(grammarAttempts.activity, "activate_it"),
+          eq(grammarAttempts.userId, actor.id), inArray(grammarAttempts.activity, ["correct_it", "translate_it", "activate_it"]),
+          eq(grammarAttempts.selectedOption, ""),
           grammarVisibleTo(actor.id),
         ))
         .orderBy(desc(grammarAttempts.attemptedAt)).limit(1);
       if (!attempt?.attempt.responseText?.trim()) return notEvaluated("no_saved_work");
       const outcome = await resumeGrammarProduction(actor.id, attempt.attempt.id, language, database, services.evaluateGrammarProduction);
       if (!outcome.ok) return notEvaluated(outcome.error === "source_unavailable" ? "source_unavailable" : "evaluation_unavailable");
-      return resolved("Grammar Activate It saved attempt", { ok: true, evaluation: outcome.evaluation, reused: true });
+      const label = outcome.activity === "correct_it" ? "Correct It" : outcome.activity === "translate_it" ? "Translate It" : "Activate It";
+      return resolved(`Grammar ${label} saved attempt`, { ok: true, evaluation: outcome.evaluation, reused: true });
     },
   });
 

@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: C08 retains the exact expiry/grace boundary, then plans audio alone without chat pruning
+ok 1 - C08 retains the exact expiry/grace boundary, then plans audio alone without chat pruning
+  ---
+  duration_ms: 4.138417
+  type: 'test'
+  ...
+# Subtest: transcript expiry includes derived evaluation prose while keeping transcript-free metrics
+ok 2 - transcript expiry includes derived evaluation prose while keeping transcript-free metrics
+  ---
+  duration_ms: 0.295875
+  type: 'test'
+  ...
+# Subtest: recorded holds and in-flight work protect every linked class
+ok 3 - recorded holds and in-flight work protect every linked class
+  ---
+  duration_ms: 0.457875
+  type: 'test'
+  ...
+# Subtest: foreign/unsafe keys, duplicated provenance and incomplete snapshots fail before planning
+ok 4 - foreign/unsafe keys, duplicated provenance and incomplete snapshots fail before planning
+  ---
+  duration_ms: 18.846292
+  type: 'test'
+  ...
+# Subtest: retention byte counts distinguish unknown metadata and exclude protected objects
+ok 5 - retention byte counts distinguish unknown metadata and exclude protected objects
+  ---
+  duration_ms: 0.459209
+  type: 'test'
+  ...
+# Subtest: Speaking dry-run reads one coherent database snapshot without sensitive text or writes
+ok 6 - Speaking dry-run reads one coherent database snapshot without sensitive text or writes
+  ---
+  duration_ms: 2037.78075
+  type: 'test'
+  ...
+# Subtest: active recordings and indirect active session items protect audio and both transcripts
+ok 7 - active recordings and indirect active session items protect audio and both transcripts
+  ---
+  duration_ms: 1310.797042
+  type: 'test'
+  ...
+# Subtest: indirect session ownership mismatch refuses a retention snapshot
+ok 8 - indirect session ownership mismatch refuses a retention snapshot
+  ---
+  duration_ms: 1262.937625
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5615.3775

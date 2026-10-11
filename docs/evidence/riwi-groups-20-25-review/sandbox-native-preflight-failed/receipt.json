@@ -1,0 +1,47 @@
+{
+  "status": "FAILED_OR_INCOMPLETE",
+  "source_sha256": "9de5da7c156f9cce4554abbcc6cdf9a320c0b742740e7ddd315934557cb2ff8c",
+  "source_files": 1256,
+  "original_inputs": {
+    "LISTENING_SOURCE_ZIP": {
+      "path": "/Users/macbookair/Documents/Codex/2026-10-11/menga-kelgan-joyingdan-boshqa-ai-davom/work/RIWI_FULL_CONTINUATION_2026-10-11_bb39aa74/inputs/LEARNERS_AREA_LISTENING_TEST_1_FINAL.zip",
+      "sha256": "5c3cdfffe029b3a7c948f34b2be2d17201c760eae1678f6d83e2853073a90c77"
+    },
+    "SPEAKING_BANK_SOURCE": {
+      "path": "/Users/macbookair/Documents/Codex/2026-10-11/menga-kelgan-joyingdan-boshqa-ai-davom/work/RIWI_FULL_CONTINUATION_2026-10-11_bb39aa74/inputs/speaking_master_880_original.jsonl",
+      "sha256": "209e1161dd71ef3553ee3e3fe189cdc092b71d8d7f1a5e48c6dbb53ba9dc9f16"
+    }
+  },
+  "rounds": [
+    {
+      "round": 1,
+      "status": "FAILED",
+      "source_sha256": "9de5da7c156f9cce4554abbcc6cdf9a320c0b742740e7ddd315934557cb2ff8c",
+      "postgres_version": "postgres (PostgreSQL) 16.14",
+      "private_root": "/tmp/riwi-final-native-hvy3w4dt/round-1-9dxhib_a",
+      "checks": {
+        "initdb": {
+          "exit_code": 1,
+          "sha256": "60c55f4a07d6a0655faf040e11234411d869534b619d22cd8e7014712d6a51af",
+          "log": "/tmp/riwi-final-native-hvy3w4dt/round-1-9dxhib_a/initdb.log"
+        }
+      },
+      "cluster_stopped": false,
+      "error": "initdb failed. Inspect private log: /tmp/riwi-final-native-hvy3w4dt/round-1-9dxhib_a/initdb.log",
+      "password_file_removed": true
+    }
+  ],
+  "existing_databases_reset": false,
+  "each_round_new_private_cluster": true,
+  "storage": "fresh private local directory only",
+  "build_rerun": false,
+  "commit_performed": false,
+  "push_performed": false,
+  "source_skips_count_as_pass": false,
+  "original_group_acceptance_automatic": false,
+  "campaigns": 1,
+  "live_provider_verified": false,
+  "actual_browser_verified": false,
+  "real_private_object_store_verified": false,
+  "provider_pitr_verified": false
+}

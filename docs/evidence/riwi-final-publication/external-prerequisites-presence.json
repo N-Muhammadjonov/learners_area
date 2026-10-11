@@ -1,0 +1,19 @@
+{
+  "scope": "ACTIVE_REPO_LOCAL_ENV_CONFIGURATION_PRESENCE_ONLY",
+  "local_environment_files_found": 0,
+  "configured_value_presence": {
+    "OPENAI_API_KEY": false,
+    "ANTHROPIC_API_KEY": false,
+    "GEMINI_API_KEY": false,
+    "R2_ACCOUNT_ID": false,
+    "R2_ACCESS_KEY_ID": false,
+    "R2_SECRET_ACCESS_KEY": false,
+    "R2_BUCKET_NAME": false,
+    "S3_ACCESS_KEY_ID": false,
+    "S3_SECRET_ACCESS_KEY": false,
+    "DATABASE_URL": false
+  },
+  "values_disclosed": false,
+  "external_connection_attempted": false,
+  "platform_environment_not_inspected": true
+}

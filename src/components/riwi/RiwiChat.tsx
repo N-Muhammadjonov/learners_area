@@ -45,6 +45,20 @@ type UiMessage = {
 
 const STORAGE_KEY = "learners-area.riwi.conversation.v1";
 
+// Remembering a conversation is optional. Storage failures do not change an
+// answer that the server has already accepted.
+function savedConversationId() {
+  try { return window.localStorage.getItem(STORAGE_KEY); }
+  catch { return null; }
+}
+
+function rememberConversation(id: string | null) {
+  try {
+    if (id === null) window.localStorage.removeItem(STORAGE_KEY);
+    else window.localStorage.setItem(STORAGE_KEY, id);
+  } catch { /* The current conversation still works without browser storage. */ }
+}
+
 function copy(locale: Locale, role: Role, labels: RiwiLabelCopy) {
   const uz = locale === "uz";
   const roleTitle: Record<Role, string> = {
@@ -191,6 +205,17 @@ export function RiwiChat({ role, locale, scopeSurface, labels }: { role: Role; l
   const targetRequestSequence = useRef(0);
   const targetPageLock = useRef(false);
   const targetRequestController = useRef<AbortController | null>(null);
+  const chatRequestSequence = useRef(0);
+  const chatRequest = useRef<{ controller: AbortController; timer: number; sequence: number } | null>(null);
+
+  useEffect(() => () => {
+    chatRequestSequence.current += 1;
+    if (chatRequest.current) {
+      chatRequest.current.controller.abort();
+      window.clearTimeout(chatRequest.current.timer);
+      chatRequest.current = null;
+    }
+  }, [role]);
 
   useLayoutEffect(() => {
     if (targetScopeRevisionRef.current === targetScopeRevision) return;
@@ -262,7 +287,7 @@ export function RiwiChat({ role, locale, scopeSurface, labels }: { role: Role; l
 
   useEffect(() => {
     let cancelled = false;
-    const savedId = window.localStorage.getItem(STORAGE_KEY);
+    const savedId = savedConversationId();
     if (!savedId || !z.string().uuid().safeParse(savedId).success) {
       setLoadingHistory(false);
       return;
@@ -283,7 +308,7 @@ export function RiwiChat({ role, locale, scopeSurface, labels }: { role: Role; l
         setNotice(text.restored);
       } catch {
         if (cancelled) return;
-        window.localStorage.removeItem(STORAGE_KEY);
+        rememberConversation(null);
         setNotice(text.restoreFailed);
       } finally {
         if (!cancelled) setLoadingHistory(false);
@@ -308,7 +333,7 @@ export function RiwiChat({ role, locale, scopeSurface, labels }: { role: Role; l
       }
       setBusy(false);
     }
-    window.localStorage.removeItem(STORAGE_KEY);
+    rememberConversation(null);
     setConversationId(null);
     setMessages([]);
     setNotice("");
@@ -342,7 +367,9 @@ export function RiwiChat({ role, locale, scopeSurface, labels }: { role: Role; l
     }]);
     setBusy(true);
     const controller = new AbortController();
+    const sequence = ++chatRequestSequence.current;
     const timer = window.setTimeout(() => controller.abort(), 35_000);
+    chatRequest.current = { controller, timer, sequence };
     try {
       const response = await fetch("/api/riwi/chat", {
         method: "POST", credentials: "same-origin", signal: controller.signal,
@@ -350,6 +377,7 @@ export function RiwiChat({ role, locale, scopeSurface, labels }: { role: Role; l
         body: JSON.stringify({ message, ...(conversationId ? { conversationId } : {}), ...(targetUserId ? { targetUserId } : {}) }),
       });
       const parsed = riwiChatResponseSchema.safeParse(await response.json().catch(() => null));
+      if (sequence !== chatRequestSequence.current) return;
       if (!response.ok || !parsed.success) {
         const error = response.status === 429
           ? (text.uz ? "So'rovlar juda ko'p. Biroz kutib qayta urinib ko'ring." : "Too many requests. Wait a moment and try again.")
@@ -361,7 +389,7 @@ export function RiwiChat({ role, locale, scopeSurface, labels }: { role: Role; l
       const result = parsed.data;
       if (result.conversationId) {
         setConversationId(result.conversationId);
-        window.localStorage.setItem(STORAGE_KEY, result.conversationId);
+        rememberConversation(result.conversationId);
       }
       setMessages((current) => [...current, {
         id: result.correlationId, role: "assistant", content: result.answer,
@@ -370,6 +398,7 @@ export function RiwiChat({ role, locale, scopeSurface, labels }: { role: Role; l
         reportSnapshot: result.reportSnapshot ?? null,
       }]);
     } catch (error) {
+      if (sequence !== chatRequestSequence.current) return;
       const aborted = error instanceof DOMException && error.name === "AbortError";
       const fallback = error instanceof Error && !aborted ? error.message : text.failed;
       setMessages((current) => [...current, {
@@ -378,7 +407,10 @@ export function RiwiChat({ role, locale, scopeSurface, labels }: { role: Role; l
       }]);
     } finally {
       window.clearTimeout(timer);
-      setBusy(false);
+      if (sequence === chatRequestSequence.current) {
+        chatRequest.current = null;
+        setBusy(false);
+      }
     }
   }
 

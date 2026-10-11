@@ -1,0 +1,13 @@
+{
+  "verified": true,
+  "source_sha256": "bbd0186cbd749a0cbf23969ea84b102e874b110aafa01453826a3998a71255bf",
+  "source_files": 1258,
+  "raw_logs_verified": 5,
+  "http_checks": 53,
+  "cluster_stopped": true,
+  "app_stopped": true,
+  "private_database_removed": true,
+  "private_password_removed": true,
+  "browser_scope": "Student explicit EN/UZ/EN plus answers, history, refresh and logout only",
+  "full_browser_acceptance": false
+}

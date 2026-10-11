@@ -1,0 +1,33 @@
+Private QA logs: /tmp/riwi-final-native-356xrkef
+Round 1: initdb
+Round 1: start
+Round 1: createdb
+Round 1: migrations-qa
+Round 1: migrations-portability
+Round 1: fixtures
+Round 1: identity-before-tests
+Round 1: backend
+Round 1: ui
+Round 1: typecheck
+Round 1: lint
+Round 1: app-boot
+Round 1: r06-http
+Round 1: identity-after-tests
+Round 2: initdb
+Round 2: start
+Round 2: createdb
+Round 2: migrations-qa
+Round 2: migrations-portability
+Round 2: fixtures
+Round 2: identity-before-tests
+Round 2: backend
+Round 2: ui
+Round 2: typecheck
+Round 2: lint
+Round 2: app-boot
+Round 2: r06-http
+Round 2: identity-after-tests
+Receipt: /tmp/riwi-final-native-356xrkef/receipt.json
+Evidence ZIP: /tmp/riwi-final-native-356xrkef/RIWI_FINAL_NATIVE_QA_EVIDENCE.zip
+Finder: open -R "/tmp/riwi-final-native-356xrkef/RIWI_FINAL_NATIVE_QA_EVIDENCE.zip"
+Two full native rounds passed without skips. Review and publication remain separate.

@@ -1,0 +1,95 @@
+{
+  "scope": "R04_PRIVATE_NATIVE_HTTP_REHEARSAL",
+  "sourceKind": "synthetic_disposable_canaries",
+  "deployedSchedulerVerified": false,
+  "hourlyScheduleVerified": false,
+  "realBrowserVerified": false,
+  "productionTouched": false,
+  "sharedDatabaseTouched": false,
+  "buildRun": false,
+  "http": [
+    {
+      "action": "cron missing secret",
+      "status": 401
+    },
+    {
+      "action": "cron wrong secret",
+      "status": 401
+    },
+    {
+      "action": "presence anonymous",
+      "status": 401
+    },
+    {
+      "action": "student foreign-origin presence",
+      "status": 403
+    },
+    {
+      "action": "student late-return presence",
+      "status": 204
+    },
+    {
+      "action": "teacher foreign-origin presence",
+      "status": 403
+    },
+    {
+      "action": "teacher late-return presence",
+      "status": 204
+    },
+    {
+      "action": "admin foreign-origin presence",
+      "status": 403
+    },
+    {
+      "action": "admin late-return presence",
+      "status": 204
+    },
+    {
+      "action": "owner foreign-origin presence",
+      "status": 403
+    },
+    {
+      "action": "owner late-return presence",
+      "status": 204
+    },
+    {
+      "action": "authorized cron HTTP apply",
+      "status": 200
+    },
+    {
+      "action": "authorized cron HTTP retry",
+      "status": 200
+    }
+  ],
+  "nativeVersion": "16.14",
+  "zeroWriteDryRun": true,
+  "passed": true,
+  "authenticatedPresenceRoles": [
+    "student",
+    "teacher",
+    "admin",
+    "owner"
+  ],
+  "applied": {
+    "locked": true,
+    "offlineChats": 1,
+    "oldMessages": 1,
+    "expiredChats": 0,
+    "applied": true,
+    "complete": true
+  },
+  "repeated": {
+    "locked": true,
+    "offlineChats": 0,
+    "oldMessages": 0,
+    "expiredChats": 0,
+    "applied": true,
+    "complete": true
+  },
+  "recentMessagesPreserved": 101,
+  "academicRecordsPreserved": true,
+  "accountsPreserved": 6,
+  "auditContainsNoChatText": true,
+  "appProcessGroupStopped": true,
+  "privateDatabaseRemoved": true
+}

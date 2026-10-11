@@ -1,6 +1,6 @@
 import "server-only";
 import { createHash } from "node:crypto";
-import { and, eq, sql } from "drizzle-orm";
+import { and, eq, inArray, sql } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/db/client";
 import { activityEvents, auditLog, grammarAttempts, grammarExercises, grammarTopics, users } from "@/db/schema";
@@ -185,14 +185,18 @@ export async function resumeGrammarProduction(userId: string, attemptId: string,
       .from(grammarAttempts).innerJoin(grammarExercises, eq(grammarExercises.id, grammarAttempts.exerciseId))
       .innerJoin(grammarTopics, eq(grammarTopics.id, grammarExercises.topicId))
       .where(and(eq(grammarAttempts.id, attemptId), eq(grammarAttempts.userId, userId),
-        eq(grammarAttempts.activity, "activate_it"), grammarVisibleTo(userId))).for("share");
+        inArray(grammarAttempts.activity, ["correct_it", "translate_it", "activate_it"]), grammarVisibleTo(userId))).for("share");
     if (!row?.attempt.responseText?.trim() || row.attempt.selectedOption !== "") return fail("no_saved_work", 404);
-    const evidence = grammarPracticeEvidence(row.exercise, "activate_it", row.title);
-    if (!evidence) return fail("source_unavailable", 409);
-    const prepared: Prepared = { userId, exerciseId: row.exercise.id, activity: "activate_it", attemptId,
+    const activity = row.attempt.activity;
+    if (activity !== "correct_it" && activity !== "translate_it" && activity !== "activate_it") return fail("no_saved_work", 404);
+    const evidence = activity === "correct_it"
+      ? { promptText: row.exercise.promptText.trim(), targetStructure: row.title, sampleAnswer: row.exercise.correctOption }
+      : grammarPracticeEvidence(row.exercise, activity, row.title);
+    if (!evidence?.promptText.trim()) return fail("source_unavailable", 409);
+    const prepared: Prepared = { userId, exerciseId: row.exercise.id, activity, attemptId,
       answer: row.attempt.responseText, sourceHash: sourceHash(row.exercise, row.title),
-      request: { userId, attemptId, activity: "activate_it", ...evidence, studentAnswer: row.attempt.responseText, language },
-      sampleAnswer: null, explanation: row.exercise.explanation,
+      request: { userId, attemptId, activity, ...evidence, studentAnswer: row.attempt.responseText, language },
+      sampleAnswer: activity === "correct_it" ? row.exercise.correctOption : null, explanation: row.exercise.explanation,
       structures: checkStructures(row.attempt.responseText, row.exercise.targetStructures ?? []) };
     // A mutable current prompt does not prove the task the learner originally
     // answered. Never backfill a made-up checksum for legacy saved attempts.

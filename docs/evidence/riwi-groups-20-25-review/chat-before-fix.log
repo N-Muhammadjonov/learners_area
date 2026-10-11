@@ -1,0 +1,132 @@
+TAP version 13
+# Subtest: a refused conversation write cannot hide an accepted server answer
+not ok 1 - a refused conversation write cannot hide an accepted server answer
+  ---
+  duration_ms: 53.467375
+  type: 'test'
+  location: '/Users/macbookair/Documents/Codex/2026-10-11/menga-kelgan-joyingdan-boshqa-ai-davom/work/continuation-active/repo/tests/ui/riwi-chat-feedback.test.tsx:1:2974'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert.ok(document.body.textContent?.includes("Accepted answer despite unavailable browser storage."))
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    <anonymous> (/Users/macbookair/Documents/Codex/2026-10-11/menga-kelgan-joyingdan-boshqa-ai-davom/work/continuation-active/repo/tests/ui/riwi-chat-feedback.test.tsx:77:14)
+    async renderChat (/Users/macbookair/Documents/Codex/2026-10-11/menga-kelgan-joyingdan-boshqa-ai-davom/work/continuation-active/repo/tests/ui/riwi-chat-feedback.test.tsx:38:5)
+    async TestContext.<anonymous> (/Users/macbookair/Documents/Codex/2026-10-11/menga-kelgan-joyingdan-boshqa-ai-davom/work/continuation-active/repo/tests/ui/riwi-chat-feedback.test.tsx:67:3)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+  ...
+# Subtest: a refused conversation read leaves RIWI usable
+not ok 2 - a refused conversation read leaves RIWI usable
+  ---
+  duration_ms: 5.934416
+  type: 'test'
+  location: '/Users/macbookair/Documents/Codex/2026-10-11/menga-kelgan-joyingdan-boshqa-ai-davom/work/continuation-active/repo/tests/ui/riwi-chat-feedback.test.tsx:1:3903'
+  failureType: 'testCodeFailure'
+  error: 'Browser storage refused'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# Subtest: leaving RIWI aborts an in-flight send and rejects its late accepted response
+not ok 3 - leaving RIWI aborts an in-flight send and rejects its late accepted response
+  ---
+  duration_ms: 8.588208
+  type: 'test'
+  location: '/Users/macbookair/Documents/Codex/2026-10-11/menga-kelgan-joyingdan-boshqa-ai-davom/work/continuation-active/repo/tests/ui/riwi-chat-feedback.test.tsx:1:4692'
+  failureType: 'testCodeFailure'
+  error: |-
+    leaving the component cancels the request scope
+    
+    false !== true
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/macbookair/Documents/Codex/2026-10-11/menga-kelgan-joyingdan-boshqa-ai-davom/work/continuation-active/repo/tests/ui/riwi-chat-feedback.test.tsx:115:10)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: student feedback sends only the correlated categorical rating for a successful answer
+ok 4 - student feedback sends only the correlated categorical rating for a successful answer
+  ---
+  duration_ms: 12.176333
+  type: 'test'
+  ...
+# Subtest: policy refusals and unavailable answers expose no student feedback controls
+ok 5 - policy refusals and unavailable answers expose no student feedback controls
+  ---
+  duration_ms: 7.75125
+  type: 'test'
+  ...
+# Subtest: student RIWI surface declares self-only scope and renders no learner selector
+ok 6 - student RIWI surface declares self-only scope and renders no learner selector
+  ---
+  duration_ms: 8.551917
+  type: 'test'
+  ...
+# Subtest: Uzbek RIWI copy discloses rolling retention and offline deletion
+ok 7 - Uzbek RIWI copy discloses rolling retention and offline deletion
+  ---
+  duration_ms: 6.185
+  type: 'test'
+  ...
+# Subtest: teacher can target only the server-provided assigned learner and only for report/progress
+ok 8 - teacher can target only the server-provided assigned learner and only for report/progress
+  ---
+  duration_ms: 18.905125
+  type: 'test'
+  ...
+# Subtest: target continuation is user-driven, deduplicated, and preserves a selected learner
+ok 9 - target continuation is user-driven, deduplicated, and preserves a selected learner
+  ---
+  duration_ms: 12.631916
+  type: 'test'
+  ...
+# Subtest: failed target continuation preserves page and selection and exposes a working retry
+ok 10 - failed target continuation preserves page and selection and exposes a working retry
+  ---
+  duration_ms: 14.199666
+  type: 'test'
+  ...
+# Subtest: duplicate target-page clicks issue one request and a stale-context response is discarded
+ok 11 - duplicate target-page clicks issue one request and a stale-context response is discarded
+  ---
+  duration_ms: 10.65675
+  type: 'test'
+  ...
+# Subtest: admin surface is cohort-only without owner controls and a selected report target is explicit
+ok 12 - admin surface is cohort-only without owner controls and a selected report target is explicit
+  ---
+  duration_ms: 11.128584
+  type: 'test'
+  ...
+# Subtest: owner scope distinguishes centre-wide reports from an explicitly selected student
+ok 13 - owner scope distinguishes centre-wide reports from an explicitly selected student
+  ---
+  duration_ms: 11.034458
+  type: 'test'
+  ...
+# Subtest: Reporter response exposes the exact canonical snapshot and SQL provenance in the chat UI
+ok 14 - Reporter response exposes the exact canonical snapshot and SQL provenance in the chat UI
+  ---
+  duration_ms: 17.115084
+  type: 'test'
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 11
+# fail 3
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1422.959917

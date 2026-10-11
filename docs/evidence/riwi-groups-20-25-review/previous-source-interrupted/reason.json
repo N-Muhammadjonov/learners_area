@@ -1,0 +1,7 @@
+{
+  "reason": "During packet review the remaining required C08 byte inventory was completed; old source native run was stopped intentionally and earns no acceptance credit",
+  "source_sha256": "9de5da7c156f9cce4554abbcc6cdf9a320c0b742740e7ddd315934557cb2ff8c",
+  "source_is_current": false,
+  "owned_cluster_stopped": true,
+  "password_file_removed": true
+}

@@ -1,0 +1,40 @@
+{
+  "reviewed_original_sources": [
+    {
+      "source_filename": "RIWI_REMAINING_WORK_EXECUTION_PROMPT.txt",
+      "source_sha256": "daf36b256a990b7fa5379fd121810991bad552f638c776e8d9b55dcb22847979",
+      "scope": "R07",
+      "line_start": 54,
+      "text": "R06. Complete live AI provider fixtures and four-role authenticated browser QA on the exact target deployment. Test timeout, malformed output, fallback, revocation, CSRF, IDOR, replay, owner-only panels, back/forward/refresh and private URL expiry. Mock transport is not live-provider proof.\nR07. Prove real backup/PITR and restore. Record secret-free environment fingerprint, safety point, retention, actual isolated restore, row/FK/hash checks, app boot, measured RTO and observed RPO. Select contractual objectives only when the owner has chosen them. Do not restore over Production.\nR08. Produce final evidence and GO/NO-GO only after exact-source gates and operational checks. Prepare reviewable integration/cutover/rollback packets before requesting any still-required consequential owner decision. No missing mandatory evidence can become 100%.\n"
+    },
+    {
+      "source_filename": "RIWI_REMAINING_WORK_EXECUTION_PROMPT.txt",
+      "source_sha256": "daf36b256a990b7fa5379fd121810991bad552f638c776e8d9b55dcb22847979",
+      "scope": "D09",
+      "line_start": 88,
+      "text": "D09. Rerun required two final gates after last source change and record their state identity, exact results/skips, commands and artifacts. The remote ledger's 16,978 PASS labels are classification output, not 16,978 independently passing tests.\nD10. Provide the final simple owner handoff, full manual/runtime matrix and actionable remaining boundaries. Identify which tasks are code complete, locally verified, remotely published, deployed, operationally accepted or owner/external blocked.\n\nVALIDATION AND REMOTE DURABILITY"
+    },
+    {
+      "source_filename": "RIWI_SECURITY_PROMPT_FINAL_V2.txt",
+      "source_sha256": "5cc4793eaa2f9b3fba1c30428b38dce8695bf16ccac68bed2d637eb0f0e92911",
+      "scope": "full-gates",
+      "line_start": 2800,
+      "text": "            where applicable, repeated provider calls, abort/timeout paths, DB handles,\n            sockets, timers, semaphores, advisory locks, microphone/MediaRecorder,\n            SpeechRecognition listeners and object URLs.\n- REQUIRED: npm test\n- REQUIRED: npm run test:ui\n- REQUIRED: npm run typecheck\n- REQUIRED: npm run lint\n- REQUIRED: npm run build\n- REQUIRED: git diff --check\n- REQUIRED: Drizzle schema consistency\n- REQUIRED: fresh DB migration\n- REQUIRED: upgrade DB migration\n- REQUIRED: isolated real PostgreSQL QA\n- REQUIRED: canonical full gate #1\n- REQUIRED: canonical full gate #2\n\n- REQUIRED: MODE A full-system export dry-run/import test\n- REQUIRED: MODE B RIWI-only export dry-run/import test\n- REQUIRED: MODE C Learners-Area-only export dry-run/import test\n- REQUIRED: MODE A relationship/integrity validation\n- REQUIRED: MODE B privacy-canary validation\n- REQUIRED: MODE C RIWI-exclusion-canary validation\n- REQUIRED: object mode O1 keep-R2 validation\n- REQUIRED: object mode O2 move-object-store checksum validation\n- REQUIRED: cutover/rollback rehearsal\n- REQUIRED: migration archive tamper/corruption rejection\n- REQUIRED: >1,000-row migration scale fixture\nAny relevant code/database/security change after gate #1 resets the two-gate requirement.\n\nAny relevant Prompt Base or Speaking Practice code/schema/policy/security change after gate #1 also resets the two-gate requirement."
+    },
+    {
+      "source_filename": "RIWI_26_TO_100_GPT_WORK_SUPER_MASTER_META_PROMPT_2026-10-08.txt",
+      "source_sha256": "2289c7840fdc259bb34d6fc08ee208da67b57a106a5995eadb81fd9953b526de",
+      "scope": "final-forensic",
+      "line_start": 960,
+      "text": "       source assets and environment fingerprint before beginning final gate.\nQ-002. Record SHA256 of every relevant source binary/fixture and migrations.\nQ-003. Record actual Node/npm version and package.json required runtime.\nQ-004. Run clean dependency install against locked package versions on isolated CI.\nQ-005. Typecheck entire project: 0 errors.\nQ-006. Lint entire project: 0 errors or explicit owner-reviewed warnings policy.\nQ-007. Production build: pass, no type failures or missing assets.\nQ-008. Git working diff-check: clean; committed-range diff-check: clean.\nQ-009. Drizzle check: pass with expected migration journal and schema metadata.\nQ-010. Fresh native PostgreSQL full migration chain: pass.\nQ-011. Populated previous V4 canonical state upgrade: pass without data loss.\nQ-012. Historical RIWI divergent-state handling: proven/rehearsed or documented\n       unsolved P0; never claim this path is covered by only fresh install.\nQ-013. PGlite full unit suite: report total/pass/fail/skip with exact log.\nQ-014. UI full suite: total/pass/fail/skip.\nQ-015. Real native PostgreSQL full test suite: total/pass/fail/skip.\nQ-016. Run npm run qa:gate or canonical equivalent; verify actual command exit.\nQ-017. Run RIWI 26-file equivalent integrated red-team suite on current tree.\nQ-018. Run stored assessment 68-contract registry hard-core tests.\nQ-019. Run owner immutable-hash approve/reject/replay regression.\nQ-020. Run security-learning/moderation/overflow dedup and transaction tests.\nQ-021. Run private archive encryption/IV/tamper/truncation/cleanup tests.\nQ-022. Run SSRF/DNS rebind and redirect/adversarial tool input tests.\nQ-023. Run role/capability/roster/history-window tests.\nQ-024. Run no-prompt-injection escalation for direct/indirect/provider/knowledge.\nQ-025. Run attempt revision immutability and grade-history regression.\nQ-026. Run Reading exam key/privacy lock regression.\nQ-027. Run Listening exam/MCQ option/key stages regression.\nQ-028. Run TED ephemeral voice no-upload/no-persistence regression.\nQ-029. Run learner lesson notes Xulosangiz privacy regression."
+    }
+  ],
+  "interpretation": {
+    "native_rounds_are_not_full_operational_acceptance": true,
+    "mock_provider_is_not_live_provider": true,
+    "local_storage_is_not_real_R2": true,
+    "policy_proposal_is_not_recorded_owner_policy": true,
+    "no_unverified_group_closure_credit": true
+  },
+  "all_groups_closed": false
+}

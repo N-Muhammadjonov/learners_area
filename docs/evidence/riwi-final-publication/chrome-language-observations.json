@@ -1,0 +1,32 @@
+{
+  "observed_at_utc": "2026-10-11T16:12:37.530483+00:00",
+  "source_sha256": "bbd0186cbd749a0cbf23969ea84b102e874b110aafa01453826a3998a71255bf",
+  "source_files": 1258,
+  "scope": "LOCAL_CHROME_EXPLICIT_LANGUAGE_AND_HISTORY_JOURNEY",
+  "browser": "Google Chrome native UI",
+  "new_private_database": true,
+  "synthetic_actor": "student with EN profile",
+  "base": "http://127.0.0.1:61904",
+  "explicit_language_switch": [
+    "EN",
+    "UZ",
+    "EN"
+  ],
+  "uz_heading": "Shaxsiy o'quv yordamchisi",
+  "uz_answer": "Markaz lug'atida bu so'z uchun yetarli tekshirilgan ma'lumot yo'q.",
+  "en_heading": "Personal learning assistant",
+  "en_answer": "The centre dictionary does not have enough verified information for this term.",
+  "local_answer_attribution": "RIWI",
+  "reload_selected_language_retained": true,
+  "reload_both_previous_answers_restored": true,
+  "implicit_preference_policy": "No valid preference cookie retains authenticated profile locale; this is unchanged. Shell defaults independently to UZ when absent. Full default/device/theme/sensor matrix is not claimed.",
+  "actual_browser_verified": false,
+  "live_provider_verified": false,
+  "real_private_object_store_verified": false,
+  "microphone_requested": false,
+  "credentials_saved_by_agent": false,
+  "all_groups_closed": false,
+  "operational_acceptance": false,
+  "logout_normal_confirmation_completed": true,
+  "logout_empty_login_form_verified": true
+}

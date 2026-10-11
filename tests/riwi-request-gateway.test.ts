@@ -35,9 +35,9 @@ function currentUser(role: Role, id = role === "owner" ? OWNER_ID : STUDENT_ID, 
   };
 }
 
-function post(body: unknown): Request {
+function post(body: unknown, cookie?: string): Request {
   return new Request("https://riwi-gateway.test.invalid/api/riwi/chat", {
-    method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body),
+    method: "POST", headers: { "content-type": "application/json", ...(cookie ? { cookie } : {}) }, body: JSON.stringify(body),
   });
 }
 
@@ -525,6 +525,30 @@ test("external provider context is minimized and direct identifiers are redacted
   assert.equal(sentHistory[0]?.content, "turn 2", "only the most recent six eligible turns are sent");
   assert.equal(sentHistory[5]?.content.endsWith("[redacted]"), true, "PII is redacted before a length boundary can split it");
   assert.equal(sent.actor.id, STUDENT_ID, "server actor is used for audit routing but is not nested into provider payload");
+});
+
+test("selected UI language reaches the provider without changing the authenticated actor", async () => {
+  for (const [profile, cookie, expected] of [
+    ["en", "la_locale=uz", "uz"],
+    ["uz", "la_locale=en", "en"],
+    ["en", "la_locale=owner", "en"],
+    ["uz", "unrelated_la_locale=en", "uz"],
+  ] as const) {
+    const fixture = makeDependencies({ locale: profile });
+    const response = await runRiwiGateway(post({ message: "Explain why a study plan matters." }, cookie), fixture.dependencies);
+    assert.equal(response.status, 200);
+    assert.equal((fixture.state.providerInputs[0]?.payload as Record<string, unknown>).language, expected);
+    assert.equal(fixture.state.providerInputs[0]?.actor.id, STUDENT_ID);
+    assert.equal(fixture.state.providerInputs[0]?.actor.role, "student");
+  }
+});
+
+test("language selection does not authorize client identity or profile changes", async () => {
+  const fixture = makeDependencies({ locale: "en" });
+  const response = await runRiwiGateway(post({ message: "Show global report", role: "owner", locale: "uz" }, "la_locale=uz"), fixture.dependencies);
+  assert.equal(response.status, 400);
+  assert.equal(fixture.state.providerInputs.length, 0);
+  assert.equal(fixture.state.tools.length, 0);
 });
 
 test("provider citation references resolve only to retrieved knowledge titles and versions", async () => {

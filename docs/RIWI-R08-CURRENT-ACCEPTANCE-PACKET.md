@@ -1,3 +1,11 @@
+<!-- CURRENT-FINAL-PUBLICATION-POINTER -->
+Joriy manba `bbd0186cbd749a0cbf23969ea84b102e874b110aafa01453826a3998a71255bf` /1258fayl. Ikki native non-build bosqich1495backend/265UI/0fail/skip,typecheck/lint0; current localphysicalPITR115table/181FK vaChrome explicitEN/UZ/history/logout o‘tdi. Code publication tayyor, to‘liq operationalacceptance NO-GO. `RIWI-CURRENT-PUBLICATION-STATUS-UZ.md` joriy authoritative holat; quyidagi matn tarixiy dossier.
+
+<!-- CURRENT-20-25-POINTER -->
+Joriy tekshirilgan kod: `1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac` / 1256 fayl. Ikki native bosqich har biri1491backend/265UI/0fail/skip, typecheck/lint0; Chrome to‘rt rolning mahalliy boshlang‘ich UI tekshiruvi o‘tdi. To‘liq tashqi operational acceptance hali NO-GO. Joriy dalil: `RIWI-ALL-GROUPS-CURRENT-READINESS.json`. Quyidagi 06515940 natijalar tarixiy qabul paketi sifatida saqlangan.
+
+> Current successor: 06515940 / 1255 files. Published predecessor c538704 is verified. See [current readiness](RIWI-ALL-GROUPS-CURRENT-READINESS.md) for the latest candidate and QA. The dossier below preserves the previous fdc822b9 evidence and publication preparation.
+
 # Current evidence and reviewed code publication
 
 Candidate source: `fdc822b9e14e1acfbbafcb8bff799c54d2ede71b248b8ae4eb559bc1a63e2a7d`

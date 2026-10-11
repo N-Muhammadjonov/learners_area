@@ -59,14 +59,22 @@ export function evaluateSpeakingWithRiwi(input: SpeakingEvaluationInput): Provid
     })),
   ];
 
-  const durationSeconds = durationMs && durationMs > 0 ? durationMs / 1000 : null;
+  // Speaking rate needs words that were actually spoken in that audio. A typed transcript has no timing
+  // relationship to the recording, so dividing its word count by the recording length would invent a rate.
+  const typedTranscript = input.transcriptOrigin === "manual" || input.transcriptOrigin === null;
+  const durationSeconds = !typedTranscript && durationMs && durationMs > 0 ? durationMs / 1000 : null;
   const wordsPerMinute = durationSeconds ? (wordCount / durationSeconds) * 60 : null;
 
   // --- Fluency and coherence ---------------------------------------------
   const fluencyNotes: string[] = [];
   let fluencyRaw = 6.0;
 
-  if (durationSeconds === null) {
+  if (typedTranscript) {
+    // Not a penalty: nothing is known about delivery. The unmeasured rate is stated, not scored.
+    fluencyNotes.push(input.transcriptOrigin === "manual"
+      ? "The transcript was typed, not transcribed from the recording, so the speaking rate was not measured."
+      : "The transcript source is unverified, so the speaking rate was not measured.");
+  } else if (durationSeconds === null) {
     fluencyNotes.push("No recording duration was supplied, so the speaking rate could not be measured.");
     fluencyRaw -= 0.5;
   } else if (wordsPerMinute !== null) {
@@ -208,7 +216,7 @@ export function evaluateSpeakingWithRiwi(input: SpeakingEvaluationInput): Provid
   // Confidence is capped below the writing ceiling: pronunciation is missing
   // from the estimate, and transcript origin matters.
   let confidence = 0.3 + 0.3 * Math.min(1, wordCount / 150);
-  if (durationMs) confidence += 0.1;
+  if (durationSeconds !== null) confidence += 0.1;
   if (input.transcriptOrigin === "stt") confidence += 0.1;
   if (input.transcriptOrigin === "manual") confidence -= 0.05;
   if (!input.pronunciationAvailable) confidence -= 0.05;

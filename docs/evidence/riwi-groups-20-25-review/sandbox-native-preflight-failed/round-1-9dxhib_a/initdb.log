@@ -1,0 +1,19 @@
+The files belonging to this database system will be owned by user "macbookair".
+This user must also own the server process.
+
+The database cluster will be initialized with locale "C".
+The default text search configuration will be set to "english".
+
+Data page checksums are disabled.
+
+creating directory /tmp/riwi-final-native-hvy3w4dt/round-1-9dxhib_a/data ... ok
+creating subdirectories ... ok
+selecting dynamic shared memory implementation ... sysv
+selecting default max_connections ... 20
+selecting default shared_buffers ... 400kB
+selecting default time zone ... Asia/Tashkent
+creating configuration files ... ok
+running bootstrap script ... 2026-10-11 19:23:17.646 +05 [40932] FATAL:  could not create shared memory segment: Operation not permitted
+2026-10-11 19:23:17.646 +05 [40932] DETAIL:  Failed system call was shmget(key=27848410, size=56, 03600).
+child process exited with exit code 1
+initdb: removing data directory "/tmp/riwi-final-native-hvy3w4dt/round-1-9dxhib_a/data"

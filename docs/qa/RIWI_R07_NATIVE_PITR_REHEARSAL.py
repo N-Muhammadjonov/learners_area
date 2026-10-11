@@ -134,6 +134,7 @@ await c.query("insert into riwi_knowledge_sources(source_type,title,checksum,pro
         # A committed transaction after the target guarantees recovery can reach it.
         for n in range(1,4):
             query(src_port, f"insert into rehearsal.canary(label)values('post-{n}')")
+            acknowledgements.append({'label':f'post-{n}','client_acknowledged_at_utc':utc()})
         segment = query(src_port, 'select pg_walfile_name(pg_switch_wal())')
         deadline = time.monotonic()+30
         while not (wal/segment).is_file() and time.monotonic() < deadline:
@@ -149,7 +150,10 @@ await c.query("insert into riwi_knowledge_sources(source_type,title,checksum,pro
         (restored/'recovery.signal').touch()
         start_clock = time.monotonic()
         run('start-restored', [str(pg/'pg_ctl'),'-D',str(restored),'-l',str(root/'restored-server.log'),'-w','-t','60','-o',f'-p {dst_port} -k {root} -c listen_addresses=127.0.0.1 -c unix_socket_permissions=0700','start'], timeout=90)
-        assert query(dst_port,'select pg_is_in_recovery()') == 'f', 'restore did not reach promoted target'
+        promotion_deadline = time.monotonic()+60
+        while query(dst_port,'select pg_is_in_recovery()') != 'f':
+            assert time.monotonic() < promotion_deadline, 'restore did not reach promoted target'
+            time.sleep(0.1)
         ready_at, ready_clock = utc(), time.monotonic()
         actual = fingerprints(dst_port)
         assert expected == actual, 'table content or migration-journal hashes differ'
@@ -157,6 +161,11 @@ await c.query("insert into riwi_knowledge_sources(source_type,title,checksum,pro
         assert query(dst_port,'select count(*) from pg_constraint where not convalidated') == '0'
         canaries = query(dst_port,'select label from rehearsal.canary order by id').splitlines()
         assert canaries == [f'pre-{n}' for n in range(1,6)], 'PITR canary boundary mismatch'
+        restored_acks = [a for a in acknowledgements if a['label'] in canaries]
+        missing_acks = [a for a in acknowledgements if a['label'] not in canaries]
+        latest_restored_ack = max(a['client_acknowledged_at_utc'] for a in restored_acks)
+        observed_rpo = (dt.datetime.fromisoformat(failure)-dt.datetime.fromisoformat(latest_restored_ack)).total_seconds()
+        assert observed_rpo >= 0, 'RPO clock order invalid'
         verified_at, verified_clock = utc(), time.monotonic()
         # Boot the actual application against the RESTORED database, with no build/provider.
         app_port = free_port(); base = f'http://127.0.0.1:{app_port}'
@@ -194,7 +203,9 @@ await c.query("insert into riwi_knowledge_sources(source_type,title,checksum,pro
                        rto_request_to_ready_seconds=ready_clock-request_clock,rto_start_to_ready_seconds=ready_clock-start_clock,
                        rto_request_to_hash_verified_seconds=verified_clock-request_clock,
                        rto_request_to_app_verified_seconds=time.monotonic()-request_clock,
-                       deliberately_selected_target_loss_seconds=(dt.datetime.fromisoformat(failure)-dt.datetime.fromisoformat(acknowledgements[-1]['client_acknowledged_at_utc'])).total_seconds(),
+                       deliberately_selected_target_loss_seconds=observed_rpo,
+                       observed_rpo_failure_to_latest_restored_ack_seconds=observed_rpo,
+                       latest_restored_client_ack_utc=latest_restored_ack,missing_acknowledged_canaries=missing_acks,
                        app_boot={'mode':'next dev','restored_database_verified':True,'owner_password_login_status':200,
                                  'restored_owner_knowledge_status':200,'anonymous_denial_status':denied,'production_build':False},
                        private_object_store_verified=False,live_provider_verified=False,actual_browser_verified=False)

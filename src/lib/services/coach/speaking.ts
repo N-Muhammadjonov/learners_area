@@ -15,6 +15,8 @@ export type SpeakingEvaluationRequest = {
    */
   transcript: string | null;
   transcriptOrigin: "stt" | "manual" | "browser_stt" | null;
+  /** Server comparison of reviewed text with the stored recognition output. */
+  transcriptEdited?: boolean;
   durationMs: number | null;
   language: "uz" | "en";
   persist?: Parameters<typeof evaluateAndPersist>[0]["persist"];
@@ -55,6 +57,8 @@ export async function evaluateSpeakingAttempt(
 /** Transcript-only requests never assert that a registry capability assessed these bytes. */
 export function speakingEvaluationRequest(input: SpeakingEvaluationRequest) {
   return { evaluationType: "speaking" as const, assessmentContractKey: speakingContractKey(input.part), input: {
-    part: input.part, promptText: input.promptText, transcript: input.transcript, transcriptOrigin: input.transcriptOrigin, durationMs: input.durationMs, pronunciationAvailable: false,
+    part: input.part, promptText: input.promptText, transcript: input.transcript, transcriptOrigin: input.transcriptOrigin,
+    // Reviewed wording may no longer match the number of words in the audio.
+    durationMs: input.transcriptEdited ? null : input.durationMs, pronunciationAvailable: false,
   } };
 }

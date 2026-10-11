@@ -93,3 +93,42 @@ test("unmount during explicit Send ignores a late evaluation and never advances 
   assert.equal(evaluated,0);
  }finally{await act(async()=>root.unmount());}
 });
+
+test("failed Send keeps the same reviewed source locked and moves keyboard focus to review and feedback", async () => {
+  const { AiQuestionRecorder } = await import("../../src/components/speaking/AiQuestionRecorder");
+  const submitted: Record<string, unknown>[] = [];
+  let evaluated = 0;
+  globalThis.fetch = (async (url, options) => {
+    const path = String(url);
+    if (path === "/api/live-partner") return Response.json({ ok: true });
+    if (path === "/api/speaking/attempts") return Response.json({ attempt: { id: "attempt" } });
+    if (path === "/api/uploads/intent") return Response.json({ uploadId: "upload", objectKey: "private/recording", mode: "direct", uploadUrl: "https://upload.test.invalid", contentType: "audio/webm" });
+    if (path === "/api/uploads/finalize" || path === "/api/speaking/attempts/attempt") return Response.json({ ok: true });
+    if (path.endsWith("/submit")) {
+      submitted.push(JSON.parse(String(options?.body)));
+      if (submitted.length === 1) return Response.json({ error: "evaluation_unavailable" }, { status: 503 });
+      return Response.json({ evaluation: { id: "evaluation", checkedBy: "RIWI", fallbackUsed: false, overallEstimate: null, criteria: [],
+        strengths: ["Clear interest"], weaknesses: [], issues: [], nextActions: [] } });
+    }
+    assert.fail(path);
+  }) as typeof fetch;
+  const root = createRoot(document.getElementById("root")!);
+  try {
+    await act(async () => root.render(<AiQuestionRecorder dict={en} prompt={{ id: "prompt", part: "part1", answerSeconds: 45, promptText: "Question", cueCard: null } as React.ComponentProps<typeof AiQuestionRecorder>["prompt"]}
+      sessionId="session" itemId="item" index={1} onEvaluated={() => evaluated++} onNext={() => assert.fail("unrequested Next")} />));
+    await act(async () => button(en.speakingAi.startAnswer).click());
+    await act(async () => button(en.speakingAi.stop).click());
+    assert.equal(document.activeElement?.textContent, en.speakingAi.transcript);
+    const textarea = document.querySelector("textarea")!;
+    assert.equal(textarea.readOnly, false);
+    assert.equal(document.querySelector("label")!.htmlFor, textarea.id);
+    await act(async () => button(en.speakingAi.sendToRiwi).click());
+    assert.equal(document.querySelector("textarea")!.readOnly, true);
+    assert.ok(!document.body.textContent!.includes(en.speakingAi.notSubmittedYet));
+    assert.ok(document.body.textContent!.includes(en.speakingAi.submissionRetryOnly));
+    await act(async () => button(en.speakingAi.retrySend).click());
+    assert.deepEqual(submitted[1], submitted[0]);
+    assert.equal(evaluated, 1);
+    assert.equal(document.activeElement?.textContent, en.speakingAi.checkedByRiwi);
+  } finally { await act(async () => root.unmount()); }
+});

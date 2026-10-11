@@ -1,0 +1,61 @@
+{
+  "base_source_sha256": "065159408345cd274734a3b878cdb1bde4602164e9ec3eea871b9a0347ad504c",
+  "current_source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+  "changes": [
+    {
+      "path": "src/components/riwi/RiwiChat.tsx",
+      "sha256": "d8b0704a3a978c7a92e4186e146121d56bf06299ea99e6edc1d13d2e4c018250",
+      "old_sha256": "11787625b713167f5975ec2177b60c6e6d925a192a43c890aa9b5cc4307a54da"
+    },
+    {
+      "path": "src/lib/data/speaking-retention-snapshot.ts",
+      "sha256": "1515abc2ad1e04e35982b6deb4b104f98dd515bf3e281cb250947cd64ab90330",
+      "old_sha256": "aac5872737211014f15657785765d81c04afc0bb71e57dca95ff8d2ff1c0f93a"
+    },
+    {
+      "path": "src/lib/data/speaking-submission.ts",
+      "sha256": "13cfcb0c55e49a98d59714a5be33a3931ee0629f7603350767d49d5fa80317b0",
+      "old_sha256": "6da4743ed863a336d6a7e575e66b8538138bdd265f46915182a97730fdd57bc1"
+    },
+    {
+      "path": "src/lib/services/coach/providers/riwi/speaking.ts",
+      "sha256": "2cdffdf34574b32517862cab110b05f140fb976c4ef5520ae91ce5a0316a3339",
+      "old_sha256": "30d753b5175b9df6ced6a1e8414c0fd2b8d4c0ae416e698b92830c12722be4c3"
+    },
+    {
+      "path": "src/lib/services/coach/speaking.ts",
+      "sha256": "0dfaab0b75e10814b3701c50f287844d829ea44996851f5a846feccf7203d5e2",
+      "old_sha256": "c157f038a75c721c29f74d13e2f44cb4caff50509455389b49bef9386ab1331d"
+    },
+    {
+      "path": "src/lib/speaking/retention-plan.ts",
+      "sha256": "0196265f2375b5d0dbd2c8c006282b45ec13def0ed6e5d9d2a8d0388da0cac5e",
+      "old_sha256": "94c16ac571bee1d2e8130807b8868e0c29cdf01b76e3db9c3aa3109446ea20bd"
+    },
+    {
+      "path": "tests/riwi-speaking-typed-rate.test.ts",
+      "sha256": "d08150b4e511f58150fd8cd57cbb7b2d9b6e868c8681098dd9ca13b2ac919e0b",
+      "old_sha256": null
+    },
+    {
+      "path": "tests/speaking-retention-plan.test.ts",
+      "sha256": "0832e49426097da62482145d436cec276fd7a6a925c65cc2aef65869692f76c7",
+      "old_sha256": "888e8b5817d60d8e4a4833efd04f047a36b4168c8bf1de6b779d86f8bc123dfc"
+    },
+    {
+      "path": "tests/speaking-retention-snapshot-db.test.ts",
+      "sha256": "d6c75eba076cfbf0d913da98ac511c9304016ed2c7301e4c3ea27269c40f934b",
+      "old_sha256": "f9f704db521f7098c342e7b824207a2f01db0e4aa6b651695bcfca9652724023"
+    },
+    {
+      "path": "tests/speaking-submission-retry.test.ts",
+      "sha256": "74ecf5ab8b404ed9c3372bd2762bf5f533c5ad883bc1879b12ce1c64a7c4cde2",
+      "old_sha256": "993d677fe028c7fc09192546fef8351d28aa15f529adf5f0f6c72fc948e53615"
+    },
+    {
+      "path": "tests/ui/riwi-chat-feedback.test.tsx",
+      "sha256": "92e8c59b81f44cc89c2aac3896e2ea3431a73dfa6c4b34ecb9f21bc9aa321719",
+      "old_sha256": "83679071a5c9bba4f284b95fd6054cd011330fc613a23e161257b1b06c3059ba"
+    }
+  ]
+}

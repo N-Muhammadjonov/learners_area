@@ -1,0 +1,17 @@
+{
+  "round": 1,
+  "status": "FAILED",
+  "source_sha256": "9de5da7c156f9cce4554abbcc6cdf9a320c0b742740e7ddd315934557cb2ff8c",
+  "postgres_version": "postgres (PostgreSQL) 16.14",
+  "private_root": "/tmp/riwi-final-native-hvy3w4dt/round-1-9dxhib_a",
+  "checks": {
+    "initdb": {
+      "exit_code": 1,
+      "sha256": "60c55f4a07d6a0655faf040e11234411d869534b619d22cd8e7014712d6a51af",
+      "log": "/tmp/riwi-final-native-hvy3w4dt/round-1-9dxhib_a/initdb.log"
+    }
+  },
+  "cluster_stopped": false,
+  "error": "initdb failed. Inspect private log: /tmp/riwi-final-native-hvy3w4dt/round-1-9dxhib_a/initdb.log",
+  "password_file_removed": true
+}

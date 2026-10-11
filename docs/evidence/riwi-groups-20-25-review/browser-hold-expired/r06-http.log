@@ -1,0 +1,27 @@
+R06_BROWSER_READY
+ POST /api/riwi/presence 204 in 1197ms
+ GET /api/riwi/conversations/7f24e299-00a8-451f-a702-7bd963110930 200 in 983ms
+ POST /api/riwi/presence 204 in 93ms
+ ○ Compiling /api/auth/logout ...
+ ✓ Compiled /api/auth/logout in 652ms (1342 modules)
+ POST /api/auth/logout 200 in 731ms
+ ✓ Compiled /login in 476ms (1354 modules)
+ GET /login 200 in 738ms
+ GET /login 200 in 39ms
+[?25h
+
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: browser hold expired without completion signal
+    at <anonymous> (/Users/macbookair/Documents/Codex/2026-10-11/menga-kelgan-joyingdan-boshqa-ai-davom/work/browser-groups20-25/repo/scripts/qa-riwi-r06-runtime.ts:155:12) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.21.0

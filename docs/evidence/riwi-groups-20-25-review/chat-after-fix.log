@@ -1,0 +1,94 @@
+TAP version 13
+# Subtest: a refused conversation write cannot hide an accepted server answer
+ok 1 - a refused conversation write cannot hide an accepted server answer
+  ---
+  duration_ms: 47.60525
+  type: 'test'
+  ...
+# Subtest: a refused conversation read leaves RIWI usable
+ok 2 - a refused conversation read leaves RIWI usable
+  ---
+  duration_ms: 10.140875
+  type: 'test'
+  ...
+# Subtest: leaving RIWI aborts an in-flight send and rejects its late accepted response
+ok 3 - leaving RIWI aborts an in-flight send and rejects its late accepted response
+  ---
+  duration_ms: 7.436459
+  type: 'test'
+  ...
+# Subtest: student feedback sends only the correlated categorical rating for a successful answer
+ok 4 - student feedback sends only the correlated categorical rating for a successful answer
+  ---
+  duration_ms: 12.251917
+  type: 'test'
+  ...
+# Subtest: policy refusals and unavailable answers expose no student feedback controls
+ok 5 - policy refusals and unavailable answers expose no student feedback controls
+  ---
+  duration_ms: 8.239583
+  type: 'test'
+  ...
+# Subtest: student RIWI surface declares self-only scope and renders no learner selector
+ok 6 - student RIWI surface declares self-only scope and renders no learner selector
+  ---
+  duration_ms: 10.053084
+  type: 'test'
+  ...
+# Subtest: Uzbek RIWI copy discloses rolling retention and offline deletion
+ok 7 - Uzbek RIWI copy discloses rolling retention and offline deletion
+  ---
+  duration_ms: 6.203041
+  type: 'test'
+  ...
+# Subtest: teacher can target only the server-provided assigned learner and only for report/progress
+ok 8 - teacher can target only the server-provided assigned learner and only for report/progress
+  ---
+  duration_ms: 19.474709
+  type: 'test'
+  ...
+# Subtest: target continuation is user-driven, deduplicated, and preserves a selected learner
+ok 9 - target continuation is user-driven, deduplicated, and preserves a selected learner
+  ---
+  duration_ms: 12.635833
+  type: 'test'
+  ...
+# Subtest: failed target continuation preserves page and selection and exposes a working retry
+ok 10 - failed target continuation preserves page and selection and exposes a working retry
+  ---
+  duration_ms: 15.62825
+  type: 'test'
+  ...
+# Subtest: duplicate target-page clicks issue one request and a stale-context response is discarded
+ok 11 - duplicate target-page clicks issue one request and a stale-context response is discarded
+  ---
+  duration_ms: 10.915917
+  type: 'test'
+  ...
+# Subtest: admin surface is cohort-only without owner controls and a selected report target is explicit
+ok 12 - admin surface is cohort-only without owner controls and a selected report target is explicit
+  ---
+  duration_ms: 10.961708
+  type: 'test'
+  ...
+# Subtest: owner scope distinguishes centre-wide reports from an explicitly selected student
+ok 13 - owner scope distinguishes centre-wide reports from an explicitly selected student
+  ---
+  duration_ms: 11.388541
+  type: 'test'
+  ...
+# Subtest: Reporter response exposes the exact canonical snapshot and SQL provenance in the chat UI
+ok 14 - Reporter response exposes the exact canonical snapshot and SQL provenance in the chat UI
+  ---
+  duration_ms: 18.564292
+  type: 'test'
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1443.648791

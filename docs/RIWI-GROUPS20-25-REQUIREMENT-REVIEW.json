@@ -1,0 +1,328 @@
+{
+  "current_source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+  "requirements": [
+    {
+      "id": "C05-R1",
+      "group": "20_C05",
+      "source": "groups/20_C05/TASK.md (Execution and acceptance)",
+      "requirement": "Persisted session/item/question/attempt binding; refresh/resume, stale question, foreign ID, new generation, route/unmount",
+      "external_status": "PARTIAL",
+      "external_source_sha256": "2af00ff2236595fdae0375726cf733e391078a94b05e15708048465173636899",
+      "current_source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+      "current_status": "REVIEWED_EXTERNAL_PENDING",
+      "remaining": "Run refresh/back/forward/unmount journeys in a real browser."
+    },
+    {
+      "id": "C05-R2",
+      "group": "20_C05",
+      "source": "groups/20_C05/TASK.md (Execution and acceptance)",
+      "requirement": "Record -> Stop -> review/edit -> playback/re-record -> Send -> pending -> feedback -> Try again/Next",
+      "external_status": "PARTIAL",
+      "external_source_sha256": "2af00ff2236595fdae0375726cf733e391078a94b05e15708048465173636899",
+      "current_source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+      "current_status": "REVIEWED_EXTERNAL_PENDING",
+      "remaining": "Exercise re-record/Try again/Next; real STT needs a real browser with speech service."
+    },
+    {
+      "id": "C05-R3",
+      "group": "20_C05",
+      "source": "groups/20_C05/TASK.md (Execution and acceptance)",
+      "requirement": "Stop/timer/STT partial must not create server submission; mic check creates no attempt/upload",
+      "external_status": "PARTIAL",
+      "external_source_sha256": "2af00ff2236595fdae0375726cf733e391078a94b05e15708048465173636899",
+      "current_source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+      "current_status": "REVIEWED_EXTERNAL_PENDING",
+      "remaining": "Owner to decide whether empty attempt shells need cleanup (see C08). STT partial: real browser required."
+    },
+    {
+      "id": "C05-R4",
+      "group": "20_C05",
+      "source": "groups/20_C05/TASK.md (Execution and acceptance)",
+      "requirement": "Double click, parallel submit, provider timeout, retry, stale worker, delayed discard: single valid evaluation, reviewed text preserved",
+      "external_status": "PARTIAL",
+      "external_source_sha256": "2af00ff2236595fdae0375726cf733e391078a94b05e15708048465173636899",
+      "current_source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+      "current_status": "REVIEWED_EXTERNAL_PENDING",
+      "remaining": "Provider timeout/retry journey needs a controllable provider target."
+    },
+    {
+      "id": "C05-R5",
+      "group": "20_C05",
+      "source": "groups/20_C05/TASK.md (Execution and acceptance)",
+      "requirement": "Provider truth, grounded quotations and fallback confirmed with real provider receipts",
+      "external_status": "EXTERNAL REQUIRED",
+      "external_source_sha256": "2af00ff2236595fdae0375726cf733e391078a94b05e15708048465173636899",
+      "current_source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+      "current_status": "REVIEWED_EXTERNAL_PENDING",
+      "remaining": "Run against an authorized provider target."
+    },
+    {
+      "id": "C06-R1",
+      "group": "21_C06",
+      "source": "groups/21_C06/TASK.md (Execution and acceptance)",
+      "requirement": "Server-side fingerprint of audio bytes (SHA256, size, MIME, duration) matches persisted metadata and history",
+      "external_status": "PASS",
+      "external_source_sha256": "2af00ff2236595fdae0375726cf733e391078a94b05e15708048465173636899",
+      "current_source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+      "current_status": "CURRENT_NATIVE_REGRESSIONS_PASSED_ACCEPTANCE_SCOPE_REMAINS",
+      "remaining": "External screenshot SHA is format-only. Actual object byte read-back/metadata matching in authorized target and real R2 remain separate acceptance evidence.",
+      "current_QA_evidence": "docs/evidence/riwi-groups-20-25-review/final-native/verification.json"
+    },
+    {
+      "id": "C06-R2",
+      "group": "21_C06",
+      "source": "groups/21_C06/TASK.md (Execution and acceptance)",
+      "requirement": "Raw transcript immutable; reviewed edits separate; transcriptEdited preserved; retries do not swap sources",
+      "external_status": "PARTIAL",
+      "external_source_sha256": "2af00ff2236595fdae0375726cf733e391078a94b05e15708048465173636899",
+      "current_source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+      "current_status": "REVIEWED_EXTERNAL_PENDING",
+      "remaining": "Verify with real STT in a real browser."
+    },
+    {
+      "id": "C06-R3",
+      "group": "21_C06",
+      "source": "groups/21_C06/TASK.md (Execution and acceptance)",
+      "requirement": "Provider/model/fallback provenance truthful; internal claims not in learner DTO; no invented measurements",
+      "external_status": "PASS",
+      "external_source_sha256": "2af00ff2236595fdae0375726cf733e391078a94b05e15708048465173636899",
+      "current_source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+      "current_status": "CURRENT_TYPED_AND_EDITED_TRANSCRIPT_RATE_FIX_NATIVE_VERIFIED_EXTERNAL_PENDING",
+      "remaining": "Server-derived transcriptEdited is now propagated and excludes original audio duration for edited text. Current native tests pass. Live provider provenance and grounded semantic output remain separate.",
+      "current_QA_evidence": "docs/evidence/riwi-groups-20-25-review/final-native/verification.json"
+    },
+    {
+      "id": "C06-R4",
+      "group": "21_C06",
+      "source": "groups/21_C06/TASK.md (Execution and acceptance)",
+      "requirement": "Owner/foreign attempt and object IDs, forged ownership, missing/corrupt object, private URL access",
+      "external_status": "PASS",
+      "external_source_sha256": "2af00ff2236595fdae0375726cf733e391078a94b05e15708048465173636899",
+      "current_source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+      "current_status": "CURRENT_NATIVE_REGRESSIONS_PASSED_ACCEPTANCE_SCOPE_REMAINS",
+      "remaining": "Owner to confirm staff access to private Speaking audio.",
+      "current_QA_evidence": "docs/evidence/riwi-groups-20-25-review/final-native/verification.json"
+    },
+    {
+      "id": "C06-R5",
+      "group": "21_C06",
+      "source": "groups/21_C06/TASK.md (Execution and acceptance)",
+      "requirement": "Signed GET before and after expiry over HTTP on an authorized R2/S3 target",
+      "external_status": "EXTERNAL REQUIRED",
+      "external_source_sha256": "2af00ff2236595fdae0375726cf733e391078a94b05e15708048465173636899",
+      "current_source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+      "current_status": "REVIEWED_EXTERNAL_PENDING",
+      "remaining": "Provide a private QA bucket and run before/after-expiry HTTP checks with redaction."
+    },
+    {
+      "id": "C07-R1",
+      "group": "22_C07",
+      "source": "groups/22_C07/TASK.md (Execution and acceptance)",
+      "requirement": "Part 2 preparation keeps mic off; early start; recording limit; manual stop; cleanup in an actual browser",
+      "external_status": "PARTIAL",
+      "external_source_sha256": "2af00ff2236595fdae0375726cf733e391078a94b05e15708048465173636899",
+      "current_source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+      "current_status": "REVIEWED_EXTERNAL_PENDING",
+      "remaining": "Run Part 2 in a real browser."
+    },
+    {
+      "id": "C07-R2",
+      "group": "22_C07",
+      "source": "groups/22_C07/TASK.md (Execution and acceptance)",
+      "requirement": "Summary only from owned valid grounded attempts; canaries for empty/partial/foreign/stale/legacy/corrupt",
+      "external_status": "PASS",
+      "external_source_sha256": "2af00ff2236595fdae0375726cf733e391078a94b05e15708048465173636899",
+      "current_source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+      "current_status": "CURRENT_NATIVE_REGRESSIONS_PASSED_ACCEPTANCE_SCOPE_REMAINS",
+      "remaining": "None.",
+      "current_QA_evidence": "docs/evidence/riwi-groups-20-25-review/final-native/verification.json"
+    },
+    {
+      "id": "C07-R3",
+      "group": "22_C07",
+      "source": "groups/22_C07/TASK.md (Execution and acceptance)",
+      "requirement": "Transcript-only pronunciation stays Not assessed; no fabricated overall for incomplete coverage",
+      "external_status": "PASS",
+      "external_source_sha256": "2af00ff2236595fdae0375726cf733e391078a94b05e15708048465173636899",
+      "current_source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+      "current_status": "CURRENT_NATIVE_REGRESSIONS_PASSED_ACCEPTANCE_SCOPE_REMAINS",
+      "remaining": "None.",
+      "current_QA_evidence": "docs/evidence/riwi-groups-20-25-review/final-native/verification.json"
+    },
+    {
+      "id": "C07-R4",
+      "group": "22_C07",
+      "source": "groups/22_C07/TASK.md (Execution and acceptance)",
+      "requirement": "Recurrence counted over distinct answers; practice feedback not shown as official IELTS result",
+      "external_status": "PARTIAL",
+      "external_source_sha256": "2af00ff2236595fdae0375726cf733e391078a94b05e15708048465173636899",
+      "current_source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+      "current_status": "REVIEWED_EXTERNAL_PENDING",
+      "remaining": "Targeted review of recurrence canaries."
+    },
+    {
+      "id": "C07-R5",
+      "group": "22_C07",
+      "source": "groups/22_C07/TASK.md (Execution and acceptance)",
+      "requirement": "Learning-signal consent/revocation/role/producer/privacy lifecycle with runtime evidence",
+      "external_status": "OWNER REQUIRED",
+      "external_source_sha256": "2af00ff2236595fdae0375726cf733e391078a94b05e15708048465173636899",
+      "current_source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+      "current_status": "REVIEWED_EXTERNAL_PENDING",
+      "remaining": "Owner records the consent policy; then run the lifecycle against a runtime."
+    },
+    {
+      "id": "C08-R1",
+      "group": "23_C08",
+      "source": "groups/23_C08/TASK.md (Execution and acceptance)",
+      "requirement": "Audit linkage of objects/attempts/history/provenance, storage provider and cleanup route; do not apply chat 30d/7d rule",
+      "external_status": "PASS",
+      "external_source_sha256": "2af00ff2236595fdae0375726cf733e391078a94b05e15708048465173636899",
+      "current_source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+      "current_status": "CURRENT_READ_ONLY_SNAPSHOT_NATIVE_VERIFIED_OWNER_PENDING",
+      "remaining": "Specific retention policy and orphan/inventory strategy must be recorded by owner; no destructive executor enabled.",
+      "current_QA_evidence": "docs/evidence/riwi-groups-20-25-review/final-native/verification.json"
+    },
+    {
+      "id": "C08-R2",
+      "group": "23_C08",
+      "source": "groups/23_C08/TASK.md (Execution and acceptance)",
+      "requirement": "Exact PROPOSED lifecycle with variants/tradeoffs; durations not effective",
+      "external_status": "PASS",
+      "external_source_sha256": "2af00ff2236595fdae0375726cf733e391078a94b05e15708048465173636899",
+      "current_source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+      "current_status": "LOCAL_PROPOSAL_DELIVERED_OWNER_DECISION_PENDING",
+      "remaining": "Owner must choose and record specific policy; all options remain proposed.",
+      "implementation": [
+        "docs/RIWI-C08-SPEAKING-LIFECYCLE-REVIEW.md"
+      ]
+    },
+    {
+      "id": "C08-R3",
+      "group": "23_C08",
+      "source": "groups/23_C08/TASK.md (Execution and acceptance)",
+      "requirement": "Read-only dry-run: fixed clock, IDs, counts/bytes, reasons, FK/history consequences, isolated fixtures",
+      "external_status": "PASS",
+      "external_source_sha256": "2af00ff2236595fdae0375726cf733e391078a94b05e15708048465173636899",
+      "current_source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+      "current_status": "CURRENT_FOCUSED_AND_FULL_NATIVE_VERIFIED_EXTERNAL_PENDING",
+      "remaining": "Owner policy and physical object inventory/read-back remain separate; metadata byte counts include unknown-size objects.",
+      "implementation": [
+        "src/lib/speaking/retention-plan.ts",
+        "src/lib/data/speaking-retention-snapshot.ts"
+      ],
+      "evidence": [
+        "docs/evidence/riwi-groups-20-25-review/retention-final-focused.log"
+      ]
+    },
+    {
+      "id": "C08-R4",
+      "group": "23_C08",
+      "source": "groups/23_C08/TASK.md (Execution and acceptance)",
+      "requirement": "No irreversible job/cron/lifecycle enabled without recorded owner policy",
+      "external_status": "PASS",
+      "external_source_sha256": "2af00ff2236595fdae0375726cf733e391078a94b05e15708048465173636899",
+      "current_source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+      "current_status": "CURRENT_NATIVE_REGRESSIONS_PASSED_ACCEPTANCE_SCOPE_REMAINS",
+      "remaining": "None.",
+      "current_QA_evidence": "docs/evidence/riwi-groups-20-25-review/final-native/verification.json"
+    },
+    {
+      "id": "C08-R5",
+      "group": "23_C08",
+      "source": "groups/23_C08/TASK.md (Execution and acceptance)",
+      "requirement": "Real R2 lifecycle/storage and browser mic/STT acceptance receipts",
+      "external_status": "EXTERNAL REQUIRED",
+      "external_source_sha256": "2af00ff2236595fdae0375726cf733e391078a94b05e15708048465173636899",
+      "current_source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+      "current_status": "REVIEWED_EXTERNAL_PENDING",
+      "remaining": "Provide target and policy."
+    },
+    {
+      "id": "C09-R1",
+      "group": "24_C09",
+      "source": "groups/24_C09/TASK.md (Execution and acceptance)",
+      "requirement": "Desktop/tablet/mobile x UZ/EN x day/night with recorded browser/OS/device",
+      "external_status": "PARTIAL",
+      "external_source_sha256": "2af00ff2236595fdae0375726cf733e391078a94b05e15708048465173636899",
+      "current_source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+      "current_status": "CURRENT_CHROME_VISIBLE_GATE_PARTIAL_FULL_LAYOUT_MATRIX_PENDING",
+      "remaining": "Current Chrome UZ gate with visible heading, level and enabled button was inspected. Incoming reviewed screenshots show only a loading shell. Full viewport/locale/theme/state matrix remains unverified."
+    },
+    {
+      "id": "C09-R2",
+      "group": "24_C09",
+      "source": "groups/24_C09/TASK.md (Execution and acceptance)",
+      "requirement": "Keyboard order/focus/dialogs/announcements/touch targets/readability",
+      "external_status": "PARTIAL",
+      "external_source_sha256": "2af00ff2236595fdae0375726cf733e391078a94b05e15708048465173636899",
+      "current_source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+      "current_status": "REVIEWED_EXTERNAL_PENDING",
+      "remaining": "Owner to decide on a 44 px touch target target; run dialog/announcement checks."
+    },
+    {
+      "id": "C09-R3",
+      "group": "24_C09",
+      "source": "groups/24_C09/TASK.md (Execution and acceptance)",
+      "requirement": "Active-session failures: denied/unavailable mic, unsupported STT, interrupted recording, slow network, provider timeout, expired auth, route changes",
+      "external_status": "BLOCKED",
+      "external_source_sha256": "2af00ff2236595fdae0375726cf733e391078a94b05e15708048465173636899",
+      "current_source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+      "current_status": "REVIEWED_EXTERNAL_PENDING",
+      "remaining": "Real browser with controllable permission and network."
+    },
+    {
+      "id": "C09-R4",
+      "group": "24_C09",
+      "source": "groups/24_C09/TASK.md (Execution and acceptance)",
+      "requirement": "Stop/timer do not send transcript before explicit Send; playback/re-record consistent; Practice on Your Own preserved",
+      "external_status": "PARTIAL",
+      "external_source_sha256": "2af00ff2236595fdae0375726cf733e391078a94b05e15708048465173636899",
+      "current_source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+      "current_status": "REVIEWED_EXTERNAL_PENDING",
+      "remaining": "Run them."
+    },
+    {
+      "id": "C09-R5",
+      "group": "24_C09",
+      "source": "groups/24_C09/TASK.md (Execution and acceptance)",
+      "requirement": "Real microphone, SpeechRecognition and provider supported/unsupported paths",
+      "external_status": "EXTERNAL REQUIRED",
+      "external_source_sha256": "2af00ff2236595fdae0375726cf733e391078a94b05e15708048465173636899",
+      "current_source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+      "current_status": "REVIEWED_EXTERNAL_PENDING",
+      "remaining": "Physical device/real browser."
+    },
+    {
+      "id": "D01-R1",
+      "group": "25_D01",
+      "source": "groups/25_D01/TASK.md (Execution and acceptance)",
+      "requirement": "No D01 privacy regression from groups 20-24; 3-scope manifests; chat only in full-system; retention canaries",
+      "external_status": "PASS",
+      "external_source_sha256": "2af00ff2236595fdae0375726cf733e391078a94b05e15708048465173636899",
+      "current_source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+      "current_status": "CURRENT_TWO_FULL_NATIVE_ROUNDS_REGRESSION_PASSED_ALREADY_CLOSED",
+      "remaining": "No new closure credit: D01 already CLOSED.",
+      "current_QA_evidence": "docs/evidence/riwi-groups-20-25-review/final-native/verification.json"
+    }
+  ],
+  "full_group_closures_added": 0,
+  "partial_or_local_pass_earns_full_group_credit": false,
+  "current_native_QA": {
+    "status": "PASSED_TWO_FULL_NATIVE_ROUNDS_NO_SKIPS",
+    "counts_each_round": {
+      "backend": 1491,
+      "ui": 265,
+      "fail": 0,
+      "skip": 0
+    },
+    "verification": "docs/evidence/riwi-groups-20-25-review/final-native/verification.json",
+    "scope": "Automated regression only. Individual requirement ownership/provider/sensor/storage acceptance remains separately scoped."
+  },
+  "current_Chrome_QA": {
+    "basic_four_role_UI_passed": true,
+    "visible_UZ_microphone_gate_passed": true,
+    "full_speaking_recording_matrix_passed": false,
+    "observations": "docs/evidence/riwi-groups-20-25-review/chrome-observations.json"
+  }
+}

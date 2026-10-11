@@ -1,0 +1,21 @@
+{
+  "reason": "20-minute disposable browser hold expired without done signal. Preserved as incomplete, not application regression.",
+  "source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+  "actual_browser_observations": {
+    "Safari": [
+      "student_login",
+      "student_private_RIWI_scope"
+    ],
+    "Chrome": [
+      "student_login",
+      "student_private_RIWI_scope",
+      "dictionary_missing_term_truthful_local_response",
+      "conversation_restored_after_navigation",
+      "visible_UZ_microphone_gate"
+    ]
+  },
+  "other_roles_browser_verified": false,
+  "microphone_requested": false,
+  "live_provider_called": false,
+  "cluster_stopped": true
+}

@@ -1,0 +1,275 @@
+TAP version 13
+# Subtest: RIWI is the default evaluator and no external provider is called
+ok 1 - RIWI is the default evaluator and no external provider is called
+  ---
+  duration_ms: 21.123458
+  type: 'test'
+  ...
+# Subtest: RIWI's bounded evidence excerpts remain exact source quotes under contract validation
+ok 2 - RIWI's bounded evidence excerpts remain exact source quotes under contract validation
+  ---
+  duration_ms: 2.993541
+  type: 'test'
+  ...
+# Subtest: a configured external provider that succeeds is the only evaluator
+ok 3 - a configured external provider that succeeds is the only evaluator
+  ---
+  duration_ms: 3.240958
+  type: 'test'
+  ...
+# [coach] provider test-external did not produce an evaluation for writing: provider_error (test provider configured to fail)
+# Subtest: an external failure falls back to RIWI and says so
+ok 4 - an external failure falls back to RIWI and says so
+  ---
+  duration_ms: 205.899542
+  type: 'test'
+  ...
+# [coach] provider test-external did not produce an evaluation for writing: invalid_response (test-external returned a response that does not match the task assessment contract)
+# [coach] provider test-external did not produce an evaluation for writing: invalid_response (test-external returned a response that does not match the task assessment contract)
+# Subtest: a malformed provider response is rejected and RIWI takes over
+ok 5 - a malformed provider response is rejected and RIWI takes over
+  ---
+  duration_ms: 8.400375
+  type: 'test'
+  ...
+# [coach] provider test-llm-speaking did not produce an evaluation for speaking: invalid_response (Evaluation does not match its task or source evidence)
+# Subtest: an external LLM pronunciation score is rejected instead of being hidden before validation
+ok 6 - an external LLM pronunciation score is rejected instead of being hidden before validation
+  ---
+  duration_ms: 5.995416
+  type: 'test'
+  ...
+# [coach] provider text-only did not produce an evaluation for writing: capability_missing (text-only does not declare writing-evaluation)
+# Subtest: a provider without the required capability is not called
+ok 7 - a provider without the required capability is not called
+  ---
+  duration_ms: 2.672667
+  type: 'test'
+  ...
+# [coach] provider test-external did not produce an evaluation for writing: timeout (test-external exceeded 120ms)
+# Subtest: a hanging provider times out and RIWI evaluates instead
+ok 8 - a hanging provider times out and RIWI evaluates instead
+  ---
+  duration_ms: 126.264041
+  type: 'test'
+  ...
+# Subtest: a transient failure is retried once before falling back
+ok 9 - a transient failure is retried once before falling back
+  ---
+  duration_ms: 4.4045
+  type: 'test'
+  ...
+# Subtest: a configured but unregistered provider degrades to RIWI, truthfully
+ok 10 - a configured but unregistered provider degrades to RIWI, truthfully
+  ---
+  duration_ms: 3.175
+  type: 'test'
+  ...
+# [coach] provider test-external did not produce an evaluation for writing: not_configured (AI_EXTERNAL_ENABLED is false)
+# Subtest: AI_EXTERNAL_ENABLED=false keeps every evaluation internal
+ok 11 - AI_EXTERNAL_ENABLED=false keeps every evaluation internal
+  ---
+  duration_ms: 2.756458
+  type: 'test'
+  ...
+# [coach] provider riwi did not produce an evaluation for writing: provider_error (stub riwi failure)
+# Subtest: RIWI failing produces a truthful error instead of a loop
+ok 12 - RIWI failing produces a truthful error instead of a loop
+  ---
+  duration_ms: 2.16875
+  type: 'test'
+  ...
+# [coach] provider test-external did not produce an evaluation for writing: provider_error (test provider configured to fail)
+# Subtest: a fallback never recurses back into the external provider
+ok 13 - a fallback never recurses back into the external provider
+  ---
+  duration_ms: 3.06525
+  type: 'test'
+  ...
+# Subtest: external adapters never receive local user identity
+ok 14 - external adapters never receive local user identity
+  ---
+  duration_ms: 4.2075
+  type: 'test'
+  ...
+# Subtest: provider version metadata is recorded on every result
+ok 15 - provider version metadata is recorded on every result
+  ---
+  duration_ms: 2.41
+  type: 'test'
+  ...
+# Subtest: RIWI reports pronunciation as limited instead of inventing a score
+ok 16 - RIWI reports pronunciation as limited instead of inventing a score
+  ---
+  duration_ms: 2.365917
+  type: 'test'
+  ...
+# Subtest: RIWI refuses to evaluate a speaking attempt with no transcript
+ok 17 - RIWI refuses to evaluate a speaking attempt with no transcript
+  ---
+  duration_ms: 0.277375
+  type: 'test'
+  ...
+# Subtest: the evaluation contract rejects vendor-shaped output
+ok 18 - the evaluation contract rejects vendor-shaped output
+  ---
+  duration_ms: 0.349
+  type: 'test'
+  ...
+# Subtest: speech-to-text is provider-independent and never the evaluator
+ok 19 - speech-to-text is provider-independent and never the evaluator
+  ---
+  duration_ms: 2.507292
+  type: 'test'
+  ...
+# Subtest: assignment evaluation dispatches by task type rather than guessing
+ok 20 - assignment evaluation dispatches by task type rather than guessing
+  ---
+  duration_ms: 0.203708
+  type: 'test'
+  ...
+# Subtest: weakness categories stay inside the canonical vocabulary
+ok 21 - weakness categories stay inside the canonical vocabulary
+  ---
+  duration_ms: 0.238666
+  type: 'test'
+  ...
+# Subtest: every registered provider satisfies the adapter interface
+ok 22 - every registered provider satisfies the adapter interface
+  ---
+  duration_ms: 0.160416
+  type: 'test'
+  ...
+# Subtest: a typed transcript never produces a speaking-rate claim or penalty from the recording length
+ok 23 - a typed transcript never produces a speaking-rate claim or penalty from the recording length
+  ---
+  duration_ms: 2.900958
+  type: 'test'
+  ...
+# Subtest: a transcribed answer still gets a measured rate
+ok 24 - a transcribed answer still gets a measured rate
+  ---
+  duration_ms: 0.2725
+  type: 'test'
+  ...
+# Subtest: typed transcripts are not scored lower than before for lacking timing
+ok 25 - typed transcripts are not scored lower than before for lacking timing
+  ---
+  duration_ms: 0.206083
+  type: 'test'
+  ...
+# Subtest: edited recognition text cannot borrow recording timing for a rate claim
+ok 26 - edited recognition text cannot borrow recording timing for a rate claim
+  ---
+  duration_ms: 0.374458
+  type: 'test'
+  ...
+# Subtest: every Speaking part uses reviewed text and refuses invented quotes or acoustic scores
+ok 27 - every Speaking part uses reviewed text and refuses invented quotes or acoustic scores
+  ---
+  duration_ms: 1.492209
+  type: 'test'
+  ...
+# Subtest: learner attempt projection retains original/reviewed/hash metadata without internal worker claims
+ok 28 - learner attempt projection retains original/reviewed/hash metadata without internal worker claims
+  ---
+  duration_ms: 1.837875
+  type: 'test'
+  ...
+# Subtest: C08 retains the exact expiry/grace boundary, then plans audio alone without chat pruning
+ok 29 - C08 retains the exact expiry/grace boundary, then plans audio alone without chat pruning
+  ---
+  duration_ms: 3.279041
+  type: 'test'
+  ...
+# Subtest: transcript expiry includes derived evaluation prose while keeping transcript-free metrics
+ok 30 - transcript expiry includes derived evaluation prose while keeping transcript-free metrics
+  ---
+  duration_ms: 0.259834
+  type: 'test'
+  ...
+# Subtest: recorded holds and in-flight work protect every linked class
+ok 31 - recorded holds and in-flight work protect every linked class
+  ---
+  duration_ms: 0.409208
+  type: 'test'
+  ...
+# Subtest: foreign/unsafe keys, duplicated provenance and incomplete snapshots fail before planning
+ok 32 - foreign/unsafe keys, duplicated provenance and incomplete snapshots fail before planning
+  ---
+  duration_ms: 14.07375
+  type: 'test'
+  ...
+# Subtest: Speaking dry-run reads one coherent database snapshot without sensitive text or writes
+ok 33 - Speaking dry-run reads one coherent database snapshot without sensitive text or writes
+  ---
+  duration_ms: 1525.805792
+  type: 'test'
+  ...
+# Subtest: active recordings and indirect active session items protect audio and both transcripts
+not ok 34 - active recordings and indirect active session items protect audio and both transcripts
+  ---
+  duration_ms: 928.888209
+  type: 'test'
+  location: '/Users/macbookair/Documents/Codex/2026-10-11/menga-kelgan-joyingdan-boshqa-ai-davom/work/continuation-active/repo/tests/speaking-retention-snapshot-db.test.ts:1:1853'
+  failureType: 'testCodeFailure'
+  error: |-
+    Failed query: insert into "speaking_prompts" ("id", "part", "category", "prompt_text", "cue_card", "prep_seconds", "answer_seconds", "follow_ups", "external_id", "topic", "source_class", "available_in", "is_active", "publication_state", "publish_at", "created_at") values ($1, $2, default, $3, default, default, default, default, default, default, default, default, default, default, default, default)
+    params: 76b57d02-5aa1-4e2d-af7e-cf3bf863e9e0,part1,A fixture prompt
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    PglitePreparedQuery.queryWithCache (/Users/macbookair/Documents/Codex/2026-10-09/new-chat-4/work/qa-eleventh/node_modules/src/pg-core/session.ts:73:11)
+    async TestContext.<anonymous> (/Users/macbookair/Documents/Codex/2026-10-11/menga-kelgan-joyingdan-boshqa-ai-davom/work/continuation-active/repo/tests/speaking-retention-snapshot-db.test.ts:34:5)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: indirect session ownership mismatch refuses a retention snapshot
+not ok 35 - indirect session ownership mismatch refuses a retention snapshot
+  ---
+  duration_ms: 910.512375
+  type: 'test'
+  location: '/Users/macbookair/Documents/Codex/2026-10-11/menga-kelgan-joyingdan-boshqa-ai-davom/work/continuation-active/repo/tests/speaking-retention-snapshot-db.test.ts:1:3636'
+  failureType: 'testCodeFailure'
+  error: |-
+    Failed query: insert into "speaking_prompts" ("id", "part", "category", "prompt_text", "cue_card", "prep_seconds", "answer_seconds", "follow_ups", "external_id", "topic", "source_class", "available_in", "is_active", "publication_state", "publish_at", "created_at") values ($1, $2, default, $3, default, default, default, default, default, default, default, default, default, default, default, default)
+    params: 8084acb1-a0c2-4c8f-9efb-1c16470508b0,part1,A fixture prompt
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    PglitePreparedQuery.queryWithCache (/Users/macbookair/Documents/Codex/2026-10-09/new-chat-4/work/qa-eleventh/node_modules/src/pg-core/session.ts:73:11)
+    async TestContext.<anonymous> (/Users/macbookair/Documents/Codex/2026-10-11/menga-kelgan-joyingdan-boshqa-ai-davom/work/continuation-active/repo/tests/speaking-retention-snapshot-db.test.ts:60:5)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: failed evaluation retries the immutable reviewed transcript, fences concurrent Send, and reuses one saved result
+ok 36 - failed evaluation retries the immutable reviewed transcript, fences concurrent Send, and reuses one saved result
+  ---
+  duration_ms: 1549.048458
+  type: 'test'
+  ...
+# Subtest: expired worker cannot save or clear a newer claim; discard and provider failure are race-safe
+ok 37 - expired worker cannot save or clear a newer claim; discard and provider failure are race-safe
+  ---
+  duration_ms: 1126.203459
+  type: 'test'
+  ...
+# Subtest: recording SHA comes from bounded stored bytes and rejects truncation, corruption and oversize
+ok 38 - recording SHA comes from bounded stored bytes and rejects truncation, corruption and oversize
+  ---
+  duration_ms: 0.568334
+  type: 'test'
+  ...
+# Subtest: Practice on Your Own saves audio with honest missing transcription and can assess it on a later explicit retry
+ok 39 - Practice on Your Own saves audio with honest missing transcription and can assess it on a later explicit retry
+  ---
+  duration_ms: 966.984042
+  type: 'test'
+  ...
+1..39
+# tests 39
+# suites 0
+# pass 37
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 10663.528791

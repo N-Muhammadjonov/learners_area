@@ -1,0 +1,90 @@
+{
+  "archive_sha256": "d4dad7fc6429299ce7f3970f259245cf3f7be858c567fa4235566c6933785f5a",
+  "regular_files_verified": 51,
+  "source_files_verified": 1251,
+  "base_git_blobs_verified": 1248,
+  "external_source_sha256": "2af00ff2236595fdae0375726cf733e391078a94b05e15708048465173636899",
+  "external_rounds": [
+    {
+      "backend": {
+        "counts": {
+          "tests": 1480,
+          "pass": 1480,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "sha256": "90e53e081f434b1080cec6ce8637744e32dfb03d06a1dec4dc07be0abb2cb608"
+      },
+      "ui": {
+        "counts": {
+          "tests": 261,
+          "pass": 261,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "sha256": "ef4f91ad43837f84a2c1a93e92295d981be7f24e1d94d5cbde1cd3a499318d82"
+      }
+    },
+    {
+      "backend": {
+        "counts": {
+          "tests": 1480,
+          "pass": 1480,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "sha256": "fed640ebe78438e401ac22dca700314f9cde254b2cd9b5a7c4b4b873c4b298d8"
+      },
+      "ui": {
+        "counts": {
+          "tests": 261,
+          "pass": 261,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "sha256": "5c2c9297f188bb2b9bf51bffabb377599e593f0afa40cd683b7c0531184da09e"
+      }
+    }
+  ],
+  "external_logs_are_current_source_acceptance": false,
+  "missing_evidence": [
+    "Referenced BASE_FILES.json absent; reconstructed from protected Git objects instead",
+    "qa/harness-receipts empty: native cluster identity/shutdown unverified",
+    "Real microphone/denial, provider and R2 acceptance absent"
+  ],
+  "newly_closed": 0,
+  "already_closed_group": "D01",
+  "reviewed_changes": {
+    "provider_and_typed_rate_test": "APPLIED_WITH_ADDITIONAL_REPAIRS",
+    "new_parallel_retention_planner_and_test": "SUPERSEDED_BY_STRICT_CANONICAL_SNAPSHOT_AND_PLAN"
+  },
+  "superseded_planner_defects": [
+    "Active session filter missing for transcript eligibility",
+    "Multiple SELECTs without coherent transaction",
+    "No recorded holds or owned key/evaluation scope checks",
+    "Expired token permits planning despite token still present"
+  ],
+  "canonical_extra_repairs": [
+    "Protect active recording status",
+    "Protect indirect active-session item references",
+    "Fail closed on mismatched indirect-session ownership"
+  ],
+  "browser_matrix_review": {
+    "reported_cells": 12,
+    "current_source_acceptance": false,
+    "visual_inspection": [
+      "feedback-desktop-en-day.png",
+      "gate-mobile-390x844-uz-night.png",
+      "gate-desktop-1366x900-en-day.png"
+    ],
+    "finding": "Gate matrix screenshots show only the Speaking/loading shell, not a visible microphone gate. Hidden DOM presence and overflow of an empty shell do not prove usable layout. Require a visible microphone heading and enabled test button before matrix assertions. Denial journey failed; recording fingerprint check was regex only, not byte read-back."
+  }
+}

@@ -7,6 +7,7 @@ import { db } from "@/db/client";
 import { requireActiveUser, type CurrentUser } from "@/lib/auth/current-user";
 import type { Role } from "@/lib/auth/roles";
 import type { Locale } from "@/lib/i18n";
+import { riwiLocaleFromRequest } from "./locale";
 import { RULES, accountKey, consume, type RateLimitResult } from "@/lib/http/rate-limit";
 import { isOnRoster } from "@/lib/reporter/roster";
 import { scopeLabel as reportScopeLabel, specsFor as reportSpecsFor, type ReportScope } from "@/lib/reporter/snapshot";
@@ -202,10 +203,6 @@ const defaultDependencies: RiwiGatewayDependencies = createRiwiGatewayDependenci
 
 function actorOf(user: CurrentUser): RiwiActor {
   return { id: user.id, role: user.role, accountStatus: user.accountStatus };
-}
-
-function localeFor(user: CurrentUser): Locale {
-  return user.locale === "en" ? "en" : "uz";
 }
 
 function clean(value: string, max: number): string {
@@ -915,7 +912,7 @@ export async function runRiwiGateway(request: Request, overrides: Partial<RiwiGa
 
   const correlationId = deps.newCorrelationId();
   const actor = actorOf(user);
-  const locale = localeFor(user);
+  const locale = riwiLocaleFromRequest(request, user.locale);
   let accountLimit: RateLimitResult;
   try { accountLimit = deps.consumeAccountLimit(actor.id); }
   catch {

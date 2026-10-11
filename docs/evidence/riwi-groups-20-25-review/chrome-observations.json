@@ -1,0 +1,85 @@
+{
+  "status": "LOCAL_CHROME_FOUR_ROLE_BASIC_UI_PASSED_FULL_OPERATIONAL_ACCEPTANCE_INCOMPLETE",
+  "observed_at": "2026-10-11T15:13:02.576602+00:00",
+  "source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+  "source_files": 1256,
+  "browser": "Google Chrome native UI via cua_repl",
+  "runtime": "Next development server with identified disposable native PostgreSQL and local test storage",
+  "base": "http://127.0.0.1:60803",
+  "current_source_copy_hash_verified": true,
+  "four_roles_basic_login_and_scope_verified": true,
+  "role_order": [
+    "teacher",
+    "admin",
+    "owner",
+    "student"
+  ],
+  "observations": {
+    "student": [
+      "Normal password login succeeded",
+      "RIWI STUDENT and private learning scope visibly rendered",
+      "No learner target selector or owner control-room link in student page",
+      "Teacher/admin/owner content absent after role switch",
+      "Local dictionary unknown-term response truthfully reported insufficient verified information on first private browser run",
+      "Conversation restored after navigation on first private browser run",
+      "UZ Speaking AI microphone heading, live level indicator and enabled microphone test button visibly rendered on first private browser run"
+    ],
+    "teacher": [
+      "Normal password login succeeded",
+      "RIWI TEACHER and assigned learner scope rendered",
+      "Current synthetic roster correctly empty; assigned-roster target available",
+      "No owner control-room link"
+    ],
+    "admin": [
+      "Normal password login succeeded",
+      "RIWI ADMIN and operational student scope rendered",
+      "Owner-only provider and audit controls excluded from displayed scope",
+      "Normal logout returned to login"
+    ],
+    "owner": [
+      "Normal password login succeeded",
+      "RIWI OWNER and centre scope rendered",
+      "Owner control-room link opened actual owner panel",
+      "Deploy external AI disabled and missing credential NAMES shown without secret values",
+      "Knowledge governance view finished initial loading",
+      "Refresh kept authenticated owner panel; full async reload closure not asserted",
+      "Browser Back returned RIWI OWNER; Forward returned owner panel",
+      "Normal logout returned to login"
+    ],
+    "cross_role": [
+      "Teacher -> admin -> owner -> student through normal UI logout/login",
+      "Saved-password prompts dismissed by agent with No Thanks when observed",
+      "Final student logout completed; empty email/password login form visibly rendered"
+    ]
+  },
+  "actual_browser_verified": false,
+  "actual_browser_scope_note": "Basic four-role local pages only; full R06 exact deployed target, revocation/IDOR/timeout matrix and all history paths are not satisfied. Owner refresh first showed loading; it is not full async completion proof.",
+  "microphone_permission_requested": false,
+  "physical_microphone_verified": false,
+  "speech_recognition_verified": false,
+  "external_provider_called": false,
+  "real_R2_verified": false,
+  "full_C09_device_language_theme_matrix_verified": false,
+  "owner_policy_approved": false,
+  "production_build_run": false,
+  "push_performed": false,
+  "production_touched": false,
+  "screenshots_saved": false,
+  "remaining_UI_triage": [
+    "Synthetic actor profile locale EN currently takes precedence on RIWI page while shell request locale is UZ; scope/default follows existing source policy. Language synchronization still needs full language-switch matrix, not claimed resolved."
+  ],
+  "previous_browser_hold": "First 20-minute hold expired; raw failed/incomplete receipt preserved separately and not counted as pass.",
+  "runtime_cleanup": {
+    "verified": true,
+    "source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+    "raw_log_hashes_verified": 5,
+    "r06_http": 53,
+    "appProcessGroupStopped": true,
+    "privateDatabaseRemoved": true,
+    "cluster_stopped": true,
+    "private_db_config_removed": true,
+    "actual_browser_observation": "../chrome-observations.json",
+    "four_roles_basic_local_UI": true,
+    "full_R06_operational_acceptance": false
+  }
+}

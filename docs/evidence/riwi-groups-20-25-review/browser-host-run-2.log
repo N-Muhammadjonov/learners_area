@@ -1,0 +1,6 @@
+Private QA logs: /tmp/riwi-final-browser-aw5wmkx2
+initdb
+start
+identity-create
+r06-http
+{"status": "HTTP_PASSED_MANUAL_BROWSER_HOLD_RELEASED", "receipt": "/tmp/riwi-final-browser-aw5wmkx2/receipt.json", "cluster_stopped": true}

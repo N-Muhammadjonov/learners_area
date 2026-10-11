@@ -1,0 +1,13 @@
+Private QA logs: /tmp/riwi-final-native-wm376j_c
+Round 1: initdb
+Round 1: start
+Round 1: createdb
+Round 1: migrations-qa
+Round 1: migrations-portability
+Round 1: fixtures
+Round 1: identity-before-tests
+Round 1: backend
+Receipt: /tmp/riwi-final-native-wm376j_c/receipt.json
+Evidence ZIP: /tmp/riwi-final-native-wm376j_c/RIWI_FINAL_NATIVE_QA_EVIDENCE.zip
+Finder: open -R "/tmp/riwi-final-native-wm376j_c/RIWI_FINAL_NATIVE_QA_EVIDENCE.zip"
+QA incomplete. Preserve and provide the evidence ZIP.

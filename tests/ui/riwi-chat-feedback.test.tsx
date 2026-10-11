@@ -62,6 +62,60 @@ async function chooseTarget(id: string) {
   });
 }
 
+test("a refused conversation write cannot hide an accepted server answer", async () => {
+  const original = dom.window.Storage.prototype.setItem;
+  await renderChat(async () => json({
+    ok: true, correlationId, conversationId, intent: "dictionary_lookup", answer: "Accepted answer despite unavailable browser storage.",
+    uncertainty: null, citations: [], attribution: "RIWI", provenance: "canonical_dictionary", provider: null, errorCode: null,
+  }), async () => {
+    dom.window.Storage.prototype.setItem = function (key: string, value: string) {
+      if (key === "learners-area.riwi.conversation.v1") throw new dom.window.DOMException("Browser storage refused", "QuotaExceededError");
+      return original.call(this, key, value);
+    };
+    try {
+      await sendMessage("What does resilient mean?");
+      assert.ok(document.body.textContent?.includes("Accepted answer despite unavailable browser storage."));
+      assert.ok(!document.body.textContent?.includes("Browser storage refused"));
+    } finally { dom.window.Storage.prototype.setItem = original; }
+  });
+});
+
+test("a refused conversation read leaves RIWI usable", async () => {
+  const original = dom.window.Storage.prototype.getItem;
+  dom.window.Storage.prototype.getItem = function (key: string) {
+    if (key === "learners-area.riwi.conversation.v1") throw new dom.window.DOMException("Browser storage refused", "SecurityError");
+    return original.call(this, key);
+  };
+  try {
+    await renderChat(async () => json({
+      ok: true, correlationId, conversationId, intent: "dictionary_lookup", answer: "A usable chat without history storage.",
+      uncertainty: null, citations: [], attribution: "RIWI", provenance: "canonical_dictionary", provider: null, errorCode: null,
+    }), async () => {
+      await sendMessage("What does resilient mean?");
+      assert.ok(document.body.textContent?.includes("A usable chat without history storage."));
+    });
+  } finally { dom.window.Storage.prototype.getItem = original; }
+});
+
+test("leaving RIWI aborts an in-flight send and rejects its late accepted response", async () => {
+  let resolveReply!: (response: Response) => void;
+  let signal: AbortSignal | undefined;
+  await renderChat(async (_url, options) => {
+    signal = options.signal as AbortSignal;
+    return new Promise<Response>(resolve => { resolveReply = resolve; });
+  }, async () => { await sendMessage("What does resilient mean?"); });
+  const aborted = signal?.aborted;
+  await act(async () => {
+    resolveReply(json({
+      ok: true, correlationId, conversationId, intent: "dictionary_lookup", answer: "Obsolete account answer.",
+      uncertainty: null, citations: [], attribution: "RIWI", provenance: "canonical_dictionary", provider: null, errorCode: null,
+    }));
+    await new Promise(resolve => setTimeout(resolve, 0));
+  });
+  assert.equal(aborted, true, "leaving the component cancels the request scope");
+  assert.equal(window.localStorage.getItem("learners-area.riwi.conversation.v1"), null, "late results must not recreate the previous account's conversation pointer");
+});
+
 test("student feedback sends only the correlated categorical rating for a successful answer", async () => {
   const requests: Array<{ url: string; options: RequestInit }> = [];
   await renderChat(async (url, options) => {

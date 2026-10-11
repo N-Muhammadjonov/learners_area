@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState, type Ref } from "react";
 import type { Dictionary } from "@/lib/i18n/en";
 import type { speakingPrompts } from "@/db/schema";
 import { Button } from "@/components/ui/Button";
@@ -30,6 +30,9 @@ export function AiQuestionRecorder({ dict, prompt, sessionId, itemId, index, ret
   const t = dict.speakingAi;
   const practice = dict.speakingPractice;
   const request = useScopedRequest();
+  const transcriptId = useId();
+  const reviewRef = useRef<HTMLParagraphElement | null>(null);
+  const feedbackRef = useRef<HTMLParagraphElement | null>(null);
   const stt = useBrowserSpeechRecognition("en-US");
   const resetStt = stt.reset;
   const [phase, setPhase] = useState<Phase>("idle");
@@ -66,6 +69,10 @@ export function AiQuestionRecorder({ dict, prompt, sessionId, itemId, index, ret
   }, [stopTimer, resetStt]);
   useEffect(() => { alive.current = true; return () => { alive.current = false; cleanup(); }; }, [cleanup]);
   useEffect(() => { if (!playbackUrl) return; return () => URL.revokeObjectURL(playbackUrl); }, [playbackUrl]);
+  useEffect(() => {
+    if (phase === "review") reviewRef.current?.focus({ preventScroll: true });
+    if (phase === "feedback") feedbackRef.current?.focus({ preventScroll: true });
+  }, [phase]);
   useEffect(() => {
     if (phase === "recording") setTranscript(stt.liveTranscript);
   }, [phase, stt.liveTranscript]);
@@ -235,15 +242,16 @@ export function AiQuestionRecorder({ dict, prompt, sessionId, itemId, index, ret
     </>}
 
     {phase === "review" && recording && <>
+      <p ref={reviewRef} tabIndex={-1} className="text-sm font-semibold text-ink-900">{t.transcript}</p>
       {playbackUrl && <audio controls aria-label={t.yourRecording} src={playbackUrl} className="w-full" preload="metadata" />}
-      <label className="flex flex-col gap-2 text-sm font-medium text-ink-900">
+      <label htmlFor={transcriptId} className="flex flex-col gap-2 text-sm font-medium text-ink-900">
         {t.transcript}
-        <textarea value={transcript} onChange={(event) => { setTranscript(event.target.value); setEdited(event.target.value !== rawTranscript); }} rows={7} className="input min-h-36 resize-y" placeholder={stt.supported ? t.transcriptPlaceholder : t.manualTranscriptPlaceholder} />
+        <textarea id={transcriptId} readOnly={submissionAttempted} value={transcript} onChange={(event) => { setTranscript(event.target.value); setEdited(event.target.value !== rawTranscript); }} rows={7} className="input min-h-36 resize-y" placeholder={stt.supported ? t.transcriptPlaceholder : t.manualTranscriptPlaceholder} />
       </label>
       <div className="text-xs text-ink-500">
         <p>{t.transcriptSource}: {rawTranscript ? t.browserSpeechRecognition : t.manualTranscript}</p>
         <p>{t.editedByYou}: {edited ? t.yes : t.no}</p>
-        <p className="mt-1 font-medium">{t.notSubmittedYet}</p>
+        {!submissionAttempted && <p className="mt-1 font-medium">{t.notSubmittedYet}</p>}
       </div>
       {submissionAttempted && <p className="text-sm text-ink-500">{t.submissionRetryOnly}</p>}
       <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
@@ -254,15 +262,15 @@ export function AiQuestionRecorder({ dict, prompt, sessionId, itemId, index, ret
     </>}
     {phase === "uploading" && <p role="status" aria-live="polite">{t.uploading}</p>}
     {phase === "evaluating" && <div className="py-8 text-center" role="status" aria-live="polite"><p className="font-display text-xl text-ink-900">{t.evaluating}</p><p className="mt-2 text-sm text-ink-500">{t.evaluatingBody}</p><p className="mt-1 text-xs text-ink-400">{t.pronunciationNotAssessed}</p></div>}
-    {phase === "feedback" && <Feedback dict={dict} evaluation={evaluation} onTryAgain={() => void clear(false)} onNext={onNext} />}
+    {phase === "feedback" && <Feedback headingRef={feedbackRef} dict={dict} evaluation={evaluation} onTryAgain={() => void clear(false)} onNext={onNext} />}
     {error && <p role="alert" className="text-sm text-band-bad">{error}</p>}
   </Card>;
 }
 
-function Feedback({ dict, evaluation, onTryAgain, onNext }: { dict: Dictionary; evaluation: Evaluation | null; onTryAgain: () => void; onNext: () => void }) {
+function Feedback({ headingRef, dict, evaluation, onTryAgain, onNext }: { headingRef: Ref<HTMLParagraphElement>; dict: Dictionary; evaluation: Evaluation | null; onTryAgain: () => void; onNext: () => void }) {
   const t = dict.speakingAi;
   return <div className="flex flex-col gap-4" data-ai-feedback>
-    <p className="font-semibold text-signal-700">{t.checkedByRiwi}</p>
+    <p ref={headingRef} tabIndex={-1} className="font-semibold text-signal-700">{t.checkedByRiwi}</p>
     {!evaluation ? <p className="text-sm text-ink-500">{t.feedbackUnavailable}</p> : <>
       {evaluation.strengths.length > 0 && <section><h3 className="text-sm font-semibold text-ink-900">{t.strengths}</h3><ul className="mt-1 list-inside list-disc text-sm text-ink-700">{evaluation.strengths.map((value) => <li key={value}>{value}</li>)}</ul></section>}
       {evaluation.weaknesses.length > 0 && <section><h3 className="text-sm font-semibold text-ink-900">{t.improveNext}</h3><ul className="mt-1 list-inside list-disc text-sm text-ink-700">{evaluation.weaknesses.map((value) => <li key={value}>{value}</li>)}</ul></section>}

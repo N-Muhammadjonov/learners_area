@@ -1,0 +1,31 @@
+2026-10-11 20:37:09.947 +05 [46773] LOG:  starting PostgreSQL 16.14 on x86_64-apple-darwin24.6.0, compiled by Apple clang version 17.0.0 (clang-1700.6.3.2), 64-bit
+2026-10-11 20:37:09.947 +05 [46773] LOG:  listening on IPv4 address "127.0.0.1", port 61472
+2026-10-11 20:37:09.947 +05 [46773] LOG:  listening on Unix socket "/private/tmp/riwi-r07-pitr-clh1ow3p/.s.PGSQL.61472"
+2026-10-11 20:37:09.950 +05 [46776] LOG:  database system was interrupted; last known up at 2026-10-11 20:36:56 +05
+2026-10-11 20:37:09.950 +05 [46776] LOG:  creating missing WAL directory "pg_wal/archive_status"
+cp: /private/tmp/riwi-r07-pitr-clh1ow3p/wal/00000002.history: No such file or directory
+2026-10-11 20:37:10.025 +05 [46776] LOG:  starting point-in-time recovery to 2026-10-11 20:37:08.739774+05
+2026-10-11 20:37:10.025 +05 [46776] LOG:  starting backup recovery with redo LSN 0/2000028, checkpoint LSN 0/2000060, on timeline ID 1
+2026-10-11 20:37:10.068 +05 [46776] LOG:  restored log file "000000010000000000000002" from archive
+2026-10-11 20:37:10.072 +05 [46776] LOG:  redo starts at 0/2000028
+2026-10-11 20:37:10.073 +05 [46776] LOG:  completed backup recovery with redo LSN 0/2000028 and end LSN 0/2000100
+2026-10-11 20:37:10.073 +05 [46776] LOG:  consistent recovery state reached at 0/2000100
+2026-10-11 20:37:10.073 +05 [46773] LOG:  database system is ready to accept read-only connections
+2026-10-11 20:37:10.086 +05 [46776] LOG:  restored log file "000000010000000000000003" from archive
+2026-10-11 20:37:10.099 +05 [46776] LOG:  recovery stopping before commit of transaction 828, time 2026-10-11 20:37:08.830231+05
+2026-10-11 20:37:10.099 +05 [46776] LOG:  redo done at 0/3070460 system usage: CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.02 s
+2026-10-11 20:37:10.099 +05 [46776] LOG:  last completed transaction was at log time 2026-10-11 20:36:58.715541+05
+cp: /private/tmp/riwi-r07-pitr-clh1ow3p/wal/00000002.history: No such file or directory
+2026-10-11 20:37:10.106 +05 [46776] LOG:  selected new timeline ID: 2
+cp: /private/tmp/riwi-r07-pitr-clh1ow3p/wal/00000001.history: No such file or directory
+2026-10-11 20:37:10.135 +05 [46776] LOG:  archive recovery complete
+2026-10-11 20:37:10.135 +05 [46774] LOG:  checkpoint starting: end-of-recovery immediate wait
+2026-10-11 20:37:10.137 +05 [46774] LOG:  checkpoint complete: wrote 75 buffers (0.5%); 0 WAL file(s) added, 0 removed, 1 recycled; write=0.001 s, sync=0.001 s, total=0.003 s; sync files=11, longest=0.001 s, average=0.001 s; distance=16833 kB, estimate=16833 kB; lsn=0/3070460, redo lsn=0/3070460
+2026-10-11 20:37:10.140 +05 [46773] LOG:  database system is ready to accept connections
+2026-10-11 20:37:29.787 +05 [46773] LOG:  received fast shutdown request
+2026-10-11 20:37:29.788 +05 [46773] LOG:  aborting any active transactions
+2026-10-11 20:37:29.789 +05 [46773] LOG:  background worker "logical replication launcher" (PID 46784) exited with exit code 1
+2026-10-11 20:37:29.789 +05 [46774] LOG:  shutting down
+2026-10-11 20:37:29.789 +05 [46774] LOG:  checkpoint starting: shutdown immediate
+2026-10-11 20:37:29.800 +05 [46774] LOG:  checkpoint complete: wrote 91 buffers (0.6%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.009 s, sync=0.002 s, total=0.011 s; sync files=18, longest=0.001 s, average=0.001 s; distance=7 kB, estimate=15150 kB; lsn=0/3072428, redo lsn=0/3072428
+2026-10-11 20:37:29.806 +05 [46773] LOG:  database system is shut down

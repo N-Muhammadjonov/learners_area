@@ -1,0 +1,94 @@
+2026-10-11 19:25:10.123 +05 [41275] LOG:  starting PostgreSQL 16.14 on x86_64-apple-darwin24.6.0, compiled by Apple clang version 17.0.0 (clang-1700.6.3.2), 64-bit
+2026-10-11 19:25:10.123 +05 [41275] LOG:  listening on IPv4 address "127.0.0.1", port 59779
+2026-10-11 19:25:10.124 +05 [41275] LOG:  listening on Unix socket "/tmp/riwi-final-native-wm376j_c/round-1-vjv6owca/.s.PGSQL.59779"
+2026-10-11 19:25:10.126 +05 [41278] LOG:  database system was shut down at 2026-10-11 19:25:09 +05
+2026-10-11 19:25:10.128 +05 [41275] LOG:  database system is ready to accept connections
+2026-10-11 19:26:10.234 +05 [41468] ERROR:  update or delete on table "lexemes" violates foreign key constraint "user_vocabulary_lexeme_id_lexemes_id_fk" on table "user_vocabulary"
+2026-10-11 19:26:10.234 +05 [41468] DETAIL:  Key (id)=(ac418253-704a-45d3-a5c1-8cce3ac98940) is still referenced from table "user_vocabulary".
+2026-10-11 19:26:10.234 +05 [41468] STATEMENT:  delete from lexemes where id=$1
+2026-10-11 19:26:10.539 +05 [41276] LOG:  checkpoint starting: immediate force wait
+2026-10-11 19:26:10.777 +05 [41276] LOG:  checkpoint complete: wrote 3764 buffers (23.0%); 0 WAL file(s) added, 0 removed, 2 recycled; write=0.160 s, sync=0.078 s, total=0.239 s; sync files=2403, longest=0.002 s, average=0.001 s; distance=31896 kB, estimate=31896 kB; lsn=0/3433438, redo lsn=0/3433400
+2026-10-11 19:26:10.813 +05 [41276] LOG:  checkpoint starting: immediate force wait
+2026-10-11 19:26:10.814 +05 [41276] LOG:  checkpoint complete: wrote 2 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.001 s; sync files=2, longest=0.001 s, average=0.001 s; distance=1 kB, estimate=28706 kB; lsn=0/3433A50, redo lsn=0/3433A18
+2026-10-11 19:27:02.182 +05 [41546] ERROR:  duplicate key value violates unique constraint "users_email_unique"
+2026-10-11 19:27:02.182 +05 [41546] DETAIL:  Key (email)=(race.ac240b53-9dbe-4d72-b310-aabc43273a42@example.test) already exists.
+2026-10-11 19:27:02.182 +05 [41546] STATEMENT:  insert into "users" ("id", "email", "password_hash", "telegram_id", "google_sub", "name", "gender", "role", "is_owner", "account_status", "status_updated_at", "status_reason", "last_active_at", "last_meaningful_activity_at", "locale", "onboarding_completed_at", "created_at") values (default, $1, default, default, $2, $3, default, $4, default, $5, default, default, default, default, $6, default, default) returning "id", "email", "password_hash", "telegram_id", "google_sub", "name", "gender", "role", "is_owner", "account_status", "status_updated_at", "status_reason", "last_active_at", "last_meaningful_activity_at", "locale", "onboarding_completed_at", "created_at"
+2026-10-11 19:27:02.182 +05 [41547] ERROR:  duplicate key value violates unique constraint "users_email_unique"
+2026-10-11 19:27:02.182 +05 [41547] DETAIL:  Key (email)=(race.ac240b53-9dbe-4d72-b310-aabc43273a42@example.test) already exists.
+2026-10-11 19:27:02.182 +05 [41547] STATEMENT:  insert into "users" ("id", "email", "password_hash", "telegram_id", "google_sub", "name", "gender", "role", "is_owner", "account_status", "status_updated_at", "status_reason", "last_active_at", "last_meaningful_activity_at", "locale", "onboarding_completed_at", "created_at") values (default, $1, default, default, $2, $3, default, $4, default, $5, default, default, default, default, $6, default, default) returning "id", "email", "password_hash", "telegram_id", "google_sub", "name", "gender", "role", "is_owner", "account_status", "status_updated_at", "status_reason", "last_active_at", "last_meaningful_activity_at", "locale", "onboarding_completed_at", "created_at"
+2026-10-11 19:27:02.182 +05 [41550] ERROR:  duplicate key value violates unique constraint "users_email_unique"
+2026-10-11 19:27:02.182 +05 [41550] DETAIL:  Key (email)=(race.ac240b53-9dbe-4d72-b310-aabc43273a42@example.test) already exists.
+2026-10-11 19:27:02.182 +05 [41550] STATEMENT:  insert into "users" ("id", "email", "password_hash", "telegram_id", "google_sub", "name", "gender", "role", "is_owner", "account_status", "status_updated_at", "status_reason", "last_active_at", "last_meaningful_activity_at", "locale", "onboarding_completed_at", "created_at") values (default, $1, default, default, $2, $3, default, $4, default, $5, default, default, default, default, $6, default, default) returning "id", "email", "password_hash", "telegram_id", "google_sub", "name", "gender", "role", "is_owner", "account_status", "status_updated_at", "status_reason", "last_active_at", "last_meaningful_activity_at", "locale", "onboarding_completed_at", "created_at"
+2026-10-11 19:29:30.546 +05 [41276] LOG:  checkpoint starting: immediate force wait
+2026-10-11 19:29:30.623 +05 [41276] LOG:  checkpoint complete: wrote 912 buffers (5.6%); 0 WAL file(s) added, 0 removed, 1 recycled; write=0.069 s, sync=0.007 s, total=0.078 s; sync files=181, longest=0.001 s, average=0.001 s; distance=14551 kB, estimate=27291 kB; lsn=0/42699B8, redo lsn=0/4269980
+2026-10-11 19:29:31.136 +05 [41276] LOG:  checkpoint starting: immediate force wait
+2026-10-11 19:29:31.141 +05 [41276] LOG:  checkpoint complete: wrote 5 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.002 s, sync=0.001 s, total=0.005 s; sync files=4, longest=0.001 s, average=0.001 s; distance=7831 kB, estimate=25345 kB; lsn=0/4A0F740, redo lsn=0/4A0F708
+2026-10-11 19:29:31.675 +05 [41276] LOG:  checkpoint starting: immediate force wait
+2026-10-11 19:29:31.677 +05 [41276] LOG:  checkpoint complete: wrote 5 buffers (0.0%); 0 WAL file(s) added, 0 removed, 1 recycled; write=0.001 s, sync=0.001 s, total=0.002 s; sync files=4, longest=0.001 s, average=0.001 s; distance=7831 kB, estimate=23593 kB; lsn=0/51B54F0, redo lsn=0/51B54B8
+2026-10-11 19:29:51.436 +05 [41276] LOG:  checkpoint starting: immediate force wait
+2026-10-11 19:29:51.438 +05 [41276] LOG:  checkpoint complete: wrote 5 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.002 s; sync files=4, longest=0.001 s, average=0.001 s; distance=7829 kB, estimate=22017 kB; lsn=0/595AB10, redo lsn=0/595AAD8
+2026-10-11 19:29:59.572 +05 [41276] LOG:  checkpoint starting: immediate force wait
+2026-10-11 19:29:59.629 +05 [41276] LOG:  checkpoint complete: wrote 1233 buffers (7.5%); 0 WAL file(s) added, 0 removed, 1 recycled; write=0.032 s, sync=0.024 s, total=0.057 s; sync files=797, longest=0.001 s, average=0.001 s; distance=15673 kB, estimate=21383 kB; lsn=0/68A92E0, redo lsn=0/68A92A8
+2026-10-11 19:29:59.669 +05 [41276] LOG:  checkpoint starting: immediate force wait
+2026-10-11 19:29:59.670 +05 [41276] LOG:  checkpoint complete: wrote 2 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.001 s; sync files=2, longest=0.001 s, average=0.001 s; distance=2 kB, estimate=19245 kB; lsn=0/68A9C40, redo lsn=0/68A9C08
+2026-10-11 19:30:00.802 +05 [41276] LOG:  checkpoint starting: immediate force wait
+2026-10-11 19:30:00.856 +05 [41276] LOG:  checkpoint complete: wrote 1220 buffers (7.4%); 0 WAL file(s) added, 0 removed, 1 recycled; write=0.030 s, sync=0.024 s, total=0.055 s; sync files=797, longest=0.001 s, average=0.001 s; distance=15670 kB, estimate=18887 kB; lsn=0/77F74D0, redo lsn=0/77F7498
+2026-10-11 19:30:00.894 +05 [41276] LOG:  checkpoint starting: immediate force wait
+2026-10-11 19:30:00.895 +05 [41276] LOG:  checkpoint complete: wrote 2 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.001 s; sync files=2, longest=0.001 s, average=0.001 s; distance=2 kB, estimate=16999 kB; lsn=0/77F7F48, redo lsn=0/77F7F10
+2026-10-11 19:30:25.054 +05 [41858] ERROR:  insert or update on table "riwi_knowledge_units" violates foreign key constraint "riwi_knowledge_units_source_id_riwi_knowledge_sources_id_fk"
+2026-10-11 19:30:25.054 +05 [41858] DETAIL:  Key (source_id)=(35d05257-531e-4ddc-8368-60acfa0da509) is not present in table "riwi_knowledge_sources".
+2026-10-11 19:30:25.054 +05 [41858] STATEMENT:  update riwi_knowledge_units set source_id=$1 where source_id=$2
+2026-10-11 19:30:25.137 +05 [41276] LOG:  checkpoint starting: immediate force wait
+2026-10-11 19:30:25.194 +05 [41276] LOG:  checkpoint complete: wrote 1359 buffers (8.3%); 0 WAL file(s) added, 0 removed, 1 recycled; write=0.032 s, sync=0.025 s, total=0.057 s; sync files=799, longest=0.001 s, average=0.001 s; distance=18246 kB, estimate=18246 kB; lsn=0/89C9AF0, redo lsn=0/89C9AB8
+2026-10-11 19:30:25.233 +05 [41276] LOG:  checkpoint starting: immediate force wait
+2026-10-11 19:30:25.234 +05 [41276] LOG:  checkpoint complete: wrote 2 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.001 s; sync files=2, longest=0.001 s, average=0.001 s; distance=2 kB, estimate=16422 kB; lsn=0/89CA698, redo lsn=0/89CA660
+2026-10-11 19:30:26.540 +05 [41865] ERROR:  insert or update on table "riwi_knowledge_units" violates foreign key constraint "riwi_knowledge_units_source_id_riwi_knowledge_sources_id_fk"
+2026-10-11 19:30:26.540 +05 [41865] DETAIL:  Key (source_id)=(5eb9bc18-c40d-4ad2-a2b1-d44fc0b117c1) is not present in table "riwi_knowledge_sources".
+2026-10-11 19:30:26.540 +05 [41865] STATEMENT:  update riwi_knowledge_units set source_id=$1 where source_id=$2
+2026-10-11 19:30:26.608 +05 [41276] LOG:  checkpoint starting: immediate force wait
+2026-10-11 19:30:26.664 +05 [41276] LOG:  checkpoint complete: wrote 1334 buffers (8.1%); 0 WAL file(s) added, 0 removed, 1 recycled; write=0.032 s, sync=0.025 s, total=0.057 s; sync files=798, longest=0.001 s, average=0.001 s; distance=18090 kB, estimate=18090 kB; lsn=0/9B74EE8, redo lsn=0/9B74EB0
+2026-10-11 19:30:26.703 +05 [41276] LOG:  checkpoint starting: immediate force wait
+2026-10-11 19:30:26.704 +05 [41276] LOG:  checkpoint complete: wrote 2 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.001 s; sync files=2, longest=0.001 s, average=0.001 s; distance=3 kB, estimate=16281 kB; lsn=0/9B75B90, redo lsn=0/9B75B58
+2026-10-11 19:30:28.068 +05 [41276] LOG:  checkpoint starting: immediate force wait
+2026-10-11 19:30:28.122 +05 [41276] LOG:  checkpoint complete: wrote 1246 buffers (7.6%); 0 WAL file(s) added, 0 removed, 1 recycled; write=0.031 s, sync=0.024 s, total=0.055 s; sync files=798, longest=0.001 s, average=0.001 s; distance=16744 kB, estimate=16744 kB; lsn=0/ABCFD18, redo lsn=0/ABCFCE0
+2026-10-11 19:30:28.163 +05 [41276] LOG:  checkpoint starting: immediate force wait
+2026-10-11 19:30:28.164 +05 [41276] LOG:  checkpoint complete: wrote 2 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.001 s; sync files=2, longest=0.001 s, average=0.001 s; distance=3 kB, estimate=15070 kB; lsn=0/ABD0AF0, redo lsn=0/ABD0AB8
+2026-10-11 19:30:31.369 +05 [41276] LOG:  checkpoint starting: immediate force wait
+2026-10-11 19:30:31.373 +05 [41276] LOG:  checkpoint complete: wrote 5 buffers (0.0%); 0 WAL file(s) added, 0 removed, 1 recycled; write=0.002 s, sync=0.001 s, total=0.005 s; sync files=4, longest=0.001 s, average=0.001 s; distance=7842 kB, estimate=14347 kB; lsn=0/B379460, redo lsn=0/B379428
+2026-10-11 19:31:02.081 +05 [41276] LOG:  checkpoint starting: immediate force wait
+2026-10-11 19:31:02.084 +05 [41276] LOG:  checkpoint complete: wrote 5 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.002 s, sync=0.001 s, total=0.004 s; sync files=4, longest=0.001 s, average=0.001 s; distance=8140 kB, estimate=13726 kB; lsn=0/BB6C7A0, redo lsn=0/BB6C768
+2026-10-11 19:31:02.432 +05 [41921] WARNING:  there is no transaction in progress
+2026-10-11 19:31:02.435 +05 [41276] LOG:  checkpoint starting: immediate force wait
+2026-10-11 19:31:02.437 +05 [41276] LOG:  checkpoint complete: wrote 6 buffers (0.0%); 0 WAL file(s) added, 0 removed, 1 recycled; write=0.001 s, sync=0.001 s, total=0.002 s; sync files=4, longest=0.001 s, average=0.001 s; distance=7835 kB, estimate=13137 kB; lsn=0/C3136A8, redo lsn=0/C313670
+2026-10-11 19:31:02.789 +05 [41925] WARNING:  there is no transaction in progress
+2026-10-11 19:31:02.792 +05 [41276] LOG:  checkpoint starting: immediate force wait
+2026-10-11 19:31:02.793 +05 [41276] LOG:  checkpoint complete: wrote 5 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.002 s; sync files=4, longest=0.001 s, average=0.001 s; distance=7835 kB, estimate=12607 kB; lsn=0/CABA628, redo lsn=0/CABA5F0
+2026-10-11 19:31:03.157 +05 [41929] WARNING:  there is no transaction in progress
+2026-10-11 19:31:03.160 +05 [41276] LOG:  checkpoint starting: immediate force wait
+2026-10-11 19:31:03.161 +05 [41276] LOG:  checkpoint complete: wrote 5 buffers (0.0%); 0 WAL file(s) added, 0 removed, 1 recycled; write=0.001 s, sync=0.001 s, total=0.002 s; sync files=4, longest=0.001 s, average=0.001 s; distance=7837 kB, estimate=12130 kB; lsn=0/D261C98, redo lsn=0/D261C60
+2026-10-11 19:31:03.531 +05 [41933] WARNING:  there is no transaction in progress
+2026-10-11 19:31:03.534 +05 [41276] LOG:  checkpoint starting: immediate force wait
+2026-10-11 19:31:03.535 +05 [41276] LOG:  checkpoint complete: wrote 6 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.002 s; sync files=4, longest=0.001 s, average=0.001 s; distance=7836 kB, estimate=11701 kB; lsn=0/DA09090, redo lsn=0/DA09058
+2026-10-11 19:31:03.871 +05 [41938] ERROR:  QA_AUDIT_REJECT
+2026-10-11 19:31:03.871 +05 [41938] CONTEXT:  PL/pgSQL function qa_reject_audit() line 1 at RAISE
+2026-10-11 19:31:03.871 +05 [41938] STATEMENT:  insert into "audit_log" ("id", "actor_user_id", "action", "target_type", "target_id", "metadata", "created_at") values (default, $1, $2, $3, $4, $5, default)
+2026-10-11 19:31:03.873 +05 [41938] ERROR:  QA_AUDIT_REJECT
+2026-10-11 19:31:03.873 +05 [41938] CONTEXT:  PL/pgSQL function qa_reject_audit() line 1 at RAISE
+2026-10-11 19:31:03.873 +05 [41938] STATEMENT:  insert into "audit_log" ("id", "actor_user_id", "action", "target_type", "target_id", "metadata", "created_at") values (default, $1, $2, $3, $4, $5, default)
+2026-10-11 19:31:03.881 +05 [41276] LOG:  checkpoint starting: immediate force wait
+2026-10-11 19:31:03.882 +05 [41276] LOG:  checkpoint complete: wrote 5 buffers (0.0%); 0 WAL file(s) added, 0 removed, 1 recycled; write=0.001 s, sync=0.001 s, total=0.002 s; sync files=4, longest=0.001 s, average=0.001 s; distance=7839 kB, estimate=11314 kB; lsn=0/E1B0D00, redo lsn=0/E1B0CC8
+2026-10-11 19:31:55.992 +05 [42024] ERROR:  duplicate key value violates unique constraint "user_vocabulary_user_sense_idx"
+2026-10-11 19:31:55.992 +05 [42024] DETAIL:  Key (user_id, lexeme_id)=(3a64de46-913f-4ad1-aea0-6f93c5cfc50d, 37c9cf7a-f971-4248-a7e7-78319960ef9f) already exists.
+2026-10-11 19:31:55.992 +05 [42024] STATEMENT:  insert into "user_vocabulary" ("id", "user_id", "lexeme_id", "state", "source_type", "source_id", "source_snapshot", "folder_id", "topic_pack", "sense_key", "srs_stage", "mastery", "correct_count", "incorrect_count", "active_use_count", "interval_days", "next_review_at", "last_reviewed_at", "mastered_at", "created_at", "first_seen_at", "last_seen_at", "seen_count") values (default, $1, $2, default, default, default, default, default, default, $3, default, default, default, default, default, default, $4, default, default, default, default, default, default)
+2026-10-11 19:32:17.863 +05 [42052] ERROR:  value too long for type character varying(120)
+2026-10-11 19:32:17.863 +05 [42052] STATEMENT:  insert into "lexemes" ("id", "term", "part_of_speech", "definition_en", "translation_uz", "example_sentence", "collocations", "sense_key", "accepted_translations", "provenance", "verification_status", "import_batch", "lexical_unit_id") values (default, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, default, default) on conflict ("sense_key") do nothing returning "id", "term", "part_of_speech", "definition_en", "translation_uz", "example_sentence", "collocations", "sense_key", "accepted_translations", "provenance", "verification_status", "import_batch", "lexical_unit_id"
+2026-10-11 19:32:17.920 +05 [42052] ERROR:  update or delete on table "lexemes" violates foreign key constraint "user_vocabulary_lexeme_id_lexemes_id_fk" on table "user_vocabulary"
+2026-10-11 19:32:17.920 +05 [42052] DETAIL:  Key (id)=(40e1804a-6fda-4449-bddf-e58655234dc5) is still referenced from table "user_vocabulary".
+2026-10-11 19:32:17.920 +05 [42052] STATEMENT:  delete from "lexemes" where "lexemes"."id" = $1
+2026-10-11 19:33:35.379 +05 [41275] LOG:  received fast shutdown request
+2026-10-11 19:33:35.379 +05 [41275] LOG:  aborting any active transactions
+2026-10-11 19:33:35.381 +05 [41275] LOG:  background worker "logical replication launcher" (PID 41281) exited with exit code 1
+2026-10-11 19:33:35.381 +05 [41276] LOG:  shutting down
+2026-10-11 19:33:35.381 +05 [41276] LOG:  checkpoint starting: shutdown immediate
+2026-10-11 19:33:35.405 +05 [41276] LOG:  checkpoint complete: wrote 212 buffers (1.3%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.021 s, sync=0.003 s, total=0.025 s; sync files=116, longest=0.001 s, average=0.001 s; distance=631 kB, estimate=10246 kB; lsn=0/E24EAC0, redo lsn=0/E24EAC0
+2026-10-11 19:33:35.410 +05 [41275] LOG:  database system is shut down

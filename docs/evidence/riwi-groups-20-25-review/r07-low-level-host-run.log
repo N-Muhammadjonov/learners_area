@@ -1,0 +1,5 @@
+Private PITR logs: /private/tmp/riwi-r07-pitr-2ik9m3n_
+initdb passed
+start-source passed
+stop-source passed
+{"status": "FAILED", "receipt": "/private/tmp/riwi-r07-pitr-2ik9m3n_/receipt.json", "cleanup": {"restored_stopped": true, "source_stopped": true}}

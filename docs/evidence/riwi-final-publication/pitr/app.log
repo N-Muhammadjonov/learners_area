@@ -1,0 +1,22 @@
+   ▲ Next.js 15.5.26
+   - Local:        http://127.0.0.1:62377
+   - Network:      http://127.0.0.1:62377
+   - Experiments (use with caution):
+     · middlewareClientMaxBodySize: "64mb"
+
+ ✓ Starting...
+ ✓ Compiled /instrumentation in 169ms (22 modules)
+[boot] learners-area node runtime · region=local · poolMax=5
+ ✓ Ready in 3.4s
+ ✓ Compiled /middleware in 355ms (208 modules)
+ ○ Compiling /api/version ...
+ ✓ Compiled /api/version in 881ms (299 modules)
+ GET /api/version 200 in 1030ms
+ ○ Compiling /api/auth/login ...
+ ✓ Compiled /api/auth/login in 587ms (518 modules)
+ POST /api/auth/login 200 in 900ms
+ ○ Compiling /api/riwi/owner/knowledge ...
+ ✓ Compiled /api/riwi/owner/knowledge in 1758ms (866 modules)
+ GET /api/riwi/owner/knowledge 200 in 2071ms
+ GET /api/riwi/owner/knowledge 401 in 27ms
+[?25h

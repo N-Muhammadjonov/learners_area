@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "state": "proposed",
+  "audioDays": 30,
+  "rawTranscriptDays": 90,
+  "reviewedTranscriptDays": 90,
+  "metricsDays": 730,
+  "graceDays": 7,
+  "orphanRetryHours": 24
+}

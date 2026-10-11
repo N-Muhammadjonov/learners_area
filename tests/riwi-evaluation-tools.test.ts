@@ -407,3 +407,48 @@ test("chat request resolves to the real authorized Grammar tool, validates the C
     await database.close();
   }
 });
+
+test("Grammar chat resumes canonical correction and translation without selecting objective or foreign work", async () => {
+  const database = await createTestDatabase();
+  const learner = randomUUID(), other = randomUUID(), topic = randomUUID(), exercise = randomUUID();
+  const observed: Array<Parameters<RiwiEvaluationServices["evaluateGrammarProduction"]>[0]> = [];
+  try {
+    await database.db.insert(users).values([
+      { id: learner, name: "Grammar resume learner", role: "student", accountStatus: "active" },
+      { id: other, name: "Foreign learner", role: "student", accountStatus: "active" },
+    ]);
+    await database.db.insert(grammarTopics).values({ id: topic, title: "Present continuous", explanation: "Use be plus -ing.", order: 1 });
+    await database.db.insert(grammarExercises).values({ id: exercise, topicId: topic, order: 1,
+      promptText: "Correct: She study now.", options: ["She is studying now."], correctOption: "She is studying now.",
+      explanation: "Use be plus -ing.", translatePromptUz: "U hozir o'qiyapti.", activationPrompt: "Describe what is happening." });
+    const broker = createRiwiCoreTools(database.db, { ...canonicalRiwiEvaluationServices,
+      evaluateGrammarProduction: async input => {
+        observed.push(input);
+        return persistGrammarFixture(input, { ...evaluationRecord("grammar", learner),
+          providerId: "fixture-external", providerType: "external", providerDisplayName: "Fixture",
+          criteria: ["meaning", "grammar", "target_structure"].map(key => ({ key, label: key, band: null, limited: false, note: "Fixture evidence" })) });
+      },
+    });
+    for (const activity of ["correct_it", "translate_it"] as const) {
+      const prepared = await prepareGrammarProduction(learner, exercise, { activity, answer: "She is studying now." }, "en", database.db);
+      assert.ok(prepared.ok);
+      await database.db.insert(grammarAttempts).values([
+        { userId: learner, exerciseId: exercise, activity: "correct_it", selectedOption: "She is studying now.", isCorrect: true, attemptedAt: new Date("2099-01-01") },
+        { userId: other, exerciseId: exercise, activity, selectedOption: "", responseText: "FOREIGN_CANARY", isCorrect: false, attemptedAt: new Date("2099-01-01") },
+      ]);
+      const response = await callTool(broker, "riwi.coach.grammar.evaluateLatestSelf", learner);
+      assert.equal(response.status, "resolved");
+      assert.equal(response.sourceLabel, activity === "correct_it" ? "Grammar Correct It saved attempt" : "Grammar Translate It saved attempt");
+      const last = observed.at(-1)!;
+      assert.equal(last.attemptId, prepared.prepared.attemptId);
+      assert.equal(last.activity, activity);
+      assert.equal(last.promptText, activity === "correct_it" ? "Correct: She study now." : "U hozir o'qiyapti.");
+      assert.equal(last.sampleAnswer, activity === "correct_it" ? "She is studying now." : null);
+      assert.doesNotMatch(JSON.stringify(response), /FOREIGN_CANARY|U hozir/);
+    }
+    assert.equal(observed.length, 2);
+    await database.db.update(grammarExercises).set({ translatePromptUz: null }).where(eq(grammarExercises.id, exercise));
+    assert.deepEqual(await callTool(broker, "riwi.coach.grammar.evaluateLatestSelf", learner), { status: "unavailable", reason: "source_unavailable" });
+    assert.equal(observed.length, 2, "changed or absent authored source must not dispatch");
+  } finally { await database.close(); }
+});
