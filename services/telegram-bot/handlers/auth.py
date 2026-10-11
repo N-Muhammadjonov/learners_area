@@ -1,13 +1,25 @@
-from aiogram import Router
+from aiogram import F, Router
 from aiogram.filters import Command, CommandObject, CommandStart
 from aiogram.fsm.context import FSMContext
-from aiogram.types import ChatMemberUpdated, Message
+from aiogram.fsm.state import State, StatesGroup
+from aiogram.types import ChatMemberUpdated, Message, ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
 
 from handlers.menu import show_home
 from i18n import t
 from services.api_client import api_client
 
 auth_router = Router()
+
+class PhoneFlow(StatesGroup):
+    awaiting_own_contact = State()
+
+def phone_keyboard(lang: str) -> ReplyKeyboardMarkup:
+    return ReplyKeyboardMarkup(
+        keyboard=[[KeyboardButton(text=t(lang, "share_phone_button"), request_contact=True)]],
+        resize_keyboard=True,
+        one_time_keyboard=False,
+        is_persistent=True,
+    )
 
 
 def lang_of(message: Message, db_user: dict | None = None) -> str:
@@ -26,26 +38,67 @@ async def cmd_start(
     state: FSMContext | None = None,
     backend_error: bool = False,
 ):
-    if state:
-        await state.clear()
     lang = lang_of(message, db_user)
     args = (command.args or "").strip()
-    if backend_error and not args:
+    if len(args) > 200 or " " in args:
+        await message.answer(t(lang, "confirm_failed"))
+        return
+    if backend_error:
         await message.answer(t(lang, "temporary_error"))
         return
-    if args:
-        if len(args) > 200 or " " in args:
-            await message.answer(t(lang, "confirm_failed"))
-            return
-        user = message.from_user
-        success = await api_client.confirm_intent(
-            token=args,
-            telegram_user_id=str(user.id),
-            displayName=user.full_name,
-            languageCode="en" if (user.language_code or "").startswith("en") else "uz",
+    # An intent token is not consumed until the user's OWN contact is verified.
+    if state:
+        await state.clear()
+        await state.set_state(PhoneFlow.awaiting_own_contact)
+        await state.update_data(pending_token=args)
+    await message.answer(t(lang, "share_phone"), reply_markup=phone_keyboard(lang))
+
+
+@auth_router.message(F.contact)
+async def receive_own_contact(
+    message: Message,
+    state: FSMContext | None = None,
+    db_user: dict | None = None,
+    bot_access: dict | None = None,
+    backend_error: bool = False,
+):
+    lang = lang_of(message, db_user)
+    sender = message.from_user
+    contact = message.contact
+    # A forwarded/contact-picker card can name a different person or have NO
+    # user_id. Only Telegram's native self-contact with exact numeric binding works.
+    if (backend_error or sender is None or contact is None
+        or not message.chat or message.chat.type != "private"
+        or getattr(message, "forward_origin", None)
+        or contact.user_id is None or contact.user_id != sender.id):
+        await message.answer(t(lang, "phone_invalid"), reply_markup=phone_keyboard(lang))
+        return
+    try:
+        saved = await api_client.save_verified_phone(
+            str(sender.id), str(contact.user_id), contact.phone_number
         )
-        await message.answer(t(lang, "confirmed" if success else "confirm_failed"))
-    await show_home(message, lang, bot_access, db_user, backend_error=backend_error)
+    except Exception:
+        saved = False
+    if not saved:
+        await message.answer(t(lang, "channels_error"), reply_markup=phone_keyboard(lang))
+        return
+    data = await state.get_data() if state else {}
+    token = data.get("pending_token") if isinstance(data, dict) else None
+    if state:
+        await state.clear()
+    await message.answer(t(lang, "phone_saved"), reply_markup=ReplyKeyboardRemove())
+    if token:
+        try:
+            confirmed = await api_client.confirm_intent(
+                token=token,
+                telegram_user_id=str(sender.id),
+                displayName=sender.full_name,
+                languageCode=lang,
+            )
+        except Exception:
+            confirmed = False
+        await message.answer(t(lang, "confirmed" if confirmed else "confirm_failed"))
+    await show_home(message, lang, bot_access, db_user)
 
 
 @auth_router.my_chat_member()
