@@ -26,6 +26,13 @@ Status labels used: `IMPLEMENTED_AND_VERIFIED` · `IMPLEMENTED_NOT_RUNTIME_VERIF
 | Migrations applied to QA database | 53 of 53, verified by counting `drizzle.__drizzle_migrations` |
 | Build identity of the last verified build | `D-0uxyL3rXTNPEboduCe9` |
 | Whole-database row total after every probe and suite run | 128 — the post-seed baseline, measured by counting all 119 base tables |
+
+The identity figures above are as of `9fca98e`, the last commit containing production or test code.
+Committing this revision of the dossier necessarily advances HEAD and the tree by one further commit
+whose only changed file is `docs/OWNER-DOSSIER.md` — a document cannot contain its own SHA. No source
+file, migration, test or probe differs between `9fca98e` and the commit carrying this sentence, which
+is verifiable with `git diff --stat 9fca98e..HEAD`. Every measurement in section 9 was taken on the
+`9fca98e` tree and remains valid on it.
 | Mutant build used to kill the reading-seal mutation test | `k_fNBk6tzzGtgxjjcbS23` (source restored byte-exact afterwards) |
 
 Commits added since the previous revision of this dossier, each pushed normally and verified with
