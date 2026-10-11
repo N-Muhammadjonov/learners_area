@@ -1,6 +1,7 @@
 import { test } from "node:test";
 import { strict as assert } from "node:assert";
 import { telegramApplicationGatesEnabled } from "../src/lib/telegram/access-gates";
+import { actorCan } from "../src/lib/telegram/permissions";
 
 test("Telegram application gates are OFF by default for old-bot compatibility", () => {
   const before = process.env.TELEGRAM_ACCESS_GATES_ENABLED;
@@ -28,4 +29,18 @@ test("Telegram application gates enable only with an explicit 1 or true", () => 
     if (before === undefined) delete process.env.TELEGRAM_ACCESS_GATES_ENABLED;
     else process.env.TELEGRAM_ACCESS_GATES_ENABLED = before;
   }
+});
+
+test("Primary owner is required for phone-number and bot-setting access", () => {
+  const delegatedAdmin = {
+    isPrimaryOwner: false,
+    permissions: ["VIEW_USERS" as const, "MANAGE_USERS" as const],
+  };
+  const primaryOwner = {
+    isPrimaryOwner: true,
+    permissions: [] as const,
+  };
+  assert.equal(actorCan(delegatedAdmin, "BOT_SETTINGS"), false);
+  assert.equal(actorCan(delegatedAdmin, "VIEW_USERS"), true);
+  assert.equal(actorCan(primaryOwner, "BOT_SETTINGS"), true);
 });
