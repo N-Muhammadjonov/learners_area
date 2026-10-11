@@ -94,6 +94,14 @@ export function LoginForm({
         botUsername={telegramBotUsername}
         purpose="login"
       />
+      {telegramOnly && (
+        <TelegramIntentLogin
+          dict={dict}
+          configured={telegramConfigured}
+          botUsername={telegramBotUsername}
+          purpose="register"
+        />
+      )}
     </form>
   );
 }
