@@ -164,6 +164,12 @@ async def user_card(callback: CallbackQuery, db_user: dict | None = None, bot_ac
         f"{esc(user.get('role'))} · {esc(user.get('accountStatus'))}",
         f"telegram: {esc(user.get('telegramId') or '—')}",
     ])
+    if (bot_access or {}).get("isPrimaryOwner") and user.get("telegramId"):
+        phone_status, phone = await api_client.owner_contact_detail(
+            str(callback.from_user.id), str(user["telegramId"])
+        )
+        if phone_status == 200:
+            text += f"\n📞 {esc(phone.get('phoneNumber') or '—')}"
     await callback.message.edit_text(text, reply_markup=InlineKeyboardMarkup(inline_keyboard=_user_actions(user_id, bot_access, lang)))
     await callback.answer()
 
@@ -226,6 +232,13 @@ async def telegram_contact_card(
         f"🆔 Telegram ID: {esc(telegram_id)}",
         bot_state,
     ]
+
+    if (bot_access or {}).get("isPrimaryOwner"):
+        phone_status, phone = await api_client.owner_contact_detail(
+            str(callback.from_user.id), telegram_id
+        )
+        if phone_status == 200:
+            lines.append(f"📞 {esc(phone.get('phoneNumber') or '—')}")
 
     if linked_user:
         lines.append(
