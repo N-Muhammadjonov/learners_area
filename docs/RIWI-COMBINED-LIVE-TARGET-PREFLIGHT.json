@@ -1,0 +1,22 @@
+{
+  "observed_at": "2026-10-11T09:47:44.392Z",
+  "method": "READ_ONLY_AUTHENTICATED_SAFARI_VERCEL_UI",
+  "team": "learners-area",
+  "project": "learners-area",
+  "deployment_id": "7tcYprgTUswYfZoi7dz1DauaG3UQ",
+  "deployment_url": "https://learners-area-jujt2iytu-learners-area.vercel.app",
+  "deployment_dashboard": "https://vercel.com/learners-area/learners-area/7tcYprgTUswYfZoi7dz1DauaG3UQ",
+  "environment": "Preview",
+  "status": "Ready",
+  "deployment_commit": "e50a2a944f092c695711792b63dbfcf154739c65",
+  "published_base": "5203241429908f66913529ec96b0214bd814da35",
+  "candidate_source_sha256": "fdc822b9e14e1acfbbafcb8bff799c54d2ede71b248b8ae4eb559bc1a63e2a7d",
+  "matches_current_candidate": false,
+  "isolated_database_verified": false,
+  "provider_credentials_verified": false,
+  "provider_pitr_verified": false,
+  "four_role_qa_accounts_verified": false,
+  "signed_private_url_expiry_verified": false,
+  "external_mutation_performed": false,
+  "user_selected": "EXISTING_QA"
+}

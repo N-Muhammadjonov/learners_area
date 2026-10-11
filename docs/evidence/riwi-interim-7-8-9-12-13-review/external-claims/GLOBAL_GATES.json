@@ -1,0 +1,127 @@
+{
+ "denominator": 34,
+ "closed": 20,
+ "open": 14,
+ "equal_weight_closure_percent": 58.8235,
+ "overall_RIWI_project_percent": null,
+ "note": "Unknown without a reviewed requirement denominator. This 5-group work closed 0 groups.",
+ "open_groups": [
+  {
+   "n": 4,
+   "id": "R04",
+   "status": "PARTIAL"
+  },
+  {
+   "n": 6,
+   "id": "R06",
+   "status": "OPEN_UNVERIFIED"
+  },
+  {
+   "n": 7,
+   "id": "R07",
+   "status": "OPEN_UNVERIFIED"
+  },
+  {
+   "n": 8,
+   "id": "R08",
+   "status": "OPEN_UNVERIFIED"
+  },
+  {
+   "n": 9,
+   "id": "B01",
+   "status": "PARTIAL"
+  },
+  {
+   "n": 12,
+   "id": "B04",
+   "status": "PARTIAL"
+  },
+  {
+   "n": 13,
+   "id": "B05",
+   "status": "REMOTE_PUBLISHED_APPLICABLE_EXTERNAL_ACCEPTANCE_PENDING"
+  },
+  {
+   "n": 20,
+   "id": "C05",
+   "status": "REMOTE_PUBLISHED_APPLICABLE_EXTERNAL_ACCEPTANCE_PENDING"
+  },
+  {
+   "n": 21,
+   "id": "C06",
+   "status": "REMOTE_PUBLISHED_APPLICABLE_EXTERNAL_ACCEPTANCE_PENDING"
+  },
+  {
+   "n": 22,
+   "id": "C07",
+   "status": "REMOTE_PUBLISHED_APPLICABLE_EXTERNAL_ACCEPTANCE_PENDING"
+  },
+  {
+   "n": 23,
+   "id": "C08",
+   "status": "OPEN_UNVERIFIED"
+  },
+  {
+   "n": 24,
+   "id": "C09",
+   "status": "OPEN_UNVERIFIED"
+  },
+  {
+   "n": 28,
+   "id": "D04",
+   "status": "PARTIAL"
+  },
+  {
+   "n": 33,
+   "id": "D09",
+   "status": "PARTIAL"
+  }
+ ],
+ "layers_for_this_package": {
+  "code_local": "baseline reproduction in progress; source unchanged",
+  "published": "5203241 owner-verified (historical receipt)",
+  "deployed": "NOT_VERIFIED (no deployment target seen)",
+  "operational": "NOT_VERIFIED (no provider/PITR/cron/browser targets)"
+ },
+ "gates": [
+  {
+   "gate": "exact-source native backend",
+   "status": "IN_PROGRESS_REPRODUCTION",
+   "evidence": "see README / baseline logs"
+  },
+  {
+   "gate": "UI tests",
+   "status": "QUEUED"
+  },
+  {
+   "gate": "typecheck",
+   "status": "QUEUED"
+  },
+  {
+   "gate": "lint",
+   "status": "QUEUED"
+  },
+  {
+   "gate": "production build",
+   "status": "NOT_CLAIMED",
+   "reason": "owner no-rebuild instruction"
+  },
+  {
+   "gate": "real provider (R06/B05)",
+   "status": "EXTERNAL_REQUIRED"
+  },
+  {
+   "gate": "backup/PITR provider restore (R07)",
+   "status": "EXTERNAL_REQUIRED"
+  },
+  {
+   "gate": "deployed retention cron (R04)",
+   "status": "EXTERNAL_REQUIRED / PARTIAL"
+  },
+  {
+   "gate": "combined source with other-AI 20-25 patches",
+   "status": "NOT_SEEN_NOT_INTEGRATED"
+  }
+ ],
+ "verdict": "NO-GO"
+}

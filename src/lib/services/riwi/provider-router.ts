@@ -196,6 +196,10 @@ export async function routeRiwiAnswer(
     return unavailable({ dependencies, ...input, started, profile, reason: "provider_error", providerId, model });
   }
 
+  // Cancellation can happen during the awaited audit. Adding an abort listener
+  // afterwards does not replay that event; check before allocating transport.
+  if (input.signal?.aborted) return unavailable({ dependencies, ...input, started, profile, reason: "cancelled", providerId, model });
+
   const controller = new AbortController();
   let timeoutHit = false;
   let requestCancelled = false;
@@ -214,6 +218,7 @@ export async function routeRiwiAnswer(
   };
   input.signal?.addEventListener("abort", abort, { once: true });
   let outcome: RiwiProviderResult | null = null;
+  let providerThrew = false;
   try {
     const call = Promise.resolve().then(() => {
       if (controller.signal.aborted) throw new Error("riwi_request_cancelled");
@@ -225,6 +230,7 @@ export async function routeRiwiAnswer(
     });
     outcome = await Promise.race([call, timeout, cancelled]);
   } catch {
+    providerThrew = true;
     outcome = null;
   } finally {
     if (timeoutHandle) clearTimeout(timeoutHandle);
@@ -234,6 +240,7 @@ export async function routeRiwiAnswer(
   const durationMs = elapsed(started, dependencies.now());
   if (requestCancelled) return unavailable({ dependencies, ...input, started, profile, reason: "cancelled", providerId, model });
   if (timeoutHit) return unavailable({ dependencies, ...input, started, profile, reason: "timeout", providerId, model });
+  if (providerThrew) return unavailable({ dependencies, ...input, started, profile, reason: "provider_error", providerId, model });
   const parsedOutcome = providerResultSchema.safeParse(outcome);
   if (!parsedOutcome.success) return unavailable({ dependencies, ...input, started, profile, reason: "invalid_response", providerId, model });
   if (!parsedOutcome.data.ok) {

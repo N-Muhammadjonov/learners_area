@@ -1,0 +1,22 @@
+{
+  "observed_at": "2026-10-11T09:32:34.004Z",
+  "runner_pid_31762_present": false,
+  "app": {
+    "reachable": false,
+    "reason": "TimeoutError"
+  },
+  "cluster_pid": 31775,
+  "cluster_exact_identity_verified": true,
+  "cluster_stop": {
+    "exit": 0,
+    "stdout": "waiting for server to shut down.... done\nserver stopped\n",
+    "stderr": ""
+  },
+  "postmaster_pid_file_removed": true,
+  "manual_browser_hold_completed": false,
+  "app_cleanup": {
+    "exit": 0,
+    "stdout": "{\"private_app_port\": 54424, \"listener_removed\": true, \"exact_launcher_verified\": true}\n",
+    "stderr": ""
+  }
+}

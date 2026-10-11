@@ -222,3 +222,36 @@ test("router bounds timeouts, aborts transport, propagates caller cancellation, 
   if (refused.status === "external_unavailable") assert.equal(refused.reason, "policy_unavailable");
   assert.equal(policyFailure.state.calls.length, 0);
 });
+
+test("a request cancelled while its outbound audit is committed never calls the provider", async () => {
+  const controller = new AbortController();
+  const fixture = makeFixture({ overrides: {
+    writeAudit: async (event) => {
+      fixture.state.audits.push(event);
+      if (event.action === "riwi.external.requested") {
+        // The request can end during the awaited audit, before the transport
+        // cancellation listener is attached. Reproduce without a timer race.
+        await Promise.resolve();
+        controller.abort();
+      }
+    },
+  } });
+  const result = await routeRiwiAnswer(request({ signal: controller.signal }), fixture.dependencies);
+  assert.equal(result.status, "external_unavailable");
+  if (result.status === "external_unavailable") assert.equal(result.reason, "cancelled");
+  assert.equal(fixture.state.calls.length, 0);
+  assert.deepEqual(fixture.state.usage.map((event) => event.state), ["cancelled"]);
+  assert.ok(!fixture.state.audits.some((event) => event.action === "riwi.external.succeeded"));
+});
+
+test("a rejected provider call is a provider error, distinct from a malformed returned DTO", async () => {
+  const fixture = makeFixture({ respond: async () => {
+    throw new Error("private provider transport diagnostic must not escape");
+  } });
+  const result = await routeRiwiAnswer(request(), fixture.dependencies);
+  assert.equal(result.status, "external_unavailable");
+  if (result.status === "external_unavailable") assert.equal(result.reason, "provider_error");
+  assert.equal(fixture.state.calls.length, 1);
+  assert.deepEqual(fixture.state.usage.map((event) => event.state), ["provider_error"]);
+  assert.ok(!JSON.stringify([result, fixture.state.audits, fixture.state.usage]).includes("private provider transport diagnostic"));
+});

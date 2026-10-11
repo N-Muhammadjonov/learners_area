@@ -1,0 +1,55 @@
+{
+ "kind": "LOCAL_NATIVE_PITR_REHEARSAL",
+ "status": "REHEARSAL_ONLY_NOT_PROVIDER_PITR_NOT_ACCEPTANCE",
+ "postgres_version": "16.15 (Ubuntu 16.15-0ubuntu0.24.04.1)",
+ "timestamps_utc": {
+  "basebackup_start": "2026-10-11 07:47:39.589921+00",
+  "basebackup_end": "2026-10-11 07:47:42.324511+00",
+  "recovery_target_utc": "2026-10-11 07:47:53.005299+00",
+  "simulated_failure_utc": "2026-10-11 07:47:56.533378+00",
+  "restore_requested": "2026-10-11 07:48:05.651818+00",
+  "restore_start": "2026-10-11 07:48:06.241791+00",
+  "restore_ready": "2026-10-11 07:48:08.892554+00",
+  "verify_end": "2026-10-11 07:48:18.527089+00"
+ },
+ "tables_compared": 114,
+ "tables_hash_mismatch_vs_source_at_target": [],
+ "tables_extra_in_restore": [],
+ "canaries_restored": [
+  "pre-1",
+  "pre-2",
+  "pre-3",
+  "pre-4",
+  "pre-5"
+ ],
+ "expected_present": [
+  "pre-1",
+  "pre-2",
+  "pre-3",
+  "pre-4",
+  "pre-5"
+ ],
+ "expected_absent": [
+  "post-1",
+  "post-2",
+  "post-3"
+ ],
+ "canary_check": "PASS",
+ "source_final_differs_from_restore_tables": [
+  "rehearsal.canary"
+ ],
+ "fk_constraints_src_dst": [
+  "181",
+  "181"
+ ],
+ "unvalidated_constraints_in_restore": "0",
+ "last_acknowledged_canary_in_restore_utc": "2026-10-11 07:47:42.744242+00",
+ "observed_RPO_seconds_definition": "simulated_failure_time minus written_at of latest acknowledged canary present in restore (here the restore TARGET was deliberately set before the later canaries, so this is rehearsal arithmetic, not a real failure RPO)",
+ "RTO_seconds_definition": "restore_requested -> restore_ready(promoted, accepting queries) + verification; excludes app boot (not performed in this script)",
+ "RTO_restore_to_ready_seconds": 3.0,
+ "RTO_requested_to_verified_seconds": 12.9,
+ "app_boot": "NOT_PERFORMED_IN_THIS_SCRIPT",
+ "private_objects": "NOT_APPLICABLE_SYNTHETIC (no object store in rehearsal)",
+ "provider": "none (native local PG)",
+ "hash_check": "PASS"
+}

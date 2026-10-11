@@ -1,0 +1,1 @@
+{"status":"EXTERNAL_REQUIRED","provider":null,"project":null,"database_identity":null,"region":null,"backup_owner":null,"pitr_enabled":null,"retention":null,"encryption_at_rest_evidence":null,"latest_accepted_safety_point":null,"note":"No target credentials or provider access were supplied. Nothing was invented."}

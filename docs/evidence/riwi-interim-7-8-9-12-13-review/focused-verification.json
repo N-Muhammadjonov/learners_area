@@ -1,0 +1,28 @@
+{
+  "observed_at": "2026-10-11T09:34:11.809080+00:00",
+  "canonical_source_sha256": "fdc822b9e14e1acfbbafcb8bff799c54d2ede71b248b8ae4eb559bc1a63e2a7d",
+  "published_base": "5203241429908f66913529ec96b0214bd814da35",
+  "focused_backend": {
+    "sha256": "304fcdf18d6b0971301e3c472def3b455ba841eab3d81b570c142c3f58995d49",
+    "final_counts": {
+      "tests": 94,
+      "pass": 94,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "has_final_plan": true,
+    "counts_as_clean_pass": true
+  },
+  "typecheck_lint_full_backend_ui": "UNCHANGED_SOURCE_PREVIOUS_CURRENT_R06_NATIVE_RECEIPTS",
+  "new_r07_rehearsal": "PREFLIGHT_REFUSED_MISSING_PSQL_AND_PG_BASEBACKUP_NO_CLUSTER_CREATED",
+  "new_r07_rehearsal_script": "docs/qa/RIWI_R07_NATIVE_PITR_REHEARSAL.py",
+  "new_r07_script_syntax": "PASS",
+  "new_r07_rehearsal_counts_as_pass": false,
+  "live_provider_verified": false,
+  "groups_closed_by_this_review": 0,
+  "production_build": false,
+  "push": false,
+  "deployment": false
+}

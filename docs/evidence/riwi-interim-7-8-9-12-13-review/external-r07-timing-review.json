@@ -1,0 +1,9 @@
+{
+  "origin": "EXTERNAL_REPORTED_TIMESTAMPS_ONLY_NOT_INDEPENDENT_RESTORE_PROOF",
+  "request_to_ready_seconds": 3.240736,
+  "start_to_ready_seconds": 2.650763,
+  "request_to_verified_seconds": 12.875271,
+  "original_reported_request_to_ready_seconds": 3.0,
+  "client_acknowledgement_timestamp_in_external_receipt": false,
+  "provider_pitr_acceptance": false
+}

@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: router sends one minimized request to the configured registered assistant and validates the normalized answer
+ok 1 - router sends one minimized request to the configured registered assistant and validates the normalized answer
+  ---
+  duration_ms: 4.275084
+  type: 'test'
+  ...
+# Subtest: rollout, owner policy, registry, capability, secret and task-profile gates all fail before provider execution
+ok 2 - rollout, owner policy, registry, capability, secret and task-profile gates all fail before provider execution
+  ---
+  duration_ms: 1.235292
+  type: 'test'
+  ...
+# Subtest: disabled rollout is evaluated before provider or owner configuration is read
+ok 3 - disabled rollout is evaluated before provider or owner configuration is read
+  ---
+  duration_ms: 0.1445
+  type: 'test'
+  ...
+# Subtest: request-audit failure blocks the external call, while usage/audit failure stays bounded and safe
+ok 4 - request-audit failure blocks the external call, while usage/audit failure stays bounded and safe
+  ---
+  duration_ms: 0.440667
+  type: 'test'
+  ...
+# Subtest: runtime adapter outputs are schema-checked and citations must belong to the exact guarded context
+ok 5 - runtime adapter outputs are schema-checked and citations must belong to the exact guarded context
+  ---
+  duration_ms: 1.219708
+  type: 'test'
+  ...
+# Subtest: router bounds timeouts, aborts transport, propagates caller cancellation, and fails closed on policy errors
+ok 6 - router bounds timeouts, aborts transport, propagates caller cancellation, and fails closed on policy errors
+  ---
+  duration_ms: 10.455875
+  type: 'test'
+  ...
+# Subtest: a request cancelled while its outbound audit is committed never calls the provider
+ok 7 - a request cancelled while its outbound audit is committed never calls the provider
+  ---
+  duration_ms: 0.314958
+  type: 'test'
+  ...
+# Subtest: a rejected provider call is a provider error, distinct from a malformed returned DTO
+ok 8 - a rejected provider call is a provider error, distinct from a malformed returned DTO
+  ---
+  duration_ms: 0.196833
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 761.522667

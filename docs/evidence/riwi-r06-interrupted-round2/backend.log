@@ -1,0 +1,4436 @@
+TAP version 13
+# Subtest: the role ladder is student < teacher < admin < owner
+ok 1 - the role ladder is student < teacher < admin < owner
+  ---
+  duration_ms: 1.451583
+  type: 'test'
+  ...
+# Subtest: staff and administrator levels include the owner
+ok 2 - staff and administrator levels include the owner
+  ---
+  duration_ms: 0.086833
+  type: 'test'
+  ...
+# Subtest: only an owner may grant the admin role, and nobody but an owner may grant owner
+ok 3 - only an owner may grant the admin role, and nobody but an owner may grant owner
+  ---
+  duration_ms: 0.086458
+  type: 'test'
+  ...
+# Subtest: only an ACTIVE account reaches private content
+ok 4 - only an ACTIVE account reaches private content
+  ---
+  duration_ms: 0.068459
+  type: 'test'
+  ...
+# Subtest: a pending or rejected applicant may ask again; a suspended account may not
+ok 5 - a pending or rejected applicant may ask again; a suspended account may not
+  ---
+  duration_ms: 0.06325
+  type: 'test'
+  ...
+# Subtest: every non-active status needs the waiting screen
+ok 6 - every non-active status needs the waiting screen
+  ---
+  duration_ms: 0.077084
+  type: 'test'
+  ...
+# Subtest: a teacher keeps their own material, an administrator may edit anyone's
+ok 7 - a teacher keeps their own material, an administrator may edit anyone's
+  ---
+  duration_ms: 0.083667
+  type: 'test'
+  ...
+# Subtest: the ownership rule accepts both identity shapes
+ok 8 - the ownership rule accepts both identity shapes
+  ---
+  duration_ms: 0.050917
+  type: 'test'
+  ...
+# Subtest: no API route authorizes from the session cookie alone
+ok 9 - no API route authorizes from the session cookie alone
+  ---
+  duration_ms: 5.139875
+  type: 'test'
+  ...
+# Subtest: every private API route rejects anonymous callers with 401
+ok 10 - every private API route rejects anonymous callers with 401
+  ---
+  duration_ms: 6.877583
+  type: 'test'
+  ...
+# Subtest: every staff, administrator and owner page guards itself from the database
+ok 11 - every staff, administrator and owner page guards itself from the database
+  ---
+  duration_ms: 5.377792
+  type: 'test'
+  ...
+# Subtest: page-level authorization reads the database, not the session cookie
+ok 12 - page-level authorization reads the database, not the session cookie
+  ---
+  duration_ms: 7.206042
+  type: 'test'
+  ...
+# Subtest: role checks in API routes are rank-aware, not equality against "admin"
+ok 13 - role checks in API routes are rank-aware, not equality against "admin"
+  ---
+  duration_ms: 4.827458
+  type: 'test'
+  ...
+# Subtest: authorization never reads the historical isOwner flag
+ok 14 - authorization never reads the historical isOwner flag
+  ---
+  duration_ms: 48.809958
+  type: 'test'
+  ...
+# Subtest: the admission decision endpoint requires an administrator and never self-approves
+ok 15 - the admission decision endpoint requires an administrator and never self-approves
+  ---
+  duration_ms: 0.285333
+  type: 'test'
+  ...
+# Subtest: the admission request itself is open to a pending applicant, and only theirs
+ok 16 - the admission request itself is open to a pending applicant, and only theirs
+  ---
+  duration_ms: 0.203416
+  type: 'test'
+  ...
+# Subtest: account status is written server-side with an audited reason
+ok 17 - account status is written server-side with an audited reason
+  ---
+  duration_ms: 0.1105
+  type: 'test'
+  ...
+# Subtest: retention windows are configuration, never magic numbers in the query
+ok 18 - retention windows are configuration, never magic numbers in the query
+  ---
+  duration_ms: 0.162042
+  type: 'test'
+  ...
+# Subtest: the integration report never returns a secret value
+ok 19 - the integration report never returns a secret value
+  ---
+  duration_ms: 0.155375
+  type: 'test'
+  ...
+# Subtest: ownership transfer requires the owner's password again
+ok 20 - ownership transfer requires the owner's password again
+  ---
+  duration_ms: 0.080583
+  type: 'test'
+  ...
+# Subtest: AE1 known codes map to localized sentences in both locales
+ok 21 - AE1 known codes map to localized sentences in both locales
+  ---
+  duration_ms: 0.482542
+  type: 'test'
+  ...
+# Subtest: AE2 unknown codes, validator sentences and network failure never echo the raw value
+ok 22 - AE2 unknown codes, validator sentences and network failure never echo the raw value
+  ---
+  duration_ms: 0.2065
+  type: 'test'
+  ...
+# Subtest: AE3 Uzbek copy is Latin-only; history empty state no longer promises 'coming soon'
+ok 23 - AE3 Uzbek copy is Latin-only; history empty state no longer promises 'coming soon'
+  ---
+  duration_ms: 0.105667
+  type: 'test'
+  ...
+# Subtest: AE4 the four affected forms route errors through the mapper (no data.error rendered)
+ok 24 - AE4 the four affected forms route errors through the mapper (no data.error rendered)
+  ---
+  duration_ms: 0.328042
+  type: 'test'
+  ...
+# Subtest: 0045 upgrades a populated Coach database without rewriting historical evaluations or grade snapshots
+ok 25 - 0045 upgrades a populated Coach database without rewriting historical evaluations or grade snapshots
+  ---
+  duration_ms: 1746.271833
+  type: 'test'
+  ...
+# Subtest: AP1 candidate parsing is deterministic, allowlisted, and refuses mixed or injected instructions
+ok 26 - AP1 candidate parsing is deterministic, allowlisted, and refuses mixed or injected instructions
+  ---
+  duration_ms: 5.847542
+  type: 'test'
+  ...
+# Subtest: AP2 regression preview freezes hard-core/schema/rubric invariants for each allowlisted scope
+ok 27 - AP2 regression preview freezes hard-core/schema/rubric invariants for each allowlisted scope
+  ---
+  duration_ms: 7.734792
+  type: 'test'
+  ...
+# Subtest: UZ owner examples use the same allowlisted overlays and reject mixed scopes or forbidden changes
+ok 28 - UZ owner examples use the same allowlisted overlays and reject mixed scopes or forbidden changes
+  ---
+  duration_ms: 0.934834
+  type: 'test'
+  ...
+# Subtest: AP3 owner-only candidate → preview → approve lifecycle is idempotent, audited, versioned, and policy-only
+ok 29 - AP3 owner-only candidate → preview → approve lifecycle is idempotent, audited, versioned, and policy-only
+  ---
+  duration_ms: 1713.532292
+  type: 'test'
+  ...
+# Subtest: AP3b approval cannot be replayed after a previewed candidate is modified
+ok 30 - AP3b approval cannot be replayed after a previewed candidate is modified
+  ---
+  duration_ms: 1174.324292
+  type: 'test'
+  ...
+# Subtest: AP4 owner-history pagination is stable, bounded, filter-bound, retryable, and reaches every policy version
+ok 31 - AP4 owner-history pagination is stable, bounded, filter-bound, retryable, and reaches every policy version
+  ---
+  duration_ms: 1253.099334
+  type: 'test'
+  ...
+# Subtest: rollback creates a fresh inert candidate with new preview/approval; old versions remain immutable and retries are scoped to activation
+ok 32 - rollback creates a fresh inert candidate with new preview/approval; old versions remain immutable and retries are scoped to activation
+  ---
+  duration_ms: 1766.490209
+  type: 'test'
+  ...
+# Subtest: approval binds the exact preview the owner reviewed even after another valid preview replaces it
+ok 33 - approval binds the exact preview the owner reviewed even after another valid preview replaces it
+  ---
+  duration_ms: 1221.499417
+  type: 'test'
+  ...
+# Subtest: published v2 policies remain readable and rollback copies them into v3 candidates with fresh behavior fixtures
+ok 34 - published v2 policies remain readable and rollback copies them into v3 candidates with fresh behavior fixtures
+  ---
+  duration_ms: 1257.859291
+  type: 'test'
+  ...
+# Subtest: a still-pending older candidate cannot downgrade a newer activation using a previously valid preview
+ok 35 - a still-pending older candidate cannot downgrade a newer activation using a previously valid preview
+  ---
+  duration_ms: 1159.329833
+  type: 'test'
+  ...
+# Subtest: an already-aborted request never asks for microphone permission
+ok 36 - an already-aborted request never asks for microphone permission
+  ---
+  duration_ms: 1.25775
+  type: 'test'
+  ...
+# Subtest: constructor and start failures release every acquired track and event handler
+ok 37 - constructor and start failures release every acquired track and event handler
+  ---
+  duration_ms: 0.493
+  type: 'test'
+  ...
+# Subtest: duration excludes time between microphone acquisition and actual recording start
+ok 38 - duration excludes time between microphone acquisition and actual recording start
+  ---
+  duration_ms: 0.459625
+  type: 'test'
+  ...
+# Subtest: duplicate Stop shares one result, one native stop and one track release
+ok 39 - duplicate Stop shares one result, one native stop and one track release
+  ---
+  duration_ms: 0.206667
+  type: 'test'
+  ...
+# Subtest: cancel during Stop settles the pending result and rejects late chunks
+ok 40 - cancel during Stop settles the pending result and rejects late chunks
+  ---
+  duration_ms: 0.21025
+  type: 'test'
+  ...
+# Subtest: abort remains effective after allocation and after recording starts
+ok 41 - abort remains effective after allocation and after recording starts
+  ---
+  duration_ms: 0.262208
+  type: 'test'
+  ...
+# Subtest: stop failures and zero bytes finish without retaining listeners
+ok 42 - stop failures and zero bytes finish without retaining listeners
+  ---
+  duration_ms: 0.227541
+  type: 'test'
+  ...
+# Subtest: missing native stop/error events are bounded and detach all pending callbacks
+ok 43 - missing native stop/error events are bounded and detach all pending callbacks
+  ---
+  duration_ms: 0.2485
+  type: 'test'
+  ...
+# Subtest: W18: Retention copy states the real 2-minute read, 3-minute recall and 100-point score
+ok 44 - W18: Retention copy states the real 2-minute read, 3-minute recall and 100-point score
+  ---
+  duration_ms: 1.249375
+  type: 'test'
+  ...
+# Subtest: W14: the utility stack collapses on an outside pointer press but not on inside presses
+ok 45 - W14: the utility stack collapses on an outside pointer press but not on inside presses
+  ---
+  duration_ms: 0.170792
+  type: 'test'
+  ...
+# Subtest: W09: the durable result route is owner-scoped, terminal-only and learner-safe
+ok 46 - W09: the durable result route is owner-scoped, terminal-only and learner-safe
+  ---
+  duration_ms: 0.189208
+  type: 'test'
+  ...
+# Subtest: W09: recall, payload and history all use the shared countWords
+ok 47 - W09: recall, payload and history all use the shared countWords
+  ---
+  duration_ms: 0.30475
+  type: 'test'
+  ...
+# Subtest: B1 history is used only after an in-site navigation; deep links fall back to the href
+ok 48 - B1 history is used only after an in-site navigation; deep links fall back to the href
+  ---
+  duration_ms: 0.572667
+  type: 'test'
+  ...
+# Subtest: B2 BackLink is a real link with a ≥44px target and a decorative arrow
+ok 49 - B2 BackLink is a real link with a ≥44px target and a decorative arrow
+  ---
+  duration_ms: 0.320167
+  type: 'test'
+  ...
+# Subtest: B3 the Management Listening import uses BackLink to /admin/listening; the old URL only redirects
+ok 50 - B3 the Management Listening import uses BackLink to /admin/listening; the old URL only redirects
+  ---
+  duration_ms: 0.349125
+  type: 'test'
+  ...
+# Subtest: B4 nested learner and management pages use the shared BackLink (no hand-rolled ← links)
+ok 51 - B4 nested learner and management pages use the shared BackLink (no hand-rolled ← links)
+  ---
+  duration_ms: 0.898125
+  type: 'test'
+  ...
+# Subtest: the six approved assets are configured under one directory
+ok 52 - the six approved assets are configured under one directory
+  ---
+  duration_ms: 0.861958
+  type: 'test'
+  ...
+# Subtest: every configured asset exists on disk and is a real PNG
+ok 53 - every configured asset exists on disk and is a real PNG
+  ---
+  duration_ms: 6.710875
+  type: 'test'
+  ...
+# Subtest: no brand artwork is duplicated outside the canonical directory
+ok 54 - no brand artwork is duplicated outside the canonical directory
+  ---
+  duration_ms: 0.933125
+  type: 'test'
+  ...
+# Subtest: the theme picks the supplied file for that theme, never a filter
+ok 55 - the theme picks the supplied file for that theme, never a filter
+  ---
+  duration_ms: 0.631042
+  type: 'test'
+  ...
+# Subtest: no component builds a brand path of its own
+ok 56 - no component builds a brand path of its own
+  ---
+  duration_ms: 45.885583
+  type: 'test'
+  ...
+# Subtest: the name and the line under it are configuration, not literals
+ok 57 - the name and the line under it are configuration, not literals
+  ---
+  duration_ms: 0.209209
+  type: 'test'
+  ...
+# Subtest: Runtime theme cutouts are compact real transparent PNGs with reserved intrinsic size
+ok 58 - Runtime theme cutouts are compact real transparent PNGs with reserved intrinsic size
+  ---
+  duration_ms: 8.874834
+  type: 'test'
+  ...
+# Subtest: E1 OpenAI-backed result: resolver validates the adapter output, learner sees RIWI, provenance keeps OpenAI + model
+ok 59 - E1 OpenAI-backed result: resolver validates the adapter output, learner sees RIWI, provenance keeps OpenAI + model
+  ---
+  duration_ms: 20.657917
+  type: 'test'
+  ...
+# Subtest: E2 Anthropic/Claude-backed result uses the Messages adapter but the same RIWI identity and truthful provenance
+ok 60 - E2 Anthropic/Claude-backed result uses the Messages adapter but the same RIWI identity and truthful provenance
+  ---
+  duration_ms: 1.89125
+  type: 'test'
+  ...
+# [coach] provider openai did not produce an evaluation for grammar: provider_error (OpenAI evaluation request failed)
+# Subtest: E3 external failure falls back to the real RIWI evaluator; public identity stays RIWI and internal metadata says RIWI, no model
+ok 61 - E3 external failure falls back to the real RIWI evaluator; public identity stays RIWI and internal metadata says RIWI, no model
+  ---
+  duration_ms: 4.302125
+  type: 'test'
+  ...
+# Subtest: E4 internal trace preserves evaluation identity, truthful provider metadata, validation and request correlation without secrets
+ok 62 - E4 internal trace preserves evaluation identity, truthful provider metadata, validation and request correlation without secrets
+  ---
+  duration_ms: 2.040666
+  type: 'test'
+  ...
+# Subtest: E5 compatible-protocol result goes through the same resolver validation and RIWI attribution (not a native-vendor claim)
+ok 63 - E5 compatible-protocol result goes through the same resolver validation and RIWI attribution (not a native-vendor claim)
+  ---
+  duration_ms: 5.771416
+  type: 'test'
+  ...
+# Subtest: E6 public label is localized around the fixed RIWI brand
+ok 64 - E6 public label is localized around the fixed RIWI brand
+  ---
+  duration_ms: 0.143875
+  type: 'test'
+  ...
+# Subtest: CB1 the public label is the fixed constant RIWI, not configuration
+ok 65 - CB1 the public label is the fixed constant RIWI, not configuration
+  ---
+  duration_ms: 0.807958
+  type: 'test'
+  ...
+# Subtest: CB2 no learner API response carries the stored provider identity
+ok 66 - CB2 no learner API response carries the stored provider identity
+  ---
+  duration_ms: 12.757333
+  type: 'test'
+  ...
+# Subtest: CB3 new evaluation rows store the public label; provenance columns keep the truth
+ok 67 - CB3 new evaluation rows store the public label; provenance columns keep the truth
+  ---
+  duration_ms: 0.344167
+  type: 'test'
+  ...
+# Subtest: CB4 staff label is truthful for external and internal evaluators
+ok 68 - CB4 staff label is truthful for external and internal evaluators
+  ---
+  duration_ms: 0.167417
+  type: 'test'
+  ...
+# Subtest: a successful JSON response is returned as data
+ok 69 - a successful JSON response is returned as data
+  ---
+  duration_ms: 22.330042
+  type: 'test'
+  ...
+# Subtest: a dropped connection is a value, not an exception
+ok 70 - a dropped connection is a value, not an exception
+  ---
+  duration_ms: 0.552
+  type: 'test'
+  ...
+# Subtest: an HTML error page is classified as a server failure, not a crash
+ok 71 - an HTML error page is classified as a server failure, not a crash
+  ---
+  duration_ms: 1.243209
+  type: 'test'
+  ...
+# Subtest: a JSON 500 keeps its status and its code
+ok 72 - a JSON 500 keeps its status and its code
+  ---
+  duration_ms: 0.797833
+  type: 'test'
+  ...
+# Subtest: a 4xx carries the API's own error code to the caller
+ok 73 - a 4xx carries the API's own error code to the caller
+  ---
+  duration_ms: 0.573959
+  type: 'test'
+  ...
+# Subtest: a rate limit is recognised by status, whatever the body says
+ok 74 - a rate limit is recognised by status, whatever the body says
+  ---
+  duration_ms: 0.262375
+  type: 'test'
+  ...
+# Subtest: an empty 2xx body is null data, not a parse failure
+ok 75 - an empty 2xx body is null data, not a parse failure
+  ---
+  duration_ms: 0.149917
+  type: 'test'
+  ...
+# Subtest: a 2xx that is not JSON is reported honestly
+ok 76 - a 2xx that is not JSON is reported honestly
+  ---
+  duration_ms: 0.315625
+  type: 'test'
+  ...
+# Subtest: an aborted request is not reported as a connection problem
+ok 77 - an aborted request is not reported as a connection problem
+  ---
+  duration_ms: 1.243875
+  type: 'test'
+  ...
+# Subtest: the same request never throws, whatever the transport does
+ok 78 - the same request never throws, whatever the transport does
+  ---
+  duration_ms: 1.140834
+  type: 'test'
+  ...
+# Subtest: a form body is passed through with no content-type of our own
+ok 79 - a form body is passed through with no content-type of our own
+  ---
+  duration_ms: 0.267042
+  type: 'test'
+  ...
+# Subtest: stalled headers time out without retrying a potentially committed write
+ok 80 - stalled headers time out without retrying a potentially committed write
+  ---
+  duration_ms: 16.804917
+  type: 'test'
+  ...
+# Subtest: deadline includes a stalled response body after successful headers
+ok 81 - deadline includes a stalled response body after successful headers
+  ---
+  duration_ms: 17.162916
+  type: 'test'
+  ...
+# Subtest: a truncated successful response is never reported as an empty success
+ok 82 - a truncated successful response is never reported as an empty success
+  ---
+  duration_ms: 0.313375
+  type: 'test'
+  ...
+# Subtest: caller cancellation interrupts body reading and is distinguished from timeout
+ok 83 - caller cancellation interrupts body reading and is distinguished from timeout
+  ---
+  duration_ms: 0.219708
+  type: 'test'
+  ...
+# Subtest: already cancelled callers remain cancelled
+ok 84 - already cancelled callers remain cancelled
+  ---
+  duration_ms: 0.13625
+  type: 'test'
+  ...
+# Subtest: settled requests detach caller listener and cancel deadline
+ok 85 - settled requests detach caller listener and cancel deadline
+  ---
+  duration_ms: 30.702583
+  type: 'test'
+  ...
+# Subtest: only fixed outage reasons survive; arbitrary server metadata never enters login diagnostics
+ok 86 - only fixed outage reasons survive; arbitrary server metadata never enters login diagnostics
+  ---
+  duration_ms: 0.983917
+  type: 'test'
+  ...
+# Subtest: AC1 the complete registry inventory is unique, versioned per task, and has no oversized provenance labels
+ok 87 - AC1 the complete registry inventory is unique, versioned per task, and has no oversized provenance labels
+  ---
+  duration_ms: 13.027875
+  type: 'test'
+  ...
+# Subtest: AC2 server-owned metadata resolves writing categories and speaking parts without caller text
+ok 88 - AC2 server-owned metadata resolves writing categories and speaking parts without caller text
+  ---
+  duration_ms: 0.613292
+  type: 'test'
+  ...
+# Subtest: AC3 the canonical composer preserves hard-core, teaching, domain/task, approved overlay, strict-output order
+ok 89 - AC3 the canonical composer preserves hard-core, teaching, domain/task, approved overlay, strict-output order
+  ---
+  duration_ms: 3.876583
+  type: 'test'
+  ...
+# Subtest: AC4 overlays are strict presentation fields and are filtered again for each affected task
+ok 90 - AC4 overlays are strict presentation fields and are filtered again for each affected task
+  ---
+  duration_ms: 1.662083
+  type: 'test'
+  ...
+# Subtest: AC5 output overlays cannot alter scores, criteria, verdict, task keys, or invent evidence and destinations
+ok 91 - AC5 output overlays cannot alter scores, criteria, verdict, task keys, or invent evidence and destinations
+  ---
+  duration_ms: 1.997
+  type: 'test'
+  ...
+# Subtest: AC6 task validators retain source-grounded evidence and transcript-only pronunciation limits
+ok 92 - AC6 task validators retain source-grounded evidence and transcript-only pronunciation limits
+  ---
+  duration_ms: 0.789583
+  type: 'test'
+  ...
+# Subtest: AC7 exact task contracts reject mismatches and normalize only safe task-specific output
+ok 93 - AC7 exact task contracts reject mismatches and normalize only safe task-specific output
+  ---
+  duration_ms: 2.249291
+  type: 'test'
+  ...
+# Subtest: AC8 an approved evidence-required overlay fails closed when a provider supplies no grounded excerpt
+ok 94 - AC8 an approved evidence-required overlay fails closed when a provider supplies no grounded excerpt
+  ---
+  duration_ms: 0.350375
+  type: 'test'
+  ...
+# Subtest: the provider resolver, registry and adapters are marked server-only
+ok 95 - the provider resolver, registry and adapters are marked server-only
+  ---
+  duration_ms: 1.389667
+  type: 'test'
+  ...
+# Subtest: no client component can reach the evaluation internals
+ok 96 - no client component can reach the evaluation internals
+  ---
+  duration_ms: 6.573583
+  type: 'test'
+  ...
+# Subtest: no secret name appears in any client component
+ok 97 - no secret name appears in any client component
+  ---
+  duration_ms: 5.441291
+  type: 'test'
+  ...
+# Subtest: provider credentials are never exposed through NEXT_PUBLIC_
+ok 98 - provider credentials are never exposed through NEXT_PUBLIC_
+  ---
+  duration_ms: 1.750583
+  type: 'test'
+  ...
+# Subtest: .env is ignored and not tracked by git
+ok 99 - .env is ignored and not tracked by git
+  ---
+  duration_ms: 59.779125
+  type: 'test'
+  ...
+# Subtest: no committed source file contains a live-looking credential
+ok 100 - no committed source file contains a live-looking credential
+  ---
+  duration_ms: 163.06575
+  type: 'test'
+  ...
+# Subtest: vendor references stay in server-only adapters and their registration, never app UI or data routes
+ok 101 - vendor references stay in server-only adapters and their registration, never app UI or data routes
+  ---
+  duration_ms: 56.791542
+  type: 'test'
+  ...
+# Subtest: the label shown to a student is the fixed public label, not configuration; provenance stays truthful
+ok 102 - the label shown to a student is the fixed public label, not configuration; provenance stays truthful
+  ---
+  duration_ms: 0.353583
+  type: 'test'
+  ...
+# Subtest: speech-to-text has no path into evaluation persistence
+ok 103 - speech-to-text has no path into evaluation persistence
+  ---
+  duration_ms: 0.164208
+  type: 'test'
+  ...
+# Subtest: evaluation routes require a session before anything else
+ok 104 - evaluation routes require a session before anything else
+  ---
+  duration_ms: 3.030542
+  type: 'test'
+  ...
+# Subtest: the test runner loads server-only modules the same way the server build does
+ok 105 - the test runner loads server-only modules the same way the server build does
+  ---
+  duration_ms: 0.352375
+  type: 'test'
+  ...
+# Subtest: evaluation artifacts never store a signed URL as an authoritative value
+ok 106 - evaluation artifacts never store a signed URL as an authoritative value
+  ---
+  duration_ms: 0.188833
+  type: 'test'
+  ...
+# Subtest: RIWI is the default evaluator and no external provider is called
+ok 107 - RIWI is the default evaluator and no external provider is called
+  ---
+  duration_ms: 27.4995
+  type: 'test'
+  ...
+# Subtest: RIWI's bounded evidence excerpts remain exact source quotes under contract validation
+ok 108 - RIWI's bounded evidence excerpts remain exact source quotes under contract validation
+  ---
+  duration_ms: 4.207125
+  type: 'test'
+  ...
+# Subtest: a configured external provider that succeeds is the only evaluator
+ok 109 - a configured external provider that succeeds is the only evaluator
+  ---
+  duration_ms: 6.298959
+  type: 'test'
+  ...
+# [coach] provider test-external did not produce an evaluation for writing: provider_error (test provider configured to fail)
+# Subtest: an external failure falls back to RIWI and says so
+ok 110 - an external failure falls back to RIWI and says so
+  ---
+  duration_ms: 253.413792
+  type: 'test'
+  ...
+# [coach] provider test-external did not produce an evaluation for writing: invalid_response (test-external returned a response that does not match the task assessment contract)
+# [coach] provider test-external did not produce an evaluation for writing: invalid_response (test-external returned a response that does not match the task assessment contract)
+# Subtest: a malformed provider response is rejected and RIWI takes over
+ok 111 - a malformed provider response is rejected and RIWI takes over
+  ---
+  duration_ms: 4.219625
+  type: 'test'
+  ...
+# [coach] provider test-llm-speaking did not produce an evaluation for speaking: invalid_response (Evaluation does not match its task or source evidence)
+# Subtest: an external LLM pronunciation score is rejected instead of being hidden before validation
+ok 112 - an external LLM pronunciation score is rejected instead of being hidden before validation
+  ---
+  duration_ms: 3.927958
+  type: 'test'
+  ...
+# [coach] provider text-only did not produce an evaluation for writing: capability_missing (text-only does not declare writing-evaluation)
+# Subtest: a provider without the required capability is not called
+ok 113 - a provider without the required capability is not called
+  ---
+  duration_ms: 1.347334
+  type: 'test'
+  ...
+# [coach] provider test-external did not produce an evaluation for writing: timeout (test-external exceeded 120ms)
+# Subtest: a hanging provider times out and RIWI evaluates instead
+ok 114 - a hanging provider times out and RIWI evaluates instead
+  ---
+  duration_ms: 122.351125
+  type: 'test'
+  ...
+# Subtest: a transient failure is retried once before falling back
+ok 115 - a transient failure is retried once before falling back
+  ---
+  duration_ms: 1.183333
+  type: 'test'
+  ...
+# Subtest: a configured but unregistered provider degrades to RIWI, truthfully
+ok 116 - a configured but unregistered provider degrades to RIWI, truthfully
+  ---
+  duration_ms: 1.422667
+  type: 'test'
+  ...
+# [coach] provider test-external did not produce an evaluation for writing: not_configured (AI_EXTERNAL_ENABLED is false)
+# Subtest: AI_EXTERNAL_ENABLED=false keeps every evaluation internal
+ok 117 - AI_EXTERNAL_ENABLED=false keeps every evaluation internal
+  ---
+  duration_ms: 1.846959
+  type: 'test'
+  ...
+# [coach] provider riwi did not produce an evaluation for writing: provider_error (stub riwi failure)
+# Subtest: RIWI failing produces a truthful error instead of a loop
+ok 118 - RIWI failing produces a truthful error instead of a loop
+  ---
+  duration_ms: 1.5095
+  type: 'test'
+  ...
+# [coach] provider test-external did not produce an evaluation for writing: provider_error (test provider configured to fail)
+# Subtest: a fallback never recurses back into the external provider
+ok 119 - a fallback never recurses back into the external provider
+  ---
+  duration_ms: 2.114959
+  type: 'test'
+  ...
+# Subtest: external adapters never receive local user identity
+ok 120 - external adapters never receive local user identity
+  ---
+  duration_ms: 2.173583
+  type: 'test'
+  ...
+# Subtest: provider version metadata is recorded on every result
+ok 121 - provider version metadata is recorded on every result
+  ---
+  duration_ms: 1.002792
+  type: 'test'
+  ...
+# Subtest: RIWI reports pronunciation as limited instead of inventing a score
+ok 122 - RIWI reports pronunciation as limited instead of inventing a score
+  ---
+  duration_ms: 0.819875
+  type: 'test'
+  ...
+# Subtest: RIWI refuses to evaluate a speaking attempt with no transcript
+ok 123 - RIWI refuses to evaluate a speaking attempt with no transcript
+  ---
+  duration_ms: 0.112291
+  type: 'test'
+  ...
+# Subtest: the evaluation contract rejects vendor-shaped output
+ok 124 - the evaluation contract rejects vendor-shaped output
+  ---
+  duration_ms: 0.171708
+  type: 'test'
+  ...
+# Subtest: speech-to-text is provider-independent and never the evaluator
+ok 125 - speech-to-text is provider-independent and never the evaluator
+  ---
+  duration_ms: 1.009833
+  type: 'test'
+  ...
+# Subtest: assignment evaluation dispatches by task type rather than guessing
+ok 126 - assignment evaluation dispatches by task type rather than guessing
+  ---
+  duration_ms: 0.092291
+  type: 'test'
+  ...
+# Subtest: weakness categories stay inside the canonical vocabulary
+ok 127 - weakness categories stay inside the canonical vocabulary
+  ---
+  duration_ms: 0.096125
+  type: 'test'
+  ...
+# Subtest: every registered provider satisfies the adapter interface
+ok 128 - every registered provider satisfies the adapter interface
+  ---
+  duration_ms: 0.078666
+  type: 'test'
+  ...
+# Subtest: PronunciationEvaluationService
+    # Subtest: reports pronunciation as not assessed when nothing declares audio analysis
+    ok 1 - reports pronunciation as not assessed when nothing declares audio analysis
+      ---
+      duration_ms: 0.366916
+      type: 'test'
+      ...
+    # Subtest: uses the registered provider that really declares the capability
+    ok 2 - uses the registered provider that really declares the capability
+      ---
+      duration_ms: 0.070792
+      type: 'test'
+      ...
+    # Subtest: ignores blank ids instead of treating them as a provider
+    ok 3 - ignores blank ids instead of treating them as a provider
+      ---
+      duration_ms: 0.053416
+      type: 'test'
+      ...
+    # Subtest: never invents a pronunciation band
+    ok 4 - never invents a pronunciation band
+      ---
+      duration_ms: 0.105208
+      type: 'test'
+      ...
+    # Subtest: agrees with the live registry: RIWI alone cannot judge pronunciation
+    ok 5 - agrees with the live registry: RIWI alone cannot judge pronunciation
+      ---
+      duration_ms: 0.36525
+      type: 'test'
+      ...
+    1..5
+ok 129 - PronunciationEvaluationService
+  ---
+  duration_ms: 1.573625
+  type: 'suite'
+  ...
+# Subtest: StudyRecommendationService
+    # Subtest: recommends nothing when there is no evidence
+    ok 1 - recommends nothing when there is no evidence
+      ---
+      duration_ms: 0.1565
+      type: 'test'
+      ...
+    # Subtest: ranks the most severe and most repeated weakness first
+    ok 2 - ranks the most severe and most repeated weakness first
+      ---
+      duration_ms: 0.15775
+      type: 'test'
+      ...
+    # Subtest: gives one action per practice area and names the other signals in it
+    ok 3 - gives one action per practice area and names the other signals in it
+      ---
+      duration_ms: 0.260042
+      type: 'test'
+      ...
+    # Subtest: never recommends a pattern the learner already resolved
+    ok 4 - never recommends a pattern the learner already resolved
+      ---
+      duration_ms: 0.231417
+      type: 'test'
+      ...
+    # Subtest: caps the list and ignores unknown categories
+    ok 5 - caps the list and ignores unknown categories
+      ---
+      duration_ms: 0.225209
+      type: 'test'
+      ...
+    # Subtest: carries a real destination for every recommendation
+    ok 6 - carries a real destination for every recommendation
+      ---
+      duration_ms: 0.18325
+      type: 'test'
+      ...
+    1..6
+ok 130 - StudyRecommendationService
+  ---
+  duration_ms: 1.549459
+  type: 'suite'
+  ...
+# Subtest: over TLS the cookie is SameSite=None, Secure and partitioned
+ok 131 - over TLS the cookie is SameSite=None, Secure and partitioned
+  ---
+  duration_ms: 0.758458
+  type: 'test'
+  ...
+# Subtest: over plain HTTP the cookie keeps the protective Lax default
+ok 132 - over plain HTTP the cookie keeps the protective Lax default
+  ---
+  duration_ms: 0.114083
+  type: 'test'
+  ...
+# Subtest: the browser-facing scheme is taken from the proxy when it is forwarded
+ok 133 - the browser-facing scheme is taken from the proxy when it is forwarded
+  ---
+  duration_ms: 0.165375
+  type: 'test'
+  ...
+# Subtest: the page's own origin is the backstop when a proxy forwards nothing
+ok 134 - the page's own origin is the backstop when a proxy forwards nothing
+  ---
+  duration_ms: 0.082875
+  type: 'test'
+  ...
+# Subtest: the request URL is the last signal
+ok 135 - the request URL is the last signal
+  ---
+  duration_ms: 0.09075
+  type: 'test'
+  ...
+# Subtest: a partitioned cookie is retired only by a matching expiry
+ok 136 - a partitioned cookie is retired only by a matching expiry
+  ---
+  duration_ms: 0.102834
+  type: 'test'
+  ...
+# Subtest: an unmigrated database is recognised through a wrapped Drizzle error
+ok 137 - an unmigrated database is recognised through a wrapped Drizzle error
+  ---
+  duration_ms: 0.656583
+  type: 'test'
+  ...
+# Subtest: the classifier walks more than one level of cause
+ok 138 - the classifier walks more than one level of cause
+  ---
+  duration_ms: 0.095584
+  type: 'test'
+  ...
+# Subtest: a refused connection surfaces as unreachable, not as a schema problem
+ok 139 - a refused connection surfaces as unreachable, not as a schema problem
+  ---
+  duration_ms: 0.070583
+  type: 'test'
+  ...
+# Subtest: wrong credentials are their own reason
+ok 140 - wrong credentials are their own reason
+  ---
+  duration_ms: 0.062375
+  type: 'test'
+  ...
+# Subtest: actual Node transport errors remain distinguishable through Drizzle and aggregate wrappers
+ok 141 - actual Node transport errors remain distinguishable through Drizzle and aggregate wrappers
+  ---
+  duration_ms: 0.209333
+  type: 'test'
+  ...
+# Subtest: aggregate cycles share the visited set without recursion or hiding a real error
+ok 142 - aggregate cycles share the visited set without recursion or hiding a real error
+  ---
+  duration_ms: 0.135958
+  type: 'test'
+  ...
+# Subtest: a full server is capacity, not a missing schema
+ok 143 - a full server is capacity, not a missing schema
+  ---
+  duration_ms: 0.093708
+  type: 'test'
+  ...
+# Subtest: a bug stays a bug
+ok 144 - a bug stays a bug
+  ---
+  duration_ms: 0.082833
+  type: 'test'
+  ...
+# Subtest: a cause cycle does not hang the classifier
+ok 145 - a cause cycle does not hang the classifier
+  ---
+  duration_ms: 0.074542
+  type: 'test'
+  ...
+# Subtest: the response body never leaks the driver message, host or user
+ok 146 - the response body never leaks the driver message, host or user
+  ---
+  duration_ms: 0.256542
+  type: 'test'
+  ...
+# Subtest: safe SQL diagnostics walk wrapped driver errors without carrying messages or credentials
+ok 147 - safe SQL diagnostics walk wrapped driver errors without carrying messages or credentials
+  ---
+  duration_ms: 0.699
+  type: 'test'
+  ...
+# Subtest: an unreachable database gets the connection wording, not the migration one
+ok 148 - an unreachable database gets the connection wording, not the migration one
+  ---
+  duration_ms: 0.309666
+  type: 'test'
+  ...
+# Subtest: one canonical authority survives domain and provider changes
+ok 149 - one canonical authority survives domain and provider changes
+  ---
+  duration_ms: 0.668209
+  type: 'test'
+  ...
+# Subtest: preview stays preview even with a production canonical domain configured
+ok 150 - preview stays preview even with a production canonical domain configured
+  ---
+  duration_ms: 0.084125
+  type: 'test'
+  ...
+# Subtest: CSRF compares complete origins and ignores untrusted forwarded headers
+ok 151 - CSRF compares complete origins and ignores untrusted forwarded headers
+  ---
+  duration_ms: 2.462041
+  type: 'test'
+  ...
+# Subtest: sessions remain host-only across domains
+ok 152 - sessions remain host-only across domains
+  ---
+  duration_ms: 0.221792
+  type: 'test'
+  ...
+# Subtest: trusted TLS proxy can supply the public authority without fixing a provider hostname
+ok 153 - trusted TLS proxy can supply the public authority without fixing a provider hostname
+  ---
+  duration_ms: 0.17875
+  type: 'test'
+  ...
+# Subtest: unknown storage configuration never silently falls back to disk
+ok 154 - unknown storage configuration never silently falls back to disk
+  ---
+  duration_ms: 0.189125
+  type: 'test'
+  ...
+# Subtest: browser diagnostics are automatic on Preview and can never run on production
+ok 155 - browser diagnostics are automatic on Preview and can never run on production
+  ---
+  duration_ms: 0.088292
+  type: 'test'
+  ...
+# Subtest: Focus auto-entry browser contract
+ok 156 - Focus auto-entry browser contract
+  ---
+  duration_ms: 1296.425833
+  type: 'test'
+  ...
+# ✔ a real attempt enters Focus once, a manual exit survives a remount, a new attempt focuses again, browsing never does (68.395667ms)\\n✔ only the two exam screens can auto-enter Focus (62.444708ms)\\nℹ tests 2\\nℹ suites 0\\nℹ pass 2\\nℹ fail 0\\nℹ cancelled 0\\nℹ skipped 0\\nℹ todo 0\\nℹ duration_ms 1228.0165
+# Subtest: materials allow teacher and owner while retaining creator isolation
+ok 157 - materials allow teacher and owner while retaining creator isolation
+  ---
+  duration_ms: 0.460584
+  type: 'test'
+  ...
+# Subtest: games sample the owned folder beyond row 500; counts and foreign-folder isolation use the full database
+ok 158 - games sample the owned folder beyond row 500; counts and foreign-folder isolation use the full database
+  ---
+  duration_ms: 1818.310125
+  type: 'test'
+  ...
+# Subtest: Legacy HTML is data only: malicious code is never evaluated
+ok 159 - Legacy HTML is data only: malicious code is never evaluated
+  ---
+  duration_ms: 1.463375
+  type: 'test'
+  ...
+# Subtest: Forty logical questions and four independent sections; optional transcripts preserve authored questions
+ok 160 - Forty logical questions and four independent sections; optional transcripts preserve authored questions
+  ---
+  duration_ms: 390.139708
+  type: 'test'
+  ...
+# Subtest: Unsafe asset paths, out-of-range clips and foreign section are refused
+ok 161 - Unsafe asset paths, out-of-range clips and foreign section are refused
+  ---
+  duration_ms: 945.552833
+  type: 'test'
+  ...
+# Subtest: Choose TWO supports swapped letters without double-credit for a repeated letter
+ok 162 - Choose TWO supports swapped letters without double-credit for a repeated letter
+  ---
+  duration_ms: 317.855792
+  type: 'test'
+  ...
+# Subtest: ZIP path traversal refused before reading package data
+ok 163 - ZIP path traversal refused before reading package data
+  ---
+  duration_ms: 1.570125
+  type: 'test'
+  ...
+# Subtest: Uploaded owner source: counts, no fabricated transcript and valid source parsing
+ok 164 - Uploaded owner source: counts, no fabricated transcript and valid source parsing
+  ---
+  duration_ms: 1481.362334
+  type: 'test'
+  ...
+# Subtest: Duplicate filenames in ZIP headers cannot overwrite a validated asset
+ok 165 - Duplicate filenames in ZIP headers cannot overwrite a validated asset
+  ---
+  duration_ms: 0.592584
+  type: 'test'
+  ...
+# Subtest: Absent canonical transcript fields default to empty without changing Script Completion
+ok 166 - Absent canonical transcript fields default to empty without changing Script Completion
+  ---
+  duration_ms: 314.932292
+  type: 'test'
+  ...
+# Subtest: Actual uploaded source grades all 40 answers including swapped choose-TWO; repeat submit remains immutable
+ok 167 - Actual uploaded source grades all 40 answers including swapped choose-TWO; repeat submit remains immutable
+  ---
+  duration_ms: 3569.66025
+  type: 'test'
+  ...
+# Subtest: 1 mode is persisted data: General membership row with reading_mode general_practice; Academic passages have none
+ok 168 - 1 mode is persisted data: General membership row with reading_mode general_practice; Academic passages have none
+  ---
+  duration_ms: 58.353
+  type: 'test'
+  ...
+# Subtest: 2 General passage resolves immediately with no attempt (sourceId = passage id)
+ok 169 - 2 General passage resolves immediately with no attempt (sourceId = passage id)
+  ---
+  duration_ms: 24.537584
+  type: 'test'
+  ...
+# Subtest: 3 one-meaning trap: the river 'bank' outside the authored example stays unresolved (Meaning not checked yet)
+ok 170 - 3 one-meaning trap: the river 'bank' outside the authored example stays unresolved (Meaning not checked yet)
+  ---
+  duration_ms: 18.45125
+  type: 'test'
+  ...
+# Subtest: 4 MWE: longest occurrence wins — 'took the cost into account' is one phrase occurrence, not 'account' alone
+ok 171 - 4 MWE: longest occurrence wins — 'took the cost into account' is one phrase occurrence, not 'account' alone
+  ---
+  duration_ms: 23.595083
+  type: 'test'
+  ...
+# Subtest: 5 inflections resolve to the lemma sense: runs/ran (P1), bought (P2)
+ok 172 - 5 inflections resolve to the lemma sense: runs/ran (P1), bought (P2)
+  ---
+  duration_ms: 22.492417
+  type: 'test'
+  ...
+# Subtest: 6 save from General: canonical sense id, context with set/passage/occurrence/sentence/mode, no attempt id
+ok 173 - 6 save from General: canonical sense id, context with set/passage/occurrence/sentence/mode, no attempt id
+  ---
+  duration_ms: 25.7735
+  type: 'test'
+  ...
+# Subtest: 7 revisit route returns to the set and passage
+ok 174 - 7 revisit route returns to the set and passage
+  ---
+  duration_ms: 20.335167
+  type: 'test'
+  ...
+# Subtest: 8 dedup by learner+sense across General P1 and P3 (one item, two contexts)
+ok 175 - 8 dedup by learner+sense across General P1 and P3 (one item, two contexts)
+  ---
+  duration_ms: 23.937542
+  type: 'test'
+  ...
+# Subtest: 9 same sense shared across passages: P1/P2/P3 'bank' point at ONE canonical lexeme (no duplicate senses)
+ok 176 - 9 same sense shared across passages: P1/P2/P3 'bank' point at ONE canonical lexeme (no duplicate senses)
+  ---
+  duration_ms: 27.271709
+  type: 'test'
+  ...
+# Subtest: 10 dedup General + Academic review: one item when the same sense is saved from both
+ok 177 - 10 dedup General + Academic review: one item when the same sense is saved from both
+  ---
+  duration_ms: 28.123916
+  type: 'test'
+  ...
+# Subtest: 11 dedup General + Listening: an identically authored Listening sense is the same canonical item
+ok 178 - 11 dedup General + Listening: an identically authored Listening sense is the same canonical item
+  ---
+  duration_ms: 26.554375
+  type: 'test'
+  ...
+# Subtest: 12 SRS is not reset when the same sense is saved again from another General passage
+ok 179 - 12 SRS is not reset when the same sense is saved again from another General passage
+  ---
+  duration_ms: 24.994666
+  type: 'test'
+  ...
+# Subtest: 13 Academic exam lock unchanged: an open Academic attempt is locked while General works for the same learner
+ok 180 - 13 Academic exam lock unchanged: an open Academic attempt is locked while General works for the same learner
+  ---
+  duration_ms: 20.875292
+  type: 'test'
+  ...
+# Subtest: 14 forged General: an Academic passage id or occurrence cannot borrow General permission
+ok 181 - 14 forged General: an Academic passage id or occurrence cannot borrow General permission
+  ---
+  duration_ms: 22.036042
+  type: 'test'
+  ...
+# Subtest: 15 retake stays locked: completed + new in-progress Academic attempt, General unaffected
+ok 182 - 15 retake stays locked: completed + new in-progress Academic attempt, General unaffected
+  ---
+  duration_ms: 20.542459
+  type: 'test'
+  ...
+# Subtest: 16 Academic surfaces exclude General passages (library count, facets-free list, active list, start)
+ok 183 - 16 Academic surfaces exclude General passages (library count, facets-free list, active list, start)
+  ---
+  duration_ms: 20.436209
+  type: 'test'
+  ...
+# Subtest: 17 draft sets are invisible to learners and locked; staff can preview
+ok 184 - 17 draft sets are invisible to learners and locked; staff can preview
+  ---
+  duration_ms: 34.960875
+  type: 'test'
+  ...
+# Subtest: 18 question evidence stays separate: evidence quotes create no sense and do not resolve the river 'bank'
+ok 185 - 18 question evidence stays separate: evidence quotes create no sense and do not resolve the river 'bank'
+  ---
+  duration_ms: 16.066125
+  type: 'test'
+  ...
+# Subtest: 19 function words are not vocabulary targets
+ok 186 - 19 function words are not vocabulary targets
+  ---
+  duration_ms: 16.426791
+  type: 'test'
+  ...
+# Subtest: 20 per-passage progress persists answers without grading; reload returns them
+ok 187 - 20 per-passage progress persists answers without grading; reload returns them
+  ---
+  duration_ms: 25.663
+  type: 'test'
+  ...
+# Subtest: 21 learning results: Check grades with correct answer and evidence; foreign question ids are dropped
+ok 188 - 21 learning results: Check grades with correct answer and evidence; foreign question ids are dropped
+  ---
+  duration_ms: 23.162792
+  type: 'test'
+  ...
+# Subtest: 22 Full Reading keeps progress of all 3 passages independently
+ok 189 - 22 Full Reading keeps progress of all 3 passages independently
+  ---
+  duration_ms: 24.159583
+  type: 'test'
+  ...
+# Subtest: 23 progress is per learner and cannot target Academic passages
+ok 190 - 23 progress is per learner and cannot target Academic passages
+  ---
+  duration_ms: 19.048958
+  type: 'test'
+  ...
+# Subtest: 24 import is idempotent on sourceRef and canonical ids are stable on re-run
+ok 191 - 24 import is idempotent on sourceRef and canonical ids are stable on re-run
+  ---
+  duration_ms: 16.506625
+  type: 'test'
+  ...
+# Subtest: 25 existing ids unchanged: adding General content never touches existing Academic rows or learner items
+ok 192 - 25 existing ids unchanged: adding General content never touches existing Academic rows or learner items
+  ---
+  duration_ms: 37.73525
+  type: 'test'
+  ...
+# Subtest: 26 VD-001 occurrence-less Reading save gate: active exam locked, forged source not found, General and review allowed
+ok 193 - 26 VD-001 occurrence-less Reading save gate: active exam locked, forged source not found, General and review allowed
+  ---
+  duration_ms: 35.643167
+  type: 'test'
+  ...
+# Subtest: config check: missing/invalid values hide the provider and are named without exposing secrets
+ok 194 - config check: missing/invalid values hide the provider and are named without exposing secrets
+  ---
+  duration_ms: 1690.991542
+  type: 'test'
+  ...
+# Subtest: authorization URL uses code flow + PKCE S256 + state + nonce
+ok 195 - authorization URL uses code flow + PKCE S256 + state + nonce
+  ---
+  duration_ms: 1.822416
+  type: 'test'
+  ...
+# Subtest: id_token verification: signature, issuer, audience, nonce, expiry
+ok 196 - id_token verification: signature, issuer, audience, nonce, expiry
+  ---
+  duration_ms: 64.1905
+  type: 'test'
+  ...
+# Subtest: token exchange: bounded, no retry, non-2xx fails
+ok 197 - token exchange: bounded, no retry, non-2xx fails
+  ---
+  duration_ms: 3.077792
+  type: 'test'
+  ...
+# Subtest: flow cookie parser rejects tampered/short values
+ok 198 - flow cookie parser rejects tampered/short values
+  ---
+  duration_ms: 0.448166
+  type: 'test'
+  ...
+# Subtest: account resolution: sub wins, no email merge, unverified refused, new users are PENDING students
+ok 199 - account resolution: sub wins, no email merge, unverified refused, new users are PENDING students
+  ---
+  duration_ms: 13.513792
+  type: 'test'
+  ...
+# Subtest: account resolution: e-mail case variants never bypass link_required; new e-mail stored lower-cased
+ok 200 - account resolution: e-mail case variants never bypass link_required; new e-mail stored lower-cased
+  ---
+  duration_ms: 7.950375
+  type: 'test'
+  ...
+# Subtest: account resolution: a concurrent duplicate callback resolves to the winner instead of a 500
+ok 201 - account resolution: a concurrent duplicate callback resolves to the winner instead of a 500
+  ---
+  duration_ms: 3.649958
+  type: 'test'
+  ...
+# Subtest: grammar mastery needs all three activities practised
+ok 202 - grammar mastery needs all three activities practised
+  ---
+  duration_ms: 31.791042
+  type: 'test'
+  ...
+# Subtest: grammar mastery needs three separate days, not three attempts
+ok 203 - grammar mastery needs three separate days, not three attempts
+  ---
+  duration_ms: 0.632958
+  type: 'test'
+  ...
+# Subtest: a retry replaces the old mistake instead of adding to it
+ok 204 - a retry replaces the old mistake instead of adding to it
+  ---
+  duration_ms: 0.1785
+  type: 'test'
+  ...
+# Subtest: mastery is reached on three days with ~80% across the three activities
+ok 205 - mastery is reached on three days with ~80% across the three activities
+  ---
+  duration_ms: 0.323125
+  type: 'test'
+  ...
+# Subtest: structures are matched as phrases, with inflections, never as a whole sentence
+ok 206 - structures are matched as phrases, with inflections, never as a whole sentence
+  ---
+  duration_ms: 0.755459
+  type: 'test'
+  ...
+# Subtest: this structure checker never claims success over an empty structure list
+ok 207 - this structure checker never claims success over an empty structure list
+  ---
+  duration_ms: 0.081292
+  type: 'test'
+  ...
+# Subtest: a locked or scheduled lesson cannot be started from the client
+ok 208 - a locked or scheduled lesson cannot be started from the client
+  ---
+  duration_ms: 0.070083
+  type: 'test'
+  ...
+# Subtest: progress moves forward and completion is not a stamp you can repeat
+ok 209 - progress moves forward and completion is not a stamp you can repeat
+  ---
+  duration_ms: 0.080208
+  type: 'test'
+  ...
+# Subtest: a lesson with no progress row shows the centre's default state
+ok 210 - a lesson with no progress row shows the centre's default state
+  ---
+  duration_ms: 0.257959
+  type: 'test'
+  ...
+# Subtest: the room opens a quarter of an hour early and closes half an hour after the end
+ok 211 - the room opens a quarter of an hour early and closes half an hour after the end
+  ---
+  duration_ms: 0.176667
+  type: 'test'
+  ...
+# Subtest: a live class is always joinable, a cancelled one never is
+ok 212 - a live class is always joinable, a cancelled one never is
+  ---
+  duration_ms: 0.091416
+  type: 'test'
+  ...
+# Subtest: a completed class cannot be joined again
+ok 213 - a completed class cannot be joined again
+  ---
+  duration_ms: 0.26775
+  type: 'test'
+  ...
+# Subtest: Grammar objective rejects duplicates, forged keys, invalid options, hidden/foreign items and incomplete canonical metadata before writing
+ok 214 - Grammar objective rejects duplicates, forged keys, invalid options, hidden/foreign items and incomplete canonical metadata before writing
+  ---
+  duration_ms: 1676.890292
+  type: 'test'
+  ...
+# Subtest: Grammar objective uses the current authored key, refuses suspended identities and rolls back attempts when the event write fails
+ok 215 - Grammar objective uses the current authored key, refuses suspended identities and rolls back attempts when the event write fails
+  ---
+  duration_ms: 1173.345167
+  type: 'test'
+  ...
+# Subtest: essay-derived Grammar stays private before and after source expiry
+ok 216 - essay-derived Grammar stays private before and after source expiry
+  ---
+  duration_ms: 57.202
+  type: 'test'
+  ...
+# Subtest: Grammar practice uses only the authored activity prompt; correction options and literal phrase matches cannot grant translation credit
+ok 217 - Grammar practice uses only the authored activity prompt; correction options and literal phrase matches cannot grant translation credit
+  ---
+  duration_ms: 2.46225
+  type: 'test'
+  ...
+# [coach] provider grammar-translation-fixture did not produce an evaluation for grammar: invalid_response (Evaluation does not match its task or source evidence)
+# Subtest: Translation uses the shared resolver, accepts assessed alternative wording and refuses incomplete coverage or local fallback
+ok 218 - Translation uses the shared resolver, accepts assessed alternative wording and refuses incomplete coverage or local fallback
+  ---
+  duration_ms: 18.57925
+  type: 'test'
+  ...
+# Subtest: Grammar production rejects blank/forged/private/inactive work before staging or provider dispatch
+ok 219 - Grammar production rejects blank/forged/private/inactive work before staging or provider dispatch
+  ---
+  duration_ms: 2163.4865
+  type: 'test'
+  ...
+# Subtest: correct_it: exact source, verdict, authoritative evaluation and receipt commit together; replay does not duplicate event
+ok 220 - correct_it: exact source, verdict, authoritative evaluation and receipt commit together; replay does not duplicate event
+  ---
+  duration_ms: 2144.370583
+  type: 'test'
+  ...
+# Subtest: translate_it: exact source, verdict, authoritative evaluation and receipt commit together; replay does not duplicate event
+ok 221 - translate_it: exact source, verdict, authoritative evaluation and receipt commit together; replay does not duplicate event
+  ---
+  duration_ms: 2002.063459
+  type: 'test'
+  ...
+# Subtest: activate_it: exact source, verdict, authoritative evaluation and receipt commit together; replay does not duplicate event
+ok 222 - activate_it: exact source, verdict, authoritative evaluation and receipt commit together; replay does not duplicate event
+  ---
+  duration_ms: 2089.50575
+  type: 'test'
+  ...
+# Subtest: Grammar event failure rolls back evaluation and verdict; failed provider removes only unassessed writing
+ok 223 - Grammar event failure rolls back evaluation and verdict; failed provider removes only unassessed writing
+  ---
+  duration_ms: 2022.407708
+  type: 'test'
+  ...
+# Subtest: Grammar source/owner/account/answer changes during dispatch fence the late result before any accepted write
+ok 224 - Grammar source/owner/account/answer changes during dispatch fence the late result before any accepted write
+  ---
+  duration_ms: 8500.676834
+  type: 'test'
+  ...
+# Subtest: Grammar post-commit bookkeeping failure preserves and returns its authorized result, while later revocation withholds feedback
+ok 225 - Grammar post-commit bookkeeping failure preserves and returns its authorized result, while later revocation withholds feedback
+  ---
+  duration_ms: 2016.566458
+  type: 'test'
+  ...
+# Subtest: Grammar rejects forged domain/contract/versions, unsupported translation fallback and ungrounded provider evidence
+ok 226 - Grammar rejects forged domain/contract/versions, unsupported translation fallback and ungrounded provider evidence
+  ---
+  duration_ms: 1238.360417
+  type: 'test'
+  ...
+# Subtest: Pending written correction/translation/activation are unassessed in review and cannot lower mastery or add assessed sessions
+ok 227 - Pending written correction/translation/activation are unassessed in review and cannot lower mastery or add assessed sessions
+  ---
+  duration_ms: 1279.181083
+  type: 'test'
+  ...
+# Subtest: RIWI resumes one saved owned activation through the same fence and preserves prior work on provider failure
+ok 228 - RIWI resumes one saved owned activation through the same fence and preserves prior work on provider failure
+  ---
+  duration_ms: 1267.078875
+  type: 'test'
+  ...
+# Subtest: A valid one-letter correction remains eligible; whitespace and unsaved provider verdicts are refused
+ok 229 - A valid one-letter correction remains eligible; whitespace and unsaved provider verdicts are refused
+  ---
+  duration_ms: 1204.262292
+  type: 'test'
+  ...
+# Subtest: RIWI refuses legacy or changed original task/answer evidence before dispatch, without fabricating a version
+ok 230 - RIWI refuses legacy or changed original task/answer evidence before dispatch, without fabricating a version
+  ---
+  duration_ms: 1142.736166
+  type: 'test'
+  ...
+# Subtest: Grammar prepared-source audit is mandatory and contains only fingerprints; failure rolls back staging
+ok 231 - Grammar prepared-source audit is mandatory and contains only fingerprints; failure rolls back staging
+  ---
+  duration_ms: 1106.912834
+  type: 'test'
+  ...
+# Subtest: countWords: empty and whitespace-only text is zero words
+ok 232 - countWords: empty and whitespace-only text is zero words
+  ---
+  duration_ms: 0.501208
+  type: 'test'
+  ...
+# Subtest: countWords: counts whitespace-separated tokens
+ok 233 - countWords: counts whitespace-separated tokens
+  ---
+  duration_ms: 0.123041
+  type: 'test'
+  ...
+# Subtest: splitSentences: splits on terminal punctuation
+ok 234 - splitSentences: splits on terminal punctuation
+  ---
+  duration_ms: 0.109375
+  type: 'test'
+  ...
+# Subtest: splitParagraphs: splits on blank lines only
+ok 235 - splitParagraphs: splits on blank lines only
+  ---
+  duration_ms: 0.141375
+  type: 'test'
+  ...
+# Subtest: averageSentenceLength: empty text is zero, not NaN
+ok 236 - averageSentenceLength: empty text is zero, not NaN
+  ---
+  duration_ms: 0.088167
+  type: 'test'
+  ...
+# Subtest: averageSentenceLength: computes a sane average
+ok 237 - averageSentenceLength: computes a sane average
+  ---
+  duration_ms: 0.070416
+  type: 'test'
+  ...
+# Subtest: lexicalDiversity: all-unique text is close to 1
+ok 238 - lexicalDiversity: all-unique text is close to 1
+  ---
+  duration_ms: 0.089542
+  type: 'test'
+  ...
+# Subtest: lexicalDiversity: heavy repetition scores low
+ok 239 - lexicalDiversity: heavy repetition scores low
+  ---
+  duration_ms: 0.091667
+  type: 'test'
+  ...
+# Subtest: linkingWordCount: counts distinct linking devices used
+ok 240 - linkingWordCount: counts distinct linking devices used
+  ---
+  duration_ms: 0.08475
+  type: 'test'
+  ...
+# Subtest: linkingWordCount: zero when none are present
+ok 241 - linkingWordCount: zero when none are present
+  ---
+  duration_ms: 0.096291
+  type: 'test'
+  ...
+# Subtest: toBand: clamps into the 4.0-9.0 IELTS range
+ok 242 - toBand: clamps into the 4.0-9.0 IELTS range
+  ---
+  duration_ms: 0.068375
+  type: 'test'
+  ...
+# Subtest: toBand: rounds to the nearest half band
+ok 243 - toBand: rounds to the nearest half band
+  ---
+  duration_ms: 0.0495
+  type: 'test'
+  ...
+# Subtest: no Learners Area-controlled source file emits a typographic apostrophe
+ok 244 - no Learners Area-controlled source file emits a typographic apostrophe
+  ---
+  duration_ms: 180.103667
+  type: 'test'
+  ...
+# Subtest: the Uzbek dictionary spells the tutuq belgisi with the ASCII apostrophe
+ok 245 - the Uzbek dictionary spells the tutuq belgisi with the ASCII apostrophe
+  ---
+  duration_ms: 0.438958
+  type: 'test'
+  ...
+# Subtest: Uzbek strings outside the dictionary use the ASCII apostrophe too
+ok 246 - Uzbek strings outside the dictionary use the ASCII apostrophe too
+  ---
+  duration_ms: 0.295167
+  type: 'test'
+  ...
+# Subtest: the login screen greets the reader with the ASCII apostrophe
+ok 247 - the login screen greets the reader with the ASCII apostrophe
+  ---
+  duration_ms: 0.412291
+  type: 'test'
+  ...
+# Subtest: the English dictionary keeps its own apostrophes
+ok 248 - the English dictionary keeps its own apostrophes
+  ---
+  duration_ms: 0.2775
+  type: 'test'
+  ...
+# Subtest: the marks accepted from keyboards are still normalised to ASCII
+ok 249 - the marks accepted from keyboards are still normalised to ASCII
+  ---
+  duration_ms: 0.860583
+  type: 'test'
+  ...
+# Subtest: internal route intent preserves deep links and queries without exposing them in metric route keys
+ok 250 - internal route intent preserves deep links and queries without exposing them in metric route keys
+  ---
+  duration_ms: 0.884584
+  type: 'test'
+  ...
+# Subtest: route intent never intercepts external, malformed, or same-view hash-only URLs
+ok 251 - route intent never intercepts external, malformed, or same-view hash-only URLs
+  ---
+  duration_ms: 0.096791
+  type: 'test'
+  ...
+# Subtest: persistent private layout keeps server authorization and wraps only its workspace outlet
+ok 252 - persistent private layout keeps server authorization and wraps only its workspace outlet
+  ---
+  duration_ms: 0.355958
+  type: 'test'
+  ...
+# Subtest: sidebar does not launch eager database-backed prefetch; loading boundary stays data-free
+ok 253 - sidebar does not launch eager database-backed prefetch; loading boundary stays data-free
+  ---
+  duration_ms: 0.268542
+  type: 'test'
+  ...
+# Subtest: route outlet preserves a live shell and exposes a localized, retryable destination state
+ok 254 - route outlet preserves a live shell and exposes a localized, retryable destination state
+  ---
+  duration_ms: 0.233875
+  type: 'test'
+  ...
+# Subtest: shared async and destructive controls expose pending, duplicate-submit and confirmation contracts
+ok 255 - shared async and destructive controls expose pending, duplicate-submit and confirmation contracts
+  ---
+  duration_ms: 0.158042
+  type: 'test'
+  ...
+# Subtest: diagnostics are opt-in outside production and exclude private-shell events from duplicate capture
+ok 256 - diagnostics are opt-in outside production and exclude private-shell events from duplicate capture
+  ---
+  duration_ms: 0.162959
+  type: 'test'
+  ...
+# Subtest: role, account-status, and admission decisions require a modal before authoritative server writes
+ok 257 - role, account-status, and admission decisions require a modal before authoritative server writes
+  ---
+  duration_ms: 0.184291
+  type: 'test'
+  ...
+# Subtest: locale preference acknowledges work before awaiting persistence and preserves an error state
+ok 258 - locale preference acknowledges work before awaiting persistence and preserves an error state
+  ---
+  duration_ms: 0.121833
+  type: 'test'
+  ...
+# Subtest: global interaction styles give immediate active feedback and honor reduced motion
+ok 259 - global interaction styles give immediate active feedback and honor reduced motion
+  ---
+  duration_ms: 0.217291
+  type: 'test'
+  ...
+# Subtest: button semantics are automatically enforced across source JSX
+ok 260 - button semantics are automatically enforced across source JSX
+  ---
+  duration_ms: 331.770084
+  type: 'test'
+  ...
+# Subtest: context offsets distinguish identical spelling in different sentences and paragraphs
+ok 261 - context offsets distinguish identical spelling in different sentences and paragraphs
+  ---
+  duration_ms: 0.883
+  type: 'test'
+  ...
+# Subtest: with no adapter registered there is no dictionary, and no guess
+ok 262 - with no adapter registered there is no dictionary, and no guess
+  ---
+  duration_ms: 1.139584
+  type: 'test'
+  ...
+# Subtest: a disabled adapter is never queried
+ok 263 - a disabled adapter is never queried
+  ---
+  duration_ms: 0.115084
+  type: 'test'
+  ...
+# Subtest: the first enabled adapter that knows the word wins, and is credited
+ok 264 - the first enabled adapter that knows the word wins, and is credited
+  ---
+  duration_ms: 0.135917
+  type: 'test'
+  ...
+# Subtest: an adapter that throws is skipped rather than becoming a definition
+ok 265 - an adapter that throws is skipped rather than becoming a definition
+  ---
+  duration_ms: 0.142291
+  type: 'test'
+  ...
+# Subtest: an adapter that answers with an empty definition is not accepted
+ok 266 - an adapter that answers with an empty definition is not accepted
+  ---
+  duration_ms: 0.094333
+  type: 'test'
+  ...
+# Subtest: registering the same adapter twice does not duplicate it
+ok 267 - registering the same adapter twice does not duplicate it
+  ---
+  duration_ms: 0.182834
+  type: 'test'
+  ...
+# Subtest: 0020 upgrades populated 0019 without rewriting rows; full migration chain also works from empty
+ok 268 - 0020 upgrades populated 0019 without rewriting rows; full migration chain also works from empty
+  ---
+  duration_ms: 1091.913084
+  type: 'test'
+  ...
+# Subtest: meaning normalization includes parenthetical sense distinctions and collapses whitespace
+ok 269 - meaning normalization includes parenthetical sense distinctions and collapses whitespace
+  ---
+  duration_ms: 0.880916
+  type: 'test'
+  ...
+# Subtest: long definitions and meaningful POS distinctions do not collide
+ok 270 - long definitions and meaningful POS distinctions do not collide
+  ---
+  duration_ms: 0.254708
+  type: 'test'
+  ...
+# Subtest: the MCQ drill only ever moves one stage forward
+ok 271 - the MCQ drill only ever moves one stage forward
+  ---
+  duration_ms: 0.826708
+  type: 'test'
+  ...
+# Subtest: no stage may be skipped
+ok 272 - no stage may be skipped
+  ---
+  duration_ms: 0.123083
+  type: 'test'
+  ...
+# Subtest: an empty or too short text field does not advance the drill
+ok 273 - an empty or too short text field does not advance the drill
+  ---
+  duration_ms: 0.067917
+  type: 'test'
+  ...
+# Subtest: a choice must be one of the real options
+ok 274 - a choice must be one of the real options
+  ---
+  duration_ms: 0.069791
+  type: 'test'
+  ...
+# Subtest: the options stay hidden until the reveal, and the outcome until the choice
+ok 275 - the options stay hidden until the reveal, and the outcome until the choice
+  ---
+  duration_ms: 0.080708
+  type: 'test'
+  ...
+# Subtest: the drill has no step after the reasoning
+ok 276 - the drill has no step after the reasoning
+  ---
+  duration_ms: 0.054916
+  type: 'test'
+  ...
+# Subtest: speed training unlocks on the stated share, not on effort
+ok 277 - speed training unlocks on the stated share, not on effort
+  ---
+  duration_ms: 0.108917
+  type: 'test'
+  ...
+# Subtest: an unscored or absent attempt never unlocks the drill
+ok 278 - an unscored or absent attempt never unlocks the drill
+  ---
+  duration_ms: 0.067625
+  type: 'test'
+  ...
+# Subtest: the rate ladder runs from the exam speed to double
+ok 279 - the rate ladder runs from the exam speed to double
+  ---
+  duration_ms: 0.078084
+  type: 'test'
+  ...
+# Subtest: rate control is claimed only for media we can actually play
+ok 280 - rate control is claimed only for media we can actually play
+  ---
+  duration_ms: 0.102209
+  type: 'test'
+  ...
+# Subtest: an exact copy scores full accuracy and the textbook WPM
+ok 281 - an exact copy scores full accuracy and the textbook WPM
+  ---
+  duration_ms: 0.133292
+  type: 'test'
+  ...
+# Subtest: accuracy is an edit distance, and every error costs
+ok 282 - accuracy is an edit distance, and every error costs
+  ---
+  duration_ms: 0.097834
+  type: 'test'
+  ...
+# Subtest: a run outside the accepted duration window is refused
+ok 283 - a run outside the accepted duration window is refused
+  ---
+  duration_ms: 0.289542
+  type: 'test'
+  ...
+# Subtest: LC1 metadata.json at the ZIP root
+ok 284 - LC1 metadata.json at the ZIP root
+  ---
+  duration_ms: 407.131667
+  type: 'test'
+  ...
+# Subtest: LC2 metadata.json inside one nested package folder
+ok 285 - LC2 metadata.json inside one nested package folder
+  ---
+  duration_ms: 307.716166
+  type: 'test'
+  ...
+# Subtest: LC3 manifest.json package
+ok 286 - LC3 manifest.json package
+  ---
+  duration_ms: 302.094125
+  type: 'test'
+  ...
+# Subtest: LC4 data/package.json canonical package
+ok 287 - LC4 data/package.json canonical package
+  ---
+  duration_ms: 295.319208
+  type: 'test'
+  ...
+# Subtest: LC5 canonical discovery is case-insensitive (DATA/PACKAGE.JSON)
+ok 288 - LC5 canonical discovery is case-insensitive (DATA/PACKAGE.JSON)
+  ---
+  duration_ms: 400.262792
+  type: 'test'
+  ...
+# Subtest: LC6 the manifest's audio reference wins over filename heuristics
+ok 289 - LC6 the manifest's audio reference wins over filename heuristics
+  ---
+  duration_ms: 327.358916
+  type: 'test'
+  ...
+# Subtest: LC7 canonical transcripts are preserved
+ok 290 - LC7 canonical transcripts are preserved
+  ---
+  duration_ms: 358.951542
+  type: 'test'
+  ...
+# Subtest: LC8 invalid metadata is not silently invented: derived values are labelled
+ok 291 - LC8 invalid metadata is not silently invented: derived values are labelled
+  ---
+  duration_ms: 304.427292
+  type: 'test'
+  ...
+# Subtest: LC9 an invalid data/package.json falls back to the exam page only when it exists
+ok 292 - LC9 an invalid data/package.json falls back to the exam page only when it exists
+  ---
+  duration_ms: 295.091334
+  type: 'test'
+  ...
+# Subtest: LC10 metadata naming a missing recording is an actionable error with the present recordings
+ok 293 - LC10 metadata naming a missing recording is an actionable error with the present recordings
+  ---
+  duration_ms: 0.652292
+  type: 'test'
+  ...
+# Subtest: ZIP limits stay: compressed and expanded size, entry count, text asset size
+ok 294 - ZIP limits stay: compressed and expanded size, entry count, text asset size
+  ---
+  duration_ms: 340.127542
+  type: 'test'
+  ...
+# Subtest: Listening import authorization: student/teacher denied, admin/owner allowed (page and API share it)
+ok 295 - Listening import authorization: student/teacher denied, admin/owner allowed (page and API share it)
+  ---
+  duration_ms: 0.460541
+  type: 'test'
+  ...
+# Subtest: every error code the import API returns has readable en/uz text
+ok 296 - every error code the import API returns has readable en/uz text
+  ---
+  duration_ms: 0.293125
+  type: 'test'
+  ...
+# Subtest: L1 legacy ZIP without metadata.json imports (no 'metadata.json missing')
+ok 297 - L1 legacy ZIP without metadata.json imports (no 'metadata.json missing')
+  ---
+  duration_ms: 409.421333
+  type: 'test'
+  ...
+# Subtest: L2 nested single top-level folder is the package root
+ok 298 - L2 nested single top-level folder is the package root
+  ---
+  duration_ms: 1.053042
+  type: 'test'
+  ...
+# Subtest: L3 macOS junk (__MACOSX, ._files, .DS_Store) is ignored, not a second root
+ok 299 - L3 macOS junk (__MACOSX, ._files, .DS_Store) is ignored, not a second root
+  ---
+  duration_ms: 1.278791
+  type: 'test'
+  ...
+# Subtest: L4 every accepted audio container is recognised by its bytes
+ok 300 - L4 every accepted audio container is recognised by its bytes
+  ---
+  duration_ms: 0.091959
+  type: 'test'
+  ...
+# Subtest: L5 an audio extension with non-audio bytes is rejected, not imported
+ok 301 - L5 an audio extension with non-audio bytes is rejected, not imported
+  ---
+  duration_ms: 1.163375
+  type: 'test'
+  ...
+# Subtest: L6 several recordings with no reference ask staff to choose (with the list)
+ok 302 - L6 several recordings with no reference ask staff to choose (with the list)
+  ---
+  duration_ms: 1.667708
+  type: 'test'
+  ...
+# Subtest: L7 the staff choice resolves the ambiguity and the format follows the bytes
+ok 303 - L7 the staff choice resolves the ambiguity and the format follows the bytes
+  ---
+  duration_ms: 306.638834
+  type: 'test'
+  ...
+# Subtest: L8 a 'full' recording wins over section clips; a metadata reference wins over names
+ok 304 - L8 a 'full' recording wins over section clips; a metadata reference wins over names
+  ---
+  duration_ms: 0.211792
+  type: 'test'
+  ...
+# Subtest: L9 no recording at all is a typed problem listing the files
+ok 305 - L9 no recording at all is a typed problem listing the files
+  ---
+  duration_ms: 1.011042
+  type: 'test'
+  ...
+# Subtest: L10 no exam page and no canonical package is 'no_question_source', not a crash
+ok 306 - L10 no exam page and no canonical package is 'no_question_source', not a crash
+  ---
+  duration_ms: 0.728917
+  type: 'test'
+  ...
+# Subtest: L11 per-section transcript files are extracted (txt, vtt, html)
+ok 307 - L11 per-section transcript files are extracted (txt, vtt, html)
+  ---
+  duration_ms: 0.781417
+  type: 'test'
+  ...
+# Subtest: L12 one full transcript is split at Section headings; untied files are reported
+ok 308 - L12 one full transcript is split at Section headings; untied files are reported
+  ---
+  duration_ms: 0.277042
+  type: 'test'
+  ...
+# Subtest: L13 optional transcripts are reported per section without blocking authored exercises
+ok 309 - L13 optional transcripts are reported per section without blocking authored exercises
+  ---
+  duration_ms: 293.425042
+  type: 'test'
+  ...
+# Subtest: L14 unsafe or duplicate ZIP entries are still refused
+ok 310 - L14 unsafe or duplicate ZIP entries are still refused
+  ---
+  duration_ms: 0.602292
+  type: 'test'
+  ...
+# Subtest: Listening start retries resume; submission is owned and cannot write grades/events twice
+ok 311 - Listening start retries resume; submission is owned and cannot write grades/events twice
+  ---
+  duration_ms: 1817.689875
+  type: 'test'
+  ...
+# Subtest: offerer/answerer negotiate through the real service; relay-only config; both report connected once; remote stream delivered
+ok 312 - offerer/answerer negotiate through the real service; relay-only config; both report connected once; remote stream delivered
+  ---
+  duration_ms: 38.047208
+  type: 'test'
+  ...
+# Subtest: leaving while the microphone prompt is pending still stops the late stream
+ok 313 - leaving while the microphone prompt is pending still stops the late stream
+  ---
+  duration_ms: 6.506167
+  type: 'test'
+  ...
+# Subtest: a token for another session/participant is refused by the service and the call fails closed
+ok 314 - a token for another session/participant is refused by the service and the call fails closed
+  ---
+  duration_ms: 12.615167
+  type: 'test'
+  ...
+# Subtest: no recording path: the engine and client never use MediaRecorder or upload audio
+ok 315 - no recording path: the engine and client never use MediaRecorder or upload audio
+  ---
+  duration_ms: 2.014667
+  type: 'test'
+  ...
+# Subtest: default OFFLINE; Go Online gated by eligibility, gender and current rules
+ok 316 - default OFFLINE; Go Online gated by eligibility, gender and current rules
+  ---
+  duration_ms: 1868.277375
+  type: 'test'
+  ...
+# Subtest: Online Users: only fresh AVAILABLE others, once; stale heartbeat disappears
+ok 317 - Online Users: only fresh AVAILABLE others, once; stale heartbeat disappears
+  ---
+  duration_ms: 26.094083
+  type: 'test'
+  ...
+# Subtest: invite races: mutual invites and two inviters → exactly one wins; accept creates one room
+ok 318 - invite races: mutual invites and two inviters → exactly one wins; accept creates one room
+  ---
+  duration_ms: 43.92525
+  type: 'test'
+  ...
+# Subtest: practice cannot silently end a call; call → in_call → hangup releases both; metadata only
+ok 319 - practice cannot silently end a call; call → in_call → hangup releases both; metadata only
+  ---
+  duration_ms: 30.86175
+  type: 'test'
+  ...
+# Subtest: expired invite releases both; decline; practice takes AVAILABLE user offline and cancels invites
+ok 320 - expired invite releases both; decline; practice takes AVAILABLE user offline and cancels invites
+  ---
+  duration_ms: 60.739916
+  type: 'test'
+  ...
+# Subtest: blocking hides both directions and refuses invites
+ok 321 - blocking hides both directions and refuses invites
+  ---
+  duration_ms: 20.158167
+  type: 'test'
+  ...
+# Subtest: vanished participant past grace ends the call and releases the other
+ok 322 - vanished participant past grace ends the call and releases the other
+  ---
+  duration_ms: 38.87025
+  type: 'test'
+  ...
+# Subtest: signal token: audience/issuer/expiry bound; tamper and wrong secret rejected; none without secret
+ok 323 - signal token: audience/issuer/expiry bound; tamper and wrong secret rejected; none without secret
+  ---
+  duration_ms: 2.194333
+  type: 'test'
+  ...
+# Subtest: questions: one filter over the canonical bank, grouped by part, diacritic-insensitive
+ok 324 - questions: one filter over the canonical bank, grouped by part, diacritic-insensitive
+  ---
+  duration_ms: 3.411708
+  type: 'test'
+  ...
+# Subtest: CONNECTING cannot hang forever even while both heartbeats continue; repeated reconnecting reports do not extend grace
+ok 325 - CONNECTING cannot hang forever even while both heartbeats continue; repeated reconnecting reports do not extend grace
+  ---
+  duration_ms: 128.017334
+  type: 'test'
+  ...
+# Subtest: app-issued token is accepted by the signalling service verifier with both participants
+ok 326 - app-issued token is accepted by the signalling service verifier with both participants
+  ---
+  duration_ms: 1.744708
+  type: 'test'
+  ...
+# Subtest: TURN: time-limited coturn REST credentials, relay-only, no permanent secret leaves the server
+ok 327 - TURN: time-limited coturn REST credentials, relay-only, no permanent secret leaves the server
+  ---
+  duration_ms: 0.336459
+  type: 'test'
+  ...
+# Subtest: readiness: env alone is not ready — the service must answer /healthz; failures are cached briefly
+ok 328 - readiness: env alone is not ready — the service must answer /healthz; failures are cached briefly
+  ---
+  duration_ms: 1.749583
+  type: 'test'
+  ...
+# Subtest: readiness rejects arbitrary HTTP 200 and does not reuse another host health result
+ok 329 - readiness rejects arbitrary HTTP 200 and does not reuse another host health result
+  ---
+  duration_ms: 0.3415
+  type: 'test'
+  ...
+# Subtest: two participants: ready/peer-joined, offer/answer/relay-candidate relayed, host candidate dropped
+ok 330 - two participants: ready/peer-joined, offer/answer/relay-candidate relayed, host candidate dropped
+  ---
+  duration_ms: 20.638208
+  type: 'test'
+  ...
+# Subtest: rejects: third user, expired, wrong audience, tampered, no auth, bad message
+ok 331 - rejects: third user, expired, wrong audience, tampered, no auth, bad message
+  ---
+  duration_ms: 10.267375
+  type: 'test'
+  ...
+# Subtest: rejoin replaces the stale socket; rate limit closes a flooding client
+ok 332 - rejoin replaces the stale socket; rate limit closes a flooding client
+  ---
+  duration_ms: 9.232666
+  type: 'test'
+  ...
+# Subtest: relay candidate filter
+ok 333 - relay candidate filter
+  ---
+  duration_ms: 0.295625
+  type: 'test'
+  ...
+# Subtest: every staff screen declares a crumb, so nothing in Management is a dead end
+ok 334 - every staff screen declares a crumb, so nothing in Management is a dead end
+  ---
+  duration_ms: 1.373916
+  type: 'test'
+  ...
+# Subtest: every nested staff screen has a parent that is not itself
+ok 335 - every nested staff screen has a parent that is not itself
+  ---
+  duration_ms: 0.549667
+  type: 'test'
+  ...
+# Subtest: the materials screens sit under Management and are reachable from it
+ok 336 - the materials screens sit under Management and are reachable from it
+  ---
+  duration_ms: 1.821583
+  type: 'test'
+  ...
+# Subtest: every card on the Management hub leads to a screen with a back path
+ok 337 - every card on the Management hub leads to a screen with a back path
+  ---
+  duration_ms: 0.35275
+  type: 'test'
+  ...
+# Subtest: the legacy admin alias redirects into the audited tree
+ok 338 - the legacy admin alias redirects into the audited tree
+  ---
+  duration_ms: 0.391458
+  type: 'test'
+  ...
+# Subtest: Grammar import previews without writes, appends original exercises atomically and refuses duplicates
+ok 339 - Grammar import previews without writes, appends original exercises atomically and refuses duplicates
+  ---
+  duration_ms: 1794.72275
+  type: 'test'
+  ...
+# Subtest: Video vocabulary uses the shared canonical sense and resolves only the authored context
+ok 340 - Video vocabulary uses the shared canonical sense and resolves only the authored context
+  ---
+  duration_ms: 1351.7255
+  type: 'test'
+  ...
+# Warning: Indexing all PDF objects
+# Subtest: Reading TXT/MD preserves only explicitly authored canonical data
+ok 341 - Reading TXT/MD preserves only explicitly authored canonical data
+  ---
+  duration_ms: 1.571125
+  type: 'test'
+  ...
+# Subtest: Reading inert HTML extracts JSON but removes remote attributes and execution
+ok 342 - Reading inert HTML extracts JSON but removes remote attributes and execution
+  ---
+  duration_ms: 61.1915
+  type: 'test'
+  ...
+# Subtest: Shared ZIP core rejects traversal, case-fold collisions and cancellation in both adapters
+ok 343 - Shared ZIP core rejects traversal, case-fold collisions and cancellation in both adapters
+  ---
+  duration_ms: 2.153042
+  type: 'test'
+  ...
+# Subtest: Invalid PDF cannot masquerade as successfully parsed reading data
+ok 344 - Invalid PDF cannot masquerade as successfully parsed reading data
+  ---
+  duration_ms: 1687.72575
+  type: 'test'
+  ...
+# Subtest: Source map retains coordinates and labels while scripts and external URLs are excluded
+ok 345 - Source map retains coordinates and labels while scripts and external URLs are excluded
+  ---
+  duration_ms: 21.263333
+  type: 'test'
+  ...
+# Subtest: DOCX XML loses remote resources before the document parser sees it
+ok 346 - DOCX XML loses remote resources before the document parser sees it
+  ---
+  duration_ms: 8.951833
+  type: 'test'
+  ...
+# Subtest: unanswered permission request times out; later granted stream is released
+ok 347 - unanswered permission request times out; later granted stream is released
+  ---
+  duration_ms: 7.203416
+  type: 'test'
+  ...
+# Subtest: exit cancels permission request and releases a late microphone grant
+ok 348 - exit cancels permission request and releases a late microphone grant
+  ---
+  duration_ms: 0.49725
+  type: 'test'
+  ...
+# Subtest: cancel releases an acquired stream immediately
+ok 349 - cancel releases an acquired stream immediately
+  ---
+  duration_ms: 0.375209
+  type: 'test'
+  ...
+# Subtest: real Drizzle timestamp upgrade reproduces skipped 0046–0048; hash runner repairs them without replaying 0049
+ok 350 - real Drizzle timestamp upgrade reproduces skipped 0046–0048; hash runner repairs them without replaying 0049
+  ---
+  duration_ms: 2274.309333
+  type: 'test'
+  ...
+# Subtest: populated prefix through 0045 upgrades in journal order without skipping lower timestamps
+ok 351 - populated prefix through 0045 upgrades in journal order without skipping lower timestamps
+  ---
+  duration_ms: 2184.335458
+  type: 'test'
+  ...
+# Subtest: fresh hash migration applies the complete current chain and a second run is a no-op
+ok 352 - fresh hash migration applies the complete current chain and a second run is a no-op
+  ---
+  duration_ms: 1545.109959
+  type: 'test'
+  ...
+# Subtest: history checks reject unknown hashes, duplicates, changed timestamps and unrelated gaps
+ok 353 - history checks reject unknown hashes, duplicates, changed timestamps and unrelated gaps
+  ---
+  duration_ms: 0.952584
+  type: 'test'
+  ...
+# Subtest: failed SQL rolls back schema and history; populated untracked databases are refused without writes
+ok 354 - failed SQL rolls back schema and history; populated untracked databases are refused without writes
+  ---
+  duration_ms: 867.063333
+  type: 'test'
+  ...
+# Subtest: production inspection accepts valid hashes in application order and refuses divergent or foreign schemas
+ok 355 - production inspection accepts valid hashes in application order and refuses divergent or foreign schemas
+  ---
+  duration_ms: 1.041666
+  type: 'test'
+  ...
+# Subtest: timestamp-skip recovery permits only the same three omissions and a contiguous hash-verified later suffix
+ok 356 - timestamp-skip recovery permits only the same three omissions and a contiguous hash-verified later suffix
+  ---
+  duration_ms: 0.623042
+  type: 'test'
+  ...
+# Subtest: Overall mock summary uses finished full attempts in date order, including real zero
+ok 357 - Overall mock summary uses finished full attempts in date order, including real zero
+  ---
+  duration_ms: 1.315083
+  type: 'test'
+  ...
+# Subtest: Empty mocks preserve absent scores and cannot invent a denominator
+ok 358 - Empty mocks preserve absent scores and cannot invent a denominator
+  ---
+  duration_ms: 0.086791
+  type: 'test'
+  ...
+# Subtest: Repeated attempts count a catalogue mock only once; a single grade has no improvement
+ok 359 - Repeated attempts count a catalogue mock only once; a single grade has no improvement
+  ---
+  duration_ms: 0.091833
+  type: 'test'
+  ...
+# Subtest: direct media: only the authorised https origin and /media/<id>.(mp4|webm); never without configuration
+ok 360 - direct media: only the authorised https origin and /media/<id>.(mp4|webm); never without configuration
+  ---
+  duration_ms: 1.475417
+  type: 'test'
+  ...
+# Subtest: YouTube keeps its native player: no overlays, no origin='*', no app advertising or provider note
+ok 361 - YouTube keeps its native player: no overlays, no origin='*', no app advertising or provider note
+  ---
+  duration_ms: 1.425
+  type: 'test'
+  ...
+# Subtest: CSP: media-src includes the authorised media origin; connect-src includes the wss signalling origin
+ok 362 - CSP: media-src includes the authorised media origin; connect-src includes the wss signalling origin
+  ---
+  duration_ms: 3.053583
+  type: 'test'
+  ...
+# Subtest: N14: 75 retention drafts build with zero structural problems
+ok 363 - N14: 75 retention drafts build with zero structural problems
+  ---
+  duration_ms: 1221.7745
+  type: 'test'
+  ...
+# Subtest: N14: committed JSONL matches the source build
+ok 364 - N14: committed JSONL matches the source build
+  ---
+  duration_ms: 600.580459
+  type: 'test'
+  ...
+# Subtest: N14: drafts are not referenced by app code, seeds or migrations
+ok 365 - N14: drafts are not referenced by app code, seeds or migrations
+  ---
+  duration_ms: 1023.919458
+  type: 'test'
+  ...
+# Subtest: N14: every draft's canonical recall scores exactly 100
+ok 366 - N14: every draft's canonical recall scores exactly 100
+  ---
+  duration_ms: 494.745375
+  type: 'test'
+  ...
+# Subtest: N14: audit cases A2-14, B1-07, C2-01 now score 100 on canonical recall and source text
+ok 367 - N14: audit cases A2-14, B1-07, C2-01 now score 100 on canonical recall and source text
+  ---
+  duration_ms: 1550.071
+  type: 'test'
+  ...
+# Subtest: N14: C2-03 wrong or missing dates cannot take full claim points
+ok 368 - N14: C2-03 wrong or missing dates cannot take full claim points
+  ---
+  duration_ms: 2946.6385
+  type: 'test'
+  ...
+# Subtest: N14: every date/number/entity/concept group has wrong-value and missing-value regressions
+ok 369 - N14: every date/number/entity/concept group has wrong-value and missing-value regressions
+  ---
+  duration_ms: 786.673834
+  type: 'test'
+  ...
+# Subtest: N14: keyword lists do not score like a full meaningful recall
+ok 370 - N14: keyword lists do not score like a full meaningful recall
+  ---
+  duration_ms: 623.783958
+  type: 'test'
+  ...
+# Subtest: N14: source text deficits are only sentence-scope splits, never negation or absence
+ok 371 - N14: source text deficits are only sentence-scope splits, never negation or absence
+  ---
+  duration_ms: 1141.452208
+  type: 'test'
+  ...
+# Subtest: Navigation and game recovery DOM regressions
+ok 372 - Navigation and game recovery DOM regressions
+  ---
+  duration_ms: 3644.125542
+  type: 'test'
+  ...
+# ✔ workspace outlet keeps current children mounted with no pending notice at rest (38.281ms)\\n✔ outlet source never swaps children for a frame branch (0.436417ms)\\n✔ game load failure is terminal with a retry that refetches (44.13375ms)\\n✔ game set request is aborted on unmount (4.096625ms)\\n✔ empty set renders an intentional empty state (8.971583ms)\\n✔ fill-the-gap cannot be checked with an empty answer (11.120084ms)\\n✔ fill-the-gap auto-advances after feedback (1820.4765ms)\\n✔ translation next button advances once (12.229542ms)\\n✔ flashcards flip in full 3D without a motion toggle (11.401459ms)\\n✔ sentence builder check stays disabled until all tiles are placed (7.429458ms)\\n✔ pending link and history transitions keep current client state mounted (60.753708ms)\\n✔ gap: empty Enter never reveals or submits; checked answer advances once (34.23175ms)\\n✔ translation: empty Enter never reveals or submits; checked answer advances once (16.957125ms)\\n✔ builder advances after checking and final score counts only correct items (28.812125ms)\\n✔ race lights boxes in order, then advances (reduced motion: false) (124.016042ms)\\n✔ race lights boxes in order, then advances (reduced motion: true) (24.9305ms)\\n✔ race write deadline becomes unverified with no automatic POST retry (12.454583ms)\\n✔ history errors retain existing rows and offer retry (13.942125ms)\\n✔ expired reading hides source even when the phase endpoint fails (4.478ms)\\n✔ database labels include nested SQLSTATE and exclude query content (0.342417ms)\\n✔ Retention autosaves the current draft and displays the server result directly (8.965834ms)\\nℹ tests 21\\nℹ suites 0\\nℹ pass 21\\nℹ fail 0\\nℹ cancelled 0\\nℹ skipped 0\\nℹ todo 0\\nℹ duration_ms 3550.949542
+# Subtest: management prefixes match the routes that actually exist
+ok 373 - management prefixes match the routes that actually exist
+  ---
+  duration_ms: 0.58675
+  type: 'test'
+  ...
+# Subtest: every management page in the app is recognised as management mode
+ok 374 - every management page in the app is recognised as management mode
+  ---
+  duration_ms: 5.983958
+  type: 'test'
+  ...
+# Subtest: learning routes stay in learning mode
+ok 375 - learning routes stay in learning mode
+  ---
+  duration_ms: 0.10275
+  type: 'test'
+  ...
+# Subtest: the prefix check respects path boundaries
+ok 376 - the prefix check respects path boundaries
+  ---
+  duration_ms: 0.075792
+  type: 'test'
+  ...
+# Subtest: the private shell keeps the DB-backed account gate and does not await unread-count chrome
+ok 377 - the private shell keeps the DB-backed account gate and does not await unread-count chrome
+  ---
+  duration_ms: 1.743125
+  type: 'test'
+  ...
+# Subtest: navigation acknowledges the destination immediately without replacing Next history
+ok 378 - navigation acknowledges the destination immediately without replacing Next history
+  ---
+  duration_ms: 0.931417
+  type: 'test'
+  ...
+# Subtest: back and forward restore main scroll while ordinary links start at the top
+ok 379 - back and forward restore main scroll while ordinary links start at the top
+  ---
+  duration_ms: 0.204333
+  type: 'test'
+  ...
+# Subtest: route feedback is distinct from a usable view; browser diagnostics wait for loading regions
+ok 380 - route feedback is distinct from a usable view; browser diagnostics wait for loading regions
+  ---
+  duration_ms: 0.588292
+  type: 'test'
+  ...
+# Subtest: Grammar streams its destination heading before its authorized mastery data
+ok 381 - Grammar streams its destination heading before its authorized mastery data
+  ---
+  duration_ms: 0.870333
+  type: 'test'
+  ...
+# Subtest: Dashboard streams its authenticated destination heading before account summary reads
+ok 382 - Dashboard streams its authenticated destination heading before account summary reads
+  ---
+  duration_ms: 0.303291
+  type: 'test'
+  ...
+# Subtest: Progress streams the module destination before learner-owned summary queries finish
+ok 383 - Progress streams the module destination before learner-owned summary queries finish
+  ---
+  duration_ms: 0.2515
+  type: 'test'
+  ...
+# Subtest: Reading streams counts, facets, and the selected library through independent loading regions
+ok 384 - Reading streams counts, facets, and the selected library through independent loading regions
+  ---
+  duration_ms: 0.421958
+  type: 'test'
+  ...
+# Subtest: Vocabulary streams its destination frame before authenticated, selected-view panel data resolves
+ok 385 - Vocabulary streams its destination frame before authenticated, selected-view panel data resolves
+  ---
+  duration_ms: 0.610292
+  type: 'test'
+  ...
+# Subtest: Writing streams the entry header before its independent prompt and learner-summary reads
+ok 386 - Writing streams the entry header before its independent prompt and learner-summary reads
+  ---
+  duration_ms: 0.31175
+  type: 'test'
+  ...
+# Subtest: Listening and Speaking stream useful module headers before catalogue reads
+ok 387 - Listening and Speaking stream useful module headers before catalogue reads
+  ---
+  duration_ms: 0.459125
+  type: 'test'
+  ...
+# Subtest: locale lookup is request-memoized
+ok 388 - locale lookup is request-memoized
+  ---
+  duration_ms: 0.994
+  type: 'test'
+  ...
+# Subtest: notification acknowledgements are owned, selective and idempotent
+ok 389 - notification acknowledgements are owned, selective and idempotent
+  ---
+  duration_ms: 49.532333
+  type: 'test'
+  ...
+# Subtest: OpenAI explicit configuration is required; no request on missing model
+ok 390 - OpenAI explicit configuration is required; no request on missing model
+  ---
+  duration_ms: 0.775458
+  type: 'test'
+  ...
+# Subtest: OpenAI Responses request excludes identity, disables response storage and validates JSON
+ok 391 - OpenAI Responses request excludes identity, disables response storage and validates JSON
+  ---
+  duration_ms: 2.536334
+  type: 'test'
+  ...
+# Subtest: OpenAI refuses malformed and incomplete output instead of inventing feedback
+ok 392 - OpenAI refuses malformed and incomplete output instead of inventing feedback
+  ---
+  duration_ms: 0.760459
+  type: 'test'
+  ...
+# Subtest: OpenAI auth and quota failures do not expose provider error payloads
+ok 393 - OpenAI auth and quota failures do not expose provider error payloads
+  ---
+  duration_ms: 0.386792
+  type: 'test'
+  ...
+# Subtest: OpenAI speaking never invents pronunciation or a missing transcript
+ok 394 - OpenAI speaking never invents pronunciation or a missing transcript
+  ---
+  duration_ms: 0.43575
+  type: 'test'
+  ...
+# Subtest: Transcription cannot send audio when external services are disabled
+ok 395 - Transcription cannot send audio when external services are disabled
+  ---
+  duration_ms: 0.225333
+  type: 'test'
+  ...
+# Subtest: OpenAI transcription fails closed before private storage access when not configured
+ok 396 - OpenAI transcription fails closed before private storage access when not configured
+  ---
+  duration_ms: 0.177417
+  type: 'test'
+  ...
+# Subtest: the last active owner cannot lose the role
+ok 397 - the last active owner cannot lose the role
+  ---
+  duration_ms: 19.589417
+  type: 'test'
+  ...
+# Subtest: a student is not an owner, so removing the role is always allowed
+ok 398 - a student is not an owner, so removing the role is always allowed
+  ---
+  duration_ms: 2.350083
+  type: 'test'
+  ...
+# Subtest: a non-existent user cannot break the invariant
+ok 399 - a non-existent user cannot break the invariant
+  ---
+  duration_ms: 0.874125
+  type: 'test'
+  ...
+# Subtest: only the owner may grant the owner role through the role rules
+ok 400 - only the owner may grant the owner role through the role rules
+  ---
+  duration_ms: 0.177916
+  type: 'test'
+  ...
+# Subtest: the transfer workflow is the only door to the owner role
+ok 401 - the transfer workflow is the only door to the owner role
+  ---
+  duration_ms: 1.498541
+  type: 'test'
+  ...
+# Subtest: Part 1 two-fix DOM regressions
+ok 402 - Part 1 two-fix DOM regressions
+  ---
+  duration_ms: 1306.109334
+  type: 'test'
+  ...
+# ✔ Choose gender: empty, exclusive selection, client error and submitted value (161.266208ms)\\n✔ Jins tanlang: empty, exclusive selection, client error and submitted value (40.487667ms)\\n✔ native required validation exposes a local gender error without a network request (5.699042ms)\\n✔ flashcard retains both physical faces across body/button/keyboard flips; audio only speaks (36.822625ms)\\nℹ tests 4\\nℹ suites 0\\nℹ pass 4\\nℹ fail 0\\nℹ cancelled 0\\nℹ skipped 0\\nℹ todo 0\\nℹ duration_ms 1226.855833
+# Subtest: Multiple Choice keeps an unmistakable verdict and then advances by itself, once
+ok 403 - Multiple Choice keeps an unmistakable verdict and then advances by itself, once
+  ---
+  duration_ms: 1.127834
+  type: 'test'
+  ...
+# Subtest: Profile exposes an explicit Edit name control in the menu and on the profile page
+ok 404 - Profile exposes an explicit Edit name control in the menu and on the profile page
+  ---
+  duration_ms: 0.905709
+  type: 'test'
+  ...
+# Subtest: the utility stack is collapsed behind one launcher in both locales
+ok 405 - the utility stack is collapsed behind one launcher in both locales
+  ---
+  duration_ms: 0.439333
+  type: 'test'
+  ...
+# Subtest: the Reading hub keeps Reading concepts only
+ok 406 - the Reading hub keeps Reading concepts only
+  ---
+  duration_ms: 0.81575
+  type: 'test'
+  ...
+# Subtest: Management People search is parameterized in SQL before a fixed, deterministic page limit
+ok 407 - Management People search is parameterized in SQL before a fixed, deterministic page limit
+  ---
+  duration_ms: 4.212791
+  type: 'test'
+  ...
+# Subtest: profile self-edit accepts only a validated display name and binds it to the session user
+ok 408 - profile self-edit accepts only a validated display name and binds it to the session user
+  ---
+  duration_ms: 1.344125
+  type: 'test'
+  ...
+# Subtest: registration declares and persists a canonical gender while keeping legacy and provider users nullable
+ok 409 - registration declares and persists a canonical gender while keeping legacy and provider users nullable
+  ---
+  duration_ms: 3.506458
+  type: 'test'
+  ...
+# Subtest: reset request and confirmation both retain a localized route back to login
+ok 410 - reset request and confirmation both retain a localized route back to login
+  ---
+  duration_ms: 0.6955
+  type: 'test'
+  ...
+# Subtest: floating AI Coach action opens the existing Coach dashboard without an invented chat
+ok 411 - floating AI Coach action opens the existing Coach dashboard without an invented chat
+  ---
+  duration_ms: 1.426875
+  type: 'test'
+  ...
+# Subtest: TED / PODCAST is the complete learner-facing section identity in both locales
+ok 412 - TED / PODCAST is the complete learner-facing section identity in both locales
+  ---
+  duration_ms: 0.298042
+  type: 'test'
+  ...
+# Subtest: password login still reads an existing account when google_sub has not been migrated
+ok 413 - password login still reads an existing account when google_sub has not been migrated
+  ---
+  duration_ms: 1909.157375
+  type: 'test'
+  ...
+# Warning: UnknownErrorException: Ensure that the `standardFontDataUrl` API parameter is provided.
+# Warning: UnknownErrorException: Ensure that the `standardFontDataUrl` API parameter is provided.
+# Subtest: Real PDF text layer becomes an inert source preview, never invented questions
+ok 414 - Real PDF text layer becomes an inert source preview, never invented questions
+  ---
+  duration_ms: 718.161125
+  type: 'test'
+  ...
+# Subtest: Image-only/empty PDF stays supplemental without invented text or OCR
+ok 415 - Image-only/empty PDF stays supplemental without invented text or OCR
+  ---
+  duration_ms: 1.941708
+  type: 'test'
+  ...
+# Subtest: PDF source enforces cancellation and size bounds before parsing
+ok 416 - PDF source enforces cancellation and size bounds before parsing
+  ---
+  duration_ms: 0.365958
+  type: 'test'
+  ...
+# Subtest: plan: only unapplied, approved, additive migrations; refuses gaps, unknown history and destructive SQL
+ok 417 - plan: only unapplied, approved, additive migrations; refuses gaps, unknown history and destructive SQL
+  ---
+  duration_ms: 1.83225
+  type: 'test'
+  ...
+# Subtest: identity guard: fingerprint hides the host; production refused
+ok 418 - identity guard: fingerprint hides the host; production refused
+  ---
+  duration_ms: 0.238792
+  type: 'test'
+  ...
+# Subtest: identity: same shared pooler host/db with different project usernames never share a fingerprint
+ok 419 - identity: same shared pooler host/db with different project usernames never share a fingerprint
+  ---
+  duration_ms: 0.242417
+  type: 'test'
+  ...
+# Subtest: Connection construction, socket and identity errors produce FAIL receipts without leaking credentials
+ok 420 - Connection construction, socket and identity errors produce FAIL receipts without leaking credentials
+  ---
+  duration_ms: 1.783
+  type: 'test'
+  ...
+# Subtest: CLI run: a failed verification exits non-zero (receipt pass:false is no longer silent)
+ok 421 - CLI run: a failed verification exits non-zero (receipt pass:false is no longer silent)
+  ---
+  duration_ms: 0.411458
+  type: 'test'
+  ...
+# Subtest: CLI run: a query error during verification exits non-zero
+ok 422 - CLI run: a query error during verification exits non-zero
+  ---
+  duration_ms: 0.283334
+  type: 'test'
+  ...
+# Subtest: CLI run: healthy plan passes; every verification query is scoped to schema public
+ok 423 - CLI run: healthy plan passes; every verification query is scoped to schema public
+  ---
+  duration_ms: 0.298959
+  type: 'test'
+  ...
+# Subtest: CLI run: server identity mismatch refuses before any plan or migration
+ok 424 - CLI run: server identity mismatch refuses before any plan or migration
+  ---
+  duration_ms: 0.252125
+  type: 'test'
+  ...
+# Subtest: CLI run: apply that leaves pending migrations is a failure; apply needs a backup ref
+ok 425 - CLI run: apply that leaves pending migrations is a failure; apply needs a backup ref
+  ---
+  duration_ms: 0.374875
+  type: 'test'
+  ...
+# Subtest: CLI run: receipts and logs never contain the password or full URL
+ok 426 - CLI run: receipts and logs never contain the password or full URL
+  ---
+  duration_ms: 0.265709
+  type: 'test'
+  ...
+# Subtest: CLI process: a refused run exits non-zero without connecting
+ok 427 - CLI process: a refused run exits non-zero without connecting
+  ---
+  duration_ms: 273.722125
+  type: 'test'
+  ...
+# Subtest: CLI run: --plan with pending migrations reports them and skips (not fakes) verification
+ok 428 - CLI run: --plan with pending migrations reports them and skips (not fakes) verification
+  ---
+  duration_ms: 0.329958
+  type: 'test'
+  ...
+# Subtest: Full Listening migration is additive and requires the same identity, journal and backup gates
+ok 429 - Full Listening migration is additive and requires the same identity, journal and backup gates
+  ---
+  duration_ms: 0.214834
+  type: 'test'
+  ...
+# Subtest: QA TLS verifies certificates and hostname; URL options cannot replace strict TLS
+ok 430 - QA TLS verifies certificates and hostname; URL options cannot replace strict TLS
+  ---
+  duration_ms: 0.730375
+  type: 'test'
+  ...
+# Subtest: Exactly verified 0021 gap is eligible; other history gaps are refused
+ok 431 - Exactly verified 0021 gap is eligible; other history gaps are refused
+  ---
+  duration_ms: 4.936917
+  type: 'test'
+  ...
+# Subtest: Refuse missing/changed gender DDL, unknown and duplicate hashes, and wall-clock timestamps
+ok 432 - Refuse missing/changed gender DDL, unknown and duplicate hashes, and wall-clock timestamps
+  ---
+  duration_ms: 11.14175
+  type: 'test'
+  ...
+# Subtest: Already journalled entry is idempotent and empty history cannot be labelled repaired
+ok 433 - Already journalled entry is idempotent and empty history cannot be labelled repaired
+  ---
+  duration_ms: 4.297041
+  type: 'test'
+  ...
+# Subtest: Backup check rejects absent/schema-only archives; returns digest without exposing content
+ok 434 - Backup check rejects absent/schema-only archives; returns digest without exposing content
+  ---
+  duration_ms: 4.532125
+  type: 'test'
+  ...
+# Subtest: Actual migrated PostgreSQL DDL is inspected; one journal entry is added transactionally and retries add nothing
+ok 435 - Actual migrated PostgreSQL DDL is inspected; one journal entry is added transactionally and retries add nothing
+  ---
+  duration_ms: 1957.495667
+  type: 'test'
+  ...
+# Subtest: A migration newer than the approved Preview QA set is refused, never silently allowed
+ok 436 - A migration newer than the approved Preview QA set is refused, never silently allowed
+  ---
+  duration_ms: 6.35925
+  type: 'test'
+  ...
+# Subtest: weeks start on Monday in the centre timezone, including late-evening UTC edge
+ok 437 - weeks start on Monday in the centre timezone, including late-evening UTC edge
+  ---
+  duration_ms: 15.230084
+  type: 'test'
+  ...
+# Subtest: weekly accuracy pools real rows; empty weeks are null, not zero; old rows ignored
+ok 438 - weekly accuracy pools real rows; empty weeks are null, not zero; old rows ignored
+  ---
+  duration_ms: 1.034334
+  type: 'test'
+  ...
+# Subtest: writing band averages stored estimates to one decimal
+ok 439 - writing band averages stored estimates to one decimal
+  ---
+  duration_ms: 0.336875
+  type: 'test'
+  ...
+# Subtest: heatmap is 12×7, Monday-first, counts per Tashkent day
+ok 440 - heatmap is 12×7, Monday-first, counts per Tashkent day
+  ---
+  duration_ms: 0.404208
+  type: 'test'
+  ...
+# Subtest: retention trends per level use last five finalized scores in time order
+ok 441 - retention trends per level use last five finalized scores in time order
+  ---
+  duration_ms: 0.228167
+  type: 'test'
+  ...
+# Subtest: trend data source is user-scoped, aggregated (no row cap), never reads self-estimates or Retention source/rubric
+ok 442 - trend data source is user-scoped, aggregated (no row cap), never reads self-estimates or Retention source/rubric
+  ---
+  duration_ms: 0.613958
+  type: 'test'
+  ...
+# Subtest: PM1 every named vendor's documented base URL passes the server-side config + SSRF guard; Grok and Groq are distinct
+ok 443 - PM1 every named vendor's documented base URL passes the server-side config + SSRF guard; Grok and Groq are distinct
+  ---
+  duration_ms: 8.251417
+  type: 'test'
+  ...
+# Subtest: PM2 Google Gemini: exact chat-completions request, Bearer from the referenced env var, identity-free, validated reply
+ok 444 - PM2 Google Gemini: exact chat-completions request, Bearer from the referenced env var, identity-free, validated reply
+  ---
+  duration_ms: 2.491042
+  type: 'test'
+  ...
+# Subtest: PM2 DeepSeek: exact chat-completions request, Bearer from the referenced env var, identity-free, validated reply
+ok 445 - PM2 DeepSeek: exact chat-completions request, Bearer from the referenced env var, identity-free, validated reply
+  ---
+  duration_ms: 0.389417
+  type: 'test'
+  ...
+# Subtest: PM2 Alibaba Qwen: exact chat-completions request, Bearer from the referenced env var, identity-free, validated reply
+ok 446 - PM2 Alibaba Qwen: exact chat-completions request, Bearer from the referenced env var, identity-free, validated reply
+  ---
+  duration_ms: 0.280875
+  type: 'test'
+  ...
+# Subtest: PM2 xAI Grok: exact chat-completions request, Bearer from the referenced env var, identity-free, validated reply
+ok 447 - PM2 xAI Grok: exact chat-completions request, Bearer from the referenced env var, identity-free, validated reply
+  ---
+  duration_ms: 0.284041
+  type: 'test'
+  ...
+# Subtest: PM2 Groq: exact chat-completions request, Bearer from the referenced env var, identity-free, validated reply
+ok 448 - PM2 Groq: exact chat-completions request, Bearer from the referenced env var, identity-free, validated reply
+  ---
+  duration_ms: 0.24075
+  type: 'test'
+  ...
+# Subtest: PM2 Mistral: exact chat-completions request, Bearer from the referenced env var, identity-free, validated reply
+ok 449 - PM2 Mistral: exact chat-completions request, Bearer from the referenced env var, identity-free, validated reply
+  ---
+  duration_ms: 0.230042
+  type: 'test'
+  ...
+# Subtest: PM3 every shared system prompt contains the word JSON (DeepSeek/Qwen JSON-mode precondition)
+ok 450 - PM3 every shared system prompt contains the word JSON (DeepSeek/Qwen JSON-mode precondition)
+  ---
+  duration_ms: 0.231625
+  type: 'test'
+  ...
+# Subtest: PM4 qwen: pinned SSRF guard refuses private/metadata DNS answers and unsafe endpoint configurations
+ok 451 - PM4 qwen: pinned SSRF guard refuses private/metadata DNS answers and unsafe endpoint configurations
+  ---
+  duration_ms: 1.857792
+  type: 'test'
+  ...
+# Subtest: PM5 qwen: malformed, truncated, refused and HTTP-error replies fail validation without leaking the body or the key
+ok 452 - PM5 qwen: malformed, truncated, refused and HTTP-error replies fail validation without leaking the body or the key
+  ---
+  duration_ms: 1.152625
+  type: 'test'
+  ...
+# Subtest: PM6 qwen: the call honours abort and returns without leaving a pending transport
+ok 453 - PM6 qwen: the call honours abort and returns without leaving a pending transport
+  ---
+  duration_ms: 52.094209
+  type: 'test'
+  ...
+# Subtest: PM7 qwen: a missing key or model means not_configured and zero request seam calls
+ok 454 - PM7 qwen: a missing key or model means not_configured and zero request seam calls
+  ---
+  duration_ms: 0.261875
+  type: 'test'
+  ...
+# Subtest: PM4 groq: pinned SSRF guard refuses private/metadata DNS answers and unsafe endpoint configurations
+ok 455 - PM4 groq: pinned SSRF guard refuses private/metadata DNS answers and unsafe endpoint configurations
+  ---
+  duration_ms: 1.114958
+  type: 'test'
+  ...
+# Subtest: PM5 groq: malformed, truncated, refused and HTTP-error replies fail validation without leaking the body or the key
+ok 456 - PM5 groq: malformed, truncated, refused and HTTP-error replies fail validation without leaking the body or the key
+  ---
+  duration_ms: 0.563958
+  type: 'test'
+  ...
+# Subtest: PM6 groq: the call honours abort and returns without leaving a pending transport
+ok 457 - PM6 groq: the call honours abort and returns without leaving a pending transport
+  ---
+  duration_ms: 51.923208
+  type: 'test'
+  ...
+# Subtest: PM7 groq: a missing key or model means not_configured and zero request seam calls
+ok 458 - PM7 groq: a missing key or model means not_configured and zero request seam calls
+  ---
+  duration_ms: 0.275084
+  type: 'test'
+  ...
+# Subtest: PM8 configuration refuses a key pasted in place of an env-var NAME, and never echoes it
+ok 459 - PM8 configuration refuses a key pasted in place of an env-var NAME, and never echoes it
+  ---
+  duration_ms: 0.54
+  type: 'test'
+  ...
+# Subtest: PM9 .env.example documents every matrix vendor with an empty key and no real secret
+ok 460 - PM9 .env.example documents every matrix vendor with an empty key and no real secret
+  ---
+  duration_ms: 2.360584
+  type: 'test'
+  ...
+# [coach] provider qwen did not produce an evaluation for grammar: provider_error (Qwen evaluation request failed)
+# [coach] provider qwen did not produce an evaluation for grammar: auth_failed (Qwen evaluation request failed)
+# Subtest: PM10 bounded retry applies to compatible providers: retryable 5xx stops at maxAttempts and auth failures are not retried
+ok 461 - PM10 bounded retry applies to compatible providers: retryable 5xx stops at maxAttempts and auth failures are not retried
+  ---
+  duration_ms: 469.128958
+  type: 'test'
+  ...
+# Subtest: there are exactly four publication states
+ok 462 - there are exactly four publication states
+  ---
+  duration_ms: 1.185125
+  type: 'test'
+  ...
+# Subtest: only published content, or a schedule that has arrived, is live
+ok 463 - only published content, or a schedule that has arrived, is live
+  ---
+  duration_ms: 0.199833
+  type: 'test'
+  ...
+# Subtest: a schedule without a moment is a draft, not an accidental publication
+ok 464 - a schedule without a moment is a draft, not an accidental publication
+  ---
+  duration_ms: 0.09525
+  type: 'test'
+  ...
+# Subtest: a scheduled state needs a moment and the other states must not carry one
+ok 465 - a scheduled state needs a moment and the other states must not carry one
+  ---
+  duration_ms: 0.090916
+  type: 'test'
+  ...
+# Subtest: staff can move content through every state, one deliberate step at a time
+ok 466 - staff can move content through every state, one deliberate step at a time
+  ---
+  duration_ms: 0.137416
+  type: 'test'
+  ...
+# Subtest: archiving never deletes anything — the rule only hides
+ok 467 - archiving never deletes anything — the rule only hides
+  ---
+  duration_ms: 1.57925
+  type: 'test'
+  ...
+# Subtest: every publishable content type goes through the one endpoint and the one rule
+ok 468 - every publishable content type goes through the one endpoint and the one rule
+  ---
+  duration_ms: 1.143459
+  type: 'test'
+  ...
+# Subtest: no content type keeps a second, private visibility rule
+ok 469 - no content type keeps a second, private visibility rule
+  ---
+  duration_ms: 211.619416
+  type: 'test'
+  ...
+# Subtest: a student-facing gate exists wherever an attempt can be created
+ok 470 - a student-facing gate exists wherever an attempt can be created
+  ---
+  duration_ms: 0.370875
+  type: 'test'
+  ...
+# Subtest: QB1 guard accepts only localhost/learners_qa2
+ok 471 - QB1 guard accepts only localhost/learners_qa2
+  ---
+  duration_ms: 1.350458
+  type: 'test'
+  ...
+# Subtest: QB2 fixtures are reserved .invalid identities with exactly one owner
+ok 472 - QB2 fixtures are reserved .invalid identities with exactly one owner
+  ---
+  duration_ms: 0.184917
+  type: 'test'
+  ...
+# Subtest: QB3 seeding upserts (idempotent) and enforces the active-owner invariant
+ok 473 - QB3 seeding upserts (idempotent) and enforces the active-owner invariant
+  ---
+  duration_ms: 0.351708
+  type: 'test'
+  ...
+# Subtest: QB4 one canonical UI command carries the UI tsconfig; gate pins the speaking bank checksum
+ok 474 - QB4 one canonical UI command carries the UI tsconfig; gate pins the speaking bank checksum
+  ---
+  duration_ms: 2.438334
+  type: 'test'
+  ...
+# Subtest: QA2 real PostgreSQL: parallel Google callbacks for one new identity create exactly one pending account
+ok 475 - QA2 real PostgreSQL: parallel Google callbacks for one new identity create exactly one pending account
+  ---
+  duration_ms: 534.161
+  type: 'test'
+  ...
+# Subtest: QA2 real PostgreSQL: concurrent invites/accepts on separate connections — one call wins, no deadlock
+ok 476 - QA2 real PostgreSQL: concurrent invites/accepts on separate connections — one call wins, no deadlock
+  ---
+  duration_ms: 90.713917
+  type: 'test'
+  ...
+# Subtest: N07 on real PostgreSQL: 8 concurrent finish requests on separate connections → one transition, one deadline
+ok 477 - N07 on real PostgreSQL: 8 concurrent finish requests on separate connections → one transition, one deadline
+  ---
+  duration_ms: 91.905667
+  type: 'test'
+  ...
+# Subtest: N08 on real PostgreSQL: SQL executes, users are isolated, unfinished work excluded, no join multiplication
+ok 478 - N08 on real PostgreSQL: SQL executes, users are isolated, unfinished work excluded, no join multiplication
+  ---
+  duration_ms: 66.692583
+  type: 'test'
+  ...
+# Subtest: PS1 1 205 band estimates in one week: exact count and pooled mean (no truncation)
+ok 479 - PS1 1 205 band estimates in one week: exact count and pooled mean (no truncation)
+  ---
+  duration_ms: 165.934625
+  type: 'test'
+  ...
+# Subtest: PS2 streak counts Tashkent days, not a 400-event window: 3 busy days of 500 events each = 3
+ok 480 - PS2 streak counts Tashkent days, not a 400-event window: 3 busy days of 500 events each = 3
+  ---
+  duration_ms: 47.50925
+  type: 'test'
+  ...
+# Subtest: PS3 own-library search finds the 2 101st word of a library (no 2 000-row cap; last in heap order)
+ok 481 - PS3 own-library search finds the 2 101st word of a library (no 2 000-row cap; last in heap order)
+  ---
+  duration_ms: 266.8625
+  type: 'test'
+  ...
+# Subtest: write-target guard: only localhost/learners_qa2 unless the exact database is confirmed
+ok 482 - write-target guard: only localhost/learners_qa2 unless the exact database is confirmed
+  ---
+  duration_ms: 0.617416
+  type: 'test'
+  ...
+# Subtest: QA2 real PostgreSQL: re-import is a no-op and never disturbs an attempt's prompt
+ok 483 - QA2 real PostgreSQL: re-import is a no-op and never disturbs an attempt's prompt
+  ---
+  duration_ms: 283.988459
+  type: 'test'
+  ...
+# Subtest: N11 receipt: source hash and database name only — never a URL or password
+ok 484 - N11 receipt: source hash and database name only — never a URL or password
+  ---
+  duration_ms: 0.737
+  type: 'test'
+  ...
+# Subtest: QA2 real PostgreSQL: imported drafts are invisible to Practice and Live Partner until published
+ok 485 - QA2 real PostgreSQL: imported drafts are invisible to Practice and Live Partner until published
+  ---
+  duration_ms: 701.608875
+  type: 'test'
+  ...
+# Subtest: reading-105 dry run validates the source without a database; never fabricates a 105-row success
+ok 486 - reading-105 dry run validates the source without a database; never fabricates a 105-row success
+  ---
+  duration_ms: 411.097167
+  type: 'test'
+  ...
+# Subtest: Reading import preserves both literacy source definitions without a legacy collision
+ok 487 - Reading import preserves both literacy source definitions without a legacy collision
+  ---
+  duration_ms: 2.089541
+  type: 'test'
+  ...
+# Subtest: Reading import retains compatible keys and deduplicates only full equivalent definitions
+ok 488 - Reading import retains compatible keys and deduplicates only full equivalent definitions
+  ---
+  duration_ms: 0.283958
+  type: 'test'
+  ...
+# Subtest: reading cards count their own questions; live search and clear preserve order
+ok 489 - reading cards count their own questions; live search and clear preserve order
+  ---
+  duration_ms: 36.98975
+  type: 'test'
+  ...
+# Subtest: Reading import role matrix: student/teacher denied, admin/owner allowed
+ok 490 - Reading import role matrix: student/teacher denied, admin/owner allowed
+  ---
+  duration_ms: 0.682167
+  type: 'test'
+  ...
+# Subtest: page and API enforce the same rule; dry run never commits
+ok 491 - page and API enforce the same rule; dry run never commits
+  ---
+  duration_ms: 0.355875
+  type: 'test'
+  ...
+# Subtest: the learner Reading area carries no staff import/upload/authoring UI
+ok 492 - the learner Reading area carries no staff import/upload/authoring UI
+  ---
+  duration_ms: 1.732167
+  type: 'test'
+  ...
+# Subtest: every Reading import error has en/uz text
+ok 493 - every Reading import error has en/uz text
+  ---
+  duration_ms: 0.174292
+  type: 'test'
+  ...
+# Subtest: navigation feedback appears after 60ms and cleans up its pending timer
+ok 494 - navigation feedback appears after 60ms and cleans up its pending timer
+  ---
+  duration_ms: 0.549333
+  type: 'test'
+  ...
+# Subtest: Reading timer uses authored duration, falls back safely, and never grows into elapsed days
+ok 495 - Reading timer uses authored duration, falls back safely, and never grows into elapsed days
+  ---
+  duration_ms: 0.123708
+  type: 'test'
+  ...
+# Subtest: an expired Reading submission ignores client answers and grades only saved drafts
+ok 496 - an expired Reading submission ignores client answers and grades only saved drafts
+  ---
+  duration_ms: 0.423875
+  type: 'test'
+  ...
+# Subtest: Reading filter dropdown selection, Escape focus restore, and outside click close
+ok 497 - Reading filter dropdown selection, Escape focus restore, and outside click close
+  ---
+  duration_ms: 56.281333
+  type: 'test'
+  ...
+# Subtest: Reading dropdown positioning is right-aligned and constrained to the viewport
+ok 498 - Reading dropdown positioning is right-aligned and constrained to the viewport
+  ---
+  duration_ms: 0.89375
+  type: 'test'
+  ...
+# Subtest: Reading draft saves and final submission serialize against the attempt row
+ok 499 - Reading draft saves and final submission serialize against the attempt row
+  ---
+  duration_ms: 0.292625
+  type: 'test'
+  ...
+# Subtest: a window's own blank becomes its own token, a sibling's keeps its number
+ok 500 - a window's own blank becomes its own token, a sibling's keeps its number
+  ---
+  duration_ms: 0.664584
+  type: 'test'
+  ...
+# Subtest: a window cut after a printed number still marks that blank
+ok 501 - a window cut after a printed number still marks that blank
+  ---
+  duration_ms: 0.156583
+  type: 'test'
+  ...
+# Subtest: a trailing number that is not a question in the group is left alone
+ok 502 - a trailing number that is not a question in the group is left alone
+  ---
+  duration_ms: 0.065417
+  type: 'test'
+  ...
+# Subtest: overlapping windows stitch into one stimulus with every blank
+ok 503 - overlapping windows stitch into one stimulus with every blank
+  ---
+  duration_ms: 0.542875
+  type: 'test'
+  ...
+# Subtest: windows that do not overlap are kept apart instead of glued together
+ok 504 - windows that do not overlap are kept apart instead of glued together
+  ---
+  duration_ms: 0.068834
+  type: 'test'
+  ...
+# Subtest: a blank the reconstruction cannot find is reported, never invented
+ok 505 - a blank the reconstruction cannot find is reported, never invented
+  ---
+  duration_ms: 0.084834
+  type: 'test'
+  ...
+# Subtest: token form parses back into prose and blanks
+ok 506 - token form parses back into prose and blanks
+  ---
+  duration_ms: 0.153125
+  type: 'test'
+  ...
+# Subtest: only rows that really share a stimulus are treated as shared
+ok 507 - only rows that really share a stimulus are treated as shared
+  ---
+  duration_ms: 0.074
+  type: 'test'
+  ...
+# Subtest: hasBlank answers the same way on repeated calls
+ok 508 - hasBlank answers the same way on repeated calls
+  ---
+  duration_ms: 0.148667
+  type: 'test'
+  ...
+# Subtest: R1 tab order: Academic, General Reading, General Training, Question Types, Retention
+ok 509 - R1 tab order: Academic, General Reading, General Training, Question Types, Retention
+  ---
+  duration_ms: 1.137959
+  type: 'test'
+  ...
+# Subtest: R2 the passage library (search, filters, pages) is rendered and queried under General Reading
+ok 510 - R2 the passage library (search, filters, pages) is rendered and queried under General Reading
+  ---
+  duration_ms: 0.390667
+  type: 'test'
+  ...
+# Subtest: R3 the guided reading sets moved under Academic; General Training, Types and Retention are kept
+ok 511 - R3 the guided reading sets moved under Academic; General Training, Types and Retention are kept
+  ---
+  duration_ms: 0.133333
+  type: 'test'
+  ...
+# Subtest: R4 the subtitle follows the selected tab in both languages
+ok 512 - R4 the subtitle follows the selected tab in both languages
+  ---
+  duration_ms: 0.168
+  type: 'test'
+  ...
+# Subtest: R5 URL resolution: default Academic, legacy ?tab=practice → Academic, filters → General Reading
+ok 513 - R5 URL resolution: default Academic, legacy ?tab=practice → Academic, filters → General Reading
+  ---
+  duration_ms: 0.111125
+  type: 'test'
+  ...
+# Subtest: R6 every library link keeps the General Reading tab (filters, pages, type cards, reset)
+ok 514 - R6 every library link keeps the General Reading tab (filters, pages, type cards, reset)
+  ---
+  duration_ms: 0.256417
+  type: 'test'
+  ...
+# Subtest: intent policy rejects external, attempts, admin, answers and query strings
+ok 515 - intent policy rejects external, attempts, admin, answers and query strings
+  ---
+  duration_ms: 0.477583
+  type: 'test'
+  ...
+# Subtest: budget deduplicates, spaces dispatches and resets only after its window
+ok 516 - budget deduplicates, spaces dispatches and resets only after its window
+  ---
+  duration_ms: 0.118625
+  type: 'test'
+  ...
+# Subtest: draft editor preserves IDs, phrases, critical flags and server validation
+ok 517 - draft editor preserves IDs, phrases, critical flags and server validation
+  ---
+  duration_ms: 1.710208
+  type: 'test'
+  ...
+# Subtest: unknown fields and malformed data are preserved in raw mode, never silently stripped
+ok 518 - unknown fields and malformed data are preserved in raw mode, never silently stripped
+  ---
+  duration_ms: 0.265375
+  type: 'test'
+  ...
+# Subtest: RP1 periods are last COMPLETED periods in the centre timezone, half-open, reproducible
+ok 519 - RP1 periods are last COMPLETED periods in the centre timezone, half-open, reproducible
+  ---
+  duration_ms: 2071.263958
+  type: 'test'
+  ...
+# Subtest: RP2 custom ranges are validated: real dates, ordered, ≤366 days, not in the future
+ok 520 - RP2 custom ranges are validated: real dates, ordered, ≤366 days, not in the future
+  ---
+  duration_ms: 1.068125
+  type: 'test'
+  ...
+# Subtest: RP3 access matrix: students only see themselves; staff cannot reach owner scope; unknown, non-student or malformed subjects are 404
+ok 521 - RP3 access matrix: students only see themselves; staff cannot reach owner scope; unknown, non-student or malformed subjects are 404
+  ---
+  duration_ms: 0.3825
+  type: 'test'
+  ...
+# Subtest: RP4 numbers come from SQL over the window and scope; empty = null, never a silent 0
+ok 522 - RP4 numbers come from SQL over the window and scope; empty = null, never a silent 0
+  ---
+  duration_ms: 33.886875
+  type: 'test'
+  ...
+# Subtest: RP5 every number carries its exact source query, window, scope and generatedAt — and re-running the recorded query reproduces it
+ok 523 - RP5 every number carries its exact source query, window, scope and generatedAt — and re-running the recorded query reproduces it
+  ---
+  duration_ms: 12.798375
+  type: 'test'
+  ...
+# Subtest: RP6 every format renders the same snapshot; spreadsheet formula injection is neutralised
+ok 524 - RP6 every format renders the same snapshot; spreadsheet formula injection is neutralised
+  ---
+  duration_ms: 19.71725
+  type: 'test'
+  ...
+# Subtest: RP7 ZIP bundle: every format plus a manifest whose hashes match the files and the snapshot
+ok 525 - RP7 ZIP bundle: every format plus a manifest whose hashes match the files and the snapshot
+  ---
+  duration_ms: 17.874958
+  type: 'test'
+  ...
+# Subtest: RP8 generateReport audits generation and download (hash, never contents); refused requests write nothing
+ok 526 - RP8 generateReport audits generation and download (hash, never contents); refused requests write nothing
+  ---
+  duration_ms: 12.923125
+  type: 'test'
+  ...
+# Subtest: RP9 an optional AI narrative may only restate snapshot numbers; links, markup and invented numbers are refused
+ok 527 - RP9 an optional AI narrative may only restate snapshot numbers; links, markup and invented numbers are refused
+  ---
+  duration_ms: 6.803625
+  type: 'test'
+  ...
+# Subtest: RP10 structure: separate private route (not /api/support/reports), DB-backed auth, no AI import in the number path, no-store downloads
+ok 528 - RP10 structure: separate private route (not /api/support/reports), DB-backed auth, no AI import in the number path, no-store downloads
+  ---
+  duration_ms: 1.728958
+  type: 'test'
+  ...
+# Subtest: RP11 the recorded query binds the subject as a parameter (no string interpolation of ids)
+ok 529 - RP11 the recorded query binds the subject as a parameter (no string interpolation of ids)
+  ---
+  duration_ms: 0.279834
+  type: 'test'
+  ...
+# Subtest: RP12 Grammar and video metrics are included; audit records AI-narrative provenance (none used); file names are fixed-pattern
+ok 530 - RP12 Grammar and video metrics are included; audit records AI-narrative provenance (none used); file names are fixed-pattern
+  ---
+  duration_ms: 23.967708
+  type: 'test'
+  ...
+# Subtest: RP13 role matrix is explicit: admin policy is declared, teacher reach is roster-only, roster failure fails closed
+ok 531 - RP13 role matrix is explicit: admin policy is declared, teacher reach is roster-only, roster failure fails closed
+  ---
+  duration_ms: 0.424333
+  type: 'test'
+  ...
+# Subtest: RP14 teacher snapshot uses explicit roster as of report-window end; later links cannot reveal historical rows (real schema)
+ok 532 - RP14 teacher snapshot uses explicit roster as of report-window end; later links cannot reveal historical rows (real schema)
+  ---
+  duration_ms: 66.00225
+  type: 'test'
+  ...
+# Subtest: RP15 teacher IDOR through generateReport: rostered → file; unrostered and missing → identical 404; audit stores ids only
+ok 533 - RP15 teacher IDOR through generateReport: rostered → file; unrostered and missing → identical 404; audit stores ids only
+  ---
+  duration_ms: 21.655
+  type: 'test'
+  ...
+# Subtest: RP16 roster changes: owner/admin only, teacher→student roles enforced, idempotent, audited
+ok 534 - RP16 roster changes: owner/admin only, teacher→student roles enforced, idempotent, audited
+  ---
+  duration_ms: 11.128541
+  type: 'test'
+  ...
+# Subtest: RP17 migration 0035 is additive and journalled directly after 0034
+ok 535 - RP17 migration 0035 is additive and journalled directly after 0034
+  ---
+  duration_ms: 0.903584
+  type: 'test'
+  ...
+# Subtest: RP18 the student-name filter matches typed text literally (LIKE wildcards escaped) on a real database
+ok 536 - RP18 the student-name filter matches typed text literally (LIKE wildcards escaped) on a real database
+  ---
+  duration_ms: 17.593959
+  type: 'test'
+  ...
+# Subtest: Start reads only the level from the request; identity comes from the session
+ok 537 - Start reads only the level from the request; identity comes from the session
+  ---
+  duration_ms: 1.099166
+  type: 'test'
+  ...
+# Subtest: draft and submit accept the learner's own text and nothing that decides anything
+ok 538 - draft and submit accept the learner's own text and nothing that decides anything
+  ---
+  duration_ms: 2.2085
+  type: 'test'
+  ...
+# Subtest: the history and summary endpoints are scoped to the signed-in learner
+ok 539 - the history and summary endpoints are scoped to the signed-in learner
+  ---
+  duration_ms: 0.582209
+  type: 'test'
+  ...
+# Subtest: the learner payload module never imports the scorer, and the recall branch never touches the body
+ok 540 - the learner payload module never imports the scorer, and the recall branch never touches the body
+  ---
+  duration_ms: 0.363458
+  type: 'test'
+  ...
+# Subtest: the learner UI never renders the source outside the reading phase
+ok 541 - the learner UI never renders the source outside the reading phase
+  ---
+  duration_ms: 0.26675
+  type: 'test'
+  ...
+# Subtest: every admin Retention route is behind the administrator gate
+ok 542 - every admin Retention route is behind the administrator gate
+  ---
+  duration_ms: 2.616625
+  type: 'test'
+  ...
+# Subtest: Change always posts a new version and carries the stale-editor guard
+ok 543 - Change always posts a new version and carries the stale-editor guard
+  ---
+  duration_ms: 0.243541
+  type: 'test'
+  ...
+# Subtest: the old passage-driven drill is gone: the route ignores any passage parameter
+ok 544 - the old passage-driven drill is gone: the route ignores any passage parameter
+  ---
+  duration_ms: 0.240958
+  type: 'test'
+  ...
+# Subtest: the Reading hub no longer carries the TED / PODCAST tab (Part 1 override)
+ok 545 - the Reading hub no longer carries the TED / PODCAST tab (Part 1 override)
+  ---
+  duration_ms: 0.205
+  type: 'test'
+  ...
+# Subtest: the Management page links to the Retention bank one step below Reading
+ok 546 - the Management page links to the Retention bank one step below Reading
+  ---
+  duration_ms: 0.727
+  type: 'test'
+  ...
+# Subtest: the Retention bank panel offers Add, Change, Delete-as-archive and Restore
+ok 547 - the Retention bank panel offers Add, Change, Delete-as-archive and Restore
+  ---
+  duration_ms: 1.52
+  type: 'test'
+  ...
+# Subtest: N07: GET /api/retention/attempts is read-only and builds the learner payload through buildAttemptPayload
+ok 548 - N07: GET /api/retention/attempts is read-only and builds the learner payload through buildAttemptPayload
+  ---
+  duration_ms: 0.370083
+  type: 'test'
+  ...
+# Subtest: the documented example text is a real B1 text by the production word counter
+ok 549 - the documented example text is a real B1 text by the production word counter
+  ---
+  duration_ms: 2.236125
+  type: 'test'
+  ...
+# Subtest: the documented Measurement Structure passes the production validator
+ok 550 - the documented Measurement Structure passes the production validator
+  ---
+  duration_ms: 1.913167
+  type: 'test'
+  ...
+# Subtest: the documented example contains no executable shape
+ok 551 - the documented example contains no executable shape
+  ---
+  duration_ms: 0.099
+  type: 'test'
+  ...
+# Subtest: the document states the level table, the conservation rule and the target-not-maximum rule
+ok 552 - the document states the level table, the conservation rule and the target-not-maximum rule
+  ---
+  duration_ms: 0.342708
+  type: 'test'
+  ...
+# Subtest: the documented complete A2 pair passes the production counter, validator and scorer
+ok 553 - the documented complete A2 pair passes the production counter, validator and scorer
+  ---
+  duration_ms: 6.072666
+  type: 'test'
+  ...
+# Subtest: the documented complete C1 pair passes the production counter, validator and scorer
+ok 554 - the documented complete C1 pair passes the production counter, validator and scorer
+  ---
+  duration_ms: 3.663583
+  type: 'test'
+  ...
+# Subtest: the document states the current evaluator version and the grammar/semantic limits
+ok 555 - the document states the current evaluator version and the grammar/semantic limits
+  ---
+  duration_ms: 0.132625
+  type: 'test'
+  ...
+# [perf] retention.start FAILED 4ms id=17eba7da RetentionError
+# [perf] retention.submit FAILED 1ms id=17eba7da RetentionError
+# Subtest: Add text assigns the next internal label per level and stores v1
+ok 556 - Add text assigns the next internal label per level and stores v1
+  ---
+  duration_ms: 1920.7725
+  type: 'test'
+  ...
+# Subtest: the word range is enforced before anything is written
+ok 557 - the word range is enforced before anything is written
+  ---
+  duration_ms: 0.796709
+  type: 'test'
+  ...
+# Subtest: a structure that is not worth 100 points is refused with the validator's issues
+ok 558 - a structure that is not worth 100 points is refused with the validator's issues
+  ---
+  duration_ms: 0.636917
+  type: 'test'
+  ...
+# Subtest: Change writes a NEW version, keeps the old one, and refuses a stale editor
+ok 559 - Change writes a NEW version, keeps the old one, and refuses a stale editor
+  ---
+  duration_ms: 22.039292
+  type: 'test'
+  ...
+# Subtest: Delete archives and Restore brings the text back to rotation with its history intact
+ok 560 - Delete archives and Restore brings the text back to rotation with its history intact
+  ---
+  duration_ms: 17.789083
+  type: 'test'
+  ...
+# Subtest: inventory counts active, archived and lifetime uses without a per-row query
+ok 561 - inventory counts active, archived and lifetime uses without a per-row query
+  ---
+  duration_ms: 3.219584
+  type: 'test'
+  ...
+# Subtest: allocation is random over unseen texts, and refreshing resumes the SAME attempt
+ok 562 - allocation is random over unseen texts, and refreshing resumes the SAME attempt
+  ---
+  duration_ms: 26.705708
+  type: 'test'
+  ...
+# Subtest: a completed cycle starts a new one without a back-to-back repeat
+ok 563 - a completed cycle starts a new one without a back-to-back repeat
+  ---
+  duration_ms: 41.796209
+  type: 'test'
+  ...
+# Subtest: a level with no active text answers retention_no_content
+ok 564 - a level with no active text answers retention_no_content
+  ---
+  duration_ms: 5.956375
+  type: 'test'
+  ...
+# Subtest: draft autosave is refused outside recall, persisted inside it, and survives a refresh
+ok 565 - draft autosave is refused outside recall, persisted inside it, and survives a refresh
+  ---
+  duration_ms: 6.0505
+  type: 'test'
+  ...
+# Subtest: another learner cannot read, draft or submit somebody else's attempt
+ok 566 - another learner cannot read, draft or submit somebody else's attempt
+  ---
+  duration_ms: 5.184375
+  type: 'test'
+  ...
+# Subtest: submit scores against the ASSIGNED version even after the owner publishes v2
+ok 567 - submit scores against the ASSIGNED version even after the owner publishes v2
+  ---
+  duration_ms: 15.307167
+  type: 'test'
+  ...
+# Subtest: a late submit does not extend the deadline: it finalizes as timed_out using the persisted draft
+ok 568 - a late submit does not extend the deadline: it finalizes as timed_out using the persisted draft
+  ---
+  duration_ms: 12.344875
+  type: 'test'
+  ...
+# Subtest: an abandoned attempt is resumed, not replaced, and expired ones finalize lazily
+ok 569 - an abandoned attempt is resumed, not replaced, and expired ones finalize lazily
+  ---
+  duration_ms: 16.319
+  type: 'test'
+  ...
+# Subtest: usage counts ignore live attempts and count terminal ones on the right version
+ok 570 - usage counts ignore live attempts and count terminal ones on the right version
+  ---
+  duration_ms: 4.731042
+  type: 'test'
+  ...
+# Subtest: history is owner-scoped, terminal-only, newest first and paginated
+ok 571 - history is owner-scoped, terminal-only, newest first and paginated
+  ---
+  duration_ms: 4.3675
+  type: 'test'
+  ...
+# Subtest: My memory metrics are computed from the learner's own terminal attempts
+ok 572 - My memory metrics are computed from the learner's own terminal attempts
+  ---
+  duration_ms: 5.821959
+  type: 'test'
+  ...
+# Subtest: active vocabulary and listening learners survive stale activity clocks and old attempt start dates
+ok 573 - active vocabulary and listening learners survive stale activity clocks and old attempt start dates
+  ---
+  duration_ms: 75.444209
+  type: 'test'
+  ...
+# Subtest: retention owns a transaction lock; a concurrent runner does no work
+ok 574 - retention owns a transaction lock; a concurrent runner does no work
+  ---
+  duration_ms: 8.743
+  type: 'test'
+  ...
+# Subtest: a freshly attached recording on an old draft survives cleanup and duplicate attachment has one winner
+ok 575 - a freshly attached recording on an old draft survives cleanup and duplicate attachment has one winner
+  ---
+  duration_ms: 46.509875
+  type: 'test'
+  ...
+# Subtest: cleanup during a blocked audio attachment preserves the fresh object and commits one intact relationship
+ok 576 - cleanup during a blocked audio attachment preserves the fresh object and commits one intact relationship
+  ---
+  duration_ms: 76.960708
+  type: 'test'
+  ...
+# Subtest: real SRS and wrong game answers count as activity; games cannot advance SRS or preserve stale accounts forever
+ok 577 - real SRS and wrong game answers count as activity; games cannot advance SRS or preserve stale accounts forever
+  ---
+  duration_ms: 34.341625
+  type: 'test'
+  ...
+# upload cleanup: object deletion failed; intent retained for retry
+# retention: recording deletion failed; reference retained for retry
+# Subtest: retention keeps failed object references and 18-month learning history, then retries safely
+ok 578 - retention keeps failed object references and 18-month learning history, then retries safely
+  ---
+  duration_ms: 46.748417
+  type: 'test'
+  ...
+# Subtest: W01: three full cycles consume every active text once per cycle and persist the cycle
+ok 579 - W01: three full cycles consume every active text once per cycle and persist the cycle
+  ---
+  duration_ms: 2218.012125
+  type: 'test'
+  ...
+# Subtest: W01: a one-text bank still advances its cycle on every session
+ok 580 - W01: a one-text bank still advances its cycle on every session
+  ---
+  duration_ms: 42.847583
+  type: 'test'
+  ...
+# Subtest: W01: archiving mid-cycle removes the text from eligibility without resetting history
+ok 581 - W01: archiving mid-cycle removes the text from eligibility without resetting history
+  ---
+  duration_ms: 43.780917
+  type: 'test'
+  ...
+# Subtest: W04: an evaluation failure keeps the latest on-time recall, stays non-terminal, and a retry finalizes once
+ok 582 - W04: an evaluation failure keeps the latest on-time recall, stays non-terminal, and a retry finalizes once
+  ---
+  duration_ms: 24.197208
+  type: 'test'
+  ...
+# Subtest: W05: all-time metrics include attempts beyond any 500-row window
+ok 583 - W05: all-time metrics include attempts beyond any 500-row window
+  ---
+  duration_ms: 32.395625
+  type: 'test'
+  ...
+# Subtest: W05: a learner with no results gets empty metrics
+ok 584 - W05: a learner with no results gets empty metrics
+  ---
+  duration_ms: 2.134958
+  type: 'test'
+  ...
+# Subtest: W06: 100+ texts are all reachable through pages, and sorts are global before paging
+ok 585 - W06: 100+ texts are all reachable through pages, and sorts are global before paging
+  ---
+  duration_ms: 378.004584
+  type: 'test'
+  ...
+# Subtest: W11: after 0024, standalone rows (NULL lesson) coexist with legacy lesson-linked rows
+ok 586 - W11: after 0024, standalone rows (NULL lesson) coexist with legacy lesson-linked rows
+  ---
+  duration_ms: 5.2685
+  type: 'test'
+  ...
+# Subtest: W15: a text archived before allocation is never assigned (post-selection recheck)
+ok 587 - W15: a text archived before allocation is never assigned (post-selection recheck)
+  ---
+  duration_ms: 39.305708
+  type: 'test'
+  ...
+# Subtest: CASE 1: the exact sentence earns the full claim
+ok 588 - CASE 1: the exact sentence earns the full claim
+  ---
+  duration_ms: 4.970917
+  type: 'test'
+  ...
+# Subtest: CASE 2: articles and function words change nothing
+ok 589 - CASE 2: articles and function words change nothing
+  ---
+  duration_ms: 1.720875
+  type: 'test'
+  ...
+# Subtest: CASE 3: anyOf synonyms are interchangeable
+ok 590 - CASE 3: anyOf synonyms are interchangeable
+  ---
+  duration_ms: 0.847541
+  type: 'test'
+  ...
+# Subtest: CASE 4: the learner's word order is their own
+ok 591 - CASE 4: the learner's word order is their own
+  ---
+  duration_ms: 0.509333
+  type: 'test'
+  ...
+# Subtest: CASE 5: minor grammar errors keep the factual points
+ok 592 - CASE 5: minor grammar errors keep the factual points
+  ---
+  duration_ms: 0.709833
+  type: 'test'
+  ...
+# Subtest: CASE 6: a small typo in an ordinary concept is tolerated — inside the documented budget
+ok 593 - CASE 6: a small typo in an ordinary concept is tolerated — inside the documented budget
+  ---
+  duration_ms: 0.677125
+  type: 'test'
+  ...
+# Subtest: CASE 7: a wrong date loses the date points, and nothing else
+ok 594 - CASE 7: a wrong date loses the date points, and nothing else
+  ---
+  duration_ms: 0.653708
+  type: 'test'
+  ...
+# Subtest: CASE 8: a wrong number loses the number points
+ok 595 - CASE 8: a wrong number loses the number points
+  ---
+  duration_ms: 0.275458
+  type: 'test'
+  ...
+# Subtest: CASE 9: a negated fact earns nothing
+ok 596 - CASE 9: a negated fact earns nothing
+  ---
+  duration_ms: 0.277416
+  type: 'test'
+  ...
+# Subtest: CASE 10: a reject phrase zeroes the whole claim
+ok 597 - CASE 10: a reject phrase zeroes the whole claim
+  ---
+  duration_ms: 0.24575
+  type: 'test'
+  ...
+# Subtest: CASE 11: half the fact is worth half the claim
+ok 598 - CASE 11: half the fact is worth half the claim
+  ---
+  duration_ms: 0.200333
+  type: 'test'
+  ...
+# Subtest: CASE 12: keywords scattered across unrelated sentences never make a full claim
+ok 599 - CASE 12: keywords scattered across unrelated sentences never make a full claim
+  ---
+  duration_ms: 0.445333
+  type: 'test'
+  ...
+# Subtest: CASE 13: an accepted phrase grants the claim in full
+ok 600 - CASE 13: an accepted phrase grants the claim in full
+  ---
+  duration_ms: 0.42
+  type: 'test'
+  ...
+# Subtest: CASE 14: a misspelt critical entity is not accepted
+ok 601 - CASE 14: a misspelt critical entity is not accepted
+  ---
+  duration_ms: 0.220041
+  type: 'test'
+  ...
+# Subtest: CASE 15: a completely unrelated answer scores zero
+ok 602 - CASE 15: a completely unrelated answer scores zero
+  ---
+  duration_ms: 0.220959
+  type: 'test'
+  ...
+# Subtest: CASE 16: an empty answer scores zero
+ok 603 - CASE 16: an empty answer scores zero
+  ---
+  duration_ms: 0.118209
+  type: 'test'
+  ...
+# Subtest: CASE 17: the same input twice is byte-identical
+ok 604 - CASE 17: the same input twice is byte-identical
+  ---
+  duration_ms: 0.42625
+  type: 'test'
+  ...
+# Subtest: CASE 18: several synonyms of one group are still worth the group, once
+ok 605 - CASE 18: several synonyms of one group are still worth the group, once
+  ---
+  duration_ms: 0.180667
+  type: 'test'
+  ...
+# Subtest: CASE 19: a negation somewhere else in the sentence negates nothing else
+ok 606 - CASE 19: a negation somewhere else in the sentence negates nothing else
+  ---
+  duration_ms: 0.164333
+  type: 'test'
+  ...
+# Subtest: CASE 20: an accepted phrase cannot outrun a conflicting critical number
+ok 607 - CASE 20: an accepted phrase cannot outrun a conflicting critical number
+  ---
+  duration_ms: 0.106958
+  type: 'test'
+  ...
+# Subtest: CASE 21: a reject phrase beats a positive keyword in the same claim
+ok 608 - CASE 21: a reject phrase beats a positive keyword in the same claim
+  ---
+  duration_ms: 0.07975
+  type: 'test'
+  ...
+# Subtest: CASE 22: sentence scope never stitches two sentences into one fact
+ok 609 - CASE 22: sentence scope never stitches two sentences into one fact
+  ---
+  duration_ms: 0.249125
+  type: 'test'
+  ...
+# Subtest: CASE 23: answer scope is allowed to combine across sentences
+ok 610 - CASE 23: answer scope is allowed to combine across sentences
+  ---
+  duration_ms: 0.24325
+  type: 'test'
+  ...
+# Subtest: CASE 24: a concept typo inside the safe threshold is accepted
+ok 611 - CASE 24: a concept typo inside the safe threshold is accepted
+  ---
+  duration_ms: 0.196416
+  type: 'test'
+  ...
+# Subtest: CASE 25: a concept typo outside the safe threshold is rejected
+ok 612 - CASE 25: a concept typo outside the safe threshold is rejected
+  ---
+  duration_ms: 0.148
+  type: 'test'
+  ...
+# Subtest: CASE 26: a critical concept is matched exactly, never fuzzily
+ok 613 - CASE 26: a critical concept is matched exactly, never fuzzily
+  ---
+  duration_ms: 0.123583
+  type: 'test'
+  ...
+# Subtest: CASE 27: the number-word equivalence is exact and deliberate
+ok 614 - CASE 27: the number-word equivalence is exact and deliberate
+  ---
+  duration_ms: 0.486833
+  type: 'test'
+  ...
+# Subtest: CASE 28: a wrong number earns no numeric points
+ok 615 - CASE 28: a wrong number earns no numeric points
+  ---
+  duration_ms: 0.178708
+  type: 'test'
+  ...
+# Subtest: CASE 29: repetition never exceeds the configured group points
+ok 616 - CASE 29: repetition never exceeds the configured group points
+  ---
+  duration_ms: 0.132208
+  type: 'test'
+  ...
+# Subtest: CASE 30: every breakdown adds up to exactly the reported score
+ok 617 - CASE 30: every breakdown adds up to exactly the reported score
+  ---
+  duration_ms: 0.701459
+  type: 'test'
+  ...
+# Subtest: FALSE POSITIVE: the opposite change is not credited
+ok 618 - FALSE POSITIVE: the opposite change is not credited
+  ---
+  duration_ms: 0.075875
+  type: 'test'
+  ...
+# Subtest: FALSE POSITIVE: a different magnitude is not the same number
+ok 619 - FALSE POSITIVE: a different magnitude is not the same number
+  ---
+  duration_ms: 0.341625
+  type: 'test'
+  ...
+# Subtest: FALSE POSITIVE: naming the words and denying the meaning earns nothing
+ok 620 - FALSE POSITIVE: naming the words and denying the meaning earns nothing
+  ---
+  duration_ms: 0.384834
+  type: 'test'
+  ...
+# Subtest: FALSE POSITIVE: the date cannot be borrowed from a different sentence for a sentence-scoped claim
+ok 621 - FALSE POSITIVE: the date cannot be borrowed from a different sentence for a sentence-scoped claim
+  ---
+  duration_ms: 0.826
+  type: 'test'
+  ...
+# Subtest: FALSE POSITIVE: a claim about the same vocabulary needs its own evidence
+ok 622 - FALSE POSITIVE: a claim about the same vocabulary needs its own evidence
+  ---
+  duration_ms: 0.409833
+  type: 'test'
+  ...
+# Subtest: FALSE POSITIVE: a negation window stops at a clause boundary
+ok 623 - FALSE POSITIVE: a negation window stops at a clause boundary
+  ---
+  duration_ms: 0.212166
+  type: 'test'
+  ...
+# Subtest: FALSE POSITIVE: an entity or number alternative never fuzz-matches
+ok 624 - FALSE POSITIVE: an entity or number alternative never fuzz-matches
+  ---
+  duration_ms: 0.136208
+  type: 'test'
+  ...
+# Subtest: v2: accepted phrase + wrong date + correct people number loses the date points
+ok 625 - v2: accepted phrase + wrong date + correct people number loses the date points
+  ---
+  duration_ms: 0.092041
+  type: 'test'
+  ...
+# Subtest: v2: accepted phrase + correct date + wrong people number loses the people points
+ok 626 - v2: accepted phrase + correct date + wrong people number loses the people points
+  ---
+  duration_ms: 0.071958
+  type: 'test'
+  ...
+# Subtest: v2: legitimate accepted phrase with full critical evidence still scores 100
+ok 627 - v2: legitimate accepted phrase with full critical evidence still scores 100
+  ---
+  duration_ms: 0.0695
+  type: 'test'
+  ...
+# Subtest: v2: accepted phrase cannot credit a wrong or missing critical entity
+ok 628 - v2: accepted phrase cannot credit a wrong or missing critical entity
+  ---
+  duration_ms: 0.177375
+  type: 'test'
+  ...
+# Subtest: v2: matched groups and awarded points stay consistent
+ok 629 - v2: matched groups and awarded points stay consistent
+  ---
+  duration_ms: 0.089125
+  type: 'test'
+  ...
+# Subtest: v2: an unrelated denial does not negate a correctly remembered fact
+ok 630 - v2: an unrelated denial does not negate a correctly remembered fact
+  ---
+  duration_ms: 0.149834
+  type: 'test'
+  ...
+# Subtest: v2: a same-fact denial, in the sentence or referring back to it, still zeroes the claim
+ok 631 - v2: a same-fact denial, in the sentence or referring back to it, still zeroes the claim
+  ---
+  duration_ms: 0.235
+  type: 'test'
+  ...
+# Subtest: v2: answer-scoped claims apply denials per sentence too
+ok 632 - v2: answer-scoped claims apply denials per sentence too
+  ---
+  duration_ms: 0.295333
+  type: 'test'
+  ...
+# Subtest: v2: evaluator version is bumped for newly graded attempts
+ok 633 - v2: evaluator version is bumped for newly graded attempts
+  ---
+  duration_ms: 0.030333
+  type: 'test'
+  ...
+# Subtest: v4: a negation does not cross a full stop in answer scope
+ok 634 - v4: a negation does not cross a full stop in answer scope
+  ---
+  duration_ms: 0.132709
+  type: 'test'
+  ...
+# Subtest: v4: negation inside the same sentence still removes the group
+ok 635 - v4: negation inside the same sentence still removes the group
+  ---
+  duration_ms: 0.150292
+  type: 'test'
+  ...
+# Subtest: v4: a negated first mention does not hide a later affirmative mention
+ok 636 - v4: a negated first mention does not hide a later affirmative mention
+  ---
+  duration_ms: 0.094584
+  type: 'test'
+  ...
+# Subtest: v4: an authored phrase is never matched across two sentences
+ok 637 - v4: an authored phrase is never matched across two sentences
+  ---
+  duration_ms: 0.081958
+  type: 'test'
+  ...
+# Subtest: unrelated disclaimer sharing a critical date cannot negate the company claim
+ok 638 - unrelated disclaimer sharing a critical date cannot negate the company claim
+  ---
+  duration_ms: 0.21675
+  type: 'test'
+  ...
+# Subtest: v4: a decimal number is not split into two sentences
+ok 639 - v4: a decimal number is not split into two sentences
+  ---
+  duration_ms: 0.155208
+  type: 'test'
+  ...
+# Subtest: finish-reading is owned, moves deadlines server-side, hides the source and is idempotent
+ok 640 - finish-reading is owned, moves deadlines server-side, hides the source and is idempotent
+  ---
+  duration_ms: 1965.116875
+  type: 'test'
+  ...
+# Subtest: concurrent finish requests produce one transition and one deadline
+ok 641 - concurrent finish requests produce one transition and one deadline
+  ---
+  duration_ms: 11.302833
+  type: 'test'
+  ...
+# Subtest: a valid V1 structure is accepted and canonicalised
+ok 642 - a valid V1 structure is accepted and canonicalised
+  ---
+  duration_ms: 3.254292
+  type: 'test'
+  ...
+# Subtest: schemaVersion other than 1 is rejected
+ok 643 - schemaVersion other than 1 is rejected
+  ---
+  duration_ms: 0.673208
+  type: 'test'
+  ...
+# Subtest: maxScore other than 100 is rejected
+ok 644 - maxScore other than 100 is rejected
+  ---
+  duration_ms: 0.250958
+  type: 'test'
+  ...
+# Subtest: an empty claims array is rejected
+ok 645 - an empty claims array is rejected
+  ---
+  duration_ms: 0.192375
+  type: 'test'
+  ...
+# Subtest: duplicate claim ids are rejected
+ok 646 - duplicate claim ids are rejected
+  ---
+  duration_ms: 0.244458
+  type: 'test'
+  ...
+# Subtest: duplicate group ids inside a claim are rejected
+ok 647 - duplicate group ids inside a claim are rejected
+  ---
+  duration_ms: 0.1915
+  type: 'test'
+  ...
+# Subtest: a group with non-positive points is rejected
+ok 648 - a group with non-positive points is rejected
+  ---
+  duration_ms: 0.288166
+  type: 'test'
+  ...
+# Subtest: a claim with non-positive points is rejected
+ok 649 - a claim with non-positive points is rejected
+  ---
+  duration_ms: 0.2465
+  type: 'test'
+  ...
+# Subtest: group points must sum to exactly the claim's points
+ok 650 - group points must sum to exactly the claim's points
+  ---
+  duration_ms: 0.184584
+  type: 'test'
+  ...
+# Subtest: claim points must sum to exactly 100
+ok 651 - claim points must sum to exactly 100
+  ---
+  duration_ms: 0.283917
+  type: 'test'
+  ...
+# Subtest: an empty anyOf is rejected
+ok 652 - an empty anyOf is rejected
+  ---
+  duration_ms: 0.29675
+  type: 'test'
+  ...
+# Subtest: an unsupported group kind is rejected
+ok 653 - an unsupported group kind is rejected
+  ---
+  duration_ms: 0.325708
+  type: 'test'
+  ...
+# Subtest: an unsupported scope is rejected
+ok 654 - an unsupported scope is rejected
+  ---
+  duration_ms: 0.154041
+  type: 'test'
+  ...
+# Subtest: executable-looking shapes are refused by the strict schema, not evaluated
+ok 655 - executable-looking shapes are refused by the strict schema, not evaluated
+  ---
+  duration_ms: 0.4205
+  type: 'test'
+  ...
+# Subtest: oversized arrays and strings are rejected before anything parses them
+ok 656 - oversized arrays and strings are rejected before anything parses them
+  ---
+  duration_ms: 2.7
+  type: 'test'
+  ...
+# Subtest: the JSON entry point refuses syntax errors, emptiness, oversized input and prose
+ok 657 - the JSON entry point refuses syntax errors, emptiness, oversized input and prose
+  ---
+  duration_ms: 0.48975
+  type: 'test'
+  ...
+# Subtest: exactly one outer Markdown fence is stripped, and nothing else
+ok 658 - exactly one outer Markdown fence is stripped, and nothing else
+  ---
+  duration_ms: 0.143667
+  type: 'test'
+  ...
+# Subtest: a structure with the same points written as floats is refused
+ok 659 - a structure with the same points written as floats is refused
+  ---
+  duration_ms: 0.169625
+  type: 'test'
+  ...
+# Subtest: the reading payload carries the source and never the measurement structure
+ok 660 - the reading payload carries the source and never the measurement structure
+  ---
+  duration_ms: 1642.68625
+  type: 'test'
+  ...
+# Subtest: the recall payload drops the source body entirely — not hidden, absent
+ok 661 - the recall payload drops the source body entirely — not hidden, absent
+  ---
+  duration_ms: 7.218167
+  type: 'test'
+  ...
+# Subtest: the terminal payload is a learner-safe breakdown: no alternatives, no phrases, no source
+ok 662 - the terminal payload is a learner-safe breakdown: no alternatives, no phrases, no source
+  ---
+  duration_ms: 12.966083
+  type: 'test'
+  ...
+# Subtest: assertLearnerSafe actually refuses a leaking payload
+ok 663 - assertLearnerSafe actually refuses a leaking payload
+  ---
+  duration_ms: 0.435667
+  type: 'test'
+  ...
+# Subtest: the deadlines are exactly 120s and 300s after the start
+ok 664 - the deadlines are exactly 120s and 300s after the start
+  ---
+  duration_ms: 0.432375
+  type: 'test'
+  ...
+# Subtest: phase boundaries: 119 is reading, 120 is recall, 299 is recall, 300 is over
+ok 665 - phase boundaries: 119 is reading, 120 is recall, 299 is recall, 300 is over
+  ---
+  duration_ms: 0.125667
+  type: 'test'
+  ...
+# Subtest: only a spent, non-terminal attempt needs finalization
+ok 666 - only a spent, non-terminal attempt needs finalization
+  ---
+  duration_ms: 0.095292
+  type: 'test'
+  ...
+# Subtest: the countdown the browser renders comes from the deadline, not from the mount time
+ok 667 - the countdown the browser renders comes from the deadline, not from the mount time
+  ---
+  duration_ms: 0.08
+  type: 'test'
+  ...
+# Subtest: a returning learner who waited far past the deadline is simply timed out
+ok 668 - a returning learner who waited far past the deadline is simply timed out
+  ---
+  duration_ms: 0.070333
+  type: 'test'
+  ...
+# Subtest: RS1 every active, versioned text of a level is a candidate past 1 000 (no silent cap)
+ok 669 - RS1 every active, versioned text of a level is a candidate past 1 000 (no silent cap)
+  ---
+  duration_ms: 1783.805917
+  type: 'test'
+  ...
+# Subtest: RS2 after 1 000 completions the cycle continues with the remaining texts, not a reset
+ok 670 - RS2 after 1 000 completions the cycle continues with the remaining texts, not a reset
+  ---
+  duration_ms: 5.526084
+  type: 'test'
+  ...
+# Subtest: a learner never receives the same text twice while unseen texts remain
+ok 671 - a learner never receives the same text twice while unseen texts remain
+  ---
+  duration_ms: 0.863583
+  type: 'test'
+  ...
+# Subtest: selection is not a fixed first-row order
+ok 672 - selection is not a fixed first-row order
+  ---
+  duration_ms: 0.246708
+  type: 'test'
+  ...
+# Subtest: 15 is a target, not a ceiling: 20 texts cycle through without a repeat
+ok 673 - 15 is a target, not a ceiling: 20 texts cycle through without a repeat
+  ---
+  duration_ms: 0.269709
+  type: 'test'
+  ...
+# Subtest: a 120-text bank is fully used before any repeat
+ok 674 - a 120-text bank is fully used before any repeat
+  ---
+  duration_ms: 3.440667
+  type: 'test'
+  ...
+# Subtest: the cycle increments only after every active text has been completed
+ok 675 - the cycle increments only after every active text has been completed
+  ---
+  duration_ms: 0.5505
+  type: 'test'
+  ...
+# Subtest: the first text of a new cycle is not the text the learner just finished
+ok 676 - the first text of a new cycle is not the text the learner just finished
+  ---
+  duration_ms: 0.298125
+  type: 'test'
+  ...
+# Subtest: a text added mid-cycle joins the eligible set immediately
+ok 677 - a text added mid-cycle joins the eligible set immediately
+  ---
+  duration_ms: 0.110542
+  type: 'test'
+  ...
+# Subtest: an archived text leaves the eligible set without disturbing the cycle
+ok 678 - an archived text leaves the eligible set without disturbing the cycle
+  ---
+  duration_ms: 0.127542
+  type: 'test'
+  ...
+# Subtest: editing a text mid-cycle does not re-offer it: identity is the text, not the version
+ok 679 - editing a text mid-cycle does not re-offer it: identity is the text, not the version
+  ---
+  duration_ms: 0.105542
+  type: 'test'
+  ...
+# Subtest: a level with one active text still rotates: it repeats, and the cycle still advances
+ok 680 - a level with one active text still rotates: it repeats, and the cycle still advances
+  ---
+  duration_ms: 0.152208
+  type: 'test'
+  ...
+# Subtest: the same seed produces the same decisions, and no candidate array is mutated
+ok 681 - the same seed produces the same decisions, and no candidate array is mutated
+  ---
+  duration_ms: 0.139625
+  type: 'test'
+  ...
+# Subtest: an empty bank answers null: the learner is told there is no content, not given somebody else's passage
+ok 682 - an empty bank answers null: the learner is told there is no content, not given somebody else's passage
+  ---
+  duration_ms: 0.064334
+  type: 'test'
+  ...
+# Subtest: the shuffle helper is a permutation and tolerates a degenerate random source
+ok 683 - the shuffle helper is a permutation and tolerates a degenerate random source
+  ---
+  duration_ms: 0.112958
+  type: 'test'
+  ...
+# Subtest: each level's target length is inside its own range
+ok 684 - each level's target length is inside its own range
+  ---
+  duration_ms: 0.55
+  type: 'test'
+  ...
+# Subtest: the exact inclusive boundaries are enforced for every level
+ok 685 - the exact inclusive boundaries are enforced for every level
+  ---
+  duration_ms: 1.016416
+  type: 'test'
+  ...
+# Subtest: the launch target is 15 per level, and nothing in the contract treats it as a maximum
+ok 686 - the launch target is 15 per level, and nothing in the contract treats it as a maximum
+  ---
+  duration_ms: 0.066792
+  type: 'test'
+  ...
+# Subtest: counting semantics: hyphenated words, apostrophes and numbers are one word each
+ok 687 - counting semantics: hyphenated words, apostrophes and numbers are one word each
+  ---
+  duration_ms: 0.671834
+  type: 'test'
+  ...
+# Subtest: counting semantics: punctuation and dashes separate, whitespace never inflates
+ok 688 - counting semantics: punctuation and dashes separate, whitespace never inflates
+  ---
+  duration_ms: 0.0815
+  type: 'test'
+  ...
+# Subtest: normalisation is documented and shared with the evaluator's digits rule
+ok 689 - normalisation is documented and shared with the evaluator's digits rule
+  ---
+  duration_ms: 0.070834
+  type: 'test'
+  ...
+# Subtest: the ranges match the owner's published targets: ~110 / ~175 / ~260 / ~300 / ~415
+ok 690 - the ranges match the owner's published targets: ~110 / ~175 / ~260 / ~300 / ~415
+  ---
+  duration_ms: 0.066458
+  type: 'test'
+  ...
+# Subtest: batching never loads a table in one go
+ok 691 - batching never loads a table in one go
+  ---
+  duration_ms: 1.185958
+  type: 'test'
+  ...
+# Subtest: the retention lock is taken per run, and released afterwards
+ok 692 - the retention lock is taken per run, and released afterwards
+  ---
+  duration_ms: 0.180125
+  type: 'test'
+  ...
+# Subtest: inactivity is measured on real work, not on sign-ins
+ok 693 - inactivity is measured on real work, not on sign-ins
+  ---
+  duration_ms: 0.127541
+  type: 'test'
+  ...
+# Subtest: only student-produced tables are in reach of a retention run
+ok 694 - only student-produced tables are in reach of a retention run
+  ---
+  duration_ms: 0.117041
+  type: 'test'
+  ...
+# Subtest: a preview is the default and it writes nothing
+ok 695 - a preview is the default and it writes nothing
+  ---
+  duration_ms: 0.12675
+  type: 'test'
+  ...
+# Subtest: recordings leave the object store after a reference check
+ok 696 - recordings leave the object store after a reference check
+  ---
+  duration_ms: 0.079833
+  type: 'test'
+  ...
+# Subtest: the words an applicant wrote expire, the decision about them does not
+ok 697 - the words an applicant wrote expire, the decision about them does not
+  ---
+  duration_ms: 0.103833
+  type: 'test'
+  ...
+# Subtest: old work is protected while an evaluation still refers to it
+ok 698 - old work is protected while an evaluation still refers to it
+  ---
+  duration_ms: 0.07275
+  type: 'test'
+  ...
+# Subtest: every window is configuration with a documented default
+ok 699 - every window is configuration with a documented default
+  ---
+  duration_ms: 0.225
+  type: 'test'
+  ...
+# Subtest: a scheduler is not assumed: the run is a plain function
+ok 700 - a scheduler is not assumed: the run is a plain function
+  ---
+  duration_ms: 0.300125
+  type: 'test'
+  ...
+# Subtest: calendar retention cutoffs clamp month ends and preserve UTC time
+ok 701 - calendar retention cutoffs clamp month ends and preserve UTC time
+  ---
+  duration_ms: 1.178958
+  type: 'test'
+  ...
+# Subtest: branch packet covers every collision with immutable SQL identities and cannot be mistaken for a merged/deployed schema
+ok 702 - branch packet covers every collision with immutable SQL identities and cannot be mistaken for a merged/deployed schema
+  ---
+  duration_ms: 3.443542
+  type: 'test'
+  ...
+# Subtest: published Batch 15 receipts bind their historical source snapshot and raw artifacts, without accepting unmapped text or newer code
+ok 703 - published Batch 15 receipts bind their historical source snapshot and raw artifacts, without accepting unmapped text or newer code
+  ---
+  duration_ms: 49.242084
+  type: 'test'
+  ...
+# Subtest: manual matrix spans all roles/devices/locales/themes and explicitly preserves every missing deployed receipt
+ok 704 - manual matrix spans all roles/devices/locales/themes and explicitly preserves every missing deployed receipt
+  ---
+  duration_ms: 3.576125
+  type: 'test'
+  ...
+# Subtest: role capabilities are explicit; admin and owner do not inherit by rank
+ok 705 - role capabilities are explicit; admin and owner do not inherit by rank
+  ---
+  duration_ms: 0.854791
+  type: 'test'
+  ...
+# Subtest: capability decisions fail closed for inactive identities and unknown capabilities
+ok 706 - capability decisions fail closed for inactive identities and unknown capabilities
+  ---
+  duration_ms: 0.147583
+  type: 'test'
+  ...
+# Subtest: students can resolve self only; caller-supplied ids are not authority
+ok 707 - students can resolve self only; caller-supplied ids are not authority
+  ---
+  duration_ms: 0.178375
+  type: 'test'
+  ...
+# Subtest: teachers require an active student row and an explicit roster link
+ok 708 - teachers require an active student row and an explicit roster link
+  ---
+  duration_ms: 0.31625
+  type: 'test'
+  ...
+# Subtest: selected learner authorization is re-evaluated after roster revocation or target role change
+ok 709 - selected learner authorization is re-evaluated after roster revocation or target role change
+  ---
+  duration_ms: 0.183209
+  type: 'test'
+  ...
+# Subtest: admin report scope is operational only; owner global scope rejects a row id
+ok 710 - admin report scope is operational only; owner global scope rejects a row id
+  ---
+  duration_ms: 0.113167
+  type: 'test'
+  ...
+# Subtest: admin user scope cannot inspect owner or arbitrary accounts; owner target still must exist
+ok 711 - admin user scope cannot inspect owner or arbitrary accounts; owner target still must exist
+  ---
+  duration_ms: 0.11375
+  type: 'test'
+  ...
+# Subtest: the migration-backed chat gateway uses canonical Dictionary, learner progress, and one full Reporter snapshot
+ok 712 - the migration-backed chat gateway uses canonical Dictionary, learner progress, and one full Reporter snapshot
+  ---
+  duration_ms: 2143.319334
+  type: 'test'
+  ...
+# Subtest: approved grammar knowledge precedes the authored Grammar fallback, whose exercise count keeps learner visibility
+ok 713 - approved grammar knowledge precedes the authored Grammar fallback, whose exercise count keeps learner visibility
+  ---
+  duration_ms: 1436.775083
+  type: 'test'
+  ...
+# Subtest: course lesson chat reauthorizes every turn/read, isolates lesson scope, and sends only one redacted excerpt to the provider
+ok 714 - course lesson chat reauthorizes every turn/read, isolates lesson scope, and sends only one redacted excerpt to the provider
+  ---
+  duration_ms: 1334.436083
+  type: 'test'
+  ...
+# Subtest: offline sweep previews without mutation, preserves day 7, deletes on day 8 for every user role, and cascades messages
+ok 715 - offline sweep previews without mutation, preserves day 7, deletes on day 8 for every user role, and cascades messages
+  ---
+  duration_ms: 1942.248958
+  type: 'test'
+  ...
+# Subtest: returning online deletes overdue chats before refreshing activity and cannot resurrect them
+ok 716 - returning online deletes overdue chats before refreshing activity and cannot resurrect them
+  ---
+  duration_ms: 1209.341375
+  type: 'test'
+  ...
+# Subtest: rolling 30-day window excludes old messages before sweep, retains boundary and every recent message, and keeps provider context bounded
+ok 717 - rolling 30-day window excludes old messages before sweep, retains boundary and every recent message, and keeps provider context bounded
+  ---
+  duration_ms: 1096.284334
+  type: 'test'
+  ...
+# Subtest: rollout migration initializes previously untracked online clocks without deleting chat or academic data
+ok 718 - rollout migration initializes previously untracked online clocks without deleting chat or academic data
+  ---
+  duration_ms: 995.219167
+  type: 'test'
+  ...
+# Subtest: 0049 retention migration cannot be skipped because of an earlier journal timestamp
+ok 719 - 0049 retention migration cannot be skipped because of an earlier journal timestamp
+  ---
+  duration_ms: 1.836959
+  type: 'test'
+  ...
+# Subtest: conversation ownership, creation-role binding, metadata projection, and deletion are enforced in PostgreSQL
+ok 720 - conversation ownership, creation-role binding, metadata projection, and deletion are enforced in PostgreSQL
+  ---
+  duration_ms: 2714.427667
+  type: 'test'
+  ...
+# Subtest: validated evaluation identity is stored in private conversation metadata and omitted from the learner transcript
+ok 721 - validated evaluation identity is stored in private conversation metadata and omitted from the learner transcript
+  ---
+  duration_ms: 1417.233667
+  type: 'test'
+  ...
+# Subtest: canonical Dictionary scope persists and is re-authorized on transcript reads and appends
+ok 722 - canonical Dictionary scope persists and is re-authorized on transcript reads and appends
+  ---
+  duration_ms: 1107.366541
+  type: 'test'
+  ...
+# Subtest: assigned learner answers are re-authorized on transcript read and storage; role changes fail closed
+ok 723 - assigned learner answers are re-authorized on transcript read and storage; role changes fail closed
+  ---
+  duration_ms: 1031.567083
+  type: 'test'
+  ...
+# Subtest: teacher roster reports retain only a safe placeholder, never the old aggregate
+ok 724 - teacher roster reports retain only a safe placeholder, never the old aggregate
+  ---
+  duration_ms: 1030.266792
+  type: 'test'
+  ...

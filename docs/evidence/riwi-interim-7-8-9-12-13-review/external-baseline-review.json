@@ -1,0 +1,21 @@
+{
+  "baseline_round1": {
+    "sha256": "15065df0d8e0a65a8b9d71c3abbc54e7e252ea3278b70cfec0e6b58902e67da6",
+    "final_counts": {
+      "tests": 1476,
+      "pass": 1458,
+      "fail": 2,
+      "cancelled": 0,
+      "skipped": 16,
+      "todo": 0
+    },
+    "has_final_plan": true,
+    "counts_as_clean_pass": false
+  },
+  "baseline_round4_PARTIAL": {
+    "sha256": "1f81f62c95a842e2ae96af9b398a3ab4b400dbf17da83109b66aae511eba1633",
+    "final_counts": {},
+    "has_final_plan": false,
+    "counts_as_clean_pass": false
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "status": "PRIVATE_R06_CLUSTER_SHUTDOWN_CONFIRMED",
+  "data_directory": "/tmp/riwi-r06-native-full-z7w8wme7/round-2-2c54f8mo/data",
+  "pid": 29093,
+  "pg_ctl_exit": 0,
+  "postmaster_pid_file_removed": true
+}

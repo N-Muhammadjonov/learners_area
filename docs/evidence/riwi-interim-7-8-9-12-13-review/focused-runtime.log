@@ -1,0 +1,580 @@
+TAP version 13
+# Subtest: AC1 the complete registry inventory is unique, versioned per task, and has no oversized provenance labels
+ok 1 - AC1 the complete registry inventory is unique, versioned per task, and has no oversized provenance labels
+  ---
+  duration_ms: 5.072958
+  type: 'test'
+  ...
+# Subtest: AC2 server-owned metadata resolves writing categories and speaking parts without caller text
+ok 2 - AC2 server-owned metadata resolves writing categories and speaking parts without caller text
+  ---
+  duration_ms: 0.322916
+  type: 'test'
+  ...
+# Subtest: AC3 the canonical composer preserves hard-core, teaching, domain/task, approved overlay, strict-output order
+ok 3 - AC3 the canonical composer preserves hard-core, teaching, domain/task, approved overlay, strict-output order
+  ---
+  duration_ms: 1.961292
+  type: 'test'
+  ...
+# Subtest: AC4 overlays are strict presentation fields and are filtered again for each affected task
+ok 4 - AC4 overlays are strict presentation fields and are filtered again for each affected task
+  ---
+  duration_ms: 2.933792
+  type: 'test'
+  ...
+# Subtest: AC5 output overlays cannot alter scores, criteria, verdict, task keys, or invent evidence and destinations
+ok 5 - AC5 output overlays cannot alter scores, criteria, verdict, task keys, or invent evidence and destinations
+  ---
+  duration_ms: 2.61575
+  type: 'test'
+  ...
+# Subtest: AC6 task validators retain source-grounded evidence and transcript-only pronunciation limits
+ok 6 - AC6 task validators retain source-grounded evidence and transcript-only pronunciation limits
+  ---
+  duration_ms: 3.333792
+  type: 'test'
+  ...
+# Subtest: AC7 exact task contracts reject mismatches and normalize only safe task-specific output
+ok 7 - AC7 exact task contracts reject mismatches and normalize only safe task-specific output
+  ---
+  duration_ms: 5.69875
+  type: 'test'
+  ...
+# Subtest: AC8 an approved evidence-required overlay fails closed when a provider supplies no grounded excerpt
+ok 8 - AC8 an approved evidence-required overlay fails closed when a provider supplies no grounded excerpt
+  ---
+  duration_ms: 1.557375
+  type: 'test'
+  ...
+# Subtest: RP1 periods are last COMPLETED periods in the centre timezone, half-open, reproducible
+ok 9 - RP1 periods are last COMPLETED periods in the centre timezone, half-open, reproducible
+  ---
+  duration_ms: 4199.084709
+  type: 'test'
+  ...
+# Subtest: RP2 custom ranges are validated: real dates, ordered, ≤366 days, not in the future
+ok 10 - RP2 custom ranges are validated: real dates, ordered, ≤366 days, not in the future
+  ---
+  duration_ms: 2.309583
+  type: 'test'
+  ...
+# Subtest: RP3 access matrix: students only see themselves; staff cannot reach owner scope; unknown, non-student or malformed subjects are 404
+ok 11 - RP3 access matrix: students only see themselves; staff cannot reach owner scope; unknown, non-student or malformed subjects are 404
+  ---
+  duration_ms: 0.607167
+  type: 'test'
+  ...
+# Subtest: RP4 numbers come from SQL over the window and scope; empty = null, never a silent 0
+ok 12 - RP4 numbers come from SQL over the window and scope; empty = null, never a silent 0
+  ---
+  duration_ms: 65.946167
+  type: 'test'
+  ...
+# Subtest: RP5 every number carries its exact source query, window, scope and generatedAt — and re-running the recorded query reproduces it
+ok 13 - RP5 every number carries its exact source query, window, scope and generatedAt — and re-running the recorded query reproduces it
+  ---
+  duration_ms: 22.003666
+  type: 'test'
+  ...
+# Subtest: RP6 every format renders the same snapshot; spreadsheet formula injection is neutralised
+ok 14 - RP6 every format renders the same snapshot; spreadsheet formula injection is neutralised
+  ---
+  duration_ms: 39.607416
+  type: 'test'
+  ...
+# Subtest: RP7 ZIP bundle: every format plus a manifest whose hashes match the files and the snapshot
+ok 15 - RP7 ZIP bundle: every format plus a manifest whose hashes match the files and the snapshot
+  ---
+  duration_ms: 21.709416
+  type: 'test'
+  ...
+# Subtest: RP8 generateReport audits generation and download (hash, never contents); refused requests write nothing
+ok 16 - RP8 generateReport audits generation and download (hash, never contents); refused requests write nothing
+  ---
+  duration_ms: 22.735583
+  type: 'test'
+  ...
+# Subtest: RP9 an optional AI narrative may only restate snapshot numbers; links, markup and invented numbers are refused
+ok 17 - RP9 an optional AI narrative may only restate snapshot numbers; links, markup and invented numbers are refused
+  ---
+  duration_ms: 8.737209
+  type: 'test'
+  ...
+# Subtest: RP10 structure: separate private route (not /api/support/reports), DB-backed auth, no AI import in the number path, no-store downloads
+ok 18 - RP10 structure: separate private route (not /api/support/reports), DB-backed auth, no AI import in the number path, no-store downloads
+  ---
+  duration_ms: 4.94725
+  type: 'test'
+  ...
+# Subtest: RP11 the recorded query binds the subject as a parameter (no string interpolation of ids)
+ok 19 - RP11 the recorded query binds the subject as a parameter (no string interpolation of ids)
+  ---
+  duration_ms: 0.592958
+  type: 'test'
+  ...
+# Subtest: RP12 Grammar and video metrics are included; audit records AI-narrative provenance (none used); file names are fixed-pattern
+ok 20 - RP12 Grammar and video metrics are included; audit records AI-narrative provenance (none used); file names are fixed-pattern
+  ---
+  duration_ms: 33.431458
+  type: 'test'
+  ...
+# Subtest: RP13 role matrix is explicit: admin policy is declared, teacher reach is roster-only, roster failure fails closed
+ok 21 - RP13 role matrix is explicit: admin policy is declared, teacher reach is roster-only, roster failure fails closed
+  ---
+  duration_ms: 0.546625
+  type: 'test'
+  ...
+# Subtest: RP14 teacher snapshot uses explicit roster as of report-window end; later links cannot reveal historical rows (real schema)
+ok 22 - RP14 teacher snapshot uses explicit roster as of report-window end; later links cannot reveal historical rows (real schema)
+  ---
+  duration_ms: 115.599375
+  type: 'test'
+  ...
+# Subtest: RP15 teacher IDOR through generateReport: rostered → file; unrostered and missing → identical 404; audit stores ids only
+ok 23 - RP15 teacher IDOR through generateReport: rostered → file; unrostered and missing → identical 404; audit stores ids only
+  ---
+  duration_ms: 35.535167
+  type: 'test'
+  ...
+# Subtest: RP16 roster changes: owner/admin only, teacher→student roles enforced, idempotent, audited
+ok 24 - RP16 roster changes: owner/admin only, teacher→student roles enforced, idempotent, audited
+  ---
+  duration_ms: 18.314167
+  type: 'test'
+  ...
+# Subtest: RP17 migration 0035 is additive and journalled directly after 0034
+ok 25 - RP17 migration 0035 is additive and journalled directly after 0034
+  ---
+  duration_ms: 0.8515
+  type: 'test'
+  ...
+# Subtest: RP18 the student-name filter matches typed text literally (LIKE wildcards escaped) on a real database
+ok 26 - RP18 the student-name filter matches typed text literally (LIKE wildcards escaped) on a real database
+  ---
+  duration_ms: 26.50375
+  type: 'test'
+  ...
+# Subtest: meaning/translation use ordered canonical stages, exact facts and stable task/source versions
+ok 27 - meaning/translation use ordered canonical stages, exact facts and stable task/source versions
+  ---
+  duration_ms: 5.227208
+  type: 'test'
+  ...
+# Subtest: missing/unverified evidence never receives complete credit or fabricated examples/translations
+ok 28 - missing/unverified evidence never receives complete credit or fabricated examples/translations
+  ---
+  duration_ms: 1.648666
+  type: 'test'
+  ...
+# Subtest: full evidence is preserved while long visible excerpts stay within the existing chat contract
+ok 29 - full evidence is preserved while long visible excerpts stay within the existing chat contract
+  ---
+  duration_ms: 0.721791
+  type: 'test'
+  ...
+# Subtest: finite language selectors extract translation terms without changing dictionary authority
+ok 30 - finite language selectors extract translation terms without changing dictionary authority
+  ---
+  duration_ms: 5.784292
+  type: 'test'
+  ...
+# Subtest: real broker/gateway teaches the exact authorized river sense, projects occurrence DTO safely and rejects tampered teaching
+ok 31 - real broker/gateway teaches the exact authorized river sense, projects occurrence DTO safely and rejects tampered teaching
+  ---
+  duration_ms: 2808.388333
+  type: 'test'
+  ...
+# Subtest: dictionary tool rejects forged task fields and mandatory source audit failure; explanation never awards learning credit
+ok 32 - dictionary tool rejects forged task fields and mandatory source audit failure; explanation never awards learning credit
+  ---
+  duration_ms: 1896.652958
+  type: 'test'
+  ...
+# Subtest: direct calls across all five domains validate work before transport and refuse cross-domain context
+ok 33 - direct calls across all five domains validate work before transport and refuse cross-domain context
+  ---
+  duration_ms: 2.7905
+  type: 'test'
+  ...
+# Subtest: direct providers derive canonical scores and reject task drift or invented source evidence
+ok 34 - direct providers derive canonical scores and reject task drift or invented source evidence
+  ---
+  duration_ms: 8.35425
+  type: 'test'
+  ...
+# Subtest: all evaluation domains refuse absent/blank/oversized work before provider dispatch and after output validation
+ok 35 - all evaluation domains refuse absent/blank/oversized work before provider dispatch and after output validation
+  ---
+  duration_ms: 2.230334
+  type: 'test'
+  ...
+# Subtest: all three sentence-check families reach the shared external resolver with zero essay word-count target
+ok 36 - all three sentence-check families reach the shared external resolver with zero essay word-count target
+  ---
+  duration_ms: 27.512208
+  type: 'test'
+  ...
+# Subtest: RIWI vocabulary handoff rejects foreign or incorrectly bound evaluations before any credit
+ok 37 - RIWI vocabulary handoff rejects foreign or incorrectly bound evaluations before any credit
+  ---
+  duration_ms: 2837.280834
+  type: 'test'
+  ...
+# Subtest: evaluation tools select only the caller's latest canonical work and delegate to Coach/Vocabulary services
+ok 38 - evaluation tools select only the caller's latest canonical work and delegate to Coach/Vocabulary services
+  ---
+  duration_ms: 2264.399583
+  type: 'test'
+  ...
+# Subtest: chat request resolves to the real authorized Grammar tool, validates the Coach result, and persists only safe correlated trace metadata
+ok 39 - chat request resolves to the real authorized Grammar tool, validates the Coach result, and persists only safe correlated trace metadata
+  ---
+  duration_ms: 2100.396917
+  type: 'test'
+  ...
+# Subtest: Grammar explanation renders all five source teaching stages with bounded examples in English and Uzbek
+ok 40 - Grammar explanation renders all five source teaching stages with bounded examples in English and Uzbek
+  ---
+  duration_ms: 14.856708
+  type: 'test'
+  ...
+# Subtest: missing source, extra source and conversation history cannot execute Grammar teaching
+ok 41 - missing source, extra source and conversation history cannot execute Grammar teaching
+  ---
+  duration_ms: 0.748667
+  type: 'test'
+  ...
+# Subtest: the router independently refuses source-free Grammar teaching even from a declared teaching adapter
+ok 42 - the router independently refuses source-free Grammar teaching even from a declared teaching adapter
+  ---
+  duration_ms: 0.925708
+  type: 'test'
+  ...
+# Subtest: Grammar teaching refuses missing contrast
+ok 43 - Grammar teaching refuses missing contrast
+  ---
+  duration_ms: 0.685708
+  type: 'test'
+  ...
+# Subtest: Grammar teaching refuses missing mini check
+ok 44 - Grammar teaching refuses missing mini check
+  ---
+  duration_ms: 0.410834
+  type: 'test'
+  ...
+# Subtest: Grammar teaching refuses one example
+ok 45 - Grammar teaching refuses one example
+  ---
+  duration_ms: 0.346958
+  type: 'test'
+  ...
+# Subtest: Grammar teaching refuses duplicate examples
+ok 46 - Grammar teaching refuses duplicate examples
+  ---
+  duration_ms: 0.243834
+  type: 'test'
+  ...
+# Subtest: Grammar teaching refuses invented grade
+ok 47 - Grammar teaching refuses invented grade
+  ---
+  duration_ms: 0.244083
+  type: 'test'
+  ...
+# Subtest: Grammar teaching refuses uncited source
+ok 48 - Grammar teaching refuses uncited source
+  ---
+  duration_ms: 0.165709
+  type: 'test'
+  ...
+# Subtest: Grammar teaching refuses duplicate citation
+ok 49 - Grammar teaching refuses duplicate citation
+  ---
+  duration_ms: 0.615375
+  type: 'test'
+  ...
+# Subtest: Grammar teaching refuses wrong source
+ok 50 - Grammar teaching refuses wrong source
+  ---
+  duration_ms: 0.419791
+  type: 'test'
+  ...
+# Subtest: student: canonical Grammar chat executes the shared adapter and persists the exact teaching contract
+ok 51 - student: canonical Grammar chat executes the shared adapter and persists the exact teaching contract
+  ---
+  duration_ms: 3836.401
+  type: 'test'
+  ...
+# Subtest: teacher: canonical Grammar chat executes the shared adapter and persists the exact teaching contract
+ok 52 - teacher: canonical Grammar chat executes the shared adapter and persists the exact teaching contract
+  ---
+  duration_ms: 2650.818834
+  type: 'test'
+  ...
+# Subtest: admin: canonical Grammar chat executes the shared adapter and persists the exact teaching contract
+ok 53 - admin: canonical Grammar chat executes the shared adapter and persists the exact teaching contract
+  ---
+  duration_ms: 1998.023291
+  type: 'test'
+  ...
+# Subtest: owner: canonical Grammar chat executes the shared adapter and persists the exact teaching contract
+ok 54 - owner: canonical Grammar chat executes the shared adapter and persists the exact teaching contract
+  ---
+  duration_ms: 1888.274
+  type: 'test'
+  ...
+# Subtest: Grammar review intent chooses its canonical retention route instead of generic Reading recall or production grading
+ok 55 - Grammar review intent chooses its canonical retention route instead of generic Reading recall or production grading
+  ---
+  duration_ms: 4.05225
+  type: 'test'
+  ...
+# Subtest: student: canonical Grammar review distinguishes unassessed writing, deduplicates error evidence and rechecks private history
+ok 56 - student: canonical Grammar review distinguishes unassessed writing, deduplicates error evidence and rechecks private history
+  ---
+  duration_ms: 2638.383958
+  type: 'test'
+  ...
+# Subtest: teacher: canonical Grammar review distinguishes unassessed writing, deduplicates error evidence and rechecks private history
+ok 57 - teacher: canonical Grammar review distinguishes unassessed writing, deduplicates error evidence and rechecks private history
+  ---
+  duration_ms: 1978.218334
+  type: 'test'
+  ...
+# Subtest: admin: canonical Grammar review distinguishes unassessed writing, deduplicates error evidence and rechecks private history
+ok 58 - admin: canonical Grammar review distinguishes unassessed writing, deduplicates error evidence and rechecks private history
+  ---
+  duration_ms: 2463.915625
+  type: 'test'
+  ...
+# Subtest: owner: canonical Grammar review distinguishes unassessed writing, deduplicates error evidence and rechecks private history
+ok 59 - owner: canonical Grammar review distinguishes unassessed writing, deduplicates error evidence and rechecks private history
+  ---
+  duration_ms: 2038.320333
+  type: 'test'
+  ...
+# Subtest: tutoring.simple-explanation: actual adapter executes the source teaching method and renders validated steps
+ok 60 - tutoring.simple-explanation: actual adapter executes the source teaching method and renders validated steps
+  ---
+  duration_ms: 4.761083
+  type: 'test'
+  ...
+# Subtest: tutoring.compare-concepts: actual adapter executes the source teaching method and renders validated steps
+ok 61 - tutoring.compare-concepts: actual adapter executes the source teaching method and renders validated steps
+  ---
+  duration_ms: 0.700458
+  type: 'test'
+  ...
+# Subtest: teaching refuses missing retrieval check instead of accepting a generic answer
+ok 62 - teaching refuses missing retrieval check instead of accepting a generic answer
+  ---
+  duration_ms: 0.92375
+  type: 'test'
+  ...
+# Subtest: teaching refuses another task's output instead of accepting a generic answer
+ok 63 - teaching refuses another task's output instead of accepting a generic answer
+  ---
+  duration_ms: 0.375083
+  type: 'test'
+  ...
+# Subtest: teaching refuses invented assessment fields instead of accepting a generic answer
+ok 64 - teaching refuses invented assessment fields instead of accepting a generic answer
+  ---
+  duration_ms: 0.342292
+  type: 'test'
+  ...
+# Subtest: teaching refuses empty example instead of accepting a generic answer
+ok 65 - teaching refuses empty example instead of accepting a generic answer
+  ---
+  duration_ms: 0.262042
+  type: 'test'
+  ...
+# Subtest: teaching refuses missing illustration instead of accepting a generic answer
+ok 66 - teaching refuses missing illustration instead of accepting a generic answer
+  ---
+  duration_ms: 0.170917
+  type: 'test'
+  ...
+# Subtest: teaching refuses oversized explanation instead of accepting a generic answer
+ok 67 - teaching refuses oversized explanation instead of accepting a generic answer
+  ---
+  duration_ms: 0.178958
+  type: 'test'
+  ...
+# Subtest: comparison needs two distinct concepts and cannot fabricate a second from a one-concept response
+ok 68 - comparison needs two distinct concepts and cannot fabricate a second from a one-concept response
+  ---
+  duration_ms: 1.254
+  type: 'test'
+  ...
+# Subtest: learner selectors, assessment contracts and unsupported instruction tasks never reach transport
+ok 69 - learner selectors, assessment contracts and unsupported instruction tasks never reach transport
+  ---
+  duration_ms: 1.311334
+  type: 'test'
+  ...
+# Subtest: router refuses undeclared teaching capability and never upgrades a generic assistant into a task executor
+ok 70 - router refuses undeclared teaching capability and never upgrades a generic assistant into a task executor
+  ---
+  duration_ms: 1.061709
+  type: 'test'
+  ...
+# Subtest: English, Uzbek and Russian requests select only the server-owned teaching formats
+ok 71 - English, Uzbek and Russian requests select only the server-owned teaching formats
+  ---
+  duration_ms: 0.843833
+  type: 'test'
+  ...
+# Subtest: router validates teaching steps even when an adapter declares the capability; usage cannot bypass validation
+ok 72 - router validates teaching steps even when an adapter declares the capability; usage cannot bypass validation
+  ---
+  duration_ms: 3.089041
+  type: 'test'
+  ...
+# Subtest: tutoring.simple-explanation / student: authenticated gateway, real SQL conversation and restored history preserve exact server provenance
+ok 73 - tutoring.simple-explanation / student: authenticated gateway, real SQL conversation and restored history preserve exact server provenance
+  ---
+  duration_ms: 2700.221834
+  type: 'test'
+  ...
+# Subtest: tutoring.simple-explanation / teacher: authenticated gateway, real SQL conversation and restored history preserve exact server provenance
+ok 74 - tutoring.simple-explanation / teacher: authenticated gateway, real SQL conversation and restored history preserve exact server provenance
+  ---
+  duration_ms: 2241.840792
+  type: 'test'
+  ...
+# Subtest: tutoring.simple-explanation / admin: authenticated gateway, real SQL conversation and restored history preserve exact server provenance
+ok 75 - tutoring.simple-explanation / admin: authenticated gateway, real SQL conversation and restored history preserve exact server provenance
+  ---
+  duration_ms: 1836.793625
+  type: 'test'
+  ...
+# Subtest: tutoring.simple-explanation / owner: authenticated gateway, real SQL conversation and restored history preserve exact server provenance
+ok 76 - tutoring.simple-explanation / owner: authenticated gateway, real SQL conversation and restored history preserve exact server provenance
+  ---
+  duration_ms: 2039.545375
+  type: 'test'
+  ...
+# Subtest: tutoring.compare-concepts / student: authenticated gateway, real SQL conversation and restored history preserve exact server provenance
+ok 77 - tutoring.compare-concepts / student: authenticated gateway, real SQL conversation and restored history preserve exact server provenance
+  ---
+  duration_ms: 2322.744208
+  type: 'test'
+  ...
+# Subtest: tutoring.compare-concepts / teacher: authenticated gateway, real SQL conversation and restored history preserve exact server provenance
+ok 78 - tutoring.compare-concepts / teacher: authenticated gateway, real SQL conversation and restored history preserve exact server provenance
+  ---
+  duration_ms: 1896.846167
+  type: 'test'
+  ...
+# Subtest: tutoring.compare-concepts / admin: authenticated gateway, real SQL conversation and restored history preserve exact server provenance
+ok 79 - tutoring.compare-concepts / admin: authenticated gateway, real SQL conversation and restored history preserve exact server provenance
+  ---
+  duration_ms: 1876.400833
+  type: 'test'
+  ...
+# Subtest: tutoring.compare-concepts / owner: authenticated gateway, real SQL conversation and restored history preserve exact server provenance
+ok 80 - tutoring.compare-concepts / owner: authenticated gateway, real SQL conversation and restored history preserve exact server provenance
+  ---
+  duration_ms: 1967.668708
+  type: 'test'
+  ...
+# Subtest: the original 68 task references each resolve; added coverage does not replace historical contracts
+ok 81 - the original 68 task references each resolve; added coverage does not replace historical contracts
+  ---
+  duration_ms: 3.982083
+  type: 'test'
+  ...
+# Subtest: new task rules retain source focus, teaching method and hard constraint
+ok 82 - new task rules retain source focus, teaching method and hard constraint
+  ---
+  duration_ms: 0.3935
+  type: 'test'
+  ...
+# Subtest: canonical metadata distinguishes single/multiple MCQ and question subtypes without inspecting learner answers
+ok 83 - canonical metadata distinguishes single/multiple MCQ and question subtypes without inspecting learner answers
+  ---
+  duration_ms: 0.538
+  type: 'test'
+  ...
+# Subtest: catalog and objective additions cannot become LLM grading paths
+ok 84 - catalog and objective additions cannot become LLM grading paths
+  ---
+  duration_ms: 1.127833
+  type: 'test'
+  ...
+# Subtest: report explanation preserves canonical display for all units; missing values never become zero
+ok 85 - report explanation preserves canonical display for all units; missing values never become zero
+  ---
+  duration_ms: 0.775583
+  type: 'test'
+  ...
+# Subtest: historical snapshot basis is distinct from activity windows and no unsupported growth is claimed
+ok 86 - historical snapshot basis is distinct from activity windows and no unsupported growth is claimed
+  ---
+  duration_ms: 0.129083
+  type: 'test'
+  ...
+# Subtest: Retention intents remain distinct in UZ/EN and client text cannot override scope or policy
+ok 87 - Retention intents remain distinct in UZ/EN and client text cannot override scope or policy
+  ---
+  duration_ms: 4.380166
+  type: 'test'
+  ...
+# Subtest: student: actual SQL recall routes keep exact sense/version evidence, limits, private audit and read-only schedules
+ok 88 - student: actual SQL recall routes keep exact sense/version evidence, limits, private audit and read-only schedules
+  ---
+  duration_ms: 3982.697041
+  type: 'test'
+  ...
+# Subtest: teacher: actual SQL recall routes keep exact sense/version evidence, limits, private audit and read-only schedules
+ok 89 - teacher: actual SQL recall routes keep exact sense/version evidence, limits, private audit and read-only schedules
+  ---
+  duration_ms: 2801.213292
+  type: 'test'
+  ...
+# Subtest: admin: actual SQL recall routes keep exact sense/version evidence, limits, private audit and read-only schedules
+ok 90 - admin: actual SQL recall routes keep exact sense/version evidence, limits, private audit and read-only schedules
+  ---
+  duration_ms: 2955.536583
+  type: 'test'
+  ...
+# Subtest: owner: actual SQL recall routes keep exact sense/version evidence, limits, private audit and read-only schedules
+ok 91 - owner: actual SQL recall routes keep exact sense/version evidence, limits, private audit and read-only schedules
+  ---
+  duration_ms: 3053.0525
+  type: 'test'
+  ...
+# Subtest: an exact reference cannot let the generic local Grammar heuristic certify transformation or translation meaning
+ok 92 - an exact reference cannot let the generic local Grammar heuristic certify transformation or translation meaning
+  ---
+  duration_ms: 5.950584
+  type: 'test'
+  ...
+# Subtest: missing a target string cannot decide synonym choice, paraphrase, word form or collocation semantics
+ok 93 - missing a target string cannot decide synonym choice, paraphrase, word form or collocation semantics
+  ---
+  duration_ms: 1.763167
+  type: 'test'
+  ...
+# [coach] provider riwi did not produce an evaluation for grammar: capability_missing (riwi_grammar_task_semantics_unsupported)
+# [coach] provider riwi did not produce an evaluation for grammar: capability_missing (riwi_grammar_task_semantics_unsupported)
+# [coach] provider riwi did not produce an evaluation for vocabulary: capability_missing (riwi_vocabulary_task_semantics_unsupported)
+# [coach] provider riwi did not produce an evaluation for vocabulary: capability_missing (riwi_vocabulary_task_semantics_unsupported)
+# [coach] provider riwi did not produce an evaluation for vocabulary: capability_missing (riwi_vocabulary_task_semantics_unsupported)
+# [coach] provider riwi did not produce an evaluation for vocabulary: capability_missing (riwi_vocabulary_task_semantics_unsupported)
+# Subtest: the shared resolver returns unavailable rather than persisting a different task's local verdict
+ok 94 - the shared resolver returns unavailable rather than persisting a different task's local verdict
+  ---
+  duration_ms: 32.049791
+  type: 'test'
+  ...
+1..94
+# tests 94
+# suites 0
+# pass 94
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 80652.644125

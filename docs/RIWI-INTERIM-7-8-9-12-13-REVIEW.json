@@ -1,0 +1,82 @@
+{
+  "observed_at": "2026-10-11T09:38:12.050340+00:00",
+  "status": "REVIEWED_LOCAL_CHANGES_READY_FOR_DEFERRED_COMBINED_PUSH",
+  "incoming_archive_sha256": "842bfe6b4f02a4a1e4bc5bfdd3d7c9a738e62350aeb08ce85022a36d119939da",
+  "incoming_runtime_patch": false,
+  "candidate_source_sha256": "fdc822b9e14e1acfbbafcb8bff799c54d2ede71b248b8ae4eb559bc1a63e2a7d",
+  "canonical_source_files": 1249,
+  "remote_branch": "arena/01a10bac-learners-area",
+  "remote_head_reobserved": "5203241429908f66913529ec96b0214bd814da35",
+  "groups": [
+    {
+      "number": 7,
+      "id": "R07",
+      "status": "PARTIAL",
+      "independently_verified_provider_restore": false
+    },
+    {
+      "number": 8,
+      "id": "R08",
+      "status": "PARTIAL",
+      "operational_verdict": "NO-GO"
+    },
+    {
+      "number": 9,
+      "id": "B01",
+      "status": "PARTIAL",
+      "book_tasks_matched": 68,
+      "per_task_behavioral_acceptance_complete": false
+    },
+    {
+      "number": 12,
+      "id": "B04",
+      "status": "PARTIAL",
+      "all_task_acceptance_complete": false
+    },
+    {
+      "number": 13,
+      "id": "B05",
+      "status": "REMOTE_PUBLISHED_APPLICABLE_EXTERNAL_ACCEPTANCE_PENDING",
+      "live_provider_verified": false
+    }
+  ],
+  "focused_verification": {
+    "observed_at": "2026-10-11T09:34:11.809080+00:00",
+    "canonical_source_sha256": "fdc822b9e14e1acfbbafcb8bff799c54d2ede71b248b8ae4eb559bc1a63e2a7d",
+    "published_base": "5203241429908f66913529ec96b0214bd814da35",
+    "focused_backend": {
+      "sha256": "304fcdf18d6b0971301e3c472def3b455ba841eab3d81b570c142c3f58995d49",
+      "final_counts": {
+        "tests": 94,
+        "pass": 94,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "has_final_plan": true,
+      "counts_as_clean_pass": true
+    },
+    "typecheck_lint_full_backend_ui": "UNCHANGED_SOURCE_PREVIOUS_CURRENT_R06_NATIVE_RECEIPTS",
+    "new_r07_rehearsal": "PREFLIGHT_REFUSED_MISSING_PSQL_AND_PG_BASEBACKUP_NO_CLUSTER_CREATED",
+    "new_r07_rehearsal_script": "docs/qa/RIWI_R07_NATIVE_PITR_REHEARSAL.py",
+    "new_r07_script_syntax": "PASS",
+    "new_r07_rehearsal_counts_as_pass": false,
+    "live_provider_verified": false,
+    "groups_closed_by_this_review": 0,
+    "production_build": false,
+    "push": false,
+    "deployment": false
+  },
+  "new_group_closures": 0,
+  "closed_groups": 20,
+  "total_groups": 34,
+  "current_prompt_percent": 58.82352941176471,
+  "overall_riwi_percent": null,
+  "overall_project_percent": null,
+  "review_report": "docs/RIWI-INTERIM-7-8-9-12-13-REVIEW.md",
+  "cutover_packet": "docs/RIWI-R08-CURRENT-ACCEPTANCE-PACKET.md",
+  "push_performed": false,
+  "publication_deferred_until": "R06_COMPLETE_AS_REQUESTED",
+  "operational_go": false
+}

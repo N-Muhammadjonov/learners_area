@@ -1,0 +1,21 @@
+{
+  "observed_at": "2026-10-11T06:48:22.832582+00:00",
+  "method": "Read-only Safari authenticated Vercel deployment dashboard and GitHub connector branch collection",
+  "branch": "arena/01a10bac-learners-area",
+  "github_head": "5203241429908f66913529ec96b0214bd814da35",
+  "dashboard_url": "https://vercel.com/learners-area/learners-area/7tcYprgTUswYfZoi7dz1DauaG3UQ",
+  "deployment_state": "Ready",
+  "deployment_environment": "Preview",
+  "deployed_commit": "e50a2a944f092c695711792b63dbfcf154739c65",
+  "deployment_created": "2026-10-09T07:37:28+05:00",
+  "deployment_url": "https://learners-area-jujt2iytu-learners-area.vercel.app",
+  "branch_alias": "https://learners-area-git-arena-01a10bac-learners-area-learners-area.vercel.app",
+  "published_head_matches_deployment": false,
+  "candidate_matches_deployment": false,
+  "isolated_database_verified": false,
+  "real_provider_fixture_executed": false,
+  "deployed_four_role_credentials_available": false,
+  "deployed_private_url_expiry_verified": false,
+  "external_writes_performed": false,
+  "remaining": "Exact candidate deployment and identified isolated database/storage, four authorized QA accounts, and server-side registered provider credentials are required for full R06 target acceptance."
+}

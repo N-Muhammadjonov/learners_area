@@ -1,0 +1,5 @@
+Private QA logs: /tmp/riwi-r06-browser-we6f1q1y
+initdb
+start
+identity-create
+r06-http

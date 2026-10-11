@@ -1,0 +1,64 @@
+{
+  "status": "INTERRUPTED_NOT_A_PASS",
+  "runner_pid_28173_no_longer_running": true,
+  "backend_last_top_level_test": 724,
+  "source_sha256": "fdc822b9e14e1acfbbafcb8bff799c54d2ede71b248b8ae4eb559bc1a63e2a7d",
+  "cluster_shutdown_confirmed": false,
+  "stop_attempt": "pg_ctl: could not send stop signal (PID: 29093): Operation not permitted",
+  "raw_logs": [
+    {
+      "path": "backend.log",
+      "sha256": "c659c672c75e2055f4ba76b0ac41e1838449879c13c8870a296c37fcbc0af3fb",
+      "bytes": 167673,
+      "exit_code": null
+    },
+    {
+      "path": "createdb.log",
+      "sha256": "5befc50650bb0effd8ff0f4063c1476e3c76183494d89c8983bd5f738c1c4893",
+      "bytes": 53,
+      "exit_code": null
+    },
+    {
+      "path": "fixtures.log",
+      "sha256": "78b48596134330e2c4094cb8e9963d8f3685c12acd4fe9e131cbda3ecae0cc9d",
+      "bytes": 28,
+      "exit_code": null
+    },
+    {
+      "path": "identity-before-tests.log",
+      "sha256": "5befc50650bb0effd8ff0f4063c1476e3c76183494d89c8983bd5f738c1c4893",
+      "bytes": 53,
+      "exit_code": null
+    },
+    {
+      "path": "initdb.log",
+      "sha256": "5543a5c298dd448538d13de5696fd42a48606bdee66915ebc4fbb9c7c29d3fa0",
+      "bytes": 1000,
+      "exit_code": null
+    },
+    {
+      "path": "migrations-portability.log",
+      "sha256": "1d1294aa78848717cc5a1e630ddb980b0fbd8ed8e0fbb1e10bb7d87f1c5c5d97",
+      "bytes": 1446,
+      "exit_code": null
+    },
+    {
+      "path": "migrations-qa.log",
+      "sha256": "1d1294aa78848717cc5a1e630ddb980b0fbd8ed8e0fbb1e10bb7d87f1c5c5d97",
+      "bytes": 1446,
+      "exit_code": null
+    },
+    {
+      "path": "server.log",
+      "sha256": "a4561bd0e85bff42e0506ad62cd63464369987a2d6717241d953034c0661ab51",
+      "bytes": 4996,
+      "exit_code": null
+    },
+    {
+      "path": "start.log",
+      "sha256": "66afd0411ccc09366e99fdd99b85f21899c8d2d064f5835126859618802153ad",
+      "bytes": 52,
+      "exit_code": null
+    }
+  ]
+}

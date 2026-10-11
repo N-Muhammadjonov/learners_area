@@ -1,0 +1,151 @@
+{
+  "library_file_id": "libfile_77fe960a07e48191af532319c7f77208",
+  "file_id": "file_0000000022e482109d4301192c2c5181",
+  "archive_sha256": "842bfe6b4f02a4a1e4bc5bfdd3d7c9a738e62350aeb08ce85022a36d119939da",
+  "archive_bytes": 142257,
+  "members": [
+    {
+      "path": "RIWI_INTERIM_RESULT/FINAL_SOURCE_STATE.json",
+      "bytes": 484,
+      "sha256": "3a046fb777fc8c70c414cea3508d506794724ff1c9600527a3127f37eddae3b9"
+    },
+    {
+      "path": "RIWI_INTERIM_RESULT/README_UZ.md",
+      "bytes": 1954,
+      "sha256": "cf5423b9b9d2a22662a1e7e87984cddeeee15db01afd56a074aee71ad8a67efd"
+    },
+    {
+      "path": "RIWI_INTERIM_RESULT/REQUIREMENT_RESULTS.json",
+      "bytes": 2336,
+      "sha256": "d58ed7791316f836bfcbe3960555dad525f55c009290a746d9e9b6ee05efa03f"
+    },
+    {
+      "path": "RIWI_INTERIM_RESULT/R07/ENVIRONMENT_FINGERPRINT.json",
+      "bytes": 316,
+      "sha256": "08940ed860e15990f9943b2bfad1f4ba283a5da03202d39d3ac751db3bc37645"
+    },
+    {
+      "path": "RIWI_INTERIM_RESULT/R07/RESTORE_RUNBOOK.md",
+      "bytes": 894,
+      "sha256": "9d90d903dcf6ec296eaedc911c7b01b4ddddfc77d6ab425a4dbfff5730615d9d"
+    },
+    {
+      "path": "RIWI_INTERIM_RESULT/R08/GLOBAL_GATES.json",
+      "bytes": 2431,
+      "sha256": "788b6d2161172a4104884d9a390adc4c32e54329ed273a4c3e6ca55ba87e8121"
+    },
+    {
+      "path": "RIWI_INTERIM_RESULT/R08/GO_NO_GO_UZ.md",
+      "bytes": 912,
+      "sha256": "3242f00be9844cbf7b824203d3b4dad8e072aeb09c5d5971681b5bfd5a177081"
+    },
+    {
+      "path": "RIWI_INTERIM_RESULT/R08/INTEGRATION_CUTOVER_RUNBOOK.md",
+      "bytes": 1109,
+      "sha256": "f1994962ca6f0498a3a3be9c7c651ef0ecf8f09c9e192efad1fc747a91de30ea"
+    },
+    {
+      "path": "RIWI_INTERIM_RESULT/R08/ROLLBACK_RUNBOOK.md",
+      "bytes": 780,
+      "sha256": "6bf20a7016633729ca7b20fe5a4abe9c829b2f7b7965f4d5b25ff70275fd1048"
+    },
+    {
+      "path": "RIWI_INTERIM_RESULT/evidence/B04_B05_existing_test_pointers.md",
+      "bytes": 989,
+      "sha256": "fe4017108e68fed159f43bd17bdc31857e5a543dfca358a7393a6c872cc2144f"
+    },
+    {
+      "path": "RIWI_INTERIM_RESULT/evidence/run-local-qa.sh",
+      "bytes": 1552,
+      "sha256": "d33226654db2ae32412bd09b57949190d2010bad6b90856d006af49255e0fcb4"
+    },
+    {
+      "path": "RIWI_INTERIM_RESULT/evidence/b01/b01_book_reconcile.json",
+      "bytes": 17385,
+      "sha256": "101e90a97564a5cb9bda86fd0ae530d01cc9e2044b7f7b31b010308d50f27783"
+    },
+    {
+      "path": "RIWI_INTERIM_RESULT/evidence/b01/b01_book_reconcile.py",
+      "bytes": 2410,
+      "sha256": "64c3b43d7b7c2fa77998be526b2b2e4a461e07419d4e3bd294c7cb5c928ca071"
+    },
+    {
+      "path": "RIWI_INTERIM_RESULT/evidence/b01/b01_execution_map.json",
+      "bytes": 19677,
+      "sha256": "079763c64bc1c9baf0af8fac8de981d285ec0f5c79fe5e934a0b8ea36f922a67"
+    },
+    {
+      "path": "RIWI_INTERIM_RESULT/evidence/b01/b01_execution_map.mts",
+      "bytes": 847,
+      "sha256": "8deb8d7b7164a758b8efd1354fa3d8a31bf65da7f81387bfc797b1ff1d70950d"
+    },
+    {
+      "path": "RIWI_INTERIM_RESULT/evidence/b01/b01_legacy_guard_review.json",
+      "bytes": 1284,
+      "sha256": "d196046db9f6989e8d3ba6bff40c95d29add6b04de1668b891cadd7b4c4954e3"
+    },
+    {
+      "path": "RIWI_INTERIM_RESULT/evidence/b01/b01_legacy_side_by_side.md",
+      "bytes": 18143,
+      "sha256": "9635421d2352dfa08cefc1879bfb4c927fd2a553fd90567a05661c17ddddd04b"
+    },
+    {
+      "path": "RIWI_INTERIM_RESULT/evidence/baseline_round1/backend.end",
+      "bytes": 21,
+      "sha256": "6acb4202948973d40277eb123c47ab42860c1a9b1108e6d7c21a2e3834e6a57a"
+    },
+    {
+      "path": "RIWI_INTERIM_RESULT/evidence/baseline_round1/backend.log",
+      "bytes": 357835,
+      "sha256": "15065df0d8e0a65a8b9d71c3abbc54e7e252ea3278b70cfec0e6b58902e67da6"
+    },
+    {
+      "path": "RIWI_INTERIM_RESULT/evidence/baseline_round1/backend.start",
+      "bytes": 21,
+      "sha256": "58f4ed6eb9280df16a3ccc1494061bc0c371aee69180f33e86805d4daa3d8f3e"
+    },
+    {
+      "path": "RIWI_INTERIM_RESULT/evidence/baseline_round1/fixtures.log",
+      "bytes": 28,
+      "sha256": "78b48596134330e2c4094cb8e9963d8f3685c12acd4fe9e131cbda3ecae0cc9d"
+    },
+    {
+      "path": "RIWI_INTERIM_RESULT/evidence/baseline_round1/migrations-qa.log",
+      "bytes": 1446,
+      "sha256": "1d1294aa78848717cc5a1e630ddb980b0fbd8ed8e0fbb1e10bb7d87f1c5c5d97"
+    },
+    {
+      "path": "RIWI_INTERIM_RESULT/evidence/baseline_round4_PARTIAL/backend.log",
+      "bytes": 172828,
+      "sha256": "1f81f62c95a842e2ae96af9b398a3ab4b400dbf17da83109b66aae511eba1633"
+    },
+    {
+      "path": "RIWI_INTERIM_RESULT/evidence/baseline_round4_PARTIAL/backend.start",
+      "bytes": 21,
+      "sha256": "63d360dc9750219f8c455cd625bd180e078939fd72214e056e9b713dbc02c7b2"
+    },
+    {
+      "path": "RIWI_INTERIM_RESULT/evidence/baseline_round4_PARTIAL/fixtures.log",
+      "bytes": 28,
+      "sha256": "78b48596134330e2c4094cb8e9963d8f3685c12acd4fe9e131cbda3ecae0cc9d"
+    },
+    {
+      "path": "RIWI_INTERIM_RESULT/evidence/baseline_round4_PARTIAL/migrations-qa.log",
+      "bytes": 1446,
+      "sha256": "1d1294aa78848717cc5a1e630ddb980b0fbd8ed8e0fbb1e10bb7d87f1c5c5d97"
+    },
+    {
+      "path": "RIWI_INTERIM_RESULT/evidence/r07/R07_LOCAL_NATIVE_PITR_REHEARSAL_RECEIPT.json",
+      "bytes": 1908,
+      "sha256": "df607faef975419cee3d784ec53c02d3696e8dac234af025babe6388f05b96f7"
+    },
+    {
+      "path": "RIWI_INTERIM_RESULT/evidence/r07/r07_native_pitr_rehearsal.py",
+      "bytes": 8850,
+      "sha256": "9c70d6bf8b706bd362ccc64839c58806fb1aec4629e00f2dc3e1489801bf5a86"
+    }
+  ],
+  "zip_crc_valid": true,
+  "contains_runtime_source_patch": false,
+  "external_claims_independently_accepted": false
+}
