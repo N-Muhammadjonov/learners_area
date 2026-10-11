@@ -68,6 +68,16 @@ class ApiClient:
         })
         return status == 200 and bool(data.get("ok"))
 
+    async def required_channels(self, actor_id: str) -> tuple[int, Any]:
+        return await self._request(
+            "GET", "/required-channels", params={"actorTelegramId": actor_id}
+        )
+
+    async def change_required_channels(self, actor_id: str, action: str, channel: dict) -> tuple[int, Any]:
+        return await self._request("POST", "/required-channels", json={
+            "actorTelegramId": actor_id, "action": action, "channel": channel,
+        })
+
     async def owner_contact_detail(self, actor_id: str, target_id: str) -> tuple[int, Any]:
         return await self._request(
             "GET", f"/contacts/{target_id}", params={"actorTelegramId": actor_id}
