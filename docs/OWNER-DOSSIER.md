@@ -426,10 +426,10 @@ battery and must be run on the frozen candidate rather than carried forward from
 
   | write unit | writes that execute together | external call between them? | read back? | verdict |
   | --- | --- | --- | --- | --- |
-  | `lib/services/coach/service.ts:124-152` | 4 — `saveEvaluation`, `recordWeaknessesFromEvaluation`, `recordEvaluationEvent`, conditional `recordFallbackEvent` (plus best-effort `touchMeaningfulActivity`) | **no** — `resolveEvaluation` completes entirely before `saveEvaluation` | yes — `coach-dashboard.ts:31-33` reads `coach_weaknesses` | **OPEN, HIGH** — see below |
-  | `api/vocabulary/[id]/use` | 2 — `recordSentenceUse` (one `vocabulary_usages` row; it awards no points) then the `VOCABULARY_USED` event, adjacent | no | event: no. usage row: yes | **OPEN, MEDIUM-LOW** — cheapest remaining fix: `recordSentenceUse` already accepts the `VocabularyExecutor` widened in 9.8 |
-  | `api/live-classes/[id]/join:42-43` | 2 — attendance row then `LIVE_CLASS_ATTENDED`, adjacent | no | event: no. attendance: yes | **OPEN, LOW-MEDIUM** |
-  | `api/grammar/exercises/[id]/practice`, deterministic branch | 2 — attempt row then `GRAMMAR_PRACTICE_SUBMITTED`, adjacent | no | event: never read by type | **OPEN, LOW** — streak only |
+  | `lib/services/coach/service.ts:124-152` | 4 — `saveEvaluation`, `recordWeaknessesFromEvaluation`, `recordEvaluationEvent`, conditional `recordFallbackEvent` (plus best-effort `touchMeaningfulActivity`) | **no** — `resolveEvaluation` completes entirely before `saveEvaluation` | yes — `coach-dashboard.ts:31-33` reads `coach_weaknesses` | **CLOSED in `§03`** — all four writes now run in one `db.transaction`, with `resolveEvaluation` outside it and `touchMeaningfulActivity` after the commit. Fault injection at each of the four writes: RED 5-fail → GREEN 10/10 (`tests/coach-atomicity-qa2.test.ts`) |
+  | `api/vocabulary/[id]/use` | 3 — `recordSentenceUse` (one `vocabulary_usages` row, unconfirmed, worth nothing), then the evaluation, then `confirmSentenceUse` (sets `evaluation_id`/`riwi_accepted`, awards points) and the `VOCABULARY_USED` event | **CORRECTION: yes.** The earlier cell said "no", which was wrong — `evaluateVocabularyUsage` sits between `recordSentenceUse` and the event. The groupable unit is therefore the last two writes only, and the sentence row is *meant* to survive alone: the route's own 502 branch documents that it stays in the bank, labelled unevaluated | event: no. usage row: yes | **CLOSED in `§04A`** — `confirmSentenceUse` + event in one transaction; the evaluation stays outside it. This one also had the coach's trap: `confirmSentenceUse` returns `already_evaluated` on a repeat, so a partial confirm could never be healed by retry. Probe 31/31 |
+  | `api/live-classes/[id]/join:42-43` | 2 — attendance row then `LIVE_CLASS_ATTENDED`, adjacent | no | event: no. attendance: yes | **CLOSED in `§04B`** — attendance + event in one transaction. **Not claimed:** concurrent first-joins. `live_class_attendance` has no unique index on (live_class_id, user_id), so two simultaneous joins can both pass the existence check and both insert; closing that is a migration and therefore owner-authorised work. Probe 31/31 |
+  | `api/grammar/exercises/[id]/practice`, deterministic branch | 2 — attempt row then `GRAMMAR_PRACTICE_SUBMITTED`, adjacent | no | event: never read by type | **CLOSED in `§04C`** — `needsEvaluator` is now computed before any write (it depends only on the activity and the checklist verdict), so the deterministic branch writes its attempt and its event as one unit. The evaluator branch is unchanged and still holds no transaction across the AI call. Probe 31/31 |
   | `api/grammar/exercises/[id]/practice`, evaluator branch; `.../produce:49-82` | attempt insert, then the AI call, then **either** a compensating delete **or** an update+event | **yes** — `evaluateGrammarProduction` sits between the writes | attempt: yes | **NOT FIXABLE BY A TRANSACTION** — grouping them would hold a pooled connection across an external call. The honest residual risk is the compensating delete at `produce:73`: if it also fails, a provisional `isCorrect: false` attempt survives and misreports good work. Deferring the attempt insert until after evaluation would fix it, but `evaluateGrammarProduction` takes `attemptId`, so that is an architecture change and is not undertaken here |
   | `lib/services/writing/stealing.ts` | **1 per function** — `submitPractice:175`, `startStealing:235`, `advanceStealing:302` each execute exactly one write | n/a | `WRITING_PATTERN_PRACTICE`: never read | **CORRECTION — NOT A DEFECT.** Previously listed as a MEDIUM non-transactional writer. A single statement is already atomic; there is no unit to group. The earlier count included line 133, which is a `Set.delete`, not SQL. This also closes the open item "stealing.ts continuation past 300": line 302 is one `UPDATE` |
   | `api/grammar/topics/[id]/submit:57-58` | 2, already inside `db.transaction` | no | attempt: yes | **CORRECTION — already correct.** Listed for completeness so it is not "fixed" |
@@ -449,7 +449,7 @@ battery and must be run on the frozen candidate rather than carried forward from
 
   Each open row still needs its own fault-injection test before a fix can be claimed. None is asserted
   green here, and no production source was changed on the strength of this analysis.
-* **`stealing.ts` continuation past 300 is still missing.** `NOT_YET_EXECUTED`.
+* ~~`stealing.ts` continuation past 300 is still missing~~ — **REMOVED AS STALE.** It contradicted the corrected table above, which shows `advanceStealing:302` is a single `UPDATE` in a 305-line file: there is no missing continuation and no write unit to group. `NOT_A_DEFECT`.
 * **Valid-UUID-no-row answers 200**, per section 5 §11. `OWNER_DECISION_REQUIRED`.
 * ~~The QA2 test suite leaks — 8 files, 1 155 rows~~ — **CLOSED** in `6f2276a` (Package C). The leak
   was measured per file at 1 153 rows across 7 files (`general-reading-qa2` 786 over 19 tables,
@@ -649,7 +649,7 @@ Measured on a cluster built from scratch:
 Flat query counts with growing rows read is the signature of one unbounded `SELECT`, not an N+1. The
 bounded path already exists in the product and is measured above, so the fix for the two pages is not
 speculative — but it changes what a protected learner surface requests and renders, and the real
-payload magnitude needs the owner's canonical speaking bank. `OWNER_DECISION_REQUIRED`, with both
+payload magnitude needs the owner's canonical speaking bank. `OWNER_APPROVED` / `IMPLEMENTATION_REQUIRED`, with both
 options priced in `docs/UNBOUNDED-READS.md` and the floor correction preserved inside the markers.
 
 ### 9.5 The battery, re-run on the frozen candidate
@@ -679,7 +679,7 @@ real PostgreSQL 18.4, 53/53 migrations, 7-actor seed, `LD_LIBRARY_PATH` restored
 Three things are open and none is a repository-solvable defect I have declined to fix:
 
 1. the two unbounded speaking reads — the fix changes a protected learner surface and the real
-   magnitude needs the owner's canonical bank: `OWNER_DECISION_REQUIRED`;
+   magnitude needs the owner's canonical bank: `OWNER_APPROVED` / `IMPLEMENTATION_REQUIRED`;
 2. the 44-site fixed-palette question — sanction or migrate, a product-wide visual change:
    `OWNER_DECISION_REQUIRED`;
 3. the report control's first-paint placement — a protected-shell visual decision:
@@ -703,7 +703,7 @@ No P0 is open. The P1s:
 
 | item | status |
 | --- | --- |
-| Two unbounded speaking reads (6.15 MB and growing with the bank) | `REPRODUCED_DEFECT`, priced, `OWNER_DECISION_REQUIRED` |
+| Two unbounded speaking reads (6.15 MB and growing with the bank) | `REPRODUCED_DEFECT`, priced, `OWNER_APPROVED` / `IMPLEMENTATION_REQUIRED` |
 | 44 fixed-palette sites / 14 files | `OWNER_DECISION_REQUIRED`, no contrast defect |
 | Report control not in first paint | `OWNER_DECISION_REQUIRED`, capability proven working |
 | Rate limiting is per-instance (in-memory `Map`) | `OWNER_DECISION_REQUIRED` if the deployment contract requires distributed enforcement; Redis refused as unjustified |
@@ -846,3 +846,74 @@ practice event does not dedupe at all, so a same-day retry adds an event without
 last subtest asserts that asymmetry as current behaviour rather than silently changing it: making the
 event idempotent is a product decision about what a repeated answer *means*, not an atomicity
 question, and nothing here claims to have answered it.
+
+### 9.10 §03 and §04 closed — the last four non-transactional write units
+
+Every row the corrected section 6 table listed as **OPEN** is now closed. Nothing below is asserted
+green without the evidence named next to it, and no result here is carried over from an older tree.
+
+**§03 Coach — `lib/services/coach/service.ts`, the HIGH row.** `evaluateAndPersist` now writes the
+evaluation, its weakness rows, the completion event and the conditional fallback event inside one
+`db.transaction`. Two boundaries were placed deliberately:
+
+* `resolveEvaluation` stays **outside**. A pooled connection is never held while waiting on an external
+  or RIWI provider, so a slow provider can no longer hold a transaction open.
+* `touchMeaningfulActivity` moved to **after the commit**. It is documented best-effort and non-fatal;
+  leaving it inside would have let a retention timestamp roll back a verdict the learner had earned,
+  and §3.1 requires that it never be a prerequisite for evaluation persistence.
+
+The five helpers in `lib/data/evaluations.ts` now take an `EvaluationExecutor` (`typeof db | SaveTx`,
+defaulting to `db`, so every other caller is untouched). Passing the executor down is not cosmetic:
+`saveEvaluation`'s race-lost read-back must run on the same connection as the insert it checks, or it
+reads a different snapshot and resolves the race against the wrong state.
+
+*Fault injection, real PostgreSQL, `tests/coach-atomicity-qa2.test.ts`* — one trigger per table
+(`evaluations`, `coach_weaknesses`, `activity_events`), scoped to the test's own learner, raising at
+each of the four writes in turn. **RED on the old code: 5 pass / 5 fail**, the failures being
+`2 !== 1` (evaluation survived a failed weakness write), `3 !== 2` (survived a failed completion
+event), `2 !== 3`, `4 !== 3` (survived a failed fallback event). **GREEN on the corrected code:
+10/10.** A positive control runs first, because a rollback assertion passes vacuously if nothing was
+ever written: it proves an unarmed RIWI evaluation really writes an evaluation, a real
+`coach_weaknesses` row (RIWI reports `WRITING_TASK_RESPONSE`, a canonical weakness category) and
+exactly one completion event.
+
+Two subtests pass on **both** the old and the new code and are recorded as such rather than claimed as
+fixes: concurrent requests for one source already produced one authoritative evaluation
+(`onConflictDoNothing` plus a same-connection read-back), and a fault scoped to one learner already
+could not touch another. The value of the transaction here was never the race — it was that step 1's
+de-duplication made any partial write **permanently unrecoverable**, since every retry short-circuits
+at `{ reused: true }` and never reaches the writes again.
+
+**§04 The three remaining units**, each verified through its real HTTP route with a real logged-in
+Chromium session — no test in this repository imports a route handler directly, and `requireActiveUser()`
+reads request cookies, so there is no seam to call these with a fabricated identity:
+`scripts/verify-write-unit-atomicity.mjs`, **31/31**.
+
+| unit | the transaction now covers | what stays outside, and why |
+| --- | --- | --- |
+| A `api/vocabulary/[id]/use` | `confirmSentenceUse` + the `VOCABULARY_USED` event | `recordSentenceUse` and the evaluation. The sentence row is written first and is *meant* to survive alone — the route's 502 branch documents that it stays in the bank, labelled unevaluated, worth nothing. A is the same trap as the coach: `confirmSentenceUse` returns `already_evaluated` on a repeat, so a partial confirm could never be healed by retry |
+| B `api/live-classes/[id]/join` | the attendance row + the `LIVE_CLASS_ATTENDED` event | nothing |
+| C `api/grammar/exercises/[id]/practice` | the attempt row + the `GRAMMAR_PRACTICE_SUBMITTED` event, deterministic branch only | the evaluator branch, unchanged — `evaluateGrammarProduction` is given the attempt's id, so the row must exist before the call, and the call must not be held in a transaction |
+
+C needed one reordering: `needsEvaluator` is now computed **before** any write, which it always could
+have been, since it depends only on the activity and the checklist verdict. Deciding first is what
+lets the deterministic branch write its two rows as one unit instead of two commits.
+
+**The probe was mutation-tested, because a verifier that cannot fail is not evidence.** All three
+transaction boundaries were removed at once and the server rebuilt (`8SAifRM6gAsUV7IjppwSP`): the probe
+dropped to **22 passed / 9 failed**, failing on exactly the paired-write assertions — A left
+`1 confirmed row(s) survived` and awarded points, B `0 -> 1` attendance row, C `0 -> 1` attempt row.
+The mutant's stack traces also lost the `transaction` frame that the fixed build's carried, which
+independently corroborates that the rebuild was real. Restored byte-for-byte from
+`/tmp/fixed-units`, rebuilt (`awumjQD0WNVA3veYPoJn9`), and the probe returned to **31/31**.
+
+**Residue after all of it:** whole database back to exactly **128 rows across 119 base tables**, the
+measured pre-probe baseline; **0** leftover `qa_fault` tables, triggers or functions; `evaluations` and
+`coach_weaknesses` both back to their seeded 1; the live class this probe put into the `live` state
+restored to its seeded status.
+
+**Recorded, not repaired.** B's concurrent first-join race. `live_class_attendance` has no unique index
+on `(live_class_id, user_id)` — only its primary key — so two simultaneous joins can both pass the
+existence check and both insert. A transaction does not make a check-then-insert atomic against another
+transaction; closing this needs a unique index, which is a migration and therefore owner-authorised
+work. It is named here rather than papered over with a green probe.
