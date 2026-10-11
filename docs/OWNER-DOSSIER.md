@@ -15,24 +15,30 @@ Status labels used: `IMPLEMENTED_AND_VERIFIED` · `IMPLEMENTED_NOT_RUNTIME_VERIF
 | --- | --- |
 | Branch | `arena/1052c0fd-learners-area` |
 | Starting SHA (session base) | `31e10bd91667c6f8940e16834d7f7bc3e011b1f5` |
-| Final SHA (local HEAD) | `9fca98e1e6ec5481d46e5e9bb4887fd54ee7b7ee` |
-| Remote SHA (`origin`) | `9fca98e1e6ec5481d46e5e9bb4887fd54ee7b7ee` |
-| Remote SHA (`git ls-remote`, independent of the local tracking ref) | `9fca98e1e6ec5481d46e5e9bb4887fd54ee7b7ee` |
-| Tree SHA | `4a590237041a4276fa0fa5b792afa8a10b2a2fce` |
+| Final SHA (local HEAD) | `82eae3cbb17bcb3029729463a21dc6106ee3324b` |
+| Remote SHA (`origin`) | `82eae3cbb17bcb3029729463a21dc6106ee3324b` |
+| Remote SHA (`git ls-remote`, independent of the local tracking ref) | `82eae3cbb17bcb3029729463a21dc6106ee3324b` |
+| Tree SHA | `88e21529f46ca7ca2f96d3aa1107ac71a67ef0a4` |
 | Local == remote | yes, verified by `git rev-parse` on both after every push |
 | Worktree | clean — 0 modified, 0 untracked |
-| Commits this session | 309 on top of the base |
+| Commits this session | 312 on top of the base |
 | Migrations on disk | 53 (`drizzle/meta/_journal.json`), tip `drizzle/0052` |
 | Migrations applied to QA database | 53 of 53, verified by counting `drizzle.__drizzle_migrations` |
-| Build identity of the last verified build | `D-0uxyL3rXTNPEboduCe9` |
+| Build identity of the last verified build | `3IoGxDpBUDChGMLMjjyYp` |
 | Whole-database row total after every probe and suite run | 128 — the post-seed baseline, measured by counting all 119 base tables |
 
-The identity figures above are as of `9fca98e`, the last commit containing production or test code.
+The identity figures above are as of `82eae3c`, the last commit containing production or test code.
+Between `9fca98e` and `82eae3c` two commits touched only this document (`95400d1`, the §14 final
+report, and `d6ad298`, the caveat that the identity figures predate the dossier's own commit), so no
+source file, migration or test differed across them.
 Committing this revision of the dossier necessarily advances HEAD and the tree by one further commit
 whose only changed file is `docs/OWNER-DOSSIER.md` — a document cannot contain its own SHA. No source
 file, migration, test or probe differs between `9fca98e` and the commit carrying this sentence, which
-is verifiable with `git diff --stat 9fca98e..HEAD`. Every measurement in section 9 was taken on the
-`9fca98e` tree and remains valid on it.
+is verifiable with `git diff --stat 9fca98e..HEAD`, which shows only this document plus the six files
+of the section 9.8 fix. Every measurement in section 9 was taken on the `9fca98e` tree except section
+9.8, which was measured on `82eae3c`: full `test:qa2` **1635 tests / 1629 pass / 0 fail / 6 skipped**,
+whole-database row total **128** across 119 base tables afterwards, with 0 leftover `qa_fault` tables,
+triggers or functions.
 | Mutant build used to kill the reading-seal mutation test | `k_fNBk6tzzGtgxjjcbS23` (source restored byte-exact afterwards) |
 
 Commits added since the previous revision of this dossier, each pushed normally and verified with
@@ -61,6 +67,8 @@ section 9. The five commits of this revision are:
 | `ff1a684` | §15 verifier-quality fix: probe regeneration no longer deletes the analysis appended to its document |
 | `53d2f2f` | §3-class fix: `verify-report-control` left an `audit_log` row behind and its own cleanup check passed |
 | `9fca98e` | browser matrix re-run on the rebuilt cluster, 90 PASS / 0 NOT-PASS |
+| `95400d1`, `d6ad298` | document-only: the §14 final report, then the caveat that the identity figures predate the dossier's own commit |
+| `82eae3c` | §8/§12 Activation Lab fix: the usage row and its only evidence now commit together; plus the residue guard no longer aborts a whole sweep when a scratch table is dropped mid-file (9.8) |
 
 No pushed commit was amended or rewritten at any point in this round. Every fix to an earlier
 commit message was made by a new ordinary commit followed by a normal push and a remote-HEAD
