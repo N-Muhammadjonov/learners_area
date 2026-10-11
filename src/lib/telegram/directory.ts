@@ -386,6 +386,8 @@ export async function confirmDeletion(actor: BotActor, userId: string, code: str
         username: null,
         firstName: null,
         lastName: null,
+        phoneNumber: null,
+        phoneVerifiedAt: null,
         removedAt: now,
         updatedAt: now,
       })
