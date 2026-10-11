@@ -393,13 +393,50 @@ export async function listSpeakingPromptPage(
 export type SpeakingFacets = {
   /** Every part the learner may practise, with how many published prompts it holds. */
   parts: { part: string; count: number }[];
-  /** Topic groups for one part, or an empty list when no part is chosen yet. */
+  /** One topic group per NORMALIZED key, or an empty list when no part is chosen yet. */
   topics: { key: string; title: string | null; count: number }[];
   /** How many topic groups exist in total for that part — may exceed the page returned. */
   topicCount: number;
+  /** True when more topic groups match than this page returned. */
+  hasMoreTopics: boolean;
+  /**
+   * Opaque keyset cursor for the next topic page, or null at the end.
+   *
+   * Reporting `topicCount` without a continuation is not a neutral omission: a centre that authored
+   * more topics than one page carries would see the first page, be told a larger total exists, and
+   * have no way to reach the rest through the intended Part → Topic journey. The topic order
+   * (`TOPIC_KEY` ascending) is total, so a cursor walks it exactly once.
+   */
+  nextTopicCursor: string | null;
   /** How many published prompts match the channel and search in total. */
   matching: number;
 };
+
+/**
+ * Topic cursors are the last normalized key seen, wrapped so a caller cannot forge or guess one.
+ *
+ * `TOPIC_KEY` is a single text column ordered ascending, which is already a total order — unlike the
+ * prompt walk it needs no null-flag or timestamp component, and therefore has no microsecond hazard.
+ */
+function encodeTopicCursor(key: string): string {
+  return Buffer.from(JSON.stringify({ k: key }), "utf8").toString("base64url");
+}
+
+function decodeTopicCursor(raw: string): string {
+  // Refused, never silently reset to the first page: that would re-serve topics already shown and
+  // could strand everything after them again.
+  const reject = () => new Error("invalid topic cursor");
+  if (raw.trim() === "") throw reject();
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(Buffer.from(raw, "base64url").toString("utf8"));
+  } catch {
+    throw reject();
+  }
+  const key = (parsed as { k?: unknown } | null)?.k;
+  if (typeof key !== "string" || key === "") throw reject();
+  return key;
+}
 
 /**
  * Part and topic discovery, as bounded aggregates over the whole corpus. A learner choosing "Part 2"
@@ -407,7 +444,13 @@ export type SpeakingFacets = {
  * both are counted here instead of being inferred from whatever was already shipped.
  */
 export async function speakingFacets(
-  opts: { channel?: SpeakingChannel; part?: string | null; search?: string } = {},
+  opts: {
+    channel?: SpeakingChannel;
+    part?: string | null;
+    search?: string;
+    /** Opaque continuation minted by a previous call's `nextTopicCursor`. */
+    topicCursor?: string | null;
+  } = {},
   database: typeof db = db,
 ): Promise<SpeakingFacets> {
   const channel = opts.channel ?? "practice_alone";
@@ -427,18 +470,37 @@ export async function speakingFacets(
 
   const matching = partRows.reduce((total, row) => total + row.count, 0);
 
-  if (!opts.part) return { parts: partRows, topics: [], topicCount: 0, matching };
+  if (!opts.part) {
+    return { parts: partRows, topics: [], topicCount: 0, hasMoreTopics: false, nextTopicCursor: null, matching };
+  }
 
   const partWhere = and(where, eq(speakingPrompts.part, opts.part as typeof speakingPrompts.$inferSelect["part"]));
+  // Continuation is applied to the page query only. `topicCount` below stays the corpus-wide total,
+  // so every page reports the same true number rather than shrinking as the walk advances.
+  const afterTopicKey = opts.topicCursor != null ? decodeTopicCursor(opts.topicCursor) : null;
+  const topicScope = afterTopicKey ? and(partWhere, sql`${TOPIC_KEY} > ${afterTopicKey}`) : partWhere;
+
   const topicRows = await database
     .select({
       key: sql<string>`${TOPIC_KEY}`,
-      title: sql<string | null>`nullif(btrim(${speakingPrompts.topic}), '')`,
+      /*
+       * ONE deterministic representative title per normalized key.
+       *
+       * V17 grouped by the key AND the raw trimmed title, which emitted one row per surface form:
+       * "QA-TOPIC-0001", "qa-topic-0001" and "   QA-TOPIC-0001   " all normalize to the key
+       * `qa-topic-0001` but produced three separate groups carrying fragmented counts (measured: 4
+       * and 1, neither of them the true 5). A client rendering that list drew several buttons that
+       * all navigated to the same ?topic= and each showed a different, wrong count.
+       *
+       * `min()` over the trimmed title is deterministic and picks a real authored surface form, so
+       * the label is still something a teacher actually typed — never an invented one.
+       */
+      title: sql<string | null>`min(nullif(btrim(${speakingPrompts.topic}), ''))`,
       count: sql<number>`count(*)::int`,
     })
     .from(speakingPrompts)
-    .where(partWhere)
-    .groupBy(sql`${TOPIC_KEY}`, sql`nullif(btrim(${speakingPrompts.topic}), '')`)
+    .where(topicScope)
+    .groupBy(sql`${TOPIC_KEY}`)
     .orderBy(sql`${TOPIC_KEY} asc`)
     .limit(SPEAKING_TOPIC_PAGE + 1);
 
@@ -447,10 +509,16 @@ export async function speakingFacets(
     .from(speakingPrompts)
     .where(partWhere);
 
+  const hasMoreTopics = topicRows.length > SPEAKING_TOPIC_PAGE;
+  const topics = hasMoreTopics ? topicRows.slice(0, SPEAKING_TOPIC_PAGE) : topicRows;
+  const lastTopic = topics[topics.length - 1];
+
   return {
     parts: partRows,
-    topics: topicRows.slice(0, SPEAKING_TOPIC_PAGE),
+    topics,
     topicCount,
+    hasMoreTopics,
+    nextTopicCursor: hasMoreTopics && lastTopic ? encodeTopicCursor(lastTopic.key) : null,
     matching,
   };
 }

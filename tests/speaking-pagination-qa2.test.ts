@@ -280,7 +280,9 @@ test("server-side speaking pagination keeps all 10 000 synthetic questions reach
       const page = await listSpeakingPromptPage({ channel: "practice_alone", search: needle });
       assert.equal(page.matching, 1, `expected exactly one match for ${needle}, got ${page.matching}`);
       assert.equal(page.prompts.length, 1);
-      assert.match(page.prompts[0].promptText, /^QA-REACH-009999 /);
+      const only = page.prompts[0];
+      assert.ok(only, "the single match must actually be returned");
+      assert.match(only.promptText, /^QA-REACH-009999 /);
     });
 
     await t.test("the ai channel reaches its own eligible set, and refuses a bad cursor", async () => {

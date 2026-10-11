@@ -13,6 +13,11 @@ import { speakingFacets, type SpeakingChannel } from "@/lib/data/speaking-practi
  * Topic groups are themselves paged, and `topicCount` reports the true total, so a centre that authors
  * more topics than one response carries can tell the difference between "these are all of them" and
  * "this is the first page" — rather than silently believing a truncated list was complete.
+ *
+ * Reporting that total without a continuation would be worse than not reporting it: the learner could
+ * be told 1 200 topics exist and still have no way to reach topic 501. So `topicCursor` continues the
+ * walk, and a cursor this server did not mint is refused with 400 rather than silently restarting at
+ * the first page and re-serving topics already shown.
  */
 export async function GET(req: NextRequest) {
   const user = await requireActiveUser();
@@ -23,10 +28,20 @@ export async function GET(req: NextRequest) {
   const part = params.get("part");
   const search = (params.get("q") ?? "").trim().slice(0, 120);
 
-  const facets = await speakingFacets({
-    channel,
-    ...(part ? { part } : {}),
-    ...(search ? { search } : {}),
-  });
-  return NextResponse.json(facets, { headers: { "cache-control": "no-store" } });
+  const topicCursor = req.nextUrl.searchParams.get("topicCursor");
+
+  try {
+    const facets = await speakingFacets({
+      channel,
+      ...(part ? { part } : {}),
+      ...(search ? { search } : {}),
+      ...(topicCursor === null ? {} : { topicCursor }),
+    });
+    return NextResponse.json(facets, { headers: { "cache-control": "no-store" } });
+  } catch (error) {
+    if (error instanceof Error && /cursor/i.test(error.message)) {
+      return NextResponse.json({ error: "invalid_cursor" }, { status: 400 });
+    }
+    throw error;
+  }
 }
