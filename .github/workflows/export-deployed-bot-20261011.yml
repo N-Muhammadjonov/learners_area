@@ -1,0 +1,45 @@
+name: Export deployed Telegram bot snapshot
+on:
+  push:
+    branches:
+      - codex/archive-production-telegram-bot-20261011
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact Railway production source commit
+        uses: actions/checkout@v4
+        with:
+          ref: 18457040314717f2a36d66c1f327a30acb3d9d65
+          persist-credentials: false
+      - name: Assert immutable production source and copy exactly
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "18457040314717f2a36d66c1f327a30acb3d9d65"
+          python3 - <<'PY'
+          from pathlib import Path
+          import shutil
+          source = Path("services/telegram-bot")
+          target = Path("Telegram_Bot_PRODUCTION_1845704")
+          if not (source / "Dockerfile").is_file() or not (source / "bot.py").is_file():
+              raise SystemExit("Wrong bot source directory")
+          shutil.copytree(source, target, symlinks=True)
+          originals = {p.relative_to(source): p.read_bytes() for p in source.rglob("*") if p.is_file()}
+          copied = {p.relative_to(target): p.read_bytes() for p in target.rglob("*") if p.is_file()}
+          if originals != copied:
+              raise SystemExit("Mismatch in unchanged bot source copy")
+          print(f"Unmodified bot snapshot verified: {len(originals)} files")
+          PY
+      - name: Publish bot directory as downloadable ZIP artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Telegram_Bot_PRODUCTION_1845704
+          path: Telegram_Bot_PRODUCTION_1845704/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
