@@ -164,4 +164,3 @@ The protected theme and background design were not modified — this probe only 
 - NT1 /app/notifications: 2 cached asset(s) revalidated (HTTP 304, no body transferred) — /brand/derived/mark-night-cutout-192.png×1, /brand/derived/owner-v11-night-192.png×1 — not counted as a duplicate product GET
 - PF1 /app/profile: no live region at rest (state changed via <button> "Remove photograph", communicated by 1 live region(s) after the interaction) — observation, not counted as a defect
 - PF1 /app/profile: 2 cached asset(s) revalidated (HTTP 304, no body transferred) — /brand/derived/mark-night-cutout-192.png×1, /brand/derived/owner-v11-night-192.png×1 — not counted as a duplicate product GET
-
