@@ -1,0 +1,19 @@
+name: Telegram live backend compatibility
+on:
+  push:
+    branches: [codex/telegram-onboarding-channels-20261011]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  read-only-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Check deployed Telegram API routes without secrets or writes
+        run: node scripts/verify-telegram-production-contract.mjs
