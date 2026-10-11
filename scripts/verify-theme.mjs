@@ -208,7 +208,28 @@ for (const file of tsx) {
 check(
   "nothing reaches for Tailwind's fixed default palette",
   defaultPalette.length === 0,
-  [...new Set(defaultPalette)].slice(0, 5).join(", ")
+  // This printed the first five entries, which understated the finding roughly nine times over
+  // (44 occurrences across 14 files) and made two writing pages look like the whole problem. The
+  // criterion above is unchanged; only the report is. Summarise by colour family and file count so
+  // the real scope is visible to whoever has to decide it, then keep a few concrete examples.
+  (() => {
+    const families = new Map();
+    const files = new Set();
+    for (const entry of defaultPalette) {
+      const [file, utility] = entry.split(": ");
+      files.add(file);
+      const family = utility
+        .replace(/^(?:bg|border|ring|divide|from|via|to)-/, "")
+        .replace(/-[0-9]{2,3}(?:\/[0-9]+)?$/, "");
+      families.set(family, (families.get(family) ?? 0) + 1);
+    }
+    const byFamily = [...families]
+      .sort((a, b) => b[1] - a[1])
+      .map(([family, n]) => `${family} ${n}`)
+      .join(", ");
+    const examples = [...new Set(defaultPalette)].slice(0, 3).join(", ");
+    return `${defaultPalette.length} occurrences across ${files.size} files (${byFamily}); e.g. ${examples}`;
+  })()
 );
 
 // The states a theme most often forgets: an empty list, a loading surface and a
