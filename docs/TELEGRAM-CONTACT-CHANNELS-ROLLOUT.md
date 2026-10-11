@@ -56,6 +56,23 @@ Required prerequisites in the target environment must be reconciled with its
 migration history; existing bot branches include 0021/0022 and the website's
 production branch can differ considerably.
 
+**Confirmed repository migration namespace collision (NOT proof of actual DB state):**
+
+| Index | Legacy bot code lineage | Modern Arena website code lineage |
+|---|---|---|
+| 0020 | `0020_telegram_bot_integrity.sql` | `0020_lexical_source_snapshot.sql` |
+| 0021 | `0021_telegram_intent_purpose.sql` | `0021_registration_gender.sql` |
+| 0022 | `0022_telegram_owner_authority.sql` | `0022_retention_bank.sql` |
+| 0023 | `0023_telegram_contact_phone.sql` | `0023_video_lesson_notes.sql` |
+
+The current owner-authorized website release and Supabase migration history
+must be inspected before ANY production DDL. Do not assume a matching numeric
+prefix implies matching schema. If the database follows the modern Arena
+lineage, the bot functionality needs a separately designed forward-only
+migration after the current last migration; the old 0023 cannot be applied
+as if it were that website's 0023. Similarly, bot tables from the legacy
+0020-0022 lineage must not be assumed to exist on a modern-only schema.
+
 ## Coordinated release order — NO incompatible half-deployment
 
 **Live unauthenticated route-presence check, 2026-10-11:**
