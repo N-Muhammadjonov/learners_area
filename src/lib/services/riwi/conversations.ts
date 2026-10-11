@@ -10,9 +10,10 @@ import { RIWI_CONVERSATION_TTL_DAYS, RIWI_PROVENANCE, type RiwiProvenance } from
 export { RIWI_CONVERSATION_TTL_DAYS } from "./contracts";
 import { reportSnapshotSchema, type ValidatedReportSnapshot } from "@/lib/reporter/snapshot-schema";
 import { isAuthorizedRiwiCourseLesson } from "./course-lessons";
-import { hasOpenExam, resolveDictionaryOccurrence } from "./dictionary";
+import { hasDictionaryAssistanceLock, resolveDictionaryOccurrence } from "./dictionary";
 import { teachingContractSchema, type TeachingContract } from "@/lib/services/coach/contracts/instruction-schema";
 import { instructionContractTrace } from "@/lib/services/coach/contracts/instruction-runtime";
+import { hasActiveLearningAttempt, isRetentionLearningIntent, lockRecallAllocation } from "./retention-read-policy";
 
 export const RIWI_CONVERSATION_HISTORY_MAX = 6;
 export const RIWI_CONVERSATION_MESSAGE_MAX = 6000;
@@ -162,7 +163,7 @@ async function dictionaryScopeAuthorized(
   scope: RiwiDictionaryConversationScope,
   database: ConversationScopeDatabase,
 ): Promise<boolean> {
-  if (await hasOpenExam(actor, database)) return false;
+  if (await hasDictionaryAssistanceLock(actor, database)) return false;
   if (scope.kind === "canonical_term") return true;
   const resolved = await resolveDictionaryOccurrence({ actor, sourceType: scope.sourceType, sourceId: scope.sourceId, occurrenceId: scope.occurrenceId }, database as typeof db);
   return resolved?.status === "resolved";
@@ -335,7 +336,9 @@ export async function appendRiwiTurn(input: {
   const rawTeaching = input.metadata.teachingContract;
   const parsedTeaching = rawTeaching === undefined ? null : teachingContractSchema.safeParse(rawTeaching);
   const teachingContract = parsedTeaching?.success ? parsedTeaching.data : null;
+  const retentionAnswer = isRetentionLearningIntent(input.metadata.intent) && input.metadata.provenance === "deterministic_learning_data";
   if (!userMessage || !assistantMessage || !UUID.test(input.metadata.correlationId)
+    || (retentionAnswer && (resolvedScopeKind !== "self" || scopeTargetUserId !== input.actor.id || input.metadata.externalEligible))
     || !validEvaluationTrace
     || (rawTeaching !== undefined && (!teachingContract || input.metadata.provenance !== "external_provider"
       || !input.metadata.externalEligible || !input.metadata.providerId
@@ -355,6 +358,14 @@ export async function appendRiwiTurn(input: {
   }
   const now = input.now ?? new Date();
   await database.transaction(async (tx) => {
+    if (retentionAnswer || resolvedDictionaryScope) {
+      const [current] = await tx.select({ role: users.role, accountStatus: users.accountStatus }).from(users)
+        .where(eq(users.id, input.actor.id)).for("share");
+      if (current?.role !== input.actor.role || current.accountStatus !== "active") throw new RiwiConversationError("not_found");
+      await lockRecallAllocation(input.actor.id, tx);
+      if (retentionAnswer ? await hasActiveLearningAttempt(input.actor.id, tx)
+        : await hasDictionaryAssistanceLock(input.actor, tx)) throw new RiwiConversationError("not_found");
+    }
     const [conversation] = await tx.select({ id: riwiConversations.id, expiresAt: riwiConversations.expiresAt,
       roleAtCreation: riwiConversations.roleAtCreation, locale: riwiConversations.locale })
       .from(riwiConversations).where(and(
@@ -562,6 +573,22 @@ export async function getRiwiConversationTranscript(input: {
     };
   });
   await storedCourseLessonScope(conversation.id, input.actor, database);
+  const hasRetentionAnswer = orderedRows.some(row => row.role === "assistant" && isRetentionLearningIntent(metadataOf(row.metadata).intent));
+  const [retentionActor] = hasRetentionAnswer ? await database.select({ role: users.role, accountStatus: users.accountStatus }).from(users)
+    .where(eq(users.id, input.actor.id)).limit(1) : [];
+  if (hasRetentionAnswer && (retentionActor?.role !== input.actor.role || retentionActor.accountStatus !== "active"
+    || await hasActiveLearningAttempt(input.actor.id, database))) {
+    for (let index = 0; index < transcript.length; index++) {
+      const stored = orderedRows[index], projected = transcript[index];
+      if (stored?.role === "assistant" && projected && isRetentionLearningIntent(metadataOf(stored.metadata).intent)) {
+        projected.content = scopeRedactedMessage(conversation.locale);
+        projected.provenance = "unavailable";
+        projected.provider = null;
+        projected.citations = [];
+        projected.correlationId = null;
+      }
+    }
+  }
   return transcript;
 }
 

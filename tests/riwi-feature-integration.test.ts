@@ -19,7 +19,6 @@ import {
   riwiConversationMessages,
   speakingAttempts,
   speakingPrompts,
-  grammarAttempts,
   grammarExercises,
   grammarTopics,
   teacherStudentLinks,
@@ -38,6 +37,8 @@ import { buildRiwiReport } from "../src/lib/services/riwi/reports";
 import type { RiwiRollout } from "../src/lib/services/riwi/rollout";
 import { handleRiwiChatPost } from "../src/lib/services/riwi/chat-http";
 import { createTestDatabase } from "./support/pglite";
+import { persistGrammarFixture } from "./support/grammar-evaluation-fixture";
+import { prepareGrammarProduction } from "../src/lib/data/grammar-production-write";
 
 const rollout: RiwiRollout = {
   enabled: true,
@@ -161,7 +162,7 @@ test("Phase 12 feature integration uses the authenticated route, real broker, sh
       },
       evaluateGrammarProduction: async (input) => {
         observedEvaluations.grammar.push(input);
-        return { ok: true, evaluation: evaluationRecords.grammar, reused: false };
+        return persistGrammarFixture(input, evaluationRecords.grammar);
       },
       evaluateVocabularyUsage: async (input) => {
         observedEvaluations.vocabulary.push(input);
@@ -318,10 +319,10 @@ test("Phase 12 feature integration uses the authenticated route, real broker, sh
       options: ["has finished", "finish"], correctOption: "has finished", explanation: "Use has with a singular subject.",
       sourceSubmissionId: null, sourceOwnerUserId: null, activationPrompt: "Describe something you have learned.",
     }).returning({ id: grammarExercises.id });
-    const [grammarAttempt] = await database.insert(grammarAttempts).values({
-      userId: studentId, exerciseId: grammarExercise!.id, activity: "activate_it",
-      responseText: "I have learned to plan carefully.", isCorrect: false, attemptedAt: now,
-    }).returning({ id: grammarAttempts.id });
+    const grammarStart = await prepareGrammarProduction(studentId, grammarExercise!.id,
+      { activity: "activate_it", answer: "I have learned to plan carefully." }, "en", database);
+    assert.ok(grammarStart.ok);
+    const grammarAttempt = { id: grammarStart.prepared.attemptId };
 
     const savedEvaluationResponse = await handleRiwiChatPost(request("Evaluate my latest Writing draft."), routeDependencies);
     const savedEvaluation = await savedEvaluationResponse.json() as {

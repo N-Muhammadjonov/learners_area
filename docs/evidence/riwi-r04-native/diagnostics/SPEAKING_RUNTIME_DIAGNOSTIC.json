@@ -1,0 +1,24 @@
+{
+  "scope": "TEST_RUNTIME_DIAGNOSTIC_ONLY_NO_PRODUCT_CHANGE",
+  "failed_attempt_root": "/tmp/riwi-r04-native-full-lwi5p3ch",
+  "observed_failure": "Node v24.21.0 process SIGTRAP; V8 Check failed: end > addr; stack includes ThreadIsolation::LookupJitPage and UnregisterWasmAllocation",
+  "root_cause": "UNRESOLVED_RUNTIME_FAULT_NOT_AN_APPLICATION_ASSERTION",
+  "isolated_retry": {
+    "exit_code": 0,
+    "output": "# Subtest: canonical persisted examiner plans resume unchanged, scope users, and advance atomically with exact replays\nok 1 - canonical persisted examiner plans resume unchanged, scope users, and advance atomically with exact replays\n  ---\n  duration_ms: 3003.902875\n  type: 'test'\n  ...\n# Subtest: an unavailable requested canonical part returns no plan or partial session rows\nok 2 - an unavailable requested canonical part returns no plan or partial session rows\n  ---\n  duration_ms: 2151.639084\n  type: 'test'\n  ...\n1..2\n# tests 2\n# suites 0\n# pass 2\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 6367.970166\n"
+  },
+  "speaking_product_changes": false,
+  "failed_attempt_counts_as_pass": false,
+  "failed_full_attempt": {
+    "source_sha256": "c4ef35e59b9b41116fc2d0780edc8eaed7e18d98353cc247d1f2fdc6b905120b",
+    "cluster_stopped": true,
+    "backend_exit_code": 1,
+    "tap_summary": {
+      "tests": "1476",
+      "pass": "1475",
+      "fail": "1",
+      "skipped": "0"
+    },
+    "log_sha256": "273122327cfacf0824aca02c3688e598d5b2a157bd16120e23ecfbbe23062d69"
+  }
+}

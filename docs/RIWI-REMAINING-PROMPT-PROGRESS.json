@@ -1,11 +1,11 @@
 {
   "source": "RIWI_REMAINING_WORK_EXECUTION_PROMPT.txt",
   "source_sha256": "daf36b256a990b7fa5379fd121810991bad552f638c776e8d9b55dcb22847979",
-  "verified_remote_base": "b9007d68c82b27d02d615ae7c1d0f1546aa83393",
-  "method": "Equal-weight full-group acceptance: CLOSED / all 34 original R/B/C/D groups. Partial implementation receives no full-group credit. This is a verified closure metric, not a measure of development effort or existing product functionality.",
-  "closed": 19,
+  "verified_remote_base": "2f880809bf57ad3d37c373dc944b28037f20d0a0",
+  "method": "Equal-weight full-group acceptance on current independently verified local evidence:20/34. Published status is separate: last verified19/34, remote not rechecked in this review. Partial work earns no full-group credit; RIWI/site overall percentages remain unknown.",
+  "closed": 20,
   "total": 34,
-  "verified_closure_percent": 55.88235294117647,
+  "verified_closure_percent": 58.82352941176471,
   "riwi_overall_percent": null,
   "project_overall_percent": null,
   "overall_unknown_reason": "No fully reconciled requirement denominator with current evidence for the entire RIWI or website project.",
@@ -43,7 +43,29 @@
       "requirement": "Finish deployed chat retention acceptance after reviewing the preserved local implementation. Test exact 30-day and seven-day boundaries, >60 eligible messages, late returning users, all four roles, inactive/closed tabs, concurrent heartbeat/sweep, missed cron run, cascade deletion, dry-run and secret denial. Apply migrations only to an identified authorized environment. Verify scheduler support and actual successful cron executions. Do not equate code presence with physical deletion in deployment.",
       "status": "PARTIAL",
       "evidence_and_remaining": "30-day/all-message and strict seven-day inactivity code tested and published; deployed scheduler/deletion proof remains open.",
-      "current_external_observation": "Vercel Hobby plan observed on 2026-10-10. Latest commit status failed and links to official Hobby cron limits. Owner deferred hosting work due to planned migration. No schedule or retention policy changed. Deployment acceptance remains unverified."
+      "current_external_observation": "2026-10-11 read-only authenticated Vercel dashboard: Learners_Area Hobby badge directly observed; only learners-area project visible in current team, default Production/Preview/Development environments, zero custom environments shown. Existing RIWI Preview is Ready at older e50a2a9, not remote 2f88080 or local c4ef35e5. Cron feature is Enabled but shows onboarding rather than configured job rows. Exact isolated target, database isolation, pinned-candidate deployment and successful scheduler executions remain unverified. No external writes performed.",
+      "current_candidate": {
+        "status": "LOCAL_REPAIR_VERIFIED_OPERATIONAL_ACCEPTANCE_PENDING",
+        "source_sha256": "c4ef35e59b9b41116fc2d0780edc8eaed7e18d98353cc247d1f2fdc6b905120b",
+        "native_reproduced_defect": "SKIP LOCKED incorrectly reported complete with eligible rows still pending",
+        "repair": "Read-only eligibility check before declaring sweep complete; existing retention rules and locks preserved",
+        "operational_packet": "docs/RIWI-R04-OPERATIONAL-ACCEPTANCE.md",
+        "deployed_scheduler_verified": false,
+        "actual_browser_verified": false,
+        "hosting_target_identified": false,
+        "full_group_closed": false,
+        "group_credit": 0,
+        "http_preflight": "13 actual local HTTP requests passed; four-role late-return/cascade, secret/origin denial, retry, academic preservation; deployed scheduler and actual browser unverified",
+        "verification_record": "docs/RIWI-R04-LOCAL-VERIFICATION.json",
+        "full_native_rounds": 2,
+        "backend_each_round": 1476,
+        "ui_each_round": 261,
+        "failures": 0,
+        "skips": 0,
+        "http_requests_each_round": 13,
+        "private_clusters_stopped": true,
+        "target_preflight": "docs/RIWI-R04-TARGET-PREFLIGHT.json"
+      }
     },
     {
       "id": "R05",
@@ -52,7 +74,7 @@
       "evidence_and_remaining": "Batch22 current1217-file sourcefb827f12 independently verified in two full non-build rounds, each1362backend pass and260UI pass with0fail/skip, typecheck/lint0. All29 ZIP members match owner files,26gate hashes and1217source hashes match, exact originals match, both privatePG16.14clusters stop cleanly. Publication and independent remote tree/blob acceptance remain pending. No group percentage credit yet.",
       "current_scoped_native_evidence": "Batch22 current1217-file sourcefb827f12 independently verified in two full non-build rounds, each1362backend pass and260UI pass with0fail/skip, typecheck/lint0. All29 ZIP members match owner files,26gate hashes and1217source hashes match, exact originals match, both privatePG16.14clusters stop cleanly. Publication and independent remote tree/blob acceptance remain pending. No group percentage credit yet.",
       "current_original_source_evidence": "Batch22 full backend supplies the exact original Listening ZIP and880-row Speaking JSONL. All formerly skipped source/native cases pass in each full round. Applicable cases use native PostgreSQL or PGlite as declared.",
-      "predecessor_native_evidence": "Batch20 exact-source full native backend and UI gates passed twice, independently verified against all29 archive files and26 log hashes. Each backend1354pass/4original-source skips/0fail, UI260pass, typecheck/lint0. Two fresh PostgreSQL16.14 clusters, both51-migration chains, populated0019\u21920020 upgrade, native concurrency and fresh portability dry-run/apply/rollback tests verified. All88 formerly skipped source-independent cases pass in each round. Four original Listening/Speaking source cases remain unverified. Mock/PGlite and fixture portability are not live provider, real R2 movement or full operational restore proof. No full-group credit. Successor Batch21 exact original-source receipts were independently verified in docs/RIWI-BATCH-21-NATIVE-VERIFICATION.json. Historical four-skip Batch20 records are unchanged.",
+      "predecessor_native_evidence": "Batch20 exact-source full native backend and UI gates passed twice, independently verified against all29 archive files and26 log hashes. Each backend1354pass/4original-source skips/0fail, UI260pass, typecheck/lint0. Two fresh PostgreSQL16.14 clusters, both51-migration chains, populated0019→0020 upgrade, native concurrency and fresh portability dry-run/apply/rollback tests verified. All88 formerly skipped source-independent cases pass in each round. Four original Listening/Speaking source cases remain unverified. Mock/PGlite and fixture portability are not live provider, real R2 movement or full operational restore proof. No full-group credit. Successor Batch21 exact original-source receipts were independently verified in docs/RIWI-BATCH-21-NATIVE-VERIFICATION.json. Historical four-skip Batch20 records are unchanged.",
       "predecessor_original_source_evidence": "Both Batch21 focused rounds pass all13 cases without skips/failures. All21 uploaded ZIP members match owner-local files, all18 gate log hashes match, two fresh PostgreSQL16.14 clusters each apply51 migrations and stop cleanly. All1215 source hashes and both original input hashes match. Speaking880-row re-import/draft visibility cases run on native PostgreSQL; Listening write uses PGlite. This is supplemental proof, not a full1358-case zero-skip rerun. Current candidate publication remains pending.",
       "commit": "da164c24390e475dc380fde013ef6d2574aed9cc",
       "evidence": "Batch22 exact1217-file source, two full native-enabled non-build suites each1362backend and260UI pass/0skip/0fail, typecheck/lint0. All29 evidence members and26gate hashes independently reconciled. Exact originals and private cluster shutdown verified. GitHub ref,parent,tree,all140publication blobs and1217source blobs independently match atda164c2. Applicable live/provider/R2/PITR/browser/all-task operational groups remain separately open."
@@ -114,6 +136,38 @@
         "status": "IMPLEMENTED_TWO_ASSISTANT_AFFECTED_ROUNDS_PASSED_LOCAL_CHECKPOINT",
         "evidence": "docs/RIWI-BATCH-24-TUTORING-REPORTING.md",
         "full_group_closed": false
+      },
+      "batch25_candidate": {
+        "source_tasks": [
+          "retention.reading_recall",
+          "retention.vocabulary_recall",
+          "retention.error_pattern",
+          "grammar.retention",
+          "grammar.explanation"
+        ],
+        "status": "IMPLEMENTED_TWO_ASSISTANT_AFFECTED_ROUNDS_PASSED_LOCAL_CHECKPOINT",
+        "source_sha256": "02504ba89fb05d1c8c78c3060112b6f957d9824ba8bfaf2eb30e22f314ce9820",
+        "evidence": "docs/RIWI-BATCH-25-QA-RESULTS.json",
+        "explanation": "docs/RIWI-BATCH-25-LEARNING-ROUTES.md",
+        "full_group_closed": false,
+        "native_current_source_verified": false,
+        "published": false
+      },
+      "batch26_candidate": {
+        "status": "IMPLEMENTED_TWO_ASSISTANT_AFFECTED_ROUNDS_PASSED_LOCAL_CHECKPOINT",
+        "operations": [
+          "Canonical written Grammar correction",
+          "Assessed Grammar translation",
+          "Grammar activation",
+          "RIWI owned saved activation resumption",
+          "Assessed-only Grammar mastery and review projection"
+        ],
+        "source_sha256": "8039340dad0055e14ec49f0c111ba8ca139977d78f58ab01dc43cea945472399",
+        "evidence": "docs/RIWI-BATCH-26-QA-RESULTS.json",
+        "explanation": "docs/RIWI-BATCH-26-GRAMMAR-PRODUCTION.md",
+        "full_group_closed": false,
+        "native_current_source_verified": false,
+        "published": false
       }
     },
     {
@@ -231,13 +285,17 @@
       "id": "D04",
       "requirement": "Review object inventory and copy lifecycle. Prove source scope/owner/retention against DB, stable keys, MIME/size/SHA, O1 no-copy access and O2 immutable destination read-back. Roll back newly staged objects on pre-commit failure; preserve objects on uncertain DB commit for reconciliation. Handle duplicate hashes, partial copy, corrupt bytes, missing objects and cleanup failure. Real R2/S3 proof is still required.",
       "status": "PARTIAL",
-      "evidence_and_remaining": "B O1 object metadata is bound to an eligible global/role source in the repeatable-read snapshot; private/missing source keys and rehashed private-object manifests rejected. Real R2 access/retention proof, O2 immutable copy/read-back and staged-object cleanup remain open."
+      "evidence_and_remaining": "Current O2 lifecycle and encrypted archive fixes independently tested; confirmed creations cleaned before COMMIT, unknown write ownership and uncertain COMMIT preserved for reconciliation, dry-run truthfully labelled. Real private R2/S3 scope/owner/retention, O1/O2 access/read-back/failure/cleanup acceptance is still missing. Mocked storage does not close D04."
     },
     {
       "id": "D05",
       "requirement": "Run independent A/B/C clean-destination rehearsals using canonical migrations; include >1,000 permitted rows, checksums, counts, constraints, identities, relationships, timestamps, retention/exclusion canaries, zero-write dry-run, rollback and representative app boot. PGlite relational tests do not prove full native PostgreSQL or production-data migration acceptance.",
-      "status": "OPEN_UNVERIFIED",
-      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group."
+      "status": "CLOSED",
+      "historical_baseline_evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group.",
+      "evidence": "Independent exact-source review: two fresh native PostgreSQL16.14 full non-build rounds, zero failures/skips; native >1000-row A/B/C encrypted dry-run/apply/rollback, identity/FK/timestamp/retention/checksum fixtures; three restored Next development boots each round, original Speaking880 and Listening40 HTTP score/repeat proof. Production build, production-data restore and real R2/S3 remain separately unverified.",
+      "evidence_report": "docs/RIWI-GROUPS-25-30-INDEPENDENT-REVIEW.json",
+      "accepted_source_sha256": "5492dfd842b323cd124e4c3402e8aa5d76ea6ca276bfabdd73d8844078a7b6cf",
+      "publication_status": "LOCAL_ACCEPTED_NOT_PUBLISHED"
     },
     {
       "id": "D06",
@@ -268,7 +326,8 @@
       "current_candidate": "Two owner-terminal non-build backend/UI/typecheck/lint gates independently verified against source-state 9c356c51 and published tree af2c6a4f. Each backend retains 91 declared skips. Applicable mandatory native PostgreSQL/source/live/operational acceptance remains open; no full-group credit.",
       "latest_code_publication": "6f125f7dd21fafcce4f7ab089b0e26569600b3b5",
       "current_batch17_candidate": "Published 0524512. Exact tree, 20 packet blobs and all 1211 source blobs independently verified. Two owner-terminal non-build rounds each 1250 backend pass/92 skip/0 fail, UI260 pass. External/native and last-source build acceptance remain open.",
-      "current_source_gates": "Two full current-source non-build rounds independently verified atfb827f12. Each1362backend and260UI pass withzero skips/failures, typecheck/lint0. Last-source build remains unclaimed under owner no-rebuild instruction. Publication/operational acceptance still pending."
+      "current_source_gates": "Source 02504ba89fb05d1c8c78c3060112b6f957d9824ba8bfaf2eb30e22f314ce9820: two affected local rounds, each 251 backend and 260 UI pass, zero failures/skips, typecheck/lint 0. This is not the full native final gate; build not rerun under owner instruction. No D09 closure credit.",
+      "previous_source_gates_before_batch25": "Two full current-source non-build rounds independently verified atfb827f12. Each1362backend and260UI pass withzero skips/failures, typecheck/lint0. Last-source build remains unclaimed under owner no-rebuild instruction. Publication/operational acceptance still pending."
     },
     {
       "id": "D10",
@@ -279,26 +338,21 @@
     }
   ],
   "publication_policy": {
-    "requested_at": "2026-10-09T21:23:36+05:00",
-    "minimum_new_percentage_points": 11,
-    "minimum_additional_full_groups": 4,
-    "expected_minimum_delta_percentage_points": 11.76470588235294,
-    "baseline_closed": 18,
-    "denominator": 34,
-    "priority_order": [
-      "safety",
-      "quality",
-      "speed"
+    "requested_at": "2026-10-11T10:29:23+05:00",
+    "execution_order": [
+      "ONE_COMBINED_OWNER_TERMINAL_PUSH_CURRENT_VERIFIED_WORK",
+      "VERIFY_REMOTE_HEAD_AND_BLOBS",
+      "PREPARE_ORIGINAL_GROUPS_20_25_EXTERNAL_AI_ZIP"
     ],
+    "supersedes_R04_full_acceptance_push_gate": true,
+    "owner_terminal_push": true,
+    "R04_remains_PARTIAL": true,
     "partial_groups_earn_credit": false,
-    "publish_only_after_independent_task_checks_and_package_QA": true,
     "no_reset_or_rebuild": true,
     "no_force_push": true,
     "pending_partial_work_must_be_preserved": true,
-    "previous_minimum_new_percentage_points": 15,
-    "previous_minimum_additional_full_groups": 6,
-    "updated_at_utc": "2026-10-10T14:13:41.828Z",
-    "update_source": "Owner2026-10-10:11%+ and4fully accepted groups per batch"
+    "hosting_or_production_authorization_not_inferred": true,
+    "group6_started": false
   },
   "pending_batch15": {
     "target_groups": [
@@ -501,7 +555,7 @@
     }
   },
   "pending_batch24": {
-    "status": "TWO_ASSISTANT_AFFECTED_ROUNDS_PASSED_PUSH_PENDING",
+    "status": "REMOTE_REF_TREE_AND28_BLOBS_VERIFIED",
     "baseline_commit": "b9007d68c82b27d02d615ae7c1d0f1546aa83393",
     "source_sha256": "aa73ffbf7b8d698322e3961ea13298446f99a794a1f82d3929296452a58c7407",
     "accepted_closed": 19,
@@ -511,6 +565,104 @@
     "native_current_source_acceptance": false,
     "build_rerun": false,
     "push_performed": false,
-    "qa_receipt": "docs/evidence/riwi-batch24-assistant/receipt.json"
-  }
+    "qa_receipt": "docs/evidence/riwi-batch24-assistant/receipt.json",
+    "commit": "2f880809bf57ad3d37c373dc944b28037f20d0a0",
+    "remote_verification": "docs/RIWI-BATCH-24-REMOTE-VERIFICATION.json"
+  },
+  "pending_batch25": {
+    "baseline_commit": "2f880809bf57ad3d37c373dc944b28037f20d0a0",
+    "target_groups": [
+      "B01",
+      "B04",
+      "B05",
+      "D05",
+      "D09"
+    ],
+    "minimum_complete_groups": 5,
+    "baseline_closed": 19,
+    "expected_closed_after_complete_batch": 24,
+    "expected_percent_after_acceptance": 70.58823529411765,
+    "status": "LOCAL_QA_CHECKPOINT_FIVE_SOURCE_TASKS_ORIGINAL_GROUPS_STILL_OPEN",
+    "push_allowed": false,
+    "native_shared_memory_blocker_observed": true,
+    "build_rerun_allowed": false,
+    "source_sha256": "02504ba89fb05d1c8c78c3060112b6f957d9824ba8bfaf2eb30e22f314ce9820",
+    "qa_evidence": "docs/RIWI-BATCH-25-QA-RESULTS.json",
+    "source_task_count": 5,
+    "new_accepted_original_groups": [],
+    "native_execution_this_checkpoint": false,
+    "updated_at_utc": "2026-10-10T19:45:16.209094+00:00"
+  },
+  "pending_batch26": {
+    "published_base_commit": "2f880809bf57ad3d37c373dc944b28037f20d0a0",
+    "continued_from_source_sha256": "02504ba89fb05d1c8c78c3060112b6f957d9824ba8bfaf2eb30e22f314ce9820",
+    "current_source_sha256": "8039340dad0055e14ec49f0c111ba8ca139977d78f58ab01dc43cea945472399",
+    "source_file_count": 1238,
+    "affected_rounds_verified": 2,
+    "new_closed_original_groups": [],
+    "push_allowed": false,
+    "publication_requirement": "Five NEW fully accepted original groups per push; this B04 code checkpoint does not meet that requirement.",
+    "preserved_external_handoff_source": "02504ba89fb05d1c8c78c3060112b6f957d9824ba8bfaf2eb30e22f314ce9820",
+    "external_handoff_policy": "Review returned 25-30 changes against their frozen packet base, then reconcile with this newer local source; never overwrite the current tree wholesale."
+  },
+  "last_verified_published_closed": 19,
+  "review_25_30": {
+    "final_source_sha256": "5492dfd842b323cd124e4c3402e8aa5d76ea6ca276bfabdd73d8844078a7b6cf",
+    "new_closed_groups": [
+      29
+    ],
+    "new_closed_group_ids": [
+      "D05"
+    ],
+    "last_verified_published_closed": 19,
+    "publication": {
+      "performed": false,
+      "new_accepted_in_pending_batch": 1,
+      "required_new_groups": 5,
+      "push_allowed": false
+    }
+  },
+  "publication_policy_history": [
+    {
+      "requested_at": "2026-10-09T21:23:36+05:00",
+      "minimum_new_percentage_points": 14.705882352941176,
+      "minimum_additional_full_groups": 5,
+      "expected_minimum_delta_percentage_points": 14.705882352941176,
+      "baseline_closed": 19,
+      "denominator": 34,
+      "priority_order": [
+        "safety",
+        "quality",
+        "speed"
+      ],
+      "partial_groups_earn_credit": false,
+      "publish_only_after_independent_task_checks_and_package_QA": true,
+      "no_reset_or_rebuild": true,
+      "no_force_push": true,
+      "pending_partial_work_must_be_preserved": true,
+      "previous_minimum_new_percentage_points": 15,
+      "previous_minimum_additional_full_groups": 6,
+      "updated_at_utc": "2026-10-10T16:46:04Z",
+      "update_source": "Owner2026-10-10:remaining15groupsin3batcheseach5completegroups;assistantQA;ownerterminalpush"
+    },
+    {
+      "policy": {
+        "requested_at": "2026-10-11T09:06:58+05:00",
+        "execution_order": [
+          "R04_ONLY",
+          "ONE_COMBINED_OWNER_TERMINAL_PUSH_AFTER_R04_FULL_ACCEPTANCE",
+          "R06_AFTER_PUSH_VERIFIED"
+        ],
+        "supersedes_five_new_groups_threshold": true,
+        "publish_only_after_R04_full_acceptance_and_package_QA": true,
+        "owner_terminal_push": true,
+        "partial_groups_earn_credit": false,
+        "no_reset_or_rebuild": true,
+        "no_force_push": true,
+        "pending_partial_work_must_be_preserved": true,
+        "hosting_or_production_authorization_not_inferred": true
+      },
+      "superseded_by": "2026-10-11T10:29:23+05:00 owner requested current-state push before 20–25 handoff"
+    }
+  ]
 }

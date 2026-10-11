@@ -1,0 +1,17 @@
+{
+  "baseline_source": "5492dfd842b323cd124e4c3402e8aa5d76ea6ca276bfabdd73d8844078a7b6cf",
+  "candidate_source": "c4ef35e59b9b41116fc2d0780edc8eaed7e18d98353cc247d1f2fdc6b905120b",
+  "baseline_files": 1246,
+  "candidate_files": 1248,
+  "unchanged_baseline_source_files": 1244,
+  "removed_paths": [],
+  "changed_paths": [
+    "scripts/qa-riwi-retention-runtime.ts",
+    "src/lib/services/riwi/conversation-retention.ts",
+    "tests/riwi-retention-native.test.ts",
+    "tests/ui/online-activity.test.tsx"
+  ],
+  "patch_apply_verified": true,
+  "patch_sha256": "753203f768d4265cbf92d7e1e8199115e6b79b5adf4445070acd1cf539763496",
+  "prior_work_preserved": true
+}

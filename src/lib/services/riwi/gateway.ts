@@ -32,7 +32,8 @@ import {
   type RiwiChatResponse,
   type RiwiIntent,
 } from "./contracts";
-import { extractDictionaryTerm, hasOpenExam } from "./dictionary";
+import { extractDictionaryTerm, hasDictionaryAssistanceLock } from "./dictionary";
+import { dictionaryResolvedAnswerSchema, dictionaryTaskSchema, selectDictionaryTask, teachDictionaryEntry } from "./dictionary-teaching";
 import { riwiErrorMessage, type RiwiErrorCode } from "./errors";
 import { readRiwiBoundedJson } from "./http";
 import { createLearningSignal } from "./learning";
@@ -45,6 +46,7 @@ import { createRiwiCoreTools, riwiToolBroker } from "./core-tools";
 import { formatRiwiEvaluation, riwiEvaluationToolResultSchema } from "./evaluation-tools";
 import { riwiReportResultSchema } from "./reports";
 import { explainReportMetric, reportExplanationBoundary } from "./report-explanation";
+import { retentionExplanationResultSchema } from "./retention-explanation";
 import type { ValidatedReportSnapshot } from "@/lib/reporter/snapshot-schema";
 import type { RiwiRiskClass, RiwiToolBroker, ToolCallResult } from "./tool-broker";
 import { selectInstructionTask, instructionContractTrace } from "@/lib/services/coach/contracts/instruction-runtime";
@@ -53,18 +55,10 @@ import { teachingContractSchema, type InstructionTaskKey } from "@/lib/services/
 const MIN_INTENT_CONFIDENCE = 0.7;
 const NO_CITATIONS: RiwiChatResponse["citations"] = [];
 
-const dictionaryResolvedResultSchema = riwiDictionaryResultSchema.extend({
-  status: z.literal("resolved"),
-  example: z.string().max(2000).nullable(),
-  collocations: z.string().max(2000).nullable(),
-  pronunciation: z.string().max(200).nullable(),
-  answer: z.string().max(7000),
-  uncertainty: z.string().max(500).nullable(),
-}).strict();
 const dictionaryResultSchema = z.discriminatedUnion("status", [
   z.object({ status: z.literal("locked") }).strict(),
   z.object({ status: z.literal("unresolved") }).strict(),
-  dictionaryResolvedResultSchema,
+  dictionaryResolvedAnswerSchema,
 ]);
 const progressResultSchema = z.object({
   weaknesses: z.array(z.object({
@@ -186,7 +180,7 @@ export function createRiwiGatewayDependencies(
     rollout: readRiwiRollout,
     consumeAccountLimit: (userId) => consume(RULES.riwiChatByAccount, accountKey(userId)),
     writeAudit: (input) => recordRiwiAudit(input, database),
-    hasOpenExam: (actor) => hasOpenExam({ id: actor.id, role: actor.role }, database),
+    hasOpenExam: (actor) => hasDictionaryAssistanceLock({ id: actor.id, role: actor.role }, database),
     resolveScope: (actor, capability, targetUserId) => defaultResolveScope(actor, capability, targetUserId, scopeDependencies),
     hasRegisteredTool: (name) => toolBroker.contract(name) !== null,
     isRegisteredProvider: (providerId) => {
@@ -414,7 +408,7 @@ function buildPlan(actor: RiwiActor, request: RiwiChatRequest, locale: Locale) {
     case "dictionary_lookup": {
       const term = extractDictionaryTerm(request.message) ?? (request.dictionaryOccurrence ? undefined : request.message);
       return { kind: "tool" as const, toolName: "riwi.dictionary.lookup", capability: "riwi.dictionary.lookup" as const,
-        input: { ...(term ? { term } : {}), language, ...(request.dictionaryOccurrence ? { occurrence: request.dictionaryOccurrence } : {}) },
+        input: { ...(term ? { term } : {}), language, task: selectDictionaryTask(request.message), ...(request.dictionaryOccurrence ? { occurrence: request.dictionaryOccurrence } : {}) },
         targetUserId: actor.id, riskClass: "read-only" as const };
     }
     case "progress_self":
@@ -480,6 +474,18 @@ function buildPlan(actor: RiwiActor, request: RiwiChatRequest, locale: Locale) {
     case "evaluate_vocabulary":
       return { kind: "tool" as const, toolName: "riwi.coach.vocabulary.evaluateLatestSelf", capability: "riwi.chat.self" as const,
         input: { language }, targetUserId: actor.id, riskClass: "outbound" as const };
+    case "retention_recall":
+      return { kind: "tool" as const, toolName: "riwi.retention.readingRecall.explainLatestSelf", capability: "riwi.chat.self" as const,
+        input: { language }, targetUserId: actor.id, riskClass: "read-only" as const };
+    case "retention_vocabulary":
+      return { kind: "tool" as const, toolName: "riwi.retention.vocabularyRecall.explainSelf", capability: "riwi.chat.self" as const,
+        input: { language }, targetUserId: actor.id, riskClass: "read-only" as const };
+    case "retention_error_pattern":
+      return { kind: "tool" as const, toolName: "riwi.retention.errorPattern.explainSelf", capability: "riwi.chat.self" as const,
+        input: { language }, targetUserId: actor.id, riskClass: "read-only" as const };
+    case "grammar_retention":
+      return { kind: "tool" as const, toolName: "riwi.grammar.retention.explainSelf", capability: "riwi.chat.self" as const,
+        input: { language }, targetUserId: actor.id, riskClass: "read-only" as const };
     case "unsupported":
     case "unknown":
       return { kind: "safe" as const, code: "riwi_tool_not_found" as const,
@@ -534,6 +540,7 @@ async function executeToolPlan(input: {
   locale: Locale;
   intent: RiwiIntent;
   conversationId: string;
+  rollout?: RiwiRollout;
 }) {
   if (input.plan.kind !== "tool") throw new Error("riwi_gateway_invalid_tool_plan");
   if (!input.deps.hasRegisteredTool(input.plan.toolName)) {
@@ -569,11 +576,21 @@ async function executeToolPlan(input: {
     }
     if (parsed.data.status === "locked") return failedAnswer({ correlationId: input.correlationId, locale: input.locale, intent: input.intent, conversationId: input.conversationId, code: "riwi_dictionary_locked" });
     if (parsed.data.status !== "resolved") return failedAnswer({ correlationId: input.correlationId, locale: input.locale, intent: input.intent, conversationId: input.conversationId, code: "riwi_dictionary_unresolved" });
+    const { answer, uncertainty, teaching, ...entry } = parsed.data;
+    const task = dictionaryTaskSchema.parse((input.plan.input as { task?: unknown }).task ?? "vocabulary.meaning");
+    let rendered: ReturnType<typeof teachDictionaryEntry>;
+    try { rendered = teachDictionaryEntry(entry, task, input.locale); }
+    catch { return failedAnswer({ correlationId: input.correlationId, locale: input.locale, intent: input.intent, conversationId: input.conversationId, code: "riwi_tool_failed" }); }
+    if (JSON.stringify(teaching) !== JSON.stringify(rendered.teaching) || answer !== rendered.answer || uncertainty !== rendered.uncertainty)
+      return failedAnswer({ correlationId: input.correlationId, locale: input.locale, intent: input.intent, conversationId: input.conversationId, code: "riwi_tool_failed" });
+    const occurrence = parsed.data.occurrence;
     const dictionaryEntry = riwiDictionaryResultSchema.parse({
       canonicalLexemeId: parsed.data.canonicalLexemeId, senseId: parsed.data.senseId, term: parsed.data.term,
       definitionEn: parsed.data.definitionEn, translationUz: parsed.data.translationUz, partOfSpeech: parsed.data.partOfSpeech,
       lexicalType: parsed.data.lexicalType, source: parsed.data.source, verified: parsed.data.verified,
-      occurrence: parsed.data.occurrence,
+      occurrence: occurrence ? { occurrenceId: occurrence.occurrenceId, sourceType: occurrence.sourceType,
+        sourceTitle: occurrence.sourceTitle, surfaceForm: occurrence.surfaceForm, sentenceText: occurrence.sentenceText,
+        sectionNumber: occurrence.sectionNumber, startMs: occurrence.startMs, endMs: occurrence.endMs } : null,
     });
     return answerBody({ ok: true, correlationId: input.correlationId, conversationId: input.conversationId, intent: input.intent,
       answer: parsed.data.answer, uncertainty: parsed.data.uncertainty, dictionaryEntry,
@@ -599,6 +616,23 @@ async function executeToolPlan(input: {
       provenance: "canonical_evaluation", evaluation: parsed.data.evaluation });
   }
 
+  const retentionContract = input.plan.toolName === "riwi.retention.readingRecall.explainLatestSelf" ? "retention.reading-recall"
+    : input.plan.toolName === "riwi.retention.vocabularyRecall.explainSelf" ? "retention.vocabulary-recall"
+      : input.plan.toolName === "riwi.retention.errorPattern.explainSelf" ? "retention.error-pattern"
+        : input.plan.toolName === "riwi.grammar.retention.explainSelf" ? "grammar.retention" : null;
+  if (retentionContract) {
+    const parsed = retentionExplanationResultSchema.safeParse(result.value);
+    if (!parsed.success || parsed.data.status === "unavailable" || parsed.data.contractKey !== retentionContract) {
+      const code = parsed.success && parsed.data.status === "unavailable" && parsed.data.reason === "locked" ? "riwi_exam_help_locked"
+        : parsed.success && parsed.data.status === "unavailable" && parsed.data.reason === "not_found" ? "riwi_evaluation_source_missing" : "riwi_tool_failed";
+      return failedAnswer({ correlationId: input.correlationId, locale: input.locale, intent: input.intent,
+        conversationId: input.conversationId, code });
+    }
+    return answerBody({ ok: true, correlationId: input.correlationId, conversationId: input.conversationId, intent: input.intent,
+      answer: parsed.data.answer, citations: [{ source: parsed.data.sourceLabel, version: parsed.data.sourceVersion }],
+      provenance: "deterministic_learning_data" });
+  }
+
   if (input.plan.toolName === "riwi.grammar.topic.lookup") {
     const parsed = grammarTopicResultSchema.safeParse(result.value);
     if (!parsed.success) {
@@ -612,9 +646,10 @@ async function executeToolPlan(input: {
     const exerciseNote = input.locale === "uz"
       ? `\n\nGrammatika bo'limida sizga ko'rinadigan mashqlar: ${parsed.data.visibleExerciseCount}.`
       : `\n\nExercises visible to you in Grammar: ${parsed.data.visibleExerciseCount}.`;
-    return answerBody({ ok: true, correlationId: input.correlationId, conversationId: input.conversationId, intent: input.intent,
+    const authored = answerBody({ ok: true, correlationId: input.correlationId, conversationId: input.conversationId, intent: input.intent,
       answer: `${parsed.data.title}\n${parsed.data.explanation}${exerciseNote}`,
       citations: [{ source: `Grammar topic: ${parsed.data.title}`, version: null }], provenance: "canonical_grammar" });
+    return executeGrammarTeaching(input, { title: parsed.data.title, text: parsed.data.explanation, authority: 100, version: null }, authored);
   }
 
   if (input.plan.toolName === "riwi.learning.progress.readSelf" || input.plan.toolName === "riwi.learning.progress.readAssigned") {
@@ -784,6 +819,38 @@ async function executeCourseLessonPlan(input: {
   };
 }
 
+async function executeGrammarTeaching(input: {
+  deps: RiwiGatewayDependencies; actor: RiwiActor; correlationId: string; signal: AbortSignal;
+  locale: Locale; rollout?: RiwiRollout;
+}, source: { title: string; text: string; authority: number; version: number | null }, authored: RiwiChatResponse): Promise<RiwiChatResponse> {
+    const fallback = () => ({ ...authored, uncertainty: input.locale === "uz"
+      ? "Avtomatik tushuntirish tekshirilmagan; faqat saqlangan mavzu manbasi ko'rsatildi."
+      : "A validated automated explanation is unavailable; only the authored topic source is shown." });
+    let enabled = false;
+    try { enabled = Boolean(input.rollout?.externalAi) && await input.deps.externalEnabled(); } catch { /* Use the authored source. */ }
+    if (!enabled) return fallback();
+    const guarded = guardExternalPayload("chat", { language: input.locale,
+      message: `Explain the authored Grammar topic: ${minimizeExternalText(source.title, 200)}`,
+      history: [], knowledge: [{ ref: "K1", text: minimizeExternalText(source.text, 1800), authority: source.authority, version: source.version }] });
+    if (!guarded.ok) return fallback();
+    let routed: RoutedRiwiAnswer;
+    try { routed = await input.deps.routeProvider({ actor: { id: input.actor.id, role: input.actor.role },
+      correlationId: input.correlationId, payload: guarded.payload, profile: "riwi_chat", signal: input.signal,
+      instructionTask: "grammar.explanation" }); }
+    catch { return fallback(); }
+    const parsedRoute = routedAnswerSchema.safeParse(routed);
+    if (!parsedRoute.success || parsedRoute.data.status !== "external_success") return fallback();
+    let registered = false;
+    try { registered = input.deps.isRegisteredProvider(parsedRoute.data.providerId); } catch { /* Refuse an unregistered provider. */ }
+    const trace = instructionContractTrace("grammar.explanation");
+    if (!registered || parsedRoute.data.citations.length !== 1 || parsedRoute.data.citations[0] !== "K1"
+      || JSON.stringify(parsedRoute.data.teachingContract) !== JSON.stringify(trace)) return fallback();
+    return riwiChatResponseSchema.parse({ ...authored, answer: parsedRoute.data.answer, uncertainty: parsedRoute.data.uncertainty,
+      citations: authored.citations.slice(0, 1),
+      provenance: "external_provider",
+      teachingContract: trace, provider: { id: parsedRoute.data.providerId, model: parsedRoute.data.model } });
+}
+
 async function executeApprovedLearningPlan(input: {
   deps: RiwiGatewayDependencies;
   plan: Extract<ReturnType<typeof buildPlan>, { kind: "approved_knowledge" | "grammar_explanation" }>;
@@ -804,8 +871,17 @@ async function executeApprovedLearningPlan(input: {
     let retrievalFailed = false;
     try { knowledge = await input.deps.retrieveKnowledge(input.plan.query, input.actor); }
     catch { retrievalFailed = true; }
-    if (knowledge.length > 0) return answerFromApprovedKnowledge({ items: knowledge, correlationId: input.correlationId,
-      conversationId: input.conversationId, intent: input.intent, locale: input.locale });
+    if (knowledge.length > 0) {
+      const authored = answerFromApprovedKnowledge({ items: knowledge, correlationId: input.correlationId,
+        conversationId: input.conversationId, intent: input.intent, locale: input.locale });
+      const source = knowledge[0];
+      if (input.plan.kind === "grammar_explanation" && source && authored.ok) {
+        // Only the first approved source supports generated prose. The direct
+        // fallback preserves the complete authored excerpt and its citations.
+        return executeGrammarTeaching(input, source, authored);
+      }
+      return authored;
+    }
     if (input.plan.kind === "approved_knowledge") {
       await candidateFailureSignal(input.deps, input.actor, input.correlationId, input.intent,
         "retrieval_failure", retrievalFailed ? "retrieval_error" : "no_active_source");
@@ -819,11 +895,9 @@ async function executeApprovedLearningPlan(input: {
     return failedAnswer({ correlationId: input.correlationId, locale: input.locale, intent: input.intent,
       conversationId: input.conversationId, code: "riwi_knowledge_unavailable" });
   }
-  const grammarPlan: RiwiGrammarToolPlan = {
-    kind: "tool", toolName: "riwi.grammar.topic.lookup", capability: "riwi.content.read",
-    input: { query: input.plan.query, language: input.locale }, targetUserId: input.actor.id, riskClass: "read-only",
-  };
-  return executeToolPlan({ ...input, plan: grammarPlan });
+  const plan: RiwiGrammarToolPlan = { kind: "tool", toolName: "riwi.grammar.topic.lookup", capability: "riwi.content.read",
+    input: { query: input.plan.query, language: input.locale }, targetUserId: input.actor.id, riskClass: "read-only" };
+  return executeToolPlan({ ...input, plan });
 }
 
 /**
@@ -954,6 +1028,7 @@ export async function runRiwiGateway(request: Request, overrides: Partial<RiwiGa
           } else if (plan.kind === "approved_knowledge" || plan.kind === "grammar_explanation") {
             response = await executeApprovedLearningPlan({ deps, plan, actor, correlationId, signal: request.signal,
               locale, intent, conversationId, rollout });
+            externalEligible = response.provenance === "external_provider";
           } else if (plan.kind === "provider") {
             if (intent === "knowledge_query" && !rollout.knowledgeLearning) {
               response = answerBody({ ok: false, correlationId, conversationId, intent, answer: riwiErrorMessage("riwi_knowledge_unavailable", locale), errorCode: "riwi_knowledge_unavailable", provenance: "unavailable" });

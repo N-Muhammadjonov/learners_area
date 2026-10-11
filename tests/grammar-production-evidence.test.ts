@@ -36,9 +36,11 @@ test("Grammar practice uses only the authored activity prompt; correction option
   assert.match(getAssessmentContract("grammar.translate-it")!.version, /-v1$/);
   const route = readFileSync(new URL("../src/app/api/grammar/exercises/[id]/practice/route.ts", import.meta.url), "utf8");
   assert.ok(!route.includes("structureVerdict") && !route.includes("needsEvaluator"));
-  assert.match(route, /grammarPracticeEvidence\(/);
-  assert.match(route, /evaluateGrammarProduction\(/);
-  assert.match(route, /isCorrect: false/);
+  assert.match(route, /submitGrammarProduction\(/);
+  const persistence = readFileSync(new URL("../src/lib/data/grammar-production-write.ts", import.meta.url), "utf8");
+  assert.match(persistence, /grammarPracticeEvidence\(/);
+  assert.match(persistence, /evaluateGrammarProduction/);
+  assert.match(persistence, /isCorrect: false/);
   assert.match(route, /sampleAnswer: null/);
   const service = readFileSync(new URL("../src/lib/services/coach/grammar.ts", import.meta.url), "utf8");
   assert.match(service, /input.activity === "translate_it" \? \{ fallback: "none" \}/);

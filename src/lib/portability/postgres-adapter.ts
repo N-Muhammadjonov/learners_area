@@ -13,7 +13,7 @@ type PgClient = { query(text: string, values?: unknown[]): Promise<QueryResult>;
 export type PgPool = { connect(): Promise<PgClient> };
 type ForeignReference = { table: PortableTable; fields: string[]; targetFields: string[]; nullableFields: string[]; deferred: boolean };
 type UniqueTuple = { fields: string[]; nullsNotDistinct: boolean; predicate?: { sql: string; params: unknown[] } };
-type TableMetadata = { sqlName: string; columns: Map<string, string>; defaults: Record<string, unknown>; uniqueTuples: UniqueTuple[]; primaryKeys: string[]; dependencies: string[]; actorFields: string[]; references: ForeignReference[] };
+type TableMetadata = { jsonColumns: Set<string>; sqlName: string; columns: Map<string, string>; defaults: Record<string, unknown>; uniqueTuples: UniqueTuple[]; primaryKeys: string[]; dependencies: string[]; actorFields: string[]; references: ForeignReference[] };
 const IDENTIFIER = /^[a-z][a-z0-9_]*$/;
 const metadata = new Map<PortableTable, TableMetadata>();
 const schemaTables = new Map<string, Parameters<typeof getTableColumns>[0]>();
@@ -64,7 +64,9 @@ for (const tableName of Object.keys(PORTABILITY_TABLES) as PortableTable[]) {
       targetFields: ref.foreignColumns.map(column => Object.entries(targetColumns).find(([, c]) => c.name === column.name)![0]),
       nullableFields: ref.columns.filter(column => !column.notNull).map(column => [...mapped].find(([, name]) => name === column.name)![0]), deferred: false };
   });
-  metadata.set(tableName, { sqlName: tableName, columns: mapped, defaults, uniqueTuples, primaryKeys, dependencies, actorFields, references });
+  // node-postgres turns JS arrays into Postgres array literals, which json/jsonb reject: send those as JSON text.
+  const jsonColumns = new Set(Object.entries(columns).filter(([, column]) => column.columnType === "PgJsonb" || column.columnType === "PgJson").map(([property]) => property));
+  metadata.set(tableName, { jsonColumns, sqlName: tableName, columns: mapped, defaults, uniqueTuples, primaryKeys, dependencies, actorFields, references });
 }
 function reaches(from: PortableTable, to: PortableTable, seen = new Set<string>()): boolean {
   if (from === to) return true;
@@ -260,7 +262,7 @@ export function createPostgresImportDestination(pool: PgPool, copyObject?: (obje
       if (!entries.length) throw new Error(`portable_row_empty:${table}`);
       const names = entries.map(([property]) => quote(meta.columns.get(property)!)).join(",");
       const parameters = entries.map((_, index) => `$${index + 1}`).join(",");
-      await client.query(`insert into ${quote(meta.sqlName)} (${names}) values (${parameters})`, entries.map(([, value]) => decode(value)));
+      await client.query(`insert into ${quote(meta.sqlName)} (${names}) values (${parameters})`, entries.map(([property, value]) => meta.jsonColumns.has(property) && value !== null && value !== undefined ? JSON.stringify(decode(value)) : decode(value)));
     },
     async copyObject(object, bytes) { if (!copyObject) throw new Error("portable_object_adapter_required"); await copyObject(object, bytes); },
     async finalize(dryRun) {

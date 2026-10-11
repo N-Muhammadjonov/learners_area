@@ -1,6 +1,8 @@
 import "server-only";
 import { evaluateAndPersist, type ServiceOutcome } from "./service";
 import { grammarContractKey } from "./contracts/registry";
+import type { EvaluationResult } from "./schema";
+import type { EvaluationRecord } from "@/lib/data/evaluations";
 
 export type GrammarEvaluationRequest = {
   userId: string;
@@ -13,6 +15,8 @@ export type GrammarEvaluationRequest = {
   /** Persisted grammar activity chosen/derived by the server, never by the answer text. */
   activity?: "correct_it" | "translate_it" | "activate_it";
   language: "uz" | "en";
+  /** Authoritative domain write; used to atomically fence the result to its source. */
+  persist?: (result: EvaluationResult) => Promise<{ record: EvaluationRecord; created: boolean }>;
 };
 
 /**
@@ -36,6 +40,7 @@ export async function evaluateGrammarProduction(
     sourceType: "grammar_attempt",
     sourceId: input.attemptId,
     language: input.language,
+    persist: input.persist,
     // Local phrase/form heuristics cannot certify a translation's meaning.
     policy: input.activity === "translate_it" ? { fallback: "none" } : undefined,
     request: {

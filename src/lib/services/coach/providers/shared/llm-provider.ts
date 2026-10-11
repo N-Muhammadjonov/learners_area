@@ -181,6 +181,9 @@ export function createLlmEvaluationProvider(def: LlmProviderDefinition): Evaluat
     const guarded = guardExternalPayload("chat", input);
     if (!guarded.ok) return providerFail("invalid_response", "RIWI assistant request was rejected by the outbound data guard");
     const safeInput = guarded.payload;
+    if (ctx.instructionTask === "grammar.explanation" && (safeInput.history.length !== 0
+      || safeInput.knowledge.length !== 1 || safeInput.knowledge[0]?.ref !== "K1"))
+      return providerFail("invalid_response", "Grammar explanation requires one authorized source and no conversation history");
     const system = [
       `You are RIWI, the Learners Area learning assistant. Return only a JSON object with exactly: answer, uncertainty, citations${taskInstructions ? ", teaching" : ""}.`,
       "Speak in the requested language with a warm, respectful, supportive conversational tone. Keep explanations clear and concise; ground encouragement in the learner's actual work rather than invented achievements.",
@@ -216,6 +219,8 @@ export function createLlmEvaluationProvider(def: LlmProviderDefinition): Evaluat
       : riwiAnswerSchema.safeParse(output);
     if (!parsed.success) return failWithUsage("RIWI assistant response format is invalid");
     const allowedRefs = new Set(safeInput.knowledge.map((item) => item.ref));
+    if (ctx.instructionTask === "grammar.explanation" && (parsed.data.citations.length !== 1 || parsed.data.citations[0] !== "K1"))
+      return failWithUsage("Grammar explanation must cite the authorized source exactly once");
     if (parsed.data.citations.some((citation) => !allowedRefs.has(citation))) {
       return failWithUsage("RIWI assistant cited a source outside its authorized context");
     }

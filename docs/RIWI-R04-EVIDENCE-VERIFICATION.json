@@ -1,0 +1,12 @@
+{
+  "source_sha256": "c4ef35e59b9b41116fc2d0780edc8eaed7e18d98353cc247d1f2fdc6b905120b",
+  "source_files": 1248,
+  "copied_evidence_files_verified": 39,
+  "zip_members_verified": 33,
+  "zip_crc_passed": true,
+  "zip_sha256": "9c82d75169f6a109bbce2c877911ce966ea6c59572e03754bf5ef65b5ce5de6a",
+  "full_group_closed": false,
+  "closed_groups": 20,
+  "push_performed": false,
+  "group6_started": false
+}

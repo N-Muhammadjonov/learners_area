@@ -28,6 +28,7 @@ export type AuditAction =
   | "support.reported"
   | "video_lesson.saved"
   | "grammar.bundle_imported"
+  | "grammar.production.prepared"
   | "content.created"
   | "content.updated"
   | "retention.preview"
@@ -70,7 +71,8 @@ export type AuditAction =
   | "riwi.assessment.policy.approved"
   | "riwi.assessment.policy.rejected"
   | "riwi.security.regression.previewed"
-  | "riwi.security.reviewed";
+  | "riwi.security.reviewed"
+  | "riwi.learning.explanation.prepared";
 
 export async function recordAudit(input: {
   actorUserId: string | null;

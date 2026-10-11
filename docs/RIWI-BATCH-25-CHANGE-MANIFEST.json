@@ -1,0 +1,157 @@
+{
+  "schemaVersion": 1,
+  "baseCommit": "2f880809bf57ad3d37c373dc944b28037f20d0a0",
+  "baseTreeSha1": "d2b35b4905032890ed309e2ba4381d622186b4d8",
+  "sourceSha256": "02504ba89fb05d1c8c78c3060112b6f957d9824ba8bfaf2eb30e22f314ce9820",
+  "sourceFileCount": 1234,
+  "changedSourceFiles": [
+    {
+      "path": "src/lib/data/audit.ts",
+      "baseSha256": "5facbb5c815fb43dbe17e31a54be3526616f5d1de357b050a94b9cfd1631f318",
+      "baseGitBlobSha1": "aa1238e239ef8d88d38b01f92249bd3b23501798",
+      "currentSha256": "aef1a69ebc3468c45d81a04b40986ac2ef35074326c927c9e5c9a44e3adfa3ac",
+      "currentGitBlobSha1": "12c97968edba8389ad8240389e76940cb6f5397c",
+      "bytes": 3092
+    },
+    {
+      "path": "src/lib/services/coach/contracts/instruction-runtime.ts",
+      "baseSha256": "6b916229bd7a435ffecf5384c25872e5a2a8473926f8ca2091d5ce9d2ccccb55",
+      "baseGitBlobSha1": "dad9228e1698c1d6fdc517fe7359e0e0aa5fcd36",
+      "currentSha256": "d400ca297f75747a6b6ed685af6fa7e8147dd8711d8476e85c9395b1504e93a4",
+      "currentGitBlobSha1": "f5c9f3b92460c81d62d1a68a331853150109ea08",
+      "bytes": 6714
+    },
+    {
+      "path": "src/lib/services/coach/contracts/instruction-schema.ts",
+      "baseSha256": "b4c3bc1bd89ed0bcee07e3dc188c86474fbb9fb121546c6bd1ae5a78fee56085",
+      "baseGitBlobSha1": "ce97a4f7d4c6eef676bcb03499398fc244f40c58",
+      "currentSha256": "2f05cea44e05be46e6f771217353fcff6f0851657c1d99392551e5209f6aaf33",
+      "currentGitBlobSha1": "cc213460934d845fb4a20f57e010803e84c1aa2f",
+      "bytes": 1491
+    },
+    {
+      "path": "src/lib/services/coach/providers/shared/llm-provider.ts",
+      "baseSha256": "e606c2d9fac9452ec21c81af929e71fcd72560fc0e6b1da181e47471fce87e1b",
+      "baseGitBlobSha1": "d0c18cd7ee5a3188f6d463c32375e7c6dca888bf",
+      "currentSha256": "9ea0414a72b3199cff976e4dfa5e5b8cf44eba05532a7dcf0d10bc96d90664fd",
+      "currentGitBlobSha1": "bff6fed6dbed1e545f415e1f5a3e9b7a9b5a1ad9",
+      "bytes": 18248
+    },
+    {
+      "path": "src/lib/services/riwi/audit.ts",
+      "baseSha256": "5c36b83b0ffa8dfa689ac08eb100943c96389c98016b8c57ac86c9b9bd16c0dd",
+      "baseGitBlobSha1": "c21a817a12ed45799ae60dd796e5172f7a41158e",
+      "currentSha256": "4b0a65cb5aa0d78c845929524618762b81c7177526e3cb65dfce15ef8760f193",
+      "currentGitBlobSha1": "6b1495826e966e8b165a1e2d0671e0f51cd5c452",
+      "bytes": 7369
+    },
+    {
+      "path": "src/lib/services/riwi/contracts.ts",
+      "baseSha256": "0c0280956561695bd9df7fce3cbec8f7eab1da1be22ca99748b021b8d9f273a5",
+      "baseGitBlobSha1": "b101715f6a07734385d38f6734ed7f9594cb16af",
+      "currentSha256": "fa612fa4231c9ad5d9b81a8f54dca77c7a4cc7a6117db8dda8aa33641dfe7b24",
+      "currentGitBlobSha1": "c045ed1e5b4c7af02ccfa5d2359490fc24f77372",
+      "bytes": 12642
+    },
+    {
+      "path": "src/lib/services/riwi/conversations.ts",
+      "baseSha256": "5689d6ccb3a48df7d7f19ad8dc359500ab20e7df65fe9ab5257cc6ff786e1c4b",
+      "baseGitBlobSha1": "32b1c4cfa8d7112224b5bcd9a950d9057990326f",
+      "currentSha256": "96467ace896e4150fd307ff383120548c918728e630f5e0a15e7ae4c06019091",
+      "currentGitBlobSha1": "fa8d03594c7a09de372a77ede89ae288c8a62b0a",
+      "bytes": 37758
+    },
+    {
+      "path": "src/lib/services/riwi/core-tools.ts",
+      "baseSha256": "ee1b94060a5c8c59fded8b591d976d8b00e7ff04375c0cd65544dddffc329c36",
+      "baseGitBlobSha1": "2c324cb25b271fa95f67d18baccfb62ba37ccb3e",
+      "currentSha256": "91d24e11b22c16e109fe215e192118f0caca0559e02706d1da3e3983a712a927",
+      "currentGitBlobSha1": "46a935ced24f3249c996b1f2a703cd0189c1b2ee",
+      "bytes": 25021
+    },
+    {
+      "path": "src/lib/services/riwi/gateway.ts",
+      "baseSha256": "e180dc0626ab7cd6a1755bbe0a7afb29d9cbd9e1546d35333654b0b0258bc897",
+      "baseGitBlobSha1": "6c0fe42527e424767717e839252302f649c1b1f3",
+      "currentSha256": "4b7384b5d18e5c8d390867537f2a428a031eff90e817dbfaf2f469c191ad2e10",
+      "currentGitBlobSha1": "f510a64c7d15ff76ea8fa0f186b83e131f63cb18",
+      "bytes": 76462
+    },
+    {
+      "path": "src/lib/services/riwi/grammar-retention.ts",
+      "baseSha256": null,
+      "baseGitBlobSha1": null,
+      "currentSha256": "aa11df33372d844ba2b1d4facced561fda6dc38ce354c014297d2fee81961ad6",
+      "currentGitBlobSha1": "35dc2c3ba88da9d75897a4e3883309d424eee3d2",
+      "bytes": 7105
+    },
+    {
+      "path": "src/lib/services/riwi/provider-router.ts",
+      "baseSha256": "e6ed07a19376743e72edabc748fdad859ea68b35227e9d479a10ce027bcca48a",
+      "baseGitBlobSha1": "7d3d3ca206d4e2895dc34f3b8c6cdaf08ee7fe8b",
+      "currentSha256": "83e993cd0b860238f946b916dad3d3554976d4c16edc932edcab2ed7752e5b0a",
+      "currentGitBlobSha1": "9be93016050c8cd66abe84bca85baa34e505e130",
+      "bytes": 15482
+    },
+    {
+      "path": "src/lib/services/riwi/retention-explanation.ts",
+      "baseSha256": null,
+      "baseGitBlobSha1": null,
+      "currentSha256": "a593971f0eb1aee99b2260ee7175bf93b8ec90a1d76e45a51c025d07c7c9774f",
+      "currentGitBlobSha1": "173ef7153c9ad451255301011db1b2e4fd453f32",
+      "bytes": 21898
+    },
+    {
+      "path": "src/lib/services/riwi/retention-read-policy.ts",
+      "baseSha256": null,
+      "baseGitBlobSha1": null,
+      "currentSha256": "9ebce6baa41a16cf64df29c1c3e1719cae8c75b5e602c0955ff22de8c4304c31",
+      "currentGitBlobSha1": "040c31d2c3092c6b18673387c98f60487b5e272a",
+      "bytes": 1389
+    },
+    {
+      "path": "tests/riwi-grammar-explanation.test.ts",
+      "baseSha256": null,
+      "baseGitBlobSha1": null,
+      "currentSha256": "8d77e2a0f630e8c7fd95cc418e1c08c374b574865f384c7287fb51316998927d",
+      "currentGitBlobSha1": "e44dc62e4e2b03c4e1b340e0a5b5444dc7f6ad60",
+      "bytes": 11902
+    },
+    {
+      "path": "tests/riwi-grammar-retention.test.ts",
+      "baseSha256": null,
+      "baseGitBlobSha1": null,
+      "currentSha256": "fdbc68ea0273e30536bf94f88e5ec593e8891488a705f3ddddd6ee759a5c6448",
+      "currentGitBlobSha1": "8d8e7af24f864e5e176f857a15d8ecf5794320d3",
+      "bytes": 8895
+    },
+    {
+      "path": "tests/riwi-instruction-runtime.test.ts",
+      "baseSha256": "c96a5815511596c316031f6719076260008be1f166e9f24793a7d9110df53278",
+      "baseGitBlobSha1": "a6b68f2be9e41e5fd0a1385458c79ed524c5b924",
+      "currentSha256": "f5792a60d11c81b14fafc54fcc699f9a74d54275f8a26d6d78e1fc0ae76f1552",
+      "currentGitBlobSha1": "7e1a93bdcdba429cc282da2a2eadac25e2c6e2a6",
+      "bytes": 13041
+    },
+    {
+      "path": "tests/riwi-retention-explanation.test.ts",
+      "baseSha256": null,
+      "baseGitBlobSha1": null,
+      "currentSha256": "3b0ba1593670d4a3d62feb771e2e062ae0deaa31d562276b1f4ca9701a0b6a26",
+      "currentGitBlobSha1": "9585d1b9be3d3d123b18bc7ff12c67f9c823e19f",
+      "bytes": 8051
+    },
+    {
+      "path": "tests/riwi-retention-learning-evidence.test.ts",
+      "baseSha256": null,
+      "baseGitBlobSha1": null,
+      "currentSha256": "89be4808eaa5fe104a497deea779291fc6b86b335a36e334a490a376b64d1360",
+      "currentGitBlobSha1": "6dae15b43fb71447b06c4e6e633c7798172a1347",
+      "bytes": 16385
+    }
+  ],
+  "newAcceptedOriginalGroups": [],
+  "pushReady": false,
+  "publicationRequirement": "five NEW fully accepted original groups; assistant QA; owner terminal push",
+  "localHeadIsPublicationBase": false
+}

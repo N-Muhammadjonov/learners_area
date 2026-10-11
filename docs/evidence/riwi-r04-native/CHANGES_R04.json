@@ -1,0 +1,31 @@
+{
+  "scope": "R04_ONLY",
+  "baseline_source": "5492dfd842b323cd124e4c3402e8aa5d76ea6ca276bfabdd73d8844078a7b6cf",
+  "current_source": "c4ef35e59b9b41116fc2d0780edc8eaed7e18d98353cc247d1f2fdc6b905120b",
+  "source_files": 1248,
+  "changes": [
+    {
+      "path": "scripts/qa-riwi-retention-runtime.ts",
+      "before": null,
+      "after": "63b69f875f95efa82e00b230792d7751dbd1243a2452f2c4053eedfdb82f6d34"
+    },
+    {
+      "path": "src/lib/services/riwi/conversation-retention.ts",
+      "before": "71ea8d585804dd0ff9a4ab0d82da0dafa1ad5da6ea28235332bb278b429f406f",
+      "after": "6d955033b8b37ee03eacbc9518260b016aac71fbd2b99863ec93d15bc2486721"
+    },
+    {
+      "path": "tests/riwi-retention-native.test.ts",
+      "before": null,
+      "after": "5c666b1f36153a3da23c4aa027428573fd4042f23becbfe3ea73cfcac1f3c74f"
+    },
+    {
+      "path": "tests/ui/online-activity.test.tsx",
+      "before": "44380a7c3a32ea7875c6dc7ca54615822c54fae666608e85f6f61435a7a6b4fa",
+      "after": "8c0140b8b48d0797a097ef6f6f75fc95c3dfeea0dcd5f799d22dfc120ebc95e7"
+    }
+  ],
+  "prior_completed_work_preserved": true,
+  "no_product_ui_changes": true,
+  "no_schema_or_schedule_changes": true
+}

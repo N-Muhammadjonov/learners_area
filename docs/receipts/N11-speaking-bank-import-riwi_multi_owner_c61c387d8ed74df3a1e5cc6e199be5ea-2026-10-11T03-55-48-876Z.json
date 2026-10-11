@@ -1,0 +1,30 @@
+{
+  "at": "2026-10-11T03:55:48.876Z",
+  "mode": "apply",
+  "database": "riwi_multi_owner_c61c387d8ed74df3a1e5cc6e199be5ea",
+  "source": {
+    "sha256": "209e1161dd71ef3553ee3e3fe189cdc092b71d8d7f1a5e48c6dbb53ba9dc9f16",
+    "rows": 880
+  },
+  "inserted": 880,
+  "skippedExisting": 0,
+  "byPart": {
+    "part1": {
+      "rows": 285,
+      "uniqueIds": 285
+    },
+    "part2": {
+      "rows": 85,
+      "uniqueIds": 85
+    },
+    "part3": {
+      "rows": 510,
+      "uniqueIds": 510
+    }
+  },
+  "publication": {
+    "draft": 880,
+    "notDraft": 0
+  },
+  "boundary": "insert-only (ON CONFLICT DO NOTHING); rows land as draft; publishing is an owner action in Management"
+}

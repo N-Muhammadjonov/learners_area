@@ -23,6 +23,7 @@ export const RIWI_AUDIT_ACTIONS = [
   "riwi.owner.action.confirmed", "riwi.learning.signal.created", "riwi.learning.promotion.rejected", "riwi.learning.signal.materialized", "riwi.conversation.deleted", "riwi.conversation.read", "riwi.learning.reviewed", "riwi.course.lesson.read",
   "riwi.assessment.policy.candidate", "riwi.assessment.policy.previewed", "riwi.assessment.policy.regression.passed", "riwi.assessment.policy.approved", "riwi.assessment.policy.rejected",
   "riwi.security.regression.previewed", "riwi.security.reviewed",
+  "riwi.learning.explanation.prepared",
 ] as const satisfies readonly AuditAction[];
 export type RiwiAuditAction = (typeof RIWI_AUDIT_ACTIONS)[number];
 
@@ -51,6 +52,9 @@ const metadataSchema = z.object({
   externalEnabled: z.boolean().optional(),
   fallback: z.enum(["riwi", "none"]).optional(),
   taskProfile: z.string().max(60).optional(),
+  assessmentContractKey: z.string().min(1).max(80).optional(),
+  promptVersion: z.string().min(1).max(80).optional(),
+  rubricVersion: z.string().min(1).max(80).optional(),
   fallbackUsed: z.boolean().optional(),
   status: z.string().max(40).optional(),
   code: z.string().max(80).optional(),

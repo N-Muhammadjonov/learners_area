@@ -1,0 +1,257 @@
+{
+  "scope": "R04_ONLY",
+  "status": "LOCAL_REPAIR_VERIFIED_OPERATIONAL_ACCEPTANCE_PENDING",
+  "source_sha256": "c4ef35e59b9b41116fc2d0780edc8eaed7e18d98353cc247d1f2fdc6b905120b",
+  "source_files": 1248,
+  "full_native_rounds": 2,
+  "backend_each_round": 1476,
+  "ui_each_round": 261,
+  "count_scope": "Final two successful rounds only; earlier runtime failure is preserved separately",
+  "failures": 0,
+  "skips": 0,
+  "typecheck_and_lint_each_round": "PASSED",
+  "http_rounds": [
+    {
+      "round": 1,
+      "requests": 13,
+      "passed": true
+    },
+    {
+      "round": 2,
+      "requests": 13,
+      "passed": true
+    }
+  ],
+  "postgres_version": "16.14",
+  "private_clusters_stopped": true,
+  "prior_completed_work_preserved": true,
+  "deployed_scheduler_verified": false,
+  "actual_browser_verified": false,
+  "hosting_target_identified": false,
+  "full_group_closed": false,
+  "group_credit": 0,
+  "original_groups_locally_closed": 20,
+  "original_groups_total": 34,
+  "last_verified_published_closed": 19,
+  "overall_riwi_percent": null,
+  "overall_project_percent": null,
+  "push_performed": false,
+  "group6_started": false,
+  "build_performed": false,
+  "production_touched": false,
+  "operational_packet": "docs/RIWI-R04-OPERATIONAL-ACCEPTANCE.md",
+  "runtime_diagnostic": {
+    "observed_before_successful_rounds": "One Node/V8 WASM SIGTRAP in unchanged Speaking integration test",
+    "failed_attempt": {
+      "backend_pass": 1475,
+      "backend_fail": 1,
+      "backend_skip": 0
+    },
+    "isolated_retry": {
+      "tests": 2,
+      "pass": 2,
+      "fail": 0
+    },
+    "root_cause": "UNRESOLVED_RUNTIME_FAULT",
+    "product_or_dependency_changes": false,
+    "failed_attempt_counts_as_pass": false,
+    "record": "docs/evidence/riwi-r04-native/diagnostics/SPEAKING_RUNTIME_DIAGNOSTIC.json"
+  },
+  "evidence_files": [
+    {
+      "path": "receipt.json",
+      "sha256": "a062662cd29b3a0480dad19eb79f1403580f0197cece1ef7f78d1d5c8b7c1227",
+      "bytes": 31108
+    },
+    {
+      "path": "round-1/receipt.json",
+      "sha256": "193de9c146c270bd8fdfa06301c745d37669ad491433b362e4692a170c07af90",
+      "bytes": 13648
+    },
+    {
+      "path": "round-1/initdb.log",
+      "sha256": "6680348b165f77f1a51db9d234ed78004d96cc723a9e0591513bd01459a143ff",
+      "bytes": 1000
+    },
+    {
+      "path": "round-1/start.log",
+      "sha256": "66afd0411ccc09366e99fdd99b85f21899c8d2d064f5835126859618802153ad",
+      "bytes": 52
+    },
+    {
+      "path": "round-1/createdb.log",
+      "sha256": "5befc50650bb0effd8ff0f4063c1476e3c76183494d89c8983bd5f738c1c4893",
+      "bytes": 53
+    },
+    {
+      "path": "round-1/migrations-qa.log",
+      "sha256": "1d1294aa78848717cc5a1e630ddb980b0fbd8ed8e0fbb1e10bb7d87f1c5c5d97",
+      "bytes": 1446
+    },
+    {
+      "path": "round-1/migrations-portability.log",
+      "sha256": "1d1294aa78848717cc5a1e630ddb980b0fbd8ed8e0fbb1e10bb7d87f1c5c5d97",
+      "bytes": 1446
+    },
+    {
+      "path": "round-1/fixtures.log",
+      "sha256": "78b48596134330e2c4094cb8e9963d8f3685c12acd4fe9e131cbda3ecae0cc9d",
+      "bytes": 28
+    },
+    {
+      "path": "round-1/identity-before-tests.log",
+      "sha256": "5befc50650bb0effd8ff0f4063c1476e3c76183494d89c8983bd5f738c1c4893",
+      "bytes": 53
+    },
+    {
+      "path": "round-1/backend.log",
+      "sha256": "bb2f50fe210272580084ef1804d819dc0338dcc2b762c65a6eb69719a21f07e4",
+      "bytes": 354627
+    },
+    {
+      "path": "round-1/ui.log",
+      "sha256": "b6dcc6c8d9e89c81666497d370e0e96267fd42e95a3088bd435e396232aa12e2",
+      "bytes": 61517
+    },
+    {
+      "path": "round-1/typecheck.log",
+      "sha256": "5d67ea7ba0cdcb67cf34b4b132066d5cd00b857a31cc804006ed533f4aab0717",
+      "bytes": 49
+    },
+    {
+      "path": "round-1/lint.log",
+      "sha256": "63b6b500220f93347722b6b4ab90d1bc1f5a32bfe848b62f2565bcb75b5b71a6",
+      "bytes": 72
+    },
+    {
+      "path": "round-1/app-boot.log",
+      "sha256": "687639c14195a430a5d9383d01090d08f5accfcdb587e03cc4841ec5dbe97618",
+      "bytes": 90
+    },
+    {
+      "path": "round-1/identity-after-tests.log",
+      "sha256": "5befc50650bb0effd8ff0f4063c1476e3c76183494d89c8983bd5f738c1c4893",
+      "bytes": 53
+    },
+    {
+      "path": "round-1/stop.log",
+      "sha256": "ca19178a35ab4153b75b494963b66ce8243e1b94c173107c87b44d09db23652d",
+      "bytes": 56
+    },
+    {
+      "path": "round-1/r04-http.json",
+      "sha256": "0c176f60ef346d387c7efbf54a2524bf0d063f2baef2c283abc65501527be53f",
+      "bytes": 1996
+    },
+    {
+      "path": "round-2/receipt.json",
+      "sha256": "a1c70e562426469eb29453e744e9dd6a4c7e1c58068fa7484032d4c4dad22256",
+      "bytes": 13648
+    },
+    {
+      "path": "round-2/initdb.log",
+      "sha256": "b9ee0596c2dded47ca726ea6fb811595e85c3575c156a8f39415617204cccf38",
+      "bytes": 1000
+    },
+    {
+      "path": "round-2/start.log",
+      "sha256": "66afd0411ccc09366e99fdd99b85f21899c8d2d064f5835126859618802153ad",
+      "bytes": 52
+    },
+    {
+      "path": "round-2/createdb.log",
+      "sha256": "5befc50650bb0effd8ff0f4063c1476e3c76183494d89c8983bd5f738c1c4893",
+      "bytes": 53
+    },
+    {
+      "path": "round-2/migrations-qa.log",
+      "sha256": "1d1294aa78848717cc5a1e630ddb980b0fbd8ed8e0fbb1e10bb7d87f1c5c5d97",
+      "bytes": 1446
+    },
+    {
+      "path": "round-2/migrations-portability.log",
+      "sha256": "1d1294aa78848717cc5a1e630ddb980b0fbd8ed8e0fbb1e10bb7d87f1c5c5d97",
+      "bytes": 1446
+    },
+    {
+      "path": "round-2/fixtures.log",
+      "sha256": "78b48596134330e2c4094cb8e9963d8f3685c12acd4fe9e131cbda3ecae0cc9d",
+      "bytes": 28
+    },
+    {
+      "path": "round-2/identity-before-tests.log",
+      "sha256": "5befc50650bb0effd8ff0f4063c1476e3c76183494d89c8983bd5f738c1c4893",
+      "bytes": 53
+    },
+    {
+      "path": "round-2/backend.log",
+      "sha256": "ae08604723a769fdad3ad6a7fae5ed9e77f67ea60c1c48589ec17a3e1407be54",
+      "bytes": 354617
+    },
+    {
+      "path": "round-2/ui.log",
+      "sha256": "419149ffa92b4122dff7469d6eb81a7e5a9c5be7ad07d7402f01471c318dc80d",
+      "bytes": 61553
+    },
+    {
+      "path": "round-2/typecheck.log",
+      "sha256": "5d67ea7ba0cdcb67cf34b4b132066d5cd00b857a31cc804006ed533f4aab0717",
+      "bytes": 49
+    },
+    {
+      "path": "round-2/lint.log",
+      "sha256": "63b6b500220f93347722b6b4ab90d1bc1f5a32bfe848b62f2565bcb75b5b71a6",
+      "bytes": 72
+    },
+    {
+      "path": "round-2/app-boot.log",
+      "sha256": "687639c14195a430a5d9383d01090d08f5accfcdb587e03cc4841ec5dbe97618",
+      "bytes": 90
+    },
+    {
+      "path": "round-2/identity-after-tests.log",
+      "sha256": "5befc50650bb0effd8ff0f4063c1476e3c76183494d89c8983bd5f738c1c4893",
+      "bytes": 53
+    },
+    {
+      "path": "round-2/stop.log",
+      "sha256": "ca19178a35ab4153b75b494963b66ce8243e1b94c173107c87b44d09db23652d",
+      "bytes": 56
+    },
+    {
+      "path": "round-2/r04-http.json",
+      "sha256": "0c176f60ef346d387c7efbf54a2524bf0d063f2baef2c283abc65501527be53f",
+      "bytes": 1996
+    },
+    {
+      "path": "SOURCE_STATE.json",
+      "sha256": "4c665f267aac343a6f25d256db39f936b48ca488d77e7c50188de2e210e8940f",
+      "bytes": 188132
+    },
+    {
+      "path": "R04_CHANGE_VERIFICATION.json",
+      "sha256": "8415f85cf706bd7c4221752794660c45d2be27c20fd337e640d0efbba5811f35",
+      "bytes": 659
+    },
+    {
+      "path": "CHANGES_R04.json",
+      "sha256": "d3e25306dc3e2f07b78d97ce6485186610220d96f1fb6bc93e939772ded0d9c4",
+      "bytes": 1177
+    },
+    {
+      "path": "diagnostics/SPEAKING_RUNTIME_DIAGNOSTIC.json",
+      "sha256": "678c91914aee3c551d4bd1ca53c38d7e9d5475584b267994a31ac12a49b5449a",
+      "bytes": 1525
+    },
+    {
+      "path": "diagnostics/failed-full-receipt.json",
+      "sha256": "8365faa1ba2b7379e9f0cd10c41084642aaa75d0e7bed6af3e03b43182cf99a1",
+      "bytes": 14659
+    },
+    {
+      "path": "diagnostics/failed-backend.log",
+      "sha256": "273122327cfacf0824aca02c3688e598d5b2a157bd16120e23ecfbbe23062d69",
+      "bytes": 361964
+    }
+  ]
+}

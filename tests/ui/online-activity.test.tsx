@@ -85,3 +85,40 @@ test("a hung heartbeat expires and permits a later online update without leaking
     window.setTimeout = originalTimeout; window.clearTimeout = originalClearTimeout;
   }
 });
+
+test("hidden and offline tabs send no heartbeat; visibility and connectivity resume it; closed tabs stay silent", async () => {
+  const originalFetch = globalThis.fetch;
+  const originalInterval = window.setInterval, originalClear = window.clearInterval;
+  const onlineDescriptor = Object.getOwnPropertyDescriptor(navigator, "onLine");
+  const timers = new Map<number, () => void>(); let next = 0, requests = 0;
+  Object.defineProperty(document, "visibilityState", { value: "visible", configurable: true });
+  Object.defineProperty(navigator, "onLine", { value: false, configurable: true });
+  window.setInterval = ((callback: () => void) => { timers.set(++next, callback); return next; }) as typeof window.setInterval;
+  window.clearInterval = id => { timers.delete(Number(id)); };
+  globalThis.fetch = (async () => { requests++; return new Response(null, { status: 204 }); }) as typeof fetch;
+  const root = createRoot(document.getElementById("root")!);
+  try {
+    await act(async () => root.render(<OnlineActivity />));
+    for (const tick of timers.values()) tick();
+    assert.equal(requests, 0, "offline tabs cannot extend the user's online clock");
+    Object.defineProperty(document, "visibilityState", { value: "hidden", configurable: true });
+    Object.defineProperty(navigator, "onLine", { value: true, configurable: true });
+    window.dispatchEvent(new Event("online"));
+    for (const tick of timers.values()) tick();
+    assert.equal(requests, 0, "connected background tabs remain inactive");
+    Object.defineProperty(document, "visibilityState", { value: "visible", configurable: true });
+    await act(async () => document.dispatchEvent(new Event("visibilitychange")));
+    assert.equal(requests, 1);
+    await act(async () => root.unmount());
+    document.dispatchEvent(new Event("visibilitychange"));
+    window.dispatchEvent(new Event("online"));
+    for (const tick of timers.values()) tick();
+    assert.equal(requests, 1);
+    assert.equal(timers.size, 0);
+  } finally {
+    await act(async () => root.unmount());
+    globalThis.fetch = originalFetch; window.setInterval = originalInterval; window.clearInterval = originalClear;
+    if (onlineDescriptor) Object.defineProperty(navigator, "onLine", onlineDescriptor);
+    else Reflect.deleteProperty(navigator, "onLine");
+  }
+});

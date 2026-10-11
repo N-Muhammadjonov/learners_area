@@ -15,16 +15,17 @@ test("finite dictionary intent extraction isolates English, Uzbek, and Russian t
 
 test("dictionary answers use only supplied canonical facts and label unverified catalogue entries", () => {
   const entry: Extract<DictionaryLookup, { status: "resolved" }> = {
-    status: "resolved", canonicalLexemeId: "aaaaaaaa-0000-4000-8000-000000000021", senseId: "aaaaaaaa-0000-4000-8000-000000000022",
+    status: "resolved", canonicalLexemeId: "aaaaaaaa-0000-4000-8000-000000000021", senseId: "aaaaaaaa-0000-4000-8000-000000000021",
     term: "resilient", definitionEn: "able to recover quickly", translationUz: "bardoshli",
     partOfSpeech: "adjective", lexicalType: null, example: "The team remained resilient.", collocations: "resilient community",
     source: "Learners Area catalogue", verified: false, pronunciation: "/rɪˈzɪliənt/", occurrence: null,
   };
   const result = formatDictionaryAnswer(entry, "en");
-  assert.match(result.answer, /^resilient \(adjective\): able to recover quickly/);
+  assert.match(result.answer, /^Canonical sense: resilient \(adjective\)/);
+  assert.match(result.answer, /Plain meaning: able to recover quickly/);
   assert.match(result.answer, /Uzbek: bardoshli/);
   assert.match(result.answer, /Collocations: resilient community/);
-  assert.match(result.answer, /Example: The team remained resilient\./);
+  assert.match(result.answer, /Source example: The team remained resilient\./);
   assert.match(result.uncertainty ?? "", /not been verified/i);
   assert.equal(formatDictionaryAnswer({ ...entry, verified: true }, "uz").uncertainty, null);
 });

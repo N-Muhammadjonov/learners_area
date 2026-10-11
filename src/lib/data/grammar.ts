@@ -1,7 +1,8 @@
 import { and, asc, eq, ilike, isNull, or, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { timed } from "@/lib/observability/timing";
-import { grammarTopics, grammarExercises, grammarAttempts } from "@/db/schema";
+import { grammarTopics, grammarExercises, grammarAttempts, evaluations } from "@/db/schema";
+import { grammarEvaluationMatch, grammarAssessedVerdict } from "./grammar-assessment-evidence";
 import {
   summarizeTopicMastery,
   type AttemptRow,
@@ -22,8 +23,8 @@ export function getGrammarExerciseForUser(id: string, userId: string) {
   return db.query.grammarExercises.findFirst({ where: and(eq(grammarExercises.id, id), grammarVisibleTo(userId)) });
 }
 
-export function listTopics() {
-  return db.select({ id: grammarTopics.id, title: grammarTopics.title, skillArea: grammarTopics.skillArea, order: grammarTopics.order })
+export function listTopics(database = db) {
+  return database.select({ id: grammarTopics.id, title: grammarTopics.title, skillArea: grammarTopics.skillArea, order: grammarTopics.order })
     .from(grammarTopics)
     .orderBy(asc(grammarTopics.order));
 }
@@ -84,22 +85,23 @@ export async function getTopicWithExercises(topicId: string, userId: string, dat
  * secondary mastery panel: an unavailable history must not hide the topics or
  * practice links, and is represented as unavailable rather than a false zero.
  */
-export async function getTopicMastery(userId: string) {
+export async function getTopicMastery(userId: string, database = db) {
   const [topicsResult, exercisesResult, attemptsResult] = await Promise.allSettled([
-    timed("grammar.topics", () => listTopics()),
-    timed("grammar.exercises", () => db.select({ id: grammarExercises.id, topicId: grammarExercises.topicId })
+    timed("grammar.topics", () => listTopics(database)),
+    timed("grammar.exercises", () => database.select({ id: grammarExercises.id, topicId: grammarExercises.topicId })
       .from(grammarExercises)
       .where(grammarVisibleTo(userId))),
-    timed("grammar.attempts", () => db
+    timed("grammar.attempts", () => database
       .select({
         exerciseId: grammarAttempts.exerciseId,
         activity: grammarAttempts.activity,
-        isCorrect: grammarAttempts.isCorrect,
+        isCorrect: sql<boolean>`${grammarAssessedVerdict()} = 'correct'`,
         attemptedAt: grammarAttempts.attemptedAt,
       })
       .from(grammarAttempts)
       .innerJoin(grammarExercises, eq(grammarExercises.id, grammarAttempts.exerciseId))
-      .where(and(eq(grammarAttempts.userId, userId), grammarVisibleTo(userId)))),
+      .leftJoin(evaluations, grammarEvaluationMatch(userId))
+      .where(and(eq(grammarAttempts.userId, userId), grammarVisibleTo(userId), sql`${grammarAssessedVerdict()} is not null`))),
   ]);
 
   // Topic/exercise data defines the usable Grammar catalogue; preserve a local
@@ -138,23 +140,25 @@ export async function getTopicMastery(userId: string) {
 }
 
 /** The same summary for one topic, for the topic page's mastery card. */
-export async function getTopicMasteryFor(userId: string, topicId: string) {
+export async function getTopicMasteryFor(userId: string, topicId: string, database = db) {
   try {
     // Topic detail already loads its visible exercise rows. The joined predicate
     // keeps the attempt read within the same ownership boundary without reading
     // that exercise catalogue a second time.
-    const attempts = await db.select({
+    const attempts = await database.select({
       exerciseId: grammarAttempts.exerciseId,
       activity: grammarAttempts.activity,
-      isCorrect: grammarAttempts.isCorrect,
+      isCorrect: sql<boolean>`${grammarAssessedVerdict()} = 'correct'`,
       attemptedAt: grammarAttempts.attemptedAt,
     })
       .from(grammarAttempts)
       .innerJoin(grammarExercises, eq(grammarExercises.id, grammarAttempts.exerciseId))
+      .leftJoin(evaluations, grammarEvaluationMatch(userId))
       .where(and(
         eq(grammarAttempts.userId, userId),
         eq(grammarExercises.topicId, topicId),
         grammarVisibleTo(userId),
+        sql`${grammarAssessedVerdict()} is not null`,
       ));
 
     const rows: AttemptRow[] = attempts.map((attempt) => ({

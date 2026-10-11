@@ -1,0 +1,31 @@
+{
+  "scope": "R04_PRELIMINARY_HTTP_ONLY",
+  "source_sha256": "c4ef35e59b9b41116fc2d0780edc8eaed7e18d98353cc247d1f2fdc6b905120b",
+  "files": [
+    {
+      "path": "canonical-migrations.log",
+      "sha256": "1d1294aa78848717cc5a1e630ddb980b0fbd8ed8e0fbb1e10bb7d87f1c5c5d97",
+      "bytes": 1446
+    },
+    {
+      "path": "r04-http.json",
+      "sha256": "0c176f60ef346d387c7efbf54a2524bf0d063f2baef2c283abc65501527be53f",
+      "bytes": 1996
+    },
+    {
+      "path": "r04-http.log",
+      "sha256": "687639c14195a430a5d9383d01090d08f5accfcdb587e03cc4841ec5dbe97618",
+      "bytes": 90
+    },
+    {
+      "path": "receipt.json",
+      "sha256": "46b2bd2b6e3d830bd93fbc7d31a758c3841ad18a39060d1a79261c469912f834",
+      "bytes": 961
+    },
+    {
+      "path": "stop.log",
+      "sha256": "ca19178a35ab4153b75b494963b66ce8243e1b94c173107c87b44d09db23652d",
+      "bytes": 56
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "scope": "R04_ONLY",
+  "checked_at_utc": "2026-10-11T05:25:17.808265+00:00",
+  "method": "Authenticated Safari dashboard read-only observations and GitHub read-only connector",
+  "candidate_source_sha256": "c4ef35e59b9b41116fc2d0780edc8eaed7e18d98353cc247d1f2fdc6b905120b",
+  "candidate_source_files": 1248,
+  "candidate_source_hashes_rechecked": true,
+  "repository": "N-Muhammadjonov/learners_area",
+  "branch": "arena/01a10bac-learners-area",
+  "remote_head": "2f880809bf57ad3d37c373dc944b28037f20d0a0",
+  "github_statuses": [
+    {
+      "context": "Vercel",
+      "state": "failure",
+      "target_url": "https://vercel.link/3Fpeeb1"
+    }
+  ],
+  "hosting_dashboard_accessible": true,
+  "team": {
+    "name": "Learners_Area",
+    "slug": "learners-area",
+    "observed_plan": "Hobby",
+    "plan_badge_directly_observed": true
+  },
+  "visible_projects": [
+    {
+      "name": "learners-area",
+      "project_id": "prj_8wqX84RuwckVoEcYbmKA9DEHZSlZ"
+    }
+  ],
+  "project_inventory_limit": "One visible project on the current team Projects page; this does not prove no isolated project exists in another team/provider.",
+  "environments_page": {
+    "url": "https://vercel.com/learners-area/learners-area/settings/environments",
+    "observed_environments": [
+      "Production",
+      "Preview",
+      "Development"
+    ],
+    "custom_environments_shown": 0
+  },
+  "riwi_existing_preview": {
+    "deployment_id": "dpl_7tcYprgTUswYfZoi7dz1DauaG3UQ",
+    "dashboard_url": "https://vercel.com/learners-area/learners-area/7tcYprgTUswYfZoi7dz1DauaG3UQ",
+    "deployment_url": "https://learners-area-jujt2iytu-learners-area.vercel.app",
+    "branch_alias": "https://learners-area-git-arena-01a10bac-learners-area-learners-area.vercel.app",
+    "status": "Ready",
+    "environment": "Preview",
+    "source_commit": "e50a2a944f092c695711792b63dbfcf154739c65",
+    "matches_current_remote_head": false,
+    "matches_current_candidate": false
+  },
+  "cron_page": {
+    "url": "https://vercel.com/learners-area/learners-area/settings/cron-jobs",
+    "feature_toggle_observed": "Enabled",
+    "displayed_content": "Get Started with Cron Jobs on Vercel",
+    "configured_job_rows_observed": 0,
+    "successful_execution_receipts_observed": 0,
+    "feature_enabled_is_not_execution_proof": true
+  },
+  "configured_source_schedule": {
+    "path": "/api/cron/riwi-chat-retention",
+    "schedule": "0 * * * *"
+  },
+  "official_scheduler_documentation": {
+    "url": "https://vercel.com/docs/cron-jobs/usage-and-pricing",
+    "hobby_minimum_interval": "Once per day",
+    "hourly_expression_supported_on_observed_plan": false,
+    "status_link_redirect_verified": true
+  },
+  "historical_other_previews": [
+    {
+      "branch": "arena/01a0ebfa-learners-area",
+      "head": "98fc07d092715fe0fd2d9beaa40ea3b3e08f28c3",
+      "github_status": "success",
+      "deployment_id": "dpl_84AnvoBA7SQuT6R26Zc8agnHTdAp",
+      "observed_environment": "Preview",
+      "database_isolation_verified": false
+    },
+    {
+      "branch": "arena/01a10332-learners-area",
+      "head": "15a465dd675a914adc2b1fe962fbcca6bfc3dcb9",
+      "github_status": "success",
+      "deployment_id": "dpl_H5dqZVu63Uz1AbPrmjCHCDV1f3DA",
+      "database_isolation_verified": false
+    }
+  ],
+  "isolated_hosting_target_identified": false,
+  "database_identity_or_isolation_verified": false,
+  "database_secret_values_read": false,
+  "private_failure_log_verified": false,
+  "deployed_scheduler_verified": false,
+  "actual_product_browser_acceptance_verified": false,
+  "remaining_blockers": [
+    "Identify an owner-designated isolated test project and database scope",
+    "Identify an authorized scheduler supporting the unchanged hourly schedule",
+    "Obtain actual pinned-candidate deployed, browser and scheduler receipts"
+  ],
+  "authorization_boundary": "Earlier owner instructions deferred hosting work and forbid inferred Production/shared Preview writes. Dashboard access does not grant deployment or database-write permission.",
+  "external_mutations": false,
+  "hosting_setting_changes": false,
+  "cron_manually_triggered": false,
+  "deployment_or_build_performed": false,
+  "commit_or_push_performed": false,
+  "group6_started": false,
+  "full_group_closed": false,
+  "group_credit": 0,
+  "original_groups_locally_closed": 20,
+  "original_groups_total": 34,
+  "evidence_type": "Secret-free structured record of directly observed UI fields; not a raw UI export or deployed retention acceptance receipt."
+}

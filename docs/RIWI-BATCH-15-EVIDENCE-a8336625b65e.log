@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: AP1 candidate parsing is deterministic, allowlisted, and refuses mixed or injected instructions
+ok 1 - AP1 candidate parsing is deterministic, allowlisted, and refuses mixed or injected instructions
+  ---
+  duration_ms: 3.896666
+  type: 'test'
+  ...
+# Subtest: AP2 regression preview freezes hard-core/schema/rubric invariants for each allowlisted scope
+ok 2 - AP2 regression preview freezes hard-core/schema/rubric invariants for each allowlisted scope
+  ---
+  duration_ms: 3.668958
+  type: 'test'
+  ...
+# Subtest: AP3 owner-only candidate → preview → approve lifecycle is idempotent, audited, versioned, and policy-only
+ok 3 - AP3 owner-only candidate → preview → approve lifecycle is idempotent, audited, versioned, and policy-only
+  ---
+  duration_ms: 2424.49175
+  type: 'test'
+  ...
+# Subtest: AP3b approval cannot be replayed after a previewed candidate is modified
+ok 4 - AP3b approval cannot be replayed after a previewed candidate is modified
+  ---
+  duration_ms: 1175.96275
+  type: 'test'
+  ...
+# Subtest: AP4 owner-history pagination is stable, bounded, filter-bound, retryable, and reaches every policy version
+ok 5 - AP4 owner-history pagination is stable, bounded, filter-bound, retryable, and reaches every policy version
+  ---
+  duration_ms: 1005.984208
+  type: 'test'
+  ...
+# Subtest: rollback creates a fresh inert candidate with new preview/approval; old versions remain immutable and retries are scoped to activation
+ok 6 - rollback creates a fresh inert candidate with new preview/approval; old versions remain immutable and retries are scoped to activation
+  ---
+  duration_ms: 2408.648792
+  type: 'test'
+  ...
+# Subtest: approval binds the exact preview the owner reviewed even after another valid preview replaces it
+ok 7 - approval binds the exact preview the owner reviewed even after another valid preview replaces it
+  ---
+  duration_ms: 1206.589833
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5155.632166

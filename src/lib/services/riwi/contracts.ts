@@ -32,6 +32,10 @@ export const RIWI_INTENTS = [
   "evaluate_speaking",
   "evaluate_grammar",
   "evaluate_vocabulary",
+  "retention_recall",
+  "retention_vocabulary",
+  "retention_error_pattern",
+  "grammar_retention",
   "unsupported",
   "security_denial",
   "unknown",
@@ -169,6 +173,18 @@ export function assessRiwiIntent(message: string): RiwiIntentAssessment {
   if (/\b(search the web|browse (?:the )?internet|latest news|live weather|draw (?:me )?(?:a )?(?:picture|image)|generate (?:an? )?image|play (?:a )?game)\b/i.test(input)) {
     return { intent: "unsupported", confidence: 0.9 };
   }
+  if (/\bgrammar\b.{0,35}\b(?:retention|recall|review)\b|\b(?:retention|recall)\b.{0,35}\bgrammar\b/i.test(input)
+    || /(?:grammatika|grammatik).{0,35}(?:eslash|takrorlash|retention)|(?:eslash|takrorlash).{0,35}(?:grammatika|grammatik)/i.test(input))
+    return { intent: "grammar_retention", confidence: 0.93 };
+  if (/\b(?:my|review|explain)\b.{0,60}\b(?:recurring errors?|error patterns?|repeated (?:gaps|errors))\b|\b(?:recurring errors?|error patterns?)\b.{0,45}\b(?:my|review|explain)\b/i.test(input)
+    || /(?:mening|tushuntir|izohla).{0,60}(?:takrorlanadigan xato|xatolarim|takrorlangan xato)/i.test(input))
+    return { intent: "retention_error_pattern", confidence: 0.93 };
+  if (/\b(?:vocabulary|words?)\b.{0,30}\b(?:retention|recall)\b|\b(?:retention|recall)\b.{0,30}\b(?:vocabulary|words?)\b/i.test(input)
+    || /(?:so'zlarim|lug'atim|vocabulary).{0,40}(?:eslash|retention|recall)|(?:eslash|retention|recall).{0,40}(?:so'zlarim|lug'atim)/i.test(input))
+    return { intent: "retention_vocabulary", confidence: 0.93 };
+  if (/\b(?:retention|recall)\b.{0,45}\b(?:my|result|attempt|review|explain)\b|\b(?:my|review|explain)\b.{0,45}\b(?:retention|recall)\b/i.test(input)
+    || /(?:mening|natijam|urinishi|eslaganim).{0,45}(?:retention|qayta eslash)|(?:retention|qayta eslash).{0,45}(?:natijam|tushuntir|izohla)/i.test(input))
+    return { intent: "retention_recall", confidence: 0.93 };
   if (/\b(grade|evaluate|check)\b.{0,40}\b(my )?(essay|writing|speaking|grammar|vocabulary)\b|\b(my )?(essay|writing)\b.{0,30}\b(grade|evaluate|check)\b/i.test(input)) {
     const intent: RiwiIntent = /\b(speaking)\b/i.test(input) ? "evaluate_speaking"
       : /\b(grammar)\b/i.test(input) ? "evaluate_grammar"

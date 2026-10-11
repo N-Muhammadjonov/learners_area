@@ -29,6 +29,8 @@ import type { RiwiRollout } from "../src/lib/services/riwi/rollout";
 import type { ServiceOutcome } from "../src/lib/services/coach/service";
 import { recordSentenceUse } from "../src/lib/services/vocabulary/engine";
 import { createTestDatabase } from "./support/pglite";
+import { persistGrammarFixture } from "./support/grammar-evaluation-fixture";
+import { prepareGrammarProduction } from "../src/lib/data/grammar-production-write";
 
 function evaluationRecord(type: EvaluationRecord["evaluationType"], userId: string): EvaluationRecord {
   return {
@@ -110,7 +112,7 @@ test("evaluation tools select only the caller's latest canonical work and delega
   const grammarTopicId = randomUUID();
   const grammarExerciseId = randomUUID();
   const olderGrammarId = randomUUID();
-  const latestGrammarId = randomUUID();
+  let latestGrammarId = "";
   const otherGrammarId = randomUUID();
   const lexemeId = randomUUID();
   const learnerVocabularyId = randomUUID();
@@ -164,9 +166,13 @@ test("evaluation tools select only the caller's latest canonical work and delega
     });
     await database.db.insert(grammarAttempts).values([
       { id: olderGrammarId, userId: learnerId, exerciseId: grammarExerciseId, activity: "activate_it", responseText: "I have learned to plan.", isCorrect: false, attemptedAt: new Date("2026-10-02T08:00:00.000Z") },
-      { id: latestGrammarId, userId: learnerId, exerciseId: grammarExerciseId, activity: "activate_it", responseText: "I have learned to plan carefully.", isCorrect: false, attemptedAt: new Date("2026-10-03T08:00:00.000Z") },
       { id: otherGrammarId, userId: otherLearnerId, exerciseId: grammarExerciseId, activity: "activate_it", responseText: "UNRELATED PRIVATE GRAMMAR CANARY.", isCorrect: false, attemptedAt: new Date("2026-10-04T08:00:00.000Z") },
     ]);
+
+    const grammarStart = await prepareGrammarProduction(learnerId, grammarExerciseId,
+      { activity: "activate_it", answer: "I have learned to plan carefully." }, "en", database.db);
+    assert.ok(grammarStart.ok);
+    latestGrammarId = grammarStart.prepared.attemptId;
 
     await database.db.insert(lexemes).values({
       id: lexemeId, term: "resilient", partOfSpeech: "adjective", definitionEn: "Able to recover after difficulty.",
@@ -194,7 +200,7 @@ test("evaluation tools select only the caller's latest canonical work and delega
       },
       evaluateGrammarProduction: async (input) => {
         observed.grammar.push(input);
-        return success(records.grammar);
+        return persistGrammarFixture(input, records.grammar);
       },
       evaluateVocabularyUsage: async (input) => {
         observed.vocabulary.push(input);
@@ -281,7 +287,7 @@ test("chat request resolves to the real authorized Grammar tool, validates the C
   const otherLearnerId = randomUUID();
   const topicId = randomUUID();
   const exerciseId = randomUUID();
-  const attemptId = randomUUID();
+  let attemptId = "";
   const evaluation = {
     ...evaluationRecord("grammar", learnerId),
     providerId: "openai", providerDisplayName: "OpenAI", providerType: "external" as const,
@@ -293,7 +299,7 @@ test("chat request resolves to the real authorized Grammar tool, validates the C
     ...canonicalRiwiEvaluationServices,
     evaluateGrammarProduction: async (input) => {
       captured.push(input);
-      return success(evaluation);
+      return persistGrammarFixture(input, evaluation);
     },
   };
   const correlationId = randomUUID();
@@ -312,9 +318,13 @@ test("chat request resolves to the real authorized Grammar tool, validates the C
       sourceSubmissionId: null, sourceOwnerUserId: null, activationPrompt: "Describe something you have learned.",
     });
     await database.db.insert(grammarAttempts).values([
-      { id: attemptId, userId: learnerId, exerciseId, activity: "activate_it", responseText: "I have learned to plan carefully.", isCorrect: false },
       { userId: otherLearnerId, exerciseId, activity: "activate_it", responseText: "UNRELATED PRIVATE GRAMMAR CANARY.", isCorrect: false },
     ]);
+
+    const grammarStart = await prepareGrammarProduction(learnerId, exerciseId,
+      { activity: "activate_it", answer: "I have learned to plan carefully." }, "en", database.db);
+    assert.ok(grammarStart.ok);
+    attemptId = grammarStart.prepared.attemptId;
 
     const broker = createRiwiCoreTools(database.db, services);
     const base = createRiwiGatewayDependencies(database.db, broker);

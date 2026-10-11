@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "status": "TWO_AFFECTED_LOCAL_ROUNDS_PASSED_NOT_FULL_GROUP_ACCEPTANCE",
+  "baseCommit": "2f880809bf57ad3d37c373dc944b28037f20d0a0",
+  "sourceSha256": "02504ba89fb05d1c8c78c3060112b6f957d9824ba8bfaf2eb30e22f314ce9820",
+  "sourceFileCount": 1234,
+  "sourceUnchangedAcrossBothRounds": true,
+  "backendTestFiles": 34,
+  "eachRound": {
+    "backend": {
+      "tests": 251,
+      "pass": 251,
+      "fail": 0,
+      "skipped": 0
+    },
+    "ui": {
+      "tests": 260,
+      "pass": 260,
+      "fail": 0,
+      "skipped": 0
+    },
+    "typecheckExit": 0,
+    "lintExit": 0
+  },
+  "distinctSelectedTestCases": 511,
+  "totalTestExecutionsAcrossTwoRounds": 1022,
+  "nativePostgres": false,
+  "liveProviders": false,
+  "authenticatedBrowserAcceptance": false,
+  "buildRun": false,
+  "commitCreated": false,
+  "pushPerformed": false,
+  "pushReady": false,
+  "newAcceptedOriginalGroups": [],
+  "acceptedProgress": {
+    "closed": 19,
+    "total": 34,
+    "percent": 55.88235294117647
+  },
+  "sourceTasksWithCurrentLocalEvidence": [
+    "retention.reading_recall",
+    "retention.vocabulary_recall",
+    "retention.error_pattern",
+    "grammar.retention",
+    "grammar.explanation"
+  ],
+  "qaArtifacts": [
+    {
+      "path": "docs/evidence/riwi-batch25-assistant/receipt.json",
+      "sha256": "3632d54ed33ad1c1b013fb49ce8a7deccf44dac21c9ea4a6272b22e29e31fe43",
+      "bytes": 11877
+    },
+    {
+      "path": "docs/evidence/riwi-batch25-assistant/round-1-backend.log",
+      "sha256": "b66c81a78d573007e300e3a1a3e5a79d05600e8ea2986dd3f8bf934947c11302",
+      "bytes": 65026
+    },
+    {
+      "path": "docs/evidence/riwi-batch25-assistant/round-1-lint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evidence/riwi-batch25-assistant/round-1-typecheck.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evidence/riwi-batch25-assistant/round-1-ui.log",
+      "sha256": "0992408df998e3fff495d49a4da515a757ef932e5355de3fd9668306f1fa7de7",
+      "bytes": 61208
+    },
+    {
+      "path": "docs/evidence/riwi-batch25-assistant/round-2-backend.log",
+      "sha256": "29f92dc3b152139feecc56273439e83e07d50289e822a90b2539dc28372cd249",
+      "bytes": 65034
+    },
+    {
+      "path": "docs/evidence/riwi-batch25-assistant/round-2-lint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evidence/riwi-batch25-assistant/round-2-typecheck.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evidence/riwi-batch25-assistant/round-2-ui.log",
+      "sha256": "eb138ac59174f749103ce4fb851e0454bfe7292520a6866f5dd49b84946fce10",
+      "bytes": 61214
+    },
+    {
+      "path": "docs/evidence/riwi-batch25-assistant/source-state.json",
+      "sha256": "6962a5b7350ca75eb967aad03f12606eb2876996ae1afb42e4dcbaa2122c1a12",
+      "bytes": 185978
+    }
+  ],
+  "limitations": [
+    "Affected selection, not the complete backend gate.",
+    "PGlite/WASM SQL, not independent native multi-connection acceptance.",
+    "Shared provider adapters execute isolated fixtures, not live model calls.",
+    "No current restored-application boot, R2 or recovery acceptance.",
+    "No rebuild under owner instruction; D09 remains open."
+  ],
+  "completedAt": "2026-10-10T19:44:03.064890+00:00"
+}

@@ -1,0 +1,222 @@
+{
+  "commit": "0524512a40f24a1d38e26f1728e247248916107b",
+  "parent": "6f125f7dd21fafcce4f7ab089b0e26569600b3b5",
+  "tree": "0b1b5e144578e7bc445e46d5726f848d15436dea",
+  "truncated": false,
+  "tree_entries": 2033,
+  "paths": [
+    {
+      "path": "docs/RIWI-BATCH-16-REMOTE-VERIFICATION.json",
+      "old_blob": null,
+      "new_blob": "88bd1a0975281a1d0671d6618746f0916af14430",
+      "new_sha256": "60cccac7396ff53180d369ebfc8d3b77f443dc2e11cd92345fac700210c6e224"
+    },
+    {
+      "path": "docs/RIWI-BATCH-17-PUSH-HANDOFF.json",
+      "old_blob": null,
+      "new_blob": "c344a7657f92ad9d99fed98c4c46ba543b8e9983",
+      "new_sha256": "8386ea753e0aeea93dc453ff564a1b01df0b20781e5556a9228ea2c251486308"
+    },
+    {
+      "path": "docs/RIWI-BATCH-17-PUSH-SOURCE-STATE.json",
+      "old_blob": null,
+      "new_blob": "3f54f5279c2083bd30f7d87652bd1dddaf2e27de",
+      "new_sha256": "16e2c32f2d65e1e16d895977296db3119b1c93b568b68b3721d90097289f93a6"
+    },
+    {
+      "path": "docs/RIWI-BATCH-17-VOCABULARY-EVIDENCE.md",
+      "old_blob": null,
+      "new_blob": "daee541173cfb67a037151e92aa41c8b10465a75",
+      "new_sha256": "165e8f65daaf727b6a34df2aa82a2cc0df256b3e8ed384327f8123cdd948f731"
+    },
+    {
+      "path": "docs/RIWI-BATCH-17-VOCABULARY-QA-RESULTS.json",
+      "old_blob": null,
+      "new_blob": "2fa0d0d53e97b5e4bd01be567800c0aaa279296f",
+      "new_sha256": "48f599965f1f1de36ce406e07313e661f578c9fac11279c65467bade72bb7928"
+    },
+    {
+      "path": "docs/RIWI-BATCH-17-VOCABULARY-SOURCE-STATE.json",
+      "old_blob": null,
+      "new_blob": "817f6d36c909c82734a2c6f22925b4556c395ef4",
+      "new_sha256": "4c0cd09c3fbdeaecdc193cabeffa7399eed5d27a397789e7cae07b7a3df56ad9"
+    },
+    {
+      "path": "docs/RIWI-REMAINING-PROMPT-PROGRESS.json",
+      "old_blob": "8b10e798754094fee1d96e05aab91feb7dfa9e4e",
+      "new_blob": "396390e09beed3ab1a11a8c578867152cfa5b167",
+      "new_sha256": "bffd7d320850e6a05007e49dfc0ee37a2f952181b5dc75fa54d57322820164fe"
+    },
+    {
+      "path": "src/app/api/vocabulary/[id]/use/route.ts",
+      "old_blob": "7d61e3b924b5bc80b390d4fafae3264a512017fc",
+      "new_blob": "01203b8a1c47a9ba476eb59080f1ce009f744810",
+      "new_sha256": "92a1ee4ed31dfc32a9e6540f03d97cb89f02dfbd4959bca791e23281bb77e215"
+    },
+    {
+      "path": "src/lib/services/riwi/evaluation-tools.ts",
+      "old_blob": "540be14903b157e7d050318aa69c516c73fa0ae4",
+      "new_blob": "5bb530937b4689cc4cf41dbcdcf70a0c2a3cf5c4",
+      "new_sha256": "7644ea1048c8b4c7729c9f53f97ec395654d22fefc227cf4bf96d012a28abd95"
+    },
+    {
+      "path": "src/lib/services/vocabulary/engine.ts",
+      "old_blob": "09615bb5da1511b0757cc3cadd07f5efc5695103",
+      "new_blob": "b69621d57ba09338111d2a7fd8943c5c1d175ef5",
+      "new_sha256": "5c58596ff251dd5fa644b14c9ee035b8838dc3444f4acb339e9ec545eee52b1b"
+    },
+    {
+      "path": "src/lib/services/vocabulary/evaluation-binding.ts",
+      "old_blob": null,
+      "new_blob": "305f84f49a01f6ed796b509ec3fd86ffa7fb3f9c",
+      "new_sha256": "3a1d75a2f1458421ebc9018170e1c3ae197a745816c09ead58eca0272a57bf93"
+    },
+    {
+      "path": "src/lib/services/vocabulary/sentence-input.ts",
+      "old_blob": null,
+      "new_blob": "e08e850f61a0f5c632c4cc601074ef0cc19d9534",
+      "new_sha256": "af51dd70fb9633b09e65a81aaeb6ab4c3112065dc7396e1ceeb849024b037997"
+    },
+    {
+      "path": "src/lib/services/writing/activation.ts",
+      "old_blob": "a1f4aaa4112126475b77494628125ace7e031834",
+      "new_blob": "150f53404534f5abaec45166067f649283f650d5",
+      "new_sha256": "7424ea948f2ddd0223f8a2114a5a2e66b1d2aa2a25e8d1d7efa21f464df4f0e7"
+    },
+    {
+      "path": "src/lib/services/writing/check.ts",
+      "old_blob": "34e537256565487f3953239f017ffb00f4b84d73",
+      "new_blob": "5e05d58dfc32b9e61344be2ac94269b290d84080",
+      "new_sha256": "6dad328819f58f38bfef660ea99472b074321b7c150ca56442df586d058887e1"
+    },
+    {
+      "path": "tests/riwi-evaluation-tools.test.ts",
+      "old_blob": "50b7ecd35950f8e450a25012af72366d60ecf79f",
+      "new_blob": "f165045b81da4939ed10b6b2b6dac50905ba809a",
+      "new_sha256": "adcf9ce5ed07526db1042431f6dd2612bb4fab5b2cc899167021044b20eb8dc5"
+    },
+    {
+      "path": "tests/riwi-feature-integration.test.ts",
+      "old_blob": "47cdcd3c98eb840e3d2dafaeb5e9c8a73da52863",
+      "new_blob": "6cd68c3e51a3badb1c632ee01f8119998025cda4",
+      "new_sha256": "cc6e1cfe1c6bf151400a4dfabeef026b3b9a0938c06e1930ab50c6d96c297acc"
+    },
+    {
+      "path": "tests/riwi-provider-lab.test.ts",
+      "old_blob": "2802743ad1c2de69839d2ad6eef20d79b99e8c11",
+      "new_blob": "5aac25bd9aa999f23579d47c65bbf226c1b44e43",
+      "new_sha256": "dd42b8cdbea1378471e2e1ecfc653c2a5cd1a7e00d8171da0ec5fe8435346ee9"
+    },
+    {
+      "path": "tests/vocabulary-active-use-atomic.test.ts",
+      "old_blob": null,
+      "new_blob": "d582c3ec7e76eb1256f76556047d5c85c6be58e7",
+      "new_sha256": "7727411886f8e02e9dea9fa6a37936d5193403318124027249994e0ad7bbd717"
+    },
+    {
+      "path": "tests/vocabulary-points-db.test.ts",
+      "old_blob": "6993e3395ae74ca72e6368558707cb951a3fe608",
+      "new_blob": "cadee12d6acefe55de2a47f4de97b03e43d1d9be",
+      "new_sha256": "bd4e9a42a1e34575cee7b8ef6c7a7a6639322a89ee6dc988c75802e6883613c4"
+    },
+    {
+      "path": "tests/writing-activation.test.ts",
+      "old_blob": "2f17435c7de80cfe1aef9a6966ec43030c83a90a",
+      "new_blob": "cfe18495cb55673ab1faf9665e8362f028f20892",
+      "new_sha256": "d3dce8df0dbdfc72531d6777d74a3ddd5fde79737c5070b9f832cd328bf4b01f"
+    }
+  ],
+  "verified_source_files": 1211,
+  "source_sha256": "c629ad51e49f41df314e7673fc283b7e87dc991c2d60f6fc0fa43e29160a0fee",
+  "new_complete_groups_accepted": 0,
+  "progress_percent": 50,
+  "operational_acceptance": "UNVERIFIED",
+  "exact_source_inventory_verified": true,
+  "native_qa_receipt": {
+    "base": "6f125f7dd21fafcce4f7ab089b0e26569600b3b5",
+    "state": "c629ad51e49f41df314e7673fc283b7e87dc991c2d60f6fc0fa43e29160a0fee",
+    "patch_sha256": "cd6d705dd447013c83ca49413ff8a7e024d88d4ac65542ec2bcca4a4b5ca1f3a",
+    "rounds": [
+      {
+        "backend": {
+          "exit_code": 0,
+          "sha256": "a62e89faa6802194370a44823358fc6bd822e58bdcaeb8f2d606f6252463a723",
+          "log": "/var/folders/d2/kzhzn_d52zl6g37wz2011f400000gn/T/riwi-batch17-native-qa-gubesddb/round-1-backend.log",
+          "counts": {
+            "tests": 1342,
+            "pass": 1250,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 92,
+            "todo": 0
+          }
+        },
+        "ui": {
+          "exit_code": 0,
+          "sha256": "1d1bc4df36ba5c2e889b9f3cff7a3a834ce4265f650c7f31fd54d42fb681f8f4",
+          "log": "/var/folders/d2/kzhzn_d52zl6g37wz2011f400000gn/T/riwi-batch17-native-qa-gubesddb/round-1-ui.log",
+          "counts": {
+            "tests": 260,
+            "pass": 260,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          }
+        },
+        "typecheck": {
+          "exit_code": 0,
+          "sha256": "5d67ea7ba0cdcb67cf34b4b132066d5cd00b857a31cc804006ed533f4aab0717",
+          "log": "/var/folders/d2/kzhzn_d52zl6g37wz2011f400000gn/T/riwi-batch17-native-qa-gubesddb/round-1-typecheck.log"
+        },
+        "lint": {
+          "exit_code": 0,
+          "sha256": "63b6b500220f93347722b6b4ab90d1bc1f5a32bfe848b62f2565bcb75b5b71a6",
+          "log": "/var/folders/d2/kzhzn_d52zl6g37wz2011f400000gn/T/riwi-batch17-native-qa-gubesddb/round-1-lint.log"
+        }
+      },
+      {
+        "backend": {
+          "exit_code": 0,
+          "sha256": "0621fa7a0aee82d4399b68abefedbb84ad5de0d836be0558b439e974580df83b",
+          "log": "/var/folders/d2/kzhzn_d52zl6g37wz2011f400000gn/T/riwi-batch17-native-qa-gubesddb/round-2-backend.log",
+          "counts": {
+            "tests": 1342,
+            "pass": 1250,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 92,
+            "todo": 0
+          }
+        },
+        "ui": {
+          "exit_code": 0,
+          "sha256": "9a5462cbd3e37d3ccb10d6fa1b2b946e684a319cd216615b320e10f05c0cbaa2",
+          "log": "/var/folders/d2/kzhzn_d52zl6g37wz2011f400000gn/T/riwi-batch17-native-qa-gubesddb/round-2-ui.log",
+          "counts": {
+            "tests": 260,
+            "pass": 260,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          }
+        },
+        "typecheck": {
+          "exit_code": 0,
+          "sha256": "5d67ea7ba0cdcb67cf34b4b132066d5cd00b857a31cc804006ed533f4aab0717",
+          "log": "/var/folders/d2/kzhzn_d52zl6g37wz2011f400000gn/T/riwi-batch17-native-qa-gubesddb/round-2-typecheck.log"
+        },
+        "lint": {
+          "exit_code": 0,
+          "sha256": "63b6b500220f93347722b6b4ab90d1bc1f5a32bfe848b62f2565bcb75b5b71a6",
+          "log": "/var/folders/d2/kzhzn_d52zl6g37wz2011f400000gn/T/riwi-batch17-native-qa-gubesddb/round-2-lint.log"
+        }
+      }
+    ],
+    "build_rerun": false,
+    "operational_acceptance": "UNVERIFIED",
+    "progress": "17/34 = 50%; accepted new groups: 0",
+    "commit": "0524512a40f24a1d38e26f1728e247248916107b"
+  }
+}

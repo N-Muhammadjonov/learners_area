@@ -200,18 +200,23 @@ test("evaluation routes require a session before anything else", () => {
     "src/app/api/vocabulary/[id]/use/route.ts",
     "src/app/api/assignments/[id]/evaluate/route.ts",
   ];
-  for (const route of routes) {
-    const source = read(route);
-    // Authorization must come from the database-backed guard: a signed cookie
-    // alone is not enough, because an account can be suspended or still be
-    // waiting for admission while its cookie stays valid.
-    assert.match(source, /requireActiveUser\(\)/, `${route} must gate on requireActiveUser`);
-    assert.ok(
-      source.indexOf("requireActiveUser") < source.indexOf("evaluate"),
-      `${route} must authorize before it evaluates`
-    );
-    assert.match(source, /status: 401/, `${route} must answer 401 without a session`);
+  function check(source: string, route: string) {
+    const clean = stripComments(source);
+    const start = clean.indexOf("export async function POST");
+    assert.ok(start >= 0, `${route} must expose a POST handler`);
+    const handler = clean.slice(start);
+    const guard = handler.indexOf("await requireActiveUser()");
+    const denial = handler.indexOf("status: 401");
+    // Canonical writers can perform evaluation behind the route. Check calls
+    // inside the handler rather than import order or a word in a comment.
+    const calls = [...handler.matchAll(/\b(?:evaluate\w+|submitSpeakingAttempt|submitGrammarProduction)\s*\(/g)];
+    assert.ok(calls.length > 0, `${route} must reach a known evaluation entry point`);
+    assert.ok(guard >= 0 && denial > guard && calls.every(call => call.index! > denial), `${route} must authorize before it evaluates`);
+    assert.match(handler, /if\s*\(!user\)\s*return\s+NextResponse\.json\([\s\S]*?status: 401/, `${route} must reject unauthenticated requests`);
   }
+  for (const route of routes) check(read(route), route);
+  assert.throws(() => check('export async function POST() { await submitGrammarProduction(); const user = await requireActiveUser(); if (!user) return NextResponse.json({}, { status: 401 }); }', "unsafe delegated call"), /must authorize before it evaluates/);
+  assert.throws(() => check('import { evaluateAssignment } from "coach"; export async function POST() { const user = await requireActiveUser(); if (!user) return NextResponse.json({}, { status: 401 }); }', "import only"), /known evaluation entry point/);
 });
 
 test("the test runner loads server-only modules the same way the server build does", () => {

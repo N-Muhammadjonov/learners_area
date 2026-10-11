@@ -183,6 +183,9 @@ export async function routeRiwiAnswer(
   if (!secretsReady) return unavailable({ dependencies, ...input, started, profile, reason: "not_configured", providerId, model });
   const guarded = guardExternalPayload("chat", input.payload);
   if (!guarded.ok) return unavailable({ dependencies, ...input, started, profile, reason: "invalid_request", providerId, model });
+  if (input.instructionTask === "grammar.explanation" && (guarded.payload.history.length !== 0
+    || guarded.payload.knowledge.length !== 1 || guarded.payload.knowledge[0]?.ref !== "K1"))
+    return unavailable({ dependencies, ...input, started, profile, reason: "invalid_request", providerId, model });
   if (input.signal?.aborted) return unavailable({ dependencies, ...input, started, profile, reason: "cancelled", providerId, model });
 
   try {
@@ -244,6 +247,8 @@ export async function routeRiwiAnswer(
   }
 
   const citations = parsedOutcome.data.answer.citations.filter((ref) => guarded.payload.knowledge.some((item) => item.ref === ref));
+  if (input.instructionTask === "grammar.explanation" && (citations.length !== 1 || citations[0] !== "K1"))
+    return unavailable({ dependencies, ...input, started, profile, reason: "invalid_response", providerId, model });
   if (citations.length !== parsedOutcome.data.answer.citations.length) {
     return unavailable({ dependencies, ...input, started, profile, reason: "invalid_response", providerId, model });
   }

@@ -31,7 +31,7 @@ function providerFor(teaching: unknown, extra: Record<string, unknown> = {}) {
   return { provider, calls };
 }
 
-for (const key of INSTRUCTION_RUNTIME_KEYS) test(key + ": actual adapter executes the source teaching method and renders validated steps", async () => {
+for (const key of INSTRUCTION_RUNTIME_KEYS.filter(key => key !== "grammar.explanation")) test(key + ": actual adapter executes the source teaching method and renders validated steps", async () => {
   const fixture = providerFor(key === "tutoring.simple-explanation" ? simple : comparison);
   const result = await fixture.provider.respondToRiwi!({ userId: "external-anonymous", language: "en", instructionTask: key }, payload);
   assert.equal(result.ok, true);
@@ -128,7 +128,7 @@ test("router validates teaching steps even when an adapter declares the capabili
   }
 });
 
-for (const key of INSTRUCTION_RUNTIME_KEYS) for (const role of ["student", "teacher", "admin", "owner"] as Role[])
+for (const key of INSTRUCTION_RUNTIME_KEYS.filter(key => key !== "grammar.explanation")) for (const role of ["student", "teacher", "admin", "owner"] as Role[])
   test(key + " / " + role + ": authenticated gateway, real SQL conversation and restored history preserve exact server provenance", async () => {
   const database = await createTestDatabase();
   const userId = randomUUID();

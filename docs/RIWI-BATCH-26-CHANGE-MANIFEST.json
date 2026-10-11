@@ -1,0 +1,377 @@
+{
+  "schemaVersion": 1,
+  "publishedBaseCommit": "2f880809bf57ad3d37c373dc944b28037f20d0a0",
+  "publishedBaseTreeSha1": "d2b35b4905032890ed309e2ba4381d622186b4d8",
+  "continuedFromSourceSha256": "02504ba89fb05d1c8c78c3060112b6f957d9824ba8bfaf2eb30e22f314ce9820",
+  "sourceSha256": "8039340dad0055e14ec49f0c111ba8ca139977d78f58ab01dc43cea945472399",
+  "sourceFileCount": 1238,
+  "changedSourceFilesThisBatch": [
+    {
+      "path": "src/app/api/grammar/exercises/[id]/practice/route.ts",
+      "batch25Sha256": "63f7bc67f0894f0b68f9e2712bb615df0f2e4049d425a2206b0f0c64dba06779",
+      "publishedBaseSha256": "63f7bc67f0894f0b68f9e2712bb615df0f2e4049d425a2206b0f0c64dba06779",
+      "currentSha256": "e99836f4eea365e4dade0929755de9334273120a0da89f9478a6900cc3d9f2cf",
+      "bytes": 1621,
+      "currentGitBlobSha1": "6b255c8a062952876f9411fd6fd3e48edbc157a3"
+    },
+    {
+      "path": "src/app/api/grammar/exercises/[id]/produce/route.ts",
+      "batch25Sha256": "c7b68ae31776a48c49b55db56c3765c7db144d8066d0636167a1f32317fc6818",
+      "publishedBaseSha256": "c7b68ae31776a48c49b55db56c3765c7db144d8066d0636167a1f32317fc6818",
+      "currentSha256": "a10a3940c630f88bea8f1794dc28becbf4eb61ae58165ad8aac0fb4e374cdedc",
+      "bytes": 1650,
+      "currentGitBlobSha1": "24206c36195ac7daaf882c5c708ae96aa82bc506"
+    },
+    {
+      "path": "src/lib/data/audit.ts",
+      "batch25Sha256": "aef1a69ebc3468c45d81a04b40986ac2ef35074326c927c9e5c9a44e3adfa3ac",
+      "publishedBaseSha256": "5facbb5c815fb43dbe17e31a54be3526616f5d1de357b050a94b9cfd1631f318",
+      "currentSha256": "1c52667316575c42d6a5859c567139b5f33762c68f477ade33e61b8144436ba1",
+      "bytes": 3126,
+      "currentGitBlobSha1": "f340e704a504409baedcdd082d0c8169e685876a"
+    },
+    {
+      "path": "src/lib/data/grammar-assessment-evidence.ts",
+      "batch25Sha256": null,
+      "publishedBaseSha256": null,
+      "currentSha256": "08537db57266c06d1a46b6ea496f78f6f5ddf382e5a8c72aa2f71aa6b455569f",
+      "bytes": 1454,
+      "currentGitBlobSha1": "5ab47ae9ef2077bab4e770420b6346fe50afbe71"
+    },
+    {
+      "path": "src/lib/data/grammar-production-write.ts",
+      "batch25Sha256": null,
+      "publishedBaseSha256": null,
+      "currentSha256": "65d462c26835f0e2fe57ce00e7c137a0a28cbbbe45627d111faed051a0536d80",
+      "bytes": 16089,
+      "currentGitBlobSha1": "f215467876e6dd712d0fc8877b225150042ba1fa"
+    },
+    {
+      "path": "src/lib/data/grammar.ts",
+      "batch25Sha256": "e53dd2e7df5f9be4d942e1f815369ea70ed2ade23598253e2498de9c1a5ffb5e",
+      "publishedBaseSha256": "e53dd2e7df5f9be4d942e1f815369ea70ed2ade23598253e2498de9c1a5ffb5e",
+      "currentSha256": "92c5fa1bbcb7c1595a2cec43a7d8dc715d4b83390ffba817b1a684fe1a1f4ca6",
+      "bytes": 8351,
+      "currentGitBlobSha1": "a904ec603d4cacf3d9dcaf3f76da21bb71952129"
+    },
+    {
+      "path": "src/lib/services/coach/grammar.ts",
+      "batch25Sha256": "590affd9a2a5d8c227b740fe4f3e1783576fce134cb34a628fc4c1d36247ad35",
+      "publishedBaseSha256": "590affd9a2a5d8c227b740fe4f3e1783576fce134cb34a628fc4c1d36247ad35",
+      "currentSha256": "163114de588004b85836a92cfecab3a17f9faf8195be0be85605fe2b49a46c8d",
+      "bytes": 2400,
+      "currentGitBlobSha1": "0c540a230b238d39d29d2621dca4e6fbafee2d08"
+    },
+    {
+      "path": "src/lib/services/riwi/evaluation-tools.ts",
+      "batch25Sha256": "7644ea1048c8b4c7729c9f53f97ec395654d22fefc227cf4bf96d012a28abd95",
+      "publishedBaseSha256": "7644ea1048c8b4c7729c9f53f97ec395654d22fefc227cf4bf96d012a28abd95",
+      "currentSha256": "92fd741c5d9347cfac125dc3038130387ac9208c6e15fcebfbe9fd97bea1f3b6",
+      "bytes": 15036,
+      "currentGitBlobSha1": "8431d52084f9ab9dec1fe46b6ca1bd09d110597a"
+    },
+    {
+      "path": "src/lib/services/riwi/grammar-retention.ts",
+      "batch25Sha256": "aa11df33372d844ba2b1d4facced561fda6dc38ce354c014297d2fee81961ad6",
+      "publishedBaseSha256": null,
+      "currentSha256": "9c9370a6982c8947281573d294e3ee01370b64a33abf530d9cc66aa3d3005869",
+      "bytes": 6650,
+      "currentGitBlobSha1": "32dbef0533236c08819383ad2f94a2a1a918c4b6"
+    },
+    {
+      "path": "tests/grammar-production-evidence.test.ts",
+      "batch25Sha256": "e7b732f869b8c88f34845c79ed7609f5e59652a50ddf6eb4a890eccd4a8fe3b5",
+      "publishedBaseSha256": "e7b732f869b8c88f34845c79ed7609f5e59652a50ddf6eb4a890eccd4a8fe3b5",
+      "currentSha256": "4236537fd12e550272c5259620bd069a374e34bea9ca83cdd3a1b59db2826a19",
+      "bytes": 5867,
+      "currentGitBlobSha1": "65f3a6da70814fcb29ca750f3552b036c661a928"
+    },
+    {
+      "path": "tests/grammar-production-write.test.ts",
+      "batch25Sha256": null,
+      "publishedBaseSha256": null,
+      "currentSha256": "14995dd817868ae7981df26e1a17a7ffc9ae671123050fdd504d61bc2e610efd",
+      "bytes": 19714,
+      "currentGitBlobSha1": "c6c74a007cb4abc5fb3abbe2956e951f7383a5f5"
+    },
+    {
+      "path": "tests/riwi-evaluation-tools.test.ts",
+      "batch25Sha256": "adcf9ce5ed07526db1042431f6dd2612bb4fab5b2cc899167021044b20eb8dc5",
+      "publishedBaseSha256": "adcf9ce5ed07526db1042431f6dd2612bb4fab5b2cc899167021044b20eb8dc5",
+      "currentSha256": "2afe667e74085b785e6e2aae2ff457674068b23f36ccc859481bf49c1f03c15c",
+      "bytes": 25385,
+      "currentGitBlobSha1": "64581716d6a97601fa3c9961db74cb4cca10e7eb"
+    },
+    {
+      "path": "tests/riwi-feature-integration.test.ts",
+      "batch25Sha256": "cc6e1cfe1c6bf151400a4dfabeef026b3b9a0938c06e1930ab50c6d96c297acc",
+      "publishedBaseSha256": "cc6e1cfe1c6bf151400a4dfabeef026b3b9a0938c06e1930ab50c6d96c297acc",
+      "currentSha256": "735a50eebcc1fa7ba56ea6a73629faa21cece2e37b17897d1ccacb3f7c215b5a",
+      "bytes": 27458,
+      "currentGitBlobSha1": "5f9c9c0a4412417ff0f1147a6c0f78ecb1767b83"
+    },
+    {
+      "path": "tests/riwi-grammar-retention.test.ts",
+      "batch25Sha256": "fdbc68ea0273e30536bf94f88e5ec593e8891488a705f3ddddd6ee759a5c6448",
+      "publishedBaseSha256": null,
+      "currentSha256": "169b9bc716693da70018f187496c2656d4ea41ed661281f87b3edeec2d93e3d2",
+      "bytes": 8992,
+      "currentGitBlobSha1": "8c68672e22a2bda1458df916f9a13165d0879013"
+    },
+    {
+      "path": "tests/support/grammar-evaluation-fixture.ts",
+      "batch25Sha256": null,
+      "publishedBaseSha256": null,
+      "currentSha256": "44ec6b37761c28755859e014c301999bd63ccd2fcab6d9ffd9ef04347bac6bcd",
+      "bytes": 1859,
+      "currentGitBlobSha1": "6cc827b8bf259c61eb2bea8d79fb16de85879ecf"
+    }
+  ],
+  "cumulativeUnpublishedSourceFilesSincePublishedBase": [
+    {
+      "path": "src/app/api/grammar/exercises/[id]/practice/route.ts",
+      "batch25Sha256": "63f7bc67f0894f0b68f9e2712bb615df0f2e4049d425a2206b0f0c64dba06779",
+      "publishedBaseSha256": "63f7bc67f0894f0b68f9e2712bb615df0f2e4049d425a2206b0f0c64dba06779",
+      "currentSha256": "e99836f4eea365e4dade0929755de9334273120a0da89f9478a6900cc3d9f2cf",
+      "bytes": 1621,
+      "currentGitBlobSha1": "6b255c8a062952876f9411fd6fd3e48edbc157a3"
+    },
+    {
+      "path": "src/app/api/grammar/exercises/[id]/produce/route.ts",
+      "batch25Sha256": "c7b68ae31776a48c49b55db56c3765c7db144d8066d0636167a1f32317fc6818",
+      "publishedBaseSha256": "c7b68ae31776a48c49b55db56c3765c7db144d8066d0636167a1f32317fc6818",
+      "currentSha256": "a10a3940c630f88bea8f1794dc28becbf4eb61ae58165ad8aac0fb4e374cdedc",
+      "bytes": 1650,
+      "currentGitBlobSha1": "24206c36195ac7daaf882c5c708ae96aa82bc506"
+    },
+    {
+      "path": "src/lib/data/audit.ts",
+      "batch25Sha256": "aef1a69ebc3468c45d81a04b40986ac2ef35074326c927c9e5c9a44e3adfa3ac",
+      "publishedBaseSha256": "5facbb5c815fb43dbe17e31a54be3526616f5d1de357b050a94b9cfd1631f318",
+      "currentSha256": "1c52667316575c42d6a5859c567139b5f33762c68f477ade33e61b8144436ba1",
+      "bytes": 3126,
+      "currentGitBlobSha1": "f340e704a504409baedcdd082d0c8169e685876a"
+    },
+    {
+      "path": "src/lib/data/grammar-assessment-evidence.ts",
+      "batch25Sha256": null,
+      "publishedBaseSha256": null,
+      "currentSha256": "08537db57266c06d1a46b6ea496f78f6f5ddf382e5a8c72aa2f71aa6b455569f",
+      "bytes": 1454,
+      "currentGitBlobSha1": "5ab47ae9ef2077bab4e770420b6346fe50afbe71"
+    },
+    {
+      "path": "src/lib/data/grammar-production-write.ts",
+      "batch25Sha256": null,
+      "publishedBaseSha256": null,
+      "currentSha256": "65d462c26835f0e2fe57ce00e7c137a0a28cbbbe45627d111faed051a0536d80",
+      "bytes": 16089,
+      "currentGitBlobSha1": "f215467876e6dd712d0fc8877b225150042ba1fa"
+    },
+    {
+      "path": "src/lib/data/grammar.ts",
+      "batch25Sha256": "e53dd2e7df5f9be4d942e1f815369ea70ed2ade23598253e2498de9c1a5ffb5e",
+      "publishedBaseSha256": "e53dd2e7df5f9be4d942e1f815369ea70ed2ade23598253e2498de9c1a5ffb5e",
+      "currentSha256": "92c5fa1bbcb7c1595a2cec43a7d8dc715d4b83390ffba817b1a684fe1a1f4ca6",
+      "bytes": 8351,
+      "currentGitBlobSha1": "a904ec603d4cacf3d9dcaf3f76da21bb71952129"
+    },
+    {
+      "path": "src/lib/services/coach/contracts/instruction-runtime.ts",
+      "batch25Sha256": "d400ca297f75747a6b6ed685af6fa7e8147dd8711d8476e85c9395b1504e93a4",
+      "publishedBaseSha256": "6b916229bd7a435ffecf5384c25872e5a2a8473926f8ca2091d5ce9d2ccccb55",
+      "currentSha256": "d400ca297f75747a6b6ed685af6fa7e8147dd8711d8476e85c9395b1504e93a4",
+      "bytes": 6714,
+      "currentGitBlobSha1": "f5c9f3b92460c81d62d1a68a331853150109ea08"
+    },
+    {
+      "path": "src/lib/services/coach/contracts/instruction-schema.ts",
+      "batch25Sha256": "2f05cea44e05be46e6f771217353fcff6f0851657c1d99392551e5209f6aaf33",
+      "publishedBaseSha256": "b4c3bc1bd89ed0bcee07e3dc188c86474fbb9fb121546c6bd1ae5a78fee56085",
+      "currentSha256": "2f05cea44e05be46e6f771217353fcff6f0851657c1d99392551e5209f6aaf33",
+      "bytes": 1491,
+      "currentGitBlobSha1": "cc213460934d845fb4a20f57e010803e84c1aa2f"
+    },
+    {
+      "path": "src/lib/services/coach/grammar.ts",
+      "batch25Sha256": "590affd9a2a5d8c227b740fe4f3e1783576fce134cb34a628fc4c1d36247ad35",
+      "publishedBaseSha256": "590affd9a2a5d8c227b740fe4f3e1783576fce134cb34a628fc4c1d36247ad35",
+      "currentSha256": "163114de588004b85836a92cfecab3a17f9faf8195be0be85605fe2b49a46c8d",
+      "bytes": 2400,
+      "currentGitBlobSha1": "0c540a230b238d39d29d2621dca4e6fbafee2d08"
+    },
+    {
+      "path": "src/lib/services/coach/providers/shared/llm-provider.ts",
+      "batch25Sha256": "9ea0414a72b3199cff976e4dfa5e5b8cf44eba05532a7dcf0d10bc96d90664fd",
+      "publishedBaseSha256": "e606c2d9fac9452ec21c81af929e71fcd72560fc0e6b1da181e47471fce87e1b",
+      "currentSha256": "9ea0414a72b3199cff976e4dfa5e5b8cf44eba05532a7dcf0d10bc96d90664fd",
+      "bytes": 18248,
+      "currentGitBlobSha1": "bff6fed6dbed1e545f415e1f5a3e9b7a9b5a1ad9"
+    },
+    {
+      "path": "src/lib/services/riwi/audit.ts",
+      "batch25Sha256": "4b0a65cb5aa0d78c845929524618762b81c7177526e3cb65dfce15ef8760f193",
+      "publishedBaseSha256": "5c36b83b0ffa8dfa689ac08eb100943c96389c98016b8c57ac86c9b9bd16c0dd",
+      "currentSha256": "4b0a65cb5aa0d78c845929524618762b81c7177526e3cb65dfce15ef8760f193",
+      "bytes": 7369,
+      "currentGitBlobSha1": "6b1495826e966e8b165a1e2d0671e0f51cd5c452"
+    },
+    {
+      "path": "src/lib/services/riwi/contracts.ts",
+      "batch25Sha256": "fa612fa4231c9ad5d9b81a8f54dca77c7a4cc7a6117db8dda8aa33641dfe7b24",
+      "publishedBaseSha256": "0c0280956561695bd9df7fce3cbec8f7eab1da1be22ca99748b021b8d9f273a5",
+      "currentSha256": "fa612fa4231c9ad5d9b81a8f54dca77c7a4cc7a6117db8dda8aa33641dfe7b24",
+      "bytes": 12642,
+      "currentGitBlobSha1": "c045ed1e5b4c7af02ccfa5d2359490fc24f77372"
+    },
+    {
+      "path": "src/lib/services/riwi/conversations.ts",
+      "batch25Sha256": "96467ace896e4150fd307ff383120548c918728e630f5e0a15e7ae4c06019091",
+      "publishedBaseSha256": "5689d6ccb3a48df7d7f19ad8dc359500ab20e7df65fe9ab5257cc6ff786e1c4b",
+      "currentSha256": "96467ace896e4150fd307ff383120548c918728e630f5e0a15e7ae4c06019091",
+      "bytes": 37758,
+      "currentGitBlobSha1": "fa8d03594c7a09de372a77ede89ae288c8a62b0a"
+    },
+    {
+      "path": "src/lib/services/riwi/core-tools.ts",
+      "batch25Sha256": "91d24e11b22c16e109fe215e192118f0caca0559e02706d1da3e3983a712a927",
+      "publishedBaseSha256": "ee1b94060a5c8c59fded8b591d976d8b00e7ff04375c0cd65544dddffc329c36",
+      "currentSha256": "91d24e11b22c16e109fe215e192118f0caca0559e02706d1da3e3983a712a927",
+      "bytes": 25021,
+      "currentGitBlobSha1": "46a935ced24f3249c996b1f2a703cd0189c1b2ee"
+    },
+    {
+      "path": "src/lib/services/riwi/evaluation-tools.ts",
+      "batch25Sha256": "7644ea1048c8b4c7729c9f53f97ec395654d22fefc227cf4bf96d012a28abd95",
+      "publishedBaseSha256": "7644ea1048c8b4c7729c9f53f97ec395654d22fefc227cf4bf96d012a28abd95",
+      "currentSha256": "92fd741c5d9347cfac125dc3038130387ac9208c6e15fcebfbe9fd97bea1f3b6",
+      "bytes": 15036,
+      "currentGitBlobSha1": "8431d52084f9ab9dec1fe46b6ca1bd09d110597a"
+    },
+    {
+      "path": "src/lib/services/riwi/gateway.ts",
+      "batch25Sha256": "4b7384b5d18e5c8d390867537f2a428a031eff90e817dbfaf2f469c191ad2e10",
+      "publishedBaseSha256": "e180dc0626ab7cd6a1755bbe0a7afb29d9cbd9e1546d35333654b0b0258bc897",
+      "currentSha256": "4b7384b5d18e5c8d390867537f2a428a031eff90e817dbfaf2f469c191ad2e10",
+      "bytes": 76462,
+      "currentGitBlobSha1": "f510a64c7d15ff76ea8fa0f186b83e131f63cb18"
+    },
+    {
+      "path": "src/lib/services/riwi/grammar-retention.ts",
+      "batch25Sha256": "aa11df33372d844ba2b1d4facced561fda6dc38ce354c014297d2fee81961ad6",
+      "publishedBaseSha256": null,
+      "currentSha256": "9c9370a6982c8947281573d294e3ee01370b64a33abf530d9cc66aa3d3005869",
+      "bytes": 6650,
+      "currentGitBlobSha1": "32dbef0533236c08819383ad2f94a2a1a918c4b6"
+    },
+    {
+      "path": "src/lib/services/riwi/provider-router.ts",
+      "batch25Sha256": "83e993cd0b860238f946b916dad3d3554976d4c16edc932edcab2ed7752e5b0a",
+      "publishedBaseSha256": "e6ed07a19376743e72edabc748fdad859ea68b35227e9d479a10ce027bcca48a",
+      "currentSha256": "83e993cd0b860238f946b916dad3d3554976d4c16edc932edcab2ed7752e5b0a",
+      "bytes": 15482,
+      "currentGitBlobSha1": "9be93016050c8cd66abe84bca85baa34e505e130"
+    },
+    {
+      "path": "src/lib/services/riwi/retention-explanation.ts",
+      "batch25Sha256": "a593971f0eb1aee99b2260ee7175bf93b8ec90a1d76e45a51c025d07c7c9774f",
+      "publishedBaseSha256": null,
+      "currentSha256": "a593971f0eb1aee99b2260ee7175bf93b8ec90a1d76e45a51c025d07c7c9774f",
+      "bytes": 21898,
+      "currentGitBlobSha1": "173ef7153c9ad451255301011db1b2e4fd453f32"
+    },
+    {
+      "path": "src/lib/services/riwi/retention-read-policy.ts",
+      "batch25Sha256": "9ebce6baa41a16cf64df29c1c3e1719cae8c75b5e602c0955ff22de8c4304c31",
+      "publishedBaseSha256": null,
+      "currentSha256": "9ebce6baa41a16cf64df29c1c3e1719cae8c75b5e602c0955ff22de8c4304c31",
+      "bytes": 1389,
+      "currentGitBlobSha1": "040c31d2c3092c6b18673387c98f60487b5e272a"
+    },
+    {
+      "path": "tests/grammar-production-evidence.test.ts",
+      "batch25Sha256": "e7b732f869b8c88f34845c79ed7609f5e59652a50ddf6eb4a890eccd4a8fe3b5",
+      "publishedBaseSha256": "e7b732f869b8c88f34845c79ed7609f5e59652a50ddf6eb4a890eccd4a8fe3b5",
+      "currentSha256": "4236537fd12e550272c5259620bd069a374e34bea9ca83cdd3a1b59db2826a19",
+      "bytes": 5867,
+      "currentGitBlobSha1": "65f3a6da70814fcb29ca750f3552b036c661a928"
+    },
+    {
+      "path": "tests/grammar-production-write.test.ts",
+      "batch25Sha256": null,
+      "publishedBaseSha256": null,
+      "currentSha256": "14995dd817868ae7981df26e1a17a7ffc9ae671123050fdd504d61bc2e610efd",
+      "bytes": 19714,
+      "currentGitBlobSha1": "c6c74a007cb4abc5fb3abbe2956e951f7383a5f5"
+    },
+    {
+      "path": "tests/riwi-evaluation-tools.test.ts",
+      "batch25Sha256": "adcf9ce5ed07526db1042431f6dd2612bb4fab5b2cc899167021044b20eb8dc5",
+      "publishedBaseSha256": "adcf9ce5ed07526db1042431f6dd2612bb4fab5b2cc899167021044b20eb8dc5",
+      "currentSha256": "2afe667e74085b785e6e2aae2ff457674068b23f36ccc859481bf49c1f03c15c",
+      "bytes": 25385,
+      "currentGitBlobSha1": "64581716d6a97601fa3c9961db74cb4cca10e7eb"
+    },
+    {
+      "path": "tests/riwi-feature-integration.test.ts",
+      "batch25Sha256": "cc6e1cfe1c6bf151400a4dfabeef026b3b9a0938c06e1930ab50c6d96c297acc",
+      "publishedBaseSha256": "cc6e1cfe1c6bf151400a4dfabeef026b3b9a0938c06e1930ab50c6d96c297acc",
+      "currentSha256": "735a50eebcc1fa7ba56ea6a73629faa21cece2e37b17897d1ccacb3f7c215b5a",
+      "bytes": 27458,
+      "currentGitBlobSha1": "5f9c9c0a4412417ff0f1147a6c0f78ecb1767b83"
+    },
+    {
+      "path": "tests/riwi-grammar-explanation.test.ts",
+      "batch25Sha256": "8d77e2a0f630e8c7fd95cc418e1c08c374b574865f384c7287fb51316998927d",
+      "publishedBaseSha256": null,
+      "currentSha256": "8d77e2a0f630e8c7fd95cc418e1c08c374b574865f384c7287fb51316998927d",
+      "bytes": 11902,
+      "currentGitBlobSha1": "e44dc62e4e2b03c4e1b340e0a5b5444dc7f6ad60"
+    },
+    {
+      "path": "tests/riwi-grammar-retention.test.ts",
+      "batch25Sha256": "fdbc68ea0273e30536bf94f88e5ec593e8891488a705f3ddddd6ee759a5c6448",
+      "publishedBaseSha256": null,
+      "currentSha256": "169b9bc716693da70018f187496c2656d4ea41ed661281f87b3edeec2d93e3d2",
+      "bytes": 8992,
+      "currentGitBlobSha1": "8c68672e22a2bda1458df916f9a13165d0879013"
+    },
+    {
+      "path": "tests/riwi-instruction-runtime.test.ts",
+      "batch25Sha256": "f5792a60d11c81b14fafc54fcc699f9a74d54275f8a26d6d78e1fc0ae76f1552",
+      "publishedBaseSha256": "c96a5815511596c316031f6719076260008be1f166e9f24793a7d9110df53278",
+      "currentSha256": "f5792a60d11c81b14fafc54fcc699f9a74d54275f8a26d6d78e1fc0ae76f1552",
+      "bytes": 13041,
+      "currentGitBlobSha1": "7e1a93bdcdba429cc282da2a2eadac25e2c6e2a6"
+    },
+    {
+      "path": "tests/riwi-retention-explanation.test.ts",
+      "batch25Sha256": "3b0ba1593670d4a3d62feb771e2e062ae0deaa31d562276b1f4ca9701a0b6a26",
+      "publishedBaseSha256": null,
+      "currentSha256": "3b0ba1593670d4a3d62feb771e2e062ae0deaa31d562276b1f4ca9701a0b6a26",
+      "bytes": 8051,
+      "currentGitBlobSha1": "9585d1b9be3d3d123b18bc7ff12c67f9c823e19f"
+    },
+    {
+      "path": "tests/riwi-retention-learning-evidence.test.ts",
+      "batch25Sha256": "89be4808eaa5fe104a497deea779291fc6b86b335a36e334a490a376b64d1360",
+      "publishedBaseSha256": null,
+      "currentSha256": "89be4808eaa5fe104a497deea779291fc6b86b335a36e334a490a376b64d1360",
+      "bytes": 16385,
+      "currentGitBlobSha1": "6dae15b43fb71447b06c4e6e633c7798172a1347"
+    },
+    {
+      "path": "tests/support/grammar-evaluation-fixture.ts",
+      "batch25Sha256": null,
+      "publishedBaseSha256": null,
+      "currentSha256": "44ec6b37761c28755859e014c301999bd63ccd2fcab6d9ffd9ef04347bac6bcd",
+      "bytes": 1859,
+      "currentGitBlobSha1": "6cc827b8bf259c61eb2bea8d79fb16de85879ecf"
+    }
+  ],
+  "newAcceptedOriginalGroups": [],
+  "commitCreated": false,
+  "pushPerformed": false,
+  "pushReady": false,
+  "localGitHeadIsPublicationBase": false
+}

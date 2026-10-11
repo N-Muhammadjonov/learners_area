@@ -1,0 +1,158 @@
+{
+  "status": "VERIFIED",
+  "commit": "2f880809bf57ad3d37c373dc944b28037f20d0a0",
+  "parent": "b9007d68c82b27d02d615ae7c1d0f1546aa83393",
+  "tree_sha256_not_applicable": true,
+  "git_tree_sha1": "d2b35b4905032890ed309e2ba4381d622186b4d8",
+  "remote_ref": "refs/heads/arena/01a10bac-learners-area",
+  "remote_ref_sha": "2f880809bf57ad3d37c373dc944b28037f20d0a0",
+  "remote_tree_truncated": false,
+  "source_sha256": "aa73ffbf7b8d698322e3961ea13298446f99a794a1f82d3929296452a58c7407",
+  "source_files": 1227,
+  "source_verified_against_committed_native_checkout": true,
+  "publication_blob_count": 28,
+  "publication_blobs": [
+    {
+      "path": "docs/RIWI-BATCH-23-REMOTE-VERIFICATION.json",
+      "git_blob": "d477353639e743e010cb6dc61b566115a6f7ee62",
+      "sha256": "652b77ab7a567f739221c72a7b746613df6a9557275e74ab23c1bf73f591d278"
+    },
+    {
+      "path": "docs/RIWI-BATCH-24-NEXT-STATE.json",
+      "git_blob": "517eec24d2e979b025150060625026b565778aa1",
+      "sha256": "74cb64e38c599500b81b763b6ddb37360982ee2adec616cadd930e295611a1ec"
+    },
+    {
+      "path": "docs/RIWI-BATCH-24-QA-RESULTS.json",
+      "git_blob": "47897f069bdd0a62452c6c3c91c1622e543bb3dd",
+      "sha256": "fa78df33bdc75cae6b6687b865a6c542c3e900698af13e3af456423156ded436"
+    },
+    {
+      "path": "docs/RIWI-BATCH-24-SOURCE-STATE-v2.json",
+      "git_blob": "2d6ceacf999a421e05aaf7bb6f3dfb155d31666b",
+      "sha256": "6ee3872fe4e772e83a3209ef475a0c042e3cca3d71154ee0dbfc2c41b3e9c7df"
+    },
+    {
+      "path": "docs/RIWI-BATCH-24-TUTORING-REPORTING.md",
+      "git_blob": "7ec30e9e806d53975c60377127036c711e7987f7",
+      "sha256": "62782fa594f0182c22a699136886fd92a302ceecc0c9069d440b8f67c4342bf8"
+    },
+    {
+      "path": "docs/RIWI-D03-ACCEPTANCE-b9007d6.json",
+      "git_blob": "1ac3826c1a7d196cc18c90151c8a121462b58b27",
+      "sha256": "d3b1eb7ecc826e849332d934403c75d32154809713eb5cc67932d364611033b9"
+    },
+    {
+      "path": "docs/RIWI-REMAINING-PROMPT-PROGRESS.json",
+      "git_blob": "6893f6cf21eba8b6353d808d6a88bd76c89a8bf0",
+      "sha256": "d3a6c447686ffad47b0b833014fe4cd32548dd52cb77b849380438f8f76c6b19"
+    },
+    {
+      "path": "docs/evidence/riwi-batch24-assistant/receipt.json",
+      "git_blob": "0d5e611f0686db77b3fd0b3daf0f39cc1f58f7c0",
+      "sha256": "8c8f7b7123ce53a35ce64169237a7a24d0d1e7a25a1e6c9c4147a8bb78f10c2b"
+    },
+    {
+      "path": "docs/evidence/riwi-batch24-assistant/round-1-affected.log",
+      "git_blob": "43d5b4b02c05e7c96b5b3e2a95b736dc5170a925",
+      "sha256": "13cb338d206d45c97a5f98f0032c446fe7482626eb5cd94fc3a7770ee35ae5b4"
+    },
+    {
+      "path": "docs/evidence/riwi-batch24-assistant/round-1-lint.log",
+      "git_blob": "6b4593287705f9f8c222f917577a382fcbb23757",
+      "sha256": "63b6b500220f93347722b6b4ab90d1bc1f5a32bfe848b62f2565bcb75b5b71a6"
+    },
+    {
+      "path": "docs/evidence/riwi-batch24-assistant/round-1-typecheck.log",
+      "git_blob": "068374b71cc3a8df2cc2848fe1a78b6cb7646543",
+      "sha256": "5d67ea7ba0cdcb67cf34b4b132066d5cd00b857a31cc804006ed533f4aab0717"
+    },
+    {
+      "path": "docs/evidence/riwi-batch24-assistant/round-1-ui.log",
+      "git_blob": "29cb642c6f901fcc89b9357e33eec80e0134f2e2",
+      "sha256": "78f95eea0f839b9c87db018f6cb74a6a30a31294a75521a898e834580ac948ae"
+    },
+    {
+      "path": "docs/evidence/riwi-batch24-assistant/round-2-affected.log",
+      "git_blob": "4cb859e15ac2610bd6232c1f0d8b70e99fa7a22c",
+      "sha256": "759b34ec56f36f83e13d5b5d2ebf6c95fbbede525ba08c516b4b2878131aa41a"
+    },
+    {
+      "path": "docs/evidence/riwi-batch24-assistant/round-2-lint.log",
+      "git_blob": "6b4593287705f9f8c222f917577a382fcbb23757",
+      "sha256": "63b6b500220f93347722b6b4ab90d1bc1f5a32bfe848b62f2565bcb75b5b71a6"
+    },
+    {
+      "path": "docs/evidence/riwi-batch24-assistant/round-2-typecheck.log",
+      "git_blob": "068374b71cc3a8df2cc2848fe1a78b6cb7646543",
+      "sha256": "5d67ea7ba0cdcb67cf34b4b132066d5cd00b857a31cc804006ed533f4aab0717"
+    },
+    {
+      "path": "docs/evidence/riwi-batch24-assistant/round-2-ui.log",
+      "git_blob": "56d0b7a58e3ef6eb5c70088c429f1e268ec8e7e1",
+      "sha256": "2c511c18fbe16db79fedcdfc68382a300792fc276466a82761cb0a50c138f9bf"
+    },
+    {
+      "path": "src/lib/services/coach/contracts/instruction-runtime.ts",
+      "git_blob": "dad9228e1698c1d6fdc517fe7359e0e0aa5fcd36",
+      "sha256": "6b916229bd7a435ffecf5384c25872e5a2a8473926f8ca2091d5ce9d2ccccb55"
+    },
+    {
+      "path": "src/lib/services/coach/contracts/instruction-schema.ts",
+      "git_blob": "ce97a4f7d4c6eef676bcb03499398fc244f40c58",
+      "sha256": "b4c3bc1bd89ed0bcee07e3dc188c86474fbb9fb121546c6bd1ae5a78fee56085"
+    },
+    {
+      "path": "src/lib/services/coach/providers/shared/llm-provider.ts",
+      "git_blob": "d0c18cd7ee5a3188f6d463c32375e7c6dca888bf",
+      "sha256": "e606c2d9fac9452ec21c81af929e71fcd72560fc0e6b1da181e47471fce87e1b"
+    },
+    {
+      "path": "src/lib/services/coach/schema.ts",
+      "git_blob": "753b6dd7550d6dffa954ebbe865271f14a54e018",
+      "sha256": "7cd8d54d1765589b3370cf6b7261a312a39f9aac5bb2a8bfe225911df7d2bf6e"
+    },
+    {
+      "path": "src/lib/services/coach/types.ts",
+      "git_blob": "dd2a966de203f9354d266eb9382a4ddeb3042914",
+      "sha256": "796afc78800d96b430a9d5a58f500997d34cee0f30f539c677def63a7a9499ee"
+    },
+    {
+      "path": "src/lib/services/riwi/contracts.ts",
+      "git_blob": "b101715f6a07734385d38f6734ed7f9594cb16af",
+      "sha256": "0c0280956561695bd9df7fce3cbec8f7eab1da1be22ca99748b021b8d9f273a5"
+    },
+    {
+      "path": "src/lib/services/riwi/conversations.ts",
+      "git_blob": "32b1c4cfa8d7112224b5bcd9a950d9057990326f",
+      "sha256": "5689d6ccb3a48df7d7f19ad8dc359500ab20e7df65fe9ab5257cc6ff786e1c4b"
+    },
+    {
+      "path": "src/lib/services/riwi/gateway.ts",
+      "git_blob": "6c0fe42527e424767717e839252302f649c1b1f3",
+      "sha256": "e180dc0626ab7cd6a1755bbe0a7afb29d9cbd9e1546d35333654b0b0258bc897"
+    },
+    {
+      "path": "src/lib/services/riwi/provider-router.ts",
+      "git_blob": "7d3d3ca206d4e2895dc34f3b8c6cdaf08ee7fe8b",
+      "sha256": "e6ed07a19376743e72edabc748fdad859ea68b35227e9d479a10ce027bcca48a"
+    },
+    {
+      "path": "src/lib/services/riwi/report-explanation.ts",
+      "git_blob": "f1dc1c19951d67cadbb6c47991a4dbaa3863e70c",
+      "sha256": "32a733ba18b674060a2af3377c398c9553b58320cff4c10ce881fdb12c726451"
+    },
+    {
+      "path": "tests/riwi-instruction-runtime.test.ts",
+      "git_blob": "a6b68f2be9e41e5fd0a1385458c79ed524c5b924",
+      "sha256": "c96a5815511596c316031f6719076260008be1f166e9f24793a7d9110df53278"
+    },
+    {
+      "path": "tests/riwi-report-explanation.test.ts",
+      "git_blob": "20a885e79bfb8f227309fee1a1415507bf2c92de",
+      "sha256": "43759d5c778bfea7a70b846f40be9f0a8ddcd664fe3421a0451a1cb9831229f7"
+    }
+  ],
+  "native_current_source_acceptance": false,
+  "new_full_group_credit": 0
+}

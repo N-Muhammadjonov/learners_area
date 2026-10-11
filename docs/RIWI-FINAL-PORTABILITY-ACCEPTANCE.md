@@ -1,25 +1,9 @@
-# RIWI final portability acceptance
+# RIWI portability acceptance — current independent review
 
-Status: **PARTIAL**. Code-level and isolated bounded-fixture evidence exists; full-data three-destination and real object-store acceptance does not.
+D05 is locally accepted on the exact source in RIWI-GROUPS-25-30-INDEPENDENT-REVIEW.json. The earlier partial table is superseded for D05 only. D04 remains PARTIAL.
 
-## Existing evidence
+Two fresh PostgreSQL16.14 clusters applied 51 canonical migrations to each QA base. Native A/B/C rehearsals verify >1,000 rows, archive checksums/counts, relationship and timestamp preservation, owner mapping, exclusion/expiry canaries, zero-write dry-run and injected mid-import rollback. The existing constraint and concurrency suites ran without skips. Canonical feature IDs use UUIDs; serial feature identities are not used.
 
-- Explicit `full-system`, `riwi`, `learners-area`; no default scope.
-- Closed Drizzle table classification and privacy canaries.
-- Deterministic manifest/table hashes, bounded batches, dry-run and transaction rollback tests.
-- 1,205-user / 1,210-row synthetic scale fixture.
-- Fresh native PostgreSQL Mode A bounded-row import rehearsal, duplicate conflict and rollback.
-- O1 no-copy and O2 pre-copy bytes/SHA checks through test adapters.
-- Speaking transcript/audio excluded from Mode B fixtures.
+Each round also created independent A/B/C source/destination databases and booted the actual application using Next development mode. HTTP checks prove target-owner authentication, restored learner authentication, scope-specific content/search and owner-panel denial. A/C restored original Speaking880 and Listening40; the running app grades 40 original answers including reversed choose-TWO and rejects a repeat submission. Day-eight offline chat is excluded. Listening audio transfer is not claimed.
 
-## Not yet accepted
-
-| Mode | Result |
-|---|---|
-| A full-system | PARTIAL — synthetic all-class fixture and one real PostgreSQL row; no accepted full-data destination/application boot receipt. |
-| B RIWI-only | PARTIAL — deterministic privacy-canary fixture; no standalone real destination with grounded operation receipt. |
-| C Learners-Area-only | PARTIAL — deterministic RIWI-exclusion fixture; no real destination boot/fail-safe RIWI surface receipt. |
-| O1 keep-R2 | EXTERNAL REQUIRED — no real private object-store authentication/authorization receipt. |
-| O2 move-objects | EXTERNAL REQUIRED — no real isolated-prefix copy/read-back/hash/auth/cleanup receipt. |
-
-Final receipts must include migration count, clean pre-state, source/destination fingerprints, manifest SHA, dry-run zero writes, per-table counts/hashes, FK/unique/check/enum validation, identity mapping, deletion/expiry canaries, timestamps/relationships, sequence state where relevant, app boot and representative operations. No current local result is described as a full-data migration.
+This is synthetic and original-fixture native restore evidence. It does not assert a production-data migration, production build, browser QA, real R2/S3 movement or live-provider acceptance. O1/O2 real-store inventory/access/read-back/failure/cleanup remains open. No build, deploy, commit or push was performed. Published closure remains the last independently verified 19/34; locally accepted closure is 20/34. The pending batch has one new accepted group and does not meet the five-new-group push policy.

@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 1,
+  "status": "TWO_ASSISTANT_AFFECTED_ROUNDS_PASSED",
+  "sourceSha256": "8039340dad0055e14ec49f0c111ba8ca139977d78f58ab01dc43cea945472399",
+  "sourceFileCount": 1238,
+  "continuedFromSourceSha256": "02504ba89fb05d1c8c78c3060112b6f957d9824ba8bfaf2eb30e22f314ce9820",
+  "sourceUnchangedAcrossBothRounds": true,
+  "scope": "affected local SQL/adapter/UI/type/lint evidence only",
+  "backendTestFiles": [
+    "tests/coach-assessment-contracts.test.ts",
+    "tests/coach-providers.test.ts",
+    "tests/riwi-direct-provider-contracts.test.ts",
+    "tests/riwi-evaluation-input-boundaries.test.ts",
+    "tests/riwi-gateway.test.ts",
+    "tests/riwi-request-gateway.test.ts",
+    "tests/riwi-provider-router.test.ts",
+    "tests/riwi-conversations.test.ts",
+    "tests/riwi-conversation-retention.test.ts",
+    "tests/riwi-prompt-book-coverage.test.ts",
+    "tests/riwi-local-semantic-limits.test.ts",
+    "tests/riwi-provider-lab.test.ts",
+    "tests/riwi-security.test.ts",
+    "tests/riwi-security-learning-v2.test.ts",
+    "tests/riwi-security-review-proof.test.ts",
+    "tests/riwi-security-migration.test.ts",
+    "tests/riwi-instruction-runtime.test.ts",
+    "tests/riwi-report-explanation.test.ts",
+    "tests/reporter.test.ts",
+    "tests/riwi-chat-integrations.test.ts",
+    "tests/riwi-tool-broker.test.ts",
+    "tests/riwi-capabilities.test.ts",
+    "tests/riwi-dictionary.test.ts",
+    "tests/riwi-dictionary-db.test.ts",
+    "tests/access-control.test.ts",
+    "tests/i18n-uz-apostrophe.test.ts",
+    "tests/riwi-retention-explanation.test.ts",
+    "tests/riwi-retention-learning-evidence.test.ts",
+    "tests/riwi-grammar-retention.test.ts",
+    "tests/riwi-grammar-explanation.test.ts",
+    "tests/vocabulary-active-use-atomic.test.ts",
+    "tests/vocabulary-review-atomic.test.ts",
+    "tests/riwi-task-semantic-boundary.test.ts",
+    "tests/riwi-evaluation-tools.test.ts",
+    "tests/grammar-production-write.test.ts",
+    "tests/grammar-production-evidence.test.ts",
+    "tests/grammar-objective-write.test.ts",
+    "tests/grammar-mastery.test.ts",
+    "tests/riwi-feature-integration.test.ts",
+    "tests/section-entry-loading.test.ts"
+  ],
+  "eachRound": {
+    "backend": {
+      "tests": 285,
+      "pass": 285,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "todo": 0
+    },
+    "ui": {
+      "tests": 260,
+      "pass": 260,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "todo": 0
+    },
+    "typecheckExitCode": 0,
+    "lintExitCode": 0
+  },
+  "distinctSelectedTestCases": 545,
+  "totalTestExecutionsAcrossTwoRounds": 1090,
+  "newDedicatedProductionCases": 13,
+  "nativePostgres": false,
+  "liveProviders": false,
+  "authenticatedBrowserAcceptance": false,
+  "buildRun": false,
+  "commitCreated": false,
+  "pushPerformed": false,
+  "pushReady": false,
+  "newAcceptedOriginalGroups": [],
+  "acceptedProgress": {
+    "closed": 19,
+    "total": 34,
+    "promptPercent": 55.88235294117647,
+    "riwiOverallPercent": null,
+    "projectOverallPercent": null
+  },
+  "qaArtifacts": [
+    {
+      "path": "docs/evidence/riwi-batch26-assistant/receipt.json",
+      "sha256": "dbecf8467a682c461e2359a5df7bce0a32e45ec3310515b4a16dda4829fa2a60",
+      "bytes": 15171
+    },
+    {
+      "path": "docs/evidence/riwi-batch26-assistant/round-1-backend.log",
+      "sha256": "013ec6f3f11a1d0b3276f4ac09e626c4c7a0fb8994a61ce92f723b143669f981",
+      "bytes": 74149
+    },
+    {
+      "path": "docs/evidence/riwi-batch26-assistant/round-1-lint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evidence/riwi-batch26-assistant/round-1-typecheck.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evidence/riwi-batch26-assistant/round-1-ui.log",
+      "sha256": "984a6ef7978d6d19eddbcb254cb3943404f820265a7e442d0c79f02eea25e567",
+      "bytes": 61209
+    },
+    {
+      "path": "docs/evidence/riwi-batch26-assistant/round-2-backend.log",
+      "sha256": "0263f3a37fbccf1218049615e5cab28a821e7d7a405938beff32a7707713bfe6",
+      "bytes": 74145
+    },
+    {
+      "path": "docs/evidence/riwi-batch26-assistant/round-2-lint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evidence/riwi-batch26-assistant/round-2-typecheck.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/evidence/riwi-batch26-assistant/round-2-ui.log",
+      "sha256": "1b8003cce31f625bee27820f6fb8ef31a549caf68b6faa36d7bc909e80b7d5a4",
+      "bytes": 61205
+    },
+    {
+      "path": "docs/evidence/riwi-batch26-assistant/source-state.json",
+      "sha256": "4ece0b8cdb9a19399d6902e71b80e84ab21067828e7b80d37ef8daa471a001c8",
+      "bytes": 186598
+    }
+  ],
+  "limitations": [
+    "Affected backend selection, not the complete backend suite.",
+    "PGlite canonical SQL and injected provider/resolver fixtures are not native multi-connection or live-model acceptance.",
+    "No restored application boot, R2 acceptance or production build was executed.",
+    "B04 all-task semantic acceptance, B01 all-68 behavior and B05 live-provider acceptance remain open.",
+    "Earlier Batch26 v1 gates at b037da7e passed before the original-source receipt repair; the v2 source above is the final current evidence."
+  ]
+}

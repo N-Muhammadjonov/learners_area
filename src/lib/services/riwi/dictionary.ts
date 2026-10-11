@@ -1,13 +1,14 @@
 import "server-only";
 import { canonicalDictionaryStatus } from "./dictionary-status";
 export { canonicalDictionaryStatus } from "./dictionary-status";
-import { and, eq } from "drizzle-orm";
+import { and, eq, inArray } from "drizzle-orm";
 import { db } from "@/db/client";
-import { lexemes, listeningAttempts, readingAttempts } from "@/db/schema";
+import { lexemes, listeningAttempts, readingAttempts, retentionAttempts } from "@/db/schema";
 import { lookupCatalogue } from "@/lib/services/lexical/enrichment";
 import { lexicalDetailFor, resolveOccurrence } from "@/lib/services/lexical/context";
 import type { Role } from "@/lib/auth/roles";
 import type { VocabularySourceSnapshot } from "@/lib/services/lexical/context";
+import { teachDictionaryEntry, type DictionaryTask } from "./dictionary-teaching";
 
 export type DictionaryActor = { id: string; role: Role };
 export type DictionaryLookup =
@@ -26,8 +27,17 @@ export async function hasOpenExam(actor: DictionaryActor, database: Pick<typeof 
   return Boolean(listening);
 }
 
+/** Canonical lexical help also remains closed during unaided reading/recall,
+ * including a staff member's own recall. Deadlines do not finalize attempts. */
+export async function hasDictionaryAssistanceLock(actor: DictionaryActor, database: Pick<typeof db, "select"> = db): Promise<boolean> {
+  if (await hasOpenExam(actor, database)) return true;
+  const [recall] = await database.select({ id: retentionAttempts.id }).from(retentionAttempts)
+    .where(and(eq(retentionAttempts.userId, actor.id), inArray(retentionAttempts.status, ["reading", "recall"]))).limit(1);
+  return Boolean(recall);
+}
+
 export async function lookupCanonicalDictionary(term: string, actor: DictionaryActor, database: typeof db = db): Promise<DictionaryLookup> {
-  if (await hasOpenExam(actor, database)) return { status: "locked" };
+  if (await hasDictionaryAssistanceLock(actor, database)) return { status: "locked" };
   const safeTerm = term.trim().slice(0, 120);
   if (!safeTerm) return { status: "unresolved" };
   const entry = await lookupCatalogue(safeTerm, database);
@@ -90,8 +100,10 @@ export function extractDictionaryTerm(message: string): string | null {
     /значение\s+(?:слова|выражения)\s+['"]?([\p{L}\p{N}][\p{L}\p{N}\s'-]{0,118})/iu,
     /\bmeaning\s+of\s+['"]?([^?'".,;]{1,120})/i,
     /\bdefinition\s+of\s+['"]?([^?'".,;]{1,120})/i,
+    /\btranslation\s+of\s+['"]?([^?'".,;]{1,120})/i,
     /\bdefine\s+['"]?([^?'".,;]{1,120})/i,
     /\btranslate\s+['"]?([^?'".,;]{1,120})/i,
+    /перев(?:еди|од\s+слова)\s+['"]?([^?'".,;]{1,120})/iu,
     /\bwhat\s+does\s+['"]?([^?'".,;]{1,120}?)['"]?\s+mean\b/i,
     /\b(?:word|phrase)\s+['"]([^'"]{1,120})['"]/i,
   ];
@@ -111,24 +123,10 @@ export async function resolveDictionaryOccurrence(input: {
   sourceId: string;
   occurrenceId: string;
 }, database: typeof db = db) {
+  if (await hasDictionaryAssistanceLock(input.actor, database)) return { status: "locked" as const, lexeme: null, snapshot: null };
   return resolveOccurrence(input.actor, input.sourceType, input.sourceId, input.occurrenceId, database);
 }
 
-export function formatDictionaryAnswer(entry: Extract<DictionaryLookup, { status: "resolved" }>, locale: "en" | "uz") {
-  const facts = [
-    `${entry.term}${entry.partOfSpeech ? ` (${entry.partOfSpeech})` : ""}: ${entry.definitionEn}`,
-    entry.lexicalType ? `Lexical type: ${entry.lexicalType}.` : null,
-    entry.translationUz ? `Uzbek: ${entry.translationUz}` : null,
-    entry.collocations ? `Collocations: ${entry.collocations}` : null,
-    entry.example ? `Example: ${entry.example}` : null,
-    entry.occurrence
-      ? `Occurrence: “${entry.occurrence.surfaceForm}” in “${entry.occurrence.sentenceText}” — ${entry.occurrence.sourceTitle}.`
-      : null,
-  ].filter((item): item is string => Boolean(item));
-  return {
-    answer: facts.join("\n"),
-    uncertainty: entry.verified ? null : locale === "uz"
-      ? "Bu lug'at yozuvi hali tekshirilmagan; uni yakuniy manba sifatida qabul qilmang."
-      : "This catalogue entry has not been verified; do not treat it as authoritative.",
-  };
+export function formatDictionaryAnswer(entry: Extract<DictionaryLookup, { status: "resolved" }>, locale: "en" | "uz", task: DictionaryTask = "vocabulary.meaning") {
+  return teachDictionaryEntry(entry, task, locale);
 }

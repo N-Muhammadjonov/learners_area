@@ -16,7 +16,7 @@ import {
   writingSubmissions,
 } from "@/db/schema";
 import { grammarVisibleTo } from "@/lib/data/grammar";
-import { grammarPracticeEvidence } from "@/lib/services/grammar/production";
+import { resumeGrammarProduction } from "@/lib/data/grammar-production-write";
 import { PUBLIC_CHECKED_BY } from "@/lib/services/coach/attribution";
 import type { ServiceOutcome } from "@/lib/services/coach/service";
 import type { EvaluationRecord } from "@/lib/data/evaluations";
@@ -217,17 +217,9 @@ export function registerRiwiEvaluationTools(
         ))
         .orderBy(desc(grammarAttempts.attemptedAt)).limit(1);
       if (!attempt?.attempt.responseText?.trim()) return notEvaluated("no_saved_work");
-      const evidence = grammarPracticeEvidence(attempt.exercise, "activate_it", attempt.topic.title);
-      if (!evidence) return notEvaluated("source_unavailable");
-      const outcome = await services.evaluateGrammarProduction({
-        userId: actor.id,
-        attemptId: attempt.attempt.id,
-        ...evidence,
-        studentAnswer: attempt.attempt.responseText,
-        activity: "activate_it",
-        language,
-      });
-      return resolved("Grammar Activate It saved attempt", outcome);
+      const outcome = await resumeGrammarProduction(actor.id, attempt.attempt.id, language, database, services.evaluateGrammarProduction);
+      if (!outcome.ok) return notEvaluated(outcome.error === "source_unavailable" ? "source_unavailable" : "evaluation_unavailable");
+      return resolved("Grammar Activate It saved attempt", { ok: true, evaluation: outcome.evaluation, reused: true });
     },
   });
 

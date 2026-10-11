@@ -12,12 +12,16 @@ import { PERIOD_KINDS } from "@/lib/reporter/period";
 
 import { resolveUserScope, ROLE_CAPABILITIES, authorizeCapability, type RiwiActor, type RiwiCapability, type ScopeDecision, type ScopeDependencies } from "./capabilities";
 import { formatDictionaryAnswer, lookupCanonicalDictionary, lookupDictionaryOccurrence } from "./dictionary";
+import { dictionaryTaskSchema, dictionaryResolvedAnswerSchema } from "./dictionary-teaching";
 import { riwiDictionaryOccurrenceSchema } from "./contracts";
 import { findAuthorizedRiwiCourseLesson, RIWI_COURSE_EXCERPT_MAX_CHARS } from "./course-lessons";
 import { buildRiwiReport, riwiReportResultSchema, type RiwiReportRequest } from "./reports";
 import { RiwiToolBroker, type RiwiRiskClass, type RiwiToolHandler } from "./tool-broker";
 import { RIWI_AUDIT_ACTIONS, recordRiwiAudit } from "./audit";
 import { registerRiwiEvaluationTools, type RiwiEvaluationServices } from "./evaluation-tools";
+import { explainLatestReadingRecall, explainRecallErrorPattern, explainVocabularyRecall, retentionExplanationResultSchema } from "./retention-explanation";
+import { explainGrammarRetention } from "./grammar-retention";
+import { lockRecallAllocation } from "./retention-read-policy";
 import { PORTABLE_SCHEMA_VERSION, RIWI_CORE_VERSION } from "@/lib/portability/types";
 
 const UUID = z.string().uuid();
@@ -54,6 +58,7 @@ export function createRiwiCoreTools(database: typeof db = db, evaluationServices
 
   function register<I extends ZodTypeAny, O extends ZodTypeAny>(input: {
     name: string;
+    version?: string;
     description: string;
     capability: RiwiCapability;
     inputSchema: I;
@@ -69,7 +74,7 @@ export function createRiwiCoreTools(database: typeof db = db, evaluationServices
     const riskClass = input.riskClass ?? "read-only";
     riwiToolBroker.register({
       name: input.name,
-      version: "1.0.0",
+      version: input.version ?? "1.0.0",
       description: input.description,
       capability: input.capability,
       riskClass,
@@ -86,43 +91,72 @@ export function createRiwiCoreTools(database: typeof db = db, evaluationServices
   }
 
   const emptyInput = z.object({}).strict();
+  register({
+    name: "riwi.retention.readingRecall.explainLatestSelf",
+    description: "Explain the caller's latest terminal Retention result without revealing its hidden source or changing scores/scheduling.",
+    capability: "riwi.chat.self", inputSchema: z.object({ language: z.enum(["en", "uz"]) }).strict(),
+    outputSchema: retentionExplanationResultSchema,
+    scope: actor => resolveUserScope(actor, "riwi.chat.self", actor.id, scopeDependencies),
+  }, async (input, { actor }) => explainLatestReadingRecall(actor, input.language, database));
+  register({
+    name: "riwi.retention.vocabularyRecall.explainSelf",
+    description: "Explain one exact saved vocabulary sense's review and linked productive-use evidence without granting mastery or changing its schedule.",
+    capability: "riwi.chat.self", inputSchema: z.object({ language: z.enum(["en", "uz"]) }).strict(),
+    outputSchema: retentionExplanationResultSchema,
+    scope: actor => resolveUserScope(actor, "riwi.chat.self", actor.id, scopeDependencies),
+  }, async (input, { actor }) => explainVocabularyRecall(actor, input.language, database));
+  register({
+    name: "riwi.retention.errorPattern.explainSelf",
+    description: "Explain gaps across at most ten owned terminal recalls of the same immutable source version and evaluator.",
+    capability: "riwi.chat.self", inputSchema: z.object({ language: z.enum(["en", "uz"]) }).strict(),
+    outputSchema: retentionExplanationResultSchema,
+    scope: actor => resolveUserScope(actor, "riwi.chat.self", actor.id, scopeDependencies),
+  }, async (input, { actor }) => explainRecallErrorPattern(actor, input.language, database));
+  register({
+    name: "riwi.grammar.retention.explainSelf",
+    description: "Explain bounded owned Grammar practice evidence while keeping unassessed production separate from errors and refusing unsupported decay claims.",
+    capability: "riwi.chat.self", inputSchema: z.object({ language: z.enum(["en", "uz"]) }).strict(),
+    outputSchema: retentionExplanationResultSchema,
+    scope: actor => resolveUserScope(actor, "riwi.chat.self", actor.id, scopeDependencies),
+  }, async (input, { actor }) => explainGrammarRetention(actor, input.language, database));
   const dictionaryInput = z.object({
     term: z.string().trim().min(1).max(120).optional(),
     language: z.enum(["en", "uz"]).default("en"),
+    task: dictionaryTaskSchema.default("vocabulary.meaning"),
     occurrence: riwiDictionaryOccurrenceSchema.optional(),
   }).strict().refine((value) => Boolean(value.term || value.occurrence));
-  const dictionaryOccurrenceSnapshot = z.object({
-    occurrenceId: UUID, lexemeId: UUID, sourceTitle: z.string().max(240), surfaceForm: z.string().max(120), sentenceText: z.string().max(600),
-    sourceType: z.enum(["reading", "listening", "video"]).optional(), videoLessonId: UUID.nullable().optional(),
-    attemptId: UUID.nullable().optional(), passageId: UUID.nullable().optional(),
-    readingMode: z.enum(["academic", "general_practice"]).optional(), generalSetId: UUID.nullable().optional(), passageNo: z.number().int().nullable().optional(),
-    listeningTestId: UUID.nullable().optional(), sectionNumber: z.number().int().nullable().optional(),
-    startMs: z.number().int().nullable().optional(), endMs: z.number().int().nullable().optional(),
-  }).strict();
   const dictionaryOutput = z.discriminatedUnion("status", [
     z.object({ status: z.literal("locked") }).strict(),
     z.object({ status: z.literal("unresolved") }).strict(),
-    z.object({
-      status: z.literal("resolved"), canonicalLexemeId: UUID, senseId: UUID, term: z.string().max(120), definitionEn: z.string().max(4000),
-      translationUz: z.string().max(2000).nullable(), partOfSpeech: z.string().max(80).nullable(), lexicalType: z.string().max(24).nullable(),
-      example: z.string().max(2000).nullable(), collocations: z.string().max(2000).nullable(),
-      source: z.string().max(200), verified: z.boolean(), pronunciation: z.string().max(200).nullable(),
-      occurrence: dictionaryOccurrenceSnapshot.nullable(), answer: z.string().max(7000), uncertainty: z.string().max(500).nullable(),
-    }).strict(),
+    dictionaryResolvedAnswerSchema,
   ]);
 
   register({
     name: "riwi.dictionary.lookup",
+    version: "1.1.0",
     description: "Look up a canonical dictionary sense, or re-resolve one exact authorized Reading/Listening occurrence; exam locks and source access are enforced server-side.",
     capability: "riwi.dictionary.lookup", inputSchema: dictionaryInput, outputSchema: dictionaryOutput, timeoutMs: 8_000,
     scope: (actor) => resolveUserScope(actor, "riwi.dictionary.lookup", actor.id, scopeDependencies),
-  }, async (input, { actor }) => {
+  }, async (input, { actor, correlationId }) => database.transaction(async tx => {
+    const [current] = await tx.select({ role: users.role, accountStatus: users.accountStatus }).from(users)
+      .where(eq(users.id, actor.id)).for("share");
+    if (current?.role !== actor.role || current.accountStatus !== "active") return { status: "unresolved" as const };
+    await lockRecallAllocation(actor.id, tx);
+    // These canonical read helpers use select/query only. The transaction has
+    // both APIs; it deliberately does not expose the database's Pool $client.
+    const readDatabase = tx as unknown as typeof database;
     const entry = input.occurrence
-      ? await lookupDictionaryOccurrence({ actor, ...input.occurrence, term: input.term }, database)
-      : await lookupCanonicalDictionary(input.term!, actor, database);
+      ? await lookupDictionaryOccurrence({ actor, ...input.occurrence, term: input.term }, readDatabase)
+      : await lookupCanonicalDictionary(input.term!, actor, readDatabase);
     if (entry.status !== "resolved") return entry;
-    return { ...entry, ...formatDictionaryAnswer(entry, input.language) };
-  });
+    const result = { ...entry, ...formatDictionaryAnswer(entry, input.language, input.task) };
+    await recordRiwiAudit({ actorUserId: actor.id, action: "riwi.learning.explanation.prepared", targetType: "riwi_dictionary_sense",
+      targetId: entry.senseId, metadata: { correlationId, role: actor.role, capability: "riwi.dictionary.lookup", scopeKind: "self",
+        riskClass: "read-only", answerSource: "canonical_dictionary", status: result.teaching.evidenceComplete ? "prepared" : "incomplete",
+        assessmentContractKey: result.teaching.task, promptVersion: result.teaching.promptVersion, rubricVersion: result.teaching.rubricVersion,
+        sourceChecksum: result.teaching.sourceHash, resultCount: 1 } }, tx);
+    return result;
+  }));
 
   const grammarTopicInput = z.object({ query: z.string().trim().min(1).max(120), language: z.enum(["en", "uz"]).default("en") }).strict();
   const grammarTopicOutput = z.discriminatedUnion("status", [

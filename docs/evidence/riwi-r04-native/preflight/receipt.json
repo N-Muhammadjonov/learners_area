@@ -1,0 +1,32 @@
+{
+  "root": "/tmp/riwi-r04-native-p2fvnqs3",
+  "scope": "R04_LOCAL_NATIVE_ONLY",
+  "checks": {
+    "initdb": {
+      "exit_code": 0,
+      "sha256": "70da63b21a37c20dda27e98c620b4f42a42ddd1aec7b41b0a0b1fea20e011c05"
+    },
+    "start": {
+      "exit_code": 0,
+      "sha256": "66afd0411ccc09366e99fdd99b85f21899c8d2d064f5835126859618802153ad"
+    },
+    "create-private-db": {
+      "exit_code": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "canonical-migrations": {
+      "exit_code": 0,
+      "sha256": "1d1294aa78848717cc5a1e630ddb980b0fbd8ed8e0fbb1e10bb7d87f1c5c5d97"
+    },
+    "r04-http": {
+      "exit_code": 0,
+      "sha256": "687639c14195a430a5d9383d01090d08f5accfcdb587e03cc4841ec5dbe97618"
+    },
+    "stop": {
+      "exit_code": 0,
+      "sha256": "ca19178a35ab4153b75b494963b66ce8243e1b94c173107c87b44d09db23652d"
+    }
+  },
+  "cluster_stopped": true,
+  "deployed_scheduler_acceptance": false
+}

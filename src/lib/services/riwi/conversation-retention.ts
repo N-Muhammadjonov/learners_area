@@ -72,7 +72,16 @@ export async function sweepRiwiConversationsOn(database: RetentionDatabase, opti
     oldMessages += messages.rows.length;
     expiredChats += expired.rows.length;
     if (!offline.rows.length && !messages.rows.length && !expired.rows.length) {
-      complete = true;
+      // SKIP LOCKED may have deferred eligible work to a heartbeat or another
+      // transaction. Zero deleted rows does not prove that the sweep drained.
+      const pending = await database.execute<{ pending: boolean }>(sql`
+        select exists (
+          select 1 from riwi_conversations c join users u on u.id = c.user_id
+            where u.last_active_at < ${offlineCutoff} or c.expires_at <= ${options.now}
+        ) or exists (
+          select 1 from riwi_conversation_messages where created_at < ${messageCutoff}
+        ) as pending`);
+      complete = pending.rows[0]?.pending === false;
       break;
     }
   }
