@@ -71,7 +71,7 @@ export async function changeRequiredChannels(
   if (outcome.ok) {
     await recordAudit({
       actorUserId: actor.auditUserId,
-      action: "telegram.required_channels_changed",
+      action: "bot_settings.changed",
       targetType: "telegram_bot_setting",
       targetId: KEY,
       metadata: { actorTelegramId: actor.telegramUserId, action, channelId: candidate.id },
