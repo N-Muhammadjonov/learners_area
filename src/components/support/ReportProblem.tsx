@@ -116,6 +116,11 @@ export function ReportProblem({ dict, floating = false }: { dict: Dictionary; fl
           </div>
           <textarea
             className="input mt-2 min-h-[80px] w-full"
+            // The placeholder is a hint, not a name: assistive technology drops it once the
+            // learner types, leaving the field announced as an unnamed edit box. The label copy
+            // already exists in both locales — it was simply never wired to the control.
+            // aria-label adds no visual change to the protected shell design.
+            aria-label={dict.support.message}
             placeholder={dict.support.messagePlaceholder}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
