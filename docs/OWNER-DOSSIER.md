@@ -15,30 +15,31 @@ Status labels used: `IMPLEMENTED_AND_VERIFIED` · `IMPLEMENTED_NOT_RUNTIME_VERIF
 | --- | --- |
 | Branch | `arena/1052c0fd-learners-area` |
 | Starting SHA (session base) | `31e10bd91667c6f8940e16834d7f7bc3e011b1f5` |
-| Final SHA (local HEAD) | `82eae3cbb17bcb3029729463a21dc6106ee3324b` |
-| Remote SHA (`origin`) | `82eae3cbb17bcb3029729463a21dc6106ee3324b` |
-| Remote SHA (`git ls-remote`, independent of the local tracking ref) | `82eae3cbb17bcb3029729463a21dc6106ee3324b` |
-| Tree SHA | `88e21529f46ca7ca2f96d3aa1107ac71a67ef0a4` |
+| Final SHA (local HEAD) | `daa0090cc7afd3a6910106a56a7abf61dfadea21` |
+| Remote SHA (`origin`) | `daa0090cc7afd3a6910106a56a7abf61dfadea21` |
+| Remote SHA (`git ls-remote`, independent of the local tracking ref) | `daa0090cc7afd3a6910106a56a7abf61dfadea21` |
+| Tree SHA | `41a1552c4e412d3400696256c48589420ddfc51e` |
 | Local == remote | yes, verified by `git rev-parse` on both after every push |
 | Worktree | clean — 0 modified, 0 untracked |
-| Commits this session | 312 on top of the base |
+| Commits this session | 314 on top of the base (`git rev-list --count 31e10bd..daa0090`) |
 | Migrations on disk | 53 (`drizzle/meta/_journal.json`), tip `drizzle/0052` |
 | Migrations applied to QA database | 53 of 53, verified by counting `drizzle.__drizzle_migrations` |
-| Build identity of the last verified build | `3IoGxDpBUDChGMLMjjyYp` |
+| Build identity of the last verified build | `CCCkcOi_ThoA73aZo-ETa` |
 | Whole-database row total after every probe and suite run | 128 — the post-seed baseline, measured by counting all 119 base tables |
 
-The identity figures above are as of `82eae3c`, the last commit containing production or test code.
-Between `9fca98e` and `82eae3c` two commits touched only this document (`95400d1`, the §14 final
-report, and `d6ad298`, the caveat that the identity figures predate the dossier's own commit), so no
-source file, migration or test differed across them.
+The identity figures above are as of `daa0090`, the last commit containing production or test code.
+Between `9fca98e` and `daa0090` three commits touched only this document (`95400d1`, the §14 final
+report; `d6ad298`, the caveat that the identity figures predate the dossier's own commit; `66c5858`,
+the identity update for `82eae3c`), so no source file, migration or test differed across them.
 Committing this revision of the dossier necessarily advances HEAD and the tree by one further commit
 whose only changed file is `docs/OWNER-DOSSIER.md` — a document cannot contain its own SHA. No source
 file, migration, test or probe differs between `9fca98e` and the commit carrying this sentence, which
 is verifiable with `git diff --stat 9fca98e..HEAD`, which shows only this document plus the six files
 of the section 9.8 fix. Every measurement in section 9 was taken on the `9fca98e` tree except section
-9.8, which was measured on `82eae3c`: full `test:qa2` **1635 tests / 1629 pass / 0 fail / 6 skipped**,
+9.8 and 9.9, which were measured on `82eae3c` and `daa0090` respectively. The final gate on
+`daa0090`: full `test:qa2` **1643 tests / 1637 pass / 0 fail / 6 skipped**, `QA2_EXIT=0`,
 whole-database row total **128** across 119 base tables afterwards, with 0 leftover `qa_fault` tables,
-triggers or functions.
+triggers or functions, and 53 of 53 migrations applied.
 | Mutant build used to kill the reading-seal mutation test | `k_fNBk6tzzGtgxjjcbS23` (source restored byte-exact afterwards) |
 
 Commits added since the previous revision of this dossier, each pushed normally and verified with
@@ -68,6 +69,7 @@ section 9. The five commits of this revision are:
 | `53d2f2f` | §3-class fix: `verify-report-control` left an `audit_log` row behind and its own cleanup check passed |
 | `9fca98e` | browser matrix re-run on the rebuilt cluster, 90 PASS / 0 NOT-PASS |
 | `95400d1`, `d6ad298` | document-only: the §14 final report, then the caveat that the identity figures predate the dossier's own commit |
+| `daa0090` | §8/§12 Vocabulary game fix: the practice event and its point award now commit together, with a 24-check real-browser probe and a mutation test that kills it (9.9) |
 | `82eae3c` | §8/§12 Activation Lab fix: the usage row and its only evidence now commit together; plus the residue guard no longer aborts a whole sweep when a scratch table is dropped mid-file (9.8) |
 
 No pushed commit was amended or rewritten at any point in this round. Every fix to an earlier
