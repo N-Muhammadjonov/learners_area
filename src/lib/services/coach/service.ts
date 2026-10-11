@@ -1,3 +1,4 @@
+import { db } from "@/db/client";
 import { touchMeaningfulActivity } from "@/lib/services/activity";
 import { effectiveCoachConfig } from "./owner-control";
 import "server-only";
@@ -119,40 +120,72 @@ export async function evaluateAndPersist(params: {
   const result = params.normalize ? params.normalize(outcome.result) : outcome.result;
   if (!result) return { ok: false, error: "invalid_evaluation" };
 
-  // 3. Persist the result together with the identity of the evaluator that
-  //    actually produced it.
-  const { record, created } = await saveEvaluation({
-    userId: params.userId,
-    evaluationType: params.evaluationType,
-    sourceType: params.sourceType,
-    sourceId: params.sourceId,
-    result,
+  /*
+   * 3. Persist the result together with the identity of the evaluator that actually produced it.
+   *
+   * All four writes are ONE transaction, and this is what makes the step-1 de-duplication safe
+   * rather than a trap. Step 1 returns `{ reused: true }` before the provider is ever called, so once
+   * an evaluation row exists no retry reaches this block again. A partial write here was therefore
+   * unrecoverable: if the evaluation committed but a weakness row or the completion event did not,
+   * nothing would ever write them, and the learner would keep a verdict that `coach-dashboard.ts`
+   * could not account for. Committing the four together means either the whole record exists or the
+   * learner can simply try again.
+   *
+   * The provider call in step 2 stays OUTSIDE the transaction: a pooled connection is never held
+   * while waiting on an external AI provider. Nothing in here is best-effort either, so a failure
+   * rolls the unit back instead of being swallowed.
+   */
+  const { record, created } = await db.transaction(async (tx) => {
+    const saved = await saveEvaluation(
+      {
+        userId: params.userId,
+        evaluationType: params.evaluationType,
+        sourceType: params.sourceType,
+        sourceId: params.sourceId,
+        result,
+      },
+      tx,
+    );
+    // Lost the race, or the work was already evaluated: the winner wrote the side effects, so this
+    // caller must not write them a second time.
+    if (!saved.created) return saved;
+
+    await recordWeaknessesFromEvaluation(
+      { userId: params.userId, evaluationType: params.evaluationType, result },
+      tx,
+    );
+    await recordEvaluationEvent(
+      {
+        userId: params.userId,
+        evaluationType: params.evaluationType,
+        providerId: saved.record.providerId,
+        sourceId: params.sourceId,
+        overallEstimate: saved.record.overallEstimate,
+      },
+      tx,
+    );
+    if (saved.record.fallbackUsed && saved.record.fallbackFrom) {
+      await recordFallbackEvent(
+        {
+          userId: params.userId,
+          evaluationType: params.evaluationType,
+          fallbackFrom: saved.record.fallbackFrom,
+          sourceId: params.sourceId,
+        },
+        tx,
+      );
+    }
+    return saved;
   });
 
   if (created) {
-    // Real work was produced and recorded: the retention clock cares about this,
-    // not about how often the student signed in.
+    /*
+     * Real work was produced and recorded: the retention clock cares about this, not about how often
+     * the student signed in. Deliberately OUTSIDE the transaction and after the commit — it is
+     * documented as best-effort and non-fatal, so making it a prerequisite would let a timestamp
+     * update roll back a verdict the learner had already earned.
+     */
     await touchMeaningfulActivity(params.userId);
-    await recordWeaknessesFromEvaluation({
-      userId: params.userId,
-      evaluationType: params.evaluationType,
-      result,
-    });
-    await recordEvaluationEvent({
-      userId: params.userId,
-      evaluationType: params.evaluationType,
-      providerId: record.providerId,
-      sourceId: params.sourceId,
-      overallEstimate: record.overallEstimate,
-    });
-    if (record.fallbackUsed && record.fallbackFrom) {
-      await recordFallbackEvent({
-        userId: params.userId,
-        evaluationType: params.evaluationType,
-        fallbackFrom: record.fallbackFrom,
-        sourceId: params.sourceId,
-      });
-    }
   }
 
   return { ok: true, evaluation: record, reused: !created, extras: outcome.extras };
