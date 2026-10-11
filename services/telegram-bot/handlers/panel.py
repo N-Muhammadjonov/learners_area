@@ -169,6 +169,8 @@ async def user_card(callback: CallbackQuery, db_user: dict | None = None, bot_ac
             str(callback.from_user.id), str(user["telegramId"])
         )
         if phone_status == 200:
+            username = phone.get("username")
+            text += f"\n📱 @{esc(username)}" if username else "\n📱 —"
             text += f"\n📞 {esc(phone.get('phoneNumber') or '—')}"
     await callback.message.edit_text(text, reply_markup=InlineKeyboardMarkup(inline_keyboard=_user_actions(user_id, bot_access, lang)))
     await callback.answer()
