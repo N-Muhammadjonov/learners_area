@@ -101,6 +101,9 @@ async def receive_own_contact(
 
 @auth_router.my_chat_member()
 async def membership(event: ChatMemberUpdated):
+    # Channel bot-admin updates must NOT replace an owner\'s private chat ID.
+    if not event.chat or event.chat.type != "private":
+        return
     status = event.new_chat_member.status
     blocked = status in {"kicked", "left"}
     await api_client.sync_contact({
