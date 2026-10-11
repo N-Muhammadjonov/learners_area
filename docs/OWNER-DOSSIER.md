@@ -422,7 +422,7 @@ battery and must be run on the frozen candidate rather than carried forward from
   | --- | --- | --- | --- | --- |
   | `writing/activation.ts` | `WRITING_ACTIVATION_CHECK` | yes — the *only* source of the learner's activation statistics | HIGH | **CLOSED**, section 9.8 |
   | `writing/typing-runs.ts` | `TYPING_RUN_COMPLETED` | yes — history and replay | HIGH | already transactional (B1 wrote it against a `tx`) |
-  | `vocabulary/engine.ts:804` | `VOCAB_GAME_PRACTICED` | yes — `entryPracticeState` derives known/notYet, `activity.ts` derives meaningful activity | MEDIUM — derived state is last-write-wins per entry, so a phantom row does not corrupt it | `REPRODUCED_DEFECT` by inspection, not yet fixed |
+  | `vocabulary/engine.ts` `recordGameAnswer` | `VOCAB_GAME_PRACTICED` | yes — `loadSelfAssessments` restores Learned / Not yet from these rows, `dashboard.ts` counts every type for the streak | MEDIUM→HIGH once the point desync was measured | **CLOSED**, section 9.9 |
   | `grammar/exercises/[id]/practice` (5 writes, no transaction) | `GRAMMAR_PRACTICE_SUBMITTED` | no | MEDIUM — affects the streak only | `REPRODUCED_DEFECT` by inspection, not yet fixed |
   | `data/evaluations.ts` (6 writes, no transaction) | `COACH_EVALUATION_COMPLETED`, `COACH_PROVIDER_FALLBACK` | no | MEDIUM | `REPRODUCED_DEFECT` by inspection, not yet fixed |
   | `writing/stealing.ts` (4 writes, no transaction) | `WRITING_PATTERN_PRACTICE` | no — written and never read | LOW | `REPRODUCED_DEFECT` by inspection, not yet fixed |
@@ -692,7 +692,7 @@ No P0 is open. The P1s:
 | Rate limiting is per-instance (in-memory `Map`) | `OWNER_DECISION_REQUIRED` if the deployment contract requires distributed enforcement; Redis refused as unjustified |
 | Valid-UUID-no-row answers 200 | `OWNER_DECISION_REQUIRED`; deleting `src/app/app/(shell)/loading.tsx` is forbidden, and inventing a global middleware DB dependency to obtain a status code is not warranted |
 | `bg-ink-50` generates no CSS — 38 sites / 21 files, every loading skeleton including the shared `SectionEntryFrame` and 2 `role="progressbar"` tracks | `REPRODUCED_DEFECT`, documented in `docs/DEFECT-bg-ink-50-invisible-skeletons.md`; the fix changes rendered appearance of protected surfaces |
-| Non-transactional `activityEvents` writers outside assignments | `activation.ts` **CLOSED** (9.8); the other six are now triaged per writer by whether the event is read back — section 6 table. `REPRODUCED_DEFECT` by inspection, each still needing its own fault-injection test before a fix can be claimed |
+| Non-transactional `activityEvents` writers outside assignments | `activation.ts` **CLOSED** (9.8) and `recordGameAnswer` **CLOSED** (9.9) — the only two whose events are read back to derive learner state. The five remaining are feed/streak-only and are triaged per writer in the section 6 table; `REPRODUCED_DEFECT` by inspection, each still needing its own fault-injection test before a fix can be claimed |
 | Off-roster `/app/teacher/students/[id]` answers 200 with not-found content | not IDOR — no name, email or form is leaked; the status code alone is tracked as `STATUS_DEFECT` |
 
 Owner-asset blockers are unchanged and listed in section 7. No educational content, listening package,
@@ -766,3 +766,66 @@ fixes, because both halves were real:
 My file alone: 9/9, removed 9 fixture rows across 6 tables, and **0 leftover `qa_fault*` tables, 0
 leftover triggers**. Both files serialized in one run: **19/19, 0 fail** — the interaction that broke
 the suite is gone.
+
+### 9.9 Vocabulary game answers: the practice event and its point award now commit together — CLOSED
+
+**Defect.** `recordGameAnswer` (`src/lib/services/vocabulary/engine.ts`) wrote the learner's
+`VOCAB_GAME_PRACTICED` event, then called `touchMeaningfulActivity`, then called `awardPoints` —
+three statements, no transaction. Those events are read back: `loadSelfAssessments` restores the
+learner's Learned / Not yet marks from them, and `dashboard.ts` counts every event type for the study
+streak. So when the point award failed, the event was already committed: the learner's history and
+streak recorded an attempt the point ledger had no row for, and a retry added a second event while
+`awardPoints` deduped the point. Points are server-authoritative and user-visible, which makes the
+desync learner-facing rather than cosmetic. `REPRODUCED_DEFECT`, MEDIUM raised to HIGH once measured.
+
+**RED.** `tests/vocabulary-game-atomicity-qa2.test.ts` (new, 8 subtests) installs a real PostgreSQL
+`BEFORE INSERT` trigger on `vocab_point_events` scoped to one learner, so the *second* write in the
+unit fails inside the application's own pool. First run **4 pass / 4 fail**, message: `1 practice
+event(s) survived a point award that never happened`. The positive control matters here more than
+usual — `not_found`, `not_in_set` and an unverified `self` judgement all return before the award, so
+without it every rollback assertion would pass because nothing was attempted.
+
+**Minimal safe fix.** One `db.transaction` around the event insert and the point award, passing `tx`
+to `awardPoints`, which already accepted `connection: Pick<typeof db, "insert">` — so no signature
+changed. `touchMeaningfulActivity` stays **outside** on purpose: it is documented as best-effort and
+non-fatal, and pulling it in would let a timestamp update roll back a point the learner had earned.
+No external call is inside the transaction.
+
+**BROWSER CHECK — `scripts/verify-vocabulary-game-atomicity.mjs` (new, 24 checks, 24/24 PASS).**
+Unlike the Activation Lab, this path has no AI provider gate, so the atomicity property could be
+proven end-to-end in real Chromium rather than only at the service layer. The probe logs in as the
+seeded learner, renders `/app/vocabulary/games/builder`, and submits answers through the browser's own
+session while arming and disarming the trigger against the same database the server uses:
+a failing award answers **5xx, never a fake success**, and leaves **no** event behind; the successful
+answer's `awarded` equals the server's own point value rather than anything the request claimed; the
+ledger gains exactly one event and one point; the page renders at 390 px with no sideways scroll; the
+trigger and scratch table are dropped and verified gone; and the whole-database row count is asserted
+back to its pre-probe value.
+
+**MUTATION TEST — the probe is not vacuous.** The transaction was removed from production source,
+rebuilt (`J-AlfanPEuCCYut1o_vjH`) and served: the probe failed on exactly one check,
+`no practice event survives the rolled-back award — 1 -> 2`, with the other 23 still passing, and the
+QA2 test failed 4/4. The mutant's server stack trace contains no `transaction` frame where the fixed
+build's does, which independently confirms the mutation was real rather than a no-op rebuild. The
+source was then restored byte-identical from a copy (0 `MUTANT` markers), rebuilt
+(`CCCkcOi_ThoA73aZo-ETa`) and re-verified: probe 24/24, test 8/8.
+
+**Two defects found in the probe itself before it was accepted.**
+* Its final residue assertion was `total >= 0` — an assertion that cannot fail. Replaced with a
+  comparison against the row total measured before the probe wrote anything.
+* It probed the fault on the same Vocabulary entry as its positive control. The point dedupe key is
+  per (learner, entry, Tashkent day), so the control consumed the day's award and the retry correctly
+  returned `awarded: 0`; the probe reported 2 failures that were the product working as designed. It
+  now takes two entries, and the reason is recorded in the probe's own comment so the next reader does
+  not "fix" it back.
+
+**Checks.** `tsc --noEmit` exit 0; eslint `--max-warnings=0` clean on all three files; regression over
+every test file that touches `recordGameAnswer`, `loadSelfAssessments`, `awardPoints` or
+`vocabulary/engine` — 14 files, **132 tests / 132 pass / 0 fail / 0 skipped**; DATABASE CHECK 119 base
+tables and **128 rows** (exact baseline) with 0 leftover `qa_fault` tables or triggers.
+
+**Recorded, not repaired.** `awardPoints` dedupes per learner, entry and Tashkent day while the
+practice event does not dedupe at all, so a same-day retry adds an event without a second point. The
+last subtest asserts that asymmetry as current behaviour rather than silently changing it: making the
+event idempotent is a product decision about what a repeated answer *means*, not an atomicity
+question, and nothing here claims to have answered it.

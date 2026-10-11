@@ -811,23 +811,38 @@ export async function recordGameAnswer(input: {
     correct = input.submission.known;
   }
 
-  // Practice counts as activity, including an incorrect answer; never as SRS.
-  await db.insert(activityEvents).values({
-    userId: input.userId,
-    type: "VOCAB_GAME_PRACTICED",
-    payload: { entryId: entry.id, kind: input.submission.kind, correct, verified },
+  /*
+   * Practice counts as activity, including an incorrect answer; never as SRS.
+   *
+   * The practice event and the point it earns are ONE write unit. These events are read back —
+   * `loadSelfAssessments` restores the learner's Learned / Not yet marks from them and `dashboard.ts`
+   * counts every event type to compute the study streak — so an event committed without its award
+   * describes an attempt the point ledger has no row for. They commit or roll back together.
+   *
+   * `touchMeaningfulActivity` stays OUTSIDE the transaction on purpose: it is documented as
+   * best-effort and non-fatal, and pulling it in would let a timestamp update roll back a point the
+   * learner had already earned. No external call is made inside the transaction either.
+   */
+  const awarded = await db.transaction(async (tx) => {
+    await tx.insert(activityEvents).values({
+      userId: input.userId,
+      type: "VOCAB_GAME_PRACTICED",
+      payload: { entryId: entry.id, kind: input.submission.kind, correct, verified },
+    });
+    return shouldAwardGamePoint({ gameId: input.gameId, kind: input.submission.kind, verified, correct })
+      ? await awardPoints(
+          {
+            userId: input.userId,
+            kind: "game_answer",
+            dedupeKey: dedupeKeys.gameAnswer(input.userId, input.entryId, dayKey(now)),
+            refType: "user_vocabulary",
+            refId: input.entryId,
+          },
+          tx,
+        )
+      : false;
   });
   await touchMeaningfulActivity(input.userId);
-  const awarded =
-    shouldAwardGamePoint({ gameId: input.gameId, kind: input.submission.kind, verified, correct })
-      ? await awardPoints({
-          userId: input.userId,
-          kind: "game_answer",
-          dedupeKey: dedupeKeys.gameAnswer(input.userId, input.entryId, dayKey(now)),
-          refType: "user_vocabulary",
-          refId: input.entryId,
-        })
-      : false;
 
   return {
     ok: true as const,
