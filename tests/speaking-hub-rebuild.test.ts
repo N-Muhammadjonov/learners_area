@@ -80,7 +80,16 @@ test("S5 Practice on your own groups Part → Topic → Questions without hiding
 
 test("S6 every question owns its recorder; one microphone at a time; release on unmount", () => {
   const studio = read("src/components/speaking/PracticeStudio.tsx");
-  assert.match(studio, /topic\.prompts\.map\(\(p, i\) =>[\s\S]*<LocalAnswerRecorder [^>]*id=\{p\.id\}/);
+  /*
+   * The variable holding the questions is `prompts`, not `topic.prompts`: the studio no longer receives a
+   * pre-grouped bank as a prop, it fetches one bounded page for the chosen topic (§04). The PROPERTY is
+   * unchanged — every listed question renders its own recorder keyed by that prompt's id, so recordings
+   * never leak between questions — and it is now verified behaviourally as well as by source text:
+   * tests/ui/speaking-retry.test.tsx asserts the recorder element is reused, not remounted, across a
+   * retry, and scripts/verify-speaking-journeys.mjs counts one [data-local-recorder] per question in a
+   * real browser. Matching `topic.prompts` here would have kept a stale name alive as a requirement.
+   */
+  assert.match(studio, /prompts\.map\(\(p, i\) =>[\s\S]*<LocalAnswerRecorder [^>]*id=\{p\.id\}/);
   assert.match(studio, /<li key=\{p\.id\}/);
   assert.doesNotMatch(studio, /<select|createRecorder/);
   assert.match(studio, /window\.history\.pushState/);
