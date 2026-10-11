@@ -26,7 +26,7 @@
  */
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
-import { writeFileSync } from "node:fs";
+import { writeGeneratedDoc } from "./lib/doc-output.mjs";
 
 const argv = process.argv.slice(2);
 const BASE = argv.find((a) => !a.startsWith("--")) ?? process.env.BASE_URL ?? "http://127.0.0.1:3000";
@@ -467,7 +467,7 @@ try {
       : "## Defects\n\nNone. Every measured surface stayed within its bound and no per-page cost grew with corpus size.",
     "",
   ];
-  writeFileSync("docs/SCALE-MEASUREMENT.md", `${lines.join("\n")}\n`);
+  writeGeneratedDoc("docs/SCALE-MEASUREMENT.md", `${lines.join("\n")}\n`);
   console.log(`\n${results.length} measurements recorded · ${defects} defect(s) · docs/SCALE-MEASUREMENT.md`);
 }
 

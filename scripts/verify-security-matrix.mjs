@@ -33,7 +33,7 @@
  */
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
-import { writeFileSync } from "node:fs";
+import { writeGeneratedDoc } from "./lib/doc-output.mjs";
 
 const BASE = process.argv[2] ?? process.env.BASE_URL ?? "http://127.0.0.1:3000";
 const DATABASE_URL = process.env.DATABASE_URL;
@@ -1126,7 +1126,7 @@ try {
   await finalSweep("end of run");
 
   const report = matrix.report();
-  writeFileSync("docs/SECURITY-MATRIX.md", [
+  writeGeneratedDoc("docs/SECURITY-MATRIX.md", [
     "# Six-actor security and concurrency matrix (Package D)",
     "",
     `Run against \`${BASE}\` and a real PostgreSQL. Actors: ANONYMOUS, STUDENT_A, STUDENT_B,`,

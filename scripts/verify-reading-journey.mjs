@@ -30,7 +30,7 @@
  * individually too, so a right total assembled from wrong per-answer marks cannot pass.
  */
 import assert from "node:assert/strict";
-import { writeFileSync } from "node:fs";
+import { writeGeneratedDoc } from "./lib/doc-output.mjs";
 
 const BASE = process.argv[2] ?? process.env.BASE_URL ?? "http://127.0.0.1:3000";
 const DATABASE_URL = process.env.DATABASE_URL;
@@ -645,7 +645,7 @@ try {
     "honestly to the learner rather than rendering a broken list.",
     "",
   ];
-  writeFileSync("docs/READING-JOURNEY.md", `${lines.join("\n")}\n`);
+  writeGeneratedDoc("docs/READING-JOURNEY.md", `${lines.join("\n")}\n`);
   console.log(`\n${passed}/${steps.length - blocked} steps passed · ${blocked} blocker(s) · ${defects} defect(s) · docs/READING-JOURNEY.md`);
 }
 process.exit(defects ? 1 : 0);

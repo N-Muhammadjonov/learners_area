@@ -21,7 +21,7 @@
  * is not the same result as a clean refusal, and status-only assertions cannot tell them apart.
  * Positive controls are included so that a fix which simply refuses everything cannot pass.
  */
-import { writeFileSync } from "node:fs";
+import { writeGeneratedDoc } from "./lib/doc-output.mjs";
 
 const BASE = process.argv[2] ?? process.env.BASE_URL ?? "http://127.0.0.1:3000";
 const DATABASE_URL = process.env.DATABASE_URL;
@@ -326,7 +326,7 @@ try {
     ...rows.filter((r) => r.note).map((r) => `- **${r.actor} — ${r.action}**: ${r.note}`),
     "",
   ];
-  writeFileSync("docs/LIVE-CLASS-OWNERSHIP.md", `${lines.join("\n")}\n`);
+  writeGeneratedDoc("docs/LIVE-CLASS-OWNERSHIP.md", `${lines.join("\n")}\n`);
   console.log(`\n${passed}/${rows.length} rows PASS · ${failures} FAIL · docs/LIVE-CLASS-OWNERSHIP.md`);
 }
 process.exit(failures ? 1 : 0);

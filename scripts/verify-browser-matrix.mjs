@@ -17,7 +17,7 @@
  * route in `en` and in `uz` and require that the visible text actually changed. If two locales
  * produce byte-identical body text, the dictionary is not being applied, whatever it contains.
  */
-import { writeFileSync } from "node:fs";
+import { writeGeneratedDoc } from "./lib/doc-output.mjs";
 import {
   launchBrowser, createSession, auditPage, auditKeyboard, auditDialog, attachRequestRecorder, VIEWPORTS,
 } from "./lib/browser-qa.mjs";
@@ -465,7 +465,7 @@ try {
       ? `## Defects and observations\n\n${notes.map((n) => `- ${n}`).join("\n")}\n`
       : "## Defects and observations\n\nNone recorded.\n",
   ];
-  writeFileSync("docs/BROWSER-MATRIX.md", `${lines.join("\n")}\n`);
+  writeGeneratedDoc("docs/BROWSER-MATRIX.md", `${lines.join("\n")}\n`);
   console.log(`\n${lines.slice(6, 9 + byArea.length).join("\n")}`);
   console.log(`\nPASS ${tally("PASS")} / rows ${rows.length}; defects noted ${notes.length}`);
 }

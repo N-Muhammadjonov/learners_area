@@ -34,7 +34,7 @@
  */
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
-import { writeFileSync } from "node:fs";
+import { writeGeneratedDoc } from "./lib/doc-output.mjs";
 
 const argv = process.argv.slice(2);
 const BASE = argv.find((a) => !a.startsWith("--")) ?? process.env.BASE_URL ?? "http://127.0.0.1:3000";
@@ -270,7 +270,10 @@ try {
     ...measurements.flatMap((m) => m.slowest.map((s) => `- ${m.surface} @${m.corpus}: ${s.ms} ms over ${s.calls} call(s), ${s.rows} rows — \`${s.sql}\``)),
     "",
   ];
-  writeFileSync("docs/UNBOUNDED-READS.md", `${lines.join("\n")}\n`);
+  // Generated tables are rewritten every run; anything a person appended between the hand-written
+  // markers in scripts/lib/doc-output.mjs is preserved verbatim. A bare writeFileSync here deleted
+  // the "the 6.15 MB figure is a floor" correction the first time the probe was re-run after it.
+  writeGeneratedDoc("docs/UNBOUNDED-READS.md", lines.join("\n"));
   console.log(`\n${measurements.length} measurements · ${defects} unbounded/defect(s) · docs/UNBOUNDED-READS.md`);
 }
 process.exit(defects ? 1 : 0);

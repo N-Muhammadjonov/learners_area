@@ -9,19 +9,19 @@ and instrumented PostgreSQL with a tagged corpus built and destroyed by this pro
 
 | surface | corpus | published bank | HTTP | queries | rows read | db ms | median ms | bytes | prompts rendered |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Speaking Practice | 100 | 106 | 200 | 2 | 107 | 0.55 | 47.4 | 278897 | 100 |
-| Speaking AI | 100 | 106 | 200 | 3 | 107 | 0.71 | 54.6 | 277363 | 100 |
-| Speaking Practice | 1000 | 1006 | 200 | 2 | 1007 | 5.88 | 131.2 | 811698 | 1000 |
-| Speaking AI | 1000 | 1006 | 200 | 3 | 1007 | 6.16 | 102.7 | 810163 | 1000 |
-| Speaking Practice | 10000 | 10006 | 200 | 2 | 10007 | 86.38 | 822.7 | 6148699 | 10000 |
-| Speaking AI | 10000 | 10006 | 200 | 3 | 10007 | 51.48 | 586.5 | 6147163 | 10000 |
+| Speaking Practice | 100 | 106 | 200 | 2 | 107 | 0.51 | 61.4 | 278522 | 100 |
+| Speaking AI | 100 | 106 | 200 | 3 | 107 | 0.51 | 53.5 | 277396 | 100 |
+| Speaking Practice | 1000 | 1006 | 200 | 2 | 1007 | 3.14 | 92.8 | 811323 | 1000 |
+| Speaking AI | 1000 | 1006 | 200 | 3 | 1007 | 3.33 | 96 | 810196 | 1000 |
+| Speaking Practice | 10000 | 10006 | 200 | 2 | 10007 | 55.34 | 638.8 | 6148732 | 10000 |
+| Speaking AI | 10000 | 10006 | 200 | 3 | 10007 | 85.55 | 656.9 | 6147196 | 10000 |
 
 ## Growth and verdict
 
 | surface | corpus | rows read | bytes | prompts rendered | median ms | queries | verdict |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Speaking Practice | 100→10000 | 107→10007 (×93.523) | 278897→6148699 (×22.046) | 100→10000 (×100) | 47.4→822.7 (×17.357) | 2→2 | UNBOUNDED |
-| Speaking AI | 100→10000 | 107→10007 (×93.523) | 277363→6147163 (×22.163) | 100→10000 (×100) | 54.6→586.5 (×10.742) | 3→3 | UNBOUNDED |
+| Speaking Practice | 100→10000 | 107→10007 (×93.523) | 278522→6148732 (×22.076) | 100→10000 (×100) | 61.4→638.8 (×10.404) | 2→2 | UNBOUNDED |
+| Speaking AI | 100→10000 | 107→10007 (×93.523) | 277396→6147196 (×22.16) | 100→10000 (×100) | 53.5→656.9 (×12.279) | 3→3 | UNBOUNDED |
 | writing.listActivePrompts / listAllPrompts / listActivePromptsWithResources | n/a | NOT OBSERVED | NOT OBSERVED | NOT OBSERVED | NOT OBSERVED | NOT OBSERVED | NOT OBSERVED — no caller in src/app or src/components, so no request exercises them |
 
 A read is called BOUNDED only when the rows it fetches and the bytes it ships stop growing with
@@ -50,18 +50,20 @@ bank every visit to either page reads the whole bank and ships several megabytes
 
 ## Slowest statements observed
 
-- Speaking Practice @100: 0.53 ms over 1 call(s), 106 rows — `select "id", "part", "category", "prompt_text", "cue_card", "prep_seconds", "answer_seconds", "follow_ups", "study_support", "exte`
-- Speaking Practice @100: 0.02 ms over 1 call(s), 1 rows — `select "id", "name", "email", "role", "account_status", "locale", "onboarding_completed_at", "status_reason" from "users" "users" `
-- Speaking AI @100: 0.67 ms over 1 call(s), 106 rows — `select "id", "part", "category", "prompt_text", "cue_card", "prep_seconds", "answer_seconds", "follow_ups", "study_support", "exte`
+- Speaking Practice @100: 0.48 ms over 1 call(s), 106 rows — `select "id", "part", "category", "prompt_text", "cue_card", "prep_seconds", "answer_seconds", "follow_ups", "study_support", "exte`
+- Speaking Practice @100: 0.03 ms over 1 call(s), 1 rows — `select "id", "name", "email", "role", "account_status", "locale", "onboarding_completed_at", "status_reason" from "users" "users" `
+- Speaking AI @100: 0.48 ms over 1 call(s), 106 rows — `select "id", "part", "category", "prompt_text", "cue_card", "prep_seconds", "answer_seconds", "follow_ups", "study_support", "exte`
 - Speaking AI @100: 0.03 ms over 1 call(s), 1 rows — `select "id", "name", "email", "role", "account_status", "locale", "onboarding_completed_at", "status_reason" from "users" "users" `
-- Speaking Practice @1000: 5.85 ms over 1 call(s), 1006 rows — `select "id", "part", "category", "prompt_text", "cue_card", "prep_seconds", "answer_seconds", "follow_ups", "study_support", "exte`
+- Speaking Practice @1000: 3.12 ms over 1 call(s), 1006 rows — `select "id", "part", "category", "prompt_text", "cue_card", "prep_seconds", "answer_seconds", "follow_ups", "study_support", "exte`
 - Speaking Practice @1000: 0.03 ms over 1 call(s), 1 rows — `select "id", "name", "email", "role", "account_status", "locale", "onboarding_completed_at", "status_reason" from "users" "users" `
-- Speaking AI @1000: 6.08 ms over 1 call(s), 1006 rows — `select "id", "part", "category", "prompt_text", "cue_card", "prep_seconds", "answer_seconds", "follow_ups", "study_support", "exte`
-- Speaking AI @1000: 0.07 ms over 1 call(s), 1 rows — `select "id", "name", "email", "role", "account_status", "locale", "onboarding_completed_at", "status_reason" from "users" "users" `
-- Speaking Practice @10000: 86.36 ms over 1 call(s), 10006 rows — `select "id", "part", "category", "prompt_text", "cue_card", "prep_seconds", "answer_seconds", "follow_ups", "study_support", "exte`
-- Speaking Practice @10000: 0.03 ms over 1 call(s), 1 rows — `select "id", "name", "email", "role", "account_status", "locale", "onboarding_completed_at", "status_reason" from "users" "users" `
-- Speaking AI @10000: 51.44 ms over 1 call(s), 10006 rows — `select "id", "part", "category", "prompt_text", "cue_card", "prep_seconds", "answer_seconds", "follow_ups", "study_support", "exte`
+- Speaking AI @1000: 3.29 ms over 1 call(s), 1006 rows — `select "id", "part", "category", "prompt_text", "cue_card", "prep_seconds", "answer_seconds", "follow_ups", "study_support", "exte`
+- Speaking AI @1000: 0.03 ms over 1 call(s), 1 rows — `select "id", "name", "email", "role", "account_status", "locale", "onboarding_completed_at", "status_reason" from "users" "users" `
+- Speaking Practice @10000: 55.32 ms over 1 call(s), 10006 rows — `select "id", "part", "category", "prompt_text", "cue_card", "prep_seconds", "answer_seconds", "follow_ups", "study_support", "exte`
+- Speaking Practice @10000: 0.02 ms over 1 call(s), 1 rows — `select "id", "name", "email", "role", "account_status", "locale", "onboarding_completed_at", "status_reason" from "users" "users" `
+- Speaking AI @10000: 85.51 ms over 1 call(s), 10006 rows — `select "id", "part", "category", "prompt_text", "cue_card", "prep_seconds", "answer_seconds", "follow_ups", "study_support", "exte`
 - Speaking AI @10000: 0.03 ms over 1 call(s), 1 rows — `select "id", "name", "email", "role", "account_status", "locale", "onboarding_completed_at", "status_reason" from "users" "users" `
+
+<!-- hand-written:begin — preserved verbatim when this document is regenerated -->
 
 ## Correction: the 6.15 MB above is a LOWER BOUND, not the production cost
 
@@ -74,7 +76,7 @@ insert into speaking_prompts (id, part, category, prompt_text, publication_state
 
 So every measured row carried the **default empty** `study_support`
 (`{vocabularyHtml:"",modelAnswerHtml:"",ideasHtml:"",vocabulary:[]}`) and the default empty
-`follow_ups` (`[]`). The 6 148 699 bytes at 10 000 prompts is therefore the cost of the browse
+`follow_ups` (`[]`). The 6.15 MB measured above at 10 000 prompts is therefore the cost of the browse
 metadata and prompt text **with no study support in the bank at all** — the two largest fields the
 section above correctly identifies as "the ones in use" were empty when it was measured.
 
@@ -119,3 +121,5 @@ OWNER_DECISION_REQUIRED — move Part/Topic grouping server-side behind a keyset
 
 Neither is applied here. The status stays `OWNER_DECISION_REQUIRED`, now with the correction that the
 previously recorded cost was measured against an empty study-support bank and is a floor.
+
+<!-- hand-written:end -->

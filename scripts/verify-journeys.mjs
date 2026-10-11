@@ -21,7 +21,7 @@
  */
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
-import { writeFileSync } from "node:fs";
+import { writeGeneratedDoc } from "./lib/doc-output.mjs";
 
 const BASE = process.argv[2] ?? process.env.BASE_URL ?? "http://127.0.0.1:3000";
 const DATABASE_URL = process.env.DATABASE_URL;
@@ -568,7 +568,7 @@ try {
       ? `## Blocked journeys\n\n${blocked.map((j) => `- **${j.id}**: ${j.blocked}`).join("\n")}\n`
       : "## Blocked journeys\n\nNone.\n",
   ];
-  writeFileSync("docs/JOURNEY-MATRIX.md", `${lines.join("\n")}\n`);
+  writeGeneratedDoc("docs/JOURNEY-MATRIX.md", `${lines.join("\n")}\n`);
   console.log(`\n${lines[6]}`);
   for (const j of journeys) console.log(`  ${j.id}: ${j.steps.filter((s) => s.ok).length}/${j.steps.length} steps${j.blocked ? " (BLOCKED)" : j.failed ? " (FAILED)" : ""}`);
   // A run that is not fully green must say WHY it is not green. "Blocked by a missing owner
