@@ -60,6 +60,19 @@ class ApiClient:
     async def sync_contact(self, payload: dict[str, Any]) -> None:
         await self._request("POST", "/contacts", json=payload)
 
+    async def save_verified_phone(self, telegram_user_id: str, contact_user_id: str, phone: str) -> bool:
+        status, data = await self._request("POST", "/contacts/phone", json={
+            "telegramUserId": telegram_user_id,
+            "contactUserId": contact_user_id,
+            "phoneNumber": phone,
+        })
+        return status == 200 and bool(data.get("ok"))
+
+    async def owner_contact_detail(self, actor_id: str, target_id: str) -> tuple[int, Any]:
+        return await self._request(
+            "GET", f"/contacts/{target_id}", params={"actorTelegramId": actor_id}
+        )
+
     async def confirm_intent(self, token: str, telegram_user_id: str, **extra: Any) -> bool:
         status, _data = await self._request(
             "POST",
