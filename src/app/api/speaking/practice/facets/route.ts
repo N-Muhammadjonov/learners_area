@@ -19,12 +19,27 @@ import { speakingFacets, type SpeakingChannel } from "@/lib/data/speaking-practi
  * walk, and a cursor this server did not mint is refused with 400 rather than silently restarting at
  * the first page and re-serving topics already shown.
  */
+/** The only channels these practice routes serve; anything else is refused rather than coerced. */
+const CHANNELS: readonly SpeakingChannel[] = ["practice_alone", "ai"];
+
 export async function GET(req: NextRequest) {
   const user = await requireActiveUser();
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
   const params = req.nextUrl.searchParams;
-  const channel: SpeakingChannel = params.get("channel") === "ai" ? "ai" : "practice_alone";
+  /*
+   * §05 — validate the channel exactly as the sibling `questions` route does. This endpoint used to
+   * coerce anything unknown to practice_alone and answer 200, so `?channel=live_partner` and
+   * `?channel="><script>` both silently returned practice data. That is not a disclosure — the coercion
+   * lands on the narrower default, and eligibility is still enforced downstream — but two routes that
+   * are meant to be one contract must refuse the same input the same way, and a caller who asked for a
+   * channel it did not get should be told rather than quietly answered with something else.
+   */
+  const rawChannel = params.get("channel");
+  if (rawChannel !== null && !CHANNELS.includes(rawChannel as SpeakingChannel)) {
+    return NextResponse.json({ error: "invalid_channel" }, { status: 400 });
+  }
+  const channel: SpeakingChannel = rawChannel === "ai" ? "ai" : "practice_alone";
   const part = params.get("part");
   const search = (params.get("q") ?? "").trim().slice(0, 120);
 
