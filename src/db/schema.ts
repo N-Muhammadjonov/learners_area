@@ -1628,6 +1628,9 @@ export const telegramContacts = pgTable("telegram_contacts", {
   firstName: varchar("first_name", { length: 120 }),
   lastName: varchar("last_name", { length: 120 }),
   languageCode: varchar("language_code", { length: 10 }),
+  /** Telegram native contact share, verified against sender ID. */
+  phoneNumber: varchar("phone_number", { length: 32 }),
+  phoneVerifiedAt: timestamp("phone_verified_at", { withTimezone: true }),
   linkedUserId: uuid("linked_user_id").references(() => users.id, { onDelete: "set null" }),
   botBlockedAt: timestamp("bot_blocked_at", { withTimezone: true }),
   /** Remove-from-bot. Distinct from unlinking the login identity and from account deletion. */
