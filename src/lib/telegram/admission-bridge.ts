@@ -10,7 +10,8 @@ import {
   resolveRequestIdForDecision,
 } from "@/lib/data/admission";
 import { isTelegramUserId } from "./ids";
-import { upsertTelegramContact } from "./contacts";
+import { findTelegramContact, upsertTelegramContact } from "./contacts";
+import { checkRequiredSubscriptions } from "./required-channels";
 
 const NAME_MAX = 200;
 
@@ -23,6 +24,19 @@ export async function requestAccessFromTelegram(input: {
   languageCode?: string | null;
 }) {
   if (!isTelegramUserId(input.telegramUserId)) return { ok: false as const, error: "invalid_actor" };
+  // The gate is checked BEFORE creating users, requests or activity events.
+  const existingContact = await findTelegramContact(input.telegramUserId);
+  if (!existingContact?.phoneNumber || !existingContact.phoneVerifiedAt) {
+    return { ok: false as const, error: "phone_required" };
+  }
+  const membership = await checkRequiredSubscriptions(input.telegramUserId);
+  if (!membership.ok) {
+    return {
+      ok: false as const,
+      error: membership.error,
+      requiredChannels: membership.channels,
+    };
+  }
   const name = input.name.trim().slice(0, NAME_MAX);
   if (!name) return { ok: false as const, error: "invalid_input" };
 
