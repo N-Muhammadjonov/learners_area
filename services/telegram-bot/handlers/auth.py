@@ -23,8 +23,6 @@ def phone_keyboard(lang: str) -> ReplyKeyboardMarkup:
 
 
 def lang_of(message: Message, db_user: dict | None = None) -> str:
-    if db_user and db_user.get("locale") in {"uz", "en"}:
-        return db_user["locale"]
     code = (message.from_user.language_code or "uz") if message.from_user else "uz"
     return "en" if code.startswith("en") else "uz"
 
