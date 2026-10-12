@@ -1,3 +1,4 @@
+import { publicAuthPolicy, publicAuthDisabledResponse } from "@/lib/auth/public-auth-policy";
 import { NextRequest, NextResponse } from "next/server";
 import { exchangeCode, googleConfigFrom, verifyGoogleIdToken } from "@/lib/auth/providers/google";
 import { resolveGoogleAccount } from "@/lib/auth/google-account";
@@ -18,6 +19,7 @@ const same = (a: string, b: string) => a.length === b.length && timingSafeEqual(
 
 /** GET /api/auth/google/callback — verifies state/PKCE/nonce/id_token, then admission rules decide. */
 export async function GET(req: NextRequest) {
+  if (!publicAuthPolicy().googleEnabled) return publicAuthDisabledResponse();
   const limited = enforce(RULES.loginByIp, clientKey(req));
   if (limited) return limited;
   const { config } = googleConfigFrom(process.env);
