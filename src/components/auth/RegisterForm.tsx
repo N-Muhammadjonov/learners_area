@@ -12,10 +12,14 @@ export function RegisterForm({
   dict,
   telegramConfigured,
   telegramBotUsername,
+  passwordEnabled = true,
+  nonce,
 }: {
   dict: Dictionary;
   telegramConfigured: boolean;
   telegramBotUsername?: string;
+  passwordEnabled?: boolean;
+  nonce?: string;
 }) {
   const router = useRouter();
   const [name, setName] = useState("");
@@ -61,6 +65,11 @@ export function RegisterForm({
       setPending(false);
     }
   }
+
+  if (!passwordEnabled) return (
+    <TelegramButton label={dict.auth.continueWithTelegram} unavailableLabel={dict.auth.telegramUnavailable}
+      configured={telegramConfigured} botUsername={telegramBotUsername} nonce={nonce} />
+  );
 
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-4">
@@ -123,6 +132,7 @@ export function RegisterForm({
         unavailableLabel={dict.auth.telegramUnavailable}
         configured={telegramConfigured}
         botUsername={telegramBotUsername}
+        nonce={nonce}
       />
     </form>
   );
