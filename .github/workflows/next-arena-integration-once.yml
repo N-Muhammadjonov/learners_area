@@ -29,6 +29,27 @@ jobs:
           git merge-base --is-ancestor 8e66e8e1d1bc206f1335eb08cb9f146885ac79d1 HEAD
           echo "Both source histories remain ancestors:"
           git --no-pager log -3 --format='%h %s'
+      - name: Resolve Reading V4 test and migration declarations, preserve Typing replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Next's old Reading-tab assertions no longer apply to Arena Reading V4.
+          # Take the already-reviewed current Arena V4 test, not partial old clauses.
+          git show 8e66e8e1d1bc206f1335eb08cb9f146885ac79d1:tests/reading-tab-swap.test.ts > tests/reading-tab-swap.test.ts
+          # Arena has all current declarations plus Next's safe env typing.
+          git show 8e66e8e1d1bc206f1335eb08cb9f146885ac79d1:scripts/preview-qa-migrate.d.mts > scripts/preview-qa-migrate.d.mts
+          python3 - <<'PY'
+          from pathlib import Path
+          path=Path("src/lib/services/writing/typing-runs.ts")
+          original=path.read_text()
+          expected="and, asc, count, desc, eq, isNull, lte, max, or, sql"
+          assert expected in original, "Unexpected Drizzle import conflict; refuse blind edit"
+          updated=original.replace(expected, "and, asc, count, desc, eq, inArray, isNull, lte, max, or, sql", 1)
+          assert "replayTypingAccuracy" in updated, "Next Typing hotfix must remain"
+          path.write_text(updated)
+          PY
+          git add tests/reading-tab-swap.test.ts scripts/preview-qa-migrate.d.mts src/lib/services/writing/typing-runs.ts
+          git -c user.name="Learners Area QA" -c user.email="qa@users.noreply.github.com" commit -m "fix(integration): preserve current Reading V4 tests and Typing imports"
       - name: Remove one-time integration workflow from resulting tree
         shell: bash
         run: |
