@@ -162,7 +162,7 @@ export function evaluateWritingWithRiwi(input: WritingEvaluationInput): Provider
     recommendedExercises.push({
       kind: "grammar",
       label: "Cohesive devices",
-      href: "/grammar",
+      href: "/app/grammar",
       reason: "Practise the linking patterns you are missing.",
     });
   } else {
@@ -207,7 +207,7 @@ export function evaluateWritingWithRiwi(input: WritingEvaluationInput): Provider
     recommendedExercises.push({
       kind: "vocabulary",
       label: `Replace repeated "${worst.word}"`,
-      href: "/vocabulary",
+      href: "/app/vocabulary",
       reason: "Lexical repetition is the fastest band-limited quick win at this stage.",
     });
   }

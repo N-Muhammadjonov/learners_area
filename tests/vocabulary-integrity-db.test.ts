@@ -5,6 +5,27 @@ import { and, eq, inArray, sql } from "drizzle-orm";
 import { db } from "../src/db/client";
 import { lexemes, lexicalOccurrences, readingPassages, users, userVocabulary, vocabPointEvents, vocabFolders } from "../src/db/schema";
 import { addVocabularyBatch, listFolders } from "../src/lib/services/vocabulary/engine";
+import { after, before } from "node:test";
+import { createResidueGuard, finishResidueGuard, type ResidueGuard } from "./support/qa2-residue";
+
+/*
+ * Fixtures this file creates are removed when it finishes, exception-safely, and only rows that did
+ * not exist when it started can be removed — so seeded records are unreachable by construction.
+ * Before this hook the file leaked its fixtures into the shared QA database, which changed what later
+ * files observed: retention-db.test.ts failed outright once the residue from earlier files accumulated.
+ */
+const QA2_RESIDUE_GUARD = process.env.QA2_DATABASE_TESTS === "1";
+let qa2ResidueGuard: ResidueGuard | null = null;
+before(async () => {
+  if (!QA2_RESIDUE_GUARD) return;
+  qa2ResidueGuard = await createResidueGuard("vocabulary-integrity-db");
+  await qa2ResidueGuard.capture();
+});
+after(async () => {
+  if (!qa2ResidueGuard) return;
+  await finishResidueGuard("vocabulary-integrity-db", qa2ResidueGuard);
+  qa2ResidueGuard = null;
+});
 
 const enabled = process.env.QA2_DATABASE_TESTS === "1";
 function isolated() {

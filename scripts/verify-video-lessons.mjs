@@ -21,6 +21,50 @@ import assert from "node:assert/strict";
 import pg from "pg";
 
 const BASE = process.argv[2] ?? "http://127.0.0.1:3000";
+
+/*
+ * QA SAFETY (section 03.4). This probe mutates and did not clean up after itself.
+ * It authors a real content version, which stayed in the authoring history.
+ *
+ * Measured by scripts/audit-probe-residue.mjs, which counts every row in every table
+ * around a run. Cleanup is differential: snapshot the owned tables before the first
+ * mutation, delete exactly the ids that appeared, then re-query to prove they are
+ * gone. A row that existed before the run is never touched.
+ */
+const SWEEP_DB_URL = process.env.DATABASE_URL;
+const { assertMutableDatabase, createRowSweeper, installSweepHandlers } =
+  await import("./lib/fixture-safety.mjs");
+let finalSweep = async () => {};
+if (SWEEP_DB_URL) {
+  assertMutableDatabase(SWEEP_DB_URL, { probe: "verify-video-lessons" });
+  const sweepClient = new (await import("pg")).default.Client({ connectionString: SWEEP_DB_URL });
+  await sweepClient.connect();
+  const sweeper = createRowSweeper({
+    client: sweepClient,
+    probe: "verify-video-lessons",
+    tables: ["content_versions", "audit_log", "activity_events"],
+  });
+  finalSweep = installSweepHandlers(sweeper, {
+    probe: "verify-video-lessons",
+    onDone: () => sweepClient.end().catch(() => {}),
+  });
+  await sweeper.capture();
+} else {
+  /*
+   * FAIL CLOSED. This probe mutates through HTTP, and the sweep above is the only thing that removes
+   * what it creates. Warning and continuing meant the mutations still happened against a database
+   * that was never verified as disposable — and several of these probes then connected through a
+   * hardcoded fallback (postgres://postgres@127.0.0.1:5433/learners_area) that no guard had ever
+   * seen, so the run could write fixtures into an unverified database and clean up nothing. Without
+   * a verified cleanup connection there is no safe run, so there is no run. Exit 2, not 1: this is a
+   * misconfigured invocation, not a product failure.
+   */
+  console.error("  !! DATABASE_URL is not set — refusing to mutate: fixtures could neither be cleaned up nor verified as disposable");
+  process.exit(2);
+}
+// This probe writes fixtures. Refuse any database that is not disposable QA.
+const { assertMutableDatabase: __assertMutableDb } = await import("./lib/fixture-safety.mjs");
+__assertMutableDb(process.env.DATABASE_URL);
 const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
 
 let pass = 0;
@@ -161,7 +205,7 @@ try {
   });
 
   await check("the student page renders the lesson inside Learners Area", async () => {
-    const page = await student.request(`/courses/ielts/lessons/${lessonId}`, { raw: true });
+    const page = await student.request(`/app/courses/ielts/lessons/${lessonId}`, { raw: true });
     assert.equal(page.status, 200);
     assert.match(page.text, /data-video-lesson=/, "the studio must be rendered");
     assert.match(page.text, /youtube-nocookie\.com\/embed\/dQw4w9WgXcQ/, "the player is embedded");
@@ -173,19 +217,19 @@ try {
   });
 
   await check("the raw provider link never appears before the video is blocked", async () => {
-    const page = await student.request(`/courses/ielts/lessons/${lessonId}`, { raw: true });
+    const page = await student.request(`/app/courses/ielts/lessons/${lessonId}`, { raw: true });
     const watchLinks = page.text.match(/https:\/\/www\.youtube\.com\/watch/g) ?? [];
     assert.equal(watchLinks.length, 0, "the fallback link only exists once the player reports a failure");
   });
 
   await check("an anonymous visitor cannot reach the lesson", async () => {
-    const res = await anonymous.request(`/courses/ielts/lessons/${lessonId}`, { raw: true });
+    const res = await anonymous.request(`/app/courses/ielts/lessons/${lessonId}`, { raw: true });
     assert.ok(res.status === 307 || res.status === 302, `expected a redirect, got ${res.status}`);
   });
 
   await check("a PENDING applicant cannot reach the lesson", async () => {
     const pending = await new Client().login("pending.student@learnersarea.uz", "Student12345!");
-    const res = await pending.request(`/courses/ielts/lessons/${lessonId}`, { raw: true });
+    const res = await pending.request(`/app/courses/ielts/lessons/${lessonId}`, { raw: true });
     assert.ok(res.status === 307 || res.status === 302, `expected a redirect, got ${res.status}`);
     assert.ok((res.headers.get("location") ?? "").includes("/pending"), res.headers.get("location") ?? "");
   });
@@ -285,6 +329,7 @@ try {
 
 console.log(`\n# pass ${pass} / fail ${failures.length}`);
 if (failures.length) for (const f of failures) console.log(`  - ${f}`);
+await finalSweep("end of run");
 console.log(
   "\nEslatma: sandboxda tashqi internet yo'q, shuning uchun YouTube pleerining\n" +
     "o'zi ochilishi EXTERNALLY UNVERIFIED — CSP ruxsati va oqim esa shu yerda tekshirildi."

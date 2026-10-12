@@ -14,7 +14,16 @@ export function MockBandPanel({
   const y = (band: number) => 215 - (band / 9) * 185;
   const show = (n: number | null) => (n === null ? "—" : n.toFixed(1));
   return (
-    <section className="card min-w-0 p-5 space-y-5" data-mock-band-panel>
+    <section
+      className="card min-w-0 p-5 space-y-5"
+      data-mock-band-panel
+      /* Machine-readable truth for acceptance probes. `data-latest-band` is the
+         learner's OWN earned band, or "none" when nothing has been graded — it is
+         never the 9.0 scale maximum shown in the label, and never a chart axis tick. */
+      data-latest-band={summary.latest === null ? "none" : summary.latest.toFixed(1)}
+      data-completed-mocks={summary.completed}
+      data-total-mocks={summary.total}
+    >
       <h2 className="font-display text-xl font-bold">
         📈 {uz ? "Mock natijalari" : "Overall mock band trend"}
       </h2>
@@ -144,6 +153,7 @@ export function MockBandPanel({
       {points.length > 0 && (
         <details>
           <summary>{uz ? "Jadvalni ko'rsatish" : "Show as table"}</summary>
+          <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr>
@@ -162,6 +172,7 @@ export function MockBandPanel({
               ))}
             </tbody>
           </table>
+          </div>
         </details>
       )}
     </section>

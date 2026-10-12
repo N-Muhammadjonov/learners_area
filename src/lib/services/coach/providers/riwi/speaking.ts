@@ -102,7 +102,7 @@ export function evaluateSpeakingWithRiwi(input: SpeakingEvaluationInput): Provid
     recommendedExercises.push({
       kind: "speaking",
       label: "Filler-free 30-second answers",
-      href: "/speaking/practice",
+      href: "/app/speaking/practice",
       reason: "Recording the same prompt twice is the fastest fix for hesitation.",
     });
   } else {
@@ -134,7 +134,7 @@ export function evaluateSpeakingWithRiwi(input: SpeakingEvaluationInput): Provid
     recommendedExercises.push({
       kind: "speaking",
       label: `Extend answers to ${minimumWords}+ words`,
-      href: "/speaking/practice",
+      href: "/app/speaking/practice",
       reason: "Answer length is the most common ceiling on the fluency band.",
     });
   } else {
@@ -221,7 +221,7 @@ export function evaluateSpeakingWithRiwi(input: SpeakingEvaluationInput): Provid
     recommendedExercises.push({
       kind: "speaking",
       label: "Repeat this same prompt one week later",
-      href: "/speaking/history",
+      href: "/app/speaking/history",
       reason: "Comparing two recordings of the same topic makes progress visible.",
     });
   }

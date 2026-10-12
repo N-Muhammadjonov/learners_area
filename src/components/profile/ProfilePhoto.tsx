@@ -3,8 +3,11 @@ import { useRef, useState } from "react";
 import Image from "next/image";
 import type { Dictionary } from "@/lib/i18n/en";
 import { useScopedResponse } from "@/lib/http/use-scoped-response";
-export function ProfilePhoto({ userId, dict }: { userId: string; dict: Dictionary }) {
-  const [version, setVersion] = useState(0), [present, setPresent] = useState(true), [busy, setBusy] = useState(false), [message, setMessage] = useState("");
+export function ProfilePhoto({ userId, dict, initialPresent = true }: { userId: string; dict: Dictionary; initialPresent?: boolean }) {
+  // `initialPresent` comes from the server, which already knows whether a photo row exists. The
+  // default stays `true` so any caller that has not been given the answer behaves exactly as
+  // before: mount the image and recover through `onError`.
+  const [version, setVersion] = useState(0), [present, setPresent] = useState(initialPresent), [busy, setBusy] = useState(false), [message, setMessage] = useState("");
   const flight = useRef(false), request = useScopedResponse(12000);
   const t = dict.profile.photo;
   async function upload(file: File) {

@@ -18,11 +18,13 @@ export function StartPassageButton({
   passageId,
   setId,
   label,
+  requestedType,
   variant = "secondary",
 }: {
   passageId?: string;
   setId?: string;
   label: string;
+  requestedType?:string;
   variant?: "primary" | "secondary";
 }) {
   const { navigate } = useInstantInteraction();
@@ -45,7 +47,7 @@ export function StartPassageButton({
               body: setId ? { setId } : { passageId },
             });
             if (result.ok && result.data?.id) {
-              navigate(`/reading/attempts/${result.data.id}`);
+              navigate(`/app/reading/attempts/${result.data.id}${requestedType ? `?type=${encodeURIComponent(requestedType)}` : ""}`);
               return;
             }
             setError(

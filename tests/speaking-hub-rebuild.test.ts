@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { SPEAKING_HUB_CARDS } from "../src/lib/speaking/hub";
 import { groupByTopic, partCounts, parsePart, resolveTopic, UNTITLED_TOPIC } from "../src/lib/speaking/practice-browse";
 import { buildExaminerScript, PART1_QUESTIONS } from "../src/lib/speaking/ai-session";
@@ -9,11 +10,11 @@ import en from "../src/lib/i18n/en";
 import uz from "../src/lib/i18n/uz";
 
 const read = (p: string) => readFileSync(p, "utf8");
-const page = (r: string) => read(`src/app/(app)/${r}/page.tsx`);
+const page = (r: string) => read(`src/app/app/(shell)/${r}/page.tsx`);
 
 test("S1 Speaking hub has exactly four entries in owner order", () => {
   assert.deepEqual(SPEAKING_HUB_CARDS.map((c) => c.key), ["partner", "practice", "ai", "lessons"]);
-  assert.deepEqual(SPEAKING_HUB_CARDS.map((c) => c.href), ["/speaking/live-partner", "/speaking/practice", "/speaking/ai", "/speaking/lessons"]);
+  assert.deepEqual(SPEAKING_HUB_CARDS.map((c) => c.href), ["/app/speaking/live-partner", "/app/speaking/practice", "/app/speaking/ai", "/app/speaking/lessons"]);
   for (const d of [en, uz]) for (const c of SPEAKING_HUB_CARDS) {
     const card = d.speakingHub.cards[c.key];
     for (const v of Object.values(card)) assert.ok(v.trim().length > 0);
@@ -35,21 +36,31 @@ test("S2 the hub has no Shadowing entry, no material feed and no 'No materials' 
 test("S3 Speaking lessons excludes the retired Shadowing entry", () => {
   const lessons = page("speaking/lessons");
   assert.match(lessons, /listActiveMaterialsForEntry\(\)/);
-  assert.doesNotMatch(lessons, /href="\/speaking\/shadowing"/);
+  assert.doesNotMatch(lessons, /href="\/app\/speaking\/shadowing"/);
   assert.match(lessons, /lessonsEmptyTitle/);
-  assert.match(lessons, /<BackLink fallbackHref="\/speaking"/);
-  assert.equal(parentFor("/speaking/shadowing", en)?.href, "/speaking/lessons");
-  assert.match(page("speaking/shadowing"), /redirect\("\/speaking\/lessons"\)/);
+  assert.match(lessons, /<BackLink fallbackHref="\/app\/speaking"/);
+  // The retired URL has no breadcrumb entry any more: a withdrawn feature is not a
+  // place in the product, so it must not appear in the navigation map at all.
+  assert.ok(!parentFor("/app/speaking/shadowing", en), "no breadcrumb for a retired route");
+
+  // It still answers, so old links and bookmarks are not dead ends — but it is a real
+  // HTTP redirect issued from middleware, in FRONT of the (shell)/loading.tsx Suspense
+  // boundary. Redirecting from the page itself would flush a 200 before the redirect
+  // ran (see docs/KNOWN-ISSUES-NOT-FOUND-STATUS.md), i.e. the retired URL would look
+  // like a working page.
+  const middleware = readFileSync(resolve(process.cwd(), "src/middleware.ts"), "utf8");
+  assert.match(middleware, /pathname === "\/app\/speaking\/shadowing"/);
+  assert.match(middleware, /NextResponse\.redirect\(new URL\("\/app\/speaking\/lessons", req\.url\), 308\)/);
 });
 
 test("S4 Live Partner registers availability in the room and keeps mic preflight and call states", () => {
   const lp = page("speaking/live-partner");
-  assert.match(lp, /<BackLink fallbackHref="\/speaking"/);
+  assert.match(lp, /<BackLink fallbackHref="\/app\/speaking"/);
   assert.match(page("speaking"), /MicrophoneTest/);
   const client = read("src/components/speaking/LivePartnerClient.tsx");
   for (const s of ["offline", "available", "outgoing_invite", "incoming_invite", "connecting", "in_call", "reconnecting"]) assert.ok(client.includes(`"${s}"`), s);
   assert.match(client, /MicStatus = "unknown" \| "checking" \| "ok" \| "denied" \| "missing"/);
-  assert.equal(parentFor("/speaking/live-partner", en)?.href, "/speaking");
+  assert.equal(parentFor("/app/speaking/live-partner", en)?.href, "/app/speaking");
 });
 
 const bank = [
@@ -69,7 +80,16 @@ test("S5 Practice on your own groups Part → Topic → Questions without hiding
 
 test("S6 every question owns its recorder; one microphone at a time; release on unmount", () => {
   const studio = read("src/components/speaking/PracticeStudio.tsx");
-  assert.match(studio, /topic\.prompts\.map\(\(p, i\) =>[\s\S]*<LocalAnswerRecorder [^>]*id=\{p\.id\}/);
+  /*
+   * The variable holding the questions is `prompts`, not `topic.prompts`: the studio no longer receives a
+   * pre-grouped bank as a prop, it fetches one bounded page for the chosen topic (§04). The PROPERTY is
+   * unchanged — every listed question renders its own recorder keyed by that prompt's id, so recordings
+   * never leak between questions — and it is now verified behaviourally as well as by source text:
+   * tests/ui/speaking-retry.test.tsx asserts the recorder element is reused, not remounted, across a
+   * retry, and scripts/verify-speaking-journeys.mjs counts one [data-local-recorder] per question in a
+   * real browser. Matching `topic.prompts` here would have kept a stale name alive as a requirement.
+   */
+  assert.match(studio, /prompts\.map\(\(p, i\) =>[\s\S]*<LocalAnswerRecorder [^>]*id=\{p\.id\}/);
   assert.match(studio, /<li key=\{p\.id\}/);
   assert.doesNotMatch(studio, /<select|createRecorder/);
   assert.match(studio, /window\.history\.pushState/);
@@ -100,13 +120,13 @@ test("S8 Practice with AI is honest: no client-side transcript, band, or OpenAI 
   assert.match(readiness, /import "server-only"/);
   assert.match(readiness, /isRiwi\(config\.aiPrimaryProvider\) \? null/);
   assert.match(readiness, /requiredSecrets\.every/);
-  assert.match(page("speaking/ai"), /<BackLink fallbackHref="\/speaking"/);
+  assert.match(page("speaking/ai"), /<BackLink fallbackHref="\/app\/speaking"/);
 });
 
 test("S9 Speaking routes have breadcrumbs back to Speaking", () => {
-  for (const r of ["/speaking/ai", "/speaking/lessons", "/speaking/practice", "/speaking/history", "/speaking/live-partner"]) {
+  for (const r of ["/app/speaking/ai", "/app/speaking/lessons", "/app/speaking/practice", "/app/speaking/history", "/app/speaking/live-partner"]) {
     const crumbs = breadcrumbsFor(r, en);
-    assert.equal(crumbs[0]?.href, "/speaking", r);
+    assert.equal(crumbs[0]?.href, "/app/speaking", r);
   }
 });
 

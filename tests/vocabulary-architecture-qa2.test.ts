@@ -3,10 +3,32 @@ import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import { and, eq, sql } from "drizzle-orm";
 import { db } from "../src/db/client";
-import { lexemes, lexicalOccurrences, listeningAttempts, lexicalUnitPronunciations, userVocabulary, userVocabularyContexts, users, generalReadingSets, generalReadingPassages, vocabularyUsages } from "../src/db/schema";
+import { lexemes, lexicalOccurrences, listeningAttempts, listeningPackages, listeningTests, lexicalUnitPronunciations, userVocabulary, userVocabularyContexts, users, generalReadingSets, generalReadingPassages, vocabularyUsages } from "../src/db/schema";
+import { inArray } from "drizzle-orm";
 import { lexicalDetailFor, resolveOccurrence, type VocabularySourceSnapshot } from "../src/lib/services/lexical/context";
 import { ingestListeningOccurrences } from "../src/lib/services/lexical/listening-occurrences";
 import { addVocabularyBatch, applyScheduledReview, listVocabularyContexts, recordGameAnswer, recordSentenceUse } from "../src/lib/services/vocabulary/engine";
+import { after, before } from "node:test";
+import { createResidueGuard, finishResidueGuard, type ResidueGuard } from "./support/qa2-residue";
+
+/*
+ * Fixtures this file creates are removed when it finishes, exception-safely, and only rows that did
+ * not exist when it started can be removed — so seeded records are unreachable by construction.
+ * Before this hook the file leaked its fixtures into the shared QA database, which changed what later
+ * files observed: retention-db.test.ts failed outright once the residue from earlier files accumulated.
+ */
+const QA2_RESIDUE_GUARD = process.env.QA2_DATABASE_TESTS === "1";
+let qa2ResidueGuard: ResidueGuard | null = null;
+before(async () => {
+  if (!QA2_RESIDUE_GUARD) return;
+  qa2ResidueGuard = await createResidueGuard("vocabulary-architecture-qa2");
+  await qa2ResidueGuard.capture();
+});
+after(async () => {
+  if (!qa2ResidueGuard) return;
+  await finishResidueGuard("vocabulary-architecture-qa2", qa2ResidueGuard);
+  qa2ResidueGuard = null;
+});
 
 /**
  * Vocabulary architecture on REAL PostgreSQL (isolated local QA2 only):
@@ -52,10 +74,10 @@ async function readingFixture(userId: string, status: "completed" | "in_progress
 }
 
 /** A live Listening test with a package; authored vocabulary ingested exactly as the import route does. */
-async function listeningFixture(authorId: string, transcript: string, vocabulary: Vocab[], section = 2) {
+async function listeningFixture(authorId: string, transcript: string, vocabulary: Vocab[], section = 2, collection?: "general" | "academic") {
   const tag = randomUUID().slice(0, 8);
   const [testRow] = await db.execute<{ id: string }>(sql`insert into listening_tests (created_by_user_id, title, audio_type, audio_url) values (${authorId}, ${`QA2 listening ${tag}`}, 'audio', '/api/resources/qa2') returning id`).then((r) => r.rows);
-  const payload = { testId: `qa2-${tag}`, sections: [{ number: section, title: "QA2", transcript }], vocabulary, questions: [] };
+  const payload = { ...(collection ? { schemaVersion: 1, collection, category: "full", provenance: "QA2 fixture", audio: { path: "audio.mp3", durationSec: 600 }, imagePath: null, keyword1: [], keyword2: [] } : {}), testId: `qa2-${tag}`, sections: [{ number: section, title: "QA2", transcript }], vocabulary, questions: [] };
   await db.execute(sql`insert into listening_packages (test_id, source_id, payload, audio_object_key, source_hash) values (${testRow!.id}, ${`qa2-${tag}`}, ${JSON.stringify(payload)}::jsonb, 'qa2-audio', ${"0".repeat(64)})`);
   const lexical = await db.transaction((tx) => ingestListeningOccurrences(tx, testRow!.id, payload as never));
   const occurrences = await db.select().from(lexicalOccurrences).where(and(eq(lexicalOccurrences.listeningTestId, testRow!.id), eq(lexicalOccurrences.segmentKey, `s${section}`))).orderBy(lexicalOccurrences.startChar);
@@ -147,8 +169,8 @@ test("10/11 same sense from Reading and Listening → ONE item with TWO contexts
   // 15/16 revisit
   const reading = contexts!.contexts.find((c) => c.sourceType === "reading")!;
   const listening = contexts!.contexts.find((c) => c.sourceType === "listening")!;
-  assert.equal(reading.revisitHref, `/reading/general/${r.setId}?passage=1`);
-  assert.equal(listening.revisitHref, `/listening/tests/${l.testId}/study?section=2`);
+  assert.equal(reading.revisitHref, `/app/reading/general/${r.setId}?passage=1`);
+  assert.equal(listening.revisitHref, `/app/listening/tests/${l.testId}/study?section=2`);
   assert.equal(listening.startMs, null, "no timing exists for this transcript, none is shown");
 });
 
@@ -210,7 +232,7 @@ test("19/20 multi-user isolation: separate items, contexts and SRS per learner",
   assert.notEqual(ra.ids[0], rb.ids[0]);
   assert.equal(await listVocabularyContexts(b.id, ra.ids[0]!), null, "B cannot read A's contexts");
   const bCtx = await listVocabularyContexts(b.id, rb.ids[0]!);
-  assert.equal(bCtx?.contexts[0]?.revisitHref, `/reading/general/${r.setId}?passage=1`, "B revisits the shared General passage without A's attempt");
+  assert.equal(bCtx?.contexts[0]?.revisitHref, `/app/reading/general/${r.setId}?passage=1`, "B revisits the shared General passage without A's attempt");
   await db.update(userVocabulary).set({ nextReviewAt: new Date(Date.now() - 1000) }).where(eq(userVocabulary.id, ra.ids[0]!));
   const reviewed = await applyScheduledReview({ userId: a.id, entryId: ra.ids[0]!, outcome: "correct" });
   assert.ok(reviewed.ok);
@@ -265,7 +287,7 @@ test("14 an unresolved Listening occurrence cannot be saved under a sense; 24 mi
 // Listening mode separation (FULL_EXAM vs REVIEW_CONTROL vs VOCABULARY_STUDY).
 // ---------------------------------------------------------------------------
 import { readFileSync } from "node:fs";
-import { lexicalAssistanceAllowed, modeForActivity } from "../src/lib/listening/lexical-policy";
+import { lexicalAssistanceAllowed, modeForActivity, modeForListeningProduct } from "../src/lib/listening/lexical-policy";
 import { listeningExamState } from "../src/lib/data/full-listening";
 import { listeningVocabularySession } from "../src/lib/services/lexical/listening-occurrences";
 
@@ -289,6 +311,45 @@ test("M21 Full Exam reveals nothing: exam components carry no lexical code or tr
   assert.equal(during?.status, "locked", "…but revealing it is not permitted (permission)");
   assert.equal(during?.lexeme, null);
   assert.equal(during?.snapshot, null);
+});
+
+test("M21b a General section is a LEARNING activity: its own open attempt does not lock its vocabulary, while the Academic full exam stays sealed", { skip: !enabled }, async () => {
+  // The mode comes from what the source IS — the same product classifier the catalogues use —
+  // so a section's word lookup is permitted while the learner is working in it, and an Academic
+  // full test with an attempt in progress is still locked.
+  assert.equal(modeForListeningProduct("general_section"), "SECTION_PRACTICE");
+  assert.equal(modeForListeningProduct("academic_full_test"), "REVIEW_CONTROL");
+  assert.equal(modeForListeningProduct("mcq_programme"), "REVIEW_CONTROL", "a practice package is not a section");
+  assert.equal(lexicalAssistanceAllowed("SECTION_PRACTICE", { submitted: false, examInProgress: true, staff: false }), true);
+  assert.equal(lexicalAssistanceAllowed("REVIEW_CONTROL", { submitted: false, examInProgress: true, staff: false }), false, "the exam seat rule is unchanged");
+  assert.equal(lexicalAssistanceAllowed("FULL_EXAM", { submitted: true, examInProgress: false, staff: true }), false, "the timed exam never reveals lexical data");
+
+  isolated();
+  const author = await learner("admin");
+  const student = await learner();
+  const section = await listeningFixture(author.id, "The tour guide met us at the harbour.", [vocab("harbour", "n", `A place where boats moor ${randomUUID()}`, "The tour guide met us at the harbour.")], 2, "general");
+  const academic = await listeningFixture(author.id, "I opened an account at the bank.", [vocab("bank", "n", `An institution that keeps money ${randomUUID()}`, "I opened an account at the bank.")], 2, "academic");
+  try {
+    await examAttempt(student.id, section.testId, "in_progress");
+    await examAttempt(student.id, academic.testId, "in_progress");
+    const inSection = await resolveOccurrence(student, "listening", section.testId, section.occurrences[0]!.id);
+    assert.notEqual(inSection?.status, "locked", "a learner working in a section may look a word up");
+    const inExam = await resolveOccurrence(student, "listening", academic.testId, academic.occurrences[0]!.id);
+    assert.equal(inExam?.status, "locked", "…and the running full exam is still sealed");
+  } finally {
+    // This test's fixtures are REMOVED, and the removal itself is asserted: a section the centre
+    // can still see in the General catalogue after a test run would be residue, not a fixture.
+    const ids = [section.testId, academic.testId];
+    await db.delete(listeningAttempts).where(inArray(listeningAttempts.testId, ids));
+    await db.delete(listeningPackages).where(inArray(listeningPackages.testId, ids));
+    await db.delete(lexicalOccurrences).where(inArray(lexicalOccurrences.listeningTestId, ids));
+    await db.delete(listeningTests).where(inArray(listeningTests.id, ids));
+    const residue = await db.execute<{ tests: number; packages: number; occurrences: number }>(sql`
+      select (select count(*)::integer from listening_tests where id = ${ids[0]} or id = ${ids[1]}) as tests,
+             (select count(*)::integer from listening_packages where test_id = ${ids[0]} or test_id = ${ids[1]}) as packages,
+             (select count(*)::integer from lexical_occurrences where listening_test_id = ${ids[0]} or listening_test_id = ${ids[1]}) as occurrences`);
+    assert.deepEqual(residue.rows[0], { tests: 0, packages: 0, occurrences: 0 }, "no fixture row remains");
+  }
 });
 
 test("M22 independent study: never-taken → resolved; exam open → locked; submitted → locked; a NEW open attempt re-locks", { skip: !enabled }, async () => {
@@ -415,7 +476,7 @@ test("R23 ACADEMIC_EXAM: occurrence data exists, but an open attempt reveals not
   assert.equal(rows.length, 1, "backend data is not removed to satisfy the UI rule");
 });
 
-test("R27 Academic transition: never taken → locked; open → locked; submitted → locked; a retake re-locks (also the old attempt id)", { skip: !enabled }, async () => {
+test("R27 Academic transition: never taken → locked; open → locked; own submitted review → resolved; a retake re-locks (also the old attempt id)", { skip: !enabled }, async () => {
   isolated();
   const user = await learner();
   const p = await passageWith("The bank approved the loan.", [{ term: "bank", def: `A financial institution ${randomUUID()}`, surface: "bank" }], false);
@@ -424,10 +485,16 @@ test("R27 Academic transition: never taken → locked; open → locked; submitte
   const first = await readingAttempt(user.id, p.passageId, "in_progress");
   assert.equal((await resolveOccurrence(user, "reading", first.id, occ))?.status, "locked");
   await db.update(readingAttempts).set({ status: "completed", submittedAt: new Date() }).where(eq(readingAttempts.id, first.id));
-  assert.equal((await resolveOccurrence(user, "reading", first.id, occ))?.status, "locked");
-  assert.equal((await resolveOccurrence(user, "reading", p.passageId, occ))?.status, "locked");
+  // Reading V4: a SUCCESSFULLY SUBMITTED own attempt is review, and review is where
+  // the canonical Dictionary belongs. The lock that matters is the active exam, which
+  // the assertions above and below still prove: the passage id is never a dictionary,
+  // and an open retake re-locks the old attempt.
+  assert.equal((await resolveOccurrence(user, "reading", first.id, occ))?.status, "resolved", "own submitted review may look a word up");
+  assert.equal((await resolveOccurrence(user, "reading", p.passageId, occ))?.status, "resolved", "the same passage is review material for a learner who has submitted it");
   await readingAttempt(user.id, p.passageId, "in_progress");
   assert.equal((await resolveOccurrence(user, "reading", first.id, occ))?.status, "locked", "the old review cannot assist the open retake");
+  assert.equal((await resolveOccurrence(user, "reading", p.passageId, occ))?.status, "locked", "nor can the passage id while the retake is open");
+  assert.equal((await resolveOccurrence(await learner(), "reading", p.passageId, occ))?.status, "locked", "a learner who never submitted it gets nothing");
   assert.equal((await resolveOccurrence(await learner("admin"), "reading", p.passageId, occ))?.status, "locked", "Academic assistance remains disabled");
 });
 

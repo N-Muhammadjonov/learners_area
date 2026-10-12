@@ -25,8 +25,8 @@ export async function WritingGradeTab({ dict, userId, view, locale }: { dict: Di
         <p className="mt-1 text-base text-ink-500">{t.body}</p>
       </div>
       <nav className="flex gap-4 border-b border-ink-100 text-sm" aria-label={t.eyebrow}>
-        <Link href="/writing?tab=grade" aria-current={view === "new" ? "page" : undefined} className={`min-h-11 border-b-2 px-1 py-2 ${view === "new" ? "border-signal-600 font-semibold text-ink-900" : "border-transparent text-ink-500"}`}>{t.newSubmission}</Link>
-        <Link href="/writing?tab=grade&view=essays" aria-current={view === "essays" ? "page" : undefined} className={`min-h-11 border-b-2 px-1 py-2 ${view === "essays" ? "border-signal-600 font-semibold text-ink-900" : "border-transparent text-ink-500"}`} data-grade-my-essays>{t.myEssays}</Link>
+        <Link href="/app/writing?tab=grade" aria-current={view === "new" ? "page" : undefined} className={`min-h-11 border-b-2 px-1 py-2 ${view === "new" ? "border-signal-600 font-semibold text-ink-900" : "border-transparent text-ink-500"}`}>{t.newSubmission}</Link>
+        <Link href="/app/writing?tab=grade&view=essays" aria-current={view === "essays" ? "page" : undefined} className={`min-h-11 border-b-2 px-1 py-2 ${view === "essays" ? "border-signal-600 font-semibold text-ink-900" : "border-transparent text-ink-500"}`} data-grade-my-essays>{t.myEssays}</Link>
       </nav>
       {!aiReady && <p role="status" className="rounded-md border border-amber-300 bg-amber-50 p-3 text-sm text-ink-700 dark:bg-amber-950/30" data-grade-ai-unavailable>{t.aiUnavailable}</p>}
       {view === "new" ? (
@@ -42,7 +42,7 @@ export async function WritingGradeTab({ dict, userId, view, locale }: { dict: Di
           <ul className="flex flex-col gap-2" data-grade-essays>
             {essays?.ok && essays.value.map((e) => (
               <li key={e.id}>
-                <Link href={`/writing/grade/${e.id}`} className="card flex flex-wrap items-center justify-between gap-3 p-4 hover:bg-paper-sunken">
+                <Link href={`/app/writing/grade/${e.id}`} className="card flex flex-wrap items-center justify-between gap-3 p-4 hover:bg-paper-sunken">
                   <span className="min-w-0 flex-1">
                     <span className="block text-xs text-ink-500">{e.taskType === "task1" ? dict.writing.task1 : dict.writing.task2} · {formatDateTime(e.createdAt, locale as Locale)} · {t.words.replace("{n}", String(e.wordCount))}</span>
                     <span className="block truncate text-base text-ink-900">{e.questionText}</span>

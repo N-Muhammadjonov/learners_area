@@ -40,7 +40,7 @@ export async function GET(req: NextRequest) {
     try { await createAccessRequest({ userId: user.id }); } catch (cause) { console.error("[google] could not enqueue access request", cause instanceof Error ? cause.name : "error"); }
   }
   const token = await createSessionToken({ sub: user.id, role: user.role, name: user.name, locale: user.locale, onboarded: Boolean(user.onboardingCompletedAt) });
-  const destination = !hasPrivateAccess(user.accountStatus) ? "/pending" : user.onboardingCompletedAt ? "/dashboard" : "/onboarding";
+  const destination = !hasPrivateAccess(user.accountStatus) ? "/pending" : user.onboardingCompletedAt ? "/app" : "/onboarding";
   const res = NextResponse.redirect(new URL(destination, req.url));
   clearSessionCookies(res, req);
   res.cookies.set(SESSION_COOKIE, token, sessionCookieOptions(req));

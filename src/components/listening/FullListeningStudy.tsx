@@ -1,5 +1,6 @@
 "use client";
 import { ListeningMap } from "./ListeningMap";
+import { HISTORICAL_MAP_PART } from "@/lib/listening/activities";
 import type { MapDiagram } from "@/lib/listening/map-diagram";
 import Link from "next/link";
 import Image from "next/image";
@@ -23,6 +24,7 @@ export function FullListeningStudy({
   audioUrl,
   imageUrl,
   mapDiagram,
+  mapSections,
   questions,
   sections,
   occurrences = {},
@@ -37,6 +39,8 @@ export function FullListeningStudy({
   audioUrl: string;
   imageUrl: string | null;
   mapDiagram?: MapDiagram;
+  /** The parts this plan illustrates; derived from the test's own map/plan questions. */
+  mapSections?: number[];
   questions: Question[];
   sections: { number: number; title: string; transcript: string }[];
   /** Server-proven transcript spans per section (0029); words outside them resolve as unchecked. */
@@ -131,7 +135,7 @@ export function FullListeningStudy({
   };
   return (
     <main className="listening-workspace mx-auto max-w-[1600px] space-y-6" data-listening-study>
-      <Link className="btn-secondary" href={`/listening/tests/${id}`}>
+      <Link className="btn-secondary" href={`/app/listening/tests/${id}`}>
         ← Test hub
       </Link>
       <header className="card space-y-3">
@@ -177,8 +181,8 @@ export function FullListeningStudy({
       </nav>
       <div className="listening-review-grid">
         <section className="card academic-text space-y-6">
-          {section === 2 && mapDiagram && <ListeningMap diagram={mapDiagram} />}
-      {section === 2 && imageUrl && (
+          {(mapSections ?? [HISTORICAL_MAP_PART]).includes(section) && mapDiagram && <ListeningMap diagram={mapDiagram} />}
+      {(mapSections ?? [HISTORICAL_MAP_PART]).includes(section) && imageUrl && (
             <Image
               src={imageUrl}
               alt={dict.formCopy.listeningMap}

@@ -24,19 +24,19 @@ test("B2 BackLink is a real link with a ≥44px target and a decorative arrow", 
 });
 
 test("B3 the Management Listening import uses BackLink to /admin/listening; the old URL only redirects", () => {
-  const admin = readFileSync("src/app/(app)/admin/listening/import/page.tsx", "utf8");
-  assert.match(admin, /<BackLink fallbackHref="\/admin\/listening"/);
+  const admin = readFileSync("src/app/app/(shell)/admin/listening/import/page.tsx", "utf8");
+  assert.match(admin, /<BackLink fallbackHref="\/app\/admin\/listening"/);
   assert.match(admin, /requireAdministrator\(\)/);
-  const legacy = readFileSync("src/app/(app)/listening/import/page.tsx", "utf8");
-  assert.match(legacy, /redirect\(administrator \? "\/admin\/listening\/import" : "\/listening"\)/);
+  const legacy = readFileSync("src/app/app/(shell)/listening/import/page.tsx", "utf8");
+  assert.match(legacy, /redirect\(administrator \? "\/app\/admin\/listening\/import" : "\/app\/listening"\)/);
   assert.doesNotMatch(legacy, /<ListeningImport|components\/listening\/ListeningImport/);
-  assert.doesNotMatch(readFileSync("src/app/(app)/listening/page.tsx", "utf8"), /href="\/admin\/listening\/import"/);
-  assert.match(readFileSync("src/app/(app)/admin/listening/page.tsx", "utf8"), /href="\/admin\/listening\/import"/);
+  assert.doesNotMatch(readFileSync("src/app/app/(shell)/listening/page.tsx", "utf8"), /href="\/app\/admin\/listening\/import"/);
+  assert.match(readFileSync("src/app/app/(shell)/admin/listening/page.tsx", "utf8"), /href="\/app\/admin\/listening\/import"/);
 });
 
 test("B4 nested learner and management pages use the shared BackLink (no hand-rolled ← links)", () => {
   const nested = [
-    "listening/history", "listening/attempts/[id]", "listening/tests/[id]", "reading/history", "reading/attempts/[id]",
+    "listening/history", "reading/history", "reading/attempts/[id]",
     "reading/general", "reading/general/[setId]", "reading/retention/results/[attemptId]", "writing/history",
     "writing/submissions/[id]", "grammar/[topicId]", "video-lessons/[id]", "courses/ielts/lessons/[lessonId]",
     "admin/grammar/[id]", "admin/listening/[id]", "admin/listening/import", "admin/reading/[id]", "admin/reading/import",
@@ -44,8 +44,18 @@ test("B4 nested learner and management pages use the shared BackLink (no hand-ro
     "teacher/live-classes/[id]",
   ];
   for (const r of nested) {
-    const src = readFileSync(`src/app/(app)/${r}/page.tsx`, "utf8");
+    const src = readFileSync(`src/app/app/(shell)/${r}/page.tsx`, "utf8");
     assert.match(src, /<BackLink fallbackHref=/, r);
     assert.doesNotMatch(src, />\s*←/, `${r} still hand-rolls a ← link`);
+  }
+  // The exam surfaces live in the `(focus)` group, which deliberately renders WITHOUT the
+  // ordinary shell, so they are not BackLink pages — and this list must name routes that
+  // exist, which is exactly what stopped being true: `listening/attempts/[id]` and
+  // `listening/tests/[id]` moved into `(focus)` and the stale `(app)` paths made this test
+  // pass on a name instead of on a shape.
+  for (const r of ["listening/attempts/[id]", "listening/tests/[id]"]) {
+    const src = readFileSync(`src/app/app/(focus)/${r}/page.tsx`, "utf8");
+    assert.doesNotMatch(src, /<BackLink/, `${r} is a focus surface: no ordinary chrome`);
+    assert.doesNotMatch(src, />\s*←/, `${r} must not hand-roll a ← link either`);
   }
 });

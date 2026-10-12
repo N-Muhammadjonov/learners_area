@@ -17,11 +17,17 @@ import {
 import { preflight, startUpload, type UploadState, type UploadHandle } from "@/lib/uploads/client";
 import { formatBytes } from "@/lib/uploads/format";
 import type { Dictionary } from "@/lib/i18n/en";
-import type { speakingPrompts } from "@/db/schema";
 import { useScopedRequest } from "@/lib/http/use-scoped-request";
 import { apiErrorMessage } from "@/lib/api-error-message";
+import type { ExaminerPrompt } from "@/lib/speaking/ai-session";
 
-type Prompt = typeof speakingPrompts.$inferSelect;
+/**
+ * §5.1: the recorder's contract is the six fields it actually reads, not the whole database row, so a
+ * bounded paged prompt and a full row are interchangeable here. No recorder behaviour changes — the
+ * preparation timer, the answer timer, mic ownership, upload, submit and attempt lifecycle are all
+ * exactly as they were.
+ */
+type Prompt = ExaminerPrompt;
 
 type Phase =
   | { kind: "idle" }
@@ -411,7 +417,7 @@ export function QuestionRecorder({
             <Button variant="secondary" onClick={() => { setPhase({ kind: "idle" }); setAttemptId(null); }}>
               {t.practiceAgain}
             </Button>
-            <Button variant="ghost" onClick={() => navigate("/speaking/history")}>
+            <Button variant="ghost" onClick={() => navigate("/app/speaking/history")}>
               {t.viewHistory}
             </Button>
           </div>

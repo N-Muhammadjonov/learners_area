@@ -15,6 +15,23 @@ import {
   type WeaknessCategory,
 } from "@/lib/services/coach/schema";
 
+type SaveTx = Parameters<Parameters<typeof db.transaction>[0]>[0];
+
+/**
+ * Anything these helpers can run against: the pool, or an open transaction from it.
+ *
+ * `evaluateAndPersist` writes four related records for one learner action — the evaluation, its
+ * weakness rows, the completion event and, on a provider fallback, the fallback event. Those must
+ * commit or roll back together, which is impossible while each helper is pinned to the global pool:
+ * a transaction the caller opens cannot reach them. Every helper in that unit therefore takes the
+ * executor explicitly and defaults to `db`, so callers outside a transaction are unaffected.
+ *
+ * Passing the transaction down is not cosmetic. The de-duplication read-back inside `saveEvaluation`
+ * must run on the SAME connection as the insert it is checking, or it reads a different snapshot and
+ * the race it exists to resolve is resolved against the wrong state.
+ */
+export type EvaluationExecutor = typeof db | SaveTx;
+
 /**
  * Persistence for Coach evaluations.
  *
@@ -113,11 +130,14 @@ function toRecord(row: EvaluationRow): EvaluationRecord {
   };
 }
 
-export async function findEvaluation(params: {
-  sourceType: string;
-  sourceId: string;
-}): Promise<EvaluationRecord | null> {
-  const row = await db.query.evaluations.findFirst({
+export async function findEvaluation(
+  params: {
+    sourceType: string;
+    sourceId: string;
+  },
+  connection: EvaluationExecutor = db,
+): Promise<EvaluationRecord | null> {
+  const row = await connection.query.evaluations.findFirst({
     where: and(eq(evaluations.sourceType, params.sourceType), eq(evaluations.sourceId, params.sourceId)),
   });
   return row ? toRecord(row) : null;
@@ -184,11 +204,14 @@ function highestSeverity(issues: EvaluationIssue[]): "low" | "medium" | "high" {
  * genuinely checked but did not flag move forward in status; that is what makes
  * "what improved?" an answerable question instead of a guess.
  */
-export async function recordWeaknessesFromEvaluation(params: {
-  userId: string;
-  evaluationType: EvaluationType;
-  result: EvaluationResult;
-}): Promise<void> {
+export async function recordWeaknessesFromEvaluation(
+  params: {
+    userId: string;
+    evaluationType: EvaluationType;
+    result: EvaluationResult;
+  },
+  connection: EvaluationExecutor = db,
+): Promise<void> {
   const { userId, evaluationType, result } = params;
   const checked = categoriesCheckedBy(evaluationType);
 
@@ -204,7 +227,7 @@ export async function recordWeaknessesFromEvaluation(params: {
 
   for (const [category, issues] of byCategory) {
     const severity = highestSeverity(issues);
-    await db
+    await connection
       .insert(coachWeaknesses)
       .values({
         userId,
@@ -228,7 +251,7 @@ export async function recordWeaknessesFromEvaluation(params: {
 
   const clean = checked.filter((category) => !byCategory.has(category));
   if (clean.length > 0) {
-    await db
+    await connection
       .update(coachWeaknesses)
       .set({
         // open → improving on the first clean pass, improving → resolved on the
@@ -258,13 +281,16 @@ export function listWeaknesses(userId: string) {
 }
 
 /** Audit trail for operators: which submission needed a fallback, and why. */
-export async function recordFallbackEvent(params: {
-  userId: string;
-  evaluationType: EvaluationType;
-  fallbackFrom: string;
-  sourceId: string;
-}): Promise<void> {
-  await db.insert(activityEvents).values({
+export async function recordFallbackEvent(
+  params: {
+    userId: string;
+    evaluationType: EvaluationType;
+    fallbackFrom: string;
+    sourceId: string;
+  },
+  connection: EvaluationExecutor = db,
+): Promise<void> {
+  await connection.insert(activityEvents).values({
     userId: params.userId,
     type: "COACH_PROVIDER_FALLBACK",
     payload: {
@@ -276,14 +302,17 @@ export async function recordFallbackEvent(params: {
   });
 }
 
-export async function recordEvaluationEvent(params: {
-  userId: string;
-  evaluationType: EvaluationType;
-  providerId: string;
-  sourceId: string;
-  overallEstimate: number | null;
-}): Promise<void> {
-  await db.insert(activityEvents).values({
+export async function recordEvaluationEvent(
+  params: {
+    userId: string;
+    evaluationType: EvaluationType;
+    providerId: string;
+    sourceId: string;
+    overallEstimate: number | null;
+  },
+  connection: EvaluationExecutor = db,
+): Promise<void> {
+  await connection.insert(activityEvents).values({
     userId: params.userId,
     type: "COACH_EVALUATION_COMPLETED",
     payload: {
@@ -303,21 +332,24 @@ export async function recordEvaluationEvent(params: {
  * verdict, so a learner can never be shown two different evaluations of one
  * piece of work.
  */
-export async function saveEvaluation(params: {
-  userId: string;
-  evaluationType: EvaluationType;
-  sourceType: string;
-  sourceId: string;
-  result: EvaluationResult;
-}): Promise<{ record: EvaluationRecord; created: boolean }> {
+export async function saveEvaluation(
+  params: {
+    userId: string;
+    evaluationType: EvaluationType;
+    sourceType: string;
+    sourceId: string;
+    result: EvaluationResult;
+  },
+  connection: EvaluationExecutor = db,
+): Promise<{ record: EvaluationRecord; created: boolean }> {
   const { result } = params;
-  const existing = await findEvaluation({
-    sourceType: params.sourceType,
-    sourceId: params.sourceId,
-  });
+  const existing = await findEvaluation(
+    { sourceType: params.sourceType, sourceId: params.sourceId },
+    connection,
+  );
   if (existing) return { record: existing, created: false };
 
-  const inserted = await db
+  const inserted = await connection
     .insert(evaluations)
     .values({
       userId: params.userId,
@@ -353,8 +385,12 @@ export async function saveEvaluation(params: {
   const row = inserted[0];
   if (row) return { record: toRecord(row), created: true };
 
-  // Lost a race with a concurrent evaluation of the same source.
-  const raced = await findEvaluation({ sourceType: params.sourceType, sourceId: params.sourceId });
+  // Lost a race with a concurrent evaluation of the same source. Read back on the SAME executor:
+  // inside a transaction this must see that transaction's own snapshot, not the pool's.
+  const raced = await findEvaluation(
+    { sourceType: params.sourceType, sourceId: params.sourceId },
+    connection,
+  );
   if (!raced) throw new Error("evaluation_write_failed");
   return { record: raced, created: false };
 }

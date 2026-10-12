@@ -16,3 +16,31 @@ Frozen source commit: 594c00904e07702c27329f1c0ce9ec6dadee1adb. Verified local b
 Local evidence in work/evidence: all 40 migrations replayed cleanly; complete bootstrap inventory validated; publication and rollback passed in 962 bounded steps; primary suite 1,071 passes, zero failures, five skips; latest UI suite 214 passes, zero failures; type checking and lint passed. Final focused regression and build verify the last answer-key removal separately.
 
 The read-only Preview plan correctly refused unapproved 0038/0039. This is a review package, not an application or deployment receipt. Guarded shared-Preview bootstrap tooling is now implemented in `scripts/dictionary/bootstrap-shared.ts`. It is fail-closed: `--apply` requires the approved Preview fingerprint/project/server identity, a fresh `PREVIEW_QA_BACKUP_REF`, the exact frozen source hashes/counts, the 0038/0039 schema to already exist, and `PREVIEW_DICTIONARY_BOOTSTRAP_APPROVAL` equal to the frozen `BASE_RELEASE`. The runner never supports Production and writes a redacted receipt. Actual shared Preview migration application, the 62,376-entry bootstrap itself, and authenticated deployed-browser acceptance still require the owner's explicit environment/credential action and are not claimed by this document.
+
+## Running the frozen-catalog tests (owner action, unchanged by Content OS)
+
+The recent-search test needs the frozen catalog just as much as the release test does, and
+it now says so with the same switch. Both are gated on the owner artifact rather than on
+the generic QA2 flag, because the isolated QA2 database is migrated and seeded with **no**
+dictionary rows (`scripts/qa2-local-postgres.sh` drops and recreates `learners_qa2`):
+
+    # 1. isolated real PostgreSQL (migrate + seed; NO dictionary rows)
+    npm run qa:pg
+
+    # 2. the frozen catalog — owner artifact, checksum-pinned, never committed
+    DATABASE_URL=postgres://postgres@localhost:5432/learners_qa2 \
+      node --conditions=react-server --import tsx scripts/dictionary/bootstrap.ts <verified nested.json.gz>
+
+    # 3. the two frozen-catalog suites
+    DATABASE_URL=postgres://postgres@localhost:5432/learners_qa2 QA2_DATABASE_TESTS=1 DICTIONARY_RELEASE_TESTS=1 \
+      node --conditions=react-server --import tsx --test tests/dictionary-recent-qa2.test.ts tests/dictionary-release-qa2.test.ts
+
+Without step 2 the two suites SKIP with the reason printed in the QA gate summary
+(`dictionary catalog: NOT APPLIED (owner asset) …`), and the gate reports the skipped
+count instead of a red test nobody can act on. With `DICTIONARY_RELEASE_TESTS=1` set and
+the catalog missing, they FAIL with a precise message — a half-applied bootstrap is never
+skipped away. `scripts/dictionary/bootstrap.ts` refuses any file whose compressed SHA-256
+is not `ae4130d6b7d9ad1d5a65cb4f56944735e497e9754fd53c6a387097c7aaff650c` and any release
+whose manifest is not 62,376 lexemes / 105,488 senses / 81,099 examples, and the database
+itself refuses to write a validated release's rows (`immutable_dictionary_release`), so a
+synthetic catalog cannot be passed off as the frozen one.

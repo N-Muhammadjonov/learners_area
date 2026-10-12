@@ -165,7 +165,7 @@ test("G1–G5 Grade My Work additions: writing readiness, Task 1 visual link, an
   assert.equal(segs.map((s) => s.text).join(""), essay);
   assert.deepEqual(segs.filter((s) => s.mark != null).map((s) => s.mark), [2]);
   // G4/G5 the result page never calls a provider.
-  const page = readFileSync("src/app/(app)/writing/grade/[id]/page.tsx", "utf8");
+  const page = readFileSync("src/app/app/(shell)/writing/grade/[id]/page.tsx", "utf8");
   assert.doesNotMatch(page, /runGrade|evaluateAndPersist|resolveEvaluation/);
   assert.match(page, /data-grade-annotated/);
 });

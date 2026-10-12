@@ -1,12 +1,14 @@
+import { isLive } from "@/lib/services/cms/publication";
 import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { and, eq } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { lessons, lessonProgress, activityEvents } from "@/db/schema";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { resolveState, transition, type LessonState } from "@/lib/services/lessons/state";
 import { touchMeaningfulActivity } from "@/lib/services/activity";
+import { saveLessonNote } from "@/lib/services/notes/lesson-notes";
 
 const schema = z.object({
   state: z.enum(["in_progress", "completed"]),
@@ -30,10 +32,12 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   const parsed = schema.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({ error: "invalid_input" }, { status: 400 });
 
-  const lesson = await db.query.lessons.findFirst({ where: eq(lessons.id, id) });
-  if (!lesson) return NextResponse.json({ error: "not_found" }, { status: 404 });
+  return db.transaction(async tx => {
+  await tx.execute(sql`select pg_advisory_xact_lock(hashtext(${user.id + ":lesson:" + id}))`);
+  const [lesson] = await tx.select().from(lessons).where(eq(lessons.id, id)).limit(1).for("share");
+  if (!lesson || !isLive(lesson)) return NextResponse.json({ error: "not_found" }, { status: 404 });
 
-  const row = await db.query.lessonProgress.findFirst({
+  const row = await tx.query.lessonProgress.findFirst({
     where: and(eq(lessonProgress.lessonId, lesson.id), eq(lessonProgress.userId, user.id)),
   });
 
@@ -47,25 +51,32 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   const values = {
     // `scheduled` exists on the lesson's default state, never on a progress row.
     state: result.state as "in_progress" | "completed" | "available" | "assigned",
-    notes: parsed.data.notes ?? row?.notes ?? null,
     completedAt: result.state === "completed" ? new Date() : null,
     updatedAt: new Date(),
   };
 
   if (row) {
-    await db.update(lessonProgress).set(values).where(eq(lessonProgress.id, row.id));
+    await tx.update(lessonProgress).set(values).where(eq(lessonProgress.id, row.id));
   } else {
-    await db.insert(lessonProgress).values({ userId: user.id, lessonId: lesson.id, ...values });
+    await tx.insert(lessonProgress).values({ userId: user.id, lessonId: lesson.id, ...values });
+  }
+
+  // A client may still send notes with the state change. They belong to the private
+  // note table, never to this progress row: writing them here would put learner
+  // text back into a payload that ordinary progress reads enumerate.
+  if (parsed.data.notes !== undefined) {
+    await saveLessonNote({ userId: user.id, lessonId: lesson.id, body: parsed.data.notes, executor: tx });
   }
 
   // Finishing a lesson is real work; merely opening it is not.
   if (result.state === "completed") await touchMeaningfulActivity(user.id);
 
-  await db.insert(activityEvents).values({
+  await tx.insert(activityEvents).values({
     userId: user.id,
     type: "LESSON_PROGRESS_UPDATED",
     payload: { lessonId: lesson.id, state: result.state },
   });
 
   return NextResponse.json({ ok: true, state: result.state });
+  });
 }

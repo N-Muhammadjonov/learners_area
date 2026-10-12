@@ -3,6 +3,7 @@ import test from "node:test";
 import { readFileSync, readdirSync } from "node:fs";
 import { createTestDatabase } from "./support/pglite";
 import { users, writingLanguagePatterns, lexemes, userVocabulary } from "../src/db/schema";
+import { saveTopicPack } from "../src/lib/content/vocabulary-packs";
 import { topicVocabulary, setPatternSaved } from "../src/lib/services/writing/topic-vocabulary";
 import { TOPIC_PACKS } from "../src/lib/services/vocabulary/packs";
 
@@ -61,6 +62,53 @@ test("No Writing-only lexical store: saving uses the canonical /api/vocabulary e
   assert.match(btn, /request<[\s\S]*?>\("\/api\/vocabulary"/);
   const tab = readFileSync("src/components/writing/topic/WritingTopicVocabularyTab.tsx", "utf8");
   assert.match(tab, /tab=activation&item=/, "Activate in Writing opens Activation Lab with the item");
-  const page = readFileSync("src/app/(app)/writing/page.tsx", "utf8");
+  const page = readFileSync("src/app/app/(shell)/writing/page.tsx", "utf8");
   assert.match(page, /tab === "topic-vocabulary" \?[\s\S]*WritingTopicVocabularyTab/);
+});
+
+test("Writing topic vocabulary is canonical: a published pack is the source, built-ins are the fallback", async () => {
+  const t = await createTestDatabase();
+  try {
+    const db = t.db as never;
+    const [u] = await t.db.insert(users).values({ email: `v${Math.random()}@example.test`, name: "V", passwordHash: "x" } as typeof users.$inferInsert).returning();
+    const [ownerRow] = await t.query<{ id: string }>(`insert into users (name, role) values ('Pack owner', 'owner') returning id`);
+
+    // Nothing published yet: exactly the built-ins, i.e. the previous behaviour.
+    const before = await topicVocabulary(u!.id, {}, db);
+    assert.ok(before.words.some((w) => w.packId === TOPIC_PACKS[0]!.id), "built-in packs are the compatibility fallback");
+
+    // A draft pack changes nothing a learner sees.
+    await t.db.transaction((tx) =>
+      saveTopicPack(tx, {
+        actorUserId: ownerRow!.id,
+        sourceRef: "pack-cohesion-draft",
+        slug: "cohesion-draft",
+        labelEn: "Cohesion (draft)",
+        words: [{ term: "notyet", partOfSpeech: "noun", definitionEn: "a draft-only word", translationUz: "-", example: "Draft." }],
+      }),
+    );
+    assert.ok(!(await topicVocabulary(u!.id, {}, db)).words.some((w) => w.term === "notyet"), "a draft pack is invisible");
+
+    // A published pack wins over the built-in list, and its word IS a canonical sense.
+    await t.db.transaction((tx) =>
+      saveTopicPack(tx, {
+        actorUserId: ownerRow!.id,
+        sourceRef: "pack-cohesion",
+        slug: "cohesion",
+        labelEn: "Cohesion",
+        labelUz: "Bog'lovchilar",
+        words: [{ term: "nonetheless", partOfSpeech: "adverb", definitionEn: "in spite of that", translationUz: "shunga qaramay", example: "Nonetheless, the trend continued." }],
+        publish: true,
+      }),
+    );
+    const after = await topicVocabulary(u!.id, {}, db);
+    assert.ok(after.words.some((w) => w.term === "nonetheless" && w.packId === "cohesion"), "the authored pack is shown");
+    assert.ok(after.topics.some((topic) => topic.id === "cohesion"), "and it contributes a topic");
+    assert.ok(!after.words.some((w) => w.packId === TOPIC_PACKS[0]!.id), "once a pack is published the database is the source of truth");
+    const only = await topicVocabulary(u!.id, { topic: "cohesion" }, db);
+    assert.equal(only.words.length, 1);
+    assert.equal(await t.query(`select count(*)::int as n from writing_words`, []).then((rows) => (rows[0] as { n: number }).n).catch(() => 0), 0, "no writing-local word table exists");
+  } finally {
+    await t.close();
+  }
 });

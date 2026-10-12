@@ -7,6 +7,29 @@ import { groupByTopic, topicKey, type BrowsablePrompt, type PracticePart } from 
  * Part 2 topic). Nothing here invents questions: a part with no published
  * prompts is simply absent from the script.
  */
+/**
+ * The prompt contract shared by the examiner session and `QuestionRecorder` (§5.1).
+ *
+ * `QuestionRecorder` reads exactly six fields — `id`, `part`, `promptText`, `cueCard`, `prepSeconds`
+ * and `answerSeconds` — and drives its preparation and answer timers from the last two. Its prop used
+ * to be typed as the whole database row, which is why the first bounded page response could not feed
+ * it: the page omitted `prepSeconds`/`answerSeconds`, so either the timers would have silently fallen
+ * back to defaults or the component would not typecheck.
+ *
+ * Declaring the structural type instead narrows nothing that matters and widens what is accepted: a
+ * full `speaking_prompts` row still satisfies it, so every existing caller typechecks unchanged, and a
+ * bounded page response now satisfies it too. `topic` stays because `buildExaminerScript` groups on it.
+ */
+export type ExaminerPrompt = {
+  id: string;
+  part: "part1" | "part2" | "part3" | "general";
+  topic: string | null;
+  promptText: string;
+  cueCard: string | null;
+  prepSeconds: number;
+  answerSeconds: number;
+};
+
 export type AiMode = "full" | PracticePart;
 export const AI_MODES: readonly AiMode[] = ["full", "part1", "part2", "part3"];
 export const PART1_QUESTIONS = 4;

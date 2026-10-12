@@ -19,7 +19,7 @@ export function StartExamButton({ mode, label, busyLabel, errorLabel, otherOpenL
       const res = await request<Record<string, unknown>>("/api/writing/exam", {method: "POST", timeoutMs: 25000, body: { mode }});
       if (!res) return;
       const data = (res.ok ? res.data : null) as { id?: string; error?: { code?: string } } | null;
-      if (res.ok && data?.id) { setBusy(false); router.push(`/writing/exam/${data.id}`); return; }
+      if (res.ok && data?.id) { setBusy(false); router.push(`/app/writing/exam/${data.id}`); return; }
       setError(!res.ok && res.error === "other_paper_open" ? otherOpenLabel : errorLabel);
     } catch { setError(errorLabel); }
     setBusy(false);

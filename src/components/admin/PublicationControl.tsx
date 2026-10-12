@@ -60,11 +60,27 @@ export function PublicationControl({
     if (!response || !response.ok) {
       const data = response
         ? ((await response.json().catch(() => null)) as {
+            error?: string;
+            required?: number;
+            present?: number;
             issues?: string[];
             blockers?: { kind?: string; section?: number }[];
           } | null)
         : null;
-      if (data?.blockers?.length) {
+      if (data?.error === "incomplete_mcq_day") {
+        /*
+         * An MCQ programme day: the rule is stated in the reader's own language, and the day's
+         * specific problems follow as sentences (each names the question it is about). The English
+         * sentences are the same ones the import desk shows, so staff read one vocabulary.
+         */
+        setIssues([
+          dict.listening.mcqProgram.publishRequiresFive,
+          ...(typeof data.present === "number" && typeof data.required === "number"
+            ? [dict.listening.mcqProgram.publishHolds.replace("{present}", String(data.present)).replace("{required}", String(data.required))]
+            : []),
+          ...(data.issues ?? []),
+        ]);
+      } else if (data?.blockers?.length) {
         // Listening publish gate: structured, localized here (the English `issues` are log text only).
         const l = dict.listeningImport;
         setIssues(

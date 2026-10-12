@@ -14,7 +14,7 @@ const {StartTestButton}=await import('../../src/components/listening/StartTestBu
 async function mount(run:()=>Promise<void>){
  document.body.innerHTML='<div id="root"></div>'; const root=createRoot(document.querySelector('#root')!);
  const router={back(){},forward(){},refresh(){},push(){},replace(){},prefetch(){}};
- try{ await act(async()=>root.render(React.createElement(AppRouterContext.Provider,{value:router as never},React.createElement(PathnameContext.Provider,{value:'/listening'},React.createElement(SearchParamsContext.Provider,{value:new URLSearchParams()},React.createElement(InstantInteractionProvider,null,React.createElement(StartTestButton,{testId:'a',label:'Start',messages:en.auth}))))))); await run(); }
+ try{ await act(async()=>root.render(React.createElement(AppRouterContext.Provider,{value:router as never},React.createElement(PathnameContext.Provider,{value:'/app/listening'},React.createElement(SearchParamsContext.Provider,{value:new URLSearchParams()},React.createElement(InstantInteractionProvider,null,React.createElement(StartTestButton,{testId:'a',label:'Start',messages:en.auth}))))))); await run(); }
  finally{await act(async()=>root.unmount());}
 }
 test('Listening start survives offline and HTML 503 responses, re-enables button and shows a real failure',async()=>{

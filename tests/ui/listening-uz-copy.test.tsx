@@ -28,7 +28,10 @@ async function text(el: React.ReactElement) {
 }
 
 test("LU1 Listening library renders Uzbek, no English UI copy", async () => {
-  const t = await text(React.createElement(FullListeningLibrary, { dict: uz, cards: [{ id: "a", title: "Test 1", duration: 1800, completed: 0, started: false }] }));
+  // The card is a package card from the Academic collection, so its tabs are Academic + the
+  // practice collections. (Without a collection the library files it under "Uncategorised" —
+  // honest, and covered by its own case.)
+  const t = await text(React.createElement(FullListeningLibrary, { dict: uz, cards: [{ id: "a", title: "Test 1", duration: 1800, completed: 0, started: false, collection: "academic" }] }));
   assert.doesNotMatch(t, /Bu sahifadagi nashr qilingan testlar/);
   assert.match(t, /4 bo'lim · 30 daqiqa/);
   for (const en of ["Published tests", "activities completed", "Search listening tests", "Start", "completed activities"]) assert.ok(!t.includes(en), en);

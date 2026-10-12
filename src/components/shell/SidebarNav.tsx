@@ -37,7 +37,12 @@ import {
  * in a new tab, and to a screen reader.
  */
 
-type NavItem = { href: string; label: string; icon: React.ReactNode };
+/**
+ * `exact` marks the one row whose href is a prefix of every other row — the Home
+ * row, whose URL is the namespace root `/app`. Without it, `/app/reading` would
+ * light up "Dashboard" as well as "Reading".
+ */
+type NavItem = { href: string; label: string; icon: React.ReactNode; exact?: boolean };
 
 function Group({ title, items, pathname, loading, groupKey }: { groupKey?: "main" | "modules" | "progress" | "support"; title: string; items: NavItem[]; pathname: string; loading: string }) {
   if (items.length === 0) return null;
@@ -46,7 +51,7 @@ function Group({ title, items, pathname, loading, groupKey }: { groupKey?: "main
       <p className="sidebar-group">{title}</p>
       <ul className="flex flex-col gap-0.5">
         {items.map((item) => {
-          const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
+          const active = pathname === item.href || (!item.exact && pathname.startsWith(`${item.href}/`));
           return (
             <li key={item.href}>
               <InstantLink
@@ -80,9 +85,9 @@ export function SidebarNav({ dict, role, email }: { dict: Dictionary; role: Role
   const management = isManagementRoute(activePath);
 
   const learning: NavItem[] = [
-    { href: "/dashboard", label: nav.dashboard, icon: <IconDashboard /> },
-    { href: "/live-classes", label: nav.liveClasses, icon: <IconLive /> },
-    { href: "/assignments", label: nav.assignments, icon: <IconAssignments /> },
+    { href: "/app", label: nav.dashboard, icon: <IconDashboard />, exact: true },
+    { href: "/app/live-classes", label: nav.liveClasses, icon: <IconLive /> },
+    { href: "/app/assignments", label: nav.assignments, icon: <IconAssignments /> },
   ];
 
   /*
@@ -95,44 +100,44 @@ export function SidebarNav({ dict, role, email }: { dict: Dictionary; role: Role
    * does not need a name.
    */
   const modules: NavItem[] = [
-    { href: "/listening", label: nav.listening, icon: <IconListening /> },
-    { href: "/video-lessons", label: nav.videoLessons, icon: <IconVideo /> },
-    { href: "/reading", label: nav.reading, icon: <IconReading /> },
-    { href: "/writing", label: nav.writing, icon: <IconWriting /> },
-    { href: "/speaking", label: nav.speaking, icon: <IconSpeaking /> },
-    { href: "/grammar", label: nav.grammar, icon: <IconGrammar /> },
-    { href: "/vocabulary", label: nav.vocabulary, icon: <IconVocabulary /> },
+    { href: "/app/listening", label: nav.listening, icon: <IconListening /> },
+    { href: "/app/video-lessons", label: nav.videoLessons, icon: <IconVideo /> },
+    { href: "/app/reading", label: nav.reading, icon: <IconReading /> },
+    { href: "/app/writing", label: nav.writing, icon: <IconWriting /> },
+    { href: "/app/speaking", label: nav.speaking, icon: <IconSpeaking /> },
+    { href: "/app/grammar", label: nav.grammar, icon: <IconGrammar /> },
+    { href: "/app/vocabulary", label: nav.vocabulary, icon: <IconVocabulary /> },
   ];
 
   const progress: NavItem[] = [
-    { href: "/progress", label: nav.progress, icon: <IconProgress /> },
-    { href: "/mocks", label: nav.mockTests, icon: <IconProgress /> },
+    { href: "/app/progress", label: nav.progress, icon: <IconProgress /> },
+    { href: "/app/mocks", label: nav.mockTests, icon: <IconProgress /> },
   ];
 
   const managementItems: NavItem[] = [];
   if (role === "admin" || role === "owner") {
     managementItems.push(
-      { href: "/admin/people", label: nav.people, icon: <IconPeople /> },
-      { href: "/admin/admissions", label: nav.admissions, icon: <IconAdmissions /> }
+      { href: "/app/admin/people", label: nav.people, icon: <IconPeople /> },
+      { href: "/app/admin/admissions", label: nav.admissions, icon: <IconAdmissions /> }
     );
   }
   if (role === "teacher") {
-    managementItems.push({ href: "/teacher/students", label: nav.people, icon: <IconPeople /> });
+    managementItems.push({ href: "/app/teacher/students", label: nav.people, icon: <IconPeople /> });
   }
   if (staff) {
     managementItems.push(
-      { href: "/teacher/support", label: nav.supportInbox, icon: <IconSupport /> },
-      { href: "/teacher/live-classes", label: nav.manageLiveClasses, icon: <IconLive /> },
-      { href: "/teacher/speaking", label: nav.manageSpeaking, icon: <IconSpeaking /> }
+      { href: "/app/teacher/support", label: nav.supportInbox, icon: <IconSupport /> },
+      { href: "/app/teacher/live-classes", label: nav.manageLiveClasses, icon: <IconLive /> },
+      { href: "/app/teacher/speaking", label: nav.manageSpeaking, icon: <IconSpeaking /> }
     );
   }
   if (role === "admin" || role === "owner") {
-    managementItems.push({ href: "/admin/content", label: nav.contentLibrary, icon: <IconContent /> });
+    managementItems.push({ href: "/app/admin/content", label: nav.contentLibrary, icon: <IconContent /> });
   }
   if (role === "owner") {
     managementItems.push(
-      { href: "/owner", label: nav.ownerTools, icon: <IconSettings /> },
-      { href: "/owner/audit", label: nav.auditLog, icon: <IconAudit /> }
+      { href: "/app/owner", label: nav.ownerTools, icon: <IconSettings /> },
+      { href: "/app/owner/audit", label: nav.auditLog, icon: <IconAudit /> }
     );
   }
 
@@ -140,12 +145,12 @@ export function SidebarNav({ dict, role, email }: { dict: Dictionary; role: Role
     <nav className="flex h-full flex-col" aria-label={management ? dict.shell.managementNav : dict.shell.learningNav} data-pending-route={pendingPath ?? undefined}>
       {management ? (
         <div className="flex flex-col gap-3 pb-4">
-          <InstantLink href="/dashboard" className="sidebar-back" data-sidebar-back-to-learning>
+          <InstantLink href="/app" className="sidebar-back" data-sidebar-back-to-learning>
             <span aria-hidden>←</span>
             {nav.backToLearning}
           </InstantLink>
           <p className="sidebar-mode">{dict.shell.managementMode}</p>
-          <Group title={nav.groupMain} items={[{ href: "/management", label: dict.shell.management, icon: <IconDashboard /> }]} pathname={activePath} loading={dict.common.loading} />
+          <Group title={nav.groupMain} items={[{ href: "/app/management", label: dict.shell.management, icon: <IconDashboard /> }]} pathname={activePath} loading={dict.common.loading} />
           <Group title={dict.shell.management} items={managementItems} pathname={activePath} loading={dict.common.loading} />
         </div>
       ) : (
@@ -159,7 +164,7 @@ export function SidebarNav({ dict, role, email }: { dict: Dictionary; role: Role
       <div className="mt-auto flex flex-col gap-3 border-t border-ink-100 pt-4" data-sidebar-group="support">
         <Group groupKey="support" title={dict.shell.support} items={[{ href: "/support", label: nav.support, icon: <IconSupport /> }]} pathname={activePath} loading={dict.common.loading} />
         {staff && !management && (
-          <InstantLink href="/management" className="sidebar-link sidebar-link-management" data-sidebar-management-entry>
+          <InstantLink href="/app/management" className="sidebar-link sidebar-link-management" data-sidebar-management-entry>
             <span aria-hidden className="sidebar-link-icon">
               <IconSettings />
             </span>

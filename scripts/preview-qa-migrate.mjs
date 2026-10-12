@@ -39,7 +39,70 @@ export const ALLOWED_PENDING = ["0025_speaking_bank_identity", "0026_google_iden
   "0037_profile_photos",
   // Owner explicitly approved the additive Dictionary + Academic Reading Preview closure on 2026-10-05.
   // These remain hash-pinned and still require the existing identity + backup gates at --apply time.
-  "0038_dictionary_releases", "0039_academic_reading_sets"];
+  "0038_dictionary_releases", "0039_academic_reading_sets",
+  // Registered by the CONTROLLED CONTENT-OS -> INTEGRATION review (2026-10-06). 0040-0047 are
+  // the accepted Content OS migrations; 0048 is the typing trainer renumbered out of the
+  // colliding 0040 on the integration branch. Membership here means "this script knows the
+  // migration and refuses an unreviewed one" — it is NOT owner approval of a Preview apply:
+  // --apply still requires the owner-approved fingerprint, server identity and a fresh
+  // PREVIEW_QA_BACKUP_REF, and the owner must still approve the rollout explicitly.
+  "0040_content_imports", "0041_content_versions", "0042_mock_composition", "0043_authoring_identity",
+  "0044_lesson_blocks", "0045_media_lessons", "0046_vocabulary_topic_packs", "0047_assignments_canonical",
+  "0048_typing_trainer",
+  // Registered by the PHASE C private-notes review (2026-10-06): additive table only, with a
+  // copy-then-clear backfill of legacy course-lesson notes. Membership means this script knows
+  // the migration; --apply still needs the owner-approved fingerprint, server identity and a
+  // fresh PREVIEW_QA_BACKUP_REF, and the owner still approves the rollout explicitly.
+  "0049_lesson_notes",
+  // Registered by the LISTENING LESSON SEMANTIC CORRECTION (2026-10-06): two additive
+  // lesson metadata columns (learning area, teacher notes) with a CHECK and an index.
+  "0050_lesson_learning_area",
+  // Registered by the GENERAL LISTENING revision-safety correction (2026-10-07): one additive
+  // nullable column + index on `listening_questions`, so a revision's question SET has an
+  // identity and replacing it can no longer cascade into historical answers. Membership means
+  // this script knows the migration; --apply still needs the owner-approved fingerprint, server
+  // identity and a fresh PREVIEW_QA_BACKUP_REF, and the owner still approves the rollout.
+  "0051_listening_question_revision",
+  // Registered by the DEDICATED MCQ PROGRAMME (2026-10-07): two additive nullable columns and
+  // three guarded constraints on `listening_tests`, so a Listening item can belong to a programme
+  // at an explicit ordinal (DAY 1 → DAY 30). No row rewritten, nothing backfilled. Membership
+  // means this script knows the migration; --apply still needs the owner-approved fingerprint,
+  // server identity and a fresh PREVIEW_QA_BACKUP_REF, and the owner still approves the rollout.
+  "0052_listening_mcq_program_days"];
+/**
+ * SQL hashes of the integration migrations, pinned where they were reviewed. A file that
+ * changes after review stops being "the migration we reviewed" and must be re-approved;
+ * 0040 keeps the hash of the already-applied Content OS migration, 0048 the hash fixed by
+ * the merge commit. Rollout approval is separate (`ALLOWED_PENDING` above).
+ */
+/**
+ * Named review exceptions for statements the DESTRUCTIVE regex flags but which are provably
+ * non-destructive in the reviewed SQL. Each exception matches one statement only, and the
+ * hash pin above means the reviewed SQL cannot change underneath it.
+ */
+export const REVIEWED_SAFE_STATEMENTS = {
+  "0043_authoring_identity": [/^ALTER TABLE "reading_questions" ALTER COLUMN "type_code" TYPE varchar\(40\);/m],
+};
+export const APPROVED_INTEGRATION_SHA256 = {
+  // Reviewed with the General Listening revision-safety correction: one nullable column, one
+  // FK (ON DELETE SET NULL) and one index. Additive; no row rewritten.
+  "0051_listening_question_revision": "f5b7a259f2643de8155cf66188d3d8b7a7313ca804ceb9920bebe306bb9ec26c",
+  // Reviewed with the dedicated MCQ programme: two nullable columns, both-or-neither and
+  // ordinal >= 1 checks, one partial unique index. Additive; no row rewritten.
+  "0052_listening_mcq_program_days": "ebb72044b2474bf3f22fd2f6e3be88591a5d24db9c66800fdec3f18c6cd8f742",
+  "0050_lesson_learning_area": "ff5d754833e804723c198ab3ebefb0553006ae47e7e6908c06757f3d5865089d",
+  // Hand-written (the snapshot chain stops at 0027) and reviewed with the private-notes change.
+  "0049_lesson_notes": "5896ddea2edf4916cd7c8c6889b999452a6a0d708dcc0d79b6478ded56f6f841",
+  "0040_content_imports": "07061c332c848f89d17fd0510884a097eaabd01a429bf2d1f846e56d02a0a397",
+  "0041_content_versions": "594b74d0e36b1dda3a9e783d5de1f880fbe176e63e0209f7c4f2772c94640e35",
+  "0042_mock_composition": "7323615d9a62864532b1e23a48d20c7a11654eeba34278554303c73eec0b00f9",
+  "0043_authoring_identity": "e517578ebdf508d5490f0b66236358f1f054100745aa1aa62e5eef8f3d4dc52c",
+  "0044_lesson_blocks": "85b33a5fdecfa4240ea5281c6dd4ce73ae9e3d7e43fb7ef376cedfd363b314a9",
+  "0045_media_lessons": "c9d728b966b5334ffac970a0346023071f78da4b3f0388758bb99fbab578d7d3",
+  "0046_vocabulary_topic_packs": "d0251d7d0f4fda6a838c330fc51fe6adebc0c150cf020141db53968b983f577a",
+  "0047_assignments_canonical": "210927a617c29017ee9ba5e05f4155ce3c707895a7cb3b1e62ba1cc532885cf4",
+  "0048_typing_trainer": "813f3c8566afa4c1c6df10584e7041f58576d9558f384cb81cfe623c8c415ef0",
+};
 export const APPROVED_0036_SHA256 = "2287d37ada3bd0d542ecdc9fb966dd024c903f04f6f8d3c274294d73d3b071da";
 export const APPROVED_0037_SHA256 = "32890672239b62b019331a43c72d1102d48cd66651c156662c1cbad5a98f0341";
 export const APPROVED_0038_SHA256 = "b54e0187c6c5bcafdd7070437c5a9a27d7d3259ba1a93976544da26da74e916d";
@@ -126,7 +189,15 @@ export function plan(journal, appliedHashes, readSql) {
     if (e.tag === "0037_profile_photos" && e.hash !== APPROVED_0037_SHA256) problems.push("0037 SQL differs from the owner-approved hash");
     if (e.tag === "0038_dictionary_releases" && e.hash !== APPROVED_0038_SHA256) problems.push("0038 SQL differs from the owner-approved hash");
     if (e.tag === "0039_academic_reading_sets" && e.hash !== APPROVED_0039_SHA256) problems.push("0039 SQL differs from the owner-approved hash");
-    if (DESTRUCTIVE.test(readSql(e.tag)) && !reviewed0036) problems.push(`${e.tag} contains destructive SQL`);
+    const reviewedIntegration = APPROVED_INTEGRATION_SHA256[e.tag];
+    if (reviewedIntegration && e.hash !== reviewedIntegration) problems.push(`${e.tag} SQL differs from the reviewed integration hash`);
+    // A destructive-looking statement is refused unless a named review covers exactly that
+    // statement. 0043 widens reading_questions.type_code varchar(16) -> varchar(40) so
+    // canonical Reading type ids ("true_false_not_given", 20 chars) fit; widening a varchar
+    // cannot truncate existing values, and the hash pin above makes the review immovable.
+    const statements = readSql(e.tag).split("--> statement-breakpoint");
+    const unreviewed = statements.filter((st) => DESTRUCTIVE.test(st) && !(REVIEWED_SAFE_STATEMENTS[e.tag] ?? []).some((r) => r.test(st)));
+    if (unreviewed.length && !reviewed0036) problems.push(`${e.tag} contains destructive SQL`);
   }
   return { applied: entries.filter((e) => applied.has(e.hash)).map((e) => e.tag), pending: pending.map((e) => e.tag), problems };
 }

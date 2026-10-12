@@ -1,15 +1,14 @@
 "use client";
+import { ReadingHighlightedText, useReadingHighlights } from "@/components/reading/ReadingHighlights";
 
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useScopedResponse } from "@/lib/http/use-scoped-response";
 import { Button } from "@/components/ui/Button";
-import { choiceSetFor } from "@/lib/reading-choices";
-import { ReadAloud } from "@/components/reading/ReadAloud";
+import { readingQuestionType, readingOption } from "@/lib/reading/question-model";
 import { useFocusEntry } from "@/lib/interaction/focus-entry";
 import { IconBack, IconCheck, IconTarget } from "@/components/ui/icons";
-import { ResourceBlocks } from "@/components/resources/ResourceBlocks";
 import {
   buildSharedStimulus,
   isSharedStimulusRow,
@@ -48,6 +47,7 @@ type QuestionType =
   | "short_answer";
 
 export type ExamQuestion = {
+  sourceQuestionNo?: number | null;
   id: string;
   order: number;
   questionNo: number | null;
@@ -85,9 +85,7 @@ const SAVE_DEBOUNCE_MS = 900;
 const LABELLED_OPTION = /^([A-Z])\s*[—–-]\s*(\S.*)$/;
 
 function optionLetter(choice: string, index: number): { letter: string; text: string } {
-  const match = LABELLED_OPTION.exec(choice);
-  if (match) return { letter: match[1]!, text: match[2]! };
-  return { letter: String.fromCharCode(65 + index), text: choice };
+  return readingOption(choice,index);
 }
 
 function lettersOnly(choices: string[]): boolean {
@@ -102,7 +100,12 @@ type Constraint = {
 };
 
 function constraintOf(question: ExamQuestion): Constraint {
-  return (question.answerConstraint ?? {}) as Constraint;
+  const raw=question.answerConstraint??{};
+  const descriptor=readingQuestionType(question.typeCode??question.type);
+  return {...raw,
+    max_words: (raw.max_words??raw.maxWords??(descriptor?.grading==='text_word_limit' && descriptor.answerModel.kind==='text'?descriptor.answerModel.wordLimit:undefined)) as number|undefined,
+    selection_count:(raw.selection_count??(descriptor?.answerModel.kind==='choice_multi'?descriptor.answerModel.count:undefined)) as number|undefined,
+  } as Constraint;
 }
 
 /**
@@ -118,9 +121,8 @@ function ternaryChoices(question: ExamQuestion): { value: string; label: string 
       label: value,
     }));
   }
-  return Object.values(choiceSetFor(question.type as "true_false_not_given" | "yes_no_not_given")).map(
-    (choice) => ({ value: choice.value, label: choice.label })
-  );
+  const model=readingQuestionType(question.typeCode??question.type)?.answerModel;
+  return model?.kind==='ternary' ? model.choices.map(label=>({value:label.toLowerCase().replace(/\s+/g,"_"),label})) : [];
 }
 
 function constraintLabel(constraint: Constraint, dict: Dictionary): string | null {
@@ -156,7 +158,6 @@ export function ReadingExam({
   savedAnswers,
   startedAt,
   suggestedMinutes,
-  materials = [],
   parts = [],
 }: {
   dict: Dictionary;
@@ -190,6 +191,7 @@ export function ReadingExam({
   // A real Reading attempt is exactly the place Focus mode is for: entering one
   // turns it on once, and the shell still honours a manual exit.
   useFocusEntry(attemptId);
+  const highlightsFor=useReadingHighlights(attemptId);
 
   const [answers, setAnswers] = useState<Record<string, string>>(savedAnswers);
   const [pane, setPane] = useState<"passage" | "questions">("passage");
@@ -411,7 +413,7 @@ export function ReadingExam({
           </span>
         </span>
         <SaveBadge dict={dict} state={saveState} savedAt={savedAt} onRetry={() => void save()} />
-        <Link href="/reading" className="btn-secondary" data-practice-exit>
+        <Link href="/app/reading" className="btn-secondary" data-practice-exit>
           <IconBack className="text-[18px]" />
           {t.exit}
         </Link>
@@ -460,7 +462,7 @@ export function ReadingExam({
         >
           <div className="flex flex-wrap items-center justify-between gap-2 border-b border-ink-100 pb-3">
             <h2 className="font-display text-base text-ink-900">{shownTitle}</h2>
-            <ReadAloud dict={dict} text={`${shownTitle}. ${shownBody}`} />
+
           </div>
 
           <div className="flex flex-col gap-4 lg:max-h-[70vh] lg:overflow-y-auto lg:pr-2" data-passage-body>
@@ -477,19 +479,19 @@ export function ReadingExam({
                   ) : (
                     <span className="w-7 shrink-0" aria-hidden />
                   )}
-                  <ExamPassageText
+                  <div data-exam-passage-text><ReadingHighlightedText dict={dict} sourceType="reading" sourceId={attemptId} lexicalAssistance={false} {...highlightsFor(paragraph.id,paragraph.text)}
                     text={paragraph.text}
                     className={`academic-text text-sm leading-relaxed text-ink-700 ${paragraph.isFootnote ? "italic" : ""}`}
-                  />
+                  /></div>
                 </div>
               ))
             ) : (
               // A passage that was stored as one block of text still renders.
-              <ExamPassageText text={shownBody} className="academic-text text-sm leading-relaxed text-ink-700" />
+              <div data-exam-passage-text><ReadingHighlightedText dict={dict} sourceType="reading" sourceId={attemptId} lexicalAssistance={false} {...highlightsFor(`part:${activePart}`,shownBody)} text={shownBody} className="academic-text text-sm leading-relaxed text-ink-700" /></div>
             )}
           </div>
 
-          <ResourceBlocks dict={dict} blocks={materials} lexicalAssistance={false} />
+
         </section>
 
         <section
@@ -617,7 +619,7 @@ function SaveBadge({
 }
 
 /** The instruction block a group of questions belongs to. */
-function GroupHeading({ dict, group }: { dict: Dictionary; group: ExamGroup }) {
+export function GroupHeading({ dict, group }: { dict: Dictionary; group: ExamGroup }) {
   const range = group.displayTitle
     ? null
     : group.fromQuestionNo && group.toQuestionNo
@@ -662,7 +664,7 @@ function GroupHeading({ dict, group }: { dict: Dictionary; group: ExamGroup }) {
  * any shared row whose blank the reconstruction could not find — stay as normal
  * cards, so nothing is ever shown twice and nothing is dropped.
  */
-function GroupQuestions({
+export function GroupQuestions({
   dict,
   group,
   questions,
@@ -676,16 +678,16 @@ function GroupQuestions({
   onChange: (questionId: string, value: string) => void;
 }) {
   const shared = useMemo(() => questions.filter((question) => isSharedStimulusRow(question)), [questions]);
-  const stimulus = useMemo(() => (shared.length > 0 ? buildSharedStimulus(shared) : null), [shared]);
+  const stimulus = useMemo(() => (shared.length > 0 ? buildSharedStimulus(shared.map(q=>({...q,questionNo:q.sourceQuestionNo??q.questionNo}))) : null), [shared]);
   const byNumber = useMemo(() => {
     const map = new Map<number, ExamQuestion>();
-    for (const question of questions) if (question.questionNo !== null) map.set(question.questionNo, question);
+    for (const question of questions) if (question.questionNo !== null) map.set(question.sourceQuestionNo??question.questionNo, question);
     return map;
   }, [questions]);
 
   const covered = new Set(stimulus?.numbers ?? []);
   const cards = questions.filter(
-    (question) => !isSharedStimulusRow(question) || question.questionNo === null || !covered.has(question.questionNo)
+    (question) => !isSharedStimulusRow(question) || question.questionNo === null || !covered.has(question.sourceQuestionNo??question.questionNo)
   );
 
   return (
@@ -756,21 +758,21 @@ function StimulusCard({
               <span
                 key={index}
                 className="whitespace-nowrap"
-                data-answer-slot={segment.questionNo}
+                data-answer-slot={question.questionNo}
                 data-answered={value.trim() ? "true" : "false"}
               >
                 <span
                   className="mr-1 align-baseline text-xs font-semibold text-ink-500"
-                  data-stimulus-number={segment.questionNo}
+                  data-stimulus-number={question.questionNo}
                 >
-                  {segment.questionNo}
+                  {question.questionNo}
                 </span>
                 <input
                   id={`answer-${question.id}`}
                   value={value}
                   onChange={(event) => onChange(question.id, event.target.value.slice(0, 200))}
                   placeholder={dict.reading.yourAnswer}
-                  aria-label={`${dict.reading.yourAnswer} ${segment.questionNo}`}
+                  aria-label={`${dict.reading.yourAnswer} ${question.questionNo}`}
                   autoComplete="off"
                   spellCheck={false}
                   data-answer-input={question.id}
@@ -788,7 +790,7 @@ function StimulusCard({
   );
 }
 
-function QuestionCard({
+export function QuestionCard({
   dict,
   question,
   group,
@@ -805,11 +807,13 @@ function QuestionCard({
 }) {
   const t = dict.readingPractice;
   const constraint = constraintOf(question);
-  const isTernary = question.type === "true_false_not_given" || question.type === "yes_no_not_given";
-  const isText = question.type === "short_answer" && !isTernary;
+  const model=readingQuestionType(question.typeCode??question.type)?.answerModel;
+  const isTernary=model?.kind==='ternary';
+  const isMulti=model?.kind==='choice_multi';
+  const isText=model?.kind==='text';
   const choices = question.options && question.options.length > 0 ? question.options : (group?.sharedChoices ?? []);
-  const showFullChoices = !isTernary && choices.length > 0 && !lettersOnly(choices);
-  const showLetterChips = !isTernary && choices.length > 0 && lettersOnly(choices);
+  const showFullChoices = !isTernary && !isMulti && !isText && choices.length > 0 && !lettersOnly(choices);
+  const showLetterChips = !isTernary && !isMulti && !isText && choices.length > 0 && lettersOnly(choices);
   const hint = constraintLabel(constraint, dict);
   const number = question.questionNo ?? question.order;
 
@@ -824,6 +828,7 @@ function QuestionCard({
   return (
     <div
       className={`card p-4 ${value.trim() ? "border-signal-600/40" : ""}`}
+      data-reading-type={readingQuestionType(question.typeCode??question.type)?.id}
       data-question={question.id}
       data-question-no={number}
       data-answered={value.trim() ? "true" : "false"}
@@ -886,6 +891,17 @@ function QuestionCard({
         </div>
       )}
 
+      {isMulti && <fieldset className="flex flex-col gap-2" aria-label={`${dict.reading.yourAnswer} ${number}`}>
+        <legend className="sr-only">{question.questionText}</legend>
+        {choices.map((choice,index)=>{
+          const {letter,text}=optionLetter(choice,index);
+          const selected=value.split(/[,;]/).map(v=>v.trim()).filter(Boolean);
+          const checked=selected.includes(letter);
+          return <label key={choice} className="flex min-h-[44px] items-center gap-2 text-sm"><input type="checkbox" value={letter} checked={checked}
+            onChange={()=>onChange((checked?selected.filter(v=>v!==letter):[...selected,letter]).join(", "))}/>{letter}: {text}</label>;
+        })}
+      </fieldset>}
+
       {showLetterChips && (
         <div className="flex flex-wrap gap-2" role="radiogroup" aria-label={`${dict.reading.yourAnswer} ${number}`}>
           {choices.map((choice, index) => {
@@ -926,6 +942,7 @@ function QuestionCard({
                     id={id}
                     type="radio"
                     name={inputId}
+                    value={choice}
                     checked={value === choice}
                     onChange={() => onChange(choice)}
                   />
@@ -940,7 +957,7 @@ function QuestionCard({
         </ul>
       )}
 
-      {isText && !inline && (
+      {(isText || (!isTernary && !choices.length)) && !inline && (
         <input
           id={inputId}
           value={value}
@@ -955,14 +972,4 @@ function QuestionCard({
       )}
     </div>
   );
-}
-
-/**
- * The active IELTS Academic passage (mode ACADEMIC_EXAM, src/lib/reading/lexical-policy.ts).
- * Plain text by design: no word buttons, no keyboard word cursor, no pointer, no
- * vocabulary styling and no lexical data in the props — whatever lexical rows exist
- * in the database. Native selection/copy still works.
- */
-function ExamPassageText({ text, className }: { text: string; className: string }) {
-  return <div className={`whitespace-pre-line ${className}`} data-exam-passage-text>{text}</div>;
 }

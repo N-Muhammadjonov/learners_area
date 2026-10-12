@@ -7,7 +7,7 @@ import { filterQuestions, type QuestionRow } from "@/lib/live-partner/questions"
 import { LIVE_PARTNER_RULES_VERSION } from "@/lib/live-partner/rules";
 import { LivePartnerCall, type CallStatus, type CallTokenResponse } from "@/lib/live-partner/call-engine";
 
-type Person = { userId: string; name: string; avatar: "a" | "b"; speakingScore: number | null };
+type Person = { userId: string; name: string; avatar: "a" | "b"; speakingScore: number | null; hasPhoto?: boolean };
 type Payload = {
   state: "offline" | "available" | "outgoing_invite" | "incoming_invite" | "connecting" | "in_call" | "reconnecting";
   rulesAccepted: boolean; sessionId: string | null; partner: Person | null;
@@ -24,10 +24,19 @@ const REQUEST_TIMEOUT_MS = 8_000;
 const score = (s: number | null) => (s == null ? "S —" : `S ${s.toFixed(1)}`);
 const json = (body: unknown) => ({ method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
 
-function Avatar({ kind, label, large = false, userId }: { kind: "a" | "b"; label: string; large?: boolean; userId?: string }) {
+function Avatar({ kind, label, large = false, userId, hasPhoto }: { kind: "a" | "b"; label: string; large?: boolean; userId?: string; hasPhoto?: boolean }) {
   const [failed, setFailed] = useState(false);
+  /*
+   * `hasPhoto` comes from the server, which is the only place that knows. When it says false the
+   * image is not requested at all: a learner with no photo used to produce a 404 and a browser
+   * console error on every render of this avatar, and having no photo is the common case. The
+   * default follows the convention ProfilePhoto already set with `initialPresent` — a caller that
+   * has not been given the answer behaves exactly as before and still recovers through onError,
+   * which stays as the safety net for a photo deleted mid-session.
+   */
+  const showPhoto = Boolean(userId) && hasPhoto !== false && !failed;
   return <span role="img" aria-label={label} className={`flex ${large ? "h-36 w-36 text-6xl" : "h-10 w-10 text-lg"} shrink-0 overflow-hidden items-center justify-center rounded-full ${kind === "b" ? "bg-rose-100" : "bg-sky-100"}`}>
-    {userId && !failed ? <Image src={`/api/profile/photo/${userId}`} alt={label} width={large ? 144 : 40} height={large ? 144 : 40} unoptimized className="h-full w-full object-cover" onError={() => setFailed(true)} /> : kind === "b" ? "👩‍🎓" : "👨‍🎓"}
+    {showPhoto ? <Image src={`/api/profile/photo/${userId}`} alt={label} width={large ? 144 : 40} height={large ? 144 : 40} unoptimized className="h-full w-full object-cover" onError={() => setFailed(true)} /> : kind === "b" ? "👩‍🎓" : "👨‍🎓"}
   </span>;
 }
 
@@ -40,7 +49,7 @@ function micErrorStatus(error: unknown): MicStatus {
 
 export function LivePartnerClient({ dict, me, questions }: {
   dict: Dictionary;
-  me: { userId?: string; name: string; avatar: "a" | "b"; hasGender: boolean; speakingScore: number | null };
+  me: { userId?: string; name: string; avatar: "a" | "b"; hasGender: boolean; speakingScore: number | null; hasPhoto?: boolean };
   questions: QuestionRow[];
 }) {
   const t = dict.livePartner;
@@ -57,9 +66,71 @@ export function LivePartnerClient({ dict, me, questions }: {
   const [callStatus, setCallStatus] = useState<CallStatus | null>(null);
   const [micMuted, setMicMuted] = useState(false);
   const [partnerMuted, setPartnerMuted] = useState(false);
-  const grouped = useMemo(() => filterQuestions(questions, query), [questions, query]);
+  // The room receives one bounded page of prompts. Filtering only that page in the
+  // browser would hide every prompt past it, so a typed query is answered by the server
+  // against the whole published bank. Search alone is not enough either: one broad term
+  // can match more prompts than fit a page, so the result is walked with a keyset
+  // cursor. Requests are sequenced, failures are shown with a retry rather than being
+  // swallowed into a stale list, and an empty result is distinguished from "not asked".
+  const [remoteQuestions, setRemoteQuestions] = useState<QuestionRow[] | null>(null);
+  const [searchState, setSearchState] = useState<"idle" | "loading" | "success" | "empty" | "error">("idle");
+  const [searchCursor, setSearchCursor] = useState<string | null>(null);
+  const [searchAttempt, setSearchAttempt] = useState(0);
+  const searchTicket = useRef(0);
 
-  const topicQuestions = selectedTopic ? questions.filter(q => q.part === selectedTopic.part && q.topic === selectedTopic.topic) : [];
+  const runQuestionSearch = useCallback(async (term: string, cursor: string | null) => {
+    // Every request takes a ticket; only the newest may write state. A slow reply for an
+    // abandoned term can therefore never be presented as this term's results, and can
+    // never overwrite a newer response that already landed.
+    const ticket = ++searchTicket.current;
+    setSearchState("loading");
+    try {
+      const params = new URLSearchParams({ q: term });
+      if (cursor) params.set("cursor", cursor);
+      const res = await fetch(`/api/speaking/live-partner/questions?${params.toString()}`);
+      if (ticket !== searchTicket.current) return;
+      if (!res.ok) { setSearchState("error"); return; }
+      const payload = (await res.json()) as { questions?: QuestionRow[]; nextCursor?: string | null };
+      if (ticket !== searchTicket.current) return;
+      const batch = payload.questions ?? [];
+      const merged = cursor && remoteQuestions ? [...remoteQuestions, ...batch] : batch;
+      setRemoteQuestions(merged);
+      setSearchCursor(payload.nextCursor ?? null);
+      setSearchState(merged.length === 0 ? "empty" : "success");
+    } catch {
+      if (ticket === searchTicket.current) setSearchState("error");
+    }
+  }, [remoteQuestions]);
+
+  useEffect(() => {
+    const term = query.trim();
+    if (!term) {
+      // Abandon anything in flight so a late reply cannot repopulate a cleared box.
+      searchTicket.current += 1;
+      setRemoteQuestions(null);
+      setSearchCursor(null);
+      setSearchState("idle");
+      return;
+    }
+    const timer = setTimeout(() => { void runQuestionSearch(term, null); }, 250);
+    return () => clearTimeout(timer);
+    // runQuestionSearch is intentionally excluded: it changes identity whenever the
+    // accumulated results change, which would restart the search mid-walk.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query, searchAttempt]);
+
+  const pool = remoteQuestions ?? questions;
+  const grouped = useMemo(() => filterQuestions(pool, query), [pool, query]);
+
+  // A chosen topic must survive a later search. The questions behind it are kept from
+  // whichever pool they were chosen in, so typing cannot blank an open prompt.
+  const topicQuestions = selectedTopic
+    ? (() => {
+        const fromPool = pool.filter(q => q.part === selectedTopic.part && q.topic === selectedTopic.topic);
+        if (fromPool.length > 0) return fromPool;
+        return questions.filter(q => q.part === selectedTopic.part && q.topic === selectedTopic.topic);
+      })()
+    : [];
   const selectedQuestion = topicQuestions[Math.min(questionIndex, Math.max(0, topicQuestions.length - 1))];
 
   // ---- request discipline -------------------------------------------------
@@ -287,7 +358,7 @@ export function LivePartnerClient({ dict, me, questions }: {
       {data && !data.realtime.ready ? <p className="rounded-sm border border-amber-200 bg-amber-50 p-2 text-sm text-amber-900" data-realtime-unavailable>{t.realtimeMissing}</p> : null}
       {data?.incoming ? (
         <div role="alertdialog" aria-label={t.incomingTitle} className="flex flex-wrap items-center gap-3 rounded-lg border border-ink-200 bg-paper p-3">
-          <Avatar userId={data.incoming.from.userId} kind={data.incoming.from.avatar} label={t.avatar} />
+          <Avatar userId={data.incoming.from.userId} kind={data.incoming.from.avatar} label={t.avatar} hasPhoto={data.incoming.from.hasPhoto} />
           <p className="flex-1 text-sm"><strong>{data.incoming.from.name}</strong> · {score(data.incoming.from.speakingScore)} — {t.incomingBody}</p>
           <button type="button" disabled={busy} className="btn-primary" onClick={() => act({ action: "accept", inviteId: data.incoming!.id })}>{t.accept}</button>
           <button type="button" disabled={busy} className="btn-secondary" onClick={() => act({ action: "decline", inviteId: data.incoming!.id })}>{t.decline}</button>
@@ -300,7 +371,7 @@ export function LivePartnerClient({ dict, me, questions }: {
         <section aria-labelledby="lp-you" className="lp-panel lp-self flex flex-col gap-3 rounded-lg border border-ink-100 bg-paper p-4">
           <h2 id="lp-you" className="text-xs font-semibold uppercase tracking-wide text-ink-500">{t.you}</h2>
           <div className="flex flex-col items-center gap-4 py-6 text-center">
-            <Avatar userId={me.userId} kind={me.avatar} label={t.avatar} large />
+            <Avatar userId={me.userId} kind={me.avatar} label={t.avatar} large hasPhoto={me.hasPhoto} />
             <div><p className="font-medium text-ink-900">{me.name}</p><p className="font-mono text-sm text-ink-600">{score(me.speakingScore)}</p></div>
           </div>
           <p className="text-xs text-ink-500">{t.micStatus}: {t.mic[mic]}</p>
@@ -316,8 +387,34 @@ export function LivePartnerClient({ dict, me, questions }: {
           <h2 id="lp-q" className="text-xs font-semibold uppercase tracking-wide text-ink-500">{t.questions}</h2>
           <p className="text-xs text-ink-500">{t.questionsOptional}</p>
           <label className="text-sm"><span className="sr-only">{t.search}</span>
+            {/*
+              SELECTION CONTRACT (verified in scripts/browser/verify-live-partner-search-browser.mjs):
+              changing the query CLEARS the open topic. It is not preserved, and must
+              not be described as preserved. Topic identity here is (part, topic), not
+              a prompt id, so keeping a selection across a changed result pool could
+              resolve it to a different question — clearing is what makes that
+              unreachable. Continuation (Load more) does NOT change the query and
+              deliberately keeps the open prompt, so reaching a late prompt and
+              staying on it works.
+            */}
             <input type="search" value={query} onChange={(e) => { setQuery(e.target.value); setSelectedTopic(null); }} placeholder={t.search} className="w-full rounded-sm border border-ink-200 px-3 py-2" />
           </label>
+          <p className="text-xs text-ink-500" role="status" aria-live="polite" data-partner-search-state={searchState}>
+            {searchState === "loading" ? t.searchSearching
+              : searchState === "error" ? t.searchFailed
+              : searchState === "empty" ? t.noQuestions
+              : ""}
+          </p>
+          {searchState === "error" ? (
+            <button type="button" className="btn-ghost btn-sm self-start" data-partner-search-retry onClick={() => setSearchAttempt((n) => n + 1)}>
+              {t.searchRetry}
+            </button>
+          ) : null}
+          {searchCursor && searchState === "success" ? (
+            <button type="button" className="btn-ghost btn-sm self-start" data-partner-search-more onClick={() => { void runQuestionSearch(query.trim(), searchCursor); }}>
+              {t.searchMore}
+            </button>
+          ) : null}
           {selectedTopic && selectedQuestion ? <div className="flex min-h-80 flex-col gap-5 rounded-2xl border border-ink-100 bg-paper-raised p-5" data-partner-topic-question>
             <button type="button" className="btn-secondary self-start" onClick={() => setSelectedTopic(null)}>← {dict.common.back}</button>
             <div><p className="text-xs font-semibold uppercase tracking-widest text-signal-600">{t.parts[selectedTopic.part]}</p><h3 className="mt-2 font-display text-xl">{selectedTopic.topic ?? dict.speakingStudy.topic}</h3></div>
@@ -341,7 +438,7 @@ export function LivePartnerClient({ dict, me, questions }: {
         {inCall && data?.partner ? (
           <section aria-labelledby="lp-partner" className="lp-panel lp-peer flex flex-col gap-3 rounded-lg border border-ink-100 bg-paper p-4">
             <h2 id="lp-partner" className="text-xs font-semibold uppercase tracking-wide text-ink-500">{t.partner}</h2>
-            <div className="flex flex-col items-center gap-4 py-6 text-center"><Avatar userId={data.partner.userId} kind={data.partner.avatar} label={t.avatar} large /><div><p className="font-medium">{data.partner.name}</p><p className="font-mono text-sm">{score(data.partner.speakingScore)}</p></div></div>
+            <div className="flex flex-col items-center gap-4 py-6 text-center"><Avatar userId={data.partner.userId} kind={data.partner.avatar} label={t.avatar} large hasPhoto={data.partner.hasPhoto} /><div><p className="font-medium">{data.partner.name}</p><p className="font-mono text-sm">{score(data.partner.speakingScore)}</p></div></div>
             <p className="text-sm" aria-live="polite" data-call-status={callStatus ?? "connecting"}>{callLabel}</p>
             <button type="button" aria-pressed={partnerMuted} className="btn-secondary" onClick={() => setPartnerMuted((m) => !m)}>{partnerMuted ? t.unmutePartner : t.mutePartner}</button>
             <button type="button" disabled={busy} className="btn-primary" onClick={() => endCall()}>{t.choosePartner}</button>
@@ -354,7 +451,7 @@ export function LivePartnerClient({ dict, me, questions }: {
               <ul className="flex flex-col gap-2">
                 {data.online.map((p) => (
                   <li key={p.userId} className="flex items-center gap-2">
-                    <Avatar userId={p.userId} kind={p.avatar} label={t.avatar} />
+                    <Avatar userId={p.userId} kind={p.avatar} label={t.avatar} hasPhoto={p.hasPhoto} />
                     <div className="flex-1"><p className="text-sm font-medium">{p.name}</p><p className="font-mono text-xs text-ink-600">{score(p.speakingScore)}</p></div>
                     <button type="button" disabled={busy || state !== "available"} className="btn-secondary btn-sm" onClick={() => act({ action: "invite", toUserId: p.userId })}>{t.invite}</button>
                   </li>

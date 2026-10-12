@@ -5,11 +5,11 @@ export function parseWritingTab(value: string | string[] | undefined): WritingTa
   const v = Array.isArray(value) ? value[0] : value;
   return (WRITING_TABS as readonly string[]).includes(v ?? "") ? (v as WritingTab) : "lessons";
 }
-/** Keyboard model for the tablist: Left/Right wrap, Home/End jump. */
-export function nextTabIndex(current: number, key: string, count: number): number | null {
-  if (key === "ArrowRight") return (current + 1) % count;
-  if (key === "ArrowLeft") return (current - 1 + count) % count;
-  if (key === "Home") return 0;
-  if (key === "End") return count - 1;
-  return null;
-}
+/**
+ * Keyboard model for the tablist: Left/Right wrap, Home/End jump.
+ *
+ * The implementation moved to `@/lib/a11y/tablist` so the Vocabulary tablist could reuse the same
+ * rule instead of growing a second copy; re-exported here unchanged so every existing importer of
+ * `@/lib/writing/tabs` keeps working.
+ */
+export { nextTabIndex } from "@/lib/a11y/tablist";

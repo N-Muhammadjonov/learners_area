@@ -15,7 +15,7 @@ import { uploadErrorBody, uploadError, withUploadErrorBoundary } from "@/lib/upl
  * Body:
  *   {
  *     purpose: "material_primary" | "material_block",
- *     blockKind?: "image" | "audio" | "file",   // required for material_block
+ *     blockKind?: "image" | "audio" | "video" | "file",   // required for material_block
  *     materialId?: string,                       // set when editing a resource
  *     speakingAttemptId?: string,                // set for a practice recording
  *     filename: string,
@@ -59,7 +59,7 @@ async function handle(req: NextRequest): Promise<Response> {
   if (typeof size !== "number" || !Number.isFinite(size) || size <= 0) {
     return uploadError("invalid_size", 400);
   }
-  if (purpose === "material_block" && !["image", "audio", "file"].includes(blockKind)) {
+  if (purpose === "material_block" && !["image", "audio", "video", "file"].includes(blockKind)) {
     return uploadError("invalid_block_kind", 400);
   }
 

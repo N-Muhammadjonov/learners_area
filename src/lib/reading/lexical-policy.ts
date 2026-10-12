@@ -28,8 +28,7 @@ export type ReadingExamState = {
 };
 
 export function readingLexicalAssistanceAllowed(mode: ReadingMode, state: ReadingExamState): boolean {
-  // Academic remains assessment, including submitted review. Only General
-  // Reading is a vocabulary learning surface (owner requirement 2026-10-04).
-  void state;
-  return mode === "GENERAL_READING";
+  // V4: successful own review may use the canonical Dictionary. Neither staff
+  // privileges nor an earlier submission unlock a currently active assessment.
+  return mode === "GENERAL_READING" || (mode === "ACADEMIC_REVIEW" && state.submitted && !state.examInProgress);
 }

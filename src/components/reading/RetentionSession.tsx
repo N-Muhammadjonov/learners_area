@@ -646,13 +646,13 @@ export function ResultView({
         <button type="button" className="btn-secondary w-fit" onClick={onAnother} data-retention-levels-back>
           {t.resultBack}
         </button>
-        <Link href="/reading/retention#retention-history" prefetch={false} className="btn-secondary w-fit" data-retention-result-history>
+        <Link href="/app/reading/retention#retention-history" prefetch={false} className="btn-secondary w-fit" data-retention-result-history>
           {t.resultHistory}
         </Link>
-        <Link href="/reading" className="btn-secondary w-fit" data-retention-result-reading>
+        <Link href="/app/reading" className="btn-secondary w-fit" data-retention-result-reading>
           {t.resultBackToReading}
         </Link>
-        <Link href={`/reading/retention/results/${payload.attemptId}`} prefetch={false} className="link-inline self-center" data-retention-result-permalink>
+        <Link href={`/app/reading/retention/results/${payload.attemptId}`} prefetch={false} className="link-inline self-center" data-retention-result-permalink>
           {t.resultPermalink}
         </Link>
       </div>

@@ -5,10 +5,14 @@ import test from "node:test";
 const read = (path: string) => readFileSync(new URL(`../${path}`, import.meta.url), "utf8");
 
 test("the private shell keeps the DB-backed account gate and does not await unread-count chrome", () => {
-  const layout = read("src/app/(app)/layout.tsx");
-  assert.match(layout, /Promise\.all\(\[getCurrentUser\(\), getLocale\(\)\]\)/);
-  assert.match(layout, /hasPrivateAccess\(user\.accountStatus\)/);
+  // The gate is the parent of both /app groups; the shell layout below it owns chrome only.
+  const gate = read("src/app/app/layout.tsx");
+  const layout = read("src/app/app/(shell)/layout.tsx");
+  assert.match(gate, /Promise\.all\(\[getCurrentUser\(\), getLocale\(\)\]\)/);
+  assert.match(gate, /hasPrivateAccess\(user\.accountStatus\)/);
+  assert.doesNotMatch(gate, /countUnread/);
   assert.doesNotMatch(layout, /countUnread/);
+  assert.doesNotMatch(gate, /dynamic = "force-dynamic"/);
   assert.doesNotMatch(layout, /dynamic = "force-dynamic"/);
 
   const bell = read("src/components/shell/NotificationBell.tsx");
@@ -63,7 +67,7 @@ test("route feedback is distinct from a usable view; browser diagnostics wait fo
 });
 
 test("Grammar streams its destination heading before its authorized mastery data", () => {
-  const page = read("src/app/(app)/grammar/page.tsx");
+  const page = read("src/app/app/(shell)/grammar/page.tsx");
   const data = read("src/lib/data/grammar.ts");
   assert.match(page, /requireActiveUser\(\), getLocale\(\)/);
   assert.match(page, /data-route-usable="grammar"/);
@@ -75,11 +79,11 @@ test("Grammar streams its destination heading before its authorized mastery data
   assert.match(data, /innerJoin\(grammarExercises/);
   assert.match(data, /eq\(grammarAttempts\.userId, userId\), grammarVisibleTo\(userId\)/);
   assert.match(data, /eq\(grammarExercises\.topicId, topicId\),\s*grammarVisibleTo\(userId\)/);
-  assert.match(read("src/app/(app)/grammar/[topicId]/page.tsx"), /Promise\.all\(\[\s*getTopicWithExercises\(topicId, user\.id\)/);
+  assert.match(read("src/app/app/(shell)/grammar/[topicId]/page.tsx"), /Promise\.all\(\[\s*getTopicWithExercises\(topicId, user\.id\)/);
 });
 
 test("Dashboard streams its authenticated destination heading before account summary reads", () => {
-  const page = read("src/app/(app)/dashboard/page.tsx");
+  const page = read("src/app/app/(shell)/page.tsx");
   assert.match(page, /Promise\.all\(\[requireActiveUser\(\), getLocale\(\)\]\)/);
   assert.match(page, /data-route-usable="dashboard"/);
   assert.match(page, /data-async-loading="dashboard"/);
@@ -87,7 +91,7 @@ test("Dashboard streams its authenticated destination heading before account sum
 });
 
 test("Progress streams the module destination before learner-owned summary queries finish", () => {
-  const page = read("src/app/(app)/progress/page.tsx");
+  const page = read("src/app/app/(shell)/progress/page.tsx");
   assert.match(page, /data-route-usable="progress"/);
   assert.match(page, /data-async-loading="progress"/);
   assert.match(page, /getProgressData\(userId\)/);
@@ -110,7 +114,7 @@ test("Reading streams counts, facets, and the selected library through independe
 });
 
 test("Vocabulary streams its destination frame before authenticated, selected-view panel data resolves", () => {
-  const page = read("src/app/(app)/vocabulary/page.tsx");
+  const page = read("src/app/app/(shell)/vocabulary/page.tsx");
   const studio = read("src/components/vocabulary/VocabStudio.tsx");
   assert.match(page, /data-route-usable="vocabulary"/);
   assert.match(page, /<VocabStudio/);
@@ -121,7 +125,7 @@ test("Vocabulary streams its destination frame before authenticated, selected-vi
 });
 
 test("Writing streams the entry header before its learner-summary reads", () => {
-  const page = read("src/app/(app)/writing/page.tsx");
+  const page = read("src/app/app/(shell)/writing/page.tsx");
   assert.match(page, /Promise\.all\(\[requireActiveUser\(\), getLocale\(\)\]\)/);
   assert.match(page, /data-route-usable="writing"/);
   assert.match(page, /data-async-loading="writing"/);
@@ -131,17 +135,16 @@ test("Writing streams the entry header before its learner-summary reads", () => 
   assert.match(page, /<TypingTrainer/);
 });
 
-test("Listening and Speaking stream useful module headers before catalogue reads", () => {
-  const listening = read("src/app/(app)/listening/page.tsx");
-  // The Speaking material catalogue moved from the hub to Speaking lessons
-  // (owner spec §26–28); the streaming invariant follows the catalogue.
-  const speaking = read("src/app/(app)/speaking/lessons/page.tsx");
-  for (const page of [listening, speaking]) {
-    assert.match(page, /Promise\.all\(\[requireActiveUser\(\), getLocale\(\)\]\)/);
-    assert.match(page, /data-route-usable=/);
-    assert.match(page, /<Suspense fallback=/);
-  }
-  assert.match(listening, /<ActiveListeningTests/);
+test("Listening doorway has no catalogue read; Speaking streams its material catalogue", () => {
+  const listening = read("src/app/app/(shell)/listening/page.tsx");
+  assert.match(listening, /Promise\.all\(\[requireActiveUser\(\), getLocale\(\), searchParams\]\)/);
+  assert.match(listening, /data-route-usable="listening"/);
+  assert.match(listening, /data-listening-destinations/);
+  assert.doesNotMatch(listening, /from ["']@\/lib\/data\//, "doorway must not wait on a content catalogue");
+  const speaking = read("src/app/app/(shell)/speaking/lessons/page.tsx");
+  assert.match(speaking, /Promise\.all\(\[requireActiveUser\(\), getLocale\(\)\]\)/);
+  assert.match(speaking, /data-route-usable=/);
+  assert.match(speaking, /<Suspense fallback=/);
   assert.match(speaking, /<SpeakingMaterials/);
 });
 

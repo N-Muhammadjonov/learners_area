@@ -8,7 +8,7 @@ const read = (path: string) => readFileSync(join(ROOT, path), "utf8");
 
 test("Dashboard summary widgets isolate query failures and the deep roadmap is a separate streamed region", () => {
   const data = read("src/lib/data/dashboard.ts");
-  const page = read("src/app/(app)/dashboard/page.tsx");
+  const page = read("src/app/app/(shell)/page.tsx");
   const summary = data.slice(data.indexOf("export async function getDashboardData"), data.indexOf("export async function getDashboardOpenLessons"));
   assert.match(summary, /Promise\.allSettled/);
   assert.match(summary, /unavailable: \{/);
@@ -27,8 +27,8 @@ test("Dashboard summary widgets isolate query failures and the deep roadmap is a
 
 test("Grammar keeps the topic catalogue usable when learner mastery history fails", () => {
   const data = read("src/lib/data/grammar.ts");
-  const page = read("src/app/(app)/grammar/page.tsx");
-  const detail = read("src/app/(app)/grammar/[topicId]/page.tsx");
+  const page = read("src/app/app/(shell)/grammar/page.tsx");
+  const detail = read("src/app/app/(shell)/grammar/[topicId]/page.tsx");
   assert.match(data, /Promise\.allSettled\(\[[\s\S]*grammar\.topics[\s\S]*grammar\.exercises[\s\S]*grammar\.attempts/);
   assert.match(data, /if \(topicsResult\.status === "rejected"\) throw/);
   assert.match(data, /if \(exercisesResult\.status === "rejected"\) throw/);
@@ -45,7 +45,7 @@ test("Grammar keeps the topic catalogue usable when learner mastery history fail
 });
 
 test("Assignments keep assignment rows core and batch learner responses instead of N per-card reads", () => {
-  const page = read("src/app/(app)/assignments/page.tsx");
+  const page = read("src/app/app/(shell)/assignments/page.tsx");
   const data = read("src/lib/data/coach-artifacts.ts");
   const board = read("src/components/coach/AssignmentBoard.tsx");
   assert.match(page, /assignments\.entry\.core/);
@@ -55,7 +55,11 @@ test("Assignments keep assignment rows core and batch learner responses instead 
   assert.match(page, /RegionFailureNotice[\s\S]*assignment-materials/);
   assert.match(page, /metadataUnavailable=\{evaluationsUnavailable \|\| responsesUnavailable\}/);
   assert.match(board, /metadataUnavailable \? \([\s\S]*data-assignment-metadata-unavailable[\s\S]*\) : assignment\.evaluation \?/);
-  assert.match(page, /id: assignments\.id,[\s\S]*title: assignments\.title,[\s\S]*dueAt: assignments\.dueAt/);
+  assert.match(page, /id: assignments\.id,[\s\S]*title: assignments\.title,[\s\S]*dueAt: assignmentTargets\.dueAt/);
+  // A learner's tasks come from the TARGETS table: reading `assignments.target_user_id`
+  // would hide the task from every student except the first one it was set for.
+  assert.match(page, /innerJoin\(assignments, eq\(assignments\.id, assignmentTargets\.assignmentId\)\)/);
+  assert.match(page, /eq\(assignmentTargets\.studentUserId, user\.id\)/);
   assert.match(page, /listAssignmentResponses\(ids, user\.id\)/);
   assert.doesNotMatch(page, /rows\.map\(async[\s\S]*getAssignmentResponse/);
   const batch = data.slice(data.indexOf("export function listAssignmentResponses"), data.indexOf("\n}", data.indexOf("export function listAssignmentResponses")));
@@ -66,7 +70,7 @@ test("Assignments keep assignment rows core and batch learner responses instead 
 });
 
 test("Live Classes exposes core classes while optional teacher and resource queries fail locally", () => {
-  const page = read("src/app/(app)/live-classes/page.tsx");
+  const page = read("src/app/app/(shell)/live-classes/page.tsx");
   assert.match(page, /const \[ielts, upcomingRows, pastRows\] = await Promise\.all\(/);
   assert.match(page, /courses\.slug, "ielts"\)[\s\S]*inArray\(liveClasses\.status, \["upcoming", "live"\]\)/);
   assert.match(page, /courses\.slug, "ielts"\)[\s\S]*inArray\(liveClasses\.status, \["completed", "recorded", "cancelled"\]\)[\s\S]*\.limit\(10\)/);
@@ -97,14 +101,18 @@ test("Reading streams counts, facets, and selected library independently with lo
 });
 
 test("Writing prompt entry does not wait for typing stats; the typing region catches and retries locally", () => {
-  const page = read("src/app/(app)/writing/page.tsx");
+  const page = read("src/app/app/(shell)/writing/page.tsx");
   const writingData = read("src/lib/data/writing.ts");
   const activities = page.slice(page.indexOf("async function WritingActivities"), page.indexOf("function WritingActivitiesSkeleton"));
-  // Typing content is Band 8–9 model texts (§41), never prompts.
-  assert.match(activities, /timed\("writing\.modelTexts"/);
+  // The trainer prepares its own target through the authenticated API, so the entry must
+  // NOT read Band 8–9 model texts on the server any more: that was the older typing
+  // target, replaced by the dedicated B1/B2 corpus (learners-area-next). What this test
+  // is about — the region never blocks the prompt entry and fails locally — is unchanged.
+  assert.doesNotMatch(activities, /timed\("writing\.modelTexts"/, "the typing target is no longer a model-text read");
+  assert.match(page, /<TypingTrainer/, "the trainer is rendered by the typing region");
   assert.match(activities, /<Suspense fallback=\{<TypingRegionSkeleton \/>\}>/);
   assert.match(activities, /const typingPromise = timed\("writing\.typingSummary"/);
-  assert.ok(activities.indexOf("const typingPromise") < activities.indexOf("writing.modelTexts"), "typing summary starts before the model-text query resolves");
+  assert.ok(activities.indexOf("const typingPromise") < activities.indexOf("<WritingTypingRegion"), "the summary starts before the region renders");
   assert.match(activities, /WritingTypingRegion typingPromise=\{typingPromise\}/);
   assert.doesNotMatch(activities, /Promise\.all\([\s\S]*typingSummary/);
   assert.match(page, /async function WritingTypingRegion[\s\S]*await typingPromise[\s\S]*if \(!result\.ok\)[\s\S]*RegionFailureNotice/);
@@ -116,7 +124,7 @@ test("Writing prompt entry does not wait for typing stats; the typing region cat
 
 test("Speaking loads only blocks attached to the current materials and surfaces block-query failure", () => {
   const data = read("src/lib/data/speaking.ts");
-  const page = read("src/app/(app)/speaking/lessons/page.tsx"); // catalogue moved off the hub (§26–28)
+  const page = read("src/app/app/(shell)/speaking/lessons/page.tsx"); // catalogue moved off the hub (§26–28)
   assert.match(data, /where: inArray\(materialBlocks\.materialId, ids\)/);
   assert.doesNotMatch(data, /materialBlocks\.findMany\(\{\s*orderBy/);
   assert.match(data, /blocksUnavailable: true/);
@@ -129,7 +137,7 @@ test("Speaking loads only blocks attached to the current materials and surfaces 
 });
 
 test("Progress no longer waits for the whole Dashboard and aggregates historical attempt rows in SQL", () => {
-  const page = read("src/app/(app)/progress/page.tsx");
+  const page = read("src/app/app/(shell)/progress/page.tsx");
   const data = read("src/lib/data/progress.ts");
   assert.match(page, /getProgressData\(userId\)/);
   assert.match(page, /getActivityStreak\(userId\)/);
@@ -154,7 +162,7 @@ test("Roadmap queries units and lessons for the selected course tree, not every 
 });
 
 test("Mocks catalogue, attempts, and title metadata fail in separate regions", () => {
-  const page = read("src/app/(app)/mocks/page.tsx");
+  const page = read("src/app/app/(shell)/mocks/page.tsx");
   const data = read("src/lib/data/mocks.ts");
   assert.match(page, /data\.catalogueUnavailable/);
   assert.match(page, /data\.attemptsUnavailable/);
@@ -169,13 +177,20 @@ test("Mocks catalogue, attempts, and title metadata fail in separate regions", (
 });
 
 test("Listening and Video entry reads are server-authorized, published, and limited to list-card fields", () => {
-  const listeningPage = read("src/app/(app)/listening/page.tsx");
+  const listeningPage = read("src/app/app/(shell)/listening/page.tsx");
   const listeningData = read("src/lib/data/listening.ts");
-  const videoPage = read("src/app/(app)/video-lessons/page.tsx");
+  const videoPage = read("src/app/app/(shell)/video-lessons/page.tsx");
   const videoData = read("src/lib/data/video-lessons.ts");
   assert.match(listeningPage, /requireActiveUser\(\)/);
   assert.match(listeningPage, /data-route-usable="listening"/);
-  assert.match(listeningPage, /<Suspense fallback=\{<ListeningTestsSkeleton \/>\}>/);
+  assert.match(listeningPage, /data-listening-destinations/);
+  assert.doesNotMatch(listeningPage, /from ["']@\/lib\/data\//, "a doorway has no catalogue request to fail");
+  for (const [route, reader] of [["academic", "academicListeningCards"], ["general", "generalListeningCards"]]) {
+    const page = read(`src/app/app/(shell)/listening/${route}/page.tsx`);
+    assert.match(page, /requireActiveUser\(\)/);
+    assert.ok(page.indexOf("if (!user) return null") < page.indexOf(`await ${reader}(user.id, page)`));
+    assert.match(page, /Math\.min\(10000/);
+  }
   assert.match(listeningData, /id: listeningTests\.id,[\s\S]*title: listeningTests\.title,[\s\S]*difficultyLevel: listeningTests\.difficultyLevel/);
   assert.match(listeningData, /liveWhere\(/);
   assert.match(videoPage, /requireActiveUser\(\)/);
@@ -190,8 +205,8 @@ test("Listening and Video entry reads are server-authorized, published, and limi
 
 test("secondary region retry uses App Router refresh; core route errors remain inside the authenticated shell", () => {
   const retry = read("src/components/interaction/RegionRetryButton.tsx");
-  const failure = read("src/app/(app)/error.tsx");
-  const layout = read("src/app/(app)/layout.tsx");
+  const failure = read("src/app/app/(shell)/error.tsx");
+  const layout = read("src/app/app/(shell)/layout.tsx");
   assert.match(retry, /router\.refresh\(\)/);
   assert.doesNotMatch(retry, /location\.reload|window\.location/);
   assert.match(retry, /data-region-retry=\{region\}/);

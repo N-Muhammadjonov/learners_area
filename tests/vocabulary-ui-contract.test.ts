@@ -9,15 +9,15 @@ const read = (path: string) => readFileSync(join(root, path), "utf8");
 test("Games is a lightweight library with history-aware dedicated routes for all seven games", () => {
   const panel = read("src/components/vocabulary/VocabGamesPanel.tsx");
   const studio = read("src/components/vocabulary/VocabStudio.tsx");
-  const vocabPage = read("src/app/(app)/vocabulary/page.tsx");
-  const gamePage = read("src/app/(app)/vocabulary/games/[gameId]/page.tsx");
+  const vocabPage = read("src/app/app/(shell)/vocabulary/page.tsx");
+  const gamePage = read("src/app/app/(shell)/vocabulary/games/[gameId]/page.tsx");
   assert.match(panel, /data-games-library/);
   assert.match(panel, /hrefFor\(game\)/);
   assert.match(panel, /data-dedicated-game/);
   assert.match(panel, /data-game-back/);
   assert.match(panel, /loadedKey === requestKey/);
   assert.match(panel, /key=\{gameViewKey\}/);
-  assert.match(studio, /navigate\("\/vocabulary\/games"\)/);
+  assert.match(studio, /navigate\("\/app\/vocabulary\/games"\)/);
   assert.match(studio, /setTab\(next\)/);
   assert.doesNotMatch(studio, /<VocabGamesPanel/);
   const route = vocabPage.slice(vocabPage.indexOf("export default async function VocabularyPage"));
@@ -137,14 +137,14 @@ test("navigation acknowledges immediately, and eager prefetch is opt-in and the 
   assert.match(frame, /data-entry-frame/);
   assert.match(read("src/components/interaction/InstantLink.tsx"), /prefetch=\{prefetch \?\? false\}/);
   assert.doesNotMatch(sidebar, /prefetch=\{false\}/);
-  assert.match(read("src/app/(app)/loading.tsx"), /<RouteEntryLoading \/>/);
+  assert.match(read("src/app/app/(shell)/loading.tsx"), /<RouteEntryLoading \/>/);
   assert.match(frame, /data-private-loading-boundary=\{privateBoundary \? "true"/);
-  assert.match(read("src/app/(app)/layout.tsx"), /getCurrentUser\(\)/);
-  assert.match(read("src/app/(app)/layout.tsx"), /hasPrivateAccess\(user\.accountStatus\)/);
+  assert.match(read("src/app/app/layout.tsx"), /getCurrentUser\(\)/);
+  assert.match(read("src/app/app/layout.tsx"), /hasPrivateAccess\(user\.accountStatus\)/);
 });
 
 test("responsive shell has explicit small-screen sidebar hiding and width-safe content containers", () => {
-  const layout = read("src/app/(app)/layout.tsx");
+  const layout = read("src/app/app/(shell)/layout.tsx");
   const globals = read("src/app/globals.css");
   assert.match(layout, /hidden h-full[^\n]*md:flex/);
   assert.match(layout, /min-w-0 flex-1/);
@@ -154,6 +154,6 @@ test("responsive shell has explicit small-screen sidebar hiding and width-safe c
 });
 
 test("every requested dedicated route file exists", () => {
-  assert.ok(existsSync(join(root, "src/app/(app)/vocabulary/games/page.tsx")));
-  assert.ok(existsSync(join(root, "src/app/(app)/vocabulary/games/[gameId]/page.tsx")));
+  assert.ok(existsSync(join(root, "src/app/app/(shell)/vocabulary/games/page.tsx")));
+  assert.ok(existsSync(join(root, "src/app/app/(shell)/vocabulary/games/[gameId]/page.tsx")));
 });

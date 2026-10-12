@@ -21,7 +21,7 @@ export function StartPromptButton({ promptId, label, errorLabel }: { promptId: s
         setPending(true);
         const res = await request<{id: string}>("/api/writing/submissions", {body: {promptId}});
         if (!res) return;
-        if (res.ok && res.data?.id) navigate(`/writing/submissions/${res.data.id}`); else setError(true);
+        if (res.ok && res.data?.id) navigate(`/app/writing/submissions/${res.data.id}`); else setError(true);
         setPending(false);
       }}
     >

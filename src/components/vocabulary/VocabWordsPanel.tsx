@@ -772,7 +772,11 @@ function Folders({
                     picked ? current.filter((id) => id !== word.id) : [...current, word.id]
                   )
                 }
-                className={`rounded-sm border px-2 py-0.5 text-xs ${
+                // py-1, not py-0.5: with text-xs and a 1px border the chip measured 22px tall in
+                // real Chromium, below the WCAG 2.5.8 AA minimum of 24px for a touch target. The
+                // extra 2px of vertical padding is the smallest change that clears the floor; the
+                // picked/unpicked colours and the surrounding layout are untouched.
+                className={`rounded-sm border px-2 py-1 text-xs ${
                   picked
                     ? "border-signal-600 bg-signal-100 text-signal-700"
                     : "border-ink-100 text-ink-500 hover:text-ink-900"

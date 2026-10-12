@@ -4,13 +4,13 @@ import { eligibleIntentTarget, IntentPrefetchBudget } from "../src/lib/interacti
 import { decodeMeasurementDraft } from "../src/lib/retention/measurement-draft";
 import { measurementStructureSchema } from "../src/lib/retention/measurement";
 test("intent policy rejects external, attempts, admin, answers and query strings", () => {
- for (const raw of ["https://evil.test/dashboard", "/admin/reading/retention", "/reading/retention/results/a", "/reading?attempt=a", "/reading#answers", "/dashboard"]) assert.equal(eligibleIntentTarget(raw,"https://learn.test","/dashboard"), null);
- assert.equal(eligibleIntentTarget("/reading","https://learn.test","/dashboard"), "/reading");
+ for (const raw of ["https://evil.test/dashboard", "/app/admin/reading/retention", "/app/reading/retention/results/a", "/app/reading?attempt=a", "/reading#answers", "/app"]) assert.equal(eligibleIntentTarget(raw,"https://learn.test","/app"), null);
+ assert.equal(eligibleIntentTarget("/app/reading","https://learn.test","/app"), "/app/reading");
 });
 test("budget deduplicates, spaces dispatches and resets only after its window", () => {
- const b=new IntentPrefetchBudget(); assert.equal(b.take("/reading",1000),true); assert.equal(b.take("/reading",2000),false); assert.equal(b.take("/writing",1100),false);
+ const b=new IntentPrefetchBudget(); assert.equal(b.take("/app/reading",1000),true); assert.equal(b.take("/app/reading",2000),false); assert.equal(b.take("/app/writing",1100),false);
  for(let i=0;i<5;i++) assert.equal(b.take(`/route${i}`,2000+i*1000),true);
- assert.equal(b.take("/seventh",8000),false); assert.equal(b.take("/reading",62000),true);
+ assert.equal(b.take("/seventh",8000),false); assert.equal(b.take("/app/reading",62000),true);
 });
 test("draft editor preserves IDs, phrases, critical flags and server validation", () => {
  const s={schemaVersion:1,maxScore:100,claims:[{id:"c1",label:"Founded in 2020",points:100,scope:"sentence",groups:[{id:"g1",points:100,kind:"date",anyOf:["2020"],critical:true}],acceptedPhrases:["founded in 2020"],rejectPhrases:["not founded in 2020"]}]};

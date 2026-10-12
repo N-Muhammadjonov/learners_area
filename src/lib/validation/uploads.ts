@@ -13,13 +13,14 @@
 
 import { isDangerousFilename } from "@/lib/uploads/errors";
 
-export type UploadCategory = "primary" | "image" | "audio" | "file";
+export type UploadCategory = "primary" | "image" | "audio" | "video" | "file";
 
 /** Object-key segment per block type. `primary` is a resource's main file. */
 export const KEY_KIND: Record<UploadCategory, string> = {
   primary: "primary",
   image: "images",
   audio: "audio",
+  video: "video",
   file: "files",
 };
 
@@ -173,6 +174,17 @@ export const UPLOAD_RULES: Record<UploadCategory, UploadRules> = {
     mimePrefixes: ["audio/"],
     mimeTypes: [],
     extensions: [".mp3", ".wav", ".m4a", ".aac", ".ogg", ".oga", ".opus", ".webm", ".flac", ".mp4"],
+  },
+  /**
+   * A lesson's own teaching video. Its own category rather than a doc: the size policy
+   * differs from a document, and the mime allow-list must accept a video container
+   * while still refusing everything that is not media.
+   */
+  video: {
+    maxBytes: envMb("MAX_VIDEO_UPLOAD_MB", 500),
+    mimePrefixes: ["video/"],
+    mimeTypes: [],
+    extensions: [".mp4", ".webm", ".mov", ".m4v"],
   },
   file: {
     maxBytes: envMb("MAX_FILE_UPLOAD_MB", 50),

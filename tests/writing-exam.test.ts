@@ -145,7 +145,7 @@ test("Exam API: the client sends only the mode / text / revision — never time 
   const draft = readFileSync("src/app/api/writing/exam/[id]/draft/route.ts", "utf8");
   assert.doesNotMatch(draft, /expires|duration|startedAt/);
   assert.match(draft, /\.strict\(\)/);
-  const page = readFileSync("src/app/(app)/writing/page.tsx", "utf8");
+  const page = readFileSync("src/app/app/(shell)/writing/page.tsx", "utf8");
   assert.match(page, /tab === "exam" \?[\s\S]*WritingExamHome/);
   assert.doesNotMatch(page, /StartPromptButton/, "the old prompt-card list is no longer the exam");
 });

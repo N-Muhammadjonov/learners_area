@@ -183,9 +183,9 @@ test("the cache is memory-only (no browser storage) and not used by Retention UI
 });
 
 test("authenticated layout binds the cache to the DB-verified user and logout clears it", () => {
-  const layout = read("src/app/(app)/layout.tsx");
-  assert.match(layout, /<PrivateResourceScope scope=\{user\.id\} \/>/);
-  assert.ok(layout.indexOf("hasPrivateAccess(user.accountStatus)") < layout.indexOf("<PrivateResourceScope"));
+  const gate = read("src/app/app/layout.tsx");
+  assert.match(gate, /<PrivateResourceScope scope=\{user\.id\} \/>/);
+  assert.ok(gate.indexOf("hasPrivateAccess(user.accountStatus)") < gate.indexOf("<PrivateResourceScope"));
   for (const file of ["src/components/shell/LogoutButton.tsx", "src/components/shell/ProfileMenu.tsx"]) {
     assert.match(read(file), /privateResources\.setScope\(null\)/);
   }
@@ -216,9 +216,9 @@ test("vocabulary mutations invalidate only vocabulary resources, never a global 
 });
 
 test("Retention links never prefetch and the hub reads run concurrently without allocation", () => {
-  assert.match(read("src/app/(app)/reading/page.tsx"), /href="\/reading\/retention" prefetch=\{false\}/);
-  assert.match(read("src/app/(app)/dashboard/page.tsx"), /href="\/reading\/retention" prefetch=\{false\}/);
-  const page = read("src/app/(app)/reading/retention/page.tsx");
+  assert.match(read("src/app/app/(shell)/reading/page.tsx"), /href=\{`\/app\/reading\/\$\{key\}`\} prefetch=\{false\}/);
+  assert.match(read("src/app/app/(shell)/page.tsx"), /href="\/app\/reading\/retention" prefetch=\{false\}/);
+  const page = read("src/app/app/(shell)/reading/retention/page.tsx");
   assert.match(page, /Promise\.all\(\[/);
   assert.doesNotMatch(page, /startRetentionAttempt|allocateAttempt|createAttempt|method: "POST"/);
   assert.match(page, /buildAttemptPayload\(live, new Date\(\), db\)/);

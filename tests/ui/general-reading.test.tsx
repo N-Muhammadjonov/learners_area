@@ -55,8 +55,8 @@ function net() {
     if (String(url).includes("/api/reading/general/progress")) {
       const body = JSON.parse(String(init!.body));
       return json({ ok: true, score: body.check ? 1 : null, total: body.check ? 2 : null, result: body.check ? [
-        { questionId: "q1a", isCorrect: true, correctAnswer: "TRUE", evidenceQuote: "The bank approved the loan." },
-        { questionId: "q1b", isCorrect: false, correctAnswer: "A marathon", evidenceQuote: null },
+        { questionId: "q1a", isCorrect: true, correctAnswer: "TRUE", evidenceQuote: "The bank approved the loan.", explanation: "The source explicitly confirms approval." },
+        { questionId: "q1b", isCorrect: false, correctAnswer: "A marathon", evidenceQuote: null, explanation: null },
       ] : null });
     }
     return json({});
@@ -75,7 +75,7 @@ async function openWord(region: HTMLElement) {
 test("General single passage: vocabulary is ON immediately — click resolves by occurrence id with the passage id, Add to Vocabulary shown, no timer", async () => {
   const n = net();
   try {
-    await mount(React.createElement(GeneralReadingSession, { dict: en, setId: SET, setTitle: "Set one", passages: [passages[0]!], initialProgress: {}, mode: 1 }), async () => {
+    await mount(React.createElement(GeneralReadingSession, { userId: "test-user", dict: en, setId: SET, setTitle: "Set one", passages: [passages[0]!], initialProgress: {}, mode: 1 }), async () => {
       const region = document.querySelector("[data-general-passage='1'] [data-clickable-text]") as HTMLElement;
       assert.ok(region, "the General passage is vocabulary-interactive from the start");
       assert.equal(document.querySelector("[data-exam-passage-text]"), null, "not the exam's plain text");
@@ -94,7 +94,7 @@ test("General single passage: vocabulary is ON immediately — click resolves by
 test("Full Reading: all three passages reachable by tabs and vocabulary stays ON in each (P3 resolves with P3's passage id)", async () => {
   const n = net();
   try {
-    await mount(React.createElement(GeneralReadingSession, { dict: en, setId: SET, setTitle: "Set one", passages, initialProgress: {}, mode: "full" }), async () => {
+    await mount(React.createElement(GeneralReadingSession, { userId: "test-user", dict: en, setId: SET, setTitle: "Set one", passages, initialProgress: {}, mode: "full" }), async () => {
       const tabs = Array.from(document.querySelectorAll("[data-general-passage-tab]")) as HTMLButtonElement[];
       assert.deepEqual(tabs.map((t) => t.textContent), ["Passage 1", "Passage 2", "Passage 3"].map((s) => en.generalReading.passageN.replace("{n}", s.slice(-1))));
       for (const no of [2, 3]) {
@@ -114,19 +114,22 @@ test("Full Reading: all three passages reachable by tabs and vocabulary stays ON
 test("answers autosave per passage, Check shows learning results with evidence; Full mode keeps each passage's answers", async () => {
   const n = net();
   try {
-    await mount(React.createElement(GeneralReadingSession, { dict: en, setId: SET, setTitle: "Set one", passages, initialProgress: { [pid(3)]: { answers: { q3a: "false" }, score: null, total: null, checked: false } }, mode: "full" }), async () => {
-      const radio = document.querySelector("input[name='q-q1a'][value='true']") as HTMLInputElement;
+    await mount(React.createElement(GeneralReadingSession, { userId: "test-user", dict: en, setId: SET, setTitle: "Set one", passages, initialProgress: { [pid(3)]: { answers: { q3a: "false" }, score: null, total: null, checked: false } }, mode: "full" }), async () => {
+      const radio = document.querySelector("[data-question='q1a'] [data-answer-option='true']") as HTMLInputElement;
       assert.ok(radio, "TFNG offers TRUE/FALSE/NOT GIVEN");
-      assert.equal(document.querySelectorAll("input[name='q-q1a']").length, 3);
+      assert.equal(document.querySelectorAll("[data-question='q1a'] [role='radio']").length, 3);
       await act(async () => radio.click());
       await tick(800);
-      const save = n.calls.find((c) => c.url.includes("/progress"))!;
+      // API path, not a page URL: the endpoint is /api/reading/general/progress.
+      const save = n.calls.find((c) => c.url.includes("/api/reading/general/progress"))!;
       assert.deepEqual(save.body, { passageId: pid(1), answers: { q1a: "true" }, check: false });
-      await act(async () => (document.querySelector("input[name='q-q1b'][value='A shop']") as HTMLInputElement).click());
+      await act(async () => (document.querySelector("input[name='answer-q1b'][value='A shop']") as HTMLInputElement).click());
       await act(async () => (document.querySelector("[data-general-check]") as HTMLButtonElement).click());
       await tick();
-      const check = n.calls.filter((c) => c.url.includes("/progress")).at(-1)!;
+      const check = n.calls.filter((c) => c.url.includes("/api/reading/general/progress")).at(-1)!;
       assert.deepEqual(check.body, { passageId: pid(1), answers: { q1a: "true", q1b: "A shop" }, check: true });
+      assert.equal(document.querySelector("[data-general-explanation]")?.textContent?.includes("The source explicitly confirms approval."),true);
+      assert.equal(document.querySelectorAll("[data-general-explanation-missing]").length,1);
       assert.equal(document.querySelectorAll("[data-general-result='correct']").length, 1);
       assert.equal(document.querySelectorAll("[data-general-result='incorrect']").length, 1);
       assert.equal(document.querySelector("[data-general-evidence]")?.textContent?.includes("The bank approved the loan."), true);
@@ -135,16 +138,16 @@ test("answers autosave per passage, Check shows learning results with evidence; 
       // Switch to P3: its restored answer is intact; back to P1 keeps P1's answers.
       const tabs = Array.from(document.querySelectorAll("[data-general-passage-tab]")) as HTMLButtonElement[];
       await act(async () => tabs[2]!.click());
-      assert.equal((document.querySelector("input[name='q-q3a'][value='false']") as HTMLInputElement).checked, true);
+      assert.equal((document.querySelector("[data-question='q3a'] [data-answer-option='false']") as HTMLElement).getAttribute("aria-checked"), "true");
       await act(async () => tabs[0]!.click());
-      assert.equal((document.querySelector("input[name='q-q1a'][value='true']") as HTMLInputElement).checked, true);
+      assert.equal((document.querySelector("[data-question='q1a'] [data-answer-option='true']") as HTMLElement).getAttribute("aria-checked"), "true");
     });
   } finally { n.restore(); }
 });
 
 test("learner-facing text shows no internal ids or enum names (en + uz Latin)", async () => {
   for (const dict of [en, uz]) {
-    await mount(React.createElement(GeneralReadingSession, { dict, setId: SET, setTitle: "Set one", passages, initialProgress: {}, mode: "full" }), async () => {
+    await mount(React.createElement(GeneralReadingSession, { userId: "test-user", dict, setId: SET, setTitle: "Set one", passages, initialProgress: {}, mode: "full" }), async () => {
       const text = document.body.textContent ?? "";
       for (const banned of [SET, pid(1), "occ-1", "general_practice", "GENERAL_PRACTICE", "ACADEMIC", "true_false_not_given", "multiple_choice", "q1a"]) assert.equal(text.includes(banned), false, banned);
       assert.equal(/[\u0400-\u04FF]/.test(text), false, "no Cyrillic");
@@ -152,7 +155,7 @@ test("learner-facing text shows no internal ids or enum names (en + uz Latin)", 
   }
   await mount(React.createElement(GeneralReadingSets, { dict: en, sets: [{ id: SET, title: "Set one", description: null, level: "B1", passages: [{ passageNo: 1, title: "A" }, { passageNo: 2, title: "B" }, { passageNo: 3, title: "C" }], started: 0, checked: 0 }] }), async () => {
     const hrefs = Array.from(document.querySelectorAll("a")).map((a) => a.getAttribute("href"));
-    for (const p of ["1", "2", "3", "full"]) assert.ok(hrefs.includes(`/reading/general/${SET}?passage=${p}`), p);
+    for (const p of ["1", "2", "3", "full"]) assert.ok(hrefs.includes(`/app/reading/general/${SET}?passage=${p}`), p);
   });
 });
 
@@ -166,7 +169,7 @@ test("VD-003 XSS: HTML-like source, question and popup strings render as literal
     : { status: "resolved", contextual: { definitionEn: "<img src=y onerror=alert(2)>money place", translationUz: "<i>bank</i>", verificationStatus: "verified", partOfSpeech: "noun", lexicalType: "word", ipa: null }, known: null }),
     { headers: { "Content-Type": "application/json" } })) as typeof fetch;
   try {
-    await mount(React.createElement(GeneralReadingSession, { dict: en, setId: SET, setTitle: "<i>S</i>", passages: [xssPassage], initialProgress: {}, mode: 1 }), async () => {
+    await mount(React.createElement(GeneralReadingSession, { userId: "test-user", dict: en, setId: SET, setTitle: "<i>S</i>", passages: [xssPassage], initialProgress: {}, mode: 1 }), async () => {
       for (const tag of ["img", "script", "svg", "b", "i"]) assert.equal(document.querySelector(`[data-general-reading] ${tag}`), null, `no <${tag}> element from data`);
       assert.ok(document.body.textContent!.includes('<img src=x onerror="globalThis.__xss=1">'), "source text kept verbatim, not stripped");
       assert.ok(document.body.textContent!.includes("<svg onload=alert(1)>Q</svg>"));
@@ -182,6 +185,81 @@ test("VD-003 XSS: HTML-like source, question and popup strings render as literal
       assert.ok(dialog.textContent!.includes("<img src=y onerror=alert(2)>money place"), "popup meaning shown as text");
       assert.equal(dialog.querySelector("img,i"), null);
       assert.equal((globalThis as { __xss?: number }).__xss, undefined, "nothing executed");
+    });
+  } finally { globalThis.fetch = original; }
+});
+
+test("checked reload restores authored feedback without another Check request; editing removes it immediately", async () => {
+  const n = net();
+  try {
+    await mount(React.createElement(GeneralReadingSession, {
+      userId:'test-user',dict:en,setId:SET,setTitle:'Set one',passages,mode:'full',
+      initialProgress:{[pid(1)]:{answers:{q1a:'true'},score:1,total:2,checked:true,result:[
+        {questionId:'q1a',isCorrect:true,correctAnswer:'TRUE',acceptedAnswers:['true'],evidenceQuote:'The bank approved the loan.',explanation:'Authored explanation on reload'},
+        {questionId:'q1b',isCorrect:false,correctAnswer:'A marathon',evidenceQuote:null,explanation:null},
+      ]}},
+    }),async()=>{
+      assert.equal(document.querySelectorAll('[data-general-result]').length,2);
+      assert.ok(document.querySelector('[data-general-explanation]')?.textContent?.includes('Authored explanation on reload'));
+      assert.ok(document.querySelector('[data-general-accepted]')?.textContent?.includes('true'));
+      assert.ok(document.querySelector('[data-general-explanation-missing]'));
+      assert.equal(n.calls.filter(call=>call.url.includes('/api/reading/general/progress')).length,0,'reload does not perform Check');
+      await act(async()=> (document.querySelector("[data-question='q1a'] [data-answer-option='false']") as HTMLButtonElement).click());
+      assert.equal(document.querySelector('[data-general-result]'),null);
+      assert.equal(document.querySelector('[data-general-score]'),null,'old checked score is not shown for edited answers');
+      await tick(800);
+      const saved = n.calls.filter(call=>call.url.includes('/api/reading/general/progress'));
+      assert.equal(saved.length,1);
+      assert.equal((saved[0]!.body as {check:boolean}).check,false,'an edit saves a draft, not an automatic Check');
+    });
+  } finally { n.restore(); }
+});
+
+test("GEN-06 a late Check response that was overtaken by an edit cannot restore stale feedback", async () => {
+  // The learner presses Check, then edits an answer BEFORE the server replies.
+  // The in-flight reply describes answers that no longer exist, so it must be
+  // discarded: showing it would tell the learner their current answer is graded.
+  const original = globalThis.fetch;
+  let releaseCheck!: () => void;
+  const held = new Promise<void>((resolve) => { releaseCheck = resolve; });
+  const calls: { url: string; body: { check?: boolean } }[] = [];
+  globalThis.fetch = (async (url: string, init?: RequestInit) => {
+    const body = init?.body ? JSON.parse(String(init.body)) : {};
+    calls.push({ url: String(url), body });
+    const json = (value: unknown) => new Response(JSON.stringify(value), { headers: { "Content-Type": "application/json" } });
+    if (String(url).includes("folders")) return json({ folders: [] });
+    if (String(url).includes("/api/reading/general/progress")) {
+      if (body.check) {
+        await held; // the Check reply arrives only after the learner has edited
+        return json({ ok: true, score: 1, total: 2, result: [
+          { questionId: "q1a", isCorrect: true, correctAnswer: "TRUE", evidenceQuote: "The bank approved the loan.", explanation: "Stale authored explanation" },
+          { questionId: "q1b", isCorrect: false, correctAnswer: "A marathon", evidenceQuote: null, explanation: null },
+        ] });
+      }
+      return json({ ok: true, score: null, total: null, result: null });
+    }
+    return json({});
+  }) as typeof fetch;
+  try {
+    await mount(React.createElement(GeneralReadingSession, {
+      userId: "test-user", dict: en, setId: SET, setTitle: "Set one", passages, mode: "full", initialProgress: {},
+    }), async () => {
+      await act(async () => (document.querySelector("[data-question='q1a'] [data-answer-option='true']") as HTMLButtonElement).click());
+      await tick(800);
+      const checkButton = Array.from(document.querySelectorAll("button")).find((b) => /check/i.test(b.textContent ?? ""))!;
+      assert.ok(checkButton, "the explicit Check control exists");
+      await act(async () => checkButton.click());
+      assert.equal(document.querySelector("[data-general-result]"), null, "nothing is shown while the Check is in flight");
+
+      // The learner changes their mind while the Check is still in flight.
+      await act(async () => (document.querySelector("[data-question='q1a'] [data-answer-option='false']") as HTMLButtonElement).click());
+      releaseCheck();
+      await tick(900);
+
+      assert.equal(document.querySelector("[data-general-result]"), null, "the overtaken Check reply is discarded");
+      assert.equal(document.querySelector("[data-general-score]"), null, "no stale score is restored");
+      assert.equal(document.body.textContent!.includes("Stale authored explanation"), false, "no stale authored explanation is painted");
+      assert.ok(calls.some((c) => c.body.check === true), "a real Check request was actually issued");
     });
   } finally { globalThis.fetch = original; }
 });

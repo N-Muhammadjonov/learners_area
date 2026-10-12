@@ -7,7 +7,7 @@ import { WRITING_TABS, nextTabIndex, type WritingTab } from "@/lib/writing/tabs"
 export function WritingNav({ active, labels, label }: { active: WritingTab; labels: Record<WritingTab, string>; label: string }) {
   const router = useRouter();
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
-  const go = (tab: WritingTab) => router.push(`/writing?tab=${tab}`, { scroll: false });
+  const go = (tab: WritingTab) => router.push(`/app/writing?tab=${tab}`, { scroll: false });
   return (
     <div role="tablist" aria-label={label} className="-mx-1 flex gap-1 overflow-x-auto border-b border-ink-100 px-1" data-writing-tablist>
       {WRITING_TABS.map((tab, i) => {

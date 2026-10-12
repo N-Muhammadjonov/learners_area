@@ -28,7 +28,7 @@ export async function WritingTranslationTab({ dict, userId }: { dict: Dictionary
           <ul className="flex flex-col gap-2">
             {recent.map((a) => (
               <li key={a.id}>
-                <Link href={`/writing/translation/${a.id}`} className="card flex min-h-11 flex-wrap items-center justify-between gap-2 px-4 py-3 text-sm">
+                <Link href={`/app/writing/translation/${a.id}`} className="card flex min-h-11 flex-wrap items-center justify-between gap-2 px-4 py-3 text-sm">
                   <span className="font-semibold text-ink-900">{a.title}</span>
                   <span className="text-ink-500">{a.status === "completed" ? `${t.completed}${a.overall != null ? ` · ${a.overall.toFixed(1)}` : ""}` : t.inProgress}</span>
                 </Link>

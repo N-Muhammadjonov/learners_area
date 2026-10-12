@@ -314,7 +314,7 @@ test("RP14 teacher snapshot numbers cover ONLY explicitly linked students (real 
   const cohort = await buildReportSnapshot(database.db, { scope: { kind: "teacher", teacherId: null }, period: week(), actor: { userId: ADM, role: "admin" }, now: NOW });
   assert.equal(metric(cohort, "reading.completed")!.value, 3, "admin cohort still covers all students");
   // A staff account linked by hand (bypassing setRosterLink) never counts as a learner.
-  await database.query(`insert into teacher_student_links (teacher_user_id, student_user_id) values ($1, $2)`, [TCH2, OWN]);
+  await database.query(`insert into teacher_student_links (teacher_user_id, student_user_id, created_at) values ($1, $2, $3)`, [TCH2, OWN, IN]);
   const staffLinked = await buildReportSnapshot(database.db, { scope: { kind: "teacher", teacherId: TCH2 }, period: week(), actor: { userId: TCH2, role: "teacher" }, now: NOW });
   assert.equal(metric(staffLinked, "people.assigned")!.value, 0);
   assert.equal(await isOnRoster(TCH2, OWN, database.db), false, "role filter applies to the roster check too");

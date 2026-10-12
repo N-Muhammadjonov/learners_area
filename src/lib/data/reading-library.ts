@@ -1,3 +1,6 @@
+import { activateReadingSchedules } from "@/lib/services/reading/schedules";
+import { readingCanonicalTypeSql } from "@/lib/data/reading-type-index";
+import { readingQuestionType } from "@/lib/reading/question-model";
 import { and, asc, count, desc, eq, ilike, inArray, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { readingAttempts, readingPassages, readingQuestions } from "@/db/schema";
@@ -26,7 +29,7 @@ import { timed } from "@/lib/observability/timing";
  * ---------------------------------------------------------------------------
  * Round trips
  * ---------------------------------------------------------------------------
- * The hub used to open `/reading` with twelve queries in five sequential waves,
+ * The hub used to open `/app/reading` with twelve queries in five sequential waves,
  * one of them a full scan of `reading_questions` grouped by passage just to
  * place a number on twenty-four cards. Against a database next door that is
  * invisible; against one 250 ms away it is a page the owner experiences as a
@@ -78,6 +81,7 @@ function text(value: string | undefined): string | undefined {
 
 /** The publication window: a draft, an archive or a not-yet-due schedule is invisible. */
 async function liveClause() {
+  await activateReadingSchedules();
   // The Academic library: live AND not a General Reading (learning) passage (0030).
   return and(liveWhere({
     publicationState: readingPassages.publicationState,
@@ -264,6 +268,7 @@ export async function listLibrary(
  * page slow.
  */
 export async function listLibraryFacets(learning = false) {
+  await activateReadingSchedules();
   return timed("reading.facets", async () => {
     const live = learning ? and(liveWhere({publicationState:readingPassages.publicationState,publishAt:readingPassages.publishAt}),sql`exists(select 1 from general_reading_passages g join general_reading_sets s on s.id=g.set_id where g.passage_id=${readingPassages.id} and (s.publication_state='published' or (s.publication_state='scheduled' and s.publish_at<=now())))`) : await liveClause();
 
@@ -325,12 +330,16 @@ export async function readingHubCounts(userId: string) {
 /** General learning cards use the same published passages as full Academic sets,
  * but read per-passage learning progress and always link into the General session. */
 export async function listLearningLibrary(userId: string, filter: ReadingLibraryFilter = {}) {
+  await activateReadingSchedules();
   const clauses = [sql`(p.publication_state='published' or (p.publication_state='scheduled' and p.publish_at<=now()))`,sql`(s.publication_state='published' or (s.publication_state='scheduled' and s.publish_at<=now()))`];
   const number = {passage1:1,passage2:2,passage3:3}[filter.status ?? ""];
   if(number)clauses.push(sql`g.passage_no=${number}`);
   if(text(filter.query))clauses.push(sql`p.title ilike ${`%${text(filter.query)!.replace(/[%_\\]/g,m=>"\\"+m)}%`}`);
   if(text(filter.topic))clauses.push(sql`p.topic_code=${text(filter.topic)}`);
-  if(text(filter.type))clauses.push(sql`exists(select 1 from reading_questions q where q.passage_id=p.id and q.type_code=${text(filter.type)})`);
+  if(text(filter.type)) {
+    const canonical=readingQuestionType(text(filter.type)!);
+    clauses.push(canonical ? sql`exists(select 1 from reading_questions q where q.passage_id=p.id and ${readingCanonicalTypeSql()}=${canonical.id})` : sql`exists(select 1 from reading_questions q where q.passage_id=p.id and q.type_code=${text(filter.type)})`);
+  }
   if(filter.status==='completed')clauses.push(sql`r.checked_at is not null`);
   if(filter.status==='in_progress')clauses.push(sql`r.passage_id is not null and r.checked_at is null`);
   if(filter.status==='not_started')clauses.push(sql`r.passage_id is null`);

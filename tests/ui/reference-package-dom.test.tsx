@@ -4,7 +4,7 @@ import { readFileSync } from "node:fs";
 import { JSDOM } from "jsdom";
 import en from "../../src/lib/i18n/en";
 
-const dom = new JSDOM('<!doctype html><html><body><div id="root"></div></body></html>', { url: "http://localhost/dashboard" });
+const dom = new JSDOM('<!doctype html><html><body><div id="root"></div></body></html>', { url: "http://localhost/app" });
 for (const key of ["window", "document", "navigator", "HTMLElement", "HTMLButtonElement", "HTMLInputElement", "HTMLTextAreaElement", "HTMLSelectElement", "HTMLAnchorElement", "Element", "Node", "Event", "MouseEvent", "FocusEvent", "KeyboardEvent"] as const) {
   Object.defineProperty(globalThis, key, { value: dom.window[key], configurable: true });
 }
@@ -37,22 +37,22 @@ test("intent prefetch: opted-in landing after 90ms hover, cancelled on early lea
   Object.defineProperty(document, "visibilityState", { value: "visible", configurable: true });
   const prefetched: string[] = [];
   await mount(React.createElement("div", null,
-    React.createElement(InstantLink, { href: "/reading", intentPrefetch: true, id: "a" }, "Reading"),
-    React.createElement(InstantLink, { href: "/writing", intentPrefetch: true, id: "b" }, "Writing"),
-    React.createElement(InstantLink, { href: "/admin/reading/retention", intentPrefetch: true, id: "c" }, "Admin"),
-    React.createElement(InstantLink, { href: "/listening", intentPrefetch: true, prefetch: false, id: "d" }, "Off"),
-    React.createElement(InstantLink, { href: "/grammar", id: "e" }, "Not opted in"),
+    React.createElement(InstantLink, { href: "/app/reading", intentPrefetch: true, id: "a" }, "Reading"),
+    React.createElement(InstantLink, { href: "/app/writing", intentPrefetch: true, id: "b" }, "Writing"),
+    React.createElement(InstantLink, { href: "/app/admin/reading/retention", intentPrefetch: true, id: "c" }, "Admin"),
+    React.createElement(InstantLink, { href: "/app/listening", intentPrefetch: true, prefetch: false, id: "d" }, "Off"),
+    React.createElement(InstantLink, { href: "/app/grammar", id: "e" }, "Not opted in"),
   ), prefetched, async () => {
     const a = document.querySelector("#a")!;
     assert.ok(a.hasAttribute("data-instant-navigation"));
     await hover(a); await wait(120);
-    assert.deepEqual(prefetched, ["/reading"]);
+    assert.deepEqual(prefetched, ["/app/reading"]);
     await wait(800);
     const b = document.querySelector("#b")!;
     await hover(b); await wait(20); await leave(b); await wait(120);
-    assert.deepEqual(prefetched, ["/reading"], "early leave cancels");
+    assert.deepEqual(prefetched, ["/app/reading"], "early leave cancels");
     for (const id of ["#c", "#d", "#e"]) { await hover(document.querySelector(id)!); await wait(120); }
-    assert.deepEqual(prefetched, ["/reading"]);
+    assert.deepEqual(prefetched, ["/app/reading"]);
   });
 });
 
@@ -107,11 +107,11 @@ test("fonts and welcome: owner font roles, no VocaType assets, single authoritat
   const page = readFileSync("src/app/page.tsx", "utf8");
   assert.equal((page.match(/<Link\s/g) ?? []).length, 1);
   assert.match(page, /prefetch=\{false\}\s+data-landing-cta/);
-  assert.match(page, /!user\s*\? "\/login"\s*:\s*hasPrivateAccess\(user\.accountStatus\)\s*\? "\/dashboard"\s*:\s*"\/pending"/);
+  assert.match(page, /!user\s*\? "\/login"\s*:\s*hasPrivateAccess\(user\.accountStatus\)\s*\? "\/app"\s*:\s*"\/pending"/);
 });
 
 test("academic-text applied to Reading, Listening, Writing and Grammar reading surfaces", () => {
-  for (const file of ["src/components/reading/ReadingExam.tsx", "src/components/listening/SpeedTrainer.tsx", "src/app/(app)/grammar/[topicId]/page.tsx", "src/components/grammar/ProductionAnswer.tsx", "src/components/reading/RetentionSession.tsx"]) {
+  for (const file of ["src/components/reading/ReadingExam.tsx", "src/components/listening/SpeedTrainer.tsx", "src/app/app/(shell)/grammar/[topicId]/page.tsx", "src/components/grammar/ProductionAnswer.tsx", "src/components/reading/RetentionSession.tsx"]) {
     assert.match(readFileSync(file, "utf8"), /academic-text/, file);
   }
 });

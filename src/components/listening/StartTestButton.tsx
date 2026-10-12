@@ -21,7 +21,7 @@ export function StartTestButton({ testId, label, messages }: { testId: string; l
       if (controller.signal.aborted) return;
       if (!result.ok) { setError(failureMessage(result, messages)); return; }
       if (!isUuid(result.data?.id)) { setError(messages.errorServer); return; }
-      navigate(`/listening/attempts/${result.data.id}`);
+      navigate(`/app/listening/attempts/${result.data.id}`);
     } finally {
       if (flight.current === controller) flight.current = null;
       if (!controller.signal.aborted) setPending(false);

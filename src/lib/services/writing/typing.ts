@@ -203,18 +203,47 @@ export type TypingResult = {
   durationMs: number;
 };
 
+/**
+ * The legacy metric, and a DIFFERENT contract from `computeTypingResult` below:
+ *
+ *   computeTypingMetrics  accuracy is the edit distance over the WHOLE target text, so a
+ *                         run that stops halfway is charged for what it never typed
+ *                         ("two missing of four characters is 50%").
+ *   computeTypingResult   accuracy is over WHAT WAS TYPED, with `completion` carrying the
+ *                         untyped remainder ("a learner who stops halfway is not charged
+ *                         for the untyped rest").
+ *
+ * Both are accepted behaviour and both are pinned by tests, so neither may quietly become
+ * the other: `tests/listening-and-typing.test.ts` asserts this formula, while the trainer
+ * uses the word-level `computeWordTypingMetrics` and the legacy model-text run uses
+ * `computeTypingResult`. During the Content OS ⇄ learners-area-next integration this
+ * function had been rewritten to delegate to `computeTypingResult`, which silently changed
+ * a published number and turned that base test red; it is restored here, unchanged, and
+ * nothing else in the tree uses it.
+ */
 export function computeTypingMetrics(
   targetText: string,
   typedText: string,
   durationMs: number,
 ): Pick<TypingResult, "wpm" | "accuracy" | "durationMs" | "typedChars" | "targetChars"> {
-  const result = computeTypingResult(targetText, typedText, durationMs);
+  if (!targetText.trim()) throw new Error("empty_target");
+  if (!Number.isFinite(durationMs) || durationMs < MIN_DURATION_MS || durationMs > MAX_DURATION_MS) {
+    throw new Error("invalid_duration");
+  }
+
+  const distance = levenshtein(targetText, typedText);
+  const longest = Math.max(targetText.length, typedText.length) || 1;
+  const accuracy = Math.max(0, (1 - distance / longest) * 100);
+
+  const minutes = durationMs / 60_000;
+  const wpm = typedText.length / CHARS_PER_WORD / minutes;
+
   return {
-    wpm: result.wpm,
-    accuracy: result.accuracy,
-    durationMs: result.durationMs,
-    typedChars: result.typedChars,
-    targetChars: result.targetChars,
+    wpm: Math.round(wpm * 10) / 10,
+    accuracy: Math.round(accuracy * 10) / 10,
+    durationMs,
+    typedChars: typedText.length,
+    targetChars: targetText.length,
   };
 }
 

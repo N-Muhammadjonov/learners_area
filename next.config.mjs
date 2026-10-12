@@ -1,3 +1,5 @@
+import { appLegacyAliasRedirects, canonicalHomeRedirects, legacyModuleRedirects } from "./src/lib/nav/private-modules.mjs";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,

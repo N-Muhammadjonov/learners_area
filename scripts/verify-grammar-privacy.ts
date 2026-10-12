@@ -50,7 +50,7 @@ try {
   check(stored.sourceOwnerUserId === owner, "database derives ownership from the actual writing source");
   await db.update(grammarExercises).set({ targetStructures: ["is"], translatePromptUz: privateText }).where(eq(grammarExercises.id, privateId));
   await db.insert(grammarExercises).values({ id: publicId, topicId, order: 2, promptText: publicText, options: ["is", "are"], correctOption: "is", explanation: "Shared", targetStructures: ["is"] });
-  const pagePath = `/grammar/${topicId}`;
+  const pagePath = `/app/grammar/${topicId}`;
   for (const deleted of [false,true]) {
     if (deleted) await db.delete(writingSubmissions).where(eq(writingSubmissions.id, submissionId));
     const ownPage = await request(owner, pagePath);

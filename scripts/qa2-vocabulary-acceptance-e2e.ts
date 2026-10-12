@@ -97,7 +97,7 @@ const body = async (r: Response) => { const s = await r.text(); try { return JSO
 const items = async (u: string, lex: string) => (await q("select id, srs_stage, interval_days, next_review_at from user_vocabulary where user_id=$1 and lexeme_id=$2", [u, lex]));
 
 // ================= ACADEMIC =================
-let r = await get(`/reading/attempts/${exam.attemptId}`); let html = await r.text();
+let r = await get(`/app/reading/attempts/${exam.attemptId}`); let html = await r.text();
 check("AR-01 active exam HTML is plain text", r.status === 200 && html.includes("data-exam-passage-text") && !html.includes("data-clickable-text"), String(r.status));
 check("AR-02 no occurrence/sense ids or definitions in exam payload", !html.includes(exam.money) && !html.includes(exam.river) && !html.includes(bankG1.lexeme_id) && !html.includes(MONEY), "");
 r = await lookup("reading", exam.attemptId, exam.money); check("AR-06 lookup by active attempt id -> 403 lexical_assistance_locked", r.status === 403 && (await body(r)).error === "lexical_assistance_locked", String(r.status));
@@ -115,13 +115,13 @@ check("BANK-POLYSEMY review: river bank -> river sense (distinct)", r.status ===
 r = await lookup("reading", review.attemptId, review.money, "", TB); check("SEC IDOR: B cannot use A's attempt id", r.status === 404 || r.status === 403, String(r.status));
 
 // ================= GENERAL READING =================
-r = await get("/reading/general"); html = await r.text(); check("GR-01 list page", r.status === 200 && html.includes(`Audit set ${tag}`), String(r.status));
-r = await get(`/reading/general/${set.setId}`); html = await r.text(); check("GR-01 chooser offers P1/P2/P3/Full", ["1", "2", "3", "full"].every((m) => html.includes(`?passage=${m}`)), String(r.status));
+r = await get("/app/reading/general"); html = await r.text(); check("GR-01 list page", r.status === 200 && html.includes(`Audit set ${tag}`), String(r.status));
+r = await get(`/app/reading/general/${set.setId}`); html = await r.text(); check("GR-01 chooser offers P1/P2/P3/Full", ["1", "2", "3", "full"].every((m) => html.includes(`?passage=${m}`)), String(r.status));
 for (const n of [1, 2, 3]) {
-  r = await get(`/reading/general/${set.setId}?passage=${n}`); html = await r.text();
+  r = await get(`/app/reading/general/${set.setId}?passage=${n}`); html = await r.text();
   check(`GR-0${n + 1} Passage ${n} page renders interactive text`, r.status === 200 && html.includes("data-clickable-text") && html.includes(`data-general-passage="${n}"`) && !html.includes("data-exam-passage-text"), String(r.status));
 }
-r = await get(`/reading/general/${set.setId}?passage=full`); html = await r.text();
+r = await get(`/app/reading/general/${set.setId}?passage=full`); html = await r.text();
 check("GR-05 Full Reading: 3 tabs + interactive text", r.status === 200 && (html.match(/data-general-passage-tab=/g) ?? []).length === 3 && html.includes("data-clickable-text"), String(r.status));
 check("GR-payload answer key not shipped before Check", !html.includes(">TRUE<") && !html.includes('"correctAnswer"'), "");
 for (const [n, o] of [[1, bankG1], [2, bankG2], [3, bankG3]] as const) {
@@ -176,7 +176,7 @@ const [{ cnt2 }] = await q("select count(*)::int cnt2 from user_vocabulary where
 const [{ c2 }] = await q("select count(*)::int c2 from user_vocabulary_contexts where user_vocabulary_id=$1 and occurrence_id=$2", [it[0].id, bankG2.id]);
 check("CONCURRENT 3 parallel saves: no 500, one item, one context", dbl.every((x) => x.status === 200) && cnt === 1 && cnt2 === 1 && c2 === 1, dbl.map((x) => x.status).join(","));
 r = await get(`/api/vocabulary/${it[0].id}/contexts`); j = await body(r); const hrefs: string[] = (j.contexts ?? []).map((x: { revisitHref: string }) => x.revisitHref);
-check("REVISIT General ?passage=1/3, Academic attempt, Listening section", hrefs.includes(`/reading/general/${set.setId}?passage=1`) && hrefs.includes(`/reading/general/${set.setId}?passage=3`) && hrefs.includes(`/reading/attempts/${review.attemptId}`) && hrefs.some((h) => h.startsWith(`/listening/tests/${lt.id}/study`)), JSON.stringify(hrefs));
+check("REVISIT General ?passage=1/3, Academic attempt, Listening section", hrefs.includes(`/app/reading/general/${set.setId}?passage=1`) && hrefs.includes(`/app/reading/general/${set.setId}?passage=3`) && hrefs.includes(`/app/reading/attempts/${review.attemptId}`) && hrefs.some((h) => h.startsWith(`/app/listening/tests/${lt.id}/study`)), JSON.stringify(hrefs));
 r = await get(`/api/vocabulary/${it[0].id}/contexts`, TB); check("SEC B cannot read A's contexts (IDOR)", r.status === 404, String(r.status));
 r = await post(`/api/vocabulary/${it[0].id}/review`, { outcome: "correct" }, TB); check("SEC B cannot review A's item", r.status === 404, String(r.status));
 const canonBefore = JSON.stringify(await q("select * from lexemes where id=$1", [bankG1.lexeme_id]));
@@ -194,7 +194,7 @@ const [qq] = await q("select id from reading_questions where passage_id=$1", [gp
 r = await post("/api/reading/general/progress", { passageId: gp[1], answers: { [qq.id]: "true" }, check: true }); j = await body(r);
 check("GR-15 progress Check grades + evidence quote; evidence created no sense", r.status === 200 && j.score === 1 && j.result?.[0]?.evidenceQuote === "They rested on the river bank." && riverG1.lexeme_id === null, String(r.status));
 r = await post("/api/reading/general/progress", { passageId: gp[3], answers: {}, check: false }); await body(r);
-r = await get(`/reading/general/${set.setId}?passage=1`); html = await r.text(); check("GR-15 reload shows saved score", html.includes("data-general-score"), "");
+r = await get(`/app/reading/general/${set.setId}?passage=1`); html = await r.text(); check("GR-15 reload shows saved score", html.includes("data-general-score"), "");
 check("GR-15 per-passage rows", (await q("select count(*)::int n from general_reading_progress where user_id=$1", [A]))[0].n === 2, "");
 r = await post("/api/reading/general/progress", { passageId: exam.passageId, answers: {}, check: true }); check("GR-07 progress API refuses Academic passage", r.status === 404, String(r.status));
 r = await post("/api/vocabulary", "not json"); check("API malformed payload -> 400 (no stack)", r.status === 400 && !(await r.text()).includes("at "), String(r.status));

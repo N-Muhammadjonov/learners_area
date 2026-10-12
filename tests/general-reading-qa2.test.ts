@@ -11,6 +11,27 @@ import { importGeneralReadingSet, type GeneralReadingBundle } from "../src/lib/s
 import { generalMembership, generalProgress, generalSetDetail, listGeneralSets, saveGeneralProgress } from "../src/lib/data/general-reading";
 import { getStartablePassage, listActivePassages } from "../src/lib/data/reading";
 import { countLibrary, listLibrary } from "../src/lib/data/reading-library";
+import { after, before } from "node:test";
+import { createResidueGuard, finishResidueGuard, type ResidueGuard } from "./support/qa2-residue";
+
+/*
+ * Fixtures this file creates are removed when it finishes, exception-safely, and only rows that did
+ * not exist when it started can be removed — so seeded records are unreachable by construction.
+ * Before this hook the file leaked its fixtures into the shared QA database, which changed what later
+ * files observed: retention-db.test.ts failed outright once the residue from earlier files accumulated.
+ */
+const QA2_RESIDUE_GUARD = process.env.QA2_DATABASE_TESTS === "1";
+let qa2ResidueGuard: ResidueGuard | null = null;
+before(async () => {
+  if (!QA2_RESIDUE_GUARD) return;
+  qa2ResidueGuard = await createResidueGuard("general-reading-qa2");
+  await qa2ResidueGuard.capture();
+});
+after(async () => {
+  if (!qa2ResidueGuard) return;
+  await finishResidueGuard("general-reading-qa2", qa2ResidueGuard);
+  qa2ResidueGuard = null;
+});
 
 /**
  * General Reading (learning mode) on REAL PostgreSQL — isolated local QA2 only:
@@ -22,6 +43,16 @@ const enabled = process.env.QA2_DATABASE_TESTS === "1";
 function isolated() {
   const url = new URL(process.env.DATABASE_URL!);
   assert.ok(["localhost", "127.0.0.1"].includes(url.hostname) && url.pathname === "/learners_qa2");
+}
+/** The real catalogue is paginated; repeated QA runs may put this fixture after page one. */
+async function listedSet(userId: string, setId: string) {
+  for (let page = 1; page <= 10000; page += 1) {
+    const rows = await listGeneralSets(userId, {page});
+    assert.ok(rows.length <= 25, "the production read remains bounded, including lookahead");
+    const own = rows.find(row => row.id === setId);
+    if (own || rows.length < 25) return own;
+  }
+  throw new Error("QA catalogue exceeded the supported page range");
 }
 type User = { id: string; role: "student" | "admin" };
 async function learner(role: User["role"] = "student"): Promise<User> {
@@ -177,7 +208,7 @@ test("7 revisit route returns to the set and passage", { skip: !enabled }, async
   const g = await generalSet(); const u = await learner();
   const saved = await save(u, "reading", g.ids[3], at(await g.occ(3), P3, "bank")!.id);
   const contexts = await listVocabularyContexts(u.id, saved.ids[0]!);
-  assert.equal(contexts?.contexts[0]?.revisitHref, `/reading/general/${g.setId}?passage=3`);
+  assert.equal(contexts?.contexts[0]?.revisitHref, `/app/reading/general/${g.setId}?passage=3`);
 });
 
 test("8 dedup by learner+sense across General P1 and P3 (one item, two contexts)", { skip: !enabled }, async () => {
@@ -197,13 +228,13 @@ test("9 same sense shared across passages: P1/P2/P3 'bank' point at ONE canonica
   assert.equal((await db.select().from(lexemes).where(eq(lexemes.definitionEn, g.money))).length, 1);
 });
 
-test("10 Academic review remains locked; the General saved item is preserved", { skip: !enabled }, async () => {
+test("10 submitted Academic review is eligible; the General saved item is preserved", { skip: !enabled }, async () => {
   isolated();
   const g = await generalSet(); const u = await learner();
   const bank = at(await g.occ(1), P1, "bank")!;
   const academic = await academicPassage(bank.lexemeId!, { userId: u.id, status: "completed" });
   const a = await save(u, "reading", g.ids[1], bank.id);
-  assert.equal((await resolveOccurrence(u, "reading", academic.attemptId!, academic.occurrenceId))?.status, "locked");
+  assert.equal((await resolveOccurrence(u, "reading", academic.attemptId!, academic.occurrenceId))?.status, "resolved");
   assert.equal((await db.select().from(userVocabulary).where(eq(userVocabulary.userId,u.id))).length,1);
   assert.ok(a.ids[0]);
 });
@@ -294,7 +325,7 @@ test("17 draft sets are invisible to learners and locked; staff can preview", { 
   const g = await generalSet(false); const u = await learner(); const staff = await learner("admin");
   assert.equal(await generalSetDetail(g.setId, "student"), null);
   assert.ok(await generalSetDetail(g.setId, "admin"));
-  assert.ok(!(await listGeneralSets(u.id)).some((s) => s.id === g.setId));
+  assert.equal(await listedSet(u.id,g.setId),undefined);
   const bank = at(await g.occ(1), P1, "bank")!;
   const denied = await resolveOccurrence(u, "reading", g.ids[1], bank.id);
   assert.ok(denied === null || denied.status === "locked", "a learner gets no help (and no existence signal) on a draft");
@@ -357,7 +388,8 @@ test("22 Full Reading keeps progress of all 3 passages independently", { skip: !
   assert.equal(by[g.ids[1]]!.answers[d.passages[0]!.questions[0]!.id], "TRUE");
   assert.equal(by[g.ids[3]]!.score, 1);
   assert.ok(by[g.ids[3]]!.checkedAt);
-  const list = (await listGeneralSets(u.id)).find((s) => s.id === g.setId)!;
+  const list = await listedSet(u.id,g.setId);
+  assert.ok(list,"the fixture is present on its actual catalogue page");
   assert.equal(list.started, 3);
   assert.equal(list.checked, 1);
 });
@@ -401,7 +433,7 @@ test("25 existing ids unchanged: adding General content never touches existing A
   assert.equal(await snap(), before);
 });
 
-test("26 VD-001 occurrence-less Reading save gate: active exam locked, forged source not found, General allowed and Academic review locked", { skip: !enabled }, async () => {
+test("26 VD-001 occurrence-less Reading save gate: active exam locked, forged source not found, General allowed and submitted Academic review eligible", { skip: !enabled }, async () => {
   isolated();
   const g = await generalSet(); const u = await learner(); const other = await learner();
   const lex = at(await g.occ(1), P1, "bank")!.lexemeId!;
@@ -411,7 +443,7 @@ test("26 VD-001 occurrence-less Reading save gate: active exam locked, forged so
   assert.equal(await readingSourceAccess(u, exam.passageId), "locked", "passage-id bypass");
   assert.equal(await readingSourceAccess(u, randomUUID()), "not_found", "forged source id");
   assert.equal(await readingSourceAccess(other, done.attemptId!), "not_found", "another learner's attempt id is not a source for them (IDOR)");
-  assert.equal(await readingSourceAccess(u, done.attemptId!), "locked");
+  assert.equal(await readingSourceAccess(u, done.attemptId!), "allowed");
   assert.equal(await readingSourceAccess(u, g.ids[2]), "allowed", "General passage");
   const draft = await generalSet(false);
   assert.equal(await readingSourceAccess(u, draft.ids[1]), "not_found", "draft General is invisible to a learner");

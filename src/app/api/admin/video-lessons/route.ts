@@ -28,6 +28,8 @@ const schema = z.object({
   // Absent/null = a standalone TED / Podcast item (no roadmap lesson needed).
   lessonId: z.string().uuid().optional().nullable(),
   videoLessonId: z.string().uuid().optional().nullable(),
+  /** A Podcast episode is authored as an audio lesson (§28). */
+  mediaKind: z.enum(["video", "audio"]).optional().nullable(),
   title: z.string().trim().min(3).max(200),
   videoUrl: z.string().trim().min(3).max(500),
   beforeYouWatch: z.string().max(2000).optional().nullable(),

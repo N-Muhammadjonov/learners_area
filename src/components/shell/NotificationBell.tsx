@@ -50,7 +50,7 @@ export function NotificationBell({ label, loadingLabel }: { label: string; loadi
     };
   }, []);
   return (
-    <Link href="/notifications" aria-label={`${label} (${count})`} className="relative flex shrink-0 items-center justify-center rounded-[10px] border border-ink-100 text-ink-500 hover:bg-paper-sunken hover:text-ink-900" style={{ width: "var(--icon-btn)", height: "var(--icon-btn)" }}>
+    <Link href="/app/notifications" aria-label={`${label} (${count})`} className="relative flex shrink-0 items-center justify-center rounded-[10px] border border-ink-100 text-ink-500 hover:bg-paper-sunken hover:text-ink-900" style={{ width: "var(--icon-btn)", height: "var(--icon-btn)" }}>
       <IconBell />
       <span className="absolute bottom-0 right-0 rounded-full bg-paper-raised"><LinkPending label={loadingLabel} /></span>
       {count > 0 && <span data-unread-count={count} className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-signal-600 px-1 text-[0.6875rem] font-medium text-signal-contrast">{count > 99 ? "99+" : count}</span>}

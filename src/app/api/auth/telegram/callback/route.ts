@@ -42,7 +42,7 @@ export async function GET(req: NextRequest) {
     onboarded: Boolean(user.onboardingCompletedAt),
   });
   const res = NextResponse.redirect(
-    new URL(user.onboardingCompletedAt ? "/dashboard" : "/onboarding", req.url)
+    new URL(user.onboardingCompletedAt ? "/app" : "/onboarding", req.url)
   );
   clearSessionCookies(res, req);
   res.cookies.set(SESSION_COOKIE, token, sessionCookieOptions(req));

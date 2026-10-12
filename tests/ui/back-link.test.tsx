@@ -37,9 +37,9 @@ async function clickBack(init: MouseEventInit = {}) {
   let defaultPrevented = false;
   try {
     await act(async () => root.render(React.createElement(AppRouterContext.Provider, { value: router as never },
-      React.createElement(BackLink, { fallbackHref: "/writing", label: "Orqaga", "data-test-back": true }))));
+      React.createElement(BackLink, { fallbackHref: "/app/writing", label: "Orqaga", "data-test-back": true }))));
     const a = document.querySelector("a[data-back-link]") as HTMLAnchorElement;
-    assert.equal(a.getAttribute("href"), "/writing");
+    assert.equal(a.getAttribute("href"), "/app/writing");
     assert.equal(a.getAttribute("data-test-back"), "true");
     assert.match(a.textContent ?? "", /←\s*Orqaga/);
     const event = new dom.window.MouseEvent("click", { bubbles: true, cancelable: true, button: 0, ...init });
@@ -54,7 +54,7 @@ test("cold deep link: no history entry from this site → BackLink leaves the cl
   const r = await clickBack();
   assert.ok(!r.calls.includes("back"));
   // BackLink does not intercept: the click is left to next/link with
-  // href="/writing" (in the app bundle that is the app-router Link's soft
+  // href="/app/writing" (in the app bundle that is the app-router Link's soft
   // navigation; under node, `next/link` resolves to the pages-router build,
   // so the soft-navigation half is a bundler fact, not asserted here).
   assert.deepEqual(r.calls, []);

@@ -69,7 +69,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   await notifyUsers([id], {
     type: "ROLE_CHANGED",
     title: `Your role is now ${nextRole}`,
-    href: "/dashboard",
+    href: "/app",
   });
 
   return NextResponse.json({ ok: true, role: nextRole });

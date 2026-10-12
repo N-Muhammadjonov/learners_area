@@ -154,7 +154,7 @@ export function ExamRunner({ dict, paper, materials }: { dict: Dictionary; paper
     setBusy(null);
     if (!res || !res.ok) { setNotice(t.saveFailed); return; }
     for (const e of paper.entries) { try { window.localStorage.removeItem(backupKey(paper.id, e.position)); } catch { /* ignore */ } }
-    if (reason === "abandoned") router.push("/writing?tab=exam");
+    if (reason === "abandoned") router.push("/app/writing?tab=exam");
     else router.refresh();
   };
 

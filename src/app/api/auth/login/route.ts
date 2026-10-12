@@ -4,7 +4,7 @@ import { db } from "@/db/client";
 import { users } from "@/db/schema";
 import { loginSchema } from "@/lib/validation/auth";
 import { passwordLoginColumns } from "@/lib/auth/password-login-columns";
-import { verifyPassword } from "@/lib/auth/password";
+import { verifyPasswordOrDecoy } from "@/lib/auth/password";
 import { createSessionToken, SESSION_COOKIE, clearSessionCookies, sessionCookieOptions } from "@/lib/auth/session";
 import { RULES, accountKey, blockIfOver, clientKey, consume, reset } from "@/lib/http/rate-limit";
 import { classifyDatabaseError, databaseUnavailableResponse } from "@/lib/http/database-errors";
@@ -40,7 +40,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(unavailable.body, { status: unavailable.status });
   }
 
-  const valid = user?.passwordHash ? await verifyPassword(password, user.passwordHash) : false;
+  // ALWAYS one bcrypt comparison, whether or not the account exists: a missing hash used
+  // to skip the work entirely and answered ~390 ms faster, which is an enumeration oracle
+  // no uniform error message can hide. See verifyPasswordOrDecoy.
+  const valid = await verifyPasswordOrDecoy(password, user?.passwordHash);
 
   if (!valid || !user) {
     consume(RULES.loginByAccount, accountKey(email));

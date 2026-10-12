@@ -116,7 +116,7 @@ function withInteractionRuntime(child: React.ReactNode) {
     { value: router as never },
     React.createElement(
       PathnameContext.Provider,
-      { value: "/vocabulary" },
+      { value: "/app/vocabulary" },
       React.createElement(
         SearchParamsContext.Provider,
         { value: new URLSearchParams() },
@@ -368,7 +368,7 @@ test("recent point history failure leaves the standing panel usable and retries 
 });
 
 test("Vocabulary route has no pre-frame DB data fanout; core library failures are local, authenticated, and paginated", () => {
-  const page = read("src/app/(app)/vocabulary/page.tsx");
+  const page = read("src/app/app/(shell)/vocabulary/page.tsx");
   const studio = read("src/components/vocabulary/VocabStudio.tsx");
   const libraryApi = read("src/app/api/vocabulary/route.ts");
   assert.match(page, /Promise\.all\(\[requireActiveUser\(\), getLocale\(\), searchParams\]\)/);

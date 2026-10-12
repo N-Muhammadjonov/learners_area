@@ -1,6 +1,8 @@
 "use client";
 import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -18,6 +20,7 @@ type Payload = {
   };
   question: { id: string; order: number; questionText: string };
   options: string[] | null;
+  multiple?: boolean | null;
   correctAnswer: string | null;
   explanation: string | null;
   outcome: "correct" | "incorrect" | null;
@@ -26,7 +29,14 @@ type Payload = {
 
 type Question = { id: string; order: number; questionText: string; stage: McqStage; at?: number };
 
-type ListeningKey = Exclude<keyof Dictionary["listening"], "type">;
+/**
+ * The STRING-valued keys of the listening dictionary. Derived, not hand-listed:
+ * `type` and `lessons` (and any future sub-object such as mediaKind) are structured
+ * groups, and indexing the dictionary with one of them would render an object.
+ */
+type ListeningKey = {
+  [K in keyof Dictionary["listening"]]: Dictionary["listening"][K] extends string ? K : never;
+}[keyof Dictionary["listening"]];
 
 const STAGE_LABEL: Record<McqStage, ListeningKey> = {
   listen: "mcqStageListen",
@@ -56,11 +66,14 @@ export function McqMastery({
   dict,
   questions: initialQuestions,
   audioUrl,
+  dayNavigation,
 }: {
   dict: Dictionary;
   questions: Question[];
   audioUrl?: string | null;
+  dayNavigation?: { currentHref: string; nextHref: string | null };
 }) {
+  const router = useRouter();
   const requestResponse = useScopedResponse(25000);
 
   const [questions, setQuestions] = useState(initialQuestions);
@@ -117,6 +130,11 @@ export function McqMastery({
     }
     const next = (await res.json()) as Payload;
     setPayload(next);
+    if (next.session.stage === "reasoned" && dayNavigation) {
+      // Keep the result selected while the server re-derives the Day's progress.
+      router.replace(dayNavigation.currentHref, {scroll: false});
+      router.refresh();
+    }
     setText("");
     setQuestions((prev) =>
       prev.map((q) => (q.id === next.question.id ? { ...q, stage: next.session.stage } : q))
@@ -182,20 +200,18 @@ export function McqMastery({
                   {payload.options && (
                     <div className="flex flex-col gap-1.5" data-mcq-options>
                       {payload.options.map((option) => (
-                        <button
-                          key={option}
-                          type="button"
-                          data-mcq-option={option}
-                          disabled={payload.session.stage !== "revealed"}
-                          className={`rounded-sm border px-3 py-1.5 text-left text-sm ${
-                            payload.session.chosenAnswer === option
-                              ? "border-signal-600 bg-signal-50 text-ink-900"
-                              : "border-ink-100 text-ink-700"
-                          }`}
-                          onClick={() => setText(option)}
-                        >
-                          {option}
-                        </button>
+                        <label key={option} className="flex items-start gap-2 rounded-sm border border-ink-100 px-3 py-2 text-sm">
+                          <input type={payload.multiple ? "checkbox" : "radio"} name={`choice-${q.id}`}
+                            data-mcq-option={option}
+                            disabled={payload.session.stage !== "revealed"}
+                            checked={payload.multiple ? (() => { try { return (JSON.parse((payload.session.stage === "revealed" ? text : payload.session.chosenAnswer) || "[]") as string[]).includes(option); } catch { return false; } })() : (payload.session.stage === "revealed" ? text : payload.session.chosenAnswer) === option}
+                            onChange={() => {
+                              if (!payload.multiple) { setText(option); return; }
+                              let selected: string[] = []; try { selected = JSON.parse(text || "[]"); } catch { /* Fresh selection. */ }
+                              setText(JSON.stringify(selected.includes(option) ? selected.filter(o => o !== option) : [...selected, option]));
+                            }} />
+                          <span className="min-w-0 break-words">{option}</span>
+                        </label>
                       ))}
                       {payload.session.stage === "revealed" && payload.next?.field === "chosenAnswer" && (
                         <p className="mt-1 text-xs text-ink-300">{dict.listening.mcqChoose}</p>
@@ -239,6 +255,7 @@ export function McqMastery({
                         {dict.listening.mcqDone}
                       </span>
                     )}
+                    {!payload.next && dayNavigation && <Link className="btn-primary" href={dayNavigation.nextHref ?? "/app/listening/mcq"} data-mcq-next>{dayNavigation.nextHref ? dict.fullListeningHub.research.next : dict.listening.mcqProgram.backToDays}</Link>}
                     <span className="text-xs text-ink-300">{dict.listening.mcqPracticeOnly}</span>
                   </div>
 

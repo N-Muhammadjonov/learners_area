@@ -32,9 +32,15 @@ test("package-owned Listening audio remains authorized even for imports without 
 });
 
 test("authored Listening opens before study-progress queries that its runtime does not need", () => {
-  const page = read("src/app/(focus)/listening/tests/[id]/page.tsx");
+  const page = read("src/app/app/(focus)/listening/tests/[id]/page.tsx");
   const authored = page.indexOf("if (detail.pkg.payload.authoredRuntime)");
-  const progress = page.indexOf("fullListeningProgress(user.id, id)");
+  // The hub reads study progress through the ONE learner-facts helper (`listeningLearnerFacts`,
+  // which wraps `fullListeningProgress`): whichever name is in use, the read must come after
+  // the authored-runtime branch, because that branch returns before any of it is needed.
+  const progress = Math.max(
+    page.indexOf("listeningLearnerFacts(user.id, id)"),
+    page.indexOf("fullListeningProgress(user.id, id)"),
+  );
   assert.ok(authored >= 0, "authored runtime branch is missing");
   assert.ok(progress > authored, "authored runtime must return before study progress is queried");
 });

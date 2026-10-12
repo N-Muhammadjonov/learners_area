@@ -1,16 +1,47 @@
 "use client";
 import { ListeningMap } from "./ListeningMap";
+import { HISTORICAL_MAP_PART } from "@/lib/listening/activities";
 import type { MapDiagram } from "@/lib/listening/map-diagram";
 import type { Dictionary } from "@/lib/i18n/en";
 import { requestJson } from "@/lib/http/client-request";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import type { ListeningPackage } from "@/lib/listening/package";
-type Question = Omit<
+import type { ListeningInputMode } from "@/lib/listening/question-control";
+import { clearListeningAttemptLocalState, listeningAttemptLocalKeys } from "@/lib/listening/attempt-local-state";
+/** A highlight range over the VISIBLE characters of one text region. */
+export type ListeningTextHighlight = { id: string; start: number; end: number };
+
+/** What an injected text surface is given; it draws the text and reports a chosen range. */
+export type ListeningTextSurfaceProps = {
+  text: string;
+  textKey: string;
+  className?: string;
+  highlights: ListeningTextHighlight[];
+  onHighlightRange: (range: { start: number; end: number }) => void;
+  onRemoveHighlight: (id: string) => void;
+};
+
+/** A caller-composed text surface (a plain function of its props). */
+export type ListeningTextSurface = (props: ListeningTextSurfaceProps) => ReactNode;
+
+/** One question as an exam screen renders it: the package shape WITHOUT its answer key. */
+export type ListeningExamQuestion = Omit<
   ListeningPackage["questions"][number],
   "key" | "alternatives" | "pair" | "evidence"
-> & { id: string };
+> & {
+  id: string;
+  /**
+   * The control the CANONICAL REGISTRY says this question needs
+   * (`listeningInputModeFor`). Absent means "this caller did not resolve a type code" — the
+   * package path — and the exam keeps its historical options-based mapping for it.
+   */
+  input?: ListeningInputMode;
+};
+
+/** The internal name this file uses for the same shape. */
+type Question = ListeningExamQuestion;
 export function NativeListeningExam({
   dict,
   attemptId,
@@ -19,11 +50,32 @@ export function NativeListeningExam({
   audioUrl,
   imageUrl,
   mapDiagram,
+  mapSections,
   questions,
   initial,
   audioPosition,
   audioStartedAt,
   duration,
+  /**
+   * SECTION mode — the General Listening presentation of ONE standalone section.
+   *
+   * The owner's product design: a section is ONE listening activity, never the four-part
+   * combined exam. So the header does not call itself "Full Exam" and the four-part
+   * navigation is absent.
+   */
+  sectionMode = false,
+  /**
+   * The surface that renders the activity's reading text, INJECTED by the caller.
+   *
+   * This component is used by the graded Academic exam, which must reveal nothing: no word
+   * lookup, no meaning, no pronunciation, and it must therefore hold no lexical knowledge of
+   * its own (a protection test enforces exactly that on this file). So the text is rendered by
+   * whatever the caller passes in: the General section composes the canonical learning text
+   * surface, and every exam screen passes nothing and gets plain text, byte for byte as
+   * before. The highlight bookkeeping the surface reports is kept here, scoped to THIS
+   * attempt, and never touches an answer.
+   */
+  textSurface,
 }: {
   dict: Dictionary;
   attemptId: string;
@@ -32,11 +84,21 @@ export function NativeListeningExam({
   audioUrl: string;
   imageUrl: string | null;
   mapDiagram?: MapDiagram;
-  questions: Question[];
+  /**
+   * The parts whose plan/map this drawing illustrates. A full test keeps ONE plan drawing, and the
+   * parts that need it are the parts that contain map/plan questions (`mapDiagramSections` reads
+   * them from the questions). The default preserves the historical placement for a package that
+   * predates the `map` question kind, so nothing that used to show its plan stops showing it.
+   */
+  mapSections?: number[];
+  questions: ListeningExamQuestion[];
   initial: Record<string, string>;
   audioPosition: number;
   audioStartedAt: string | null;
-  duration: number;
+  /** The authored length, when the section states one; the audio element is the fallback. */
+  duration?: number;
+  sectionMode?: boolean;
+  textSurface?: ListeningTextSurface;
 }) {
   const router = useRouter();
   const audio = useRef<HTMLAudioElement>(null);
@@ -48,6 +110,11 @@ export function NativeListeningExam({
   const dirty = useRef(false);
   const [answers, setAnswers] = useState(initial);
   const [section, setSection] = useState(1);
+  // A natively authored section may carry no authored length at all. The RECORDING is then
+  // the authority: the browser reports it as soon as metadata arrives, and until then the
+  // clock simply shows nothing rather than a made-up duration.
+  const [mediaDuration, setMediaDuration] = useState(duration ?? 0);
+  const [texts, setTexts] = useState<Record<string, { start: number; end: number; id: string }[]>>({});
   const [started, setStarted] = useState(!!audioStartedAt);
   const [position, setPosition] = useState(audioPosition);
   const [error, setError] = useState("");
@@ -64,7 +131,8 @@ export function NativeListeningExam({
   const pos = useRef(audioPosition);
   const startState = useRef(started);
   startState.current = started;
-  const key = `la-listening-draft:${attemptId}`;
+  const localKeys = listeningAttemptLocalKeys(attemptId);
+  const key = localKeys.draft;
   useEffect(() => {
     mounted.current = true;
     try {
@@ -80,13 +148,57 @@ export function NativeListeningExam({
       requests.current.forEach((c) => c.abort());
     };
   }, [key, initial]);
-  const notesKey = `la-listening-notes:${attemptId}`;
+  const notesKey = localKeys.notes;
   useEffect(() => {
     try { setNotes(localStorage.getItem(notesKey)?.slice(0, 12000) ?? ""); } catch {}
   }, [notesKey]);
   function updateNotes(value: string) {
     setNotes(value);
     try { localStorage.setItem(notesKey, value); } catch {}
+  }
+  /**
+   * The learner's own HIGHLIGHTS on the text of this activity.
+   *
+   * Same shape as the note-taking above and for the same reason: this is the learner's own
+   * study layer over ONE attempt, it is scoped to that attempt (so it can never leak into
+   * another section, another learner or a staff surface), it decorates only text the learner
+   * can already see, and it never touches an answer. A server-persisted highlight store is a
+   * separate decision (it needs a table) and is recorded as such in the ledger.
+   */
+  const highlightsKey = localKeys.highlights;
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(highlightsKey);
+      if (raw) setTexts(JSON.parse(raw));
+    } catch {}
+  }, [highlightsKey]);
+  function saveTexts(next: Record<string, { id: string; start: number; end: number }[]>) {
+    setTexts(next);
+    try { localStorage.setItem(highlightsKey, JSON.stringify(next)); } catch {}
+  }
+  function addHighlight(textKey: string, range: { start: number; end: number }) {
+    const existing = texts[textKey] ?? [];
+    saveTexts({ ...texts, [textKey]: [...existing, { id: `${textKey}:${range.start}:${range.end}`, ...range }] });
+  }
+  function removeHighlight(textKey: string, id: string) {
+    saveTexts({ ...texts, [textKey]: (texts[textKey] ?? []).filter((highlight) => highlight.id !== id) });
+  }
+  /**
+   * ONE renderer for the reading text of this activity. Without an injected surface the text
+   * is plain — which is what every graded screen gets — and with one the caller's surface
+   * draws it and may report a highlight range back, which is stored for this attempt only.
+   */
+  function ReadingText({ text, textKey, className }: { text: string; textKey: string; className?: string }) {
+    if (!text) return null;
+    if (!textSurface) return <span className={className}>{text}</span>;
+    return textSurface({
+      text,
+      textKey,
+      className,
+      highlights: texts[textKey] ?? [],
+      onHighlightRange: (range) => addHighlight(textKey, range),
+      onRemoveHighlight: (id) => removeHighlight(textKey, id),
+    });
   }
   async function save(startAudio = false) {
     if (saving.current) return;
@@ -140,7 +252,7 @@ export function NativeListeningExam({
     }
   }
   async function play() {
-    if (!audio.current || pos.current >= duration - 0.5) return;
+    if (!audio.current || (mediaDuration > 0 && pos.current >= mediaDuration - 0.5)) return;
     setError("");
     try {
       await audio.current.play();
@@ -178,10 +290,31 @@ export function NativeListeningExam({
         return;
       }
       if (!res.ok) throw new Error();
-      try {
-        localStorage.removeItem(key);
-      } catch {}
-      router.push(`/listening/tests/${testId}/2`);
+      /*
+       * THE END OF THE ACTIVITY — and the only place it is decided.
+       *
+       * The submission is now confirmed by the server, so this attempt's temporary browser-local
+       * state (the answer draft, the learner's note and their highlights) has served its purpose
+       * and is dropped. Three things matter here and are asserted by tests:
+       *   • it happens AFTER a successful submit — a failed attempt keeps everything, because the
+       *     learner is still working and a retry must find their note and answers intact;
+       *   • it removes ONLY this attempt's keys (`clearListeningAttemptLocalState`) — never
+       *     `localStorage.clear()`, and never another attempt's note;
+       *   • nothing here is permanent student content: it was never on the server, never in
+       *     Progress or Reports, never visible to staff and never in anyone's search.
+       */
+      clearListeningAttemptLocalState(attemptId);
+      /*
+       * Where the learner goes after submitting.
+       *
+       * A GENERAL SECTION goes to the SECTION'S OWN address, where its own result is shown
+       * (`/app/listening/general/<sectionId>`). It must never be sent to `/app/listening/tests/:id/2`:
+       * that is the four-part Academic test's hub activity, and a section that happens to carry a
+       * canonical package would land there — the presentation would depend on how the centre
+       * authored the section, which is exactly what the owner's product forbids. A graded full
+       * exam keeps its existing destination unchanged.
+       */
+      router.push(sectionMode ? `/app/listening/general/${testId}` : `/app/listening/tests/${testId}/2`);
     } catch {
       setError(dict.fullListeningHub.examScreen.submitFailed);
       flight.current = false;
@@ -193,17 +326,23 @@ export function NativeListeningExam({
     <div
       ref={container}
       className="listening-workspace mx-auto max-w-5xl space-y-5 bg-paper p-4 overflow-auto"
+      data-listening-attempt-mode={sectionMode ? "section" : "full_exam"}
     >
       <header className="card flex flex-wrap items-center gap-4">
-        <h1 className="font-display text-2xl">{title} · Full Exam</h1>
+        <h1 className="font-display text-2xl">{sectionMode ? title : `${title} · Full Exam`}</h1>
         <span>
           {answered} / {questions.length} answered
         </span>
         <span>
           {Math.floor(position / 60)}:
-          {String(Math.floor(position % 60)).padStart(2, "0")} /{" "}
-          {Math.floor(duration / 60)}:
-          {String(Math.floor(duration % 60)).padStart(2, "0")}
+          {String(Math.floor(position % 60)).padStart(2, "0")}
+          {mediaDuration > 0 && (
+            <>
+              {" / "}
+              {Math.floor(mediaDuration / 60)}:
+              {String(Math.floor(mediaDuration % 60)).padStart(2, "0")}
+            </>
+          )}
         </span>
         <button type="button" className="btn-secondary" aria-expanded={notesOpen} aria-controls="listening-exam-notes" onClick={() => setNotesOpen(open => !open)}>{dict.fullListeningHub.examScreen.noteTaking}</button>
         <label>
@@ -243,7 +382,10 @@ export function NativeListeningExam({
         src={audioUrl}
         preload="none"
         onLoadedMetadata={() => {
-          if (audio.current) audio.current.currentTime = audioPosition;
+          if (audio.current) {
+            audio.current.currentTime = audioPosition;
+            if (duration === undefined && Number.isFinite(audio.current.duration)) setMediaDuration(audio.current.duration);
+          }
         }}
         onRateChange={() => {
           if (audio.current) audio.current.playbackRate = 1;
@@ -263,7 +405,7 @@ export function NativeListeningExam({
         type="button"
         className="btn-primary"
         onClick={() => void play()}
-        disabled={busy || position >= duration - 0.5}
+        disabled={busy || (mediaDuration > 0 && position >= mediaDuration - 0.5)}
       >
         {started
           ? dict.fullListeningHub.examScreen.resume
@@ -271,7 +413,10 @@ export function NativeListeningExam({
       </button>
       <p role="status">{saved}</p>
       {error && <p role="alert">{error}</p>}
-      <nav className="flex flex-wrap gap-2" aria-label={dict.fullListeningHub.examScreen.sections}>
+      {/* A standalone section has no parts to switch between: the four-part navigation is
+          the FULL EXAM's, and showing it here would misrepresent one recording as four. */}
+      {!sectionMode && (
+      <nav className="flex flex-wrap gap-2" aria-label={dict.fullListeningHub.examScreen.sections} data-listening-exam-sections>
         {[1, 2, 3, 4].map((s) => (
           <button
             type="button"
@@ -284,8 +429,9 @@ export function NativeListeningExam({
           </button>
         ))}
       </nav>
-      {section === 2 && mapDiagram && <ListeningMap diagram={mapDiagram} />}
-      {section === 2 && imageUrl && (
+      )}
+      {(mapSections ?? [HISTORICAL_MAP_PART]).includes(section) && mapDiagram && <ListeningMap diagram={mapDiagram} />}
+      {(mapSections ?? [HISTORICAL_MAP_PART]).includes(section) && imageUrl && (
         <div className="card">
           <Image
             width={560}
@@ -298,21 +444,29 @@ export function NativeListeningExam({
         </div>
       )}
       {questions
-        .filter((q) => q.section === section)
-        .map((q) => (
+        .filter((q) => sectionMode || q.section === section)
+        .map((q) => {
+          /*
+           * The control comes from the SHARED model whenever the caller resolved a canonical type
+           * code for this question (`listeningInputModeFor`). Without one — the package path —
+           * the historical options-based mapping stands, so no accepted exam screen changes.
+           */
+          const mode: ListeningInputMode = q.input ?? (q.options.some((option) => option.trim()) ? "select" : "text");
+          return (
           <div
             id={`question-${q.number}`}
             key={q.id}
             className="card space-y-3"
           >
-            <p className="text-sm">{q.instruction}</p>
+            {q.instruction && <ReadingText text={q.instruction} textKey={`${q.id}:instruction`} className="text-sm" />}
             <label className="block font-medium" htmlFor={`answer-${q.id}`}>
-              Q{q.number}. {q.text}
+              Q{q.number}. <ReadingText text={q.text} textKey={`${q.id}:text`} />
             </label>
-            {q.options.length ? (
+            {mode === "select" ? (
               <select
                 className="input"
                 id={`answer-${q.id}`}
+                data-listening-answer-control="select"
                 value={answers[q.id] ?? ""}
                 onChange={(e) => change(q.id, e.target.value)}
               >
@@ -328,10 +482,32 @@ export function NativeListeningExam({
                   );
                 })}
               </select>
+            ) : mode === "multi" ? (
+              /* Choose-two/three: every choice is its own control, and the answer is the set the
+                 learner picked — graded by the registry's `multi_all`, never by "first letter". */
+              <fieldset className="flex flex-col gap-1" data-listening-answer-control="multi" id={`answer-${q.id}`}>
+                {q.options.map((o, i) => {
+                  const letter = /^[A-Z](?:\s|$)/.test(o) ? o[0]! : String.fromCharCode(65 + i);
+                  const chosen = (answers[q.id] ?? "").split(",").map((entry) => entry.trim()).filter(Boolean);
+                  return (
+                    <label key={o} className="flex items-center gap-2 text-sm text-ink-700">
+                      <input
+                        type="checkbox"
+                        checked={chosen.includes(letter)}
+                        onChange={() =>
+                          change(q.id, chosen.includes(letter) ? chosen.filter((entry) => entry !== letter).join(",") : [...chosen, letter].join(","))
+                        }
+                      />
+                      {o}
+                    </label>
+                  );
+                })}
+              </fieldset>
             ) : (
               <input
                 id={`answer-${q.id}`}
                 className="input"
+                data-listening-answer-control="text"
                 maxLength={500}
                 value={answers[q.id] ?? ""}
                 autoComplete="off"
@@ -339,7 +515,8 @@ export function NativeListeningExam({
               />
             )}
           </div>
-        ))}
+          );
+        })}
       <nav className="listening-question-nav" aria-label={dict.fullListeningHub.examScreen.questionNav}>
         {questions.map((q) => (
           <button

@@ -10,8 +10,9 @@ import { assess, readEvidence, verifyBackup, reconcile, TARGET } from "../script
 import { fingerprint, serverIdentityHash, qaConnectionOptions, ALLOWED_PENDING } from "../scripts/preview-qa-migrate.mjs";
 const fullJournal=JSON.parse(readFileSync("drizzle/meta/_journal.json","utf8")) as {entries:{tag:string;when:number;idx:number}[]};
 // The 0021 repair is evaluated against the journal the Preview QA guard is approved
-// for (through the last ALLOWED_PENDING tag). Later migrations are not approved for
-// Preview QA and must make the full-journal assessment refuse — asserted below.
+// for (through the last ALLOWED_PENDING tag). Since the integration review registered
+// every journal entry, the "newer than approved" refusal is now exercised against a
+// synthetic future migration instead of depending on the repository having one.
 const approvedUntil=Math.max(...fullJournal.entries.filter(e=>ALLOWED_PENDING.includes(e.tag)).map(e=>e.idx));
 const journal={...fullJournal,entries:fullJournal.entries.filter(e=>e.idx<=approvedUntil)};
 const sql=(tag:string)=>readFileSync(`drizzle/${tag}.sql`,"utf8");
@@ -78,9 +79,14 @@ test("Actual migrated PostgreSQL DDL is inspected; one journal entry is added tr
  }finally{await d.close();}
 });
 test("A migration newer than the approved Preview QA set is refused, never silently allowed",()=>{
- const unapproved=fullJournal.entries.filter(e=>e.idx>approvedUntil);
- if(!unapproved.length) return;
- const result=assess(evidence,fullJournal,sql);
- assert.equal(result.eligible,false);
- for(const e of unapproved) assert.ok(result.problems.includes(`pending ${e.tag} is not approved`),e.tag);
+ // A synthetic entry stands in for the next unreviewed migration, so this guard stays
+ // meaningful even while every real journal entry is registered.
+ const future={tag:"0099_future_migration",when:fullJournal.entries[fullJournal.entries.length-1]!.when+1,idx:fullJournal.entries.length};
+ const withFuture={...fullJournal,entries:[...fullJournal.entries,future]};
+ const sqlOrNew=(t:string)=>t===future.tag?"create table future_only();":sql(t);
+ const result=assess(evidence,withFuture,sqlOrNew);
+ assert.equal(result.eligible,false,"an unreviewed newer migration must refuse the assessment");
+ assert.ok(result.problems.includes(`pending ${future.tag} is not approved`),result.problems.join());
+ // Every real entry beyond the approved set would be refused the same way.
+ for(const e of fullJournal.entries.filter(x=>x.idx>approvedUntil)) assert.ok(result.problems.includes(`pending ${e.tag} is not approved`),e.tag);
 });

@@ -895,7 +895,7 @@ function writeReport({ mode, plans, lexemes, occurrences, applied, verification 
   lines.push("| Surface | Wired to the imported data |");
   lines.push("| --- | --- |");
   lines.push(
-    "| `/reading` hub | tab counts come from the database; the academic tab lists the imported passages with real pagination and filters (status, topic, question type) |"
+    "| `/app/reading` hub | tab counts come from the database; the academic tab lists the imported passages with real pagination and filters (status, topic, question type) |"
   );
   lines.push(
     "| Practice workspace | paragraph letters, each group's own instructions and shared option lists, blanks inside the sentence, a rebuilt shared stimulus for notes and summaries, autosave to the server, and a timer |"

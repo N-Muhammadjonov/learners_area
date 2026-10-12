@@ -108,10 +108,10 @@ test("TY13 EN/UZ include all new preset and result labels without Uzbek Cyrillic
   }
 });
 
-test("TY14 applied migration 0034 stays untouched; 0040 widens presets additively", () => {
+test("TY14 applied migration 0034 stays untouched; 0048 widens presets additively", () => {
   const oldMigration = read("drizzle/0034_typing_duration_presets.sql");
   assert.match(oldMigration, /IN \(60, 120, 180\)/);
-  const migration = read("drizzle/0040_typing_trainer.sql");
+  const migration = read("drizzle/0048_typing_trainer.sql");
   assert.match(migration, /IN \(30,60,120,180\)/);
   assert.match(migration, /ALTER COLUMN "model_text_id" DROP NOT NULL/);
   assert.match(migration, /typing_text_id/);

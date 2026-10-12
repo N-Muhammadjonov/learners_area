@@ -22,6 +22,35 @@
  */
 const BASE = (process.env.BASE_URL || "http://127.0.0.1:3000");
 
+/*
+ * A6 — DERIVE THE EXPECTATIONS, DO NOT HARDWARE THEM.
+ *
+ * Four checks in this probe failed against a design that is in fact intact, because each one encoded
+ * a fact that had since changed:
+ *
+ *   - the approved mark filenames. src/lib/config/brand.ts is the source of truth (BRAND_MARK.day and
+ *     .night); the probe still named an older derivative pair, mark-light-96/mark-dark-96. Both files
+ *     still exist and serve 200, so nothing was broken — the probe was asserting the previous artwork.
+ *   - the authenticated landing destination. The probe expected /app/dashboard, which is not a route
+ *     in this repository; the app home is /app.
+ *   - "no second brand label above the headline" scanned everything before <h1>, which necessarily
+ *     includes the site HEADER's approved BrandBlock — a block whose own documentation requires the
+ *     product name to be real text, not pixels. The duplicate it was written to catch would be inside
+ *     the hero, so that is the window it now inspects.
+ *
+ * The visual design is protected and was not modified to satisfy any assertion. What changed is that
+ * the probe now reads the current contract from the files that define it, so revising the brand
+ * artwork updates the expectation instead of silently breaking the check.
+ */
+const { readFileSync } = await import("node:fs");
+const brandConfig = readFileSync(new URL("../src/lib/config/brand.ts", import.meta.url), "utf8");
+const markBlock = /export const BRAND_MARK[\s\S]*?\n};/.exec(brandConfig)?.[0] ?? "";
+const APPROVED_MARKS = [...markBlock.matchAll(/\$\{DERIVED_DIR\}\/([a-z0-9.-]+\.png)/g)].map((m) => `/brand/derived/${m[1]}`);
+if (APPROVED_MARKS.length < 2) {
+  throw new Error(`could not derive the approved brand marks from src/lib/config/brand.ts (found ${APPROVED_MARKS.length}) — refusing to assert against a guess`);
+}
+const statusOf = async (path) => (await fetch(`${BASE}${path}`)).status;
+
 let passed = 0;
 let failed = 0;
 const failures = [];
@@ -104,7 +133,18 @@ check(
   /Prepared by Nurmuhammad · @LEARNERS_AREA/.test(landing.text)
 );
 check("there is no logo above the headline", !/<main[^>]*>[\s\S]{0,400}<img/.test(landing.text));
-check("no second brand label sits above the headline", !/Learners Area<\/span>/.test(landing.text.split("<h1")[0]?.replace(/<title>[\s\S]*?<\/title>/, "") ?? ""));
+// The duplicate this guards against would sit in the HERO. Scanning everything before <h1> instead
+// caught the header's approved BrandBlock, which is supposed to be there and is supposed to carry the
+// name as text. Measured: the brand block sits before <main>, and the <main>..<h1> window carries
+// neither a brand label nor an image.
+const heroWindow = (() => {
+  const from = landing.text.indexOf("<main");
+  const to = landing.text.indexOf("<h1");
+  return from >= 0 && to > from ? landing.text.slice(from, to) : "";
+})();
+check("no second brand label sits above the headline (inside the hero)",
+  heroWindow.length > 0 && !/brand-name/.test(heroWindow) && !/Learners Area<\/span>/.test(heroWindow) && !/<img/.test(heroWindow),
+  heroWindow.length === 0 ? "could not locate the <main>..<h1> hero window" : `${heroWindow.length} bytes of hero before the headline, no brand label and no image in it`);
 check(
   "the landing page is indexable",
   !/<meta name="robots" content="noindex/.test(landing.text),
@@ -122,10 +162,15 @@ check("the favicon is not the master artwork", !/learners-area-favicon\.png$/.te
 
 const studentCookie = await signIn("demo.student@learnersarea.uz", "Student12345!");
 const studentLanding = await page("/", studentCookie);
+// /app/dashboard is not a route in this repository; the app home is /app. Assert the destination and
+// then assert it actually resolves for this student, so the check is about reaching the app rather
+// than about a literal path that will go stale the next time the shell is reorganised.
+const studentDestination = studentLanding.text.match(/data-landing-cta-destination="([^"]+)"/)?.[1] ?? null;
+const destinationStatus = studentDestination ? await statusOf(studentDestination) : 0;
 check(
-  "an approved student is sent to the dashboard",
-  /data-landing-cta-destination="\/dashboard"/.test(studentLanding.text),
-  studentLanding.text.match(/data-landing-cta-destination="([^"]+)"/)?.[1] ?? "topilmadi"
+  "an approved student is sent into the app, and that destination resolves",
+  studentDestination === "/app" && destinationStatus === 200,
+  `destination=${studentDestination ?? "topilmadi"} (HTTP ${destinationStatus})`
 );
 
 const pendingCookie = await signIn("pending.student@learnersarea.uz", "Student12345!");
@@ -140,7 +185,7 @@ if (pendingCookie) {
 // ---------------------------------------------------------------------------
 // 6..7. The application shell
 // ---------------------------------------------------------------------------
-const dashboard = await page("/dashboard", studentCookie);
+const dashboard = await page("/app", studentCookie);
 check("the dashboard renders", dashboard.status === 200, `status ${dashboard.status}`);
 const sidebarBlock = dashboard.text.match(/<aside[\s\S]*?<\/aside>/)?.[0] ?? "";
 check(
@@ -153,12 +198,17 @@ check(
   dashboard.text.includes("Take your learning journey with us"),
   "the approved line is missing"
 );
+// Both supplied variants are rendered and CSS picks one from [data-theme]; both must be approved
+// derivatives from BRAND_MARK, not masters. The filenames come from the config, not from this file.
+const marksRendered = APPROVED_MARKS.filter((mark) => dashboard.text.includes(mark));
+const markStatuses = await Promise.all(marksRendered.map(async (mark) => [mark, await statusOf(mark)]));
 check(
-  "the brand block renders the mark for both themes",
-  // Both supplied variants are rendered and the theme picks one in CSS; both are
-  // the approved 96px derivatives, not the masters.
-  dashboard.text.includes("/brand/derived/mark-light-96.png") &&
-    dashboard.text.includes("/brand/derived/mark-dark-96.png")
+  "the brand block renders the approved mark for both themes",
+  marksRendered.length >= 2 &&
+    dashboard.text.includes("brand-asset-light") &&
+    dashboard.text.includes("brand-asset-dark") &&
+    markStatuses.every(([, status]) => status === 200),
+  `approved marks from brand.ts=${APPROVED_MARKS.length}; rendered=${marksRendered.length} (${marksRendered.map((m) => m.split("/").pop()).join(", ")}); theme classes=light+dark; HTTP=${markStatuses.map(([m, st]) => `${m.split("/").pop()}:${st}`).join(" ")}`
 );
 check(
   "the light/dark swap is done in CSS, never with a filter",
@@ -197,10 +247,11 @@ check(
 // approved artwork is used as the mark beside it.
 const loginPage = await page("/login");
 check("the sign-in page renders", loginPage.status === 200, `status ${loginPage.status}`);
+const loginMarks = APPROVED_MARKS.filter((mark) => loginPage.text.includes(mark));
 check(
-  "the sign-in page shows the approved mark",
-  loginPage.text.includes("/brand/derived/mark-light-96.png") ||
-    loginPage.text.includes("/brand/derived/mark-dark-96.png")
+  "the sign-in page shows an approved mark",
+  loginMarks.length >= 1,
+  loginMarks.length ? `renders ${loginMarks.map((m) => m.split("/").pop()).join(", ")}` : `none of the approved marks (${APPROVED_MARKS.map((m) => m.split("/").pop()).join(", ")}) appear on /login`
 );
 check(
   "the sign-in page shows the product name as text",
@@ -216,7 +267,7 @@ check(
 // 9. The owner's brand preview uses the master artwork
 // ---------------------------------------------------------------------------
 const ownerCookie = await signIn("owner@learnersarea.uz", "Owner12345!");
-const ownerPage = await page("/owner", ownerCookie);
+const ownerPage = await page("/app/owner", ownerCookie);
 if (ownerCookie && ownerPage.status === 200) {
   check(
     "the owner brand preview shows the master artwork",

@@ -182,6 +182,35 @@ test("Vocabulary mounts without an audio element and makes zero media or API req
     globalThis.fetch = original;
   }
 });
+test("a dedicated MCQ package is listed under its own collection, never as an Academic full test", async () => {
+  await mount(
+    React.createElement(FullListeningLibrary, {
+      dict: en,
+      cards: [
+        { id, title: "Formal Academic Test 1", duration: 1800, completed: 0, started: false, collection: "academic" },
+        { id: "m1", title: "MCQ Mastery Pack", duration: 600, completed: 0, started: false, collection: "mcq" },
+        { id: "q1", title: "Question-type Pack", duration: 600, completed: 0, started: false, collection: "question_types" },
+      ],
+    }),
+    async () => {
+      const tab = (label: string) =>
+        Array.from(document.querySelectorAll("button")).find((b) => b.textContent?.includes(label))!;
+      // The library opens on the academic tab and offers the formal test only.
+      assert.match(tab("🎧 Academic Listening").textContent!, /\(1\)/, "the academic tab counts only academic cards");
+      assert.ok(document.body.textContent?.includes("Formal Academic Test 1"));
+      assert.equal(document.body.textContent?.includes("MCQ Mastery Pack"), false, "a dedicated MCQ package is not an academic full test");
+      assert.equal(document.body.textContent?.includes("Question-type Pack"), false);
+
+      // Its own collection tab shows it, with its own count — nothing was deleted or relabelled.
+      await act(async () => tab("🔑 MCQ Mastery").click());
+      assert.ok(document.body.textContent?.includes("MCQ Mastery Pack"));
+      assert.equal(document.body.textContent?.includes("Formal Academic Test 1"), false);
+      await act(async () => tab("📚 Question types").click());
+      assert.ok(document.body.textContent?.includes("Question-type Pack"));
+    },
+  );
+});
+
 test("Library search and category filters operate locally without reloading or fetching audio", async () => {
   await mount(
     React.createElement(FullListeningLibrary, {
@@ -193,6 +222,10 @@ test("Library search and category filters operate locally without reloading or f
           duration: 1645,
           completed: 2,
           started: true,
+          // This card is a package card, so it is filed under a collection. Without one it is
+          // honestly UNCATEGORISED (the library no longer falls back to "academic"), which is
+          // the correct tab for a row that proves nothing — asserted in its own test.
+          collection: "academic",
         },
       ],
     }),

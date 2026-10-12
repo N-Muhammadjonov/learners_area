@@ -72,7 +72,7 @@ export function LoginForm({
       // `next` comes from the address bar, so only a path inside this app is honoured
       // — a crafted `?next=https://…` must not turn sign-in into an open redirect.
       const next = safeNextPath(searchParams.get("next"));
-      router.push(next ?? (data.onboarded ? "/dashboard" : "/onboarding"));
+      router.push(next ?? (data.onboarded ? "/app" : "/onboarding"));
       router.refresh();
     } finally {
       setPending(false);

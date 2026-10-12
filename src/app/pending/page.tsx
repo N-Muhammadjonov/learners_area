@@ -21,7 +21,7 @@ export const dynamic = "force-dynamic";
 export default async function PendingPage() {
   const user = await getCurrentUser();
   if (!user) redirect("/login");
-  if (hasPrivateAccess(user.accountStatus)) redirect("/dashboard");
+  if (hasPrivateAccess(user.accountStatus)) redirect("/app");
 
   const dict = getDictionary(await getLocale());
   const t = dict.admission;

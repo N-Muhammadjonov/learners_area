@@ -15,7 +15,7 @@ export async function WritingLessonsTab({ dict, userId }: { dict: Dictionary; us
     <ul className="motion-enter-stagger grid gap-4 sm:grid-cols-2 lg:grid-cols-3" data-writing-lessons>
       {rows.value.map((l) => (
         <li key={l.id}>
-          <Link href={`/writing/lessons/${l.id}`} className="card motion-lift flex h-full flex-col gap-2 p-5" data-writing-lesson={l.id}>
+          <Link href={`/app/writing/lessons/${l.id}`} className="card motion-lift flex h-full flex-col gap-2 p-5" data-writing-lesson={l.id}>
             <span className="text-xs font-semibold uppercase tracking-wider text-signal-600 dark:text-signal-400">{t.category[l.category as keyof typeof t.category] ?? l.category}</span>
             <span className="font-display text-lg text-ink-900">{l.title}</span>
             {l.summary && <span className="text-sm text-ink-500">{l.summary}</span>}

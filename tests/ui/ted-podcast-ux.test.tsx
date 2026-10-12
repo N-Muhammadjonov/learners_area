@@ -24,12 +24,12 @@ async function mounted(element: React.ReactNode, run: () => Promise<void> | void
 }
 const ID = "dQw4w9WgXcQ";
 const card = (over: Partial<React.ComponentProps<typeof VideoLessonCard>> = {}) => (
-  <ul><VideoLessonCard entryId="v1" standalone href="/video-lessons/v1" title="A talk about memory" provider="youtube" videoId={ID} durationSeconds={null} state="available" minutesLabel={en.videoLessons.minutes} {...over} /></ul>
+  <ul><VideoLessonCard entryId="v1" standalone href="/app/video-lessons/v1" title="A talk about memory" provider="youtube" videoId={ID} durationSeconds={null} state="available" minutesLabel={en.videoLessons.minutes} {...over} /></ul>
 );
 const lesson = (over: Record<string, unknown> = {}) => ({ id: "v1", provider: "youtube", videoId: ID, title: "QA talk", beforeYouWatch: null, durationSeconds: null, transcript: null, transcriptSource: null, transcriptAttribution: null, notes: null, ...over });
 const studio = (props: Record<string, unknown> = {}, over: Record<string, unknown> = {}) => <VideoLessonStudio mode="standalone" dict={en} lessonId="v1" videoLesson={lesson(over)} questions={[]} initialProgress={null} {...props} />;
-const libraryPage = read("src/app/(app)/video-lessons/page.tsx");
-const detailPage = read("src/app/(app)/video-lessons/[id]/page.tsx");
+const libraryPage = read("src/app/app/(shell)/video-lessons/page.tsx");
+const detailPage = read("src/app/app/(shell)/video-lessons/[id]/page.tsx");
 const cardSrc = read("src/components/video/VideoLessonCard.tsx");
 const thumbSrc = read("src/components/video/VideoThumbnail.tsx");
 const studioSrc = read("src/components/courses/VideoLessonStudio.tsx");
@@ -37,7 +37,7 @@ const studioSrc = read("src/components/courses/VideoLessonStudio.tsx");
 test("01 the whole card is one internal link to the native lesson URL", () => mounted(card(), () => {
   const links = document.querySelectorAll("a");
   assert.equal(links.length, 1);
-  assert.equal(links[0]!.getAttribute("href"), "/video-lessons/v1");
+  assert.equal(links[0]!.getAttribute("href"), "/app/video-lessons/v1");
 }));
 test("02 a valid YouTube id gets the static YouTube still as a 16:9 thumbnail", () => mounted(card(), () => {
   assert.equal(q("img").getAttribute("src"), `https://i.ytimg.com/vi/${ID}/hqdefault.jpg`);
@@ -96,13 +96,13 @@ test("15 new UI strings exist in UZ and EN", () => {
   assert.equal(uz.videoLessons.minutes, "{n} daqiqa");
 });
 test("16 existing routes are kept: standalone and roadmap-linked hrefs", () => {
-  assert.match(libraryPage, /href=\{`\/video-lessons\/\$\{row\.id\}`\}/);
+  assert.match(libraryPage, /href=\{`\/app\/video-lessons\/\$\{row\.id\}`\}/);
   assert.match(libraryPage, /\/courses\/\$\{row\.courseSlug\}\/lessons\/\$\{row\.lesson\.id\}/);
 });
 test("17 detail order is title/metadata, then the player, with a Link back", () => {
   assert.ok(detailPage.indexOf("data-video-detail-header") < detailPage.indexOf("<VideoLessonStudio"));
   // BackLink renders next/link to its fallbackHref (shared Back control, B1-B4).
-  assert.match(detailPage, /<(?:Link href|BackLink fallbackHref)="\/video-lessons"/);
+  assert.match(detailPage, /<(?:Link href|BackLink fallbackHref)="\/app\/video-lessons"/);
   assert.doesNotMatch(detailPage, /<aside|lg:grid-cols-\[|window\.location/);
 });
 test("18 the player is YouTube's native /embed/ player with native controls", () => mounted(studio(), () => {

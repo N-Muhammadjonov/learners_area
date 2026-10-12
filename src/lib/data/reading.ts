@@ -45,8 +45,8 @@ export async function getStartablePassage(passageId: string) {
   return passage;
 }
 
-export async function getPassageWithQuestions(passageId: string) {
-  const passage = await db.query.readingPassages.findFirst({ where: eq(readingPassages.id, passageId) });
+export async function getPassageWithQuestions(passageId: string, executor: typeof db = db) {
+  const passage = await executor.query.readingPassages.findFirst({ where: eq(readingPassages.id, passageId) });
   if (!passage) return null;
 
   /*
@@ -60,41 +60,41 @@ export async function getPassageWithQuestions(passageId: string) {
    *   paragraphs the paragraph letters the matching questions refer to.
    */
   const [questions, groups, paragraphs, occurrences] = await Promise.all([
-    db.query.readingQuestions.findMany({
+    executor.query.readingQuestions.findMany({
       where: eq(readingQuestions.passageId, passageId),
       orderBy: asc(readingQuestions.order),
     }),
-    db.query.readingQuestionGroups.findMany({
+    executor.query.readingQuestionGroups.findMany({
       where: eq(readingQuestionGroups.passageId, passageId),
       orderBy: asc(readingQuestionGroups.position),
     }),
-    db.query.readingPassageParagraphs.findMany({
+    executor.query.readingPassageParagraphs.findMany({
       where: eq(readingPassageParagraphs.passageId, passageId),
       orderBy: asc(readingPassageParagraphs.position),
     }),
-    db.select({ id: lexicalOccurrences.id, startChar: lexicalOccurrences.startChar, endChar: lexicalOccurrences.endChar, surfaceForm: lexicalOccurrences.surfaceForm }).from(lexicalOccurrences).where(eq(lexicalOccurrences.passageId, passageId)),
+    executor.select({ id: lexicalOccurrences.id, startChar: lexicalOccurrences.startChar, endChar: lexicalOccurrences.endChar, surfaceForm: lexicalOccurrences.surfaceForm }).from(lexicalOccurrences).where(eq(lexicalOccurrences.passageId, passageId)),
   ]);
 
   return { passage, questions, groups, paragraphs, occurrences };
 }
 
-export async function getAttemptDetail(attemptId: string, userId: string) {
-  const attempt = await db.query.readingAttempts.findFirst({
+export async function getAttemptDetail(attemptId: string, userId: string, executor: typeof db = db) {
+  const attempt = await executor.query.readingAttempts.findFirst({
     where: and(eq(readingAttempts.id, attemptId), eq(readingAttempts.userId, userId)),
   });
   if (!attempt) return null;
 
-  const scope = await assessmentScope(attemptId, attempt.passageId);
+  const scope = await assessmentScope(attemptId, attempt.passageId, executor);
   const [sections, answers] = await Promise.all([
-    Promise.all(scope.passageIds.map(getPassageWithQuestions)),
-    db.query.readingAnswers.findMany({ where: eq(readingAnswers.attemptId, attemptId) }),
+    Promise.all(scope.passageIds.map(id=>getPassageWithQuestions(id,executor))),
+    executor.query.readingAnswers.findMany({ where: eq(readingAnswers.attemptId, attemptId) }),
   ]);
   if (sections.some((section) => !section)) return null;
   const data = sections.filter((section): section is NonNullable<typeof section> => Boolean(section));
   let offset = 0;
   const numbered = data.map((section) => {
     const numbers = new Map(section.questions.map((question, index) => [question.questionNo ?? question.order, offset + index + 1]));
-    const questions = section.questions.map((question, index) => ({ ...question, order: offset + index + 1, questionNo: scope.title ? offset + index + 1 : question.questionNo }));
+    const questions = section.questions.map((question, index) => ({ ...question, sourceQuestionNo: question.questionNo, order: offset + index + 1, questionNo: scope.title ? offset + index + 1 : question.questionNo }));
     const groups = section.groups.map((group) => ({ ...group,
       fromQuestionNo: scope.title ? numbers.get(group.fromQuestionNo ?? -1) ?? group.fromQuestionNo : group.fromQuestionNo,
       toQuestionNo: scope.title ? numbers.get(group.toQuestionNo ?? -1) ?? group.toQuestionNo : group.toQuestionNo,
@@ -113,7 +113,10 @@ export async function getAttemptDetail(attemptId: string, userId: string) {
     questions: numbered.flatMap(section => section.questions),
     groups: numbered.flatMap(section => section.groups),
     paragraphs: first.paragraphs,
-    occurrences: scope.title ? [] : first.occurrences,
+    occurrences: scope.title ? numbered.flatMap((section,index)=>{
+      const prefix=numbered.slice(0,index).reduce((n,s)=>n+s.passage.title.length+2+s.passage.bodyText.length+2,0)+section.passage.title.length+2;
+      return section.occurrences.map(row=>({...row,startChar:row.startChar+prefix,endChar:row.endChar+prefix}));
+    }) : first.occurrences,
     answers,
   };
 }
@@ -142,9 +145,10 @@ export function listUserAttempts(userId: string) {
 export async function saveDraftAnswers(
   attemptId: string,
   userId: string,
-  entries: { questionId: string; answer: string }[]
+  entries: { questionId: string; answer: string }[],
+  executor: typeof db = db
 ) {
-  return db.transaction(async (tx) => {
+  return executor.transaction(async (tx) => {
     // Autosave and final submission serialize on the attempt row. Without the
     // lock, a last in-flight PATCH could replace the saved draft after submit.
     const [attempt] = await tx

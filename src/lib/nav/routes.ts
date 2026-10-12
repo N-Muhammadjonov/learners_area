@@ -30,86 +30,93 @@ type Entry = {
  * reader, and a machine-generated label would be.
  */
 const ENTRIES: Entry[] = [
-  { prefix: "/reading/retention", build: (d) => [{ label: d.nav.reading, href: "/reading" }, { label: d.retentionMemory.title, href: "/reading/retention" }] },
-  { prefix: "/reading/history", build: (d) => [{ label: d.nav.reading, href: "/reading" }, { label: d.reading.historyTitle, href: "/reading/history" }] },
-  { prefix: "/reading/passages", build: (d) => [{ label: d.nav.reading, href: "/reading" }, { label: d.reading.pickPassage, href: "/reading" }] },
-  { prefix: "/reading/attempts", build: (d) => [{ label: d.nav.reading, href: "/reading" }, { label: d.reading.analysisTitle, href: "/reading" }] },
-  { prefix: "/reading", exact: true, build: (d) => [{ label: d.nav.reading, href: "/reading" }] },
+  { prefix: "/app/reading/retention", build: (d) => [{ label: d.nav.reading, href: "/app/reading" }, { label: d.retentionMemory.title, href: "/app/reading/retention" }] },
+  { prefix: "/app/reading/history", build: (d) => [{ label: d.nav.reading, href: "/app/reading" }, { label: d.reading.historyTitle, href: "/app/reading/history" }] },
+  { prefix: "/app/reading/passages", build: (d) => [{ label: d.nav.reading, href: "/app/reading" }, { label: d.reading.pickPassage, href: "/app/reading" }] },
+  { prefix: "/app/reading/attempts", build: (d) => [{ label: d.nav.reading, href: "/app/reading" }, { label: d.reading.analysisTitle, href: "/app/reading" }] },
+  { prefix: "/app/reading", exact: true, build: (d) => [{ label: d.nav.reading, href: "/app/reading" }] },
 
-  { prefix: "/listening/history", build: (d) => [{ label: d.nav.listening, href: "/listening" }, { label: d.listening.historyTitle, href: "/listening/history" }] },
-  { prefix: "/listening/attempts", build: (d) => [{ label: d.nav.listening, href: "/listening" }, { label: d.listening.analysisTitle, href: "/listening" }] },
-  { prefix: "/listening", exact: true, build: (d) => [{ label: d.nav.listening, href: "/listening" }] },
+  // Academic Listening: the catalogue, then one test's hub. The hub's last crumb names
+  // the catalogue, so a reader who arrived from a link always has a way back up.
+  { prefix: "/app/listening/academic/", build: (d) => [{ label: d.nav.listening, href: "/app/listening" }, { label: d.listening.academic.title, href: "/app/listening/academic" }] },
+  { prefix: "/app/listening/academic", build: (d) => [{ label: d.nav.listening, href: "/app/listening" }, { label: d.listening.academic.title, href: "/app/listening/academic" }] },
+  // General Listening is a catalogue of SECTIONS, one level deep: the section opens directly
+  // as an attempt, so the last crumb names the catalogue the learner came from.
+  { prefix: "/app/listening/general/", build: (d) => [{ label: d.nav.listening, href: "/app/listening" }, { label: d.listening.general.title, href: "/app/listening/general" }] },
+  { prefix: "/app/listening/general", build: (d) => [{ label: d.nav.listening, href: "/app/listening" }, { label: d.listening.general.title, href: "/app/listening/general" }] },
+  { prefix: "/app/listening/history", build: (d) => [{ label: d.nav.listening, href: "/app/listening" }, { label: d.listening.historyTitle, href: "/app/listening/history" }] },
+  { prefix: "/app/listening/attempts", build: (d) => [{ label: d.nav.listening, href: "/app/listening" }, { label: d.listening.analysisTitle, href: "/app/listening" }] },
+  { prefix: "/app/listening", exact: true, build: (d) => [{ label: d.nav.listening, href: "/app/listening" }] },
 
-  { prefix: "/writing/history", build: (d) => [{ label: d.nav.writing, href: "/writing" }, { label: d.writing.historyTitle, href: "/writing/history" }] },
-  { prefix: "/writing/submissions", build: (d) => [{ label: d.nav.writing, href: "/writing" }, { label: d.writing.feedbackTitle, href: "/writing" }] },
-  { prefix: "/writing", exact: true, build: (d) => [{ label: d.nav.writing, href: "/writing" }] },
+  { prefix: "/app/writing/history", build: (d) => [{ label: d.nav.writing, href: "/app/writing" }, { label: d.writing.historyTitle, href: "/app/writing/history" }] },
+  { prefix: "/app/writing/submissions", build: (d) => [{ label: d.nav.writing, href: "/app/writing" }, { label: d.writing.feedbackTitle, href: "/app/writing" }] },
+  { prefix: "/app/writing", exact: true, build: (d) => [{ label: d.nav.writing, href: "/app/writing" }] },
 
-  { prefix: "/speaking/practice", build: (d) => [{ label: d.nav.speaking, href: "/speaking" }, { label: d.speakingPractice.title, href: "/speaking/practice" }] },
-  { prefix: "/speaking/history", build: (d) => [{ label: d.nav.speaking, href: "/speaking" }, { label: d.speakingPractice.historyTitle, href: "/speaking/history" }] },
-  { prefix: "/speaking/ai", build: (d) => [{ label: d.nav.speaking, href: "/speaking" }, { label: d.speakingHub.cards.ai.title, href: "/speaking/ai" }] },
-  { prefix: "/speaking/lessons", build: (d) => [{ label: d.nav.speaking, href: "/speaking" }, { label: d.speakingHub.lessonsTitle, href: "/speaking/lessons" }] },
-  { prefix: "/speaking/live-partner", build: (d) => [{ label: d.nav.speaking, href: "/speaking" }, { label: d.livePartner.title, href: "/speaking/live-partner" }] },
-  { prefix: "/speaking/shadowing", build: (d) => [{ label: d.nav.speaking, href: "/speaking" }, { label: d.speakingHub.lessonsTitle, href: "/speaking/lessons" }, { label: d.speakingShadowing.title, href: "/speaking/shadowing" }] },
-  { prefix: "/speaking", exact: true, build: (d) => [{ label: d.nav.speaking, href: "/speaking" }] },
+  { prefix: "/app/speaking/practice", build: (d) => [{ label: d.nav.speaking, href: "/app/speaking" }, { label: d.speakingPractice.title, href: "/app/speaking/practice" }] },
+  { prefix: "/app/speaking/history", build: (d) => [{ label: d.nav.speaking, href: "/app/speaking" }, { label: d.speakingPractice.historyTitle, href: "/app/speaking/history" }] },
+  { prefix: "/app/speaking/ai", build: (d) => [{ label: d.nav.speaking, href: "/app/speaking" }, { label: d.speakingHub.cards.ai.title, href: "/app/speaking/ai" }] },
+  { prefix: "/app/speaking/lessons", build: (d) => [{ label: d.nav.speaking, href: "/app/speaking" }, { label: d.speakingHub.lessonsTitle, href: "/app/speaking/lessons" }] },
+  { prefix: "/app/speaking/live-partner", build: (d) => [{ label: d.nav.speaking, href: "/app/speaking" }, { label: d.livePartner.title, href: "/app/speaking/live-partner" }] },
+  { prefix: "/app/speaking", exact: true, build: (d) => [{ label: d.nav.speaking, href: "/app/speaking" }] },
 
-  { prefix: "/grammar", exact: true, build: (d) => [{ label: d.nav.grammar, href: "/grammar" }] },
-  { prefix: "/grammar/", build: (d) => [{ label: d.nav.grammar, href: "/grammar" }, { label: d.grammar.practiceTitle, href: "/grammar" }] },
+  { prefix: "/app/grammar", exact: true, build: (d) => [{ label: d.nav.grammar, href: "/app/grammar" }] },
+  { prefix: "/app/grammar/", build: (d) => [{ label: d.nav.grammar, href: "/app/grammar" }, { label: d.grammar.practiceTitle, href: "/app/grammar" }] },
 
-  { prefix: "/vocabulary/review", build: (d) => [{ label: d.nav.vocabulary, href: "/vocabulary" }, { label: d.vocabulary.review, href: "/vocabulary/review" }] },
-  { prefix: "/vocabulary", exact: true, build: (d) => [{ label: d.nav.vocabulary, href: "/vocabulary" }] },
+  { prefix: "/app/vocabulary/review", build: (d) => [{ label: d.nav.vocabulary, href: "/app/vocabulary" }, { label: d.vocabulary.review, href: "/app/vocabulary/review" }] },
+  { prefix: "/app/vocabulary", exact: true, build: (d) => [{ label: d.nav.vocabulary, href: "/app/vocabulary" }] },
 
-  { prefix: "/video-lessons", exact: true, build: (d) => [{ label: d.nav.videoLessons, href: "/video-lessons" }] },
-  { prefix: "/video-lessons/", build: (d) => [{ label: d.nav.videoLessons, href: "/video-lessons" }, { label: d.videoLesson.playbackNote, href: "/video-lessons" }] },
+  { prefix: "/app/video-lessons", exact: true, build: (d) => [{ label: d.nav.videoLessons, href: "/app/video-lessons" }] },
+  { prefix: "/app/video-lessons/", build: (d) => [{ label: d.nav.videoLessons, href: "/app/video-lessons" }, { label: d.videoLesson.playbackNote, href: "/app/video-lessons" }] },
 
-  { prefix: "/courses", build: (d) => [{ label: d.nav.courseModules, href: "/courses/ielts" }, { label: d.nav.course, href: "/courses/ielts" }] },
+  { prefix: "/app/courses", build: (d) => [{ label: d.nav.courseModules, href: "/app/courses/ielts" }, { label: d.nav.course, href: "/app/courses/ielts" }] },
 
-  { prefix: "/assignments", exact: true, build: (d) => [{ label: d.nav.assignments, href: "/assignments" }] },
-  { prefix: "/assignments/", build: (d) => [{ label: d.nav.assignments, href: "/assignments" }, { label: d.assignments.title, href: "/assignments" }] },
+  { prefix: "/app/assignments", exact: true, build: (d) => [{ label: d.nav.assignments, href: "/app/assignments" }] },
+  { prefix: "/app/assignments/", build: (d) => [{ label: d.nav.assignments, href: "/app/assignments" }, { label: d.assignments.title, href: "/app/assignments" }] },
 
-  { prefix: "/mocks", exact: true, build: (d) => [{ label: d.nav.mocks, href: "/mocks" }] },
-  { prefix: "/mocks/", build: (d) => [{ label: d.nav.mocks, href: "/mocks" }, { label: d.mocks.catalogue, href: "/mocks" }] },
+  { prefix: "/app/mocks", exact: true, build: (d) => [{ label: d.nav.mocks, href: "/app/mocks" }] },
+  { prefix: "/app/mocks/", build: (d) => [{ label: d.nav.mocks, href: "/app/mocks" }, { label: d.mocks.catalogue, href: "/app/mocks" }] },
 
-  { prefix: "/reports", exact: true, build: (d) => [{ label: d.reporter.title, href: "/reports" }] },
-  { prefix: "/progress", exact: true, build: (d) => [{ label: d.nav.progress, href: "/progress" }] },
-  { prefix: "/live-classes", exact: true, build: (d) => [{ label: d.nav.liveClasses, href: "/live-classes" }] },
-  { prefix: "/notifications", exact: true, build: (d) => [{ label: d.notifications.title, href: "/notifications" }] },
-  { prefix: "/support", exact: true, build: (d) => [{ label: d.nav.support, href: "/support" }] },
-  { prefix: "/coach", exact: true, build: (d) => [{ label: d.nav.coach, href: "/coach" }] },
+  { prefix: "/app/reports", exact: true, build: (d) => [{ label: d.reporter.title, href: "/app/reports" }] },
+  { prefix: "/app/progress", exact: true, build: (d) => [{ label: d.nav.progress, href: "/app/progress" }] },
+  { prefix: "/app/live-classes", exact: true, build: (d) => [{ label: d.nav.liveClasses, href: "/app/live-classes" }] },
+  { prefix: "/app/notifications", exact: true, build: (d) => [{ label: d.notifications.title, href: "/app/notifications" }] },
+  { prefix: "/app/support", exact: true, build: (d) => [{ label: d.nav.support, href: "/app/support" }] },
+  { prefix: "/app/coach", exact: true, build: (d) => [{ label: d.nav.coach, href: "/app/coach" }] },
   { prefix: "/onboarding", exact: true, build: (d) => [{ label: d.onboarding.title, href: "/onboarding" }] },
 
-  { prefix: "/management", exact: true, build: (d) => [{ label: d.nav.management, href: "/management" }] },
+  { prefix: "/app/management", exact: true, build: (d) => [{ label: d.nav.management, href: "/app/management" }] },
 
-  { prefix: "/teacher/students", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.nav.teacherStudents, href: "/teacher/students" }] },
-  { prefix: "/teacher/support", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.support.inbox, href: "/teacher/support" }] },
-  { prefix: "/teacher/live-classes", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.liveClasses.manageTitle, href: "/teacher/live-classes" }] },
-  { prefix: "/teacher/speaking", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.speaking.manageTitle, href: "/teacher/speaking" }] },
+  { prefix: "/app/teacher/students", build: (d) => [{ label: d.nav.management, href: "/app/management" }, { label: d.nav.teacherStudents, href: "/app/teacher/students" }] },
+  { prefix: "/app/teacher/support", build: (d) => [{ label: d.nav.management, href: "/app/management" }, { label: d.support.inbox, href: "/app/teacher/support" }] },
+  { prefix: "/app/teacher/live-classes", build: (d) => [{ label: d.nav.management, href: "/app/management" }, { label: d.liveClasses.manageTitle, href: "/app/teacher/live-classes" }] },
+  { prefix: "/app/teacher/speaking", build: (d) => [{ label: d.nav.management, href: "/app/management" }, { label: d.speaking.manageTitle, href: "/app/teacher/speaking" }] },
 
   // The materials editor is nested under Management like every other admin
   // screen: without this entry the topbar renders neither a crumb nor a Back
   // button, and a reader who opens it from a link has no way up.
-  { prefix: "/admin/materials", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.admin.materialsTitle, href: "/admin/materials" }] },
-  { prefix: "/admin/roster", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.reporter.roster.title, href: "/admin/roster" }] },
-  { prefix: "/admin/people", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.nav.adminUsers, href: "/admin/people" }] },
-  { prefix: "/admin/admissions", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.admission.title, href: "/admin/admissions" }] },
-  { prefix: "/admin/content", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.nav.contentLibrary, href: "/admin/content" }] },
-  { prefix: "/admin/reading/retention", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.admin.readingTitle, href: "/admin/reading" }, { label: d.retentionMemory.admin.title, href: "/admin/reading/retention" }] },
-  { prefix: "/admin/reading", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.admin.readingTitle, href: "/admin/reading" }] },
-  { prefix: "/admin/listening", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.admin.listeningTitle, href: "/admin/listening" }] },
-  { prefix: "/admin/grammar", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.admin.grammarTitle, href: "/admin/grammar" }] },
+  { prefix: "/app/admin/materials", build: (d) => [{ label: d.nav.management, href: "/app/management" }, { label: d.admin.materialsTitle, href: "/app/admin/materials" }] },
+  { prefix: "/app/admin/roster", build: (d) => [{ label: d.nav.management, href: "/app/management" }, { label: d.reporter.roster.title, href: "/app/admin/roster" }] },
+  { prefix: "/app/admin/people", build: (d) => [{ label: d.nav.management, href: "/app/management" }, { label: d.nav.adminUsers, href: "/app/admin/people" }] },
+  { prefix: "/app/admin/admissions", build: (d) => [{ label: d.nav.management, href: "/app/management" }, { label: d.admission.title, href: "/app/admin/admissions" }] },
+  { prefix: "/app/admin/content", build: (d) => [{ label: d.nav.management, href: "/app/management" }, { label: d.nav.contentLibrary, href: "/app/admin/content" }] },
+  { prefix: "/app/admin/reading/retention", build: (d) => [{ label: d.nav.management, href: "/app/management" }, { label: d.admin.readingTitle, href: "/app/admin/reading" }, { label: d.retentionMemory.admin.title, href: "/app/admin/reading/retention" }] },
+  { prefix: "/app/admin/reading", build: (d) => [{ label: d.nav.management, href: "/app/management" }, { label: d.admin.readingTitle, href: "/app/admin/reading" }] },
+  { prefix: "/app/admin/listening", build: (d) => [{ label: d.nav.management, href: "/app/management" }, { label: d.admin.listeningTitle, href: "/app/admin/listening" }] },
+  { prefix: "/app/admin/grammar", build: (d) => [{ label: d.nav.management, href: "/app/management" }, { label: d.admin.grammarTitle, href: "/app/admin/grammar" }] },
   // Legacy alias (redirects to /admin/writing?section=exam); kept so old bookmarks still have a parent.
-  { prefix: "/admin/writing-prompts", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.admin.writingAdmin.title, href: "/admin/writing" }] },
-  { prefix: "/admin/writing", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.admin.writingAdmin.title, href: "/admin/writing" }] },
-  { prefix: "/admin/video-lessons", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.videoLessonAdmin.title, href: "/admin/video-lessons" }] },
+  { prefix: "/app/admin/writing-prompts", build: (d) => [{ label: d.nav.management, href: "/app/management" }, { label: d.admin.writingAdmin.title, href: "/app/admin/writing" }] },
+  { prefix: "/app/admin/writing", build: (d) => [{ label: d.nav.management, href: "/app/management" }, { label: d.admin.writingAdmin.title, href: "/app/admin/writing" }] },
+  { prefix: "/app/admin/video-lessons", build: (d) => [{ label: d.nav.management, href: "/app/management" }, { label: d.videoLessonAdmin.title, href: "/app/admin/video-lessons" }] },
 
-  { prefix: "/owner/dictionary", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.owner.title, href: "/owner" }, { label: d.globalDictionary.owner, href: "/owner/dictionary" }] },
-  { prefix: "/owner/integrations", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.owner.integrations, href: "/owner/integrations" }] },
-  { prefix: "/owner/retention", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.owner.retention, href: "/owner/retention" }] },
-  { prefix: "/owner/audit", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.owner.audit, href: "/owner/audit" }] },
-  { prefix: "/owner/transfer", build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.owner.transfer, href: "/owner/transfer" }] },
-  { prefix: "/owner", exact: true, build: (d) => [{ label: d.nav.management, href: "/management" }, { label: d.owner.title, href: "/owner" }] },
+  { prefix: "/app/owner/dictionary", build: (d) => [{ label: d.nav.management, href: "/app/management" }, { label: d.owner.title, href: "/app/owner" }, { label: d.globalDictionary.owner, href: "/app/owner/dictionary" }] },
+  { prefix: "/app/owner/integrations", build: (d) => [{ label: d.nav.management, href: "/app/management" }, { label: d.owner.integrations, href: "/app/owner/integrations" }] },
+  { prefix: "/app/owner/retention", build: (d) => [{ label: d.nav.management, href: "/app/management" }, { label: d.owner.retention, href: "/app/owner/retention" }] },
+  { prefix: "/app/owner/audit", build: (d) => [{ label: d.nav.management, href: "/app/management" }, { label: d.owner.audit, href: "/app/owner/audit" }] },
+  { prefix: "/app/owner/transfer", build: (d) => [{ label: d.nav.management, href: "/app/management" }, { label: d.owner.transfer, href: "/app/owner/transfer" }] },
+  { prefix: "/app/owner", exact: true, build: (d) => [{ label: d.nav.management, href: "/app/management" }, { label: d.owner.title, href: "/app/owner" }] },
 ];
 
-/** Longest matching prefix wins, so `/reading/attempts/x` never matches `/reading`. */
+/** Longest matching prefix wins, so `/app/reading/attempts/x` never matches `/app/reading`. */
 export function breadcrumbsFor(pathname: string, dict: Dictionary): Crumb[] {
   const matches = ENTRIES.filter((entry) =>
     entry.exact ? pathname === entry.prefix : pathname === entry.prefix || pathname.startsWith(`${entry.prefix}/`)

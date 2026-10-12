@@ -1,6 +1,7 @@
 export type MockResult = {
   id: string;
-  mockTestId: string;
+  /** null when the mock has since been removed: the attempt itself still counts as history (§57). */
+  mockTestId: string | null;
   skill: string | null;
   title: string | null;
   finishedAt: Date | null;
@@ -26,8 +27,12 @@ export function summarizeMocks(attempts: MockResult[], catalogueIds: string[]) {
     );
   const bands = points.map((a) => a.estimatedBand!);
   const latest = bands.at(-1) ?? null;
+  // Only attempts whose mock is still in the catalogue count towards catalogue
+  // progress; a removed mock must not inflate or block it.
   const completed = new Set(
-    finished.map((a) => a.mockTestId).filter((id) => catalogueIds.includes(id)),
+    finished
+      .map((a) => a.mockTestId)
+      .filter((id): id is string => id !== null && catalogueIds.includes(id)),
   ).size;
   return {
     points,

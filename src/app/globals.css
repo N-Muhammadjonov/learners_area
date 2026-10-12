@@ -29,6 +29,15 @@
   --ink-500: 99 92 130; /* #635C82 */
   --ink-300: 166 160 194; /* #A6A0C2 */
   --ink-100: 232 230 242; /* #E8E6F2 */
+  /*
+   * §15 — `--ink-50` was referenced by `bg-ink-50` across 22 files but defined nowhere in the root
+   * themes, so the utility resolved to nothing. It is mapped onto the approved recessed-surface value
+   * (`--paper-sunken`, same block below) rather than given an invented colour: that token already means
+   * "secondary / sunken surface" in this design system, is themed for Day and Night, and is what the two
+   * skeletons that used a working class already render as. `.listening-workspace` keeps its own darker
+   * `--ink-50`, which now takes effect as intended.
+   */
+  --ink-50: 242 240 249; /* #F2F0F9 — recessed surface, = --paper-sunken */
 
   --paper: 251 250 254; /* #FBFAFE */
   --paper-raised: 255 255 255; /* #FFFFFF */
@@ -64,6 +73,8 @@
   --ink-500: 168 167 175; /* #A8A7AF — muted text */
   --ink-300: 124 123 133; /* #7C7B85 — quiet text */
   --ink-100: 41 45 60; /* #292D3C — primary border */
+  /* §15 — see the Day block: mapped to the approved Night recessed surface, not an invented colour. */
+  --ink-50: 21 24 39; /* #151827 — recessed surface, = --paper-sunken */
 
   --paper: 11 13 24; /* #0B0D18 — page background */
   --paper-raised: 17 20 33; /* #111421 — cards */

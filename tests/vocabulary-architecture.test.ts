@@ -158,10 +158,10 @@ test("ingestion is idempotent and spans are served per section without meanings"
 
 // 16 revisit -----------------------------------------------------------------
 test("15/16 revisit targets: Reading → the learner's attempt; Listening → test + section; timing only if stored", () => {
-  assert.equal(sourceRevisitHref({ sourceType: "reading", attemptId: "a1", passageId: "p1" }), "/reading/attempts/a1");
+  assert.equal(sourceRevisitHref({ sourceType: "reading", attemptId: "a1", passageId: "p1" }), "/app/reading/attempts/a1");
   assert.equal(sourceRevisitHref({ sourceType: "reading", attemptId: null, passageId: "p1" }), null, "no learner-reachable passage page: no fake link");
-  assert.equal(sourceRevisitHref({ sourceType: "listening", listeningTestId: "t1", sectionNumber: 3 }), "/listening/tests/t1/study?section=3");
-  assert.equal(sourceRevisitHref({ sourceType: "listening", listeningTestId: "t1", sectionNumber: 9 }), "/listening/tests/t1/study");
+  assert.equal(sourceRevisitHref({ sourceType: "listening", listeningTestId: "t1", sectionNumber: 3 }), "/app/listening/tests/t1/study?section=3");
+  assert.equal(sourceRevisitHref({ sourceType: "listening", listeningTestId: "t1", sectionNumber: 9 }), "/app/listening/tests/t1/study");
   assert.equal(sourceRevisitHref(null), null);
 });
 

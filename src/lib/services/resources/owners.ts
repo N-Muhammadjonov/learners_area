@@ -150,7 +150,7 @@ export function mayManageResourceOwner(actor: Actor, owner: OwnerFacts): boolean
 
 /**
  * Every owner of one kind, with its own name — the management list behind
- * `/admin/materials`. It is one query per kind, and it reads the same tables
+ * `/app/admin/materials`. It is one query per kind, and it reads the same tables
  * `loadResourceOwner` does, so a row that cannot own materials cannot appear here.
  *
  * Deliberately not sorted by anything clever: newest first is what an

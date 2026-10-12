@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import type { Dictionary } from "@/lib/i18n/en";
+import { LocalReflectionRecorder } from "@/components/audio/LocalReflectionRecorder";
 import { TedStudyPractice, findTedStudyPack } from "./TedStudyPractice";
 import { VideoVocabulary, type VideoWord } from "./VideoVocabulary";
 import { ClickableText } from "@/components/vocabulary/ClickableText";
@@ -438,7 +439,7 @@ export function VideoLessonStudio({
         </span>
       </div>
 
-      {studyPack && <TedStudyPractice title={videoLesson.title} initial={initialProgress?.responseText ?? ""} dict={dict} save={text => writeLesson("response", { responseText: text })} />}
+      {studyPack && <TedStudyPractice key={`${lessonId}:${videoLesson.id}`} title={videoLesson.title} initial={initialProgress?.responseText ?? ""} dict={dict} save={text => writeLesson("response", { responseText: text })} />}
       <div className={studyPack && tabs.length === 0 ? "hidden" : "contents"}>
       {!vocabularyReady && <p role="status" className="text-sm text-ink-500">{t.vocabularyUnavailable}</p>}
       <div className="flex flex-wrap gap-2" role="tablist" aria-label={t.stagesLabel} data-video-tablist>
@@ -603,6 +604,8 @@ export function VideoLessonStudio({
           </p>
         ) : null}
       </div>
+      {/* Outside the keyed animation panel: the recording belongs to the lesson, not the tab. */}
+        {!studyPack && mode === "standalone" && <LocalReflectionRecorder key={`${lessonId}:${videoLesson.id}`} dict={dict} active={tab === "summary"} />}
       </div>
     </section>
   );

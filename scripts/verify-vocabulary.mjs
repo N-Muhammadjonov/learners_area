@@ -6,7 +6,9 @@
  *   1. the five-section Vocabulary page renders for an approved student;
  *   2. a stranger (no session) and a suspended account reach nothing;
  *   3. words are added in bulk through the shared engine, with sense-aware
- *      deduplication and one point award per genuinely new word;
+ *      deduplication, and no point for merely saving a word (the authoritative
+ *      model in src/lib/services/vocabulary/points.ts scores newWord = 0;
+ *      points come from revision, game answers and sentences);
  *   4. a replay of the same batch adds no word and no point (anti-farming);
  *   5. the official 1/3/7/16/35 ladder is advanced ONLY by scheduled revision;
  *   6. a game answer never moves the ladder, is graded by the server (a client
@@ -21,7 +23,25 @@
  * Requires the dev server and DATABASE_URL (the direct SQL checks in step 10).
  */
 const BASE = (process.env.BASE_URL || "http://127.0.0.1:3000");
-const DATABASE_URL = (process.env.DATABASE_URL || "postgres://postgres@127.0.0.1:5433/learners_area");
+
+/**
+ * DETERMINISM: every run gets its own abuse-limiter bucket.
+ *
+ * The limiter is keyed by `clientKey(req)`, which prefers `x-forwarded-for`. Repeated
+ * acceptance sweeps from one host therefore shared a bucket, and an in-memory counter
+ * that survives database reseeds eventually answered 429 — registrations failed, their
+ * responses read back as `undefined`, and unrelated assertions cascaded. The gate must
+ * not depend on how many times it has been run before.
+ *
+ * This isolates the HARNESS, it does not weaken the product: no rule, limit or window is
+ * changed, the limiter still runs on every request, and in production `x-forwarded-for`
+ * is set by the platform rather than the caller. Checks that deliberately exercise the
+ * limiter keep their own fixed key so they still trip it.
+ */
+const RUN_IP = process.env.QA_RUN_IP
+  ?? `10.${Math.floor(Math.random() * 254) + 1}.${Math.floor(Math.random() * 254) + 1}.${Math.floor(Math.random() * 254) + 1}`;
+
+const DATABASE_URL = process.env.DATABASE_URL;
 
 let passed = 0;
 let failed = 0;
@@ -42,6 +62,7 @@ async function api(path, { method = "GET", body, cookie } = {}) {
   const res = await fetch(`${BASE}${path}`, {
     method,
     headers: {
+      "x-forwarded-for": RUN_IP,
       ...(body ? { "content-type": "application/json" } : {}),
       ...(cookie ? { cookie } : {}),
     },
@@ -64,6 +85,52 @@ async function login(email, password) {
   return { cookie: res.setCookie, status: res.status };
 }
 
+/*
+ * QA SAFETY (section 03.4). This probe registers REAL accounts and authors REAL
+ * catalogue entries. It tagged its fixtures uniquely but never removed them, so every
+ * run left two users, a folder and a dozen lexemes behind permanently: measured at
+ * +2 users, +14 lexemes, +13 lexical_units, +21 lexical_unit_forms, +14 user_vocabulary
+ * and more per run. That is not only untidy — accumulated accounts and catalogue rows
+ * silently change what later probes count, and an account that outlives its run is
+ * exactly the kind of residue a re-seed is supposed to make impossible.
+ *
+ * Same pattern as verify-uploads: the rows are created over HTTP, so there is no single
+ * insertion point to tag. Snapshot the owned tables BEFORE the first mutation, then
+ * delete exactly the ids that appeared and re-query to PROVE nothing is left. An id
+ * absent from the baseline and present at the end was created by this run.
+ */
+const { default: sweepPg } = await import("pg");
+const { assertMutableDatabase, createRowSweeper, installSweepHandlers } =
+  await import("./lib/fixture-safety.mjs");
+
+// Fails closed: a probe that creates and deletes accounts must never be pointed at a
+// database it does not own.
+assertMutableDatabase(DATABASE_URL, { probe: "verify-vocabulary" });
+
+const sweepDb = new sweepPg.Client({ connectionString: DATABASE_URL });
+await sweepDb.connect();
+
+/*
+ * Children before parents. Audit rows are swept too: in this disposable database the
+ * audit_log and activity_events entries describing a fixture action ARE fixture data,
+ * and the guard above guarantees this can never run against a real deployment.
+ */
+const sweeper = createRowSweeper({
+  client: sweepDb,
+  probe: "verify-vocabulary",
+  tables: [
+    "vocab_point_events", "vocabulary_usages", "evaluations", "notifications",
+    "access_requests", "activity_events", "audit_log", "user_vocabulary",
+    "vocab_folders", "lexical_unit_forms", "lexemes", "lexical_units", "users",
+  ],
+});
+const finalSweep = installSweepHandlers(sweeper, {
+  probe: "verify-vocabulary",
+  onDone: () => sweepDb.end().catch(() => {}),
+});
+
+await sweeper.capture();
+
 const unique = `vocab.qa.${Date.now().toString(36)}`;
 const studentEmail = `${unique}@learnersarea.uz`;
 const password = "Student12345!";
@@ -75,14 +142,16 @@ let studentId = null;
 async function makeStudent() {
   const register = await api("/api/auth/register", {
     method: "POST",
-    body: { name: "Vocab QA", email: studentEmail, password },
+    // `gender` became a required field of registerSchema; a probe that omits it
+    // tests the validator, not registration. Send a complete, realistic payload.
+    body: { name: "Vocab QA", email: studentEmail, password, gender: "female" },
   });
   check("registration of a new student succeeds", register.status === 200 || register.status === 201, `status ${register.status}`);
 
   const session = await login(studentEmail, password);
   check("a fresh account can sign in", session.status === 200 && session.cookie.length > 0, `status ${session.status}`);
 
-  const pending = await api("/vocabulary", { cookie: session.cookie });
+  const pending = await api("/app/vocabulary", { cookie: session.cookie });
   check(
     "a pending applicant is redirected away from Vocabulary",
     pending.status === 307 || pending.status === 302 || pending.status === 303,
@@ -116,7 +185,7 @@ async function makeStudent() {
   check("the decision reports the applicant it affected", Boolean(studentId));
 
   const student = await login(studentEmail, password);
-  const page = await api("/vocabulary", { cookie: student.cookie });
+  const page = await api("/app/vocabulary", { cookie: student.cookie });
   check("an approved student reaches the Vocabulary page", page.status === 200, `status ${page.status}`);
   for (const probe of ['data-tab="words"', 'data-tab="revision"', 'data-tab="games"', 'data-tab="use"', 'data-tab="board"']) {
     check(`the Vocabulary page renders the ${probe.split("=")[1]} section`, page.text.includes(probe));
@@ -159,7 +228,12 @@ const batch = await api("/api/vocabulary", {
 check("bulk add returns a result", batch.status === 200, `status ${batch.status}`);
 check("the same sense pasted twice is stored once, two senses stay apart", batch.json?.added === 3, `added ${batch.json?.added}`);
 check("the collapsed duplicate is reported", batch.json?.duplicates === 1, `duplicates ${batch.json?.duplicates}`);
-check("each genuinely new word earns 2 points", batch.json?.points === 6, `points ${batch.json?.points}`);
+// SCORING MODEL (src/lib/services/vocabulary/points.ts): newWord is 0 — "legacy ledger
+// kind retained for history only; new saves do not emit it". Merely collecting words is
+// deliberately NOT progress; only recall is (revision 1, gameAnswer 1, sentence 2).
+// The old expectation of 2 points per saved word encoded a scoring model the product
+// has removed, and would have masked a real points-farming regression.
+check("saving words is not itself scored", batch.json?.points === 0, `points ${batch.json?.points}`);
 
 const replay = await api("/api/vocabulary", {
   method: "POST",
@@ -181,8 +255,17 @@ const farm = await api("/api/vocabulary", {
 check("a client-supplied points value is ignored", farm.json?.points === 0, `points ${farm.json?.points}`);
 
 const board = await api("/api/vocabulary/leaderboard", { cookie });
-check("the leaderboard reports the ledger total", board.json?.points === 6, `points ${board.json?.points}`);
-check("the leaderboard ranks the caller", board.json?.rank >= 1, `rank ${board.json?.rank}`);
+check("the leaderboard reports the ledger total", board.json?.points === 0, `points ${board.json?.points}`);
+// and collecting words can never move the leaderboard on its own
+check("hoarding words cannot climb the leaderboard", (board.json?.points ?? 0) === 0, `points ${board.json?.points}`);
+// A learner with no points is deliberately UNRANKED: getStanding() ranks only rows with
+// effectivePoints > 0, so rank 0 means "not on the board yet". Demanding rank >= 1 here
+// contradicted the assertion two lines above that the total is still 0.
+check(
+  "a learner who has scored nothing is not yet ranked",
+  board.json?.rank === 0,
+  `rank ${board.json?.rank} points ${board.json?.points}`
+);
 
 // --- the official ladder ----------------------------------------------------
 const firstWord = library.json.words.find((word) => word.term === "resilient" && word.translationUz === "bardoshli");
@@ -236,8 +319,13 @@ check(
 );
 check("a word reviewed today is not in the due set", !dueTerms.includes("resilient"), `due: ${dueTerms.join(", ")}`);
 
-const allSet = await api("/api/vocabulary/games?set=all", { cookie });
-check("the all-words set returns the whole library", allSet.json?.count === 3, `count ${allSet.json?.count}`);
+// The games endpoint returns WORDS only when a concrete game is named
+// (`selected = gameId ? ... : []`); without &game= it reports availability counts only.
+// Querying it bare therefore proved nothing about the library.
+const allSetBare = await api("/api/vocabulary/games?set=all", { cookie });
+check("the bare set reports availability without handing out words", allSetBare.json?.total >= 3 && (allSetBare.json?.words ?? []).length === 0, `total ${allSetBare.json?.total}`);
+const allSet = await api("/api/vocabulary/games?set=all&game=translation", { cookie });
+check("the all-words set returns the whole library", allSet.json?.count >= 3, `count ${allSet.json?.count}`);
 
 // The server grades the answer itself. A request that only CLAIMS success must
 // not be accepted at all — this is the shape the old client used to send.
@@ -255,7 +343,7 @@ check(
 const wrongAnswer = await api("/api/vocabulary/games", {
   method: "POST",
   cookie,
-  body: { entryId: firstWord.id, set: "all", submission: { kind: "spelling", text: "definitely-not-the-word" } },
+  body: { entryId: firstWord.id, set: "all", gameId: "gap", submission: { kind: "spelling", text: "definitely-not-the-word" } },
 });
 check(
   "a wrong answer is marked wrong by the server even on a due word",
@@ -269,22 +357,45 @@ const rightAnswer = await api("/api/vocabulary/games", {
   body: {
     entryId: firstWord.id,
     set: "all",
-    eligible: true,
+    // `eligible` was a legacy client-asserted field; answerSchema is .strict() and
+    // requires gameId, so the old payload was rejected 400 and read back as undefined.
+    gameId: "gap",
     submission: { kind: "spelling", text: `  ${firstWord.term.toUpperCase()}.  ` },
   },
 });
 check("the server grades a correct typed answer as correct", rightAnswer.json?.correct === true && rightAnswer.json?.verified === true);
 check("a graded answer reports that the ladder was untouched", rightAnswer.json?.srsUntouched === true);
+// The contract (src/lib/services/vocabulary/points.ts + recordGameAnswer) is that a
+// VERIFIED CORRECT answer pays gameAnswer=1, deduped per learner/word/day, and never
+// moves the SRS ladder. There is no "due" condition: due-ness governs revision, not
+// play. The old expectation of 0 contradicted both the code and this file's own header.
 check(
-  "a game answer on a word that is not due earns no point",
-  rightAnswer.json?.awarded === 0,
+  "a verified correct game answer pays exactly one point",
+  rightAnswer.json?.awarded === 1,
   `awarded ${rightAnswer.json?.awarded}`
+);
+
+// ...and it pays AT MOST once per word per day, so an immediate repeat earns nothing.
+const sameDayRepeat = await api("/api/vocabulary/games", {
+  method: "POST",
+  cookie,
+  body: {
+    entryId: firstWord.id,
+    set: "all",
+    gameId: "gap",
+    submission: { kind: "spelling", text: firstWord.term },
+  },
+});
+check(
+  "a second correct answer on the same word the same day pays nothing",
+  sameDayRepeat.json?.awarded === 0,
+  `awarded ${sameDayRepeat.json?.awarded}`
 );
 
 const selfClaim = await api("/api/vocabulary/games", {
   method: "POST",
   cookie,
-  body: { entryId: firstWord.id, set: "all", submission: { kind: "self", known: true } },
+  body: { entryId: firstWord.id, set: "all", gameId: "cards", submission: { kind: "self", known: true } },
 });
 check(
   "a self-assessment is recorded as practice and never earns a point",
@@ -302,6 +413,7 @@ const foreignGame = await api("/api/vocabulary/games", {
   body: {
     entryId: "00000000-0000-4000-8000-000000000000",
     set: "all",
+    gameId: "gap",
     submission: { kind: "spelling", text: "resilient" },
   },
 });
@@ -323,7 +435,7 @@ check("an unmatched query returns nothing rather than everything", searchEmpty.j
 const otherEmail = `${unique}.b@learnersarea.uz`;
 const otherRegister = await api("/api/auth/register", {
   method: "POST",
-  body: { name: "Vocab QA B", email: otherEmail, password },
+  body: { name: "Vocab QA B", email: otherEmail, password, gender: "male" },
 });
 const ownerSession = await login("owner@learnersarea.uz", "Owner12345!");
 const otherFiled = await api("/api/admission/request", {
@@ -430,6 +542,10 @@ const withAlternatives = await api("/api/vocabulary", {
       {
         term: "commence",
         definitionEn: "to begin something",
+        // The Translation challenge only offers words that HAVE an Uzbek
+        // translation, so a fixture without one would never reach the game and
+        // the assertion below would be vacuous.
+        translationUz: "boshlamoq",
         acceptedTranslations: ["start", "begin", "kick off"],
       },
     ],
@@ -437,10 +553,19 @@ const withAlternatives = await api("/api/vocabulary", {
 });
 check("a word may carry authored alternative answers", withAlternatives.json?.ok === true, `status ${withAlternatives.status}`);
 
-// The game set is the path the Translation challenge actually reads, so the
-// authored answers are checked where they are used, not in a side channel.
-const alternativesInPlay = await api("/api/vocabulary/games?set=all", { cookie });
-const commenceWord = (alternativesInPlay.json?.words ?? []).find((word) => word.term === "commence");
+// Read the authored answers where they are ACTUALLY used. A bare
+// `?set=all` hands out no words at all (by design: a set without a game is a
+// filter, not a round) and never includes acceptedTranslations, which is
+// exposed only for game=translation. Querying it therefore searched an empty
+// list and could only pass by accident.
+const alternativesInPlay = await api("/api/vocabulary/games?set=all&game=translation&limit=500", { cookie });
+const translationRound = alternativesInPlay.json?.words ?? [];
+check(
+  "the Translation challenge actually offers a round (otherwise the next checks are vacuous)",
+  translationRound.length > 0,
+  `status ${alternativesInPlay.status} n=${translationRound.length}`
+);
+const commenceWord = translationRound.find((word) => word.term === "commence");
 check(
   "the authored answers reach the challenge that accepts them",
   (commenceWord?.acceptedTranslations ?? []).length === 3,
@@ -492,6 +617,9 @@ const packWords = await api("/api/vocabulary", { cookie });
 check("the pack words joined the same library", packWords.json?.words?.length >= 12, `n=${packWords.json?.words?.length}`);
 
 // --- sentence bank and the evaluator ---------------------------------------
+// Measure the ledger immediately before the sentence so the award can be asserted as a
+// delta rather than a hard-coded total that drifts with every other scoring change.
+const boardBeforeSentence = (await api("/api/vocabulary/leaderboard", { cookie })).json?.points ?? 0;
 const use = await api(`/api/vocabulary/${firstWord.id}/use`, {
   method: "POST",
   cookie,
@@ -507,10 +635,19 @@ check("the bank records where the sentence came from", bank.json?.sentences?.[0]
 check("an accepted sentence is labelled accepted", bank.json?.sentences?.[0]?.accepted === true);
 
 const boardAfterSentence = await api("/api/vocabulary/leaderboard", { cookie });
+// Assert the RULE, not a magic total: an accepted sentence is worth
+// VOCAB_POINTS.sentence (2), and saving words is worth nothing (newWord = 0). The old
+// `>= 9` was calibrated against a superseded model in which hoarding words paid, so it
+// failed for the right reason once the ledger stopped rewarding collection.
 check(
-  "accepted active use is worth more than a new word",
-  boardAfterSentence.json?.points >= 9,
-  `points ${boardAfterSentence.json?.points}`
+  "an accepted sentence adds exactly the sentence award",
+  boardAfterSentence.json?.points - boardBeforeSentence === 2,
+  `${boardBeforeSentence} -> ${boardAfterSentence.json?.points}`
+);
+check(
+  "a sentence is worth more than saving a word, which is worth nothing",
+  boardAfterSentence.json?.points > boardBeforeSentence,
+  `${boardBeforeSentence} -> ${boardAfterSentence.json?.points}`
 );
 
 const replayUse = await api(`/api/vocabulary/${firstWord.id}/use`, {
@@ -534,7 +671,7 @@ const emptySentence = await api(`/api/vocabulary/${firstWord.id}/use`, {
 check("a too-short sentence is refused", emptySentence.status === 400, `status ${emptySentence.status}`);
 
 // --- suspension removes access immediately ---------------------------------
-const peoplePage = await api("/admin/people", { cookie: ownerSession.cookie });
+const peoplePage = await api("/app/admin/people", { cookie: ownerSession.cookie });
 check(
   "the owner sees the approved student on the people page",
   peoplePage.text.includes(`data-person-id="${studentId}"`),
@@ -551,7 +688,7 @@ check("the owner can suspend the account", suspend.status === 200, `status ${sus
 const blocked = await api("/api/vocabulary/games?set=all", { cookie });
 check("a suspended session loses API access at once", [401, 403].includes(blocked.status), `status ${blocked.status}`);
 
-const blockedPage = await api("/vocabulary", { cookie });
+const blockedPage = await api("/app/vocabulary", { cookie });
 check(
   "a suspended session is pushed out of the Vocabulary page",
   [302, 303, 307].includes(blockedPage.status),
@@ -591,59 +728,16 @@ try {
   await client.end().catch(() => {});
 }
 
-  // --- word map ---------------------------------------------------------------
-// The map is navigation, not decoration: its tiles are counted from the student's
-// own library and each one filters the list.
-{
-  const mapPage = await api("/vocabulary", { cookie });
-  check("the library carries a word map", mapPage.text.includes("data-word-map"));
-  check("the map counts the library by state", mapPage.text.includes("data-word-map-state="));
-  check("the map counts where the words came from", mapPage.text.includes("data-word-map-source="));
-  check("each map tile carries its real count", mapPage.text.includes("data-word-map-count="));
-
-  // The main client is closed by the time this runs, so the comparison opens its own.
-  const mapDb = new (await import("pg")).default.Client({
-    connectionString: (process.env.DATABASE_URL || "postgres://postgres@127.0.0.1:5433/learners_area"),
-  });
-  try {
-    await mapDb.connect();
-    const own = await mapDb.query(
-      "select count(*)::int n from user_vocabulary v join users u on u.id = v.user_id where u.email = $1",
-      [studentEmail]
-    );
-    check(
-      `the map is drawn from the student's own library (${own.rows[0].n} words)`,
-      mapPage.text.includes("data-word-map") && (own.rows[0].n === 0 || /data-word-map-count="[0-9]+"/.test(mapPage.text))
-    );
-    // Every word in the library is counted in exactly one source tile: the counts
-    // are per user, not a global tally.
-    const sums = [...mapPage.text.matchAll(/data-word-map-source="[a-z_]+"\s+data-word-map-count="(\d+)"/g)].map((m) =>
-      Number(m[1])
-    );
-    check(
-      `the source tiles add up to this student's library (${own.rows[0].n} words, tiles ${sums.reduce((a, b) => a + b, 0)})`,
-      sums.length === 0 || sums.reduce((a, b) => a + b, 0) === own.rows[0].n
-    );
-
-    // A term that belongs to a different account must not appear on this page.
-    const foreignTerm = await mapDb.query(
-      `select l.term from user_vocabulary v join users u on u.id = v.user_id join lexemes l on l.id = v.lexeme_id
-       where u.email = 'demo.student@learnersarea.uz'
-         and l.term not in (select l2.term from user_vocabulary v2 join lexemes l2 on l2.id = v2.lexeme_id
-                            where v2.user_id = (select id from users where email = $1))
-       limit 1`,
-      [studentEmail]
-    );
-    check(
-      "no other student's library leaks into the map",
-      foreignTerm.rows.length === 0 || !mapPage.text.includes(`>${foreignTerm.rows[0].term}<`)
-    );
-  } catch (error) {
-    check("the map can be compared with the database", false, error.message);
-  } finally {
-    await mapDb.end().catch(() => {});
-  }
-}
+// --- word map ---------------------------------------------------------------
+// The map is verified in scripts/browser/verify-vocabulary-map-browser.mjs, not here.
+//
+// VocabWordsPanel is a client component that renders the tiles only after its data
+// request resolves, so the server-rendered body for /app/vocabulary carries a loading
+// boundary and no `data-word-map` at all. Asserting on the raw HTTP text could therefore
+// only ever fail, and it was failing for that reason rather than because the map was
+// broken — a real browser shows the tiles with correct per-state and per-source counts.
+// The invariants (per-user counts that add up to this student's library, no cross-account
+// leak, tiles actually filter the list) are asserted there against the settled DOM.
 
 // 11. The lexical boundary: a meaning is never invented, and the centre's own
 //     catalogue answers first. A word nobody has authored yet is refused with a
@@ -664,7 +758,7 @@ try {
   );
 
   const lexiconDb = new (await import("pg")).default.Client({
-    connectionString: (process.env.DATABASE_URL || "postgres://postgres@127.0.0.1:5433/learners_area"),
+    connectionString: process.env.DATABASE_URL,
   });
   try {
     await lexiconDb.connect();
@@ -709,4 +803,9 @@ if (failed > 0) {
   console.log("# failures:");
   for (const failure of failures) console.log(`  - ${failure}`);
 }
-process.exit(failed > 0 ? 1 : 0);
+
+// process.exit() does NOT run beforeExit handlers, so the sweep is awaited here on the
+// normal path. A cleanup failure or any residue fails the run even if every assertion
+// passed: a probe that cannot clean up after itself has not proven it is rerunnable.
+await finalSweep("end of run");
+process.exit(failed > 0 || process.exitCode === 1 ? 1 : 0);

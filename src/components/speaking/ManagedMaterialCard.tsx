@@ -110,7 +110,14 @@ export function ManagedMaterialCard({
           <p className="text-sm font-medium text-ink-900">{material.title}</p>
         )}
         <span className="shrink-0 text-xs text-ink-300">
-          {dict.speaking.category[material.category]} · {dict.speaking.postedBy}: {authorName}
+          {/*
+            A legacy row can still carry the retired `shadowing` category, which no
+            longer has a label because the feature was removed. Staff must still be
+            able to see and manage that historical material, so the raw category is
+            shown as a fallback rather than crashing or rendering an empty badge.
+          */}
+          {(dict.speaking.category as Record<string, string>)[material.category] ?? material.category}
+          {" · "}{dict.speaking.postedBy}: {authorName}
         </span>
       </div>
 

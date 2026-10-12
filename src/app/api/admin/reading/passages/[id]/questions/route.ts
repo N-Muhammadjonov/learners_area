@@ -1,3 +1,4 @@
+import { readingDraftEditable } from "@/lib/services/reading/authoring-guard";
 import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
@@ -17,10 +18,12 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   const parsed = createReadingQuestionSchema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: parsed.error.issues[0]?.message ?? "invalid_input" }, { status: 400 });
 
-  const existing = await db.query.readingQuestions.findMany({ where: eq(readingQuestions.passageId, id) });
+  const created = await db.transaction(async tx=> {
+    if(!await readingDraftEditable(tx,id)) return null;
+  const existing = await tx.query.readingQuestions.findMany({ where: eq(readingQuestions.passageId, id) });
   const nextOrder = existing.length + 1;
 
-  const [created] = await db
+  const [created] = await tx
     .insert(readingQuestions)
     .values({
       passageId: id,
@@ -34,5 +37,8 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     })
     .returning();
 
-  return NextResponse.json({ ok: true, id: created!.id });
+    return created!;
+  });
+  if(!created) return NextResponse.json({error:"revision_managed"},{status:409});
+  return NextResponse.json({ ok: true, id: created.id });
 }

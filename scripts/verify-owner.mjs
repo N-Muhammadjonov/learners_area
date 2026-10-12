@@ -20,6 +20,50 @@ import { execFileSync } from "node:child_process";
 import pg from "pg";
 
 const BASE = process.argv[2] ?? "http://127.0.0.1:3000";
+
+/*
+ * QA SAFETY (section 03.4). This probe mutates and did not clean up after itself.
+ * It already removed the temporary account it created, but the notifications and audit entries that account generated were left behind.
+ *
+ * Measured by scripts/audit-probe-residue.mjs, which counts every row in every table
+ * around a run. Cleanup is differential: snapshot the owned tables before the first
+ * mutation, delete exactly the ids that appeared, then re-query to prove they are
+ * gone. A row that existed before the run is never touched.
+ */
+const SWEEP_DB_URL = process.env.DATABASE_URL;
+const { assertMutableDatabase, createRowSweeper, installSweepHandlers } =
+  await import("./lib/fixture-safety.mjs");
+let finalSweep = async () => {};
+if (SWEEP_DB_URL) {
+  assertMutableDatabase(SWEEP_DB_URL, { probe: "verify-owner" });
+  const sweepClient = new (await import("pg")).default.Client({ connectionString: SWEEP_DB_URL });
+  await sweepClient.connect();
+  const sweeper = createRowSweeper({
+    client: sweepClient,
+    probe: "verify-owner",
+    tables: ["notifications", "audit_log", "activity_events"],
+  });
+  finalSweep = installSweepHandlers(sweeper, {
+    probe: "verify-owner",
+    onDone: () => sweepClient.end().catch(() => {}),
+  });
+  await sweeper.capture();
+} else {
+  /*
+   * FAIL CLOSED. This probe mutates through HTTP, and the sweep above is the only thing that removes
+   * what it creates. Warning and continuing meant the mutations still happened against a database
+   * that was never verified as disposable — and several of these probes then connected through a
+   * hardcoded fallback (postgres://postgres@127.0.0.1:5433/learners_area) that no guard had ever
+   * seen, so the run could write fixtures into an unverified database and clean up nothing. Without
+   * a verified cleanup connection there is no safe run, so there is no run. Exit 2, not 1: this is a
+   * misconfigured invocation, not a product failure.
+   */
+  console.error("  !! DATABASE_URL is not set — refusing to mutate: fixtures could neither be cleaned up nor verified as disposable");
+  process.exit(2);
+}
+// This probe writes fixtures. Refuse any database that is not disposable QA.
+const { assertMutableDatabase: __assertMutableDb } = await import("./lib/fixture-safety.mjs");
+__assertMutableDb(process.env.DATABASE_URL);
 const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
 
 let pass = 0;
@@ -138,7 +182,13 @@ try {
     await pool.query("update users set account_status = 'active' where id = $1", [tempId]);
   });
 
-  await check("a real transfer swaps both rows, is recorded and is audited", async () => {
+  // Baseline: the owner set BEFORE any transfer, so the round trip can be proved
+// net-neutral on whatever environment this runs against.
+const ownersBefore = (await pool.query(
+  "select email from users where role = 'owner' and account_status = 'active' order by email"
+)).rows.map((row) => row.email);
+
+await check("a real transfer swaps both rows, is recorded and is audited", async () => {
     const res = await owner.request("/api/owner/transfer", {
       method: "POST",
       body: { email: tempEmail, password: "Owner12345!", keepRole: "admin" },
@@ -182,10 +232,26 @@ try {
   });
 
   await check("the centre still has exactly the owners it should", async () => {
+    // The invariant that matters is that a transfer round trip is NET NEUTRAL: it
+    // must leave exactly the owner set it started with, and must not leave the
+    // temporary account holding ownership. Asserting a hardcoded global "1" instead
+    // made this fail on any environment that legitimately bootstraps its own owner
+    // (the QA database seeds qa2-owner@learners-qa.invalid alongside the product
+    // owner), which says nothing about the transfer logic under test.
     const { rows } = await pool.query(
-      "select count(*)::int as n from users where role = 'owner' and account_status = 'active'"
+      "select email from users where role = 'owner' and account_status = 'active' order by email"
     );
-    assert.equal(rows[0].n, 1, "one live owner after the round trip");
+    const after = rows.map((row) => row.email);
+    assert.deepEqual(
+      after,
+      ownersBefore,
+      `the round trip changed the owner set: before=${JSON.stringify(ownersBefore)} after=${JSON.stringify(after)}`
+    );
+    assert.ok(
+      !after.includes(tempEmail),
+      "the temporary transfer account must not still be an owner"
+    );
+    assert.ok(after.includes("owner@learnersarea.uz"), "the product owner must hold ownership again");
   });
 } finally {
   await pool.query("delete from ownership_transfers where to_user_id = $1 or from_user_id = $1", [tempId]);
@@ -196,4 +262,7 @@ try {
 
 console.log(`\n# pass ${pass} / fail ${failures.length}`);
 if (failures.length) for (const f of failures) console.log(`  - ${f}`);
-process.exit(failures.length ? 1 : 0);
+
+// process.exit() skips beforeExit, so the sweep is awaited here on the normal path.
+await finalSweep("end of run");
+process.exit(failures.length || process.exitCode === 1 ? 1 : 0);

@@ -4,8 +4,17 @@ import Link from "next/link";
 import { ListeningTestActions } from "./ListeningTestActions";
 import { useState } from "react";
 import type { Dictionary } from "@/lib/i18n/en";
+import type { CollectionTab } from "@/lib/listening/product";
 
-const collections = ["essential", "academic", "general"] as const;
+/**
+ * Every collection the library can show, INCLUDING the two practice products.
+ *
+ * `question_types` and `mcq` used to be folded into the academic tab, which presented a
+ * dedicated MCQ training package as if it were a formal Academic full test. A card is listed
+ * under its OWN collection: a practice package is visible under its own name and never
+ * counted as an academic test. The labels for both collections already exist in the dictionary.
+ */
+const collections = ["essential", "academic", "general", "question_types", "mcq", "uncatalogued"] as const satisfies readonly CollectionTab[];
 const fill = (t: string, v: Record<string, string | number>) => t.replace(/\{(\w+)\}/g, (_, k: string) => String(v[k] ?? ""));
 type Card = {
   id: string;
@@ -13,6 +22,8 @@ type Card = {
   duration: number;
   sectionNumbers?: number[];
   activityCount?: number;
+  /** The real question count of a row with no canonical package (never an assumed 40). */
+  questions?: number;
   completed: number;
   started: boolean;
   collection?: string;
@@ -24,7 +35,15 @@ export function FullListeningLibrary({ cards, dict, management = false }: { card
   const [search, setSearch] = useState("");
   const [collection, setCollection] = useState("academic");
   const [section, setSection] = useState(0);
-  const categoryOf = (card: Card) => ["question_types", "mcq"].includes(card.collection ?? "") ? "academic" : card.collection ?? "academic";
+  // The card's own collection decides its tab. Nothing is reclassified here: the catalogue
+  // membership rule lives in `src/lib/listening/product.ts` and is read by the server, which
+  // files each card under the product its authored facts prove. A card that proves NOTHING is
+  // `uncatalogued` — it used to fall back to "academic", which stated something untrue about
+  // the content. The extra tab appears only when such a card exists.
+  const categoryOf = (card: Card) => card.collection ?? "uncatalogued";
+  const tabs = collections.filter(
+    (key) => key !== "uncatalogued" || cards.some((card) => categoryOf(card) === "uncatalogued"),
+  );
   const categoryCards = cards.filter(
     (c) => categoryOf(c) === collection,
   );
@@ -40,10 +59,11 @@ export function FullListeningLibrary({ cards, dict, management = false }: { card
         className="listening-collection-tabs"
         aria-label={t.collections}
       >
-        {collections.map((key) => (
+        {tabs.map((key) => (
           <button
             key={key}
             type="button"
+            data-listening-collection={key}
             aria-pressed={collection === key}
             onClick={() => {
               setCollection(key);
@@ -85,13 +105,19 @@ export function FullListeningLibrary({ cards, dict, management = false }: { card
           >
             {management && <ListeningTestActions id={card.id} title={card.title} dict={dict} />}
             <span className="listening-library-badge badge">
-              {card.authoredRuntime ? dict.nav.listening : section ? t.badgeSection : t.badgeFull}
+              {card.legacy
+                ? fill(t.questionsMeta, { n: card.questions ?? 0 })
+                : card.authoredRuntime
+                  ? dict.nav.listening
+                  : section
+                    ? t.badgeSection
+                    : t.badgeFull}
             </span>
             <h2 className="font-display text-xl font-bold">{card.title}</h2>
             <p>
               {card.authoredRuntime ? fill(t.authoredMeta, { min: Math.round(card.duration / 60) }) : section
                 ? fill(t.sectionOf, { n: section })
-                : card.legacy ? t.badgeFull : fill(t.fullMeta, { parts: card.sectionNumbers?.length ?? 4, min: Math.round(card.duration / 60) })}
+                : card.legacy ? t.legacyMeta : fill(t.fullMeta, { parts: card.sectionNumbers?.length ?? 4, min: Math.round(card.duration / 60) })}
             </p>
             {!card.authoredRuntime && <><progress
               className="w-full"
@@ -100,13 +126,13 @@ export function FullListeningLibrary({ cards, dict, management = false }: { card
               aria-label={fill(t.progressLabel, { title: card.title })}
             />
             <p>{fill(t.completedOf5, { done: card.completed, total: card.activityCount ?? 5 })}</p></>}
-            {card.legacy ? management ? <Link className="btn-primary" href={`/admin/listening/${card.id}`}>{dict.common.continue} →</Link> : <StartTestButton testId={card.id} label={dict.listening.startAttempt} messages={dict.auth} /> : (
+            {card.legacy ? management ? <Link className="btn-primary" href={`/app/admin/listening/${card.id}`}>{dict.common.continue} →</Link> : <StartTestButton testId={card.id} label={dict.listening.startAttempt} messages={dict.auth} /> : (
             <Link
               className="btn-primary mt-auto"
               href={
                 section && !card.authoredRuntime
-                  ? `/listening/tests/${card.id}/study?section=${section}`
-                  : `/listening/tests/${card.id}`
+                  ? `/app/listening/tests/${card.id}/study?section=${section}`
+                  : `/app/listening/tests/${card.id}`
               }
             >
               {section

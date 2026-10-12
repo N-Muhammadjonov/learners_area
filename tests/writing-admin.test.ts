@@ -32,8 +32,8 @@ test("J1–J4 role policy: student/teacher denied, admin/owner allowed — enfor
   assert.equal(canManageWriting("admin"), true);
   assert.equal(canManageWriting("owner"), true);
   assert.equal(canManageWriting(null), false);
-  for (const p of ["src/app/(app)/admin/writing/page.tsx", "src/app/(app)/admin/writing/[kind]/new/page.tsx", "src/app/(app)/admin/writing/[kind]/[id]/page.tsx"]) {
-    assert.match(read(p), /requireAdministrator\(\)[\s\S]*redirect\("\/dashboard"\)/, p);
+  for (const p of ["src/app/app/(shell)/admin/writing/page.tsx", "src/app/app/(shell)/admin/writing/[kind]/new/page.tsx", "src/app/app/(shell)/admin/writing/[kind]/[id]/page.tsx"]) {
+    assert.match(read(p), /requireAdministrator\(\)[\s\S]*redirect\("\/app"\)/, p);
   }
   for (const p of ["src/app/api/admin/writing/[kind]/route.ts", "src/app/api/admin/writing/[kind]/[id]/route.ts", "src/app/api/admin/writing-prompts/route.ts"]) {
     assert.match(read(p), /canManageWriting\(user\.role\)[\s\S]*403/, p);
@@ -42,11 +42,11 @@ test("J1–J4 role policy: student/teacher denied, admin/owner allowed — enfor
 });
 
 test("J5/J23/J24 one canonical route: legacy redirect, Management and Content library link to /admin/writing", () => {
-  assert.match(read("src/app/(app)/admin/writing-prompts/page.tsx"), /redirect\("\/admin\/writing\?section=exam"\)/);
-  assert.match(read("src/app/(app)/management/page.tsx"), /href: "\/admin\/writing",/);
-  assert.doesNotMatch(read("src/app/(app)/management/page.tsx"), /\/admin\/writing-prompts/);
-  assert.match(read("src/app/(app)/admin/content/page.tsx"), /href: "\/admin\/writing",/);
-  assert.doesNotMatch(read("src/app/(app)/admin/content/page.tsx"), /\/admin\/writing-prompts/);
+  assert.match(read("src/app/app/(shell)/admin/writing-prompts/page.tsx"), /redirect\("\/app\/admin\/writing\?section=exam"\)/);
+  assert.match(read("src/app/app/(shell)/management/page.tsx"), /href: "\/app\/admin\/writing",/);
+  assert.doesNotMatch(read("src/app/app/(shell)/management/page.tsx"), /\/admin\/writing-prompts/);
+  assert.match(read("src/app/app/(shell)/admin/content/page.tsx"), /href: "\/app\/admin\/writing",/);
+  assert.doesNotMatch(read("src/app/app/(shell)/admin/content/page.tsx"), /\/admin\/writing-prompts/);
 });
 
 test("J6/J7 lessons and exam prompts: create/edit validation, new items start as drafts, edits are audited", async () => {
@@ -81,7 +81,7 @@ test("J8 Task 1 prompt cannot go live without an uploaded image block (secure ma
     assert.deepEqual(await writingPublicationIssues("prompt", p.id, db), ["task1_visual_missing"], "a hotlink is not an uploaded visual");
     await t.db.insert(resourceBlocks).values({ ownerType: "writing", ownerId: p.id, position: 1, type: "image", objectKey: "uploads/x.png", originalName: "x.png", mimeType: "image/png", size: 10, createdByUserId: actor } as typeof resourceBlocks.$inferInsert);
     assert.ok((await changeWritingPublication("prompt", p.id, "published", null, actor, db)).ok);
-    assert.equal(read("src/app/(app)/admin/writing/[kind]/[id]/page.tsx").includes('ResourceComposer dict={dict} ownerType="writing"'), true);
+    assert.equal(read("src/app/app/(shell)/admin/writing/[kind]/[id]/page.tsx").includes('ResourceComposer dict={dict} ownerType="writing"'), true);
   } finally { await t.close(); }
 });
 
@@ -170,12 +170,14 @@ test("J17–J21 shared publication rule: scheduled needs a date, scheduled→pub
 test("J22 Topic Vocabulary stays canonical: no Writing word table; admin section links to the shared vocabulary system", () => {
   const schema = read("src/db/schema.ts");
   assert.doesNotMatch(schema, /writing_topic_words|writingTopicWords/);
-  assert.match(read("src/app/(app)/admin/writing/page.tsx"), /data-admin-writing-topic[\s\S]*href="\/vocabulary"/);
-  assert.match(read("src/lib/services/writing/topic-vocabulary.ts"), /TOPIC_PACKS/);
+  assert.match(read("src/app/app/(shell)/admin/writing/page.tsx"), /data-admin-writing-topic[\s\S]*href="\/app\/vocabulary"/);
+  const topic = read("src/lib/services/writing/topic-vocabulary.ts");
+  assert.match(topic, /listTopicPacksForLearner/, "words come from the canonical packs, not from a Writing-local list");
+  assert.doesNotMatch(topic, /TOPIC_PACKS/, "and the built-in list is no longer the Writing source");
 });
 
 test("Writing Management screens use the shared BackLink and dictionary strings (UZ/EN parity)", async () => {
-  for (const p of ["src/app/(app)/admin/writing/page.tsx", "src/app/(app)/admin/writing/[kind]/new/page.tsx", "src/app/(app)/admin/writing/[kind]/[id]/page.tsx"]) {
+  for (const p of ["src/app/app/(shell)/admin/writing/page.tsx", "src/app/app/(shell)/admin/writing/[kind]/new/page.tsx", "src/app/app/(shell)/admin/writing/[kind]/[id]/page.tsx"]) {
     assert.match(read(p), /<BackLink /, p);
     assert.doesNotMatch(read(p), /← /, p);
   }

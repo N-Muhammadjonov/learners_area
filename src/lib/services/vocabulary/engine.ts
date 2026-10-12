@@ -34,6 +34,7 @@ import {
   type PointKind,
 } from "./points";
 import { legacySenseKeyOf, senseKeyOf } from "./dedupe";
+import { findTopicPackForLearner } from "@/lib/content/vocabulary-packs";
 import { linkSenseToUnit } from "@/lib/services/lexical/units";
 import { sourceRevisitHref } from "@/lib/services/lexical/context";
 import { gradeSentence, gradeSpelling, shouldAwardGamePoint, submissionMatchesGame, type GameSubmission } from "./grading";
@@ -291,6 +292,17 @@ export type NewWordInput = {
 type SaveTx = Parameters<Parameters<typeof db.transaction>[0]>[0];
 
 /**
+ * Anything these helpers can run against: the pool, or an open transaction from it.
+ *
+ * Callers that write more than one row for a single learner action need to pass their transaction
+ * down, so the whole unit commits or rolls back together. `checkActivation` is one: it stores a
+ * sentence use and then the `WRITING_ACTIVATION_CHECK` event that is the only record the learner's
+ * activation statistics are computed from. Narrowing these parameters to `typeof db` forced that
+ * caller to write outside any transaction at all.
+ */
+export type VocabularyExecutor = typeof db | SaveTx;
+
+/**
  * Record where a saved sense was met. One row per (item, occurrence): a replayed
  * save is a no-op, a new place adds a row and bumps seen_count / last_seen_at.
  * Only server-resolved snapshots reach here (routes build them from occurrences).
@@ -494,13 +506,24 @@ export async function addVocabularyBatch(input: {
   return transaction ? save(transaction) : db.transaction(save);
 }
 
-/** Add a whole topic pack in one action. */
+/**
+ * Add a whole topic pack in one action.
+ *
+ * The pack is read from the database first (canonical authored content, §31); the
+ * built-in TypeScript packs remain only as a compatibility fallback while an
+ * install has not been backfilled yet. Either way the words go through the ONE
+ * engine below, so there is still no second code path into a learner's library.
+ */
 export async function addTopicPack(userId: string, packId: string) {
-  const pack = findPack(packId);
+  const authored = await findTopicPackForLearner(packId);
+  const pack = authored ?? (() => {
+    const builtIn = findPack(packId);
+    return builtIn ? { id: builtIn.id, slug: builtIn.id, label: builtIn.label.en, labelUz: builtIn.label.uz, words: builtIn.words } : null;
+  })();
   if (!pack) return { ok: false as const, error: "unknown_pack" };
   const result = await addVocabularyBatch({
     userId,
-    items: pack.words.map((word) => ({
+    items: pack.words.map((word: { term: string; partOfSpeech: string; definitionEn: string; translationUz: string; example: string; collocations?: string }) => ({
       authored: true,
       term: word.term,
       definitionEn: word.definitionEn,
@@ -788,23 +811,38 @@ export async function recordGameAnswer(input: {
     correct = input.submission.known;
   }
 
-  // Practice counts as activity, including an incorrect answer; never as SRS.
-  await db.insert(activityEvents).values({
-    userId: input.userId,
-    type: "VOCAB_GAME_PRACTICED",
-    payload: { entryId: entry.id, kind: input.submission.kind, correct, verified },
+  /*
+   * Practice counts as activity, including an incorrect answer; never as SRS.
+   *
+   * The practice event and the point it earns are ONE write unit. These events are read back —
+   * `loadSelfAssessments` restores the learner's Learned / Not yet marks from them and `dashboard.ts`
+   * counts every event type to compute the study streak — so an event committed without its award
+   * describes an attempt the point ledger has no row for. They commit or roll back together.
+   *
+   * `touchMeaningfulActivity` stays OUTSIDE the transaction on purpose: it is documented as
+   * best-effort and non-fatal, and pulling it in would let a timestamp update roll back a point the
+   * learner had already earned. No external call is made inside the transaction either.
+   */
+  const awarded = await db.transaction(async (tx) => {
+    await tx.insert(activityEvents).values({
+      userId: input.userId,
+      type: "VOCAB_GAME_PRACTICED",
+      payload: { entryId: entry.id, kind: input.submission.kind, correct, verified },
+    });
+    return shouldAwardGamePoint({ gameId: input.gameId, kind: input.submission.kind, verified, correct })
+      ? await awardPoints(
+          {
+            userId: input.userId,
+            kind: "game_answer",
+            dedupeKey: dedupeKeys.gameAnswer(input.userId, input.entryId, dayKey(now)),
+            refType: "user_vocabulary",
+            refId: input.entryId,
+          },
+          tx,
+        )
+      : false;
   });
   await touchMeaningfulActivity(input.userId);
-  const awarded =
-    shouldAwardGamePoint({ gameId: input.gameId, kind: input.submission.kind, verified, correct })
-      ? await awardPoints({
-          userId: input.userId,
-          kind: "game_answer",
-          dedupeKey: dedupeKeys.gameAnswer(input.userId, input.entryId, dayKey(now)),
-          refType: "user_vocabulary",
-          refId: input.entryId,
-        })
-      : false;
 
   return {
     ok: true as const,
@@ -877,7 +915,7 @@ export async function recordSentenceUse(input: {
   userId: string;
   entryId: string;
   sentence: string;
-}, database: typeof db = db) {
+}, database: VocabularyExecutor = db) {
   const entry = await database.query.userVocabulary.findFirst({
     where: and(
       eq(userVocabulary.id, input.entryId),
@@ -930,7 +968,7 @@ export async function confirmSentenceUse(input: {
   now?: Date;
   /** Who judged the sentence: RIWI (Vocabulary "use") or the external AI (Writing Activation Lab). */
   origin?: "riwi" | "external_ai";
-}, database: typeof db = db) {
+}, database: VocabularyExecutor = db) {
   const now = input.now ?? new Date();
   const origin = input.origin ?? "riwi";
   const usage = await database.query.vocabularyUsages.findFirst({

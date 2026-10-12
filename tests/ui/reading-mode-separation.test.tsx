@@ -10,7 +10,7 @@ import en from "../../src/lib/i18n/en";
  * Academic exam and in the post-submission Academic review: only the mode differs.
  */
 const dom = new JSDOM('<html><body><div id="root"></div></body></html>', { url: "http://localhost/reading" });
-for (const k of ["window", "document", "navigator", "HTMLElement", "HTMLButtonElement", "HTMLInputElement", "HTMLSelectElement", "HTMLTextAreaElement", "HTMLAnchorElement", "Element", "Node", "Event", "MouseEvent", "KeyboardEvent", "localStorage", "sessionStorage", "getComputedStyle"] as const)
+for (const k of ["window", "document", "navigator", "HTMLElement", "HTMLButtonElement", "HTMLInputElement", "HTMLSelectElement", "HTMLTextAreaElement", "HTMLAnchorElement", "Element", "Node", "NodeFilter", "Event", "MouseEvent", "KeyboardEvent", "localStorage", "sessionStorage", "getComputedStyle"] as const)
   Object.defineProperty(globalThis, k, { value: dom.window[k], configurable: true });
 Object.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true, self: globalThis, ResizeObserver: class { observe() {} disconnect() {} } });
 dom.window.HTMLElement.prototype.scrollIntoView = () => {};
@@ -69,11 +69,12 @@ test("ACADEMIC_EXAM (active test): the passage reveals nothing — no word targe
       assert.ok(passage.querySelector("[data-exam-passage-text]"));
       for (const selector of ["[data-clickable-text]", "[data-word]", "[data-token]", "[data-word-popover]", "[data-word-save]", "[role=dialog]"])
         assert.equal(document.querySelector(selector), null, `no ${selector} in the active exam`);
-      // Attached material text inside the exam is plain as well.
-      assert.ok(document.querySelector("[data-resource-blocks] [data-plain-text]"));
+      // Unrestricted attachments are not assessment material and can contain keys.
+      assert.equal(document.querySelector("[data-resource-blocks]"),null);
       assert.equal(document.body.textContent?.includes(en.readingPractice.wordSaveHint), false, "no 'click a word to save' hint");
-      // Visual integrity: nothing in the passage is a focus stop or styled as interactive vocabulary.
-      assert.equal(passage.querySelectorAll("[tabindex],button,a").length, 0, "no keyboard stop in the passage");
+      // Reading V4: one keyboard-reachable annotation surface, but no lexical target.
+      assert.equal(passage.querySelectorAll("[tabindex]").length, 1, "highlight has a keyboard-reachable text region");
+      assert.equal(passage.querySelectorAll("[data-word],a").length,0);
       const classes = Array.from(passage.querySelectorAll("*")).map((el) => el.getAttribute("class") ?? "").join(" ");
       for (const banned of ["cursor-pointer", "underline", "decoration-", "bg-signal", "hover:"]) assert.equal(classes.includes(banned), false, `no ${banned} on passage text`);
       // Interaction attempts: click and keyboard on the passage produce no lookup.
@@ -82,6 +83,23 @@ test("ACADEMIC_EXAM (active test): the passage reveals nothing — no word targe
       await act(async () => { text.dispatchEvent(new dom.window.KeyboardEvent("keydown", { key: "Enter", bubbles: true })); });
       assert.equal(document.querySelector("[role=dialog]"), null);
       assert.deepEqual(net.urls.filter((url) => url.includes("/api/vocabulary")), []);
+      const surface=passage.querySelector("[data-highlight-text]") as HTMLElement;
+      const walker=document.createTreeWalker(surface,dom.window.NodeFilter.SHOW_TEXT);
+      let node:Node|null; let position=0; const range=document.createRange();
+      while((node=walker.nextNode())) { const length=node.textContent!.length;
+        if(position<=4 && position+length>4) range.setStart(node,4-position);
+        if(position<8 && position+length>=8) {range.setEnd(node,8-position);break;} position+=length;
+      }
+      window.getSelection()!.removeAllRanges();window.getSelection()!.addRange(range);
+      await act(async()=>surface.dispatchEvent(new dom.window.KeyboardEvent("keyup",{key:"Shift",bubbles:true})));
+      await act(async()=> (document.querySelector("[data-highlight-control] button") as HTMLButtonElement).click());
+      assert.equal(surface.querySelector("mark")?.textContent,"bank");
+      assert.equal(surface.textContent,body,"highlight does not change text offsets");
+      await act(async()=> (document.querySelector("[data-reading-remove-highlight]") as HTMLButtonElement).click());
+      assert.equal(surface.querySelector("mark"),null);
+      assert.equal(surface.textContent,body,"removal never deletes text");
+      assert.deepEqual(net.urls.filter(url=>url.includes("/api/vocabulary")),[]);
+
     });
   } finally { net.restore(); }
 });
@@ -89,12 +107,12 @@ test("ACADEMIC_EXAM (active test): the passage reveals nothing — no word targe
 test("ACADEMIC_EXAM: exam component cannot receive lexical data (no occurrences prop, no ClickableText import)", () => {
   const source = readFileSync("src/components/reading/ReadingExam.tsx", "utf8");
   for (const banned of ["ClickableText", "occurrenceSpans", "OccurrenceSpan", "occurrences", "wordSaveHint"]) assert.equal(source.includes(banned), false, banned);
-  const page = readFileSync("src/app/(app)/reading/attempts/[id]/page.tsx", "utf8");
+  const page = readFileSync("src/app/app/(shell)/reading/attempts/[id]/page.tsx", "utf8");
   const examJsx = page.slice(page.indexOf("<ReadingExam"), page.indexOf("/>", page.indexOf("questions={questions.map")));
   assert.equal(examJsx.includes("occurrences"), false, "the page does not send occurrences to the exam");
 });
 
-test("ACADEMIC_REVIEW remains vocabulary-free after submission", async () => {
+test("ACADEMIC_REVIEW uses canonical occurrence lookup after submission; server permission remains authoritative", async () => {
   const net = recordFetch();
   try {
     await mount(React.createElement(ReadingAnalysis, { dict: en, score: 0, total: 0, questions: [], answers: [], passageBody: body, passageTitle: "Banks", attemptId: examProps.attemptId, locale: "en", occurrences }), async () => {
@@ -102,15 +120,15 @@ test("ACADEMIC_REVIEW remains vocabulary-free after submission", async () => {
       await act(async () => show.click());
       const region = document.querySelector("[data-retention-passage]") as HTMLElement;
       assert.ok(region.textContent?.includes(body));
-      assert.equal(region.querySelector("[data-clickable-text],[data-word],[tabindex]"), null);
-      await act(async () => region.dispatchEvent(new dom.window.MouseEvent("click", { bubbles: true })));
-      assert.equal(document.querySelector("[role=dialog]"), null);
-      assert.equal(net.urls.some((url) => url.includes("/api/vocabulary")), false);
+      assert.ok(region.querySelector("[data-clickable-text],[data-word],[tabindex]"));
+      await act(async () => region.querySelector("[data-word=bank]")!.dispatchEvent(new dom.window.MouseEvent("click", { bubbles: true, detail:0 })));
+      assert.ok(document.querySelector("[role=dialog]"));
+      assert.ok(net.urls.some((url) => url.includes("occurrenceId=occ-bank")));
     });
   } finally { net.restore(); }
 });
 
-test("Reading policy table: Academic never, General always", () => {
+test("Reading policy table: active exam never; review only after submission with no active exam; General learning unchanged", () => {
   const states = [
     { submitted: false, examInProgress: false, staff: false },
     { submitted: true, examInProgress: false, staff: false },
@@ -118,7 +136,7 @@ test("Reading policy table: Academic never, General always", () => {
     { submitted: true, examInProgress: true, staff: true },
   ];
   assert.deepEqual(states.map((s) => readingLexicalAssistanceAllowed("ACADEMIC_EXAM", s)), [false, false, false, false]);
-  assert.deepEqual(states.map((s) => readingLexicalAssistanceAllowed("ACADEMIC_REVIEW", s)), [false, false, false, false]);
+  assert.deepEqual(states.map((s) => readingLexicalAssistanceAllowed("ACADEMIC_REVIEW", s)), [false, true, false, false]);
   assert.deepEqual(states.map((s) => readingLexicalAssistanceAllowed("GENERAL_READING", s)), [true, true, true, true]);
 });
 

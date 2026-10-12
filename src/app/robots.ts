@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { isPreviewDeployment, publicBaseUrl } from "@/lib/config/site";
+import { ACCOUNT_GATED_PATHS, APP_HOME, PRIVATE_MODULE_SEGMENTS } from "@/lib/nav/private-modules.mjs";
 
 export const dynamic = "force-dynamic";
 
@@ -19,30 +20,14 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: ["/$", "/login", "/register"],
+        // Derived from the shared private-module table: `/app` covers the whole
+        // canonical namespace, and the historical top-level segments are listed so
+        // a crawler that still knows the old URLs is told they are private too.
         disallow: [
           "/api/",
-          "/dashboard",
-          "/courses",
-          "/reading",
-          "/listening",
-          "/writing",
-          "/speaking",
-          "/grammar",
-          "/vocabulary",
-          "/mocks",
-          "/coach",
-          "/assignments",
-          "/progress",
-          "/live-classes",
-          "/notifications",
-          "/support",
-          "/video-lessons",
-          "/management",
-          "/onboarding",
-          "/pending",
-          "/teacher",
-          "/admin",
-          "/owner",
+          APP_HOME,
+          ...ACCOUNT_GATED_PATHS,
+          ...PRIVATE_MODULE_SEGMENTS.map((segment) => `/${segment}`),
         ],
       },
     ],

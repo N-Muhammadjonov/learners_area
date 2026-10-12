@@ -57,12 +57,12 @@ const games = (gameId: "gap" | "builder" | "race" | "translation") => <VocabGame
 test("pending link and history transitions keep current client state mounted", async () => {
   let mounts = 0, unmounts = 0;
   function Probe() { const [count, setCount] = useState(0); useEffect(() => { mounts++; return () => { unmounts++; }; }, []); return <button data-probe onClick={() => setCount((value) => value + 1)}>{count}</button>; }
-  function Control() { const runtime = useInstantInteraction(); return <button data-start onClick={() => runtime.beginNavigation('/reading')}>Navigate</button>; }
-  await mounted(<PathnameContext.Provider value="/vocabulary"><SearchParamsContext.Provider value={new URLSearchParams()}><InstantInteractionProvider entryFrames={{ reading: { title: "Reading", shape: "reading" } }}><Control /><a href="/vocabulary" data-current-url onClick={(event) => event.preventDefault()}>Current</a><InstantWorkspaceOutlet><Probe /></InstantWorkspaceOutlet></InstantInteractionProvider></SearchParamsContext.Provider></PathnameContext.Provider>, async () => {
+  function Control() { const runtime = useInstantInteraction(); return <button data-start onClick={() => runtime.beginNavigation('/app/reading')}>Navigate</button>; }
+  await mounted(<PathnameContext.Provider value="/app/vocabulary"><SearchParamsContext.Provider value={new URLSearchParams()}><InstantInteractionProvider entryFrames={{ reading: { title: "Reading", shape: "reading" } }}><Control /><a href="/app/vocabulary" data-current-url onClick={(event) => event.preventDefault()}>Current</a><InstantWorkspaceOutlet><Probe /></InstantWorkspaceOutlet></InstantInteractionProvider></SearchParamsContext.Provider></PathnameContext.Provider>, async () => {
     await click('[data-probe]'); const node = q('[data-probe]'); await click('[data-start]');
     assert.equal(q('[data-probe]'), node); assert.equal(node.textContent, '1'); assert.equal(mounts, 1); assert.equal(unmounts, 0);
     assert.equal(q('[data-workspace-content]').hasAttribute('inert'), true);
-    await act(async () => { window.history.pushState(null, '', '/listening'); window.dispatchEvent(new dom.window.PopStateEvent('popstate')); });
+    await act(async () => { window.history.pushState(null, '', '/app/listening'); window.dispatchEvent(new dom.window.PopStateEvent('popstate')); });
     assert.equal(q('[data-probe]'), node); assert.equal(unmounts, 0);
     await click('[data-current-url]');
     assert.equal(q('[data-workspace-content]').hasAttribute('inert'), false);

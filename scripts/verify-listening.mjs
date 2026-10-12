@@ -8,6 +8,59 @@
  */
 const BASE = (process.env.BASE_URL || "http://127.0.0.1:3000");
 
+/*
+ * QA SAFETY (section 03.4). This probe mutates and did not clean up after itself.
+ * It completes a real listening attempt, which then counts towards that student's history.
+ *
+ * Measured by scripts/audit-probe-residue.mjs, which counts every row in every table
+ * around a run. Cleanup is differential: snapshot the owned tables before the first
+ * mutation, delete exactly the ids that appeared, then re-query to prove they are
+ * gone. A row that existed before the run is never touched.
+ */
+const SWEEP_DB_URL = process.env.DATABASE_URL;
+const { assertMutableDatabase, createRowBorrower, createRowSweeper, installSweepHandlers } =
+  await import("./lib/fixture-safety.mjs");
+let finalSweep = async () => {};
+let sessionBorrower = null;
+if (SWEEP_DB_URL) {
+  assertMutableDatabase(SWEEP_DB_URL, { probe: "verify-listening" });
+  const sweepClient = new (await import("pg")).default.Client({ connectionString: SWEEP_DB_URL });
+  await sweepClient.connect();
+  const sweeper = createRowSweeper({
+    client: sweepClient,
+    probe: "verify-listening",
+    tables: ["listening_answers", "listening_attempts", "listening_mcq_sessions", "activity_events"],
+  });
+  // The probe clears this test's MCQ sessions as setup. They are pre-existing rows, so
+  // they are borrowed and given back — measured as listening_mcq_sessions -1 per run
+  // before this, i.e. the probe was quietly destroying state it did not create.
+  sessionBorrower = createRowBorrower({
+    client: sweepClient,
+    table: "listening_mcq_sessions",
+    probe: "verify-listening",
+  });
+  finalSweep = installSweepHandlers(sweeper, {
+    probe: "verify-listening",
+    onDone: async () => {
+      await sessionBorrower.restore();
+      await sweepClient.end().catch(() => {});
+    },
+  });
+  await sweeper.capture();
+} else {
+  /*
+   * FAIL CLOSED. This probe mutates through HTTP, and the sweep above is the only thing that removes
+   * what it creates. Warning and continuing meant the mutations still happened against a database
+   * that was never verified as disposable — and several of these probes then connected through a
+   * hardcoded fallback (postgres://postgres@127.0.0.1:5433/learners_area) that no guard had ever
+   * seen, so the run could write fixtures into an unverified database and clean up nothing. Without
+   * a verified cleanup connection there is no safe run, so there is no run. Exit 2, not 1: this is a
+   * misconfigured invocation, not a product failure.
+   */
+  console.error("  !! DATABASE_URL is not set — refusing to mutate: fixtures could neither be cleaned up nor verified as disposable");
+  process.exit(2);
+}
+
 let pass = 0;
 const failures = [];
 function check(name, ok, detail = "") {
@@ -63,14 +116,14 @@ const studentCookie = await login("demo.student@learnersarea.uz", "Student12345!
 check("the student can sign in", Boolean(studentCookie), "no session cookie");
 
 // --- the test list and a fresh attempt ------------------------------------
-const list = await page("/listening", studentCookie);
+const list = await page("/app/listening", studentCookie);
 check("the listening page renders", list.status === 200, `status ${list.status}`);
 
 // The answer key lives in the database, never in the page: the exam HTML must
 // not contain `correctAnswer` at all.
 const { default: pg } = await import("pg");
 const db = new pg.Client({
-  connectionString: (process.env.DATABASE_URL || "postgres://postgres@127.0.0.1:5433/learners_area"),
+  connectionString: process.env.DATABASE_URL,
 });
 await db.connect();
 
@@ -86,7 +139,7 @@ const started = await api("/api/listening/attempts", {
 const attemptId = started.json?.id ?? null;
 check("an attempt can be started", Boolean(attemptId), started.text.slice(0, 120));
 
-const attemptPage = await page(`/listening/attempts/${attemptId}`, studentCookie);
+const attemptPage = await page(`/app/listening/attempts/${attemptId}`, studentCookie);
 check("the exam renders", attemptPage.status === 200, `status ${attemptPage.status}`);
 check("the exam shows the audio", /audio|iframe|material/i.test(attemptPage.text));
 // A multiple-choice key is also one of its options, so the bare string is
@@ -137,12 +190,12 @@ const submitted = await api(`/api/listening/attempts/${attemptId}/submit`, {
 });
 check("the attempt can be submitted", submitted.status === 200, submitted.text.slice(0, 120));
 
-const analysis = await page(`/listening/attempts/${attemptId}`, studentCookie);
+const analysis = await page(`/app/listening/attempts/${attemptId}`, studentCookie);
 check("the analysis renders after submitting", analysis.status === 200);
 check("the analysis offers the revision studio", analysis.text.includes("data-revision-link"));
 check("the transcript is interactive in the analysis", analysis.text.includes("data-clickable-text"));
 
-const revision = await page(`/listening/attempts/${attemptId}/revision`, studentCookie);
+const revision = await page(`/app/listening/attempts/${attemptId}/revision`, studentCookie);
 check("the revision studio renders", revision.status === 200, `status ${revision.status}`);
 check("the revision studio shows the mistake map", revision.text.includes("data-mistake-map"));
 check("the mistake map names the weakest type", revision.text.includes("data-weakest-type"));
@@ -160,6 +213,7 @@ check(
 // --- MCQ Mastery: the options must not exist before the reveal ------------
 // A drill that reached `reasoned` is finished for good, so a re-run has to start
 // from a clean slate; the deletion is test-side setup, not application logic.
+if (sessionBorrower) await sessionBorrower.borrow("test_id = $1", [testId]);
 await db.query("delete from listening_mcq_sessions where test_id = $1", [testId]);
 
 const mcqQuestionId = (revision.text.match(/data-mcq-question="([0-9a-f-]{36})"/) ?? [])[1];
@@ -214,7 +268,23 @@ const revealed = await api(`/api/listening/mcq/${sessionId}`, {
   body: { step: "revealed" },
 });
 check("the reveal step exposes the options", Array.isArray(revealed.json?.options) && revealed.json.options.length > 0);
-check("the key is exposed only now", typeof revealed.json?.correctAnswer === "string");
+// THE KEY IS NOT EXPOSED HERE, DELIBERATELY. The drill has two separate gates:
+// optionsVisible() opens at `revealed` so the learner can see the menu, and
+// outcomeVisible() opens only at `chosen` so the answer is judged AFTER a commitment.
+// This probe asserted correctAnswer was a string at `revealed` — i.e. it required the
+// key to be handed over before the learner had chosen, which would make the drill
+// pointless and leak the answer to anyone who simply advanced a step. It now asserts
+// the real contract; the key's appearance after the choice is asserted below.
+check(
+  "the key is still withheld when the options appear",
+  revealed.json?.correctAnswer === null || revealed.json?.correctAnswer === undefined,
+  `correctAnswer leaked before the choice: ${JSON.stringify(revealed.json?.correctAnswer)}`
+);
+check(
+  "the explanation is also withheld before the choice",
+  revealed.json?.explanation === null || revealed.json?.explanation === undefined,
+  `explanation leaked before the choice`
+);
 
 const badChoice = await api(`/api/listening/mcq/${sessionId}`, {
   method: "PATCH",
@@ -242,7 +312,7 @@ check("the drill ends with no next step", reasoned.json?.next === null);
 // --- ownership and score integrity ---------------------------------------
 const otherLogin = await login("new.student@learnersarea.uz", "Student12345!");
 if (otherLogin) {
-  const foreign = await page(`/listening/attempts/${attemptId}/revision`, otherLogin);
+  const foreign = await page(`/app/listening/attempts/${attemptId}/revision`, otherLogin);
   check(
     "another student cannot open this revision studio",
     foreign.status === 404 || foreign.status === 307 || foreign.status === 302,
@@ -278,4 +348,7 @@ if (failures.length) {
   console.log("# failures:");
   for (const f of failures) console.log(`  - ${f}`);
 }
-process.exit(failures.length ? 1 : 0);
+
+// process.exit() skips beforeExit, so the sweep is awaited here on the normal path.
+await finalSweep("end of run");
+process.exit(failures.length || process.exitCode === 1 ? 1 : 0);

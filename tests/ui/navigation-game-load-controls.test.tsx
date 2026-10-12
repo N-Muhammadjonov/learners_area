@@ -54,7 +54,7 @@ async function withRoot(element: React.ReactNode, run: () => Promise<void> | voi
 function runtime(child: React.ReactNode) {
   const router = { back() {}, forward() {}, refresh() {}, push() {}, replace() {}, prefetch() {} };
   return React.createElement(AppRouterContext.Provider, { value: router as never },
-    React.createElement(PathnameContext.Provider, { value: "/vocabulary/games/gap" },
+    React.createElement(PathnameContext.Provider, { value: "/app/vocabulary/games/gap" },
       React.createElement(SearchParamsContext.Provider, { value: new URLSearchParams("set=all") },
         React.createElement(InstantInteractionProvider, null, child))));
 }

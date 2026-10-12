@@ -1,3 +1,4 @@
+import { mcqSelectedOptions } from "@/lib/listening/mcq-choice";
 /**
  * MCQ Mastery — the staged multiple-choice drill.
  *
@@ -80,7 +81,7 @@ export type AdvanceResult =
  */
 export function advance(
   stage: McqStage,
-  input: { step?: string; text?: string; options?: string[] }
+  input: { step?: string; text?: string; options?: string[]; multi?: boolean }
 ): AdvanceResult {
   const step = nextStep(stage);
   if (!step || input.step !== step.to) return { ok: false, error: "out_of_order" };
@@ -90,7 +91,7 @@ export function advance(
     if (text.length < step.minLength) return { ok: false, error: "missing_text" };
     if (step.field === "chosenAnswer") {
       const options = input.options ?? [];
-      if (!options.includes(text)) return { ok: false, error: "not_in_options" };
+      if (!mcqSelectedOptions(text, options, input.multi === true)) return { ok: false, error: "not_in_options" };
     }
   }
 

@@ -36,11 +36,11 @@ test("W11: learners open standalone items on a native URL, live-only, without co
   const fn = data.slice(data.indexOf("export async function getStandaloneVideoLesson"), data.indexOf("export async function listStandaloneVideoLessonsForStudent"));
   assert.match(fn, /isNull\(videoLessons\.lessonId\)/);
   assert.match(fn, /liveWhere\(/);
-  const page = read("src/app/(app)/video-lessons/[id]/page.tsx");
+  const page = read("src/app/app/(shell)/video-lessons/[id]/page.tsx");
   assert.match(page, /requireActiveUser\(\)/);
   assert.match(page, /notFound\(\)/);
-  const index = read("src/app/(app)/video-lessons/page.tsx");
-  assert.match(index, /href=\{`\/video-lessons\/\$\{row\.id\}`\}/);
+  const index = read("src/app/app/(shell)/video-lessons/page.tsx");
+  assert.match(index, /href=\{`\/app\/video-lessons\/\$\{row\.id\}`\}/);
   // Legacy course-linked items still route through their lesson.
   assert.match(index, /\/courses\/\$\{row\.courseSlug\}\/lessons\/\$\{row\.lesson\.id\}/);
 });
@@ -64,7 +64,7 @@ test("W12 superseded UI: native captions replace the reveal; legacy transcript s
   assert.doesNotMatch(studio, /data-video-transcript-reveal/);
   assert.match(studio, /if \(hasTranscript\) list\.push\("transcript"\);/);
   assert.match(read("src/lib/services/video/provider.ts"), /cc_load_policy: "1"/);
-  for (const page of ["src/app/(app)/video-lessons/[id]/page.tsx", "src/app/(app)/courses/ielts/lessons/[lessonId]/page.tsx"]) {
+  for (const page of ["src/app/app/(shell)/video-lessons/[id]/page.tsx", "src/app/app/(shell)/courses/ielts/lessons/[lessonId]/page.tsx"]) {
     assert.match(read(page), /transcriptText: (video\.)?videoLesson\.transcriptText \?\? null/);
   }
 });
@@ -77,7 +77,7 @@ test("standalone learner loader includes authored exercises but the learner page
     data.indexOf("export async function listStandaloneVideoLessonsForStudent")
   );
   assert.match(fn, /videoLessonQuestions/);
-  const page = read("src/app/(app)/video-lessons/[id]/page.tsx");
+  const page = read("src/app/app/(shell)/video-lessons/[id]/page.tsx");
   assert.match(page, /data.questions.map/);
   assert.doesNotMatch(page, /acceptedAnswers/);
 });

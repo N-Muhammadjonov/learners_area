@@ -1,10 +1,13 @@
+import { activateReadingSchedules } from "@/lib/services/reading/schedules";
 import "server-only";
-import { eq, sql } from "drizzle-orm";
+import { publishedVersionForTarget } from "@/lib/content/attempt-binding";
+import { eq, sql, inArray } from "drizzle-orm";
 import { db } from "@/db/client";
 import {
   generalReadingSets,
   readingAttempts,
   readingPassages,
+  readingQuestions,
 } from "@/db/schema";
 import { isLive } from "@/lib/services/cms/publication";
 
@@ -44,14 +47,13 @@ export async function assessmentScope(
     title: result.rows[0]!.title,
   };
 }
-export async function startAcademicSet(userId: string, setId: string) {
-  return db.transaction(async (tx) => {
+export async function startAcademicSet(userId: string, setId: string, executor: typeof db = db) {
+  await activateReadingSchedules(executor);
+  return executor.transaction(async (tx) => {
     await tx.execute(
       sql`select pg_advisory_xact_lock(hashtext(${userId + ":" + setId}))`,
     );
-    const set = await tx.query.generalReadingSets.findFirst({
-      where: eq(generalReadingSets.id, setId),
-    });
+    const [set] = await tx.select().from(generalReadingSets).where(eq(generalReadingSets.id,setId)).limit(1).for("share");
     if (!set || !isLive(set)) return null;
     const slots = await tx.execute<{ passage_id: string; passage_no: number }>(
       sql`select passage_id,passage_no from general_reading_passages where set_id=${setId}::uuid order by passage_no`,
@@ -61,6 +63,8 @@ export async function startAcademicSet(userId: string, setId: string) {
       slots.rows.some((p, i) => p.passage_no !== i + 1)
     )
       return null;
+    const questions = await tx.select({id:readingQuestions.id,passageId:readingQuestions.passageId}).from(readingQuestions).where(inArray(readingQuestions.passageId,slots.rows.map(s=>s.passage_id)));
+    if(questions.length !== 40 || slots.rows.some(slot=>!questions.some(q=>q.passageId===slot.passage_id))) return null;
     for (const slot of slots.rows) {
       const passage = await tx.query.readingPassages.findFirst({
         where: eq(readingPassages.id, slot.passage_id),
@@ -71,9 +75,10 @@ export async function startAcademicSet(userId: string, setId: string) {
       sql`select r.id from reading_attempts r join reading_assessments a on a.attempt_id=r.id where r.user_id=${userId}::uuid and a.set_id=${setId}::uuid and r.status='in_progress' order by r.started_at desc limit 1`,
     );
     if (previous.rows[0]) return previous.rows[0].id;
+    const revision = await publishedVersionForTarget("general_reading_set",setId,tx);
     const [attempt] = await tx
       .insert(readingAttempts)
-      .values({ userId, passageId: slots.rows[0]!.passage_id })
+      .values({ userId, passageId: slots.rows[0]!.passage_id, contentVersionId: revision?.id ?? null })
       .returning();
     await tx.execute(
       sql`insert into reading_assessments(attempt_id,set_id,title) values(${attempt!.id}::uuid,${setId}::uuid,${set.title})`,

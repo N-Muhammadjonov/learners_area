@@ -8,7 +8,7 @@ import { gradePackage } from "@/lib/listening/package";
 import { getAttemptDetail } from "@/lib/data/listening";
 import { isUuid } from "@/lib/validation/ids";
 import { enforce } from "@/lib/http/rate-limit";
-const input = z.object({ kind:z.enum(["matching","completion","retry"]), answers:z.record(z.string().regex(/^\d{1,2}$/),z.string().max(500)), complete:z.boolean() });
+const input = z.object({ kind:z.enum(["matching","completion","retry","map"]), answers:z.record(z.string().regex(/^\d{1,2}$/),z.string().max(500)), complete:z.boolean() });
 export async function POST(req: NextRequest, context: { params: Promise<{ id:string }> }) {
  try { return await handle(req, context); } catch { return NextResponse.json({error:"practice_unavailable"},{status: 503,headers:{"Cache-Control":"private, no-store"}}); }
 }

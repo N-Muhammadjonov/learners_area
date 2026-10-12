@@ -9,33 +9,33 @@ const read = (path: string) => readFileSync(join(ROOT, path), "utf8");
 
 test("required section and nested-route clicks retain stable, privacy-safe destination keys", () => {
   const targets = [
-    ["/dashboard", "dashboard"],
-    ["/live-classes", "live-classes"],
-    ["/assignments", "assignments"],
-    ["/listening/history", "listening"],
-    ["/video-lessons", "video-lessons"],
-    ["/reading/attempts/attempt-private?mode=review", "reading"],
-    ["/writing/history", "writing"],
-    ["/speaking/practice", "speaking"],
-    ["/grammar/topic-private", "grammar"],
-    ["/vocabulary/games/translation", "vocabulary"],
-    ["/progress", "progress"],
-    ["/mocks", "mocks"],
+    ["/app", "dashboard"],
+    ["/app/live-classes", "live-classes"],
+    ["/app/assignments", "assignments"],
+    ["/app/listening/history", "listening"],
+    ["/app/video-lessons", "video-lessons"],
+    ["/app/reading/attempts/attempt-private?mode=review", "reading"],
+    ["/app/writing/history", "writing"],
+    ["/app/speaking/practice", "speaking"],
+    ["/app/grammar/topic-private", "grammar"],
+    ["/app/vocabulary/games/translation", "vocabulary"],
+    ["/app/progress", "progress"],
+    ["/app/mocks", "mocks"],
   ] as const;
   for (const [href, key] of targets) {
-    const intent = internalNavigationTarget(href, "https://learners.example", "/support");
+    const intent = internalNavigationTarget(href, "https://learners.example", "/app/support");
     assert.equal(intent?.routeKey, key, href);
     assert.equal(workspaceKey(new URL(href, "https://learners.example").pathname), key, href);
   }
-  const reading = internalNavigationTarget("/reading/attempts/attempt-private?mode=review", "https://learners.example", "/dashboard");
-  assert.equal(reading?.href, "/reading/attempts/attempt-private?mode=review");
+  const reading = internalNavigationTarget("/app/reading/attempts/attempt-private?mode=review", "https://learners.example", "/app");
+  assert.equal(reading?.href, "/app/reading/attempts/attempt-private?mode=review");
   assert.equal(reading?.routeKey, "reading", "private attempt ids never become metric/frame keys");
 });
 
 test("route intent preserves native external/new-tab/hash semantics and Next owns browser history", () => {
-  assert.equal(internalNavigationTarget("https://external.example", "https://learners.example", "/dashboard"), null);
-  assert.equal(internalNavigationTarget("/dashboard#top", "https://learners.example", "/dashboard"), null);
-  assert.equal(routeLocation("/reading", "?page=2"), "/reading?page=2");
+  assert.equal(internalNavigationTarget("https://external.example", "https://learners.example", "/app"), null);
+  assert.equal(internalNavigationTarget("/app#top", "https://learners.example", "/app"), null);
+  assert.equal(routeLocation("/app/reading", "?page=2"), "/app/reading?page=2");
   const provider = read("src/components/interaction/InstantInteractionProvider.tsx");
   assert.match(provider, /router\.push\(href\)/);
   assert.doesNotMatch(provider, /history\.(pushState|replaceState)/);
@@ -47,7 +47,7 @@ test("destination frame appears on the click path, then yields to route content 
   const provider = read("src/components/interaction/InstantInteractionProvider.tsx");
   const outlet = read("src/components/interaction/InstantWorkspaceOutlet.tsx");
   const frame = read("src/components/interaction/SectionEntryFrame.tsx");
-  const layout = read("src/app/(app)/layout.tsx");
+  const layout = read("src/app/app/(shell)/layout.tsx"); // the ordinary shell chrome
   assert.match(provider, /setNavigation\(intent\)/);
   assert.match(outlet, /currentLocation === navigation\.from/);
   assert.match(outlet, /data-workspace-content inert=\{pending \|\| undefined\}>\{children\}/);

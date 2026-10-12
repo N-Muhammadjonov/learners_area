@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Dictionary } from "@/lib/i18n/en";
 import { listStealing, stealingLibrary, stealingSources, type StealingFilter } from "@/lib/services/writing/stealing";
 import { safeWritingQuery } from "@/lib/writing/safe-query";
+import { InvalidCursorError } from "@/lib/data/keyset-cursor";
 import { writingAiReady } from "@/lib/writing/ai-readiness";
 import { PATTERN_FUNCTIONS, isPatternFunction } from "@/lib/writing/pattern-functions";
 import { STEALING_STEPS } from "@/lib/writing/stealing-rules";
@@ -10,12 +11,12 @@ import { SavePatternButton } from "@/components/writing/topic/SaveButtons";
 import { PatternPractice } from "./PatternPractice";
 import { StartStealingButton } from "./StartStealingButton";
 
-export type StealingParams = { task?: string; fn?: string; topic?: string; band?: string; bank?: string };
+export type StealingParams = { task?: string; fn?: string; topic?: string; band?: string; bank?: string; cursor?: string };
 
 function href(base: StealingParams, patch: StealingParams) {
   const q = new URLSearchParams({ tab: "language-stealing" });
   for (const [k, v] of Object.entries({ ...base, ...patch })) if (v) q.set(k, v);
-  return `/writing?${q.toString()}`;
+  return `/app/writing?${q.toString()}`;
 }
 function Pill({ href: h, active, children }: { href: string; active: boolean; children: React.ReactNode }) {
   return <Link href={h} aria-current={active ? "true" : undefined} className={`inline-flex min-h-11 items-center rounded-full border px-4 text-sm ${active ? "border-signal-500 bg-signal-50 font-semibold text-ink-900 dark:bg-signal-950/40" : "border-ink-100 text-ink-700 hover:border-ink-300"}`}>{children}</Link>;
@@ -35,10 +36,29 @@ export async function WritingLanguageStealingTab({ dict, userId, params }: { dic
     topic: params.topic && params.topic.length <= 120 ? params.topic : undefined,
     band: Number.isInteger(band) && band >= 5 && band <= 9 ? band : undefined,
     saved: params.bank === "1",
+    ...(params.cursor ? { cursor: params.cursor } : {}),
   };
-  const data = await safeWritingQuery(() => Promise.all([stealingLibrary(userId, filter), stealingSources(), listStealing(userId)]));
+  // A cursor that does not belong to this filter (an old link, a hand-edited URL) must
+  // not be obeyed and must not blank the page. The walk restarts from the beginning
+  // and SAYS SO — a silent restart would quietly re-serve rows already seen.
+  let staleCursor = false;
+  const load = async () => {
+    try {
+      return await stealingLibrary(userId, filter);
+    } catch (error) {
+      if (error instanceof InvalidCursorError) {
+        staleCursor = true;
+        const { cursor: _ignored, ...rest } = filter;
+        return await stealingLibrary(userId, rest);
+      }
+      throw error;
+    }
+  };
+  const data = await safeWritingQuery(() => Promise.all([load(), stealingSources(), listStealing(userId)]));
   if (!data.ok) return <NotMigrated dict={dict} />;
   const [lib, sources, sessions] = data.value;
+  // The cursor is deliberately NOT carried into the filter pills: changing a filter
+  // starts a new walk, and reusing the old position would land in the wrong place.
   const cur: StealingParams = { task: filter.task, fn: filter.fn, topic: filter.topic, band: filter.band ? String(filter.band) : undefined, bank: filter.saved ? "1" : undefined };
   const aiReady = (await writingAiReady());
   const saveLabels = { save: t.save, saved: t.saved, error: t.saveError };
@@ -69,7 +89,7 @@ export async function WritingLanguageStealingTab({ dict, userId, params }: { dic
                   <p className="font-semibold text-ink-900">{s.title}</p>
                   <p className="text-sm text-ink-500">{s.taskType === "task1" ? "Task 1" : "Task 2"} · {s.topic} · Band {s.targetBand} · {t.patternsCount.replace("{n}", String(s.patternCount))}</p>
                 </div>
-                {mine ? <Link href={`/writing/language-stealing/${mine.id}`} className="btn-secondary min-h-11">{mine.completedAt ? t.done : `${t.resume} · ${t.stepOf.replace("{n}", String(mine.step))}`}</Link>
+                {mine ? <Link href={`/app/writing/language-stealing/${mine.id}`} className="btn-secondary min-h-11">{mine.completedAt ? t.done : `${t.resume} · ${t.stepOf.replace("{n}", String(mine.step))}`}</Link>
                   : <StartStealingButton modelTextId={s.id} label={t.start} errorLabel={t.error} />}
               </div>
             );
@@ -80,7 +100,7 @@ export async function WritingLanguageStealingTab({ dict, userId, params }: { dic
           {sessions.length === 0 ? <p className="text-base text-ink-500">—</p> : (
             <ul className="flex flex-col gap-2">{sessions.map((x) => {
               const src = sources.find((s) => s.id === x.modelTextId);
-              return <li key={x.id}><Link href={`/writing/language-stealing/${x.id}`} className="flex min-h-11 items-center justify-between rounded-lg border border-ink-100 px-3 text-base text-ink-800 hover:border-ink-300"><span>{src?.title ?? "—"}</span><span className="text-sm text-ink-500">{x.completedAt ? t.done : t.stepOf.replace("{n}", String(x.step))}</span></Link></li>;
+              return <li key={x.id}><Link href={`/app/writing/language-stealing/${x.id}`} className="flex min-h-11 items-center justify-between rounded-lg border border-ink-100 px-3 text-base text-ink-800 hover:border-ink-300"><span>{src?.title ?? "—"}</span><span className="text-sm text-ink-500">{x.completedAt ? t.done : t.stepOf.replace("{n}", String(x.step))}</span></Link></li>;
             })}</ul>
           )}
         </div>
@@ -111,6 +131,36 @@ export async function WritingLanguageStealingTab({ dict, userId, params }: { dic
         </Row>
       </div>
 
+      {staleCursor ? (
+        <p role="status" className="rounded-md bg-paper-sunken p-3 text-sm text-ink-700" data-stealing-stale-cursor>
+          {t.staleCursor}
+        </p>
+      ) : null}
+      {/*
+        BOUNDED CONTINUATION, not just a confession. "Showing 300 of 320" is honest but
+        still leaves 20 patterns unreachable, and in the saved bank those 20 are the
+        learner's own work. The remainder is walked with a keyset cursor carried in the
+        URL, so it needs no client state and the browser's Back button is the way back.
+      */}
+      {lib.hasMore || params.cursor ? (
+        <div className="flex flex-wrap items-center gap-3 rounded-md bg-paper-sunken p-3 text-sm text-ink-700" data-stealing-truncated>
+          <span>{t.truncated.replace("{shown}", String(lib.patterns.length)).replace("{matching}", String(lib.matching))}</span>
+          {lib.hasMore && lib.nextCursor ? (
+            <Link
+              href={href(cur, { cursor: lib.nextCursor })}
+              className="inline-flex min-h-11 items-center rounded-full border border-signal-500 px-4 font-semibold text-ink-900"
+              data-stealing-more
+            >
+              {t.morePatterns.replace("{n}", String(Math.min(lib.pageSize, lib.matching - lib.patterns.length)))}
+            </Link>
+          ) : null}
+          {params.cursor ? (
+            <Link href={href(cur, { cursor: undefined })} className="inline-flex min-h-11 items-center rounded-full border border-ink-100 px-4" data-stealing-restart>
+              {t.firstPage}
+            </Link>
+          ) : null}
+        </div>
+      ) : null}
       {lib.patterns.length === 0 ? <p role="status" className="rounded-md bg-paper-sunken p-3 text-base text-ink-700" data-stealing-empty>{t.noPatterns}</p> : (
         <ul className="grid gap-4 md:grid-cols-2">
           {lib.patterns.map((p) => (

@@ -23,11 +23,13 @@ function WeekChart({ t, title, points, max, unit, id }: { t: T; title: string; p
       )}
       <details>
         <summary className="meta-text cursor-pointer">{t.asTable}</summary>
+        <div className="overflow-x-auto">
         <table className="mt-2 w-full text-left text-xs" data-trend-table={id}>
           <caption className="sr-only">{title}</caption>
           <thead><tr><th scope="col">{t.week}</th><th scope="col">{t.value}</th><th scope="col">{t.count}</th></tr></thead>
           <tbody>{points.map((p) => <tr key={p.weekStart}><th scope="row" className="font-normal">{p.weekStart}</th><td>{p.value === null ? "—" : `${p.value}${unit}`}</td><td>{p.count}</td></tr>)}</tbody>
         </table>
+        </div>
       </details>
     </div>
   );
@@ -83,11 +85,13 @@ export function ProgressTrends({ dict, trends }: { dict: Dictionary; trends: Tre
             </div>
             <details>
               <summary className="meta-text cursor-pointer">{t.asTable}</summary>
+              <div className="overflow-x-auto">
               <table className="mt-2 text-left text-xs" data-heatmap-table>
                 <caption className="sr-only">{t.heatmapTitle}</caption>
                 <thead><tr><th scope="col">{t.day}</th><th scope="col">{t.activities}</th></tr></thead>
                 <tbody>{days.filter((d) => d.count > 0).map((d) => <tr key={d.day}><th scope="row" className="font-normal">{d.day}</th><td>{d.count}</td></tr>)}</tbody>
               </table>
+              </div>
             </details>
           </>
         )}
@@ -96,6 +100,7 @@ export function ProgressTrends({ dict, trends }: { dict: Dictionary; trends: Tre
       <Card data-progress-retention-trends>
         <h2 className="mb-2 font-display text-lg text-ink-900">{t.retentionTitle}</h2>
         {trends.retention === null ? <p className="meta-text" data-trend-unavailable>{t.unavailable}</p> : (
+          <div className="overflow-x-auto">
           <table className="w-full text-left text-sm" data-retention-trend-table>
             <caption className="sr-only">{t.retentionTitle}</caption>
             <thead><tr><th scope="col">{t.level}</th><th scope="col">{t.attempts}</th><th scope="col">{t.textsCompleted}</th><th scope="col">{t.best}</th><th scope="col">{t.recent}</th><th scope="col">{t.average}</th><th scope="col">{t.change}</th></tr></thead>
@@ -107,6 +112,7 @@ export function ProgressTrends({ dict, trends }: { dict: Dictionary; trends: Tre
               </tr>
             ))}</tbody>
           </table>
+          </div>
         )}
       </Card>
     </>
