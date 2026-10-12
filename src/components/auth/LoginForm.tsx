@@ -16,12 +16,18 @@ export function LoginForm({
   telegramBotUsername,
   googleConfigured = false,
   diagnostics = false,
+  passwordEnabled = true,
+  recovery = false,
+  nonce,
 }: {
   dict: Dictionary;
   telegramConfigured: boolean;
   telegramBotUsername?: string;
   googleConfigured?: boolean;
   diagnostics?: boolean;
+  passwordEnabled?: boolean;
+  recovery?: boolean;
+  nonce?: string;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -44,7 +50,7 @@ export function LoginForm({
     setError("");
     try {
       const result = await requestJson<{ accountStatus?: string; onboarded?: boolean; role?: string }>(
-        "/api/auth/login",
+        recovery ? "/api/auth/recovery/login" : "/api/auth/login",
         { body: { email, password } }
       );
       if (!result.ok) {
@@ -79,6 +85,11 @@ export function LoginForm({
     }
   }
 
+  if (!passwordEnabled) return (
+    <TelegramButton label={dict.auth.continueWithTelegram} unavailableLabel={dict.auth.telegramUnavailable}
+      configured={telegramConfigured} botUsername={telegramBotUsername} nonce={nonce} />
+  );
+
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-4">
       <div>
@@ -93,6 +104,7 @@ export function LoginForm({
       <Button type="submit" disabled={pending}>
         {pending ? dict.common.loading : dict.auth.loginCta}
       </Button>
+      {!recovery && <>
       <div className="text-right text-sm">
         <Link href="/reset-password" className="btn-secondary ">
           {dict.auth.forgotPassword}
@@ -113,7 +125,9 @@ export function LoginForm({
         unavailableLabel={dict.auth.telegramUnavailable}
         configured={telegramConfigured}
         botUsername={telegramBotUsername}
+        nonce={nonce}
       />
+      </>}
     </form>
   );
 }
