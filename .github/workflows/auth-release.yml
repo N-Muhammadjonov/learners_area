@@ -1,0 +1,27 @@
+name: Authentication release regression
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  auth-release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - name: Authentication and security regression
+        run: node --no-wasm-tier-up --conditions=react-server --import tsx --test --test-concurrency=1 tests/public-auth-policy.test.ts tests/login-enumeration-timing.test.ts tests/password-login-projection.test.ts tests/google-auth.test.ts tests/security-http.test.ts tests/cookie-policy.test.ts tests/rate-limit-trust-boundary.test.ts tests/owner-invariant.test.ts tests/app-namespace.test.ts tests/brand-assets.test.ts
+      - name: Authentication UI regression
+        run: TSX_TSCONFIG_PATH=tests/ui/tsconfig.json node --import tsx --test tests/ui/auth-release.test.tsx tests/ui/part1-hotfix.test.tsx
+      - run: npm run build
+      - name: Production-build HTTP policy regression (no production database)
+        run: node scripts/verify-auth-release-http.mjs
