@@ -1,3 +1,4 @@
+import { publicAuthPolicy, publicAuthDisabledResponse } from "@/lib/auth/public-auth-policy";
 import { NextRequest, NextResponse } from "next/server";
 import { authorizationUrl, googleConfigFrom, pkceChallenge, randomToken } from "@/lib/auth/providers/google";
 import { RULES, clientKey, enforce } from "@/lib/http/rate-limit";
@@ -5,6 +6,7 @@ import { googleFlowCookieOptions, GOOGLE_FLOW_COOKIE } from "@/lib/auth/google-f
 
 /** GET /api/auth/google/start — begins OIDC; 404-style redirect when not configured. */
 export async function GET(req: NextRequest) {
+  if (!publicAuthPolicy().googleEnabled) return publicAuthDisabledResponse();
   const limited = enforce(RULES.loginByIp, clientKey(req));
   if (limited) return limited;
   const { config } = googleConfigFrom(process.env);
