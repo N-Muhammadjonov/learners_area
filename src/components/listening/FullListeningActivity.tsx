@@ -302,7 +302,7 @@ export function FullListeningActivity({
               {q && (
                 <>
                   <h2>
-                    Q{q.number}. {studyText(q.text, `q${q.number}:text`)}
+                    Q{q.number}. {studyText(q.text, `q${q.number}:text`, true)}
                   </h2>
                   <p>
                     Answer: {q.key}
@@ -501,7 +501,7 @@ export function FullListeningActivity({
                   </h2>
                   {x.translationUz && <p>{x.translationUz}</p>}
                   <p>{x.definitionEn}</p>
-                  <p className="academic-text">{studyText(x.example, `v:${i}:example`)}</p>
+                  <div className="academic-text">{studyText(x.example, `v:${i}:example`)}</div>
                   <p>Also said as: {x.also.join(" · ")}</p>
                   <button
                     type="button"

@@ -14,6 +14,12 @@ import type { LessonEditModel } from "@/lib/content/lesson-edit";
 import { blockPayload, type EditableLessonBlock } from "@/lib/content/lesson-edit-shape";
 import type { Dictionary } from "@/lib/i18n/en";
 
+// Quiz payloads use a type ID without a module. Match the registry's first-ID
+// lookup and expose each selectable value only once.
+const quizTypes = QUESTION_TYPES.filter((type, index) =>
+  QUESTION_TYPES.findIndex((entry) => entry.id === type.id) === index,
+);
+
 /**
  * THE LESSON AUTHORING DESK.
  *
@@ -879,7 +885,7 @@ export function LessonAuthoringDesk({
                             }
                             data-lesson-authoring-quiz-type
                           >
-                            {QUESTION_TYPES.map((type) => (
+                            {quizTypes.map((type) => (
                               <option key={type.id} value={type.id}>
                                 {type.label}
                               </option>

@@ -176,6 +176,9 @@ test("Vocabulary mounts without an audio element and makes zero media or API req
         assert.equal(document.querySelector("audio,video,iframe"), null);
         assert.equal(calls, 0);
         assert.ok(document.body.textContent?.includes("keen"));
+        const example = document.querySelector(".academic-text");
+        assert.equal(example?.textContent, "I am keen.");
+        assert.equal(example?.tagName, "DIV", "lexical text uses a block-safe parent without hydration repair");
       },
     );
   } finally {

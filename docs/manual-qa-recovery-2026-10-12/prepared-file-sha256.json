@@ -1,0 +1,22 @@
+{
+  "05-export-evidence.sql": {
+    "bytes": 829,
+    "sha256": "d4428784bad2ca0f744445ede691a9050cdb353b88b40b36ceda2cea40b86a47"
+  },
+  "03-apply-primary-0038-0052.sql": {
+    "bytes": 262031,
+    "sha256": "392971edd5b9bc389ac017c44f8e587cf0623707805f51a237fe2fdd101cb9e0"
+  },
+  "04-readonly-verify.sql": {
+    "bytes": 127983,
+    "sha256": "8722ab97388f8135300ad4f4c2f4e010ee4d07ffc03e68948e1cb3f8df5c26d6"
+  },
+  "01-backup.sql": {
+    "bytes": 46845,
+    "sha256": "1f660860fd7a12d996daa545338c3151da22a90d51ab5a12d719c76adc041380"
+  },
+  "02-enum.sql": {
+    "bytes": 4818,
+    "sha256": "9f4acc6fab856d07b4a327405091a9015b9c01b75577a85109b4e6ebad340230"
+  }
+}

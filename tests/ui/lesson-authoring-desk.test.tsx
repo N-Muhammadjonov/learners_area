@@ -173,6 +173,18 @@ async function openLesson() {
   await click(`[data-lesson-authoring-item="${LESSON_ID}"]`);
 }
 
+test("quiz types expose one option per canonical value and retain the saved choice", async () => {
+  await mount({}, async () => {
+    await openLesson();
+    const select = document.querySelector<HTMLSelectElement>("[data-lesson-authoring-quiz-type]")!;
+    const values = Array.from(select.options, (option) => option.value);
+    assert.equal(new Set(values).size, values.length);
+    const { QUESTION_TYPES } = await import("../../src/lib/content/question-types");
+    assert.deepEqual(new Set(values), new Set(QUESTION_TYPES.map((type) => type.id)));
+    assert.equal(select.value, "mcq_single");
+  });
+});
+
 test("the desk loads exactly what is inside the lesson, and says which revision it is editing", async () => {
   await mount({}, async () => {
     await openLesson();
