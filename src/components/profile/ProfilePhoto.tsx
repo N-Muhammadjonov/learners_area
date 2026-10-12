@@ -27,6 +27,7 @@ export function ProfilePhoto({ userId, dict, initialPresent = true }: { userId: 
       const result = await request("/api/profile/photo", { method: "POST", body: form });
       if (!result?.ok) throw new Error();
       setPresent(true); setVersion(value => value + 1); setMessage(t.saved);
+      window.dispatchEvent(new CustomEvent("profile-photo-changed", { detail: { userId, present: true } }));
     } catch { setMessage(t.failed); }
     finally { URL.revokeObjectURL(url); flight.current = false; setBusy(false); }
   }
@@ -37,6 +38,7 @@ export function ProfilePhoto({ userId, dict, initialPresent = true }: { userId: 
       const result = await request("/api/profile/photo", { method: "DELETE" });
       if (!result?.ok) { setMessage(t.failed); return; }
       setPresent(false); setMessage(t.saved);
+      window.dispatchEvent(new CustomEvent("profile-photo-changed", { detail: { userId, present: false } }));
     } finally { flight.current = false; setBusy(false); }
   }
   return <section className="card flex flex-wrap items-center gap-5 p-5"><div className="flex h-28 w-28 items-center justify-center overflow-hidden rounded-full bg-signal-50 text-4xl">{present ? <Image key={version} src={`/api/profile/photo/${userId}?v=${version}`} alt={t.title} width={112} height={112} unoptimized onError={() => setPresent(false)} className="h-full w-full object-cover" /> : "🎓"}</div><div className="flex flex-col gap-3"><h2 className="font-display text-lg">{t.title}</h2><label className="btn-secondary cursor-pointer">{busy ? dict.profile.saving : t.upload}<input className="sr-only" type="file" accept="image/png,image/jpeg,image/webp" disabled={busy} onChange={event => { const file = event.target.files?.[0]; if (file) void upload(file); event.target.value = ""; }} /></label><button type="button" disabled={busy} className="btn-ghost" onClick={() => void remove()}>{t.remove}</button>{message && <p role="status">{message}</p>}</div></section>;

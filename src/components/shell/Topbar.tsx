@@ -34,12 +34,16 @@ import type { Role } from "@/lib/auth/roles";
 export function Topbar({
   dict,
   locale,
+  userId,
+  photoPresent,
   userName,
   userEmail,
   role,
 }: {
   dict: Dictionary;
   locale: Locale;
+  userId: string;
+  photoPresent: boolean;
   userName: string;
   userEmail?: string | null;
   role: Role;
@@ -67,7 +71,7 @@ export function Topbar({
       </div>
       <div className="col-start-3 row-start-1 flex shrink-0 items-center gap-1.5 md:gap-2">
         <NotificationBell label={dict.notifications.title} loadingLabel={dict.common.loading} />
-        <ProfileMenu dict={dict} userName={userName} userEmail={userEmail ?? null} role={role} />
+        <ProfileMenu key={userId} userId={userId} initialPhotoPresent={photoPresent} dict={dict} userName={userName} userEmail={userEmail ?? null} role={role} />
       </div>
     </header>
   );

@@ -110,7 +110,7 @@ const DERIVED_DIR = `${BRAND_ASSET_DIR}/derived`;
 
 /** The mark, per theme, sized for a ~40–48px slot. */
 export const BRAND_MARK: Record<BrandTheme, BrandDerivative> = {
-  day: { width: 48, height: 48, src: `${DERIVED_DIR}/mark-night-cutout-96.png`, src2x: `${DERIVED_DIR}/mark-night-cutout-192.png` },
+  day: { width: 48, height: 48, src: `${DERIVED_DIR}/owner-neon-day-96.png`, src2x: `${DERIVED_DIR}/owner-neon-day-192.png` },
   night: { width: 48, height: 36, src: `${DERIVED_DIR}/owner-v11-night-96.png`, src2x: `${DERIVED_DIR}/owner-v11-night-192.png` },
 };
 
@@ -140,7 +140,7 @@ export const BRAND_FAVICON = {
 export const BRAND_ASSETS: BrandAssets = {
   logoMasterDark: `${BRAND_ASSET_DIR}/learners-area-logo-master-dark.png`,
   logoMarkDark: `${BRAND_ASSET_DIR}/Learners_Area_V11_Exact_Cutout_Logo.png`,
-  logoMarkLight: `${BRAND_ASSET_DIR}/learners-area-logo-mark-light.png`,
+  logoMarkLight: `${BRAND_ASSET_DIR}/owner-neon-day.png`,
   logoHorizontalDark: `${BRAND_ASSET_DIR}/learners-area-logo-horizontal-dark.png`,
   logoHorizontalLight: `${BRAND_ASSET_DIR}/learners-area-logo-horizontal-light.png`,
   favicon: `${BRAND_ASSET_DIR}/learners-area-favicon.png`,

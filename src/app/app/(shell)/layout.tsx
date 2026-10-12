@@ -4,6 +4,7 @@ import { getCurrentUser } from "@/lib/auth/current-user";
 import { getLocale, getDictionary } from "@/lib/i18n";
 import { Sidebar } from "@/components/shell/Sidebar";
 import { Topbar } from "@/components/shell/Topbar";
+import { hasProfilePhoto } from "@/lib/profile/photo";
 import { ShellUtilities } from "@/components/shell/ShellUtilities";
 import { InstantInteractionProvider } from "@/components/interaction/InstantInteractionProvider";
 import { InstantWorkspaceOutlet } from "@/components/interaction/InstantWorkspaceOutlet";
@@ -47,6 +48,7 @@ export default async function ShellLayout({ children }: { children: React.ReactN
   if (!user) return null;
 
   const dict = getDictionary(locale);
+  const photoPresent = await hasProfilePhoto(user.id);
 
   const diagnostics = performanceDiagnosticsEnabled();
   const entryFrames = sectionEntryFrames(dict);
@@ -78,6 +80,8 @@ export default async function ShellLayout({ children }: { children: React.ReactN
           <Topbar
             dict={dict}
             locale={locale}
+            userId={user.id}
+            photoPresent={photoPresent}
             userName={user.name}
             userEmail={user.email}
             role={user.role}
