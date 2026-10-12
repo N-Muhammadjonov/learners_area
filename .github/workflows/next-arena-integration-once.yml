@@ -1,0 +1,52 @@
+name: One-time safe Arena to Next integration
+on:
+  push:
+    branches: [codex/merge-arena-into-next-20261012]
+permissions:
+  contents: write
+jobs:
+  reconcile-and-verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Merge pinned Arena candidate without discarding Next owner changes
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git merge-base HEAD e84065b1a8bbde55b3715fb7aa636db0eca1e387)" = "e84065b1a8bbde55b3715fb7aa636db0eca1e387"
+          git fetch --no-tags origin arena/1052c0fd-learners-area
+          git cat-file -e 8e66e8e1d1bc206f1335eb08cb9f146885ac79d1^{commit}
+          git -c user.name="Learners Area QA" -c user.email="qa@users.noreply.github.com" merge --no-ff --no-edit -X ours 8e66e8e1d1bc206f1335eb08cb9f146885ac79d1
+          test -z "$(git ls-files --unmerged)"
+          git merge-base --is-ancestor e84065b1a8bbde55b3715fb7aa636db0eca1e387 HEAD
+          git merge-base --is-ancestor 8e66e8e1d1bc206f1335eb08cb9f146885ac79d1 HEAD
+          echo "Both source histories remain ancestors:"
+          git --no-pager log -3 --format='%h %s'
+      - name: Remove one-time integration workflow from resulting tree
+        shell: bash
+        run: |
+          git rm .github/workflows/next-arena-integration-once.yml
+          git -c user.name="Learners Area QA" -c user.email="qa@users.noreply.github.com" commit -m "chore: remove one-time integration workflow"
+          git status --porcelain
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+      - name: TypeScript check
+        run: npm run typecheck
+      - name: Lint all code
+        run: npm run lint
+      - name: Production build (no database migrations)
+        run: npm run build
+      - name: Push verified integration commit to temporary branch only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git push origin HEAD:refs/heads/codex/merge-arena-into-next-20261012
+          git log -1 --format='%H %s'
+          echo "Target arena/learners-area-next was NOT modified by this workflow."
