@@ -1,3 +1,4 @@
+import { publicAuthPolicy, publicAuthDisabledResponse } from "@/lib/auth/public-auth-policy";
 import { NextRequest, NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
@@ -11,6 +12,7 @@ import { classifyDatabaseError, databaseUnavailableResponse } from "@/lib/http/d
 import { createAccessRequest } from "@/lib/data/admission";
 
 export async function POST(req: NextRequest) {
+  if (!publicAuthPolicy().passwordEnabled) return publicAuthDisabledResponse();
   // Mass registration is the cheapest abuse there is; a private centre admits a
   // handful of people a month, never a burst from one address.
   const limited = enforce(RULES.register, clientKey(req));
