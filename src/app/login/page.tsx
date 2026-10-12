@@ -1,3 +1,5 @@
+import { headers } from "next/headers";
+import { publicAuthPolicy } from "@/lib/auth/public-auth-policy";
 import Link from "next/link";
 import { performanceDiagnosticsEnabled } from "@/lib/config/site";
 import { Suspense } from "react";
@@ -8,11 +10,13 @@ import { isTelegramConfigured } from "@/lib/auth/providers/telegram";
 import { googleConfigFrom } from "@/lib/auth/providers/google-config";
 
 export default async function LoginPage() {
+  const policy = publicAuthPolicy();
+  const nonce = (await headers()).get("x-nonce") ?? undefined;
   const dict = getDictionary(await getLocale());
   return (
     <AuthShell
       title={dict.auth.loginTitle}
-      subtitle={dict.auth.loginSubtitle}
+      subtitle={policy.telegramOnly ? dict.auth.continueWithTelegram : dict.auth.loginSubtitle}
       footer={
         <>
           {dict.auth.noAccount}{" "}
@@ -24,11 +28,13 @@ export default async function LoginPage() {
     >
       <Suspense>
         <LoginForm
+          passwordEnabled={policy.passwordEnabled}
+          nonce={nonce}
           dict={dict}
           diagnostics={performanceDiagnosticsEnabled()}
           telegramConfigured={isTelegramConfigured()}
           telegramBotUsername={process.env.TELEGRAM_BOT_USERNAME}
-          googleConfigured={googleConfigFrom(process.env).config !== null}
+          googleConfigured={policy.googleEnabled && googleConfigFrom(process.env).config !== null}
         />
       </Suspense>
     </AuthShell>
