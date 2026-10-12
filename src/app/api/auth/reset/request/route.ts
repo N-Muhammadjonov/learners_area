@@ -1,3 +1,4 @@
+import { publicAuthPolicy, publicAuthDisabledResponse } from "@/lib/auth/public-auth-policy";
 import { NextRequest, NextResponse } from "next/server";
 import { randomBytes, createHash } from "node:crypto";
 import { eq } from "drizzle-orm";
@@ -14,6 +15,7 @@ import { RULES, accountKey, clientKey, enforce } from "@/lib/http/rate-limit";
  * server. Preview and production never expose password-reset credentials.
  */
 export async function POST(req: NextRequest) {
+  if (!publicAuthPolicy().passwordEnabled) return publicAuthDisabledResponse();
   const body = await req.json().catch(() => null);
   const parsed = requestResetSchema.safeParse(body);
   if (!parsed.success) {
