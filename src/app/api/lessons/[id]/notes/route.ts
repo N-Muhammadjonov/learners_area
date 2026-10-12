@@ -1,54 +1,64 @@
-import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { and, eq } from "drizzle-orm";
-import { db } from "@/db/client";
-import { lessons, lessonProgress } from "@/db/schema";
+import { isUuid } from "@/lib/validation/ids";
 import { requireActiveUser } from "@/lib/auth/current-user";
-import { resolveState, type LessonState } from "@/lib/services/lessons/state";
-
-const schema = z.object({ notes: z.string().max(4000) });
+import { LESSON_NOTE_MAX, lessonOpenForNotes, readLessonNote, saveLessonNote } from "@/lib/services/notes/lesson-notes";
 
 /**
- * POST /api/lessons/:id/notes
+ * A learner's PRIVATE note on one lesson ("Xulosangiz" / "My notes").
  *
- * Notes are private to the student who wrote them. They can be written on any
- * lesson that is not locked — taking notes on something you cannot open makes no
- * sense — and they never change the lesson state.
+ *   GET  /api/lessons/:id/notes   → the caller's own note (or null)
+ *   POST /api/lessons/:id/notes   → upsert it; an empty body clears it
+ *
+ * The storage is `lesson_notes` (migration 0049) keyed by (user, lesson): private
+ * by construction, never part of a progress payload, never searched, and never
+ * readable by a teacher, admin or owner route. Authorization is the session user
+ * only — the service never accepts another learner's id, so a forged id has
+ * nothing to forge, and a lesson the learner cannot open answers exactly like a
+ * lesson that does not exist.
+ *
+ * `{ notes }` is the historical field name and `{ body }` the schema's; both are
+ * accepted so no existing client breaks.
  */
-export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
-  if (!isUuid(id)) return NextResponse.json({ error: "not_found" }, { status: 404 });
+const schema = z.object({
+  notes: z.string().max(LESSON_NOTE_MAX).optional(),
+  body: z.string().max(LESSON_NOTE_MAX).optional(),
+});
+
+export async function GET(_req: NextRequest, context: { params: Promise<{ id: string }> }) {
   const user = await requireActiveUser();
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
+  const { id } = await context.params;
+  if (!isUuid(id)) return NextResponse.json({ error: "not_found" }, { status: 404 });
+  if (!(await lessonOpenForNotes(id))) return NextResponse.json({ error: "not_found" }, { status: 404 });
+
+  const note = await readLessonNote(user.id, id);
+  return NextResponse.json({
+    notes: note?.body ?? null,
+    updatedAt: note?.updatedAt ?? null,
+  });
+}
+
+export async function POST(req: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const user = await requireActiveUser();
+  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+
+  const { id } = await context.params;
+  if (!isUuid(id)) return NextResponse.json({ error: "not_found" }, { status: 404 });
+
   const parsed = schema.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({ error: "invalid_input" }, { status: 400 });
+  const body = parsed.data.notes ?? parsed.data.body;
+  if (body === undefined) return NextResponse.json({ error: "invalid_input" }, { status: 400 });
 
-  const lesson = await db.query.lessons.findFirst({ where: eq(lessons.id, id) });
-  if (!lesson) return NextResponse.json({ error: "not_found" }, { status: 404 });
-
-  const row = await db.query.lessonProgress.findFirst({
-    where: and(eq(lessonProgress.lessonId, lesson.id), eq(lessonProgress.userId, user.id)),
-  });
-  const current = resolveState(row?.state as LessonState | undefined, lesson.defaultState as LessonState);
-  if (current === "locked" || current === "scheduled") {
-    return NextResponse.json({ error: "locked" }, { status: 403 });
+  const result = await saveLessonNote({ userId: user.id, lessonId: id, body });
+  if (!result.ok) {
+    const status = result.error === "invalid_body" ? 400 : result.error === "lesson_not_open" ? 403 : 404;
+    return NextResponse.json({ error: result.error }, { status });
   }
 
-  if (row) {
-    await db
-      .update(lessonProgress)
-      .set({ notes: parsed.data.notes, updatedAt: new Date() })
-      .where(eq(lessonProgress.id, row.id));
-  } else {
-    await db.insert(lessonProgress).values({
-      userId: user.id,
-      lessonId: lesson.id,
-      state: current === "completed" ? "completed" : "available",
-      notes: parsed.data.notes,
-    });
-  }
-
-  return NextResponse.json({ ok: true });
+  // The learner asked for exactly this outcome — saving nothing means the note is
+  // gone — so clearing is a success, not an error.
+  return NextResponse.json({ ok: true, notes: result.note?.body ?? null, updatedAt: result.note?.updatedAt ?? null });
 }

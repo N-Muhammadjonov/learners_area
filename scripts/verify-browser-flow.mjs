@@ -164,10 +164,10 @@ for (const path of ["/", "/login", "/register"]) {
 // 2. A protected URL before signing in
 // ---------------------------------------------------------------------------
 
-const blocked = await visit("/vocabulary", new Jar());
+const blocked = await visit("/app/vocabulary", new Jar());
 check("a protected page sends an anonymous visitor to the sign-in page", blocked.status === 200 && new URL(blocked.url).pathname === "/login", `ended at ${blocked.url}`);
 const nextParam = new URL(blocked.url).searchParams.get("next");
-check("it remembers where the visitor wanted to go, as an in-app path", nextParam === "/vocabulary", `next=${nextParam}`);
+check("it remembers where the visitor wanted to go, as an in-app path", nextParam === "/app/vocabulary", `next=${nextParam}`);
 
 // ---------------------------------------------------------------------------
 // 3. Signing in as an ACTIVE account
@@ -193,28 +193,28 @@ check(
   !/Secure/i.test(cookieLine) || BASE.startsWith("https")
 );
 
-const dashboard = await visit("/dashboard", student);
+const dashboard = await visit("/app", student);
 check("the ACTIVE student reaches the dashboard", dashboard.status === 200, `status ${dashboard.status}`);
 check("the dashboard is the real one, not a placeholder", dashboard.text.includes("data-continue") && dashboard.text.includes("data-my-tasks"));
 check("it carries the student's own navigation", dashboard.text.includes("data-report-toggle"));
 
 // Refresh: a second request with the same jar.
-const refreshed = await visit("/dashboard", student);
+const refreshed = await visit("/app", student);
 check("refreshing keeps the session", refreshed.status === 200 && refreshed.text.includes("data-my-tasks"));
 
 // Several private pages in a row.
 const privatePaths = [
-  "/reading",
-  "/listening",
-  "/writing",
-  "/speaking",
-  "/grammar",
-  "/vocabulary",
-  "/progress",
-  "/assignments",
-  "/courses/ielts",
-  "/live-classes",
-  "/mocks",
+  "/app/reading",
+  "/app/listening",
+  "/app/writing",
+  "/app/speaking",
+  "/app/grammar",
+  "/app/vocabulary",
+  "/app/progress",
+  "/app/assignments",
+  "/app/courses/ielts",
+  "/app/live-classes",
+  "/app/mocks",
 ];
 const broken = [];
 for (const path of privatePaths) {
@@ -231,7 +231,7 @@ const loggedOut = await visit("/api/auth/logout", student, { method: "POST" });
 check("signing out succeeds", loggedOut.status === 200, `status ${loggedOut.status}`);
 check("signing out clears the session cookie", !student.has("la_session"));
 
-const afterLogout = await visit("/dashboard", student);
+const afterLogout = await visit("/app", student);
 check("after signing out a protected page is blocked again", afterLogout.status === 200 && new URL(afterLogout.url).pathname === "/login", `ended at ${afterLogout.url}`);
 
 // ---------------------------------------------------------------------------
@@ -249,7 +249,7 @@ const staleSecretToken = await new SignJWT(claims)
 
 const staleJar = new Jar();
 staleJar.cookies.set("la_session", staleSecretToken);
-const staleResult = await visit("/dashboard", staleJar);
+const staleResult = await visit("/app", staleJar);
 check(
   "a cookie signed with a rotated AUTH_SECRET lands on the sign-in page (not a 500)",
   staleResult.status === 200 && new URL(staleResult.url).pathname === "/login",
@@ -263,7 +263,7 @@ const ghostToken = await new SignJWT(claims)
   .sign(new TextEncoder().encode(sessionSecret));
 const ghostJar = new Jar();
 ghostJar.cookies.set("la_session", ghostToken);
-const ghostResult = await visit("/dashboard", ghostJar);
+const ghostResult = await visit("/app", ghostJar);
 check(
   "a cookie for a user who no longer exists lands on the sign-in page (database reset survived)",
   ghostResult.status === 200 && new URL(ghostResult.url).pathname === "/login",
@@ -282,11 +282,11 @@ const applicantEmail = `flow.test.${randomUUID().slice(0, 8)}@learnersarea.uz`;
 const applicant = new Jar();
 const registered = await visit("/api/auth/register", applicant, {
   method: "POST",
-  body: { name: "Flow Test Applicant", email: applicantEmail, password: "FlowTest12345!" },
+  body: { name: "Flow Test Applicant", email: applicantEmail, password: "FlowTest12345!", gender: "male" },
 });
 check("a new visitor can register and is signed in", registered.status === 200, `status ${registered.status}`);
 
-const pendingHome = await visit("/dashboard", applicant);
+const pendingHome = await visit("/app", applicant);
 check("a PENDING account is held in the waiting room", new URL(pendingHome.url).pathname === "/pending", `ended at ${pendingHome.url}`);
 check("the waiting room states the pending status", pendingHome.text.includes('data-account-status="pending"'));
 const pendingApi = await visit("/api/assignments", applicant);
@@ -311,7 +311,7 @@ const rejected = await visit(`/api/admin/admission/${requestId}/decide`, owner, 
 });
 check("the owner can reject the request", rejected.status === 200, `status ${rejected.status}`);
 
-const rejectedHome = await visit("/dashboard", applicant);
+const rejectedHome = await visit("/app", applicant);
 check("a REJECTED account is held in the waiting room", new URL(rejectedHome.url).pathname === "/pending", `ended at ${rejectedHome.url}`);
 check("the waiting room states the rejected status", rejectedHome.text.includes('data-account-status="rejected"'));
 check("a REJECTED account still cannot call a private API", (await visit("/api/assignments", applicant)).status === 401);
@@ -326,14 +326,14 @@ const approved = await visit(`/api/admin/admission/${secondRequestId}/decide`, o
 });
 check("the owner can approve the second request", approved.status === 200, `status ${approved.status}`);
 
-const approvedHome = await visit("/dashboard", applicant);
+const approvedHome = await visit("/app", applicant);
 check(
   "the SAME cookie that was refused a moment ago now opens the dashboard",
-  approvedHome.status === 200 && new URL(approvedHome.url).pathname === "/dashboard",
+  approvedHome.status === 200 && new URL(approvedHome.url).pathname === "/app",
   `ended at ${approvedHome.url}`
 );
 const pendingNow = await visit("/pending", applicant);
-check("an ACTIVE account is sent from the waiting room into the centre", new URL(pendingNow.url).pathname === "/dashboard", `ended at ${pendingNow.url}`);
+check("an ACTIVE account is sent from the waiting room into the centre", new URL(pendingNow.url).pathname === "/app", `ended at ${pendingNow.url}`);
 
 const applicantId = JSON.parse(rejected.text || "{}").userId;
 const suspended = await visit(`/api/admin/users/${applicantId}/status`, owner, {
@@ -342,7 +342,7 @@ const suspended = await visit(`/api/admin/users/${applicantId}/status`, owner, {
 });
 check("the owner can suspend the account", suspended.status === 200, `status ${suspended.status}`);
 
-const suspendedHome = await visit("/dashboard", applicant);
+const suspendedHome = await visit("/app", applicant);
 check(
   "SUSPENDED cuts the same session off on its very next request",
   new URL(suspendedHome.url).pathname === "/pending",

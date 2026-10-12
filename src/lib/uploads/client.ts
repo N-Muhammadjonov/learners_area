@@ -1,4 +1,11 @@
 import {
+  failureFromResponse,
+  isRetryable,
+  type UploadErrorCodeAll,
+  type UploadFailure,
+} from "@/lib/uploads/errors";
+import { readHead, verifySignature } from "@/lib/uploads/signature";
+import {
   acceptAttribute,
   maxBytesLabel,
   validateUploadFile,
@@ -31,11 +38,18 @@ import {
 
 export type UploadState = "queued" | "uploading" | "finalizing" | "complete" | "failed" | "cancelled";
 
-export type UploadOutcome = { ok: true; uploadId: string; objectKey: string } | { ok: false; error: string };
+/**
+ * `error` is always a normalized code from UPLOAD_ERROR_CODES (never the old
+ * catch-all "intent_failed"); `failure` carries retryability and the server's
+ * correlation id. UI must render `uploadErrorMessage(failure, dict.uploadErrors)`.
+ */
+export type UploadOutcome =
+  | { ok: true; uploadId: string; objectKey: string }
+  | { ok: false; error: UploadErrorCodeAll; failure: UploadFailure };
 
 export type StartUploadOptions = {
   purpose: "material_primary" | "material_block" | "speaking_recording";
-  blockKind?: "image" | "audio" | "file";
+  blockKind?: "image" | "audio" | "video" | "file";
   materialId?: string;
   /** Set for purpose="speaking_recording" — the attempt the recording belongs to. */
   speakingAttemptId?: string;
@@ -64,10 +78,36 @@ export function preflight(
   if (result.error === "file_too_large") {
     return { ok: false, error: `file_too_large:${maxBytesLabel(category)}` };
   }
+  if (result.error === "dangerous_type") return { ok: false, error: "dangerous_type" };
   return { ok: false, error: "unsupported_type" };
 }
 
+function fail(code: UploadErrorCodeAll, extra: Partial<UploadFailure> = {}): { ok: false; error: UploadErrorCodeAll; failure: UploadFailure } {
+  return { ok: false, error: code, failure: { code, retryable: isRetryable(code), ...extra } };
+}
+
+/**
+ * In-flight dedupe: a double click (or a re-render that calls startUpload
+ * again) for the SAME file and target joins the running upload instead of
+ * creating a second intent and a second object.
+ */
+const inflight = new Map<string, UploadHandle>();
+function fileIdentity(file: Blob & { name: string }, options: StartUploadOptions): string {
+  const modified = (file as File).lastModified ?? 0;
+  return [options.purpose, options.blockKind ?? "", options.materialId ?? "", options.speakingAttemptId ?? "", file.name, file.size, modified].join("|");
+}
+
 export function startUpload(file: Blob & { name: string }, options: StartUploadOptions): UploadHandle {
+  const key = fileIdentity(file, options);
+  const running = inflight.get(key);
+  if (running) return running;
+  const handle = startUploadOnce(file, options);
+  inflight.set(key, handle);
+  void handle.promise.finally(() => inflight.delete(key));
+  return handle;
+}
+
+function startUploadOnce(file: Blob & { name: string }, options: StartUploadOptions): UploadHandle {
   let xhr: XMLHttpRequest | null = null;
   let cancelled = false;
   let uploadId: string | null = null;
@@ -78,6 +118,14 @@ export function startUpload(file: Blob & { name: string }, options: StartUploadO
 
   const promise = (async (): Promise<UploadOutcome> => {
     setState("queued");
+
+    // --- 0. Content check: the first bytes must match the extension. -------
+    try {
+      const verdict = verifySignature(file.name, await readHead(file));
+      if (!verdict.ok) return fail(verdict.reason === "executable" ? "dangerous_type" : "type_mismatch");
+    } catch {
+      return fail("missing_file");
+    }
 
     // --- 1. Intent ---------------------------------------------------------
     let intent: {
@@ -101,26 +149,32 @@ export function startUpload(file: Blob & { name: string }, options: StartUploadO
           size: file.size,
         }),
       });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) return { ok: false, error: String(data.error ?? "intent_failed") };
+      const data = await res.json().catch(() => null);
+      if (!res.ok) {
+        // A non-JSON body (HTML 500, proxy 413/504) is classified by status —
+        // this is the path that used to surface the raw string "intent_failed".
+        const failure = failureFromResponse(res.status, data);
+        return { ok: false, error: failure.code, failure };
+      }
+      if (!data || typeof data.uploadId !== "string") return fail("server_error", { technical: "intent_malformed" });
       intent = data as typeof intent;
       uploadId = intent.uploadId;
     } catch {
-      return { ok: false, error: "network_error" };
+      return fail("network_error");
     }
-    if (cancelled) return { ok: false, error: "cancelled" };
+    if (cancelled) return fail("cancelled");
 
     // --- 2. Bytes ----------------------------------------------------------
     setState("uploading");
     const put = await sendBytes(file, intent, options.onProgress);
     if (cancelled) {
       void discardUpload(uploadId);
-      return { ok: false, error: "cancelled" };
+      return fail("cancelled");
     }
     if (!put.ok) {
       // The bytes never landed. Leave the intent for abandoned-upload cleanup
       // rather than firing a delete that could race the PUT itself.
-      return { ok: false, error: put.error };
+      return { ok: false, error: put.failure.code, failure: put.failure };
     }
 
     // --- 3. Finalize -------------------------------------------------------
@@ -131,12 +185,15 @@ export function startUpload(file: Blob & { name: string }, options: StartUploadO
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ uploadId: intent.uploadId }),
       });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) return { ok: false, error: String(data.error ?? "finalize_failed") };
+      const data = await res.json().catch(() => null);
+      if (!res.ok) {
+        const failure = failureFromResponse(res.status, data);
+        return { ok: false, error: failure.code, failure };
+      }
     } catch {
-      return { ok: false, error: "network_error" };
+      return fail("network_error");
     }
-    if (cancelled) return { ok: false, error: "cancelled" };
+    if (cancelled) return fail("cancelled");
 
     setState("complete");
     return { ok: true, uploadId: intent.uploadId, objectKey: intent.objectKey };
@@ -153,13 +210,24 @@ export function startUpload(file: Blob & { name: string }, options: StartUploadO
 
   async function sendBytes(
     file: Blob & { name: string },
-    intent: { mode: "direct" | "proxy"; uploadUrl: string | null; uploadId: string; contentType: string },
+    intent: {
+      mode: "direct" | "proxy";
+      uploadUrl: string | null;
+      uploadId: string;
+      contentType: string;
+    },
     onProgress?: (percent: number) => void
-  ): Promise<{ ok: true } | { ok: false; error: string }> {
+  ): Promise<{ ok: true } | { ok: false; failure: UploadFailure }> {
+    if (intent.mode === "direct" && intent.uploadUrl) {
+      // Presigned S3/R2 requests are signature-sensitive. Use exactly the
+      // provider URL and exactly the canonical Content-Type the server signed.
+      // Browser CORS is the boundary; no application rewrite mutates the PUT.
+      return sendDirect(intent.uploadUrl);
+    }
+
     return new Promise((resolve) => {
       const request = new XMLHttpRequest();
       xhr = request;
-
       request.upload.addEventListener("progress", (e) => {
         if (e.lengthComputable && onProgress) onProgress(Math.round((e.loaded / e.total) * 100));
       });
@@ -168,47 +236,68 @@ export function startUpload(file: Blob & { name: string }, options: StartUploadO
           onProgress?.(100);
           resolve({ ok: true });
         } else {
-          resolve({ ok: false, error: readError(request) });
+          resolve({ ok: false, failure: readError(request, "proxy") });
         }
       });
-      request.addEventListener("error", () => resolve({ ok: false, error: "network_error" }));
-      request.addEventListener("abort", () => resolve({ ok: false, error: "cancelled" }));
-      request.addEventListener("timeout", () => resolve({ ok: false, error: "upload_timeout" }));
+      request.addEventListener("error", () => resolve({ ok: false, failure: { code: "network_error", technical: "xhr_error", retryable: true } }));
+      request.addEventListener("abort", () => resolve({ ok: false, failure: { code: "cancelled", retryable: false } }));
+      request.addEventListener("timeout", () => resolve({ ok: false, failure: { code: "upload_timeout", retryable: true } }));
 
-      if (intent.mode === "direct" && intent.uploadUrl) {
-        // Straight to the bucket. Only the content type the server signed for
-        // is sent — anything else invalidates the signature.
-        request.open("PUT", intent.uploadUrl);
+      // Local disk provider: the bytes have to reach our server, but the
+      // intent is still the authority for the key, size and type.
+      const form = new FormData();
+      form.append("uploadId", intent.uploadId);
+      form.append("file", file);
+      request.open("POST", "/api/uploads");
+      request.send(form);
+    });
+
+    function sendDirect(url: string): Promise<{ ok: true } | { ok: false; failure: UploadFailure }> {
+      return new Promise((resolve) => {
+        const request = new XMLHttpRequest();
+        xhr = request;
+        request.upload.addEventListener("progress", (e) => {
+          if (e.lengthComputable && onProgress) onProgress(Math.round((e.loaded / e.total) * 100));
+        });
+        request.addEventListener("load", () => {
+          if (request.status >= 200 && request.status < 300) {
+            onProgress?.(100);
+            resolve({ ok: true });
+          } else {
+            resolve({ ok: false, failure: readError(request, "direct") });
+          }
+        });
+        request.addEventListener("error", () => resolve({ ok: false, failure: { code: "storage_rejected", technical: "xhr_error", retryable: true } }));
+        request.addEventListener("abort", () => resolve({ ok: false, failure: { code: "cancelled", retryable: false } }));
+        request.addEventListener("timeout", () => resolve({ ok: false, failure: { code: "upload_timeout", retryable: true } }));
+        request.open("PUT", url);
         request.setRequestHeader("Content-Type", intent.contentType);
         request.send(file);
-      } else {
-        // Local disk provider: the bytes have to reach our server, but the
-        // intent is still the authority for the key, size and type.
-        const form = new FormData();
-        form.append("uploadId", intent.uploadId);
-        form.append("file", file);
-        request.open("POST", "/api/uploads");
-        request.send(form);
-      }
-    });
+      });
+    }
   }
 }
 
 async function discardUpload(uploadId: string): Promise<void> {
   try {
-    await fetch(`/api/uploads/${uploadId}`, { method: "DELETE" });
+    await fetch(`/api/uploads/${uploadId}`, { method: "DELETE", signal: AbortSignal.timeout(5_000) });
   } catch {
     /* best effort — the intent expires and cleanup reclaims the object */
   }
 }
 
-function readError(request: XMLHttpRequest): string {
+function readError(request: XMLHttpRequest, mode: "direct" | "proxy"): UploadFailure {
+  let body: unknown = null;
   try {
-    const parsed = JSON.parse(request.responseText);
-    return String(parsed.error ?? `upload_failed_${request.status}`);
+    body = JSON.parse(request.responseText);
   } catch {
-    return `upload_failed_${request.status}`;
+    body = null;
   }
+  // R2 answers XML (SignatureDoesNotMatch, AccessDenied, RequestTimeTooSkewed).
+  if (mode === "direct" && !body && request.status >= 400 && request.status < 500) {
+    return { code: "storage_rejected", technical: `storage_${request.status}`, retryable: true };
+  }
+  return failureFromResponse(request.status, body);
 }
 
 export { acceptAttribute };

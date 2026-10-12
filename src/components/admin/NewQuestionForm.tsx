@@ -1,10 +1,12 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea, Label } from "@/components/ui/Input";
 import type { Dictionary } from "@/lib/i18n/en";
+import { apiErrorMessage } from "@/lib/api-error-message";
 
 type QType = "true_false_not_given" | "yes_no_not_given" | "multiple_choice" | "short_answer";
 
@@ -22,6 +24,8 @@ const TERNARY_OPTIONS: Record<"true_false_not_given" | "yes_no_not_given", { val
 };
 
 export function NewQuestionForm({ dict, passageId }: { dict: Dictionary; passageId: string }) {
+  const requestResponse = useScopedResponse(25000);
+
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [type, setType] = useState<QType>("true_false_not_given");
@@ -44,7 +48,7 @@ export function NewQuestionForm({ dict, passageId }: { dict: Dictionary; passage
         e.preventDefault();
         setPending(true);
         setError("");
-        const res = await fetch(`/api/admin/reading/passages/${passageId}/questions`, {
+        const res = await requestResponse(`/api/admin/reading/passages/${passageId}/questions`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -56,6 +60,7 @@ export function NewQuestionForm({ dict, passageId }: { dict: Dictionary; passage
             explanation,
           }),
         });
+    if (!res) return;
         setPending(false);
         if (res.ok) {
           setOpen(false);
@@ -66,12 +71,12 @@ export function NewQuestionForm({ dict, passageId }: { dict: Dictionary; passage
           router.refresh();
         } else {
           const data = await res.json();
-          setError(data.error ?? "Could not save");
+          setError(apiErrorMessage(data.error, res.status, dict));
         }
       }}
     >
       <div>
-        <Label htmlFor="type">Question type</Label>
+        <Label htmlFor="type">{dict.formCopy.questionType}</Label>
         <select
           id="type"
           className="input"
@@ -82,21 +87,21 @@ export function NewQuestionForm({ dict, passageId }: { dict: Dictionary; passage
             setCorrectAnswer(next === "yes_no_not_given" ? "yes" : next === "true_false_not_given" ? "true" : "");
           }}
         >
-          <option value="true_false_not_given">True / False / Not Given</option>
-          <option value="yes_no_not_given">Yes / No / Not Given</option>
-          <option value="multiple_choice">Multiple choice</option>
-          <option value="short_answer">Short answer</option>
+          <option value="true_false_not_given">{dict.formCopy.tfng}</option>
+          <option value="yes_no_not_given">{dict.formCopy.ynng}</option>
+          <option value="multiple_choice">{dict.formCopy.multipleChoice}</option>
+          <option value="short_answer">{dict.formCopy.shortAnswer}</option>
         </select>
       </div>
 
       <div>
-        <Label htmlFor="questionText">Question</Label>
+        <Label htmlFor="questionText">{dict.formCopy.question}</Label>
         <Textarea id="questionText" required value={questionText} onChange={(e) => setQuestionText(e.target.value)} className="min-h-[80px]" />
       </div>
 
       {type === "multiple_choice" && (
         <div className="flex flex-col gap-2">
-          <Label>Options (fill the ones you need)</Label>
+          <Label>{dict.formCopy.optionsFill}</Label>
           {options.map((opt, i) => (
             <Input
               key={i}
@@ -105,7 +110,7 @@ export function NewQuestionForm({ dict, passageId }: { dict: Dictionary; passage
               onChange={(e) => setOptions((prev) => prev.map((o, idx) => (idx === i ? e.target.value : o)))}
             />
           ))}
-          <Label htmlFor="correctAnswerMcq">Correct option (must match one exactly)</Label>
+          <Label htmlFor="correctAnswerMcq">{dict.formCopy.correctOptionExact}</Label>
           <select id="correctAnswerMcq" className="input" value={correctAnswer} onChange={(e) => setCorrectAnswer(e.target.value)}>
             <option value="">—</option>
             {cleanOptions.map((o) => <option key={o} value={o}>{o}</option>)}
@@ -115,7 +120,7 @@ export function NewQuestionForm({ dict, passageId }: { dict: Dictionary; passage
 
       {(type === "true_false_not_given" || type === "yes_no_not_given") && (
         <div>
-          <Label htmlFor="correctAnswerTernary">Correct answer</Label>
+          <Label htmlFor="correctAnswerTernary">{dict.formCopy.correctAnswer}</Label>
           <select id="correctAnswerTernary" className="input" value={correctAnswer} onChange={(e) => setCorrectAnswer(e.target.value)}>
             {TERNARY_OPTIONS[type].map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
           </select>
@@ -124,17 +129,17 @@ export function NewQuestionForm({ dict, passageId }: { dict: Dictionary; passage
 
       {type === "short_answer" && (
         <div>
-          <Label htmlFor="correctAnswerShort">Correct answer (exact-match grading, keep it short)</Label>
+          <Label htmlFor="correctAnswerShort">{dict.formCopy.correctAnswerShort}</Label>
           <Input id="correctAnswerShort" required value={correctAnswer} onChange={(e) => setCorrectAnswer(e.target.value)} />
         </div>
       )}
 
       <div>
-        <Label htmlFor="evidenceQuote">Evidence quote (optional, shown in analysis)</Label>
+        <Label htmlFor="evidenceQuote">{dict.formCopy.evidenceQuote}</Label>
         <Textarea id="evidenceQuote" value={evidenceQuote} onChange={(e) => setEvidenceQuote(e.target.value)} className="min-h-[60px]" />
       </div>
       <div>
-        <Label htmlFor="explanation">Explanation</Label>
+        <Label htmlFor="explanation">{dict.formCopy.explanation}</Label>
         <Textarea id="explanation" required value={explanation} onChange={(e) => setExplanation(e.target.value)} className="min-h-[60px]" />
       </div>
 

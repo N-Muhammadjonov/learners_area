@@ -57,7 +57,7 @@ export function MobileNav({ dict, role, email }: { dict: Dictionary; role: Role;
       </button>
 
       {open && (
-        <div className="fixed inset-0 z-50 md:hidden" role="dialog" aria-modal="true" aria-label={dict.nav.menu}>
+        <div data-mobile-nav-overlay className="fixed inset-0 z-50 md:hidden" role="dialog" aria-modal="true" aria-label={dict.nav.menu}>
           <button
             type="button"
             tabIndex={-1}

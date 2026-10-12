@@ -1,4 +1,4 @@
-import { and, asc, desc, eq, isNull } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, isNull } from "drizzle-orm";
 import { db } from "@/db/client";
 import {
   lexicalOccurrences,
@@ -10,16 +10,19 @@ import {
   readingQuestions,
 } from "@/db/schema";
 import { isLive, liveWhere } from "@/lib/services/cms/publication";
+import { assessmentScope } from "@/lib/data/reading-assessments";
 import { readingAttemptExpired } from "@/lib/reading/timer";
+import { academicOnlyClause, generalMembership } from "@/lib/data/general-reading";
 
-export function listActivePassages() {
+export async function listActivePassages() {
   // A draft, a not-yet-due schedule and an archive are all invisible here; the
-  // one rule that decides that lives in the publication service.
+  // one rule that decides that lives in the publication service. General Reading
+  // (learning) passages are not Academic test passages.
   return db.query.readingPassages.findMany({
-    where: liveWhere({
+    where: and(liveWhere({
       publicationState: readingPassages.publicationState,
       publishAt: readingPassages.publishAt,
-    }),
+    }), await academicOnlyClause()),
     orderBy: asc(readingPassages.createdAt),
   });
 }
@@ -36,11 +39,14 @@ export function listActivePassages() {
 export async function getStartablePassage(passageId: string) {
   const passage = await db.query.readingPassages.findFirst({ where: eq(readingPassages.id, passageId) });
   if (!passage || !isLive(passage)) return null;
+  // A General Reading passage is learning material: it never becomes an Academic
+  // exam attempt (and so can never be locked by, or unlock, exam state).
+  if (await generalMembership(passage.id)) return null;
   return passage;
 }
 
-export async function getPassageWithQuestions(passageId: string) {
-  const passage = await db.query.readingPassages.findFirst({ where: eq(readingPassages.id, passageId) });
+export async function getPassageWithQuestions(passageId: string, executor: typeof db = db) {
+  const passage = await executor.query.readingPassages.findFirst({ where: eq(readingPassages.id, passageId) });
   if (!passage) return null;
 
   /*
@@ -54,43 +60,63 @@ export async function getPassageWithQuestions(passageId: string) {
    *   paragraphs the paragraph letters the matching questions refer to.
    */
   const [questions, groups, paragraphs, occurrences] = await Promise.all([
-    db.query.readingQuestions.findMany({
+    executor.query.readingQuestions.findMany({
       where: eq(readingQuestions.passageId, passageId),
       orderBy: asc(readingQuestions.order),
     }),
-    db.query.readingQuestionGroups.findMany({
+    executor.query.readingQuestionGroups.findMany({
       where: eq(readingQuestionGroups.passageId, passageId),
       orderBy: asc(readingQuestionGroups.position),
     }),
-    db.query.readingPassageParagraphs.findMany({
+    executor.query.readingPassageParagraphs.findMany({
       where: eq(readingPassageParagraphs.passageId, passageId),
       orderBy: asc(readingPassageParagraphs.position),
     }),
-    db.select({ id: lexicalOccurrences.id, startChar: lexicalOccurrences.startChar, endChar: lexicalOccurrences.endChar, surfaceForm: lexicalOccurrences.surfaceForm }).from(lexicalOccurrences).where(eq(lexicalOccurrences.passageId, passageId)),
+    executor.select({ id: lexicalOccurrences.id, startChar: lexicalOccurrences.startChar, endChar: lexicalOccurrences.endChar, surfaceForm: lexicalOccurrences.surfaceForm }).from(lexicalOccurrences).where(eq(lexicalOccurrences.passageId, passageId)),
   ]);
 
   return { passage, questions, groups, paragraphs, occurrences };
 }
 
-export async function getAttemptDetail(attemptId: string, userId: string) {
-  const attempt = await db.query.readingAttempts.findFirst({
+export async function getAttemptDetail(attemptId: string, userId: string, executor: typeof db = db) {
+  const attempt = await executor.query.readingAttempts.findFirst({
     where: and(eq(readingAttempts.id, attemptId), eq(readingAttempts.userId, userId)),
   });
   if (!attempt) return null;
 
-  const [passageData, answers] = await Promise.all([
-    getPassageWithQuestions(attempt.passageId),
-    db.query.readingAnswers.findMany({ where: eq(readingAnswers.attemptId, attemptId) }),
+  const scope = await assessmentScope(attemptId, attempt.passageId, executor);
+  const [sections, answers] = await Promise.all([
+    Promise.all(scope.passageIds.map(id=>getPassageWithQuestions(id,executor))),
+    executor.query.readingAnswers.findMany({ where: eq(readingAnswers.attemptId, attemptId) }),
   ]);
-  if (!passageData) return null;
-
+  if (sections.some((section) => !section)) return null;
+  const data = sections.filter((section): section is NonNullable<typeof section> => Boolean(section));
+  let offset = 0;
+  const numbered = data.map((section) => {
+    const numbers = new Map(section.questions.map((question, index) => [question.questionNo ?? question.order, offset + index + 1]));
+    const questions = section.questions.map((question, index) => ({ ...question, sourceQuestionNo: question.questionNo, order: offset + index + 1, questionNo: scope.title ? offset + index + 1 : question.questionNo }));
+    const groups = section.groups.map((group) => ({ ...group,
+      fromQuestionNo: scope.title ? numbers.get(group.fromQuestionNo ?? -1) ?? group.fromQuestionNo : group.fromQuestionNo,
+      toQuestionNo: scope.title ? numbers.get(group.toQuestionNo ?? -1) ?? group.toQuestionNo : group.toQuestionNo,
+    }));
+    offset += questions.length;
+    return { ...section, questions, groups };
+  });
+  const first = numbered[0]!;
   return {
-    attempt,
-    passage: passageData.passage,
-    questions: passageData.questions,
-    groups: passageData.groups,
-    paragraphs: passageData.paragraphs,
-    occurrences: passageData.occurrences,
+    attempt, sections: numbered,
+    passage: { ...first.passage,
+      title: scope.title ?? first.passage.title,
+      suggestedMinutes: scope.durationMinutes ?? first.passage.suggestedMinutes,
+      bodyText: scope.title && attempt.status !== "in_progress" ? numbered.map(section => `${section.passage.title}\n\n${section.passage.bodyText}`).join("\n\n") : first.passage.bodyText,
+    },
+    questions: numbered.flatMap(section => section.questions),
+    groups: numbered.flatMap(section => section.groups),
+    paragraphs: first.paragraphs,
+    occurrences: scope.title ? numbered.flatMap((section,index)=>{
+      const prefix=numbered.slice(0,index).reduce((n,s)=>n+s.passage.title.length+2+s.passage.bodyText.length+2,0)+section.passage.title.length+2;
+      return section.occurrences.map(row=>({...row,startChar:row.startChar+prefix,endChar:row.endChar+prefix}));
+    }) : first.occurrences,
     answers,
   };
 }
@@ -119,9 +145,10 @@ export function listUserAttempts(userId: string) {
 export async function saveDraftAnswers(
   attemptId: string,
   userId: string,
-  entries: { questionId: string; answer: string }[]
+  entries: { questionId: string; answer: string }[],
+  executor: typeof db = db
 ) {
-  return db.transaction(async (tx) => {
+  return executor.transaction(async (tx) => {
     // Autosave and final submission serialize on the attempt row. Without the
     // lock, a last in-flight PATCH could replace the saved draft after submit.
     const [attempt] = await tx
@@ -139,13 +166,15 @@ export async function saveDraftAnswers(
       .for("update", { of: readingAttempts });
     if (!attempt) return { saved: 0, reason: "not_found" as const };
     if (attempt.status !== "in_progress") return { saved: 0, reason: "already_submitted" as const };
-    if (readingAttemptExpired(attempt.startedAt, attempt.suggestedMinutes)) return { saved: 0, reason: "expired" as const };
+    const scope = await assessmentScope(attemptId, attempt.passageId, tx);
+    const duration = scope.durationMinutes ?? attempt.suggestedMinutes;
+    if (readingAttemptExpired(attempt.startedAt, duration)) return { saved: 0, reason: "expired" as const };
 
     // Only questions that really belong to this attempt's passage are accepted:
     // a client that sends somebody else's question id changes nothing. Collapse
     // forged duplicate ids too, since the table deliberately stores no score key.
     const questions = await tx.query.readingQuestions.findMany({
-      where: eq(readingQuestions.passageId, attempt.passageId),
+      where: inArray(readingQuestions.passageId, scope.passageIds),
     });
     const allowed = new Set(questions.map((question) => question.id));
     const rowsByQuestion = new Map<string, string>();
@@ -155,7 +184,7 @@ export async function saveDraftAnswers(
 
     // Recheck the deadline immediately before the write in case question lookup
     // itself crossed the attempt's deadline.
-    if (readingAttemptExpired(attempt.startedAt, attempt.suggestedMinutes)) return { saved: 0, reason: "expired" as const };
+    if (readingAttemptExpired(attempt.startedAt, duration)) return { saved: 0, reason: "expired" as const };
     await tx.delete(readingAnswers).where(and(eq(readingAnswers.attemptId, attemptId), isNull(readingAnswers.isCorrect)));
     const rows = [...rowsByQuestion].map(([questionId, userAnswer]) => ({
       attemptId,

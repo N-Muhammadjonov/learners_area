@@ -1,5 +1,5 @@
 import { touchMeaningfulActivity } from "@/lib/services/activity";
-import { and, asc, desc, eq } from "drizzle-orm";
+import { and, asc, desc, eq, isNull } from "drizzle-orm";
 import { db } from "@/db/client";
 import {
   courseModules,
@@ -10,9 +10,13 @@ import {
   videoLessonProgress,
   videoLessonQuestions,
   videoLessons,
+  lexicalOccurrences,
 } from "@/db/schema";
 import { parseVideoInput, type VideoProvider } from "@/lib/services/video/provider";
+import { authorizedMediaOrigin } from "@/lib/config/site";
+import { ingestVideoOccurrences, type AuthoredVocabulary } from "@/lib/services/lexical/reading-occurrences";
 import { isLive, liveWhere } from "@/lib/services/cms/publication";
+import { pinVersion } from "@/lib/content/versions";
 
 /**
  * Public video lessons: storage and the rules that decide what a student sees.
@@ -23,17 +27,26 @@ import { isLive, liveWhere } from "@/lib/services/cms/publication";
  *   - `watchedSeconds` is monotonic and clamped to the authored duration, so a
  *     reload or a seek backwards cannot lower it and a client cannot claim more
  *     than the video holds;
- *   - a lesson with authored questions is completed only when every question has
- *     been answered correctly at least once;
- *   - a lesson with no authored questions is completed when the student has
- *     reached the watched threshold (or, when the duration is unknown, when they
- *     have written their response).
+ *   - Authored comprehension/gap questions gate both standalone and course
+ *     completion. Every authored question must have a correct server-graded answer.
+ *   - Without questions, standalone items use the watched threshold or a trusted
+ *     end report for unknown duration. Optional opinion/summary do not gate them.
+ *   - Course items without questions retain their existing watching/response rule.
  *
  * A wrong answer is recorded and shown; it never marks the lesson done.
  */
 
 export type VideoLessonInput = {
-  lessonId: string;
+  /** A roadmap lesson (legacy course-linked video) or null/absent for a standalone item. */
+  lessonId?: string | null;
+  /** video | audio. A Podcast episode is an audio lesson (§28). */
+  mediaKind?: "video" | "audio" | null;
+  /** Stable identity; derived from the provider id when omitted, so it stays stable across edits. */
+  sourceRef?: string | null;
+  /** Update an existing standalone item in place. */
+  videoLessonId?: string | null;
+  /** Optional owner-authored plain transcript (no timestamps). */
+  transcriptText?: string | null;
   title: string;
   videoUrl: string;
   beforeYouWatch?: string | null;
@@ -41,6 +54,9 @@ export type VideoLessonInput = {
   transcriptSource?: string | null;
   transcriptAttribution?: string | null;
   transcript?: { startSeconds: number; text: string }[] | null;
+  /** Centre-authored study notes; optional, like the transcript. */
+  notes?: string | null;
+  vocabulary?: AuthoredVocabulary[];
   questions?: { stage: "comprehension" | "gap_fill"; prompt: string; acceptedAnswers: string[]; atSeconds?: number | null }[];
 };
 
@@ -68,7 +84,7 @@ export async function listVideoLessons() {
   return db
     .select({ videoLesson: videoLessons, lesson: lessons })
     .from(videoLessons)
-    .innerJoin(lessons, eq(lessons.id, videoLessons.lessonId))
+    .leftJoin(lessons, eq(lessons.id, videoLessons.lessonId))
     .orderBy(asc(videoLessons.createdAt));
 }
 
@@ -76,11 +92,12 @@ export async function listVideoLessons() {
  * Every video lesson with its course lesson, for the admin list — including
  * drafts and the archive, which the student list never shows.
  */
-export async function listAllVideoLessons() {
+export async function listAllVideoLessons(creatorId?: string) {
   return db
     .select({ videoLesson: videoLessons, lesson: lessons })
     .from(videoLessons)
-    .innerJoin(lessons, eq(lessons.id, videoLessons.lessonId))
+    .leftJoin(lessons, eq(lessons.id, videoLessons.lessonId))
+    .where(creatorId ? eq(videoLessons.createdByUserId, creatorId) : undefined)
     .orderBy(desc(videoLessons.createdAt));
 }
 
@@ -115,6 +132,53 @@ export async function getVideoLessonForLesson(lessonId: string, userId: string) 
 }
 
 /**
+ * A standalone TED / Podcast item by its own id — live only, with questions and
+ * this student's own progress. Course-linked videos are NOT served here: they
+ * stay behind their lesson's access rules on the course route.
+ */
+export async function getStandaloneVideoLesson(videoLessonId: string, userId: string) {
+  const videoLesson = await db.query.videoLessons.findFirst({
+    where: and(eq(videoLessons.id, videoLessonId), isNull(videoLessons.lessonId), liveWhere({
+      publicationState: videoLessons.publicationState,
+      publishAt: videoLessons.publishAt,
+    })),
+  });
+  if (!videoLesson) return null;
+  const [questions, progress] = await Promise.all([
+    db.query.videoLessonQuestions.findMany({
+      where: eq(videoLessonQuestions.videoLessonId, videoLesson.id),
+      orderBy: asc(videoLessonQuestions.position),
+    }),
+    db.query.videoLessonProgress.findFirst({
+      where: and(eq(videoLessonProgress.videoLessonId, videoLesson.id), eq(videoLessonProgress.userId, userId)),
+    }),
+  ]);
+  return { videoLesson, questions, progress: progress ?? null };
+}
+
+/** Live standalone items for the learner index, newest first, bounded. */
+export async function listStandaloneVideoLessonsForStudent(userId: string, limit = 100) {
+  return db
+    .select({
+      id: videoLessons.id,
+      title: videoLessons.title,
+      beforeYouWatch: videoLessons.beforeYouWatch,
+      provider: videoLessons.provider,
+      videoId: videoLessons.videoId,
+      durationSeconds: videoLessons.durationSeconds,
+      progressState: videoLessonProgress.state,
+    })
+    .from(videoLessons)
+    .leftJoin(videoLessonProgress, and(eq(videoLessonProgress.videoLessonId, videoLessons.id), eq(videoLessonProgress.userId, userId)))
+    .where(and(isNull(videoLessons.lessonId), liveWhere({
+      publicationState: videoLessons.publicationState,
+      publishAt: videoLessons.publishAt,
+    })))
+    .orderBy(desc(videoLessons.createdAt))
+    .limit(Math.max(1, Math.min(limit, 200)));
+}
+
+/**
  * Every active video lesson this student may actually open, across ALL courses.
  *
  * The index page must not hard-code IELTS: it walks the course tree and joins the
@@ -131,6 +195,9 @@ export async function listVideoLessonsForStudent(userId: string) {
         id: videoLessons.id,
         title: videoLessons.title,
         beforeYouWatch: videoLessons.beforeYouWatch,
+        provider: videoLessons.provider,
+        videoId: videoLessons.videoId,
+        durationSeconds: videoLessons.durationSeconds,
       },
       lesson: {
         id: lessons.id,
@@ -166,17 +233,48 @@ export async function listVideoLessonsForStudent(userId: string) {
   }));
 }
 
-export async function createVideoLesson(input: VideoLessonInput, createdByUserId: string) {
-  const parsed = parseVideoInput(input.videoUrl);
+/**
+ * Author or revise a media lesson. `executor` exists so the same code path can be
+ * exercised against a real transactional database in tests — the write itself is
+ * identical in both cases.
+ */
+export async function createVideoLesson(
+  input: VideoLessonInput,
+  createdByUserId: string,
+  executor: typeof db = db,
+) {
+  const parsed = parseVideoInput(input.videoUrl, { mediaOrigin: authorizedMediaOrigin });
   if (!parsed.ok) return { ok: false as const, reason: parsed.reason };
+  const mediaKind: "video" | "audio" = input.mediaKind === "audio" ? "audio" : "video";
 
-  const lesson = await db.query.lessons.findFirst({ where: eq(lessons.id, input.lessonId) });
-  if (!lesson) return { ok: false as const, reason: "lesson_not_found" as const };
+  const lessonId = input.lessonId ?? null;
+  let existing: typeof videoLessons.$inferSelect | undefined;
+  if (lessonId) {
+    const lesson = await executor.query.lessons.findFirst({ where: eq(lessons.id, lessonId) });
+    if (!lesson) return { ok: false as const, reason: "lesson_not_found" as const };
+    existing = await executor.query.videoLessons.findFirst({ where: eq(videoLessons.lessonId, lessonId) });
+  } else if (input.videoLessonId) {
+    existing = await executor.query.videoLessons.findFirst({
+      where: and(eq(videoLessons.id, input.videoLessonId), isNull(videoLessons.lessonId)),
+    });
+    if (!existing) return { ok: false as const, reason: "video_lesson_not_found" as const };
+  }
+  // One item per provider video: a second standalone item for the same video
+  // would violate the unique index, so it is refused with a clear reason.
+  const duplicate = await executor.query.videoLessons.findFirst({
+    where: and(eq(videoLessons.provider, parsed.provider), eq(videoLessons.videoId, parsed.videoId)),
+  });
+  if (duplicate && duplicate.id !== existing?.id) return { ok: false as const, reason: "video_exists" as const };
 
-  const existing = await db.query.videoLessons.findFirst({ where: eq(videoLessons.lessonId, input.lessonId) });
+  // Stable identity: provided, or derived from the provider video id — never from
+  // the title, which is allowed to change.
+  const sourceRef =
+    input.sourceRef?.trim() || existing?.sourceRef || `${mediaKind}-${parsed.provider}-${parsed.videoId}`.toLowerCase().replace(/[^a-z0-9._-]+/g, "-").slice(0, 80);
 
   const values = {
-    lessonId: input.lessonId,
+    lessonId,
+    mediaKind,
+    sourceRef,
     provider: parsed.provider as VideoProvider,
     videoId: parsed.videoId,
     title: input.title,
@@ -185,10 +283,12 @@ export async function createVideoLesson(input: VideoLessonInput, createdByUserId
     transcriptSource: input.transcriptSource ?? null,
     transcriptAttribution: input.transcriptAttribution ?? null,
     transcript: input.transcript && input.transcript.length > 0 ? input.transcript : null,
+    transcriptText: input.transcriptText && input.transcriptText.trim().length > 0 ? input.transcriptText.trim() : null,
+    notes: input.notes && input.notes.trim().length > 0 ? input.notes : null,
     updatedAt: new Date(),
   };
 
-  const videoLessonId = await db.transaction(async (tx) => {
+  const videoLessonId = await executor.transaction(async (tx) => {
     let id = existing?.id;
     if (existing) {
       await tx.update(videoLessons).set(values).where(eq(videoLessons.id, existing.id));
@@ -219,6 +319,38 @@ export async function createVideoLesson(input: VideoLessonInput, createdByUserId
         );
       }
     }
+    if (input.vocabulary) {
+      await tx.delete(lexicalOccurrences).where(and(eq(lexicalOccurrences.videoLessonId, id!), eq(lexicalOccurrences.sourceType, "video")));
+      const body = [values.transcriptText, ...(values.transcript ?? []).map(line => line.text), values.notes].filter(Boolean).join("\n");
+      await ingestVideoOccurrences(tx, id!, body, input.vocabulary);
+    }
+
+    // The canonical revision: a TED talk and a Podcast episode are content like a
+    // reading passage, so they get the same identity, hashes and history (§29).
+    await pinVersion(tx, {
+      module: "ted",
+      contentType: mediaKind === "audio" ? "audio_lesson" : "video_lesson",
+      sourceRef,
+      title: input.title,
+      track: "unspecified",
+      content: {
+        mediaKind,
+        provider: values.provider,
+        videoId: values.videoId,
+        durationSeconds: values.durationSeconds,
+        beforeYouWatch: values.beforeYouWatch,
+        notes: values.notes,
+        transcriptLines: values.transcript?.length ?? 0,
+        transcriptText: values.transcriptText,
+        questions: (input.questions ?? []).map((question) => ({ stage: question.stage, prompt: question.prompt, acceptedAnswers: question.acceptedAnswers })),
+        vocabulary: (input.vocabulary ?? []).map((entry) => ({ word: entry.word, pos: entry.pos })),
+      },
+      publicationState: "published",
+      targetType: "video_lesson",
+      targetId: id!,
+      actorUserId: createdByUserId,
+      provenance: { origin: "authored", mediaKind, provider: values.provider },
+    });
     return id!;
   });
 
@@ -241,7 +373,7 @@ async function loadProgress(videoLessonId: string, userId: string) {
  * Recomputes the completion state from what the server actually holds.
  * Called after every write, so the state can never drift from the data.
  */
-async function recomputeState(videoLessonId: string, userId: string) {
+async function recomputeState(videoLessonId: string, userId: string, options: { trustedEnd?: boolean } = {}) {
   const [videoLesson, questions, progress] = await Promise.all([
     db.query.videoLessons.findFirst({ where: eq(videoLessons.id, videoLessonId) }),
     db.query.videoLessonQuestions.findMany({ where: eq(videoLessonQuestions.videoLessonId, videoLessonId) }),
@@ -250,18 +382,16 @@ async function recomputeState(videoLessonId: string, userId: string) {
   if (!videoLesson) return null;
 
   const answers = progress.answers ?? {};
-  // Every authored question counts, comprehension and gap fill alike: the
-  // centre wrote them, so the lesson is finished when they are all answered.
-  const gradedQuestions = questions;
-  const allCorrect =
-    gradedQuestions.length > 0 && gradedQuestions.every((question) => answers[question.id]?.correct === true);
+  const durationKnown = videoLesson.durationSeconds != null && videoLesson.durationSeconds > 0;
+  const reachedThreshold = durationKnown && progress.watchedSeconds >= Math.floor(videoLesson.durationSeconds! * WATCHED_FRACTION);
 
-  const watchedEnough =
-    videoLesson.durationSeconds != null && videoLesson.durationSeconds > 0
-      ? progress.watchedSeconds >= Math.floor(videoLesson.durationSeconds * WATCHED_FRACTION)
-      : Boolean(progress.responseText || progress.summaryText);
-
-  const completed = gradedQuestions.length > 0 ? allCorrect : watchedEnough;
+  const allCorrect = questions.length > 0 && questions.every((question) => answers[question.id]?.correct === true);
+  // Authored exercises gate both learning modes. Opinion/summary remain optional
+  // for standalone items; viewing a tab is never evidence of completion.
+  const watchedEnough = durationKnown ? reachedThreshold : videoLesson.lessonId === null
+    ? (progress.completedAt != null || (options.trustedEnd === true && progress.watchedSeconds > 0))
+    : Boolean(progress.responseText || progress.summaryText);
+  const completed = questions.length > 0 ? allCorrect : watchedEnough;
   const started =
     progress.watchedSeconds > 0 ||
     Object.keys(answers).length > 0 ||
@@ -282,7 +412,13 @@ async function recomputeState(videoLessonId: string, userId: string) {
   return updated ?? progress;
 }
 
-export async function recordWatched(videoLessonId: string, userId: string, watchedSeconds: number) {
+/**
+ * Records watched seconds. `ended` is the client's report that the verified
+ * player reached the end; the server alone decides what it means (it can only
+ * complete a standalone item with unknown duration, and only after something
+ * was actually watched).
+ */
+export async function recordWatched(videoLessonId: string, userId: string, watchedSeconds: number, options: { ended?: boolean } = {}) {
   const videoLesson = await db.query.videoLessons.findFirst({ where: eq(videoLessons.id, videoLessonId) });
   if (!videoLesson) return null;
 
@@ -297,7 +433,7 @@ export async function recordWatched(videoLessonId: string, userId: string, watch
       .set({ watchedSeconds: next, updatedAt: new Date() })
       .where(and(eq(videoLessonProgress.videoLessonId, videoLessonId), eq(videoLessonProgress.userId, userId)));
   }
-  return recomputeState(videoLessonId, userId);
+  return recomputeState(videoLessonId, userId, { trustedEnd: options.ended === true });
 }
 
 /** Grades authored answers on the server; the client never sends a verdict. */
@@ -306,6 +442,8 @@ export async function submitAnswers(
   userId: string,
   answers: Record<string, string>
 ) {
+  const videoLesson = await db.query.videoLessons.findFirst({ where: eq(videoLessons.id, videoLessonId) });
+  if (!videoLesson) return null;
   const questions = await db.query.videoLessonQuestions.findMany({
     where: eq(videoLessonQuestions.videoLessonId, videoLessonId),
   });

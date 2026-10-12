@@ -19,6 +19,49 @@
  */
 const BASE = (process.env.BASE_URL || "http://127.0.0.1:3000");
 
+/*
+ * QA SAFETY (section 03.4). This probe mutates and, until now, never cleaned up.
+ * It publishes a real reading passage through the authoring API. That passage, its
+ * questions and the attempt made against it were never removed, so every run added a
+ * learner-visible passage to the catalogue.
+ *
+ * Measured, not assumed: scripts/audit-probe-residue.mjs counts every row in every
+ * table before and after a run. Cleanup is differential — snapshot the owned tables
+ * before the first mutation, delete exactly the ids that appeared, then re-query to
+ * prove they are gone. A pre-existing row is never touched.
+ */
+const SWEEP_DB_URL = process.env.DATABASE_URL;
+const { assertMutableDatabase, createRowSweeper, installSweepHandlers } =
+  await import("./lib/fixture-safety.mjs");
+let finalSweep = async () => {};
+if (SWEEP_DB_URL) {
+  assertMutableDatabase(SWEEP_DB_URL, { probe: "verify-publication" });
+  const sweepDb = new (await import("pg")).default.Client({ connectionString: SWEEP_DB_URL });
+  await sweepDb.connect();
+  const sweeper = createRowSweeper({
+    client: sweepDb,
+    probe: "verify-publication",
+    tables: ["reading_answers", "reading_attempts", "reading_questions", "reading_passages", "activity_events", "audit_log"],
+  });
+  finalSweep = installSweepHandlers(sweeper, {
+    probe: "verify-publication",
+    onDone: () => sweepDb.end().catch(() => {}),
+  });
+  await sweeper.capture();
+} else {
+  /*
+   * FAIL CLOSED. This probe mutates through HTTP, and the sweep above is the only thing that removes
+   * what it creates. Warning and continuing meant the mutations still happened against a database
+   * that was never verified as disposable — and several of these probes then connected through a
+   * hardcoded fallback (postgres://postgres@127.0.0.1:5433/learners_area) that no guard had ever
+   * seen, so the run could write fixtures into an unverified database and clean up nothing. Without
+   * a verified cleanup connection there is no safe run, so there is no run. Exit 2, not 1: this is a
+   * misconfigured invocation, not a product failure.
+   */
+  console.error("  !! DATABASE_URL is not set — refusing to mutate: fixtures could neither be cleaned up nor verified as disposable");
+  process.exit(2);
+}
+
 let passed = 0;
 let failed = 0;
 const failures = [];
@@ -119,7 +162,7 @@ check("a question can be authored for it", question.status === 200, `status ${qu
  * one observable answer — it is the fixture's position on page one that is not
  * meaningful, not the publication state.
  */
-const listedForStudent = async () => (await api("/reading", { cookie: student })).text.includes(title);
+const listedForStudent = async () => (await api("/app/reading", { cookie: student })).text.includes(title);
 const startableForStudent = async () =>
   (await api("/api/reading/attempts", { method: "POST", cookie: student, body: { passageId } })).status === 200;
 const listForStudent = async () => (await listedForStudent()) || (await startableForStudent());
@@ -135,7 +178,7 @@ const toDraft = await api(`/api/admin/content/reading/${passageId}/publication`,
   body: { state: "draft" },
 });
 check("an owner can move a passage to draft", toDraft.status === 200 && toDraft.json?.state === "draft", `status ${toDraft.status}`);
-const studentListPage = await api("/reading", { cookie: student });
+const studentListPage = await api("/app/reading", { cookie: student });
 check("the student reading page renders", studentListPage.status === 200, `status ${studentListPage.status}`);
 check("a draft is not listed to students", (await listForStudent()) === false);
 const draftStart = await studentStart();
@@ -203,7 +246,7 @@ const archivedStart = await studentStart();
 check("an archived passage cannot be started", archivedStart.status === 404, `status ${archivedStart.status}`);
 
 if (attemptId) {
-  const history = await api(`/reading/attempts/${attemptId}`, { cookie: student });
+  const history = await api(`/app/reading/attempts/${attemptId}`, { cookie: student });
   check(
     "the student's own attempt is still readable after archiving",
     history.status === 200,
@@ -218,10 +261,10 @@ if (attemptId) {
   // Hiding content from new students must not hide it from the student who
   // already sat it: the attempt stays on their own history list, so a student
   // can always re-read work the centre later took down.
-  const historyList = await api("/reading/history", { cookie: student });
+  const historyList = await api("/app/reading/history", { cookie: student });
   check(
     "the attempt is still on the student's history list after archiving",
-    historyList.status === 200 && historyList.text.includes(`/reading/attempts/${attemptId}`),
+    historyList.status === 200 && historyList.text.includes(`/app/reading/attempts/${attemptId}`),
     `status ${historyList.status}`
   );
 }
@@ -358,4 +401,7 @@ if (failed > 0) {
   console.log("# failures:");
   for (const failure of failures) console.log(`  - ${failure}`);
 }
-process.exit(failed > 0 ? 1 : 0);
+
+// process.exit() skips beforeExit, so the sweep is awaited here on the normal path.
+await finalSweep("end of run");
+process.exit(failed > 0 || process.exitCode === 1 ? 1 : 0);

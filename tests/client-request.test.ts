@@ -244,3 +244,16 @@ test("settled requests detach caller listener and cancel deadline", async (t) =>
   assert.equal(remove.mock.callCount(), 1);
   assert.equal(transportSignal?.aborted, false);
 });
+
+
+test("only fixed outage reasons survive; arbitrary server metadata never enters login diagnostics", async () => {
+  for (const reason of ["schema_missing", "column_missing", "database_missing", "auth_failed", "unreachable", "capacity"]) {
+    const result = await withFetch((async () => jsonResponse(JSON.stringify({ error: "service_unavailable", reason }), 503)) as typeof fetch, () => requestJson("/api/auth/login"));
+    assert.ok(!result.ok);
+    assert.equal(result.reason, reason);
+  }
+  const result = await withFetch((async () => jsonResponse(JSON.stringify({ error: "service_unavailable", reason: "password=private@host", message: "secret", query: "private SQL" }), 503)) as typeof fetch, () => requestJson("/api/auth/login"));
+  assert.ok(!result.ok);
+  assert.equal(result.reason, undefined);
+  assert.doesNotMatch(JSON.stringify(result), /password|private|secret|SQL/);
+});

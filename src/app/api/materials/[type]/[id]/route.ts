@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { requireActiveUser } from "@/lib/auth/current-user";
+import { actorOf, requireActiveUser } from "@/lib/auth/current-user";
 import { isUuid } from "@/lib/validation/ids";
 import { listResourceBlocks, saveResourceBlocks } from "@/lib/data/resources";
 import {
@@ -8,6 +8,7 @@ import {
   loadResourceOwner,
   mayReadResources,
   mayWriteResources,
+  mayManageResourceOwner,
 } from "@/lib/services/resources/owners";
 import { RULES, accountKey, blockIfOver, consume } from "@/lib/http/rate-limit";
 
@@ -82,6 +83,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ type
 
   const owner = await loadResourceOwner(type, id);
   if (!owner) return NextResponse.json({ error: "not_found" }, { status: 404 });
+  if (!mayManageResourceOwner(actorOf(user), owner)) return NextResponse.json({ error: "forbidden" }, { status: 403 });
 
   // A listing is a write loop if it is hammered; the same limiter the rest of the
   // app uses keeps one account from filling storage with abandoned objects.

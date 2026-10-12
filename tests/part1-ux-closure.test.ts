@@ -24,10 +24,10 @@ test("Management People search is parameterized in SQL before a fixed, determini
   assert.doesNotMatch(count.sql, / limit | offset /);
   assert.equal(count.params.length, 4);
 
-  const directory = read("src/app/(app)/admin/people/page.tsx");
+  const directory = read("src/app/app/(shell)/admin/people/page.tsx");
   const table = read("src/components/admin/PeopleTable.tsx");
   assert.match(directory, /role: isRole\(rawRole\)[\s\S]*status: isAccountStatus\(rawStatus\)[\s\S]*page: pageNumber/);
-  assert.match(table, /action="\/admin\/people" method="get"/);
+  assert.match(table, /action="\/app\/admin\/people" method="get"/);
   assert.match(table, /peoplePageHref\(filters, page [+-] 1\)/);
   assert.match(table, /router\.refresh\(\)/);
   assert.match(table, /\/api\/admin\/users\/\$\{person\.id\}\/role/);
@@ -46,7 +46,7 @@ test("profile self-edit accepts only a validated display name and binds it to th
   assert.match(route, /\.set\(\{ name: parsed\.data\.name \}\)/);
   assert.match(route, /eq\(users\.id, user\.id\)/);
   assert.doesNotMatch(route, /\.set\(\{[^}]*\b(email|role|accountStatus|isOwner|gender):/);
-  assert.match(menu, /href="\/profile"/);
+  assert.match(menu, /href="\/app\/profile"/);
 });
 
 test("registration declares and persists a canonical gender while keeping legacy and provider users nullable", () => {
@@ -62,7 +62,8 @@ test("registration declares and persists a canonical gender while keeping legacy
   const telegram = read("src/app/api/auth/telegram/callback/route.ts");
   const migration = read("drizzle/0021_registration_gender.sql");
   assert.match(schema, /gender: genderEnum\("gender"\),/);
-  assert.match(registerForm, /name="gender"[\s\S]*required[\s\S]*value=\{gender\}/);
+  assert.doesNotMatch(registerForm, /<select/);
+  assert.match(registerForm, /type="radio"[\s\S]*name="gender"[\s\S]*required/);
   assert.match(registerForm, /body: \{ name, email, password, gender \}/);
   assert.match(register, /\.values\(\{ name, gender, email, passwordHash/);
   assert.equal(en.auth.gender, "Gender");
@@ -86,22 +87,35 @@ test("reset request and confirmation both retain a localized route back to login
 
 test("floating AI Coach action opens the existing Coach dashboard without an invented chat", () => {
   const utilities = read("src/components/shell/ShellUtilities.tsx");
-  assert.match(utilities, /href="\/coach"/);
+  assert.match(utilities, /href="\/app\/coach"/);
   assert.match(utilities, /data-coach-fab/);
   assert.match(utilities, /IconSparkles/);
   assert.match(utilities, /dict\.nav\.coach/);
-  assert.ok(read("src/app/(app)/coach/page.tsx").includes("CoachPage"));
+  assert.ok(read("src/app/app/(shell)/coach/page.tsx").includes("CoachPage"));
 });
 
 test("TED / PODCAST is the complete learner-facing section identity in both locales", () => {
+  // PART 1 FINAL RETENTION ARCHITECTURE OVERRIDE V2 supersedes the old Reading-hub
+  // videos tab: TED / PODCAST is a standalone section in the shell navigation and
+  // must NOT appear as a tab inside Reading. The identity assertions below stay
+  // exactly as they were for the section itself; the Reading-tab assertions are
+  // replaced by the assertion that the tab is gone, rather than deleted.
   assert.equal(en.nav.videoLessons, "TED / PODCAST");
   assert.equal(uz.nav.videoLessons, "TED / PODCAST");
   assert.equal(en.videoLessons.title, "TED / PODCAST");
   assert.equal(uz.videoLessons.title, "TED / PODCAST");
-  assert.equal(en.readingHub.tabVideos, "TED / PODCAST");
-  assert.equal(uz.readingHub.tabVideos, "TED / PODCAST");
-  assert.equal(en.readingHub.videosGoToLibrary, "Go to TED / PODCAST");
-  assert.equal(uz.readingHub.videosGoToLibrary, "TED / PODCAST bo'limiga o'tish");
-  assert.match(en.readingHub.videosEmptyHint, /TED \/ PODCAST/);
-  assert.match(uz.readingHub.videosEmptyHint, /TED \/ PODCAST/);
+
+  const hub = read("src/app/app/(shell)/reading/page.tsx");
+  assert.doesNotMatch(hub, /data-reading-videos/);
+  assert.doesNotMatch(hub, /tabVideos|videosGoToLibrary|videosEmptyHint/);
+  assert.equal(
+    Object.keys(en.readingHub).some((key) => key.toLowerCase().includes("video")),
+    false,
+    "the Reading hub dictionary must not ship a videos tab identity any more"
+  );
+  assert.equal(
+    Object.keys(uz.readingHub).some((key) => key.toLowerCase().includes("video")),
+    false,
+    "the Reading hub dictionary must not ship a videos tab identity any more"
+  );
 });

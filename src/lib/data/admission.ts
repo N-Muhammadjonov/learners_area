@@ -170,7 +170,7 @@ export async function createAccessRequest(input: { userId: string; message?: str
     type: "ACCESS_REQUESTED",
     title: "New access request",
     body: "An applicant is waiting for approval.",
-    href: "/admin/admissions",
+    href: "/app/admin/admissions",
     payload: { requestId: row?.id },
   });
 
@@ -234,7 +234,7 @@ export async function decideAccessRequest(input: DecisionInput) {
     body: approved
       ? "Your Learners Area access has been approved. Welcome in."
       : (input.note ?? "Your access request was not approved."),
-    href: approved ? "/dashboard" : "/pending",
+    href: approved ? "/app" : "/pending",
   });
 
   return { ok: true as const, status: approved ? "active" : "rejected", userId: request.userId };
@@ -265,7 +265,7 @@ export async function setAccountStatus(input: {
     type: input.status === "suspended" ? "ACCOUNT_SUSPENDED" : "ACCOUNT_UPDATED",
     title: input.status === "suspended" ? "Account suspended" : `Account ${input.status}`,
     body: input.reason ?? null,
-    href: input.status === "active" ? "/dashboard" : "/pending",
+    href: input.status === "active" ? "/app" : "/pending",
   });
 
   return { ok: true as const };

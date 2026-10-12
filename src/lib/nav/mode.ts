@@ -11,7 +11,7 @@
  * result must still show the management navigation — mode held in component
  * state would silently show the wrong one after any of those.
  */
-export const MANAGEMENT_PREFIXES = ["/management", "/admin", "/owner", "/teacher"] as const;
+export const MANAGEMENT_PREFIXES = ["/app/management", "/app/admin", "/app/owner", "/app/teacher"] as const;
 
 export function isManagementRoute(pathname: string): boolean {
   return MANAGEMENT_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));

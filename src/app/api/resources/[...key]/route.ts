@@ -41,9 +41,12 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ key:
 
   const signed = await storage.signedReadUrl(objectKey, READ_URL_TTL_SECONDS);
   if (signed) {
-    // The signature is a transport detail with a 5-minute life; the database
-    // keeps `objectKey` as the authoritative reference, never this URL.
-    return NextResponse.redirect(signed, { status: 302 });
+    // Endpoint-backed providers may return a same-origin rewrite path so a
+    // browser fetch does not become a cross-origin R2 request after this hop.
+    // NextResponse.redirect requires an absolute URL, so anchor that transport
+    // path to the current deployment origin while keeping the signed query.
+    const location = signed.startsWith("/") ? new URL(signed, req.url) : signed;
+    return NextResponse.redirect(location, { status: 302 });
   }
 
   // Local provider: stream, honouring Range so media controls work.

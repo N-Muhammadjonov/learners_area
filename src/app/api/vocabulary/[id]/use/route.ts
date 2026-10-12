@@ -1,5 +1,6 @@
 import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
+import { PUBLIC_CHECKED_BY } from "@/lib/services/coach/attribution";
 import { and, eq } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/db/client";
@@ -67,17 +68,32 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   }
 
   const accepted = outcome.evaluation.verdict === "correct";
-  const confirmed = await confirmSentenceUse({
-    userId: user.id,
-    usageId: stored.usageId,
-    accepted,
-    evaluationId: outcome.evaluation.id,
-  });
-
-  await db.insert(activityEvents).values({
-    userId: user.id,
-    type: "VOCABULARY_USED",
-    payload: { lexemeId: lexeme.id, verdict: outcome.evaluation.verdict, accepted },
+  /*
+   * Confirming the use — which sets its verdict, its evaluation link and its points — and the
+   * VOCABULARY_USED event that records it are ONE write unit. Split, a failure between them left a
+   * confirmed, point-bearing usage with no event, or an event describing a use that was never
+   * confirmed.
+   *
+   * The evaluation above stays OUTSIDE the transaction: a pooled connection is never held across an
+   * external or RIWI call. `recordSentenceUse` also stays outside and already committed, which is
+   * what lets the 502 branch above honestly leave the sentence in the bank as unevaluated.
+   */
+  const confirmed = await db.transaction(async (tx) => {
+    const result = await confirmSentenceUse(
+      {
+        userId: user.id,
+        usageId: stored.usageId,
+        accepted,
+        evaluationId: outcome.evaluation.id,
+      },
+      tx,
+    );
+    await tx.insert(activityEvents).values({
+      userId: user.id,
+      type: "VOCABULARY_USED",
+      payload: { lexemeId: lexeme.id, verdict: outcome.evaluation.verdict, accepted },
+    });
+    return result;
   });
 
   return NextResponse.json({
@@ -85,7 +101,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     usageId: stored.usageId,
     verdict: outcome.evaluation.verdict,
     accepted,
-    checkedBy: outcome.evaluation.checkedBy.displayName,
+    checkedBy: PUBLIC_CHECKED_BY,
     mastery: confirmed.ok ? confirmed.mastery : null,
     points: confirmed.ok ? confirmed.points : 0,
   });

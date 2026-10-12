@@ -1,4 +1,5 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -10,6 +11,7 @@ import type { PersonRow } from "@/lib/data/people";
 import type { Locale } from "@/lib/i18n";
 import { Label } from "@/components/ui/Input";
 import { ConfirmAction, ConfirmSelect } from "@/components/interaction/InteractionPrimitives";
+import { apiErrorMessage } from "@/lib/api-error-message";
 
 function peoplePageHref(
   filters: { q: string; role?: Role; status?: AccountStatus },
@@ -21,7 +23,7 @@ function peoplePageHref(
   if (filters.status) params.set("status", filters.status);
   if (page > 1) params.set("page", String(page));
   const query = params.toString();
-  return query ? `/admin/people?${query}` : "/admin/people";
+  return query ? `/app/admin/people?${query}` : "/app/admin/people";
 }
 
 /**
@@ -56,6 +58,8 @@ export function PeopleTable({
   actorRole: Role;
   grantableRoles: Role[];
 }) {
+  const requestResponse = useScopedResponse(25000);
+
   const t = dict.people;
   const router = useRouter();
   const [busyId, setBusyId] = useState<string | null>(null);
@@ -71,14 +75,15 @@ export function PeopleTable({
     setBusyId(person.id);
     setError(null);
     try {
-      const res = await fetch(`/api/admin/users/${person.id}/role`, {
+      const res = await requestResponse(`/api/admin/users/${person.id}/role`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ role }),
       });
+    if (!res) return;
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        setError(`${t.failed} (${data.error ?? res.status})`);
+        setError(`${t.failed} ${apiErrorMessage(data.error, res.status, dict)}`);
         throw new Error("role_change_failed");
       }
       router.refresh();
@@ -94,14 +99,15 @@ export function PeopleTable({
     setBusyId(person.id);
     setError(null);
     try {
-      const res = await fetch(`/api/admin/users/${person.id}/status`, {
+      const res = await requestResponse(`/api/admin/users/${person.id}/status`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status, reason: reason.trim() || null }),
       });
+    if (!res) return;
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        setError(`${t.failed} (${data.error ?? res.status})`);
+        setError(`${t.failed} ${apiErrorMessage(data.error, res.status, dict)}`);
         throw new Error("status_change_failed");
       }
       setReason("");
@@ -119,7 +125,7 @@ export function PeopleTable({
     <div className="flex flex-col gap-3">
       {error && <p className="text-xs text-band-bad">{error}</p>}
 
-      <form action="/admin/people" method="get" className="panel flex flex-wrap items-end gap-3" data-people-search-form>
+      <form action="/app/admin/people" method="get" className="panel flex flex-wrap items-end gap-3" data-people-search-form>
         <div className="min-w-[min(100%,16rem)] flex-1">
           <Label htmlFor="people-search">{t.searchLabel}</Label>
           <input
@@ -150,7 +156,7 @@ export function PeopleTable({
           </select>
         </div>
         <button type="submit" className="btn-primary">{t.searchAction}</button>
-        <Link href="/admin/people" className="btn-secondary">{t.clearFilters}</Link>
+        <Link href="/app/admin/people" className="btn-secondary">{t.clearFilters}</Link>
       </form>
 
       <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-ink-500" aria-live="polite">
@@ -186,7 +192,7 @@ export function PeopleTable({
                 data-person-status={person.accountStatus}
               >
                 <td className="py-2 pr-3">
-                  <span className="font-medium text-ink-900">{person.name}</span>
+                  {person.role === "student" ? <Link href={`/app/admin/people/${person.id}`} className="font-medium text-signal-600 underline underline-offset-4">{person.name}</Link> : <span className="font-medium text-ink-900">{person.name}</span>}
                   {person.id === actorId && (
                     <span className="ml-2 badge bg-signal-100 text-signal-700">{t.you}</span>
                   )}
@@ -247,7 +253,7 @@ export function PeopleTable({
           >
             <div>
               <p className="text-sm font-medium text-ink-900">
-                {person.name}
+                {person.role === "student" ? <Link href={`/app/admin/people/${person.id}`} className="text-signal-600 underline underline-offset-4">{person.name}</Link> : person.name}
                 {person.id === actorId && (
                   <span className="ml-2 badge bg-signal-100 text-signal-700">{t.you}</span>
                 )}

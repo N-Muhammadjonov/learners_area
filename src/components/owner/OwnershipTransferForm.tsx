@@ -1,10 +1,12 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n/en";
 import { Card } from "@/components/ui/Card";
 import { Input, Label } from "@/components/ui/Input";
+import { apiErrorMessage } from "@/lib/api-error-message";
 
 /**
  * The final step of a business transfer.
@@ -19,6 +21,8 @@ export function OwnershipTransferForm({
   dict: Dictionary;
   ownerEmail: string;
 }) {
+  const requestResponse = useScopedResponse(25000);
+
   const t = dict.owner;
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -31,15 +35,16 @@ export function OwnershipTransferForm({
   async function submit() {
     setBusy(true);
     setError(null);
-    const res = await fetch("/api/owner/transfer", {
+    const res = await requestResponse("/api/owner/transfer", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: email.trim(), password, keepRole }),
     });
+    if (!res) return;
     setBusy(false);
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));
-      setError(`${t.transferFailed} (${data.error ?? res.status})`);
+      setError(`${t.transferFailed} ${apiErrorMessage(data.error, res.status, dict)}`);
       return;
     }
     setDone(true);

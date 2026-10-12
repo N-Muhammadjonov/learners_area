@@ -27,6 +27,7 @@ import {
   materialBlocks,
   listeningTests,
   listeningQuestions,
+  teacherStudentLinks,
 } from "./schema";
 import { hashPassword } from "../lib/auth/password";
 import { legacySenseKeyOf as senseKeyOf } from "../lib/services/vocabulary/dedupe";
@@ -133,6 +134,17 @@ async function main() {
       locale: "uz",
     })
     .returning();
+
+  // A teacher with an empty roster is not a realistic fixture: /app/teacher/students
+  // lists only the students actually linked to the signed-in teacher
+  // (teacher_student_links), so without these rows every teacher journey — opening a
+  // student, assigning follow-up work, reviewing their writing — dead-ends on an
+  // empty state that looks like a product defect. The second teacher is deliberately
+  // left with a DIFFERENT roster so the ownership boundary stays testable.
+  await db.insert(teacherStudentLinks).values([
+    { teacherUserId: teacher!.id, studentUserId: demoStudent!.id, assignedByUserId: owner!.id },
+    { teacherUserId: teacher!.id, studentUserId: newStudent!.id, assignedByUserId: owner!.id },
+  ]);
 
   if (!owner || !admin || !teacher || !teacher2 || !demoStudent || !newStudent || !pendingApplicant) {
     throw new Error("User seeding failed");
@@ -633,8 +645,14 @@ async function main() {
     ]);
   }
 
-  // --- Shadowing recordings (placeholder audio links, same convention as the
-  // listening test: the drill is wired end-to-end, the file is swap-in) -----
+  // --- LEGACY shadowing material -------------------------------------------
+  // Shadowing is a RETIRED product feature (owner decision). This row is seeded on
+  // purpose and must NOT be removed: it is the positive control for the absence
+  // regressions. A centre's database can still hold rows in the historical
+  // `shadowing` category, and the product has to keep them out of every learner
+  // surface. Without a real legacy row present, "shadowing is absent" would pass
+  // vacuously because there would be nothing that could leak.
+  // scripts/verify-shadowing.mjs asserts this row exists AND never reaches a learner.
   const [shadowingMaterial] = await db
     .insert(speakingMaterials)
     .values({

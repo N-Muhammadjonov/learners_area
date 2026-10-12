@@ -1,28 +1,29 @@
+import { APP_HOME } from "@/lib/nav/private-modules.mjs";
+
 export type InteractionCategory = "local" | "navigation" | "data-view" | "mutation" | "destructive" | "external";
 
 export type NavigationTarget = { href: string; routeKey: string };
 
 const ROUTE_PREFIXES: Array<[string, string]> = [
-  ["/dashboard", "dashboard"],
-  ["/courses/ielts", "course-roadmap"],
-  ["/coach", "coach"],
-  ["/notifications", "notifications"],
-  ["/live-classes", "live-classes"],
-  ["/assignments", "assignments"],
-  ["/listening", "listening"],
-  ["/video-lessons", "video-lessons"],
-  ["/reading", "reading"],
-  ["/writing", "writing"],
-  ["/speaking", "speaking"],
-  ["/grammar", "grammar"],
-  ["/vocabulary", "vocabulary"],
-  ["/progress", "progress"],
-  ["/mocks", "mocks"],
-  ["/support", "support"],
-  ["/management", "management"],
-  ["/admin", "management"],
-  ["/teacher", "management"],
-  ["/owner", "management"],
+  ["/app/courses/ielts", "course-roadmap"],
+  ["/app/coach", "coach"],
+  ["/app/notifications", "notifications"],
+  ["/app/live-classes", "live-classes"],
+  ["/app/assignments", "assignments"],
+  ["/app/listening", "listening"],
+  ["/app/video-lessons", "video-lessons"],
+  ["/app/reading", "reading"],
+  ["/app/writing", "writing"],
+  ["/app/speaking", "speaking"],
+  ["/app/grammar", "grammar"],
+  ["/app/vocabulary", "vocabulary"],
+  ["/app/progress", "progress"],
+  ["/app/mocks", "mocks"],
+  ["/app/support", "support"],
+  ["/app/management", "management"],
+  ["/app/admin", "management"],
+  ["/app/teacher", "management"],
+  ["/app/owner", "management"],
 ];
 
 /** Remove URL fragments and preserve the actual route/query for router semantics. */
@@ -53,6 +54,7 @@ export function internalNavigationTarget(
 
 /** Route metrics contain only a fixed workspace key, never path ids or search text. */
 export function workspaceKey(pathname: string): string {
+  if (pathname === APP_HOME) return "dashboard";
   const match = ROUTE_PREFIXES.find(([prefix]) => pathname === prefix || pathname.startsWith(`${prefix}/`));
   return match?.[1] ?? "other";
 }

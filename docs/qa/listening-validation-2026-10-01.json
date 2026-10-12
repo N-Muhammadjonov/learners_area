@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-01",
+  "status": "PARTIAL",
+  "rootRuns": [
+    {
+      "total": 695,
+      "passed": 665,
+      "failed": 0,
+      "skipped": 30
+    },
+    {
+      "total": 695,
+      "passed": 665,
+      "failed": 0,
+      "skipped": 30
+    }
+  ],
+  "uiRuns": [
+    {
+      "passed": 102,
+      "failed": 0
+    },
+    {
+      "passed": 102,
+      "failed": 0
+    }
+  ],
+  "typecheck": "pass",
+  "lint": "pass",
+  "retentionSchema": {
+    "passed": 11,
+    "failed": 0
+  },
+  "previewMigrationApplied": false,
+  "previewSourceUploaded": false,
+  "nativeBrowserAcceptance": "UNVERIFIED",
+  "sourceAudioMetadata": {
+    "durationSeconds": 1645.061224,
+    "sampleRate": 44100,
+    "channels": 1,
+    "bitRate": 80000
+  },
+  "youtubeInternalControlsRemoved": false,
+  "build": "pass"
+}

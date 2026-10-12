@@ -1,4 +1,5 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -8,6 +9,7 @@ import type { Dictionary } from "@/lib/i18n/en";
 import { formatDate } from "@/lib/time";
 import { ResourceBlocks } from "@/components/resources/ResourceBlocks";
 import type { ResourceBlockView } from "@/lib/data/resources";
+import { apiErrorMessage } from "@/lib/api-error-message";
 
 export type AssignmentCard = {
   id: string;
@@ -40,6 +42,8 @@ export function AssignmentBoard({
    */
   materials: Record<string, ResourceBlockView[]>;
 }) {
+  const requestResponse = useScopedResponse(60000);
+
   const t = dict.assignments;
   const router = useRouter();
   const [drafts, setDrafts] = useState<Record<string, string>>(
@@ -56,15 +60,16 @@ export function AssignmentBoard({
     }
     setBusyId(assignment.id);
     setErrors((prev) => ({ ...prev, [assignment.id]: "" }));
-    const res = await fetch(`/api/assignments/${assignment.id}/evaluate`, {
+    const res = await requestResponse(`/api/assignments/${assignment.id}/evaluate`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ response }),
     });
+    if (!res) return;
     setBusyId(null);
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));
-      setErrors((prev) => ({ ...prev, [assignment.id]: String(data.error ?? t.genericError) }));
+      setErrors((prev) => ({ ...prev, [assignment.id]: apiErrorMessage(data.error, res.status, dict) }));
       return;
     }
     router.refresh();

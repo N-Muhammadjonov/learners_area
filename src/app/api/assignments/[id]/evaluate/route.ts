@@ -1,13 +1,15 @@
 import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
+import { PUBLIC_CHECKED_BY } from "@/lib/services/coach/attribution";
 import { and, desc, eq } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/db/client";
-import { assignments, writingPrompts, writingSubmissions } from "@/db/schema";
+import { assignmentTargets, assignments, writingPrompts, writingSubmissions } from "@/db/schema";
 import { isAdministrator, requireActiveUser } from "@/lib/auth/current-user";
 import { canManageContent } from "@/lib/auth/ownership";
 import { getLocale } from "@/lib/i18n";
 import { saveAssignmentResponse } from "@/lib/data/coach-artifacts";
+import { setAssignmentTargetStatus } from "@/lib/content/assignments";
 import { classifyAssignment, evaluateAssignment, evaluateWritingSubmission } from "@/lib/services/coach";
 
 /**
@@ -25,6 +27,34 @@ import { classifyAssignment, evaluateAssignment, evaluateWritingSubmission } fro
  */
 const schema = z.object({ response: z.string().min(20).max(20000).optional() });
 
+/**
+ * Completion is TWO facts and they have to move together.
+ *
+ * `assignments.status` is the assignment-level record. `assignment_targets.status` is the per-learner
+ * record — and it is the one people actually read: /app/assignments builds every learner's card from
+ * the TARGETS table ("one assignment can be set for several students: reading
+ * assignments.target_user_id would hide every task from everyone except the first student it was set
+ * for"), and the teacher's view of who has finished comes from the same rows.
+ *
+ * This route used to write only the first one. So a learner who typed a response, submitted it, and
+ * got `ok: true` with an evaluation id still had a card reading "Not started" — forever — and the
+ * teacher never saw the work as done. `setAssignmentTargetStatus` existed for exactly this and had no
+ * callers anywhere in src. Both writes are in one transaction so the two statuses cannot diverge.
+ *
+ * A missing target row is not an error: rows created before the targets table existed have none, and
+ * such an assignment is invisible to every learner anyway (the board reads the targets table), so
+ * failing the evaluation would strand work nobody can see. The return value says which happened.
+ */
+async function markCompleted(assignmentId: string, studentUserId: string): Promise<{ targetMoved: boolean }> {
+  return db.transaction(async (tx) => {
+    await tx.update(assignments).set({ status: "completed" }).where(eq(assignments.id, assignmentId));
+    const targetMoved = await setAssignmentTargetStatus(tx as never, {
+      assignmentId, studentUserId, status: "completed",
+    });
+    return { targetMoved };
+  });
+}
+
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   if (!isUuid(id)) return NextResponse.json({ error: "not_found" }, { status: 404 });
@@ -36,9 +66,36 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   });
   if (!assignment) return NextResponse.json({ error: "not_found" }, { status: 404 });
 
-  const isTargetStudent = assignment.targetUserId === user.id;
+  /*
+   * §11 — AUTHORIZE AND ATTRIBUTE AGAINST THE CALLER, NOT AGAINST "THE FIRST TARGET".
+   *
+   * `createAssignment` writes an `assignment_targets` row for EVERY student it is given, but
+   * `assignments.targetUserId` is a single column that only ever holds `studentIds[0]`. The read path
+   * already knows this — `mayReadAssignment` accepts any id present in the target rows — while this route
+   * accepted only `targetUserId`. So a second target could open work that was set for them and then be
+   * refused when submitting it: the read and write paths disagreed about who the assignment belongs to.
+   *
+   * Taking the union cannot remove anyone's access (`targetUserId` is still accepted), so it is strictly
+   * safe. Under the single-target contract every shipped caller uses, the two sets are identical and
+   * behaviour is unchanged — this is not multi-target support being invented, it is the two authorization
+   * paths being made to agree.
+   */
+  const targetRows = await db
+    .select({ studentUserId: assignmentTargets.studentUserId })
+    .from(assignmentTargets)
+    .where(eq(assignmentTargets.assignmentId, assignment.id));
+  const isTargetStudent = assignment.targetUserId === user.id || targetRows.some((row) => row.studentUserId === user.id);
   const isManager =
     isAdministrator(user.role) || canManageContent(user, assignment.createdByUserId);
+  /*
+   * The learner whose work is actually being evaluated. A student caller evaluates THEIR OWN work; a
+   * manager (teacher/admin) evaluates on behalf of the assignment's target, which is the existing
+   * behaviour and is preserved. Resolving the subject from the caller is what stops a second target's
+   * submission from being looked up, evaluated, marked complete and reported as the first target's —
+   * cross-learner attribution, and the reason `assignment.targetUserId` is no longer read directly below.
+   */
+  const subjectUserId = isTargetStudent ? user.id : assignment.targetUserId;
+
   if (!isTargetStudent && !isManager) {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
@@ -63,7 +120,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   if (dispatch.kind === "writing_task") {
     const submission = await db.query.writingSubmissions.findFirst({
       where: and(
-        eq(writingSubmissions.userId, assignment.targetUserId),
+        eq(writingSubmissions.userId, subjectUserId),
         eq(writingSubmissions.promptId, dispatch.writingPromptId)
       ),
       orderBy: desc(writingSubmissions.updatedAt),
@@ -82,7 +139,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
 
     // Delegate — do not re-implement writing evaluation here.
     const outcome = await evaluateWritingSubmission({
-      userId: assignment.targetUserId,
+      userId: subjectUserId,
       submissionId: submission.id,
       taskType: prompt.taskType,
       prompt: prompt.prompt,
@@ -92,16 +149,13 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     });
     if (!outcome.ok) return NextResponse.json({ error: outcome.error }, { status: 502 });
 
-    await db
-      .update(assignments)
-      .set({ status: "completed" })
-      .where(eq(assignments.id, assignment.id));
+    await markCompleted(assignment.id, subjectUserId);
 
     return NextResponse.json({
       ok: true,
       dispatchedTo: "writing",
       evaluationId: outcome.evaluation.id,
-      checkedBy: outcome.evaluation.checkedBy.displayName,
+      checkedBy: PUBLIC_CHECKED_BY,
       reason: dispatch.reason,
     });
   }
@@ -125,13 +179,13 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   });
   if (!outcome.ok) return NextResponse.json({ error: outcome.error }, { status: 502 });
 
-  await db.update(assignments).set({ status: "completed" }).where(eq(assignments.id, assignment.id));
+  await markCompleted(assignment.id, subjectUserId);
 
   return NextResponse.json({
     ok: true,
     dispatchedTo: "free_form",
     evaluationId: outcome.evaluation.id,
-    checkedBy: outcome.evaluation.checkedBy.displayName,
+    checkedBy: PUBLIC_CHECKED_BY,
     verdict: outcome.evaluation.verdict,
     reason: dispatch.reason,
   });

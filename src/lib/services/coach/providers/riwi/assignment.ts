@@ -121,7 +121,7 @@ export function evaluateAssignmentWithRiwi(input: AssignmentEvaluationInput): Pr
       {
         kind: "writing",
         label: "Practice task",
-        href: "/writing",
+        href: "/app/writing",
         reason: "Structured writing practice feeds the same weakness tracking as this assignment.",
       },
     ],

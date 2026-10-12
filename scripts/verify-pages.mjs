@@ -86,34 +86,34 @@ function assertCleanHtml(html, label) {
 
 const PAGES = {
   student: [
-    "/dashboard",
+    "/app",
     "/onboarding",
-    "/courses/ielts",
-    "/writing",
-    "/writing/history",
-    "/listening",
-    "/listening/history",
-    "/reading",
-    "/reading/history",
-    "/speaking",
-    "/speaking/practice",
-    "/coach",
-    "/assignments",
-    "/speaking/history",
-    "/grammar",
-    "/vocabulary",
-    "/vocabulary/review",
-    "/live-classes",
-    "/mocks",
-    "/progress",
+    "/app/courses/ielts",
+    "/app/writing",
+    "/app/writing/history",
+    "/app/listening",
+    "/app/listening/history",
+    "/app/reading",
+    "/app/reading/history",
+    "/app/speaking",
+    "/app/speaking/practice",
+    "/app/coach",
+    "/app/assignments",
+    "/app/speaking/history",
+    "/app/grammar",
+    "/app/vocabulary",
+    "/app/vocabulary/review",
+    "/app/live-classes",
+    "/app/mocks",
+    "/app/progress",
   ],
-  teacher: ["/teacher/speaking", "/teacher/students", "/teacher/live-classes"],
+  teacher: ["/app/teacher/speaking", "/app/teacher/students", "/app/teacher/live-classes"],
   admin: [
-    "/admin/users",
-    "/admin/reading",
-    "/admin/listening",
-    "/admin/grammar",
-    "/admin/writing-prompts",
+    "/app/admin/users",
+    "/app/admin/reading",
+    "/app/admin/listening",
+    "/app/admin/grammar",
+    "/app/admin/writing-prompts",
   ],
 };
 
@@ -151,9 +151,9 @@ for (const [role, paths] of Object.entries(PAGES)) {
 await check("switching locale changes the rendered UI language", async () => {
   let cookie = await login("student");
   cookie = await setLocale(cookie, "uz");
-  const uz = await get(cookie, "/dashboard");
+  const uz = await get(cookie, "/app");
   cookie = await setLocale(cookie, "en");
-  const en = await get(cookie, "/dashboard");
+  const en = await get(cookie, "/app");
   assert.notEqual(uz.html, en.html, "locale switch produced identical HTML");
   assert.match(uz.html, /Boshqaruv paneli/, "Uzbek render is missing Uzbek copy");
   assert.match(en.html, /Dashboard/, "English render is missing English copy");
@@ -162,7 +162,7 @@ await check("switching locale changes the rendered UI language", async () => {
 await check("no hard-coded English section labels survive in the sidebar", async () => {
   let cookie = await login("teacher");
   cookie = await setLocale(cookie, "uz");
-  const { html } = await get(cookie, "/dashboard");
+  const { html } = await get(cookie, "/app");
   // The sidebar groups are Main / Modules / Progress (there is no separate
   // "Track" group any more — progress lives in its own group), so the check
   // asserts exactly those three group labels are translated, and that no English
@@ -178,7 +178,7 @@ await check("no hard-coded English section labels survive in the sidebar", async
 await check("teacher speaking page renders the resource composer", async () => {
   let cookie = await login("teacher");
   cookie = await setLocale(cookie, "en");
-  const { html } = await get(cookie, "/teacher/speaking");
+  const { html } = await get(cookie, "/app/teacher/speaking");
   assert.match(html, /Manage Speaking materials/);
   assert.match(html, /Primary file/);
   assert.match(html, /Description/);
@@ -190,7 +190,7 @@ await check("teacher speaking page renders the resource composer", async () => {
 await check("teacher speaking page renders the composer in Uzbek", async () => {
   let cookie = await login("teacher");
   cookie = await setLocale(cookie, "uz");
-  const { html } = await get(cookie, "/teacher/speaking");
+  const { html } = await get(cookie, "/app/teacher/speaking");
   assert.match(html, /Speaking materiallarini boshqarish/);
   assert.match(html, /Asosiy fayl/);
   assert.match(html, /Tavsif bloki qo'shish/);
@@ -200,7 +200,7 @@ await check("teacher speaking page renders the composer in Uzbek", async () => {
 await check("the speaking practice studio renders with the recorder controls", async () => {
   let cookie = await login("student");
   cookie = await setLocale(cookie, "en");
-  const { html } = await get(cookie, "/speaking/practice");
+  const { html } = await get(cookie, "/app/speaking/practice");
   assert.match(html, /Speaking practice/);
   // The honest, load-bearing bit: the page must say there is no transcript,
   // because no transcription provider exists.
@@ -211,10 +211,10 @@ await check("the speaking practice studio renders with the recorder controls", a
 await check("speaking practice is translated and links to history", async () => {
   let cookie = await login("student");
   cookie = await setLocale(cookie, "uz");
-  const practice = await get(cookie, "/speaking/practice");
+  const practice = await get(cookie, "/app/speaking/practice");
   assert.match(practice.html, /Speaking mashqi/);
 
-  const history = await get(cookie, "/speaking/history");
+  const history = await get(cookie, "/app/speaking/history");
   assert.match(history.html, /Speaking tarixi/);
 });
 
@@ -223,19 +223,27 @@ await check("the speaking module leads to both speaking modes and they are reach
   cookie = await setLocale(cookie, "en");
   // The sidebar carries one Speaking row (the module), so the modes are reached
   // from the module page — and both must actually answer, not merely be linked.
-  const hub = await get(cookie, "/speaking");
-  assert.match(hub.html, /href="\/speaking\/practice"/);
-  assert.match(hub.html, /href="\/speaking\/shadowing"/);
-  for (const path of ["/speaking/practice", "/speaking/history", "/speaking/shadowing"]) {
+  const hub = await get(cookie, "/app/speaking");
+  assert.match(hub.html, /href="\/app\/speaking\/practice"/);
+  // Shadowing is a RETIRED feature (owner decision): it is not a hub card, not a
+  // lessons section, and not an activity anywhere. The hub offers the four supported
+  // Speaking entries and nothing that leads to it.
+  assert.match(hub.html, /href="\/app\/speaking\/lessons"/);
+  assert.ok(!/\/app\/speaking\/shadowing/.test(hub.html), "the Speaking hub still links to the retired shadowing route");
+  for (const path of ["/app/speaking/practice", "/app/speaking/history", "/app/speaking/lessons"]) {
     const page = await get(cookie, path);
     assert.equal(page.status, 200, `${path} is not reachable`);
   }
+  // And the page the legacy URL lands on carries no shadowing activity.
+  const lessons = await get(cookie, "/app/speaking/lessons");
+  assert.ok(!/data-shadowing-section/.test(lessons.html), "a shadowing section is still mounted on the lessons page");
+  assert.ok(!/data-shadowing-studio/.test(lessons.html), "the shadowing studio is still mounted on the lessons page");
 });
 
 await check("the Coach dashboard names the evaluator that produced each result", async () => {
   let cookie = await login("student");
   cookie = await setLocale(cookie, "en");
-  const { html } = await get(cookie, "/coach");
+  const { html } = await get(cookie, "/app/coach");
   assert.match(html, /Coach dashboard/);
   // The label is written from provider metadata at evaluation time, so the
   // seeded evaluation must name RIWI as its evaluator.
@@ -249,7 +257,7 @@ await check("the Coach dashboard names the evaluator that produced each result",
 await check("the Coach dashboard is translated and keeps the same evaluator label", async () => {
   let cookie = await login("student");
   cookie = await setLocale(cookie, "uz");
-  const { html } = await get(cookie, "/coach");
+  const { html } = await get(cookie, "/app/coach");
   assert.match(html, /Coach paneli/);
   // React separates text nodes with comment markers in the streamed HTML.
   assert.match(html, /Tekshirgan[\s\S]{0,80}RIWI/);
@@ -258,14 +266,14 @@ await check("the Coach dashboard is translated and keeps the same evaluator labe
 await check("a writing submission reports who checked it, not just a band", async () => {
   let cookie = await login("student");
   cookie = await setLocale(cookie, "en");
-  const history = await get(cookie, "/writing/history");
+  const history = await get(cookie, "/app/writing/history");
   assert.match(history.html, /Checked by[\s\S]{0,80}RIWI/);
 });
 
 await check("the assignments page renders for a student with assignments", async () => {
   let cookie = await login("student");
   cookie = await setLocale(cookie, "en");
-  const { html } = await get(cookie, "/assignments");
+  const { html } = await get(cookie, "/app/assignments");
   assert.match(html, /Assignments/);
   assert.match(html, /Your response|Checked by/);
 });
@@ -274,10 +282,10 @@ await check("a grammar item offers a produced answer instead of only multiple ch
   let cookie = await login("student");
   cookie = await setLocale(cookie, "en");
   // Find a topic through the API-independent list page, then open it.
-  const list = await get(cookie, "/grammar");
-  const topicId = list.html.match(/href="\/grammar\/([0-9a-f-]{36})"/)?.[1];
+  const list = await get(cookie, "/app/grammar");
+  const topicId = list.html.match(/href="\/app\/grammar\/([0-9a-f-]{36})"/)?.[1];
   assert.ok(topicId, "the grammar list must link to at least one topic");
-  const { html } = await get(cookie, `/grammar/${topicId}`);
+  const { html } = await get(cookie, `/app/grammar/${topicId}`);
   assert.match(html, /Write your own correction/);
   assert.match(html, /Check my sentence/);
 });
@@ -285,10 +293,10 @@ await check("a grammar item offers a produced answer instead of only multiple ch
 await check("a teacher can assign follow-up work from the student page", async () => {
   let cookie = await login("teacher");
   cookie = await setLocale(cookie, "en");
-  const list = await get(cookie, "/teacher/students");
-  const studentId = list.html.match(/href="\/teacher\/students\/([0-9a-f-]{36})"/)?.[1];
+  const list = await get(cookie, "/app/teacher/students");
+  const studentId = list.html.match(/href="\/app\/teacher\/students\/([0-9a-f-]{36})"/)?.[1];
   assert.ok(studentId, "the teacher must see at least one student");
-  const { html } = await get(cookie, `/teacher/students/${studentId}`);
+  const { html } = await get(cookie, `/app/teacher/students/${studentId}`);
   assert.match(html, /Assign follow-up work/);
   assert.match(html, /Teacher feedback|Checked by/);
 });
@@ -298,14 +306,14 @@ await check("deactivate and delete are distinguishable in both languages", async
   // reversible action look identical on the same card.
   let cookie = await login("teacher");
   cookie = await setLocale(cookie, "uz");
-  const uz = await get(cookie, "/teacher/speaking");
+  const uz = await get(cookie, "/app/teacher/speaking");
   const uzHtml = uz.html;
   assert.ok(uzHtml.includes("Faolsizlantirish"), "Uzbek deactivate label missing");
   assert.ok(uzHtml.includes("O'chirish"), "Uzbek delete label missing");
   assert.notEqual("Faolsizlantirish", "O'chirish");
 
   cookie = await setLocale(cookie, "en");
-  const en = await get(cookie, "/teacher/speaking");
+  const en = await get(cookie, "/app/teacher/speaking");
   assert.ok(en.html.includes("Deactivate"), "English deactivate label missing");
   assert.ok(en.html.includes("Delete"), "English delete label missing");
 });
@@ -314,12 +322,12 @@ await check("a malformed id in the URL is a 404, never an internal error", async
   // A hand-typed id used to reach Postgres and come back as a 500 with a stack
   // trace. These are exactly the pages a user can reach by editing the address.
   const student = await login("student");
-  for (const path of ["/reading/attempts/zzz", "/listening/attempts/zzz", "/writing/submissions/zzz", "/grammar/zzz"]) {
+  for (const path of ["/app/reading/attempts/zzz", "/app/listening/attempts/zzz", "/app/writing/submissions/zzz", "/app/grammar/zzz"]) {
     const res = await fetch(`${BASE}${path}`, { headers: { cookie: student }, redirect: "manual" });
     assert.equal(res.status, 404, `${path} must answer 404 for a malformed id (got ${res.status})`);
   }
   const teacher = await login("teacher");
-  for (const path of ["/teacher/live-classes/zzz", "/teacher/students/zzz"]) {
+  for (const path of ["/app/teacher/live-classes/zzz", "/app/teacher/students/zzz"]) {
     const res = await fetch(`${BASE}${path}`, { headers: { cookie: teacher }, redirect: "manual" });
     assert.equal(res.status, 404, `${path} must answer 404 for a malformed id (got ${res.status})`);
   }

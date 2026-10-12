@@ -142,9 +142,17 @@ test("no committed source file contains a live-looking credential", () => {
   }
 });
 
-test("no AI vendor is hardcoded into the application", () => {
+test("vendor references stay in server-only adapters and their registration, never app UI or data routes", () => {
   const vendors = ["openai", "anthropic", "gemini", "claude", "gpt-4", "mistral", "deepseek"];
   for (const file of SRC_FILES) {
+    // Changed 2026-10-03 (universal providers): any first-class vendor adapter folder
+    // providers/<vendor>/ may name its vendor; providers/shared/ and providers/compatible/
+    // (and the internal providers/riwi/) must stay vendor-neutral and are still scanned below.
+    const vendorAdapter = /^src\/lib\/services\/coach\/providers\/(?!shared\/|compatible\/|riwi\/)[a-z0-9-]+\//.test(file);
+    if (vendorAdapter || file === "src/lib/services/coach/stt/openai.ts" || file === "src/lib/services/coach/providers/index.ts" || file === "src/lib/services/coach/stt/registry.ts") {
+      assert.match(read(file), /^import "server-only";/m);
+      continue;
+    }
     const source = read(file).toLowerCase();
     for (const vendor of vendors) {
       assert.ok(!source.includes(vendor), `${file} references a specific vendor (${vendor})`);
@@ -152,10 +160,14 @@ test("no AI vendor is hardcoded into the application", () => {
   }
 });
 
-test("the label shown to a student comes from the stored row, not from configuration", () => {
+// Changed 2026-10-03 (owner rule "Checked by RIWI"): the student label was the stored
+// provider name; it is now the fixed public constant. The invariant kept: the label never
+// comes from configuration, and the resolver still records the TRUE provider (asserted below
+// and rendered to staff only — tests/ui/checked-by-riwi.test.tsx).
+test("the label shown to a student is the fixed public label, not configuration; provenance stays truthful", () => {
   const view = read("src/components/coach/EvaluationView.tsx");
   const viewCode = stripComments(view);
-  assert.ok(view.includes("evaluation.checkedByName"), "the view must render the stored label");
+  assert.ok(viewCode.includes("{t.checkedBy} {PUBLIC_CHECKED_BY}"), "the view must render the fixed public label");
   assert.ok(!viewCode.includes("readCoachConfig"), "the view must not consult configuration");
   assert.ok(!viewCode.includes("AI_PRIMARY_PROVIDER"), "the view must not consult configuration");
 

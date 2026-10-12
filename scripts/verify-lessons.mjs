@@ -4,6 +4,62 @@
  */
 const BASE = (process.env.BASE_URL || "http://127.0.0.1:3000");
 
+/*
+ * QA SAFETY (section 03.4). This probe mutates and, until now, never cleaned up.
+ * It writes real lesson notes and progress for the demo student, which then show up
+ * in that student's lesson surfaces on every later run and measurement.
+ *
+ * Measured, not assumed: scripts/audit-probe-residue.mjs counts every row in every
+ * table before and after a run. Cleanup is differential — snapshot the owned tables
+ * before the first mutation, delete exactly the ids that appeared, then re-query to
+ * prove they are gone. A pre-existing row is never touched.
+ */
+const SWEEP_DB_URL = process.env.DATABASE_URL;
+let sweepClient = null;
+let progressBorrower = null;
+const { assertMutableDatabase, createRowBorrower, createRowSweeper, installSweepHandlers } =
+  await import("./lib/fixture-safety.mjs");
+let finalSweep = async () => {};
+if (SWEEP_DB_URL) {
+  assertMutableDatabase(SWEEP_DB_URL, { probe: "verify-lessons" });
+  sweepClient = new (await import("pg")).default.Client({ connectionString: SWEEP_DB_URL });
+  await sweepClient.connect();
+  const sweeper = createRowSweeper({
+    client: sweepClient,
+    probe: "verify-lessons",
+    tables: ["lesson_notes", "lesson_progress", "activity_events"],
+  });
+  finalSweep = installSweepHandlers(sweeper, {
+    probe: "verify-lessons",
+    // Restoring borrowed rows is part of cleanup, so it runs on every exit path the
+    // sweep runs on — including a throw.
+    onDone: async () => {
+      await progressBorrower.restore();
+      await sweepClient.end().catch(() => {});
+    },
+  });
+  progressBorrower = createRowBorrower({
+    client: sweepClient,
+    table: "lesson_progress",
+    probe: "verify-lessons",
+  });
+  await sweeper.capture();
+}
+
+if (!SWEEP_DB_URL) {
+  /*
+   * FAIL CLOSED. This probe mutates through HTTP, and the sweep above is the only thing that removes
+   * what it creates. Warning and continuing meant the mutations still happened against a database
+   * that was never verified as disposable — and several of these probes then connected through a
+   * hardcoded fallback (postgres://postgres@127.0.0.1:5433/learners_area) that no guard had ever
+   * seen, so the run could write fixtures into an unverified database and clean up nothing. Without
+   * a verified cleanup connection there is no safe run, so there is no run. Exit 2, not 1: this is a
+   * misconfigured invocation, not a product failure.
+   */
+  console.error("  !! DATABASE_URL is not set — refusing to mutate: fixtures could neither be cleaned up nor verified as disposable");
+  process.exit(2);
+}
+
 let pass = 0;
 const failures = [];
 function check(name, ok, detail = "") {
@@ -50,20 +106,28 @@ console.log(`\nLearners Area — Lesson shell against ${BASE}\n`);
 
 const { default: pg } = await import("pg");
 const db = new pg.Client({
-  connectionString: (process.env.DATABASE_URL || "postgres://postgres@127.0.0.1:5433/learners_area"),
+  connectionString: process.env.DATABASE_URL,
 });
 await db.connect();
 
 const cookie = await login("new.student@learnersarea.uz", "Student12345!");
 check("a fresh student can sign in", Boolean(cookie));
 
-// Test-side setup: this student's lesson progress is cleared so the state
-// machine can be walked from the start on every run. Nothing else is touched.
+// Test-side setup: this student's lesson progress is cleared so the state machine can
+// be walked from the start on every run. The rows are SAVED first and put back during
+// cleanup — they are seed data, and a probe that consumes them leaves the database
+// poorer than it found it.
+if (progressBorrower) {
+  await progressBorrower.borrow(
+    "user_id = (select id from users where email = $1)",
+    ["new.student@learnersarea.uz"],
+  );
+}
 await db.query(
   "delete from lesson_progress where user_id = (select id from users where email = 'new.student@learnersarea.uz')"
 );
 
-const roadmap = await page("/courses/ielts", cookie);
+const roadmap = await page("/app/courses/ielts", cookie);
 check("the roadmap renders", roadmap.status === 200, `status ${roadmap.status}`);
 check("lessons are addressable", roadmap.text.includes("data-lesson="));
 check("an open lesson offers a link", roadmap.text.includes("data-lesson-open="));
@@ -81,14 +145,14 @@ check("the seed has a locked lesson", Boolean(lockedLesson));
 // honestly in both states.
 check("the seed carries no recording (a real state, not an error)", !recorded);
 
-const openPage = await page(`/courses/ielts/lessons/${openLesson.id}`, cookie);
+const openPage = await page(`/app/courses/ielts/lessons/${openLesson.id}`, cookie);
 check("the lesson shell renders", openPage.status === 200, `status ${openPage.status}`);
 check("the state is rendered from the server value", openPage.text.includes(`data-lesson-state="${openLesson.default_state}"`));
 check("the notes pad is present", openPage.text.includes("data-lesson-notes"));
 check("the student can start the lesson", openPage.text.includes("data-lesson-start"));
 
 if (recorded) {
-  const recordedPage = await page(`/courses/ielts/lessons/${recorded.id}`, cookie);
+  const recordedPage = await page(`/app/courses/ielts/lessons/${recorded.id}`, cookie);
   check("the recorded-lesson shell shows the recording", recordedPage.text.includes("data-lesson-recording"));
 } else {
   check(
@@ -97,7 +161,7 @@ if (recorded) {
   );
 }
 
-const lockedPage = await page(`/courses/ielts/lessons/${lockedLesson.id}`, cookie);
+const lockedPage = await page(`/app/courses/ielts/lessons/${lockedLesson.id}`, cookie);
 check("a locked lesson says so", lockedPage.text.includes("data-lesson-closed"));
 check("a locked lesson offers no controls", !lockedPage.text.includes("data-lesson-start"));
 
@@ -107,12 +171,46 @@ const lockedStart = await api(`/api/lessons/${lockedLesson.id}/state`, {
   body: { state: "completed" },
 });
 check("a locked lesson cannot be completed", lockedStart.status === 403, `status ${lockedStart.status}`);
+// Notes are a PRIVATE SCRATCHPAD gated on publication, not on the unlock ladder: a
+// learner may annotate any published lesson, including one the centre still shows as
+// locked (tests/lesson-authoring-revision.test.ts R5 asserts exactly that, and the note
+// is keyed to the learner so nothing leaks). The real negative control is an
+// UNPUBLISHED lesson, which must never accept a note.
 const lockedNotes = await api(`/api/lessons/${lockedLesson.id}/notes`, {
   method: "POST",
   cookie,
-  body: { notes: "should not be stored" },
+  body: { notes: "allowed on a published lesson" },
 });
-check("notes cannot be written on a locked lesson", lockedNotes.status === 403, `status ${lockedNotes.status}`);
+check(
+  "a published lesson accepts the learner's private note even while locked",
+  lockedNotes.status === 200,
+  `status ${lockedNotes.status}`
+);
+
+const draftRow = await db.query(
+  "select id from lessons where publication_state <> 'published' order by \"order\" limit 1"
+);
+const draftLessonId = draftRow.rows[0]?.id;
+if (draftLessonId) {
+  const draftNotes = await api(`/api/lessons/${draftLessonId}/notes`, {
+    method: "POST",
+    cookie,
+    body: { notes: "must never be stored" },
+  });
+  check(
+    "an unpublished lesson refuses notes",
+    draftNotes.status === 403 || draftNotes.status === 404,
+    `status ${draftNotes.status}`
+  );
+  const leaked = await db.query("select count(*)::int as n from lesson_notes where lesson_id = $1", [draftLessonId]);
+  check("no note was persisted against an unpublished lesson", leaked.rows[0]?.n === 0, `rows ${leaked.rows[0]?.n}`);
+}
+const missingNotes = await api(`/api/lessons/00000000-0000-4000-8000-000000000000/notes`, {
+  method: "POST",
+  cookie,
+  body: { notes: "nowhere" },
+});
+check("a note for a nonexistent lesson is refused", missingNotes.status === 404, `status ${missingNotes.status}`);
 
 const started = await api(`/api/lessons/${openLesson.id}/state`, { method: "POST", cookie, body: { state: "in_progress" } });
 check("an open lesson can be started", started.status === 200 && started.json?.state === "in_progress");
@@ -128,11 +226,19 @@ check(
 const notesText = `verification notes ${Date.now()}`;
 const notes = await api(`/api/lessons/${openLesson.id}/notes`, { method: "POST", cookie, body: { notes: notesText } });
 check("notes can be saved on an open lesson", notes.status === 200);
+// Private notes live in their own `lesson_notes` table, keyed by (user, lesson) — not
+// in the legacy lesson_progress.notes column the old probe read, which is why this
+// looked broken while production was correct.
 const stored = await db.query(
-  "select notes from lesson_progress where lesson_id = $1 and user_id = (select id from users where email = 'new.student@learnersarea.uz')",
+  "select body from lesson_notes where lesson_id = $1 and user_id = (select id from users where email = 'new.student@learnersarea.uz')",
   [openLesson.id]
 );
-check("the notes are stored verbatim", stored.rows[0]?.notes === notesText);
+check("the notes are stored verbatim", stored.rows[0]?.body === notesText, `stored ${JSON.stringify(stored.rows[0])}`);
+const foreign = await db.query(
+  "select count(*)::int as n from lesson_notes where lesson_id = $1 and user_id <> (select id from users where email = 'new.student@learnersarea.uz')",
+  [openLesson.id]
+);
+check("a note belongs to exactly one learner", foreign.rows[0]?.n === 0, `foreign rows ${foreign.rows[0]?.n}`);
 
 const completed = await api(`/api/lessons/${openLesson.id}/state`, {
   method: "POST",
@@ -144,11 +250,15 @@ const twice = await api(`/api/lessons/${openLesson.id}/state`, { method: "POST",
 check("a lesson cannot be completed twice", twice.status === 409, `status ${twice.status}`);
 
 const afterRow = await db.query(
-  "select state, completed_at, notes from lesson_progress where lesson_id = $1 and user_id = (select id from users where email = 'new.student@learnersarea.uz')",
+  "select state, completed_at from lesson_progress where lesson_id = $1 and user_id = (select id from users where email = 'new.student@learnersarea.uz')",
   [openLesson.id]
 );
 check("completion records a real timestamp", afterRow.rows[0]?.state === "completed" && Boolean(afterRow.rows[0]?.completed_at));
-check("notes survive a state change", afterRow.rows[0]?.notes === notesText);
+const afterNote = await db.query(
+  "select body from lesson_notes where lesson_id = $1 and user_id = (select id from users where email = 'new.student@learnersarea.uz')",
+  [openLesson.id]
+);
+check("notes survive a state change", afterNote.rows[0]?.body === notesText, `after ${JSON.stringify(afterNote.rows[0])}`);
 
 check("an anonymous caller cannot set state", (await api(`/api/lessons/${openLesson.id}/state`, { method: "POST", body: { state: "completed" } })).status === 401);
 const missing = await api("/api/lessons/00000000-0000-0000-0000-000000000000/state", {
@@ -159,7 +269,7 @@ const missing = await api("/api/lessons/00000000-0000-0000-0000-000000000000/sta
 check("an unknown lesson is a 404", missing.status === 404, `status ${missing.status}`);
 
 const other = await login("demo.student@learnersarea.uz", "Student12345!");
-const otherPage = await page(`/courses/ielts/lessons/${openLesson.id}`, other);
+const otherPage = await page(`/app/courses/ielts/lessons/${openLesson.id}`, other);
 check(
   "another student's notes are not visible",
   otherPage.status === 200 && !otherPage.text.includes(notesText),
@@ -173,4 +283,7 @@ if (failures.length) {
   console.log("# failures:");
   for (const f of failures) console.log(`  - ${f}`);
 }
-process.exit(failures.length ? 1 : 0);
+
+// process.exit() skips beforeExit, so the sweep is awaited here on the normal path.
+await finalSweep("end of run");
+process.exit(failures.length || process.exitCode === 1 ? 1 : 0);

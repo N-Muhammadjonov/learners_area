@@ -1,0 +1,104 @@
+### A2-01 | The Lost Umbrella
+Tom takes the number 12 bus to work every morning. Last Tuesday it was raining, so he took his big green umbrella. The bus was very full, and Tom stood near the door. When he got off at his stop, he forgot the umbrella on the bus. He was wet and unhappy all day. In the evening, he called the bus company. A kind woman answered the phone and asked about the colour of the umbrella. She told him that a driver had found it. The next day, Tom went to the bus station after work and got his umbrella back. Now he always checks his seat before he leaves the bus.
+@ 25 s | Tom takes the number 12 bus to work every morning. | 10 n 12/twelve ; 15 c! bus
+@ 25 s | He forgot his green umbrella on the bus when it was raining. | 15 c! umbrella ; 10 c green
+@ 25 a | He called the bus company and a driver had found the umbrella. | 10 c called/phoned/phone ; 15 e! driver
+@ 25 s | Now he always checks his seat before leaving the bus. | 10 c! checks/check ; 15 c seat
+
+### A2-02 | A New Neighbour
+Last month a new family moved into the flat next to Sara; there is a mother, a father and a small boy called Leo. Leo is six years old and he loves football. On the first weekend, Sara saw him alone in the garden with a ball. She asked if she could play too. They played for an hour and laughed a lot. Later, Leo's mother came out with two glasses of orange juice. She said thank you to Sara and invited her family for dinner on Friday. Sara's family brought a chocolate cake. Now the two families eat together every month, and Leo calls Sara his big sister.
+@ 25 s | A new family with a small boy called Leo moved next to Sara. | 15 e! leo ; 10 c family
+@ 25 s | Leo is six years old and loves football. | 10 n six/6 ; 15 c! football
+@ 25 a | Leo's mother invited Sara's family for dinner on Friday. | 15 c! dinner ; 10 d friday
+@ 25 a | Sara's family brought a chocolate cake and the families now eat together every month. | 15 c! cake/chocolate cake ; 10 c every month/monthly
+
+### A2-03 | The School Garden
+At Hill Street School, the children have a small garden behind the library. Every class looks after one part of it. Class four grows tomatoes, and class five grows potatoes and carrots. In spring, the children plant seeds and give them water every day. Their teacher, Mr Brown, shows them how to remove weeds. In summer, the school is closed, so some parents come on Saturdays to water the plants. In September, the children pick the vegetables. The school cook uses them to make soup for lunch. Last year the soup was so popular that the cook wrote the recipe on a big poster in the dining room.
+@ 25 s | The school has a small garden behind the library. | 15 c! garden ; 10 c library
+@ 25 s | The pupils grow tomatoes, potatoes and carrots. | 10 c! tomatoes/tomato ; 15 c potatoes/carrots/potato
+@ 25 a | In summer some parents come on Saturdays to water the plants. | 15 e! parents ; 10 c water/watering
+@ 25 a | The cook uses the vegetables to make soup and put the recipe on a poster. | 15 c! soup ; 10 c recipe/poster
+
+### A2-04 | Grandma's Birthday
+Next Sunday is my grandmother's seventieth birthday. My family wants to give her a special day. My father has booked a table at her favourite restaurant by the river. My mother is making a photo book with pictures from every year of Grandma's life. My sister and I are learning an old song that Grandma sang to us when we were small. We practise it every evening in my bedroom, but quietly, because it is a secret. Grandma thinks we are only having a small lunch at home. I hope she is surprised and happy when she sees all her friends at the restaurant.
+@ 25 s | Grandma will be seventy next Sunday. | 15 n! seventieth/seventy/70 ; 10 d sunday
+@ 25 s | Father booked a table at her favourite restaurant by the river. | 15 c! restaurant ; 10 c river
+@ 25 s | Mother is making a photo book with pictures of Grandma's life. | 15 c! photo book/photos/pictures ; 10 e mother
+@ 25 a | The children are secretly learning an old song she used to sing. | 15 c! song ; 10 c secret/secretly
+
+### A2-05 | A Day at the Zoo
+On Saturday, Amir visited the city zoo with his class. The bus left school at nine o'clock. First, they saw the elephants. The biggest elephant was taking a shower under a pipe of water, and the children laughed. Then they went to the monkey house. One small monkey took a boy's hat and ran away with it. A zookeeper got the hat back with a banana. At lunch, they ate sandwiches next to the lake. In the afternoon, Amir's favourite part was the penguins, because they swam very fast. He bought a penguin postcard for his mother before the bus went back to school.
+@ 25 s | Amir visited the city zoo with his class on Saturday. | 15 c! zoo ; 10 c class
+@ 25 s | The biggest elephant was taking a shower. | 15 e! elephant/elephants ; 10 c shower
+@ 25 a | A monkey took a boy's hat and a zookeeper got it back with a banana. | 10 e! monkey ; 8 c hat ; 7 c banana
+@ 25 a | Amir liked the penguins most and bought a penguin postcard for his mother. | 15 e! penguins/penguin ; 10 c postcard
+
+### A2-06 | Learning to Swim
+Lina is twenty-five, but she could not swim until this year. When she was a child, she lived far from the sea, and her village had no pool. In January, she moved to a city with a big sports centre. She was a little afraid, but she started lessons on Wednesday evenings. Her teacher, Paul, was very patient. In the first lesson, she only put her face in the water. After six weeks, she could swim across the pool. Now she goes swimming three times a week before work. In the summer, she wants to swim in the sea for the first time.
+@ 25 s | Lina is twenty-five and could not swim until this year. | 10 n twenty-five/25 ; 15 c! could not swim
+@ 25 s | When she was a child, her village had no pool. | 15 c! no pool ; 10 c village
+@ 25 a | Her lessons were on Wednesday evenings and after six weeks she could swim across the pool. | 10 d wednesday ; 15 n! six weeks/6 weeks
+@ 25 a | She now swims three times a week and wants to swim in the sea in summer. | 10 n! three times/3 times ; 15 c sea
+
+### A2-07 | The Cat in the Tree
+One windy afternoon, Mrs Patel heard a strange sound from her garden. She looked out of the window and saw her cat, Coco, high in an old apple tree. Coco was crying because she could not come down. Mrs Patel was too old to climb the tree, so she called her neighbour, a young man named David. David brought a long ladder from his garage. He climbed slowly, and Coco jumped into his arms. Mrs Patel was so happy that she made David a big plate of biscuits. Since that day, Coco sits on David's wall every morning and waits for him to say hello.
+@ 25 s | Mrs Patel's cat Coco was stuck high in an apple tree. | 15 e! coco/cat ; 10 c apple tree/tree
+@ 25 s | Her neighbour David brought a long ladder. | 15 e! david ; 10 c ladder
+@ 25 s | Mrs Patel made David a big plate of biscuits. | 15 c! biscuits/cookies ; 10 c plate
+@ 25 a | Coco now waits on David's wall every morning. | 15 c! wall ; 10 c every morning/morning
+
+### A2-08 | A Rainy Holiday
+In August, Ben and his parents went camping in the mountains for a week. They wanted to walk, swim in the lake and cook outside. But it rained for five days; their tent was small and everything inside it was wet. On the third day, they found a little museum in the next village. It had old farm tools and a room about the history of cheese. Ben thought it would be boring, but he loved it. They also played cards for hours in a café. On the last two days, the sun came out and they finally swam in the lake. Ben says it was his best holiday.
+@ 25 s | Ben and his parents went camping in the mountains in August. | 15 c! camping/camp ; 10 c mountains
+@ 25 s | It rained for five days and the tent was wet. | 15 n! five days/5 days ; 10 c tent
+@ 25 a | They visited a small museum about farm tools and the history of cheese. | 10 c! museum ; 15 c cheese
+@ 25 a | At the end of the trip the sun came out and they swam in the lake. | 15 c! lake ; 10 c sun
+
+### A2-09 | My First Job
+When I was sixteen, I got my first job at a bakery near my school. I worked there every Saturday from six in the morning until one o'clock. My job was to put the bread and cakes in the window and help the customers. At first, I was very slow with the money, and once I gave a man too much change. He came back and returned it, which I thought was very kind. The owner, Mrs Klein, taught me to make simple bread rolls. I still remember the warm smell of the shop. With my first money, I bought a red bicycle.
+@ 25 s | At sixteen I got my first job at a bakery near my school. | 10 n sixteen/16 ; 15 c! bakery
+@ 25 s | I worked every Saturday, starting at six in the morning. | 15 d! saturday ; 10 n six/6
+@ 25 a | A man returned the extra change I gave him by mistake. | 15 c! change/money ; 10 c returned/gave it back
+@ 25 a | The owner taught me to make bread rolls and I bought a red bicycle. | 10 c bread rolls/bread ; 15 c! bicycle/bike
+
+### A2-10 | The Library Card
+Yuki moved to a new town in the winter. She did not know anyone, and the evenings were long and dark. One day she saw the public library near the station. Inside it was warm and quiet. The librarian helped her get a free library card. Yuki borrowed three books and a film. She also saw a poster for a reading club on Thursday evenings. She was nervous, but she went. There were eight people, and they talked about a short novel while they drank tea. Now Yuki goes to the club every week, and two of the members are her good friends.
+@ 25 s | Yuki moved to a new town in winter and did not know anyone. | 15 c! new town/town ; 10 d winter
+@ 25 s | The librarian helped her get a free library card. | 15 c! library card/card ; 10 e librarian
+@ 25 a | She went to a reading club on Thursday evenings. | 15 c! reading club/club ; 10 d thursday
+@ 25 a | Two of the club members are now her good friends. | 15 c! friends ; 10 n two/2
+
+### A2-11 | Breakfast in Different Countries
+People eat very different breakfasts around the world. In England, a traditional breakfast has eggs, sausages, beans and toast, but most people only eat it at the weekend. In Japan, many families eat rice, fish and miso soup in the morning. In Turkey, breakfast is often a big meal with bread, cheese, olives, tomatoes and tea. In many parts of Mexico, people like eggs with spicy sauce and tortillas. Some people do not eat breakfast at all, because they are not hungry or they are in a hurry. Doctors say that a good breakfast gives us energy for the morning and helps children to think better at school.
+@ 25 s | A traditional English breakfast has eggs, sausages, beans and toast. | 10 e! england/english ; 15 c sausages/beans/toast
+@ 25 s | Many Japanese families eat rice, fish and miso soup in the morning. | 10 e! japan/japanese ; 15 c rice/miso soup/miso
+@ 25 s | In Turkey breakfast has bread, cheese, olives, tomatoes and tea. | 10 e! turkey/turkish ; 15 c olives/cheese
+@ 25 a | Doctors say breakfast gives energy and helps children think at school. | 15 c! energy ; 10 e doctors
+
+### A2-12 | The Broken Phone
+On Monday morning, Carlos dropped his phone in the kitchen and the screen broke. He could not call or send messages. At first he was worried, because he uses his phone for everything. He took the bus to a repair shop, and the man said it would take four days. Without his phone, Carlos read a book on the bus. He talked to his colleagues at lunch instead of looking at a screen. In the evening, he went for walks and went to bed earlier. When he got the phone back on Friday, he decided to switch it off every evening after nine o'clock.
+@ 25 s | On Monday Carlos dropped his phone and the screen broke. | 15 c! screen ; 10 d monday
+@ 25 s | The repair shop said it would take four days. | 15 n! four days/4 days ; 10 c repair
+@ 25 a | Without his phone he read a book and talked to colleagues at lunch. | 15 c! book ; 10 e colleagues
+@ 25 a | He decided to switch off the phone every evening after nine. | 15 c! switch it off/switch off/turn off ; 10 n nine/9
+
+### A2-13 | The Night Market
+Every Friday night, the main square in our town becomes a market. When the sun goes down, people bring tables, lights and small kitchens. You can buy noodles, grilled corn, fresh juice and sweet pancakes. There are also stalls with clothes, old books and handmade jewellery. A man with a guitar plays music next to the fountain, and children dance. My favourite stall belongs to an old woman who sells hot dumplings. She has worked there for twenty years and she remembers everyone's name. The market closes at midnight, and volunteers clean the square, so it is ready for the morning.
+@ 25 s | Every Friday night the main square becomes a market. | 15 c! market ; 10 d friday
+@ 25 s | You can buy noodles, grilled corn, fresh juice and pancakes. | 15 c! noodles/corn ; 10 c pancakes/juice
+@ 25 a | My favourite stall is an old woman's hot dumplings and she remembers names. | 15 c! dumplings ; 10 c names/name
+@ 25 a | The market closes at midnight and volunteers clean the square. | 10 d! midnight ; 15 e volunteers
+
+### A2-14 | Moving House
+Last year, Anna and her husband moved from a small flat in the city centre to a house in the countryside. The flat was close to shops and their work, but it was noisy and had no garden. The new house is old and needs a lot of work. The kitchen is very small and the windows let in cold air. But there is a big garden with two cherry trees, and they can see hills from the bedroom. Anna now works from home three days a week. On the other days she takes the train. She says she misses the cafés but sleeps much better.
+@ 25 s | Anna and her husband moved from a city flat to a house in the countryside. | 15 c! countryside/country ; 10 c house
+@ 25 a | The flat was noisy and had no garden. | 15 c! noisy/noise ; 10 c no garden
+@ 25 s | The new house has a big garden with two cherry trees. | 15 c! cherry trees/cherry ; 10 n two/2
+@ 25 a | She works from home three days a week and sleeps much better. | 10 n three days/3 days ; 15 c! sleeps much better/sleeps better
+
+### A2-15 | The Football Match
+Our school football team played in the final of the town cup last Saturday. The other team was bigger and had won the cup for three years. After twenty minutes, they scored a goal, and our players looked tired. At half-time, our coach, Miss Rossi, told us to pass the ball more and not to give up. In the second half, Omar scored with his head. The score was one-one until the last minute. Then our goalkeeper, Jake, kicked the ball very far, and Lucy ran and scored. We won two-one, and the whole school celebrated with ice cream on Monday.
+@ 25 s | Our school football team played in the final of the town cup. | 15 c! final/cup ; 10 c football
+@ 25 a | The coach Miss Rossi told us to pass more and not give up. | 15 e! coach/miss rossi ; 10 c pass
+@ 25 a | Omar scored with his head and then Lucy scored in the last minute. | 10 e! omar ; 15 e lucy
+@ 25 a | We won two-one and celebrated with ice cream. | 10 n! two-one/2-1 ; 15 c ice cream

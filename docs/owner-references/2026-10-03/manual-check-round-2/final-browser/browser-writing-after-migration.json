@@ -1,0 +1,66 @@
+[
+  {
+    "name": "Darslar",
+    "active": "lessons",
+    "overflow": false,
+    "panel": "Hozircha Writing darslari e'lon qilinmaganO'qituvchingiz tekshirilgan darslarni Boshqaruv bo'limida qo'shadi. Haqiqiy imtihon va Ishimni baholash hozir mavjud.",
+    "url": "https://learners-area-qwkqeatyo-learners-area.vercel.app/writing?tab=lessons",
+    "width": 319
+  },
+  {
+    "name": "Haqiqiy imtihon",
+    "active": "exam",
+    "overflow": false,
+    "panel": "Haqiqiy imtihon rejimiHaqiqiy IELTS sharoitida yozingTaymer serverda saqlanadi. Yozganingiz yozish davomida hisobingizga saqlanadi, shuning uchun sahifani yangilash yoki internet uzilishi vaqt yoki so'zlaringizni yo'qotmaydi.Task 1Diagramma, jadval, xarita yoki jarayonni tasvirlang.Qolgan vaqt20 daqKamida150+Bu topshiriq uchun hali savol e'lon qilinmagan.BoshlashTask 2Berilgan savol bo'yicha asoslangan insho yozing.Qolgan vaqt40 daqKamida250+Bu topshiriq uchun hali savol e'lon qilinmagan.BoshlashTo'liq WritingTask 1 va Task 2 bitta imtihonda. Task 2 ikki baravar hisoblanadi.Qolgan vaqt60 daqKamida150+ / 250+Bu topshiriq uchun hali savol e'lon qilinmagan.Boshlash",
+    "url": "https://learners-area-qwkqeatyo-learners-area.vercel.app/writing?tab=exam",
+    "width": 319
+  },
+  {
+    "name": "Tarjima",
+    "active": "translation",
+    "overflow": false,
+    "panel": "Tarjima trenajoriBand darajasidagi inshoni gapma-gap tarjima qilingHar bir o'zbekcha gapni o'qing va uni inglizcha yozing. Keyingi gap ochilishidan oldin har bir gap tekshiriladi; namunaviy inglizcha matn faqat gapni tugatganingizdan keyin ko'rinadi.Hali tekshirilgan tarjima inshosi e'lon qilinmagan. O'qituvchingiz ularni Boshqaruv bo'limida qo'shadi.",
+    "url": "https://learners-area-qwkqeatyo-learners-area.vercel.app/writing?tab=translation",
+    "width": 319
+  },
+  {
+    "name": "Typing",
+    "active": "typing",
+    "overflow": false,
+    "panel": "Yozish tezligiTo'liq Band 8–9 namunaviy javoblarni yozingYuqori band javoblarida imtihon yozish tezligini oshiring. Har bir ko'rsatkich e'lon qilingan matn asosida serverda qayta hisoblanadi.Hali namunaviy matnlar e'lon qilinmagan. O'qituvchingiz Band 8–9 namunaviy javoblarni Boshqaruv bo'limida qo'shadi.",
+    "url": "https://learners-area-qwkqeatyo-learners-area.vercel.app/writing?tab=typing",
+    "width": 319
+  },
+  {
+    "name": "Mavzu lug'ati",
+    "active": "topic-vocabulary",
+    "overflow": false,
+    "panel": "Mavzu lug'atiIELTS so'raydigan mavzular uchun tilMuhim so'zlar, kollokatsiyalar, kuchli iboralar va gap qoliplari — har biri kontekstdagi namunaviy qo'llanishi bilan. Keraklisini Lug'atingizga saqlang va o'z yozuvingizda faollashtiring.MavzuBarcha mavzularSalomatlik va tibbiyotIsh va karyeraTopshiriqTask 1 + Task 2Task 1Task 2Til vazifasiBarcha til vositalariKollokatsiyalarGap qoliplariBog'lovchi vositalarTaqqoslashYon berishTendensiyalar (Task 1)Dalil keltirishMuhim lug'atsymptomnouna sign of illness that a patient noticesalomat, kasallik belgisiKollokatsiyalar: a common symptom · mild symptoms · develop symptomsKontekstda: The first symptom was a dry cough that would not stop.Lug'atga saqlashMashq qilishWritingda faollashtirishtreatmentnounmedical care given to cure or manage an illnessdavolash, muolajaKollokatsiyalar: receive treatment · effective treatment · treatment forKontekstda: Early treatment makes the recovery much shorter.Lug'atga saqlashMashq qilishWritingda faollashtirishpreventionnounstopping a problem before it happensoldini olishKollokatsiyalar: prevention is better than cure · disease preventionKontekstda: Vaccination is the cheapest form of prevention.Lug'atga saqlashMashq qilishWritingda faollashtirishchronicadjectivelasting a long time and hard to curesurunkaliKollokatsiyalar: chronic illness · chronic pain · chronic shortageKontekstda: Chronic illness costs families more than acute illness.Lug'atga saqlashMashq qilishWritingda faollashtirishdosenounthe measured amount of a medicine taken at one timedoza, miqdorKollokatsiyalar: a daily dose · increase the doseKontekstda: Taking a double dose does not make the medicine work faster.Lug'atga saqlashMashq qilishWritingda faollashtirishimmunitynounthe body's ability to resist an infectionimmunitetKollokatsiyalar: build immunity · immunity toKontekstda: Immunity after an infection does not always last forever.Lug'atga saqlashMashq qilishWritingda faollashtirishnutritionnounthe food a person needs to stay healthyovqatlanish, oziqlanishKollokatsiyalar: good nutrition · poor nutritionKontekstda: Good nutrition supports recovery as much as medicine does.Lug'atga saqlashMashq qilishWritingda faollashtirishepidemicnouna disease spreading quickly through a populationepidemiyaKollokatsiyalar: an epidemic of · tackle an epidemicKontekstda: The epidemic forced schools to close for a month.Lug'atga saqlashMashq qilishWritingda faollashtirishside effectphrasean unwanted result caused by a medicinenojo'ya ta'sirKollokatsiyalar: a common side effect · suffer side effectsKontekstda: Drowsiness is a common side effect of that drug.Lug'atga saqlashMashq qilishWritingda faollashtirishdiagnosisnounthe identification of an illness by a doctortashxisKollokatsiyalar: make a diagnosis · an early diagnosisKontekstda: A late diagnosis makes treatment harder and more expensive.Lug'atga saqlashMashq qilishWritingda faollashtirishpromotionnouna move to a more important job in the same organisationlavozim ko'tarilishiKollokatsiyalar: earn a promotion · a promotion toKontekstda: She earned the promotion after leading two projects.Lug'atingizda borMashq qilishWritingda faollashtirishdeadlinenounthe time by which work must be finishedmuddat, oxirgi muddatKollokatsiyalar: meet a deadline · miss a deadlineKontekstda: The deadline was moved forward, so the team worked late.Lug'atingizda borMashq qilishWritingda faollashtirishworkloadnounthe amount of work one person has to doish yukiKollokatsiyalar: a heavy workload · manage the workloadKontekstda: A heavy workload is not the same as a productive one.Lug'atingizda borMashq qilishWritingda faollashtirishcolleaguenouna person you work withhamkasbKollokatsiyalar: a close colleague · work with colleaguesKontekstda: A supportive colleague can make a difficult job bearable.Lug'atingizda borMashq qilishWritingda faollashtirishinternshipnouna period of training work, often for studentsamaliyot, stajirovkaKollokatsiyalar: a paid internship · do an internshipKontekstda: The internship turned into her first permanent role.Lug'atingizda borMashq qilishWritingda faollashtirishremunerationnounpayment for work donehaq, ish haqiKollokatsiyalar: fair remuneration · remuneration packageKontekstda: Remuneration matters, but it is rarely the only reason people stay.Lug'atingizda borMashq qilishWritingda faollashtirishflexible hoursphrasea schedule the employee can partly choosemoslashuvchan ish vaqtiKollokatsiyalar: offer flexible hours · work flexible hoursKontekstda: Flexible hours help parents stay in skilled work.Lug'atingizda borMashq qilishWritingda faollashtirishturnovernounthe rate at which staff leave and are replacedkadrlar almashinuviKollokatsiyalar: high staff turnover · reduce turnoverKontekstda: High turnover usually signals a problem in management.Lug'atingizda borMashq qilishWritingda faollashtirishredundancynounlosing a job because the role is no longer neededishdan qisqartirilishKollokatsiyalar: face redundancy · voluntary redundancyKontekstda: Redundancy is rarely the employee's fault.Lug'atingizda borMashq qilishWritingda faollashtirishappraisalnouna formal review of an employee's performancexodim faoliyatini baholashKollokatsiyalar: an annual appraisal · a performance appraisalKontekstda: An annual appraisal is more useful when it happens twice a year.Lug'atingizda borMashq qilishWritingda faollashtirishBu tanlov uchun hali ibora yoki qolip e'lon qilinmagan. O'qituvchingiz ularni Boshqaruv bo'limida qo'shadi.",
+    "url": "https://learners-area-qwkqeatyo-learners-area.vercel.app/writing?tab=topic-vocabulary",
+    "width": 319
+  },
+  {
+    "name": "Ishimni baholash",
+    "active": "grade",
+    "overflow": false,
+    "panel": "Ishimni baholashInshongizni baholatingIELTS Writing'ning to'rt mezoni, gap darajasidagi tuzatishlar va asosiy tavsiyalar.Yangi topshiriqInsholarimHozircha bu serverda AI baholash sozlanmagan. Inshongiz saqlanadi va AI baholash ishga tushgach baholashingiz mumkin.1 · Bu qaysi task?Task 1 (150+ so'z)Task 2 (250+ so'z)2 · Javob bergan savolingiz3 · Inshongiz0 so'z · maqsad 250+Ishimni baholashQanday baholanadiIELTS Writing'ning to'rt mezoni, yarim band aniqlikdaUmumiy ball = to'rttasining o'rtachasi, eng yaqin yarim bandgachaGap darajasidagi tuzatishlar va uchtagacha asosiy tavsiyaLearners Area AI bahosi, rasmiy IELTS bali emas",
+    "url": "https://learners-area-qwkqeatyo-learners-area.vercel.app/writing?tab=grade",
+    "width": 319
+  },
+  {
+    "name": "Activation Lab",
+    "active": "activation",
+    "overflow": false,
+    "panel": "AI tekshiruvi hozir mavjud emas, shuning uchun laboratoriya gaplarni baholay olmaydi. Usiz hech narsa baholanmaydi.",
+    "url": "https://learners-area-qwkqeatyo-learners-area.vercel.app/writing?tab=activation",
+    "width": 319
+  },
+  {
+    "name": "Language stealing",
+    "active": "language-stealing",
+    "overflow": false,
+    "panel": "Til o'g'irlashInshoni emas, tilni o'g'irlangRuxsat etilgan Band 8–9 namunaviy matnlardan qisqa va qimmatli qoliplarni oling va o'zingizniki qiling: har birini yangi mavzuga moslang. Misolni ko'chirish ball bermaydi.7 bosqichli ish jarayoni1Manba topshiriq2G'oyalar3Qoralama4Namunani tahlil qilish5G'oyalarni solishtirish6Yod olish7Qayta yozish (3-kun)O'g'irlash uchun namunaviy matnlarHali e'lon qilingan qoliplari bor namunaviy matnlar yo'q.Mening ish jarayonlarim—Qoliplar kutubxonasiTopshiriqBarcha topshiriqlarTask 1Task 2VazifaBarcha vazifalarKollokatsiyalarGap qoliplariBog'lovchi vositalarTaqqoslashYon berishTendensiyalar (Task 1)Dalil keltirishBarcha qoliplarMening qoliplar bankim (0)Bu filtrlarga mos e'lon qilingan qolip yo'q.",
+    "url": "https://learners-area-qwkqeatyo-learners-area.vercel.app/writing?tab=language-stealing",
+    "width": 319
+  }
+]

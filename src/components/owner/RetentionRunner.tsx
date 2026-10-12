@@ -1,4 +1,5 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useState } from "react";
 import type { Dictionary } from "@/lib/i18n/en";
@@ -14,6 +15,8 @@ type RuleResult = { rule: string; affected: number; applied: boolean; note?: str
  * operator is a data-loss incident.
  */
 export function RetentionRunner({ dict }: { dict: Dictionary }) {
+  const requestResponse = useScopedResponse(60000);
+
   const t = dict.retention;
   const [busy, setBusy] = useState(false);
   const [results, setResults] = useState<RuleResult[] | null>(null);
@@ -23,11 +26,12 @@ export function RetentionRunner({ dict }: { dict: Dictionary }) {
   async function run(nextDryRun: boolean) {
     setBusy(true);
     setError(null);
-    const res = await fetch("/api/owner/retention", {
+    const res = await requestResponse("/api/owner/retention", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ dryRun: nextDryRun }),
     });
+    if (!res) return;
     setBusy(false);
     if (!res.ok) {
       setError(dict.errors.unknown);

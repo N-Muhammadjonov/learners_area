@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { MaterialPlayer } from "@/components/speaking/MaterialPlayer";
 import type { Dictionary } from "@/lib/i18n/en";
+import { failureMessage, requestJson } from "@/lib/http/client-request";
+import { useFocusEntry } from "@/lib/interaction/focus-entry";
 
 type ExamQuestion = {
   id: string;
@@ -32,25 +34,34 @@ export function ListeningExam({
   questions: ExamQuestion[];
 }) {
   const router = useRouter();
+  // A real Listening attempt enters Focus mode once; a manual exit still wins.
+  useFocusEntry(attemptId);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const flight = useRef<AbortController | null>(null);
+  useEffect(() => () => flight.current?.abort(), []);
 
   function setAnswer(id: string, value: string) {
     setAnswers((prev) => ({ ...prev, [id]: value }));
   }
 
   async function onSubmit() {
-    if (!confirm(dict.listening.submitConfirm)) return;
-    setSubmitting(true);
-    const res = await fetch(`/api/listening/attempts/${attemptId}/submit`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        answers: questions.map((q) => ({ questionId: q.id, answer: answers[q.id] ?? "" })),
-      }),
-    });
-    setSubmitting(false);
-    if (res.ok) router.refresh();
+    if (flight.current || !confirm(dict.listening.submitConfirm)) return;
+    const controller = new AbortController(); flight.current = controller;
+    setSubmitting(true); setError(null);
+    try {
+      const result = await requestJson(`/api/listening/attempts/${attemptId}/submit`, {
+        body: { answers: questions.map((q) => ({ questionId: q.id, answer: answers[q.id] ?? "" })) },
+        signal: controller.signal, timeoutMs: 12_000,
+      });
+      if (controller.signal.aborted) return;
+      if (result.ok || result.status === 409) router.refresh();
+      else setError(failureMessage(result, dict.auth));
+    } finally {
+      if (flight.current === controller) flight.current = null;
+      if (!controller.signal.aborted) setSubmitting(false);
+    }
   }
 
   return (
@@ -99,6 +110,7 @@ export function ListeningExam({
           </div>
         ))}
 
+        {error && <p role="alert" className="text-sm text-band-bad">{error}</p>}
         <Button onClick={onSubmit} disabled={submitting}>
           {submitting ? dict.common.loading : dict.listening.submit}
         </Button>

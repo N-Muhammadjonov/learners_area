@@ -38,10 +38,11 @@ export const createGrammarExerciseSchema = z.object({
 export const createListeningTestSchema = z.object({
   title: z.string().min(3).max(200),
   audioType: z.enum(["video", "audio", "file", "link"]),
-  audioUrl: z.string().url(),
-  transcript: z.string().optional(),
+  audioUrl: z.string().url().optional(),
+  audioUploadId: z.string().uuid().optional(),
+  transcript: z.string().max(200000).optional(),
   difficultyLevel: z.string().min(2).max(10),
-});
+}).refine(v => Boolean(v.audioUrl) !== Boolean(v.audioUploadId), { message: "Choose exactly one audio source" });
 
 export const createListeningQuestionSchema = z
   .object({

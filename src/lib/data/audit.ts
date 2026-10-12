@@ -21,12 +21,30 @@ export type AuditAction =
   | "account.reactivated"
   | "ownership.transferred"
   | "retention.cleanup"
+  | "retention_text.created"
+  | "retention_text.version_created"
+  | "retention_text.archived"
+  | "retention_text.restored"
   | "support.reported"
   | "video_lesson.saved"
+  | "grammar.bundle_imported"
   | "content.created"
   | "content.updated"
   | "retention.preview"
-  | "upload.deleted";
+  | "upload.deleted"
+  | "ai.control.set"
+  | "report.generated"
+  | "report.downloaded"
+  | "roster.assigned"
+  | "roster.unassigned"
+  // Structured content import lifecycle (src/lib/import). Never a payload, only
+  // module/type/version/source identity, hash, actor and result.
+  | "content.import.validated"
+  | "content.import.created"
+  | "content.import.updated"
+  | "content.import.rejected"
+  | "content.import.legacy_converted"
+  | "content.published";
 
 export async function recordAudit(input: {
   actorUserId: string | null;

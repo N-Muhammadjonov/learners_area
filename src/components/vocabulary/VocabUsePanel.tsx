@@ -1,11 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { fetchPrivateJson } from "@/lib/client/private-resource";
+import { privateResources } from "@/lib/client/private-resource";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n/en";
-import type { VocabSentence } from "./types";
+import type { VocabFolder, VocabSentence } from "./types";
 
-type PickerWord = { id: string; term: string; definitionEn: string; translationUz: string | null; mastery: string };
+type PickerWord = { id: string; term: string; definitionEn: string; translationUz: string | null; mastery: string; folderId?: string | null };
 type LoadStatus = "loading" | "ready" | "error";
 
 /**
@@ -33,7 +35,14 @@ export function VocabUsePanel({
   const [words, setWords] = useState<PickerWord[]>(initialWords);
   const [sentencesStatus, setSentencesStatus] = useState<LoadStatus>("loading");
   const [wordsStatus, setWordsStatus] = useState<LoadStatus>("loading");
-  const [entryId, setEntryId] = useState<string>(initialWords[0]?.id ?? "");
+  const [folderId, setFolderId] = useState("");
+  const [folders, setFolders] = useState<VocabFolder[]>([]);
+  const [entryId, setEntryId] = useState(""); // Empty means automatic folder rotation.
+  const [position, setPosition] = useState(0);
+  const requestRef = useRef<AbortController | null>(null);
+  const submitRef = useRef(false);
+  const advanceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const generationRef = useRef(0);
   const [text, setText] = useState("");
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<{ tone: "good" | "bad" | "info"; text: string } | null>(null);
@@ -41,10 +50,8 @@ export function VocabUsePanel({
   const loadSentences = useCallback(async () => {
     setSentencesStatus("loading");
     try {
-      const res = await fetch("/api/vocabulary/sentences?view=history", { cache: "no-store" });
-      if (res.status === 401) router.refresh();
-      const payload = await res.json().catch(() => null);
-      if (!res.ok || !payload?.ok) throw new Error("sentence history unavailable");
+      // Bounded read: deadline + one transient retry; 401 returns to the server gate.
+      const payload = await fetchPrivateJson<Record<string, any>>("/api/vocabulary/sentences?view=history", { onAuthFailure: () => router.refresh(), retries: 0 });
       setSentences(payload.sentences ?? []);
       setSentencesStatus("ready");
     } catch {
@@ -53,56 +60,121 @@ export function VocabUsePanel({
   }, [router]);
 
   const loadWords = useCallback(async () => {
+    requestRef.current?.abort();
+    if (advanceRef.current) clearTimeout(advanceRef.current);
+    const generation = ++generationRef.current;
+    const controller = new AbortController();
+    requestRef.current = controller;
+    const deadline = setTimeout(() => controller.abort(), 12_000);
     setWordsStatus("loading");
+    setWords([]);
+    setPosition(0);
+    setEntryId("");
+    setText("");
+    setMessage(null);
+    setBusy(false);
+    submitRef.current = false;
+    let authRefreshRequested = false;
+    async function read<T>(url: string): Promise<T> {
+      const response = await fetch(url, { cache: "no-store", signal: controller.signal });
+      if (response.status === 401 && !authRefreshRequested) { authRefreshRequested = true; router.refresh(); }
+      const body = await response.json();
+      if (!response.ok || body.ok !== true) throw new Error("picker_unavailable");
+      return body as T;
+    }
     try {
-      const res = await fetch("/api/vocabulary/sentences?view=words&limit=100", { cache: "no-store" });
-      if (res.status === 401) router.refresh();
-      const payload = await res.json().catch(() => null);
-      if (!res.ok || !payload?.ok) throw new Error("Use It word picker unavailable");
-      const nextWords: PickerWord[] = payload.words ?? [];
-      setWords(nextWords);
-      setEntryId((current) => current && nextWords.some((word) => word.id === current) ? current : nextWords[0]?.id ?? "");
+      const folderRead = read<{ folders: VocabFolder[] }>("/api/vocabulary/folders");
+      // Page the selected folder on the server, rather than filtering the first
+      // 100 words of an unrelated library in the browser.
+      const wordRead = (async () => {
+        const collected: PickerWord[] = [];
+        for (let offset = 0; offset <= 100_000; offset += 100) {
+          const query = new URLSearchParams({ view: "words", limit: "100", offset: String(offset) });
+          if (folderId) query.set("folderId", folderId);
+          const page = await read<{ words: PickerWord[]; hasMore?: boolean }>(`/api/vocabulary/sentences?${query}`);
+          collected.push(...page.words);
+          if (!page.hasMore) return collected;
+        }
+        throw new Error("picker_too_large");
+      })();
+      const results = await Promise.allSettled([folderRead, wordRead]);
+      if (generation !== generationRef.current) return;
+      if (controller.signal.aborted) throw new Error("picker_timeout");
+      if (results[0].status === "fulfilled") setFolders(results[0].value.folders ?? []);
+      if (results[0].status === "rejected" || results[1].status === "rejected") throw new Error("picker_unavailable");
+      setWords(shuffled(results[1].value));
       setWordsStatus("ready");
     } catch {
-      setWordsStatus("error");
+      if (generation === generationRef.current) setWordsStatus("error");
+    } finally {
+      clearTimeout(deadline);
     }
-  }, [router]);
+  }, [router, folderId]);
 
+  useEffect(() => { void loadSentences(); }, [loadSentences]);
   useEffect(() => {
-    void loadSentences();
     void loadWords();
-  }, [loadSentences, loadWords]);
+    return () => {
+      generationRef.current += 1;
+      requestRef.current?.abort();
+      if (advanceRef.current) clearTimeout(advanceRef.current);
+    };
+  }, [loadWords]);
 
   async function submit() {
-    if (!entryId || text.trim().length < 3) return;
+    const currentId = entryId || words[position]?.id;
+    if (!currentId || text.trim().length < 3 || submitRef.current || advanceRef.current) return;
+    submitRef.current = true;
     setBusy(true);
     setMessage(null);
+    const generation = generationRef.current;
+    const controller = new AbortController();
+    requestRef.current = controller;
+    const deadline = setTimeout(() => controller.abort(), 12_000);
     try {
-      const res = await fetch(`/api/vocabulary/${entryId}/use`, {
+      const res = await fetch(`/api/vocabulary/${currentId}/use`, {
         method: "POST",
+        signal: controller.signal,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ sentence: text.trim() }),
       });
       const payload = await res.json().catch(() => ({}));
+      if (generation !== generationRef.current) return;
       if (!res.ok) {
         setMessage({ tone: "bad", text: t.use.unavailable });
-      } else if (payload.accepted) {
-        setMessage({ tone: "good", text: `${t.use.accepted} · ${t.board.points}: +${payload.points ?? 0} · ${t.use.checkedBy}: ${payload.checkedBy ?? "RIWI"}` });
-        setText("");
       } else {
-        setMessage({ tone: "info", text: `${t.use.rejected} · ${t.use.checkedBy}: ${payload.checkedBy ?? "RIWI"}` });
+        setMessage({ tone: payload.accepted ? "good" : "info", text: `${payload.accepted ? t.use.accepted : t.use.rejected} · ${t.use.checkedBy}: ${payload.checkedBy ?? "RIWI"}${payload.accepted ? ` · ${t.board.points}: +${payload.points ?? 0}` : ""}` });
+        privateResources.invalidate("vocabulary:");
+        // Only a completed check advances; a network/evaluator failure keeps
+        // the same word and draft available for recovery.
+        if (!entryId) {
+          advanceRef.current = setTimeout(() => {
+            advanceRef.current = null;
+            if (generation !== generationRef.current) return;
+            if (position + 1 < words.length) setPosition(position + 1);
+            else { setWords(shuffled(words, currentId)); setPosition(0); }
+            setText("");
+            setMessage(null);
+            setBusy(false);
+          }, 1400);
+        } else if (payload.accepted) setText("");
       }
       onSaved(res.ok && payload.accepted === true && Number(payload.points) > 0);
       void loadSentences();
     } catch {
+      if (generation !== generationRef.current) return;
       setMessage({ tone: "bad", text: t.use.unavailable });
       onSaved(false);
     } finally {
-      setBusy(false);
+      clearTimeout(deadline);
+      if (generation === generationRef.current) {
+        submitRef.current = false;
+        if (!advanceRef.current) setBusy(false);
+      }
     }
   }
 
-  const selected = words.find((word) => word.id === entryId);
+  const selected = entryId ? words.find((word) => word.id === entryId) : words[position];
 
   return (
     <div className="flex flex-col gap-4">
@@ -117,14 +189,23 @@ export function VocabUsePanel({
           <>
             <div className="mt-3 grid gap-2 sm:grid-cols-2">
               <label className="flex flex-col gap-1 text-xs text-ink-500">
+                {t.use.pickFile}
+                <select className="input" aria-label={t.use.pickFile} data-sentence-folder value={folderId} disabled={busy} onChange={(event) => setFolderId(event.target.value)}>
+                  <option value="">{t.folders.all}</option>
+                  {folders.map((folder) => <option key={folder.id} value={folder.id}>{folder.name}</option>)}
+                </select>
+              </label>
+              <label className="flex flex-col gap-1 text-xs text-ink-500">
                 {t.use.pick}
                 <select
                   className="input"
                   aria-label={t.use.pick}
                   data-sentence-word
                   value={entryId}
-                  onChange={(event) => setEntryId(event.target.value)}
+                  disabled={busy}
+                  onChange={(event) => { setEntryId(event.target.value); setText(""); setMessage(null); }}
                 >
+                  <option value="">{t.use.autoWords}</option>
                   {words.map((word) => (
                     <option key={word.id} value={word.id}>
                       {word.term}
@@ -132,14 +213,16 @@ export function VocabUsePanel({
                   ))}
                 </select>
               </label>
-              {selected && <p className="self-end text-xs text-ink-500">{selected.definitionEn}</p>}
+
             </div>
 
+            {selected && <p className="mt-3 text-sm text-ink-700" data-sentence-current={selected.id}><strong>{selected.term}</strong> — {selected.definitionEn}</p>}
             <label className="mt-3 flex flex-col gap-1 text-xs text-ink-500">
               {t.use.placeholder}
               <textarea
                 className="input min-h-[90px]"
                 data-sentence-input
+                disabled={busy}
                 placeholder={t.use.placeholder}
                 value={text}
                 onChange={(event) => setText(event.target.value)}
@@ -231,4 +314,15 @@ function RegionFailure({ dict, name, retry }: { dict: Dictionary; name: string; 
       <button type="button" className="btn-secondary" onClick={retry} data-region-retry={name}>{dict.errorPage.retry}</button>
     </div>
   );
+}
+
+/** Fisher–Yates; a new cycle cannot immediately repeat its last word. */
+function shuffled(words: PickerWord[], lastId?: string): PickerWord[] {
+  const deck = [...words];
+  for (let index = deck.length - 1; index > 0; index -= 1) {
+    const other = Math.floor(Math.random() * (index + 1));
+    [deck[index], deck[other]] = [deck[other]!, deck[index]!];
+  }
+  if (deck.length > 1 && deck[0]?.id === lastId) [deck[0], deck[1]] = [deck[1]!, deck[0]!];
+  return deck;
 }

@@ -1,10 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { ProductionAnswer } from "./ProductionAnswer";
 import type { Dictionary } from "@/lib/i18n/en";
+
+import { useScopedRequest } from "@/lib/http/use-scoped-request";
+import { apiErrorMessage } from "@/lib/api-error-message";
 
 type Exercise = {
   id: string;
@@ -25,30 +28,32 @@ export function GrammarQuiz({
   topicId: string;
   exercises: Exercise[];
 }) {
+  const request = useScopedRequest();
+  const flight = useRef(false);
+  const [error, setError] = useState("");
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [results, setResults] = useState<Record<string, Result> | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   async function onSubmit() {
-    setSubmitting(true);
-    const res = await fetch(`/api/grammar/topics/${topicId}/submit`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        answers: exercises.map((e) => ({ exerciseId: e.id, selectedOption: answers[e.id] ?? "" })),
-      }),
-    });
+    if (flight.current) return;
+    flight.current = true; setSubmitting(true); setError("");
+    const res = await request<{results: Result[]}>(`/api/grammar/topics/${topicId}/submit`, { body: {
+      answers: exercises.map((e) => ({ exerciseId: e.id, selectedOption: answers[e.id] ?? "" })),
+    }});
+    flight.current = false;
+    if (!res) return;
     setSubmitting(false);
-    if (res.ok) {
-      const data = await res.json();
-      const map: Record<string, Result> = {};
-      for (const r of data.results as Result[]) map[r.exerciseId] = r;
-      setResults(map);
-    }
+    if (!res.ok) { setError(apiErrorMessage(res.error, res.status, dict)); return; }
+    if (!Array.isArray(res.data?.results)) {setError(dict.apiErrors.generic); return;}
+    const map: Record<string, Result> = {};
+    for (const r of res.data.results) map[r.exerciseId] = r;
+    setResults(map);
   }
 
   return (
     <div className="flex flex-col gap-4">
+      {error && <p role="alert">{error}</p>}
       {exercises.map((ex) => {
         const result = results?.[ex.id];
         return (

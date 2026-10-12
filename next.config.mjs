@@ -1,6 +1,15 @@
+import { appLegacyAliasRedirects, canonicalHomeRedirects, legacyModuleRedirects } from "./src/lib/nav/private-modules.mjs";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  outputFileTracingIncludes: { "/api/owner/student-export": ["./src/assets/fonts/DejaVuSans.ttf"] },
+  // The disposable local development server proxies file bytes to disk. Next
+  // 15's 10 MB middleware clone otherwise truncates a valid 16 MB audio file.
+  // Hosted Preview/Production retain the framework limit and direct S3/R2 PUTs.
+  ...(process.env.APP_ENV === "development" && process.env.STORAGE_PROVIDER === "local"
+    ? { experimental: { middlewareClientMaxBodySize: "64mb" } }
+    : {}),
   eslint: { ignoreDuringBuilds: false },
   /**
    * Front-end source minimisation, stated rather than assumed.
@@ -34,8 +43,27 @@ const nextConfig = {
    * this rewrite serves it from the same canonical place as the PNGs instead of
    * duplicating bytes into the app directory.
    */
+  async headers() {
+    // Only content-addressed wallpaper derivatives are immutable. Stable source
+    // filenames and every private/API response keep their existing policies.
+    return [{
+      source: "/images/:theme(day|night)/:asset([A-Z_]+[.][a-f0-9]{12}[.]webp)",
+      headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+    }];
+  },
+  async redirects() {
+    return [...canonicalHomeRedirects(), ...appLegacyAliasRedirects(), ...legacyModuleRedirects()];
+  },
   async rewrites() {
-    return [{ source: "/favicon.ico", destination: "/brand/derived/favicon.ico" }];
+    const rewrites = [{ source: "/favicon.ico", destination: "/brand/derived/favicon.ico" }];
+    const storageEndpoint = (process.env.R2_ENDPOINT || process.env.S3_ENDPOINT || "").replace(/\/+$/, "");
+    if (storageEndpoint) {
+      rewrites.push({
+        source: "/__storage-read/:path*",
+        destination: `${storageEndpoint}/:path*`,
+      });
+    }
+    return rewrites;
   },
 };
 

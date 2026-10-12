@@ -40,6 +40,20 @@ test("wrong credentials are their own reason", () => {
   assert.equal(classifyDatabaseError({ code: "28000" }), "auth_failed");
 });
 
+test("actual Node transport errors remain distinguishable through Drizzle and aggregate wrappers", () => {
+  for (const code of ["ECONNREFUSED", "ECONNRESET", "ETIMEDOUT", "ENOTFOUND", "EAI_AGAIN", "EHOSTUNREACH", "ENETUNREACH", "EPIPE"]) {
+    assert.equal(classifyDatabaseError({ cause: new AggregateError([Object.assign(new Error("private host/password"), { code })]) }), "unreachable");
+  }
+});
+
+test("aggregate cycles share the visited set without recursion or hiding a real error", () => {
+  const aggregate: { errors: unknown[] } = { errors: [] };
+  aggregate.errors.push(aggregate);
+  assert.equal(classifyDatabaseError(aggregate), null);
+  aggregate.errors.push({ cause: { code: "42703" } });
+  assert.equal(classifyDatabaseError(aggregate), "column_missing");
+});
+
 test("a full server is capacity, not a missing schema", () => {
   assert.equal(classifyDatabaseError({ code: "53300" }), "capacity");
   assert.equal(classifyDatabaseError({ code: "57P03" }), "capacity");

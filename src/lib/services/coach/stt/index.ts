@@ -29,7 +29,7 @@ export const SpeechToTextService = {
     return configured === NO_STT_PROVIDER_ID ? null : configured;
   },
 
-  async transcribe(request: TranscriptionRequest): Promise<TranscriptionResult> {
+  async transcribe(request: TranscriptionRequest, options: { externalEnabled?: boolean } = {}): Promise<TranscriptionResult> {
     const configured = readCoachConfig().sttPrimaryProvider;
     if (configured === NO_STT_PROVIDER_ID) {
       return {
@@ -52,6 +52,9 @@ export const SpeechToTextService = {
           retryable: false,
         },
       };
+    }
+    if (provider.type === "external" && !(options.externalEnabled ?? readCoachConfig().externalEnabled)) {
+      return { ok: false, failure: { reason: "not_configured", detail: "External AI services are disabled", retryable: false } };
     }
     if (!provider.capabilities.includes("speech-to-text")) {
       return {

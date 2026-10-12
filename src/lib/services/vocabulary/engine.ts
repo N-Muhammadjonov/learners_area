@@ -6,6 +6,7 @@ import {
   activityEvents,
   lexemes,
   userVocabulary,
+  userVocabularyContexts,
   users,
   vocabFolders,
   vocabPointEvents,
@@ -33,6 +34,9 @@ import {
   type PointKind,
 } from "./points";
 import { legacySenseKeyOf, senseKeyOf } from "./dedupe";
+import { findTopicPackForLearner } from "@/lib/content/vocabulary-packs";
+import { linkSenseToUnit } from "@/lib/services/lexical/units";
+import { sourceRevisitHref } from "@/lib/services/lexical/context";
 import { gradeSentence, gradeSpelling, shouldAwardGamePoint, submissionMatchesGame, type GameSubmission } from "./grading";
 import { searchRows } from "./search";
 import { findPack } from "./packs";
@@ -103,34 +107,43 @@ const librarySelection = {
   },
 };
 
-export async function listLibrary(
-  userId: string,
-  filter?: {
-    folderId?: string;
-    topicPack?: string;
-    masteries?: Mastery[];
-    sourceType?: string;
-    /** Paging keeps a 1000-word library from becoming a 1000-row page payload. */
-    limit?: number;
-    offset?: number;
-  },
-): Promise<LibraryItem[]> {
-  const conditions = [eq(userVocabulary.userId, userId)];
-  if (filter?.folderId)
-    conditions.push(eq(userVocabulary.folderId, filter.folderId));
-  if (filter?.topicPack)
-    conditions.push(eq(userVocabulary.topicPack, filter.topicPack));
-  if (filter?.masteries?.length)
-    conditions.push(inArray(userVocabulary.mastery, filter.masteries));
-  if (filter?.sourceType)
-    conditions.push(eq(userVocabulary.sourceType, filter.sourceType));
+type LibraryFilter = {
+  folderId?: string;
+  topicPack?: string;
+  masteries?: Mastery[];
+  sourceType?: string;
+  sourceId?: string;
+  limit?: number;
+  offset?: number;
+  random?: boolean;
+  dueOnly?: boolean;
+  weakOnly?: boolean;
+  hasTopic?: boolean;
+};
 
-  const rows = await db
+function libraryConditions(userId: string, filter?: LibraryFilter) {
+  const conditions = [eq(userVocabulary.userId, userId)];
+  if (filter?.folderId) conditions.push(eq(userVocabulary.folderId, filter.folderId));
+  if (filter?.topicPack) conditions.push(eq(userVocabulary.topicPack, filter.topicPack));
+  if (filter?.masteries?.length) conditions.push(inArray(userVocabulary.mastery, filter.masteries));
+  if (filter?.sourceType) conditions.push(eq(userVocabulary.sourceType, filter.sourceType));
+  if (filter?.sourceId) conditions.push(eq(userVocabulary.sourceId, filter.sourceId));
+  if (filter?.dueOnly) conditions.push(lte(userVocabulary.nextReviewAt, new Date()));
+  if (filter?.hasTopic) conditions.push(sql`${userVocabulary.topicPack} IS NOT NULL`);
+  if (filter?.weakOnly) conditions.push(sql`${userVocabulary.mastery} NOT IN ('mastered', 'active') AND
+    (${userVocabulary.correctCount} + ${userVocabulary.incorrectCount} = 0 OR
+     ${userVocabulary.correctCount}::numeric / NULLIF(${userVocabulary.correctCount} + ${userVocabulary.incorrectCount}, 0) < 0.6)`);
+  return conditions;
+}
+
+export async function listLibrary(userId: string, filter?: LibraryFilter, database: typeof db = db): Promise<LibraryItem[]> {
+  const conditions = libraryConditions(userId, filter);
+  const rows = await database
     .select(librarySelection)
     .from(userVocabulary)
     .innerJoin(lexemes, eq(userVocabulary.lexemeId, lexemes.id))
     .where(and(...conditions))
-    .orderBy(asc(userVocabulary.nextReviewAt), asc(lexemes.term))
+    .orderBy(...(filter?.random ? [sql`random()`] : [asc(userVocabulary.nextReviewAt), asc(lexemes.term)]))
     .limit(filter?.limit ?? 500)
     .offset(filter?.offset ?? 0);
 
@@ -216,8 +229,9 @@ export async function searchLibrary(
     })
     .from(userVocabulary)
     .innerJoin(lexemes, eq(userVocabulary.lexemeId, lexemes.id))
-    .where(eq(userVocabulary.userId, userId))
-    .limit(2000);
+    // Whole own library (narrow columns): ranking uses Unicode/apostrophe folding
+    // that SQL LIKE cannot mirror, and a row cap made words beyond it unfindable.
+    .where(eq(userVocabulary.userId, userId));
 
   return searchRows(rows, query, limit);
 }
@@ -275,6 +289,47 @@ export type NewWordInput = {
   acceptedTranslations?: string[] | null;
 };
 
+type SaveTx = Parameters<Parameters<typeof db.transaction>[0]>[0];
+
+/**
+ * Anything these helpers can run against: the pool, or an open transaction from it.
+ *
+ * Callers that write more than one row for a single learner action need to pass their transaction
+ * down, so the whole unit commits or rolls back together. `checkActivation` is one: it stores a
+ * sentence use and then the `WRITING_ACTIVATION_CHECK` event that is the only record the learner's
+ * activation statistics are computed from. Narrowing these parameters to `typeof db` forced that
+ * caller to write outside any transaction at all.
+ */
+export type VocabularyExecutor = typeof db | SaveTx;
+
+/**
+ * Record where a saved sense was met. One row per (item, occurrence): a replayed
+ * save is a no-op, a new place adds a row and bumps seen_count / last_seen_at.
+ * Only server-resolved snapshots reach here (routes build them from occurrences).
+ */
+async function appendSourceContext(
+  tx: SaveTx,
+  userVocabularyId: string,
+  snapshot: import("@/lib/services/lexical/context").VocabularySourceSnapshot,
+  input: { userId: string; sourceType?: string; sourceId?: string | null },
+  options: { first?: boolean } = {},
+) {
+  const sourceType = snapshot.sourceType ?? (input.sourceType === "listening" ? "listening" : "reading");
+  const inserted = await tx.insert(userVocabularyContexts).values({
+    userVocabularyId,
+    userId: input.userId,
+    occurrenceId: snapshot.occurrenceId,
+    sourceType,
+    sourceId: snapshot.listeningTestId ?? snapshot.attemptId ?? snapshot.passageId ?? input.sourceId ?? null,
+    snapshot,
+  }).onConflictDoNothing().returning({ id: userVocabularyContexts.id });
+  if (!inserted.length || options.first) return;
+  await tx.update(userVocabulary).set({
+    seenCount: sql`${userVocabulary.seenCount} + 1`,
+    lastSeenAt: new Date(),
+  }).where(and(eq(userVocabulary.id, userVocabularyId), eq(userVocabulary.userId, input.userId)));
+}
+
 export async function addVocabularyBatch(input: {
   userId: string;
   items: NewWordInput[];
@@ -282,11 +337,11 @@ export async function addVocabularyBatch(input: {
   topicPack?: string | null;
   sourceType?: string;
   sourceId?: string | null;
-}): Promise<
+}, transaction?: SaveTx): Promise<
   | { ok: true; added: number; duplicates: number; ids: string[]; points: number }
   | { ok: false; error: "folder_not_found" | "lexeme_not_found" }
 > {
-  return db.transaction(async (tx) => {
+  const save = async (tx: SaveTx) => {
     // Serialize saves for this learner before reading their existing senses.
     // Canonical rows, personal entries, awards and activity commit together;
     // a replay cannot read an empty library while another save is in flight.
@@ -302,7 +357,17 @@ export async function addVocabularyBatch(input: {
           eq(vocabFolders.userId, input.userId),
         ),
       });
-      if (!folder) return { ok: false as const, error: "folder_not_found" };
+      if (!folder) return { ok: false as const, error: "folder_not_found" as const };
+    }
+
+    let destinationFolderId = input.folderId ?? null;
+    if (!destinationFolderId && (input.sourceType === "listening" || input.sourceType === "reading")) {
+      const name = input.sourceType === "listening" ? "Listening" : "Reading";
+      const [created] = await tx.insert(vocabFolders).values({ userId: input.userId, name })
+        .onConflictDoNothing({ target: [vocabFolders.userId, vocabFolders.name] }).returning({ id: vocabFolders.id });
+      const existing = created ?? await tx.query.vocabFolders.findFirst({ where: and(eq(vocabFolders.userId, input.userId), eq(vocabFolders.name, name)) });
+      if (!existing) throw new Error("Default vocabulary folder unavailable");
+      destinationFolderId = existing.id;
     }
 
     // The identity of a word is its spelling, its part of speech and its ENGLISH
@@ -312,7 +377,7 @@ export async function addVocabularyBatch(input: {
     const canonicalIds = input.items.flatMap((item) => item.canonicalLexemeId ? [item.canonicalLexemeId] : []);
     const canonicalRows = canonicalIds.length ? await tx.select().from(lexemes).where(inArray(lexemes.id, canonicalIds)) : [];
     const canonical = new Map(canonicalRows.map((row) => [row.id, row]));
-    if (canonicalIds.some((id) => !canonical.has(id))) return { ok: false as const, error: "lexeme_not_found" };
+    if (canonicalIds.some((id) => !canonical.has(id))) return { ok: false as const, error: "lexeme_not_found" as const };
     const uniqueByKey = new Map<string, NewWordInput>();
     for (const item of input.items) {
       const key = item.canonicalLexemeId ?? senseKeyOf({ ...item, meaning: item.definitionEn });
@@ -357,6 +422,9 @@ export async function addVocabularyBatch(input: {
       const known = existingRows.find((row) => lexeme && row.lexemeId === lexeme.id)?.id ?? existingSense.get(senseKey);
       if (known) {
         ids.push(known);
+        // Same sense met again in a NEW place: keep one item, append the context.
+        // SRS fields are not touched — meeting a word is not reviewing it.
+        if (item.sourceSnapshot) await appendSourceContext(tx, known, item.sourceSnapshot, input);
         continue;
       }
       if (!lexeme) {
@@ -384,6 +452,9 @@ export async function addVocabularyBatch(input: {
           (await tx.query.lexemes.findFirst({ where: eq(lexemes.senseKey, senseKey) }));
       }
       if (!lexeme) continue;
+      if (!lexeme.lexicalUnitId) {
+        lexeme = { ...lexeme, lexicalUnitId: await linkSenseToUnit(tx, lexeme, lexeme.provenance ?? "user_provided") };
+      }
 
       const [entry] = await tx
         .insert(userVocabulary)
@@ -391,7 +462,7 @@ export async function addVocabularyBatch(input: {
           userId: input.userId,
           lexemeId: lexeme.id,
           senseKey,
-          folderId: input.folderId ?? null,
+          folderId: destinationFolderId,
           topicPack: input.topicPack ?? null,
           sourceType: input.sourceType ?? "manual",
           sourceId: input.sourceId ?? null,
@@ -403,6 +474,7 @@ export async function addVocabularyBatch(input: {
         .returning();
 
       if (!entry) continue;
+      if (item.sourceSnapshot) await appendSourceContext(tx, entry.id, item.sourceSnapshot, input, { first: true });
       ids.push(entry.id);
       existingSense.set(senseKey, entry.id);
       added += 1;
@@ -430,16 +502,28 @@ export async function addVocabularyBatch(input: {
       ids,
       points,
     };
-  });
+  };
+  return transaction ? save(transaction) : db.transaction(save);
 }
 
-/** Add a whole topic pack in one action. */
+/**
+ * Add a whole topic pack in one action.
+ *
+ * The pack is read from the database first (canonical authored content, §31); the
+ * built-in TypeScript packs remain only as a compatibility fallback while an
+ * install has not been backfilled yet. Either way the words go through the ONE
+ * engine below, so there is still no second code path into a learner's library.
+ */
 export async function addTopicPack(userId: string, packId: string) {
-  const pack = findPack(packId);
+  const authored = await findTopicPackForLearner(packId);
+  const pack = authored ?? (() => {
+    const builtIn = findPack(packId);
+    return builtIn ? { id: builtIn.id, slug: builtIn.id, label: builtIn.label.en, labelUz: builtIn.label.uz, words: builtIn.words } : null;
+  })();
   if (!pack) return { ok: false as const, error: "unknown_pack" };
   const result = await addVocabularyBatch({
     userId,
-    items: pack.words.map((word) => ({
+    items: pack.words.map((word: { term: string; partOfSpeech: string; definitionEn: string; translationUz: string; example: string; collocations?: string }) => ({
       authored: true,
       term: word.term,
       definitionEn: word.definitionEn,
@@ -577,36 +661,30 @@ export async function gameSet(
   userId: string,
   key: GameSetKey,
   options?: { folderId?: string; topicPack?: string; limit?: number },
+  database: typeof db = db,
 ) {
-  const all = await listLibrary(userId);
-  const limit = options?.limit ?? 24;
-  const now = Date.now();
-
-  let words = all;
-  if (key === "due")
-    words = all.filter((item) => item.nextReviewAt.getTime() <= now);
-  else if (key === "weak") words = all.filter((item) => isWeak(item));
-  else if (key === "reading")
-    words = all.filter((item) => item.sourceType === "reading");
-  else if (key === "listening")
-    words = all.filter((item) => item.sourceType === "listening");
-  else if (key === "topic")
-    words = options?.topicPack
-      ? all.filter((item) => item.topicPack === options.topicPack)
-      : all.filter((item) => Boolean(item.topicPack));
-  else if (key === "folder")
-    words = options?.folderId
-      ? all.filter((item) => item.folderId === options.folderId)
-      : [];
-  else if (key === "assigned")
-    words = all.filter((item) => item.sourceType === "assignment");
-
-  const playable = words.slice(0, limit);
-  const due = words.filter((item) => item.nextReviewAt.getTime() <= now).length;
-
-  // `count` is what the games panel shows as playable, `due` says how many of
-  // them can actually earn a practice point, and `total` is the whole filter.
-  return { key, words: playable, count: playable.length, due, total: words.length };
+  if (key === "folder" && !options?.folderId) return { key, words: [], count: 0, due: 0, total: 0 };
+  const limit = Math.min(500, Math.max(1, options?.limit ?? 24));
+  // Filter BEFORE sampling. Even a folder beyond the first 500 library rows is
+  // playable, and each new round samples from the entire owned folder.
+  const filter: LibraryFilter = {
+    folderId: key === "folder" ? options?.folderId : undefined,
+    topicPack: key === "topic" ? options?.topicPack : undefined,
+    hasTopic: key === "topic" && !options?.topicPack,
+    sourceType: key === "reading" || key === "listening" ? key : key === "assigned" ? "assignment" : undefined,
+    dueOnly: key === "due",
+    weakOnly: key === "weak",
+    random: true,
+    limit,
+  };
+  const [words, totals] = await Promise.all([
+    listLibrary(userId, filter, database),
+    database.select({
+      total: sql<number>`count(*)::int`,
+      due: sql<number>`count(*) FILTER (WHERE ${userVocabulary.nextReviewAt} <= now())::int`,
+    }).from(userVocabulary).where(and(...libraryConditions(userId, filter))),
+  ]);
+  return { key, words, count: words.length, due: totals[0]?.due ?? 0, total: totals[0]?.total ?? 0 };
 }
 
 /** Server-side membership check for every entry cited by a game answer. */
@@ -733,23 +811,38 @@ export async function recordGameAnswer(input: {
     correct = input.submission.known;
   }
 
-  // Practice counts as activity, including an incorrect answer; never as SRS.
-  await db.insert(activityEvents).values({
-    userId: input.userId,
-    type: "VOCAB_GAME_PRACTICED",
-    payload: { entryId: entry.id, kind: input.submission.kind, correct, verified },
+  /*
+   * Practice counts as activity, including an incorrect answer; never as SRS.
+   *
+   * The practice event and the point it earns are ONE write unit. These events are read back —
+   * `loadSelfAssessments` restores the learner's Learned / Not yet marks from them and `dashboard.ts`
+   * counts every event type to compute the study streak — so an event committed without its award
+   * describes an attempt the point ledger has no row for. They commit or roll back together.
+   *
+   * `touchMeaningfulActivity` stays OUTSIDE the transaction on purpose: it is documented as
+   * best-effort and non-fatal, and pulling it in would let a timestamp update roll back a point the
+   * learner had already earned. No external call is made inside the transaction either.
+   */
+  const awarded = await db.transaction(async (tx) => {
+    await tx.insert(activityEvents).values({
+      userId: input.userId,
+      type: "VOCAB_GAME_PRACTICED",
+      payload: { entryId: entry.id, kind: input.submission.kind, correct, verified },
+    });
+    return shouldAwardGamePoint({ gameId: input.gameId, kind: input.submission.kind, verified, correct })
+      ? await awardPoints(
+          {
+            userId: input.userId,
+            kind: "game_answer",
+            dedupeKey: dedupeKeys.gameAnswer(input.userId, input.entryId, dayKey(now)),
+            refType: "user_vocabulary",
+            refId: input.entryId,
+          },
+          tx,
+        )
+      : false;
   });
   await touchMeaningfulActivity(input.userId);
-  const awarded =
-    shouldAwardGamePoint({ gameId: input.gameId, kind: input.submission.kind, verified, correct })
-      ? await awardPoints({
-          userId: input.userId,
-          kind: "game_answer",
-          dedupeKey: dedupeKeys.gameAnswer(input.userId, input.entryId, dayKey(now)),
-          refType: "user_vocabulary",
-          refId: input.entryId,
-        })
-      : false;
 
   return {
     ok: true as const,
@@ -758,6 +851,51 @@ export async function recordGameAnswer(input: {
     awarded: awarded ? VOCAB_POINTS.gameAnswer : 0,
     srsUntouched: true as const,
   };
+}
+
+/**
+ * The learner's most recent flashcard self-assessment, per saved word.
+ *
+ * A flashcard judgement is practice, never SRS: it is written as a
+ * `VOCAB_GAME_PRACTICED` activity with `kind: "self"` and it earns no point (see
+ * `recordGameAnswer` above). Reading those rows back is what makes the marks
+ * durable — a reloaded pass shows the same Learned / Not yet state the learner
+ * left behind instead of pretending the deck is untouched. The body of the
+ * activity row is the source of truth; this deliberately adds no second store.
+ *
+ * Only the caller's own rows are read, the newest judgement per entry wins, and
+ * `connection` defaults to the application pool so tests can exercise the real
+ * query against a real PostgreSQL.
+ */
+export async function loadSelfAssessments(
+  userId: string,
+  entryIds: string[],
+  connection: typeof db = db,
+): Promise<Record<string, "known" | "notYet">> {
+  if (entryIds.length === 0) return {};
+  const rows = await connection
+    .select({
+      entryId: sql<string | null>`${activityEvents.payload} ->> 'entryId'`,
+      known: sql<boolean | null>`(${activityEvents.payload} ->> 'correct')::boolean`,
+      createdAt: activityEvents.createdAt,
+    })
+    .from(activityEvents)
+    .where(
+      and(
+        eq(activityEvents.userId, userId),
+        eq(activityEvents.type, "VOCAB_GAME_PRACTICED"),
+        sql`${activityEvents.payload} ->> 'kind' = 'self'`,
+        inArray(sql<string>`${activityEvents.payload} ->> 'entryId'`, entryIds),
+      ),
+    )
+    .orderBy(desc(activityEvents.createdAt));
+
+  const latest: Record<string, "known" | "notYet"> = {};
+  for (const row of rows) {
+    if (!row.entryId || row.entryId in latest) continue;
+    latest[row.entryId] = row.known === true ? "known" : "notYet";
+  }
+  return latest;
 }
 
 // ---------------------------------------------------------------------------
@@ -777,8 +915,8 @@ export async function recordSentenceUse(input: {
   userId: string;
   entryId: string;
   sentence: string;
-}) {
-  const entry = await db.query.userVocabulary.findFirst({
+}, database: VocabularyExecutor = db) {
+  const entry = await database.query.userVocabulary.findFirst({
     where: and(
       eq(userVocabulary.id, input.entryId),
       eq(userVocabulary.userId, input.userId),
@@ -790,7 +928,7 @@ export async function recordSentenceUse(input: {
   // called after the RIWI evaluator returns, may mark it accepted or award points.
   const pointsAwarded = 0;
 
-  const [usage] = await db
+  const [usage] = await database
     .insert(vocabularyUsages)
     .values({
       userId: input.userId,
@@ -828,19 +966,22 @@ export async function confirmSentenceUse(input: {
   accepted: boolean;
   evaluationId: string;
   now?: Date;
-}) {
+  /** Who judged the sentence: RIWI (Vocabulary "use") or the external AI (Writing Activation Lab). */
+  origin?: "riwi" | "external_ai";
+}, database: VocabularyExecutor = db) {
   const now = input.now ?? new Date();
-  const usage = await db.query.vocabularyUsages.findFirst({
+  const origin = input.origin ?? "riwi";
+  const usage = await database.query.vocabularyUsages.findFirst({
     where: and(
       eq(vocabularyUsages.id, input.usageId),
       eq(vocabularyUsages.userId, input.userId),
     ),
   });
   if (!usage) return { ok: false as const, error: "not_found" };
-  if (usage.origin === "riwi")
+  if (usage.origin !== "manual")
     return { ok: false as const, error: "already_evaluated" };
 
-  const entry = await db.query.userVocabulary.findFirst({
+  const entry = await database.query.userVocabulary.findFirst({
     where: eq(userVocabulary.id, usage.userVocabularyId),
   });
   if (!entry) return { ok: false as const, error: "not_found" };
@@ -856,7 +997,7 @@ export async function confirmSentenceUse(input: {
         dedupeKey: dedupeKeys.sentence(input.userId, entry.id, sentenceHash),
         refType: "vocabulary_usage",
         refId: usage.id,
-      })
+      }, database)
     : false;
   const pointsAwarded = inserted ? VOCAB_POINTS.sentence : 0;
   const activeUseCount = entry.activeUseCount + (inserted ? 1 : 0);
@@ -867,10 +1008,10 @@ export async function confirmSentenceUse(input: {
     activeUseCount,
   });
 
-  await db
+  await database
     .update(vocabularyUsages)
     .set({
-      origin: "riwi",
+      origin,
       riwiAccepted: input.accepted,
       evaluationId: input.evaluationId,
       pointsAwarded,
@@ -878,7 +1019,7 @@ export async function confirmSentenceUse(input: {
     .where(eq(vocabularyUsages.id, usage.id));
 
   if (inserted) {
-    await db
+    await database
       .update(userVocabulary)
       .set({
         activeUseCount,
@@ -945,7 +1086,7 @@ export async function listFolders(userId: string) {
 }
 
 export async function createFolder(userId: string, name: string) {
-  const trimmed = name.trim().slice(0, 80);
+  const trimmed = name.trim().slice(0, 200);
   if (!trimmed) return { ok: false as const, error: "invalid_name" };
   const [row] = await db
     .insert(vocabFolders)
@@ -977,7 +1118,7 @@ export async function moveToFolder(
       ),
     });
     // A folder id from another student's library must never be usable.
-    if (!folder) return { ok: false as const, error: "folder_not_found" };
+    if (!folder) return { ok: false as const, error: "folder_not_found" as const };
   }
   const updated = await db
     .update(userVocabulary)
@@ -1127,9 +1268,9 @@ export async function wordsFromSource(
   userId: string,
   sourceType: string,
   limit = 50,
+  sourceId?: string,
 ) {
-  const all = await listLibrary(userId);
-  return all.filter((item) => item.sourceType === sourceType).slice(0, limit);
+  return listLibrary(userId, { sourceType, sourceId, limit });
 }
 
 /** Counters for the dashboard, all computed from real rows. */
@@ -1164,4 +1305,29 @@ export async function librarySummary(userId: string) {
   }
 
   return { total, due, byMastery, bySource, nextDueAt };
+}
+
+/**
+ * Every place THIS learner met one saved sense, newest first, with a revisit link.
+ * Scoped by user id on both the item and the context rows: another learner's id
+ * returns null, never their contexts.
+ */
+export async function listVocabularyContexts(userId: string, userVocabularyId: string) {
+  const item = await db.query.userVocabulary.findFirst({
+    where: and(eq(userVocabulary.id, userVocabularyId), eq(userVocabulary.userId, userId)),
+    columns: { id: true, seenCount: true, firstSeenAt: true, lastSeenAt: true },
+  });
+  if (!item) return null;
+  const rows = await db.select().from(userVocabularyContexts)
+    .where(and(eq(userVocabularyContexts.userVocabularyId, item.id), eq(userVocabularyContexts.userId, userId)))
+    .orderBy(desc(userVocabularyContexts.seenAt));
+  return {
+    seenCount: item.seenCount, firstSeenAt: item.firstSeenAt, lastSeenAt: item.lastSeenAt,
+    contexts: rows.map((row) => ({
+      id: row.id, sourceType: row.sourceType, seenAt: row.seenAt,
+      sourceTitle: row.snapshot.sourceTitle, surfaceForm: row.snapshot.surfaceForm, sentenceText: row.snapshot.sentenceText,
+      sectionNumber: row.snapshot.sectionNumber ?? null, startMs: row.snapshot.startMs ?? null, endMs: row.snapshot.endMs ?? null,
+      revisitHref: sourceRevisitHref(row.snapshot),
+    })),
+  };
 }

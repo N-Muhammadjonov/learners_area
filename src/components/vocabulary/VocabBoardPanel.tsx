@@ -1,4 +1,5 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -21,6 +22,9 @@ export function VocabBoardPanel({
   dict: Dictionary;
   compact?: boolean;
 }) {
+  const requestResponse = useScopedResponse(25000);
+  const requestAwards = useScopedResponse(25000);
+
   const t = dict.vocabulary;
   const router = useRouter();
   const [awards, setAwards] = useState<VocabAward[]>([]);
@@ -32,7 +36,8 @@ export function VocabBoardPanel({
   const refreshLedger = useCallback(async () => {
     setStatus("loading");
     try {
-      const res = await fetch("/api/vocabulary/leaderboard", { cache: "no-store" });
+      const res = await requestResponse("/api/vocabulary/leaderboard", { cache: "no-store" });
+    if (!res) return;
       if (res.status === 401) router.refresh();
       const payload = await res.json().catch(() => null);
       if (!res.ok || !payload?.ok) throw new Error("leaderboard unavailable");
@@ -48,12 +53,13 @@ export function VocabBoardPanel({
     } catch {
       setStatus("error");
     }
-  }, [router]);
+  }, [router, requestResponse]);
 
   const refreshStanding = useCallback(async () => {
     setStatus("loading");
     try {
-      const res = await fetch("/api/vocabulary/leaderboard?view=standing", { cache: "no-store" });
+      const res = await requestResponse("/api/vocabulary/leaderboard?view=standing", { cache: "no-store" });
+    if (!res) return;
       if (res.status === 401) router.refresh();
       const payload = await res.json().catch(() => null);
       if (!res.ok || !payload?.ok) throw new Error("standing unavailable");
@@ -67,13 +73,14 @@ export function VocabBoardPanel({
     } catch {
       setStatus("error");
     }
-  }, [router]);
+  }, [router, requestResponse]);
 
   const refreshAwards = useCallback(async () => {
     if (awardsRetrying) return;
     setAwardsRetrying(true);
     try {
-      const res = await fetch("/api/vocabulary/leaderboard?view=awards", { cache: "no-store" });
+      const res = await requestAwards("/api/vocabulary/leaderboard?view=awards", { cache: "no-store" });
+    if (!res) return;
       if (res.status === 401) router.refresh();
       const payload = await res.json().catch(() => null);
       if (!res.ok || !payload?.ok) throw new Error("award history unavailable");
@@ -84,7 +91,7 @@ export function VocabBoardPanel({
     } finally {
       setAwardsRetrying(false);
     }
-  }, [awardsRetrying, router]);
+  }, [awardsRetrying, router, requestAwards]);
 
   useEffect(() => {
     void refreshLedger();
@@ -147,7 +154,7 @@ export function VocabBoardPanel({
         {!compact && awardsUnavailable && (
           <div className="flex flex-wrap items-center justify-between gap-2 border-t border-ink-100 pt-3 text-xs" role="alert" data-vocabulary-region-error="award-history">
             <span className="text-ink-500">{dict.errors.unknown}</span>
-            <button type="button" className="underline" disabled={awardsRetrying} aria-busy={awardsRetrying || undefined} onClick={() => void refreshAwards()} data-region-retry="award-history">{dict.errorPage.retry}</button>
+            <button type="button" className="btn-secondary " disabled={awardsRetrying} aria-busy={awardsRetrying || undefined} onClick={() => void refreshAwards()} data-region-retry="award-history">{dict.errorPage.retry}</button>
           </div>
         )}
         {!compact && awards.length > 0 && (
@@ -164,7 +171,7 @@ export function VocabBoardPanel({
           </div>
         )}
         {!compact && awards.length === 0 && !awardsUnavailable && status === "ready" && <p className="text-xs text-ink-300">{t.board.noRecent}</p>}
-        {status === "error" && <p className="text-xs text-band-bad" role="status">{dict.errors.unknown} <button type="button" className="underline" onClick={() => void refreshStanding()}>{dict.errorPage.retry}</button></p>}
+        {status === "error" && <p className="text-xs text-band-bad" role="status">{dict.errors.unknown} <button type="button" className="btn-secondary " onClick={() => void refreshStanding()}>{dict.errorPage.retry}</button></p>}
       </>}
     </div>
   );

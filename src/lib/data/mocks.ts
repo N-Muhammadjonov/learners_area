@@ -20,6 +20,9 @@ export async function getMockOverview(userId: string, courseSlug = "ielts") {
         finishedAt: mockAttempts.finishedAt,
         rawScore: mockAttempts.rawScore,
         estimatedBand: mockAttempts.estimatedBand,
+        // Copied into the attempt when it started, so history survives the mock.
+        snapshot: mockAttempts.mockSnapshot,
+        mockVersion: mockAttempts.mockVersion,
       })
       .from(mockAttempts)
       .where(eq(mockAttempts.userId, userId))
@@ -31,7 +34,7 @@ export async function getMockOverview(userId: string, courseSlug = "ielts") {
   const courseUnavailable = courseResult.status === "rejected";
   const attemptsUnavailable = attemptsResult.status === "rejected";
 
-  const attemptTestIds = [...new Set(attempts.map((attempt) => attempt.mockTestId))];
+  const attemptTestIds = [...new Set(attempts.map((attempt) => attempt.mockTestId).filter((id): id is string => id !== null))];
   const [testsResult, titlesResult] = await Promise.allSettled([
     course
       ? timed("mocks.entry.catalogue", () => db.query.mockTests.findMany({
@@ -56,7 +59,14 @@ export async function getMockOverview(userId: string, courseSlug = "ielts") {
     tests,
     attempts: attempts.map((attempt) => ({
       id: attempt.id,
-      title: titleById.get(attempt.mockTestId)?.title ?? null,
+      mockTestId: attempt.mockTestId,
+      mockVersion: attempt.mockVersion,
+      /**
+       * A mock that has since been removed leaves the attempt readable through its
+       * own snapshot rather than blanking the learner's history (§57).
+       */
+      skill: attempt.mockTestId ? titleById.get(attempt.mockTestId)?.skill ?? null : attempt.snapshot?.kind ?? null,
+      title: (attempt.mockTestId ? titleById.get(attempt.mockTestId)?.title : null) ?? attempt.snapshot?.title ?? null,
       startedAt: attempt.startedAt,
       finishedAt: attempt.finishedAt,
       rawScore: attempt.finishedAt ? attempt.rawScore : null,

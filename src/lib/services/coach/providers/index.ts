@@ -1,5 +1,8 @@
 import "server-only";
 import type { EvaluationProvider } from "../types";
+import { openAiProvider } from "./openai";
+import { anthropicProvider } from "./anthropic";
+import { compatibleProvidersFromEnv } from "./compatible";
 
 /**
  * Bundled provider adapters.
@@ -24,4 +27,12 @@ import type { EvaluationProvider } from "../types";
  * RIWI itself is not listed here — it is registered directly by the registry so
  * that it can never be un-registered or overridden by configuration.
  */
-export const bundledProviders: readonly EvaluationProvider[] = [];
+export const bundledProviders: readonly EvaluationProvider[] = [
+  // First-class vendor adapters (distinct APIs).
+  openAiProvider,
+  anthropicProvider,
+  // Generic chat-completions endpoints declared server-side in AI_COMPATIBLE_PROVIDERS
+  // (e.g. vendors that publish a compatible endpoint). Validated + SSRF-guarded.
+  // A compatible entry can never shadow a first-class adapter id.
+  ...compatibleProvidersFromEnv(process.env, [openAiProvider.id, anthropicProvider.id]),
+];

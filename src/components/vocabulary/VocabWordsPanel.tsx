@@ -1,4 +1,5 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useEffect, useMemo, useState } from "react";
 import type { Dictionary } from "@/lib/i18n/en";
@@ -148,7 +149,7 @@ export function VocabWordsPanel({
           {mapFiltered && (
             <button
               type="button"
-              className="text-xs text-signal-600 hover:underline"
+              className="btn-secondary "
               data-word-map-clear
               onClick={() => {
                 setStateFilter("all");
@@ -179,7 +180,7 @@ export function VocabWordsPanel({
                         : "border-ink-100 text-ink-700 hover:bg-paper-sunken"
                     }`}
                   >
-                    <span>{t.mastery[row.state]}</span>
+                    <span className="break-words">{t.mastery[row.state]}</span>
                     <span className="font-mono text-ink-500">{row.count}</span>
                   </button>
                 ))}
@@ -300,7 +301,7 @@ export function VocabWordsPanel({
                         <span className="mt-0.5 block text-xs text-ink-700">{word.translationUz}</span>
                       )}
                     </span>
-                    <span className="flex shrink-0 flex-wrap items-center gap-2">
+                    <span className="flex min-w-0 max-w-full shrink-0 flex-wrap items-center gap-2">
                       {word.sourceType && word.sourceType !== "manual" && (
                         <span className="badge bg-paper-sunken text-ink-500">{word.sourceType}</span>
                       )}
@@ -357,8 +358,8 @@ export function VocabWordsPanel({
 
 function Stat({ label, value, tone }: { label: string; value: number | string; tone?: "warn" }) {
   return (
-    <div className="card p-3">
-      <p className="text-xs uppercase tracking-wide text-ink-300">{label}</p>
+    <div className="card min-w-0 p-3">
+      <p className="break-words text-xs uppercase tracking-wide text-ink-300">{label}</p>
       <p className={`mt-1 font-display text-xl ${tone === "warn" ? "text-band-warn" : "text-ink-900"}`}>
         {value}
       </p>
@@ -397,6 +398,8 @@ function AddWords({
   packs: VocabPack[];
   onAdded: (result: AddResult) => void | Promise<void>;
 }) {
+  const requestResponse = useScopedResponse(25000);
+
   const t = dict.vocabulary;
   const [mode, setMode] = useState<"bulk" | "single">("bulk");
   const [bulk, setBulk] = useState("");
@@ -453,16 +456,16 @@ function AddWords({
     }
 
     setBusy(true);
-    const res = await fetch("/api/vocabulary", {
+    const res = await requestResponse("/api/vocabulary", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ items, folderId: folderId || null, sourceType: "manual" }),
     });
+    if (!res) return;
     setBusy(false);
 
     if (!res.ok) {
-      const payload = await res.json().catch(() => ({}));
-      setError(String((payload as { error?: string }).error ?? dict.errors.unknown));
+      setError(dict.errors.unknown);
       return;
     }
 
@@ -477,11 +480,12 @@ function AddWords({
 
   async function addPack(packId: string) {
     setPackBusy(packId);
-    const res = await fetch("/api/vocabulary/packs", {
+    const res = await requestResponse("/api/vocabulary/packs", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ packId }),
     });
+    if (!res) return;
     setPackBusy(null);
     if (!res.ok) {
       setError(dict.errors.unknown);
@@ -620,6 +624,8 @@ function Folders({
   onMoved: () => Promise<void>;
   words: VocabWord[];
 }) {
+  const requestResponse = useScopedResponse(25000);
+
   const t = dict.vocabulary;
   const [name, setName] = useState("");
   const [busy, setBusy] = useState(false);
@@ -631,11 +637,12 @@ function Folders({
     if (name.trim().length === 0) return;
     setBusy(true);
     setError(null);
-    const res = await fetch("/api/vocabulary/folders", {
+    const res = await requestResponse("/api/vocabulary/folders", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name: name.trim() }),
     });
+    if (!res) return;
     setBusy(false);
     if (!res.ok) {
       setError(dict.errors.unknown);
@@ -650,11 +657,12 @@ function Folders({
   async function move() {
     if (selected.length === 0) return;
     setBusy(true);
-    const res = await fetch("/api/vocabulary/folders", {
+    const res = await requestResponse("/api/vocabulary/folders", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ entryIds: selected, folderId: moveTarget || null }),
     });
+    if (!res) return;
     setBusy(false);
     if (res.ok) {
       setSelected([]);
@@ -764,7 +772,11 @@ function Folders({
                     picked ? current.filter((id) => id !== word.id) : [...current, word.id]
                   )
                 }
-                className={`rounded-sm border px-2 py-0.5 text-xs ${
+                // py-1, not py-0.5: with text-xs and a 1px border the chip measured 22px tall in
+                // real Chromium, below the WCAG 2.5.8 AA minimum of 24px for a touch target. The
+                // extra 2px of vertical padding is the smallest change that clears the floor; the
+                // picked/unpicked colours and the surrounding layout are untouched.
+                className={`rounded-sm border px-2 py-1 text-xs ${
                   picked
                     ? "border-signal-600 bg-signal-100 text-signal-700"
                     : "border-ink-100 text-ink-500 hover:text-ink-900"

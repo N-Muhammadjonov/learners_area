@@ -1,25 +1,12 @@
-import { BRAND, BRAND_HORIZONTAL, BRAND_MARK, brandLogoFor, type BrandLogoKind } from "@/lib/config/brand";
+import {
+  BRAND,
+  BRAND_MARK,
+  brandLogoFor,
+  type BrandLogoKind,
+} from "@/lib/config/brand";
 
-/**
- * The one component that renders approved Learners Area artwork.
- *
- * Every placement — sidebar, mobile drawer, auth pages, brand preview — goes
- * through here, so the asset paths live in `BrandConfig` and nowhere else.
- *
- * How the theme switch works, and why it is done this way:
- *
- *   Both supplied variants are rendered and the *theme* picks one in CSS
- *   (`[data-theme="night"]` is on `<html>`, set on the server before the first
- *   byte). That means the correct file is displayed on first paint with no
- *   hydration step, and toggling Day/Night swaps the artwork instantly without a
- *   round trip, a re-fetch or a moment where the image is missing. The artwork
- *   itself is never touched: no `filter: invert()`, no recolouring, no generated
- *   variant — the light theme shows the supplied light file, the dark theme shows
- *   the supplied dark file.
- *
- * Sizing: the height comes from the caller's classes, the width follows the real
- * aspect ratio (`w-auto`), and `object-contain` guarantees no stretching.
- */
+/** Theme-specific transparent marks; original presentation masters stay intact.
+ * CSS selects the variant on first paint without a hydration round trip. */
 export function BrandLogo({
   kind = "mark",
   className = "",
@@ -41,6 +28,29 @@ export function BrandLogo({
   decorative?: boolean;
 }) {
   const label = decorative ? "" : (alt ?? BRAND.siteName);
+  if (kind === "horizontal") {
+    return (
+      <span
+        className={`inline-flex items-center gap-3 ${className}`}
+        data-brand-logo={kind}
+        role={decorative ? undefined : "img"}
+        aria-label={decorative ? undefined : label}
+        aria-hidden={decorative || undefined}
+      >
+        <BrandLogo
+          kind="mark"
+          className="h-full shrink-0"
+          imgClassName={imgClassName}
+          eager={eager}
+          decorative
+        />
+        <span className="font-display text-2xl font-bold tracking-tight">
+          {BRAND.siteName}
+        </span>
+      </span>
+    );
+  }
+
   /*
    * Screen sizes come from the derivative table, not from the master. The mark
    * master is 1254px and about 1.3 MB; the file actually served is a 96px
@@ -48,13 +58,14 @@ export function BrandLogo({
    * and height mean the browser reserves the box before the image arrives, so
    * nothing on the page shifts when it loads.
    */
-  const sized =
-    kind === "mark" ? BRAND_MARK : kind === "horizontal" ? BRAND_HORIZONTAL : null;
+  const sized = kind === "mark" ? BRAND_MARK : null;
   const dayAsset = sized ? sized.day.src : brandLogoFor(kind, "day");
   const nightAsset = sized ? sized.night.src : brandLogoFor(kind, "night");
   const dayAsset2x = sized ? sized.day.src2x : undefined;
   const nightAsset2x = sized ? sized.night.src2x : undefined;
-  const intrinsic = sized ? { width: sized.day.width, height: sized.day.height } : {};
+  const intrinsic = sized
+    ? { width: sized.day.width, height: sized.day.height }
+    : {};
   const hidden = decorative ? (true as const) : undefined;
   const loading = eager ? ("eager" as const) : ("lazy" as const);
   /*
@@ -71,7 +82,10 @@ export function BrandLogo({
   // The master artwork is supplied once; there is no second variant to swap in.
   if (dayAsset === nightAsset) {
     return (
-      <span className={`inline-flex items-center ${className}`} data-brand-logo={kind}>
+      <span
+        className={`inline-flex items-center ${className}`}
+        data-brand-logo={kind}
+      >
         <img
           src={dayAsset}
           srcSet={dayAsset2x ? `${dayAsset} 1x, ${dayAsset2x} 2x` : undefined}
@@ -87,7 +101,10 @@ export function BrandLogo({
   }
 
   return (
-    <span className={`inline-flex items-center ${className}`} data-brand-logo={kind}>
+    <span
+      className={`inline-flex items-center ${className}`}
+      data-brand-logo={kind}
+    >
       <img
         src={dayAsset}
         srcSet={dayAsset2x ? `${dayAsset} 1x, ${dayAsset2x} 2x` : undefined}
@@ -100,12 +117,14 @@ export function BrandLogo({
       />
       <img
         src={nightAsset}
-        srcSet={nightAsset2x ? `${nightAsset} 1x, ${nightAsset2x} 2x` : undefined}
+        srcSet={
+          nightAsset2x ? `${nightAsset} 1x, ${nightAsset2x} 2x` : undefined
+        }
         alt={label}
         aria-hidden={hidden}
         loading={loading}
         decoding="async"
-        {...intrinsic}
+        {...(sized ? { width: sized.night.width, height: sized.night.height } : intrinsic)}
         className={`brand-asset-dark h-full w-auto object-contain ${imgClassName}`}
       />
     </span>

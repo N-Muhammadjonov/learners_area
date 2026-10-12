@@ -116,7 +116,7 @@ function withInteractionRuntime(child: React.ReactNode) {
     { value: router as never },
     React.createElement(
       PathnameContext.Provider,
-      { value: "/vocabulary" },
+      { value: "/app/vocabulary" },
       React.createElement(
         SearchParamsContext.Provider,
         { value: new URLSearchParams() },
@@ -272,14 +272,14 @@ test("a core Vocabulary library failure preserves the workspace and retries only
     await withRoot(withInteractionRuntime(React.createElement(VocabStudio, { dict: en, initialTab: "words", packs: [] })), async () => {
       await act(async () => new Promise((resolve) => setTimeout(resolve, 0)));
       assert.ok(query("[data-vocabulary-workspace]"));
-      assert.ok(query("[data-vocabulary-tabs]"));
+      assert.ok(query("[data-vocabulary-panel]"));
       assert.ok(query('[data-vocabulary-region-error="library"]'));
       assert.deepEqual(calls, { library: 1, summary: 1, folders: 1, board: 1 });
       await act(async () => query<HTMLButtonElement>('[data-region-retry="library"]').click());
       await act(async () => new Promise((resolve) => setTimeout(resolve, 0)));
       assert.deepEqual(calls, { library: 2, summary: 1, folders: 1, board: 1 });
       assert.ok(query('[data-vocabulary-region-error="library"]'));
-      assert.ok(query("[data-vocabulary-tabs]"));
+      assert.ok(query("[data-vocabulary-panel]"));
     });
   } finally {
     globalThis.fetch = originalFetch;
@@ -368,7 +368,7 @@ test("recent point history failure leaves the standing panel usable and retries 
 });
 
 test("Vocabulary route has no pre-frame DB data fanout; core library failures are local, authenticated, and paginated", () => {
-  const page = read("src/app/(app)/vocabulary/page.tsx");
+  const page = read("src/app/app/(shell)/vocabulary/page.tsx");
   const studio = read("src/components/vocabulary/VocabStudio.tsx");
   const libraryApi = read("src/app/api/vocabulary/route.ts");
   assert.match(page, /Promise\.all\(\[requireActiveUser\(\), getLocale\(\), searchParams\]\)/);

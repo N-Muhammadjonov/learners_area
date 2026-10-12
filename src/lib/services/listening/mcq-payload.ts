@@ -1,3 +1,4 @@
+import { mcqChoiceCorrect } from "@/lib/listening/mcq-choice";
 import type { listeningQuestions, listeningMcqSessions } from "@/db/schema";
 import {
   nextStep,
@@ -25,6 +26,7 @@ export type McqPayload = {
    * browser, decides when the student may see the menu.
    */
   options: string[] | null;
+  multiple: boolean | null;
   correctAnswer: string | null;
   explanation: string | null;
   outcome: "correct" | "incorrect" | null;
@@ -46,11 +48,12 @@ export function buildMcqPayload(session: Session, question: Question): McqPayloa
       reasoning: session.reasoning,
     },
     question: { id: question.id, order: question.order, questionText: question.questionText },
+    multiple: visible ? question.typeCode === "mcq_multi" : null,
     options: visible ? question.options ?? null : null,
-    correctAnswer: visible ? question.correctAnswer : null,
-    explanation: visible ? question.explanation : null,
+    correctAnswer: outcomeVisible(stage) ? question.correctAnswer : null,
+    explanation: outcomeVisible(stage) ? question.explanation : null,
     outcome: outcomeVisible(stage)
-      ? session.chosenAnswer === question.correctAnswer
+      ? mcqChoiceCorrect(session.chosenAnswer ?? "", question.correctAnswer, question.options ?? [], question.typeCode === "mcq_multi")
         ? "correct"
         : "incorrect"
       : null,

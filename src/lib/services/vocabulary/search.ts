@@ -1,3 +1,4 @@
+import { normalizeLexical } from "@/lib/text/lexical-normalize";
 /**
  * The long, student-scoped word search.
  *
@@ -28,7 +29,7 @@ export type SearchHit<T extends SearchableRow> = {
   score: number;
 };
 
-const normal = (value: string): string => value.toLowerCase().trim();
+const normal = (value: string): string => normalizeLexical(value);
 
 function words(term: string): string[] {
   return normal(term).split(/[\s\-/]+/).filter(Boolean);

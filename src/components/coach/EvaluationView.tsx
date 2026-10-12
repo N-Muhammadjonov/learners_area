@@ -1,18 +1,20 @@
+import Link from "next/link";
 import { Card } from "@/components/ui/Card";
 import { BandBadge } from "@/components/ui/Badge";
 import type { Dictionary } from "@/lib/i18n/en";
 import type { EvaluationRecord } from "@/lib/data/evaluations";
 import type { WeaknessCategory } from "@/lib/services/coach/schema";
+import { PUBLIC_CHECKED_BY, staffProvenanceLabel } from "@/lib/services/coach/attribution";
 
 /**
  * Renders a normalized Coach evaluation.
  *
  * Two rules are enforced by this component rather than by convention:
  *
- *  - The "Checked by …" label comes from `evaluation.checkedByName`, which was
- *    written from the provider metadata at evaluation time. It is never derived
- *    from current configuration, so the label cannot drift away from the truth
- *    when AI_PRIMARY_PROVIDER changes.
+ *  - Attribution has two audiences. Learners (the default) see only "Checked by
+ *    RIWI": no provider id, vendor, model, version or fallback source reaches
+ *    their HTML. `audience="staff"` adds the truthful stored provenance line
+ *    (actual provider, type, model, versions, fallback) for audit.
  *  - A criterion the evaluator could not judge (`limited`) is shown as "Not
  *    assessed" instead of a number. RIWI's speaking pronunciation entry is the
  *    live example: no pronunciation band is displayed because none exists.
@@ -21,11 +23,14 @@ export function EvaluationView({
   dict,
   evaluation,
   heading,
+  audience = "learner",
 }: {
   dict: Dictionary;
   evaluation: EvaluationRecord;
   heading?: string;
+  audience?: "learner" | "staff";
 }) {
+  const staff = audience === "staff";
   const t = dict.coach;
   const criterionLabel = (key: string): string => {
     const labels = t.criterionLabels as Record<string, string | undefined>;
@@ -47,7 +52,7 @@ export function EvaluationView({
   const hasBand = evaluation.overallEstimate !== null;
 
   return (
-    <div className="flex flex-col gap-4" data-evaluated-by={evaluation.providerId}>
+    <div className="flex flex-col gap-4" data-evaluated-by={staff ? evaluation.providerId : PUBLIC_CHECKED_BY}>
       <Card className="flex flex-col items-center gap-2 py-6 text-center">
         {hasBand ? (
           <>
@@ -74,7 +79,7 @@ export function EvaluationView({
         <Card className="bg-signal-100/40">
           <p className="text-xs text-signal-700">
             {t.fallbackNotice}
-            {evaluation.fallbackFrom ? ` (${evaluation.fallbackFrom})` : ""}
+            {staff && evaluation.fallbackFrom ? ` (${evaluation.fallbackFrom})` : ""}
           </p>
         </Card>
       )}
@@ -143,9 +148,9 @@ export function EvaluationView({
             {evaluation.recommendedExercises.map((exercise, index) => (
               <div key={`${exercise.label}-${index}`} className="flex flex-col">
                 {exercise.href ? (
-                  <a className="text-sm font-medium text-signal-700 underline" href={exercise.href}>
+                  <Link className="btn-secondary" href={exercise.href}>
                     {exercise.label}
-                  </a>
+                  </Link>
                 ) : (
                   <span className="text-sm font-medium text-ink-900">{exercise.label}</span>
                 )}
@@ -159,21 +164,17 @@ export function EvaluationView({
       <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-ink-300">
         <span>
           {heading ? `${heading} · ` : ""}
-          {t.versionInfo}: {evaluation.providerVersion}
-          {evaluation.model ? ` · ${evaluation.model}` : ""} · {t.processedIn}{" "}
-          {evaluation.processedInMs}ms
+          {staff ? (
+            <span data-staff-provenance>{staffProvenanceLabel(evaluation)} · </span>
+          ) : null}
+          {t.processedIn} {evaluation.processedInMs}ms
         </span>
         {/* The evaluator that actually produced this result. */}
         <span
           className="badge bg-signal-100 text-signal-700"
-          data-checked-by={evaluation.checkedByName}
-          title={
-            evaluation.providerType === "internal"
-              ? "Learners Area internal evaluator"
-              : "External provider"
-          }
+          data-checked-by={PUBLIC_CHECKED_BY}
         >
-          {t.checkedBy} {evaluation.checkedByName}
+          {t.checkedBy} {PUBLIC_CHECKED_BY}
         </span>
       </div>
     </div>

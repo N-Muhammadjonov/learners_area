@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import type { Dictionary } from "@/lib/i18n/en";
+import { useScopedRequest } from "@/lib/http/use-scoped-request";
+import { apiErrorMessage } from "@/lib/api-error-message";
 
 type ProduceResult = {
   verdict: string | null;
@@ -25,6 +27,7 @@ type ProduceResult = {
  */
 export function ProductionAnswer({ dict, exerciseId }: { dict: Dictionary; exerciseId: string }) {
   const t = dict.grammar;
+  const request = useScopedRequest();
   const [text, setText] = useState("");
   const [busy, setBusy] = useState(false);
   const [result, setResult] = useState<ProduceResult | null>(null);
@@ -33,18 +36,11 @@ export function ProductionAnswer({ dict, exerciseId }: { dict: Dictionary; exerc
   async function submit() {
     setBusy(true);
     setError(null);
-    const res = await fetch(`/api/grammar/exercises/${exerciseId}/produce`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ answer: text.trim() }),
-    });
+    const res = await request<Record<string, unknown>>(`/api/grammar/exercises/${exerciseId}/produce`, { body: { answer: text.trim() }, timeoutMs: 60_000 });
+    if (!res) return;
     setBusy(false);
-    if (!res.ok) {
-      const data = await res.json().catch(() => ({}));
-      setError(String(data.error ?? dict.speakingPractice.errors.unknown));
-      return;
-    }
-    const data = await res.json();
+    if (!res.ok) { setError(apiErrorMessage(res.error, res.status, dict)); return; }
+    const data = res.data as { verdict?: string; checkedBy?: string; structures?: { used?: string[]; missing?: string[] }; sampleAnswer?: string; explanation?: string; issues?: string[] };
     setResult({
       verdict: data.verdict ?? null,
       checkedBy: String(data.checkedBy ?? ""),
@@ -70,7 +66,7 @@ export function ProductionAnswer({ dict, exerciseId }: { dict: Dictionary; exerc
         disabled={busy}
         onChange={(e) => setText(e.target.value)}
       />
-      {error && <p className="text-xs text-band-bad">{error}</p>}
+      {error && <p role="alert" className="text-xs text-band-bad">{error}</p>}
       <div className="flex flex-wrap items-center gap-3">
         <Button
           variant="secondary"
@@ -95,7 +91,7 @@ export function ProductionAnswer({ dict, exerciseId }: { dict: Dictionary; exerc
           <p className="text-xs text-ink-300">
             {t.sampleAnswer}: {result.sampleAnswer}
           </p>
-          <p className="text-xs text-ink-500">{result.explanation}</p>
+          <p className="academic-text text-xs text-ink-500">{result.explanation}</p>
           {result.issues.length > 0 && (
             <ul className="list-inside list-disc text-xs text-ink-500">
               {result.issues.map((issue, index) => (

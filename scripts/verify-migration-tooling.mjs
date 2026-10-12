@@ -20,7 +20,7 @@ import { spawnSync } from "node:child_process";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
-import { mkdtempSync, writeFileSync, mkdirSync, copyFileSync, readFileSync } from "node:fs";
+import { mkdtempSync, writeFileSync, mkdirSync, copyFileSync, readFileSync, readdirSync } from "node:fs";
 import { tmpdir } from "node:os";
 
 const require = createRequire(import.meta.url);
@@ -102,12 +102,44 @@ try {
   check("xulosa: empty", /empty\s+the public schema holds no tables/.test(inspect.output));
   check("inspect hech narsa yozmagan", (await tableCount(empty)).tables === 0);
 
+/**
+ * How many tables the migration chain declares, derived from the SQL itself.
+ *
+ * A6. The expected table count used to be a literal (62) that went stale as the chain grew; 53
+ * migrations now declare 119 tables. Counting distinct CREATE TABLE names across drizzle/*.sql and
+ * subtracting anything later dropped keeps the check honest with no constant to maintain, and it
+ * reads the same files migrate-production.mjs applies — so a migration that declares a table the
+ * fresh apply does not produce is a real failure rather than a number to bump.
+ */
+function countDeclaredTables() {
+  const dir = join(ROOT, "drizzle");
+  const created = new Set();
+  const dropped = new Set();
+  for (const file of readdirSync(dir).filter((f) => f.endsWith(".sql")).sort()) {
+    const sql = readFileSync(join(dir, file), "utf8");
+    for (const m of sql.matchAll(/create table(?: if not exists)?\s+"?([a-z0-9_]+)"?/gi)) created.add(m[1].toLowerCase());
+    for (const m of sql.matchAll(/drop table(?: if exists)?\s+"?([a-z0-9_]+)"?/gi)) dropped.add(m[1].toLowerCase());
+  }
+  const net = [...created].filter((table) => !dropped.has(table));
+  // Refuse to check against zero: an empty derivation would make any empty database look correct.
+  if (net.length === 0) throw new Error("could not derive the declared table count from drizzle/*.sql");
+  return net.length;
+}
+
   const applied = run("migrate-production.mjs", empty, ["--apply", "--yes"]);
   check("qo'llash 2 bilan chiqadi (bajarildi)", applied.code === 2, `exit ${applied.code}`);
   const afterApply = await tableCount(empty);
-  // This number is the size of the release, not a magic constant: 19 migrations
-  // create 62 tables in a fresh database.
-  check(`62 jadval yaratildi`, afterApply.tables === 62, `${afterApply.tables} jadval`);
+  /*
+   * A6. This was `afterApply.tables === 62` with a comment calling 62 "the size of the release, not
+   * a magic constant" — but it WAS a constant, and it went stale: 53 migrations now create 119
+   * tables. The expectation is derived from the migration SQL itself instead, so it tracks the chain
+   * automatically. Counting distinct CREATE TABLE names (minus any DROP TABLE) is the property this
+   * check actually wants: applying every migration to an empty database must produce exactly the
+   * tables the migrations declare, no more and no fewer.
+   */
+  const declaredTables = countDeclaredTables();
+  check(`${declaredTables} jadval yaratildi`, afterApply.tables === declaredTables,
+    `${afterApply.tables} jadval yaratildi; migratsiyalarda ${declaredTables} ta e'lon qilingan`);
   check("users jadvali bor", afterApply.userRows === 0 && afterApply.tables > 0);
   check("migratsiya HECH QANDAY foydalanuvchi qo'shmadi", afterApply.userRows === 0, `${afterApply.userRows} qator`);
 
@@ -157,7 +189,10 @@ export default { schema: ${JSON.stringify(join(ROOT, "src", "db", "schema.ts"))}
   check("3 ta migratsiya qo'lda qo'llandi (tayyorgarlik)", partialMigrate.status === 0);
   const resumeRun = run("migrate-production.mjs", resume, ["--apply", "--yes"]);
   check("davom ettirish bajarildi (exit 2)", resumeRun.code === 2, `exit ${resumeRun.code}`);
-  check("xulosa: resume", /resume\s+3\/19 migrations are recorded/.test(resumeRun.output));
+  // The denominator is the chain length, not a literal: "3 of 19" went stale at 53 migrations and
+  // made a correct resume look like a failed one.
+  check("xulosa: resume", new RegExp(`resume\\s+3\\/${journal.entries.length} migrations are recorded`).test(resumeRun.output),
+    resumeRun.output.split("\n").find((l) => /resume/.test(l))?.trim().slice(0, 90) ?? "");
   const resumeVerify = run("verify-production-schema.mjs", resume);
   check("natija to'liq sxema", resumeVerify.code === 0 && /ALL CHECKS PASSED/.test(resumeVerify.output));
   check("davom ettirish ham foydalanuvchi qo'shmadi", (await tableCount(resume)).userRows === 0);

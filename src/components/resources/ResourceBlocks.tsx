@@ -19,9 +19,12 @@ export function ResourceBlocks({
   dict,
   blocks,
   title,
+  lexicalAssistance = true,
 }: {
   dict: Dictionary;
   blocks: ResourceBlockView[];
+  /** False inside an active exam (e.g. Academic Reading): material text is plain, no word lookup. */
+  lexicalAssistance?: boolean;
   title?: string;
 }) {
   if (blocks.length === 0) return null;
@@ -34,7 +37,7 @@ export function ResourceBlocks({
         {blocks.map((block) => (
           <li key={block.id} className="flex flex-col gap-1.5" data-resource-block={block.type}>
             {block.type === "text" && (
-              <ClickableText dict={dict} text={block.textContent ?? ""} sourceType="material" sourceId={block.id} className="text-sm leading-relaxed text-ink-700" />
+              <ClickableText dict={dict} text={block.textContent ?? ""} sourceType="material" sourceId={block.id} lexicalAssistance={lexicalAssistance} className="text-sm leading-relaxed text-ink-700" />
             )}
 
             {block.type === "link" && block.linkUrl && (
@@ -42,7 +45,7 @@ export function ResourceBlocks({
                 href={block.linkUrl}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-signal-600 hover:underline"
+                className="btn-secondary "
               >
                 <IconChevronRight className="text-[16px]" />
                 {block.originalName ?? t.openLink}
@@ -73,7 +76,7 @@ export function ResourceBlocks({
             {block.type === "file" && block.objectKey && (
               <a
                 href={`/api/resources/${block.objectKey}`}
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-signal-600 hover:underline"
+                className="btn-secondary "
               >
                 <IconChevronDown className="text-[16px]" />
                 {block.originalName} — {t.download}

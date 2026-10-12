@@ -1,7 +1,11 @@
-import { and, asc, count, desc, eq, gt, lte, ne } from "drizzle-orm";
+import { and, asc, count, desc, eq, gt, lte, ne, sql } from "drizzle-orm";
+import { streakFromDays } from "@/lib/progress/streak";
+import { PUBLIC_CHECKED_BY } from "@/lib/services/coach/attribution";
+import { TIMEZONE, tashkentDayKey } from "@/lib/time";
 import { getCourseRoadmap } from "@/lib/data/roadmap";
 import { isOpen, resolveState, type LessonState } from "@/lib/services/lessons/state";
 import { db } from "@/db/client";
+import { getAttemptTimeline } from "@/lib/data/attempt-timeline";
 import {
   onboardingProfiles,
   writingSubmissions,
@@ -16,26 +20,16 @@ import {
   courses,
 } from "@/db/schema";
 
-async function computeStreak(userId: string): Promise<number> {
-  const events = await db
-    .select({ createdAt: activityEvents.createdAt })
-    .from(activityEvents)
-    .where(eq(activityEvents.userId, userId))
-    .orderBy(desc(activityEvents.createdAt))
-    .limit(400);
+const STREAK_ZONE = sql.raw(`'${TIMEZONE.replace(/'/g, "")}'`);
 
-  const days = new Set(events.map((e) => e.createdAt.toISOString().slice(0, 10)));
-  let streak = 0;
-  const cursor = new Date();
-  // Allow "today not logged yet" to not zero out the streak.
-  if (!days.has(cursor.toISOString().slice(0, 10))) {
-    cursor.setDate(cursor.getDate() - 1);
-  }
-  while (days.has(cursor.toISOString().slice(0, 10))) {
-    streak += 1;
-    cursor.setDate(cursor.getDate() - 1);
-  }
-  return streak;
+async function computeStreak(userId: string): Promise<number> {
+  // Distinct active days in the centre's timezone, computed in SQL: a busy learner's
+  // many events per day can no longer push older streak days out of a row window.
+  const days = await db
+    .selectDistinct({ day: sql<string>`to_char((${activityEvents.createdAt} at time zone ${STREAK_ZONE})::date, 'YYYY-MM-DD')` })
+    .from(activityEvents)
+    .where(eq(activityEvents.userId, userId));
+  return streakFromDays(days.map((d) => d.day), tashkentDayKey(new Date()));
 }
 
 /**
@@ -50,32 +44,17 @@ export function getActivityStreak(userId: string): Promise<number> {
   return computeStreak(userId);
 }
 
+/**
+ * Where the student actually stopped.
+ *
+ * The cross-skill enumeration lives in ONE place — `getAttemptTimeline` (§AD) — so the
+ * dashboard cannot drift from the learner's history page: both ask the same projection,
+ * which reads the real attempt rows. Vocabulary is not an attempt, so it keeps its own
+ * probe and the two candidates are compared by when they happened.
+ */
 async function lastActivity(userId: string) {
-  const [writing, reading, listening, speaking, vocabulary] = await Promise.all([
-    db
-      .select({ at: writingSubmissions.updatedAt, id: writingSubmissions.id })
-      .from(writingSubmissions)
-      .where(eq(writingSubmissions.userId, userId))
-      .orderBy(desc(writingSubmissions.updatedAt))
-      .limit(1),
-    db
-      .select({ at: readingAttempts.startedAt, id: readingAttempts.id })
-      .from(readingAttempts)
-      .where(eq(readingAttempts.userId, userId))
-      .orderBy(desc(readingAttempts.startedAt))
-      .limit(1),
-    db
-      .select({ at: listeningAttempts.startedAt, id: listeningAttempts.id })
-      .from(listeningAttempts)
-      .where(eq(listeningAttempts.userId, userId))
-      .orderBy(desc(listeningAttempts.startedAt))
-      .limit(1),
-    db
-      .select({ at: speakingAttempts.createdAt, id: speakingAttempts.id })
-      .from(speakingAttempts)
-      .where(eq(speakingAttempts.userId, userId))
-      .orderBy(desc(speakingAttempts.createdAt))
-      .limit(1),
+  const [attempts, vocabulary] = await Promise.all([
+    getAttemptTimeline(userId, { kinds: ["writing", "reading", "listening", "speaking"], limit: 1 }),
     db
       .select({ at: userVocabulary.createdAt, id: userVocabulary.id })
       .from(userVocabulary)
@@ -85,15 +64,8 @@ async function lastActivity(userId: string) {
   ]);
 
   const candidates = [
-    writing[0] && { module: "writing" as const, at: writing[0].at, href: `/writing/submissions/${writing[0].id}` },
-    reading[0] && { module: "reading" as const, at: reading[0].at, href: `/reading/attempts/${reading[0].id}` },
-    listening[0] && {
-      module: "listening" as const,
-      at: listening[0].at,
-      href: `/listening/attempts/${listening[0].id}`,
-    },
-    speaking[0] && { module: "speaking" as const, at: speaking[0].at, href: "/speaking/history" },
-    vocabulary[0] && { module: "vocabulary" as const, at: vocabulary[0].at, href: "/vocabulary" },
+    ...attempts.map((entry) => ({ module: entry.kind, at: entry.occurredAt, href: entry.href })),
+    vocabulary[0] && { module: "vocabulary" as const, at: vocabulary[0].at, href: "/app/vocabulary" },
   ].filter(Boolean) as { module: string; at: Date; href: string }[];
 
   if (candidates.length === 0) return null;
@@ -126,7 +98,6 @@ export async function getDashboardData(userId: string) {
       .select({
         overallEstimate: evaluations.overallEstimate,
         weaknesses: evaluations.weaknesses,
-        checkedByName: evaluations.checkedByName,
       })
       .from(evaluations)
       .where(eq(evaluations.userId, userId))
@@ -171,7 +142,10 @@ export async function getDashboardData(userId: string) {
 
   return {
     profile: profileResult.status === "fulfilled" ? profileResult.value[0] ?? null : null,
-    latestEvaluation: latestEvaluationResult.status === "fulfilled" ? latestEvaluationResult.value[0] ?? null : null,
+    // Learner surface: public attribution only, never the stored provider identity.
+    latestEvaluation: latestEvaluationResult.status === "fulfilled" && latestEvaluationResult.value[0]
+      ? { ...latestEvaluationResult.value[0], checkedByName: PUBLIC_CHECKED_BY }
+      : null,
     vocabDueCount: countValue(vocabDueResult),
     streak: streakResult.status === "fulfilled" ? streakResult.value : null,
     writingAttempts: countValue(submissionCountResult),

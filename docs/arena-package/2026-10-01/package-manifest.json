@@ -1,0 +1,24 @@
+{
+  "productBaseline": "dd23e0a3e1d31bb1ac3e68ca7ca016b063905621",
+  "patchFiles": 23,
+  "pdfPages": 63,
+  "newOwnerScreenshots": 7,
+  "files": {
+    "arena-current-changes.patch": {
+      "bytes": 49580,
+      "sha256": "6e3fc30592e22b0883f074bfb076db3e66be72125c698d2b7ec4dc1863b303e0"
+    },
+    "Arena_visual_evidence_2026-10-01_v2.pdf": {
+      "bytes": 10655809,
+      "sha256": "8e0f0083728b457ce530dc7005a85b0f5eff70b43520300803ae065aae268651"
+    },
+    "Arena_implementation_and_acceptance_2026-10-01_v2.txt": {
+      "bytes": 335068,
+      "sha256": "bbb9e9e0d7138944bf746b1ad1033b61d73891f186ed353c44fb555f7585f476"
+    },
+    "ARENA_RESUME_2026-10-01.md": {
+      "bytes": 2784,
+      "sha256": "193c85a1f8176dcf7c1456a325794bec98f76fc152f4878c84ff92c6ef7d2ded"
+    }
+  }
+}

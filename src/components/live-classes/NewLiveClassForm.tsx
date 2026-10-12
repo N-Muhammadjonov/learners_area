@@ -1,12 +1,16 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea, Label } from "@/components/ui/Input";
 import type { Dictionary } from "@/lib/i18n/en";
+import { apiErrorMessage } from "@/lib/api-error-message";
 
 export function NewLiveClassForm({ dict }: { dict: Dictionary }) {
+  const requestResponse = useScopedResponse(25000);
+
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
@@ -26,7 +30,7 @@ export function NewLiveClassForm({ dict }: { dict: Dictionary }) {
         e.preventDefault();
         setPending(true);
         setError("");
-        const res = await fetch("/api/teacher/live-classes", {
+        const res = await requestResponse("/api/teacher/live-classes", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -37,6 +41,7 @@ export function NewLiveClassForm({ dict }: { dict: Dictionary }) {
             meetingUrl: meetingUrl || undefined,
           }),
         });
+    if (!res) return;
         setPending(false);
         if (res.ok) {
           setOpen(false);
@@ -47,30 +52,30 @@ export function NewLiveClassForm({ dict }: { dict: Dictionary }) {
           router.refresh();
         } else {
           const data = await res.json();
-          setError(data.error ?? "Could not save");
+          setError(apiErrorMessage(data.error, res.status, dict));
         }
       }}
     >
       <div>
-        <Label htmlFor="title">Title</Label>
+        <Label htmlFor="title">{dict.formCopy.title}</Label>
         <Input id="title" required value={title} onChange={(e) => setTitle(e.target.value)} />
       </div>
       <div>
-        <Label htmlFor="topic">Topic (optional)</Label>
+        <Label htmlFor="topic">{dict.formCopy.topicOptional}</Label>
         <Textarea id="topic" value={topic} onChange={(e) => setTopic(e.target.value)} className="min-h-[60px]" />
       </div>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <div>
-          <Label htmlFor="scheduledAt">Date & time</Label>
+          <Label htmlFor="scheduledAt">{dict.formCopy.dateTime}</Label>
           <Input id="scheduledAt" type="datetime-local" required value={scheduledAt} onChange={(e) => setScheduledAt(e.target.value)} />
         </div>
         <div>
-          <Label htmlFor="durationMinutes">Duration (min)</Label>
+          <Label htmlFor="durationMinutes">{dict.formCopy.durationMin}</Label>
           <Input id="durationMinutes" type="number" min={15} max={240} value={durationMinutes} onChange={(e) => setDurationMinutes(e.target.value)} />
         </div>
       </div>
       <div>
-        <Label htmlFor="meetingUrl">Meeting link (optional)</Label>
+        <Label htmlFor="meetingUrl">{dict.formCopy.meetingLinkOptional}</Label>
         <Input id="meetingUrl" type="url" placeholder="https://..." value={meetingUrl} onChange={(e) => setMeetingUrl(e.target.value)} />
       </div>
       {error && <p className="text-sm text-band-bad">{error}</p>}

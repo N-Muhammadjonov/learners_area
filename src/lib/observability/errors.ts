@@ -33,10 +33,18 @@ export function safeDatabaseDiagnostic(error: unknown): { errorClass: string; sq
 }
 
 export function safeErrorLabel(error: unknown): string {
-  if (typeof error !== "object" || error === null) return typeof error;
-  const name = (error as { name?: string }).name ?? "Error";
-  const code = (error as { code?: unknown }).code;
-  return typeof code === "string" && code ? `${name}/${code}` : name;
+  if (!error || typeof error !== "object") return "UnknownError";
+  const rawName = (error as { name?: unknown }).name;
+  const name = typeof rawName === "string" && /^[A-Za-z][A-Za-z0-9_]{0,63}$/.test(rawName) ? rawName : "Error";
+  const seen = new Set<unknown>();
+  let current: unknown = error;
+  for (let depth = 0; depth < 6 && current && typeof current === "object" && !seen.has(current); depth += 1) {
+    seen.add(current);
+    const record = current as { code?: unknown; cause?: unknown };
+    if (typeof record.code === "string" && /^[A-Z0-9_]{1,32}$/.test(record.code)) return `${name}/${record.code}`;
+    current = record.cause;
+  }
+  return name;
 }
 
 /** File, line and column of the first stack frame — never its arguments. */

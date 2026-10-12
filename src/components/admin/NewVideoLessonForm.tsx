@@ -1,9 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n/en";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
+import { apiErrorMessage } from "@/lib/api-error-message";
+
+import { parseTranscriptInput } from "@/lib/services/video/transcript";
+export { parseTranscript, parseTranscriptInput, type TranscriptInput } from "@/lib/services/video/transcript";
 
 /**
  * Authoring form for a public video lesson.
@@ -12,88 +17,110 @@ import { Input } from "@/components/ui/Input";
  * link explains itself (unsupported host, missing id, wrong shape) instead of
  * silently creating a lesson whose video will never play.
  *
- * Transcript and questions are pasted as plain text on purpose: the point is that
- * the text is AUTHORED here, not scraped. Each row is parsed on the client into
- * the structured shape the server expects, and the server validates it again.
+ * URL, title, notes and optional authored exercises serve both learning modes.
+ * Captions come from the provider player itself.
  */
 type LessonOption = { id: string; title: string };
 
 export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lessons: LessonOption[] }) {
   const t = dict.videoLessonAdmin;
-  const [lessonId, setLessonId] = useState(lessons[0]?.id ?? "");
+  const router = useRouter();
+  const submitting = useRef(false);
+  const activeRequest = useRef<AbortController | null>(null);
+  useEffect(() => () => {
+    const active = activeRequest.current;
+    activeRequest.current = null;
+    active?.abort();
+  }, []);
+  // Standalone by default: a TED / Podcast item never needs a roadmap lesson.
+  const [lessonId, setLessonId] = useState("");
   const [title, setTitle] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
   const [before, setBefore] = useState("");
   const [duration, setDuration] = useState("");
-  const [transcriptSource, setTranscriptSource] = useState("");
-  const [attribution, setAttribution] = useState("");
+  const [notes, setNotes] = useState("");
   const [transcriptText, setTranscriptText] = useState("");
+  const [transcriptSource, setTranscriptSource] = useState("authored");
+  const [vocabularyText, setVocabularyText] = useState("");
   const [questionsText, setQuestionsText] = useState("");
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<{ tone: "ok" | "bad"; text: string } | null>(null);
 
   async function submit(event: React.FormEvent) {
     event.preventDefault();
+    if (submitting.current) return;
+    const transcript = parseTranscriptInput(transcriptText);
+    if (transcript.kind === "mixed") {setMessage({tone: "bad", text: t.transcriptMixed}); return;}
+    const vocabulary = vocabularyText.trim() ? vocabularyText.trim().split(/\r?\n/).map(line => {
+      const [word = "", pos = "", def = "", uz = "", ex = ""] = line.split("||").map(part => part.trim());
+      return {word, pos, def, uz, ex};
+    }) : [];
+    if (vocabulary.some(entry => ![transcript.kind === "plain" ? transcript.text : transcript.kind === "timed" ? transcript.lines.map(line => line.text).join("\n") : "", notes].join("\n").includes(entry.ex) || !entry.ex)) {
+      setMessage({tone: "bad", text: t.vocabularyContextRequired}); return;
+    }
+    submitting.current = true;
     setBusy(true);
     setMessage(null);
 
+    const controller = new AbortController();
+    activeRequest.current = controller;
+    const deadline = window.setTimeout(() => controller.abort(), 12_000);
+    try {
     const res = await fetch("/api/admin/video-lessons", {
       method: "POST",
+      signal: controller.signal,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        lessonId,
+        lessonId: lessonId || null,
         title,
         videoUrl,
         beforeYouWatch: before || null,
         durationSeconds: duration ? Number(duration) : null,
-        transcriptSource: transcriptSource || null,
-        transcriptAttribution: attribution || null,
-        transcript: parseTranscript(transcriptText),
+        // Captions are supplied by the player; no transcript is scraped or invented.
+        transcriptSource: transcript.kind === "empty" ? null : transcriptSource,
+        transcriptAttribution: null,
+        transcript: transcript.kind === "timed" ? transcript.lines : null,
+        transcriptText: transcript.kind === "plain" ? transcript.text : null,
+        ...(vocabulary.length ? {vocabulary} : {}),
+        notes: notes.trim() || null,
+        // Both standalone and course items may carry authored exercises.
         questions: parseQuestions(questionsText),
       }),
     });
     const body = await res.json().catch(() => ({}));
-    setBusy(false);
+    if (activeRequest.current !== controller || controller.signal.aborted) return;
 
     if (res.ok) {
       setMessage({ tone: "ok", text: t.saved });
       setTitle("");
       setVideoUrl("");
       setBefore("");
-      setTranscriptText("");
-      setQuestionsText("");
+      setNotes("");
+      setQuestionsText(""); setTranscriptText(""); setVocabularyText("");
+      router.refresh();
       return;
     }
     const reason = body.reason as keyof typeof t.rejection | undefined;
     setMessage({
       tone: "bad",
-      text: (reason && t.rejection[reason]) ?? body.error ?? dict.common.error,
+      text: (reason && t.rejection[reason]) ?? apiErrorMessage(body.error, res.status, dict, {vocabulary_context_required: t.vocabularyContextRequired}),
     });
+    } catch {
+      if (activeRequest.current === controller) setMessage({ tone: "bad", text: dict.errors.unknown });
+    } finally {
+      window.clearTimeout(deadline);
+      if (activeRequest.current === controller) {
+        activeRequest.current = null;
+        submitting.current = false;
+        setBusy(false);
+      }
+    }
   }
 
-  if (lessons.length === 0) {
-    return <p className="text-sm text-ink-500">{t.none}</p>;
-  }
 
   return (
     <form onSubmit={submit} className="flex flex-col gap-3" data-video-admin-form>
       <p className="text-sm text-ink-600">{t.intro}</p>
-
-      <label className="flex flex-col gap-1 text-sm">
-        {t.lesson}
-        <select className="input" value={lessonId} onChange={(e) => setLessonId(e.target.value)} required>
-          {lessons.map((lesson) => (
-            <option key={lesson.id} value={lesson.id}>
-              {lesson.title}
-            </option>
-          ))}
-        </select>
-      </label>
-
-      <label className="flex flex-col gap-1 text-sm">
-        {t.videoTitle}
-        <Input value={title} onChange={(e) => setTitle(e.target.value)} required minLength={3} maxLength={200} />
-      </label>
 
       <label className="flex flex-col gap-1 text-sm">
         {t.videoUrl}
@@ -104,6 +131,54 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
           required
           data-video-url-input
         />
+      </label>
+
+      <label className="flex flex-col gap-1 text-sm">
+        {t.videoTitle}
+        <Input value={title} onChange={(e) => setTitle(e.target.value)} required minLength={3} maxLength={200} />
+      </label>
+
+      <label className="flex flex-col gap-1 text-sm">
+        {t.notes}
+        <textarea
+          className="input min-h-24"
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+          maxLength={4000}
+          data-video-notes-input
+        />
+        <span className="text-xs text-ink-500">{t.notesHelp}</span>
+      </label>
+
+
+      <label className="flex flex-col gap-1 text-sm">
+        {t.transcriptText}<textarea className="input min-h-28" value={transcriptText} onChange={e => setTranscriptText(e.target.value)} maxLength={20000} data-video-transcript-input />
+        <span className="text-xs text-ink-500">{t.transcriptTextHelp}</span>
+      </label>
+      {transcriptText.trim() && <label className="flex flex-col gap-1 text-sm">{t.transcriptSource}
+        <select className="input" value={transcriptSource} onChange={e => setTranscriptSource(e.target.value)}>
+          <option value="authored">{t.sourceAuthored}</option><option value="licensed">{t.sourceLicensed}</option><option value="permitted">{t.sourcePermitted}</option>
+        </select>
+      </label>}
+      <label className="flex flex-col gap-1 text-sm">{t.vocabulary}
+        <textarea className="input min-h-24" value={vocabularyText} onChange={e => setVocabularyText(e.target.value)} maxLength={20000} data-video-vocabulary-input />
+        <span className="text-xs text-ink-500">{t.vocabularyHelp}</span>
+      </label>
+
+      <label className="flex flex-col gap-1 text-sm">
+        {t.lessonOptional}
+        <select className="input" value={lessonId} onChange={(e) => {
+          const next = e.target.value;
+          setLessonId(next);
+
+        }} data-video-lesson-select>
+          <option value="">{t.standaloneOption}</option>
+          {lessons.map((lesson) => (
+            <option key={lesson.id} value={lesson.id}>
+              {lesson.title}
+            </option>
+          ))}
+        </select>
       </label>
 
       <label className="flex flex-col gap-1 text-sm">
@@ -122,32 +197,7 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
         />
       </label>
 
-      <label className="flex flex-col gap-1 text-sm">
-        {t.transcriptSource}
-        <select className="input max-w-64" value={transcriptSource} onChange={(e) => setTranscriptSource(e.target.value)}>
-          <option value="">{t.transcriptSourceNone}</option>
-          <option value="authored">authored</option>
-          <option value="licensed">licensed</option>
-          <option value="permitted">permitted</option>
-        </select>
-      </label>
 
-      <label className="flex flex-col gap-1 text-sm">
-        {t.transcriptAttribution}
-        <Input value={attribution} onChange={(e) => setAttribution(e.target.value)} maxLength={200} />
-      </label>
-
-      <label className="flex flex-col gap-1 text-sm">
-        {t.transcriptLines}
-        <textarea
-          className="input min-h-28 font-mono text-xs"
-          value={transcriptText}
-          onChange={(e) => setTranscriptText(e.target.value)}
-          placeholder={"0:12 Welcome to this talk.\n0:18 Today we look at two ideas."}
-          data-video-transcript-input
-        />
-        <span className="text-xs text-ink-500">{t.transcriptHelp}</span>
-      </label>
 
       <label className="flex flex-col gap-1 text-sm">
         {t.questions}
@@ -176,20 +226,6 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
       </div>
     </form>
   );
-}
-
-export function parseTranscript(text: string): { startSeconds: number; text: string }[] {
-  const lines: { startSeconds: number; text: string }[] = [];
-  for (const raw of text.split("\n")) {
-    const line = raw.trim();
-    if (!line) continue;
-    const match = line.match(/^(\d{1,2}):(\d{2})(?::(\d{2}))?\s+(.+)$/);
-    if (!match) continue;
-    const [, a, b, c, body] = match;
-    const seconds = c ? Number(a) * 3600 + Number(b) * 60 + Number(c) : Number(a) * 60 + Number(b);
-    lines.push({ startSeconds: seconds, text: body!.trim() });
-  }
-  return lines;
 }
 
 export function parseQuestions(

@@ -1,4 +1,5 @@
 import "server-only";
+import { APOSTROPHE_VARIANTS, normalizeLexical } from "@/lib/text/lexical-normalize";
 import { and, asc, or, isNull, ne, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { lexemes } from "@/db/schema";
@@ -87,7 +88,7 @@ export function hasDictionaryAdapter(): boolean {
 }
 
 function normalise(term: string): string {
-  return term.trim().replace(/\s+/g, " ").toLowerCase();
+  return normalizeLexical(term);
 }
 
 /**
@@ -142,7 +143,7 @@ export async function lookupCatalogue(term: string): Promise<LexicalEntry | null
   const rows = await db
     .select()
     .from(lexemes)
-    .where(and(sql`lower(${lexemes.term}) = ${wanted}`, or(isNull(lexemes.provenance), ne(lexemes.provenance, "user_provided"))))
+    .where(and(sql`translate(lower(${lexemes.term}), ${APOSTROPHE_VARIANTS}, ${"'".repeat(APOSTROPHE_VARIANTS.length)}) = ${wanted}`, or(isNull(lexemes.provenance), ne(lexemes.provenance, "user_provided"))))
     .orderBy(asc(lexemes.term))
     .limit(2);
   if (rows.length !== 1) return null;

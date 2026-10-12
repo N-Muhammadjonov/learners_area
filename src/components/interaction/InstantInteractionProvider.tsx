@@ -240,6 +240,16 @@ export function InstantInteractionProvider({
         recordImmediateInteraction("external", family);
         return;
       }
+      // A new click back to the current URL cancels the optimistic indicator.
+      // Next still owns the actual request/history; do not call replaceState.
+      if (navigation && target?.origin === window.location.origin &&
+        `${target.pathname}${target.search}` === currentLocation && event.button === 0 &&
+        !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey &&
+        anchor.target !== "_blank" && !anchor.hasAttribute("download")) {
+        setNavigation(null);
+        setStalledId(null);
+        return;
+      }
       const resolved = internalNavigationTarget(anchor.href, window.location.origin, currentLocation);
       if (resolved && event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey &&
         anchor.target !== "_blank" && !anchor.hasAttribute("download") && !anchor.hasAttribute("data-no-instant-navigation")) {
@@ -260,7 +270,7 @@ export function InstantInteractionProvider({
     if (submitsForm) return;
     const category = type ?? "local";
     recordImmediateInteraction(category, family);
-  }, [beginNavigation, currentLocation, recordImmediateInteraction]);
+  }, [beginNavigation, currentLocation, navigation, recordImmediateInteraction]);
 
   const onChangeCapture = useCallback((event: ChangeEvent<HTMLDivElement>) => {
     const target = event.target;

@@ -6,6 +6,7 @@ import {
   evaluationResultSchema,
   providerEvaluationOutputSchema,
   type EvaluationResult,
+  type WritingAnalysis,
   type EvaluationType,
   type ProviderCapability,
   type ProviderEvaluationOutput,
@@ -27,10 +28,21 @@ import {
 export type CoachEvaluationError =
   | "evaluation_unavailable"
   | "capability_unsupported"
-  | "invalid_evaluation";
+  | "invalid_evaluation"
+  /** fallback "none": the configured evaluator is RIWI or not installed. */
+  | "external_required";
+
+/**
+ * "riwi" (default): any external failure falls back to RIWI, as before.
+ * "none": an external result or nothing — Grade My Work must never present
+ * RIWI as AI. Other Coach features keep the default.
+ */
+export type ResolvePolicy = { fallback: "riwi" | "none" };
+
+export type ResolveExtras = { writingAnalysis?: WritingAnalysis };
 
 export type ResolveOutcome =
-  | { ok: true; result: EvaluationResult; attempts: ProviderAttempt[] }
+  | { ok: true; result: EvaluationResult; attempts: ProviderAttempt[]; extras: ResolveExtras }
   | { ok: false; error: CoachEvaluationError; attempts: ProviderAttempt[] };
 
 export type EvaluationRequest =
@@ -91,7 +103,7 @@ function sleep(ms: number): Promise<void> {
  * Telegram handle — only the text (or transcript) the task genuinely needs.
  */
 function externalContext(ctx: EvaluationContext, signal: AbortSignal): EvaluationContext {
-  return { userId: "external-anonymous", language: ctx.language, signal };
+  return { userId: "external-anonymous", language: ctx.language, signal, ...(ctx.model ? { model: ctx.model } : {}) };
 }
 
 async function invoke(
@@ -238,16 +250,22 @@ function buildResult(params: {
   fallbackUsed: boolean;
   fallbackFrom: string | null;
   processedInMs: number;
-}): EvaluationResult {
-  const { provider, output } = params;
+  input?: unknown;
+  /** The model actually used when the owner overrode the provider default. */
+  model?: string | null;
+}): { result: EvaluationResult; extras: ResolveExtras } {
+  const { provider } = params;
+  // The W7 analysis travels beside the result, never inside the strict row.
+  const { writingAnalysis, ...output } = params.output;
+  const versions = provider.versionsFor?.(params.evaluationType, params.input) ?? null;
   const meta = {
     providerId: provider.id,
     providerDisplayName: provider.displayName,
     providerType: provider.type,
     providerVersion: provider.version,
-    model: provider.model,
-    promptVersion: provider.promptVersion,
-    rubricVersion: provider.rubricVersion,
+    model: params.model ?? provider.model,
+    promptVersion: versions?.promptVersion ?? provider.promptVersion,
+    rubricVersion: versions?.rubricVersion ?? provider.rubricVersion,
   };
 
   const candidate: EvaluationResult = {
@@ -268,7 +286,7 @@ function buildResult(params: {
     // covered by tests; this is a last line of defence, not a normal path.
     throw new Error("coach_result_contract_violation");
   }
-  return parsed.data;
+  return { result: parsed.data, extras: writingAnalysis ? { writingAnalysis } : {} };
 }
 
 /**
@@ -289,9 +307,12 @@ function buildResult(params: {
 export async function resolveEvaluation(
   request: EvaluationRequest,
   ctx: EvaluationContext,
-  overrides?: Partial<CoachConfig>
+  overrides?: Partial<CoachConfig>,
+  policy: ResolvePolicy = { fallback: "riwi" },
 ): Promise<ResolveOutcome> {
-  const config: CoachConfig = { ...readCoachConfig(), ...overrides };
+  // Undefined override fields never erase configuration.
+  const defined = Object.fromEntries(Object.entries(overrides ?? {}).filter(([, value]) => value !== undefined)) as Partial<CoachConfig>;
+  const config: CoachConfig = { ...readCoachConfig(), ...defined };
   const capability = CAPABILITY_BY_TYPE[request.evaluationType];
   const attempts: ProviderAttempt[] = [];
   const evaluationId = crypto.randomUUID();
@@ -305,6 +326,10 @@ export async function resolveEvaluation(
   }
 
   // --- 2. RIWI is the configured evaluator -------------------------------
+  if ((primaryId === RIWI_PROVIDER_ID || !primary) && policy.fallback === "none") {
+    // External required: RIWI is not asked, so nothing can be mislabelled.
+    return { ok: false, error: "external_required", attempts };
+  }
   if (primaryId === RIWI_PROVIDER_ID || !primary) {
     // A configured provider that is not installed (typo, missing adapter,
     // removed dependency) is a configuration failure, not a silent success:
@@ -347,7 +372,7 @@ export async function resolveEvaluation(
     return {
       ok: true,
       attempts,
-      result: buildResult({
+      ...buildResult({
         evaluationId,
         evaluationType: request.evaluationType,
         provider: riwi.provider,
@@ -355,15 +380,17 @@ export async function resolveEvaluation(
         fallbackUsed: configuredButMissing,
         fallbackFrom: configuredButMissing ? primaryId : null,
         processedInMs: run.durationMs,
+        input: request.input,
       }),
     };
   }
 
   // --- 3. the configured external provider is attempted -------------------
+  const modelOverride = config.modelOverride ?? null;
   const externalRun = await runProvider(
     primary.provider,
     request,
-    ctx,
+    modelOverride ? { ...ctx, model: modelOverride } : ctx,
     config,
     capability,
     true
@@ -381,7 +408,7 @@ export async function resolveEvaluation(
     return {
       ok: true,
       attempts,
-      result: buildResult({
+      ...buildResult({
         evaluationId,
         evaluationType: request.evaluationType,
         provider: primary.provider,
@@ -389,6 +416,8 @@ export async function resolveEvaluation(
         fallbackUsed: false,
         fallbackFrom: null,
         processedInMs: externalRun.durationMs,
+        input: request.input,
+        model: modelOverride,
       }),
     };
   }
@@ -405,6 +434,9 @@ export async function resolveEvaluation(
   logAttempt(externalAttempt, request);
 
   // --- 4. automatic RIWI fallback ----------------------------------------
+  if (policy.fallback === "none") {
+    return { ok: false, error: "evaluation_unavailable", attempts };
+  }
   if (!riwi.provider.capabilities.includes(capability)) {
     return { ok: false, error: "capability_unsupported", attempts };
   }
@@ -434,7 +466,7 @@ export async function resolveEvaluation(
   return {
     ok: true,
     attempts,
-    result: buildResult({
+    ...buildResult({
       evaluationId,
       evaluationType: request.evaluationType,
       provider: riwi.provider,
@@ -442,6 +474,7 @@ export async function resolveEvaluation(
       fallbackUsed: true,
       fallbackFrom: primary.provider.id,
       processedInMs: externalRun.durationMs + fallbackRun.durationMs,
+      input: request.input,
     }),
   };
 }

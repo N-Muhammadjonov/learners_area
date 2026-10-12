@@ -1,11 +1,13 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
-import { useRef, useState } from "react";
+import { describeUploadError, uploadErrorMessage } from "@/lib/uploads/errors";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
 import { IconClose, IconChevronDown, IconAlert } from "@/components/ui/icons";
 import { acceptAttribute, maxBytesLabel } from "@/lib/validation/uploads";
-import { preflight, startUpload, type UploadState } from "@/lib/uploads/client";
+import { preflight, startUpload, type UploadState, type UploadHandle } from "@/lib/uploads/client";
 import { formatBytes } from "@/lib/uploads/format";
 import type { Dictionary } from "@/lib/i18n/en";
 
@@ -63,6 +65,8 @@ export function ResourceComposer({
   initial: ResourceBlockView[];
   title?: string;
 }) {
+  const requestResponse = useScopedResponse(25000);
+
   const t = dict.resources;
   const [blocks, setBlocks] = useState<Draft[]>(() =>
     [...initial]
@@ -91,6 +95,14 @@ export function ResourceComposer({
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropped, setDropped] = useState(false);
   const fileInput = useRef<HTMLInputElement>(null);
+  const alive = useRef(true);
+  const handles = useRef(new Map<string, UploadHandle>());
+  const generations = useRef(new Map<string, object>());
+  useEffect(() => {
+    alive.current = true;
+    const uploads = handles.current;
+    return () => {alive.current = false; for (const handle of uploads.values()) handle.cancel(); uploads.clear();};
+  }, []);
   // State, not a ref: the `accept` attribute is part of the rendered element, and
   // a ref would leave the picker filtering for the previously chosen kind.
   const [pickKind, setPickKind] = useState<"image" | "audio" | "file">("file");
@@ -119,6 +131,7 @@ export function ResourceComposer({
   }
 
   function remove(localId: string) {
+    generations.current.delete(localId); handles.current.get(localId)?.cancel(); handles.current.delete(localId);
     setBlocks((prev) => prev.filter((block) => block.localId !== localId));
     setState("idle");
   }
@@ -126,6 +139,8 @@ export function ResourceComposer({
   /** Upload one file through the real lifecycle, reporting real progress. */
   async function upload(file: File, kind: "image" | "audio" | "file", replaceId?: string) {
     const localId = replaceId ?? newId();
+    handles.current.get(localId)?.cancel();
+    const generation = {}; generations.current.set(localId, generation);
     setBlocks((prev) => {
       const draft: Draft = {
         localId,
@@ -144,6 +159,7 @@ export function ResourceComposer({
     setState("idle");
 
     function update(patch: Partial<Extract<Draft, { state: UploadState }>>) {
+      if (!alive.current || generations.current.get(localId) !== generation) return;
       setBlocks((prev) =>
         prev.map((block) =>
           block.localId === localId && "state" in block ? { ...block, ...patch } : block
@@ -155,7 +171,7 @@ export function ResourceComposer({
     // before a single byte moves, with the real limit in the message.
     const check = preflight(file, kind);
     if (!check.ok) {
-      update({ state: "failed", error: check.error });
+      update({ state: "failed", error: describeUploadError(check.error, dict.uploadErrors) });
       return;
     }
 
@@ -165,13 +181,16 @@ export function ResourceComposer({
       onState: (next) => update({ state: next }),
       onProgress: (progress) => update({ progress }),
     });
+    handles.current.set(localId, handle);
     const result = await handle.promise;
+    if (!alive.current || generations.current.get(localId) !== generation) return;
+    handles.current.delete(localId);
 
     if (result.ok) {
       update({ state: "complete", progress: 100, uploadId: result.uploadId, objectKey: result.objectKey });
     } else {
       // The file itself is kept, so "Retry" re-sends it without a re-pick.
-      update({ state: "failed", error: result.error });
+      update({ state: "failed", error: uploadErrorMessage(result.failure, dict.uploadErrors) });
     }
   }
 
@@ -197,11 +216,12 @@ export function ResourceComposer({
           };
         });
 
-      const res = await fetch(`/api/materials/${ownerType}/${ownerId}`, {
+      const res = await requestResponse(`/api/materials/${ownerType}/${ownerId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ blocks: payload }),
       });
+    if (!res) return;
       if (!res.ok) throw new Error(String(res.status));
       const data = (await res.json()) as { blocks: ResourceBlockView[] };
       // The server's answer is the truth: positions and metadata come back as stored.
@@ -423,7 +443,7 @@ export function ResourceComposer({
                       {t.uploadFailed}
                       <button
                         type="button"
-                        className="underline"
+                        className="btn-secondary "
                         data-composer-retry
                         onClick={() => void retry(block.localId)}
                       >
@@ -431,7 +451,7 @@ export function ResourceComposer({
                       </button>
                       <button
                         type="button"
-                        className="underline"
+                        className="btn-secondary "
                         onClick={() => remove(block.localId)}
                       >
                         {t.remove}

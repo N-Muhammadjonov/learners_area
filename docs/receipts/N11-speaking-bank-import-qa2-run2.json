@@ -1,0 +1,30 @@
+{
+  "at": "2026-10-01T11:19:33.887Z",
+  "mode": "apply",
+  "database": "learners_qa2",
+  "source": {
+    "sha256": "c12456756c73fe8ba7ee9e414e43c83ecc1c5e3a21b206e769c64f01e560b4b9",
+    "rows": 880
+  },
+  "inserted": 0,
+  "skippedExisting": 880,
+  "byPart": {
+    "part1": {
+      "rows": 285,
+      "uniqueIds": 285
+    },
+    "part2": {
+      "rows": 85,
+      "uniqueIds": 85
+    },
+    "part3": {
+      "rows": 510,
+      "uniqueIds": 510
+    }
+  },
+  "publication": {
+    "draft": 880,
+    "notDraft": 0
+  },
+  "boundary": "insert-only (ON CONFLICT DO NOTHING); rows land as draft; publishing is an owner action in Management"
+}

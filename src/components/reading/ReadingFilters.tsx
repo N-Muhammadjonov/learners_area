@@ -16,12 +16,15 @@ export function ReadingFilters({
   topics,
   types,
   current,
+  tab,
 }: {
   dict: Dictionary;
   topics: { code: string; count: number; label: string }[];
   types: { code: string; count: number; label: string }[];
   /** The filters as the server read them — no `useSearchParams` needed. */
   current: { status: string; topic: string; type: string; query: string };
+  /** Hub tab that owns the library; kept on every filter link. */
+  tab?: string;
 }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -75,7 +78,8 @@ export function ReadingFilters({
   }
 
   function hrefWith(next: Partial<{ status: string; topic: string; type: string; query: string }>) {
-    const search = new URLSearchParams();
+    // The library lives under a tab; every filter link keeps that tab.
+    const search = new URLSearchParams(tab ? { tab } : {});
     const merged = { ...current, ...next };
     if (merged.status) search.set("status", merged.status);
     if (merged.topic) search.set("topic", merged.topic);
@@ -237,7 +241,7 @@ export function ReadingFilters({
 
         {hasFilters && (
           <Link
-            href={pathname}
+            href={tab ? `${pathname}?tab=${tab}` : pathname}
             className="btn-ghost ml-auto h-[var(--control-h-sm)]"
             data-reading-reset
             replace

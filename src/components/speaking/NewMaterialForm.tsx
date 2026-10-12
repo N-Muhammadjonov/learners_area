@@ -1,5 +1,7 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
+import { describeUploadError } from "@/lib/uploads/errors";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
@@ -8,8 +10,9 @@ import { BlockComposer } from "./BlockComposer";
 import { PrimaryFileField, type PrimaryDraft } from "./PrimaryFileField";
 import { useBlockDrafts } from "./useBlockDrafts";
 import type { Dictionary } from "@/lib/i18n/en";
+import { apiErrorMessage } from "@/lib/api-error-message";
 
-type Category = "part1" | "part2" | "part3" | "general" | "shadowing" | "top_structures";
+type Category = "part1" | "part2" | "part3" | "general" | "top_structures";
 
 /**
  * Create a resource: primary file (or link) plus an ordered list of description
@@ -17,6 +20,8 @@ type Category = "part1" | "part2" | "part3" | "general" | "shadowing" | "top_str
  * creating is exactly what you see while editing.
  */
 export function NewMaterialForm({ dict }: { dict: Dictionary }) {
+  const requestResponse = useScopedResponse(25000);
+
   const router = useRouter();
   const t = dict.speaking;
   const [open, setOpen] = useState(false);
@@ -67,11 +72,12 @@ export function NewMaterialForm({ dict }: { dict: Dictionary }) {
             ref: { uploadId: primary.mode === "upload" ? primary.uploadId : undefined },
           };
 
-    const res = await fetch("/api/speaking/materials", {
+    const res = await requestResponse("/api/speaking/materials", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ category, title: title.trim(), primary: primaryPayload, blocks }),
     });
+    if (!res) return;
 
     setPending(false);
     if (res.ok) {
@@ -83,7 +89,7 @@ export function NewMaterialForm({ dict }: { dict: Dictionary }) {
       router.refresh();
     } else {
       const data = await res.json().catch(() => ({}));
-      setError(data.error ?? t.saveFailed);
+      setError(apiErrorMessage(data.error, res.status, dict));
     }
   }
 
@@ -104,7 +110,7 @@ export function NewMaterialForm({ dict }: { dict: Dictionary }) {
             value={category}
             onChange={(e) => setCategory(e.target.value as Category)}
           >
-            {(["part1", "part2", "part3", "general", "top_structures", "shadowing"] as const).map((c) => (
+            {(["part1", "part2", "part3", "general", "top_structures"] as const).map((c) => (
               <option key={c} value={c}>
                 {t.category[c]}
               </option>
@@ -136,7 +142,7 @@ export function NewMaterialForm({ dict }: { dict: Dictionary }) {
         <BlockComposer dict={dict} controller={controller} />
       </fieldset>
 
-      {error && <p className="text-sm text-band-bad">{error}</p>}
+      {error && <p className="text-sm text-band-bad">{describeUploadError(error, dict.uploadErrors)}</p>}
 
       <div className="flex flex-wrap gap-2">
         <Button type="submit" disabled={!canSubmit}>

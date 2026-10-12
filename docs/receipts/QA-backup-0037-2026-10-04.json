@@ -1,0 +1,21 @@
+{
+  "at": "2026-10-04T06:17:54.450Z",
+  "fingerprint": "a4e4e19c00742afea56b97be5aa601262fe445ddcf5b8c758dbd686bde03bbfb",
+  "serverIdentity": "d2ecefc6644a924472f61835fcd766aaed3fcbe493da5dcdb445241e8c0e9560",
+  "strictTlsVerified": true,
+  "productionTouched": false,
+  "scope": "public and drizzle application schema/data; excludes Supabase Auth/Storage and object storage",
+  "bytes": 327306,
+  "sha256": "a31404059fa357c565f676de59f6f92ed301ee3a297db5f97b70c2e7bb43b9af",
+  "restoreVerified": true,
+  "nativeRestoreVerified": true,
+  "nativeRestore": {
+    "at": "2026-10-04T06:18:37.851Z",
+    "engine": "native PostgreSQL 18.4",
+    "restoredTables": 98,
+    "restoredRows": 572,
+    "restoredConstraints": 922,
+    "allTableCountsMatch": true,
+    "isolatedLocalRestoreDatabaseDropped": true
+  }
+}

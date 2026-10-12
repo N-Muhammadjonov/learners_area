@@ -1,5 +1,6 @@
 "use client";
 
+import { privateResources } from "@/lib/client/private-resource";
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import type { Dictionary } from "@/lib/i18n/en";
@@ -56,21 +57,24 @@ export function VocabGamesPanel({
 
   useEffect(() => {
     const controller = new AbortController();
+    let active = true;
+    const deadline = window.setTimeout(() => controller.abort(), 12_000);
     setLoading(true);
     setLoadFailed(false);
     void fetch(`/api/vocabulary/games?${query}`, { signal: controller.signal })
       .then(async (res) => {
         const payload = await res.json().catch(() => null);
         if (!res.ok || !payload?.ok) throw new Error("game_set_unavailable");
+        if (!active) return;
         setSet(payload as GameSetResponse);
       })
-      .catch((error: unknown) => {
-        if (error instanceof Error && error.name === "AbortError") return;
+      .catch(() => {
+        if (!active) return;
         setSet(null);
         setLoadFailed(true);
       })
-      .finally(() => { if (!controller.signal.aborted) setLoading(false); });
-    return () => controller.abort();
+      .finally(() => { window.clearTimeout(deadline); if (active) setLoading(false); });
+    return () => { active = false; window.clearTimeout(deadline); controller.abort(); };
   }, [query]);
 
   const available = set?.total ?? 0;
@@ -86,7 +90,7 @@ export function VocabGamesPanel({
     if (setKey === "folder" && folderId) params.set("folderId", folderId);
     return params.toString();
   };
-  const hrefFor = (game: GameId) => `/vocabulary/games/${game}?${queryString()}`;
+  const hrefFor = (game: GameId) => `/app/vocabulary/games/${game}?${queryString()}`;
   const updateQuery = (next: { set?: GameSetKey; folderId?: string; topicPack?: string } = {}) => {
     const params = new URLSearchParams({ set: next.set ?? setKey });
     const nextSet = next.set ?? setKey;
@@ -94,12 +98,12 @@ export function VocabGamesPanel({
     const nextTopic = next.topicPack ?? topicPack;
     if (nextSet === "topic" && nextTopic) params.set("topicPack", nextTopic);
     if (nextSet === "folder" && nextFolder) params.set("folderId", nextFolder);
-    if (typeof window !== "undefined") window.history.replaceState(null, "", `/vocabulary/games?${params.toString()}`);
+    if (typeof window !== "undefined") window.history.replaceState(null, "", `/app/vocabulary/games?${params.toString()}`);
   };
 
   return (
     <div className="flex flex-col gap-4" data-games-library>
-      <Link href="/vocabulary" prefetch={false} className="btn-ghost w-fit" data-games-back-to-vocabulary>← {dict.nav.vocabulary}</Link>
+      <Link href="/app/vocabulary" prefetch={false} className="btn-ghost w-fit" data-games-back-to-vocabulary>← {dict.nav.vocabulary}</Link>
       <header>
         <h1 className="font-display text-2xl text-ink-900">{t.games.title}</h1>
         <p className="mt-1 text-sm text-ink-500">{t.games.hint}</p>
@@ -168,6 +172,7 @@ export function VocabGameView({
   const [loadedKey, setLoadedKey] = useState("");
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
+  const [retryToken, setRetryToken] = useState(0);
   const requestKey = [gameId, selectedSet, selectedSet === "folder" ? selectedFolder : "", selectedSet === "topic" ? selectedPack : ""].join("|");
   const currentSet = loadedKey === requestKey ? set : null;
   const isLoading = loading || loadedKey !== requestKey;
@@ -188,6 +193,8 @@ export function VocabGameView({
 
   useEffect(() => {
     const controller = new AbortController();
+    let active = true;
+    const deadline = window.setTimeout(() => controller.abort(), 12_000);
     const params = new URLSearchParams({ set: selectedSet, limit: "24", random: "1", game: gameId });
     if (selectedSet === "folder" && selectedFolder) params.set("folderId", selectedFolder);
     if (selectedSet === "topic" && selectedPack) params.set("topicPack", selectedPack);
@@ -198,17 +205,18 @@ export function VocabGameView({
       .then(async (res) => {
         const payload = await res.json().catch(() => null);
         if (!res.ok || !payload?.ok) throw new Error("game_set_unavailable");
+        if (!active) return;
         setSet(payload as GameSetResponse);
         setLoadedKey(requestKey);
       })
-      .catch((error: unknown) => {
-        if (error instanceof Error && error.name === "AbortError") return;
+      .catch(() => {
+        if (!active) return;
         setFailed(true);
         setLoadedKey(requestKey);
       })
-      .finally(() => { if (!controller.signal.aborted) setLoading(false); });
-    return () => controller.abort();
-  }, [gameId, selectedSet, selectedFolder, selectedPack, requestKey]);
+      .finally(() => { window.clearTimeout(deadline); if (active) setLoading(false); });
+    return () => { active = false; window.clearTimeout(deadline); controller.abort(); };
+  }, [gameId, selectedSet, selectedFolder, selectedPack, requestKey, retryToken]);
 
   const queryForBack = () => {
     const params = new URLSearchParams({ set: selectedSet });
@@ -228,7 +236,7 @@ export function VocabGameView({
 
   return (
     <div className="mx-auto flex w-full max-w-4xl flex-col gap-4" data-dedicated-game={gameId}>
-      <Link href={`/vocabulary/games?${queryForBack()}`} prefetch={false} className="btn-ghost w-fit" data-game-back>← {t.games.backToGames}</Link>
+      <Link href={`/app/vocabulary/games?${queryForBack()}`} prefetch={false} className="btn-ghost w-fit" data-game-back>← {t.games.backToGames}</Link>
       <header className="flex flex-wrap items-end justify-between gap-3">
         <div><h1 className="font-display text-2xl text-ink-900">{GAME_META[gameId].title(dict)}</h1><p className="mt-1 text-sm text-ink-500" data-game-source>{t.games.source}: {source}</p></div>
         {currentSet && <span className="text-xs text-ink-500">{currentSet.total} {t.packs.words}</span>}
@@ -271,11 +279,11 @@ export function VocabGameView({
         </p>
       </section>
       {isLoading && <p className="card p-4 text-sm text-ink-500" role="status">{dict.common.loading}</p>}
-      {currentFailed && <p className="card p-4 text-sm text-band-bad" role="alert">{t.games.loadError}</p>}
+      {currentFailed && <div className="card flex items-center gap-3 p-4 text-sm text-band-bad" role="alert"><p>{t.games.loadError}</p><button type="button" className="btn-secondary" onClick={() => setRetryToken((value) => value + 1)} data-game-load-retry>{dict.errorPage.retry}</button></div>}
       {!isLoading && !currentFailed && currentSet?.words.length === 0 && <p className="card p-4 text-sm text-ink-500" role="status" data-game-empty>{currentSet?.total ? t.games.noEligible : t.games.noWordsInSet}</p>}
       {!isLoading && !currentFailed && currentSet && currentSet.words.length > 0 && (
         <GameRequestContext.Provider value={context}>
-          {gameId === "cards" && <Flashcards key={gameViewKey} dict={dict} words={currentSet.words} sourceHeading={source} />}
+          {gameId === "cards" && <Flashcards key={gameViewKey} dict={dict} words={currentSet.words} sourceHeading={source} selfAssessments={currentSet.selfAssessments} />}
           {gameId === "choice" && <MultipleChoice key={gameViewKey} dict={dict} words={currentSet.words} />}
           {gameId === "match" && <MatchingPairs key={gameViewKey} dict={dict} words={currentSet.words} />}
           {gameId === "gap" && <FillTheGap key={gameViewKey} dict={dict} words={currentSet.words} />}
@@ -316,9 +324,19 @@ function shuffle<T>(items: T[]): T[] {
  */
 function useAnswer() {
   const request = useContext(GameRequestContext);
+  const requests = useRef(new Set<AbortController>());
+  useEffect(() => () => {
+    for (const controller of requests.current) controller.abort();
+    requests.current.clear();
+  }, []);
   return useCallback(
     async (entryId: string, submission: GameSubmission) => {
+      const controller = new AbortController();
+      requests.current.add(controller);
+      const deadline = window.setTimeout(() => controller.abort(), 12_000);
+      try {
       const res = await fetch("/api/vocabulary/games", {
+        signal: controller.signal,
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -331,14 +349,31 @@ function useAnswer() {
         }),
       }).catch(() => null);
       if (!res?.ok) return null;
+      // A verified answer can change mastery; drop only vocabulary snapshots.
+      privateResources.invalidate("vocabulary:");
       const result = await res.json().catch(() => null) as { awarded?: number; correct?: boolean; verified?: boolean } | null;
       if (result && typeof result.awarded === "number" && result.awarded > 0) {
         window.dispatchEvent(new Event("vocab:ledger-changed"));
       }
-      return result;
+      return controller.signal.aborted ? null : result;
+      } finally {
+        window.clearTimeout(deadline);
+        requests.current.delete(controller);
+      }
     },
     [request],
   );
+}
+
+/** Feedback hold belongs to the current item, never a detached global timer. */
+function useGameAutoAdvance(checked: boolean | null, item: number, advance: () => void) {
+  const latest = useRef(advance);
+  latest.current = advance;
+  useEffect(() => {
+    if (checked === null) return;
+    const timer = window.setTimeout(() => latest.current(), checked ? 950 : 1700);
+    return () => window.clearTimeout(timer);
+  }, [checked, item]);
 }
 
 function GameFrame({
@@ -347,7 +382,9 @@ function GameFrame({
   hint,
   counter,
   children,
+  compact = false,
 }: {
+  compact?: boolean;
   dict: Dictionary;
   title: string;
   hint: string;
@@ -355,7 +392,7 @@ function GameFrame({
   children: React.ReactNode;
 }) {
   return (
-    <div className="card flex flex-col gap-3 p-4">
+    <div className={`card flex flex-col gap-3 p-4 ${compact ? "game-frame--compact" : ""}`} data-game-frame>
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h2 className="text-sm font-medium text-ink-900">{title}</h2>
         <span className="text-xs text-ink-500">{counter}</span>
@@ -429,12 +466,19 @@ function ResultBanner({
 // 1. Flashcards — definition first, side queue, separate assessment and navigation
 // ---------------------------------------------------------------------------
 
-function Flashcards({ dict, words, sourceHeading }: { dict: Dictionary; words: GameWord[]; sourceHeading: string }) {
+function Flashcards({ dict, words, sourceHeading, selfAssessments }: {
+  dict: Dictionary;
+  words: GameWord[];
+  sourceHeading: string;
+  selfAssessments?: Record<string, "known" | "notYet">;
+}) {
   const t = dict.vocabulary;
   const [deck, setDeck] = useState(() => shuffle(words).slice(0, 10));
   const [index, setIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
-  const [marks, setMarks] = useState<Record<string, "known" | "notYet">>({});
+  // Seeded from the server's read-back of the recorded self-assessments: the
+  // marks are durable practice state, so a reload keeps Learned / Not yet.
+  const [marks, setMarks] = useState<Record<string, "known" | "notYet">>(() => ({ ...(selfAssessments ?? {}) }));
   const [marking, setMarking] = useState<"known" | "notYet" | null>(null);
   const [pass, setPass] = useState(1);
   const timers = useRef<number[]>([]);
@@ -508,7 +552,7 @@ function Flashcards({ dict, words, sourceHeading }: { dict: Dictionary; words: G
         </div>
       </header>
 
-      <div className="flashcard-layout grid min-w-0 items-start gap-4 md:grid-cols-[minmax(200px,220px)_minmax(0,1fr)]" data-flashcard-layout>
+      <div className="flashcard-layout grid min-w-0 items-start gap-4" data-flashcard-layout>
         <aside className="flashcard-queue" aria-label={t.games.queue} data-flashcard-queue>
           <div className="flashcard-queue-heading">
             <strong>{t.games.queue}</strong>
@@ -534,6 +578,7 @@ function Flashcards({ dict, words, sourceHeading }: { dict: Dictionary; words: G
                 className="flashcard-3d-card"
                 data-flashcard={flipped ? "answer" : "definition"}
                 data-flipped={flipped ? "true" : "false"}
+                data-card-motion="full"
                 data-marking={marking ?? undefined}
                 aria-label={`${t.games.progress} ${index + 1} ${t.games.of} ${deck.length}. ${cardSideLabel}. ${flipped ? current.term : current.definitionEn}`}
                 aria-roledescription={t.games.flashcardRole}
@@ -595,6 +640,10 @@ function Flashcards({ dict, words, sourceHeading }: { dict: Dictionary; words: G
 // 2. Multiple choice — the definition is the prompt, four words are the options
 // ---------------------------------------------------------------------------
 
+/** How long the verdict stays on screen before the next prompt, per outcome. */
+const MCQ_CORRECT_HOLD_MS = 900;
+const MCQ_WRONG_HOLD_MS = 1800;
+
 function MultipleChoice({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
   const t = dict.vocabulary;
   const [deck] = useState(() => shuffle(words).slice(0, 10));
@@ -602,6 +651,7 @@ function MultipleChoice({ dict, words }: { dict: Dictionary; words: GameWord[] }
   const [picked, setPicked] = useState<string | null>(null);
   const [correct, setCorrect] = useState(0);
   const answer = useAnswer();
+  const advanceTimer = useRef<number | null>(null);
 
   const current = deck[index];
   const options = useMemo(() => {
@@ -612,12 +662,34 @@ function MultipleChoice({ dict, words }: { dict: Dictionary; words: GameWord[] }
     return shuffle([current.term, ...others]);
   }, [current, words]);
 
+  useEffect(() => () => {
+    if (advanceTimer.current !== null) window.clearTimeout(advanceTimer.current);
+  }, []);
+
+  /**
+   * Move on. Called automatically after the verdict has been readable for long
+   * enough, and by the Next button — whichever comes first cancels the other, so
+   * a question can never advance twice or be scored twice.
+   */
+  function advance() {
+    if (advanceTimer.current !== null) {
+      window.clearTimeout(advanceTimer.current);
+      advanceTimer.current = null;
+    }
+    setPicked(null);
+    setIndex((value) => value + 1);
+  }
+
   function choose(option: string) {
     if (picked || !current) return;
     setPicked(option);
     const isRight = normalizeAnswer(option) === normalizeAnswer(current.term);
     if (isRight) setCorrect((value) => value + 1);
+    // One submission per question: the options are disabled and the timer only
+    // schedules the next prompt, never another answer.
     void answer(current.id, { kind: "spelling", text: option });
+    // A miss holds longer, because the learner has to read the right answer.
+    advanceTimer.current = window.setTimeout(advance, isRight ? MCQ_CORRECT_HOLD_MS : MCQ_WRONG_HOLD_MS);
   }
 
   if (!current) {
@@ -673,18 +745,11 @@ function MultipleChoice({ dict, words }: { dict: Dictionary; words: GameWord[] }
         })}
       </div>
       {picked && (
-        <div className="flex flex-wrap items-center justify-between gap-2">
+        <div className="flex flex-wrap items-center justify-between gap-2" data-mcq-feedback role="status" aria-live="polite">
           <span className="text-xs text-ink-500">
             {normalizeAnswer(picked) === normalizeAnswer(current.term) ? t.games.score : t.games.wrongAnswer}: {current.term}
           </span>
-          <button
-            type="button"
-            className="btn-secondary"
-            onClick={() => {
-              setPicked(null);
-              setIndex((value) => value + 1);
-            }}
-          >
+          <button type="button" className="btn-secondary" data-mcq-next onClick={advance}>
             {t.games.next}
           </button>
         </div>
@@ -821,6 +886,10 @@ function FillTheGap({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
   const answer = useAnswer();
 
   const current = deck[index];
+  const advance = useCallback(() => {
+    setValue(""); setChecked(null); setHint(false); setIndex((row) => row + 1);
+  }, []);
+  useGameAutoAdvance(checked, index, advance);
   const gapText = useMemo(() => {
     if (!current) return "";
     if (!current.exampleSentence) return current.definitionEn;
@@ -831,7 +900,7 @@ function FillTheGap({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
   }, [current]);
 
   function check() {
-    if (!current || checked !== null) return;
+    if (!current || checked !== null || !value.trim()) return;
     const isRight = gradeSpelling(current, value);
     setChecked(isRight);
     if (isRight) setCorrect((row) => row + 1);
@@ -841,7 +910,7 @@ function FillTheGap({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
   if (!current) {
     return (
       <GameFrame dict={dict} title={t.games.gap} hint={t.games.gapHint} counter={`${correct}`}>
-        <ResultBanner dict={dict} correct={correct} total={deck.length} onAgain={() => { setIndex(0); setValue(""); setChecked(null); setCorrect(0); }} />
+        <ResultBanner dict={dict} correct={correct} total={deck.length} onAgain={() => { setIndex(0); setValue(""); setChecked(null); setCorrect(0); setHint(false); }} />
       </GameFrame>
     );
   }
@@ -862,10 +931,11 @@ function FillTheGap({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
           placeholder={t.games.typeAnswer}
           aria-label={t.games.gap}
           value={value}
+          readOnly={checked !== null}
           onChange={(event) => setValue(event.target.value)}
           onKeyDown={(event) => event.key === "Enter" && check()}
         />
-        <button type="button" className="btn-primary" disabled={checked !== null} onClick={check}>
+        <button type="button" className="btn-primary" disabled={checked !== null || !value.trim()} onClick={check}>
           {t.games.check}
         </button>
         <button type="button" className="btn-ghost text-xs" onClick={() => setHint(true)}>
@@ -885,12 +955,7 @@ function FillTheGap({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
           <button
             type="button"
             className="btn-secondary"
-            onClick={() => {
-              setValue("");
-              setChecked(null);
-              setHint(false);
-              setIndex((row) => row + 1);
-            }}
+            onClick={advance}
           >
             {t.games.next}
           </button>
@@ -918,6 +983,7 @@ function TypingRace({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
   const [elapsed, setElapsed] = useState(0);
   const [status, setStatus] = useState<null | "checking" | "correct" | "incorrect" | "skipped" | "unverified">(null);
   const [finished, setFinished] = useState(false);
+  const [litCount, setLitCount] = useState(0);
   const [stats, setStats] = useState({ correct: 0, incorrect: 0, skipped: 0, unverified: 0, typedCharacters: 0, totalSeconds: 0 });
   const [records, setRecords] = useState<{ term: string; seconds: number; outcome: string }[]>([]);
   const answer = useAnswer();
@@ -998,6 +1064,7 @@ function TypingRace({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
     setTicker(Date.now());
     setElapsed(0);
     setStatus(null);
+    setLitCount(0);
     submitting.current = false;
   }, [status, index, deck.length]);
 
@@ -1009,6 +1076,7 @@ function TypingRace({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
     setTicker(Date.now());
     setElapsed(0);
     setStatus(null);
+    setLitCount(0);
     setFinished(false);
     setStats({ correct: 0, incorrect: 0, skipped: 0, unverified: 0, typedCharacters: 0, totalSeconds: 0 });
     setRecords([]);
@@ -1020,22 +1088,36 @@ function TypingRace({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
   }, [index, status, finished, current]);
 
   const resolved = status !== null && status !== "checking";
+  const boxCount = Math.max([...(current?.term.replace(/\s/g, "") ?? "")].length, typedLetters.length, 1);
+  const stepMs = Math.max(16, Math.min(65, Math.floor(650 / boxCount)));
+  useEffect(() => {
+    if (!resolved || finished) { setLitCount(0); return; }
+    // Colour verdicts are delivered one character at a time. This is sequencing,
+    // not spatial motion: reduced-motion CSS still removes colour transitions.
+    setLitCount(0);
+    let count = 0;
+    const timer = window.setInterval(() => {
+      count += 1; setLitCount(count);
+      if (count >= boxCount) window.clearInterval(timer);
+    }, stepMs);
+    return () => window.clearInterval(timer);
+  }, [resolved, index, finished, boxCount, stepMs]);
   useEffect(() => {
     if (!resolved || finished) return;
-    const delay = status === "incorrect" || status === "skipped" || status === "unverified" ? 1450 : 950;
+    const delay = boxCount * stepMs + (status === "correct" ? 750 : 1400);
     const timeout = window.setTimeout(advance, delay);
     return () => window.clearTimeout(timeout);
-  }, [resolved, status, index, finished, deck.length, advance]);
+  }, [resolved, status, index, finished, deck.length, advance, boxCount, stepMs]);
 
   if (deck.length === 0) {
-    return <GameFrame dict={dict} title={t.games.race} hint={t.games.raceHint} counter="0 / 0"><p className="text-sm text-ink-500">{t.games.noEligible}</p></GameFrame>;
+    return <GameFrame compact dict={dict} title={t.games.race} hint={t.games.raceHint} counter="0 / 0"><p className="text-sm text-ink-500">{t.games.noEligible}</p></GameFrame>;
   }
 
   if (finished) {
     return (
-      <GameFrame dict={dict} title={t.games.race} hint={t.games.raceHint} counter={`${stats.correct} / ${deck.length}`}>
+      <GameFrame compact dict={dict} title={t.games.race} hint={t.games.raceHint} counter={`${stats.correct} / ${deck.length}`}>
         <section data-race-results aria-labelledby="race-results-title" className="flex flex-col gap-3">
-          <h3 id="race-results-title" className="text-base font-medium text-ink-900">{t.games.result}</h3>
+          <h3 id="race-results-title" className="game-display text-base font-medium text-ink-900">{t.games.result}</h3>
           <dl className="grid grid-cols-2 gap-2 sm:grid-cols-3">
             <RaceMetric label={t.games.correctCount} value={`${stats.correct} / ${deck.length}`} />
             <RaceMetric label={t.games.accuracy} value={accuracy === null ? "—" : `${accuracy}%`} />
@@ -1057,8 +1139,6 @@ function TypingRace({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
   if (!current) return null;
   const groups = current.term.split(/\s+/).filter(Boolean);
   const expectedCharacters = [...current.term.replace(/\s/g, "")];
-  const animationCharacterCount = Math.max(expectedCharacters.length, typedLetters.length, 1);
-  const characterDelayMs = Math.min(35, 600 / animationCharacterCount);
   let offset = 0;
 
   const sourceTypeLabel = current.sourceType
@@ -1066,7 +1146,7 @@ function TypingRace({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
     : undefined;
 
   return (
-    <GameFrame dict={dict} title={t.games.race} hint={t.games.raceHint} counter={`${t.games.raceProgress} ${index + 1} / ${deck.length} · ${t.games.itemTime}: ${formatRaceTime(liveElapsed)}`}>
+    <GameFrame compact dict={dict} title={t.games.race} hint={t.games.raceHint} counter={`${t.games.raceProgress} ${index + 1} / ${deck.length} · ${t.games.itemTime}: ${formatRaceTime(liveElapsed)}`}>
       <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-ink-500">
         <span>{t.games.score}: {stats.correct}</span>
         <span>{t.games.accuracy}: {accuracy === null ? "—" : `${accuracy}%`}</span>
@@ -1087,17 +1167,18 @@ function TypingRace({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
               const charIndexInAnswer = thisOffset + charIndex;
               const entered = typedLetters[charIndexInAnswer];
               const expected = expectedCharacters[charIndexInAnswer];
-              const verdictClass = status === "correct" ? "race-answer-box--correct"
+              const verdictClass = charIndexInAnswer >= litCount ? "" : status === "correct" ? "race-answer-box--correct"
                 : status === "incorrect" ? "race-answer-box--incorrect" : "";
               const shown = entered ?? (status === "skipped" || status === "unverified" ? expected : "");
-              return <span key={charIndex} className={`race-answer-box ${verdictClass}`} style={{ transitionDelay: resolved ? `${Math.round(charIndexInAnswer * characterDelayMs)}ms` : "0ms" }}>{shown ?? ""}</span>;
+              return <span key={charIndex} className={`race-answer-box ${verdictClass}`} data-race-lit={charIndexInAnswer < litCount ? "true" : "false"}>{shown ?? ""}</span>;
             })}
           </span>;
         })}
         {typedLetters.slice(expectedCharacters.length).map((character, extraIndex) => (
-          <span key={`extra-${extraIndex}`} className={`race-answer-box ${status === "incorrect" ? "race-answer-box--incorrect" : ""}`} style={{ transitionDelay: resolved ? `${Math.round((expectedCharacters.length + extraIndex) * characterDelayMs)}ms` : "0ms" }}>{character}</span>
+          <span key={`extra-${extraIndex}`} className={`race-answer-box ${status === "incorrect" && expectedCharacters.length + extraIndex < litCount ? "race-answer-box--incorrect" : ""}`} data-race-lit={expectedCharacters.length + extraIndex < litCount ? "true" : "false"}>{character}</span>
         ))}
       </div>
+      <div className="race-feedback-slot">
       {status === "checking" && <p role="status" aria-live="polite" className="text-sm text-ink-500" data-race-checking>{dict.common.loading}</p>}
       {resolved && (
         <div
@@ -1118,6 +1199,7 @@ function TypingRace({ dict, words }: { dict: Dictionary; words: GameWord[] }) {
           <p className="mt-1 text-xs text-ink-500">{t.games.itemTime}: {formatRaceTime(elapsed)}</p>
         </div>
       )}
+      </div>
       <label className="sr-only" htmlFor="typing-race-answer">{t.games.raceInputLabel}</label>
       <input ref={inputRef} id="typing-race-answer" className="input" data-race-input placeholder={t.games.typeAnswer} aria-describedby="race-answer-help" aria-invalid={status === "incorrect"} value={value} readOnly={status !== null} maxLength={300} autoComplete="off" autoCapitalize="off" spellCheck={false} onChange={(event) => startIfRealCharacter(event.target.value)} onKeyDown={(event) => {
         if (event.key === "Enter") {
@@ -1156,6 +1238,10 @@ function TranslationChallenge({ dict, words }: { dict: Dictionary; words: GameWo
   const answer = useAnswer();
 
   const current = deck[index];
+  const advance = useCallback(() => {
+    setValue(""); setChecked(null); setIndex((row) => row + 1);
+  }, []);
+  useGameAutoAdvance(checked, index, advance);
 
   /**
    * Every answer the centre accepts, plus the term itself. A wrong answer shows
@@ -1171,7 +1257,7 @@ function TranslationChallenge({ dict, words }: { dict: Dictionary; words: GameWo
   }
 
   function check() {
-    if (!current || checked !== null) return;
+    if (!current || checked !== null || !value.trim()) return;
     const isRight = gradeSpelling(current, value);
     setChecked(isRight);
     if (isRight) setCorrect((row) => row + 1);
@@ -1207,10 +1293,11 @@ function TranslationChallenge({ dict, words }: { dict: Dictionary; words: GameWo
           value={value}
           autoCapitalize="off"
           spellCheck={false}
+          readOnly={checked !== null}
           onChange={(event) => setValue(event.target.value)}
           onKeyDown={(event) => event.key === "Enter" && check()}
         />
-        <button type="button" className="btn-primary" disabled={checked !== null} onClick={check}>
+        <button type="button" className="btn-primary" disabled={checked !== null || !value.trim()} onClick={check}>
           {t.games.check}
         </button>
       </div>
@@ -1254,11 +1341,7 @@ function TranslationChallenge({ dict, words }: { dict: Dictionary; words: GameWo
             <button
               type="button"
               className="btn-secondary"
-              onClick={() => {
-                setValue("");
-                setChecked(null);
-                setIndex((row) => row + 1);
-              }}
+              onClick={advance}
             >
               {t.games.next}
             </button>
@@ -1286,6 +1369,12 @@ function SentenceBuilder({ dict, words }: { dict: Dictionary; words: GameWord[] 
   const [built, setBuilt] = useState<{ id: number; word: string }[]>([]);
   const [checked, setChecked] = useState<null | boolean>(null);
   const answer = useAnswer();
+  const [correct, setCorrect] = useState(0);
+  const advance = useCallback(() => {
+    setChecked(null); setBuilt([]); setTiles([]);
+    setIndex((row) => row + 1); setRound((row) => row + 1);
+  }, []);
+  useGameAutoAdvance(checked, index, advance);
 
   useEffect(() => {
     setTiles(shuffle(targetWords.map((word, id) => ({ id, word }))));
@@ -1294,17 +1383,18 @@ function SentenceBuilder({ dict, words }: { dict: Dictionary; words: GameWord[] 
   }, [targetWords, round]);
 
   function check() {
-    if (!current || checked !== null) return;
+    if (!current || checked !== null || built.length === 0 || tiles.length > 0) return;
     const assembled = built.map((tile) => tile.word).join(" ");
     const isRight = assembled === targetWords.join(" ");
     setChecked(isRight);
+    if (isRight) setCorrect((row) => row + 1);
     void answer(current.id, { kind: "sentence", text: assembled });
   }
 
   if (!current) {
     return (
       <GameFrame dict={dict} title={t.games.builder} hint={t.games.builderHint} counter={`${deck.length}`}>
-        <ResultBanner dict={dict} correct={deck.length} total={deck.length} onAgain={() => { setRound((row) => row + 1); setIndex(0); }} />
+        <ResultBanner dict={dict} correct={correct} total={deck.length} onAgain={() => { setChecked(null); setCorrect(0); setRound((row) => row + 1); setIndex(0); }} />
       </GameFrame>
     );
   }
@@ -1356,7 +1446,7 @@ function SentenceBuilder({ dict, words }: { dict: Dictionary; words: GameWord[] 
         ))}
       </div>
       <div className="flex flex-wrap items-center gap-2">
-        <button type="button" className="btn-primary" disabled={checked !== null || tiles.length > 0} onClick={check}>
+        <button type="button" className="btn-primary" disabled={checked !== null || built.length === 0 || tiles.length > 0} onClick={check}>
           {t.games.check}
         </button>
         <button
@@ -1379,10 +1469,7 @@ function SentenceBuilder({ dict, words }: { dict: Dictionary; words: GameWord[] 
           <button
             type="button"
             className="btn-secondary"
-            onClick={() => {
-              setIndex((row) => row + 1);
-              setRound((row) => row + 1);
-            }}
+            onClick={advance}
           >
             {t.games.next}
           </button>

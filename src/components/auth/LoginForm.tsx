@@ -14,16 +14,34 @@ export function LoginForm({
   dict,
   telegramConfigured,
   telegramBotUsername,
+  googleConfigured = false,
+  diagnostics = false,
+  passwordEnabled = true,
+  recovery = false,
+  nonce,
 }: {
   dict: Dictionary;
   telegramConfigured: boolean;
   telegramBotUsername?: string;
+  googleConfigured?: boolean;
+  diagnostics?: boolean;
+  passwordEnabled?: boolean;
+  recovery?: boolean;
+  nonce?: string;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const googleError = searchParams.get("error");
+  const googleMessages: Record<string, string> = {
+    google_unavailable: dict.auth.googleUnavailable,
+    google_state: dict.auth.googleFailed,
+    google_failed: dict.auth.googleFailed,
+    google_unverified: dict.auth.googleUnverified,
+    google_link_required: dict.auth.googleLinkRequired,
+  };
+  const [error, setError] = useState(googleError && googleMessages[googleError] ? googleMessages[googleError] : "");
   const [pending, setPending] = useState(false);
 
   async function onSubmit(e: React.FormEvent) {
@@ -32,10 +50,16 @@ export function LoginForm({
     setError("");
     try {
       const result = await requestJson<{ accountStatus?: string; onboarded?: boolean; role?: string }>(
-        "/api/auth/login",
+        recovery ? "/api/auth/recovery/login" : "/api/auth/login",
         { body: { email, password } }
       );
       if (!result.ok) {
+        if (diagnostics) {
+          // Fixed categories only: never credentials, response bodies or driver messages.
+          const code = ["service_unavailable", "invalid_credentials", "timeout", "aborted"].includes(result.error ?? "")
+            ? result.error : null;
+          console.info(`[qa-auth] ${JSON.stringify({ event: "loginFailure", status: result.status, kind: result.kind, code, reason: result.reason ?? null })}`);
+        }
         setError(failureMessage(result, dict.auth, { invalid_credentials: dict.auth.errorInvalidCredentials }));
         return;
       }
@@ -54,12 +78,17 @@ export function LoginForm({
       // `next` comes from the address bar, so only a path inside this app is honoured
       // — a crafted `?next=https://…` must not turn sign-in into an open redirect.
       const next = safeNextPath(searchParams.get("next"));
-      router.push(next ?? (data.onboarded ? "/dashboard" : "/onboarding"));
+      router.push(next ?? (data.onboarded ? "/app" : "/onboarding"));
       router.refresh();
     } finally {
       setPending(false);
     }
   }
+
+  if (!passwordEnabled) return (
+    <TelegramButton label={dict.auth.continueWithTelegram} unavailableLabel={dict.auth.telegramUnavailable}
+      configured={telegramConfigured} botUsername={telegramBotUsername} nonce={nonce} />
+  );
 
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-4">
@@ -75,21 +104,30 @@ export function LoginForm({
       <Button type="submit" disabled={pending}>
         {pending ? dict.common.loading : dict.auth.loginCta}
       </Button>
+      {!recovery && <>
       <div className="text-right text-sm">
-        <Link href="/reset-password" className="text-signal-600 hover:underline">
+        <Link href="/reset-password" className="btn-secondary ">
           {dict.auth.forgotPassword}
         </Link>
       </div>
       <div className="relative py-1 text-center text-xs text-ink-300">
-        <span className="relative bg-paper-raised px-2">or</span>
+        <span className="relative bg-paper-raised px-2">{dict.auth.or}</span>
         <div className="absolute inset-x-0 top-1/2 -z-10 h-px bg-ink-100" />
       </div>
+      {googleConfigured && (
+        // A plain top-level navigation: the OIDC redirect chain must not be prefetched or fetched.
+        <a href="/api/auth/google/start" className="btn-secondary w-full justify-center" data-google-login>
+          {dict.auth.continueWithGoogle}
+        </a>
+      )}
       <TelegramButton
         label={dict.auth.continueWithTelegram}
         unavailableLabel={dict.auth.telegramUnavailable}
         configured={telegramConfigured}
         botUsername={telegramBotUsername}
+        nonce={nonce}
       />
+      </>}
     </form>
   );
 }

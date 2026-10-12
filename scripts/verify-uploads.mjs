@@ -21,7 +21,30 @@ import path from "node:path";
 import pg from "pg";
 
 const BASE = process.argv[2] ?? "http://127.0.0.1:3000";
-const UPLOAD_ROOT = path.join(process.cwd(), ".data", "uploads");
+// Mirror src/lib/services/storage/local-provider.ts exactly. This was hardcoded to
+// `.data/uploads`, so whenever the server ran with STORAGE_LOCAL_DIR set (as the QA
+// recipe requires) every on-disk assertion looked in the wrong directory and reported
+// "missing object on disk" for objects that had been written correctly.
+const UPLOAD_ROOT = process.env.STORAGE_LOCAL_DIR
+  ? path.resolve(process.env.STORAGE_LOCAL_DIR)
+  : path.join(process.cwd(), ".data", "uploads");
+
+// Safety net: if an unexpected throw skips the normal sweep, clean up anyway rather
+// than leaving the database dirty and the operator unaware.
+process.on("beforeExit", async () => {
+  if (swept) return;
+  try {
+    const result = await sweepFixtures();
+    if (result.swept.length) console.error(`  !! emergency fixture sweep: ${result.swept.join(", ")}`);
+    if (result.residue.length) {
+      console.error(`  !! fixture residue remains: ${result.residue.join(", ")}`);
+      process.exitCode = 1;
+    }
+  } catch (error) {
+    console.error(`  !! emergency fixture sweep FAILED: ${error?.message ?? error}`);
+    process.exitCode = 1;
+  }
+});
 
 const ACCOUNTS = {
   admin: { email: "admin@learnersarea.uz", password: "Admin12345!" },
@@ -31,7 +54,92 @@ const ACCOUNTS = {
   student2: { email: "new.student@learnersarea.uz", password: "Student12345!" },
 };
 
+/*
+ * QA SAFETY (section 03.3). This probe creates real database rows AND real storage
+ * objects, and until now it ran with no disposable-database guard and no top-level
+ * cleanup: every DELETE sat inline after the assertions it belonged to, so the first
+ * failed assertion left everything created up to that point behind.
+ *
+ * Three guards now sit in front of it:
+ *   1. the shared disposable-database rail, so it cannot point at production;
+ *   2. an isolated storage-root check, so it cannot sweep a real upload directory;
+ *   3. a baseline + exception-safe sweep below, so residue is removed and VERIFIED
+ *      whatever happens — pass, assertion failure, or unexpected throw.
+ */
+const { assertMutableDatabase } = await import("./lib/fixture-safety.mjs");
+assertMutableDatabase(process.env.DATABASE_URL);
+
+/**
+ * The storage root must be a disposable, probe-owned directory.
+ *
+ * A database name alone proves nothing about the filesystem: pointing DATABASE_URL at
+ * a scratch database while STORAGE_LOCAL_DIR still points at a real upload tree would
+ * let the sweep below delete somebody's files. So the root must be explicitly set and
+ * must not be the repository's own .data/uploads, which is a developer's real store.
+ */
+function assertDisposableStorageRoot(root) {
+  if (!process.env.STORAGE_LOCAL_DIR) {
+    throw new Error(
+      "verify-uploads refuses to run without STORAGE_LOCAL_DIR: it would write into, and sweep, the default .data/uploads store.",
+    );
+  }
+  const repoStore = path.join(process.cwd(), ".data", "uploads");
+  if (root === repoStore) {
+    throw new Error(`verify-uploads refuses to use the repository upload store at ${root}.`);
+  }
+  if (root === "/" || root === path.parse(root).root || root.split(path.sep).filter(Boolean).length < 2) {
+    throw new Error(`verify-uploads refuses to use ${root} as a storage root: too close to the filesystem root.`);
+  }
+}
+assertDisposableStorageRoot(UPLOAD_ROOT);
+
 const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
+
+/**
+ * Rows this run is responsible for.
+ *
+ * The probe creates rows through the HTTP API, so there is no single insertion point
+ * to tag. Instead the tables it owns are snapshotted BEFORE anything runs, and the
+ * sweep removes exactly the ids that appeared during the run — never a pre-existing
+ * row, and never another suite's data, because an id absent from the baseline and
+ * present at the end was created by this process in a database the guard above has
+ * already established is disposable.
+ */
+const OWNED_TABLES = ["material_blocks", "speaking_materials", "speaking_attempts", "upload_intents", "content_versions", "activity_events"];
+const baseline = new Map();
+
+async function captureBaseline() {
+  for (const table of OWNED_TABLES) {
+    const { rows } = await pool.query(`select id from ${table}`);
+    baseline.set(table, new Set(rows.map((r) => r.id)));
+  }
+}
+
+let swept = false;
+
+/** Remove everything this run created, then PROVE nothing is left. Never throws past the report. */
+async function sweepFixtures() {
+  swept = true;
+  const leaked = [];
+  // Child rows first: material_blocks references speaking_materials.
+  for (const table of OWNED_TABLES) {
+    const before = baseline.get(table) ?? new Set();
+    const { rows } = await pool.query(`select id from ${table}`);
+    const created = rows.map((r) => r.id).filter((id) => !before.has(id));
+    if (created.length === 0) continue;
+    leaked.push(`${table}: ${created.length}`);
+    await pool.query(`delete from ${table} where id = any($1)`, [created]);
+  }
+  // Residue verification: the sweep is only trustworthy if it is checked.
+  const residue = [];
+  for (const table of OWNED_TABLES) {
+    const before = baseline.get(table) ?? new Set();
+    const { rows } = await pool.query(`select id from ${table}`);
+    const remaining = rows.map((r) => r.id).filter((id) => !before.has(id));
+    if (remaining.length) residue.push(`${table}: ${remaining.length}`);
+  }
+  return { swept: leaked, residue };
+}
 
 let passed = 0;
 const failures = [];
@@ -86,8 +194,45 @@ const teacher2 = new Client("teacher2");
 const student = new Client("student");
 const anonymous = new Client("anonymous");
 
+/**
+ * Bytes that really look like the extension claims.
+ *
+ * The server verifies the STORED bytes against the filename
+ * (src/lib/uploads/signature.ts) and refuses a mismatch with 422
+ * upload_type_mismatch. This probe used to upload the literal string
+ * "contents of lesson-guide.pdf" for every file, so finalize correctly rejected the
+ * very first material and 21 downstream assertions failed on the cascade. The
+ * detector was right; the fixture was fake.
+ *
+ * These are minimal but genuine headers. Nothing here weakens the check — the
+ * mismatch negative control below still uploads bytes that do NOT match its name and
+ * still has to be refused.
+ */
+const MAGIC = {
+  ".pdf": [0x25, 0x50, 0x44, 0x46, 0x2d, 0x31, 0x2e, 0x34],            // %PDF-1.4
+  ".png": [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a],
+  ".jpg": [0xff, 0xd8, 0xff, 0xe0],
+  ".jpeg": [0xff, 0xd8, 0xff, 0xe0],
+  ".gif": [0x47, 0x49, 0x46, 0x38, 0x39, 0x61],                        // GIF89a
+  ".mp3": [0xff, 0xfb, 0x90, 0x00],
+  ".zip": [0x50, 0x4b, 0x03, 0x04],
+  ".docx": [0x50, 0x4b, 0x03, 0x04],
+};
+
+function magicFor(name) {
+  const dot = name.lastIndexOf(".");
+  const ext = dot === -1 ? "" : name.slice(dot).toLowerCase();
+  const magic = MAGIC[ext];
+  if (magic) {
+    // Pad past the header so the file is not pathologically short.
+    return new Uint8Array([...magic, ...new TextEncoder().encode(` padding for ${name} `)]);
+  }
+  // .txt/.csv/.md and friends only have to be non-binary text.
+  return new TextEncoder().encode(`contents of ${name}`);
+}
+
 function fileBlob(name, type, contents) {
-  return new File([contents ?? `contents of ${name}`], name, { type });
+  return new File([contents ?? magicFor(name)], name, { type });
 }
 
 async function uploadThrough(client, file, { purpose, blockKind, materialId }) {
@@ -121,6 +266,10 @@ async function dbRows(sql, params) {
 // ---------------------------------------------------------------------------
 
 console.log(`\nLearners Area — upload/resource E2E verification against ${BASE}\n`);
+
+// The baseline must be taken BEFORE the first mutation, or the sweep cannot tell
+// what this run created.
+await captureBaseline();
 
 await check("seeded accounts can log in", async () => {
   await teacher.login("teacher");
@@ -327,6 +476,57 @@ await check("stored metadata comes from the server-side intent, not the request 
   assert.equal(rows[0].mime_type, "text/plain");
   assert.equal(rows[0].object_key, upload.objectKey);
   await dbRows("DELETE FROM speaking_materials WHERE id = $1", [res.data.id]);
+});
+
+await check("bytes that do not match the declared extension are refused at finalize (422)", async () => {
+  // NEGATIVE CONTROL for the stored-bytes signature check.
+  //
+  // Every other upload assertion here passes a file whose bytes match its name, so
+  // all 44 of them still passed with verifySignature() stubbed to return ok — the
+  // property was never actually tested. A renamed executable or a disguised payload
+  // is exactly what that check exists to stop, so it gets its own control.
+  //
+  // The intent is obtained honestly (a .pdf, declared as a pdf) and only the BYTES
+  // lie: a PNG header under a .pdf name. The server reads what landed in storage and
+  // must refuse, regardless of what the client declared.
+  const disguised = new File(
+    [new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0x00, 0x01, 0x02, 0x03])],
+    "looks-like.pdf",
+    { type: "application/pdf" }
+  );
+  const intent = await teacher.request("/api/uploads/intent", {
+    method: "POST",
+    body: {
+      purpose: "material_block",
+      blockKind: "file",
+      filename: disguised.name,
+      contentType: disguised.type,
+      size: disguised.size,
+    },
+  });
+  assert.equal(intent.status, 200, `intent failed: ${JSON.stringify(intent.data)}`);
+
+  const form = new FormData();
+  form.set("uploadId", intent.data.uploadId);
+  form.set("file", disguised, disguised.name);
+  const put = await teacher.request("/api/uploads", { method: "POST", form });
+  assert.ok(put.status < 500, `proxy upload errored: ${put.status}`);
+
+  const finalized = await teacher.request("/api/uploads/finalize", {
+    method: "POST",
+    body: { uploadId: intent.data.uploadId },
+  });
+  assert.equal(
+    finalized.status,
+    422,
+    `disguised bytes were accepted (status ${finalized.status}): ${JSON.stringify(finalized.data)}`
+  );
+  assert.equal(finalized.data.error, "upload_type_mismatch", JSON.stringify(finalized.data));
+
+  // The rejected object must not be left lying in storage, and the intent must be
+  // aborted so it can never be claimed later.
+  const intentRows = await dbRows("SELECT status FROM upload_intents WHERE id = $1", [intent.data.uploadId]);
+  assert.equal(intentRows[0]?.status, "aborted", "a refused intent must not stay pending");
 });
 
 await check("an arbitrary object key cannot be registered as a resource (400)", async () => {
@@ -803,17 +1003,17 @@ await check("a full recording round-trip: upload, attach, submit, playback, hist
 });
 
 await check("the speaking practice and history pages render for a student", async () => {
-  const practice = await student.request("/speaking/practice");
+  const practice = await student.request("/app/speaking/practice");
   assert.equal(practice.status, 200, `practice page: ${practice.status}`);
   assert.match(String(practice.data), /Speaking practice|Speaking mashqi/);
-  const history = await student.request("/speaking/history");
+  const history = await student.request("/app/speaking/history");
   assert.equal(history.status, 200, `history page: ${history.status}`);
 });
 
 // --- Page rendering --------------------------------------------------------
 
 await check("the teacher speaking page renders with the composer", async () => {
-  const res = await teacher.request("/teacher/speaking");
+  const res = await teacher.request("/app/teacher/speaking");
   assert.equal(res.status, 200, `expected 200, got ${res.status}`);
   const html = String(res.data);
   assert.match(html, /Manage Speaking materials|Speaking materiallarini boshqarish/);
@@ -821,17 +1021,34 @@ await check("the teacher speaking page renders with the composer", async () => {
 });
 
 await check("the student speaking page renders", async () => {
-  const res = await student.request("/speaking");
+  const res = await student.request("/app/speaking");
   assert.equal(res.status, 200, `expected 200, got ${res.status}`);
 });
 
 // ---------------------------------------------------------------------------
 
 console.log(`\n${passed} passed, ${failures.length} failed\n`);
+
+// CLEANUP RUNS WHATEVER HAPPENED ABOVE, and its own failure is an acceptance failure:
+// a probe that leaves rows behind has not passed, however many assertions did.
+let cleanupFailed = null;
+try {
+  const result = await sweepFixtures();
+  if (result.swept.length) {
+    console.log(`  fixture sweep removed rows left behind by this run — ${result.swept.join(", ")}`);
+  }
+  if (result.residue.length) {
+    cleanupFailed = `fixture residue remains after the sweep — ${result.residue.join(", ")}`;
+    console.error(`  !! ${cleanupFailed}`);
+  }
+} catch (error) {
+  cleanupFailed = `fixture cleanup threw: ${error?.message ?? error}`;
+  console.error(`  !! ${cleanupFailed}`);
+}
 await pool.end();
 
 if (failures.length > 0) {
   console.log("Failures:");
   for (const f of failures) console.log(`  - ${f.name}: ${f.err.message}`);
-  process.exit(1);
 }
+if (failures.length > 0 || cleanupFailed) process.exit(1);

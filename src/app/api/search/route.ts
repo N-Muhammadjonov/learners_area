@@ -1,3 +1,4 @@
+import { academicOnlyClause } from "@/lib/data/general-reading";
 import { NextRequest, NextResponse } from "next/server";
 import { and, eq, ilike, ne, or } from "drizzle-orm";
 import { db } from "@/db/client";
@@ -94,13 +95,13 @@ export async function GET(req: NextRequest) {
       const rows = await db
         .select({ id: readingPassages.id, title: readingPassages.title })
         .from(readingPassages)
-        .where(and(staff ? undefined : liveReading, ilike(readingPassages.title, like)))
+        .where(and(staff ? undefined : liveReading, await academicOnlyClause(), ilike(readingPassages.title, like)))
         .limit(PER_CATEGORY);
       return rows.map((row) => ({
         type: "reading",
         title: row.title,
         context: null,
-        href: `/reading/passages/${row.id}`,
+        href: `/app/reading/passages/${row.id}`,
       }));
     })(),
 
@@ -112,7 +113,7 @@ export async function GET(req: NextRequest) {
         .innerJoin(lexemes, eq(userVocabulary.lexemeId, lexemes.id))
         .where(and(eq(userVocabulary.userId, user.id), ilike(lexemes.term, like)))
         .limit(PER_CATEGORY);
-      return rows.map((row) => ({ type: "vocabulary", title: row.term, context: null, href: "/vocabulary" }));
+      return rows.map((row) => ({ type: "vocabulary", title: row.term, context: null, href: "/app/vocabulary" }));
     })(),
 
     // --- Lessons ------------------------------------------------------------
@@ -132,7 +133,7 @@ export async function GET(req: NextRequest) {
         .from(grammarTopics)
         .where(ilike(grammarTopics.title, like))
         .limit(PER_CATEGORY);
-      return rows.map((row) => ({ type: "grammar", title: row.title, context: null, href: `/grammar/${row.id}` }));
+      return rows.map((row) => ({ type: "grammar", title: row.title, context: null, href: `/app/grammar/${row.id}` }));
     })(),
 
     // --- Writing prompts ----------------------------------------------------
@@ -146,7 +147,7 @@ export async function GET(req: NextRequest) {
         type: "writing",
         title: row.prompt.length > 90 ? `${row.prompt.slice(0, 90)}…` : row.prompt,
         context: row.taskType === "task1" ? "Task 1" : "Task 2",
-        href: "/writing",
+        href: "/app/writing",
       }));
     })(),
 
@@ -159,7 +160,7 @@ export async function GET(req: NextRequest) {
         // cancelled one is not a useful search result for anyone.
         .where(and(staff ? undefined : ne(liveClasses.status, "cancelled"), ilike(liveClasses.title, like)))
         .limit(PER_CATEGORY);
-      return rows.map((row) => ({ type: "liveClass", title: row.title, context: row.status, href: "/live-classes" }));
+      return rows.map((row) => ({ type: "liveClass", title: row.title, context: row.status, href: "/app/live-classes" }));
     })(),
 
     // --- Speaking materials -------------------------------------------------
@@ -178,7 +179,7 @@ export async function GET(req: NextRequest) {
           )
         )
         .limit(PER_CATEGORY);
-      return rows.map((row) => ({ type: "speaking", title: row.title, context: row.category, href: "/speaking" }));
+      return rows.map((row) => ({ type: "speaking", title: row.title, context: row.category, href: "/app/speaking" }));
     })(),
 
     // --- Assignments: a student searches only their own ---------------------
@@ -197,7 +198,7 @@ export async function GET(req: NextRequest) {
         type: "assignment",
         title: row.title,
         context: null,
-        href: `/assignments/${row.id}`,
+        href: `/app/assignments/${row.id}`,
       }));
     })(),
   ];

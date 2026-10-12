@@ -79,18 +79,22 @@ export type UseBlockDraftsOptions = {
 export function useBlockDrafts({ materialId, onError }: UseBlockDraftsOptions = {}) {
   const [blocks, setBlocks] = useState<BlockDraft[]>([]);
   const handles = useRef(new Map<string, UploadHandle>());
+  const alive = useRef(true);
 
   // Revoke every outstanding upload and blob URL on unmount — an image preview
   // must not leak for the lifetime of the tab.
   useEffect(() => {
+    alive.current = true;
     const live = handles.current;
     return () => {
+      alive.current = false;
       for (const handle of live.values()) handle.cancel();
       live.clear();
     };
   }, []);
 
   const patch = useCallback((localId: string, changes: Partial<MediaBlockDraft>) => {
+    if (!alive.current) return;
     setBlocks((prev) => prev.map((b) => (b.localId === localId && isMediaDraft(b) ? { ...b, ...changes } : b)));
   }, []);
 
@@ -106,6 +110,7 @@ export function useBlockDrafts({ materialId, onError }: UseBlockDraftsOptions = 
       handles.current.set(localId, handle);
 
       void handle.promise.then((outcome) => {
+        if (!alive.current || handles.current.get(localId) !== handle) return;
         handles.current.delete(localId);
         if (outcome.ok) {
           setBlocks((prev) =>

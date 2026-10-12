@@ -1,0 +1,499 @@
+[
+  {
+    "file": "src/components/reading/RetentionHistory.tsx",
+    "rawFetchCalls": 1,
+    "scopedRequest": false,
+    "abortEvidence": true,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/reading/ReadingExam.tsx",
+    "rawFetchCalls": 1,
+    "scopedRequest": true,
+    "abortEvidence": true,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/reading/RetentionSession.tsx",
+    "rawFetchCalls": 6,
+    "scopedRequest": false,
+    "abortEvidence": true,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/grammar/PracticeActivities.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/grammar/GrammarQuiz.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/grammar/ProductionAnswer.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/listening/FullListeningActivity.tsx",
+    "rawFetchCalls": 1,
+    "scopedRequest": true,
+    "abortEvidence": true,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/listening/McqMastery.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/listening/ListeningImport.tsx",
+    "rawFetchCalls": 1,
+    "scopedRequest": false,
+    "abortEvidence": true,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/owner/RetentionRunner.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/owner/AiControlPanel.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/owner/OwnershipTransferForm.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/shell/LocaleSwitcher.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/shell/ProfileMenu.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/shell/LogoutButton.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/shell/ThemeToggle.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/resources/ResourceComposer.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/admin/NewPromptForm.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/admin/NewVideoLessonForm.tsx",
+    "rawFetchCalls": 1,
+    "scopedRequest": false,
+    "abortEvidence": true,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/admin/PublicationControl.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/admin/AdmissionQueue.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/admin/PeopleTable.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/admin/NewQuestionForm.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/admin/NewListeningQuestionForm.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/admin/NewPassageForm.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/admin/RetentionBankPanel.tsx",
+    "rawFetchCalls": 1,
+    "scopedRequest": false,
+    "abortEvidence": true,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/admin/GrammarImport.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/admin/RoleSelect.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/admin/NewExerciseForm.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/admin/NewTopicForm.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/coach/AssignmentBoard.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/coach/ManualTranscriptForm.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/live-classes/ClassStatusControls.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/live-classes/NewLiveClassForm.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/live-classes/JoinButton.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/courses/VideoVocabulary.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/courses/VideoLessonStudio.tsx",
+    "rawFetchCalls": 3,
+    "scopedRequest": false,
+    "abortEvidence": true,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/courses/LessonWorkspace.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/support/ResolveReportButton.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/speaking/LivePartnerClient.tsx",
+    "rawFetchCalls": 6,
+    "scopedRequest": false,
+    "abortEvidence": true,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/speaking/QuestionRecorder.tsx",
+    "rawFetchCalls": 2,
+    "scopedRequest": true,
+    "abortEvidence": true,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/speaking/ManagedMaterialCard.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/speaking/EditMaterialForm.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/speaking/NewMaterialForm.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/teacher/TeacherFeedbackForm.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/teacher/NewAssignmentForm.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/interaction/InstantLink.tsx",
+    "rawFetchCalls": 1,
+    "scopedRequest": false,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/vocabulary/VocabStudio.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/vocabulary/VocabGamesPanel.tsx",
+    "rawFetchCalls": 3,
+    "scopedRequest": false,
+    "abortEvidence": true,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/vocabulary/VocabRevisionPanel.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/vocabulary/VocabUsePanel.tsx",
+    "rawFetchCalls": 2,
+    "scopedRequest": false,
+    "abortEvidence": true,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/vocabulary/VocabBoardPanel.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/vocabulary/VocabWordsPanel.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/writing/AddVocabQuick.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/writing/Editor.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/writing/StartPromptButton.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/writing/TypingTrainer.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/writing/stealing/StealingFlow.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/writing/stealing/StartStealingButton.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/writing/stealing/PatternPractice.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/writing/translation/TranslationRunner.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/writing/translation/TranslationStartForm.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/writing/workspace/GradeForm.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/writing/workspace/LessonCompleteButton.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/writing/workspace/GradeRetryButton.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/writing/activation/ActivationLab.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/writing/topic/SaveButtons.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/writing/exam/ExamRunner.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/writing/exam/StartExamButton.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/writing/exam/ExamGradeButton.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  },
+  {
+    "file": "src/components/admin/writing/WritingContentForm.tsx",
+    "rawFetchCalls": 0,
+    "scopedRequest": true,
+    "abortEvidence": false,
+    "review": "scoped controls tested at helper/UI level; raw transfer/stream paths require browser stress acceptance"
+  }
+]

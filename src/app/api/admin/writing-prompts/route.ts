@@ -1,26 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
-import { db } from "@/db/client";
-import { writingPrompts } from "@/db/schema";
-import { isAdministrator, requireActiveUser } from "@/lib/auth/current-user";
+import { requireActiveUser } from "@/lib/auth/current-user";
+import { canManageWriting } from "@/lib/auth/writing-admin";
+import { saveWritingContent } from "@/lib/services/writing/admin";
 
-const schema = z.object({
-  taskType: z.enum(["task1", "task2"]),
-  category: z.string().min(1).max(60),
-  prompt: z.string().min(10).max(2000),
-  targetWordCount: z.coerce.number().int().min(50).max(500),
-});
-
+/**
+ * Legacy create endpoint (kept for old forms/bookmarks). It is a thin alias of
+ * POST /api/admin/writing/prompt — same validation, same service, same audit.
+ */
 export async function POST(req: NextRequest) {
   const user = await requireActiveUser();
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
-    if (!isAdministrator(user.role)) {
-      return NextResponse.json({ error: "forbidden" }, { status: 403 });
-    }
-  const body = await req.json().catch(() => null);
-  const parsed = schema.safeParse(body);
-  if (!parsed.success) return NextResponse.json({ error: "invalid_input" }, { status: 400 });
-
-  const [created] = await db.insert(writingPrompts).values(parsed.data).returning();
-  return NextResponse.json({ ok: true, id: created!.id });
+  if (!canManageWriting(user.role)) return NextResponse.json({ error: "forbidden" }, { status: 403 });
+  const r = await saveWritingContent("prompt", null, await req.json().catch(() => null), user.id);
+  if (!r.ok) return NextResponse.json({ error: "invalid_input", issues: r.issues }, { status: 400 });
+  return NextResponse.json({ ok: true, id: r.id });
 }

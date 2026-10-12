@@ -22,15 +22,23 @@ export function getGrammarExerciseForUser(id: string, userId: string) {
   return db.query.grammarExercises.findFirst({ where: and(eq(grammarExercises.id, id), grammarVisibleTo(userId)) });
 }
 
+/**
+ * Topics a learner may see. Grammar topics carry no publish moment (a schedule
+ * would need a column they do not have), so "published" is the whole rule — an
+ * authored draft topic stays out of the learner's list (§41).
+ */
 export function listTopics() {
-  return db.select({ id: grammarTopics.id, title: grammarTopics.title, order: grammarTopics.order })
+  return db.select({ id: grammarTopics.id, title: grammarTopics.title, skillArea: grammarTopics.skillArea, order: grammarTopics.order })
     .from(grammarTopics)
+    .where(eq(grammarTopics.publicationState, "published"))
     .orderBy(asc(grammarTopics.order));
 }
 
 export async function getTopicWithExercises(topicId: string, userId: string) {
   const [topic, exercises] = await Promise.all([
-    db.query.grammarTopics.findFirst({ where: eq(grammarTopics.id, topicId) }),
+    db.query.grammarTopics.findFirst({
+      where: and(eq(grammarTopics.id, topicId), eq(grammarTopics.publicationState, "published")),
+    }),
     db.query.grammarExercises.findMany({
       where: and(eq(grammarExercises.topicId, topicId), grammarVisibleTo(userId)),
       orderBy: asc(grammarExercises.order),

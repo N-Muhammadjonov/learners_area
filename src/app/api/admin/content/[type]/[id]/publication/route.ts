@@ -1,3 +1,6 @@
+import { listeningSchemaReady } from "@/lib/data/listening-schema-ready";
+import { listeningPackages } from "@/db/schema";
+import { publicationBlockers, publicationIssues } from "@/lib/listening/package";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { eq } from "drizzle-orm";
@@ -14,6 +17,14 @@ import {
 import { requireAdministrator } from "@/lib/auth/current-user";
 import { isUuid } from "@/lib/validation/ids";
 import { recordAudit } from "@/lib/data/audit";
+import { mcqDayPublicationBlock } from "@/lib/listening/publication-guards";
+import { changeWritingPublication } from "@/lib/services/writing/admin";
+import type { WritingAdminKind } from "@/lib/writing/admin-schemas";
+
+/** Writing kinds: same rule + audit, plus Writing publish-readiness (services/writing/admin). */
+const WRITING_TYPES: Record<string, WritingAdminKind> = {
+  writing: "prompt", "writing-lesson": "lesson", "writing-translation": "translation", "writing-model-text": "model-text", "writing-pattern": "pattern",
+};
 import {
   canTransition,
   isLive,
@@ -110,7 +121,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ typ
   if (!isUuid(id)) return NextResponse.json({ error: "not_found" }, { status: 404 });
 
   const contentType = CONTENT_TYPES[type as ContentType];
-  if (!contentType) return NextResponse.json({ error: "not_found" }, { status: 404 });
+  if (!contentType && !WRITING_TYPES[type]) return NextResponse.json({ error: "not_found" }, { status: 404 });
 
   const body = await req.json().catch(() => null);
   const parsed = schema.safeParse(body);
@@ -122,9 +133,38 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ typ
   const state = parsed.data.state;
   const publishAt = parsed.data.publishAt ? new Date(parsed.data.publishAt) : null;
 
+  const writingKind = WRITING_TYPES[type];
+  if (writingKind) {
+    const r = await changeWritingPublication(writingKind, id, state, publishAt, administrator.id);
+    if (!r.ok) return NextResponse.json({ error: r.error, issues: r.issues }, { status: r.status });
+    return NextResponse.json(r);
+  }
+
   const problem = publicationProblem(state, publishAt);
   if (problem) return NextResponse.json({ error: problem }, { status: 400 });
 
+  if (type === "listening" && (state === "published" || state === "scheduled") && await listeningSchemaReady()) {
+    /*
+     * A PROGRAMME DAY has its own rule, and it is checked FIRST and on its own terms: a
+     * learner-visible day holds exactly five valid multiple-choice questions, with a recording. Four
+     * questions are refused (the fifth is never invented), six are refused (the sixth is never
+     * dropped), a Matching or Map/Plan question wearing an option pool is refused, and a day nobody
+     * could hear is refused. This is the same rule the staff surface states, enforced at the one
+     * endpoint that publishes anything.
+     */
+    const dayBlock = await mcqDayPublicationBlock(id);
+    if (dayBlock) return NextResponse.json(dayBlock, { status: 409 });
+    const pkg = await db.query.listeningPackages.findFirst({ where: eq(listeningPackages.testId, id) });
+    if (pkg) {
+      const issues = publicationIssues(pkg.payload);
+      if (issues.length)
+        return NextResponse.json(
+          { error: "incomplete_listening_package", issues, blockers: publicationBlockers(pkg.payload) },
+          { status: 409 },
+        );
+    }
+  }
+  if (!contentType) return NextResponse.json({ error: "not_found" }, { status: 404 });
   const row = await contentType.load(id);
   if (!row) return NextResponse.json({ error: "not_found" }, { status: 404 });
 

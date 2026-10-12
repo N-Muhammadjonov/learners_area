@@ -39,3 +39,42 @@ Audit started against starting remote SHA `5fd4f68a9409f1152adac149110b939ebb09d
 Vocabulary Games, Flashcards, Typing Race, Back controls, zero-word routes and scoring remain explicit Part 1 additions. Do not start Retention V2, full Listening, broader Reading redesign/evidence architecture, RIWI assistant, global typography/icons/logo, Progress charts, OAuth/email verification, Speaking V4, Live Partner, Writing typing trainer, or TED/PODCAST redesign. The TED / PODCAST rename and VocaType-inspired typography are recorded as later-phase follow-ups only.
 
 Every final claim must be labeled `ARENA-VERIFIED`, `OWNER-VERIFIED ON EXACT PREVIEW SHA`, or `EXTERNALLY UNVERIFIED`. A screenshot or unit test does not upgrade to browser PASS. Production data/deployment/migrations are out of bounds.
+
+## Part 1 final owner-found defect closure (current override)
+
+Status recorded after the owner-defect closure work on `arena/01a0f158-learners-area`.
+Labels are deliberately narrow: `ARENA-VERIFIED` means the contract is pinned by
+tests/source inspection in this repository, not that a browser was driven. This
+environment has no browser executable, no `DATABASE_URL` and no running database,
+so every pixel/timing/interaction claim below stays `EXTERNALLY UNVERIFIED` until
+the owner tests the exact Preview SHA. Nothing here is `OWNER-VERIFIED`.
+
+| Owner-found defect | Change | Evidence | Status |
+|---|---|---|---|
+| Flashcard did not physically flip; hierarchy and completion flow were wrong; marks were lost on reload; self-assessment could touch the leaderboard | 3D `rotateY` faces with both sides painted, definition front / authored answer back, keyboard + click flip, queue of definitions only, completion screen with "review not yet" / "study all", self-assessment recorded server-side and read back on mount; self events never award points | `vocabulary-games-ui-contract`, `vocabulary-self-assessment` 4/4, `vocabulary-points-db`, `tests/ui/part1-hotfix.test.tsx` | ARENA-VERIFIED (source + tests); real flip/timing/320–390 px behaviour EXTERNALLY UNVERIFIED |
+| `O'ZLASHTIRILGAN` badge overflowed its card on tablet/mobile | Shared `.badge` wraps (`max-width:100%; overflow-wrap:anywhere`), word cards are shrinkable (`min-w-0`), badge row wraps | `vocabulary-responsive` 2/2 | ARENA-VERIFIED (source + CSS); actual pixel overflow at 320/390 px EXTERNALLY UNVERIFIED |
+| Focus mode did not engage for a real attempt, or could re-engage after a manual exit | Module-level focus-entry intent announced by the exam pages; the shell auto-enters Focus only for a useful attempt on the matching path and never after a user exit | `focus-entry.test.ts` + `tests/ui/focus-entry.test.tsx` 2/2 | ARENA-VERIFIED (source + JSDOM); real-browser auto-entry EXTERNALLY UNVERIFIED |
+| Multiple Choice gave no automatic progression and could be answered twice | Correct pick holds 900 ms, a miss holds 1800 ms, one `advance()` path shared by the timer and the Next button, input locked after the first answer, scoring stays server-side | `part1-interaction-closure` | ARENA-VERIFIED (source); hold-timing feel EXTERNALLY UNVERIFIED |
+| Profile menu had no Edit name entry | Menu reaches the real edit-name flow (`/profile?edit=name`), the profile page opens the editor, UZ "Ismni tahrirlash" / EN "Edit name", one PATCH contract | `part1-interaction-closure` | ARENA-VERIFIED (source + i18n); saved persistence EXTERNALLY UNVERIFIED |
+| TED / PODCAST sat inside Reading and had no standalone management; no optional notes | Standalone `/video-lessons` module and Management authoring; transcript and notes are both optional and are revealed on purpose; the studio builds those tabs from content existence, never a static list; migration 0023 adds a nullable `notes` column | `video-lesson-notes` 7/7, `part1-ux-closure`, `part1-interaction-closure`, PGlite round-trip | ARENA-VERIFIED (source, migration, DB); reveal interaction EXTERNALLY UNVERIFIED |
+| Admin/Management screens could be dead ends | Every `/management`, `/admin`, `/teacher` and `/owner` screen resolves to a crumb, nested screens resolve to a non-self parent, and the materials editor is now linked from Management | `management-back-navigation` 5/5 | ARENA-VERIFIED (route table + filesystem walk) |
+| TED / PODCAST appeared as a Reading tab | Reading tabs are academic / general / types / retention; the Reading dictionary ships no video identity and the hub renders no videos placeholder | `part1-ux-closure`, `part1-interaction-closure` | ARENA-VERIFIED (source) |
+| Retention learner and Management flows were not verified end to end | Authoring (add/change/archive/restore, version immutability), allocation/rotation, resume-after-refresh, recall-only draft autosave, owner-scoped history, assigned-version scoring, lazy timeout, usage counters and learner metrics are covered against a real PostgreSQL | `retention-data-db` 17, `retention-api-contract` 11, `retention-*` suites | ARENA-VERIFIED at data/route-contract level; the REAL browser walkthrough (Management → Reading → Retention → level → Add text → validation → Save; learner level → Start → 2:00 reading → transition → source disappears → 3:00 recall → autosave → submit → result → history → next rotation; refresh mid-phase; draft restore; early/late submit) EXTERNALLY UNVERIFIED |
+
+## 2026-09-30 audit corrections (supersede the rows above where they conflict)
+
+The rows above are kept as dated history. Where they overstated the state at
+the time, the corrected current position is:
+
+| Earlier claim | What was actually true | Current change | Status |
+|---|---|---|---|
+| "Standalone `/video-lessons` module" | Every video still needed a roadmap lesson (`lesson_id NOT NULL`), the form showed nothing with zero lessons, and Open went to `/courses/.../lessons/...` | Migration 0024 makes `lesson_id` nullable and adds `transcript_text`; standalone items are authored without a lesson and open at `/video-lessons/:id`; legacy course-linked videos are unchanged | Source + migration + PGlite ARENA-VERIFIED; browser authoring/publish/open UNVERIFIED |
+| "Transcript optional" | A plain paragraph transcript was silently dropped (only `0:12 …` lines parsed) | Plain paragraphs are saved and revealed; timed lines stay timed; mixed input is refused with the line numbers | Source + unit tests; browser reveal UNVERIFIED |
+| Rotation "covered" | Cycle number did not persist beyond cycle 2 (1,1,1,2,2,2,2) | Rotation state advances with the assigned cycle; three-cycle, one-text and archive tests | PGlite ARENA-VERIFIED; real concurrent DB UNVERIFIED |
+| Learner metrics "covered" | Totals were computed from the newest 500 attempts | SQL aggregates over all terminal scored attempts | PGlite ARENA-VERIFIED |
+| Durable result | Scoring failure rolled back the recall; a finished result could not be reopened after refresh | Recall persists on scoring failure; owner-scoped `/reading/retention/results/:id`; history links; summary refresh on terminal success | Local tests; browser UNVERIFIED |
+| Bank management | Only 50 texts listed; sorting happened after truncation | SQL-sorted paging with total/page links, row preview/status, accessible row menu | PGlite + JSDOM; browser UNVERIFIED |
+
+PGlite runs on a single connection, so sequential PGlite checks are not
+evidence of multi-connection concurrency safety; the 24 external-DB gates stay
+open until an isolated QA PostgreSQL is available.

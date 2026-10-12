@@ -9,10 +9,12 @@ import { safeNextPath } from "../src/lib/auth/safe-redirect";
  */
 
 test("a real in-app path is honoured", () => {
-  assert.equal(safeNextPath("/vocabulary"), "/vocabulary");
-  assert.equal(safeNextPath("/dashboard"), "/dashboard");
-  assert.equal(safeNextPath("/courses/ielts/lessons/abc"), "/courses/ielts/lessons/abc");
-  assert.equal(safeNextPath("/dashboard?tab=words"), "/dashboard?tab=words");
+  assert.equal(safeNextPath("/app/vocabulary"), "/app/vocabulary");
+  assert.equal(safeNextPath("/app"), "/app");
+  assert.equal(safeNextPath("/app/courses/ielts/lessons/abc"), "/app/courses/ielts/lessons/abc");
+  // `/app/dashboard` is still a legitimate, safe next target — it is the alias that
+  // redirects onto the canonical Home `/app`, not a second dashboard.
+  assert.equal(safeNextPath("/app/dashboard?tab=words"), "/app/dashboard?tab=words");
 });
 
 test("absolute and protocol-relative targets are refused", () => {

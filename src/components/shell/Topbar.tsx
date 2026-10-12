@@ -34,12 +34,16 @@ import type { Role } from "@/lib/auth/roles";
 export function Topbar({
   dict,
   locale,
+  userId,
+  photoPresent,
   userName,
   userEmail,
   role,
 }: {
   dict: Dictionary;
   locale: Locale;
+  userId: string;
+  photoPresent: boolean;
   userName: string;
   userEmail?: string | null;
   role: Role;
@@ -47,7 +51,7 @@ export function Topbar({
   return (
     <header
       data-shell-topbar
-      className="grid shrink-0 grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-2 border-b border-ink-100 bg-paper-raised px-3 py-2 md:px-5 lg:flex lg:gap-3 lg:py-0"
+      className="relative z-50 grid shrink-0 grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-2 border-b border-ink-100 bg-paper-raised px-3 py-2 md:px-5 lg:flex lg:gap-3 lg:py-0"
       style={{ minHeight: "var(--shell-topbar-h)" }}
     >
       <div className="flex min-w-0 flex-1 items-center gap-2">
@@ -62,12 +66,12 @@ export function Topbar({
       </div>
 
       <div className="col-span-3 row-start-2 flex shrink-0 items-center justify-end gap-2 lg:order-none">
-        <ThemeToggle nightLabel={dict.theme.night} dayLabel={dict.theme.day} currentLabel={dict.theme.toggle} />
+        <ThemeToggle nightLabel={dict.theme.night} dayLabel={dict.theme.day} currentLabel={dict.theme.toggle} errorLabel={dict.common.error} />
         <LocaleSwitcher locale={locale} dict={dict} />
       </div>
       <div className="col-start-3 row-start-1 flex shrink-0 items-center gap-1.5 md:gap-2">
         <NotificationBell label={dict.notifications.title} loadingLabel={dict.common.loading} />
-        <ProfileMenu dict={dict} userName={userName} userEmail={userEmail ?? null} role={role} />
+        <ProfileMenu key={userId} userId={userId} initialPhotoPresent={photoPresent} dict={dict} userName={userName} userEmail={userEmail ?? null} role={role} />
       </div>
     </header>
   );

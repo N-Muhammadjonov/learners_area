@@ -84,7 +84,7 @@ export type Recorder = {
  * stopped on stop()/cancel() — leaving a microphone indicator light on after
  * recording is both a privacy bug and a battery drain.
  */
-export async function createRecorder(): Promise<Recorder> {
+export async function createRecorder(options: {signal?: AbortSignal; permissionTimeoutMs?: number; onError?: (error: RecorderError) => void} = {}): Promise<Recorder> {
   if (!isRecordingSupported()) {
     throw new RecorderError("unsupported", "This browser cannot record audio.");
   }
@@ -95,8 +95,20 @@ export async function createRecorder(): Promise<Recorder> {
 
   let stream: MediaStream;
   try {
-    stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    stream = await new Promise<MediaStream>((resolve, reject) => {
+      let settled = false;
+      const timeout = setTimeout(() => fail(), options.permissionTimeoutMs ?? 30_000);
+      const cleanup = () => {clearTimeout(timeout); options.signal?.removeEventListener("abort", fail);};
+      const fail = () => {if (settled) return; settled = true; cleanup(); reject(new RecorderError("unknown", "Microphone request was cancelled or timed out."));};
+      if (options.signal?.aborted) {fail(); return;}
+      options.signal?.addEventListener("abort", fail, {once: true});
+      navigator.mediaDevices.getUserMedia({audio: true}).then(value => {
+        if (settled) {for (const track of value.getTracks()) track.stop(); return;}
+        settled = true; cleanup(); resolve(value);
+      }, error => {if (settled) return; settled = true; cleanup(); reject(error);});
+    });
   } catch (err) {
+    if (err instanceof RecorderError) throw err;
     const name = (err as { name?: string } | null)?.name;
     if (name === "NotAllowedError" || name === "SecurityError") {
       throw new RecorderError("permission_denied", "Microphone permission was denied.");
@@ -107,7 +119,9 @@ export async function createRecorder(): Promise<Recorder> {
     throw new RecorderError("unknown", "Could not start the microphone.");
   }
 
-  const recorder = new MediaRecorder(stream, chosen.mimeType ? { mimeType: chosen.mimeType } : undefined);
+  let recorder: MediaRecorder;
+  try {recorder = new MediaRecorder(stream, chosen.mimeType ? { mimeType: chosen.mimeType } : undefined);}
+  catch {for (const track of stream.getTracks()) track.stop(); throw new RecorderError("unknown", "Could not create the audio recorder.");}
   const chunks: Blob[] = [];
   const startedAt = Date.now();
   let stoppedAt: number | null = null;
@@ -119,6 +133,12 @@ export async function createRecorder(): Promise<Recorder> {
   function releaseStream() {
     for (const track of stream.getTracks()) track.stop();
   }
+
+  recorder.addEventListener("error", () => {
+    releaseStream();
+    try { if (recorder.state !== "inactive") recorder.stop(); } catch { /* Already failed. */ }
+    options.onError?.(new RecorderError("unknown", "The audio recorder failed."));
+  });
 
   return {
     async start() {
@@ -132,9 +152,11 @@ export async function createRecorder(): Promise<Recorder> {
         return Promise.resolve(null);
       }
       return new Promise<RecordingResult | null>((resolve) => {
+        const deadline = setTimeout(() => {releaseStream(); resolve(null);}, 5_000);
         recorder.addEventListener(
           "stop",
           () => {
+            clearTimeout(deadline);
             stoppedAt = Date.now();
             releaseStream();
             if (chunks.length === 0) {
@@ -151,12 +173,13 @@ export async function createRecorder(): Promise<Recorder> {
           },
           { once: true }
         );
-        recorder.stop();
+        try {recorder.stop();} catch {clearTimeout(deadline); releaseStream(); resolve(null);}
       });
     },
     cancel() {
-      if (recorder.state !== "inactive") recorder.stop();
-      releaseStream();
+      try {if (recorder.state !== "inactive") recorder.stop();}
+      catch { /* Track release must still succeed if the recorder has failed. */ }
+      finally {releaseStream();}
     },
     elapsedMs: () => (stoppedAt ?? Date.now()) - startedAt,
   };

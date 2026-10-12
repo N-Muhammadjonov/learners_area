@@ -1,0 +1,173 @@
+import type { ReactNode } from "react";
+export type ModuleEmojiKind =
+  | "listening"
+  | "reading"
+  | "writing"
+  | "speaking"
+  | "grammar"
+  | "vocabulary"
+  | "video"
+  | "eject"
+  | "dashboard"
+  | "live"
+  | "assignment"
+  | "progress"
+  | "people"
+  | "support"
+  | "settings"
+  | "audit";
+// Original vector artwork: fixed appearance across platforms, no borrowed asset.
+const marks: Record<ModuleEmojiKind, ReactNode> = {
+  listening: (
+    <>
+      <path d="M6 15v-3a10 10 0 0 1 20 0v3" />
+      <rect x="4" y="14" width="6" height="10" rx="3" />
+      <rect x="22" y="14" width="6" height="10" rx="3" />
+    </>
+  ),
+  reading: (
+    <>
+      <path d="M16 8c-4-3-8-3-12-1v17c4-2 8-2 12 1 4-3 8-3 12-1V7c-4-2-8-2-12 1Z" />
+      <path d="M16 8v17M8 12h4M20 12h4M8 16h4M20 16h4" />
+    </>
+  ),
+  writing: (
+    <>
+      <path d="m8 23 2-7L23 3l6 6-13 13-8 1ZM10 16l6 6M20 6l6 6M5 28h22" />
+    </>
+  ),
+  speaking: (
+    <>
+      <rect x="11" y="3" width="10" height="17" rx="5" />
+      <path d="M6 15a10 10 0 0 0 20 0M16 25v4M11 29h10" />
+    </>
+  ),
+  grammar: (
+    <>
+      <path d="M14 6c-4-5-9-1-8 4-5 2-4 9 1 10-1 5 4 9 8 5V7M18 6c4-5 9-1 8 4 5 2 4 9-1 10 1 5-4 9-8 5V7M9 12l5 2M23 12l-5 2M10 21l4-3M22 21l-4-3" />
+    </>
+  ),
+  vocabulary: (
+    <>
+      <rect x="5" y="4" width="22" height="24" rx="4" />
+      <path d="m10 22 6-13 6 13M12 18h8M9 4v5M23 4v5" />
+    </>
+  ),
+  video: (
+    <>
+      <rect x="3" y="6" width="26" height="20" rx="5" />
+      <path d="m13 11 9 5-9 5Z" />
+    </>
+  ),
+  dashboard: (
+    <>
+      <rect x="4" y="4" width="10" height="10" rx="3" />
+      <rect x="18" y="4" width="10" height="10" rx="3" />
+      <rect x="4" y="18" width="10" height="10" rx="3" />
+      <rect x="18" y="18" width="10" height="10" rx="3" />
+    </>
+  ),
+  live: (
+    <>
+      <circle cx="16" cy="16" r="4" />
+      <path d="M9 9a10 10 0 0 0 0 14M23 9a10 10 0 0 1 0 14M5 5a16 16 0 0 0 0 22M27 5a16 16 0 0 1 0 22" />
+    </>
+  ),
+  assignment: (
+    <>
+      <rect x="7" y="6" width="18" height="23" rx="3" />
+      <rect x="11" y="3" width="10" height="6" rx="2" />
+      <path d="m11 18 3 3 7-7M11 25h10" />
+    </>
+  ),
+  progress: (
+    <>
+      <path d="M5 4v24h24M10 22l6-8 5 3 7-10" />
+      <path d="M22 7h6v6" />
+    </>
+  ),
+  people: (
+    <>
+      <circle cx="12" cy="10" r="5" />
+      <path d="M3 28v-3a9 9 0 0 1 18 0v3M23 6a5 5 0 0 1 0 10M25 20a7 7 0 0 1 5 8" />
+    </>
+  ),
+  support: (
+    <>
+      <path d="M28 15a12 12 0 0 1-12 12H5l-2 3V15a12 12 0 0 1 25 0Z" />
+      <path d="M10 12a6 6 0 0 1 11 2c0 3-5 3-5 6M16 23h.01" />
+    </>
+  ),
+  settings: (
+    <>
+      <path d="M5 8h22M5 16h22M5 24h22" />
+      <circle cx="11" cy="8" r="3" />
+      <circle cx="22" cy="16" r="3" />
+      <circle cx="13" cy="24" r="3" />
+    </>
+  ),
+  audit: (
+    <>
+      <path d="m16 3 11 4v9c0 7-11 13-11 13S5 23 5 16V7Z" />
+      <path d="m10 15 4 4 8-8" />
+    </>
+  ),
+  eject: (
+    <>
+      <path d="m7 19 9-13 9 13Z" />
+      <path d="M7 25h18" />
+    </>
+  ),
+};
+export function moduleEmojiFor(href: string): ModuleEmojiKind | null {
+  const routes: Record<string, ModuleEmojiKind> = {
+    "/app/listening": "listening",
+    "/app/reading": "reading",
+    "/app/writing": "writing",
+    "/app/speaking": "speaking",
+    "/app/grammar": "grammar",
+    "/app/vocabulary": "vocabulary",
+    "/app/video-lessons": "video",
+    "/app": "dashboard",
+    "/app/live-classes": "live",
+    "/app/assignments": "assignment",
+    "/app/progress": "progress",
+    "/app/mocks": "assignment",
+    "/app/admin/people": "people",
+    "/app/admin/admissions": "people",
+    "/app/teacher/students": "people",
+    "/app/teacher/support": "support",
+    "/app/teacher/live-classes": "live",
+    "/app/teacher/speaking": "speaking",
+    "/app/admin/content": "reading",
+    "/app/owner": "settings",
+    "/app/owner/audit": "audit",
+    "/app/support": "support",
+  };
+  return routes[href] ?? null;
+}
+export function ModuleEmoji({
+  kind,
+  className = "",
+}: {
+  kind: ModuleEmojiKind;
+  className?: string;
+}) {
+  return (
+    <span className={`module-emoji ${className}`} aria-hidden="true">
+      <svg
+        viewBox="0 0 32 32"
+        width="28"
+        height="28"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.9"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        focusable="false"
+      >
+        {marks[kind]}
+      </svg>
+    </span>
+  );
+}

@@ -134,12 +134,16 @@ one) — use `r2` there.
    R2_ENDPOINT=https://<account-id>.r2.cloudflarestorage.com
    R2_REGION=auto
    ```
-3. **CORS** — required for direct browser→R2 uploads. Bucket → Settings →
-   CORS Policy:
+3. **CORS** — required for direct browser→R2 uploads. The browser uses the
+   original presigned R2/S3 URL; do not route that signed PUT through a Vercel
+   rewrite. Bucket → Settings → CORS Policy:
    ```json
    [
      {
-       "AllowedOrigins": ["https://learnersarea.uz"],
+       "AllowedOrigins": [
+         "https://learnersarea.uz",
+         "https://learners-area-git-arena-learners-area-next-learners-area.vercel.app"
+       ],
        "AllowedMethods": ["PUT"],
        "AllowedHeaders": ["Content-Type"],
        "MaxAgeSeconds": 3000
@@ -152,9 +156,11 @@ one) — use `r2` there.
      }
    ]
    ```
-   Add the real production origin only. Never use `"*"`. Exposing a bucket or
-   an origin more widely than this is the one change that would undo the
-   private-by-default model.
+   The second origin is the stable Vercel branch alias for
+   `arena/learners-area-next`; use that alias for Preview QA instead of a
+   one-off deployment hostname. Keep only exact trusted origins; never use
+   `"*"`. Exposing a bucket or an origin more widely than this is the one
+   change that would undo the private-by-default model.
 4. **Do not** enable public access on the bucket. The app does not need it.
 
 ### The upload lifecycle
@@ -214,7 +220,9 @@ as display metadata only. Every key is additionally rejected by
 - It allows the read when the material is active, or when the caller manages
   that material (its author, or the platform owner). A deactivated resource
   stops being readable by students immediately, not whenever a cache expires.
-- `r2`/`s3`: 302 to a signed GET URL valid for 5 minutes.
+- `r2`/`s3`: authorized reads use a 5-minute signed GET transport. Browser
+  uploads are separate: the client PUTs directly to the original provider-signed
+  URL and therefore require exact-origin R2/S3 CORS.
 - `local`: streams the bytes from disk with `Range` support so `<audio>` and
   `<video>` seeking works.
 - An unknown key answers **404**, not 403, so the route cannot be used to

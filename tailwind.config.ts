@@ -19,6 +19,17 @@ const config: Config = {
     extend: {
       colors: {
         ink: {
+          /*
+           * §15 — `bg-ink-50` is referenced by 22 files (~39 sites: loading skeletons, recessed panels)
+           * but `50` was never in this scale, so Tailwind generated NO utility for it and every one of
+           * those elements rendered with no background at all — invisible loading skeletons across the
+           * website. Proven from the built stylesheet: `.bg-ink-50` appears 0 times while the control
+           * utilities `.bg-ink-100`, `.bg-ink-900`, `.bg-ink-950` and `.bg-paper-sunken` each appear.
+           * Adding the shade fixes every call site at once and also makes the existing
+           * `.listening-workspace` override of `--ink-50` (the owner's Listening study pack palette)
+           * live, which was previously dead for the same reason.
+           */
+          50: "rgb(var(--ink-50) / <alpha-value>)",
           950: "rgb(var(--ink-950) / <alpha-value>)",
           900: "rgb(var(--ink-900) / <alpha-value>)",
           700: "rgb(var(--ink-700) / <alpha-value>)",

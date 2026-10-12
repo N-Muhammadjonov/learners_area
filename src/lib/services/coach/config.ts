@@ -27,6 +27,10 @@ export type CoachConfig = {
   retryBackoffMs: number;
   /** STT_PRIMARY_PROVIDER — deliberately independent of the evaluator. */
   sttPrimaryProvider: string;
+  /** Owner-selected model override for the primary external provider (owner control only). */
+  modelOverride?: string | null;
+  /** Owner fallback policy: "riwi" = fall back to RIWI's own checker, "none" = strict. */
+  ownerFallback?: "riwi" | "none";
 };
 
 function readInt(name: string, fallback: number, min: number, max: number): number {

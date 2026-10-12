@@ -1,5 +1,7 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
+import { describeUploadError } from "@/lib/uploads/errors";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
@@ -9,6 +11,7 @@ import { PrimaryFileField, type PrimaryDraft } from "./PrimaryFileField";
 import { draftsFromBlocks, useBlockDrafts } from "./useBlockDrafts";
 import type { Dictionary } from "@/lib/i18n/en";
 import type { materialBlocks, speakingMaterials } from "@/db/schema";
+import { apiErrorMessage } from "@/lib/api-error-message";
 
 type Material = typeof speakingMaterials.$inferSelect;
 type Block = typeof materialBlocks.$inferSelect;
@@ -33,6 +36,8 @@ export function EditMaterialForm({
   blocks: Block[];
   onDone: () => void;
 }) {
+  const requestResponse = useScopedResponse(25000);
+
   const router = useRouter();
   const t = dict.speaking;
 
@@ -92,11 +97,12 @@ export function EditMaterialForm({
     };
     if (primaryPayload) body.primary = primaryPayload;
 
-    const res = await fetch(`/api/speaking/materials/${material.id}`, {
+    const res = await requestResponse(`/api/speaking/materials/${material.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
+    if (!res) return;
 
     setPending(false);
     if (res.ok) {
@@ -105,7 +111,7 @@ export function EditMaterialForm({
       onDone();
     } else {
       const data = await res.json().catch(() => ({}));
-      setError(data.error ?? t.saveFailed);
+      setError(apiErrorMessage(data.error, res.status, dict));
     }
   }
 
@@ -148,7 +154,7 @@ export function EditMaterialForm({
         <BlockComposer dict={dict} controller={controller} materialId={material.id} />
       </fieldset>
 
-      {error && <p className="text-sm text-band-bad">{error}</p>}
+      {error && <p className="text-sm text-band-bad">{describeUploadError(error, dict.uploadErrors)}</p>}
       {saved && <p className="text-sm text-band-good">{t.savedAndRefreshed}</p>}
 
       <div className="flex flex-wrap gap-2">

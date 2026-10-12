@@ -16,6 +16,7 @@ export function GET() {
   const commit =
     process.env.APP_COMMIT_SHA?.trim() ||
     process.env.VERCEL_GIT_COMMIT_SHA?.trim() ||
+    process.env.RAILWAY_GIT_COMMIT_SHA?.trim() ||
     null;
 
   return NextResponse.json(

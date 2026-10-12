@@ -3,8 +3,15 @@ import { z } from "zod";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { addVocabularyBatch, listLibrary } from "@/lib/services/vocabulary/engine";
 import { timed } from "@/lib/observability/timing";
-import { resolveReadingOccurrence } from "@/lib/services/lexical/context";
+import { resolveOccurrence, readingSourceAccess } from "@/lib/services/lexical/context";
+import { listeningVocabularySession } from "@/lib/services/lexical/listening-occurrences";
+import { fullListeningDetail, listeningExamState } from "@/lib/data/full-listening";
+import { lexicalAssistanceAllowed } from "@/lib/listening/lexical-policy";
 import { enrichTerms } from "@/lib/services/lexical/enrichment";
+import { db } from "@/db/client";
+import { lexemes } from "@/db/schema";
+import { eq } from "drizzle-orm";
+import { isUuid } from "@/lib/validation/ids";
 
 /**
  * The word library: read your own words, or add more in one action.
@@ -32,6 +39,8 @@ const itemSchema = z.object({
 const addSchema = z.object({
   items: z.array(itemSchema).min(1).max(100),
   occurrenceId: z.string().uuid().optional(),
+  /** Listening Vocabulary Session item: validated against the test's session list, never trusted. */
+  sessionSenseId: z.string().uuid().optional(),
   folderId: z.string().uuid().nullish(),
   topicPack: z.string().max(60).nullish(),
   sourceType: z.string().max(40).optional(),
@@ -81,17 +90,56 @@ export async function POST(req: NextRequest) {
   const parsed = addSchema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: "invalid_input" }, { status: 400 });
 
+  if (parsed.data.sessionSenseId) {
+    if (parsed.data.sourceType !== "listening" || !parsed.data.sourceId || !isUuid(parsed.data.sourceId)) return NextResponse.json({ error: "invalid_input" }, { status: 400 });
+    const testId = parsed.data.sourceId;
+    const detail = await fullListeningDetail(testId, user.role);
+    if (!detail) return NextResponse.json({ error: "source_not_found" }, { status: 404 });
+    if (!lexicalAssistanceAllowed("VOCABULARY_STUDY", await listeningExamState(user, testId))) return NextResponse.json({ error: "lexical_assistance_locked" }, { status: 403 });
+    const item = (await listeningVocabularySession(db, testId, detail.pkg.payload.vocabulary)).find((row) => row.senseId === parsed.data.sessionSenseId);
+    if (!item?.senseId) return NextResponse.json({ error: "source_not_found" }, { status: 404 });
+    const context = item.occurrenceId ? await resolveOccurrence(user, "listening", testId, item.occurrenceId) : null;
+    const sense = await db.query.lexemes.findFirst({ where: eq(lexemes.id, item.senseId) });
+    if (!sense) return NextResponse.json({ error: "source_not_found" }, { status: 404 });
+    const result = await addVocabularyBatch({ userId: user.id, folderId: parsed.data.folderId, sourceType: "listening", sourceId: testId,
+      items: [{ ...sense, canonicalLexemeId: sense.id, ...(context?.status === "resolved" ? { sourceSnapshot: context.snapshot } : {}) }],
+    });
+    return NextResponse.json(result, { status: result.ok ? 200 : 404 });
+  }
+
   if (parsed.data.occurrenceId) {
-    if (parsed.data.sourceType !== "reading" || !parsed.data.sourceId || parsed.data.items.length !== 1) {
+    const sourceType = parsed.data.sourceType;
+    if ((sourceType !== "reading" && sourceType !== "listening") || !parsed.data.sourceId || parsed.data.items.length !== 1) {
       return NextResponse.json({ error: "invalid_input" }, { status: 400 });
     }
-    const contextual = await resolveReadingOccurrence(user.id, parsed.data.sourceId, parsed.data.occurrenceId);
+    const contextual = await resolveOccurrence(user, sourceType, parsed.data.sourceId, parsed.data.occurrenceId);
     if (!contextual) return NextResponse.json({ error: "source_not_found" }, { status: 404 });
+    if (contextual.status === "locked") return NextResponse.json({ error: "lexical_assistance_locked" }, { status: 403 });
+    // No checked sense for this occurrence: nothing is saved under a guessed meaning.
+    if (contextual.status === "unresolved") {
+      return NextResponse.json({ ok: false, error: "needs_definition", needsDefinition: [contextual.snapshot.surfaceForm] }, { status: 422 });
+    }
     const result = await addVocabularyBatch({ userId: user.id, folderId: parsed.data.folderId,
-      sourceType: "reading", sourceId: parsed.data.sourceId,
+      sourceType, sourceId: parsed.data.sourceId,
       items: [{ ...contextual.lexeme, canonicalLexemeId: contextual.lexeme.id, sourceSnapshot: contextual.snapshot }],
     });
     return NextResponse.json(result, { status: result.ok ? 200 : 404 });
+  }
+
+  // VD-001: a Reading save without an occurrence (the learner's own meaning for an
+  // unresolved word) still needs a real source and obeys the Reading mode policy —
+  // an active Academic attempt stays closed, a forged source id is unknown.
+  if (parsed.data.sourceType === "reading") {
+    if (!parsed.data.sourceId || !isUuid(parsed.data.sourceId)) return NextResponse.json({ error: "invalid_input" }, { status: 400 });
+    const access = await readingSourceAccess(user, parsed.data.sourceId);
+    if (access === "not_found") return NextResponse.json({ error: "source_not_found" }, { status: 404 });
+    if (access === "locked") return NextResponse.json({ error: "lexical_assistance_locked" }, { status: 403 });
+  }
+
+  // A Listening or Reading word without an occurrence has no known sense; a
+  // spelling-based catalogue guess would be context-free, so it is not attempted.
+  if ((parsed.data.sourceType === "listening" || parsed.data.sourceType === "reading") && parsed.data.items.some((item) => !item.definitionEn)) {
+    return NextResponse.json({ ok: false, error: "needs_definition", needsDefinition: parsed.data.items.filter((item) => !item.definitionEn).map((item) => item.term) }, { status: 422 });
   }
 
   // Words that arrived without a meaning are completed from the configured

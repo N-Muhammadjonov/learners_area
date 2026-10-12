@@ -1,4 +1,5 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -20,13 +21,18 @@ export function PublicationControl({
   state,
   publishAt,
   dict,
+  issueLabels,
 }: {
   type: string;
   id: string;
   state: PublicationState;
   publishAt: string | null;
   dict: Dictionary;
+  /** Localized sentences for server publish-blocker codes (Writing Management). Raw codes are never shown. */
+  issueLabels?: Record<string, string>;
 }) {
+  const requestResponse = useScopedResponse(25000);
+
   const t = dict.admin.publication;
   const router = useRouter();
   const [next, setNext] = useState<PublicationState>(state);
@@ -35,11 +41,12 @@ export function PublicationControl({
   const [moment, setMoment] = useState(() => toLocalInput(publishAt));
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<"saved" | "error" | null>(null);
+  const [issues, setIssues] = useState<string[]>([]);
 
   async function save() {
     setBusy(true);
     setMessage(null);
-    const response = await fetch(`/api/admin/content/${type}/${id}/publication`, {
+    const response = await requestResponse(`/api/admin/content/${type}/${id}/publication`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -47,8 +54,42 @@ export function PublicationControl({
         publishAt: next === "scheduled" && moment ? new Date(moment).toISOString() : null,
       }),
     }).catch(() => null);
+    if (!response) return;
     setBusy(false);
+    setIssues([]);
     if (!response || !response.ok) {
+      const data = response
+        ? ((await response.json().catch(() => null)) as {
+            error?: string;
+            required?: number;
+            present?: number;
+            issues?: string[];
+            blockers?: { kind?: string; section?: number }[];
+          } | null)
+        : null;
+      if (data?.error === "incomplete_mcq_day") {
+        /*
+         * An MCQ programme day: the rule is stated in the reader's own language, and the day's
+         * specific problems follow as sentences (each names the question it is about). The English
+         * sentences are the same ones the import desk shows, so staff read one vocabulary.
+         */
+        setIssues([
+          dict.listening.mcqProgram.publishRequiresFive,
+          ...(typeof data.present === "number" && typeof data.required === "number"
+            ? [dict.listening.mcqProgram.publishHolds.replace("{present}", String(data.present)).replace("{required}", String(data.required))]
+            : []),
+          ...(data.issues ?? []),
+        ]);
+      } else if (data?.blockers?.length) {
+        // Listening publish gate: structured, localized here (the English `issues` are log text only).
+        const l = dict.listeningImport;
+        setIssues(
+          data.blockers.map((b) =>
+            (b.kind === "transcript_missing" ? l.blockMissing : l.blockReview).replace("{n}", String(b.section ?? "?")),
+          ),
+        );
+      } else if (issueLabels && data?.issues?.length)
+        setIssues(data.issues.map((code) => issueLabels[code]).filter((x): x is string => Boolean(x)));
       setMessage("error");
       return;
     }
@@ -102,6 +143,11 @@ export function PublicationControl({
         <span className="text-xs text-band-bad" data-publication-result="error">
           {t.failed}
         </span>
+      )}
+      {issues.length > 0 && (
+        <ul className="w-full list-disc pl-5 text-xs text-band-bad" data-publication-issues>
+          {issues.map((issue) => <li key={issue}>{issue}</li>)}
+        </ul>
       )}
     </div>
   );

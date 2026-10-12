@@ -1,12 +1,16 @@
+import { withUploadErrorBoundary } from "@/lib/uploads/server-errors";
+import { saveSpeakingSubmission } from "@/lib/services/speaking/submission";
+import type { ServiceError } from "@/lib/services/coach";
 import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
+import { PUBLIC_CHECKED_BY } from "@/lib/services/coach/attribution";
 import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { speakingAttempts } from "@/db/schema";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getLocale } from "@/lib/i18n";
 import { submitAttemptSchema } from "@/lib/validation/speaking-practice";
-import { evaluateSpeakingAttempt, transcribePrivateRecording } from "@/lib/services/coach";
+import { evaluateSpeakingAttempt } from "@/lib/services/coach";
 
 /**
  * POST /api/speaking/attempts/:id/submit — finalize a practice attempt.
@@ -23,6 +27,10 @@ import { evaluateSpeakingAttempt, transcribePrivateRecording } from "@/lib/servi
  * fabricate machine transcription.
  */
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  return withUploadErrorBoundary("speaking_submit", () => submit(req, params));
+}
+
+async function submit(req: NextRequest, params: Promise<{ id: string }>) {
   const { id } = await params;
   if (!isUuid(id)) return NextResponse.json({ error: "not_found" }, { status: 404 });
   const user = await requireActiveUser();
@@ -49,39 +57,13 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       ? ((body as { manualTranscript: string }).manualTranscript.trim().slice(0, 8000))
       : "";
 
-  let transcript: string | null = null;
-  let transcriptOrigin: "stt" | "manual" | null = null;
-  let transcriptProvider: string | null = null;
-
-  if (manualTranscript.length >= 10) {
-    transcript = manualTranscript;
-    transcriptOrigin = "manual";
-  } else {
-    // Try the configured transcriber. Failure is not fatal: the recording is
-    // still a valid submission, it just has no automated feedback.
-    const speech = await transcribePrivateRecording({
-      objectKey: attempt.recordingObjectKey,
-      contentType: attempt.recordingMimeType,
-      durationMs: parsed.data.durationMs ?? attempt.recordingDurationMs,
-      language: await getLocale(),
-    });
-    if (speech.ok) {
-      transcript = speech.transcript;
-      transcriptOrigin = "stt";
-      transcriptProvider = speech.providerId;
-    }
-  }
-
-  const [updated] = await db
-    .update(speakingAttempts)
-    .set({
-      status: "submitted",
-      submittedAt: new Date(),
-      ...(parsed.data.durationMs !== undefined ? { recordingDurationMs: parsed.data.durationMs } : {}),
-      ...(transcript ? { transcript, transcriptOrigin, transcriptProvider } : {}),
-    })
-    .where(eq(speakingAttempts.id, id))
-    .returning();
+  const { attempt: updated, transcript, transcriptOrigin, transcriptionFailure } = await saveSpeakingSubmission({
+    attempt,
+    durationMs: parsed.data.durationMs,
+    manualTranscript,
+    language: await getLocale(),
+  });
+  let evaluationError: ServiceError | null = null;
 
   let evaluation:
     | { id: string; checkedBy: string; fallbackUsed: boolean; overallEstimate: number | null; verdict: string | null }
@@ -109,11 +91,13 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     if (outcome.ok) {
       evaluation = {
         id: outcome.evaluation.id,
-        checkedBy: outcome.evaluation.checkedBy.displayName,
+        checkedBy: PUBLIC_CHECKED_BY,
         fallbackUsed: outcome.evaluation.fallbackUsed,
         overallEstimate: outcome.evaluation.overallEstimate,
         verdict: outcome.evaluation.verdict,
       };
+    } else {
+      evaluationError = outcome.error;
     }
   }
 
@@ -121,6 +105,9 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     ok: true,
     attempt: updated,
     transcriptOrigin,
+    transcriptionFailure,
+    evaluationError,
+    recordingSaved: true,
     evaluated: evaluation !== null,
     evaluation,
   });

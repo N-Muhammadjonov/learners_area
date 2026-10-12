@@ -19,9 +19,9 @@
  * itself: swapping an asset later is editing one line in this file, not a search
  * across the codebase.
  *
- * The supplied artwork is final. Nothing in this application recolours, traces,
- * inverts, filters or re-exports it; where a theme needs a different look, the
- * theme picks a different supplied file (`logoMarkDark` vs `logoMarkLight`).
+ * Original supplied masters are retained. At the owner's request, runtime marks
+ * use transparent image-edited cutouts with the original dark variant assigned
+ * to night and the original light variant assigned to day. No CSS colour filters.
  *
  * The two families exist for a reason:
  *
@@ -74,6 +74,7 @@ export type BrandAssets = {
 
 /** One canonical directory for approved brand artwork. */
 export const BRAND_ASSET_DIR = "/brand";
+export const INTRO_VIDEO = `${BRAND_ASSET_DIR}/Learners_Area_intro_optimized_v17.mp4`;
 
 /**
  * Runtime derivatives of the approved artwork.
@@ -86,9 +87,9 @@ export const BRAND_ASSET_DIR = "/brand";
  * `scripts/build-brand-derivatives.mjs` resamples the masters into
  * `public/brand/derived/` and writes down the pixel sizes, so a component can
  * declare the intrinsic width and height and the browser reserves the space
- * before the image arrives. Nothing is recoloured, cropped or re-traced: the
- * pixels come from the approved file, only smaller. `--check` proves the
- * derivatives still match the masters.
+ * before the image arrives. The older derivative check still validates the original resamples.
+ * New transparent cutouts are separately checked for alpha and intrinsic size;
+ * they are image-edited assets, not pixel-identical master resamples.
  *
  * The masters remain in use where the brand is the subject rather than a
  * navigation row (the owner's brand preview), because there the detail is the
@@ -109,8 +110,8 @@ const DERIVED_DIR = `${BRAND_ASSET_DIR}/derived`;
 
 /** The mark, per theme, sized for a ~40–48px slot. */
 export const BRAND_MARK: Record<BrandTheme, BrandDerivative> = {
-  day: { width: 48, height: 48, src: `${DERIVED_DIR}/mark-light-96.png`, src2x: `${DERIVED_DIR}/mark-light-192.png` },
-  night: { width: 48, height: 48, src: `${DERIVED_DIR}/mark-dark-96.png`, src2x: `${DERIVED_DIR}/mark-dark-192.png` },
+  day: { width: 48, height: 48, src: `${DERIVED_DIR}/owner-neon-day-96.png`, src2x: `${DERIVED_DIR}/owner-neon-day-192.png` },
+  night: { width: 48, height: 36, src: `${DERIVED_DIR}/owner-v11-night-96.png`, src2x: `${DERIVED_DIR}/owner-v11-night-192.png` },
 };
 
 /** The horizontal lock-up, sized for the ~300px slot the auth screens use. */
@@ -138,8 +139,8 @@ export const BRAND_FAVICON = {
 
 export const BRAND_ASSETS: BrandAssets = {
   logoMasterDark: `${BRAND_ASSET_DIR}/learners-area-logo-master-dark.png`,
-  logoMarkDark: `${BRAND_ASSET_DIR}/learners-area-logo-mark-dark.png`,
-  logoMarkLight: `${BRAND_ASSET_DIR}/learners-area-logo-mark-light.png`,
+  logoMarkDark: `${BRAND_ASSET_DIR}/Learners_Area_V11_Exact_Cutout_Logo.png`,
+  logoMarkLight: `${BRAND_ASSET_DIR}/owner-neon-day.png`,
   logoHorizontalDark: `${BRAND_ASSET_DIR}/learners-area-logo-horizontal-dark.png`,
   logoHorizontalLight: `${BRAND_ASSET_DIR}/learners-area-logo-horizontal-light.png`,
   favicon: `${BRAND_ASSET_DIR}/learners-area-favicon.png`,
@@ -162,9 +163,9 @@ export function brandLogoFor(kind: BrandLogoKind, theme: BrandTheme): string {
     case "mark":
       return theme === "night" ? BRAND_ASSETS.logoMarkDark : BRAND_ASSETS.logoMarkLight;
     case "horizontal":
-      return theme === "night" ? BRAND_ASSETS.logoHorizontalDark : BRAND_ASSETS.logoHorizontalLight;
+      return theme === "night" ? BRAND_ASSETS.logoMarkDark : BRAND_ASSETS.logoHorizontalDark;
     case "master":
-      return BRAND_ASSETS.logoMasterDark;
+      return theme === "night" ? BRAND_ASSETS.logoMarkDark : BRAND_ASSETS.logoMasterDark;
   }
 }
 

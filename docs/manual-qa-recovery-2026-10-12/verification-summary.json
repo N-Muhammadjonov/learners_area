@@ -1,0 +1,69 @@
+{
+  "fulltests-final.log": {
+    "sha256": "6b839457cde2d940cf32988c04038a4481d4b3b992e9f884a7597af83d21230c",
+    "counts": {
+      "tests": 1649,
+      "pass": 1538,
+      "fail": 0,
+      "skipped": 111
+    }
+  },
+  "ui-final-verified.log": {
+    "sha256": "47b24e42353b8f2ba25fd7f050199eba1db232edfe85c0fe4d92d3afc8587978",
+    "counts": {
+      "tests": 336,
+      "pass": 336,
+      "fail": 0,
+      "skipped": 0
+    }
+  },
+  "navigation-integration-final.log": {
+    "sha256": "b3db2e75635247bc7f4531e5c7db119ea5235984b7e8378440851ed9b0f4bede",
+    "counts": {
+      "tests": 38,
+      "pass": 38,
+      "fail": 0,
+      "skipped": 0
+    }
+  },
+  "authoring-listening-final.log": {
+    "sha256": "a6ba5447fbae06e1e2a93889464b4bbffb531c956222717227d023b55d315312",
+    "counts": {
+      "tests": 7,
+      "pass": 7,
+      "fail": 0,
+      "skipped": 0
+    }
+  },
+  "typecheck-final.log": {
+    "sha256": "ac19c29fd7dbdd2d0a0bb9f56b2a514ef5788b0a705cec89218a7a23d833d062",
+    "counts": {}
+  },
+  "lint-final.log": {
+    "sha256": "b4d1173af97e919cdcf5e1f2bc959f7b0c283ac1010456dfb977bf2d1a71adf4",
+    "counts": {}
+  },
+  "build-final.log": {
+    "sha256": "b33186a0d89825b947fbe990ad6bc19913fc848e72cbe1474b3f1a54a4c449a4",
+    "counts": {}
+  },
+  "native-pg-bootstrap.log": {
+    "sha256": "a7f1bcba8ce347e3f649aa6f5448adba7845a1dd6c65cbb95ba7a21823b11a70",
+    "counts": {}
+  },
+  "local_next_build_id": "3jVRh13-zaVapCPG-Kz8W",
+  "source_typing_white_on_opaque_stage_contrast": {
+    "foreground": [
+      255,
+      255,
+      255
+    ],
+    "background": [
+      8,
+      32,
+      68
+    ],
+    "ratio": 16.149,
+    "scope": "source colors only; actual Safari computed cascade not verified"
+  }
+}

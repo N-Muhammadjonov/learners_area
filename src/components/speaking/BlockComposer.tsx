@@ -1,5 +1,6 @@
 "use client";
 
+import { describeUploadError } from "@/lib/uploads/errors";
 import { useId, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
@@ -461,7 +462,7 @@ function BlockRow({
         onClick={onRemove}
         aria-label={`${t.removeBlock} — ${kindLabel}`}
         title={t.removeBlock}
-        className="mt-1 shrink-0 px-1 text-xs text-band-bad hover:underline"
+        className="btn-secondary mt-1 shrink-0 text-band-bad"
       >
         ✕
       </button>
@@ -545,7 +546,7 @@ function MediaBlockBody({
               {block.uploadId ? "" : t.keepAttachment}
             </span>
           )}
-          <button type="button" onClick={onReplace} className="ml-auto text-xs text-signal-600 hover:underline">
+          <button type="button" onClick={onReplace} className="btn-secondary ml-auto">
             {t.replaceAttachment}
           </button>
         </div>
@@ -555,9 +556,9 @@ function MediaBlockBody({
         <div className="flex flex-wrap items-center gap-2">
           <span className="text-xs text-band-bad">
             {t.uploadState[block.state]}
-            {block.error ? ` — ${block.error}` : ""}
+            {block.error ? ` — ${describeUploadError(block.error, dict.uploadErrors)}` : ""}
           </span>
-          <button type="button" onClick={onRetry} className="text-xs text-signal-600 hover:underline">
+          <button type="button" onClick={onRetry} className="btn-secondary ">
             {t.retryUpload}
           </button>
         </div>

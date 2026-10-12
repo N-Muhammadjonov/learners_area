@@ -12,7 +12,13 @@ import {
   real,
   index,
   uniqueIndex,
+  smallint,
+  primaryKey,
+  unique,
+  check,
 } from "drizzle-orm/pg-core";
+import { sql } from "drizzle-orm";
+import type { AnyPgColumn } from "drizzle-orm/pg-core";
 
 // ---------------------------------------------------------------------------
 // Enums
@@ -126,6 +132,22 @@ export const materialTypeEnum = pgEnum("material_type", ["video", "audio", "file
 
 export const contentBlockTypeEnum = pgEnum("content_block_type", ["text", "link", "file", "image", "audio"]);
 
+/**
+ * The typed native block a lesson is built from (§26). Deliberately a closed set:
+ * a lesson references canonical content or shows native material — it never embeds
+ * an uploaded mini application, so "HTML block" is not a type here on purpose.
+ */
+export const lessonBlockTypeEnum = pgEnum("lesson_block_type", [
+  "text",
+  "image",
+  "audio",
+  "video",
+  "file",
+  "link",
+  "quiz",
+  "content_reference",
+]);
+
 // --- Upload intents ---------------------------------------------------------
 // Every object that reaches storage goes through one of these first. It is the
 // server's record that a specific authenticated user was authorized to write
@@ -138,7 +160,7 @@ export const uploadPurposeEnum = pgEnum("upload_purpose", [
   "speaking_recording",
 ]);
 
-export const uploadBlockKindEnum = pgEnum("upload_block_kind", ["image", "audio", "file"]);
+export const uploadBlockKindEnum = pgEnum("upload_block_kind", ["image", "audio", "video", "file"]);
 
 export const uploadStatusEnum = pgEnum("upload_status", [
   "pending", // intent issued, bytes not yet confirmed in storage
@@ -190,6 +212,8 @@ export const users = pgTable("users", {
   email: varchar("email", { length: 320 }).unique(),
   passwordHash: text("password_hash"), // null for Telegram-only accounts
   telegramId: varchar("telegram_id", { length: 64 }).unique(),
+  /** Google OIDC `sub` (stable account id). Never matched by email; see providers/google.ts. */
+  googleSub: varchar("google_sub", { length: 255 }).unique(),
   name: varchar("name", { length: 200 }).notNull(),
   gender: genderEnum("gender"),
   role: roleEnum("role").notNull().default("student"),
@@ -350,7 +374,166 @@ export const lessons = pgTable("lessons", {
    * and materials instead of an empty player.
    */
   recordingUrl: text("recording_url"),
+  /** Stable identity of the authored lesson this row is the version OF (§43). */
+  sourceRef: varchar("source_ref", { length: 80 }),
+  /** Authored lessons start as drafts; existing seed lessons are published by default. */
+  publicationState: publicationStateEnum("publication_state").notNull().default("published"),
+  publishAt: timestamp("publish_at", { withTimezone: true }),
+  estimatedMinutes: integer("estimated_minutes"),
+  /**
+   * What the lesson is ABOUT (listening / reading / writing / speaking / grammar /
+   * vocabulary / general) — authored, never inferred from media type or title.
+   *
+   * NULL means "not classified yet"; it is NOT a synonym for `general`, which is an
+   * explicit authorial choice. A learner-facing library reads this column, so a lesson
+   * appears under Listening because an author said so, not because it happens to
+   * contain audio. Vocabulary lives in `src/lib/content/learning-areas.ts`, and the
+   * closed set is enforced in the database by `lessons_learning_area_chk`.
+   */
+  learningArea: varchar("learning_area", { length: 20 }),
+  /**
+   * The centre's own notes for this lesson — lesson metadata, independent of the media
+   * type (a video lesson, an audio lesson and a text lesson all carry them the same
+   * way). Staff-authored and learner-readable; the learner's PRIVATE note is a
+   * different thing entirely and lives in `lessonNotes`.
+   */
+  teacherNotes: text("teacher_notes"),
+  createdByUserId: uuid("created_by_user_id").references(() => users.id, { onDelete: "set null" }),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });
+
+/**
+ * The block shape a lesson revision stores — typed, never a rendered page.
+ *
+ * The media metadata (`originalName`, `mimeType`, `size`) is part of the snapshot because
+ * a revision must be able to REPRODUCE the lesson it describes: the authoring desk edits
+ * those fields, and copying a revision into the next one would otherwise lose the file's
+ * name and size. Revisions pinned before these fields existed simply lack them, and every
+ * reader treats them as optional rather than inventing values.
+ */
+export type LessonBlockSnapshot = {
+  position: number;
+  type: string;
+  text: string | null;
+  url: string | null;
+  objectKey: string | null;
+  originalName?: string | null;
+  mimeType?: string | null;
+  size?: number | null;
+  ref: { module: string; contentType: string; sourceRef: string; versionId?: string | null } | null;
+  quiz: { questionType?: string; prompt?: string; options?: string[] | null; answer?: unknown; explanation?: string | null } | null;
+};
+
+/**
+ * One typed block of a lesson, in order.
+ *
+ * `quiz` carries a CANONICAL question type id and the answer model that type
+ * expects — grading goes through `gradeForType`, so a lesson quiz and an exam
+ * question cannot disagree about what is correct. `content_reference` points at
+ * canonical content by (module, content type, source ref) and optionally pins an
+ * exact revision; nothing is copied.
+ */
+export const lessonBlocks = pgTable(
+  "lesson_blocks",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    lessonId: uuid("lesson_id")
+      .notNull()
+      .references(() => lessons.id, { onDelete: "cascade" }),
+    position: integer("position").notNull(),
+    type: lessonBlockTypeEnum("type").notNull(),
+    /** type=text: plain text. Never HTML — a lesson cannot ship executable script. */
+    textContent: text("text_content"),
+    /** type=link: https URL only. */
+    linkUrl: text("link_url"),
+    /** type=file|image|audio|video: private storage key (never a public URL). */
+    objectKey: text("object_key"),
+    originalName: varchar("original_name", { length: 255 }),
+    mimeType: varchar("mime_type", { length: 120 }),
+    size: integer("size"),
+    /** type=content_reference: what it points at. */
+    refModule: varchar("ref_module", { length: 20 }),
+    refContentType: varchar("ref_content_type", { length: 40 }),
+    refSourceRef: varchar("ref_source_ref", { length: 80 }),
+    refContentVersionId: uuid("ref_content_version_id").references(() => contentVersions.id, { onDelete: "set null" }),
+    /** type=quiz: canonical question type id + the answer model that type expects. */
+    quizQuestionType: varchar("quiz_question_type", { length: 40 }),
+    quizPayload: jsonb("quiz_payload").$type<Record<string, unknown>>(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("lesson_blocks_position_idx").on(table.lessonId, table.position),
+    index("lesson_blocks_lesson_idx").on(table.lessonId),
+    index("lesson_blocks_reference_idx").on(table.refModule, table.refContentType, table.refSourceRef),
+  ],
+);
+
+/** A learner's answer to one quiz block, graded once and kept. */
+export const lessonBlockResponses = pgTable(
+  "lesson_block_responses",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    lessonId: uuid("lesson_id")
+      .notNull()
+      .references(() => lessons.id, { onDelete: "cascade" }),
+    blockId: uuid("block_id")
+      .notNull()
+      .references(() => lessonBlocks.id, { onDelete: "cascade" }),
+    answer: jsonb("answer").$type<Record<string, unknown>>(),
+    correct: boolean("correct"),
+    answeredAt: timestamp("answered_at", { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("lesson_block_responses_user_block_idx").on(table.userId, table.blockId),
+    index("lesson_block_responses_lesson_idx").on(table.lessonId, table.userId),
+  ],
+);
+
+/**
+ * A learner's PRIVATE note on a lesson ("Xulosangiz") — summary, conclusion,
+ * useful expressions, personal reminders.
+ *
+ * Why this is its own table and not `lesson_progress.notes`:
+ *
+ *   * `lesson_progress.notes` is rendered by ordinary progress reads
+ *     (`src/lib/data/roadmap.ts`), so private learner text sitting in a progress row
+ *     is one widened SELECT away from being exposed. Here it cannot leak through a
+ *     progress read at all.
+ *   * A note is not progress. This row carries no state and never marks a lesson
+ *     started or completed — note existence is not a completion event.
+ *   * `lesson_progress` has no unique key on (user_id, lesson_id), so its notes path
+ *     is a racy read-then-write. The unique index here IS the upsert contract.
+ *
+ * Identity is (user_id, lesson_id) where `lessons.id` is the stable logical lesson,
+ * so a new revision of the same lesson keeps the learner's note. Ownership is
+ * enforced in `src/lib/services/notes/lesson-notes.ts`, which only ever queries by
+ * the session user's id — no other learner, and no teacher/admin/owner route, reads
+ * this table.
+ */
+export const lessonNotes = pgTable(
+  "lesson_notes",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    lessonId: uuid("lesson_id")
+      .notNull()
+      .references(() => lessons.id, { onDelete: "cascade" }),
+    /** Bounded plain text, never HTML; 1..4000 characters (see LESSON_NOTE_MAX). */
+    body: text("body").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("lesson_notes_user_lesson_uq").on(table.userId, table.lessonId),
+    index("lesson_notes_lesson_idx").on(table.lessonId),
+  ],
+);
 
 export const lessonProgress = pgTable("lesson_progress", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -380,6 +563,8 @@ export const writingPrompts = pgTable("writing_prompts", {
   category: varchar("category", { length: 60 }).notNull(),
   prompt: text("prompt").notNull(),
   targetWordCount: integer("target_word_count").notNull(),
+  /** Stable identity of the authored source this prompt is the version OF (§43). */
+  sourceRef: varchar("source_ref", { length: 80 }),
   isActive: boolean("is_active").notNull().default(true),
   /**
    * Publication state and the moment a scheduled item opens. Visibility is
@@ -407,13 +592,26 @@ export const typingRuns = pgTable("typing_runs", {
   durationMs: integer("duration_ms").notNull(),
   wpm: numeric("wpm", { precision: 6, scale: 1 }).notNull(),
   accuracy: numeric("accuracy", { precision: 5, scale: 1 }).notNull(),
+  runTokenId: uuid("run_token_id"),
+  rawWpm: numeric("raw_wpm", { precision: 6, scale: 1 }),
+  consistency: numeric("consistency", { precision: 5, scale: 1 }),
+  charsCorrect: integer("chars_correct"),
+  charsIncorrect: integer("chars_incorrect"),
+  charsExtra: integer("chars_extra"),
+  charsMissed: integer("chars_missed"),
+  startedAt: timestamp("started_at", { withTimezone: true }),
+  finishedAt: timestamp("finished_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-});
+}, (table) => [
+  uniqueIndex("typing_runs_run_token_uq").on(table.runTokenId).where(sql`${table.runTokenId} is not null`),
+]);
 
 export const writingSubmissions = pgTable("writing_submissions", {
   id: uuid("id").defaultRandom().primaryKey(),
   userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   promptId: uuid("prompt_id").notNull().references(() => writingPrompts.id),
+  /** The exact prompt revision this submission answered; a later edit never regrades it. */
+  contentVersionId: uuid("content_version_id").references(() => contentVersions.id, { onDelete: "set null" }),
   content: text("content").notNull().default(""),
   wordCount: integer("word_count").notNull().default(0),
   status: writingStatusEnum("status").notNull().default("draft"),
@@ -568,7 +766,8 @@ export const readingQuestions = pgTable("reading_questions", {
   groupId: uuid("group_id").references(() => readingQuestionGroups.id, { onDelete: "cascade" }),
   /** Question number as printed in the paper (1–40 within a test). */
   questionNo: integer("question_no"),
-  typeCode: varchar("type_code", { length: 16 }),
+  /** Source code, or the canonical type id for hand-authored material (≤40 since 0043). */
+  typeCode: varchar("type_code", { length: 40 }),
   /** Where the blank/selection sits in the prompt: {{q1}} → an input box. */
   answerSlots: jsonb("answer_slots")
     .$type<{ slotKey: string; token: string; control: string }[]>()
@@ -592,6 +791,10 @@ export const readingAttempts = pgTable("reading_attempts", {
   id: uuid("id").defaultRandom().primaryKey(),
   userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   passageId: uuid("passage_id").notNull().references(() => readingPassages.id),
+  /** The exact revision this attempt was started on; a later edit never regrades it. */
+  contentVersionId: uuid("content_version_id").references(() => contentVersions.id, { onDelete: "set null" }),
+  /** Conversion policy that produced any band for this attempt (§22). */
+  scorePolicyVersion: varchar("score_policy_version", { length: 24 }),
   status: attemptStatusEnum("status").notNull().default("in_progress"),
   score: integer("score"),
   totalQuestions: integer("total_questions"),
@@ -637,6 +840,8 @@ export const listeningTests = pgTable("listening_tests", {
   /** Nullable for the same reason as speaking_materials.primaryUrl. */
   audioUrl: text("audio_url"),
   transcript: text("transcript"), // optional, shown only in the post-attempt analysis
+  /** Stable identity of the authored/imported source this test is the version OF (§43). */
+  sourceRef: varchar("source_ref", { length: 80 }),
   difficultyLevel: varchar("difficulty_level", { length: 10 }).notNull().default("B2"),
   isActive: boolean("is_active").notNull().default(true),
   /**
@@ -648,13 +853,51 @@ export const listeningTests = pgTable("listening_tests", {
   publicationState: publicationStateEnum("publication_state").notNull().default("published"),
   publishAt: timestamp("publish_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-});
+  /**
+   * THE PROGRAMME RELATION (0052).
+   *
+   * A Listening item may belong to a programme — the dedicated MCQ programme is DAY 1 → DAY 30 —
+   * at an EXPLICIT ordinal. NULL means "not part of a programme", which is every Academic full
+   * test and every General section: nothing that exists today changes.
+   *
+   * The day number is stored, never parsed back out of a title, and the pair is what a learner's
+   * "DAY 6" is resolved by. The day's membership is its own canonical questions in their authored
+   * `order`, so there is one ordering truth in the product, not two.
+   */
+  programRef: varchar("program_ref", { length: 80 }),
+  programOrdinal: integer("program_ordinal"),
+}, (t) => ({
+  /** A programme reference and its position are one statement: both, or neither. */
+  programPair: check("listening_tests_program_pair_check", sql`(${t.programRef} is null) = (${t.programOrdinal} is null)`),
+  programOrdinalPositive: check("listening_tests_program_ordinal_positive_check", sql`${t.programOrdinal} is null or ${t.programOrdinal} >= 1`),
+  /** One item per day per programme: a duplicated import cannot create two Day 6s. */
+  programDayUnique: uniqueIndex("listening_tests_program_ordinal_idx")
+    .on(t.programRef, t.programOrdinal)
+    .where(sql`${t.programRef} is not null and ${t.programOrdinal} is not null`),
+}));
 
 export const listeningQuestions = pgTable("listening_questions", {
   id: uuid("id").defaultRandom().primaryKey(),
   testId: uuid("test_id").notNull().references(() => listeningTests.id, { onDelete: "cascade" }),
+  /**
+   * WHICH QUESTION SET this row belongs to (0051).
+   *
+   * The set a PUBLISHED revision declared, or NULL for the legacy set written before question
+   * sets were version-bound. A revision's set is materialized at publication and only rows of
+   * that same revision are ever replaced, so a superseded revision's questions — and the
+   * `listening_answers` that reference them — are never deleted.
+   *
+   * `ON DELETE SET NULL`: deleting a revision must never delete a question.
+   */
+  contentVersionId: uuid("content_version_id").references(() => contentVersions.id, { onDelete: "set null" }),
   order: integer("order").notNull(),
   type: listeningQuestionTypeEnum("type").notNull(),
+  /**
+   * Canonical question type id (one of the 14 Listening types). The storage enum
+   * cannot express them, so the source/authoring type is kept explicitly and
+   * `readingTypeFromStorage`-style resolution prefers it (§38).
+   */
+  typeCode: varchar("type_code", { length: 40 }),
   questionText: text("question_text").notNull(),
   options: jsonb("options").$type<string[]>(),
   correctAnswer: text("correct_answer").notNull(),
@@ -678,6 +921,10 @@ export const listeningAttempts = pgTable("listening_attempts", {
   id: uuid("id").defaultRandom().primaryKey(),
   userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   testId: uuid("test_id").notNull().references(() => listeningTests.id),
+  /** The exact revision this attempt was started on; a later edit never regrades it. */
+  contentVersionId: uuid("content_version_id").references(() => contentVersions.id, { onDelete: "set null" }),
+  /** Conversion policy that produced any band for this attempt (§22). */
+  scorePolicyVersion: varchar("score_policy_version", { length: 24 }),
   status: attemptStatusEnum("status").notNull().default("in_progress"),
   score: integer("score"),
   totalQuestions: integer("total_questions"),
@@ -737,6 +984,10 @@ export const grammarTopics = pgTable("grammar_topics", {
   title: varchar("title", { length: 200 }).notNull(),
   explanation: text("explanation").notNull(),
   order: integer("order").notNull(),
+  /** Stable identity of the authored source this topic is the version OF (§43). */
+  sourceRef: varchar("source_ref", { length: 80 }),
+  /** Authored grammar starts as a draft and becomes visible through publication (§41). */
+  publicationState: publicationStateEnum("publication_state").notNull().default("published"),
 });
 
 export const grammarExercises = pgTable("grammar_exercises", {
@@ -787,6 +1038,8 @@ export const grammarAttempts = pgTable("grammar_attempts", {
   /** The student's own sentence, for translate/activate. Null for multiple choice. */
   responseText: text("response_text"),
   isCorrect: boolean("is_correct").notNull(),
+  /** The grammar topic revision this attempt answered, so history is never regraded (§71). */
+  contentVersionId: uuid("content_version_id").references(() => contentVersions.id, { onDelete: "set null" }),
   attemptedAt: timestamp("attempted_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
@@ -929,6 +1182,16 @@ export const speakingPrompts = pgTable("speaking_prompts", {
   prepSeconds: integer("prep_seconds").notNull().default(30),
   answerSeconds: integer("answer_seconds").notNull().default(90),
   followUps: jsonb("follow_ups").$type<string[]>().notNull().default([]),
+  studySupport: jsonb("study_support").$type<import("@/lib/speaking/study-support").SpeakingStudySupport>().notNull().default({ vocabularyHtml: "", modelAnswerHtml: "", ideasHtml: "", vocabulary: [] }),
+  /**
+   * Stable identity of a row imported from the canonical speaking master bank
+   * (e.g. "P3-001-2"). NULL for hand-authored prompts. Partial unique index
+   * makes the importer idempotent without touching the uuid primary key.
+   */
+  externalId: varchar("external_id", { length: 40 }),
+  topic: varchar("topic", { length: 200 }),
+  sourceClass: varchar("source_class", { length: 60 }),
+  availableIn: jsonb("available_in").$type<string[]>().notNull().default(["practice_alone"]),
   isActive: boolean("is_active").notNull().default(true),
   /**
    * Publication state and the moment a scheduled item opens. Visibility is
@@ -939,7 +1202,9 @@ export const speakingPrompts = pgTable("speaking_prompts", {
   publicationState: publicationStateEnum("publication_state").notNull().default("published"),
   publishAt: timestamp("publish_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-});
+}, (table) => ({
+  externalIdIdx: uniqueIndex("speaking_prompts_external_id_idx").on(table.externalId).where(sql`${table.externalId} is not null`),
+}));
 
 export const speakingAttempts = pgTable("speaking_attempts", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -947,6 +1212,8 @@ export const speakingAttempts = pgTable("speaking_attempts", {
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   promptId: uuid("prompt_id").references(() => speakingPrompts.id, { onDelete: "set null" }),
+  /** The exact prompt revision this attempt answered, when it used the canonical bank. */
+  contentVersionId: uuid("content_version_id").references(() => contentVersions.id, { onDelete: "set null" }),
   part: speakingPartEnum("part").notNull(),
   status: speakingAttemptStatusEnum("status").notNull().default("recording"),
   // The recording object itself. Same private-by-default rules as any file.
@@ -1021,9 +1288,15 @@ export const lexemes = pgTable(
     provenance: varchar("provenance", { length: 20 }),
     verificationStatus: varchar("verification_status", { length: 24 }),
     importBatch: varchar("import_batch", { length: 80 }),
+    /**
+     * The LEXEME (lexical unit) this sense belongs to (0029). This row's own id
+     * stays the sense identity: nothing that references `lexemes.id` changed.
+     */
+    lexicalUnitId: uuid("lexical_unit_id").references((): AnyPgColumn => lexicalUnits.id, { onDelete: "restrict" }),
   },
   (table) => ({
     termIdx: index("lexemes_term_idx").on(table.term),
+    unitIdx: index("lexemes_lexical_unit_idx").on(table.lexicalUnitId),
     senseKeyIdx: uniqueIndex("lexemes_sense_key_idx").on(table.senseKey),
   })
 );
@@ -1045,12 +1318,24 @@ export const lexicalOccurrences = pgTable(
   "lexical_occurrences",
   {
     id: uuid("id").defaultRandom().primaryKey(),
-    lexemeId: uuid("lexeme_id")
-      .notNull()
-      .references(() => lexemes.id, { onDelete: "cascade" }),
-    passageId: uuid("passage_id")
-      .notNull()
-      .references(() => readingPassages.id, { onDelete: "cascade" }),
+    /** The exact SENSE. Null only while `resolution_status` is not "resolved" (DB CHECK). */
+    lexemeId: uuid("lexeme_id").references(() => lexemes.id, { onDelete: "cascade" }),
+    /** reading | listening | video — exactly one matching source column is set (DB CHECK). */
+    sourceType: varchar("source_type", { length: 16 }).notNull().default("reading"),
+    passageId: uuid("passage_id").references(() => readingPassages.id, { onDelete: "cascade" }),
+    listeningTestId: uuid("listening_test_id").references(() => listeningTests.id, { onDelete: "cascade" }),
+    videoLessonId: uuid("video_lesson_id").references((): AnyPgColumn => videoLessons.id, { onDelete: "cascade" }),
+    /** Listening section (1–4); offsets are then relative to that section's transcript. */
+    sectionNumber: smallint("section_number"),
+    /** Audio time of the span when the source has word timing; null = not available, never estimated. */
+    startMs: integer("start_ms"),
+    endMs: integer("end_ms"),
+    /** Candidate lexeme for an unresolved span (no sense chosen). */
+    lexicalUnitId: uuid("lexical_unit_id").references((): AnyPgColumn => lexicalUnits.id, { onDelete: "set null" }),
+    /** resolved | unresolved | review */
+    resolutionStatus: varchar("resolution_status", { length: 16 }).notNull().default("resolved"),
+    /** Who linked the sense: e.g. "reading_import", "listening_package". */
+    resolutionSource: varchar("resolution_source", { length: 24 }),
     /** Segment key inside the source package ("p1") — internal traceability. */
     segmentKey: varchar("segment_key", { length: 40 }),
     surfaceForm: varchar("surface_form", { length: 120 }).notNull(),
@@ -1069,6 +1354,10 @@ export const lexicalOccurrences = pgTable(
       table.endChar
     ),
     lexemeIdx: index("lexical_occurrences_lexeme_idx").on(table.lexemeId),
+    listeningOffsetIdx: uniqueIndex("lexical_occurrences_listening_offset_idx")
+      .on(table.listeningTestId, table.sectionNumber, table.segmentKey, table.startChar, table.endChar)
+      .where(sql`listening_test_id IS NOT NULL`),
+    unitIdx: index("lexical_occurrences_unit_idx").on(table.lexicalUnitId),
   })
 );
 
@@ -1118,6 +1407,10 @@ export const userVocabulary = pgTable(
     lastReviewedAt: timestamp("last_reviewed_at", { withTimezone: true }),
     masteredAt: timestamp("mastered_at", { withTimezone: true }),
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    /** Exposure (0029): first/last time this learner met this sense in a source, and how often. */
+    firstSeenAt: timestamp("first_seen_at", { withTimezone: true }).defaultNow().notNull(),
+    lastSeenAt: timestamp("last_seen_at", { withTimezone: true }).defaultNow().notNull(),
+    seenCount: integer("seen_count").notNull().default(1),
   },
   (table) => ({
     libraryIdx: index("user_vocabulary_user_idx").on(table.userId, table.nextReviewAt),
@@ -1125,13 +1418,142 @@ export const userVocabulary = pgTable(
   })
 );
 
+/**
+ * The LEXEME layer (0029): one canonical lexical unit — language + normalized
+ * lemma + part of speech + lexical type. Its senses are `lexemes` rows.
+ */
+export const lexicalUnits = pgTable(
+  "lexical_units",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    language: varchar("language", { length: 8 }).notNull().default("en"),
+    lemma: varchar("lemma", { length: 120 }).notNull(),
+    lemmaNorm: varchar("lemma_norm", { length: 120 }).notNull(),
+    partOfSpeech: varchar("part_of_speech", { length: 30 }).notNull().default(""),
+    lexicalType: varchar("lexical_type", { length: 24 }).notNull().default("word"),
+    isFunctionWord: boolean("is_function_word").notNull().default(false),
+    provenance: varchar("provenance", { length: 24 }),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => ({
+    identityIdx: uniqueIndex("lexical_units_identity_idx").on(table.language, table.lemmaNorm, table.partOfSpeech, table.lexicalType),
+  })
+);
+
+/** Surface forms of a unit (lemma, regular/irregular inflections, authored variants). */
+export const lexicalUnitForms = pgTable(
+  "lexical_unit_forms",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    lexicalUnitId: uuid("lexical_unit_id").notNull().references(() => lexicalUnits.id, { onDelete: "cascade" }),
+    form: varchar("form", { length: 160 }).notNull(),
+    formNorm: varchar("form_norm", { length: 160 }).notNull(),
+    formType: varchar("form_type", { length: 16 }).notNull(),
+  },
+  (table) => ({
+    unitFormIdx: uniqueIndex("lexical_unit_forms_unit_form_idx").on(table.lexicalUnitId, table.formNorm),
+    formIdx: index("lexical_unit_forms_form_idx").on(table.formNorm),
+  })
+);
+
+/** Pronunciation of a unit. No row = not known; a pronunciation is never fabricated. */
+export const lexicalUnitPronunciations = pgTable(
+  "lexical_unit_pronunciations",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    lexicalUnitId: uuid("lexical_unit_id").notNull().references(() => lexicalUnits.id, { onDelete: "cascade" }),
+    ipa: varchar("ipa", { length: 120 }).notNull(),
+    variant: varchar("variant", { length: 8 }).notNull().default(""),
+    audioObjectKey: text("audio_object_key"),
+    provenance: varchar("provenance", { length: 24 }).notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => ({
+    unitVariantIdx: uniqueIndex("lexical_unit_pronunciations_unit_variant_idx").on(table.lexicalUnitId, table.variant),
+  })
+);
+
+/**
+ * Every place THIS learner met a saved sense (0029). Many per student item;
+ * the snapshot survives source deletion (occurrence_id then becomes null).
+ */
+export const userVocabularyContexts = pgTable(
+  "user_vocabulary_contexts",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userVocabularyId: uuid("user_vocabulary_id").notNull().references(() => userVocabulary.id, { onDelete: "cascade" }),
+    userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    occurrenceId: uuid("occurrence_id").references(() => lexicalOccurrences.id, { onDelete: "set null" }),
+    sourceType: varchar("source_type", { length: 16 }).notNull(),
+    sourceId: uuid("source_id"),
+    snapshot: jsonb("snapshot").$type<import("@/lib/services/lexical/context").VocabularySourceSnapshot>().notNull(),
+    seenAt: timestamp("seen_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => ({
+    itemOccurrenceIdx: uniqueIndex("user_vocabulary_contexts_item_occurrence_idx").on(table.userVocabularyId, table.occurrenceId),
+    userIdx: index("user_vocabulary_contexts_user_idx").on(table.userId, table.userVocabularyId),
+    occurrenceIdx: index("user_vocabulary_contexts_occurrence_idx").on(table.occurrenceId),
+  })
+);
+
 /** A folder in the personal library ("IELTS Writing", "Medicine", …). */
+/**
+ * A vocabulary topic pack: canonical content whose words ARE canonical lexemes.
+ *
+ * The pack owns its identity, publication lifecycle and revision; the senses it
+ * contains live in `lexemes`, which Reading, Listening and TED/Podcast all resolve
+ * into (§31, §76). There is deliberately no second word store here.
+ */
+export const vocabularyTopicPacks = pgTable(
+  "vocabulary_topic_packs",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    /** Stable identity of the authored pack this row is the version OF (§43). */
+    sourceRef: varchar("source_ref", { length: 80 }).notNull(),
+    slug: varchar("slug", { length: 60 }).notNull(),
+    labelEn: varchar("label_en", { length: 120 }).notNull(),
+    labelUz: varchar("label_uz", { length: 120 }),
+    topicCode: varchar("topic_code", { length: 40 }),
+    position: integer("position").notNull().default(0),
+    level: varchar("level", { length: 10 }),
+    publicationState: publicationStateEnum("publication_state").notNull().default("draft"),
+    publishAt: timestamp("publish_at", { withTimezone: true }),
+    createdByUserId: uuid("created_by_user_id").references(() => users.id, { onDelete: "set null" }),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("vocabulary_topic_packs_source_ref_idx").on(table.sourceRef),
+    uniqueIndex("vocabulary_topic_packs_slug_idx").on(table.slug),
+  ],
+);
+
+/** Pack membership: which canonical senses a pack contains, in display order. */
+export const vocabularyTopicPackWords = pgTable(
+  "vocabulary_topic_pack_words",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    packId: uuid("pack_id")
+      .notNull()
+      .references(() => vocabularyTopicPacks.id, { onDelete: "cascade" }),
+    lexemeId: uuid("lexeme_id")
+      .notNull()
+      .references(() => lexemes.id, { onDelete: "cascade" }),
+    position: integer("position").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("vocabulary_topic_pack_words_position_idx").on(table.packId, table.position),
+    uniqueIndex("vocabulary_topic_pack_words_lexeme_idx").on(table.packId, table.lexemeId),
+  ],
+);
+
 export const vocabFolders = pgTable(
   "vocab_folders",
   {
     id: uuid("id").defaultRandom().primaryKey(),
     userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
-    name: varchar("name", { length: 80 }).notNull(),
+    name: varchar("name", { length: 200 }).notNull(),
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   },
   (table) => ({
@@ -1175,12 +1597,69 @@ export const assignments = pgTable("assignments", {
   title: varchar("title", { length: 200 }).notNull(),
   description: text("description"),
   createdByUserId: uuid("created_by_user_id").notNull().references(() => users.id),
+  /**
+   * The PRIMARY target of the assignment. Kept for compatibility with every
+   * existing reader; `assignment_targets` is what new code writes and reads, so a
+   * task can be set for several students without inventing a second table later.
+   */
   targetUserId: uuid("target_user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  /** COMPATIBILITY ONLY: the canonical reference below is what new code reads. */
   relatedWritingPromptId: uuid("related_writing_prompt_id").references(() => writingPrompts.id),
+  /** Canonical content reference: what the learner is actually given (§24). */
+  module: varchar("module", { length: 20 }),
+  contentType: varchar("content_type", { length: 40 }),
+  sourceRef: varchar("source_ref", { length: 80 }),
+  /** The EXACT revision assigned: a later edit never changes what this task asked for (§71). */
+  contentVersionId: uuid("content_version_id").references(() => contentVersions.id, { onDelete: "set null" }),
+  instructions: text("instructions"),
   status: assignmentStatusEnum("status").notNull().default("not_started"),
   dueAt: timestamp("due_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-});
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => [
+  index("assignments_content_idx").on(table.module, table.contentType, table.sourceRef),
+  index("assignments_version_idx").on(table.contentVersionId),
+]);
+
+/** One row per student an assignment is set for, with its own status. */
+export const assignmentTargets = pgTable(
+  "assignment_targets",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    assignmentId: uuid("assignment_id")
+      .notNull()
+      .references(() => assignments.id, { onDelete: "cascade" }),
+    studentUserId: uuid("student_user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    status: assignmentStatusEnum("status").notNull().default("not_started"),
+    dueAt: timestamp("due_at", { withTimezone: true }),
+    completedAt: timestamp("completed_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("assignment_targets_pair_idx").on(table.assignmentId, table.studentUserId),
+    index("assignment_targets_student_idx").on(table.studentUserId, table.status),
+  ],
+);
+
+/**
+ * Explicit teacher -> student roster (migration 0035). The ONLY source of a
+ * teacher's Reporter visibility: nothing is inferred from assignments or class
+ * history. Owner/admin create and remove links; a teacher with no links sees
+ * no learners (fail closed).
+ */
+export const teacherStudentLinks = pgTable("teacher_student_links", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  teacherUserId: uuid("teacher_user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  studentUserId: uuid("student_user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  assignedByUserId: uuid("assigned_by_user_id").references(() => users.id, { onDelete: "set null" }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => ({
+  pairIdx: uniqueIndex("teacher_student_links_pair_uidx").on(table.teacherUserId, table.studentUserId),
+  studentIdx: index("teacher_student_links_student_idx").on(table.studentUserId),
+}));
 
 export const activityEvents = pgTable("activity_events", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -1238,22 +1717,100 @@ export const problemReports = pgTable("problem_reports", {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
+/**
+ * A MOCK is an orchestration object (Master Prompt 2 §12).
+ *
+ * It owns NO educational content: `mock_sections` references canonical content at
+ * an exact version. The assessment policy that used to be scattered across React
+ * lives here — timing, navigation, score conversion — so a refresh cannot reset a
+ * formal exam and two mocks can be compared honestly.
+ */
 export const mockTests = pgTable("mock_tests", {
   id: uuid("id").defaultRandom().primaryKey(),
   courseId: uuid("course_id").notNull().references(() => courses.id, { onDelete: "cascade" }),
   title: varchar("title", { length: 200 }).notNull(),
-  skill: varchar("skill", { length: 20 }).notNull(), // listening | reading | writing | speaking | full
+  /** Kept for the existing catalogue view: listening | reading | writing | speaking | full. */
+  skill: varchar("skill", { length: 20 }).notNull(),
+  description: text("description"),
+  track: varchar("track", { length: 24 }).notNull().default("unspecified"),
+  /** full | sectional | diagnostic | custom */
+  kind: varchar("kind", { length: 24 }).notNull().default("sectional"),
+  timingPolicyId: varchar("timing_policy_id", { length: 40 }),
+  timingPolicyVersion: varchar("timing_policy_version", { length: 24 }),
+  /** Navigation policy (§16): canPause, canResume, sectionLocks, reviewBeforeSubmit… */
+  navigation: jsonb("navigation").$type<Record<string, boolean>>(),
+  /** Which score conversion each skill uses, e.g. { reading: "reading_academic@v1" }. */
+  scorePolicies: jsonb("score_policies").$type<Record<string, string>>(),
+  publicationState: publicationStateEnum("publication_state").notNull().default("draft"),
+  publishAt: timestamp("publish_at", { withTimezone: true }),
+  /** Bumped on every composition change; an attempt records the version it started. */
+  version: integer("version").notNull().default(1),
+  createdByUserId: uuid("created_by_user_id").references(() => users.id, { onDelete: "set null" }),
+  provenance: jsonb("provenance").$type<Record<string, unknown>>(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });
+
+export const mockSections = pgTable(
+  "mock_sections",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    mockTestId: uuid("mock_test_id").notNull().references(() => mockTests.id, { onDelete: "cascade" }),
+    position: integer("position").notNull(),
+    /** listening | reading | writing | speaking — the skill this section assesses. */
+    skill: varchar("skill", { length: 16 }).notNull(),
+    module: varchar("module", { length: 20 }).notNull(),
+    contentType: varchar("content_type", { length: 40 }).notNull(),
+    sourceRef: varchar("source_ref", { length: 80 }).notNull(),
+    /** The exact revision a learner is graded against. Null only for informal sets. */
+    contentVersionId: uuid("content_version_id").references(() => contentVersions.id, { onDelete: "set null" }),
+    label: varchar("label", { length: 120 }),
+    questionCount: integer("question_count"),
+    seconds: integer("seconds"),
+    optional: boolean("optional").notNull().default(false),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("mock_sections_position_idx").on(table.mockTestId, table.position),
+    index("mock_sections_version_idx").on(table.contentVersionId),
+  ],
+);
+
+/** Copied into an attempt at start time; owned by the attempt, not by the mock. */
+export type MockAttemptSnapshot = {
+  title: string;
+  track: string;
+  kind: string;
+  timingPolicyId: string | null;
+  scorePolicies: Record<string, string> | null;
+};
 
 export const mockAttempts = pgTable("mock_attempts", {
   id: uuid("id").defaultRandom().primaryKey(),
   userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
-  mockTestId: uuid("mock_test_id").notNull().references(() => mockTests.id, { onDelete: "cascade" }),
+  /**
+   * set null, not cascade: deleting a mock must not destroy the learner's record
+   * of having taken it (§94, §103). The snapshot below keeps it readable.
+   */
+  mockTestId: uuid("mock_test_id").references(() => mockTests.id, { onDelete: "set null" }),
+  /** What the attempt was taken against, copied at start time (title/track/kind/policy). */
+  mockSnapshot: jsonb("mock_snapshot").$type<MockAttemptSnapshot>(),
+  /** The composition version this attempt started: a later edit never rewrites it (§13). */
+  mockVersion: integer("mock_version"),
+  /** in_progress | submitted | abandoned — a mock in progress is resumable, not lost. */
+  status: varchar("status", { length: 24 }).notNull().default("in_progress"),
   startedAt: timestamp("started_at", { withTimezone: true }),
   finishedAt: timestamp("finished_at", { withTimezone: true }),
   rawScore: real("raw_score"),
   estimatedBand: real("estimated_band"),
+  /** Conversion policy that produced `estimatedBand` (§22). */
+  scorePolicyVersion: varchar("score_policy_version", { length: 24 }),
   skillBreakdown: jsonb("skill_breakdown"),
+  /** Per-section results, each independently inspectable (§21). */
+  sectionResults: jsonb("section_results").$type<
+    { skill: string; sourceRef: string; raw: number | null; total: number | null; band: number | null; contentVersionId: string | null; attemptId: string | null }[]
+  >(),
+  /** section position → content version id, frozen when the attempt started. */
+  contentVersionBindings: jsonb("content_version_bindings").$type<Record<string, string | null>>(),
 });
 
 // Future billing — schema exists, BILLING_ENABLED flag keeps it dark
@@ -1486,10 +2043,19 @@ export const videoLessons = pgTable(
   "video_lessons",
   {
     id: uuid("id").defaultRandom().primaryKey(),
-    /** The roadmap lesson this video belongs to; one video per lesson. */
-    lessonId: uuid("lesson_id")
-      .notNull()
-      .references(() => lessons.id, { onDelete: "cascade" }),
+    /**
+     * The roadmap lesson this video belongs to (legacy, one video per lesson),
+     * or NULL for a standalone TED / Podcast item authored in Management with
+     * its own native URL (/video-lessons/:id). Nullable since 0024.
+     */
+    lessonId: uuid("lesson_id").references(() => lessons.id, { onDelete: "cascade" }),
+    /**
+     * video | audio — a Podcast episode is an AUDIO lesson, not a video without a
+     * picture. Decides the canonical content type of the item's revision.
+     */
+    mediaKind: varchar("media_kind", { length: 10 }).notNull().default("video"),
+    /** Stable identity of the authored item this row is the version OF (§43). */
+    sourceRef: varchar("source_ref", { length: 80 }),
     /** Provider id, e.g. "youtube". Kept generic so another host can be added. */
     provider: varchar("provider", { length: 30 }).notNull().default("youtube"),
     /** The provider's own video id — validated, never a raw URL or embed HTML. */
@@ -1508,6 +2074,18 @@ export const videoLessons = pgTable(
     /** authored | licensed | permitted — where the transcript came from. */
     transcriptSource: varchar("transcript_source", { length: 20 }),
     transcriptAttribution: varchar("transcript_attribution", { length: 200 }),
+    /**
+     * Optional owner-authored PLAIN transcript (paragraphs, no timestamps). Used
+     * when no timed `transcript` lines exist; provenance fields apply to both.
+     */
+    transcriptText: text("transcript_text"),
+    /**
+     * Centre-authored study notes for the video (PART 1: TED / PODCAST is a
+     * standalone module managed from Management). Optional like the transcript:
+     * null means there is nothing to reveal, and the learner surface then shows
+     * no notes control at all rather than an empty one.
+     */
+    notes: text("notes"),
     createdByUserId: uuid("created_by_user_id").references(() => users.id, { onDelete: "set null" }),
     isActive: boolean("is_active").notNull().default(true),
     /**
@@ -1575,4 +2153,663 @@ export const videoLessonProgress = pgTable(
   (table) => ({
     userLessonIdx: uniqueIndex("video_lesson_progress_user_idx").on(table.userId, table.videoLessonId),
   })
+);
+
+// ---------------------------------------------------------------------------
+// Retention — the memory system (learner) and its content bank (owner)
+// ---------------------------------------------------------------------------
+//
+// Deliberately NOT reading passages. The old learner "Retention" drill borrowed
+// a Reading passage, hid it with CSS and scored nothing; it is replaced by a
+// dedicated bank of versioned memory texts whose meaning is graded against an
+// author-supplied Measurement Structure.
+//
+// Four tables, and the reason each exists:
+//
+//   retention_texts            the LOGICAL text ("B1-007"). Stable identity:
+//                              rotation is by this id, so re-versioning a text can
+//                              never make a learner see it twice in one cycle.
+//   retention_text_versions    the IMMUTABLE content of that text: body, word
+//                              count, Measurement Structure. An attempt points at
+//                              one of these, so editing the bank never rewrites
+//                              a historical result.
+//   retention_attempts         one learner's run: deadlines, draft, score,
+//                              breakdown, evaluator version.
+//   retention_rotation_state   the learner's cycle per level, plus which texts
+//                              that cycle has already used.
+//
+// Deleting a logical text is an ARCHIVE (`active = false`): nothing that a
+// learner's history points at is ever removed, and the archive/restore actions
+// never create or destroy a version.
+
+export const retentionLevelEnum = pgEnum("retention_level", ["A2", "B1", "B2", "C1", "C2"]);
+
+/**
+ * `reading` and `recall` are the two live states; `completed` and `timed_out` are
+ * terminal. The phase a learner is in is derived from the persisted deadlines,
+ * never stored twice — but the terminal outcome IS stored, so a finished attempt
+ * can never be re-scored or re-timed.
+ */
+export const retentionAttemptStatusEnum = pgEnum("retention_attempt_status", [
+  "reading",
+  "recall",
+  "completed",
+  "timed_out",
+]);
+
+export const retentionTexts = pgTable(
+  "retention_texts",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    level: retentionLevelEnum("level").notNull(),
+    /** Auto-generated stable label: `B1-007`. Never derived from row position. */
+    internalLabel: varchar("internal_label", { length: 20 }).notNull(),
+    /** Monotonic per level; the label's numeric half, allocated under a lock. */
+    sequence: integer("sequence").notNull(),
+    /** FALSE = archived: out of future rotation, history untouched. */
+    active: boolean("active").notNull().default(true),
+    /**
+     * The version new attempts receive. The composite foreign key added in
+     * migration 0022 makes it impossible for this column to point at a version
+     * belonging to a different text.
+     */
+    currentVersionId: uuid("current_version_id"),
+    createdByUserId: uuid("created_by_user_id").references(() => users.id, { onDelete: "set null" }),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => ({
+    labelIdx: uniqueIndex("retention_texts_label_idx").on(table.internalLabel),
+    levelSequenceIdx: uniqueIndex("retention_texts_level_sequence_idx").on(table.level, table.sequence),
+    levelActiveIdx: index("retention_texts_level_active_idx").on(table.level, table.active),
+  })
+);
+
+export const retentionTextVersions = pgTable(
+  "retention_text_versions",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    retentionTextId: uuid("retention_text_id")
+      .notNull()
+      .references(() => retentionTexts.id, { onDelete: "cascade" }),
+    versionNumber: integer("version_number").notNull(),
+    bodyText: text("body_text").notNull(),
+    wordCount: integer("word_count").notNull(),
+    /** Validated Measurement Structure V1. Data, never code. */
+    scoringStructure: jsonb("scoring_structure").notNull(),
+    createdByUserId: uuid("created_by_user_id").references(() => users.id, { onDelete: "set null" }),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => ({
+    versionIdx: uniqueIndex("retention_text_versions_text_version_idx").on(table.retentionTextId, table.versionNumber),
+    /** Target of the composite FK from `retention_texts.current_version_id`. */
+    identityIdx: uniqueIndex("retention_text_versions_identity_idx").on(table.id, table.retentionTextId),
+  })
+);
+
+export const retentionAttempts = pgTable(
+  "retention_attempts",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    /**
+     * RESTRICT, not CASCADE: archiving a text must never delete the attempts
+     * that reference it, and a version a learner was graded against must stay
+     * exactly where it is. Content is archived, history is kept.
+     */
+    retentionTextId: uuid("retention_text_id")
+      .notNull()
+      .references(() => retentionTexts.id, { onDelete: "restrict" }),
+    retentionTextVersionId: uuid("retention_text_version_id")
+      .notNull()
+      .references(() => retentionTextVersions.id, { onDelete: "restrict" }),
+    level: retentionLevelEnum("level").notNull(),
+    /** Which rotation cycle this attempt belongs to. */
+    rotationCycle: integer("rotation_cycle").notNull().default(1),
+    status: retentionAttemptStatusEnum("status").notNull().default("reading"),
+    readStartedAt: timestamp("read_started_at", { withTimezone: true }).notNull(),
+    readEndsAt: timestamp("read_ends_at", { withTimezone: true }).notNull(),
+    writeStartedAt: timestamp("write_started_at", { withTimezone: true }).notNull(),
+    writeEndsAt: timestamp("write_ends_at", { withTimezone: true }).notNull(),
+    /** The latest persisted draft. Survives refresh, remount and connection loss. */
+    recallText: text("recall_text").notNull().default(""),
+    submittedAt: timestamp("submitted_at", { withTimezone: true }),
+    completedAt: timestamp("completed_at", { withTimezone: true }),
+    score: integer("score"),
+    scoreBreakdown: jsonb("score_breakdown"),
+    evaluatorVersion: varchar("evaluator_version", { length: 60 }),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => ({
+    userHistoryIdx: index("retention_attempts_user_history_idx").on(table.userId, table.createdAt),
+    userLevelIdx: index("retention_attempts_user_level_idx").on(table.userId, table.level, table.status),
+    versionUsageIdx: index("retention_attempts_version_usage_idx").on(table.retentionTextVersionId),
+    textUsageIdx: index("retention_attempts_text_usage_idx").on(table.retentionTextId),
+    cycleIdx: index("retention_attempts_cycle_idx").on(table.userId, table.level, table.rotationCycle),
+  })
+);
+
+export const retentionRotationState = pgTable(
+  "retention_rotation_state",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    level: retentionLevelEnum("level").notNull(),
+    cycleNumber: integer("cycle_number").notNull().default(1),
+    /** The last text this learner finished, so a new cycle cannot repeat it. */
+    lastCompletedTextId: uuid("last_completed_text_id").references(() => retentionTexts.id, { onDelete: "set null" }),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => ({
+    userLevelIdx: uniqueIndex("retention_rotation_state_user_level_idx").on(table.userId, table.level),
+  })
+);
+
+/**
+ * What the learner has already been given in the current cycle.
+ *
+ * Terminal outcomes only — a completed attempt and a legitimately timed-out one
+ * both count as "used" (rotation is about exposure, not success), while an
+ * abandoned-but-live attempt is still the learner's active attempt and is not a
+ * repeat at all. Version changes are not recorded here: rotation identity is the
+ * logical text.
+ */
+export const retentionRotationCompletions = pgTable(
+  "retention_rotation_completions",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    level: retentionLevelEnum("level").notNull(),
+    cycleNumber: integer("cycle_number").notNull(),
+    retentionTextId: uuid("retention_text_id")
+      .notNull()
+      .references(() => retentionTexts.id, { onDelete: "cascade" }),
+    completedAt: timestamp("completed_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => ({
+    uniqueCompletion: uniqueIndex("retention_rotation_completions_unique_idx").on(
+      table.userId,
+      table.level,
+      table.cycleNumber,
+      table.retentionTextId
+    ),
+  })
+);
+
+// ---------------------------------------------------------------------------
+// Live Partner (N10). Server-authoritative presence/invite/session metadata.
+// No audio, transcript or signalling history is ever stored here.
+// ---------------------------------------------------------------------------
+export const livePartnerStateEnum = pgEnum("live_partner_state", [
+  "offline", "available", "outgoing_invite", "incoming_invite", "connecting", "in_call", "reconnecting",
+]);
+export const livePartnerInviteStatusEnum = pgEnum("live_partner_invite_status", ["pending", "accepted", "declined", "cancelled", "expired"]);
+
+export const livePartnerPresence = pgTable("live_partner_presence", {
+  userId: uuid("user_id").primaryKey().references(() => users.id, { onDelete: "cascade" }),
+  state: livePartnerStateEnum("state").notNull().default("offline"),
+  heartbeatAt: timestamp("heartbeat_at", { withTimezone: true }),
+  sessionId: uuid("session_id"),
+  rulesVersion: integer("rules_version"),
+  rulesAcceptedAt: timestamp("rules_accepted_at", { withTimezone: true }),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => ({
+  stateIdx: index("live_partner_presence_state_idx").on(table.state, table.heartbeatAt),
+}));
+
+export const livePartnerInvites = pgTable("live_partner_invites", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  fromUserId: uuid("from_user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  toUserId: uuid("to_user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  status: livePartnerInviteStatusEnum("status").notNull().default("pending"),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  respondedAt: timestamp("responded_at", { withTimezone: true }),
+}, (table) => ({
+  onePendingFrom: uniqueIndex("live_partner_invites_one_pending_from_idx").on(table.fromUserId).where(sql`${table.status} = 'pending'`),
+  toIdx: index("live_partner_invites_to_idx").on(table.toUserId, table.status),
+}));
+
+export const livePartnerSessions = pgTable("live_partner_sessions", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  inviteId: uuid("invite_id").notNull().unique().references(() => livePartnerInvites.id, { onDelete: "cascade" }),
+  userA: uuid("user_a").notNull().references(() => users.id, { onDelete: "cascade" }),
+  userB: uuid("user_b").notNull().references(() => users.id, { onDelete: "cascade" }),
+  startedAt: timestamp("started_at", { withTimezone: true }).defaultNow().notNull(),
+  connectedAt: timestamp("connected_at", { withTimezone: true }),
+  endedAt: timestamp("ended_at", { withTimezone: true }),
+  endReason: varchar("end_reason", { length: 40 }),
+  connectionOutcome: varchar("connection_outcome", { length: 40 }),
+});
+
+export const livePartnerBlocks = pgTable("live_partner_blocks", {
+  blockerId: uuid("blocker_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  blockedId: uuid("blocked_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => ({
+  pk: uniqueIndex("live_partner_blocks_pair_idx").on(table.blockerId, table.blockedId),
+}));
+
+/** Native full-listening source; never serialized into an active exam. */
+export const listeningPackages = pgTable("listening_packages", {
+  testId: uuid("test_id").primaryKey().references(() => listeningTests.id, { onDelete: "cascade" }),
+  sourceId: varchar("source_id", { length: 80 }).notNull().unique(),
+  payload: jsonb("payload").$type<import("../lib/listening/package").ListeningPackage>().notNull(),
+  audioObjectKey: text("audio_object_key").notNull(),
+  imageObjectKey: text("image_object_key"),
+  sourceHash: varchar("source_hash", { length: 64 }).notNull(),
+  /**
+   * Explicit legacy marker (never inferred from a title or a filename). True
+   * only for material that still runs uploaded HTML/CSS/JS in the sandboxed
+   * authored frame; a canonical native import is always false.
+   */
+  legacyRuntime: boolean("legacy_runtime").notNull().default(false),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+export const listeningActivityRuns = pgTable("listening_activity_runs", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  testId: uuid("test_id").notNull().references(() => listeningPackages.testId, { onDelete: "cascade" }),
+  activity: integer("activity").notNull(),
+  speedRate: real("speed_rate"),
+  answers: jsonb("answers").$type<Record<string, string>>().notNull().default({}),
+  score: integer("score"), total: integer("total"), completed: boolean("completed").notNull().default(false),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, table => ({ ownerTest: index("listening_activity_owner_test_idx").on(table.userId, table.testId) }));
+export const listeningDrafts = pgTable("listening_drafts", {
+  attemptId: uuid("attempt_id").primaryKey().references(() => listeningAttempts.id, { onDelete: "cascade" }),
+  answers: jsonb("answers").$type<Record<string, string>>().notNull().default({}),
+  audioPosition: real("audio_position").notNull().default(0),
+  audioStartedAt: timestamp("audio_started_at", { withTimezone: true }),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+/* ----------------------------------------------------------------------------
+ * 0030 General Reading — a LEARNING mode (develop reading), separate from the
+ * IELTS Academic assessment (measure reading). The same reading_passages,
+ * reading_questions, lexical_occurrences and canonical senses are reused; only the
+ * explicit classification below makes a passage GENERAL_PRACTICE. A passage with no
+ * row here is Academic. See src/lib/reading/lexical-policy.ts.
+ * ------------------------------------------------------------------------- */
+export const generalReadingSets = pgTable("general_reading_sets", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  title: varchar("title", { length: 200 }).notNull(),
+  description: text("description"),
+  difficultyLevel: varchar("difficulty_level", { length: 10 }),
+  publicationState: publicationStateEnum("publication_state").notNull().default("published"),
+  publishAt: timestamp("publish_at", { withTimezone: true }),
+  sourceRef: varchar("source_ref", { length: 80 }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const generalReadingPassages = pgTable("general_reading_passages", {
+  passageId: uuid("passage_id").primaryKey().references(() => readingPassages.id, { onDelete: "cascade" }),
+  setId: uuid("set_id").notNull().references(() => generalReadingSets.id, { onDelete: "cascade" }),
+  passageNo: integer("passage_no").notNull(),
+  readingMode: varchar("reading_mode", { length: 24 }).notNull().default("general_practice"),
+});
+
+export const generalReadingProgress = pgTable("general_reading_progress", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  setId: uuid("set_id").notNull().references(() => generalReadingSets.id, { onDelete: "cascade" }),
+  passageId: uuid("passage_id").notNull().references(() => readingPassages.id, { onDelete: "cascade" }),
+  answers: jsonb("answers").$type<Record<string, string>>().notNull().default({}),
+  score: integer("score"),
+  total: integer("total"),
+  checkedAt: timestamp("checked_at", { withTimezone: true }),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => [uniqueIndex("general_reading_progress_owner_idx").on(table.userId, table.passageId)]);
+
+// ---------------------------------------------------------------------------
+// Writing workspace (0031). Additive tables; content starts empty and arrives
+// only through the staff import. See drizzle/0031_writing_workspace.sql.
+// ---------------------------------------------------------------------------
+
+export const writingLessons = pgTable("writing_lessons", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  title: varchar("title", { length: 200 }).notNull(),
+  category: varchar("category", { length: 40 }).notNull(),
+  summary: text("summary"),
+  body: text("body").notNull(),
+  durationMinutes: smallint("duration_minutes"),
+  position: integer("position").notNull().default(0),
+  publicationState: publicationStateEnum("publication_state").notNull().default("draft"),
+  publishAt: timestamp("publish_at", { withTimezone: true }),
+  sourceRef: varchar("source_ref", { length: 80 }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const writingLessonProgress = pgTable("writing_lesson_progress", {
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  lessonId: uuid("lesson_id").notNull().references(() => writingLessons.id, { onDelete: "cascade" }),
+  completedAt: timestamp("completed_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => [primaryKey({ columns: [table.userId, table.lessonId] })]);
+
+export const writingExamSessions = pgTable("writing_exam_sessions", {
+  submissionId: uuid("submission_id").primaryKey().references(() => writingSubmissions.id, { onDelete: "cascade" }),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  taskType: writingTaskTypeEnum("task_type").notNull(),
+  startedAt: timestamp("started_at", { withTimezone: true }).defaultNow().notNull(),
+  durationSeconds: integer("duration_seconds").notNull(),
+  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  finalizedAt: timestamp("finalized_at", { withTimezone: true }),
+});
+
+/** 0032 Real Exam paper: one server deadline shared by its task entries. */
+export const writingExamPapers = pgTable("writing_exam_papers", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  mode: varchar("mode", { length: 8 }).$type<"task1" | "task2" | "full">().notNull(),
+  startedAt: timestamp("started_at", { withTimezone: true }).defaultNow().notNull(),
+  durationSeconds: integer("duration_seconds").notNull(),
+  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  finalizedAt: timestamp("finalized_at", { withTimezone: true }),
+  finalizeReason: varchar("finalize_reason", { length: 12 }).$type<"submitted" | "timeout" | "abandoned">(),
+});
+
+export const writingExamPaperEntries = pgTable("writing_exam_paper_entries", {
+  paperId: uuid("paper_id").notNull().references(() => writingExamPapers.id, { onDelete: "cascade" }),
+  position: smallint("position").notNull(),
+  taskType: writingTaskTypeEnum("task_type").notNull(),
+  promptId: uuid("prompt_id").notNull().references(() => writingPrompts.id),
+  submissionId: uuid("submission_id").notNull().unique().references(() => writingSubmissions.id, { onDelete: "cascade" }),
+  draftRevision: integer("draft_revision").notNull().default(0),
+  savedAt: timestamp("saved_at", { withTimezone: true }),
+}, (table) => [primaryKey({ columns: [table.paperId, table.position] })]);
+
+export const writingGradeRequests = pgTable("writing_grade_requests", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  taskType: writingTaskTypeEnum("task_type").notNull(),
+  questionText: text("question_text").notNull(),
+  essayText: text("essay_text").notNull(),
+  wordCount: integer("word_count").notNull(),
+  /** 0032: the published Task 1 prompt (and its visual) the essay answers, if chosen. */
+  promptId: uuid("prompt_id").references(() => writingPrompts.id, { onDelete: "set null" }),
+  status: varchar("status", { length: 20 }).notNull().default("pending"),
+  lastError: varchar("last_error", { length: 60 }),
+  claimedAt: timestamp("claimed_at", { withTimezone: true }),
+  analysis: jsonb("analysis"),
+  idempotencyKey: varchar("idempotency_key", { length: 64 }).notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  evaluatedAt: timestamp("evaluated_at", { withTimezone: true }),
+}, (table) => [uniqueIndex("writing_grade_requests_idem_idx").on(table.userId, table.idempotencyKey)]);
+
+export const writingTranslationSets = pgTable("writing_translation_sets", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  title: varchar("title", { length: 200 }).notNull(),
+  topic: varchar("topic", { length: 120 }).notNull(),
+  questionType: varchar("question_type", { length: 30 }).notNull(),
+  taskType: writingTaskTypeEnum("task_type").notNull().default("task2"),
+  targetBand: smallint("target_band").notNull(),
+  promptText: text("prompt_text").notNull(),
+  provenance: varchar("provenance", { length: 200 }).notNull(),
+  publicationState: publicationStateEnum("publication_state").notNull().default("draft"),
+  publishAt: timestamp("publish_at", { withTimezone: true }),
+  sourceRef: varchar("source_ref", { length: 80 }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const writingTranslationSentences = pgTable("writing_translation_sentences", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  setId: uuid("set_id").notNull().references(() => writingTranslationSets.id, { onDelete: "cascade" }),
+  position: smallint("position").notNull(),
+  uzbekSource: text("uzbek_source").notNull(),
+  modelEnglish: text("model_english").notNull(),
+  acceptedAlternatives: jsonb("accepted_alternatives").$type<string[]>().notNull().default([]),
+  notes: jsonb("notes").$type<string[]>().notNull().default([]),
+  targetLexicalItems: jsonb("target_lexical_items").$type<string[]>().notNull().default([]),
+});
+
+export const writingTranslationAttempts = pgTable("writing_translation_attempts", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  setId: uuid("set_id").notNull().references(() => writingTranslationSets.id, { onDelete: "cascade" }),
+  startedAt: timestamp("started_at", { withTimezone: true }).defaultNow().notNull(),
+  completedAt: timestamp("completed_at", { withTimezone: true }),
+  status: varchar("status", { length: 20 }).notNull().default("in_progress"),
+  elapsedMs: integer("elapsed_ms"),
+  overallEstimate: real("overall_estimate"),
+  meaningScore: real("meaning_score"),
+  grammarBand: real("grammar_band"),
+  vocabularyBand: real("vocabulary_band"),
+});
+
+export const writingTranslationAnswers = pgTable("writing_translation_answers", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  attemptId: uuid("attempt_id").notNull().references(() => writingTranslationAttempts.id, { onDelete: "cascade" }),
+  sentenceId: uuid("sentence_id").notNull().references(() => writingTranslationSentences.id, { onDelete: "cascade" }),
+  answerText: text("answer_text").notNull(),
+  evaluationStatus: varchar("evaluation_status", { length: 20 }).notNull(),
+  verdict: varchar("verdict", { length: 20 }),
+  meaningPreserved: smallint("meaning_preserved"),
+  grammarBand: real("grammar_band"),
+  vocabularyBand: real("vocabulary_band"),
+  feedback: text("feedback"),
+  improvedVersion: text("improved_version"),
+  tries: smallint("tries").notNull().default(1),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => [uniqueIndex("writing_translation_answers_attempt_id_sentence_id_key").on(table.attemptId, table.sentenceId)]);
+
+export const writingModelTexts = pgTable("writing_model_texts", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  title: varchar("title", { length: 200 }).notNull(),
+  taskType: writingTaskTypeEnum("task_type").notNull(),
+  topic: varchar("topic", { length: 120 }).notNull(),
+  targetBand: numeric("target_band", { precision: 2, scale: 1 }).notNull(),
+  body: text("body").notNull(),
+  wordCount: integer("word_count").notNull(),
+  provenance: varchar("provenance", { length: 200 }).notNull(),
+  publicationState: publicationStateEnum("publication_state").notNull().default("draft"),
+  publishAt: timestamp("publish_at", { withTimezone: true }),
+  sourceRef: varchar("source_ref", { length: 80 }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const typingTexts = pgTable("typing_texts", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  externalId: varchar("external_id", { length: 80 }).notNull(),
+  title: varchar("title", { length: 200 }).notNull(),
+  body: text("body").notNull(),
+  language: varchar("language", { length: 10 }).notNull().default("en"),
+  wordCount: integer("word_count").notNull(),
+  difficulty: varchar("difficulty", { length: 20 }),
+  topic: varchar("topic", { length: 160 }),
+  provenance: varchar("provenance", { length: 200 }).notNull(),
+  publicationState: publicationStateEnum("publication_state").notNull().default("draft"),
+  publishAt: timestamp("publish_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => [
+  uniqueIndex("typing_texts_external_id_uq").on(table.externalId),
+  index("typing_texts_publication_idx").on(table.publicationState, table.language),
+  check("typing_texts_word_count_chk", sql`${table.wordCount} >= 100`),
+]);
+
+export const typingRunTexts = pgTable("typing_run_texts", {
+  runId: uuid("run_id").primaryKey().references(() => typingRuns.id, { onDelete: "cascade" }),
+  /** Legacy rows point at a Writing model answer; new trainer rows point at typing_texts. */
+  modelTextId: uuid("model_text_id").references(() => writingModelTexts.id, { onDelete: "cascade" }),
+  typingTextId: uuid("typing_text_id").references(() => typingTexts.id, { onDelete: "restrict" }),
+  mistakes: integer("mistakes").notNull().default(0),
+  /** 30 / 60 / 120 / 180 for timed runs; NULL = Full / legacy untimed. */
+  presetSeconds: smallint("preset_seconds"),
+}, (table) => [
+  check("typing_run_texts_one_target_chk", sql`(${table.modelTextId} is not null) <> (${table.typingTextId} is not null)`),
+  check("typing_run_texts_preset_seconds_chk", sql`${table.presetSeconds} is null or ${table.presetSeconds} in (30,60,120,180)`),
+]);
+
+export const writingLanguagePatterns = pgTable("writing_language_patterns", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  pattern: varchar("pattern", { length: 240 }).notNull(),
+  function: varchar("function", { length: 30 }).notNull(),
+  taskType: writingTaskTypeEnum("task_type").notNull(),
+  topic: varchar("topic", { length: 120 }),
+  targetBand: smallint("target_band"),
+  example: text("example").notNull(),
+  usageNote: text("usage_note"),
+  provenance: varchar("provenance", { length: 200 }).notNull(),
+  publicationState: publicationStateEnum("publication_state").notNull().default("draft"),
+  publishAt: timestamp("publish_at", { withTimezone: true }),
+  sourceRef: varchar("source_ref", { length: 80 }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+/** Language Stealing 7-step workflow (0032). One resumable row per learner per model text. */
+export const writingStealingSessions = pgTable("writing_stealing_sessions", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  modelTextId: uuid("model_text_id").notNull().references(() => writingModelTexts.id, { onDelete: "cascade" }),
+  step: smallint("step").notNull().default(1),
+  brainstorm: text("brainstorm"),
+  draft: text("draft"),
+  selectedPatternIds: jsonb("selected_pattern_ids").$type<string[]>().notNull().default([]),
+  comparison: text("comparison"),
+  memorisedPatternIds: jsonb("memorised_pattern_ids").$type<string[]>().notNull().default([]),
+  rewriteAvailableAt: timestamp("rewrite_available_at", { withTimezone: true }),
+  rewrite: text("rewrite"),
+  rewritePatternIds: jsonb("rewrite_pattern_ids").$type<string[]>().notNull().default([]),
+  completedAt: timestamp("completed_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => [unique("writing_stealing_sessions_user_id_model_text_id_key").on(table.userId, table.modelTextId)]);
+
+export const writingPatternBank = pgTable("writing_pattern_bank", {
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  patternId: uuid("pattern_id").notNull().references(() => writingLanguagePatterns.id, { onDelete: "cascade" }),
+  savedAt: timestamp("saved_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => [primaryKey({ columns: [table.userId, table.patternId] })]);
+
+/** Small, resized profile photographs; deleting the account removes its photograph. */
+export const userProfilePhotos = pgTable("user_profile_photos", {
+  userId: uuid("user_id").primaryKey().references(() => users.id, { onDelete: "cascade" }),
+  imageBase64: text("image_base64").notNull(),
+  contentType: varchar("content_type", { length: 30 }).notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+/* ----------------------------------------------------------------------------
+ * 0040 Structured content imports — the canonical ingestion record.
+ *
+ * One row per import/rejection for every module (module + contentType +
+ * schemaVersion), carrying the truthful provenance, the canonical content hash,
+ * the content version and the actor. Canonical domain truth stays in each
+ * module's own relational tables; this table only answers "what was imported,
+ * from where, by whom, at which version, and what happened".
+ * ------------------------------------------------------------------------- */
+export const contentImportStatusEnum = pgEnum("content_import_status", [
+  "validated",
+  "created",
+  "updated",
+  "unchanged",
+  "rejected",
+  "converted",
+]);
+
+/* --------------------------------------------------------------------------
+ * Content versions — one immutable row per accepted content revision.
+ *
+ * Why a separate table instead of a version column on each domain table: the
+ * version must be referenced by compositions (mocks, assignments) and by
+ * attempts, across modules, without each domain table growing its own history
+ * table. `(module, content_type, source_ref, version_no)` is the identity; the
+ * row is never updated except to move `status` forward.
+ * -------------------------------------------------------------------------- */
+export const contentVersionStatusEnum = pgEnum("content_version_status", [
+  "draft",
+  "published",
+  "superseded",
+  "archived",
+]);
+
+export const contentVersions = pgTable(
+  "content_versions",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    module: varchar("module", { length: 20 }).notNull(),
+    contentType: varchar("content_type", { length: 40 }).notNull(),
+    /** Stable source identity: the same material always maps to the same ref. */
+    sourceRef: varchar("source_ref", { length: 80 }).notNull(),
+    versionNo: integer("version_no").notNull(),
+    status: contentVersionStatusEnum("status").notNull().default("draft"),
+    title: varchar("title", { length: 200 }).notNull(),
+    /** academic | general_training | unspecified */
+    track: varchar("track", { length: 24 }).notNull().default("unspecified"),
+    /** SHA-256 of the whole payload: any change moves it. */
+    contentHash: varchar("content_hash", { length: 64 }).notNull(),
+    /** SHA-256 of the assessment-semantic projection: the part a learner is graded on. */
+    semanticHash: varchar("semantic_hash", { length: 64 }).notNull(),
+    /** SHA-256 of just the answer keys: an answer-key change is visible without the payload. */
+    answerKeyHash: varchar("answer_key_hash", { length: 64 }).notNull(),
+    /**
+     * The canonical content of this revision. A pinned revision must be READABLE,
+     * not merely hashable: composition, review and re-publication need the material
+     * as it was, even after the current row has moved on (§71).
+     */
+    contentSnapshot: jsonb("content_snapshot").$type<unknown>(),
+    /** Publication state at the time this version was written. */
+    publicationState: varchar("publication_state", { length: 16 }).notNull().default("draft"),
+    targetType: varchar("target_type", { length: 40 }),
+    targetId: uuid("target_id"),
+    contentImportId: uuid("content_import_id").references(() => contentImports.id, { onDelete: "set null" }),
+    createdByUserId: uuid("created_by_user_id").references(() => users.id, { onDelete: "set null" }),
+    /** created | metadata | semantic | answer_key | composition | converted */
+    changeKind: varchar("change_kind", { length: 24 }).notNull().default("created"),
+    provenance: jsonb("provenance").$type<Record<string, unknown>>(),
+    note: text("note"),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    publishedAt: timestamp("published_at", { withTimezone: true }),
+    supersededAt: timestamp("superseded_at", { withTimezone: true }),
+  },
+  (table) => [
+    uniqueIndex("content_versions_identity_idx").on(table.module, table.contentType, table.sourceRef, table.versionNo),
+    index("content_versions_target_idx").on(table.targetType, table.targetId),
+    index("content_versions_ref_idx").on(table.module, table.contentType, table.sourceRef, table.status),
+  ],
+);
+
+export const contentImports = pgTable(
+  "content_imports",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    module: varchar("module", { length: 20 }).notNull(),
+    contentType: varchar("content_type", { length: 40 }).notNull(),
+    schemaVersion: integer("schema_version").notNull(),
+    /** Version of the importer code that wrote this row. */
+    importVersion: integer("import_version").notNull().default(1),
+    sourceRef: varchar("source_ref", { length: 80 }).notNull(),
+    /** SHA-256 of the normalized educational payload, never of the raw request. */
+    contentHash: varchar("content_hash", { length: 64 }).notNull(),
+    /** 1 for the first row of a sourceRef, +1 for every accepted change. */
+    contentVersion: integer("content_version").notNull().default(1),
+    status: contentImportStatusEnum("status").notNull(),
+    targetType: varchar("target_type", { length: 40 }).notNull(),
+    targetId: uuid("target_id"),
+    actorUserId: uuid("actor_user_id").references(() => users.id, { onDelete: "set null" }),
+    originalFilename: varchar("original_filename", { length: 255 }),
+    legacyRuntime: boolean("legacy_runtime").notNull().default(false),
+    /** Verified objects claimed by this import: key, role, object key, MIME, size. */
+    assets: jsonb("assets").$type<{ key: string; role: string; objectKey: string; mimeType: string; size: number }[]>(),
+    /** Truthful provenance record (see src/lib/import/core/provenance.ts). */
+    provenance: jsonb("provenance").$type<Record<string, unknown>>(),
+    /** Safe, small result summary — never raw transcripts or signed URLs. */
+    result: jsonb("result").$type<Record<string, unknown>>(),
+    note: text("note"),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    index("content_imports_source_idx").on(table.module, table.contentType, table.sourceRef),
+    index("content_imports_created_idx").on(table.createdAt),
+  ],
 );

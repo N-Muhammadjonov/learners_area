@@ -52,6 +52,6 @@ test("game award dedupe is learner + saved word + Tashkent day across game modes
 
 test("legitimate game awards refresh the private board from the authoritative ledger", () => {
   assert.match(games, /result\.awarded > 0[\s\S]*?vocab:ledger-changed/);
-  assert.match(board, /fetch\("\/api\/vocabulary\/leaderboard", \{ cache: "no-store" \}\)/);
+  assert.match(board, /requestResponse\("\/api\/vocabulary\/leaderboard", \{ cache: "no-store" \}\)/);
   assert.match(board, /addEventListener\("vocab:ledger-changed"/);
 });

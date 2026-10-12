@@ -1,0 +1,106 @@
+[
+  {
+    "nightLogo": [
+      {
+        "fit": "contain",
+        "src": "/brand/derived/owner-v11-night-96.png"
+      }
+    ],
+    "overflow": false,
+    "url": "/",
+    "video": false,
+    "welcome": true,
+    "width": 320
+  },
+  {
+    "nightLogo": [
+      {
+        "fit": "contain",
+        "src": "/brand/derived/owner-v11-night-96.png"
+      }
+    ],
+    "overflow": false,
+    "url": "/",
+    "video": false,
+    "welcome": true,
+    "width": 375
+  },
+  {
+    "nightLogo": [
+      {
+        "fit": "contain",
+        "src": "/brand/derived/owner-v11-night-96.png"
+      }
+    ],
+    "overflow": false,
+    "url": "/",
+    "video": false,
+    "welcome": true,
+    "width": 430
+  },
+  {
+    "nightLogo": [
+      {
+        "fit": "contain",
+        "src": "/brand/derived/owner-v11-night-96.png"
+      }
+    ],
+    "overflow": false,
+    "url": "/",
+    "video": false,
+    "welcome": true,
+    "width": 768
+  },
+  {
+    "controls": false,
+    "desktopMedia": true,
+    "duration": 10,
+    "fit": "contain",
+    "muted": true,
+    "overflow": false,
+    "source": "/brand/Learners_Area_2K_Clean_Background_v16_FINAL.mp4",
+    "url": "/",
+    "video": true,
+    "welcome": false,
+    "width": 1024
+  },
+  {
+    "controls": false,
+    "desktopMedia": true,
+    "duration": 10,
+    "fit": "contain",
+    "muted": true,
+    "overflow": false,
+    "source": "/brand/Learners_Area_2K_Clean_Background_v16_FINAL.mp4",
+    "url": "/",
+    "video": true,
+    "welcome": false,
+    "width": 1280
+  },
+  {
+    "controls": false,
+    "desktopMedia": true,
+    "duration": 10,
+    "fit": "contain",
+    "muted": true,
+    "overflow": false,
+    "source": "/brand/Learners_Area_2K_Clean_Background_v16_FINAL.mp4",
+    "url": "/",
+    "video": true,
+    "welcome": false,
+    "width": 1440
+  },
+  {
+    "controls": false,
+    "desktopMedia": true,
+    "duration": 10,
+    "fit": "contain",
+    "muted": true,
+    "overflow": false,
+    "source": "/brand/Learners_Area_2K_Clean_Background_v16_FINAL.mp4",
+    "url": "/",
+    "video": true,
+    "welcome": false,
+    "width": 1920
+  }
+]

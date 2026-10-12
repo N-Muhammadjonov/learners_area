@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { foldApostrophes, partOfSpeechNorm } from "@/lib/text/lexical-normalize";
 
 /**
  * Sense-aware deduplication for the word library.
@@ -19,9 +20,7 @@ import { createHash } from "node:crypto";
 
 /** Lowercase, trim, collapse whitespace, drop a leading article. */
 export function normalizeTerm(term: string): string {
-  return term
-    .toLowerCase()
-    .replace(/[’‘`]/g, "'")
+  return foldApostrophes(term.toLowerCase())
     .replace(/\s+/g, " ")
     .trim()
     .replace(/^(a|an|the)\s+/, "")
@@ -30,9 +29,7 @@ export function normalizeTerm(term: string): string {
 
 /** Exact aliases only; noun phrase and verb phrase are not plain nouns/verbs. */
 export function normalizePartOfSpeech(part: string | null | undefined): string {
-  const raw = (part ?? "").normalize("NFKC").toLowerCase().trim().replace(/^\((.*)\)$/, "$1").replace(/\.$/, "");
-  const aliases: Record<string, string> = { n: "noun", v: "verb", adj: "adjective", adv: "adverb", phr: "phrase", prep: "preposition", "n.phrase": "noun phrase", "v.phrase": "verb phrase" };
-  return aliases[raw] ?? raw.replace(/\s+/g, " ");
+  return partOfSpeechNorm(part);
 }
 
 /** Preserve the full sense; only typography, whitespace and final full stop differ. */

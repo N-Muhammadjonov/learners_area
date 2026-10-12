@@ -1,4 +1,5 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
@@ -21,6 +22,8 @@ import type { Locale } from "@/lib/i18n";
  *     this: `--accent-contrast`, navy on gold after dark.
  */
 export function LocaleSwitcher({ locale, dict }: { locale: Locale; dict: Dictionary }) {
+  const requestResponse = useScopedResponse(25000);
+
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [requestPending, setRequestPending] = useState(false);
@@ -33,11 +36,12 @@ export function LocaleSwitcher({ locale, dict }: { locale: Locale; dict: Diction
     setRequestPending(true);
     setError(false);
     try {
-      const response = await fetch("/api/locale", {
+      const response = await requestResponse("/api/locale", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ locale: next }),
       });
+    if (!response) return;
       if (!response.ok) throw new Error("Locale update failed");
       startTransition(() => router.refresh());
     } catch {

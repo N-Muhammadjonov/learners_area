@@ -93,7 +93,7 @@ export async function POST(req: NextRequest) {
     type: "OWNERSHIP_TRANSFERRED",
     title: "Ownership transferred",
     body: `The centre is now owned by ${target.name}.`,
-    href: "/owner",
+    href: "/app/owner",
   });
 
   return NextResponse.json({ ok: true });

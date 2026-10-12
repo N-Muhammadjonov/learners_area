@@ -77,7 +77,7 @@ export type VocabStudioData = {
   initialTab: TabKey;
 };
 
-export type TabKey = "words" | "revision" | "games" | "use" | "board";
+export type TabKey = "words" | "revision" | "games" | "use" | "board" | "dictionary";
 
 /** A meaning-side prompt used by the games — never the answer itself. */
 export type GameWord = {
@@ -113,6 +113,12 @@ export type GameSetResponse = {
   due: number;
   topicPack?: string | null;
   folderId?: string | null;
+  /**
+   * Present for the flashcard game only: the learner's newest self-assessment
+   * per entry, read back from the recorded practice rows so the marks survive a
+   * reload. It carries no score and never earns a point.
+   */
+  selfAssessments?: Record<string, "known" | "notYet">;
 };
 
 export type GameAnswerResponse = { awarded: number; srsUntouched: true };

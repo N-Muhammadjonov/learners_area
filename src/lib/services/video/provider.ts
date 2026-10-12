@@ -20,7 +20,19 @@
  * Pure module — unit tested without a server.
  */
 
-export type VideoProvider = "youtube";
+export type VideoProvider = "youtube" | "direct";
+
+/**
+ * "direct" = a media file on the owner-authorised origin (AUTHORIZED_MEDIA_ORIGIN),
+ * stored as `/media/<id>.(mp4|webm)` with an optional `/media/<id>.vtt` caption
+ * file. Only media the centre is licensed to host goes there; this module never
+ * copies or proxies third-party video. YouTube stays on its native player.
+ */
+export const DIRECT_MEDIA_ID = /^[A-Za-z0-9_-]{1,32}\.(mp4|webm)$/;
+export function directMediaUrls(videoId: string, origin: string) {
+  if (!DIRECT_MEDIA_ID.test(videoId)) throw new Error("invalid media id");
+  return { src: `${origin}/media/${videoId}`, captions: `${origin}/media/${videoId.replace(/\.(mp4|webm)$/, ".vtt")}` };
+}
 
 export type ParsedVideo =
   | { ok: true; provider: VideoProvider; videoId: string }
@@ -59,7 +71,7 @@ function idFromYouTube(url: URL): string | null {
 }
 
 /** Parses a pasted URL or a bare id into a validated provider reference. */
-export function parseVideoInput(raw: string): ParsedVideo {
+export function parseVideoInput(raw: string, options: { mediaOrigin?: string | null } = {}): ParsedVideo {
   const trimmed = raw.trim();
   if (!trimmed) return { ok: false, reason: "no_video_id" };
 
@@ -78,6 +90,10 @@ export function parseVideoInput(raw: string): ParsedVideo {
   }
 
   if (url.protocol !== "https:" && url.protocol !== "http:") return { ok: false, reason: "invalid_url" };
+  if (options.mediaOrigin && url.protocol === "https:" && url.origin === options.mediaOrigin) {
+    const id = url.pathname.startsWith("/media/") ? url.pathname.slice("/media/".length) : "";
+    return DIRECT_MEDIA_ID.test(id) && !url.search && !url.hash ? { ok: true, provider: "direct", videoId: id } : { ok: false, reason: "invalid_id" };
+  }
   if (!YOUTUBE_HOSTS.has(url.hostname)) return { ok: false, reason: "unsupported_host" };
 
   const id = idFromYouTube(url);
@@ -89,18 +105,28 @@ export function parseVideoInput(raw: string): ParsedVideo {
 /**
  * The URL that goes into the iframe.
  *
- * `youtube-nocookie` is the privacy-enhanced domain, and `rel=0` keeps the
- * player from treating the embed as a recommendation feed. Parameters the
- * provider offers for the JavaScript API (`enablejsapi`) are added by the
- * player component, not here, so this stays a pure URL builder.
+ * `youtube-nocookie` is the privacy-enhanced domain. `rel=0` limits
+ * recommendations to the same channel; it does not disable them or branding.
+ * `enablejsapi=1` lets the player report its end/position to the page; `origin`
+ * is added only from the configured public origin (never "*"). `cc_load_policy=1`
+ * keeps the owner-requested native captions on by default.
  */
 export function embedUrlFor(provider: VideoProvider, videoId: string, options: { origin?: string } = {}): string {
   if (provider !== "youtube") throw new Error(`unsupported provider: ${provider}`);
   if (!VIDEO_ID.test(videoId)) throw new Error("invalid video id");
   const base = `https://www.youtube-nocookie.com/embed/${videoId}`;
-  const params = new URLSearchParams({ rel: "0", playsinline: "1", enablejsapi: "1", modestbranding: "1" });
+  const params = new URLSearchParams({ rel: "0", playsinline: "1", enablejsapi: "1", controls: "1", cc_load_policy: "1" });
   if (options.origin) params.set("origin", options.origin);
   return `${base}?${params.toString()}`;
+}
+
+/**
+ * Library-card thumbnail for a validated YouTube id (static image from YouTube's
+ * image host; no player, no iframe). Returns null for anything that is not a
+ * valid id so the card shows its neutral fallback instead of a broken image.
+ */
+export function youtubeThumbnailUrl(videoId: string): string | null {
+  return VIDEO_ID.test(videoId) ? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg` : null;
 }
 
 /** Where a "watch on the provider" link points, for the honest fallback action. */

@@ -53,7 +53,10 @@ export const primarySchema = z.discriminatedUnion("mode", [
 ]);
 
 export const createMaterialSchema = z.object({
-  category: z.enum(["part1", "part2", "part3", "general", "shadowing", "top_structures"]),
+  // "shadowing" is deliberately absent: the feature is retired, so no NEW material may
+  // be authored into that category. The enum value survives in the database so
+  // historical rows keep their category and are preserved.
+  category: z.enum(["part1", "part2", "part3", "general", "top_structures"]),
   title: z.string().min(3).max(200),
   primary: primarySchema,
   blocks: z.array(blockSchema).max(50).default([]),

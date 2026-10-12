@@ -1,0 +1,120 @@
+{
+  "at": "2026-10-01T11:13:41.441Z",
+  "mode": "--apply",
+  "dbFingerprint": "8eeaa76ded2d2bfb9caf8d125fdb716c761e6e2ae583a8e056a1e05d5f106a5b",
+  "target": {
+    "host": "localhost",
+    "port": "5432",
+    "database": "learners_preview_sim",
+    "role": "postgres",
+    "projectRef": null,
+    "sharedPooler": false
+  },
+  "serverIdentity": "adc6861662a454a15ee0f617ee3a7d87f6586acc9efb7aa05e00600c9ca3f8f1",
+  "server": {
+    "database": "learners_preview_sim",
+    "sessionUser": "postgres",
+    "port": 5432,
+    "systemIdentifier": "present"
+  },
+  "before": {
+    "applied": [
+      "0000_upload_intents",
+      "0001_speaking_practice",
+      "0002_coach_evaluations",
+      "0003_phase1_access_control",
+      "0004_vocabulary_engine",
+      "0005_lexeme_sense_key",
+      "0006_lexeme_collocations",
+      "0007_listening_mcq_mastery",
+      "0008_typing_runs",
+      "0009_grammar_activities",
+      "0010_problem_reports",
+      "0011_lesson_recording",
+      "0012_goofy_beast",
+      "0013_gifted_shotgun",
+      "0014_mighty_sway",
+      "0015_polite_archangel",
+      "0016_publication_state",
+      "0017_reading_105_library",
+      "0018_resource_blocks",
+      "0019_grammar_source_privacy",
+      "0020_lexical_source_snapshot",
+      "0021_registration_gender",
+      "0022_retention_bank",
+      "0023_video_lesson_notes",
+      "0024_video_lessons_standalone"
+    ],
+    "pending": [
+      "0025_speaking_bank_identity",
+      "0026_google_identity",
+      "0027_live_partner"
+    ],
+    "problems": []
+  },
+  "backupRef": "local-sim-recovery-point",
+  "after": {
+    "applied": [
+      "0000_upload_intents",
+      "0001_speaking_practice",
+      "0002_coach_evaluations",
+      "0003_phase1_access_control",
+      "0004_vocabulary_engine",
+      "0005_lexeme_sense_key",
+      "0006_lexeme_collocations",
+      "0007_listening_mcq_mastery",
+      "0008_typing_runs",
+      "0009_grammar_activities",
+      "0010_problem_reports",
+      "0011_lesson_recording",
+      "0012_goofy_beast",
+      "0013_gifted_shotgun",
+      "0014_mighty_sway",
+      "0015_polite_archangel",
+      "0016_publication_state",
+      "0017_reading_105_library",
+      "0018_resource_blocks",
+      "0019_grammar_source_privacy",
+      "0020_lexical_source_snapshot",
+      "0021_registration_gender",
+      "0022_retention_bank",
+      "0023_video_lesson_notes",
+      "0024_video_lessons_standalone",
+      "0025_speaking_bank_identity",
+      "0026_google_identity",
+      "0027_live_partner"
+    ],
+    "pending": [],
+    "problems": []
+  },
+  "verify": [
+    {
+      "name": "speaking_prompts identity columns",
+      "pass": true,
+      "value": 4
+    },
+    {
+      "name": "users.google_sub unique index",
+      "pass": true,
+      "value": 1
+    },
+    {
+      "name": "live_partner tables",
+      "pass": true,
+      "value": 4
+    },
+    {
+      "name": "practice query runs",
+      "pass": true,
+      "value": 0
+    },
+    {
+      "name": "live partner query runs",
+      "pass": true,
+      "value": 0
+    }
+  ],
+  "result": {
+    "pass": true
+  }
+}

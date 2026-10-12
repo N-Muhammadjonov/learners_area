@@ -9,16 +9,19 @@ const read = (path: string) => readFileSync(join(root, path), "utf8");
 test("Games is a lightweight library with history-aware dedicated routes for all seven games", () => {
   const panel = read("src/components/vocabulary/VocabGamesPanel.tsx");
   const studio = read("src/components/vocabulary/VocabStudio.tsx");
-  const vocabPage = read("src/app/(app)/vocabulary/page.tsx");
-  const gamePage = read("src/app/(app)/vocabulary/games/[gameId]/page.tsx");
+  const vocabPage = read("src/app/app/(shell)/vocabulary/page.tsx");
+  const gamePage = read("src/app/app/(shell)/vocabulary/games/[gameId]/page.tsx");
   assert.match(panel, /data-games-library/);
   assert.match(panel, /hrefFor\(game\)/);
   assert.match(panel, /data-dedicated-game/);
   assert.match(panel, /data-game-back/);
   assert.match(panel, /loadedKey === requestKey/);
   assert.match(panel, /key=\{gameViewKey\}/);
-  assert.match(studio, /navigate\("\/vocabulary\/games"\)/);
-  assert.match(studio, /setTab\(next\)/);
+  assert.match(studio, /navigate\("\/app\/vocabulary\/games"\)/);
+  assert.ok(studio.includes("router.push(`/app/vocabulary"));
+  assert.match(studio, /const requestedTab = query.get\("tab"\)/);
+  assert.doesNotMatch(studio, /window.history.replaceState/);
+  assert.match(read("src/app/app/(shell)/vocabulary/layout.tsx"), /<ModuleNavigation module="vocabulary"/);
   assert.doesNotMatch(studio, /<VocabGamesPanel/);
   const route = vocabPage.slice(vocabPage.indexOf("export default async function VocabularyPage"));
   assert.ok(route.indexOf('if (value === "games") redirect') < route.indexOf("<VocabStudio"), "the legacy Games query redirects before Studio data is rendered");
@@ -93,8 +96,9 @@ test("Typing Race animates the complete verified verdict from left to right", ()
   const race = panel.slice(panel.indexOf("function TypingRace"), panel.indexOf("function RaceMetric"));
   assert.match(race, /status === "correct" \? "race-answer-box--correct"/);
   assert.match(race, /status === "incorrect" \? "race-answer-box--incorrect"/);
-  assert.match(race, /transitionDelay: resolved \? `\$\{Math\.round\(charIndexInAnswer \* characterDelayMs\)\}ms`/);
-  assert.match(race, /characterDelayMs = Math\.min\(35, 600 \/ animationCharacterCount\)/);
+  assert.match(race, /charIndexInAnswer >= litCount \? ""/);
+  assert.match(race, /data-race-lit=\{charIndexInAnswer < litCount/);
+  assert.doesNotMatch(race, /setLitCount\(boxCount\)/, "reduced motion must not light all boxes simultaneously");
   assert.match(race, /status === "skipped" \|\| status === "unverified" \? expected/);
   assert.match(read("src/app/globals.css"), /\.race-answer-box--correct/);
   assert.match(read("src/app/globals.css"), /\.race-answer-box--incorrect/);
@@ -121,7 +125,7 @@ test("Pronounce is isolated; self-assessment alone marks and then advances", () 
   assert.doesNotMatch(speaker, /setFlipped|setMarks|setIndex|answer\(/);
 });
 
-test("navigation acknowledges immediately, and automatic prefetch stops at the safe private boundary", () => {
+test("navigation acknowledges immediately, and eager prefetch is opt-in and the private boundary remains safe", () => {
   assert.equal(read("src/lib/nav/progress.ts").match(/NAVIGATION_FEEDBACK_DELAY_MS = (\d+)/)?.[1], "60");
   const link = read("src/components/shell/LinkPending.tsx");
   assert.match(link, /NAVIGATION_FEEDBACK_DELAY_MS/);
@@ -130,18 +134,20 @@ test("navigation acknowledges immediately, and automatic prefetch stops at the s
   const frame = read("src/components/interaction/SectionEntryFrame.tsx");
   const sidebar = read("src/components/shell/SidebarNav.tsx");
   assert.match(provider, /setNavigation\(intent\)/);
-  assert.match(outlet, /SectionEntryFrame/);
+  assert.match(outlet, /data-workspace-content inert=\{pending \|\| undefined\}>\{children\}/);
+  assert.match(outlet, /role="status" aria-live="polite"/);
+  assert.match(outlet, /onClick=\{retryNavigation\}/);
   assert.match(frame, /data-entry-frame/);
-  assert.match(read("src/components/interaction/InstantLink.tsx"), /prefetch=\{prefetch \?\? null\}/);
+  assert.match(read("src/components/interaction/InstantLink.tsx"), /prefetch=\{prefetch \?\? false\}/);
   assert.doesNotMatch(sidebar, /prefetch=\{false\}/);
-  assert.match(read("src/app/(app)/loading.tsx"), /<RouteEntryLoading \/>/);
+  assert.match(read("src/app/app/(shell)/loading.tsx"), /<RouteEntryLoading \/>/);
   assert.match(frame, /data-private-loading-boundary=\{privateBoundary \? "true"/);
-  assert.match(read("src/app/(app)/layout.tsx"), /getCurrentUser\(\)/);
-  assert.match(read("src/app/(app)/layout.tsx"), /hasPrivateAccess\(user\.accountStatus\)/);
+  assert.match(read("src/app/app/layout.tsx"), /getCurrentUser\(\)/);
+  assert.match(read("src/app/app/layout.tsx"), /hasPrivateAccess\(user\.accountStatus\)/);
 });
 
 test("responsive shell has explicit small-screen sidebar hiding and width-safe content containers", () => {
-  const layout = read("src/app/(app)/layout.tsx");
+  const layout = read("src/app/app/(shell)/layout.tsx");
   const globals = read("src/app/globals.css");
   assert.match(layout, /hidden h-full[^\n]*md:flex/);
   assert.match(layout, /min-w-0 flex-1/);
@@ -151,6 +157,6 @@ test("responsive shell has explicit small-screen sidebar hiding and width-safe c
 });
 
 test("every requested dedicated route file exists", () => {
-  assert.ok(existsSync(join(root, "src/app/(app)/vocabulary/games/page.tsx")));
-  assert.ok(existsSync(join(root, "src/app/(app)/vocabulary/games/[gameId]/page.tsx")));
+  assert.ok(existsSync(join(root, "src/app/app/(shell)/vocabulary/games/page.tsx")));
+  assert.ok(existsSync(join(root, "src/app/app/(shell)/vocabulary/games/[gameId]/page.tsx")));
 });

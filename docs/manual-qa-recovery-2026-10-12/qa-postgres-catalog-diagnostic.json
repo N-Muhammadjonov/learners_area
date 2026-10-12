@@ -1,0 +1,10 @@
+{
+  "projectRef": "bpexpsugmuhwmztacbqd",
+  "postgres_version": "17.6",
+  "migration_count": 38,
+  "recovery_schemas": 0,
+  "catalog_not_null_constraints": 0,
+  "not_null_columns": 610,
+  "backup_failed_before_schema_creation": true,
+  "normalization": "exclude catalog contype n, while preserving strict pg_attribute.attnotnull column checks"
+}

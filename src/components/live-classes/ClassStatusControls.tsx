@@ -1,4 +1,5 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -15,23 +16,30 @@ export function ClassStatusControls({
   liveClassId: string;
   status: "upcoming" | "live" | "completed" | "recorded" | "cancelled";
 }) {
+  const requestResponse = useScopedResponse(25000);
+
   const router = useRouter();
   const [pending, setPending] = useState(false);
+  const [error, setError] = useState(false);
   const [recordingUrl, setRecordingUrl] = useState("");
 
   async function patch(body: Record<string, string>) {
-    setPending(true);
-    await fetch(`/api/teacher/live-classes/${liveClassId}`, {
+    if (pending) return;
+    setError(false); setPending(true);
+    const res = await requestResponse(`/api/teacher/live-classes/${liveClassId}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
+    if (!res) return;
     setPending(false);
+    if (!res.ok) {setError(true); return;}
     router.refresh();
   }
 
   return (
     <div className="flex flex-wrap items-center gap-2">
+      {error && <p role="alert" className="text-sm text-band-bad">{dict.common.error}</p>}
       {status === "upcoming" && (
         <Button variant="secondary" disabled={pending} onClick={() => patch({ status: "live" })}>
           {dict.liveClasses.markLive}

@@ -1,4 +1,5 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -8,6 +9,7 @@ import { BlockRenderer } from "./BlockRenderer";
 import { EditMaterialForm } from "./EditMaterialForm";
 import type { Dictionary } from "@/lib/i18n/en";
 import type { materialBlocks, speakingMaterials } from "@/db/schema";
+import { apiErrorMessage } from "@/lib/api-error-message";
 
 type Material = typeof speakingMaterials.$inferSelect;
 type Block = typeof materialBlocks.$inferSelect;
@@ -30,24 +32,29 @@ export function ManagedMaterialCard({
   authorName: string;
   canManage: boolean;
 }) {
+  const requestResponse = useScopedResponse(25000);
+
   const router = useRouter();
   const [editingTitle, setEditingTitle] = useState(false);
   const [editingContent, setEditingContent] = useState(false);
   const [title, setTitle] = useState(material.title);
   const [pending, setPending] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   async function patch(body: Record<string, unknown>) {
     setPending(true);
-    const res = await fetch(`/api/speaking/materials/${material.id}`, {
+    setError(null);
+    const res = await requestResponse(`/api/speaking/materials/${material.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
+    if (!res) return;
     setPending(false);
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));
-      alert(data.error ?? dict.speaking.saveFailed);
+      setError(apiErrorMessage(data.error, res.status, dict));
       return;
     }
     router.refresh();
@@ -61,13 +68,22 @@ export function ManagedMaterialCard({
     );
     if (!confirmed) return;
     setPending(true);
-    await fetch(`/api/speaking/materials/${material.id}`, { method: "DELETE" });
+    setError(null);
+    const res = await requestResponse(`/api/speaking/materials/${material.id}`, { method: "DELETE" }).catch(() => null);
+    if (!res) return;
     setPending(false);
+    if (!res || !res.ok) {
+      // A failed delete used to be silent; now the staff member sees why (localised, no raw code).
+      const data = res ? await res.json().catch(() => ({})) : {};
+      setError(apiErrorMessage((data as { error?: string }).error, res?.status ?? 0, dict));
+      return;
+    }
     router.refresh();
   }
 
   return (
     <div className={`card flex flex-col gap-2 ${!material.isActive ? "opacity-50" : ""}`}>
+      {error && <p role="alert" className="rounded-md border border-band-bad/40 bg-band-bad/10 p-2 text-sm text-band-bad" data-material-error>{error}</p>}
       <div className="flex flex-wrap items-center justify-between gap-2">
         {editingTitle ? (
           <div className="flex flex-1 items-center gap-2">
@@ -94,7 +110,14 @@ export function ManagedMaterialCard({
           <p className="text-sm font-medium text-ink-900">{material.title}</p>
         )}
         <span className="shrink-0 text-xs text-ink-300">
-          {dict.speaking.category[material.category]} · {dict.speaking.postedBy}: {authorName}
+          {/*
+            A legacy row can still carry the retired `shadowing` category, which no
+            longer has a label because the feature was removed. Staff must still be
+            able to see and manage that historical material, so the raw category is
+            shown as a fallback rather than crashing or rendering an empty badge.
+          */}
+          {(dict.speaking.category as Record<string, string>)[material.category] ?? material.category}
+          {" · "}{dict.speaking.postedBy}: {authorName}
         </span>
       </div>
 
@@ -102,7 +125,7 @@ export function ManagedMaterialCard({
         <button
           type="button"
           onClick={() => setExpanded((v) => !v)}
-          className="w-fit text-xs text-signal-600 hover:underline"
+          className="btn-secondary w-fit"
         >
           {expanded ? "Hide" : "Show"} {blocks.length} attachment{blocks.length > 1 ? "s" : ""}
         </button>

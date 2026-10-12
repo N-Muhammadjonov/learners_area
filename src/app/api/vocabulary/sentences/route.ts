@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { listSentenceBank, listLibrary } from "@/lib/services/vocabulary/engine";
+import { z } from "zod";
 import { timed } from "@/lib/observability/timing";
 
 const PRIVATE_NO_STORE = { "Cache-Control": "private, no-store" };
@@ -17,6 +18,12 @@ export async function GET(req: NextRequest) {
   const rawLimit = Number(req.nextUrl.searchParams.get("limit") ?? 100);
   const wordLimit = Number.isFinite(rawLimit) ? Math.min(100, Math.max(1, Math.floor(rawLimit))) : 100;
 
+  const folderId = req.nextUrl.searchParams.get("folderId") ?? undefined;
+  const rawOffset = Number(req.nextUrl.searchParams.get("offset") ?? 0);
+  if ((folderId && !z.string().uuid().safeParse(folderId).success) || !Number.isSafeInteger(rawOffset) || rawOffset < 0 || rawOffset > 100_000) {
+    return NextResponse.json({ ok: false, error: "invalid_input" }, { status: 400, headers: PRIVATE_NO_STORE });
+  }
+
   try {
     if (view === "history") {
       const sentences = await timed("vocabulary.entry.sentenceHistory", () => listSentenceBank(user.id, 30));
@@ -27,33 +34,35 @@ export async function GET(req: NextRequest) {
     }
 
     if (view === "words") {
-      const rows = await timed("vocabulary.entry.useItWords", () => listLibrary(user.id, { limit: wordLimit }));
-      const words = rows.map((word) => ({
+      const rows = await timed("vocabulary.entry.useItWords", () => listLibrary(user.id, { folderId, offset: rawOffset, limit: wordLimit + 1 }));
+      const words = rows.slice(0, wordLimit).map((word) => ({
         id: word.id,
         term: word.term,
         definitionEn: word.definitionEn,
         translationUz: word.translationUz,
         mastery: word.mastery,
+        folderId: word.folderId,
       }));
       return NextResponse.json(
-        { ok: true, words },
+        { ok: true, words, hasMore: rows.length > wordLimit },
         { headers: PRIVATE_NO_STORE },
       );
     }
 
     const [sentences, rows] = await Promise.all([
       timed("vocabulary.entry.sentenceHistory", () => listSentenceBank(user.id, 30)),
-      timed("vocabulary.entry.useItWords", () => listLibrary(user.id, { limit: wordLimit })),
+      timed("vocabulary.entry.useItWords", () => listLibrary(user.id, { folderId, offset: rawOffset, limit: wordLimit + 1 })),
     ]);
-    const words = rows.map((word) => ({
+    const words = rows.slice(0, wordLimit).map((word) => ({
       id: word.id,
       term: word.term,
       definitionEn: word.definitionEn,
       translationUz: word.translationUz,
       mastery: word.mastery,
+        folderId: word.folderId,
     }));
     return NextResponse.json(
-      { ok: true, sentences, words },
+      { ok: true, sentences, words, hasMore: rows.length > wordLimit },
       { headers: PRIVATE_NO_STORE },
     );
   } catch {

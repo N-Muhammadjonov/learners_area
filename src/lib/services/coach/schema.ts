@@ -101,6 +101,36 @@ export const recommendedExerciseSchema = z
  */
 export const evaluationVerdictSchema = z.enum(["correct", "mostly_correct", "needs_correction"]);
 
+/**
+ * Grade My Work detail (owner spec §42.5), bilingual so the UZ / EN switch
+ * never re-grades. Strict and capped; persisted in writing_grade_requests,
+ * never inside the evaluation row (which stays the band authority).
+ */
+const bilingual = (max: number) => z.object({ en: z.string().min(1).max(max), uz: z.string().min(1).max(max) }).strict();
+export const writingAnalysisSchema = z
+  .object({
+    examinerComment: bilingual(1200),
+    criterionNarratives: z.array(z.object({
+      key: z.string().min(1).max(40),
+      narrative: bilingual(900),
+      evidence: z.array(z.string().min(1).max(300)).max(3),
+    }).strict()).max(4),
+    sentenceFeedback: z.array(z.object({
+      index: z.number().int().min(1).max(200),
+      original: z.string().min(1).max(600),
+      improved: z.string().min(1).max(600),
+      note: bilingual(400),
+      categories: z.array(z.string().min(1).max(40)).max(3),
+    }).strict()).max(12),
+    topFixes: z.array(z.object({
+      title: bilingual(120),
+      explanation: bilingual(500),
+      examples: z.array(z.string().min(1).max(300)).max(3),
+    }).strict()).max(3),
+  })
+  .strict();
+export type WritingAnalysis = z.infer<typeof writingAnalysisSchema>;
+
 export const providerEvaluationOutputSchema = z
   .object({
     overallEstimate: z.number().min(0).max(9).nullable(),
@@ -117,6 +147,8 @@ export const providerEvaluationOutputSchema = z
     issues: z.array(evaluationIssueSchema).max(30),
     nextActions: z.array(z.string().min(1).max(400)).max(12),
     recommendedExercises: z.array(recommendedExerciseSchema).max(8),
+    /** Only Grade My Work asks for it; never copied into the evaluation row. */
+    writingAnalysis: writingAnalysisSchema.optional(),
   })
   .strict();
 

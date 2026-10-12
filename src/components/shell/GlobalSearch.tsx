@@ -9,9 +9,8 @@ import { IconClose, IconSearch } from "@/components/ui/icons";
 /**
  * Search Learners Area.
  *
- * A dialog rather than a permanent field on small screens, and a dialog on
- * `Ctrl/⌘ K` everywhere — the same surface, one implementation, so the two
- * cannot disagree about behaviour.
+ * An editable header field on desktop and a compact expanded field on mobile.
+ * Ctrl/⌘ K focuses the same input; results stay anchored beneath it.
  *
  * Design rules this follows:
  *   * no request until the query is useful (2 characters) and the user has
@@ -70,34 +69,20 @@ export function GlobalSearch({ dict }: { dict: Dictionary }) {
     }
   }, [open]);
 
-  // Escape closes, and the background does not scroll behind the dialog.
+  // Desktop search is anchored; Escape and outside pointer close it.
   useEffect(() => {
     if (!open) return;
     function onKey(event: KeyboardEvent) {
-      if (event.key === "Escape") {
-        event.preventDefault();
-        close();
-      } else if (event.key === "Tab") {
-        const controls = dialogRef.current?.querySelectorAll<HTMLElement>(
-          'input, button:not([tabindex="-1"]):not(:disabled)'
-        );
-        const first = controls?.[0];
-        const last = controls?.[controls.length - 1];
-        if (event.shiftKey && document.activeElement === first) {
-          event.preventDefault();
-          last?.focus();
-        } else if (!event.shiftKey && document.activeElement === last) {
-          event.preventDefault();
-          first?.focus();
-        }
-      }
+      if (event.key === "Escape") { event.preventDefault(); close(); }
+    }
+    function outside(event: PointerEvent) {
+      if (!dialogRef.current?.contains(event.target as Node)) close();
     }
     document.addEventListener("keydown", onKey);
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    document.addEventListener("pointerdown", outside);
     return () => {
       document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = previous;
+      document.removeEventListener("pointerdown", outside);
     };
   }, [open, close]);
 
@@ -175,96 +160,32 @@ export function GlobalSearch({ dict }: { dict: Dictionary }) {
   };
 
   return (
-    <>
-        <button
-          type="button"
-          data-global-search-trigger
-          onClick={(event) => {
-            openerRef.current = event.currentTarget;
-            setOpen(true);
-          }}
-          className="hidden h-11 w-full max-w-[420px] items-center gap-2.5 rounded-[10px] border border-ink-100 bg-paper-sunken px-3 text-left text-[0.9375rem] text-ink-300 transition-colors hover:border-ink-300 hover:text-ink-500 lg:flex"
-        >
-          <IconSearch className="shrink-0 text-[18px]" />
-          <span className="min-w-0 flex-1 truncate">{dict.shell.searchPlaceholder}</span>
-          <kbd className="shrink-0 rounded border border-ink-100 px-1.5 py-0.5 text-[0.6875rem] text-ink-300">
-            Ctrl K
-          </kbd>
-        </button>
-        <button
-          type="button"
-          data-global-search-trigger
-          aria-label={dict.shell.openSearch}
-          onClick={(event) => {
-            openerRef.current = event.currentTarget;
-            setOpen(true);
-          }}
-          className="flex items-center justify-center rounded-[10px] border border-ink-100 text-ink-500 transition-colors hover:bg-paper-sunken hover:text-ink-900 lg:hidden"
-          style={{ width: "var(--icon-btn)", height: "var(--icon-btn)" }}
-        >
-          <IconSearch className="text-[20px]" />
-        </button>
-
-      {open && (
-        <div
-          className="fixed inset-0 flex items-start justify-center p-3 sm:p-6"
-          style={{ zIndex: "var(--z-modal)" }}
-          ref={dialogRef}
-          role="dialog"
-          aria-modal="true"
-          aria-label={dict.shell.search}
-          data-global-search-dialog
-          data-search-state={state}
-        >
-          <button
-            type="button"
-            tabIndex={-1}
-            aria-hidden
-            onClick={close}
-            className="absolute inset-0 h-full w-full cursor-default bg-ink-950/60"
-          />
-          <div
-            className="relative mt-[6vh] flex w-full max-w-[720px] flex-col overflow-hidden rounded-[18px] border border-ink-100 bg-paper-raised shadow-raised"
-            style={{ maxHeight: "75vh" }}
-          >
-            <div className="flex items-center gap-3 border-b border-ink-100 px-4 py-3">
-              <IconSearch className="shrink-0 text-[20px] text-ink-300" />
-              <input
-                ref={inputRef}
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                onKeyDown={onInputKeyDown}
-                placeholder={dict.shell.searchPlaceholder}
-                aria-label={dict.shell.search}
-                role="combobox"
-                aria-autocomplete="list"
-                aria-expanded={state === "ready" && hits.length > 0}
-                aria-controls={state === "ready" && hits.length > 0 ? resultsId : undefined}
-                aria-activedescendant={state === "ready" && hits[active] ? `${resultsId}-${active}` : undefined}
-                className="min-w-0 flex-1 bg-transparent text-[1.0625rem] text-ink-900 outline-none placeholder:text-ink-300"
-              />
-              {query && (
-                <button type="button" className="btn-ghost shrink-0" onClick={() => {
-                  setQuery("");
-                  setHits([]);
-                  setActive(0);
-                  setState("idle");
-                  inputRef.current?.focus();
-                }} aria-label={dict.shell.clear}>
-                  {dict.shell.clear}
-                </button>
-              )}
-              <button
-                type="button"
-                onClick={close}
-                aria-label={dict.shell.closeSearch}
-                className="flex shrink-0 items-center justify-center rounded-lg text-ink-300 transition-colors hover:bg-paper-sunken hover:text-ink-900"
-                style={{ width: 36, height: 36 }}
-              >
-                <IconClose className="text-[18px]" />
-              </button>
-            </div>
-
+    <div ref={dialogRef} className="relative min-w-0 lg:w-full lg:max-w-[420px]" data-global-search>
+      <button type="button" data-global-search-trigger aria-label={dict.shell.openSearch}
+        onClick={(event) => { openerRef.current = event.currentTarget; setOpen(true); }}
+        className="flex items-center justify-center rounded-[10px] border border-ink-100 text-ink-500 lg:hidden"
+        style={{ width: "var(--icon-btn)", height: "var(--icon-btn)" }}>
+        <IconSearch className="text-[20px]" />
+      </button>
+      <div className={`${open ? "flex absolute right-0 top-0 w-[min(85vw,420px)]" : "hidden"} h-11 items-center gap-2.5 rounded-[10px] border border-ink-100 bg-paper-sunken px-3 lg:static lg:flex lg:w-full`}>
+        <IconSearch className="shrink-0 text-[18px]" />
+        <input ref={inputRef} value={query}
+          onFocus={() => { if (!open) openerRef.current = inputRef.current; setOpen(true); }}
+          onChange={(event) => setQuery(event.target.value)} onKeyDown={onInputKeyDown}
+          placeholder={dict.shell.searchPlaceholder} aria-label={dict.shell.search}
+          role="combobox" aria-autocomplete="list" aria-expanded={open}
+          aria-controls={open && hits.length ? resultsId : undefined}
+          aria-activedescendant={open && hits[active] ? `${resultsId}-${active}` : undefined}
+          className="min-w-0 flex-1 bg-transparent text-[0.9375rem] text-ink-900 outline-none placeholder:text-ink-300" />
+        <span className="flex w-16 shrink-0 items-center justify-end gap-2">
+        {query && <button type="button" aria-label={dict.shell.clear} onClick={() => { setQuery(""); setHits([]); setState("idle"); inputRef.current?.focus(); }}><IconClose className="text-[14px]" /></button>}
+        {open ? <button type="button" onClick={close} aria-label={dict.shell.closeSearch}>
+          <IconClose className="text-[18px]" />
+        </button> : <kbd className="shrink-0 rounded border border-ink-100 px-1.5 py-0.5 text-[0.6875rem] text-ink-300">{dict.shell.searchShortcut}</kbd>}
+        </span>
+      </div>
+      {open && <div data-global-search-dialog data-search-state={state}
+        className="absolute right-0 top-12 z-50 flex max-h-[65vh] w-[min(85vw,420px)] flex-col overflow-hidden rounded-xl border border-ink-100 bg-paper-raised shadow-raised lg:w-full">
             <div className="min-h-0 flex-1 overflow-y-auto p-2">
               {state === "idle" && (
                 <p className="px-3 py-6 text-center text-[0.9375rem] text-ink-300">{dict.shell.searchHint}</p>
@@ -328,9 +249,7 @@ export function GlobalSearch({ dict }: { dict: Dictionary }) {
                 : ""}
               {dict.shell.keyboardHint}
             </div>
-          </div>
-        </div>
-      )}
-    </>
+      </div>}
+    </div>
   );
 }

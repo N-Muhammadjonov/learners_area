@@ -1,13 +1,16 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n/en";
 import type { Role } from "@/lib/auth/roles";
 import { isStaff } from "@/lib/auth/roles";
-import { IconChevronDown, IconSettings } from "@/components/ui/icons";
+import { IconChevronDown, IconSettings, IconUser } from "@/components/ui/icons";
 import { ConfirmAction } from "@/components/interaction/InteractionPrimitives";
+import { privateResources } from "@/lib/client/private-resource";
 
 /**
  * The profile menu.
@@ -24,16 +27,35 @@ import { ConfirmAction } from "@/components/interaction/InteractionPrimitives";
  */
 export function ProfileMenu({
   dict,
+  userId,
+  initialPhotoPresent,
   userName,
   userEmail,
   role,
 }: {
   dict: Dictionary;
+  userId: string;
+  initialPhotoPresent: boolean;
   userName: string;
   userEmail: string | null;
   role: Role;
 }) {
+  const requestResponse = useScopedResponse(25000);
+
   const [open, setOpen] = useState(false);
+  const [photoPresent, setPhotoPresent] = useState(initialPhotoPresent);
+  const [photoVersion, setPhotoVersion] = useState(0);
+
+  useEffect(() => {
+    function onPhotoChanged(event: Event) {
+      const change = (event as CustomEvent<{ userId: string; present: boolean }>).detail;
+      if (change?.userId !== userId) return;
+      setPhotoPresent(change.present);
+      setPhotoVersion(value => value + 1);
+    }
+    window.addEventListener("profile-photo-changed", onPhotoChanged);
+    return () => window.removeEventListener("profile-photo-changed", onPhotoChanged);
+  }, [userId]);
   const containerRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
@@ -70,8 +92,19 @@ export function ProfileMenu({
         onClick={() => setOpen((value) => !value)}
         className="flex h-11 items-center gap-2 rounded-[10px] border border-ink-100 pl-1 pr-2 text-ink-500 transition-colors hover:bg-paper-sunken hover:text-ink-900"
       >
-        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-signal-100 text-[0.875rem] font-semibold text-signal-700">
-          {userName.charAt(0).toUpperCase()}
+        <span className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full bg-signal-100 text-[0.875rem] font-semibold text-signal-700">
+          {photoPresent ? (
+            <Image
+              key={photoVersion}
+              src={`/api/profile/photo/${userId}?v=${photoVersion}`}
+              alt=""
+              width={32}
+              height={32}
+              unoptimized
+              className="h-full w-full object-cover"
+              onError={() => setPhotoPresent(false)}
+            />
+          ) : userName.charAt(0).toUpperCase()}
         </span>
         <span className="hidden max-w-[9rem] truncate text-[0.875rem] font-medium lg:inline">{userName}</span>
         <IconChevronDown className="hidden text-[14px] lg:inline" />
@@ -93,16 +126,26 @@ export function ProfileMenu({
           </div>
           <div className="p-1.5">
             <Link
-              href="/profile"
+              href="/app/profile"
               role="menuitem"
               onClick={() => setOpen(false)}
               className="flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900"
             >
               {dict.nav.profile}
             </Link>
+            <Link
+              href="/app/profile?edit=name"
+              role="menuitem"
+              data-profile-menu-edit-name
+              onClick={() => setOpen(false)}
+              className="flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900"
+            >
+              <IconUser className="text-[18px] text-ink-300" />
+              {dict.profile.editName}
+            </Link>
             {isStaff(role) && (
               <Link
-                href="/management"
+                href="/app/management"
                 role="menuitem"
                 onClick={() => setOpen(false)}
                 className="flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900"
@@ -122,8 +165,11 @@ export function ProfileMenu({
               pendingLabel={dict.loadingPage.label}
               failureMessage={dict.auth.errorServer}
               onConfirm={async () => {
-                const response = await fetch("/api/auth/logout", { method: "POST" });
+                const response = await requestResponse("/api/auth/logout", { method: "POST" });
+    if (!response) return;
                 if (!response.ok) throw new Error("Logout was not confirmed by the server");
+                // Private learner data must not survive the session in browser memory.
+                privateResources.setScope(null);
                 setOpen(false);
                 router.replace("/login");
                 router.refresh();

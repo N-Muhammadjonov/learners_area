@@ -1,9 +1,11 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import type { Dictionary } from "@/lib/i18n/en";
+import { apiErrorMessage } from "@/lib/api-error-message";
 
 /**
  * Adds a student-typed transcript to an attempt that has none, which is what
@@ -13,6 +15,8 @@ import type { Dictionary } from "@/lib/i18n/en";
  * transcription.
  */
 export function ManualTranscriptForm({ dict, attemptId }: { dict: Dictionary; attemptId: string }) {
+  const requestResponse = useScopedResponse(60000);
+
   const t = dict.speakingPractice;
   const router = useRouter();
   const [text, setText] = useState("");
@@ -23,15 +27,16 @@ export function ManualTranscriptForm({ dict, attemptId }: { dict: Dictionary; at
   async function submit() {
     setBusy(true);
     setError(null);
-    const res = await fetch(`/api/speaking/attempts/${attemptId}/transcript`, {
+    const res = await requestResponse(`/api/speaking/attempts/${attemptId}/transcript`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ manualTranscript: text.trim() }),
     });
+    if (!res) return;
     setBusy(false);
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));
-      setError(String(data.error ?? t.errors.unknown));
+      setError(apiErrorMessage(data.error, res.status, dict));
       return;
     }
     setSaved(true);

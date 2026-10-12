@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { finalizeUploadIntent } from "@/lib/data/uploads";
+import { uploadErrorBody, uploadError, withUploadErrorBoundary } from "@/lib/uploads/server-errors";
 
 /**
  * POST /api/uploads/finalize — step 4 of the upload lifecycle.
@@ -14,18 +15,23 @@ import { finalizeUploadIntent } from "@/lib/data/uploads";
  * Body: { uploadId: string }
  */
 export async function POST(req: NextRequest) {
+  return withUploadErrorBoundary("finalize", () => handle(req));
+}
+
+async function handle(req: NextRequest): Promise<Response> {
   const user = await requireActiveUser();
-  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  // Inline status so the access-control audit can see the refusal.
+  if (!user) return NextResponse.json(uploadErrorBody("unauthenticated"), { status: 401 });
 
   const body = await req.json().catch(() => null);
   const uploadId = body?.uploadId;
   if (typeof uploadId !== "string") {
-    return NextResponse.json({ error: "invalid_upload_id" }, { status: 400 });
+    return uploadError("invalid_upload_id", 400);
   }
 
   const result = await finalizeUploadIntent(user.id, uploadId);
   if (!result.ok) {
-    return NextResponse.json({ error: result.error }, { status: result.status });
+    return uploadError(result.error, result.status);
   }
 
   return NextResponse.json({

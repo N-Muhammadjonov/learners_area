@@ -38,7 +38,7 @@ console.log(`\nLearners Area — Dashboard continuity against ${BASE}\n`);
 
 const { default: pg } = await import("pg");
 const db = new pg.Client({
-  connectionString: (process.env.DATABASE_URL || "postgres://postgres@127.0.0.1:5433/learners_area"),
+  connectionString: process.env.DATABASE_URL,
 });
 await db.connect();
 
@@ -46,7 +46,7 @@ const cookie = await login("demo.student@learnersarea.uz", "Student12345!");
 const userRow = await db.query("select id from users where email = 'demo.student@learnersarea.uz'");
 const userId = userRow.rows[0].id;
 
-const dashboard = await page("/dashboard", cookie);
+const dashboard = await page("/app", cookie);
 check("the dashboard renders for an approved student", dashboard.status === 200, `status ${dashboard.status}`);
 check("it offers to continue where the student stopped", dashboard.text.includes("data-continue"));
 check("the continue card names the module", dashboard.text.includes("data-last-module="));
@@ -133,7 +133,7 @@ for (const [skill, table, column] of [
 
 // A fresh account must see honest empty states, never placeholder numbers.
 const freshCookie = await login("new.student@learnersarea.uz", "Student12345!");
-const fresh = await page("/dashboard", freshCookie);
+const fresh = await page("/app", freshCookie);
 check("a fresh student sees an empty continue card", fresh.text.includes("data-continue-empty"));
 check("a fresh student sees an empty task list", fresh.text.includes("data-tasks-empty"));
 check(
@@ -142,15 +142,15 @@ check(
   "a non-zero count appeared for an account with no attempts"
 );
 
-check("an anonymous visitor is sent to the login page", (await page("/dashboard")).status !== 200);
+check("an anonymous visitor is sent to the login page", (await page("/app")).status !== 200);
 
 await db.end();
 
 // The four-minute drill is offered from the dashboard, and its call to action
 // goes to the reading mode rather than to a test.
-const drill = await page("/dashboard", cookie);
+const drill = await page("/app", cookie);
 check("the dashboard offers the retention drill", /data-retention-drill/.test(drill.text));
-check("the drill card links to the reading mode", /href="\/reading\/retention"/.test(drill.text));
+check("the drill card links to the reading mode", /href="\/app\/reading\/retention"/.test(drill.text));
 
 console.log(`\n# pass ${pass} / fail ${failures.length}`);
 if (failures.length) {

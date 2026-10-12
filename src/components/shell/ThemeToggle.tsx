@@ -1,4 +1,5 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useEffect, useState } from "react";
 import { THEME_COOKIE, type Theme } from "@/lib/theme";
@@ -36,15 +37,21 @@ export function applyTheme(theme: Theme) {
   document.documentElement.dataset.theme = theme;
 }
 
-export function ThemeToggle({ nightLabel, dayLabel, currentLabel }: { nightLabel: string; dayLabel: string; currentLabel: string }) {
+export function ThemeToggle({ nightLabel, dayLabel, currentLabel, errorLabel }: { nightLabel: string; dayLabel: string; currentLabel: string; errorLabel: string }) {
+  const requestResponse = useScopedResponse(25000);
+
   const [theme, setTheme] = useState<Theme>("day");
+  const [pending, setPending] = useState(false);
+  const [failed, setFailed] = useState(false);
 
   useEffect(() => {
     setTheme((document.documentElement.dataset.theme as Theme | undefined) ?? "day");
   }, []);
 
   async function select(next: Theme) {
-    if (next === theme) return;
+    if (next === theme || pending) return;
+    const previous = theme;
+    setPending(true); setFailed(false);
     setTheme(next);
     // Paint first: switching theme must feel instant, and the cookie is only how
     // the choice survives the next request.
@@ -52,11 +59,14 @@ export function ThemeToggle({ nightLabel, dayLabel, currentLabel }: { nightLabel
     // The server writes the cookie, because only it knows the transport: inside
     // the preview's cross-site frame a client-written `SameSite=Lax` cookie is
     // dropped and Night Mode would forget itself on the next reload.
-    await fetch("/api/theme", {
+    const res = await requestResponse("/api/theme", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ theme: next }),
-    }).catch(() => undefined);
+    });
+    if (!res) return;
+    setPending(false);
+    if (!res.ok) {setTheme(previous); applyTheme(previous); setFailed(true);}
   }
 
   const options: { value: Theme; label: string; Icon: typeof IconSun }[] = [
@@ -65,11 +75,13 @@ export function ThemeToggle({ nightLabel, dayLabel, currentLabel }: { nightLabel
   ];
 
   return (
-    <div role="group" aria-label={currentLabel} data-theme-toggle={theme} className="flex items-center gap-1">
+    <div role="group" aria-busy={pending || undefined} aria-label={currentLabel} data-theme-toggle={theme} className="flex items-center gap-1">
+      {failed && <span role="alert" className="text-xs text-band-bad">{errorLabel}</span>}
       {options.map(({ value, label, Icon }) => {
         const selected = theme === value;
         return (
           <button
+            disabled={pending}
             key={value}
             type="button"
             data-theme-option={value}

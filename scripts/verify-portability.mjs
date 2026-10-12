@@ -35,7 +35,7 @@ const rawCookies = login.headers.getSetCookie();
 assert.ok(rawCookies.every((cookie) => !cookie.toLowerCase().includes('domain=')));
 const cookie = rawCookies.map((value) => value.split(';')[0]).join('; ');
 console.log('PASS generic Node login and host-only cookie');
-for (const path of ['/dashboard', '/reading', '/notifications', '/reading']) {
+for (const path of ['/app', '/app/reading', '/app/notifications', '/app/reading']) {
   const result = await fetch(base + path, { headers: { cookie }, redirect: 'manual' });
   const text = await result.text();
   assert.equal(result.status, 200);
@@ -43,7 +43,7 @@ for (const path of ['/dashboard', '/reading', '/notifications', '/reading']) {
   assert.ok(!text.includes('NEXT_REDIRECT'));
   console.log('PASS direct/repeat render', path);
 }
-const denied = await fetch(base + '/teacher/support', { headers: { cookie }, redirect: 'manual' });
+const denied = await fetch(base + '/app/teacher/support', { headers: { cookie }, redirect: 'manual' });
 const deniedHtml = await denied.text();
 assert.ok(!deniedHtml.includes('data-report-id='));
 assert.ok([302, 307, 404].includes(denied.status) || deniedHtml.includes('NEXT_REDIRECT'));

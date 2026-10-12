@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import type { Dictionary } from "@/lib/i18n/en";
 import type { GrammarActivity } from "@/lib/services/grammar/mastery";
+import { useScopedRequest } from "@/lib/http/use-scoped-request";
+import { apiErrorMessage } from "@/lib/api-error-message";
 
 type Exercise = {
   id: string;
@@ -41,6 +43,7 @@ export function PracticeActivities({
   exercises: Exercise[];
 }) {
   const t = dict.grammar;
+  const request = useScopedRequest();
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [results, setResults] = useState<Record<string, Result>>({});
   const [busy, setBusy] = useState<string | null>(null);
@@ -53,17 +56,11 @@ export function PracticeActivities({
     const key = `${activity}:${exerciseId}`;
     setBusy(key);
     setError(null);
-    const res = await fetch(`/api/grammar/exercises/${exerciseId}/practice`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ activity, answer: answers[key] ?? "" }),
-    });
+    const res = await request<Record<string, unknown>>(`/api/grammar/exercises/${exerciseId}/practice`, { body: { activity, answer: answers[key] ?? "" }, timeoutMs: 60_000 });
+    if (!res) return;
     setBusy(null);
-    const data = await res.json().catch(() => null);
-    if (!res.ok) {
-      setError(String(data?.error ?? dict.common.error));
-      return;
-    }
+    if (!res.ok) { setError(apiErrorMessage(res.error, res.status, dict)); return; }
+    const data = res.data as { verdict?: string; checkedBy?: string; structures?: { used?: string[]; missing?: string[] }; sampleAnswer?: string; explanation?: string; issues?: string[] };
     setResults((prev) => ({
       ...prev,
       [key]: {

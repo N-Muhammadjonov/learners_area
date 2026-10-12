@@ -21,7 +21,7 @@ export const dynamic = "force-dynamic";
 export default async function PendingPage() {
   const user = await getCurrentUser();
   if (!user) redirect("/login");
-  if (hasPrivateAccess(user.accountStatus)) redirect("/dashboard");
+  if (hasPrivateAccess(user.accountStatus)) redirect("/app");
 
   const dict = getDictionary(await getLocale());
   const t = dict.admission;
@@ -93,7 +93,7 @@ export default async function PendingPage() {
           <AccessRequestForm dict={dict} alreadyRequested={false} canRequest />
         ) : null}
 
-        <Link href="/" className="text-center text-xs text-signal-600 hover:underline">
+        <Link href="/" className="btn-secondary ">
           {dict.common.backToSite}
         </Link>
       </div>

@@ -24,6 +24,65 @@ import { randomUUID } from "node:crypto";
 
 const BASE = process.argv[2] ?? "http://127.0.0.1:3000";
 
+/*
+ * QA SAFETY (section 03.4). This probe mutates and did not clean up after itself.
+ * It registers a real account to exercise the approval flow; that account, its request and its notifications were kept forever.
+ *
+ * Measured by scripts/audit-probe-residue.mjs, which counts every row in every table
+ * around a run. Cleanup is differential: snapshot the owned tables before the first
+ * mutation, delete exactly the ids that appeared, then re-query to prove they are
+ * gone. A row that existed before the run is never touched.
+ */
+const SWEEP_DB_URL = process.env.DATABASE_URL;
+const { assertMutableDatabase, createRowSweeper, installSweepHandlers } =
+  await import("./lib/fixture-safety.mjs");
+let finalSweep = async () => {};
+if (SWEEP_DB_URL) {
+  assertMutableDatabase(SWEEP_DB_URL, { probe: "verify-access" });
+  const sweepClient = new (await import("pg")).default.Client({ connectionString: SWEEP_DB_URL });
+  await sweepClient.connect();
+  const sweeper = createRowSweeper({
+    client: sweepClient,
+    probe: "verify-access",
+    tables: ["access_requests", "notifications", "audit_log", "activity_events", "users"],
+  });
+  finalSweep = installSweepHandlers(sweeper, {
+    probe: "verify-access",
+    onDone: () => sweepClient.end().catch(() => {}),
+  });
+  await sweeper.capture();
+} else {
+  /*
+   * FAIL CLOSED. This probe mutates through HTTP, and the sweep above is the only thing that removes
+   * what it creates. Warning and continuing meant the mutations still happened against a database
+   * that was never verified as disposable — and several of these probes then connected through a
+   * hardcoded fallback (postgres://postgres@127.0.0.1:5433/learners_area) that no guard had ever
+   * seen, so the run could write fixtures into an unverified database and clean up nothing. Without
+   * a verified cleanup connection there is no safe run, so there is no run. Exit 2, not 1: this is a
+   * misconfigured invocation, not a product failure.
+   */
+  console.error("  !! DATABASE_URL is not set — refusing to mutate: fixtures could neither be cleaned up nor verified as disposable");
+  process.exit(2);
+}
+
+/**
+ * DETERMINISM: every run gets its own abuse-limiter bucket.
+ *
+ * The limiter is keyed by `clientKey(req)`, which prefers `x-forwarded-for`. Repeated
+ * acceptance sweeps from one host therefore shared a bucket, and an in-memory counter
+ * that survives database reseeds eventually answered 429 — registrations failed, their
+ * responses read back as `undefined`, and unrelated assertions cascaded. The gate must
+ * not depend on how many times it has been run before.
+ *
+ * This isolates the HARNESS, it does not weaken the product: no rule, limit or window is
+ * changed, the limiter still runs on every request, and in production `x-forwarded-for`
+ * is set by the platform rather than the caller. Checks that deliberately exercise the
+ * limiter keep their own fixed key so they still trip it.
+ */
+const RUN_IP = process.env.QA_RUN_IP
+  ?? `10.${Math.floor(Math.random() * 254) + 1}.${Math.floor(Math.random() * 254) + 1}.${Math.floor(Math.random() * 254) + 1}`;
+
+
 let passed = 0;
 const failures = [];
 
@@ -55,7 +114,7 @@ function mergeCookies(...jars) {
 async function login(email, password) {
   const res = await fetch(`${BASE}/api/auth/login`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", "x-forwarded-for": RUN_IP },
     body: JSON.stringify({ email, password }),
   });
   assert.equal(res.status, 200, `login failed for ${email} (${res.status})`);
@@ -64,7 +123,7 @@ async function login(email, password) {
 
 async function get(cookie, pathname) {
   const res = await fetch(`${BASE}${pathname}`, {
-    headers: cookie ? { Cookie: cookie } : {},
+    headers: { "x-forwarded-for": RUN_IP, ...(cookie ? { Cookie: cookie } : {}) },
     redirect: "manual",
   });
   return {
@@ -79,6 +138,7 @@ async function api(cookie, pathname, init = {}) {
     ...init,
     headers: {
       "Content-Type": "application/json",
+      "x-forwarded-for": RUN_IP,
       ...(cookie ? { Cookie: cookie } : {}),
       ...(init.headers ?? {}),
     },
@@ -111,7 +171,7 @@ console.log(`\nLearners Area — access & admission end-to-end against ${BASE}\n
 // ---------------------------------------------------------------------------
 
 await check("an anonymous visitor is redirected from a private page to login", async () => {
-  const res = await get(null, "/dashboard");
+  const res = await get(null, "/app");
   assert.equal(res.status, 307);
   assert.match(res.location ?? "", /\/login/);
 });
@@ -132,6 +192,8 @@ await check("registration creates a PENDING account and signs it in", async () =
       name: "Access Test Applicant",
       email: applicantEmail,
       password: applicantPassword,
+      // required by registerSchema; omitting it tested the validator, not registration
+      gender: "male",
     }),
   });
   assert.equal(res.status, 200, res.text.slice(0, 200));
@@ -140,13 +202,13 @@ await check("registration creates a PENDING account and signs it in", async () =
 });
 
 await check("a PENDING account is sent to the waiting room, not to the dashboard", async () => {
-  const res = await get(applicantCookie, "/dashboard");
+  const res = await get(applicantCookie, "/app");
   assert.equal(res.status, 307);
   assert.match(res.location ?? "", /\/pending/);
 });
 
 await check("a PENDING account is redirected away from staff pages to the waiting room", async () => {
-  const res = await get(applicantCookie, "/teacher/students");
+  const res = await get(applicantCookie, "/app/teacher/students");
   assert.equal(res.status, 307);
   assert.match(res.location ?? "", /\/pending/);
 });
@@ -189,7 +251,7 @@ await check("filing the same request twice is idempotent", async () => {
 
 await check("the owners and admins see the request in the queue", async () => {
   for (const cookie of [adminCookie, ownerCookie]) {
-    const res = await get(cookie, "/admin/admissions");
+    const res = await get(cookie, "/app/admin/admissions");
     assert.equal(res.status, 200);
     assert.ok(
       res.html.includes(applicantEmail),
@@ -198,17 +260,111 @@ await check("the owners and admins see the request in the queue", async () => {
   }
 });
 
-await check("a teacher cannot open the admission queue", async () => {
-  const res = await get(teacherCookie, "/admin/admissions");
-  assert.ok([307, 404].includes(res.status), `expected a redirect/404, got ${res.status}`);
+await check("a teacher receives no admission-queue data", async () => {
+  // Status alone is not the invariant: Next.js may answer a document GET with 200
+  // while streaming a redirect. What must hold is that NO applicant identity and no
+  // staff-only control reaches a teacher.
+  const res = await get(teacherCookie, "/app/admin/admissions");
+  assert.ok(
+    !res.html.includes(applicantEmail),
+    `a teacher saw the applicant's identity in the admission queue (status ${res.status})`
+  );
+  // positive control: the owner's own queue really does carry that identity
+  const ownerQueue = await get(ownerCookie, "/app/admin/admissions");
+  assert.ok(
+    ownerQueue.html.includes(applicantEmail),
+    "leak detector inert: the owner's queue did not render the applicant either"
+  );
 });
 
 await check("a teacher cannot open administrator pages", async () => {
-  for (const path of ["/admin/reading", "/admin/grammar", "/admin/writing-prompts"]) {
-    const res = await get(teacherCookie, path);
-    assert.equal(res.status, 307, `${path} must redirect a teacher (got ${res.status})`);
-    assert.match(res.location ?? "", /\/dashboard/);
+  // A single shared marker set across different admin screens is a false-negative path:
+  // a leaked Grammar or Writing console uses different controls than Reading. Derive the
+  // protected marker set PER ROUTE from the authorized administrator's own render, minus
+  // what a teacher legitimately sees in their own area, and require a positive control.
+  const surfaceOf = (html) => new Set([
+    ...[...html.matchAll(/\b(data-[a-z0-9-]+)/g)].map((m) => m[1]),
+    ...[...html.matchAll(/href="(\/app\/admin\/[^"?#]*)"/g)].map((m) => m[1]),
+  ]);
+  // The baseline must cover GENERIC APP CHROME, not just one page. Suspense fallbacks and
+  // layout frames (data-entry-frame, data-private-loading-boundary, data-async-loading…)
+  // appear on admin routes but not on a single teacher page, so a one-page baseline
+  // misclassifies them as protected data. Subtracting the UNION of several routes the
+  // teacher is genuinely authorized for removes shared chrome without being circular:
+  // the baseline never includes the admin route under test.
+  const teacherBaseline = new Set();
+  for (const base of ["/app", "/app/teacher/students", "/app/lessons", "/app/progress"]) {
+    for (const m of surfaceOf((await get(teacherCookie, base)).html)) teacherBaseline.add(m);
   }
+
+  for (const path of ["/app/admin/reading", "/app/admin/grammar", "/app/admin/writing-prompts"]) {
+    const authed = await get(ownerCookie, path);
+    assert.equal(authed.status, 200, `${path} must render for an administrator`);
+    const routeMarkers = [...surfaceOf(authed.html)].filter((m) => !teacherBaseline.has(m));
+
+    // POSITIVE CONTROL: a negative check without a detector proves nothing. The surviving
+    // markers must include a route-SPECIFIC administrator control, not only generic
+    // chrome, so require at least one marker naming this console's own domain.
+    // The shell renders a breadcrumb "back" link derived from the REQUESTED URL itself
+    // (/app/admin/writing-prompts -> /app/admin/writing). That is not leaked data: the
+    // caller already supplied the path. Ancestors of the route under test are therefore
+    // excluded, while a link to any OTHER admin console still counts as a leak.
+    const isAncestorOfRoute = (m) => m.startsWith("/app/") && path.startsWith(m);
+    const domain = path.split("/").pop().split("-")[0];
+    const specific = routeMarkers.filter(
+      (m) =>
+        !isAncestorOfRoute(m) &&
+        (m.includes(domain) || m.startsWith("/app/admin/") || /admin|manage|publish|moderat/.test(m))
+    );
+    assert.ok(
+      specific.length > 0,
+      `${path} exposes no administrator-specific marker, so the leak detector is inert ` +
+        `(derived: ${routeMarkers.slice(0, 8).join(", ")})`
+    );
+
+    const res = await get(teacherCookie, path);
+    const leaked = specific.filter((m) => res.html.includes(m));
+    assert.equal(
+      leaked.length,
+      0,
+      `${path} exposed administrator controls to a teacher (status ${res.status}): ${leaked.slice(0, 6).join(", ")}`
+    );
+
+    // A redirect header, when present, must lead out of staff space. Its ABSENCE proves
+    // nothing (Next.js may stream the redirect), so it is not treated as evidence.
+    if (res.location) {
+      assert.doesNotMatch(res.location, /\/app\/(admin|owner)/, `${path} redirected a teacher deeper into staff space`);
+    }
+  }
+});
+
+await check("the abuse limiter is still live despite per-run IP isolation", async () => {
+  // POSITIVE CONTROL for the RUN_IP technique above: isolating the harness must not be
+  // confusable with disabling the limiter.
+  //
+  // Password reset is used rather than registration because it creates no account — 10
+  // throwaway registrations would otherwise push real fixtures off the paginated people
+  // list and break unrelated checks. The key is unique PER RUN for the same reason
+  // RUN_IP is: a fixed key keeps its counter for the whole window, so a second run in
+  // the same hour would start already exhausted and report a false failure.
+  const probeIp = `198.51.100.${Math.floor(Math.random() * 250) + 1}`;
+  const statuses = [];
+  for (let i = 0; i < 9; i += 1) {
+    const res = await fetch(`${BASE}/api/auth/reset/request`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "x-forwarded-for": probeIp },
+      body: JSON.stringify({ email: `reset-probe-${i}-${Date.now()}@example.test` }),
+    });
+    statuses.push(res.status);
+  }
+  assert.ok(
+    statuses.includes(429),
+    `password reset never rate-limited after 9 attempts: ${statuses.join(",")}`
+  );
+  assert.ok(
+    statuses.filter((code) => code !== 429).length >= 3,
+    `limiter fired too early to be a real window: ${statuses.join(",")}`
+  );
 });
 
 await check("the applicant cannot approve their own request", async () => {
@@ -249,7 +405,7 @@ await check("an administrator approves the request and the account becomes ACTIV
 });
 
 await check("the same cookie that was blocked now reaches the dashboard and the APIs", async () => {
-  const page = await get(applicantCookie, "/dashboard");
+  const page = await get(applicantCookie, "/app");
   assert.equal(page.status, 200, `expected 200, got ${page.status}`);
 
   const priv = await api(applicantCookie, "/api/assignments");
@@ -269,7 +425,7 @@ await check("the applicant was notified in-app", async () => {
 // ---------------------------------------------------------------------------
 
 await check("the approved applicant is listed as an active student", async () => {
-  const people = await get(adminCookie, "/admin/people");
+  const people = await get(adminCookie, "/app/admin/people");
   assert.equal(people.status, 200);
   const row = people.html.match(
     new RegExp(`data-person-id="${applicantId}"[^>]*data-person-role="student"[^>]*data-person-status="active"`)
@@ -284,7 +440,7 @@ await check("suspension revokes access on the very next request, old cookie and 
   });
   assert.equal(suspend.status, 200, suspend.text.slice(0, 200));
 
-  const page = await get(applicantCookie, "/dashboard");
+  const page = await get(applicantCookie, "/app");
   assert.equal(page.status, 307);
   assert.match(page.location ?? "", /\/pending/);
 
@@ -308,12 +464,31 @@ await check("reactivating the account restores access", async () => {
   assert.equal(priv.status, 200);
 });
 
-await check("a student cannot open staff or administrator pages", async () => {
-  for (const path of ["/teacher/students", "/teacher/live-classes", "/admin/reading", "/admin/people"]) {
+await check("a student receives no staff or administrator content", async () => {
+  // Status alone is not the invariant: Next.js may answer a document GET with 200 while
+  // streaming a redirect instruction. What must hold is that NO staff-only control and
+  // NO other person's identity reaches a student.
+  const STAFF_MARKERS = [
+    "data-admin-reading-import",
+    "data-content-workspace",
+    "/app/admin/listening/import",
+    "/app/owner/transfer",
+    "teacher@learnersarea.uz",
+    "owner@learnersarea.uz",
+    "admin@learnersarea.uz",
+  ];
+  for (const path of ["/app/teacher/students", "/app/teacher/live-classes", "/app/admin/reading", "/app/admin/people"]) {
     const res = await get(applicantCookie, path);
-    assert.equal(res.status, 307, `${path} must redirect a student (got ${res.status})`);
-    assert.match(res.location ?? "", /\/dashboard/);
+    const leaked = STAFF_MARKERS.filter((m) => res.html.includes(m));
+    assert.equal(leaked.length, 0, `${path} leaked staff content to a student (status ${res.status}): ${leaked.join(", ")}`);
+    if (res.location) assert.doesNotMatch(res.location, /\/app\/(admin|owner|teacher)/, `${path} redirected a student deeper into staff space`);
   }
+  // Positive control: the markers must be detectable somewhere, or the loop is vacuous.
+  const ownerView = await get(ownerCookie, "/app/admin/people");
+  assert.ok(
+    STAFF_MARKERS.some((m) => ownerView.html.includes(m)),
+    "leak detector inert: no staff marker rendered even for the owner"
+  );
 });
 
 // ---------------------------------------------------------------------------
@@ -321,9 +496,12 @@ await check("a student cannot open staff or administrator pages", async () => {
 // ---------------------------------------------------------------------------
 
 await check("an admin cannot suspend the owner", async () => {
-  const people = await get(adminCookie, "/admin/people");
+  // Search for the account instead of trusting page 1 of a paginated list: any extra
+  // accounts (another fixture, a previous sweep) would otherwise push the owner off the
+  // first page and fail this check for a reason unrelated to the invariant.
+  const people = await get(adminCookie, "/app/admin/people?q=owner%40learnersarea.uz");
   const ownerId = people.html.match(/data-person-id="([0-9a-f-]{36})"[^>]*data-person-role="owner"/)?.[1];
-  assert.ok(ownerId, "the owner must be listed");
+  assert.ok(ownerId, `the owner must be findable by search (http=${people.status})`);
   const res = await api(adminCookie, `/api/admin/users/${ownerId}/status`, {
     method: "POST",
     body: JSON.stringify({ status: "suspended", reason: "should not work" }),
@@ -334,9 +512,10 @@ await check("an admin cannot suspend the owner", async () => {
 });
 
 await check("an admin cannot change their own role", async () => {
-  const people = await get(adminCookie, "/admin/people");
+  // Same reason as above: find the row, do not depend on where it happens to sort.
+  const people = await get(adminCookie, "/app/admin/people?q=admin%40learnersarea.uz");
   const adminId = people.html.match(/data-person-id="([0-9a-f-]{36})"[^>]*data-person-role="admin"/)?.[1];
-  assert.ok(adminId, "the admin must be listed");
+  assert.ok(adminId, "the admin must be findable by search");
   const res = await api(adminCookie, `/api/admin/users/${adminId}/role`, {
     method: "PATCH",
     body: JSON.stringify({ role: "student" }),
@@ -363,7 +542,7 @@ await check("the owner can grant a role, and the change follows the account imme
 
   // The old cookie now reaches teacher-only pages, because the role is read from
   // the database on every request.
-  const teacherPage = await get(applicantCookie, "/teacher/students");
+  const teacherPage = await get(applicantCookie, "/app/teacher/students");
   assert.equal(teacherPage.status, 200, `expected 200, got ${teacherPage.status}`);
 
   const down = await api(ownerCookie, `/api/admin/users/${applicantId}/role`, {
@@ -371,8 +550,18 @@ await check("the owner can grant a role, and the change follows the account imme
     body: JSON.stringify({ role: "student" }),
   });
   assert.equal(down.status, 200);
-  const after = await get(applicantCookie, "/teacher/students");
-  assert.ok([307, 404].includes(after.status), "a demoted account must lose the teacher shell");
+  const after = await get(applicantCookie, "/app/teacher/students");
+  // The real invariant is lost AUTHORITY and lost DATA, not a particular status: the
+  // demoted account must no longer receive the roster, and the staff API must refuse it.
+  assert.ok(
+    !after.html.includes("data-teacher-roster") && !after.html.includes("demo.student@learnersarea.uz"),
+    `a demoted account still received teacher content (status ${after.status})`
+  );
+  const apiAfter = await api(applicantCookie, "/api/admin/users", { method: "GET" });
+  assert.ok(
+    [401, 403, 404].includes(apiAfter.status),
+    `a demoted account kept staff API authority (got ${apiAfter.status})`
+  );
 });
 
 // ---------------------------------------------------------------------------
@@ -380,14 +569,62 @@ await check("the owner can grant a role, and the change follows the account imme
 // ---------------------------------------------------------------------------
 
 await check("the owner console is reachable by the owner and by nobody else", async () => {
-  const owner = await get(ownerCookie, "/owner");
+  // STATUS IS NOT THE INVARIANT. Next.js may legitimately answer a document GET with
+  // 200 while streaming a redirect instruction to the dashboard, so asserting
+  // [307,404] made this probe both flaky AND blind: a 200 that actually LEAKED the
+  // console would have failed for the right reason only by accident.
+  //
+  // The real invariant: an unauthorized actor receives ZERO protected content.
+  // Owner-only destinations are the proof surface — they appear for the owner and
+  // must appear for nobody else, whatever the HTTP status is.
+  const OWNER_ONLY_MARKERS = [
+    "/app/owner/transfer",
+    "/app/owner/audit",
+    "/app/owner/retention",
+    "/app/owner/integrations",
+  ];
+  const leakedMarkers = (body) => OWNER_ONLY_MARKERS.filter((m) => body.includes(m));
+
+  const owner = await get(ownerCookie, "/app/owner");
   assert.equal(owner.status, 200);
+  // Positive control: if the console ever stops rendering its own destinations the
+  // negative assertions below become vacuous, so prove the markers are detectable.
+  assert.ok(
+    leakedMarkers(owner.html).length >= 2,
+    `the owner console must actually render owner-only destinations (saw ${leakedMarkers(owner.html).length})`
+  );
 
-  const admin = await get(adminCookie, "/owner");
-  assert.ok([307, 404].includes(admin.status), `admin must not open /owner (got ${admin.status})`);
+  for (const [who, cookie] of [["admin", adminCookie], ["student", applicantCookie]]) {
+    const res = await get(cookie, "/app/owner");
+    const leaked = leakedMarkers(res.html);
+    assert.equal(
+      leaked.length,
+      0,
+      `${who} received owner-only content from /app/owner (status ${res.status}): ${leaked.join(", ")}`
+    );
+    // and no other person's identity may appear
+    for (const email of ["teacher@learnersarea.uz", "owner@learnersarea.uz"]) {
+      assert.ok(
+        !res.html.includes(email),
+        `${who} saw identity ${email} in the /app/owner payload`
+      );
+    }
+  }
 
-  const student = await get(applicantCookie, "/owner");
-  assert.ok([307, 404].includes(student.status), `student must not open /owner (got ${student.status})`);
+  // Client-side hiding is never sufficient: the owner-only APIs must deny server-side.
+  for (const [who, cookie] of [["anonymous", ""], ["admin", adminCookie], ["student", applicantCookie]]) {
+    for (const path of ["/api/owner/transfer", "/api/owner/retention"]) {
+      const res = await fetch(`${BASE}${path}`, {
+        method: "POST",
+        headers: { "content-type": "application/json", ...(cookie ? { cookie } : {}) },
+        body: "{}",
+      });
+      assert.ok(
+        res.status === 401 || res.status === 403 || res.status === 404,
+        `${who} must be denied ${path} server-side (got ${res.status})`
+      );
+    }
+  }
 });
 
 await check("the retention job previews without deleting, twice in a row", async () => {
@@ -425,7 +662,7 @@ await check("a student cannot run the retention job", async () => {
 });
 
 await check("the integration page states limits truthfully", async () => {
-  const res = await get(ownerCookie, "/owner/integrations");
+  const res = await get(ownerCookie, "/app/owner/integrations");
   assert.equal(res.status, 200);
   assert.match(res.html, /data-integration="database"[^>]*data-state="connected"/);
   assert.match(res.html, /data-integration="storage"[^>]*data-state="(connected|unverified)"/);
@@ -442,7 +679,7 @@ await check("no secret value is rendered anywhere in the owner area", async () =
     process.env.AI_PROVIDER_API_KEY,
   ].filter((value) => typeof value === "string" && value.length > 8);
 
-  const pages = ["/owner", "/owner/integrations", "/owner/retention", "/owner/audit", "/owner/transfer"];
+  const pages = ["/app/owner", "/app/owner/integrations", "/app/owner/retention", "/app/owner/audit", "/app/owner/transfer"];
   for (const path of pages) {
     const res = await get(ownerCookie, path);
     assert.equal(res.status, 200, `${path} must render`);
@@ -454,7 +691,7 @@ await check("no secret value is rendered anywhere in the owner area", async () =
 });
 
 await check("the audit trail records the decisions that were made", async () => {
-  const res = await get(ownerCookie, "/owner/audit");
+  const res = await get(ownerCookie, "/app/owner/audit");
   assert.equal(res.status, 200);
   for (const action of ["access.approved", "account.suspended", "role.changed"]) {
     assert.ok(res.html.includes(`data-audit-action="${action}"`), `audit is missing ${action}`);
@@ -475,7 +712,7 @@ await check("night mode is server-rendered, so the theme never flashes", async (
   const cookie = (res.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ");
   const merged = mergeCookies(ownerCookie, cookie);
 
-  const page = await get(merged, "/dashboard");
+  const page = await get(merged, "/app");
   assert.equal(page.status, 200);
   assert.match(page.html, /data-theme="night"/);
 
@@ -489,12 +726,14 @@ await check("night mode is server-rendered, so the theme never flashes", async (
     merged,
     (back.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ")
   );
-  const day = await get(dayJar, "/dashboard");
+  const day = await get(dayJar, "/app");
   assert.match(day.html, /data-theme="day"/, "the theme must persist back to Day Mode too");
 });
 
 console.log(`\n${passed} passed, ${failures.length} failed\n`);
+await finalSweep("end of run");
 if (failures.length > 0) {
   for (const f of failures) console.log(`  - ${f.name}: ${f.err.message}`);
   process.exit(1);
 }
+process.exit(process.exitCode === 1 ? 1 : 0);

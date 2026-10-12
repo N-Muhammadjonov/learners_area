@@ -7,7 +7,7 @@ const ROOT = new URL("..", import.meta.url).pathname;
 const read = (path: string) => readFileSync(join(ROOT, path), "utf8");
 
 test("Vocabulary route performs only server identity/locale work before the client frame", () => {
-  const page = read("src/app/(app)/vocabulary/page.tsx");
+  const page = read("src/app/app/(shell)/vocabulary/page.tsx");
   const studio = read("src/components/vocabulary/VocabStudio.tsx");
   assert.match(page, /Promise\.all\(\[requireActiveUser\(\), getLocale\(\), searchParams\]\)/);
   assert.doesNotMatch(page, /listLibrary|listDue|listFolders|getStanding|listSentenceBank/);
@@ -71,10 +71,10 @@ test("Vocabulary panels retain independent loading, error and retry scopes", () 
   assert.match(use, /loadSentences\(\)/);
   assert.match(use, /loadWords\(\)/);
   assert.match(board, /data-region-retry="leaderboard"/);
-  assert.match(board, /fetch\("\/api\/vocabulary\/leaderboard\?view=standing", \{ cache: "no-store" \}\)/);
+  assert.match(board, /requestResponse\("\/api\/vocabulary\/leaderboard\?view=standing", \{ cache: "no-store" \}\)/);
   assert.match(board, /data-vocabulary-region-error="award-history"/);
   assert.match(board, /refreshAwards\(\)/);
-  assert.match(board, /fetch\("\/api\/vocabulary\/leaderboard\?view=awards", \{ cache: "no-store" \}\)/);
+  assert.match(board, /requestAwards\("\/api\/vocabulary\/leaderboard\?view=awards", \{ cache: "no-store" \}\)/);
   assert.doesNotMatch(board, /standing\?: VocabStanding/);
   const leaderboard = read("src/app/api/vocabulary/leaderboard/route.ts");
   assert.match(leaderboard, /Promise\.allSettled/);

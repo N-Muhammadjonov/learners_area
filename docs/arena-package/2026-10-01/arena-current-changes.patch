@@ -1,0 +1,807 @@
+--- /dev/null
++++ b/src/lib/ui/fonts.ts
+@@ -0,0 +1,8 @@
++import { Quicksand, Be_Vietnam_Pro, Kanit, Roboto_Mono, Itim } from "next/font/google";
++// Use licensed upstream font packages, never VocaType's hashed font assets.
++const ui = Quicksand({ subsets: ["latin"], weight: ["400", "500", "600", "700"], display: "swap", variable: "--font-ui", preload: true });
++const academic = Be_Vietnam_Pro({ subsets: ["latin"], weight: ["400", "500", "600", "700"], display: "swap", variable: "--font-academic", preload: false });
++const game = Kanit({ subsets: ["latin"], weight: ["600", "700"], display: "swap", variable: "--font-game", preload: false });
++const technical = Roboto_Mono({ subsets: ["latin"], weight: ["400", "500", "600"], display: "swap", variable: "--font-technical", preload: false });
++const celebration = Itim({ subsets: ["latin"], weight: "400", display: "swap", variable: "--font-celebration", preload: false });
++export const fontVariables = [ui.variable, academic.variable, game.variable, technical.variable, celebration.variable].join(" ");
+--- /dev/null
++++ b/src/lib/interaction/intent-prefetch.ts
+@@ -0,0 +1,26 @@
++// Only module landing routes. Never prefetch attempts, answers, admin records,
++// evaluations or arbitrary private identifiers through this policy.
++const LANDINGS = new Set(["/dashboard", "/reading", "/listening", "/writing", "/speaking", "/grammar", "/vocabulary", "/video-lessons", "/progress"]);
++export function eligibleIntentTarget(raw: string, origin: string, current: string): string | null {
++  try {
++    const destination = new URL(raw, origin);
++    const here = new URL(current, origin);
++    if (destination.origin !== origin || destination.search || destination.hash || !LANDINGS.has(destination.pathname)) return null;
++    if (destination.pathname === here.pathname && destination.search === here.search) return null;
++    return destination.pathname;
++  } catch { return null; }
++}
++// Dispatch budget, NOT a promise that Next has completed an in-flight request.
++// No private data is stored here. Route names expire every minute.
++export class IntentPrefetchBudget {
++  private windowStart = 0;
++  private last = Number.NEGATIVE_INFINITY;
++  private targets = new Set<string>();
++  take(target: string, now: number): boolean {
++    if (now < this.windowStart || now - this.windowStart >= 60_000) {
++      this.windowStart = now; this.targets.clear(); this.last = Number.NEGATIVE_INFINITY;
++    }
++    if (this.targets.has(target) || this.targets.size >= 6 || now - this.last < 750) return false;
++    this.targets.add(target); this.last = now; return true;
++  }
++}
+--- a/src/components/interaction/InstantLink.tsx
++++ b/src/components/interaction/InstantLink.tsx
+@@ -1,11 +1,35 @@
++"use client";
+ import Link from "next/link";
+-import type { ComponentProps } from "react";
+-
+-/**
+- * Internal link contract: keep Next's URL/history/deep-link behavior and let
+- * explicit opt-in prefetch for destinations that need it. Private page
+- * data is never moved into a client-side shared cache by this primitive.
+- */
+-export function InstantLink({ prefetch, ...props }: ComponentProps<typeof Link>) {
+-  return <Link {...props} prefetch={prefetch ?? false} data-instant-navigation />;
++import { useRouter } from "next/navigation";
++import { useEffect, useRef, type ComponentProps } from "react";
++import { eligibleIntentTarget, IntentPrefetchBudget } from "@/lib/interaction/intent-prefetch";
++const budget = new IntentPrefetchBudget();
++type ConnectionHint = { saveData?: boolean; effectiveType?: string };
++type Props = ComponentProps<typeof Link> & { intentPrefetch?: boolean };
++export function InstantLink({ intentPrefetch = false, prefetch, onMouseEnter, onMouseLeave, onFocus, onBlur, ...props }: Props) {
++  const router = useRouter();
++  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
++  function cancel() { if (timer.current !== null) { clearTimeout(timer.current); timer.current = null; } }
++  useEffect(() => cancel, [props.href]);
++  function prepare() {
++    cancel();
++    if (!intentPrefetch || prefetch === false || typeof props.href !== "string" || props.download || (props.target && props.target !== "_self")) return;
++    if (!navigator.onLine || document.visibilityState !== "visible") return;
++    const hint = (navigator as Navigator & { connection?: ConnectionHint }).connection;
++    if (hint?.saveData || hint?.effectiveType === "2g" || hint?.effectiveType === "slow-2g") return;
++    const target = eligibleIntentTarget(props.href, window.location.origin, window.location.href);
++    if (!target) return;
++    timer.current = setTimeout(() => {
++      timer.current = null;
++      if (!navigator.onLine || document.visibilityState !== "visible") return;
++      if (!budget.take(target, Date.now())) return;
++      // Next 15 API; no fictional completion/concurrency callback.
++      try { router.prefetch(target); } catch { /* Navigation still works normally. */ }
++    }, 90);
++  }
++  return <Link {...props} prefetch={prefetch ?? false} data-instant-navigation
++    onMouseEnter={(event) => { onMouseEnter?.(event); if (!event.defaultPrevented) prepare(); }}
++    onMouseLeave={(event) => { onMouseLeave?.(event); cancel(); }}
++    onFocus={(event) => { onFocus?.(event); if (!event.defaultPrevented) prepare(); }}
++    onBlur={(event) => { onBlur?.(event); cancel(); }} />;
+ }
+--- /dev/null
++++ b/src/components/ui/ModuleEmoji.tsx
+@@ -0,0 +1,20 @@
++import type { ReactNode } from "react";
++export type ModuleEmojiKind = "listening" | "reading" | "writing" | "speaking" | "grammar" | "vocabulary" | "video" | "eject";
++// Original vector artwork: fixed appearance across platforms, no borrowed asset.
++const marks: Record<ModuleEmojiKind, ReactNode> = {
++ listening: <><path d="M6 15v-3a10 10 0 0 1 20 0v3"/><rect x="4" y="14" width="6" height="10" rx="3"/><rect x="22" y="14" width="6" height="10" rx="3"/></>,
++ reading: <><path d="M16 8c-4-3-8-3-12-1v17c4-2 8-2 12 1 4-3 8-3 12-1V7c-4-2-8-2-12 1Z"/><path d="M16 8v17M8 12h4M20 12h4M8 16h4M20 16h4"/></>,
++ writing: <><path d="m8 23 2-7L23 3l6 6-13 13-8 1ZM10 16l6 6M20 6l6 6M5 28h22"/></>,
++ speaking: <><rect x="11" y="3" width="10" height="17" rx="5"/><path d="M6 15a10 10 0 0 0 20 0M16 25v4M11 29h10"/></>,
++ grammar: <><path d="M14 6c-4-5-9-1-8 4-5 2-4 9 1 10-1 5 4 9 8 5V7M18 6c4-5 9-1 8 4 5 2 4 9-1 10 1 5-4 9-8 5V7M9 12l5 2M23 12l-5 2M10 21l4-3M22 21l-4-3"/></>,
++ vocabulary: <><rect x="5" y="4" width="22" height="24" rx="4"/><path d="m10 22 6-13 6 13M12 18h8M9 4v5M23 4v5"/></>,
++ video: <><rect x="3" y="6" width="26" height="20" rx="5"/><path d="m13 11 9 5-9 5Z"/></>,
++ eject: <><path d="m7 19 9-13 9 13Z"/><path d="M7 25h18"/></>,
++};
++export function moduleEmojiFor(href: string): ModuleEmojiKind | null {
++ const routes: Record<string, ModuleEmojiKind> = { "/listening":"listening", "/reading":"reading", "/writing":"writing", "/speaking":"speaking", "/grammar":"grammar", "/vocabulary":"vocabulary", "/video-lessons":"video" };
++ return routes[href] ?? null;
++}
++export function ModuleEmoji({ kind, className = "" }: { kind: ModuleEmojiKind; className?: string }) {
++ return <span className={`module-emoji ${className}`} aria-hidden="true"><svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" focusable="false">{marks[kind]}</svg></span>;
++}
+--- a/src/app/page.tsx
++++ b/src/app/page.tsx
+@@ -5,7 +5,7 @@
+ import { getCurrentUser } from "@/lib/auth/current-user";
+ import { hasPrivateAccess } from "@/lib/auth/account-status";
+ import { publicBaseUrl } from "@/lib/config/site";
+-
++import { ModuleEmoji, type ModuleEmojiKind } from "@/components/ui/ModuleEmoji";
+ export const metadata: Metadata = {
+   title: `${BRAND.siteName} — IELTS inside a private centre`,
+   description: BRAND.tagline,
+@@ -15,78 +15,22 @@
+   } : {}),
+ };
+ 
+-/**
+- * The public front door.
+- *
+- * Deliberately one thing: the name, and one way in. No feature list, no hero
+- * image, no logo above the headline — the first dominant element is the sentence
+- * itself. Anything else competes with the only action the page offers.
+- *
+- * The page is painted in the brand's night palette regardless of the reader's
+- * Day/Night preference. That is a presentation decision, not a theme bypass: it
+- * uses the same tokens as the rest of the product (`--paper`, `--ink-900`,
+- * `--gold`), so the landing and the application can never drift apart, and the
+- * reader's own Day/Night choice still governs everything behind the login.
+- *
+- * The call to action is resolved on the server from the database row: an
+- * approved account goes straight to the dashboard, and every other state is sent
+- * to the waiting screen that already knows how to explain itself. The account
+- * status is never read from the cookie, so a stale tab cannot show the wrong way
+- * in.
+- */
++
++const ornaments: ModuleEmojiKind[] = ["listening", "reading", "writing", "speaking", "grammar", "vocabulary"];
+ export default async function Home() {
+-  const locale = await getLocale();
+-  const dict = getDictionary(locale);
++  const dict = getDictionary(await getLocale());
+   const t = dict.landing;
+-
+   const user = await getCurrentUser();
+   const destination = !user ? "/login" : hasPrivateAccess(user.accountStatus) ? "/dashboard" : "/pending";
+-
+-  return (
+-    <div
+-      data-theme="night"
+-      className="flex min-h-dvh flex-col bg-paper text-ink-900"
+-      style={{
+-        paddingLeft: "env(safe-area-inset-left)",
+-        paddingRight: "env(safe-area-inset-right)",
+-      }}
+-    >
+-      <main className="flex flex-1 flex-col items-center justify-center px-6 py-16 text-center">
+-        <h1 className="max-w-4xl font-display text-4xl leading-tight tracking-tight text-ink-900 sm:text-5xl md:text-6xl">
+-          <span className="block">{t.headlineLead}</span>
+-          {/*
+-            The two lines are block elements, so without a space between them the
+-            heading reads as "…next levelwith LEARNERS AREA" to a screen reader —
+-            and to anything else that takes the text rather than the picture. The
+-            explicit space is invisible on screen and keeps the sentence whole.
+-          */}
+-          {" "}
+-          <span className="mt-1 block">
+-            {t.headlineWith} <span className="text-gold">{t.headlineAccent}</span>
+-          </span>
+-        </h1>
+-
+-        {/* One restrained divider: the only ornament on the page. */}
+-        <span aria-hidden className="mt-8 block h-px w-24 bg-gold/70 sm:w-32" data-landing-divider />
+-
+-        <Link
+-          href={destination}
+-          data-landing-cta
+-          data-landing-cta-destination={destination}
+-          className="mt-10 inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg bg-gold px-7 py-3 text-base font-medium text-ink-950 transition-colors hover:bg-gold-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink-900"
+-        >
+-          {t.cta}
+-          <span aria-hidden>→</span>
+-        </Link>
+-      </main>
+-
+-      <footer
+-        className="px-6 pb-8 text-center text-xs text-ink-300"
+-        style={{ paddingBottom: "calc(2rem + env(safe-area-inset-bottom))" }}
+-        data-landing-footer
+-      >
+-        {t.footer}
+-      </footer>
+-    </div>
+-  );
++  return <div data-theme="night" className="la-welcome flex min-h-dvh flex-col bg-paper text-ink-900" style={{ paddingLeft: "env(safe-area-inset-left)", paddingRight: "env(safe-area-inset-right)" }}>
++    <main className="la-welcome-main flex flex-1 flex-col items-center justify-center px-6 py-16 text-center">
++      <div className="la-welcome-orbit" aria-hidden="true">{ornaments.map((kind, index) => <span className={`la-welcome-chip la-welcome-chip-${index}`} key={kind}><ModuleEmoji kind={kind}/></span>)}</div>
++      <h1 className="la-welcome-heading max-w-4xl font-display text-4xl font-bold leading-tight tracking-tight text-ink-900 sm:text-5xl md:text-6xl">
++        <span className="block">{t.headlineLead}</span>{" "}<span className="mt-1 block">{t.headlineWith} <span className="text-gold">{t.headlineAccent}</span></span>
++      </h1>
++      <span aria-hidden="true" className="mt-8 block h-px w-24 bg-gold/70 sm:w-32" data-landing-divider/>
++      <Link href={destination} prefetch={false} data-landing-cta data-landing-cta-destination={destination} className="la-welcome-cta mt-10 inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl bg-gold px-7 py-3 text-base font-semibold text-ink-950 transition-colors hover:bg-gold-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink-900">{t.cta}<span aria-hidden="true">→</span></Link>
++    </main>
++    <footer className="px-6 pb-8 text-center text-xs text-ink-300" style={{ paddingBottom: "calc(2rem + env(safe-area-inset-bottom))" }} data-landing-footer>{t.footer}</footer>
++  </div>;
+ }
+--- /dev/null
++++ b/src/lib/retention/measurement-draft.ts
+@@ -0,0 +1,17 @@
++import { z } from "zod";
++import type { MeasurementStructureV1 } from "./types";
++// Allows incomplete FORM drafts. This is NOT the authoritative save validator.
++// Unknown properties/versions remain in raw JSON rather than being discarded.
++const group = z.object({ id: z.string(), points: z.number().finite(), kind: z.enum(["concept", "entity", "number", "date"]), anyOf: z.array(z.string()).max(30), critical: z.boolean().optional() }).strict();
++const claim = z.object({ id: z.string(), label: z.string(), points: z.number().finite(), scope: z.enum(["sentence", "answer"]), groups: z.array(group).max(20), acceptedPhrases: z.array(z.string()).max(20).optional(), rejectPhrases: z.array(z.string()).max(20).optional() }).strict();
++const draft = z.object({ schemaVersion: z.literal(1), maxScore: z.literal(100), claims: z.array(claim).max(40) }).strict();
++export function decodeMeasurementDraft(raw: string): MeasurementStructureV1 | null {
++ if (raw.length > 200_000) return null;
++ if (!raw.trim()) return { schemaVersion: 1, maxScore: 100, claims: [] };
++ try {
++  const result = draft.safeParse(JSON.parse(raw));
++  if (!result.success) return null;
++  return { ...result.data, claims: result.data.claims.map(c => ({ ...c, acceptedPhrases: c.acceptedPhrases ?? [], rejectPhrases: c.rejectPhrases ?? [], groups: c.groups.map(g => ({ ...g, critical: g.critical ?? false })) })) };
++ } catch { return null; }
++}
++export function measurementLines(raw: string): string[] { return raw === "" ? [] : raw.split("\n"); }
+--- /dev/null
++++ b/src/components/admin/RetentionMeasurementEditor.tsx
+@@ -0,0 +1,46 @@
++"use client";
++import { useId, useMemo } from "react";
++import type { Dictionary } from "@/lib/i18n/en";
++import type { MeasurementClaim, MeasurementGroup, MeasurementStructureV1 } from "@/lib/retention/types";
++import { decodeMeasurementDraft, measurementLines } from "@/lib/retention/measurement-draft";
++import { measurementStructureSchema } from "@/lib/retention/measurement";
++type Props = { value: string; onChange: (value: string) => void; dict: Dictionary };
++export function RetentionMeasurementEditor({ value, onChange, dict }: Props) {
++ const t = dict.retentionMemory.admin.builder;
++ const prefix = useId();
++ const draft = useMemo(() => decodeMeasurementDraft(value), [value]);
++ const valid = useMemo(() => draft ? measurementStructureSchema.safeParse(draft).success : false, [draft]);
++ function update(next: MeasurementStructureV1) { onChange(JSON.stringify(next, null, 2)); }
++ function replaceClaim(index: number, next: MeasurementClaim) {
++  if (draft) update({ ...draft, claims: draft.claims.map((claim, i) => i === index ? next : claim) });
++ }
++ function replaceGroup(ci: number, gi: number, next: MeasurementGroup) {
++  const claim = draft?.claims[ci]; if (!claim) return;
++  const groups = claim.groups.map((g, i) => i === gi ? next : g);
++  replaceClaim(ci, { ...claim, groups, points: groups.reduce((sum, g) => sum + g.points, 0) });
++ }
++ function newId(prefix: string) { return `${prefix}_${crypto.randomUUID().replaceAll("-", "")}`; }
++ return <div className="flex flex-col gap-3" data-retention-measurement-builder>
++  <div className="flex flex-wrap items-center justify-between gap-2"><h3 className="section-title">{t.title}</h3><span className="technical-text" role="status">{draft?.claims.reduce((n, c) => n + c.points, 0) ?? "—"} / 100 · {valid ? t.valid : t.incomplete}</span></div>
++  <p className="meta-text">{t.hint}</p>
++  {!draft && <p role="alert" className="meta-text text-signal-700">{t.rawWarning}</p>}
++  {draft?.claims.map((claim, ci) => <fieldset className="panel flex flex-col gap-3" key={claim.id}>
++   <legend className="meta-text">{t.claim} {ci + 1} · {claim.points}/100</legend>
++   <label className="flex flex-col gap-1"><span>{t.label}</span><input className="input" maxLength={300} value={claim.label} onChange={e => replaceClaim(ci, { ...claim, label: e.target.value })}/></label>
++   <label className="flex flex-col gap-1"><span>{t.scope}</span><select className="input" value={claim.scope} onChange={e => replaceClaim(ci, { ...claim, scope: e.target.value as MeasurementClaim["scope"] })}><option value="sentence">{t.sentence}</option><option value="answer">{t.answer}</option></select></label>
++   {claim.groups.map((group, gi) => <fieldset className="rounded-lg border border-ink-100 p-3 flex flex-col gap-2" key={group.id}>
++    <legend className="meta-text">{t.group} {gi + 1}</legend>
++    <div className="grid gap-2 sm:grid-cols-2"><label className="flex flex-col gap-1"><span>{t.kind}</span><select className="input" value={group.kind} onChange={e => replaceGroup(ci, gi, { ...group, kind: e.target.value as MeasurementGroup["kind"] })}>{(["concept", "entity", "number", "date"] as const).map(kind => <option value={kind} key={kind}>{t[kind]}</option>)}</select></label>
++    <label className="flex flex-col gap-1"><span>{t.points}</span><input type="number" min={1} max={100} step={1} className="input" value={group.points} onChange={e => { const n = Number(e.target.value); if (Number.isFinite(n)) replaceGroup(ci, gi, { ...group, points: n }); }}/></label></div>
++    <label className="flex flex-col gap-1"><span>{t.alternatives}</span><textarea className="input min-h-20" value={group.anyOf.join("\n")} onChange={e => replaceGroup(ci, gi, { ...group, anyOf: measurementLines(e.target.value) })}/></label>
++    <label className="flex items-center gap-2"><input type="checkbox" checked={group.critical} onChange={e => replaceGroup(ci, gi, { ...group, critical: e.target.checked })}/><span>{t.critical}</span></label>
++    <button className="btn-secondary w-fit" type="button" onClick={() => { const groups = claim.groups.filter((_, i) => i !== gi); replaceClaim(ci, { ...claim, groups, points: groups.reduce((n, g) => n + g.points, 0) }); }}>{t.removeGroup}</button>
++   </fieldset>)}
++   <button className="btn-secondary w-fit" type="button" disabled={claim.groups.length >= 20} onClick={() => { const groups = [...claim.groups, { id: newId("g"), points: 1, kind: "concept" as const, anyOf: [], critical: false }]; replaceClaim(ci, { ...claim, groups, points: groups.reduce((n, g) => n + g.points, 0) }); }}>{t.addGroup}</button>
++   <details><summary className="btn-secondary w-fit">{t.phrases}</summary><div className="grid gap-3 pt-3 sm:grid-cols-2"><label className="flex flex-col gap-1"><span>{t.accepted}</span><textarea className="input" value={claim.acceptedPhrases.join("\n")} onChange={e => replaceClaim(ci, { ...claim, acceptedPhrases: measurementLines(e.target.value) })}/></label><label className="flex flex-col gap-1"><span>{t.rejected}</span><textarea className="input" value={claim.rejectPhrases.join("\n")} onChange={e => replaceClaim(ci, { ...claim, rejectPhrases: measurementLines(e.target.value) })}/></label></div></details>
++   <button className="btn-secondary w-fit" type="button" onClick={() => update({ ...draft, claims: draft.claims.filter((_, i) => i !== ci) })}>{t.removeClaim}</button>
++  </fieldset>)}
++  {draft && <button className="btn-secondary w-fit" type="button" disabled={draft.claims.length >= 40} onClick={() => update({ ...draft, claims: [...draft.claims, { id: newId("c"), label: "", points: 1, scope: "sentence", groups: [{ id: newId("g"), points: 1, kind: "concept", anyOf: [], critical: false }], acceptedPhrases: [], rejectPhrases: [] }] })}>{t.addClaim}</button>}
++  <details open={!draft}><summary className="btn-secondary w-fit">{t.json}</summary><label htmlFor={`${prefix}-json`} className="meta-text block pt-3">{dict.retentionMemory.admin.structureLabel}</label><textarea id={`${prefix}-json`} className="input min-h-[12rem] w-full font-mono text-xs" value={value} onChange={e => onChange(e.target.value)} spellCheck={false} data-retention-editor-structure/></details>
++ </div>;
++}
+--- /dev/null
++++ b/tests/reference-package-policy.test.ts
+@@ -0,0 +1,26 @@
++import test from "node:test";
++import assert from "node:assert/strict";
++import { eligibleIntentTarget, IntentPrefetchBudget } from "../src/lib/interaction/intent-prefetch";
++import { decodeMeasurementDraft } from "../src/lib/retention/measurement-draft";
++import { measurementStructureSchema } from "../src/lib/retention/measurement";
++test("intent policy rejects external, attempts, admin, answers and query strings", () => {
++ for (const raw of ["https://evil.test/dashboard", "/admin/reading/retention", "/reading/retention/results/a", "/reading?attempt=a", "/reading#answers", "/dashboard"]) assert.equal(eligibleIntentTarget(raw,"https://learn.test","/dashboard"), null);
++ assert.equal(eligibleIntentTarget("/reading","https://learn.test","/dashboard"), "/reading");
++});
++test("budget deduplicates, spaces dispatches and resets only after its window", () => {
++ const b=new IntentPrefetchBudget(); assert.equal(b.take("/reading",1000),true); assert.equal(b.take("/reading",2000),false); assert.equal(b.take("/writing",1100),false);
++ for(let i=0;i<5;i++) assert.equal(b.take(`/route${i}`,2000+i*1000),true);
++ assert.equal(b.take("/seventh",8000),false); assert.equal(b.take("/reading",62000),true);
++});
++test("draft editor preserves IDs, phrases, critical flags and server validation", () => {
++ const s={schemaVersion:1,maxScore:100,claims:[{id:"c1",label:"Founded in 2020",points:100,scope:"sentence",groups:[{id:"g1",points:100,kind:"date",anyOf:["2020"],critical:true}],acceptedPhrases:["founded in 2020"],rejectPhrases:["not founded in 2020"]}]};
++ const parsed=decodeMeasurementDraft(JSON.stringify(s));assert.deepEqual(parsed,s);assert.equal(measurementStructureSchema.safeParse(parsed).success,true);
++ const changed=structuredClone(s);changed.claims[0]!.groups[0]!.points=99;
++ assert.ok(decodeMeasurementDraft(JSON.stringify(changed)));assert.equal(measurementStructureSchema.safeParse(changed).success,false);
++});
++test("unknown fields and malformed data are preserved in raw mode, never silently stripped", () => {
++ assert.equal(decodeMeasurementDraft('{"schemaVersion":2,"maxScore":100,"claims":[]}'),null);
++ assert.equal(decodeMeasurementDraft('{"schemaVersion":1,"maxScore":100,"claims":[],"script":"evil"}'),null);
++ assert.equal(decodeMeasurementDraft('not json'),null);
++ assert.deepEqual(decodeMeasurementDraft(''),{schemaVersion:1,maxScore:100,claims:[]});
++});
+--- /dev/null
++++ b/tests/ui/reference-start-recovery.test.tsx
+@@ -0,0 +1,57 @@
++import assert from "node:assert/strict";
++import test from "node:test";
++import { JSDOM } from "jsdom";
++import en from "../../src/lib/i18n/en";
++
++const dom = new JSDOM('<!doctype html><html><body><div id="root"></div></body></html>', { url: "http://localhost/reading/retention" });
++for (const key of ["window", "document", "navigator", "HTMLElement", "HTMLButtonElement", "HTMLTextAreaElement", "HTMLAnchorElement", "Element", "Node", "Event", "MouseEvent", "KeyboardEvent"] as const) {
++  Object.defineProperty(globalThis, key, { value: dom.window[key], configurable: true });
++}
++Object.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true, self: globalThis });
++
++const React = await import("react");
++Object.assign(globalThis, { React });
++const { act } = React;
++const { createRoot } = await import("react-dom/client");
++const { AppRouterContext } = await import("next/dist/shared/lib/app-router-context.shared-runtime");
++const { RetentionSession } = await import("../../src/components/reading/RetentionSession");
++
++const query = <T extends Element>(selector: string): T => {
++  const found = document.querySelector<T>(selector);
++  assert.ok(found, `expected ${selector}`);
++  return found;
++};
++const wait = (ms: number) => act(async () => new Promise((resolve) => setTimeout(resolve, ms)));
++async function render(element: React.ReactNode, run: (refreshes: { count: number }) => Promise<void>) {
++  document.body.innerHTML = '<div id="root"></div>';
++  const root = createRoot(query<HTMLDivElement>("#root"));
++  const refreshes = { count: 0 };
++  const router = { back() {}, forward() {}, refresh() { refreshes.count += 1; }, push() {}, replace() {}, prefetch() {} };
++  try {
++    await act(async () => root.render(React.createElement(AppRouterContext.Provider, { value: router as never }, element)));
++    await run(refreshes);
++  } finally {
++    await act(async () => root.unmount());
++  }
++}
++
++
++test("start is one synchronous flight and is cancelled on leave", async () => {
++ const old=globalThis.fetch;let calls=0;let signal:AbortSignal | undefined;
++ globalThis.fetch=(async (_url,init)=> { calls++;signal=init?.signal as AbortSignal; return await new Promise<Response>((_resolve,reject)=>signal?.addEventListener("abort",()=>reject(new DOMException("aborted","AbortError")),{once:true})); }) as typeof fetch;
++ try { await render(React.createElement(RetentionSession,{dict:en,initial:null}),async()=>{
++  await act(async()=> {query<HTMLButtonElement>("[data-retention-start]").click();query<HTMLButtonElement>("[data-retention-start]").click();});
++  assert.equal(calls,1);assert.equal(signal?.aborted,false);
++ });assert.equal(signal?.aborted,true); } finally {globalThis.fetch=old;}
++});
++test("start deadline stops the spinner and requires an authoritative read before another write", async () => {
++ const old=globalThis.fetch;const timeout=window.setTimeout;let calls=0;
++ window.setTimeout=((handler:TimerHandler,ms?:number,...args:unknown[])=>timeout(handler,ms===12000?15:ms,...args)) as typeof window.setTimeout;
++ globalThis.fetch=(async (_url,init)=> { calls++;const signal=init?.signal;return await new Promise<Response>((_resolve,reject)=>signal?.addEventListener("abort",()=>reject(new DOMException("aborted","AbortError")),{once:true})); }) as typeof fetch;
++ try { await render(React.createElement(RetentionSession,{dict:en,initial:null}),async()=>{
++  await act(async()=>query<HTMLButtonElement>("[data-retention-start]").click());await wait(40);
++  assert.equal(query<HTMLButtonElement>("[data-retention-start]").disabled,true);
++  assert.match(query("[data-retention-error]").textContent ?? "",/already have started/);
++  assert.ok(query("[data-retention-recover-start]"));assert.equal(calls,1);
++ }); } finally {globalThis.fetch=old;window.setTimeout=timeout;}
++});
+--- a/src/app/layout.tsx
++++ b/src/app/layout.tsx
+@@ -1,6 +1,7 @@
+ import type { Metadata, Viewport } from "next";
+ import { cookies } from "next/headers";
+ import "./globals.css";
++import { fontVariables } from "@/lib/ui/fonts";
+ import { BRAND, BRAND_FAVICON } from "@/lib/config/brand";
+ import { THEME_COOKIE, themeFromCookie } from "@/lib/theme";
+ import { getLocale } from "@/lib/i18n";
+@@ -57,7 +58,7 @@
+   // palette: no flash of a white page for a reader who chose Night Mode.
+   const theme = await readTheme();
+   return (
+-    <html lang={await getLocale()} data-theme={theme} data-focus="off">
++    <html className={fontVariables} lang={await getLocale()} data-theme={theme} data-focus="off">
+       <body>
+         {performanceDiagnosticsEnabled() && <GlobalControlDiagnostics />}
+         {children}
+--- a/src/app/globals.css
++++ b/src/app/globals.css
+@@ -1088,3 +1088,26 @@
+   .flashcard-3d-card[data-card-motion="full"] .flashcard-face-back { -webkit-transform: rotateY(180deg); transform: rotateY(180deg); }
+   .flashcard-3d-card[data-card-motion="full"][data-flipped="true"] .flashcard-face-front { opacity: 1; }
+ }
++
++
++/* Font assignments follow the owner's RTF, not Booster's typography. */
++:root { --font-sans: var(--font-ui), system-ui, sans-serif; --font-display: var(--font-ui), system-ui, sans-serif; --font-mono: var(--font-technical), ui-monospace, monospace; }
++.academic-text { font-family: var(--font-academic), system-ui, sans-serif; line-height: 1.75; }
++.game-display { font-family: var(--font-game), var(--font-ui), sans-serif; }
++.technical-text { font-family: var(--font-technical), ui-monospace, monospace; font-variant-numeric: tabular-nums; }
++.celebration-copy { font-family: var(--font-celebration), var(--font-ui), sans-serif; }
++.module-emoji { display: inline-grid; width: 2.2rem; height: 2.2rem; place-items: center; border-radius: 30%; color: rgb(var(--gold)); border: 1px solid rgb(var(--gold) / .3); background: linear-gradient(145deg, rgb(var(--gold) / .18), rgb(var(--gold) / .04)); box-shadow: inset 0 1px 0 rgb(var(--gold) / .18); flex-shrink: 0; }
++.la-welcome { overflow-x: clip; }
++.la-welcome-main { position: relative; isolation: isolate; }
++.la-welcome-main::before { content: ""; position: absolute; inset: 10% 12%; z-index: -1; pointer-events: none; background: radial-gradient(ellipse at center, rgb(var(--gold) / .07), transparent 65%); }
++.la-welcome-orbit { display: flex; gap: clamp(.6rem, 3vw, 1.5rem); margin-bottom: 2rem; pointer-events: none; }
++.la-welcome-chip { animation: la-chip-float 6s ease-in-out infinite; }
++.la-welcome-chip-1 { animation-delay: -1s; } .la-welcome-chip-2 { animation-delay: -2s; } .la-welcome-chip-3 { animation-delay: -3s; } .la-welcome-chip-4 { animation-delay: -4s; } .la-welcome-chip-5 { animation-delay: -5s; }
++.la-welcome-heading { animation: la-welcome-enter .5s ease-out both; }
++.la-welcome-cta { animation: la-welcome-enter .5s .12s ease-out both; }
++@keyframes la-chip-float { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-6px) rotate(2deg); } }
++@keyframes la-welcome-enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
++@media (max-width: 420px) { .la-welcome-orbit { gap: .55rem; } .la-welcome-orbit .module-emoji { width: 1.9rem; height: 1.9rem; } }
++@media (prefers-reduced-motion: reduce) { .la-welcome-chip, .la-welcome-heading, .la-welcome-cta { animation: none; } }
++
++.race-answer-box { font-family: var(--font-technical), ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+--- a/src/components/shell/SidebarNav.tsx
++++ b/src/components/shell/SidebarNav.tsx
+@@ -1,5 +1,6 @@
+ "use client";
+ 
++import { ModuleEmoji, moduleEmojiFor } from "@/components/ui/ModuleEmoji";
+ import { InstantLink } from "@/components/interaction/InstantLink";
+ import { LinkPending } from "./LinkPending";
+ import { usePathname } from "next/navigation";
+@@ -50,12 +51,13 @@
+             <li key={item.href}>
+               <InstantLink
+                 href={item.href}
++                intentPrefetch
+                 data-sidebar-link={item.href}
+                 aria-current={active ? "page" : undefined}
+                 className={active ? "sidebar-link sidebar-link-active" : "sidebar-link"}
+               >
+                 <span aria-hidden className="sidebar-link-icon">
+-                  {item.icon}
++                  {moduleEmojiFor(item.href) ? <ModuleEmoji kind={moduleEmojiFor(item.href)!} /> : item.icon}
+                 </span>
+                 <span className="sidebar-link-label">{item.label}</span>
+                 <LinkPending label={loading} />
+--- a/src/components/shell/ShellUtilities.tsx
++++ b/src/components/shell/ShellUtilities.tsx
+@@ -1,5 +1,6 @@
+ "use client";
+ 
++import { ModuleEmoji } from "@/components/ui/ModuleEmoji";
+ import { useEffect, useRef, useState } from "react";
+ import Link from "next/link";
+ import { usePathname } from "next/navigation";
+@@ -241,12 +242,12 @@
+         aria-controls="shell-utilities-panel"
+         title={dict.shell.utilities}
+         onClick={() => setOpen((value) => !value)}
+-        className={`pointer-events-auto flex min-h-[46px] min-w-[46px] items-center justify-center gap-2 rounded-full border px-4 text-[0.9375rem] font-medium shadow-card transition-colors ${
++        className={`pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full border p-0 text-[0.9375rem] font-medium shadow-card transition-colors ${
+           open ? "border-signal-600 bg-signal-600 text-signal-contrast" : "border-ink-100 bg-paper-raised text-ink-700 hover:bg-paper-sunken"
+         }`}
+       >
+-        {open ? <IconClose className="text-[18px]" /> : <IconSparkles className="text-[18px]" />}
+-        <span className="sr-only sm:not-sr-only">{dict.shell.utilities}</span>
++        {open ? <IconClose className="text-[18px]" /> : <ModuleEmoji kind="eject" />}
++        <span className="sr-only">{dict.shell.utilities}</span>
+       </button>
+     </div>
+   );
+--- a/src/components/reading/RetentionSession.tsx
++++ b/src/components/reading/RetentionSession.tsx
+@@ -90,35 +90,54 @@
+   const [selectedLevel, setSelectedLevel] = useState<RetentionLevel>("A2");
+   const [error, setError] = useState<string | null>(null);
+ 
++  const sessionMounted = useRef(false);
++  const startController = useRef<AbortController | null>(null);
++  const refreshController = useRef<AbortController | null>(null);
++  const [startOutcomeUnknown, setStartOutcomeUnknown] = useState(false);
++  useEffect(() => {
++    sessionMounted.current = true;
++    return () => {
++      sessionMounted.current = false;
++      startController.current?.abort();
++      refreshController.current?.abort();
++    };
++  }, []);
++
+   const skewMs = useMemo(
+     () => (payload ? Date.parse(payload.serverNow) - Date.now() : 0),
+     [payload]
+   );
+ 
+-  const start = useCallback(
+-    async (level: string) => {
+-      setBusy(true);
+-      setError(null);
+-      try {
+-        const response = await fetch("/api/retention/attempts", {
+-          method: "POST",
+-          headers: { "content-type": "application/json" },
+-          body: JSON.stringify({ level }),
+-        });
+-        const body = (await response.json()) as RetentionAttemptPayload & { error?: string };
+-        if (!response.ok) {
+-          setError(errorText(dict, body.error));
+-          return;
+-        }
+-        setPayload(body);
+-      } catch {
+-        setError(errorText(dict, "retention_unavailable"));
+-      } finally {
+-        setBusy(false);
++  const start = useCallback(async (level: string) => {
++    if (startController.current || startOutcomeUnknown) return;
++    const controller = new AbortController();
++    startController.current = controller;
++    const timer = window.setTimeout(() => controller.abort(), 12_000);
++    setBusy(true);
++    setError(null);
++    try {
++      const response = await fetch("/api/retention/attempts", {
++        method: "POST", headers: { "content-type": "application/json" },
++        body: JSON.stringify({ level }), signal: controller.signal,
++      });
++      const body = (await response.json()) as RetentionAttemptPayload & { error?: string };
++      if (!sessionMounted.current) return;
++      if (controller.signal.aborted) throw new Error("start deadline exceeded");
++      if (!response.ok) { setError(errorText(dict, body.error)); return; }
++      setPayload(body);
++    } catch {
++      if (sessionMounted.current) {
++        // The server may have created an attempt. Do a fresh authoritative GET
++        // via page navigation before allowing another POST; no fake success.
++        setStartOutcomeUnknown(true);
++        setError(dict.retentionMemory.startUnknownOutcome);
+       }
+-    },
+-    [dict]
+-  );
++    } finally {
++      window.clearTimeout(timer);
++      if (startController.current === controller) startController.current = null;
++      if (sessionMounted.current) setBusy(false);
++    }
++  }, [dict, startOutcomeUnknown]);
+ 
+   const refreshing = useRef(false);
+   const refresh = useCallback(async () => {
+@@ -126,10 +145,12 @@
+     refreshing.current = true;
+     const attemptId = payload.attemptId;
+     const controller = new AbortController();
++    refreshController.current = controller;
+     const timer = window.setTimeout(() => controller.abort(), 8_000);
+     try {
+       const response = await fetch(`/api/retention/attempts/${attemptId}`, { cache: "no-store", signal: controller.signal });
+       const body = (await response.json()) as RetentionAttemptPayload & { error?: string };
++      if (!sessionMounted.current || controller.signal.aborted) return;
+       if (!response.ok) throw new Error("phase refresh failed");
+       // A reading payload that arrives after the deadline (clock skew) is never
+       // re-admitted: only the server's recall/terminal state replaces the gate.
+@@ -141,9 +162,10 @@
+       setRefreshFailed(false);
+       if (body.phase === "completed" || body.phase === "timed_out") router.refresh();
+     } catch {
+-      setRefreshFailed(true);
++      if (sessionMounted.current) setRefreshFailed(true);
+     } finally {
+       window.clearTimeout(timer);
++      if (refreshController.current === controller) refreshController.current = null;
+       refreshing.current = false;
+     }
+   }, [payload, router]);
+@@ -172,6 +194,7 @@
+           <p className="body-text">{dict.retentionMemory.levelHint}</p>
+         </div>
+         {error && <ErrorBanner message={error} />}
++        {startOutcomeUnknown && <button type="button" onClick={() => window.location.reload()} className="btn-secondary" data-retention-recover-start>{dict.retentionMemory.checkActiveAttempt}</button>}
+         <div className="retention-level-options" role="group" aria-label={dict.retentionMemory.levelsTitle} data-retention-level-list>
+           {RETENTION_LEVELS.map((level) => (
+             <button key={level} type="button" className="retention-level-option" aria-pressed={selectedLevel === level} disabled={busy} onClick={() => setSelectedLevel(level)} data-retention-level={level}>
+@@ -181,7 +204,7 @@
+             </button>
+           ))}
+         </div>
+-        <button type="button" className="btn-primary w-fit" onClick={() => void start(selectedLevel)} disabled={busy} data-retention-start={selectedLevel}>
++        <button type="button" className="btn-primary w-fit" onClick={() => void start(selectedLevel)} disabled={busy || startOutcomeUnknown} data-retention-start={selectedLevel}>
+           {busy ? dict.common.loading : dict.retentionMemory.start} →
+         </button>
+       </div>
+@@ -250,7 +273,7 @@
+       </div>
+       <p className="body-text">{dict.retentionMemory.readingHint}</p>
+       {seconds > 0 ? (
+-        <article className="panel whitespace-pre-line text-[1.05rem] leading-8 text-ink-800" data-retention-source>{payload.bodyText}</article>
++        <article className="academic-text panel whitespace-pre-line text-[1.05rem] leading-8 text-ink-800" data-retention-source>{payload.bodyText}</article>
+       ) : (
+         <p className="panel" role="status" data-retention-phase-pending>{dict.common.loading}</p>
+       )}
+--- a/src/lib/i18n/en.ts
++++ b/src/lib/i18n/en.ts
+@@ -1566,6 +1566,8 @@
+    * `retentionMemory.admin` further down.
+    */
+   retentionMemory: {
++    startUnknownOutcome: "The connection failed. An attempt may already have started. Check the active attempt before starting again.",
++    checkActiveAttempt: "Check active attempt",
+     dateLocale: "en",
+     title: "Retention memory",
+     subtitle: "Read a short text once, then write down what you actually kept.",
+@@ -1690,6 +1692,35 @@
+       changeTitle: "Change this text",
+       textLabel: "Retention text",
+       textHint: "Plain prose between {min} and {max} words. The counter below is the same rule the server uses.",
++      builder: {
++        "title": "Scoring structure",
++        "valid": "Ready for validation",
++        "incomplete": "Incomplete",
++        "hint": "Add claims and the details the learner must remember. Group points must total 100. One alternative per line. Server validation is required before saving.",
++        "rawWarning": "This JSON cannot be edited safely in the form. Your original text is preserved. Correct it in Advanced JSON.",
++        "claim": "Claim",
++        "label": "Meaning / claim label",
++        "scope": "Match within",
++        "sentence": "One sentence",
++        "answer": "Whole answer",
++        "group": "Detail group",
++        "kind": "Detail type",
++        "points": "Points",
++        "alternatives": "Equivalent details (one per line)",
++        "critical": "Required detail",
++        "removeGroup": "Remove detail",
++        "addGroup": "Add detail",
++        "phrases": "Optional accepted / rejected phrases",
++        "accepted": "Accepted phrases (one per line)",
++        "rejected": "Rejected phrases (one per line)",
++        "removeClaim": "Remove claim",
++        "addClaim": "Add claim",
++        "json": "Advanced JSON",
++        "concept": "Concept",
++        "entity": "Name / entity",
++        "number": "Number",
++        "date": "Date"
++},
+       structureLabel: "Measurement structure (JSON)",
+       structureHint: "Must total exactly 100 points. The format is documented in docs/RETENTION_AUTHORING_FORMAT.md.",
+       wordCountValid: "{n} words — inside {min}–{max}.",
+--- a/src/lib/i18n/uz.ts
++++ b/src/lib/i18n/uz.ts
+@@ -1561,6 +1561,8 @@
+    * Retention memory (Part 1 override) — Uzbek.
+    */
+   retentionMemory: {
++    startUnknownOutcome: "Aloqa uzildi. Mashq boshlangan bo'lishi mumkin. Qayta boshlashdan oldin aktiv mashqni tekshiring.",
++    checkActiveAttempt: "Aktiv mashqni tekshirish",
+     dateLocale: "uz",
+     title: "Xotira mashqi",
+     subtitle: "Qisqa matnni bir marta o'qib, eslab qolganingizni yozing.",
+@@ -1685,6 +1687,35 @@
+       changeTitle: "Bu matnni o'zgartirish",
+       textLabel: "Retention matni",
+       textHint: "{min} dan {max} gacha so'z. Quyidagi hisoblagich server bilan bir xil qoidada ishlaydi.",
++      builder: {
++        "title": "Baholash tuzilmasi",
++        "valid": "Tekshirishga tayyor",
++        "incomplete": "Tugallanmagan",
++        "hint": "Eslab qolish kerak bo'lgan fikr va tafsilotlarni qo'shing. Tafsilotlar ballari jami 100 bo'lsin. Har bir muqobilni alohida qatorga yozing. Saqlashdan oldin server tekshiruvi shart.",
++        "rawWarning": "Bu JSONni formada xavfsiz tahrirlab bo'lmaydi. Asl matningiz saqlandi. Kengaytirilgan JSONda tuzating.",
++        "claim": "Fikr",
++        "label": "Fikr mazmuni",
++        "scope": "Moslik doirasi",
++        "sentence": "Bitta gap",
++        "answer": "Butun javob",
++        "group": "Tafsilot guruhi",
++        "kind": "Tafsilot turi",
++        "points": "Ball",
++        "alternatives": "Muqobil tafsilotlar (har biri alohida qatorda)",
++        "critical": "Majburiy tafsilot",
++        "removeGroup": "Tafsilotni olib tashlash",
++        "addGroup": "Tafsilot qo'shish",
++        "phrases": "Ixtiyoriy qabul / rad iboralari",
++        "accepted": "Qabul iboralari (alohida qatorlarda)",
++        "rejected": "Rad iboralari (alohida qatorlarda)",
++        "removeClaim": "Fikrni olib tashlash",
++        "addClaim": "Fikr qo'shish",
++        "json": "Kengaytirilgan JSON",
++        "concept": "Tushuncha",
++        "entity": "Nom / shaxs",
++        "number": "Son",
++        "date": "Sana"
++},
+       structureLabel: "O'lchov tuzilmasi (JSON)",
+       structureHint: "Jami aynan 100 ball bo'lishi kerak. Format docs/RETENTION_AUTHORING_FORMAT.md da.",
+       wordCountValid: "{n} so'z — {min}–{max} oralig'ida.",
+--- a/src/components/admin/RetentionBankPanel.tsx
++++ b/src/components/admin/RetentionBankPanel.tsx
+@@ -1,6 +1,7 @@
+ "use client";
+ 
+ import Link from "next/link";
++import { RetentionMeasurementEditor } from "@/components/admin/RetentionMeasurementEditor";
+ import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
+ import { useRouter } from "next/navigation";
+ import type { Dictionary } from "@/lib/i18n/en";
+@@ -661,17 +662,7 @@
+             </span>
+           </label>
+ 
+-          <label className="flex flex-col gap-1">
+-            <span className="meta-text">{t.structureLabel}</span>
+-            <span className="meta-text">{t.structureHint}</span>
+-            <textarea
+-              className="input min-h-[12rem] w-full font-mono text-xs"
+-              value={structureText}
+-              onChange={(event) => setStructureText(event.target.value)}
+-              spellCheck={false}
+-              data-retention-editor-structure
+-            />
+-          </label>
++          <RetentionMeasurementEditor value={structureText} onChange={setStructureText} dict={dict} />
+ 
+           <div
+             className="meta-text"
+--- a/src/components/reading/ReadingExam.tsx
++++ b/src/components/reading/ReadingExam.tsx
+@@ -464,7 +464,7 @@
+                     occurrences={occurrenceSpans(passageBody, paragraph.text, occurrences)}
+                     sourceType="reading"
+                     sourceId={attemptId}
+-                    className={`text-sm leading-relaxed text-ink-700 ${paragraph.isFootnote ? "italic" : ""}`}
++                    className={`academic-text text-sm leading-relaxed text-ink-700 ${paragraph.isFootnote ? "italic" : ""}`}
+                   />
+                 </div>
+               ))
+@@ -476,7 +476,7 @@
+                 occurrences={occurrenceSpans(passageBody, passageBody, occurrences)}
+                 sourceType="reading"
+                 sourceId={attemptId}
+-                className="text-sm leading-relaxed text-ink-700"
++                className="academic-text text-sm leading-relaxed text-ink-700"
+               />
+             )}
+           </div>
+@@ -729,7 +729,7 @@
+       {paragraphs.map((paragraph, paragraphIndex) => (
+         <p
+           key={paragraphIndex}
+-          className={`whitespace-pre-line text-sm leading-relaxed text-ink-900 ${paragraphIndex > 0 ? "mt-3" : ""}`}
++          className={`academic-text whitespace-pre-line text-sm leading-relaxed text-ink-900 ${paragraphIndex > 0 ? "mt-3" : ""}`}
+         >
+           {parseStimulus(paragraph).map((segment, index) => {
+             if (segment.kind === "text") return <span key={index}>{segment.text}</span>;
+--- a/src/components/listening/SpeedTrainer.tsx
++++ b/src/components/listening/SpeedTrainer.tsx
+@@ -115,7 +115,7 @@
+       )}
+ 
+       {transcript && showTranscript && (
+-        <ClickableText dict={dict} text={transcript} sourceType="listening" sourceId={sourceId} className="mt-3 rounded-sm bg-paper-sunken p-3 text-sm text-ink-700" />
++        <ClickableText dict={dict} text={transcript} sourceType="listening" sourceId={sourceId} className="academic-text mt-3 rounded-sm bg-paper-sunken p-3 text-sm text-ink-700" />
+       )}
+     </Card>
+   );
+--- a/src/app/(app)/listening/attempts/[id]/page.tsx
++++ b/src/app/(app)/listening/attempts/[id]/page.tsx
+@@ -60,7 +60,7 @@
+                 text={test.transcript}
+                 sourceType="listening"
+                 sourceId={test.id}
+-                className="text-sm leading-relaxed text-ink-700"
++                className="academic-text text-sm leading-relaxed text-ink-700"
+               />
+             </div>
+           )}
+--- a/src/app/(app)/grammar/[topicId]/page.tsx
++++ b/src/app/(app)/grammar/[topicId]/page.tsx
+@@ -72,7 +72,7 @@
+           ← {dict.grammar.backToTopics}
+         </Link>
+         <h1 className="mt-2 font-display text-2xl text-ink-900">{topic.title}</h1>
+-        <p className="text-sm text-ink-500">{topic.explanation}</p>
++        <p className="academic-text text-sm text-ink-500">{topic.explanation}</p>
+       </div>
+       <Suspense fallback={<GrammarMaterialsSkeleton />}>
+         <GrammarMaterials blocksPromise={blocksPromise} dict={dict} />
+--- a/src/components/grammar/ProductionAnswer.tsx
++++ b/src/components/grammar/ProductionAnswer.tsx
+@@ -95,7 +95,7 @@
+           <p className="text-xs text-ink-300">
+             {t.sampleAnswer}: {result.sampleAnswer}
+           </p>
+-          <p className="text-xs text-ink-500">{result.explanation}</p>
++          <p className="academic-text text-xs text-ink-500">{result.explanation}</p>
+           {result.issues.length > 0 && (
+             <ul className="list-inside list-disc text-xs text-ink-500">
+               {result.issues.map((issue, index) => (
+--- a/src/components/vocabulary/VocabGamesPanel.tsx
++++ b/src/components/vocabulary/VocabGamesPanel.tsx
+@@ -1117,7 +1117,7 @@
+     return (
+       <GameFrame compact dict={dict} title={t.games.race} hint={t.games.raceHint} counter={`${stats.correct} / ${deck.length}`}>
+         <section data-race-results aria-labelledby="race-results-title" className="flex flex-col gap-3">
+-          <h3 id="race-results-title" className="text-base font-medium text-ink-900">{t.games.result}</h3>
++          <h3 id="race-results-title" className="game-display text-base font-medium text-ink-900">{t.games.result}</h3>
+           <dl className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+             <RaceMetric label={t.games.correctCount} value={`${stats.correct} / ${deck.length}`} />
+             <RaceMetric label={t.games.accuracy} value={accuracy === null ? "—" : `${accuracy}%`} />

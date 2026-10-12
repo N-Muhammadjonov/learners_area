@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "provenance": "Original Learners Area teaching content authored for this request on 2026-10-03; AI draft for owner review. No Booster text copied.",
+  "topics": [
+    {
+      "skillArea": "writing",
+      "title": "Clear comparisons with although and because",
+      "explanation": "Although introduces a contrast. Use although + subject + verb. Do not add but to the same clause pair. Because introduces a reason. Use because + subject + verb; because of is followed by a noun phrase. First correct the example, then translate a sentence, then use the structure in your own argument.",
+      "exercises": [
+        {
+          "promptText": "Although public transport is cheaper, but some people drive.",
+          "options": [
+            "Although public transport is cheaper, some people drive.",
+            "Although public transport is cheaper, but some people drive.",
+            "Although public transport cheaper, some people drive."
+          ],
+          "correctOption": "Although public transport is cheaper, some people drive.",
+          "explanation": "Although already marks the contrast, so this sentence does not need but. Both clauses contain a subject and a verb.",
+          "translatePromptUz": "Avtobus arzonroq bo‘lsa ham, ba’zi odamlar mashinada yuradi.",
+          "targetStructures": [
+            "although"
+          ],
+          "activationPrompt": "Write two sentences comparing two ways to travel in your town. Use although to express a real contrast."
+        },
+        {
+          "promptText": "People cycle because of it saves money.",
+          "options": [
+            "People cycle because it saves money.",
+            "People cycle because of it saves money.",
+            "People cycle because saves money."
+          ],
+          "correctOption": "People cycle because it saves money.",
+          "explanation": "It saves money is a clause with a subject and verb, so use because. Because of needs a noun phrase such as the lower cost.",
+          "translatePromptUz": "Men velosipedda yuraman, chunki bu pulimni tejaydi.",
+          "targetStructures": [
+            "because"
+          ],
+          "activationPrompt": "Explain one choice you made about studying. Use because followed by a complete clause."
+        }
+      ]
+    },
+    {
+      "skillArea": "speaking",
+      "title": "Talk about routines and changes",
+      "explanation": "Use the present simple for a routine: I study every evening. Add -s for he/she/it. Use used to + base verb for a past habit that has changed: I used to study alone. In speaking, give a short answer, add a reason, and include a concrete example. Read your completed answer aloud; written grammar checks do not measure pronunciation.",
+      "exercises": [
+        {
+          "promptText": "My sister study English every evening.",
+          "options": [
+            "My sister studies English every evening.",
+            "My sister study English every evening.",
+            "My sister studying English every evening."
+          ],
+          "correctOption": "My sister studies English every evening.",
+          "explanation": "My sister is a third-person singular subject. In the present simple, study becomes studies.",
+          "translatePromptUz": "Mening opam har oqshom ingliz tilini o‘rganadi.",
+          "targetStructures": [
+            "studies"
+          ],
+          "activationPrompt": "Describe what a family member does on a typical weekday. Say three short sentences, then write the same ideas using the present simple."
+        },
+        {
+          "promptText": "I used to studied alone, but now I practise with a friend.",
+          "options": [
+            "I used to study alone, but now I practise with a friend.",
+            "I used to studied alone, but now I practise with a friend.",
+            "I use to studied alone, but now I practise with a friend."
+          ],
+          "correctOption": "I used to study alone, but now I practise with a friend.",
+          "explanation": "Used to is followed by the base form study. It describes a past habit that is different now.",
+          "translatePromptUz": "Ilgari men yolg‘iz o‘qirdim, lekin hozir do‘stim bilan mashq qilaman.",
+          "targetStructures": [
+            "used to"
+          ],
+          "activationPrompt": "Describe one habit that has changed since you started learning English. Use used to, explain the change, and read your answer aloud."
+        }
+      ]
+    }
+  ]
+}

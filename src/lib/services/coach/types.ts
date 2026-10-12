@@ -19,6 +19,8 @@ export type EvaluationContext = {
   language: "uz" | "en";
   /** Aborted on timeout so a slow provider cannot hold a request open. */
   signal?: AbortSignal;
+  /** Owner-selected model for the external provider (server-side value, never from a learner). */
+  model?: string;
 };
 
 export type WritingTaskType = "task1" | "task2";
@@ -28,7 +30,21 @@ export type WritingEvaluationInput = {
   prompt: string;
   content: string;
   targetWordCount: number;
+  /** Grade My Work: ask for the bilingual W7 analysis and the exact four criteria. */
+  detailedAnalysis?: boolean;
+  wordCount?: number;
+  /** A short Writing-workspace check (Translation / Activation / Language Stealing) instead of an essay grade. */
+  check?: WritingCheckInput;
 };
+
+/**
+ * Short, structured Writing checks. Reference answers travel only server →
+ * provider; they are never returned to the browser by the check layer.
+ */
+export type WritingCheckInput =
+  | { kind: "translation"; uzbekSource: string; referenceEnglish: string; acceptedAlternatives: string[]; targetBand: number; answer: string }
+  | { kind: "activation"; item: string; meaningHint: string | null; mode: "writing" | "speaking"; targetLevel: string; uzbekPrompt: string | null; upgradeFrom: string | null; answer: string }
+  | { kind: "pattern"; pattern: string; sourceExample: string; sourceTopic: string; newTopic: string; answer: string };
 
 export type SpeakingPart = "part1" | "part2" | "part3" | "general" | "mock";
 
@@ -121,6 +137,8 @@ export interface EvaluationProvider {
   readonly requiredSecrets: readonly string[];
   readonly promptVersion: string;
   readonly rubricVersion: string;
+  /** A dedicated prompt/rubric for one evaluation type (e.g. Grade My Work). */
+  versionsFor?(evaluationType: string, input: unknown): { promptVersion: string; rubricVersion: string } | null;
 
   evaluateWriting?(
     ctx: EvaluationContext,

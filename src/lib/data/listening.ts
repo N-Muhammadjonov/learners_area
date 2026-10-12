@@ -1,4 +1,4 @@
-import { and, asc, desc, eq } from "drizzle-orm";
+import { and, asc, desc, eq, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import {
   listeningTests,
@@ -8,18 +8,22 @@ import {
   listeningMcqSessions,
 } from "@/db/schema";
 import { isLive, liveWhere } from "@/lib/services/cms/publication";
+import { listeningQuestionsForAttempt, listeningQuestionsForLiveTest } from "@/lib/listening/question-set";
+import { collectionTabSql, inProgrammeSql } from "@/lib/listening/product";
 
-export function listActiveTests() {
+export async function listActiveTests() {
+  const { listeningSchemaReady } = await import("./listening-schema-ready");
+  const ready = await listeningSchemaReady();
   return db.select({
     id: listeningTests.id,
     title: listeningTests.title,
     difficultyLevel: listeningTests.difficultyLevel,
   })
     .from(listeningTests)
-    .where(liveWhere({
+    .where(and(liveWhere({
       publicationState: listeningTests.publicationState,
       publishAt: listeningTests.publishAt,
-    }))
+    }), ready ? sql`not exists(select 1 from listening_packages p where p.test_id=${listeningTests.id})` : undefined))
     .orderBy(asc(listeningTests.createdAt));
 }
 
@@ -27,6 +31,8 @@ export function listActiveTests() {
 export async function getStartableTest(testId: string) {
   const test = await db.query.listeningTests.findFirst({ where: eq(listeningTests.id, testId) });
   if (!test || !isLive(test)) return null;
+  const question = await db.query.listeningQuestions.findFirst({ where: eq(listeningQuestions.testId, testId) });
+  if (!question) return null;
   return test;
 }
 
@@ -46,13 +52,20 @@ export async function getAttemptDetail(attemptId: string, userId: string) {
   });
   if (!attempt) return null;
 
-  const [testData, answers] = await Promise.all([
-    getTestWithQuestions(attempt.testId),
+  /*
+   * The questions come from THIS attempt's own set — the revision it was bound to when it
+   * started, or the legacy set for an unbound attempt. Reading every row of the item would mix
+   * sets once an item has been revised, and would show a learner mid-attempt the questions of a
+   * revision they never started.
+   */
+  const [test, questions, answers] = await Promise.all([
+    db.query.listeningTests.findFirst({ where: eq(listeningTests.id, attempt.testId) }),
+    listeningQuestionsForAttempt(attempt),
     db.query.listeningAnswers.findMany({ where: eq(listeningAnswers.attemptId, attemptId) }),
   ]);
-  if (!testData) return null;
+  if (!test) return null;
 
-  return { attempt, test: testData.test, questions: testData.questions, answers };
+  return { attempt, test, questions, answers };
 }
 
 export function listUserAttempts(userId: string) {
@@ -169,11 +182,9 @@ export function listSubmittedAttempts(userId: string, testId: string) {
 }
 
 /** The multiple-choice questions of a test, in order — used by MCQ Mastery. */
-export function listMcqQuestions(testId: string) {
-  return db.query.listeningQuestions.findMany({
-    where: and(eq(listeningQuestions.testId, testId), eq(listeningQuestions.type, "multiple_choice")),
-    orderBy: asc(listeningQuestions.order),
-  });
+export async function listMcqQuestions(testId: string) {
+  // Of the LIVE set: practising a revised item must drill the questions it currently asks.
+  return (await listeningQuestionsForLiveTest(testId)).filter((question) => question.type === "multiple_choice");
 }
 
 /**
@@ -194,4 +205,65 @@ export async function getOwnedMcqSession(userId: string, sessionId: string) {
       where: and(eq(listeningMcqSessions.id, sessionId), eq(listeningMcqSessions.userId, userId)),
     })) ?? null
   );
+}
+
+/**
+ * Tests that carry NO canonical package, shown beside the packages in the shared library.
+ *
+ * Two corrections live here, both the same mistake in a second place — a card must never STATE
+ * something untrue about its content:
+ *
+ *   1. The collection was hard-coded `'academic'`, so a Listening SECTION authored through the
+ *      CMS was presented as Academic Listening. It is now read from the ONE classifier the
+ *      catalogues use, which files a package-less row by the revision the CMS authored
+ *      (`listening:full_test` → academic, `listening:section` → general) and leaves anything
+ *      unprovable honestly `uncatalogued`.
+ *   2. Every row claimed `40 questions`. A row with no package has whatever questions its
+ *      canonical rows hold, so the card now states the REAL count.
+ *
+ * The attempt flags were also silently broken: the fragments interpolated a bare column, which
+ * the database resolves INSIDE the subquery (`a.test_id = a.id`, i.e. never true), so a learner
+ * with a finished attempt on a package-less test was never shown as having started it. The
+ * references are qualified now.
+ */
+/**
+ * How many legacy cards one staff/learner page carries. A bounded PAGE is a performance bound,
+ * not a content cap: `legacyListeningCardsPage` reports `hasMore` so every authored test beyond
+ * this page stays reachable. There is deliberately NO ceiling on how many legacy tests may exist.
+ */
+export const LEGACY_LISTENING_PAGE_SIZE = 100;
+
+/**
+ * One page of the legacy (package-less) listening catalogue, plus whether another page follows.
+ *
+ * This previously ended in a bare `.limit(200)` with no offset, which silently made legacy test
+ * #201 and beyond unreachable on `/app/admin/listening` — and re-rendered the same 200 rows on
+ * every page, because the page number was ignored. Reads one row past the page to detect `hasMore`.
+ */
+export async function legacyListeningCardsPage(userId:string,management=false,database:typeof db=db,page=1) {
+ const safePage=Math.max(1,Math.min(10_000,Math.floor(page)||1));
+ const rows=await legacyListeningQuery(userId,management,database,safePage);
+ return { rows: rows.slice(0,LEGACY_LISTENING_PAGE_SIZE), hasMore: rows.length>LEGACY_LISTENING_PAGE_SIZE };
+}
+
+export async function legacyListeningCards(userId:string,management=false,database:typeof db=db,page=1) {
+ return (await legacyListeningCardsPage(userId,management,database,page)).rows;
+}
+
+async function legacyListeningQuery(userId:string,management:boolean,database:typeof db,page:number) {
+ const { listeningSchemaReady } = await import("./listening-schema-ready");
+ const ready=await listeningSchemaReady(database);
+ // Qualified on purpose: an unqualified `id` inside the subqueries binds to the ATTEMPT row.
+ const testId=sql.raw('"listening_tests"."id"');
+ return database.select({
+  id:listeningTests.id,
+  title:listeningTests.title,
+  duration:sql<number>`0`,
+  activityCount:sql<number>`1`,
+  completed:sql<number>`case when exists(select 1 from listening_attempts a where a.test_id=${testId} and a.user_id=${userId} and a.status='completed') then 1 else 0 end`,
+  started:sql<boolean>`exists(select 1 from listening_attempts a where a.test_id=${testId} and a.user_id=${userId})`,
+  collection:collectionTabSql({testId,payload:sql`null::jsonb`,payloadIsNull:sql`true`,inProgramme:inProgrammeSql(sql`(select t.program_ref from listening_tests t where t.id=${testId})`)}),
+  questions:sql<number>`(select count(*)::int from listening_questions q where q.test_id=${testId})`,
+  legacy:sql<boolean>`true`,
+ }).from(listeningTests).where(and(management?sql`${listeningTests.publicationState} <> 'archived'`:liveWhere(listeningTests),ready?sql`not exists(select 1 from listening_packages p where p.test_id=${testId})`:undefined)).orderBy(asc(listeningTests.createdAt),asc(listeningTests.id)).limit(LEGACY_LISTENING_PAGE_SIZE+1).offset((page-1)*LEGACY_LISTENING_PAGE_SIZE);
 }

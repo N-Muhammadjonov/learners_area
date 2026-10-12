@@ -16,11 +16,15 @@ import { dictionaryForDocument } from "@/lib/i18n/client";
  */
 export function StartPassageButton({
   passageId,
+  setId,
   label,
+  requestedType,
   variant = "secondary",
 }: {
-  passageId: string;
+  passageId?: string;
+  setId?: string;
   label: string;
+  requestedType?:string;
   variant?: "primary" | "secondary";
 }) {
   const { navigate } = useInstantInteraction();
@@ -38,12 +42,12 @@ export function StartPassageButton({
           setPending(true);
           setError(null);
           try {
-            const result = await requestJson<{ id: string }>("/api/reading/attempts", {
+            const result = await requestJson<{ id: string }>(setId ? "/api/reading/academic" : "/api/reading/attempts", {
               method: "POST",
-              body: { passageId },
+              body: setId ? { setId } : { passageId },
             });
             if (result.ok && result.data?.id) {
-              navigate(`/reading/attempts/${result.data.id}`);
+              navigate(`/app/reading/attempts/${result.data.id}${requestedType ? `?type=${encodeURIComponent(requestedType)}` : ""}`);
               return;
             }
             setError(

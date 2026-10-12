@@ -1,7 +1,11 @@
+import { activateReadingSchedules } from "@/lib/services/reading/schedules";
+import { readingCanonicalTypeSql } from "@/lib/data/reading-type-index";
+import { readingQuestionType } from "@/lib/reading/question-model";
 import { and, asc, count, desc, eq, ilike, inArray, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { readingAttempts, readingPassages, readingQuestions } from "@/db/schema";
 import { liveWhere } from "@/lib/services/cms/publication";
+import { academicOnlyClause } from "@/lib/data/general-reading";
 import { timed } from "@/lib/observability/timing";
 
 /**
@@ -25,7 +29,7 @@ import { timed } from "@/lib/observability/timing";
  * ---------------------------------------------------------------------------
  * Round trips
  * ---------------------------------------------------------------------------
- * The hub used to open `/reading` with twelve queries in five sequential waves,
+ * The hub used to open `/app/reading` with twelve queries in five sequential waves,
  * one of them a full scan of `reading_questions` grouped by passage just to
  * place a number on twenty-four cards. Against a database next door that is
  * invisible; against one 250 ms away it is a page the owner experiences as a
@@ -57,6 +61,7 @@ export type ReadingLibraryFilter = {
 
 export type ReadingPassageCard = {
   id: string;
+  setId?: string;
   title: string;
   testNo: number | null;
   passageNo: number | null;
@@ -75,11 +80,13 @@ function text(value: string | undefined): string | undefined {
 }
 
 /** The publication window: a draft, an archive or a not-yet-due schedule is invisible. */
-function liveClause() {
-  return liveWhere({
+async function liveClause() {
+  await activateReadingSchedules();
+  // The Academic library: live AND not a General Reading (learning) passage (0030).
+  return and(liveWhere({
     publicationState: readingPassages.publicationState,
     publishAt: readingPassages.publishAt,
-  });
+  }), await academicOnlyClause());
 }
 
 /**
@@ -91,8 +98,8 @@ function liveClause() {
  * correlated EXISTS instead of a join — a join would repeat passages that carry
  * the type twice and quietly break the count.
  */
-function libraryWhere(userId: string, filter: ReadingLibraryFilter) {
-  const clauses = [liveClause()];
+async function libraryWhere(userId: string, filter: ReadingLibraryFilter) {
+  const clauses = [await liveClause()];
 
   if (filter.status === "passage1") clauses.push(eq(readingPassages.passageNo, 1));
   if (filter.status === "passage2") clauses.push(eq(readingPassages.passageNo, 2));
@@ -139,7 +146,7 @@ export async function countLibrary(userId: string, filter: ReadingLibraryFilter 
     const rows = await db
       .select({ value: count() })
       .from(readingPassages)
-      .where(libraryWhere(userId, filter));
+      .where(await libraryWhere(userId, filter));
     return Number(rows[0]?.value ?? 0);
   });
 }
@@ -156,7 +163,7 @@ export async function listLibrary(
   userId: string,
   filter: ReadingLibraryFilter = {}
 ): Promise<{ items: ReadingPassageCard[]; total: number; page: number; pageCount: number }> {
-  const where = libraryWhere(userId, filter);
+  const where = await libraryWhere(userId, filter);
   const requestedPage = Math.max(1, Math.floor(filter.page ?? 1));
 
   const fetchPage = (page: number) =>
@@ -260,9 +267,10 @@ export async function listLibrary(
  * already knows it, and asking twice was one of the round trips that made the
  * page slow.
  */
-export async function listLibraryFacets() {
+export async function listLibraryFacets(learning = false) {
+  await activateReadingSchedules();
   return timed("reading.facets", async () => {
-    const live = liveClause();
+    const live = learning ? and(liveWhere({publicationState:readingPassages.publicationState,publishAt:readingPassages.publishAt}),sql`exists(select 1 from general_reading_passages g join general_reading_sets s on s.id=g.set_id where g.passage_id=${readingPassages.id} and (s.publication_state='published' or (s.publication_state='scheduled' and s.publish_at<=now())))`) : await liveClause();
 
     const [topics, types] = await Promise.all([
       db
@@ -310,11 +318,36 @@ export async function readingHubCounts(userId: string) {
                                    where a.passage_id = "reading_passages"."id" and a.user_id = ${userId} and a.status = 'in_progress'))`,
       })
       .from(readingPassages)
-      .where(liveClause());
+      .where(await liveClause());
 
     const total = Number(rows[0]?.total ?? 0);
     const completed = Number(rows[0]?.completed ?? 0);
     const inProgress = Number(rows[0]?.inProgress ?? 0);
     return { total, completed, inProgress, notStarted: Math.max(0, total - completed - inProgress) };
   });
+}
+
+/** General learning cards use the same published passages as full Academic sets,
+ * but read per-passage learning progress and always link into the General session. */
+export async function listLearningLibrary(userId: string, filter: ReadingLibraryFilter = {}) {
+  await activateReadingSchedules();
+  const clauses = [sql`(p.publication_state='published' or (p.publication_state='scheduled' and p.publish_at<=now()))`,sql`(s.publication_state='published' or (s.publication_state='scheduled' and s.publish_at<=now()))`];
+  const number = {passage1:1,passage2:2,passage3:3}[filter.status ?? ""];
+  if(number)clauses.push(sql`g.passage_no=${number}`);
+  if(text(filter.query))clauses.push(sql`p.title ilike ${`%${text(filter.query)!.replace(/[%_\\]/g,m=>"\\"+m)}%`}`);
+  if(text(filter.topic))clauses.push(sql`p.topic_code=${text(filter.topic)}`);
+  if(text(filter.type)) {
+    const canonical=readingQuestionType(text(filter.type)!);
+    clauses.push(canonical ? sql`exists(select 1 from reading_questions q where q.passage_id=p.id and ${readingCanonicalTypeSql()}=${canonical.id})` : sql`exists(select 1 from reading_questions q where q.passage_id=p.id and q.type_code=${text(filter.type)})`);
+  }
+  if(filter.status==='completed')clauses.push(sql`r.checked_at is not null`);
+  if(filter.status==='in_progress')clauses.push(sql`r.passage_id is not null and r.checked_at is null`);
+  if(filter.status==='not_started')clauses.push(sql`r.passage_id is null`);
+  const from=sql`from general_reading_passages g join general_reading_sets s on s.id=g.set_id join reading_passages p on p.id=g.passage_id left join general_reading_progress r on r.passage_id=p.id and r.user_id=${userId}::uuid where ${sql.join(clauses,sql` and `)}`;
+  const [countRow]=(await db.execute<{total:number}>(sql`select count(*)::int total ${from}`)).rows;
+  const total=countRow?.total??0, pageCount=Math.max(1,Math.ceil(total/READING_PAGE_SIZE));
+  const page=Math.min(pageCount,Math.max(1,Math.floor(filter.page??1)));
+  const result=await db.execute<{id:string;title:string;test_no:number|null;passage_no:number;topic_code:string|null;suggested_minutes:number;set_id:string;question_count:number;score:number|null;checked_at:string|null;started:boolean}>(sql`select p.id,p.title,p.test_no,g.passage_no,p.topic_code,p.suggested_minutes,g.set_id,(select count(*)::int from reading_questions q where q.passage_id=p.id) question_count,r.score,r.checked_at,r.passage_id is not null as started ${from} order by s.created_at,g.passage_no,p.id limit ${READING_PAGE_SIZE} offset ${(page-1)*READING_PAGE_SIZE}`);
+  const items=result.rows.map(row=>({id:row.id,title:row.title,testNo:row.test_no,passageNo:row.passage_no,topicCode:row.topic_code,suggestedMinutes:row.suggested_minutes,questionCount:row.question_count,status:row.checked_at?'completed' as const:row.started?'in_progress' as const:'not_started' as const,lastScore:row.checked_at?row.score:null,lastAttemptId:null,setId:row.set_id}));
+  return {items,total,page,pageCount};
 }

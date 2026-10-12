@@ -1,10 +1,11 @@
 import { isUuid } from "@/lib/validation/ids";
 import { NextResponse } from "next/server";
-import { and, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
-import { liveClasses, liveClassAttendance, activityEvents } from "@/db/schema";
+import { liveClasses } from "@/db/schema";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { joinState, opensAt } from "@/lib/services/live-classes/window";
+import { recordLiveClassAttendance } from "@/lib/services/live-classes/attendance";
 
 /**
  * POST /api/live-classes/:id/join
@@ -35,17 +36,11 @@ export async function POST(_req: Request, { params }: { params: Promise<{ id: st
     );
   }
 
-  const existing = await db.query.liveClassAttendance.findFirst({
-    where: and(eq(liveClassAttendance.liveClassId, id), eq(liveClassAttendance.userId, user.id)),
-  });
-  if (!existing) {
-    await db.insert(liveClassAttendance).values({ liveClassId: id, userId: user.id });
-    await db.insert(activityEvents).values({
-      userId: user.id,
-      type: "LIVE_CLASS_ATTENDED",
-      payload: { liveClassId: id },
-    });
-  }
+  /*
+   * §04 — the write lives in a service so a concurrency test can exercise it directly. Behaviour is
+   * unchanged by this extraction; the atomicity fix is a separate, evidenced step.
+   */
+  const attendance = await recordLiveClassAttendance(id, user.id);
 
-  return NextResponse.json({ ok: true, joined: true, joinedAt: (existing?.joinedAt ?? new Date()).toISOString() });
+  return NextResponse.json({ ok: true, joined: true, joinedAt: (attendance.joinedAt ?? new Date()).toISOString() });
 }

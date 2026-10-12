@@ -115,7 +115,7 @@ export function SpeedTrainer({
       )}
 
       {transcript && showTranscript && (
-        <ClickableText dict={dict} text={transcript} sourceType="listening" sourceId={sourceId} className="mt-3 rounded-sm bg-paper-sunken p-3 text-sm text-ink-700" />
+        <ClickableText dict={dict} text={transcript} sourceType="listening" sourceId={sourceId} className="academic-text mt-3 rounded-sm bg-paper-sunken p-3 text-sm text-ink-700" />
       )}
     </Card>
   );

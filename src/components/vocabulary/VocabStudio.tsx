@@ -1,16 +1,20 @@
 "use client";
+import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useInstantInteraction } from "@/components/interaction/InstantInteractionProvider";
 import type { Dictionary } from "@/lib/i18n/en";
+import { DictionaryPanel } from "./DictionaryPanel";
 import { VocabWordsPanel } from "./VocabWordsPanel";
 import { VocabRevisionPanel } from "./VocabRevisionPanel";
 import { VocabUsePanel } from "./VocabUsePanel";
 import { VocabBoardPanel } from "./VocabBoardPanel";
 import type { TabKey, VocabFolder, VocabPack, VocabWord } from "./types";
+import { fetchPrivateJson, privateResources } from "@/lib/client/private-resource";
 
-const TABS: TabKey[] = ["words", "revision", "games", "use", "board"];
+/** The active workspace section is derived from the real URL. */
+const VOCAB_PANEL_ID = "vocabulary-panel";
 const LIBRARY_PAGE_SIZE = 50;
 type LoadStatus = "idle" | "loading" | "ready" | "error";
 type LibraryPage = { words: VocabWord[]; hasMore: boolean };
@@ -30,13 +34,25 @@ type SearchHit = {
   match: string;
 };
 
-async function readPrivateJson<T>(url: string, onAuthFailure: () => void): Promise<T> {
-  const response = await fetch(url, { cache: "no-store" });
-  if (response.status === 401) onAuthFailure();
-  const payload = await response.json().catch(() => null) as ({ ok?: boolean } & T) | null;
-  if (!response.ok || !payload?.ok) throw new Error("Vocabulary region unavailable");
-  return payload;
+/**
+ * Bounded private GET (deadline, no automatic retry). Part 1 contract: a failed
+ * region makes exactly one request and shows its own Retry control, which is the
+ * only re-request. A 401 sends the route back through the server gate.
+ */
+function readPrivateJson<T>(url: string, onAuthFailure: () => void): Promise<T> {
+  return fetchPrivateJson<T>(url, { onAuthFailure, retries: 0 });
 }
+
+/**
+ * Repeat-visit reuse: within FRESH_MS a return to Vocabulary renders the
+ * user-scoped snapshot without a request; after that the snapshot is shown
+ * immediately and refreshed in the background. The revision queue is never
+ * served from cache (it is always read fresh).
+ */
+const FRESH_MS = 30_000;
+const LIBRARY_KEY = `vocabulary:library:first:${LIBRARY_PAGE_SIZE}`;
+const SUMMARY_KEY = "vocabulary:summary";
+const FOLDERS_KEY = "vocabulary:folders";
 
 /** Compact feedback belongs to one resource region, never the private route. */
 function RegionFailure({ dict, name, retry }: { dict: Dictionary; name: string; retry: () => void }) {
@@ -48,9 +64,9 @@ function RegionFailure({ dict, name, retry }: { dict: Dictionary; name: string; 
   );
 }
 
-function RegionSkeleton({ name, rows = 2 }: { name: string; rows?: number }) {
+function RegionSkeleton({ name, label, rows = 2 }: { name: string; label: string; rows?: number }) {
   return (
-    <div aria-busy="true" aria-label="Loading section data" data-async-loading={name} className="flex flex-col gap-2">
+    <div aria-busy="true" aria-label={label} data-async-loading={name} className="flex flex-col gap-2">
       {Array.from({ length: rows }, (_, index) => <div key={index} aria-hidden="true" className="h-12 animate-pulse rounded-lg bg-ink-50" />)}
     </div>
   );
@@ -65,16 +81,24 @@ export function VocabStudio({ dict, initialTab, packs }: { dict: Dictionary; ini
   const t = dict.vocabulary;
   const router = useRouter();
   const { navigate } = useInstantInteraction();
-  const [tab, setTab] = useState<TabKey>(initialTab);
-  const [dueCount, setDueCount] = useState<number | null>(null);
-  const [library, setLibrary] = useState<LibraryPage | null>(null);
-  const [libraryStatus, setLibraryStatus] = useState<LoadStatus>("idle");
+  const query = useSearchParams();
+  const requestedTab = query.get("tab");
+  const tab: TabKey = requestedTab === "use" || requestedTab === "board" || requestedTab === "revision" || requestedTab === "dictionary"
+    ? requestedTab : requestedTab === null ? "words" : initialTab;
+  const [seed] = useState(() => ({
+    library: privateResources.peek<LibraryPage>(LIBRARY_KEY)?.data ?? null,
+    summary: privateResources.peek<LibrarySummary>(SUMMARY_KEY)?.data ?? null,
+    folders: privateResources.peek<VocabFolder[]>(FOLDERS_KEY)?.data ?? null,
+  }));
+  const [dueCount, setDueCount] = useState<number | null>(seed.summary?.due ?? null);
+  const [library, setLibrary] = useState<LibraryPage | null>(seed.library);
+  const [libraryStatus, setLibraryStatus] = useState<LoadStatus>(seed.library ? "ready" : "idle");
   const [libraryMoreBusy, setLibraryMoreBusy] = useState(false);
   const [libraryMoreError, setLibraryMoreError] = useState(false);
-  const [summary, setSummary] = useState<LibrarySummary | null>(null);
-  const [summaryStatus, setSummaryStatus] = useState<LoadStatus>("idle");
-  const [folders, setFolders] = useState<VocabFolder[]>([]);
-  const [foldersStatus, setFoldersStatus] = useState<LoadStatus>("idle");
+  const [summary, setSummary] = useState<LibrarySummary | null>(seed.summary);
+  const [summaryStatus, setSummaryStatus] = useState<LoadStatus>(seed.summary ? "ready" : "idle");
+  const [folders, setFolders] = useState<VocabFolder[]>(seed.folders ?? []);
+  const [foldersStatus, setFoldersStatus] = useState<LoadStatus>(seed.folders ? "ready" : "idle");
   const [due, setDue] = useState<VocabWord[]>([]);
   const [dueStatus, setDueStatus] = useState<LoadStatus>("idle");
   const inFlight = useRef(new Set<string>());
@@ -83,19 +107,24 @@ export function VocabStudio({ dict, initialTab, packs }: { dict: Dictionary; ini
   const loadLibrary = useCallback(async (force = false) => {
     if (!force && (loaded.current.has("library") || inFlight.current.has("library"))) return;
     inFlight.current.add("library");
-    setLibraryStatus("loading");
+    const shown = privateResources.peek<LibraryPage>(LIBRARY_KEY);
+    if (!shown || force) setLibraryStatus("loading");
     try {
-      const result = await readPrivateJson<{ words: VocabWord[]; hasMore: boolean }>(
-        `/api/vocabulary?limit=${LIBRARY_PAGE_SIZE}&offset=0`,
-        () => router.refresh(),
-      );
-      setLibrary({ words: result.words, hasMore: result.hasMore });
+      const page = await privateResources.read<LibraryPage>(LIBRARY_KEY, async () => {
+        const result = await readPrivateJson<{ words: VocabWord[]; hasMore: boolean }>(
+          `/api/vocabulary?limit=${LIBRARY_PAGE_SIZE}&offset=0`,
+          () => router.refresh(),
+        );
+        return { words: result.words, hasMore: result.hasMore };
+      }, { maxAgeMs: FRESH_MS, force });
+      setLibrary(page);
       setLibraryMoreError(false);
       loaded.current.add("library");
       setLibraryStatus("ready");
     } catch {
       loaded.current.delete("library");
-      setLibraryStatus("error");
+      // A failed background refresh keeps the valid snapshot on screen.
+      setLibraryStatus(shown && !force ? "ready" : "error");
     } finally {
       inFlight.current.delete("library");
     }
@@ -104,16 +133,20 @@ export function VocabStudio({ dict, initialTab, packs }: { dict: Dictionary; ini
   const loadSummary = useCallback(async (force = false) => {
     if (!force && (loaded.current.has("summary") || inFlight.current.has("summary"))) return;
     inFlight.current.add("summary");
-    setSummaryStatus("loading");
+    const shown = privateResources.peek<LibrarySummary>(SUMMARY_KEY);
+    if (!shown || force) setSummaryStatus("loading");
     try {
-      const result = await readPrivateJson<{ summary: LibrarySummary }>("/api/vocabulary/summary", () => router.refresh());
-      setSummary(result.summary);
-      setDueCount(result.summary.due);
+      const next = await privateResources.read<LibrarySummary>(SUMMARY_KEY, async () => {
+        const result = await readPrivateJson<{ summary: LibrarySummary }>("/api/vocabulary/summary", () => router.refresh());
+        return result.summary;
+      }, { maxAgeMs: FRESH_MS, force });
+      setSummary(next);
+      setDueCount(next.due);
       loaded.current.add("summary");
       setSummaryStatus("ready");
     } catch {
       loaded.current.delete("summary");
-      setSummaryStatus("error");
+      setSummaryStatus(shown && !force ? "ready" : "error");
     } finally {
       inFlight.current.delete("summary");
     }
@@ -122,15 +155,19 @@ export function VocabStudio({ dict, initialTab, packs }: { dict: Dictionary; ini
   const loadFolders = useCallback(async (force = false) => {
     if (!force && (loaded.current.has("folders") || inFlight.current.has("folders"))) return;
     inFlight.current.add("folders");
-    setFoldersStatus("loading");
+    const shown = privateResources.peek<VocabFolder[]>(FOLDERS_KEY);
+    if (!shown || force) setFoldersStatus("loading");
     try {
-      const result = await readPrivateJson<{ folders: VocabFolder[] }>("/api/vocabulary/folders", () => router.refresh());
-      setFolders(result.folders);
+      const next = await privateResources.read<VocabFolder[]>(FOLDERS_KEY, async () => {
+        const result = await readPrivateJson<{ folders: VocabFolder[] }>("/api/vocabulary/folders", () => router.refresh());
+        return result.folders;
+      }, { maxAgeMs: FRESH_MS, force });
+      setFolders(next);
       loaded.current.add("folders");
       setFoldersStatus("ready");
     } catch {
       loaded.current.delete("folders");
-      setFoldersStatus("error");
+      setFoldersStatus(shown && !force ? "ready" : "error");
     } finally {
       inFlight.current.delete("folders");
     }
@@ -165,6 +202,8 @@ export function VocabStudio({ dict, initialTab, packs }: { dict: Dictionary; ini
   }, [tab, loadDue, loadFolders, loadLibrary, loadSummary]);
 
   const refreshWords = useCallback(async () => {
+    // A Words mutation affects only the vocabulary library/summary/folders.
+    privateResources.invalidate("vocabulary:");
     await Promise.all([loadLibrary(true), loadSummary(true), loadFolders(true)]);
   }, [loadFolders, loadLibrary, loadSummary]);
 
@@ -177,7 +216,12 @@ export function VocabStudio({ dict, initialTab, packs }: { dict: Dictionary; ini
         `/api/vocabulary?limit=${LIBRARY_PAGE_SIZE}&offset=${library.words.length}`,
         () => router.refresh(),
       );
-      setLibrary((current) => current ? { words: [...current.words, ...result.words], hasMore: result.hasMore } : current);
+      setLibrary((current) => {
+        if (!current) return current;
+        const next = { words: [...current.words, ...result.words], hasMore: result.hasMore };
+        privateResources.set(LIBRARY_KEY, next);
+        return next;
+      });
     } catch {
       setLibraryMoreError(true);
     } finally {
@@ -185,59 +229,41 @@ export function VocabStudio({ dict, initialTab, packs }: { dict: Dictionary; ini
     }
   }, [library, libraryMoreBusy, router]);
 
-  const tabLabel: Record<TabKey, string> = useMemo(
-    () => ({ words: t.tab.words, revision: t.tab.revision, games: t.tab.games, use: t.tab.use, board: t.tab.board }),
-    [t],
-  );
-
   const openTab = useCallback((next: TabKey) => {
     if (next === "games") {
-      navigate("/vocabulary/games");
+      navigate("/app/vocabulary/games");
       return;
     }
-    setTab(next);
-    const url = next === "words" ? "/vocabulary" : `/vocabulary?tab=${next}`;
-    window.history.replaceState(null, "", url);
-  }, [navigate]);
+    const params = new URLSearchParams(query.toString());
+    if (next === "words") params.delete("tab");
+    else params.set("tab", next);
+    router.push(`/app/vocabulary${params.size ? `?${params}` : ""}`, { scroll: false });
+  }, [navigate, query, router]);
 
   return (
     <div className="mx-auto flex w-full max-w-6xl flex-col gap-4" data-vocabulary-workspace>
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h1 className="font-display text-2xl text-ink-900">{t.title}</h1>
-          <p className="mt-1 text-sm text-ink-500">{t.search.hint}</p>
+          <p className="mt-1 text-sm text-ink-500">{tab === "dictionary" ? dict.globalDictionary.description : t.search.hint}</p>
         </div>
-        <VocabSearch dict={dict} onOpenWord={() => openTab("words")} />
+        {tab !== "dictionary" && <VocabSearch dict={dict} onOpenWord={() => openTab("words")} />}
       </div>
 
-      <div role="tablist" aria-label={t.title} className="flex gap-1 overflow-x-auto rounded-md border border-ink-100 bg-paper-raised p-1" data-vocabulary-tabs>
-        {TABS.map((key) => {
-          const active = tab === key;
-          return (
-            <button
-              key={key}
-              role="tab"
-              type="button"
-              aria-selected={active}
-              data-tab={key}
-              onClick={() => openTab(key)}
-              className={`whitespace-nowrap rounded-sm px-3 py-2 text-sm font-medium transition-colors ${active ? "bg-signal-600 text-signal-contrast" : "text-ink-500 hover:bg-paper-sunken hover:text-ink-900"}`}
-            >
-              {tabLabel[key]}
-              {key === "revision" && dueCount !== null && dueCount > 0 && (
-                <span className="ml-2 rounded-full bg-band-warn/20 px-2 py-0.5 text-xs text-band-warn">{dueCount}</span>
-              )}
-            </button>
-          );
-        })}
-      </div>
-
-      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
+      <div
+        role="region"
+        id={VOCAB_PANEL_ID}
+        aria-label={t.tab[tab]}
+        className="flex flex-col gap-4"
+        data-vocabulary-panel={tab}
+      >
+      {tab === "dictionary" && <DictionaryPanel dict={dict} />}
+      <div className={tab === "dictionary" ? "hidden" : "grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]"}>
         <div className="flex min-w-0 flex-col gap-4">
           {tab === "words" && (
             <>
               <section data-vocabulary-core="library" aria-label={t.tab.words}>
-                {libraryStatus === "loading" && !library ? <RegionSkeleton name="vocabulary-library" rows={3} /> : null}
+                {libraryStatus === "loading" && !library ? <RegionSkeleton name="vocabulary-library" label={dict.common.loading} rows={3} /> : null}
                 {libraryStatus === "error" && <RegionFailure dict={dict} name="library" retry={() => void loadLibrary(true)} />}
                 {library && <VocabWordsPanel
                   dict={dict}
@@ -261,7 +287,7 @@ export function VocabStudio({ dict, initialTab, packs }: { dict: Dictionary; ini
           )}
           {tab === "revision" && (
             <section data-vocabulary-core="revision" aria-label={t.tab.revision}>
-              {dueStatus === "loading" && !loaded.current.has("due") ? <RegionSkeleton name="vocabulary-revision" rows={2} /> : null}
+              {dueStatus === "loading" && !loaded.current.has("due") ? <RegionSkeleton name="vocabulary-revision" label={dict.common.loading} rows={2} /> : null}
               {dueStatus === "error" ? <RegionFailure dict={dict} name="revision" retry={() => void loadDue(true)} /> : null}
               {dueStatus === "ready" && <VocabRevisionPanel
                 key={`revision-${due.map((word) => word.id).join("|")}`}
@@ -269,6 +295,8 @@ export function VocabStudio({ dict, initialTab, packs }: { dict: Dictionary; ini
                 initialDue={due}
                 onFinished={(remaining, pointsAwarded) => {
                   setDueCount(remaining);
+                  // SRS reviews change mastery and due counts only.
+                  privateResources.invalidate("vocabulary:");
                   if (pointsAwarded > 0) window.dispatchEvent(new Event("vocab:ledger-changed"));
                   if (remaining === 0) {
                     void loadDue(true);
@@ -292,6 +320,7 @@ export function VocabStudio({ dict, initialTab, packs }: { dict: Dictionary; ini
           </div>
         </aside>
       </div>
+      </div>
     </div>
   );
 }
@@ -304,6 +333,8 @@ export function VocabStudio({ dict, initialTab, packs }: { dict: Dictionary; ini
  * arrow through the hits and open one with Enter; pressing Escape closes it.
  */
 function VocabSearch({ dict, onOpenWord }: { dict: Dictionary; onOpenWord: () => void }) {
+  const requestResponse = useScopedResponse(25000);
+
   const t = dict.vocabulary;
   const [query, setQuery] = useState("");
   const [hits, setHits] = useState<SearchHit[]>([]);
@@ -322,7 +353,8 @@ function VocabSearch({ dict, onOpenWord }: { dict: Dictionary; onOpenWord: () =>
     setBusy(true);
     const timer = setTimeout(async () => {
       try {
-        const res = await fetch(`/api/vocabulary/search?q=${encodeURIComponent(trimmed)}`);
+        const res = await requestResponse(`/api/vocabulary/search?q=${encodeURIComponent(trimmed)}`);
+    if (!res) return;
         const payload = await res.json().catch(() => ({ results: [] }));
         if (!cancelled) {
           setHits(Array.isArray(payload.results) ? payload.results : []);
@@ -336,7 +368,7 @@ function VocabSearch({ dict, onOpenWord }: { dict: Dictionary; onOpenWord: () =>
       cancelled = true;
       clearTimeout(timer);
     };
-  }, [query]);
+  }, [query, requestResponse]);
 
   useEffect(() => {
     function onDocClick(event: MouseEvent) {

@@ -3,6 +3,7 @@ import { db } from "@/db/client";
 import {
   materialBlocks,
   resourceBlocks,
+  listeningPackages,
   speakingAttempts,
   speakingMaterials,
   uploadIntents,
@@ -17,8 +18,12 @@ import {
   loadResourceOwner,
   mayReadResources,
 } from "@/lib/services/resources/owners";
-import { validateUploadFile, type UploadCategory } from "@/lib/validation/uploads";
+import { canonicalMimeFor, validateUploadFile, type UploadCategory } from "@/lib/validation/uploads";
 import { buildObjectKey } from "@/lib/uploads/keys";
+import { verifySignature } from "@/lib/uploads/signature";
+import type { StorageService } from "@/lib/services/storage/types";
+
+const SIGNATURE_BYTES = 4096;
 
 /**
  * The upload lifecycle, server side.
@@ -46,7 +51,7 @@ export const UPLOAD_INTENT_TTL_SECONDS = 15 * 60;
 export const READ_URL_TTL_SECONDS = 5 * 60;
 
 export type UploadPurpose = "material_primary" | "material_block" | "speaking_recording";
-export type BlockKind = "image" | "audio" | "file";
+export type BlockKind = "image" | "audio" | "video" | "file";
 
 export type CreateIntentInput = {
   caller: Actor;
@@ -147,10 +152,14 @@ export async function createUploadIntent(input: CreateIntentInput): Promise<Crea
   const storage = getStorageService();
   const direct = storage.supportsDirectUpload;
 
+  // The stored label comes from the extension, not the browser claim: Safari
+  // sends "" / octet-stream for ordinary files, and markup must stay inert.
+  const contentType = canonicalMimeFor(input.filename, category);
+
   const presigned = direct
     ? await storage.presignPut({
         key: objectKey,
-        contentType: input.contentType,
+        contentType,
         expiresInSeconds: PRESIGN_TTL_SECONDS,
       })
     : null;
@@ -164,7 +173,7 @@ export async function createUploadIntent(input: CreateIntentInput): Promise<Crea
     blockKind: blockKind ?? null,
     objectKey,
     originalName: input.filename.slice(0, 255),
-    mimeType: input.contentType.slice(0, 120),
+    mimeType: contentType.slice(0, 120),
     size: input.size,
     status: "pending",
     directToStorage: Boolean(presigned),
@@ -177,7 +186,7 @@ export async function createUploadIntent(input: CreateIntentInput): Promise<Crea
     objectKey,
     mode: presigned ? "direct" : "proxy",
     uploadUrl: presigned?.uploadUrl ?? null,
-    contentType: input.contentType,
+    contentType,
     expiresInSeconds: presigned?.expiresInSeconds ?? UPLOAD_INTENT_TTL_SECONDS,
   };
 }
@@ -191,10 +200,15 @@ export type FinalizeResult =
  * content type and size, then flips the intent to `finalized`. Only a
  * finalized intent can be claimed by a resource.
  */
-export async function finalizeUploadIntent(userId: string, uploadId: string): Promise<FinalizeResult> {
+export async function finalizeUploadIntent(
+  userId: string,
+  uploadId: string,
+  deps: { database?: typeof db; storage?: StorageService } = {},
+): Promise<FinalizeResult> {
+  const database = deps.database ?? db;
   if (!isUuid(uploadId)) return { ok: false, status: 400, error: "invalid_upload_id" };
 
-  const intent = await db.query.uploadIntents.findFirst({ where: eq(uploadIntents.id, uploadId) });
+  const intent = await database.query.uploadIntents.findFirst({ where: eq(uploadIntents.id, uploadId) });
   if (!intent || intent.userId !== userId) return { ok: false, status: 404, error: "upload_not_found" };
   if (intent.status === "finalized" || intent.status === "attached") {
     return {
@@ -209,7 +223,7 @@ export async function finalizeUploadIntent(userId: string, uploadId: string): Pr
   if (intent.status !== "pending") return { ok: false, status: 409, error: "upload_not_active" };
   if (intent.expiresAt.getTime() < Date.now()) return { ok: false, status: 410, error: "upload_expired" };
 
-  const storage = getStorageService();
+  const storage = deps.storage ?? getStorageService();
   const head = await storage.head(intent.objectKey);
   if (!head) {
     return { ok: false, status: 409, error: "upload_not_found_in_storage" };
@@ -226,7 +240,26 @@ export async function finalizeUploadIntent(userId: string, uploadId: string): Pr
     return { ok: false, status: 409, error: "upload_size_mismatch" };
   }
 
-  const finalized = await db
+  // Stored bytes are the authority. The browser's signature preflight is a UX
+  // shortcut a custom client can skip; this check cannot be skipped, because
+  // nothing can claim an intent that never reaches `finalized`.
+  const prefix = await storage.readHead(intent.objectKey, SIGNATURE_BYTES);
+  const verdict = prefix ? verifySignature(intent.originalName, new Uint8Array(prefix)) : { ok: false as const, reason: "mismatch" as const };
+  if (!verdict.ok) {
+    const error = verdict.reason === "executable" ? "dangerous_type" : "upload_type_mismatch";
+    await database
+      .update(uploadIntents)
+      .set({ status: "aborted", error: `signature_${verdict.reason}` })
+      .where(and(eq(uploadIntents.id, intent.id), eq(uploadIntents.status, "pending")));
+    await storage.delete(intent.objectKey).catch((err) => {
+      // The intent is already aborted, so the object can never be claimed;
+      // the expired-intent sweeper retries the delete.
+      console.warn(`finalizeUploadIntent: could not delete rejected ${intent.objectKey}:`, err);
+    });
+    return { ok: false, status: 422, error };
+  }
+
+  const finalized = await database
     .update(uploadIntents)
     .set({ status: "finalized", finalizedAt: new Date(), error: null })
     .where(and(eq(uploadIntents.id, intent.id), eq(uploadIntents.status, "pending"), gt(uploadIntents.expiresAt, new Date())))
@@ -508,6 +541,33 @@ export async function authorizeResourceRead(caller: Actor, objectKey: string): P
     return { allowed: true, objectKey, ownerId: material.createdByUserId, materialId };
   }
 
+  // Imported Listening packages predate the universal resource-block mirror in
+  // some deployed databases. The package row is the authoritative owner of its
+  // audio/image object, so those assets must remain readable even when an older
+  // import has no resource_blocks row.
+  let listeningPackage: typeof listeningPackages.$inferSelect | undefined;
+  try {
+    listeningPackage = await db.query.listeningPackages.findFirst({
+      where: or(
+        eq(listeningPackages.audioObjectKey, objectKey),
+        eq(listeningPackages.imageObjectKey, objectKey),
+      ),
+    });
+  } catch (err) {
+    // During a staged migration an older database may not have
+    // listening_packages yet. That must not take unrelated private resources
+    // offline; the legacy/resource/speaking ownership checks below still apply.
+    console.warn("[resources] listening package ownership lookup unavailable", {
+      error: err instanceof Error ? err.message : String(err),
+    });
+  }
+  if (listeningPackage) {
+    const owner = await loadResourceOwner("listening", listeningPackage.testId);
+    if (!owner) return { allowed: false, reason: "not_found" };
+    if (!mayReadResources(caller.role, owner)) return { allowed: false, reason: "forbidden" };
+    return { allowed: true, objectKey, ownerId: owner.creatorId ?? owner.id, materialId: owner.id };
+  }
+
   // A material attached by the universal composer belongs to a content owner
   // (a passage, a lesson, a live class …). It is readable exactly when that owner
   // is readable: staff always, a student only while the content is live. The
@@ -548,6 +608,10 @@ export async function storedContentType(objectKey: string): Promise<string | nul
     where: eq(speakingMaterials.primaryObjectKey, objectKey),
   });
   if (primary?.primaryMimeType) return primary.primaryMimeType;
+  const intent = await db.query.uploadIntents.findFirst({
+    where: eq(uploadIntents.objectKey, objectKey),
+  });
+  if (intent?.mimeType) return intent.mimeType;
   const attempt = await db.query.speakingAttempts.findFirst({
     where: eq(speakingAttempts.recordingObjectKey, objectKey),
   });
